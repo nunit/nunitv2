@@ -34,6 +34,7 @@ using System.Collections;
 using NUnit.Framework;
 using NUnit.Core;
 using NUnit.Util;
+using NUnit.Tests.Assemblies;
 
 namespace NUnit.Tests.Core
 {
@@ -77,7 +78,7 @@ namespace NUnit.Tests.Core
 		public void CountTestCases()
 		{
 			Test test = runner.Load( mockDll );
-			Assert.AreEqual( 7, test.CountTestCases() );
+			Assert.AreEqual( MockAssembly.Tests, test.CountTestCases() );
 		}
 
 		[Test]
@@ -106,7 +107,8 @@ namespace NUnit.Tests.Core
 		{
 			assemblies[0] = "nonamespace-assembly.dll";
 			Test test = runner.Load( "TestSuite", assemblies );
-			Assert.AreEqual( 10, test.CountTestCases() );			
+			Assert.AreEqual( NoNamespaceTestFixture.Tests + MockAssembly.Tests, 
+				test.CountTestCases() );			
 		}
 
 		[Test]
@@ -116,7 +118,9 @@ namespace NUnit.Tests.Core
 			Test test = runner.Load( "TestSuite", assemblies);
 			TestResult result = runner.Run( NullListener.NULL );
 			ResultSummarizer summary = new ResultSummarizer(result);
-			Assert.AreEqual(8, summary.ResultCount);
+			Assert.AreEqual( 
+				NoNamespaceTestFixture.Tests + MockAssembly.Tests - MockAssembly.NotRun, 
+				summary.ResultCount);
 		}
 	}
 }
