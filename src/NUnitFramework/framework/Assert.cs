@@ -147,12 +147,13 @@ namespace NUnit.Framework
 		{
 			++counter;
 			// handle infinity specially since subtracting two infinite values gives 
-			// NaN and the following test fails
-			if (double.IsInfinity(expected)) 
+			// NaN and the following test fails. mono also needs NaN to be handled
+			// specially although ms.net could use either method.
+			if (double.IsInfinity(expected) || double.IsNaN(expected) || double.IsNaN(actual))
 			{
 				if (!(expected == actual))
 					Assert.FailNotEquals(expected, actual, message, args);
-			} 
+			}
 			else if (!(Math.Abs(expected-actual) <= delta))
 				Assert.FailNotEquals(expected, actual, message, args);
 		}
@@ -206,8 +207,9 @@ namespace NUnit.Framework
 		{
 			++counter;
 			// handle infinity specially since subtracting two infinite values gives 
-			// NaN and the following test fails
-			if (float.IsInfinity(expected)) 
+			// NaN and the following test fails. mono also needs NaN to be handled
+			// specially although ms.net could use either method.
+			if (float.IsInfinity(expected) || float.IsNaN(expected) || float.IsNaN(actual)) 
 			{
 				if (!(expected == actual))
 					Assert.FailNotEquals(expected, actual, message, args);
