@@ -30,6 +30,7 @@
 namespace NUnit.Core
 {
 	using System;
+	using System.Text;
 	using System.Reflection;
 
 	/// <summary>
@@ -137,10 +138,20 @@ namespace NUnit.Core
 
 		private string BuildMessage(Exception exception)
 		{
-			if(exception.InnerException!=null)
-				return exception.Message + Environment.NewLine + BuildMessage(exception.InnerException);
+			StringBuilder sb = new StringBuilder();
+			if ( exception is NUnit.Framework.AssertionException )
+				sb.Append( exception.Message );
 			else
-				return exception.Message;
+				sb.AppendFormat( "{0} : {1}", exception.GetType().ToString(), exception.Message );
+
+			Exception inner = exception.InnerException;
+			while( inner != null )
+			{
+				sb.AppendFormat( "\n  ----> {0} : {1}", inner.GetType().ToString(), inner.Message );
+				inner = inner.InnerException;
+			}
+
+			return sb.ToString();
 		}
 		
 		private string BuildStackTrace(Exception exception)
