@@ -33,6 +33,9 @@ using System.ComponentModel;
 
 namespace NUnit.Framework
 {
+	/// <summary>
+	/// A set of Assert methods
+	/// </summary>
 	public class Assert
 	{
 		/// <summary>
@@ -223,7 +226,7 @@ namespace NUnit.Framework
 		/// Verifies that two objects are equal.  Two objects are considered
 		/// equal if both are null, or if both have the same value.  All
 		/// non-numeric types are compared by using the <c>Equals</c> method.
-		/// If they are not equal an <see cref="AssertionFailedError"/> is thrown.
+		/// If they are not equal an <see cref="AssertionException"/> is thrown.
 		/// </summary>
 		/// <param name="expected">The value that is expected</param>
 		/// <param name="actual">The actual value</param>
@@ -246,7 +249,7 @@ namespace NUnit.Framework
 		/// Verifies that two objects are equal.  Two objects are considered
 		/// equal if both are null, or if both have the same value.  All
 		/// non-numeric types are compared by using the <c>Equals</c> method.
-		/// If they are not equal an <see cref="AssertionFailedError"/> is thrown.
+		/// If they are not equal an <see cref="AssertionException"/> is thrown.
 		/// </summary>
 		/// <param name="expected">The value that is expected</param>
 		/// <param name="actual">The actual value</param>

@@ -234,6 +234,11 @@ namespace NUnit.Framework
             sbOutput.Append( ">" );
         }
 
+		/// <summary>
+		/// Display an object as a string
+		/// </summary>
+		/// <param name="obj"></param>
+		/// <returns></returns>
 		static protected string DisplayString( object  obj )
 		{
 			if ( obj == null ) 
@@ -244,6 +249,11 @@ namespace NUnit.Framework
 				return obj.ToString();
 		}
 
+		/// <summary>
+		/// Quote a string
+		/// </summary>
+		/// <param name="text"></param>
+		/// <returns></returns>
 		static protected string Quoted( string text )
 		{
 			return string.Format( "\"{0}\"", text );
