@@ -20,6 +20,7 @@
 using System;
 using System.Drawing;
 using System.Collections;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace NUnit.Util
@@ -159,7 +160,8 @@ namespace NUnit.Util
 			base.OnMouseDown( e );
 		}
 
-		#region Manipulators
+		#region Methods
+
 		/// <summary>
 		/// Clear all the results in the tree.
 		/// </summary>
@@ -226,13 +228,67 @@ namespace NUnit.Util
 				Console.Error.WriteLine("Could not locate node: " + result.Test.FullName + " in tree map");
 		}
 
+		/// <summary>
+		/// Find and expand a particular test in the tree
+		/// </summary>
+		/// <param name="test">The test to expand</param>
 		public void Expand( Test test )
 		{
 			TestNode node = this[test];
 			if ( node != null )
 				node.Expand();
 		}
-		#endregion
+
+#if CHARLIE		
+        /// <summary>
+        /// Collapse all fixtures in the tree
+        /// </summary>
+		public void CollapseFixtures()
+		{
+			ExpandFixtures( RootNode, false );
+		}
+
+		/// <summary>
+		/// Expand all fixtures in the tree
+		/// </summary>
+		public void ExpandFixtures()
+		{
+			ExpandFixtures( RootNode, true );
+		}
+
+		/// <summary>
+		/// Helper routine that expands/collapses fixture nodes
+		/// </summary>
+		/// <param name="node">The node to operatet on recursively</param>
+		/// <param name="expanding">True if expanding, false if collapsing</param>
+		/// <returns></returns>
+		private bool ExpandFixtures( TestNode node, bool expanding )
+		{
+			if ( node.Test is TestSuite )
+			{
+				bool foundChildSuite = false;
+
+				foreach( TestNode child in node.Nodes )
+				{
+					if ( ExpandFixtures(child, expanding) )
+						foundChildSuite = true;
+				}
+
+				if (!foundChildSuite)
+				{
+					if ( expanding )
+						node.Expand();
+					else
+						node.Collapse();
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+#endif
+        #endregion
 	}
 }
 

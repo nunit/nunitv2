@@ -33,18 +33,23 @@ namespace NUnit.Tests
 	[TestFixture]
 	public class RecentAssemblyFixture
 	{
-		RecentAssemblyUtil assemblies;
+//		RecentAssemblyUtil assemblies;
+		RecentAssemblySettings assemblies;
 
 		[SetUp]
 		public void CreateUtil()
 		{
-			assemblies = new RecentAssemblyUtil("test-recent-assemblies");
+//			assemblies = new RecentAssemblyUtil("test-recent-assemblies");
+			NUnitRegistry.TestMode = true;
+			NUnitRegistry.ClearTestKeys();
+			assemblies = UserSettings.RecentAssemblies;
 		}
 
 		[TearDown]
 		public void ClearRegistry()
 		{
-			assemblies.Clear();
+//			assemblies.Clear();
+			NUnitRegistry.TestMode = false;
 		}
 
 		[Test]

@@ -806,32 +806,29 @@ namespace NUnit.Gui
 			System.Windows.Forms.Message m) 
 		{ 
 			const int SPACE_BAR=32; 
-			if (m.WParam.ToInt32() == SPACE_BAR)
+			const int WM_CHAR = 258;
+
+			if (m.Msg == WM_CHAR && m.WParam.ToInt32() == SPACE_BAR )
 			{ 
-				this.Close();
-				return true;
+				int altKeyBit = (int)m.LParam & 0x10000000;
+				if ( altKeyBit == 0 )
+				{
+					this.Close();
+					return true;
+				}
 			}
 
 			return base.ProcessKeyEventArgs( ref m ); 
 		} 
-
-
-		private static string WIDTH = "width";
-		private static string HEIGHT = "height";
-		private static string XLOCATION = "x-location";
-		private static string YLOCATION = "y-location";
 
 		/// <summary>
 		///	Save position when form is about to close
 		/// </summary>
 		private void NUnitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			RegistryKey key = NUnitRegistry.CurrentUser.CreateSubKey("form");
 
-			key.SetValue(WIDTH, this.Size.Width.ToString());
-			key.SetValue(HEIGHT, this.Size.Height.ToString());
-			key.SetValue(XLOCATION, this.Location.X.ToString());
-			key.SetValue(YLOCATION, this.Location.Y.ToString());
+			UserSettings.Form.Location = this.Location;
+			UserSettings.Form.Size = this.Size;
 		}
 
 		/// <summary>
@@ -839,22 +836,8 @@ namespace NUnit.Gui
 		/// </summary>
 		private void NUnitForm_Load(object sender, System.EventArgs e)
 		{
-			RegistryKey key = NUnitRegistry.CurrentUser.OpenSubKey("form");
-
-			int xLocation = 10; 
-			int yLocation = 10;
-			int width = 632;
-			int height = 432; 
-
-			if(key != null)
-			{
-				width = int.Parse((string)key.GetValue(WIDTH));
-				height = int.Parse((string)key.GetValue(HEIGHT));
-				xLocation = int.Parse((string)key.GetValue(XLOCATION));
-				yLocation = int.Parse((string)key.GetValue(YLOCATION));
-			}
-
-			SetBounds(xLocation, yLocation, width, height);	
+			this.Location = UserSettings.Form.Location;
+			this.Size = UserSettings.Form.Size;
 		}
 
 		/// <summary>
@@ -1286,6 +1269,7 @@ namespace NUnit.Gui
 		}
 
 		#endregion	
+
 	}
 }
 
