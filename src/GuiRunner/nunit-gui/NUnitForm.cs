@@ -607,7 +607,6 @@ namespace NUnit.Gui
 			// 
 			// detailList
 			// 
-			this.detailList.ContextMenu = this.detailListContextMenu;
 			this.detailList.Dock = System.Windows.Forms.DockStyle.Top;
 			this.detailList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
 			this.detailList.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
@@ -1087,6 +1086,7 @@ namespace NUnit.Gui
 			stackTrace.Text = resultItem.StackTrace;
 
 			toolTip.SetToolTip(detailList,resultItem.GetToolTipMessage());
+			detailList.ContextMenu = detailListContextMenu;
 		}
 
 		/// <summary>
@@ -1299,7 +1299,11 @@ namespace NUnit.Gui
 		/// <summary>
 		/// A test run is starting, so prepare the UI
 		/// </summary>
-		/// <param name="test">Top level Test for this run</param>
+//		private void InvokeRunStarting( object sender, TestEventArgs e )
+//		{
+//			Invoke( new TestEventHandler( OnRunStarting ), new object[] { e } );
+//		}
+
 		private void OnRunStarting( object sender, TestEventArgs e )
 		{
 			suiteName.Text = e.Test.ShortName;
@@ -1313,7 +1317,11 @@ namespace NUnit.Gui
 		/// A test run has finished, so display the results
 		/// and re-enable the run button.
 		/// </summary>
-		/// <param name="result">Result of the run</param>
+		private void InvokeRunFinished( object sender, TestEventArgs e )
+		{
+			Invoke( new TestEventHandler( OnRunFinished ), new object[] { e } );
+		}
+
 		private void OnRunFinished( object sender, TestEventArgs e )
 		{
 			stopButton.Enabled = false;
@@ -1343,6 +1351,7 @@ namespace NUnit.Gui
 		private void ClearTabs()
 		{
 			detailList.Items.Clear();
+			detailList.ContextMenu = null;
 			toolTip.SetToolTip( detailList, null );
 			notRunTree.Nodes.Clear();
 
@@ -1407,9 +1416,9 @@ namespace NUnit.Gui
 
 		private void copyDetailMenuItem_Click(object sender, System.EventArgs e)
 		{
-			Clipboard.SetDataObject( detailList.SelectedItem.ToString() );
+			if ( detailList.SelectedItem != null )
+				Clipboard.SetDataObject( detailList.SelectedItem.ToString() );
 		}
-
 	}
 }
 
