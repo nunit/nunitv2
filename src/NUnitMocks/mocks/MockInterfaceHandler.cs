@@ -34,6 +34,8 @@ namespace NUnit.Mocks
 						MethodInfo info = call.MethodBase as MethodInfo;
 						Type returnType = info.ReturnType;
 
+						if( returnType == typeof( System.Boolean ) ) ret = false; 
+
 						if( returnType == typeof( System.Byte    ) ) ret = (System.Byte)0;
 						if( returnType == typeof( System.SByte   ) ) ret = (System.SByte)0;
 						if( returnType == typeof( System.Decimal ) ) ret = (System.Decimal)0;
