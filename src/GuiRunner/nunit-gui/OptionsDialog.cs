@@ -133,18 +133,19 @@ namespace NUnit.Gui
 			this.okButton.Location = new System.Drawing.Point(64, 314);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(63, 20);
-			this.okButton.TabIndex = 13;
+			this.okButton.TabIndex = 15;
 			this.okButton.Text = "OK";
 			this.okButton.Click += new System.EventHandler(this.okButton_Click);
 			// 
 			// cancelButton
 			// 
 			this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.cancelButton.CausesValidation = false;
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelButton.Location = new System.Drawing.Point(144, 314);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(56, 20);
-			this.cancelButton.TabIndex = 14;
+			this.cancelButton.TabIndex = 16;
 			this.cancelButton.Text = "Cancel";
 			// 
 			// loadLastProjectCheckBox
@@ -221,7 +222,7 @@ namespace NUnit.Gui
 			this.visualStudioSupportCheckBox.Name = "visualStudioSupportCheckBox";
 			this.helpProvider1.SetShowHelp(this.visualStudioSupportCheckBox, true);
 			this.visualStudioSupportCheckBox.Size = new System.Drawing.Size(220, 21);
-			this.visualStudioSupportCheckBox.TabIndex = 12;
+			this.visualStudioSupportCheckBox.TabIndex = 14;
 			this.visualStudioSupportCheckBox.Text = "Enable Visual Studio Support";
 			// 
 			// label2
@@ -273,7 +274,7 @@ namespace NUnit.Gui
 			this.groupBox3.Location = new System.Drawing.Point(13, 272);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(240, 40);
-			this.groupBox3.TabIndex = 11;
+			this.groupBox3.TabIndex = 13;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Visual Studio";
 			// 
@@ -283,7 +284,7 @@ namespace NUnit.Gui
 			this.groupBox4.Location = new System.Drawing.Point(13, 224);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(240, 40);
-			this.groupBox4.TabIndex = 15;
+			this.groupBox4.TabIndex = 11;
 			this.groupBox4.TabStop = false;
 			this.groupBox4.Text = "Test Output";
 			// 
@@ -292,7 +293,7 @@ namespace NUnit.Gui
 			this.labelTestOutputCheckBox.Location = new System.Drawing.Point(16, 16);
 			this.labelTestOutputCheckBox.Name = "labelTestOutputCheckBox";
 			this.labelTestOutputCheckBox.Size = new System.Drawing.Size(220, 16);
-			this.labelTestOutputCheckBox.TabIndex = 0;
+			this.labelTestOutputCheckBox.TabIndex = 12;
 			this.labelTestOutputCheckBox.Text = "Label Test Cases in Console output";
 			// 
 			// OptionsDialog
@@ -326,6 +327,7 @@ namespace NUnit.Gui
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "NUnit Options";
+			this.Closing += new System.ComponentModel.CancelEventHandler(this.OptionsDialog_Closing);
 			this.Load += new System.EventHandler(this.OptionsDialog_Load);
 			this.groupBox4.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -380,13 +382,37 @@ namespace NUnit.Gui
 
 		private void recentFilesCountTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			int count = int.Parse( recentFilesCountTextBox.Text );
-			if ( count < RecentProjectSettings.MinSize ||
-				count > RecentProjectSettings.MaxSize )
+			if ( recentFilesCountTextBox.Text.Length == 0 )
 			{
+				recentFilesCountTextBox.Text = UserSettings.RecentProjects.MaxFiles.ToString();
 				recentFilesCountTextBox.SelectAll();
-				UserMessage.DisplayFailure( string.Format( "Number of files must be from {0} to {1}", RecentProjectSettings.MinSize, RecentProjectSettings.MaxSize ) );
 				e.Cancel = true;
+			}
+			else
+			{
+				string errmsg = null;
+
+				try
+				{
+					int count = int.Parse( recentFilesCountTextBox.Text );
+
+					if ( count < RecentProjectSettings.MinSize ||
+						count > RecentProjectSettings.MaxSize )
+					{
+						errmsg = string.Format( "Number of files must be from {0} to {1}", RecentProjectSettings.MinSize, RecentProjectSettings.MaxSize );
+					}
+				}
+				catch
+				{
+					errmsg = "Number of files must be numeric";
+				}
+
+				if ( errmsg != null )
+				{
+					recentFilesCountTextBox.SelectAll();
+					UserMessage.DisplayFailure( errmsg );
+					e.Cancel = true;
+				}
 			}
 		}
 
@@ -394,6 +420,11 @@ namespace NUnit.Gui
 		{
 			int count = int.Parse( recentFilesCountTextBox.Text );
 			UserSettings.RecentProjects.MaxFiles = count;
+		}
+
+		private void OptionsDialog_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			e.Cancel = false;
 		}
 	}
 }
