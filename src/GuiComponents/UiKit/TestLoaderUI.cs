@@ -208,10 +208,14 @@ namespace NUnit.UiKit
 				loader.NewProject( dlg.FileName );
 		}
 
-		public void CloseProject()
+		public DialogResult CloseProject()
 		{
-			if( SaveProjectIfDirty() != DialogResult.Cancel )
+			DialogResult result = SaveProjectIfDirty();
+
+			if( result != DialogResult.Cancel )
 				loader.UnloadProject();
+
+			return result;
 		}
 
 		private DialogResult SaveProjectIfDirty()
@@ -222,7 +226,7 @@ namespace NUnit.UiKit
 			{
 				string msg = "Project has been changed. Do you want to save changes?";
 
-				result = UserMessage.Ask( msg );
+				result = UserMessage.Ask( msg, MessageBoxButtons.YesNoCancel );
 				if ( result == DialogResult.Yes )
 					SaveProject();
 			}

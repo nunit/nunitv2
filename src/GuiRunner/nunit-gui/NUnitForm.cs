@@ -1151,17 +1151,14 @@ namespace NUnit.Gui
 					"A test is running, do you want to stop the test and exit?" );
 
 				if ( dialogResult == DialogResult.No )
-				{
 					e.Cancel = true;
-					return;
-				}
-				
-				TestLoader.CancelTestRun();
+				else
+					TestLoader.CancelTestRun();
 			}
 
-			if ( IsProjectLoaded )
-				TestLoaderUI.CloseProject();
-
+			if ( !e.Cancel && IsProjectLoaded && 
+				 TestLoaderUI.CloseProject() == DialogResult.Cancel )
+				e.Cancel = true;
 		}
 
 		/// <summary>
