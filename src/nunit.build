@@ -83,7 +83,7 @@
 				<includes name="${build.dir}/nunit.framework.dll"/>
 				<includes name="${build.dir}/mock-assembly.dll"/>
 				<includes name="${build.dir}/nonamespace-assembly.dll"/>
-				<includes name="${build.dir}/notestfixture-assembly.dll"/>
+				<includes name="${build.dir}/notestfixtures-assembly.dll"/>
 			</references>
 		</csc>
 		<copy file="tests\nunit.tests.dll.1.0.config" todir="${build.dir}"/>
