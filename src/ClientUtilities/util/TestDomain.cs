@@ -60,13 +60,36 @@ namespace NUnit.Util
 		/// </summary>
 		private TestRunner testRunner;
 
+		/// <summary>
+		/// Writer for console standard output
+		/// </summary>
 		private TextWriter outWriter;
 
+		/// <summary>
+		/// Writer for console error output
+		/// </summary>
 		private TextWriter errorWriter;
+
+		/// <summary>
+		/// Holds the event listener while we are running
+		/// </summary>
+		private EventListener listener;
 
 		#endregion
 
 		#region Properties
+
+		public TextWriter Out
+		{
+			get { return outWriter; }
+			set { outWriter = value; }
+		}
+
+		public TextWriter Error
+		{
+			get { return errorWriter; }
+			set { errorWriter = value; }
+		}
 
 		private TestRunner Runner
 		{
@@ -136,18 +159,18 @@ namespace NUnit.Util
 			}
 		}
 
-		public Test Load( string testFileName, IList assemblies )
+		public Test Load( string testFileName, string[] assemblies )
 		{
 			return Load( testFileName, assemblies, null );
 		}
 
-		public Test Load( string testFileName, IList assemblies, string testFixture )
+		public Test Load( string testFileName, string[] assemblies, string testFixture )
 		{
 			FileInfo testFile = new FileInfo( testFileName );		
 			return Load( testFileName, testFile.DirectoryName, testFile.FullName + ".config", GetBinPath(assemblies), assemblies, testFixture );
 		}
 
-		public Test Load( string testFileName, string appBase, string configFile, string binPath, IList assemblies, string testFixture )
+		public Test Load( string testFileName, string appBase, string configFile, string binPath, string[] assemblies, string testFixture )
 		{
 			Unload();
 
@@ -208,7 +231,7 @@ namespace NUnit.Util
 			}
 		}
 
-		public static string GetBinPath( IList assemblies )
+		public static string GetBinPath( string[] assemblies )
 		{
 			ArrayList dirs = new ArrayList();
 			string binPath = null;
@@ -232,17 +255,32 @@ namespace NUnit.Util
 
 		#endregion
 
-		#region Running Tests
+		#region Counting Tests
 
-		public ICollection GetCategories ()
+		public int CountTestCases()
+		{
+			return Runner.CountTestCases();
+		}
+
+		public int CountTestCases( string testName )
+		{
+			return Runner.CountTestCases( testName );
+		}
+
+		
+		public int CountTestCases( string[] testNames )
+		{
+			return Runner.CountTestCases( testNames );
+		}
+
+		#endregion
+
+		public ICollection GetCategories()
 		{
 			return Runner.GetCategories();
 		}
 
-		public int CountTestCases( IList testNames )
-		{
-			return Runner.CountTestCases( testNames );
-		}
+		#region Running Tests
 
 		public TestResult Run(NUnit.Core.EventListener listener, IFilter filter)
 		{
@@ -251,32 +289,63 @@ namespace NUnit.Util
 
 		public TestResult Run(NUnit.Core.EventListener listener)
 		{
-			return Runner.Run( listener );
+			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
+			{
+				this.listener = listener;
+				return Runner.Run( listener );
+			}
 		}
 		
 		public TestResult Run(NUnit.Core.EventListener listener, string testName)
 		{
-			return Runner.Run( listener, testName );
+			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
+			{
+				this.listener = listener;
+				return Runner.Run( listener, testName );
+			}
 		}
 
-		public TestResult Run(NUnit.Core.EventListener listener, IList testNames)
+		public TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames)
 		{
-			return Runner.Run( listener, testNames );
+			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
+			{
+				this.listener = listener;
+				return Runner.Run( listener, testNames );
+			}
 		}
 
-		public TestResult RunTest( EventListener listener, string assemblyName )
+		public void RunTest(NUnit.Core.EventListener listener )
 		{
-			return Runner.RunTest( listener, assemblyName );
+			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
+			{
+				this.listener = listener;
+				Runner.RunTest( listener );
+			}
+		}
+		
+		public void RunTest(NUnit.Core.EventListener listener, string testName )
+		{
+			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
+			{
+				this.listener = listener;
+				Runner.RunTest( listener, testName );
+			}
 		}
 
-		public TestResult RunTest( EventListener listener, string assemblyName, string testName )
+		public void RunTest(NUnit.Core.EventListener listener, string[] testNames)
 		{
-			return Runner.RunTest( listener, assemblyName, testName );
+			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
+			{
+				this.listener = listener;
+				Runner.RunTest( listener, testNames );
+			}
 		}
 
-		public TestResult RunTest( EventListener listener, IList assemblies )
+		// For now, just publish any unhandled exceptions and let the listener
+		// figure out what to do with them.
+		private void OnUnhandledException( object sender, UnhandledExceptionEventArgs e )
 		{
-			return Runner.RunTest( listener, assemblies );
+			this.listener.UnhandledException( (Exception)e.ExceptionObject );
 		}
 
 		#endregion
@@ -305,7 +374,7 @@ namespace NUnit.Util
 		/// <param name="configFile">The configuration file to use</param>
 		/// <param name="binPath">The private bin path</param>
 		/// <param name="assemblies">A collection of assemblies to load</param>
-		private void CreateDomain( string testFileName, string appBase, string configFile, string binPath, IList assemblies )
+		private void CreateDomain( string testFileName, string appBase, string configFile, string binPath, string[] assemblies )
 		{
 			string domainName = string.Format( "domain-{0}", Path.GetFileName( testFileName ) );
 			domain = MakeAppDomain( testFileName, appBase, configFile, binPath );
