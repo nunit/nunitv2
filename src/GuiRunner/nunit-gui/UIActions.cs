@@ -56,7 +56,8 @@ namespace NUnit.Gui
 		public delegate void SuiteFinishedHandler( TestSuiteResult result );
 		public delegate void RunStartingHandler( Test test );
 		public delegate void RunFinishedHandler( TestResult result );
-		public delegate void AssemblyLoadedHandler( Test test );
+		public delegate void SuiteLoadedHandler( Test test , string assemblyFileName);
+		public delegate void SuiteChangedHandler( Test test );
 
 		public event TestStartedHandler TestStartedEvent;
 		public event TestFinishedHandler TestFinishedEvent;
@@ -64,7 +65,8 @@ namespace NUnit.Gui
 		public event SuiteFinishedHandler SuiteFinishedEvent;
 		public event RunStartingHandler RunStartingEvent;
 		public event RunFinishedHandler RunFinishedEvent;
-		public event AssemblyLoadedHandler AssemblyLoadedEvent;
+		public event SuiteLoadedHandler SuiteLoadedEvent;
+		public event SuiteChangedHandler SuiteChangedEvent;
 
 		public UIActions(TextWriter stdOutWriter, TextWriter stdErrWriter)
 		{
@@ -114,14 +116,32 @@ namespace NUnit.Gui
 			return testRunner.Test;
 		}
 		
-		public void LoadAssembly(string assemblyFileName, Test suite)
+		public void LoadAssembly( string assemblyFileName )
 		{
 			testRunner = new TestRunner(assemblyFileName, this, stdOutWriter, stdErrWriter);
 			
 			Test test = LoadTestSuite(assemblyFileName);
+			SetWorkingDirectory(assemblyFileName);
 
-			if ( AssemblyLoadedEvent != null )
-				AssemblyLoadedEvent( test );
+			if ( SuiteLoadedEvent != null )
+				SuiteLoadedEvent( test, assemblyFileName );
+		}
+
+		public void ReloadAssembly( string assemblyFileName )
+		{
+//			testRunner = new TestRunner(assemblyFileName, this, stdOutWriter, stdErrWriter);
+			
+			Test test = LoadTestSuite(assemblyFileName);
+//			SetWorkingDirectory(assemblyFileName);
+
+			if ( SuiteChangedEvent != null )
+				SuiteChangedEvent( test );
+		}
+
+		private static void SetWorkingDirectory(string assemblyFileName)
+		{
+			FileInfo info = new FileInfo(assemblyFileName);
+			Directory.SetCurrentDirectory(info.DirectoryName);
 		}
 	}
 }

@@ -172,14 +172,22 @@ namespace NUnit.Util
 		/// <summary>
 		/// Load the tree with a test hierarchy
 		/// </summary>
-		/// <param name="test"></param>
+		/// <param name="test">Test suite to be loaded</param>
 		public void Load(Test test)
 		{
-			treeMap.Clear();
-			Nodes.Clear();
+			Clear();
 			Nodes.Add(BuildTreeNode(test));
 			ExpandAll();
 			SelectedNode = RootNode;
+		}
+
+		/// <summary>
+		/// Clear all the info in the tree.
+		/// </summary>
+		public void Clear()
+		{
+			treeMap.Clear();
+			Nodes.Clear();
 		}
 
 		/// <summary>

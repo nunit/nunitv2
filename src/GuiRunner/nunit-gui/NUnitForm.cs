@@ -36,25 +36,11 @@ namespace NUnit.Gui
 	/// </summary>
 	public class NUnitForm : System.Windows.Forms.Form
 	{
-		private bool runCommandEnabled = false;
-
-		public Test SelectedSuite
-		{
-			get { return testSuiteTreeView.SelectedSuite; }
-		}
-
-		public Test ContextSuite
-		{
-			get { return testSuiteTreeView.ContextSuite; }
-		}
+		#region Static and instance variables
 
 		private static RecentAssemblyUtil assemblyUtil;
 
-		static NUnitForm()	
-		{
-			assemblyUtil = new RecentAssemblyUtil("recent-assemblies");
-		}
-		
+		private bool runCommandEnabled = false;
 		private string assemblyFileName;
 		private AssemblyWatcher watcher;
 		private UIActions actions;
@@ -104,6 +90,29 @@ namespace NUnit.Gui
 		public System.Windows.Forms.ToolTip toolTip;
 		public TextWriter stdErrWriter;
 
+		#endregion
+		
+		#region Properties
+
+		public Test SelectedSuite
+		{
+			get { return testSuiteTreeView.SelectedSuite; }
+		}
+
+		public Test ContextSuite
+		{
+			get { return testSuiteTreeView.ContextSuite; }
+		}
+
+		#endregion
+
+		#region Construction and Disposal
+
+		static NUnitForm()	
+		{
+			assemblyUtil = new RecentAssemblyUtil("recent-assemblies");
+		}
+		
 		public NUnitForm(string assemblyFileName)
 		{
 			InitializeComponent();
@@ -126,71 +135,14 @@ namespace NUnit.Gui
 			actions.SuiteFinishedEvent += new UIActions.SuiteFinishedHandler(OnSuiteFinished);
 			actions.RunStartingEvent += new UIActions.RunStartingHandler(OnRunStarting);
 			actions.RunFinishedEvent += new UIActions.RunFinishedHandler(OnRunFinished);
-			actions.AssemblyLoadedEvent += new UIActions.AssemblyLoadedHandler(OnAssemblyLoaded);
+			actions.SuiteLoadedEvent += new UIActions.SuiteLoadedHandler(OnSuiteLoaded);
 
-			if (assemblyFileName != null) 
-			{
-				assemblyUtil.RecentAssembly = assemblyFileName;
-			}
-			
 			if (assemblyFileName == null)
 				assemblyFileName = assemblyUtil.RecentAssembly;
 
 			if(assemblyFileName != null)
-			{
 				LoadAssembly(assemblyFileName);
-				this.assemblyFileName = assemblyFileName;
-			}
 
-		}
-
-		private void SetDefault(Button myDefaultBtn)
-		{
-			this.AcceptButton = myDefaultBtn;
-		}
-
-		public delegate void loadAssemblyDelegate(string assemblyFileName);
-
-		
-		internal class FileChanged : FileChangedEventHandler
-		{
-			NUnitForm nunitForm;
-			public FileChanged(NUnitForm nunitForm)
-			{
-				this.nunitForm = nunitForm;
-			}
-
-			public void OnChanged(String fileName) 
-			{
-				nunitForm.Invoke(new loadAssemblyDelegate(nunitForm.ReloadAssembly), new object[]{fileName});
-			}
-		}
-
-		private void LoadRecentAssemblyMenu() 
-		{
-			IList assemblies = assemblyUtil.GetAssemblies();
-			if (assemblies.Count == 0)
-				RecentAssemblies.Enabled = false;
-			else 
-			{
-				RecentAssemblies.Enabled = true;
-				RecentAssemblies.MenuItems.Clear();
-				int index = 1;
-				foreach (string name in assemblies) 
-				{
-					MenuItem item = new MenuItem(String.Format("{0} {1}", index++, name));
-					item.Click += new System.EventHandler(recentFile_clicked);
-					this.RecentAssemblies.MenuItems.Add(item);
-				}
-			}
-		}
-		private void recentFile_clicked(object sender, System.EventArgs args) 
-		{
-			MenuItem item = (MenuItem) sender;
-			string text = item.Text;
-
-			assemblyFileName = text.Substring(2);
-			LoadAssembly(assemblyFileName);
 		}
 
 		/// <summary>
@@ -208,6 +160,8 @@ namespace NUnit.Gui
 			base.Dispose( disposing );
 		}
 
+		#endregion
+		
 		#region Windows Form Designer generated code
 		/// <summary>
 		/// Required method for Designer support - do not modify
@@ -656,6 +610,8 @@ namespace NUnit.Gui
 		}
 		#endregion
 
+		#region Application Entry Point
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
@@ -703,93 +659,14 @@ namespace NUnit.Gui
 
 		}
 
-		private void exitMenuItem_Click(object sender, System.EventArgs e)
-		{
-			this.Close();
-		}
+		#endregion
 
-		private void runButton_Click(object sender, System.EventArgs e)
-		{
-			actions.RunTestSuite( SelectedSuite );
-		}
-		private void UpdateRecentAssemblies(string assemblyFileName)
-		{
-			assemblyUtil.RecentAssembly = assemblyFileName;
-			LoadRecentAssemblyMenu();
-		}
+		#region Handlers for UI Events
 
-		private void RemoveRecentAssembly(string assemblyFileName)
-		{
-			assemblyUtil.Remove( assemblyFileName );
-			LoadRecentAssemblyMenu();
-		}
-
-		private void InstallWatcher(string assemblyFileName)
-		{
-			if(watcher!=null)
-			{
-				watcher.Stop();
-			}
-
-			FileInfo info = new FileInfo(assemblyFileName);
-			watcher = new AssemblyWatcher(1000,new FileChanged(this),info);
-		}
-
-		private static void SetWorkingDirectory(string assemblyFileName)
-		{
-			FileInfo info = new FileInfo(assemblyFileName);
-			Directory.SetCurrentDirectory(info.DirectoryName);
-		}
-
-		private void TryLoadAssembly( string assemblyFileName )
-		{
-			actions.LoadAssembly(assemblyFileName, SelectedSuite);
-			SetWorkingDirectory(assemblyFileName);
-			InstallWatcher(assemblyFileName);
-			UpdateRecentAssemblies(assemblyFileName);
-		}
-
-		private void AssemblyLoadFailureMessageBox( Exception exception )
-		{
-			string message = exception.Message;
-			if(exception.InnerException != null)
-				message = exception.InnerException.Message;
-			MessageBox.Show(this,message,"Assembly Load Failure",
-				MessageBoxButtons.OK,MessageBoxIcon.Stop);
-		}
-
-		private void LoadAssembly(string assemblyFileName)
-		{
-			try
-			{
-				TryLoadAssembly( assemblyFileName );
-			}
-			catch(Exception exception)
-			{
-				AssemblyLoadFailureMessageBox( exception );			
-				RemoveRecentAssembly( assemblyFileName );
-			}
-		}
-
-		private void ReloadAssembly( string assemblyFileName )
-		{
-			try
-			{
-				TryLoadAssembly( assemblyFileName );
-			}
-			catch(Exception exception)
-			{
-				AssemblyLoadFailureMessageBox( exception );			
-				RemoveRecentAssembly( assemblyFileName );
-
-				DisableRunCommand();
-				ClearTestResults();
-				testSuiteTreeView.Nodes.Clear();
-				ClearSuiteName();
-				InitializeProgressBar();
-			}
-		}
-
+		/// <summary>
+		/// When File+Open is selected, display FileOpenDialog and
+		/// open whatever assembly the user selects.
+		/// </summary>
 		private void openMenuItem_Click(object sender, System.EventArgs e)
 		{
 			if (openFileDialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK) 
@@ -800,22 +677,82 @@ namespace NUnit.Gui
 		
 		}
 
+		/// <summary>
+		/// Open recently used assembly when it's menu item is selected.
+		/// </summary>
+		private void recentFile_clicked(object sender, System.EventArgs args) 
+		{
+			MenuItem item = (MenuItem) sender;
+			string text = item.Text;
+
+			assemblyFileName = text.Substring(2);
+			LoadAssembly(assemblyFileName);
+		}
+
+		/// <summary>
+		/// Exit application when menu item is selected.
+		/// </summary>
+		private void exitMenuItem_Click(object sender, System.EventArgs e)
+		{
+			this.Close();
+		}
+
+		/// <summary>
+		/// Display the about box when menu item is selected
+		/// </summary>
+		private void aboutMenuItem_Click(object sender, System.EventArgs e)
+		{
+			AboutBox aboutBox = new AboutBox();
+			aboutBox.Show();
+		}
+
+		/// <summary>
+		/// When the Run Button is clicked, run the selected test.
+		/// </summary>
+		private void runButton_Click(object sender, System.EventArgs e)
+		{
+			actions.RunTestSuite( SelectedSuite );
+		}
+
+		/// <summary>
+		/// When Run context menu item is clicked, run the test that
+		/// was selected when the right click was done.
+		/// </summary>
 		private void runMenuItem_Click(object sender, System.EventArgs e)
 		{
 			actions.RunTestSuite( ContextSuite );
 		}
 
+		/// <summary>
+		/// When a TestCase leaf node is double-clicked, run it.
+		/// Base TreeView class does expand/collapse when a non-leaf
+		/// node is double-clicked.
+		/// </summary>
+		private void testSuiteTreeView_DoubleClick(object sender, System.EventArgs e)
+		{
+			if ( runCommandEnabled && testSuiteTreeView.SelectedNode.Nodes.Count == 0 )
+			{
+				actions.RunTestSuite( SelectedSuite );
+			}
+		}
+
+		/// <summary>
+		/// When a tree item is selected, display info pertaining to that test
+		/// </summary>
 		private void testSuiteTreeView_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
 		{
 			TestNode node = testSuiteTreeView.SelectedNode;
 
 			SetSuiteName( node.Text );
-			SetTestCaseCount(node.Test.CountTestCases, testCaseCount);
-			failures.Text = "Failures : 0";
-			testsRun.Text = "Tests Run : 0";
-			time.Text = "Time : 0";
+
+			// TODO: Do we really want to do this?
+			InitializeStatusBar( node.Test.CountTestCases );
 		}
 
+		/// <summary>
+		/// When one of the detail failure items is selected, display
+		/// the stack trace and set up the tool tip for that item.
+		/// </summary>
 		private void detailList_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
 			TestResultItem resultItem = (TestResultItem)detailList.SelectedItem;
@@ -824,6 +761,9 @@ namespace NUnit.Gui
 			toolTip.SetToolTip(detailList,resultItem.GetMessage());
 		}
 
+		/// <summary>
+		/// Exit application when space key is tapped
+		/// </summary>
 		protected override bool ProcessKeyPreview(ref 
 			System.Windows.Forms.Message m) 
 		{ 
@@ -838,18 +778,14 @@ namespace NUnit.Gui
 		} 
 
 
-		private void aboutMenuItem_Click(object sender, System.EventArgs e)
-		{
-			AboutBox aboutBox = new AboutBox();
-			aboutBox.Show();
-		}
-
 		private static string WIDTH = "width";
 		private static string HEIGHT = "height";
 		private static string XLOCATION = "x-location";
 		private static string YLOCATION = "y-location";
 
-
+		/// <summary>
+		///	Save position when form is about to close
+		/// </summary>
 		private void NUnitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			RegistryKey key = RegistryHelper.CurrentUser.CreateSubKey("form");
@@ -860,6 +796,9 @@ namespace NUnit.Gui
 			key.SetValue(YLOCATION, this.Location.Y.ToString());
 		}
 
+		/// <summary>
+		/// Get last position when form loads
+		/// </summary>
 		private void NUnitForm_Load(object sender, System.EventArgs e)
 		{
 			RegistryKey key = RegistryHelper.CurrentUser.OpenSubKey("form");
@@ -880,13 +819,9 @@ namespace NUnit.Gui
 			SetBounds(xLocation, yLocation, width, height);	
 		}
 
-		private void testSuiteTreeView_DoubleClick(object sender, System.EventArgs e)
-		{
-			if ( runCommandEnabled && testSuiteTreeView.SelectedNode.Nodes.Count == 0 )
-			{
-				actions.RunTestSuite( SelectedSuite );
-			}
-		}
+		#endregion
+
+		#region Handlers for events related to loading and running tests
 
 		private void OnTestStarted(TestCase testCase)
 		{
@@ -919,68 +854,12 @@ namespace NUnit.Gui
 
 			DisableRunCommand();
 			ClearTestResults();
-			InitializeSummaryFields(testCount);
+			InitializeStatusBar(testCount);
 
 			SetSuiteName(test.Name);
 			InitializeProgressBar(testCount);
 		}
 
-		private void SetSuiteName( string name )
-		{
-			int val = name.LastIndexOf("\\");
-			if(val != -1)
-				name = name.Substring(val+1);
-			suiteName.Text = name;
-		}
-
-		private void ClearSuiteName()
-		{
-			suiteName.Text = null;
-		}
-
-		private void DisableRunCommand()
-		{
-			runButton.Enabled = runMenuItem.Enabled = runCommandEnabled = false;
-		}
-			
-		private void EnableRunCommand()
-		{
-			runButton.Enabled = runMenuItem.Enabled = runCommandEnabled = true;
-		}
-
-		private void InitializeProgressBar( )
-		{
-			InitializeProgressBar( 100 );
-		}
-
-		private void InitializeProgressBar(int testCount)
-		{
-			progressBar.ForeColor = Color.Lime;
-			progressBar.Value = 0;
-			progressBar.Maximum = testCount;
-		}
-
-		private void ClearTestResults()
-		{
-			detailList.Items.Clear();
-			stackTrace.Text = "";
-
-			testSuiteTreeView.ClearResults();
-
-			notRunTree.Nodes.Clear();
-
-			stdErrTab.Clear();
-			stdOutTab.Clear();
-		}
-		
-		private void InitializeSummaryFields( int testCount )
-		{
-			SetTestCaseCount(testCount, testCaseCount);
-			failures.Text = "Failures : 0";
-			testsRun.Text = "Tests Run : 0";
-			time.Text = "Time : 0";
-		}
-		
 		private void OnRunFinished(TestResult result)
 		{
 			status.Text = "Completed"; 
@@ -995,6 +874,304 @@ namespace NUnit.Gui
 			EnableRunCommand();
 		}
 
+		// Note: second argument could be omitted, but tests may not
+		// always have the FullName set to the assembly name in future.
+		private void OnSuiteLoaded(Test test, string assemblyFileName)
+		{
+			this.assemblyFileName = assemblyFileName;
+			InstallWatcher( assemblyFileName );
+			UpdateRecentAssemblies( assemblyFileName );
+
+			testSuiteTreeView.Load(test);
+
+			EnableRunCommand();
+			ClearTestResults();
+			InitializeProgressBar( test.CountTestCases );
+		}
+
+		private void OnSuiteChanged(Test test)
+		{
+			// TODO: Get rid of the use of the helper
+			// and consider keeping useful info in the tree
+			if(!UIHelper.CompareTree(SelectedSuite,test))
+				testSuiteTreeView.Load(test);
+
+			// TODO: may want to keep this info
+			EnableRunCommand();
+			ClearTestResults();
+			InitializeProgressBar( test.CountTestCases );
+		}
+
+		#endregion
+
+		#region Helper methods for loading and running tests
+
+		/// <summary>
+		/// Make an assembly the new most recent assembly, and
+		/// update the menu accordingly. The assembly may already
+		/// be in the list of recent assemblies, or may not be.
+		/// </summary>
+		/// <param name="assemblyFileName">Full path of the assembly to make most recent</param>
+		private void UpdateRecentAssemblies(string assemblyFileName)
+		{
+			assemblyUtil.RecentAssembly = assemblyFileName;
+			LoadRecentAssemblyMenu();
+		}
+
+		/// <summary>
+		/// Remove an assembly from the recent assembly list and
+		/// update the menu accordingly.
+		/// </summary>
+		/// <param name="assemblyFileName">Full path of the assembly to remove</param>
+		private void RemoveRecentAssembly(string assemblyFileName)
+		{
+			assemblyUtil.Remove( assemblyFileName );
+			LoadRecentAssemblyMenu();
+		}
+
+		/// <summary>
+		/// Install our watcher object so as to get notifications
+		/// about changes to an assembly.
+		/// </summary>
+		/// <param name="assemblyFileName">Full path of the assembly to watch</param>
+		private void InstallWatcher(string assemblyFileName)
+		{
+			if(watcher!=null)
+			{
+				watcher.Stop();
+			}
+
+			FileInfo info = new FileInfo(assemblyFileName);
+			watcher = new AssemblyWatcher(1000, info);
+			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( ReloadAssembly );
+		}
+
+		/// <summary>
+		/// Stop and remove our current watcher object.
+		/// </summary>
+		private void RemoveWatcher()
+		{
+			if ( watcher != null )
+			{
+				watcher.Stop();
+				watcher = null;
+			}
+		}
+
+		/// <summary>
+		/// Display message and clean up after an assembly fails to load
+		/// </summary>
+		/// <param name="assemblyFileName">Full path to the assembly</param>
+		/// <param name="exception">Exception that was thrown when loading the assembly</param>
+		private void AssemblyLoadFailure( string assemblyFileName, Exception exception )
+		{
+			string message = exception.Message;
+			if(exception.InnerException != null)
+				message = exception.InnerException.Message;
+			MessageBox.Show(this,message,"Assembly Load Failure",
+				MessageBoxButtons.OK,MessageBoxIcon.Stop);
+
+			RemoveRecentAssembly( assemblyFileName );
+		}
+
+		/// <summary>
+		/// Load an assembly into the UI
+		/// </summary>
+		/// <param name="assemblyFileName">Full path of the assembly to load</param>
+		private void LoadAssembly(string assemblyFileName)
+		{
+			try
+			{
+				actions.LoadAssembly( assemblyFileName );
+			}
+			catch(Exception exception)
+			{
+				AssemblyLoadFailure( assemblyFileName, exception );			
+			}
+		}
+
+		/// <summary>
+		/// Reload an assembly in response to a change event
+		/// </summary>
+		/// <param name="assemblyFileName"></param>
+		private void ReloadAssembly( string assemblyFileName )
+		{
+			try
+			{
+				actions.ReloadAssembly( assemblyFileName );
+			}
+			catch(Exception exception)
+			{
+				AssemblyLoadFailure( assemblyFileName, exception );
+				RemoveRecentAssembly( assemblyFileName );
+				RemoveWatcher();
+				this.assemblyFileName = null;
+
+				ClearUI();
+			}
+		}
+
+		#endregion
+
+		#region Helper methods for modifying the UI display
+
+		/// <summary>
+		/// Set a button as the default for the form.
+		/// </summary>
+		/// <param name="myDefaultBtn">The button to be set as the default</param>
+		private void SetDefault(Button myDefaultBtn)
+		{
+			this.AcceptButton = myDefaultBtn;
+		}
+
+		/// <summary>
+		/// Disable running of tests
+		/// </summary>
+		private void DisableRunCommand()
+		{
+			runButton.Enabled = runMenuItem.Enabled = runCommandEnabled = false;
+		}
+			
+		/// <summary>
+		/// Enable running of tests
+		/// </summary>
+		private void EnableRunCommand()
+		{
+			runButton.Enabled = runMenuItem.Enabled = runCommandEnabled = true;
+		}
+
+		/// <summary>
+		/// Load our menu with recently used assemblies.
+		/// </summary>
+		private void LoadRecentAssemblyMenu() 
+		{
+			IList assemblies = assemblyUtil.GetAssemblies();
+			if (assemblies.Count == 0)
+				RecentAssemblies.Enabled = false;
+			else 
+			{
+				RecentAssemblies.Enabled = true;
+				RecentAssemblies.MenuItems.Clear();
+				int index = 1;
+				foreach (string name in assemblies) 
+				{
+					MenuItem item = new MenuItem(String.Format("{0} {1}", index++, name));
+					item.Click += new System.EventHandler(recentFile_clicked);
+					this.RecentAssemblies.MenuItems.Add(item);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Clear all the display information and disable running
+		/// </summary>
+		private void ClearUI()
+		{
+			DisableRunCommand();
+
+			ClearTree();
+			ClearSuiteName();
+			ClearProgressBar();
+			ClearTabs();
+			ClearStatusBar();
+		}
+
+		/// <summary>
+		/// Clear all info from the tree
+		/// </summary>
+		private void ClearTree()
+		{
+			testSuiteTreeView.Clear();
+		}
+
+		/// <summary>
+		/// Clear the current test suite name
+		/// </summary>
+		private void ClearSuiteName()
+		{
+			suiteName.Text = null;
+		}
+
+		/// <summary>
+		/// Clear all test results from the UI.
+		/// </summary>
+		private void ClearTestResults()
+		{
+			testSuiteTreeView.ClearResults();
+
+			ClearTabs();
+		}
+
+		/// <summary>
+		/// Clear the progress bar by intializing it with a default
+		/// maximum value - for use when no test is loaded.
+		/// </summary>
+		private void ClearProgressBar( )
+		{
+			InitializeProgressBar( 100 );
+		}
+
+		/// <summary>
+		/// Clear info out of our four tabs and stack trace
+		/// </summary>
+		private void ClearTabs()
+		{
+			detailList.Items.Clear();
+			stackTrace.Text = "";
+
+			notRunTree.Nodes.Clear();
+
+			stdErrTab.Clear();
+			stdOutTab.Clear();
+		}
+		
+		/// <summary>
+		/// Clear all info in the status bar
+		/// </summary>
+		private void ClearStatusBar()
+		{
+			InitializeStatusBar( 0 );
+		}
+
+		/// <summary>
+		/// Set the current test suite name
+		/// </summary>
+		/// <param name="name">The name of the suite</param>
+		private void SetSuiteName( string name )
+		{
+			int val = name.LastIndexOf("\\");
+			if(val != -1)
+				name = name.Substring(val+1);
+			suiteName.Text = name;
+		}
+
+		/// <summary>
+		/// Initialize the progress bar for a loaded test suite.
+		/// </summary>
+		/// <param name="testCount">Number of tests in the suite</param>
+		private void InitializeProgressBar(int testCount)
+		{
+			progressBar.ForeColor = Color.Lime;
+			progressBar.Value = 0;
+			progressBar.Maximum = testCount;
+		}
+
+		/// <summary>
+		/// Initialize the summary fields in the status bar
+		/// </summary>
+		/// <param name="testCount">The number of tests in the suite</param>
+		private void InitializeStatusBar( int testCount )
+		{
+			testCaseCount.Text = String.Format("Test cases: {0}", testCount);
+			failures.Text = "Failures : 0";
+			testsRun.Text = "Tests Run : 0";
+			time.Text = "Time : 0";
+		}
+		
+		/// <summary>
+		/// Display test results in the UI
+		/// </summary>
+		/// <param name="results">Test results to be displayed</param>
 		private void DisplayResults(TestResult results)
 		{
 			DetailResults detailResults = new DetailResults(detailList, notRunTree);
@@ -1011,22 +1188,7 @@ namespace NUnit.Gui
 			time.Text = "Time : " + summarizer.Time.ToString();
 		}
 
-		private void OnAssemblyLoaded(Test test)
-		{
-			// TODO: Get rid of the use of the helper
-			if(!UIHelper.CompareTree(SelectedSuite,test))
-				testSuiteTreeView.Load(test);
-
-			EnableRunCommand();
-			ClearTestResults();
-			InitializeProgressBar( test.CountTestCases );
-		}
-
-		private static void SetTestCaseCount(int count, StatusBarPanel countLabel)
-		{
-			countLabel.Text = String.Format("Test cases: {0}", count);
-		}
-		
+		#endregion	
 	}
 }
 

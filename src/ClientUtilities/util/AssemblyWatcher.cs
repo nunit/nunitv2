@@ -25,16 +25,24 @@ using System.Timers;
 
 namespace NUnit.Util
 {
+	/// <summary>
+	/// AssemblyWatcher keeps track of a single assembly to see if
+	/// it has changed. It incorporates a delayed notification
+	/// and uses a standard event to notify any interested parties
+	/// about the change. The path to the assembly is provided as
+	/// an argument to the event handler so that one routine can
+	/// be used to handle events from multiple watchers.
+	/// </summary>
 	public class AssemblyWatcher
 	{
 		FileSystemWatcher fileWatcher;
-		FileChangedEventHandler handler;
 		System.Timers.Timer timer;
 		FileInfo fileInfo;
 
-		public delegate void FileChanged(String fullPath);
+		public delegate void AssemblyChangedHandler(String fullPath);
+		public event AssemblyChangedHandler AssemblyChangedEvent;
 
-		public AssemblyWatcher(int delay, FileChangedEventHandler handler, FileInfo file)
+		public AssemblyWatcher(int delay, FileInfo file)
 		{
 			fileWatcher = new FileSystemWatcher();
 			fileWatcher.Path = file.DirectoryName;
@@ -46,7 +54,6 @@ namespace NUnit.Util
 			timer.AutoReset=false;
 			timer.Enabled=false;
 			timer.Elapsed+=new ElapsedEventHandler(OnTimer);
-			this.handler = handler;
 			fileInfo = file;
 		}
 
@@ -59,7 +66,8 @@ namespace NUnit.Util
 		{
 			lock(this)
 			{
-				handler.OnChanged(fileInfo.Name);	
+				if ( AssemblyChangedEvent != null )
+					AssemblyChangedEvent( fileInfo.FullName );
 				timer.Enabled=false;
 			}
 		}
