@@ -391,7 +391,7 @@ namespace NUnit.Framework
 		/// <param name="sbOutput"></param>
 		/// <param name="expected"></param>
 		/// <param name="actual"></param>
-		static protected void BuildArrayLengthDifferentReport( StringBuilder sbOutput, object[] expected, object[] actual )
+		static protected void BuildArrayLengthDifferentReport( StringBuilder sbOutput, Array expected, Array actual )
 		{
 			sbOutput.Append( "Array lengths differ.  Expected length=" );
 			sbOutput.Append( expected.Length );
@@ -407,7 +407,7 @@ namespace NUnit.Framework
 		/// <param name="sbOutput"></param>
 		/// <param name="expected"></param>
 		/// <param name="actual"></param>
-		static protected void BuildArrayLengthSameReport(  StringBuilder sbOutput, object[] expected, object[] actual )
+		static protected void BuildArrayLengthSameReport(  StringBuilder sbOutput, Array expected, Array actual )
 		{
 			sbOutput.Append( "Array lengths are both " );
 			sbOutput.Append( expected.Length );
@@ -422,7 +422,7 @@ namespace NUnit.Framework
 		/// <param name="sbOutput"></param>
 		/// <param name="expected"></param>
 		/// <param name="actual"></param>
-		static protected void BuildArrayLengthReport( StringBuilder sbOutput, object[] expected, object[] actual )
+		static protected void BuildArrayLengthReport( StringBuilder sbOutput, Array expected, Array actual )
 		{
 			if( expected.Length != actual.Length )
 			{
@@ -604,7 +604,7 @@ namespace NUnit.Framework
 		/// <param name="sbOutput"></param>
 		/// <param name="expected"></param>
 		/// <param name="actual"></param>
-		static private void BuildArraysDifferentMessage( StringBuilder sbOutput, int index, object[] expected, object[] actual )
+		static private void BuildArraysDifferentMessage( StringBuilder sbOutput, int index, Array expected, Array actual )
 		{
 			sbOutput.Append( NewLine );
 
@@ -617,16 +617,16 @@ namespace NUnit.Framework
 				
 			if ( index < expected.Length && index < actual.Length )
 			{
-				if( InputsAreStrings( expected[index], actual[index] ) )
+				if( InputsAreStrings( expected.GetValue(index), actual.GetValue(index) ) )
 				{
 					BuildStringsDifferentMessage( 
 						sbOutput, 
-						(string)expected[index], 
-						(string)actual[index] );
+						(string)expected.GetValue(index), 
+						(string)actual.GetValue(index) );
 				}
 				else
 				{
-					AppendExpectedAndActual( sbOutput, expected[index], actual[index] );
+					AppendExpectedAndActual( sbOutput, expected.GetValue(index), actual.GetValue(index) );
 				}
 			}
 			else if( expected.Length < actual.Length )
@@ -647,11 +647,11 @@ namespace NUnit.Framework
 			return;
 		}
 
-		static private void DisplayElements( StringBuilder sbOutput, object[] array, int index, int max )
+		static private void DisplayElements( StringBuilder sbOutput, Array array, int index, int max )
 		{
 			for( int i = 0; i < max; i++ )
 			{
-				sbOutput.Append( DisplayString( array[index++] ) );
+				sbOutput.Append( DisplayString( array.GetValue(index++) ) );
 				
 				if ( index >= array.Length )
 					return;
@@ -729,7 +729,7 @@ namespace NUnit.Framework
 		/// <param name="expected"></param>
 		/// <param name="actual"></param>
 		/// <returns></returns>
-		static public string FormatMessageForFailArraysNotEqual(int index, Object[] expected, Object[] actual, string message) 
+		static public string FormatMessageForFailArraysNotEqual(int index, Array expected, Array actual, string message) 
 		{
 			StringBuilder sbOutput = CreateStringBuilder( message );
 			if( null != message )

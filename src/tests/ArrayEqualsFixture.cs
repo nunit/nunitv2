@@ -67,5 +67,63 @@ namespace NUnit.Tests.Assertions
 			object[] array2 = { "one", "three", "two" };
 			Assert.AreEqual( array1, array2 );
 		}
+
+		[Test]
+		public void ArraysOfInt()
+		{
+			int[] a = new int[] { 1, 2, 3 };
+			int[] b = new int[] { 1, 2, 3 };
+			Assert.AreEqual( a, b );
+		}
+
+		[Test]
+		public void ArraysOfDouble()
+		{
+			double[] a = new double[] { 1.0, 2.0, 3.0 };
+			double[] b = new double[] { 1.0, 2.0, 3.0 };
+			Assert.AreEqual( a, b );
+		}
+
+		[Test]
+		public void ArraysOfDecimal()
+		{
+			decimal[] a = new decimal[] { 1.0m, 2.0m, 3.0m };
+			decimal[] b = new decimal[] { 1.0m, 2.0m, 3.0m };
+			Assert.AreEqual( a, b );
+		}
+
+		[Test]
+		public void ArrayOfIntVersusArrayOfDouble()
+		{
+			int[] a = new int[] { 1, 2, 3 };
+			double[] b = new double[] { 1.0, 2.0, 3.0 };
+			Assert.AreEqual( a, b );
+			Assert.AreEqual( b, a );
+		}
+
+		[Test, ExpectedException( typeof( AssertionException ) )]
+		public void RanksOfArraysMustMatch()
+		{
+			int[,] a = new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+			int[] b = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+			Assert.AreEqual( a , b );
+		}
+
+		[Test, ExpectedException( typeof( AssertionException ), "Multi-dimension array comparison is not supported" )]
+		public void MultiDimensionedArraysNotSupported()
+		{
+			int[,] a = new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+			int[,] b = new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+			Assert.AreEqual( a, b );
+		}
+
+		[Test]
+		public void ArraysPassedAsObjects()
+		{
+			object a = new int[] { 1, 2, 3 };
+			object b = new double[] { 1.0, 2.0, 3.0 };
+			Assert.AreEqual( a, b );
+			Assert.AreEqual( b, a );
+		}
 	}
 }

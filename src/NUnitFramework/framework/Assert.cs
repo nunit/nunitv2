@@ -242,7 +242,38 @@ namespace NUnit.Framework
 			Assert.AreEqual(expected, actual, string.Empty);
 		}
 
+		static public void AreEqual( System.Array expected, System.Array actual, string message )
+		{
+			++counter;
+
+			if ( expected == null && actual == null ) return;
+
+			if ( expected == null || actual == null )
+				Assert.FailNotEquals( expected, actual, message );
+
+			if ( expected.Rank != actual.Rank )
+				Assert.FailNotEquals( expected, actual, message );
+
+			if ( expected.Rank != 1 )
+				Assert.Fail( "Multi-dimension array comparison is not supported" );
+
+			int iLength = Math.Min( expected.Length, actual.Length );
+			for( int i = 0; i < iLength; i++ )
+				if ( !ObjectsEqual( expected.GetValue( i ), actual.GetValue( i ) ) )
+				{
+					Assert.FailArraysNotEqual(i, expected, actual, message );
+				}
+
+			if ( expected.Length != actual.Length )
+				Assert.FailArraysNotEqual( iLength, expected, actual, message );
+				
+			return;
+		}
 		
+		static public void AreEqual( System.Array expected, System.Array actual )
+		{
+			Assert.AreEqual( expected, actual, string.Empty );
+		}	
 		
 		/// <summary>
 		/// Verifies that two objects are equal.  Two objects are considered
@@ -256,35 +287,17 @@ namespace NUnit.Framework
 		/// <param name="message">The message to display if objects are not equal</param>
 		static public void AreEqual(Object expected, Object actual, string message)
 		{
-			++counter;
-
-			if (expected == null && actual == null) return;
-
-			if (expected != null && actual != null)
+			// FOr now, dynamically call array assertion if necessary. Try to move
+			// this into the ObjectsEqual method later on.
+			if ( expected.GetType().IsArray && actual.GetType().IsArray )
+				Assert.AreEqual( (System.Array)expected, (System.Array)actual, message );
+					else
 			{
-				object[] aExpected = expected as object[];
-				object[] aActual = actual as object[];
+				++counter;
 
-				if (aExpected != null && aActual != null )
-				{
-					int iLength = Math.Min( aExpected.Length, aActual.Length );
-					for( int i = 0; i < iLength; i++ )
-						if ( !ObjectsEqual( aExpected[i], aActual[i] ) )
-						{
-							Assert.FailArraysNotEqual(i, aExpected, aActual, message );
-						}
-
-					if ( aExpected.Length != aActual.Length )
-						Assert.FailArraysNotEqual( iLength, aExpected, aActual, message );
-					
-					return;
-				}
-				else if(ObjectsEqual( expected, actual ))
-				{
-					return;
-				}
+				if ( !ObjectsEqual( expected, actual ) )
+					Assert.FailNotEquals( expected, actual, message );
 			}
-			Assert.FailNotEquals(expected, actual, message);
 		}
 
 		/// <summary>
@@ -361,18 +374,20 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// Used to compare numeric types.  Comparisons between
-		/// same types are fine (Int32 to Int32, or Int64 to Int64),
-		/// but the Equals method fails across different types.
-		/// This method was added to allow any numeric type to
-		/// be handled correctly, by using <c>ToString</c> and
-		/// comparing the result
+		/// Used to compare two objects.  Two nulls are equal and null
+		/// is not equal to non-null. Comparisons between the same
+		/// numeric types are fine (Int32 to Int32, or Int64 to Int64),
+		/// but the Equals method fails across different types so we
+		/// use <c>ToString</c> and compare the results.
 		/// </summary>
 		/// <param name="expected"></param>
 		/// <param name="actual"></param>
 		/// <returns></returns>
 		static private bool ObjectsEqual( Object expected, Object actual )
 		{
+			if ( expected == null && actual == null ) return true;
+			if ( expected == null || actual == null ) return false;
+
 			if( IsNumericType( expected )  &&
 				IsNumericType( actual ) )
 			{
@@ -503,10 +518,11 @@ namespace NUnit.Framework
 		/// This method is called when two arrays have been compared and found to be
 		/// different. This prints a nice message to the screen. 
 		/// </summary>
-		/// <param name="message">The message that is to be printed prior to the comparison failure</param>
+		/// <param name="index">The index at which the failure occured</param>
 		/// <param name="expected">The expected array</param>
 		/// <param name="actual">The actual array</param>
-		static private void FailArraysNotEqual(int index, Object[] expected, Object[] actual, string message) 
+		/// <param name="message">The message that is to be printed prior to the comparison failure</param>
+		static private void FailArraysNotEqual(int index, Array expected, Array actual, string message) 
 		{
 			Assert.Fail( 
 				AssertionFailureMessage.FormatMessageForFailArraysNotEqual( 
