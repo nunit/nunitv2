@@ -61,6 +61,15 @@ namespace NUnit.Core
 			get;
 		}
 
+		/// <summary>
+		/// Setting to show a header line for each test case in
+		/// the console output.
+		/// </summary>
+		bool DisplayTestLabels
+		{
+			get; set;
+		}
+		
 		#endregion
 
 		/// <summary>
@@ -96,6 +105,8 @@ namespace NUnit.Core
 		/// </summary>
 		void Unload();
 
+		void SetFilter( IFilter filter );
+
 		/// <summary>
 		/// Count test cases previously loaded
 		/// </summary>
@@ -125,7 +136,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// Run the loaded tests using a test filter
 		/// </summary>
-		TestResult Run(NUnit.Core.EventListener listener, IFilter filter);
+//		TestResult Run(NUnit.Core.EventListener listener, IFilter filter);
 
 		/// <summary>
 		/// Run all loaded tests and return a test result. The test is run synchronously,

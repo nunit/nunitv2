@@ -102,6 +102,12 @@ namespace NUnit.Util
 			}
 		}
 
+		public bool DisplayTestLabels
+		{
+			get { return Runner.DisplayTestLabels; }
+			set { Runner.DisplayTestLabels = value; }
+		}
+
 		private TestRunner MakeRemoteTestRunner( AppDomain runnerDomain )
 		{
 			object obj = runnerDomain.CreateInstanceAndUnwrap(
@@ -287,9 +293,14 @@ namespace NUnit.Util
 
 		#region Running Tests
 
-		public TestResult Run(NUnit.Core.EventListener listener, IFilter filter)
+//		public TestResult Run(NUnit.Core.EventListener listener, IFilter filter)
+//		{
+//			return Runner.Run( listener, filter );
+//		}
+
+		public void SetFilter( IFilter filter )
 		{
-			return Runner.Run( listener, filter );
+			Runner.SetFilter( filter );
 		}
 
 		public TestResult Run(NUnit.Core.EventListener listener)

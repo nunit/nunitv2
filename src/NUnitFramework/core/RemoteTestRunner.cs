@@ -75,6 +75,10 @@ namespace NUnit.Core
 
 		private Version frameworkVersion;
 
+		private IFilter filter;
+
+		private bool displayTestLabels;
+
 		#endregion
 
 		#region Constructors
@@ -126,6 +130,12 @@ namespace NUnit.Core
 		public Version FrameworkVersion
 		{
 			get { return frameworkVersion; }
+		}
+
+		public bool DisplayTestLabels
+		{
+			get { return displayTestLabels; }
+			set { displayTestLabels = value; }
 		}
 
 		#endregion
@@ -199,7 +209,7 @@ namespace NUnit.Core
 			return test == null ? 0 : test.CountTestCases();
 		}
 
-		public int CountTestCases(string[] testNames) 
+		public int CountTestCases(string[] testNames ) 
 		{
 			int count = 0;
 			foreach( string testName in testNames)
@@ -208,7 +218,7 @@ namespace NUnit.Core
 			return count;
 		}
 
-		public ICollection GetCategories() 
+		public ICollection GetCategories()
 		{
 			return CategoryManager.Categories;
 		}
@@ -217,44 +227,49 @@ namespace NUnit.Core
 
 		#region Methods for Running Tests
 
-		public TestResult Run(NUnit.Core.EventListener listener, IFilter filter)
+		public void SetFilter( IFilter filter )
 		{
-			BufferedStringTextWriter outBuffer = new BufferedStringTextWriter( outText );
-			BufferedStringTextWriter errorBuffer = new BufferedStringTextWriter( errorText );
-
-			TextWriter saveOut = Console.Out;
-			TextWriter saveError = Console.Error;
-
-			Console.SetOut( outBuffer );
-			Console.SetError( errorBuffer );
-
-//			string currentDirectory = Environment.CurrentDirectory;
-//
-//			string assemblyName = assemblies == null ? testFileName : (string)assemblies[test.AssemblyKey];
-//			string assemblyDirectory = Path.GetDirectoryName( assemblyName );
-//
-//			if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
-//				Environment.CurrentDirectory = assemblyDirectory;
-
-
-			try
-			{
-				TestResult result = suite.Run(listener, filter);
-				return result;
-			}
-			finally
-			{
-
-				//	Environment.CurrentDirectory = currentDirectory;
-
-				outBuffer.Close();
-				errorBuffer.Close();
-
-				// Helps us when we run tests of this class, among other things
-				Console.SetOut( saveOut );
-				Console.SetError( saveError );
-			}
+			this.filter = filter;
 		}
+
+//		public TestResult Run(NUnit.Core.EventListener listener, IFilter filter)
+//		{
+//			BufferedStringTextWriter outBuffer = new BufferedStringTextWriter( outText );
+//			BufferedStringTextWriter errorBuffer = new BufferedStringTextWriter( errorText );
+//
+//			TextWriter saveOut = Console.Out;
+//			TextWriter saveError = Console.Error;
+//
+//			Console.SetOut( outBuffer );
+//			Console.SetError( errorBuffer );
+//
+////			string currentDirectory = Environment.CurrentDirectory;
+////
+////			string assemblyName = assemblies == null ? testFileName : (string)assemblies[test.AssemblyKey];
+////			string assemblyDirectory = Path.GetDirectoryName( assemblyName );
+////
+////			if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
+////				Environment.CurrentDirectory = assemblyDirectory;
+//
+//
+//			try
+//			{
+//				TestResult result = suite.Run(listener, filter);
+//				return result;
+//			}
+//			finally
+//			{
+//
+//				//	Environment.CurrentDirectory = currentDirectory;
+//
+//				outBuffer.Close();
+//				errorBuffer.Close();
+//
+//				// Helps us when we run tests of this class, among other things
+//				Console.SetOut( saveOut );
+//				Console.SetError( saveError );
+//			}
+//		}
 
 		public TestResult Run( EventListener listener )
 		{
@@ -355,7 +370,7 @@ namespace NUnit.Core
 				// TODO: Get rid of count
 				int count = 0;
 				foreach( Test test in tests )
-					count += test.CountTestCases();
+					count += filter == null ? test.CountTestCases() : test.CountTestCases( filter );
 
 				events.FireRunStarting( tests, count );
 				
@@ -368,7 +383,7 @@ namespace NUnit.Core
 					if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
 						Environment.CurrentDirectory = assemblyDirectory;
 
-					results[index] = test.Run( this );
+					results[index] = test.Run( this, filter );
 				}
 
 				// Signal that we are done
@@ -452,6 +467,9 @@ namespace NUnit.Core
 
 		public void TestStarted(TestCase testCase)
 		{
+			if ( displayTestLabels )
+				outText.WriteLine("[{0}]", testCase.FullName );
+			
 			this.listener.TestStarted( testCase );
 			events.FireTestStarting( testCase );
 		}
