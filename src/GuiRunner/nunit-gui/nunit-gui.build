@@ -38,10 +38,19 @@
             <fileset basedir=".">
                 <includes name="nunit-gui.csproj"/>
                 <includes name="nunit-gui.build"/>
-                <includes name="*.cs"/>
-                <includes name="*.resx"/>
-                <includes name="app.ico"/>
-                <includes name="logo.ico"/>
+                <includes name="AboutBox.cs"/>
+                <includes name="AboutBox.resx"/>
+                <includes name="AppEntry.cs"/>
+                <includes name="AssemblyInfo.cs"/>
+                <includes name="DetailResults.cs"/>
+                <includes name="NUnitForm.cs"/>
+                <includes name="NUnitForm.resx"/>
+                <includes name="OptionsDialog.cs"/>
+                <includes name="OptionsDialog.resx"/>
+                <includes name="ProjectEditor.cs"/>
+                <includes name="ProjectEditor.resx"/>
+                <includes name="App.ico"/>
+                <includes name="Logo.ico"/>
                 <includes name="nunit-gui.exe.config"/>
             </fileset>
         </copy>
