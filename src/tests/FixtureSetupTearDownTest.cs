@@ -341,16 +341,25 @@ namespace NUnit.Tests.Core
 		}
 
 		[Test]
-		public void RunningIgnoredFixtureDoesNotCallFixtureSetUpOrTearDown()
+		public void IgnoredFixtureShouldNotCallFixtureSetUpOrTearDown()
 		{
 			IgnoredFixture testFixture = new IgnoredFixture();
 			TestSuite suite = new TestSuite("IgnoredFixtureSuite");
 			suite.Add(testFixture);
 			TestSuite fixtureSuite = (TestSuite)suite.Tests[0];
+			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)fixtureSuite.Tests[0];
 			
 			fixtureSuite.Run(NullListener.NULL);
-			Assert.IsFalse( testFixture.setupCalled, "TestFixtureSetUp was called" );
-			Assert.IsFalse( testFixture.teardownCalled, "TestFixtureTearDown was called" );
+			Assert.IsFalse( testFixture.setupCalled, "TestFixtureSetUp called running fixture" );
+			Assert.IsFalse( testFixture.teardownCalled, "TestFixtureTearDown called running fixture" );
+
+			suite.Run(NullListener.NULL);
+			Assert.IsFalse( testFixture.setupCalled, "TestFixtureSetUp called running enclosing suite" );
+			Assert.IsFalse( testFixture.teardownCalled, "TestFixtureTearDown called running enclosing suite" );
+
+			testCase.Run(NullListener.NULL);
+			Assert.IsFalse( testFixture.setupCalled, "TestFixtureSetUp called running a test case" );
+			Assert.IsFalse( testFixture.teardownCalled, "TestFixtureTearDown called running a test case" );
 		}
 	}
 }
