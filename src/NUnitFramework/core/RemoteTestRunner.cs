@@ -522,7 +522,7 @@ namespace NUnit.Core
 		public void TestStarted(TestCase testCase)
 		{
 			if ( displayTestLabels )
-				outText.WriteLine("***** {0}", testCase.FullName );
+				outBuffer.WriteLine("***** {0}", testCase.FullName );
 			
 			this.listener.TestStarted( testCase );
 			events.FireTestStarting( testCase );
