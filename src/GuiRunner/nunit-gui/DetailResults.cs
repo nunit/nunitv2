@@ -49,6 +49,16 @@ namespace NUnit.Gui
 			notRunTree = notRun;
 		}
 
+		public void DisplayResults( TestResult results )
+		{
+			notRunTree.BeginUpdate();
+			results.Accept(this);
+			notRunTree.EndUpdate();
+
+			if( testDetails.Items.Count > 0 )
+				testDetails.SelectedIndex = 0;
+		}
+
 		public void visit(TestCaseResult result)
 		{
 			if(result.Executed)

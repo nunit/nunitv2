@@ -82,7 +82,7 @@ namespace NUnit.Gui
 		public System.Windows.Forms.Button runButton;
 		public NUnit.UiKit.StatusBar statusBar;
 		public System.Windows.Forms.OpenFileDialog openFileDialog;
-		public NUnit.UiKit.TestSuiteTreeView testSuiteTreeView;
+		public NUnit.Util.TestSuiteTreeView testSuiteTreeView;
 		public System.Windows.Forms.TabControl resultTabs;
 		public System.Windows.Forms.TabPage errorPage;
 		public System.Windows.Forms.TabPage stderr;
@@ -220,7 +220,7 @@ namespace NUnit.Gui
 			this.helpMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpMenuSeparator1 = new System.Windows.Forms.MenuItem();
 			this.aboutMenuItem = new System.Windows.Forms.MenuItem();
-			this.testSuiteTreeView = new NUnit.UiKit.TestSuiteTreeView();
+			this.testSuiteTreeView = new NUnit.Util.TestSuiteTreeView();
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.resultTabs = new System.Windows.Forms.TabControl();
@@ -356,11 +356,10 @@ namespace NUnit.Gui
 			this.testSuiteTreeView.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.testSuiteTreeView.HideSelection = false;
 			this.testSuiteTreeView.Name = "testSuiteTreeView";
+			this.testSuiteTreeView.RunCommandSupported = true;
 			this.testSuiteTreeView.Size = new System.Drawing.Size(358, 511);
 			this.testSuiteTreeView.TabIndex = 1;
-			this.testSuiteTreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.testSuiteTreeView_DragDrop);
-			this.testSuiteTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.testSuiteTreeView_AfterSelect);
-			this.testSuiteTreeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.testSuiteTreeView_DragEnter);
+			this.testSuiteTreeView.SelectedTestChanged += new NUnit.UiKit.SelectedTestChangedHandler(this.OnSelectedTestChanged);
 			// 
 			// splitter1
 			// 
@@ -740,42 +739,19 @@ namespace NUnit.Gui
 		/// </summary>
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
-//			actions.RunTestSuite( testSuiteTreeView.SelectedNode.Test );
 			actions.RunTestSuite( testSuiteTreeView.SelectedTest );
 		}
-
-		#region TreeView Event Handlers
 
 		/// <summary>
 		/// When a tree item is selected, display info pertaining to that test
 		/// </summary>
-		private void testSuiteTreeView_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
+		private void OnSelectedTestChanged( UITestNode test )
 		{
-			UITestNode test = testSuiteTreeView.SelectedTest;
-
 			suiteName.Text = test.ShortName;
 
 			// TODO: Do we really want to do this? Yes we really do!
 			statusBar.Initialize( test.CountTestCases );
 		}
-
-		/// <summary>
-		/// When a file is dragged into the tree view, check to see if
-		/// it's one we can handle and display appropriate effect.
-		/// </summary>
-		private void testSuiteTreeView_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
-		{
-
-		}
-
-		/// <summary>
-		/// When an assembly file is dropped on treeview, load it.
-		/// </summary>
-		private void testSuiteTreeView_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
-		{
-		}
-
-		#endregion
 
 		/// <summary>
 		/// When one of the detail failure items is selected, display
@@ -844,11 +820,10 @@ namespace NUnit.Gui
 		/// <param name="test">Top level Test for this run</param>
 		private void OnRunStarting( UITestNode test )
 		{
-			int testCount = test.CountTestCases;
-
-			runButton.Enabled = false;
-			ClearTestResults();
 			suiteName.Text = test.ShortName;
+			runButton.Enabled = false;
+
+			ClearTabs();
 		}
 
 		/// <summary>
@@ -876,7 +851,7 @@ namespace NUnit.Gui
 			UpdateRecentAssemblies( assemblyFileName );
 
 			runButton.Enabled = true;
-			ClearTestResults();
+			ClearTabs();
 		}
 
 		/// <summary>
@@ -886,10 +861,9 @@ namespace NUnit.Gui
 		private void OnSuiteUnloaded()
 		{
 			LoadedAssembly = null;
-
+			suiteName.Text = null;
 			runButton.Enabled = false;
 
-			ClearSuiteName();
 			ClearTabs();
 		}
 
@@ -901,7 +875,7 @@ namespace NUnit.Gui
 		/// <param name="test">Top level Test for the current assembly</param>
 		private void OnSuiteChanged( UITestNode test )
 		{
-			ClearTestResults();
+			ClearTabs();
 		}
 
 		/// <summary>
@@ -1013,33 +987,17 @@ namespace NUnit.Gui
 		}
 
 		/// <summary>
-		/// Clear the current test suite name
-		/// </summary>
-		private void ClearSuiteName()
-		{
-			suiteName.Text = null;
-		}
-
-		/// <summary>
-		/// Clear all test results from the UI.
-		/// </summary>
-		private void ClearTestResults()
-		{
-			ClearTabs();
-		}
-
-		/// <summary>
 		/// Clear info out of our four tabs and stack trace
 		/// </summary>
 		private void ClearTabs()
 		{
 			detailList.Items.Clear();
-			stackTrace.Text = "";
-
 			notRunTree.Nodes.Clear();
 
 			stdErrTab.Clear();
 			stdOutTab.Clear();
+			
+			stackTrace.Text = "";
 		}
 	
 		/// <summary>
@@ -1049,12 +1007,7 @@ namespace NUnit.Gui
 		private void DisplayResults(TestResult results)
 		{
 			DetailResults detailResults = new DetailResults(detailList, notRunTree);
-			notRunTree.BeginUpdate();
-			results.Accept(detailResults);
-			notRunTree.EndUpdate();
-
-			if(detailList.Items.Count > 0)
-				detailList.SelectedIndex = 0;
+			detailResults.DisplayResults( results );
 		}
 
 		#endregion	
