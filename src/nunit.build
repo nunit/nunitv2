@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <project name="NUnit" default="build" basedir=".">
 
+    <!-- Common properties and build routines -->
+    <include buildfile="nunit.build.include"/>
+
 <!--
     This build file will build NUnit for any of the supported
     runtimes which are actually installed.
@@ -42,631 +45,429 @@
 
   -->
 
-<!-- Global settings and defaults -->
-    <property name="project.build.dir" 
-        value="${nant.project.basedir}\build"/>
-    <property name="project.package.dir" 
-        value="${nant.project.basedir}\package"/>
+  <!-- Clean directories -->
+  <target name="clean-build-dir" depends="set-build-dir">
+    <delete dir="${current.build.dir}" 
+      if="${directory::exists( current.build.dir )}"/>
+  </target>
 
-<!-- Set up default build and runtime configurations -->
-    <property name="build.config" value="debug"/>
-    <property name="build.clean" value="false"/>
-    <property name="runtime.config" value="net"/>
-    <property name="runtime.version" value="1.1"/>
-    
-<!-- List supported frameworks and flag which ones are available -->
-    <property name="frameworks" value="net-1.0,net-1.1,mono-1.0"/>
-    <property name="framework.available.net-1.0" 
-        value="${framework::exists('net-1.0')}"/>
-    <property name="framework.available.net-1.1" 
-        value="${framework::exists('net-1.1')}"/>
-    <property name="framework.available.net-2.0" 
-        value="${framework::exists('net-2.0')}"/>
-    <property name="framework.available.mono-1.0" 
-        value="${framework::exists('mono-1.0')}"/>
-    
-<!-- Get Visual Studio locations from registry -->
-<if test="${platform::is-win32()}">
-    <readregistry property="vs.2002.path" 
-        key="Software\Microsoft\VisualStudio\7.0\InstallDir" 
-        hive="LocalMachine" failonerror="false"/>
-    <readregistry property="vs.2003.path" 
-        key="Software\Microsoft\VisualStudio\7.1\InstallDir" 
-        hive="LocalMachine" />
-</if>
-
-<!-- Set up version for packaging (override as needed) -->
-    <property name="package.version" value="2.2.1"/>
-<!-- Root of the package file name -->
-    <property name="package.name" 
-        value="${nant.project.name}-${package.version}"/>
-<!-- Package directory - will effect top level directory name in zips -->
-    <property name="package.dir" 
-        value="${project.package.dir}/${package.name}"/>
-	
-<!-- Command-line build configurations -->
-    <target name="debug" description="Set config to debug">
-        <call target="set-debug-build-config" />
+  <target name="clean-package-dir" depends="set-package-config">
+        <delete dir="${package.working.dir}" 
+            if="${directory::exists( package.working.dir )}"/>
     </target>
 
-    <target name="release" description="Set config to release">
-        <call target="set-release-build-config" />
-    </target>
+  <!-- Targets that operate on all configs and runtimes -->
+  
+  <target name="clean-all" description="Erase all build directories">
+    <delete dir="${project.build.dir}" 
+      if="${directory::exists( project.build.dir )}"/>
+  </target>
 
-    <target name="clean" description="Clean before building">
-        <property name="build.clean" value="true"/>
-    </target>
-
-<!-- Command-line runtime configurations -->
-    <target name="net" description="Set runtime to .NET 1.1">
-        <call target="set-net-1.1-runtime-config"/>
-    </target>
-    
-    <target name="net-1.0" description="Set runtime to .NET 1.0">
-        <call target="set-net-1.0-runtime-config"/>
-    </target>
-
-    <target name="net-1.1" description="Set runtime to .NET 1.1">
-        <call target="set-net-1.1-runtime-config"/>
-    </target>
-      
-    <target name="net-2.0" description="Set runtime to .NET 2.0">
-        <call target="set-net-2.0-runtime-config"/>
-    </target>
-      
-    <target name="mono" description="Set runtime to Mono">
-        <call target="set-mono-1.0-runtime-config"/>
-    </target>
-
-    <target name="mono-1.0" description="Set runtime to Mono">
-        <call target="set-mono-1.0-runtime-config"/>
-    </target>
-
-<!-- Clean directories -->
-    <target name="clean-build-dir" depends="set-build-dir">
-        <delete dir="${build.dir}" 
-            if="${directory::exists( build.dir )}"/>
-    </target>
-
-    <target name="clean-package-dir" depends="set-package-config">
-        <delete dir="${package.dir}" 
-            if="${directory::exists( package.dir )}"/>
-    </target>
-
-<!-- Targets that operate on all configs and runtimes -->
-    <target name="clean-all" description="Erase all build directories">
-        <delete dir="${project.build.dir}" 
-            if="${directory::exists( project.build.dir )}"/>
-    </target>
-
-    <target name="build-all" 
+  <target name="build-all" 
       description="Build all runtime versions, debug and release">
-        <call target="set-debug-build-config"/>
-        <call target="build-each"/>
-        <call target="set-release-build-config"/>
-        <call target="build-each"/>
-    </target>
+    <call target="set-debug-build-config"/>
+    <call target="build-each"/>
+    <call target="set-release-build-config"/>
+    <call target="build-each"/>
+  </target>
 
-    <target name="test-all" 
+  <target name="test-all" 
       description="Test all runtime versions, debug and release">
-        <call target="set-debug-build-config"/>
-        <call target="test-each"/>
-        <call target="set-release-build-config"/>
-        <call target="test-each"/>
-    </target>
+    <call target="set-debug-build-config"/>
+    <call target="test-each"/>
+    <call target="set-release-build-config"/>
+    <call target="test-each"/>
+  </target>
 
-<!-- Create standard packages for distribution - Note that this
-        target has different semantics from the other -all targets -->
-    <target name="package-all"
+  <!-- Create standard packages for distribution - Note that this
+       target has different semantics from the other -all targets -->
+  <target name="package-all"
       description="Create all the packages we normally distribute.">
-        <call target="package-src"/>
+    <call target="package-src"/>
          
-        <call target="set-release-build-config"/>
-        <call target="package-each-zip"/>
+    <call target="set-release-build-config"/>
+    <call target="package-each-zip"/>
 
-        <if test="${platform::is-win32()}">
-            <call target="set-net-1.1-runtime-config"/>
-            <call target="set-release-build-config"/>
+    <if test="${platform::is-win32()}">
+      <call target="set-net-1.1-runtime-config"/>
+      <call target="set-release-build-config"/>
 
-            <call target="package-msi"/>
-        </if>
-    </target>
+      <call target="package-msi"/>
+    </if>
+  </target>
 
-<!-- Targets that operate on both debug and release -->
-    <target name="build-all-configs"
+  <!-- Targets that operate on both debug and release -->
+  <target name="build-all-configs"
       description="Build debug and release for selected runtime">
-        <call target="set-debug-build-config"/>
-        <call target="set-runtime-config"/>
-        <call target="build"/>
-        <call target="set-release-build-config"/>
-        <call target="set-runtime-config"/>
-        <call target="build"/>     
-    </target>
+    <call target="set-debug-build-config"/>
+    <call target="set-runtime-config"/>
+    <call target="build"/>
+    <call target="set-release-build-config"/>
+    <call target="set-runtime-config"/>
+    <call target="build"/>     
+  </target>
 
-    <target name="test-all-configs" 
+  <target name="test-all-configs" 
       description="Test debug and release for selected runtime">
-        <call target="set-debug-build-config"/>
-        <call target="set-runtime-config"/>
-        <call target="test"/>
-        <call target="set-release-build-config"/>
-        <call target="set-runtime-config"/>
-        <call target="test"/>     
-    </target>
+    <call target="set-debug-build-config"/>
+    <call target="set-runtime-config"/>
+    <call target="test"/>
+    <call target="set-release-build-config"/>
+    <call target="set-runtime-config"/>
+    <call target="test"/>     
+  </target>
 
-<!-- Targets that operate on each available runtime -->
-    <target name="build-each"
+  <!-- Targets that operate on each available runtime -->
+  <target name="build-each"
       description="Build for each available runtime">
-        <foreach item="String" delim="," 
-            property="framework" in="${frameworks}">
-            <if test="${framework::exists( framework )}">
-                <call target="set-${framework}-runtime-config"/>
-                <call target="build"/>
-            </if>
-        </foreach>
-    </target>
+    <foreach item="String" delim="," 
+        property="framework" in="${frameworks}">
+      <if test="${framework::exists( framework )}">
+        <call target="set-${framework}-runtime-config"/>
+        <call target="build"/>
+      </if>
+    </foreach>
+  </target>
 	
-    <target name="test-each"
+  <target name="test-each"
       description="Test under each available runtime">
-        <foreach item="String" delim="," 
-            property="framework" in="${frameworks}">
-            <if test="${framework::exists( framework )}">
-                <call target="set-${framework}-runtime-config"/>
-                <call target="test" />
-            </if>
-        </foreach>
-    </target>
+    <foreach item="String" delim="," 
+        property="framework" in="${frameworks}">
+      <if test="${framework::exists( framework )}">
+        <call target="set-${framework}-runtime-config"/>
+        <call target="test" />
+      </if>
+    </foreach>
+  </target>
    
-    <target name="package-each-zip"
+  <target name="package-each-zip"
       description="Create zip package for each available runtime">
-        <foreach item="String" delim="," 
-            property="framework" in="${frameworks}">
-            <if test="${framework::exists( framework )}">
-                <call target="set-${framework}-runtime-config"/>
-                <call target="package-zip" />
-            </if>
-        </foreach>
-    </target>
+    <foreach item="String" delim="," 
+        property="framework" in="${frameworks}">
+      <if test="${framework::exists( framework )}">
+        <call target="set-${framework}-runtime-config"/>
+        <call target="package-zip" />
+      </if>
+    </foreach>
+  </target>
    
-    <target name="package-each-msi"
+  <target name="package-each-msi"
       description="Create msi package for each win32 runtime">
 
-        <fail message="MSI can only be built on the Win32 platform"
-            unless="${platform::is-win32()}"/>
+    <fail message="MSI can only be built on the Win32 platform"
+        unless="${platform::is-win32()}"/>
 
-        <foreach item="String" delim="," 
-            property="framework" in="${frameworks}">
-            <if test="${framework::exists( framework )}">
-                <call target="set-${framework}-runtime-config"/>
-                <if test="${build.win32}">
-                    <call target="package-msi" />
-                </if>
-            </if>
-        </foreach>
+    <foreach item="String" delim="," 
+        property="framework" in="${frameworks}">
+      <if test="${framework::exists( framework )}">
+        <call target="set-${framework}-runtime-config"/>
+        <if test="${build.win32}">
+            <call target="package-msi" />
+        </if>
+      </if>
+    </foreach>
 
-    </target>
+  </target>
    
-<!-- Targets that perform builds -->    
-    <target name="build" depends="set-build-dir"
-      description="Build NUnit for a single runtime version and config">
-        <echo message="*"/>
-        <echo message="* Starting ${runtime.config} ${runtime.version} ${build.config} build"/>
-        <echo message="*"/>
-
-        <!-- Clean the build directory if this is a clean build -->
-        <call target="clean-build-dir" if="${build.clean}"/>
-
-        <!-- Create the build directory -->
-        <mkdir dir="${build.dir}/bin"/>
-
-        <!-- Copy key file to the correct relative location -->
-        <copy file="nunit.key" todir="${project.build.dir}"/>
-
-        <!-- First we build the NUnit itself assemblies -->
-        <nant buildfile="NUnitFramework\framework\nunit.framework.build" target="build"/>
-         <nant buildfile="NUnitFramework\core\nunit.core.build" target="build"/>
-        <nant buildfile="NUnitFramework\extensions\nunit.extensions.build" target="build"/>
-        <nant buildfile="ClientUtilities\util\nunit.util.build" target="build"/>
-        <nant buildfile="ConsoleRunner\nunit-console\nunit-console.build" target="build"/>
-        <nant buildfile="ConsoleRunner\nunit-console-exe\nunit-console.exe.build" target="build"/>
-        <nant buildfile="NUnitMocks\mocks\nunit.mocks.build" target="build"/>
-
-        <!-- Build Win32-only projects -->
-        <if test="${build.win32}">
-            <nant buildfile="GuiComponents\UiKit\nunit.uikit.build" target="build"/>
-            <nant buildfile="GuiRunner\nunit-gui\nunit-gui.build" target="build"/>
-            <nant buildfile="GuiRunner\nunit-gui-exe\nunit-gui.exe.build" target="build"/>
-        </if>
-
-	<!-- Next build the Test Utilities -->
-        <nant buildfile="tests\tests.build" target="build"/>
-
-        <!-- Finally build the NUnit tests -->
-        <nant buildfile="NUnitFramework\tests\nunit.framework.tests.build" target="build"/>
-        <nant buildfile="ClientUtilities\tests\nunit.util.tests.build" target="build"/>
-        <nant buildfile="ConsoleRunner\tests\nunit-console.tests.build" target="build"/>
-        <nant buildfile="NUnitMocks\tests\nunit.mocks.tests.build" target="build"/>
-
-        <!-- Build Win32-only tests -->
-        <if test="${build.win32}">
-            <nant buildfile="GuiComponents\tests\nunit.uikit.tests.build" target="build"/>
-        </if>
-
-        <!-- Create NUnit and config files for running tests -->
-        <copy file="NUnitTests.nunit.tmplate.txt" 
-            tofile="${bin.dir}/NUnitTests.nunit"/>
-
-        <copy file="NUnitTests.config"
-            tofile="${bin.dir}/NUnitTests.config"/>
-
-    </target>
-
-    <!-- Build sample programs -->
-    <target name="samples" depends="build" description="Build sample programs">
-        <nant buildfile="samples\samples.build" target="build"/>
-    </target>
-
-    <target name="build-msi" depends="set-build-dir,set-package-config"
-      description="Build msi file for installation on Windows systems">
-
-        <fail message="MSI can only be built on the Win32 platform" unless="${platform::is-win32()}"/>
-        <fail message="MSI can only be built for a Win32 runtime" unless="${platform::is-win32()}"/>
-
-        <echo message="*"/>
-        <echo message="* Building msi for ${runtime.config} ${runtime.version} ${build.config}"/>
-        <echo message="*"/>
-
-        <delete file="msi.txt" if="${file::exists( 'msi.txt' )}"/>
-        
-        <call target="build-${runtime.config}-${runtime.version}-msi"/>
-
-        <echo message="* Build complete - output saved as msi.txt"/>
-
-    </target>
-
-    <target name="build-net-1.0-msi">
-
-        <fail message="Property vs.2002.path not set" unless="${property::exists( 'vs.2002.path' )}"/>
-
-        <exec program="${vs.2002.path}\devenv.exe"
-          commandline="nunit.sln /build ${build.config} /project install /out msi.txt"/>
-
-    </target>
+  <!-- Targets that perform builds -->    
+  <target name="build" depends="set-build-dir"
+    description="Build NUnit for a single runtime version and config">
     
-    <target name="build-net-1.1-msi">
+    <echo message="*"/>
+    <echo message="* Starting ${runtime.config} ${build.config} build"/>
+    <echo message="*"/>
 
-        <fail message="Property vs.2003.path not set" unless="${property::exists( 'vs.2003.path' )}"/>
+    <!-- Clean the build directory -->
+    <call target="clean-build-dir" if="${build.clean}"/>
 
-        <exec program="${vs.2003.path}\devenv.exe"
-          commandline="nunit.sln /build ${build.config} /project install /out msi.txt"/>
+    <!-- Build NUnit components assemblies -->
+    <nant target="build"
+      buildfile="NUnitFramework\NUnitFramework.build"/>
+    <nant target="build"
+      buildfile="ClientUtilities\ClientUtilities.build"/>
+    <nant target="build"
+      buildfile="ConsoleRunner\ConsoleRunner.build"/>
+    <nant target="build"
+      buildfile="NUnitMocks\NUnitMocks.build"/>
+    <nant target="build" if="${build.win32}"
+      buildfile="GuiComponents\GuiComponents.build"/>
+    <nant target="build" if="${build.win32}"
+      buildfile="GuiRunner\GuiRunner.build"/>
 
+	<!-- Build the Test Utilities and dummy projects -->
+    <nant buildfile="tests\tests.build" target="build"/>
+
+    <!-- Build the NUnit tests -->
+    <nant target="build-tests"
+      buildfile="NUnitFramework\NUnitFramework.build"/>
+    <nant target="build-tests"
+      buildfile="ClientUtilities\ClientUtilities.build"/>
+    <nant target="build-tests"
+      buildfile="ConsoleRunner\ConsoleRunner.build"/>
+    <nant target="build-tests"
+      buildfile="NUnitMocks\NUnitMocks.build"/>
+    <nant target="build-tests" if="${build.win32}"
+      buildfile="GuiComponents\GuiComponents.build"/>
+    <nant target="build-tests" if="${build.win32}"
+      buildfile="GuiRunner\GuiRunner.build"/>
+
+    <!-- Create NUnit and config files for running tests -->
+    <copy file="NUnitBinTests.nunit" 
+      tofile="${current.build.dir}/NUnitTests.nunit"/>
+
+    <copy file="NUnitBinTests.config"
+      tofile="${current.build.dir}/NUnitTests.config"/>
+
+  </target>
+
+  <target name="build-msi" depends="set-build-dir,set-package-config"
+    description="Build msi file for installation on Windows systems">
+
+    <fail message="MSI can only be built on the Win32 platform" unless="${platform::is-win32()}"/>
+    <fail message="MSI can only be built for a Win32 runtime" unless="${platform::is-win32()}"/>
+
+    <echo message="*"/>
+    <echo message="* Building msi for ${runtime.config}  ${build.config}"/>
+    <echo message="*"/>
+
+    <delete file="msi.txt" if="${file::exists( 'msi.txt' )}"/>
+        
+    <call target="build-${runtime.config}-msi"/>
+
+    <echo message="* Build complete - output saved as msi.txt"/>
+
+  </target>
+
+  <target name="build-net-1.0-msi">
+
+    <fail message="Property vs.2002.path not set" unless="${property::exists( 'vs.2002.path' )}"/>
+
+    <exec program="${vs.2002.path}\devenv.exe"
+      commandline="nunit.sln /build ${build.config} /project install /out msi.txt"/>
+
+  </target>
+    
+  <target name="build-net-1.1-msi">
+
+    <fail message="Property vs.2003.path not set" unless="${property::exists( 'vs.2003.path' )}"/>
+
+    <exec program="${vs.2003.path}\devenv.exe"
+      commandline="nunit.sln /build ${build.config} /project install /out msi.txt"/>
+
+  </target>
+
+  <!-- Targets for running tests -->
+  <target name="test" depends="build"
+    description="Run tests for a build using console runner">
+
+    <echo message="*"/>
+    <echo message="* Starting ${runtime.config} ${build.config} test run"/>
+    <echo message="*"/>
+
+    <!-- We use exec rather than the nunit2 task because we are testing
+         a new build of NUnit which is likely not to be included in the Nant build -->
+    <exec basedir="${current.build.dir}"
+      workingdir="${current.build.dir}" 
+	  program="nunit-console.exe" 
+      useruntimeengine="true"
+	  commandline="NUnitTests.nunit" />
+
+  </target>
+
+  <target name="nunit2-test" depends="build"
+    description="Run tests for a build using console runner">
+  
+    <echo message="*"/>
+    <echo message="* Starting ${runtime.config} ${build.config} test run"/>
+    <echo message="*"/>
+
+    <nunit2>
+      <formatter type="Plain"/>
+        <test assemblyname="${current.build.dir}/nunit.framework.tests.dll"/>
+    </nunit2>
+  </target>
+
+  <target name="timing-test" depends="build"
+    description="Run timing tests (long)">
+  
+    <echo message="*"/>
+    <echo message="* Starting ${runtime.config} ${build.config} timing tests"/>
+    <echo message="*"/>
+    <echo message="* WARNING: Test may take some time to run"/>
+    <echo message="*"/>
+
+    <exec basedir="${current.build.dir}" 
+      workingdir="${current.build.dir}" 
+      program="nunit-console.exe" 
+      commandline="timing-tests.dll"/>
+      
+  </target>
+
+  <target name="gui-test" depends="build"
+    description="Run tests for a build using gui runner">
+
+    <ifnot test="${nant.platform.win32}">
+      <fail message="NUnit-gui is only available on Win32"/>
+    </ifnot>
+
+    <ifnot test="${build.win32}">
+      <fail message="NUnit-gui is only available for Win32"/>
+    </ifnot>
+
+    <echo message="*"/>
+    <echo message="* Starting ${runtime.config} ${build.config} gui test run"/>
+    <echo message="*"/>
+
+    <exec basedir="${current.build.dir}" 
+      workingdir="${current.build.dir}" 
+      program="nunit-gui.exe" 
+      commandline="NunitTests.nunit"/>
+  
     </target>
 
-<!-- Targets for running tests -->
-    <target name="test" depends="build"
-      description="Run tests for a build using console runner">
+  <!-- Targets for packaging the NUnit distribution -->
+  
+  <!-- Package current config as a zip -->
+  <target name="package-zip" depends="set-package-config" description="Create distribution package">
 
-        <echo message="*"/>
-        <echo message="* Starting ${runtime.config} ${runtime.version} ${build.config} test run"/>
-        <echo message="*"/>
+    <!-- Perform a build and copy it to package dir-->
+    <call target="build"/>
 
-        <!-- We use exec rather than the nunit2 task because we are testing
-             a new build of NUnit which is likely not to be included in the Nant build -->
-        <exec basedir="${build.dir}/bin"
-		workingdir="${build.dir}/bin" 
-		program="nunit-console.exe" 
-                useruntimeengine="true"
-		commandline="NUnitTests.nunit" />
-
-    </target>
-
-    <target name="nunit2-test" depends="build"
-      description="Run tests for a build using console runner">
-        <echo message="*"/>
-        <echo message="* Starting ${runtime.config} ${runtime.version} ${build.config} test run"/>
-        <echo message="*"/>
-
-        <nunit2>
-            <formatter type="Plain"/>
-            <test assemblyname="${build.dir}/bin/nunit.tests.dll"/>
-        </nunit2>
-    </target>
-
-    <target name="timing-test" depends="build"
-      description="Run timing tests (long)">
-        <echo message="*"/>
-        <echo message="* Starting ${runtime.config} ${runtime.version} ${build.config} timing tests"/>
-        <echo message="*"/>
-        <echo message="* WARNING: Test may take some time to run"/>
-        <echo message="*"/>
-
-        <exec basedir="${build.dir}/bin" workingdir="${build.dir}/bin" program="nunit-console.exe" commandline="timing-tests.dll"/>
-    </target>
-
-    <target name="gui-test" depends="build"
-      description="Run tests for a build using gui runner">
-
-        <ifnot test="${nant.platform.win32}">
-            <fail message="NUnit-gui is only available on Win32"/>
-        </ifnot>
-
-        <ifnot test="${build.win32}">
-            <fail message="NUnit-gui is only available for Win32"/>
-        </ifnot>
-
-        <echo message="*"/>
-        <echo message="* Starting ${runtime.config} ${runtime.version} ${build.config} gui test run"/>
-        <echo message="*"/>
-
-        <exec basedir="${build.dir}/bin" workingdir="${build.dir}/bin" program="nunit-gui.exe" commandline="nunit.tests.dll"/>
-    </target>
-
-<!-- Targets for packaging the NUnit distribution -->
-    <target name="package-zip" depends="set-package-config" description="Create distribution package">
-
-        <!-- Perform a build -->
-        <call target="build"/>
-
-        <!-- Copy top level files -->
-        <copy file="nunit-gui/logo.ico" tofile="${build.dir}/logo.ico"/>
-        <copy file="license.rtf" tofile="${build.dir}/license.rtf"/>
-
-        <!-- Copy source files that build doesn't copy -->
-        <copy todir="${build.dir}/src">
-            <fileset basedir=".">
-                <include name="nunit.build"/>
-                <include name="nunit.sln"/>
-                <include name="nunit.key"/>
-                <include name="nunit20under21.config"/>
-                <include name="install/install.vdproj"/>
-            </fileset>
-        </copy>
-
-        <!-- Samples are not built, so let them copy themselves -->
-        <nant buildfile="samples/samples.build" target="copy-all"/>
-
-        <!-- Copy docs -->
-        <call target="copy-docs"/>
+    <call target="copy-bins"/>
+    <call target="copy-docs"/>
+    <call target="copy-samples"/>
+    <call target="copy-src"/>
 
 	<!-- Remove any temporary output files produced by tests
 		from the build directory - temporary fix -->
-        <delete>
-            <fileset>
-                <include name="temp*.xml"/>
-            </fileset>
-        </delete>
+    <delete>
+      <fileset>
+        <include name="temp*.xml"/>
+      </fileset>
+    </delete>
 
-        <!-- Re-copy everything to our package dir - this is so
-            we get a single top level directory called NUNit-x.x.x -->
-        <call target="clean-package-dir"/>
-        <mkdir dir="${package.dir}"/>
-        <copy todir="${package.dir}">
-            <fileset basedir="${build.dir}">
-                <include name="**"/>
-            </fileset>
-        </copy>
+    <!-- Create the zip file -->
+    <zip zipfile="${project.package.dir}/${zip.file.name}" ziplevel="9">
+      <fileset basedir="${package.working.dir}">
+        <include name="**"/>
+      </fileset>
+    </zip>
+  </target>
 
-        <!-- Create the zip file -->
-        <zip zipfile="${project.package.dir}/${zip.file.name}" ziplevel="9">
-            <fileset basedir="${package.dir}">
-                <include name="**"/>
-            </fileset>
-        </zip>
-    </target>
+  <target name="package-src" depends="clean-package-dir"
+    description="Create full source package for developer use">
 
-    <target name="package-src" depends="clean-package-dir"
-      description="Create full source package for developer use">
+    <call target="copy-docs"/>
+    <call target="copy-samples"/>
+    <call target="copy-src"/>
 
-        <!-- Get source files into the package dir directly -->
-        <property name="src.dir" value="${package.dir}"/>
-        <mkdir dir="${src.dir}"/>
-        <call target="copy-src"/>
-
-        <!-- Get docs into the doc subdirectory of the package dir -->
-        <property name="doc.dir" value="${package.dir}/doc"/>
-        <call target="copy-docs"/>
-
-        <!-- Create the zip file -->
-        <zip zipfile="${project.package.dir}/${zipped.src.file.name}" ziplevel="9">
-            <fileset basedir="${package.dir}">
-                <include name="**"/>
-            </fileset>
-        </zip>
-    </target>
+    <!-- Create the zip file -->
+    <zip zipfile="${project.package.dir}/${zipped.src.file.name}" ziplevel="9">
+      <fileset basedir="${package.working.dir}">
+        <include name="**"/>
+      </fileset>
+    </zip>
+  </target>
+  
+  <target name="package-bins" depends="clean-package-dir"
+    description="Create zip of bins only for use in SCM systems">
+    
+    <call target="copy-bins"/>
+    <call target="copy-docs"/>
+    
+    <zip zipfile="${project.package.dir}/${zipped.bin.file.name}" ziplevel="9">
+      <fileset basedir="${package.working.dir}">
+        <include name="**"/>
+      </fileset>
+    </zip>
+  </target>
    
-    <target name="package-msi" depends="build-msi,set-package-config"
-      description="Build msi file and deploy it to the package dir">
+  <target name="package-msi" depends="build-msi,set-package-config"
+    description="Build msi file and deploy it to the package dir">
 
-        <copy file="install\${build.config}\${msi.file.name}" tofile="${project.package.dir}/${msi.file.name}"/>        
+    <copy file="install\${build.config}\${msi.file.name}" tofile="${project.package.dir}/${msi.file.name}"/>        
 
-    </target>
+  </target>
 
-    <target name="copy-docs">
-        <mkdir dir="${doc.dir}"/>
-        <copy todir="${doc.dir}">
-            <fileset basedir="doc">
-                <include name="ReleaseNotes.txt"/>
-                <include name="ChangeLog.txt"/>
-		<include name="*.html"/>
+  <target name="copy-bins" depends="build">
+    <mkdir dir="${package.bin.dir}"/>
+    <copy todir="${package.bin.dir}">
+      <fileset basedir="${current.build.dir}">
+        <include name="*"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="copy-docs">
+    <mkdir dir="${package.doc.dir}"/>
+    <copy todir="${package.doc.dir}">
+      <fileset basedir="${project.doc.dir}">
+        <include name="ReleaseNotes.txt"/>
+        <include name="ChangeLog.txt"/>
+        <include name="*.html"/>
 		<include name="css/*"/>
 		<include name="files/*"/>
 		<exclude name="files/Supplement.doc"/>
 		<include name="img/*"/>
-            </fileset>
-        </copy>
-    </target>
+      </fileset>
+    </copy>
+  </target>
 
-    <target name="copy-src">
-        <mkdir dir="${src.dir}"/>
+  <target name="copy-samples">
+    <mkdir dir="${package.samples.dir}"/>
+    <copy todir="${package.samples.dir}" includeemptydirs="false">
+      <fileset basedir="${project.samples.dir}">
+        <include name="samples.sln"/>
+        <include name="samples_VS2005.sln"/>
+        <include name="samples.build"/>
+        <include name="cpp-sample/*"/>
+        <include name="csharp/*"/>
+        <include name="jsharp/*"/>
+        <include name="money/*"/>
+        <include name="money-port/*"/>
+        <include name="vb/*"/>
+      </fileset>
+    </copy>
+  </target>
 
-        <!-- Copy top level src files and install project -->
-        <copy todir="${src.dir}">
-            <fileset basedir=".">
-                <include name="license.rtf"/>
-                <include name="nunit.build"/>
-                <include name="nunit.sln"/>
-                <include name="nunit.key"/>
-                <include name="nunit20under22.config"/>
-                <include name="nunit21under22.config"/>
-                <include name="install/install.vdproj"/>
-            </fileset>
-        </copy>
+  <target name="copy-src">
+    <mkdir dir="${package.src.dir}"/>
 
-        <!-- Copy individual projects -->
-        <nant buildfile="framework\nunit.framework.build" target="copy"/>
-        <nant buildfile="core\nunit.core.build" target="copy"/>
-        <nant buildfile="extensions\nunit.extensions.build" target="copy"/>
-        <nant buildfile="util\nunit.util.build" target="copy"/>
-        <nant buildfile="nunit-console\nunit-console.build" target="copy"/>
-        <nant buildfile="mocks\nunit.mocks.build" target="copy"/>
-        <nant buildfile="samples\samples.build" target="copy-all"/>
+    <!-- Copy top level src files and install project -->
+    <copy todir="${package.src.dir}">
+      <fileset basedir=".">
+        <include name="license.rtf"/>
+        <include name="nunit.build"/>
+        <include name="nunit.build.include"/>
+        <include name="nunit.sln"/>
+        <include name="nunit.key"/>
+        <include name="nunit20under21.config"/>
+        <include name="nunit20under22.config"/>
+        <include name="nunit21under22.config"/>
+        <include name="install/install.vdproj"/>
+        <include name="NUnitBinTests.config"/>
+        <include name="NUnitBinTests.nunit"/>
+        <include name="NUnitDevTests.config"/>
+        <include name="NUnitDevTests.nunit"/>
+        <include name="install/install.vdproj"/>
+      </fileset>
+    </copy>
 
-        <!-- Copy win32-only projects -->
-        <if test="${build.win32}">
-            <nant buildfile="uikit\nunit.uikit.build" target="copy"/>
-            <nant buildfile="nunit-gui\nunit-gui.build" target="copy"/>
-        </if>
+    <!-- Copy individual projects -->
+    <nant buildfile="NUnitFramework/NunitFramework.build" target="package"/>
+    <nant buildfile="ClientUtilities/ClientUtilities.build" target="package"/>
+    <nant buildfile="ConsoleRunner/ConsoleRunner.build" target="package"/>
+    <nant buildfile="NUnitMocks/NunitMocks.build" target="package"/>
+    <nant buildfile="GuiComponents/GuiComponents.build" target="package"/>
+    <nant buildfile="GuiRunner/GuiRunner.build" target="package"/>
+    <nant buildfile="tests/tests.build" target="package"/>
+  </target>
 
-        <nant buildfile="tests\tests.build" target="copy-all"/>
-    </target>
-
-    <target name="list-project-files" depends="set-build-dir">
-        <xmlpeek 
-            file="tests/test-utilities/test-utilities.csproj"
-            xpath="/VisualStudioProject/CSHARP/Files/Include/File" 
-            property="project.files"/>
-        <echo message="${project.files}"/>
-    </target>
-
-<!-- Register core and framework in the gac -->
-    <target name="add-to-gac" depends="build">
-        <exec program="${nant.settings.currentframework.sdkdirectory}/gacutil.exe"
-            commandline="/i ${build.dir}/bin/nunit.framework.dll"/>
-        <echo message="The assembly nunit.framework was added to the GAC"/>
-
-        <exec program="${nant.settings.currentframework.sdkdirectory}/gacutil.exe"
-            commandline="/i ${build.dir}/bin/nunit.core.dll"/>
-        <echo message="The assembly nunit.core was added to the GAC"/>
-    </target>
-
-<!-- Set up build configuration -->
-
-    <target name="set-build-config">
-        <call target="set-${build.config}-build-config"/>
-    </target>
-
-    <target name="set-debug-build-config">
-        <property name="build.config" value="debug"/>
-        <property name="build.debug" value="true"/>
-        <property name="build.defines.csc" value="DEBUG,TRACE" readonly="false" />
-        <property name="build.defines.jsc" value="DEBUG,TRACE" readonly="false" />
-        <property name="build.defines.vbc" value="DEBUG=True,TRACE=True" readonly="false" />
-        <property name="build.defines.vjc" value="DEBUG,TRACE" readonly="false" />
-        <property name="build.defines.cl" value="/D _DEBUG" readonly="false" />
-        <property name="zip.build.suffix" value="-dbg"/>
-        <property name="msi.build.suffix" value="-dbg"/>
-    </target>
-	
-    <target name="set-release-build-config">
-        <property name="build.config" value="release"/>
-        <property name="build.debug" value="false"/>
-        <property name="build.defines.csc" value="TRACE,STRONG" readonly="false" />
-        <property name="build.defines.jsc" value="TRACE,STRONG" readonly="false" />
-        <property name="build.defines.vbc" value="TRACE=True,STRONG=True" readonly="false" />
-        <property name="build.defines.vjc" value="TRACE,STRONG" readonly="false" />
-        <property name="build.defines.cl" value="/D STRONG" readonly="false" />
-        <property name="zip.build.suffix" value=""/>
-        <property name="msi.build.suffix" value=""/>
-    </target>
-
-<!-- Set up runtime configuration -->
-
-    <target name="set-runtime-config">
-        <call target="set-${runtime.config}-${runtime.version}-runtime-config"/>
-    </target>
-
-    <target name="set-net-1.0-runtime-config">
-        <property name="runtime.config" value="net"/>
-        <property name="runtime.version" value="1.0"/>
-        <property name="build.mono" value="false"/>
-        <property name="build.win32" value="true"/>
-        <property name="nant.settings.currentframework" value="net-1.0"/>
-        <property name="zip.runtime.suffix" value="-net-1.0"/>
-        <property name="msi.runtime.suffix" value="-net-1.0"/>
-    </target>
-	
-    <target name="set-net-1.1-runtime-config">
-        <property name="runtime.config" value="net"/>
-        <property name="runtime.version" value="1.1"/>
-        <property name="build.mono" value="false"/>
-        <property name="build.win32" value="true"/>
-        <property name="nant.settings.currentframework" value="net-1.1"/>
-        <property name="zip.runtime.suffix" value="-net-1.1"/>
-	<!-- no suffix for the msi - we can only do it for 1.1 anyway -->
-        <property name="msi.runtime.suffix" value=""/>
-    </target>
-	
-    <target name="set-net-2.0-runtime-config">
-        <property name="runtime.config" value="net"/>
-        <property name="runtime.version" value="2.0"/>
-        <property name="build.mono" value="false"/>
-        <property name="build.win32" value="true"/>
-        <property name="nant.settings.currentframework" value="net-2.0"/>
-        <property name="zip.runtime.suffix" value="-net-2.0"/>
-	<!-- no suffix for the msi - we can only do it for 1.1 anyway -->
-        <property name="msi.runtime.suffix" value=""/>
-    </target>
-	
-    <target name="set-mono-1.0-runtime-config">
-        <property name="runtime.config" value="mono"/>
-        <property name="runtime.version" value="1.0"/>
-        <property name="build.mono" value="true"/>
-        <property name="build.win32" value="false"/>
-        <property name="nant.settings.currentframework" value="mono-1.0"/>
-        <property name="zip.runtime.suffix" value="-mono"/>
-        <property name="msi.runtime.suffix" value="-mono"/>
-    </target>
-
-<!-- Set up the build directory -->
-    <target name="set-build-dir" depends="set-build-config,set-runtime-config">
-        <property name="build.dir" value="${project.build.dir}/${runtime.config}-${runtime.version}/${build.config}"/>
-        <property name="bin.dir" value="${build.dir}/bin"/>
-        <property name="src.dir" value="${build.dir}/src"/>
-        <property name="doc.dir" value="${build.dir}/doc"/>
-    </target>
-
-<!-- Setup the package configuration info -->
-    <target name="set-package-config" depends="set-build-config,set-runtime-config">
-        <property name="zip.file.name" value="${package.name}${zip.runtime.suffix}${zip.build.suffix}.zip"/>
-        <property name="msi.file.name" value="${package.name}${msi.runtime.suffix}${msi.build.suffix}.msi"/>
-        <property name="zipped.src.file.name" value="${package.name}-src.zip"/>
-    </target>
-
-<!-- Dump configuration settings for debugging -->
-
-    <target name="dump-settings" depends="set-build-dir,set-package-config">
-        <echo>Configuration</echo>
-        <echo>  Config:       ${build.config}</echo>
-        <echo>  Runtime:      ${runtime.config}-${runtime.version}</echo>
-        <echo>  Version:      ${package.version}</echo>
-        <echo>  Package name: ${package.name}</echo>
-	<echo>  Zip file:     ${zip.file.name}</echo>
-	<echo>  Msi file:     ${msi.file.name}</echo>
-        <echo>  Source zip:   ${zipped.src.file.name}</echo>
-        <echo></echo>
-        <echo>Project Directories</echo>
-        <echo>  Base:         ${nant.project.basedir}</echo>
-        <echo>  Build:        ${project.build.dir}</echo>
-        <echo>  Package:      ${project.package.dir}</echo>
-        <echo></echo>
-        <echo>Current Directories</echo>
-        <echo>  Build:        ${build.dir}</echo>
-        <echo>  Package:      ${package.dir}</echo>
-        <echo></echo>
-        <echo>System Directories</echo>
-        <echo>  Framework:    ${nant.settings.currentframework.frameworkdirectory}</echo>
-        <echo>  SDK:          ${nant.settings.currentframework.sdkdirectory}</echo>
-        <echo>  VS 2002:      ${vs.2002.path}</echo>
-        <echo>  VS 2003:      ${vs.2003.path}</echo>
-    </target>
+  <!-- Register framework in the gac -->
+  <target name="add-to-gac" depends="build">
+    <exec program="${nant.settings.currentframework.sdkdirectory}/gacutil.exe"
+      commandline="/i ${current.build.dir}/nunit.framework.dll"/>
+    <echo message="The assembly nunit.framework was added to the GAC"/>
+  </target>
 
 </project>
