@@ -428,7 +428,7 @@ namespace NUnit.Util
 			string assemblyPath = Path.GetFullPath( assemblyFileName );
 			string domainName = string.Format( "domain-{0}", Path.GetFileName( assemblyFileName ) );
 
-			domain = MakeAppDomain( domainName, testFile.DirectoryName, testFile.FullName + ".config", testFile.DirectoryName );
+			domain = MakeAppDomain( domainName, testFile.DirectoryName, testFile.Name + ".config", testFile.DirectoryName );
 		}
 
 		/// <summary>
