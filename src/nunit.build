@@ -4,6 +4,10 @@
     This build file will build NUnit for any of the supported
     runtimes which are actually installed.
 
+    NOTE: This file uses features that are not available in 
+    NAnt 0.84. It has been tested using the nightly download
+    nant-0.85-20040516.zip.
+
     Examples of Use:
 
         nant net-1.1 release build
