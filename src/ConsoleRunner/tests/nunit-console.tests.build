@@ -16,8 +16,7 @@
         output="${current.build.dir}/nunit-console.tests.dll"
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
-        <include name="AssemblyInfo.cs"/>
-        <include name="ConsoleRunnerTest.cs"/>
+        <include name="*.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
@@ -33,8 +32,7 @@
         <include name="nunit-console.tests.csproj"/>
         <include name="nunit-console.tests.build"/>
         <include name="nunit-console.tests.dll.config"/>
-        <include name="AssemblyInfo.cs"/>
-        <include name="ConsoleRunnerTest.cs"/>
+        <include name="*.cs"/>
       </fileset>
     </copy>
   </target>
