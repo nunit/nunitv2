@@ -114,6 +114,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssemblyResolver.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "CategoryFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -288,6 +293,11 @@
                 />
                 <File
                     RelPath = "TestFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestOutputWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

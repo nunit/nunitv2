@@ -120,6 +120,15 @@ namespace NUnit.Util
 
 		private TestRunner MakeRemoteTestRunner( AppDomain runnerDomain )
 		{
+			// Inject assembly resolver into remote domain to help locate our assemblies
+			AssemblyResolver assemblyResolver = (AssemblyResolver)runnerDomain.CreateInstanceFromAndUnwrap(
+				typeof(AssemblyResolver).Assembly.CodeBase,
+				typeof(AssemblyResolver).FullName);
+
+			// Tell resolver to use our framework and core if they cannot be found
+			assemblyResolver.AddFile( typeof( NUnit.Framework.Assert ).Assembly.Location );
+			assemblyResolver.AddFile( typeof( NUnit.Core.RemoteTestRunner ).Assembly.Location );
+
 			object obj = runnerDomain.CreateInstanceAndUnwrap(
 				typeof(RemoteTestRunner).Assembly.FullName, 
 				typeof(RemoteTestRunner).FullName,
