@@ -132,9 +132,9 @@
 				<includes name="${build.dir}/nunit.framework.dll"/>
 			</references>
 		</csc>
-		<copy file="nunit-gui\nunit.gui.exe.1.0.config" todir="${build.dir}"/>
-		<copy file="nunit-gui\nunit.gui.exe.1.1.config" todir="${build.dir}"/>
-		<copy file="nunit-gui\nunit.gui.exe.${netversion}.config" todir="${build.dir}"
+		<copy file="nunit-gui\nunit-gui.exe.1.0.config" todir="${build.dir}"/>
+		<copy file="nunit-gui\nunit-gui.exe.1.1.config" todir="${build.dir}"/>
+		<copy file="nunit-gui\nunit-gui.exe.${netversion}.config" todir="${build.dir}"
 			tofile="nunit-gui.exe.config"/>
 	</target>
 	
@@ -148,9 +148,9 @@
 				<includes name="${build.dir}/nunit.util.dll"/>
 			</references>
 		</csc>
-		<copy file="nunit-console\nunit.console.exe.1.0.config" todir="${build.dir}"/>
-		<copy file="nunit-console\nunit.console.exe.1.1.config" todir="${build.dir}"/>
-		<copy file="nunit-console\nunit.console.exe.${netversion}.config" todir="${build.dir}"
+		<copy file="nunit-console\nunit-console.exe.1.0.config" todir="${build.dir}"/>
+		<copy file="nunit-console\nunit-console.exe.1.1.config" todir="${build.dir}"/>
+		<copy file="nunit-console\nunit-console.exe.${netversion}.config" todir="${build.dir}"
 			tofile="nunit-console.exe.config"/>
 	</target>
 	
