@@ -134,6 +134,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ConsoleWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "FormSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -224,6 +229,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "StackTraceFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SummaryVisitor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -247,6 +257,10 @@
                     RelPath = "TestResultItem.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Transform.resx"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "UIHelper.cs"

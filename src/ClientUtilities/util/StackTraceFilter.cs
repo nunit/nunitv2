@@ -27,7 +27,7 @@
 '***********************************************************************************/
 #endregion
 
-namespace NUnit.Core
+namespace NUnit.Util
 {
 	using System;
 	using System.IO;

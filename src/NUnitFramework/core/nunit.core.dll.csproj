@@ -48,7 +48,7 @@
                     BaseAddress = "285212672"
                     CheckForOverflowUnderflow = "false"
                     ConfigurationOverrideFile = ""
-                    DefineConstants = "TRACE"
+                    DefineConstants = "TRACE;StronglyNamedAssembly"
                     DocumentationFile = ""
                     DebugSymbols = "false"
                     FileAlignment = "4096"
@@ -90,11 +90,6 @@
             <Include>
                 <File
                     RelPath = "AssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ConsoleWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -198,11 +193,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "StackTraceFilter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "StringTextWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -265,10 +255,6 @@
                     RelPath = "TestSuiteResult.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Transform.resx"
-                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "WarningSuite.cs"
