@@ -127,7 +127,7 @@ namespace NUnit.Gui
 			this.okButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.okButton.Location = new System.Drawing.Point(77, 312);
 			this.okButton.Name = "okButton";
-			this.okButton.TabIndex = 0;
+			this.okButton.TabIndex = 13;
 			this.okButton.Text = "OK";
 			this.okButton.Click += new System.EventHandler(this.okButton_Click);
 			// 
@@ -138,7 +138,7 @@ namespace NUnit.Gui
 			this.cancelButton.Location = new System.Drawing.Point(173, 312);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(67, 23);
-			this.cancelButton.TabIndex = 1;
+			this.cancelButton.TabIndex = 14;
 			this.cancelButton.Text = "Cancel";
 			// 
 			// loadLastProjectCheckBox
@@ -148,7 +148,7 @@ namespace NUnit.Gui
 			this.loadLastProjectCheckBox.Name = "loadLastProjectCheckBox";
 			this.helpProvider1.SetShowHelp(this.loadLastProjectCheckBox, true);
 			this.loadLastProjectCheckBox.Size = new System.Drawing.Size(256, 24);
-			this.loadLastProjectCheckBox.TabIndex = 15;
+			this.loadLastProjectCheckBox.TabIndex = 4;
 			this.loadLastProjectCheckBox.Text = "Load most recent project at startup.";
 			// 
 			// clearResultsCheckBox
@@ -158,7 +158,7 @@ namespace NUnit.Gui
 			this.clearResultsCheckBox.Name = "clearResultsCheckBox";
 			this.helpProvider1.SetShowHelp(this.clearResultsCheckBox, true);
 			this.clearResultsCheckBox.Size = new System.Drawing.Size(232, 24);
-			this.clearResultsCheckBox.TabIndex = 12;
+			this.clearResultsCheckBox.TabIndex = 10;
 			this.clearResultsCheckBox.Text = "Clear results when tests change.";
 			// 
 			// reloadOnChangeCheckBox
@@ -169,7 +169,7 @@ namespace NUnit.Gui
 			this.reloadOnChangeCheckBox.Name = "reloadOnChangeCheckBox";
 			this.helpProvider1.SetShowHelp(this.reloadOnChangeCheckBox, true);
 			this.reloadOnChangeCheckBox.Size = new System.Drawing.Size(256, 24);
-			this.reloadOnChangeCheckBox.TabIndex = 11;
+			this.reloadOnChangeCheckBox.TabIndex = 9;
 			this.reloadOnChangeCheckBox.Text = "Reload when test assembly changes";
 			this.reloadOnChangeCheckBox.CheckedChanged += new System.EventHandler(this.enableWatcherCheckBox_CheckedChanged);
 			// 
@@ -180,7 +180,7 @@ namespace NUnit.Gui
 			this.label1.Name = "label1";
 			this.helpProvider1.SetShowHelp(this.label1, true);
 			this.label1.Size = new System.Drawing.Size(144, 24);
-			this.label1.TabIndex = 16;
+			this.label1.TabIndex = 5;
 			this.label1.Text = "Initial display on load:";
 			// 
 			// initialDisplayComboBox
@@ -196,7 +196,7 @@ namespace NUnit.Gui
 			this.initialDisplayComboBox.Name = "initialDisplayComboBox";
 			this.helpProvider1.SetShowHelp(this.initialDisplayComboBox, true);
 			this.initialDisplayComboBox.Size = new System.Drawing.Size(88, 24);
-			this.initialDisplayComboBox.TabIndex = 17;
+			this.initialDisplayComboBox.TabIndex = 6;
 			// 
 			// reloadOnRunCheckBox
 			// 
@@ -205,7 +205,7 @@ namespace NUnit.Gui
 			this.reloadOnRunCheckBox.Name = "reloadOnRunCheckBox";
 			this.helpProvider1.SetShowHelp(this.reloadOnRunCheckBox, true);
 			this.reloadOnRunCheckBox.Size = new System.Drawing.Size(264, 24);
-			this.reloadOnRunCheckBox.TabIndex = 18;
+			this.reloadOnRunCheckBox.TabIndex = 8;
 			this.reloadOnRunCheckBox.Text = "Reload before each test run";
 			// 
 			// visualStudioSupportCheckBox
@@ -216,7 +216,7 @@ namespace NUnit.Gui
 			this.visualStudioSupportCheckBox.Name = "visualStudioSupportCheckBox";
 			this.helpProvider1.SetShowHelp(this.visualStudioSupportCheckBox, true);
 			this.visualStudioSupportCheckBox.Size = new System.Drawing.Size(264, 24);
-			this.visualStudioSupportCheckBox.TabIndex = 19;
+			this.visualStudioSupportCheckBox.TabIndex = 12;
 			this.visualStudioSupportCheckBox.Text = "Enable Visual Studio Support";
 			// 
 			// label2
@@ -224,7 +224,7 @@ namespace NUnit.Gui
 			this.label2.Location = new System.Drawing.Point(32, 32);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(56, 16);
-			this.label2.TabIndex = 20;
+			this.label2.TabIndex = 1;
 			this.label2.Text = "Display";
 			// 
 			// label3
@@ -232,7 +232,7 @@ namespace NUnit.Gui
 			this.label3.Location = new System.Drawing.Point(152, 32);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(112, 24);
-			this.label3.TabIndex = 21;
+			this.label3.TabIndex = 3;
 			this.label3.Text = "files in list";
 			// 
 			// recentFilesCountTextBox
@@ -240,7 +240,7 @@ namespace NUnit.Gui
 			this.recentFilesCountTextBox.Location = new System.Drawing.Point(96, 32);
 			this.recentFilesCountTextBox.Name = "recentFilesCountTextBox";
 			this.recentFilesCountTextBox.Size = new System.Drawing.Size(40, 22);
-			this.recentFilesCountTextBox.TabIndex = 22;
+			this.recentFilesCountTextBox.TabIndex = 2;
 			this.recentFilesCountTextBox.Text = "";
 			this.recentFilesCountTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.recentFilesCountTextBox_Validating);
 			this.recentFilesCountTextBox.Validated += new System.EventHandler(this.recentFilesCountTextBox_Validated);
@@ -250,7 +250,7 @@ namespace NUnit.Gui
 			this.groupBox1.Location = new System.Drawing.Point(16, 8);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(288, 128);
-			this.groupBox1.TabIndex = 23;
+			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Recent Files";
 			// 
@@ -259,7 +259,7 @@ namespace NUnit.Gui
 			this.groupBox2.Location = new System.Drawing.Point(16, 144);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(288, 104);
-			this.groupBox2.TabIndex = 24;
+			this.groupBox2.TabIndex = 7;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Assembly Reload";
 			// 
@@ -268,7 +268,7 @@ namespace NUnit.Gui
 			this.groupBox3.Location = new System.Drawing.Point(16, 256);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(288, 48);
-			this.groupBox3.TabIndex = 25;
+			this.groupBox3.TabIndex = 11;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Visual Studio";
 			// 
@@ -278,22 +278,21 @@ namespace NUnit.Gui
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(322, 338);
-			this.Controls.AddRange(new System.Windows.Forms.Control[] {
-																		  this.recentFilesCountTextBox,
-																		  this.label3,
-																		  this.label2,
-																		  this.visualStudioSupportCheckBox,
-																		  this.reloadOnRunCheckBox,
-																		  this.initialDisplayComboBox,
-																		  this.label1,
-																		  this.loadLastProjectCheckBox,
-																		  this.clearResultsCheckBox,
-																		  this.reloadOnChangeCheckBox,
-																		  this.cancelButton,
-																		  this.okButton,
-																		  this.groupBox1,
-																		  this.groupBox2,
-																		  this.groupBox3});
+			this.Controls.Add(this.recentFilesCountTextBox);
+			this.Controls.Add(this.label3);
+			this.Controls.Add(this.label2);
+			this.Controls.Add(this.visualStudioSupportCheckBox);
+			this.Controls.Add(this.reloadOnRunCheckBox);
+			this.Controls.Add(this.initialDisplayComboBox);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.loadLastProjectCheckBox);
+			this.Controls.Add(this.clearResultsCheckBox);
+			this.Controls.Add(this.reloadOnChangeCheckBox);
+			this.Controls.Add(this.cancelButton);
+			this.Controls.Add(this.okButton);
+			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.groupBox2);
+			this.Controls.Add(this.groupBox3);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.HelpButton = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
