@@ -93,6 +93,18 @@ namespace NUnit.Tests.Util
 			Assert.AreEqual( Path.GetFullPath( fileName ), project.ProjectPath );
 			Assert.AreEqual( "vb-sample.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].ToString().ToLower() ) );
 		}
+		
+		[Test]
+		public void LoadJsharpProject()
+		{
+			string fileName = GetSamplesPath( @"jsharp\jsharp.vjsproj" );
+			VSProject project = new VSProject( fileName );
+
+			Assert.AreEqual( "jsharp", project.Name );
+			Assert.AreEqual( Path.GetFullPath( fileName ), project.ProjectPath );
+			Assert.AreEqual( "jsharp.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].ToString().ToLower() ) );
+		}
+
 		[Test]
 		public void LoadCppProject()
 		{

@@ -142,6 +142,17 @@ namespace NUnit.Tests.Util
 		}
 
 		[Test]
+		public void FromJsharpProject()
+		{
+			string projectPath = GetSamplesPath( @"jsharp\jsharp.vjsproj" );
+			NUnitProject project = NUnitProject.FromVSProject( projectPath );
+			Assert.AreEqual( "jsharp.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].FullPath.ToLower() ) );
+			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
+			Assert.IsTrue( project.IsLoadable, "Not loadable" );
+			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
+		}
+
+		[Test]
 		public void FromCppProject()
 		{
 			string projectPath = GetSamplesPath( @"cpp-sample\cpp-sample.vcproj" );
@@ -161,7 +172,7 @@ namespace NUnit.Tests.Util
 			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug Config" );
 			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release Config" );
 			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
-			Assert.AreEqual( 14, project.Configs["Debug"].Assemblies.Count );
+			Assert.AreEqual( 15, project.Configs["Debug"].Assemblies.Count );
 			Assert.IsTrue( project.IsLoadable, "Not loadable" );
 			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
 		}

@@ -71,11 +71,12 @@ namespace NUnit.UiKit
 			if ( UserSettings.Options.VisualStudioSupport )
 			{
 				dlg.Filter =
-					"Projects & Assemblies(*.nunit,*.csproj,*.vbproj,*.vcproj,*.sln,*.dll,*.exe )|*.nunit;*.csproj;*.vbproj;*.vcproj;*.sln;*.dll;*.exe|" +
-					"All Project Types (*.nunit,*.csproj,*.vbproj,*.vcproj,*.sln)|*.nunit;*.csproj;*.vbproj;*.vcproj;*.sln|" +
+					"Projects & Assemblies(*.nunit,*.csproj,*.vbproj,*.vjsproj, *.vcproj,*.sln,*.dll,*.exe )|*.nunit;*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.sln;*.dll;*.exe|" +
+					"All Project Types (*.nunit,*.csproj,*.vbproj,*.vjsproj,*.vcproj,*.sln)|*.nunit;*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.sln|" +
 					"Test Projects (*.nunit)|*.nunit|" +
 					"Solutions (*.sln)|*.sln|" +
 					"C# Projects (*.csproj)|*.csproj|" +
+					"J# Projects (*.vjsproj)|*.vjsproj|" +
 					"VB Projects (*.vbproj)|*.vbproj|" +
 					"C++ Projects (*.vcproj)|*.vcproj|" +
 					"Assemblies (*.dll,*.exe)|*.dll;*.exe|" +
@@ -154,9 +155,10 @@ namespace NUnit.UiKit
 			dlg.Title = "Add Visual Studio Project";
 
 			dlg.Filter =
-				"All Project Types (*.csproj,*.vbproj,*.vcproj,*.sln)|*.csproj;*.vbproj;*.vcproj;*.sln|" +
+				"All Project Types (*.csproj,*.vjsproj,*.vbproj,*.vcproj,*.sln)|*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.sln|" +
 				"Solutions (*.sln)|*.sln|" +
 				"C# Projects (*.csproj)|*.csproj|" +
+				"J# Projects (*.vjsproj)|*.vjsproj|" +
 				"VB Projects (*.vbproj)|*.vbproj|" +
 				"C++ Projects (*.vcproj)|*.vcproj|" +
 				"All Files (*.*)|*.*";

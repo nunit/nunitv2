@@ -49,7 +49,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// VS Project extentions
 		/// </summary>
-		private static readonly string[] validExtensions = { ".csproj", ".vbproj", ".vcproj" };
+		private static readonly string[] validExtensions = { ".csproj", ".vbproj", ".vjsproj", ".vcproj" };
 		
 		/// <summary>
 		/// VS Solution extension
@@ -168,6 +168,7 @@ namespace NUnit.Util
 
 					case ".csproj":
 					case ".vbproj":
+					case ".vjsproj":
 						XmlNode settingsNode = doc.SelectSingleNode( "/VisualStudioProject/*/Build/Settings" );
 			
 						assemblyName = settingsNode.Attributes["AssemblyName"].Value;
