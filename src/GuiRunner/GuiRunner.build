@@ -6,6 +6,13 @@
 
   <include buildfile="../nunit.build.include"/>
 
+  <target name="clean">
+    <nant target="clean"
+      buildfile="nunit-gui/nunit-gui.build"/>
+    <nant target="clean"
+      buildfile="nunit-gui-exe/nunit-gui.exe.build"/>
+  </target>
+
   <target name="build">
     <nant target="build"
       buildfile="nunit-gui/nunit-gui.build"/>

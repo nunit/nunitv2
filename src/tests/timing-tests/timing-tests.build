@@ -6,6 +6,11 @@
 
   <include buildfile="..\..\nunit.build.include"/>
 
+  <target name="clean" depends="set-build-dir">
+    <delete file="${current.build.dir}/timing-tests.dll" failonerror="false"/>
+    <delete file="${current.build.dir}/timing-tests.pdb" failonerror="false"/>
+  </target>
+
   <target name="build" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/timing-tests.dll">

@@ -6,6 +6,15 @@
 
   <include buildfile="../nunit.build.include"/>
 
+  <target name="clean">
+    <nant target="clean"
+      buildfile="nunit-console/nunit-console.build"/>
+    <nant target="clean"
+      buildfile="nunit-console-exe/nunit-console.exe.build"/>
+    <nant target="clean"
+      buildfile="tests/nunit-console.tests.build"/>
+  </target>
+
   <target name="build">
     <nant target="build"
       buildfile="nunit-console/nunit-console.build"/>

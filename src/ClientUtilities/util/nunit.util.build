@@ -6,6 +6,11 @@
 
   <include buildfile="..\..\nunit.build.include"/>
 
+  <target name="clean" depends="set-build-dir">
+    <delete file="${current.build.dir}/nunit.util.dll" failonerror="false"/>
+    <delete file="${current.build.dir}/nunit.util.pdb" failonerror="false"/>
+  </target>
+
   <target name="build" depends="make-build-dir">
     <call target="delete-outputs" if="${build.clean}"/>
     <csc target="library" 

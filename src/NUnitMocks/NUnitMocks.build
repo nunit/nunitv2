@@ -6,6 +6,13 @@
 
   <include buildfile="../nunit.build.include"/>
 
+  <target name="clean" depends="set-build-dir">
+    <nant target="clean"
+      buildfile="mocks/nunit.mocks.build"/>
+    <nant target="clean"
+      buildfile="tests/nunit.mocks.tests.build"/>
+  </target>
+
   <target name="build">
     <nant target="build"
       buildfile="mocks/nunit.mocks.build"/>

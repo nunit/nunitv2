@@ -6,6 +6,12 @@
 
   <include buildfile="..\..\nunit.build.include"/>
 
+  <target name="clean" depends="set-build-dir">
+    <delete file="${current.build.dir}/nunit-gui.exe" failonerror="false"/>
+    <delete file="${current.build.dir}/nunit-gui.exe.config" failonerror="false"/>
+    <delete file="${current.build.dir}/nunit-gui.pdb" failonerror="false"/>
+  </target>
+
   <target name="build" depends="make-build-dir">
     <csc target="winexe" 
         output="${current.build.dir}/nunit-gui.exe" 
