@@ -60,7 +60,7 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class TestSuiteTreeView : TreeView
 	{
-		#region Enumeratons and instance Variables
+		#region DisplayStyle Enumeraton
 
 		/// <summary>
 		/// Indicates how a tree should be displayed
@@ -73,6 +73,10 @@ namespace NUnit.UiKit
 			HideTests	// Expand all but the fixtures, leaving
 			// leaf nodes hidden
 		}
+
+		#endregion
+
+		#region Instance Variables
 
 #if USE_HASHTABLE
 		/// <summary>
@@ -106,7 +110,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// How the tree is displayed immediately after loading
 		/// </summary>
-		//private DisplayStyle initialDisplay = DisplayStyle.Auto;
+		private DisplayStyle initialDisplay = DisplayStyle.Auto;
 
 		/// <summary>
 		/// Whether to clear test results when tests change
@@ -131,6 +135,8 @@ namespace NUnit.UiKit
 		/// True if the UI should allow a run command to be selected
 		/// </summary>
 		private bool runCommandEnabled = false;
+
+		private bool visualStudioSupport = false;
 
 		private string[] selectedCategories;
 
@@ -207,6 +213,18 @@ namespace NUnit.UiKit
 		}
 
 		/// <summary>
+		/// Property determining whether Visual Studio
+		/// projects are supported.
+		/// </summary>
+		[Category( "Behavior" ), DefaultValue( false )]
+		[Description("Indicates whether VisualStudio projects are supported")]
+		public bool VisualStudioSupport
+		{
+			get { return visualStudioSupport; }
+			set { visualStudioSupport = value; }
+		}
+
+		/// <summary>
 		/// Property determining whether tree should redraw nodes
 		/// as tests are complete in order to show progress.
 		/// </summary>
@@ -224,6 +242,14 @@ namespace NUnit.UiKit
 		{
 			get { return clearResultsOnChange; }
 			set { clearResultsOnChange = value; }
+		}
+
+		[Category( "Behavior" ), DefaultValue( DisplayStyle.Auto )]
+		[Description("Indicates the level of expansion when the tree is first displayed")]
+		public DisplayStyle InitialDisplay
+		{
+			get { return initialDisplay; }
+			set { initialDisplay = value; }
 		}
 
 		/// <summary>
@@ -538,13 +564,7 @@ namespace NUnit.UiKit
 				if ( NUnitProject.IsProjectFile( fileNames[0] ) )
 					return true;
 
-				if ( UserSettings.Options.VisualStudioSupport )
-				{
-					if ( VSProject.IsProjectFile( fileNames[0] ) ||
-						VSProject.IsSolutionFile( fileNames[0] ) )
-						return true;
-				}
-			}
+		}
 
 			// Multiple assemblies are allowed - we
 			// assume they are all in the same directory
@@ -1061,9 +1081,6 @@ namespace NUnit.UiKit
 		/// <returns>DisplayStyle to be used</returns>
 		private DisplayStyle GetDisplayStyle()
 		{
-			DisplayStyle initialDisplay = 
-				(DisplayStyle)UserSettings.Options.InitialTreeDisplay;
-
 			if ( initialDisplay != DisplayStyle.Auto )
 				return initialDisplay;
 

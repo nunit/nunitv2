@@ -14,6 +14,8 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class TestTree : System.Windows.Forms.UserControl
 	{
+		#region Instance Variables
+
 		// Contains all available categories, whether
 		// selected or not. Unselected members of this
 		// list are displayed in selectedList
@@ -56,6 +58,10 @@ namespace NUnit.UiKit
 		/// </summary>
 		private System.ComponentModel.Container components = null;
 
+		#endregion
+
+		#region Properties
+
 		public MenuItem ViewMenu 
 		{
 			get { return viewMenu; }
@@ -72,6 +78,35 @@ namespace NUnit.UiKit
 				return categories;
 			}
 		}
+
+		public bool ShowCheckBoxes
+		{
+			get { return tests.CheckBoxes; }
+			set 
+			{ 
+				tests.SaveVisualState();
+				tests.CheckBoxes = value;
+				buttonPanel.Visible	= value;
+				clearAllButton.Visible = value;
+				checkFailedButton.Visible = value;
+				checkBoxesMenuItem.Checked = value;
+				tests.RestoreVisualState();
+			}
+		}
+
+		public bool VisualStudioSupport
+		{
+			get { return tests.VisualStudioSupport; }
+			set { tests.VisualStudioSupport = value; }
+		}
+
+		public TestSuiteTreeView.DisplayStyle InitialDisplay
+		{
+			get { return tests.InitialDisplay; }
+			set { tests.InitialDisplay = value; }
+		}
+
+		#endregion
 
 		#region Construction and Initialization
 
@@ -187,9 +222,7 @@ namespace NUnit.UiKit
 			tests.SelectedTestChanged += new SelectedTestChangedHandler(tests_SelectedTestChanged);
 			tests.CheckedTestChanged += new CheckedTestChangedHandler(tests_CheckedTestChanged);
 
-			ShowCheckBoxes( UserSettings.Options.ShowCheckBoxes );
-
-			this.excludeCheckbox.Enabled = this.SelectedCategories.Length > 0;
+			this.excludeCheckbox.Enabled = false;
 		}
 
 		public void Initialize(TestLoader loader) 
@@ -522,8 +555,10 @@ namespace NUnit.UiKit
 		}
 		#endregion
 
-		#region events
+		#region SelectedTestsChanged Event
+
 		public event SelectedTestsChangedEventHandler SelectedTestsChanged;
+
 		#endregion
 
 
@@ -650,21 +685,9 @@ namespace NUnit.UiKit
 			}
 		}
 
-		private void ShowCheckBoxes( bool show )
-		{
-			tests.SaveVisualState();
-			tests.CheckBoxes = show;
-			buttonPanel.Visible	= show;
-			clearAllButton.Visible = show;
-			checkFailedButton.Visible = show;
-			checkBoxesMenuItem.Checked = show;
-			UserSettings.Options.ShowCheckBoxes = show;
-			tests.RestoreVisualState();
-		}
-
 		private void checkBoxesMenuItem_Click(object sender, System.EventArgs e)
 		{
-			ShowCheckBoxes( !checkBoxesMenuItem.Checked );
+			ShowCheckBoxes = !checkBoxesMenuItem.Checked;
 			
 			// Temporary till we can save tree state and restore
 			//this.SetInitialExpansion();
