@@ -28,6 +28,7 @@
 #endregion
 
 using System.Collections;
+using System.IO;
 
 namespace NUnit.Core
 {
@@ -55,6 +56,21 @@ namespace NUnit.Core
 	public interface TestRunner
 	{
 		#region Properties
+		/// <summary>
+		/// Writer for standard output.
+		/// </summary>
+		TextWriter Out
+		{
+			get; set;
+		}
+
+		/// <summary>
+		/// Writer for error output.
+		/// </summary>
+		TextWriter Error
+		{
+			get; set;
+		}
 
 		/// <summary>
 		/// IsTestRunning indicates whether a test is in progress. To retrieve the
