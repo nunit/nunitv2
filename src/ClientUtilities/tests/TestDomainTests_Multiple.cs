@@ -27,9 +27,7 @@
 '***********************************************************************************/
 #endregion
 
-using System;
 using System.IO;
-using System.Collections;
 using NUnit.Framework;
 using NUnit.Core;
 using NUnit.Tests.Assemblies;
@@ -44,8 +42,6 @@ namespace NUnit.Util.Tests
 	{
 		private string[] assemblies;
 		private TestDomain domain; 
-		private TextWriter outStream;
-		private TextWriter errorStream;
 		private Test loadedSuite;
 
 		private string name = "Multiple Assemblies Test";
@@ -53,9 +49,6 @@ namespace NUnit.Util.Tests
 		[TestFixtureSetUp]
 		public void Init()
 		{
-			outStream = new ConsoleWriter(Console.Out);
-			errorStream = new ConsoleWriter(Console.Error);
-			
 			domain = new TestDomain();
 			assemblies = new string[]
 				{ Path.GetFullPath( "nonamespace-assembly.dll" ), Path.GetFullPath( "mock-assembly.dll" ) };

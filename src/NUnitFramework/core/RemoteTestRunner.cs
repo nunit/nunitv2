@@ -110,6 +110,7 @@ namespace NUnit.Core
 		{
 			this.outText = outText;
 			this.errorText = errorText;
+			filter = EmptyFilter.Empty;
 		}
 
 		/// <summary>
@@ -225,11 +226,6 @@ namespace NUnit.Core
 
 		#region Methods for Counting TestCases
 
-		public int CountTestCases()
-		{
-			return suite.CountTestCases();
-		}
-
 		public int CountTestCases( string testName )
 		{
 			Test test = FindTest( suite, testName );
@@ -256,6 +252,8 @@ namespace NUnit.Core
 
 		public void SetFilter( IFilter filter )
 		{
+			if (filter == null)
+				filter = EmptyFilter.Empty;
 			this.filter = filter;
 		}
 
@@ -393,7 +391,7 @@ namespace NUnit.Core
 				// TODO: Get rid of count
 				int count = 0;
 				foreach( Test test in tests )
-					count += filter == null ? test.CountTestCases() : test.CountTestCases( filter );
+					count += test.CountTestCases( filter );
 		
 				// Run each test, saving the results
 				int index = 0;

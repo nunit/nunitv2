@@ -1,3 +1,5 @@
+using System;
+
 #region Copyright (c) 2002-2003, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
@@ -29,9 +31,7 @@
 
 namespace NUnit.Core
 {
-	/// <summary>
-	/// Summary description for EmptyFilter.
-	/// </summary>
+	[Serializable]
 	public class EmptyFilter : Filter
 	{
 		#region IFilter Members

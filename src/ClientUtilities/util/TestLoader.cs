@@ -143,6 +143,7 @@ namespace NUnit.Util
 			this.stdOutWriter = stdOutWriter;
 			this.stdErrWriter = stdErrWriter;
 			this.events = eventDispatcher;
+			filter = new EmptyFilter();
 		}
 
 		#endregion
@@ -227,7 +228,7 @@ namespace NUnit.Util
 		{
 			int count = 0;
 			foreach( Test test in tests )
-				count += filter == null ? test.CountTestCases() : test.CountTestCases( filter );
+				count += test.CountTestCases( filter );
 
 			events.FireRunStarting( tests, count );
 		}
@@ -616,6 +617,8 @@ namespace NUnit.Util
 
 		public void SetFilter( IFilter filter )
 		{
+			if (filter == null)
+				filter = EmptyFilter.Empty;
 			this.filter = filter;
 		}
 

@@ -218,7 +218,7 @@ namespace NUnit.Core
 
 		public override TestResult Run(EventListener listener)
 		{
-			return Run( listener, null );
+			return Run( listener, EmptyFilter.Empty);
 		}
 			
 		public override TestResult Run(EventListener listener, IFilter filter)
@@ -301,7 +301,7 @@ namespace NUnit.Core
 						test.ShouldRun = false;
 						test.IgnoreReason = this.IgnoreReason;
 					}
-					else if ( test.IsExplicit && filter == null )
+					else if ( test.IsExplicit && filter is EmptyFilter)
 					{
 						test.ShouldRun = false;
 						test.IgnoreReason = EXPLICIT_SELECTION_REQUIRED;

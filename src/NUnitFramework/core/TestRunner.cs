@@ -132,12 +132,6 @@ namespace NUnit.Core
 		void SetFilter( IFilter filter );
 
 		/// <summary>
-		/// Count test cases previously loaded
-		/// </summary>
-		/// <returns>The number of test cases found</returns>
-		int CountTestCases();
-
-		/// <summary>
 		/// Count Test Cases under a given test name
 		/// </summary>
 		/// <param name="testName">The name of a test case, fixture or suite</param>

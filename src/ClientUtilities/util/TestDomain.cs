@@ -298,11 +298,6 @@ namespace NUnit.Util
 
 		#region Counting Tests
 
-		public int CountTestCases()
-		{
-			return Runner.CountTestCases();
-		}
-
 		public int CountTestCases( string testName )
 		{
 			return Runner.CountTestCases( testName );
