@@ -53,8 +53,7 @@ namespace NUnit.UiKit
 
 		private bool displayProgress = false;
 
-		// ToDo: replace with an interface
-		private UIEvents uiEvents;
+		private ITestEvents events;
 
 		public bool DisplayTestProgress
 		{
@@ -88,18 +87,18 @@ namespace NUnit.UiKit
 			set { statusPanel.Text = value; }
 		}
 
-		public void InitializeEvents( UIEvents uiEvents )
+		public void InitializeEvents( ITestEvents events )
 		{
-			this.uiEvents = uiEvents;
+			this.events = events;
 
-			uiEvents.LoadCompleteEvent += new TestLoadEventHandler( OnTestLoaded );
-			uiEvents.ReloadCompleteEvent += new TestLoadEventHandler( OnTestReloaded );
-			uiEvents.UnloadCompleteEvent += new TestLoadEventHandler( OnTestUnloaded );
+			events.LoadCompleteEvent += new TestLoadEventHandler( OnTestLoaded );
+			events.ReloadCompleteEvent += new TestLoadEventHandler( OnTestReloaded );
+			events.UnloadCompleteEvent += new TestLoadEventHandler( OnTestUnloaded );
 
-			uiEvents.TestStartingEvent += new TestEventHandler( OnTestStarting );
-			uiEvents.TestFinishedEvent += new TestEventHandler( OnTestFinished );
-			uiEvents.RunStartingEvent += new TestEventHandler( OnRunStarting );
-			uiEvents.RunFinishedEvent += new TestEventHandler( OnRunFinished );
+			events.TestStartingEvent += new TestEventHandler( OnTestStarting );
+			events.TestFinishedEvent += new TestEventHandler( OnTestFinished );
+			events.RunStartingEvent += new TestEventHandler( OnRunStarting );
+			events.RunFinishedEvent += new TestEventHandler( OnRunFinished );
 		}
 
 		public void Initialize( int testCount )

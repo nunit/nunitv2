@@ -106,7 +106,7 @@ namespace NUnit.UiKit
 		/// Source of events that the tree responds to and
 		/// target for the run command.
 		/// </summary>
-		private UIActions actions;
+		private ITestLoader loader;
 		
 		public System.Windows.Forms.ImageList treeImages;
 		private System.ComponentModel.IContainer components;
@@ -152,18 +152,18 @@ namespace NUnit.UiKit
 
 		}
 
-		public void InitializeEvents( UIActions actions )
+		public void InitializeEvents( ITestLoader loader )
 		{
-			this.actions = actions;
+			this.loader = loader;
 
-			actions.LoadCompleteEvent += new TestLoadEventHandler( OnTestLoaded );
-			actions.ReloadCompleteEvent += new TestLoadEventHandler( OnTestChanged );
-			actions.UnloadCompleteEvent += new TestLoadEventHandler( OnTestUnloaded );
+			loader.LoadCompleteEvent += new TestLoadEventHandler( OnTestLoaded );
+			loader.ReloadCompleteEvent += new TestLoadEventHandler( OnTestChanged );
+			loader.UnloadCompleteEvent += new TestLoadEventHandler( OnTestUnloaded );
 			
-			actions.RunStartingEvent += new TestEventHandler( OnRunStarting );
-			actions.RunFinishedEvent += new TestEventHandler( OnRunFinished );
-			actions.TestFinishedEvent += new TestEventHandler( OnTestResult );
-			actions.SuiteFinishedEvent += new TestEventHandler( OnTestResult );
+			loader.RunStartingEvent += new TestEventHandler( OnRunStarting );
+			loader.RunFinishedEvent += new TestEventHandler( OnRunFinished );
+			loader.TestFinishedEvent += new TestEventHandler( OnTestResult );
+			loader.SuiteFinishedEvent += new TestEventHandler( OnTestResult );
 		}
 
 		#endregion
@@ -337,7 +337,8 @@ namespace NUnit.UiKit
 
 			if ( RunCommandSupported )
 			{
-				if ( actions.IsTestRunning )
+				// TODO: handle in Starting event
+				if ( loader.IsTestRunning )
 					runCommandEnabled = false;
 
 				MenuItem runMenuItem = new MenuItem( "&Run", new EventHandler( runMenuItem_Click ) );
@@ -399,10 +400,11 @@ namespace NUnit.UiKit
 			{
 				runCommandEnabled = false;
 
-				if ( actions.IsReloadPending )
-					actions.ReloadTest();
+				// TODO: Loader should handle this
+				if ( loader.IsReloadPending )
+					loader.ReloadTest();
 
-				actions.RunTestSuite( contextNode.Test );
+				loader.RunTestSuite( contextNode.Test );
 			}
 		}
 
@@ -450,7 +452,7 @@ namespace NUnit.UiKit
 			if ( IsValidFileDrop( e.Data ) )
 			{
 				string[] fileNames = e.Data.GetData( DataFormats.FileDrop ) as string[];
-					actions.LoadTest( fileNames[0] );
+					loader.LoadTest( fileNames[0] );
 			}
 		}
 
@@ -470,10 +472,11 @@ namespace NUnit.UiKit
 			{
 				runCommandEnabled = false;
 
-				if ( actions.IsReloadPending )
-					actions.ReloadTest();
+				// TODO: loader should handle this
+				if ( loader.IsReloadPending )
+					loader.ReloadTest();
 
-				actions.RunTestSuite( SelectedTest );
+				loader.RunTestSuite( SelectedTest );
 			}
 		}
 

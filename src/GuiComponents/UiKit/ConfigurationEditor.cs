@@ -35,14 +35,7 @@ namespace NUnit.UiKit
 
 		public ConfigurationEditor( NUnitProject project )
 		{
-			//
-			// Required for Windows Form Designer support
-			//
 			InitializeComponent();
-
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
 			this.project = project;
 		}
 
@@ -132,13 +125,23 @@ namespace NUnit.UiKit
 		}
 		#endregion
 
-		#region Methods
+		#region Static Methods
 
-		public static DialogResult Edit( NUnitProject project )
+		public static void Edit( NUnitProject project )
 		{
 			ConfigurationEditor editor = new ConfigurationEditor( project );
-			return editor.ShowDialog();
+			editor.ShowDialog();
 		}
+
+		public static void AddConfiguration( NUnitProject project )
+		{
+			AddConfigurationDialog dlg = new AddConfigurationDialog( project );
+			dlg.ShowDialog();
+		}
+
+		#endregion
+
+		#region UI Event Handlers
 
 		private void ConfigurationEditor_Load(object sender, System.EventArgs e)
 		{
@@ -155,16 +158,7 @@ namespace NUnit.UiKit
 
 		private void renameButton_Click(object sender, System.EventArgs e)
 		{
-			//Rename( project, configListBox.SelectedIndex );
-			int index = configListBox.SelectedIndex;
-			string oldname = project.Configs[index].Name;
-
-			RenameConfigurationDialog dlg	= new RenameConfigurationDialog( project, oldname );
-			if ( dlg.ShowDialog() == DialogResult.OK )
-			{
-				project.RenameConfiguration( oldname, dlg.ConfigurationName );
-				FillListBox();
-			}
+			RenameConfiguration( project.Configs[selectedIndex].Name );
 		}
 
 		private void okButton_Click(object sender, System.EventArgs e)
@@ -177,6 +171,20 @@ namespace NUnit.UiKit
 		{
 			selectedIndex = configListBox.SelectedIndex;
 			renameButton.Enabled = !project.Configs[selectedIndex].Active;
+		}
+
+		#endregion
+
+		#region Helper Methods
+
+		private void RenameConfiguration( string oldName )
+		{
+			RenameConfigurationDialog dlg	= new RenameConfigurationDialog( project, oldName );
+			if ( dlg.ShowDialog() == DialogResult.OK )
+			{
+				project.Configs[oldName].Name = dlg.ConfigurationName;
+				FillListBox();
+			}
 		}
 
 		private void FillListBox()

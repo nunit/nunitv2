@@ -62,7 +62,7 @@ namespace NUnit.UiKit
 		private Brush BarBrush = null;
 		private Brush NotBarBrush = null;
 
-		private UIEvents uievents;
+		private ITestEvents events;
 
 		#endregion
 
@@ -189,7 +189,7 @@ namespace NUnit.UiKit
 
 		#region Methods
 
-		// ToDo: Modify tests and make this private
+		// TODO: Modify tests and make this private
 		public void Initialize( int testCount )
 		{
 			ForeColor = Color.Lime;
@@ -197,20 +197,20 @@ namespace NUnit.UiKit
 			Maximum = testCount;
 		}
 
-		// ToDo: Modify tests and make this private
+		// TODO: Modify tests and make this private
 		public void Initialize( UITestNode test )
 		{
 			Initialize( test.CountTestCases );
 		}
 
-		public void InitializeEvents( UIEvents uiEvents )
+		public void InitializeEvents( ITestEvents events )
 		{
-			this.uievents = uiEvents;
+			this.events = events;
 
-			uievents.LoadCompleteEvent += new TestLoadEventHandler( OnLoadComplete );
-			uievents.ReloadCompleteEvent += new TestLoadEventHandler( OnLoadComplete );
-			uievents.RunStartingEvent += new TestEventHandler( OnRunStarting );
-			uievents.TestFinishedEvent += new TestEventHandler( OnTestFinished );
+			events.LoadCompleteEvent += new TestLoadEventHandler( OnLoadComplete );
+			events.ReloadCompleteEvent += new TestLoadEventHandler( OnLoadComplete );
+			events.RunStartingEvent += new TestEventHandler( OnRunStarting );
+			events.TestFinishedEvent += new TestEventHandler( OnTestFinished );
 		}
 
 		public void PerformStep()

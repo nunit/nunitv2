@@ -12,6 +12,8 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class AddConfigurationDialog : System.Windows.Forms.Form
 	{
+		#region Instance variables
+
 		private NUnitProject project;
 		private string configurationName;
 		private string copyConfigurationName;
@@ -28,7 +30,9 @@ namespace NUnit.UiKit
 		/// </summary>
 		private System.ComponentModel.Container components = null;
 
-//		public static AddConfiguration( project, configname, configdefault )
+		#endregion
+
+		#region Construction and Disposal
 
 		public AddConfigurationDialog( NUnitProject project )
 		{ 
@@ -50,6 +54,8 @@ namespace NUnit.UiKit
 			}
 			base.Dispose( disposing );
 		}
+
+		#endregion
 
 		#region Windows Form Designer generated code
 		/// <summary>
@@ -142,6 +148,24 @@ namespace NUnit.UiKit
 		}
 		#endregion
 
+		#region Properties
+
+		public string ConfigurationName
+		{
+			get { return configurationName; }
+			set { configurationName = value; }
+		}
+
+		public string CopyConfigurationName
+		{
+			get { return copyConfigurationName; }
+			set { copyConfigurationName = value; }
+		}
+
+		#endregion
+
+		#region Methods
+
 		private void ConfigurationNameDialog_Load(object sender, System.EventArgs e)
 		{
 			configurationComboBox.Items.Add( "<none>" );
@@ -158,26 +182,34 @@ namespace NUnit.UiKit
 		private void okButton_Click(object sender, System.EventArgs e)
 		{
 			configurationName = configurationNameTextBox.Text;
-			
+			if ( project.Configs.Contains( configurationName ) )
+			{
+				// TODO: Need general error message display
+				UserMessage.Display( "A configuration with that name already exists", "Configuration Name Error" );
+				return;
+			}
+
+			// ToDo: Move more of this to project
+			ProjectConfig newConfig = new ProjectConfig( configurationName );
+				
 			copyConfigurationName = null;
 			if ( configurationComboBox.SelectedIndex > 0 )
+			{		
 				copyConfigurationName = (string)configurationComboBox.SelectedItem;
-			
+				ProjectConfig copyConfig = project.Configs[copyConfigurationName];
+				if ( copyConfig != null )
+					foreach( string path in copyConfig.Assemblies )
+						newConfig.Assemblies.Add( path );
+			}
+
+			project.Configs.Add( newConfig );
+			project.IsDirty = true;
+
 			DialogResult = DialogResult.OK;
 
 			Close();
 		}
 
-		public string ConfigurationName
-		{
-			get { return configurationName; }
-			set { configurationName = value; }
-		}
-
-		public string CopyConfigurationName
-		{
-			get { return copyConfigurationName; }
-			set { copyConfigurationName = value; }
-		}
+		#endregion
 	}
 }

@@ -13,7 +13,6 @@ namespace NUnit.Gui
 	/// </summary>
 	public class OptionsDialog : System.Windows.Forms.Form
 	{
-		private UIActions actions;
 		private OptionSettings options;
 
 		private System.Windows.Forms.Button okButton;
@@ -28,7 +27,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.CheckBox loadLastProjectCheckBox;
 		private System.ComponentModel.IContainer components;
 
-		public OptionsDialog( OptionSettings options, UIActions actions )
+		public OptionsDialog( OptionSettings options )
 		{
 			//
 			// Required for Windows Form Designer support
@@ -38,7 +37,6 @@ namespace NUnit.Gui
 			//
 			// TODO: Add any constructor code after InitializeComponent call
 			//
-			this.actions = actions;
 			this.options = options;
 		}
 
@@ -217,14 +215,13 @@ namespace NUnit.Gui
 
 		private void okButton_Click(object sender, System.EventArgs e)
 		{
-			if ( actions.IsTestLoaded && 
-				options.ReloadOnChange != reloadOnChangeCheckBox.Checked )
+			if ( options.ReloadOnChange != reloadOnChangeCheckBox.Checked )
 			{
 				string msg = String.Format(
 					"Watching for file changes will be {0} the next time you load an assembly.",
 					reloadOnChangeCheckBox.Checked ? "enabled" : "disabled" );
 
-				MessageBox.Show( msg, "NUnit Options" );
+				UserMessage.DisplayInfo( msg, "NUnit Options" );
 			}
 
 			options.LoadLastProject = loadLastProjectCheckBox.Checked;

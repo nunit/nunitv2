@@ -68,7 +68,7 @@ namespace NUnit.Gui
 		/// <summary>
 		/// Object that coordinates loading and running of tests
 		/// </summary>
-		private UIActions actions;
+		private ITestLoader actions;
 
 		/// <summary>
 		/// Structure used for command line options
@@ -857,8 +857,7 @@ namespace NUnit.Gui
 					if(!fileInfo.Exists)
 					{
 						string message = String.Format("{0} does not exist", fileInfo.FullName);
-						MessageBox.Show(null,message,"Specified test file does not exist",
-							MessageBoxButtons.OK,MessageBoxIcon.Stop);
+						UserMessage.DisplayFailure( message,"Specified test file does not exist" );
 						return 1;
 					}
 					else
@@ -873,8 +872,7 @@ namespace NUnit.Gui
 			else
 			{
 				string message = parser.GetHelpText();
-				MessageBox.Show(null,message,"Help Syntax",
-					MessageBoxButtons.OK,MessageBoxIcon.Stop);
+				UserMessage.DisplayFailure( message,"Help Syntax" );
 				return 2;
 			}	
 				
@@ -892,7 +890,6 @@ namespace NUnit.Gui
 		/// </summary>
 		private void fileMenu_Popup(object sender, System.EventArgs e)
 		{
-			newMenuItem.Enabled = !actions.IsTestRunning;
 			openMenuItem.Enabled = !actions.IsTestRunning;
 			closeMenuItem.Enabled = actions.IsTestLoaded && !actions.IsTestRunning;
 
@@ -965,11 +962,10 @@ namespace NUnit.Gui
 		/// </summary>
 		private void closeMenuItem_Click(object sender, System.EventArgs e)
 		{
-			if ( actions.IsProject && actions.TestProject.IsDirty )
+			if ( actions.TestProject.IsDirty && !actions.TestProject.IsWrapper )
 			{
-				if ( MessageBox.Show( 
-					"Project has been changed. Do you want to save changes?", 
-					"NUnit", MessageBoxButtons.YesNo ) == DialogResult.Yes )
+				if ( UserMessage.Ask( "Project has been changed. Do you want to save changes? " )
+							== DialogResult.Yes )
 				{
 					// ToDo: Move to another object
 					saveMenuItem_Click( sender, e );
@@ -1123,7 +1119,7 @@ namespace NUnit.Gui
 				NUnitProject project = actions.TestProject;
 				ProjectConfig config = project.Configs[item.Index];
 				if ( config.Assemblies.Count == 0 )
-					MessageBox.Show( "Selected Config cannot be loaded. It contains no assemblies." );
+					UserMessage.DisplayFailure( "Selected Config cannot be loaded. It contains no assemblies." );
 				else
 					actions.ActiveConfig = config.Name;
 			}
@@ -1131,23 +1127,7 @@ namespace NUnit.Gui
 
 		private void addConfigurationMenuItem_Click( object sender, System.EventArgs e )
 		{
-			AddConfigurationDialog dlg = new AddConfigurationDialog( actions.TestProject );
-			if ( dlg.ShowDialog() == DialogResult.OK )
-			{
-				// ToDo: Move more of this to project
-				ProjectConfig newConfig = new ProjectConfig( dlg.ConfigurationName );
-				
-				if ( dlg.CopyConfigurationName != null )
-				{
-					ProjectConfig copyConfig = actions.TestProject.Configs[dlg.CopyConfigurationName];
-					if ( copyConfig != null )
-						foreach( string path in copyConfig.Assemblies )
-							  newConfig.Assemblies.Add( path );
-				}
-
-				actions.TestProject.Configs.Add( newConfig );
-				actions.TestProject.IsDirty = true;
-			}
+			ConfigurationEditor.AddConfiguration( actions.TestProject );
 		}
 
 		private void editConfigurationsMenuItem_Click( object sender, System.EventArgs e )
@@ -1215,8 +1195,8 @@ namespace NUnit.Gui
 
 			if ( actions.IsTestRunning )
 			{
-				DialogResult dialogResult = MessageBox.Show( 
-					"Do you want to cancel the running test?", "NUnit", MessageBoxButtons.YesNo );
+				DialogResult dialogResult = UserMessage.Ask( 
+					"Do you want to cancel the running test?" );
 
 				if ( dialogResult == DialogResult.No )
 					stopButton.Enabled = true;
@@ -1282,8 +1262,8 @@ namespace NUnit.Gui
 		{
 			if ( actions.IsTestRunning )
 			{
-				DialogResult dialogResult = MessageBox.Show( 
-					"A test is running, do you want to stop the test and exit?", "NUnit", MessageBoxButtons.YesNo );
+				DialogResult dialogResult = UserMessage.Ask( 
+					"A test is running, do you want to stop the test and exit?" );
 
 				if ( dialogResult == DialogResult.No )
 				{
@@ -1316,7 +1296,9 @@ namespace NUnit.Gui
 			actions.RunStartingEvent += new TestEventHandler( OnRunStarting );
 			actions.RunFinishedEvent += new TestEventHandler( OnRunFinished );
 
+			actions.LoadStartingEvent	+= new TestLoadEventHandler( OnTestLoadStarting );
 			actions.LoadCompleteEvent	+= new TestLoadEventHandler( OnTestLoaded );
+			actions.UnloadStartingEvent += new TestLoadEventHandler( OnTestUnloadStarting );
 			actions.UnloadCompleteEvent += new TestLoadEventHandler( OnTestUnloaded );
 			actions.ReloadCompleteEvent += new TestLoadEventHandler( OnTestChanged );
 			actions.LoadFailedEvent		+= new TestLoadEventHandler( OnTestLoadFailure );
@@ -1342,43 +1324,16 @@ namespace NUnit.Gui
 
 		#endregion
 
-		#region Handlers for events related to loading and running tests
+		#region Handlers for Test Loading and Unloading Events
 
-		/// <summary>
-		/// A test run is starting, so prepare the UI
-		/// </summary>
-		/// <param name="test">Top level Test for this run</param>
-		private void OnRunStarting( object sender, TestEventArgs e )
+		private void OnTestLoadStarting( object sender, TestLoadEventArgs e )
 		{
-			suiteName.Text = e.Test.ShortName;
 			runButton.Enabled = false;
-			stopButton.Enabled = true;
-
-			ClearTabs();
 		}
 
-		/// <summary>
-		/// A test run has finished, so display the results
-		/// and re-enable the run button.
-		/// </summary>
-		/// <param name="result">Result of the run</param>
-		private void OnRunFinished( object sender, TestEventArgs e )
+		private void OnTestUnloadStarting( object sender, TestLoadEventArgs e )
 		{
-			stopButton.Enabled = false;
 			runButton.Enabled = false;
-
-			if ( e.Result != null )
-			{
-				DisplayResults(e.Result);
-			}
-
-			if ( e.Exception != null )
-			{
-				if ( ! ( e.Exception is System.Threading.ThreadAbortException ) )
-					FailureMessage( e.Exception, "NUnit Test Run Failed" );
-			}
-
-			runButton.Enabled = true;
 		}
 
 		/// <summary>
@@ -1441,7 +1396,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void OnTestLoadFailure( object sender, TestLoadEventArgs e )
 		{
-			FailureMessage( e.Exception, "Assembly Load Failure" );
+			UserMessage.DisplayFailure( e.Exception, "Assembly Load Failure" );
 
 			if ( e.IsProjectFile )
 			{
@@ -1460,32 +1415,49 @@ namespace NUnit.Gui
 
 		#endregion
 
+		#region Handlers for Test Running Events
+
+		/// <summary>
+		/// A test run is starting, so prepare the UI
+		/// </summary>
+		/// <param name="test">Top level Test for this run</param>
+		private void OnRunStarting( object sender, TestEventArgs e )
+		{
+			suiteName.Text = e.Test.ShortName;
+			runButton.Enabled = false;
+			stopButton.Enabled = true;
+
+			ClearTabs();
+		}
+
+		/// <summary>
+		/// A test run has finished, so display the results
+		/// and re-enable the run button.
+		/// </summary>
+		/// <param name="result">Result of the run</param>
+		private void OnRunFinished( object sender, TestEventArgs e )
+		{
+			stopButton.Enabled = false;
+			runButton.Enabled = false;
+
+			if ( e.Result != null )
+			{
+				DisplayResults(e.Result);
+			}
+
+			if ( e.Exception != null )
+			{
+				if ( ! ( e.Exception is System.Threading.ThreadAbortException ) )
+					UserMessage.DisplayFailure( e.Exception, "NUnit Test Run Failed" );
+			}
+
+			runButton.Enabled = true;
+		}
+
+		#endregion
+
 		#region Helper methods for loading and running tests
 
-		/// <summary>
-		/// Display failure message box
-		/// </summary>
-		/// <param name="exception">Exception that caused the failure</param>
-		/// <param name="caption">Caption for the message box</param>
-		private void FailureMessage( Exception exception, string caption )
-		{
-			string message = exception.Message;
-			if(exception.InnerException != null)
-				message = exception.InnerException.Message;
-
-			FailureMessage( message, caption );
-		}
-
-		/// <summary>
-		/// Display failure message box
-		/// </summary>
-		/// <param name="message">Message to display</param>
-		/// <param name="caption">Caption for the message box</param>
-		private void FailureMessage( string message, string caption )
-		{
-			MessageBox.Show( this, message, caption,
-				MessageBoxButtons.OK,MessageBoxIcon.Stop);
-		}
 
 		/// <summary>
 		/// Load an assembly into the UI
@@ -1493,7 +1465,6 @@ namespace NUnit.Gui
 		/// <param name="assemblyFileName">Full path of the assembly to load</param>
 		private void LoadTest(string testFileName)
 		{
-			runButton.Enabled = false;
 			actions.LoadTest( testFileName );
 		}
 
@@ -1502,7 +1473,6 @@ namespace NUnit.Gui
 		/// </summary>
 		private void UnloadTest()
 		{
-			runButton.Enabled = false;
 			actions.UnloadTest();
 		}
 
@@ -1589,18 +1559,18 @@ namespace NUnit.Gui
 					resultVisitor.Write();
 
 					string msg = String.Format( "Results saved as {0}", fileName );
-					MessageBox.Show( msg, "Save Results as XML" );
+					UserMessage.DisplayInfo( msg, "Save Results as XML" );
 				}
 				catch( Exception exception )
 				{
-					FailureMessage( exception, "Unable to Save Results" );
+					UserMessage.DisplayFailure( exception, "Unable to Save Results" );
 				}
 			}
 		}
 
 		private void ShowOptionsDialog( )
 		{
-			OptionsDialog dialog = new OptionsDialog( optionSettings, actions );
+			OptionsDialog dialog = new OptionsDialog( optionSettings );
 			if ( dialog.ShowDialog() == DialogResult.OK )
 				testSuiteTreeView.InitialDisplay =
 					(TestSuiteTreeView.DisplayStyle) optionSettings.InitialTreeDisplay;

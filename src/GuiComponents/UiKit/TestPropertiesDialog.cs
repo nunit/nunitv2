@@ -220,7 +220,7 @@ namespace NUnit.UiKit
 																					 this.message});
 			this.resultsTab.Location = new System.Drawing.Point(4, 25);
 			this.resultsTab.Name = "resultsTab";
-			this.resultsTab.Size = new System.Drawing.Size(408, 107);
+			this.resultsTab.Size = new System.Drawing.Size(408, 111);
 			this.resultsTab.TabIndex = 1;
 			this.resultsTab.Text = "Result";
 			// 
@@ -305,7 +305,7 @@ namespace NUnit.UiKit
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
 																		  this.pinButton,
 																		  this.tabControl1});
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "TestPropertiesDialog";
@@ -330,6 +330,8 @@ namespace NUnit.UiKit
 		}
 
 		#endregion
+
+		#region Methods
 
 		private void closeButton_Click(object sender, System.EventArgs e)
 		{
@@ -404,7 +406,7 @@ namespace NUnit.UiKit
 
 				testResult.Text = result.IsSuccess ? "Success" : "Failure";
 				// message may have a leading blank line
-				// ToDo: take care of this in label?
+				// TODO: take care of this in label?
 				message.Text = TrimLeadingBlankLines( result.Message );
 				elapsedTime.Text = string.Format( "Time: {0}", result.Time );
 				stackTrace.Text = result.StackTrace;
@@ -462,4 +464,6 @@ namespace NUnit.UiKit
 				pinButton.Image = unpinnedImage;
 		}
 	}
+
+	#endregion
 }

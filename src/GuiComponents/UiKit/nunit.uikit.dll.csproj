@@ -208,13 +208,13 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "UIEvents.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "unpinned.bmp"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "UserMessage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "WaitCursor.cs"

@@ -12,11 +12,13 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class RenameConfigurationDialog : System.Windows.Forms.Form
 	{
+		#region Instance Variables
+
 		/// <summary>
-		/// The project in which we are renaming
+		///  The project in which we are renaming a configuration
 		/// </summary>
 		private NUnitProject project;
-		
+
 		/// <summary>
 		/// The new name to give the configuration
 		/// </summary>
@@ -35,6 +37,10 @@ namespace NUnit.UiKit
 		/// Required designer variable.
 		/// </summary>
 		private System.ComponentModel.Container components = null;
+
+		#endregion
+
+		#region Construction and Disposal
 
 		public RenameConfigurationDialog( NUnitProject project, string configurationName )
 		{
@@ -59,6 +65,8 @@ namespace NUnit.UiKit
 			base.Dispose( disposing );
 		}
 
+		#endregion
+
 		#region Windows Form Designer generated code
 		/// <summary>
 		/// Required method for Designer support - do not modify
@@ -78,6 +86,7 @@ namespace NUnit.UiKit
 			this.configurationNameTextBox.Size = new System.Drawing.Size(264, 22);
 			this.configurationNameTextBox.TabIndex = 0;
 			this.configurationNameTextBox.Text = "";
+			this.configurationNameTextBox.TextChanged += new System.EventHandler(this.configurationNameTextBox_TextChanged);
 			// 
 			// okButton
 			// 
@@ -115,6 +124,14 @@ namespace NUnit.UiKit
 		}
 		#endregion
 
+		#region Properties & Methods
+
+		public string ConfigurationName
+		{
+			get{ return configurationName; }
+			set{ configurationName = value; }
+		}
+		
 		private void ConfigurationNameDialog_Load(object sender, System.EventArgs e)
 		{
 			if ( configurationName != null )
@@ -126,25 +143,24 @@ namespace NUnit.UiKit
 
 		private void okButton_Click(object sender, System.EventArgs e)
 		{
-			configurationName = configurationNameTextBox.Text;
-			
-			if ( configurationName.Length > 0 && configurationName != originalName )
+			configurationName = configurationNameTextBox.Text;		
+			if ( project.Configs.Contains( configurationName ) )
+				// TODO: Need general error message display
+				UserMessage.DisplayFailure( "A configuration with that name already exists", "Configuration Name Error" );
+			else
 			{
-				// ToDo: Need general error message display
-				if ( project.Configs.Contains( configurationName ) )
-					MessageBox.Show( "A configuration with that name already exists", "Configuration Name Error" );
-				else
-				{
-					DialogResult = DialogResult.OK;
-					Close();
-				}
+				DialogResult = DialogResult.OK;
+				Close();
 			}
 		}
 
-		public string ConfigurationName
+		private void configurationNameTextBox_TextChanged(object sender, System.EventArgs e)
 		{
-			get{ return configurationName; }
-			set{ configurationName = value; }
+			okButton.Enabled = 
+				configurationNameTextBox.TextLength > 0 &&
+				configurationNameTextBox.Text != originalName;
 		}
+
+		#endregion
 	}
 }

@@ -48,7 +48,7 @@ namespace NUnit.UiKit
 	/// UIActions also provides a set of methods which allow the elements
 	/// in the UI to control loading, unloading and running of tests.
 	/// </summary>
-	public class UIActions : LongLivingMarshalByRefObject, NUnit.Core.EventListener, UIEvents
+	public class UIActions : LongLivingMarshalByRefObject, NUnit.Core.EventListener, ITestLoader
 	{
 		#region Instance Variables
 
@@ -66,18 +66,12 @@ namespace NUnit.UiKit
 		/// Loads and executes tests. Non-null when
 		/// we have loaded a test.
 		/// </summary>
-//		private TestDomain testDomain = null;
+		private TestDomain testDomain = null;
 
 		/// <summary>
 		/// Our current test project, if we have one.
 		/// </summary>
 		private NUnitProject testProject = null;
-
-		/// <summary>
-		/// Set to true to indicate the user loaded
-		/// an assembly rather than a project. 
-		/// </summary>
-		private bool isAssembly = false;
 
 		/// <summary>
 		///  The file name of the currently loaded test.
@@ -163,14 +157,9 @@ namespace NUnit.UiKit
 			get { return loadedTest != null; }
 		}
 
-		public UITestNode LoadedTest
+		public bool IsReloadPending
 		{
-			get { return loadedTest; }
-		}
-
-		public string TestFileName
-		{
-			get { return testFileName; }
+			get { return reloadPending; }
 		}
 
 		public bool IsTestRunning
@@ -178,54 +167,28 @@ namespace NUnit.UiKit
 			get { return runningTest != null; }
 		}
 
-		public bool IsProject
-		{
-			get { return !isAssembly; }
-		}
-
-		public bool IsAssembly
-		{
-			get { return isAssembly; }
-		}
-
 		public NUnitProject TestProject
 		{
 			get { return testProject; }
 		}
 
-		public TestDomain TestDomain
-		{
-			get { return TestProject.TestDomain; }
-			set { TestProject.TestDomain = value; }
-		}
-
 		public string ActiveConfig
 		{
-			get { return IsProject ? testProject.ActiveConfig.Name : null; }
+			get { return TestProject.ActiveConfig.Name; }
 			set
 			{
-				if ( IsProject && testProject.ActiveConfig.Name != value )
+				if ( TestProject.ActiveConfig.Name != value )
 				{
-					testProject.SetActiveConfig( value );
-					testProject.Save();
-					LoadTest( TestFileName );
+					TestProject.SetActiveConfig( value );
+					TestProject.Save();
+					LoadTest( testFileName );
 				}
 			}
-		}
-
-		public string ProjectPath
-		{
-			get { return testProject.ProjectPath; }
 		}
 
 		public TestResult LastResult
 		{
 			get { return lastResult; }
-		}
-
-		public bool IsReloadPending
-		{
-			get { return reloadPending; }
 		}
 
 		#endregion
@@ -238,8 +201,7 @@ namespace NUnit.UiKit
 		/// <param name="testCase">TestCase that is starting</param>
 		public void TestStarted(NUnit.Core.TestCase testCase)
 		{
-			if ( TestStartingEvent != null )
-				TestStartingEvent( this, new TestEventArgs( TestAction.TestStarting, testCase ) );
+			FireTestStartingEvent( testCase );
 		}
 
 		/// <summary>
@@ -248,8 +210,7 @@ namespace NUnit.UiKit
 		/// <param name="result">Result of the case that finished</param>
 		public void TestFinished(TestCaseResult result)
 		{
-			if ( TestFinishedEvent != null )
-				TestFinishedEvent( this, new TestEventArgs( TestAction.TestFinished, result ) );
+			FireTestFinishedEvent( result );
 		}
 
 		/// <summary>
@@ -258,8 +219,7 @@ namespace NUnit.UiKit
 		/// <param name="suite">Suite that is starting</param>
 		public void SuiteStarted(TestSuite suite)
 		{
-			if ( SuiteStartingEvent != null )
-				SuiteStartingEvent( this, new TestEventArgs( TestAction.SuiteStarting, suite ) );
+			FireSuiteStartingEvent( suite );
 		}
 
 		/// <summary>
@@ -268,13 +228,12 @@ namespace NUnit.UiKit
 		/// <param name="result">Result of the suite that finished</param>
 		public void SuiteFinished(TestSuiteResult result)
 		{
-			if ( SuiteFinishedEvent != null )
-				SuiteFinishedEvent( this, new TestEventArgs( TestAction.SuiteFinished, result ) );
+			FireSuiteFinishedEvent( result );
 		}
 
 		#endregion
 
-		#region Methods
+		#region Methods for Running Tests
 
 		/// <summary>
 		/// Run a testcase or testsuite from the currrent tree
@@ -298,21 +257,18 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void TestRunThreadProc()
 		{
-			if ( RunStartingEvent != null )
-				RunStartingEvent( this, new TestEventArgs( TestAction.RunStarting, runningTest ) );
+			FireRunStartingEvent( runningTest );
 
 			try
 			{
-				TestDomain.TestName = runningTest.FullName;
-				lastResult = TestDomain.Run(this);
+				testDomain.TestName = runningTest.FullName;
+				lastResult = testDomain.Run(this);
 				
-				if ( RunFinishedEvent != null )
-					RunFinishedEvent( this, new TestEventArgs( TestAction.RunFinished, lastResult ) );
+				FireRunFinishedEvent( lastResult );
 			}
 			catch( Exception exception )
 			{
-				if ( RunFinishedEvent != null )
-					RunFinishedEvent( this, new TestEventArgs( TestAction.RunFinished, exception ) );
+				FireRunFinishedEvent( exception );
 			}
 			finally
 			{
@@ -335,24 +291,27 @@ namespace NUnit.UiKit
 			}
 		}
 
+		#endregion
+
+		#region Methods for Loading and Unloading Tests
+
 		public void LoadTest( string newFileName )
 		{
 			try
 			{
-				if ( LoadStartingEvent != null )
-					LoadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.LoadStarting, newFileName ) );
+				FireLoadStartingEvent( newFileName );
 
 				// See if there is a test project
-				NUnitProject newProject = GetTestProject( newFileName );			
+				NUnitProject newProject = NUnitProject.MakeProject( newFileName );			
 
 				// If loading same one, unload first
-				if ( IsTestLoaded && TestFileName == newFileName )
+				if ( IsTestLoaded && testFileName == newFileName )
 					UnloadTest();
 
 				// Make sure it all works before switching old one out
 				TestDomain newDomain = new TestDomain(stdOutWriter, stdErrWriter);
 
-				UITestNode newTest = this.IsAssembly
+				UITestNode newTest = newProject.IsWrapper
 					? newDomain.Load( newFileName )
 					: newDomain.Load( newFileName, newProject.ActiveConfig.Assemblies );
 				
@@ -362,8 +321,10 @@ namespace NUnit.UiKit
 
 				// We're cool, so swap in the new info
 				testProject = newProject;
-				testProject.TestDomain = newDomain;
-				testFileName = this.IsAssembly ? newFileName : newProject.ProjectPath;
+				testDomain = newDomain;
+				testFileName = testProject.IsWrapper 
+					? newFileName 
+					: newProject.ProjectPath;
 				loadedTest = newTest;
 				lastResult = null;
 				reloadPending = false;
@@ -371,21 +332,19 @@ namespace NUnit.UiKit
 				// Cancel any pending reload
 				reloadPending = false;
 
-				// ToDo - figure out how to handle
-				SetWorkingDirectory( this.IsAssembly
+				// TODO: Figure out how to handle relative paths in tests
+				SetWorkingDirectory( TestProject.IsWrapper
 					? newFileName
 					: newProject.ActiveConfig.Assemblies[0] );
 
-				if ( LoadCompleteEvent != null )
-					LoadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.LoadComplete, TestFileName, LoadedTest ) );
+				FireLoadCompleteEvent( testFileName, this.loadedTest );
 
 				if ( UserSettings.Options.ReloadOnChange )
-					InstallWatcher( testFileName );
+					InstallWatcher( );
 			}
 			catch( Exception exception )
 			{
-				if ( LoadFailedEvent != null )
-					LoadFailedEvent( this, new TestLoadEventArgs( TestLoadAction.LoadFailed, newFileName, exception ) );
+				FireLoadFailedEvent( newFileName, exception );
 			}
 		}
 
@@ -396,25 +355,30 @@ namespace NUnit.UiKit
 		{
 			if( IsTestLoaded )
 			{
-				if ( UnloadStartingEvent != null )
-					UnloadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.UnloadStarting, TestFileName, LoadedTest ) );
-
 				// Hold the name for notifications after unload
-				string fileName = TestFileName;
+				string fileName = testFileName;
 
-				TestDomain.Unload();
+				try
+				{
+					FireUnloadStartingEvent( testFileName, this.loadedTest );
 
-				TestDomain = null;
-				testFileName = null;
-				//testProject = null;
-				loadedTest = null;
-				lastResult = null;
-				reloadPending = false;
+					RemoveWatcher();
 
-				RemoveWatcher();
+					testDomain.Unload();
 
-				if ( UnloadCompleteEvent != null )
-					UnloadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.UnloadComplete, fileName, LoadedTest ) );
+					testDomain = null;
+					testFileName = null;
+					//testProject = null;
+					loadedTest = null;
+					lastResult = null;
+					reloadPending = false;
+
+					FireUnloadCompleteEvent( fileName, this.loadedTest );
+				}
+				catch( Exception exception )
+				{
+					FireUnloadFailedEvent( fileName, exception );
+				}
 			}
 		}
 
@@ -441,32 +405,34 @@ namespace NUnit.UiKit
 			else 
 				try
 				{
-					if ( ReloadStartingEvent != null )
-						ReloadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.ReloadStarting, TestFileName, loadedTest ) );
+					FireReloadStartingEvent( testFileName, this.loadedTest );
 
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
 					TestDomain newDomain = new TestDomain(stdOutWriter, stdErrWriter);
 					UITestNode newTest = newDomain.Load( testFileName );
 
-					bool notifyClient = !UIHelper.CompareTree( LoadedTest, newTest );
+					bool notifyClient = !UIHelper.CompareTree( this.loadedTest, newTest );
 
-					TestDomain.Unload();
+					testDomain.Unload();
 
-					TestDomain = newDomain;
+					testDomain = newDomain;
 					loadedTest = newTest;
 					reloadPending = false;
 
-					if ( notifyClient && ReloadCompleteEvent != null )
-						ReloadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.ReloadComplete, TestFileName, newTest ) );
+					if ( notifyClient )
+						FireReloadCompleteEvent( testFileName, newTest );
 				
 				}
 				catch( Exception exception )
 				{
-					if ( ReloadFailedEvent != null )
-						ReloadFailedEvent( this, new TestLoadEventArgs( TestLoadAction.LoadFailed, testFileName, exception ) );
+					FireReloadFailedEvent( testFileName, exception );
 				}
 		}
+
+		#endregion
+
+		#region Helper Methods
 
 		private static void SetWorkingDirectory(string testFileName)
 		{
@@ -479,12 +445,11 @@ namespace NUnit.UiKit
 		/// about changes to a test.
 		/// </summary>
 		/// <param name="assemblyFileName">Full path of the assembly to watch</param>
-		private void InstallWatcher(string assemblyFileName)
+		private void InstallWatcher()
 		{
 			if(watcher!=null) watcher.Stop();
 
-			FileInfo info = new FileInfo(assemblyFileName);
-			watcher = new AssemblyWatcher(1000, info);
+			watcher = new AssemblyWatcher( 1000, TestProject.ActiveConfig.Assemblies );
 			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( OnTestChanged );
 			watcher.Start();
 		}
@@ -501,44 +466,138 @@ namespace NUnit.UiKit
 			}
 		}
 
+		#endregion
+
+		#region Methods for Firing Events
+		
 		/// <summary>
-		/// Helper returns a test project if there is one,
-		/// creates one for VS files, returns null otherwise.
+		/// Generic routines called by other firing routines
 		/// </summary>
-		/// <param name="path"></param>
-		/// <returns></returns>
-		private NUnitProject GetTestProject( string path )
+		private void FireEvent( 
+			TestLoadEventHandler handler, TestLoadEventArgs e )
 		{
-			NUnitProject project = null;
-			this.isAssembly = false; // Assume a project
+			if ( handler != null )
+				handler( this, e );
+		}
 
-			if ( NUnitProject.IsProjectFile( path ) )
-				project = new NUnitProject( path );
-			else
-			{
-				string projectPath = NUnitProject.ProjectPathFromFile( path );
-				// ToDo: Warn in this case?
-				if ( File.Exists( projectPath ) )
-					project = new NUnitProject( projectPath );
-				else if ( VSProject.IsProjectFile( path ) )
-				{
-					project = NUnitProject.FromVSProject( path );
-					project.Save( projectPath );
-				}
-				else if ( VSProject.IsSolutionFile( path ) )
-				{
-					project = NUnitProject.FromVSSolution( path );
-					project.Save( projectPath );
-				}
-				else
-				{
-					project = NUnitProject.FromAssembly( path );
-					this.isAssembly = true;
-					// No automatic save for assemblies
-				}
-			}
+		private void FireEvent( 
+			TestEventHandler handler, TestEventArgs e )
+		{
+			if ( handler != null )
+				handler( this, e );
+		}
 
-			return project;
+		private void FireLoadStartingEvent( string fileName )
+		{
+			FireEvent( 
+				LoadStartingEvent,
+				new TestLoadEventArgs( TestLoadAction.LoadStarting, fileName ) );
+		}
+
+		private void FireLoadCompleteEvent( string fileName, UITestNode test )
+		{
+			FireEvent( 
+				LoadCompleteEvent,
+				new TestLoadEventArgs( TestLoadAction.LoadComplete, fileName, test ) );
+
+		}
+
+		private void FireLoadFailedEvent( string fileName, Exception exception )
+		{
+			FireEvent(
+				LoadFailedEvent,
+				new TestLoadEventArgs( TestLoadAction.LoadFailed, fileName, exception ) );
+		}
+
+		private void FireUnloadStartingEvent( string fileName, UITestNode test )
+		{
+			FireEvent(
+				UnloadStartingEvent,
+				new TestLoadEventArgs( TestLoadAction.UnloadStarting, fileName, test ) );
+		}
+
+		private void FireUnloadCompleteEvent( string fileName, UITestNode test )
+		{
+			FireEvent(
+				UnloadCompleteEvent,
+				new TestLoadEventArgs( TestLoadAction.UnloadComplete, fileName, test ) );
+		}
+
+		private void FireUnloadFailedEvent( string fileName, Exception exception )
+		{
+			FireEvent(
+				UnloadFailedEvent, 
+				new TestLoadEventArgs( TestLoadAction.UnloadFailed, fileName, exception ) );
+		}
+
+		private void FireReloadStartingEvent( string fileName, UITestNode test )
+		{
+			FireEvent(
+				ReloadStartingEvent,
+				new TestLoadEventArgs( TestLoadAction.ReloadStarting, fileName, test ) );
+		}
+
+		private void FireReloadCompleteEvent( string fileName, UITestNode test )
+		{
+			FireEvent(
+				ReloadCompleteEvent,
+				new TestLoadEventArgs( TestLoadAction.ReloadComplete, fileName, test ) );
+		}
+
+		private void FireReloadFailedEvent( string fileName, Exception exception )
+		{
+			FireEvent(
+				ReloadFailedEvent, 
+				new TestLoadEventArgs( TestLoadAction.ReloadFailed, fileName, exception ) );
+		}
+
+		private void FireRunStartingEvent( UITestNode test )
+		{
+			FireEvent(
+				RunStartingEvent,
+				new TestEventArgs( TestAction.RunStarting, test ) );
+		}
+
+		private void FireRunFinishedEvent( TestResult result )
+		{	
+			FireEvent(
+				RunFinishedEvent,
+				new TestEventArgs( TestAction.RunFinished, result ) );
+		}
+
+		private void FireRunFinishedEvent( Exception exception )
+		{
+			FireEvent(
+				RunFinishedEvent,
+				new TestEventArgs( TestAction.RunFinished, exception ) );
+		}
+
+		private void FireTestStartingEvent( UITestNode test )
+		{
+			FireEvent(
+				TestStartingEvent,
+				new TestEventArgs( TestAction.TestStarting, test ) );
+		}
+
+		private void FireTestFinishedEvent( TestResult result )
+		{	
+			FireEvent(
+				TestFinishedEvent,
+				new TestEventArgs( TestAction.TestFinished, result ) );
+		}
+
+		private void FireSuiteStartingEvent( UITestNode test )
+		{
+			FireEvent(
+				SuiteStartingEvent,
+				new TestEventArgs( TestAction.SuiteStarting, test ) );
+		}
+
+		private void FireSuiteFinishedEvent( TestResult result )
+		{	
+			FireEvent(
+				SuiteFinishedEvent,
+				new TestEventArgs( TestAction.SuiteFinished, result ) );
 		}
 
 		#endregion
