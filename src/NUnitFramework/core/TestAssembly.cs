@@ -33,15 +33,15 @@ using System.IO;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Test Suite formed from an assembly. 
-	/// Class name changed from TestAssembly
-	/// to avoid conflict with namespace.
+	/// Test Suite formed from an assembly. Used to ensure
+	/// that the directory is changed when a new assembly is
+	/// encountered in running a set of tests.
 	/// </summary>
-	public class AssemblyTestSuite : TestSuite
+	public class TestAssembly : TestSuite
 	{
-		public AssemblyTestSuite( string assembly ) : base( assembly, 0 ) { }
+		public TestAssembly( string assembly ) : base( assembly, 0 ) { }
 
-		public AssemblyTestSuite( string assembly, int key) : base( assembly, key ) { }
+		public TestAssembly( string assembly, int key) : base( assembly, key ) { }
 
 		public override TestResult Run(EventListener listener, IFilter filter)
 		{

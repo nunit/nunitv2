@@ -29,7 +29,7 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Core;
+using NUnit.Core.Builders;
 using NUnit.Util;
 using NUnit.Tests.Assemblies;
 using System.Collections;
@@ -43,16 +43,17 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class TestSuiteTest
 	{
-		TestFixture oneTestFixture;
-		TestFixture mockTestFixture;
+		TestSuite oneTestFixture;
+		TestSuite mockTestFixture;
 		TestSuite noTestSuite;
 
 		[SetUp]
 		public void SetUp()
 		{
-			oneTestFixture = new TestFixture( typeof( OneTestCase ) );
-			mockTestFixture = new TestFixture( typeof( MockTestFixture ) );
-			TestFixture noTestFixture = new TestFixture( typeof( EmptyFixture ) );
+			NUnitTestFixtureBuilder builder = new NUnitTestFixtureBuilder();
+			oneTestFixture = builder.BuildFrom( typeof( OneTestCase ) );
+			mockTestFixture = builder.BuildFrom( typeof( MockTestFixture ) );
+			TestSuite noTestFixture = builder.BuildFrom( typeof( EmptyFixture ) );
 
 			//EmptyFixture fixture = new EmptyFixture();
 			noTestSuite = new TestSuite("No Tests");
@@ -109,7 +110,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void InheritedTestCount()
 		{
-			TestSuite suite = new TestFixture( typeof( InheritedTestFixture ) );
+			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom( typeof( InheritedTestFixture ) );
 			Assert.AreEqual(InheritedTestFixture.Tests, suite.CountTestCases());
 		}
 
@@ -235,7 +236,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void RunSingleTest()
 		{
-			TestFixture fixture = new TestFixture( typeof( NUnit.Tests.Assemblies.MockTestFixture ) );
+			TestSuite fixture = new NUnitTestFixtureBuilder().BuildFrom( typeof( NUnit.Tests.Assemblies.MockTestFixture ) );
 			Test test = (Test) fixture.Tests[0];
 			RecordingListener listener = new RecordingListener();
 			test.Run(listener, null);

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using NUnit.Framework;
 using NUnit.Tests.Assemblies;
-using NUnit.Core;
+using NUnit.Core.Builders;
 
 namespace NUnit.Core.Tests
 {
@@ -16,7 +16,7 @@ namespace NUnit.Core.Tests
 		public void SetUp() 
 		{
 			testSuite = new TestSuite("Mock Test Suite");
-			testSuite.Add( new TestFixture( typeof( MockTestFixture ) ) );
+			testSuite.Add( new NUnitTestFixtureBuilder().BuildFrom( typeof( MockTestFixture ) ) );
 			mock3 = (NUnit.Core.TestCase) findTest("MockTest3", testSuite);
 		}
 

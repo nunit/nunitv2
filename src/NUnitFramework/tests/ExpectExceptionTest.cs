@@ -31,6 +31,7 @@ using System;
 using System.Reflection;
 using System.Runtime.Serialization;
 using NUnit.Framework;
+using NUnit.Core.Builders;
 
 namespace NUnit.Core.Tests
 {
@@ -40,6 +41,8 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class ExpectExceptionTest 
 	{
+		NUnitTestFixtureBuilder fixtureBuilder = new NUnitTestFixtureBuilder();
+
 		[Test]
 		[ExpectedException(typeof(Exception))]
 		public void TestSingle()
@@ -78,7 +81,7 @@ namespace NUnit.Core.Tests
 					fixtureType, 
 					"BaseExceptionTest",
 					BindingFlags.Public | BindingFlags.Instance ) );
-			TestFixture suite = new TestFixture(fixtureType);
+			TestSuite suite = fixtureBuilder.BuildFrom(fixtureType);
 			suite.Add(test);
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "BaseExceptionTest should have failed");
@@ -95,7 +98,7 @@ namespace NUnit.Core.Tests
 					fixtureType,
 					"MismatchedExceptionTest",
 					BindingFlags.Public | BindingFlags.Instance ) );
-			TestFixture suite = new TestFixture(fixtureType);
+			TestSuite suite = fixtureBuilder.BuildFrom( fixtureType );
 			suite.Add(test);
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "MismatchedExceptionTest should have failed");
@@ -252,7 +255,7 @@ namespace NUnit.Core.Tests
 
 		private TestResult RunInternalTest( Type type )
 		{
-			TestFixture suite = new TestFixture( type );
+			TestSuite suite = fixtureBuilder.BuildFrom( type );
 			return suite.Run( NUnit.Core.NullListener.NULL );
 		}
 

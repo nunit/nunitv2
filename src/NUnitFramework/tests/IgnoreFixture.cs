@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 using NUnit.Framework;
-using NUnit.Core;
+using NUnit.Core.Builders;
 
 namespace NUnit.Core.Tests
 {
@@ -36,7 +36,7 @@ namespace NUnit.Core.Tests
 					fixtureType, 
 					"CallsIgnore",
 					BindingFlags.Public | BindingFlags.Instance ) );
-			TestFixture suite = new TestFixture(fixtureType);
+			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom(fixtureType);
 			suite.Add(test);
 			TestResult result = test.Run( NullListener.NULL);
 			Assert.IsFalse( result.Executed, "TestCase should not run" );
@@ -58,7 +58,7 @@ namespace NUnit.Core.Tests
 		{
 			//IgnoredTestSuiteFixture testFixture = new IgnoredTestSuiteFixture();
 			TestSuite suite = new TestSuite("IgnoredTestFixture");
-			suite.Add( new TestFixture( typeof( IgnoredTestSuiteFixture ) ) );
+			suite.Add( new NUnitTestFixtureBuilder().BuildFrom( typeof( IgnoredTestSuiteFixture ) ) );
 			TestSuiteResult result = (TestSuiteResult)suite.Run( NullListener.NULL);
 
 			TestSuiteResult fixtureResult = (TestSuiteResult)result.Results[0];
@@ -91,7 +91,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void IgnoreWorksFromSetUp()
 		{
-			TestFixture testFixture = new TestFixture( typeof( IgnoreInSetUpFixture ) );
+			TestSuite testFixture = new NUnitTestFixtureBuilder().BuildFrom( typeof( IgnoreInSetUpFixture ) );
 			TestSuiteResult fixtureResult = (TestSuiteResult)testFixture.Run( NullListener.NULL);
 
 			Assert.IsTrue( fixtureResult.Executed, "Fixture should have been executed" );

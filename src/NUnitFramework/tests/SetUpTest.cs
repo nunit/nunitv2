@@ -28,13 +28,20 @@
 #endregion
 
 using NUnit.Framework;
-using NUnit.Core;
+using NUnit.Core.Builders;
 
 namespace NUnit.Core.Tests
 {
 	[TestFixture]
 	public class SetUpTest
 	{	
+		private void RunTestOnFixture( object fixture )
+		{
+			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom( fixture.GetType() );
+			suite.Fixture = fixture;
+			suite.Run( NullListener.NULL );
+		}
+
 		internal class SetUpAndTearDownFixture
 		{
 			internal bool wasSetUpCalled;
@@ -94,8 +101,7 @@ namespace NUnit.Core.Tests
 		public void SetUpAndTearDownCounter()
 		{
 			SetUpAndTearDownCounterFixture fixture = new SetUpAndTearDownCounterFixture();
-			TestSuite suite = new TestFixture( fixture );
-			suite.Run(NullListener.NULL);
+			RunTestOnFixture( fixture );
 
 			Assert.AreEqual(3, fixture.setUpCounter);
 			Assert.AreEqual(3, fixture.tearDownCounter);
@@ -106,8 +112,7 @@ namespace NUnit.Core.Tests
 		public void MakeSureSetUpAndTearDownAreCalled()
 		{
 			SetUpAndTearDownFixture fixture = new SetUpAndTearDownFixture();
-			TestSuite suite = new TestFixture( fixture );
-			suite.Run(NullListener.NULL);
+			RunTestOnFixture( fixture );
 
 			Assert.IsTrue(fixture.wasSetUpCalled);
 			Assert.IsTrue(fixture.wasTearDownCalled);
@@ -117,8 +122,7 @@ namespace NUnit.Core.Tests
 		public void CheckInheritedSetUpAndTearDownAreCalled()
 		{
 			InheritSetUpAndTearDown fixture = new InheritSetUpAndTearDown();
-			TestSuite suite = new TestFixture( fixture );
-			suite.Run(NullListener.NULL);
+			RunTestOnFixture( fixture );
 
 			Assert.IsTrue(fixture.wasSetUpCalled);
 			Assert.IsTrue(fixture.wasTearDownCalled);
@@ -149,8 +153,7 @@ namespace NUnit.Core.Tests
 		public void CheckInheritedSetUpAndTearDownAreNotCalled()
 		{
 			DefineInheritSetUpAndTearDown fixture = new DefineInheritSetUpAndTearDown();
-			TestSuite suite = new TestFixture( fixture );
-			suite.Run(NullListener.NULL);
+			RunTestOnFixture( fixture );
 
 			Assert.IsFalse(fixture.wasSetUpCalled);
 			Assert.IsFalse(fixture.wasTearDownCalled);

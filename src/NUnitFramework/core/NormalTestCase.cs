@@ -37,10 +37,7 @@ namespace NUnit.Core
 	/// </summary>
 	public class NormalTestCase : TemplateTestCase
 	{
-		public NormalTestCase(Type fixtureType, MethodInfo method) : base(fixtureType, method)
-		{}
-
-		public NormalTestCase(object fixture, MethodInfo method) : base(fixture, method)
+		public NormalTestCase( MethodInfo method ) : base( method )
 		{}
 
 		protected internal override void ProcessNoException(TestCaseResult testResult)

@@ -30,6 +30,7 @@
 using System;
 using System.Collections;
 using NUnit.Framework;
+using NUnit.Core.Builders;
 
 namespace NUnit.Core.Tests
 {
@@ -39,8 +40,8 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void TestName()
 		{
-			TestFixture testFixture = new TestFixture( typeof( OneTestCase ) );
-			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)testFixture.Tests[0];
+			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom( typeof( OneTestCase ) );
+			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
 			Assert.AreEqual("NUnit.Core.Tests.OneTestCase.TestCase", testCase.FullName);
 			Assert.AreEqual("TestCase", testCase.Name);
 		}
@@ -48,8 +49,8 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void TestExpectedException()
 		{
-			TestFixture testFixture = new TestFixture( typeof( ExpectExceptionTest ) );
-			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)testFixture.Tests[0];
+			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom( typeof( ExpectExceptionTest ) );
+			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
 			Assert.AreEqual("NUnit.Core.Tests.ExpectExceptionTest.TestSingle", testCase.FullName);
 		}
 	}

@@ -38,48 +38,47 @@ namespace NUnit.Core
 	/// </summary>
 	public abstract class TemplateTestCase : TestCase
 	{
-		#region NUnit Types used by TemplateTestCase
-
-		private static readonly string SetUpType = "NUnit.Framework.SetUpAttribute";
-		private static readonly string TearDownType = "NUnit.Framework.TearDownAttribute";
-
-		#endregion
+		/// <summary>
+		/// The fixture object, to be used with this test, or null
+		/// </summary>
+		private object fixture;
 
 		private MethodInfo  method;
+		private MethodInfo setUpMethod;
+		private MethodInfo tearDownMethod;
 
-		public TemplateTestCase(Type fixtureType, MethodInfo method) : base(fixtureType.FullName, method.Name)
+		public TemplateTestCase( MethodInfo method ) 
+			: base( method.ReflectedType.FullName, method.Name )
 		{
-			this.fixtureType = fixtureType;
 			this.method = method;
-			this.testFramework = TestFramework.FromType( fixtureType );
-		}
-
-		public TemplateTestCase(object fixture, MethodInfo method) : base(fixture.GetType().FullName, method.Name)
-		{
-			this.Fixture = fixture;
-			this.fixtureType = fixture.GetType();
-			this.method = method;
-			this.testFramework = TestFramework.FromType( fixtureType );
+			this.testFramework = TestFramework.FromMethod( method );
 		}
 
 		public override void Run(TestCaseResult testResult)
 		{ 
 			if ( ShouldRun )
 			{
-				bool doParentSetUp = false;
-				if ( Parent != null )
-				{
-					doParentSetUp = !Parent.IsSetUp;
-					
-				}
+				bool needParentTearDown = false;
 
 				try
 				{
-					if ( doParentSetUp )
-						Parent.DoSetUp( testResult );
+					if ( Parent != null )
+					{
+						if ( !Parent.IsSetUp )
+						{
+							Parent.DoOneTimeSetUp( testResult );
+							needParentTearDown = true;
+						}
 
-					if ( Fixture == null && Parent != null)
-						Fixture = Parent.Fixture;
+						if ( fixture == null )
+							fixture = Parent.Fixture;
+
+						if ( setUpMethod == null )
+							setUpMethod = Parent.SetUpMethod;
+
+						if ( tearDownMethod == null )
+							tearDownMethod = Parent.TearDownMethod;
+					}
 
 					if ( !testResult.IsFailure )
 						doRun( testResult );
@@ -96,8 +95,8 @@ namespace NUnit.Core
 				}
 				finally
 				{
-					if ( doParentSetUp )
-						Parent.DoTearDown( testResult );
+					if ( needParentTearDown )
+						Parent.DoOneTimeTearDown( testResult );
 				}
 			}
 			else
@@ -118,8 +117,9 @@ namespace NUnit.Core
 
 			try 
 			{
-				Reflect.InvokeMethod( SetUpType, this.Fixture, 
-					BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+				if ( setUpMethod != null )
+					Reflect.InvokeMethod( setUpMethod, this.fixture );
+
 				doTestCase( testResult );
 			}
 			catch(Exception ex)
@@ -148,8 +148,11 @@ namespace NUnit.Core
 		{
 			try
 			{
-				Reflect.InvokeMethod( TearDownType, this.Fixture, 
-					BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+				if ( tearDownMethod != null )
+			 		tearDownMethod.Invoke( this.fixture, new object[0] );
+//				else // invoke dynamicly
+//					Reflect.InvokeMethod( TearDownType, this.Fixture, 
+//						BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
 			}
 			catch(Exception ex)
 			{
@@ -180,7 +183,7 @@ namespace NUnit.Core
 
 		public virtual void RunTestMethod(TestCaseResult testResult)
 		{
-			Reflect.InvokeMethod( this.method, this.Fixture );
+			Reflect.InvokeMethod( this.method, this.fixture );
 		}
 
 		#endregion

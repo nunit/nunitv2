@@ -2,9 +2,11 @@ using System;
 using System.Reflection;
 using System.Collections;
 using NUnit.Framework;
+using NUnit.Core.Builders;
 
 namespace NUnit.Core.Tests
 {
+	// TODO: Review to see if we need these tests
 	[TestFixture(Description = "Fixture Description")]
 	internal class MockFixture
 	{
@@ -52,6 +54,7 @@ namespace NUnit.Core.Tests
 	public class TestAttributeFixture
 	{
 		static readonly Type FixtureType = typeof( MockFixture );
+		NUnitTestFixtureBuilder fixtureBuilder = new NUnitTestFixtureBuilder();
 
 		[Test]
 		public void ReflectionTest()
@@ -81,7 +84,7 @@ namespace NUnit.Core.Tests
 		public void DescriptionInResult()
 		{
 			TestSuite suite = new TestSuite("Mock Fixture");
-			suite.Add( new TestFixture( typeof( MockFixture ) ) );
+			suite.Add( fixtureBuilder.BuildFrom( typeof( MockFixture ) ) );
 			TestResult result = suite.Run(NullListener.NULL);
 
 			DescriptionVisitor visitor = new DescriptionVisitor("NUnit.Tests.Attributes.MockFixture.Method", "Test Description");
@@ -108,7 +111,7 @@ namespace NUnit.Core.Tests
 		public void FixtureDescription()
 		{
 			NUnit.Core.TestSuite suite = new TestSuite("suite");
-			suite.Add(new TestFixture( typeof( MockFixture ) ) );
+			suite.Add( fixtureBuilder.BuildFrom( typeof( MockFixture ) ) );
 
 			ArrayList tests = suite.Tests;
 			TestSuite mockFixtureSuite = (TestSuite)tests[0];
@@ -120,7 +123,7 @@ namespace NUnit.Core.Tests
 		public void FixtureDescriptionInResult()
 		{
 			TestSuite suite = new TestSuite("Mock Fixture");
-			suite.Add(new TestFixture( typeof( MockFixture ) ) );
+			suite.Add( fixtureBuilder.BuildFrom( typeof( MockFixture ) ) );
 			TestResult result = suite.Run(NullListener.NULL);
 
 			DescriptionVisitor visitor = new DescriptionVisitor("MockFixture", "Fixture Description");

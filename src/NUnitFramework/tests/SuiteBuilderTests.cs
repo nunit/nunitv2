@@ -84,8 +84,8 @@ namespace NUnit.Core.Tests
 		{
 			TestSuite suite= builder.Build( testsDll, "NUnit.Core.Tests" );
 			Assert.IsNotNull( suite );
-			Assert.AreEqual( "NUnit", suite.Name );
-			Assert.IsTrue( suite.CountTestCases() > 100 );
+			Assert.AreEqual( testsDll, suite.Name );
+			Assert.AreEqual( "NUnit", ((Test)suite.Tests[0]).Name );
 		}
 
 		class Suite
@@ -124,7 +124,7 @@ namespace NUnit.Core.Tests
 		public void WrongReturnTypeSuite()
 		{
 			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Assemblies.AssemblyTests+NonConformingSuite" );
-			Assert.IsNull(suite, "Suite propertye returns wrong type");
+			Assert.IsNull(suite, "Suite property returns wrong type");
 		}
 
 		[Test]

@@ -3,6 +3,7 @@ using System.Reflection;
 using NUnit.Core;
 using NUnit.Framework;
 using NUnit.Core.Tests;
+using NUnit.Core.Builders;
 
 namespace NUnit.Extensions.Tests
 {
@@ -26,13 +27,20 @@ namespace NUnit.Extensions.Tests
 			listener = new RecordingListener();
 		}
 
+		private TestResult RunTestOnFixture( object fixture )
+		{
+			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom( fixture.GetType() );
+			suite.Fixture = fixture;
+			return suite.Run( listener );
+		}
+
 		[Test]
 		public void RepeatSuccess()
 		{
 			Assert.IsNotNull (successMethod);
 			RepeatSuccessFixture fixture = new RepeatSuccessFixture();
-			TestSuite suite = new TestFixture( fixture );
-			TestResult result = suite.Run(listener);
+			TestResult result = RunTestOnFixture( fixture );
+
 			Assert.IsTrue(result.IsSuccess);
 			Assert.AreEqual(3, fixture.SetupCount);
 			Assert.AreEqual(3, fixture.TeardownCount);
@@ -44,8 +52,8 @@ namespace NUnit.Extensions.Tests
 		{
 			Assert.IsNotNull (failOnFirstMethod);
 			RepeatFailOnFirstFixture fixture = new RepeatFailOnFirstFixture();
-			TestSuite suite = new TestFixture( fixture );
-			TestResult result = suite.Run(listener);
+			TestResult result = RunTestOnFixture( fixture );
+
 			Assert.IsFalse(result.IsSuccess);
 			Assert.AreEqual(1, fixture.SetupCount);
 			Assert.AreEqual(1, fixture.TeardownCount);
@@ -57,8 +65,8 @@ namespace NUnit.Extensions.Tests
 		{
 			Assert.IsNotNull (failOnThirdMethod);
 			RepeatFailOnThirdFixture fixture = new RepeatFailOnThirdFixture();
-			TestSuite suite = new TestFixture( fixture );
-			TestResult result = suite.Run(listener);
+			TestResult result = RunTestOnFixture( fixture );
+
 			Assert.IsFalse(result.IsSuccess);
 			Assert.AreEqual(3, fixture.SetupCount);
 			Assert.AreEqual(3, fixture.TeardownCount);

@@ -2,17 +2,14 @@ using System;
 using System.Reflection;
 using NUnit.Framework;
 using NUnit.Core;
+using NUnit.Core.Builders;
 
 namespace NUnit.Extensions.Tests
 {
-	#region MockSuiteBuilder class
+	#region MockSuiteExtension
 
 	/// <summary>
-	/// MockSuiteBuilder knows how to build three different
-	/// types of suite extensions:
-	/// 1. MockSuiteExtension extends TestSuite
-	/// 2. MockFixtureExtension extends TestFixture
-	/// 3. SetUpFixture extends NamespaceSuite
+	/// MockSuiteBuilder knows how to build a MockSuiteExtension
 	/// </summary>
 	[SuiteBuilder]
 	public class MockSuiteBuilder : ISuiteBuilder
@@ -27,33 +24,18 @@ namespace NUnit.Extensions.Tests
 
 		public TestSuite BuildFrom(Type type, int assemblyKey)
 		{
-			if ( type.IsDefined( typeof( MockSuiteExtensionAttribute ), false ) )
+			if ( CanBuildFrom( type ) )
 				return new MockSuiteExtension( type, assemblyKey );
-			else if ( type.IsDefined( typeof( MockFixtureExtensionAttribute ), false ) )
-				return new MockFixtureExtension( type, assemblyKey );
-#if SETUP_FIXTURE
-			else if ( type.IsDefined( typeof( SetUpFixtureAttribute ), false ) )
-				return new SetUpFixture( type );
-#endif
-			throw new ArgumentException( "MockSuiteBuilder cannot use type " + type.FullName );
+			return null;
 		}
 
 		public bool CanBuildFrom(Type type)
 		{
-			return type.IsDefined( typeof( MockSuiteExtensionAttribute ), false )
-				|| type.IsDefined( typeof( MockFixtureExtensionAttribute ), false )
-#if SETUP_FIXTURE
-				|| type.IsDefined( typeof( SetUpFixtureAttribute ), false )
-#endif
-				;
+			return type.IsDefined( typeof( MockSuiteExtensionAttribute ), false );
 		}
 
 		#endregion
 	}
-
-	#endregion
-
-	#region MockSuiteExtension
 
 	/// <summary>
 	/// MockSuiteExtensionAttribute is used to identify a MockSuiteExtension fixture
@@ -83,7 +65,7 @@ namespace NUnit.Extensions.Tests
 				{
 					// NOTE: Do NOT use Tests.Add since it doesn't
 					// set the parent up correctly.
-					this.Add( new NormalTestCase( fixtureType, method ) );
+					this.Add( new NormalTestCase( method ) );
 				}
 			}
 		}
@@ -116,6 +98,35 @@ namespace NUnit.Extensions.Tests
 	#region MockFixtureExtension
 
 	/// <summary>
+	/// MockFixtureExtensionBuilder knows how to build 
+	/// a MockFixtureExtension.
+	/// </summary>
+	[SuiteBuilder]
+	public class MockFixtureExtensionBuilder : NUnitTestFixtureBuilder
+	{	
+		public MockFixtureExtensionBuilder()
+		{
+			//
+			// TODO: Add constructor logic here	//
+		}
+
+		#region ISuiteBuilder Members
+
+		public override TestSuite BuildFrom(Type type, int assemblyKey)
+		{
+			if ( CanBuildFrom( type ) )
+				return base.BuildFrom( type, assemblyKey );
+			return null;
+		}
+
+		public override bool CanBuildFrom(Type type)
+		{
+			return type.IsDefined( typeof( MockFixtureExtensionAttribute ), false );
+		}
+		#endregion
+	}
+
+	/// <summary>
 	/// MockFixtureExtensionAttribute is used to identify a MockFixtureExtension class
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple=false)]
@@ -127,7 +138,7 @@ namespace NUnit.Extensions.Tests
 	/// MockFixtureExtension extends test fixture and adds a custom setup
 	/// before running TestFixtureSetUp and after running TestFixtureTearDown
 	/// </summary>
-	class MockFixtureExtension : TestFixture
+	class MockFixtureExtension : NUnitTestFixture
 	{
 		public MockFixtureExtension( Type fixtureType, int assemblyKey ) 
 			: base( fixtureType, assemblyKey )
@@ -142,15 +153,15 @@ namespace NUnit.Extensions.Tests
 			// TestFixtureSetUp and TestFixtureTearDown
 		}
 
-		public override void DoSetUp(TestResult suiteResult)
+		public override void DoOneTimeSetUp(TestResult suiteResult)
 		{
 			Console.WriteLine( "Extended Fixture SetUp called" );
-			base.DoSetUp (suiteResult);
+			base.DoOneTimeSetUp (suiteResult);
 		}
 
-		public override void DoTearDown(TestResult suiteResult)
+		public override void DoOneTimeTearDown(TestResult suiteResult)
 		{
-			base.DoTearDown (suiteResult);
+			base.DoOneTimeTearDown (suiteResult);
 			Console.WriteLine( "Extended Fixture TearDown called" );
 		}
 	}
@@ -190,7 +201,6 @@ namespace NUnit.Extensions.Tests
 			Console.WriteLine( "I shouldn't be called!" );
 		}
 	}
-
 	#endregion
 
 	#region SetUpFixture
@@ -200,6 +210,49 @@ namespace NUnit.Extensions.Tests
 	// if it is to work. Probably, the basic support for having
 	// setup and teardown on a namespace suite should be moved to
 	// the NUnit core, and extensions should build on that.
+
+	/// <summary>
+	/// MockSuiteBuilder knows how to build three different
+	/// types of suite extensions:
+	/// 1. MockSuiteExtension extends TestSuite
+	/// 2. MockFixtureExtension extends TestFixture
+	/// 3. SetUpFixture extends NamespaceSuite
+	/// </summary>
+	[SuiteBuilder]
+	public class MockSuiteBuilder : ISuiteBuilder
+	{	
+		public MockSuiteBuilder()
+		{
+			//
+			// TODO: Add constructor logic here	//
+		}
+
+	#region ISuiteBuilder Members
+
+		public TestSuite BuildFrom(Type type, int assemblyKey)
+		{
+			if ( type.IsDefined( typeof( MockSuiteExtensionAttribute ), false ) )
+				return new MockSuiteExtension( type, assemblyKey );
+			else if ( type.IsDefined( typeof( MockFixtureExtensionAttribute ), false ) )
+				return new MockFixtureExtension( type, assemblyKey );
+#if SETUP_FIXTURE
+			else if ( type.IsDefined( typeof( SetUpFixtureAttribute ), false ) )
+				return new SetUpFixture( type );
+#endif
+			throw new ArgumentException( "MockSuiteBuilder cannot use type " + type.FullName );
+		}
+
+		public bool CanBuildFrom(Type type)
+		{
+			return type.IsDefined( typeof( MockSuiteExtensionAttribute ), false )
+				|| type.IsDefined( typeof( MockFixtureExtensionAttribute ), false )
+#if SETUP_FIXTURE
+				|| type.IsDefined( typeof( SetUpFixtureAttribute ), false )
+#endif
+				;
+		}
+	#endregion
+	}
 
 	/// <summary>
 	/// SetUpFixtureAttribute is used to identify a SetUpFixture
@@ -263,7 +316,7 @@ namespace NUnit.Extensions.Tests
 			Console.WriteLine( "Namespace TearDown called" );
 		}
 	}
-#endif
 
+#endif
 	#endregion
 }

@@ -75,8 +75,8 @@ namespace NUnit.Core.Tests
 		public void AssemblyNodes()
 		{
 			TestSuite suite = builder.Build( "TestSuite", assemblies);
-			Assert.IsTrue( suite.Tests[0] is AssemblyTestSuite );
-			Assert.IsTrue( suite.Tests[1] is AssemblyTestSuite );
+			Assert.IsTrue( suite.Tests[0] is TestAssembly );
+			Assert.IsTrue( suite.Tests[1] is TestAssembly );
 		}
 
 		[Test]

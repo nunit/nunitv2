@@ -5,6 +5,22 @@ using System.Collections;
 namespace NUnit.Core
 {
 	/// <summary>
+	/// Interface that represents a test framework
+	/// </summary>
+	public interface ITestFramework
+	{
+//		string Name { get; }
+//		Assembly FrameworkAssembly { get; }
+//		string AssertionExceptionType { get; }
+//		string IgnoreExceptionType { get; }
+		bool AllowPrivateTests { get; }
+
+		int GetAssertCount();
+		bool IsAssertException( Exception ex );
+		bool IsIgnoreException( Exception ex );
+	}
+
+	/// <summary>
 	/// Summary description for TestFramework.
 	/// </summary>
 	[Serializable]
@@ -12,8 +28,11 @@ namespace NUnit.Core
 	{
 		#region FrameworkInfo struct
 
+		/// <summary>
+		/// Struct containing information needed to create a TestFramework
+		/// </summary>
 		[Serializable]
-		public struct FrameworkInfo
+			public struct FrameworkInfo
 		{
 			public string Name;
 			public string AssemblyName;
@@ -58,32 +77,7 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Instance Fields
-
-		/// <summary>
-		/// The assembly containing the test framework
-		/// </summary>
-		private Assembly frameworkAssembly;
-
-		/// <summary>
-		/// The FrameworkInfo for this TestFramework
-		/// </summary>
-		private FrameworkInfo frameworkInfo;
-
-		/// <summary>
-		/// The original reference that caused this framework assembly
-		/// to be loaded. This may differ from what is actually loaded.
-		/// </summary>
-		private AssemblyName refAssembly;
-
-		/// <summary>
-		/// The type that implements asserts in this framework
-		/// </summary>
-		private Type assertionType;
-
-		#endregion
-
-		#region Construction
+		#region Static Constructor
 
 		static TestFramework()
 		{
@@ -97,19 +91,11 @@ namespace NUnit.Core
 				"Assert", "AssertionException", null,
 				false ) );
 			testFrameworks.Add( new FrameworkInfo( 
-				"Microsoft Team System",
+				"vsts",
 				"Microsoft.VisualStudio.QualityTools.UnitTestFramework",
 				"Microsoft.VisualStudio.QualityTools.UnitTesting.Framework",
 				"Assert", "AssertionException", null,
 				true) );
-		}
-
-		private TestFramework( Assembly frameworkAssembly, FrameworkInfo frameworkInfo, AssemblyName refAssembly )
-		{
-			this.frameworkAssembly = frameworkAssembly;
-			this.frameworkInfo = frameworkInfo;
-			this.refAssembly = refAssembly;
-			this.assertionType = frameworkAssembly.GetType( frameworkInfo.AssertionType, false, false );
 		}
 
 		#endregion
@@ -120,6 +106,11 @@ namespace NUnit.Core
 		{
 			testFrameworks.Add( info );
 		}
+
+		//		public static IList FrameworkInfo
+		//		{
+		//			get { return testFrameworks; }
+		//		}
 
 		public static IList GetLoadedFrameworks()
 		{
@@ -182,61 +173,87 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Properties
-
-		public Assembly FrameworkAssembly
+		#region Private Constructor
+		private TestFramework( Assembly frameworkAssembly, FrameworkInfo frameworkInfo, AssemblyName refAssembly )
 		{
-			get { return frameworkAssembly; }
+			this.frameworkAssembly = frameworkAssembly;
+			this.frameworkInfo = frameworkInfo;
+			this.refAssembly = refAssembly;
+			this.assertionType = frameworkAssembly.GetType( frameworkInfo.AssertionType, false, false );
 		}
+		#endregion
 
-		public string Name
-		{
-			get { return this.frameworkInfo.Name; }
-		}
+		#region Instance Fields
 
-		public AssemblyName AssemblyName
-		{
-			get { return frameworkAssembly.GetName(); }
-		}
+		/// <summary>
+		/// The assembly containing the test framework
+		/// </summary>
+		private Assembly frameworkAssembly;
 
-		public Version Version
-		{
-			get { return AssemblyName.Version; }
-		}
+		/// <summary>
+		/// The FrameworkInfo for this TestFramework
+		/// </summary>
+		private FrameworkInfo frameworkInfo;
 
-		public string Namespace
-		{
-			get { return frameworkInfo.Namespace; }
-		}
+		/// <summary>
+		/// The original reference that caused this framework assembly
+		/// to be loaded. This may differ from what is actually loaded.
+		/// </summary>
+		private AssemblyName refAssembly;
 
-		public AssemblyName ReferencedAssembly
-		{
-			get { return refAssembly; }
-		}
-
-//		public string TestFixtureType
-//		{
-//			get { return frameworkInfo.TestFixtureType; }
-//		}
+		/// <summary>
+		/// The type that implements asserts in this framework.
+		/// Used to get the count of assertions if applicable.
+		/// </summary>
+		private Type assertionType;
 
 		#endregion
 
-		#region Instance Methods
+		#region ITestFramwework Interface
 
-		public IList GetCandidateFixtureTypes( Assembly assembly )
-		{
-			if ( this.frameworkInfo.AllowPrivateTests )
-				return assembly.GetTypes();
-			else
-				return assembly.GetExportedTypes();
-		}
+//		public Assembly FrameworkAssembly
+//		{
+//			get { return frameworkAssembly; }
+//		}
+//
+//		public string FrameworkName
+//		{
+//			get { return this.frameworkInfo.Name; }
+//		}
+//
+//		public AssemblyName AssemblyName
+//		{
+//			get { return frameworkAssembly.GetName(); }
+//		}
+//
+//		public Version Version
+//		{
+//			get { return AssemblyName.Version; }
+//		}
+//
+//		public string Namespace
+//		{
+//			get { return frameworkInfo.Namespace; }
+//		}
+//
+//		public AssemblyName ReferencedAssembly
+//		{
+//			get { return refAssembly; }
+//		}
+//
+//		public string AssertionExceptionType
+//		{
+//			get { return frameworkInfo.AssertionExceptionType; }
+//		}
+//
+//		public string IgnoreExceptionType
+//		{
+//			get { return frameworkInfo.IgnoreExceptionType; }
+//		}
 
-		public IList GetCandidateTestMethods( Type fixtureType )
+		public bool AllowPrivateTests
 		{
-			if ( this.frameworkInfo.AllowPrivateTests )
-				return fixtureType.GetMethods( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
-			else
-				return fixtureType.GetMethods( BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static );
+			get { return frameworkInfo.AllowPrivateTests; }
 		}
 
 		public int GetAssertCount()
@@ -268,14 +285,4 @@ namespace NUnit.Core
 
 		#endregion
 	}
-
-	public interface ITestFramework
-	{
-		IList GetCandidateFixtureTypes( Assembly assembly );
-		IList GetCandidateTestMethods( Type fixtureType );
-		int GetAssertCount();
-		bool IsAssertException( Exception ex );
-		bool IsIgnoreException( Exception ex );
-	}
-
 }

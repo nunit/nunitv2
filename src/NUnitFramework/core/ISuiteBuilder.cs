@@ -24,13 +24,4 @@ namespace NUnit.Core
 		/// <returns>A TestSuite</returns>
 		TestSuite BuildFrom( Type type, int assemblyKey );
 	}
-
-	public class SuiteBuilderCollection : ReadOnlyCollectionBase
-	{
-		public void Add( ISuiteBuilder builder )
-		{
-			InnerList.Add( builder );
-		}
-	}
-
 }

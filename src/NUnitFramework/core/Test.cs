@@ -37,12 +37,12 @@ namespace NUnit.Core
 	/// </summary>
 	public abstract class Test : LongLivingMarshalByRefObject, ITest, IComparable
 	{
-		#region Private Fields
+		#region Fields
 
 		/// <summary>
 		/// Name of the test
 		/// </summary>
-		private string testName;
+		protected string testName;
 
 		/// <summary>
 		/// Full Name of the test
@@ -55,16 +55,6 @@ namespace NUnit.Core
 		/// </summary>
 		private int assemblyKey;
 
-		/// <summary>
-		/// The Type of the fixture associated with this test, or null
-		/// </summary>
-		protected Type fixtureType;
-
-		/// <summary>
-		/// The fixture object, to be used with this test, or null
-		/// </summary>
-		private object fixture;
-		
 		/// <summary>
 		/// Whether or not the test should be run
 		/// </summary>
@@ -110,6 +100,7 @@ namespace NUnit.Core
 		{
 			this.fullName = this.testName = name;
 			this.assemblyKey = assemblyKey;
+			this.shouldRun = true;
 		}
 
 		protected Test( string pathName, string testName ) 
@@ -120,28 +111,7 @@ namespace NUnit.Core
 			fullName = pathName == null || pathName == string.Empty ? testName : pathName + "." + testName;
 			this.testName = testName;
 			this.assemblyKey = assemblyKey;
-			shouldRun = true;
-		}
-
-		protected Test( Type fixtureType ) : this( fixtureType, 0 ) { }
-
-		protected Test( Type fixtureType, int assemblyKey ) 
-		{
-			this.fixtureType = fixtureType;
-			this.fullName = this.testName = fixtureType.FullName;
-			this.assemblyKey = assemblyKey;
 			this.shouldRun = true;
-
-			if ( fixtureType.Namespace != null )
-				testName = testName.Substring( Name.LastIndexOf( '.' ) + 1 );
-		}
-
-		// TODO: Currently, these two are only used by our tests. Remove?
-		protected Test( object fixture ) : this( fixture, 0 ) { }
-
-		protected Test( object fixture, int assemblyKey ) : this( fixture.GetType(), assemblyKey )
-		{
-			this.fixture = fixture;
 		}
 
 		#endregion
@@ -174,12 +144,6 @@ namespace NUnit.Core
 		public string UniqueName
 		{
 			get { return string.Format( "[{0}]{1}", assemblyKey, fullName ); }
-		}
-
-		public object Fixture
-		{
-			get { return fixture; }
-			set { fixture = value; }
 		}
 
 		/// <summary>

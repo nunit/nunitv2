@@ -39,12 +39,15 @@ namespace NUnit.Core
 		private Type expectedException;
 		private string expectedMessage;
 
-		public ExpectedExceptionTestCase(Type fixtureType, MethodInfo method) : base(fixtureType, method)
+		public ExpectedExceptionTestCase( MethodInfo method,
+			Type expectedException, string expectedMessage ) 
+			: base( method )
 		{
-			Initialize( method );
+			this.expectedException = expectedException;
+			this.expectedMessage = expectedMessage;
 		}
 
-		public ExpectedExceptionTestCase(object fixture, MethodInfo method) : base(fixture, method)
+		public ExpectedExceptionTestCase( MethodInfo method ) : base( method )
 		{
 			Initialize( method );
 		}

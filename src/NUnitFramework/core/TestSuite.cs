@@ -44,11 +44,30 @@ namespace NUnit.Core
 		private static readonly string EXPLICIT_SELECTION_REQUIRED = "Explicit selection required";
 		
 		#region Fields
-
 		/// <summary>
 		/// Our collection of child tests
 		/// </summary>
 		private ArrayList tests = new ArrayList();
+
+		/// <summary>
+		/// The Type of the fixture, or null
+		/// </summary>
+		private Type fixtureType;
+
+		/// <summary>
+		/// The fixture object, if it has been created
+		/// </summary>
+		private object fixture;
+		
+		/// <summary>
+		/// The test setup method for this suite
+		/// </summary>
+		protected MethodInfo testSetUp;
+
+		/// <summary>
+		/// The test teardown method for this suite
+		/// </summary>
+		protected MethodInfo testTearDown;
 
 		/// <summary>
 		/// The fixture setup method for this suite
@@ -64,7 +83,6 @@ namespace NUnit.Core
 		/// True if the fixture has been set up
 		/// </summary>
 		private bool isSetUp;
-
 		#endregion
 
 		#region Constructors
@@ -72,27 +90,24 @@ namespace NUnit.Core
 		public TestSuite( string name ) : this( name, 0 ) { }
 
 		public TestSuite( string name, int assemblyKey ) 
-			: base( name, assemblyKey )
-		{
-			ShouldRun = true;
-		}
+			: base( name, assemblyKey ) { }
 
 		public TestSuite( string parentSuiteName, string name ) 
 			: this( parentSuiteName, name, 0 ) { }
 
 		public TestSuite( string parentSuiteName, string name, int assemblyKey ) 
-			: base( parentSuiteName, name, assemblyKey )
+			: base( parentSuiteName, name, assemblyKey ) { }
+
+		public TestSuite( Type fixtureType ) : this( fixtureType, 0 ) { }
+
+		public TestSuite( Type fixtureType, int assemblyKey ) 
+			: base( fixtureType.FullName, assemblyKey ) 
 		{
-			ShouldRun = true;
+			this.fixtureType = fixtureType;
+
+			if ( fixtureType.Namespace != null )
+				testName = FullName.Substring( FullName.LastIndexOf( '.' ) + 1 );
 		}
-
-		public TestSuite( Type fixtureType ) : base( fixtureType, 0 ) { }
-
-		public TestSuite( Type fixtureType, int assemblyKey ) : base( fixtureType, assemblyKey ) { }
-
-		protected TestSuite( object fixture ) : base( fixture, 0 ) { }
-
-		protected TestSuite( object fixture, int assemblyKey ) : base( fixture, assemblyKey ) { }
 
 		#endregion
 
@@ -126,6 +141,33 @@ namespace NUnit.Core
 			get { return tests; }
 		}
 
+		public bool IsSetUp
+		{
+			get { return isSetUp; }
+			set { isSetUp = value; }
+		}
+
+		public object Fixture
+		{
+			get { return fixture; }
+			set { fixture = value; }
+		}
+
+		public Type FixtureType
+		{
+			get { return fixtureType; }
+		}
+
+		public MethodInfo SetUpMethod
+		{
+			get { return testSetUp; }
+		}
+
+		public MethodInfo TearDownMethod
+		{
+			get { return testTearDown; }
+		}
+
 		public override bool IsSuite
 		{
 			get { return true; }
@@ -136,14 +178,6 @@ namespace NUnit.Core
 			get { return false; }
 		}
 
-		public bool IsSetUp
-		{
-			get { return isSetUp; }
-			set { isSetUp = value; }
-		}
-
-		#endregion
-
 		/// <summary>
 		/// True if this is a fixture. May populate the test's
 		/// children as a side effect.
@@ -153,6 +187,8 @@ namespace NUnit.Core
 		{
 			get	{ return false;	}
 		}
+
+		#endregion
 
 		public override int CountTestCases()
 		{
@@ -194,11 +230,11 @@ namespace NUnit.Core
 			if ( ShouldRun )
 			{
 				suiteResult.Executed = true;	
-				DoSetUp( suiteResult );
+				DoOneTimeSetUp( suiteResult );
 
 				RunAllTests( suiteResult, listener, filter );
 
-				DoTearDown( suiteResult );
+				DoOneTimeTearDown( suiteResult );
 			}
 			else
 				suiteResult.NotRun(this.IgnoreReason);
@@ -211,14 +247,14 @@ namespace NUnit.Core
 			return suiteResult;
 		}
 
-		public virtual void DoSetUp( TestResult suiteResult )
+		public virtual void DoOneTimeSetUp( TestResult suiteResult )
 		{
-			//TODO: Move stuff here from TestFixture
+			//TODO: In the future, we should call parent setup
 		}
 
-		public virtual void DoTearDown( TestResult suiteResult )
+		public virtual void DoOneTimeTearDown( TestResult suiteResult )
 		{
-			//TODO: Move stuff here from TestFixture
+			//TODO: In the future, we should call parent teardown
 		}
 
 		protected virtual void RunAllTests(

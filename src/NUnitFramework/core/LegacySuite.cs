@@ -63,16 +63,6 @@ namespace NUnit.Core
 			Initialize( fixtureType );
 		}
 
-		public LegacySuite( object fixture ) : base( fixture, 0 ) 
-		{
-			Initialize( fixture.GetType() );
-		}
-
-		public LegacySuite( object fixture, int assemblyKey ) : base( fixture, assemblyKey ) 
-		{
-			Initialize( fixture.GetType() );
-		}
-
 		private void Initialize( Type fixtureType )
 		{
 			suiteProperty = GetSuiteProperty( fixtureType );

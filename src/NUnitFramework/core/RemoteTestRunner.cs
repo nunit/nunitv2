@@ -354,6 +354,9 @@ namespace NUnit.Core
 			Console.SetOut( outBuffer );
 			Console.SetError( errorBuffer ); 
 
+			AddinManager.Addins.Save();
+			AddinManager.Addins.Clear();
+
 			try
 			{
 				// Create an array for the results
@@ -395,6 +398,7 @@ namespace NUnit.Core
 			finally
 			{
 				CleanUpAfterTestRun();
+				AddinManager.Addins.Restore();
 			}
 		}
 

@@ -29,7 +29,7 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Core;
+using NUnit.Core.Builders;
 
 namespace NUnit.Core.Tests
 {
@@ -41,9 +41,10 @@ namespace NUnit.Core.Tests
 			get 
 			{
 				TestSuite suite = new TestSuite("All Tests");
-				suite.Add(new TestFixture( typeof( OneTestCase ) ) );
-				suite.Add(new TestFixture( typeof( AssemblyTests ) ) );
-				suite.Add(new TestFixture( typeof( NoNamespaceTestFixture ) ) );
+				NUnitTestFixtureBuilder builder = new NUnitTestFixtureBuilder();
+				suite.Add( builder.BuildFrom( typeof( OneTestCase ) ) );
+				suite.Add( builder.BuildFrom( typeof( AssemblyTests ) ) );
+				suite.Add( builder.BuildFrom( typeof( NoNamespaceTestFixture ) ) );
 				return suite;
 			}
 		}

@@ -3,18 +3,29 @@ using System.Reflection;
 
 namespace NUnit.Core
 {
-	internal class NormalBuilder : ITestBuilder
+	internal class NormalBuilder : ITestBuilder, ITestCaseBuilder
 	{
 		#region ITestBuilder Members
 
-		public TestCase Make(Type fixtureType, MethodInfo method)
+		public TestCase Make( MethodInfo method )
 		{
-			return new NormalTestCase(fixtureType, method);
+			return new NormalTestCase( method );
 		}
 
-		public TestCase Make (Type fixtureType, MethodInfo method, object attribute)
+		#endregion
+
+		#region ITestCaseBuilder Members
+
+		public bool CanBuildFrom(MethodInfo method)
 		{
-			return Make(fixtureType, method);
+			return Reflect.HasAttribute( method, "NUnit.Framework.TestAttribute", false );
+		}
+
+		public TestCase BuildFrom(MethodInfo method)
+		{
+			if ( CanBuildFrom( method ) )
+				return new NormalTestCase( method );
+			return null;
 		}
 
 		#endregion

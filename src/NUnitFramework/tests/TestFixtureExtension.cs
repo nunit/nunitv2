@@ -29,7 +29,7 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Core;
+using NUnit.Core.Builders;
 
 namespace NUnit.Core.Tests
 {
@@ -79,6 +79,14 @@ namespace NUnit.Core.Tests
 			}
 		}
 
+		private void RunTestOnFixture( object fixture )
+		{
+			NUnitTestFixtureBuilder builder = new NUnitTestFixtureBuilder();
+			TestSuite suite = builder.BuildFrom( fixture.GetType() );
+			suite.Fixture = fixture;
+			suite.Run( NullListener.NULL );
+		}
+
 		[SetUp] public void LoadFixture()
 		{
 			string testsDll = "nunit.framework.tests.dll";
@@ -90,8 +98,7 @@ namespace NUnit.Core.Tests
 		public void CheckMultipleSetUp()
 		{
 			SetUpDerivedTestFixture fixture = new SetUpDerivedTestFixture();
-			TestSuite suite = new TestFixture( fixture );
-			suite.Run(NullListener.NULL);
+			RunTestOnFixture( fixture );
 
 			Assert.AreEqual(true, fixture.baseSetup);		}
 
@@ -100,10 +107,6 @@ namespace NUnit.Core.Tests
 		{
 			Assert.IsNotNull(suite);
 
-//			TestSuite fixture = (TestSuite)suite.Tests[0];
-//			Assert.IsNotNull(fixture);
-
-//			TestResult result = fixture.Run(NullListener.NULL);
 			TestResult result = suite.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsSuccess);
 		}
@@ -112,8 +115,7 @@ namespace NUnit.Core.Tests
 		public void InheritSetup()
 		{
 			DerivedTestFixture fixture = new DerivedTestFixture();
-			TestSuite suite = new TestFixture( fixture );
-			suite.Run(NullListener.NULL);
+			RunTestOnFixture( fixture );
 
 			Assert.AreEqual(true, fixture.baseSetup);
 		}
@@ -122,8 +124,7 @@ namespace NUnit.Core.Tests
 		public void InheritTearDown()
 		{
 			DerivedTestFixture fixture = new DerivedTestFixture();
-			TestSuite suite = new TestFixture( fixture );
-			suite.Run(NullListener.NULL);
+			RunTestOnFixture( fixture );
 
 			Assert.AreEqual(true, fixture.baseTeardown);
 		}
