@@ -84,19 +84,19 @@ namespace NUnit.Core
 		Test Load( string assemblyName, string testName );
 
 		/// <summary>
-		/// Load multiple assemblies
+		/// Load the assemblies in a test project
 		/// </summary>
-		/// <param name="projectName">The project name to use for the root test node</param>
-		/// <param name="assemblies">The assemblies from which tests are to be loaded</param>
-		Test Load( string projectName, string[] assemblies );
+		/// <param name="testProject">The test project to load</param>
+		/// <returns>The loaded test</returns>
+		Test Load( TestProject testProject );
 
 		/// <summary>
-		/// Load a particular test in a set of assemblies
+		/// Load a particular test in a TestProject
 		/// </summary>
-		/// <param name="projectName">The project name to use for the root test node</param>
-		/// <param name="assemblies">The assemblies from which tests are to be loaded</param>
+		/// <param name="testProject">The test project to load</param>
 		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
-		Test Load( string projectName, string[] assemblies, string testName );
+		/// <returns>The loaded test</returns>
+		Test Load( TestProject testProject, string testName );
 
 		/// <summary>
 		/// Unload all tests previously loaded
@@ -130,11 +130,6 @@ namespace NUnit.Core
 		/// </summary>
 		/// <returns></returns>
 		ICollection GetCategories(); 
-
-		/// <summary>
-		/// Run the loaded tests using a test filter
-		/// </summary>
-//		TestResult Run(NUnit.Core.EventListener listener, IFilter filter);
 
 		/// <summary>
 		/// Run all loaded tests and return a test result. The test is run synchronously,

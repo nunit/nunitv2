@@ -200,22 +200,22 @@ namespace NUnit.Core
 			return suite;
 		}
 
-		/// <summary>
-		/// Load multiple assemblies
-		/// </summary>
-		public Test Load( string projectName, string[] assemblies )
+		public Test Load( TestProject testProject )
 		{
-			this.assemblies = (string[])assemblies.Clone();
+			this.assemblies = (string[])testProject.Assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			this.suite = builder.Build( projectName, assemblies );
+			this.suite = builder.Build( testProject );
 			return suite;
 		}
 
-		public Test Load( string projectName, string[] assemblies, string testName )
+		/// <summary>
+		/// Load a particular test from a test project
+		/// </summary>
+		public Test Load( TestProject project, string testName )
 		{
-			this.assemblies = (string[])assemblies.Clone();
+			this.assemblies = (string[])project.Assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			this.suite = builder.Build( assemblies, testName );
+			this.suite = builder.Build( project, testName );
 			return suite;
 		}
 
@@ -354,8 +354,8 @@ namespace NUnit.Core
 			Console.SetOut( outBuffer );
 			Console.SetError( errorBuffer ); 
 
-			AddinManager.Addins.Save();
-			AddinManager.Addins.Clear();
+//			AddinManager.Addins.Save();
+//			AddinManager.Addins.Clear();
 
 			try
 			{
@@ -398,7 +398,7 @@ namespace NUnit.Core
 			finally
 			{
 				CleanUpAfterTestRun();
-				AddinManager.Addins.Restore();
+//				AddinManager.Addins.Restore();
 			}
 		}
 

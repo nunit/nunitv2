@@ -477,7 +477,9 @@ namespace NUnit.Util
 				events.FireTestLoading( TestFileName );
 
 				testDomain = new TestDomain( stdOutWriter, stdErrWriter );		
-				Test test = testDomain.Load( TestProject, testName );
+				Test test = TestProject.IsAssemblyWrapper
+					? testDomain.Load( TestProject.ActiveConfig.Assemblies[0].FullPath )
+					: testDomain.Load( TestProject.AsCoreTestProject );
 
 				TestSuite suite = test as TestSuite;
 				if ( suite != null )
@@ -585,7 +587,7 @@ namespace NUnit.Util
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
 					TestDomain newDomain = new TestDomain( stdOutWriter, stdErrWriter );
-					Test newTest = newDomain.Load( testProject, loadedTestName );
+					Test newTest = newDomain.Load( testProject.AsCoreTestProject, loadedTestName );
 					TestSuite suite = newTest as TestSuite;
 					if ( suite != null )
 						suite.Sort();

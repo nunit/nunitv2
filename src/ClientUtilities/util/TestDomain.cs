@@ -209,50 +209,35 @@ namespace NUnit.Util
 			}
 		}
 
-		public Test Load( string testFileName, string[] assemblies )
+		public Test Load( TestProject testProject )
 		{
-			return Load( testFileName, assemblies, null );
+			return Load( testProject, null );
 		}
 
-		public Test Load( string testFileName, string[] assemblies, string testFixture )
-		{
-			FileInfo testFile = new FileInfo( testFileName );		
-			return Load( testFileName, testFile.DirectoryName, testFile.FullName + ".config", GetBinPath(assemblies), assemblies, testFixture );
-		}
-
-		public Test Load( string testFileName, string appBase, string configFile, string binPath, string[] assemblies, string testFixture )
+		public Test Load( TestProject testProject, string testName )
 		{
 			Unload();
 
 			try
 			{
-				CreateDomain( testFileName, appBase, configFile, binPath, assemblies );
+				FileInfo projectFile = new FileInfo( testProject.ProjectPath );
+				CreateDomain( 
+					testProject.ProjectPath,
+					projectFile.DirectoryName,
+					Path.ChangeExtension( projectFile.FullName, ".config" ),
+					GetBinPath( testProject.Assemblies ),
+					testProject.Assemblies );
 
-				if ( testFixture != null )
-					return Runner.Load( testFileName, assemblies, testFixture );
+				if ( testName != null )
+					return Runner.Load( testProject, testName );
 				else
-					return Runner.Load( testFileName, assemblies );
+					return Runner.Load( testProject );
 			}
 			catch
 			{
 				Unload();
 				throw;
 			}
-		}
-
-		public Test Load( NUnitProject project )
-		{
-			return Load( project, null );
-		}
-
-		public Test Load( NUnitProject project, string testFixture )
-		{
-			ProjectConfig cfg = project.ActiveConfig;
-
-			if ( project.IsAssemblyWrapper )
-				return Load( cfg.Assemblies[0].FullPath, testFixture );
-			else
-				return Load( project.ProjectPath, cfg.BasePath, cfg.ConfigurationFile, cfg.PrivateBinPath, cfg.TestAssemblies, testFixture );
 		}
 
 		public void Unload()
