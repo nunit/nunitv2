@@ -303,7 +303,7 @@ namespace NUnit.Console
 
 			public void TestFinished(TestCaseResult testResult)
 			{
-				if ( !options.xmlConsole )
+				if ( !options.xmlConsole && !options.labels )
 				{
 					if(testResult.Executed)
 					{
@@ -331,12 +331,11 @@ namespace NUnit.Console
 			{
 				currentTestName = testCase.FullName;
 
-				if ( !options.xmlConsole )
-					Console.Write(".");
-
 				if ( options.labels )
-					writer.WriteLine("[{0}]", testCase.FullName );
-			}
+					writer.WriteLine("***** {0}", testCase.FullName );
+				else if ( !options.xmlConsole )
+					Console.Write(".");
+}
 
 			public void SuiteStarted(TestSuite suite) 
 			{
