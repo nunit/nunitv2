@@ -48,7 +48,7 @@ namespace NUnit.Console
 	public class ConsoleUi
 	{
 		private NUnit.Core.TestDomain testDomain;
-		private string outputFile;
+		private StringBuilder builder;
 		private XmlTextReader transformReader;
 
 		public static int Main(string[] args)
@@ -93,11 +93,19 @@ namespace NUnit.Console
 						if(parser.IsXml)
 							xmlResult = parser.xml;
 
+						StringBuilder b = new StringBuilder();
+						
 						XmlTextReader reader = GetTransformReader(parser);
 						if(reader != null)
 						{
-							ConsoleUi consoleUi = new ConsoleUi(domain, xmlResult, reader);
+							ConsoleUi consoleUi = new ConsoleUi(domain, b, reader);
 							returnCode = consoleUi.Execute();
+							if (parser.xmlConsole)
+								Console.WriteLine(b.ToString());
+							using (StreamWriter writer = new StreamWriter(xmlResult)) 
+							{
+								writer.Write(b.ToString());
+							}
 							if(parser.wait)
 							{
 								Console.Out.WriteLine("Hit <enter> key to continue");
@@ -204,10 +212,10 @@ namespace NUnit.Console
 			writer.WriteLine("/transform:<file>           XSL transform file");
 		}
 
-		public ConsoleUi(NUnit.Core.TestDomain testDomain, string xmlFile, XmlTextReader reader)
+		public ConsoleUi(NUnit.Core.TestDomain testDomain, StringBuilder builder, XmlTextReader reader)
 		{
 			this.testDomain = testDomain;
-			outputFile = xmlFile;
+			this.builder = builder;
 			transformReader = reader;
 		}
 
@@ -219,7 +227,7 @@ namespace NUnit.Console
 			TestResult result = testDomain.Run(collector, outStream, errorStream);
 
 			Console.WriteLine("\n");
-			XmlResultVisitor resultVisitor = new XmlResultVisitor(outputFile, result);
+			XmlResultVisitor resultVisitor = new XmlResultVisitor(new StringWriter(builder), result);
 			result.Accept(resultVisitor);
 			resultVisitor.Write();
 			CreateSummaryDocument();
@@ -232,7 +240,7 @@ namespace NUnit.Console
 
 		private void CreateSummaryDocument()
 		{
-			XPathDocument originalXPathDocument = new XPathDocument (outputFile);
+			XPathDocument originalXPathDocument = new XPathDocument(new StringReader(builder.ToString()));
 			XslTransform summaryXslTransform = new XslTransform();
 			summaryXslTransform.Load(transformReader);
 			
