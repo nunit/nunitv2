@@ -54,61 +54,72 @@ namespace NUnit.Console
 		{
 			int returnCode = 0;
 
-			WriteCopyright();
+			ConsoleOptions parser = new ConsoleOptions(args);
+			if(!parser.nologo)
+				WriteCopyright();
 
-			try
+			if(parser.help)
 			{
-				CommandLineParser parser = new CommandLineParser(args);
-				if(parser.NoArgs) 
-				{
-					Console.Error.WriteLine("\nfatal error: no inputs specified");
-					WriteHelp(Console.Error);
-				}
-				else
-				{
-					ConsoleWriter outStream = new ConsoleWriter(Console.Out);
-					ConsoleWriter errorStream = new ConsoleWriter(Console.Error);
-					NUnit.Framework.TestDomain domain = new NUnit.Framework.TestDomain(outStream, errorStream);
-
-					Test test = MakeTestFromCommandLine(domain, parser);
-					try
-					{
-						if(test == null) 
-							returnCode = 2;
-						else
-						{
-							Directory.SetCurrentDirectory(new FileInfo(parser.AssemblyName).DirectoryName);
-							string xmlResult = "TestResult.xml";
-							if(parser.IsXml)
-								xmlResult = parser.XmlFileName;
-
-							XmlTextReader reader = GetTransformReader(parser);
-							if(reader != null)
-							{
-								ConsoleUi consoleUi = new ConsoleUi(domain, xmlResult, reader);
-								returnCode = consoleUi.Execute();
-							}
-							else
-								returnCode = 3;
-						}
-					}
-					finally
-					{
-						domain.Unload();
-					}
-				}
+				parser.Help();
 			}
-			catch(CommandLineException cle)
+			else if(parser.NoArgs) 
 			{
-				Console.Error.WriteLine("\n" + cle.Message);
-				WriteHelp(Console.Error);
+				Console.Error.WriteLine("\nfatal error: no inputs specified");
+				parser.Help();
+			}
+			else if(!parser.Validate())
+			{
+				Console.Error.WriteLine("\nfatal error: invalid arguments");
+				parser.Help();
 				returnCode = 2;
 			}
+			else
+			{
+				ConsoleWriter outStream = new ConsoleWriter(Console.Out);
+				ConsoleWriter errorStream = new ConsoleWriter(Console.Error);
+				NUnit.Framework.TestDomain domain = new NUnit.Framework.TestDomain(outStream, errorStream);
+
+				Test test = MakeTestFromCommandLine(domain, parser);
+				try
+				{
+					if(test == null)
+					{
+						Console.Error.WriteLine("\nfatal error: invalid assembly {0}", parser.assembly);
+						returnCode = 2;
+					}
+					else
+					{
+						Directory.SetCurrentDirectory(new FileInfo(parser.assembly).DirectoryName);
+						string xmlResult = "TestResult.xml";
+						if(parser.IsXml)
+							xmlResult = parser.xml;
+
+						XmlTextReader reader = GetTransformReader(parser);
+						if(reader != null)
+						{
+							ConsoleUi consoleUi = new ConsoleUi(domain, xmlResult, reader);
+							returnCode = consoleUi.Execute();
+							if(parser.wait)
+							{
+								Console.Out.WriteLine("Hit <enter> key to continue");
+								Console.ReadLine();
+							}
+						}
+						else
+							returnCode = 3;
+					}
+				}
+				finally
+				{
+					domain.Unload();
+				}
+			}
+
 
 			return returnCode;
 		}
 
-		private static XmlTextReader GetTransformReader(CommandLineParser parser)
+		private static XmlTextReader GetTransformReader(ConsoleOptions parser)
 		{
 			XmlTextReader reader = null;
 			if(!parser.IsTransform)
@@ -121,7 +132,7 @@ namespace NUnit.Console
 			}
 			else
 			{
-				FileInfo xsltInfo = new FileInfo(parser.TransformFileName);
+				FileInfo xsltInfo = new FileInfo(parser.transform);
 				if(!xsltInfo.Exists)
 				{
 					Console.Error.WriteLine("\nTransform file: {0} does not exist", xsltInfo.FullName);
@@ -152,20 +163,29 @@ namespace NUnit.Console
 		}
 
 		private static Test MakeTestFromCommandLine(NUnit.Framework.TestDomain testDomain, 
-													CommandLineParser parser)
+			ConsoleOptions parser)
 		{
 			Test test = null;
+
+			if(!DoesFileExist(parser.assembly)) return null; 
+			
 			if(parser.IsAssembly)
 			{
-				test = testDomain.Load(parser.AssemblyName);
-				if(test == null) Console.WriteLine("\nfatal error: assembly ({0}) is invalid", parser.AssemblyName);
+				test = testDomain.Load(parser.assembly);
+				if(test == null) Console.WriteLine("\nfatal error: assembly ({0}) is invalid", parser.assembly);
 			}
 			else if(parser.IsFixture)
 			{
-				test = testDomain.Load(parser.TestName, parser.AssemblyName);
-				if(test == null) Console.WriteLine("\nfatal error: fixture ({0}) in assembly ({1}) is invalid", parser.TestName, parser.AssemblyName);
+				test = testDomain.Load(parser.fixture, parser.assembly);
+				if(test == null) Console.WriteLine("\nfatal error: fixture ({0}) in assembly ({1}) is invalid", parser.fixture, parser.assembly);
 			}
 			return test;
+		}
+
+		private static bool DoesFileExist(string fileName)
+		{
+			FileInfo fileInfo = new FileInfo(fileName);
+			return fileInfo.Exists;
 		}
 
 		private static void WriteHelp(TextWriter writer)

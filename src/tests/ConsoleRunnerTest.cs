@@ -141,6 +141,16 @@ namespace NUnit.Tests
 			Assertion.AssertEquals(2, resultCode);
 		}
 
+		[Test]
+		public void InvalidAssembly()
+		{
+			string[] arguments = MakeCommandLine("badassembly.dll", 
+				null, 
+				null);
+			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
+			Assertion.AssertEquals(2, resultCode);
+		}
+
 		private string[] MakeCommandLine(string assembly, string fixture, string xmlFile)
 		{
 			ArrayList list = new ArrayList();
