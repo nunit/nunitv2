@@ -4,6 +4,7 @@ using System.Threading;
 using NUnit.Core;
 using NUnit.Framework;
 using NUnit.Util;
+using NUnit.Tests.Assemblies;
 
 namespace NUnit.Tests.TimingTests
 {
@@ -51,8 +52,8 @@ namespace NUnit.Tests.TimingTests
 
 			// Visit the results of the test after another delay
 			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assert.AreEqual(5, summarizer.ResultCount);
-			Assert.AreEqual(2, summarizer.TestsNotRun);
+			Assert.AreEqual(MockAssembly.Tests - MockAssembly.NotRun, summarizer.ResultCount);
+			Assert.AreEqual(MockAssembly.NotRun, summarizer.TestsNotRun);
 
 			// Make sure we can still access the tests
 			// using the Test property of the result
