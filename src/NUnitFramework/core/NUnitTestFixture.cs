@@ -8,19 +8,21 @@ namespace NUnit.Core
 	public class NUnitTestFixture : GenericTestFixture
 	{
 		static public readonly TestFixtureParameters Parameters
-			= new TestFixtureParameters(
-			"NUnit",
-			"NUnit.Framework.TestFixtureAttribute",
-			"NUnit.Framework.TestAttribute",
-			"NUnit.Framework.ExpectedExceptionAttribute",
-			"NUnit.Framework.SetUpAttribute",
-			"NUnit.Framework.TearDownAttribute",
-			"NUnit.Framework.TestFixtureSetUpAttribute",
-			"NUnit.Framework.TestFixtureTearDownAttribute",
-			"NUnit.Framework.ExplicitAttribute",
-			"NUnit.Framework.CategoryAttribute",
-			"NUnit.Framework.IgnoreAttribute",
-			"NUnit.Framework.PlatformAttribute" );
+			= new TestFixtureParameters
+			(
+				"NUnit",
+				"NUnit.Framework",
+				"TestFixtureAttribute",
+				"",
+				"TestAttribute",
+				"^Test",
+				"ExpectedExceptionAttribute",
+				"SetUpAttribute",
+				"TearDownAttribute",
+				"TestFixtureSetUpAttribute",
+				"TestFixtureTearDownAttribute",
+				"IgnoreAttribute" 
+			);
 		
 		public NUnitTestFixture( Type fixtureType ) : this( fixtureType, 0 ) { }
 

@@ -10,8 +10,6 @@ namespace NUnit.Core
 	public class TestFixture : TestSuite
 	{
 		#region Constructors
-		public TestFixture( Type fixtureType ) : base( fixtureType, 0 ) { }
-
 		public TestFixture( Type fixtureType, int assemblyKey )
 			: base( fixtureType, assemblyKey ) { }
 		#endregion
@@ -25,7 +23,7 @@ namespace NUnit.Core
 
 		#region TestSuite Overrides
 
-		public override void DoOneTimeSetUp( TestResult suiteResult )
+		public override void DoFixtureSetUp( TestResult suiteResult )
 		{
 			try 
 			{
@@ -42,7 +40,7 @@ namespace NUnit.Core
 				if (nex != null)
 					ex = nex.InnerException;
 
-				if ( ex.GetType().FullName == "NUnit.Framework.IgnoreException" )
+				if ( testFramework.IsIgnoreException( ex ) )
 				{
 					this.ShouldRun = false;
 					suiteResult.NotRun(ex.Message);
@@ -61,7 +59,7 @@ namespace NUnit.Core
 			}
 		}
 
-		public override void DoOneTimeTearDown( TestResult suiteResult )
+		public override void DoFixtureTearDown( TestResult suiteResult )
 		{
 			if (this.ShouldRun) 
 			{

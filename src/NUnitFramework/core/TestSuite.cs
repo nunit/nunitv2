@@ -79,6 +79,8 @@ namespace NUnit.Core
 		/// </summary>
 		protected MethodInfo fixtureTearDown;
 
+		private bool needParentTearDown;
+
 		/// <summary>
 		/// True if the fixture has been set up
 		/// </summary>
@@ -87,30 +89,30 @@ namespace NUnit.Core
 
 		#region Constructors
 
+		/// <summary>
+		/// Only used by tests and by RootTestSuite
+		/// </summary>
+		/// <param name="name"></param>
 		public TestSuite( string name ) : this( name, 0 ) { }
 
 		public TestSuite( string name, int assemblyKey ) 
 			: base( name, assemblyKey ) { }
 
-		public TestSuite( string parentSuiteName, string name ) 
-			: this( parentSuiteName, name, 0 ) { }
-
 		public TestSuite( string parentSuiteName, string name, int assemblyKey ) 
 			: base( parentSuiteName, name, assemblyKey ) { }
-
-		public TestSuite( Type fixtureType ) : this( fixtureType, 0 ) { }
 
 		public TestSuite( Type fixtureType, int assemblyKey ) 
 			: base( fixtureType.FullName, assemblyKey ) 
 		{
 			this.fixtureType = fixtureType;
-
+			string uname = fixtureType.AssemblyQualifiedName;
 			if ( fixtureType.Namespace != null )
 				testName = FullName.Substring( FullName.LastIndexOf( '.' ) + 1 );
 		}
 
 		#endregion
 
+		#region Public Methods
 		public void Sort()
 		{
 			this.Tests.Sort();
@@ -133,6 +135,7 @@ namespace NUnit.Core
 			test.Parent = this;
 			tests.Add(test);
 		}
+		#endregion
 
 		#region Properties
 
@@ -179,8 +182,7 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// True if this is a fixture. May populate the test's
-		/// children as a side effect.
+		/// True if this is a fixture.
 		/// TODO: An easier way to tell this?
 		/// </summary>
 		public override bool IsFixture
@@ -190,6 +192,7 @@ namespace NUnit.Core
 
 		#endregion
 
+		#region Test Overrides
 		public override int CountTestCases()
 		{
 			int count = 0;
@@ -247,14 +250,43 @@ namespace NUnit.Core
 			return suiteResult;
 		}
 
+		public override bool Filter(IFilter filter) 
+		{
+			return filter.Pass(this);
+		}
+		#endregion
+
+		#region Virtual Methods
 		public virtual void DoOneTimeSetUp( TestResult suiteResult )
 		{
-			//TODO: In the future, we should call parent setup
+			if ( this.Parent != null && !this.Parent.IsSetUp )
+			{
+				Parent.DoOneTimeSetUp( suiteResult );
+				needParentTearDown = true;
+			}
+
+			DoFixtureSetUp( suiteResult );
+		}
+
+		public virtual void DoFixtureSetUp( TestResult suiteResult )
+		{
+			isSetUp = true;
 		}
 
 		public virtual void DoOneTimeTearDown( TestResult suiteResult )
 		{
-			//TODO: In the future, we should call parent teardown
+			DoFixtureTearDown( suiteResult );
+			
+			if ( this.Parent != null  && Parent.IsSetUp && needParentTearDown )
+			{
+				needParentTearDown = false; // Do first in case of exception
+				Parent.DoOneTimeTearDown( suiteResult );
+			}
+		}
+
+		public virtual void DoFixtureTearDown( TestResult suiteResult )
+		{
+			isSetUp = false;
 		}
 
 		protected virtual void RunAllTests(
@@ -290,10 +322,6 @@ namespace NUnit.Core
 				}
 			}
 		}
-
-		public override bool Filter(IFilter filter) 
-		{
-			return filter.Pass(this);
-		}
+		#endregion
 	}
 }

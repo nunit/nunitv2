@@ -9,15 +9,13 @@ namespace NUnit.Core
 	/// </summary>
 	public class NamespaceSuite : TestSuite
 	{
-		public NamespaceSuite( string name ) : base( name, 0 ) { }
-
 		public NamespaceSuite( string name, int assemblyKey ) 
 			: base( name, assemblyKey ) { }
 
-		public NamespaceSuite( string parentSuiteName, string name ) 
-			: base( parentSuiteName, name, 0 ) { }
-
 		public NamespaceSuite( string parentSuiteName, string name, int assemblyKey ) 
 			: base( parentSuiteName, name, assemblyKey ) { }
+
+		public NamespaceSuite( Type type, int assemblyKey )
+			: base( type, assemblyKey ) { }
 	}
 }
