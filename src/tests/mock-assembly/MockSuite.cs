@@ -27,37 +27,24 @@
 '***********************************************************************************/
 #endregion
 
+using System;
+using NUnit.Core;
+using NUnit.Framework;
+
 namespace NUnit.Tests.Assemblies
 {
-	using System;
-	using NUnit.Framework;
-
 	/// <summary>
-	/// Summary description for MockTestFixture.
+	/// Summary description for Suite.
 	/// </summary>
-	/// 
-	[TestFixture(Description="Fake Test Fixture")]
-	public class MockTestFixture
+	public class MockSuite
 	{
-		[Test(Description="Mock Test #1")]
-		public void MockTest1()
-		{}
-
-		[Test]
-		public void MockTest2()
-		{}
-
-		[Test]
-		public void MockTest3()
-		{}
-
-		[Test]
-		protected void MockTest5()
-		{}
-
-		[Test]
-		[Ignore("ignoring this test method for now")]
-		public void MockTest4()
-		{}
+		[Suite]
+		public static TestSuite Suite
+		{
+			get
+			{
+				return new TestSuite( "MockSuite" );
+			}
+		}
 	}
 }

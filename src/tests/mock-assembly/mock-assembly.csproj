@@ -84,6 +84,11 @@
                     Project = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "nunit.core.dll"
+                    Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
@@ -95,6 +100,11 @@
                 />
                 <File
                     RelPath = "AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MockSuite.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
