@@ -48,7 +48,6 @@ namespace NUnit.Util
 		/// </summary>
 		private TestNode _contextNode;
 
-
 		#region Type-Safe Versions of TreeView members
 		/// <summary>
 		/// A type-safe version of SelectedNode.
@@ -181,6 +180,21 @@ namespace NUnit.Util
 			Nodes.Add(BuildTreeNode(test));
 			ExpandAll();
 			SelectedNode = RootNode;
+		}
+
+		/// <summary>
+		/// Delegate for use in invoking the tree loader
+		/// from the watcher thread.
+		/// </summary>
+		private delegate void LoadHandler( Test test );
+		
+		/// <summary>
+		/// Called to load the tree from the watcher thread.
+		/// </summary>
+		/// <param name="test"></param>
+		public void InvokeLoadHandler( Test test )
+		{
+			Invoke( new LoadHandler( Load ), new object[]{ test } );
 		}
 
 		/// <summary>
