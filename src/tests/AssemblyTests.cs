@@ -20,6 +20,7 @@
 namespace NUnit.Tests.Assemblies
 {
 	using System;
+	using System.Configuration;
 	using System.IO;
 	using System.Reflection;
 	using System.Reflection.Emit;
@@ -83,6 +84,14 @@ namespace NUnit.Tests.Assemblies
 		{
 			string typeNamespace = this.GetType().Namespace;
 			Assertion.AssertEquals("NUnit.Tests.Assemblies", typeNamespace);
+		}
+
+
+		[Test]
+		public void AppSettingsLoaded()
+		{
+			Assertion.AssertNull(ConfigurationSettings.AppSettings["tooltip.ShowAlways"]);
+			Assertion.AssertNotNull("test.setting should not be null", ConfigurationSettings.AppSettings["test.setting"]);
 		}
 	}
 }

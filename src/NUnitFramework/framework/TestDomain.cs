@@ -6,6 +6,9 @@ namespace NUnit.Framework
 	using System.Runtime.Remoting;
 	using System.Security.Policy;
 	using System.Reflection;
+	using System.Collections;
+	using System.Collections.Specialized;
+	using System.Configuration;
 	using System.IO;
 
 	/// <summary>
@@ -120,6 +123,9 @@ namespace NUnit.Framework
 
 			setup.ShadowCopyFiles = "true";
 			setup.ShadowCopyDirectories = file.DirectoryName;
+
+			setup.ConfigurationFile = file.DirectoryName + @"\" +
+				file.Name + ".config";
 
 			Evidence baseEvidence = AppDomain.CurrentDomain.Evidence;
 			Evidence evidence = new Evidence(baseEvidence);

@@ -187,6 +187,10 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "nunit.tests.dll.config"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "NUnitRegistryTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
