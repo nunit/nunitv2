@@ -293,11 +293,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "RealTestRunnerTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "RemoteRunnerTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -415,11 +410,6 @@
                 />
                 <File
                     RelPath = "TestSuiteTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ThreadedTestRunnerTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
