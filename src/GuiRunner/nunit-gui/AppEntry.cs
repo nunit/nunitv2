@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.Win32;
 using NUnit.Util;
 using NUnit.UiKit;
 
@@ -17,6 +18,8 @@ namespace NUnit.Gui
 		[STAThread]
 		static int Main(string[] args) 
 		{
+			NUnitRegistry.InitializeAddReferenceDialog();
+
 			NUnitForm.CommandLineOptions command =
 				new NUnitForm.CommandLineOptions();
 

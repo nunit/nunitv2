@@ -28,6 +28,9 @@
 #endregion
 
 using System;
+using System.IO;
+using System.Text;
+using System.Windows.Forms;
 using Microsoft.Win32;
 using NUnit.Framework;
 using NUnit.Util;
@@ -61,6 +64,24 @@ namespace NUnit.Tests.Util
 			{
 				Assert.NotNull( key );
 				Assert.Equals( @"HKEY_LOCAL_MACHINE\Software\Nascent Software\Nunit", key.Name );
+			}
+		}
+
+		[Test]
+		public void AssemblyFolder()
+		{
+			StringBuilder sb = new StringBuilder( @"HKEY_LOCAL_MACHINE\Software\Microsoft\.NETFramework\AssemblyFolders\Nunit.Framework" );
+			
+			string appDir = Path.GetDirectoryName( Application.ExecutablePath );
+			if ( appDir.EndsWith( @"\bin\Debug" ) )
+				sb.Append( ".Debug" );
+			else if ( appDir.EndsWith( @"\bin\Release" ) )
+				sb.Append( ".Release" );
+
+			using( RegistryKey key = NUnitRegistry.AssemblyFolder )
+			{
+				Assert.NotNull( key );
+				Assert.Equals( sb.ToString(), key.Name );
 			}
 		}
 
@@ -101,37 +122,88 @@ namespace NUnit.Tests.Util
 		}
 
 		[Test]
-		public void TestClearRoutines()
+		public void AssemblyFolderTestMode()
 		{
 			try
 			{
 				NUnitRegistry.TestMode = true;
-				using( RegistryKey key = NUnitRegistry.LocalMachine )
+				using( RegistryKey key = NUnitRegistry.AssemblyFolder )
 				{
-					using( RegistryKey foo = key.CreateSubKey( "foo" ) )
-					{
-						using( RegistryKey bar = key.CreateSubKey( "bar" ) )
-						{
-							using( RegistryKey footoo = foo.CreateSubKey( "foo" ) )
-							{
-								key.SetValue("X", 5);
-								key.SetValue("NAME", "Joe");
-								foo.SetValue("Y", 17);
-								bar.SetValue("NAME", "Jennifer");
-								footoo.SetValue( "X", 5 );
-								footoo.SetValue("NAME", "Charlie" );
-
-								NUnitRegistry.ClearTestKeys();
-
-								Assert.Equals( 0, key.ValueCount );
-								Assert.Equals( 0, key.SubKeyCount );
-							}
-						}
-					}
+					Assert.NotNull( key );
+					Assert.Equals( @"HKEY_LOCAL_MACHINE\Software\Microsoft\.NETFramework\AssemblyFolders\Nunit.Framework.Test", key.Name );
 				}
 			}
 			finally
 			{
+				NUnitRegistry.TestMode = false;
+			}
+		}
+
+		[Test]
+		public void TestClearRoutines()
+		{
+			RegistryKey key = null;
+			RegistryKey foo = null;
+			RegistryKey bar = null;
+			RegistryKey footoo = null;
+			RegistryKey assemblies = null;
+
+			try
+			{
+				NUnitRegistry.TestMode = true;
+				key = NUnitRegistry.LocalMachine;
+				foo = key.CreateSubKey( "foo" );
+				bar = key.CreateSubKey( "bar" );
+				footoo = foo.CreateSubKey( "foo" );
+				assemblies = NUnitRegistry.AssemblyFolder;
+
+				key.SetValue("X", 5);
+				key.SetValue("NAME", "Joe");
+				foo.SetValue("Y", 17);
+				bar.SetValue("NAME", "Jennifer");
+				footoo.SetValue( "X", 5 );
+				footoo.SetValue("NAME", "Charlie" );
+				
+				assemblies.SetValue( "", "PathToAssemblies" );
+
+				NUnitRegistry.ClearTestKeys();
+
+				Assert.Equals( 0, key.ValueCount );
+				Assert.Equals( 0, key.SubKeyCount );
+				
+				Assert.Null( NUnitRegistry.LocalMachine.OpenSubKey( 
+					@"Software\Microsoft\.NETFramework\AssemblyFolders\Nunit.Framework.Test" ) );
+
+			}
+			finally
+			{
+				NUnitRegistry.TestMode = false;
+				if ( key != null ) key.Close();
+				if ( foo != null ) foo.Close();
+				if ( bar != null ) bar.Close();
+				if ( footoo != null ) footoo.Close();
+			}
+		}
+
+		[Test]
+		public void InitializeAddReferenceDialog()
+		{
+			try
+			{
+				NUnitRegistry.ClearTestKeys();
+				NUnitRegistry.TestMode = true;
+				NUnitRegistry.InitializeAddReferenceDialog();
+
+				string expectedPath = Path.GetDirectoryName( Application.ExecutablePath );
+				
+				using( RegistryKey key = NUnitRegistry.AssemblyFolder )
+				{
+					Assert.Equals( expectedPath, (string)key.GetValue( "" ) );
+				}
+			}
+			finally
+			{
+				NUnitRegistry.ClearTestKeys();
 				NUnitRegistry.TestMode = false;
 			}
 		}

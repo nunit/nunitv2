@@ -30,6 +30,9 @@
 namespace NUnit.Util
 {
 	using System;
+	using System.IO;
+	using System.Text;
+	using System.Windows.Forms;
 	using Microsoft.Win32;
 
 	/// <summary>
@@ -38,10 +41,22 @@ namespace NUnit.Util
 	/// </summary>
 	public class NUnitRegistry
 	{
-		private static readonly string KEY = "Software\\Nascent Software\\Nunit\\";
+		private static readonly string KEY = 
+			@"Software\Nascent Software\Nunit\";
 
 		private static bool testMode = false;
-		private static string testKey = "Software\\Nascent Software\\Nunit-Test";
+		private static string testKey = 
+			@"Software\Nascent Software\Nunit-Test";
+
+		private static readonly string NUNIT_ASSEMBLIES_KEY =
+			@"Software\Microsoft\.NETFramework\AssemblyFolders\Nunit.Framework";
+
+		private static readonly string NUNIT_ASSEMBLIES_TEST_KEY =
+			@"Software\Microsoft\.NETFramework\AssemblyFolders\Nunit.Framework.Test";
+
+		private static readonly string NUNIT_APP_DIR = 
+			Path.GetDirectoryName( Application.ExecutablePath );
+
 
 		/// <summary>
 		/// Prevent construction of object
@@ -88,10 +103,35 @@ namespace NUnit.Util
 			get { return Registry.LocalMachine.CreateSubKey( testMode ? testKey : KEY ); }
 		}
 
+		public static RegistryKey AssemblyFolder
+		{
+			get 
+			{ 
+				StringBuilder sb = new StringBuilder( NUNIT_ASSEMBLIES_KEY );
+
+				if ( testMode )
+					sb.Append( ".Test" );
+				else if ( NUNIT_APP_DIR.EndsWith( @"\bin\Debug" ) )
+					sb.Append( ".Debug" );
+				else if ( NUNIT_APP_DIR.EndsWith( @"\bin\Release" ) )
+					sb.Append( ".Release" );
+
+				return Registry.LocalMachine.CreateSubKey( sb.ToString() ); 
+			}
+		}
+
 		public static void ClearTestKeys()
 		{
 			ClearSubKey( Registry.CurrentUser, testKey );
 			ClearSubKey( Registry.LocalMachine, testKey );
+			
+			
+			RegistryKey key = Registry.LocalMachine.OpenSubKey( NUNIT_ASSEMBLIES_TEST_KEY );
+			if ( key != null )
+			{
+				key.Close();
+				Registry.LocalMachine.DeleteSubKeyTree( NUNIT_ASSEMBLIES_TEST_KEY );
+			}
 		}
 
 		/// <summary>
@@ -118,6 +158,15 @@ namespace NUnit.Util
 
 			foreach( string name in key.GetSubKeyNames() )
 				key.DeleteSubKeyTree( name );
+		}
+
+		public static void InitializeAddReferenceDialog()
+		{
+			using ( RegistryKey nunitKey = NUnitRegistry.AssemblyFolder )
+			{
+				if ( nunitKey != null )
+					nunitKey.SetValue( "", NUNIT_APP_DIR );
+			}
 		}
 	}
 }
