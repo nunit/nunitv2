@@ -212,7 +212,7 @@ namespace NUnit.Tests.Util
 			StreamReader reader = new StreamReader(tempFile);
 			string first = reader.ReadToEnd();
 			reader.Close();
-			Assert.AreEqual(removeTimeAttributes(first), removeTimeAttributes(second));
+			Assert.AreEqual(removeTimeAndAssertAttributes(first), removeTimeAndAssertAttributes(second));
 		}
 
 		[Test]
@@ -225,17 +225,23 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void removeTime() 
 		{
-			string input = "foo time=\"123.745774xxx\" bar time=\"0\"";
-			string output = removeTimeAttributes(input);
-			Assert.AreEqual("foo  bar ", output);
+			string input = "foo time=\"123.745774xxx\" bar asserts=\"5\" time=\"0\"";
+			string output = removeTimeAndAssertAttributes(input);
+			Assert.AreEqual("foo  bar  ", output);
 		}
 
-		private string removeTimeAttributes(string text) 
+		private string removeTimeAndAssertAttributes(string text) 
 		{
 			int index = 0;
 			while ((index = text.IndexOf("time=\"")) != -1) 
 			{
 				int endQuote = text.IndexOf("\"", index + 7);
+				text = text.Remove(index, endQuote - index + 1);
+			}
+
+			while ((index = text.IndexOf("asserts=\"")) != -1) 
+			{
+				int endQuote = text.IndexOf("\"", index + 10);
 				text = text.Remove(index, endQuote - index + 1);
 			}
 
