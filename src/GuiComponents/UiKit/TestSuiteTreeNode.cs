@@ -32,6 +32,7 @@ namespace NUnit.UiKit
 	using System;
 	using System.Collections;
 	using System.Windows.Forms;
+	using System.Drawing;
 	using NUnit.Core;
 	using NUnit.Util;
 	
@@ -54,12 +55,27 @@ namespace NUnit.UiKit
 		private TestResult result;
 
 		/// <summary>
+		/// Private field used for multiple selection
+		/// </summary>
+		private bool selected;
+
+		/// <summary>
+		/// Private field used for inclusion by category
+		/// </summary>
+		private bool included;
+
+		/// <summary>
 		/// Image indices for various test states
 		/// </summary>
 		private static int INIT = 0;
 		private static int SUCCESS = 2;
 		private static int FAILURE = 1;
 		private static int NOT_RUN = 3;
+
+		// Save info about expansion and check state to be used
+		// when the handle is recreated
+		private bool wasExpanded;
+		private bool wasChecked;
 
 		#endregion
 
@@ -104,6 +120,40 @@ namespace NUnit.UiKit
 			get { return this.result; }
 		}
 
+//		/// <summary>
+//		/// Property used for multiple selection
+//		/// </summary>
+//		public bool Selected
+//		{
+//			get { return selected; }
+//			set
+//			{
+//	
+//				selected=value;
+//
+//				if ( selected )
+//				{
+//					this.BackColor = SystemColors.Highlight;
+//					this.ForeColor = SystemColors.HighlightText;
+//				}
+//				else
+//				{
+//					this.BackColor = SystemColors.Window;
+//					this.ForeColor = SystemColors.WindowText;
+//				}
+//			}
+//		}
+
+		public bool Included
+		{
+			get { return included; }
+			set
+			{ 
+				included = value;
+				this.ForeColor = included ? Color.Black : Color.LightBlue;
+			}
+		}
+
 		/// <summary>
 		/// Image index for a test that has not been run
 		/// </summary>
@@ -135,10 +185,38 @@ namespace NUnit.UiKit
 		{
 			get { return NOT_RUN; }
 		}
+
+		public bool WasExpanded
+		{
+			get { return wasExpanded; }
+			set { wasExpanded = value; }
+		}
+		
+		public bool WasChecked
+		{
+			get { return wasChecked; }
+			set { wasChecked = value; }
+		}
 		
 		#endregion
 
 		#region Methods
+
+		public void RestoreVisualState()
+		{
+			if ( wasExpanded != IsExpanded )
+			{
+				if ( wasExpanded )
+					this.Expand();
+				else
+					this.Collapse();
+			}
+
+			this.Checked = wasChecked;
+
+			foreach ( TestSuiteTreeNode child in this.Nodes )
+				child.RestoreVisualState();
+		}
 
 		public void UpdateTest( UITestNode test )
 		{
