@@ -91,6 +91,11 @@ namespace NUnit.Core
 			}
 		}
 
+		public string AssemblyName
+		{
+			get { return assemblyName; }
+		}
+
 		public string TestName 
 		{
 			get { return fullName; }
