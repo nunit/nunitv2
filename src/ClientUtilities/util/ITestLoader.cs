@@ -78,6 +78,9 @@ namespace NUnit.Util
 		// load the tests for the active config.
 		void LoadTest( string filename );
 
+		// Load a project for a list of assemblies
+		void LoadTest( string[] assemblies );
+
 		// Load tests for current project
 		void LoadTest();
 

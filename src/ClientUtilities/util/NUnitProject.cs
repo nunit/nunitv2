@@ -144,19 +144,25 @@ namespace NUnit.Util
 		/// <summary>
 		/// Creates a project to wrap an assembly
 		/// </summary>
-		public static NUnitProject FromAssembly( string assemblyPath )
+		public static NUnitProject FromAssemblies( string[] assemblies )
 		{
 			NUnitProject project = new NUnitProject();
 			ProjectConfig config = new ProjectConfig( "Default" );
-			config.Assemblies.Add( assemblyPath );
+			foreach( string assembly in assemblies )
+				config.Assemblies.Add( assembly );
 			project.Configs.Add( config );
 			project.ActiveConfigName = "Default";
 
-			project.loadPath = Path.GetFullPath( assemblyPath );
+			project.loadPath = Path.GetFullPath( assemblies[0] );
 			project.projectPath = ProjectPathFromFile( project.loadPath );
 			project.isWrapper = true;
 
 			return project;
+		}
+
+		public static NUnitProject FromAssembly( string assemblyPath )
+		{
+			return FromAssemblies( new string[] { assemblyPath } );
 		}
 
 		public static NUnitProject FromVSProject( string vsProjectPath )
@@ -401,9 +407,9 @@ namespace NUnit.Util
 		/// </summary>
 		public Test LoadTest( TestDomain testDomain )
 		{
-			if ( IsWrapper )
+			if ( IsWrapper && ActiveConfig.Assemblies.Count == 1 )
 			{
-				return testDomain.LoadAssembly( LoadPath );
+				return testDomain.LoadAssembly( ActiveConfig.Assemblies[0] );
 			}
 			else
 			{

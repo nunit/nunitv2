@@ -31,6 +31,7 @@ namespace NUnit.Util
 {
 	using System;
 	using System.IO;
+	using System.Collections;
 	using System.Threading;
 	using NUnit.Core;
 	using NUnit.Framework;
@@ -240,6 +241,27 @@ namespace NUnit.Util
 			}
 		}
 
+		public void LoadProject( string[] assemblies )
+		{
+			try
+			{
+				events.FireProjectLoading( "Multiple Assemblies" );
+
+				NUnitProject newProject = NUnitProject.FromAssemblies( assemblies );
+
+				if ( IsProjectLoaded )
+					UnloadProject();
+			
+				testProject = newProject;
+
+				events.FireProjectLoaded( "Multiple Assemblies" );
+			}
+			catch( Exception exception )
+			{
+				events.FireProjectLoadFailed( "Multiple Assemblies", exception );
+			}
+		}
+
 		public void UnloadProject()
 		{
 			string testFileName = TestFileName;
@@ -270,6 +292,14 @@ namespace NUnit.Util
 		{
 			LoadProject( testFileName );
 			
+			if( IsProjectLoaded && TestProject.IsLoadable )
+				LoadTest();
+		}
+
+		public void LoadTest( string[] assemblies )
+		{
+			LoadProject( assemblies );
+
 			if( IsProjectLoaded && TestProject.IsLoadable )
 				LoadTest();
 		}
