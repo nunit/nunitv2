@@ -118,54 +118,32 @@ namespace NUnit.Core
 
 		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText)
 		{
-			Console.SetOut(new BufferedStringTextWriter(outText));
-			Console.SetError(new BufferedStringTextWriter(errorText));
+			BufferedStringTextWriter outBuffer = new BufferedStringTextWriter( outText );
+			BufferedStringTextWriter errorBuffer = new BufferedStringTextWriter( errorText );
+
+			Console.SetOut( outBuffer );
+			Console.SetError( errorBuffer );
 
 			Test test = FindByName(suite, testName);
 
+			string currentDirectory = Environment.CurrentDirectory;
+
+			string assemblyName = assemblies == null ? testFileName : (string)assemblies[test.AssemblyKey];
+			string assemblyDirectory = Path.GetDirectoryName( assemblyName );
+
+			if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
+				Environment.CurrentDirectory = assemblyDirectory;
+
 			TestResult result = test.Run(listener);
+
+			Environment.CurrentDirectory = currentDirectory;
+
+			outBuffer.Close();
+			errorBuffer.Close();
 
 			return result;
 		}
 
-		#endregion
-
-		#region StringTextWriter Class
-
-		/// <summary>
-		/// Use this wrapper to ensure that only strings get passed accross the AppDomain
-		/// boundry.  Otherwise tests will break when non-remotable objecs are passed to
-		/// Console.Write/WriteLine.
-		/// </summary>
-//		private class StringTextWriter : TextWriter
-//		{
-//			public StringTextWriter(TextWriter aTextWriter)
-//			{
-//				theTextWriter = aTextWriter;
-//			}
-//			private TextWriter theTextWriter;
-//
-//			override public void Write(char aChar)
-//			{
-//				theTextWriter.Write(aChar);
-//			}
-//
-//			override public void Write(string aString)
-//			{
-//				theTextWriter.Write(aString);
-//			}
-//
-//			override public void WriteLine(string aString)
-//			{
-//				theTextWriter.WriteLine(aString);
-//			}
-//
-//			override public System.Text.Encoding Encoding
-//			{
-//				get { return theTextWriter.Encoding; }
-//			}
-//		}
-//
 		#endregion
 
 		#region FindByName Helper
