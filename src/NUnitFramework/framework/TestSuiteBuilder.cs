@@ -55,7 +55,19 @@ namespace NUnit.Core
 
 		public Assembly Load(string assemblyName)
 		{
+			// Change currentDirectory in case assembly references unmanaged dlls
+			string currentDirectory = Environment.CurrentDirectory;
+			string assemblyDirectory = Path.GetDirectoryName( assemblyName );
+			bool swap = assemblyDirectory != null && assemblyDirectory != string.Empty;
+
+			if ( swap )
+				Environment.CurrentDirectory = assemblyDirectory;
+
 			Assembly assembly = AppDomain.CurrentDomain.Load(TrimPathAndExtension(assemblyName));
+
+			if ( swap )
+				Environment.CurrentDirectory = currentDirectory;
+
 			return assembly;
 		}
 
