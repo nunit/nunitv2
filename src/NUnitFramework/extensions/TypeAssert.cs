@@ -82,7 +82,7 @@ namespace NUnit.Extensions
 				{
 					System.Reflection.InterfaceMapping x = actual.GetType().GetInterfaceMap(expected);
 				}
-				catch(ArgumentException e)	
+				catch( ArgumentException )	
 				{
 					Fail();
 				}
