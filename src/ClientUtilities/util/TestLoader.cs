@@ -212,7 +212,13 @@ namespace NUnit.Util
 
 		public IList TestFrameworks
 		{
-			get { return this.testDomain.TestFrameworks; }
+			get 
+			{ 
+				if ( testDomain == null )
+					return null;
+				
+				return testDomain.TestFrameworks; 
+			}
 		}
 
 		#endregion

@@ -265,12 +265,6 @@ namespace NUnit.Gui
 			this.statusBar.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("statusBar.ImeMode")));
 			this.statusBar.Location = ((System.Drawing.Point)(resources.GetObject("statusBar.Location")));
 			this.statusBar.Name = "statusBar";
-//			this.statusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
-//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels"))),
-//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels1"))),
-//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels2"))),
-//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels3"))),
-//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels4")))});
 			this.statusBar.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("statusBar.RightToLeft")));
 			this.statusBar.ShowPanels = true;
 			this.statusBar.Size = ((System.Drawing.Size)(resources.GetObject("statusBar.Size")));
@@ -1339,6 +1333,7 @@ namespace NUnit.Gui
 		{		
 			saveXmlResultsMenuItem.Enabled = IsTestLoaded && TestLoader.Results != null;
 			exceptionDetailsMenuItem.Enabled = TestLoader.LastException != null;
+			frameworkInfoMenuItem.Enabled = IsTestLoaded;
 		}
 
 		private void saveXmlResultsMenuItem_Click(object sender, System.EventArgs e)
@@ -1359,12 +1354,21 @@ namespace NUnit.Gui
 
 		private void frameworkInfoMenuItem_Click(object sender, System.EventArgs e)
 		{
-			StringBuilder sb = new StringBuilder(
-				"The following test frameworks have been loaded -\r\n\r\n" );
-			foreach( AssemblyName assemblyName in TestLoader.TestFrameworks )
-				sb.AppendFormat( "  {0}\r\n", assemblyName.ToString() );
-	
-			MessageBox.Show( this, sb.ToString(), "Framework Info", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			IList frameworks = TestLoader.TestFrameworks;
+			string msg = "No test frameworks are loaded.";
+
+			if ( frameworks != null && frameworks.Count > 0 )
+			{
+				StringBuilder sb = new StringBuilder(
+					"The following test frameworks have been loaded -\r\n\r\n" );
+
+				foreach( AssemblyName assemblyName in TestLoader.TestFrameworks )
+					sb.AppendFormat( "  {0}\r\n", assemblyName.ToString() );
+
+				msg = sb.ToString();
+			}
+
+			MessageBox.Show( this, msg, "Framework Info", MessageBoxButtons.OK, MessageBoxIcon.Information );
 		}
 
 		#endregion

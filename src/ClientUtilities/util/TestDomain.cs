@@ -143,7 +143,13 @@ namespace NUnit.Util
 
 		public IList TestFrameworks
 		{
-			get { return Runner.TestFrameworks; }
+			get 
+			{
+				if  ( testRunner == null )
+					return null;
+				
+				return testRunner.TestFrameworks;
+			}
 		}
 
 		public bool ShadowCopyFiles
