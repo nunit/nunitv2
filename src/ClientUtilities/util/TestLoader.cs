@@ -97,6 +97,11 @@ namespace NUnit.Util
 		private TestResult lastResult = null;
 
 		/// <summary>
+		/// The last exception received when trying to load, unload or run a test
+		/// </summary>
+		private Exception lastException = null;
+
+		/// <summary>
 		/// The thread that is running a test
 		/// </summary>
 		private Thread runningThread = null;
@@ -168,6 +173,11 @@ namespace NUnit.Util
 			get { return lastResult; }
 		}
 
+		public Exception LastException
+		{
+			get { return lastException; }
+		}
+
 		#endregion
 
 		#region EventListener Handlers
@@ -225,6 +235,7 @@ namespace NUnit.Util
 			}
 			catch( Exception exception )
 			{
+				lastException = exception;
 				events.FireProjectLoadFailed( "New Project", exception );
 			}
 		}
@@ -248,6 +259,7 @@ namespace NUnit.Util
 			}
 			catch( Exception exception )
 			{
+				lastException = exception;
 				events.FireProjectLoadFailed( filePath, exception );
 			}
 		}
@@ -274,6 +286,7 @@ namespace NUnit.Util
 			}
 			catch( Exception exception )
 			{
+				lastException = exception;
 				events.FireProjectLoadFailed( filePath, exception );
 
 				return false;
@@ -305,6 +318,7 @@ namespace NUnit.Util
 			}
 			catch( Exception exception )
 			{
+				lastException = exception;
 				events.FireProjectLoadFailed( "New Project", exception );
 
 				return false;
@@ -335,6 +349,7 @@ namespace NUnit.Util
 			}
 			catch (Exception exception )
 			{
+				lastException = exception;
 				events.FireProjectUnloadFailed( testFileName, exception );
 			}
 
@@ -422,6 +437,7 @@ namespace NUnit.Util
 			}
 			catch( Exception exception )
 			{
+				lastException = exception;
 				events.FireTestLoadFailed( TestFileName, exception );
 
 				return false;
@@ -456,6 +472,7 @@ namespace NUnit.Util
 				}
 				catch( Exception exception )
 				{
+					lastException = exception;
 					events.FireTestUnloadFailed( fileName, exception );
 				}
 			}
@@ -501,6 +518,7 @@ namespace NUnit.Util
 				}
 				catch( Exception exception )
 				{
+					lastException = exception;
 					events.FireTestReloadFailed( testFileName, exception );
 				}
 		}
@@ -546,6 +564,7 @@ namespace NUnit.Util
 			}
 			catch( Exception exception )
 			{
+				lastException = exception;
 				events.FireRunFinished( exception );
 			}
 			finally
