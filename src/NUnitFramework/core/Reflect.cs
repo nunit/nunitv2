@@ -136,6 +136,27 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
+		/// Examine a fixture type and return a count of the methods having a 
+		/// particular attribute.
+		/// </summary>
+		/// <param name="fixtureType">The type to examine</param>
+		/// <param name="attributeName">The FullName of the attribute to look for</param>
+		/// <param name="bindingFlags">BindingFlags to use in looking for method</param>
+		/// <returns>The number of such methods found</returns>
+		public static int CountMethodsWithAttribute( Type fixtureType, string attributeName, BindingFlags bindingFlags )
+		{
+			int count = 0;
+
+			foreach(MethodInfo method in fixtureType.GetMethods( bindingFlags ) )
+			{
+				if( HasAttribute( method, attributeName, true ) ) 
+					count++;
+			}
+
+			return count;
+		}
+
+		/// <summary>
 		/// Examine a fixture type and get a method with a particular name.
 		/// In the case of overloads, the first one found is returned.
 		/// </summary>
@@ -152,42 +173,6 @@ namespace NUnit.Core
 			}
 
 			return null;
-		}
-
-		/// <summary>
-		/// Examine a fixture type and return a method having a particular attribute.
-		/// In the case of multiple methods, an InvalidTestFixtureException is thrown.
-		/// </summary>
-		/// <param name="fixtureType">The type to examine</param>
-		/// <param name="attributeName">The FullName of the attribute to look for</param>
-		/// <returns>A MethodInfo or null</returns>
-		public static MethodInfo GetUniqueMethod( Type fixtureType, string attributeName )
-		{
-			MethodInfo result = null;
-			int count = 0;
-
-			foreach(MethodInfo method in fixtureType.GetMethods( 
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly ) )
-			{
-				if( Reflect.HasAttribute( method, attributeName, true ) ) 
-				{
-					result = method;
-					count++;
-				}
-			}
-
-			if ( count > 1 )
-			{
-				if ( attributeName.EndsWith( "Attribute" ) )
-					attributeName = attributeName.Substring( 
-						0, attributeName.Length - 9 );
-
-				throw new InvalidTestFixtureException( 
-					string.Format( "{0} has multiple {1} methods",
-					fixtureType.Name, attributeName ) );
-			}
-
-			return result;
 		}
 
 		#endregion
