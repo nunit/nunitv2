@@ -44,6 +44,7 @@ namespace NUnit.Core
 		private MethodInfo fixtureSetUp;
 		private MethodInfo fixtureTearDown;
 		private object fixture;
+		private const string FIXTURE_SETUP_FAILED = "Fixture setup failed";
 
 		public TestSuite( string name ) : this( name, 0 ) { }
 
@@ -145,19 +146,27 @@ namespace NUnit.Core
 			suiteResult.Executed = true;
 
 			long startTime = DateTime.Now.Ticks;
-
 			
-			try 
-			{
-				if (this.fixtureSetUp != null)
-					this.InvokeMethod(fixtureSetUp, fixture);
-				RunAllTests(suiteResult,listener);
-			} 
-			catch (Exception ex) 
-			{
-				handleFixtureException(suiteResult, ex);
-			}
-			finally 
+			doFixtureSetup(suiteResult);
+			RunAllTests(suiteResult,listener);
+			doFixtureTearDown(suiteResult);
+
+			long stopTime = DateTime.Now.Ticks;
+
+			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+
+			suiteResult.Time = time;
+
+			if(!ShouldRun) suiteResult.NotRun(this.IgnoreReason);
+
+			listener.SuiteFinished(suiteResult);
+
+			return suiteResult;
+		}
+
+		private void doFixtureTearDown(TestSuiteResult suiteResult)
+		{
+			if (this.ShouldRun) 
 			{
 				try 
 				{
@@ -169,17 +178,26 @@ namespace NUnit.Core
 					handleFixtureException(suiteResult, ex);
 				}
 			}
+			if (this.IgnoreReason == FIXTURE_SETUP_FAILED) 
+			{
+				this.ShouldRun = true;
+				this.IgnoreReason = null;
+			}
+		}
 
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			suiteResult.Time = time;
-			if(!ShouldRun) suiteResult.NotRun(this.IgnoreReason);
-
-			listener.SuiteFinished(suiteResult);
-
-			return suiteResult;
+		private void doFixtureSetup(TestSuiteResult suiteResult)
+		{
+			try 
+			{
+				if (this.fixtureSetUp != null)
+					this.InvokeMethod(fixtureSetUp, fixture);
+			} 
+			catch (Exception ex) 
+			{
+				handleFixtureException(suiteResult, ex);
+				this.ShouldRun = false;
+				this.IgnoreReason = FIXTURE_SETUP_FAILED;
+			}
 		}
 
 		private void handleFixtureException(TestSuiteResult result, Exception ex) 
@@ -195,9 +213,24 @@ namespace NUnit.Core
 
 		protected virtual void RunAllTests(TestSuiteResult suiteResult,EventListener listener)
 		{
-			foreach(Test test in Tests)
+			foreach(Test test in ArrayList.Synchronized(Tests))
 			{
+				if (this.ShouldRun == false) 
+				{
+					test.ShouldRun = false;
+					if (test.IgnoreReason == null)
+						test.IgnoreReason = FIXTURE_SETUP_FAILED;
+				}
 				suiteResult.AddResult(test.Run(listener));
+				if (this.ShouldRun == false) 
+				{
+					
+					if (test.IgnoreReason == FIXTURE_SETUP_FAILED) 
+					{
+						test.ShouldRun = true;
+						test.IgnoreReason = null;
+					}
+				}
 			}
 		}
 	}

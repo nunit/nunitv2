@@ -69,7 +69,7 @@ namespace NUnit.Core
 			set { ignoreReason = value; }
 		}
 
-		public bool ShouldRun
+		public virtual bool ShouldRun
 		{
 			get { return shouldRun; }
 			set { shouldRun = value; }
