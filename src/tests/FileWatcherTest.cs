@@ -25,7 +25,8 @@ namespace NUnit.Tests
 			stream.Close();
 
 			handler = new CounterEventHandler();
-			watcher = new AssemblyWatcher(watcherDelayMs,handler,file);
+			watcher = new AssemblyWatcher(watcherDelayMs, file);
+			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( handler.OnChanged );
 		}
 
 		[TearDown]
@@ -52,7 +53,7 @@ namespace NUnit.Tests
 			}
 			WaitForTimerExpiration();
 			Assertion.AssertEquals(1,handler.Counter);
-			Assertion.AssertEquals(fileName,handler.FileName);			
+			Assertion.AssertEquals(file.FullName,handler.FileName);			
 		}
 
 		[Test]
