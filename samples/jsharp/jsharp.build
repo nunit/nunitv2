@@ -14,10 +14,10 @@
         <vjc target="library" output="${bin.dir}/jsharp.dll"
           unless="${build.mono}" failonerror="false">
             <sources basedir="${src.dir}/samples/jsharp">
-                <includes name="*.jsl"/>
+                <include name="*.jsl"/>
             </sources>
             <references>
-                <includes name="${bin.dir}/nunit.framework.dll"/>
+                <include name="${bin.dir}/nunit.framework.dll"/>
             </references>
         </vjc>
     </target>
@@ -25,10 +25,10 @@
     <target name="copy">
         <copy todir="${src.dir}/samples/jsharp">
             <fileset basedir=".">
-                <includes name="jsharp.vjsproj"/>
-                <includes name="jsharp.build"/>
-                <includes name="*.jsl"/>
-                <includes name="readme.txt"/>
+                <include name="jsharp.vjsproj"/>
+                <include name="jsharp.build"/>
+                <include name="*.jsl"/>
+                <include name="readme.txt"/>
             </fileset>
         </copy>
     </target>

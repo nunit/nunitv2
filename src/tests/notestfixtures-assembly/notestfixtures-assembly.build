@@ -15,7 +15,7 @@
         <csc target="library" output="${bin.dir}/notestfixtures-assembly.dll" debug="${build.debug}" 
           define="${build.defines.csc},${runtime.defines.csc}">
             <sources basedir="${src.dir}/tests/notestfixtures-assembly">
-                <includes name="*.cs"/>
+                <include name="*.cs"/>
             </sources>
         </csc>
     </target>
@@ -23,9 +23,9 @@
     <target name="copy">
         <copy todir="${src.dir}/tests/notestfixtures-assembly">
             <fileset basedir=".">
-                <includes name="notestfixtures-assembly.csproj"/>
-                <includes name="notestfixtures-assembly.build"/>
-                <includes name="*.cs"/>
+                <include name="notestfixtures-assembly.csproj"/>
+                <include name="notestfixtures-assembly.build"/>
+                <include name="*.cs"/>
             </fileset>
         </copy>
     </target>

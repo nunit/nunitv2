@@ -6,7 +6,7 @@
 
     NOTE: This file uses features that are not available in 
     NAnt 0.84. It has been tested using the nightly download
-    nant-0.85-20040516.zip.
+    nant-0.85-20040707.zip.
 
     Examples of Use:
 
@@ -364,11 +364,11 @@
         <!-- Copy source files that build doesn't copy -->
         <copy todir="${build.dir}/src">
             <fileset basedir=".">
-                <includes name="nunit.build"/>
-                <includes name="nunit.sln"/>
-                <includes name="nunit.key"/>
-                <includes name="nunit20under21.config"/>
-                <includes name="install/install.vdproj"/>
+                <include name="nunit.build"/>
+                <include name="nunit.sln"/>
+                <include name="nunit.key"/>
+                <include name="nunit20under21.config"/>
+                <include name="install/install.vdproj"/>
             </fileset>
         </copy>
 
@@ -382,7 +382,7 @@
 		from the build directory - temporary fix -->
         <delete>
             <fileset>
-                <includes name="temp*.xml"/>
+                <include name="temp*.xml"/>
             </fileset>
         </delete>
 
@@ -392,14 +392,14 @@
         <mkdir dir="${package.dir}"/>
         <copy todir="${package.dir}">
             <fileset basedir="${build.dir}">
-                <includes name="**"/>
+                <include name="**"/>
             </fileset>
         </copy>
 
         <!-- Create the zip file -->
         <zip zipfile="${project.package.dir}/${zip.file.name}" ziplevel="9">
             <fileset basedir="${package.dir}">
-                <includes name="**"/>
+                <include name="**"/>
             </fileset>
         </zip>
     </target>
@@ -419,7 +419,7 @@
         <!-- Create the zip file -->
         <zip zipfile="${project.package.dir}/${zipped.src.file.name}" ziplevel="9">
             <fileset basedir="${package.dir}">
-                <includes name="**"/>
+                <include name="**"/>
             </fileset>
         </zip>
     </target>
@@ -435,12 +435,12 @@
         <mkdir dir="${doc.dir}"/>
         <copy todir="${doc.dir}">
             <fileset basedir="doc">
-                <includes name="ReleaseNotes.txt"/>
-                <includes name="ChangeLog.txt"/>
-		<includes name="*.html"/>
-		<includes name="css/*"/>
-		<includes name="files/*"/>
-		<includes name="img/*"/>
+                <include name="ReleaseNotes.txt"/>
+                <include name="ChangeLog.txt"/>
+		<include name="*.html"/>
+		<include name="css/*"/>
+		<include name="files/*"/>
+		<include name="img/*"/>
             </fileset>
         </copy>
     </target>
@@ -451,12 +451,12 @@
         <!-- Copy top level src files and install project -->
         <copy todir="${src.dir}">
             <fileset basedir=".">
-                <includes name="license.rtf"/>
-                <includes name="nunit.build"/>
-                <includes name="nunit.sln"/>
-                <includes name="nunit.key"/>
-                <includes name="nunit20under21.config"/>
-                <includes name="install/install.vdproj"/>
+                <include name="license.rtf"/>
+                <include name="nunit.build"/>
+                <include name="nunit.sln"/>
+                <include name="nunit.key"/>
+                <include name="nunit20under21.config"/>
+                <include name="install/install.vdproj"/>
             </fileset>
         </copy>
 

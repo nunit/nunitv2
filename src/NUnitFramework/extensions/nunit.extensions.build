@@ -14,10 +14,10 @@
         <csc target="library" output="${bin.dir}/nunit.extensions.dll"
                 debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
             <sources basedir="${src.dir}/extensions">
-                <includes name="**/*.cs"/>
+                <include name="**/*.cs"/>
             </sources>
             <references>
-                <includes name="${bin.dir}/nunit.core.dll"/>
+                <include name="${bin.dir}/nunit.core.dll"/>
             </references>
         </csc>
     </target>
@@ -25,10 +25,10 @@
     <target name="copy">
         <copy todir="${src.dir}/extensions">
             <fileset basedir=".">
-                <includes name="nunit.extensions.dll.csproj"/>
-                <includes name="nunit.extensions.build"/>
-                <includes name="AssemblyInfo.cs"/>
-                <includes name="RepeatedTest.cs"/>
+                <include name="nunit.extensions.dll.csproj"/>
+                <include name="nunit.extensions.build"/>
+                <include name="AssemblyInfo.cs"/>
+                <include name="RepeatedTest.cs"/>
             </fileset>
         </copy>
     </target>

@@ -14,10 +14,10 @@
         <vbc target="library" output="${bin.dir}/vb-sample.dll"  
           failonerror="false" imports="Microsoft.VisualBasic,System,System.Collections" optionexplicit="true" rootnamespace="vb_sample" unless="${build.mono}">
             <sources basedir="${src.dir}/samples/vb">
-                <includes name="*.vb"/>
+                <include name="*.vb"/>
             </sources>
             <references>
-                <includes name="${bin.dir}/nunit.framework.dll"/>
+                <include name="${bin.dir}/nunit.framework.dll"/>
             </references>
         </vbc>
     </target>
@@ -25,10 +25,10 @@
     <target name="copy">
         <copy todir="${src.dir}/samples/vb">
             <fileset basedir=".">
-                <includes name="vb-sample.vbproj"/>
-                <includes name="vb-sample.build"/>
-                <includes name="*.vb"/>
-                <includes name="readme.txt"/>
+                <include name="vb-sample.vbproj"/>
+                <include name="vb-sample.build"/>
+                <include name="*.vb"/>
+                <include name="readme.txt"/>
             </fileset>
         </copy>
     </target>

@@ -14,21 +14,21 @@
         <csc target="library" output="${bin.dir}/nunit.uikit.dll"
                 debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
             <sources basedir="${src.dir}/uikit">
-                <includes name="*.cs"/>
+                <include name="*.cs"/>
             </sources>
             <resources basedir="${src.dir}/uikit" prefix="NUnit.UiKit">
-                <includes name="Ellipsis.gif"/>
-                <includes name="Gray.jpg"/>
-                <includes name="Green.jpg"/>
-                <includes name="pinned.gif"/>
-                <includes name="Red.jpg"/>
-                <includes name="unpinned.gif"/>
-                <includes name="Yellow.jpg"/>
-                <includes name="*.resx"/>
+                <include name="Ellipsis.gif"/>
+                <include name="Gray.jpg"/>
+                <include name="Green.jpg"/>
+                <include name="pinned.gif"/>
+                <include name="Red.jpg"/>
+                <include name="unpinned.gif"/>
+                <include name="Yellow.jpg"/>
+                <include name="*.resx"/>
             </resources>
             <references basedir="${bin.dir}">
-                <includes name="nunit.core.dll"/>
-                <includes name="nunit.util.dll"/>
+                <include name="nunit.core.dll"/>
+                <include name="nunit.util.dll"/>
             </references>
         </csc>
     </target>
@@ -36,50 +36,50 @@
     <target name="copy">
         <copy todir="${src.dir}/uikit">
             <fileset basedir=".">
-                <includes name="nunit.uikit.dll.csproj"/>
-                <includes name="nunit.uikit.build"/>
-                <includes name="AddConfigurationDialog.cs"/>
-                <includes name="AddConfigurationDialog.resx"/>
-                <includes name="AppUI.cs"/>
-                <includes name="AssemblyInfo.cs"/>
-                <includes name="AssemblyListBox.cs"/>
-                <includes name="AssemblyListBox.resx"/>
-                <includes name="AssemblyPathDialog.cs"/>
-                <includes name="AssemblyPathDialog.resx"/>
-                <includes name="ConfigurationEditor.cs"/>
-                <includes name="ConfigurationEditor.resx"/>
-                <includes name="ExpandingLabel.cs"/>
-                <includes name="ExpandingLabel.resx"/>
-                <includes name="FolderBrowser.cs"/>
-		<includes name="NotRunTree.cs"/>
-                <includes name="ProgressBar.cs"/>
-                <includes name="ProgressBar.resx"/>
-                <includes name="RecentFileMenuHandler.cs"/>
-                <includes name="RenameConfigurationDialog.cs"/>
-                <includes name="RenameConfigurationDialog.resx"/>
-                <includes name="StatusBar.cs"/>
-                <includes name="StatusBar.resx"/>
-                <includes name="TestLoaderUI.cs"/>
-                <includes name="TestPropertiesDialog.cs"/>
-                <includes name="TestPropertiesDialog.resx"/>
-                <includes name="TestSuiteTreeNode.cs"/>
-                <includes name="TestSuiteTreeView.cs"/>
-                <includes name="TestSuiteTreeView.resx"/>
-                <includes name="TestTree.cs"/>
-                <includes name="TestTree.resx"/>
-                <includes name="TextBoxWriter.cs"/>
-                <includes name="TipWindow.cs"/>
-                <includes name="TipWindow.resx"/>
-                <includes name="UserMessage.cs"/>
-                <includes name="UserMessage.resx"/>
-                <includes name="WaitCursor.cs"/>
-                <includes name="Ellipsis.gif"/>
-                <includes name="Gray.jpg"/>
-                <includes name="Green.jpg"/>
-                <includes name="pinned.gif"/>
-                <includes name="Red.jpg"/>
-                <includes name="unpinned.gif"/>
-                <includes name="Yellow.jpg"/>
+                <include name="nunit.uikit.dll.csproj"/>
+                <include name="nunit.uikit.build"/>
+                <include name="AddConfigurationDialog.cs"/>
+                <include name="AddConfigurationDialog.resx"/>
+                <include name="AppUI.cs"/>
+                <include name="AssemblyInfo.cs"/>
+                <include name="AssemblyListBox.cs"/>
+                <include name="AssemblyListBox.resx"/>
+                <include name="AssemblyPathDialog.cs"/>
+                <include name="AssemblyPathDialog.resx"/>
+                <include name="ConfigurationEditor.cs"/>
+                <include name="ConfigurationEditor.resx"/>
+                <include name="ExpandingLabel.cs"/>
+                <include name="ExpandingLabel.resx"/>
+                <include name="FolderBrowser.cs"/>
+		<include name="NotRunTree.cs"/>
+                <include name="ProgressBar.cs"/>
+                <include name="ProgressBar.resx"/>
+                <include name="RecentFileMenuHandler.cs"/>
+                <include name="RenameConfigurationDialog.cs"/>
+                <include name="RenameConfigurationDialog.resx"/>
+                <include name="StatusBar.cs"/>
+                <include name="StatusBar.resx"/>
+                <include name="TestLoaderUI.cs"/>
+                <include name="TestPropertiesDialog.cs"/>
+                <include name="TestPropertiesDialog.resx"/>
+                <include name="TestSuiteTreeNode.cs"/>
+                <include name="TestSuiteTreeView.cs"/>
+                <include name="TestSuiteTreeView.resx"/>
+                <include name="TestTree.cs"/>
+                <include name="TestTree.resx"/>
+                <include name="TextBoxWriter.cs"/>
+                <include name="TipWindow.cs"/>
+                <include name="TipWindow.resx"/>
+                <include name="UserMessage.cs"/>
+                <include name="UserMessage.resx"/>
+                <include name="WaitCursor.cs"/>
+                <include name="Ellipsis.gif"/>
+                <include name="Gray.jpg"/>
+                <include name="Green.jpg"/>
+                <include name="pinned.gif"/>
+                <include name="Red.jpg"/>
+                <include name="unpinned.gif"/>
+                <include name="Yellow.jpg"/>
             </fileset>
         </copy>
     </target>

@@ -14,12 +14,12 @@
         <!-- Build C++ sample -->
         <cl outputdir="${bin.dir}" options="/clr /AI ${bin.dir}" failonerror="false">
             <sources basedir="${src.dir}/samples/cpp-sample">
-                <includes name="*.cpp"/>
+                <include name="*.cpp"/>
             </sources>
         </cl>
         <link output="${bin.dir}/cpp-sample.dll" options="/DLL" failonerror="false">
             <sources basedir="${bin.dir}">
-                <includes name="*.obj"/>
+                <include name="*.obj"/>
             </sources>
         </link>
     </target>
@@ -27,11 +27,11 @@
     <target name="copy">
         <copy todir="${src.dir}/samples/cpp-sample">
             <fileset basedir=".">
-                <includes name="cpp-sample.vcproj"/>
-                <includes name="cpp-sample.build"/>
-                <includes name="*.cpp"/>
-                <includes name="*.h"/>
-                <includes name="readme.txt"/>
+                <include name="cpp-sample.vcproj"/>
+                <include name="cpp-sample.build"/>
+                <include name="*.cpp"/>
+                <include name="*.h"/>
+                <include name="readme.txt"/>
             </fileset>
         </copy>
     </target>

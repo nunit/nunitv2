@@ -13,10 +13,10 @@
     <target name="build" depends="copy">
         <csc target="library" output="${bin.dir}/money-port.dll" define="${build.defines.csc},${runtime.defines.csc}">
             <sources basedir="${src.dir}/samples/money-port">
-                <includes name="*.cs"/>
+                <include name="*.cs"/>
             </sources>
             <references>
-                <includes name="${bin.dir}/nunit.framework.dll"/>
+                <include name="${bin.dir}/nunit.framework.dll"/>
             </references>
         </csc>		
     </target>
@@ -24,10 +24,10 @@
     <target name="copy">
         <copy todir="${src.dir}/samples/money-port">
             <fileset basedir=".">
-                <includes name="money-port.csproj"/>
-                <includes name="money-port.build"/>
-                <includes name="*.cs"/>
-                <includes name="readme.txt"/>
+                <include name="money-port.csproj"/>
+                <include name="money-port.build"/>
+                <include name="*.cs"/>
+                <include name="readme.txt"/>
             </fileset>
         </copy>
     </target>

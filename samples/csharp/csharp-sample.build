@@ -14,10 +14,10 @@
         <csc target="library" output="${bin.dir}/csharp-sample.dll" 
           define="${build.defines.csc},${runtime.defines.csc}">
             <sources basedir="${src.dir}/samples/csharp">
-                <includes name="*.cs"/>
+                <include name="*.cs"/>
             </sources>
             <references>
-                <includes name="${bin.dir}/nunit.framework.dll"/>
+                <include name="${bin.dir}/nunit.framework.dll"/>
             </references>
         </csc>
     </target>
@@ -25,10 +25,10 @@
     <target name="copy">
         <copy todir="${src.dir}/samples/csharp">
             <fileset basedir=".">
-                <includes name="csharp-sample.csproj"/>
-                <includes name="csharp-sample.build"/>
-                <includes name="*.cs"/>
-                <includes name="readme.txt"/>
+                <include name="csharp-sample.csproj"/>
+                <include name="csharp-sample.build"/>
+                <include name="*.cs"/>
+                <include name="readme.txt"/>
             </fileset>
         </copy>
     </target>

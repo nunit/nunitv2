@@ -14,11 +14,11 @@
     <target name="build" depends="copy">
         <csc target="library" output="${bin.dir}/mock-assembly.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
             <sources basedir="${src.dir}/tests/mock-assembly">
-                <includes name="*.cs"/>
+                <include name="*.cs"/>
             </sources>
             <references basedir="${bin.dir}">
-                <includes name="nunit.framework.dll"/>
-                <includes name="nunit.core.dll"/>
+                <include name="nunit.framework.dll"/>
+                <include name="nunit.core.dll"/>
             </references>
         </csc>
     </target>
@@ -26,9 +26,9 @@
     <target name="copy">
         <copy todir="${src.dir}/tests/mock-assembly">
             <fileset basedir=".">
-                <includes name="mock-assembly.csproj"/>
-                <includes name="mock-assembly.build"/>
-                <includes name="*.cs"/>
+                <include name="mock-assembly.csproj"/>
+                <include name="mock-assembly.build"/>
+                <include name="*.cs"/>
             </fileset>
         </copy>
     </target>

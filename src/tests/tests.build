@@ -21,18 +21,18 @@
         <!-- Build nunit.tests.dll - the main test assembly -->
         <csc target="library" output="${bin.dir}/nunit.tests.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc},NANTBUILD">
             <sources basedir="${src.dir}/tests">
-                <includes name="*.cs"/>
+                <include name="*.cs"/>
             </sources>
             <references basedir="${bin.dir}">
-                <includes name="nunit.uikit.dll" unless="${build.mono}"/>
-                <includes name="nunit.util.dll"/>
-                <includes name="nunit.extensions.dll"/>
-                <includes name="nunit.core.dll"/>
-                <includes name="nunit.framework.dll"/>
-                <includes name="nunit.mocks.dll"/>
-                <includes name="mock-assembly.dll"/>
-                <includes name="nonamespace-assembly.dll"/>
-                <includes name="notestfixtures-assembly.dll"/>
+                <include name="nunit.uikit.dll" unless="${build.mono}"/>
+                <include name="nunit.util.dll"/>
+                <include name="nunit.extensions.dll"/>
+                <include name="nunit.core.dll"/>
+                <include name="nunit.framework.dll"/>
+                <include name="nunit.mocks.dll"/>
+                <include name="mock-assembly.dll"/>
+                <include name="nonamespace-assembly.dll"/>
+                <include name="notestfixtures-assembly.dll"/>
             </references>
         </csc>
 
@@ -45,26 +45,26 @@
     <target name="copy">
         <copy todir="${src.dir}/tests">
             <fileset basedir=".">
-                <includes name="nunit.tests.dll.csproj"/>
-                <includes name="nunit.tests.dll.config"/>
-                <includes name="tests.build"/>
-                <includes name="*.cs"/>
+                <include name="nunit.tests.dll.csproj"/>
+                <include name="nunit.tests.dll.config"/>
+                <include name="tests.build"/>
+                <include name="*.cs"/>
 
-                <excludes name="AddConfigurationDialogTests.cs" if="${build.mono}"/>
-	        <excludes name="ProgressBarTests.cs" if="${build.mono}"/>
-		<excludes name="RecentFileMenuHandlerTests.cs" if="${build.mono}"/>
-		<excludes name="StatusBarTests.cs" if="${build.mono}"/>
-		<excludes name="TestSuiteTreeNodeTests.cs" if="${build.mono}"/>
-		<excludes name="TestSuiteTreeViewFixture.cs" if="${build.mono}"/>
-                <excludes name="FormSettingsTests.cs" if="${build.mono}"/>
-		<excludes name="TestLoaderAssemblyTests.cs" if="${build.mono}"/>
-		<excludes name="TextBoxWriterTests.cs" if="${build.mono}"/>
-                <excludes name="UserSettingsTests.cs" if="${build.mono}"/>
-                <excludes name="NUnitRegistryTests.cs" if="${build.mono}"/>
-                <excludes name="OptionSettingsTests.cs" if="${build.mono}"/>
-                <excludes name="RegistrySettingsStorageTests.cs" if="${build.mono}"/>
-                <excludes name="RecentProjectsFixture.cs" if="${build.mono}"/>
-                <excludes name="SettingsGroupTests.cs" if="${build.mono}"/>
+                <exclude name="AddConfigurationDialogTests.cs" if="${build.mono}"/>
+	        <exclude name="ProgressBarTests.cs" if="${build.mono}"/>
+		<exclude name="RecentFileMenuHandlerTests.cs" if="${build.mono}"/>
+		<exclude name="StatusBarTests.cs" if="${build.mono}"/>
+		<exclude name="TestSuiteTreeNodeTests.cs" if="${build.mono}"/>
+		<exclude name="TestSuiteTreeViewFixture.cs" if="${build.mono}"/>
+                <exclude name="FormSettingsTests.cs" if="${build.mono}"/>
+		<exclude name="TestLoaderAssemblyTests.cs" if="${build.mono}"/>
+		<exclude name="TextBoxWriterTests.cs" if="${build.mono}"/>
+                <exclude name="UserSettingsTests.cs" if="${build.mono}"/>
+                <exclude name="NUnitRegistryTests.cs" if="${build.mono}"/>
+                <exclude name="OptionSettingsTests.cs" if="${build.mono}"/>
+                <exclude name="RegistrySettingsStorageTests.cs" if="${build.mono}"/>
+                <exclude name="RecentProjectsFixture.cs" if="${build.mono}"/>
+                <exclude name="SettingsGroupTests.cs" if="${build.mono}"/>
             </fileset>
         </copy>
     </target>
