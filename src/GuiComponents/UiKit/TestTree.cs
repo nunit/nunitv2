@@ -304,8 +304,8 @@ namespace NUnit.UiKit
 			// 
 			// testPanel
 			// 
-			this.testPanel.Controls.Add(this.buttonPanel);
 			this.testPanel.Controls.Add(this.treePanel);
+			this.testPanel.Controls.Add(this.buttonPanel);
 			this.testPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.testPanel.Location = new System.Drawing.Point(0, 0);
 			this.testPanel.Name = "testPanel";
@@ -345,7 +345,7 @@ namespace NUnit.UiKit
 			this.treePanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.treePanel.Location = new System.Drawing.Point(0, 0);
 			this.treePanel.Name = "treePanel";
-			this.treePanel.Size = new System.Drawing.Size(240, 470);
+			this.treePanel.Size = new System.Drawing.Size(240, 370);
 			this.treePanel.TabIndex = 0;
 			// 
 			// tests
@@ -357,7 +357,7 @@ namespace NUnit.UiKit
 			this.tests.HideSelection = false;
 			this.tests.Location = new System.Drawing.Point(0, 0);
 			this.tests.Name = "tests";
-			this.tests.Size = new System.Drawing.Size(240, 470);
+			this.tests.Size = new System.Drawing.Size(240, 370);
 			this.tests.TabIndex = 0;
 			// 
 			// categoryPage
