@@ -78,11 +78,20 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void ReloadOnChange()
 		{
-			Assert.AreEqual( true, opts.ReloadOnChange );
-			opts.ReloadOnChange = true;
-			Assert.AreEqual( true, opts.ReloadOnChange );
-			opts.ReloadOnChange = false;
-			Assert.AreEqual( false, opts.ReloadOnChange );
+			if ( Environment.OSVersion.Platform == System.PlatformID.Win32NT )
+			{
+				Assert.AreEqual( true, opts.ReloadOnChange );
+				opts.ReloadOnChange = true;
+				Assert.AreEqual( true, opts.ReloadOnChange );
+				opts.ReloadOnChange = false;
+				Assert.AreEqual( false, opts.ReloadOnChange );
+			}
+			else
+			{
+				Assert.AreEqual( false, opts.ReloadOnChange );
+				opts.ReloadOnChange = true;
+				Assert.AreEqual( false, opts.ReloadOnChange );
+			}
 			
 		}
 

@@ -64,8 +64,21 @@ namespace NUnit.Util
 
 		public bool ReloadOnChange
 		{
-			get { return LoadIntSetting( "ReloadOnChange", 1 ) != 0; }
-			set { SaveIntSetting( "ReloadOnChange", value ? 1 : 0 ); }
+			get
+			{
+				if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
+					return false;
+
+				return LoadIntSetting( "ReloadOnChange", 1 ) != 0; 
+			}
+
+			set 
+			{
+				if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
+					return;
+
+				SaveIntSetting( "ReloadOnChange", value ? 1 : 0 ); 
+			}
 		}
 
 		public bool ClearResults

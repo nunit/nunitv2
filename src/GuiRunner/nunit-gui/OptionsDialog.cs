@@ -313,6 +313,7 @@ namespace NUnit.Gui
 			loadLastProjectCheckBox.Checked = options.LoadLastProject;
 			initialDisplayComboBox.SelectedIndex = options.InitialTreeDisplay;
 
+			reloadOnChangeCheckBox.Enabled = Environment.OSVersion.Platform == System.PlatformID.Win32NT;
 			reloadOnChangeCheckBox.Checked = options.ReloadOnChange;
 			reloadOnRunCheckBox.Checked = options.ReloadOnRun;
 			clearResultsCheckBox.Enabled = reloadOnChangeCheckBox.Checked;
