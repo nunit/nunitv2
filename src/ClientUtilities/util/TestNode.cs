@@ -22,7 +22,6 @@ namespace NUnit.Util
 	using System;
 	using System.Collections;
 	using System.Windows.Forms;
-	using NUnit.Core;
 	
 	/// <summary>
 	/// Type safe TreeNode for use in the TestSuiteTreeView. 
@@ -35,12 +34,12 @@ namespace NUnit.Util
 		/// <summary>
 		/// The testcase or testsuite represented by this node
 		/// </summary>
-		private Test theTest;
+		private TestInfo test;
 
 		/// <summary>
 		/// The result from the last run of the test
 		/// </summary>
-		private TestResult theResult;
+		private TestResultInfo result;
 
 		/// <summary>
 		/// Image indices for various test states
@@ -57,19 +56,19 @@ namespace NUnit.Util
 		/// <summary>
 		/// Construct a TestNode given a test
 		/// </summary>
-		public TestNode(Test test) : base(test.Name)
+		public TestNode(TestInfo test) : base(test.Name)
 		{
-			theTest = test;
+			this.test = test;
 			ImageIndex = SelectedImageIndex = CalcImageIndex();
 		}
 
 		/// <summary>
 		/// Construct a TestNode given a TestResult
 		/// </summary>
-		public TestNode(TestResult result) : base( result.Test.Name )
+		public TestNode(TestResultInfo result) : base( result.Test.Name )
 		{
-			theTest = result.Test;
-			theResult = result;
+			this.test = result.Test;
+			this.result = result;
 			ImageIndex = SelectedImageIndex = CalcImageIndex();
 		}
 
@@ -80,17 +79,17 @@ namespace NUnit.Util
 		/// <summary>
 		/// Test represented by this node
 		/// </summary>
-		public Test Test
+		public TestInfo Test
 		{
-			get { return theTest; }
+			get { return this.test; }
 		}
 
 		/// <summary>
 		/// Test result for this node
 		/// </summary>
-		public TestResult Result
+		public TestResultInfo Result
 		{
-			get { return theResult; }
+			get { return this.result; }
 		}
 
 		/// <summary>
@@ -129,12 +128,12 @@ namespace NUnit.Util
 
 		#region Methods
 
-		public void UpdateTest( Test test )
+		public void UpdateTest( TestInfo test )
 		{
 			if ( Test.FullName != test.FullName )
 				throw( new ArgumentException( "Attempting to update node with an entirely different test" ) );
 
-			theTest = test;
+			this.test = test;
 		}
 
 		/// <summary>
@@ -142,11 +141,11 @@ namespace NUnit.Util
 		/// result does not match the test we already hold.
 		/// </summary>
 		/// <param name="result">Result of the test</param>
-		public void SetResult( TestResult result )
+		public void SetResult( TestResultInfo result )
 		{
-			if ( result.Test.FullName != theTest.FullName )
+			if ( result.Test.FullName != this.test.FullName )
 				throw( new ArgumentException("Attempting to set Result with a value that refers to a different test") );
-			theResult = result;
+			this.result = result;
 			ImageIndex = SelectedImageIndex = CalcImageIndex();
 		}
 
@@ -155,7 +154,7 @@ namespace NUnit.Util
 		/// </summary>
 		public void ClearResult()
 		{
-			theResult = null;
+			this.result = null;
 			ImageIndex = SelectedImageIndex = INIT;
 		}
 
@@ -176,29 +175,15 @@ namespace NUnit.Util
 		/// <returns>Image index for this node</returns>
 		private int CalcImageIndex()
 		{
-			if ( theResult == null )
+			if ( this.result == null )
 				return INIT;
 
-			// The following code is a kludge to deal
-			// with the fact that Executed is implemented
-			// separately in TestCaseResult and TestSuiteResult
-			// rather than in the base class.
-			if ( theResult is TestCaseResult )
-			{
-				TestCaseResult result = (TestCaseResult)theResult;
-				if (!result.Executed)
-					return NOT_RUN;
-			}		  
-			else	// Must be TestSuiteResult
-			{
-				TestSuiteResult result = (TestSuiteResult)theResult;
-				if (!result.Executed)
-					return NOT_RUN;
-			}
+			if ( !this.result.Executed )
+				return NOT_RUN;
 
-			if ( theResult.IsSuccess )
+			if ( this.result.IsSuccess )
 				return SUCCESS;
-			else if ( theResult.IsFailure )
+			else if ( this.result.IsFailure )
 				return FAILURE;
 			else
 				return NOT_RUN;

@@ -38,10 +38,24 @@ namespace NUnit.Gui
 	{
 		#region Static and instance variables
 
+		/// <summary>
+		/// Object maintaining the list of recently used assemblies
+		/// </summary>
 		private static RecentAssemblySettings recentAssemblies;
 
+		/// <summary>
+		/// True if the UI should allow a run command to be selected
+		/// </summary>
 		private bool runCommandEnabled = false;
+
+		/// <summary>
+		/// The currently loaded assembly file name
+		/// </summary>
 		private string currentAssemblyFileName;
+
+		/// <summary>
+		/// Object that coordinates loading and running of tests
+		/// </summary>
 		private UIActions actions;
 
 		public System.Windows.Forms.Splitter splitter1;
@@ -94,21 +108,17 @@ namespace NUnit.Gui
 		
 		#region Properties
 
-		public Test SelectedSuite
-		{
-			get { return testSuiteTreeView.SelectedSuite; }
-		}
-
-		public Test ContextSuite
-		{
-			get { return testSuiteTreeView.ContextSuite; }
-		}
-
+		/// <summary>
+		/// True if an assembly is currently loaded
+		/// </summary>
 		private bool AssemblyLoaded
 		{
 			get { return LoadedAssembly != null; }
 		}
 
+		/// <summary>
+		/// Full path to the currently loaded assembly file
+		/// </summary>
 		private string LoadedAssembly
 		{
 			get { return currentAssemblyFileName; }
@@ -119,11 +129,19 @@ namespace NUnit.Gui
 
 		#region Construction and Disposal
 
+		/// <summary>
+		/// Static constructor creates our recent assemblies list
+		/// </summary>
 		static NUnitForm()	
 		{
 			recentAssemblies = UserSettings.RecentAssemblies;
 		}
 		
+		/// <summary>
+		/// Construct our form, optionally providing the
+		/// full path of to an assembly file to be loaded.
+		/// </summary>
+		/// <param name="assemblyFileName">Assembly to be loaded</param>
 		public NUnitForm(string assemblyFileName)
 		{
 			InitializeComponent();
@@ -783,9 +801,22 @@ namespace NUnit.Gui
 				}
 			}
 
-			treeViewMenu.MenuItems.Add( new MenuItem( "-" ) );
+#if NUNIT_LEAKAGE_TEST
 
-			treeViewMenu.MenuItems.Add( new MenuItem( contextNode.Test.GetType().ToString() ) );
+			TestResultInfo result = testSuiteTreeView.ContextNode.Result;
+			if ( result != null )
+			{
+				treeViewMenu.MenuItems.Add( "-" );
+				treeViewMenu.MenuItems.Add( string.Format( "Leakage: {0} bytes", result.Leakage ) );
+			}
+#endif
+
+#if CHARLIE
+			MenuItem propertiesMenuItem = new MenuItem(
+				"&Properties", new EventHandler( propertiesMenuItem_Click ) );
+			
+			treeViewMenu.MenuItems.Add( propertiesMenuItem );
+#endif
 		}
 
 		/// <summary>
@@ -794,7 +825,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
-			actions.RunTestSuite( SelectedSuite );
+			actions.RunTestSuite( testSuiteTreeView.SelectedNode.Test );
 		}
 
 		/// <summary>
@@ -819,8 +850,24 @@ namespace NUnit.Gui
 		/// </summary>
 		private void runMenuItem_Click(object sender, System.EventArgs e)
 		{
-			actions.RunTestSuite( ContextSuite );
+			actions.RunTestSuite( testSuiteTreeView.ContextNode.Test );
 		}
+
+#if CHARLIE
+		private void propertiesMenuItem_Click( object sender, System.EventArgs e )
+		{
+			TestInfo test = testSuiteTreeView.ContextNode.Test;
+			TestResultInfo result = testSuiteTreeView.ContextNode.Result;
+			string message;
+
+			if ( result == null )
+				message = "Test has not been run";
+			else
+				message = string.Format( "Test leaked {0} bytes", result.Leakage );
+			
+			MessageBox.Show( message, test.Name );
+		}
+#endif
 
 		#endregion
 
@@ -835,7 +882,7 @@ namespace NUnit.Gui
 		{
 			if ( runCommandEnabled && testSuiteTreeView.SelectedNode.Nodes.Count == 0 )
 			{
-				actions.RunTestSuite( SelectedSuite );
+				actions.RunTestSuite( testSuiteTreeView.SelectedNode.Test );
 			}
 		}
 
@@ -938,11 +985,20 @@ namespace NUnit.Gui
 
 		#region Handlers for events related to loading and running tests
 
-		private void OnTestStarted(TestCase testCase)
+		/// <summary>
+		/// A test has started, so record it's name
+		/// </summary>
+		/// <param name="testCase">Test that started</param>
+		private void OnTestStarted(TestInfo testCase)
 		{
 			status.Text = "Running : " + testCase.Name;
 		}
 
+		/// <summary>
+		/// A test has finished, so capture the result and
+		/// update the progress bar.
+		/// </summary>
+		/// <param name="result">Result of the test</param>
 		private void OnTestFinished(TestCaseResult result)
 		{
 			testSuiteTreeView.SetTestResult(result);
@@ -958,12 +1014,20 @@ namespace NUnit.Gui
 				progressBar.ForeColor = Color.Red;
 		}
 
+		/// <summary>
+		/// A suite has finished, so capture the result
+		/// </summary>
+		/// <param name="result">Result of the suite</param>
 		private void OnSuiteFinished(TestSuiteResult result)
 		{
 			testSuiteTreeView.SetTestResult(result);
 		}
 
-		private void OnRunStarting(Test test)
+		/// <summary>
+		/// A test run is starting, so prepare the UI
+		/// </summary>
+		/// <param name="test">Top level Test for this run</param>
+		private void OnRunStarting(TestInfo test)
 		{
 			int testCount = test.CountTestCases;
 
@@ -975,6 +1039,10 @@ namespace NUnit.Gui
 			InitializeProgressBar(testCount);
 		}
 
+		/// <summary>
+		/// A test run has finished, so display the results
+		/// </summary>
+		/// <param name="result">Result of the run</param>
 		private void OnRunFinished(TestResult result)
 		{
 			status.Text = "Completed"; 
@@ -989,9 +1057,15 @@ namespace NUnit.Gui
 			EnableRunCommand();
 		}
 
-		// Note: second argument could be omitted, but tests may not
-		// always have the FullName set to the assembly name in future.
-		private void OnSuiteLoaded(Test test, string assemblyFileName)
+		/// <summary>
+		/// A test suite assembly has been loaded, so update 
+		/// recent assemblies and display the tests in the UI
+		/// </summary>
+		/// <param name="test">Top level test for the assembly</param>
+		/// <param name="assemblyFileName">The full path of the assembly file</param>
+		/// Note: second argument could be omitted, but tests may not
+		/// always have the FullName set to the assembly name in future.
+		private void OnSuiteLoaded(TestInfo test, string assemblyFileName)
 		{
 			LoadedAssembly = assemblyFileName;
 			UpdateRecentAssemblies( assemblyFileName );
@@ -1003,6 +1077,10 @@ namespace NUnit.Gui
 			InitializeProgressBar( test.CountTestCases );
 		}
 
+		/// <summary>
+		/// A test suite has been unloaded, so clear the UI
+		/// and remove any references to the suite.
+		/// </summary>
 		private void OnSuiteUnloaded()
 		{
 			LoadedAssembly = null;
@@ -1010,9 +1088,14 @@ namespace NUnit.Gui
 			ClearUI();
 		}
 
-		private void OnSuiteChanged(Test test)
+		/// <summary>
+		/// The current test suite has changed in some way,
+		/// so update the info in the UI and clear the
+		/// test results, since they are no longer valid.
+		/// </summary>
+		/// <param name="test">Top level Test for the current assembly</param>
+		private void OnSuiteChanged(TestInfo test)
 		{
-			// ToDO: Merge state info from old tree
 			testSuiteTreeView.InvokeLoadHandler( test );
 			ClearTestResults();
 			InitializeProgressBar( test.CountTestCases );
@@ -1083,17 +1166,32 @@ namespace NUnit.Gui
 			actions.LoadAssembly( assemblyFileName );
 		}
 
+		/// <summary>
+		/// Unload the current assembly
+		/// </summary>
 		private void UnloadAssembly()
 		{
 			actions.UnloadAssembly();
 		}
 
+		/// <summary>
+		/// Helper method to determine if a file is a valid assembly file type
+		/// </summary>
+		/// <param name="path">File path</param>
+		/// <returns>True if the file type is valid for an assembly</returns>
 		private bool IsAssemblyFileType( string path )
 		{
 			string extension = Path.GetExtension( path );
 			return extension == ".dll" || extension == ".exe";
 		}
 
+		/// <summary>
+		/// Helper method to determine if an IDataObject is valid
+		/// for dropping on the tree view. It must be a the drop
+		/// of a single file with a valid assembly file type.
+		/// </summary>
+		/// <param name="data">IDataObject to be tested</param>
+		/// <returns>True if dropping is allowed</returns>
 		private bool IsValidFileDrop( IDataObject data )
 		{
 			if ( !data.GetDataPresent( DataFormats.FileDrop ) )

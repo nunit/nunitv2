@@ -41,6 +41,9 @@ namespace NUnit.Core
 			if(ShouldRun)
 			{
 				DateTime start = DateTime.Now;
+#if NUNIT_LEAKAGE_TEST
+				long before = System.GC.GetTotalMemory( true );
+#endif
 
 				try 
 				{
@@ -74,6 +77,11 @@ namespace NUnit.Core
 					DateTime stop = DateTime.Now;
 					TimeSpan span = stop.Subtract(start);
 					testResult.Time = (double)span.Ticks / (double)TimeSpan.TicksPerSecond;
+
+#if NUNIT_LEAKAGE_TEST
+					long after = System.GC.GetTotalMemory( true );
+					testResult.Leakage = after - before;
+#endif
 				}
 			}
 			else

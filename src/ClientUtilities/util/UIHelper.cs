@@ -56,5 +56,33 @@ namespace NUnit.Util
 			}
 			return true;
 		}
+
+		private static bool AreNodesTheSame(TestInfo testOne, TestInfo testTwo)
+		{
+			if( testOne == null && testTwo != null ) return false;
+			if( testTwo == null && testOne != null ) return false;
+			if( testOne.IsSuite != testTwo.IsSuite ) return false;
+			if( testOne.ShouldRun != testTwo.ShouldRun ) return false;
+
+			return testOne.FullName.Equals(testTwo.FullName);
+		}
+
+		public static bool CompareTree(TestInfo rootTestOriginal, TestInfo rootTestNew)
+		{
+			if( !AreNodesTheSame( rootTestOriginal, rootTestNew ) ) 
+				return false;
+
+			if( rootTestOriginal.IsSuite && rootTestNew.IsSuite )
+			{
+				if( rootTestOriginal.Tests.Count != rootTestNew.Tests.Count )
+					return false;
+
+				for(int i=0; i< rootTestOriginal.Tests.Count; i++)
+					if( !CompareTree( (TestInfo)rootTestOriginal.Tests[i], (TestInfo)rootTestNew.Tests[i] ) ) 
+						return false;
+			}
+
+			return true;
+		}
 	}
 }

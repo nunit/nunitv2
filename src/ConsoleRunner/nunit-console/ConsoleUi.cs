@@ -62,23 +62,30 @@ namespace NUnit.Console
 					NUnit.Framework.TestDomain domain = new NUnit.Framework.TestDomain(outStream, errorStream);
 
 					Test test = MakeTestFromCommandLine(domain, parser);
-					if(test == null) 
-						returnCode = 2;
-					else
+					try
 					{
-						Directory.SetCurrentDirectory(new FileInfo(parser.AssemblyName).DirectoryName);
-						string xmlResult = "TestResult.xml";
-						if(parser.IsXml)
-							xmlResult = parser.XmlFileName;
-
-						XmlTextReader reader = GetTransformReader(parser);
-						if(reader != null)
-						{
-							ConsoleUi consoleUi = new ConsoleUi(domain, xmlResult, reader);
-							returnCode = consoleUi.Execute();
-						}
+						if(test == null) 
+							returnCode = 2;
 						else
-							returnCode = 3;
+						{
+							Directory.SetCurrentDirectory(new FileInfo(parser.AssemblyName).DirectoryName);
+							string xmlResult = "TestResult.xml";
+							if(parser.IsXml)
+								xmlResult = parser.XmlFileName;
+
+							XmlTextReader reader = GetTransformReader(parser);
+							if(reader != null)
+							{
+								ConsoleUi consoleUi = new ConsoleUi(domain, xmlResult, reader);
+								returnCode = consoleUi.Execute();
+							}
+							else
+								returnCode = 3;
+						}
+					}
+					finally
+					{
+						domain.Unload();
 					}
 				}
 			}

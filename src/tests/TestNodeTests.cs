@@ -33,11 +33,11 @@ namespace NUnit.Tests
 	{
 		TestSuite testSuite;
 		TestSuite testFixture;
-		NUnit.Core.TestCase testCase1;
+		NUnit.Core.TestCase testCase;
 
-		public TestNodeTests()
-		{
-		}
+		TestInfo suiteInfo;
+		TestInfo fixtureInfo;
+		TestInfo testCaseInfo;
 
 		[SetUp]
 		public void SetUp()
@@ -45,56 +45,61 @@ namespace NUnit.Tests
 			MockTestFixture mock = new MockTestFixture();
 			testSuite = new TestSuite("MyTestSuite");
 			testSuite.Add( mock );
+			suiteInfo = new TestInfo( testSuite );
 
 			testFixture = (TestSuite)testSuite.Tests[0];
+			fixtureInfo = new TestInfo( testFixture );
 
-			testCase1 = (NUnit.Core.TestCase)testFixture.Tests[0];
+			testCase = (NUnit.Core.TestCase)testFixture.Tests[0];
+			testCaseInfo = new TestInfo( testCase );
 		}
 
 		[Test]
-		public void ConstructFromTest()
+		public void ConstructFromTestInfo()
 		{
-			TestNode node1 = new TestNode( testSuite );
-			Assertion.AssertEquals( "MyTestSuite", node1.Text );
+			TestNode node;
+			
+			node = new TestNode( suiteInfo );
+			Assertion.AssertEquals( "MyTestSuite", node.Text );
 
-			TestNode node2 = new TestNode( testFixture );
-			Assertion.AssertEquals( "MockTestFixture", node2.Text );
+			node = new TestNode( fixtureInfo );
+			Assertion.AssertEquals( "MockTestFixture", node.Text );
 
-			TestNode node3 = new TestNode( testCase1 );
-			Assertion.AssertEquals( "MockTest1", node3.Text );
+			node = new TestNode( testCaseInfo );
+			Assertion.AssertEquals( "MockTest1", node.Text );
 		}
 
 		[Test]
-		public void ConstructFromResult()
+		public void ConstructFromTestResultInfo()
 		{
-			TestSuiteResult result1 = new TestSuiteResult( testSuite, "xxxxx" );
-			TestNode node1 = new TestNode( result1 );
-			Assertion.AssertEquals( "MyTestSuite", node1.Text );
-			Assertion.AssertEquals( "MyTestSuite", node1.Test.Name );
+			TestNode node;
 
-			TestSuiteResult result2 = new TestSuiteResult( testFixture, "xxxxx" );
-			TestNode node2 = new TestNode( result2 );
-			Assertion.AssertEquals( "MockTestFixture", node2.Text );
-			Assertion.AssertEquals( "MockTestFixture", node2.Test.Name );
+			node = new TestNode( new TestResultInfo( testSuite, "Result 1" ) );
+			Assertion.AssertEquals( "MyTestSuite", node.Text );
+			Assertion.AssertEquals( "MyTestSuite", node.Test.Name );
 
-			TestCaseResult result3 = new TestCaseResult( testCase1 );
-			TestNode node3 = new TestNode( result3 );
-			Assertion.AssertEquals( "MockTest1", node3.Text );
-			Assertion.AssertEquals( "MockTest1", node3.Test.Name );
+			node = new TestNode( new TestResultInfo( testFixture, "Result 2" ) );
+			Assertion.AssertEquals( "MockTestFixture", node.Text );
+			Assertion.AssertEquals( "MockTestFixture", node.Test.Name );
+
+			node = new TestNode( new TestResultInfo( testCase ) );
+			Assertion.AssertEquals( "MockTest1", node.Text );
+			Assertion.AssertEquals( "MockTest1", node.Test.Name );
 		}
 
 		[Test]
 		public void UpdateTest()
 		{
-			TestNode node = new TestNode( (Test) testSuite );
-			TestSuite suite2 = new TestSuite( "MyTestSuite" );
-			Test savedTest = node.Test;
+			TestNode node;
+			
+			node = new TestNode( suiteInfo );
+			TestInfo suiteInfo2 = new TestInfo( new TestSuite( "MyTestSuite" ) );
 
-			node.UpdateTest( suite2 );
+			node.UpdateTest( suiteInfo2 );
 			Assertion.AssertEquals( "MyTestSuite", node.Test.FullName );
 			Assertion.AssertEquals( 0, node.Test.CountTestCases );
 
-			node.UpdateTest( savedTest );
+			node.UpdateTest( suiteInfo );
 			Assertion.AssertEquals( "MyTestSuite", node.Test.FullName );
 			Assertion.AssertEquals( 5, node.Test.CountTestCases );
 		}
@@ -103,16 +108,17 @@ namespace NUnit.Tests
 		[ExpectedException( typeof(ArgumentException) )]
 		public void UpdateUsingWrongTest()
 		{
-			TestNode node = new TestNode( (Test) testSuite );
-			TestSuite suite2 = new TestSuite( "NotMyTestSuite" );
-			node.UpdateTest( suite2 );
+			TestNode node = new TestNode( suiteInfo );
+			TestInfo suiteInfo2 = new TestInfo( new TestSuite( "NotMyTestSuite" ) );
+			node.UpdateTest( suiteInfo2 );
 		}
 
 		[Test]
 		public void SetResult()
 		{
-			TestNode node = new TestNode( testCase1 );
-			TestCaseResult result = new TestCaseResult( testCase1 );
+			TestNode node = new TestNode( testCaseInfo );
+			TestCaseResult result = new TestCaseResult( testCase );
+
 			node.SetResult( result );
 			Assertion.AssertEquals( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", node.Result.Name );
 			Assertion.AssertEquals( TestNode.NotRunIndex, node.ImageIndex );
@@ -133,7 +139,7 @@ namespace NUnit.Tests
 		[ExpectedException( typeof(ArgumentException ))]
 		public void SetResultForWrongTest()
 		{
-			TestNode node = new TestNode( (Test) testSuite );
+			TestNode node = new TestNode( suiteInfo );
 			TestSuite suite2 = new TestSuite( "suite2" );
 			TestSuiteResult result = new TestSuiteResult( suite2, "xxxxx" );
 			node.SetResult( result );
@@ -142,11 +148,13 @@ namespace NUnit.Tests
 		[Test]
 		public void ClearResult()
 		{
-			TestCaseResult result = new TestCaseResult( testCase1 );
+			TestCaseResult result = new TestCaseResult( testCase );
 			result.Failure("message", "stacktrace");
+
 			TestNode node = new TestNode( result );
 			Assertion.AssertEquals( TestNode.FailureIndex, node.ImageIndex );
 			Assertion.AssertEquals( TestNode.FailureIndex, node.SelectedImageIndex );
+
 			node.ClearResult();
 			Assertion.AssertEquals( null, node.Result );
 			Assertion.AssertEquals( TestNode.InitIndex, node.ImageIndex );
@@ -156,7 +164,7 @@ namespace NUnit.Tests
 		[Test]
 		public void ClearResults()
 		{
-			TestCaseResult testCaseResult = new TestCaseResult( testCase1 );
+			TestCaseResult testCaseResult = new TestCaseResult( testCase );
 			testCaseResult.Success();
 			TestSuiteResult testSuiteResult = new TestSuiteResult( testFixture, "MockTestFixture" );
 			testSuiteResult.AddResult( testCaseResult );

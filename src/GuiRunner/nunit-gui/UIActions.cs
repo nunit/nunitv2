@@ -67,7 +67,8 @@ namespace NUnit.Gui
 		/// <summary>
 		/// The currently loaded test, returned by the testrunner
 		/// </summary>
-		private Test currentTest = null;
+//		private Test currentTest = null;
+		private TestInfo currentTest = null;
 
 		/// <summary>
 		/// Watcher fires when the assembly changes
@@ -85,7 +86,8 @@ namespace NUnit.Gui
 		/// any contained references are valid until another event
 		/// occurs to invalidate them.
 		/// </summary>
-		public delegate void SuiteLoadedHandler( Test test, string assemblyFileName);
+//		public delegate void SuiteLoadedHandler( Test test, string assemblyFileName);
+		public delegate void SuiteLoadedHandler( TestInfo test, string assemblyFileName);
 		public event SuiteLoadedHandler SuiteLoadedEvent;
 		
 		/// <summary>
@@ -96,7 +98,8 @@ namespace NUnit.Gui
 		/// is required in order to reflect changes made to the 
 		/// tests while the client is running.
 		/// </summary>
-		public delegate void SuiteChangedHandler( Test test );
+//		public delegate void SuiteChangedHandler( Test test );
+		public delegate void SuiteChangedHandler( TestInfo test );
 		public event SuiteChangedHandler SuiteChangedEvent;
 		
 		/// <summary>
@@ -124,19 +127,22 @@ namespace NUnit.Gui
 		/// Test run starting. To allow for changes in the test runner,
 		/// consider the Test reference as only valid for this call.
 		/// </summary>
-		public delegate void RunStartingHandler( Test test );
+//		public delegate void RunStartingHandler( Test test );
+		public delegate void RunStartingHandler( TestInfo test );
 		public event RunStartingHandler RunStartingEvent;
 		
 		/// <summary>
 		/// A Suite has started. Reference is only valid for this call.
 		/// </summary>
-		public delegate void SuiteStartedHandler( TestSuite suite );
+//		public delegate void SuiteStartedHandler( TestSuite suite );
+		public delegate void SuiteStartedHandler( TestInfo suite );
 		public event SuiteStartedHandler SuiteStartedEvent;
 		
 		/// <summary>
 		/// A test has started. Reference is only valid for this call.
 		/// </summary>
-		public delegate void TestStartedHandler( NUnit.Core.TestCase testCase );
+//		public delegate void TestStartedHandler( NUnit.Core.TestCase testCase );
+		public delegate void TestStartedHandler( TestInfo testCase );
 		public event TestStartedHandler TestStartedEvent;
 		
 		/// <summary>
@@ -235,12 +241,15 @@ namespace NUnit.Gui
 		/// firing the RunStarting and RunFinished events
 		/// </summary>
 		/// <param name="test">Test to be run</param>
-		public void RunTestSuite( Test test )
+//		public void RunTestSuite( Test test )
+		public void RunTestSuite( TestInfo testInfo )
 		{
 			if ( RunStartingEvent != null )
-				RunStartingEvent( test );
+				RunStartingEvent( testInfo );
+//				RunStartingEvent( test );
 
-			testDomain.TestFixture = test.FullName;
+//			testDomain.TestFixture = test.FullName;
+			testDomain.TestFixture = testInfo.FullName;
 
 			TestResult result = testDomain.Run(this);
 
@@ -266,11 +275,17 @@ namespace NUnit.Gui
 		{
 			try
 			{
+				long memoryBeforeLoad = System.GC.GetTotalMemory( true );
+
 				// Make sure it all works before switching old one out
 				NUnit.Framework.TestDomain newDomain = new NUnit.Framework.TestDomain(stdOutWriter, stdErrWriter);
 				Test newTest = newDomain.Load(assemblyFileName);
 				
+				long memoryAfterLoad = System.GC.GetTotalMemory( true );
+
 				if  ( AssemblyLoaded ) UnloadAssembly();
+
+				long memoryAfterUnload = System.GC.GetTotalMemory( true );
 
 				testDomain = newDomain;
 				currentTest = newTest;
@@ -281,6 +296,10 @@ namespace NUnit.Gui
 					SuiteLoadedEvent( currentTest, assemblyFileName );
 
 				InstallWatcher( assemblyFileName );
+
+				long memoryAfterEvent = System.GC.GetTotalMemory( true );
+				Console.WriteLine( "Load: {0} bytes, Unload: {1} bytes, UI: {2} bytes", 
+					memoryAfterLoad - memoryBeforeLoad, memoryAfterUnload - memoryAfterLoad, memoryAfterEvent - memoryAfterUnload );
 			}
 			catch( Exception exception )
 			{
@@ -296,6 +315,9 @@ namespace NUnit.Gui
 		{
 			testDomain.Unload();
 			testDomain = null;
+
+//			currentTest.Clear();
+//			currentTest = null;
 
 			RemoveWatcher();
 
@@ -327,7 +349,8 @@ namespace NUnit.Gui
 			{
 				TestDomain oldDomain = testDomain;
 				TestDomain newDomain = new TestDomain(stdOutWriter, stdErrWriter);
-				Test newTest = newDomain.Load(assemblyFileName);
+//				Test newTest = newDomain.Load(assemblyFileName);
+				TestInfo newTest = newDomain.Load(assemblyFileName);
 
 				if(!UIHelper.CompareTree( currentTest, newTest ) )
 				{

@@ -42,7 +42,11 @@ namespace NUnit.Tests
 			if(file.Exists)
 				nunitExe = file.FullName;
 			else
+#if DEBUG
 				nunitExe = "..\\..\\..\\nunit-console\\bin\\Debug\\nunit-console.exe";
+#else
+				nunitExe = "..\\..\\..\\nunit-console\\bin\\Release\\nunit-console.exe";
+#endif
 		}
 
 		[TearDown]
@@ -118,6 +122,8 @@ namespace NUnit.Tests
 			Evidence evidence = new Evidence(baseEvidence);
 		
 			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
+
+			AppDomain.Unload( domain );
 
 			Assertion.AssertEquals(expected, resultCode);
 		}

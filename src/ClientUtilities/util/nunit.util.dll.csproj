@@ -25,7 +25,7 @@
                     BaseAddress = "285212672"
                     CheckForOverflowUnderflow = "false"
                     ConfigurationOverrideFile = ""
-                    DefineConstants = "DEBUG;TRACE"
+                    DefineConstants = "DEBUG;TRACE;NUNIT_LEAKAGE_TEST"
                     DocumentationFile = ""
                     DebugSymbols = "true"
                     FileAlignment = "4096"
@@ -152,7 +152,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestNode.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestResultInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

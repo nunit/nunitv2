@@ -32,6 +32,10 @@ namespace NUnit.Core
 		private double time;
 		private string name;
 		private Test test;
+
+#if NUNIT_LEAKAGE_TEST
+		private long leakage = 0;
+#endif
 		
 		protected TestResult(Test test, string name)
 		{
@@ -65,6 +69,14 @@ namespace NUnit.Core
 			get{ return time; }
 			set{ time = value; }
 		}
+
+#if NUNIT_LEAKAGE_TEST
+		public long Leakage
+		{
+			get{ return leakage; }
+			set{ leakage = value; }
+		}
+#endif
 
 		public abstract string Message
 		{

@@ -136,8 +136,15 @@ namespace NUnit.Core
 			suiteResult.Executed = true;
 
 			long startTime = DateTime.Now.Ticks;
-		
+#if NUNIT_LEAKAGE_TEST
+			long before = System.GC.GetTotalMemory( true );
+#endif
 			RunAllTests(suiteResult,listener);
+
+#if NUNIT_LEAKAGE_TEST
+			long after = System.GC.GetTotalMemory( true );
+			suiteResult.Leakage = after - before;
+#endif
 
 			long stopTime = DateTime.Now.Ticks;
 
