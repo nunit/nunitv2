@@ -114,12 +114,12 @@
 				<includes name="**/*.cs"/>
 			</sources>
 			<resources basedir="uikit" prefix="NUnit.UiKit">
-				<includes name="Ellipsis.bmp"/>
+				<includes name="Ellipsis.gif"/>
 				<includes name="Gray.jpg"/>
 				<includes name="Green.jpg"/>
-				<includes name="pinned.bmp"/>
+				<includes name="pinned.gif"/>
 				<includes name="Red.jpg"/>
-				<includes name="unpinned.bmp"/>
+				<includes name="unpinned.gif"/>
 				<includes name="Yellow.jpg"/>
 				<includes name="*.resx"/>
 			</resources>
