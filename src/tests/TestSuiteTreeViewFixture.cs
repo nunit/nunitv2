@@ -93,7 +93,7 @@ namespace NUnit.Tests.UiKit
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
 			Assert.IsNotNull( treeView.Nodes[0] );
-			Assert.AreEqual( 16, treeView.GetNodeCount( true ) );
+			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
 			Assert.AreEqual( "mock-assembly.dll", treeView.Nodes[0].Text );	
 			Assert.AreEqual( "NUnit", treeView.Nodes[0].Nodes[0].Text );
 			Assert.AreEqual( "Tests", treeView.Nodes[0].Nodes[0].Nodes[0].Text );
@@ -105,7 +105,7 @@ namespace NUnit.Tests.UiKit
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			TestResult result = suite.Run( new NullListener() );
 			treeView.Load( result );
-			Assert.AreEqual( 16, treeView.GetNodeCount( true ) );
+			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
 			
 			TestSuiteTreeNode node = treeView.Nodes[0] as TestSuiteTreeNode;
 			Assert.AreEqual( "mock-assembly.dll", node.Text );
@@ -124,14 +124,14 @@ namespace NUnit.Tests.UiKit
 					Assert.IsNotNull( node.Result, "No Result on TestFixture" );
 					Assert.IsTrue( node.Result.Executed, "MockTestFixture: Executed=false" );
 
-					TestSuiteTreeNode test1 = node.Nodes[0] as TestSuiteTreeNode;
+					TestSuiteTreeNode test1 = node.Nodes[1] as TestSuiteTreeNode;
 					Assert.AreEqual( "MockTest1", test1.Text );
 					Assert.IsNotNull( test1.Result, "No Result on TestCase" );
 					Assert.IsTrue( test1.Result.Executed, "MockTest1: Executed=false" );
 					Assert.IsTrue( test1.Result.IsSuccess, "MockTest1: IsSuccess=false");
 					Assert.AreEqual( TestSuiteTreeNode.SuccessIndex, test1.ImageIndex );
 
-					TestSuiteTreeNode test4 = node.Nodes[3] as TestSuiteTreeNode;
+					TestSuiteTreeNode test4 = node.Nodes[4] as TestSuiteTreeNode;
 					Assert.IsFalse( test4.Result.Executed, "MockTest4: Executed=true" );
 					Assert.AreEqual( TestSuiteTreeNode.NotRunIndex, test4.ImageIndex );
 					return;
@@ -197,8 +197,8 @@ namespace NUnit.Tests.UiKit
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
 
-			Assert.AreEqual( 7, suite.CountTestCases() );
-			Assert.AreEqual( 16, treeView.GetNodeCount( true ) );
+			Assert.AreEqual( MockAssembly.Tests, suite.CountTestCases() );
+			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
 			
 			TestSuite nunitNamespaceSuite = suite.Tests[0] as TestSuite;
 			TestSuite testsNamespaceSuite = nunitNamespaceSuite.Tests[0] as TestSuite;
@@ -206,14 +206,14 @@ namespace NUnit.Tests.UiKit
 			testsNamespaceSuite.Tests.RemoveAt( 0 );
 			treeView.Reload( suite );
 
-			Assert.AreEqual( 2, suite.CountTestCases() );
+			Assert.AreEqual( MockAssembly.Tests - MockTestFixture.Tests, suite.CountTestCases() );
 			Assert.AreEqual( 9, treeView.GetNodeCount( true ) );
 
 			testsNamespaceSuite.Tests.Insert( 0, assembliesNamespaceSuite );
 			treeView.Reload( suite );
 
-			Assert.AreEqual( 7, suite.CountTestCases() );
-			Assert.AreEqual( 16, treeView.GetNodeCount( true ) );
+			Assert.AreEqual( MockAssembly.Tests, suite.CountTestCases() );
+			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
 		}
 
 		[Test]
@@ -228,7 +228,7 @@ namespace NUnit.Tests.UiKit
 		}
 
 		[Test]
-		public void ClearChecks()
+		public void ProcessChecks()
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
@@ -240,7 +240,8 @@ namespace NUnit.Tests.UiKit
 
 			treeView.Nodes[0].Nodes[0].Checked = true;
 
-			Assert.AreEqual(1, treeView.CheckedTests.Length);
+			Assert.AreEqual(2, treeView.CheckedTests.Length);
+			Assert.AreEqual(1, treeView.SelectedTests.Length);
 
 			Assert.IsTrue(Checked(treeView.Nodes));
 
@@ -249,39 +250,39 @@ namespace NUnit.Tests.UiKit
 			Assert.AreEqual(0, treeView.CheckedTests.Length);
 			Assert.IsFalse(Checked(treeView.Nodes));
 		}
-
-		[Test]
-		public void CheckCategory() 
-		{
-			TestSuiteTreeView treeView = new TestSuiteTreeView();
-			treeView.Load(suite);
-
-			Assert.AreEqual(0, treeView.CheckedTests.Length);
-
-			CheckCategoryVisitor visitor = new CheckCategoryVisitor("MockCategory");
-			treeView.Accept(visitor);
-
-			Assert.AreEqual(2, treeView.CheckedTests.Length);
-		}
-
-		[Test]
-		public void UnCheckCategory() 
-		{
-			TestSuiteTreeView treeView = new TestSuiteTreeView();
-			treeView.Load(suite);
-
-			Assert.AreEqual(0, treeView.CheckedTests.Length);
-
-			CheckCategoryVisitor visitor = new CheckCategoryVisitor("MockCategory");
-			treeView.Accept(visitor);
-
-			Assert.AreEqual(2, treeView.CheckedTests.Length);
-
-			UnCheckCategoryVisitor unvisitor = new UnCheckCategoryVisitor("MockCategory");
-			treeView.Accept(unvisitor);
-
-			Assert.AreEqual(0, treeView.CheckedTests.Length);
-		}
+// TODO: Unused Tests
+//		[Test]
+//		public void CheckCategory() 
+//		{
+//			TestSuiteTreeView treeView = new TestSuiteTreeView();
+//			treeView.Load(suite);
+//
+//			Assert.AreEqual(0, treeView.CheckedTests.Length);
+//
+//			CheckCategoryVisitor visitor = new CheckCategoryVisitor("MockCategory");
+//			treeView.Accept(visitor);
+//
+//			Assert.AreEqual(2, treeView.CheckedTests.Length);
+//		}
+//
+//		[Test]
+//		public void UnCheckCategory() 
+//		{
+//			TestSuiteTreeView treeView = new TestSuiteTreeView();
+//			treeView.Load(suite);
+//
+//			Assert.AreEqual(0, treeView.CheckedTests.Length);
+//
+//			CheckCategoryVisitor visitor = new CheckCategoryVisitor("MockCategory");
+//			treeView.Accept(visitor);
+//
+//			Assert.AreEqual(2, treeView.CheckedTests.Length);
+//
+//			UnCheckCategoryVisitor unvisitor = new UnCheckCategoryVisitor("MockCategory");
+//			treeView.Accept(unvisitor);
+//
+//			Assert.AreEqual(0, treeView.CheckedTests.Length);
+//		}
 
 		private bool Checked(TreeNodeCollection nodes) 
 		{
