@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalUsingDirectories="C:\SFKit\SourceForge\nunit20\framework\bin\Release;C:\SFKit\SourceForge\nunit20\framework\bin\Debug"
+				AdditionalUsingDirectories="..\..\framework\bin\Release;..\..\framework\bin\Debug"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="0"
@@ -61,7 +61,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalUsingDirectories="C:\SFKit\SourceForge\nunit20\framework\bin\Debug;&quot;C:\SFKit\SourceForge\nunit20\samples\cpp-sample\Release&quot;"
+				AdditionalUsingDirectories="..\..\framework\bin\Release;..\..\framework\bin\Debug"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				MinimalRebuild="FALSE"
 				UsePrecompiledHeader="3"
