@@ -46,11 +46,9 @@ Namespace NUnit.Samples
 
         <Test()> Public Sub DivideByZero()
             Dim zero As Integer
-            Dim result As Double
+            Dim result As Integer
 
             zero = 0
-            ' In VB7 Beta1, the below does not throw an exception. Result = 1.#INF after the below.
-            ' All documentation seems to say it should throw an exception, so I am confused.
             result = 8 / zero
         End Sub
 
