@@ -283,6 +283,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "PlatformDetectionTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "RemoteRunnerTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
