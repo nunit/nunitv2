@@ -27,7 +27,7 @@
 '***********************************************************************************/
 #endregion
 
-namespace NUnit.Gui
+namespace NUnit.UiKit
 {
 	using System;
 	using System.IO;
@@ -39,26 +39,28 @@ namespace NUnit.Gui
 	/// </summary>
 	public class TextBoxWriter : TextWriter
 	{
-		private TextBox fTextBox;
+		private RichTextBox textBox;
     			
-		public TextBoxWriter(TextBox textBox)
+		public TextBoxWriter(RichTextBox textBox)
 		{
-			fTextBox=textBox;
+			this.textBox = textBox;
 		}
     			
 		public override void Write(char c)
 		{
-			fTextBox.Text = fTextBox.Text + c.ToString();
+			Write( c.ToString() );
 		}
+
+		private delegate void TextAppender( string s );
 
 		public override void Write(String s)
 		{
-			fTextBox.Text = fTextBox.Text + s;
+			textBox.AppendText( s );				
 		}
 
 		public override void WriteLine(string s)
 		{
-			fTextBox.Text = fTextBox.Text + s + "\r\n";
+			Write( s + "\r\n" );
 		}
 
 		public override Encoding Encoding

@@ -168,11 +168,6 @@
                     DependentUpon = "ProjectEditor.cs"
                     BuildAction = "EmbeddedResource"
                 />
-                <File
-                    RelPath = "TextBoxWriter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
             </Include>
         </Files>
     </CSHARP>

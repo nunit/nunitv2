@@ -71,8 +71,8 @@ namespace NUnit.Gui
 		public System.Windows.Forms.TabPage errorPage;
 		public System.Windows.Forms.TabPage stderr;
 		public System.Windows.Forms.TabPage stdout;
-		public System.Windows.Forms.TextBox stdErrTab;
-		public System.Windows.Forms.TextBox stdOutTab;
+		public System.Windows.Forms.RichTextBox stdErrTab;
+		public System.Windows.Forms.RichTextBox stdOutTab;
 		public System.Windows.Forms.TreeView notRunTree;
 		private System.ComponentModel.IContainer components;
 		public System.Windows.Forms.ToolTip toolTip;
@@ -214,9 +214,9 @@ namespace NUnit.Gui
 			this.testsNotRun = new System.Windows.Forms.TabPage();
 			this.notRunTree = new System.Windows.Forms.TreeView();
 			this.stderr = new System.Windows.Forms.TabPage();
-			this.stdErrTab = new System.Windows.Forms.TextBox();
+			this.stdErrTab = new System.Windows.Forms.RichTextBox();
 			this.stdout = new System.Windows.Forms.TabPage();
-			this.stdOutTab = new System.Windows.Forms.TextBox();
+			this.stdOutTab = new System.Windows.Forms.RichTextBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.stopButton = new System.Windows.Forms.Button();
 			this.runButton = new System.Windows.Forms.Button();
@@ -641,10 +641,8 @@ namespace NUnit.Gui
 			// 
 			this.stdErrTab.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.stdErrTab.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.stdErrTab.Multiline = true;
 			this.stdErrTab.Name = "stdErrTab";
 			this.stdErrTab.ReadOnly = true;
-			this.stdErrTab.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.stdErrTab.Size = new System.Drawing.Size(655, 465);
 			this.stdErrTab.TabIndex = 0;
 			this.stdErrTab.Text = "";
@@ -664,10 +662,8 @@ namespace NUnit.Gui
 			// 
 			this.stdOutTab.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.stdOutTab.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.stdOutTab.Multiline = true;
 			this.stdOutTab.Name = "stdOutTab";
 			this.stdOutTab.ReadOnly = true;
-			this.stdOutTab.ScrollBars = System.Windows.Forms.ScrollBars.Both;
 			this.stdOutTab.Size = new System.Drawing.Size(655, 465);
 			this.stdOutTab.TabIndex = 0;
 			this.stdOutTab.Text = "";
@@ -1372,7 +1368,6 @@ namespace NUnit.Gui
 				
 			}
 		}
-
 	}
 }
 

@@ -237,6 +237,11 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "TextBoxWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "unpinned.bmp"
                     BuildAction = "EmbeddedResource"
                 />
