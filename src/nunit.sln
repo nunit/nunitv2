@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp-sample", "samples\cpp-s
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "install", "install\install.vdproj", "{CAA6C96A-E7FB-4EEA-9376-44D6CB3F85DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nonamespace-assembly", "nonamespace-assembly\nonamespace-assembly.csproj", "{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
@@ -89,6 +91,10 @@ Global
 		{7E5849C7-0469-4AD2-91B9-C87203934254}.Release.Build.0 = Release|Win32
 		{CAA6C96A-E7FB-4EEA-9376-44D6CB3F85DD}.Debug.ActiveCfg = Debug
 		{CAA6C96A-E7FB-4EEA-9376-44D6CB3F85DD}.Release.ActiveCfg = Release
+		{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}.Debug.ActiveCfg = Debug|.NET
+		{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}.Debug.Build.0 = Debug|.NET
+		{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}.Release.ActiveCfg = Release|.NET
+		{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
