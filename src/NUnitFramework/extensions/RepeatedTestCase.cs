@@ -12,12 +12,7 @@ namespace NUnit.Extensions
 		private int count;
 		private bool failed = false;
 
-		public RepeatedTestCase(Type fixtureType, MethodInfo method, int count) : base(fixtureType, method)
-		{
-			this.count = count;
-		}
-
-		public RepeatedTestCase(object fixture, MethodInfo method, int count) : base(fixture, method)
+		public RepeatedTestCase( MethodInfo method, int count ) : base( method )
 		{
 			this.count = count;
 		}
