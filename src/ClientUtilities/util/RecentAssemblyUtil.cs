@@ -29,7 +29,6 @@ namespace NUnit.Util
 	public class RecentAssemblyUtil
 	{
 		private RegistryKey key;
-		private static string KEY = "Software\\Nascent Software\\Nunit\\";
 		private static string[] valueNames = { "RecentAssembly1", 
 											   "RecentAssembly2", 
 											   "RecentAssembly3", 
@@ -39,10 +38,10 @@ namespace NUnit.Util
 
 		private IList assemblyEntries;
 
-		public RecentAssemblyUtil(string actualKey)
+		public RecentAssemblyUtil(string subKey)
 		{
-			this.subKey = String.Format("{0}{1}", KEY, actualKey);
-			key = Registry.CurrentUser.CreateSubKey(subKey);
+			this.subKey = subKey;
+			key = RegistryHelper.CurrentUser.CreateSubKey(subKey);
 			assemblyEntries = new ArrayList();
 			for(int index = 0; index < valueNames.Length; index++)
 			{
@@ -54,7 +53,7 @@ namespace NUnit.Util
 
 		public void Clear()
 		{
-			Registry.CurrentUser.DeleteSubKeyTree(subKey);
+			RegistryHelper.CurrentUser.DeleteSubKeyTree(subKey);
 			assemblyEntries = new ArrayList();
 		}
 
@@ -91,13 +90,22 @@ namespace NUnit.Util
 			return assemblyEntries;
 		}
 
+		public void Remove(string assemblyName)
+		{
+			assemblyEntries.Remove(assemblyName);
+			SaveToRegistry();
+		}
+
 		private void SaveToRegistry()
 		{
 			for(int index = 0; 
-				index < assemblyEntries.Count; 
+				index < valueNames.Length;
 				index++)
 			{
-				key.SetValue(valueNames[index], assemblyEntries[index]);
+				if ( index < assemblyEntries.Count )
+					key.SetValue(valueNames[index], assemblyEntries[index]);
+				else
+					key.DeleteValue(valueNames[index], false);
 			}
 		}
 	}

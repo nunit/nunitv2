@@ -25,14 +25,14 @@ namespace NUnit.Util
 	using NUnit.Core;
 	
 	/// <summary>
-	/// Type safe TreeNode for use in the
-	/// TestSuiteTreeView. Various methods
-	/// of TreeNode are hidden.
+	/// Type safe TreeNode for use in the TestSuiteTreeView. 
+	/// NOTE: Hides some methods and properties of base class.
 	/// </summary>
 	public class TestNode : TreeNode
 	{
-		private Test theTest;
+		#region Instance variables and constant definitions
 
+		private Test theTest;
 		private TestResult theResult;
 
 		private static int INIT = 0;
@@ -40,9 +40,79 @@ namespace NUnit.Util
 		private static int FAILURE = 1;
 		private static int NOT_RUN = 3;
 
+		#endregion
+
+		#region Constructors
+
 		public TestNode(Test test) : base(test.Name)
 		{
 			theTest = test;
+			ImageIndex = SelectedImageIndex = CalcImageIndex();
+		}
+
+		public TestNode(TestResult result) : base( result.Test.Name )
+		{
+			theTest = result.Test;
+			theResult = result;
+			ImageIndex = SelectedImageIndex = CalcImageIndex();
+		}
+
+		#endregion
+
+		#region Properties
+		public Test Test
+		{
+			get { return theTest; }
+		}
+
+		public TestResult Result
+		{
+			get { return theResult; }
+		}
+
+		public static int InitIndex
+		{
+			get { return INIT; }
+		}
+
+		public static int SuccessIndex
+		{
+			get { return SUCCESS; }
+		}
+
+		public static int FailureIndex
+		{
+			get { return FAILURE; }
+		}
+
+		public static int NotRunIndex
+		{
+			get { return NOT_RUN; }
+		}
+		#endregion
+
+		#region Methods
+
+		public void SetResult( TestResult result )
+		{
+			if ( result.Test.FullName != theTest.FullName )
+				throw( new ArgumentException("Attempting to set Result with a value that refers to a different test") );
+			theResult = result;
+			ImageIndex = SelectedImageIndex = CalcImageIndex();
+		}
+
+		public void ClearResult()
+		{
+			theResult = null;
+			ImageIndex = SelectedImageIndex = INIT;
+		}
+
+		public void ClearResults()
+		{
+			ClearResult();
+
+			foreach(TestNode node in Nodes)
+				node.ClearResults();
 		}
 
 		private int CalcImageIndex()
@@ -75,37 +145,7 @@ namespace NUnit.Util
 				return NOT_RUN;
 		}
 
-		public Test Test
-		{
-			get { return theTest; }
-		}
-
-		public TestResult Result
-		{
-			get { return theResult; }
-		}
-
-		public void SetResult( TestResult result )
-		{
-			if ( result.Test.FullName != theTest.FullName )
-				throw( new ArgumentException("Attempting to set Result with a value that refers to a different test") );
-			theResult = result;
-			ImageIndex = SelectedImageIndex = CalcImageIndex();
-		}
-
-		public void ClearResult()
-		{
-			theResult = null;
-			ImageIndex = SelectedImageIndex = INIT;
-		}
-
-		public void ClearResults()
-		{
-			ClearResult();
-
-			foreach(TestNode node in Nodes)
-				node.ClearResults();
-		}
+		#endregion
 	}
 }
 

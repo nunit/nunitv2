@@ -183,7 +183,6 @@ namespace NUnit.Gui
 				}
 			}
 		}
-
 		private void recentFile_clicked(object sender, System.EventArgs args) 
 		{
 			MenuItem item = (MenuItem) sender;
@@ -618,7 +617,7 @@ namespace NUnit.Gui
 			this.progressBar.Step = 1;
 			this.progressBar.TabIndex = 0;
 			this.progressBar.Value = 0;
-
+			this.progressBar.Click += new System.EventHandler(this.progressBar1_Click);
 			// 
 			// openFileDialog
 			// 
@@ -709,6 +708,11 @@ namespace NUnit.Gui
 			this.Close();
 		}
 
+		private void progressBar1_Click(object sender, System.EventArgs e)
+		{
+		
+		}
+
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
 			actions.RunTestSuite( SelectedSuite );
@@ -716,6 +720,12 @@ namespace NUnit.Gui
 		private void UpdateRecentAssemblies(string assemblyFileName)
 		{
 			assemblyUtil.RecentAssembly = assemblyFileName;
+			LoadRecentAssemblyMenu();
+		}
+
+		private void RemoveRecentAssembly(string assemblyFileName)
+		{
+			assemblyUtil.Remove( assemblyFileName );
 			LoadRecentAssemblyMenu();
 		}
 
@@ -752,6 +762,8 @@ namespace NUnit.Gui
 					message = exception.InnerException.Message;
 				MessageBox.Show(this,message,"Assembly Load Failure",
 					MessageBoxButtons.OK,MessageBoxIcon.Stop);
+				
+				RemoveRecentAssembly( assemblyFileName );
 			}
 		}
 
