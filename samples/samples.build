@@ -21,7 +21,7 @@
 
     <target name="copy">
         <copy file="samples.sln" tofile="${src.dir}/samples/samples.sln"/>
-        <copy file="samples.sln" tofile="${src.dir}/samples/samples.build"/>
+        <copy file="samples.build" tofile="${src.dir}/samples/samples.build"/>
     </target>
 
     <target name="copy-all" depends="copy">

@@ -30,7 +30,9 @@
             <fileset basedir=".">
                 <includes name="timing-tests.csproj"/>
                 <includes name="timing-tests.build"/>
-                <includes name="*.cs"/>
+                <includes name="AssemblyInfo.cs"/>
+                <includes name="ClientTimeoutFixture.cs"/>
+                <includes name="ServerTimeoutFixture.cs"/>
             </fileset>
         </copy>
     </target>

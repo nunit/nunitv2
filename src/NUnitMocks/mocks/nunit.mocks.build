@@ -27,7 +27,7 @@
     <target name="copy">
         <copy todir="${src.dir}/mocks">
             <fileset basedir=".">
-                <includes name="nunit.mocks.dll.csproj"/>
+                <includes name="nunit.mocks.csproj"/>
                 <includes name="nunit.mocks.build"/>
                 <includes name="AssemblyInfo.cs"/>
                 <includes name="DynamicMock.cs"/>

@@ -22,8 +22,6 @@
             </references>
         </csc>
  
-       <copy file="Results.xsd" todir="${bin.dir}"/>
-
     </target>
 
     <target name="copy">
