@@ -82,17 +82,40 @@ namespace NUnit.Tests.CommandLine
 		}
 
 		[Test]
-		public void Categories() 
+		public void IncludeCategories() 
 		{
-			ConsoleOptions options = new ConsoleOptions(new string[] {"/categories:Database;Slow"});
-			Assert.IsNotNull(options.categories);
-			Assert.AreEqual(options.categories, "Database;Slow");
-			Assert.IsTrue(options.IsCategories);
-			string[] categories = options.CategoryArray;
+			ConsoleOptions options = new ConsoleOptions(new string[] {"/include:Database;Slow"});
+//			Assert.IsTrue( options.Validate() );
+			Assert.IsNotNull(options.include);
+			Assert.AreEqual(options.include, "Database;Slow");
+			Assert.IsTrue(options.HasInclude);
+			string[] categories = options.IncludedCategories;
 			Assert.IsNotNull(categories);
 			Assert.AreEqual(2, categories.Length);
 			Assert.AreEqual("Database", categories[0]);
 			Assert.AreEqual("Slow", categories[1]);
+		}
+
+		[Test]
+		public void ExcludeCategories() 
+		{
+			ConsoleOptions options = new ConsoleOptions(new string[] {"/exclude:Database;Slow"});
+//			Assert.IsTrue( options.Validate() );
+			Assert.IsNotNull(options.exclude);
+			Assert.AreEqual(options.exclude, "Database;Slow");
+			Assert.IsTrue(options.HasExclude);
+			string[] categories = options.ExcludedCategories;
+			Assert.IsNotNull(categories);
+			Assert.AreEqual(2, categories.Length);
+			Assert.AreEqual("Database", categories[0]);
+			Assert.AreEqual("Slow", categories[1]);
+		}
+
+		[Test]
+		public void IncludeAndExcludeAreInvalidTogether()
+		{
+			ConsoleOptions options = new ConsoleOptions(new string[] {"/include:Database;Slow /exclude:Fast"});
+			Assert.IsFalse( options.Validate() );
 		}
 
 		[Test]
