@@ -2,9 +2,11 @@
 
 	<PropertyGroup>
 		<Solution>..\nunit.sln</Solution>
+		<NUnitConsole>bin\nunit-console.exe</NUnitConsole>
 	</PropertyGroup>
 	
 	<Target Name="Clean">
+		<RemoveDir Directories="bin" />
 		<Delete Files="NUnitTests-results.xml" />
 		<Exec Command="..\..\tools\mutantbuild\mutantbuild @debug(1.0).response /property:Configuration=Release /target:Clean $(Solution)" />
 	</Target>
@@ -14,7 +16,7 @@
 	</Target>
 	
 	<Target Name="Test" DependsOnTargets="Build">
-		<Exec Command="bin\nunit-console.exe NUnitTests.nunit /xml=%cd%\NUnitTests-results.xml" />
+		<Exec Command="$(NUnitConsole) ..\NUnitTests.nunit /config=Package /xml=%cd%\NUnitTests-results.xml" />
 	</Target>
 
 	<Target Name="Package" DependsOnTargets="Build">
