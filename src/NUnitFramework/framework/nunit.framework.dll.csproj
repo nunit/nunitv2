@@ -28,7 +28,7 @@
                     BaseAddress = "285212672"
                     CheckForOverflowUnderflow = "false"
                     ConfigurationOverrideFile = ""
-                    DefineConstants = "DEBUG;TRACE"
+                    DefineConstants = "DEBUG;TRACE;StronglyNamedAssembly"
                     DocumentationFile = "bin\Debug\nunit.framework.xml"
                     DebugSymbols = "true"
                     FileAlignment = "4096"
@@ -204,16 +204,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "PlatformHelper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RuntimeFramework.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "SameAsserter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -260,11 +250,6 @@
                 />
                 <File
                     RelPath = "TestFixtureTearDownAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestPlatform.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

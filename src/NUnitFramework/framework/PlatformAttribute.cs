@@ -7,75 +7,38 @@ namespace NUnit.Framework
 	/// PlatformAttribute is used to mark a test fixture or an
 	/// individual method as applying to a particular platform only.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method, AllowMultiple=true)]
+	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method, AllowMultiple=false)]
 	public sealed class PlatformAttribute : Attribute
 	{
-		private TestPlatform[] includeList;
-		private TestPlatform[] excludeList;
-		private PlatformHelper platformHelper = new PlatformHelper();
+		private string include;
+		private string exclude;
 
 		public PlatformAttribute() { }
 
-		public PlatformAttribute( params TestPlatform[] platforms )
+		public PlatformAttribute( string platforms )
 		{
-			this.IncludeList = platforms;
+			this.include = platforms;
 		}
 
 		/// <summary>
-		/// Array of TestPlatforms which must be present in
-		/// order for this attribute to allow a test to run.
+		/// Name of the platform that is needed in order for
+		/// a test to run. Multiple platforms may be given,
+		/// separated by a comma.
 		/// </summary>
-		public TestPlatform[] IncludeList
+		public string Include
 		{
-			get { return this.includeList; }
-			set { this.includeList = value; }
+			get { return this.include; }
+			set { include = value; }
 		}
 
 		/// <summary>
-		/// Single TestPlatform which must be present in
-		/// order for this attribute to allow a test to run.
+		/// Name of the platform to be excluded. Multiple platforms
+		/// may be given, separated by a comma.
 		/// </summary>
-		public TestPlatform Include
+		public string Exclude
 		{
-			get { return this.includeList[0]; }
-			set { includeList = new TestPlatform[] { value }; }
-		}
-
-		public TestPlatform[] ExcludeList
-		{
-			get { return this.excludeList; }
-			set { this.excludeList = value; }
-		}
-
-		/// <summary>
-		/// Gets or sets the TestPlatform to exclude
-		/// </summary>
-		public TestPlatform Exclude
-		{
-			get { return this.excludeList[0]; }
-			set { this.excludeList = new TestPlatform[] { value }; }
-		}
-		
-
-		/// <summary>
-		/// Indicates whether the platform we are running on
-		/// satisfies the requirements of the attribute.
-		/// </summary>
-		/// <returns></returns>
-		public bool IsPlatformSupported()
-		{
-			return ( includeList == null || IsPlatformIncluded() )
-				&& ( excludeList == null || !IsPlatformExcluded() );
-		}
-
-		public bool IsPlatformIncluded()
-		{
-			return platformHelper.IsPlatformSupported( includeList );
-		}
-
-		public bool IsPlatformExcluded()
-		{
-			return platformHelper.IsPlatformSupported( excludeList );
+			get { return this.exclude; }
+			set { this.exclude = value; }
 		}
 	}
 }

@@ -1,6 +1,6 @@
 using System;
 
-namespace NUnit.Framework
+namespace NUnit.Core
 {
 	/// <summary>
 	/// Enumeration identifying a common language 

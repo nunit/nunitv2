@@ -31,7 +31,6 @@ namespace NUnit.Core
 {
 	using System;
 	using System.Reflection;
-	using NUnit.Framework;
 
 	public class ExpectedExceptionTestCase : TemplateTestCase
 	{

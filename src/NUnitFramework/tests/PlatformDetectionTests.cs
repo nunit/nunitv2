@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using NUnit.Framework;
 
-namespace NUnit.Framework.Tests
+namespace NUnit.Core.Tests
 {
 	/// <summary>
 	/// Summary description for PlatformHelperTests.
@@ -12,38 +12,42 @@ namespace NUnit.Framework.Tests
 	{
 		private static readonly PlatformHelper win95Helper = new PlatformHelper( 
 			new OperatingSystem( PlatformID.Win32Windows , new Version( 4, 0 ) ),
-			new RuntimeFramework( RuntimeType.Net, new Version( 1, 0, 4322, 0 ) ) );
+			new RuntimeFramework( RuntimeType.Net, new Version( 1, 1, 4322, 0 ) ) );
 
 		private static readonly PlatformHelper winXPHelper = new PlatformHelper( 
 			new OperatingSystem( PlatformID.Win32NT , new Version( 5,1 ) ),
-			new RuntimeFramework( RuntimeType.Net, new Version( 1, 0, 4322, 0 ) ) );
+			new RuntimeFramework( RuntimeType.Net, new Version( 1, 1, 4322, 0 ) ) );
 
 		private void CheckOSPlatforms( OperatingSystem os, 
-			params TestPlatform[] expectedPlatforms )
+			string expectedPlatforms )
 		{
-			CheckPlatforms( TestPlatform.Win32, TestPlatform.Unix,
+			CheckPlatforms(
 				new PlatformHelper( os, RuntimeFramework.CurrentFramework ),
-				expectedPlatforms );
+				expectedPlatforms,
+				PlatformHelper.OSPlatforms );
 		}
 
 		private void CheckRuntimePlatforms( RuntimeFramework runtimeFramework, 
-			params TestPlatform[] expectedPlatforms )
+			string expectedPlatforms )
 		{
-			CheckPlatforms( TestPlatform.Net, TestPlatform.Mono20,
+			CheckPlatforms(
 				new PlatformHelper( Environment.OSVersion, runtimeFramework ),
-				expectedPlatforms );
+				expectedPlatforms,
+				PlatformHelper.RuntimePlatforms + ",NET-1.0,NET-1.1,NET-2.0,MONO-1.0,MONO-2.0" );
 		}
 
-		private void CheckPlatforms( TestPlatform first, TestPlatform last, 
-			PlatformHelper helper, TestPlatform[] expectedPlatforms )
+		private void CheckPlatforms( PlatformHelper helper, 
+			string expectedPlatforms, string checkPlatforms )
 		{
-			for ( int index = (int)first; index <= (int)last; index++ )
+			string[] expected = expectedPlatforms.Split( new char[] { ',' } );
+			string[] check = checkPlatforms.Split( new char[] { ',' } );
+
+			foreach( string testPlatform in check )
 			{
-				TestPlatform testPlatform = (TestPlatform)index;
 				bool shouldPass = false;
 
-				foreach( TestPlatform platform in expectedPlatforms )
-					if ( shouldPass = platform == testPlatform )
+				foreach( string platform in expected )
+					if ( shouldPass = platform.ToLower() == testPlatform.ToLower() )
 						break;
 
 				bool didPass = helper.IsPlatformSupported( testPlatform );
@@ -60,7 +64,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckOSPlatforms( 
 				new OperatingSystem( PlatformID.Win32Windows, new Version( 4, 0 ) ),
-				new TestPlatform[] { TestPlatform.Win95, TestPlatform.Win32Windows, TestPlatform.Win32 } );
+				"Win95,Win32Windows,Win32,Win" );
 		}
 
 		[Test]
@@ -68,7 +72,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckOSPlatforms( 
 				new OperatingSystem( PlatformID.Win32Windows, new Version( 4, 10 ) ),
-				new TestPlatform[] { TestPlatform.Win98, TestPlatform.Win32Windows, TestPlatform.Win32 } );
+				"Win98,Win32Windows,Win32,Win" );
 		}
 
 		[Test]
@@ -76,7 +80,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckOSPlatforms( 
 				new OperatingSystem( PlatformID.Win32Windows, new Version( 4, 90 ) ),
-				new TestPlatform[] { TestPlatform.WinMe, TestPlatform.Win32Windows, TestPlatform.Win32 } );
+				"WinMe,Win32Windows,Win32,Win" );
 		}
 
 		[Test]
@@ -84,7 +88,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckOSPlatforms( 
 				new OperatingSystem( (PlatformID)3, new Version( 1, 0 ) ),
-				new TestPlatform[] { TestPlatform.WinCE, TestPlatform.Win32 } );
+				"WinCE,Win32,Win" );
 		}
 
 		[Test]
@@ -92,7 +96,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckOSPlatforms( 
 				new OperatingSystem( PlatformID.Win32NT, new Version( 3, 51 ) ),
-				new TestPlatform[] { TestPlatform.NT3, TestPlatform.Win32NT, TestPlatform.Win32 } );
+				"NT3,Win32NT,Win32,Win" );
 		}
 
 		[Test]
@@ -100,7 +104,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckOSPlatforms( 
 				new OperatingSystem( PlatformID.Win32NT, new Version( 4, 0 ) ),
-				new TestPlatform[] { TestPlatform.NT4, TestPlatform.Win32NT, TestPlatform.Win32 } );
+				"NT4,Win32NT,Win32,Win" );
 		}
 
 		[Test]
@@ -108,7 +112,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckOSPlatforms( 
 				new OperatingSystem( PlatformID.Win32NT, new Version( 5, 0 ) ),
-				new TestPlatform[] { TestPlatform.Win2K, TestPlatform.NT5, TestPlatform.Win32NT, TestPlatform.Win32 } );
+				"Win2K,NT5,Win32NT,Win32,Win" );
 		}
 
 		[Test]
@@ -116,7 +120,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckOSPlatforms( 
 				new OperatingSystem( PlatformID.Win32NT, new Version( 5, 1 ) ),
-				new TestPlatform[] { TestPlatform.WinXP, TestPlatform.NT5, TestPlatform.Win32NT, TestPlatform.Win32 } );
+				"WinXP,NT5,Win32NT,Win32,Win" );
 		}
 
 		[Test]
@@ -124,7 +128,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckOSPlatforms( 
 				new OperatingSystem( PlatformID.Win32NT, new Version( 5, 2 ) ),
-				new TestPlatform[] { TestPlatform.Win2003Server, TestPlatform.NT5, TestPlatform.Win32NT, TestPlatform.Win32 } );
+				"Win2003Server,NT5,Win32NT,Win32,Win" );
 		}
 
 		[Test]
@@ -132,7 +136,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckOSPlatforms( 
 				new OperatingSystem( (PlatformID)128, new Version() ),
-				new TestPlatform[] { TestPlatform.Unix } );
+				"UNIX,Linux" );
 		}
 
 		[Test]
@@ -140,7 +144,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckRuntimePlatforms(
 				new RuntimeFramework( RuntimeType.Net, new Version( 1, 0, 3705, 0 ) ),
-				new TestPlatform[] { TestPlatform.Net, TestPlatform.Net10 } );
+				"NET,NET-1.0" );
 		}
 
 		[Test]
@@ -148,7 +152,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckRuntimePlatforms(
 				new RuntimeFramework( RuntimeType.Net, new Version( 1, 1, 4322, 0 ) ),
-				new TestPlatform[] { TestPlatform.Net, TestPlatform.Net11 } );
+				"NET,NET-1.1" );
 		}
 
 		[Test]
@@ -156,7 +160,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckRuntimePlatforms(
 				new RuntimeFramework( RuntimeType.Net, new Version( 2, 0, 40607, 0 ) ),
-				new TestPlatform[] { TestPlatform.Net, TestPlatform.Net20 } );
+				"Net,Net-2.0" );
 		}
 
 		[Test]
@@ -164,15 +168,15 @@ namespace NUnit.Framework.Tests
 		{
 			CheckRuntimePlatforms(
 				new RuntimeFramework( RuntimeType.NetCF, new Version( 1, 1, 4322, 0 ) ),
-				new TestPlatform[] { TestPlatform.NetCF } );
+				"NetCF" );
 		}
 
 		[Test]
 		public void DetectSSCLI()
 		{
 			CheckRuntimePlatforms(
-				new RuntimeFramework( RuntimeType.Net, new Version( 1, 0, 3, 0 ) ),
-				new TestPlatform[] { TestPlatform.Net, TestPlatform.Net10 } );
+				new RuntimeFramework( RuntimeType.SSCLI, new Version( 1, 0, 3, 0 ) ),
+				"SSCLI,Rotor" );
 		}
 
 		[Test]
@@ -180,7 +184,7 @@ namespace NUnit.Framework.Tests
 		{
 			CheckRuntimePlatforms(
 				new RuntimeFramework( RuntimeType.Mono, new Version( 1, 1, 4322, 0 ) ),
-				new TestPlatform[] { TestPlatform.Mono, TestPlatform.Mono10 } );
+				"Mono,Mono-1.0" );
 		}
 
 		[Test]
@@ -188,62 +192,53 @@ namespace NUnit.Framework.Tests
 		{
 			CheckRuntimePlatforms(
 				new RuntimeFramework( RuntimeType.Mono, new Version( 2, 0, 40607, 0 ) ),
-				new TestPlatform[] { TestPlatform.Mono, TestPlatform.Mono20 } );
+				"Mono,Mono-2.0" );
+		}
+
+		[Test]
+		public void DetectExactVersion()
+		{
+			Assert.IsTrue( winXPHelper.IsPlatformSupported( "net-1.1.4322" ) );
+			Assert.IsTrue( winXPHelper.IsPlatformSupported( "net-1.1.4322.0" ) );
+			Assert.IsFalse( winXPHelper.IsPlatformSupported( "net-1.1.4323.0" ) );
+			Assert.IsFalse( winXPHelper.IsPlatformSupported( "net-1.1.4322.1" ) );
 		}
 
 		[Test]
 		public void ArrayOfPlatforms()
 		{
-			TestPlatform[] platforms = new TestPlatform[] 
-				{ TestPlatform.NT4, TestPlatform.Win2K, TestPlatform.WinXP };
+			string[] platforms = new string[] { "NT4", "Win2K", "WinXP" };
 			Assert.IsTrue( winXPHelper.IsPlatformSupported( platforms ) );
 			Assert.IsFalse( win95Helper.IsPlatformSupported( platforms ) );
 		}
 
 		[Test]
-		public void ArrayListOfPlatforms()
+		public void PlatformAttribute_Include()
 		{
-			ArrayList platforms = new ArrayList();
-			platforms.Add( TestPlatform.NT4 );
-			platforms.Add( TestPlatform.WinXP );
-			platforms.Add( TestPlatform.Win2K );
-			Assert.IsTrue( winXPHelper.IsPlatformSupported( platforms ) );
-			Assert.IsFalse( win95Helper.IsPlatformSupported( platforms ) );
+			PlatformAttribute attr = new PlatformAttribute( "Win2K,WinXP,NT4" );
+			Assert.IsTrue( winXPHelper.IsPlatformSupported( attr ) );
+			Assert.IsFalse( win95Helper.IsPlatformSupported( attr ) );
 		}
 
 		[Test]
-		public void ArrayOfAttributes_Include()
+		public void PlatformAttribute_Exclude()
 		{
-			PlatformAttribute attr1 = new PlatformAttribute( TestPlatform.Win2K, TestPlatform.WinXP );
-			PlatformAttribute attr2 = new PlatformAttribute( TestPlatform.NT4 );
-			PlatformAttribute[] attrs = new PlatformAttribute[] { attr1, attr2 };
-			Assert.IsTrue( winXPHelper.IsPlatformSupported( attrs ) );
-			Assert.IsFalse( win95Helper.IsPlatformSupported( attrs ) );
+			PlatformAttribute attr = new PlatformAttribute();
+			attr.Exclude = "Win2K,WinXP,NT4";
+			Assert.IsFalse( winXPHelper.IsPlatformSupported( attr ) );
+			Assert.IsTrue( win95Helper.IsPlatformSupported( attr ) );
 		}
 
 		[Test]
-		public void ArrayOfAttributes_Exclude()
+		public void PlatformAttribute_IncludeAndExclude()
 		{
-			PlatformAttribute attr1 = new PlatformAttribute();
-			attr1.ExcludeList = new TestPlatform[] { TestPlatform.Win2K, TestPlatform.WinXP };
-			PlatformAttribute attr2 = new PlatformAttribute();
-			attr2.Exclude = TestPlatform.NT4;
-			PlatformAttribute[] attrs = new PlatformAttribute[] { attr1, attr2 };
-		}
-
-		[Test]
-		public void ArrayOfAttributes_IncludeAndExclude()
-		{
-			PlatformAttribute attr1 = new PlatformAttribute(
-				TestPlatform.Win2K, TestPlatform.WinXP, TestPlatform.NT4 );
-			PlatformAttribute attr2 = new PlatformAttribute();
-			attr2.Exclude = TestPlatform.Mono;
-			PlatformAttribute[] attrs = new PlatformAttribute[] { attr1, attr2 };
-			Assert.IsFalse( win95Helper.IsPlatformSupported( attrs ) );
-			Assert.IsTrue( winXPHelper.IsPlatformSupported( attrs ) );
-			attr2.Exclude = TestPlatform.Net;
-			Assert.IsFalse( win95Helper.IsPlatformSupported( attrs ) );
-			Assert.IsFalse( winXPHelper.IsPlatformSupported( attrs ) );
+			PlatformAttribute attr = new PlatformAttribute( "Win2K,WinXP,NT4" );
+			attr.Exclude = "Mono";
+			Assert.IsFalse( win95Helper.IsPlatformSupported( attr ) );
+			Assert.IsTrue( winXPHelper.IsPlatformSupported( attr ) );
+			attr.Exclude = "Net";
+			Assert.IsFalse( win95Helper.IsPlatformSupported( attr ) );
+			Assert.IsFalse( winXPHelper.IsPlatformSupported( attr ) );
 		}
 
 	}

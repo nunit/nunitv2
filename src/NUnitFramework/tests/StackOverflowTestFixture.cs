@@ -44,7 +44,7 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test, ExpectedException( typeof( StackOverflowException ) )]
-		[Platform( Exclude = TestPlatform.Mono )]
+		[Platform( Exclude = "Mono" )]
 		public void SimpleOverflow()
 		{
 			FunctionCallsSelf();

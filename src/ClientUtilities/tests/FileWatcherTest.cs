@@ -36,8 +36,7 @@ using System.Timers;
 namespace NUnit.Util.Tests
 {
 	[TestFixture]
-	[Platform( ExcludeList = new TestPlatform[] 
-		{ TestPlatform.Win95, TestPlatform.Win98, TestPlatform.WinMe } )]
+	[Platform( Exclude = "Win95,Win98,WinMe" )]
 	public class FileWatcherTest
 	{
 		private FileInfo file;
