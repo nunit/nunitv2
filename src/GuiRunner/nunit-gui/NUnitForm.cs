@@ -63,7 +63,7 @@ namespace NUnit.Gui
 		public System.Windows.Forms.MenuItem helpMenuItem;
 		public System.Windows.Forms.MenuItem aboutMenuItem;
 		public System.Windows.Forms.MainMenu mainMenu;
-		public System.Windows.Forms.ListBox detailList;
+		private System.Windows.Forms.ListBox detailList;
 		public System.Windows.Forms.Splitter splitter3;
 		public System.Windows.Forms.TextBox stackTrace;
 		public NUnit.UiKit.StatusBar statusBar;
@@ -197,8 +197,8 @@ namespace NUnit.Gui
 			this.projectMenu = new System.Windows.Forms.MenuItem();
 			this.configMenuItem = new System.Windows.Forms.MenuItem();
 			this.projectMenuSeparator1 = new System.Windows.Forms.MenuItem();
-			this.addVSProjectMenuItem = new System.Windows.Forms.MenuItem();
 			this.addAssemblyMenuItem = new System.Windows.Forms.MenuItem();
+			this.addVSProjectMenuItem = new System.Windows.Forms.MenuItem();
 			this.projectMenuSeparator2 = new System.Windows.Forms.MenuItem();
 			this.editProjectMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenu = new System.Windows.Forms.MenuItem();
@@ -241,10 +241,10 @@ namespace NUnit.Gui
 			// statusBar
 			// 
 			this.statusBar.DisplayTestProgress = true;
-			this.statusBar.Location = new System.Drawing.Point(0, 511);
+			this.statusBar.Location = new System.Drawing.Point(0, 484);
 			this.statusBar.Name = "statusBar";
 			this.statusBar.ShowPanels = true;
-			this.statusBar.Size = new System.Drawing.Size(931, 31);
+			this.statusBar.Size = new System.Drawing.Size(850, 29);
 			this.statusBar.TabIndex = 0;
 			this.statusBar.Text = "Status";
 			// 
@@ -452,17 +452,17 @@ namespace NUnit.Gui
 			this.projectMenuSeparator1.Index = 1;
 			this.projectMenuSeparator1.Text = "-";
 			// 
-			// addVSProjectMenuItem
-			// 
-			this.addVSProjectMenuItem.Index = 3;
-			this.addVSProjectMenuItem.Text = "Add VS Project...";
-			this.addVSProjectMenuItem.Click += new System.EventHandler(this.addVSProjectMenuItem_Click);
-			// 
 			// addAssemblyMenuItem
 			// 
 			this.addAssemblyMenuItem.Index = 2;
 			this.addAssemblyMenuItem.Text = "Add Assembly...";
 			this.addAssemblyMenuItem.Click += new System.EventHandler(this.addAssemblyMenuItem_Click);
+			// 
+			// addVSProjectMenuItem
+			// 
+			this.addVSProjectMenuItem.Index = 3;
+			this.addVSProjectMenuItem.Text = "Add VS Project...";
+			this.addVSProjectMenuItem.Click += new System.EventHandler(this.addVSProjectMenuItem_Click);
 			// 
 			// projectMenuSeparator2
 			// 
@@ -535,17 +535,17 @@ namespace NUnit.Gui
 			this.testSuiteTreeView.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.testSuiteTreeView.HideSelection = false;
 			this.testSuiteTreeView.Name = "testSuiteTreeView";
-			this.testSuiteTreeView.Size = new System.Drawing.Size(358, 511);
+			this.testSuiteTreeView.Size = new System.Drawing.Size(327, 484);
 			this.testSuiteTreeView.Sorted = true;
 			this.testSuiteTreeView.TabIndex = 1;
 			this.testSuiteTreeView.SelectedTestChanged += new NUnit.UiKit.SelectedTestChangedHandler(this.OnSelectedTestChanged);
 			// 
 			// splitter1
 			// 
-			this.splitter1.Location = new System.Drawing.Point(358, 0);
+			this.splitter1.Location = new System.Drawing.Point(327, 0);
 			this.splitter1.MinSize = 240;
 			this.splitter1.Name = "splitter1";
-			this.splitter1.Size = new System.Drawing.Size(6, 511);
+			this.splitter1.Size = new System.Drawing.Size(5, 484);
 			this.splitter1.TabIndex = 2;
 			this.splitter1.TabStop = false;
 			// 
@@ -555,9 +555,9 @@ namespace NUnit.Gui
 																				 this.resultTabs,
 																				 this.groupBox1});
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel1.Location = new System.Drawing.Point(364, 0);
+			this.panel1.Location = new System.Drawing.Point(332, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(567, 511);
+			this.panel1.Size = new System.Drawing.Size(518, 484);
 			this.panel1.TabIndex = 3;
 			// 
 			// resultTabs
@@ -568,10 +568,10 @@ namespace NUnit.Gui
 																					 this.stderr,
 																					 this.stdout});
 			this.resultTabs.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.resultTabs.Location = new System.Drawing.Point(0, 88);
+			this.resultTabs.Location = new System.Drawing.Point(0, 83);
 			this.resultTabs.Name = "resultTabs";
 			this.resultTabs.SelectedIndex = 0;
-			this.resultTabs.Size = new System.Drawing.Size(567, 423);
+			this.resultTabs.Size = new System.Drawing.Size(518, 401);
 			this.resultTabs.TabIndex = 2;
 			// 
 			// errorPage
@@ -580,9 +580,9 @@ namespace NUnit.Gui
 																					this.stackTrace,
 																					this.splitter3,
 																					this.detailList});
-			this.errorPage.Location = new System.Drawing.Point(4, 25);
+			this.errorPage.Location = new System.Drawing.Point(4, 22);
 			this.errorPage.Name = "errorPage";
-			this.errorPage.Size = new System.Drawing.Size(559, 394);
+			this.errorPage.Size = new System.Drawing.Size(510, 375);
 			this.errorPage.TabIndex = 0;
 			this.errorPage.Text = "Errors and Failures";
 			// 
@@ -590,12 +590,12 @@ namespace NUnit.Gui
 			// 
 			this.stackTrace.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.stackTrace.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.stackTrace.Location = new System.Drawing.Point(0, 127);
+			this.stackTrace.Location = new System.Drawing.Point(0, 119);
 			this.stackTrace.Multiline = true;
 			this.stackTrace.Name = "stackTrace";
 			this.stackTrace.ReadOnly = true;
 			this.stackTrace.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stackTrace.Size = new System.Drawing.Size(559, 267);
+			this.stackTrace.Size = new System.Drawing.Size(510, 256);
 			this.stackTrace.TabIndex = 2;
 			this.stackTrace.Text = "";
 			this.stackTrace.WordWrap = false;
@@ -603,33 +603,36 @@ namespace NUnit.Gui
 			// splitter3
 			// 
 			this.splitter3.Dock = System.Windows.Forms.DockStyle.Top;
-			this.splitter3.Location = new System.Drawing.Point(0, 124);
+			this.splitter3.Location = new System.Drawing.Point(0, 116);
 			this.splitter3.MinSize = 100;
 			this.splitter3.Name = "splitter3";
-			this.splitter3.Size = new System.Drawing.Size(559, 3);
+			this.splitter3.Size = new System.Drawing.Size(510, 3);
 			this.splitter3.TabIndex = 1;
 			this.splitter3.TabStop = false;
 			// 
 			// detailList
 			// 
 			this.detailList.Dock = System.Windows.Forms.DockStyle.Top;
+			this.detailList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
 			this.detailList.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.detailList.HorizontalExtent = 2000;
 			this.detailList.HorizontalScrollbar = true;
-			this.detailList.ItemHeight = 20;
+			this.detailList.ItemHeight = 16;
 			this.detailList.Name = "detailList";
 			this.detailList.ScrollAlwaysVisible = true;
-			this.detailList.Size = new System.Drawing.Size(559, 124);
+			this.detailList.Size = new System.Drawing.Size(510, 116);
 			this.detailList.TabIndex = 0;
+			this.detailList.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.detailList_MeasureItem);
+			this.detailList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.detailList_DrawItem);
 			this.detailList.SelectedIndexChanged += new System.EventHandler(this.detailList_SelectedIndexChanged);
 			// 
 			// testsNotRun
 			// 
 			this.testsNotRun.Controls.AddRange(new System.Windows.Forms.Control[] {
 																					  this.notRunTree});
-			this.testsNotRun.Location = new System.Drawing.Point(4, 25);
+			this.testsNotRun.Location = new System.Drawing.Point(4, 22);
 			this.testsNotRun.Name = "testsNotRun";
-			this.testsNotRun.Size = new System.Drawing.Size(559, 394);
+			this.testsNotRun.Size = new System.Drawing.Size(510, 375);
 			this.testsNotRun.TabIndex = 1;
 			this.testsNotRun.Text = "Tests Not Run";
 			// 
@@ -639,16 +642,16 @@ namespace NUnit.Gui
 			this.notRunTree.ImageIndex = -1;
 			this.notRunTree.Name = "notRunTree";
 			this.notRunTree.SelectedImageIndex = -1;
-			this.notRunTree.Size = new System.Drawing.Size(559, 394);
+			this.notRunTree.Size = new System.Drawing.Size(510, 375);
 			this.notRunTree.TabIndex = 0;
 			// 
 			// stderr
 			// 
 			this.stderr.Controls.AddRange(new System.Windows.Forms.Control[] {
 																				 this.stdErrTab});
-			this.stderr.Location = new System.Drawing.Point(4, 25);
+			this.stderr.Location = new System.Drawing.Point(4, 22);
 			this.stderr.Name = "stderr";
-			this.stderr.Size = new System.Drawing.Size(559, 394);
+			this.stderr.Size = new System.Drawing.Size(510, 375);
 			this.stderr.TabIndex = 2;
 			this.stderr.Text = "Standard Error";
 			// 
@@ -660,7 +663,7 @@ namespace NUnit.Gui
 			this.stdErrTab.Name = "stdErrTab";
 			this.stdErrTab.ReadOnly = true;
 			this.stdErrTab.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stdErrTab.Size = new System.Drawing.Size(559, 394);
+			this.stdErrTab.Size = new System.Drawing.Size(510, 375);
 			this.stdErrTab.TabIndex = 0;
 			this.stdErrTab.Text = "";
 			this.stdErrTab.WordWrap = false;
@@ -669,9 +672,9 @@ namespace NUnit.Gui
 			// 
 			this.stdout.Controls.AddRange(new System.Windows.Forms.Control[] {
 																				 this.stdOutTab});
-			this.stdout.Location = new System.Drawing.Point(4, 25);
+			this.stdout.Location = new System.Drawing.Point(4, 22);
 			this.stdout.Name = "stdout";
-			this.stdout.Size = new System.Drawing.Size(559, 394);
+			this.stdout.Size = new System.Drawing.Size(510, 375);
 			this.stdout.TabIndex = 3;
 			this.stdout.Text = "Standard Out";
 			// 
@@ -683,7 +686,7 @@ namespace NUnit.Gui
 			this.stdOutTab.Name = "stdOutTab";
 			this.stdOutTab.ReadOnly = true;
 			this.stdOutTab.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stdOutTab.Size = new System.Drawing.Size(559, 394);
+			this.stdOutTab.Size = new System.Drawing.Size(510, 375);
 			this.stdOutTab.TabIndex = 0;
 			this.stdOutTab.Text = "";
 			this.stdOutTab.WordWrap = false;
@@ -697,24 +700,24 @@ namespace NUnit.Gui
 																					this.progressBar});
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(567, 88);
+			this.groupBox1.Size = new System.Drawing.Size(518, 83);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			// 
 			// stopButton
 			// 
-			this.stopButton.Location = new System.Drawing.Point(96, 16);
+			this.stopButton.Location = new System.Drawing.Point(88, 15);
 			this.stopButton.Name = "stopButton";
-			this.stopButton.Size = new System.Drawing.Size(75, 30);
+			this.stopButton.Size = new System.Drawing.Size(68, 29);
 			this.stopButton.TabIndex = 4;
 			this.stopButton.Text = "&Stop";
 			this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
 			// 
 			// runButton
 			// 
-			this.runButton.Location = new System.Drawing.Point(8, 16);
+			this.runButton.Location = new System.Drawing.Point(7, 15);
 			this.runButton.Name = "runButton";
-			this.runButton.Size = new System.Drawing.Size(75, 30);
+			this.runButton.Size = new System.Drawing.Size(69, 29);
 			this.runButton.TabIndex = 3;
 			this.runButton.Text = "&Run";
 			this.runButton.Click += new System.EventHandler(this.runButton_Click);
@@ -723,9 +726,9 @@ namespace NUnit.Gui
 			// 
 			this.suiteName.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right);
-			this.suiteName.Location = new System.Drawing.Point(184, 24);
+			this.suiteName.Location = new System.Drawing.Point(168, 23);
 			this.suiteName.Name = "suiteName";
-			this.suiteName.Size = new System.Drawing.Size(359, 24);
+			this.suiteName.Size = new System.Drawing.Size(328, 22);
 			this.suiteName.TabIndex = 2;
 			// 
 			// progressBar
@@ -735,11 +738,11 @@ namespace NUnit.Gui
 			this.progressBar.CausesValidation = false;
 			this.progressBar.Enabled = false;
 			this.progressBar.ForeColor = System.Drawing.SystemColors.Highlight;
-			this.progressBar.Location = new System.Drawing.Point(8, 56);
+			this.progressBar.Location = new System.Drawing.Point(7, 53);
 			this.progressBar.Maximum = 100;
 			this.progressBar.Minimum = 0;
 			this.progressBar.Name = "progressBar";
-			this.progressBar.Size = new System.Drawing.Size(551, 24);
+			this.progressBar.Size = new System.Drawing.Size(504, 23);
 			this.progressBar.Step = 1;
 			this.progressBar.TabIndex = 0;
 			this.progressBar.Value = 0;
@@ -747,8 +750,8 @@ namespace NUnit.Gui
 			// NUnitForm
 			// 
 			this.AcceptButton = this.runButton;
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
-			this.ClientSize = new System.Drawing.Size(931, 542);
+			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+			this.ClientSize = new System.Drawing.Size(850, 513);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
 																		  this.panel1,
 																		  this.splitter1,
@@ -1346,6 +1349,28 @@ namespace NUnit.Gui
 		}
 
 		#endregion	
+
+		private void detailList_MeasureItem(object sender, System.Windows.Forms.MeasureItemEventArgs e)
+		{
+			TestResultItem item = (TestResultItem) detailList.Items[e.Index];
+			string s = item.ToString();
+			SizeF size = e.Graphics.MeasureString(item.GetMessage(), detailList.Font);
+			e.ItemHeight = (int)size.Height;
+			e.ItemWidth = (int)size.Width;
+		}
+
+		private void detailList_DrawItem(object sender, System.Windows.Forms.DrawItemEventArgs e)
+		{
+			if (e.Index >= 0) 
+			{
+				e.DrawBackground();
+				TestResultItem item = (TestResultItem) detailList.Items[e.Index];
+				bool selected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected) ? true : false;
+				Brush brush = selected ? Brushes.White : Brushes.Black;
+				e.Graphics.DrawString(item.GetMessage(),detailList.Font, brush, e.Bounds);
+				
+			}
+		}
 
 	}
 }
