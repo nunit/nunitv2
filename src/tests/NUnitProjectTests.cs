@@ -118,6 +118,7 @@ namespace NUnit.Tests.Util
 			Assert.Equals( Path.GetDirectoryName( project.ProjectPath ), project.BasePath );
 		}
 
+		[Test]
 		public void DefaultConfigurationFile()
 		{
 			project.Save( xmlfile );
