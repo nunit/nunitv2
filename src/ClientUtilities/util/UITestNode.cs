@@ -97,6 +97,8 @@ namespace NUnit.Util
 
 		private ArrayList categories = new ArrayList();
 
+		private bool isExplicit;
+
 		#endregion
 
 		#region Construction and Conversion
@@ -251,6 +253,12 @@ namespace NUnit.Util
 					name = name.Substring(val+1);
 				return name;
 			}
+		}
+
+		public bool IsExplicit
+		{
+			get { return isExplicit; }
+			set { isExplicit = value; }
 		}
 
 		public IList Categories 
