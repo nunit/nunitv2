@@ -32,7 +32,6 @@ using System.Collections;
 using NUnit.Util;
 using NUnit.Core;
 using NUnit.Framework;
-using NUnit.UiKit;
 
 namespace NUnit.Tests.Util
 {
