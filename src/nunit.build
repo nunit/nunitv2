@@ -18,6 +18,7 @@
 
         net-1.0   Microsoft .NET version 1.0
         net-1.1   Microsoft .NET version 1.1
+        net-2.0   Microsoft .NET version 2.0
         mono-1.0  Mono version 1.0 (or installed version)
     
         Debug and release versions of each of these may be built
@@ -93,6 +94,10 @@
 
     <target name="net-1.1" description="Set runtime to .NET 1.1">
         <call target="set-net-1.1-runtime-config"/>
+    </target>
+      
+    <target name="net-2.0" description="Set runtime to .NET 2.0">
+        <call target="set-net-2.0-runtime-config"/>
     </target>
       
     <target name="mono" description="Set runtime to Mono">
@@ -530,11 +535,6 @@
         <property name="build.mono" value="false"/>
         <property name="build.win32" value="true"/>
         <property name="nant.settings.currentframework" value="net-1.0"/>
-        <property name="runtime.defines.csc" value="NET,NET_1_0"/>
-        <property name="runtime.defines.jsc" value="NET,NET_1_0"/>
-        <property name="runtime.defines.vbc" value="NET=True,NET_1_0=True"/>
-        <property name="runtime.defines.vjc" value="NET,NET_1_0"/>
-        <property name="runtime.defines.cl" value="/D NET /D NET_1_0"/>
         <property name="zip.runtime.suffix" value="-net-1.0"/>
         <property name="msi.runtime.suffix" value="-net-1.0"/>
     </target>
@@ -545,12 +545,18 @@
         <property name="build.mono" value="false"/>
         <property name="build.win32" value="true"/>
         <property name="nant.settings.currentframework" value="net-1.1"/>
-        <property name="runtime.defines.csc" value="NET,NET_1_1"/>
-        <property name="runtime.defines.jsc" value="NET,NET_1_1"/>
-        <property name="runtime.defines.vbc" value="NET=True,NET_1_1=True"/>
-        <property name="runtime.defines.vjc" value="NET,NET_1_1"/>
-        <property name="runtime.defines.cl" value="/D NET /D NET_1_1"/>
         <property name="zip.runtime.suffix" value="-net-1.1"/>
+	<!-- no suffix for the msi - we can only do it for 1.1 anyway -->
+        <property name="msi.runtime.suffix" value=""/>
+    </target>
+	
+    <target name="set-net-2.0-runtime-config">
+        <property name="runtime.config" value="net"/>
+        <property name="runtime.version" value="2.0"/>
+        <property name="build.mono" value="false"/>
+        <property name="build.win32" value="true"/>
+        <property name="nant.settings.currentframework" value="net-2.0"/>
+        <property name="zip.runtime.suffix" value="-net-2.0"/>
 	<!-- no suffix for the msi - we can only do it for 1.1 anyway -->
         <property name="msi.runtime.suffix" value=""/>
     </target>
@@ -561,11 +567,6 @@
         <property name="build.mono" value="true"/>
         <property name="build.win32" value="false"/>
         <property name="nant.settings.currentframework" value="mono-1.0"/>
-        <property name="runtime.defines.csc" value="MONO,MONO_1_0"/>
-        <property name="runtime.defines.jsc" value="MONO,MONO_1_0"/>
-        <property name="runtime.defines.vbc" value="MONO=True,MONO_1_0=True"/>
-        <property name="runtime.defines.vjc" value="MONO,MONO_1_0"/>
-        <property name="runtime.defines.cl" value="/D MONO /D MONO_1_0"/>
         <property name="zip.runtime.suffix" value="-mono"/>
         <property name="msi.runtime.suffix" value="-mono"/>
     </target>
