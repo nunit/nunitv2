@@ -1,0 +1,8 @@
+"/property:ReferencePath=%windir%\Microsoft.NET\Framework\v1.1.4322"
+"/property:CscToolPath=%windir%\Microsoft.NET\Framework\v1.1.4322"
+"/property:VbcToolPath=%windir%\Microsoft.NET\Framework\v1.1.4322"
+"/property:Configuration=Debug(1.1)"
+"/property:DebugSymbols=true"
+"/property:DebugType=full"
+"/property:Optimize=false"
+#"/property:DefineConstants=DEBUG;TRACE;1.1"

@@ -1,0 +1,106 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <!-- Extend the original -->
+    <Import Project="$(MSBuildBinPath)\Originals\Microsoft.Common.targets" />
+    
+    <!-- Use .NET 1.x ResGen tool -->
+    <!--
+    Run resgen on the given resx files.
+
+    This task checks timestamps internally for the .resx files as well as any linked files that are
+    referenced in the .resx file against the .resources file, so it does not need to specify Inputs
+    or Outputs in the Target.
+
+        [IN]
+        @(ResxWithNoCulture) - The names the non-culture .RESX files.
+        @(ResxWithCulture) - The names the culture .RESX files.
+        @(ManifestResourceWithNoCultureName) - The corresponding manifest resource name (.RESOURCE)
+        @(ManifestResourceWithCultureName) - The corresponding manifest resource name (.RESOURCE)
+
+        [OUT]
+        @(ManifestResourceWithNoCulture) - The path to the corresponding .RESOURCE  files
+        @(ManifestResourceWithCulture) - The path to the corresponding .RESOURCE  files
+    -->
+    <PropertyGroup>
+        <ResGenDependsOn>ResolveAssemblyReferences</ResGenDependsOn>
+        <UseSourcePath Condition="'$(UseSourcePath)'==''">true</UseSourcePath>
+        
+        <!-- Default to local version -->
+		<ResGenToolPath>$(MSBuildBinPath)\ResGen</ResGenToolPath>
+    </PropertyGroup>
+    <Target
+        Name="ResGen"
+        Condition="'@(ResxWithNoCulture)@(ResxWithCulture)'!=''"
+        DependsOnTargets="$(ResGenDependsOn)"
+        >
+
+        <Message Text="(in) The names the non-culture .RESX files: '@(ResxWithNoCulture)'" Condition="'$(MSBuildTargetsVerbose)'=='true'"/>
+        <Message Text="(in) The names the culture .RESX files: '@(ResxWithCulture)'" Condition="'$(MSBuildTargetsVerbose)'=='true'"/>
+        <Message Text="(in) Manifest-named resx files files with no culture: '@(ManifestResourceWithNoCultureName)'" Condition="'$(MSBuildTargetsVerbose)'=='true'"/>
+        <Message Text="(in) Manifest-named resx files with culture: '@(ManifestResourceWithCultureName)'" Condition="'$(MSBuildTargetsVerbose)'=='true'"/>
+
+        <ResGen
+            Sources="@(ResxWithNoCulture)"
+            Condition=" '@(ResxWithNoCulture)' != '' "
+            StateFile="$(IntermediateOutputPath)ResGen.cache"
+            OutputResources="@(ManifestResourceWithNoCultureName->'$(IntermediateOutputPath)%(Identity).resources')"
+            ToolPath="$(ResGenToolPath)">
+
+            <Output
+                TaskParameter="OutputResources"
+                ItemName="ManifestResourceWithNoCulture"/>
+        </ResGen>
+
+<!--		NOTE: Not supported in ResGen 1.0
+            UseSourcePath="$(UseSourcePath)"
+            References="@(ReferencePath)"
+-->
+
+        <ResGen
+            Sources="@(ResxWithCulture)"
+            Condition=" '@(ResxWithCulture)' != '' "
+            References="@(ReferencePath)"
+            UseSourcePath="$(UseSourcePath)"
+            OutputResources="@(ManifestResourceWithCultureName->'$(IntermediateOutputPath)%(Identity).resources')"
+            ToolPath="$(ResGenToolPath)">
+
+            <Output
+                TaskParameter="OutputResources"
+                ItemName="ManifestResourceWithCulture"/>
+        </ResGen>
+
+        <Message Text="(out) The path to the corresponding non-culture .RESOURCE files: '@(ManifestResourceWithNoCulture)'" Condition="'$(MSBuildTargetsVerbose)'=='true'"/>
+        <Message Text="(out) The path to the corresponding culture .RESOURCE  files: '@(ManifestResourceWithCulture)'" Condition="'$(MSBuildTargetsVerbose)'=='true'"/>
+
+    </Target>
+    
+    <!--
+    Get the Frameworks and Platform SDK paths.
+    -->
+    <PropertyGroup>
+        <GetFrameworkPathsDependsOn></GetFrameworkPathsDependsOn>
+        <TargetFrameworkDirectory>$(MSBuildBinPath)</TargetFrameworkDirectory>
+    </PropertyGroup>
+    <Target
+        Name="GetFrameworkPaths"
+        DependsOnTargets="$(GetFrameworkPathsDependsOn)"
+        >
+
+        <!-- Get the path to the target .NET framework directory. -->
+        <!--
+        <GetFrameworkPath>
+            <Output TaskParameter="Path" PropertyName="TargetFrameworkDirectory"/>
+        </GetFrameworkPath>
+		-->
+        <!-- Get the path to the target .NET framework SDK directory. -->
+        <GetFrameworkSDKPath>
+            <Output TaskParameter="Path" PropertyName="TargetFrameworkSDKDirectory"/>
+        </GetFrameworkSDKPath>
+
+    </Target>
+    
+    
+    <!-- In Beta 2 this should be added -->
+	<Import Project="$(MSBuildProjectDirectory)\Custom.targets" Condition="Exists('$(MSBuildProjectDirectory)\Custom.targets')" />
+    
+</Project>
