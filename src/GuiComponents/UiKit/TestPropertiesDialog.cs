@@ -72,6 +72,7 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.CheckBox pinButton;
 		private System.Windows.Forms.Label label6;
 		private CP.Windows.Forms.ExpandingLabel description;
+		private System.Windows.Forms.Label assertCount;
 		private System.ComponentModel.IContainer components;
 
 		#endregion
@@ -118,6 +119,8 @@ namespace NUnit.UiKit
 		{
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.testTab = new System.Windows.Forms.TabPage();
+			this.description = new CP.Windows.Forms.ExpandingLabel();
+			this.label6 = new System.Windows.Forms.Label();
 			this.testCaseCount = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
@@ -134,8 +137,7 @@ namespace NUnit.UiKit
 			this.elapsedTime = new System.Windows.Forms.Label();
 			this.message = new CP.Windows.Forms.ExpandingLabel();
 			this.pinButton = new System.Windows.Forms.CheckBox();
-			this.label6 = new System.Windows.Forms.Label();
-			this.description = new CP.Windows.Forms.ExpandingLabel();
+			this.assertCount = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.testTab.SuspendLayout();
 			this.resultsTab.SuspendLayout();
@@ -171,6 +173,25 @@ namespace NUnit.UiKit
 			this.testTab.Size = new System.Drawing.Size(338, 116);
 			this.testTab.TabIndex = 0;
 			this.testTab.Text = "Test";
+			// 
+			// description
+			// 
+			this.description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.description.CopySupported = true;
+			this.description.Location = new System.Drawing.Point(87, 43);
+			this.description.Name = "description";
+			this.description.Size = new System.Drawing.Size(244, 14);
+			this.description.TabIndex = 29;
+			// 
+			// label6
+			// 
+			this.label6.Location = new System.Drawing.Point(13, 42);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(67, 14);
+			this.label6.TabIndex = 28;
+			this.label6.Text = "Description:";
+			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// testCaseCount
 			// 
@@ -246,6 +267,7 @@ namespace NUnit.UiKit
 			// 
 			// resultsTab
 			// 
+			this.resultsTab.Controls.Add(this.assertCount);
 			this.resultsTab.Controls.Add(this.label3);
 			this.resultsTab.Controls.Add(this.testResult);
 			this.resultsTab.Controls.Add(this.stackTrace);
@@ -328,24 +350,13 @@ namespace NUnit.UiKit
 			this.pinButton.Click += new System.EventHandler(this.pinButton_Click);
 			this.pinButton.CheckedChanged += new System.EventHandler(this.pinButton_CheckedChanged);
 			// 
-			// label6
+			// assertCount
 			// 
-			this.label6.Location = new System.Drawing.Point(13, 42);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(67, 14);
-			this.label6.TabIndex = 28;
-			this.label6.Text = "Description:";
-			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
-			// 
-			// description
-			// 
-			this.description.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.description.CopySupported = true;
-			this.description.Location = new System.Drawing.Point(87, 43);
-			this.description.Name = "description";
-			this.description.Size = new System.Drawing.Size(244, 14);
-			this.description.TabIndex = 29;
+			this.assertCount.Location = new System.Drawing.Point(193, 13);
+			this.assertCount.Name = "assertCount";
+			this.assertCount.Size = new System.Drawing.Size(118, 14);
+			this.assertCount.TabIndex = 37;
+			this.assertCount.Text = "Asserts:";
 			// 
 			// TestPropertiesDialog
 			// 
@@ -459,6 +470,7 @@ namespace NUnit.UiKit
 				// TODO: take care of this in label?
 				message.Text = TrimLeadingBlankLines( result.Message );
 				elapsedTime.Text = string.Format( "Time: {0}", result.Time );
+				assertCount.Text = string.Format( "Asserts: {0}", result.AssertCount );
 				stackTrace.Text = result.StackTrace;
 			}
 		}

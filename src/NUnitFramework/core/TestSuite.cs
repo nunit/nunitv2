@@ -224,7 +224,7 @@ namespace NUnit.Core
 				if ( Tests.Count == 0 ) return true;
 				
 				// Any suite with children is a fixture if the children are test cases
-				ITest firstChild = (ITest)Tests[0];
+				Test firstChild = (Test)Tests[0];
 				return !firstChild.IsSuite;
 			}
 		}
@@ -314,6 +314,10 @@ namespace NUnit.Core
 				{
 					handleFixtureException(suiteResult, ex);
 				}
+				finally
+				{
+					suiteResult.AssertCount += NUnit.Framework.Assert.Counter;
+				}
 			}
 			if (this.IgnoreReason == FIXTURE_SETUP_FAILED) 
 			{
@@ -334,6 +338,10 @@ namespace NUnit.Core
 				handleFixtureException(suiteResult, ex);
 				this.ShouldRun = false;
 				this.IgnoreReason = FIXTURE_SETUP_FAILED;
+			}
+			finally
+			{
+				suiteResult.AssertCount = NUnit.Framework.Assert.Counter;
 			}
 		}
 

@@ -67,6 +67,8 @@ namespace NUnit.Core
 
 			Run( testResult );
 
+			testResult.AssertCount = NUnit.Framework.Assert.Counter;
+
 			long stopTime = DateTime.Now.Ticks;
 			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
 			testResult.Time = time;

@@ -93,6 +93,8 @@ namespace NUnit.Util
 
 				xmlWriter.WriteAttributeString("time", caseResult.Time.ToString("#####0.000", NumberFormatInfo.InvariantInfo));
 
+				xmlWriter.WriteAttributeString("asserts", caseResult.AssertCount.ToString() );
+
 				if(caseResult.IsFailure)
 				{
 					if(caseResult.IsFailure)
@@ -142,7 +144,8 @@ namespace NUnit.Util
 
 			xmlWriter.WriteAttributeString("success", suiteResult.IsSuccess.ToString());
 			xmlWriter.WriteAttributeString("time", suiteResult.Time.ToString());
-            
+			xmlWriter.WriteAttributeString("asserts", suiteResult.AssertCount.ToString() );
+         
 			xmlWriter.WriteStartElement("results");                  
 			foreach (TestResult result in suiteResult.Results)
 			{
