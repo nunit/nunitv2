@@ -27,7 +27,7 @@
 '***********************************************************************************/
 #endregion
 
-namespace NUnit.Console
+namespace NUnit.ConsoleRunner
 {
 	using System;
 	using System.Collections;

@@ -9,16 +9,16 @@
             <Settings
                 ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
-                AssemblyName = "nunit-console"
+                AssemblyName = "nunit-console-runner"
                 AssemblyOriginatorKeyFile = ""
                 DefaultClientScript = "JScript"
                 DefaultHTMLPageLayout = "Grid"
                 DefaultTargetSchema = "IE50"
                 DelaySign = "false"
-                OutputType = "Exe"
+                OutputType = "Library"
                 PreBuildEvent = ""
                 PostBuildEvent = 'copy "$(ProjectDir)nunit-console.exe.config" "$(TargetDir)nunit-console.exe.config"'
-                RootNamespace = "nunit_console"
+                RootNamespace = "NUnit.ConsoleRunner"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
             >
