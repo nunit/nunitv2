@@ -1,0 +1,172 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.dll", "framework\nunit.framework.dll.csproj", "{747CD772-9A6D-43F2-8D69-DE35BE599F6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.dll", "core\nunit.core.dll.csproj", "{D3639D7C-96AB-459D-B045-4DD81547D7C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.extensions.dll", "extensions\nunit.extensions.dll.csproj", "{1091C15A-4788-40DE-A747-6C5B05FAF6C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.util.dll", "util\nunit.util.dll.csproj", "{A0C5635D-0624-4329-9AC1-3C06B6460800}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csharp-sample", "samples\csharp\csharp-sample.csproj", "{B18C50BE-5231-4E32-B38A-F4DDBFF8DFA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "money-sample", "samples\money\money-sample.csproj", "{2DA721DC-EB09-4439-85D7-7DDEFFABB96E}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "vb-sample", "samples\vb\vb-sample.vbproj", "{D5412384-4C7D-4483-B32F-71CEE45704A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.tests.dll", "tests\nunit.tests.dll.csproj", "{F5DDCC74-6966-4255-8E6A-089737B88EC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mock-assembly", "tests\mock-assembly\mock-assembly.csproj", "{6BAFC16F-F058-4CA8-9207-37A2E9151AC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui", "nunit-gui\nunit-gui.csproj", "{F5765100-5DB9-4FB2-B204-B6D780B96F41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-console", "nunit-console\nunit-console.csproj", "{B2D66804-53C3-47D7-B5F3-95DAC08C8B3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "money-port", "samples\money-port\money-port.csproj", "{947559E9-9F8C-4273-8801-5FB6E61914AA}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "install", "Setup1\Setup1.vdproj", "{8D1D36BB-4D07-4EE2-A53E-94C86BFF3E57}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp-sample", "samples\cpp-sample\cpp-sample.vcproj", "{9C1C3459-24AB-4707-BDD5-EE866A945C38}"
+EndProject
+Project("{E6FDF86B-F3D1-11D4-8576-0002A516ECE8}") = "jsharp", "samples\jsharp\jsharp.vjsproj", "{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 16
+		SccLocalPath0 = .
+		CanCheckoutShared = true
+		SolutionUniqueID = {EB932606-9B1B-4579-AC9F-AAAB093FE414}
+		SccProjectUniqueName1 = core\\nunit.core.dll.csproj
+		SccLocalPath1 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection1 = core\\
+		SccProjectUniqueName2 = extensions\\nunit.extensions.dll.csproj
+		SccLocalPath2 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection2 = extensions\\
+		SccProjectUniqueName3 = framework\\nunit.framework.dll.csproj
+		SccLocalPath3 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection3 = framework\\
+		SccProjectUniqueName4 = nunit-console\\nunit-console.csproj
+		SccLocalPath4 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection4 = nunit-console\\
+		SccProjectUniqueName5 = nunit-gui\\nunit-gui.csproj
+		SccLocalPath5 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection5 = nunit-gui\\
+		SccProjectUniqueName6 = samples\\cpp-sample\\cpp-sample.vcproj
+		SccLocalPath6 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection6 = samples\\cpp-sample\\
+		SccProjectUniqueName7 = samples\\csharp\\csharp-sample.csproj
+		SccLocalPath7 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection7 = samples\\csharp\\
+		SccProjectUniqueName8 = samples\\jsharp\\jsharp.vjsproj
+		SccLocalPath8 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection8 = samples\\jsharp\\
+		SccProjectUniqueName9 = samples\\money-port\\money-port.csproj
+		SccLocalPath9 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection9 = samples\\money-port\\
+		SccProjectUniqueName10 = samples\\money\\money-sample.csproj
+		SccLocalPath10 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection10 = samples\\money\\
+		SccProjectUniqueName11 = samples\\vb\\vb-sample.vbproj
+		SccLocalPath11 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection11 = samples\\vb\\
+		SccProjectUniqueName12 = Setup1\\Setup1.vdproj
+		SccLocalPath12 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection12 = Setup1\\
+		SccProjectUniqueName13 = tests\\mock-assembly\\mock-assembly.csproj
+		SccLocalPath13 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection13 = tests\\mock-assembly\\
+		SccProjectUniqueName14 = tests\\nunit.tests.dll.csproj
+		SccLocalPath14 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection14 = tests\\
+		SccProjectUniqueName15 = util\\nunit.util.dll.csproj
+		SccLocalPath15 = .
+		CanCheckoutShared = true
+		SccProjectFilePathRelativizedFromConnection15 = util\\
+	EndGlobalSection
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{747CD772-9A6D-43F2-8D69-DE35BE599F6C}.Debug.ActiveCfg = Debug|.NET
+		{747CD772-9A6D-43F2-8D69-DE35BE599F6C}.Debug.Build.0 = Debug|.NET
+		{747CD772-9A6D-43F2-8D69-DE35BE599F6C}.Release.ActiveCfg = Release|.NET
+		{747CD772-9A6D-43F2-8D69-DE35BE599F6C}.Release.Build.0 = Release|.NET
+		{D3639D7C-96AB-459D-B045-4DD81547D7C4}.Debug.ActiveCfg = Debug|.NET
+		{D3639D7C-96AB-459D-B045-4DD81547D7C4}.Debug.Build.0 = Debug|.NET
+		{D3639D7C-96AB-459D-B045-4DD81547D7C4}.Release.ActiveCfg = Release|.NET
+		{D3639D7C-96AB-459D-B045-4DD81547D7C4}.Release.Build.0 = Release|.NET
+		{1091C15A-4788-40DE-A747-6C5B05FAF6C5}.Debug.ActiveCfg = Debug|.NET
+		{1091C15A-4788-40DE-A747-6C5B05FAF6C5}.Debug.Build.0 = Debug|.NET
+		{1091C15A-4788-40DE-A747-6C5B05FAF6C5}.Release.ActiveCfg = Release|.NET
+		{1091C15A-4788-40DE-A747-6C5B05FAF6C5}.Release.Build.0 = Release|.NET
+		{A0C5635D-0624-4329-9AC1-3C06B6460800}.Debug.ActiveCfg = Debug|.NET
+		{A0C5635D-0624-4329-9AC1-3C06B6460800}.Debug.Build.0 = Debug|.NET
+		{A0C5635D-0624-4329-9AC1-3C06B6460800}.Release.ActiveCfg = Release|.NET
+		{A0C5635D-0624-4329-9AC1-3C06B6460800}.Release.Build.0 = Release|.NET
+		{B18C50BE-5231-4E32-B38A-F4DDBFF8DFA6}.Debug.ActiveCfg = Debug|.NET
+		{B18C50BE-5231-4E32-B38A-F4DDBFF8DFA6}.Debug.Build.0 = Debug|.NET
+		{B18C50BE-5231-4E32-B38A-F4DDBFF8DFA6}.Release.ActiveCfg = Release|.NET
+		{B18C50BE-5231-4E32-B38A-F4DDBFF8DFA6}.Release.Build.0 = Release|.NET
+		{2DA721DC-EB09-4439-85D7-7DDEFFABB96E}.Debug.ActiveCfg = Debug|.NET
+		{2DA721DC-EB09-4439-85D7-7DDEFFABB96E}.Debug.Build.0 = Debug|.NET
+		{2DA721DC-EB09-4439-85D7-7DDEFFABB96E}.Release.ActiveCfg = Release|.NET
+		{2DA721DC-EB09-4439-85D7-7DDEFFABB96E}.Release.Build.0 = Release|.NET
+		{D5412384-4C7D-4483-B32F-71CEE45704A2}.Debug.ActiveCfg = Debug|.NET
+		{D5412384-4C7D-4483-B32F-71CEE45704A2}.Debug.Build.0 = Debug|.NET
+		{D5412384-4C7D-4483-B32F-71CEE45704A2}.Release.ActiveCfg = Release|.NET
+		{D5412384-4C7D-4483-B32F-71CEE45704A2}.Release.Build.0 = Release|.NET
+		{F5DDCC74-6966-4255-8E6A-089737B88EC1}.Debug.ActiveCfg = Debug|.NET
+		{F5DDCC74-6966-4255-8E6A-089737B88EC1}.Debug.Build.0 = Debug|.NET
+		{F5DDCC74-6966-4255-8E6A-089737B88EC1}.Release.ActiveCfg = Release|.NET
+		{F5DDCC74-6966-4255-8E6A-089737B88EC1}.Release.Build.0 = Release|.NET
+		{6BAFC16F-F058-4CA8-9207-37A2E9151AC9}.Debug.ActiveCfg = Debug|.NET
+		{6BAFC16F-F058-4CA8-9207-37A2E9151AC9}.Debug.Build.0 = Debug|.NET
+		{6BAFC16F-F058-4CA8-9207-37A2E9151AC9}.Release.ActiveCfg = Release|.NET
+		{6BAFC16F-F058-4CA8-9207-37A2E9151AC9}.Release.Build.0 = Release|.NET
+		{F5765100-5DB9-4FB2-B204-B6D780B96F41}.Debug.ActiveCfg = Debug|.NET
+		{F5765100-5DB9-4FB2-B204-B6D780B96F41}.Debug.Build.0 = Debug|.NET
+		{F5765100-5DB9-4FB2-B204-B6D780B96F41}.Release.ActiveCfg = Release|.NET
+		{F5765100-5DB9-4FB2-B204-B6D780B96F41}.Release.Build.0 = Release|.NET
+		{B2D66804-53C3-47D7-B5F3-95DAC08C8B3B}.Debug.ActiveCfg = Debug|.NET
+		{B2D66804-53C3-47D7-B5F3-95DAC08C8B3B}.Debug.Build.0 = Debug|.NET
+		{B2D66804-53C3-47D7-B5F3-95DAC08C8B3B}.Release.ActiveCfg = Release|.NET
+		{B2D66804-53C3-47D7-B5F3-95DAC08C8B3B}.Release.Build.0 = Release|.NET
+		{947559E9-9F8C-4273-8801-5FB6E61914AA}.Debug.ActiveCfg = Debug|.NET
+		{947559E9-9F8C-4273-8801-5FB6E61914AA}.Debug.Build.0 = Debug|.NET
+		{947559E9-9F8C-4273-8801-5FB6E61914AA}.Release.ActiveCfg = Release|.NET
+		{947559E9-9F8C-4273-8801-5FB6E61914AA}.Release.Build.0 = Release|.NET
+		{8D1D36BB-4D07-4EE2-A53E-94C86BFF3E57}.Debug.ActiveCfg = Debug
+		{8D1D36BB-4D07-4EE2-A53E-94C86BFF3E57}.Release.ActiveCfg = Release
+		{9C1C3459-24AB-4707-BDD5-EE866A945C38}.Debug.ActiveCfg = Debug|Win32
+		{9C1C3459-24AB-4707-BDD5-EE866A945C38}.Debug.Build.0 = Debug|Win32
+		{9C1C3459-24AB-4707-BDD5-EE866A945C38}.Release.ActiveCfg = Release|Win32
+		{9C1C3459-24AB-4707-BDD5-EE866A945C38}.Release.Build.0 = Release|Win32
+		{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}.Debug.ActiveCfg = Debug|.NET
+		{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}.Debug.Build.0 = Debug|.NET
+		{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}.Release.ActiveCfg = Release|.NET
+		{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(SolutionItems) = postSolution
+		Item:1 = ReadMe.html
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
