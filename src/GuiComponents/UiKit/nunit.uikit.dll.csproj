@@ -154,7 +154,7 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Ellipsis.bmp"
+                    RelPath = "Ellipsis.gif"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -181,7 +181,7 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "pinned.bmp"
+                    RelPath = "pinned.gif"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -269,7 +269,7 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "unpinned.bmp"
+                    RelPath = "unpinned.gif"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
