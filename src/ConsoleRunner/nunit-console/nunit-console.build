@@ -16,8 +16,7 @@
         output="${current.build.dir}/nunit-console-runner.dll"
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
-        <include name="AssemblyInfo.cs"/>
-        <include name="ConsoleUi.cs"/>
+        <include name="*.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.core.dll"/>
@@ -32,8 +31,7 @@
         <include name="nunit-console.csproj"/>
         <include name="nunit-console.build"/>
         <include name="app.ico"/>
-        <include name="AssemblyInfo.cs"/>
-        <include name="ConsoleUi.cs"/>
+        <include name="*.cs"/>
       </fileset>
     </copy>
   </target>

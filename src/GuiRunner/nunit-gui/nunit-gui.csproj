@@ -153,6 +153,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "GuiOptions.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Logo.ico"
                     BuildAction = "Content"
                 />

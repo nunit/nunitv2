@@ -7,8 +7,12 @@
   <include buildfile="..\..\nunit.build.include"/>
 
   <target name="clean" depends="set-build-dir">
-    <delete file="${current.build.dir}/nunit-gui-runner.dll" failonerror="false"/>
-    <delete file="${current.build.dir}/nunit-gui-runner.pdb" failonerror="false"/>
+    <delete failonerror="false">
+      <fileset basedir="${current.build.dir}">
+        <include name="nunit-gui-runner.dll"/>
+        <include name="nunit-gui-runner.pdb"/>
+      </fileset>
+    </delete>
   </target>
 
   <target name="build" depends="make-build-dir">
@@ -17,10 +21,11 @@
         win32icon="Logo.ico" debug="${build.debug}"
         define="${build.defines.csc}">
       <sources basedir=".">
-        <includesfile name="sources.include"/>
+        <include name="*.cs"/>
       </sources>
       <resources basedir=".">
-        <includesfile name="resources.include"/>
+        <include name="*.resx"/>
+        <include name="*.ico"/>
       </resources>
       <references basedir="${current.build.dir}">
         <include name="nunit.util.dll"/>
@@ -36,10 +41,9 @@
       <fileset basedir=".">
         <include name="nunit-gui.csproj"/>
         <include name="nunit-gui.build"/>
-        <include name="sources.include"/>
-        <include name="resources.include"/>
-        <includesfile name="sources.include"/>
-        <includesfile name="resources.include"/>
+        <include name="*.cs"/>
+        <include name="*.resx"/>
+        <include name="*.ico"/>
         <include name="nunit-gui.exe.config"/>
       </fileset>
     </copy>
