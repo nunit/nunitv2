@@ -1,6 +1,6 @@
 using System;
 
-namespace NUnit.GuiRunner
+namespace NUnit.Gui
 {
 	/// <summary>
 	/// Summary description for Class1.
