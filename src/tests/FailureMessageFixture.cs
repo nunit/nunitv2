@@ -202,13 +202,15 @@ namespace NUnit.Tests.Assertions
                     FormatMessageForFailNotEquals(null, null, "message" ) );
                 Assert.AreEqual( "message \r\n\texpected:<1>\r\n\t but was:<2>", 
                     FormatMessageForFailNotEquals( 1, 2, "message" ) );
-                Assert.AreEqual( "message \r\n\texpected:<>\r\n\t but was:<(null)>", 
+                Assert.AreEqual( "message \r\n\texpected:<\"\">\r\n\t but was:<(null)>", 
                     FormatMessageForFailNotEquals( "", null, "message" ) );
-                Assert.AreEqual( "message \r\n\tString lengths differ.  Expected length=1, but was length=2.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<a>\r\n\t but was:<aa>\r\n\t-----------^\r\n\t",
+				Assert.AreEqual( "message \r\n\texpected:<1>\r\n\t but was:<\"1\">",
+					FormatMessageForFailNotEquals( 1, "1", "message" ) );
+                Assert.AreEqual( "message \r\n\tString lengths differ.  Expected length=1, but was length=2.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<\"a\">\r\n\t but was:<\"aa\">\r\n\t-----------^\r\n\t",
                     FormatMessageForFailNotEquals( "a", "aa", "message" ) );
-                Assert.AreEqual( "message \r\n\tString lengths are both 2.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<aa>\r\n\t but was:<ab>\r\n\t-----------^\r\n\t",
+                Assert.AreEqual( "message \r\n\tString lengths are both 2.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<\"aa\">\r\n\t but was:<\"ab\">\r\n\t-----------^\r\n\t",
                     FormatMessageForFailNotEquals( "aa", "ab", "message" ) );
-                Assert.AreEqual( "message \r\n\tString lengths differ.  Expected length=1, but was length=3.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<a>\r\n\t but was:<abc>\r\n\t-----------^\r\n\t",
+                Assert.AreEqual( "message \r\n\tString lengths differ.  Expected length=1, but was length=3.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<\"a\">\r\n\t but was:<\"abc\">\r\n\t-----------^\r\n\t",
                     FormatMessageForFailNotEquals( "a", "abc", "message" ) );
             }
 
@@ -225,11 +227,11 @@ namespace NUnit.Tests.Assertions
 			[Test]
 			public void TestFormatMessageForFailNotEqualsNewlines()
             {
-                Assert.AreEqual( "message \r\n\tString lengths differ.  Expected length=2, but was length=3.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<a\\r>\r\n\t but was:<aa\\r>\r\n\t-----------^\r\n\t",
+                Assert.AreEqual( "message \r\n\tString lengths differ.  Expected length=2, but was length=3.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<\"a\\r\">\r\n\t but was:<\"aa\\r\">\r\n\t-----------^\r\n\t",
                     FormatMessageForFailNotEquals( "a\r", "aa\r", "message" ) );
-                Assert.AreEqual( "message \r\n\tString lengths differ.  Expected length=2, but was length=3.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<a\\n>\r\n\t but was:<aa\\n>\r\n\t-----------^\r\n\t",
+                Assert.AreEqual( "message \r\n\tString lengths differ.  Expected length=2, but was length=3.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<\"a\\n\">\r\n\t but was:<\"aa\\n\">\r\n\t-----------^\r\n\t",
                     FormatMessageForFailNotEquals( "a\n", "aa\n", "message" ) );
-                Assert.AreEqual( "message \r\n\tString lengths are both 6.\r\n\tStrings differ at index 5.\r\n\t\r\n\texpected:<aa\\r\\naa>\r\n\t but was:<aa\\r\\nab>\r\n\t-----------------^\r\n\t",
+                Assert.AreEqual( "message \r\n\tString lengths are both 6.\r\n\tStrings differ at index 5.\r\n\t\r\n\texpected:<\"aa\\r\\naa\">\r\n\t but was:<\"aa\\r\\nab\">\r\n\t-----------------^\r\n\t",
                     FormatMessageForFailNotEquals( "aa\r\naa", "aa\r\nab", "message" ) );
             }
 
@@ -267,7 +269,7 @@ namespace NUnit.Tests.Assertions
                 string sFirst  = "00000000001111111111222222222233333333334444444444555555555566666666667777777777888888888899999999990000000000111111111122222222223333333333444444444455555555556666";
                 string sSecond = "00000000001111111111222222222233333333334444444444555555555566666666667777777777888888888899999999990000000000111111111122222222223333333333444444444455555555556666++";
                 Assert.AreEqual( 
-					"\r\n\tString lengths differ.  Expected length=164, but was length=166.\r\n\tStrings differ at index 164.\r\n\t\r\n\texpected:<...23333333333444444444455555555556666>\r\n\t but was:<...23333333333444444444455555555556666++>\r\n\t" + (new string('-',ButWasText().Length+"...".Length+PreClipLength)) + "^\r\n\t",
+					"\r\n\tString lengths differ.  Expected length=164, but was length=166.\r\n\tStrings differ at index 164.\r\n\t\r\n\texpected:<\"...23333333333444444444455555555556666\">\r\n\t but was:<\"...23333333333444444444455555555556666++\">\r\n\t" + (new string('-',ButWasText().Length+"...".Length+PreClipLength)) + "^\r\n\t",
                     FormatMessageForFailNotEquals( sFirst, sSecond, null ) );
             }
 
@@ -281,7 +283,7 @@ namespace NUnit.Tests.Assertions
             {
                 string sFirst  = "0000000000111111111122";
                 string sSecond = "0000000000111111111122++";
-                Assert.AreEqual( "\r\n\tString lengths differ.  Expected length=22, but was length=24.\r\n\tStrings differ at index 22.\r\n\t\r\n\texpected:<0000000000111111111122>\r\n\t but was:<0000000000111111111122++>\r\n\t" + (new string('-',ButWasText().Length+22)) + "^\r\n\t",
+                Assert.AreEqual( "\r\n\tString lengths differ.  Expected length=22, but was length=24.\r\n\tStrings differ at index 22.\r\n\t\r\n\texpected:<\"0000000000111111111122\">\r\n\t but was:<\"0000000000111111111122++\">\r\n\t" + (new string('-',ButWasText().Length+22)) + "^\r\n\t",
                     FormatMessageForFailNotEquals( sFirst, sSecond, null ) );
             }
 
@@ -312,7 +314,7 @@ namespace NUnit.Tests.Assertions
                 {
                     string sFirst  = new string( '=', i );
                     string sSecond = new string( '=', i ) + sExtra;
-                    Assert.AreEqual( "\r\n\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + ".\r\n\tStrings differ at index "+ i +".\r\n\t\r\n\texpected:<"+ sFirst +">\r\n\t but was:<"+ sSecond +">\r\n\t" + (new string('-',ButWasText().Length+i)) + "^\r\n\t",
+                    Assert.AreEqual( "\r\n\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + ".\r\n\tStrings differ at index "+ i +".\r\n\t\r\n\texpected:<\""+ sFirst +"\">\r\n\t but was:<\""+ sSecond +"\">\r\n\t" + (new string('-',ButWasText().Length+i)) + "^\r\n\t",
                         FormatMessageForFailNotEquals( sFirst, sSecond, null ),
 						"Failed at index " + i);
                 }
@@ -328,7 +330,7 @@ namespace NUnit.Tests.Assertions
                 {
                     string sFirst  = new string( '=', i );
                     string sSecond = new string( '=', i ) + sExtra;
-                    Assert.AreEqual( "\r\n\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + ".\r\n\tStrings differ at index "+ i +".\r\n\t\r\n\texpected:<"+ sExpected +">\r\n\t but was:<"+ sActual +">\r\n\t" + (new string('-',ButWasText().Length+"...".Length+PreClipLength)) + "^\r\n\t",
+                    Assert.AreEqual( "\r\n\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + ".\r\n\tStrings differ at index "+ i +".\r\n\t\r\n\texpected:<\""+ sExpected +"\">\r\n\t but was:<\""+ sActual +"\">\r\n\t" + (new string('-',ButWasText().Length+"...".Length+PreClipLength)) + "^\r\n\t",
                         FormatMessageForFailNotEquals( sFirst, sSecond, null ),
 						"Failed at index " + i );
                 }

@@ -226,13 +226,28 @@ namespace NUnit.Framework
         {
             sbOutput.Append( NewLine );
             sbOutput.Append( ExpectedText() );
-            sbOutput.Append( (expected != null) ? expected : "(null)" );
+            sbOutput.Append( DisplayString( expected ) );
             sbOutput.Append( ">" );
             sbOutput.Append( NewLine );
             sbOutput.Append( ButWasText() );
-            sbOutput.Append( (actual != null) ? actual : "(null)" );
+            sbOutput.Append( DisplayString( actual ) );
             sbOutput.Append( ">" );
         }
+
+		static protected string DisplayString( object  obj )
+		{
+			if ( obj == null ) 
+				return "(null)";
+			else if ( obj is string )
+				return Quoted( (string)obj );
+			else
+				return obj.ToString();
+		}
+
+		static protected string Quoted( string text )
+		{
+			return string.Format( "\"{0}\"", text );
+		}
 
         /// <summary>
         /// Draws a marker under the expected/actual strings that highlights
