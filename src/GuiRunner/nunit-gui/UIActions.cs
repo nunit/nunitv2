@@ -20,21 +20,34 @@
 namespace NUnit.Gui
 {
 	using System;
-	using System.Collections;
-	using System.Drawing;
 	using System.IO;
-	using System.Windows.Forms;
-	using Microsoft.Win32;
 	using NUnit.Core;
 	using NUnit.Util;
 
 
 	/// <summary>
-	/// Summary description for UIActions.
+	/// UIActions handles interactions between a test runner and a client
+	/// program - typically the user interface. It implemements the
+	/// EventListener interface which is used by the test runner and
+	/// fires events in order to provide the information to any component
+	/// that is interested. It also fires events for starting the test
+	/// run, ending it and successfully loading the assembly.
 	/// </summary>
 	public class UIActions : MarshalByRefObject, NUnit.Core.EventListener
 	{
-		private NUnitForm form;
+		/// <summary>
+		/// StdOut stream for use by the TestRunner
+		/// </summary>
+		private TextWriter stdOutWriter;
+
+		/// <summary>
+		/// StdErr stream for use by the TestRunner
+		/// </summary>
+		private TextWriter stdErrWriter;
+
+		/// <summary>
+		/// Loads an assembly and executes tests.
+		/// </summary>
 		private TestRunner testRunner = null;
 
 		public delegate void TestStartedHandler( TestCase testCase );
@@ -53,9 +66,10 @@ namespace NUnit.Gui
 		public event RunFinishedHandler RunFinishedEvent;
 		public event AssemblyLoadedHandler AssemblyLoadedEvent;
 
-		public UIActions(NUnitForm form)
+		public UIActions(TextWriter stdOutWriter, TextWriter stdErrWriter)
 		{
-			this.form = form;
+			this.stdOutWriter = stdOutWriter;
+			this.stdErrWriter = stdErrWriter;
 		}
 
 		public void TestStarted(TestCase testCase)
@@ -102,7 +116,7 @@ namespace NUnit.Gui
 		
 		public void LoadAssembly(string assemblyFileName, Test suite)
 		{
-			testRunner = new TestRunner(assemblyFileName,this,form.stdOutWriter, form.stdErrWriter);
+			testRunner = new TestRunner(assemblyFileName, this, stdOutWriter, stdErrWriter);
 			
 			Test test = LoadTestSuite(assemblyFileName);
 

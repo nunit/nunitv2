@@ -17,37 +17,44 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
-namespace NUnit.Core
+using System;
+using System.Drawing;
+using Microsoft.Win32;
+
+namespace NUnit.Util
 {
-	using System;
-	using System.Reflection;
-
 	/// <summary>
-	/// Summary description for TestCase.
+	/// Summary description for NunitRegistry.
 	/// </summary>
-	public class NormalTestCase : TemplateTestCase
+	public class RegistryHelper
 	{
-		public NormalTestCase(object fixture, MethodInfo method) : base(fixture, method)
-		{}
+		private static string KEY = "Software\\Nascent Software\\Nunit\\";
 
-		protected internal override void ProcessNoException(TestCaseResult testResult)
+		public RegistryHelper()
 		{
-			testResult.Success();
+			//
+			// TODO: Add constructor logic here
+			//
 		}
-		
-		protected internal override void ProcessException(Exception exception, TestCaseResult testResult)
+
+		public static string ApplicationKey
 		{
-			//if(exception.GetType().IsAssignableFrom(typeof(NUnit.Framework.AssertionException)))
-			if(exception is NUnit.Framework.AssertionException)
-			{
-				NUnit.Framework.AssertionException error = (NUnit.Framework.AssertionException)exception;
-				testResult.Failure(error.Message, error.StackTrace);
-			}
-			else
-			{
-				testResult.Failure(exception.Message, exception.StackTrace);
-			}
+			get { return KEY; }
+		}
+
+		private static string FullKey( string subkey )
+		{
+			return String.Format( "{0}{1}", KEY, subkey );
+		}
+
+		public static RegistryKey CurrentUser
+		{
+			get { return Registry.CurrentUser.CreateSubKey( KEY ); }
+		}
+
+		public static RegistryKey LocalMachine
+		{
+			get { return Registry.LocalMachine.CreateSubKey( KEY ); }
 		}
 	}
 }
-

@@ -122,6 +122,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "RegistryHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

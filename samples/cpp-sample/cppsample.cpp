@@ -49,5 +49,15 @@ namespace NUnitSamples {
 		Assertion::AssertEquals("Expected Failure (Double).", 12.0, 11.99, 0.0);
 	}
 
+	void SimpleCPPSample::IgnoredTest()
+	{
+		throw new InvalidCastException();
+	}
+
+	void SimpleCPPSample::ExpectAnException()
+	{
+		throw new InvalidCastException();
+	}
+
 }
 

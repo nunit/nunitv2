@@ -59,5 +59,15 @@ Namespace NUnit.Samples
             Assertion.AssertEquals("Size", 12, 13)
             Assertion.AssertEquals("Capacity", 12, 11.99, 0)
         End Sub
+
+        <Test(), ExpectedException(GetType(Exception))> Public Sub ExpectAnException()
+            Throw New InvalidCastException()
+        End Sub
+
+        <Test(), Ignore("sample ignore")> Public Sub IgnoredTest()
+            ' does not matter what we type the test is not run
+            Throw New InvalidExpressionException()
+        End Sub
+
     End Class
 End Namespace

@@ -33,9 +33,11 @@ namespace NUnitSamples
 		int fValue2;
 	public:
 		[SetUp] void Init();
-		[Test]  void Add();
+
+		[Test] void Add();
 		[Test] void DivideByZero();
 		[Test] void Equals();
-
+		[Test] [Ignore("ignored test")] void IgnoredTest();
+		[Test] [ExpectedException(typeof(InvalidOperationException))] void ExpectAnException();
 	};
 }

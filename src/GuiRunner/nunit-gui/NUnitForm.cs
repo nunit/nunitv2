@@ -36,7 +36,7 @@ namespace NUnit.Gui
 	/// </summary>
 	public class NUnitForm : System.Windows.Forms.Form
 	{
-		//		public Hashtable treeMap = new Hashtable();
+		private bool runCommandEnabled = false;
 
 		public Test SelectedSuite
 		{
@@ -112,19 +112,21 @@ namespace NUnit.Gui
 			stdOutTab.Enabled = true;
 
 			SetDefault(runButton);
+			DisableRunCommand();
 
-			actions = new UIActions(this);
+			stdOutWriter = new TextBoxWriter(stdOutTab);
+			Console.SetOut(stdOutWriter);
+			stdErrWriter = new TextBoxWriter(stdErrTab);
+			Console.SetError(stdErrWriter);
+
+			actions = new UIActions(stdOutWriter, stdErrWriter);
+
 			actions.TestStartedEvent += new UIActions.TestStartedHandler(OnTestStarted);
 			actions.TestFinishedEvent += new UIActions.TestFinishedHandler(OnTestFinished);
 			actions.SuiteFinishedEvent += new UIActions.SuiteFinishedHandler(OnSuiteFinished);
 			actions.RunStartingEvent += new UIActions.RunStartingHandler(OnRunStarting);
 			actions.RunFinishedEvent += new UIActions.RunFinishedHandler(OnRunFinished);
 			actions.AssemblyLoadedEvent += new UIActions.AssemblyLoadedHandler(OnAssemblyLoaded);
-
-			stdErrWriter = new TextBoxWriter(stdErrTab);
-			Console.SetError(stdErrWriter);
-			stdOutWriter = new TextBoxWriter(stdOutTab);
-			Console.SetOut(stdOutWriter);
 
 			if (assemblyFileName != null) 
 			{
@@ -181,6 +183,7 @@ namespace NUnit.Gui
 				}
 			}
 		}
+
 		private void recentFile_clicked(object sender, System.EventArgs args) 
 		{
 			MenuItem item = (MenuItem) sender;
@@ -615,7 +618,7 @@ namespace NUnit.Gui
 			this.progressBar.Step = 1;
 			this.progressBar.TabIndex = 0;
 			this.progressBar.Value = 0;
-			this.progressBar.Click += new System.EventHandler(this.progressBar1_Click);
+
 			// 
 			// openFileDialog
 			// 
@@ -704,11 +707,6 @@ namespace NUnit.Gui
 		private void exitMenuItem_Click(object sender, System.EventArgs e)
 		{
 			this.Close();
-		}
-
-		private void progressBar1_Click(object sender, System.EventArgs e)
-		{
-		
 		}
 
 		private void runButton_Click(object sender, System.EventArgs e)
@@ -811,7 +809,6 @@ namespace NUnit.Gui
 			aboutBox.Show();
 		}
 
-		private static string KEY = "Software\\Nascent Software\\Nunit\\";
 		private static string WIDTH = "width";
 		private static string HEIGHT = "height";
 		private static string XLOCATION = "x-location";
@@ -820,8 +817,7 @@ namespace NUnit.Gui
 
 		private void NUnitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			string subKey = String.Format("{0}{1}", KEY, "form");
-			RegistryKey key = Registry.CurrentUser.CreateSubKey(subKey);
+			RegistryKey key = RegistryHelper.CurrentUser.CreateSubKey("form");
 
 			key.SetValue(WIDTH, this.Size.Width.ToString());
 			key.SetValue(HEIGHT, this.Size.Height.ToString());
@@ -831,8 +827,7 @@ namespace NUnit.Gui
 
 		private void NUnitForm_Load(object sender, System.EventArgs e)
 		{
-			string subKey = String.Format("{0}{1}", KEY, "form");
-			RegistryKey key = Registry.CurrentUser.OpenSubKey(subKey);
+			RegistryKey key = RegistryHelper.CurrentUser.OpenSubKey("form");
 
 			int xLocation = 10; 
 			int yLocation = 10;
@@ -852,7 +847,7 @@ namespace NUnit.Gui
 
 		private void testSuiteTreeView_DoubleClick(object sender, System.EventArgs e)
 		{
-			if ( testSuiteTreeView.SelectedNode.Nodes.Count == 0 )
+			if ( runCommandEnabled && testSuiteTreeView.SelectedNode.Nodes.Count == 0 )
 			{
 				actions.RunTestSuite( SelectedSuite );
 			}
@@ -885,31 +880,41 @@ namespace NUnit.Gui
 
 		private void OnRunStarting(Test test)
 		{
-			runButton.Enabled = false;
+			int testCount = test.CountTestCases;
 
+			DisableRunCommand();
 			ClearTestResults();
+			InitializeSummaryFields(testCount);
 
-			SetTestCaseCount(test.CountTestCases, testCaseCount);
-			failures.Text = "Failures : 0";
-			testsRun.Text = "Tests Run : 0";
-			time.Text = "Time : 0";
-
-			string name = test.Name;
-			int val = test.Name.LastIndexOf("\\");
-			if(val != -1)
-				name = test.Name.Substring(val+1);
-			suiteName.Text = name;
-		
-			progressBar.Maximum = test.CountTestCases;
-			ResetProgressBar();
+			SetSuiteName(test.Name);
+			InitializeProgressBar(testCount);
 
 			Console.Out.WriteLine("Test name {0}", test.FullName);
 		}
 
-		private void ResetProgressBar()
+		private void SetSuiteName( string name )
+		{
+			int val = name.LastIndexOf("\\");
+			if(val != -1)
+				name = name.Substring(val+1);
+			suiteName.Text = name;
+		}
+
+		private void DisableRunCommand()
+		{
+			runButton.Enabled = runMenuItem.Enabled = runCommandEnabled = false;
+		}
+			
+		private void EnableRunCommand()
+		{
+			runButton.Enabled = runMenuItem.Enabled = runCommandEnabled = true;
+		}
+
+		private void InitializeProgressBar(int testCount)
 		{
 			progressBar.ForeColor = Color.Lime;
 			progressBar.Value = 0;
+			progressBar.Maximum = testCount;
 		}
 
 		private void ClearTestResults()
@@ -925,6 +930,14 @@ namespace NUnit.Gui
 			stdOutTab.Clear();
 		}
 		
+		private void InitializeSummaryFields( int testCount )
+		{
+			SetTestCaseCount(testCount, testCaseCount);
+			failures.Text = "Failures : 0";
+			testsRun.Text = "Tests Run : 0";
+			time.Text = "Time : 0";
+		}
+		
 		private void OnRunFinished(TestResult result)
 		{
 			status.Text = "Completed"; 
@@ -936,7 +949,7 @@ namespace NUnit.Gui
 
 			testSuiteTreeView.Expand( result.Test );
 
-			runButton.Enabled = true;
+			EnableRunCommand();
 		}
 
 		private void DisplayResults(TestResult results)
@@ -961,9 +974,9 @@ namespace NUnit.Gui
 			if(!UIHelper.CompareTree(SelectedSuite,test))
 				testSuiteTreeView.Load(test);
 
-			runButton.Enabled = true;
+			EnableRunCommand();
 			ClearTestResults();
-			ResetProgressBar();
+			InitializeProgressBar(test.CountTestCases);
 		}
 
 		private static void SetTestCaseCount(int count, StatusBarPanel countLabel)

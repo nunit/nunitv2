@@ -80,5 +80,19 @@ namespace NUnit.Samples
 			Assertion.AssertEquals("Expected Failure (Integer).", 12, 13);
 			Assertion.AssertEquals("Expected Failure (Double).", 12.0, 11.99, 0.0);
 		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void ExpectAnException()
+		{
+			throw new InvalidCastException();
+		}
+
+		[Test]
+		[Ignore("ignored test")]
+		public void IgnoredTest()
+		{
+			throw new Exception();
+		}
 	}
 }

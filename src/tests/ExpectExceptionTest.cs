@@ -31,10 +31,6 @@ namespace NUnit.Tests
 	[TestFixture]
 	public class ExpectExceptionTest 
 	{
-		/// <summary>
-		/// 
-		/// </summary>
-		/// 
 		[Test]
 		[ExpectedException(typeof(Exception))]
 		public void TestSingle()
@@ -72,7 +68,6 @@ namespace NUnit.Tests
 			Assertion.Assert("BaseExceptionTest should have failed", result.IsFailure);
 			Assertion.AssertEquals("Expected: ArgumentException but was Exception", result.Message);
 		}
-
 
 		[Test]
 		public void TestMismatchedException()
@@ -124,6 +119,28 @@ namespace NUnit.Tests
 			[ExpectedException(typeof(ArgumentException))]
 			public void Test() 
 			{}
+		}
+
+		[TestFixture]
+		internal class TestThrowsExceptionFixture
+		{
+			[Test]
+			public void TestThrow()
+			{
+				throw new Exception();
+			}
+		}
+
+		[Test] 
+		public void MethodThrowsException()
+		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			object testFixture = builder.BuildTestFixture(typeof(TestThrowsExceptionFixture));
+			TestSuite suite = new TestSuite("mock suite");
+			suite.Add(testFixture);	
+	
+			TestResult result = suite.Run(NUnit.Core.NullListener.NULL);
+			Assertion.AssertEquals(true, result.IsFailure);
 		}
 
 		internal class MyAppException : System.Exception
