@@ -55,10 +55,11 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// A private constructor disallows any instances of this object. 
+		/// We don't actually want any instances of this object, but somje people
+		/// like to inherit from it to add other static methods. Hence, the
+		/// protected constructor disallows any instances of this object. 
 		/// </summary>
-		private Assert()
-		{}
+		protected Assert() {}
 
 		/// <summary>
 		/// Asserts that a condition is true. If the condition is false the method throws
