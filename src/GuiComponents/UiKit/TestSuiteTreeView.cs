@@ -33,11 +33,11 @@ using System.Drawing;
 using System.Collections;
 using System.Diagnostics;
 using System.Windows.Forms;
+using NUnit.Core;
+using NUnit.Util;
 
-namespace NUnit.Util
+namespace NUnit.UiKit
 {
-	using NUnit.Core;
-	using NUnit.UiKit;
 
 	public delegate void SelectedTestChangedHandler( UITestNode test );
 

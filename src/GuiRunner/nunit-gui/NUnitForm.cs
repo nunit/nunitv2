@@ -77,7 +77,7 @@ namespace NUnit.Gui
 		public System.Windows.Forms.TextBox stackTrace;
 		public NUnit.UiKit.StatusBar statusBar;
 		public System.Windows.Forms.OpenFileDialog openFileDialog;
-		public NUnit.Util.TestSuiteTreeView testSuiteTreeView;
+		public NUnit.UiKit.TestSuiteTreeView testSuiteTreeView;
 		public System.Windows.Forms.TabControl resultTabs;
 		public System.Windows.Forms.TabPage errorPage;
 		public System.Windows.Forms.TabPage stderr;
@@ -248,7 +248,7 @@ namespace NUnit.Gui
 			this.helpMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpMenuSeparator1 = new System.Windows.Forms.MenuItem();
 			this.aboutMenuItem = new System.Windows.Forms.MenuItem();
-			this.testSuiteTreeView = new NUnit.Util.TestSuiteTreeView();
+			this.testSuiteTreeView = new NUnit.UiKit.TestSuiteTreeView();
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.resultTabs = new System.Windows.Forms.TabControl();
@@ -476,7 +476,7 @@ namespace NUnit.Gui
 			this.testSuiteTreeView.Size = new System.Drawing.Size(358, 511);
 			this.testSuiteTreeView.Sorted = true;
 			this.testSuiteTreeView.TabIndex = 1;
-			this.testSuiteTreeView.SelectedTestChanged += new NUnit.Util.SelectedTestChangedHandler(this.OnSelectedTestChanged);
+			this.testSuiteTreeView.SelectedTestChanged += new NUnit.UiKit.SelectedTestChangedHandler(this.OnSelectedTestChanged);
 			// 
 			// splitter1
 			// 

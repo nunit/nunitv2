@@ -107,6 +107,11 @@
                     Project = "{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "nunit.uikit.dll"
+                    Project = "{27531BBF-183D-4C3A-935B-D840B9F1A3A4}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
