@@ -43,6 +43,8 @@ namespace NUnit.Core
 
 		public void visit(TestCaseResult caseResult) 
 		{
+			SetNameandTime(caseResult.Name, caseResult.Time);
+
 			if(caseResult.Executed)
 			{
 				totalCount++;
