@@ -68,17 +68,45 @@ namespace NUnit.Tests
 
 		[Test] 
 		[ExpectedException(typeof(InvalidTestFixtureException))]
-		public void BuildTestFixture()
+		public void BuildTestFixtureWithNoDefaultCtor()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			object fixture = builder.BuildTestFixture(typeof(NoDefaultCtorFixture));
 		}
 
 		[Test]
-		public void BuildTestSuiteWithBadFixture()
+		public void BuildTestSuiteWithNoDefaultCtorFixture()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.MakeSuiteFromTestFixtureType(typeof(NoDefaultCtorFixture));
+			Assertion.Assert(!suite.ShouldRun);
+		}
+
+		[TestFixture]
+		internal class BadCtorFixture
+		{
+			BadCtorFixture()
+			{
+				throw new Exception();
+			}
+
+			[Test] public void OneTest()
+			{}
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void BuildFixtureWithBadCtor()
+		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			object fixture = builder.BuildTestFixture(typeof(BadCtorFixture));
+		}
+
+		[Test]
+		public void BuildTestSuiteWithBadCtorFixture()
+		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.MakeSuiteFromTestFixtureType(typeof(BadCtorFixture));
 			Assertion.Assert(!suite.ShouldRun);
 		}
 
@@ -269,6 +297,7 @@ namespace NUnit.Tests
 
 			return foundTest;
 		}
+
+
 	}
 }
-
