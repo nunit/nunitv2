@@ -218,10 +218,12 @@ namespace NUnit.UiKit
 
 		public void PerformStep()
 		{
-			if(Value < Maximum)
-			{
-				this.Value+=Step;
-			}
+			int newValue = Value + Step;
+
+			if( newValue > Maximum )
+				newValue = Maximum;
+
+			Value = newValue;
 		}
 
 		private void OnRunStarting( UITestNode test )
