@@ -149,6 +149,11 @@ namespace NUnit.Console
 			Console.WriteLine(String.Format("{0} version {1}", productAttr.Product, version.ToString(3)));
 			Console.WriteLine(copyrightAttr.Copyright);
 			Console.WriteLine();
+
+			string clrPlatform = Type.GetType("Mono.Runtime", false) == null ? ".NET" : "Mono";
+			Console.WriteLine( string.Format("OS Version: {0}    {1} Version: {2}",
+				Environment.OSVersion, clrPlatform, Environment.Version ) );
+			Console.WriteLine();
 		}
 
 		private static Test MakeTestFromCommandLine(TestDomain testDomain, ConsoleOptions parser)
