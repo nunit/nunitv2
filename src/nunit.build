@@ -2,7 +2,6 @@
 <project name="NUnit" default="all" basedir=".">
 	<property name="build.dir" value="build"/>
 	<property name="debug" value="true"/>
-	<property name="netversion" value="1.1"/>
 	
 	<target name="all" depends="clean,nunit.framework.dll,nunit.util.dll,nunit.extensions.dll,nunit.uikit.dll,nunit.tests,nunit-gui.exe,nunit-console.exe,samples,test"/>
 	
@@ -99,9 +98,7 @@
 				<includes name="${build.dir}/notestfixtures-assembly.dll"/>
 			</references>
 		</csc>
-		<copy file="tests\nunit.tests.dll.1.0.config" todir="${build.dir}"/>
-		<copy file="tests\nunit.tests.dll.1.1.config" todir="${build.dir}"/>
-		<copy file="tests\nunit.tests.dll.${netversion}.config" 			tofile="${build.dir}\nunit.tests.dll.config"/>
+		<copy file="tests\nunit.tests.dll.config" todir="${build.dir}"/>
 	</target>
 
 	<target name="test" depends="nunit.tests">
@@ -144,10 +141,7 @@
 				<includes name="${build.dir}/nunit.core.dll"/>
 			</references>
 		</csc>
-		<copy file="nunit-gui\nunit-gui.exe.1.0.config" todir="${build.dir}"/>
-		<copy file="nunit-gui\nunit-gui.exe.1.1.config" todir="${build.dir}"/>
-		<copy file="nunit-gui\nunit-gui.exe.${netversion}.config" todir="${build.dir}"
-			tofile="nunit-gui.exe.config"/>
+		<copy file="nunit-gui\nunit-gui.exe.config" todir="${build.dir}"/>
 	</target>
 	
 	<target name="nunit-console.exe" depends="nunit.core.dll,nunit.util.dll">
@@ -160,9 +154,7 @@
 				<includes name="${build.dir}/nunit.util.dll"/>
 			</references>
 		</csc>
-		<copy file="nunit-console\nunit-console.exe.1.0.config" todir="${build.dir}"/>
-		<copy file="nunit-console\nunit-console.exe.1.1.config" todir="${build.dir}"/>
-		<copy file="nunit-console\nunit-console.exe.${netversion}.config" todir="${build.dir}"
+		<copy file="nunit-console\nunit-console.exe.config" todir="${build.dir}"/>
 			tofile="nunit-console.exe.config"/>
 	</target>
 	
