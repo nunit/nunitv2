@@ -30,12 +30,8 @@
 using System;
 using System.Drawing;
 using System.Collections;
-using System.ComponentModel;
 using System.Windows.Forms;
-using System.Data;
-using System.Xml;
 using System.IO;
-using Microsoft.Win32;
 
 namespace NUnit.Gui
 {
@@ -68,7 +64,7 @@ namespace NUnit.Gui
 		/// <summary>
 		/// Object that coordinates loading and running of tests
 		/// </summary>
-		private ITestLoader actions;
+		private ITestLoader loader;
 
 		/// <summary>
 		/// Structure used for command line options
@@ -188,7 +184,7 @@ namespace NUnit.Gui
 			stdErrWriter = new TextBoxWriter(stdErrTab);
 			Console.SetError(stdErrWriter);
 
-			actions = new UIActions(stdOutWriter, stdErrWriter);
+			loader = new TestLoader(stdOutWriter, stdErrWriter);
 		}
 
 		/// <summary>
@@ -890,18 +886,18 @@ namespace NUnit.Gui
 		/// </summary>
 		private void fileMenu_Popup(object sender, System.EventArgs e)
 		{
-			openMenuItem.Enabled = !actions.IsTestRunning;
-			closeMenuItem.Enabled = actions.IsTestLoaded && !actions.IsTestRunning;
+			openMenuItem.Enabled = !loader.IsTestRunning;
+			closeMenuItem.Enabled = loader.IsTestLoaded && !loader.IsTestRunning;
 
-			saveMenuItem.Enabled = actions.IsTestLoaded;
-			saveAsMenuItem.Enabled = actions.IsTestLoaded;
+			saveMenuItem.Enabled = loader.IsTestLoaded;
+			saveAsMenuItem.Enabled = loader.IsTestLoaded;
 
-			reloadMenuItem.Enabled = actions.IsTestLoaded && !actions.IsTestRunning;
+			reloadMenuItem.Enabled = loader.IsTestLoaded && !loader.IsTestRunning;
 
-			recentProjectsMenu.Enabled = !actions.IsTestRunning;
-			recentAssembliesMenu.Enabled = !actions.IsTestRunning;
+			recentProjectsMenu.Enabled = !loader.IsTestRunning;
+			recentAssembliesMenu.Enabled = !loader.IsTestRunning;
 
-			if ( !actions.IsTestRunning )
+			if ( !loader.IsTestRunning )
 			{
 				LoadRecentFileMenu( recentProjectsMenu, recentProjects.GetFiles() );
 				LoadRecentFileMenu( recentAssembliesMenu, recentAssemblies.GetFiles() );
@@ -962,7 +958,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void closeMenuItem_Click(object sender, System.EventArgs e)
 		{
-			if ( actions.TestProject.IsDirty && !actions.TestProject.IsWrapper )
+			if ( loader.TestProject.IsDirty && !loader.TestProject.IsWrapper )
 			{
 				if ( UserMessage.Ask( "Project has been changed. Do you want to save changes? " )
 							== DialogResult.Yes )
@@ -978,18 +974,18 @@ namespace NUnit.Gui
 		private void saveMenuItem_Click(object sender, System.EventArgs e)
 		{
 			// ToDo: Move to filehandler object
-			if ( actions.TestProject.ProjectPath == null )
+			if ( loader.TestProject.ProjectPath == null )
 				saveAsMenuItem_Click( sender, e );
 			else
-				actions.TestProject.Save();
+				loader.TestProject.Save();
 		}
 
 		private void saveAsMenuItem_Click(object sender, System.EventArgs e)
 		{
 			// TODo: Move to filehandler object
-			saveProjectDialog.FileName = actions.TestProject.ProjectPath;
+			saveProjectDialog.FileName = loader.TestProject.ProjectPath;
 			if ( saveProjectDialog.ShowDialog( this ) == DialogResult.OK )
-				actions.TestProject.Save( saveProjectDialog.FileName );
+				loader.TestProject.Save( saveProjectDialog.FileName );
 		}
 
 		/// <summary>
@@ -1010,7 +1006,7 @@ namespace NUnit.Gui
 		{
 			using ( new WaitCursor() )
 			{
-				actions.ReloadTest();
+				loader.ReloadTest();
 			}
 		}
 
@@ -1091,12 +1087,12 @@ namespace NUnit.Gui
 			int index = 0;
 			configMenuItem.MenuItems.Clear();
 
-			foreach ( ProjectConfig config in actions.TestProject.Configs )
+			foreach ( ProjectConfig config in loader.TestProject.Configs )
 			{
 				string text = string.Format( "&{0} {1}", index+1, config.Name );
 				MenuItem item = new MenuItem( 
 					text, new EventHandler( configMenuItem_Click ) );
-				if ( config.Name == actions.ActiveConfig ) 
+				if ( config.Name == loader.ActiveConfig ) 
 					item.Checked = true;
 				configMenuItem.MenuItems.Add( index++, item );
 			}
@@ -1116,28 +1112,28 @@ namespace NUnit.Gui
 			
 			if ( !item.Checked )
 			{
-				NUnitProject project = actions.TestProject;
+				NUnitProject project = loader.TestProject;
 				ProjectConfig config = project.Configs[item.Index];
 				if ( config.Assemblies.Count == 0 )
 					UserMessage.DisplayFailure( "Selected Config cannot be loaded. It contains no assemblies." );
 				else
-					actions.ActiveConfig = config.Name;
+					loader.ActiveConfig = config.Name;
 			}
 		}
 
 		private void addConfigurationMenuItem_Click( object sender, System.EventArgs e )
 		{
-			ConfigurationEditor.AddConfiguration( actions.TestProject );
+			ConfigurationEditor.AddConfiguration( loader.TestProject );
 		}
 
 		private void editConfigurationsMenuItem_Click( object sender, System.EventArgs e )
 		{
-			ConfigurationEditor.Edit( actions.TestProject );
+			ConfigurationEditor.Edit( loader.TestProject );
 		}
 
 		private void editProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-			ProjectEditor.Edit( actions.TestProject );
+			ProjectEditor.Edit( loader.TestProject );
 		}
 
 		#endregion
@@ -1146,12 +1142,12 @@ namespace NUnit.Gui
 
 		private void toolsMenu_Popup(object sender, System.EventArgs e)
 		{		
-			saveXmlResultsMenuItem.Enabled = actions.IsTestLoaded && actions.LastResult != null;
+			saveXmlResultsMenuItem.Enabled = loader.IsTestLoaded && loader.LastResult != null;
 		}
 
 		private void saveXmlResultsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			SaveXmlResults( actions.LastResult );
+			SaveXmlResults( loader.LastResult );
 		}
 
 		private void optionsMenuItem_Click(object sender, System.EventArgs e)
@@ -1180,10 +1176,10 @@ namespace NUnit.Gui
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
 			runButton.Enabled = false;
-			if ( actions.IsReloadPending || optionSettings.ReloadOnRun )
-				actions.ReloadTest();
+			if ( loader.IsReloadPending || optionSettings.ReloadOnRun )
+				loader.ReloadTest();
 
-			actions.RunTestSuite( testSuiteTreeView.SelectedTest );
+			loader.RunTestSuite( testSuiteTreeView.SelectedTest );
 		}
 
 		/// <summary>
@@ -1193,7 +1189,7 @@ namespace NUnit.Gui
 		{
 			stopButton.Enabled = false;
 
-			if ( actions.IsTestRunning )
+			if ( loader.IsTestRunning )
 			{
 				DialogResult dialogResult = UserMessage.Ask( 
 					"Do you want to cancel the running test?" );
@@ -1201,7 +1197,7 @@ namespace NUnit.Gui
 				if ( dialogResult == DialogResult.No )
 					stopButton.Enabled = true;
 				else
-					actions.CancelTestRun();
+					loader.CancelTestRun();
 			}
 		}
 
@@ -1211,7 +1207,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void OnSelectedTestChanged( UITestNode test )
 		{
-			if ( !actions.IsTestRunning )
+			if ( !loader.IsTestRunning )
 			{
 				suiteName.Text = test.ShortName;
 				statusBar.Initialize( test.CountTestCases );
@@ -1260,7 +1256,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void NUnitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			if ( actions.IsTestRunning )
+			if ( loader.IsTestRunning )
 			{
 				DialogResult dialogResult = UserMessage.Ask( 
 					"A test is running, do you want to stop the test and exit?" );
@@ -1271,7 +1267,7 @@ namespace NUnit.Gui
 					return;
 				}
 				
-				actions.CancelTestRun();
+				loader.CancelTestRun();
 			}
 
 			UnloadTest();
@@ -1293,16 +1289,16 @@ namespace NUnit.Gui
 			this.Size = UserSettings.Form.Size;
 
 			// Set up events handled by the form
-			actions.RunStartingEvent += new TestEventHandler( OnRunStarting );
-			actions.RunFinishedEvent += new TestEventHandler( OnRunFinished );
+			loader.RunStartingEvent += new TestEventHandler( OnRunStarting );
+			loader.RunFinishedEvent += new TestEventHandler( OnRunFinished );
 
-			actions.LoadStartingEvent	+= new TestLoadEventHandler( OnTestLoadStarting );
-			actions.LoadCompleteEvent	+= new TestLoadEventHandler( OnTestLoaded );
-			actions.UnloadStartingEvent += new TestLoadEventHandler( OnTestUnloadStarting );
-			actions.UnloadCompleteEvent += new TestLoadEventHandler( OnTestUnloaded );
-			actions.ReloadCompleteEvent += new TestLoadEventHandler( OnTestChanged );
-			actions.LoadFailedEvent		+= new TestLoadEventHandler( OnTestLoadFailure );
-			actions.ReloadFailedEvent	+= new TestLoadEventHandler( OnTestLoadFailure );
+			loader.LoadStartingEvent	+= new TestLoadEventHandler( OnTestLoadStarting );
+			loader.LoadCompleteEvent	+= new TestLoadEventHandler( OnTestLoaded );
+			loader.UnloadStartingEvent	+= new TestLoadEventHandler( OnTestUnloadStarting );
+			loader.UnloadCompleteEvent	+= new TestLoadEventHandler( OnTestUnloaded );
+			loader.ReloadCompleteEvent	+= new TestLoadEventHandler( OnTestChanged );
+			loader.LoadFailedEvent		+= new TestLoadEventHandler( OnTestLoadFailure );
+			loader.ReloadFailedEvent	+= new TestLoadEventHandler( OnTestLoadFailure );
 
 			// Set tree options
 			testSuiteTreeView.InitialDisplay =
@@ -1310,9 +1306,9 @@ namespace NUnit.Gui
 
 			// Allow controls to initialize as well
 			// ToDo: Migrate more ui elements to handle events on their own.
-			this.testSuiteTreeView.InitializeEvents( actions );
-			this.progressBar.InitializeEvents( actions );
-			this.statusBar.InitializeEvents( actions );
+			this.testSuiteTreeView.InitializeEvents( loader );
+			this.progressBar.InitializeEvents( loader );
+			this.statusBar.InitializeEvents( loader );
 			// Load test specified on command line or
 			// the most recent one if options call for it
 			if ( command.testFileName != null )
@@ -1407,7 +1403,7 @@ namespace NUnit.Gui
 				recentAssemblies.Remove( e.TestFileName );
 			}
 
-			if ( !actions.IsTestLoaded )
+			if ( !loader.IsTestLoaded )
 				OnTestUnloaded( sender, e );
 			else
 				runButton.Enabled = true;
@@ -1465,7 +1461,7 @@ namespace NUnit.Gui
 		/// <param name="assemblyFileName">Full path of the assembly to load</param>
 		private void LoadTest(string testFileName)
 		{
-			actions.LoadTest( testFileName );
+			loader.LoadTest( testFileName );
 		}
 
 		/// <summary>
@@ -1473,7 +1469,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void UnloadTest()
 		{
-			actions.UnloadTest();
+			loader.UnloadTest();
 		}
 
 		#endregion

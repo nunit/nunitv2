@@ -203,11 +203,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "UIActions.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "unpinned.bmp"
                     BuildAction = "EmbeddedResource"
                 />

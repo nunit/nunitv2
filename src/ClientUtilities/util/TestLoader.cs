@@ -27,28 +27,29 @@
 '***********************************************************************************/
 #endregion
 
-namespace NUnit.UiKit
+namespace NUnit.Util
 {
 	using System;
 	using System.IO;
 	using System.Threading;
 	using NUnit.Core;
-	using NUnit.Util;
 	using NUnit.Framework;
 
 
 	/// <summary>
-	/// UIActions handles interactions between a test runner and a client
-	/// program - typically the user interface. It implemements the
-	/// EventListener interface which is used by the test runner and the
-	/// UIEvents interface in order to provide the information to any 
-	/// component that is interested. See comments in the definition
-	/// of UIEvents for more detailed information.
+	/// TestLoader handles interactions between a test runner and a 
+	/// client program - typically the user interface - for the 
+	/// purpose of loading, unloading and running tests.
 	/// 
-	/// UIActions also provides a set of methods which allow the elements
-	/// in the UI to control loading, unloading and running of tests.
+	/// It implemements the EventListener interface which is used by 
+	/// the test runner and repackages those events, along with
+	/// others as individual events that clients may subscribe to.
+	/// 
+	/// TestLoader is quite handy for use with a gui client because
+	/// of the large number of events it supports. However, it has
+	/// no dependencies on ui components and can be used independently.
 	/// </summary>
-	public class UIActions : LongLivingMarshalByRefObject, NUnit.Core.EventListener, ITestLoader
+	public class TestLoader : LongLivingMarshalByRefObject, NUnit.Core.EventListener, ITestLoader
 	{
 		#region Instance Variables
 
@@ -142,7 +143,7 @@ namespace NUnit.UiKit
 
 		#region Constructor
 
-		public UIActions(TextWriter stdOutWriter, TextWriter stdErrWriter)
+		public TestLoader(TextWriter stdOutWriter, TextWriter stdErrWriter)
 		{
 			this.stdOutWriter = stdOutWriter;
 			this.stdErrWriter = stdErrWriter;
