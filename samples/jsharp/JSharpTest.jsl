@@ -47,6 +47,7 @@ public class SimpleJSharpTest
 	{
 		int zero= 0;
 		int result = 8/zero;
+		KeepCompilerFromWarning(result); // never executed, here to avoid compiler warning that result is unused.
 	}
 
 	/** @attribute NUnit.Framework.Test() */
@@ -67,4 +68,11 @@ public class SimpleJSharpTest
 	{
 		throw new InvalidCastException();
 	}
+
+	// A useless function, designed to avoid a compiler warning in the the DivideByZero test.
+	private int KeepCompilerFromWarning(int dummy)
+	{
+		return dummy;
+	}
+
 }
