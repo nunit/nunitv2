@@ -40,14 +40,19 @@ namespace NUnit.Core
 
 		#region Properties
 
+		public virtual bool Running
+		{
+			get { return testRunner != null && testRunner.Running; }
+		}
+
 		public virtual IList TestFrameworks
 		{
-			get { return this.testRunner.TestFrameworks; }
+			get { return testRunner == null ? null : testRunner.TestFrameworks; }
 		}
 
 		public virtual TestResult[] Results
 		{
-			get { return this.testRunner.Results; }
+			get { return testRunner == null ? null : testRunner.Results; }
 		}
 
 		public virtual IFilter Filter
@@ -128,6 +133,21 @@ namespace NUnit.Core
 		public virtual TestResult[] doRun( EventListener listener, string[] testNames )
 		{
 			return this.testRunner.Run( listener, testNames );
+		}
+
+		public virtual void StartRun( EventListener listener )
+		{
+			doStartRun( listener, null );
+		}
+
+		public virtual void StartRun( EventListener listener, string[] testNames )
+		{
+			doStartRun( listener, testNames );
+		}
+
+		public virtual void doStartRun( EventListener listener, string[] testNames )
+		{
+			this.testRunner.StartRun( listener, testNames );
 		}
 
 		public virtual void CancelRun()

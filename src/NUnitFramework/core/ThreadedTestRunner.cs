@@ -32,17 +32,19 @@ namespace NUnit.Core
 
 		#region Override Run Methods
 
-		protected override TestResult[] doRun(EventListener listener, string[] testNames)
+		public override TestResult[] doRun( EventListener listener, string[] testNames )
 		{
 			this.thread = new TestRunnerThread(this.testRunner);
 			try
 			{
-				using(PumpingEventListener pumpingEventListener = new PumpingEventListener(listener))
+				QueuingEventListener queue = new QueuingEventListener();
+				using( EventPump pump = new EventPump( listener, queue.Events, true) )
 				{
-					this.thread.StartRun( pumpingEventListener, testNames );
+					pump.Start();
+					this.thread.StartRun( queue, testNames );
 					while(this.thread.IsAlive)
 					{
-						pumpingEventListener.DoEvents();
+						//						pumpingEventListener.DoEvents();
 						Thread.Sleep(1000 / 50);
 					}
 					return this.thread.Results;
@@ -52,6 +54,15 @@ namespace NUnit.Core
 			{
 				this.thread = null;
 			}
+		}
+
+		public override void doStartRun( EventListener listener, string[] testNames )
+		{
+			this.thread = new TestRunnerThread(this.testRunner);
+			QueuingEventListener queue = new QueuingEventListener();
+			EventPump pump = new EventPump( listener, queue.Events, true);
+			pump.Start();
+			this.thread.StartRun( queue, testNames );
 		}
 
 		void TestRunner.CancelRun()

@@ -164,7 +164,7 @@ public class SleepFixture
 			Assert.AreEqual(TEST_OUT_CHAR.ToString(), output.Text);
 		}
 
-		[Test, Explicit]
+		[Test]
 		public void TestCancelSleepOne()
 		{
 			MockEventListener listener = new MockEventListener();
@@ -178,7 +178,7 @@ public class SleepFixture
 			Assert.IsFalse(thread.IsAlive, "Check that test run has been canceled");
 		}
 
-		[Test, Explicit]
+		[Test]
 		public void TestCancelSleepMany()
 		{
 			MockEventListener listener = new MockEventListener();

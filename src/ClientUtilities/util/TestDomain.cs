@@ -127,6 +127,11 @@ namespace NUnit.Util
 			return runnerType;
 		}
 
+		public bool Running
+		{
+			get { return testRunner != null && testRunner.Running; }
+		}
+
 		public IList TestFrameworks
 		{
 			get 
@@ -164,7 +169,7 @@ namespace NUnit.Util
 
 		#region Constructors
 
-		public TestDomain( ) : this (true)
+		public TestDomain( ) : this (false)
 		{ 
 		}
 
@@ -220,7 +225,7 @@ namespace NUnit.Util
 					: Path.ChangeExtension( projectFile.FullName, ".config" );
 				CreateDomain( 
 					testProject.ProjectPath,
-					projectFile.DirectoryName,
+					testProject.BasePath,
 					configFilePath,
 					GetBinPath( testProject.Assemblies ));
 
@@ -329,6 +334,20 @@ namespace NUnit.Util
 			}
 		}
 
+		public virtual void StartRun( EventListener listener )
+		{
+			StartRun( listener, null );
+		}
+
+		public virtual void StartRun( EventListener listener, string[] testNames )
+		{
+			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
+			{
+				this.listener = listener;
+				Runner.StartRun( listener, testNames );
+			}
+		}
+
 		public void CancelRun()
 		{
 			Runner.CancelRun();
@@ -343,7 +362,8 @@ namespace NUnit.Util
 		// figure out what to do with them.
 		private void OnUnhandledException( object sender, UnhandledExceptionEventArgs e )
 		{
-			this.listener.UnhandledException( (Exception)e.ExceptionObject );
+			if ( e.ExceptionObject.GetType() != typeof( System.Threading.ThreadAbortException ) )
+				this.listener.UnhandledException( (Exception)e.ExceptionObject );
 		}
 
 		#endregion

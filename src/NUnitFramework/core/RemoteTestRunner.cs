@@ -7,5 +7,16 @@ namespace NUnit.Core
 		public RemoteTestRunner() 
 			: base( new ThreadedTestRunner(new RealTestRunner() ) ) {	}
 
+		public override void StartRun(EventListener listener)
+		{
+			base.StartRun (listener);
+		}
+
+		public override void StartRun(EventListener listener, string[] testNames)
+		{
+			base.StartRun (listener, testNames);
+		}
+
+
 	}
 }

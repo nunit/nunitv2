@@ -60,10 +60,10 @@ namespace NUnit.Core
 		/// IsTestRunning indicates whether a test is in progress. To retrieve the
 		/// results from an asynchronous test run, wait till IsTestRunning is false.
 		/// </summary>
-		//		bool IsTestRunning
-		//		{
-		//			get;
-		//		}
+		bool Running
+		{
+			get;
+		}
 
 		/// <summary>
 		/// Returns the collection of test frameworks referenced by the running
@@ -172,14 +172,31 @@ namespace NUnit.Core
 		TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames);
 
 		/// <summary>
-		///  Cancel the test run that is in progress. Since Run is synchronous,
+		/// Start a run of all loaded tests. The tests are run aynchronously and the 
+		/// listener interface is notified as it progresses.
+		/// </summary>
+		/// <param name="listener">Interface to receive EventListener notifications.</param>
+		void StartRun(NUnit.Core.EventListener listener);
+		
+		/// <summary>
+		/// Start running a set of loaded tests. The tests are run asynchronously and 
+		/// the listener interface is notified as it progresses.
+		/// </summary>
+		/// <param name="listener">Interface to receive EventListener notifications</param>
+		/// <param name="testNames">The names of the test cases, fixtures or suites to be run</param>
+		void StartRun(NUnit.Core.EventListener listener, string[] testNames);
+
+		/// <summary>
+		///  Cancel the test run that is in progress. For a synchronous run,
 		///  a client wanting to call this must create a separate run thread.
 		/// </summary>
 		void CancelRun();
 
 		/// <summary>
-		/// Wait for the test run in progress to complete. Since Run is synchronous,
-		///  a client wanting to call this must create a separate run thread.
+		/// Wait for the test run in progress to complete. For a synchronous run,
+		/// a client wanting to call this must create a separate run thread. In
+		/// particular, a gui client calling this method is likely to hang, since
+		/// events will not be able to invoke methods on the gui thread.
 		/// </summary>
 		void Wait();
 		#endregion

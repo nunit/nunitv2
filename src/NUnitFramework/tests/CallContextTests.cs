@@ -25,14 +25,15 @@ namespace NUnit.Core.Tests
 		public void RestoreCurrentPrincipal()
 		{
 			System.Threading.Thread.CurrentPrincipal = savedPrincipal;
-		}
-
-		[TestFixtureTearDown]
-		public void FreeCallContextDataSlot()
-		{
-			// NOTE: We don't want possible side effects on other cross context tests.
 			CallContext.FreeNamedDataSlot(CONTEXT_DATA);
 		}
+
+//		[TestFixtureTearDown]
+//		public void FreeCallContextDataSlot()
+//		{
+//			// NOTE: We don't want possible side effects on other cross context tests.
+//			CallContext.FreeNamedDataSlot(CONTEXT_DATA);
+//		}
 
 		[Test]
 		public void ILogicalThreadAffinativeTest()

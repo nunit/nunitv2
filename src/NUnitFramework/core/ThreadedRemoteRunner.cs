@@ -13,16 +13,12 @@ namespace NUnit.Core
 		/// </summary>
 		private TestRunnerThread runningThread;
 
-		public override TestResult Run( EventListener listener )
+		public override void StartRun( EventListener listener )
 		{
-			TestResult[] results = Run(listener, null);
-			if (results != null)
-				return results[0];
-
-			return null;
+			StartRun(listener, null);
 		}
 
-		public override TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames)
+		public override void StartRun(NUnit.Core.EventListener listener, string[] testNames)
 		{
 			try 
 			{
@@ -31,14 +27,12 @@ namespace NUnit.Core
 			catch( Exception ex )
 			{
 				listener.RunFinished( ex );
-				return null;
 			}
 
 			runningThread.StartRun( listener, testNames );
 
 			//runningThread.Wait();
 
-			return runningThread.Results;
 		}
 
 		private TestResult[] RunTestInThread(NUnit.Core.EventListener listener, string[] testNames)

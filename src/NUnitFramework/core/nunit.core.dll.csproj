@@ -179,6 +179,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "EventPump.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "EventQueue.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Filter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -304,7 +314,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "PumpingEventListener.cs"
+                    RelPath = "QueuingEventListener.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
