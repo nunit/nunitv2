@@ -39,9 +39,6 @@ namespace NUnit.Core
 	[Serializable]
 	public class TestCaseResult : TestResult
 	{
-		private string message;
-		
-
 		public TestCaseResult(ITest testCase):base(testCase, testCase.FullName)
 		{
 			Executed = false;
@@ -61,20 +58,15 @@ namespace NUnit.Core
 		public override void NotRun(string reason)
 		{
 			Executed = false;
-			message = reason;
+			messageString = reason;
 		}
 
 		public void Failure(string message, string stackTrace)
 		{
 			Executed = true;
 			IsFailure = true;
-			this.message = message;
+			this.messageString = message;
 			StackTrace = stackTrace;
-		}
-
-		public override string Message
-		{
-			get { return message; }
 		}
 
 		public override string ToString()
@@ -86,7 +78,7 @@ namespace NUnit.Core
 			
 			builder.AppendFormat("{0} : " , name);
 			if(!IsSuccess)
-				builder.Append(message);
+				builder.Append(messageString);
 
 			return builder.ToString();
 		}

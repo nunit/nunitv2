@@ -45,6 +45,7 @@ namespace NUnit.Core
 		private ITest test;
 		private string stackTrace;
 		private string description;
+		protected string messageString;
 
 #if NUNIT_LEAKAGE_TEST
 		private long leakage = 0;
@@ -110,9 +111,9 @@ namespace NUnit.Core
 		}
 #endif
 
-		public abstract string Message
+		public string Message
 		{
-			get;
+			get { return messageString; }
 		}
 
 		public virtual string StackTrace

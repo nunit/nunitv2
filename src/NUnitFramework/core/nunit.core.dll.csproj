@@ -99,12 +99,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "EmptyFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "EventListener.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "ExpectedExceptionTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -130,6 +140,11 @@
                 />
                 <File
                     RelPath = "LongLivingMarshalByRefObject.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NameFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

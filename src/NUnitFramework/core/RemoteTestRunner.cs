@@ -134,7 +134,9 @@ namespace NUnit.Core
 			if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
 				Environment.CurrentDirectory = assemblyDirectory;
 
-			TestResult result = test.Run(listener);
+			NameFilter filter = new NameFilter(test);
+
+			TestResult result = suite.Run(listener, filter);
 
 			Environment.CurrentDirectory = currentDirectory;
 

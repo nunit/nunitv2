@@ -82,9 +82,8 @@ namespace NUnit.Core
 				test.ShouldRun = ShouldRun;
 				test.IgnoreReason = IgnoreReason;
 			}
+			test.Parent = this;
 			tests.Add(test);
-			if (test.IsTestCase)
-				((TestCase) test).Suite = this;
 		}
 
 		protected internal virtual TestSuite CreateNewSuite(Type type)
@@ -231,7 +230,7 @@ namespace NUnit.Core
 			get { return suiteRunning; }
 		}
 
-		public override TestResult Run(EventListener listener)
+		public override TestResult Run(EventListener listener, IFilter filter) 
 		{
 			suiteRunning = true;
 			TestSuiteResult suiteResult = new TestSuiteResult(this, Name);
@@ -245,7 +244,7 @@ namespace NUnit.Core
 				long startTime = DateTime.Now.Ticks;
 			
 				doFixtureSetup(suiteResult);
-				RunAllTests(suiteResult,listener);
+				RunAllTests(suiteResult,listener, filter);
 				doFixtureTearDown(suiteResult);
 
 				long stopTime = DateTime.Now.Ticks;
@@ -320,7 +319,7 @@ namespace NUnit.Core
 			result.StackTrace = ex.StackTrace;
 		}
 
-		protected virtual void RunAllTests(TestSuiteResult suiteResult,EventListener listener)
+		protected virtual void RunAllTests(TestSuiteResult suiteResult,EventListener listener, IFilter filter)
 		{
 			foreach(Test test in ArrayList.Synchronized(Tests))
 			{
@@ -330,7 +329,8 @@ namespace NUnit.Core
 					if (test.IgnoreReason == null)
 						test.IgnoreReason = FIXTURE_SETUP_FAILED;
 				}
-				suiteResult.AddResult(test.Run(listener));
+				if (test.Filter(filter))
+					suiteResult.AddResult(test.Run(listener, filter));
 				if (this.ShouldRun == false) 
 				{
 					
@@ -341,6 +341,11 @@ namespace NUnit.Core
 					}
 				}
 			}
+		}
+
+		public override bool Filter(IFilter filter) 
+		{
+			return filter.Pass(this);
 		}
 	}
 }

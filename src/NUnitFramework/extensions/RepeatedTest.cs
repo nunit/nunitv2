@@ -52,7 +52,7 @@ namespace NUnit.Extensions
 			get { return repeatCount; }
 		}
 
-		public override TestResult Run(EventListener listener)
+		public override TestResult Run(EventListener listener, IFilter filter)
 		{
 			TestSuiteResult suiteResult = new TestSuiteResult(this, testCase.Name);
 
@@ -87,5 +87,11 @@ namespace NUnit.Extensions
 		{ 
 			get { return null; }
 		}
+
+		public override bool Filter(IFilter filter)
+		{
+			return true;
+		}
+
 	}
 }

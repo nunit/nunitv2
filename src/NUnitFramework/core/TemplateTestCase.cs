@@ -48,15 +48,7 @@ namespace NUnit.Core
 			this.method = method;
 		}
 
-		private bool suiteRunning 
-		{
-			get 
-			{
-				return (Suite != null && Suite.SuiteRunning);
-			}
-		}
-
-		public override void Run(TestCaseResult testResult )
+		public override void Run(TestCaseResult testResult, IFilter filter )
 		{
 			if(ShouldRun)
 			{
@@ -68,7 +60,6 @@ namespace NUnit.Core
 
 				try 
 				{
-					if ( !suiteRunning ) InvokeTestFixtureSetUp();
 					InvokeSetUp();
 					setupComplete = true;
 					InvokeTestCase();
@@ -103,8 +94,6 @@ namespace NUnit.Core
 						RecordException(exp, testResult, true);
 					}
 
-					if ( !suiteRunning ) InvokeTestFixtureTearDown();
-					
 					DateTime stop = DateTime.Now;
 					TimeSpan span = stop.Subtract(start);
 					testResult.Time = (double)span.Ticks / (double)TimeSpan.TicksPerSecond;
@@ -178,15 +167,6 @@ namespace NUnit.Core
 				return exception.StackTrace;
 		}
 
-		private void InvokeTestFixtureTearDown()
-		{
-			MethodInfo method = FindTestFixtureTearDownMethod(fixture);
-			if(method != null)
-			{
-				InvokeMethod(method, fixture);
-			}
-		}
-
 		private void InvokeTearDown()
 		{
 			MethodInfo method = FindTearDownMethod(fixture);
@@ -201,20 +181,6 @@ namespace NUnit.Core
 			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.TearDownAttribute));
 		}
 
-		private MethodInfo FindTestFixtureTearDownMethod(object fixture)
-		{			
-			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.TestFixtureTearDownAttribute));
-		}
-
-		private void InvokeTestFixtureSetUp()
-		{
-			MethodInfo method = FindTestFixtureSetUpMethod(fixture);
-			if(method != null)
-			{
-				InvokeMethod(method, fixture);
-			}
-		}
-
 		private void InvokeSetUp()
 		{
 			MethodInfo method = FindSetUpMethod(fixture);
@@ -222,11 +188,6 @@ namespace NUnit.Core
 			{
 				InvokeMethod(method, fixture);
 			}
-		}
-
-		private MethodInfo FindTestFixtureSetUpMethod(object fixture)
-		{
-			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.TestFixtureSetUpAttribute));
 		}
 
 		private MethodInfo FindSetUpMethod(object fixture)

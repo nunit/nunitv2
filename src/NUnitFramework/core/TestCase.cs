@@ -45,15 +45,7 @@ namespace NUnit.Core
 			get { return 1; }
 		}
 
-		private TestSuite suite;
-
-		public TestSuite Suite 
-		{
-			get { return suite; }
-			set { suite = value; }
-		}
-
-		public override TestResult Run(EventListener listener)
+		public override TestResult Run(EventListener listener, IFilter filter)
 		{
 			TestCaseResult testResult = new TestCaseResult(this);
 
@@ -61,7 +53,7 @@ namespace NUnit.Core
 			
 			long startTime = DateTime.Now.Ticks;
 
-			Run(testResult);
+			Run(testResult, filter);
 
 			long stopTime = DateTime.Now.Ticks;
 
@@ -94,7 +86,12 @@ namespace NUnit.Core
 			get { return null; }
 		}
 
-		public abstract void Run(TestCaseResult result);
+		public abstract void Run(TestCaseResult result, IFilter filter);
+
+		public override bool Filter(IFilter filter) 
+		{
+			return filter.Pass(this);
+		}
 
 	}
 }

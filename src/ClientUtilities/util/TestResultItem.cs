@@ -42,7 +42,7 @@ namespace NUnit.Util
 		private string message;
 		private string stackTrace;
 
-		public TestResultItem(TestCaseResult result )
+		public TestResultItem(TestResult result )
 		{
 			testName = result.Name;
 			message = result.Message;

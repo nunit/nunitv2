@@ -40,7 +40,6 @@ namespace NUnit.Core
 	public class TestSuiteResult : TestResult
 	{
 		private ArrayList results = new ArrayList();
-		private string message;
 		
 		public TestSuiteResult(ITest test, string name) : base(test, name)
 		{
@@ -93,13 +92,7 @@ namespace NUnit.Core
 		public override void NotRun(string message)
 		{
 			this.Executed = false;
-			this.message = message;
-		}
-
-
-		public override string Message
-		{
-			get { return message; }
+			this.messageString = message;
 		}
 
 		public IList Results

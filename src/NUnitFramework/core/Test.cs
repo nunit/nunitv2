@@ -44,6 +44,7 @@ namespace NUnit.Core
 		private bool shouldRun;
 		private string ignoreReason;
 		private string description;
+		private Test parent;
 
 		public Test( string name ) : this( name, 0 ) { }
 
@@ -62,6 +63,33 @@ namespace NUnit.Core
 			this.testName = testName;
 			this.assemblyKey = assemblyKey;
 			shouldRun = true;
+		}
+
+		public Test Parent 
+		{
+			get { return parent; }
+			set { parent = value; }
+		}
+
+		public string TestPath 
+		{
+			get
+			{
+				string testPath = "";
+				if (parent != null)
+					testPath = parent.TestPath;
+				return testPath + FullName;
+			}
+		}
+
+		public bool IsDescendant(Test test) 
+		{
+			if (parent != null) 
+			{
+				return parent == test || parent.IsDescendant(test);
+			}
+
+			return false;
 		}
 
 		public string IgnoreReason
@@ -124,7 +152,14 @@ namespace NUnit.Core
 		public abstract bool IsTestCase{ get; }
 		public abstract ArrayList Tests { get; }
 		
-		public abstract TestResult Run(EventListener listener);
+		public abstract TestResult Run(EventListener listener, IFilter filter);
+
+		public TestResult Run(EventListener listener) 
+		{
+			return Run(listener, EmptyFilter.Empty);
+		}
+
+		public abstract bool Filter(IFilter filter);
 
 		protected MethodInfo FindMethodByAttribute(object fixture, Type type)
 		{

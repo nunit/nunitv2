@@ -92,7 +92,7 @@ namespace NUnit.Tests.Assemblies
 		public void GetNamespace()
 		{
 			string typeNamespace = this.GetType().Namespace;
-			Assert.AreEqual(typeNamespace, "NUnit.Tests.Assemblies");
+			Assert.AreEqual("NUnit.Tests.Assemblies", typeNamespace);
 		}
 
 		[Test]
