@@ -247,6 +247,10 @@ namespace NUnit.UiKit
 		private void collapseAllMenuItem_Click(object sender, System.EventArgs e)
 		{
 			tests.CollapseAll();
+
+			// Compensate for a bug in the underlying control
+			if ( tests.Nodes.Count > 0 )
+				tests.SelectedNode = tests.Nodes[0];	
 		}
 
 		private void expandAllMenuItem_Click(object sender, System.EventArgs e)
@@ -266,7 +270,8 @@ namespace NUnit.UiKit
 
 		private void propertiesMenuItem_Click(object sender, System.EventArgs e)
 		{
-			tests.ShowPropertiesDialog( tests.SelectedTest );
+			if ( tests.SelectedTest != null )
+				tests.ShowPropertiesDialog( tests.SelectedTest );
 		}
 
 		#endregion

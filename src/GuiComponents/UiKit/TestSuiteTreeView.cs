@@ -216,7 +216,7 @@ namespace NUnit.UiKit
 			get 
 			{ 
 				TestSuiteTreeNode node = (TestSuiteTreeNode)SelectedNode;
-				return node.Test;
+				return node == null ? null : node.Test;
 			}
 		}
 
@@ -253,7 +253,7 @@ namespace NUnit.UiKit
 			get 
 			{
 				TestSuiteTreeNode node = (TestSuiteTreeNode)SelectedNode;
-				return node.Result; 
+				return node == null ? null : node.Result; 
 			}
 		}
 
@@ -471,7 +471,8 @@ namespace NUnit.UiKit
 
 		private void propertiesMenuItem_Click( object sender, System.EventArgs e)
 		{
-			ShowPropertiesDialog( contextNode );
+			if ( contextNode != null )
+				ShowPropertiesDialog( contextNode );
 		}
 	
 		#endregion
