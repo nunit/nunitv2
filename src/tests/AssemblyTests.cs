@@ -65,7 +65,7 @@ namespace NUnit.Tests.Assemblies
 
 		[Test]
 		[ExpectedException(typeof(FileNotFoundException))]
-		public void LoadAsssemblyNotFound()
+		public void LoadAssemblyNotFound()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			Assembly assembly = builder.Load("XXXX");
@@ -73,7 +73,7 @@ namespace NUnit.Tests.Assemblies
 
 		[Test]
 		[ExpectedException(typeof(NoTestFixturesException))]
-		public void LoadAsssemblyWithoutTestFixtures()
+		public void LoadAssemblyWithoutTestFixtures()
 		{
 			string fileName = "nunit.extensions.dll";
 			TestSuiteBuilder builder = new TestSuiteBuilder();
