@@ -174,7 +174,7 @@
         <tr>
           <td class="bodytext"> 
 		    <p><b>Getting Started with NUnit</b><br>
-            If you haven't already done so, go to our <a href="download.html">
+            If you haven't already done so, go to our <a href="http://www.nunit.org/download.html">
 			Download</a> page, select a version of NUnit and download it.
 			The <a href="installation.html">Installation</a> page contains
 			instructions for installing on your system.</p>
@@ -204,13 +204,15 @@
 			you to produce reports or otherwise process the results.
 			The following is a screenshot of the console program.</p>
 
-            <img border="0" src="img/console-mock.GIF" width="669" height="384">
+            <img border="0" src="img/console-mock.GIF" width="665" height="328">
 			
 			<p>In this example, nunit-console has just run the tests in the
             mock-assembly.dll that is part of the NUnit distribution. 
-			This assembly contains seven tests, two of which are not run.
-            One test has an incorrect method signature and the other has
-			been marked with the Ignore attribute.
+			This assembly contains seven tests, three of which are not run.
+            The first ignored test has an incorrect method signature, the second has
+			been marked with the Ignore attribute and the third uses the
+		Explicit attribute, so that it can only be run directly.
+
 			Click <a href="files/TestResult.xml">here</a> to
             see the XML produced for this test run.</p>
 
@@ -223,7 +225,7 @@
             following is a screenshot of nunit-gui running the same 
 			mock-assembly.dll shown in the previous example.</p>
 
-            <img border="0" src="img/gui-screenshot.GIF" width="616" height="450">
+            <img border="0" src="img/gui-screenshot.GIF" width="628" height="471">
 			
 			<p>As you can see, the tests that were not run are marked with a
 			yellow circle, while those that were run successfully are colored
