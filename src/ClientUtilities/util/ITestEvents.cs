@@ -93,5 +93,7 @@ namespace NUnit.Util
 
 		event TestEventHandler TestStarting;
 		event TestEventHandler TestFinished;
+
+		event TestEventHandler TestException;
 	}
 }

@@ -67,7 +67,8 @@ namespace NUnit.Util
 		SuiteStarting,
 		SuiteFinished,
 		TestStarting,
-		TestFinished
+		TestFinished,
+		TestException
 	}
 	
 	/// <summary>
@@ -83,17 +84,16 @@ namespace NUnit.Util
 		// The file name for the test
 		private string testFileName;
 		
-		// The top node of a loaded test suite
-		private UITestNode test;
+		// The tests we are running
+		private UITestNode[] tests;
 
-		// The result of a test
-		private TestResult result;
+		// The results from our tests
+		private TestResult[] results;
 		
 		// The exception causing a failure
 		private Exception exception;
 
-		private IList tests;
-
+		// TODO: Remove this count of test cases
 		private int count;
 
 		#endregion
@@ -105,7 +105,7 @@ namespace NUnit.Util
 		{
 			this.action = action;
 			this.testFileName = testFileName;
-			this.test = test;
+			this.tests = new UITestNode[] { test };
 		}
 
 		public TestEventArgs( TestAction action, string testFileName )
@@ -125,14 +125,20 @@ namespace NUnit.Util
 		public TestEventArgs( TestAction action, UITestNode test )
 		{
 			this.action = action;
-			this.test = test;
+			this.tests = new UITestNode[] { test };
 			this.count = test.CountTestCases();
 		}
 
 		public TestEventArgs( TestAction action, TestResult result )
 		{
 			this.action = action;
-			this.result = result;
+			this.results = new TestResult[] { result };
+		}
+
+		public TestEventArgs( TestAction action, TestResult[] results )
+		{
+			this.action = action;
+			this.results = results;
 		}
 
 		public TestEventArgs( TestAction action, Exception exception )
@@ -141,10 +147,9 @@ namespace NUnit.Util
 			this.exception = exception;
 		}
 
-		public TestEventArgs( TestAction action, IList tests, int count) 
+		public TestEventArgs( TestAction action, UITestNode[] tests, int count) 
 		{
 			this.action = action;
-			this.test = (UITestNode) tests[0];
 			this.tests = tests;
 			this.count = count;
 		}
@@ -170,10 +175,10 @@ namespace NUnit.Util
 
 		public UITestNode Test
 		{
-			get { return test; }
+			get { return tests[0]; }
 		}
 
-		public IList Tests 
+		public UITestNode[] Tests 
 		{
 			get { return tests; }
 		}
@@ -185,7 +190,12 @@ namespace NUnit.Util
 
 		public TestResult Result
 		{
-			get { return result; }
+			get { return results[0]; }
+		}
+
+		public TestResult[] Results
+		{
+			get { return results; }
 		}
 
 		public Exception Exception

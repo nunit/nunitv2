@@ -71,6 +71,8 @@ namespace NUnit.Util
 		public event TestEventHandler TestStarting;
 		public event TestEventHandler TestFinished;
 
+		public event TestEventHandler TestException;
+
 		#endregion
 
 		#region Methods for Firing Events
@@ -187,25 +189,18 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestReloadFailed, fileName, exception ) );
 		}
 
-		public void FireRunStarting( Test test )
-		{
-			Fire(
-				RunStarting,
-				new TestEventArgs( TestAction.RunStarting, test ) );
-		}
-
-		public void FireRunStarting( IList tests, int count )
+		public void FireRunStarting( UITestNode[] tests, int count )
 		{
 			Fire(
 				RunStarting,
 				new TestEventArgs( TestAction.RunStarting, tests, count ) );
 		}
 
-		public void FireRunFinished( TestResult result )
+		public void FireRunFinished( TestResult[] results )
 		{	
 			Fire(
 				RunFinished,
-				new TestEventArgs( TestAction.RunFinished, result ) );
+				new TestEventArgs( TestAction.RunFinished, results ) );
 		}
 
 		public void FireRunFinished( Exception exception )
@@ -241,6 +236,13 @@ namespace NUnit.Util
 			Fire(
 				SuiteFinished,
 				new TestEventArgs( TestAction.SuiteFinished, result ) );
+		}
+
+		public void FireTestException( Exception exception )
+		{
+			Fire(
+				TestException,
+				new TestEventArgs( TestAction.TestException, exception ) );
 		}
 
 		#endregion
