@@ -47,7 +47,7 @@ namespace NUnit.Util
 			fileWatcher = new FileSystemWatcher();
 			fileWatcher.Path = file.DirectoryName;
 			fileWatcher.Filter = file.Name;
-			fileWatcher.NotifyFilter = NotifyFilters.Size;
+			fileWatcher.NotifyFilter = NotifyFilters.Size | NotifyFilters.LastWrite;
 			fileWatcher.Changed+=new FileSystemEventHandler(OnChanged);
 			fileWatcher.EnableRaisingEvents = false;
 
