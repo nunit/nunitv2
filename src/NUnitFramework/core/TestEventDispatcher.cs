@@ -38,7 +38,7 @@ namespace NUnit.Core
 
 		#region Methods for Firing Events
 		
-		private void Fire( 
+		protected virtual void Fire( 
 			TestEventHandler handler, TestEventArgs e )
 		{
 			if ( handler != null )

@@ -77,13 +77,13 @@ namespace NUnit.Util
 
 		#region Methods for Firing Events
 		
-		private void Fire( TestEventHandler handler, TestEventArgs e )
+		protected override void Fire( TestEventHandler handler, TestEventArgs e )
 		{
 			if ( handler != null )
 				InvokeHandler( handler, e );
 		}
 
-		private void Fire( TestProjectEventHandler handler, TestProjectEventArgs e )
+		protected virtual void Fire( TestProjectEventHandler handler, TestProjectEventArgs e )
 		{
 			if ( handler != null )
 				InvokeHandler( handler, e );
