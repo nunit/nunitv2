@@ -75,7 +75,9 @@ namespace NUnit.Core
 
 		protected internal virtual TestSuite CreateNewSuite(Type type)
 		{
-			return new TestSuite( type.Namespace, type.Name, this.AssemblyKey);
+			int index = type.FullName.LastIndexOf( "." ) + 1;
+			string name = type.FullName.Substring( index );
+			return new TestSuite( type.Namespace, name, this.AssemblyKey);
 		}
 
 		public void Add(object fixture) 
