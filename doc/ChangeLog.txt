@@ -1,5 +1,5 @@
 Change Log for NUnit 2.1 Beta 1
-July 21, 2003
+July 22, 2003
 
 Feature Requests Implemented
 * 597609 - Support a cancel/stop operation
@@ -80,6 +80,8 @@ Bugs Fixed or Closed
 * 742163 - NUnit.Extensions.RepeatedTest.cs won’t compile
 * 770942 - AppSettings not loaded when using nunit-console.exe
 * 744649 - Lengthy COM calls cause failures in Console.WriteLine
+
+Bug Fixes during Beta 1
 * 775791 - nunit-gui requires admin rights in 2.1 beta 1
 * 775796 - NUnit 2.1 Beta 1 install requires .NET 1.1
 * 776053 - NUnit 2.1 won't install with 2.0
