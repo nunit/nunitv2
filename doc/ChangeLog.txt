@@ -1,5 +1,54 @@
-Change Log for NUnit 2.2 Beta 1
-May 20, 2004
+Change Log for NUnit 2.2 Beta 2
+July 6, 2004
+
+NUnit 2.2 Beta 2 - NUnit Version 2.1.92
+
+Feature Requests Implemented (some implemented earlier but not closed)
+
+* 594186 - Add test/suite id to message output
+* 595185 - Category Attribute
+* 893151 - Show Test Description in Gui
+* 616107 - Selecting multiple tests
+* 692131 - Re-execute failed tests
+* 744126 - Ability to control test thread apartment state
+* 848855 - Allow selection of individual tests
+* 856175 - Standard and Error only available after test finish
+* 893674 - TestFixtureSetup does not fail test when exception thrown
+* 974881 - Exceptions during FixtureTearDown
+* 974713 - MTA console, also
+* 922981 - nunit-console should not display MessageBox
+* 905155 - Jump to failed assertion in code
+
+Bugs Fixed or Closed
+
+* 965681 - Crash of nunit-gui
+* 833213 - Exception with DAO cause problems with NUnit
+* 982623 - DDTek.OracleException with .nunit filename length
+* 886103 - Read-only .pdb file causes crash after test run
+* 977105 - "Tests Not Run" tab causes crash on next Run
+* 959394 - Limited to single display for FormSettings
+* 935784 - Naming for .config file seems wrong
+* 976510 - TestDomain is not Unloaded
+* 979513 - NUnit Gui does not use ApplicationBase setting for project
+* 964341 - Clicking Stop during test requires restart of GUI
+* 935443 - Fails to load my Tests
+* 908085 - clicking error or failure entries opens vs.net to the line
+* 832586 - Temp folder archives
+* 875240 - refresh problem when changing existing namespace
+* 917878 - Shortcut creation not completing
+* 909903 - TestFixtureSetup called in ignored TestFixture
+* 921255 - CollapseAll + Properties = Crash!
+* 834160 - Package missing license.rtf and QuickStart.Spanish.doc
+* 917893 - Incorrect registry entry?
+* 954725 - String difference pointer ^ one character too left
+* 958835 - NAnt build script
+* 908632 - Assert.AreEquals Error message backwards for enums
+* 783963 - Uninstaller leaves samples directories
+* 958057 - Missing file limit validation in Tools - Options
+* 958051 - Incorrect Tab Order in Tools - Options
+* 882142 - NUnit assembly version conflicts
+* 935786 - Files missing from source distribution
+* 956596 - Named method with Test...() show in GUI
 
 NUNIT 2.2 Beta 1 - NUnit Version 2.1.91
 
@@ -39,7 +88,7 @@ Bugs Fixed or Closed
 * 799729 - nunit-console uses Debug.Write for Release output
 * 811603 - nunit-console sends no ouput to VisualStudio in debug mode 
 
-CHANGES FROM RC1 to Final Release
+NUnit 2.1 Final Release - Version 2.1.4
 
 Feature Requests Implemented
 * 660774 - Document that assemblies cannot be loaded via a UNC
@@ -49,7 +98,7 @@ Bugs Fixed or Closed
 * 795399 - Assembly load failed from UNC Path
 * 798474 - No intellisense documentation in VS.NET
 
-CHANGES FROM BETA 2 to RC1
+NUnit 2.1 Release Candidate 1 - Version 2.1.3
 
 Feature Requests Implemented
 * 779509 - Test execution order should match TreeView order
@@ -75,7 +124,7 @@ Bugs Fixed or Closed
 * 791421 - Tests using STA COM objects fail
 * 791518 - NUnit.tests fail when build with NAnt
 
-CHANGES FROM BETA 1 TO BETA2
+NUnit 2.1 Beta 2 - Version 2.1.2
 
 Feature Requests Implemented
 * 660759 - Document how to install NUnit manually
@@ -134,7 +183,7 @@ Bugs Fixed or Closed
 * 782579 - Installer fails
 * 660776 - NT required?
 
-CHANGES FROM NUNIT 2.0 to BETA 1
+NUnit 2.1 Beta 1 and Beta 1 Refresh - Versions 2.1.0 and 2.1.1
 
 Feature Requests Implemented
 * 597609 - Support a cancel/stop operation

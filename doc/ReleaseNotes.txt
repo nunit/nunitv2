@@ -1,50 +1,57 @@
-Release Notes for NUnit 2.2 Beta1
-May 20, 2004
+Release Notes for NUnit 2.2 Beta 2 - Version 2.1.92
+July 6, 2004
 
 This is the fourth major release of NUnit and the third since it was 
 rewritten to take advantage of .NET custom attributes. Highlights of 
 this release include support for Mono, multiple-test selection in the 
-GUI interface, a built-in lightweight mock object facility, new command
-line switches for both GUI and Console runners, and new Category
-and Explicit attributes.
+GUI interface, a built-in lightweight mock object facility, new
+command line switches for both GUI and Console runners, and new
+Category and Explicit attributes.
+
 
 GENERAL
 
-This msi install of NUnit 2.1.5 continues to be built using Visual 
+The msi install of NUnit 2.1.92 continues to be built using Visual 
 Studio 2003. The solution and project files in this distribution can 
 only be loaded by Visual Studio 2003.
 
 The distributed binaries can run against the Microsoft .NET framework
 versions 1.0 or 1.1 or the Mono Beta 1 release. Separate config files 
 for each version are no longer needed. Instead, binding redirects are 
-provided in each config which apply when running under .NET version 1.0.
-The supplied configs for nunit-gui.exe and nunit-console.exe require 
-editing in one case only: if both versions of the framework are installed 
-and the user wants to give preference to version 1.0, it will then be
-necessary to change the order of the supportedRuntime elements.
+provided in each config which apply when running under version 1.0
+of the .NET framework. The supplied configs for nunit-gui.exe and
+nunit-console.exe require editing in one case only: if both versions
+of the framework are installed and the user wants to give preference
+to version 1.0, it will then be necessary to change the order of the
+supportedRuntime elements.
 
 The NUnit framework and core are now in separate assemblies, both of
 which are installed in the GAC. The framework assembly contains all 
 types that are normally referenced by tests, while the core contains
-those types used by the gui and console runners to execute those tests. 
-Tests requiring use of core types – TestSuite, for example – will need 
-to add a reference to the nunit.core.dll assembly.
+those types used by the gui and console runners to execute those
+tests. Tests requiring use of core types – TestSuite, for example –
+will need to add a reference to the nunit.core.dll assembly.
 
 The NAnt build file now supports building NUnit using version 1.0 or 
 1.1 of the .NET framework or with the Beta1 Release of Mono.
 
 Assert.AreEqual has been extended to allow comparison of two arrays. 
-To compare as equal, the arrays must be of the same or compatible types, 
-contain the same number of elements and each pair of elements 
+To compare as equal, the arrays must be of the same or compatible types, contain the same number of elements and each pair of elements 
 must compare as equal.
+
+All Assert methods that take an optional message argument now also may take an optional array of objects to be used in formatting the message.
+
+An Assert.Ignore method has been added, which allows individual test cases to be ignored dynamically - for example, on the basis of products installed on the test system. Assert.Ignore may also be called from a SetUp or TestFixtureSetUp method. In the latter case, all the tests are ignored.
+
+Failure in TestFixtureSetUp or TestFixtureCleanUp now results in an error, rather than in ignoring all the tests.
 
 The core interfaces used to run tests have been changed substantially. 
 These will continue to change to some extent as we attempt to reach a 
 stable set of interfaces for use by third-party clients that run tests 
 through NUnit. In particular, the interfaces now support passing in an 
 array of tests to be run and return an array of test results. Other 
-new features described in this document have required interface changes 
-as well.
+new features described in this document have required interface 
+changes as well.
 
 There is a new CategoryAttribute which allows test fixtures and methods 
 to be grouped into one or more categories using strings as identifiers. 
@@ -103,6 +110,8 @@ each test and any description associated with a test.
 A cancel button has been added to the project save dialog that appears 
 on shutdown.
 
+The display of the last exception is now scrollable, allowing the entire stack to be seen.
+
 CONSOLE INTERFACE
 
 The console program has been reorganized to remove differences in how 
@@ -110,8 +119,10 @@ tests are run between the console and gui runners.
 
 The console interface command line parameters now include provision for
 selecting or excluding tests based on category, for displaying the name
-of each test in the standard output and for redirecting standard or error
-output from tests to a file.
+of each test in the standard output and for redirecting standard or
+error output from tests to a file. 
+
+The /noshadow option eliminates creation of a shadow copy and the /thread option causes the console tests to be run on a separate thread. When a separate thread is used, the config file settings for apartment state will be honored.
 
 A namespace may now be specified after /fixture and all tests in that 
 namespace will be executed.
