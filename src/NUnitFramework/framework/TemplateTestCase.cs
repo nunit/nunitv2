@@ -69,7 +69,6 @@ namespace NUnit.Core
 					if ( !suiteRunning ) InvokeTestFixtureSetUp();
 					InvokeSetUp();
 					InvokeTestCase();
-					if ( !suiteRunning ) InvokeTestFixtureTearDown();
 					ProcessNoException(testResult);
 				}
 				catch(NunitException exception)
@@ -94,6 +93,8 @@ namespace NUnit.Core
 					{
 						ProcessException(exp, testResult);
 					}
+
+					if ( !suiteRunning ) InvokeTestFixtureTearDown();
 					
 					DateTime stop = DateTime.Now;
 					TimeSpan span = stop.Subtract(start);
