@@ -484,12 +484,25 @@ namespace NUnit.Util
 		/// <param name="domain">Our domain</param>
 		private void ConfigureCachePath(AppDomain domain)
 		{
-			cachePath = String.Format(@"{0}\{1}", 
-				ConfigurationSettings.AppSettings["shadowfiles.path"], DateTime.Now.Ticks);
-			cachePath = Environment.ExpandEnvironmentVariables(cachePath);
-
-			DirectoryInfo dir = new DirectoryInfo(cachePath);
-			if(dir.Exists) dir.Delete(true);
+			cachePath = ConfigurationSettings.AppSettings["shadowfiles.path"];
+			if ( cachePath == "" || cachePath== null )
+				cachePath = Path.Combine( Path.GetTempPath(), @"nunit20\ShadowCopyCache" );
+			else
+				cachePath = Environment.ExpandEnvironmentVariables(cachePath);
+				
+			cachePath = Path.Combine( cachePath, DateTime.Now.Ticks.ToString() ); 
+				
+			try 
+			{
+				DirectoryInfo dir = new DirectoryInfo(cachePath);		
+				if(dir.Exists) dir.Delete(true);
+			}
+			catch( Exception ex)
+			{
+				throw new ApplicationException( 
+					string.Format( "Invalid cache path: {0}",cachePath ),
+					ex );
+			}
 
 			domain.SetCachePath(cachePath);
 
