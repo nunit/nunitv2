@@ -235,8 +235,8 @@ namespace NUnit.UiKit
 			TestResult result = loader.LastResult;
 			
 			SaveFileDialog dlg = new SaveFileDialog();
-			dlg.Title = "Save Test Results as Xml";
-			dlg.Filter = "Xml Files (*.xml)|*.xml|All Files (*.*)|*.*";
+			dlg.Title = "Save Test Results as XML";
+			dlg.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
 			dlg.FileName = "TestResult.xml";
 			dlg.InitialDirectory = Path.GetDirectoryName( loader.TestFileName );
 			dlg.DefaultExt = "xml";

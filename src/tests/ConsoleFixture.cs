@@ -131,7 +131,7 @@ namespace NUnit.Tests.CommandLine
 			Assert.IsTrue(parser.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", parser.Parameters[0]);
 
-			Assert.IsTrue(parser.IsXml, "xml file name should be set");
+			Assert.IsTrue(parser.IsXml, "XML file name should be set");
 			Assert.AreEqual("results.xml", parser.xml);
 		}
 
@@ -142,7 +142,7 @@ namespace NUnit.Tests.CommandLine
 			Assert.IsTrue(parser.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", parser.Parameters[0]);
 
-			Assert.IsTrue(parser.IsXml, "xml file name should be set");
+			Assert.IsTrue(parser.IsXml, "XML file name should be set");
 			Assert.AreEqual("C:\\nunit\\tests\\bin\\Debug\\console-test.xml", parser.xml);
 		}
 

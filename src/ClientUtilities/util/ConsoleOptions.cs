@@ -37,7 +37,7 @@ namespace NUnit.Util
 		[Option(Description = "Fixture to test")]
 		public string fixture;
 
-		[Option(Description = "Name of Xml output file")]
+		[Option(Description = "Name of XML output file")]
 		public string xml;
 
 		[Option(Description = "Name of transform file")]
@@ -52,7 +52,7 @@ namespace NUnit.Util
 		[Option(Description = "Require input to close console window")]
 		public bool wait = false;
 
-		[Option(Description = "Display xml to the console")]
+		[Option(Description = "Display XML to the console")]
 		public bool xmlConsole;
 
 		[Option(Description = "Project configuration to load")]
