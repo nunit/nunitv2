@@ -216,6 +216,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "StringTextWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SuiteAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

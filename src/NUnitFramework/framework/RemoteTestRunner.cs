@@ -118,8 +118,8 @@ namespace NUnit.Core
 
 		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText)
 		{
-			Console.SetOut(new StringTextWriter(outText));
-			Console.SetError(new StringTextWriter(errorText));
+			Console.SetOut(new BufferedStringTextWriter(outText));
+			Console.SetError(new BufferedStringTextWriter(errorText));
 
 			Test test = FindByName(suite, testName);
 
@@ -137,35 +137,35 @@ namespace NUnit.Core
 		/// boundry.  Otherwise tests will break when non-remotable objecs are passed to
 		/// Console.Write/WriteLine.
 		/// </summary>
-		private class StringTextWriter : TextWriter
-		{
-			public StringTextWriter(TextWriter aTextWriter)
-			{
-				theTextWriter = aTextWriter;
-			}
-			private TextWriter theTextWriter;
-
-			override public void Write(char aChar)
-			{
-				theTextWriter.Write(aChar);
-			}
-
-			override public void Write(string aString)
-			{
-				theTextWriter.Write(aString);
-			}
-
-			override public void WriteLine(string aString)
-			{
-				theTextWriter.WriteLine(aString);
-			}
-
-			override public System.Text.Encoding Encoding
-			{
-				get { return theTextWriter.Encoding; }
-			}
-		}
-
+//		private class StringTextWriter : TextWriter
+//		{
+//			public StringTextWriter(TextWriter aTextWriter)
+//			{
+//				theTextWriter = aTextWriter;
+//			}
+//			private TextWriter theTextWriter;
+//
+//			override public void Write(char aChar)
+//			{
+//				theTextWriter.Write(aChar);
+//			}
+//
+//			override public void Write(string aString)
+//			{
+//				theTextWriter.Write(aString);
+//			}
+//
+//			override public void WriteLine(string aString)
+//			{
+//				theTextWriter.WriteLine(aString);
+//			}
+//
+//			override public System.Text.Encoding Encoding
+//			{
+//				get { return theTextWriter.Encoding; }
+//			}
+//		}
+//
 		#endregion
 
 		#region FindByName Helper
