@@ -728,6 +728,7 @@ namespace NUnit.Gui
 			this.toolTip.SetToolTip(this.stackTrace, resources.GetString("stackTrace.ToolTip"));
 			this.stackTrace.Visible = ((bool)(resources.GetObject("stackTrace.Visible")));
 			this.stackTrace.WordWrap = ((bool)(resources.GetObject("stackTrace.WordWrap")));
+			this.stackTrace.KeyUp += new System.Windows.Forms.KeyEventHandler(this.stackTrace_KeyUp);
 			// 
 			// splitter3
 			// 
@@ -1413,24 +1414,24 @@ namespace NUnit.Gui
 		/// <summary>
 		/// Exit application when space key is tapped
 		/// </summary>
-		protected override bool ProcessKeyPreview(ref 
-			System.Windows.Forms.Message m) 
-		{ 
-			const int SPACE_BAR=32; 
-			const int WM_CHAR = 258;
-
-			if (m.Msg == WM_CHAR && m.WParam.ToInt32() == SPACE_BAR )
-			{ 
-				int altKeyBit = (int)m.LParam & 0x10000000;
-				if ( altKeyBit == 0 )
-				{
-					this.Close();
-					return true;
-				}
-			}
-
-			return base.ProcessKeyEventArgs( ref m ); 
-		} 
+//		protected override bool ProcessKeyPreview(ref 
+//			System.Windows.Forms.Message m) 
+//		{ 
+//			const int SPACE_BAR=32; 
+//			const int WM_CHAR = 258;
+//
+//			if (m.Msg == WM_CHAR && m.WParam.ToInt32() == SPACE_BAR )
+//			{ 
+//				int altKeyBit = (int)m.LParam & 0x10000000;
+//				if ( altKeyBit == 0 )
+//				{
+//					this.Close();
+//					return true;
+//				}
+//			}
+//
+//			return base.ProcessKeyEventArgs( ref m ); 
+//		} 
 
 		/// <summary>
 		///	Form is about to close, first see if we 
@@ -1992,6 +1993,14 @@ namespace NUnit.Gui
 		}
 
 		#endregion
+
+		private void stackTrace_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+		{
+			if ( e.KeyCode == Keys.A && e.Modifiers == Keys.Control )
+			{
+				stackTrace.SelectAll();
+			}
+		}
 	}
 }
 
