@@ -110,7 +110,7 @@ namespace NUnit.Framework
         {
             get
             {
-                return "\r\n";
+                return "\r\n\t";
             }
         }
 
