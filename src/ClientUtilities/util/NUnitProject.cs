@@ -1,3 +1,32 @@
+#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
+/************************************************************************************
+'
+' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright © 2000-2002 Philip A. Craig
+'
+' This software is provided 'as-is', without any express or implied warranty. In no 
+' event will the authors be held liable for any damages arising from the use of this 
+' software.
+' 
+' Permission is granted to anyone to use this software for any purpose, including 
+' commercial applications, and to alter it and redistribute it freely, subject to the 
+' following restrictions:
+'
+' 1. The origin of this software must not be misrepresented; you must not claim that 
+' you wrote the original software. If you use this software in a product, an 
+' acknowledgment (see the following) in the product documentation is required.
+'
+' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright © 2000-2002 Philip A. Craig
+'
+' 2. Altered source versions must be plainly marked as such, and must not be 
+' misrepresented as being the original software.
+'
+' 3. This notice may not be removed or altered from any source distribution.
+'
+'***********************************************************************************/
+#endregion
+
 using System;
 using System.Collections;
 using System.Xml;
@@ -11,7 +40,7 @@ namespace NUnit.Util
 	/// <summary>
 	/// Class that represents an NUnit test project
 	/// </summary>
-	public class NUnitProject : IProject
+	public class NUnitProject : IProjectContainer
 	{
 		#region Static and instance variables
 
@@ -49,7 +78,12 @@ namespace NUnit.Util
 		/// <summary>
 		/// Name of the current active configuration
 		/// </summary>
-		private string activeConfig;
+		private string activeConfigName;
+
+		/// <summary>
+		/// Default base path for the project
+		/// </summary>
+		private string basePath;
 
 		#endregion
 
@@ -116,10 +150,10 @@ namespace NUnit.Util
 			ProjectConfig config = new ProjectConfig( "Default" );
 			config.Assemblies.Add( assemblyPath );
 			project.Configs.Add( config );
-			project.ActiveConfig = "Default";
+			project.ActiveConfigName = "Default";
 
-			project.loadPath = assemblyPath;
-			project.projectPath = ProjectPathFromFile( assemblyPath );
+			project.loadPath = Path.GetFullPath( assemblyPath );
+			project.projectPath = ProjectPathFromFile( project.loadPath );
 			project.isWrapper = true;
 
 			return project;
@@ -132,8 +166,10 @@ namespace NUnit.Util
 
 			project.Add( vsProject );
 
-			project.loadPath = vsProjectPath;
-			project.projectPath = ProjectPathFromFile( vsProjectPath );
+			project.loadPath = Path.GetFullPath( vsProjectPath );
+			project.projectPath = ProjectPathFromFile( project.loadPath );
+			if ( project.Configs.Count > 0 )
+				project.ActiveConfigName = project.Configs[0].Name;
 
 			return project;
 		}
@@ -163,8 +199,11 @@ namespace NUnit.Util
 				line = reader.ReadLine();
 			}
 
-			project.loadPath = solutionPath;
-			project.projectPath = ProjectPathFromFile( solutionPath );
+			project.loadPath = Path.GetFullPath( solutionPath );
+			project.projectPath = ProjectPathFromFile( project.loadPath );
+
+			if ( project.Configs.Count > 0 )
+				project.activeConfigName = project.Configs[0].Name;
 
 			return project;
 		}
@@ -208,20 +247,15 @@ namespace NUnit.Util
 			get { return isWrapper ? LoadPath : ProjectPath; }
 		}
 
-		public string ActiveConfig
+		public string ActiveConfigName
 		{
-			get	{ return activeConfig; }
-			set	{ isDirty = true; activeConfig = value; }
+			get	{ return activeConfigName; }
+			set	{ isDirty = true; activeConfigName = value; }
 		}
 
-		public AssemblyList ActiveAssemblies
+		public ProjectConfig ActiveConfig
 		{
-			get 
-			{ 
-				return configs[activeConfig] == null
-					? null
-					: configs[activeConfig].Assemblies; 
-			}
+			get { return configs[activeConfigName]; }
 		}
 
 		public ProjectConfigCollection Configs
@@ -233,12 +267,21 @@ namespace NUnit.Util
 		{
 			get
 			{
-				return	configs.Count > 0 &&
-						activeConfig != null &&
-						activeConfig != ""  &&
-						ActiveAssemblies != null &&
-						ActiveAssemblies.Count > 0;
+				return	ActiveConfig != null &&
+						ActiveConfig.Assemblies.Count > 0;
 			}
+		}
+
+		public string BasePath
+		{
+			get 
+			{ 
+				if ( basePath != null )
+					return basePath;
+
+				return Path.GetDirectoryName( projectPath );
+			}
+			set { isDirty = true; basePath = value; }
 		}
 
 		#endregion
@@ -265,30 +308,28 @@ namespace NUnit.Util
 
 		public void Load( string projectPath )
 		{
+			string fullPath = Path.GetFullPath( projectPath );
+
 			try
 			{
 				XmlDocument doc = new XmlDocument();
-				doc.Load( projectPath );
+				doc.Load( fullPath );
 
-				string projectDir = Path.GetDirectoryName( projectPath );
-				string activeConfigName = null;
+				string projectDir = Path.GetDirectoryName( fullPath );
 
 				XmlNode settingsNode = doc.SelectSingleNode( "/NUnitProject/Settings" );
-
-				if ( settingsNode != null )
-					activeConfigName = settingsNode.Attributes["activeconfig"].Value;
+				string activeConfigName = GetAttribute( settingsNode, "activeconfig" );
+				string applicationBase = GetAttribute( settingsNode, "appbase" );
 
 				bool foundActiveConfig = false;
 		
 				foreach( XmlNode configNode in doc.SelectNodes( "/NUnitProject/Config" ) )
 				{
-					ProjectConfig config = new ProjectConfig( configNode.Attributes["name"].Value );
+					ProjectConfig config = new ProjectConfig( GetAttribute( configNode, "name" ) );
 
 					foreach( XmlNode assemblyNode in configNode.SelectNodes(  "assembly" ) )
 					{
-						string path = assemblyNode.Attributes["path"].Value;
-						if ( !Path.IsPathRooted( path ) )
-							path = Path.Combine( projectDir, path );
+						string path = GetAttribute( assemblyNode, "path" );
 				
 						config.Assemblies.Add( path );
 					}
@@ -300,14 +341,16 @@ namespace NUnit.Util
 				}
 
 				if ( foundActiveConfig && activeConfigName != null && activeConfigName != "" )
-					this.activeConfig = activeConfigName;
+					this.activeConfigName = activeConfigName;
 				else if ( configs.Count > 0 )
-					this.activeConfig = configs[0].Name;
+					this.activeConfigName = configs[0].Name;
 				else
-					this.activeConfig = null;
+					this.activeConfigName = null;
+
+				this.basePath = applicationBase;
 				
-				this.loadPath = projectPath;
-				this.projectPath = projectPath;			
+				this.loadPath = fullPath;
+				this.projectPath = fullPath;			
 				this.IsDirty = false;
 			}
 			catch( FileNotFoundException )
@@ -328,7 +371,7 @@ namespace NUnit.Util
 			writer.WriteLine( "<NUnitProject>" );
 
 			if ( Configs.Count > 0 )
-				writer.WriteLine( "  <Settings activeconfig=\"{0}\"/>", ActiveConfig );
+				writer.WriteLine( "  <Settings activeconfig=\"{0}\"/>", ActiveConfigName );
 			
 			foreach( ProjectConfig config in Configs )
 			{
@@ -358,9 +401,36 @@ namespace NUnit.Util
 		/// </summary>
 		public Test LoadTest( TestDomain testDomain )
 		{
-			return IsWrapper
-				? testDomain.Load( TestFileName )
-				: testDomain.Load( TestFileName, ActiveAssemblies.GetFiles() );
+			if ( IsWrapper )
+			{
+				return testDomain.LoadAssembly( LoadPath );
+			}
+			else
+			{
+				AppDomainSetup setup = new AppDomainSetup();
+
+				setup.ApplicationName = "Tests";
+				setup.ShadowCopyFiles = "true";
+				
+				setup.ApplicationBase = ActiveConfig.BasePath;
+				setup.ConfigurationFile =  Path.ChangeExtension( ProjectPath, ".config" );
+
+				string binPath = ActiveConfig.Assemblies.PrivateBinPath;
+				setup.ShadowCopyDirectories = binPath;
+				setup.PrivateBinPath = binPath;
+
+				return testDomain.LoadAssemblies( setup, ProjectPath, ActiveConfig.Assemblies.Files );
+			}
+		}
+
+		private string GetAttribute( XmlNode node, string name )
+		{
+			if ( node == null ) return null;
+
+			XmlNode attrNode = node.Attributes[name];
+			if ( attrNode == null ) return null;
+
+			return attrNode.Value;
 		}
 
 		#endregion

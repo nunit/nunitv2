@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Nascent Software, Inc.")]
 [assembly: AssemblyProduct("NUnit")]
-[assembly: AssemblyCopyright("Copyright (C) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. Copyright (C) 2000-2002 Philip Craig")]
+[assembly: AssemblyCopyright("Copyright (C) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole. Copyright (C) 2000-2002 Philip Craig")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 

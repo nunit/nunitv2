@@ -127,7 +127,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "IProject.cs"
+                    RelPath = "IProjectContainer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

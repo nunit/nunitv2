@@ -1,7 +1,7 @@
-#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
+#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
+' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
 ' Copyright © 2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
@@ -16,7 +16,7 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
+' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
 ' or Copyright © 2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
@@ -276,7 +276,7 @@ namespace NUnit.Util
 
 		public void SetActiveConfig( string name )
 		{
-			TestProject.ActiveConfig = name;
+			TestProject.ActiveConfigName = name;
 
 			if( TestProject.IsLoadable )
 				LoadTest();
@@ -290,7 +290,7 @@ namespace NUnit.Util
 			{
 				events.FireTestLoading( TestFileName );
 
-				testDomain = new TestDomain( stdOutWriter, stdErrWriter );		
+				testDomain = new TestDomain();		
 				loadedTest = TestProject.LoadTest( testDomain );
 			
 				lastResult = null;
@@ -299,7 +299,7 @@ namespace NUnit.Util
 				// TODO: Figure out how to handle relative paths in tests
 				SetWorkingDirectory( TestProject.IsWrapper
 					? TestFileName
-					: testProject.ActiveAssemblies[0] );
+					: (string)testProject.Configs[testProject.ActiveConfigName].FullNames[0] );
 
 				events.FireTestLoaded( TestFileName, this.loadedTest );
 
@@ -331,8 +331,7 @@ namespace NUnit.Util
 					testDomain.Unload();
 
 					testDomain = null;
-					//testFileName = null;
-					//testProject = null;
+
 					loadedTest = null;
 					lastResult = null;
 					reloadPending = false;
@@ -373,10 +372,8 @@ namespace NUnit.Util
 
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
-					TestDomain newDomain = new TestDomain(stdOutWriter, stdErrWriter);
-					UITestNode newTest = newDomain.Load( testFileName );
-
-					bool notifyClient = !UIHelper.CompareTree( this.loadedTest, newTest );
+					TestDomain newDomain = new TestDomain();
+					UITestNode newTest = testProject.LoadTest( newDomain );
 
 					testDomain.Unload();
 
@@ -384,9 +381,7 @@ namespace NUnit.Util
 					loadedTest = newTest;
 					reloadPending = false;
 
-					if ( notifyClient )
-						events.FireTestReloaded( testFileName, newTest );
-				
+					events.FireTestReloaded( testFileName, newTest );				
 				}
 				catch( Exception exception )
 				{
@@ -428,7 +423,7 @@ namespace NUnit.Util
 			try
 			{
 				testDomain.TestName = runningTest.FullName;
-				lastResult = testDomain.Run(this );
+				lastResult = testDomain.Run(this, stdOutWriter, stdErrWriter );
 				
 				events.FireRunFinished( lastResult );
 			}
@@ -476,7 +471,7 @@ namespace NUnit.Util
 		{
 			if(watcher!=null) watcher.Stop();
 
-			watcher = new AssemblyWatcher( 1000, TestProject.ActiveAssemblies );
+			watcher = new AssemblyWatcher( 1000, TestProject.Configs[TestProject.ActiveConfigName].FullNames );
 			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( OnTestChanged );
 			watcher.Start();
 		}

@@ -1,3 +1,32 @@
+#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
+/************************************************************************************
+'
+' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright © 2000-2002 Philip A. Craig
+'
+' This software is provided 'as-is', without any express or implied warranty. In no 
+' event will the authors be held liable for any damages arising from the use of this 
+' software.
+' 
+' Permission is granted to anyone to use this software for any purpose, including 
+' commercial applications, and to alter it and redistribute it freely, subject to the 
+' following restrictions:
+'
+' 1. The origin of this software must not be misrepresented; you must not claim that 
+' you wrote the original software. If you use this software in a product, an 
+' acknowledgment (see the following) in the product documentation is required.
+'
+' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright © 2000-2002 Philip A. Craig
+'
+' 2. Altered source versions must be plainly marked as such, and must not be 
+' misrepresented as being the original software.
+'
+' 3. This notice may not be removed or altered from any source distribution.
+'
+'***********************************************************************************/
+#endregion
+
 using System;
 using System.IO;
 using System.Drawing;
@@ -183,7 +212,7 @@ namespace NUnit.UiKit
 			
 			project.Configs.RemoveAt( selectedIndex );
 			project.IsDirty = true;
-			if ( name == project.ActiveConfig && project.Configs.Count > 0 )
+			if ( name == project.ActiveConfigName && project.Configs.Count > 0 )
 				AppUI.TestLoaderUI.SetActiveConfig( 0 );
 			FillListBox();
 		}
@@ -201,7 +230,7 @@ namespace NUnit.UiKit
 
 		private void activeButton_Click(object sender, System.EventArgs e)
 		{
-			project.ActiveConfig = project.Configs[selectedIndex].Name;
+			project.ActiveConfigName = project.Configs[selectedIndex].Name;
 			AppUI.TestLoaderUI.SetActiveConfig( selectedIndex );
 			FillListBox();
 		}
@@ -215,7 +244,7 @@ namespace NUnit.UiKit
 		private void configListBox_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
 			selectedIndex = configListBox.SelectedIndex;
-			activeButton.Enabled = selectedIndex >= 0 && project.Configs[selectedIndex].Name != project.ActiveConfig;
+			activeButton.Enabled = selectedIndex >= 0 && project.Configs[selectedIndex].Name != project.ActiveConfigName;
 			renameButton.Enabled = addButton.Enabled = selectedIndex >= 0;
 			removeButton.Enabled = selectedIndex >= 0 && configListBox.Items.Count > 0;
 		}
@@ -230,8 +259,8 @@ namespace NUnit.UiKit
 			if ( dlg.ShowDialog() == DialogResult.OK )
 			{
 				project.Configs[oldName].Name = dlg.ConfigurationName;
-				if ( project.ActiveConfig == oldName )
-					project.ActiveConfig = dlg.ConfigurationName;
+				if ( project.ActiveConfigName == oldName )
+					project.ActiveConfigName = dlg.ConfigurationName;
 				project.IsDirty = true;
 				FillListBox();
 			}
@@ -246,7 +275,7 @@ namespace NUnit.UiKit
 			{
 				string name = config.Name;
 
-				if ( name == project.ActiveConfig )
+				if ( name == project.ActiveConfigName )
 					name += " (active)";
 				
 				configListBox.Items.Add( name );

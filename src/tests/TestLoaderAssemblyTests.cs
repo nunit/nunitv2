@@ -1,3 +1,32 @@
+#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
+/************************************************************************************
+'
+' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright © 2000-2002 Philip A. Craig
+'
+' This software is provided 'as-is', without any express or implied warranty. In no 
+' event will the authors be held liable for any damages arising from the use of this 
+' software.
+' 
+' Permission is granted to anyone to use this software for any purpose, including 
+' commercial applications, and to alter it and redistribute it freely, subject to the 
+' following restrictions:
+'
+' 1. The origin of this software must not be misrepresented; you must not claim that 
+' you wrote the original software. If you use this software in a product, an 
+' acknowledgment (see the following) in the product documentation is required.
+'
+' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright © 2000-2002 Philip A. Craig
+'
+' 2. Altered source versions must be plainly marked as such, and must not be 
+' misrepresented as being the original software.
+'
+' 3. This notice may not be removed or altered from any source distribution.
+'
+'***********************************************************************************/
+#endregion
+
 using System;
 using System.IO;
 using System.Threading;
@@ -44,9 +73,9 @@ namespace NUnit.Tests
 		public void LoadProject()
 		{
 			loader.LoadProject( assembly );
-			Assert.True( loader.IsProjectLoaded );
-			Assert.True( loader.TestProject.IsWrapper );
-			Assert.False( loader.IsTestLoaded );
+			Assert.True( "Project not loaded", loader.IsProjectLoaded );
+			Assert.True( "Should be wrapper", loader.TestProject.IsWrapper );
+			Assert.False( "Test should not be loaded", loader.IsTestLoaded );
 			Assert.Equals( 2, catcher.Events.Count );
 			Assert.Equals( TestAction.ProjectLoading, catcher.Events[0].Action );
 			Assert.Equals( TestAction.ProjectLoaded, catcher.Events[1].Action );
@@ -57,8 +86,8 @@ namespace NUnit.Tests
 		{
 			loader.LoadProject( assembly );
 			loader.UnloadProject();
-			Assert.False( loader.IsProjectLoaded );
-			Assert.False( loader.IsTestLoaded );
+			Assert.False( "Project not unloaded", loader.IsProjectLoaded );
+			Assert.False( "Test not unloaded", loader.IsTestLoaded );
 			Assert.Equals( 4, catcher.Events.Count );
 			Assert.Equals( TestAction.ProjectUnloading, catcher.Events[2].Action );
 			Assert.Equals( TestAction.ProjectUnloaded, catcher.Events[3].Action );
@@ -68,9 +97,9 @@ namespace NUnit.Tests
 		public void LoadTest()
 		{
 			loader.LoadTest( assembly );
-			Assert.True( loader.IsProjectLoaded );
-			Assert.True( loader.TestProject.IsWrapper );
-			Assert.True( loader.IsTestLoaded );
+			Assert.True( "Project not loaded", loader.IsProjectLoaded );
+			Assert.True( "Should be wrapper", loader.TestProject.IsWrapper );
+			Assert.True( "Test not loaded", loader.IsTestLoaded );
 			Assert.Equals( 4, catcher.Events.Count );
 			Assert.Equals( TestAction.TestLoading, catcher.Events[2].Action );
 			Assert.Equals( TestAction.TestLoaded, catcher.Events[3].Action );
@@ -91,9 +120,9 @@ namespace NUnit.Tests
 		public void FileNotFound()
 		{
 			loader.LoadTest( "xxxxx" );
-			Assert.True( loader.IsProjectLoaded );
-			Assert.True( loader.TestProject.IsWrapper );
-			Assert.False( loader.IsTestLoaded );
+			Assert.True( "Project not loaded", loader.IsProjectLoaded );
+			Assert.True( "Should be wrapper", loader.TestProject.IsWrapper );
+			Assert.False( "Test should not load", loader.IsTestLoaded );
 			Assert.Equals( 4, catcher.Events.Count );
 			Assert.Equals( TestAction.TestLoadFailed, catcher.Events[3].Action );
 			Assert.Equals( typeof( FileNotFoundException ), catcher.Events[3].Exception.GetType() );
@@ -112,9 +141,9 @@ namespace NUnit.Tests
 			sw.Close();
 
 			loader.LoadTest( badFile );
-			Assert.True( loader.IsProjectLoaded );
-			Assert.True( loader.TestProject.IsWrapper );
-			Assert.False( loader.IsTestLoaded );
+			Assert.True( "Project not loaded", loader.IsProjectLoaded );
+			Assert.True( "Should be wrapper", loader.TestProject.IsWrapper );
+			Assert.False( "Test should not be loaded", loader.IsTestLoaded );
 			Assert.Equals( 4, catcher.Events.Count );
 			Assert.Equals( TestAction.TestLoadFailed, catcher.Events[3].Action );
 			Assert.Equals( typeof( BadImageFormatException ), catcher.Events[3].Exception.GetType() );
@@ -124,9 +153,9 @@ namespace NUnit.Tests
 		public void AssemblyWithNoTests()
 		{
 			loader.LoadTest( "nunit.util.dll" );
-			Assert.True( loader.IsProjectLoaded );
-			Assert.True( loader.TestProject.IsWrapper );
-			Assert.False( loader.IsTestLoaded );
+			Assert.True( "Project not loaded", loader.IsProjectLoaded );
+			Assert.True( "Should be wrapper", loader.TestProject.IsWrapper );
+			Assert.False( "Test Should not be loaded", loader.IsTestLoaded );
 			Assert.Equals( 4, catcher.Events.Count );
 			Assert.Equals( TestAction.TestLoadFailed, catcher.Events[3].Action );
 			Assert.Equals( typeof( NoTestFixturesException), catcher.Events[3].Exception.GetType() );

@@ -1,3 +1,32 @@
+#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
+/************************************************************************************
+'
+' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright © 2000-2002 Philip A. Craig
+'
+' This software is provided 'as-is', without any express or implied warranty. In no 
+' event will the authors be held liable for any damages arising from the use of this 
+' software.
+' 
+' Permission is granted to anyone to use this software for any purpose, including 
+' commercial applications, and to alter it and redistribute it freely, subject to the 
+' following restrictions:
+'
+' 1. The origin of this software must not be misrepresented; you must not claim that 
+' you wrote the original software. If you use this software in a product, an 
+' acknowledgment (see the following) in the product documentation is required.
+'
+' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright © 2000-2002 Philip A. Craig
+'
+' 2. Altered source versions must be plainly marked as such, and must not be 
+' misrepresented as being the original software.
+'
+' 3. This notice may not be removed or altered from any source distribution.
+'
+'***********************************************************************************/
+#endregion
+
 using System;
 using System.IO;
 using System.Collections;
@@ -12,12 +41,15 @@ namespace NUnit.Tests
 	[TestFixture]
 	public class AssemblyListTests
 	{
+		IProjectContainer container;
 		private AssemblyList assemblies;
 
 		[SetUp]
 		public void CreateAssemblyList()
 		{
-			assemblies = new AssemblyList();
+			container = new MockProjectContainer();
+			container.BasePath = @"c:\tests";
+			assemblies = new AssemblyList( container );
 		}
 
 		[Test]
@@ -32,12 +64,9 @@ namespace NUnit.Tests
 			assemblies.Add( @"bin\debug\assembly1.dll" );
 			assemblies.Add( @"bin\debug\assembly2.dll" );
 
-			string path1 = AssemblyList.GetFullPath( @"bin\debug\assembly1.dll" );
-			string path2 = AssemblyList.GetFullPath( @"bin\debug\assembly2.dll" );
-
 			Assert.Equals( 2, assemblies.Count );
-			Assert.Equals( path1, assemblies[0] );
-			Assert.Equals( path2, assemblies[1] );
+			Assert.Equals( @"bin\debug\assembly1.dll", assemblies[0] );
+			Assert.Equals( @"bin\debug\assembly2.dll", assemblies[1] );
 		}
 
 		[Test]
@@ -46,27 +75,45 @@ namespace NUnit.Tests
 			assemblies.Add( @"bin\debug\assembly1.dll" );
 			assemblies.Add( @"bin\debug\assembly2.dll" );
 
-			IList files = assemblies.GetFiles();
-			Assert.Equals( 2, files.Count );
+			IList files = assemblies.Files;
+			Assert.Equals( @"bin\debug\assembly2.dll", files[1] );
 		}
 
 		[Test]
-		public void AddMarksProjectDirty()
+		public void GetFullNames()
 		{
-			MockProject mockProject = new MockProject();
-			assemblies.Project = mockProject;
 			assemblies.Add( @"bin\debug\assembly1.dll" );
-			Assert.True( mockProject.IsDirty );
+			assemblies.Add( @"bin\debug\assembly2.dll" );
+
+			IList fullNames = assemblies.FullNames;
+			Assert.Equals( @"c:\tests\bin\debug\assembly2.dll", fullNames[1] );
 		}
 
 		[Test]
-		public void DuplicatesAreIgnored()
+		public void GetListOfDirectories()
 		{
-			assemblies.Add( @"C:\junk\assembly1.dll" );
-			assemblies.Add( @"C:\junk\assembly1.dll" );			
-			assemblies.Add( @"C:\junk\Assembly1.dll" );
+			assemblies.Add( @"h:\app1\bin\debug\test1.dll" );
+			assemblies.Add( @"h:\app2\bin\debug\test2.dll" );
+			assemblies.Add( @"h:\app1\bin\debug\test3.dll" );
 
-			Assert.Equals( 1, assemblies.Count );
+			Assert.Equals( 2, assemblies.Directories.Count ); 
+		}
+
+		[Test]
+		public void GetListOfNames()
+		{
+			assemblies.Add( @"h:\app1\bin\debug\test1.dll" );
+			assemblies.Add( @"h:\app2\bin\debug\test2.dll" );
+			assemblies.Add( @"h:\app1\bin\debug\test3.dll" );
+
+			Assert.Equals( "test3.dll", assemblies.Names[2] ); 
+		}
+
+		[Test]
+		public void AddMarksContainerDirty()
+		{
+			assemblies.Add( @"bin\debug\assembly1.dll" );
+			Assert.True( container.IsDirty );
 		}
 
 		[Test]
@@ -77,43 +124,27 @@ namespace NUnit.Tests
 			assemblies.Add( @"bin\debug\assembly3.dll" );
 			assemblies.Remove( @"bin\debug\assembly2.dll" );
 
-			string path1 = AssemblyList.GetFullPath( @"bin\debug\assembly1.dll" );
-			string path3 = AssemblyList.GetFullPath( @"bin\debug\assembly3.dll" );
-
 			Assert.Equals( 2, assemblies.Count );
-			Assert.Equals( path1, assemblies[0] );
-			Assert.Equals( path3, assemblies[1] );
+			Assert.Equals( @"bin\debug\assembly1.dll", assemblies[0] );
+			Assert.Equals( @"bin\debug\assembly3.dll", assemblies[1] );
 		}
 
 		[Test]
-		public void RemoveAtMarksProjectDirty()
+		public void RemoveAtMarksContainerDirty()
 		{
-			MockProject mockProject = new MockProject();
 			assemblies.Add( @"C:\bin\debug\assembly1.dll" );
-			assemblies.Project = mockProject;
+			container.IsDirty = false;
 			assemblies.RemoveAt(0);
-			Assert.True( mockProject.IsDirty );
+			Assert.True( container.IsDirty );
 		}
 
 		[Test]
-		public void RemoveMarksProjectDirty()
+		public void RemoveMarksContainerDirty()
 		{
-			MockProject mockProject = new MockProject();
 			assemblies.Add( @"C:\bin\debug\assembly1.dll" );
-			assemblies.Project = mockProject;
+			container.IsDirty = false;
 			assemblies.Remove( @"C:\bin\debug\assembly1.dll" );
-			Assert.True( mockProject.IsDirty );
+			Assert.True( container.IsDirty );
 		}
-
-		//		[Test]
-//		public void Directories()
-//		{
-//			assemblies.Add( @"h:\app1\bin\debug\test1.dll" );
-//			assemblies.Add( @"h:\app2\bin\debug\test2.dll" );
-//			assemblies.Add( @"h:\app1\bin\debug\test3.dll" );
-//
-//			Assert.Equals( 2, assemblies.Directories.Count ); 
-//		}
-
 	}
 }

@@ -1,7 +1,7 @@
-#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
+#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
+' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
 ' Copyright © 2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
@@ -16,7 +16,7 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
+' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
 ' or Copyright © 2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
@@ -26,7 +26,6 @@
 '
 '***********************************************************************************/
 #endregion
-
 
 namespace NUnit.Tests
 {
@@ -51,7 +50,7 @@ namespace NUnit.Tests
 		{
 			outStream = new ConsoleWriter(Console.Out);
 			errorStream = new ConsoleWriter(Console.Error);
-			domain = new TestDomain(outStream, errorStream);
+			domain = new TestDomain();
 
 			assemblies = new ArrayList();
 		}
@@ -69,14 +68,14 @@ namespace NUnit.Tests
 		[Test]
 		public void InitTest()
 		{
-			Test test = domain.Load("mock-assembly.dll");
+			Test test = domain.LoadAssembly("mock-assembly.dll");
 			Assert.NotNull("Test should not be null", test);
 		}
 
 		[Test]
 		public void CountTestCases()
 		{
-			Test test = domain.Load("mock-assembly.dll");
+			Test test = domain.LoadAssembly("mock-assembly.dll");
 			Assert.Equals(7, test.CountTestCases);
 		}
 
@@ -84,7 +83,7 @@ namespace NUnit.Tests
 		[ExpectedException(typeof(FileNotFoundException))]
 		public void FileNotFound()
 		{
-			Test test = domain.Load("xxxx");
+			Test test = domain.LoadAssembly("xxxx");
 		}
 
 		[Test]
@@ -100,24 +99,24 @@ namespace NUnit.Tests
 			sw.Flush();
 			sw.Close();
 
-			Test test = domain.Load(tempFile);
+			Test test = domain.LoadAssembly(tempFile);
 		}
 
 		[Test]
 		public void RunMockAssembly()
 		{
-			Test test = domain.Load("mock-assembly.dll");
+			Test test = domain.LoadAssembly("mock-assembly.dll");
 
-			TestResult result = domain.Run(NullListener.NULL);
+			TestResult result = domain.Run(NullListener.NULL,outStream,errorStream);
 			Assert.NotNull(result);
 		}
 
 		[Test]
 		public void MockAssemblyResults()
 		{
-			Test test = domain.Load("mock-assembly.dll");
+			Test test = domain.LoadAssembly("mock-assembly.dll");
 
-			TestResult result = domain.Run(NullListener.NULL);
+			TestResult result = domain.Run(NullListener.NULL, outStream, errorStream);
 			Assert.Equals(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
@@ -128,9 +127,9 @@ namespace NUnit.Tests
 		[Test]
 		public void SpecificTestFixture()
 		{
-			Test test = domain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.MockTestFixture" );
+			Test test = domain.LoadAssembly( "mock-assembly.dll", "NUnit.Tests.Assemblies.MockTestFixture" );
 
-			TestResult result = domain.Run(NullListener.NULL);
+			TestResult result = domain.Run(NullListener.NULL, outStream, errorStream);
 			Assert.Equals(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
@@ -141,7 +140,7 @@ namespace NUnit.Tests
 		[Test]
 		public void InvalidTestFixture()
 		{
-			Test test = domain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" );
+			Test test = domain.LoadAssembly( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" );
 			Assert.Null("test should be null", test);
 		}
 
@@ -152,28 +151,29 @@ namespace NUnit.Tests
 			assemblies.Add("mock-assembly.dll");
 			assemblies.Add("nonamespace-assembly.dll");
 
-			Test test = domain.Load(assemblies);
+			Test test = domain.LoadAssemblies( assemblies );
 			Assertion.AssertNotNull("test should not be null", test);
 			Assertion.AssertEquals(10, test.CountTestCases);
 		}
 
-		[Test]
-		public void SpecificFixtureMultipleAssembly()
-		{
-			ArrayList assemblies = new ArrayList();
-			assemblies.Add("mock-assembly.dll");
-			assemblies.Add("nonamespace-assembly.dll");
-
-			Test test = domain.Load( assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
-			Assert.NotNull(test);
-
-			TestResult result = domain.Run(NullListener.NULL);
-			Assertion.AssertEquals(true, result.IsSuccess);
-			
-			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assertion.AssertEquals(3, summarizer.ResultCount);
-			Assertion.AssertEquals(2, summarizer.TestsNotRun);
-		}
+//		[Test]
+//		[Ignore("Not Implemented Yet")]
+//		public void SpecificFixtureMultipleAssembly()
+//		{
+//			ArrayList assemblies = new ArrayList();
+//			assemblies.Add("mock-assembly.dll");
+//			assemblies.Add("nonamespace-assembly.dll");
+//
+//			Test test = domain.Load( assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
+//			Assert.NotNull(test);
+//
+//			TestResult result = domain.Run(NullListener.NULL);
+//			Assertion.AssertEquals(true, result.IsSuccess);
+//			
+//			ResultSummarizer summarizer = new ResultSummarizer(result);
+//			Assertion.AssertEquals(3, summarizer.ResultCount);
+//			Assertion.AssertEquals(2, summarizer.TestsNotRun);
+//		}
 
 		[Test]
 		public void BinPath()

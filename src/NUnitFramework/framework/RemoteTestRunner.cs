@@ -1,7 +1,7 @@
-#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
+#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
+' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
 ' Copyright © 2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
@@ -16,7 +16,7 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
+' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole 
 ' or Copyright © 2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
@@ -42,29 +42,73 @@ namespace NUnit.Core
 	[Serializable]
 	public class RemoteTestRunner : LongLivingMarshalByRefObject
 	{
+		#region Instance variables
+
+		/// <summary>
+		/// The loaded test suite
+		/// </summary>
 		private TestSuite suite;
-		private string fullName;
+
+		/// <summary>
+		/// The test Fixture name to load
+		/// </summary>
+		private string testName;
+
+		/// <summary>
+		/// The test file to load. If assemblies is null,
+		/// this must be an assembly file, otherwise it
+		/// is only used to provide a name for the root
+		/// test node having the assemblies as children.
+		/// </summary>
 		private string testFileName;
+
+		/// <summary>
+		/// The list of assemblies to load
+		/// </summary>
 		private IList assemblies;
 
-		public void Initialize( string testFileName, IList assemblies, string testFixture )
+		#endregion
+
+		#region Properties
+
+		public string TestName 
 		{
-			this.testFileName = testFileName;
-			this.assemblies = assemblies;
-			this.TestName = testFixture;
+			get { return testName; }
+			set { testName = value; }
 		}
+			
+		public Test Test
+		{
+			get { return suite; }
+		}
+
+		public string TestFileName
+		{
+			get { return testFileName; }
+			set { testFileName = value; }
+		}
+
+		public IList Assemblies
+		{
+			get { return assemblies; }
+			set { assemblies = value; }
+		}
+
+		#endregion
+
+		#region Public Methods
 
 		public void BuildSuite() 
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 
-			if(fullName == null)
+			if(testName == null )
 				if ( assemblies == null )
 					suite = builder.Build( testFileName );
 				else
 					suite = builder.Build( testFileName, assemblies );
 			else
-				suite = builder.Build( testFileName, fullName );
+				suite = builder.Build( testFileName, testName );
 
 			if(suite != null) TestName = suite.FullName;
 		}
@@ -74,12 +118,16 @@ namespace NUnit.Core
 			Console.SetOut(new StringTextWriter(outText));
 			Console.SetError(new StringTextWriter(errorText));
 
-			Test test = FindByName(suite, fullName);
+			Test test = FindByName(suite, testName);
 
 			TestResult result = test.Run(listener);
 
 			return result;
 		}
+
+		#endregion
+
+		#region StringTextWriter Class
 
 		/// <summary>
 		/// Use this wrapper to ensure that only strings get passed accross the AppDomain
@@ -115,6 +163,10 @@ namespace NUnit.Core
 			}
 		}
 
+		#endregion
+
+		#region FindByName Helper
+
 		private Test FindByName(Test test, string fullName)
 		{
 			if(test.FullName.Equals(fullName)) return test;
@@ -132,18 +184,8 @@ namespace NUnit.Core
 
 			return result;
 		}
-
-		public string TestName 
-		{
-			get { return fullName; }
-			set { fullName = value; }
-		}
-			
-		public Test Test
-		{
-			get 
-			{ return suite; }
-		}
 	}
+
+	#endregion
 }
 

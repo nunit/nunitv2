@@ -1,7 +1,7 @@
-#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
+#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
+' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
 ' Copyright © 2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
@@ -16,7 +16,7 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
+' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
 ' or Copyright © 2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
@@ -29,9 +29,8 @@
 
 using System;
 
-namespace NUnit.Framework
+namespace NUnit.Core
 {
-	using NUnit.Core;
 	using System.Runtime.Remoting;
 	using System.Security.Policy;
 	using System.Reflection;
@@ -42,18 +41,26 @@ namespace NUnit.Framework
 
 	public class TestDomain
 	{
-		private AppDomain domain; 
-	
-		private string cachePath;
-		private RemoteTestRunner testRunner;
-		private TextWriter outStream;
-		private TextWriter errorStream;
+		#region Instance Variables
 
-		public TestDomain(TextWriter outStream, TextWriter errorStream)
-		{
-			this.outStream = outStream;
-			this.errorStream = errorStream;
-		}
+		/// <summary>
+		/// The appdomain used  to load tests
+		/// </summary>
+		private AppDomain domain; 
+
+		/// <summary>
+		/// The path to our cache
+		/// </summary>
+		private string cachePath;
+		
+		/// <summary>
+		/// The remote runner loaded in the test appdomain
+		/// </summary>
+		private RemoteTestRunner testRunner;
+
+		#endregion
+
+		#region Properties
 
 		public bool IsTestLoaded
 		{
@@ -71,52 +78,49 @@ namespace NUnit.Framework
 			set { testRunner.TestName = value; }
 		}
 
-		private void ThrowIfAlreadyLoaded()
+		#endregion
+
+		#region Public Members
+
+		public Test LoadAssembly( string assemblyFileName )
 		{
-			if ( domain != null || testRunner != null )
-				throw new InvalidOperationException( "TestDomain already loaded" );
+			return LoadAssembly( assemblyFileName, null );
 		}
 
-		public Test Load( string projectPath, IList assemblies )
+		public Test LoadAssembly(string assemblyFileName, string testFixture)
 		{
-			return Load( projectPath, assemblies, null );
+			AppDomainSetup setup = new AppDomainSetup();
+			FileInfo testFile = new FileInfo( assemblyFileName );
+
+			setup.ApplicationName = "Tests";
+			setup.ShadowCopyFiles = "true";
+
+			setup.ApplicationBase = testFile.DirectoryName;
+			setup.ConfigurationFile =  testFile.FullName + ".config";
+
+			setup.ShadowCopyDirectories = testFile.DirectoryName;
+			setup.PrivateBinPath = testFile.DirectoryName;
+
+			return LoadAssembly( setup, assemblyFileName, testFixture );
 		}
 
-		public Test Load( IList assemblies )
-		{
-			// ToDo: Figure out a better way
-			return Load( (string)assemblies[0], assemblies, null );
-		}
-
-		public Test Load( IList assemblies, string testFixture )
-		{
-			return Load( (string)assemblies[0], assemblies, testFixture );
-		}
-
-		public Test Load( string assemblyFileName )
-		{
-			return Load( assemblyFileName, null, null );
-		}
-
-		public Test Load(string assemblyFileName, string testFixture)
-		{
-			return Load( assemblyFileName, null, testFixture );
-		}
-
-		private Test Load( string testFileName, IList assemblies, string testFixture )
+		public Test LoadAssembly( AppDomainSetup setup, string assemblyName, string testFixture )
 		{
 			ThrowIfAlreadyLoaded();
 
 			try
 			{
-				string testFilePath = Path.GetFullPath( testFileName );
+				string assemblyPath = Path.GetFullPath( assemblyName );
 
-				domain = MakeAppDomain( testFilePath, assemblies );
+				string domainName = string.Format( "domain-{0}", Path.GetFileName( assemblyName ) );
+				domain = MakeAppDomain( domainName, setup );
 				testRunner = MakeRemoteTestRunner( domain );
 
 				if(testRunner != null)
 				{
-					testRunner.Initialize( testFilePath, assemblies, testFixture );
+					testRunner.TestFileName = assemblyPath;
+					if ( testFixture != null )
+						testRunner.TestName = testFixture;
 					domain.DoCallBack( new CrossAppDomainDelegate( testRunner.BuildSuite ) );
 					return testRunner.Test;
 				}
@@ -133,7 +137,62 @@ namespace NUnit.Framework
 			}
 		}
 
-		public TestResult Run(NUnit.Core.EventListener listener)
+		public Test LoadAssemblies( IList assemblies )
+		{
+			// TODO: Figure out a better way to do this
+			string testFileName = Path.GetFullPath( (string)assemblies[0] );
+			return LoadAssemblies( testFileName, assemblies );
+		}
+
+		public Test LoadAssemblies( string testFileName, IList assemblies )
+		{
+			AppDomainSetup setup = new AppDomainSetup();
+			FileInfo testFile = new FileInfo( testFileName );
+			
+			setup.ApplicationName = "Tests";
+			setup.ShadowCopyFiles = "true";
+
+			setup.ApplicationBase = testFile.DirectoryName;
+			setup.ConfigurationFile =  Path.ChangeExtension( testFile.FullName, ".config" );
+
+			string binPath = GetBinPath( assemblies );
+			setup.ShadowCopyDirectories = binPath;
+			setup.PrivateBinPath = binPath;
+
+			return LoadAssemblies( setup, testFileName, assemblies );
+		}
+
+		public Test LoadAssemblies( AppDomainSetup setup, string rootName, IList assemblies )
+		{
+			ThrowIfAlreadyLoaded();
+
+			try
+			{
+				string domainName = string.Format( "domain-{0}", Path.GetFileName( rootName ) );
+				domain = MakeAppDomain( rootName, setup );
+				testRunner = MakeRemoteTestRunner( domain );
+
+				if(testRunner != null)
+				{
+					testRunner.TestFileName = rootName;
+					testRunner.Assemblies = assemblies;
+					domain.DoCallBack( new CrossAppDomainDelegate( testRunner.BuildSuite ) );
+					return testRunner.Test;
+				}
+				else
+				{
+					Unload();
+					return null;
+				}
+			}
+			catch
+			{
+				Unload();
+				throw;
+			}
+		}
+
+		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outStream, TextWriter errorStream )
 		{
 			return testRunner.Run(listener, outStream, errorStream);
 		}
@@ -151,39 +210,21 @@ namespace NUnit.Framework
 			domain = null;
 		}
 
-		private AppDomain MakeAppDomain(
-			string testFileName,
-			IList assemblies )
+		#endregion
+
+		#region Helper Methods
+
+		private void ThrowIfAlreadyLoaded()
 		{
-			FileInfo testFile = new FileInfo( testFileName );
+			if ( domain != null || testRunner != null )
+				throw new InvalidOperationException( "TestDomain already loaded" );
+		}
 
-			AppDomainSetup setup = new AppDomainSetup();
-			
-			setup.ApplicationBase = testFile.DirectoryName;
-			setup.ApplicationName = "Tests";
-			setup.ShadowCopyFiles = "true";
-
-			if ( assemblies == null )
-			{
-				setup.ConfigurationFile =  testFile.FullName + ".config";
-
-				setup.ShadowCopyDirectories = testFile.DirectoryName;
-				setup.PrivateBinPath = testFile.DirectoryName;
-			}
-			else
-			{
-				setup.ConfigurationFile =  Path.ChangeExtension( testFile.FullName, ".config" );
-
-				string binPath = GetBinPath( assemblies );
-				setup.ShadowCopyDirectories = binPath;
-				setup.PrivateBinPath = binPath;
-			}
-
+		private AppDomain MakeAppDomain( string domainName, AppDomainSetup setup )
+		{
 			Evidence baseEvidence = AppDomain.CurrentDomain.Evidence;
 			Evidence evidence = new Evidence(baseEvidence);
 
-			string domainName = string.Format( "domain-{0}", testFile.Name );
-			
 			AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
 			
 			ConfigureCachePath(runnerDomain);
@@ -223,7 +264,7 @@ namespace NUnit.Framework
 
 			foreach( string path in assemblies )
 			{
-				string dir = Path.GetDirectoryName( path );
+				string dir = Path.GetDirectoryName( Path.GetFullPath( path ) );
 				if ( !dirs.Contains( dir ) )
 				{
 					dirs.Add( dir );
@@ -237,5 +278,7 @@ namespace NUnit.Framework
 
 			return binPath;
 		}
+
+		#endregion
 	}
 }

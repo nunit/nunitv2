@@ -202,7 +202,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "MockProject.cs"
+                    RelPath = "MockProjectContainer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -1,7 +1,7 @@
-#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
+#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
+' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
 ' Copyright © 2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
@@ -16,7 +16,7 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
+' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
 ' or Copyright © 2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
@@ -47,7 +47,7 @@ namespace NUnit.Console
 	/// </summary>
 	public class ConsoleUi
 	{
-		private NUnit.Framework.TestDomain testDomain;
+		private NUnit.Core.TestDomain testDomain;
 		private string outputFile;
 		private XmlTextReader transformReader;
 
@@ -76,9 +76,7 @@ namespace NUnit.Console
 			}
 			else
 			{
-				ConsoleWriter outStream = new ConsoleWriter(Console.Out);
-				ConsoleWriter errorStream = new ConsoleWriter(Console.Error);
-				NUnit.Framework.TestDomain domain = new NUnit.Framework.TestDomain(outStream, errorStream);
+				NUnit.Core.TestDomain domain = new NUnit.Core.TestDomain();
 
 				Test test = MakeTestFromCommandLine(domain, parser);
 				try
@@ -162,7 +160,7 @@ namespace NUnit.Console
 			Console.WriteLine(copyrightAttr.Copyright);
 		}
 
-		private static Test MakeTestFromCommandLine(NUnit.Framework.TestDomain testDomain, 
+		private static Test MakeTestFromCommandLine(NUnit.Core.TestDomain testDomain, 
 			ConsoleOptions parser)
 		{
 			Test test = null;
@@ -171,12 +169,12 @@ namespace NUnit.Console
 			
 			if(parser.IsAssembly)
 			{
-				test = testDomain.Load(parser.Parameters);
+				test = testDomain.LoadAssemblies( parser.Parameters );
 				if(test == null) Console.WriteLine("\nfatal error: assembly ({0}) is invalid", parser.Parameters[0]);
 			}
 			else if(parser.IsFixture)
 			{
-				test = testDomain.Load( (string)parser.Parameters[0], parser.fixture );
+				test = testDomain.LoadAssembly( (string)parser.Parameters[0], parser.fixture );
 				if(test == null) Console.WriteLine("\nfatal error: fixture ({0}) in assembly ({1}) is invalid", parser.fixture, parser.Parameters[0]);
 			}
 			return test;
@@ -206,7 +204,7 @@ namespace NUnit.Console
 			writer.WriteLine("/transform:<file>           XSL transform file");
 		}
 
-		public ConsoleUi(NUnit.Framework.TestDomain testDomain, string xmlFile, XmlTextReader reader)
+		public ConsoleUi(NUnit.Core.TestDomain testDomain, string xmlFile, XmlTextReader reader)
 		{
 			this.testDomain = testDomain;
 			outputFile = xmlFile;
@@ -216,7 +214,9 @@ namespace NUnit.Console
 		public int Execute()
 		{
 			EventCollector collector = new EventCollector();
-			TestResult result = testDomain.Run(collector);
+			ConsoleWriter outStream = new ConsoleWriter(Console.Out);
+			ConsoleWriter errorStream = new ConsoleWriter(Console.Error);
+			TestResult result = testDomain.Run(collector, outStream, errorStream);
 
 			Console.WriteLine("\n");
 			XmlResultVisitor resultVisitor = new XmlResultVisitor(outputFile, result);
