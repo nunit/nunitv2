@@ -131,6 +131,8 @@ namespace NUnit.Gui
 		private System.Windows.Forms.Panel panel3;
 		private System.Windows.Forms.Button CheckFailedButton;
 		private System.Windows.Forms.Button ClearAllButton;
+		private System.Windows.Forms.MenuItem checkBoxesMenuItem;
+		private System.Windows.Forms.MenuItem menuItem2;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -246,6 +248,8 @@ namespace NUnit.Gui
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.ClearAllButton = new System.Windows.Forms.Button();
 			this.CheckFailedButton = new System.Windows.Forms.Button();
+			this.checkBoxesMenuItem = new System.Windows.Forms.MenuItem();
+			this.menuItem2 = new System.Windows.Forms.MenuItem();
 			this.panel1.SuspendLayout();
 			this.resultTabs.SuspendLayout();
 			this.errorPage.SuspendLayout();
@@ -260,10 +264,10 @@ namespace NUnit.Gui
 			// statusBar
 			// 
 			this.statusBar.DisplayTestProgress = true;
-			this.statusBar.Location = new System.Drawing.Point(0, 361);
+			this.statusBar.Location = new System.Drawing.Point(0, 360);
 			this.statusBar.Name = "statusBar";
 			this.statusBar.ShowPanels = true;
-			this.statusBar.Size = new System.Drawing.Size(623, 32);
+			this.statusBar.Size = new System.Drawing.Size(622, 32);
 			this.statusBar.TabIndex = 0;
 			this.statusBar.Text = "Status";
 			// 
@@ -364,6 +368,8 @@ namespace NUnit.Gui
 			// 
 			this.viewMenu.Index = 1;
 			this.viewMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					 this.checkBoxesMenuItem,
+																					 this.menuItem2,
 																					 this.expandMenuItem,
 																					 this.collapseMenuItem,
 																					 this.viewMenuSeparatorItem1,
@@ -380,58 +386,58 @@ namespace NUnit.Gui
 			// 
 			// expandMenuItem
 			// 
-			this.expandMenuItem.Index = 0;
+			this.expandMenuItem.Index = 2;
 			this.expandMenuItem.Text = "&Expand";
 			this.expandMenuItem.Click += new System.EventHandler(this.expandMenuItem_Click);
 			// 
 			// collapseMenuItem
 			// 
-			this.collapseMenuItem.Index = 1;
+			this.collapseMenuItem.Index = 3;
 			this.collapseMenuItem.Text = "&Collapse";
 			this.collapseMenuItem.Click += new System.EventHandler(this.collapseMenuItem_Click);
 			// 
 			// viewMenuSeparatorItem1
 			// 
-			this.viewMenuSeparatorItem1.Index = 2;
+			this.viewMenuSeparatorItem1.Index = 4;
 			this.viewMenuSeparatorItem1.Text = "-";
 			// 
 			// expandAllMenuItem
 			// 
-			this.expandAllMenuItem.Index = 3;
+			this.expandAllMenuItem.Index = 5;
 			this.expandAllMenuItem.Text = "Expand All";
 			this.expandAllMenuItem.Click += new System.EventHandler(this.expandAllMenuItem_Click);
 			// 
 			// collapseAllMenuItem
 			// 
-			this.collapseAllMenuItem.Index = 4;
+			this.collapseAllMenuItem.Index = 6;
 			this.collapseAllMenuItem.Text = "Collapse All";
 			this.collapseAllMenuItem.Click += new System.EventHandler(this.collapseAllMenuItem_Click);
 			// 
 			// viewMenuSeparatorItem2
 			// 
-			this.viewMenuSeparatorItem2.Index = 5;
+			this.viewMenuSeparatorItem2.Index = 7;
 			this.viewMenuSeparatorItem2.Text = "-";
 			// 
 			// expandFixturesMenuItem
 			// 
-			this.expandFixturesMenuItem.Index = 6;
+			this.expandFixturesMenuItem.Index = 8;
 			this.expandFixturesMenuItem.Text = "Expand Fixtures";
 			this.expandFixturesMenuItem.Click += new System.EventHandler(this.expandFixturesMenuItem_Click);
 			// 
 			// collapseFixturesMenuItem
 			// 
-			this.collapseFixturesMenuItem.Index = 7;
+			this.collapseFixturesMenuItem.Index = 9;
 			this.collapseFixturesMenuItem.Text = "Collapse Fixtures";
 			this.collapseFixturesMenuItem.Click += new System.EventHandler(this.collapseFixturesMenuItem_Click);
 			// 
 			// viewMenuSeparatorItem3
 			// 
-			this.viewMenuSeparatorItem3.Index = 8;
+			this.viewMenuSeparatorItem3.Index = 10;
 			this.viewMenuSeparatorItem3.Text = "-";
 			// 
 			// propertiesMenuItem
 			// 
-			this.propertiesMenuItem.Index = 9;
+			this.propertiesMenuItem.Index = 11;
 			this.propertiesMenuItem.Text = "&Properties";
 			this.propertiesMenuItem.Click += new System.EventHandler(this.propertiesMenuItem_Click);
 			// 
@@ -547,7 +553,7 @@ namespace NUnit.Gui
 			this.splitter1.Location = new System.Drawing.Point(200, 0);
 			this.splitter1.MinSize = 240;
 			this.splitter1.Name = "splitter1";
-			this.splitter1.Size = new System.Drawing.Size(5, 361);
+			this.splitter1.Size = new System.Drawing.Size(5, 360);
 			this.splitter1.TabIndex = 2;
 			this.splitter1.TabStop = false;
 			// 
@@ -558,7 +564,7 @@ namespace NUnit.Gui
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel1.Location = new System.Drawing.Point(205, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(418, 361);
+			this.panel1.Size = new System.Drawing.Size(417, 360);
 			this.panel1.TabIndex = 3;
 			// 
 			// resultTabs
@@ -571,7 +577,7 @@ namespace NUnit.Gui
 			this.resultTabs.Location = new System.Drawing.Point(0, 88);
 			this.resultTabs.Name = "resultTabs";
 			this.resultTabs.SelectedIndex = 0;
-			this.resultTabs.Size = new System.Drawing.Size(418, 273);
+			this.resultTabs.Size = new System.Drawing.Size(417, 272);
 			this.resultTabs.TabIndex = 2;
 			// 
 			// errorPage
@@ -581,7 +587,7 @@ namespace NUnit.Gui
 			this.errorPage.Controls.Add(this.detailList);
 			this.errorPage.Location = new System.Drawing.Point(4, 22);
 			this.errorPage.Name = "errorPage";
-			this.errorPage.Size = new System.Drawing.Size(410, 247);
+			this.errorPage.Size = new System.Drawing.Size(409, 246);
 			this.errorPage.TabIndex = 0;
 			this.errorPage.Text = "Errors and Failures";
 			// 
@@ -594,7 +600,7 @@ namespace NUnit.Gui
 			this.stackTrace.Name = "stackTrace";
 			this.stackTrace.ReadOnly = true;
 			this.stackTrace.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stackTrace.Size = new System.Drawing.Size(410, 120);
+			this.stackTrace.Size = new System.Drawing.Size(409, 119);
 			this.stackTrace.TabIndex = 2;
 			this.stackTrace.Text = "";
 			this.stackTrace.WordWrap = false;
@@ -605,7 +611,7 @@ namespace NUnit.Gui
 			this.splitter3.Location = new System.Drawing.Point(0, 124);
 			this.splitter3.MinSize = 100;
 			this.splitter3.Name = "splitter3";
-			this.splitter3.Size = new System.Drawing.Size(410, 3);
+			this.splitter3.Size = new System.Drawing.Size(409, 3);
 			this.splitter3.TabIndex = 1;
 			this.splitter3.TabStop = false;
 			// 
@@ -620,7 +626,7 @@ namespace NUnit.Gui
 			this.detailList.Location = new System.Drawing.Point(0, 0);
 			this.detailList.Name = "detailList";
 			this.detailList.ScrollAlwaysVisible = true;
-			this.detailList.Size = new System.Drawing.Size(410, 124);
+			this.detailList.Size = new System.Drawing.Size(409, 124);
 			this.detailList.TabIndex = 0;
 			this.detailList.MouseHover += new System.EventHandler(this.detailList_MouseHover);
 			this.detailList.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.detailList_MeasureItem);
@@ -634,7 +640,7 @@ namespace NUnit.Gui
 			this.testsNotRun.Controls.Add(this.notRunTree);
 			this.testsNotRun.Location = new System.Drawing.Point(4, 22);
 			this.testsNotRun.Name = "testsNotRun";
-			this.testsNotRun.Size = new System.Drawing.Size(410, 247);
+			this.testsNotRun.Size = new System.Drawing.Size(409, 246);
 			this.testsNotRun.TabIndex = 1;
 			this.testsNotRun.Text = "Tests Not Run";
 			// 
@@ -645,7 +651,7 @@ namespace NUnit.Gui
 			this.notRunTree.Location = new System.Drawing.Point(0, 0);
 			this.notRunTree.Name = "notRunTree";
 			this.notRunTree.SelectedImageIndex = -1;
-			this.notRunTree.Size = new System.Drawing.Size(410, 247);
+			this.notRunTree.Size = new System.Drawing.Size(409, 246);
 			this.notRunTree.TabIndex = 0;
 			// 
 			// stderr
@@ -653,7 +659,7 @@ namespace NUnit.Gui
 			this.stderr.Controls.Add(this.stdErrTab);
 			this.stderr.Location = new System.Drawing.Point(4, 22);
 			this.stderr.Name = "stderr";
-			this.stderr.Size = new System.Drawing.Size(410, 247);
+			this.stderr.Size = new System.Drawing.Size(409, 246);
 			this.stderr.TabIndex = 2;
 			this.stderr.Text = "Console.Error";
 			// 
@@ -664,7 +670,7 @@ namespace NUnit.Gui
 			this.stdErrTab.Location = new System.Drawing.Point(0, 0);
 			this.stdErrTab.Name = "stdErrTab";
 			this.stdErrTab.ReadOnly = true;
-			this.stdErrTab.Size = new System.Drawing.Size(410, 247);
+			this.stdErrTab.Size = new System.Drawing.Size(409, 246);
 			this.stdErrTab.TabIndex = 0;
 			this.stdErrTab.Text = "";
 			this.stdErrTab.WordWrap = false;
@@ -674,7 +680,7 @@ namespace NUnit.Gui
 			this.stdout.Controls.Add(this.stdOutTab);
 			this.stdout.Location = new System.Drawing.Point(4, 22);
 			this.stdout.Name = "stdout";
-			this.stdout.Size = new System.Drawing.Size(410, 247);
+			this.stdout.Size = new System.Drawing.Size(409, 246);
 			this.stdout.TabIndex = 3;
 			this.stdout.Text = "Console.Out";
 			// 
@@ -685,7 +691,7 @@ namespace NUnit.Gui
 			this.stdOutTab.Location = new System.Drawing.Point(0, 0);
 			this.stdOutTab.Name = "stdOutTab";
 			this.stdOutTab.ReadOnly = true;
-			this.stdOutTab.Size = new System.Drawing.Size(410, 247);
+			this.stdOutTab.Size = new System.Drawing.Size(409, 246);
 			this.stdOutTab.TabIndex = 0;
 			this.stdOutTab.Text = "";
 			this.stdOutTab.WordWrap = false;
@@ -699,7 +705,7 @@ namespace NUnit.Gui
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBox1.Location = new System.Drawing.Point(0, 0);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(418, 88);
+			this.groupBox1.Size = new System.Drawing.Size(417, 88);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			// 
@@ -727,7 +733,7 @@ namespace NUnit.Gui
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.suiteName.Location = new System.Drawing.Point(179, 24);
 			this.suiteName.Name = "suiteName";
-			this.suiteName.Size = new System.Drawing.Size(231, 25);
+			this.suiteName.Size = new System.Drawing.Size(230, 25);
 			this.suiteName.TabIndex = 2;
 			// 
 			// progressBar
@@ -741,7 +747,7 @@ namespace NUnit.Gui
 			this.progressBar.Maximum = 100;
 			this.progressBar.Minimum = 0;
 			this.progressBar.Name = "progressBar";
-			this.progressBar.Size = new System.Drawing.Size(403, 25);
+			this.progressBar.Size = new System.Drawing.Size(402, 25);
 			this.progressBar.Step = 1;
 			this.progressBar.TabIndex = 0;
 			this.progressBar.Value = 0;
@@ -764,19 +770,18 @@ namespace NUnit.Gui
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
 			this.panel2.Location = new System.Drawing.Point(0, 0);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(200, 361);
+			this.panel2.Size = new System.Drawing.Size(200, 360);
 			this.panel2.TabIndex = 4;
 			// 
 			// testSuiteTreeView
 			// 
 			this.testSuiteTreeView.AllowDrop = true;
-			this.testSuiteTreeView.CheckBoxes = true;
 			this.testSuiteTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.testSuiteTreeView.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.testSuiteTreeView.HideSelection = false;
 			this.testSuiteTreeView.Location = new System.Drawing.Point(0, 0);
 			this.testSuiteTreeView.Name = "testSuiteTreeView";
-			this.testSuiteTreeView.Size = new System.Drawing.Size(200, 313);
+			this.testSuiteTreeView.Size = new System.Drawing.Size(200, 312);
 			this.testSuiteTreeView.TabIndex = 2;
 			this.testSuiteTreeView.CheckedTestChanged += new NUnit.UiKit.CheckedTestChangedHandler(this.OnCheckedTestChanged);
 			this.testSuiteTreeView.SelectedTestChanged += new NUnit.UiKit.SelectedTestChangedHandler(this.OnSelectedTestChanged);
@@ -786,10 +791,11 @@ namespace NUnit.Gui
 			this.panel3.Controls.Add(this.ClearAllButton);
 			this.panel3.Controls.Add(this.CheckFailedButton);
 			this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel3.Location = new System.Drawing.Point(0, 313);
+			this.panel3.Location = new System.Drawing.Point(0, 312);
 			this.panel3.Name = "panel3";
 			this.panel3.Size = new System.Drawing.Size(200, 48);
 			this.panel3.TabIndex = 3;
+			this.panel3.Visible = false;
 			// 
 			// ClearAllButton
 			// 
@@ -797,6 +803,7 @@ namespace NUnit.Gui
 			this.ClearAllButton.Name = "ClearAllButton";
 			this.ClearAllButton.TabIndex = 1;
 			this.ClearAllButton.Text = "Clear All";
+			this.ClearAllButton.Visible = false;
 			this.ClearAllButton.Click += new System.EventHandler(this.ClearAllButton_Click);
 			// 
 			// CheckFailedButton
@@ -807,13 +814,25 @@ namespace NUnit.Gui
 			this.CheckFailedButton.Size = new System.Drawing.Size(80, 24);
 			this.CheckFailedButton.TabIndex = 0;
 			this.CheckFailedButton.Text = "Check Failed";
+			this.CheckFailedButton.Visible = false;
 			this.CheckFailedButton.Click += new System.EventHandler(this.CheckFailedButton_Click);
+			// 
+			// checkBoxesMenuItem
+			// 
+			this.checkBoxesMenuItem.Index = 0;
+			this.checkBoxesMenuItem.Text = "Check&Boxes";
+			this.checkBoxesMenuItem.Click += new System.EventHandler(this.checkBoxesMenuItem_Click);
+			// 
+			// menuItem2
+			// 
+			this.menuItem2.Index = 1;
+			this.menuItem2.Text = "-";
 			// 
 			// NUnitForm
 			// 
 			this.AcceptButton = this.runButton;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(623, 393);
+			this.ClientSize = new System.Drawing.Size(622, 392);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.splitter1);
 			this.Controls.Add(this.panel2);
@@ -1228,6 +1247,18 @@ namespace NUnit.Gui
 			// be more than one app that uses the same controls.
 			testSuiteTreeView.ClearResultsOnChange = 
 				UserSettings.Options.ClearResults;
+
+			ShowCheckBoxes( UserSettings.Options.ShowCheckBoxes );
+		}
+
+		private void ShowCheckBoxes( bool show )
+		{
+			testSuiteTreeView.CheckBoxes = show;
+			panel3.Visible	= show;
+			ClearAllButton.Visible = show;
+			CheckFailedButton.Visible = show;
+			checkBoxesMenuItem.Checked = show;
+			UserSettings.Options.ShowCheckBoxes = show;
 		}
 
 		private void NUnitForm_Move(object sender, System.EventArgs e)
@@ -1272,12 +1303,13 @@ namespace NUnit.Gui
 		/// </summary>
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
-			ArrayList tests = testSuiteTreeView.CheckedTests;
-			int count = tests.Count;
-			if (count == 0)
-				tests.Add(testSuiteTreeView.SelectedTest);
-
-			TestLoader.RunTests( tests );
+//			ArrayList tests = testSuiteTreeView.CheckedTests;
+//			int count = tests.Count;
+//			if (count == 0)
+//				tests.Add(testSuiteTreeView.SelectedTest);
+//
+//			TestLoader.RunTests( tests );
+			TestLoader.RunTests( testSuiteTreeView.SelectedTests );
 		}
 
 		/// <summary>
@@ -1639,6 +1671,14 @@ namespace NUnit.Gui
 		private void CheckFailedButton_Click(object sender, System.EventArgs e)
 		{
 			testSuiteTreeView.CheckFailedNodes();
+		}
+
+		private void checkBoxesMenuItem_Click(object sender, System.EventArgs e)
+		{
+			ShowCheckBoxes( !checkBoxesMenuItem.Checked );
+			
+			// Temporary till we can save tree state and restore
+			testSuiteTreeView.SetInitialExpansion();
 		}
 	}
 }

@@ -62,6 +62,12 @@ namespace NUnit.Util
 			set { SaveIntSetting( "ReloadOnRun", value ? 1 : 0 ); }
 		}
 
+		public bool ShowCheckBoxes
+		{
+			get { return LoadIntSetting( "ShowCheckBoxes", 0 ) != 0; }
+			set { SaveIntSetting( "ShowCheckBoxes", value ? 1 : 0 ); }
+		}
+
 		public bool ReloadOnChange
 		{
 			get

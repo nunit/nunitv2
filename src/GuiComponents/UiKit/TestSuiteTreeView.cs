@@ -227,6 +227,22 @@ namespace NUnit.UiKit
 			}
 		}
 
+		[Browsable( false )]
+		public ArrayList SelectedTests
+		{
+			get
+			{
+				ArrayList result = new ArrayList();
+				
+				if ( CheckBoxes )
+					FindCheckedNodes(this.Nodes, result );
+				if ( result.Count == 0 )
+					result.Add( SelectedTest );
+
+				return result;
+			}	
+		}
+
 		private void FindCheckedNodes(TreeNodeCollection nodes, ArrayList result) 
 		{
 			foreach (TestSuiteTreeNode node in nodes) 
@@ -571,7 +587,6 @@ namespace NUnit.UiKit
 			
 			SetInitialExpansion();
 
-			SelectedNode = Nodes[0];
 			contextNode = null;
 		}
 
@@ -585,8 +600,6 @@ namespace NUnit.UiKit
 			AddTreeNodes( Nodes, result, false );
 
 			SetInitialExpansion();
-
-			SelectedNode = Nodes[0];
 		}
 
 		/// <summary>
@@ -929,8 +942,10 @@ namespace NUnit.UiKit
 			return DisplayStyle.HideTests;
 		}
 
-		private void SetInitialExpansion()
+		public void SetInitialExpansion()
 		{
+			CollapseAll();
+			
 			switch ( GetDisplayStyle() )
 			{
 				case DisplayStyle.Expand:
@@ -944,6 +959,8 @@ namespace NUnit.UiKit
 				default:
 					break;
 			}
+			
+			SelectedNode = Nodes[0];
 		}
 
 		#endregion
