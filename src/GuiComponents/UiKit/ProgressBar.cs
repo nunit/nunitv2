@@ -202,7 +202,7 @@ namespace NUnit.UiKit
 			Maximum = testCount;
 		}
 
-		private void Initialize( UITestNode test )
+		private void Initialize( ITest test )
 		{
 			Initialize( test.CountTestCases );
 		}

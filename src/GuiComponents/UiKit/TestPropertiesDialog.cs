@@ -47,7 +47,7 @@ namespace NUnit.UiKit
 		#region Instance Variables;
 
 		private TestSuiteTreeNode node;
-		private UITestNode test;
+		private ITest test;
 		private TestResult result;
 		private Image pinnedImage;
 		private Image unpinnedImage;
