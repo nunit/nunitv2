@@ -38,6 +38,7 @@ namespace NUnit.Gui
 	using NUnit.Core;
 	using NUnit.Util;
 	using NUnit.UiKit;
+	using CP.Windows.Forms;
 
 	public class NUnitForm : System.Windows.Forms.Form
 	{
@@ -56,6 +57,11 @@ namespace NUnit.Gui
 
 		// Our current run command line options
 		private CommandLineOptions commandLineOptions;
+
+		// TipWindow for the detail list
+		CP.Windows.Forms.TipWindow tipWindow;
+		int hoverIndex = -1;
+		System.Windows.Forms.Timer hoverTimer;
 
 		public System.Windows.Forms.Splitter splitter1;
 		public System.Windows.Forms.Panel panel1;
@@ -608,7 +614,7 @@ namespace NUnit.Gui
 			// 
 			this.detailList.Dock = System.Windows.Forms.DockStyle.Top;
 			this.detailList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-			this.detailList.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.detailList.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.detailList.HorizontalExtent = 2000;
 			this.detailList.HorizontalScrollbar = true;
 			this.detailList.ItemHeight = 16;
@@ -617,7 +623,10 @@ namespace NUnit.Gui
 			this.detailList.ScrollAlwaysVisible = true;
 			this.detailList.Size = new System.Drawing.Size(510, 143);
 			this.detailList.TabIndex = 0;
+			this.detailList.MouseHover += new System.EventHandler(this.detailList_MouseHover);
 			this.detailList.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.detailList_MeasureItem);
+			this.detailList.MouseMove += new System.Windows.Forms.MouseEventHandler(this.detailList_MouseMove);
+			this.detailList.MouseLeave += new System.EventHandler(this.detailList_MouseLeave);
 			this.detailList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.detailList_DrawItem);
 			this.detailList.SelectedIndexChanged += new System.EventHandler(this.detailList_SelectedIndexChanged);
 			// 
@@ -1075,20 +1084,6 @@ namespace NUnit.Gui
 		}
 
 		/// <summary>
-		/// When one of the detail failure items is selected, display
-		/// the stack trace and set up the tool tip for that item.
-		/// </summary>
-		private void detailList_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			TestResultItem resultItem = (TestResultItem)detailList.SelectedItem;
-			//string stackTrace = resultItem.StackTrace;
-			stackTrace.Text = resultItem.StackTrace;
-
-			toolTip.SetToolTip(detailList,resultItem.GetToolTipMessage());
-			detailList.ContextMenu = detailListContextMenu;
-		}
-
-		/// <summary>
 		/// Exit application when space key is tapped
 		/// </summary>
 		protected override bool ProcessKeyPreview(ref 
@@ -1391,6 +1386,24 @@ namespace NUnit.Gui
 
 		#endregion	
 
+		#region DetailList Events
+
+		// Note: These items should all be moved to a separate user control
+
+		/// <summary>
+		/// When one of the detail failure items is selected, display
+		/// the stack trace and set up the tool tip for that item.
+		/// </summary>
+		private void detailList_SelectedIndexChanged(object sender, System.EventArgs e)
+		{
+			TestResultItem resultItem = (TestResultItem)detailList.SelectedItem;
+			//string stackTrace = resultItem.StackTrace;
+			stackTrace.Text = resultItem.StackTrace;
+
+			//			toolTip.SetToolTip(detailList,resultItem.GetToolTipMessage());
+			detailList.ContextMenu = detailListContextMenu;
+		}
+
 		private void detailList_MeasureItem(object sender, System.Windows.Forms.MeasureItemEventArgs e)
 		{
 			TestResultItem item = (TestResultItem) detailList.Items[e.Index];
@@ -1418,6 +1431,61 @@ namespace NUnit.Gui
 			if ( detailList.SelectedItem != null )
 				Clipboard.SetDataObject( detailList.SelectedItem.ToString() );
 		}
+
+		private void detailList_MouseHover(object sender, System.EventArgs e)
+		{
+			if ( tipWindow != null ) tipWindow.Close();
+
+			if ( hoverIndex >= 0 && hoverIndex < detailList.Items.Count )
+			{
+				Rectangle itemRect = detailList.GetItemRectangle( hoverIndex );
+				string text = detailList.Items[hoverIndex].ToString();
+
+				tipWindow = new TipWindow( detailList, hoverIndex );
+				tipWindow.ItemBounds = itemRect;
+				tipWindow.TipText = text;
+				tipWindow.Expansion = TipWindow.ExpansionStyle.Both;
+				tipWindow.Overlay = true;
+				tipWindow.WantClicks = true;
+				tipWindow.Closed += new EventHandler( tipWindow_Closed );
+				tipWindow.Show();
+			}		
+		}
+
+		private void tipWindow_Closed( object sender, System.EventArgs e )
+		{
+			tipWindow = null;
+//			ClearTimer();
+		}
+
+		private void detailList_MouseLeave(object sender, System.EventArgs e)
+		{
+//			ClearTimer();
+		}
+
+		private void detailList_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+		{
+//			ClearTimer();
+
+			hoverIndex = detailList.IndexFromPoint( e.X, e.Y );
+			
+//			hoverTimer = new System.Windows.Forms.Timer();
+//			hoverTimer.Interval = mouseHoverDelay;
+//			hoverTimer.Tick += new EventHandler( OnMouseHover );
+//			hoverTimer.Start();
+		}
+
+		private void ClearTimer()
+		{
+			if ( hoverTimer != null )
+			{
+				hoverTimer.Stop();
+				hoverTimer.Dispose();
+			}
+		}
+
+		#endregion
+
 	}
 }
 
