@@ -205,7 +205,7 @@ namespace NUnit.Tests.ConsoleRunner
 			p.StartInfo.RedirectStandardOutput = true;
 			p.StartInfo.RedirectStandardError = true;
 			p.StartInfo.UseShellExecute = false;
-			p.StartInfo.WorkingDirectory = Path.GetDirectoryName(nunitExe);
+			p.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
 			return p;
 		}
 
