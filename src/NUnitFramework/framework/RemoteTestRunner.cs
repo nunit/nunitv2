@@ -108,7 +108,10 @@ namespace NUnit.Core
 				else
 					suite = builder.Build( testFileName, assemblies );
 			else
-				suite = builder.Build( testFileName, testName );
+				if ( assemblies == null )
+					suite = builder.Build( testFileName, testName );
+				else
+					suite = builder.Build( assemblies, testName );
 
 			if(suite != null) TestName = suite.FullName;
 		}

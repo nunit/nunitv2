@@ -144,7 +144,19 @@ namespace NUnit.Core
 			return LoadAssemblies( testFileName, assemblies );
 		}
 
+		public Test LoadAssemblies( IList assemblies, string testFixture )
+		{
+			// TODO: Figure out a better way to do this
+			string testFileName = Path.GetFullPath( (string)assemblies[0] );
+			return LoadAssemblies( testFileName, assemblies, testFixture );
+		}
+
 		public Test LoadAssemblies( string testFileName, IList assemblies )
+		{
+			return LoadAssemblies( testFileName, assemblies, null );
+		}
+
+		public Test LoadAssemblies( string testFileName, IList assemblies, string testFixture )
 		{
 			AppDomainSetup setup = new AppDomainSetup();
 			FileInfo testFile = new FileInfo( testFileName );
@@ -160,10 +172,15 @@ namespace NUnit.Core
 			setup.ShadowCopyDirectories = binPath;
 			setup.PrivateBinPath = binPath;
 
-			return LoadAssemblies( setup, testFileName, assemblies );
+			return LoadAssemblies( setup, testFileName, assemblies, testFixture );
 		}
 
 		public Test LoadAssemblies( AppDomainSetup setup, string rootName, IList assemblies )
+		{
+			return LoadAssemblies( setup, rootName, assemblies, null );
+		}
+
+		public Test LoadAssemblies( AppDomainSetup setup, string rootName, IList assemblies, string testFixture )
 		{
 			ThrowIfAlreadyLoaded();
 
@@ -177,6 +194,8 @@ namespace NUnit.Core
 				{
 					testRunner.TestFileName = rootName;
 					testRunner.Assemblies = assemblies;
+					if ( testFixture != null )
+						testRunner.TestName = testFixture;
 					domain.DoCallBack( new CrossAppDomainDelegate( testRunner.BuildSuite ) );
 					return testRunner.Test;
 				}

@@ -105,7 +105,7 @@ namespace NUnit.Core
 			return Build( assemblyName, 0 );
 		}
 
-		public TestSuite Build( string assemblyName, int assemblyKey )
+		private TestSuite Build( string assemblyName, int assemblyKey )
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 
