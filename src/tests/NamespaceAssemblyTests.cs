@@ -92,15 +92,16 @@ namespace NUnit.Tests.Core
 
 			tests = testSuite.Tests;
 			Assert.AreEqual(3, tests.Count);
+			tests.Sort();
 
 			Assert.IsTrue(tests[1] is TestSuite, "TestSuite:singletons - is invalid");
-			TestSuite singletonSuite = (TestSuite)tests[2];
+			TestSuite singletonSuite = (TestSuite)tests[1];
 			Assert.AreEqual("Singletons", singletonSuite.Name);
 			Assert.AreEqual(1, singletonSuite.Tests.Count);
 
 			MockTestFixture mockTestFixture = new MockTestFixture();			
-			Assert.IsTrue(tests[1] is TestSuite, "TestSuite:assemblies - is invalid");
-			TestSuite mockSuite = (TestSuite)tests[1];
+			Assert.IsTrue(tests[0] is TestSuite, "TestSuite:assemblies - is invalid");
+			TestSuite mockSuite = (TestSuite)tests[0];
 			Assert.AreEqual("Assemblies", mockSuite.Name);
 
 			TestSuite mockFixtureSuite = (TestSuite)mockSuite.Tests[0];

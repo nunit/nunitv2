@@ -54,6 +54,7 @@ namespace NUnit.Tests.UiKit
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( testsDll );
+			suite.Sort();
 
 			TestSuite suite2 = new TestSuite("My suite");
 			suite2.Add( new MockTestFixture() );
@@ -146,7 +147,7 @@ namespace NUnit.Tests.UiKit
 		/// </summary>
 		private TestSuiteTreeNode FixtureNode( TestSuiteTreeView treeView )
 		{
-			return (TestSuiteTreeNode)treeView.Nodes[0].Nodes[0].Nodes[0].Nodes[1].Nodes[0];
+			return (TestSuiteTreeNode)treeView.Nodes[0].Nodes[0].Nodes[0].Nodes[0].Nodes[0];
 		}
 
 		/// <summary>
@@ -201,14 +202,14 @@ namespace NUnit.Tests.UiKit
 			
 			TestSuite nunitNamespaceSuite = suite.Tests[0] as TestSuite;
 			TestSuite testsNamespaceSuite = nunitNamespaceSuite.Tests[0] as TestSuite;
-			TestSuite assembliesNamespaceSuite = testsNamespaceSuite.Tests[1] as TestSuite;
-			testsNamespaceSuite.Tests.RemoveAt( 1 );
+			TestSuite assembliesNamespaceSuite = testsNamespaceSuite.Tests[0] as TestSuite;
+			testsNamespaceSuite.Tests.RemoveAt( 0 );
 			treeView.Reload( suite );
 
 			Assert.AreEqual( 2, suite.CountTestCases() );
 			Assert.AreEqual( 9, treeView.GetNodeCount( true ) );
 
-			testsNamespaceSuite.Tests.Insert( 1, assembliesNamespaceSuite );
+			testsNamespaceSuite.Tests.Insert( 0, assembliesNamespaceSuite );
 			treeView.Reload( suite );
 
 			Assert.AreEqual( 7, suite.CountTestCases() );
