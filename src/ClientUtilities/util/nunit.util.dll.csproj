@@ -132,7 +132,7 @@
                 />
                 <File
                     RelPath = "TestSuiteTreeView.cs"
-                    SubType = "Code"
+                    SubType = "Component"
                     BuildAction = "Compile"
                 />
                 <File
