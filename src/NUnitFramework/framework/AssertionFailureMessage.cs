@@ -267,7 +267,7 @@ namespace NUnit.Framework
 		/// <param name="iPosition"></param>
 		static protected void AppendPositionMarker( StringBuilder sbOutput, int iPosition )
 		{
-			sbOutput.Append( new String( '-', ButWasText().Length ) );
+			sbOutput.Append( new String( '-', ButWasText().Length + 1 ) );
 			if( iPosition > 0 )
 			{
 				sbOutput.Append( new string( '-', iPosition ) );
