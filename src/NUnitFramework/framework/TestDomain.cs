@@ -77,20 +77,20 @@ namespace NUnit.Framework
 				throw new InvalidOperationException( "TestDomain already loaded" );
 		}
 
-		public Test Load( string projectPath, AssemblyList assemblies )
+		public Test Load( string projectPath, IList assemblies )
 		{
 			return Load( projectPath, assemblies, null );
 		}
 
-		public Test Load( AssemblyList assemblies )
+		public Test Load( IList assemblies )
 		{
 			// ToDo: Figure out a better way
-			return Load( assemblies[0], assemblies, null );
+			return Load( (string)assemblies[0], assemblies, null );
 		}
 
-		public Test Load( AssemblyList assemblies, string testFixture )
+		public Test Load( IList assemblies, string testFixture )
 		{
-			return Load( assemblies[0], assemblies, testFixture );
+			return Load( (string)assemblies[0], assemblies, testFixture );
 		}
 
 		public Test Load( string assemblyFileName )
@@ -103,7 +103,7 @@ namespace NUnit.Framework
 			return Load( assemblyFileName, null, testFixture );
 		}
 
-		private Test Load( string testFileName, AssemblyList assemblies, string testFixture )
+		private Test Load( string testFileName, IList assemblies, string testFixture )
 		{
 			ThrowIfAlreadyLoaded();
 
@@ -153,7 +153,7 @@ namespace NUnit.Framework
 
 		private AppDomain MakeAppDomain(
 			string testFileName,
-			AssemblyList assemblies )
+			IList assemblies )
 		{
 			FileInfo testFile = new FileInfo( testFileName );
 
@@ -174,8 +174,9 @@ namespace NUnit.Framework
 			{
 				setup.ConfigurationFile =  Path.ChangeExtension( testFile.FullName, ".config" );
 
-				setup.ShadowCopyDirectories = assemblies.AssemblyPath;
-				setup.PrivateBinPath = assemblies.AssemblyPath;
+				string binPath = GetBinPath( assemblies );
+				setup.ShadowCopyDirectories = binPath;
+				setup.PrivateBinPath = binPath;
 			}
 
 			Evidence baseEvidence = AppDomain.CurrentDomain.Evidence;
@@ -213,6 +214,28 @@ namespace NUnit.Framework
 				false, BindingFlags.Default,null,null,null,null,null);
 			
 			return runner;
+		}
+
+		public static string GetBinPath( IList assemblies )
+		{
+			ArrayList dirs = new ArrayList();
+			string binPath = null;
+
+			foreach( string path in assemblies )
+			{
+				string dir = Path.GetDirectoryName( path );
+				if ( !dirs.Contains( dir ) )
+				{
+					dirs.Add( dir );
+
+					if ( binPath == null )
+						binPath = dir;
+					else
+						binPath = binPath + ";" + dir;
+				}
+			}
+
+			return binPath;
 		}
 	}
 }

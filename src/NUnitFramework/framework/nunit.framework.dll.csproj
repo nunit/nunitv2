@@ -82,11 +82,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AssemblyList.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Assert.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
