@@ -141,31 +141,29 @@ namespace NUnit.UiKit
 			// 
 			// tabControl1
 			// 
-			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
-			this.tabControl1.Controls.AddRange(new System.Windows.Forms.Control[] {
-																					  this.testTab,
-																					  this.resultsTab});
+			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.tabControl1.Controls.Add(this.testTab);
+			this.tabControl1.Controls.Add(this.resultsTab);
 			this.tabControl1.Location = new System.Drawing.Point(8, 8);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(416, 140);
+			this.tabControl1.Size = new System.Drawing.Size(416, 144);
 			this.tabControl1.TabIndex = 13;
 			// 
 			// testTab
 			// 
-			this.testTab.Controls.AddRange(new System.Windows.Forms.Control[] {
-																				  this.testCaseCount,
-																				  this.label5,
-																				  this.label4,
-																				  this.ignoreReason,
-																				  this.shouldRun,
-																				  this.label2,
-																				  this.fullName,
-																				  this.label1});
+			this.testTab.Controls.Add(this.testCaseCount);
+			this.testTab.Controls.Add(this.label5);
+			this.testTab.Controls.Add(this.label4);
+			this.testTab.Controls.Add(this.ignoreReason);
+			this.testTab.Controls.Add(this.shouldRun);
+			this.testTab.Controls.Add(this.label2);
+			this.testTab.Controls.Add(this.fullName);
+			this.testTab.Controls.Add(this.label1);
 			this.testTab.Location = new System.Drawing.Point(4, 25);
 			this.testTab.Name = "testTab";
-			this.testTab.Size = new System.Drawing.Size(408, 111);
+			this.testTab.Size = new System.Drawing.Size(408, 115);
 			this.testTab.TabIndex = 0;
 			this.testTab.Text = "Test";
 			// 
@@ -196,8 +194,9 @@ namespace NUnit.UiKit
 			// 
 			// ignoreReason
 			// 
-			this.ignoreReason.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
+			this.ignoreReason.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.ignoreReason.CopySupported = true;
 			this.ignoreReason.Location = new System.Drawing.Point(104, 80);
 			this.ignoreReason.Name = "ignoreReason";
 			this.ignoreReason.Size = new System.Drawing.Size(296, 16);
@@ -222,8 +221,9 @@ namespace NUnit.UiKit
 			// 
 			// fullName
 			// 
-			this.fullName.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
+			this.fullName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.fullName.CopySupported = true;
 			this.fullName.Location = new System.Drawing.Point(104, 16);
 			this.fullName.Name = "fullName";
 			this.fullName.Size = new System.Drawing.Size(296, 16);
@@ -240,17 +240,16 @@ namespace NUnit.UiKit
 			// 
 			// resultsTab
 			// 
-			this.resultsTab.Controls.AddRange(new System.Windows.Forms.Control[] {
-																					 this.label3,
-																					 this.testResult,
-																					 this.leakage,
-																					 this.stackTrace,
-																					 this.label12,
-																					 this.elapsedTime,
-																					 this.message});
+			this.resultsTab.Controls.Add(this.label3);
+			this.resultsTab.Controls.Add(this.testResult);
+			this.resultsTab.Controls.Add(this.leakage);
+			this.resultsTab.Controls.Add(this.stackTrace);
+			this.resultsTab.Controls.Add(this.label12);
+			this.resultsTab.Controls.Add(this.elapsedTime);
+			this.resultsTab.Controls.Add(this.message);
 			this.resultsTab.Location = new System.Drawing.Point(4, 25);
 			this.resultsTab.Name = "resultsTab";
-			this.resultsTab.Size = new System.Drawing.Size(408, 111);
+			this.resultsTab.Size = new System.Drawing.Size(408, 115);
 			this.resultsTab.TabIndex = 1;
 			this.resultsTab.Text = "Result";
 			// 
@@ -274,7 +273,7 @@ namespace NUnit.UiKit
 			// 
 			// leakage
 			// 
-			this.leakage.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
+			this.leakage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.leakage.Location = new System.Drawing.Point(232, 16);
 			this.leakage.Name = "leakage";
 			this.leakage.Size = new System.Drawing.Size(168, 16);
@@ -283,8 +282,9 @@ namespace NUnit.UiKit
 			// 
 			// stackTrace
 			// 
-			this.stackTrace.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
+			this.stackTrace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.stackTrace.CopySupported = true;
 			this.stackTrace.Expansion = CP.Windows.Forms.TipWindow.ExpansionStyle.Both;
 			this.stackTrace.Location = new System.Drawing.Point(104, 80);
 			this.stackTrace.Name = "stackTrace";
@@ -311,8 +311,9 @@ namespace NUnit.UiKit
 			// 
 			// message
 			// 
-			this.message.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
+			this.message.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.message.CopySupported = true;
 			this.message.Expansion = CP.Windows.Forms.TipWindow.ExpansionStyle.Both;
 			this.message.Location = new System.Drawing.Point(104, 48);
 			this.message.Name = "message";
@@ -332,9 +333,8 @@ namespace NUnit.UiKit
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.ClientSize = new System.Drawing.Size(434, 154);
-			this.Controls.AddRange(new System.Windows.Forms.Control[] {
-																		  this.pinButton,
-																		  this.tabControl1});
+			this.Controls.Add(this.pinButton);
+			this.Controls.Add(this.tabControl1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;

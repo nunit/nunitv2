@@ -356,6 +356,13 @@ namespace NUnit.UiKit
 				}
 			}
 
+			if ( contextNode.Result != null )
+			{
+				MenuItem copyMenuItem = new MenuItem(
+					"&Copy", new EventHandler( copyMenuItem_Click ) );
+				this.ContextMenu.MenuItems.Add( copyMenuItem );
+			}
+
 			if ( this.ContextMenu.MenuItems.Count > 0 )
 				this.ContextMenu.MenuItems.Add( "-" );
 
@@ -379,6 +386,10 @@ namespace NUnit.UiKit
 		private void collapseMenuItem_Click(object sender, System.EventArgs e)
 		{
 			contextNode.Collapse();
+		}
+
+		private void copyMenuItem_Click( object sender, System.EventArgs e )
+		{
 		}
 
 		/// <summary>

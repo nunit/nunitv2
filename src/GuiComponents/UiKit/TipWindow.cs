@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace CP.Windows.Forms
 {
@@ -89,6 +90,11 @@ namespace CP.Windows.Forms
 		/// Rectangle used to display text
 		/// </summary>
 		private Rectangle textRect;
+
+		/// <summary>
+		/// Indicates whether any clicks should be passed to the underlying control
+		/// </summary>
+		private bool wantClicks = false;
 
 		#endregion
 
@@ -223,6 +229,17 @@ namespace CP.Windows.Forms
 			set { itemBounds = value; }
 		}
 
+		public bool WantClicks
+		{
+			get { return wantClicks; }
+			set { wantClicks = value; }
+		}
+
+		private void CopyToClipboard( object sender, EventArgs e )
+		{
+			Clipboard.SetDataObject( this.Text );
+		}
+
 		#endregion
 
 		#region Event Handlers
@@ -253,7 +270,7 @@ namespace CP.Windows.Forms
 
 		protected override void OnMouseLeave(System.EventArgs e)
 		{
-			if ( mouseLeaveDelay > 0 )
+			if ( mouseLeaveDelay > 0  )
 			{
 				mouseLeaveTimer = new System.Windows.Forms.Timer();
 				mouseLeaveTimer.Interval = mouseLeaveDelay;
@@ -289,5 +306,30 @@ namespace CP.Windows.Forms
 		}
 
 		#endregion
+	
+		[DllImport("user32.dll")]
+		static extern uint SendMessage(
+			IntPtr hwnd,
+			int msg,
+			IntPtr wparam,
+			IntPtr lparam
+		);
+	
+		protected override void WndProc(ref Message m)
+		{
+			uint WM_LBUTTONDOWN = 0x201;
+			uint WM_RBUTTONDOWN = 0x204;
+			uint WM_MBUTTONDOWN = 0x207;
+
+			if ( m.Msg == WM_LBUTTONDOWN || m.Msg == WM_RBUTTONDOWN || m.Msg == WM_MBUTTONDOWN )
+			{
+				this.Close();
+				SendMessage( control.Handle, m.Msg, m.WParam, m.LParam );
+			}
+			else
+			{
+				base.WndProc (ref m);
+			}
+		}
 	}
 }
