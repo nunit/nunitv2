@@ -291,21 +291,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestInfoTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestNodeTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestResultInfoTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestSuiteResultFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -316,12 +301,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestSuiteTreeNodeTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestSuiteTreeViewFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "ThreadingTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UITestNodeTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
