@@ -31,6 +31,7 @@ namespace NUnit.Console
 {
 	using System;
 	using System.Collections;
+	using System.Collections.Specialized;
 	using System.IO;
 	using System.Reflection;
 	using System.Xml;
@@ -38,6 +39,8 @@ namespace NUnit.Console
 	using System.Xml.XPath;
 	using System.Resources;
 	using System.Text;
+	using System.Text.RegularExpressions;
+	using System.Diagnostics;
 	using NUnit.Core;
 	using NUnit.Util;
 	
@@ -243,17 +246,38 @@ namespace NUnit.Console
 
 		private class EventCollector : LongLivingMarshalByRefObject, EventListener
 		{
+			private int level;
+			private int testRunCount;
+			private int testIgnoreCount;
+			private int failureCount;
+			StringCollection messages;
+		
+			private bool debugger = false;
+
+			public EventCollector()
+			{
+				debugger = Debugger.IsAttached;
+				level = 0;
+			}
+
 			public void TestFinished(TestCaseResult testResult)
 			{
 				if(testResult.Executed)
 				{
+					testRunCount++;
 					if(testResult.IsFailure)
 					{	
+						failureCount++;
 						Console.Write("F");
+						if ( debugger )
+							messages.Add( ParseTestCaseResult( testResult ) );
 					}
 				}
 				else
+				{
+					testIgnoreCount++;
 					Console.Write("N");
+				}
 			}
 
 			public void TestStarted(TestCase testCase)
@@ -261,9 +285,68 @@ namespace NUnit.Console
 				Console.Write(".");
 			}
 
-			public void SuiteStarted(TestSuite suite) {}
-			public void SuiteFinished(TestSuiteResult result) {}
-		}
+			public void SuiteStarted(TestSuite suite) 
+			{
+				if ( debugger && level++ == 0 )
+				{
+					messages = new StringCollection();
+					testRunCount = 0;
+					testIgnoreCount = 0;
+					failureCount = 0;
+					Debug.WriteLine( "################################ UNIT TESTS ################################" );
+					Debug.WriteLine( "Running tests in '" + suite.FullName + "'..." );
+				}
+			}
 
+			public void SuiteFinished(TestSuiteResult suiteResult) 
+			{
+				if ( debugger && --level == 0 ) 
+				{
+					Debug.WriteLine( "############################################################################" );
+
+					if (messages.Count == 0) 
+					{
+						Debug.WriteLine( "##############                 S U C C E S S               #################" );
+					}
+					else 
+					{
+						Debug.WriteLine( "##############                F A I L U R E S              #################" );
+						
+						foreach ( string s in messages ) 
+						{
+							Debug.WriteLine(s);
+						}
+					}
+
+					Debug.WriteLine( "############################################################################" );
+					Debug.WriteLine( "Executed tests : " + testRunCount );
+					Debug.WriteLine( "Ignored tests  : " + testIgnoreCount );
+					Debug.WriteLine( "Failed tests   : " + failureCount );
+					Debug.WriteLine( "Total time     : " + suiteResult.Time + " seconds" );
+					Debug.WriteLine( "############################################################################");
+				}
+			}
+
+			private string ParseTestCaseResult( TestCaseResult result ) 
+			{
+				string[] trace = result.StackTrace.Split( System.Environment.NewLine.ToCharArray() );
+			
+				foreach (string s in trace) 
+				{
+					if ( s.IndexOf( result.Test.FullName ) >= 0 ) 
+					{
+						string link = Regex.Replace( s.Trim(), @"at " + result.Test.FullName + @"\(\) in (.*):line (.*)", "$1($2)");
+
+						string message = string.Format("{1}: {0}", 
+							result.Message.Replace(System.Environment.NewLine, "; "), 
+							result.Test.FullName).Trim(' ', ':');
+					
+						return string.Format("{0}: {1}", link, message);
+					}
+				}
+
+				return result.Message;
+			}
+		}
 	}
 }
