@@ -14,36 +14,33 @@ namespace NUnit.Core
 	/// 
 	/// Generally, these methods perform simple utility functions like
 	/// checking for a given attribute. However, some of the methdods
-	/// actually implement policies, which might change at some later
-	/// time. The intent is that policies that may vary among different
-	/// types of test cases or suites should be handled by those types,
-	/// while common decisions are handled here.
+	/// actually implement policies. That is, the methods "know" what
+	/// each attribute represents.
+	/// 
+	/// TODO: Move knowledge of policies to classes that should have
+	/// that knowledge and reserve this class for general-purpose
+	/// helpers that perform reflection.
 	/// </summary>
 	public class Reflect
 	{
 		#region Attribute types used by reflect
  
-		public static readonly Type TestFixtureType = typeof( TestFixtureAttribute );
-		public static readonly Type TestType = typeof( TestAttribute );
-		public static readonly Type SetUpType = typeof( SetUpAttribute );
-		public static readonly Type TearDownType = typeof( TearDownAttribute );
-		public static readonly Type FixtureSetUpType = typeof( TestFixtureSetUpAttribute );
-		public static readonly Type FixtureTearDownType = typeof( TestFixtureTearDownAttribute );
-		public static readonly Type ExplicitType = typeof( ExplicitAttribute );
-		public static readonly Type CategoryType = typeof( CategoryAttribute );
-		public static readonly Type IgnoreType = typeof( IgnoreAttribute );
-		public static readonly Type ExpectedExceptionType = typeof( ExpectedExceptionAttribute );
-		public static readonly Type SuiteType = typeof( SuiteAttribute );
+		// TODO: Move these definitions to the fixtures and test cases that
+		// understand them.
+
+		private static readonly Type TestFixtureType = typeof( TestFixtureAttribute );
+		private static readonly Type TestType = typeof( TestAttribute );
+		private static readonly Type SetUpType = typeof( SetUpAttribute );
+		private static readonly Type TearDownType = typeof( TearDownAttribute );
+		private static readonly Type FixtureSetUpType = typeof( TestFixtureSetUpAttribute );
+		private static readonly Type FixtureTearDownType = typeof( TestFixtureTearDownAttribute );
 		
 		#endregion
 
-		#region Binding flags used by reflect
+		#region Binding flags used by Reflect
 
 		private static readonly BindingFlags InstanceMethods =
 			BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-
-		private static readonly BindingFlags StaticMethods =
-			BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly;
 
 		private static readonly BindingFlags AllMethods = 
 			BindingFlags.Public |  BindingFlags.NonPublic |
@@ -54,47 +51,9 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Check for presence of an attribute
-
-		public static bool HasTestFixtureAttribute(Type type)
-		{
-			return type.IsDefined( TestFixtureType, true );	// Inheritable
-		}
-
-		public static bool HasTestAttribute(MethodInfo method)
-		{
-			return method.IsDefined( TestType, false );
-		}
-		
-		public static bool HasExplicitAttribute(MemberInfo member)
-		{
-			return member.IsDefined( ExplicitType, false );
-		}
-
-		public static bool HasCategoryAttribute(MemberInfo member) 
-		{
-			return member.IsDefined( CategoryType, false );
-		}
-
-		public static bool HasExpectedExceptionAttribute(MethodInfo method)
-		{
-			return method.IsDefined( ExpectedExceptionType, false );
-		}
-
-		public static bool HasIgnoreAttribute( MemberInfo member )
-		{
-			return member.IsDefined( IgnoreType, false );
-		}
-
-		public static bool HasSuiteAttribute( PropertyInfo property )
-		{
-			return property.IsDefined( SuiteType, false );
-		}
-
-		#endregion
-
 		#region Legacy Checks on Names
 
+		// TODO: This belongs in a TestCaseBuilder
 		public static bool IsObsoleteTestMethod(MethodInfo methodToCheck)
 		{
 			if ( methodToCheck.Name.ToLower().StartsWith("test") )
@@ -118,57 +77,39 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Get Attributes 
+		#region Attributes 
 
-		public static TestFixtureAttribute GetTestFixtureAttribute( Type type )
+		/// <summary>
+		/// Check presence of attribute of a given type on a member.
+		/// </summary>
+		/// <param name="member">The member to examine</param>
+		/// <param name="type">The attribute typeto look for</param>
+		/// <param name="inherit">True to include inherited attributes</param>
+		/// <returns>True if the attribute is present</returns>
+		public static bool HasAttribute( MemberInfo member, Type type, bool inherit )
 		{
-			object[] attributes = type.GetCustomAttributes( TestFixtureType, true );
-			return attributes.Length > 0 ? (TestFixtureAttribute) attributes[0] : null;
+			return member.GetCustomAttributes( type, inherit ).Length > 0;
 		}
 
-		public static TestAttribute GetTestAttribute( MemberInfo member )
+		/// <summary>
+		/// Get attribute of a given type on a member. If multiple attributes
+		/// of a type are present, the first one found is returned.
+		/// </summary>
+		/// <param name="member">The member to examine</param>
+		/// <param name="type">The attribute typeto look for</param>
+		/// <param name="inherit">True to include inherited attributes</param>
+		/// <returns>The attribute or null</returns>
+		public static System.Attribute GetAttribute( MemberInfo member, Type type, bool inherit )
 		{
-			object[] attributes = member.GetCustomAttributes( TestType, false );
-			return attributes.Length > 0 ? (TestAttribute)attributes[0] : null;
-		}
-
-		public static IgnoreAttribute GetIgnoreAttribute( MemberInfo member )
-		{
-			object[] attributes = member.GetCustomAttributes( IgnoreType, false );
-			return attributes.Length > 0 ? (IgnoreAttribute) attributes[0] : null;
-		}
-
-		public static ExpectedExceptionAttribute GetExpectedExceptionAttribute( MethodInfo method )
-		{
-			object[] attributes = method.GetCustomAttributes( ExpectedExceptionType, false);
-			return attributes.Length > 0 ? (ExpectedExceptionAttribute) attributes[0] : null;
-		}
-
-		#endregion
-
-		#region Get Properties of Attributes
-
-		public static string GetIgnoreReason( MemberInfo member )
-		{
-			IgnoreAttribute attribute = GetIgnoreAttribute( member );
-			return attribute == null ? "no reason" : attribute.Reason;
-		}
-
-		public static string GetDescription( MethodInfo method )
-		{
-			TestAttribute attribute = GetTestAttribute( method );
-			return attribute == null ? null : attribute.Description;
-		}
-
-		public static string GetDescription( Type fixtureType )
-		{
-			TestFixtureAttribute attribute = GetTestFixtureAttribute( fixtureType );
-			return attribute == null ? null : attribute.Description;
+			object[] attributes = member.GetCustomAttributes( type, inherit );
+			return attributes.Length > 0 ? (System.Attribute) attributes[0] : null;
 		}
 
 		#endregion
 
 		#region Methods to check validity of a type and its members
+
+		// TODO: Move policy stuff to a builder. Boilerplate can stay here
 
 		/// <summary>
 		/// Method to validate that a type is a valid test fixture
@@ -217,66 +158,40 @@ namespace NUnit.Core
 					fixtureType.Name, attributeName ) );
 			}
 
-			CheckSetUpTearDownSignature( theMethod );
+			if ( theMethod != null )
+			{
+				if ( theMethod.IsStatic ||
+					 theMethod.IsAbstract ||
+					!theMethod.IsPublic && !theMethod.IsFamily ||
+					 theMethod.GetParameters().Length != 0 ||
+					!theMethod.ReturnType.Equals( typeof(void) ) )
+				{
+					throw new InvalidTestFixtureException("Invalid SetUp or TearDown method signature");
+				}
+			}
 		} 
 
-		private static void CheckSetUpTearDownSignature( MethodInfo method )
-		{
-			if ( method != null )
-			{
-				if ( !method.IsPublic && !method.IsFamily || method.IsStatic || method.ReturnType != typeof(void) || method.GetParameters().Length > 0 )
-					throw new InvalidTestFixtureException("Invalid SetUp or TearDown method signature");
-			}
-		}
-
-		/// <summary>
-		/// Check the signature of a test method
-		/// </summary>
-		/// <param name="methodToCheck">The method signature to check</param>
-		/// <returns>True if the signature is correct, otherwise false</returns>
-		public static bool IsTestMethodSignatureCorrect(MethodInfo methodToCheck)
-		{
-			return 
-				!methodToCheck.IsStatic
-				&& !methodToCheck.IsAbstract
-				&& methodToCheck.IsPublic
-				&& methodToCheck.GetParameters().Length == 0
-				&& methodToCheck.ReturnType.Equals(typeof(void));
-		}
-		
 		#endregion
 
 		#region Get Methods of a type
 
-		// These methods all take an object and assume that the type of the
-		// object was pre-checked so that there are no duplicate methods,
-		// statics, private methods, etc.
-
+		/// <summary>
+		/// Find the default constructor on a type
+		/// </summary>
+		/// <param name="fixtureType"></param>
+		/// <returns></returns>
 		public static ConstructorInfo GetConstructor( Type fixtureType )
 		{
 			return fixtureType.GetConstructor( Type.EmptyTypes );
 		}
 
-		public static MethodInfo GetSetUpMethod( Type fixtureType )
-		{
-			return GetMethod( fixtureType, SetUpType );
-		}
-
-		public static MethodInfo GetTearDownMethod(Type fixtureType)
-		{			
-			return GetMethod(fixtureType, TearDownType );
-		}
-
-		public static MethodInfo GetFixtureSetUpMethod( Type fixtureType )
-		{
-			return GetMethod( fixtureType, FixtureSetUpType );
-		}
-
-		public static MethodInfo GetFixtureTearDownMethod( Type fixtureType )
-		{
-			return GetMethod( fixtureType, FixtureTearDownType );
-		}
-
+		/// <summary>
+		/// Examine a fixture type and return a method having a particular attribute.
+		/// In the case of multiple methods, the first one found is returned.
+		/// </summary>
+		/// <param name="fixtureType">The type to examine</param>
+		/// <param name="attributeType">The attribute to look for</param>
+		/// <returns>A MethodInfo or null</returns>
 		public static MethodInfo GetMethod( Type fixtureType, Type attributeType )
 		{
 			foreach(MethodInfo method in fixtureType.GetMethods( InstanceMethods ) )
@@ -288,6 +203,13 @@ namespace NUnit.Core
 			return null;
 		}
 
+		/// <summary>
+		/// Examine a fixture type and get a method with a particular name.
+		/// In the case of overloads, the first one found is returned.
+		/// </summary>
+		/// <param name="fixtureType">The type to examine</param>
+		/// <param name="methodName">The name of the method</param>
+		/// <returns>A MethodInfo or null</returns>
 		public static MethodInfo GetMethod( Type fixtureType, string methodName )
 		{
 			foreach(MethodInfo method in fixtureType.GetMethods( InstanceMethods ) )
@@ -301,60 +223,13 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Get Suite Property
-
-		public static PropertyInfo GetSuiteProperty( Type testClass )
-		{
-			if( testClass != null )
-			{
-				PropertyInfo[] properties = testClass.GetProperties( StaticMethods );
-				foreach( PropertyInfo property in properties )
-				{
-					if( Reflect.HasSuiteAttribute( property ) )
-					{
-						try 
-						{
-							CheckSuiteProperty(property);
-						}
-						catch( InvalidSuiteException )
-						{
-							return null;
-						}
-						return property;
-					}
-				}
-			}
-			return null;
-		}
-
-		private static void CheckSuiteProperty(PropertyInfo property)
-		{
-			MethodInfo method = property.GetGetMethod(true);
-			if(method.ReturnType!=typeof(NUnit.Core.TestSuite))
-				throw new InvalidSuiteException("Invalid suite property method signature");
-			if(method.GetParameters().Length>0)
-				throw new InvalidSuiteException("Invalid suite property method signature");
-		}
-
-		#endregion
-
-		#region Categories
-
-		public static IList GetCategories( MemberInfo member )
-		{
-			object[] attributes = member.GetCustomAttributes( CategoryType, false );
-			IList names = new ArrayList();
-
-			foreach(CategoryAttribute attribute in attributes) 
-				names.Add(attribute.Name);
-			
-			return names;
-		}
-
-		#endregion
-
 		#region Invoke Methods
 
+		/// <summary>
+		/// Invoke the default constructor on a type
+		/// </summary>
+		/// <param name="type">The type to be constructed</param>
+		/// <returns>An instance of the type</returns>
 		public static object Construct( Type type )
 		{
 			ConstructorInfo ctor = GetConstructor( type );
@@ -364,6 +239,11 @@ namespace NUnit.Core
 			return ctor.Invoke( Type.EmptyTypes );
 		}
 
+		/// <summary>
+		/// Invoke a parameterless method on an object.
+		/// </summary>
+		/// <param name="method">A MethodInfo for the method to be invoked</param>
+		/// <param name="fixture">The object on which to invoke the mentod</param>
 		public static void InvokeMethod( MethodInfo method, object fixture ) 
 		{
 			if(method != null)
@@ -380,18 +260,16 @@ namespace NUnit.Core
 			}
 		}
 
-		public static void InvokeSetUp( object fixture )
+		/// <summary>
+		/// Invoke the method having a particular attribute on an object.
+		/// The method should be unique, but no check is made and the first 
+		/// one found is invoked.
+		/// </summary>
+		/// <param name="attributeType">The attribute to look for</param>
+		/// <param name="fixture">The object on which to invoke the method</param>
+		public static void InvokeMethod( Type attributeType, object fixture )
 		{
-			MethodInfo method = GetSetUpMethod( fixture.GetType() );
-			if(method != null)
-			{
-				InvokeMethod(method, fixture);
-			}
-		}
-
-		public static void InvokeTearDown( object fixture )
-		{
-			MethodInfo method = GetTearDownMethod( fixture.GetType() );
+			MethodInfo method = GetMethod( fixture.GetType(), attributeType );
 			if(method != null)
 			{
 				InvokeMethod(method, fixture);

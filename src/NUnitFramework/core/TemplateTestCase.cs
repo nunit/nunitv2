@@ -38,6 +38,13 @@ namespace NUnit.Core
 	/// </summary>
 	public abstract class TemplateTestCase : TestCase
 	{
+		#region Attribute Types used by TemplateTestCase
+
+		private static readonly Type SetUpType = typeof( NUnit.Framework.SetUpAttribute );
+		private static readonly Type TearDownType = typeof( NUnit.Framework.TearDownAttribute );
+
+		#endregion
+
 		private MethodInfo  method;
 
 		public TemplateTestCase(Type fixtureType, MethodInfo method) : base(fixtureType.FullName, method.Name)
@@ -109,7 +116,7 @@ namespace NUnit.Core
 
 			try 
 			{
-				Reflect.InvokeSetUp( this.Fixture );
+				Reflect.InvokeMethod( SetUpType, this.Fixture );
 				doTestCase( testResult );
 			}
 			catch(Exception ex)
@@ -138,7 +145,7 @@ namespace NUnit.Core
 		{
 			try
 			{
-				Reflect.InvokeTearDown( this.Fixture );
+				Reflect.InvokeMethod( TearDownType, this.Fixture );
 			}
 			catch(Exception ex)
 			{

@@ -31,9 +31,12 @@ namespace NUnit.Core
 {
 	using System;
 	using System.Reflection;
+	using NUnit.Framework;
 
 	public class ExpectedExceptionTestCase : TemplateTestCase
 	{
+		private static readonly Type ExpectedExceptionType = typeof( NUnit.Framework.ExpectedExceptionAttribute );
+
 		private Type expectedException;
 		private string expectedMessage;
 
@@ -49,8 +52,8 @@ namespace NUnit.Core
 
 		private void Initialize( MethodInfo method )
 		{
-			NUnit.Framework.ExpectedExceptionAttribute attribute = 
-				Reflect.GetExpectedExceptionAttribute( method );
+			ExpectedExceptionAttribute attribute = (ExpectedExceptionAttribute)
+				Reflect.GetAttribute( method, ExpectedExceptionType, false );
 
 			if ( attribute == null )
 				throw new InvalidTestFixtureException( "ExpectedExceptionAttribute not found" );

@@ -32,12 +32,18 @@ namespace NUnit.Core
 	using System;
 	using System.Reflection;
 	using System.Collections;
+	using NUnit.Framework;
 
 	/// <summary>
 	/// Summary description for TestCaseBuilder.
 	/// </summary>
 	public class TestCaseBuilder
 	{
+		private static readonly Type TestType = typeof( NUnit.Framework.TestAttribute );
+		private static readonly Type IgnoreType = typeof( NUnit.Framework.IgnoreAttribute );
+		private static readonly Type ExplicitType = typeof( NUnit.Framework.ExplicitAttribute );
+		private static readonly Type CategoryType = typeof( NUnit.Framework.CategoryAttribute );
+
 		private static Hashtable builders;
 		private static NormalBuilder normalBuilder = new NormalBuilder();
 
@@ -93,28 +99,41 @@ namespace NUnit.Core
 		{
 			TestCase testCase = null;
 
-			if( Reflect.HasTestAttribute(method) || Reflect.IsObsoleteTestMethod( method ) )
+			TestAttribute testAttribute = (TestAttribute)Reflect.GetAttribute( method, TestType, false );
+			if( testAttribute != null || Reflect.IsObsoleteTestMethod( method ) )
 			{
-				if( Reflect.IsTestMethodSignatureCorrect( method ) )
+				if (!method.IsStatic &&
+					!method.IsAbstract &&
+					 method.IsPublic &&
+					 method.GetParameters().Length == 0 &&
+					 method.ReturnType.Equals(typeof(void) ) )
 				{
 					testCase = MakeTestCase(fixtureType, method);
 
-					if(Reflect.HasIgnoreAttribute(method))
+					IgnoreAttribute ignoreAttribute = (IgnoreAttribute)
+						Reflect.GetAttribute( method, typeof( IgnoreAttribute ), false );
+					if ( ignoreAttribute != null )
 					{
 						testCase.ShouldRun = false;
-						testCase.IgnoreReason = Reflect.GetIgnoreReason(method);
+						testCase.IgnoreReason = ignoreAttribute.Reason;
 					}
 
-					if (Reflect.HasCategoryAttribute(method)) 
+					object[] categoryAttributes = method.GetCustomAttributes( CategoryType, false );
+					if ( categoryAttributes.Length > 0 )
 					{
-						IList categories = Reflect.GetCategories(method);
-						CategoryManager.Add(categories);
+						ArrayList categories = new ArrayList();
+						foreach(CategoryAttribute categoryAttribute in categoryAttributes) 
+						{
+							CategoryManager.Add( categoryAttribute.Name );
+							categories.Add( categoryAttribute.Name );
+						}
 						testCase.Categories = categories;
 					}
 
-					testCase.IsExplicit = Reflect.HasExplicitAttribute(method);
-
-					testCase.Description = Reflect.GetDescription(method);
+					testCase.IsExplicit = Reflect.HasAttribute( method, ExplicitType, false );
+					
+					if ( testAttribute != null )
+						testCase.Description = testAttribute.Description;
 				}
 				else
 				{

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Reflection;
+using NUnit.Framework;
 
 namespace NUnit.Core
 {
@@ -9,6 +10,17 @@ namespace NUnit.Core
 	/// </summary>
 	public class TestFixture : TestSuite
 	{
+		private static readonly Type TestFixtureType = typeof( TestFixtureAttribute );
+		private static readonly Type TestType = typeof( TestAttribute );
+		private static readonly Type SetUpType = typeof( SetUpAttribute );
+		private static readonly Type TearDownType = typeof( TearDownAttribute );
+		private static readonly Type FixtureSetUpType = typeof( TestFixtureSetUpAttribute );
+		private static readonly Type FixtureTearDownType = typeof( TestFixtureTearDownAttribute );
+		private static readonly Type ExplicitType = typeof( ExplicitAttribute );
+		private static readonly Type CategoryType = typeof( CategoryAttribute );
+		private static readonly Type IgnoreType = typeof( IgnoreAttribute );
+		private static readonly Type ExpectedExceptionType = typeof( ExpectedExceptionAttribute );
+
 		private const string FIXTURE_SETUP_FAILED = "Fixture setup failed";
 
 		#region Constructors
@@ -39,22 +51,34 @@ namespace NUnit.Core
 			{
 				Reflect.CheckFixtureType( fixtureType );
 
-				IList categories = Reflect.GetCategories( fixtureType );
+				object[] attributes = fixtureType.GetCustomAttributes( CategoryType, false );
+				IList categories = new ArrayList();
+
+				foreach(CategoryAttribute attribute in attributes) 
+					categories.Add(attribute.Name);
+			
 				CategoryManager.Add( categories );
 				this.Categories = categories;
 
-				this.fixtureSetUp = Reflect.GetFixtureSetUpMethod( fixtureType );
-				this.fixtureTearDown = Reflect.GetFixtureTearDownMethod( fixtureType );
+				this.fixtureSetUp = Reflect.GetMethod( fixtureType, FixtureSetUpType );
+				this.fixtureTearDown = Reflect.GetMethod( fixtureType, FixtureTearDownType );
 
-				this.IsExplicit = Reflect.HasExplicitAttribute( fixtureType );
+				this.IsExplicit = Reflect.HasAttribute( fixtureType, ExplicitType, false );
 
-				if ( Reflect.HasIgnoreAttribute( fixtureType ) )
+				IgnoreAttribute ignoreAttribute = (IgnoreAttribute)
+					Reflect.GetAttribute( fixtureType, IgnoreType, false );
+				if ( ignoreAttribute != null )
 				{
 					this.ShouldRun = false;
-					this.IgnoreReason = Reflect.GetIgnoreReason( fixtureType );
+					this.IgnoreReason = ignoreAttribute.Reason;
 				}
 		
-				this.Description = Reflect.GetDescription( fixtureType );
+				TestFixtureAttribute fixtureAttribute 
+					= (TestFixtureAttribute)Reflect.GetAttribute( fixtureType, TestFixtureType, true );
+
+				// Some of our tests create a fixture without the attribute
+				if ( fixtureAttribute != null )
+					this.Description = fixtureAttribute.Description;
 
 				MethodInfo [] methods = fixtureType.GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.Static|BindingFlags.NonPublic);
 				foreach(MethodInfo method in methods)
@@ -82,15 +106,6 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Static Methods
-
-		public static bool IsValidType( Type type )
-		{
-			return !type.IsAbstract && Reflect.HasTestFixtureAttribute( type );
-		}
-
-		#endregion
-		
 		public override void DoSetUp( TestResult suiteResult )
 		{
 			try 
