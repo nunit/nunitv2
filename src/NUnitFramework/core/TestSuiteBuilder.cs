@@ -54,6 +54,20 @@ namespace NUnit.Core
 		/// </summary>
 		TestSuite rootSuite;
 
+		/// <summary>
+		/// The version of the nunit framework referenced by the loaded assembly.
+		/// </summary>
+		Version frameworkVersion = null;
+
+		#endregion
+
+		#region Properties
+
+		public Version FrameworkVersion
+		{
+			get { return frameworkVersion; }
+		}
+
 		#endregion
 
 		#region Public Methods
@@ -70,7 +84,15 @@ namespace NUnit.Core
 				if ( swap )
 					Environment.CurrentDirectory = assemblyDirectory;
 
-				return AppDomain.CurrentDomain.Load(Path.GetFileNameWithoutExtension(assemblyName));
+				Assembly assembly = AppDomain.CurrentDomain.Load(Path.GetFileNameWithoutExtension(assemblyName));
+
+				foreach( AssemblyName refAssembly in assembly.GetReferencedAssemblies() )
+				{
+					if ( refAssembly.Name == "nunit.framework" )
+						this.frameworkVersion = refAssembly.Version;
+				}
+
+				return assembly;
 			}
 			finally
 			{
