@@ -44,13 +44,16 @@ namespace NUnit.Framework
 		
 		/// <summary>
 		/// Gets the number of assertions executed so far and 
-		/// optionally resets the counter to zero.
+		/// resets the counter to zero.
 		/// </summary>
-		public static int GetAssertCount( bool reset )
+		public static int Counter
 		{
-			int cnt = counter;
-			if ( reset ) counter = 0;
-			return cnt;
+			get
+			{
+				int cnt = counter;
+				counter = 0;
+				return cnt;
+			}
 		}
 
 		private static void IncrementAssertCount()

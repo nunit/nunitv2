@@ -79,11 +79,6 @@
                     AssemblyName = "System.Xml"
                     HintPath = "E:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
-                <Reference
-                    Name = "nunit.framework.dll"
-                    Project = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
             </References>
         </Build>
         <Files>

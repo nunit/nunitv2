@@ -95,6 +95,11 @@ namespace NUnit.Core
 		/// </summary>
 		private bool isExplicit;
 
+		/// <summary>
+		/// TestFramework under which this test runs
+		/// </summary>
+		protected ITestFramework testFramework;
+
 		#endregion
 
 		#region Constructors

@@ -125,8 +125,7 @@ namespace NUnit.Util
 				typeof(AssemblyResolver).Assembly.CodeBase,
 				typeof(AssemblyResolver).FullName);
 
-			// Tell resolver to use our framework and core if they cannot be found
-			assemblyResolver.AddFile( typeof( NUnit.Framework.Assert ).Assembly.Location );
+			// Tell resolver to use our core assembly in the test domain
 			assemblyResolver.AddFile( typeof( NUnit.Core.RemoteTestRunner ).Assembly.Location );
 
 			object obj = runnerDomain.CreateInstanceAndUnwrap(

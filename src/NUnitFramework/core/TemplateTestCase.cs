@@ -38,7 +38,7 @@ namespace NUnit.Core
 	/// </summary>
 	public abstract class TemplateTestCase : TestCase
 	{
-		#region Attribute Types used by TemplateTestCase
+		#region NUnit Types used by TemplateTestCase
 
 		private static readonly string SetUpType = "NUnit.Framework.SetUpAttribute";
 		private static readonly string TearDownType = "NUnit.Framework.TearDownAttribute";
@@ -51,6 +51,7 @@ namespace NUnit.Core
 		{
 			this.fixtureType = fixtureType;
 			this.method = method;
+			this.testFramework = TestFramework.FromType( fixtureType );
 		}
 
 		public TemplateTestCase(object fixture, MethodInfo method) : base(fixture.GetType().FullName, method.Name)
@@ -58,6 +59,7 @@ namespace NUnit.Core
 			this.Fixture = fixture;
 			this.fixtureType = fixture.GetType();
 			this.method = method;
+			this.testFramework = TestFramework.FromType( fixtureType );
 		}
 
 		public override void Run(TestCaseResult testResult)
@@ -87,7 +89,7 @@ namespace NUnit.Core
 					if ( ex is NunitException )
 						ex = ex.InnerException;
 
-					if ( ex.GetType().FullName == "NUnit.Framework.IgnoreException" )
+					if ( testFramework.IsIgnoreException( ex ) )
 						testResult.NotRun( ex.Message );
 					else
 						RecordException( ex, testResult );
@@ -125,7 +127,7 @@ namespace NUnit.Core
 				if ( ex is NunitException )
 					ex = ex.InnerException;
 
-				if ( ex.GetType().FullName == "NUnit.Framework.IgnoreException" )
+				if ( testFramework.IsIgnoreException( ex ) )
 					testResult.NotRun( ex.Message );
 				else
 					RecordException( ex, testResult );
@@ -169,7 +171,7 @@ namespace NUnit.Core
 				if ( ex is NunitException )
 					ex = ex.InnerException;
 
-				if ( ex.GetType().FullName == "NUnit.Framework.IgnoreException" )
+				if ( testFramework.IsIgnoreException( ex ) )
 					testResult.NotRun( ex.Message );
 				else
 					ProcessException(ex, testResult);
@@ -214,7 +216,7 @@ namespace NUnit.Core
 		private string BuildMessage(Exception exception)
 		{
 			StringBuilder sb = new StringBuilder();
-			if ( exception.GetType().FullName == "NUnit.Framework.AssertionException" )
+			if ( testFramework.IsAssertException( exception ) )
 				sb.Append( exception.Message );
 			else
 				sb.AppendFormat( "{0} : {1}", exception.GetType().ToString(), exception.Message );

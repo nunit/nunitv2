@@ -8,25 +8,37 @@ namespace NUnit.Core
 	/// Summary description for TestFramework.
 	/// </summary>
 	[Serializable]
-	public class TestFramework
+	public class TestFramework : ITestFramework
 	{
 		#region FrameworkInfo struct
 
 		[Serializable]
-			private struct FrameworkInfo
+		public struct FrameworkInfo
 		{
 			public string Name;
 			public string AssemblyName;
 			public string Namespace;
+			public string AssertionType;
+			public string AssertionExceptionType;
+			public string IgnoreExceptionType;
+			public bool AllowPrivateTests;
 
 			public FrameworkInfo( 
 				string frameworkName,
 				string assemblyName, 
-				string ns )
+				string ns,
+				string assertionType,
+				string assertionExceptionType,
+				string ignoreExceptionType,
+				bool allowPrivateTests )
 			{
 				this.Name = frameworkName;
 				this.AssemblyName = assemblyName;
 				this.Namespace = ns;
+				this.AssertionType = ns + "." + assertionType;
+				this.AssertionExceptionType = ns + "." + assertionExceptionType;
+				this.IgnoreExceptionType = ns + "." + ignoreExceptionType;
+				this.AllowPrivateTests = allowPrivateTests;
 			}
 		}
 
@@ -64,6 +76,11 @@ namespace NUnit.Core
 		/// </summary>
 		private AssemblyName refAssembly;
 
+		/// <summary>
+		/// The type that implements asserts in this framework
+		/// </summary>
+		private Type assertionType;
+
 		#endregion
 
 		#region Construction
@@ -71,11 +88,20 @@ namespace NUnit.Core
 		static TestFramework()
 		{
 			testFrameworks = new ArrayList();
-			testFrameworks.Add( new FrameworkInfo( "NUnit", "nunit.framework", "NUnit.Framework" ) );
-			testFrameworks.Add( new FrameworkInfo( "csUnit", "csUnit", "csUnit" ) );
-			testFrameworks.Add( new FrameworkInfo( "Microsoft Team System",
+			testFrameworks.Add( new FrameworkInfo( 
+				"NUnit", "nunit.framework", "NUnit.Framework", 
+				"Assert", "AssertionException", "IgnoreException",
+				false ) );
+			testFrameworks.Add( new FrameworkInfo( 
+				"csUnit", "csUnit", "csUnit", 
+				"Assert", "AssertionException", null,
+				false ) );
+			testFrameworks.Add( new FrameworkInfo( 
+				"Microsoft Team System",
 				"Microsoft.VisualStudio.QualityTools.UnitTestFramework",
-				"Microsoft.VisualStudio.QualityTools.UnitTesting.Framework" ) );
+				"Microsoft.VisualStudio.QualityTools.UnitTesting.Framework",
+				"Assert", "AssertionException", null,
+				true) );
 		}
 
 		private TestFramework( Assembly frameworkAssembly, FrameworkInfo frameworkInfo, AssemblyName refAssembly )
@@ -83,11 +109,17 @@ namespace NUnit.Core
 			this.frameworkAssembly = frameworkAssembly;
 			this.frameworkInfo = frameworkInfo;
 			this.refAssembly = refAssembly;
+			this.assertionType = frameworkAssembly.GetType( frameworkInfo.AssertionType, false, false );
 		}
 
 		#endregion
 
 		#region Static Methods
+
+		public static void Add( FrameworkInfo info )
+		{
+			testFrameworks.Add( info );
+		}
 
 		public static IList GetLoadedFrameworks()
 		{
@@ -108,22 +140,22 @@ namespace NUnit.Core
 			return loadedAssemblies;
 		}
 
-		public static TestFramework FromFixture( object fixture )
+		public static ITestFramework FromFixture( object fixture )
 		{
 			return FromType( fixture.GetType() );
 		}
 
-		public static TestFramework FromType( Type type )
+		public static ITestFramework FromType( Type type )
 		{
 			return FromAssembly( type.Assembly );
 		}
 
-		public static TestFramework FromMethod( MethodBase method )
+		public static ITestFramework FromMethod( MethodBase method )
 		{
 			return FromType( method.DeclaringType );
 		}
 
-		public static TestFramework FromAssembly( Assembly assembly )
+		public static ITestFramework FromAssembly( Assembly assembly )
 		{
 			TestFramework framework = (TestFramework)frameworkByAssembly[assembly];
 
@@ -135,7 +167,7 @@ namespace NUnit.Core
 					{
 						if ( refAssembly.Name == frameworkInfo.AssemblyName )
 						{
-							Assembly frameworkAssembly = Assembly.Load( refAssembly.Name );
+							Assembly frameworkAssembly = Assembly.Load( refAssembly );
 							framework = new TestFramework( 
 								frameworkAssembly, frameworkInfo, refAssembly );
 							frameworkByAssembly[assembly] = framework;
@@ -182,6 +214,68 @@ namespace NUnit.Core
 			get { return refAssembly; }
 		}
 
+//		public string TestFixtureType
+//		{
+//			get { return frameworkInfo.TestFixtureType; }
+//		}
+
+		#endregion
+
+		#region Instance Methods
+
+		public IList GetCandidateFixtureTypes( Assembly assembly )
+		{
+			if ( this.frameworkInfo.AllowPrivateTests )
+				return assembly.GetTypes();
+			else
+				return assembly.GetExportedTypes();
+		}
+
+		public IList GetCandidateTestMethods( Type fixtureType )
+		{
+			if ( this.frameworkInfo.AllowPrivateTests )
+				return fixtureType.GetMethods( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+			else
+				return fixtureType.GetMethods( BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static );
+		}
+
+		public int GetAssertCount()
+		{
+			int count = 0;
+
+			if ( assertionType != null )
+			{
+				PropertyInfo property = Reflect.GetNamedProperty( 
+					assertionType, 
+					"Counter", 
+					BindingFlags.Public | BindingFlags.Instance );
+				if ( property != null )
+					count = (int)property.GetValue( null, new object[0] );
+			}
+
+			return count;
+		}
+
+		public bool IsAssertException( Exception ex )
+		{
+			return ex.GetType().FullName == frameworkInfo.AssertionExceptionType;
+		}
+
+		public bool IsIgnoreException( Exception ex )
+		{
+			return ex.GetType().FullName == frameworkInfo.IgnoreExceptionType;
+		}
+
 		#endregion
 	}
+
+	public interface ITestFramework
+	{
+		IList GetCandidateFixtureTypes( Assembly assembly );
+		IList GetCandidateTestMethods( Type fixtureType );
+		int GetAssertCount();
+		bool IsAssertException( Exception ex );
+		bool IsIgnoreException( Exception ex );
+	}
+
 }

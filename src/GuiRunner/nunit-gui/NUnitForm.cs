@@ -1359,15 +1359,9 @@ namespace NUnit.Gui
 
 		private void frameworkInfoMenuItem_Click(object sender, System.EventArgs e)
 		{
-			IList frameworks = TestFramework.GetLoadedFrameworks();
-
-			StringBuilder sb = new StringBuilder( "Frameworks loaded by the GUI -\r\n\r\n" );
-			foreach( AssemblyName assemblyName in frameworks )
-				sb.AppendFormat( "  {0}\r\n", assemblyName.ToString() );
-
-			sb.Append( "\r\nFrameworks loaded in the test domain -\r\n\r\n" );
-			frameworks = TestLoader.TestFrameworks;
-			foreach( AssemblyName assemblyName in frameworks )
+			StringBuilder sb = new StringBuilder(
+				"The following test frameworks have been loaded -\r\n\r\n" );
+			foreach( AssemblyName assemblyName in TestLoader.TestFrameworks )
 				sb.AppendFormat( "  {0}\r\n", assemblyName.ToString() );
 	
 			MessageBox.Show( this, sb.ToString(), "Framework Info", MessageBoxButtons.OK, MessageBoxIcon.Information );

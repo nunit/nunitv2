@@ -45,17 +45,7 @@ namespace NUnit.Core.Tests
 	{
 		private string testsDll = "mock-assembly.dll";
 		private string nonamespaceDLL = "nonamespace-assembly.dll";
-		private Assembly testAssembly;
-		private Type assemblyTestType;
 		
-		[SetUp]
-		public void SetUp() 
-		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			testAssembly = builder.Load(testsDll);
-			assemblyTestType = testAssembly.GetType("NUnit.Tests.OneTestCase");
-		}
-
 		[Test]
 		public void LoadTestFixtureFromAssembly()
 		{

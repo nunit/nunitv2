@@ -36,6 +36,8 @@ namespace NUnit.Core
 		{
 			try
 			{
+				this.testFramework = TestFramework.FromType( fixtureType );
+
 				if ( Reflect.GetConstructor( fixtureType ) == null )
 					throw new InvalidTestFixtureException(fixtureType.FullName + " does not have a valid constructor");
 			
@@ -178,7 +180,8 @@ namespace NUnit.Core
 			}
 			finally
 			{
-				suiteResult.AssertCount = NUnit.Framework.Assert.GetAssertCount( true );
+				if ( testFramework != null )
+					suiteResult.AssertCount = testFramework.GetAssertCount();
 			}
 		}
 
@@ -206,7 +209,8 @@ namespace NUnit.Core
 				}
 				finally
 				{
-					suiteResult.AssertCount += NUnit.Framework.Assert.GetAssertCount( true );
+					if ( testFramework != null )
+						suiteResult.AssertCount += testFramework.GetAssertCount();
 				}
 			}
 

@@ -93,8 +93,6 @@ namespace NUnit.Core
 
 		private EventListener listener; // Temp
 
-		private TestFramework testFramework;
-
 		private IFilter filter;
 
 		private bool displayTestLabels;
@@ -188,7 +186,6 @@ namespace NUnit.Core
 			this.assemblies = new string[] { assemblyName };
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			this.suite = builder.Build( assemblyName );
-			this.testFramework = builder.Framework;
 			return suite;
 		}
 
@@ -200,7 +197,6 @@ namespace NUnit.Core
 			this.assemblies = new string[] { assemblyName };
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			this.suite = builder.Build( assemblyName, testName );
-			this.testFramework = builder.Framework;
 			return suite;
 		}
 
@@ -212,7 +208,6 @@ namespace NUnit.Core
 			this.assemblies = (string[])assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			this.suite = builder.Build( projectName, assemblies );
-			this.testFramework = builder.Framework;
 			return suite;
 		}
 
@@ -221,14 +216,12 @@ namespace NUnit.Core
 			this.assemblies = (string[])assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			this.suite = builder.Build( assemblies, testName );
-			this.testFramework = builder.Framework;
 			return suite;
 		}
 
 		public void Unload()
 		{
 			this.suite = null; // All for now
-			this.testFramework = null;
 		}
 
 		#endregion

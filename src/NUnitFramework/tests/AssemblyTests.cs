@@ -48,6 +48,8 @@ namespace NUnit.Core.Tests
 			thisDll = this.GetType().Module.Name;
 		}
 
+		// TODO: Review and remove unnecessary tests
+
 		[Test]
 		public void RunSetsCurrentDirectory()
 		{
@@ -58,8 +60,9 @@ namespace NUnit.Core.Tests
 		public void LoadAssembly()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			Assembly testAssembly = builder.Load(thisDll);
-			Assert.IsNotNull(testAssembly, "should be able to load assembly");
+			TestSuite suite = builder.Build( thisDll );
+			Assert.IsNotNull( suite );
+			//Assert.IsNotNull(testAssembly, "should be able to load assembly");
 			Assert.IsTrue( File.Exists( thisDll ), "Load does not set current Directory" );
 		}
 
@@ -68,7 +71,7 @@ namespace NUnit.Core.Tests
 		public void LoadAssemblyNotFound()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			Assembly assembly = builder.Load("XXXX");
+			TestSuite suite = builder.Build("XXXX");
 		}
 
 		[Test]

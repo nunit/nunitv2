@@ -82,7 +82,7 @@ namespace NUnit.Core
 					testResult.Success();
 				}
 			}
-			else if (exception is Framework.AssertionException)
+			else if ( testFramework.IsAssertException( exception ) )
 			{
 				RecordException(exception,testResult);
 			}
