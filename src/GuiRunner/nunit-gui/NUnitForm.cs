@@ -71,7 +71,6 @@ namespace NUnit.Gui
 		public System.Windows.Forms.StatusBarPanel time;
 		public System.Windows.Forms.OpenFileDialog openFileDialog;
 		public System.Windows.Forms.ContextMenu treeViewMenu;
-		public System.Windows.Forms.MenuItem runMenuItem;
 		public System.Windows.Forms.ImageList treeImages;
 		public NUnit.Util.TestSuiteTreeView testSuiteTreeView;
 		public System.Windows.Forms.TabControl resultTabs;
@@ -142,15 +141,15 @@ namespace NUnit.Gui
 
 			actions = new UIActions(stdOutWriter, stdErrWriter);
 
-			actions.TestStartedEvent += new UIActions.TestStartedHandler(OnTestStarted);
-			actions.TestFinishedEvent += new UIActions.TestFinishedHandler(OnTestFinished);
-			actions.SuiteFinishedEvent += new UIActions.SuiteFinishedHandler(OnSuiteFinished);
-			actions.RunStartingEvent += new UIActions.RunStartingHandler(OnRunStarting);
-			actions.RunFinishedEvent += new UIActions.RunFinishedHandler(OnRunFinished);
-			actions.SuiteLoadedEvent += new UIActions.SuiteLoadedHandler(OnSuiteLoaded);
-			actions.SuiteUnloadedEvent += new UIActions.SuiteUnloadedHandler(OnSuiteUnloaded);
-			actions.SuiteChangedEvent += new UIActions.SuiteChangedHandler(OnSuiteChanged);
-			actions.AssemblyLoadFailureEvent += new UIActions.AssemblyLoadFailureHandler(OnAssemblyLoadFailure);
+			actions.TestStartedEvent += new UIActions.TestStartedHandler( OnTestStarted );
+			actions.TestFinishedEvent += new UIActions.TestFinishedHandler( OnTestFinished );
+			actions.SuiteFinishedEvent += new UIActions.SuiteFinishedHandler( OnSuiteFinished );
+			actions.RunStartingEvent += new UIActions.RunStartingHandler( OnRunStarting );
+			actions.RunFinishedEvent += new UIActions.RunFinishedHandler( OnRunFinished );
+			actions.SuiteLoadedEvent += new UIActions.SuiteLoadedHandler( OnSuiteLoaded );
+			actions.SuiteUnloadedEvent += new UIActions.SuiteUnloadedHandler( OnSuiteUnloaded );
+			actions.SuiteChangedEvent += new UIActions.SuiteChangedHandler( OnSuiteChanged );
+			actions.AssemblyLoadFailureEvent += new UIActions.AssemblyLoadFailureHandler( OnAssemblyLoadFailure );
 
 			if (assemblyFileName == null)
 				assemblyFileName = recentAssemblies.RecentAssembly;
@@ -206,7 +205,6 @@ namespace NUnit.Gui
 			this.aboutMenuItem = new System.Windows.Forms.MenuItem();
 			this.testSuiteTreeView = new NUnit.Util.TestSuiteTreeView();
 			this.treeViewMenu = new System.Windows.Forms.ContextMenu();
-			this.runMenuItem = new System.Windows.Forms.MenuItem();
 			this.treeImages = new System.Windows.Forms.ImageList(this.components);
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.panel1 = new System.Windows.Forms.Panel();
@@ -377,14 +375,7 @@ namespace NUnit.Gui
 			// 
 			// treeViewMenu
 			// 
-			this.treeViewMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																						 this.runMenuItem});
-			// 
-			// runMenuItem
-			// 
-			this.runMenuItem.Index = 0;
-			this.runMenuItem.Text = "&Run";
-			this.runMenuItem.Click += new System.EventHandler(this.runMenuItem_Click);
+			this.treeViewMenu.Popup += new System.EventHandler(this.treeViewMenu_Popup);
 			// 
 			// treeImages
 			// 
@@ -698,6 +689,8 @@ namespace NUnit.Gui
 
 		#region Handlers for UI Events
 
+		#region Main Menu Handlers
+
 		/// <summary>
 		/// When File menu is about to display, enable/disable Close
 		/// </summary>
@@ -754,12 +747,70 @@ namespace NUnit.Gui
 			aboutBox.Show();
 		}
 
+		#endregion
+
+		#region TreeView Context Menu Handlers
+
+		/// <summary>
+		/// Build treeview context menu dynamically on popup
+		/// </summary>
+		private void treeViewMenu_Popup(object sender, System.EventArgs e)
+		{
+			treeViewMenu.MenuItems.Clear();
+			TestNode contextNode = testSuiteTreeView.ContextNode;
+
+			MenuItem runMenuItem = new MenuItem( "&Run", new EventHandler( runMenuItem_Click ) );
+			runMenuItem.DefaultItem = runMenuItem.Enabled = runCommandEnabled;
+			
+			treeViewMenu.MenuItems.Add( runMenuItem );
+
+			if ( contextNode.Nodes.Count > 0 )
+			{
+				if ( contextNode.IsExpanded )
+				{
+					MenuItem collapseMenuItem = new MenuItem( 
+						"&Collapse", new EventHandler( collapseMenuItem_Click ) );
+					collapseMenuItem.DefaultItem = !runCommandEnabled;
+
+					treeViewMenu.MenuItems.Add( collapseMenuItem );
+				}
+				else
+				{
+					MenuItem expandMenuItem = new MenuItem(
+						"&Expand", new EventHandler( expandMenuItem_Click ) );
+					expandMenuItem.DefaultItem = !runCommandEnabled;
+					treeViewMenu.MenuItems.Add( expandMenuItem );
+				}
+			}
+
+			treeViewMenu.MenuItems.Add( new MenuItem( "-" ) );
+
+			treeViewMenu.MenuItems.Add( new MenuItem( contextNode.Test.GetType().ToString() ) );
+		}
+
+		/// <summary>
 		/// <summary>
 		/// When the Run Button is clicked, run the selected test.
 		/// </summary>
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
 			actions.RunTestSuite( SelectedSuite );
+		}
+
+		/// <summary>
+		/// When Expand context menu item is clicked, expand the node
+		/// </summary>
+		private void expandMenuItem_Click(object sender, System.EventArgs e)
+		{
+			testSuiteTreeView.ContextNode.Expand();
+		}
+
+		/// <summary>
+		/// When Collapse context menu item is clicked, collapse the node
+		/// </summary>
+		private void collapseMenuItem_Click(object sender, System.EventArgs e)
+		{
+			testSuiteTreeView.ContextNode.Collapse();
 		}
 
 		/// <summary>
@@ -770,6 +821,10 @@ namespace NUnit.Gui
 		{
 			actions.RunTestSuite( ContextSuite );
 		}
+
+		#endregion
+
+		#region TreeView Event Handlers
 
 		/// <summary>
 		/// When a TestCase leaf node is double-clicked, run it.
@@ -796,6 +851,33 @@ namespace NUnit.Gui
 			// TODO: Do we really want to do this?
 			InitializeStatusBar( node.Test.CountTestCases );
 		}
+
+		/// <summary>
+		/// When a file is dragged into the tree view, check to see if
+		/// it's one we can handle and display appropriate effect.
+		/// </summary>
+		private void testSuiteTreeView_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
+		{
+
+			if ( IsValidFileDrop( e.Data ) )
+				e.Effect = DragDropEffects.Copy;
+			else
+				e.Effect = DragDropEffects.None;
+		}
+
+		/// <summary>
+		/// When an assembly file is dropped on treeview, load it.
+		/// </summary>
+		private void testSuiteTreeView_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+		{
+			if ( IsValidFileDrop( e.Data ) )
+			{
+				string[] fileNames = e.Data.GetData( DataFormats.FileDrop ) as string[];
+					LoadAssembly( fileNames[0] );
+			}
+		}
+
+		#endregion
 
 		/// <summary>
 		/// When one of the detail failure items is selected, display
@@ -850,31 +932,6 @@ namespace NUnit.Gui
 		{
 			this.Location = UserSettings.Form.Location;
 			this.Size = UserSettings.Form.Size;
-		}
-
-		/// <summary>
-		/// When a file is dragged into the tree view, check to see if
-		/// it's one we can handle and display appropriate effect.
-		/// </summary>
-		private void testSuiteTreeView_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
-		{
-
-			if ( IsValidFileDrop( e.Data ) )
-				e.Effect = DragDropEffects.Copy;
-			else
-				e.Effect = DragDropEffects.None;
-		}
-
-		/// <summary>
-		/// When an assembly file is dropped on treeview, load it.
-		/// </summary>
-		private void testSuiteTreeView_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
-		{
-			if ( IsValidFileDrop( e.Data ) )
-			{
-				string[] fileNames = e.Data.GetData( DataFormats.FileDrop ) as string[];
-					LoadAssembly( fileNames[0] );
-			}
 		}
 
 		#endregion
@@ -939,7 +996,7 @@ namespace NUnit.Gui
 			LoadedAssembly = assemblyFileName;
 			UpdateRecentAssemblies( assemblyFileName );
 
-			testSuiteTreeView.Load(test);
+			testSuiteTreeView.Load( test );
 
 			EnableRunCommand();
 			ClearTestResults();
@@ -1067,7 +1124,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void DisableRunCommand()
 		{
-			runButton.Enabled = runMenuItem.Enabled = runCommandEnabled = false;
+			runButton.Enabled = runCommandEnabled = false;
 		}
 			
 		/// <summary>
@@ -1075,7 +1132,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void EnableRunCommand()
 		{
-			runButton.Enabled = runMenuItem.Enabled = runCommandEnabled = true;
+			runButton.Enabled = runCommandEnabled = true;
 		}
 
 		/// <summary>

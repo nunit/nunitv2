@@ -38,6 +38,8 @@ namespace NUnit.Util
 	/// </summary>
 	public class TestSuiteTreeView : TreeView
 	{
+		#region Instance Variables
+
 		/// <summary>
 		/// Hashtable provides direct access to TestNodes
 		/// </summary>
@@ -46,9 +48,12 @@ namespace NUnit.Util
 		/// <summary>
 		/// The TestNode on which a right click was done
 		/// </summary>
-		private TestNode _contextNode;
+		private TestNode contextNode;
 
-		#region Type-Safe Versions of TreeView members
+		#endregion
+
+		#region Properties
+
 		/// <summary>
 		/// A type-safe version of SelectedNode.
 		/// </summary>
@@ -67,29 +72,6 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
-		/// A type-safe version of GetNodeAt
-		/// </summary>
-		/// <param name="x">X Position for which the node is to be returned</param>
-		/// <param name="y">Y Position for which the node is to be returned</param>
-		/// <returns></returns>
-		public new TestNode GetNodeAt(int x, int y)
-		{
-			return base.GetNodeAt(x, y) as TestNode;
-		}
-
-		/// <summary>
-		/// A type-safe version of GetNodeAt
-		/// </summary>
-		/// <param name="pt">Position for which the node is to be returned</param>
-		/// <returns></returns>
-		public new TestNode GetNodeAt(Point pt)
-		{
-			return base.GetNodeAt(pt) as TestNode;
-		}
-		#endregion
-
-		#region Additional properties
-		/// <summary>
 		/// A type-safe way to get the root node
 		/// of the tree. Presumed to be unique.
 		/// </summary>
@@ -104,7 +86,7 @@ namespace NUnit.Util
 		/// </summary>
 		public TestNode ContextNode
 		{
-			get	{ return _contextNode; }
+			get	{ return contextNode; }
 		}
 
 		public TestNode this[Test test]
@@ -142,6 +124,8 @@ namespace NUnit.Util
 		}
 		#endregion
 
+		#region Methods
+
 		/// <summary>
 		/// Handles right mouse button down by
 		/// remembering the proper context item.
@@ -153,13 +137,32 @@ namespace NUnit.Util
 			{
 				TreeNode theNode = GetNodeAt( e.X, e.Y );
 				if ( theNode != null )
-					_contextNode = theNode as TestNode;
+					contextNode = theNode as TestNode;
 			}
 
 			base.OnMouseDown( e );
 		}
 
-		#region Methods
+		/// <summary>
+		/// A type-safe version of GetNodeAt
+		/// </summary>
+		/// <param name="x">X Position for which the node is to be returned</param>
+		/// <param name="y">Y Position for which the node is to be returned</param>
+		/// <returns></returns>
+		public new TestNode GetNodeAt(int x, int y)
+		{
+			return base.GetNodeAt(x, y) as TestNode;
+		}
+
+		/// <summary>
+		/// A type-safe version of GetNodeAt
+		/// </summary>
+		/// <param name="pt">Position for which the node is to be returned</param>
+		/// <returns></returns>
+		public new TestNode GetNodeAt(Point pt)
+		{
+			return base.GetNodeAt(pt) as TestNode;
+		}
 
 		/// <summary>
 		/// Clear all the results in the tree.
@@ -173,13 +176,155 @@ namespace NUnit.Util
 		/// <summary>
 		/// Load the tree with a test hierarchy
 		/// </summary>
-		/// <param name="test">Test suite to be loaded</param>
-		public void Load(Test test)
+		/// <param name="test">Test to be loaded</param>
+		public void Load( Test test )
 		{
 			Clear();
-			Nodes.Add(BuildTreeNode(test));
+			AddTreeNodes( Nodes, test, false );
 			ExpandAll();
-			SelectedNode = RootNode;
+			SelectedNode = Nodes[0] as TestNode;
+		}
+
+		/// <summary>
+		/// Add nodes to the tree constructed from a test
+		/// </summary>
+		/// <param name="nodes">The TreeNodeCollection to which the new node should  be added</param>
+		/// <param name="rootTest">The test for which a node is to be built</param>
+		/// <param name="highlight">If true, highlight the text for this node in the tree</param>
+		/// <returns>A newly constructed TestNode, possibly with descendant nodes</returns>
+		private TestNode AddTreeNodes( IList nodes, Test rootTest, bool highlight )
+		{
+			TestNode node = new TestNode( rootTest );
+			if ( highlight ) node.ForeColor = Color.Blue;
+			treeMap.Add( node.Test.FullName, node );
+			nodes.Add( node );
+			
+			TestSuite testSuite = rootTest as TestSuite;
+			if ( testSuite != null )
+			{
+				foreach( Test test in testSuite.Tests )
+					AddTreeNodes( node.Nodes, test, highlight );
+			}
+
+			return node;
+		}
+
+		private void RemoveFromMap( TestNode node )
+		{
+			foreach( TestNode child in node.Nodes )
+				RemoveFromMap( child );
+
+			treeMap.Remove( node.Test.FullName );
+		}
+
+		/// <summary>
+		/// Remove a node from the tree itself and the hashtable
+		/// </summary>
+		/// <param name="node">Node to remove</param>
+		public void RemoveNode( TestNode node )
+		{
+			if ( contextNode == node )
+				contextNode = null;
+			RemoveFromMap( node );
+			node.Remove();
+		}
+
+		/// <summary>
+		/// Reload the tree with a changed test hierarchy
+		/// while maintaining as much gui state as possible
+		/// </summary>
+		/// <param name="test">Test suite to be loaded</param>
+		public void Reload( Test test )
+		{
+			if ( !Match( RootNode, test ) )
+				throw( new ArgumentException( "Reload called with non-matching test" ) );
+				
+			UpdateNode( RootNode, test );
+		}
+
+		/// <summary>
+		/// Helper routine that compares a node with a test
+		/// </summary>
+		/// <param name="node">Node to compare</param>
+		/// <param name="test">Test to compare</param>
+		/// <returns>True if the test has the same name</returns>
+		private bool Match( TestNode node, Test test )
+		{
+			return node.Test.FullName == test.FullName;
+		}
+
+		/// <summary>
+		/// A node has been matched with a test, so update it
+		/// and then process child nodes and tests recursively.
+		/// If a child was added or removed, then this node
+		/// will expand itself.
+		/// </summary>
+		/// <param name="node">Node to be updated</param>
+		/// <param name="test">Test to plug into node</param>
+		/// <returns>True if a child node was added or deleted</returns>
+		private bool UpdateNode( TestNode node, Test test )
+		{
+			node.UpdateTest( test );
+			
+			TestSuite suite = test as TestSuite;
+			if ( suite == null )
+				return false;
+
+			bool showChildren = UpdateNodes( node.Nodes, suite.Tests );
+
+			if ( showChildren ) node.Expand();
+
+			return showChildren;
+		}
+
+		/// <summary>
+		/// Match a set of nodes against a set of tests.
+		/// Remove nodes that are no longer represented
+		/// in the tests. Update any nodes that match.
+		/// Add new nodes for new tests.
+		/// </summary>
+		/// <param name="nodes">List of nodes to be matched</param>
+		/// <param name="tests">List of tests to be matched</param>
+		/// <returns>True if the parent should expand to show that something was added or deleted</returns>
+		private bool UpdateNodes( IList nodes, IList tests )
+		{
+			bool showChanges = false;
+
+			foreach( TestNode node in nodes )
+				if ( NodeWasDeleted( node, tests ) )
+				{
+					RemoveNode( node );
+					showChanges = true;
+				}
+
+			foreach( Test test in tests )
+			{
+				TestNode node = this[ test ];
+				if ( node == null )
+				{
+					AddTreeNodes( nodes, test, true );
+					showChanges = true;
+				}
+				else
+					UpdateNode( node, test );
+			}
+
+			return showChanges;
+		}
+
+		/// <summary>
+		/// Helper returns true if the node test is not in
+		/// the list of tests provided.
+		/// </summary>
+		/// <param name="node">Node to examine</param>
+		/// <param name="tests">List of tests to match with node</param>
+		private bool NodeWasDeleted( TestNode node, IList tests )
+		{
+			foreach ( Test test in tests )
+				if( Match( node, test ) )
+					return false;
+
+			return true;
 		}
 
 		/// <summary>
@@ -194,7 +339,7 @@ namespace NUnit.Util
 		/// <param name="test"></param>
 		public void InvokeLoadHandler( Test test )
 		{
-			Invoke( new LoadHandler( Load ), new object[]{ test } );
+			Invoke( new LoadHandler( Reload ), new object[]{ test } );
 		}
 
 		/// <summary>
@@ -204,29 +349,6 @@ namespace NUnit.Util
 		{
 			treeMap.Clear();
 			Nodes.Clear();
-		}
-
-		/// <summary>
-		/// Build a tree node from a test
-		/// </summary>
-		/// <param name="rootTest">The test for which a node is to be built</param>
-		/// <returns>A newly constructed TestNode, possibly with descendant nodes</returns>
-		private TreeNode BuildTreeNode(Test rootTest)
-		{
-			TestNode node = new TestNode(rootTest);
-			string localName = rootTest.FullName;
-			treeMap.Add(rootTest.FullName, node);
-			
-			if(rootTest is TestSuite)
-			{
-				TestSuite testSuite = (TestSuite)rootTest;
-				foreach(Test test in testSuite.Tests)
-				{
-					node.Nodes.Add(BuildTreeNode(test));
-				}
-			}
-
-			return node;
 		}
 
 		/// <summary>
@@ -254,12 +376,45 @@ namespace NUnit.Util
 		}
 
 #if CHARLIE		
-        /// <summary>
+		/// <summary>
+		/// Helper figures out if a node represents a test fixture
+		/// </summary>
+		/// <param name="node">Node to be examined</param>
+		/// <returns>True if the node represents a test fixture</returns>
+		private bool NodeIsFixture( TestNode node )
+		{
+			// Test case isn't a fixture
+			if ( node.Test is NUnit.Core.TestSuite )
+				return false;
+			
+			// Suite with no children can only be a fixture
+			if ( node.Nodes.Count == 0 )
+				return true;
+
+			// Otherwise, it depends on what kind of children it has
+			TestNode child = (TestNode)node.Nodes[0];
+			return child.Test is NUnit.Core.TestCase;
+		}
+
+		/// <summary>
         /// Collapse all fixtures in the tree
         /// </summary>
 		public void CollapseFixtures()
 		{
-			ExpandFixtures( RootNode, false );
+			CollapseFixtures( RootNode );
+		}
+
+		/// <summary>
+		/// Helper collapses all fixtures under a node
+		/// </summary>
+		/// <param name="node">Node under which to collapse fixtures</param>
+		private void CollapseFixtures( TestNode node )
+		{
+			if ( NodeIsFixture( node ) )
+				node.Collapse();
+			else 
+				foreach( TestNode child in node.Nodes )
+					CollapseFixtures( child );		
 		}
 
 		/// <summary>
@@ -267,39 +422,20 @@ namespace NUnit.Util
 		/// </summary>
 		public void ExpandFixtures()
 		{
-			ExpandFixtures( RootNode, true );
+			ExpandFixtures( RootNode );
 		}
 
 		/// <summary>
-		/// Helper routine that expands/collapses fixture nodes
+		/// Helper expands all fixtures under a node
 		/// </summary>
-		/// <param name="node">The node to operatet on recursively</param>
-		/// <param name="expanding">True if expanding, false if collapsing</param>
-		/// <returns></returns>
-		private bool ExpandFixtures( TestNode node, bool expanding )
+		/// <param name="node">Node under which to expand fixtures</param>
+		private void ExpandFixtures( TestNode node )
 		{
-			if ( node.Test is TestSuite )
-			{
-				bool foundChildSuite = false;
-
+			if ( NodeIsFixture( node ) )
+				node.Expand();
+			else 
 				foreach( TestNode child in node.Nodes )
-				{
-					if ( ExpandFixtures(child, expanding) )
-						foundChildSuite = true;
-				}
-
-				if (!foundChildSuite)
-				{
-					if ( expanding )
-						node.Expand();
-					else
-						node.Collapse();
-				}
-
-				return true;
-			}
-
-			return false;
+					ExpandFixtures( child );		
 		}
 #endif
         #endregion

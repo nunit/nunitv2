@@ -84,13 +84,28 @@ namespace NUnit.Tests
 		}
 
 		[Test]
-		[ExpectedException( typeof(ArgumentException ))]
-		public void SetResultForWrongTest()
+		public void UpdateTest()
 		{
 			TestNode node = new TestNode( (Test) testSuite );
-			TestSuite suite2 = new TestSuite( "suite2" );
-			TestSuiteResult result = new TestSuiteResult( suite2, "xxxxx" );
-			node.SetResult( result );
+			TestSuite suite2 = new TestSuite( "MyTestSuite" );
+			Test savedTest = node.Test;
+
+			node.UpdateTest( suite2 );
+			Assertion.AssertEquals( "MyTestSuite", node.Test.FullName );
+			Assertion.AssertEquals( 0, node.Test.CountTestCases );
+
+			node.UpdateTest( savedTest );
+			Assertion.AssertEquals( "MyTestSuite", node.Test.FullName );
+			Assertion.AssertEquals( 5, node.Test.CountTestCases );
+		}
+
+		[Test]
+		[ExpectedException( typeof(ArgumentException) )]
+		public void UpdateUsingWrongTest()
+		{
+			TestNode node = new TestNode( (Test) testSuite );
+			TestSuite suite2 = new TestSuite( "NotMyTestSuite" );
+			node.UpdateTest( suite2 );
 		}
 
 		[Test]
@@ -112,6 +127,16 @@ namespace NUnit.Tests
 			node.SetResult( result );
 			Assertion.AssertEquals( TestNode.FailureIndex, node.ImageIndex );
 			Assertion.AssertEquals( TestNode.FailureIndex, node.SelectedImageIndex );
+		}
+
+		[Test]
+		[ExpectedException( typeof(ArgumentException ))]
+		public void SetResultForWrongTest()
+		{
+			TestNode node = new TestNode( (Test) testSuite );
+			TestSuite suite2 = new TestSuite( "suite2" );
+			TestSuiteResult result = new TestSuiteResult( suite2, "xxxxx" );
+			node.SetResult( result );
 		}
 
 		[Test]

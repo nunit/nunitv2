@@ -32,9 +32,19 @@ namespace NUnit.Util
 	{
 		#region Instance variables and constant definitions
 
+		/// <summary>
+		/// The testcase or testsuite represented by this node
+		/// </summary>
 		private Test theTest;
+
+		/// <summary>
+		/// The result from the last run of the test
+		/// </summary>
 		private TestResult theResult;
 
+		/// <summary>
+		/// Image indices for various test states
+		/// </summary>
 		private static int INIT = 0;
 		private static int SUCCESS = 2;
 		private static int FAILURE = 1;
@@ -44,12 +54,18 @@ namespace NUnit.Util
 
 		#region Constructors
 
+		/// <summary>
+		/// Construct a TestNode given a test
+		/// </summary>
 		public TestNode(Test test) : base(test.Name)
 		{
 			theTest = test;
 			ImageIndex = SelectedImageIndex = CalcImageIndex();
 		}
 
+		/// <summary>
+		/// Construct a TestNode given a TestResult
+		/// </summary>
 		public TestNode(TestResult result) : base( result.Test.Name )
 		{
 			theTest = result.Test;
@@ -60,39 +76,72 @@ namespace NUnit.Util
 		#endregion
 
 		#region Properties
+		
+		/// <summary>
+		/// Test represented by this node
+		/// </summary>
 		public Test Test
 		{
 			get { return theTest; }
 		}
 
+		/// <summary>
+		/// Test result for this node
+		/// </summary>
 		public TestResult Result
 		{
 			get { return theResult; }
 		}
 
+		/// <summary>
+		/// Image index for a test that has not been run
+		/// </summary>
 		public static int InitIndex
 		{
 			get { return INIT; }
 		}
 
+		/// <summary>
+		/// Image index for a test that succeeded
+		/// </summary>
 		public static int SuccessIndex
 		{
 			get { return SUCCESS; }
 		}
 
+		/// <summary>
+		/// Image index for a test that failed
+		/// </summary>
 		public static int FailureIndex
 		{
 			get { return FAILURE; }
 		}
 
+		/// <summary>
+		/// Image index for a test that was not run
+		/// </summary>
 		public static int NotRunIndex
 		{
 			get { return NOT_RUN; }
 		}
+		
 		#endregion
 
 		#region Methods
 
+		public void UpdateTest( Test test )
+		{
+			if ( Test.FullName != test.FullName )
+				throw( new ArgumentException( "Attempting to update node with an entirely different test" ) );
+
+			theTest = test;
+		}
+
+		/// <summary>
+		/// Set the result field of this node, throwing if the
+		/// result does not match the test we already hold.
+		/// </summary>
+		/// <param name="result">Result of the test</param>
 		public void SetResult( TestResult result )
 		{
 			if ( result.Test.FullName != theTest.FullName )
@@ -101,12 +150,18 @@ namespace NUnit.Util
 			ImageIndex = SelectedImageIndex = CalcImageIndex();
 		}
 
+		/// <summary>
+		/// Clear the result field of this node
+		/// </summary>
 		public void ClearResult()
 		{
 			theResult = null;
 			ImageIndex = SelectedImageIndex = INIT;
 		}
 
+		/// <summary>
+		/// Clear the result of this node and all its children
+		/// </summary>
 		public void ClearResults()
 		{
 			ClearResult();
@@ -115,6 +170,10 @@ namespace NUnit.Util
 				node.ClearResults();
 		}
 
+		/// <summary>
+		/// Calculate the image index based on the node contents
+		/// </summary>
+		/// <returns>Image index for this node</returns>
 		private int CalcImageIndex()
 		{
 			if ( theResult == null )
