@@ -99,7 +99,7 @@ namespace NUnit.Framework
 				case TestPlatform.Win32NT:
 					return os.Platform == PlatformID.Win32NT;
 				case TestPlatform.WinCE:
-					return os.Platform == PlatformID.WinCE;
+					return (int)os.Platform == 3;  // Not defined in .NET 1.0
 				case TestPlatform.Win95:
 					return os.Platform == PlatformID.Win32Windows && os.Version.Major == 4 && os.Version.Minor == 0;
 				case TestPlatform.Win98: 
@@ -119,7 +119,7 @@ namespace NUnit.Framework
 				case TestPlatform.Win2003Server:
 					return os.Platform == PlatformID.Win32NT && os.Version.Major == 5 && os.Version.Minor == 2;
 				case TestPlatform.Unix:
-					return (int)os.Platform == 128;
+					return (int)os.Platform == 128;  // Not defined in .NET 1.0 or 1.1
 				case TestPlatform.Net:
 					return rt.Runtime == RuntimeType.Net;
 				case TestPlatform.Net10:
