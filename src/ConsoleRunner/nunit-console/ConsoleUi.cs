@@ -54,6 +54,7 @@ namespace NUnit.Console
 		private XmlTextReader transformReader;
 		private bool silent;
 		private string xmlOutput;
+		private ConsoleOptions options;
 
 		[STAThread]
 		public static int Main(string[] args)
@@ -103,7 +104,7 @@ namespace NUnit.Console
 						XmlTextReader reader = GetTransformReader(parser);
 						if(reader != null)
 						{
-							ConsoleUi consoleUi = new ConsoleUi(domain, reader, parser.xmlConsole);
+							ConsoleUi consoleUi = new ConsoleUi(domain, reader, parser);
 							returnCode = consoleUi.Execute();
 
 							if (parser.xmlConsole)
@@ -223,11 +224,12 @@ namespace NUnit.Console
 			return fileInfo.Exists;
 		}
 
-		public ConsoleUi(TestDomain testDomain, XmlTextReader reader, bool silent)
+		public ConsoleUi(TestDomain testDomain, XmlTextReader reader, ConsoleOptions options)
 		{
 			this.testDomain = testDomain;
 			transformReader = reader;
-			this.silent = silent;
+			this.options = options;
+			this.silent = options.xmlConsole;
 		}
 
 		public string XmlOutput
@@ -237,14 +239,16 @@ namespace NUnit.Console
 
 		public int Execute()
 		{
-			EventListener collector = null;
-			if (silent)
-				collector = new NullListener();
-			else
-				collector = new EventCollector();
-			ConsoleWriter outStream = new ConsoleWriter(Console.Out);
-			ConsoleWriter errorStream = new ConsoleWriter(Console.Error);
+			ConsoleWriter outStream = options.isOut
+				? new ConsoleWriter( new StreamWriter( options.output ) )
+				: new ConsoleWriter(Console.Out);
+
+			ConsoleWriter errorStream = options .isErr
+				? new ConsoleWriter( new StreamWriter( options.err ) )
+				: new ConsoleWriter(Console.Error);
 			
+			EventListener collector = new EventCollector( options, outStream );
+
 			string savedDirectory = Environment.CurrentDirectory;
 			TestResult result = testDomain.Runner.Run(collector, outStream, errorStream);
 			Directory.SetCurrentDirectory( savedDirectory );
@@ -282,39 +286,52 @@ namespace NUnit.Console
 			private int testIgnoreCount;
 			private int failureCount;
 			private int level;
+
+			private ConsoleOptions options;
+			private ConsoleWriter writer;
+
 			StringCollection messages;
 		
 			private bool debugger = false;
 
-			public EventCollector()
+			public EventCollector( ConsoleOptions options, ConsoleWriter writer )
 			{
 				debugger = Debugger.IsAttached;
 				level = 0;
+				this.options = options;
+				this.writer = writer;
 			}
 
 			public void TestFinished(TestCaseResult testResult)
 			{
-				if(testResult.Executed)
+				if ( !options.xmlConsole )
 				{
-					testRunCount++;
-					if(testResult.IsFailure)
-					{	
-						failureCount++;
-						Console.Write("F");
-						if ( debugger )
-							messages.Add( ParseTestCaseResult( testResult ) );
+					if(testResult.Executed)
+					{
+						testRunCount++;
+						if(testResult.IsFailure)
+						{	
+							failureCount++;
+							Console.Write("F");
+							if ( debugger )
+								messages.Add( ParseTestCaseResult( testResult ) );
+						}
 					}
-				}
-				else
-				{
-					testIgnoreCount++;
-					Console.Write("N");
+					else
+					{
+						testIgnoreCount++;
+						Console.Write("N");
+					}
 				}
 			}
 
 			public void TestStarted(TestCase testCase)
 			{
-				Console.Write(".");
+				if ( !options.xmlConsole )
+					Console.Write(".");
+
+				if ( options.labels )
+					writer.WriteLine("*** TestCase: {0} ***", testCase.FullName );
 			}
 
 			public void SuiteStarted(TestSuite suite) 

@@ -34,7 +34,7 @@ namespace NUnit.Util
 	using System.Text;
 
 	/// <summary>
-	/// Summary description for ConsoleWriter.
+	/// Class used for receiving console output from the running test and displaying it.
 	/// </summary>
 	public class ConsoleWriter : TextWriter
 	{
