@@ -206,19 +206,19 @@ namespace NUnit.Console
 
 			string savedDirectory = Environment.CurrentDirectory;
 			TestResult result = null;
-			if (options.IsCategories) 
+			if (options.HasInclude)
 			{
-				CategoryFilter filter = new CategoryFilter();
-				foreach (string category in options.CategoryArray)
-				{
-					filter.AddCategory(category);
-				}
-				result = testDomain.Run(collector, filter);
-			} 
-			else 
-			{
-				result = testDomain.Run( collector );
+				Console.WriteLine( "Included categories: " + options.include );
+				testDomain.SetFilter( new CategoryFilter( options.IncludedCategories ) );
 			}
+			else if ( options.HasExclude )
+			{
+				Console.WriteLine( "Excluded categories: " + options.exclude );
+				testDomain.SetFilter( new CategoryFilter( options.ExcludedCategories, true ) );
+			}
+
+			result = testDomain.Run( collector );
+
 			Directory.SetCurrentDirectory( savedDirectory );
 			
 			Console.WriteLine();
