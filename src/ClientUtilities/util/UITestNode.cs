@@ -34,11 +34,11 @@ namespace NUnit.Util
 	using NUnit.Core;
 
 	/// <summary>
-	/// TestInfo holds common info needed about a test
-	/// locally, avoiding the need to worry about 
-	/// cross-domain references
+	/// UITestNode holds common info needed about a test
+	/// in the UI, avoiding the remoting issues associated
+	/// with holding an actual Test object.
 	/// </summary>
-	public class TestInfo
+	public class UITestNode : TestInfo
 	{
 		#region Instance Variables
 
@@ -93,9 +93,9 @@ namespace NUnit.Util
 		/// Construct from a test and, for a suite, optionally
 		/// populate the array of child tests.
 		/// </summary>
-		/// <param name="test">Test for which a TestInfo is to be constructed</param>
+		/// <param name="test">TestInfo interface from which a UITestNode is to be constructed</param>
 		/// <param name="populate">True if child array is to be populated</param>
-		public TestInfo ( Test test, bool populate )
+		public UITestNode ( TestInfo test, bool populate )
 		{
 			fullName = test.FullName;
 			testName = test.Name;
@@ -123,21 +123,21 @@ namespace NUnit.Util
 		/// Default construction uses lazy population approach
 		/// </summary>
 		/// <param name="test"></param>
-		public TestInfo ( Test test ) : this( test, false ) { }
+		public UITestNode ( TestInfo test ) : this( test, false ) { }
 
 		/// <summary>
 		/// Populate the arraylist of child Tests recursively.
 		/// If already populated, it has no effect.
 		/// </summary>
-		public void PopulateTests( )
+		public void PopulateTests()
 		{
 			if ( !Populated )
 			{
 				foreach( Test test in testSuite.Tests )
 				{
-					TestInfo info = new TestInfo( test, true );
-					tests.Add( info );
-					testCaseCount += info.CountTestCases;
+					UITestNode node = new UITestNode( test, true );
+					tests.Add( node );
+					testCaseCount += node.CountTestCases;
 				}
 
 				testSuite = null;
@@ -149,9 +149,9 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="test"></param>
 		/// <returns></returns>
-		public static implicit operator TestInfo( Test test )
+		public static implicit operator UITestNode( Test test )
 		{
-			return new TestInfo( test );
+			return new UITestNode( test );
 		}
 
 		#endregion
@@ -164,6 +164,7 @@ namespace NUnit.Util
 		public string IgnoreReason
 		{
 			get { return ignoreReason; }
+			set { ignoreReason = value; }
 		}
 
 		/// <summary>
@@ -172,6 +173,7 @@ namespace NUnit.Util
 		public bool ShouldRun
 		{
 			get { return shouldRun; }
+			set { shouldRun = value; }
 		}
 
 		/// <summary>
@@ -267,7 +269,7 @@ namespace NUnit.Util
 				if ( Tests.Count == 0 ) return true;
 				
 				// Any suite with children is a fixture if the children are test cases
-				TestInfo firstChild = (TestInfo)Tests[0];
+				UITestNode firstChild = (UITestNode)Tests[0];
 				return !firstChild.IsSuite;
 			}
 		}
@@ -279,6 +281,11 @@ namespace NUnit.Util
 		public bool Populated
 		{
 			get { return testSuite == null; }
+		}
+
+		public TestResult Run( EventListener listener )
+		{
+			throw new InvalidOperationException( "Cannot use Run on a local copy of Test data" );
 		}
 
 		#endregion
