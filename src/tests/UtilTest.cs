@@ -78,5 +78,18 @@ namespace NUnit.Tests
 			Assertion.Assert(!UIHelper.CompareTree(treeOne,treeTwo));
 		}
 
+		[Test]
+		public void CompareIdenticalTreesWithOneIgnored()
+		{
+			TestSuite treeOne = new TestSuite("Test Suite One");
+			treeOne.ShouldRun = false;
+			treeOne.Add(oneTestFixture);
+
+			TestSuite treeTwo = new TestSuite("Test Suite One");
+			treeTwo.Add(oneTestFixture);
+
+			Assertion.Assert(!UIHelper.CompareTree(treeOne,treeTwo));
+		}
+
 	}
 }

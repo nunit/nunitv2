@@ -32,6 +32,7 @@ namespace NUnit.Util
 			if(testOne==null && testTwo!=null) return false;
 			if(testTwo==null && testOne!=null) return false;
 			if(testOne.GetType().FullName != testTwo.GetType().FullName) return false;
+			if(testOne.ShouldRun ^ testTwo.ShouldRun) return false;
 			return testOne.FullName.Equals(testTwo.FullName);
 		}
 
