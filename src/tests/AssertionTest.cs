@@ -361,7 +361,7 @@ namespace NUnit.Tests
         }
 
         [TestFixture]
-            internal class VerifyFailThrowsException
+        internal class VerifyFailThrowsException
         {
             internal string failureMessage;
 
@@ -443,5 +443,28 @@ namespace NUnit.Tests
             Assertion.AssertEquals( 35, i21  );
             Assertion.AssertEquals( 35, i22  );
         }
+
+		[Test]
+		public void SucceedAssertFail()
+		{
+			Assert.False(false);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		[Test]
+		public void FailAssertFalse() 
+		{
+			try 
+			{
+				Assert.False(true);
+			} 
+			catch (AssertionException) 
+			{
+				return;
+			}
+			Assert.Fail();
+		}
     }
 }

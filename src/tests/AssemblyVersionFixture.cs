@@ -38,10 +38,6 @@ namespace NUnit.Tests
 	using NUnit.Core;
 	using NUnit.Framework;
 
-	/// <summary>
-	/// Summary description for AssemblyVersionFixture.
-	/// </summary>
-	/// 
 	[TestFixture]
 	public class AssemblyVersionFixture
 	{
@@ -69,7 +65,7 @@ namespace NUnit.Tests
 			Assembly assembly = FindAssemblyByName(nameString);
 
 			System.Version foundVersion = assembly.GetName().Version;
-			Assertion.AssertEquals(version, foundVersion);
+			Assert.Equals(version, foundVersion);
 		}
 
 		private Assembly FindAssemblyByName(string name)

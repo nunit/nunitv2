@@ -38,10 +38,6 @@ namespace NUnit.Tests.Assemblies
 	using NUnit.Framework;
 	using NUnit.Core;
 
-	/// <summary>
-	/// Summary description for AssemblyTests.
-	/// </summary>
-	/// 
 	[TestFixture]
 	public class AssemblyTests 
 	{
@@ -60,7 +56,7 @@ namespace NUnit.Tests.Assemblies
 		[Test]
 		public void LoadAssembly()
 		{
-			Assertion.Assert("should be able to load assembly", testAssembly != null);
+			Assert.NotNull("should be able to load assembly", testAssembly);
 		}
 
 		[Test]
@@ -85,23 +81,23 @@ namespace NUnit.Tests.Assemblies
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build("NUnit.Tests.Assemblies.AssemblyTests", testsDll);
-			Assertion.Assert(suite != null);
-			Assertion.AssertEquals(suite.CountTestCases,TestCaseBuilder.CountTestCases(this));
+			Assert.NotNull(suite);
+			Assert.Equals(suite.CountTestCases,TestCaseBuilder.CountTestCases(this));
 		}
 
 		[Test]
 		public void GetNamespace()
 		{
 			string typeNamespace = this.GetType().Namespace;
-			Assertion.AssertEquals("NUnit.Tests.Assemblies", typeNamespace);
+			Assert.Equals("NUnit.Tests.Assemblies", typeNamespace);
 		}
 
 
 		[Test]
 		public void AppSettingsLoaded()
 		{
-			Assertion.AssertNull(ConfigurationSettings.AppSettings["tooltip.ShowAlways"]);
-			Assertion.AssertNotNull("test.setting should not be null", ConfigurationSettings.AppSettings["test.setting"]);
+			Assert.Null(ConfigurationSettings.AppSettings["tooltip.ShowAlways"]);
+			Assert.NotNull("test.setting should not be null", ConfigurationSettings.AppSettings["test.setting"]);
 		}
 	}
 }
