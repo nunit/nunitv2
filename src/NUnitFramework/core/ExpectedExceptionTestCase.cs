@@ -30,12 +30,8 @@
 namespace NUnit.Core
 {
 	using System;
-	using System.Diagnostics;
 	using System.Reflection;
 
-	/// <summary>
-	/// Summary description for ExpectedExceptionTestCase.
-	/// </summary>
 	public class ExpectedExceptionTestCase : TemplateTestCase
 	{
 		private Type expectedException;

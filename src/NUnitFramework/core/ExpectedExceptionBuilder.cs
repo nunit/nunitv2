@@ -7,19 +7,9 @@ namespace NUnit.Core
 	{
 		#region ITestBuilder Members
 
-		public TestCase Make(Type fixtureType, MethodInfo method)
-		{
-			return new ExpectedExceptionTestCase( fixtureType, method );
-		}
-
-		public TestCase Make(object fixture, MethodInfo method)
-		{
-			return new ExpectedExceptionTestCase( fixture, method );
-		}
-
 		public TestCase Make (Type fixtureType, MethodInfo method, object attribute)
 		{
-			return Make(fixtureType, method);
+			return new ExpectedExceptionTestCase( fixtureType, method );
 		}
 
 		#endregion

@@ -39,7 +39,7 @@ namespace NUnit.Core
 	public class TestCaseBuilder
 	{
 		private static Hashtable builders;
-		private static ITestBuilder normalBuilder = new NormalBuilder();
+		private static NormalBuilder normalBuilder = new NormalBuilder();
 
 		private static void InitBuilders() 
 		{
