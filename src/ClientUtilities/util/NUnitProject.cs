@@ -501,19 +501,7 @@ namespace NUnit.Util
 			}
 			else
 			{
-				AppDomainSetup setup = new AppDomainSetup();
-
-				setup.ApplicationName = "Tests";
-				setup.ShadowCopyFiles = "true";
-				
-				setup.ApplicationBase = ActiveConfig.BasePath;
-				setup.ConfigurationFile =  ActiveConfig.ConfigurationFilePath;
-
-				string binPath = ActiveConfig.PrivateBinPath;
-				setup.ShadowCopyDirectories = binPath;
-				setup.PrivateBinPath = binPath;
-
-				return testDomain.LoadAssemblies( setup, ProjectPath, ActiveConfig.TestAssemblies, testFixture );
+				return testDomain.LoadAssemblies( ProjectPath, ActiveConfig.BasePath, ActiveConfig.ConfigurationFilePath, ActiveConfig.PrivateBinPath, ActiveConfig.TestAssemblies, testFixture );
 			}
 		}
 

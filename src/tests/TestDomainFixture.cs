@@ -151,7 +151,7 @@ namespace NUnit.Tests.Core
 			assemblies.Add("mock-assembly.dll");
 			assemblies.Add("nonamespace-assembly.dll");
 
-			Test test = domain.LoadAssemblies( assemblies );
+			Test test = domain.LoadAssemblies( "Multiple", assemblies );
 			Assert.IsNotNull(test, "test should not be null");
 			Assert.AreEqual(10, test.CountTestCases);
 		}

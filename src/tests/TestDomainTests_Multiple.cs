@@ -109,7 +109,7 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void LoadFixture()
 		{
-			Test suite = domain.LoadAssemblies( assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
+			Test suite = domain.LoadAssemblies( name, assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.IsNotNull( suite );
 			Assert.AreEqual( 5, suite.CountTestCases );
 		}
