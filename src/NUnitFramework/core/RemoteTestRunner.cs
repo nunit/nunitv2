@@ -408,7 +408,7 @@ namespace NUnit.Core
 					if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
 						Environment.CurrentDirectory = assemblyDirectory;
 
-					results[index] = test.Run( this, filter );
+					results[index++] = test.Run( this, filter );
 				}
 
 				// Signal that we are done

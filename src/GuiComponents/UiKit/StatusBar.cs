@@ -146,7 +146,7 @@ namespace NUnit.UiKit
 			this.timePanel.Text = "Time : " + time.ToString();
 		}
 
-		private void DisplayResults(TestResult results)
+		private void DisplayResults(TestResult[] results)
 		{
 			ResultSummarizer summarizer = new ResultSummarizer(results);
 
@@ -187,7 +187,7 @@ namespace NUnit.UiKit
 			else
 			{
 				statusPanel.Text = "Completed";
-				DisplayResults( e.Result );
+				DisplayResults( e.Results );
 			}
 		}
 

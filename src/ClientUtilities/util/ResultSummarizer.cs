@@ -44,6 +44,12 @@ namespace NUnit.Util
 			result.Accept(visitor);
 		}
 
+		public ResultSummarizer(TestResult[] results)
+		{
+			foreach( TestResult result in results )
+				result.Accept( visitor );
+		}
+
 		public string Name
 		{
 			get { return visitor.Name; }
