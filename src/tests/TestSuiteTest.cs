@@ -59,32 +59,6 @@ namespace NUnit.Tests.Core
 			noTestSuite.Add( noTestFixture);
 		}
 
-//		[Test]
-//		public void AddTestFixture()
-//		{
-//			TestSuite testSuite = new TestSuite("Mock Test Suite");
-//			testSuite.Add( new TestFixture( oneTestFixture ) );
-//
-//			ArrayList tests = testSuite.Tests;
-//			Test test = (Test)tests[0];
-//			Assert.IsTrue(test is TestSuite, "Expected a TestSuite");
-//			Assert.AreEqual("OneTestCase",test.Name);
-//		}
-
-//		[Test]
-//		public void TestCaseCountinFixture()
-//		{
-//			TestSuite testSuite = new TestSuite("Mock Test Suite");
-//			testSuite.Add(mockTestFixture);
-//
-//			ArrayList tests = testSuite.Tests;
-//			Test test = (Test)tests[0];
-//			Assert.IsTrue(test is TestSuite, "Expected a TestSuite");
-//			Assert.AreEqual(mockTestFixture.GetType().Name,test.Name);
-//
-//			Assert.AreEqual(MockTestFixture.Tests, testSuite.CountTestCases());
-//		}
-
 		[Test]
 		public void RunTestsInFixture()
 		{
