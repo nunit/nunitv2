@@ -79,6 +79,8 @@ namespace NUnit.Util
 		/// </summary>
 		private bool shadowCopyFiles = true;
 
+		private bool threaded = true;
+
 		#endregion
 
 		#region Properties
@@ -127,9 +129,10 @@ namespace NUnit.Util
 			// Tell resolver to use our core assembly in the test domain
 			assemblyResolver.AddFile( typeof( NUnit.Core.RemoteTestRunner ).Assembly.Location );
 
+			Type runnerType = GetRunnerType();
 			object obj = runnerDomain.CreateInstanceAndUnwrap(
-				typeof(RemoteTestRunner).Assembly.FullName, 
-				typeof(RemoteTestRunner).FullName,
+				runnerType.Assembly.FullName, 
+				runnerType.FullName,
 				false, BindingFlags.Default,null,null,null,null,null);
 			
 			RemoteTestRunner runner = (RemoteTestRunner) obj;
@@ -138,6 +141,21 @@ namespace NUnit.Util
 			runner.Error = this.errorWriter;
 
 			return runner;
+		}
+
+		private Type GetRunnerType ()
+		{
+			Type runnerType = null;
+	
+			if (threaded)
+			{
+				runnerType = typeof(ThreadedRemoteRunner);
+			}
+			else
+			{
+				runnerType = typeof(RemoteTestRunner);
+			}
+			return runnerType;
 		}
 
 		public IList TestFrameworks
@@ -176,13 +194,19 @@ namespace NUnit.Util
 
 		#region Constructors
 
-		public TestDomain( TextWriter outWriter, TextWriter errorWriter )
+		public TestDomain( TextWriter outWriter, TextWriter errorWriter ) : this (outWriter, errorWriter, true)
 		{ 
-			this.outWriter = outWriter;
-			this.errorWriter = errorWriter;
+			
 		}
 
 		public TestDomain() : this( TextWriter.Null, TextWriter.Null ) { }
+
+		public TestDomain( TextWriter outWriter, TextWriter errorWriter, bool threaded )
+		{
+			this.outWriter = outWriter;
+			this.errorWriter = errorWriter;
+			this.threaded = threaded;
+		}
 
 		#endregion
 
@@ -322,67 +346,26 @@ namespace NUnit.Util
 
 		#region Running Tests
 
-//		public TestResult Run(NUnit.Core.EventListener listener, IFilter filter)
-//		{
-//			return Runner.Run( listener, filter );
-//		}
-
 		public void SetFilter( IFilter filter )
 		{
 			Runner.SetFilter( filter );
 		}
 
-		public TestResult Run(NUnit.Core.EventListener listener)
+		public virtual TestResult Run(NUnit.Core.EventListener listener)
 		{
-			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
-			{
-				this.listener = listener;
-				return Runner.Run( listener );
-			}
+			TestResult[] results = Run(listener, null);
+			if (results != null)
+				return results[0];
+
+			return null;
 		}
 		
-		public TestResult Run(NUnit.Core.EventListener listener, string testName)
-		{
-			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
-			{
-				this.listener = listener;
-				return Runner.Run( listener, testName );
-			}
-		}
-
-		public TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames)
+		public virtual TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames)
 		{
 			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
 			{
 				this.listener = listener;
 				return Runner.Run( listener, testNames );
-			}
-		}
-
-		public void RunTest(NUnit.Core.EventListener listener )
-		{
-			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
-			{
-				this.listener = listener;
-				Runner.RunTest( listener );
-			}
-		}
-		
-		public void RunTest(NUnit.Core.EventListener listener, string testName )
-		{
-			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
-			{
-				this.listener = listener;
-				Runner.RunTest( listener, testName );
-			}
-		}
-
-		public void RunTest(NUnit.Core.EventListener listener, string[] testNames)
-		{
-			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
-			{
-				this.listener = listener;
-				Runner.RunTest( listener, testNames );
 			}
 		}
 

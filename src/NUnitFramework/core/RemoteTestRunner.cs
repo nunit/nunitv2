@@ -48,11 +48,6 @@ namespace NUnit.Core
 		private TestSuite suite;
 
 		/// <summary>
-		/// TestRunner thread used for asynchronous running
-		/// </summary>
-		private TestRunnerThread runningThread;
-
-		/// <summary>
 		/// Our writer for standard output
 		/// </summary>
 		private TextWriter outText;
@@ -257,20 +252,12 @@ namespace NUnit.Core
 			this.filter = filter;
 		}
 
-		public TestResult Run( EventListener listener )
+		public virtual TestResult Run( EventListener listener )
 		{
 			return Run( listener, suite );
 		}
 
-		public TestResult Run(NUnit.Core.EventListener listener, string testName )
-		{
-			if ( testName == null || testName.Length == 0 )
-				return Run( listener, suite );
-			else
-				return Run( listener, FindTest( suite, testName ) );
-		}
-
-		public TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames)
+		public virtual TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames)
 		{
 			if ( testNames == null || testNames.Length == 0 )
 				return new TestResult[] { Run( listener, suite ) };
@@ -278,63 +265,13 @@ namespace NUnit.Core
 				return Run( listener, FindTests( suite, testNames ) );
 		}
 
-		public void RunTest(NUnit.Core.EventListener listener )
+		public virtual void CancelRun()
 		{
-			try
-			{
-				runningThread = new TestRunnerThread( this );
-			}
-			catch( Exception ex )
-			{
-				listener.RunFinished( ex );
-				return;
-			}
-
-			runningThread.Run( listener );
-		}
-		
-		public void RunTest(NUnit.Core.EventListener listener, string testName )
-		{
-			try
-			{
-				runningThread = new TestRunnerThread( this );
-			}
-			catch( Exception ex )
-			{
-				listener.RunFinished( ex );
-				return;
-			}
-
-			runningThread.Run( listener, testName );
-		}
-
-		public void RunTest(NUnit.Core.EventListener listener, string[] testNames)
-		{
-			try 
-			{
-				runningThread = new TestRunnerThread( this );
-			}
-			catch( Exception ex )
-			{
-				listener.RunFinished( ex );
-				return;
-			}
-
-			runningThread.Run( listener, testNames );
-		}
-
-		public void CancelRun()
-		{
-			if ( runningThread != null )
-				runningThread.Cancel();
-
 			CleanUpAfterTestRun();
 		}
 
-		public void Wait()
+		public virtual void Wait()
 		{
-			if ( runningThread != null )
-				runningThread.Wait();
 		}
 
 		#endregion
@@ -454,7 +391,7 @@ namespace NUnit.Core
 			return tests;
 		}
 
-		private void CleanUpAfterTestRun()
+		protected virtual void CleanUpAfterTestRun()
 		{
 			// Close our output buffers
 			if ( outBuffer != null )

@@ -28,9 +28,7 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.IO;
-using System.Reflection;
 using NUnit.Framework;
 using NUnit.Core;
 using NUnit.Tests.Assemblies;
@@ -41,7 +39,6 @@ namespace NUnit.Util.Tests
 	public class TestDomainFixture
 	{
 		private static TestDomain testDomain; 
-		private static ArrayList assemblies; 
 		private static Test loadedTest;
 
 		[TestFixtureSetUp]
@@ -49,11 +46,9 @@ namespace NUnit.Util.Tests
 		{
 			TextWriter outStream = new ConsoleWriter(Console.Out);
 			TextWriter errorStream = new ConsoleWriter(Console.Error);
-			testDomain = new TestDomain( outStream, errorStream );
+			testDomain = new TestDomain( outStream, errorStream, false );
 
 			loadedTest = testDomain.Load( "mock-assembly.dll" );
-
-			assemblies = new ArrayList();
 		}
 
 		[TestFixtureTearDown]
@@ -156,7 +151,7 @@ namespace NUnit.Util.Tests
 		{
 			TextWriter outStream = new ConsoleWriter(Console.Out);
 			TextWriter errorStream = new ConsoleWriter(Console.Error);
-			testDomain = new TestDomain( outStream, errorStream );
+			testDomain = new TestDomain( outStream, errorStream, false );
 		}
 
 		[Test]

@@ -30,13 +30,10 @@
 namespace NUnit.ConsoleRunner
 {
 	using System;
-	using System.Collections;
 	using System.Collections.Specialized;
 	using System.IO;
 	using System.Reflection;
 	using System.Xml;
-	using System.Xml.Xsl;
-	using System.Xml.XPath;
 	using System.Resources;
 	using System.Text;
 	using System.Text.RegularExpressions;
@@ -163,7 +160,7 @@ namespace NUnit.ConsoleRunner
 			if ( parser.IsTestProject )
 			{
 				project = NUnitProject.LoadProject( (string)parser.Parameters[0] );
-				string configName = (string) parser.config;
+				string configName = parser.config;
 				if ( configName != null )
 					project.SetActiveConfig( configName );
 			}
@@ -190,7 +187,7 @@ namespace NUnit.ConsoleRunner
 				? new ConsoleWriter( new StreamWriter( options.err ) )
 				: new ConsoleWriter(Console.Error);
 
-			TestDomain testDomain = new TestDomain(outStream, errorStream);
+			TestDomain testDomain = new TestDomain(outStream, errorStream, options.thread);
 			if ( options.noshadow  ) testDomain.ShadowCopyFiles = false;
 
 			Test test = MakeTestFromCommandLine(testDomain, options);
@@ -220,16 +217,9 @@ namespace NUnit.ConsoleRunner
 
 			using( new DirectorySwapper() )
 			{
-				if ( options.thread )
-				{
-					testDomain.RunTest( collector );
-					testDomain.Wait();
-					result = testDomain.Result;
-				}
-				else
-				{
-					result = testDomain.Run( collector );
-				}
+				testDomain.Run( collector );
+				testDomain.Wait();
+				result = testDomain.Result;
 			}
 
 			Console.WriteLine();

@@ -651,15 +651,21 @@ namespace NUnit.Util
 				runningTests = tests;
 
 				//kind of silly
-				string[] testNames = new string[ runningTests.Length ];
-				int index = 0; 
-				foreach (ITest node in runningTests) 
-					testNames[index++] = node.UniqueName;
+				string[] testNames = buildTestNameArray();
 
 				testDomain.SetFilter( filter );
 				testDomain.DisplayTestLabels = displayTestLabels;
-				testDomain.RunTest( this, testNames );
+				testDomain.Run( this, testNames );
 			}
+		}
+
+		private string[] buildTestNameArray ()
+		{
+			string[] testNames = new string[ runningTests.Length ];
+			int index = 0; 
+			foreach (ITest node in runningTests) 
+				testNames[index++] = node.UniqueName;
+			return testNames;
 		}
 
 		/// <summary>

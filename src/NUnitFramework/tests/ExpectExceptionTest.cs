@@ -41,6 +41,7 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class ExpectExceptionTest 
 	{
+
 		[Test]
 		[ExpectedException(typeof(Exception))]
 		public void TestSingle()

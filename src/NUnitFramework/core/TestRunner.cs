@@ -159,43 +159,12 @@ namespace NUnit.Core
 		TestResult Run(NUnit.Core.EventListener listener);
 		
 		/// <summary>
-		/// Run a particular loaded test and return a test result. The test is run
-		/// synchronously and the listener interface is notified as it progresses.
-		/// </summary>
-		/// <param name="listener">Interface to receive EventListener notifications</param>
-		/// <param name="testName">The name of the test case, fixture or suite to be run</param>
-		TestResult Run(NUnit.Core.EventListener listener, string testName);
-
-		/// <summary>
 		/// Run a set of loaded tests and return a set of results.  The test is run
 		/// synchronously and the listener interface is notified as it progresses.
 		/// </summary>
 		/// <param name="listener">Interface to receive EventListener notifications</param>
 		/// <param name="testNames">The names of the test cases, fixtures or suites to be run</param>
 		TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames);
-
-		/// <summary>
-		/// Run all loaded tests. The test is run asynchronously and the listener
-		/// interface is notified as it progresses.
-		/// </summary>
-		/// <param name="listener">Interface to an object to receive EventListener notifications</param>
-		void RunTest(NUnit.Core.EventListener listener);
-		
-		/// <summary>
-		/// Run a particular loaded test. The test is run asynchronously and the 
-		/// listener interface is notified as it progresses.
-		/// </summary>
-		/// <param name="listener">Interface to an object to receive EventListener notifications</param>
-		/// <param name="testName">The name of the test case, fixture or suite to be run</param>
-		void RunTest(NUnit.Core.EventListener listener, string testName);
-
-		/// <summary>
-		/// Run a set of loaded tests. The tests are run asynchronously and the
-		/// listener interface is notified as it progresses.
-		/// </summary>
-		/// <param name="listener">Interface to an object to receive EventListener notifications</param>
-		/// <param name="testNames">The names of the test cases, fixtures or suites to be run</param>
-		void RunTest(NUnit.Core.EventListener listener, string[] testNames);
 
 		void CancelRun();
 
