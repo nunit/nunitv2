@@ -210,6 +210,13 @@ namespace NUnit.UiKit
 		private void okButton_Click(object sender, System.EventArgs e)
 		{
 			configurationName = configurationNameTextBox.Text;
+
+			if ( configurationName == string.Empty )
+			{
+				UserMessage.Display( "No configuration name provided", "Configuration Name Error" );
+				return;
+			}
+
 			if ( project.Configs.Contains( configurationName ) )
 			{
 				// TODO: Need general error message display
