@@ -50,12 +50,28 @@ namespace NUnit.Core
 			if(exception is NUnit.Framework.AssertionException)
 			{
 				NUnit.Framework.AssertionException error = (NUnit.Framework.AssertionException)exception;
-				testResult.Failure(error.Message, error.StackTrace);
+				testResult.Failure(BuildMessage(error), BuildStackTrace(error));
 			}
 			else
 			{
-				testResult.Failure(exception.Message, exception.StackTrace);
+				testResult.Failure(BuildMessage(exception), BuildStackTrace(exception));
 			}
+		}
+		private string BuildMessage(Exception exception)
+		{
+			if(exception.InnerException!=null)
+				return exception.Message + Environment.NewLine + BuildMessage(exception.InnerException);
+			else
+				return exception.Message;
+		}
+		private string BuildStackTrace(Exception exception)
+		{
+			if(exception.InnerException!=null)
+				return exception.StackTrace + Environment.NewLine + 
+					"--" + exception.GetType().Name + Environment.NewLine +
+					BuildStackTrace(exception.InnerException);
+			else
+				return exception.StackTrace;
 		}
 	}
 }

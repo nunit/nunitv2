@@ -47,7 +47,16 @@ namespace NUnit.Tests.Assertions
 				Assert.Fail(failureMessage);
 			}
 		}
-
+		[TestFixture]
+		internal class VerifyTestResultRecordsInnerExceptions
+		{
+			internal string failureMessage ="Outer Exception" + Environment.NewLine + "Inner Exception";
+			[Test]
+			public void ThrowInnerException()
+			{
+				throw new Exception("Outer Exception", new Exception("Inner Exception"));
+			}
+		}
 		[Test]
 		public void FailWorks()
 		{
@@ -83,5 +92,19 @@ namespace NUnit.Tests.Assertions
 
 			throw new AssertionException("fail"); // You can't call fail() here
 		}
+
+		[Test]
+		public void FailRecordInnerException()
+		{
+			VerifyTestResultRecordsInnerExceptions verifyInner = new VerifyTestResultRecordsInnerExceptions();
+				
+			string failureMessage = verifyInner.failureMessage;
+
+			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(verifyInner, "ThrowInnerException");
+			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);
+			Assert.IsTrue(result.IsFailure, "VerifyTestResultRecordsInnerExceptions should have failed");
+			Assert.AreEqual(failureMessage, result.Message);
+		}
+
 	}
 }
