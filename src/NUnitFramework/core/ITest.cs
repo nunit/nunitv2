@@ -54,7 +54,7 @@ namespace NUnit.Core
 		/// Int used to distinguish suites of the same
 		/// name across multiple assemblies.
 		/// </summary>
-		int AssemblyKey { get; set; }
+		int AssemblyKey { get; }
 
 		/// <summary>
 		/// Key used to look up a test in a hash table
