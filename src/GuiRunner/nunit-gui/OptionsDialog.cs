@@ -14,18 +14,19 @@ namespace NUnit.Gui
 	public class OptionsDialog : System.Windows.Forms.Form
 	{
 		private UIActions actions;
+		private OptionSettings options;
 
 		private System.Windows.Forms.Button okButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.HelpProvider helpProvider1;
 		private System.Windows.Forms.CheckBox loadLastAssemblyCheckBox;
-		private System.Windows.Forms.CheckBox hideTestCasesCheckBox;
-		private System.Windows.Forms.CheckBox expandOnLoadCheckBox;
 		private System.Windows.Forms.CheckBox clearResultsCheckBox;
 		private System.Windows.Forms.CheckBox enableWatcherCheckBox;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.ComboBox initialDisplayComboBox;
 		private System.ComponentModel.IContainer components;
 
-		public OptionsDialog( UIActions actions )
+		public OptionsDialog( OptionSettings options, UIActions actions )
 		{
 			//
 			// Required for Windows Form Designer support
@@ -36,6 +37,7 @@ namespace NUnit.Gui
 			// TODO: Add any constructor code after InitializeComponent call
 			//
 			this.actions = actions;
+			this.options = options;
 		}
 
 		/// <summary>
@@ -64,10 +66,10 @@ namespace NUnit.Gui
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
 			this.loadLastAssemblyCheckBox = new System.Windows.Forms.CheckBox();
-			this.hideTestCasesCheckBox = new System.Windows.Forms.CheckBox();
-			this.expandOnLoadCheckBox = new System.Windows.Forms.CheckBox();
 			this.clearResultsCheckBox = new System.Windows.Forms.CheckBox();
 			this.enableWatcherCheckBox = new System.Windows.Forms.CheckBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.initialDisplayComboBox = new System.Windows.Forms.ComboBox();
 			this.SuspendLayout();
 			// 
 			// okButton
@@ -99,27 +101,6 @@ namespace NUnit.Gui
 			this.loadLastAssemblyCheckBox.TabIndex = 15;
 			this.loadLastAssemblyCheckBox.Text = "Load most recent assembly at startup.";
 			// 
-			// hideTestCasesCheckBox
-			// 
-			this.helpProvider1.SetHelpString(this.hideTestCasesCheckBox, "If checked, test fixtures remain unexpanded when an assembly is loaded.");
-			this.hideTestCasesCheckBox.Location = new System.Drawing.Point(56, 144);
-			this.hideTestCasesCheckBox.Name = "hideTestCasesCheckBox";
-			this.helpProvider1.SetShowHelp(this.hideTestCasesCheckBox, true);
-			this.hideTestCasesCheckBox.Size = new System.Drawing.Size(216, 24);
-			this.hideTestCasesCheckBox.TabIndex = 14;
-			this.hideTestCasesCheckBox.Text = "Leave fixtures unexpanded";
-			// 
-			// expandOnLoadCheckBox
-			// 
-			this.helpProvider1.SetHelpString(this.expandOnLoadCheckBox, "If checked the tree of tests is expanded whenever an assembly is loaded.");
-			this.expandOnLoadCheckBox.Location = new System.Drawing.Point(24, 120);
-			this.expandOnLoadCheckBox.Name = "expandOnLoadCheckBox";
-			this.helpProvider1.SetShowHelp(this.expandOnLoadCheckBox, true);
-			this.expandOnLoadCheckBox.Size = new System.Drawing.Size(192, 24);
-			this.expandOnLoadCheckBox.TabIndex = 13;
-			this.expandOnLoadCheckBox.Text = "Expand tree on load";
-			this.expandOnLoadCheckBox.CheckedChanged += new System.EventHandler(this.expandOnLoadCheckBox_CheckedChanged);
-			// 
 			// clearResultsCheckBox
 			// 
 			this.helpProvider1.SetHelpString(this.clearResultsCheckBox, "If checked, any prior results are cleared if tests are added or removed.");
@@ -142,6 +123,31 @@ namespace NUnit.Gui
 			this.enableWatcherCheckBox.Text = "Watch for changes to the assembly.";
 			this.enableWatcherCheckBox.CheckedChanged += new System.EventHandler(this.enableWatcherCheckBox_CheckedChanged);
 			// 
+			// label1
+			// 
+			this.helpProvider1.SetHelpString(this.label1, "");
+			this.label1.Location = new System.Drawing.Point(32, 120);
+			this.label1.Name = "label1";
+			this.helpProvider1.SetShowHelp(this.label1, true);
+			this.label1.Size = new System.Drawing.Size(104, 24);
+			this.label1.TabIndex = 16;
+			this.label1.Text = "Initial Display:";
+			// 
+			// initialDisplayComboBox
+			// 
+			this.initialDisplayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.helpProvider1.SetHelpString(this.initialDisplayComboBox, "Selects the initial display style of the tree when an assembly is loaded");
+			this.initialDisplayComboBox.Items.AddRange(new object[] {
+																		"Auto",
+																		"Expand",
+																		"Collapse",
+																		"HideTests"});
+			this.initialDisplayComboBox.Location = new System.Drawing.Point(144, 120);
+			this.initialDisplayComboBox.Name = "initialDisplayComboBox";
+			this.helpProvider1.SetShowHelp(this.initialDisplayComboBox, true);
+			this.initialDisplayComboBox.Size = new System.Drawing.Size(120, 24);
+			this.initialDisplayComboBox.TabIndex = 17;
+			// 
 			// OptionsDialog
 			// 
 			this.AcceptButton = this.okButton;
@@ -149,9 +155,9 @@ namespace NUnit.Gui
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(298, 250);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
+																		  this.initialDisplayComboBox,
+																		  this.label1,
 																		  this.loadLastAssemblyCheckBox,
-																		  this.hideTestCasesCheckBox,
-																		  this.expandOnLoadCheckBox,
 																		  this.clearResultsCheckBox,
 																		  this.enableWatcherCheckBox,
 																		  this.cancelButton,
@@ -171,22 +177,17 @@ namespace NUnit.Gui
 
 		private void OptionsDialog_Load(object sender, System.EventArgs e)
 		{
-			OptionSettings options = UserSettings.Options;
-
 			loadLastAssemblyCheckBox.Checked = options.LoadLastAssembly;
-			expandOnLoadCheckBox.Checked = options.ExpandOnLoad;
-			hideTestCasesCheckBox.Enabled = expandOnLoadCheckBox.Checked;
-			hideTestCasesCheckBox.Checked = options.HideTestCases;
 
 			enableWatcherCheckBox.Checked = options.EnableWatcher;
 			clearResultsCheckBox.Enabled = enableWatcherCheckBox.Checked;
 			clearResultsCheckBox.Checked = options.ClearResults;
+
+			initialDisplayComboBox.SelectedIndex = options.InitialTreeDisplay;
 		}
 
 		private void okButton_Click(object sender, System.EventArgs e)
 		{
-			OptionSettings options = UserSettings.Options;
-
 			if ( actions.IsAssemblyLoaded && 
 				options.EnableWatcher != enableWatcherCheckBox.Checked )
 			{
@@ -198,18 +199,15 @@ namespace NUnit.Gui
 			}
 
 			options.LoadLastAssembly = loadLastAssemblyCheckBox.Checked;
-			options.ExpandOnLoad = expandOnLoadCheckBox.Checked;
-			options.HideTestCases = hideTestCasesCheckBox.Checked;
 			
 			options.EnableWatcher = enableWatcherCheckBox.Checked;
 			options.ClearResults = clearResultsCheckBox.Checked;
 
-			this.Close();
-		}
+			options.InitialTreeDisplay = initialDisplayComboBox.SelectedIndex;
 
-		private void expandOnLoadCheckBox_CheckedChanged(object sender, System.EventArgs e)
-		{
-			hideTestCasesCheckBox.Enabled = expandOnLoadCheckBox.Checked;
+			DialogResult = DialogResult.OK;
+
+			Close();
 		}
 
 		private void enableWatcherCheckBox_CheckedChanged(object sender, System.EventArgs e)

@@ -55,9 +55,27 @@ namespace NUnit.Gui
 		private static RecentAssemblySettings recentAssemblies;
 
 		/// <summary>
+		/// Object representing current option settings
+		/// </summary>
+		private static OptionSettings optionSettings;
+
+		/// <summary>
 		/// Object that coordinates loading and running of tests
 		/// </summary>
 		private UIActions actions;
+
+		/// <summary>
+		/// Structure used for command line options
+		/// </summary>
+		public struct CommandLineOptions
+		{
+			public string assemblyName;
+		}
+
+		/// <summary>
+		/// Our current run command line options
+		/// </summary>
+		private CommandLineOptions command;
 
 		public System.Windows.Forms.Splitter splitter1;
 		public System.Windows.Forms.Panel panel1;
@@ -124,16 +142,18 @@ namespace NUnit.Gui
 		static NUnitForm()	
 		{
 			recentAssemblies = UserSettings.RecentAssemblies;
+			optionSettings = UserSettings.Options;
 		}
 		
 		/// <summary>
 		/// Construct our form, optionally providing the
 		/// full path of to an assembly file to be loaded.
 		/// </summary>
-		/// <param name="assemblyFileName">Assembly to be loaded</param>
-		public NUnitForm(string assemblyFileName)
+		public NUnitForm( CommandLineOptions command )
 		{
 			InitializeComponent();
+
+			this.command = command;
 
 			stdErrTab.Enabled = true;
 			stdOutTab.Enabled = true;
@@ -148,28 +168,6 @@ namespace NUnit.Gui
 			Console.SetError(stdErrWriter);
 
 			actions = new UIActions(stdOutWriter, stdErrWriter);
-
-			// Set up events handled by the form
-			actions.RunStartingEvent += new TestEventHandler( OnRunStarting );
-			actions.RunFinishedEvent += new TestEventHandler( OnRunFinished );
-
-			actions.LoadCompleteEvent	+= new TestLoadEventHandler( OnTestLoaded );
-			actions.UnloadCompleteEvent += new TestLoadEventHandler( OnTestUnloaded );
-			actions.ReloadCompleteEvent += new TestLoadEventHandler( OnTestChanged );
-			actions.LoadFailedEvent		+= new TestLoadEventHandler( OnAssemblyLoadFailure );
-			actions.ReloadFailedEvent	+= new TestLoadEventHandler( OnAssemblyLoadFailure );
-
-			// ToDo: Migrate more ui elements to handle events on their own.
-			this.testSuiteTreeView.InitializeEvents( actions );
-			this.progressBar.InitializeEvents( actions );
-			this.statusBar.InitializeEvents( actions );
-
-			if (assemblyFileName == null && UserSettings.Options.LoadLastAssembly )
-				assemblyFileName = recentAssemblies.RecentAssembly;
-
-			if(assemblyFileName != null)
-				LoadAssembly(assemblyFileName);
-
 		}
 
 		/// <summary>
@@ -461,12 +459,10 @@ namespace NUnit.Gui
 			// testSuiteTreeView
 			// 
 			this.testSuiteTreeView.AllowDrop = true;
-			this.testSuiteTreeView.DisplayTestProgress = false;
 			this.testSuiteTreeView.Dock = System.Windows.Forms.DockStyle.Left;
 			this.testSuiteTreeView.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.testSuiteTreeView.HideSelection = false;
 			this.testSuiteTreeView.Name = "testSuiteTreeView";
-			this.testSuiteTreeView.RunCommandSupported = true;
 			this.testSuiteTreeView.Size = new System.Drawing.Size(358, 511);
 			this.testSuiteTreeView.Sorted = true;
 			this.testSuiteTreeView.TabIndex = 1;
@@ -723,17 +719,17 @@ namespace NUnit.Gui
 		[STAThread]
 		static int Main(string[] args) 
 		{
-			string assemblyName = null;
+			CommandLineOptions command = new CommandLineOptions();
 
 			GuiOptions parser = new GuiOptions(args);
 			if(parser.Validate() && !parser.help) 
 			{
 				if(!parser.NoArgs)
-					assemblyName = (string)parser.Assembly;
+					command.assemblyName = (string)parser.Assembly;
 
-				if(assemblyName != null)
+				if(command.assemblyName != null)
 				{
-					FileInfo fileInfo = new FileInfo(assemblyName);
+					FileInfo fileInfo = new FileInfo(command.assemblyName);
 					if(!fileInfo.Exists)
 					{
 						string message = String.Format("{0} does not exist", fileInfo.FullName);
@@ -743,11 +739,11 @@ namespace NUnit.Gui
 					}
 					else
 					{
-						assemblyName = fileInfo.FullName;
+						command.assemblyName = fileInfo.FullName;
 					}
 				}
 
-				NUnitForm form = new NUnitForm(assemblyName);
+				NUnitForm form = new NUnitForm( command );
 				Application.Run(form);
 			}
 			else
@@ -1030,12 +1026,40 @@ namespace NUnit.Gui
 		}
 
 		/// <summary>
-		/// Get last position when form loads
+		/// Get saved options when form loads
 		/// </summary>
 		private void NUnitForm_Load(object sender, System.EventArgs e)
 		{
+			// Set position of the form
 			this.Location = UserSettings.Form.Location;
 			this.Size = UserSettings.Form.Size;
+
+			// Set up events handled by the form
+			actions.RunStartingEvent += new TestEventHandler( OnRunStarting );
+			actions.RunFinishedEvent += new TestEventHandler( OnRunFinished );
+
+			actions.LoadCompleteEvent	+= new TestLoadEventHandler( OnTestLoaded );
+			actions.UnloadCompleteEvent += new TestLoadEventHandler( OnTestUnloaded );
+			actions.ReloadCompleteEvent += new TestLoadEventHandler( OnTestChanged );
+			actions.LoadFailedEvent		+= new TestLoadEventHandler( OnAssemblyLoadFailure );
+			actions.ReloadFailedEvent	+= new TestLoadEventHandler( OnAssemblyLoadFailure );
+
+			// Set tree options
+			testSuiteTreeView.InitialDisplay =
+				(TestSuiteTreeView.DisplayStyle) optionSettings.InitialTreeDisplay;
+
+			// Allow controls to initialize as well
+			// ToDo: Migrate more ui elements to handle events on their own.
+			this.testSuiteTreeView.InitializeEvents( actions );
+			this.progressBar.InitializeEvents( actions );
+			this.statusBar.InitializeEvents( actions );
+			// Load assembly specified on command line or
+			// the most recent one if options call for it
+			if ( command.assemblyName != null )
+				LoadAssembly( command.assemblyName );
+			else if( optionSettings.LoadLastAssembly &&
+					 recentAssemblies.RecentAssembly != null )
+				LoadAssembly( recentAssemblies.RecentAssembly );
 		}
 
 		#endregion
@@ -1291,8 +1315,10 @@ namespace NUnit.Gui
 
 		private void ShowOptionsDialog( )
 		{
-			OptionsDialog dialog = new OptionsDialog( actions );
-			DialogResult result = dialog.ShowDialog();
+			OptionsDialog dialog = new OptionsDialog( optionSettings, actions );
+			if ( dialog.ShowDialog() == DialogResult.OK )
+				testSuiteTreeView.InitialDisplay =
+					(TestSuiteTreeView.DisplayStyle) optionSettings.InitialTreeDisplay;
 		}
 
 		#endregion	

@@ -91,6 +91,7 @@ namespace NUnit.Tests
 		public void BuildTreeView()
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
+			treeView.InitialDisplay = TestSuiteTreeView.DisplayStyle.Expand;
 			treeView.Load(suite);
 			Assertion.AssertNotNull( treeView.Nodes[0] );
 			Assertion.AssertEquals( 16, treeView.GetNodeCount( true ) );

@@ -33,6 +33,7 @@ using System.Drawing;
 using System.Collections;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.ComponentModel;
 using NUnit.Core;
 using NUnit.Util;
 
@@ -51,7 +52,19 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class TestSuiteTreeView : TreeView
 	{
-		#region Instance Variables
+		#region Enumeratons and instance Variables
+
+		/// <summary>
+		/// Indicates how a tree should be displayed
+		/// </summary>
+		public enum DisplayStyle
+		{
+			Auto,		// Select based on space available
+			Expand,		// Expand fully
+			Collapse,	// Collpase fully
+			HideTests	// Expand all but the fixtures, leaving
+						// leaf nodes hidden
+		}
 
 		/// <summary>
 		/// Hashtable provides direct access to TestNodes
@@ -67,12 +80,22 @@ namespace NUnit.UiKit
 		/// Whether the browser supports running tests,
 		/// or just loading and examining them
 		/// </summary>
-		private bool runCommandSupported = false;
+		private bool runCommandSupported = true;
 		
 		/// <summary>
 		/// Whether or not we track progress of tests visibly in the tree
 		/// </summary>
-		private bool displayProgress = false;
+		private bool displayProgress = true;
+
+		/// <summary>
+		/// How the tree is displayed immediately after loading
+		/// </summary>
+		private DisplayStyle initialDisplay = DisplayStyle.Auto;
+
+		/// <summary>
+		/// Whether to clear test results when tests change
+		/// </summary>
+		private bool clearResultsOnChange = true;
 
 		/// <summary>
 		/// The properties dialog if displayed
@@ -152,6 +175,8 @@ namespace NUnit.UiKit
 		/// is supported from the tree context menu and
 		/// by double-clicking test cases.
 		/// </summary>
+		[Category( "Behavior" ), DefaultValue( true )]
+		[Description("Indicates whether the tree context menu should include a run command")]
 		public bool RunCommandSupported
 		{
 			get { return runCommandSupported; }
@@ -162,15 +187,34 @@ namespace NUnit.UiKit
 		/// Property determining whether tree should redraw nodes
 		/// as tests are complete in order to show progress.
 		/// </summary>
+		[Category( "Behavior" ), DefaultValue( true )]
+		[Description("Indicates whether results should be displayed in the tree as each test completes")]
 		public bool DisplayTestProgress
 		{
 			get { return displayProgress; }
 			set { displayProgress = value; }
 		}
 
+		[Category( "Behavior" ), DefaultValue( DisplayStyle.Auto )]
+		[Description("Indicates how the tree should be displayed when a new assembly is loaded")]
+		public DisplayStyle InitialDisplay
+		{
+			get { return initialDisplay; }
+			set { initialDisplay = value; }
+		}
+
+		[Category( "Behavior" ), DefaultValue( true )]
+		[Description("Indicates whether test results should be cleared when the tests change in background")]
+		public bool ClearResultsOnChange
+		{
+			get { return clearResultsOnChange; }
+			set { clearResultsOnChange = value; }
+		}
+
 		/// <summary>
 		/// The currently selected test.
 		/// </summary>
+		[Browsable( false )]
 		public UITestNode SelectedTest
 		{
 			get 
@@ -183,6 +227,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// The currently selected test result or null
 		/// </summary>
+		[Browsable( false )]
 		public TestResult SelectedTestResult
 		{
 			get 
@@ -232,7 +277,7 @@ namespace NUnit.UiKit
 		private void OnTestChanged( object sender, TestLoadEventArgs e )
 		{
 			Invoke( new LoadHandler( Reload ), new object[]{ e.Test } );
-			if ( UserSettings.Options.ClearResults )
+			if ( ClearResultsOnChange )
 				ClearResults();
 		}
 
@@ -461,12 +506,21 @@ namespace NUnit.UiKit
 		{
 			Clear();
 			AddTreeNodes( Nodes, test, false );
-			if ( UserSettings.Options.ExpandOnLoad )
+			
+			switch ( GetDisplayStyle() )
 			{
-				ExpandAll();
-				if ( UserSettings.Options.HideTestCases )
+				case DisplayStyle.Expand:
+					ExpandAll();
+					break;
+				case DisplayStyle.HideTests:
+					ExpandAll();
 					CollapseFixtures();
+					break;
+				case DisplayStyle.Collapse:
+				default:
+					break;
 			}
+
 			SelectedNode = Nodes[0];
 		}
 
@@ -734,6 +788,22 @@ namespace NUnit.UiKit
 			else 
 				foreach( TestSuiteTreeNode child in node.Nodes )
 					ExpandFixturesUnderNode( child );		
+		}
+
+		/// <summary>
+		/// Helper used to figure out the display style
+		/// to use when the setting is Auto
+		/// </summary>
+		/// <returns>DisplayStyle to be used</returns>
+		private DisplayStyle GetDisplayStyle()
+		{
+			if ( InitialDisplay != DisplayStyle.Auto )
+				return InitialDisplay;
+
+			if ( VisibleCount >= this.GetNodeCount( true ) )
+				return DisplayStyle.Expand;
+
+			return DisplayStyle.HideTests;
 		}
 
         #endregion

@@ -89,16 +89,6 @@ namespace NUnit.Tests
 			opts.LoadLastAssembly = false;
 			Assertion.AssertEquals( false, opts.LoadLastAssembly );
 
-			opts.ExpandOnLoad = true;
-			Assertion.AssertEquals( true, opts.ExpandOnLoad );
-			opts.ExpandOnLoad = false;
-			Assertion.AssertEquals( false, opts.ExpandOnLoad );
-			
-			opts.HideTestCases = true;
-			Assertion.AssertEquals( true, opts.HideTestCases );
-			opts.HideTestCases = false;
-			Assertion.AssertEquals( false, opts.HideTestCases );
-			
 			opts.EnableWatcher = true;
 			Assertion.AssertEquals( true, opts.EnableWatcher );
 			opts.EnableWatcher = false;
@@ -116,8 +106,7 @@ namespace NUnit.Tests
 			OptionSettings opts = UserSettings.Options;
 
 			Assertion.AssertEquals( true, opts.LoadLastAssembly );
-			Assertion.AssertEquals( true, opts.ExpandOnLoad );
-			Assertion.AssertEquals( false, opts.HideTestCases );
+			Assertion.AssertEquals( 0, opts.InitialTreeDisplay );
 			Assertion.AssertEquals( true, opts.EnableWatcher );
 			Assertion.AssertEquals( true, opts.ClearResults );
 		}
