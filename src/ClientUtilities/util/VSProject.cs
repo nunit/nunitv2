@@ -188,13 +188,13 @@ namespace NUnit.Util
 
 		#region Instance Methods
 
-		public void Load()
+		private void Load()
 		{
-			if ( !IsProjectFile( projectPath ) )
+			if ( !IsProjectFile( projectPath ) ) 
 				ThrowInvalidFileType( projectPath );
 
 			string projectDirectory = Path.GetFullPath( Path.GetDirectoryName( projectPath ) );
-
+			
 			try
 			{
 				XmlDocument doc = new XmlDocument();
