@@ -77,7 +77,7 @@ namespace NUnit.Core
 	/// <summary>
 	/// This wrapper derives from StringTextWriter and adds buffering
 	/// to improve cross-domain performance. The buffer is flushed whenever
-	/// it reaches or exceeds a maximum size or when WriteLine is called.
+	/// it reaches or exceeds a maximum size or when Flush is called.
 	/// </summary>
 	public class BufferedStringTextWriter : StringTextWriter
 	{
