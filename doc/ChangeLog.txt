@@ -1,5 +1,43 @@
-Change Log for NUnit 2.1 Final Release
-September 1, 2003
+Change Log for NUnit 2.2 Beta 1
+May 20, 2004
+
+NUNIT 2.2 Beta 1 - NUnit Version 2.1.91
+
+Feature Requests Implemented
+* 783608 - Split Framework Dll
+* 863269 - Run Automatic Suites from Command line
+* 832923 - Add /fixture command-line-parameter
+* 808733 - automatically run tests with nunit-gui
+* 813859 - Update www.nunit.org
+* 788315 - multi-select tests in GUI runner
+
+Bugs Fixed or Closed
+* 951254 - GUI dies with after opening project if you hit spacebar
+* 909452 - odd stuff if Assert* called from a method called from a Test
+* 909277 - Homepage URL
+* 887857 - TestFixture with no tests runs FixtureSetup but not Teardown
+* 879811 - inheriting private setup/teardown methods
+* 878484 - FixtureTearDown not called if fixture is ignored.
+* 805223 - Integration with NANT has broken
+* 859200 - ExpectedException message parameter breaks test.
+* 859198 - ExpectedException breaks Assert tests
+* 820244 - Deprecated Assertion Does not give compiler warning.
+* 861503 - Wrong total attribute
+* 864347 - Ignore Flag does not skip Setup/TearDown
+* 843075 - Bad error message when fixture doesn't exist
+* 847018 - Shutdown project save dialog has no [cancel] button
+* 852052 - NUnit crashes with typeloadexception when using int arrays
+* 846998 - nant net-1.1 fails if VS.NET not present
+* 832557 - Nant.build has bad copy task args
+* 824897 - Can't specify multiple ExpectedExceptionAttribute
+* 822952 - NAnt build broken
+* 825375 - Right click tree pane throws exception if no node selected
+* 800691 - TestFixture with Ignore Attribute runs TestFixtureSetUp code
+* 798997 - NullReferenceException on context menus 
+* 798956 - Maximized GUI allos status bar resizing
+* 817950 - NUnit-gui forgets window state
+* 799729 - nunit-console uses Debug.Write for Release output
+* 811603 - nunit-console sends no ouput to VisualStudio in debug mode 
 
 CHANGES FROM RC1 to Final Release
 

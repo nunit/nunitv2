@@ -1,60 +1,113 @@
-Release Notes for NUnit 2.1 RC1 - Final Release
-September 1, 2003
+Release Notes for NUnit 2.2 Beta1 - Final Release
+May 20, 2004
 
-This is the third major release of NUnit and the second since it was 
+This is the fourth major release of NUnit and the third since it was 
 rewritten to take advantage of .NET custom attributes. Highlights of 
-this release include support for the .NET framework 1.1, the ability 
-to run test suites across multiple assemblies, improvements to the 
-GUI interface, new command line switches for both GUI and Console 
-runners, some degree of integration with Visual Studio and new 
-TestFixtureSetup and TestFixtureTeardown attributes
+this release include support for Mono, multiple-test selection in the 
+GUI interface, a built-in lightweight mock object facility, new command
+line switches for both GUI and Console runners, and new Category
+and Explicit attributes.
 
-Changes from RC1
+GENERAL
 
-Fixes were made to the gui layout including use of a fixed font in
-the Errors & Failures tab so that unmatched strings would line up
-properly. 
+This msi install of NUnit 2.1.5 continues to be built using Visual 
+Studio 2003. The solution and project files in this distribution can 
+only be loaded by Visual Studio 2003.
 
-Changes From Beta 2
+The distributed binaries can run against the Microsoft .NET framework
+versions 1.0 or 1.1 or the Mono Beta 1 release. Separate config files 
+for each version are no longer needed. Instead, binding redirects are provided in each config which apply when running under .NET version 1.0.
+The supplied configs for nunit-gui.exe and nunit-console.exe require editing in one case only: if both versions of the framework are installed and the user wants to give preference to version 1.0, it will then be
+necessary to change the order of the supportedRuntime elements.
 
-Tests now execute in the same order as they are displayed in the gui.
-The gui recognizes an appsetting to cause it to run tests in the STA.
-The version of the .NET framework being used is displayed in the About 
-Box. Tests are now reloaded when the active configuration is deleted.
-Various bugs have been fixed. 
+The NUnit framework and core are now in separate assemblies, both of
+which are installed in the GAC. The framework assembly contains all 
+types that are normally referenced by tests, while the core contains
+those types used by the gui and console runners to execute those tests. Tests requiring use of core types – TestSuite, for example – will need 
+to add a reference to the nunit.core.dll assembly.
 
-Changes From Beta 1
+The NAnt build file now supports building NUnit using version 1.0 or 
+1.1 of the .NET framework or with the Beta1 Release of Mono.
 
-This release includes separate configuration files for use with .NET
-versions 1.0 and 1.1. Both versions are copied and the correct config
-for the current system is installed ready for use. A sample config
-file for use with tests built against NUnit 2.0 is included.
+Assert.AreEqual has been extended to allow comparison of two arrays. 
+To compare as equal, the arrays must be of the same or compatible types, contain the same number of elements and each pair of elements 
+must compare as equal.
 
-Substantial changes have been made to error and exception reporting.
-The exception type is listed along with all inner exceptions. In the
-console runner, this includes a full stacktrace. The full trace for
-exceptions that are caught by the GUI runner is now available under
-the Tools | Exception Details... menu item.
+The core interfaces used to run tests have been changed substantially. These will continue to change to some extent as we attempt to reach a stable set of interfaces for use by third-party clients that run tests through NUnit. In particular, the interfaces now support passing in an array of tests to be run and return an array of test results. Other new features described in this document have required interface changes as well.
 
-This release has been verified to install and run under Windows 98.
-The feature of watching for changes in the assemblies and reloading
-them automatically is disabled in this environment. We haven't tested
-under Windows ME, but believe it will work in that environment as well.
+There is a new CategoryAttribute which allows test fixtures and methods 
+to be grouped into one or more categories using strings as identifiers. Support is provided for running only those tests in selected categories
+or all tests except those in selected categories.
 
-Installation
+A new ExplicitAttribute designates a test case or fixture that should
+only be run when explicitly chosen by the user - selected directly or
+included by means of a Category selection. It will not be run merely
+because its parent suite is selected.
 
-Download and execute the nunit-v2.1.4.msi file. By default the installation 
-program places the all files in the directory C:\Program Files\Nunit V2.1. 
-In the installation directory there are three sub-directories: bin, doc 
-and src. The samples directory is located under src.
+Tests may now be run using a filter. Currently, this support is used only by the new Category feature, but it is intended to be of general application for clients and – eventually – users.
 
-If you prefer to build from source, download NUnit-V2.1.4-src.zip and 
-unzip it to a directory of your choice, preserving all path information. 
-Build using the NAnt build or in the Visual Studio .NET 2003 IDE.
+NUnit now recognizes when the loaded tests were built using an earlier version of the nunit framework and issues an appropriate message. Earlier versions simply failed to show any tests present in the assembly.
 
-Documentation
+NUnit now captures and issues a message when a worker thread, created during the running of a test, throws an exception. Previously, such exceptions were silently ignored.
 
-The Readme.pdf file is installed in the doc directory by the windows
-installation and is also available as a separate download.
+The XML output from a test run now shows the number of Asserts executed 
+by each test. 
+
+When a test with ExpectedException fails because of an Assert, the message from the assert is now given priority over the message indicating that the wrong type of exception was thrown.
+
+Private SetUp and TearDown methods are now ignored as intended.
+
+SetUp and TearDown are no longer executed for ignored tests.
+
+FORMS INTERFACE
+
+The tree of tests now optionally displays checkboxes. These may be used to select multiple tests to be run. Buttons allow clearing all checkboxes and checking only failing tests.
+
+There is now an option to display the name of each test in the standard output.
+
+The thread used to run tests is now created in the test AppDomain. The priority and apartment state for this thread may now be specified in the config file for the test. A separate configuration section is now used for NUnit settings, to avoid name collision with settings required by the application under test.
+
+Command-line options are provided to allow the gui to load and begin running a test suite and to load a specific fixture from an assembly.
+The properties dialog now shows the number of asserts executed for each test and any description associated with a test.
+
+A cancel button has been added to the project save dialog that appears on shutdown.
+
+CONSOLE INTERFACE
+
+The console program has been reorganized to remove differences in how tests are run between the console and gui runners.
+
+The console interface command line parameters now include provision for
+selecting or excluding tests based on category, for displaying the name
+of each test in the standard output and for redirecting standard or error
+output from tests to a file.
+
+A namespace may now be specified after /fixture and all tests in that namespace will be executed.
+
+MOCK OBJECTS
+
+This version of NUnit comes with a built-in, lightweight mock object facility. The functions provided include dynamic creation of an implementation of any interface or MBR class, setting of expectations, specification of return values and verification that the expected 
+actions occurred.
+
+This facility is in no way a replacement for full-fledged mock 
+frameworks such as NMock and is not expected to add significant 
+features in upcoming releases. Its primary purpose is to support 
+NUnit’s own tests. We wanted to do that without the need to choose a
+particular mock framework and without having to deal with versioning 
+issues outside of NUnit itself.
+
+At the same time, we hope that easy availability of a minimal mock 
+object facility will inspire users who are not familiar with mock 
+objects to experiment with them using our built-in facility and to 
+migrate to a more complete framework as your needs call for it.
+
+LIMITATIONS
+
+The mono version of this release is still experimental and has not been tested in all environments.
+
+The CategoryAttribute was originally designed to have an Explicit property. This was included in some early releases and is described in
+the Pragmatic Programmers’ recent book. This property has been removed
+and is replaced by the ExplicitAttribute, which can be used in
+conjunction with Category to achieve the same effect as shown in
+their examples.
 
 The NUnit Team
