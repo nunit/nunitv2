@@ -29,79 +29,47 @@
 
 using System;
 using System.IO;
-using System.Collections;
 
 namespace NUnit.Util
 {
 	/// <summary>
-	/// Represents a list of assemblies. It stores paths 
-	/// that are added and marks it's ProjectContainer
-	/// as dirty whenever it changes. All paths must
-	/// be added as absolute paths.
+	/// Holds an absolute assembly path and a flag that
+	/// indicates if the assembly is a test assembly.
 	/// </summary>
-	public class AssemblyList : CollectionBase
+	public class AssemblyListItem
 	{
+		private string path;
+		private bool hasTests;
 		private ProjectConfig config;
 
-		public AssemblyList( ProjectConfig config )
+		public AssemblyListItem( ProjectConfig config, string path, bool hasTests )
 		{
+			if ( !Path.IsPathRooted( path ) )
+				throw new ArgumentException( "Assembly path must be absolute" );
+
 			this.config = config;
+			this.path = path;
+			this.hasTests = hasTests;
 		}
 
-		#region Properties
-
-		public ProjectConfig Config
+		public string FullPath
 		{
-			get { return config; }
-		}
-
-		/// <summary>
-		/// Our indexer
-		/// </summary>
-		public AssemblyListItem this[int index]
-		{
-			get { return (AssemblyListItem)List[index]; }
-//			set { List[index] = value; }
-		}
-
-		#endregion
-
-		#region Methods
-
-		public void Add( string assemblyPath, bool hasTests )
-		{
-			List.Add( new AssemblyListItem( this.config, assemblyPath, hasTests ) );
-		}
-
-		public void Add( string assemblyPath )
-		{
-			Add( assemblyPath, true );
-		}
-
-		public void Remove( string assemblyPath )
-		{
-			for( int index = 0; index < this.Count; index++ )
-			{
-				if ( this[index].FullPath == assemblyPath )
-					RemoveAt( index );
+			get { return path; }
+			set 
+			{ 
+				path = value;
+				config.IsDirty = true;
 			}
 		}
 
-		protected override void OnRemoveComplete(int index, object value)
+		public bool HasTests
 		{
-			config.IsDirty = true;
+			get { return hasTests; }
+			set 
+			{
+				hasTests = value; 
+				config.IsDirty = true;
+			}
 		}
-
-		protected override void OnInsertComplete(int index, object value)
-		{
-			config.IsDirty = true;
-		}
-		
-		protected override void OnSetComplete(int index, object oldValue, object newValue )
-		{
-			config.IsDirty = true;
-		}
-
-		#endregion
 	}
 }
