@@ -46,7 +46,7 @@
   -->
 
   <!-- Clean directories -->
-  <target name="clean-build-dir" depends="set-build-dir">
+  <target name="clean" depends="set-build-dir">
     <delete dir="${current.build.dir}" 
       if="${directory::exists( current.build.dir )}"/>
   </target>
@@ -176,9 +176,6 @@
     <echo message="*"/>
     <echo message="* Starting ${runtime.config} ${build.config} build"/>
     <echo message="*"/>
-
-    <!-- Clean the build directory -->
-    <call target="clean-build-dir" if="${build.clean}"/>
 
     <!-- Build NUnit components assemblies -->
     <nant target="build"

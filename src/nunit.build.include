@@ -14,10 +14,6 @@
     <call target="set-release-build-config" />
   </target>
 
-  <target name="clean" description="Clean before building">
-    <property name="build.clean" value="true"/>
-  </target>
-
   <!-- Command-line runtime configurations -->
   <target name="net" description="Set runtime to .NET 1.1">
     <call target="set-net-1.1-runtime-config"/>
