@@ -138,6 +138,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ExceptionDetailsForm.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExceptionDetailsForm.resx"
+                    DependentUpon = "ExceptionDetailsForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "Logo.ico"
                     BuildAction = "Content"
                 />
