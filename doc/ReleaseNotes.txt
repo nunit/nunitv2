@@ -59,6 +59,8 @@ Private SetUp and TearDown methods are now ignored as intended.
 
 SetUp and TearDown are no longer executed for ignored tests.
 
+The documentation is now provided as a set of HTML files.
+
 FORMS INTERFACE
 
 The tree of tests now optionally displays checkboxes. These may be used to select multiple tests to be run. Buttons allow clearing all checkboxes and checking only failing tests.
