@@ -679,6 +679,20 @@ namespace NUnit.Framework
 		{
 			Assert.Fail(string.Empty, null);
 		}
+
+		static public void Ignore( string message, object[] args )
+		{
+			if (message == null) message = string.Empty;
+			else if ( args != null && args.Length > 0 )
+				message = string.Format( message, args );
+
+			throw new IgnoreException(message);
+		}
+
+		static public void Ignore( string message )
+		{
+			Assert.Ignore( message, null );
+		}
     
 		/// <summary>
 		/// This method is called when two objects have been compared and found to be

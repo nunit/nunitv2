@@ -269,6 +269,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "IgnoreFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "InheritedTestFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
