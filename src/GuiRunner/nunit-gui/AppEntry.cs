@@ -59,6 +59,7 @@ namespace NUnit.Gui
 						command.testFileName = parser.Assembly;
 					command.configName = parser.config;
 					command.noload = parser.noload;
+					command.autorun = parser.run;
 				}
 
 				if(command.testFileName != null)

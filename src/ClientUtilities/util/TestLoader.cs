@@ -577,6 +577,14 @@ namespace NUnit.Util
 		#region Methods for Running Tests
 
 		/// <summary>
+		/// Run the currently loaded top level test suite
+		/// </summary>
+		public void RunLoadedTest()
+		{
+			RunTestSuite( loadedTest );
+		}
+
+		/// <summary>
 		/// Run a testcase or testsuite from the currrent tree
 		/// firing the RunStarting and RunFinished events.
 		/// Silently ignore the call if a test is running

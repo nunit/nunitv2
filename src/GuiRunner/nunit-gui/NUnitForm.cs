@@ -53,6 +53,7 @@ namespace NUnit.Gui
 			public string testFileName;
 			public string configName;
 			public bool noload;
+			public bool autorun;
 		}
 
 		// Our current run command line options
@@ -1163,6 +1164,10 @@ namespace NUnit.Gui
 				if ( recentProjectName != null )
 					TestLoaderUI.OpenProject( recentProjectName );
 			}
+
+			// Run loaded test automatically if called for
+			if ( commandLineOptions.autorun && TestLoader.IsTestLoaded )
+				TestLoader.RunLoadedTest();
 		}
 
 		private void LoadFormSettings()
