@@ -31,12 +31,39 @@ namespace NUnit.Core
 {
 	using System;
 	using System.Reflection;
+	using System.Collections;
 
 	/// <summary>
 	/// Summary description for TestCaseBuilder.
 	/// </summary>
 	public class TestCaseBuilder
 	{
+		private static Hashtable builders;
+		private static ITestBuilder normalBuilder = new NormalBuilder();
+
+		private static void InitBuilders() 
+		{
+			builders = new Hashtable();
+			builders[typeof(NUnit.Framework.ExpectedExceptionAttribute)] = new ExpectedExceptionBuilder();
+		}
+
+		private static ITestBuilder GetBuilder(MethodInfo method) 
+		{
+			if (builders == null)
+				InitBuilders();
+
+			object[] attributes = method.GetCustomAttributes(false);
+			
+			foreach (object attribute in attributes) 
+			{
+				ITestBuilder builder = (ITestBuilder) builders[attribute.GetType()];
+				if (builder != null)
+					return builder;
+			}
+
+			return normalBuilder;
+		}
+
 		public static TestCase Make(object fixture, MethodInfo method)
 		{
 			TestCase testCase = null;
@@ -45,13 +72,8 @@ namespace NUnit.Core
 			{
 				if(IsTestMethodSignatureCorrect(method))
 				{
-					if(!IsExpectedException(method))
-						testCase = new NormalTestCase(fixture, method);
-					else
-					{
-						NUnit.Framework.ExpectedExceptionAttribute expectedException = GetExpectedExceptions(method);
-						testCase = new ExpectedExceptionTestCase(fixture, method, expectedException.ExceptionType, expectedException.ExpectedMessage);
-					}
+					ITestBuilder builder = GetBuilder(method);
+					testCase = builder.Make(fixture, method);
 
 					if(HasIgnoreAttribute(method))
 					{
@@ -195,5 +217,56 @@ namespace NUnit.Core
 			return result;
 		}
 	}
+
+	internal interface ITestBuilder 
+	{
+		TestCase Make(object fixture, MethodInfo method);
+	}
+
+	internal class ExpectedExceptionBuilder : ITestBuilder
+	{
+		#region ITestBuilder Members
+
+		public TestCase Make(object fixture, MethodInfo method)
+		{
+			NUnit.Framework.ExpectedExceptionAttribute expectedException = GetExpectedExceptions(method);
+			TestCase testCase = new ExpectedExceptionTestCase(fixture, method, expectedException.ExceptionType, expectedException.ExpectedMessage);
+
+			return testCase;
+		}
+
+		#endregion
+
+		private static NUnit.Framework.ExpectedExceptionAttribute GetExpectedExceptions(MethodInfo method)
+		{
+			Type exceptionAttr = typeof(NUnit.Framework.ExpectedExceptionAttribute);
+			object[] attributes = method.GetCustomAttributes(exceptionAttr, false);
+
+			NUnit.Framework.ExpectedExceptionAttribute expectedAttr = null;
+
+			if(attributes.Length == 1)
+			{
+				expectedAttr = (NUnit.Framework.ExpectedExceptionAttribute)attributes[0];
+			}
+
+			return expectedAttr;
+		}
+
+	}
+
+	internal class NormalBuilder : ITestBuilder
+	{
+		#region ITestBuilder Members
+
+		public TestCase Make(object fixture, MethodInfo method)
+		{
+			return new NormalTestCase(fixture, method);
+		}
+
+		#endregion
+
+	}
+
+
 }
 

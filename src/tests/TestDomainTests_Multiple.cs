@@ -94,7 +94,7 @@ namespace NUnit.Tests.Core
 		public void TestCaseCount()
 		{
 			Test suite = domain.LoadAssemblies( name, assemblies );
-			Assert.AreEqual(10, suite.CountTestCases);
+			Assert.AreEqual(10, suite.CountTestCases());
 		}
 
 		[Test]
@@ -111,7 +111,7 @@ namespace NUnit.Tests.Core
 		{
 			Test suite = domain.LoadAssemblies( name, assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.IsNotNull( suite );
-			Assert.AreEqual( 5, suite.CountTestCases );
+			Assert.AreEqual( 5, suite.CountTestCases() );
 		}
 	}
 }

@@ -85,7 +85,7 @@ namespace NUnit.Tests.Assemblies
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Assemblies.AssemblyTests" );
 			Assert.IsNotNull(suite, "Should not be Null");
-			Assert.AreEqual(suite.CountTestCases,TestCaseBuilder.CountTestCases(this));
+			Assert.AreEqual(suite.CountTestCases(),TestCaseBuilder.CountTestCases(this));
 		}
 
 		[Test]

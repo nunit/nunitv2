@@ -159,12 +159,12 @@ namespace NUnit.UiKit
 
 		public void OnTestLoaded( object sender, TestEventArgs e )
 		{
-			Initialize( e.Test.CountTestCases );
+			Initialize( e.Test.CountTestCases() );
 		}
 
 		public void OnTestReloaded( object sender, TestEventArgs e )
 		{
-			Initialize( e.Test.CountTestCases, "Reloaded" );
+			Initialize( e.Test.CountTestCases(), "Reloaded" );
 		}
 
 		public void OnTestUnloaded( object sender, TestEventArgs e )
@@ -174,7 +174,7 @@ namespace NUnit.UiKit
 
 		private void OnRunStarting( object sender, TestEventArgs e )
 		{
-			Initialize( e.Test.CountTestCases, "Running :" + e.Test.Name );
+			Initialize( e.TestCount, "Running :" + e.Test.Name );
 			DisplayTestCount();
 			DisplayFailures();
 			DisplayTime();

@@ -108,11 +108,11 @@ namespace NUnit.Tests.UiKit
 
 			node.UpdateTest( suiteInfo2 );
 			Assert.AreEqual( "MyTestSuite", node.Test.FullName );
-			Assert.AreEqual( 0, node.Test.CountTestCases );
+			Assert.AreEqual( 0, node.Test.CountTestCases() );
 
 			node.UpdateTest( suiteInfo );
 			Assert.AreEqual( "MyTestSuite", node.Test.FullName );
-			Assert.AreEqual( 5, node.Test.CountTestCases );
+			Assert.AreEqual( 5, node.Test.CountTestCases() );
 		}
 
 		[Test]

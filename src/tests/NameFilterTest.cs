@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using NUnit.Framework;
 using NUnit.Tests.Assemblies;
 using NUnit.Core;
@@ -22,13 +23,26 @@ namespace NUnit.Tests.Core
 		}
 
 		[Test]
-		public void FullNameMatch() 
+		public void SingleNameMatch() 
 		{
 			string uniqueName = "[0]NUnit.Tests.Assemblies.MockTestFixture.MockTest3";
 			Assert.AreEqual(uniqueName, mock3.UniqueName);
 			NameFilter filter = new NameFilter(mock3);
 			Assert.IsTrue(filter.Pass(mock3), "Name Filter did not pass test case");
 			Assert.AreEqual("[0]NUnit.Tests.Assemblies.MockTestFixture", ((TestSuite)testSuite.Tests[0]).UniqueName);
+			Assert.IsTrue(filter.Pass((TestSuite)testSuite.Tests[0]), "Name Filter did not pass test suite");
+		}
+
+		[Test]
+		public void MultipleNameMatch() 
+		{
+			NUnit.Core.TestCase mock1 = (NUnit.Core.TestCase) findTest("MockTest1", testSuite);
+			ArrayList testList = new ArrayList();
+			testList.Add(mock3);
+			testList.Add(mock1);
+			NameFilter filter = new NameFilter(testList);
+			Assert.IsTrue(filter.Pass(mock3), "Name Filter did not pass test case");
+			Assert.IsTrue(filter.Pass(mock1), "Name Filter did not pass test case");
 			Assert.IsTrue(filter.Pass((TestSuite)testSuite.Tests[0]), "Name Filter did not pass test suite");
 		}
 
@@ -77,8 +91,6 @@ namespace NUnit.Tests.Core
 			}
 
 			return result;
-
-
 		}
 	}
 }

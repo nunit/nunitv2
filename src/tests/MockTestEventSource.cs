@@ -28,8 +28,10 @@
 #endregion
 
 using System;
+using System.Collections;
 using NUnit.Core;
 using NUnit.Util;
+using NUnit.UiKit;
 
 namespace NUnit.Tests.Util
 {
@@ -49,7 +51,10 @@ namespace NUnit.Tests.Util
 
 		public void SimulateTestRun()
 		{
-			FireRunStarting( test );
+			ArrayList list = new ArrayList();
+			UITestNode node = new UITestNode(test);
+			list.Add(node);
+			FireRunStarting( list, test.CountTestCases() );
 
 			TestResult result = SimulateTest( test );
 

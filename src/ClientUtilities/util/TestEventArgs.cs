@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Diagnostics;
 using NUnit.Core;
 
@@ -91,6 +92,10 @@ namespace NUnit.Util
 		// The exception causing a failure
 		private Exception exception;
 
+		private IList tests;
+
+		private int count;
+
 		#endregion
 
 		#region Constructors
@@ -121,6 +126,7 @@ namespace NUnit.Util
 		{
 			this.action = action;
 			this.test = test;
+			this.count = test.CountTestCases();
 		}
 
 		public TestEventArgs( TestAction action, TestResult result )
@@ -133,6 +139,14 @@ namespace NUnit.Util
 		{
 			this.action = action;
 			this.exception = exception;
+		}
+
+		public TestEventArgs( TestAction action, IList tests, int count) 
+		{
+			this.action = action;
+			this.test = (UITestNode) tests[0];
+			this.tests = tests;
+			this.count = count;
 		}
 
 		#endregion
@@ -157,6 +171,16 @@ namespace NUnit.Util
 		public UITestNode Test
 		{
 			get { return test; }
+		}
+
+		public IList Tests 
+		{
+			get { return tests; }
+		}
+
+		public int TestCount 
+		{
+			get { return count; }
 		}
 
 		public TestResult Result

@@ -40,9 +40,17 @@ namespace NUnit.Core
 		public TestCase(string path, string name) : base(path, name)
 		{}
 
-		public override int CountTestCases 
+		public override int CountTestCases() 
 		{
-			get { return 1; }
+			return 1;
+		}
+
+		public override int CountTestCases(IFilter filter) 
+		{
+			if (Filter(filter))
+				return 1;
+
+			return 0;
 		}
 
 		public override TestResult Run(EventListener listener, IFilter filter)

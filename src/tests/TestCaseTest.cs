@@ -46,7 +46,7 @@ namespace NUnit.Tests.Core
 		{
 			MockTestFixture mockTestFixture = new MockTestFixture();
 			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(mockTestFixture, "MockTest4"); 
-			Assert.AreEqual(1, testCase.CountTestCases);
+			Assert.AreEqual(1, testCase.CountTestCases());
 			Assert.AreEqual(false, testCase.ShouldRun);
 			Assert.AreEqual("ignoring this test method for now", testCase.IgnoreReason);
 		}
@@ -56,7 +56,7 @@ namespace NUnit.Tests.Core
 		{
 			MockTestFixture mockTestFixture = new MockTestFixture();
 			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(mockTestFixture, "MockTest4"); 
-			Assert.AreEqual(1, testCase.CountTestCases);
+			Assert.AreEqual(1, testCase.CountTestCases());
 			
 			TestResult result = testCase.Run(NullListener.NULL);
 			ResultSummarizer summarizer = new ResultSummarizer(result);

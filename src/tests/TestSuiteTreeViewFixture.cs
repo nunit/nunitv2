@@ -196,7 +196,7 @@ namespace NUnit.Tests.UiKit
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
 
-			Assert.AreEqual( 7, suite.CountTestCases );
+			Assert.AreEqual( 7, suite.CountTestCases() );
 			Assert.AreEqual( 16, treeView.GetNodeCount( true ) );
 			
 			TestSuite nunitNamespaceSuite = suite.Tests[0] as TestSuite;
@@ -205,13 +205,13 @@ namespace NUnit.Tests.UiKit
 			testsNamespaceSuite.Tests.RemoveAt( 1 );
 			treeView.Reload( suite );
 
-			Assert.AreEqual( 2, suite.CountTestCases );
+			Assert.AreEqual( 2, suite.CountTestCases() );
 			Assert.AreEqual( 9, treeView.GetNodeCount( true ) );
 
 			testsNamespaceSuite.Tests.Insert( 1, assembliesNamespaceSuite );
 			treeView.Reload( suite );
 
-			Assert.AreEqual( 7, suite.CountTestCases );
+			Assert.AreEqual( 7, suite.CountTestCases() );
 			Assert.AreEqual( 16, treeView.GetNodeCount( true ) );
 		}
 
@@ -224,6 +224,43 @@ namespace NUnit.Tests.UiKit
 
 			TestSuite suite2 = new TestSuite( "WrongSuite" );
 			treeView.Reload( suite2 );
+		}
+
+		[Test]
+		public void ClearChecks()
+		{
+			TestSuiteTreeView treeView = new TestSuiteTreeView();
+			treeView.Load(suite);
+
+			Assert.AreEqual(0, treeView.CheckedTests.Count);
+			Assert.IsFalse(Checked(treeView.Nodes));
+
+			treeView.Nodes[0].Checked = true;
+
+			treeView.Nodes[0].Nodes[0].Checked = true;
+
+			Assert.AreEqual(1, treeView.CheckedTests.Count);
+
+			Assert.IsTrue(Checked(treeView.Nodes));
+
+			treeView.ClearCheckedNodes();
+
+			Assert.AreEqual(0, treeView.CheckedTests.Count);
+			Assert.IsFalse(Checked(treeView.Nodes));
+		}
+
+		private bool Checked(TreeNodeCollection nodes) 
+		{
+			bool result = false;
+
+			foreach (TreeNode node in nodes) 
+			{
+				result |= node.Checked;
+				if (node.Nodes != null)
+					result |= Checked(node.Nodes);
+			}
+
+			return result;
 		}
 	}
 }

@@ -146,7 +146,8 @@ namespace NUnit.Core
 			get { return string.Format( "[{0}]{1}", assemblyKey, fullName ); }
 		}
 
-		public abstract int CountTestCases { get; }
+		public abstract int CountTestCases();
+		public abstract int CountTestCases(IFilter filter);
 		public abstract bool IsSuite { get; }
 		public abstract bool IsFixture{ get; }
 		public abstract bool IsTestCase{ get; }

@@ -1,27 +1,55 @@
 using System;
+using System.Collections;
 
 namespace NUnit.Core
 {
 	/// <summary>
 	/// Summary description for NameFilter.
 	/// </summary>
+	/// 
+	[Serializable]
 	public class NameFilter : IFilter
 	{
-		private Test node;
+		private ArrayList testNodes;
 
 		public NameFilter(Test node)
 		{
-			this.node = node;
+			testNodes = new ArrayList();
+			testNodes.Add(node);
+		}
+
+		public NameFilter(ArrayList nodes) 
+		{
+			testNodes = nodes;
 		}
 
 		public bool Pass(TestSuite suite) 
 		{
-			return suite.IsDescendant(node) || node.IsDescendant(suite) || node == suite;
+			bool passed = false;
+			foreach (Test node in testNodes) 
+			{
+				if (suite.IsDescendant(node) || node.IsDescendant(suite) || node == suite) 
+				{
+					passed = true;
+					break;
+				}
+			}
+			return passed;
 		}
 
 		public bool Pass(TestCase test) 
 		{
-			return test.IsDescendant(node) || test == node;
+			bool passed = false;
+			foreach(Test node in testNodes) 
+			{
+				if (test.IsDescendant(node) || test == node) 
+				{
+					passed = true;
+					break;
+				}
+			}
+
+			return passed;
 		}
 	}
 }

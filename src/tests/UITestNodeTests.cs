@@ -67,7 +67,7 @@ namespace NUnit.Tests.Util
 			Assert.IsTrue( test1.IsSuite, "IsSuite" );
 			Assert.IsFalse( test1.IsTestCase, "!IsTestCase" );
 			Assert.IsFalse( test1.IsFixture, "!IsFixture" );
-			Assert.AreEqual( 5, test1.CountTestCases );
+			Assert.AreEqual( 5, test1.CountTestCases() );
 
 			UITestNode test2 = new UITestNode( testFixture, true );
 			Assert.AreEqual( "MockTestFixture", test2.Name );
@@ -76,7 +76,7 @@ namespace NUnit.Tests.Util
 			Assert.IsTrue( test2.IsSuite, "IsSuite" );
 			Assert.IsFalse( test2.IsTestCase, "!IsTestCase" );
 			Assert.IsTrue( test2.IsFixture, "IsFixture" );
-			Assert.AreEqual( 5, test2.CountTestCases );
+			Assert.AreEqual( 5, test2.CountTestCases() );
 
 			UITestNode test3 = new UITestNode( testCase1 );
 			Assert.AreEqual( "MockTest1", test3.Name );
@@ -85,7 +85,7 @@ namespace NUnit.Tests.Util
 			Assert.IsFalse( test3.IsSuite, "!IsSuite" );
 			Assert.IsTrue( test3.IsTestCase, "IsTestCase" );
 			Assert.IsFalse( test3.IsFixture, "!IsFixture" );
-			Assert.AreEqual( 1, test3.CountTestCases );
+			Assert.AreEqual( 1, test3.CountTestCases() );
 		}
 
 		[Test]
@@ -104,7 +104,7 @@ namespace NUnit.Tests.Util
 			Assert.IsTrue( test2Child.Populated, "Child should be populated" );
 
 			UITestNode test3 = new UITestNode( testSuite );
-			int count = test3.CountTestCases;
+			int count = test3.CountTestCases();
 			Assert.IsTrue( test3.Populated, "CountTestCases should populate" );
 
 			UITestNode test4 = new UITestNode( testSuite );
@@ -126,7 +126,7 @@ namespace NUnit.Tests.Util
 			Assert.IsTrue( test1.IsSuite, "IsSuite" );
 			Assert.IsFalse( test1.IsTestCase, "!IsTestCase" );
 			Assert.IsFalse( test1.IsFixture, "!IsFixture" );
-			Assert.AreEqual( 5, test1.CountTestCases );
+			Assert.AreEqual( 5, test1.CountTestCases() );
 
 			UITestNode test2 = testFixture;
 			Assert.AreEqual( "MockTestFixture", test2.Name );
@@ -135,7 +135,7 @@ namespace NUnit.Tests.Util
 			Assert.IsTrue( test2.IsSuite, "IsSuite" );
 			Assert.IsFalse( test2.IsTestCase, "!IsTestCase" );
 			Assert.IsTrue( test2.IsFixture, "IsFixture" );
-			Assert.AreEqual( 5, test2.CountTestCases );
+			Assert.AreEqual( 5, test2.CountTestCases() );
 
 			UITestNode test3 = testCase1;
 			Assert.AreEqual( "MockTest1", test3.Name );
@@ -144,7 +144,7 @@ namespace NUnit.Tests.Util
 			Assert.IsFalse( test3.IsSuite, "!IsSuite" );
 			Assert.IsTrue( test3.IsTestCase, "IsTestCase" );
 			Assert.IsFalse( test3.IsFixture, "!IsFixture" );
-			Assert.AreEqual( 1, test3.CountTestCases );
+			Assert.AreEqual( 1, test3.CountTestCases() );
 		}
 	}
 }

@@ -173,9 +173,19 @@ namespace NUnit.Core
 
 		#endregion
 
+		public int CountTestCases(IList testNames) 
+		{
+			return testRunner.CountTestCases(testNames);
+		}
+
 		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outStream, TextWriter errorStream )
 		{
 			return testRunner.Run(listener, outStream, errorStream);
+		}
+
+		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outStream, TextWriter errorStream, IList testNames )
+		{
+			return testRunner.Run(listener, outStream, errorStream, testNames);
 		}
 
 		public void Unload()

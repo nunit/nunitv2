@@ -80,7 +80,7 @@ namespace NUnit.Tests.Core
 		public void TestCaseCount()
 		{
 			TestSuite suite = builder.Build( "TestSuite", assemblies);
-			Assert.AreEqual(10, suite.CountTestCases);
+			Assert.AreEqual(10, suite.CountTestCases());
 		}
 
 		[Test]
@@ -97,7 +97,7 @@ namespace NUnit.Tests.Core
 		{
 			TestSuite suite = builder.Build( assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.IsNotNull( suite );
-			Assert.AreEqual( 5, suite.CountTestCases );
+			Assert.AreEqual( 5, suite.CountTestCases() );
 		}
 	}
 }

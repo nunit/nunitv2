@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using NUnit.Core;
 
 namespace NUnit.Util
@@ -186,11 +187,11 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestReloadFailed, fileName, exception ) );
 		}
 
-		public void FireRunStarting( UITestNode test )
+		public void FireRunStarting( IList tests, int count )
 		{
 			Fire(
 				RunStarting,
-				new TestEventArgs( TestAction.RunStarting, test ) );
+				new TestEventArgs( TestAction.RunStarting, tests, count ) );
 		}
 
 		public void FireRunFinished( TestResult result )

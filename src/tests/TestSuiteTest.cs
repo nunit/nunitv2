@@ -80,7 +80,7 @@ namespace NUnit.Tests.Core
 			Assert.IsTrue(test is TestSuite, "Expected a TestSuite");
 			Assert.AreEqual(mockTestFixture.GetType().Name,test.Name);
 
-			Assert.AreEqual(5, testSuite.CountTestCases);
+			Assert.AreEqual(5, testSuite.CountTestCases());
 		}
 
 		[Test]
@@ -90,7 +90,7 @@ namespace NUnit.Tests.Core
 			TestSuite suite = new TestSuite("mock");
 			suite.Add(testFixture);
 
-			Assert.AreEqual(2, suite.CountTestCases);
+			Assert.AreEqual(2, suite.CountTestCases());
 		}
 
 		[Test]
@@ -118,7 +118,7 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void RunNoTestSuite()
 		{
-			Assert.AreEqual(0, noTestSuite.CountTestCases);
+			Assert.AreEqual(0, noTestSuite.CountTestCases());
 			
 			TestResult result = noTestSuite.Run(NullListener.NULL);
 
@@ -163,6 +163,48 @@ namespace NUnit.Tests.Core
 			Assert.AreEqual(5, listener.testStarted.Count);
 
 			Assert.AreEqual(2, listener.suiteStarted.Count);
+		}
+
+		[Test]
+		public void CountTestCasesFiltered() 
+		{
+			TestSuite testSuite = new TestSuite("Mock Test Suite");
+			testSuite.Add(mockTestFixture);
+			Assert.AreEqual(5, testSuite.CountTestCases(EmptyFilter.Empty));
+			
+			NUnit.Core.TestCase mock3 = (NUnit.Core.TestCase) findTest("MockTest3", testSuite);
+			NUnit.Core.TestCase mock1 = (NUnit.Core.TestCase) findTest("MockTest1", testSuite);
+			NameFilter filter = new NameFilter(mock3);
+			Assert.AreEqual(1, testSuite.CountTestCases(filter));
+
+			ArrayList nodes = new ArrayList();
+			nodes.Add(mock3);
+			nodes.Add(mock1);
+			filter = new NameFilter(nodes);
+
+			Assert.AreEqual(2, testSuite.CountTestCases(filter));
+
+			filter = new NameFilter(testSuite);
+
+			Assert.AreEqual(5, testSuite.CountTestCases(filter));
+		}
+
+		private Test findTest(string name, Test test) 
+		{
+			Test result = null;
+			if (test.Name == name)
+				result = test;
+			else if (test.Tests != null)
+			{
+				foreach(Test t in test.Tests) 
+				{
+					result = findTest(name, t);
+					if (result != null)
+						break;
+				}
+			}
+
+			return result;
 		}
 	}
 

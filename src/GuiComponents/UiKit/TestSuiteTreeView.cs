@@ -41,6 +41,7 @@ namespace NUnit.UiKit
 {
 
 	public delegate void SelectedTestChangedHandler( UITestNode test );
+	public delegate void CheckedTestChangedHandler( IList tests );
 
 	/// <summary>
 	/// TestSuiteTreeView is a tree view control
@@ -149,7 +150,6 @@ namespace NUnit.UiKit
 			this.DoubleClick += new System.EventHandler(this.TestSuiteTreeView_DoubleClick);
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.TestSuiteTreeView_DragEnter);
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.TestSuiteTreeView_DragDrop);
-
 		}
 
 		public void Initialize( ITestLoader loader, ITestEvents events )
@@ -216,6 +216,31 @@ namespace NUnit.UiKit
 			}
 		}
 
+		[Browsable( false )]
+		public ArrayList CheckedTests 
+		{
+			get 
+			{
+				ArrayList result = new ArrayList();
+				FindCheckedNodes(this.Nodes, result);
+				return result;
+			}
+		}
+
+		private void FindCheckedNodes(TreeNodeCollection nodes, ArrayList result) 
+		{
+			foreach (TestSuiteTreeNode node in nodes) 
+			{
+				if (node.Parent == null || !node.Parent.Checked) 
+				{
+					if (node.Checked)
+						result.Add(node.Test);
+					if (node.Nodes != null)
+						FindCheckedNodes(node.Nodes, result);
+				}
+			}
+		}
+
 		/// <summary>
 		/// The currently selected test result or null
 		/// </summary>
@@ -230,6 +255,7 @@ namespace NUnit.UiKit
 		}
 
 		public event SelectedTestChangedHandler SelectedTestChanged;
+		public event CheckedTestChangedHandler CheckedTestChanged;
 
 		/// <summary>
 		/// Test node corresponding to a TestInfo interface
@@ -512,6 +538,14 @@ namespace NUnit.UiKit
 			base.OnAfterSelect( e );
 		}
 
+		protected override void OnAfterCheck(TreeViewEventArgs e)
+		{
+			if (CheckedTestChanged != null)
+				CheckedTestChanged(CheckedTests);
+
+			base.OnAfterCheck (e);
+		}
+
 		#endregion
 
 		#region Public methods to manipulate the tree
@@ -578,6 +612,40 @@ namespace NUnit.UiKit
 		{
 			treeMap.Clear();
 			Nodes.Clear();
+		}
+
+		public void ClearCheckedNodes() 
+		{
+			ClearCheckedNodes(Nodes);
+		}
+
+		private void ClearCheckedNodes(TreeNodeCollection nodes) 
+		{
+			foreach (TreeNode node in nodes) 
+			{
+				node.Checked = false;
+				if (node.Nodes != null)
+					ClearCheckedNodes(node.Nodes);
+			}
+		}
+
+		public void CheckFailedNodes() 
+		{
+			CheckFailedNodes(Nodes);
+		}
+
+		private void CheckFailedNodes(TreeNodeCollection nodes) 
+		{
+			foreach(TestSuiteTreeNode node in nodes) 
+			{
+				if (node.Test.IsTestCase && node.Result != null && node.Result.IsFailure)
+					node.Checked = true;
+				else
+					node.Checked = false;
+
+				if (node.Nodes != null)
+					CheckFailedNodes(node.Nodes);
+			}
 		}
 
 		/// <summary>
@@ -878,7 +946,8 @@ namespace NUnit.UiKit
 			}
 		}
 
-        #endregion
+		#endregion
+
 	}
 }
 

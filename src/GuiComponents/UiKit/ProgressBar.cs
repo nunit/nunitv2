@@ -210,7 +210,7 @@ namespace NUnit.UiKit
 
 		private void Initialize( ITest test )
 		{
-			Initialize( test.CountTestCases );
+			Initialize( test.CountTestCases() );
 		}
 
 		protected override void OnCreateControl()
@@ -229,7 +229,7 @@ namespace NUnit.UiKit
 
 		private void OnRunStarting( object Sender, TestEventArgs e )
 		{
-			Initialize( e.Test );
+			Initialize( e.TestCount );
 		}
 
 		private void OnLoadComplete( object sender, TestEventArgs e )

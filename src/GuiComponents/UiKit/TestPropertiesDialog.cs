@@ -428,7 +428,7 @@ namespace NUnit.UiKit
 			fullName.Text = test.FullName;
 			shouldRun.Text = test.ShouldRun ? "Yes" : "No";
 			ignoreReason.Text = test.IgnoreReason;
-			testCaseCount.Text = test.CountTestCases.ToString();
+			testCaseCount.Text = test.CountTestCases().ToString();
 
 			// Initialize Result Tab
 			if ( result == null || !result.Executed )

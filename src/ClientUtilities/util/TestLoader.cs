@@ -87,9 +87,9 @@ namespace NUnit.Util
 		private UITestNode loadedTest = null;
 
 		/// <summary>
-		/// The test that is running
+		/// The tests that are running
 		/// </summary>
-		private UITestNode runningTest = null;
+		private IList runningTests = null;
 
 		/// <summary>
 		/// Result of the last test run
@@ -156,7 +156,7 @@ namespace NUnit.Util
 
 		public bool IsTestRunning
 		{
-			get { return runningTest != null; }
+			get { return runningTests != null; }
 		}
 
 		public bool IsReloadPending
@@ -585,12 +585,19 @@ namespace NUnit.Util
 		/// <param name="test">Test to be run</param>
 		public void RunTestSuite( UITestNode testInfo )
 		{
+			ArrayList tests = new ArrayList();
+			tests.Add(testInfo);
+			RunTests(tests);
+		}
+
+		public void RunTests( IList tests )
+		{
 			if ( !IsTestRunning )
 			{
 				if ( IsReloadPending || ReloadOnRun )
 					ReloadTest();
 
-				runningTest = testInfo;
+				runningTests = tests;
 				runningThread = new Thread( new ThreadStart( this.TestRunThreadProc ) );
 				string apartment = ConfigurationSettings.AppSettings["apartment"];
 				if ( apartment == "STA" )
@@ -604,13 +611,21 @@ namespace NUnit.Util
 		/// </summary>
 		private void TestRunThreadProc()
 		{
-			events.FireRunStarting( runningTest );
+			//kind of silly
+			ArrayList testNames = new ArrayList();
+			foreach (UITestNode node in runningTests) 
+			{
+				testNames.Add(node.UniqueName);
+			}
+
+			int count = testDomain.CountTestCases(testNames);
+
+			events.FireRunStarting( runningTests, count );
 
 			try
 			{
 				Directory.SetCurrentDirectory( testProject.ActiveConfig.BasePath );
-				testDomain.TestName = runningTest.UniqueName;
-				lastResult = testDomain.Run(this, stdOutWriter, stdErrWriter );
+				lastResult = testDomain.Run(this, stdOutWriter, stdErrWriter, testNames );
 				
 				events.FireRunFinished( lastResult );
 			}
@@ -621,7 +636,7 @@ namespace NUnit.Util
 			}
 			finally
 			{
-				runningTest = null;
+				runningTests = null;
 				runningThread = null;
 			}
 		}

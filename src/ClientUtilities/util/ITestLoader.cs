@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using NUnit.Core;
 
 namespace NUnit.Util
@@ -105,6 +106,9 @@ namespace NUnit.Util
 
 		// Run a test suite
 		void RunTestSuite( UITestNode test );
+
+		// Run a collection of tests
+		void RunTests(IList tests);
 
 		// Cancel the running test
 		void CancelTestRun();

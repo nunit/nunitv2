@@ -76,7 +76,7 @@ namespace NUnit.Tests.Core
 		public void CountTestCases()
 		{
 			Test test = domain.LoadAssembly("mock-assembly.dll");
-			Assert.AreEqual(7, test.CountTestCases);
+			Assert.AreEqual(7, test.CountTestCases());
 		}
 
 		[Test]
@@ -153,7 +153,7 @@ namespace NUnit.Tests.Core
 
 			Test test = domain.LoadAssemblies( "Multiple", assemblies );
 			Assert.IsNotNull(test, "test should not be null");
-			Assert.AreEqual(10, test.CountTestCases);
+			Assert.AreEqual(10, test.CountTestCases());
 		}
 
 		[Test]

@@ -160,7 +160,7 @@ namespace NUnit.Core
 				}
 			}
 
-			if(testSuite.CountTestCases == 0)
+			if(testSuite.CountTestCases() == 0)
 			{
 				testSuite.ShouldRun = false;
 				testSuite.IgnoreReason = testSuite.Name + " does not have any tests";
@@ -209,18 +209,29 @@ namespace NUnit.Core
 			}
 		}
 
-		public override int CountTestCases 
+		public override int CountTestCases()
 		{
-			get 
-			{
-				int count = 0;
+			int count = 0;
 
+			foreach(Test test in Tests)
+			{
+				count += test.CountTestCases();
+			}
+			return count;
+		}
+
+		public override int CountTestCases(IFilter filter)
+		{
+			int count = 0;
+
+			if(this.Filter(filter)) 
+			{
 				foreach(Test test in Tests)
 				{
-					count += test.CountTestCases;
+					count += test.CountTestCases(filter);
 				}
-				return count;
 			}
+			return count;
 		}
 
 		private bool suiteRunning = false;

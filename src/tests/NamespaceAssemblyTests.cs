@@ -119,7 +119,7 @@ namespace NUnit.Tests.Core
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( nonamespaceDLL );
 			Assert.IsNotNull(suite);
-			Assert.AreEqual( 3, suite.CountTestCases );
+			Assert.AreEqual( 3, suite.CountTestCases() );
 		}
 	}
 }

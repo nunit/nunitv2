@@ -47,9 +47,14 @@ namespace NUnit.Extensions
 			this.repeatCount = repeatCount;
 		}
 
-		public override int CountTestCases 
+		public override int CountTestCases() 
 		{
-			get { return repeatCount; }
+			return repeatCount;
+		}
+
+		public override int CountTestCases(IFilter filter) 
+		{
+			return repeatCount * testCase.CountTestCases(filter);
 		}
 
 		public override TestResult Run(EventListener listener, IFilter filter)
@@ -90,7 +95,7 @@ namespace NUnit.Extensions
 
 		public override bool Filter(IFilter filter)
 		{
-			return true;
+			return testCase.Filter(filter);
 		}
 
 	}

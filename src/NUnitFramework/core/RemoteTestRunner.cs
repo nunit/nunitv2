@@ -116,7 +116,13 @@ namespace NUnit.Core
 			if(suite != null) TestName = suite.FullName;
 		}
 
-		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText)
+		public int CountTestCases(IList testNames) 
+		{
+			IFilter filter = BuildNameFilter(testNames);
+			return suite.CountTestCases(filter);
+		}
+
+		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText, IFilter filter) 
 		{
 			BufferedStringTextWriter outBuffer = new BufferedStringTextWriter( outText );
 			BufferedStringTextWriter errorBuffer = new BufferedStringTextWriter( errorText );
@@ -124,26 +130,51 @@ namespace NUnit.Core
 			Console.SetOut( outBuffer );
 			Console.SetError( errorBuffer );
 
-			Test test = FindByName(suite, testName);
+//			string currentDirectory = Environment.CurrentDirectory;
+//
+//			string assemblyName = assemblies == null ? testFileName : (string)assemblies[test.AssemblyKey];
+//			string assemblyDirectory = Path.GetDirectoryName( assemblyName );
+//
+//			if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
+//				Environment.CurrentDirectory = assemblyDirectory;
 
-			string currentDirectory = Environment.CurrentDirectory;
-
-			string assemblyName = assemblies == null ? testFileName : (string)assemblies[test.AssemblyKey];
-			string assemblyDirectory = Path.GetDirectoryName( assemblyName );
-
-			if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
-				Environment.CurrentDirectory = assemblyDirectory;
-
-			NameFilter filter = new NameFilter(test);
 
 			TestResult result = suite.Run(listener, filter);
 
-			Environment.CurrentDirectory = currentDirectory;
+		//	Environment.CurrentDirectory = currentDirectory;
 
 			outBuffer.Close();
 			errorBuffer.Close();
 
 			return result;
+		}
+
+		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText)
+		{
+			Test test = FindByName(suite, testName);
+
+			NameFilter filter = new NameFilter(test);
+
+			return Run(listener, outText, errorText, filter);
+		}
+
+		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText, IList testNames)
+		{
+			IFilter filter = BuildNameFilter(testNames);
+		
+			return Run(listener, outText, errorText, filter);
+		}
+
+		private IFilter BuildNameFilter(IList testNames) 
+		{
+			ArrayList testNodes = new ArrayList();
+			foreach (string name in testNames) 
+			{
+				Test test = FindByName(suite, name);
+				testNodes.Add(test);
+			}
+
+			return new NameFilter(testNodes);
 		}
 
 		#endregion

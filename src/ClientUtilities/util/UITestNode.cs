@@ -175,7 +175,7 @@ namespace NUnit.Util
 				{
 					UITestNode node = new UITestNode( test, true );
 					tests.Add( node );
-					testCaseCount += node.CountTestCases;
+					testCaseCount += node.CountTestCases();
 				}
 
 				testSuite = null;
@@ -272,15 +272,12 @@ namespace NUnit.Util
 		/// Count of test cases in this test. If the suite
 		/// has never been populated, it will be done now.
 		/// </summary>
-		public int CountTestCases
+		public int CountTestCases()
 		{ 
-			get 
-			{ 
-				if ( !Populated )
-					PopulateTests();
+			if ( !Populated )
+				PopulateTests();
 
-				return testCaseCount; 
-			}
+			return testCaseCount; 
 		}
 
 		/// <summary>

@@ -80,7 +80,7 @@ namespace NUnit.Tests.Core
 
 			Assert.AreEqual(1, testFixture.setUpCount);
 			Assert.AreEqual(1, testFixture.tearDownCount);
-			Assert.AreEqual(2, suite.CountTestCases );
+			Assert.AreEqual(2, suite.CountTestCases() );
 			Assert.AreEqual(2, ((TestSuite)suite.Tests[0]).Tests.Count );
 		}
 
@@ -293,7 +293,7 @@ namespace NUnit.Tests.Core
 
 			Assert.AreEqual(1, testFixture.setUpCount);
 			Assert.AreEqual(1, testFixture.tearDownCount);
-			Assert.AreEqual(2, suite.CountTestCases );
+			Assert.AreEqual(2, suite.CountTestCases() );
 			Assert.AreEqual(2, ((TestSuite)suite.Tests[0]).Tests.Count );
 		}
 
