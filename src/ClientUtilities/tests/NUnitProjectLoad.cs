@@ -208,5 +208,18 @@ namespace NUnit.Util.Tests
 				Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
 			}
 		}
+
+		[Test]
+		public void FromWebApplication()
+		{
+			using( new TempResourceFile(this.GetType(), "ClassLibrary1.csproj", @"ClassLibrary1\ClassLibrary1.csproj" ) )
+			using( TempResourceFile file = new TempResourceFile( this.GetType(), "WebApplication1.sln" ) )
+			{
+				NUnitProject project = NUnitProject.FromVSSolution( file.Path );
+				Assert.AreEqual( 2, project.Configs.Count );
+				Assert.AreEqual( 1, project.Configs["Debug"].Assemblies.Count );
+				Assert.AreEqual( 1, project.Configs["Release"].Assemblies.Count );
+			}
+		}
 	}
 }

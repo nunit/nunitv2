@@ -73,6 +73,12 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
+		public void NotWebProject()
+		{
+			Assert.IsFalse(VSProject.IsProjectFile( @"http://localhost/web.csproj") );
+		}
+
+		[Test]
 		public void LoadCsharpProject()
 		{
 			using(TempResourceFile file = new TempResourceFile(this.GetType(), "csharp-sample.csproj"))

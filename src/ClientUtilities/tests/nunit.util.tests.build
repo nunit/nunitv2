@@ -1,43 +1,64 @@
 <?xml version="1.0"?>
 <project name="NUnit.Util.Tests" default="build">
 
-    <!--
-        Required properties:
-            * bin.dir               - bin directory
-            * src.dir               - source location(build) or target(copy)
-            * build.debug           - (true|false) debug build?
-            * build.mono            - (true|false) mono build?
-            * build.defines.csc     - build defines for build config
-    -->
+  <property name="project.src.dir" value="../.."
+    unless="${property::exists('project.src.dir')}"/>
 
-    <target name="build" depends="copy">
+  <include buildfile="../../nunit.build.include"/>
 
-        <csc target="library" output="${bin.dir}/nunit.util.tests.dll" debug="${build.debug}" define="${build.defines.csc}">
-            <sources basedir="${src.dir}/ClientUtilities/tests">
-                <include name="*.cs"/>
-            </sources>
-            <references basedir="${bin.dir}">
-                <include name="nunit.framework.dll"/>
-                <include name="nunit.core.dll"/>
-                <include name="nunit.util.dll"/>
-                <include name="nunit.mocks.dll"/>
-                <include name="test-utilities.dll"/>
-                <include name="mock-assembly.dll"/>
-                <include name="notestfixtures-assembly.dll"/>
-            </references>
-        </csc>
+  <target name="build" depends="make-build-dir">
+    <csc target="library" 
+        output="${current.build.dir}/nunit.util.tests.dll"
+        debug="${build.debug}" define="${build.defines.csc}">
+      <sources basedir=".">
+        <include name="*.cs"/>
+      </sources>
+      <resources basedir="." prefix="NUnit.Util.Tests">
+        <include name="cpp-sample.vcproj"/>
+        <include name="cpp-sample_VS2005.vcproj"/>
+        <include name="csharp-sample.csproj"/>
+        <include name="csharp-sample_VS2005.csproj"/>
+        <include name="jsharp.vjsproj"/>
+        <include name="jsharp_VS2005.vjsproj"/>
+        <include name="vb-sample.vbproj"/>
+        <include name="vb-sample_VS2005.vbproj"/>
+        <include name="samples.sln"/>
+        <include name="samples_VS2005.sln"/>
+        <include name="ClassLibrary1.csproj"/>
+        <include name="WebApplication1.sln"/>
+      </resources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.util.dll"/>
+        <include name="nunit.mocks.dll"/>
+        <include name="test-utilities.dll"/>
+        <include name="mock-assembly.dll"/>
+        <include name="notestfixtures-assembly.dll"/>
+      </references>
+    </csc>
+  </target>
 
-    </target>
-
-    <target name="copy">
-
-        <copy todir="${src.dir}/ClientUtilities/tests">
-            <fileset basedir=".">
-                <include name="nunit.util.tests.csproj"/>
-                <include name="nunit.util.build"/>
-                <include name="*.cs"/>
-            </fileset>
-        </copy>
-
-    </target>
+  <target name="package">
+    <copy todir="${package.src.dir}/ClientUtilities/tests">
+      <fileset basedir=".">
+        <include name="nunit.util.tests.csproj"/>
+        <include name="nunit.util.tests.build"/>
+        <include name="nunit.util.tests.dll.config"/>
+        <include name="*.cs"/>
+        <include name="cpp-sample.vcproj"/>
+        <include name="cpp-sample_VS2005.vcproj"/>
+        <include name="csharp-sample.csproj"/>
+        <include name="csharp-sample_VS2005.csproj"/>
+        <include name="jsharp.vjsproj"/>
+        <include name="jsharp_VS2005.vjsproj"/>
+        <include name="vb-sample.vbproj"/>
+        <include name="vb-sample_VS2005.vbproj"/>
+        <include name="samples.sln"/>
+        <include name="samples_VS2005.sln"/>
+        <include name="ClassLibrary1.csproj"/>
+        <include name="WebApplication1.sln"/>
+      </fileset>
+    </copy>
+  </target>
 </project>

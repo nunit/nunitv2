@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = ""
+                PostBuildEvent = 'copy "$(ProjectDir)nunit.util.tests.dll.config" "$(TargetDir)nunit.util.dll.tests.config"'
                 RootNamespace = "NUnit.Util.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -129,6 +129,10 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ClassLibrary1.csproj"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "ConsoleFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -181,6 +185,10 @@
                     RelPath = "MultipleAssemblyFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "nunit.util.tests.dll.config"
+                    BuildAction = "None"
                 />
                 <File
                     RelPath = "NUnitProjectLoad.cs"
@@ -243,17 +251,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Results.xsd"
-                    Link = "..\..\NUnitFramework\core\Results.xsd"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Results.xsx"
-                    Link = "..\..\NUnitFramework\core\Results.xsx"
-                    DependentUpon = "Results.xsd"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "samples.sln"
                     BuildAction = "EmbeddedResource"
                 />
@@ -310,12 +307,11 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "XmlResultVisitorTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                    RelPath = "WebApplication1.sln"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "XmlTest.cs"
+                    RelPath = "XmlResultVisitorTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
