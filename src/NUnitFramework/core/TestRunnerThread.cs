@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Configuration;
+using System.Collections.Specialized;
 
 namespace NUnit.Core
 {
@@ -10,23 +11,77 @@ namespace NUnit.Core
 	/// </summary>
 	public class TestRunnerThread
 	{
+		#region Private Fields
+
+		/// <summary>
+		/// The Test runner to be used in running tests on the thread
+		/// </summary>
 		private TestRunner runner;
 
+		/// <summary>
+		/// The System.Threading.Thread created by the object
+		/// </summary>
 		private Thread thread;
 
+		/// <summary>
+		/// Collection of TestRunner settings from the config file
+		/// </summary>
+		private NameValueCollection settings;
+
+		/// <summary>
+		/// The exception that terminated a test run
+		/// </summary>
 		private Exception lastException;
 
+		/// <summary>
+		/// The EventListener interface to receive test events
+		/// </summary>
 		private NUnit.Core.EventListener listener;
 			
+		/// <summary>
+		/// Array of test names for ues by the thread proc
+		/// </summary>
 		private string[] testNames;
 			
+		/// <summary>
+		/// Array of returned results - needed?
+		/// </summary>
 		private TestResult[] results;
-			
+
+		#endregion
+
+		#region Constructor
+	
 		public TestRunnerThread( TestRunner runner ) 
 		{ 
 			this.runner = runner;
 			this.thread = new Thread( new ThreadStart( TestRunnerThreadProc ) );
+
+			this.settings = (NameValueCollection)
+				ConfigurationSettings.GetConfig( "NUnit/TestRunner" );
+		
+			try
+			{
+				string apartment = (string)settings["ApartmentState"];
+				if ( apartment == "STA" )
+					thread.ApartmentState = ApartmentState.STA;
+				else if ( apartment == "MTA" )
+					thread.ApartmentState = ApartmentState.MTA;
+				
+				string priority = (string)settings["ThreadPriority"];
+				if ( priority != null )
+					thread.Priority = (ThreadPriority)
+						System.Enum.Parse( typeof( ThreadPriority ), priority, true );
+			}
+			catch
+			{
+				// Ignore any problems for now - test will run using default settings
+			}
 		}
+
+		#endregion
+
+		#region Public Methods
 
 		public void Wait()
 		{
@@ -41,13 +96,9 @@ namespace NUnit.Core
 		}
 
 		public void Run( EventListener listener )
-
 		{
 			this.listener = listener;
 
-			string apartment = ConfigurationSettings.AppSettings["apartment"];
-			if ( apartment == "STA" )
-				thread.ApartmentState = ApartmentState.STA;
 			thread.Start();}
 
 		public void Run( EventListener listener, string testName )
@@ -55,9 +106,6 @@ namespace NUnit.Core
 			this.listener = listener;
 			this.testNames = new string[] { testName };
 
-			string apartment = ConfigurationSettings.AppSettings["apartment"];
-			if ( apartment == "STA" )
-				thread.ApartmentState = ApartmentState.STA;
 			thread.Start();		}
 
 		public void Run( EventListener listener, string[] testNames )
@@ -65,11 +113,12 @@ namespace NUnit.Core
 			this.listener = listener;
 			this.testNames = testNames;
 
-			string apartment = ConfigurationSettings.AppSettings["apartment"];
-			if ( apartment == "STA" )
-				thread.ApartmentState = ApartmentState.STA;
 			thread.Start();
 		}
+
+		#endregion
+
+		#region Thread Proc
 
 		/// <summary>
 		/// The thread proc for our actual test run
@@ -97,5 +146,7 @@ namespace NUnit.Core
 				//runningThread = null;	// Ditto
 			}
 		}
+
+		#endregion
 	}
 }
