@@ -7,19 +7,24 @@
   <include buildfile="..\..\nunit.build.include"/>
 
   <target name="clean" depends="set-build-dir">
-    <delete file="${current.build.dir}/nunit.util.dll" failonerror="false"/>
-    <delete file="${current.build.dir}/nunit.util.pdb" failonerror="false"/>
+    <delete failonerror="false">
+      <fileset basedir="${current.build.dir}">
+        <include name="nunit.util.dll"/>
+        <include name="nunit.util.pdb"/>
+      </fileset>
+    </delete>
   </target>
 
   <target name="build" depends="make-build-dir">
-    <call target="delete-outputs" if="${build.clean}"/>
     <csc target="library" 
         output="${current.build.dir}/nunit.util.dll"
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
-        <includesfile name="sources.include"/>
-        <includesfile name="sources.win32.include"
-          if="${build.win32}"/>
+        <include name="*.cs"/>
+        <exclude name="NUnitRegistry.cs" 
+          unless="${build.win32}"/>
+        <exclude name="RegistrySettingsStorage.cs" 
+          unless="${build.win32}"/>
       </sources>
       <resources basedir="." prefix="NUnit.Util">
         <include name="Transform.resx"/>
@@ -31,24 +36,12 @@
     </csc>
   </target>
   
-  <target name="delete-outputs">
-    <delete>
-      <fileset basedir="${current.build.dir}">
-        <include name="nunit.util.dll"/>
-        <include name="nunit.util.pdb"/>
-      </fileset>
-    </delete>
-  </target>
-
   <target name="package">
     <copy todir="${package.src.dir}/ClientUtilities/util">
       <fileset basedir=".">
         <include name="nunit.util.dll.csproj"/>
         <include name="nunit.util.build"/>
-        <include name="sources.include"/>
-        <include name="sources.win32.include"/>
-        <includesfile name="sources.include"/>
-        <includesfile name="sources.win32.include"/>
+        <include name="*.cs"/>
         <include name="Transform.resx"/>
       </fileset>
     </copy>

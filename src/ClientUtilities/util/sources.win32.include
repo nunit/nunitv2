@@ -1,8 +1,0 @@
-ITestEvents.cs
-ITestLoader.cs
-NUnitRegistry.cs
-RecentFileSettings.cs
-RegistrySettingsStorage.cs
-TestEventArgs.cs
-TestEventDispatcher.cs
-TestLoader.cs
