@@ -649,8 +649,8 @@ namespace NUnit.Framework
 		}
    
 		/// <summary>
-		/// Throws an <see cref="AssertionException"/> with the message that is 
-		/// passed in. This is used by the other Assert functions. 
+		/// Throws an <see cref="AssertionException"/> with the message and arguments 
+		/// that are passed in. This is used by the other Assert functions. 
 		/// </summary>
 		/// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
@@ -674,14 +674,20 @@ namespace NUnit.Framework
 		}
     
 		/// <summary>
-		/// Throws an <see cref="AssertionException"/> with the message that is 
-		/// passed in. This is used by the other Assert functions. 
+		/// Throws an <see cref="AssertionException"/>. 
+		/// This is used by the other Assert functions. 
 		/// </summary>
 		static public void Fail() 
 		{
 			Assert.Fail(string.Empty, null);
 		}
 
+		/// <summary>
+		/// Throws an <see cref="IgnoreException"/> with the message and arguments 
+		/// that are passed in.  This causes the test to be reported as ignored.
+		/// </summary>
+		/// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void Ignore( string message, object[] args )
 		{
 			if (message == null) message = string.Empty;
@@ -691,9 +697,24 @@ namespace NUnit.Framework
 			throw new IgnoreException(message);
 		}
 
+		/// <summary>
+		/// Throws an <see cref="IgnoreException"/> with the message that is 
+		/// passed in. This causes the test to be reported as ignored. 
+		/// </summary>
+		/// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
 		static public void Ignore( string message )
 		{
 			Assert.Ignore( message, null );
+		}
+    
+		/// <summary>
+		/// Throws an <see cref="IgnoreException"/>. 
+		/// This causes the test to be reported as ignored. 
+		/// </summary>
+		/// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
+		static public void Ignore()
+		{
+			Assert.Ignore( string.Empty, null );
 		}
     
 		/// <summary>
