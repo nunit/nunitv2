@@ -49,7 +49,13 @@ namespace NUnit.Core
 		{
 			try
 			{
-				Reflect.CheckFixtureType( fixtureType );
+				if ( Reflect.GetConstructor( fixtureType ) == null )
+					throw new InvalidTestFixtureException(fixtureType.FullName + " does not have a valid constructor");
+			
+				CheckSetUpTearDownMethod( fixtureType, SetUpType );
+				CheckSetUpTearDownMethod( fixtureType, TearDownType );
+				CheckSetUpTearDownMethod( fixtureType, FixtureSetUpType );
+				CheckSetUpTearDownMethod( fixtureType, FixtureTearDownType );
 
 				object[] attributes = fixtureType.GetCustomAttributes( CategoryType, false );
 				IList categories = new ArrayList();
@@ -103,6 +109,23 @@ namespace NUnit.Core
 				this.IgnoreReason = exception.Message;
 			}
 		}
+
+		private void CheckSetUpTearDownMethod( Type fixtureType, Type attributeType )
+		{
+			MethodInfo theMethod = Reflect.GetUniqueMethod( fixtureType, attributeType );
+
+			if ( theMethod != null )
+			{
+				if ( theMethod.IsStatic ||
+					theMethod.IsAbstract ||
+					!theMethod.IsPublic && !theMethod.IsFamily ||
+					theMethod.GetParameters().Length != 0 ||
+					!theMethod.ReturnType.Equals( typeof(void) ) )
+				{
+					throw new InvalidTestFixtureException("Invalid SetUp or TearDown method signature");
+				}
+			}
+		} 
 
 		#endregion
 

@@ -259,28 +259,6 @@ namespace NUnit.Core
 			return suite;
 		}
 		
-		// TODO: Only used in tests
-		public object BuildTestFixture( Type fixtureType )
-		{
-			Reflect.CheckFixtureType( fixtureType );
-
-			object testFixture;
-			ConstructorInfo ctor = Reflect.GetConstructor( fixtureType );
-
-			try
-			{
-				testFixture = ctor.Invoke( Type.EmptyTypes );
-			}
-			catch( Exception ex )
-			{
-				throw new InvalidTestFixtureException( ctor.Name + " threw a exception", ex );
-			}
-
-			if(testFixture == null) throw new InvalidTestFixtureException(ctor.Name + " cannot be invoked");
-
-			return testFixture;
-		}
-
 		#endregion
 
 		#region Nested TypeFilter Class

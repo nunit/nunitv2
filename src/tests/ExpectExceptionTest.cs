@@ -236,18 +236,13 @@ namespace NUnit.Tests.Core
 		{ 
 			TestSuiteResult suiteResult = (TestSuiteResult)RunInternalTest( typeof (TestAssertsBeforeThrowingException) );
 			Assert.AreEqual( true, suiteResult.IsFailure );
-			suiteResult = (TestSuiteResult)suiteResult.Results[0];
 			TestResult result = (TestResult)suiteResult.Results[0];
 			Assert.AreEqual( "private message", result.Message );
 		} 
 
 		private TestResult RunInternalTest( Type type )
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			object testFixture = builder.BuildTestFixture( type );
-			TestSuite suite = new TestSuite("mock suite");
-			suite.Add( testFixture );
-
+			TestFixture suite = new TestFixture( type );
 			return suite.Run( NUnit.Core.NullListener.NULL );
 		}
 

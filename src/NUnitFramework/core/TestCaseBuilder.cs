@@ -100,7 +100,7 @@ namespace NUnit.Core
 			TestCase testCase = null;
 
 			TestAttribute testAttribute = (TestAttribute)Reflect.GetAttribute( method, TestType, false );
-			if( testAttribute != null || Reflect.IsObsoleteTestMethod( method ) )
+			if( testAttribute != null || IsObsoleteTestMethod( method ) )
 			{
 				if (!method.IsStatic &&
 					!method.IsAbstract &&
@@ -142,6 +142,27 @@ namespace NUnit.Core
 			}
 
 			return testCase;
+		}
+
+		private static bool IsObsoleteTestMethod(MethodInfo methodToCheck)
+		{
+			if ( methodToCheck.Name.ToLower().StartsWith("test") )
+			{
+				object[] attributes = methodToCheck.GetCustomAttributes( false );
+
+				foreach( Attribute attribute in attributes )
+					if( attribute is SetUpAttribute ||
+						attribute is TestFixtureSetUpAttribute ||
+						attribute is TearDownAttribute || 
+						attribute is TestFixtureTearDownAttribute )
+					{
+						return false;
+					}
+
+				return true;	
+			}
+
+			return false;
 		}
 	}
 }
