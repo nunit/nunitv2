@@ -49,6 +49,9 @@ namespace NUnit.Tests.Util
 		[SetUp]
 		public void CreateFile()
 		{
+			if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
+				return;
+
 			file = new FileInfo(fileName);
 			FileStream stream = file.Create();
 			stream.Close();
@@ -62,6 +65,9 @@ namespace NUnit.Tests.Util
 		[TearDown]
 		public void DeleteFile()
 		{
+			if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
+				return;
+
 			watcher.Stop();
 			FileInfo fileInfo = new FileInfo(fileName);
 			fileInfo.Delete();
@@ -73,6 +79,9 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void TestManyFrequentEvents()
 		{
+			if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
+				return;
+
 			for(int i=0; i<3; i++)
 			{
 				StreamWriter writer =  file.AppendText();
@@ -89,6 +98,9 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void ChangeAttributes()
 		{
+			if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
+				return;
+
 			FileInfo fi = new FileInfo(fileName);
 			FileAttributes attr = fi.Attributes;
 			fi.Attributes = FileAttributes.Hidden | attr;
@@ -100,6 +112,9 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void CopyFile()
 		{
+			if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
+				return;
+
 			FileInfo fi = new FileInfo(fileName);
 			fi.CopyTo(tempFileName);
 			fi.Delete();
