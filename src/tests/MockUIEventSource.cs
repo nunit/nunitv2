@@ -21,6 +21,7 @@ namespace NUnit.Tests
 		public event SuiteStartedHandler SuiteStartedEvent;
 		public event TestStartedHandler TestStartedEvent;
 		public event RunFinishedHandler RunFinishedEvent;
+		public event RunCanceledHandler RunCanceledEvent;
 		public event SuiteFinishedHandler SuiteFinishedEvent;
 		public event TestFinishedHandler TestFinishedEvent;
 
