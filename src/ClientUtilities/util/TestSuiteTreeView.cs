@@ -34,10 +34,10 @@ using System.Collections;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace NUnit.UiKit
+namespace NUnit.Util
 {
 	using NUnit.Core;
-	using NUnit.Util;
+	using NUnit.UiKit;
 
 	/// <summary>
 	/// TestSuiteTreeView is a tree view control
@@ -61,6 +61,12 @@ namespace NUnit.UiKit
 		/// </summary>
 		private TestSuiteTreeNode contextNode;
 
+		/// <summary>
+		/// Whether the browser supports running tests,
+		/// or just loading and examining them
+		/// </summary>
+		private bool runCommandSupported = false;
+		
 		/// <summary>
 		/// Whether or not we track progress of tests visibly in the tree
 		/// </summary>
@@ -95,6 +101,7 @@ namespace NUnit.UiKit
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			//Temporary fix till we adjust the namespaces
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(TestSuiteTreeView));
 			this.treeImages = new System.Windows.Forms.ImageList(this.components);
 			// 
@@ -131,7 +138,18 @@ namespace NUnit.UiKit
 
 		#endregion
 
-		#region Properties
+		#region Properties and Events
+
+		/// <summary>
+		/// Property determining whether the run command
+		/// is supported from the tree context menu and
+		/// by double-clicking test cases.
+		/// </summary>
+		public bool RunCommandSupported
+		{
+			get { return runCommandSupported; }
+			set { runCommandSupported = value; }
+		}
 
 		/// <summary>
 		/// Property determining whether tree should redraw nodes
@@ -166,6 +184,8 @@ namespace NUnit.UiKit
 				return node.Result; 
 			}
 		}
+
+		public event SelectedTestChangedHandler SelectedTestChanged;
 
 		/// <summary>
 		/// TestNode corresponding to a test fullname
@@ -231,7 +251,7 @@ namespace NUnit.UiKit
 
 		private void OnRunFinished( TestResult result )
 		{
-			Expand( result.Test );
+			this[result].Expand();
 			runCommandEnabled = true;
 		}
 
@@ -265,10 +285,13 @@ namespace NUnit.UiKit
 		{
 			this.ContextMenu.MenuItems.Clear();
 
-			MenuItem runMenuItem = new MenuItem( "&Run", new EventHandler( runMenuItem_Click ) );
-			runMenuItem.DefaultItem = runMenuItem.Enabled = runCommandEnabled;
+			if ( RunCommandSupported )
+			{
+				MenuItem runMenuItem = new MenuItem( "&Run", new EventHandler( runMenuItem_Click ) );
+				runMenuItem.DefaultItem = runMenuItem.Enabled = runCommandEnabled;
 			
-			this.ContextMenu.MenuItems.Add( runMenuItem );
+				this.ContextMenu.MenuItems.Add( runMenuItem );
+			}
 
 			if ( contextNode.Nodes.Count > 0 )
 			{
@@ -379,7 +402,7 @@ namespace NUnit.UiKit
 
 		private void TestSuiteTreeView_DoubleClick(object sender, System.EventArgs e)
 		{
-			if ( runCommandEnabled && SelectedNode.Nodes.Count == 0 )
+			if ( runCommandSupported && runCommandEnabled && SelectedNode.Nodes.Count == 0 )
 			{
 				actions.RunTestSuite( SelectedTest );
 			}	
@@ -425,16 +448,6 @@ namespace NUnit.UiKit
 		}
 
 		/// <summary>
-		/// Remove a test and it's dependents from the tree
-		/// </summary>
-		/// <param name="test">The test to remove</param>
-		public void RemoveTest( TestInfo test )
-		{
-			TestSuiteTreeNode node = this[test];
-			RemoveNode( node );
-		}
-
-		/// <summary>
 		/// Clear all the info in the tree.
 		/// </summary>
 		public void Clear()
@@ -463,20 +476,9 @@ namespace NUnit.UiKit
 		}
 
 		/// <summary>
-		/// Find and expand a particular test in the tree
-		/// </summary>
-		/// <param name="test">The test to expand</param>
-		public void Expand( TestInfo test )
-		{
-			TestSuiteTreeNode node = this[test.FullName];
-			if ( node != null )
-				node.Expand();
-		}
-
-		/// <summary>
 		/// Collapse all fixtures in the tree
 		/// </summary>
-		public void CollapseFixtures()
+		private void CollapseFixtures()
 		{
 			foreach( TestSuiteTreeNode node in Nodes )
 				CollapseFixturesUnderNode( node );
@@ -485,7 +487,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// Expand all fixtures in the tree
 		/// </summary>
-		public void ExpandFixtures()
+		private void ExpandFixtures()
 		{
 			foreach( TestSuiteTreeNode node in Nodes )
 				ExpandFixturesUnderNode( node );
@@ -655,6 +657,14 @@ namespace NUnit.UiKit
 		}
 
         #endregion
+
+		protected override void OnAfterSelect(System.Windows.Forms.TreeViewEventArgs e)
+		{
+			if ( SelectedTestChanged != null )
+				SelectedTestChanged( SelectedTest );
+
+			base.OnAfterSelect( e );
+		}
 	}
 }
 
