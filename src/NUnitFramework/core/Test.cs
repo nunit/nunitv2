@@ -210,6 +210,8 @@ namespace NUnit.Core
 
 		#endregion
 
+		#region Abstract Methods and Properties
+
 		/// <summary>
 		/// Count of the test cases ( 1 if this is a test case )
 		/// </summary>
@@ -225,6 +227,10 @@ namespace NUnit.Core
 
 		public abstract TestResult Run( EventListener listener );
 		public abstract TestResult Run(EventListener listener, IFilter filter);
+
+		#endregion
+
+		#region Protected Helper Methods
 
 		protected MethodInfo FindMethodByAttribute(object fixture, Type type)
 		{
@@ -253,6 +259,8 @@ namespace NUnit.Core
 				}
 			}
 		}
+
+		#endregion
 
 		#region IComparable Members
 
