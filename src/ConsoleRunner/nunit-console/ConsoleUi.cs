@@ -170,7 +170,7 @@ namespace NUnit.ConsoleRunner
 			else
 				project = NUnitProject.FromAssemblies( (string[])parser.Parameters.ToArray( typeof( string ) ) );
 
-			return testDomain.Load( project, parser.fixture );
+			return testDomain.Load( project.AsCoreTestProject, parser.fixture );
 		}
 
 		public ConsoleUi()
