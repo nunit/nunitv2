@@ -32,6 +32,7 @@ namespace NUnit.Tests
 {
 	using System;
 	using System.Reflection;
+	using System.Windows.Forms;
 	using NUnit.Framework;
 	using NUnit.Core;
 	using NUnit.Util;
@@ -66,7 +67,7 @@ namespace NUnit.Tests
 			Assertion.AssertNotNull(suite);
 		}
 
-		private bool AllExpanded( TestSuiteTreeNode node)
+		private bool AllExpanded( TreeNode node)
 		{
 			if ( node.Nodes.Count == 0 )
 				return true;
@@ -74,8 +75,13 @@ namespace NUnit.Tests
 			if ( !node.IsExpanded )
 				return false;
 			
-			foreach( TestSuiteTreeNode child in node.Nodes )
-				if ( !AllExpanded( child ) )
+			return AllExpanded( node.Nodes );
+		}
+
+		private bool AllExpanded( TreeNodeCollection nodes )
+		{
+			foreach( TestSuiteTreeNode node in nodes )
+				if ( !AllExpanded( node ) )
 					return false;
 
 			return true;
@@ -86,37 +92,48 @@ namespace NUnit.Tests
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
-			Assertion.AssertNotNull( treeView.RootNode );
-			Assertion.AssertEquals( 15, treeView.RootNode.GetNodeCount( true ) );
-			Assertion.Assert( "Nodes not expanded on load", AllExpanded( treeView.RootNode ) );
+			Assertion.AssertNotNull( treeView.Nodes[0] );
+			Assertion.AssertEquals( 16, treeView.GetNodeCount( true ) );
+			Assertion.Assert( "Nodes not expanded on load", AllExpanded( treeView.Nodes ) );
 
 			Assertion.AssertEquals( "mock-assembly.dll", treeView.Nodes[0].Text );	
 			Assertion.AssertEquals( "NUnit", treeView.Nodes[0].Nodes[0].Text );
 			Assertion.AssertEquals( "Tests", treeView.Nodes[0].Nodes[0].Nodes[0].Text );
 		}
 
-		[Test]
-		public void MapLookup()
+//		[Test]
+//		public void MapLookup()
+//		{
+//			TestSuiteTreeView treeView = new TestSuiteTreeView();
+//			treeView.Load(suite);
+//
+//			Assertion.AssertEquals( 5, treeView.GetNodeCount( true ) );
+//			Assertion.AssertEquals("MockTest1", treeView.Nodes[0].Text);
+//		}
+
+		/// <summary>
+		/// Return the MockTestFixture node from a tree built
+		/// from the mock-assembly dll.
+		/// </summary>
+		private TestSuiteTreeNode FixtureNode( TestSuiteTreeView treeView )
 		{
-			TestSuiteTreeView treeView = new TestSuiteTreeView();
-			treeView.Load(suite);
-
-			TestSuiteTreeNode node = treeView[fixture];
-			Assertion.AssertNotNull("Lookup failed", node);
-
-			Assertion.AssertEquals(5, node.Nodes.Count);
-			Assertion.AssertEquals("MockTest1", node.Nodes[0].Text);
+			return (TestSuiteTreeNode)treeView.Nodes[0].Nodes[0].Nodes[0].Nodes[1].Nodes[0];
 		}
 
 		/// <summary>
 		/// The tree view CollapseAll method doesn't seem to work in
 		/// this test environment. This replaces it.
 		/// </summary>
-		private void CollapseAll( TestSuiteTreeNode node )
+		private void CollapseAll( TreeNode node )
 		{
 			node.Collapse();
-			foreach( TestSuiteTreeNode child in node.Nodes )
-				CollapseAll( child );
+			CollapseAll( node.Nodes );
+		}
+
+		private void CollapseAll( TreeNodeCollection nodes )
+		{
+			foreach( TreeNode node in nodes )
+				CollapseAll( node );
 		}
 
 		[Test]
@@ -124,15 +141,12 @@ namespace NUnit.Tests
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
-			CollapseAll( treeView.RootNode );
-			Assertion.Assert( "Tree did not collapse", !AllExpanded( treeView.RootNode ) );
-
-			TestSuiteTreeNode node = treeView[fixture];
-			Assertion.AssertNotNull("Lookup failed", node);
+			CollapseAll( treeView.Nodes );
+			Assertion.Assert( "Tree did not collapse", !AllExpanded( treeView.Nodes ) );
 
 			treeView.Expand( fixture );
-			Assertion.Assert( "Expand failed", AllExpanded( node ) );
-			Assertion.Assert( "Too much expanded", !AllExpanded( treeView.RootNode ) );
+			Assertion.Assert( "Expand failed", AllExpanded( FixtureNode( treeView ) ) );
+			Assertion.Assert( "Too much expanded", !AllExpanded( treeView.Nodes ) );
 		}
 
 		[Test]
@@ -141,11 +155,8 @@ namespace NUnit.Tests
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
 			
-			Assertion.AssertNotNull( "Not in map", treeView[fixture] );
-
 			treeView.Clear();
 			Assertion.AssertEquals( 0, treeView.Nodes.Count );
-			Assertion.AssertNull( "Map not cleared", treeView[fixture] );
 		}
 
 		[Test]
@@ -154,30 +165,23 @@ namespace NUnit.Tests
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
 
-			TestSuiteTreeNode node = treeView[fixture];
-			Assertion.AssertNotNull( "Not in map", node );
-
 			TestSuiteResult result = new TestSuiteResult( fixture, "My test result" );
 			treeView.SetTestResult( result );
 
-			Assertion.AssertNotNull( "Result not set", node.Result );
-			Assertion.AssertEquals( "My test result", node.Result.Name );
-			Assertion.AssertEquals( node.Test.FullName, node.Result.Test.FullName );
+			TestSuiteTreeNode fixtureNode = FixtureNode( treeView );
+			Assertion.AssertNotNull( "Result not set", fixtureNode.Result );
+			Assertion.AssertEquals( "My test result", fixtureNode.Result.Name );
+			Assertion.AssertEquals( fixtureNode.Test.FullName, fixtureNode.Result.Test.FullName );
 		}
 
 		[Test]
-		public void RemoveNode()
+		public void RemoveTest()
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
 
-			TestSuiteTreeNode node = treeView[fixture];
-			TestSuiteTreeNode child = (TestSuiteTreeNode)node.Nodes[0];
-
-			treeView.RemoveNode( node );
-			Assertion.AssertEquals( 9, treeView.RootNode.GetNodeCount( true ) );
-			Assertion.AssertNull( "Still in map", treeView[fixture] );
-			Assertion.AssertNull( "Child still in map", treeView[child.Test] );
+			treeView.RemoveTest( fixture );
+			Assertion.AssertEquals( 10, treeView.GetNodeCount( true ) );
 		}
 
 		[Test]
@@ -187,7 +191,7 @@ namespace NUnit.Tests
 			treeView.Load(suite);
 
 			Assertion.AssertEquals( 7, suite.CountTestCases );
-			Assertion.AssertEquals( 15, treeView.RootNode.GetNodeCount( true ) );
+			Assertion.AssertEquals( 16, treeView.GetNodeCount( true ) );
 			
 			TestSuite nunitNamespaceSuite = suite.Tests[0] as TestSuite;
 			TestSuite testsNamespaceSuite = nunitNamespaceSuite.Tests[0] as TestSuite;
@@ -196,13 +200,13 @@ namespace NUnit.Tests
 			treeView.Reload( suite );
 
 			Assertion.AssertEquals( 2, suite.CountTestCases );
-			Assertion.AssertEquals( 8, treeView.RootNode.GetNodeCount( true ) );
+			Assertion.AssertEquals( 9, treeView.GetNodeCount( true ) );
 
 			testsNamespaceSuite.Tests.Insert( 1, assembliesNamespaceSuite );
 			treeView.Reload( suite );
 
 			Assertion.AssertEquals( 7, suite.CountTestCases );
-			Assertion.AssertEquals( 15, treeView.RootNode.GetNodeCount( true ) );
+			Assertion.AssertEquals( 16, treeView.GetNodeCount( true ) );
 		}
 
 		[Test]

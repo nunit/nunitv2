@@ -55,11 +55,6 @@ namespace NUnit.Gui
 		private static RecentAssemblySettings recentAssemblies;
 
 		/// <summary>
-		/// True if the UI should allow a run command to be selected
-		/// </summary>
-		private bool runCommandEnabled = false;
-
-		/// <summary>
 		/// The currently loaded assembly file name
 		/// </summary>
 		private string currentAssemblyFileName;
@@ -87,8 +82,6 @@ namespace NUnit.Gui
 		public System.Windows.Forms.Button runButton;
 		public NUnit.UiKit.StatusBar statusBar;
 		public System.Windows.Forms.OpenFileDialog openFileDialog;
-		public System.Windows.Forms.ContextMenu treeViewMenu;
-		public System.Windows.Forms.ImageList treeImages;
 		public NUnit.UiKit.TestSuiteTreeView testSuiteTreeView;
 		public System.Windows.Forms.TabControl resultTabs;
 		public System.Windows.Forms.TabPage errorPage;
@@ -157,7 +150,7 @@ namespace NUnit.Gui
 			stdOutTab.Enabled = true;
 
 			SetDefault(runButton);
-			DisableRunCommand();
+			runButton.Enabled = false;
 
 			stdOutWriter = new TextBoxWriter(stdOutTab);
 			Console.SetOut(stdOutWriter);
@@ -228,8 +221,6 @@ namespace NUnit.Gui
 			this.helpMenuSeparator1 = new System.Windows.Forms.MenuItem();
 			this.aboutMenuItem = new System.Windows.Forms.MenuItem();
 			this.testSuiteTreeView = new NUnit.UiKit.TestSuiteTreeView();
-			this.treeViewMenu = new System.Windows.Forms.ContextMenu();
-			this.treeImages = new System.Windows.Forms.ImageList(this.components);
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.resultTabs = new System.Windows.Forms.TabControl();
@@ -360,31 +351,16 @@ namespace NUnit.Gui
 			// testSuiteTreeView
 			// 
 			this.testSuiteTreeView.AllowDrop = true;
-			this.testSuiteTreeView.ContextMenu = this.treeViewMenu;
 			this.testSuiteTreeView.DisplayTestProgress = false;
 			this.testSuiteTreeView.Dock = System.Windows.Forms.DockStyle.Left;
 			this.testSuiteTreeView.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.testSuiteTreeView.HideSelection = false;
-			this.testSuiteTreeView.ImageList = this.treeImages;
 			this.testSuiteTreeView.Name = "testSuiteTreeView";
-			this.testSuiteTreeView.SelectedNode = null;
 			this.testSuiteTreeView.Size = new System.Drawing.Size(358, 511);
 			this.testSuiteTreeView.TabIndex = 1;
 			this.testSuiteTreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.testSuiteTreeView_DragDrop);
 			this.testSuiteTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.testSuiteTreeView_AfterSelect);
-			this.testSuiteTreeView.DoubleClick += new System.EventHandler(this.testSuiteTreeView_DoubleClick);
 			this.testSuiteTreeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.testSuiteTreeView_DragEnter);
-			// 
-			// treeViewMenu
-			// 
-			this.treeViewMenu.Popup += new System.EventHandler(this.treeViewMenu_Popup);
-			// 
-			// treeImages
-			// 
-			this.treeImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
-			this.treeImages.ImageSize = new System.Drawing.Size(16, 16);
-			this.treeImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("treeImages.ImageStream")));
-			this.treeImages.TransparentColor = System.Drawing.Color.Transparent;
 			// 
 			// splitter1
 			// 
@@ -758,112 +734,29 @@ namespace NUnit.Gui
 
 		#endregion
 
-		#region TreeView Context Menu Handlers
-
-		/// <summary>
-		/// Build treeview context menu dynamically on popup
-		/// </summary>
-		private void treeViewMenu_Popup(object sender, System.EventArgs e)
-		{
-			treeViewMenu.MenuItems.Clear();
-			TestSuiteTreeNode contextNode = testSuiteTreeView.ContextNode;
-
-			MenuItem runMenuItem = new MenuItem( "&Run", new EventHandler( runMenuItem_Click ) );
-			runMenuItem.DefaultItem = runMenuItem.Enabled = runCommandEnabled;
-			
-			treeViewMenu.MenuItems.Add( runMenuItem );
-
-			if ( contextNode.Nodes.Count > 0 )
-			{
-				if ( contextNode.IsExpanded )
-				{
-					MenuItem collapseMenuItem = new MenuItem( 
-						"&Collapse", new EventHandler( collapseMenuItem_Click ) );
-					collapseMenuItem.DefaultItem = !runCommandEnabled;
-
-					treeViewMenu.MenuItems.Add( collapseMenuItem );
-				}
-				else
-				{
-					MenuItem expandMenuItem = new MenuItem(
-						"&Expand", new EventHandler( expandMenuItem_Click ) );
-					expandMenuItem.DefaultItem = !runCommandEnabled;
-					treeViewMenu.MenuItems.Add( expandMenuItem );
-				}
-			}
-
-#if NUNIT_LEAKAGE_TEST
-			TestResult result = testSuiteTreeView.ContextNode.Result;
-			if ( result != null )
-			{
-				treeViewMenu.MenuItems.Add( "-" );
-				treeViewMenu.MenuItems.Add( string.Format( "Leakage: {0} bytes", result.Leakage ) );
-			}
-#endif
-		}
-
 		/// <summary>
 		/// <summary>
 		/// When the Run Button is clicked, run the selected test.
 		/// </summary>
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
-			actions.RunTestSuite( testSuiteTreeView.SelectedNode.Test );
+//			actions.RunTestSuite( testSuiteTreeView.SelectedNode.Test );
+			actions.RunTestSuite( testSuiteTreeView.SelectedTest );
 		}
-
-		/// <summary>
-		/// When Expand context menu item is clicked, expand the node
-		/// </summary>
-		private void expandMenuItem_Click(object sender, System.EventArgs e)
-		{
-			testSuiteTreeView.ContextNode.Expand();
-		}
-
-		/// <summary>
-		/// When Collapse context menu item is clicked, collapse the node
-		/// </summary>
-		private void collapseMenuItem_Click(object sender, System.EventArgs e)
-		{
-			testSuiteTreeView.ContextNode.Collapse();
-		}
-
-		/// <summary>
-		/// When Run context menu item is clicked, run the test that
-		/// was selected when the right click was done.
-		/// </summary>
-		private void runMenuItem_Click(object sender, System.EventArgs e)
-		{
-			actions.RunTestSuite( testSuiteTreeView.ContextNode.Test );
-		}
-
-		#endregion
 
 		#region TreeView Event Handlers
-
-		/// <summary>
-		/// When a TestCase leaf node is double-clicked, run it.
-		/// Base TreeView class does expand/collapse when a non-leaf
-		/// node is double-clicked.
-		/// </summary>
-		private void testSuiteTreeView_DoubleClick(object sender, System.EventArgs e)
-		{
-			if ( runCommandEnabled && testSuiteTreeView.SelectedNode.Nodes.Count == 0 )
-			{
-				actions.RunTestSuite( testSuiteTreeView.SelectedNode.Test );
-			}
-		}
 
 		/// <summary>
 		/// When a tree item is selected, display info pertaining to that test
 		/// </summary>
 		private void testSuiteTreeView_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
 		{
-			TestSuiteTreeNode node = testSuiteTreeView.SelectedNode;
+			UITestNode test = testSuiteTreeView.SelectedTest;
 
-			suiteName.Text = node.Test.ShortName;
+			suiteName.Text = test.ShortName;
 
 			// TODO: Do we really want to do this? Yes we really do!
-			statusBar.Initialize( node.Test.CountTestCases );
+			statusBar.Initialize( test.CountTestCases );
 		}
 
 		/// <summary>
@@ -873,10 +766,6 @@ namespace NUnit.Gui
 		private void testSuiteTreeView_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
 		{
 
-			if ( IsValidFileDrop( e.Data ) )
-				e.Effect = DragDropEffects.Copy;
-			else
-				e.Effect = DragDropEffects.None;
 		}
 
 		/// <summary>
@@ -884,11 +773,6 @@ namespace NUnit.Gui
 		/// </summary>
 		private void testSuiteTreeView_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
 		{
-			if ( IsValidFileDrop( e.Data ) )
-			{
-				string[] fileNames = e.Data.GetData( DataFormats.FileDrop ) as string[];
-					LoadAssembly( fileNames[0] );
-			}
 		}
 
 		#endregion
@@ -958,27 +842,24 @@ namespace NUnit.Gui
 		/// A test run is starting, so prepare the UI
 		/// </summary>
 		/// <param name="test">Top level Test for this run</param>
-		private void OnRunStarting(UITestNode test)
+		private void OnRunStarting( UITestNode test )
 		{
 			int testCount = test.CountTestCases;
 
-			DisableRunCommand();
+			runButton.Enabled = false;
 			ClearTestResults();
 			suiteName.Text = test.ShortName;
 		}
 
 		/// <summary>
 		/// A test run has finished, so display the results
+		/// and re-enable the run button.
 		/// </summary>
 		/// <param name="result">Result of the run</param>
-		private void OnRunFinished(TestResult result)
+		private void OnRunFinished( TestResult result )
 		{
 			DisplayResults(result);
-
-			if(detailList.Items.Count > 0)
-				detailList.SelectedIndex = 0;
-
-			EnableRunCommand();
+			runButton.Enabled = true;
 		}
 
 		/// <summary>
@@ -989,12 +870,12 @@ namespace NUnit.Gui
 		/// <param name="assemblyFileName">The full path of the assembly file</param>
 		/// Note: second argument could be omitted, but tests may not
 		/// always have the FullName set to the assembly name in future.
-		private void OnSuiteLoaded(UITestNode test, string assemblyFileName)
+		private void OnSuiteLoaded( UITestNode test, string assemblyFileName )
 		{
 			LoadedAssembly = assemblyFileName;
 			UpdateRecentAssemblies( assemblyFileName );
 
-			EnableRunCommand();
+			runButton.Enabled = true;
 			ClearTestResults();
 		}
 
@@ -1006,11 +887,10 @@ namespace NUnit.Gui
 		{
 			LoadedAssembly = null;
 
-			DisableRunCommand();
+			runButton.Enabled = false;
 
 			ClearSuiteName();
 			ClearTabs();
-			statusBar.Initialize( 0 );
 		}
 
 		/// <summary>
@@ -1019,7 +899,7 @@ namespace NUnit.Gui
 		/// test results, since they are no longer valid.
 		/// </summary>
 		/// <param name="test">Top level Test for the current assembly</param>
-		private void OnSuiteChanged(UITestNode test)
+		private void OnSuiteChanged( UITestNode test )
 		{
 			ClearTestResults();
 		}
@@ -1097,36 +977,6 @@ namespace NUnit.Gui
 			actions.UnloadAssembly();
 		}
 
-		/// <summary>
-		/// Helper method to determine if a file is a valid assembly file type
-		/// </summary>
-		/// <param name="path">File path</param>
-		/// <returns>True if the file type is valid for an assembly</returns>
-		private bool IsAssemblyFileType( string path )
-		{
-			string extension = Path.GetExtension( path );
-			return extension == ".dll" || extension == ".exe";
-		}
-
-		/// <summary>
-		/// Helper method to determine if an IDataObject is valid
-		/// for dropping on the tree view. It must be a the drop
-		/// of a single file with a valid assembly file type.
-		/// </summary>
-		/// <param name="data">IDataObject to be tested</param>
-		/// <returns>True if dropping is allowed</returns>
-		private bool IsValidFileDrop( IDataObject data )
-		{
-			if ( !data.GetDataPresent( DataFormats.FileDrop ) )
-				return false;
-
-			string [] fileNames = data.GetData( DataFormats.FileDrop ) as string [];
-				if ( fileNames == null )
-					return false;
-
-			return IsAssemblyFileType( fileNames[0] );
-		}
-
 		#endregion
 
 		#region Helper methods for modifying the UI display
@@ -1138,22 +988,6 @@ namespace NUnit.Gui
 		private void SetDefault(Button myDefaultBtn)
 		{
 			this.AcceptButton = myDefaultBtn;
-		}
-
-		/// <summary>
-		/// Disable running of tests
-		/// </summary>
-		private void DisableRunCommand()
-		{
-			runButton.Enabled = runCommandEnabled = false;
-		}
-			
-		/// <summary>
-		/// Enable running of tests
-		/// </summary>
-		private void EnableRunCommand()
-		{
-			runButton.Enabled = runCommandEnabled = true;
 		}
 
 		/// <summary>
@@ -1218,6 +1052,9 @@ namespace NUnit.Gui
 			notRunTree.BeginUpdate();
 			results.Accept(detailResults);
 			notRunTree.EndUpdate();
+
+			if(detailList.Items.Count > 0)
+				detailList.SelectedIndex = 0;
 		}
 
 		#endregion	

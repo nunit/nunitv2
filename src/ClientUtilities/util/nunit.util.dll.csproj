@@ -117,6 +117,14 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Gray.jpg"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Green.jpg"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "NUnitGuiSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -140,6 +148,10 @@
                     RelPath = "RecentAssemblySettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Red.jpg"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "RegistrySettingsStorage.cs"
@@ -210,6 +222,10 @@
                     RelPath = "WaitCursor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Yellow.jpg"
+                    BuildAction = "Content"
                 />
             </Include>
         </Files>

@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.IO;
 using System.Drawing;
 using System.Collections;
 using System.Diagnostics;
@@ -65,7 +66,68 @@ namespace NUnit.UiKit
 		/// </summary>
 		private bool displayProgress = false;
 
-		private UIEvents uievents;
+		/// <summary>
+		/// Source of events that the tree responds to and
+		/// target for the run command.
+		/// </summary>
+		private UIActions actions;
+		
+		public System.Windows.Forms.ImageList treeImages;
+		private System.ComponentModel.IContainer components;
+
+		/// <summary>
+		/// True if the UI should allow a run command to be selected
+		/// </summary>
+		private bool runCommandEnabled = false;
+
+		#endregion
+
+		#region Construction and Initialization
+
+		public TestSuiteTreeView()
+		{
+			InitializeComponent();
+
+			this.ContextMenu = new System.Windows.Forms.ContextMenu();
+			this.ContextMenu.Popup += new System.EventHandler( ContextMenu_Popup );
+		}
+
+		private void InitializeComponent()
+		{
+			this.components = new System.ComponentModel.Container();
+			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(TestSuiteTreeView));
+			this.treeImages = new System.Windows.Forms.ImageList(this.components);
+			// 
+			// treeImages
+			// 
+			this.treeImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
+			this.treeImages.ImageSize = new System.Drawing.Size(16, 16);
+			this.treeImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("treeImages.ImageStream")));
+			this.treeImages.TransparentColor = System.Drawing.Color.Transparent;
+			// 
+			// TestSuiteTreeView
+			// 
+			this.ImageIndex = 0;
+			this.ImageList = this.treeImages;
+			this.SelectedImageIndex = 0;
+			this.DoubleClick += new System.EventHandler(this.TestSuiteTreeView_DoubleClick);
+			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.TestSuiteTreeView_DragEnter);
+			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.TestSuiteTreeView_DragDrop);
+
+		}
+
+		public void InitializeEvents( UIActions actions )
+		{
+			this.actions = actions;
+
+			actions.TestSuiteLoadedEvent += new TestSuiteLoadedHandler( OnSuiteLoaded );
+			actions.TestSuiteChangedEvent += new TestSuiteChangedHandler( OnSuiteChanged );
+			actions.TestSuiteUnloadedEvent += new TestSuiteUnloadedHandler( OnSuiteUnloaded );
+			actions.RunStartingEvent += new RunStartingHandler( OnRunStarting );
+			actions.TestFinishedEvent += new TestFinishedHandler( OnTestFinished );
+			actions.SuiteFinishedEvent += new SuiteFinishedHandler( OnSuiteFinished );
+			actions.RunFinishedEvent += new RunFinishedHandler( OnRunFinished );
+		}
 
 		#endregion
 
@@ -82,60 +144,41 @@ namespace NUnit.UiKit
 		}
 
 		/// <summary>
-		/// A type-safe version of SelectedNode.
+		/// The currently selected test.
 		/// </summary>
-		public new TestSuiteTreeNode SelectedNode
+		public UITestNode SelectedTest
 		{
-			get	{ return base.SelectedNode as TestSuiteTreeNode;	}
-			set	{ base.SelectedNode = value; }
+			get 
+			{ 
+				TestSuiteTreeNode node = (TestSuiteTreeNode)SelectedNode;
+				return node.Test;
+			}
 		}
 
 		/// <summary>
-		/// A type-safe version of TopNode.
+		/// The currently selected test result or null
 		/// </summary>
-		public new TestSuiteTreeNode TopNode
+		public TestResult SelectedTestResult
 		{
-			get	{ return base.TopNode as TestSuiteTreeNode;	}
-		}
-
-		/// <summary>
-		/// A type-safe way to get the root node
-		/// of the tree. Presumed to be unique.
-		/// </summary>
-		public TestSuiteTreeNode RootNode
-		{
-			get { return Nodes[0] as TestSuiteTreeNode; }
-		}
-		
-		/// <summary>
-		/// The TestNode that any context menu
-		/// commands will operate on.
-		/// </summary>
-		public TestSuiteTreeNode ContextNode
-		{
-			get	{ return contextNode; }
+			get 
+			{
+				TestSuiteTreeNode node = (TestSuiteTreeNode)SelectedNode;
+				return node.Result; 
+			}
 		}
 
 		/// <summary>
 		/// TestNode corresponding to a test fullname
 		/// </summary>
-		public TestSuiteTreeNode this[string testName]
+		private TestSuiteTreeNode this[string testName]
 		{
 			get { return treeMap[testName] as TestSuiteTreeNode; }
 		}
 
 		/// <summary>
-		/// Test node corresponding to a Test
+		/// Test node corresponding to a TestInfo interface
 		/// </summary>
-		public TestSuiteTreeNode this[Test test]
-		{
-			get { return this[test.FullName]; }
-		}
-
-		/// <summary>
-		/// Test node corresponding to a TestInfo
-		/// </summary>
-		public TestSuiteTreeNode this[UITestNode test]
+		private TestSuiteTreeNode this[TestInfo test]
 		{
 			get { return this[test.FullName]; }
 		}
@@ -143,47 +186,37 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// Test node corresponding to a TestResultInfo
 		/// </summary>
-		public TestSuiteTreeNode this[TestResult result]
+		private TestSuiteTreeNode this[TestResult result]
 		{
 			get { return this[result.Test.FullName]; }
 		}
 
 		#endregion
 
-		#region Methods
-
-		public void InitializeEvents( UIEvents uievents )
-		{
-			this.uievents = uievents;
-
-			uievents.TestSuiteLoadedEvent += new TestSuiteLoadedHandler( OnSuiteLoaded );
-			uievents.TestSuiteChangedEvent += new TestSuiteChangedHandler( OnSuiteChanged );
-			uievents.TestSuiteUnloadedEvent += new TestSuiteUnloadedHandler( OnSuiteUnloaded );
-			uievents.RunStartingEvent += new RunStartingHandler( OnRunStarting );
-			uievents.TestFinishedEvent += new TestFinishedHandler( OnTestFinished );
-			uievents.SuiteFinishedEvent += new SuiteFinishedHandler( OnSuiteFinished );
-			uievents.RunFinishedEvent += new RunFinishedHandler( OnRunFinished );
-		}
-
-		private void OnRunStarting( UITestNode test )
-		{
-			ClearResults();
-		}
+		#region Handlers for events related to loading and running tests
 
 		private void OnSuiteLoaded( UITestNode test, string assemblyName )
 		{
 			Load( test );
+			runCommandEnabled = true;
 		}
 
 		private void OnSuiteChanged( UITestNode test )
 		{
-			Reload( test );
+			Invoke( new LoadHandler( Reload ), new object[]{ test } );
 			ClearResults();	// ToDo: Make this optional
 		}
 
 		private void OnSuiteUnloaded()
 		{
 			Clear();
+			runCommandEnabled = false;
+		}
+
+		private void OnRunStarting( UITestNode test )
+		{
+			ClearResults();
+			runCommandEnabled = false;
 		}
 
 		private void OnTestFinished( TestCaseResult result )
@@ -199,7 +232,14 @@ namespace NUnit.UiKit
 		private void OnRunFinished( TestResult result )
 		{
 			Expand( result.Test );
+			runCommandEnabled = true;
 		}
+
+		#endregion
+
+		#region Handlers for UI events
+
+		#region Context Menu
 
 		/// <summary>
 		/// Handles right mouse button down by
@@ -219,25 +259,135 @@ namespace NUnit.UiKit
 		}
 
 		/// <summary>
-		/// A type-safe version of GetNodeAt
+		/// Build treeview context menu dynamically on popup
 		/// </summary>
-		/// <param name="x">X Position for which the node is to be returned</param>
-		/// <param name="y">Y Position for which the node is to be returned</param>
-		/// <returns></returns>
-		public new TestSuiteTreeNode GetNodeAt(int x, int y)
+		private void ContextMenu_Popup(object sender, System.EventArgs e)
 		{
-			return base.GetNodeAt(x, y) as TestSuiteTreeNode;
+			this.ContextMenu.MenuItems.Clear();
+
+			MenuItem runMenuItem = new MenuItem( "&Run", new EventHandler( runMenuItem_Click ) );
+			runMenuItem.DefaultItem = runMenuItem.Enabled = runCommandEnabled;
+			
+			this.ContextMenu.MenuItems.Add( runMenuItem );
+
+			if ( contextNode.Nodes.Count > 0 )
+			{
+				if ( contextNode.IsExpanded )
+				{
+					MenuItem collapseMenuItem = new MenuItem( 
+						"&Collapse", new EventHandler( collapseMenuItem_Click ) );
+					collapseMenuItem.DefaultItem = !runCommandEnabled;
+
+					this.ContextMenu.MenuItems.Add( collapseMenuItem );
+				}
+				else
+				{
+					MenuItem expandMenuItem = new MenuItem(
+						"&Expand", new EventHandler( expandMenuItem_Click ) );
+					expandMenuItem.DefaultItem = !runCommandEnabled;
+					this.ContextMenu.MenuItems.Add( expandMenuItem );
+				}
+			}
+
+#if NUNIT_LEAKAGE_TEST
+			TestResult result = contextNode.Result;
+			if ( result != null )
+			{
+				this.ContextMenu.MenuItems.Add( "-" );
+				this.ContextMenu.MenuItems.Add( string.Format( "Leakage: {0} bytes", result.Leakage ) );
+			}
+#endif
 		}
 
 		/// <summary>
-		/// A type-safe version of GetNodeAt
+		/// When Expand context menu item is clicked, expand the node
 		/// </summary>
-		/// <param name="pt">Position for which the node is to be returned</param>
-		/// <returns></returns>
-		public new TestSuiteTreeNode GetNodeAt(Point pt)
+		private void expandMenuItem_Click(object sender, System.EventArgs e)
 		{
-			return base.GetNodeAt(pt) as TestSuiteTreeNode;
+			contextNode.Expand();
 		}
+
+		/// <summary>
+		/// When Collapse context menu item is clicked, collapse the node
+		/// </summary>
+		private void collapseMenuItem_Click(object sender, System.EventArgs e)
+		{
+			contextNode.Collapse();
+		}
+
+		/// <summary>
+		/// When Run context menu item is clicked, run the test that
+		/// was selected when the right click was done.
+		/// </summary>
+		private void runMenuItem_Click(object sender, System.EventArgs e)
+		{
+			actions.RunTestSuite( contextNode.Test );
+		}
+
+		#endregion
+
+		#region Drag and drop
+
+		/// <summary>
+		/// Helper method to determine if an IDataObject is valid
+		/// for dropping on the tree view. It must be a the drop
+		/// of a single file with a valid assembly file type.
+		/// </summary>
+		/// <param name="data">IDataObject to be tested</param>
+		/// <returns>True if dropping is allowed</returns>
+		private bool IsValidFileDrop( IDataObject data )
+		{
+			if ( !data.GetDataPresent( DataFormats.FileDrop ) )
+				return false;
+
+			string [] fileNames = data.GetData( DataFormats.FileDrop ) as string [];
+				if ( fileNames == null )
+					return false;
+
+			return IsAssemblyFileType( fileNames[0] );
+		}
+
+		/// <summary>
+		/// Helper method to determine if a file is a valid assembly file type
+		/// </summary>
+		/// <param name="path">File path</param>
+		/// <returns>True if the file type is valid for an assembly</returns>
+		private bool IsAssemblyFileType( string path )
+		{
+			string extension = Path.GetExtension( path );
+			return extension == ".dll" || extension == ".exe";
+		}
+
+		private void TestSuiteTreeView_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+		{
+			if ( IsValidFileDrop( e.Data ) )
+			{
+				string[] fileNames = e.Data.GetData( DataFormats.FileDrop ) as string[];
+					actions.LoadAssembly( fileNames[0] );
+			}
+		}
+
+		private void TestSuiteTreeView_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
+		{
+			if ( IsValidFileDrop( e.Data ) )
+				e.Effect = DragDropEffects.Copy;
+			else
+				e.Effect = DragDropEffects.None;
+		}
+
+		#endregion
+
+		private void TestSuiteTreeView_DoubleClick(object sender, System.EventArgs e)
+		{
+			if ( runCommandEnabled && SelectedNode.Nodes.Count == 0 )
+			{
+				actions.RunTestSuite( SelectedTest );
+			}	
+		}
+
+		#endregion
+
+		#region Public methods to manipulate the tree
 
 		/// <summary>
 		/// Clear all the results in the tree.
@@ -257,8 +407,93 @@ namespace NUnit.UiKit
 			Clear();
 			AddTreeNodes( Nodes, test, false );
 			ExpandAll();
-			SelectedNode = Nodes[0] as TestSuiteTreeNode;
+			SelectedNode = Nodes[0];
 		}
+
+		/// <summary>
+		/// Reload the tree with a changed test hierarchy
+		/// while maintaining as much gui state as possible
+		/// </summary>
+		/// <param name="test">Test suite to be loaded</param>
+		public void Reload( UITestNode test )
+		{
+			TestSuiteTreeNode rootNode = (TestSuiteTreeNode) Nodes[0];
+			if ( !Match( rootNode, test ) )
+				throw( new ArgumentException( "Reload called with non-matching test" ) );
+				
+			UpdateNode( rootNode, test );
+		}
+
+		/// <summary>
+		/// Remove a test and it's dependents from the tree
+		/// </summary>
+		/// <param name="test">The test to remove</param>
+		public void RemoveTest( TestInfo test )
+		{
+			TestSuiteTreeNode node = this[test];
+			RemoveNode( node );
+		}
+
+		/// <summary>
+		/// Clear all the info in the tree.
+		/// </summary>
+		public void Clear()
+		{
+			treeMap.Clear();
+			Nodes.Clear();
+		}
+
+		/// <summary>
+		/// Add the result of a test to the tree
+		/// </summary>
+		/// <param name="result">The result of the test</param>
+		public void SetTestResult(TestResult result)
+		{
+			TestSuiteTreeNode node = this[result];	
+			if ( node == null )
+				throw new ArgumentException( "Test not found in tree" );
+
+			node.SetResult( result );
+
+			if ( DisplayTestProgress )
+			{
+				Invalidate( node.Bounds );
+				Update();
+			}
+		}
+
+		/// <summary>
+		/// Find and expand a particular test in the tree
+		/// </summary>
+		/// <param name="test">The test to expand</param>
+		public void Expand( TestInfo test )
+		{
+			TestSuiteTreeNode node = this[test.FullName];
+			if ( node != null )
+				node.Expand();
+		}
+
+		/// <summary>
+		/// Collapse all fixtures in the tree
+		/// </summary>
+		public void CollapseFixtures()
+		{
+			foreach( TestSuiteTreeNode node in Nodes )
+				CollapseFixturesUnderNode( node );
+		}
+
+		/// <summary>
+		/// Expand all fixtures in the tree
+		/// </summary>
+		public void ExpandFixtures()
+		{
+			foreach( TestSuiteTreeNode node in Nodes )
+				ExpandFixturesUnderNode( node );
+		}
+
+		#endregion
+
+		#region Helper Methods
 
 		/// <summary>
 		/// Add nodes to the tree constructed from a test
@@ -295,25 +530,12 @@ namespace NUnit.UiKit
 		/// Remove a node from the tree itself and the hashtable
 		/// </summary>
 		/// <param name="node">Node to remove</param>
-		public void RemoveNode( TestSuiteTreeNode node )
+		private void RemoveNode( TestSuiteTreeNode node )
 		{
 			if ( contextNode == node )
 				contextNode = null;
 			RemoveFromMap( node );
 			node.Remove();
-		}
-
-		/// <summary>
-		/// Reload the tree with a changed test hierarchy
-		/// while maintaining as much gui state as possible
-		/// </summary>
-		/// <param name="test">Test suite to be loaded</param>
-		public void Reload( UITestNode test )
-		{
-			if ( !Match( RootNode, test ) )
-				throw( new ArgumentException( "Reload called with non-matching test" ) );
-				
-			UpdateNode( RootNode, test );
 		}
 
 		/// <summary>
@@ -407,64 +629,6 @@ namespace NUnit.UiKit
 		private delegate void LoadHandler( UITestNode test );
 		
 		/// <summary>
-		/// Called to load the tree from the watcher thread.
-		/// </summary>
-		/// <param name="test"></param>
-		public void InvokeLoadHandler( UITestNode test )
-		{
-			Invoke( new LoadHandler( Reload ), new object[]{ test } );
-		}
-
-		/// <summary>
-		/// Clear all the info in the tree.
-		/// </summary>
-		public void Clear()
-		{
-			treeMap.Clear();
-			Nodes.Clear();
-		}
-
-		/// <summary>
-		/// Add the result of a test to the tree
-		/// </summary>
-		/// <param name="result">The result of the test</param>
-		public void SetTestResult(TestResult result)
-		{
-			TestSuiteTreeNode node = this[result];	
-			if ( node != null )
-			{
-				node.SetResult( result );
-
-				if ( DisplayTestProgress )
-				{
-					Invalidate( node.Bounds );
-					Update();
-				}
-			}
-//			else
-//				Console.Error.WriteLine("Could not locate node: " + result.Test.FullName + " in tree map");
-		}
-
-		/// <summary>
-		/// Find and expand a particular test in the tree
-		/// </summary>
-		/// <param name="test">The test to expand</param>
-		public void Expand( TestInfo test )
-		{
-			TestSuiteTreeNode node = this[test.FullName];
-			if ( node != null )
-				node.Expand();
-		}
-
-		/// <summary>
-        /// Collapse all fixtures in the tree
-        /// </summary>
-		public void CollapseFixtures()
-		{
-			CollapseFixturesUnderNode( RootNode );
-		}
-
-		/// <summary>
 		/// Helper collapses all fixtures under a node
 		/// </summary>
 		/// <param name="node">Node under which to collapse fixtures</param>
@@ -475,14 +639,6 @@ namespace NUnit.UiKit
 			else 
 				foreach( TestSuiteTreeNode child in node.Nodes )
 					CollapseFixturesUnderNode( child );		
-		}
-
-		/// <summary>
-		/// Expand all fixtures in the tree
-		/// </summary>
-		public void ExpandFixtures()
-		{
-			ExpandFixturesUnderNode( RootNode );
 		}
 
 		/// <summary>
@@ -497,6 +653,7 @@ namespace NUnit.UiKit
 				foreach( TestSuiteTreeNode child in node.Nodes )
 					ExpandFixturesUnderNode( child );		
 		}
+
         #endregion
 	}
 }

@@ -125,14 +125,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Gray.jpg"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Green.jpg"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "Logo.ico"
                     BuildAction = "Content"
                 />
@@ -147,10 +139,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Red.jpg"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "TestResultItem.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -159,10 +147,6 @@
                     RelPath = "TextBoxWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Yellow.jpg"
-                    BuildAction = "Content"
                 />
             </Include>
         </Files>
