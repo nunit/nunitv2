@@ -85,5 +85,11 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="exception"></param>
 		void UnhandledException( Exception exception );
+
+		/// <summary>
+		/// A message has been sent to the console.
+		/// </summary>
+		/// <param name="testOutput">A console message</param>
+		void TestOutput(TestOutput testOutput);
 	}
 }

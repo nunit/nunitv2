@@ -50,8 +50,6 @@ namespace NUnit.Core
 		{
 			if ( runningThread != null )
 				runningThread.Cancel();
-
-			CleanUpAfterTestRun();
 		}
 
 		public override void Wait()

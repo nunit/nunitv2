@@ -59,7 +59,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// The EventListener interface to receive test events
 		/// </summary>
-		private NUnit.Core.PumpingEventListener listener;
+		private NUnit.Core.EventListener listener;
 
 		/// <summary>
 		/// Array of test names for ues by the thread proc
@@ -91,7 +91,7 @@ namespace NUnit.Core
 		public TestRunnerThread(RunDelegate runMethod, NUnit.Core.EventListener listener, string[] testNames)
 		{
 			this.runMethod = runMethod;
-			this.listener = new PumpingEventListener(listener);
+			this.listener = listener;
 			this.testNames = testNames;
 
 			this.thread = new Thread( new ThreadStart( TestRunnerThreadProc2 ) );
@@ -173,7 +173,7 @@ namespace NUnit.Core
 
 		public void Run( EventListener listener )
 		{
-			this.listener = new PumpingEventListener(listener);
+			this.listener = listener;
 
 			thread.Start();
 		}
@@ -185,7 +185,7 @@ namespace NUnit.Core
 
 		public void Run( EventListener listener, string[] testNames )
 		{
-			this.listener = new PumpingEventListener(listener);
+			this.listener = listener;
 			this.testNames = testNames;
 
 			thread.Start();
@@ -238,9 +238,6 @@ namespace NUnit.Core
 			}
 			finally
 			{
-				this.listener.Dispose();
-				this.listener = null;
-
 				testNames = null;	// Do we need this?
 				//runningThread = null;	// Ditto
 			}

@@ -38,38 +38,23 @@ namespace NUnit.Core
 	/// This EventListener implementation is used to isolate
 	/// the test runner thread in the test app domain/context.
 	/// </summary>
-	public class PumpingEventListener : EventListener, IDisposable
+	class PumpingEventListener : EventListener, IDisposable
 	{
 		EventListener eventListener;
 		Queue queue;
-		bool disposed;
 
 		public PumpingEventListener(EventListener eventListener)
 		{
 			this.eventListener = eventListener;
 			this.queue = new Queue();
-
-			Thread thread = new Thread(new ThreadStart(pump));
-			thread.Start();
 		}
 
 		public void Dispose()
 		{
-			this.disposed = true;
+			DoEvents();
 		}
 
-		void pump()
-		{
-			while(!this.disposed || this.queue.Count > 0)
-			{
-				doEvents();
-
-				// TODO: Is this the correct thing to do?
-				Thread.Sleep(1000/50);
-			}
-		}
-
-		void doEvents()
+		public void DoEvents()
 		{
 			while(this.queue.Count > 0)
 			{
@@ -292,6 +277,33 @@ namespace NUnit.Core
 			public void Callback(object state)
 			{
 				this.eventListener.UnhandledException(this.exception);
+			}
+		}
+
+		/// <summary>
+		/// A message has been output to the console.
+		/// </summary>
+		/// <param name="testOutput">A console message</param>
+		public void TestOutput( TestOutput output )
+		{
+			OutputWorkItem workItem = new OutputWorkItem(this.eventListener, output);
+			queueWorkItem(new WaitCallback(workItem.Callback));
+		}
+
+		class OutputWorkItem
+		{
+			EventListener eventListener;
+			TestOutput output;
+
+			public OutputWorkItem(EventListener eventListener, TestOutput output)
+			{
+				this.eventListener = eventListener;
+				this.output = output;
+			}
+
+			public void Callback(object state)
+			{
+				this.eventListener.TestOutput(this.output);
 			}
 		}
 

@@ -164,6 +164,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "EventListenerTextWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Filter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -279,7 +284,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ProxyEventListener.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProxyTestRunner.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "PumpingEventListener.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RealTestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -417,6 +437,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestOutput.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestProject.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -453,6 +478,11 @@
                 />
                 <File
                     RelPath = "ThreadedRemoteRunner.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ThreadedTestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -54,6 +54,8 @@ namespace NUnit.Core
 
 		public void UnhandledException( Exception exception ) {}
 
+		public void TestOutput(TestOutput testOutput) {}
+
 		public static EventListener NULL
 		{
 			get { return new NullListener();}
