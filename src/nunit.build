@@ -19,38 +19,50 @@
 			<sources basedir="framework">
 				<includes name="**/*.cs"/>
 			</sources>
+		</csc>
+	</target>
+	
+	<target name="nunit.core.dll" depends="nunit.framework.dll">
+		<csc target="library" output="${build.dir}\nunit.core.dll" debug="${debug}">
+			<sources basedir="core">
+				<includes name="**/*.cs"/>
+			</sources>
 			<resources basedir="framework" prefix="NUnit.Framework">
 				<includes name="Transform.resx"/>
 			</resources>
+			<references>
+				<includes name="${build.dir}/nunit.framework.dll"/>
+			</references>
 		</csc>
-		<copy file="framework\Results.xsd" todir="${build.dir}"/>
+		<copy file="core\Results.xsd" todir="${build.dir}"/>
 	</target>
 	
-	<target name="nunit.util.dll" depends="nunit.framework.dll">
+	<target name="nunit.util.dll" depends="nunit.core.dll">
 		<csc target="library" output="${build.dir}\nunit.util.dll" debug="${debug}">
 			<sources basedir="util">
 				<includes name="**/*.cs"/>
 			</sources>
 			<references>
+				<includes name="${build.dir}/nunit.core.dll"/>
 				<includes name="${build.dir}/nunit.framework.dll"/>
 			</references>
 		</csc>
 	</target>	
 	
-	<target name="nunit.extensions.dll" depends="nunit.framework.dll">
+	<target name="nunit.extensions.dll" depends="nunit.core.dll">
 		<csc target="library" output="${build.dir}\nunit.extensions.dll" debug="${debug}">
 			<sources basedir="extensions">
 				<includes name="**/*.cs"/>
 			</sources>
 			<references>
-				<includes name="${build.dir}/nunit.framework.dll"/>
+				<includes name="${build.dir}/nunit.core.dll"/>
 			</references>
 		</csc>
 	</target>
 	
 
 	
-	<target name="nunit.tests" depends="nunit.framework.dll,nunit.util.dll,nunit.extensions.dll">
+	<target name="nunit.tests" depends="nunit.framework.dll,nunit.core.dll,nunit.util.dll,nunit.extensions.dll">
 		<csc target="library" output="${build.dir}\mock-assembly.dll" debug="${debug}">
 			<sources basedir="tests/mock-assembly">
 				<includes name="*.cs"/>
@@ -80,6 +92,7 @@
 				<includes name="${build.dir}/nunit.util.dll"/>
 				<includes name="${build.dir}/nunit.uikit.dll"/>
 				<includes name="${build.dir}/nunit.extensions.dll"/>
+				<includes name="${build.dir}/nunit.core.dll"/>
 				<includes name="${build.dir}/nunit.framework.dll"/>
 				<includes name="${build.dir}/mock-assembly.dll"/>
 				<includes name="${build.dir}/nonamespace-assembly.dll"/>
@@ -95,7 +108,7 @@
 		<exec basedir="${build.dir}" workingdir="${build.dir}" program="nunit-console.exe" commandline="nunit.tests.dll"/>
 	</target>
 	
-	<target name="nunit.uikit.dll" depends="nunit.framework.dll,nunit.util.dll">
+	<target name="nunit.uikit.dll" depends="nunit.core.dll,nunit.util.dll">
 		<csc target="library" output="${build.dir}\nunit.uikit.dll" debug="${debug}">
 			<sources basedir="uikit">
 				<includes name="**/*.cs"/>
@@ -111,13 +124,13 @@
 				<includes name="*.resx"/>
 			</resources>
 			<references>
-				<includes name="${build.dir}\nunit.framework.dll"/>
+				<includes name="${build.dir}\nunit.core.dll"/>
 				<includes name="${build.dir}\nunit.util.dll"/>
 			</references>
 		</csc>
 	</target>
 	
-	<target name="nunit-gui.exe" depends="nunit.util.dll,nunit.uikit.dll,nunit.framework.dll">
+	<target name="nunit-gui.exe" depends="nunit.util.dll,nunit.uikit.dll,nunit.core.dll">
 		<csc target="winexe" output="${build.dir}\nunit-gui.exe" win32icon="nunit-gui\Logo.ico" debug="${debug}">
 			<sources basedir="nunit-gui">
 				<includes name="**/*.cs"/>
@@ -128,7 +141,7 @@
 			<references>
 				<includes name="${build.dir}/nunit.util.dll"/>
 				<includes name="${build.dir}/nunit.uikit.dll"/>
-				<includes name="${build.dir}/nunit.framework.dll"/>
+				<includes name="${build.dir}/nunit.core.dll"/>
 			</references>
 		</csc>
 		<copy file="nunit-gui\nunit-gui.exe.1.0.config" todir="${build.dir}"/>
@@ -164,7 +177,7 @@
 				<includes name="*.obj"/>
 			</sources>
 		</link>
-		
+	
 		<csc target="library" output="${build.dir}\csharp-sample.dll">
 			<sources basedir="samples\csharp">
 				<includes name="*.cs"/>
