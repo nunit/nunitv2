@@ -162,14 +162,17 @@ namespace NUnit.Samples.Money
 		[Test]
 		public void MoneyBagEquals() 
 		{
-			Assert.IsFalse(!fMB1.Equals(null)); 
+			//NOTE: Normally we use Assert.AreEqual to test whether two
+			// objects are equal. But here we are testing the MoneyBag.Equals()
+			// method itself, so using AreEqual would not serve the purpose.
+			Assert.IsFalse(fMB1.Equals(null)); 
 
-			Assert.AreEqual(fMB1, fMB1);
+			Assert.IsTrue(fMB1.Equals( fMB1 ));
 			MoneyBag equal= new MoneyBag(new Money(12, "CHF"), new Money(7, "USD"));
-			Assertion.Assert(fMB1.Equals(equal));
-			Assertion.Assert(!fMB1.Equals(f12CHF));
-			Assertion.Assert(!f12CHF.Equals(fMB1));
-			Assertion.Assert(!fMB1.Equals(fMB2));
+			Assert.IsTrue(fMB1.Equals(equal));
+			Assert.IsTrue(!fMB1.Equals(f12CHF));
+			Assert.IsTrue(!f12CHF.Equals(fMB1));
+			Assert.IsTrue(!fMB1.Equals(fMB2));
 		}
 
 		/// <summary>
@@ -190,11 +193,13 @@ namespace NUnit.Samples.Money
 		[Test]
 		public void MoneyEquals() 
 		{
+			//NOTE: Normally we use Assert.AreEqual to test whether two
+			// objects are equal. But here we are testing the MoneyBag.Equals()
+			// method itself, so using AreEqual would not serve the purpose.
 			Assert.IsFalse(f12CHF.Equals(null)); 
 			Money equalMoney= new Money(12, "CHF");
-			Assert.AreEqual(f12CHF, f12CHF);
-			Assert.AreEqual(f12CHF, equalMoney);
-			Assert.AreEqual(f12CHF.GetHashCode(), equalMoney.GetHashCode());
+			Assert.IsTrue(f12CHF.Equals( f12CHF ));
+			Assert.IsTrue(f12CHF.Equals( equalMoney ));
 			Assert.IsFalse(f12CHF.Equals(f14CHF));
 		}
 
