@@ -27,7 +27,6 @@
 
 #pragma once
 
-#using <nunit.framework.dll>
 using namespace System;
 using namespace NUnit::Framework;
 
