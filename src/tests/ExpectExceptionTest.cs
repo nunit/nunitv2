@@ -141,7 +141,30 @@ namespace NUnit.Tests.Core
 		}
 
 		[TestFixture]
-		internal class TestThrowsExceptionWithWrongMessage
+		internal class TestThrowsExceptionWithRightMessage
+		{
+			[Test]
+			[ExpectedException(typeof(Exception), "the message")]
+			public void TestThrow()
+			{
+				throw new Exception("the message");
+			}
+		}
+
+		[TestFixture]
+		internal class TestThrowsArgumentOutOfRangeException
+		{
+			[Test]
+			[ExpectedException(typeof(ArgumentOutOfRangeException),
+				 "the message\r\nParameter name: param\r\nActual value was actual value.")]
+			public void TestThrow()
+			{
+				throw new ArgumentOutOfRangeException("param", "actual value", "the message");
+			}
+		}
+
+		[TestFixture]
+			internal class TestThrowsExceptionWithWrongMessage
 		{
 			[Test]
 			[ExpectedException(typeof(Exception), "not the message")]
@@ -167,6 +190,20 @@ namespace NUnit.Tests.Core
 		{
 			TestResult result = RunInternalTest( typeof( TestThrowsExceptionFixture ) );
 			Assert.AreEqual(true, result.IsFailure);
+		}
+
+		[Test] 
+		public void MethodThrowsRightExceptionMessage()
+		{
+			TestResult result = RunInternalTest( typeof( TestThrowsExceptionWithRightMessage ) );
+			Assert.AreEqual(true, result.IsSuccess);
+		}
+
+		[Test]
+		public void MethodThrowsArgumentOutOfRange()
+		{
+			TestResult result = RunInternalTest( typeof( TestThrowsArgumentOutOfRangeException ) );
+			Assert.AreEqual(true, result.IsSuccess );
 		}
 
 		[Test] 

@@ -54,7 +54,7 @@ namespace NUnit.Core
 			{
 				if (expectedMessage != null && !expectedMessage.Equals(exception.Message))
 				{
-					string message = string.Format("Expected exception to have message: \" {0} \" but recieved message \" {1}\" ", 
+					string message = string.Format("Expected exception to have message: \"{0}\" but received message \"{1}\"", 
 						expectedMessage, exception.Message);
 					testResult.Failure(message, exception.StackTrace);
 				} 
