@@ -62,6 +62,16 @@ namespace NUnit.Core
 					if ( !testResult.IsFailure )
 						doRun( testResult );
 				}
+				catch(Exception ex)
+				{
+					if ( ex is NunitException )
+						ex = ex.InnerException;
+
+					if ( ex is NUnit.Framework.IgnoreException )
+						testResult.NotRun( ex.Message );
+					else
+						RecordException( ex, testResult );
+				}
 				finally
 				{
 					if ( doParentSetUp )
@@ -86,9 +96,18 @@ namespace NUnit.Core
 
 			try 
 			{
-				doSetUp( testResult );
-				if ( !testResult.IsFailure )
-					doTestCase( testResult );
+				invokeSetUp();
+				doTestCase( testResult );
+			}
+			catch(Exception ex)
+			{
+				if ( ex is NunitException )
+					ex = ex.InnerException;
+
+				if ( ex is NUnit.Framework.IgnoreException )
+					testResult.NotRun( ex.Message );
+				else
+					RecordException( ex, testResult );
 			}
 			finally 
 			{
@@ -101,28 +120,6 @@ namespace NUnit.Core
 		}
 
 		#region Invoke Methods by Reflection, Recording Errors
-
-		private void doTestFixtureSetUp( TestCaseResult testResult )
-		{
-		}
-
-		private void doTestFixtureTearDown( TestCaseResult testResult )
-		{
-		}
-
-		private void doSetUp( TestCaseResult testResult )
-		{
-			try 
-			{
-				invokeSetUp();
-			}
-			catch(Exception ex)
-			{
-				if ( ex is NunitException )
-					ex = ex.InnerException;
-				RecordException( ex, testResult );
-			}
-		}
 
 		private void doTearDown( TestCaseResult testResult )
 		{
@@ -150,7 +147,10 @@ namespace NUnit.Core
 				if ( ex is NunitException )
 					ex = ex.InnerException;
 
-				ProcessException(ex, testResult);
+				if ( ex is NUnit.Framework.IgnoreException )
+					testResult.NotRun( ex.Message );
+				else
+					ProcessException(ex, testResult);
 			}
 		}
 

@@ -49,6 +49,12 @@ namespace NUnit.Core
 		/// True if the test was marked as a failure
 		/// </summary>
 		private bool isFailure; 
+
+		/// <summary>
+		/// True if the setup failed: This means SetUp for a test case,
+		/// or TestFixtureSetUp for a fixture.
+		/// </summary>
+		private bool setupFailure;
 		
 		/// <summary>
 		/// The elapsed time for executing this test
@@ -133,6 +139,12 @@ namespace NUnit.Core
 			set { isFailure = value; }
 		}
 
+		public bool SetupFailure
+		{
+			get { return setupFailure; }
+			set { setupFailure = value; }
+		}
+
 		public virtual string Description
 		{
 			get { return description; }
@@ -178,12 +190,18 @@ namespace NUnit.Core
 			this.messageString = reason;
 		}
 
-		public void Failure(string message, string stackTrace)
+		public void Failure(string message, string stackTrace )
+		{
+			Failure( message, stackTrace, false );
+		}
+
+		public void Failure(string message, string stackTrace, bool setupFailure)
 		{
 			this.executed = true;
 			this.isFailure = true;
 			this.messageString = message;
 			this.stackTrace = stackTrace;
+			this.setupFailure = setupFailure;
 		}
 
 		#endregion

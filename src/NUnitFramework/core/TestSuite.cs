@@ -46,6 +46,7 @@ namespace NUnit.Core
 		private MethodInfo fixtureTearDown;
 		private object fixture;
 		private const string FIXTURE_SETUP_FAILED = "Fixture setup failed";
+		private const string FIXTURE_SETUP_CALLED_IGNORE = "Fixture setup called ignore";
 		private const string EXPLICIT_SELECTION_REQUIRED = "Explicit selection required";
 		private bool isSetUp;
 
@@ -321,7 +322,14 @@ namespace NUnit.Core
 				} 
 				catch (Exception ex) 
 				{
-					handleFixtureException(suiteResult, ex);
+					// Error in TestFixtureTearDown causes the
+					// suite to be marked as a failure, even if
+					// all the contained tests passed.
+					NunitException nex = ex as NunitException;
+					if (nex != null)
+						ex = nex.InnerException;
+
+					suiteResult.Failure( ex.Message, ex.StackTrace);
 				}
 				finally
 				{
@@ -344,9 +352,24 @@ namespace NUnit.Core
 			} 
 			catch (Exception ex) 
 			{
-				handleFixtureException(suiteResult, ex);
-				this.ShouldRun = false;
-				this.IgnoreReason = FIXTURE_SETUP_FAILED;
+				// Error in TestFixtureSetUp causes the suite and
+				// all contained suites to be ignored.
+				// TODO: Change this to be a failure?
+				NunitException nex = ex as NunitException;
+				if (nex != null)
+					ex = nex.InnerException;
+
+				if ( ex is NUnit.Framework.IgnoreException )
+				{
+					this.ShouldRun = false;
+					suiteResult.NotRun(ex.Message);
+					suiteResult.StackTrace = ex.StackTrace;
+					this.IgnoreReason = ex.Message;
+				}
+				else
+				{
+					suiteResult.Failure( ex.Message, ex.StackTrace, true );
+				}
 			}
 			finally
 			{
@@ -358,17 +381,6 @@ namespace NUnit.Core
 		{
 			if (this.fixtureSetUp != null)
 				this.InvokeMethod(fixtureSetUp, fixture);
-		}
-
-		private void handleFixtureException(TestResult result, Exception ex) 
-		{
-			NunitException nex = ex as NunitException;
-			if (nex != null)
-				ex = nex.InnerException;
-
-			result.Executed = false;
-			result.NotRun(ex.ToString());
-			result.StackTrace = ex.StackTrace;
 		}
 
 		protected virtual void RunAllTests(
@@ -383,7 +395,7 @@ namespace NUnit.Core
 					if (this.ShouldRun == false)
 					{
 						test.ShouldRun = false;
-						test.IgnoreReason = FIXTURE_SETUP_FAILED;
+						test.IgnoreReason = this.IgnoreReason;
 					}
 					else if ( test.IsExplicit && filter == null )
 					{
@@ -393,7 +405,9 @@ namespace NUnit.Core
 				}
 					
 				if ( filter == null || test.Filter( filter ) )
+				{
 					suiteResult.AddResult( test.Run( listener, filter ) );
+				}
 				
 				if ( saveShouldRun && !test.ShouldRun ) 
 				{
