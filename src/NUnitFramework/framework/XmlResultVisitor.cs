@@ -42,30 +42,25 @@ namespace NUnit.Core
 	{
 		private XmlTextWriter xmlWriter;
 		private TextWriter writer;
+		private MemoryStream memoryStream;
 
 		public XmlResultVisitor(string fileName, TestResult result)
 		{
-			writer = new StreamWriter(fileName, false, System.Text.Encoding.Unicode);
+			xmlWriter = new XmlTextWriter( new StreamWriter(fileName, false, System.Text.Encoding.UTF8) );
 			Initialize(result);
 		}
 
-		public XmlResultVisitor(TextWriter writer, TestResult result) 
+		public XmlResultVisitor( TextWriter writer, TestResult result )
 		{
+			this.memoryStream = new MemoryStream();
 			this.writer = writer;
-			Initialize(result);
+			this.xmlWriter = new XmlTextWriter( new StreamWriter( memoryStream, System.Text.Encoding.UTF8 ) );
+			Initialize( result );
 		}
 
 		private void Initialize(TestResult result) 
 		{
 			ResultSummarizer summaryResults = new ResultSummarizer(result);
-			try
-			{
-				xmlWriter = new XmlTextWriter (writer);
-			}
-			catch(Exception e)
-			{
-				Console.Error.WriteLine(e.StackTrace);
-			}
 
 			xmlWriter.Formatting = Formatting.Indented;
 			xmlWriter.WriteStartDocument(false);
@@ -157,6 +152,16 @@ namespace NUnit.Core
 				xmlWriter.WriteEndElement();
 				xmlWriter.WriteEndDocument();
 				xmlWriter.Flush();
+
+				if ( memoryStream != null && writer != null )
+				{
+					memoryStream.Position = 0;
+					using ( StreamReader rdr = new StreamReader( memoryStream ) )
+					{
+						writer.Write( rdr.ReadToEnd() );
+					}
+				}
+
 				xmlWriter.Close();
 			} 
 			finally 
