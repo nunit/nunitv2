@@ -50,10 +50,10 @@ namespace NUnit.UiKit
 		public static void Init( Form ownerForm, TextWriter outWriter, TextWriter errWriter )
 		{
 			AppUI.outWriter = outWriter;
-			Console.SetOut( outWriter );
+			Console.SetOut( new ConsoleWriter( outWriter ) );
 
 			AppUI.errWriter = errWriter;
-			Console.SetError( errWriter );
+			Console.SetError( new ConsoleWriter( errWriter ) );
 
 			loader = new TestLoader( outWriter, errWriter );
 			loader.ReloadOnRun = UserSettings.Options.ReloadOnRun;

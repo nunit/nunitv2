@@ -38,13 +38,34 @@ namespace NUnit.Util
 	/// </summary>
 	public class ConsoleWriter : TextWriter
 	{
+		#region Private Fields
+
 		private TextWriter console;
+
+		#endregion
+
+		#region Constructors
     			
 		public ConsoleWriter(TextWriter console)
 		{
 			this.console = console;
 		}
+
+		#endregion
     			
+		#region TextWriter Overrides
+
+		public override void Close()
+		{
+			console.Close ();
+		}
+
+		public override void Flush()
+		{
+			console.Flush ();
+		}
+
+
 		public override void Write(char c)
 		{
 			console.Write(c);
@@ -69,5 +90,7 @@ namespace NUnit.Util
 		{
 			return null;
 		}
+
+		#endregion
 	}
 }

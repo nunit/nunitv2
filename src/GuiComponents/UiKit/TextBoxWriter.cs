@@ -43,9 +43,22 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class TextBoxWriter : TextWriter
 	{
+		#region Private Fields
+		
+		/// <summary>
+		/// The TextBoxBase-derived control we write to
+		/// </summary>
 		private TextBoxBase textBox;
+		
+		/// <summary>
+		/// StringBuilder to hold text until the control is actually  created
+		/// </summary>
 		private StringBuilder sb;
+
+		#endregion
     			
+		#region Constructors
+
 		public TextBoxWriter(TextBox textBox)
 		{
 			this.textBox = textBox;
@@ -56,6 +69,26 @@ namespace NUnit.UiKit
 		{
 			this.textBox = textBox;
 			textBox.HandleCreated += new EventHandler( OnHandleCreated );
+		}
+
+		#endregion
+
+		#region TextBoxWriterMethods
+
+		public void Clear()
+		{
+			textBox.Clear();
+			ClearBuffer();
+		}
+
+		#endregion
+
+		#region TextWriter Overrides
+
+		public override void Flush()
+		{
+			if ( textBox.IsHandleCreated )
+				OutputBuffer();
 		}
 
 		public override void Write(char c)
@@ -83,6 +116,29 @@ namespace NUnit.UiKit
 				BufferText( s );
 		}
 
+		public override void WriteLine(string s)
+		{
+			Write( s + "\r\n" );
+		}
+
+		public override Encoding Encoding
+		{
+			get { return Encoding.Default; }
+		}
+
+		#endregion
+
+		#region MarshalByRefObject Overrides
+
+		public override Object InitializeLifetimeService()
+		{
+			return null;
+		}
+
+		#endregion
+
+		#region Internal Helpers
+
 		private void BufferText( string s )
 		{
 			if ( sb == null )
@@ -102,28 +158,25 @@ namespace NUnit.UiKit
 			textBox.AppendText( s );
 		}
 
-		private void OnHandleCreated( object sender, EventArgs e )
+		private void OutputBuffer()
 		{
 			if ( sb != null )
 			{
 				textBox.AppendText( sb.ToString() );
-				sb = null;
+				ClearBuffer();
 			}
 		}
 
-		public override void WriteLine(string s)
+		private void ClearBuffer()
 		{
-			Write( s + "\r\n" );
+			sb = null;
 		}
 
-		public override Encoding Encoding
+		private void OnHandleCreated( object sender, EventArgs e )
 		{
-			get { return Encoding.Default; }
+			OutputBuffer();
 		}
 
-		public override Object InitializeLifetimeService()
-		{
-			return null;
-		}
+		#endregion
 	}
 }
