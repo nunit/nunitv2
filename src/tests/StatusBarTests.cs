@@ -64,9 +64,9 @@ namespace NUnit.Tests.UiKit
 		{
 			Assert.AreEqual( "Status", statusBar.Panels[0].Text );
 			Assert.AreEqual( "Test Cases : 0", statusBar.Panels[1].Text );
-			Assert.AreEqual( "Tests Run : 0", statusBar.Panels[2].Text );
-			Assert.AreEqual( "Failures : 0", statusBar.Panels[3].Text );
-			Assert.AreEqual( "Time : 0", statusBar.Panels[4].Text );
+			Assert.AreEqual( "", statusBar.Panels[2].Text );
+			Assert.AreEqual( "", statusBar.Panels[3].Text );
+			Assert.AreEqual( "", statusBar.Panels[4].Text );
 		}
 
 		[Test]
@@ -75,16 +75,16 @@ namespace NUnit.Tests.UiKit
 			statusBar.Initialize( 0 );
 			Assert.AreEqual( "", statusBar.Panels[0].Text );
 			Assert.AreEqual( "Test Cases : 0", statusBar.Panels[1].Text );
-			Assert.AreEqual( "Tests Run : 0", statusBar.Panels[2].Text );
-			Assert.AreEqual( "Failures : 0", statusBar.Panels[3].Text );
-			Assert.AreEqual( "Time : 0", statusBar.Panels[4].Text );
+			Assert.AreEqual( "", statusBar.Panels[2].Text );
+			Assert.AreEqual( "", statusBar.Panels[3].Text );
+			Assert.AreEqual( "", statusBar.Panels[4].Text );
 
 			statusBar.Initialize( 50 );
 			Assert.AreEqual( "Ready", statusBar.Panels[0].Text );
 			Assert.AreEqual( "Test Cases : 50", statusBar.Panels[1].Text );
-			Assert.AreEqual( "Tests Run : 0", statusBar.Panels[2].Text );
-			Assert.AreEqual( "Failures : 0", statusBar.Panels[3].Text );
-			Assert.AreEqual( "Time : 0", statusBar.Panels[4].Text );
+			Assert.AreEqual( "", statusBar.Panels[2].Text );
+			Assert.AreEqual( "", statusBar.Panels[3].Text );
+			Assert.AreEqual( "", statusBar.Panels[4].Text );
 		}
 
 		[Test]

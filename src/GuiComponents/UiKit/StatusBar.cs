@@ -175,6 +175,9 @@ namespace NUnit.UiKit
 		private void OnRunStarting( object sender, TestEventArgs e )
 		{
 			Initialize( e.Test.CountTestCases, "Running :" + e.Test.Name );
+			DisplayTestCount();
+			DisplayFailures();
+			DisplayTime();
 		}
 
 		private void OnRunFinished(object sender, TestEventArgs e )
