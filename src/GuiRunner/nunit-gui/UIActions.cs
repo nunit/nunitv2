@@ -58,7 +58,6 @@ namespace NUnit.Gui
 		public void TestStarted(TestCase testCase)
 		{
 			form.status.Text = "Running : " + testCase.Name; 
-			form.progressBar.PerformStep();		
 		}
 
 		public void SuiteStarted(TestSuite suite)
@@ -102,6 +101,8 @@ namespace NUnit.Gui
 
 		public void TestFinished(TestCaseResult result)
 		{
+			form.progressBar.PerformStep();		
+
 			TreeNode node = (TreeNode)treeMap[result.Test.FullName];	
 
 			if(!result.Executed)
@@ -156,7 +157,10 @@ namespace NUnit.Gui
 			form.runButton.Enabled = false;
 
 			TestResult result = testRunner.Run();
+			form.status.Text = "Completed"; 
+
 			DisplayResults(result);
+
 
 			form.runButton.Enabled = true;
 			if(form.detailList.Items.Count > 0)
