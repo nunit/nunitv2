@@ -10,6 +10,7 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void NoDuplicates() 
 		{
+			CategoryManager.Clear();
 			string name1 = "Name1";
 			string name2 = "Name2";
 			string duplicate1 = "Name1";

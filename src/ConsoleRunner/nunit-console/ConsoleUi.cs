@@ -416,3 +416,4 @@ namespace NUnit.Console
 		#endregion
 	}
 }
+

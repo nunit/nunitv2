@@ -24,5 +24,10 @@ namespace NUnit.Core
 		{
 			get { return categories.Values; }
 		}
+
+		public static void Clear() 
+		{
+			categories = new Hashtable();
+		}
 	}
 }
