@@ -13,15 +13,25 @@ namespace NUnit.Util
 	/// an attempt is made to load an invalid
 	/// file or one of an unknown type.
 	/// </summary>
-	public class VSProject
+	public class VSProject : IProject
 	{
 		private static readonly string[] validExtensions = { ".csproj", ".vbproj", ".vcproj" };
 		private static readonly string solutionExtension = ".sln";
 
 		private string projectPath;
-		private ProjectConfigCollection configs = new ProjectConfigCollection();
+		private bool isDirty = false;
+		private ProjectConfigCollection configs;
 
-		public VSProject() { }
+		public VSProject()
+		{ 
+			configs = new ProjectConfigCollection( this );		
+		}
+
+		public VSProject( string projectPath )
+		{
+			configs = new ProjectConfigCollection( this );		
+			Load( projectPath );
+		}
 
 		public static bool IsProjectFile( string path )
 		{
@@ -39,9 +49,10 @@ namespace NUnit.Util
 			return Path.GetExtension( path ) == solutionExtension;
 		}
 
-		public VSProject( string projectPath )
+		public bool IsDirty
 		{
-			Load( projectPath );
+			get { return isDirty; }
+			set { isDirty = value; }
 		}
 
 		public string ProjectPath

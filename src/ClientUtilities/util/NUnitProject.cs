@@ -11,7 +11,7 @@ namespace NUnit.Util
 	/// <summary>
 	/// Class that represents an NUnit test project
 	/// </summary>
-	public class NUnitProject
+	public class NUnitProject : IProject
 	{
 		#region Static and instance variables
 
@@ -44,16 +44,25 @@ namespace NUnit.Util
 		/// <summary>
 		/// Our collection of configurations
 		/// </summary>
-		private ProjectConfigCollection configs = new ProjectConfigCollection();
+		private ProjectConfigCollection configs;
+
+		/// <summary>
+		/// Name of the current active configuration
+		/// </summary>
+		private string activeConfig;
 
 		#endregion
 
 		#region Constructors
 
-		public NUnitProject() {	}
+		public NUnitProject() 
+		{	
+			configs = new ProjectConfigCollection( this );		
+		}
 
 		public NUnitProject( string filePath )
 		{
+			configs = new ProjectConfigCollection( this );		
 			Load( filePath );
 		}
 
@@ -107,7 +116,7 @@ namespace NUnit.Util
 			ProjectConfig config = new ProjectConfig( "Default" );
 			config.Assemblies.Add( assemblyPath );
 			project.Configs.Add( config );
-			project.SetActiveConfig( "Default" );
+			project.ActiveConfig = "Default";
 
 			project.loadPath = assemblyPath;
 			project.projectPath = ProjectPathFromFile( assemblyPath );
@@ -178,6 +187,11 @@ namespace NUnit.Util
 			get { return projectPath; }
 		}
 
+		public string LoadPath
+		{
+			get { return loadPath; }
+		}
+
 		public bool IsDirty
 		{
 			get { return isDirty; }
@@ -189,36 +203,33 @@ namespace NUnit.Util
 			get { return isWrapper; }
 		}
 
-		public ProjectConfig ActiveConfig
+		public string TestFileName
 		{
-			get
-			{
-				foreach( ProjectConfig config in Configs )
-					if ( config.Active ) 
-						return config;
-
-				if ( Configs.Count > 0 )
-				{
-					Configs[0].Active = true;
-					return Configs[0];
-				}
-					
-				return null; 
-			}
+			get { return isWrapper ? LoadPath : ProjectPath; }
 		}
 
-		public void SetActiveConfig( string name )
+		public string ActiveConfig
 		{
-			if ( Configs[name] == null )
-				throw new ArgumentException( "Specified configuration does not exist in the collection" );
+			get	{ return activeConfig; }
+			set	{ isDirty = true; activeConfig = value; }
+		}
 
-			foreach( ProjectConfig config in Configs )
-				config.Active = ( name == config.Name );		
+		public AssemblyList ActiveAssemblies
+		{
+			get { return configs[activeConfig].Assemblies; }
 		}
 
 		public ProjectConfigCollection Configs
 		{
 			get { return configs; }
+		}
+
+		public bool IsLoadable
+		{
+			get
+			{
+				return Configs.Count > 0 && ActiveAssemblies.Count > 0;
+			}
 		}
 
 		#endregion
@@ -269,14 +280,12 @@ namespace NUnit.Util
 					config.Assemblies.Add( path );
 				}
 
-				if ( config.Name == activeConfigName )
-					config.Active = true;
-
 				Configs.Add( config );
 			}
 
 			this.loadPath = projectPath;
 			this.projectPath = projectPath;
+			this.activeConfig = activeConfigName;
 			this.IsDirty = false;
 		}
 
@@ -286,7 +295,7 @@ namespace NUnit.Util
 			writer.WriteLine( "<NUnitProject>" );
 
 			if ( Configs.Count > 0 )
-				writer.WriteLine( "  <Settings activeconfig=\"{0}\"/>", ActiveConfig.Name );
+				writer.WriteLine( "  <Settings activeconfig=\"{0}\"/>", ActiveConfig );
 			
 			foreach( ProjectConfig config in Configs )
 			{
@@ -309,6 +318,16 @@ namespace NUnit.Util
 		{
 			this.projectPath = projectPath;
 			Save();
+		}
+
+		/// <summary>
+		/// Load tests for this project into a test domain
+		/// </summary>
+		public Test LoadTest( TestDomain testDomain )
+		{
+			return IsWrapper
+				? testDomain.Load( TestFileName )
+				: testDomain.Load( TestFileName, ActiveAssemblies.GetFiles() );
 		}
 
 		#endregion

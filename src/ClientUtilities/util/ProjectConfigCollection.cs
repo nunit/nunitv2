@@ -8,9 +8,19 @@ namespace NUnit.Util
 	/// </summary>
 	public class ProjectConfigCollection : CollectionBase
 	{
-		public ProjectConfigCollection() { }
+		private IProject project;
+
+		public ProjectConfigCollection( IProject project ) 
+		{ 
+			this.project = project;
+		}
 
 		#region Properties
+
+		public IProject Project
+		{
+			get { return project; }
+		}
 
 		public ArrayList Names
 		{
@@ -45,7 +55,8 @@ namespace NUnit.Util
 
 		public void Add( ProjectConfig config )
 		{
-			InnerList.Add( config );
+			List.Add( config );
+			config.Project = project;
 		}
 
 		public void Add( string name )
@@ -53,21 +64,18 @@ namespace NUnit.Util
 			Add( new ProjectConfig( name ) );
 		}
 
-		public void CopyTo( ProjectConfig[] array )
-		{
-			InnerList.CopyTo( array );
-		}
-
 		public void Remove( ProjectConfig config )
 		{
-			InnerList.Remove( config );
+			List.Remove( config );
 		}
 
 		public void Remove( string name )
 		{
 			int index = IndexOf( name );
 			if ( index >= 0 )
+			{
 				RemoveAt( index );
+			}
 		}
 
 		public int IndexOf( ProjectConfig config )
@@ -97,16 +105,19 @@ namespace NUnit.Util
 			return IndexOf( name ) >= 0;
 		}
 
-		protected override void OnInsert( int index, object obj )
+		protected override void OnRemoveComplete( int index, object obj )
 		{
-			ProjectConfig config = (ProjectConfig)obj;
-
-			if ( this.Contains( config.Name ) )
-				throw new ArgumentException( "Collection already contains a configuration with this name" );		
+			project.IsDirty = true;
 		}
 
-		private void OnConfigChanged( ProjectConfig config )
+		protected override void OnInsertComplete( int index, object obj )
 		{
+			project.IsDirty = true;
+		}
+
+		protected override void OnSetComplete( int index, object oldValue, object newValue )
+		{
+			project.IsDirty = true;
 		}
 
 		#endregion

@@ -11,7 +11,7 @@ namespace NUnit.Util
 	public class ProjectConfig
 	{
 		private string name;
-		private bool active = false;
+		private IProject project = null;
 		private AssemblyList assemblies = new AssemblyList();
 
 		public ProjectConfig( string name )
@@ -19,16 +19,25 @@ namespace NUnit.Util
 			this.name = name;
 		}
 
+		public IProject Project
+		{
+			get { return project; }
+			set 
+			{ 
+				project = value; 
+				assemblies.Project = project;
+			}
+		}
+
 		public string Name
 		{
 			get { return name; }
-			set { name = value; }
-		}
-
-		public bool Active
-		{
-			get { return active; }
-			set { active = value; }
+			set 
+			{ 
+				name = value; 
+				if ( project != null )
+					project.IsDirty = true;
+			}
 		}
 
 		public AssemblyList Assemblies
