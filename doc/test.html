@@ -173,18 +173,19 @@
           <td class="bodytext">
             <p><b>Test (NUnit 2.0)</b><br>
               The Test attribute marks a specific method inside a class that has
-              already been marked as a <code>TestFixture</code>, as a test method. For backwards
+              already been marked as a TestFixture, as a test method. For backwards
               compatibility with previous versions of Nunit a test method will
               also be found if the first 4 letters are &quot;test&quot; regardless
-              of case. </p>
-            <p><b>Note:</b> The signature for a test method is defined as follows;
-            <code>public
-              void MethodName()</code><br>
-              <br>
-              There must be no parameters. If the programmer marks a test method
-              that does not have the correct signature it will not be run and
-              it will appear in the Test Not Run area in the UI that ran the program.</p>
-            <p></p>
+              of case.</p>
+			  
+            <p>The signature for a test method is defined as follows:
+            <pre>        public void MethodName()</pre></p>
+
+            <p>Note that there must be no parameters. If the programmer marks 
+			a test method that does not have the correct signature it will not 
+			be run and it will appear in the Test Not Run area in the UI that 
+			ran the program.</p>
+
             <p><b>Example:</b></p>
 				<script language="JavaScript">
 	function Show( id ) {

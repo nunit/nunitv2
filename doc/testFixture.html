@@ -173,14 +173,19 @@
         <tr>
           <td class="bodytext">
             <p><b>Test Fixture (NUnit 2.0)</b><br>
-              This is the attribute that marks a class that contains test methods.
-              This attribute is contained in the <code>NUnit.Framework</code> namespace. In
-              previous versions of NUnit the programmer was required to inherit
-              from a class called <code>TestCase</code>. This is more flexible because it allows
-              a <code>TestFixture</code> attribute to be put on any class.</p>
-            <p><b>Note:</b> There are a few restrictions. The class must have a default
-              constructor. The class must also be a publicly exported type or
-              the program that dynamically builds suites will not see it.</p>
+              This is the attribute that marks a class that contains tests and,
+			  optionally, setup or teardown methods.</p>
+
+            <p>There are a few restrictions on a class that is 
+			used as a test fixture.
+			<ul>
+			  <li>It must be a publicly exported type or NUnit will not see it.</li>
+			  <li>It must have a default constructor or NUnit will not be able 
+			  to construct it.</li>
+			  <li>The constructor should not have any side effects, since NUnit 
+			  may construct the class multiple times in the course of a session.</li>
+			</ul></p>
+			  
             <p><b>Example:</b></p>
             <p>
 				<script language="JavaScript">
@@ -283,7 +288,7 @@ public class SuccessTests
         <tr>
           <td class="copyrighttext">
             <br><hr>
-            Copyright © 2002-2004 James W. Newkirk, Alexei A. Vorontsov. All Rights Reserved.
+            Copyright © 2004 Charlie Poole. All Rights Reserved.
 		  </td>
         </tr>
       </table>
