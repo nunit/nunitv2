@@ -208,10 +208,13 @@ namespace NUnit.Core
 
 		public virtual void CancelRun()
 		{
+			throw new NotImplementedException();
 		}
 
 		public virtual void Wait()
 		{
+			// Wait isn't implemented!!!
+			// throw new NotImplementedException();
 		}
 
 		#endregion
