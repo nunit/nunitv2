@@ -143,7 +143,7 @@ a:active {
   color: #000000;
 }
 
-.programText {
+pre, .programText {
   font-family: "Courier", serif;
   font-size: 0.82em;
   letter-spacing: 1em

@@ -124,7 +124,6 @@ a:active {
   color: #000000;
 }
 
-
 .copyrighttext {
   margin-left: 5%;
   margin-right: 5%;
@@ -145,7 +144,7 @@ a:active {
 }
 
 
-.programText {
+pre, .programText {
   font-family: "Courier", serif;
   font-size: 0.9em;
   letter-spacing: 0em

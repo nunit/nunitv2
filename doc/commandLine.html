@@ -173,79 +173,226 @@
       <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
         <tr>
           <td class="bodytext">
-            <br>
-            <b>Command-Line Parameters</b>
-		  </td>
-        </tr>
-      </table>
-      <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
-        <tr>
-          <td class="bodytext">
-            <p><br>
-              <br>
-              <b>Forms Interface</b><br>
-              The forms interface has two command line options. If the program
-              is started without any command line parameters it automatically
-              loads the most recently loaded assembly. It does not automatically
-              run it just loads the assembly. The forms interface also keeps track
-              of the 5 most recently loaded assemblies. To access these see the
-              File-&gt;Recent Assemblies menu item. <br>
-              <br>
-              The other option is to specify the assembly on the command line.
-              The following will start the forms interface with the assembly:
-              <font face="Courier New"><code>nunit.tests.dll</code></font>
-            <font face="Courier New"><br>
-            <br>
-            <code>nunit-gui.exe nunit.tests.dll</code></font><br>
-              <br>
-              <b>Console Interface</b><br>
-              The console interface has a few additional options compared to the
-              forms interface. The console program must always specify a command
-              line parameter. The console interface always creates an XML representation
-              of the test results. This file by default is called
-            <font face="Courier New"><code>TestResult.xml</code></font>
-              and is placed in the working directory. <br>
-            <br>
-              <b>Note:</b> By default the nunit-console program is not added to your
-              path. You must do this manually if this is the desired behavior.
-              <br>
-              <br>
-              <b>Specifying an Assembly</b><br>
-              The console program must always have an assembly specified. To run
-              the tests contained in the <font face="Courier New"><code>nunit.tests.dll</code></font> use the following command:
-              <br>
-            <br>
-            <code>nunit-console nunit.tests.dll</code><br>
-              <br>
-              <b>Specifying an Assembly and a Fixture</b><br>
+		    <p><a href="#forms"><b>Forms Interface</b></a><br>
+			   <a href="#console"><b>Console Interface</b></a></p>
+			
+			<p><a id="forms"><b>Forms Interface</b></a><br>
+			  The forms interface may be run with or without the name of a file
+			  containing tests on the command line. If the program is started 
+			  without any file specified, it automatically loads the most recently
+			  loaded assembly.</p>
+
+			  <p><b>Run without loading an Assembly</b><br>
+			  To suppress loading of the most recent assembly, use the 
+			  <b>/noload</b> switch:
+			  <pre class="programtext">        nunit-gui /noload</pre></p>
+			  
+			  <p><b>Specifying an Assembly</b><br>
+              The other option is to specify an assembly or project file name on
+			  the command line. The following will start the forms interface 
+			  with the assembly nunit.tests.dll:			  
+			  <pre class="programtext">        nunit-gui nunit.tests.dll</pre></p>
+			  
+			  <p>The following will start the forms interface loading the same
+			  assembly through its Visual Studio project definition:			  
+			  <pre class="programtext">        nunit-gui nunit.tests.csproj</pre></p>
+			  
+			  <p>Assuming an NUnit test project has been created containing the
+			  assembly, the following will again load nunit.tests.dll:			  
+			  <pre class="programtext">        nunit-gui nunit.tests.nunit</pre></p>
+			  
+              <p><b>Specifying an Assembly and a Fixture</b><br>
               When specifying a a fixture, you must give the full name of the
               test fixture along with the containing assembly. For example, to
-              run the <code>NUnit.Tests.AssertionTests</code> in the <code>nunit.tests.dll</code> assembly
-              use the following command:<br>
-            <br>
-              <code>nunit-console /fixture:NUnit.Tests.AssertionTests nunit.tests.dll</code><br>
-              <br>
-              <b>Specifying the XML file name</b><br>
+              load only the NUnit.Tests.AssertionTests in the 
+			  nunit.tests.dll assembly use the following command:
+              <pre class="programtext">        nunit-gui /fixture:NUnit.Tests.AssertionTests nunit.tests.dll</pre></p>
+              
+			  <p>The name specified after the <b>/fixture</b> option may be that of a 
+			  TestFixture class, or a namespace. If a namespace is given, then 
+			  all fixtures under that namespace are loaded. This option may be 
+			  used with Visual Studio or NUnit projects as well.</p>
+			  
+			  <p><b>Load and Run Tests</b><br>
+			  Normally, nunit-gui only loads an assembly and then waits for
+			  the user to click on the Run button. If you wish to have the
+			  tests run immediately, use the <b>/run</b> option:
+			  <pre class="programtext">        nunit-gui nunit.tests.dll /run</pre></p>
+			  
+			  <p><b>Specifying which Configuration to Load</b><br>
+			  When loading a Visual Studio project or an NUnit project, the
+			  first configuration found will be loaded by default. Usually this
+			  is Debug. The configuration loaded may be controlled using the
+			  <b>/config</b> switch. The following will load the Release configuration
+			  of the nunit.tests.dll:			  
+			  <pre class="programtext">        nunit-gui nunit.tests.csproj /config:Release</pre></p>
+			  
+			  <p><b>Specifying Multiple Assemblies</b><br>
+			  The forms interface does <b>not</b> currently provide for specifying 
+			  more than one assembly on the command line. Multiple-assembly
+			  projects must be loaded by specifying the name of a Visual Studio
+			  solution file or an NUnit test project.</p>
+			  
+			  <p><b>Displaying Help</b><br>
+			  The <b>/help</b> or <b>/?</b> option displays a message box containing a brief
+			  help message.</p>
+
+			  <hr>
+			  
+              <p><a id="console"><b>Console Interface</b></a><br>
+              The console interface has a few additional options compared to the
+              forms interface. The command line must always specify one or more
+			  file names. The console interface always creates an XML representation
+              of the test results. This file by default is called 
+			  TestResult.xml and is placed in the working directory.</p>
+
+              <p><b>Note:</b> By default the nunit-console program is not added to your
+              path. You must do this manually if this is the desired behavior.</p>
+
+              <p><b>Specifying an Assembly</b><br>
+              The console program must always have an assembly or project specified. 
+			  To run the tests contained in the nunit.tests.dll use the 
+			  following command:			  
+              <pre class="programtext">        nunit-console nunit.tests.dll</pre></p>
+			  
+			  <p>To run the tests in nunit.tests.dll through the
+			  Visual Studio project, use:
+			  <pre class="programtext">        nunit-console nunit.tests.csproj</pre></p>
+			  
+			  <p>To run the same tests through an NUnit test project you have
+			  defined, use:
+			  <pre class="programtext">        nunit-console nunit.tests.nunit</pre></p>
+
+              <p><b>Specifying an Assembly and a Fixture</b><br>
+              When specifying a a fixture, you must give the full name of the
+              test fixture along with the containing assembly. For example, to
+              run the NUnit.Tests.AssertionTests in the 
+			  nunit.tests.dll assembly use the following command:
+              <pre class="programtext">        nunit-console /fixture:NUnit.Tests.AssertionTests nunit.tests.dll</pre></p>
+              
+			  <p>The name specified after the <b>/fixture</b> option may be that of a 
+			  TestFixture class, a legacy suite (using the Suite property ) or
+			  a namespace. If a namespace is given, then all fixtures under that
+			  namespace are run. This option may be used with Visual Studio or NUnit
+			  projects as well.</p>
+			  
+			  <p><b>Specifying Test Categories to Include or Exclude</b><br>
+			  NUnit 2.2 provides CategoryAttribute for use in
+			  marking tests as belonging to one or more categories. Categories
+			  may be included or excluded in a test run using the <b>/include</b> and
+			  <b>/exclude</b> options. The following command runs only the tests in
+			  the BaseLine category:
+			  <pre class="programtext">        nunit-console myassembly.dll /include:BaseLine</pre></p>
+			  
+			  <p>The following command runs all tests <b>except</b> those in the
+			  Database category:
+			  <pre class="programtext">        nunit-console myassembly.dll /exclude:Database</pre></p>
+			  
+			  <p>Multiple categories may be specified on either option, by 
+			  using commas to separate them.
+			  
+			  <p><b>Note:</b>In the current release, you may choose to either
+			  include or exclude categories in a run, but not both. 
+			  
+			  <p><b>Note:</b>For a clear understanding of how category selection
+			  works, review the documentation for both the 
+			  <a href="category.html">Category Attribute</a> and the 
+			  <a href="explicit.html">Explicit Attribute</a>.
+			  			  
+              <p><b>Redirecting Output</b><br>
+			  The output that is normally shown on the console may be redirected
+			  to a file. This includes output created by the test program as well
+			  as what NUnit itself creates. The following command redirects
+			  standard output to the TestResult.txt file:
+			  <pre class="programtext">        nunit-console nunit.tests.dll /out:TestResult.txt</pre></p>
+			  
+			  <p>The following command redirects standard error output to the 
+			  StdErr.txt file.
+			  <pre class="programtext">        nunit-console nunit.tests.dll /err:StdErr.txt</pre></p>
+			  
+			  <p></b>Labeling Test Output</b><br>
+			  The output from each test normally follows right after that of
+			  the preceding test. You may use the <b>/labels</b> option to cause an
+			  identifying label to be displayed at the start of each test case.
+			  
+			  <p><b>Specifying the XML file name</b><br>
               As stated above, the console program always creates an XML representation
-              of the test results. To change the name to &quot;<code>console-test.xml&quot;</code>
-            use the following command line option:<br>
-            <br>
-              <code>nunit-console /xml:console-test.xml nunit.tests.dll</code><br>
-              <br>
-              <b>Specifying the Transform file</b><br>
+              of the test results. To change the name of the output file to 
+			  &quot;console-test.xml&quot;
+              use the following command line option:            
+              <pre class="programtext">        nunit-console /xml:console-test.xml nunit.tests.dll</pre></p>
+              
+              <p><b>Specifying the Transform file</b><br>
               The console interface uses XSLT to transform the test results from
               the XML file to what is printed to the screen when the program executes.
               The console interface has a default transformation that is part
-              of the executable. To specify your own transformation named &quot;<code>myTransform.xslt</code>&quot;
-              use the following command line option:<br>
-            <br>
-              <code>nunit-console /transform:myTransform.xslt nunit.tests.dll<br>
-            </code><br>
-              <b>Note:</b> For additional information see the XML schema for the test
+              of the executable. To specify your own transformation named 
+			  &quot;myTransform.xslt&quot;
+              use the following command line option:            
+              <pre class="programtext">        nunit-console /transform:myTransform.xslt nunit.tests.dll</pre></p>
+			  
+              <p><b>Note:</b> For additional information see the XML schema for the test
               results. This file is in the same directory as the executable and
-              is called <code><a href="files/Results.xsd">Results.xsd</a></code>. The default transform
-            <code><a href="files/Summary.xslt">Summary.xslt</a></code> is located
+              is called <a href="files/Results.xsd">Results.xsd</a>. 
+			  The default transform 
+			  <a href="files/Summary.xslt">Summary.xslt</a> is located
               in the core source directory.</p>
+			  
+			  <p><b>Specifying which Configuration to run</b><br>
+			  When running tests from a Visual Studio or NUnit project, the first
+			  configuration found will be loaded by default. Usually this is
+			  Debug. The configuration loaded may be controlled by using the
+			  <b>/config</b> switch. The following will load and run tests for the
+			  Release configuration of nunit.tests.dll.
+			  <pre class="programtext">        nunit-console nunit.tests.csproj /config:Release</pre></p>
+			  
+			  <p><b>Note:</b>This option has no effect when loading an assembly directly.</p>
+			  
+			  <p><b>Specifying Multiple Assemblies</b><br>
+			  You may run tests from multiple assemblies in one run using the console
+			  interface even if you have not defined an NUnit test project file.
+			  The following command would run a suite of tests contained in
+			  assembly1.dll, assembly2.dll and assembly3.dll.
+			  <pre class="programtext">        nunit-console assembly1.dll assembly2.dll assembly3.dll</pre></p>
+			  
+			  <p><b>Note:</b>You may specify multiple assemblies, but not multiple
+			  NUnit or Visual Studio projects on the command line. Further, you
+			  may not specify an NUnit or Visual Studio project together with a
+			  list of assemblies.</p>
+			  
+			  <p><b>Note:</b>The <b>/fixture</b> option may be used with multiple
+			  assemblies but it's more efficient to simply specify the 
+			  assembly that contains the fixture.</p>
+			  
+			  <p><b>Other Options</b><br>
+			  The <b>/noshadow</b> option disables shadow copying of the assembly
+			  in order to provide improved performance.</p>
+			  
+			  <p>The <b>/thread</b> option causes a separate thread to be created
+			  for running the tests. This is necessary in cases where the
+			  tests must run in a particular type of apartment. By running
+			  in a separate thread, the ApartmentState and ThreadPriority 
+			  settings under the <TestRunner> element of the config file will
+			  be honored. If not thread is created, these are ignored and the
+			  apartment will be the same as that of the console program.</p>
+			  
+			  <p><b>Note:</b>The apartment state of the console program may
+			  change from release to release, so users requiring a particular
+			  apartment should take advantage of this setting rather than
+			  relying on the default.</p>
+			  
+			  <p>The <b>/wait</b> option causes the program to wait for user input
+			  before exiting. This is useful when running nunit-console from
+			  a shortcut.</p>
+			  
+			  <p>The <b>/xmlconsole</b> option displays raw XML output on the console
+			  rather than transforming it. This is useful when debugging problems
+			  with the XML format.</p>
+			  
+			  <p>The <b>/nologo</b> option disables display of the copyright information
+			  at the start of the program.</p>
+			  
+			  <p>The <b>/help</b> or <b>/?</b> option displays a brief help message</p>
             </td>
         </tr>
       </table>
