@@ -140,6 +140,7 @@ namespace NUnit.UiKit
 																		  this.configurationNameTextBox});
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "AddConfigurationDialog";
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "New Configuration";
 			this.Load += new System.EventHandler(this.ConfigurationNameDialog_Load);

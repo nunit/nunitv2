@@ -26,7 +26,8 @@ namespace NUnit.Util
 		/// </summary>
 		public string this[int index]
 		{
-			get { return (string)InnerList[index]; }
+			get { return (string)List[index]; }
+			set { List[index] = value; }
 		}
 
 		/// <summary>

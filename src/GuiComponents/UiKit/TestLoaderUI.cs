@@ -25,6 +25,7 @@ namespace NUnit.UiKit
 		public void NewProject()
 		{
 			SaveFileDialog dlg = new SaveFileDialog();
+			dlg.Title = "Create New Test Project";
 			dlg.Filter = "NUnit Test Project (*.nunit)|*.nunit|All Files (*.*)|*.*";
 			dlg.DefaultExt = "nunit";
 			dlg.ValidateNames = true;
@@ -46,11 +47,13 @@ namespace NUnit.UiKit
 
 		public void OpenProject()
 		{
-			OpenFileDialog openFileDialog = new OpenFileDialog();
+			OpenFileDialog dlg = new OpenFileDialog();
+			dlg.Title = "Open Project";
 			
 			if ( vsSupport )
 			{
-				openFileDialog.Filter =
+				dlg.Filter =
+					"Projects & Assemblies(*.nunit,*.csproj,*.vbproj,*.vcproj,*.sln,*.dll,*.exe )|*.nunit;*.csproj;*.vbproj;*.vcproj;*.sln;*.dll;*.exe|" +
 					"All Project Types (*.nunit,*.csproj,*.vbproj,*.vcproj,*.sln)|*.nunit;*.csproj;*.vbproj;*.vcproj;*.sln|" +
 					"Test Projects (*.nunit)|*.nunit|" +
 					"Solutions (*.sln)|*.sln|" +
@@ -62,18 +65,19 @@ namespace NUnit.UiKit
 			}
 			else
 			{
-				openFileDialog.Filter =
-					"TestProjects (*.nunit)|*.nunit|" + 
+				dlg.Filter =
+					"Projects & Assemblies(*.nunit,*.dll,*.exe)|*.nunit;*.dll;*.exe|" + 
+					"Test Projects (*.nunit)|*.nunit|" + 
 					"Assemblies (*.dll,*.exe)|*.dll;*.exe|" +
 					"All Files (*.*)|*.*";
 			}
 
-			openFileDialog.FilterIndex = 1;
-			openFileDialog.FileName = "";
+			dlg.FilterIndex = 1;
+			dlg.FileName = "";
 
-			if (openFileDialog.ShowDialog( owner ) == DialogResult.OK) 
+			if ( dlg.ShowDialog( owner ) == DialogResult.OK ) 
 			{
-				loader.LoadProject( openFileDialog.FileName );
+				loader.LoadProject( dlg.FileName );
 			}
 		}
 
@@ -98,29 +102,37 @@ namespace NUnit.UiKit
 			}
 		}
 
-		public void AddAssembly()
+		public void AddAssembly( )
 		{
-			OpenFileDialog openFileDialog = new OpenFileDialog();
+			AddAssembly( loader.TestProject.ActiveConfig );
+		}
+
+		public void AddAssembly( string configName )
+		{
+			OpenFileDialog dlg = new OpenFileDialog();
+			dlg.Title = "Add Assembly";
 			
-			openFileDialog.Filter =
+			dlg.Filter =
 				"Assemblies (*.dll,*.exe)|*.dll;*.exe|" +
 				"All Files (*.*)|*.*";
 
-			openFileDialog.FilterIndex = 1;
-			openFileDialog.FileName = "";
+			dlg.FilterIndex = 1;
+			dlg.FileName = "";
 
-			if (openFileDialog.ShowDialog( owner ) == DialogResult.OK) 
+			if ( dlg.ShowDialog( owner ) == DialogResult.OK ) 
 			{
-				loader.TestProject.ActiveAssemblies.Add( openFileDialog.FileName );
-				loader.LoadTest();
+				loader.TestProject.Configs[configName].Assemblies.Add( dlg.FileName );
+				if ( loader.IsTestLoaded && configName == loader.TestProject.ActiveConfig )
+					loader.LoadTest();
 			}
 		}
 
 		public void AddVSProject()
 		{
-			OpenFileDialog openFileDialog = new OpenFileDialog();
-			
-			openFileDialog.Filter =
+			OpenFileDialog dlg = new OpenFileDialog();
+			dlg.Title = "Add Visual Studio Project";
+
+			dlg.Filter =
 				"All Project Types (*.csproj,*.vbproj,*.vcproj,*.sln)|*.csproj;*.vbproj;*.vcproj;*.sln|" +
 				"Solutions (*.sln)|*.sln|" +
 				"C# Projects (*.csproj)|*.csproj|" +
@@ -128,12 +140,12 @@ namespace NUnit.UiKit
 				"C++ Projects (*.vcproj)|*.vcproj|" +
 				"All Files (*.*)|*.*";
 
-			openFileDialog.FilterIndex = 1;
-			openFileDialog.FileName = "";
+			dlg.FilterIndex = 1;
+			dlg.FileName = "";
 
-			if (openFileDialog.ShowDialog( owner ) == DialogResult.OK) 
+			if ( dlg.ShowDialog( owner ) == DialogResult.OK ) 
 			{
-				VSProject vsProject = new VSProject( openFileDialog.FileName );
+				VSProject vsProject = new VSProject( dlg.FileName );
 				loader.TestProject.Add( vsProject );
 				loader.LoadTest();
 			}
@@ -151,6 +163,7 @@ namespace NUnit.UiKit
 		public void SaveProjectAs()
 		{
 			SaveFileDialog dlg = new SaveFileDialog();
+			dlg.Title = "Save Test Project";
 			dlg.Filter = "NUnit Test Project (*.nunit)|*.nunit|All Files (*.*)|*.*";
 			dlg.FileName = loader.TestProject.ProjectPath;
 			dlg.DefaultExt = "nunit";
@@ -184,6 +197,7 @@ namespace NUnit.UiKit
 			TestResult result = loader.LastResult;
 			
 			SaveFileDialog dlg = new SaveFileDialog();
+			dlg.Title = "Save Test Results as Xml";
 			dlg.Filter = "Xml Files (*.xml)|*.xml|All Files (*.*)|*.*";
 			dlg.FileName = "TestResult.xml";
 			dlg.InitialDirectory = Path.GetDirectoryName( loader.TestFileName );

@@ -97,28 +97,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="$this.Name">
-    <value>ProjectEditor</value>
-  </data>
-  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        AAABAAIAICAQAAAAAADoAgAAJgAAABAQEAAAAAAAKAEAAA4DAAAoAAAAIAAAAEAAAAABAAQAAAAAAIAC
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAgAAAAICAAIAAAACAAIAAgIAAAMDAwACAgIAAAAD/AAD/
-        AAAA//8A/wAAAP8A/wD//wAA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//
-        ////////////////////////////////////////qqqqqq///6qqr/////mZmaqqqqqv//+qqq////mZ
-        mZmqqqqqr//6qqqv//+ZmZmZ/6qq////+qqqr//5mZn///+qqv///6qqqq//+Zmf////qqr///+qqqqv
-        //mZn////6qq///6qqqqr//5mZ////+qqv//+qqqqq//+Zmf////qqr//6qqqqqv//mZn////6qq//qq
-        qqqqr//5mZ////+qqv/6qqr6qq//+Zmf////qqr/qqqq+qqv//mZn////6qq/6qqr/qqr//5mZ////+q
-        qvqqqq/6qq/5mZmZn/n/qqr6qqr/+qqv+ZmZmZ/5/6qqqqqq//qqr/mZmZmf+f+qqqqqr//6qq//////
-        ////qqqqqq//+qqv/////////6qqqqr///qqr////////6qqqqqq/6qqqqqq//////+qqqqqr/+qqqqq
-        qv//////qqqqqq//qqqqqqr/////////////////////////////////////////////////////////
-        ////////////////////////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAoAAAAEAAAACAAAAABAAQAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAgAAAAICAAIAA
-        AACAAIAAgIAAAMDAwACAgIAAAAD/AAD/AAAA//8A/wAAAP8A/wD//wAA////AGZmZmZmZmZmZmZmZmZm
-        Zmb/////////////////////qqr/qv/5n//6r/qq/5/5//qv+qr/n/n/+q+qqv+f+f/6r6+q/5/5//qq
-        r6r5mZmf+qqvqv////+qqvqqr///////////////////////////////////////////////AAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
-</value>
+    <value>AssemblyPathDialog</value>
   </data>
 </root>

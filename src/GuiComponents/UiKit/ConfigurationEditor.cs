@@ -102,6 +102,7 @@ namespace NUnit.UiKit
 			// 
 			// closeButton
 			// 
+			this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.closeButton.Location = new System.Drawing.Point(192, 216);
 			this.closeButton.Name = "closeButton";
 			this.closeButton.Size = new System.Drawing.Size(96, 32);
@@ -115,7 +116,7 @@ namespace NUnit.UiKit
 			this.addButton.Name = "addButton";
 			this.addButton.Size = new System.Drawing.Size(96, 32);
 			this.addButton.TabIndex = 5;
-			this.addButton.Text = "&Add";
+			this.addButton.Text = "&Add...";
 			this.addButton.Click += new System.EventHandler(this.addButton_Click);
 			// 
 			// activeButton
@@ -131,6 +132,7 @@ namespace NUnit.UiKit
 			// 
 			this.AcceptButton = this.closeButton;
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
+			this.CancelButton = this.closeButton;
 			this.ClientSize = new System.Drawing.Size(298, 268);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
 																		  this.activeButton,
@@ -141,6 +143,7 @@ namespace NUnit.UiKit
 																		  this.configListBox});
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "ConfigurationEditor";
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "ConfigurationEditor";
 			this.Load += new System.EventHandler(this.ConfigurationEditor_Load);
