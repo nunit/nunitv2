@@ -287,6 +287,10 @@ namespace NUnit.Framework
 		/// <param name="message">The message to display if objects are not equal</param>
 		static public void AreEqual(Object expected, Object actual, string message)
 		{
+			if ( expected == null && actual == null ) return;
+			if ( expected == null || actual == null )
+				Assert.FailNotEquals( expected, actual, message );
+
 			// FOr now, dynamically call array assertion if necessary. Try to move
 			// this into the ObjectsEqual method later on.
 			if ( expected.GetType().IsArray && actual.GetType().IsArray )
