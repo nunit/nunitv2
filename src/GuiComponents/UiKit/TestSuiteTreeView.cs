@@ -225,9 +225,8 @@ namespace NUnit.UiKit
 		{
 			get 
 			{
-				ArrayList result = new ArrayList();
-				FindCheckedNodes(this.Nodes, result);
-				return (UITestNode[])result.ToArray( typeof( UITestNode ) );
+				CheckedTestFinder finder = new CheckedTestFinder( this );
+				return finder.GetCheckedTests( CheckedTestFinder.SelectionFlags.All );
 			}
 		}
 
@@ -236,29 +235,13 @@ namespace NUnit.UiKit
 		{
 			get
 			{
-				ArrayList result = new ArrayList();
-				
-				if ( CheckBoxes )
-					FindCheckedNodes(this.Nodes, result );
-				if ( result.Count == 0 )
-					result.Add( SelectedTest );
-
-				return (UITestNode[])result.ToArray( typeof( UITestNode ) );
+				CheckedTestFinder finder = new CheckedTestFinder( this );
+				UITestNode[] result = finder.GetCheckedTests( 
+					CheckedTestFinder.SelectionFlags.Top | CheckedTestFinder.SelectionFlags.Explicit );
+				if ( result.Length == 0 )
+					result = new UITestNode[] { this.SelectedTest };
+				return result;
 			}	
-		}
-
-		private void FindCheckedNodes(TreeNodeCollection nodes, ArrayList result) 
-		{
-			foreach (TestSuiteTreeNode node in nodes) 
-			{
-				if (node.Parent == null || !node.Parent.Checked) 
-				{
-					if (node.Checked)
-						result.Add(node.Test);
-					if (node.Nodes != null)
-						FindCheckedNodes(node.Nodes, result);
-				}
-			}
 		}
 
 		/// <summary>
@@ -406,20 +389,6 @@ namespace NUnit.UiKit
 			base.OnMouseDown( e );
 		}
 
-//		private void ClearSelected()
-//		{
-//			foreach( TestSuiteTreeNode node in Nodes )
-//				ClearSelected( node );
-//		}
-
-//		private void ClearSelected( TestSuiteTreeNode node )
-//		{
-//			node.Selected = false;
-//
-//			foreach( TestSuiteTreeNode child in node.Nodes )
-//				ClearSelected( child );
-//		}
-
 		/// <summary>
 		/// Build treeview context menu dynamically on popup
 		/// </summary>
@@ -461,13 +430,6 @@ namespace NUnit.UiKit
 				}
 			}
 
-//			if ( contextNode.Result != null )
-//			{
-//				MenuItem copyMenuItem = new MenuItem(
-//					"&Copy", new EventHandler( copyMenuItem_Click ) );
-//				this.ContextMenu.MenuItems.Add( copyMenuItem );
-//			}
-
 			if ( this.ContextMenu.MenuItems.Count > 0 )
 				this.ContextMenu.MenuItems.Add( "-" );
 
@@ -493,25 +455,17 @@ namespace NUnit.UiKit
 			contextNode.Collapse();
 		}
 
-//		private void copyMenuItem_Click( object sender, System.EventArgs e )
-//		{
-//		}
-
 		/// <summary>
 		/// When Run context menu item is clicked, run the test that
 		/// was selected when the right click was done.
 		/// </summary>
 		private void runMenuItem_Click(object sender, System.EventArgs e)
 		{
+			//TODO: some sort of lock on these booleans?
 			if ( runCommandEnabled )
 			{
 				runCommandEnabled = false;
-
-				// TODO: Loader should handle this
-//				if ( loader.IsReloadPending )
-//					loader.ReloadTest();
-
-				loader.RunTest( contextNode.Test );
+				RunTest( contextNode.Test );
 			}
 		}
 
@@ -599,11 +553,9 @@ namespace NUnit.UiKit
 			if ( runCommandSupported && runCommandEnabled && SelectedNode.Nodes.Count == 0 )
 			{
 				runCommandEnabled = false;
-
-				// TODO: loader should handle this
-//				if ( loader.IsReloadPending )
-//					loader.ReloadTest();
-
+				
+				// Since this is a terminal node, don't use a filter
+				loader.SetFilter( null );
 				loader.RunTest( SelectedTest );
 			}
 		}
@@ -825,6 +777,26 @@ namespace NUnit.UiKit
 		private void OnPropertiesDialogClosed( object sender, System.EventArgs e )
 		{
 			propertiesDialog = null;
+		}
+
+		public void RunTests()
+		{
+			RunTests( SelectedTests );			
+		}
+
+		private void RunTest( UITestNode test )
+		{
+			RunTests( new UITestNode[] { test } );
+		}
+
+		private void RunTests( UITestNode[] tests )
+		{
+			if ( SelectedCategories != null && SelectedCategories.Length > 0 )
+				loader.SetFilter( new CategoryFilter( this.SelectedCategories, this.ExcludeSelectedCategories ) );
+			else
+				loader.SetFilter( null );
+
+			loader.RunTests( tests );
 		}
 
 		#endregion
@@ -1076,38 +1048,6 @@ namespace NUnit.UiKit
 		}
 	}
 
-	public class CheckCategoryVisitor : TestSuiteTreeNodeVisitor 
-	{
-		private string category;
-
-		public CheckCategoryVisitor(string category) 
-		{
-			this.category = category;
-		}
-
-		public override void Visit(TestSuiteTreeNode node)
-		{
-			if (node.Test.Categories.Contains(category))
-				node.Checked = true;
-		}
-	}
-
-	public class UnCheckCategoryVisitor : TestSuiteTreeNodeVisitor 
-	{
-		private string category;
-
-		public UnCheckCategoryVisitor(string category) 
-		{
-			this.category = category;
-		}
-
-		public override void Visit(TestSuiteTreeNode node)
-		{
-			if (node.Test.Categories.Contains(category))
-				node.Checked = false;
-		}
-	}
-
 	public class SelectedCategoriesVisitor : TestSuiteTreeNodeVisitor
 	{
 		private string[] categories;
@@ -1146,6 +1086,133 @@ namespace NUnit.UiKit
 					}
 				}
 			}
+		}
+	}
+
+	internal class CheckedTestFinder
+	{
+		[Flags]
+		public enum SelectionFlags
+		{
+			Top= 1,
+			Sub = 2,
+			Explicit = 4,
+			All = Top + Sub
+		}
+
+		private ArrayList checkedTests = new ArrayList();
+		private struct CheckedTestInfo
+		{
+			public UITestNode Test;
+			public bool TopLevel;
+
+			public CheckedTestInfo( UITestNode test, bool topLevel )
+			{
+				this.Test = test;
+				this.TopLevel = topLevel;
+			}
+		}
+
+		public UITestNode[] GetCheckedTests( SelectionFlags flags )
+		{
+			int count = 0;
+			foreach( CheckedTestInfo info in checkedTests )
+				if ( isSelected( info, flags ) ) count++;
+		
+			UITestNode[] result = new UITestNode[count];
+				
+			int index = 0;
+			foreach( CheckedTestInfo info in checkedTests )
+				if ( isSelected( info, flags ) )
+					result[index++] = info.Test;
+
+			return result;
+		}
+
+		private bool isSelected( CheckedTestInfo info, SelectionFlags flags )
+		{
+			if ( info.TopLevel && (flags & SelectionFlags.Top) != 0 )
+				return true;
+			else if ( !info.TopLevel && (flags & SelectionFlags.Sub) != 0 )
+				return true;
+			else if ( info.Test.IsExplicit && (flags & SelectionFlags.Explicit) != 0 )
+				return true;
+			else
+				return false;
+		}
+
+//		public UITestNode[] AllCheckedTests
+//		{
+//			get
+//			{
+//				UITestNode[] result = new UITestNode[checkedTests.Count];
+//				
+//				int index = 0;
+//				foreach( CheckedTestInfo info in checkedTests )
+//					result[index++] = info.Test;
+//
+//				return result;
+//			}
+//		}
+//
+//		public UITestNode[] TopLevelCheckedTests
+//		{
+//			get
+//			{
+//				int count = 0;
+//				foreach( CheckedTestInfo info in checkedTests )
+//					if ( info.TopLevel ) count++;
+//
+//				UITestNode[] result = new UITestNode[count];
+//				
+//				int index = 0;
+//				foreach( CheckedTestInfo info in checkedTests )
+//					if ( info.TopLevel )
+//						result[index++] = info.Test;
+//
+//				return result;
+//			}
+//		}
+//
+//		public UITestNode[] SubordinateCheckedTests
+//		{
+//			get
+//			{
+//				int count = 0;
+//				foreach( CheckedTestInfo info in checkedTests )
+//					if ( !info.TopLevel ) count++;
+//
+//				UITestNode[] result = new UITestNode[count];
+//				
+//				int index = 0;
+//				foreach( CheckedTestInfo info in checkedTests )
+//					if ( !info.TopLevel )
+//						result[index++] = info.Test;
+//
+//				return result;
+//			}
+//		}
+
+		public CheckedTestFinder( TestSuiteTreeView treeView )
+		{
+			FindCheckedNodes( treeView.Nodes, true );
+		}
+
+		private void FindCheckedNodes( TestSuiteTreeNode node, bool topLevel )
+		{
+			if ( node.Checked )
+			{
+				checkedTests.Add( new CheckedTestInfo( node.Test, topLevel ) );
+				topLevel = false;
+			}
+			
+			FindCheckedNodes( node.Nodes, topLevel );
+		}
+
+		private void FindCheckedNodes( TreeNodeCollection nodes, bool topLevel )
+		{
+			foreach( TestSuiteTreeNode node in nodes )
+				FindCheckedNodes( node, topLevel );
 		}
 	}
 }
