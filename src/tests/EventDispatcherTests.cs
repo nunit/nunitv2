@@ -170,17 +170,17 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void RunStarting()
 		{
-			ArrayList list = new ArrayList();
-			UITestNode node = new UITestNode(test);
-			list.Add(node);
-			dispatcher.FireRunStarting( list, test.CountTestCases() );
+			UITestNode[] tests = new UITestNode[] { test };
+
+			dispatcher.FireRunStarting( tests, test.CountTestCases() );
+
 			CheckEvent( TestAction.RunStarting, test );
 		}
 
 		[Test]
 		public void RunFinished()
 		{
-			dispatcher.FireRunFinished( result );
+			dispatcher.FireRunFinished( new TestResult[] { result } );
 			CheckEvent( TestAction.RunFinished, result );
 		}
 
