@@ -159,9 +159,10 @@ namespace NUnit.Gui
 			{
 				this.nunitForm = nunitForm;
 			}
+
 			public void OnChanged(String fileName) 
 			{
-				nunitForm.Invoke(new loadAssemblyDelegate(nunitForm.LoadAssembly), new object[]{fileName});
+				nunitForm.Invoke(new loadAssemblyDelegate(nunitForm.ReloadAssembly), new object[]{fileName});
 			}
 		}
 
@@ -740,24 +741,52 @@ namespace NUnit.Gui
 			Directory.SetCurrentDirectory(info.DirectoryName);
 		}
 
+		private void TryLoadAssembly( string assemblyFileName )
+		{
+			actions.LoadAssembly(assemblyFileName, SelectedSuite);
+			SetWorkingDirectory(assemblyFileName);
+			InstallWatcher(assemblyFileName);
+			UpdateRecentAssemblies(assemblyFileName);
+		}
+
+		private void AssemblyLoadFailureMessageBox( Exception exception )
+		{
+			string message = exception.Message;
+			if(exception.InnerException != null)
+				message = exception.InnerException.Message;
+			MessageBox.Show(this,message,"Assembly Load Failure",
+				MessageBoxButtons.OK,MessageBoxIcon.Stop);
+		}
+
 		private void LoadAssembly(string assemblyFileName)
 		{
 			try
 			{
-				actions.LoadAssembly(assemblyFileName, SelectedSuite);
-				SetWorkingDirectory(assemblyFileName);
-				InstallWatcher(assemblyFileName);
-				UpdateRecentAssemblies(assemblyFileName);
+				TryLoadAssembly( assemblyFileName );
 			}
 			catch(Exception exception)
 			{
-				string message = exception.Message;
-				if(exception.InnerException != null)
-					message = exception.InnerException.Message;
-				MessageBox.Show(this,message,"Assembly Load Failure",
-					MessageBoxButtons.OK,MessageBoxIcon.Stop);
-				
+				AssemblyLoadFailureMessageBox( exception );			
 				RemoveRecentAssembly( assemblyFileName );
+			}
+		}
+
+		private void ReloadAssembly( string assemblyFileName )
+		{
+			try
+			{
+				TryLoadAssembly( assemblyFileName );
+			}
+			catch(Exception exception)
+			{
+				AssemblyLoadFailureMessageBox( exception );			
+				RemoveRecentAssembly( assemblyFileName );
+
+				DisableRunCommand();
+				ClearTestResults();
+				testSuiteTreeView.Nodes.Clear();
+				ClearSuiteName();
+				InitializeProgressBar();
 			}
 		}
 
@@ -780,7 +809,7 @@ namespace NUnit.Gui
 		{
 			TestNode node = testSuiteTreeView.SelectedNode;
 
-			suiteName.Text = node.Text;
+			SetSuiteName( node.Text );
 			SetTestCaseCount(node.Test.CountTestCases, testCaseCount);
 			failures.Text = "Failures : 0";
 			testsRun.Text = "Tests Run : 0";
@@ -904,6 +933,11 @@ namespace NUnit.Gui
 			suiteName.Text = name;
 		}
 
+		private void ClearSuiteName()
+		{
+			suiteName.Text = null;
+		}
+
 		private void DisableRunCommand()
 		{
 			runButton.Enabled = runMenuItem.Enabled = runCommandEnabled = false;
@@ -912,6 +946,11 @@ namespace NUnit.Gui
 		private void EnableRunCommand()
 		{
 			runButton.Enabled = runMenuItem.Enabled = runCommandEnabled = true;
+		}
+
+		private void InitializeProgressBar( )
+		{
+			InitializeProgressBar( 100 );
 		}
 
 		private void InitializeProgressBar(int testCount)
@@ -980,7 +1019,7 @@ namespace NUnit.Gui
 
 			EnableRunCommand();
 			ClearTestResults();
-			InitializeProgressBar(test.CountTestCases);
+			InitializeProgressBar( test.CountTestCases );
 		}
 
 		private static void SetTestCaseCount(int count, StatusBarPanel countLabel)
