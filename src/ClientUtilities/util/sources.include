@@ -6,8 +6,6 @@ CommandLineOptions.cs
 ConsoleOptions.cs
 ConsoleWriter.cs
 GuiOptions.cs
-ITestEvents.cs
-ITestLoader.cs
 NUnitProject.cs
 ProjectConfig.cs
 ProjectConfigCollection.cs
@@ -19,8 +17,6 @@ SettingsStorage.cs
 StackTraceFilter.cs
 SummaryVisitor.cs
 TestDomain.cs
-TestEventArgs.cs
-TestEventDispatcher.cs
 TestExceptionHandler.cs
 TestResultItem.cs
 UIHelper.cs
