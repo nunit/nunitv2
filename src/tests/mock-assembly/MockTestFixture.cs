@@ -37,6 +37,7 @@ namespace NUnit.Tests.Assemblies
 	/// </summary>
 	/// 
 	[TestFixture(Description="Fake Test Fixture")]
+	[Category("FixtureCategory")]
 	public class MockTestFixture
 	{
 		[Test(Description="Mock Test #1")]
@@ -44,10 +45,12 @@ namespace NUnit.Tests.Assemblies
 		{}
 
 		[Test]
+		[Category("MockCategory")]
 		public void MockTest2()
 		{}
 
 		[Test]
+		[Category("MockCategory")]
 		public void MockTest3()
 		{}
 

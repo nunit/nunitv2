@@ -609,6 +609,23 @@ namespace NUnit.Tests.Core
 			builder.BuildTestFixture(typeof(ProtectedFixtureTearDown));
 		}
 
+		[TestFixture]
+		[Category("fixture category")]
+		[Category("second")]
+		private class HasCategories 
+		{
+			[Test] public void OneTest()
+			{}
+		}
+
+		[Test]
+		public void LoadCategories() 
+		{
+			TestSuite fixture = LoadFixture("NUnit.Tests.Core.TestFixtureBuilderTests+HasCategories");
+			Assert.IsNotNull(fixture);
+			Assert.AreEqual(2, fixture.Categories.Count);
+		}
+
 		[Test]
 		[ExpectedException(typeof(InvalidTestFixtureException))]
 		public void CheckFixtureTearDownWithReturnValue()
@@ -622,6 +639,7 @@ namespace NUnit.Tests.Core
 		{
 			builder.BuildTestFixture(typeof(FixtureTearDownWithParameters));
 		}
+
 
 	}
 }

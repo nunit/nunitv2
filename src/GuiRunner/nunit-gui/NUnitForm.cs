@@ -64,6 +64,7 @@ namespace NUnit.Gui
 		CP.Windows.Forms.TipWindow tipWindow;
 		int hoverIndex = -1;
 
+		private TestTree testTree;
 		public System.Windows.Forms.Splitter splitter1;
 		public System.Windows.Forms.Panel panel1;
 		public System.Windows.Forms.TabPage testsNotRun;
@@ -94,19 +95,8 @@ namespace NUnit.Gui
 		public System.Windows.Forms.Label suiteName;
 		public NUnit.UiKit.ProgressBar progressBar;
 		private System.Windows.Forms.Button stopButton;
-		private System.Windows.Forms.MenuItem viewMenu;
 		private System.Windows.Forms.MenuItem toolsMenu;
 		private System.Windows.Forms.MenuItem optionsMenuItem;
-		private System.Windows.Forms.MenuItem expandMenuItem;
-		private System.Windows.Forms.MenuItem collapseMenuItem;
-		private System.Windows.Forms.MenuItem viewMenuSeparatorItem1;
-		private System.Windows.Forms.MenuItem expandAllMenuItem;
-		private System.Windows.Forms.MenuItem collapseAllMenuItem;
-		private System.Windows.Forms.MenuItem viewMenuSeparatorItem2;
-		private System.Windows.Forms.MenuItem expandFixturesMenuItem;
-		private System.Windows.Forms.MenuItem collapseFixturesMenuItem;
-		private System.Windows.Forms.MenuItem viewMenuSeparatorItem3;
-		private System.Windows.Forms.MenuItem propertiesMenuItem;
 		private System.Windows.Forms.MenuItem saveXmlResultsMenuItem;
 		private System.Windows.Forms.MenuItem projectMenu;
 		private System.Windows.Forms.MenuItem editProjectMenuItem;
@@ -127,12 +117,6 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem copyDetailMenuItem;
 		private System.Windows.Forms.MenuItem exceptionDetailsMenuItem;
 		private System.Windows.Forms.Panel panel2;
-		public NUnit.UiKit.TestSuiteTreeView testSuiteTreeView;
-		private System.Windows.Forms.Panel panel3;
-		private System.Windows.Forms.Button CheckFailedButton;
-		private System.Windows.Forms.Button ClearAllButton;
-		private System.Windows.Forms.MenuItem checkBoxesMenuItem;
-		private System.Windows.Forms.MenuItem menuItem2;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -142,6 +126,8 @@ namespace NUnit.Gui
 		public NUnitForm( CommandLineOptions commandLineOptions )
 		{
 			InitializeComponent();
+
+			this.mainMenu.MenuItems.Add(1, testTree.ViewMenu);
 
 			this.commandLineOptions = commandLineOptions;
 
@@ -195,17 +181,6 @@ namespace NUnit.Gui
 			this.recentProjectsMenu = new System.Windows.Forms.MenuItem();
 			this.fileMenuSeparator4 = new System.Windows.Forms.MenuItem();
 			this.exitMenuItem = new System.Windows.Forms.MenuItem();
-			this.viewMenu = new System.Windows.Forms.MenuItem();
-			this.expandMenuItem = new System.Windows.Forms.MenuItem();
-			this.collapseMenuItem = new System.Windows.Forms.MenuItem();
-			this.viewMenuSeparatorItem1 = new System.Windows.Forms.MenuItem();
-			this.expandAllMenuItem = new System.Windows.Forms.MenuItem();
-			this.collapseAllMenuItem = new System.Windows.Forms.MenuItem();
-			this.viewMenuSeparatorItem2 = new System.Windows.Forms.MenuItem();
-			this.expandFixturesMenuItem = new System.Windows.Forms.MenuItem();
-			this.collapseFixturesMenuItem = new System.Windows.Forms.MenuItem();
-			this.viewMenuSeparatorItem3 = new System.Windows.Forms.MenuItem();
-			this.propertiesMenuItem = new System.Windows.Forms.MenuItem();
 			this.projectMenu = new System.Windows.Forms.MenuItem();
 			this.configMenuItem = new System.Windows.Forms.MenuItem();
 			this.projectMenuSeparator1 = new System.Windows.Forms.MenuItem();
@@ -243,13 +218,9 @@ namespace NUnit.Gui
 			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
 			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.testTree = new NUnit.UiKit.TestTree();
 			this.panel2 = new System.Windows.Forms.Panel();
-			this.testSuiteTreeView = new NUnit.UiKit.TestSuiteTreeView();
-			this.panel3 = new System.Windows.Forms.Panel();
-			this.ClearAllButton = new System.Windows.Forms.Button();
-			this.CheckFailedButton = new System.Windows.Forms.Button();
-			this.checkBoxesMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem2 = new System.Windows.Forms.MenuItem();
+			
 			this.panel1.SuspendLayout();
 			this.resultTabs.SuspendLayout();
 			this.errorPage.SuspendLayout();
@@ -258,7 +229,6 @@ namespace NUnit.Gui
 			this.stdout.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.panel2.SuspendLayout();
-			this.panel3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// statusBar
@@ -275,7 +245,6 @@ namespace NUnit.Gui
 			// 
 			this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					 this.fileMenu,
-																					 this.viewMenu,
 																					 this.projectMenu,
 																					 this.toolsMenu,
 																					 this.helpItem});
@@ -363,87 +332,9 @@ namespace NUnit.Gui
 			this.exitMenuItem.Index = 10;
 			this.exitMenuItem.Text = "E&xit";
 			this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
-			// 
-			// viewMenu
-			// 
-			this.viewMenu.Index = 1;
-			this.viewMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					 this.checkBoxesMenuItem,
-																					 this.menuItem2,
-																					 this.expandMenuItem,
-																					 this.collapseMenuItem,
-																					 this.viewMenuSeparatorItem1,
-																					 this.expandAllMenuItem,
-																					 this.collapseAllMenuItem,
-																					 this.viewMenuSeparatorItem2,
-																					 this.expandFixturesMenuItem,
-																					 this.collapseFixturesMenuItem,
-																					 this.viewMenuSeparatorItem3,
-																					 this.propertiesMenuItem});
-			this.viewMenu.Text = "&View";
-			this.viewMenu.Visible = false;
-			this.viewMenu.Popup += new System.EventHandler(this.viewMenu_Popup);
-			// 
-			// expandMenuItem
-			// 
-			this.expandMenuItem.Index = 2;
-			this.expandMenuItem.Text = "&Expand";
-			this.expandMenuItem.Click += new System.EventHandler(this.expandMenuItem_Click);
-			// 
-			// collapseMenuItem
-			// 
-			this.collapseMenuItem.Index = 3;
-			this.collapseMenuItem.Text = "&Collapse";
-			this.collapseMenuItem.Click += new System.EventHandler(this.collapseMenuItem_Click);
-			// 
-			// viewMenuSeparatorItem1
-			// 
-			this.viewMenuSeparatorItem1.Index = 4;
-			this.viewMenuSeparatorItem1.Text = "-";
-			// 
-			// expandAllMenuItem
-			// 
-			this.expandAllMenuItem.Index = 5;
-			this.expandAllMenuItem.Text = "Expand All";
-			this.expandAllMenuItem.Click += new System.EventHandler(this.expandAllMenuItem_Click);
-			// 
-			// collapseAllMenuItem
-			// 
-			this.collapseAllMenuItem.Index = 6;
-			this.collapseAllMenuItem.Text = "Collapse All";
-			this.collapseAllMenuItem.Click += new System.EventHandler(this.collapseAllMenuItem_Click);
-			// 
-			// viewMenuSeparatorItem2
-			// 
-			this.viewMenuSeparatorItem2.Index = 7;
-			this.viewMenuSeparatorItem2.Text = "-";
-			// 
-			// expandFixturesMenuItem
-			// 
-			this.expandFixturesMenuItem.Index = 8;
-			this.expandFixturesMenuItem.Text = "Expand Fixtures";
-			this.expandFixturesMenuItem.Click += new System.EventHandler(this.expandFixturesMenuItem_Click);
-			// 
-			// collapseFixturesMenuItem
-			// 
-			this.collapseFixturesMenuItem.Index = 9;
-			this.collapseFixturesMenuItem.Text = "Collapse Fixtures";
-			this.collapseFixturesMenuItem.Click += new System.EventHandler(this.collapseFixturesMenuItem_Click);
-			// 
-			// viewMenuSeparatorItem3
-			// 
-			this.viewMenuSeparatorItem3.Index = 10;
-			this.viewMenuSeparatorItem3.Text = "-";
-			// 
-			// propertiesMenuItem
-			// 
-			this.propertiesMenuItem.Index = 11;
-			this.propertiesMenuItem.Text = "&Properties";
-			this.propertiesMenuItem.Click += new System.EventHandler(this.propertiesMenuItem_Click);
-			// 
 			// projectMenu
 			// 
-			this.projectMenu.Index = 2;
+			this.projectMenu.Index = 1;
 			this.projectMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																						this.configMenuItem,
 																						this.projectMenuSeparator1,
@@ -490,7 +381,7 @@ namespace NUnit.Gui
 			// 
 			// toolsMenu
 			// 
-			this.toolsMenu.Index = 3;
+			this.toolsMenu.Index = 2;
 			this.toolsMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					  this.saveXmlResultsMenuItem,
 																					  this.exceptionDetailsMenuItem,
@@ -524,7 +415,7 @@ namespace NUnit.Gui
 			// 
 			// helpItem
 			// 
-			this.helpItem.Index = 4;
+			this.helpItem.Index = 3;
 			this.helpItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					 this.helpMenuItem,
 																					 this.helpMenuSeparator1,
@@ -553,7 +444,7 @@ namespace NUnit.Gui
 			this.splitter1.Location = new System.Drawing.Point(200, 0);
 			this.splitter1.MinSize = 240;
 			this.splitter1.Name = "splitter1";
-			this.splitter1.Size = new System.Drawing.Size(5, 360);
+			this.splitter1.Size = new System.Drawing.Size(5, 497);
 			this.splitter1.TabIndex = 2;
 			this.splitter1.TabStop = false;
 			// 
@@ -564,7 +455,7 @@ namespace NUnit.Gui
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel1.Location = new System.Drawing.Point(205, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(417, 360);
+			this.panel1.Size = new System.Drawing.Size(418, 497);
 			this.panel1.TabIndex = 3;
 			// 
 			// resultTabs
@@ -577,7 +468,7 @@ namespace NUnit.Gui
 			this.resultTabs.Location = new System.Drawing.Point(0, 88);
 			this.resultTabs.Name = "resultTabs";
 			this.resultTabs.SelectedIndex = 0;
-			this.resultTabs.Size = new System.Drawing.Size(417, 272);
+			this.resultTabs.Size = new System.Drawing.Size(418, 409);
 			this.resultTabs.TabIndex = 2;
 			// 
 			// errorPage
@@ -587,7 +478,7 @@ namespace NUnit.Gui
 			this.errorPage.Controls.Add(this.detailList);
 			this.errorPage.Location = new System.Drawing.Point(4, 22);
 			this.errorPage.Name = "errorPage";
-			this.errorPage.Size = new System.Drawing.Size(409, 246);
+			this.errorPage.Size = new System.Drawing.Size(410, 383);
 			this.errorPage.TabIndex = 0;
 			this.errorPage.Text = "Errors and Failures";
 			// 
@@ -600,7 +491,7 @@ namespace NUnit.Gui
 			this.stackTrace.Name = "stackTrace";
 			this.stackTrace.ReadOnly = true;
 			this.stackTrace.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stackTrace.Size = new System.Drawing.Size(409, 119);
+			this.stackTrace.Size = new System.Drawing.Size(410, 256);
 			this.stackTrace.TabIndex = 2;
 			this.stackTrace.Text = "";
 			this.stackTrace.WordWrap = false;
@@ -640,7 +531,7 @@ namespace NUnit.Gui
 			this.testsNotRun.Controls.Add(this.notRunTree);
 			this.testsNotRun.Location = new System.Drawing.Point(4, 22);
 			this.testsNotRun.Name = "testsNotRun";
-			this.testsNotRun.Size = new System.Drawing.Size(409, 246);
+			this.testsNotRun.Size = new System.Drawing.Size(410, 383);
 			this.testsNotRun.TabIndex = 1;
 			this.testsNotRun.Text = "Tests Not Run";
 			// 
@@ -651,7 +542,7 @@ namespace NUnit.Gui
 			this.notRunTree.Location = new System.Drawing.Point(0, 0);
 			this.notRunTree.Name = "notRunTree";
 			this.notRunTree.SelectedImageIndex = -1;
-			this.notRunTree.Size = new System.Drawing.Size(409, 246);
+			this.notRunTree.Size = new System.Drawing.Size(410, 383);
 			this.notRunTree.TabIndex = 0;
 			// 
 			// stderr
@@ -659,7 +550,7 @@ namespace NUnit.Gui
 			this.stderr.Controls.Add(this.stdErrTab);
 			this.stderr.Location = new System.Drawing.Point(4, 22);
 			this.stderr.Name = "stderr";
-			this.stderr.Size = new System.Drawing.Size(409, 246);
+			this.stderr.Size = new System.Drawing.Size(410, 383);
 			this.stderr.TabIndex = 2;
 			this.stderr.Text = "Console.Error";
 			// 
@@ -670,7 +561,7 @@ namespace NUnit.Gui
 			this.stdErrTab.Location = new System.Drawing.Point(0, 0);
 			this.stdErrTab.Name = "stdErrTab";
 			this.stdErrTab.ReadOnly = true;
-			this.stdErrTab.Size = new System.Drawing.Size(409, 246);
+			this.stdErrTab.Size = new System.Drawing.Size(410, 383);
 			this.stdErrTab.TabIndex = 0;
 			this.stdErrTab.Text = "";
 			this.stdErrTab.WordWrap = false;
@@ -680,7 +571,7 @@ namespace NUnit.Gui
 			this.stdout.Controls.Add(this.stdOutTab);
 			this.stdout.Location = new System.Drawing.Point(4, 22);
 			this.stdout.Name = "stdout";
-			this.stdout.Size = new System.Drawing.Size(409, 246);
+			this.stdout.Size = new System.Drawing.Size(410, 383);
 			this.stdout.TabIndex = 3;
 			this.stdout.Text = "Console.Out";
 			// 
@@ -691,7 +582,7 @@ namespace NUnit.Gui
 			this.stdOutTab.Location = new System.Drawing.Point(0, 0);
 			this.stdOutTab.Name = "stdOutTab";
 			this.stdOutTab.ReadOnly = true;
-			this.stdOutTab.Size = new System.Drawing.Size(409, 246);
+			this.stdOutTab.Size = new System.Drawing.Size(410, 383);
 			this.stdOutTab.TabIndex = 0;
 			this.stdOutTab.Text = "";
 			this.stdOutTab.WordWrap = false;
@@ -763,76 +654,29 @@ namespace NUnit.Gui
 			this.copyDetailMenuItem.Text = "Copy";
 			this.copyDetailMenuItem.Click += new System.EventHandler(this.copyDetailMenuItem_Click);
 			// 
+			// testTree
+			// 
+			this.testTree.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.testTree.Location = new System.Drawing.Point(0, 0);
+			this.testTree.Name = "testTree";
+			this.testTree.Size = new System.Drawing.Size(200, 497);
+			this.testTree.TabIndex = 0;
+			this.testTree.SelectedTestsChanged += new SelectedTestsChangedEventHandler(testTree_SelectedTestsChanged);
+			// 
 			// panel2
 			// 
-			this.panel2.Controls.Add(this.testSuiteTreeView);
-			this.panel2.Controls.Add(this.panel3);
+			this.panel2.Controls.Add(this.testTree);
 			this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
 			this.panel2.Location = new System.Drawing.Point(0, 0);
 			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(200, 360);
+			this.panel2.Size = new System.Drawing.Size(200, 497);
 			this.panel2.TabIndex = 4;
-			// 
-			// testSuiteTreeView
-			// 
-			this.testSuiteTreeView.AllowDrop = true;
-			this.testSuiteTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.testSuiteTreeView.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.testSuiteTreeView.HideSelection = false;
-			this.testSuiteTreeView.Location = new System.Drawing.Point(0, 0);
-			this.testSuiteTreeView.Name = "testSuiteTreeView";
-			this.testSuiteTreeView.Size = new System.Drawing.Size(200, 312);
-			this.testSuiteTreeView.TabIndex = 2;
-			this.testSuiteTreeView.CheckedTestChanged += new NUnit.UiKit.CheckedTestChangedHandler(this.OnCheckedTestChanged);
-			this.testSuiteTreeView.SelectedTestChanged += new NUnit.UiKit.SelectedTestChangedHandler(this.OnSelectedTestChanged);
-			// 
-			// panel3
-			// 
-			this.panel3.Controls.Add(this.ClearAllButton);
-			this.panel3.Controls.Add(this.CheckFailedButton);
-			this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel3.Location = new System.Drawing.Point(0, 312);
-			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(200, 48);
-			this.panel3.TabIndex = 3;
-			this.panel3.Visible = false;
-			// 
-			// ClearAllButton
-			// 
-			this.ClearAllButton.Location = new System.Drawing.Point(16, 16);
-			this.ClearAllButton.Name = "ClearAllButton";
-			this.ClearAllButton.TabIndex = 1;
-			this.ClearAllButton.Text = "Clear All";
-			this.ClearAllButton.Visible = false;
-			this.ClearAllButton.Click += new System.EventHandler(this.ClearAllButton_Click);
-			// 
-			// CheckFailedButton
-			// 
-			this.CheckFailedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.CheckFailedButton.Location = new System.Drawing.Point(112, 16);
-			this.CheckFailedButton.Name = "CheckFailedButton";
-			this.CheckFailedButton.Size = new System.Drawing.Size(80, 24);
-			this.CheckFailedButton.TabIndex = 0;
-			this.CheckFailedButton.Text = "Check Failed";
-			this.CheckFailedButton.Visible = false;
-			this.CheckFailedButton.Click += new System.EventHandler(this.CheckFailedButton_Click);
-			// 
-			// checkBoxesMenuItem
-			// 
-			this.checkBoxesMenuItem.Index = 0;
-			this.checkBoxesMenuItem.Text = "Check&Boxes";
-			this.checkBoxesMenuItem.Click += new System.EventHandler(this.checkBoxesMenuItem_Click);
-			// 
-			// menuItem2
-			// 
-			this.menuItem2.Index = 1;
-			this.menuItem2.Text = "-";
 			// 
 			// NUnitForm
 			// 
 			this.AcceptButton = this.runButton;
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(622, 392);
+			this.ClientSize = new System.Drawing.Size(623, 529);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.splitter1);
 			this.Controls.Add(this.panel2);
@@ -853,7 +697,6 @@ namespace NUnit.Gui
 			this.stdout.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
-			this.panel3.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -950,60 +793,6 @@ namespace NUnit.Gui
 		private void exitMenuItem_Click(object sender, System.EventArgs e)
 		{
 			this.Close();
-		}
-
-		#endregion
-
-		#region View Menu Handlers
-
-		private void viewMenu_Popup(object sender, System.EventArgs e)
-		{
-			TreeNode selectedNode = testSuiteTreeView.SelectedNode;
-			if ( selectedNode != null && selectedNode.Nodes.Count > 0 )
-			{
-				bool isExpanded = testSuiteTreeView.SelectedNode.IsExpanded;
-				collapseMenuItem.Enabled = isExpanded;
-				expandMenuItem.Enabled = !isExpanded;		
-			}
-			else
-			{
-				collapseMenuItem.Enabled = expandMenuItem.Enabled = false;
-			}
-		}
-
-		private void collapseMenuItem_Click(object sender, System.EventArgs e)
-		{
-			testSuiteTreeView.SelectedNode.Collapse();
-		}
-
-		private void expandMenuItem_Click(object sender, System.EventArgs e)
-		{
-			testSuiteTreeView.SelectedNode.Expand();
-		}
-
-		private void collapseAllMenuItem_Click(object sender, System.EventArgs e)
-		{
-			testSuiteTreeView.CollapseAll();
-		}
-
-		private void expandAllMenuItem_Click(object sender, System.EventArgs e)
-		{
-			testSuiteTreeView.ExpandAll();
-		}
-
-		private void collapseFixturesMenuItem_Click(object sender, System.EventArgs e)
-		{
-			testSuiteTreeView.CollapseFixtures();		
-		}
-
-		private void expandFixturesMenuItem_Click(object sender, System.EventArgs e)
-		{
-			testSuiteTreeView.ExpandFixtures();		
-		}
-
-		private void propertiesMenuItem_Click(object sender, System.EventArgs e)
-		{
-			testSuiteTreeView.ShowPropertiesDialog( testSuiteTreeView.SelectedTest );
 		}
 
 		#endregion
@@ -1235,27 +1024,15 @@ namespace NUnit.Gui
 		private void InitializeControls()
 		{
 			// ToDo: Migrate more ui elements to handle events on their own.
-			this.testSuiteTreeView.Initialize( TestLoader, TestLoader.Events );
+			this.testTree.Initialize(TestLoader);
 			this.progressBar.Initialize( TestLoader.Events );
 			this.statusBar.Initialize( TestLoader.Events );
 
 			// Set controls to match option settings. We do this
 			// here rather than in the controls since there may
 			// be more than one app that uses the same controls.
-			testSuiteTreeView.ClearResultsOnChange = 
+			testTree.tests.ClearResultsOnChange = 
 				UserSettings.Options.ClearResults;
-
-			ShowCheckBoxes( UserSettings.Options.ShowCheckBoxes );
-		}
-
-		private void ShowCheckBoxes( bool show )
-		{
-			testSuiteTreeView.CheckBoxes = show;
-			panel3.Visible	= show;
-			ClearAllButton.Visible = show;
-			CheckFailedButton.Visible = show;
-			checkBoxesMenuItem.Checked = show;
-			UserSettings.Options.ShowCheckBoxes = show;
 		}
 
 		private void NUnitForm_Move(object sender, System.EventArgs e)
@@ -1300,13 +1077,12 @@ namespace NUnit.Gui
 		/// </summary>
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
-//			ArrayList tests = testSuiteTreeView.CheckedTests;
-//			int count = tests.Count;
-//			if (count == 0)
-//				tests.Add(testSuiteTreeView.SelectedTest);
-//
-//			TestLoader.RunTests( tests );
-			TestLoader.RunTests( testSuiteTreeView.SelectedTests );
+			ArrayList tests = testTree.tests.CheckedTests;
+			int count = tests.Count;
+			if (count == 0)
+				tests.Add(testTree.tests.SelectedTest);
+
+			TestLoader.RunTests( tests );
 		}
 
 		/// <summary>
@@ -1391,7 +1167,6 @@ namespace NUnit.Gui
 		/// </summary>
 		private void OnTestLoaded( object sender, TestEventArgs e )
 		{
-			viewMenu.Visible = true;		
 			runButton.Enabled = true;
 			ClearTabs();
 		}
@@ -1406,7 +1181,6 @@ namespace NUnit.Gui
 			runButton.Enabled = false;
 
 			ClearTabs();
-			viewMenu.Visible = false;
 		}
 
 		/// <summary>
@@ -1643,22 +1417,13 @@ namespace NUnit.Gui
 
 		#endregion
 
-		private void ClearAllButton_Click(object sender, System.EventArgs e)
+		private void testTree_SelectedTestsChanged(object sender, SelectedTestsChangedEventArgs e)
 		{
-			testSuiteTreeView.ClearCheckedNodes();
-		}
-
-		private void CheckFailedButton_Click(object sender, System.EventArgs e)
-		{
-			testSuiteTreeView.CheckFailedNodes();
-		}
-
-		private void checkBoxesMenuItem_Click(object sender, System.EventArgs e)
-		{
-			ShowCheckBoxes( !checkBoxesMenuItem.Checked );
-			
-			// Temporary till we can save tree state and restore
-			testSuiteTreeView.SetInitialExpansion();
+			if (!IsTestRunning) 
+			{
+				suiteName.Text = e.TestName;
+				statusBar.Initialize(e.TestCount);
+			}
 		}
 	}
 }

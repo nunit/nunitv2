@@ -67,6 +67,9 @@ namespace NUnit.Util
 		[Option(Description = "Label each test in stdOut")]
 		public bool labels = false;
 
+		[Option(Description = "List of categories to run")]
+		public string categories;
+
 		private bool isInvalid = false; 
 
 		public ConsoleOptions(String[] args) : base(args) 
@@ -111,7 +114,7 @@ namespace NUnit.Util
 			get 
 			{
 				return ParameterCount >= 1 && 
-					   ((fixture != null) && (fixture.Length > 0));
+					((fixture != null) && (fixture.Length > 0));
 			}
 		}
 
@@ -144,6 +147,25 @@ namespace NUnit.Util
 			get 
 			{
 				return (transform != null) && (transform.Length != 0);
+			}
+		}
+
+		public bool IsCategories 
+		{
+			get 
+			{
+				return categories != null && categories.Length != 0;
+			}
+		}
+
+		public string[] CategoryArray
+		{
+			get
+			{
+				if (IsCategories)
+					return categories.Split(';');
+
+				return null;
 			}
 		}
 

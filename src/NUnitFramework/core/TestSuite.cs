@@ -75,6 +75,17 @@ namespace NUnit.Core
 			ShouldRun = true;
 		}
 
+		private IList GetCategories(object fixture) 
+		{
+			IList names = new ArrayList();
+			object[] attributes = fixture.GetType().GetCustomAttributes(typeof(NUnit.Framework.CategoryAttribute), true);
+			foreach(NUnit.Framework.CategoryAttribute attribute in attributes) 
+			{
+				names.Add(attribute.Name);
+			}
+			return names;
+		}
+
 		protected internal virtual void Add(Test test) 
 		{
 			if(test.ShouldRun)
@@ -97,6 +108,9 @@ namespace NUnit.Core
 		{
 			TestSuite testSuite = CreateNewSuite(fixture.GetType());
 			testSuite.fixture = fixture;
+			IList categories = GetCategories(fixture);
+			CategoryManager.Add(categories);
+			testSuite.Categories = categories;
 			testSuite.fixtureSetUp = this.FindMethodByAttribute(fixture, typeof(NUnit.Framework.TestFixtureSetUpAttribute));
 			testSuite.fixtureTearDown = this.FindMethodByAttribute(fixture, typeof(NUnit.Framework.TestFixtureTearDownAttribute));
 			Add(testSuite);

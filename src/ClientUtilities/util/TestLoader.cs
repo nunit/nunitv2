@@ -650,6 +650,13 @@ namespace NUnit.Util
 			}
 		}
 
+		public IList GetCategories() 
+		{
+			ArrayList list = new ArrayList();
+			list.AddRange(testDomain.GetCategories());
+			return list;
+		}
+
 		#endregion
 
 		#region Helper Methods

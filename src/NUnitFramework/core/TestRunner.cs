@@ -42,6 +42,12 @@ namespace NUnit.Core
 		int CountTestCases(IList testNames);
 
 		/// <summary>
+		/// Get the collectiion of categories used by the runner;
+		/// </summary>
+		/// <returns></returns>
+		ICollection GetCategories(); 
+
+		/// <summary>
 		/// Run the loaded tests using a test filter
 		/// </summary>
 		TestResult Run(NUnit.Core.EventListener listener, IFilter filter);

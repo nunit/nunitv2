@@ -234,6 +234,11 @@ namespace NUnit.Util
 
 		#region Running Tests
 
+		public ICollection GetCategories ()
+		{
+			return Runner.GetCategories();
+		}
+
 		public int CountTestCases( IList testNames )
 		{
 			return Runner.CountTestCases( testNames );

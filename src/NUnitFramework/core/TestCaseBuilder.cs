@@ -81,6 +81,13 @@ namespace NUnit.Core
 						testCase.IgnoreReason = GetIgnoreReason(method);
 					}
 
+					if (HasCategoryAttribute(method)) 
+					{
+						IList categories = GetCategories(method);
+						CategoryManager.Add(categories);
+						testCase.Categories = categories;
+					}
+
 					testCase.Description = GetDescription(method);
 				}
 				else
@@ -215,6 +222,24 @@ namespace NUnit.Core
 				result = attributes[0].Reason;
 
 			return result;
+		}
+
+		private static bool HasCategoryAttribute(MethodInfo methodToCheck) 
+		{
+			object[] attributes = methodToCheck.GetCustomAttributes(typeof(NUnit.Framework.CategoryAttribute), false);
+			return attributes.Length > 0;
+		}
+
+		private static IList GetCategories(MethodInfo methodToCheck) 
+		{
+			object[] attributes = methodToCheck.GetCustomAttributes(typeof(NUnit.Framework.CategoryAttribute), false);
+			ArrayList list = new ArrayList();
+			foreach (NUnit.Framework.CategoryAttribute attrib in attributes) 
+			{
+				list.Add(attrib.Name);
+			}
+
+			return list;
 		}
 	}
 

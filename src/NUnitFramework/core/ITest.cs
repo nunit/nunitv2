@@ -88,6 +88,11 @@ namespace NUnit.Core
 		ArrayList Tests { get; }
 
 		/// <summary>
+		/// Categories available for this test
+		/// </summary>
+		IList Categories { get; }
+
+		/// <summary>
 		/// True if this is a suite
 		/// </summary>
 		bool IsSuite { get; }

@@ -254,6 +254,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "TestTree.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestTree.resx"
+                    DependentUpon = "TestTree.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "TextBoxWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

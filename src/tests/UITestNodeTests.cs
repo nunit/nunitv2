@@ -77,6 +77,9 @@ namespace NUnit.Tests.Util
 			Assert.IsFalse( test2.IsTestCase, "!IsTestCase" );
 			Assert.IsTrue( test2.IsFixture, "IsFixture" );
 			Assert.AreEqual( 5, test2.CountTestCases() );
+			Assert.IsNotNull(test2.Categories, "Categories should not be null");
+			Assert.AreEqual(1, test2.Categories.Count);
+			Assert.AreEqual("FixtureCategory", (string)test2.Categories[0]);
 
 			UITestNode test3 = new UITestNode( testCase1 );
 			Assert.AreEqual( "MockTest1", test3.Name );

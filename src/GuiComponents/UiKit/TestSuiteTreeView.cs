@@ -630,37 +630,31 @@ namespace NUnit.UiKit
 			Nodes.Clear();
 		}
 
-		public void ClearCheckedNodes() 
+		public void Accept(TestSuiteTreeNodeVisitor visitor) 
 		{
-			ClearCheckedNodes(Nodes);
+			foreach(TestSuiteTreeNode node in Nodes) 
+			{
+				node.Accept(visitor);
+			}
 		}
 
-		private void ClearCheckedNodes(TreeNodeCollection nodes) 
+		public void ClearCheckedNodes() 
 		{
-			foreach (TreeNode node in nodes) 
-			{
-				node.Checked = false;
-				if (node.Nodes != null)
-					ClearCheckedNodes(node.Nodes);
-			}
+			Accept(new ClearCheckedNodesVisitor());
 		}
 
 		public void CheckFailedNodes() 
 		{
-			CheckFailedNodes(Nodes);
+			Accept(new CheckFailedNodesVisitor());
 		}
 
-		private void CheckFailedNodes(TreeNodeCollection nodes) 
+		public void ToggleCheckBoxes(bool visible) 
 		{
-			foreach(TestSuiteTreeNode node in nodes) 
+			this.CheckBoxes = visible;
+			if (!visible) 
 			{
-				if (node.Test.IsTestCase && node.Result != null && node.Result.IsFailure)
-					node.Checked = true;
-				else
-					node.Checked = false;
-
-				if (node.Nodes != null)
-					CheckFailedNodes(node.Nodes);
+				ClearCheckedNodes();
+				SetInitialExpansion();
 			}
 		}
 
@@ -968,6 +962,59 @@ namespace NUnit.UiKit
 
 		#endregion
 
+	}
+
+	internal class ClearCheckedNodesVisitor : TestSuiteTreeNodeVisitor
+	{
+		public override void Visit(TestSuiteTreeNode node)
+		{
+			node.Checked = false;
+		}
+
+	}
+
+	internal class CheckFailedNodesVisitor : TestSuiteTreeNodeVisitor 
+	{
+		public override void Visit(TestSuiteTreeNode node)
+		{
+			if (node.Test.IsTestCase && node.Result != null && node.Result.IsFailure)
+				node.Checked = true;
+			else
+				node.Checked = false;
+			
+		}
+	}
+
+	public class CheckCategoryVisitor : TestSuiteTreeNodeVisitor 
+	{
+		private string category;
+
+		public CheckCategoryVisitor(string category) 
+		{
+			this.category = category;
+		}
+
+		public override void Visit(TestSuiteTreeNode node)
+		{
+			if (node.Test.Categories.Contains(category))
+				node.Checked = true;
+		}
+	}
+
+	public class UnCheckCategoryVisitor : TestSuiteTreeNodeVisitor 
+	{
+		private string category;
+
+		public UnCheckCategoryVisitor(string category) 
+		{
+			this.category = category;
+		}
+
+		public override void Visit(TestSuiteTreeNode node)
+		{
+			if (node.Test.Categories.Contains(category))
+				node.Checked = false;
+		}
 	}
 }
 

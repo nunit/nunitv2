@@ -64,5 +64,25 @@ namespace NUnit.Tests.Core
 			Assert.AreEqual(0, summarizer.ResultCount);
 			Assert.AreEqual(1, summarizer.TestsNotRun);
 		}
+
+		[Test]
+		public void LoadMethodCategories() 
+		{
+			HasCategories fixture = new HasCategories();
+			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(fixture, "ATest");
+			Assert.IsNotNull(testCase);
+			Assert.IsNotNull(testCase.Categories);
+			Assert.AreEqual(2, testCase.Categories.Count);
+		}
+
+		[TestFixture]
+		private class HasCategories 
+		{
+			[Test] 
+			[Category("A category")]
+			[Category("Another Category")]
+			public void ATest()
+			{}
+		}
 	}
 }

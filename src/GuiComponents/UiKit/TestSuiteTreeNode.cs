@@ -211,7 +211,21 @@ namespace NUnit.UiKit
 				return NOT_RUN;
 		}
 
+		internal void Accept(TestSuiteTreeNodeVisitor visitor) 
+		{
+			visitor.Visit(this);
+			foreach (TestSuiteTreeNode node in this.Nodes) 
+			{
+				node.Accept(visitor);
+			}
+		}
+
 		#endregion
+	}
+
+	public abstract class TestSuiteTreeNodeVisitor 
+	{
+		public abstract void Visit(TestSuiteTreeNode node);
 	}
 }
 

@@ -63,6 +63,7 @@ namespace NUnit.Tests.Core
 
 			public void Serialize(string filename) 
 			{ 
+				Console.WriteLine("serialize : cd = {0}", Environment.CurrentDirectory);
 				StreamWriter stm = new StreamWriter(File.OpenWrite( filename )); 
 				BinaryFormatter bf=new BinaryFormatter(); 
 				bf.Serialize(stm.BaseStream,this); 
@@ -70,21 +71,21 @@ namespace NUnit.Tests.Core
 			} 
 			public static Perob Deserialize(string filename) 
 			{ 
+				System.Reflection.Assembly[] asses = AppDomain.CurrentDomain.GetAssemblies();
+				foreach (System.Reflection.Assembly ass in asses) 
+				{
+					Console.WriteLine(ass.FullName);
+				}
+				Console.WriteLine("deserialize : cd = {0}", Environment.CurrentDirectory);
 				Perob rv; 
-				try 
-				{ 
-					StreamReader stm = new StreamReader(File.OpenRead( filename )); 
+				using (StreamReader stm = new StreamReader(File.OpenRead( filename ))) 
+				{
 					BinaryFormatter bf=new BinaryFormatter(); 
-					rv = bf.Deserialize(stm.BaseStream) as Perob; 
-					stm.Close(); 
-					return rv; 
-				} 
-				catch (Exception ex ) 
-				{ 
-					ex = ex; 
-				} 
-				return null; 
-			} 
+					object obj = bf.Deserialize(stm.BaseStream);
+					rv = obj as Perob; 
+				}
+				return rv; 
+			}
 		} 
 
 		[TearDown]

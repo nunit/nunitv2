@@ -95,6 +95,8 @@ namespace NUnit.Util
 		/// </summary>
 		private string description;
 
+		private ArrayList categories = new ArrayList();
+
 		#endregion
 
 		#region Construction and Conversion
@@ -139,6 +141,11 @@ namespace NUnit.Util
 			shouldRun = test.ShouldRun;
 			ignoreReason = test.IgnoreReason;
 			description = test.Description;
+
+			if (test.Categories != null) 
+			{
+				categories.AddRange(test.Categories);
+			}
 			
 			if ( test.IsSuite )
 			{
@@ -266,6 +273,11 @@ namespace NUnit.Util
 					name = name.Substring(val+1);
 				return name;
 			}
+		}
+
+		public IList Categories 
+		{
+			get { return categories; }
 		}
 
 		/// <summary>

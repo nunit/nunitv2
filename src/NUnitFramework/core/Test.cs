@@ -45,6 +45,7 @@ namespace NUnit.Core
 		private string ignoreReason;
 		private string description;
 		private Test parent;
+		private IList categories;
 
 		public Test( string name ) : this( name, 0 ) { }
 
@@ -118,6 +119,12 @@ namespace NUnit.Core
 		public string Name
 		{
 			get { return testName; }
+		}
+
+		public IList Categories 
+		{
+			get { return categories; }
+			set { categories = value; }
 		}
 
 		/// <summary>

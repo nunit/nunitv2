@@ -249,6 +249,39 @@ namespace NUnit.Tests.UiKit
 			Assert.IsFalse(Checked(treeView.Nodes));
 		}
 
+		[Test]
+		public void CheckCategory() 
+		{
+			TestSuiteTreeView treeView = new TestSuiteTreeView();
+			treeView.Load(suite);
+
+			Assert.AreEqual(0, treeView.CheckedTests.Count);
+
+			CheckCategoryVisitor visitor = new CheckCategoryVisitor("MockCategory");
+			treeView.Accept(visitor);
+
+			Assert.AreEqual(2, treeView.CheckedTests.Count);
+		}
+
+		[Test]
+		public void UnCheckCategory() 
+		{
+			TestSuiteTreeView treeView = new TestSuiteTreeView();
+			treeView.Load(suite);
+
+			Assert.AreEqual(0, treeView.CheckedTests.Count);
+
+			CheckCategoryVisitor visitor = new CheckCategoryVisitor("MockCategory");
+			treeView.Accept(visitor);
+
+			Assert.AreEqual(2, treeView.CheckedTests.Count);
+
+			UnCheckCategoryVisitor unvisitor = new UnCheckCategoryVisitor("MockCategory");
+			treeView.Accept(unvisitor);
+
+			Assert.AreEqual(0, treeView.CheckedTests.Count);
+		}
+
 		private bool Checked(TreeNodeCollection nodes) 
 		{
 			bool result = false;

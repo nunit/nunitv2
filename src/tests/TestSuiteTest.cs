@@ -167,7 +167,7 @@ namespace NUnit.Tests.Core
 		}
 
 		[Test]
-		public void CountTestCasesFiltered() 
+		public void CountTestCasesFilteredByName() 
 		{
 			TestSuite testSuite = new TestSuite("Mock Test Suite");
 			testSuite.Add(mockTestFixture);
@@ -188,6 +188,34 @@ namespace NUnit.Tests.Core
 			filter = new NameFilter(testSuite);
 
 			Assert.AreEqual(5, testSuite.CountTestCases(filter));
+		}
+
+		[Test]
+		public void RunTestByCategory() 
+		{
+			TestSuite testSuite = new TestSuite("Mock Test Suite");
+			testSuite.Add(mockTestFixture);
+
+			CategoryFilter filter = new CategoryFilter();
+			filter.AddCategory("MockCategory");
+			RecordingListener listener = new RecordingListener();
+			testSuite.Run(listener, filter);
+			Assert.AreEqual(2, listener.testStarted.Count);
+			Assert.IsTrue(listener.testStarted.Contains("MockTest2"));
+			Assert.IsTrue(listener.testStarted.Contains("MockTest3"));
+		}
+
+		[Test]
+		public void RunSuiteByCategory() 
+		{
+			TestSuite testSuite = new TestSuite("Mock Test Suite");
+			testSuite.Add(mockTestFixture);
+
+			CategoryFilter filter = new CategoryFilter();
+			filter.AddCategory("FixtureCategory");
+			RecordingListener listener = new RecordingListener();
+			testSuite.Run(listener, filter);
+			Assert.AreEqual(5, listener.testStarted.Count);
 		}
 
 		private Test findTest(string name, Test test) 

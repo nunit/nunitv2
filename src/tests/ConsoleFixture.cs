@@ -82,6 +82,20 @@ namespace NUnit.Tests.CommandLine
 		}
 
 		[Test]
+		public void Categories() 
+		{
+			ConsoleOptions options = new ConsoleOptions(new string[] {"/categories:Database;Slow"});
+			Assert.IsNotNull(options.categories);
+			Assert.AreEqual(options.categories, "Database;Slow");
+			Assert.IsTrue(options.IsCategories);
+			string[] categories = options.CategoryArray;
+			Assert.IsNotNull(categories);
+			Assert.AreEqual(2, categories.Length);
+			Assert.AreEqual("Database", categories[0]);
+			Assert.AreEqual("Slow", categories[1]);
+		}
+
+		[Test]
 		public void FixtureName()
 		{
 			string assemblyName = "nunit.tests.dll";

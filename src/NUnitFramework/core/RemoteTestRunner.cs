@@ -150,6 +150,11 @@ namespace NUnit.Core
 			return suite.CountTestCases(filter);
 		}
 
+		public ICollection GetCategories() 
+		{
+			return CategoryManager.Categories;
+		}
+
 		public TestResult Run(NUnit.Core.EventListener listener, IFilter filter) 
 		{
 			BufferedStringTextWriter outBuffer = new BufferedStringTextWriter( outText );
