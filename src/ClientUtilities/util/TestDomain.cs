@@ -247,10 +247,7 @@ namespace NUnit.Util
 				{
 					AppDomain.Unload(domain);
 					if ( this.ShadowCopyFiles )
-					{
-						DirectoryInfo cacheDir = new DirectoryInfo(cachePath);
-						if(cacheDir.Exists) cacheDir.Delete(true);
-					}
+						DeleteCacheDir( new DirectoryInfo( cachePath ) );
 				}
 				catch( CannotUnloadAppDomainException )
 				{
@@ -394,7 +391,7 @@ namespace NUnit.Util
 
 		#endregion
 
-		#region Helpers Used in AppDomain Creation
+		#region Helpers Used in AppDomain Creation and Removal
 
 		/// <summary>
 		/// Construct an application domain for testing a single assembly
@@ -484,6 +481,30 @@ namespace NUnit.Util
 			return;
 		}
 
+		/// <summary>
+		/// Helper method to delete the cache dir. This method deals 
+		/// with a bug that occurs when pdb files are marked read-only.
+		/// </summary>
+		/// <param name="cacheDir"></param>
+		private void DeleteCacheDir( DirectoryInfo cacheDir )
+		{
+			if(cacheDir.Exists)
+			{
+				foreach( DirectoryInfo dirInfo in cacheDir.GetDirectories() )
+				{
+					dirInfo.Attributes &= ~FileAttributes.ReadOnly;
+					DeleteCacheDir( dirInfo );
+				}
+
+				foreach( FileInfo fileInfo in cacheDir.GetFiles() )
+				{
+					fileInfo.Attributes &= ~FileAttributes.ReadOnly;
+				}
+
+				cacheDir.Delete(true);
+			}
+		}
+		
 		#endregion
 	}
 }
