@@ -150,6 +150,7 @@ namespace NUnit.Core
 
 		private Test FindByName(Test test, string fullName)
 		{
+			if(test.UniqueName.Equals(fullName)) return test;
 			if(test.FullName.Equals(fullName)) return test;
 			
 			Test result = null;
