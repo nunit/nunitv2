@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<Solution>..\nunit.sln</Solution>
 		<NUnitConsole>bin\nunit-console.exe</NUnitConsole>
+		<PackageId>{1AA69CCD-1078-473A-BD6E-11CE30A81C57}</PackageId>
 	</PropertyGroup>
 	
 	<Target Name="Clean">
@@ -15,13 +16,21 @@
 		<Exec Command="..\..\tools\mutantbuild\mutantbuild @debug(1.0).response /property:Configuration=Release /property:OutputPath=%cd%\bin\ $(Solution)" />
 	</Target>
 	
-	<Target Name="Test" DependsOnTargets="Build">
-		<Exec Command="$(NUnitConsole) ..\NUnitTests.nunit /config=Package /xml=%cd%\NUnitTests-results.xml" />
+	<Target Name="Test" DependsOnTargets="Install">
+		<Exec Command='$(NUnitConsole) "$(ProgramFiles)\NUnit 2.2.1\bin\NUnitTests.nunit" /config=Deployed /xml=%cd%\NUnitTests-results.xml' />
 	</Target>
 
 	<Target Name="Package" DependsOnTargets="Build">
-		<Exec Command="..\..\tools\wix\candle NUnit.wxs UI.wxi bin.wxi doc.wxi src.wxi samples.wxi" />
-		<Exec Command="..\..\tools\wix\light NUnit.wixobj UI.wixobj bin.wixobj doc.wixobj src.wixobj samples.wixobj -out NUnit-2.2.1.msi" />
+		<Exec Command="..\..\tools\wix\candle NUnit.wxs UI.wxi bin.wxi tests.wxi doc.wxi src.wxi samples.wxi" />
+		<Exec Command="..\..\tools\wix\light NUnit.wixobj UI.wixobj bin.wixobj tests.wixobj doc.wixobj src.wixobj samples.wixobj -out NUnit-2.2.1.msi" />
+	</Target>
+
+	<Target Name="Install" DependsOnTargets="Uninstall;Package">
+		<Exec Command="start /wait msiexec /q /i NUnit-2.2.1.msi /l* install.log" />
+	</Target>
+
+	<Target Name="Uninstall" Condition="Exists('$(ProgramFiles)\NUnit 2.2.1\bin\NUnitTests.nunit')">
+		<Exec Command="start /wait msiexec /q /x $(PackageId) /l* uninstall.log" />
 	</Target>
 
 </Project>

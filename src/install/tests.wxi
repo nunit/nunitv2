@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
+  <Fragment>
+  
+    <Feature Id="TestsFeature" Level="1" ConfigurableDirectory="TARGETDIR">
+		<ComponentRef Id="component_tests" />
+    </Feature>
+    
+	<DirectoryRef Id="TARGETDIR">
+  
+      <Directory Id="D__tests" Name="BIN" LongName="bin">
+      
+        <Component Id="component_tests" DiskId="1" Guid="85DD0370-9E05-4e9a-8AB4-02A6C24986AB">
+          <File Id="F__test1" Name="tests~1.DLL" LongName="nunit.tests.dll" src="bin\nunit.tests.dll" />
+          <File Id="F__test2" Name="tests~2.DLL" LongName="nunit.util.tests.dll" src="bin\nunit.util.tests.dll" />
+          <File Id="F__test3" Name="tests~3.DLL" LongName="nunit.framework.tests.dll" src="bin\nunit.framework.tests.dll" />
+          <File Id="F__test4" Name="tests~4.DLL" LongName="nunit.mocks.tests.dll" src="bin\nunit.mocks.tests.dll" />
+          <File Id="F__test5" Name="tests~5.DLL" LongName="nunit.uikit.tests.dll" src="bin\nunit.uikit.tests.dll" />
+          <File Id="F__test6" Name="tests~6.DLL" LongName="nunit-console.tests.dll" src="bin\nunit-console.tests.dll" />
+          <File Id="F__test7" Name="tests~7.DLL" LongName="timing-tests.dll" src="bin\timing-tests.dll" />
+          <File Id="F__test8" Name="config~8.DLL" LongName="NUnitTests.config" src="..\NUnitTests.config" />
+          <File Id="F__test9" Name="nunit~9.DLL" LongName="NUnitTests.nunit" src="..\NUnitTests.nunit" />
+        </Component>
+
+      </Directory>
+	</DirectoryRef>
+	
+  </Fragment>
+</Wix>

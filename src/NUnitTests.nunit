@@ -21,4 +21,11 @@
     <assembly path="install\bin\nunit.util.tests.dll" />
     <assembly path="install\bin\nunit.framework.tests.dll" />
   </Config>
+  <Config name="Deployed" binpathtype="Auto">
+    <assembly path="nunit.mocks.tests.dll" />
+    <assembly path="nunit.uikit.tests.dll" />
+    <assembly path="nunit-console.tests.dll" />
+    <assembly path="nunit.util.tests.dll" />
+    <assembly path="nunit.framework.tests.dll" />
+  </Config>
 </NUnitProject>
