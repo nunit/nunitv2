@@ -53,11 +53,6 @@ namespace NUnit.UiKit
 		/// </summary>
 		private ITestLoader loader;
 
-		/// <summary>
-		/// Switch indicating whether VS Support is available
-		/// </summary>
-		private bool vsSupport;
-
 		#endregion
 
 		#region Public Members
@@ -66,7 +61,6 @@ namespace NUnit.UiKit
 		{
 			this.owner = owner;
 			this.loader = loader;
-			this.vsSupport = UserSettings.Options.VisualStudioSupport;
 		}
 
 		public void NewProject()
@@ -97,7 +91,7 @@ namespace NUnit.UiKit
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Title = "Open Project";
 			
-			if ( vsSupport )
+			if ( UserSettings.Options.VisualStudioSupport )
 			{
 				dlg.Filter =
 					"Projects & Assemblies(*.nunit,*.csproj,*.vbproj,*.vcproj,*.sln,*.dll,*.exe )|*.nunit;*.csproj;*.vbproj;*.vcproj;*.sln;*.dll;*.exe|" +
@@ -125,6 +119,18 @@ namespace NUnit.UiKit
 			if ( dlg.ShowDialog( owner ) == DialogResult.OK ) 
 			{
 				loader.LoadProject( dlg.FileName );
+
+				if ( loader.IsProjectLoaded )
+				{	
+					if ( loader.TestProject.Configs.Count == 0 )
+						UserMessage.DisplayInfo( "Loaded project contains no configuration data" );
+					else if ( loader.TestProject.ActiveConfig == null )
+						UserMessage.DisplayInfo( "Loaded project has no active configuration" );
+					else if ( loader.TestProject.ActiveConfig.Assemblies.Count == 0 )
+						UserMessage.DisplayInfo( "Active configuration contains no assemblies" );
+					else
+						loader.LoadTest();
+				}
 			}
 		}
 
