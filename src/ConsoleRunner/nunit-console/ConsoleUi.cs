@@ -205,8 +205,6 @@ namespace NUnit.ConsoleRunner
 		
 			EventListener collector = new EventCollector( options, outStream );
 
-			string savedDirectory = Environment.CurrentDirectory;
-
 			if (options.HasInclude)
 			{
 				Console.WriteLine( "Included categories: " + options.include );
@@ -219,19 +217,21 @@ namespace NUnit.ConsoleRunner
 			}
 
 			TestResult result = null;
-			if ( options.thread )
+
+			using( new DirectorySwapper() )
 			{
-				testDomain.RunTest( collector );
-				testDomain.Wait();
-				result = testDomain.Result;
-			}
-			else
-			{
-				result = testDomain.Run( collector );
+				if ( options.thread )
+				{
+					testDomain.RunTest( collector );
+					testDomain.Wait();
+					result = testDomain.Result;
+				}
+				else
+				{
+					result = testDomain.Run( collector );
+				}
 			}
 
-			Directory.SetCurrentDirectory( savedDirectory );
-			
 			Console.WriteLine();
 
 			string xmlOutput = CreateXmlOutput( result );
