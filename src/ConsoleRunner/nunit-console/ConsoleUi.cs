@@ -315,8 +315,8 @@ namespace NUnit.Console
 					testRunCount = 0;
 					testIgnoreCount = 0;
 					failureCount = 0;
-					Debug.WriteLine( "################################ UNIT TESTS ################################" );
-					Debug.WriteLine( "Running tests in '" + suite.FullName + "'..." );
+					Trace.WriteLine( "################################ UNIT TESTS ################################" );
+					Trace.WriteLine( "Running tests in '" + suite.FullName + "'..." );
 				}
 			}
 
@@ -324,28 +324,28 @@ namespace NUnit.Console
 			{
 				if ( debugger && --level == 0 ) 
 				{
-					Debug.WriteLine( "############################################################################" );
+					Trace.WriteLine( "############################################################################" );
 
 					if (messages.Count == 0) 
 					{
-						Debug.WriteLine( "##############                 S U C C E S S               #################" );
+						Trace.WriteLine( "##############                 S U C C E S S               #################" );
 					}
 					else 
 					{
-						Debug.WriteLine( "##############                F A I L U R E S              #################" );
+						Trace.WriteLine( "##############                F A I L U R E S              #################" );
 						
 						foreach ( string s in messages ) 
 						{
-							Debug.WriteLine(s);
+							Trace.WriteLine(s);
 						}
 					}
 
-					Debug.WriteLine( "############################################################################" );
-					Debug.WriteLine( "Executed tests : " + testRunCount );
-					Debug.WriteLine( "Ignored tests  : " + testIgnoreCount );
-					Debug.WriteLine( "Failed tests   : " + failureCount );
-					Debug.WriteLine( "Total time     : " + suiteResult.Time + " seconds" );
-					Debug.WriteLine( "############################################################################");
+					Trace.WriteLine( "############################################################################" );
+					Trace.WriteLine( "Executed tests : " + testRunCount );
+					Trace.WriteLine( "Ignored tests  : " + testIgnoreCount );
+					Trace.WriteLine( "Failed tests   : " + failureCount );
+					Trace.WriteLine( "Total time     : " + suiteResult.Time + " seconds" );
+					Trace.WriteLine( "############################################################################");
 				}
 			}
 
