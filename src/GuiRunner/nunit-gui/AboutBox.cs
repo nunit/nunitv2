@@ -130,13 +130,13 @@ namespace Nunit.Gui
 			// 
 			// linkLabel1
 			// 
-			this.linkLabel1.Enabled = false;
 			this.linkLabel1.Location = new System.Drawing.Point(128, 64);
 			this.linkLabel1.Name = "linkLabel1";
 			this.linkLabel1.Size = new System.Drawing.Size(208, 23);
 			this.linkLabel1.TabIndex = 5;
 			this.linkLabel1.TabStop = true;
-			this.linkLabel1.Text = "http://www.nunit.org (coming soon)";
+			this.linkLabel1.Text = "http://www.nunit.org ";
+			this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
 			// 
 			// label4
 			// 
@@ -209,6 +209,12 @@ namespace Nunit.Gui
 		private void button1_Click(object sender, System.EventArgs e)
 		{
 			this.Close();
+		}
+
+		private void linkLabel1_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+		{
+			System.Diagnostics.Process.Start("http://nunit.org");
+			linkLabel1.LinkVisited = true;
 		}
 	}
 }
