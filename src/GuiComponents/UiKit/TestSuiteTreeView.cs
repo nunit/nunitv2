@@ -217,18 +217,18 @@ namespace NUnit.UiKit
 		}
 
 		[Browsable( false )]
-		public ArrayList CheckedTests 
+		public UITestNode[] CheckedTests 
 		{
 			get 
 			{
 				ArrayList result = new ArrayList();
 				FindCheckedNodes(this.Nodes, result);
-				return result;
+				return (UITestNode[])result.ToArray( typeof( UITestNode ) );
 			}
 		}
 
 		[Browsable( false )]
-		public ArrayList SelectedTests
+		public UITestNode[] SelectedTests
 		{
 			get
 			{
@@ -239,7 +239,7 @@ namespace NUnit.UiKit
 				if ( result.Count == 0 )
 					result.Add( SelectedTest );
 
-				return result;
+				return (UITestNode[])result.ToArray( typeof( UITestNode ) );
 			}	
 		}
 
@@ -452,7 +452,7 @@ namespace NUnit.UiKit
 //				if ( loader.IsReloadPending )
 //					loader.ReloadTest();
 
-				loader.RunTestSuite( contextNode.Test );
+				loader.RunTest( contextNode.Test );
 			}
 		}
 
@@ -545,7 +545,7 @@ namespace NUnit.UiKit
 //				if ( loader.IsReloadPending )
 //					loader.ReloadTest();
 
-				loader.RunTestSuite( SelectedTest );
+				loader.RunTest( SelectedTest );
 			}
 		}
 
