@@ -45,9 +45,10 @@ namespace NUnit.Core
 		{
 			builders = new Hashtable();
 			builders[typeof(NUnit.Framework.ExpectedExceptionAttribute)] = new ExpectedExceptionBuilder();
+			builders[typeof(RepeatedTestAttribute)] = new RepeatedTestBuilder();
 		}
 
-		private static ITestBuilder GetBuilder(MethodInfo method) 
+		private static TestCase MakeTestCase(Type fixtureType, MethodInfo method) 
 		{
 			if (builders == null)
 				InitBuilders();
@@ -58,10 +59,10 @@ namespace NUnit.Core
 			{
 				ITestBuilder builder = (ITestBuilder) builders[attribute.GetType()];
 				if (builder != null)
-					return builder;
+					return builder.Make (fixtureType, method, attribute);
 			}
 
-			return normalBuilder;
+			return normalBuilder.Make (fixtureType, method);
 		}
 
 		/// <summary>
@@ -78,8 +79,7 @@ namespace NUnit.Core
 			{
 				if( Reflect.IsTestMethodSignatureCorrect( method ) )
 				{
-					ITestBuilder builder = GetBuilder(method);
-					testCase = builder.Make(fixtureType, method);
+					testCase = MakeTestCase(fixtureType, method);
 
 					if(Reflect.HasIgnoreAttribute(method))
 					{
@@ -135,6 +135,7 @@ namespace NUnit.Core
 	internal interface ITestBuilder 
 	{
 		TestCase Make(Type fixtureType, MethodInfo method);
+		TestCase Make(Type fixtureType, MethodInfo method, object attribute);
 		TestCase Make(object fixture, MethodInfo method);
 	}
 
@@ -150,6 +151,11 @@ namespace NUnit.Core
 		public TestCase Make(object fixture, MethodInfo method)
 		{
 			return new ExpectedExceptionTestCase( fixture, method );
+		}
+
+		public TestCase Make (Type fixtureType, MethodInfo method, object attribute)
+		{
+			return Make(fixtureType, method);
 		}
 
 		#endregion
@@ -169,7 +175,31 @@ namespace NUnit.Core
 			return new NormalTestCase(fixture, method);
 		}
 
+		public TestCase Make (Type fixtureType, MethodInfo method, object attribute)
+		{
+			return Make(fixtureType, method);
+		}
+
 		#endregion
+	}
+
+	internal class RepeatedTestBuilder : ITestBuilder
+	{
+		public TestCase Make (Type fixtureType, MethodInfo method)
+		{
+			return new RepeatedTestCase(fixtureType, method, 1);
+		}
+
+		public TestCase Make (object fixture, MethodInfo method)
+		{
+			return new RepeatedTestCase(fixture, method, 1);
+		}
+
+		public TestCase Make (Type fixtureType, MethodInfo method, object attribute)
+		{
+			RepeatedTestAttribute repeatedAttribute = (RepeatedTestAttribute) attribute;
+			return new RepeatedTestCase(fixtureType, method, repeatedAttribute.Count);
+		}
 	}
 
 

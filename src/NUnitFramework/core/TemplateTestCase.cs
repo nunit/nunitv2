@@ -103,7 +103,7 @@ namespace NUnit.Core
 		/// TestFixtureSetUp and TestFixtureTearDown needed.
 		/// </summary>
 		/// <param name="testResult">The result in which to record success or failure</param>
-		public void doRun( TestCaseResult testResult )
+		public virtual void doRun( TestCaseResult testResult )
 		{
 			DateTime start = DateTime.Now;
 
@@ -152,7 +152,7 @@ namespace NUnit.Core
 		{
 			try
 			{
-				Reflect.InvokeMethod( this.method, this.Fixture );
+				RunTestMethod(testResult);
 				ProcessNoException(testResult);
 			}
 			catch( Exception ex )
@@ -165,6 +165,11 @@ namespace NUnit.Core
 				else
 					ProcessException(ex, testResult);
 			}
+		}
+
+		public virtual void RunTestMethod(TestCaseResult testResult)
+		{
+			Reflect.InvokeMethod( this.method, this.Fixture );
 		}
 
 		#endregion
