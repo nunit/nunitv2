@@ -73,8 +73,10 @@ namespace NUnit.Tests.Util
 			int position = 383;
 
 			UserSettings.Form.TreeSplitterPosition = position; 
-
 			Assert.Equals(position, UserSettings.Form.TreeSplitterPosition);
+
+			UserSettings.Form.TabSplitterPosition = position;
+			Assert.Equals(position, UserSettings.Form.TabSplitterPosition);
 		}
 
 		[Test]

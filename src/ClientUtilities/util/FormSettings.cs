@@ -51,9 +51,12 @@ namespace NUnit.Util
 		private static readonly string YLOCATION = "y-location";
 		private static readonly int DEFAULT_YLOCATION = 10;
 
-		private static readonly string SPLITTER_POSITION = "splitter-position";
-		private static readonly int DEFAULT_POSITION = 380;
+		private static readonly string TREE_SPLITTER_POSITION = "tree-splitter-position";
+		private static readonly int TREE_DEFAULT_POSITION = 380;
 		
+		private static readonly string TAB_SPLITTER_POSITION = "tab-splitter-position";
+		private static readonly int TAB_DEFAULT_POSITION = 119;
+
 		public FormSettings( ) : base( NAME, UserSettings.GetStorageImpl( NAME ) ) { }
 
 		public FormSettings( SettingsStorage storage ) : base( NAME, storage ) { }
@@ -62,7 +65,8 @@ namespace NUnit.Util
 
 		private Point location = Point.Empty;
 		private Size size = Size.Empty;
-		private int splitterPosition = -1;
+		private int treeSplitterPosition = -1;
+		private int tabSplitterPosition = -1;
 
 		public Point Location
 		{
@@ -110,17 +114,37 @@ namespace NUnit.Util
 		{
 			get 
 			{
-				if ( splitterPosition == -1 )
+				if ( treeSplitterPosition == -1 )
 				{
-					splitterPosition = LoadIntSetting( SPLITTER_POSITION, DEFAULT_POSITION );
+					treeSplitterPosition = 
+						LoadIntSetting( TREE_SPLITTER_POSITION, TREE_DEFAULT_POSITION );
 				}
 				
-				return splitterPosition; 
+				return treeSplitterPosition; 
 			}
 			set 
 			{ 
-				splitterPosition = value;
-				SaveSetting( SPLITTER_POSITION, splitterPosition );
+				treeSplitterPosition = value;
+				SaveSetting( TREE_SPLITTER_POSITION, treeSplitterPosition );
+			}
+		}
+
+		public int TabSplitterPosition
+		{
+			get 
+			{
+				if ( tabSplitterPosition == -1 )
+				{
+					tabSplitterPosition = 
+						LoadIntSetting( TAB_SPLITTER_POSITION, TAB_DEFAULT_POSITION );
+				}
+				
+				return tabSplitterPosition; 
+			}
+			set 
+			{ 
+				tabSplitterPosition = value;
+				SaveSetting( TAB_SPLITTER_POSITION, tabSplitterPosition );
 			}
 		}
 	}
