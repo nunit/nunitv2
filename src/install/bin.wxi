@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
+  <Fragment>
+  
+    <Feature Id="BinFeature" Level="1" ConfigurableDirectory="TARGETDIR">
+		<!-- nunit files -->
+		<ComponentRef Id="component_nunit" />
+		
+		<!-- nunit-gui.exe -->
+		<ComponentRef Id="C__243FEAF8F6D78D23A4A811915AEB23F8" />
+		
+		<!-- GAC nunit.framework -->
+		<ComponentRef Id="C__nunit_framework" />
+		
+		<!-- Make the NUnit directory default reference dir -->
+		<Feature Id="AssemblyFoldersFeature" Level="1">
+			<ComponentRef Id="C__AssemblyFolders" />
+		</Feature>
+    </Feature>
+    
+	<DirectoryRef Id="TARGETDIR">
+  
+      <Directory Id="D__bin" Name="BIN" LongName="bin">
+      
+		<Component Id="C__AssemblyFolders" Guid="F9B1325D-286F-6638-4AD2-AC8F3509BC4F">
+			<Registry Id="R__AssemblyFolders" Root="HKLM" Key="Software\Microsoft\.NETFramework\AssemblyFolders\NUnit.Framework" Type="string" KeyPath="yes" Value="[TARGETDIR]bin" />
+		</Component>
+      
+        <Component Id="component_nunit" DiskId="1" Guid="15222234-C43E-4f31-B2C3-E83995627A68">
+          <File Id="file0" Name="MOCK-A~1.DLL" LongName="mock-assembly.dll" src="bin\mock-assembly.dll" />
+          <File Id="file1" Name="MOCK-A~1.CON" LongName="mock-assembly.dll.config" src="bin\mock-assembly.dll.config" />
+          <File Id="file2" Name="MOCK-A~1.PDB" LongName="mock-assembly.pdb" src="bin\mock-assembly.pdb" />
+          <File Id="file3" Name="NONAME~1.DLL" LongName="nonamespace-assembly.dll" src="bin\nonamespace-assembly.dll" />
+          <File Id="file4" Name="NONAME~1.PDB" LongName="nonamespace-assembly.pdb" src="bin\nonamespace-assembly.pdb" />
+          <File Id="file5" Name="NOTEST~1.DLL" LongName="notestfixtures-assembly.dll" src="bin\notestfixtures-assembly.dll" />
+          <File Id="file6" Name="NOTEST~1.PDB" LongName="notestfixtures-assembly.pdb" src="bin\notestfixtures-assembly.pdb" />
+          <File Id="file7" Name="NUNIT-~1.EXE" LongName="nunit-console.exe" src="bin\nunit-console.exe" />
+          <File Id="file8" Name="NUNIT-~1.CON" LongName="nunit-console.exe.config" src="bin\nunit-console.exe.config" />
+          <File Id="file9" Name="NUNIT-~1.PDB" LongName="nunit-console.pdb" src="bin\nunit-console.pdb" />
+          <!--
+          <File Id="file10" Name="NUNIT-~2.EXE" LongName="nunit-gui.exe" src="bin\nunit-gui.exe" />
+          <Shortcut Id="shortcut_nunit_gui_exe_desktop" Directory="DesktopFolder" Name="NUNIT2~2.2" LongName="NUnit 2.2" Target="DefaultFeature" Icon="_74d4dc8.exe" IconIndex="0" Show="normal" WorkingDirectory="D__bin" />
+          <Shortcut Id="shortcut_nunit_gui_exe_default" Directory="_950F3B1647F9490D83EFE76D97AA9D10" Name="NUNIT-~3" LongName="NUnit-Gui" Target="DefaultFeature" Icon="_7a5a767d.exe" IconIndex="0" Show="normal" WorkingDirectory="D__bin" />
+          -->
+          <File Id="file11" Name="NUNIT-~2.CON" LongName="nunit-gui.exe.config" src="bin\nunit-gui.exe.config" />
+          <File Id="file12" Name="NUNIT-~2.PDB" LongName="nunit-gui.pdb" src="bin\nunit-gui.pdb" />
+          <File Id="file13" Name="NUNITC~1.DLL" LongName="nunit.core.dll" src="bin\nunit.core.dll" />
+          <File Id="file14" Name="NUNITC~1.PDB" LongName="nunit.core.pdb" src="bin\nunit.core.pdb" />
+          <File Id="file15" Name="NUNITE~1.DLL" LongName="nunit.extensions.dll" src="bin\nunit.extensions.dll" />
+          <File Id="file16" Name="NUNITE~1.PDB" LongName="nunit.extensions.pdb" src="bin\nunit.extensions.pdb" />
+          <File Id="file17" Name="NUNITF~1.DLL" LongName="nunit.framework.dll" src="bin\nunit.framework.dll" />
+          <File Id="file18" Name="NUNITF~1.PDB" LongName="nunit.framework.pdb" src="bin\nunit.framework.pdb" />
+          <File Id="file19" Name="NUNITF~1.XML" LongName="nunit.framework.xml" src="bin\nunit.framework.xml" />
+          <File Id="file20" Name="NUNITM~1.DLL" LongName="nunit.mocks.dll" src="bin\nunit.mocks.dll" />
+          <File Id="file21" Name="NUNITM~1.PDB" LongName="nunit.mocks.pdb" src="bin\nunit.mocks.pdb" />
+          <File Id="file22" Name="NUNITT~1.DLL" LongName="nunit.tests.dll" src="bin\nunit.tests.dll" />
+          <File Id="file23" Name="NUNITT~1.CON" LongName="nunit.tests.dll.config" src="bin\nunit.tests.dll.config" />
+          <File Id="file24" Name="NUNITT~1.PDB" LongName="nunit.tests.pdb" src="bin\nunit.tests.pdb" />
+          <File Id="file25" Name="NUNITU~2.DLL" LongName="nunit.uikit.dll" src="bin\nunit.uikit.dll" />
+          <File Id="file26" Name="NUNITU~2.PDB" LongName="nunit.uikit.pdb" src="bin\nunit.uikit.pdb" />
+          <File Id="file27" Name="NUNITU~1.DLL" LongName="nunit.util.dll" src="bin\nunit.util.dll" />
+          <File Id="file28" Name="NUNITU~1.PDB" LongName="nunit.util.pdb" src="bin\nunit.util.pdb" />
+          <File Id="file29" Name="TIMING~1.DLL" LongName="timing-tests.dll" src="bin\timing-tests.dll" />
+          <File Id="file30" Name="TIMING~1.PDB" LongName="timing-tests.pdb" src="bin\timing-tests.pdb" />
+        </Component>
+        
+        <Component Id="C__243FEAF8F6D78D23A4A811915AEB23F8" Guid="0E428D48-6EC3-91C3-C230-09C34647D786">
+          <File Id="_243FEAF8F6D78D23A4A811915AEB23F8" Name="NUNIT-~1.EXE" src="bin\nunit-gui.exe" LongName="nunit-gui.exe" Vital="yes" KeyPath="yes" AssemblyManifest="_243FEAF8F6D78D23A4A811915AEB23F8" AssemblyApplication="_243FEAF8F6D78D23A4A811915AEB23F8" Assembly=".net" DiskId="1" />
+          <!--
+          <Shortcut Id="_910BC241F9494A3A8A10AACED6A74ABC" Directory="DesktopFolder" Name="NUNIT2~2.2" LongName="NUnit 2.2" Target="DefaultFeature" Icon="_5af141bb.exe" IconIndex="0" Show="normal" WorkingDirectory="D__bin" />
+          <Shortcut Id="_E7FFE6EB02144C6BB905AAB78648EFC1" Directory="D__nunit_menu" Name="NUNIT-~3" LongName="NUnit-Gui" Target="DefaultFeature" Icon="_7e87390c.exe" IconIndex="0" Show="normal" WorkingDirectory="D__bin" />
+          -->
+          <Shortcut Id="_E7FFE6EB02144C6BB905AAB78648EFC1" Directory="D__nunit_menu" Name="NUNIT-~3" LongName="NUnit-Gui" Target="BinFeature" Icon="nunit_icon.exe" IconIndex="0" Show="normal" WorkingDirectory="D__bin" />
+          <Shortcut Id="_910BC241F9494A3A8A10AACED6A74ABC" Directory="DesktopFolder" Name="NUNIT2~2.2" LongName="NUnit 2.2" Target="BinFeature" Icon="nunit_icon.exe" IconIndex="0" Show="normal" WorkingDirectory="D__bin" />
+        </Component>
+        
+      
+      <!--
+        <Component Id="C__01E732EF23CFE08FCE5CE0C1EECBB302" Guid="BC854746-4105-49AB-3899-562523CEFF91">
+          <File Id="_01E732EF23CFE08FCE5CE0C1EECBB302" Name="MOCK-A~1.DLL" src="SourceDir\BIN\MOCK-A~1.DLL" LongName="mock-assembly.dll" Vital="yes" KeyPath="yes" AssemblyManifest="_01E732EF23CFE08FCE5CE0C1EECBB302" AssemblyApplication="_01E732EF23CFE08FCE5CE0C1EECBB302" Assembly=".net" DiskId="1" />
+        </Component>
+        <Component Id="C__0C683BBBA9790B62A55D01EC95D98461" Guid="D3FA7C93-A1E4-9570-812D-B633CEEF4A39">
+          <File Id="_0C683BBBA9790B62A55D01EC95D98461" Name="NUNITC~1.DLL" src="SourceDir\BIN\NUNITC~1.DLL" LongName="nunit.core.dll" Vital="yes" KeyPath="yes" AssemblyManifest="_0C683BBBA9790B62A55D01EC95D98461" AssemblyApplication="_0C683BBBA9790B62A55D01EC95D98461" Assembly=".net" DiskId="1" />
+        </Component>
+        <Component Id="C__21E726AD12D5C2741585BEAC2625CDA6" Guid="E101678D-0355-C7D7-9BDF-3ECE48339772">
+          <File Id="_21E726AD12D5C2741585BEAC2625CDA6" Name="NUNITU~1.DLL" src="SourceDir\BIN\NUNITU~1.DLL" LongName="nunit.util.dll" Vital="yes" KeyPath="yes" AssemblyManifest="_21E726AD12D5C2741585BEAC2625CDA6" AssemblyApplication="_21E726AD12D5C2741585BEAC2625CDA6" Assembly=".net" DiskId="1" />
+        </Component>
+        <Component Id="C__3CFD5133A68B15DF4EF0FD6C4DF17500" Guid="2B8417CE-796E-22F6-7FE5-3C2EDC20F826">
+          <File Id="_3CFD5133A68B15DF4EF0FD6C4DF17500" Name="NONAME~1.DLL" src="SourceDir\BIN\NONAME~1.DLL" LongName="nonamespace-assembly.dll" Vital="yes" KeyPath="yes" AssemblyManifest="_3CFD5133A68B15DF4EF0FD6C4DF17500" AssemblyApplication="_3CFD5133A68B15DF4EF0FD6C4DF17500" Assembly=".net" DiskId="1" />
+        </Component>
+        <Component Id="C__4655B4F4C1F64312A4B5498DF0C3951F" Guid="A89AC713-10D7-15AD-1484-B692CCF4B73E">
+          <File Id="_4655B4F4C1F64312A4B5498DF0C3951F" Name="NUNIT-~2.CON" src="SourceDir\BIN\NUNIT-~2.CON" LongName="nunit-gui.exe.config" Vital="yes" KeyPath="yes" DiskId="1" />
+        </Component>
+        <Component Id="C__58C689FB37F4B1D3512F3A2EE574318E" Guid="568E7DC6-3BC7-107B-8001-B3698FC42B38">
+          <File Id="_58C689FB37F4B1D3512F3A2EE574318E" Name="NUNITM~1.DLL" src="SourceDir\BIN\NUNITM~1.DLL" LongName="nunit.mocks.dll" Vital="yes" KeyPath="yes" AssemblyManifest="_58C689FB37F4B1D3512F3A2EE574318E" AssemblyApplication="_58C689FB37F4B1D3512F3A2EE574318E" Assembly=".net" DiskId="1" />
+        </Component>
+        <Component Id="C__65DDC450677D4A93A9940C58C06397FA" Guid="44836CC2-EF73-1497-50C7-A9295F8BCF4A">
+          <File Id="_65DDC450677D4A93A9940C58C06397FA" Name="NUNIT-~3.CON" src="SourceDir\BIN\NUNIT-~3.CON" LongName="nunit-console.exe.config" Vital="yes" KeyPath="yes" DiskId="1" />
+        </Component>
+        <Component Id="C__6B7D4389EF261CA0732290C956E5D32F" Guid="009AE933-2266-4814-F3DA-9256109BE195">
+          <File Id="_6B7D4389EF261CA0732290C956E5D32F" Name="NUNITU~2.DLL" src="SourceDir\BIN\NUNITU~2.DLL" LongName="nunit.uikit.dll" Vital="yes" KeyPath="yes" AssemblyManifest="_6B7D4389EF261CA0732290C956E5D32F" AssemblyApplication="_6B7D4389EF261CA0732290C956E5D32F" Assembly=".net" DiskId="1" />
+        </Component>
+        <Component Id="C__7E6D53ABA8F9DFFA9EF1D943A114B71F" Guid="49F8F127-A826-04DF-AFCD-82291173559A">
+          <File Id="_7E6D53ABA8F9DFFA9EF1D943A114B71F" Name="NUNITF~1.DLL" src="SourceDir\BIN\NUNITF~1.DLL" LongName="nunit.framework.dll" Vital="yes" KeyPath="yes" AssemblyManifest="_7E6D53ABA8F9DFFA9EF1D943A114B71F" AssemblyApplication="_7E6D53ABA8F9DFFA9EF1D943A114B71F" Assembly=".net" DiskId="1" />
+        </Component>
+        <Component Id="C__89C27D72035C18C6925B6D441B8ED432" Guid="070ED971-777B-9EEB-EB00-87961ECC87EC">
+          <File Id="_89C27D72035C18C6925B6D441B8ED432" Name="NOTEST~1.DLL" src="SourceDir\BIN\NOTEST~1.DLL" LongName="notestfixtures-assembly.dll" Vital="yes" KeyPath="yes" AssemblyManifest="_89C27D72035C18C6925B6D441B8ED432" AssemblyApplication="_89C27D72035C18C6925B6D441B8ED432" Assembly=".net" DiskId="1" />
+        </Component>
+        <Component Id="C__DCB6B5CF3C2343A6ABFA8179858A533A" Guid="0BD76FDC-B958-D3A1-144C-2063BCE11623">
+          <File Id="_DCB6B5CF3C2343A6ABFA8179858A533A" Name="MOCK-A~1.CON" src="SourceDir\BIN\MOCK-A~1.CON" LongName="mock-assembly.dll.config" Vital="yes" KeyPath="yes" DiskId="1" />
+        </Component>
+        <Component Id="C__DEEAA57DBF30C5EABBD77C91B263261F" Guid="42428B5A-6F0B-5785-5D91-BBE00DA32B22">
+          <File Id="_DEEAA57DBF30C5EABBD77C91B263261F" Name="NUNITE~1.DLL" src="SourceDir\BIN\NUNITE~1.DLL" LongName="nunit.extensions.dll" Vital="yes" KeyPath="yes" AssemblyManifest="_DEEAA57DBF30C5EABBD77C91B263261F" AssemblyApplication="_DEEAA57DBF30C5EABBD77C91B263261F" Assembly=".net" DiskId="1" />
+        </Component>
+        <Component Id="C__EC8DB5D64B954D7CA15E0D20377EE454" Guid="1742A5A9-73AA-DCFB-F5ED-DDAE8F5BFEEE">
+          <File Id="_EC8DB5D64B954D7CA15E0D20377EE454" Name="NUNITT~2.CON" src="SourceDir\BIN\NUNITT~2.CON" LongName="nunit.tests.dll.config" Vital="yes" KeyPath="yes" DiskId="1" />
+        </Component>
+        <Component Id="C__243FEAF8F6D78D23A4A811915AEB23F8" Guid="0E428D48-6EC3-91C3-C230-09C34647D786">
+          <File Id="_243FEAF8F6D78D23A4A811915AEB23F8" Name="NUNIT-~1.EXE" src="SourceDir\BIN\NUNIT-~1.EXE" LongName="nunit-gui.exe" Vital="yes" KeyPath="yes" AssemblyManifest="_243FEAF8F6D78D23A4A811915AEB23F8" AssemblyApplication="_243FEAF8F6D78D23A4A811915AEB23F8" Assembly=".net" DiskId="1" />
+          <Shortcut Id="_910BC241F9494A3A8A10AACED6A74ABC" Directory="DesktopFolder" Name="NUNIT2~2.2" LongName="NUnit 2.2" Target="DefaultFeature" Icon="_74d4dc8.exe" IconIndex="0" Show="normal" WorkingDirectory="D__bin" />
+          <Shortcut Id="_E7FFE6EB02144C6BB905AAB78648EFC1" Directory="_950F3B1647F9490D83EFE76D97AA9D10" Name="NUNIT-~3" LongName="NUnit-Gui" Target="DefaultFeature" Icon="_7a5a767d.exe" IconIndex="0" Show="normal" WorkingDirectory="D__bin" />
+        </Component>
+        <Component Id="C__DDED38AB22480A087E1A6023A3838172" Guid="695BE64A-E665-D370-1A1A-461EB5003ECC">
+          <File Id="_DDED38AB22480A087E1A6023A3838172" Name="TIMING~1.DLL" src="SourceDir\BIN\TIMING~1.DLL" LongName="timing-tests.dll" Vital="yes" KeyPath="yes" AssemblyManifest="_DDED38AB22480A087E1A6023A3838172" AssemblyApplication="_DDED38AB22480A087E1A6023A3838172" Assembly=".net" DiskId="1" />
+        </Component>
+        <Component Id="C__82017C394E5276B18F0CE116B59ABA56" Guid="4B6B7D2E-7270-2477-0244-D2CBE22F0FDB">
+          <File Id="_82017C394E5276B18F0CE116B59ABA56" Name="NUNIT-~2.EXE" src="SourceDir\BIN\NUNIT-~2.EXE" LongName="nunit-console.exe" Vital="yes" KeyPath="yes" AssemblyManifest="_82017C394E5276B18F0CE116B59ABA56" AssemblyApplication="_82017C394E5276B18F0CE116B59ABA56" Assembly=".net" DiskId="1" />
+        </Component>
+        <Component Id="C__707156236F0C3D08521409F42EB3B2E1" Guid="F02FB68F-ADA0-D1CD-C427-26BDD1D1FACD">
+          <File Id="_707156236F0C3D08521409F42EB3B2E1" Name="NUNITT~1.DLL" src="SourceDir\BIN\NUNITT~1.DLL" LongName="nunit.tests.dll" Vital="yes" KeyPath="yes" AssemblyManifest="_707156236F0C3D08521409F42EB3B2E1" AssemblyApplication="_707156236F0C3D08521409F42EB3B2E1" Assembly=".net" DiskId="1" />
+        </Component>
+        -->
+      </Directory>
+	</DirectoryRef>
+	
+	<!--
+    <Icon Id="_7e87390c.exe" src="Icon\_7e87390c.exe.ibd" />
+	<Icon Id="_5af141bb.exe" src="Icon\_5af141bb.exe.ibd" />
+	-->
+	
+    <Icon Id="nunit_icon.exe" src="Icon\nunit_icon.exe.ibd" />
+	
+  </Fragment>
+</Wix>

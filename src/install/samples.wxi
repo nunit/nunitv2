@@ -1,0 +1,196 @@
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
+  <Fragment>
+    <DirectoryRef Id="TARGETDIR">
+      <Directory Id="D__samples0" Name="samples">
+      
+    
+<!--      
+      <Directory Id="_30620B2F20B44BCEAA9B38AEFACA421B" Name="SAMPLES" LongName="samples">
+        <Component Id="C__0BA3CC8159BF4438888471562A111087" Guid="F1F587B8-6DC2-7A0F-B45E-76E48C425A91">
+          <File Id="_0BA3CC8159BF4438888471562A111087" Name="SAMPLE~1.SLN" src="SourceDir\SAMPLES\SAMPLE~1.SLN" LongName="samples_VS2005.sln" Vital="yes" KeyPath="yes" DiskId="1" />
+        </Component>
+        <Component Id="C__34582673E4664CDFA3AC0F8F2CE4E527" Guid="65C7B0C9-7AC3-F758-BCCC-88D5F7620BC8">
+          <File Id="_34582673E4664CDFA3AC0F8F2CE4E527" Name="SAMPLE~1.BUI" src="SourceDir\SAMPLES\SAMPLE~1.BUI" LongName="samples.build" Vital="yes" KeyPath="yes" DiskId="1" />
+        </Component>
+        <Component Id="C__F182DD5D42214CD2B3F0C87CF4E63537" Guid="8BF795CC-33EF-F349-B709-3B6E2E2230C9">
+          <File Id="_F182DD5D42214CD2B3F0C87CF4E63537" Name="SAMPLES.SLN" src="SourceDir\SAMPLES\SAMPLES.SLN" LongName="samples.sln" Vital="yes" KeyPath="yes" DiskId="1" />
+        </Component>
+        <Directory Id="_2FED3403379644B8A98458D2B46A6CBD" Name="MONEY" LongName="money">
+          <Component Id="C__053AEC2003684B448FCF77A77500B8AB" Guid="6DBE2B3E-DE56-81F3-FF62-88077E4DE62B">
+            <File Id="_053AEC2003684B448FCF77A77500B8AB" Name="MONEY~1.CSP" src="SourceDir\SAMPLES\MONEY\MONEY~1.CSP" LongName="money.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__059D166FE36D4000A8DE0F63BD506197" Guid="67590404-D1AA-902A-315A-81C5559E46A1">
+            <File Id="_059D166FE36D4000A8DE0F63BD506197" Name="MONEY~1.BUI" src="SourceDir\SAMPLES\MONEY\MONEY~1.BUI" LongName="money.build" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__0EE959CFA5B34510BEC709360F2C52FF" Guid="5F51B25E-3FC2-BF24-B4B0-D6BD8762CF3B">
+            <File Id="_0EE959CFA5B34510BEC709360F2C52FF" Name="MONEYT~2.CS" src="SourceDir\SAMPLES\MONEY\MONEYT~2.CS" LongName="MoneyTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__1DDCAAE8C18541D8AE0A623BF3FB8150" Guid="60CCE2CE-93E8-F6E8-32B6-3F4B7E0FFA21">
+            <File Id="_1DDCAAE8C18541D8AE0A623BF3FB8150" Name="MONEYBAG.CS" src="SourceDir\SAMPLES\MONEY\MONEYBAG.CS" LongName="MoneyBag.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__5ACD2F75B0AF417899017993E7BD92DC" Guid="F0EB43C4-41E7-E70A-37FB-6B207D17BFBD">
+            <File Id="_5ACD2F75B0AF417899017993E7BD92DC" Name="ASSEMB~1.CS" src="SourceDir\SAMPLES\MONEY\ASSEMB~1.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__69C630C759A94CE29D8602390980FE56" Guid="2D0955AC-94FE-9E77-D828-5AFD6AEB5FB2">
+            <File Id="_69C630C759A94CE29D8602390980FE56" Name="MONEY_~1.CSP" src="SourceDir\SAMPLES\MONEY\MONEY_~1.CSP" LongName="money_VS2005.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__76444099A61C4C4BBDBC45EA19B82C13" Guid="2CF52719-4F35-DE2B-EE51-DE9B5D21212A">
+            <File Id="_76444099A61C4C4BBDBC45EA19B82C13" Name="README.TXT" src="SourceDir\SAMPLES\MONEY\README.TXT" LongName="ReadMe.txt" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__CDA05470C6F047F5B189FC2230954C97" Guid="7A3B98FF-4B56-1A7C-6114-EFCCFB7C95F5">
+            <File Id="_CDA05470C6F047F5B189FC2230954C97" Name="IMONEY.CS" src="SourceDir\SAMPLES\MONEY\IMONEY.CS" LongName="IMoney.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__E4EF0377738347239E71868564F28A33" Guid="498D528B-4460-6C25-BEB3-EACE70B7B9BE">
+            <File Id="_E4EF0377738347239E71868564F28A33" Name="MONEY.CS" src="SourceDir\SAMPLES\MONEY\MONEY.CS" LongName="Money.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__C185830649514C9D878BDD89DECF6A84" Guid="B7D09F4F-BE67-3978-55E7-4C109E4891B2" KeyPath="yes">
+            <CreateFolder />
+            <Shortcut Id="_B14F82940C4B47238B2A905C76A812B7" Directory="_EF5515C5B14148A7A94741E204FFA421" Name="MONEY" LongName="Money" Target="[_2FED3403379644B8A98458D2B46A6CBD]" Icon="_428b26a6.exe" IconIndex="0" Show="normal" WorkingDirectory="_30620B2F20B44BCEAA9B38AEFACA421B" />
+          </Component>
+        </Directory>
+        <Directory Id="_4BC6249B05A84EE087B453C3EAD2FDB6" Name="MONEY-~1" LongName="money-port">
+          <Component Id="C__0588D837D7084227A2F37E6D83E4B695" Guid="3BA6EA9D-76DA-8B69-D859-62C95D85F20B">
+            <File Id="_0588D837D7084227A2F37E6D83E4B695" Name="MONEYT~1.CS" src="SourceDir\SAMPLES\MONEY-~1\MONEYT~1.CS" LongName="MoneyTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__409822B4AB6C4196A8CE388CC9EC3BE1" Guid="EEBD4FF7-01B1-64D1-2358-18B2F9201D1C">
+            <File Id="_409822B4AB6C4196A8CE388CC9EC3BE1" Name="README.TXT" src="SourceDir\SAMPLES\MONEY-~1\README.TXT" LongName="ReadMe.txt" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__4D9D12ABDDED4AB38746F4A0C3A5011C" Guid="1E6664E5-E92D-2B1D-1DA2-FA663DDBAE09">
+            <File Id="_4D9D12ABDDED4AB38746F4A0C3A5011C" Name="IMONEY.CS" src="SourceDir\SAMPLES\MONEY-~1\IMONEY.CS" LongName="IMoney.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__81A74012A0B5460FBB64398E851710EE" Guid="7D73CBD4-C0E5-FE7A-3EEA-AEC60B1CA52F">
+            <File Id="_81A74012A0B5460FBB64398E851710EE" Name="MONEY-~1.CSP" src="SourceDir\SAMPLES\MONEY-~1\MONEY-~1.CSP" LongName="money-port.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__92AE9F2B6F734186950DF09B0B11C3DB" Guid="B16736C2-5D61-9D1E-6A0F-37BE4F5CF94A">
+            <File Id="_92AE9F2B6F734186950DF09B0B11C3DB" Name="MONEY-~1.BUI" src="SourceDir\SAMPLES\MONEY-~1\MONEY-~1.BUI" LongName="money-port.build" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__A2C1907BE4C9417493C5CC9E387E6466" Guid="126431B9-6B44-CC2A-65C0-F908CED92EDD">
+            <File Id="_A2C1907BE4C9417493C5CC9E387E6466" Name="MONEY-~2.CSP" src="SourceDir\SAMPLES\MONEY-~1\MONEY-~2.CSP" LongName="money-port_VS2005.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__C556C4EE7CB04368A14BA3FC95E36F7E" Guid="B3A98357-6C4D-CE26-B7F8-442593411610">
+            <File Id="_C556C4EE7CB04368A14BA3FC95E36F7E" Name="ASSEMB~2.CS" src="SourceDir\SAMPLES\MONEY-~1\ASSEMB~2.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__DE0779943A474DACBB5F0178D325223E" Guid="8E12BD9C-78C0-63CB-DE59-BC3B94B4D0AB">
+            <File Id="_DE0779943A474DACBB5F0178D325223E" Name="MONEY.CS" src="SourceDir\SAMPLES\MONEY-~1\MONEY.CS" LongName="Money.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__F465D1E18C354839B5E5C834692F067C" Guid="0ED51E63-C4AD-5104-6CAE-375FF9DDA280">
+            <File Id="_F465D1E18C354839B5E5C834692F067C" Name="MONEYBAG.CS" src="SourceDir\SAMPLES\MONEY-~1\MONEYBAG.CS" LongName="MoneyBag.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__F2F57CC67BFC42B99F1A6376225A1C44" Guid="93EF8F00-FF96-DDE1-576C-3EE26543D4E0" KeyPath="yes">
+            <CreateFolder />
+            <Shortcut Id="_8F0082D06C4642C0A0BF3E1FF0B10374" Directory="_EF5515C5B14148A7A94741E204FFA421" Name="MONEY(~1" LongName="Money (port)" Target="[_4BC6249B05A84EE087B453C3EAD2FDB6]" Icon="_39b32d12.exe" IconIndex="0" Show="normal" WorkingDirectory="_30620B2F20B44BCEAA9B38AEFACA421B" />
+          </Component>
+        </Directory>
+        <Directory Id="_48D89B9ED08745B08FFFCAA725BCC594" Name="CPP-SA~1" LongName="cpp-sample">
+          <Component Id="C__0DFD6687AA7E4C00B379B9F2F15802A2" Guid="28FE0489-AD34-E89F-38A3-01611D9210ED">
+            <File Id="_0DFD6687AA7E4C00B379B9F2F15802A2" Name="CPP-SA~1.BUI" src="SourceDir\SAMPLES\CPP-SA~1\CPP-SA~1.BUI" LongName="cpp-sample.build" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__1D626141FAAF4BD58CA22B97E27C763B" Guid="C0C772F4-4674-A3C3-FE47-40EA78E33CBE">
+            <File Id="_1D626141FAAF4BD58CA22B97E27C763B" Name="CPPSAM~1.H" src="SourceDir\SAMPLES\CPP-SA~1\CPPSAM~1.H" LongName="cppsample.h" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__45B7D6D66A8A4623B0C54D13CA0DA876" Guid="DBA78BCA-A9F2-24C3-836B-F7E9210657B8">
+            <File Id="_45B7D6D66A8A4623B0C54D13CA0DA876" Name="ASSEMB~1.CPP" src="SourceDir\SAMPLES\CPP-SA~1\ASSEMB~1.CPP" LongName="AssemblyInfo.cpp" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__784ADFB219D14188A1F423B2206855A9" Guid="94BBE0B2-7418-29D7-4DCE-354379DA932C">
+            <File Id="_784ADFB219D14188A1F423B2206855A9" Name="CPPSAM~1.CPP" src="SourceDir\SAMPLES\CPP-SA~1\CPPSAM~1.CPP" LongName="cppsample.cpp" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__814C2E0B9D7F4352A19F8247D48FEBE7" Guid="9F9EEC2E-5354-A584-E189-B4A7D8E569FA">
+            <File Id="_814C2E0B9D7F4352A19F8247D48FEBE7" Name="STDAFX.CPP" src="SourceDir\SAMPLES\CPP-SA~1\STDAFX.CPP" LongName="Stdafx.cpp" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__A374D6A957DD40378B9B3B1A20D86641" Guid="8FC80576-B31B-2603-9C93-FC44A279F87C">
+            <File Id="_A374D6A957DD40378B9B3B1A20D86641" Name="CPP-SA~1.VCP" src="SourceDir\SAMPLES\CPP-SA~1\CPP-SA~1.VCP" LongName="cpp-sample_VS2005.vcproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__AB9E1A7D257D4D4CBD100FDDAC0FBBFD" Guid="28C56726-6390-59EF-8558-FC09692C9940">
+            <File Id="_AB9E1A7D257D4D4CBD100FDDAC0FBBFD" Name="CPP-SA~2.VCP" src="SourceDir\SAMPLES\CPP-SA~1\CPP-SA~2.VCP" LongName="cpp-sample.vcproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__B333B30B0ACF43E0BD153DFC3BDEA9A1" Guid="464791AF-879B-3DAC-90D7-DD56A8D7B125">
+            <File Id="_B333B30B0ACF43E0BD153DFC3BDEA9A1" Name="STDAFX.H" src="SourceDir\SAMPLES\CPP-SA~1\STDAFX.H" LongName="Stdafx.h" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__D28D6F3B3B9042BDAC9651D9C0B9079F" Guid="E1109FA6-CE0D-8619-45A0-F99F6EE011D6">
+            <File Id="_D28D6F3B3B9042BDAC9651D9C0B9079F" Name="README.TXT" src="SourceDir\SAMPLES\CPP-SA~1\README.TXT" LongName="ReadMe.txt" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__465BEBCCE84145F49DB3BF41E2ED6EFA" Guid="B69AADCC-019A-C02E-A172-BB6D68B9D41C" KeyPath="yes">
+            <CreateFolder />
+            <Shortcut Id="_433654E1877149D5A095A4BCA1AFDF03" Directory="_EF5515C5B14148A7A94741E204FFA421" Name="MANAGE~1" LongName="Managed C++" Target="[_48D89B9ED08745B08FFFCAA725BCC594]" Icon="_154754de.exe" IconIndex="0" Show="normal" WorkingDirectory="_30620B2F20B44BCEAA9B38AEFACA421B" />
+          </Component>
+        </Directory>
+        <Directory Id="_4CBCE0F0051D406FAE8D69E8752B182C" Name="VB" LongName="vb">
+          <Component Id="C__11021A00802642CB8BDA04BF7CDBA275" Guid="913563C4-1090-8835-BBB5-3DEB2D7D0486">
+            <File Id="_11021A00802642CB8BDA04BF7CDBA275" Name="VB-SAM~1.BUI" src="SourceDir\SAMPLES\VB\VB-SAM~1.BUI" LongName="vb-sample.build" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__41E7E7F3CCCC4B34992D1A77A55C1124" Guid="BCE3C30B-AC6F-F4F3-2F5F-251D2003B4C2">
+            <File Id="_41E7E7F3CCCC4B34992D1A77A55C1124" Name="README.TXT" src="SourceDir\SAMPLES\VB\README.TXT" LongName="ReadMe.txt" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__64FC351DF7F24BF2AD26A28744EE0D7A" Guid="64199668-748F-DACB-29A5-BC071376276F">
+            <File Id="_64FC351DF7F24BF2AD26A28744EE0D7A" Name="VB-SAM~1.VBP" src="SourceDir\SAMPLES\VB\VB-SAM~1.VBP" LongName="vb-sample.vbproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__650E869C4E504BCEBC5422FADD6434B0" Guid="854C2BAF-6F6E-A348-5BC7-09B7C1418DD5">
+            <File Id="_650E869C4E504BCEBC5422FADD6434B0" Name="SIMPLE~1.VB" src="SourceDir\SAMPLES\VB\SIMPLE~1.VB" LongName="SimpleVBTest.vb" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__AE49972F1B6A4BD7906C0542A09FF40F" Guid="F223DE1F-84FA-7FAB-2520-43CDE94EC909">
+            <File Id="_AE49972F1B6A4BD7906C0542A09FF40F" Name="ASSEMB~1.VB" src="SourceDir\SAMPLES\VB\ASSEMB~1.VB" LongName="AssemblyInfo.vb" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__C762B9EABE1B4BECABD1E3594B3B5A4A" Guid="E9D2B959-F7F6-5713-79EF-64090FACF842">
+            <File Id="_C762B9EABE1B4BECABD1E3594B3B5A4A" Name="VB-SAM~2.VBP" src="SourceDir\SAMPLES\VB\VB-SAM~2.VBP" LongName="vb-sample_VS2005.vbproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__D9E79B9D7BD148D880260C4F5291F95C" Guid="F14041BF-7687-91FC-1603-A2029A0BE6AC" KeyPath="yes">
+            <CreateFolder />
+            <Shortcut Id="_0E0B40428EE3479BBAFB7DB94D57C952" Directory="_EF5515C5B14148A7A94741E204FFA421" Name="VB.NET" LongName="VB.NET" Target="[_4CBCE0F0051D406FAE8D69E8752B182C]" Icon="_124305e.exe" IconIndex="0" Show="normal" WorkingDirectory="_30620B2F20B44BCEAA9B38AEFACA421B" />
+          </Component>
+        </Directory>
+        <Directory Id="_973F3C74983B49A4871A5DA5E8062025" Name="CSHARP" LongName="csharp">
+          <Component Id="C__17CB9B29C8E24F7884BD1E8E6DC5AF8A" Guid="265A78A0-F244-A22D-9E15-BE76E68A16D3">
+            <File Id="_17CB9B29C8E24F7884BD1E8E6DC5AF8A" Name="README.TXT" src="SourceDir\SAMPLES\CSHARP\README.TXT" LongName="ReadMe.txt" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__3E3D227D291C4DBB879964BB9B796438" Guid="56A74132-6245-1662-46BC-C235A0500C7C">
+            <File Id="_3E3D227D291C4DBB879964BB9B796438" Name="CSHARP~1.CSP" src="SourceDir\SAMPLES\CSHARP\CSHARP~1.CSP" LongName="csharp-sample_VS2005.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__84C09F61AD874A86B2984C221288777B" Guid="91388CEB-067A-6E4A-8ED2-0F83A9BB311B">
+            <File Id="_84C09F61AD874A86B2984C221288777B" Name="CSHARP~1.BUI" src="SourceDir\SAMPLES\CSHARP\CSHARP~1.BUI" LongName="csharp-sample.build" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__CE3C591E435B426CB8C23829DD0035C9" Guid="B5D854AA-EF3E-6961-99E2-9E148A321E67">
+            <File Id="_CE3C591E435B426CB8C23829DD0035C9" Name="ASSEMB~3.CS" src="SourceDir\SAMPLES\CSHARP\ASSEMB~3.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__E6FAD584AD684E1D8E5CC2975433472E" Guid="57325A30-0670-9478-C431-A7C015AAF87B">
+            <File Id="_E6FAD584AD684E1D8E5CC2975433472E" Name="CSHARP~2.CSP" src="SourceDir\SAMPLES\CSHARP\CSHARP~2.CSP" LongName="csharp-sample.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__FCB72ED0E46F4059A461F84B4CCD834B" Guid="10E6B070-7D09-0F94-BDB0-B9C1FDC62A13">
+            <File Id="_FCB72ED0E46F4059A461F84B4CCD834B" Name="CSHARP~1.CS" src="SourceDir\SAMPLES\CSHARP\CSHARP~1.CS" LongName="CSharpTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__3A219CF102014C8EB18531BAB13EA23B" Guid="7BBC9827-3643-0595-A260-6DB9DEEAC710" KeyPath="yes">
+            <CreateFolder />
+            <Shortcut Id="_D1EB594B36C848D093CAE851A24B5B6B" Directory="_EF5515C5B14148A7A94741E204FFA421" Name="C#" LongName="C#" Target="[_973F3C74983B49A4871A5DA5E8062025]" Icon="_701f5d03.exe" IconIndex="0" Show="normal" WorkingDirectory="_30620B2F20B44BCEAA9B38AEFACA421B" />
+          </Component>
+        </Directory>
+        <Directory Id="_9284606A1EBC499E8A07C5E18D20BA59" Name="JSHARP" LongName="jsharp">
+          <Component Id="C__1F152F9E228C4665BCDF1240D09B4A93" Guid="5E281A7E-BC5E-9BEE-10DD-17238AA8FDC4">
+            <File Id="_1F152F9E228C4665BCDF1240D09B4A93" Name="JSHARP~1.VJS" src="SourceDir\SAMPLES\JSHARP\JSHARP~1.VJS" LongName="jsharp_VS2005.vjsproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__331BED2E000745FA9E4516471ED06DCB" Guid="B6CA34A7-D8AF-D8FF-F908-0AF42D255D3F">
+            <File Id="_331BED2E000745FA9E4516471ED06DCB" Name="JSHARP~2.VJS" src="SourceDir\SAMPLES\JSHARP\JSHARP~2.VJS" LongName="jsharp.vjsproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__3C310E116FDD444D84601FDF6F8B6F77" Guid="CA592130-B3ED-A45D-9D7E-F7254B2D0155">
+            <File Id="_3C310E116FDD444D84601FDF6F8B6F77" Name="README.TXT" src="SourceDir\SAMPLES\JSHARP\README.TXT" LongName="ReadMe.txt" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__5442DECE4B26442B9336AE705A2BAC5B" Guid="332818F5-67F2-6642-2633-B9FF3C4A4B8D">
+            <File Id="_5442DECE4B26442B9336AE705A2BAC5B" Name="ASSEMB~1.JSL" src="SourceDir\SAMPLES\JSHARP\ASSEMB~1.JSL" LongName="AssemblyInfo.jsl" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__980F4E3A35B74F0BABEA925ECD99CBA9" Guid="154B25A9-3DED-C20C-402B-C967A6C32DE7">
+            <File Id="_980F4E3A35B74F0BABEA925ECD99CBA9" Name="JSHARP~1.BUI" src="SourceDir\SAMPLES\JSHARP\JSHARP~1.BUI" LongName="jsharp.build" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__DCE52E146FF74D02AF64202491EBD72C" Guid="441D4912-8C99-B830-DEF5-DFDFF68FB80D">
+            <File Id="_DCE52E146FF74D02AF64202491EBD72C" Name="JSHARP~1.JSL" src="SourceDir\SAMPLES\JSHARP\JSHARP~1.JSL" LongName="JSharpTest.jsl" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__B362839DC2F14AD091A6EB528B2E6043" Guid="3C45CB10-7767-4D47-FCB2-F9AF103890AF" KeyPath="yes">
+            <CreateFolder />
+            <Shortcut Id="_262B6F6D3BA446DDB1B2CEC296A033E2" Directory="_EF5515C5B14148A7A94741E204FFA421" Name="J#" LongName="J#" Target="[_9284606A1EBC499E8A07C5E18D20BA59]" Icon="_440d491c.exe" IconIndex="0" Show="normal" WorkingDirectory="_30620B2F20B44BCEAA9B38AEFACA421B" />
+          </Component>
+        </Directory>
+      </Directory>
+   -->
+      
+      
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+</Wix>

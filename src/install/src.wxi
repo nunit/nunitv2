@@ -1,0 +1,1042 @@
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
+  <Fragment>
+    <DirectoryRef Id="TARGETDIR">
+      <Directory Id="D__src0" Name="src">
+      
+
+<!--      
+      <Directory Id="_2884B9461282442180A897E01F9C0729" Name="SRC" LongName="src">
+        <Component Id="C__30BE7F0CFB35432D8AD37D9B8F91CB75" Guid="D23B555B-BE3E-B9F5-9D50-7F88BDE0A817">
+          <File Id="_30BE7F0CFB35432D8AD37D9B8F91CB75" Name="NUNIT~1.BUI" src="SourceDir\SRC\NUNIT~1.BUI" LongName="nunit.build" Vital="yes" KeyPath="yes" DiskId="1" />
+        </Component>
+        <Component Id="C__B4B4D5C995334F9686D063BE87A77B33" Guid="A010B8BF-E71A-3204-6EEE-68C1343F0179">
+          <File Id="_B4B4D5C995334F9686D063BE87A77B33" Name="NUNIT.SLN" src="SourceDir\SRC\NUNIT.SLN" LongName="nunit.sln" Vital="yes" KeyPath="yes" DiskId="1" />
+        </Component>
+        <Component Id="C__BC6C171523174DFB81187BFFF4EDE476" Guid="CE9C1EA3-E404-A447-5884-1318E678933F">
+          <File Id="_BC6C171523174DFB81187BFFF4EDE476" Name="NUNIT.KEY" src="SourceDir\SRC\NUNIT.KEY" LongName="nunit.key" Vital="yes" KeyPath="yes" DiskId="1" />
+        </Component>
+        <Component Id="C__C78463FC91B84F2BB7D5079DB7BC5D00" Guid="B9E593C4-194D-8956-413D-1ECE541D3998" KeyPath="yes">
+          <CreateFolder />
+          <Shortcut Id="_3C261754C84C4534B60C6A7A3AE2007D" Directory="D__nunit_menu" Name="SOURCE" LongName="Source" Target="[_2884B9461282442180A897E01F9C0729]" Icon="_4d064db7.exe" IconIndex="0" Show="normal" />
+        </Component>
+        <Directory Id="_FBA0AD67FF2A44B6820908DFC2157F5F" Name="INSTALL" LongName="install">
+          <Component Id="C__06E4AA616D9B49C4825E7704B5B49BB6" Guid="B243FD5F-B7F7-FC04-414F-9B51472984EA">
+            <File Id="_06E4AA616D9B49C4825E7704B5B49BB6" Name="INSTAL~1.VDP" src="SourceDir\SRC\INSTALL\INSTAL~1.VDP" LongName="install.vdproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+        </Directory>
+        <Directory Id="_23B470A9987F4CDA806F15F6A8E97546" Name="TESTS" LongName="tests">
+          <Component Id="C__24C179BB2CF7435EA102989F95E420E8" Guid="8513F566-ED5B-4BB7-D8C1-560C8D84670C">
+            <File Id="_24C179BB2CF7435EA102989F95E420E8" Name="NUNITT~1.CON" src="SourceDir\SRC\TESTS\NUNITT~1.CON" LongName="nunit.tests.dll.config" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__9C0ADA4448CA46289AF84B5DD1CE4094" Guid="6201027D-5849-C394-D0A1-35209B8D75B4">
+            <File Id="_9C0ADA4448CA46289AF84B5DD1CE4094" Name="TESTS~1.BUI" src="SourceDir\SRC\TESTS\TESTS~1.BUI" LongName="tests.build" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__0013D0428F57F290F9A2344896FF2CA2" Guid="6B37CD5A-F75B-9D60-E12B-7205B4B68D60">
+            <File Id="_0013D0428F57F290F9A2344896FF2CA2" Name="FIXTUR~1.CS" src="SourceDir\SRC\TESTS\FIXTUR~1.CS" LongName="FixtureBase.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__0387839D1E199B5AFE2DBB1F43C41C00" Guid="9AD45C93-6CA8-F88F-426C-1E232775F70E">
+            <File Id="_0387839D1E199B5AFE2DBB1F43C41C00" Name="PROJEC~1.CS" src="SourceDir\SRC\TESTS\PROJEC~1.CS" LongName="ProjectConfigTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__039418EE131596193733E698C95C58FF" Guid="D0512D93-09A5-C9B8-3516-9D27D960B92C">
+            <File Id="_039418EE131596193733E698C95C58FF" Name="TESTFI~1.CS" src="SourceDir\SRC\TESTS\TESTFI~1.CS" LongName="TestFixtureExtension.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__054929796CFB7B2971039AC4ABA071AD" Guid="C15C95E8-9DBB-EE9A-1F92-E9B4A3D138B3">
+            <File Id="_054929796CFB7B2971039AC4ABA071AD" Name="OPTION~1.CS" src="SourceDir\SRC\TESTS\OPTION~1.CS" LongName="OptionSettingsTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__06013AE4524E26EE18C4D4E62D515960" Guid="A506FC72-C30C-54D6-919B-A17D76E8F9B3">
+            <File Id="_06013AE4524E26EE18C4D4E62D515960" Name="UITEST~1.CS" src="SourceDir\SRC\TESTS\UITEST~1.CS" LongName="UITestNodeTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__060DD8462856ACA06AC22F979B69D18B" Guid="45C97454-2B2B-6C77-C039-D2574B45E6DD">
+            <File Id="_060DD8462856ACA06AC22F979B69D18B" Name="VSPROJ~1.CS" src="SourceDir\SRC\TESTS\VSPROJ~1.CS" LongName="VSProjectTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__0CDEE3246EA6F6BDE098F60E78B00520" Guid="76A97AAD-D12A-B80D-64E0-F8F8C14C611C">
+            <File Id="_0CDEE3246EA6F6BDE098F60E78B00520" Name="FORMSE~1.CS" src="SourceDir\SRC\TESTS\FORMSE~1.CS" LongName="FormSettingsTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__10468C0D5A00CED900D933A2C632BDFB" Guid="876F8896-D9F5-653C-92FB-DC61E62C439B">
+            <File Id="_10468C0D5A00CED900D933A2C632BDFB" Name="UTILTEST.CS" src="SourceDir\SRC\TESTS\UTILTEST.CS" LongName="UtilTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__189977682461BE8C07EDDD0DB4925974" Guid="73DC92E9-280A-3B8E-6443-3DF38AC43540">
+            <File Id="_189977682461BE8C07EDDD0DB4925974" Name="TESTCA~1.CS" src="SourceDir\SRC\TESTS\TESTCA~1.CS" LongName="TestCaseTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__18CFCBFFB8F48DD57E24A115633EC8A1" Guid="9A7B2958-394B-A4FD-1DF1-3E3C203DF6DB">
+            <File Id="_18CFCBFFB8F48DD57E24A115633EC8A1" Name="TESTSU~1.CS" src="SourceDir\SRC\TESTS\TESTSU~1.CS" LongName="TestSuiteTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__1C2EBE521DB63835E3B0969283BF2975" Guid="35B4B737-E73F-6C84-5771-9AED664C2D79">
+            <File Id="_1C2EBE521DB63835E3B0969283BF2975" Name="REMOTE~1.CS" src="SourceDir\SRC\TESTS\REMOTE~1.CS" LongName="RemoteRunnerTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__1FFC548FD0FBA8B25CD83952FE2ECC7A" Guid="EC3F4683-ACD9-867D-6EE4-69C5D8A46C6F">
+            <File Id="_1FFC548FD0FBA8B25CD83952FE2ECC7A" Name="NUNITP~1.CS" src="SourceDir\SRC\TESTS\NUNITP~1.CS" LongName="NUnitProjectLoad.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__293388B6D37A95BB9596939BE7B855E1" Guid="9CB1DB11-961B-00A5-E28D-D9DDCF834BAC">
+            <File Id="_293388B6D37A95BB9596939BE7B855E1" Name="SETUPT~1.CS" src="SourceDir\SRC\TESTS\SETUPT~1.CS" LongName="SetUpTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__2A222DAC8B19887CEA489A3FC8B264A5" Guid="7315D8B7-12B5-D592-B801-5956246A2ECE">
+            <File Id="_2A222DAC8B19887CEA489A3FC8B264A5" Name="REPEAT~4.CS" src="SourceDir\SRC\TESTS\REPEAT~4.CS" LongName="RepeatedTestFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__2B1D9B2F710CBF39A907A501DE034181" Guid="C5636BA9-3B2E-4ECA-870B-78C2A72CB13C">
+            <File Id="_2B1D9B2F710CBF39A907A501DE034181" Name="TESTSU~2.CS" src="SourceDir\SRC\TESTS\TESTSU~2.CS" LongName="TestSuiteResultFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__2D3AACF4479ED210CEEE661EF1BB113D" Guid="9A9777E3-8B31-4D59-A763-A4F619AC6275">
+            <File Id="_2D3AACF4479ED210CEEE661EF1BB113D" Name="EVENTD~1.CS" src="SourceDir\SRC\TESTS\EVENTD~1.CS" LongName="EventDispatcherTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__2F6B775D26C423748C54F01290B5A16E" Guid="3C2901C7-72FC-44D2-160F-97BD66A48885">
+            <File Id="_2F6B775D26C423748C54F01290B5A16E" Name="THREAD~1.CS" src="SourceDir\SRC\TESTS\THREAD~1.CS" LongName="ThreadingTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__32C42EE327127028B173BD4B4052E9B1" Guid="56EF68D2-137F-3C44-2B2E-4E9B431BA7D5">
+            <File Id="_32C42EE327127028B173BD4B4052E9B1" Name="NUNITP~2.CS" src="SourceDir\SRC\TESTS\NUNITP~2.CS" LongName="NUnitProjectSave.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__348A5413114E559F9F5BAFA9862BC117" Guid="3B256F13-AE2B-5973-60CD-151012DC1B45">
+            <File Id="_348A5413114E559F9F5BAFA9862BC117" Name="REGIST~1.CS" src="SourceDir\SRC\TESTS\REGIST~1.CS" LongName="RegistrySettingsStorageTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__34C5B4D1A77A8F9AABA9780CB3D9EEE4" Guid="75FE5493-FD62-D663-5048-79A4357E5C42">
+            <File Id="_34C5B4D1A77A8F9AABA9780CB3D9EEE4" Name="CALLCO~1.CS" src="SourceDir\SRC\TESTS\CALLCO~1.CS" LongName="CallContextTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__356CDFA8F0ACAA10680F6F78A84C855D" Guid="31DBCEF8-4912-7AD5-ED60-7428DC19C8E6">
+            <File Id="_356CDFA8F0ACAA10680F6F78A84C855D" Name="ALLTESTS.CS" src="SourceDir\SRC\TESTS\ALLTESTS.CS" LongName="AllTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__36D263BD0EC4255115ADC4F29D7E584F" Guid="951785C2-FD63-3194-1DA7-66F06A15B142">
+            <File Id="_36D263BD0EC4255115ADC4F29D7E584F" Name="TESTDO~1.CS" src="SourceDir\SRC\TESTS\TESTDO~1.CS" LongName="TestDomainFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__3734E00867266C4AC5A09DC501F1BF5D" Guid="F058A7BA-CE65-D97E-741E-6AFD41A907B9">
+            <File Id="_3734E00867266C4AC5A09DC501F1BF5D" Name="TESTCA~2.CS" src="SourceDir\SRC\TESTS\TESTCA~2.CS" LongName="TestCaseResultFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__3872F456C348EFBCD6C1425EBA445F1E" Guid="01EC5D7F-6892-4CF0-3538-A0F2E74627A7">
+            <File Id="_3872F456C348EFBCD6C1425EBA445F1E" Name="USERSE~1.CS" src="SourceDir\SRC\TESTS\USERSE~1.CS" LongName="UserSettingsTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__3AA26049A92F7EF2901DEFCC3C82AB4F" Guid="B557AE45-AB5B-FB87-883E-FBF4554A8328">
+            <File Id="_3AA26049A92F7EF2901DEFCC3C82AB4F" Name="NAMESP~1.CS" src="SourceDir\SRC\TESTS\NAMESP~1.CS" LongName="NamespaceAssemblyTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__3CA049A942309EF5A360BDF41287B88F" Guid="27878452-0F38-5428-F2D9-0C8F0C0A92C5">
+            <File Id="_3CA049A942309EF5A360BDF41287B88F" Name="SUMMAR~1.CS" src="SourceDir\SRC\TESTS\SUMMAR~1.CS" LongName="SummaryResultFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__4063873FDC131030E00DFA519720C01D" Guid="8D2F4849-9663-F453-7AB1-A5240D7EC770">
+            <File Id="_4063873FDC131030E00DFA519720C01D" Name="ASSEMB~5.CS" src="SourceDir\SRC\TESTS\ASSEMB~5.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__40C2F7BB9F38135313960514EE431252" Guid="E2F5B61E-474C-157A-9C75-42E7787DCCCB">
+            <File Id="_40C2F7BB9F38135313960514EE431252" Name="EVENTT~1.CS" src="SourceDir\SRC\TESTS\EVENTT~1.CS" LongName="EventTestFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__4496DE36AB806E8001F78DADA77A2DAC" Guid="AF093B2A-D184-978F-FEB9-B3F231B700EA">
+            <File Id="_4496DE36AB806E8001F78DADA77A2DAC" Name="TESTCL~1.CS" src="SourceDir\SRC\TESTS\TESTCL~1.CS" LongName="TestClasses.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__465614CE8A2149AE396BAE0087E5BD74" Guid="BC01D2E0-C365-4ECA-80DB-3446CBF45FCD">
+            <File Id="_465614CE8A2149AE396BAE0087E5BD74" Name="MOCKTE~1.CS" src="SourceDir\SRC\TESTS\MOCKTE~1.CS" LongName="MockTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__471D68A855CD4BDE9272C6D76D7AF2DC" Guid="DA6848ED-B56C-2CFA-A392-21B453AD6F2A">
+            <File Id="_471D68A855CD4BDE9272C6D76D7AF2DC" Name="LEGACY~1.CS" src="SourceDir\SRC\TESTS\LEGACY~1.CS" LongName="LegacySuiteTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__4E1C057A19516563C848A9677E542B22" Guid="4DF240FA-906F-9F76-00F3-F660B3C0422D">
+            <File Id="_4E1C057A19516563C848A9677E542B22" Name="PROGRE~1.CS" src="SourceDir\SRC\TESTS\PROGRE~1.CS" LongName="ProgressBarTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__512A1BB1D1ECC05ED845151AE77FB045" Guid="272FA9BF-7CD7-49BC-90F5-C4B976466025">
+            <File Id="_512A1BB1D1ECC05ED845151AE77FB045" Name="ASSEMB~6.CS" src="SourceDir\SRC\TESTS\ASSEMB~6.CS" LongName="AssemblyTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__51BAA1337DD1D8EB20E00574453BFF5B" Guid="B990A084-16B9-1CCD-B924-B593FDBAF0A6">
+            <File Id="_51BAA1337DD1D8EB20E00574453BFF5B" Name="PROJEC~2.CS" src="SourceDir\SRC\TESTS\PROJEC~2.CS" LongName="ProjectConfigCollectionTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__55F6E580A6C9D259146D200B3B6B7A74" Guid="EFA7C35A-B931-BAF8-B704-6632691550FC">
+            <File Id="_55F6E580A6C9D259146D200B3B6B7A74" Name="STACKO~1.CS" src="SourceDir\SRC\TESTS\STACKO~1.CS" LongName="StackOverflowTestFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__5601D5779EEADB70918F477032976204" Guid="839C9E5F-C783-4CC5-8081-70AA8CBF79C9">
+            <File Id="_5601D5779EEADB70918F477032976204" Name="FIXTUR~2.CS" src="SourceDir\SRC\TESTS\FIXTUR~2.CS" LongName="FixtureSetupTearDownTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__561952A6A4E9D8F71643A24512CA47D1" Guid="C74E1DA3-30D6-52BB-0DEF-2D81E57A76D4">
+            <File Id="_561952A6A4E9D8F71643A24512CA47D1" Name="TESTFI~2.CS" src="SourceDir\SRC\TESTS\TESTFI~2.CS" LongName="TestFixtureBuilderTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__563791B19EDB7C103D30094DB3EAAF28" Guid="9CF76513-10DF-3125-C669-1FB616418589">
+            <File Id="_563791B19EDB7C103D30094DB3EAAF28" Name="INHERI~1.CS" src="SourceDir\SRC\TESTS\INHERI~1.CS" LongName="InheritedTestFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__5699E1D1E34F8058ACD60B909E0BE9FF" Guid="3BEA8D5D-E974-6514-5AA0-C259F0D27A2A">
+            <File Id="_5699E1D1E34F8058ACD60B909E0BE9FF" Name="TESTEV~1.CS" src="SourceDir\SRC\TESTS\TESTEV~1.CS" LongName="TestEventCatcher.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__587A0B716F09CEBD9E3B40F5EFC0E9C0" Guid="FC4F6BD6-84D2-09BA-4383-4626DC5F6275">
+            <File Id="_587A0B716F09CEBD9E3B40F5EFC0E9C0" Name="ASSEMB~7.CS" src="SourceDir\SRC\TESTS\ASSEMB~7.CS" LongName="AssemblyVersionFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__5885A7B511AD368F6ACF308668FCE69D" Guid="CABA9D50-F8E2-6042-193C-65E5D1F4A778">
+            <File Id="_5885A7B511AD368F6ACF308668FCE69D" Name="TESTCA~3.CS" src="SourceDir\SRC\TESTS\TESTCA~3.CS" LongName="TestCaseNameTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__59450D8E0F2E07B37FA17E883228F90D" Guid="01457D0E-63AD-7429-99F9-2B9578121293">
+            <File Id="_59450D8E0F2E07B37FA17E883228F90D" Name="GUIFIX~1.CS" src="SourceDir\SRC\TESTS\GUIFIX~1.CS" LongName="GuiFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__5E27F6A372C12E3CC18A6CDC0A63B672" Guid="3598876F-A719-9A23-0D15-A61B8C626BBA">
+            <File Id="_5E27F6A372C12E3CC18A6CDC0A63B672" Name="NOTNUL~1.CS" src="SourceDir\SRC\TESTS\NOTNUL~1.CS" LongName="NotNullFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__5FE55BA3D2FEEF8A4EC6FA8ED863B483" Guid="04611F27-13B5-60DF-97CC-4E4DD3BC8AEE">
+            <File Id="_5FE55BA3D2FEEF8A4EC6FA8ED863B483" Name="NUNITR~1.CS" src="SourceDir\SRC\TESTS\NUNITR~1.CS" LongName="NUnitRegistryTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__61B997D305261B0ECE43E1FC346289A0" Guid="48F8B9EA-57A4-6C60-E3D1-37620C807480">
+            <File Id="_61B997D305261B0ECE43E1FC346289A0" Name="NOTEST~1.CS" src="SourceDir\SRC\TESTS\NOTEST~1.CS" LongName="NoTestCases.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__61BF926C01C9CE0AF60466989BD10517" Guid="385757C0-AE6E-F754-DB0C-015F321D7CFB">
+            <File Id="_61BF926C01C9CE0AF60466989BD10517" Name="IGNORE~1.CS" src="SourceDir\SRC\TESTS\IGNORE~1.CS" LongName="IgnoreFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__6D96C768BD1950E5923813C9B4B6EE97" Guid="5C5FE14F-1762-D11A-545C-2302F1BDFCDF">
+            <File Id="_6D96C768BD1950E5923813C9B4B6EE97" Name="ASSERT~1.CS" src="SourceDir\SRC\TESTS\ASSERT~1.CS" LongName="AssertionTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__6E8E726AE35F952288322C832B4B5412" Guid="5CEE899C-5536-C7FB-C9A5-B36D22FE831A">
+            <File Id="_6E8E726AE35F952288322C832B4B5412" Name="DYNAMI~1.CS" src="SourceDir\SRC\TESTS\DYNAMI~1.CS" LongName="DynamicMockTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__6F89E6A61F76E41AF2F5EEA03975C67A" Guid="1F5208DC-8D02-B842-F697-DD226B5FB29B">
+            <File Id="_6F89E6A61F76E41AF2F5EEA03975C67A" Name="CONSOL~1.CS" src="SourceDir\SRC\TESTS\CONSOL~1.CS" LongName="ConsoleFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__724EE0DAA7D47EB094ACEFA1ADCC917A" Guid="AF81C1CB-A60C-BF63-343F-E79290D3DBE1">
+            <File Id="_724EE0DAA7D47EB094ACEFA1ADCC917A" Name="ATTRIB~1.CS" src="SourceDir\SRC\TESTS\ATTRIB~1.CS" LongName="AttributeDescriptionFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__742B267ED0A45A0A93ACBDFABE73DBE8" Guid="ECCB6F9D-BA0D-EA9D-E456-D76072C5CF52">
+            <File Id="_742B267ED0A45A0A93ACBDFABE73DBE8" Name="ARRAYE~1.CS" src="SourceDir\SRC\TESTS\ARRAYE~1.CS" LongName="ArrayEqualsFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__7969F65E0DA9EC7AC13766684094F821" Guid="5E7F3967-12DC-8726-7A7F-4C0789B0AD46">
+            <File Id="_7969F65E0DA9EC7AC13766684094F821" Name="NULLFI~1.CS" src="SourceDir\SRC\TESTS\NULLFI~1.CS" LongName="NullFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__79DBD4CC4EA624213A0B2C4E80B5C7E7" Guid="CD3F266C-2CC4-AEB1-ADF9-9480DEDFF109">
+            <File Id="_79DBD4CC4EA624213A0B2C4E80B5C7E7" Name="SUCCES~1.CS" src="SourceDir\SRC\TESTS\SUCCES~1.CS" LongName="SuccessTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__7A6E041C81310640D875E58EF2237631" Guid="0AAB44F7-BA4F-E90E-F640-648CB8F3B42E">
+            <File Id="_7A6E041C81310640D875E58EF2237631" Name="MOCKTE~2.CS" src="SourceDir\SRC\TESTS\MOCKTE~2.CS" LongName="MockTestEventSource.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__7A983FDE590CA493A1B9B460FF201EDB" Guid="591CD518-9AE6-5998-C489-FAE90A6B103A">
+            <File Id="_7A983FDE590CA493A1B9B460FF201EDB" Name="NAMEFI~1.CS" src="SourceDir\SRC\TESTS\NAMEFI~1.CS" LongName="NameFilterTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__7EC1E6A1E71C66DED9E17C1A0A5092E4" Guid="A57AC6D5-FE16-3574-8CB1-699BE9346B7D">
+            <File Id="_7EC1E6A1E71C66DED9E17C1A0A5092E4" Name="TEXTBO~1.CS" src="SourceDir\SRC\TESTS\TEXTBO~1.CS" LongName="TextBoxWriterTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__843703B4D45CF9B1C0EE830F3C2C96F5" Guid="A2EF4F3A-E017-CF0C-77B3-DCE010CFD9A7">
+            <File Id="_843703B4D45CF9B1C0EE830F3C2C96F5" Name="XMLRES~1.CS" src="SourceDir\SRC\TESTS\XMLRES~1.CS" LongName="XmlResultVisitorTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__857E151F7953B2DA23D39DB2297EEDF1" Guid="6C8E2D6E-A79E-9EAE-B021-76AC88A4F08A">
+            <File Id="_857E151F7953B2DA23D39DB2297EEDF1" Name="NUNITP~3.CS" src="SourceDir\SRC\TESTS\NUNITP~3.CS" LongName="NUnitProjectXml.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__8AECA2AE88D945E7442EF2CB97E1858D" Guid="F5334FC3-97EB-745E-AA5E-B05DE0769924">
+            <File Id="_8AECA2AE88D945E7442EF2CB97E1858D" Name="RECENT~1.CS" src="SourceDir\SRC\TESTS\RECENT~1.CS" LongName="RecentFileMenuHandlerTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__8DCB0EEB9A4CD8BFB048D2A0DB595C37" Guid="0A4F727D-29B0-713C-5E24-C38B49BA9429">
+            <File Id="_8DCB0EEB9A4CD8BFB048D2A0DB595C37" Name="MULTIP~1.CS" src="SourceDir\SRC\TESTS\MULTIP~1.CS" LongName="MultipleAssemblyFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__8E7F825128C69DBBE2F101FDFC6BA150" Guid="A506D44A-7A81-67E4-C36C-2054A4C77599">
+            <File Id="_8E7F825128C69DBBE2F101FDFC6BA150" Name="MOCKSU~1.CS" src="SourceDir\SRC\TESTS\MOCKSU~1.CS" LongName="MockSuiteBuilder.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__90815912B326D9C8A6E2314B56C14A1E" Guid="64A77839-32AE-ED09-ECB9-33B51C9CFFE2">
+            <File Id="_90815912B326D9C8A6E2314B56C14A1E" Name="FAILFI~1.CS" src="SourceDir\SRC\TESTS\FAILFI~1.CS" LongName="FailFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__93048556FD944FCAD6B543D3E22DBBB3" Guid="E3F8F530-C632-51E4-93A1-D6BAF3DB05AB">
+            <File Id="_93048556FD944FCAD6B543D3E22DBBB3" Name="CATEGO~1.CS" src="SourceDir\SRC\TESTS\CATEGO~1.CS" LongName="CategoryManagerTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__93B88C4E9A4546C72DA38F95CE36A487" Guid="A7EE567E-F0FE-28D5-38EB-6C9A006FC6DC">
+            <File Id="_93B88C4E9A4546C72DA38F95CE36A487" Name="EQUALS~1.CS" src="SourceDir\SRC\TESTS\EQUALS~1.CS" LongName="EqualsFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__948C9EA41453DECDC34317159EF092EA" Guid="3C34FF61-D4C2-1784-E439-68FA26FA67CA">
+            <File Id="_948C9EA41453DECDC34317159EF092EA" Name="NUNITT~1.CSP" src="SourceDir\SRC\TESTS\NUNITT~1.CSP" LongName="nunit.tests.dll.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__96A6FE5871235503441F1EC1CA0602F6" Guid="E72D2EE5-E90D-1086-B8B1-6AE02AF56DC9">
+            <File Id="_96A6FE5871235503441F1EC1CA0602F6" Name="STATUS~1.CS" src="SourceDir\SRC\TESTS\STATUS~1.CS" LongName="StatusBarTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__9A58EB770820478F44DA6D1EA7368F8A" Guid="E3AE3E10-9D0F-0E72-95E7-12BE909D6E34">
+            <File Id="_9A58EB770820478F44DA6D1EA7368F8A" Name="FAILUR~1.CS" src="SourceDir\SRC\TESTS\FAILUR~1.CS" LongName="FailureMessageFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__9E3EBD9BBCACE98FF5B50A787790E4F9" Guid="3E7D7EC1-58B6-7041-9AFC-68E6993EFD67">
+            <File Id="_9E3EBD9BBCACE98FF5B50A787790E4F9" Name="SAMEFI~1.CS" src="SourceDir\SRC\TESTS\SAMEFI~1.CS" LongName="SameFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__9F4FEB34AF16C1487CBC6DAC26BD4FD7" Guid="28075962-D5C2-7824-0511-E715B41EC82B">
+            <File Id="_9F4FEB34AF16C1487CBC6DAC26BD4FD7" Name="MOCKAS~1.CS" src="SourceDir\SRC\TESTS\MOCKAS~1.CS" LongName="MockAssemblyWatcher.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__9F5BAD291683088C98753E3BE4F91D1F" Guid="0423CA83-9890-577A-724B-98D1AE67669B">
+            <File Id="_9F5BAD291683088C98753E3BE4F91D1F" Name="TESTSU~3.CS" src="SourceDir\SRC\TESTS\TESTSU~3.CS" LongName="TestSuiteTreeViewFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__A64B6A46209C0E3DE2A2959F7E161297" Guid="DB503AC8-CB94-46F1-BAD0-CE98DB64028B">
+            <File Id="_A64B6A46209C0E3DE2A2959F7E161297" Name="EXPECT~1.CS" src="SourceDir\SRC\TESTS\EXPECT~1.CS" LongName="ExpectExceptionTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__A71C3132B9271C65A458CF8DA26028BC" Guid="77536C3D-6E3B-FE70-1F1C-A4DC6CCE4A05">
+            <File Id="_A71C3132B9271C65A458CF8DA26028BC" Name="REMOTE~2.CS" src="SourceDir\SRC\TESTS\REMOTE~2.CS" LongName="RemoteTestResultTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__A9B53514276149891FF536BB55341C3C" Guid="50B880AE-E03F-1A59-AE7A-5D756330E8EB">
+            <File Id="_A9B53514276149891FF536BB55341C3C" Name="FALSEF~1.CS" src="SourceDir\SRC\TESTS\FALSEF~1.CS" LongName="FalseFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__AAEDF3749A13B6B952BA9689AC4B43A5" Guid="806CAE93-8C65-9ABA-1CDE-FE80D976B735">
+            <File Id="_AAEDF3749A13B6B952BA9689AC4B43A5" Name="TESTDO~2.CS" src="SourceDir\SRC\TESTS\TESTDO~2.CS" LongName="TestDomainTests_Multiple.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__AD773A9123EF7D0660B360C26504EC2A" Guid="59F6EE35-5AAC-F8E4-E980-ECB77FF2431C">
+            <File Id="_AD773A9123EF7D0660B360C26504EC2A" Name="SERIAL~1.CS" src="SourceDir\SRC\TESTS\SERIAL~1.CS" LongName="SerializationBug.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__B21CECBD9E7E88601A7E5B11BE2F3BAC" Guid="2F886ED4-2ACE-06DC-25EB-278828297896">
+            <File Id="_B21CECBD9E7E88601A7E5B11BE2F3BAC" Name="TESTLO~1.CS" src="SourceDir\SRC\TESTS\TESTLO~1.CS" LongName="TestLoaderAssemblyTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__B5054F46DDAB026958616CE884F27AB4" Guid="C12E7935-4CCE-4D9B-D2B7-375D1BC98051">
+            <File Id="_B5054F46DDAB026958616CE884F27AB4" Name="TESTSU~4.CS" src="SourceDir\SRC\TESTS\TESTSU~4.CS" LongName="TestSuiteTreeNodeTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__B8B86ED31AEFBE3128FCF3AC56A319E8" Guid="23D10B35-B662-3FDA-FBDB-FC71A7B2EB9F">
+            <File Id="_B8B86ED31AEFBE3128FCF3AC56A319E8" Name="NUNITP~4.CS" src="SourceDir\SRC\TESTS\NUNITP~4.CS" LongName="NUnitProjectTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__B9E96992E171CBF994248DA0C64C4BFF" Guid="B458B900-982D-FF41-F08F-C74E5D33FD17">
+            <File Id="_B9E96992E171CBF994248DA0C64C4BFF" Name="TRUEFI~1.CS" src="SourceDir\SRC\TESTS\TRUEFI~1.CS" LongName="TrueFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__C1D1ABC636E5E06BF3AF1B6DAC1FC85F" Guid="93584794-D76E-DB56-92CD-8F5CF4DF3D97">
+            <File Id="_C1D1ABC636E5E06BF3AF1B6DAC1FC85F" Name="XMLTEST.CS" src="SourceDir\SRC\TESTS\XMLTEST.CS" LongName="XmlTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__C55E80B32D95B4B6BD97BF91D46D89D2" Guid="A2CACCC4-E720-38F9-34B0-9A8CDDE3E589">
+            <File Id="_C55E80B32D95B4B6BD97BF91D46D89D2" Name="SETTIN~1.CS" src="SourceDir\SRC\TESTS\SETTIN~1.CS" LongName="SettingsGroupTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__C635BE9EF96DD036B75016D49EB9233E" Guid="FEF6B31C-1CC7-4E67-F6E9-A4F43F8972E9">
+            <File Id="_C635BE9EF96DD036B75016D49EB9233E" Name="ADDCON~1.CS" src="SourceDir\SRC\TESTS\ADDCON~1.CS" LongName="AddConfigurationDialogTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__CB1290353A51DF66408BEABB944FB49F" Guid="5B4AC93A-564E-7BCE-D7D1-F2C8E0678BC9">
+            <File Id="_CB1290353A51DF66408BEABB944FB49F" Name="CONSOL~2.CS" src="SourceDir\SRC\TESTS\CONSOL~2.CS" LongName="ConsoleRunnerTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__D1E007D174D24384A70D2A2A605C2EBD" Guid="FCF9527D-0C8A-2A33-23BA-F2B4BF9BEE4F">
+            <File Id="_D1E007D174D24384A70D2A2A605C2EBD" Name="SUITEB~1.CS" src="SourceDir\SRC\TESTS\SUITEB~1.CS" LongName="SuiteBuilderTests_Multiple.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__D3AC162013E31FCAAB5C998170008F00" Guid="91341E4E-9B86-2397-B896-DDF53493C834">
+            <File Id="_D3AC162013E31FCAAB5C998170008F00" Name="RECENT~2.CS" src="SourceDir\SRC\TESTS\RECENT~2.CS" LongName="RecentProjectsFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__D6CABF4A70791AA7EF99DDC3F1CBFC77" Guid="DBB25DE1-67BB-5DC4-D445-DD440E615129">
+            <File Id="_D6CABF4A70791AA7EF99DDC3F1CBFC77" Name="FILEWA~1.CS" src="SourceDir\SRC\TESTS\FILEWA~1.CS" LongName="FileWatcherTest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__DAAE8279E29A05337EF81BC82ACC4CF4" Guid="6BB9E7C8-C3C2-2322-0184-656A2B30B627">
+            <File Id="_DAAE8279E29A05337EF81BC82ACC4CF4" Name="ONETES~1.CS" src="SourceDir\SRC\TESTS\ONETES~1.CS" LongName="OneTestCase.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__DFAC5D76BB27349CB3505CC68618FF86" Guid="9D895650-7F80-0B3B-3017-FC084F4B41BA">
+            <File Id="_DFAC5D76BB27349CB3505CC68618FF86" Name="MOCKTE~3.CS" src="SourceDir\SRC\TESTS\MOCKTE~3.CS" LongName="MockTestRunner.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__DFD8896B57D959E633B791D6957C3590" Guid="28E4FDCA-A52E-44A6-AAE1-9A48B6710D5B">
+            <File Id="_DFD8896B57D959E633B791D6957C3590" Name="PROJEC~3.CS" src="SourceDir\SRC\TESTS\PROJEC~3.CS" LongName="ProjectPathTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__E00C0B6264D6AC00646A8A51B441C2B8" Guid="EECD3A1B-EEF9-2CF8-9254-2ADE2000E22D">
+            <File Id="_E00C0B6264D6AC00646A8A51B441C2B8" Name="SUITEB~2.CS" src="SourceDir\SRC\TESTS\SUITEB~2.CS" LongName="SuiteBuilderTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__E1B23F3716E3EDF6BBA992988979B293" Guid="898E70ED-B23D-33D4-E522-C3C4EF7939A6">
+            <File Id="_E1B23F3716E3EDF6BBA992988979B293" Name="ASSEMB~8.CS" src="SourceDir\SRC\TESTS\ASSEMB~8.CS" LongName="AssemblyListTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__E3346823E54FF549A16EB5A52E59D31B" Guid="AA10F996-79AA-F01C-4EEF-FF6D72AE964E">
+            <File Id="_E3346823E54FF549A16EB5A52E59D31B" Name="TESTCO~1.CS" src="SourceDir\SRC\TESTS\TESTCO~1.CS" LongName="TestConsole.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__E8A8206275870A6325DFC7F8F0BA45DA" Guid="4F148F80-738F-562F-0EA7-A552DC354F9F">
+            <File Id="_E8A8206275870A6325DFC7F8F0BA45DA" Name="TESTFI~3.CS" src="SourceDir\SRC\TESTS\TESTFI~3.CS" LongName="TestFixtureTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__F4E464B4FB3E485FE1B4318A99ABA872" Guid="C2B85186-C681-35CE-FD9F-C0E22CD85F00">
+            <File Id="_F4E464B4FB3E485FE1B4318A99ABA872" Name="TESTDE~1.CS" src="SourceDir\SRC\TESTS\TESTDE~1.CS" LongName="TestDelegateFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Component Id="C__F7A07DDD80E53882BB637D23CB0DE937" Guid="30D5E77E-F8D6-C7A0-E9F6-8D63558C0A86">
+            <File Id="_F7A07DDD80E53882BB637D23CB0DE937" Name="TESTRU~1.CS" src="SourceDir\SRC\TESTS\TESTRU~1.CS" LongName="TestRunnerThreadTests.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+          </Component>
+          <Directory Id="_F44078C7344B47B5B56FB38949B3361D" Name="NONAME~1" LongName="nonamespace-assembly">
+            <Component Id="C__010D016E38D34551897D1DC0DAE5D829" Guid="1A5C65C6-D332-745A-7C02-FC6A3EDC323D">
+              <File Id="_010D016E38D34551897D1DC0DAE5D829" Name="NONAME~1.BUI" src="SourceDir\SRC\TESTS\NONAME~1\NONAME~1.BUI" LongName="nonamespace-assembly.build" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__0252B6DAA3FCCC3670713540E11B91EA" Guid="E9A0CD7C-D72A-834C-1551-6688135214AF">
+              <File Id="_0252B6DAA3FCCC3670713540E11B91EA" Name="NONAME~1.CSP" src="SourceDir\SRC\TESTS\NONAME~1\NONAME~1.CSP" LongName="nonamespace-assembly.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__38467846942B262E2A5C9CB1CC81C87A" Guid="4C624D8A-B06E-8EDD-B1A4-310AD2EDD4C4">
+              <File Id="_38467846942B262E2A5C9CB1CC81C87A" Name="NONAME~1.CS" src="SourceDir\SRC\TESTS\NONAME~1\NONAME~1.CS" LongName="NoNamespaceTestFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__FB2A880C28C42E0D00D3A106E623B8BA" Guid="F87BABEC-799C-654C-A0C7-ADAA0FFBB345">
+              <File Id="_FB2A880C28C42E0D00D3A106E623B8BA" Name="ASSEM~11.CS" src="SourceDir\SRC\TESTS\NONAME~1\ASSEM~11.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+          </Directory>
+          <Directory Id="_2862E157345D460098885B86F64EC4FC" Name="MOCK-A~1" LongName="mock-assembly">
+            <Component Id="C__461B4F33291A4AA4A2590D66CE0BE232" Guid="685B4ED4-AFB5-C7BC-49F3-FA56D90784C1">
+              <File Id="_461B4F33291A4AA4A2590D66CE0BE232" Name="MOCK-A~1.BUI" src="SourceDir\SRC\TESTS\MOCK-A~1\MOCK-A~1.BUI" LongName="mock-assembly.build" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__E1DC02DE46D642DF9198622F9ED0122A" Guid="7008E507-5B2B-49EC-B320-902E1EB99423">
+              <File Id="_E1DC02DE46D642DF9198622F9ED0122A" Name="MOCK-A~2.CON" src="SourceDir\SRC\TESTS\MOCK-A~1\MOCK-A~2.CON" LongName="mock-assembly.dll.config" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__1E00BCB42B2103AA418BB3BDED583732" Guid="EA860AFE-36ED-E1D3-D7AC-70A2D639416B">
+              <File Id="_1E00BCB42B2103AA418BB3BDED583732" Name="MOCKTE~4.CS" src="SourceDir\SRC\TESTS\MOCK-A~1\MOCKTE~4.CS" LongName="MockTestFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__2FF5A225DCC426A0F2C013D4CDFA43B3" Guid="79EC70B8-676C-9718-8A64-87184F26748F">
+              <File Id="_2FF5A225DCC426A0F2C013D4CDFA43B3" Name="ANOTHE~1.CS" src="SourceDir\SRC\TESTS\MOCK-A~1\ANOTHE~1.CS" LongName="AnotherMockFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__52EA910CCF5EAED5A064D3F57D9FCAB7" Guid="E47A3AC3-2FD0-E16D-7A45-EDFE06AF5ECD">
+              <File Id="_52EA910CCF5EAED5A064D3F57D9FCAB7" Name="MOCK-A~1.CSP" src="SourceDir\SRC\TESTS\MOCK-A~1\MOCK-A~1.CSP" LongName="mock-assembly.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__8DEE177A0866BBC1296016DFA001BF5B" Guid="D59D0598-A215-4276-C6C9-8B124ABF884A">
+              <File Id="_8DEE177A0866BBC1296016DFA001BF5B" Name="MOCKSU~2.CS" src="SourceDir\SRC\TESTS\MOCK-A~1\MOCKSU~2.CS" LongName="MockSuite.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__B1EEEC97B60D99C3E11315F4AF3ADD00" Guid="7EAA0F3B-5487-0B43-1144-56D71C7A0A27">
+              <File Id="_B1EEEC97B60D99C3E11315F4AF3ADD00" Name="ASSEMB~9.CS" src="SourceDir\SRC\TESTS\MOCK-A~1\ASSEMB~9.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__FD02C9D10EB228AED69A1CC167A51637" Guid="01D38357-09B8-53D7-D604-51BE6BAFEB3B">
+              <File Id="_FD02C9D10EB228AED69A1CC167A51637" Name="MOCKAS~2.CS" src="SourceDir\SRC\TESTS\MOCK-A~1\MOCKAS~2.CS" LongName="MockAssembly.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__FEFC541B56F2C6EE24E77274805DACB3" Guid="810167AE-ED3D-5791-D217-FB2B8DBF0809">
+              <File Id="_FEFC541B56F2C6EE24E77274805DACB3" Name="ONETES~2.CS" src="SourceDir\SRC\TESTS\MOCK-A~1\ONETES~2.CS" LongName="OneTestCase.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+          </Directory>
+          <Directory Id="_BB4B367F9DAA472CAE46E819C6BCA939" Name="NOTEST~1" LongName="notestfixtures-assembly">
+            <Component Id="C__65A25EAE753D46CA987B80FE13881D33" Guid="9D1F4310-ACB8-D18B-9F74-7182AC646AD4">
+              <File Id="_65A25EAE753D46CA987B80FE13881D33" Name="NOTEST~1.BUI" src="SourceDir\SRC\TESTS\NOTEST~1\NOTEST~1.BUI" LongName="notestfixtures-assembly.build" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__96D17E847CB8AD9E6D85B1140948B23A" Guid="3B0DCFFD-EE22-AC78-782B-E5DE70C1B334">
+              <File Id="_96D17E847CB8AD9E6D85B1140948B23A" Name="NOTEST~1.CSP" src="SourceDir\SRC\TESTS\NOTEST~1\NOTEST~1.CSP" LongName="notestfixtures-assembly.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__EDB71BA261E326196FC2D4F32047B945" Guid="408D532B-87AB-BA96-CBEC-5311A270AD5B">
+              <File Id="_EDB71BA261E326196FC2D4F32047B945" Name="ASSEM~20.CS" src="SourceDir\SRC\TESTS\NOTEST~1\ASSEM~20.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__F436FD6F483B925939196968AEB09A4C" Guid="AC6A7774-FF72-7E67-6361-32B0BDBF9798">
+              <File Id="_F436FD6F483B925939196968AEB09A4C" Name="CLASS1.CS" src="SourceDir\SRC\TESTS\NOTEST~1\CLASS1.CS" LongName="Class1.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+          </Directory>
+          <Directory Id="_D86721F9B6B343D5BA3E4A35CA28CAD3" Name="TIMING~1" LongName="timing-tests">
+            <Component Id="C__F7BE63774BE3472EA07B11C1113C1255" Guid="A64AF6D7-FCCD-9971-56BE-BAC5682C40EA">
+              <File Id="_F7BE63774BE3472EA07B11C1113C1255" Name="TIMING~1.BUI" src="SourceDir\SRC\TESTS\TIMING~1\TIMING~1.BUI" LongName="timing-tests.build" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__0C07173F50DFB01EADB91E03C0D20BE5" Guid="20DEE3BF-1642-8C37-80AD-04D1FEED0B97">
+              <File Id="_0C07173F50DFB01EADB91E03C0D20BE5" Name="SERVER~1.CS" src="SourceDir\SRC\TESTS\TIMING~1\SERVER~1.CS" LongName="ServerTimeoutFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__23756715A9740A6A87299AC98C76B16B" Guid="A706BBD9-2BDF-770D-B8A5-7CD4535A4885">
+              <File Id="_23756715A9740A6A87299AC98C76B16B" Name="CLIENT~1.CS" src="SourceDir\SRC\TESTS\TIMING~1\CLIENT~1.CS" LongName="ClientTimeoutFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__6977EFB0D7CDD78A3C5CF96051147446" Guid="48F3F120-6358-010B-E6CD-9C6159B21665">
+              <File Id="_6977EFB0D7CDD78A3C5CF96051147446" Name="TIMING~1.CSP" src="SourceDir\SRC\TESTS\TIMING~1\TIMING~1.CSP" LongName="timing-tests.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__B3F2641EFD46A4DC36408C85B4D8B4DF" Guid="E59E7D70-1DB4-DAB2-554F-81C79A186C58">
+              <File Id="_B3F2641EFD46A4DC36408C85B4D8B4DF" Name="ASSEM~10.CS" src="SourceDir\SRC\TESTS\TIMING~1\ASSEM~10.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+          </Directory>
+        </Directory>
+        <Directory Id="_62ACB5D7263C4A30A40BA8777AF5B5CE" Name="NUNITM~1" LongName="NUnitMocks">
+          <Directory Id="_5D3E6ABD7C4843628915E112CDBB9507" Name="MOCKS" LongName="mocks">
+            <Component Id="C__FE5ACB3216E142F29CE5DB3D8F1D6D75" Guid="3A41EA6A-FF3D-7054-3054-52D8E7BC43EA">
+              <File Id="_FE5ACB3216E142F29CE5DB3D8F1D6D75" Name="NUNITM~1.BUI" src="SourceDir\SRC\NUNITM~1\MOCKS\NUNITM~1.BUI" LongName="nunit.mocks.build" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__1A172FA684CF0742503C5E39EA4B1215" Guid="5419A107-A628-5F67-C94F-80B991A17E8A">
+              <File Id="_1A172FA684CF0742503C5E39EA4B1215" Name="NUNITM~1.CSP" src="SourceDir\SRC\NUNITM~1\MOCKS\NUNITM~1.CSP" LongName="nunit.mocks.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__20D50A62F0211EE5B1B5F24959C83E15" Guid="3B400C55-468B-A270-E204-AE2BFE82C488">
+              <File Id="_20D50A62F0211EE5B1B5F24959C83E15" Name="IVERIFY.CS" src="SourceDir\SRC\NUNITM~1\MOCKS\IVERIFY.CS" LongName="IVerify.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__266F15848054BC46BCDEE775806377E7" Guid="931F99E2-B6D5-06A4-BD87-205E9347D8FF">
+              <File Id="_266F15848054BC46BCDEE775806377E7" Name="MOCK.CS" src="SourceDir\SRC\NUNITM~1\MOCKS\MOCK.CS" LongName="Mock.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__2E9FDC8865C6095445277856757C1102" Guid="74871688-529A-6141-B4A3-BA47C8FCEE2A">
+              <File Id="_2E9FDC8865C6095445277856757C1102" Name="MOCKCALL.CS" src="SourceDir\SRC\NUNITM~1\MOCKS\MOCKCALL.CS" LongName="MockCall.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__5563EBA8F7C6E1F501F311A29D9A91C3" Guid="C563F04A-CDC2-DA60-3B75-C61B63FF4A6C">
+              <File Id="_5563EBA8F7C6E1F501F311A29D9A91C3" Name="MOCKME~1.CS" src="SourceDir\SRC\NUNITM~1\MOCKS\MOCKME~1.CS" LongName="MockMethod.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__8DB01FC57F0A55E55F0AC9898BB4600B" Guid="84C8C0B1-3A89-65D2-7D06-11551A7AEFDD">
+              <File Id="_8DB01FC57F0A55E55F0AC9898BB4600B" Name="IMETHOD.CS" src="SourceDir\SRC\NUNITM~1\MOCKS\IMETHOD.CS" LongName="IMethod.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__8E1313B78D5C34C7DBD3F8DD46737F2B" Guid="A0E56A8B-19AD-7170-6FDF-B879D6B8A8BE">
+              <File Id="_8E1313B78D5C34C7DBD3F8DD46737F2B" Name="MOCKIN~1.CS" src="SourceDir\SRC\NUNITM~1\MOCKS\MOCKIN~1.CS" LongName="MockInterfaceHandler.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__99A5C6E73FBB86EDA4F10AAF7EB0883E" Guid="18FB098B-750D-329F-7685-7C5E2A7A0FE0">
+              <File Id="_99A5C6E73FBB86EDA4F10AAF7EB0883E" Name="ICALLH~1.CS" src="SourceDir\SRC\NUNITM~1\MOCKS\ICALLH~1.CS" LongName="ICallHandler.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__A7F66B084F8C81BDBEC1C2B4DA6D41E8" Guid="1421B9E1-D72A-3E72-68FC-EA83683812F7">
+              <File Id="_A7F66B084F8C81BDBEC1C2B4DA6D41E8" Name="DYNAMI~2.CS" src="SourceDir\SRC\NUNITM~1\MOCKS\DYNAMI~2.CS" LongName="DynamicMock.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__BAAF13F62F172C9BB5EA2C2FD5FC8E4A" Guid="603A74FB-EE23-4EF7-BE8B-97154B304E7E">
+              <File Id="_BAAF13F62F172C9BB5EA2C2FD5FC8E4A" Name="METHOD~1.CS" src="SourceDir\SRC\NUNITM~1\MOCKS\METHOD~1.CS" LongName="MethodSignature.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__E5D2D997BB0DB70C8B16A036DAB6636A" Guid="27A449AD-29B4-BFB2-A863-A38957EDF4A9">
+              <File Id="_E5D2D997BB0DB70C8B16A036DAB6636A" Name="ASSEM~17.CS" src="SourceDir\SRC\NUNITM~1\MOCKS\ASSEM~17.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__F61858582167CE014072F03F5B0794FB" Guid="6E81C969-9B25-2AD9-AD40-F523589C57E7">
+              <File Id="_F61858582167CE014072F03F5B0794FB" Name="IMOCK.CS" src="SourceDir\SRC\NUNITM~1\MOCKS\IMOCK.CS" LongName="IMock.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__FAAC56729EC821A5BF522481C4CD9CCB" Guid="F81AEE0B-89CB-834A-5592-D1D56305CEE8">
+              <File Id="_FAAC56729EC821A5BF522481C4CD9CCB" Name="ICALL.CS" src="SourceDir\SRC\NUNITM~1\MOCKS\ICALL.CS" LongName="ICall.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+          </Directory>
+        </Directory>
+        <Directory Id="_E45F2B8A5CBF43DAAC7C1068E12CAC7C" Name="GUIRUN~1" LongName="GuiRunner">
+          <Directory Id="_3BDE45AE6E224454A52705102D4ED790" Name="NUNIT-~1" LongName="nunit-gui">
+            <Component Id="C__CF04F4A48A6445E389D9138CBCFCAA45" Guid="B1F0001E-8EFE-BE09-E60A-9D4F2E370A38">
+              <File Id="_CF04F4A48A6445E389D9138CBCFCAA45" Name="NUNIT-~4.CON" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\NUNIT-~4.CON" LongName="nunit-gui.exe.config" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__E5767E0EDA884571854ECDB107C98EA5" Guid="3D5900FB-7173-25F7-8B6D-D350B19FDEC9">
+              <File Id="_E5767E0EDA884571854ECDB107C98EA5" Name="NUNIT-~2.BUI" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\NUNIT-~2.BUI" LongName="nunit-gui.build" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__6EF7FBE2FEA2166B82B260B7E0DDC76C" Guid="2E38153A-61AB-F00A-7EE2-CFA96D65C543">
+              <File Id="_6EF7FBE2FEA2166B82B260B7E0DDC76C" Name="LOGO.ICO" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\LOGO.ICO" LongName="Logo.ico" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__CE629411C127398650659921D558157E" Guid="C0F77227-95C6-3B31-461A-D0BCF7209EA4">
+              <File Id="_CE629411C127398650659921D558157E" Name="APP.ICO" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\APP.ICO" LongName="App.ico" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__00745486C40B3023C4A57FB652D0CE59" Guid="502A37D7-502E-0B8D-E75A-7360759F0C6C">
+              <File Id="_00745486C40B3023C4A57FB652D0CE59" Name="OPTION~2.CS" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\OPTION~2.CS" LongName="OptionsDialog.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__320B46E3C4E9B241EAAC7129DCD32E83" Guid="65A75CF7-24CF-98EF-F340-1E62E99FA18E">
+              <File Id="_320B46E3C4E9B241EAAC7129DCD32E83" Name="EXCEPT~1.RES" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\EXCEPT~1.RES" LongName="ExceptionDetailsForm.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__34357BD273F443FE871B9D4ED7A55225" Guid="3A59512F-F581-4560-2CCA-39790B8418E3">
+              <File Id="_34357BD273F443FE871B9D4ED7A55225" Name="APPENTRY.CS" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\APPENTRY.CS" LongName="AppEntry.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__354F575C6E503A174FB9D3697692F4A0" Guid="28F8176D-FA5D-32E8-18FB-B89B352FEE43">
+              <File Id="_354F575C6E503A174FB9D3697692F4A0" Name="NUNIT-~2.CSP" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\NUNIT-~2.CSP" LongName="nunit-gui.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__3BA8893BE6F69A85AD1EE45032FDF929" Guid="7DB984A4-F447-CB2E-1304-0833CED0ED86">
+              <File Id="_3BA8893BE6F69A85AD1EE45032FDF929" Name="EXCEPT~1.CS" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\EXCEPT~1.CS" LongName="ExceptionDetailsForm.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__59C46A2064D1E0146926892CA7B70143" Guid="0824B5EB-5F02-2E21-EE55-8F7DD6212DBB">
+              <File Id="_59C46A2064D1E0146926892CA7B70143" Name="NUNITF~1.RES" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\NUNITF~1.RES" LongName="NUnitForm.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__7B7E8DF114EC667DEBA1DE2389A137BC" Guid="3B3A3B98-A098-D289-E9E3-CDECD4DCAEB5">
+              <File Id="_7B7E8DF114EC667DEBA1DE2389A137BC" Name="OPTION~1.RES" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\OPTION~1.RES" LongName="OptionsDialog.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__B5A6C17AD84AED6FF7A1302C86F4B835" Guid="B8501FC2-0974-06B2-D15C-28D1FE53B4EE">
+              <File Id="_B5A6C17AD84AED6FF7A1302C86F4B835" Name="NUNITF~1.CS" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\NUNITF~1.CS" LongName="NUnitForm.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__E6D522D5A49F66B570CEE1B4E778CB00" Guid="460EDFC2-DE08-44D4-85DF-B834E5540B4D">
+              <File Id="_E6D522D5A49F66B570CEE1B4E778CB00" Name="PROJEC~4.CS" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\PROJEC~4.CS" LongName="ProjectEditor.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__F2354618B8D6D68A8B6B708C46732CE5" Guid="2C539D3C-2BBE-E44E-BAC5-E37030B64211">
+              <File Id="_F2354618B8D6D68A8B6B708C46732CE5" Name="ABOUTBOX.CS" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\ABOUTBOX.CS" LongName="AboutBox.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__F489C596004DA9CA89B257326AEBFC88" Guid="E581F6FD-8097-7CA9-2E3A-FDA69598CDB9">
+              <File Id="_F489C596004DA9CA89B257326AEBFC88" Name="DETAIL~1.CS" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\DETAIL~1.CS" LongName="DetailResults.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__F93AD57EDFF227695F4CA26443C14422" Guid="099844A9-B1F1-6CEE-4916-D11FB973CAD0">
+              <File Id="_F93AD57EDFF227695F4CA26443C14422" Name="PROJEC~1.RES" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\PROJEC~1.RES" LongName="ProjectEditor.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__FC9F6502A88529117D03D5EFF7EE7FEC" Guid="329F0949-6636-3004-82BE-F1FBA9C9143B">
+              <File Id="_FC9F6502A88529117D03D5EFF7EE7FEC" Name="ABOUTB~1.RES" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\ABOUTB~1.RES" LongName="AboutBox.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__FF7727B458DA267FE6EF6A6938DA8BEA" Guid="CF12DDBB-B87D-4D8F-4A1D-69DB963B900C">
+              <File Id="_FF7727B458DA267FE6EF6A6938DA8BEA" Name="ASSEM~16.CS" src="SourceDir\SRC\GUIRUN~1\NUNIT-~1\ASSEM~16.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+          </Directory>
+        </Directory>
+        <Directory Id="_5899C9F4E03B44B0A78A0C8F34B8827D" Name="GUICOM~1" LongName="GuiComponents">
+          <Directory Id="_59950F7BC7E04BB395DD0166B894F15E" Name="UIKIT" LongName="UiKit">
+            <Component Id="C__304EAF7964D746DCA17B47B5A1153F5D" Guid="1C098C83-7616-F87F-0CFD-9A874F35E233">
+              <File Id="_304EAF7964D746DCA17B47B5A1153F5D" Name="NUNITU~1.BUI" src="SourceDir\SRC\GUICOM~1\UIKIT\NUNITU~1.BUI" LongName="nunit.uikit.build" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__02BB6A10A2B1E06A95ED0F5DDA140630" Guid="75B50BB0-2495-A606-D0C4-66683B739B31">
+              <File Id="_02BB6A10A2B1E06A95ED0F5DDA140630" Name="STATUS~2.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\STATUS~2.CS" LongName="StatusBar.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__07ADF598ABE1A72F16EC2BC1A6652477" Guid="2AF43B5B-FE10-5373-35CF-A747AFDB592A">
+              <File Id="_07ADF598ABE1A72F16EC2BC1A6652477" Name="RENAME~1.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\RENAME~1.CS" LongName="RenameConfigurationDialog.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__149A7C79C33747454086C6F59D138A12" Guid="BE04F25C-23B1-326A-E216-F6525D515C1C">
+              <File Id="_149A7C79C33747454086C6F59D138A12" Name="ASSEMB~1.RES" src="SourceDir\SRC\GUICOM~1\UIKIT\ASSEMB~1.RES" LongName="AssemblyPathDialog.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__16C35790022ABEDDF9E02EADE03A1326" Guid="F8D0549E-863A-35A7-CB60-C72A1600CF8A">
+              <File Id="_16C35790022ABEDDF9E02EADE03A1326" Name="TESTPR~1.RES" src="SourceDir\SRC\GUICOM~1\UIKIT\TESTPR~1.RES" LongName="TestPropertiesDialog.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__18641531C04E5514F62373DFBFECADA1" Guid="93AFBED7-1A55-BA00-ACB9-04A39F3FE8A3">
+              <File Id="_18641531C04E5514F62373DFBFECADA1" Name="TEXTBO~2.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\TEXTBO~2.CS" LongName="TextBoxWriter.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__22F350ED29E7E3F6DFCF60BBF2FE0C5D" Guid="8983655B-FF27-F23E-5B70-531EBF3A87F7">
+              <File Id="_22F350ED29E7E3F6DFCF60BBF2FE0C5D" Name="USERME~1.RES" src="SourceDir\SRC\GUICOM~1\UIKIT\USERME~1.RES" LongName="UserMessage.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__28943E7E9004A5E22DF9533EF4F26FE5" Guid="BDF82DAC-A303-B3CB-9DFE-4EF9F3200CFC">
+              <File Id="_28943E7E9004A5E22DF9533EF4F26FE5" Name="RED.JPG" src="SourceDir\SRC\GUICOM~1\UIKIT\RED.JPG" LongName="Red.jpg" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__294C8236DBC0E0724AD4D60202EF6C1A" Guid="9662A8EC-D947-7A99-C279-52F5478258C6">
+              <File Id="_294C8236DBC0E0724AD4D60202EF6C1A" Name="EXPAND~1.RES" src="SourceDir\SRC\GUICOM~1\UIKIT\EXPAND~1.RES" LongName="ExpandingLabel.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__31CFDC17FF3EED6AB1F68CC234B121BE" Guid="0608B428-A57F-6D59-20DB-F1EEC59C2D99">
+              <File Id="_31CFDC17FF3EED6AB1F68CC234B121BE" Name="TESTPR~1.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\TESTPR~1.CS" LongName="TestPropertiesDialog.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__35C0CEFCD4D7FE385FFD6545AD21CB72" Guid="EF4154A3-E2E3-5A78-23B0-F3F6A88859BD">
+              <File Id="_35C0CEFCD4D7FE385FFD6545AD21CB72" Name="APPUI.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\APPUI.CS" LongName="AppUI.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__362FD30E1EEE9F3A2391DD7E979B06EF" Guid="93184C69-2D10-B42E-7D78-E1EDE83C9C62">
+              <File Id="_362FD30E1EEE9F3A2391DD7E979B06EF" Name="ASSEMB~2.RES" src="SourceDir\SRC\GUICOM~1\UIKIT\ASSEMB~2.RES" LongName="AssemblyListBox.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__41B4604B455ECDD068045F1F3D52224D" Guid="D9DE977D-97D5-EECB-C1D7-D635BE948EF3">
+              <File Id="_41B4604B455ECDD068045F1F3D52224D" Name="ASSEM~13.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\ASSEM~13.CS" LongName="AssemblyListBox.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__50F7FC42903E3B5EC49208A4753A29E4" Guid="200B1849-DFCC-8C80-D6BC-64552402D282">
+              <File Id="_50F7FC42903E3B5EC49208A4753A29E4" Name="ADDCON~2.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\ADDCON~2.CS" LongName="AddConfigurationDialog.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__51CEB109CA3182DBCCBF54CBD8F4CA87" Guid="20DAD932-848D-2E92-D996-2BEB4EC367A8">
+              <File Id="_51CEB109CA3182DBCCBF54CBD8F4CA87" Name="TESTTR~1.RES" src="SourceDir\SRC\GUICOM~1\UIKIT\TESTTR~1.RES" LongName="TestTree.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__5209D49B3C2B3A9DFA73DA3A9B7FC30F" Guid="CE47DD12-D765-E27D-AF3F-3F96AC109D6C">
+              <File Id="_5209D49B3C2B3A9DFA73DA3A9B7FC30F" Name="WAITCU~1.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\WAITCU~1.CS" LongName="WaitCursor.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__5A4356E2F4970436840CFCDC6594D8E8" Guid="1F2D15BE-F25B-A30E-185A-53B064A7ACE8">
+              <File Id="_5A4356E2F4970436840CFCDC6594D8E8" Name="ADDCON~1.RES" src="SourceDir\SRC\GUICOM~1\UIKIT\ADDCON~1.RES" LongName="AddConfigurationDialog.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__5E718DBE0E66C221D436C8D58442BC33" Guid="EFF642F9-2517-6CD2-DC7D-B9ED178A0DCA">
+              <File Id="_5E718DBE0E66C221D436C8D58442BC33" Name="ASSEM~14.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\ASSEM~14.CS" LongName="AssemblyPathDialog.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__6D85EB4EB38356748353F32EBA860AA9" Guid="82769B20-0AD2-C2D4-39DF-F96630AB0B63">
+              <File Id="_6D85EB4EB38356748353F32EBA860AA9" Name="CONFIG~1.RES" src="SourceDir\SRC\GUICOM~1\UIKIT\CONFIG~1.RES" LongName="ConfigurationEditor.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__735A009479A9250A9BCE96565F7EFB9C" Guid="B4442F1F-0AFB-706C-97F6-46B658499BF4">
+              <File Id="_735A009479A9250A9BCE96565F7EFB9C" Name="NUNITU~1.CSP" src="SourceDir\SRC\GUICOM~1\UIKIT\NUNITU~1.CSP" LongName="nunit.uikit.dll.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__75D58B7D3C19E93CAB5E04281C51DAD1" Guid="C6D33857-ECBD-36B1-FD4E-361E771F7789">
+              <File Id="_75D58B7D3C19E93CAB5E04281C51DAD1" Name="FOLDER~1.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\FOLDER~1.CS" LongName="FolderBrowser.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__76B455129DADB3AB4B5E5399981E8524" Guid="BD9B901F-C8F0-8D0A-1445-52A3E550F5C0">
+              <File Id="_76B455129DADB3AB4B5E5399981E8524" Name="YELLOW.JPG" src="SourceDir\SRC\GUICOM~1\UIKIT\YELLOW.JPG" LongName="Yellow.jpg" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__7BEA926FD8E0AA0509BF644385240308" Guid="6CD2881C-2ED5-29D8-2F65-A7C5C65540FE">
+              <File Id="_7BEA926FD8E0AA0509BF644385240308" Name="ELLIPSIS.GIF" src="SourceDir\SRC\GUICOM~1\UIKIT\ELLIPSIS.GIF" LongName="Ellipsis.gif" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__7C225AAFBD71D9068CC1ABD5EB158630" Guid="0A0089AB-E848-486D-1208-458A340DF26C">
+              <File Id="_7C225AAFBD71D9068CC1ABD5EB158630" Name="UNPINNED.GIF" src="SourceDir\SRC\GUICOM~1\UIKIT\UNPINNED.GIF" LongName="unpinned.gif" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__7FDE6786C7F6FD98289B43D548D260BC" Guid="4B7E31F4-F4D0-E888-EA0D-BF0E17B3C6C0">
+              <File Id="_7FDE6786C7F6FD98289B43D548D260BC" Name="EXPAND~1.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\EXPAND~1.CS" LongName="ExpandingLabel.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__8AF6FDC5BDB43B4A411AE69BE2927C15" Guid="391E99C0-322A-BC5A-6B6A-DD11DF0220E4">
+              <File Id="_8AF6FDC5BDB43B4A411AE69BE2927C15" Name="RECENT~3.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\RECENT~3.CS" LongName="RecentFileMenuHandler.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__92388F2A46F19534D654457EC4B754A2" Guid="39D8715F-9A0A-F5D8-BB7D-E9B66F2E1293">
+              <File Id="_92388F2A46F19534D654457EC4B754A2" Name="TESTLO~2.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\TESTLO~2.CS" LongName="TestLoaderUI.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__9A8393ED6F707986103AF8D53B77BAE6" Guid="24AA0FBE-BCC7-8D88-327F-04121D33BA32">
+              <File Id="_9A8393ED6F707986103AF8D53B77BAE6" Name="TIPWIN~1.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\TIPWIN~1.CS" LongName="TipWindow.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__A5E003CCF7C4876DF68A60868FE115D7" Guid="521C1D1E-A115-AF95-4A3D-90D3141C4D0E">
+              <File Id="_A5E003CCF7C4876DF68A60868FE115D7" Name="RENAME~1.RES" src="SourceDir\SRC\GUICOM~1\UIKIT\RENAME~1.RES" LongName="RenameConfigurationDialog.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__AA6BB67403453C594B2774C11B1B2B37" Guid="EECC2FBC-EFD8-C070-7642-13DBDD34009C">
+              <File Id="_AA6BB67403453C594B2774C11B1B2B37" Name="GRAY.JPG" src="SourceDir\SRC\GUICOM~1\UIKIT\GRAY.JPG" LongName="Gray.jpg" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__B0692E2FBDD506F3862DEE46DA0FDBA8" Guid="B8964B7C-ABAC-98E1-0F81-7834335CF580">
+              <File Id="_B0692E2FBDD506F3862DEE46DA0FDBA8" Name="GREEN.JPG" src="SourceDir\SRC\GUICOM~1\UIKIT\GREEN.JPG" LongName="Green.jpg" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__B33B826BE78EAC99BA280118BDEB3FF4" Guid="5ACBFB68-9BB2-F69F-3CED-9E82D1EA952D">
+              <File Id="_B33B826BE78EAC99BA280118BDEB3FF4" Name="PINNED.GIF" src="SourceDir\SRC\GUICOM~1\UIKIT\PINNED.GIF" LongName="pinned.gif" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__B354DD00B23CBE8A15F81AE9680A2552" Guid="1A3D7BFD-E212-7A41-A08C-2A2D59E41BE7">
+              <File Id="_B354DD00B23CBE8A15F81AE9680A2552" Name="PROGRE~2.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\PROGRE~2.CS" LongName="ProgressBar.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__B72EBBEDE44C19A7FDD605F9722F13B1" Guid="2EE53BCE-F4FA-4D21-C9D4-7A11387F8410">
+              <File Id="_B72EBBEDE44C19A7FDD605F9722F13B1" Name="TESTSU~1.RES" src="SourceDir\SRC\GUICOM~1\UIKIT\TESTSU~1.RES" LongName="TestSuiteTreeView.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__BE652B33991967E692AD5FED414D23CC" Guid="A4708286-B8B1-FBC2-3757-0B724B36B351">
+              <File Id="_BE652B33991967E692AD5FED414D23CC" Name="CONFIG~1.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\CONFIG~1.CS" LongName="ConfigurationEditor.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__C660B784B9F46032EA233664C32F3938" Guid="3241D134-7441-2F66-050A-31A8CFC4BDE3">
+              <File Id="_C660B784B9F46032EA233664C32F3938" Name="PROGRE~1.RES" src="SourceDir\SRC\GUICOM~1\UIKIT\PROGRE~1.RES" LongName="ProgressBar.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__CAEEB353B73516B7873441A236B62473" Guid="B6FC87C0-967E-C769-B585-29C91E9FFA65">
+              <File Id="_CAEEB353B73516B7873441A236B62473" Name="STATUS~1.RES" src="SourceDir\SRC\GUICOM~1\UIKIT\STATUS~1.RES" LongName="StatusBar.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__D2896566A92E7D7A2EFB2992477943FE" Guid="BEBCE9D7-2469-2D13-2665-36A8981FE508">
+              <File Id="_D2896566A92E7D7A2EFB2992477943FE" Name="USERME~1.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\USERME~1.CS" LongName="UserMessage.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__DD4128252044FE45334154A01B740E7D" Guid="B6301838-D190-F2A2-AFB0-C742E6E67937">
+              <File Id="_DD4128252044FE45334154A01B740E7D" Name="TESTSU~5.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\TESTSU~5.CS" LongName="TestSuiteTreeNode.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__E008C40A6DDF4744D563F1489E9845DA" Guid="AAA5F160-0218-FAFE-BDE0-9C9D965CCE61">
+              <File Id="_E008C40A6DDF4744D563F1489E9845DA" Name="TESTSU~6.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\TESTSU~6.CS" LongName="TestSuiteTreeView.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__E0107CCBE07D5EB9EFBAC7BC91B4D8AA" Guid="F0BF8A83-EA72-EB92-B8BC-E8834AF9DD47">
+              <File Id="_E0107CCBE07D5EB9EFBAC7BC91B4D8AA" Name="NOTRUN~1.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\NOTRUN~1.CS" LongName="NotRunTree.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__E7EDDEE8A3E19E5075465ADC9CF4ACDC" Guid="FDD4A7B8-B413-47E1-2053-C628B55C96E1">
+              <File Id="_E7EDDEE8A3E19E5075465ADC9CF4ACDC" Name="TIPWIN~1.RES" src="SourceDir\SRC\GUICOM~1\UIKIT\TIPWIN~1.RES" LongName="TipWindow.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__EB4110A1E5B8E99BD9A848E81DE92C78" Guid="C6D4121C-E8F1-8294-EC2F-8360B51F518B">
+              <File Id="_EB4110A1E5B8E99BD9A848E81DE92C78" Name="ASSEM~15.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\ASSEM~15.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__FFFC17C5B1C454D7773FADAA66FEEEEA" Guid="B5485533-9C1F-976F-B518-AF786882D8D0">
+              <File Id="_FFFC17C5B1C454D7773FADAA66FEEEEA" Name="TESTTREE.CS" src="SourceDir\SRC\GUICOM~1\UIKIT\TESTTREE.CS" LongName="TestTree.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+          </Directory>
+        </Directory>
+        <Directory Id="_0E7FA043EA734155A1D04B90C03364B5" Name="CLIENT~1" LongName="ClientUtilities">
+          <Directory Id="_0C865C7D382F442F8FE591331E0D0A6F" Name="UTIL" LongName="util">
+            <Component Id="C__B96F6BDFE18B45929ED8236EDFEF12BE" Guid="2CE5E06A-80C9-4439-99DF-9A9D4D11F047">
+              <File Id="_B96F6BDFE18B45929ED8236EDFEF12BE" Name="NUNITU~2.BUI" src="SourceDir\SRC\CLIENT~1\UTIL\NUNITU~2.BUI" LongName="nunit.util.build" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__04DCC2A09D0BC15B2BAC3724DE8BEE37" Guid="8D0D5E84-17DB-663B-86AB-A29891802F98">
+              <File Id="_04DCC2A09D0BC15B2BAC3724DE8BEE37" Name="GUIOPT~1.CS" src="SourceDir\SRC\CLIENT~1\UTIL\GUIOPT~1.CS" LongName="GuiOptions.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__05BCCBFB03E0FA74492FE30026B08813" Guid="7D949006-936C-8F1F-E142-50C125C777C8">
+              <File Id="_05BCCBFB03E0FA74492FE30026B08813" Name="VSPROJ~2.CS" src="SourceDir\SRC\CLIENT~1\UTIL\VSPROJ~2.CS" LongName="VSProject.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__123A9D0CAD0C756AC2BD0AC3311030FA" Guid="F46BF052-9B4B-8720-0DD7-E2D556B8131A">
+              <File Id="_123A9D0CAD0C756AC2BD0AC3311030FA" Name="NUNITR~2.CS" src="SourceDir\SRC\CLIENT~1\UTIL\NUNITR~2.CS" LongName="NUnitRegistry.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__12F502DEA608CC8D8D00FCC7A1DEA1DA" Guid="5EEF63D5-AF75-980A-E6AD-B67AB68F4A04">
+              <File Id="_12F502DEA608CC8D8D00FCC7A1DEA1DA" Name="RESULT~2.CS" src="SourceDir\SRC\CLIENT~1\UTIL\RESULT~2.CS" LongName="ResultSummarizer.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__1A1ECFA84EA7869BBCB4B3E88704DBC6" Guid="BD38E18E-0709-689E-5DCC-65F718C24530">
+              <File Id="_1A1ECFA84EA7869BBCB4B3E88704DBC6" Name="TESTEV~4.CS" src="SourceDir\SRC\CLIENT~1\UTIL\TESTEV~4.CS" LongName="TestEventArgs.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__1D4E60B8C8F0994765A5E716A0C06459" Guid="6A057B14-718A-CED0-72B8-B403B65C0C0C">
+              <File Id="_1D4E60B8C8F0994765A5E716A0C06459" Name="SUMMAR~2.CS" src="SourceDir\SRC\CLIENT~1\UTIL\SUMMAR~2.CS" LongName="SummaryVisitor.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__298C827649AE6A9199C2EDB3855ABAE0" Guid="2FD0750D-ACF9-8D9A-59D9-E3B9D01F1875">
+              <File Id="_298C827649AE6A9199C2EDB3855ABAE0" Name="FORMSE~2.CS" src="SourceDir\SRC\CLIENT~1\UTIL\FORMSE~2.CS" LongName="FormSettings.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__2E5A1D385BD44E92D3C6F12B9948259C" Guid="0D7C817D-C1D6-7F82-BBB1-F55D467A11B5">
+              <File Id="_2E5A1D385BD44E92D3C6F12B9948259C" Name="NUNITG~1.CS" src="SourceDir\SRC\CLIENT~1\UTIL\NUNITG~1.CS" LongName="NUnitGuiSettings.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__2F27597D9C110B897B27E870118CF626" Guid="A57161FD-35F0-26FF-274F-4E110878B785">
+              <File Id="_2F27597D9C110B897B27E870118CF626" Name="USERSE~2.CS" src="SourceDir\SRC\CLIENT~1\UTIL\USERSE~2.CS" LongName="UserSettings.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__30618034A704432B88F29695D7A825F6" Guid="69FB8EE7-4163-FEDC-8885-EC74E5D6D947">
+              <File Id="_30618034A704432B88F29695D7A825F6" Name="COMMAN~1.CS" src="SourceDir\SRC\CLIENT~1\UTIL\COMMAN~1.CS" LongName="CommandLineOptions.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__32B2F65609CF1C9E52AC311B2AB80B7B" Guid="920D307E-F200-2452-15AD-5F2715F3FDBF">
+              <File Id="_32B2F65609CF1C9E52AC311B2AB80B7B" Name="VSPROJ~3.CS" src="SourceDir\SRC\CLIENT~1\UTIL\VSPROJ~3.CS" LongName="VSProjectConfigCollection.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__3700B4899A416ED67EFD8B9E8DC619B1" Guid="6C44F96C-3601-6CF9-39F3-0261F99F995A">
+              <File Id="_3700B4899A416ED67EFD8B9E8DC619B1" Name="TRANSF~1.RES" src="SourceDir\SRC\CLIENT~1\UTIL\TRANSF~1.RES" LongName="Transform.resx" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__44703D408A7995E72E8181604DD0DCE5" Guid="CE83F331-5CCF-ACAD-65B9-28D21D97854D">
+              <File Id="_44703D408A7995E72E8181604DD0DCE5" Name="TESTRE~2.CS" src="SourceDir\SRC\CLIENT~1\UTIL\TESTRE~2.CS" LongName="TestResultItem.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__46A5E2B3B06CFF436EC6F24F0EB13E1D" Guid="13704367-AAFF-3A03-01E5-6A28E7D11174">
+              <File Id="_46A5E2B3B06CFF436EC6F24F0EB13E1D" Name="RECENT~4.CS" src="SourceDir\SRC\CLIENT~1\UTIL\RECENT~4.CS" LongName="RecentFileSettings.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__4B7C566FBEA6917DDA39FD633BEB2BFB" Guid="E5FC0F63-EEC1-7132-88F7-764F8B9AEA65">
+              <File Id="_4B7C566FBEA6917DDA39FD633BEB2BFB" Name="OPTION~3.CS" src="SourceDir\SRC\CLIENT~1\UTIL\OPTION~3.CS" LongName="OptionSettings.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__50F9E5FF5DBDD076DEE9FC27972BFFA0" Guid="DABA12BB-C14B-5CCC-199D-6231E7C1D752">
+              <File Id="_50F9E5FF5DBDD076DEE9FC27972BFFA0" Name="ASSEM~21.CS" src="SourceDir\SRC\CLIENT~1\UTIL\ASSEM~21.CS" LongName="AssemblyList.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__5661A4E654871A186BBF7BE84C7A503C" Guid="DB238624-73B5-9B91-6B6F-E61CED2B3EDA">
+              <File Id="_5661A4E654871A186BBF7BE84C7A503C" Name="TESTEV~5.CS" src="SourceDir\SRC\CLIENT~1\UTIL\TESTEV~5.CS" LongName="TestEventDispatcher.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__6245FFDA962799C05982FFE546445A8F" Guid="3C9C7E57-B115-A5B7-4BDB-2A994ACC4870">
+              <File Id="_6245FFDA962799C05982FFE546445A8F" Name="NUNITP~5.CS" src="SourceDir\SRC\CLIENT~1\UTIL\NUNITP~5.CS" LongName="NUnitProject.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__6618CADFE768F92030B04D1A49055630" Guid="0BE51A97-DF14-2865-1DE4-ACD187486F99">
+              <File Id="_6618CADFE768F92030B04D1A49055630" Name="PROJEC~5.CS" src="SourceDir\SRC\CLIENT~1\UTIL\PROJEC~5.CS" LongName="ProjectFormatException.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__68D0084F00641DDDEEB8A74567C3A8FA" Guid="0DA6D0B3-00DF-0A40-A629-5764DAEE843D">
+              <File Id="_68D0084F00641DDDEEB8A74567C3A8FA" Name="ASSEM~22.CS" src="SourceDir\SRC\CLIENT~1\UTIL\ASSEM~22.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__6ABBA0FE55E03978AA2AAAB792921914" Guid="D3E61B59-299C-BE43-E414-E0C1AFBD8BB5">
+              <File Id="_6ABBA0FE55E03978AA2AAAB792921914" Name="ASSEM~23.CS" src="SourceDir\SRC\CLIENT~1\UTIL\ASSEM~23.CS" LongName="AssemblyWatcher.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__6EA2F8963705AA8EE097C60F09639EA0" Guid="A793F4A3-3171-6A38-0AB3-007D75A6DC0E">
+              <File Id="_6EA2F8963705AA8EE097C60F09639EA0" Name="SETTIN~2.CS" src="SourceDir\SRC\CLIENT~1\UTIL\SETTIN~2.CS" LongName="SettingsStorage.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__78FA7B776AE628EFC597EE0BE93165C9" Guid="C4352047-EB43-990B-8F77-0EFEDC322821">
+              <File Id="_78FA7B776AE628EFC597EE0BE93165C9" Name="NUNITU~2.CSP" src="SourceDir\SRC\CLIENT~1\UTIL\NUNITU~2.CSP" LongName="nunit.util.dll.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__810F2C9E8E4BE2575D25F31E12D86A51" Guid="A0A0A546-E2A6-0DB7-B6A0-F6B77FA79399">
+              <File Id="_810F2C9E8E4BE2575D25F31E12D86A51" Name="CONSOL~4.CS" src="SourceDir\SRC\CLIENT~1\UTIL\CONSOL~4.CS" LongName="ConsoleOptions.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__878B42F89BDB7E241C7A047A4910A311" Guid="CBAD1A3A-0497-11AC-4DB9-FA6EBF262F60">
+              <File Id="_878B42F89BDB7E241C7A047A4910A311" Name="STACKT~1.CS" src="SourceDir\SRC\CLIENT~1\UTIL\STACKT~1.CS" LongName="StackTraceFilter.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__978D544FC56B570DF43D5F7E2E84EA5B" Guid="FF71C6ED-9A67-C40C-F3D6-9DA3536E3BAB">
+              <File Id="_978D544FC56B570DF43D5F7E2E84EA5B" Name="REGIST~2.CS" src="SourceDir\SRC\CLIENT~1\UTIL\REGIST~2.CS" LongName="RegistrySettingsStorage.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__98779B87EB4FB66D5ACD22E331BA1A4D" Guid="EE9EF549-2781-CA1B-730D-9325C7F3F4A7">
+              <File Id="_98779B87EB4FB66D5ACD22E331BA1A4D" Name="TESTLO~3.CS" src="SourceDir\SRC\CLIENT~1\UTIL\TESTLO~3.CS" LongName="TestLoader.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__9BF5DB50E544C33ECE3442225232015A" Guid="8F22CFAA-DE86-9320-3FE3-8F20F1B74276">
+              <File Id="_9BF5DB50E544C33ECE3442225232015A" Name="PROJEC~6.CS" src="SourceDir\SRC\CLIENT~1\UTIL\PROJEC~6.CS" LongName="ProjectConfig.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__A85C2F80EEC0BA4519EBA5253AA3FE75" Guid="C98B8BB0-4F72-6D94-4F61-DECACCBC1095">
+              <File Id="_A85C2F80EEC0BA4519EBA5253AA3FE75" Name="PROJEC~7.CS" src="SourceDir\SRC\CLIENT~1\UTIL\PROJEC~7.CS" LongName="ProjectPath.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__A9AEBBCCE38FDC38F60A18B99644A2F8" Guid="44E0F217-75E4-17E2-D851-AE48F6F5BE37">
+              <File Id="_A9AEBBCCE38FDC38F60A18B99644A2F8" Name="UIHELPER.CS" src="SourceDir\SRC\CLIENT~1\UTIL\UIHELPER.CS" LongName="UIHelper.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__AA624DCB29D885E99EA7A71571094536" Guid="07CEFD76-AE22-C397-B462-43C14DAD56E0">
+              <File Id="_AA624DCB29D885E99EA7A71571094536" Name="CONSOL~5.CS" src="SourceDir\SRC\CLIENT~1\UTIL\CONSOL~5.CS" LongName="ConsoleWriter.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__AA9F340FE601B821F1396A78DEC8F220" Guid="9D17D9EC-0B71-F397-5263-A4F0AFE0BDA7">
+              <File Id="_AA9F340FE601B821F1396A78DEC8F220" Name="RECENT~5.CS" src="SourceDir\SRC\CLIENT~1\UTIL\RECENT~5.CS" LongName="RecentProjectSettings.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__B2899A63C47D0D1E02F064F2EFC316E7" Guid="A683BBE0-60CA-D8C6-B538-A680D96177B2">
+              <File Id="_B2899A63C47D0D1E02F064F2EFC316E7" Name="ITESTE~2.CS" src="SourceDir\SRC\CLIENT~1\UTIL\ITESTE~2.CS" LongName="ITestEvents.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__B89068DDF9B00882D88A696E7A4F9D56" Guid="E79E8146-8FC5-ABC4-6923-1A9583D775A4">
+              <File Id="_B89068DDF9B00882D88A696E7A4F9D56" Name="ASSEM~24.CS" src="SourceDir\SRC\CLIENT~1\UTIL\ASSEM~24.CS" LongName="AssemblyListItem.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__BBBF27C7E895CE863628E4EE45E7F29E" Guid="F2E585AD-3BBD-8600-B68A-2CEE324856D7">
+              <File Id="_BBBF27C7E895CE863628E4EE45E7F29E" Name="PROJEC~8.CS" src="SourceDir\SRC\CLIENT~1\UTIL\PROJEC~8.CS" LongName="ProjectConfigCollection.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__C549D4F6064B1DE2EDBABDB0699CA11C" Guid="79BF876D-EDA0-125B-B01A-B7A01F99F6AC">
+              <File Id="_C549D4F6064B1DE2EDBABDB0699CA11C" Name="TESTEX~1.CS" src="SourceDir\SRC\CLIENT~1\UTIL\TESTEX~1.CS" LongName="TestExceptionHandler.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__C70B36AFC6812BFC51B71AA1FA338190" Guid="322AE34E-671D-2F41-BC0F-95CFECD0604F">
+              <File Id="_C70B36AFC6812BFC51B71AA1FA338190" Name="ITESTL~1.CS" src="SourceDir\SRC\CLIENT~1\UTIL\ITESTL~1.CS" LongName="ITestLoader.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__D390B0BC38C056C2D3215F47C05ABE34" Guid="709E9905-EB7E-2B5B-D242-3FEB9FF41499">
+              <File Id="_D390B0BC38C056C2D3215F47C05ABE34" Name="TESTDO~3.CS" src="SourceDir\SRC\CLIENT~1\UTIL\TESTDO~3.CS" LongName="TestDomain.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__D8080EE226D8858975D8060D89AE4507" Guid="16F3D159-F4FE-1CF3-AD7A-78E3C145E5EA">
+              <File Id="_D8080EE226D8858975D8060D89AE4507" Name="VSPROJ~4.CS" src="SourceDir\SRC\CLIENT~1\UTIL\VSPROJ~4.CS" LongName="VSProjectConfig.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__DBE99EA41CF87600821FF2A9C0255A48" Guid="4905106D-FA71-B320-E6A0-5E6439C98EFA">
+              <File Id="_DBE99EA41CF87600821FF2A9C0255A48" Name="XMLRES~2.CS" src="SourceDir\SRC\CLIENT~1\UTIL\XMLRES~2.CS" LongName="XmlResultVisitor.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__DE87D4E7DAC0E231C06474A5EF689426" Guid="8650D9C8-5E63-D4DB-D941-053575B70650">
+              <File Id="_DE87D4E7DAC0E231C06474A5EF689426" Name="SETTIN~3.CS" src="SourceDir\SRC\CLIENT~1\UTIL\SETTIN~3.CS" LongName="SettingsGroup.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__F7C81528B1A36D89BDC97FDBA0CB9E70" Guid="5005D5D2-3E63-0CFE-E511-AC8878608483">
+              <File Id="_F7C81528B1A36D89BDC97FDBA0CB9E70" Name="UITEST~2.CS" src="SourceDir\SRC\CLIENT~1\UTIL\UITEST~2.CS" LongName="UITestNode.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+          </Directory>
+        </Directory>
+        <Directory Id="_44E78B55957B4B33AAA29B7439ED57D9" Name="CONSOL~1" LongName="ConsoleRunner">
+          <Directory Id="_1B06D4DA98984A6F8D709C129CB94D8E" Name="NUNIT-~2" LongName="nunit-console">
+            <Component Id="C__3E3EFB0E0A3F4482BFBABC982A30F9CC" Guid="4FD2372B-249C-FD62-BFF5-ED058D7D9A38">
+              <File Id="_3E3EFB0E0A3F4482BFBABC982A30F9CC" Name="NUNIT-~1.CON" src="SourceDir\SRC\CONSOL~1\NUNIT-~2\NUNIT-~1.CON" LongName="nunit-console.exe.config" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__3FEADF6A4E0B4D1B96B4C5141113D049" Guid="77E9A454-C783-9DF6-F09D-39C6ECFFF077">
+              <File Id="_3FEADF6A4E0B4D1B96B4C5141113D049" Name="NUNIT-~1.BUI" src="SourceDir\SRC\CONSOL~1\NUNIT-~2\NUNIT-~1.BUI" LongName="nunit-console.build" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__63C443F7B518BC037611FE85D8521D0C" Guid="692ABE2D-5AEA-ACDD-23EF-84258CD80A0D">
+              <File Id="_63C443F7B518BC037611FE85D8521D0C" Name="APP.ICO" src="SourceDir\SRC\CONSOL~1\NUNIT-~2\APP.ICO" LongName="App.ico" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__0A43E7A840102697A71AA5A5FDA4D4AB" Guid="59299F80-7814-080B-7464-A6D1D59FA001">
+              <File Id="_0A43E7A840102697A71AA5A5FDA4D4AB" Name="CONSOL~3.CS" src="SourceDir\SRC\CONSOL~1\NUNIT-~2\CONSOL~3.CS" LongName="ConsoleUi.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__244C7FFAA1FD632EB336DE7D88D42DFC" Guid="A01B6907-06BD-052B-BDEE-AFDA6E48B473">
+              <File Id="_244C7FFAA1FD632EB336DE7D88D42DFC" Name="NUNIT-~1.CSP" src="SourceDir\SRC\CONSOL~1\NUNIT-~2\NUNIT-~1.CSP" LongName="nunit-console.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__A3493336C66BE3DF1DD834B6AEA280FD" Guid="EECB3C97-A331-3145-B40A-01AC0BD065A3">
+              <File Id="_A3493336C66BE3DF1DD834B6AEA280FD" Name="ASSEM~12.CS" src="SourceDir\SRC\CONSOL~1\NUNIT-~2\ASSEM~12.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+          </Directory>
+        </Directory>
+        <Directory Id="_23FDB935204E4CA9ABC670FA07CBEF86" Name="NUNITF~1" LongName="NUnitFramework">
+          <Directory Id="_01CAB6A65DF54532A91A3A79E162B646" Name="EXTENS~1" LongName="extensions">
+            <Component Id="C__2224951BC46042BB98590E3EC0AE738B" Guid="6B16C0AE-E35E-A310-8CC5-866FD6FFFD68">
+              <File Id="_2224951BC46042BB98590E3EC0AE738B" Name="NUNITE~1.BUI" src="SourceDir\SRC\NUNITF~1\EXTENS~1\NUNITE~1.BUI" LongName="nunit.extensions.build" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__3B3CB360221DC4F78D8F04AE4FF4A2FE" Guid="BEECBC67-7839-6A81-28E0-C73A8E509DA1">
+              <File Id="_3B3CB360221DC4F78D8F04AE4FF4A2FE" Name="REPEAT~1.CS" src="SourceDir\SRC\NUNITF~1\EXTENS~1\REPEAT~1.CS" LongName="RepeatedTestCase.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__4800EA4DB5282F72378849E33FEA64A6" Guid="4133A45D-D466-6264-5618-5657FF6EE6F8">
+              <File Id="_4800EA4DB5282F72378849E33FEA64A6" Name="NUNITE~1.CSP" src="SourceDir\SRC\NUNITF~1\EXTENS~1\NUNITE~1.CSP" LongName="nunit.extensions.dll.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__78BB69E7D1F3A9B3CAEA393198C737BF" Guid="AF09842A-299E-F0A0-8373-5B4AAADD66AA">
+              <File Id="_78BB69E7D1F3A9B3CAEA393198C737BF" Name="ASSEMB~4.CS" src="SourceDir\SRC\NUNITF~1\EXTENS~1\ASSEMB~4.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__95DEF6D41DBC64F3C4A3DBC349FFB160" Guid="269F772F-404E-AEF5-9DD6-AC05AA46B458">
+              <File Id="_95DEF6D41DBC64F3C4A3DBC349FFB160" Name="REPEAT~2.CS" src="SourceDir\SRC\NUNITF~1\EXTENS~1\REPEAT~2.CS" LongName="RepeatedTestAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__9D6DD864D9D5CE0BD32C52C17BA41310" Guid="338D5357-B415-F3FA-C448-8542045B0BE1">
+              <File Id="_9D6DD864D9D5CE0BD32C52C17BA41310" Name="REPEAT~3.CS" src="SourceDir\SRC\NUNITF~1\EXTENS~1\REPEAT~3.CS" LongName="RepeatedTestBuilder.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+          </Directory>
+          <Directory Id="_3B210C5DEC954A9987564DD7519270B2" Name="FRAMEW~1" LongName="framework">
+            <Component Id="C__6278FBB9A7DA48FAA2C6507085DC60D6" Guid="4FE1A81B-CCD8-83C0-4AFC-651E9204752B">
+              <File Id="_6278FBB9A7DA48FAA2C6507085DC60D6" Name="NUNITF~1.BUI" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\NUNITF~1.BUI" LongName="nunit.framework.build" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__0ECE9E2BA46C1669BDA1ECC2E999E824" Guid="FFB2608F-B243-F923-3C84-8CA97CE4BF8D">
+              <File Id="_0ECE9E2BA46C1669BDA1ECC2E999E824" Name="TESTFI~6.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\TESTFI~6.CS" LongName="TestFixtureAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__0FEF2440E0E0F5350BB2EC1C568AFD73" Guid="50439988-B425-EAA3-D6D7-D8B7E283EF44">
+              <File Id="_0FEF2440E0E0F5350BB2EC1C568AFD73" Name="TESTFI~7.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\TESTFI~7.CS" LongName="TestFixtureSetUpAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__3091FEC5F58A0B49D3E487442509698C" Guid="2DD9B675-5079-7707-220B-2A288944173F">
+              <File Id="_3091FEC5F58A0B49D3E487442509698C" Name="ASSERT.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\ASSERT.CS" LongName="Assert.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__30A50407B0EAB4CB47CB76C5697F24B2" Guid="7435F67D-B3B8-7E34-0E35-2358290842E7">
+              <File Id="_30A50407B0EAB4CB47CB76C5697F24B2" Name="SETUPA~1.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\SETUPA~1.CS" LongName="SetUpAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__32CCF19377FB2D1EB9A268ABC6668254" Guid="9A26D6A8-D2AB-795B-8A8F-356BE5B41570">
+              <File Id="_32CCF19377FB2D1EB9A268ABC6668254" Name="ASSERT~2.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\ASSERT~2.CS" LongName="AssertionException.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__349918C261D2DC97B3CC8AB9EAE44D1E" Guid="818BD7E9-0B38-2519-0B31-1A5395CD66CD">
+              <File Id="_349918C261D2DC97B3CC8AB9EAE44D1E" Name="OLDTES~1.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\OLDTES~1.CS" LongName="OldTestCase.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__3941A366CC741845C0D7D74E53D97A46" Guid="49301DC0-D291-31FE-4450-A0B6505B55D7">
+              <File Id="_3941A366CC741845C0D7D74E53D97A46" Name="SUITEB~3.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\SUITEB~3.CS" LongName="SuiteBuilderAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__50ED2D4215266C88C5F899BE1060F73A" Guid="DE35E892-6567-5318-4F4C-2CFB1EA5F200">
+              <File Id="_50ED2D4215266C88C5F899BE1060F73A" Name="CATEGO~4.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\CATEGO~4.CS" LongName="CategoryAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__528AF73E66849911AD8888389EC8D092" Guid="0BCDC140-EF46-41BD-3266-3425AFEB0EFA">
+              <File Id="_528AF73E66849911AD8888389EC8D092" Name="NUNITF~1.CSP" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\NUNITF~1.CSP" LongName="nunit.framework.dll.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__52D9149A5C6423A9A4A585C370D6DCA2" Guid="5F95C82D-70AE-475B-4877-781C8FB7E50C">
+              <File Id="_52D9149A5C6423A9A4A585C370D6DCA2" Name="ASSEM~25.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\ASSEM~25.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__7DA5B1ACE4FD2A5881E48C70206787FF" Guid="560E1E6F-D24B-6885-32E5-E39ADB92264E">
+              <File Id="_7DA5B1ACE4FD2A5881E48C70206787FF" Name="TEARDO~1.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\TEARDO~1.CS" LongName="TearDownAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__9B3921081DA6A647A7D4A551FA0AB53A" Guid="9C31D404-0045-F54E-1A08-608FD56BC63C">
+              <File Id="_9B3921081DA6A647A7D4A551FA0AB53A" Name="ASSERT~3.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\ASSERT~3.CS" LongName="AssertionFailureMessage.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__9E6300FE4B172C2385D9F8B367703502" Guid="4131C9A4-9035-089C-C414-A3FE48039879">
+              <File Id="_9E6300FE4B172C2385D9F8B367703502" Name="EXPECT~4.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\EXPECT~4.CS" LongName="ExpectedExceptionAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__A3706A11A57DFCFC34317E4054E4F129" Guid="E8CF6473-446D-D3F4-D4C2-A06460B72BA3">
+              <File Id="_A3706A11A57DFCFC34317E4054E4F129" Name="SUITEA~1.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\SUITEA~1.CS" LongName="SuiteAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__AEC2B1F0A1A66360CE74970B95B268D3" Guid="E6178B72-454F-87CD-FF28-94EA3ACE0C34">
+              <File Id="_AEC2B1F0A1A66360CE74970B95B268D3" Name="IGNORE~2.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\IGNORE~2.CS" LongName="IgnoreAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__C5F946540E8B121C7A9882DEB881A1CB" Guid="A65B0296-6C36-DA30-2973-1481B9DAEB61">
+              <File Id="_C5F946540E8B121C7A9882DEB881A1CB" Name="IGNORE~3.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\IGNORE~3.CS" LongName="IgnoreException.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__D4BA58AE11996F3B988BE1CA925F42D7" Guid="3B56AD2B-55EE-F5DE-7D28-637DFA478B5C">
+              <File Id="_D4BA58AE11996F3B988BE1CA925F42D7" Name="EXPLIC~1.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\EXPLIC~1.CS" LongName="ExplicitAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__D852B80B6AB8749C09D19FD8223C274D" Guid="F7FC727A-0B31-6F78-8B4C-06DA94D6D330">
+              <File Id="_D852B80B6AB8749C09D19FD8223C274D" Name="ASSERT~4.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\ASSERT~4.CS" LongName="Assertion.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__E6B3BCDF3DF7233A01E0F4E58D05E075" Guid="D67AC2F8-CA4E-753D-A910-A654E40FE8D2">
+              <File Id="_E6B3BCDF3DF7233A01E0F4E58D05E075" Name="TESTAT~1.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\TESTAT~1.CS" LongName="TestAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__E7C8CE17C2D76B9DD9E9B84CFA7713FF" Guid="EAE347CC-344D-4407-7DB0-752E190B6959">
+              <File Id="_E7C8CE17C2D76B9DD9E9B84CFA7713FF" Name="TESTFI~8.CS" src="SourceDir\SRC\NUNITF~1\FRAMEW~1\TESTFI~8.CS" LongName="TestFixtureTearDownAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+          </Directory>
+          <Directory Id="_32C6A3ABB8EB45E9AFF244C605058990" Name="CORE" LongName="core">
+            <Component Id="C__8D3E6627C533426E857ABF351637BDBD" Guid="4077CACF-13C3-AAC8-2FBB-615BF336C1AE">
+              <File Id="_8D3E6627C533426E857ABF351637BDBD" Name="NUNITC~1.BUI" src="SourceDir\SRC\NUNITF~1\CORE\NUNITC~1.BUI" LongName="nunit.core.build" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__1D775AA30115682CEEC638347DC19A36" Guid="8F8F446F-81FB-276A-CB5C-135CC9540C91">
+              <File Id="_1D775AA30115682CEEC638347DC19A36" Name="RESULTS.XSD" src="SourceDir\SRC\NUNITF~1\CORE\RESULTS.XSD" LongName="Results.xsd" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__62A763887DA325779E077A143122A4F3" Guid="1797A3A9-B5CC-C8B2-1BF4-4B0A11722B2E">
+              <File Id="_62A763887DA325779E077A143122A4F3" Name="SUMMAR~2.XSL" src="SourceDir\SRC\NUNITF~1\CORE\SUMMAR~2.XSL" LongName="Summary.xslt" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__00883C89AD2A3BB871AF50C729BF2F0E" Guid="503B147A-D15F-2494-0163-E379DC82B908">
+              <File Id="_00883C89AD2A3BB871AF50C729BF2F0E" Name="RESULT~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\RESULT~1.CS" LongName="ResultVisitor.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__03E85D007FC398B8E5C1C234A449D96D" Guid="9508F033-E5E3-438A-8CAB-80A311006ED9">
+              <File Id="_03E85D007FC398B8E5C1C234A449D96D" Name="TESTFI~4.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTFI~4.CS" LongName="TestFixture.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__04568CEE7B757AF25BADFADB8EA3C40D" Guid="2FD52745-3774-8CA8-C3EF-748899A4F9C6">
+              <File Id="_04568CEE7B757AF25BADFADB8EA3C40D" Name="INVALI~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\INVALI~1.CS" LongName="InvalidTestFixtureException.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__08584F147F2AEFEDB61E5513C148CDBC" Guid="845405E6-B80F-1BFA-4610-82D85D58B7F6">
+              <File Id="_08584F147F2AEFEDB61E5513C148CDBC" Name="TEST.CS" src="SourceDir\SRC\NUNITF~1\CORE\TEST.CS" LongName="Test.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__090F0A142A958B6DA7022B392D5DC21B" Guid="0AAAB052-83BC-5131-B2BF-22493FB5A291">
+              <File Id="_090F0A142A958B6DA7022B392D5DC21B" Name="CATEGO~2.CS" src="SourceDir\SRC\NUNITF~1\CORE\CATEGO~2.CS" LongName="CategoryFilter.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__098C3A65970248905502E76CF821987C" Guid="AA3A277D-C22B-9644-5D56-40DCA67360B9">
+              <File Id="_098C3A65970248905502E76CF821987C" Name="ASSEM~18.CS" src="SourceDir\SRC\NUNITF~1\CORE\ASSEM~18.CS" LongName="AssemblyResolver.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__0B187DA3E1722441F42E5DC46945B0DE" Guid="0BB0AAAF-AC87-4C0B-FB6D-D6EFF3B70720">
+              <File Id="_0B187DA3E1722441F42E5DC46945B0DE" Name="TESTRU~2.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTRU~2.CS" LongName="TestRunnerThread.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__11ED44E369F07FC09FFE99F1B7A7888E" Guid="3AFFB038-40AF-C1CF-6B0C-F6C4526DEA57">
+              <File Id="_11ED44E369F07FC09FFE99F1B7A7888E" Name="INVALI~2.CS" src="SourceDir\SRC\NUNITF~1\CORE\INVALI~2.CS" LongName="InvalidSuiteException.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__170BD211675CA6F8ACFB8B5B0EC41F79" Guid="BC053AA3-F69E-8852-B104-C1B6093C501A">
+              <File Id="_170BD211675CA6F8ACFB8B5B0EC41F79" Name="TESTFI~5.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTFI~5.CS" LongName="TestFixtureBuilder.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__1C1ABF9DA5E7EE5713CDB424753B509C" Guid="E73BFDFF-ECB6-AD73-078D-41A233D4FF60">
+              <File Id="_1C1ABF9DA5E7EE5713CDB424753B509C" Name="TESTRU~3.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTRU~3.CS" LongName="TestRunner.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__1C6FFB8580570F9BBE785D5FF5C044FB" Guid="191940D1-505A-2A7E-4C55-7740640798D5">
+              <File Id="_1C6FFB8580570F9BBE785D5FF5C044FB" Name="TESTEV~2.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTEV~2.CS" LongName="TestEventArgs.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__1F5B81D32B3E567766E37453014B9C06" Guid="1FEDCECA-6892-9D39-8488-5448901078C9">
+              <File Id="_1F5B81D32B3E567766E37453014B9C06" Name="TEMPLA~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\TEMPLA~1.CS" LongName="TemplateTestCase.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__1FDCEF6E5D72F7269C50195E9D904056" Guid="7B909A5D-A8D0-1CC1-87D5-9ECB02FA0C4F">
+              <File Id="_1FDCEF6E5D72F7269C50195E9D904056" Name="TESTAS~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTAS~1.CS" LongName="TestAssembly.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__21C353C61003FB4C723471A28F9BBC63" Guid="5A0FA4C6-2E95-9FF7-2432-DCF8FA110142">
+              <File Id="_21C353C61003FB4C723471A28F9BBC63" Name="TESTBU~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTBU~1.CS" LongName="TestBuilderAttribute.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__23BD224FA1B6E3D43EAAF961F9C564D5" Guid="ECCC06AE-4AB0-169F-37D9-E7B4F5CECFD7">
+              <File Id="_23BD224FA1B6E3D43EAAF961F9C564D5" Name="LEGACY~2.CS" src="SourceDir\SRC\NUNITF~1\CORE\LEGACY~2.CS" LongName="LegacySuiteBuilder.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__2697EF7F8930F49735F5A1DDB983E3F9" Guid="70510C6D-C4AB-F50F-4254-7BB2B17AE396">
+              <File Id="_2697EF7F8930F49735F5A1DDB983E3F9" Name="NULLLI~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\NULLLI~1.CS" LongName="NullListener.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__2CCAA61814960235000385331BCBDEFE" Guid="2CD8C12B-5930-F528-DF13-434AFE94D7B8">
+              <File Id="_2CCAA61814960235000385331BCBDEFE" Name="NAMESP~2.CS" src="SourceDir\SRC\NUNITF~1\CORE\NAMESP~2.CS" LongName="NamespaceSuite.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__3D48315466F793E2892B963467234FC7" Guid="AE75CA7D-22AF-FC6C-9651-30A8B6D4542A">
+              <File Id="_3D48315466F793E2892B963467234FC7" Name="FILTER.CS" src="SourceDir\SRC\NUNITF~1\CORE\FILTER.CS" LongName="Filter.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__3D5F0D1878E11298DF30CC0B41965D20" Guid="21E16B2F-BD76-0076-22B3-AC6235CDDBA6">
+              <File Id="_3D5F0D1878E11298DF30CC0B41965D20" Name="ASSEM~19.CS" src="SourceDir\SRC\NUNITF~1\CORE\ASSEM~19.CS" LongName="AssemblyInfo.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__44307CC7C2E7ACD60245C3E7EAA3231A" Guid="CF4A2936-3D7B-A4E2-D1AD-41AED151AF2C">
+              <File Id="_44307CC7C2E7ACD60245C3E7EAA3231A" Name="CATEGO~3.CS" src="SourceDir\SRC\NUNITF~1\CORE\CATEGO~3.CS" LongName="CategoryManager.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__4C7C865AA1F7025AA69DAAEB49E0F65E" Guid="B91F8E94-6CF6-8F2D-256D-89BF39AD915C">
+              <File Id="_4C7C865AA1F7025AA69DAAEB49E0F65E" Name="TESTSU~7.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTSU~7.CS" LongName="TestSuiteBuilder.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__5FFEC8D3A34E7AA4014E11E1CDFBE62F" Guid="8EB0272A-15C9-0671-2497-BB8CFFD918B8">
+              <File Id="_5FFEC8D3A34E7AA4014E11E1CDFBE62F" Name="NUNITE~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\NUNITE~1.CS" LongName="NunitException.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__6A34DC7B01EDE4CDC9CC23CBCC36E34A" Guid="162A46FB-DC79-2CF2-2948-3223D673B9B2">
+              <File Id="_6A34DC7B01EDE4CDC9CC23CBCC36E34A" Name="NOTRUN~2.CS" src="SourceDir\SRC\NUNITF~1\CORE\NOTRUN~2.CS" LongName="NotRunnableTestCase.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__72A4D56A0960C70451B6932D3B7A3DFF" Guid="0C3A3E15-BC17-2E56-3F55-CE7F80BAC3DC">
+              <File Id="_72A4D56A0960C70451B6932D3B7A3DFF" Name="TESTSU~8.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTSU~8.CS" LongName="TestSuite.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__7A1F366724C3067519D1683EC3337B51" Guid="910C8E60-68CA-76AE-A0B5-6702FC93392B">
+              <File Id="_7A1F366724C3067519D1683EC3337B51" Name="NUNITC~1.CSP" src="SourceDir\SRC\NUNITF~1\CORE\NUNITC~1.CSP" LongName="nunit.core.dll.csproj" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__7F70A0FEB9ED9FB9E3847814DD87B744" Guid="6F1BE253-6F88-75B8-10B9-27F2DBA24836">
+              <File Id="_7F70A0FEB9ED9FB9E3847814DD87B744" Name="ROOTTE~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\ROOTTE~1.CS" LongName="RootTestSuite.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__81706A2C446293918B05B125D534552C" Guid="5ACEFA4C-1142-50B9-CEE0-45CC68E6494E">
+              <File Id="_81706A2C446293918B05B125D534552C" Name="REMOTE~3.CS" src="SourceDir\SRC\NUNITF~1\CORE\REMOTE~3.CS" LongName="RemoteTestRunner.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__8C2AF1543733E1020D8938036796BE6D" Guid="D83B5E3F-54BD-36A2-B667-75CB363D6FD7">
+              <File Id="_8C2AF1543733E1020D8938036796BE6D" Name="TESTCA~4.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTCA~4.CS" LongName="TestCaseBuilder.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__93F71460B36E1730EF73B6FB69F2E75A" Guid="E8550368-9919-7B48-F065-F42AF15BC7C9">
+              <File Id="_93F71460B36E1730EF73B6FB69F2E75A" Name="EVENTL~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\EVENTL~1.CS" LongName="EventListener.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__94C00E75C5078027EA9068DCBFE9EA6B" Guid="28691A37-BB9F-5AA4-2898-27BC14316B0A">
+              <File Id="_94C00E75C5078027EA9068DCBFE9EA6B" Name="TESTRE~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTRE~1.CS" LongName="TestResult.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__991A788AABD5B70A0B203916EEAF3347" Guid="C4140FB0-A627-6B3A-2E97-C5209DC90AAC">
+              <File Id="_991A788AABD5B70A0B203916EEAF3347" Name="REFLECT.CS" src="SourceDir\SRC\NUNITF~1\CORE\REFLECT.CS" LongName="Reflect.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__9A8A184D4192FC027066C5DB4787BB3D" Guid="3F788CF8-1CFC-6437-EF80-61FE8943FAEF">
+              <File Id="_9A8A184D4192FC027066C5DB4787BB3D" Name="ITESTE~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\ITESTE~1.CS" LongName="ITestEvents.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__9DC81F575A992DD61190813F6AEBE416" Guid="42F754CF-4F81-46C7-DD0A-E8FC12EF3AB5">
+              <File Id="_9DC81F575A992DD61190813F6AEBE416" Name="LEGACY~3.CS" src="SourceDir\SRC\NUNITF~1\CORE\LEGACY~3.CS" LongName="LegacySuite.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__A62AEDFFEA5D85BEA829BB4529D921FF" Guid="121F58D9-2D1D-1CD8-42C4-F36F341B45D7">
+              <File Id="_A62AEDFFEA5D85BEA829BB4529D921FF" Name="ISUITE~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\ISUITE~1.CS" LongName="ISuiteBuilder.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__A91D6D6B2F8919E361F5F9219C60A1DC" Guid="A3207B89-5FFC-43E0-EDEF-30453B746C99">
+              <File Id="_A91D6D6B2F8919E361F5F9219C60A1DC" Name="EXPECT~2.CS" src="SourceDir\SRC\NUNITF~1\CORE\EXPECT~2.CS" LongName="ExpectedExceptionBuilder.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__ADFCDCE05FB7623BA1C0771F93F1BF7C" Guid="824432BF-514B-A1C9-3A0E-F5F81DC78C60">
+              <File Id="_ADFCDCE05FB7623BA1C0771F93F1BF7C" Name="LONGLI~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\LONGLI~1.CS" LongName="LongLivingMarshalByRefObject.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__AFCD8A3BCD0483864AE218D1C1AA605D" Guid="F1D6E966-B8D6-D3F7-0E2A-4AAEEAA8256F">
+              <File Id="_AFCD8A3BCD0483864AE218D1C1AA605D" Name="STRING~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\STRING~1.CS" LongName="StringTextWriter.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__CC9D3F9CDF4D8A4847C6D162BF52A96E" Guid="CC8F60CF-4BDD-4977-60A1-3A818A5E387B">
+              <File Id="_CC9D3F9CDF4D8A4847C6D162BF52A96E" Name="NORMAL~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\NORMAL~1.CS" LongName="NormalTestBuilder.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__CD1EE131800562F5E20EB0B50C4F5564" Guid="35392AAF-8669-214F-D722-A09D255F4149">
+              <File Id="_CD1EE131800562F5E20EB0B50C4F5564" Name="EXPECT~3.CS" src="SourceDir\SRC\NUNITF~1\CORE\EXPECT~3.CS" LongName="ExpectedExceptionTestCase.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__D274B968DF24D4843B489B46747E1873" Guid="171A374F-366A-E10F-25A5-3E2373D3E163">
+              <File Id="_D274B968DF24D4843B489B46747E1873" Name="TESTSU~9.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTSU~9.CS" LongName="TestSuiteResult.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__D343C6F43188F3BC63CF5701F38420BD" Guid="62B59980-9C63-BC5D-40D4-435A4012A19D">
+              <File Id="_D343C6F43188F3BC63CF5701F38420BD" Name="TESTEV~3.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTEV~3.CS" LongName="TestEventDispatcher.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__DD63CA420A0134E5F4FE2A29698B62FF" Guid="F81C33F4-D805-3D9B-DA7D-73F984B83D20">
+              <File Id="_DD63CA420A0134E5F4FE2A29698B62FF" Name="NORMAL~2.CS" src="SourceDir\SRC\NUNITF~1\CORE\NORMAL~2.CS" LongName="NormalTestCase.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__E843CBEA45BD6020D5AC2EF98B295F81" Guid="9DDA013E-EE32-1318-0A07-68D8E6622F01">
+              <File Id="_E843CBEA45BD6020D5AC2EF98B295F81" Name="ITEST.CS" src="SourceDir\SRC\NUNITF~1\CORE\ITEST.CS" LongName="ITest.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__E84EA230BAD7D1BC609B5EEDAEB2F5F7" Guid="D039A7C6-36ED-A95E-7D5A-F70B0F55DF1A">
+              <File Id="_E84EA230BAD7D1BC609B5EEDAEB2F5F7" Name="TESTCA~5.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTCA~5.CS" LongName="TestCaseResult.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__EF7CA679C150BA657A976AB448EDA884" Guid="5F774807-7DD6-991B-B529-A8CE7C239122">
+              <File Id="_EF7CA679C150BA657A976AB448EDA884" Name="NOTEST~2.CS" src="SourceDir\SRC\NUNITF~1\CORE\NOTEST~2.CS" LongName="NoTestFixturesException.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__F0188879BF829AC0C1571F8561238DA5" Guid="3F9C0B97-299B-A2B5-6109-627510AE9744">
+              <File Id="_F0188879BF829AC0C1571F8561238DA5" Name="TESTCASE.CS" src="SourceDir\SRC\NUNITF~1\CORE\TESTCASE.CS" LongName="TestCase.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__F3F50A4BEAB78B545FC214C2D0B20859" Guid="810472D0-7C1A-1704-DA83-002A12636829">
+              <File Id="_F3F50A4BEAB78B545FC214C2D0B20859" Name="NAMEFI~2.CS" src="SourceDir\SRC\NUNITF~1\CORE\NAMEFI~2.CS" LongName="NameFilter.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__F8330030B85E95BE3451810DDAFCA2C0" Guid="FB982A4B-310A-CE32-7B72-888B5733D04E">
+              <File Id="_F8330030B85E95BE3451810DDAFCA2C0" Name="EMPTYF~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\EMPTYF~1.CS" LongName="EmptyFilter.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+            <Component Id="C__FF37995E4FFE0D9294FB0567227E341D" Guid="14873184-C6FF-1F3A-33BA-92F32C8ACEC7">
+              <File Id="_FF37995E4FFE0D9294FB0567227E341D" Name="ITESTB~1.CS" src="SourceDir\SRC\NUNITF~1\CORE\ITESTB~1.CS" LongName="ITestBuilder.cs" Vital="yes" KeyPath="yes" DiskId="1" />
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+      -->
+      
+      
+      
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
+</Wix>
