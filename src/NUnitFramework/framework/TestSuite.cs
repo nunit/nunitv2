@@ -238,21 +238,24 @@ namespace NUnit.Core
 
 			listener.SuiteStarted(this);
 
-			suiteResult.Executed = true;
+			if ( ShouldRun )
+			{
+				suiteResult.Executed = true;
 
-			long startTime = DateTime.Now.Ticks;
+				long startTime = DateTime.Now.Ticks;
 			
-			doFixtureSetup(suiteResult);
-			RunAllTests(suiteResult,listener);
-			doFixtureTearDown(suiteResult);
+				doFixtureSetup(suiteResult);
+				RunAllTests(suiteResult,listener);
+				doFixtureTearDown(suiteResult);
 
-			long stopTime = DateTime.Now.Ticks;
+				long stopTime = DateTime.Now.Ticks;
 
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+				double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
 
-			suiteResult.Time = time;
-
-			if(!ShouldRun) suiteResult.NotRun(this.IgnoreReason);
+				suiteResult.Time = time;
+			}
+			else
+				suiteResult.NotRun(this.IgnoreReason);
 
 			listener.SuiteFinished(suiteResult);
 			suiteRunning = false;
