@@ -5,6 +5,7 @@ AssemblyListBox.cs
 AssemblyPathDialog.cs
 ConfigurationEditor.cs
 ExpandingLabel.cs
+ExpandingTextBox.cs
 FolderBrowser.cs
 NotRunTree.cs
 ProgressBar.cs

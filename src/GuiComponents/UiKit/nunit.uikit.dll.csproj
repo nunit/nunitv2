@@ -168,6 +168,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "ExpandingTextBox.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExpandingTextBox.resx"
+                    DependentUpon = "ExpandingTextBox.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "FolderBrowser.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -282,6 +292,11 @@
                     RelPath = "TipWindow.resx"
                     DependentUpon = "TipWindow.cs"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "UITestEventDispatcher.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "unpinned.gif"

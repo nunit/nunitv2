@@ -30,6 +30,7 @@
 
 using System;
 using System.Drawing;
+using System.ComponentModel;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
@@ -197,13 +198,13 @@ namespace CP.Windows.Forms
 			else if ( expansion == ExpansionStyle.Horizontal )
 				layoutArea.Height = itemBounds.Height;
 			Size sizeNeeded;
-//			if ( expansion == ExpansionStyle.Vertical )
-//				sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font, itemBounds.Width ) );
-//			else // Both or Horizontal
-				sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font, layoutArea ) );
+			//			if ( expansion == ExpansionStyle.Vertical )
+			//				sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font, itemBounds.Width ) );
+			//			else // Both or Horizontal
+			sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font, layoutArea ) );
 
-//			if ( expansion == ExpansionStyle.Horizontal )
-//				sizeNeeded.Height = itemBounds.Height;
+			//			if ( expansion == ExpansionStyle.Horizontal )
+			//				sizeNeeded.Height = itemBounds.Height;
 
 			this.ClientSize = sizeNeeded + new Size( 2, 2 );
 			this.outlineRect = new Rectangle( 0, 0, sizeNeeded.Width + 1, sizeNeeded.Height + 1 );
@@ -371,7 +372,7 @@ namespace CP.Windows.Forms
 			int msg,
 			IntPtr wparam,
 			IntPtr lparam
-		);
+			);
 	
 		protected override void WndProc(ref Message m)
 		{

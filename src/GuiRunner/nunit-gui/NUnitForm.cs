@@ -81,7 +81,7 @@ namespace NUnit.Gui
 		public System.Windows.Forms.MainMenu mainMenu;
 		private System.Windows.Forms.ListBox detailList;
 		public System.Windows.Forms.Splitter splitter3;
-		public System.Windows.Forms.TextBox stackTrace;
+		public CP.Windows.Forms.ExpandingTextBox stackTrace;
 		public NUnit.UiKit.StatusBar statusBar;
 		public System.Windows.Forms.TabControl resultTabs;
 		public System.Windows.Forms.TabPage errorPage;
@@ -208,7 +208,7 @@ namespace NUnit.Gui
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.resultTabs = new System.Windows.Forms.TabControl();
 			this.errorPage = new System.Windows.Forms.TabPage();
-			this.stackTrace = new System.Windows.Forms.TextBox();
+			this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
 			this.splitter3 = new System.Windows.Forms.Splitter();
 			this.detailList = new System.Windows.Forms.ListBox();
 			this.testsNotRun = new System.Windows.Forms.TabPage();
