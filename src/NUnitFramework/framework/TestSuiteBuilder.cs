@@ -116,7 +116,16 @@ namespace NUnit.Core
 			Type[] testTypes = assembly.GetExportedTypes();
 			foreach(Type testType in testTypes)
 			{
+				////////////////////////////////////////////////////////////////////////
+				// Use the second if statement to allow including Suites in the
+				// tree of tests. This causes a problem when the same test is added
+				// in multiple suites so we need to either fix it or prevent it.
+				//
+				// See also the block of code to uncomment in TestSUite.cs
+				////////////////////////////////////////////////////////////////////////
+
 				if(IsTestFixture(testType))
+				//if(IsTestFixture(testType) || IsTestSuiteProperty(testType))
 				{
 					testFixtureCount++;
 					string namespaces = testType.Namespace;

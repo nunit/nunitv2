@@ -95,6 +95,35 @@ namespace NUnit.Core
 				testSuite.IgnoreReason = attr.Reason;
 			}
 
+////////////////////////////////////////////////////////////////////////
+// Uncomment the following code block to allow including Suites in the
+// tree of tests. This causes a problem when the same test is added
+// in multiple suites so we need to either fix it or prevent it.
+//
+// See also a line to change in TestSuiteBuilder.cs
+////////////////////////////////////////////////////////////////////////
+
+//			PropertyInfo [] properties = fixture.GetType().GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
+//			foreach(PropertyInfo property in properties)
+//			{
+//				object[] attrributes = property.GetCustomAttributes(typeof(NUnit.Framework.SuiteAttribute),false);
+//				if(attrributes.Length>0)
+//				{
+//					MethodInfo method = property.GetGetMethod(true);
+//					if(method.ReturnType!=typeof(NUnit.Core.TestSuite) || method.GetParameters().Length>0)
+//					{
+//						testSuite.ShouldRun = false;
+//						testSuite.IgnoreReason = "Invalid suite property method signature";
+//					}
+//					else
+//					{
+//						TestSuite suite = (TestSuite)property.GetValue(null, new Object[0]);
+//						foreach( Test test in suite.Tests )
+//							testSuite.Add( test );
+//					}
+//				}
+//			}
+
 			MethodInfo [] methods = fixture.GetType().GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.NonPublic);
 			foreach(MethodInfo method in methods)
 			{
@@ -111,6 +140,15 @@ namespace NUnit.Core
 				testSuite.ShouldRun = false;
 				testSuite.IgnoreReason = testSuite.Name + " does not have any tests";
 			}
+		}
+
+		private void CheckSuiteProperty(PropertyInfo property)
+		{
+			MethodInfo method = property.GetGetMethod(true);
+			if(method.ReturnType!=typeof(NUnit.Core.TestSuite))
+				throw new InvalidSuiteException("Invalid suite property method signature");
+			if(method.GetParameters().Length>0)
+				throw new InvalidSuiteException("Invalid suite property method signature");
 		}
 
 		public override ArrayList Tests 
