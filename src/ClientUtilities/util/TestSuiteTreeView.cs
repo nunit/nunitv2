@@ -134,6 +134,7 @@ namespace NUnit.Util
 			actions.TestFinishedEvent += new TestFinishedHandler( OnTestFinished );
 			actions.SuiteFinishedEvent += new SuiteFinishedHandler( OnSuiteFinished );
 			actions.RunFinishedEvent += new RunFinishedHandler( OnRunFinished );
+			actions.RunFailureEvent += new RunFailureHandler( OnRunFailure );
 		}
 
 		#endregion
@@ -252,6 +253,11 @@ namespace NUnit.Util
 		private void OnRunFinished( TestResult result )
 		{
 			this[result].Expand();
+			runCommandEnabled = true;
+		}
+
+		private void OnRunFailure( Exception e )
+		{
 			runCommandEnabled = true;
 		}
 

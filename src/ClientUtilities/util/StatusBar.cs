@@ -98,11 +98,17 @@ namespace NUnit.UiKit
 			uiEvents.TestFinishedEvent += new TestFinishedHandler( OnTestFinished );
 			uiEvents.RunStartingEvent += new RunStartingHandler( OnRunStarting );
 			uiEvents.RunFinishedEvent += new RunFinishedHandler( OnRunFinished );
+			uiEvents.RunFailureEvent += new RunFailureHandler( OnRunFailure );
 		}
 
 		public void Initialize( int testCount )
 		{
-			this.statusPanel.Text = "Status";
+			Initialize( testCount, testCount > 0 ? "Ready" : "" );
+		}
+
+		private void Initialize( int testCount, string text )
+		{
+			this.statusPanel.Text = text;
 
 			this.testCount = testCount;
 			this.testsRun = 0;
@@ -153,7 +159,7 @@ namespace NUnit.UiKit
 
 		public void OnSuiteUnloaded()
 		{
-			Initialize( 0 );
+			Initialize( 0, "Unloaded" );
 		}
 
 		public void OnTestStarted( UITestNode testCase )
@@ -163,7 +169,7 @@ namespace NUnit.UiKit
 
 		private void OnRunStarting( UITestNode test )
 		{
-			Initialize( test.CountTestCases );
+			Initialize( test.CountTestCases, "Running :" + test.Name );
 		}
 
 		private void OnRunFinished(TestResult result)
@@ -172,6 +178,11 @@ namespace NUnit.UiKit
 
 			// NOTE: call DisplayResults always since we need the time
 			DisplayResults( result );
+		}
+
+		private void OnRunFailure( Exception e )
+		{
+			statusPanel.Text = "Failed";
 		}
 
 		private void OnTestFinished( TestCaseResult result )

@@ -160,6 +160,7 @@ namespace NUnit.Gui
 			// Set up events handled by the form
 			actions.RunStartingEvent += new RunStartingHandler( OnRunStarting );
 			actions.RunFinishedEvent += new RunFinishedHandler( OnRunFinished );
+			actions.RunFailureEvent += new RunFailureHandler( OnRunFailure );
 			actions.TestSuiteLoadedEvent += new TestSuiteLoadedHandler( OnSuiteLoaded );
 			actions.TestSuiteUnloadedEvent += new TestSuiteUnloadedHandler( OnSuiteUnloaded );
 			actions.TestSuiteChangedEvent += new TestSuiteChangedHandler( OnSuiteChanged );
@@ -839,6 +840,12 @@ namespace NUnit.Gui
 			runButton.Enabled = true;
 		}
 
+		private void OnRunFailure( Exception e )
+		{
+			runButton.Enabled = true;
+			FailureMessage( e, "NUnit Test Run Failed" );
+		}
+
 		/// <summary>
 		/// A test suite assembly has been loaded, so update 
 		/// recent assemblies and display the tests in the UI
@@ -888,7 +895,8 @@ namespace NUnit.Gui
 		/// <param name="exception">Exception that occurred.</param>
 		private void OnAssemblyLoadFailure( string assemblyFileName, Exception exception )
 		{
-			AssemblyLoadFailureMessage( assemblyFileName, exception );
+			FailureMessage( exception, "Assembly Load Failure" );
+
 			RemoveRecentAssembly( assemblyFileName );
 
 			if ( assemblyFileName == LoadedAssembly )
@@ -925,16 +933,27 @@ namespace NUnit.Gui
 		}
 
 		/// <summary>
-		/// Display message and clean up after an assembly fails to load
+		/// Display failure message box
 		/// </summary>
-		/// <param name="assemblyFileName">Full path to the assembly</param>
-		/// <param name="exception">Exception that was thrown when loading the assembly</param>
-		private void AssemblyLoadFailureMessage( string assemblyFileName, Exception exception )
+		/// <param name="exception">Exception that caused the failure</param>
+		/// <param name="caption">Caption for the message box</param>
+		private void FailureMessage( Exception exception, string caption )
 		{
 			string message = exception.Message;
 			if(exception.InnerException != null)
 				message = exception.InnerException.Message;
-			MessageBox.Show(this,message,"Assembly Load Failure",
+
+			FailureMessage( message, caption );
+		}
+
+		/// <summary>
+		/// Display failure message box
+		/// </summary>
+		/// <param name="message">Message to display</param>
+		/// <param name="caption">Caption for the message box</param>
+		private void FailureMessage( string message, string caption )
+		{
+			MessageBox.Show( this, message, caption,
 				MessageBoxButtons.OK,MessageBoxIcon.Stop);
 		}
 

@@ -211,7 +211,7 @@ namespace NUnit.Console
 			summaryXslTransform.Transform(originalXPathDocument,null,Console.Out);
 		}
 
-		private class EventCollector : MarshalByRefObject, EventListener
+		private class EventCollector : LongLivingMarshalByRefObject, EventListener
 		{
 			public void TestFinished(TestCaseResult testResult)
 			{
@@ -233,20 +233,6 @@ namespace NUnit.Console
 
 			public void SuiteStarted(TestSuite suite) {}
 			public void SuiteFinished(TestSuiteResult result) {}
-
-			public override Object InitializeLifetimeService()
-			{
-				System.Runtime.Remoting.Lifetime.ILease lease =
-
-					(System.Runtime.Remoting.Lifetime.ILease)base.InitializeLifetimeService(
-					);
-				if (lease.CurrentState ==
-					System.Runtime.Remoting.Lifetime.LeaseState.Initial)
-				{
-					lease.InitialLeaseTime = TimeSpan.Zero;
-				}
-				return lease;
-			}
 		}
 
 	}

@@ -35,7 +35,7 @@ namespace NUnit.Core
 	/// <summary>
 	///		Test Class.
 	/// </summary>
-	public abstract class Test : MarshalByRefObject, TestInfo
+	public abstract class Test : LongLivingMarshalByRefObject, TestInfo
 	{
 		private string fullName;
 		private string testName;
@@ -75,21 +75,6 @@ namespace NUnit.Core
 		{
 			get { return testName; }
 		}
-
-		public override Object InitializeLifetimeService()
-		{
-			System.Runtime.Remoting.Lifetime.ILease lease =
-
-				(System.Runtime.Remoting.Lifetime.ILease)base.InitializeLifetimeService(
-				);
-			if (lease.CurrentState ==
-				System.Runtime.Remoting.Lifetime.LeaseState.Initial)
-			{
-				lease.InitialLeaseTime = TimeSpan.Zero;
-			}
-			return lease;
-		}
-
 
 		public abstract int CountTestCases { get; }
 		public abstract bool IsSuite { get; }

@@ -39,7 +39,7 @@ namespace NUnit.Core
 	/// </summary>
 	/// 
 	[Serializable]
-	public class RemoteTestRunner : MarshalByRefObject
+	public class RemoteTestRunner : LongLivingMarshalByRefObject
 	{
 		private TestSuite suite;
 		private string fullName;
@@ -54,20 +54,6 @@ namespace NUnit.Core
 		{
 			TestName = fixtureName;
 			Initialize(assemblyName);
-		}
-
-		public override Object InitializeLifetimeService()
-		{
-			System.Runtime.Remoting.Lifetime.ILease lease =
-
-				(System.Runtime.Remoting.Lifetime.ILease)base.InitializeLifetimeService(
-				);
-			if (lease.CurrentState ==
-				System.Runtime.Remoting.Lifetime.LeaseState.Initial)
-			{
-				lease.InitialLeaseTime = TimeSpan.Zero;
-			}
-			return lease;
 		}
 
 		public void BuildSuite() 
@@ -87,7 +73,9 @@ namespace NUnit.Core
 			Console.SetError(new StringTextWriter(errorText));
 
 			Test test = FindByName(suite, fullName);
+
 			TestResult result = test.Run(listener);
+
 			return result;
 		}
 

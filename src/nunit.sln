@@ -29,6 +29,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "install", "install\install.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nonamespace-assembly", "tests\nonamespace-assembly\nonamespace-assembly.csproj", "{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "timing-tests", "tests\timing-tests\timing-tests.csproj", "{F16DED73-A2AD-4711-BC1B-5DDFC2BF8667}"
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
@@ -95,6 +97,10 @@ Global
 		{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}.Debug.Build.0 = Debug|.NET
 		{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}.Release.ActiveCfg = Release|.NET
 		{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}.Release.Build.0 = Release|.NET
+		{F16DED73-A2AD-4711-BC1B-5DDFC2BF8667}.Debug.ActiveCfg = Debug|.NET
+		{F16DED73-A2AD-4711-BC1B-5DDFC2BF8667}.Debug.Build.0 = Debug|.NET
+		{F16DED73-A2AD-4711-BC1B-5DDFC2BF8667}.Release.ActiveCfg = Release|.NET
+		{F16DED73-A2AD-4711-BC1B-5DDFC2BF8667}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

@@ -52,6 +52,7 @@ namespace NUnit.UiKit
 	public delegate void RunStartingHandler( UITestNode test );
 	public delegate void RunFinishedHandler( TestResult result );
 	public delegate void RunCanceledHandler( UITestNode test );
+	public delegate void RunFailureHandler( Exception exception );
 
 	public delegate void SuiteStartedHandler( UITestNode suite );
 	public delegate void SuiteFinishedHandler( TestSuiteResult result );
@@ -149,6 +150,8 @@ namespace NUnit.UiKit
 		event RunFinishedHandler RunFinishedEvent;
 
 		event RunCanceledHandler RunCanceledEvent;
+
+		event RunFailureHandler RunFailureEvent;
 		
 		event SuiteFinishedHandler SuiteFinishedEvent;
 		

@@ -48,7 +48,7 @@ namespace NUnit.UiKit
 	/// UIActions also provides a set of methods which allow the elements
 	/// in the UI to control loading, unloading and running of tests.
 	/// </summary>
-	public class UIActions : MarshalByRefObject, NUnit.Core.EventListener, UIEvents
+	public class UIActions : LongLivingMarshalByRefObject, NUnit.Core.EventListener, UIEvents
 	{
 		#region Instance Variables
 
@@ -114,6 +114,8 @@ namespace NUnit.UiKit
 		public event RunFinishedHandler RunFinishedEvent;
 
 		public event RunCanceledHandler RunCanceledEvent;
+
+		public event RunFailureHandler RunFailureEvent;
 		
 		public event SuiteFinishedHandler SuiteFinishedEvent;
 		
@@ -226,15 +228,31 @@ namespace NUnit.UiKit
 			if ( RunStartingEvent != null )
 				RunStartingEvent( runningTest );
 
-			testDomain.TestName = runningTest.FullName;
+			TestResult result = null;
 
-			TestResult result = testDomain.Run(this);
-
-			if ( RunFinishedEvent != null )
-				RunFinishedEvent( result );
-
-			runningTest = null;
-			runningThread = null;
+			try
+			{
+				testDomain.TestName = runningTest.FullName;
+				result = testDomain.Run(this);
+				
+				if ( RunFinishedEvent != null )
+					RunFinishedEvent( result );
+			}
+			catch( System.Threading.ThreadAbortException exception )
+			{
+				if ( RunCanceledEvent != null )
+					RunCanceledEvent( runningTest );
+			}
+			catch( Exception exception )
+			{
+				if ( RunFailureEvent != null )
+					RunFailureEvent( exception );
+			}
+			finally
+			{
+				runningTest = null;
+				runningThread = null;
+			}
 		}
 
 		/// <summary>
@@ -385,20 +403,6 @@ namespace NUnit.UiKit
 				watcher.Stop();
 				watcher = null;
 			}
-		}
-
-		public override Object InitializeLifetimeService()
-		{
-			System.Runtime.Remoting.Lifetime.ILease lease =
-
-				(System.Runtime.Remoting.Lifetime.ILease)base.InitializeLifetimeService(
-				);
-			if (lease.CurrentState ==
-				System.Runtime.Remoting.Lifetime.LeaseState.Initial)
-			{
-				lease.InitialLeaseTime = TimeSpan.Zero;
-			}
-			return lease;
 		}
 
 		#endregion

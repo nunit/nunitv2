@@ -64,5 +64,10 @@ namespace NUnit.Core
 		{
 			get { return Encoding.Default; }
 		}
+
+		public override Object InitializeLifetimeService()
+		{
+			return null;
+		}
 	}
 }

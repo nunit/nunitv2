@@ -168,7 +168,6 @@ namespace NUnit.Framework
 			string domainName = String.Format("domain-{0}", file.Name);
 			AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
 			ConfigureCachePath(runnerDomain);
-			runnerDomain.InitializeLifetimeService();
 			return runnerDomain;
 		}
 

@@ -22,6 +22,7 @@ namespace NUnit.Tests
 		public event TestStartedHandler TestStartedEvent;
 		public event RunFinishedHandler RunFinishedEvent;
 		public event RunCanceledHandler RunCanceledEvent;
+		public event RunFailureHandler RunFailureEvent;
 		public event SuiteFinishedHandler SuiteFinishedEvent;
 		public event TestFinishedHandler TestFinishedEvent;
 
@@ -80,6 +81,12 @@ namespace NUnit.Tests
 		{
 			if ( RunCanceledEvent != null )
 				RunCanceledEvent( test );
+		}
+
+		public void FireRunFailureEvent( Exception e )
+		{
+			if ( RunFailureEvent != null )
+				RunFailureEvent( e );
 		}
 
 		public void FireSuiteFinishedEvent( TestSuiteResult result )
