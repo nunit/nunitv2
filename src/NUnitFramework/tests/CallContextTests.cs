@@ -13,20 +13,20 @@ namespace NUnit.Core.Tests
 	public class CallContextTests
 	{
 		const string CONTEXT_DATA = "MyContextData";
-		IPrincipal savedPrincipal;
+//		IPrincipal savedPrincipal;
 
-		[SetUp]
-		public void SaveCurrentPrincipal()
-		{
-			savedPrincipal = System.Threading.Thread.CurrentPrincipal;
-		}
-
-		[TearDown]
-		public void RestoreCurrentPrincipal()
-		{
-			System.Threading.Thread.CurrentPrincipal = savedPrincipal;
-			CallContext.FreeNamedDataSlot(CONTEXT_DATA);
-		}
+//		[SetUp]
+//		public void SaveCurrentPrincipal()
+//		{
+//			savedPrincipal = System.Threading.Thread.CurrentPrincipal;
+//		}
+//
+//		[TearDown]
+//		public void RestoreCurrentPrincipal()
+//		{
+//			System.Threading.Thread.CurrentPrincipal = savedPrincipal;
+//			CallContext.FreeNamedDataSlot(CONTEXT_DATA);
+//		}
 
 //		[TestFixtureTearDown]
 //		public void FreeCallContextDataSlot()
