@@ -44,7 +44,7 @@ namespace NUnit.Core
 					this.thread.StartRun( queue, testNames );
 					while(this.thread.IsAlive)
 					{
-						//						pumpingEventListener.DoEvents();
+						//pumpingEventListener.DoEvents();
 						Thread.Sleep(1000 / 50);
 					}
 					return this.thread.Results;
@@ -56,6 +56,7 @@ namespace NUnit.Core
 			}
 		}
 
+#if STARTRUN_SUPPORT
 		public override void doStartRun( EventListener listener, string[] testNames )
 		{
 			this.thread = new TestRunnerThread(this.testRunner);
@@ -64,6 +65,7 @@ namespace NUnit.Core
 			pump.Start();
 			this.thread.StartRun( queue, testNames );
 		}
+#endif
 
 		void TestRunner.CancelRun()
 		{

@@ -229,6 +229,7 @@ namespace NUnit.Util
 			}
 		}
 
+#if STARTRUN_SUPPORT
 		public override void doStartRun( EventListener listener, string[] testNames )
 		{
 			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
@@ -236,6 +237,7 @@ namespace NUnit.Util
 				base.doStartRun( listener, testNames );
 			}
 		}
+#endif
 
 		// For now, just publish any unhandled exceptions and let the listener
 		// figure out what to do with them.
@@ -422,14 +424,15 @@ namespace NUnit.Util
 		{
 			Type runnerType = null;
 	
-			//			if (threaded)
-			//			{
-			//				runnerType = typeof(ThreadedRemoteRunner);
-			//			}
-			//			else
-			//			{
-			runnerType = typeof(RemoteTestRunner);
-			//			}
+			if (threaded)
+			{
+				//runnerType = typeof(ThreadedRemoteRunner);
+				runnerType = typeof(RemoteTestRunner);
+			}
+			else
+			{
+				runnerType = typeof(RemoteTestRunner);
+			}
 			return runnerType;
 		}
 

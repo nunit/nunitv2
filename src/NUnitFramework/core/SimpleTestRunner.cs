@@ -5,29 +5,38 @@ using System.Threading;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// BaseTestRunner is the simplest direct-running TestRunner. It simply
+	/// SimpleTestRunner is the simplest direct-running TestRunner. It
 	/// passes the event listener interface that is provided on to the tests
 	/// to use directly and does nothing to redirect text output.
 	/// </summary>
-	public class BaseTestRunner : AbstractTestRunner
+	public class SimpleTestRunner : AbstractTestRunner
 	{
 		#region Instance Variables
+#if STARTRUN_SUPPORT
 		/// <summary>
 		/// TestRunnerThread used for asynchronous runs
 		/// </summary>
 		private TestRunnerThread startRunThread;
+#endif
 
 		/// <summary>
 		/// The thread on which Run was called
 		/// </summary>
 		private Thread runThread;
+			
 		#endregion
 
 		#region Properties
 		public override bool Running
 		{
-			get { return runThread != null && runThread.IsAlive || 
-				  startRunThread != null && startRunThread.IsAlive; }
+			get 
+			{ 
+				return 
+#if STARTRUN_SUPPORT
+				startRunThread != null && startRunThread.IsAlive ||
+#endif
+				runThread != null && runThread.IsAlive; 
+			}
 		}
 		#endregion
 
@@ -38,19 +47,6 @@ namespace NUnit.Core
 		/// </summary>
 		protected override TestResult[] doRun( EventListener listener, Test[] tests )
 		{
-			// Save static context so we can change and restore Console
-			// Out and Error and in case the tests change anything - as
-			// happens, for example, in testing NUnit itself.
-			TestContext.Save();
-
-			// Set Console to go to our Out and Error properties if they were set.
-			// Note that any changes made by the user in the test code or the code 
-			// it calls will defeat this.
-			if ( this.Out != null )
-				TestContext.Out = this.Out;
-			if ( Error != null )
-				TestContext.Error = this.Error; 
-
 			//			AddinManager.Addins.Save();
 			//			AddinManager.Addins.Clear();
 
@@ -94,13 +90,11 @@ namespace NUnit.Core
 				// Flag that we are no longer running
 				this.runThread = null;
 
-				// Restore Console and other static settings
-				TestContext.Restore();
-
 //				AddinManager.Addins.Restore();
 			}
 		}
 
+#if STARTRUN_SUPPORT
 		protected override void doStartRun( EventListener listener, string[] testNames )
 		{
 			startRunThread = new TestRunnerThread( this );
@@ -110,16 +104,20 @@ namespace NUnit.Core
 			else
 				startRunThread.StartRun( listener, testNames );
 		}
+#endif
 
 		public override void CancelRun()
 		{
+#if STARTRUN_SUPPORT
 			// Cancel Asynchrous StartRun
 			if ( startRunThread != null )
 			{
 				if ( startRunThread.IsAlive )
 					startRunThread.Cancel();
 			}
-			else if ( runThread != null )
+			else 
+#endif
+			if ( runThread != null )
 			{
 				// Cancel Synchronous run only if on another thread
 				if ( runThread == Thread.CurrentThread )

@@ -32,7 +32,11 @@ namespace NUnit.Core
 	using System;
 	using System.IO;
 
-	public class RealTestRunner : BaseTestRunner
+	/// <summary>
+	///  Extends BaseTestRunner by redirecting its console output to an 
+	///  eventlistener text writer so it can be received as an event.
+	/// </summary>
+	public class ConsoleEventTestRunner : SimpleTestRunner
 	{
 		protected override TestResult[] doRun( EventListener listener, Test[] tests )
 		{

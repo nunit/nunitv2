@@ -34,15 +34,6 @@ namespace NUnit.Core
 		/// </summary>
 		protected TestResult[] testResults;
 
-		/// <summary>
-		/// Our writer for standard output
-		/// </summary>
-		private TextWriter outText;
-
-		/// <summary>
-		/// Our writer for error output
-		/// </summary>
-		private TextWriter errorText;
 		#endregion
 
 		#region Constructors
@@ -76,34 +67,6 @@ namespace NUnit.Core
 		{
 			get { return testFilter; }
 			set { testFilter = value; }
-		}
-
-		/// <summary>
-		/// Writer for standard output. Set throws if a test is running
-		/// </summary>
-		public TextWriter Out
-		{
-			get { return outText; }
-			set 
-			{ 
-				if ( Running )
-					throw new InvalidOperationException( "Cannot change TextWriter while a test is running" );
-				outText = value; 
-			}
-		}
-
-		/// <summary>
-		/// Writer for error output. Set throws if a test is running
-		/// </summary>
-		public TextWriter Error
-		{
-			get { return errorText; }
-			set 
-			{ 
-				if ( Running )
-					throw new InvalidOperationException( "Cannot change TextWriter while a test is running" );
-				errorText = value; 
-			}
 		}
 		#endregion
 
@@ -201,6 +164,7 @@ namespace NUnit.Core
 				return doRun( listener, FindTests( suite, testNames ) );
 		}
 
+#if STARTRUN_SUPPORT
 		public virtual void StartRun( EventListener listener )
 		{
 			doStartRun( listener, null );
@@ -213,6 +177,7 @@ namespace NUnit.Core
 			else
 				doStartRun( listener, testNames );
 		}
+#endif
 
 		public virtual void Wait()
 		{
@@ -255,6 +220,7 @@ namespace NUnit.Core
 		}
 		#endregion
 
+		#region Abstract Properties and Methods
 		/// <summary>
 		/// Override to indicate whether a test is running
 		/// </summary>
@@ -263,7 +229,6 @@ namespace NUnit.Core
 			get;
 		}
 
-		#region Abstract Properties and Methods
 		/// <summary>
 		/// All Run calls eventually come down to this method, which
 		/// must be overridden by each derived class.
@@ -273,6 +238,7 @@ namespace NUnit.Core
 		/// <returns>Array of TestResults corresponding to each Test run</returns>
 		protected abstract TestResult[] doRun( EventListener listener, Test[] tests );
 
+#if STARTRUN_SUPPORT
 		/// <summary>
 		/// All StartRun calls eventually come down to this method, which
 		/// must be overridden by each derived class.
@@ -280,6 +246,7 @@ namespace NUnit.Core
 		/// <param name="listener">Interface to receive EventListener notifications</param></param>
 		/// <param name="tests">Names of the tests to be run</param>
 		protected abstract void doStartRun( EventListener listener, string[] testNames );
+#endif
 
 		/// <summary>
 		/// Override this methnod to Cancel a run, if possible

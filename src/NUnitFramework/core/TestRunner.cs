@@ -56,21 +56,21 @@ namespace NUnit.Core
 	public interface TestRunner
 	{
 		#region Properties
-		/// <summary>
-		/// Writer for standard output.
-		/// </summary>
-		TextWriter Out
-		{
-			get; set;
-		}
-
-		/// <summary>
-		/// Writer for error output.
-		/// </summary>
-		TextWriter Error
-		{
-			get; set;
-		}
+//		/// <summary>
+//		/// Writer for standard output.
+//		/// </summary>
+//		TextWriter Out
+//		{
+//			get; set;
+//		}
+//
+//		/// <summary>
+//		/// Writer for error output.
+//		/// </summary>
+//		TextWriter Error
+//		{
+//			get; set;
+//		}
 
 		/// <summary>
 		/// IsTestRunning indicates whether a test is in progress. To retrieve the
@@ -187,6 +187,7 @@ namespace NUnit.Core
 		/// <param name="testNames">The names of the test cases, fixtures or suites to be run</param>
 		TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames);
 
+#if STARTRUN_SUPPORT
 		/// <summary>
 		/// Start a run of all loaded tests. The tests are run aynchronously and the 
 		/// listener interface is notified as it progresses.
@@ -201,7 +202,7 @@ namespace NUnit.Core
 		/// <param name="listener">Interface to receive EventListener notifications</param>
 		/// <param name="testNames">The names of the test cases, fixtures or suites to be run</param>
 		void StartRun(NUnit.Core.EventListener listener, string[] testNames);
-
+#endif
 		/// <summary>
 		///  Cancel the test run that is in progress. For a synchronous run,
 		///  a client wanting to call this must create a separate run thread.

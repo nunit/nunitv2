@@ -6,7 +6,7 @@ namespace NUnit.Core
 	{
 		#region Constructor
 		public RemoteTestRunner() 
-			: base( new BaseTestRunner() ) { }
+			: base( new SimpleTestRunner() ) { }
 		#endregion
 
 		#region Method Overrides
@@ -14,8 +14,8 @@ namespace NUnit.Core
 		{
 			QueuingEventListener queue = new QueuingEventListener();
 
-			this.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
-			this.Error = new EventListenerTextWriter( queue, TestOutputType.Error );
+			TestContext.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
+			TestContext.Error = new EventListenerTextWriter( queue, TestOutputType.Error );
 
 			using( EventPump pump = new EventPump( listener, queue.Events, true ) )
 			{
@@ -24,12 +24,13 @@ namespace NUnit.Core
 			}
 		}
 
+#if STARTRUN_SUPPORT
 		public override void doStartRun( EventListener listener, string[] testNames )
 		{
 			QueuingEventListener queue = new QueuingEventListener();
 
-			this.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
-			this.Error = new EventListenerTextWriter( queue, TestOutputType.Error );
+			TestContext.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
+			TestContext.Error = new EventListenerTextWriter( queue, TestOutputType.Error );
 
 			EventPump pump = new EventPump( listener, queue.Events, true);
 			pump.Start(); // Will run till RunFinished is received
@@ -37,6 +38,7 @@ namespace NUnit.Core
 			
 			base.doStartRun( queue, testNames );
 		}
+#endif
 		#endregion
 	}
 }

@@ -124,11 +124,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "BaseTestRunner.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Builtins.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -140,6 +135,11 @@
                 />
                 <File
                     RelPath = "CategoryManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ConsoleEventTestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -363,6 +363,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "SimpleTestRunner.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "StringTextWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -493,6 +498,11 @@
                 />
                 <File
                     RelPath = "TestSuiteResult.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ThreadedTestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -32,6 +32,7 @@ namespace NUnit.Util
 	using System;
 	using System.IO;
 	using System.Collections;
+	using System.Threading;
 	using NUnit.Core;
 
 
@@ -639,15 +640,28 @@ namespace NUnit.Util
 
 				runningTests = tests;
 
+#if STARTRUN_SUPPORT
 				//kind of silly
 				string[] testNames = buildTestNameArray();
-
 				testDomain.Filter = filter;
 				testDomain.StartRun( this, testNames );
+#else
+				Thread thread = new Thread( new ThreadStart( RunTestsOnThread ) );
+				thread.Start();
+#endif
 			}
 		}
 
-		private string[] buildTestNameArray ()
+		// TODO: Add exception handling here
+		private void RunTestsOnThread()
+		{
+			//kind of silly
+			string[] testNames = buildTestNameArray();
+			testDomain.Filter = filter;
+			testDomain.Run( this, testNames );
+		}
+
+		private string[] buildTestNameArray () 
 		{
 			string[] testNames = new string[ runningTests.Length ];
 			int index = 0; 

@@ -46,20 +46,20 @@ namespace NUnit.Core
 		/// <summary>
 		/// Writer for standard output. Set throws if a test is running
 		/// </summary>
-		public TextWriter Out
-		{
-			get { return this.testRunner.Out; }
-			set { this.testRunner.Out = value; }
-		}
-
-		/// <summary>
-		/// Writer for error output. Set throws if a test is running
-		/// </summary>
-		public TextWriter Error
-		{
-			get { return this.testRunner.Error; }
-			set { this.testRunner.Error = value; }
-		}
+//		public TextWriter Out
+//		{
+//			get { return this.testRunner.Out; }
+//			set { this.testRunner.Out = value; }
+//		}
+//
+//		/// <summary>
+//		/// Writer for error output. Set throws if a test is running
+//		/// </summary>
+//		public TextWriter Error
+//		{
+//			get { return this.testRunner.Error; }
+//			set { this.testRunner.Error = value; }
+//		}
 
 		public virtual bool Running
 		{
@@ -156,6 +156,7 @@ namespace NUnit.Core
 			return this.testRunner.Run( listener, testNames );
 		}
 
+#if STARTRUN_SUPPORT
 		public virtual void StartRun( EventListener listener )
 		{
 			doStartRun( listener, null );
@@ -170,7 +171,7 @@ namespace NUnit.Core
 		{
 			this.testRunner.StartRun( listener, testNames );
 		}
-
+#endif
 		public virtual void CancelRun()
 		{
 			this.testRunner.CancelRun();
