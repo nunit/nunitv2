@@ -196,6 +196,11 @@ namespace NUnit.Tests.Core
 		internal class SignatureTestFixture
 		{
 			[Test]
+			public static void Static()
+			{
+			}
+
+			[Test]
 			public int NotVoid() 
 			{
 				return 1;
@@ -229,6 +234,12 @@ namespace NUnit.Tests.Core
 				{
 				}
 			}
+		}
+
+		[Test]
+		public void TestStatic()
+		{
+			InvalidSignatureTest("Static", "it must be an instance method" );
 		}
 
 		[Test]

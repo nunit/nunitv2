@@ -50,6 +50,8 @@ namespace NUnit.Core
 
 			if (method.IsAbstract)
 				reason = "it must not be abstract";
+			else if (method.IsStatic)
+				reason = "it must be an instance method";
 			else if (!method.IsPublic)
 				reason = "it must be a public method";
 			else if (method.GetParameters().Length != 0)

@@ -138,7 +138,7 @@ namespace NUnit.Core
 			//				}
 			//			}
 
-			MethodInfo [] methods = fixture.GetType().GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.NonPublic);
+			MethodInfo [] methods = fixture.GetType().GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.Static|BindingFlags.NonPublic);
 			foreach(MethodInfo method in methods)
 			{
 				TestCase testCase = TestCaseBuilder.Make(fixture, method);

@@ -147,7 +147,8 @@ namespace NUnit.Core
 		private static bool IsTestMethodSignatureCorrect(MethodInfo methodToCheck)
 		{
 			return 
-				!methodToCheck.IsAbstract
+				!methodToCheck.IsStatic
+				&& !methodToCheck.IsAbstract
 				&& methodToCheck.IsPublic
 				&& methodToCheck.GetParameters().Length == 0
 				&& methodToCheck.ReturnType.Equals(typeof(void));
