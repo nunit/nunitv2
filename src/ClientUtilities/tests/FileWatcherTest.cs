@@ -42,7 +42,7 @@ namespace NUnit.Util.Tests
 		private FileInfo file;
 		private AssemblyWatcher watcher;
 		private CounterEventHandler handler;
-		private static int watcherDelayMs = 1000;
+		private static int watcherDelayMs = 100;
 		private static readonly String fileName = "temp.txt";
 		private static readonly String tempFileName = "newTempFile.txt";
 
@@ -79,7 +79,7 @@ namespace NUnit.Util.Tests
 				writer.WriteLine("Data");
 				writer.Flush();
 				writer.Close();
-				System.Threading.Thread.Sleep(250);
+				System.Threading.Thread.Sleep(20);
 			}
 			WaitForTimerExpiration();
 			Assert.AreEqual(1,handler.Counter);
@@ -110,7 +110,7 @@ namespace NUnit.Util.Tests
 
 		private static void WaitForTimerExpiration()
 		{
-			System.Threading.Thread.Sleep(watcherDelayMs + 1000);
+			System.Threading.Thread.Sleep(watcherDelayMs * 2);
 		}
 
 	}
