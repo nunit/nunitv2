@@ -30,6 +30,7 @@
 using System;
 using NUnit.Framework;
 using NUnit.Core;
+using NUnit.Core.Builders;
 using NUnit.Tests.Singletons;
 using NUnit.Tests.Assemblies;
 
@@ -42,12 +43,13 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class UtilTest
 	{
-		TestFixture testFixture;
+		TestSuite testFixture;
 
 		[SetUp]
 		public void SetUp()
 		{
-			testFixture = new TestFixture( typeof ( OneTestCase ) );
+			NUnitTestFixtureBuilder builder = new NUnitTestFixtureBuilder();
+			testFixture = builder.BuildFrom( typeof ( OneTestCase ) );
 		}
 
 		[Test]

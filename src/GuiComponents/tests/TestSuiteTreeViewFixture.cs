@@ -55,7 +55,7 @@ namespace NUnit.UiKit.Tests
 			suite = builder.Build( testsDll );
 			suite.Sort();
 
-			fixture = new TestFixture ( typeof( MockTestFixture ) );
+			fixture = new NUnitTestFixture ( typeof( MockTestFixture ) );
 		}
 
 		[Test]

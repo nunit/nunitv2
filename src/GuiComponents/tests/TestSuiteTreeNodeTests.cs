@@ -31,6 +31,7 @@ namespace NUnit.UiKit.Tests
 {
 	using System;
 	using NUnit.Core;
+	using NUnit.Core.Builders;
 	using NUnit.Framework;
 	using NUnit.Util;
 	using NUnit.Tests.Assemblies;
@@ -53,7 +54,8 @@ namespace NUnit.UiKit.Tests
 		public void SetUp()
 		{
 			testSuite = new TestSuite("MyTestSuite");
-			testFixture = new TestFixture( typeof( MockTestFixture ) );
+			NUnitTestFixtureBuilder builder = new NUnitTestFixtureBuilder();
+			testFixture = builder.BuildFrom( typeof( MockTestFixture ) );
 			testSuite.Add( testFixture );
 
 			suiteInfo = new UITestNode( testSuite );

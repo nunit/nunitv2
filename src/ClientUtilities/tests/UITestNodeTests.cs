@@ -31,6 +31,7 @@ using System;
 using NUnit.Core;
 using NUnit.Framework;
 using NUnit.Tests.Assemblies;
+using NUnit.Core.Builders;
 
 namespace NUnit.Util.Tests
 {
@@ -48,7 +49,8 @@ namespace NUnit.Util.Tests
 		public void SetUp()
 		{
 			testSuite = new TestSuite("MyTestSuite");
-			testFixture = new TestFixture( typeof( MockTestFixture ) );
+			NUnitTestFixtureBuilder builder = new NUnitTestFixtureBuilder();
+			testFixture = builder.BuildFrom( typeof( MockTestFixture ) );
 			testSuite.Add( testFixture );
 
 			testCase1 = (NUnit.Core.TestCase)testFixture.Tests[0];
