@@ -1,5 +1,5 @@
-Release Notes for NUnit 2.2 Beta 3 - Version 2.1.93
-July 21, 2004
+Release Notes for NUnit 2.2 Final Release
+August 8, 2004
 
 This is the fourth major release of NUnit and the third since it was 
 rewritten to take advantage of .NET custom attributes. Highlights of 
@@ -12,14 +12,12 @@ GENERAL
 
 NUnit 2.2 is available in separate Microsoft .NET and Mono distributions. 
 The .NET version can run under Microsoft .NET 1.0, 1.1 or 2.0. The Mono 
-version runs under Mono 1.0. The msi install continues to be built using 
-Visual Studio 2003. The solution and project files in this distribution 
-can only be loaded by Visual Studio 2003. The Mono version is limited
-to use of nunit-console to run tests. Note that Mono is distributed with
-a version of NUnit already installed. It may be necessary to copy some
-of the NUnit components over those in the Mono directories in order to
-get a newer version to work. A note will be published when we have more
-information on this issue.
+version runs under Mono 1.0. The Microsoft distribution is built using 
+Visual Studio 2003. The Mono version is limited to use of nunit-console 
+to run tests. Note that Mono is distributed with a version of NUnit 
+pre-installed. It may be necessary replace some of the installed
+components in order to get a newer version of NUnit to work. A note 
+will be published when we have more information on this issue.
 
 Separate config files for each .NET version are no longer needed. Instead, 
 binding redirects are provided in each config which apply when running under 

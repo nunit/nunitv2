@@ -1,5 +1,14 @@
-Change Log for NUnit 2.2 Beta 3
-July 21, 2004
+Change Log for NUnit 2.2 Final Release
+August 8, 2004
+
+NUnit 2.2 Final Release
+
+Bugs Fixed or Closed
+
+* 1002250 - Only one InvalidFixture allowed
+* 999100 - NUnit 2.1
+* 999098 - No warnings on obsolete interface use
+* 998708 - disturbing gui update
 
 NUnit 2.2 Beta 3 - NUnit Version 2.1.93
 
