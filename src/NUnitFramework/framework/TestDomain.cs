@@ -184,11 +184,23 @@ namespace NUnit.Core
 
 			if(domain != null) 
 			{
-				AppDomain.Unload(domain);
-				DirectoryInfo cacheDir = new DirectoryInfo(cachePath);
-				if(cacheDir.Exists) cacheDir.Delete(true);
+				try
+				{
+					AppDomain.Unload(domain);
+					DirectoryInfo cacheDir = new DirectoryInfo(cachePath);
+					if(cacheDir.Exists) cacheDir.Delete(true);
+				}
+				catch( CannotUnloadAppDomainException )
+				{
+					// TODO: Do something useful. For now we just
+					// leave the orphaned AppDomain "out there"
+					// rather than aborting the application.
+				}
+				finally
+				{
+					domain = null;
+				}
 			}
-			domain = null;
 		}
 
 		#endregion
