@@ -115,6 +115,12 @@ namespace NUnit.Core
 		/// Return the description field. 
 		/// </summary>
 		string Description { get; set; }
+
+		/// <summary>
+		/// True if this should only be run explicitly - that is
+		/// if it was marked with the ExplicitAttribute.
+		/// </summary>
+		bool IsExplicit { get; set; }
 	}
 }
 

@@ -88,6 +88,8 @@ namespace NUnit.Core
 						testCase.Categories = categories;
 					}
 
+					testCase.IsExplicit = HasExplicitAttribute(method);
+
 					testCase.Description = GetDescription(method);
 				}
 				else
@@ -227,6 +229,12 @@ namespace NUnit.Core
 		private static bool HasCategoryAttribute(MethodInfo methodToCheck) 
 		{
 			object[] attributes = methodToCheck.GetCustomAttributes(typeof(NUnit.Framework.CategoryAttribute), false);
+			return attributes.Length > 0;
+		}
+
+		private static bool HasExplicitAttribute(MethodInfo methodToCheck)
+		{
+			object[] attributes = methodToCheck.GetCustomAttributes(typeof(NUnit.Framework.ExplicitAttribute), false);
 			return attributes.Length > 0;
 		}
 

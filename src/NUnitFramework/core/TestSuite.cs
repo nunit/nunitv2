@@ -32,6 +32,7 @@ namespace NUnit.Core
 	using System;
 	using System.Collections;
 	using System.Reflection;
+	using System.Text;
 
 	/// <summary>
 	/// Summary description for TestSuite.
@@ -45,6 +46,7 @@ namespace NUnit.Core
 		private MethodInfo fixtureTearDown;
 		private object fixture;
 		private const string FIXTURE_SETUP_FAILED = "Fixture setup failed";
+		private const string EXPLICIT_SELECTION_REQUIRED = "Explicit selection required";
 		private bool isSetUp;
 
 		public TestSuite( string name ) : this( name, 0 ) { }
@@ -116,8 +118,12 @@ namespace NUnit.Core
 			testSuite.fixtureTearDown = this.FindMethodByAttribute(fixture, typeof(NUnit.Framework.TestFixtureTearDownAttribute));
 			Add(testSuite);
 
+			Type explicitAttribute = typeof(NUnit.Framework.ExplicitAttribute);
+			object[] attributes = fixture.GetType().GetCustomAttributes( explicitAttribute, false );
+			testSuite.IsExplicit = attributes.Length > 0;
+
 			Type ignoreMethodAttribute = typeof(NUnit.Framework.IgnoreAttribute);
-			object[] attributes = fixture.GetType().GetCustomAttributes(ignoreMethodAttribute, false);
+			attributes = fixture.GetType().GetCustomAttributes(ignoreMethodAttribute, false);
 			if(attributes.Length == 1)
 			{
 				NUnit.Framework.IgnoreAttribute attr = 
@@ -367,23 +373,29 @@ namespace NUnit.Core
 		{
 			foreach(Test test in ArrayList.Synchronized(Tests))
 			{
-				if (this.ShouldRun == false) 
-				{
-					test.ShouldRun = false;
-					if ( test.IgnoreReason == null )
-						test.IgnoreReason = FIXTURE_SETUP_FAILED;
-				}
+				bool saveShouldRun = test.ShouldRun;
 
+				if (test.ShouldRun)
+				{
+					if (this.ShouldRun == false)
+					{
+						test.ShouldRun = false;
+						test.IgnoreReason = FIXTURE_SETUP_FAILED;
+					}
+					else if ( test.IsExplicit && filter == null )
+					{
+						test.ShouldRun = false;
+						test.IgnoreReason = EXPLICIT_SELECTION_REQUIRED;
+					}
+				}
+					
 				if ( filter == null || test.Filter( filter ) )
 					suiteResult.AddResult( test.Run( listener, filter ) );
 				
-				if ( this.ShouldRun == false ) 
+				if ( saveShouldRun && !test.ShouldRun ) 
 				{
-					if ( test.IgnoreReason == FIXTURE_SETUP_FAILED ) 
-					{
-						test.ShouldRun = true;
-						test.IgnoreReason = null;
-					}
+					test.ShouldRun = true;
+					test.IgnoreReason = null;
 				}
 			}
 		}

@@ -81,6 +81,11 @@ namespace NUnit.Core
 		/// </summary>
 		private IList categories;
 
+		/// <summary>
+		/// True if the test had the Explicit attribute
+		/// </summary>
+		private bool isExplicit;
+
 		#endregion
 
 		#region Constructors
@@ -225,6 +230,12 @@ namespace NUnit.Core
 			set { description = value; }
 		}
 
+		public bool IsExplicit
+		{
+			get { return isExplicit; }
+			set { isExplicit = value; }
+		}
+
 		#endregion
 
 		#region Abstract Methods and Properties
@@ -234,7 +245,7 @@ namespace NUnit.Core
 		/// </summary>
 		public abstract int CountTestCases();
 		public abstract int CountTestCases(IFilter filter);
-
+		
 		public abstract bool IsSuite { get; }
 		public abstract bool IsFixture{ get; }
 		public abstract bool IsTestCase{ get; }

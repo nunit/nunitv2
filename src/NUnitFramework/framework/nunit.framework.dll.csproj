@@ -119,12 +119,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ExplicitAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "IgnoreAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "OldTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "PlatformAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
