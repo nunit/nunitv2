@@ -286,9 +286,10 @@ namespace NUnit.Gui
 			// 
 			// label6
 			// 
+			this.label6.AutoSize = true;
 			this.label6.Location = new System.Drawing.Point(16, 72);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(104, 16);
+			this.label6.Size = new System.Drawing.Size(97, 18);
 			this.label6.TabIndex = 4;
 			this.label6.Text = "PrivateBinPath:";
 			// 
@@ -309,11 +310,10 @@ namespace NUnit.Gui
 			// 
 			// label4
 			// 
-			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
+			this.label4.AutoSize = true;
 			this.label4.Location = new System.Drawing.Point(16, 40);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(160, 16);
+			this.label4.Size = new System.Drawing.Size(153, 18);
 			this.label4.TabIndex = 2;
 			this.label4.Text = "Configuration File Name:";
 			// 
@@ -335,11 +335,10 @@ namespace NUnit.Gui
 			// 
 			// label3
 			// 
-			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
+			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(16, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(120, 16);
+			this.label3.Size = new System.Drawing.Size(105, 18);
 			this.label3.TabIndex = 0;
 			this.label3.Text = "ApplicationBase:";
 			// 
