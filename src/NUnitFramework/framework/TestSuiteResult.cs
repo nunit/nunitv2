@@ -40,18 +40,11 @@ namespace NUnit.Core
 	public class TestSuiteResult : TestResult
 	{
 		private ArrayList results = new ArrayList();
-		private bool executed;
 		private string message;
 		
 		public TestSuiteResult(Test test, string name) : base(test, name)
 		{
-			executed = false;
-		}
-
-		public bool Executed 
-		{
-			get { return executed; }
-			set { executed = value; }
+			Executed = false;
 		}
 
 		public void AddResult(TestResult result) 

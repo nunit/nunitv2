@@ -39,45 +39,39 @@ namespace NUnit.Core
 	[Serializable]
 	public class TestCaseResult : TestResult
 	{
-		private TestCase testCase;
-		private string testCaseName;
-		private bool testExecuted;
+//		private TestCase testCase;
+//		private string testCaseName;
 		private string message;
 		private string stackTrace;
 
 		public TestCaseResult(TestCase testCase):base(testCase, testCase.FullName)
 		{
-			this.testCase = testCase;
-			testExecuted = false;
+//			this.testCase = testCase;
+			Executed = false;
 		}
 
 		public TestCaseResult(string testCaseString) : base(null, testCaseString)
 		{
-			testCase = null;
-			testExecuted = false;
-			testCaseName = testCaseString;
-		}
-
-		public bool Executed
-		{
-			get { return testExecuted; }
+//			testCase = null;
+			Executed = false;
+//			testCaseName = testCaseString;
 		}
 
 		public void Success() 
 		{ 
-			testExecuted = true;
+			Executed = true;
 			IsFailure = false; 
 		}
 
 		public override void NotRun(string reason)
 		{
-			testExecuted = false;
+			Executed = false;
 			message = reason;
 		}
 
 		public void Failure(string message, string stackTrace)
 		{
-			testExecuted = true;
+			Executed = true;
 			IsFailure = true;
 			this.message = message;
 			this.stackTrace = stackTrace;
@@ -99,9 +93,12 @@ namespace NUnit.Core
 		public override string ToString()
 		{
 			StringBuilder builder = new StringBuilder();
-			string name = testCaseName;
-			if(testCase != null)
-				name = testCase.FullName;
+//			string name = testCaseName;
+//			if(testCase != null)
+//				name = testCase.FullName;
+			string name = Name;
+			if ( Test != null )
+				name = Test.FullName;
 			
 			builder.AppendFormat("{0} : " , name);
 			if(!IsSuccess)

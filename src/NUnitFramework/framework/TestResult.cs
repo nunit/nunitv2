@@ -38,19 +38,26 @@ namespace NUnit.Core
 	[Serializable]
 	public abstract class TestResult
 	{
+		private bool executed;
 		private bool isFailure; 
 		private double time;
 		private string name;
-		private Test test;
+		private TestInfo test;
 
 #if NUNIT_LEAKAGE_TEST
 		private long leakage = 0;
 #endif
 		
-		protected TestResult(Test test, string name)
+		protected TestResult(TestInfo test, string name)
 		{
 			this.name = name;
 			this.test = test;
+		}
+
+		public bool Executed 
+		{
+			get { return executed; }
+			set { executed = value; }
 		}
 
 		public virtual string Name
@@ -58,7 +65,7 @@ namespace NUnit.Core
 			get{ return name;}
 		}
 
-		public Test Test
+		public TestInfo Test
 		{
 			get{ return test;}
 		}
@@ -99,7 +106,6 @@ namespace NUnit.Core
 		}
 
 		public abstract void NotRun(string message);
-
 
 		public abstract void Accept(ResultVisitor visitor);
 	}
