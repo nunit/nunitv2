@@ -40,8 +40,15 @@ namespace NUnit.Tests
 		[Test]
 		public void TestInitialization()
 		{
+			statusBar.Initialize( 0 );
+			Assertion.AssertEquals( "", statusBar.Panels[0].Text );
+			Assertion.AssertEquals( "Test Cases : 0", statusBar.Panels[1].Text );
+			Assertion.AssertEquals( "Tests Run : 0", statusBar.Panels[2].Text );
+			Assertion.AssertEquals( "Failures : 0", statusBar.Panels[3].Text );
+			Assertion.AssertEquals( "Time : 0", statusBar.Panels[4].Text );
+
 			statusBar.Initialize( 50 );
-			Assertion.AssertEquals( "Status", statusBar.Panels[0].Text );
+			Assertion.AssertEquals( "Ready", statusBar.Panels[0].Text );
 			Assertion.AssertEquals( "Test Cases : 50", statusBar.Panels[1].Text );
 			Assertion.AssertEquals( "Tests Run : 0", statusBar.Panels[2].Text );
 			Assertion.AssertEquals( "Failures : 0", statusBar.Panels[3].Text );
