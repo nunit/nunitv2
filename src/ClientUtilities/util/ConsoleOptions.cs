@@ -86,6 +86,15 @@ namespace NUnit.Util
 			}
 		}
 
+		public bool IsTestProject
+		{
+			get
+			{
+				// TODO: Allow use of fixture with a project
+				return ParameterCount == 1 && !IsFixture &&	NUnitProject.CanLoadAsProject( (string)Parameters[0] );
+			}
+		}
+
 		public bool IsFixture 
 		{
 			get 
