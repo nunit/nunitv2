@@ -35,27 +35,74 @@ namespace NUnit.UiKit
 	using System.Text;
 
 	/// <summary>
-	/// Summary description for TextBoxWriter.
+	/// TextBoxWriter translates a series of writes to a TextBox display.
+	/// Note that no locking is performed because this class is only written 
+	/// to by BufferedStringTextWriter which does locking. However the 
+	/// class does do an extra level of buffering in the case where the 
+	/// control has not yet been created at the time of the Write().
 	/// </summary>
 	public class TextBoxWriter : TextWriter
 	{
-		private RichTextBox textBox;
+		private TextBoxBase textBox;
+		private StringBuilder sb;
+    			
+		public TextBoxWriter(TextBox textBox)
+		{
+			this.textBox = textBox;
+			textBox.HandleCreated+=new EventHandler( OnHandleCreated );
+		}
     			
 		public TextBoxWriter(RichTextBox textBox)
 		{
 			this.textBox = textBox;
+			textBox.HandleCreated+=new EventHandler( OnHandleCreated );
 		}
-    			
+
 		public override void Write(char c)
 		{
 			Write( c.ToString() );
 		}
 
-		private delegate void TextAppender( string s );
+		//		private delegate void TextAppender( string s );
+		//
+		//		private void AppendText( string s )
+		//		{
+		//			textBox.AppendText( s );
+		//		}
+		//
+		//		public override void Write(String s)
+		//		{
+		//			textBox.Invoke( new TextAppender( AppendText ) );
+		//		}
 
 		public override void Write(String s)
 		{
-			textBox.AppendText( s );				
+			if ( textBox.IsHandleCreated )
+				AppendText( s );
+			else
+				BufferText( s );
+		}
+
+		private void OnHandleCreated( object sender, EventArgs e )
+		{
+			if ( sb != null )
+			{
+				textBox.AppendText( sb.ToString() );
+				sb = null;
+			}
+		}
+
+		private void BufferText( string s )
+		{
+			if ( sb == null )
+				sb = new StringBuilder();
+
+			sb.Append( s );
+		}
+
+		private void AppendText( string s )
+		{		
+			textBox.AppendText( s );
 		}
 
 		public override void WriteLine(string s)

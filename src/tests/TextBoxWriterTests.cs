@@ -17,6 +17,7 @@ namespace NUnit.Tests.UiKit
 		{
 			textBox = new RichTextBox();
 			textBoxWriter = new TextBoxWriter( textBox );
+			textBox.CreateControl();
 		}
 
 		[Test]
