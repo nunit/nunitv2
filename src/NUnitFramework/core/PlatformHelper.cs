@@ -9,6 +9,8 @@ namespace NUnit.Core
 		private OperatingSystem os;
 		private RuntimeFramework rt;
 
+		private static readonly string PlatformType = "NUnit.Framework.PlatformAttribute";
+
 		/// <summary>
 		/// Comma-delimited list of all supported OS platform constants
 		/// </summary>
@@ -28,7 +30,7 @@ namespace NUnit.Core
 		public PlatformHelper()
 		{
 			this.os = Environment.OSVersion;
-			this.rt = RuntimeFramework.CurrentFramework;	
+			this.rt = RuntimeFramework.CurrentFramework;
 		}
 
 		/// <summary>
@@ -82,6 +84,21 @@ namespace NUnit.Core
 				return false;
 
 			return true;
+		}
+
+		/// <summary>
+		/// Tests whether a particular member is supported on the
+		/// current platform.
+		/// </summary>
+		/// <param name="member"></param>
+		/// <returns></returns>
+		public bool IsPlatformSupported( MemberInfo member )
+		{
+			Attribute platformAttribute = 
+				Reflect.GetAttribute( member, PlatformType, false );
+			
+			return platformAttribute == null
+				|| IsPlatformSupported( platformAttribute );
 		}
 
 		/// <summary>

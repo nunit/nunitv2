@@ -142,9 +142,9 @@ namespace NUnit.Util
 			return runner;
 		}
 
-		public Version FrameworkVersion
+		public IList TestFrameworks
 		{
-			get { return Runner.FrameworkVersion; }
+			get { return Runner.TestFrameworks; }
 		}
 
 		public bool ShadowCopyFiles
@@ -325,10 +325,14 @@ namespace NUnit.Util
 
 		#endregion
 
+		#region Categories
+
 		public ICollection GetCategories()
 		{
 			return Runner.GetCategories();
 		}
+
+		#endregion
 
 		#region Running Tests
 

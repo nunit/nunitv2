@@ -32,7 +32,7 @@ namespace NUnit.Core.Tests
 			Type fixtureType = typeof(IgnoredTestCaseFixture);
 			Test test = TestCaseBuilder.Make( 
 				fixtureType, 
-				Reflect.GetMethod(
+				Reflect.GetNamedMethod(
 					fixtureType, 
 					"CallsIgnore",
 					BindingFlags.Public | BindingFlags.Instance ) );

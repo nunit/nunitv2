@@ -67,7 +67,7 @@ namespace NUnit.Core.Tests
 
 			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(
 				fixtureType, 
-				Reflect.GetMethod(
+				Reflect.GetNamedMethod(
 					fixtureType, 
 					"CallAssertionFail",
 					BindingFlags.Public | BindingFlags.Instance ) );
@@ -110,7 +110,7 @@ namespace NUnit.Core.Tests
 
 			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(
 				fixtureType, 
-				Reflect.GetMethod(
+				Reflect.GetNamedMethod(
 					fixtureType, 
 					"ThrowInnerException",
 					BindingFlags.Public | BindingFlags.Instance ) );

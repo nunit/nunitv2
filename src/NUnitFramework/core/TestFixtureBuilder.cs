@@ -2,13 +2,9 @@ using System;
 
 namespace NUnit.Core.Builders
 {
-	/// <summary>
-	/// Built-in SuiteBuilder for NUnit TestFixture
-	/// </summary>
-	public class TestFixtureBuilder : ISuiteBuilder
+	public abstract class GenericTestFixtureBuilder : ISuiteBuilder
 	{
-		private static readonly Type TestFixtureType 
-			= typeof( NUnit.Framework.TestFixtureAttribute );
+		protected string TestFixtureType;
 
 		public bool CanBuildFrom( Type type )
 		{
@@ -18,6 +14,33 @@ namespace NUnit.Core.Builders
 		public TestSuite BuildFrom( Type type, int assemblyKey )
 		{
 			return new TestFixture( type, assemblyKey );
+		}
+	}
+
+	/// <summary>
+	/// Built-in SuiteBuilder for NUnit TestFixture
+	/// </summary>
+	public class TestFixtureBuilder : GenericTestFixtureBuilder
+	{
+		public TestFixtureBuilder()
+		{
+			TestFixtureType	= "NUnit.Framework.TestFixtureAttribute";
+		}
+	}
+
+	public class CsUnitTestFixtureBuilder : GenericTestFixtureBuilder
+	{
+		public CsUnitTestFixtureBuilder()
+		{
+			TestFixtureType = "csUnit.TestFixtureAttribute";
+		}
+	}
+
+	public class VstsTestFixtureBuilder : GenericTestFixtureBuilder
+	{
+		public VstsTestFixtureBuilder()
+		{
+			TestFixtureType = "Microsoft.VisualStudio.QualityTools.UnitTesting.Framework.TestClassAttribute";
 		}
 	}
 }

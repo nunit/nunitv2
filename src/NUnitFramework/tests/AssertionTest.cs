@@ -384,7 +384,7 @@ namespace NUnit.Core.Tests
 
 			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(
 				verifyFailType, 
-				Reflect.GetMethod(
+				Reflect.GetNamedMethod(
 					verifyFailType, 
 					"CallAssertionFail",
 					BindingFlags.Public | BindingFlags.Instance ) );

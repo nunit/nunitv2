@@ -34,6 +34,7 @@ using System.Configuration;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace NUnit.Gui
 {
@@ -124,6 +125,8 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem copyDetailMenuItem;
 		private System.Windows.Forms.MenuItem exceptionDetailsMenuItem;
 		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.MenuItem menuItem1;
+		private System.Windows.Forms.MenuItem frameworkInfoMenuItem;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -210,6 +213,8 @@ namespace NUnit.Gui
 			this.exceptionDetailsMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenuSeparator1 = new System.Windows.Forms.MenuItem();
 			this.optionsMenuItem = new System.Windows.Forms.MenuItem();
+			this.menuItem1 = new System.Windows.Forms.MenuItem();
+			this.frameworkInfoMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpItem = new System.Windows.Forms.MenuItem();
 			this.helpMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpMenuSeparator1 = new System.Windows.Forms.MenuItem();
@@ -260,6 +265,12 @@ namespace NUnit.Gui
 			this.statusBar.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("statusBar.ImeMode")));
 			this.statusBar.Location = ((System.Drawing.Point)(resources.GetObject("statusBar.Location")));
 			this.statusBar.Name = "statusBar";
+//			this.statusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
+//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels"))),
+//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels1"))),
+//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels2"))),
+//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels3"))),
+//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels4")))});
 			this.statusBar.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("statusBar.RightToLeft")));
 			this.statusBar.ShowPanels = true;
 			this.statusBar.Size = ((System.Drawing.Size)(resources.GetObject("statusBar.Size")));
@@ -487,7 +498,9 @@ namespace NUnit.Gui
 																					  this.saveXmlResultsMenuItem,
 																					  this.exceptionDetailsMenuItem,
 																					  this.toolsMenuSeparator1,
-																					  this.optionsMenuItem});
+																					  this.optionsMenuItem,
+																					  this.menuItem1,
+																					  this.frameworkInfoMenuItem});
 			this.toolsMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("toolsMenu.Shortcut")));
 			this.toolsMenu.ShowShortcut = ((bool)(resources.GetObject("toolsMenu.ShowShortcut")));
 			this.toolsMenu.Text = resources.GetString("toolsMenu.Text");
@@ -532,6 +545,25 @@ namespace NUnit.Gui
 			this.optionsMenuItem.Text = resources.GetString("optionsMenuItem.Text");
 			this.optionsMenuItem.Visible = ((bool)(resources.GetObject("optionsMenuItem.Visible")));
 			this.optionsMenuItem.Click += new System.EventHandler(this.optionsMenuItem_Click);
+			// 
+			// menuItem1
+			// 
+			this.menuItem1.Enabled = ((bool)(resources.GetObject("menuItem1.Enabled")));
+			this.menuItem1.Index = 4;
+			this.menuItem1.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem1.Shortcut")));
+			this.menuItem1.ShowShortcut = ((bool)(resources.GetObject("menuItem1.ShowShortcut")));
+			this.menuItem1.Text = resources.GetString("menuItem1.Text");
+			this.menuItem1.Visible = ((bool)(resources.GetObject("menuItem1.Visible")));
+			// 
+			// frameworkInfoMenuItem
+			// 
+			this.frameworkInfoMenuItem.Enabled = ((bool)(resources.GetObject("frameworkInfoMenuItem.Enabled")));
+			this.frameworkInfoMenuItem.Index = 5;
+			this.frameworkInfoMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("frameworkInfoMenuItem.Shortcut")));
+			this.frameworkInfoMenuItem.ShowShortcut = ((bool)(resources.GetObject("frameworkInfoMenuItem.ShowShortcut")));
+			this.frameworkInfoMenuItem.Text = resources.GetString("frameworkInfoMenuItem.Text");
+			this.frameworkInfoMenuItem.Visible = ((bool)(resources.GetObject("frameworkInfoMenuItem.Visible")));
+			this.frameworkInfoMenuItem.Click += new System.EventHandler(this.frameworkInfoMenuItem_Click);
 			// 
 			// helpItem
 			// 
@@ -1055,6 +1087,7 @@ namespace NUnit.Gui
 			this.testTree.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("testTree.AutoScrollMargin")));
 			this.testTree.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("testTree.AutoScrollMinSize")));
 			this.testTree.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("testTree.BackgroundImage")));
+			this.testTree.ClearResultsOnChange = true;
 			this.testTree.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("testTree.Dock")));
 			this.testTree.Enabled = ((bool)(resources.GetObject("testTree.Enabled")));
 			this.testTree.Font = ((System.Drawing.Font)(resources.GetObject("testTree.Font")));
@@ -1324,9 +1357,47 @@ namespace NUnit.Gui
 			OptionsDialog.EditOptions();
 		}
 
+		private void frameworkInfoMenuItem_Click(object sender, System.EventArgs e)
+		{
+			IList frameworks = TestFramework.GetLoadedFrameworks();
+
+			StringBuilder sb = new StringBuilder( "Frameworks loaded by the GUI -\r\n\r\n" );
+			foreach( AssemblyName assemblyName in frameworks )
+				sb.AppendFormat( "  {0}\r\n", assemblyName.ToString() );
+
+			sb.Append( "\r\nFrameworks loaded in the test domain -\r\n\r\n" );
+			frameworks = TestLoader.TestFrameworks;
+			foreach( AssemblyName assemblyName in frameworks )
+				sb.AppendFormat( "  {0}\r\n", assemblyName.ToString() );
+	
+			MessageBox.Show( this, sb.ToString(), "Framework Info", MessageBoxButtons.OK, MessageBoxIcon.Information );
+		}
+
 		#endregion
 
 		#region Help Menu Handlers
+
+		private void helpMenuItem_Click(object sender, System.EventArgs e)
+		{
+			FileInfo exe = new FileInfo( Assembly.GetExecutingAssembly().Location );
+			// In normal install, exe is in bin directory, so we get parent
+			DirectoryInfo dir = exe.Directory.Parent;
+			// If running from bin\Release or bin\Debug, go down two more
+			if ( dir.Name == "bin" ) dir = dir.Parent.Parent;
+
+			string helpUrl = ConfigurationSettings.AppSettings["helpUrl"];
+
+			if ( helpUrl == null )
+			{
+				UriBuilder uri = new UriBuilder();
+				uri.Scheme = "file";
+				uri.Host = "localhost";
+				uri.Path = Path.Combine( dir.FullName, @"doc/index.html" );
+				helpUrl = uri.ToString();
+			}
+
+			System.Diagnostics.Process.Start( helpUrl );
+		}
 
 		/// <summary>
 		/// Display the about box when menu item is selected
@@ -1581,6 +1652,15 @@ namespace NUnit.Gui
 //			}
 //		}
 
+		private void testTree_SelectedTestsChanged(object sender, SelectedTestsChangedEventArgs e)
+		{
+			if (!IsTestRunning) 
+			{
+				suiteName.Text = e.TestName;
+				statusBar.Initialize(e.TestCount, e.TestName );
+			}
+		}
+
 		#endregion
 
 		#region Event Handlers for Test Load and Unload
@@ -1627,17 +1707,8 @@ namespace NUnit.Gui
 			runButton.Enabled = true;
 			ClearTabs();
 			
-			Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
-			if ( TestLoader.FrameworkVersion == null )
-			{
-				UserMessage.Display( "This assembly was not built with the NUnit framework and contains no tests.", "Not a Test Assembly");
-			}
-			else if ( TestLoader.FrameworkVersion != currentVersion )
-			{
-				string msg = string.Format( "The {0} assembly uses version {1} of the NUnit framework.\r\rIf problems arise, try changing the reference to version {2} and rebuilding the assembly",
-					Path.GetFileNameWithoutExtension( e.Name ), TestLoader.FrameworkVersion, currentVersion );
-				UserMessage.Display( msg, "Incompatible nunit.framework.dll");
-			}
+			if ( TestLoader.TestFrameworks.Count == 0 )
+				UserMessage.Display( "This assembly was not built with any known testing framework.", "Not a Test Assembly");
 		}
 
 		/// <summary>
@@ -1923,37 +1994,6 @@ namespace NUnit.Gui
 		}
 
 		#endregion
-
-		private void testTree_SelectedTestsChanged(object sender, SelectedTestsChangedEventArgs e)
-		{
-			if (!IsTestRunning) 
-			{
-				suiteName.Text = e.TestName;
-				statusBar.Initialize(e.TestCount, e.TestName );
-			}
-		}
-
-		private void helpMenuItem_Click(object sender, System.EventArgs e)
-		{
-			FileInfo exe = new FileInfo( Assembly.GetExecutingAssembly().Location );
-			// In normal install, exe is in bin directory, so we get parent
-			DirectoryInfo dir = exe.Directory.Parent;
-			// If running from bin\Release or bin\Debug, go down two more
-			if ( dir.Name == "bin" ) dir = dir.Parent.Parent;
-
-			string helpUrl = ConfigurationSettings.AppSettings["helpUrl"];
-
-			if ( helpUrl == null )
-			{
-				UriBuilder uri = new UriBuilder();
-				uri.Scheme = "file";
-				uri.Host = "localhost";
-				uri.Path = Path.Combine( dir.FullName, @"doc/index.html" );
-				helpUrl = uri.ToString();
-			}
-
-			System.Diagnostics.Process.Start( helpUrl );
-		}
 	}
 }
 

@@ -58,7 +58,7 @@ namespace NUnit.Core.Tests
 		{
 			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
 				FixtureType, 
-				Reflect.GetMethod(
+				Reflect.GetNamedMethod(
 					FixtureType, 
 					"Method",
 					BindingFlags.Public | BindingFlags.Instance ) );
@@ -70,7 +70,7 @@ namespace NUnit.Core.Tests
 		{
 			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
 				FixtureType, 
-				Reflect.GetMethod(
+				Reflect.GetNamedMethod(
 					FixtureType, 
 					"Method",
 					BindingFlags.Public | BindingFlags.Instance ) );
@@ -97,7 +97,7 @@ namespace NUnit.Core.Tests
 		{
 			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
 				FixtureType, 
-				Reflect.GetMethod(
+				Reflect.GetNamedMethod(
 					FixtureType,
 					"NoDescriptionMethod",
 					BindingFlags.Public | BindingFlags.Instance ) );

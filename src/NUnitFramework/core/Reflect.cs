@@ -5,15 +5,19 @@ using System.Collections;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Helper methods for inspecting a type by reflection.
+	/// Helper methods for inspecting a type by reflection. 
 	/// 
 	/// Many of these methods take a MemberInfo as an argument to avoid
 	/// duplication, even though certain attributes can only appear on
 	/// specific types of members, like MethodInfo or Type.
 	/// 
-	/// Generally, these methods perform simple utility functions like
-	/// checking for a given attribute. This class contains no knowledge
-	/// of what different attributes represent.
+	/// In the case where a type is being examined for the presence of
+	/// an attribute, interface or named member, the Reflect methods
+	/// operate with the full name of the member being sought. This
+	/// removes the necessity of the caller having a reference to the
+	/// assembly that defines the item being sought and allows the
+	/// NUnit core to inspect assemblies that reference an older
+	/// version of the NUnit framework.
 	/// </summary>
 	public class Reflect
 	{
@@ -23,17 +27,16 @@ namespace NUnit.Core
 		/// Check presence of attribute of a given type on a member.
 		/// </summary>
 		/// <param name="member">The member to examine</param>
-		/// <param name="type">The attribute typeto look for</param>
+		/// <param name="attrName">The FullName of the attribute type to look for</param>
 		/// <param name="inherit">True to include inherited attributes</param>
 		/// <returns>True if the attribute is present</returns>
-		public static bool HasAttribute( MemberInfo member, Type type, bool inherit )
+		public static bool HasAttribute( MemberInfo member, string attrName, bool inherit )
 		{
 			object[] attributes = member.GetCustomAttributes( inherit );
 			foreach( Attribute attribute in attributes )
-				if ( attribute.GetType().FullName == type.FullName )
+				if ( attribute.GetType().FullName == attrName )
 					return true;
 			return false;
-			//return member.GetCustomAttributes( type, inherit ).Length > 0;
 		}
 
 		/// <summary>
@@ -41,32 +44,31 @@ namespace NUnit.Core
 		/// of a type are present, the first one found is returned.
 		/// </summary>
 		/// <param name="member">The member to examine</param>
-		/// <param name="type">The attribute type to look for</param>
+		/// <param name="attrName">The FullName of the attribute type to look for</param>
 		/// <param name="inherit">True to include inherited attributes</param>
 		/// <returns>The attribute or null</returns>
-		public static System.Attribute GetAttribute( MemberInfo member, Type type, bool inherit )
+		public static System.Attribute GetAttribute( MemberInfo member, string attrName, bool inherit )
 		{
 			object[] attributes = member.GetCustomAttributes( inherit );
 			foreach( Attribute attribute in attributes )
-				if ( attribute.GetType().FullName == type.FullName )
+				if ( attribute.GetType().FullName == attrName )
 					return attribute;
 			return null;
-			//return attributes.Length > 0 ? (System.Attribute) attributes[0] : null;
 		}
 
 		/// <summary>
 		/// Get all attributes of a given type on a member.
 		/// </summary>
 		/// <param name="member">The member to examine</param>
-		/// <param name="type">The attribute type to look for</param>
+		/// <param name="attrName">The FullName of the attribute type to look for</param>
 		/// <param name="inherit">True to include inherited attributes</param>
 		/// <returns>The attribute or null</returns>
-		public static System.Attribute[] GetAttributes( MemberInfo member, Type type, bool inherit )
+		public static System.Attribute[] GetAttributes( MemberInfo member, string attrName, bool inherit )
 		{
 			object[] attributes = member.GetCustomAttributes( inherit );
 			ArrayList result = new ArrayList();
 			foreach( Attribute attribute in attributes )
-				if ( attribute.GetType().FullName == type.FullName )
+				if ( attribute.GetType().FullName == attrName )
 					result.Add( attribute );
 			return (System.Attribute[])result.ToArray( typeof( System.Attribute ) );
 		}
@@ -86,10 +88,16 @@ namespace NUnit.Core
 
 		#region Interfaces
 
-		public static bool HasInterface( Type fixtureType, Type interfaceType )
+		/// <summary>
+		/// Check to see if a type implements a named interface.
+		/// </summary>
+		/// <param name="fixtureType">The type to examine</param>
+		/// <param name="interfaceName">The FullName of the interface to check for</param>
+		/// <returns>True if the interface is implemented by the type</returns>
+		public static bool HasInterface( Type fixtureType, string interfaceName )
 		{
 			foreach( Type type in fixtureType.GetInterfaces() )
-				if ( type.FullName == interfaceType.FullName )
+				if ( type.FullName == interfaceName )
 						return true;
 			return false;
 		}
@@ -113,14 +121,14 @@ namespace NUnit.Core
 		/// In the case of multiple methods, the first one found is returned.
 		/// </summary>
 		/// <param name="fixtureType">The type to examine</param>
-		/// <param name="attributeType">The attribute to look for</param>
+		/// <param name="attributeName">The FullName of the attribute to look for</param>
 		/// <param name="bindingFlags">BindingFlags to use in looking for method</param>
 		/// <returns>A MethodInfo or null</returns>
-		public static MethodInfo GetMethod( Type fixtureType, Type attributeType, BindingFlags bindingFlags )
+		public static MethodInfo GetMethodWithAttribute( Type fixtureType, string attributeName, BindingFlags bindingFlags )
 		{
 			foreach(MethodInfo method in fixtureType.GetMethods( bindingFlags ) )
 			{
-				if( HasAttribute( method, attributeType, true ) ) 
+				if( HasAttribute( method, attributeName, true ) ) 
 					return method;
 			}
 
@@ -135,7 +143,7 @@ namespace NUnit.Core
 		/// <param name="methodName">The name of the method</param>
 		/// <param name="bindingFlags">BindingFlags to use in the search</param>
 		/// <returns>A MethodInfo or null</returns>
-		public static MethodInfo GetMethod( Type fixtureType, string methodName, BindingFlags bindingFlags )
+		public static MethodInfo GetNamedMethod( Type fixtureType, string methodName, BindingFlags bindingFlags )
 		{
 			foreach(MethodInfo method in fixtureType.GetMethods( bindingFlags ) )
 			{
@@ -151,9 +159,9 @@ namespace NUnit.Core
 		/// In the case of multiple methods, an InvalidTestFixtureException is thrown.
 		/// </summary>
 		/// <param name="fixtureType">The type to examine</param>
-		/// <param name="attributeType">The attribute to look for</param>
+		/// <param name="attributeName">The FullName of the attribute to look for</param>
 		/// <returns>A MethodInfo or null</returns>
-		public static MethodInfo GetUniqueMethod( Type fixtureType, Type attributeType )
+		public static MethodInfo GetUniqueMethod( Type fixtureType, string attributeName )
 		{
 			MethodInfo result = null;
 			int count = 0;
@@ -161,7 +169,7 @@ namespace NUnit.Core
 			foreach(MethodInfo method in fixtureType.GetMethods( 
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly ) )
 			{
-				if( Reflect.HasAttribute( method, attributeType, true ) ) 
+				if( Reflect.HasAttribute( method, attributeName, true ) ) 
 				{
 					result = method;
 					count++;
@@ -170,7 +178,6 @@ namespace NUnit.Core
 
 			if ( count > 1 )
 			{
-				string attributeName = attributeType.Name;
 				if ( attributeName.EndsWith( "Attribute" ) )
 					attributeName = attributeName.Substring( 
 						0, attributeName.Length - 9 );
@@ -192,14 +199,14 @@ namespace NUnit.Core
 		/// In the case of multiple methods, the first one found is returned.
 		/// </summary>
 		/// <param name="fixtureType">The type to examine</param>
-		/// <param name="attributeType">The attribute to look for</param>
+		/// <param name="attributeName">The FullName of the attribute to look for</param>
 		/// <param name="bindingFlags">Binding flags to use in searching</param>
 		/// <returns>A PropertyInfo or null</returns>
-		public static PropertyInfo GetProperty( Type fixtureType, Type attributeType, BindingFlags bindingFlags )
+		public static PropertyInfo GetPropertyWithAttribute( Type fixtureType, string attributeName, BindingFlags bindingFlags )
 		{
 			foreach(PropertyInfo property in fixtureType.GetProperties( bindingFlags ) )
 			{
-				if( HasAttribute( property, attributeType, true ) ) 
+				if( HasAttribute( property, attributeName, true ) ) 
 					return property;
 			}
 
@@ -214,7 +221,7 @@ namespace NUnit.Core
 		/// <param name="propertyName">The name of the method</param>
 		/// <param name="bindingFlags">BindingFlags to use</param>
 		/// <returns>A PropertyInfo or null</returns>
-		public static PropertyInfo GetProperty( Type type, string name, BindingFlags bindingFlags )
+		public static PropertyInfo GetNamedProperty( Type type, string name, BindingFlags bindingFlags )
 		{
 			return type.GetProperty( name, bindingFlags );
 		}
@@ -228,7 +235,7 @@ namespace NUnit.Core
 		/// <returns></returns>
 		public static object GetPropertyValue( object obj, string name, BindingFlags bindingFlags )
 		{
-			PropertyInfo property = GetProperty( obj.GetType(), name, bindingFlags );
+			PropertyInfo property = GetNamedProperty( obj.GetType(), name, bindingFlags );
 			if ( property != null )
 				return property.GetValue( obj, null );
 			return null;
@@ -278,11 +285,11 @@ namespace NUnit.Core
 		/// The method should be unique, but no check is made and the first 
 		/// one found is invoked.
 		/// </summary>
-		/// <param name="attributeType">The attribute to look for</param>
+		/// <param name="attributeName">The FullName of the attribute to look for</param>
 		/// <param name="fixture">The object on which to invoke the method</param>
-		public static void InvokeMethod( Type attributeType, object fixture, BindingFlags bindingFlags )
+		public static void InvokeMethod( string attributeName, object fixture, BindingFlags bindingFlags )
 		{
-			MethodInfo method = GetMethod( fixture.GetType(), attributeType, bindingFlags );
+			MethodInfo method = GetMethodWithAttribute( fixture.GetType(), attributeName, bindingFlags );
 			if(method != null)
 			{
 				InvokeMethod(method, fixture);

@@ -40,11 +40,11 @@ namespace NUnit.Core
 	/// </summary>
 	public class TestCaseBuilder
 	{
-		private static readonly Type TestType = typeof( NUnit.Framework.TestAttribute );
-		private static readonly Type IgnoreType = typeof( NUnit.Framework.IgnoreAttribute );
-		private static readonly Type ExplicitType = typeof( NUnit.Framework.ExplicitAttribute );
-		private static readonly Type CategoryType = typeof( NUnit.Framework.CategoryAttribute );
-		private static readonly Type PlatformType = typeof( NUnit.Framework.PlatformAttribute );
+		private static readonly string TestType = "NUnit.Framework.TestAttribute";
+		private static readonly string IgnoreType = "NUnit.Framework.IgnoreAttribute";
+		private static readonly string ExplicitType = "NUnit.Framework.ExplicitAttribute";
+		private static readonly string CategoryType = "NUnit.Framework.CategoryAttribute";
+		private static readonly string PlatformType = "NUnit.Framework.PlatformAttribute";
 
 		private static Hashtable builders;
 		private static NormalBuilder normalBuilder = new NormalBuilder();

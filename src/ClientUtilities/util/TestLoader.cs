@@ -210,9 +210,9 @@ namespace NUnit.Util
 			set { displayTestLabels = value; }
 		}
 
-		public Version FrameworkVersion
+		public IList TestFrameworks
 		{
-			get { return this.testDomain.FrameworkVersion; }
+			get { return this.testDomain.TestFrameworks; }
 		}
 
 		#endregion

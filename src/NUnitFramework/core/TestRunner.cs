@@ -38,7 +38,7 @@ namespace NUnit.Core
 		//			get;
 		//		}
 
-		Version FrameworkVersion
+		IList TestFrameworks
 		{
 			get;
 		}

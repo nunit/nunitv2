@@ -10,9 +10,9 @@ namespace NUnit.Core
 	{
 		#region Attributes recognized by LegacySuite
 
-		private static readonly Type SuiteType = typeof( NUnit.Framework.SuiteAttribute );
-		private static readonly Type FixtureSetUpType = typeof( NUnit.Framework.TestFixtureSetUpAttribute );
-		private static readonly Type FixtureTearDownType = typeof( NUnit.Framework.TestFixtureTearDownAttribute );
+		private static readonly string SuiteType = "NUnit.Framework.SuiteAttribute";
+		private static readonly string FixtureSetUpType = "NUnit.Framework.TestFixtureSetUpAttribute";
+		private static readonly string FixtureTearDownType = "NUnit.Framework.TestFixtureTearDownAttribute";
 
 		#endregion
 
@@ -29,7 +29,7 @@ namespace NUnit.Core
 			if( testClass == null )
 				return null;
 
-			PropertyInfo property = Reflect.GetProperty( 
+			PropertyInfo property = Reflect.GetPropertyWithAttribute( 
 				testClass, 
 				SuiteType,
 				BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly );
@@ -77,9 +77,9 @@ namespace NUnit.Core
 		{
 			suiteProperty = GetSuiteProperty( fixtureType );
 
-			this.fixtureSetUp = Reflect.GetMethod( fixtureType, FixtureSetUpType,
+			this.fixtureSetUp = Reflect.GetMethodWithAttribute( fixtureType, FixtureSetUpType,
 				BindingFlags.Public | BindingFlags.Instance );
-			this.fixtureTearDown = Reflect.GetMethod( fixtureType, FixtureTearDownType,
+			this.fixtureTearDown = Reflect.GetMethodWithAttribute( fixtureType, FixtureTearDownType,
 				BindingFlags.Public | BindingFlags.Instance );			
 			
 			MethodInfo method = suiteProperty.GetGetMethod(true);

@@ -40,8 +40,8 @@ namespace NUnit.Core
 	{
 		#region Attribute Types used by TemplateTestCase
 
-		private static readonly Type SetUpType = typeof( NUnit.Framework.SetUpAttribute );
-		private static readonly Type TearDownType = typeof( NUnit.Framework.TearDownAttribute );
+		private static readonly string SetUpType = "NUnit.Framework.SetUpAttribute";
+		private static readonly string TearDownType = "NUnit.Framework.TearDownAttribute";
 
 		#endregion
 

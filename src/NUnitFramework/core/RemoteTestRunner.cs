@@ -93,7 +93,7 @@ namespace NUnit.Core
 
 		private EventListener listener; // Temp
 
-		private Version frameworkVersion;
+		private TestFramework testFramework;
 
 		private IFilter filter;
 
@@ -148,9 +148,9 @@ namespace NUnit.Core
 			set { errorText = value; }
 		}
 
-		public Version FrameworkVersion
+		public IList TestFrameworks
 		{
-			get { return frameworkVersion; }
+			get { return TestFramework.GetLoadedFrameworks(); }
 		}
 
 		public bool DisplayTestLabels
@@ -187,8 +187,8 @@ namespace NUnit.Core
 		{
 			this.assemblies = new string[] { assemblyName };
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			suite = builder.Build( assemblyName );
-			frameworkVersion = builder.FrameworkVersion;
+			this.suite = builder.Build( assemblyName );
+			this.testFramework = builder.Framework;
 			return suite;
 		}
 
@@ -199,8 +199,8 @@ namespace NUnit.Core
 		{
 			this.assemblies = new string[] { assemblyName };
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			suite = builder.Build( assemblyName, testName );
-			frameworkVersion = builder.FrameworkVersion;
+			this.suite = builder.Build( assemblyName, testName );
+			this.testFramework = builder.Framework;
 			return suite;
 		}
 
@@ -211,8 +211,8 @@ namespace NUnit.Core
 		{
 			this.assemblies = (string[])assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			suite = builder.Build( projectName, assemblies );
-			frameworkVersion = builder.FrameworkVersion;
+			this.suite = builder.Build( projectName, assemblies );
+			this.testFramework = builder.Framework;
 			return suite;
 		}
 
@@ -220,15 +220,15 @@ namespace NUnit.Core
 		{
 			this.assemblies = (string[])assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			suite = builder.Build( assemblies, testName );
-			frameworkVersion = builder.FrameworkVersion;
+			this.suite = builder.Build( assemblies, testName );
+			this.testFramework = builder.Framework;
 			return suite;
 		}
 
 		public void Unload()
 		{
-			suite = null; // All for now
-			frameworkVersion = null;
+			this.suite = null; // All for now
+			this.testFramework = null;
 		}
 
 		#endregion

@@ -49,7 +49,7 @@ namespace NUnit.Core.Tests
 			Type fixtureType = typeof(MockTestFixture);
 			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
 				fixtureType, 
-				Reflect.GetMethod(
+				Reflect.GetNamedMethod(
 					fixtureType, 
 					"MockTest4",
 					BindingFlags.Public | BindingFlags.Instance ) ); 
@@ -64,7 +64,7 @@ namespace NUnit.Core.Tests
 			Type fixtureType = typeof(MockTestFixture);
 			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
 				fixtureType, 
-				Reflect.GetMethod(
+				Reflect.GetNamedMethod(
 					fixtureType, 
 					"MockTest4",
 					BindingFlags.Public | BindingFlags.Instance ) ); 
@@ -82,7 +82,7 @@ namespace NUnit.Core.Tests
 			Type fixtureType = typeof(HasCategories);
 			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
 				fixtureType, 
-				Reflect.GetMethod(
+				Reflect.GetNamedMethod(
 					fixtureType, 
 					"ATest",
 					BindingFlags.Public | BindingFlags.Instance ) ); 

@@ -39,12 +39,25 @@ namespace NUnit.Core
 	/// </summary>
 	public class AssemblyTestSuite : TestSuite
 	{
-		public AssemblyTestSuite( string assembly ) : this( assembly, 0 )
+		private TestFramework testFramework;
+
+		public AssemblyTestSuite( string assembly ) : this( assembly, 0, null )
 		{
 		}
 
-		public AssemblyTestSuite( string assembly, int key) : base( assembly, key )
+		public AssemblyTestSuite( string assembly, int key) : this( assembly, key, null )
 		{
+		}
+
+		public AssemblyTestSuite( string assembly, int key, TestFramework testFramework )
+			: base( assembly, key )
+		{
+			this.testFramework = testFramework;
+		}
+
+		public TestFramework TestFramework
+		{
+			get { return testFramework; }
 		}
 
 		public override TestResult Run(EventListener listener, IFilter filter)

@@ -45,8 +45,8 @@ namespace NUnit.Core
 	{
 		#region Static Fields
 
-		private static readonly Type SuiteBuilderAttributeType = typeof( NUnit.Framework.SuiteBuilderAttribute );
-		private static readonly Type SuiteBuilderInterfaceType = typeof( NUnit.Core.ISuiteBuilder );
+		private static readonly string SuiteBuilderAttributeType = "NUnit.Framework.SuiteBuilderAttribute";
+		private static readonly string SuiteBuilderInterfaceType = "NUnit.Core.ISuiteBuilder";
 		
 		#endregion
 
@@ -66,14 +66,9 @@ namespace NUnit.Core
 		TestSuite rootSuite;
 
 		/// <summary>
-		/// The version of the nunit framework referenced by the loaded assembly.
+		/// The TestFramework used by the loaded assembly
 		/// </summary>
-		Version frameworkVersion = null;
-
-		/// <summary>
-		/// The NUnit Framework assembly referenced by the loaded assembly
-		/// </summary>
-		Assembly frameworkAssembly = null;
+		TestFramework testFramework = null;
 
 		/// <summary>
 		/// Collection of SuiteBuilders that get a shot at building 
@@ -92,9 +87,9 @@ namespace NUnit.Core
 
 		#region Properties
 
-		public Version FrameworkVersion
+		public TestFramework Framework
 		{
-			get { return frameworkVersion; }
+			get { return testFramework; }
 		}
 
 		public SuiteBuilderCollection Builders
@@ -148,26 +143,7 @@ namespace NUnit.Core
 			{
 				Assembly assembly = AppDomain.CurrentDomain.Load(Path.GetFileNameWithoutExtension(assemblyName));
 
-				foreach( AssemblyName refAssembly in assembly.GetReferencedAssemblies() )
-				{
-					if ( refAssembly.Name == "nunit.framework" )
-					{
-						this.frameworkVersion = refAssembly.Version;
-						AppDomain.CurrentDomain.Load( refAssembly.FullName );
-						break;
-					}
-				}
-
-				foreach( Assembly refAssembly in AppDomain.CurrentDomain.GetAssemblies() )
-				{
-					string name = refAssembly.GetName().Name;
-					if ( name == "nunit.framework" )
-					{
-						this.frameworkAssembly = refAssembly;
-						this.frameworkVersion = refAssembly.GetName().Version;
-						break;
-					}
-				}
+				this.testFramework = TestFramework.FromAssembly( assembly );
 
 				foreach( Type type in assembly.GetExportedTypes() )
 				{
@@ -329,41 +305,15 @@ namespace NUnit.Core
 
 			Assembly assembly = Load( assemblyName );
 
-			builder.rootSuite = new AssemblyTestSuite( assemblyName, assemblyKey );
+			builder.rootSuite = 
+				new AssemblyTestSuite( assemblyName, assemblyKey, testFramework );
 			int testFixtureCount = 0;
+
 			Type[] testTypes = assembly.GetExportedTypes();
 			foreach(Type testType in testTypes)
 			{
 				if( CanBuildFrom( testType ) )
 				{
-//					TestSuite suite = BuildFrom( testType );
-//					testFixtureCount++;
-//
-//					bool isNamespaceSuite = suite is NamespaceSuite;
-//					string namespaces = testType.Namespace;
-//					if ( isNamespaceSuite )
-//					{
-//						int lastDot = namespaces.LastIndexOf( '.' );
-//						if ( lastDot > 0 ) namespaces = namespaces.Substring( 0, lastDot );
-//					}
-//
-//					TestSuite namespaceSuite = builder.BuildFromNameSpace( namespaces, assemblyKey );
-//
-//					if ( isNamespaceSuite )
-//					{
-//						if ( namespaceSuites.ContainsKey( suite.FullName ) )
-//						{
-//							NamespaceSuite oldSuite = (NamespaceSuite)namespaceSuites[suite.FullName];
-//							if ( oldSuite.Parent != null )
-//								oldSuite.Parent.Tests.Remove( oldSuite );
-//							else
-//								rootSuite.Tests.Remove( oldSuite );
-//						}
-//						namespaceSuites[suite.FullName] =  suite;
-//						System.Diagnostics.Debug.WriteLine( string.Format( "Plugged in {0} fixture", suite.FullName ) );
-//					}
-//
-//					namespaceSuite.Add( suite );
 					testFixtureCount++;
 					string namespaces = testType.Namespace;
 					TestSuite suite = builder.BuildFromNameSpace( namespaces, assemblyKey );

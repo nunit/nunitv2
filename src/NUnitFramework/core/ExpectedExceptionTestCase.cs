@@ -34,7 +34,7 @@ namespace NUnit.Core
 
 	public class ExpectedExceptionTestCase : TemplateTestCase
 	{
-		private static readonly Type ExpectedExceptionType = typeof( NUnit.Framework.ExpectedExceptionAttribute );
+		private static readonly string ExpectedExceptionType = "NUnit.Framework.ExpectedExceptionAttribute";
 
 		private Type expectedException;
 		private string expectedMessage;

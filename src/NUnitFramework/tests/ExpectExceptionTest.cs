@@ -74,7 +74,7 @@ namespace NUnit.Core.Tests
 			Type fixtureType = typeof(BaseException);
 			Test test = TestCaseBuilder.Make(
 				fixtureType, 
-				Reflect.GetMethod(
+				Reflect.GetNamedMethod(
 					fixtureType, 
 					"BaseExceptionTest",
 					BindingFlags.Public | BindingFlags.Instance ) );
@@ -91,7 +91,7 @@ namespace NUnit.Core.Tests
 			Type fixtureType = typeof(MismatchedException);
 			Test test = TestCaseBuilder.Make(
 				fixtureType, 
-				Reflect.GetMethod(
+				Reflect.GetNamedMethod(
 					fixtureType,
 					"MismatchedExceptionTest",
 					BindingFlags.Public | BindingFlags.Instance ) );
