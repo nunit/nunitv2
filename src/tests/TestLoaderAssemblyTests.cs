@@ -51,8 +51,10 @@ namespace NUnit.Tests.Util
 		[SetUp]
 		public void SetUp()
 		{
+#if !MONO
 			NUnitRegistry.TestMode = true;
 			NUnitRegistry.ClearTestKeys();
+#endif
 
 			loader = new TestLoader( Console.Out, Console.Error );
 			catcher = new TestEventCatcher( loader.Events );
@@ -70,8 +72,9 @@ namespace NUnit.Tests.Util
 			FileInfo file = new FileInfo( badFile );
 			if ( file.Exists )
 				file.Delete();
-
+#if !MONO
 			NUnitRegistry.TestMode = true;
+#endif
 		}
 
 		[Test]

@@ -360,8 +360,10 @@ namespace NUnit.Util
 			{
 				events.FireProjectUnloading( testFileName );
 
+#if !MONO
 				if ( testFileName != null && File.Exists( testFileName ) )
 					UserSettings.RecentProjects.RecentFile = testFileName;
+#endif
 
 				if ( IsTestLoaded )
 					UnloadTest();
