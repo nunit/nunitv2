@@ -58,7 +58,7 @@
     <property name="vs.2003.path" value="Q:/Microsoft Visual Studio .NET 2003/Common7/IDE" />
 
 <!-- Set up version for packaging (temporary) -->
-    <property name="package.version" value="2.2.0"/>
+    <property name="package.version" value="2.1.5"/>
 	
 <!-- Command-line build configurations -->
     <target name="debug" description="Set config to debug">
@@ -230,13 +230,16 @@
         <nant buildfile="extensions\nunit.extensions.build" target="build"/>
         <nant buildfile="util\nunit.util.build" target="build"/>
         <nant buildfile="nunit-console\nunit-console.build" target="build"/>
-        <nant buildfile="tests\tests.build" target="build"/>
+        <nant buildfile="mocks\nunit.mocks.build" target="build"/>
 
         <!-- Build Win32-only projects -->
         <if propertytrue="build.win32">
             <nant buildfile="uikit\nunit.uikit.build" target="build"/>
             <nant buildfile="nunit-gui\nunit-gui.build" target="build"/>
         </if>
+
+        <!-- Tests need uikit, so build them last -->
+	<nant buildfile="tests\tests.build" target="build"/>
     </target>
 
     <!-- Build sample programs -->
@@ -438,6 +441,7 @@
         <nant buildfile="extensions\nunit.extensions.build" target="copy"/>
         <nant buildfile="util\nunit.util.build" target="copy"/>
         <nant buildfile="nunit-console\nunit-console.build" target="copy"/>
+        <nant buildfile="mocks\nunit.mocks.build" target="copy-all"/>
         <nant buildfile="tests\tests.build" target="copy-all"/>
         <nant buildfile="samples\samples.build" target="copy-all"/>
 
