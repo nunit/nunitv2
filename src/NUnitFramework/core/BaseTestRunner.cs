@@ -11,6 +11,7 @@ namespace NUnit.Core
 	/// </summary>
 	public class BaseTestRunner : AbstractTestRunner
 	{
+		#region Instance Variables
 		/// <summary>
 		/// TestRunnerThread used for asynchronous runs
 		/// </summary>
@@ -20,25 +21,35 @@ namespace NUnit.Core
 		/// The thread on which Run was called
 		/// </summary>
 		private Thread runThread;
+		#endregion
 
+		#region Properties
 		public override bool Running
 		{
 			get { return runThread != null && runThread.IsAlive || 
 				  startRunThread != null && startRunThread.IsAlive; }
 		}
+		#endregion
 
+		#region Method Overrides
 		/// <summary>
 		/// Override method to run a set of tests. This routine is the workhorse
 		/// that is called anytime tests are run.
 		/// </summary>
 		protected override TestResult[] doRun( EventListener listener, Test[] tests )
 		{
-			// Save previous state of Console. This is needed because Console.Out and
-			// Console.Error are static. In the case where the test itself calls this
-			// method, we can lose output if we don't save and restore their values.
-			// This is exactly what happens when we are testing NUnit itself.
-			TextWriter saveOut = Console.Out;
-			TextWriter saveError = Console.Error;
+			// Save static context so we can change and restore Console
+			// Out and Error and in case the tests change anything - as
+			// happens, for example, in testing NUnit itself.
+			TestContext.Save();
+
+			// Set Console to go to our Out and Error properties if they were set.
+			// Note that any changes made by the user in the test code or the code 
+			// it calls will defeat this.
+			if ( this.Out != null )
+				TestContext.Out = this.Out;
+			if ( Error != null )
+				TestContext.Error = this.Error; 
 
 			//			AddinManager.Addins.Save();
 			//			AddinManager.Addins.Clear();
@@ -54,11 +65,6 @@ namespace NUnit.Core
 				// Signal that we are starting the run
 				listener.RunStarted( tests );
 				
-				// TODO: Get rid of count
-				int count = 0;
-				foreach( Test test in tests )
-					count += test.CountTestCases( testFilter );
-		
 				// Run each test, saving the results
 				int index = 0;
 				foreach( Test test in tests )
@@ -66,8 +72,6 @@ namespace NUnit.Core
 					using( new DirectorySwapper( 
 						Path.GetDirectoryName( this.assemblies[test.AssemblyKey] ) ) )
 					{
-						//						EventListener flushingListener = new FlushingEventListener(listener, this.displayTestLabels, outWriter, errorWriter);
-						//						results[index++] = test.Run( flushingListener, filter );
 						testResults[index++] = test.Run( listener, base.Filter );
 					}
 				}
@@ -87,10 +91,13 @@ namespace NUnit.Core
 			}
 			finally
 			{
+				// Flag that we are no longer running
 				this.runThread = null;
-				Console.SetOut( saveOut );
-				Console.SetError( saveError ); 
-				//				AddinManager.Addins.Restore();
+
+				// Restore Console and other static settings
+				TestContext.Restore();
+
+//				AddinManager.Addins.Restore();
 			}
 		}
 
@@ -125,5 +132,6 @@ namespace NUnit.Core
 					runThread.Interrupt();				
 			}
 		}
+		#endregion
 	}
 }
