@@ -42,13 +42,16 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class NUnitRegistryTests
 	{
-		public NUnitRegistryTests()
+		[TearDown]
+		public void RestoreRegistry()
 		{
+			NUnitRegistry.TestMode = false;
 		}
 
 		[Test]
 		public void CurrentUser()
 		{
+			NUnitRegistry.TestMode = false;
 			using( RegistryKey key = NUnitRegistry.CurrentUser )
 			{
 				Assert.IsNotNull( key );
@@ -59,6 +62,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void LocalMachine()
 		{
+			NUnitRegistry.TestMode = false;
 			using( RegistryKey key = NUnitRegistry.LocalMachine )
 			{
 				Assert.IsNotNull( key );
@@ -69,55 +73,36 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void CurrentUserTestMode()
 		{
-			try
+
+			NUnitRegistry.TestMode = true;
+			using( RegistryKey key = NUnitRegistry.CurrentUser )
 			{
-				NUnitRegistry.TestMode = true;
-				using( RegistryKey key = NUnitRegistry.CurrentUser )
-				{
-					Assert.IsNotNull( key );
-					Assert.AreEqual( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test", key.Name );
-				}
-			}
-			finally
-			{
-				NUnitRegistry.TestMode = false;
+				Assert.IsNotNull( key );
+				Assert.AreEqual( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test", key.Name );
 			}
 		}
 
 		[Test]
 		public void LocalMachineTestMode()
 		{
-			try
+			NUnitRegistry.TestMode = true;
+			using( RegistryKey key = NUnitRegistry.LocalMachine )
 			{
-				NUnitRegistry.TestMode = true;
-				using( RegistryKey key = NUnitRegistry.LocalMachine )
-				{
-					Assert.IsNotNull( key );
-					Assert.AreEqual( @"HKEY_LOCAL_MACHINE\Software\Nascent Software\Nunit-Test", key.Name );
-				}
-			}
-			finally
-			{
-				NUnitRegistry.TestMode = false;
+				Assert.IsNotNull( key );
+				Assert.AreEqual( @"HKEY_LOCAL_MACHINE\Software\Nascent Software\Nunit-Test", key.Name );
 			}
 		}
 
 		[Test]
 		public void TestClearRoutines()
 		{
-			RegistryKey key = null;
-			RegistryKey foo = null;
-			RegistryKey bar = null;
-			RegistryKey footoo = null;
+			NUnitRegistry.TestMode = true;
 
-			try
+			using( RegistryKey key = NUnitRegistry.LocalMachine )
+			using( RegistryKey foo = key.CreateSubKey( "foo" ) )
+			using( RegistryKey bar = key.CreateSubKey( "bar" ) )
+			using( RegistryKey footoo = foo.CreateSubKey( "foo" ) )
 			{
-				NUnitRegistry.TestMode = true;
-				key = NUnitRegistry.LocalMachine;
-				foo = key.CreateSubKey( "foo" );
-				bar = key.CreateSubKey( "bar" );
-				footoo = foo.CreateSubKey( "foo" );
-
 				key.SetValue("X", 5);
 				key.SetValue("NAME", "Joe");
 				foo.SetValue("Y", 17);
@@ -129,15 +114,6 @@ namespace NUnit.Util.Tests
 
 				Assert.AreEqual( 0, key.ValueCount );
 				Assert.AreEqual( 0, key.SubKeyCount );
-				
-			}
-			finally
-			{
-				NUnitRegistry.TestMode = false;
-				if ( key != null ) key.Close();
-				if ( foo != null ) foo.Close();
-				if ( bar != null ) bar.Close();
-				if ( footoo != null ) footoo.Close();
 			}
 		}
 	}
