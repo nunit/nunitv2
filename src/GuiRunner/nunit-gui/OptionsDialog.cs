@@ -153,25 +153,24 @@ namespace NUnit.Gui
 			// 
 			// clearResultsCheckBox
 			// 
-			this.helpProvider1.SetHelpString(this.clearResultsCheckBox, "If checked, any prior results are cleared if tests are added or removed.");
-			this.clearResultsCheckBox.Location = new System.Drawing.Point(48, 216);
+			this.helpProvider1.SetHelpString(this.clearResultsCheckBox, "If checked, any prior results are cleared when reloading.");
+			this.clearResultsCheckBox.Location = new System.Drawing.Point(32, 216);
 			this.clearResultsCheckBox.Name = "clearResultsCheckBox";
 			this.helpProvider1.SetShowHelp(this.clearResultsCheckBox, true);
 			this.clearResultsCheckBox.Size = new System.Drawing.Size(232, 24);
 			this.clearResultsCheckBox.TabIndex = 10;
-			this.clearResultsCheckBox.Text = "Clear results when tests change.";
+			this.clearResultsCheckBox.Text = "Clear results when reloading.";
 			// 
 			// reloadOnChangeCheckBox
 			// 
 			this.helpProvider1.SetHelpString(this.reloadOnChangeCheckBox, "If checked, the assembly is reloaded whenever it changes. Changes to this setting" +
 				" do not take effect until the next time an assembly is loaded.");
-			this.reloadOnChangeCheckBox.Location = new System.Drawing.Point(32, 192);
+			this.reloadOnChangeCheckBox.Location = new System.Drawing.Point(32, 184);
 			this.reloadOnChangeCheckBox.Name = "reloadOnChangeCheckBox";
 			this.helpProvider1.SetShowHelp(this.reloadOnChangeCheckBox, true);
 			this.reloadOnChangeCheckBox.Size = new System.Drawing.Size(256, 24);
 			this.reloadOnChangeCheckBox.TabIndex = 9;
 			this.reloadOnChangeCheckBox.Text = "Reload when test assembly changes";
-			this.reloadOnChangeCheckBox.CheckedChanged += new System.EventHandler(this.enableWatcherCheckBox_CheckedChanged);
 			// 
 			// label1
 			// 
@@ -201,7 +200,7 @@ namespace NUnit.Gui
 			// reloadOnRunCheckBox
 			// 
 			this.helpProvider1.SetHelpString(this.reloadOnRunCheckBox, "If checked, the assembly is reloaded before each run.");
-			this.reloadOnRunCheckBox.Location = new System.Drawing.Point(32, 168);
+			this.reloadOnRunCheckBox.Location = new System.Drawing.Point(32, 160);
 			this.reloadOnRunCheckBox.Name = "reloadOnRunCheckBox";
 			this.helpProvider1.SetShowHelp(this.reloadOnRunCheckBox, true);
 			this.reloadOnRunCheckBox.Size = new System.Drawing.Size(264, 24);
@@ -316,7 +315,6 @@ namespace NUnit.Gui
 			reloadOnChangeCheckBox.Enabled = Environment.OSVersion.Platform == System.PlatformID.Win32NT;
 			reloadOnChangeCheckBox.Checked = options.ReloadOnChange;
 			reloadOnRunCheckBox.Checked = options.ReloadOnRun;
-			clearResultsCheckBox.Enabled = reloadOnChangeCheckBox.Checked;
 			clearResultsCheckBox.Checked = options.ClearResults;
 
 			visualStudioSupportCheckBox.Checked = options.VisualStudioSupport;
@@ -345,11 +343,6 @@ namespace NUnit.Gui
 			DialogResult = DialogResult.OK;
 
 			Close();
-		}
-
-		private void enableWatcherCheckBox_CheckedChanged(object sender, System.EventArgs e)
-		{
-			clearResultsCheckBox.Enabled = reloadOnChangeCheckBox.Checked;
 		}
 
 		private void recentFilesCountTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
