@@ -1,5 +1,11 @@
-Change Log for NUnit 2.2 Beta 2
-July 6, 2004
+Change Log for NUnit 2.2 Beta 3
+July 19, 2004
+
+NUnit 2.2 Beta 3 - NUnit Version 2.1.93
+
+Bugs Fixed or Closed
+
+* 989835 - Status Bar inaccurate when multiple tests are checked.
 
 NUnit 2.2 Beta 2 - NUnit Version 2.1.92
 
