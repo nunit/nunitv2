@@ -7,8 +7,12 @@
   <include buildfile="..\..\nunit.build.include"/>
   
   <target name="clean" depends="set-build-dir">
-    <delete file="${current.build.dir}/nunit.uikit.dll" failonerror="false"/>
-    <delete file="${current.build.dir}/nunit.uikit.pdb" failonerror="false"/>
+    <delete failonerror="false">
+      <fileset basedir="${current.build.dir}">
+        <include name="nunit.uikit.dll"/>
+        <include name="nunit.uikit.pdb"/>
+      </fileset>
+    </delete>
   </target>
 
   <target name="build" depends="make-build-dir">
@@ -16,10 +20,10 @@
         output="${current.build.dir}/nunit.uikit.dll"
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
-        <includesfile name="sources.include"/>
+        <include name="*.cs"/>
       </sources>
       <resources basedir="." prefix="NUnit.UiKit">
-        <includesfile name="resources.include"/>
+        <include name="*.resx"/>
       </resources>
       <references basedir="${current.build.dir}">
         <include name="nunit.core.dll"/>
@@ -33,11 +37,8 @@
       <fileset basedir=".">
         <include name="nunit.uikit.dll.csproj"/>
         <include name="nunit.uikit.build"/>
-        <include name="sources.include"/>
-        <include name="resources.include"/>
-        <includesfile name="sources.include"/>
-        <includesfile name="resources.include"/>
-      </fileset>
+        <include name="*.cs"/>
+        <include name="*.resx"/>      </fileset>
     </copy>
   </target>
 </project>
