@@ -60,6 +60,48 @@ namespace NUnit.Tests.Util
 			NUnitRegistry.TestMode = false;
 		}
 
+		// Set RecentFiles to a list of known values up
+		// to a maximum. Most recent will be "1", next 
+		// "2", and so on...
+		private void SetMockValues( int count )
+		{
+			for( int num = count; num > 0; --num )
+				projects.RecentFile = num.ToString();			
+		}
+
+		// Check that the list is set right: 1, 2, ...
+		private void CheckMockValues( int count )
+		{
+			IList files = projects.GetFiles();
+			Assert.Equals( count, files.Count, "Count" );
+			
+			for( int index = 0; index < count; index++ )
+				Assert.Equals( (index + 1).ToString(), files[index], "Item" ); 
+		}
+
+		// Check that we can add count items correctly
+		private void CheckAddItems( int count )
+		{
+			SetMockValues( count );
+			Assert.Equals( "1", projects.RecentFile, "RecentFile" );
+
+			if ( count > UserSettings.RecentProjects.MaxFiles )
+				count = UserSettings.RecentProjects.MaxFiles;
+
+			CheckMockValues( count );
+		}
+
+		// Check that the list contains a set of entries
+		// in the order given and nothing else.
+		private void CheckListContains( params int[] item )
+		{
+			IList files = projects.GetFiles();
+			Assert.Equals( item.Length, files.Count, "Count" );
+
+			for( int index = 0; index < files.Count; index++ )
+				Assert.Equals( item[index].ToString(), files[index], "Item" );
+		}
+
 		[Test]
 		public void RetrieveSubKey()
 		{
@@ -67,185 +109,220 @@ namespace NUnit.Tests.Util
 		}
 
 		[Test]
-		public void RecentProjectBasicTests()
+		public void StorageName()
 		{
 			Assert.Equals( @"Recent-Projects", projects.Storage.StorageName );
+		}
+
+		[Test]
+		public void StorageKey()
+		{
 			Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Recent-Projects", 
 				((RegistrySettingsStorage)projects.Storage).StorageKey.Name );
-			
+		}
+
+		[Test]
+		public void DefaultRecentFilesCount()
+		{
+			Assert.Equals( RecentProjectSettings.DefaultSize, projects.MaxFiles );
+		}
+
+		[Test]
+		public void RecentFilesCount()
+		{
+			projects.MaxFiles = 12;
+			Assert.Equals( 12, projects.MaxFiles );
+		}
+
+		[Test]
+		public void RecentFilesCountOverMax()
+		{
+			projects.MaxFiles = RecentProjectSettings.MaxSize + 1;
+			Assert.Equals( RecentProjectSettings.MaxSize, projects.MaxFiles );
+		}
+
+		[Test]
+		public void RecentFilesCountUnderMin()
+		{
+			projects.MaxFiles = RecentProjectSettings.MinSize - 1;
+			Assert.Equals( RecentProjectSettings.MinSize, projects.MaxFiles );
+		}
+
+		[Test]
+		public void RecentFilesCountAtMax()
+		{
+			projects.MaxFiles = RecentProjectSettings.MaxSize;
+			Assert.Equals( RecentProjectSettings.MaxSize, projects.MaxFiles );
+		}
+
+		[Test]
+		public void RecentFilesCountAtMin()
+		{
+			projects.MaxFiles = RecentProjectSettings.MinSize;
+			Assert.Equals( RecentProjectSettings.MinSize, projects.MaxFiles );
+		}
+
+		[Test]
+		public void EmptyList()
+		{
 			Assert.NotNull(  projects.GetFiles(), "GetFiles() returned null" );
 			Assert.Equals( 0, projects.GetFiles().Count );
 			Assert.Null( projects.RecentFile, "No RecentFile should return null" );
+		}
 
-			projects.RecentFile = "one";
-			projects.RecentFile = "two";
-			Assert.Equals( 2, projects.GetFiles().Count );
-			Assert.Equals( "two", projects.RecentFile );
+		[Test]
+		public void AddSingleItem()
+		{
+			CheckAddItems( 1 );
+		}
+
+		[Test]
+		public void AddMaxItems()
+		{
+			CheckAddItems( 5 );
+		}
+
+		[Test]
+		public void AddTooManyItems()
+		{
+			CheckAddItems( 10 );
+		}
+
+		[Test]
+		public void IncreaseSize()
+		{
+			projects.MaxFiles = 10;
+			CheckAddItems( 10 );
+		}
+
+		[Test]
+		public void ReduceSize()
+		{
+			projects.MaxFiles = 3;
+			CheckAddItems( 10 );
+		}
+
+		[Test]
+		public void IncreaseSizeAfterAdd()
+		{
+			SetMockValues(5);
+			projects.MaxFiles = 7;
+			projects.RecentFile = "30";
+			projects.RecentFile = "20";
+			projects.RecentFile = "10";
+			CheckListContains( 10, 20, 30, 1, 2, 3, 4 );
+		}
+
+		[Test]
+		public void ReduceSizeAfterAdd()
+		{
+			SetMockValues( 5 );
+			projects.MaxFiles = 3;
+			CheckMockValues( 3 );
+		}
+
+		[Test]
+		public void ReduceSizeUpdatesRegistry()
+		{
+			SetMockValues(4);
+			projects.MaxFiles = 2;
 
 			using( RegistryKey key = NUnitRegistry.CurrentUser.OpenSubKey( "Recent-Projects" ) )
 			{
-				Assert.Equals( 2, key.ValueCount );
-				Assert.Equals( "two", key.GetValue( "File1" ) );
-				Assert.Equals( "one", key.GetValue( "File2" ) );
+				Assert.Equals( 3, key.ValueCount );
+				Assert.Equals( 2, key.GetValue( "MaxFiles" ) );
+				Assert.Equals( "1", key.GetValue( "File1" ) );
+				Assert.Equals( "2", key.GetValue( "File2" ) );
 			}
 		}
 
 		[Test]
-		public void GetMostRecentProject()
-		{
-			string projectFileName = "tests.dll";
-			Assert.Null(projects.RecentFile, "first time this should be null");
-			projects.RecentFile = projectFileName;
-			Assert.Equals(projectFileName, projects.RecentFile);
+		public void AddUpdatesRegistry()
+		{		
+			SetMockValues( 2 );
+
+			using( RegistryKey key = NUnitRegistry.CurrentUser.OpenSubKey( "Recent-Projects" ) )
+			{
+				Assert.Equals( 2, key.ValueCount );
+				Assert.Equals( "1", key.GetValue( "File1" ) );
+				Assert.Equals( "2", key.GetValue( "File2" ) );
+			}
 		}
 
 		[Test]
-		public void GetProjects()
+		public void ReorderLastProject()
 		{
-			projects.RecentFile = "3";
-			projects.RecentFile = "2";
-			projects.RecentFile = "1";
-			IList list = projects.GetFiles();
-			Assert.Equals(3, list.Count);
-			Assert.Equals("1", list[0]);
-		}
-
-
-		private void SetMockRegistryValues()
-		{
+			SetMockValues( 5 );
 			projects.RecentFile = "5";
-			projects.RecentFile = "4";
-			projects.RecentFile = "3";
-			projects.RecentFile = "2";
-			projects.RecentFile = "1";  // this is the most recent
+			CheckListContains( 5, 1, 2, 3, 4 );
 		}
 
 		[Test]
-		public void ReorderProjects5()
+		public void ReorderSingleProject()
 		{
-			SetMockRegistryValues();
+			SetMockValues( 5 );
+			projects.RecentFile = "3";
+			CheckListContains( 3, 1, 2, 4, 5 );
+		}
+
+		[Test]
+		public void ReorderMultipleProjects()
+		{
+			SetMockValues( 5 );
+			projects.RecentFile = "3";
 			projects.RecentFile = "5";
-
-			IList projectList = projects.GetFiles();
-			Assert.Equals("5", projectList[0]);
-			Assert.Equals("1", projectList[1]);
-			Assert.Equals("2", projectList[2]);
-			Assert.Equals("3", projectList[3]);
-			Assert.Equals("4", projectList[4]);
-		}
-
-		[Test]
-		public void ReorderProjects4()
-		{
-			SetMockRegistryValues();
-			projects.RecentFile = "4";
-
-			IList projectList = projects.GetFiles();
-			Assert.Equals("4", projectList[0]);
-			Assert.Equals("1", projectList[1]);
-			Assert.Equals("2", projectList[2]);
-			Assert.Equals("3", projectList[3]);
-			Assert.Equals("5", projectList[4]);
-		}
-
-		[Test]
-		public void ReorderProjectsNew()
-		{
-			SetMockRegistryValues();
-			projects.RecentFile = "6";
-
-			IList projectList = projects.GetFiles();
-			Assert.Equals("6", projectList[0]);
-			Assert.Equals("1", projectList[1]);
-			Assert.Equals("2", projectList[2]);
-			Assert.Equals("3", projectList[3]);
-			Assert.Equals("4", projectList[4]);
-		}
-
-
-		[Test]
-		public void ReorderProjects3()
-		{
-			SetMockRegistryValues();
-			projects.RecentFile = "3";
-
-			IList projectList = projects.GetFiles();
-			Assert.Equals("3", projectList[0]);
-			Assert.Equals("1", projectList[1]);
-			Assert.Equals("2", projectList[2]);
-			Assert.Equals("4", projectList[3]);
-			Assert.Equals("5", projectList[4]);
-		}
-
-		[Test]
-		public void ReorderProjects2()
-		{
-			SetMockRegistryValues();
 			projects.RecentFile = "2";
-
-			IList projectList = projects.GetFiles();
-			Assert.Equals("2", projectList[0]);
-			Assert.Equals("1", projectList[1]);
-			Assert.Equals("3", projectList[2]);
-			Assert.Equals("4", projectList[3]);
-			Assert.Equals("5", projectList[4]);
+			CheckListContains( 2, 5, 3, 1, 4 );
 		}
 
 		[Test]
-		public void ReorderProjects1()
+		public void ReorderSameProject()
 		{
-			SetMockRegistryValues();
+			SetMockValues( 5 );
 			projects.RecentFile = "1";
-
-			IList projectList = projects.GetFiles();
-			Assert.Equals("1", projectList[0]);
-			Assert.Equals("2", projectList[1]);
-			Assert.Equals("3", projectList[2]);
-			Assert.Equals("4", projectList[3]);
-			Assert.Equals("5", projectList[4]);
+			CheckListContains( 1, 2, 3, 4, 5 );
 		}
 
 		[Test]
-		public void AddprojectListNotFull()
+		public void ReorderWithListNotFull()
 		{
+			SetMockValues( 3 );
 			projects.RecentFile = "3";
-			projects.RecentFile = "2";
-			projects.RecentFile = "1";  // this is the most recent
-
-			projects.RecentFile = "3";
-
-			IList projectList = projects.GetFiles();
-			Assert.Equals(3, projectList.Count);
-			Assert.Equals("3", projectList[0]);
-			Assert.Equals("1", projectList[1]);
-			Assert.Equals("2", projectList[2]);
+			CheckListContains( 3, 1, 2 );
 		}
 
 		[Test]
-		public void AddProjectToList()
+		public void RemoveFirstProject()
 		{
-			projects.RecentFile = "1";
-			projects.RecentFile = "3";
-
-			IList projectList = projects.GetFiles();
-			Assert.Equals(2, projectList.Count);
-			Assert.Equals("3", projectList[0]);
-			Assert.Equals("1", projectList[1]);
+			SetMockValues( 3 );
+			projects.Remove("1");
+			CheckListContains( 2, 3 );
 		}
 
 		[Test]
-		public void RemoveProjectFromList()
+		public void RemoveOneProject()
 		{
-			projects.RecentFile = "3";
-			projects.RecentFile = "2";
-			projects.RecentFile = "1";
-
+			SetMockValues( 4 );
 			projects.Remove("2");
+			CheckListContains( 1, 3, 4 );
+		}
 
-			IList projectList = projects.GetFiles();
-			Assert.Equals(2, projectList.Count);
-			Assert.Equals("1", projectList[0]);
-			Assert.Equals("3", projectList[1]);
+		[Test]
+		public void RemoveMultipleProjects()
+		{
+			SetMockValues( 5 );
+			projects.Remove( "3" );
+			projects.Remove( "1" );
+			projects.Remove( "4" );
+			CheckListContains( 2, 5 );
+		}
+		
+		[Test]
+		public void RemoveLastProject()
+		{
+			SetMockValues( 5 );
+			projects.Remove("5");
+			CheckListContains( 1, 2, 3, 4 );
 		}
 	}
 }

@@ -337,11 +337,8 @@ namespace NUnit.Util
 
 		public void Load()
 		{
-			Load( new XmlTextReader( projectPath ) );
-		}
+			XmlTextReader reader = new XmlTextReader( projectPath );
 
-		public void Load( XmlTextReader reader )
-		{
 			string activeConfigName = null;
 			ProjectConfig currentConfig = null;
 			
@@ -427,14 +424,10 @@ namespace NUnit.Util
 		public void Save()
 		{
 			projectPath = ProjectPathFromFile( projectPath );
-			XmlTextWriter writer = new XmlTextWriter(  projectPath, System.Text.Encoding.UTF8 );
-			Save( writer );
-		}
 
-		public void Save( XmlTextWriter writer )
-		{
+			XmlTextWriter writer = new XmlTextWriter(  projectPath, System.Text.Encoding.UTF8 );
 			writer.Formatting = Formatting.Indented;
-			
+
 			writer.WriteStartElement( "NUnitProject" );
 			
 			if ( configs.Count > 0 )
