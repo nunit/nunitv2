@@ -1,5 +1,5 @@
-Change Log for NUnit 2.1.3 RC1
-August 22, 2003
+Change Log for NUnit 2.1 RC1 - Version 2.1.3
+August 24, 2003
 
 CHANGES FROM BETA 2 to RC1
 
@@ -8,6 +8,7 @@ Feature Requests Implemented
 * 781617 - Execution order
 * 784114 - Provide Framework Version Info
 * 660760 - Document how NUnit may be launched from Visual Studio .NET
+* 777251 - Test Case Properties dialog should support resize
 
 Bugs Fixed or Closed
 * 784001 - single central installation of nunit.framework.dll
