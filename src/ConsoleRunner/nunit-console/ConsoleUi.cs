@@ -55,6 +55,7 @@ namespace NUnit.Console
 		private bool silent;
 		private string xmlOutput;
 
+		[STAThread]
 		public static int Main(string[] args)
 		{
 			int returnCode = 0;
