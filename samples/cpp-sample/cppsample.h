@@ -38,6 +38,6 @@ namespace NUnitSamples
 		[Test] void DivideByZero();
 		[Test] void Equals();
 		[Test] [Ignore("ignored test")] void IgnoredTest();
-		[Test] [ExpectedException(typeof(InvalidOperationException))] void ExpectAnException();
+		[Test] [ExpectedException(__typeof(InvalidOperationException))] void ExpectAnException();
 	};
 }
