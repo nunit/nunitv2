@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit-console.exe.config" "$(TargetDir)nunit-console.exe.config"'
+                PostBuildEvent = ""
                 RootNamespace = "NUnit.ConsoleRunner"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -106,10 +106,6 @@
                     RelPath = "ConsoleUi.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "nunit-console.exe.config"
-                    BuildAction = "None"
                 />
             </Include>
         </Files>
