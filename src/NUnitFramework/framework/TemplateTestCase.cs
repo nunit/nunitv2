@@ -46,7 +46,12 @@ namespace NUnit.Core
 			this.method = method;
 		}
 
-		public override void Run(TestCaseResult testResult)
+		public override void Run(TestCaseResult testResult )
+		{
+			Run( testResult, false );
+		}
+
+		public void Run(TestCaseResult testResult, bool topLevel )
 		{
 			if(ShouldRun)
 			{
@@ -57,8 +62,10 @@ namespace NUnit.Core
 
 				try 
 				{
+					if ( topLevel ) InvokeTestFixtureSetUp();
 					InvokeSetUp();
 					InvokeTestCase();
+					if ( topLevel ) InvokeTestFixtureTearDown();
 					ProcessNoException(testResult);
 				}
 				catch(NunitException exception)
@@ -102,6 +109,15 @@ namespace NUnit.Core
 			return;
 		}
 
+		private void InvokeTestFixtureTearDown()
+		{
+			MethodInfo method = FindTestFixtureTearDownMethod(fixture);
+			if(method != null)
+			{
+				InvokeMethod(method, fixture);
+			}
+		}
+
 		private void InvokeTearDown()
 		{
 			MethodInfo method = FindTearDownMethod(fixture);
@@ -116,6 +132,20 @@ namespace NUnit.Core
 			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.TearDownAttribute));
 		}
 
+		private MethodInfo FindTestFixtureTearDownMethod(object fixture)
+		{			
+			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.TestFixtureTearDownAttribute));
+		}
+
+		private void InvokeTestFixtureSetUp()
+		{
+			MethodInfo method = FindTestFixtureSetUpMethod(fixture);
+			if(method != null)
+			{
+				InvokeMethod(method, fixture);
+			}
+		}
+
 		private void InvokeSetUp()
 		{
 			MethodInfo method = FindSetUpMethod(fixture);
@@ -123,6 +153,11 @@ namespace NUnit.Core
 			{
 				InvokeMethod(method, fixture);
 			}
+		}
+
+		private MethodInfo FindTestFixtureSetUpMethod(object fixture)
+		{
+			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.TestFixtureSetUpAttribute));
 		}
 
 		private MethodInfo FindSetUpMethod(object fixture)
