@@ -1202,8 +1202,8 @@ namespace NUnit.Gui
 			}
 			else if ( TestLoader.FrameworkVersion != currentVersion )
 			{
-				string msg = string.Format( "This assembly is using version {0} of the framework.\rThe {1} assembly is referencing version {2} of the framework.\r\rIf problems arise, rebuild the assembly referencing version {0}",
-					currentVersion, e.Name, TestLoader.FrameworkVersion, currentVersion );
+				string msg = string.Format( "The {0} assembly uses version {1} of the NUnit framework.\r\rIf problems arise, try changing the reference to version {2} and rebuilding the assembly",
+					Path.GetFileNameWithoutExtension( e.Name ), TestLoader.FrameworkVersion, currentVersion );
 				UserMessage.Display( msg, "Incompatible nunit.framework.dll");
 			}
 		}
