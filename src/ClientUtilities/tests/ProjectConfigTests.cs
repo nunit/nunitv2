@@ -76,8 +76,8 @@ namespace NUnit.Util.Tests
 			config.Assemblies.Add( @"C:\test\assembly2.dll" );
 
 			string[] files = config.AbsolutePaths;
-			Assertion.AssertEquals( @"C:\test\assembly1.dll", files[0] );
-			Assertion.AssertEquals( @"C:\test\assembly2.dll", files[1] );
+			Assert.AreEqual( @"C:\test\assembly1.dll", files[0] );
+			Assert.AreEqual( @"C:\test\assembly2.dll", files[1] );
 		}
 
 		[Test]
