@@ -74,9 +74,8 @@ namespace NUnit.Gui
 		private CP.Windows.Forms.ExpandingLabel projectPathLabel;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.TextBox privateBinPathTextBox;
-		private ListViewItem hoverItem;
 		private System.Windows.Forms.Button browseBasePathButton;
-		private System.Windows.Forms.CheckedListBox assemblyListBox;
+		private NUnit.UiKit.AssemblyListBox assemblyListBox;
 		private System.Windows.Forms.RadioButton noBinPathRadioButton;
 		private System.Windows.Forms.RadioButton manualBinPathRadioButton;
 		private System.Windows.Forms.RadioButton autoBinPathRadioButton;
@@ -130,6 +129,10 @@ namespace NUnit.Gui
 			this.label1 = new System.Windows.Forms.Label();
 			this.projectTabControl = new System.Windows.Forms.TabControl();
 			this.generalTabPage = new System.Windows.Forms.TabPage();
+			this.label7 = new System.Windows.Forms.Label();
+			this.autoBinPathRadioButton = new System.Windows.Forms.RadioButton();
+			this.manualBinPathRadioButton = new System.Windows.Forms.RadioButton();
+			this.noBinPathRadioButton = new System.Windows.Forms.RadioButton();
 			this.browseBasePathButton = new System.Windows.Forms.Button();
 			this.privateBinPathTextBox = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
@@ -138,7 +141,7 @@ namespace NUnit.Gui
 			this.applicationBaseTextBox = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.assemblyTabPage = new System.Windows.Forms.TabPage();
-			this.assemblyListBox = new System.Windows.Forms.CheckedListBox();
+			this.assemblyListBox = new NUnit.UiKit.AssemblyListBox();
 			this.addVSProjectButton = new System.Windows.Forms.Button();
 			this.editAssemblyButton = new System.Windows.Forms.Button();
 			this.addAssemblyButton = new System.Windows.Forms.Button();
@@ -150,10 +153,6 @@ namespace NUnit.Gui
 			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
 			this.label5 = new System.Windows.Forms.Label();
 			this.projectPathLabel = new CP.Windows.Forms.ExpandingLabel();
-			this.noBinPathRadioButton = new System.Windows.Forms.RadioButton();
-			this.manualBinPathRadioButton = new System.Windows.Forms.RadioButton();
-			this.autoBinPathRadioButton = new System.Windows.Forms.RadioButton();
-			this.label7 = new System.Windows.Forms.Label();
 			this.projectTabControl.SuspendLayout();
 			this.generalTabPage.SuspendLayout();
 			this.assemblyTabPage.SuspendLayout();
@@ -224,6 +223,41 @@ namespace NUnit.Gui
 			this.generalTabPage.Size = new System.Drawing.Size(504, 227);
 			this.generalTabPage.TabIndex = 0;
 			this.generalTabPage.Text = "General";
+			// 
+			// label7
+			// 
+			this.label7.Location = new System.Drawing.Point(56, 160);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(40, 16);
+			this.label7.TabIndex = 11;
+			this.label7.Text = "Value:";
+			// 
+			// autoBinPathRadioButton
+			// 
+			this.autoBinPathRadioButton.Location = new System.Drawing.Point(32, 96);
+			this.autoBinPathRadioButton.Name = "autoBinPathRadioButton";
+			this.autoBinPathRadioButton.Size = new System.Drawing.Size(328, 24);
+			this.autoBinPathRadioButton.TabIndex = 10;
+			this.autoBinPathRadioButton.Text = "Generated automatically from assembly locations";
+			this.autoBinPathRadioButton.CheckedChanged += new System.EventHandler(this.autoBinPathRadioButton_CheckedChanged);
+			// 
+			// manualBinPathRadioButton
+			// 
+			this.manualBinPathRadioButton.Location = new System.Drawing.Point(32, 136);
+			this.manualBinPathRadioButton.Name = "manualBinPathRadioButton";
+			this.manualBinPathRadioButton.Size = new System.Drawing.Size(424, 16);
+			this.manualBinPathRadioButton.TabIndex = 9;
+			this.manualBinPathRadioButton.Text = "Specified manually";
+			this.manualBinPathRadioButton.CheckedChanged += new System.EventHandler(this.manualBinPathRadioButton_CheckedChanged);
+			// 
+			// noBinPathRadioButton
+			// 
+			this.noBinPathRadioButton.Location = new System.Drawing.Point(32, 192);
+			this.noBinPathRadioButton.Name = "noBinPathRadioButton";
+			this.noBinPathRadioButton.Size = new System.Drawing.Size(424, 24);
+			this.noBinPathRadioButton.TabIndex = 8;
+			this.noBinPathRadioButton.Text = "None - or specified in Configuration File";
+			this.noBinPathRadioButton.CheckedChanged += new System.EventHandler(this.noBinPathRadioButton_CheckedChanged);
 			// 
 			// browseBasePathButton
 			// 
@@ -336,6 +370,8 @@ namespace NUnit.Gui
 			this.helpProvider1.SetShowHelp(this.assemblyListBox, true);
 			this.assemblyListBox.Size = new System.Drawing.Size(328, 174);
 			this.assemblyListBox.TabIndex = 6;
+			this.assemblyListBox.ThreeDCheckBoxes = true;
+			this.assemblyListBox.SelectedIndexChanged += new System.EventHandler(this.assemblyListBox_SelectedIndexChanged);
 			this.assemblyListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.assemblyListBox_ItemCheck);
 			// 
 			// addVSProjectButton
@@ -432,41 +468,6 @@ namespace NUnit.Gui
 			this.projectPathLabel.Name = "projectPathLabel";
 			this.projectPathLabel.Size = new System.Drawing.Size(392, 16);
 			this.projectPathLabel.TabIndex = 1;
-			// 
-			// noBinPathRadioButton
-			// 
-			this.noBinPathRadioButton.Location = new System.Drawing.Point(32, 192);
-			this.noBinPathRadioButton.Name = "noBinPathRadioButton";
-			this.noBinPathRadioButton.Size = new System.Drawing.Size(424, 24);
-			this.noBinPathRadioButton.TabIndex = 8;
-			this.noBinPathRadioButton.Text = "None - or specified in Configuration File";
-			this.noBinPathRadioButton.CheckedChanged += new System.EventHandler(this.noBinPathRadioButton_CheckedChanged);
-			// 
-			// manualBinPathRadioButton
-			// 
-			this.manualBinPathRadioButton.Location = new System.Drawing.Point(32, 136);
-			this.manualBinPathRadioButton.Name = "manualBinPathRadioButton";
-			this.manualBinPathRadioButton.Size = new System.Drawing.Size(424, 16);
-			this.manualBinPathRadioButton.TabIndex = 9;
-			this.manualBinPathRadioButton.Text = "Specified manually";
-			this.manualBinPathRadioButton.CheckedChanged += new System.EventHandler(this.manualBinPathRadioButton_CheckedChanged);
-			// 
-			// autoBinPathRadioButton
-			// 
-			this.autoBinPathRadioButton.Location = new System.Drawing.Point(32, 96);
-			this.autoBinPathRadioButton.Name = "autoBinPathRadioButton";
-			this.autoBinPathRadioButton.Size = new System.Drawing.Size(328, 24);
-			this.autoBinPathRadioButton.TabIndex = 10;
-			this.autoBinPathRadioButton.Text = "Generated automatically from assembly locations";
-			this.autoBinPathRadioButton.CheckedChanged += new System.EventHandler(this.autoBinPathRadioButton_CheckedChanged);
-			// 
-			// label7
-			// 
-			this.label7.Location = new System.Drawing.Point(56, 160);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(40, 16);
-			this.label7.TabIndex = 11;
-			this.label7.Text = "Value:";
 			// 
 			// ProjectEditor
 			// 
@@ -592,7 +593,7 @@ namespace NUnit.Gui
 				assemblyListBox.SelectedIndex = selectedIndex;
 		}
 
-		private void assemblyListView_SelectedIndexChanged(object sender, System.EventArgs e)
+		private void assemblyListBox_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
 			if ( assemblyListBox.SelectedIndex == -1 )
 			{
@@ -767,6 +768,7 @@ namespace NUnit.Gui
 		private void addVSProjectButton_Click(object sender, System.EventArgs e)
 		{
 			AppUI.TestLoaderUI.AddVSProject( );
+			assemblyListBox_Populate();
 		}
 
 		private void editAssemblyButton_Click(object sender, System.EventArgs e)
@@ -776,8 +778,6 @@ namespace NUnit.Gui
 			{
 				selectedConfig.Assemblies[assemblyListBox.SelectedIndex].FullPath = dlg.Path;
 				assemblyListBox_Populate();
-				if ( AppUI.TestLoader.IsTestLoaded && selectedConfig == project.ActiveConfig )
-					AppUI.TestLoader.LoadConfig( selectedConfig.Name );
 			}
 		}
 
@@ -822,7 +822,6 @@ namespace NUnit.Gui
 			if ( hasTests != selectedConfig.Assemblies[e.Index].HasTests )
 			{
 				selectedConfig.Assemblies[e.Index].HasTests = hasTests;
-				selectedConfig.IsDirty = true;
 			}
 		}
 
