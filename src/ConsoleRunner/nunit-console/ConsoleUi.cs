@@ -176,7 +176,13 @@ namespace NUnit.Console
 
 			if(!DoAssembliesExist(parser.Parameters)) return null; 
 			
-			if(parser.IsAssembly)
+			if(parser.IsTestProject)
+			{
+				NUnitProject project = NUnitProject.LoadProject( (string)parser.Parameters[0] );
+				test = project.LoadTest( testDomain );
+				if (test == null) Console.WriteLine("\nfatal error: project ({0}) is invalid", parser.Parameters[0]);
+			}
+			else if(parser.IsAssembly)
 			{
 				test = testDomain.LoadAssemblies( parser.Parameters );
 				if(test == null) Console.WriteLine("\nfatal error: assembly ({0}) is invalid", parser.Parameters[0]);
