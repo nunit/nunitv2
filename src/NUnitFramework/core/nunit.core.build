@@ -13,7 +13,7 @@
     <target name="build" depends="copy">
 
         <csc target="library" output="${bin.dir}/nunit.core.dll"
-                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
+                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc},StronglyNamedAssembly">
             <sources basedir="${src.dir}/core">
                 <includes name="*.cs"/>
             </sources>
