@@ -50,101 +50,61 @@ namespace NUnit.Console
 	/// </summary>
 	public class ConsoleUi
 	{
-		private TestDomain testDomain;
-		private XmlTextReader transformReader;
-		private bool silent;
-		private string xmlOutput;
-		private ConsoleOptions options;
-
 		[STAThread]
 		public static int Main(string[] args)
 		{
-			int returnCode = 0;
-
-			ConsoleOptions parser = new ConsoleOptions(args);
-			if(!parser.nologo)
+			ConsoleOptions options = new ConsoleOptions(args);
+			if(!options.nologo)
 				WriteCopyright();
 
-			if(parser.help)
+			if(options.help)
 			{
-				parser.Help();
+				options.Help();
+				return 0;
 			}
-			else if(parser.NoArgs) 
+			
+			if(options.NoArgs) 
 			{
 				Console.Error.WriteLine("fatal error: no inputs specified");
-				parser.Help();
+				options.Help();
+				return 0;
 			}
-			else if(!parser.Validate())
+			
+			if(!options.Validate())
 			{
 				Console.Error.WriteLine("fatal error: invalid arguments");
-				parser.Help();
-				returnCode = 2;
+				options.Help();
+				return 2;
 			}
-			else
+
+			try
 			{
-				TestDomain domain = new TestDomain();
-
-				try
+				ConsoleUi consoleUi = new ConsoleUi();
+				return consoleUi.Execute( options );
+			}
+			catch( FileNotFoundException ex )
+			{
+				Console.WriteLine( ex.Message );
+				return 2;
+			}
+			catch( BadImageFormatException ex )
+			{
+				Console.WriteLine( ex.Message );
+				return 2;
+			}
+			catch( Exception ex )
+			{
+				Console.WriteLine( "Unhandled Exception:\n{0}", ex.ToString() );
+				return 2;
+			}
+			finally
+			{
+				if(options.wait)
 				{
-					Test test = MakeTestFromCommandLine(domain, parser);
-
-					if(test == null)
-					{
-						Console.Error.WriteLine("Unable to locate fixture {0}", parser.fixture);
-
-						returnCode = 2;
-					}
-					else
-					{
-						Directory.SetCurrentDirectory(new FileInfo((string)parser.Parameters[0]).DirectoryName);
-						string xmlResult = "TestResult.xml";
-						if(parser.IsXml)
-							xmlResult = parser.xml;
-				
-						XmlTextReader reader = GetTransformReader(parser);
-						if(reader != null)
-						{
-							ConsoleUi consoleUi = new ConsoleUi(domain, reader, parser);
-							returnCode = consoleUi.Execute();
-
-							if (parser.xmlConsole)
-								Console.WriteLine(consoleUi.XmlOutput);
-							using (StreamWriter writer = new StreamWriter(xmlResult)) 
-							{
-								writer.Write(consoleUi.XmlOutput);
-							}
-						}
-						else
-							returnCode = 3;
-					}
-				}
-				catch( FileNotFoundException ex )
-				{
-					Console.WriteLine( ex.Message );
-					returnCode = 2;
-				}
-				catch( BadImageFormatException ex )
-				{
-					Console.WriteLine( ex.Message );
-					returnCode = 2;
-				}
-				catch( Exception ex )
-				{
-					Console.WriteLine( "Unhandled Exception:\n{0}", ex.ToString() );
-				}
-				finally
-				{
-					domain.Unload();
-
-					if(parser.wait)
-					{
-						Console.Out.WriteLine("\nHit <enter> key to continue");
-						Console.ReadLine();
-					}
+					Console.Out.WriteLine("\nHit <enter> key to continue");
+					Console.ReadLine();
 				}
 			}
-
-			return returnCode;
 		}
 
 		private static XmlTextReader GetTransformReader(ConsoleOptions parser)
@@ -208,29 +168,35 @@ namespace NUnit.Console
 			return testDomain.Load( project, parser.fixture );
 		}
 
-		public ConsoleUi(TestDomain testDomain, XmlTextReader reader, ConsoleOptions options)
+		public ConsoleUi()
 		{
-			this.testDomain = testDomain;
-			transformReader = reader;
-			this.options = options;
-			this.silent = options.xmlConsole;
 		}
 
-		public string XmlOutput
+		public int Execute( ConsoleOptions options )
 		{
-			get { return xmlOutput; }
-		}
+			XmlTextReader transformReader = GetTransformReader(options);
+			if(transformReader == null) return 3;
 
-		public int Execute()
-		{
 			ConsoleWriter outStream = options.isOut
 				? new ConsoleWriter( new StreamWriter( options.output ) )
 				: new ConsoleWriter(Console.Out);
 
-			ConsoleWriter errorStream = options .isErr
+			ConsoleWriter errorStream = options.isErr
 				? new ConsoleWriter( new StreamWriter( options.err ) )
 				: new ConsoleWriter(Console.Error);
-			
+
+			TestDomain testDomain = new TestDomain(outStream, errorStream);
+
+			Test test = MakeTestFromCommandLine(testDomain, options);
+
+			if(test == null)
+			{
+				Console.Error.WriteLine("Unable to locate fixture {0}", options.fixture);
+				return 2;
+			}
+
+			Directory.SetCurrentDirectory(new FileInfo((string)options.Parameters[0]).DirectoryName);
+		
 			EventListener collector = new EventCollector( options, outStream );
 
 			string savedDirectory = Environment.CurrentDirectory;
@@ -244,18 +210,30 @@ namespace NUnit.Console
 			result.Accept(resultVisitor);
 			resultVisitor.Write();
 
-			xmlOutput = builder.ToString();
+			string xmlOutput = builder.ToString();
 
-			if (!silent)
-				CreateSummaryDocument();
+			if (options.xmlConsole)
+				Console.WriteLine(xmlOutput);
+			else
+				CreateSummaryDocument(xmlOutput, transformReader);
+
+			// Write xml output here
+			string xmlResult = options.IsXml ? options.xml : "TestResult.xml";
+
+			using (StreamWriter writer = new StreamWriter(xmlResult)) 
+			{
+				writer.Write(xmlOutput);
+			}
 
 			int resultCode = 0;
+			
 			if(result.IsFailure)
 				resultCode = 1;
+
 			return resultCode;
 		}
 
-		private void CreateSummaryDocument()
+		private void CreateSummaryDocument(string xmlOutput, XmlTextReader transformReader)
 		{
 			XPathDocument originalXPathDocument = new XPathDocument(new StringReader(xmlOutput));
 			XslTransform summaryXslTransform = new XslTransform();
@@ -266,6 +244,8 @@ namespace NUnit.Console
 			// Using obsolete form for now, remove warning suppression from project after changing
 			summaryXslTransform.Transform(originalXPathDocument,null,Console.Out);
 		}
+
+		#region Nested Class to Handle Events
 
 		private class EventCollector : LongLivingMarshalByRefObject, EventListener
 		{
@@ -384,5 +364,7 @@ namespace NUnit.Console
 				return result.Message;
 			}
 		}
+
+		#endregion
 	}
 }
