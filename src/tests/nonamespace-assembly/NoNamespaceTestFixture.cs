@@ -33,6 +33,8 @@ using NUnit.Framework;
 [TestFixture]
 public class NoNamespaceTestFixture
 {
+	public static readonly int Tests = 3;
+
 	[Test]
 	public void Test1()
 	{

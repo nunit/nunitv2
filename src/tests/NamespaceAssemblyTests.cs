@@ -105,7 +105,7 @@ namespace NUnit.Tests.Core
 			Assert.AreEqual("Assemblies", mockSuite.Name);
 
 			TestSuite mockFixtureSuite = (TestSuite)mockSuite.Tests[0];
-			Assert.AreEqual(5, mockFixtureSuite.Tests.Count);
+			Assert.AreEqual(MockTestFixture.Tests, mockFixtureSuite.Tests.Count);
 			
 			ArrayList mockTests = mockFixtureSuite.Tests;
 			foreach(Test t in mockTests)
@@ -120,7 +120,7 @@ namespace NUnit.Tests.Core
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( nonamespaceDLL );
 			Assert.IsNotNull(suite);
-			Assert.AreEqual( 3, suite.CountTestCases() );
+			Assert.AreEqual( NoNamespaceTestFixture.Tests, suite.CountTestCases() );
 		}
 	}
 }

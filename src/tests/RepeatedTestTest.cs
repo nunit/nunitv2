@@ -56,8 +56,10 @@ namespace NUnit.Tests.Extensions
 		{
 			NUnit.Core.TestCase baseCase = TestCaseBuilder.Make(new SuccessTest(), "Success");
 			Test repeatTest = new RepeatedTest(baseCase, 5);
-			Assert.AreEqual(5, repeatTest.CountTestCases());
-			Assert.AreEqual(5, repeatTest.CountTestCases(EmptyFilter.Empty));
+
+			int expectedCount = 5 * SuccessTest.Tests;
+			Assert.AreEqual(expectedCount, repeatTest.CountTestCases());
+			Assert.AreEqual(expectedCount, repeatTest.CountTestCases(EmptyFilter.Empty));
 
 			TestResult result = repeatTest.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsSuccess);
@@ -65,7 +67,7 @@ namespace NUnit.Tests.Extensions
 			Assert.IsTrue(result is TestSuiteResult);
 			TestSuiteResult suiteResult=(TestSuiteResult)result;
 			
-			Assert.AreEqual(5,suiteResult.Results.Count);
+			Assert.AreEqual(expectedCount,suiteResult.Results.Count);
 		}
 	}
 }

@@ -35,6 +35,8 @@ namespace NUnit.Tests.Core
 	[TestFixture]
 	public class SuccessTest
 	{
+		public static readonly int Tests = 1;
+
 		[Test]
 		public void Success()
 		{}

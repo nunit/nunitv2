@@ -39,6 +39,8 @@ namespace NUnit.Tests.TestAssembly
 	[TestFixture]
 	public class MockTestFixture
 	{
+		public static int Tests = 1;
+
 		[Test]
 		public void MyTest()
 		{

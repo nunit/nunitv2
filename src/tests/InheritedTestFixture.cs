@@ -34,10 +34,8 @@ namespace NUnit.Tests.Core
 {
 	public class InheritedTestFixture : OneTestCase 
 	{
-		/// <summary>
-		/// 
-		/// </summary>
-		/// 
+		public static readonly int Tests = 2;
+ 
 		[Test]
 		public void Test2() 
 		{}

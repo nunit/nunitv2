@@ -37,7 +37,9 @@ namespace NUnit.Tests.Singletons
 	/// 
 	[TestFixture]
 	public class OneTestCase
-	{				
+	{
+		public static readonly int Tests = 1;
+
 		[Test]
 		public virtual void TestCase() 
 		{}
