@@ -556,7 +556,7 @@ namespace NUnit.Framework
 		/// <param name="anObject">The object that is to be tested</param>
 		static public void IsNotNull(Object anObject, string message) 
 		{
-			Assert.IsNotNull(anObject, string.Empty);
+			Assert.IsNotNull(anObject, message, null);
 		}
     
 		/// <summary>
@@ -567,7 +567,7 @@ namespace NUnit.Framework
 		/// <param name="anObject">The object that is to be tested</param>
 		static public void IsNotNull(Object anObject) 
 		{
-			Assert.IsNotNull(anObject, string.Empty);
+			Assert.IsNotNull(anObject, string.Empty, null);
 		}
     
 		    
@@ -590,9 +590,20 @@ namespace NUnit.Framework
 		/// is thrown.
 		/// </summary>
 		/// <param name="anObject">The object that is to be tested</param>
+		static public void IsNull(Object anObject, string message) 
+		{
+			Assert.IsNull(anObject, message, null);
+		}
+    
+		/// <summary>
+		/// Verifies that the object that is passed in is equal to <code>null</code>
+		/// If the object is <code>null</code> then an <see cref="AssertionException"/>
+		/// is thrown.
+		/// </summary>
+		/// <param name="anObject">The object that is to be tested</param>
 		static public void IsNull(Object anObject) 
 		{
-			Assert.IsNull(anObject, string.Empty);
+			Assert.IsNull(anObject, string.Empty, null);
 		}
     
     
