@@ -199,6 +199,21 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "PlatformAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "PlatformHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RuntimeFramework.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SameAsserter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -229,6 +244,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestContext.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestFixtureAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -240,6 +260,11 @@
                 />
                 <File
                     RelPath = "TestFixtureTearDownAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestPlatform.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
