@@ -90,8 +90,7 @@ namespace NUnit.Util
 		{
 			get
 			{
-				// TODO: Allow use of fixture with a project
-				return ParameterCount == 1 && !IsFixture &&	NUnitProject.CanLoadAsProject( (string)Parameters[0] );
+				return ParameterCount == 1 && NUnitProject.CanLoadAsProject( (string)Parameters[0] );
 			}
 		}
 

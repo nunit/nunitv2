@@ -486,9 +486,18 @@ namespace NUnit.Util
 		/// </summary>
 		public Test LoadTest( TestDomain testDomain )
 		{
+			return LoadTest( testDomain, null );
+		}
+
+		/// <summary>
+		/// Load tests for this project or for a particular fixture 
+		/// in the project into a test domain.
+		/// </summary>
+		public Test LoadTest( TestDomain testDomain, string testFixture )
+		{
 			if ( IsAssemblyWrapper )
 			{
-				return testDomain.LoadAssembly( ActiveConfig.Assemblies[0].FullPath );
+				return testDomain.LoadAssembly( ActiveConfig.Assemblies[0].FullPath, testFixture );
 			}
 			else
 			{
@@ -504,7 +513,7 @@ namespace NUnit.Util
 				setup.ShadowCopyDirectories = binPath;
 				setup.PrivateBinPath = binPath;
 
-				return testDomain.LoadAssemblies( setup, ProjectPath, ActiveConfig.TestAssemblies );
+				return testDomain.LoadAssemblies( setup, ProjectPath, ActiveConfig.TestAssemblies, testFixture );
 			}
 		}
 

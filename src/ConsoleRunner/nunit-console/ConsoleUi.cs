@@ -174,27 +174,13 @@ namespace NUnit.Console
 		private static Test MakeTestFromCommandLine(NUnit.Core.TestDomain testDomain, 
 			ConsoleOptions parser)
 		{
-			Test test = null;
-
 			if(!DoAssembliesExist(parser.Parameters)) return null; 
 			
-			if(parser.IsTestProject)
-			{
-				NUnitProject project = NUnitProject.LoadProject( (string)parser.Parameters[0] );
-				test = project.LoadTest( testDomain );
-				if (test == null) Console.WriteLine("\nfatal error: project ({0}) is invalid", parser.Parameters[0]);
-			}
-			else if(parser.IsAssembly)
-			{
-				test = testDomain.LoadAssemblies( parser.Parameters );
-				if(test == null) Console.WriteLine("\nfatal error: assembly ({0}) is invalid", parser.Parameters[0]);
-			}
-			else if(parser.IsFixture)
-			{
-				test = testDomain.LoadAssembly( (string)parser.Parameters[0], parser.fixture );
-				if(test == null) Console.WriteLine("\nfatal error: fixture ({0}) in assembly ({1}) is invalid", parser.fixture, parser.Parameters[0]);
-			}
-			return test;
+			NUnitProject project = parser.IsTestProject
+				? NUnitProject.LoadProject( (string)parser.Parameters[0] )
+				: NUnitProject.FromAssemblies( (string[])parser.Parameters.ToArray( typeof( string ) ) );
+
+			return project.LoadTest( testDomain, parser.fixture );
 		}
 
 		private static bool DoAssembliesExist(IList files)
