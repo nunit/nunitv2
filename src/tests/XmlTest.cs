@@ -44,7 +44,7 @@ namespace NUnit.Tests.Core
 	/// </summary>
 	/// 
 	[TestFixture]
-	public class XmlTest
+	public class XmlTest : FixtureBase
 	{
 		public class SchemaValidator
 		{
@@ -129,13 +129,6 @@ namespace NUnit.Tests.Core
 				result.Accept(visitor);
 				visitor.Write();
 
-				string schemaFile = null;
-				FileInfo file = new FileInfo("Results.xsd");
-				if(file.Exists)
-					schemaFile = file.FullName;
-				else
-					schemaFile = "..\\..\\..\\framework\\Results.xsd";
-
 				SchemaValidator validator = new SchemaValidator(reportFileName, schemaFile);
 				Assert.IsTrue(validator.Validate(), "validate failed");
 			}
@@ -166,13 +159,6 @@ namespace NUnit.Tests.Core
 				result.Accept(visitor);
 				visitor.Write();
 
-				string schemaFile = null;
-				FileInfo file = new FileInfo("Results.xsd");
-				if(file.Exists)
-					schemaFile = file.FullName;
-				else
-					schemaFile = "..\\..\\..\\framework\\Results.xsd";
-
 				//SchemaValidator validator = new SchemaValidator(reportFileName, schemaFile);
 				//Assert.True(validator.Validate(), "validate failed");
 			}
@@ -184,11 +170,13 @@ namespace NUnit.Tests.Core
 		}
 
 		private string tempFile;
+		private string schemaFile;
 
 		[SetUp]
 		public void CreateTempFileName()
 		{
 			tempFile = "temp" + Guid.NewGuid().ToString() + ".xml";
+			schemaFile = SourcePath + @"\framework\results.xsd";
 		}
 
 		[TearDown]

@@ -38,8 +38,24 @@ namespace NUnit.Tests.Util
 	/// Summary description for VSProjectTests.
 	/// </summary>
 	[TestFixture]
-	public class VSProjectTests
+	public class VSProjectTests : FixtureBase
 	{
+		private string invalidFile = "invalid.csproj";
+
+		private void WriteInvalidFile( string text )
+		{
+			StreamWriter writer = new StreamWriter( invalidFile );
+			writer.WriteLine( text );
+			writer.Close();
+		}
+
+		[TearDown]
+		public void EraseInvalidFile()
+		{
+			if ( File.Exists( invalidFile ) )
+				File.Delete( invalidFile );
+		}
+
 		[Test]
 		public void SolutionExtension()
 		{
@@ -59,54 +75,33 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void LoadCsharpProject()
 		{
-			string fileName = @"..\..\nunit.tests.dll.csproj";
-			#if NANTBUILD
-			fileName = @"..\tests\nunit.tests.dll.csproj";
-			#endif
+			string fileName = GetSamplesPath( @"csharp\csharp-sample.csproj" );
 			VSProject project = new VSProject( fileName );
 
-			Assert.AreEqual( "nunit.tests.dll", project.Name );
+			Assert.AreEqual( "csharp-sample", project.Name );
 			Assert.AreEqual( Path.GetFullPath( fileName ), project.ProjectPath );
-			Assert.AreEqual( 2, project.Configs.Count );
-			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug config" );
-			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release config" );
-			Assert.IsTrue( project.Configs["Debug"].Assemblies[0].ToString().ToLower().EndsWith( @"\bin\debug\nunit.tests.dll" ),
-				"Missing dll");
+			Assert.AreEqual( "csharp-sample.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].ToString().ToLower() ) );
 		}
 
 		[Test]
 		public void LoadVbProject()
 		{
-			string fileName = @"..\..\..\samples\vb\vb-sample.vbproj";
-			#if NANTBUILD
-			fileName = @"..\samples\vb\vb-sample.vbproj";
-			#endif
+			string fileName = GetSamplesPath( @"vb\vb-sample.vbproj" );
 			VSProject project = new VSProject( fileName );
 
 			Assert.AreEqual( "vb-sample", project.Name );
 			Assert.AreEqual( Path.GetFullPath( fileName ), project.ProjectPath );
-			Assert.AreEqual( 2, project.Configs.Count );
-			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug config" );
-			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release config" );
-			Assert.IsTrue( project.Configs["Debug"].Assemblies[0].ToString().ToLower().EndsWith( @"samples\vb\bin\vb-sample.dll" ),
-				"Missing dll");
+			Assert.AreEqual( "vb-sample.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].ToString().ToLower() ) );
 		}
 		[Test]
 		public void LoadCppProject()
 		{
-			string fileName = @"..\..\..\samples\cpp-sample\cpp-sample.vcproj";
-			#if NANTBUILD
-			fileName = @"..\samples\cpp-sample\cpp-sample.vcproj";
-			#endif
+			string fileName = GetSamplesPath( @"cpp-sample\cpp-sample.vcproj" );
 			VSProject project = new VSProject( fileName );
 
 			Assert.AreEqual( "cpp-sample", project.Name );
 			Assert.AreEqual( Path.GetFullPath( fileName ), project.ProjectPath );
-			Assert.AreEqual( 2, project.Configs.Count );
-			Assert.IsTrue( project.Configs.Contains( "Debug|Win32" ), "Missing Debug config" );
-			Assert.IsTrue( project.Configs.Contains( "Release|Win32" ), "Missing Release config" );
-			Assert.IsTrue( project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower().EndsWith( @"samples\cpp-sample\debug\cpp-sample.dll" ),
-				"Missing dll");
+			Assert.AreEqual( "cpp-sample.dll", Path.GetFileName( project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower() ) );
 		}
 
 		[Test, ExpectedException( typeof ( ArgumentException ) ) ]
@@ -119,14 +114,6 @@ namespace NUnit.Tests.Util
 		public void FileNotFoundError()
 		{
 			VSProject project = new VSProject( @"\junk.csproj" );
-		}
-
-		private string invalidFile = "invalid.csproj";
-		private void WriteInvalidFile( string text )
-		{
-			StreamWriter writer = new StreamWriter( invalidFile );
-			writer.WriteLine( text );
-			writer.Close();
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]

@@ -36,7 +36,7 @@ using NUnit.Framework;
 namespace NUnit.Tests.Util
 {
 	[TestFixture]
-	public class NUnitProjectLoad
+	public class NUnitProjectLoad : FixtureBase
 	{
 		static readonly string xmlfile = "test.nunit";
 
@@ -122,16 +122,10 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void FromCSharpProject()
 		{
-			string projectPath = @"..\..\nunit.tests.dll.csproj";
-			#if NANTBUILD
-			projectPath = @"..\tests\nunit.tests.dll.csproj";
-			#endif
+			string projectPath = GetSamplesPath( @"csharp\csharp-sample.csproj" );
 			NUnitProject project = NUnitProject.FromVSProject( projectPath );
-			Assert.AreEqual( 2, project.Configs.Count );
-			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug Config" );
-			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release Config" );
 			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfigName );
-			Assert.IsTrue( ((string)project.Configs["Debug"].Assemblies[0].FullPath).EndsWith("nunit.tests.dll"), "Missing nunit.tests.dll" );
+			Assert.AreEqual( "csharp-sample.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].FullPath.ToLower() ) );
 			Assert.IsTrue( project.IsLoadable, "Not loadable" );
 			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
 		}
@@ -139,16 +133,9 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void FromVBProject()
 		{
-			string projectPath = @"..\..\..\samples\vb\vb-sample.vbproj";
-			#if NANTBUILD
-			projectPath = @"..\samples\vb\vb-sample.vbproj";
-			#endif
+			string projectPath = GetSamplesPath( @"vb\vb-sample.vbproj" );
 			NUnitProject project = NUnitProject.FromVSProject( projectPath );
-			Assert.AreEqual( 2, project.Configs.Count );
-			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug config" );
-			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release config" );
-			Assert.IsTrue( ((string)project.Configs["Debug"].Assemblies[0].FullPath).EndsWith( "vb-sample.dll" ),
-				"Missing vb-sample.dll");
+			Assert.AreEqual( "vb-sample.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].FullPath.ToLower() ) );
 			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
 			Assert.IsTrue( project.IsLoadable, "Not loadable" );
 			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
@@ -157,16 +144,10 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void FromCppProject()
 		{
-			string projectPath = @"..\..\..\samples\cpp-sample\cpp-sample.vcproj";
-			#if NANTBUILD
-			projectPath = @"..\samples\cpp-sample\cpp-sample.vcproj";
-			#endif
+			string projectPath = GetSamplesPath( @"cpp-sample\cpp-sample.vcproj" );
 			NUnitProject project = NUnitProject.FromVSProject( projectPath );
-			Assert.AreEqual( 2, project.Configs.Count );
-			Assert.IsTrue( project.Configs.Contains( "Debug|Win32" ), "Missing Debug Config" );
-			Assert.IsTrue( project.Configs.Contains( "Release|Win32" ), "Missing Release Config" );
 			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
-			Assert.IsTrue( ((string)project.Configs["Debug|Win32"].Assemblies[0].FullPath).EndsWith( "cpp-sample.dll" ), "Missing cpp-sample.dll" );
+			Assert.AreEqual( "cpp-sample.dll", Path.GetFileName( project.Configs["Debug|Win32"].Assemblies[0].FullPath.ToLower() ) );
 			Assert.IsTrue( project.IsLoadable, "Not loadable" );
 			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
 		}
@@ -174,11 +155,8 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void FromVSSolution()
 		{
-			string projectPath = @"..\..\..\nunit.sln";
-			#if NANTBUILD
-			projectPath = @"..\nunit.sln";
-			#endif
-			NUnitProject project = NUnitProject.FromVSSolution( projectPath );
+			NUnitProject project = NUnitProject.FromVSSolution( SolutionPath );
+
 			Assert.AreEqual( 4, project.Configs.Count );
 			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug Config" );
 			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release Config" );

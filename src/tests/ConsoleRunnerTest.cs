@@ -41,26 +41,12 @@ using NUnit.Tests.Core;
 namespace NUnit.Tests.ConsoleRunner
 {
 	[TestFixture]
-	public class ConsoleRunnerTest 
+	public class ConsoleRunnerTest : FixtureBase
 	{
 		private String nunitExe;
 		private static readonly string xmlFile = "console-test.xml";
 		private AppDomain domain = null;
 		private Evidence evidence = null;
-
-		public ConsoleRunnerTest() 
-		{
-			// need a better way to make this location independant
-			FileInfo file = new FileInfo("nunit-console.exe");
-			if(file.Exists)
-				nunitExe = file.FullName;
-			else
-#if DEBUG
-				nunitExe = "..\\..\\..\\nunit-console\\bin\\Debug\\nunit-console.exe";
-#else
-				nunitExe = "..\\..\\..\\nunit-console\\bin\\Release\\nunit-console.exe";
-#endif
-		}
 
 		[SetUp]
 		public void Setup()
@@ -68,6 +54,16 @@ namespace NUnit.Tests.ConsoleRunner
 			domain = AppDomain.CreateDomain( "test domain" );
 			Evidence baseEvidence = AppDomain.CurrentDomain.Evidence;
 			evidence = new Evidence( baseEvidence );
+
+			FileInfo file = new FileInfo("nunit-console.exe");
+			if(file.Exists)
+				nunitExe = file.FullName;
+			else
+#if DEBUG
+				nunitExe = SourcePath + @"\nunit-console\bin\Debug\nunit-console.exe";
+#else
+				nunitExe = SourcePath + @"\nunit-console\bin\Release\nunit-console.exe";
+#endif
 		}
 
 		[TearDown]
@@ -182,11 +178,11 @@ namespace NUnit.Tests.ConsoleRunner
 		private string[] MakeCommandLine(string assembly, string fixture, string xmlFile)
 		{
 			ArrayList list = new ArrayList();
-			list.Add(String.Format("{0}", assembly));
+			list.Add(String.Format("\"{0}\"", assembly));
 			if(fixture != null)
 				list.Add(String.Format("/fixture:{0}", fixture));
 			if(xmlFile != null)
-				list.Add(String.Format("/xml:{0}", xmlFile));
+				list.Add(String.Format("\"/xml:{0}\"", xmlFile));
 
 			int index = 0;
 			string[] result = new string[list.Count];
