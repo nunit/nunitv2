@@ -261,24 +261,25 @@ namespace NUnit.Util
 			NUnitProject project = new NUnitProject( Path.GetFullPath( solutionPath ) );
 
 			string solutionDirectory = Path.GetDirectoryName( solutionPath );
-			StreamReader reader = new StreamReader( solutionPath );
-
-			char[] delims = { '=', ',' };
-			char[] trimchars = { ' ', '"' };
-
-			string line = reader.ReadLine();
-			while ( line != null )
+			using(StreamReader reader = new StreamReader( solutionPath ))
 			{
-				if ( line.StartsWith( "Project" ) )
-				{
-					string[] parts = line.Split( delims );
-					string vsProjectPath = Path.Combine( solutionDirectory, parts[2].Trim(trimchars) );
-					
-					if ( VSProject.IsProjectFile( vsProjectPath ) )
-						project.Add( new VSProject( vsProjectPath ) );
-				}
+				char[] delims = { '=', ',' };
+				char[] trimchars = { ' ', '"' };
 
-				line = reader.ReadLine();
+				string line = reader.ReadLine();
+				while ( line != null )
+				{
+					if ( line.StartsWith( "Project" ) )
+					{
+						string[] parts = line.Split( delims );
+						string vsProjectPath = Path.Combine( solutionDirectory, parts[2].Trim(trimchars) );
+						
+						if ( VSProject.IsProjectFile( vsProjectPath ) )
+							project.Add( new VSProject( vsProjectPath ) );
+					}
+
+					line = reader.ReadLine();
+				}
 			}
 
 			project.isDirty = false;
