@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <project name="NUnit" default="build" basedir=".">
+
 <!--
     This build file will build NUnit for any of the supported
     runtimes which are actually installed.
@@ -42,34 +43,46 @@
   -->
 
 <!-- Global settings and defaults -->
-    <property name="project.build.dir" value="${nant.project.basedir}\build"/>
-    <property name="project.package.dir" value="${nant.project.basedir}\package"/>
+    <property name="project.build.dir" 
+        value="${nant.project.basedir}\build"/>
+    <property name="project.package.dir" 
+        value="${nant.project.basedir}\package"/>
 
-<!-- List supported frameworks and flag which ones are available -->
-    <property name="frameworks" value="net-1.0,net-1.1,mono-1.0"/>
-    <property name="framework.available.net-1.0" value="${framework::exists('net-1.0')}"/>
-    <property name="framework.available.net-1.1" value="${framework::exists('net-1.1')}"/>
-    <property name="framework.available.net-2.0" value="${framework::exists('net-2.0')}"/>
-    <property name="framework.available.mono-1.0" value="${framework::exists('mono-1.0')}"/>
-    
-<!-- Set up default build and runtime configuration -->
+<!-- Set up default build and runtime configurations -->
     <property name="build.config" value="debug"/>
     <property name="build.clean" value="false"/>
     <property name="runtime.config" value="net"/>
     <property name="runtime.version" value="1.1"/>
     
-<!-- Get Visual Studio locations from registry if this is a win32 machine -->
+<!-- List supported frameworks and flag which ones are available -->
+    <property name="frameworks" value="net-1.0,net-1.1,mono-1.0"/>
+    <property name="framework.available.net-1.0" 
+        value="${framework::exists('net-1.0')}"/>
+    <property name="framework.available.net-1.1" 
+        value="${framework::exists('net-1.1')}"/>
+    <property name="framework.available.net-2.0" 
+        value="${framework::exists('net-2.0')}"/>
+    <property name="framework.available.mono-1.0" 
+        value="${framework::exists('mono-1.0')}"/>
+    
+<!-- Get Visual Studio locations from registry -->
 <if test="${platform::is-win32()}">
-    <readregistry property="vs.2002.path" key="Software\Microsoft\VisualStudio\7.0\InstallDir" hive="LocalMachine" failonerror="false"/>
-    <readregistry property="vs.2003.path" key="Software\Microsoft\VisualStudio\7.1\InstallDir" hive="LocalMachine" />
+    <readregistry property="vs.2002.path" 
+        key="Software\Microsoft\VisualStudio\7.0\InstallDir" 
+        hive="LocalMachine" failonerror="false"/>
+    <readregistry property="vs.2003.path" 
+        key="Software\Microsoft\VisualStudio\7.1\InstallDir" 
+        hive="LocalMachine" />
 </if>
 
 <!-- Set up version for packaging (override as needed) -->
     <property name="package.version" value="2.2.1"/>
 <!-- Root of the package file name -->
-    <property name="package.name" value="${nant.project.name}-${package.version}"/>
+    <property name="package.name" 
+        value="${nant.project.name}-${package.version}"/>
 <!-- Package directory - will effect top level directory name in zips -->
-    <property name="package.dir" value="${project.package.dir}/${package.name}"/>
+    <property name="package.dir" 
+        value="${project.package.dir}/${package.name}"/>
 	
 <!-- Command-line build configurations -->
     <target name="debug" description="Set config to debug">
@@ -80,7 +93,7 @@
         <call target="set-release-build-config" />
     </target>
 
-    <target name="clean" description="Set flag to perform clean builds">
+    <target name="clean" description="Clean before building">
         <property name="build.clean" value="true"/>
     </target>
 
@@ -111,20 +124,23 @@
 
 <!-- Clean directories -->
     <target name="clean-build-dir" depends="set-build-dir">
-        <delete dir="${build.dir}" if="${directory::exists( build.dir )}"/>
+        <delete dir="${build.dir}" 
+            if="${directory::exists( build.dir )}"/>
     </target>
 
     <target name="clean-package-dir" depends="set-package-config">
-        <delete dir="${package.dir}" if="${directory::exists( package.dir )}"/>
+        <delete dir="${package.dir}" 
+            if="${directory::exists( package.dir )}"/>
     </target>
 
 <!-- Targets that operate on all configs and runtimes -->
     <target name="clean-all" description="Erase all build directories">
-        <delete dir="${project.build.dir}" if="${directory::exists( project.build.dir )}"/>
+        <delete dir="${project.build.dir}" 
+            if="${directory::exists( project.build.dir )}"/>
     </target>
 
     <target name="build-all" 
-      description="Build all runtime versions in both debug and release">
+      description="Build all runtime versions, debug and release">
         <call target="set-debug-build-config"/>
         <call target="build-each"/>
         <call target="set-release-build-config"/>
@@ -132,7 +148,7 @@
     </target>
 
     <target name="test-all" 
-      description="Test all versions in both debug and release">
+      description="Test all runtime versions, debug and release">
         <call target="set-debug-build-config"/>
         <call target="test-each"/>
         <call target="set-release-build-config"/>
@@ -158,7 +174,7 @@
 
 <!-- Targets that operate on both debug and release -->
     <target name="build-all-configs"
-      description="Build selected runtime version in both debug and release">
+      description="Build debug and release for selected runtime">
         <call target="set-debug-build-config"/>
         <call target="set-runtime-config"/>
         <call target="build"/>
@@ -168,7 +184,7 @@
     </target>
 
     <target name="test-all-configs" 
-      description="Test debug and release for the selected runtime version">
+      description="Test debug and release for selected runtime">
         <call target="set-debug-build-config"/>
         <call target="set-runtime-config"/>
         <call target="test"/>
@@ -180,46 +196,51 @@
 <!-- Targets that operate on each available runtime -->
     <target name="build-each"
       description="Build for each available runtime">
-        <foreach item="String" delim="," property="framework" in="${frameworks}">
-        <if test="${framework::exists( framework )}">
-            <call target="set-${framework}-runtime-config"/>
-            <call target="build"/>
-        </if>
+        <foreach item="String" delim="," 
+            property="framework" in="${frameworks}">
+            <if test="${framework::exists( framework )}">
+                <call target="set-${framework}-runtime-config"/>
+                <call target="build"/>
+            </if>
         </foreach>
     </target>
 	
     <target name="test-each"
       description="Test under each available runtime">
-        <foreach item="String" delim="," property="framework" in="${frameworks}">
-        <if test="${framework::exists( framework )}">
-            <call target="set-${framework}-runtime-config"/>
-            <call target="test" />
-        </if>
+        <foreach item="String" delim="," 
+            property="framework" in="${frameworks}">
+            <if test="${framework::exists( framework )}">
+                <call target="set-${framework}-runtime-config"/>
+                <call target="test" />
+            </if>
         </foreach>
     </target>
    
     <target name="package-each-zip"
       description="Create zip package for each available runtime">
-        <foreach item="String" delim="," property="framework" in="${frameworks}">
-        <if test="${framework::exists( framework )}">
-            <call target="set-${framework}-runtime-config"/>
-            <call target="package-zip" />
-        </if>
+        <foreach item="String" delim="," 
+            property="framework" in="${frameworks}">
+            <if test="${framework::exists( framework )}">
+                <call target="set-${framework}-runtime-config"/>
+                <call target="package-zip" />
+            </if>
         </foreach>
     </target>
    
     <target name="package-each-msi"
       description="Create msi package for each win32 runtime">
 
-        <fail message="MSI can only be built on the Win32 platform" unless="${platform::is-win32()}"/>
+        <fail message="MSI can only be built on the Win32 platform"
+            unless="${platform::is-win32()}"/>
 
-        <foreach item="String" delim="," property="framework" in="${frameworks}">
-        <if test="${framework::exists( framework )}">
-            <call target="set-${framework}-runtime-config"/>
-            <if test="${build.win32}">
-                <call target="package-msi" />
+        <foreach item="String" delim="," 
+            property="framework" in="${frameworks}">
+            <if test="${framework::exists( framework )}">
+                <call target="set-${framework}-runtime-config"/>
+                <if test="${build.win32}">
+                    <call target="package-msi" />
+                </if>
             </if>
-        </if>
         </foreach>
 
     </target>
@@ -240,23 +261,42 @@
         <!-- Copy key file to the correct relative location -->
         <copy file="nunit.key" todir="${project.build.dir}"/>
 
-        <!-- Build everything except the samples -->
+        <!-- First we build the NUnit itself assemblies -->
         <nant buildfile="NUnitFramework\framework\nunit.framework.build" target="build"/>
-        <nant buildfile="NUnitFramework\core\nunit.core.build" target="build"/>
+         <nant buildfile="NUnitFramework\core\nunit.core.build" target="build"/>
         <nant buildfile="NUnitFramework\extensions\nunit.extensions.build" target="build"/>
         <nant buildfile="ClientUtilities\util\nunit.util.build" target="build"/>
         <nant buildfile="ConsoleRunner\nunit-console\nunit-console.build" target="build"/>
+        <nant buildfile="ConsoleRunner\nunit-console-exe\nunit-console.exe.build" target="build"/>
         <nant buildfile="NUnitMocks\mocks\nunit.mocks.build" target="build"/>
 
         <!-- Build Win32-only projects -->
         <if test="${build.win32}">
-            <nant buildfile="GuiComponents\uikit\nunit.uikit.build" target="build"/>
+            <nant buildfile="GuiComponents\UiKit\nunit.uikit.build" target="build"/>
             <nant buildfile="GuiRunner\nunit-gui\nunit-gui.build" target="build"/>
-        <!-- Tests need uikit, so build them last -->
-	<nant buildfile="tests\tests.build" target="build"/>
+            <nant buildfile="GuiRunner\nunit-gui-exe\nunit-gui.exe.build" target="build"/>
         </if>
 
-	<!-- Tests are not compiling under mono, so they are temporarily moved above -->
+	<!-- Next build the Test Utilities -->
+        <nant buildfile="tests\tests.build" target="build"/>
+
+        <!-- Finally build the NUnit tests -->
+        <nant buildfile="NUnitFramework\tests\nunit.framework.tests.build" target="build"/>
+        <nant buildfile="ClientUtilities\tests\nunit.util.tests.build" target="build"/>
+        <nant buildfile="ConsoleRunner\tests\nunit-console.tests.build" target="build"/>
+        <nant buildfile="NUnitMocks\tests\nunit.mocks.tests.build" target="build"/>
+
+        <!-- Build Win32-only tests -->
+        <if test="${build.win32}">
+            <nant buildfile="GuiComponents\tests\nunit.uikit.tests.build" target="build"/>
+        </if>
+
+        <!-- Create NUnit and config files for running tests -->
+        <copy file="NUnitTests.nunit.tmplate.txt" 
+            tofile="${bin.dir}/NUnitTests.nunit"/>
+
+        <copy file="NUnitTests.config"
+            tofile="${bin.dir}/NUnitTests.config"/>
 
     </target>
 
@@ -315,7 +355,7 @@
 		workingdir="${build.dir}/bin" 
 		program="nunit-console.exe" 
                 useruntimeengine="true"
-		commandline="nunit.tests.dll" />
+		commandline="NUnitTests.nunit" />
 
     </target>
 
@@ -487,6 +527,14 @@
         </if>
 
         <nant buildfile="tests\tests.build" target="copy-all"/>
+    </target>
+
+    <target name="list-project-files" depends="set-build-dir">
+        <xmlpeek 
+            file="tests/test-utilities/test-utilities.csproj"
+            xpath="/VisualStudioProject/CSHARP/Files/Include/File" 
+            property="project.files"/>
+        <echo message="${project.files}"/>
     </target>
 
 <!-- Register core and framework in the gac -->

@@ -39,10 +39,12 @@
                 <include name="Filter.cs"/>
                 <include name="InvalidSuiteException.cs"/>
                 <include name="InvalidTestFixtureException.cs"/>
+		<include name="ISuiteBuilder.cs"/>
                 <include name="ITest.cs"/>
                 <include name="ITestBuilder.cs"/>
                 <include name="ITestEvents.cs"/>
                 <include name="LegacySuite.cs"/>
+                <include name="LegacySuiteBuilder.cs"/>
                 <include name="LongLivingMarshalByRefObject.cs"/>
                 <include name="NameFilter.cs"/>
                 <include name="NamespaceSuite.cs"/>
@@ -58,6 +60,7 @@
                 <include name="ResultVisitor.cs"/>
                 <include name="RootTestSuite.cs"/>
                 <include name="StringTextWriter.cs"/>
+                <include name="SuiteBuilderCollection.cs"/>
                 <include name="Summary.xslt"/>
                 <include name="TemplateTestCase.cs"/>
                 <include name="Test.cs"/>
@@ -69,6 +72,7 @@
                 <include name="TestEventArgs.cs"/>
                 <include name="TestEventDispatcher.cs"/>
                 <include name="TestFixture.cs"/>
+                <include name="TestFixtureBuilder.cs"/>
                 <include name="TestResult.cs"/>
                 <include name="TestRunner.cs"/>
 		<include name="TestRunnerThread.cs"/>

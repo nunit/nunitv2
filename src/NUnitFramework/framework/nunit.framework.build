@@ -36,6 +36,7 @@
                 <include name="OldTestCase.cs"/>
                 <include name="SetUpAttribute.cs"/>
                 <include name="SuiteAttribute.cs"/>
+                <include name="SuiteBuilderAttribute.cs"/>
                 <include name="TearDownAttribute.cs"/>
                 <include name="TestAttribute.cs"/>
                 <include name="TestFixtureAttribute.cs"/>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<project name="NUnit-Gui" default="build">
+
+    <!--
+        Required properties:
+            * bin.dir               - bin directory
+            * src.dir               - source location(build) or target(copy)
+            * build.debug           - (true|false) debug build?
+            * build.defines.csc     - build defines for build config
+    -->
+
+    <target name="build" depends="copy">
+
+        <csc target="winexe" output="${bin.dir}/nunit-gui.exe" 
+                win32icon="App.ico" debug="${build.debug}"
+                define="${build.defines.csc}">
+            <sources basedir="${src.dir}/GuiRunner/nunit-gui-exe">
+                <include name="**/*.cs"/>
+            </sources>
+            <references basedir="${bin.dir}">
+                <include name="nunit-gui-runner.dll"/>
+            </references>
+        </csc>
+
+	<copy name="${src.dir}/GuiRunner/nunit-gui-exe/app.config"
+              tofile="${bin.dir}/nunit-gui.exe.config"/>
+
+    </target>
+
+    <target name="copy">
+        <copy todir="${src.dir}/GuiRunner/nunit-gui-exe">
+            <fileset basedir=".">
+                <include name="nunit-gui.exe.csproj"/>
+                <include name="nunit-gui.exe.build"/>
+                <include name="AssemblyInfo.cs"/>
+                <include name="Class1.cs"/>
+	        <include name="App.ico"/>
+            </fileset>
+        </copy>
+    </target>
+</project>

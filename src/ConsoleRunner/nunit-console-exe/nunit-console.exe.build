@@ -11,8 +11,7 @@
 
     <target name="build" depends="copy">
 
-       <csc target="library" 
-                output="${bin.dir}/nunit-console-runner.dll"
+       <csc target="exe" output="${bin.dir}/nunit-console.exe"
                 debug="${build.debug}" define="${build.defines.csc}">
             <sources basedir="${src.dir}/nunit-console">
                 <include name="*.cs"/>
@@ -20,19 +19,23 @@
             <references basedir="${bin.dir}">
                 <include name="nunit.core.dll"/>
                 <include name="nunit.util.dll"/>
+                <include name="nunit-consolerunner.dll"/>
             </references>
         </csc>
+
+        <copy file="${src.dir}/nunit-console-exe/app.config" tofile="${bin.dir}/nunit-console.exe.config"/>
 
     </target>
 
     <target name="copy">
-        <copy todir="${src.dir}/nunit-console">
+        <copy todir="${src.dir}/nunit-console-exe">
             <fileset basedir=".">
-                <include name="nunit-console.csproj"/>
-                <include name="nunit-console.build"/>
-                <include name="app.ico"/>
+                <include name="nunit-console.exe.csproj"/>
+                <include name="nunit-console.exe.build"/>
+                <include name="App.config"/>
+                <include name="App.ico"/>
                 <include name="AssemblyInfo.cs"/>
-                <include name="ConsoleUi.cs"/>
+                <include name="Class1.cs"/>
             </fileset>
         </copy>
     </target>

@@ -11,13 +11,13 @@
 
     <target name="build" depends="copy">
 
-        <csc target="winexe" output="${bin.dir}/nunit-gui.exe" 
+        <csc target="library" output="${bin.dir}/nunit-gui-runner.dll" 
                 win32icon="Logo.ico" debug="${build.debug}"
                 define="${build.defines.csc}">
-            <sources basedir="${src.dir}/nunit-gui">
+            <sources basedir="${src.dir}/GuiRunner/nunit-gui">
                 <include name="**/*.cs"/>
             </sources>
-            <resources basedir="${src.dir}/nunit-gui">
+            <resources basedir="${src.dir}/GuiRunner/nunit-gui">
                 <include name="*.resx"/>
             </resources>
             <references basedir="${bin.dir}">
@@ -28,12 +28,10 @@
             </references>
         </csc>
 
-        <copy file="nunit-gui.exe.config" todir="${bin.dir}"/>
-
     </target>
 
     <target name="copy">
-        <copy todir="${src.dir}/nunit-gui">
+        <copy todir="${src.dir}/GuiRunner/nunit-gui">
             <fileset basedir=".">
                 <include name="nunit-gui.csproj"/>
                 <include name="nunit-gui.build"/>

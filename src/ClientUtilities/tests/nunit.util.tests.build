@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<project name="NUnit.Util.Tests" default="build">
+
+    <!--
+        Required properties:
+            * bin.dir               - bin directory
+            * src.dir               - source location(build) or target(copy)
+            * build.debug           - (true|false) debug build?
+            * build.mono            - (true|false) mono build?
+            * build.defines.csc     - build defines for build config
+    -->
+
+    <target name="build" depends="copy">
+
+        <csc target="library" output="${bin.dir}/nunit.util.tests.dll" debug="${build.debug}" define="${build.defines.csc}">
+            <sources basedir="${src.dir}/ClientUtilities/tests">
+                <include name="*.cs"/>
+            </sources>
+            <references basedir="${bin.dir}">
+                <include name="nunit.framework.dll"/>
+                <include name="nunit.core.dll"/>
+                <include name="nunit.util.dll"/>
+                <include name="nunit.mocks.dll"/>
+                <include name="test-utilities.dll"/>
+                <include name="mock-assembly.dll"/>
+                <include name="notestfixtures-assembly.dll"/>
+            </references>
+        </csc>
+
+    </target>
+
+    <target name="copy">
+
+        <copy todir="${src.dir}/ClientUtilities/tests">
+            <fileset basedir=".">
+                <include name="nunit.util.tests.csproj"/>
+                <include name="nunit.util.build"/>
+                <include name="*.cs"/>
+            </fileset>
+        </copy>
+
+    </target>
+</project>
