@@ -215,8 +215,9 @@ namespace Codeblast
 		protected virtual void SplitOptionAndValue(ref string opt, ref object val)
 		{
 			// Look for ":" or "=" separator in the option:
-			int pos = opt.IndexOf(':');
-			if (pos < 1) pos = opt.IndexOf('=');
+			int pos = opt.IndexOfAny( new char[] { ':', '=' } );
+//			int pos = opt.IndexOf(':');
+//			if (pos < 1) pos = opt.IndexOf('=');
 			if (pos < 1) return;
 
 			val = opt.Substring(pos+1);
