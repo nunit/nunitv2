@@ -1,3 +1,4 @@
+#region Copyright (c) 2002, James Newkirk, Michael C. Two, Alexei Vorontsov, Philip Craig
 /********************************************************************************************************************
 '
 ' Copyright (c) 2002, James Newkirk, Michael C. Two, Alexei Vorontsov, Philip Craig
@@ -17,6 +18,7 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
+#endregion
 namespace NUnit.Framework
 {
 	using System;
