@@ -8,7 +8,7 @@ namespace NUnit.Tests
 	/// <summary>
 	/// Summary description for MockUiEventSource.
 	/// </summary>
-	public class MockUIEventSource : UIEvents
+	public class MockUIEventSource : ITestEvents
 	{
 		/// <summary>
 		/// The events we are simulating

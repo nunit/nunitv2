@@ -44,8 +44,9 @@ namespace NUnit.Tests
 		private DateTime triggerTime;
 		private DateTime publishTime;
 
-		public MockAssemblyWatcher(int delay, FileInfo file) : base( delay, file ) { }
-
+		public MockAssemblyWatcher( int delay, string assemblyFileName )
+			: base( delay, assemblyFileName ) { }
+		
 		public bool EventPublished
 		{
 			get { return eventPublished; }
@@ -73,8 +74,8 @@ namespace NUnit.Tests
 
 			OnChanged( this, 
 				new FileSystemEventArgs( WatcherChangeTypes.Changed, 
-				DirectoryName, 
-				Name ) );
+				GetFileInfo(0).DirectoryName, 
+				GetFileInfo(0).Name ) );
 		}
 
 		public int Delay

@@ -54,7 +54,7 @@ namespace NUnit.Tests
 			stream.Close();
 
 			handler = new CounterEventHandler();
-			watcher = new AssemblyWatcher(watcherDelayMs, file);
+			watcher = new AssemblyWatcher(watcherDelayMs, fileName);
 			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( handler.OnChanged );
 			watcher.Start();
 		}
