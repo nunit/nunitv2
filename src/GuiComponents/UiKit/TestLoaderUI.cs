@@ -94,32 +94,33 @@ namespace NUnit.UiKit
 			dlg.FileName = "";
 
 			if ( dlg.ShowDialog( owner ) == DialogResult.OK ) 
-			{
-				// TODO: Split this function so we don't
-				// close a project till we succeed in
-				// opening the new one.
-				if ( loader.IsProjectLoaded )
-					CloseProject();
+				OpenProject( dlg.FileName );
+		}
 
-				loader.LoadProject( dlg.FileName );
+		public void OpenProject( string testFileName )
+		{
+			if ( loader.IsProjectLoaded )
+				SaveProjectIfDirty();
 
-				if ( loader.IsProjectLoaded )
-				{	
-					if ( loader.TestProject.Configs.Count == 0 )
-						UserMessage.DisplayInfo( "Loaded project contains no configuration data" );
-					else if ( loader.TestProject.ActiveConfig == null )
-						UserMessage.DisplayInfo( "Loaded project has no active configuration" );
-					else if ( loader.TestProject.ActiveConfig.Assemblies.Count == 0 )
-						UserMessage.DisplayInfo( "Active configuration contains no assemblies" );
-					else
-						loader.LoadTest();
-				}
+//			loader.LoadProject( testFileName );
+//
+//			if ( loader.IsProjectLoaded )
+			if ( loader.LoadProject( testFileName ) )
+			{	
+				if ( loader.TestProject.Configs.Count == 0 )
+					UserMessage.DisplayInfo( "Loaded project contains no configuration data" );
+				else if ( loader.TestProject.ActiveConfig == null )
+					UserMessage.DisplayInfo( "Loaded project has no active configuration" );
+				else if ( loader.TestProject.ActiveConfig.Assemblies.Count == 0 )
+					UserMessage.DisplayInfo( "Active configuration contains no assemblies" );
+				else
+					loader.LoadTest();
 			}
 		}
 
 		public void AddAssembly( )
 		{
-			AddAssembly( loader.TestProject.ActiveConfig.Name );
+			AddAssembly( loader.TestProject.ActiveConfigName );
 		}
 
 		public void AddAssembly( string configName )
@@ -137,7 +138,7 @@ namespace NUnit.UiKit
 			if ( dlg.ShowDialog( owner ) == DialogResult.OK ) 
 			{
 				loader.TestProject.Configs[configName].Assemblies.Add( dlg.FileName );
-				if ( loader.IsTestLoaded && configName == loader.TestProject.ActiveConfig.Name )
+				if ( configName == loader.TestProject.ActiveConfigName )
 					loader.LoadTest();
 			}
 		}
@@ -169,7 +170,8 @@ namespace NUnit.UiKit
 
 		public void SaveProject()
 		{
-			if ( Path.IsPathRooted( loader.TestProject.ProjectPath ) )
+			if ( Path.IsPathRooted( loader.TestProject.ProjectPath ) &&
+				 NUnitProject.IsProjectFile( loader.TestProject.ProjectPath ) )
 				loader.TestProject.Save();
 			else
 				SaveProjectAs();
@@ -180,7 +182,7 @@ namespace NUnit.UiKit
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.Title = "Save Test Project";
 			dlg.Filter = "NUnit Test Project (*.nunit)|*.nunit|All Files (*.*)|*.*";
-			dlg.FileName = loader.TestProject.ProjectPath;
+			dlg.FileName = NUnitProject.ProjectPathFromFile( loader.TestProject.ProjectPath );
 			dlg.DefaultExt = "nunit";
 			dlg.ValidateNames = true;
 			dlg.OverwritePrompt = true;
@@ -191,26 +193,20 @@ namespace NUnit.UiKit
 
 		public void CloseProject()
 		{
+			SaveProjectIfDirty();
+
+			loader.UnloadProject();
+		}
+
+		private void SaveProjectIfDirty()
+		{
 			if( loader.TestProject.IsDirty )
 			{
 				string msg = "Project has been changed. Do you want to save changes?";
 
 				if ( UserMessage.Ask( msg ) == DialogResult.Yes )
 					SaveProject();
-			}
-			
-			string recentFileName = loader.TestFileName;
-
-			if ( recentFileName != null )
-			{
-				// An unsaved assembly goes to recent assemblies
-				if( loader.TestProject.IsAssemblyWrapper )
-					UserSettings.RecentAssemblies.RecentFile = recentFileName;
-				else
-					UserSettings.RecentProjects.RecentFile = recentFileName;
-			}
-
-			loader.UnloadProject();
+			}		
 		}
 
 		public void SaveLastResult()

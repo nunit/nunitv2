@@ -283,7 +283,7 @@ namespace NUnit.UiKit
 			// 
 			this.message.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right);
-			this.message.Expansion = NUnit.UiKit.ExpandingLabel.ExpansionStyle.Vertical;
+			this.message.Expansion = NUnit.UiKit.ExpandingLabel.ExpansionStyle.Both;
 			this.message.Location = new System.Drawing.Point(104, 48);
 			this.message.Name = "message";
 			this.message.Size = new System.Drawing.Size(288, 16);

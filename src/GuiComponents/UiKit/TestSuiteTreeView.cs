@@ -430,7 +430,7 @@ namespace NUnit.UiKit
 				if ( NUnitProject.IsProjectFile( fileNames[0] ) )
 					return true;
 
-				if ( !UserSettings.Options.VisualStudioSupport )
+				if ( UserSettings.Options.VisualStudioSupport )
 				{
 					if ( VSProject.IsProjectFile( fileNames[0] ) ||
 						VSProject.IsSolutionFile( fileNames[0] ) )
@@ -443,8 +443,7 @@ namespace NUnit.UiKit
 			// since they are being dragged together.
 			foreach( string fileName in fileNames )
 			{
-				string extension = Path.GetExtension( fileName );
-				if ( extension != ".dll" && extension != ".exe" )
+				if ( !ProjectPath.IsAssemblyFileType( fileName ) )
 					return false;
 			}
 

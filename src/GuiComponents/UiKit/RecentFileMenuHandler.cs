@@ -24,6 +24,11 @@ namespace NUnit.UiKit
 			get { return menu; }
 		}
 
+		public string this[int index]
+		{
+			get { return menu.MenuItems[index].Text.Substring( 2 ); }
+		}
+
 		public void Load()
 		{
 			IList files = recentFiles.GetFiles();
@@ -49,10 +54,12 @@ namespace NUnit.UiKit
 			MenuItem item = (MenuItem) sender;
 			string testFileName = item.Text.Substring( 2 );
 
-			if ( AppUI.TestLoader.IsProjectLoaded )
-				AppUI.TestLoaderUI.CloseProject();
+//			if ( AppUI.TestLoader.IsProjectLoaded )
+//				AppUI.TestLoaderUI.CloseProject();
+//
+//			AppUI.TestLoader.LoadTest( testFileName );
 
-			AppUI.TestLoader.LoadTest( testFileName );
+			AppUI.TestLoaderUI.OpenProject( testFileName );
 		}
 	}
 }
