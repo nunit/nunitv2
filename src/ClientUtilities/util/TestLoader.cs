@@ -117,8 +117,6 @@ namespace NUnit.Util
 		/// </summary>
 		private bool reloadOnRun = false;
 
-		private bool displayTestLabels = false;
-
 		private IFilter filter;
 
 		#endregion
@@ -189,12 +187,6 @@ namespace NUnit.Util
 		{
 			get { return reloadOnRun; }
 			set { reloadOnRun = value; }
-		}
-
-		public bool DisplayTestLabels
-		{
-			get { return displayTestLabels; }
-			set { displayTestLabels = value; }
 		}
 
 		public IList TestFrameworks
@@ -651,7 +643,7 @@ namespace NUnit.Util
 				string[] testNames = buildTestNameArray();
 
 				testDomain.Filter = filter;
-				testDomain.Run( this, testNames );
+				testDomain.StartRun( this, testNames );
 			}
 		}
 
