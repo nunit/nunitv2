@@ -41,25 +41,16 @@ namespace NUnit.Util
 
 			if(IsFixture) return true; 
 
-			if(ParameterCount == 1) return true; 
+			if(ParameterCount >= 1) return true; 
 
 			return false;
 		}
-
-		public string Assembly
-		{
-			get 
-			{
-				return (string)Parameters[0];
-			}
-		}
-
 
 		public bool IsAssembly 
 		{
 			get 
 			{
-				return ParameterCount == 1 && !IsFixture;
+				return ParameterCount >= 1 && !IsFixture;
 			}
 		}
 
@@ -67,7 +58,7 @@ namespace NUnit.Util
 		{
 			get 
 			{
-				return ParameterCount == 1 && 
+				return ParameterCount >= 1 && 
 					   ((fixture != null) && (fixture.Length > 0));
 			}
 		}

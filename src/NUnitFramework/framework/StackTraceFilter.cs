@@ -68,7 +68,8 @@ namespace NUnit.Core
 				"NUnit.Core.TemplateTestCase",
 				"NUnit.Core.TestResult",
 				"NUnit.Core.TestSuite",
-				"NUnit.Framework.Assertion" 
+				"NUnit.Framework.Assertion", 
+				"NUnit.Framework.Assert" 
 			};
 
 			for (int i = 0; i < patterns.Length; i++) 

@@ -152,7 +152,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ConsoleCommandLineFixture.cs"
+                    RelPath = "ConsoleFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -203,6 +203,11 @@
                 />
                 <File
                     RelPath = "MultipleAssembliesTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MultipleAssemblyFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -40,9 +40,6 @@ namespace NUnit.Framework
 	using System.Configuration;
 	using System.IO;
 
-	/// <summary>
-	/// Summary description for TestDomain.
-	/// </summary>
 	public class TestDomain
 	{
 		private string assemblyName; 
@@ -84,6 +81,69 @@ namespace NUnit.Framework
 			}
 		}
 
+		public Test Load(IList assemblies)
+		{
+			ThrowIfAlreadyLoaded();
+
+			if(assemblies.Count == 0) return null; 
+
+			assemblyName = (string)assemblies[0]; 
+			FileInfo file = new FileInfo(assemblyName);
+
+			try
+			{
+				domain = MakeAppDomain(file);
+				testRunner = MakeRemoteTestRunner(assemblies, domain);
+				return testRunner.Test;
+			}
+			catch
+			{
+				Unload();
+				throw;
+			}
+
+			return null;
+		}
+
+		public Test Load(string testFixture, IList assemblies)
+		{
+			ThrowIfAlreadyLoaded();
+
+			if(assemblies.Count == 0) return null; 
+
+			assemblyName = (string)assemblies[0]; 
+			FileInfo file = new FileInfo(assemblyName);
+
+			try
+			{
+				domain = MakeAppDomain(file);
+
+				testRunner = (
+					RemoteTestRunner) domain.CreateInstanceAndUnwrap(
+					typeof(RemoteTestRunner).Assembly.FullName, 
+					typeof(RemoteTestRunner).FullName,
+					false, BindingFlags.Default,null,null,null,null,null);
+			
+				if(testRunner != null)
+				{
+					testRunner.Initialize(testFixture, assemblies);
+					domain.DoCallBack(new CrossAppDomainDelegate(testRunner.BuildSuite));
+					return testRunner.Test;
+				}
+				else
+				{
+					Unload();
+					return null;
+				}
+			}
+			catch
+			{
+				Unload();
+				throw;
+			}
+		}
+
+		
 		public Test Load(string testFixture, string assemblyFileName)
 		{
 			ThrowIfAlreadyLoaded();
@@ -200,5 +260,22 @@ namespace NUnit.Framework
 			}
 			return runner;
 		}
+
+		private static RemoteTestRunner MakeRemoteTestRunner(IList assemblies, AppDomain runnerDomain)
+		{
+			RemoteTestRunner runner = (
+				RemoteTestRunner) runnerDomain.CreateInstanceAndUnwrap(
+				typeof(RemoteTestRunner).Assembly.FullName, 
+				typeof(RemoteTestRunner).FullName,
+				false, BindingFlags.Default,null,null,null,null,null);
+			
+			if(runner != null)
+			{
+				runner.Initialize(assemblies);
+				runnerDomain.DoCallBack(new CrossAppDomainDelegate(runner.BuildSuite));
+			}
+			return runner;
+		}
+
 	}
 }

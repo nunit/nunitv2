@@ -159,6 +159,35 @@ namespace NUnit.Core
 			return suite;
 		}
 
+		public TestSuite Build(string testName, IList assemblies)
+		{
+			TestSuite suite = null;
+
+			foreach(string assemblyName in assemblies)
+			{
+				Assembly assembly = Load(assemblyName);
+				if(assembly != null)
+				{
+					Type testType = assembly.GetType(testName);
+					if(testType != null)
+					{
+						if(IsTestFixture(testType))
+						{
+							suite = MakeSuiteFromTestFixtureType(testType);
+							break;
+						}
+						else if(IsTestSuiteProperty(testType))
+						{
+							suite = MakeSuiteFromProperty(testType);
+							break;
+						}
+					}
+				}
+			}
+
+			return suite;
+		}
+		
 		private bool IsTestFixture(Type type)
 		{
 			if(type.IsAbstract) return false;

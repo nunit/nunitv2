@@ -33,7 +33,7 @@ namespace NUnit.Framework
 
 	/// <summary>A set of Assert methods.</summary>
 	/// 
-	[Obsolete("use Assert class instead")]
+	//[Obsolete("use Assert class instead")]
 	public class Assertion
 	{
 		/// <summary>

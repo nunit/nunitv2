@@ -30,6 +30,7 @@
 namespace NUnit.Core
 {
 	using System;
+	using System.Collections;
 	using System.IO;
 	using System.Reflection;
 	using System.Runtime.Remoting;
@@ -44,6 +45,7 @@ namespace NUnit.Core
 		private TestSuite suite;
 		private string fullName;
 		private string assemblyName;
+		private IList assemblies;
 
 		public void Initialize(string assemblyName)
 		{
@@ -56,10 +58,25 @@ namespace NUnit.Core
 			Initialize(assemblyName);
 		}
 
+		public void Initialize(string fixtureName, IList assemblies)
+		{
+			TestName = fixtureName;
+			Initialize(assemblies);
+		}
+
+		public void Initialize(IList assemblies)
+		{
+			this.assemblies = assemblies;
+		}
+
 		public void BuildSuite() 
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			if(fullName == null) 
+			if(assemblies != null && fullName == null)
+				suite = builder.Build(assemblies);
+			else if(assemblies != null && fullName != null)
+				suite = builder.Build(fullName, assemblies);
+			else if(fullName == null) 
 				suite = builder.Build(assemblyName);
 			else
 				suite = builder.Build(fullName, assemblyName);

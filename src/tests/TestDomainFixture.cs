@@ -31,14 +31,11 @@
 namespace NUnit.Tests
 {
 	using System;
+	using System.Collections;
 	using System.IO;
 	using NUnit.Framework;
 	using NUnit.Core;
 
-	/// <summary>
-	/// Summary description for TestDomainFixture.
-	/// </summary>
-	/// 
 	[TestFixture]
 	public class TestDomainFixture
 	{
@@ -46,6 +43,7 @@ namespace NUnit.Tests
 		private TextWriter outStream;
 		private TextWriter errorStream;
 		private static readonly string tempFile = "x.dll";
+		private ArrayList assemblies; 
 
 
 		[SetUp]
@@ -54,6 +52,8 @@ namespace NUnit.Tests
 			outStream = new ConsoleWriter(Console.Out);
 			errorStream = new ConsoleWriter(Console.Error);
 			domain = new TestDomain(outStream, errorStream);
+
+			assemblies = new ArrayList();
 		}
 
 		[TearDown]
@@ -144,5 +144,37 @@ namespace NUnit.Tests
 			Test test = domain.Load("NUnit.Tests.Assemblies.Bogus", "mock-assembly.dll");
 			Assertion.AssertNull("test should be null", test);
 		}
+
+		[Test]
+		public void MultipleAssemblies()
+		{
+			ArrayList assemblies = new ArrayList();
+			assemblies.Add("mock-assembly.dll");
+			assemblies.Add("nonamespace-assembly.dll");
+
+			Test test = domain.Load(assemblies);
+			Assertion.AssertNotNull("test should not be null", test);
+			Assertion.AssertEquals(10, test.CountTestCases);
+		}
+
+		[Test]
+		public void SpecificFixtureMultipleAssembly()
+		{
+			ArrayList assemblies = new ArrayList();
+			assemblies.Add("mock-assembly.dll");
+			assemblies.Add("nonamespace-assembly.dll");
+
+			Test test = domain.Load("NUnit.Tests.Assemblies.MockTestFixture", 
+				assemblies);
+			Assert.NotNull(test);
+
+			TestResult result = domain.Run(NullListener.NULL);
+			Assertion.AssertEquals(true, result.IsSuccess);
+			
+			ResultSummarizer summarizer = new ResultSummarizer(result);
+			Assertion.AssertEquals(3, summarizer.ResultCount);
+			Assertion.AssertEquals(2, summarizer.TestsNotRun);
+		}
+
 	}
 }
