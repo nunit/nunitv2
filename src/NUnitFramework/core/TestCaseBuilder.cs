@@ -45,7 +45,6 @@ namespace NUnit.Core
 		{
 			builders = new Hashtable();
 			builders[typeof(NUnit.Framework.ExpectedExceptionAttribute)] = new ExpectedExceptionBuilder();
-			builders[typeof(RepeatedTestAttribute)] = new RepeatedTestBuilder();
 		}
 
 		private static TestCase MakeTestCase(Type fixtureType, MethodInfo method) 
@@ -57,12 +56,31 @@ namespace NUnit.Core
 			
 			foreach (object attribute in attributes) 
 			{
-				ITestBuilder builder = (ITestBuilder) builders[attribute.GetType()];
+				ITestBuilder builder = GetBuilder(attribute);
 				if (builder != null)
 					return builder.Make (fixtureType, method, attribute);
 			}
 
 			return normalBuilder.Make (fixtureType, method);
+		}
+
+		private static ITestBuilder GetBuilder(object attribute)
+		{
+			Type attributeType = attribute.GetType();
+			ITestBuilder builder = (ITestBuilder) builders[attribute.GetType()];
+			if (builder == null)
+			{
+				object[] attributes = attributeType.GetCustomAttributes(typeof(TestBuilderAttribute), false);
+				if (attributes != null && attributes.Length > 0)
+				{
+					TestBuilderAttribute builderAttribute = (TestBuilderAttribute) attributes[0];
+					Type builderType = builderAttribute.BuilderType;
+					builder = (ITestBuilder) Activator.CreateInstance(builderType);
+					builders[attributeType] = builder;
+				}
+			}
+
+			return builder;
 		}
 
 		/// <summary>
@@ -131,77 +149,5 @@ namespace NUnit.Core
 
 		#endregion
 	}
-
-	internal interface ITestBuilder 
-	{
-		TestCase Make(Type fixtureType, MethodInfo method);
-		TestCase Make(Type fixtureType, MethodInfo method, object attribute);
-		TestCase Make(object fixture, MethodInfo method);
-	}
-
-	internal class ExpectedExceptionBuilder : ITestBuilder
-	{
-		#region ITestBuilder Members
-
-		public TestCase Make(Type fixtureType, MethodInfo method)
-		{
-			return new ExpectedExceptionTestCase( fixtureType, method );
-		}
-
-		public TestCase Make(object fixture, MethodInfo method)
-		{
-			return new ExpectedExceptionTestCase( fixture, method );
-		}
-
-		public TestCase Make (Type fixtureType, MethodInfo method, object attribute)
-		{
-			return Make(fixtureType, method);
-		}
-
-		#endregion
-	}
-
-	internal class NormalBuilder : ITestBuilder
-	{
-		#region ITestBuilder Members
-
-		public TestCase Make(Type fixtureType, MethodInfo method)
-		{
-			return new NormalTestCase(fixtureType, method);
-		}
-
-		public TestCase Make(object fixture, MethodInfo method)
-		{
-			return new NormalTestCase(fixture, method);
-		}
-
-		public TestCase Make (Type fixtureType, MethodInfo method, object attribute)
-		{
-			return Make(fixtureType, method);
-		}
-
-		#endregion
-	}
-
-	internal class RepeatedTestBuilder : ITestBuilder
-	{
-		public TestCase Make (Type fixtureType, MethodInfo method)
-		{
-			return new RepeatedTestCase(fixtureType, method, 1);
-		}
-
-		public TestCase Make (object fixture, MethodInfo method)
-		{
-			return new RepeatedTestCase(fixture, method, 1);
-		}
-
-		public TestCase Make (Type fixtureType, MethodInfo method, object attribute)
-		{
-			RepeatedTestAttribute repeatedAttribute = (RepeatedTestAttribute) attribute;
-			return new RepeatedTestCase(fixtureType, method, repeatedAttribute.Count);
-		}
-	}
-
-
 }
 

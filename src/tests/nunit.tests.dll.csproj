@@ -418,11 +418,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "RepeatedTestTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "SameFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

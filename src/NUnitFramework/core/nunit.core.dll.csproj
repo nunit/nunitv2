@@ -139,6 +139,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ExpectedExceptionBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ExpectedExceptionTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -164,6 +169,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ITestBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ITestEvents.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -185,6 +195,11 @@
                 />
                 <File
                     RelPath = "NamespaceSuite.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NormalTestBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -220,16 +235,6 @@
                 />
                 <File
                     RelPath = "RemoteTestRunner.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RepeatedTestAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RepeatedTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -273,6 +278,11 @@
                 />
                 <File
                     RelPath = "TestAssembly.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestBuilderAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

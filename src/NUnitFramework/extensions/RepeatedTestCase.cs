@@ -1,7 +1,8 @@
 using System;
 using System.Reflection;
+using NUnit.Core;
 
-namespace NUnit.Core
+namespace NUnit.Extensions
 {
 	/// <summary>
 	/// Summary description for RepeatedTestCase.
@@ -21,12 +22,12 @@ namespace NUnit.Core
 			this.count = count;
 		}
 
-		protected internal override void ProcessNoException(TestCaseResult testResult)
+		protected override void ProcessNoException(TestCaseResult testResult)
 		{
 			testResult.Success();
 		}
 		
-		protected internal override void ProcessException(Exception exception, TestCaseResult testResult)
+		protected override void ProcessException(Exception exception, TestCaseResult testResult)
 		{
 			failed = true;
 			RecordException( exception, testResult );

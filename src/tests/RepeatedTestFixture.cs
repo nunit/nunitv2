@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using NUnit.Core;
+using NUnit.Extensions;
 using NUnit.Framework;
 using NUnit.Tests.Core;
 

@@ -94,7 +94,17 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "RepeatedTest.cs"
+                    RelPath = "RepeatedTestAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RepeatedTestBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RepeatedTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
