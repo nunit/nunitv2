@@ -129,6 +129,11 @@
                     Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "nunit.mocks"
+                    Project = "{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
@@ -185,6 +190,11 @@
                 />
                 <File
                     RelPath = "ConsoleRunnerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DynamicMockTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -260,6 +270,16 @@
                 />
                 <File
                     RelPath = "MockTestEventSource.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MockTestRunner.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MockTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -484,6 +504,11 @@
                 />
                 <File
                     RelPath = "TestLoaderAssemblyTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestRunnerThreadTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
