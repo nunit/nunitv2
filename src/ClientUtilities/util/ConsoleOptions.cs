@@ -121,5 +121,20 @@ namespace NUnit.Util
 				return (transform != null) && (transform.Length != 0);
 			}
 		}
+
+		public override void Help()
+		{
+			Console.WriteLine();
+			Console.WriteLine( "NUNIT-CONSOLE [inputfiles] [options]" );
+			Console.WriteLine();
+			Console.WriteLine( "Runs a set of NUnit tests from the console." );
+			Console.WriteLine();
+			Console.WriteLine( "You may specify one or more assemblies or a single" );
+			Console.WriteLine( "project file of type .nunit." );
+			Console.WriteLine();
+			Console.WriteLine( "Options:" );
+			base.Help();
+			Console.WriteLine();
+		}
 	}
 }
