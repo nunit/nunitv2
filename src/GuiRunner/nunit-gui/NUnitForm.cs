@@ -62,7 +62,6 @@ namespace NUnit.Gui
 		// TipWindow for the detail list
 		CP.Windows.Forms.TipWindow tipWindow;
 		int hoverIndex = -1;
-		System.Windows.Forms.Timer hoverTimer;
 
 		public System.Windows.Forms.Splitter splitter1;
 		public System.Windows.Forms.Panel panel1;
@@ -1629,33 +1628,16 @@ namespace NUnit.Gui
 		private void tipWindow_Closed( object sender, System.EventArgs e )
 		{
 			tipWindow = null;
-//			ClearTimer();
 		}
 
 		private void detailList_MouseLeave(object sender, System.EventArgs e)
 		{
-//			ClearTimer();
+			hoverIndex = -1;
 		}
 
 		private void detailList_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-//			ClearTimer();
-
-			hoverIndex = detailList.IndexFromPoint( e.X, e.Y );
-			
-//			hoverTimer = new System.Windows.Forms.Timer();
-//			hoverTimer.Interval = mouseHoverDelay;
-//			hoverTimer.Tick += new EventHandler( OnMouseHover );
-//			hoverTimer.Start();
-		}
-
-		private void ClearTimer()
-		{
-			if ( hoverTimer != null )
-			{
-				hoverTimer.Stop();
-				hoverTimer.Dispose();
-			}
+			hoverIndex = detailList.IndexFromPoint( e.X, e.Y );		
 		}
 
 		#endregion

@@ -123,6 +123,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(ProjectEditor));
 			this.editConfigsButton = new System.Windows.Forms.Button();
 			this.configComboBox = new System.Windows.Forms.ComboBox();
