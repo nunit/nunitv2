@@ -1,5 +1,5 @@
-Release Notes for NUnit 2.2 Beta 2 - Version 2.1.92*
-July 6, 2004
+Release Notes for NUnit 2.2 Beta 3 - Version 2.1.93
+July 19, 2004
 
 This is the fourth major release of NUnit and the third since it was 
 rewritten to take advantage of .NET custom attributes. Highlights of 
@@ -8,26 +8,24 @@ GUI interface, a built-in lightweight mock object facility, new
 command line switches for both GUI and Console runners, and new
 Category and Explicit attributes.
 
-*NOTE
-
-The Mono download, NUnit.2.1.92-mono.zip, contains assemblies with
-version number 2.1.92.1 due to some late corrections.
-
 GENERAL
 
-The msi install of NUnit 2.1.92 continues to be built using Visual 
-Studio 2003. The solution and project files in this distribution can 
-only be loaded by Visual Studio 2003.
+NUnit 2.2 is available in separate Microsoft .NET and Mono distributions. 
+The .NET version can run under Microsoft .NET 1.0, 1.1 or 2.0. The Mono 
+version runs under Mono 1.0. The msi install continues to be built using 
+Visual Studio 2003. The solution and project files in this distribution 
+can only be loaded by Visual Studio 2003. The Mono version is limited
+to use of nunit-console to run tests. Note that Mono is distributed with
+a version of NUnit already installed. It may be necessary to copy some
+of the NUnit components over those in the Mono directories in order to
+get a newer version to work. A note will be published when we have more
+information on this issue.
 
-The distributed binaries can run against the Microsoft .NET framework
-versions 1.0 or 1.1 or the Mono Beta 1 release. Separate config files 
-for each version are no longer needed. Instead, binding redirects are 
-provided in each config which apply when running under version 1.0
-of the .NET framework. The supplied configs for nunit-gui.exe and
-nunit-console.exe require editing in one case only: if both versions
-of the framework are installed and the user wants to give preference
-to version 1.0, it will then be necessary to change the order of the
-supportedRuntime elements.
+Separate config files for each .NET version are no longer needed. Instead, 
+binding redirects are provided in each config which apply when running under 
+version 1.0 or 2.0 of hte .NET framework. By default, the highest level of
+the framework installed is used. The user may edit the config file if a
+different preference is desired.
 
 The NUnit framework and core are now in separate assemblies, both of
 which are installed in the GAC. The framework assembly contains all 
@@ -36,18 +34,26 @@ those types used by the gui and console runners to execute those
 tests. Tests requiring use of core types – TestSuite, for example –
 will need to add a reference to the nunit.core.dll assembly.
 
-The NAnt build file now supports building NUnit using version 1.0 or 
-1.1 of the .NET framework or with the Beta1 Release of Mono.
+The NAnt build script now supports building NUnit using version 1.0, 1.1 
+or 2.0 of the .NET framework or with Mono 1.0. The Mono build is limited
+to those assemblies used under Mono.
 
 Assert.AreEqual has been extended to allow comparison of two arrays. 
-To compare as equal, the arrays must be of the same or compatible types, contain the same number of elements and each pair of elements 
+To compare as equal, the arrays must be of the same or compatible types, 
+contain the same number of elements and each pair of elements 
 must compare as equal.
 
-All Assert methods that take an optional message argument now also may take an optional array of objects to be used in formatting the message.
+All Assert methods that take an optional message argument now also may 
+take an optional array of objects to be used in formatting the message.
 
-An Assert.Ignore method has been added, which allows individual test cases to be ignored dynamically - for example, on the basis of products installed on the test system. Assert.Ignore may also be called from a SetUp or TestFixtureSetUp method. In the latter case, all the tests are ignored.
+An Assert.Ignore method has been added, which allows individual test 
+cases to be ignored dynamically - for example, on the basis of products 
+installed on the test system. Assert.Ignore may also be called from a 
+SetUp or TestFixtureSetUp method. In the latter case, all the tests are 
+ignored.
 
-Failure in TestFixtureSetUp or TestFixtureCleanUp now results in an error, rather than in ignoring all the tests.
+Failure in TestFixtureSetUp or TestFixtureCleanUp now results in an error, 
+rather than in ignoring all the tests.
 
 The core interfaces used to run tests have been changed substantially. 
 These will continue to change to some extent as we attempt to reach a 
@@ -114,7 +120,8 @@ each test and any description associated with a test.
 A cancel button has been added to the project save dialog that appears 
 on shutdown.
 
-The display of the last exception is now scrollable, allowing the entire stack to be seen.
+The display of the last exception is now scrollable, allowing the 
+entire stack to be seen.
 
 CONSOLE INTERFACE
 
@@ -126,7 +133,10 @@ selecting or excluding tests based on category, for displaying the name
 of each test in the standard output and for redirecting standard or
 error output from tests to a file. 
 
-The /noshadow option eliminates creation of a shadow copy and the /thread option causes the console tests to be run on a separate thread. When a separate thread is used, the config file settings for apartment state will be honored.
+The /noshadow option eliminates creation of a shadow copy and the /thread 
+option causes the console tests to be run on a separate thread. When a 
+separate thread is used, the config file settings for apartment state 
+will be honored.
 
 A namespace may now be specified after /fixture and all tests in that 
 namespace will be executed.
