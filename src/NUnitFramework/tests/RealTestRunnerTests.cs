@@ -63,6 +63,16 @@ public class MyFixture
 		Thread.Sleep(10 * 1000);
 	}
 }
+
+[TestFixture]
+public class SleepFixture
+{
+	[Test] public void Sleep_1() { Thread.Sleep(1000); }
+	[Test] public void Sleep_2() { Thread.Sleep(1000); }
+	[Test] public void Sleep_3() { Thread.Sleep(1000); }
+	[Test] public void Sleep_4() { Thread.Sleep(1000); }
+	[Test] public void Sleep_5() { Thread.Sleep(1000); }
+}
 ";
 			source = source.Replace("$(TestOutText)", TEST_OUT_TEXT);
 			source = source.Replace("$(TestErrorText)", TEST_ERROR_TEXT);
@@ -155,10 +165,24 @@ public class MyFixture
 		}
 
 		[Test, Explicit]
-		public void TestCancelSleep()
+		public void TestCancelSleepOne()
 		{
 			MockEventListener listener = new MockEventListener();
 			string[] testNames = new string[] {"MyFixture.TestSleep"};
+			RunWorkItem workItem = new RunWorkItem(this.testRunner, listener, testNames);
+			Thread thread = new Thread(new ThreadStart(workItem.Run));
+			thread.Start();
+			Thread.Sleep(1000);
+			this.testRunner.CancelRun();
+			Thread.Sleep(1000);		// How long before thread aborts?
+			Assert.IsFalse(thread.IsAlive, "Check that test run has been canceled");
+		}
+
+		[Test, Explicit]
+		public void TestCancelSleepMany()
+		{
+			MockEventListener listener = new MockEventListener();
+			string[] testNames = new string[] {"SleepFixture"};
 			RunWorkItem workItem = new RunWorkItem(this.testRunner, listener, testNames);
 			Thread thread = new Thread(new ThreadStart(workItem.Run));
 			thread.Start();
