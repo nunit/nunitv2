@@ -42,10 +42,10 @@ namespace NUnit.Util
 	/// an attempt is made to load an invalid
 	/// file or one of an unknown type.
 	/// </summary>
-	public class VSProject : Project
+	public class VSProject
 	{
-		#region Static Variables
-		
+		#region Static and Instance Variables
+
 		/// <summary>
 		/// VS Project extentions
 		/// </summary>
@@ -56,13 +56,54 @@ namespace NUnit.Util
 		/// </summary>
 		private static readonly string solutionExtension = ".sln";
 
+		/// <summary>
+		/// Path to the file storing this project
+		/// </summary>
+		private string projectPath;
+
+		/// <summary>
+		/// Collection of configs for the project
+		/// </summary>
+		private VSProjectConfigCollection configs;
+
 		#endregion
 
 		#region Constructor
 
-		public VSProject( string projectPath ) : base( projectPath )
+		public VSProject( string projectPath )
 		{
+			this.projectPath = Path.GetFullPath( projectPath );
+			configs = new VSProjectConfigCollection();		
+
 			Load();
+		}
+
+		#endregion
+
+		#region Properties
+
+		/// <summary>
+		/// The name of the project.
+		/// </summary>
+		public string Name
+		{
+			get { return Path.GetFileNameWithoutExtension( projectPath ); }
+		}
+
+		/// <summary>
+		/// The path to the project
+		/// </summary>
+		public string ProjectPath
+		{
+			get { return projectPath; }
+		}
+
+		/// <summary>
+		/// Our collection of configurations
+		/// </summary>
+		public VSProjectConfigCollection Configs
+		{
+			get { return configs; }
 		}
 
 		#endregion
@@ -117,7 +158,7 @@ namespace NUnit.Util
 							assemblyName = Path.GetFileName( toolNode.Attributes["OutputFile"].Value );
 							string assemblyPath = Path.Combine( outputDirectory, assemblyName );
 
-							ProjectConfig config = new ProjectConfig ( name );
+							VSProjectConfig config = new VSProjectConfig ( name );
 							config.Assemblies.Add( assemblyPath );
 
 							this.configs.Add( config );
@@ -146,10 +187,10 @@ namespace NUnit.Util
 								string outputDirectory = Path.Combine( projectDirectory, outputPath );
 								string assemblyPath = Path.Combine( outputDirectory, assemblyName );
 				
-								ProjectConfig config = new ProjectConfig ( name );
+								VSProjectConfig config = new VSProjectConfig ( name );
 								config.Assemblies.Add( assemblyPath );
 
-								this.configs.Add( config );
+								configs.Add( config );
 							}
 
 						break;
