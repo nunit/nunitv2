@@ -23,78 +23,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-console", "nunit-cons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "money-port", "samples\money-port\money-port.csproj", "{947559E9-9F8C-4273-8801-5FB6E61914AA}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "install", "Setup1\Setup1.vdproj", "{8D1D36BB-4D07-4EE2-A53E-94C86BFF3E57}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp-sample", "samples\cpp-sample\cpp-sample.vcproj", "{9C1C3459-24AB-4707-BDD5-EE866A945C38}"
 EndProject
 Project("{E6FDF86B-F3D1-11D4-8576-0002A516ECE8}") = "jsharp", "samples\jsharp\jsharp.vjsproj", "{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "install", "install\install.vdproj", "{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}"
+EndProject
 Global
 	GlobalSection(SourceCodeControl) = preSolution
-		SccNumberOfProjects = 16
+		SccNumberOfProjects = 2
+		SccProjectUniqueName0 = samples\\jsharp\\jsharp.vjsproj
+		SccProjectName0 = \u0022$/nunit-release\u0022,\u0020TABAAAAA
 		SccLocalPath0 = .
-		CanCheckoutShared = true
-		SolutionUniqueID = {EB932606-9B1B-4579-AC9F-AAAB093FE414}
-		SccProjectUniqueName1 = core\\nunit.core.dll.csproj
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		SccProjectFilePathRelativizedFromConnection0 = samples\\jsharp\\
+		SccProjectUniqueName1 = install\\install.vdproj
+		SccProjectName1 = \u0022$/nunit-release\u0022,\u0020TABAAAAA
 		SccLocalPath1 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection1 = core\\
-		SccProjectUniqueName2 = extensions\\nunit.extensions.dll.csproj
-		SccLocalPath2 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection2 = extensions\\
-		SccProjectUniqueName3 = framework\\nunit.framework.dll.csproj
-		SccLocalPath3 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection3 = framework\\
-		SccProjectUniqueName4 = nunit-console\\nunit-console.csproj
-		SccLocalPath4 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection4 = nunit-console\\
-		SccProjectUniqueName5 = nunit-gui\\nunit-gui.csproj
-		SccLocalPath5 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection5 = nunit-gui\\
-		SccProjectUniqueName6 = samples\\cpp-sample\\cpp-sample.vcproj
-		SccLocalPath6 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection6 = samples\\cpp-sample\\
-		SccProjectUniqueName7 = samples\\csharp\\csharp-sample.csproj
-		SccLocalPath7 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection7 = samples\\csharp\\
-		SccProjectUniqueName8 = samples\\jsharp\\jsharp.vjsproj
-		SccLocalPath8 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection8 = samples\\jsharp\\
-		SccProjectUniqueName9 = samples\\money-port\\money-port.csproj
-		SccLocalPath9 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection9 = samples\\money-port\\
-		SccProjectUniqueName10 = samples\\money\\money-sample.csproj
-		SccLocalPath10 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection10 = samples\\money\\
-		SccProjectUniqueName11 = samples\\vb\\vb-sample.vbproj
-		SccLocalPath11 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection11 = samples\\vb\\
-		SccProjectUniqueName12 = Setup1\\Setup1.vdproj
-		SccLocalPath12 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection12 = Setup1\\
-		SccProjectUniqueName13 = tests\\mock-assembly\\mock-assembly.csproj
-		SccLocalPath13 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection13 = tests\\mock-assembly\\
-		SccProjectUniqueName14 = tests\\nunit.tests.dll.csproj
-		SccLocalPath14 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection14 = tests\\
-		SccProjectUniqueName15 = util\\nunit.util.dll.csproj
-		SccLocalPath15 = .
-		CanCheckoutShared = true
-		SccProjectFilePathRelativizedFromConnection15 = util\\
+		SccProvider1 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		SccProjectFilePathRelativizedFromConnection1 = install\\
 	EndGlobalSection
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
@@ -151,8 +98,6 @@ Global
 		{947559E9-9F8C-4273-8801-5FB6E61914AA}.Debug.Build.0 = Debug|.NET
 		{947559E9-9F8C-4273-8801-5FB6E61914AA}.Release.ActiveCfg = Release|.NET
 		{947559E9-9F8C-4273-8801-5FB6E61914AA}.Release.Build.0 = Release|.NET
-		{8D1D36BB-4D07-4EE2-A53E-94C86BFF3E57}.Debug.ActiveCfg = Debug
-		{8D1D36BB-4D07-4EE2-A53E-94C86BFF3E57}.Release.ActiveCfg = Release
 		{9C1C3459-24AB-4707-BDD5-EE866A945C38}.Debug.ActiveCfg = Debug|Win32
 		{9C1C3459-24AB-4707-BDD5-EE866A945C38}.Debug.Build.0 = Debug|Win32
 		{9C1C3459-24AB-4707-BDD5-EE866A945C38}.Release.ActiveCfg = Release|Win32
@@ -161,9 +106,12 @@ Global
 		{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}.Debug.Build.0 = Debug|.NET
 		{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}.Release.ActiveCfg = Release|.NET
 		{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}.Release.Build.0 = Release|.NET
+		{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}.Debug.ActiveCfg = Debug
+		{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}.Debug.Build.0 = Debug
+		{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}.Release.ActiveCfg = Release
+		{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}.Release.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
-		Item:1 = ReadMe.html
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
