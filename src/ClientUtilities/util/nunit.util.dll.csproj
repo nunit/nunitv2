@@ -112,11 +112,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "FileChangedEventHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "FormSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -130,6 +125,16 @@
                     RelPath = "NUnitRegistry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProgressBar.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProgressBar.resx"
+                    DependentUpon = "ProgressBar.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "RecentAssemblySettings.cs"
@@ -152,17 +157,17 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestInfo.cs"
-                    SubType = "Code"
+                    RelPath = "StatusBar.cs"
+                    SubType = "Component"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestNode.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                    RelPath = "StatusBar.resx"
+                    DependentUpon = "StatusBar.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "TestResultInfo.cs"
+                    RelPath = "TestSuiteTreeNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -177,12 +182,32 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "UIActions.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UIEvents.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "UIHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "UITestNode.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "UserSettings.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "WaitCursor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
