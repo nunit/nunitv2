@@ -458,17 +458,19 @@ namespace NUnit.Core
 		void NUnit.Core.EventListener.RunFinished(TestResult[] results)
 		{
 			// TODO:  Remove
+			outText.Close();
 		}
 
 		void NUnit.Core.EventListener.RunFinished(Exception exception)
 		{
 			// TODO:  Remove
+			outText.Close();
 		}
 
 		public void TestStarted(TestCase testCase)
 		{
 			if ( displayTestLabels )
-				outText.WriteLine("[{0}]", testCase.FullName );
+				outText.WriteLine("***** {0}", testCase.FullName );
 			
 			this.listener.TestStarted( testCase );
 			events.FireTestStarting( testCase );
