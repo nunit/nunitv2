@@ -280,22 +280,6 @@ namespace NUnit.Core
 			}
 		}
 
-		/// <summary>
-		/// Invoke the method having a particular attribute on an object.
-		/// The method should be unique, but no check is made and the first 
-		/// one found is invoked.
-		/// </summary>
-		/// <param name="attributeName">The FullName of the attribute to look for</param>
-		/// <param name="fixture">The object on which to invoke the method</param>
-		public static void InvokeMethod( string attributeName, object fixture, BindingFlags bindingFlags )
-		{
-			MethodInfo method = GetMethodWithAttribute( fixture.GetType(), attributeName, bindingFlags );
-			if(method != null)
-			{
-				InvokeMethod(method, fixture);
-			}
-		}
-
 		#endregion
 
 		#region Private Constructor for static-only class
