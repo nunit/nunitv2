@@ -51,6 +51,9 @@ namespace NUnit.Tests
 		[SetUp]
 		public void SetUp()
 		{
+			NUnitRegistry.TestMode = true;
+			NUnitRegistry.ClearTestKeys();
+
 			loader = new TestLoader( Console.Out, Console.Error );
 			catcher = new TestEventCatcher( loader.Events );
 		}
@@ -67,6 +70,8 @@ namespace NUnit.Tests
 			FileInfo file = new FileInfo( badFile );
 			if ( file.Exists )
 				file.Delete();
+
+			NUnitRegistry.TestMode = true;
 		}
 
 		[Test]
@@ -166,6 +171,8 @@ namespace NUnit.Tests
 		[Test]
 		public void RunTest()
 		{
+			UserSettings.Options.ReloadOnRun = false;
+			
 			loader.LoadTest( assembly );
 			loader.RunTestSuite( catcher.Events[3].Test );
 			while( loader.IsTestRunning )
