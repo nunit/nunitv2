@@ -273,6 +273,7 @@ namespace NUnit.Console
 			StringCollection messages;
 		
 			private bool debugger = false;
+			private string currentTestName;
 
 			public EventCollector( ConsoleOptions options, ConsoleWriter writer )
 			{
@@ -280,6 +281,19 @@ namespace NUnit.Console
 				level = 0;
 				this.options = options;
 				this.writer = writer;
+				this.currentTestName = string.Empty;
+			}
+
+			public void RunStarted(Test[] tests)
+			{
+			}
+
+			public void RunFinished(TestResult[] results)
+			{
+			}
+
+			public void RunFinished(Exception exception)
+			{
 			}
 
 			public void TestFinished(TestCaseResult testResult)
@@ -289,6 +303,7 @@ namespace NUnit.Console
 					if(testResult.Executed)
 					{
 						testRunCount++;
+						
 						if(testResult.IsFailure)
 						{	
 							failureCount++;
@@ -303,15 +318,19 @@ namespace NUnit.Console
 						Console.Write("N");
 					}
 				}
+
+				currentTestName = string.Empty;
 			}
 
 			public void TestStarted(TestCase testCase)
 			{
+				currentTestName = testCase.FullName;
+
 				if ( !options.xmlConsole )
 					Console.Write(".");
 
 				if ( options.labels )
-					writer.WriteLine("*** TestCase: {0} ***", testCase.FullName );
+					writer.WriteLine("[{0}]", testCase.FullName );
 			}
 
 			public void SuiteStarted(TestSuite suite) 
@@ -353,6 +372,22 @@ namespace NUnit.Console
 					Trace.WriteLine( "Failed tests   : " + failureCount );
 					Trace.WriteLine( "Total time     : " + suiteResult.Time + " seconds" );
 					Trace.WriteLine( "############################################################################");
+				}
+			}
+
+			public void UnhandledException( Exception exception )
+			{
+				string msg = string.Format( "##### Unhandled Exception while running {0}", currentTestName );
+
+				// If we do labels, we already have a newline
+				if ( !options.labels ) writer.WriteLine();
+				writer.WriteLine( msg );
+				writer.WriteLine( exception.ToString() );
+
+				if ( debugger )
+				{
+					Trace.WriteLine( msg );
+					Trace.WriteLine( exception.ToString() );
 				}
 			}
 

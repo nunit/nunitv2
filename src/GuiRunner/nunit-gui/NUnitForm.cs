@@ -868,7 +868,7 @@ namespace NUnit.Gui
 
 		private void toolsMenu_Popup(object sender, System.EventArgs e)
 		{		
-			saveXmlResultsMenuItem.Enabled = IsTestLoaded && TestLoader.LastResult != null;
+			saveXmlResultsMenuItem.Enabled = IsTestLoaded && TestLoader.Results != null;
 			exceptionDetailsMenuItem.Enabled = TestLoader.LastException != null;
 		}
 
@@ -974,7 +974,7 @@ namespace NUnit.Gui
 			if ( commandLineOptions.autorun && TestLoader.IsTestLoaded )
 				TestLoader.RunLoadedTest();
 		}
-
+			
 		private void LoadFormSettings()
 		{
 			// Set position of the form
@@ -1017,8 +1017,9 @@ namespace NUnit.Gui
 			events.TestReloading	+= new TestEventHandler( OnReloadStarting );
 			events.TestReloaded		+= new TestEventHandler( OnTestChanged );
 			events.TestReloadFailed	+= new TestEventHandler( OnTestLoadFailure );
-			events.TestFinished += new TestEventHandler(OnTestFinished);
-			events.SuiteFinished += new TestEventHandler(OnSuiteFinished);
+			events.TestFinished		+= new TestEventHandler( OnTestFinished );
+			events.SuiteFinished	+= new TestEventHandler( OnSuiteFinished );
+			events.TestException	+= new TestEventHandler( OnTestException );
 		}
 
 		private void InitializeControls()
@@ -1077,12 +1078,16 @@ namespace NUnit.Gui
 		/// </summary>
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
-			ArrayList tests = testTree.tests.CheckedTests;
-			int count = tests.Count;
-			if (count == 0)
-				tests.Add(testTree.tests.SelectedTest);
 
-			TestLoader.RunTests( tests );
+//			ArrayList tests = testSuiteTreeView.CheckedTests;
+//			int count = tests.Count;
+//			if (count == 0)
+//				tests.Add(testSuiteTreeView.SelectedTest);
+//
+//			TestLoader.RunTests( tests );
+			TestLoader.RunTests( testTree.tests.SelectedTests );
+//			TestLoader.RunTests( testSuiteTreeView.SelectedTests );
+//			TestLoader.RunTest( testSuiteTreeView.SelectedTest );
 		}
 
 		/// <summary>
@@ -1288,6 +1293,15 @@ namespace NUnit.Gui
 			TestSuiteResult suiteResult = (TestSuiteResult) args.Result;
 			if(!suiteResult.Executed)
 				notRunTree.Nodes.Add(MakeNotRunNode(suiteResult));
+		}
+
+		private void OnTestException(object sender, TestEventArgs args)
+		{
+			string msg = string.Format(
+				"An unhandled exception was detected. Since it was most likely thrown on a separate thread, it may or may not have been caused by the current test.\r\r{0}",
+				args.Exception.ToString() );
+
+			UserMessage.DisplayFailure( msg, "Unhandled Exception" );
 		}
 
 		private TreeNode MakeNotRunNode(TestResult result)
