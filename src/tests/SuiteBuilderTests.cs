@@ -42,23 +42,42 @@ namespace NUnit.Tests.Core
 	public class SuiteBuilderTests
 	{
 		private string testsDll = "NUnit.Tests.dll";
+		private string tempFile = "x.dll";
+		private TestSuiteBuilder builder;
 
-		[Test]
-		public void LoadTestSuiteFromAssembly()
+		[SetUp]
+		public void CreateBuilder()
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Core.AllTests" );
-			Assert.IsNotNull(suite);
+			builder = new TestSuiteBuilder();
+		}
+		[TearDown]
+		public void TearDown()
+		{
+			FileInfo info = new FileInfo(tempFile);
+			if(info.Exists) info.Delete();
 		}
 
 		[Test]
-		public void BuildTestSuiteFromAssembly() 
+		public void LoadAssembly() 
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build(testsDll);
-			Assert.IsNotNull(suite);
+			Assert.IsNotNull(suite, "Unable to build suite" );
 		}
 
+		[Test]
+		public void LoadFixture()
+		{
+			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Core.SuiteBuilderTests" );
+			Assert.IsNotNull(suite, "Unable to build suite");
+		}
+
+		[Test]
+		public void LoadSuite()
+		{
+			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Core.AllTests" );
+			Assert.IsNotNull(suite, "Unable to build suite");
+			Assert.AreEqual( 3, suite.Tests.Count );
+		}
 
 		class Suite
 		{
@@ -76,7 +95,6 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void DiscoverSuite()
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Core.SuiteBuilderTests+Suite" );
 			Assert.IsNotNull(suite, "Could not discover suite attribute");
 		}
@@ -96,23 +114,52 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void WrongReturnTypeSuite()
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Assemblies.AssemblyTests+NonConformingSuite" );
 			Assert.IsNull(suite, "Suite propertye returns wrong type");
 		}
 
 		[Test]
-		public void TrimPathAndExtensionTest() 
+		[ExpectedException(typeof(FileNotFoundException))]
+		public void FileNotFound()
 		{
-			string fileName = @"d:\somedirectory\foo.txt";
-			FileInfo info = new FileInfo(fileName);
-			string extension = info.Extension;
-			Assert.AreEqual(".txt", extension);
-			Assert.AreEqual("foo.txt", info.Name);
-
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			string result = builder.TrimPathAndExtension(fileName);
-			Assert.AreEqual("foo", result);
+			TestSuite suite = builder.Build( "xxxx" );
 		}
+
+		[Test]
+		[ExpectedException(typeof(BadImageFormatException))]
+		public void InvalidAssembly()
+		{
+			FileInfo file = new FileInfo( tempFile );
+
+			StreamWriter sw = file.AppendText();
+
+			sw.WriteLine("This is a new entry to add to the file");
+			sw.WriteLine("This is yet another line to add...");
+			sw.Flush();
+			sw.Close();
+
+			TestSuite suite = builder.Build( tempFile );
+		}
+
+		[Test]
+		public void FixtureNotFound()
+		{
+			TestSuite suite = builder.Build(testsDll, "NUnit.Tests.Junk" );
+			Assert.IsNull( suite );
+		}
+
+//		[Test]
+//		public void TrimPathAndExtensionTest() 
+//		{
+//			string fileName = @"d:\somedirectory\foo.txt";
+//			FileInfo info = new FileInfo(fileName);
+//			string extension = info.Extension;
+//			Assert.AreEqual(".txt", extension);
+//			Assert.AreEqual("foo.txt", info.Name);
+//
+//			TestSuiteBuilder builder = new TestSuiteBuilder();
+//			string result = builder.TrimPathAndExtension(fileName);
+//			Assert.AreEqual("foo", result);
+//		}
 	}
 }
