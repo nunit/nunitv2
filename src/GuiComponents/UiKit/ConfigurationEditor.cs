@@ -27,6 +27,8 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.ListBox configListBox;
 		private System.Windows.Forms.Button removeButton;
 		private System.Windows.Forms.Button renameButton;
+		private System.Windows.Forms.Button addButton;
+		private System.Windows.Forms.Button activeButton;
 		private System.Windows.Forms.Button closeButton;
 
 		#endregion
@@ -67,6 +69,8 @@ namespace NUnit.UiKit
 			this.removeButton = new System.Windows.Forms.Button();
 			this.renameButton = new System.Windows.Forms.Button();
 			this.closeButton = new System.Windows.Forms.Button();
+			this.addButton = new System.Windows.Forms.Button();
+			this.activeButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// configListBox
@@ -105,12 +109,32 @@ namespace NUnit.UiKit
 			this.closeButton.Text = "Close";
 			this.closeButton.Click += new System.EventHandler(this.okButton_Click);
 			// 
+			// addButton
+			// 
+			this.addButton.Location = new System.Drawing.Point(192, 88);
+			this.addButton.Name = "addButton";
+			this.addButton.Size = new System.Drawing.Size(96, 32);
+			this.addButton.TabIndex = 5;
+			this.addButton.Text = "&Add";
+			this.addButton.Click += new System.EventHandler(this.addButton_Click);
+			// 
+			// activeButton
+			// 
+			this.activeButton.Location = new System.Drawing.Point(192, 128);
+			this.activeButton.Name = "activeButton";
+			this.activeButton.Size = new System.Drawing.Size(96, 32);
+			this.activeButton.TabIndex = 6;
+			this.activeButton.Text = "&Make Active";
+			this.activeButton.Click += new System.EventHandler(this.activeButton_Click);
+			// 
 			// ConfigurationEditor
 			// 
 			this.AcceptButton = this.closeButton;
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.ClientSize = new System.Drawing.Size(298, 268);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
+																		  this.activeButton,
+																		  this.addButton,
 																		  this.closeButton,
 																		  this.renameButton,
 																		  this.removeButton,
@@ -152,13 +176,31 @@ namespace NUnit.UiKit
 
 		private void removeButton_Click(object sender, System.EventArgs e)
 		{	
+			string name = project.Configs[selectedIndex].Name;
+			
 			project.Configs.RemoveAt( selectedIndex );
+			project.IsDirty = true;
+			if ( name == project.ActiveConfig && project.Configs.Count > 0 )
+				AppUI.TestLoaderUI.SetActiveConfig( 0 );
 			FillListBox();
 		}
 
 		private void renameButton_Click(object sender, System.EventArgs e)
 		{
 			RenameConfiguration( project.Configs[selectedIndex].Name );
+		}
+
+		private void addButton_Click(object sender, System.EventArgs e)
+		{
+			AddConfiguration( project );
+			FillListBox();
+		}
+
+		private void activeButton_Click(object sender, System.EventArgs e)
+		{
+			project.ActiveConfig = project.Configs[selectedIndex].Name;
+			AppUI.TestLoaderUI.SetActiveConfig( selectedIndex );
+			FillListBox();
 		}
 
 		private void okButton_Click(object sender, System.EventArgs e)
@@ -170,7 +212,9 @@ namespace NUnit.UiKit
 		private void configListBox_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
 			selectedIndex = configListBox.SelectedIndex;
-			renameButton.Enabled = !project.Configs[selectedIndex].Active;
+			activeButton.Enabled = selectedIndex >= 0 && project.Configs[selectedIndex].Name != project.ActiveConfig;
+			renameButton.Enabled = addButton.Enabled = selectedIndex >= 0;
+			removeButton.Enabled = selectedIndex >= 0 && configListBox.Items.Count > 0;
 		}
 
 		#endregion
@@ -183,6 +227,9 @@ namespace NUnit.UiKit
 			if ( dlg.ShowDialog() == DialogResult.OK )
 			{
 				project.Configs[oldName].Name = dlg.ConfigurationName;
+				if ( project.ActiveConfig == oldName )
+					project.ActiveConfig = dlg.ConfigurationName;
+				project.IsDirty = true;
 				FillListBox();
 			}
 		}
@@ -190,18 +237,30 @@ namespace NUnit.UiKit
 		private void FillListBox()
 		{
 			configListBox.Items.Clear();
+			int count = 0;
 
 			foreach( ProjectConfig config in project.Configs )
 			{
 				string name = config.Name;
 
-				if ( config.Active )
+				if ( name == project.ActiveConfig )
 					name += " (active)";
 				
 				configListBox.Items.Add( name );
-			}			
+				count++;
+			}	
+		
+			if ( count > 0 )
+			{
+				if( selectedIndex >= count )
+					selectedIndex = count - 1;
+
+				configListBox.SelectedIndex = selectedIndex;
+			}
+			else selectedIndex = -1;
 		}
 
 		#endregion
+
 	}
 }

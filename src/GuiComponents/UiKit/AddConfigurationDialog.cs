@@ -153,13 +153,11 @@ namespace NUnit.UiKit
 		public string ConfigurationName
 		{
 			get { return configurationName; }
-			set { configurationName = value; }
 		}
 
 		public string CopyConfigurationName
 		{
 			get { return copyConfigurationName; }
-			set { copyConfigurationName = value; }
 		}
 
 		#endregion
@@ -174,7 +172,7 @@ namespace NUnit.UiKit
 			foreach( ProjectConfig config in project.Configs )
 			{
 				int index = configurationComboBox.Items.Add( config.Name );
-				if ( copyConfigurationName == config.Name )
+				if ( config.Name == project.ActiveConfig )
 					configurationComboBox.SelectedIndex = index;
 			}
 		}
