@@ -30,7 +30,6 @@
 using System;
 using System.IO;
 using NUnit.Framework;
-using NUnit.TestUtilities;
 
 namespace NUnit.Util.Tests
 {
@@ -38,7 +37,7 @@ namespace NUnit.Util.Tests
 	/// Summary description for VSProjectTests.
 	/// </summary>
 	[TestFixture]
-	public class VSProjectTests : FixtureBase
+	public class VSProjectTests
 	{
 		private string invalidFile = "invalid.csproj";
 

@@ -36,7 +36,6 @@ using System.Xml;
 using System.Xml.Schema;
 using NUnit.Core;
 using NUnit.Framework;
-using NUnit.TestUtilities;
 
 namespace NUnit.Util.Tests
 {
@@ -45,7 +44,7 @@ namespace NUnit.Util.Tests
 	/// </summary>
 	/// 
 	[TestFixture]
-	public class XmlTest : FixtureBase
+	public class XmlTest
 	{
 		public class SchemaValidator
 		{
@@ -55,7 +54,15 @@ namespace NUnit.Util.Tests
 			public SchemaValidator(string xmlFile, string schemaFile)
 			{
 				XmlSchemaCollection myXmlSchemaCollection = new XmlSchemaCollection();
-				myXmlSchemaCollection.Add(XmlSchema.Read(new XmlTextReader(schemaFile), null));
+				XmlTextReader xmlTextReader = new XmlTextReader(schemaFile);
+				try
+				{
+					myXmlSchemaCollection.Add(XmlSchema.Read(xmlTextReader, null));
+				}
+				finally
+				{
+					xmlTextReader.Close();
+				}
 
 				// Validate the XML file with the schema
 				XmlTextReader myXmlTextReader = new XmlTextReader (xmlFile);
@@ -130,7 +137,7 @@ namespace NUnit.Util.Tests
 				result.Accept(visitor);
 				visitor.Write();
 
-				SchemaValidator validator = new SchemaValidator(reportFileName, schemaFile);
+				SchemaValidator validator = new SchemaValidator(reportFileName, schemaFile.Path);
 				Assert.IsTrue(validator.Validate(), "validate failed");
 			}
 			finally
@@ -169,18 +176,20 @@ namespace NUnit.Util.Tests
 		}
 
 		private string tempFile;
-		private string schemaFile;
+		private TempResourceFile schemaFile;
 
 		[SetUp]
 		public void CreateTempFileName()
 		{
 			tempFile = "temp" + Guid.NewGuid().ToString() + ".xml";
-			schemaFile = SourcePath + @"\NUnitFramework\core\results.xsd";
+			schemaFile = new TempResourceFile(GetType(), "Results.xsd");
 		}
 
-		//[TearDown]
-		public void RemoveTempFile()
+		[TearDown]
+		public void RemoveTempFiles()
 		{
+			schemaFile.Dispose();
+
 			FileInfo info = new FileInfo(tempFile);
 			if(info.Exists) info.Delete();
 		}

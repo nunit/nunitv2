@@ -94,11 +94,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "FixtureBase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "MockTestEventSource.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

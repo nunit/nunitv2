@@ -36,7 +36,7 @@ using NUnit.TestUtilities;
 namespace NUnit.Util.Tests
 {
 	[TestFixture]
-	public class NUnitProjectLoad : FixtureBase
+	public class NUnitProjectLoad
 	{
 		static readonly string xmlfile = "test.nunit";
 
@@ -171,7 +171,7 @@ namespace NUnit.Util.Tests
 			}
 		}
 
-		[Test]
+		[Test, Ignore("Need to create whole embedded solution")]
 		public void FromVSSolution()
 		{
 			using(TempResourceFile file = new TempResourceFile(this.GetType(), "samples.sln"))

@@ -249,6 +249,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Results.xsd"
+                    Link = "..\..\NUnitFramework\core\Results.xsd"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Results.xsx"
+                    Link = "..\..\NUnitFramework\core\Results.xsx"
+                    DependentUpon = "Results.xsd"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "samples.sln"
                     Link = "..\..\..\samples\samples.sln"
                     BuildAction = "EmbeddedResource"
