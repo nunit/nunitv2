@@ -22,34 +22,45 @@ namespace NUnit.Util
 	/// </summary>
 	public interface ITestEvents
 	{
+		// Events related to the loading and unloading
+		// of projects - including wrapper projects
+		// created in order to load assemblies. This
+		// occurs separately from the loading of tests
+		// for the assemblies in the project.
+		event TestEventHandler ProjectLoading;
+		event TestEventHandler ProjectLoaded;
+		event TestEventHandler ProjectUnloading;
+		event TestEventHandler ProjectUnloaded;
+
 		// Events related to loading tests. Note that
 		// if loading failed for a different assembly
 		// from that which was previously loaded, the
 		// old one is still valid.
-		event TestLoadEventHandler LoadStartingEvent;
-		event TestLoadEventHandler LoadCompleteEvent;
-		event TestLoadEventHandler LoadFailedEvent;
+		event TestEventHandler TestLoading;
+		event TestEventHandler TestLoaded;
+		event TestEventHandler TestLoadFailed;
 		
 		// Events related to reloading tests
-		event TestLoadEventHandler ReloadStartingEvent;
-		event TestLoadEventHandler ReloadCompleteEvent;
-		event TestLoadEventHandler ReloadFailedEvent;
+		event TestEventHandler TestReloading;
+		event TestEventHandler TestReloaded;
+		event TestEventHandler TestReloadFailed;
 		
 		// Events related to unloading tests.
-		event TestLoadEventHandler UnloadStartingEvent;
-		event TestLoadEventHandler UnloadCompleteEvent;
-		event TestLoadEventHandler UnloadFailedEvent;
+		event TestEventHandler TestUnloading;
+		event TestEventHandler TestUnloaded;
+		event TestEventHandler TestUnloadFailed;
 
 		// Events related to a running a set of tests
-		event TestEventHandler RunStartingEvent;	
-		event TestEventHandler RunFinishedEvent;
+		event TestEventHandler RunStarting;	
+		event TestEventHandler RunFinished;
 
 		// Events that arise while a test is running
 		// These serve the same purpose as the methods
 		// defined by the EventListener interface.
-		event TestEventHandler SuiteStartingEvent;
-		event TestEventHandler SuiteFinishedEvent;
-		event TestEventHandler TestStartingEvent;
-		event TestEventHandler TestFinishedEvent;
+		event TestEventHandler SuiteStarting;
+		event TestEventHandler SuiteFinished;
+
+		event TestEventHandler TestStarting;
+		event TestEventHandler TestFinished;
 	}
 }

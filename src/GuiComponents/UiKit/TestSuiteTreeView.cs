@@ -152,18 +152,18 @@ namespace NUnit.UiKit
 
 		}
 
-		public void InitializeEvents( ITestLoader loader )
+		public void Initialize( ITestLoader loader, ITestEvents events )
 		{
 			this.loader = loader;
 
-			loader.LoadCompleteEvent += new TestLoadEventHandler( OnTestLoaded );
-			loader.ReloadCompleteEvent += new TestLoadEventHandler( OnTestChanged );
-			loader.UnloadCompleteEvent += new TestLoadEventHandler( OnTestUnloaded );
+			events.TestLoaded	+= new TestEventHandler( OnTestLoaded );
+			events.TestReloaded	+= new TestEventHandler( OnTestChanged );
+			events.TestUnloaded	+= new TestEventHandler( OnTestUnloaded );
 			
-			loader.RunStartingEvent += new TestEventHandler( OnRunStarting );
-			loader.RunFinishedEvent += new TestEventHandler( OnRunFinished );
-			loader.TestFinishedEvent += new TestEventHandler( OnTestResult );
-			loader.SuiteFinishedEvent += new TestEventHandler( OnTestResult );
+			events.RunStarting	+= new TestEventHandler( OnRunStarting );
+			events.RunFinished	+= new TestEventHandler( OnRunFinished );
+			events.TestFinished	+= new TestEventHandler( OnTestResult );
+			events.SuiteFinished+= new TestEventHandler( OnTestResult );
 		}
 
 		#endregion
@@ -193,14 +193,6 @@ namespace NUnit.UiKit
 		{
 			get { return displayProgress; }
 			set { displayProgress = value; }
-		}
-
-		[Category( "Behavior" ), DefaultValue( DisplayStyle.Auto )]
-		[Description("Indicates how the tree should be displayed when a new assembly is loaded")]
-		public DisplayStyle InitialDisplay
-		{
-			get { return initialDisplay; }
-			set { initialDisplay = value; }
 		}
 
 		[Category( "Behavior" ), DefaultValue( true )]
@@ -259,21 +251,21 @@ namespace NUnit.UiKit
 
 		#region Handlers for events related to loading and running tests
 
-		private void OnTestLoaded( object sender, TestLoadEventArgs e )
+		private void OnTestLoaded( object sender, TestEventArgs e )
 		{
 			CheckPropertiesDialog();
 			Load( e.Test );
 			runCommandEnabled = true;
 		}
 
-		private void OnTestChanged( object sender, TestLoadEventArgs e )
+		private void OnTestChanged( object sender, TestEventArgs e )
 		{
 			Invoke( new LoadHandler( Reload ), new object[]{ e.Test } );
 			if ( ClearResultsOnChange )
 				ClearResults();
 		}
 
-		private void OnTestUnloaded( object sender, TestLoadEventArgs e)
+		private void OnTestUnloaded( object sender, TestEventArgs e)
 		{
 			ClosePropertiesDialog();
 
@@ -794,8 +786,11 @@ namespace NUnit.UiKit
 		/// <returns>DisplayStyle to be used</returns>
 		private DisplayStyle GetDisplayStyle()
 		{
-			if ( InitialDisplay != DisplayStyle.Auto )
-				return InitialDisplay;
+			DisplayStyle initialDisplay = 
+				(DisplayStyle)UserSettings.Options.InitialTreeDisplay;
+
+			if ( initialDisplay != DisplayStyle.Auto )
+				return initialDisplay;
 
 			if ( VisibleCount >= this.GetNodeCount( true ) )
 				return DisplayStyle.Expand;

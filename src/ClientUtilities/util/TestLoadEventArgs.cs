@@ -37,12 +37,12 @@ namespace NUnit.Util
 		/// <summary>
 		/// Helper that recognizes failure events
 		/// </summary>
-		private bool IsFailure( TestLoadAction action )
-		{
-			return action == TestLoadAction.LoadFailed ||
-				action == TestLoadAction.UnloadFailed ||
-				action == TestLoadAction.ReloadFailed;
-		}
+//		private bool IsFailure( TestLoadAction action )
+//		{
+//			return action == TestLoadAction.LoadFailed ||
+//				action == TestLoadAction.UnloadFailed ||
+//				action == TestLoadAction.ReloadFailed;
+//		}
 
 		/// <summary>
 		/// Constructor for non-failure events
@@ -54,7 +54,7 @@ namespace NUnit.Util
 			this.testFileName = testFileName;
 			this.test = test;
 
-			Debug.Assert( !IsFailure( action ), "Invalid TestLoadAction in Constructor" );
+//			Debug.Assert( !IsFailure( action ), "Invalid TestLoadAction in Constructor" );
 		}
 
 		public TestLoadEventArgs( TestLoadAction action, string testFileName )
@@ -62,8 +62,8 @@ namespace NUnit.Util
 			this.action = action;
 			this.testFileName = testFileName;
 
-			Debug.Assert( action != TestLoadAction.UnloadStarting || action != TestLoadAction.UnloadComplete, 
-					"Invalid TestLoadAction in Constructor" );
+//			Debug.Assert( action != TestLoadAction.UnloadStarting || action != TestLoadAction.UnloadComplete, 
+//					"Invalid TestLoadAction in Constructor" );
 		}
 
 		/// <summary>
@@ -76,7 +76,7 @@ namespace NUnit.Util
 			this.testFileName = testFileName;
 			this.exception = exception;
 
-			Debug.Assert( IsFailure( action ), "Invalid TestLoadAction in Constructor" );
+//			Debug.Assert( IsFailure( action ), "Invalid TestLoadAction in Constructor" );
 		}
 
 		public TestLoadAction Action

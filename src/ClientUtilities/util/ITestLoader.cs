@@ -40,11 +40,14 @@ namespace NUnit.Util
 	/// are kept separate so that client objects not intended to
 	/// issue commands can just handle the first interface.
 	/// </summary>
-	public interface ITestLoader : ITestEvents
+	public interface ITestLoader
 	{
 		#region Properties
 
-		// See if a test has been loaded
+		// See if a project is loaded
+		bool IsProjectLoaded { get; }
+
+		// See if a test has been loaded from the project
 		bool IsTestLoaded { get; }
 
 		// True if there is a pending reload request
@@ -54,11 +57,9 @@ namespace NUnit.Util
 		bool IsTestRunning { get; }
 
 		// The loaded test project
-		NUnitProject TestProject { get; }
+		NUnitProject TestProject { get; set; }
 
-		// The active configuration
-		// TODO: Remove from this interface
-		string ActiveConfig { get; set; }
+		string TestFileName { get; }
 
 		// Our last test result
 		TestResult LastResult { get; }
@@ -67,8 +68,18 @@ namespace NUnit.Util
 
 		#region Methods
 
-		// Load a test given a filename
+		// Load a project given a filename
+		void LoadProject( string filename );
+
+		// Unload current project
+		void UnloadProject();
+
+		// Load a project given a filename and then
+		// load the tests for the active config.
 		void LoadTest( string filename );
+
+		// Load tests for current project
+		void LoadTest();
 
 		// Unload current test
 		void UnloadTest();

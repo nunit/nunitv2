@@ -48,7 +48,7 @@ namespace NUnit.UiKit
 		/// Required designer variable.
 		/// </summary>
 		private System.ComponentModel.Container components = null;
-		
+
 		private int fValue = 0;
 		private int fmin = 0;
 		private int fmax = 100;
@@ -62,8 +62,6 @@ namespace NUnit.UiKit
 		private Brush BarBrush = null;
 		private Brush NotBarBrush = null;
 
-		private ITestEvents events;
-
 		#endregion
 
 		#region Constructors & Disposer
@@ -72,10 +70,8 @@ namespace NUnit.UiKit
 			// This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
 
-			// TODO: Add any initialization after the InitForm call
-			//SetStyle(ControlStyles.Opaque, true);
 			SetStyle(ControlStyles.ResizeRedraw, true);
-			//SetStyle(ControlStyles.ResizeRedraw | ControlStyles.Opaque, true);
+			Initialize( 100 );
 		}
 
 		/// <summary> 
@@ -97,6 +93,15 @@ namespace NUnit.UiKit
 
 		#region Properties
 		
+		public void Initialize( ITestEvents events )
+		{
+			events.TestLoaded	+= new TestEventHandler( OnLoadComplete );
+			events.TestReloaded	+= new TestEventHandler( OnLoadComplete );
+			events.TestUnloaded	+= new TestEventHandler( OnUnloadComplete );
+			events.RunStarting	+= new TestEventHandler( OnRunStarting );
+			events.TestFinished	+= new TestEventHandler( OnTestFinished );
+		}
+
 		[Category("Behavior")]
 		public int Minimum
 		{
@@ -185,32 +190,25 @@ namespace NUnit.UiKit
 				}
 			}
 		}
+
 		#endregion
 
 		#region Methods
 
-		// TODO: Modify tests and make this private
-		public void Initialize( int testCount )
+		private void Initialize( int testCount )
 		{
 			ForeColor = Color.Lime;
 			Value = 0;
 			Maximum = testCount;
 		}
 
-		// TODO: Modify tests and make this private
-		public void Initialize( UITestNode test )
+		private void Initialize( UITestNode test )
 		{
 			Initialize( test.CountTestCases );
 		}
 
-		public void InitializeEvents( ITestEvents events )
+		protected override void OnCreateControl()
 		{
-			this.events = events;
-
-			events.LoadCompleteEvent += new TestLoadEventHandler( OnLoadComplete );
-			events.ReloadCompleteEvent += new TestLoadEventHandler( OnLoadComplete );
-			events.RunStartingEvent += new TestEventHandler( OnRunStarting );
-			events.TestFinishedEvent += new TestEventHandler( OnTestFinished );
 		}
 
 		public void PerformStep()
@@ -228,9 +226,14 @@ namespace NUnit.UiKit
 			Initialize( e.Test );
 		}
 
-		private void OnLoadComplete( object sender, TestLoadEventArgs e )
+		private void OnLoadComplete( object sender, TestEventArgs e )
 		{
 			Initialize( e.Test );
+		}
+
+		private void OnUnloadComplete( object sender, TestEventArgs e )
+		{
+			Initialize( 100 );
 		}
 
 		private void OnTestFinished( object sender, TestEventArgs e )
@@ -354,5 +357,6 @@ namespace NUnit.UiKit
 			this.Size = new System.Drawing.Size(432, 24);
 		}
 		#endregion
+
 	}
 }

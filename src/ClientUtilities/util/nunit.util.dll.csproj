@@ -97,6 +97,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssemblyList.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AssemblyWatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -118,6 +123,11 @@
                 />
                 <File
                     RelPath = "GuiOptions.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IProject.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -197,12 +207,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestLoader.cs"
+                    RelPath = "TestEventDispatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestLoadEventArgs.cs"
+                    RelPath = "TestLoader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

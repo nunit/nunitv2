@@ -53,8 +53,6 @@ namespace NUnit.UiKit
 
 		private bool displayProgress = false;
 
-		private ITestEvents events;
-
 		public bool DisplayTestProgress
 		{
 			get { return displayProgress; }
@@ -87,18 +85,16 @@ namespace NUnit.UiKit
 			set { statusPanel.Text = value; }
 		}
 
-		public void InitializeEvents( ITestEvents events )
+		public void Initialize( ITestEvents events )
 		{
-			this.events = events;
+			events.TestLoaded	+= new TestEventHandler( OnTestLoaded );
+			events.TestReloaded	+= new TestEventHandler( OnTestReloaded );
+			events.TestUnloaded	+= new TestEventHandler( OnTestUnloaded );
 
-			events.LoadCompleteEvent += new TestLoadEventHandler( OnTestLoaded );
-			events.ReloadCompleteEvent += new TestLoadEventHandler( OnTestReloaded );
-			events.UnloadCompleteEvent += new TestLoadEventHandler( OnTestUnloaded );
-
-			events.TestStartingEvent += new TestEventHandler( OnTestStarting );
-			events.TestFinishedEvent += new TestEventHandler( OnTestFinished );
-			events.RunStartingEvent += new TestEventHandler( OnRunStarting );
-			events.RunFinishedEvent += new TestEventHandler( OnRunFinished );
+			events.TestStarting	+= new TestEventHandler( OnTestStarting );
+			events.TestFinished	+= new TestEventHandler( OnTestFinished );
+			events.RunStarting	+= new TestEventHandler( OnRunStarting );
+			events.RunFinished	+= new TestEventHandler( OnRunFinished );
 		}
 
 		public void Initialize( int testCount )
@@ -157,17 +153,17 @@ namespace NUnit.UiKit
 			timePanel.Text = "Time : " + summarizer.Time.ToString();
 		}
 
-		public void OnTestLoaded( object sender, TestLoadEventArgs e )
+		public void OnTestLoaded( object sender, TestEventArgs e )
 		{
 			Initialize( e.Test.CountTestCases );
 		}
 
-		public void OnTestReloaded( object sender, TestLoadEventArgs e )
+		public void OnTestReloaded( object sender, TestEventArgs e )
 		{
 			Initialize( e.Test.CountTestCases, "Reloaded" );
 		}
 
-		public void OnTestUnloaded( object sender, TestLoadEventArgs e )
+		public void OnTestUnloaded( object sender, TestEventArgs e )
 		{
 			Initialize( 0, "Unloaded" );
 		}

@@ -14,6 +14,22 @@ namespace NUnit.Util
 	/// </summary>
 	public enum TestAction
 	{
+		// Project Loading Events
+		ProjectLoading,
+		ProjectLoaded,
+		ProjectUnloading,
+		ProjectUnloaded,
+		// Test Loading Events
+		TestLoading,
+		TestLoaded,
+		TestLoadFailed,
+		TestReloading,
+		TestReloaded,
+		TestReloadFailed,
+		TestUnloading,
+		TestUnloaded,
+		TestUnloadFailed,
+		// Test Running Events
 		RunStarting,
 		RunFinished,
 		SuiteStarting,
@@ -27,96 +43,101 @@ namespace NUnit.Util
 	/// </summary>
 	public class TestEventArgs : EventArgs
 	{
+		#region Instance Variables
+
+		// The action represented by the event
 		private TestAction action;
+
+		// The file name for the test
+		private string testFileName;
+		
+		// The top node of a loaded test suite
 		private UITestNode test;
+
+		// The result of a test
 		private TestResult result;
+		
+		// The exception causing a failure
 		private Exception exception;
 
-		/// <summary>
-		/// Helper to distinguish XxxxStarting from XxxxFinished actions
-		/// </summary>
-		/// <param name="action"></param>
-		/// <returns></returns>
-		private static bool IsStartAction( TestAction action )
+		#endregion
+
+		#region Constructors
+
+		public TestEventArgs( TestAction action, 
+			string testFileName, UITestNode test )
 		{
-			return action == TestAction.RunStarting ||
-				action == TestAction.SuiteStarting ||
-				action == TestAction.TestStarting;
+			this.action = action;
+			this.testFileName = testFileName;
+			this.test = test;
 		}
 
-		/// <summary>
-		/// Construct using action and test node
-		/// Used only for XxxxStarting events
-		/// </summary>
+		public TestEventArgs( TestAction action, string testFileName )
+		{
+			this.action = action;
+			this.testFileName = testFileName;
+		}
+
+		public TestEventArgs( TestAction action,
+			string testFileName, Exception exception )
+		{
+			this.action = action;
+			this.testFileName = testFileName;
+			this.exception = exception;
+		}
+
 		public TestEventArgs( TestAction action, UITestNode test )
 		{
 			this.action = action;
 			this.test = test;
-			this.result = null;
-			this.exception = null;
-
-			Debug.Assert( IsStartAction( action ), "Invalid TestAction in Constructor" );
 		}
 
-		/// <summary>
-		/// Construct using action and test result
-		/// Used only for XxxxFinished events
-		/// </summary>
 		public TestEventArgs( TestAction action, TestResult result )
 		{
 			this.action = action;
-			this.test = null;
 			this.result = result;
-			this.exception = null;
-
-			Debug.Assert( !IsStartAction( action ), "Invalid TestAction in Constructor" );
 		}
 
-		/// <summary>
-		/// Construct using action and exception
-		/// Used only for RunFinished event
-		/// </summary>
 		public TestEventArgs( TestAction action, Exception exception )
 		{
 			this.action = action;
-			this.test = null;
-			this.result = null;
 			this.exception = exception;
-
-			Debug.Assert( action == TestAction.RunFinished, "Invalid TestAction in Constructor" );
 		}
 
-		/// <summary>
-		/// The action that triggered the event
-		/// </summary>
+		#endregion
+
+		#region Properties
+
 		public TestAction Action
 		{
 			get { return action; }
 		}
 
-		/// <summary>
-		/// Test associated with a starting event
-		/// </summary>
+		public string TestFileName
+		{
+			get { return testFileName; }
+		}
+
+		public bool IsProjectFile
+		{
+			get { return NUnitProject.IsProjectFile( testFileName ); }
+		}
+
 		public UITestNode Test
 		{
 			get { return test; }
 		}
 
-		/// <summary>
-		/// Result associated with a finished event
-		/// </summary>
 		public TestResult Result
 		{
 			get { return result; }
 		}
 
-		/// <summary>
-		/// Exception associated with a RunFinished event
-		/// when caused by a system error or user cancelation
-		/// </summary>
 		public Exception Exception
 		{
 			get { return exception; }
 		}
+
+		#endregion
 	}
 }
