@@ -25,7 +25,7 @@ namespace NUnit.Tests
 			errorStream = new ConsoleWriter(Console.Error);
 			domain = new TestDomain(outStream, errorStream);
 
-			AssemblyList assemblies = new AssemblyList();
+			ArrayList assemblies = new ArrayList();
 			assemblies.Add( Path.GetFullPath( "nonamespace-assembly.dll" ) );
 			assemblies.Add( Path.GetFullPath( "mock-assembly.dll" ) );
 

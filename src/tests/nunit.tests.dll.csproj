@@ -162,6 +162,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "EventDispatcherTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "EventTestFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -197,7 +202,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "MockUIEventSource.cs"
+                    RelPath = "MockProject.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MockTestEventSource.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -351,12 +361,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestEventCatcher.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestFixtureBuilderTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "TestFixtureExtension.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestLoaderAssemblyTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

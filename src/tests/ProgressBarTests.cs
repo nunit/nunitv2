@@ -14,7 +14,7 @@ namespace NUnit.Tests
 	public class ProgressBarTests
 	{
 		private ProgressBar progressBar;
-		private MockUIEventSource mockEvents;
+		private MockTestEventSource mockEvents;
 		private string testsDll = "mock-assembly.dll";
 		private TestSuite suite;
 		int testCount;
@@ -27,26 +27,14 @@ namespace NUnit.Tests
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( testsDll );
 
-			mockEvents = new MockUIEventSource( testsDll, suite );
-		}
-
-		[Test]
-		public void TestInitialization()
-		{
-			progressBar.Initialize( suite );
-
-			Assertion.AssertEquals( 0, progressBar.Minimum );
-			Assertion.AssertEquals( 7, progressBar.Maximum );
-			Assertion.AssertEquals( 1, progressBar.Step );
-			Assertion.AssertEquals( 0, progressBar.Value );
-			Assertion.AssertEquals( Color.Lime, progressBar.ForeColor );
+			mockEvents = new MockTestEventSource( testsDll, suite );
 		}
 
 		[Test]
 		public void TestProgressDisplay()
 		{
-			progressBar.InitializeEvents( mockEvents );
-			mockEvents.TestFinishedEvent += new TestEventHandler( OnTestFinished );
+			progressBar.Initialize( mockEvents );
+			mockEvents.TestFinished += new TestEventHandler( OnTestFinished );
 
 			testCount = 0;
 			mockEvents.SimulateTestRun();

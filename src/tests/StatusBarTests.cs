@@ -13,7 +13,7 @@ namespace NUnit.Tests
 	public class StatusBarTests
 	{
 		private StatusBar statusBar;
-		private MockUIEventSource mockEvents;
+		private MockTestEventSource mockEvents;
 		private string testsDll = "mock-assembly.dll";
 		TestSuite suite;
 		int testCount;
@@ -26,7 +26,7 @@ namespace NUnit.Tests
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( testsDll );
 
-			mockEvents = new MockUIEventSource( testsDll, suite );
+			mockEvents = new MockTestEventSource( testsDll, suite );
 		}
 
 		[Test]
@@ -61,7 +61,7 @@ namespace NUnit.Tests
 		public void TestFinalDisplay()
 		{
 			Assertion.AssertEquals( false, statusBar.DisplayTestProgress );
-			statusBar.InitializeEvents( mockEvents );
+			statusBar.Initialize( mockEvents );
 
 			mockEvents.SimulateTestRun();
 			Assertion.AssertEquals( "Completed", statusBar.Panels[0].Text );
@@ -75,10 +75,10 @@ namespace NUnit.Tests
 		public void TestProgressDisplay()
 		{
 			statusBar.DisplayTestProgress = true;
-			statusBar.InitializeEvents( mockEvents );
+			statusBar.Initialize( mockEvents );
 
 			testCount = 0;
-			mockEvents.TestFinishedEvent += new TestEventHandler( OnTestFinished );
+			mockEvents.TestFinished += new TestEventHandler( OnTestFinished );
 
 			mockEvents.SimulateTestRun();
 			Assertion.AssertEquals( "Completed", statusBar.Panels[0].Text );

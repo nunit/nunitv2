@@ -175,5 +175,16 @@ namespace NUnit.Tests
 			Assertion.AssertEquals(2, summarizer.TestsNotRun);
 		}
 
+		[Test]
+		public void BinPath()
+		{
+			ArrayList assemblies = new ArrayList();
+			assemblies.Add( @"h:\app1\bin\debug\test1.dll" );
+			assemblies.Add( @"h:\app2\bin\debug\test2.dll" );
+			assemblies.Add( @"h:\app1\bin\debug\test3.dll" );
+
+			Assert.Equals( @"h:\app1\bin\debug;h:\app2\bin\debug", 
+				TestDomain.GetBinPath( assemblies ) );
+		}
 	}
 }
