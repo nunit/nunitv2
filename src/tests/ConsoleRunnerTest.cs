@@ -73,13 +73,8 @@ namespace NUnit.Tests.ConsoleRunner
 			if(file.Exists)
 				file.Delete();
 
-			file = new FileInfo("TestResult.xml");
+			file = new FileInfo( Path.Combine( Path.GetDirectoryName( nunitExe ), "TestResult.xml" ) );
 			if(file.Exists) file.Delete();
-			else
-			{
-				file = new FileInfo(@"..\..\..\nunit-console\bin\Debug\TestResult.xml");
-				if(file.Exists) file.Delete();
-			}
 
 			if ( domain != null )
 				AppDomain.Unload( domain );
