@@ -31,6 +31,7 @@ namespace NUnit.UiKit
 {
 	using System;
 	using System.IO;
+	using System.Threading;
 	using NUnit.Core;
 	using NUnit.Util;
 	using NUnit.Framework;
@@ -72,6 +73,16 @@ namespace NUnit.UiKit
 		private UITestNode currentTest = null;
 
 		/// <summary>
+		/// The test that is running
+		/// </summary>
+		private UITestNode runningTest = null;
+
+		/// <summary>
+		/// The thread that is running a test
+		/// </summary>
+		private Thread runningThread = null;
+
+		/// <summary>
 		/// Watcher fires when the assembly changes
 		/// </summary>
 		private AssemblyWatcher watcher;
@@ -95,6 +106,8 @@ namespace NUnit.UiKit
 		public event TestStartedHandler TestStartedEvent;
 		
 		public event RunFinishedHandler RunFinishedEvent;
+
+		public event RunCanceledHandler RunCanceledEvent;
 		
 		public event SuiteFinishedHandler SuiteFinishedEvent;
 		
@@ -114,7 +127,7 @@ namespace NUnit.UiKit
 
 		#region Properties
 
-		public bool AssemblyLoaded
+		public bool IsAssemblyLoaded
 		{
 			get { return testDomain != null; }
 		}
@@ -122,6 +135,11 @@ namespace NUnit.UiKit
 		public string LoadedAssembly
 		{
 			get { return testDomain == null ? null : testDomain.AssemblyName; }
+		}
+
+		public bool IsTestRunning
+		{
+			get { return runningTest != null; }
 		}
 
 		#endregion
@@ -174,22 +192,60 @@ namespace NUnit.UiKit
 
 		/// <summary>
 		/// Run a testcase or testsuite from the currrent tree
-		/// firing the RunStarting and RunFinished events
+		/// firing the RunStarting and RunFinished events.
+		/// Silently ignore the call if a test is running
+		/// to allow for latency in the UI.
 		/// </summary>
 		/// <param name="test">Test to be run</param>
 		public void RunTestSuite( UITestNode testInfo )
 		{
-			if ( RunStartingEvent != null )
-				RunStartingEvent( testInfo );
+			if ( !IsTestRunning )
+			{
+				runningTest = testInfo;
+				runningThread = new Thread( new ThreadStart( this.TestRunThreadProc ) );
+				runningThread.Start();
+			}
+		}
 
-			testDomain.TestFixture = testInfo.FullName;
+		/// <summary>
+		/// The thread proc for our actual test run
+		/// </summary>
+		private void TestRunThreadProc()
+		{
+			if ( RunStartingEvent != null )
+				RunStartingEvent( runningTest );
+
+			testDomain.TestName = runningTest.FullName;
 
 			TestResult result = testDomain.Run(this);
 
 			if ( RunFinishedEvent != null )
 				RunFinishedEvent( result );
+
+			runningTest = null;
+			runningThread = null;
 		}
-	
+
+		/// <summary>
+		/// Cancel the currently running test.
+		/// Fail silently if there is none to
+		/// allow for latency in the UI.
+		/// </summary>
+		public void CancelTestRun()
+		{
+			if ( IsTestRunning )
+			{
+				runningThread.Abort();
+				runningThread.Join();
+
+				if ( RunCanceledEvent != null )
+					RunCanceledEvent( runningTest );
+
+				runningTest = null;
+				runningThread = null;
+			}
+		}
+
 		/// <summary>
 		/// Load an assembly, firing the SuiteLoaded event.
 		/// </summary>
@@ -202,7 +258,7 @@ namespace NUnit.UiKit
 				NUnit.Framework.TestDomain newDomain = new NUnit.Framework.TestDomain(stdOutWriter, stdErrWriter);
 				Test newTest = newDomain.Load(assemblyFileName);
 				
-				if  ( AssemblyLoaded ) UnloadAssembly();
+				if  ( IsAssemblyLoaded ) UnloadAssembly();
 
 				testDomain = newDomain;
 				currentTest = newTest;

@@ -287,6 +287,9 @@ namespace NUnit.Util
 
 			if ( RunCommandSupported )
 			{
+				if ( actions.IsTestRunning )
+					runCommandEnabled = false;
+
 				MenuItem runMenuItem = new MenuItem( "&Run", new EventHandler( runMenuItem_Click ) );
 				runMenuItem.DefaultItem = runMenuItem.Enabled = runCommandEnabled;
 			
@@ -344,7 +347,11 @@ namespace NUnit.Util
 		/// </summary>
 		private void runMenuItem_Click(object sender, System.EventArgs e)
 		{
-			actions.RunTestSuite( contextNode.Test );
+			if ( !runCommandEnabled )
+			{
+				runCommandEnabled = false;
+				actions.RunTestSuite( contextNode.Test );
+			}
 		}
 
 		#endregion
@@ -404,8 +411,9 @@ namespace NUnit.Util
 		{
 			if ( runCommandSupported && runCommandEnabled && SelectedNode.Nodes.Count == 0 )
 			{
+				runCommandEnabled = false;
 				actions.RunTestSuite( SelectedTest );
-			}	
+			}
 		}
 
 		#endregion

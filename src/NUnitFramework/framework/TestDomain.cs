@@ -125,7 +125,7 @@ namespace NUnit.Framework
 			get { return assemblyName; }
 		}
 
-		public string TestFixture
+		public string TestName
 		{
 			get { return testRunner.TestName; }
 			set { testRunner.TestName = value; }

@@ -109,7 +109,7 @@ namespace NUnit.Gui
 		/// <summary>
 		/// True if an assembly is currently loaded
 		/// </summary>
-		private bool AssemblyLoaded
+		private bool IsAssemblyLoaded
 		{
 			get { return LoadedAssembly != null; }
 		}
@@ -446,7 +446,7 @@ namespace NUnit.Gui
 																					  this.notRunTree});
 			this.testsNotRun.Location = new System.Drawing.Point(4, 25);
 			this.testsNotRun.Name = "testsNotRun";
-			this.testsNotRun.Size = new System.Drawing.Size(559, 354);
+			this.testsNotRun.Size = new System.Drawing.Size(559, 362);
 			this.testsNotRun.TabIndex = 1;
 			this.testsNotRun.Text = "Tests Not Run";
 			// 
@@ -456,7 +456,7 @@ namespace NUnit.Gui
 			this.notRunTree.ImageIndex = -1;
 			this.notRunTree.Name = "notRunTree";
 			this.notRunTree.SelectedImageIndex = -1;
-			this.notRunTree.Size = new System.Drawing.Size(559, 354);
+			this.notRunTree.Size = new System.Drawing.Size(559, 362);
 			this.notRunTree.TabIndex = 0;
 			// 
 			// stderr
@@ -465,7 +465,7 @@ namespace NUnit.Gui
 																				 this.stdErrTab});
 			this.stderr.Location = new System.Drawing.Point(4, 25);
 			this.stderr.Name = "stderr";
-			this.stderr.Size = new System.Drawing.Size(559, 354);
+			this.stderr.Size = new System.Drawing.Size(559, 362);
 			this.stderr.TabIndex = 2;
 			this.stderr.Text = "Standard Error";
 			// 
@@ -477,7 +477,7 @@ namespace NUnit.Gui
 			this.stdErrTab.Name = "stdErrTab";
 			this.stdErrTab.ReadOnly = true;
 			this.stdErrTab.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stdErrTab.Size = new System.Drawing.Size(559, 354);
+			this.stdErrTab.Size = new System.Drawing.Size(559, 362);
 			this.stdErrTab.TabIndex = 0;
 			this.stdErrTab.Text = "";
 			this.stdErrTab.WordWrap = false;
@@ -488,7 +488,7 @@ namespace NUnit.Gui
 																				 this.stdOutTab});
 			this.stdout.Location = new System.Drawing.Point(4, 25);
 			this.stdout.Name = "stdout";
-			this.stdout.Size = new System.Drawing.Size(559, 354);
+			this.stdout.Size = new System.Drawing.Size(559, 362);
 			this.stdout.TabIndex = 3;
 			this.stdout.Text = "Standard Out";
 			// 
@@ -500,7 +500,7 @@ namespace NUnit.Gui
 			this.stdOutTab.Name = "stdOutTab";
 			this.stdOutTab.ReadOnly = true;
 			this.stdOutTab.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stdOutTab.Size = new System.Drawing.Size(559, 354);
+			this.stdOutTab.Size = new System.Drawing.Size(559, 362);
 			this.stdOutTab.TabIndex = 0;
 			this.stdOutTab.Text = "";
 			this.stdOutTab.WordWrap = false;
@@ -643,8 +643,10 @@ namespace NUnit.Gui
 		/// </summary>
 		private void fileMenu_Popup(object sender, System.EventArgs e)
 		{
-			closeMenuItem.Enabled = AssemblyLoaded;
-			reloadMenuItem.Enabled = AssemblyLoaded;
+			openMenuItem.Enabled = !actions.IsTestRunning;
+			closeMenuItem.Enabled = IsAssemblyLoaded && !actions.IsTestRunning;
+			reloadMenuItem.Enabled = IsAssemblyLoaded && !actions.IsTestRunning;
+			recentAssembliesMenu.Enabled = !actions.IsTestRunning;
 		}
 
 		/// <summary>
@@ -653,7 +655,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void openMenuItem_Click(object sender, System.EventArgs e)
 		{
-			if (openFileDialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK) 
+			if (openFileDialog.ShowDialog(this) == DialogResult.OK) 
 			{
 				LoadAssembly( openFileDialog.FileName );
 			}
@@ -715,18 +717,21 @@ namespace NUnit.Gui
 		/// </summary>
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
+			runButton.Enabled = false;
 			actions.RunTestSuite( testSuiteTreeView.SelectedTest );
 		}
 
 		/// <summary>
-		/// When a tree item is selected, display info pertaining to that test
+		/// When a tree item is selected, display info pertaining 
+		/// to that test unless a test is running.
 		/// </summary>
 		private void OnSelectedTestChanged( UITestNode test )
 		{
-			suiteName.Text = test.ShortName;
-
-			// TODO: Do we really want to do this? Yes we really do!
-			statusBar.Initialize( test.CountTestCases );
+			if ( !actions.IsTestRunning )
+			{
+				suiteName.Text = test.ShortName;
+				statusBar.Initialize( test.CountTestCases );
+			}
 		}
 
 		/// <summary>
@@ -764,10 +769,27 @@ namespace NUnit.Gui
 		} 
 
 		/// <summary>
-		///	Save position when form is about to close
+		///	Form is about to close, first see if we 
+		///	have a test run going on and if so whether
+		///	we should cancel it. Then unload the 
+		///	assembly and save the latest form position.
 		/// </summary>
 		private void NUnitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
+			if ( actions.IsTestRunning )
+			{
+				DialogResult dialogResult = MessageBox.Show( 
+					"A test is running, do you want to stop the test and exit?", "NUnit", MessageBoxButtons.YesNo );
+
+				if ( dialogResult == DialogResult.No )
+				{
+					e.Cancel = true;
+					return;
+				}
+				
+				actions.CancelTestRun();
+			}
+
 			UnloadAssembly();
 
 			if ( this.WindowState == FormWindowState.Normal )
@@ -809,6 +831,7 @@ namespace NUnit.Gui
 		/// <param name="result">Result of the run</param>
 		private void OnRunFinished( TestResult result )
 		{
+			runButton.Enabled = false;
 			DisplayResults(result);
 			runButton.Enabled = true;
 		}
@@ -916,6 +939,7 @@ namespace NUnit.Gui
 		/// <param name="assemblyFileName">Full path of the assembly to load</param>
 		private void LoadAssembly(string assemblyFileName)
 		{
+			runButton.Enabled = false;
 			actions.LoadAssembly( assemblyFileName );
 		}
 
@@ -924,6 +948,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void UnloadAssembly()
 		{
+			runButton.Enabled = false;
 			actions.UnloadAssembly();
 		}
 
