@@ -195,7 +195,7 @@ namespace NUnit.Util
 		private TestNode AddTreeNodes( IList nodes, Test rootTest, bool highlight )
 		{
 			TestNode node = new TestNode( rootTest );
-			if ( highlight ) node.ForeColor = Color.Blue;
+//			if ( highlight ) node.ForeColor = Color.Blue;
 			treeMap.Add( node.Test.FullName, node );
 			nodes.Add( node );
 			
