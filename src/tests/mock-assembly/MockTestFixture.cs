@@ -51,6 +51,7 @@ namespace NUnit.Tests.Assemblies
 
 		[Test]
 		[Category("MockCategory")]
+		[Category("AnotherCategory")]
 		public void MockTest3()
 		{}
 
@@ -60,6 +61,7 @@ namespace NUnit.Tests.Assemblies
 
 		[Test]
 		[Ignore("ignoring this test method for now")]
+		[Category("Foo")]
 		public void MockTest4()
 		{}
 	}

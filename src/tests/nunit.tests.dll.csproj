@@ -573,6 +573,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "XmlResultVisitorTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "XmlTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

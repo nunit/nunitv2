@@ -94,7 +94,7 @@ namespace NUnit.Util
 				xmlWriter.WriteAttributeString("time", caseResult.Time.ToString("#####0.000", NumberFormatInfo.InvariantInfo));
 
 				xmlWriter.WriteAttributeString("asserts", caseResult.AssertCount.ToString() );
-
+				WriteCategories(caseResult);
 				if(caseResult.IsFailure)
 				{
 					if(caseResult.IsFailure)
@@ -117,6 +117,7 @@ namespace NUnit.Util
 			}
 			else
 			{
+				WriteCategories(caseResult);
 				xmlWriter.WriteStartElement("reason");
 				xmlWriter.WriteStartElement("message");
 				xmlWriter.WriteCData(caseResult.Message);
@@ -135,6 +136,21 @@ namespace NUnit.Util
 			return text.Replace( "]]>", "]]&gt;" );
 		}
 
+		public void WriteCategories(TestResult result)
+		{
+			if (result.Test.Categories != null && result.Test.Categories.Count > 0)
+			{
+				xmlWriter.WriteStartElement("categories");
+				foreach (string category in result.Test.Categories)
+				{
+					xmlWriter.WriteStartElement("category");
+					xmlWriter.WriteAttributeString("name", category);
+					xmlWriter.WriteEndElement();
+				}
+				xmlWriter.WriteEndElement();
+			}
+		}
+
 		public void Visit(TestSuiteResult suiteResult) 
 		{
 			xmlWriter.WriteStartElement("test-suite");
@@ -146,6 +162,7 @@ namespace NUnit.Util
 			xmlWriter.WriteAttributeString("time", suiteResult.Time.ToString());
 			xmlWriter.WriteAttributeString("asserts", suiteResult.AssertCount.ToString() );
          
+			WriteCategories(suiteResult);
 			xmlWriter.WriteStartElement("results");                  
 			foreach (TestResult result in suiteResult.Results)
 			{

@@ -126,7 +126,7 @@ namespace NUnit.Tests.Util
 
 				TestResult result = suite.Run(NullListener.NULL);
 
-                XmlResultVisitor visitor = new XmlResultVisitor(reportFileName, result);
+			  XmlResultVisitor visitor = new XmlResultVisitor(reportFileName, result);
 				result.Accept(visitor);
 				visitor.Write();
 
@@ -156,12 +156,10 @@ namespace NUnit.Tests.Util
 
 				TestResult result = suite.Run(NullListener.NULL);
 
-				XmlResultVisitor visitor = new XmlResultVisitor(writer, result);
+			  XmlResultVisitor visitor = new XmlResultVisitor(writer, result);
 				result.Accept(visitor);
 				visitor.Write();
 
-				//SchemaValidator validator = new SchemaValidator(reportFileName, schemaFile);
-				//Assert.True(validator.Validate(), "validate failed");
 			}
 			finally
 			{
@@ -180,7 +178,7 @@ namespace NUnit.Tests.Util
 			schemaFile = SourcePath + @"\core\results.xsd";
 		}
 
-		[TearDown]
+		//[TearDown]
 		public void RemoveTempFile()
 		{
 			FileInfo info = new FileInfo(tempFile);
