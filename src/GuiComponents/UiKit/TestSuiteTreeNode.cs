@@ -46,7 +46,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// The testcase or testsuite represented by this node
 		/// </summary>
-		private UITestNode test;
+		private ITest test;
 
 		/// <summary>
 		/// The result from the last run of the test
@@ -68,9 +68,9 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// Construct a TestNode given a test
 		/// </summary>
-		public TestSuiteTreeNode( UITestNode test ) : base(test.Name)
+		public TestSuiteTreeNode( ITest test ) : base(test.Name)
 		{
-			this.test = test;
+			this.test = new UITestNode(test);
 			UpdateImageIndex();
 		}
 
@@ -91,7 +91,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// Test represented by this node
 		/// </summary>
-		public UITestNode Test
+		public ITest Test
 		{
 			get { return this.test; }
 		}
@@ -140,7 +140,7 @@ namespace NUnit.UiKit
 
 		#region Methods
 
-		public void UpdateTest( UITestNode test )
+		public void UpdateTest( ITest test )
 		{
 			if ( Test.FullName != test.FullName )
 				throw( new ArgumentException( "Attempting to update node with an entirely different test" ) );
