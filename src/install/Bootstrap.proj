@@ -1,7 +1,7 @@
 <Project DefaultTargets="Update;Go" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<Target Name="Update">
-		<Exec WorkingDirectory="..\.." Command="cvs update" />
+		<Exec WorkingDirectory="..\.." Command="cvs update -R" />
 	</Target>
 	
 	<Target Name="Go">
