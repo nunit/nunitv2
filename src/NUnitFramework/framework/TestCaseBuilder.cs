@@ -41,7 +41,7 @@ namespace NUnit.Core
 		{
 			TestCase testCase = null;
 
-			if(HasTestAttribute(method) || HasObsoleteTestName(method))
+			if(HasTestAttribute(method) || HasObsoleteTestName(method) && !HasAnySetUpOrTearDownAttribute(method) )
 			{
 				if(IsTestMethodSignatureCorrect(method))
 				{
@@ -163,6 +163,19 @@ namespace NUnit.Core
 		private static bool HasObsoleteTestName(MethodInfo methodToCheck)
 		{
 			return methodToCheck.Name.ToLower().StartsWith("test");
+		}
+
+		private static bool HasAnySetUpOrTearDownAttribute( MethodInfo methodToCheck )
+		{
+			object[] attributes = methodToCheck.GetCustomAttributes( false );
+			foreach( Attribute attribute in attributes )
+				if ( attribute is NUnit.Framework.SetUpAttribute ||
+					 attribute is NUnit.Framework.TestFixtureSetUpAttribute ||
+					 attribute is NUnit.Framework.TearDownAttribute || 
+					 attribute is NUnit.Framework.TestFixtureTearDownAttribute )
+					return true;
+
+			return false;	
 		}
 
 		private static bool HasIgnoreAttribute(MethodInfo methodToCheck)
