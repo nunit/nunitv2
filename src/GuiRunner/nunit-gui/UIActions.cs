@@ -254,8 +254,6 @@ namespace NUnit.Gui
 		{
 			// Don't unload the old domain till after the event
 			// handlers get a chance to compare the trees.
-			// TODO: Some changes to the runner might make this easier.
-
 			try
 			{
 				TestDomain oldDomain = testDomain;
