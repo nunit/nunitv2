@@ -21,6 +21,7 @@
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
         <include name="nunit.framework.tests.dll"/>
+        <include name="nunit.util.dll"/>
         <include name="nunit-console-runner.dll"/>
       </references>
     </csc>
