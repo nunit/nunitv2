@@ -91,7 +91,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// How the tree is displayed immediately after loading
 		/// </summary>
-		private DisplayStyle initialDisplay = DisplayStyle.Auto;
+		//private DisplayStyle initialDisplay = DisplayStyle.Auto;
 
 		/// <summary>
 		/// Whether to clear test results when tests change

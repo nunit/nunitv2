@@ -115,6 +115,7 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.testTab = new System.Windows.Forms.TabPage();
 			this.testCaseCount = new System.Windows.Forms.Label();

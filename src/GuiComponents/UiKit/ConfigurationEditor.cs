@@ -46,7 +46,6 @@ namespace NUnit.UiKit
 		#region Instance Variables
 
 		private NUnitProject project;
-		private TestLoader loader;
 
 		private int selectedIndex = -1;
 
