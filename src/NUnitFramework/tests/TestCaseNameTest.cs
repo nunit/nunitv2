@@ -40,7 +40,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void TestName()
 		{
-			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom( typeof( OneTestCase ) );
+			TestSuite suite = TestFixtureBuilder.Make( typeof( OneTestCase ) );
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
 			Assert.AreEqual("NUnit.Core.Tests.OneTestCase.TestCase", testCase.FullName);
 			Assert.AreEqual("TestCase", testCase.Name);
@@ -49,7 +49,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void TestExpectedException()
 		{
-			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom( typeof( ExpectExceptionTest ) );
+			TestSuite suite = TestFixtureBuilder.Make( typeof( ExpectExceptionTest ) );
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
 			Assert.AreEqual("NUnit.Core.Tests.ExpectExceptionTest.TestSingle", testCase.FullName);
 		}

@@ -81,9 +81,7 @@ namespace NUnit.Core.Tests
 
 		private void RunTestOnFixture( object fixture )
 		{
-			NUnitTestFixtureBuilder builder = new NUnitTestFixtureBuilder();
-			TestSuite suite = builder.BuildFrom( fixture.GetType() );
-			suite.Fixture = fixture;
+			TestSuite suite = TestFixtureBuilder.Make( fixture );
 			suite.Run( NullListener.NULL );
 		}
 

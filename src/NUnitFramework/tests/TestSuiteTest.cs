@@ -50,10 +50,9 @@ namespace NUnit.Core.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			NUnitTestFixtureBuilder builder = new NUnitTestFixtureBuilder();
-			oneTestFixture = builder.BuildFrom( typeof( OneTestCase ) );
-			mockTestFixture = builder.BuildFrom( typeof( MockTestFixture ) );
-			TestSuite noTestFixture = builder.BuildFrom( typeof( EmptyFixture ) );
+			oneTestFixture = TestFixtureBuilder.Make( typeof( OneTestCase ) );
+			mockTestFixture = TestFixtureBuilder.Make( typeof( MockTestFixture ) );
+			TestSuite noTestFixture = TestFixtureBuilder.Make( typeof( EmptyFixture ) );
 
 			//EmptyFixture fixture = new EmptyFixture();
 			noTestSuite = new TestSuite("No Tests");
@@ -110,7 +109,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void InheritedTestCount()
 		{
-			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom( typeof( InheritedTestFixture ) );
+			TestSuite suite = TestFixtureBuilder.Make( typeof( InheritedTestFixture ) );
 			Assert.AreEqual(InheritedTestFixture.Tests, suite.CountTestCases());
 		}
 
@@ -236,7 +235,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void RunSingleTest()
 		{
-			TestSuite fixture = new NUnitTestFixtureBuilder().BuildFrom( typeof( NUnit.Tests.Assemblies.MockTestFixture ) );
+			TestSuite fixture = TestFixtureBuilder.Make( typeof( NUnit.Tests.Assemblies.MockTestFixture ) );
 			Test test = (Test) fixture.Tests[0];
 			RecordingListener listener = new RecordingListener();
 			test.Run(listener, null);

@@ -65,13 +65,8 @@ namespace NUnit.Core.Tests
 			
 			Type fixtureType = typeof(VerifyFailThrowsException);
 
-			NUnit.Core.Test test = TestCaseBuilder.Make(
-				fixtureType, 
-				Reflect.GetNamedMethod(
-					fixtureType, 
-					"CallAssertionFail",
-					BindingFlags.Public | BindingFlags.Instance ) );
-			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom(fixtureType);
+			Test test = TestCaseBuilder.Make( fixtureType, "CallAssertionFail" );
+			TestSuite suite = TestFixtureBuilder.Make(fixtureType);
 			suite.Add(test);
 			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "VerifyFailThrowsException should have failed");
@@ -108,13 +103,8 @@ namespace NUnit.Core.Tests
 				
 			string failureMessage = verifyInner.failureMessage;
 
-			NUnit.Core.Test test = TestCaseBuilder.Make(
-				fixtureType, 
-				Reflect.GetNamedMethod(
-					fixtureType, 
-					"ThrowInnerException",
-					BindingFlags.Public | BindingFlags.Instance ) );
-			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom(fixtureType);
+			Test test = TestCaseBuilder.Make( fixtureType, "ThrowInnerException" );
+			TestSuite suite = TestFixtureBuilder.Make(fixtureType);
 			suite.Add(test);
 			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "VerifyTestResultRecordsInnerExceptions should have failed");

@@ -44,52 +44,49 @@ namespace NUnit.Core.Tests
 		private static readonly int totalTests = NoNamespaceTestFixture.Tests + MockAssembly.Tests;
 
 		private TestSuiteBuilder builder;
-		private ArrayList assemblies;
+		private static string[] assemblies = new string[]
+			{ "nonamespace-assembly.dll", "mock-assembly.dll" };
+		private TestSuite loadedSuite;
 
 		[SetUp]
 		public void LoadSuite()
 		{
 			builder = new TestSuiteBuilder();
-			assemblies = new ArrayList();
-			assemblies.Add(testsDll);
-			assemblies.Add(mockDll);
-
+			loadedSuite = builder.Build( new TestProject( "TestSuite", assemblies ) );
 		}
 
 		[Test]
 		public void BuildSuite()
 		{
-			TestSuite suite = builder.Build( "TestSuite", assemblies);
-			Assert.IsNotNull(suite);
+			Assert.IsNotNull( loadedSuite );
 		}
 
 		[Test]
 		public void RootNode()
 		{
-			TestSuite suite = builder.Build( "TestSuite", assemblies);
-			Assert.IsTrue( suite is RootTestSuite );
-			Assert.AreEqual( "TestSuite", suite.Name );
+			Assert.IsTrue( loadedSuite is RootTestSuite );
+			Assert.AreEqual( "TestSuite", loadedSuite.Name );
 		}
 
 		[Test]
 		public void AssemblyNodes()
 		{
-			TestSuite suite = builder.Build( "TestSuite", assemblies);
-			Assert.IsTrue( suite.Tests[0] is TestAssembly );
-			Assert.IsTrue( suite.Tests[1] is TestAssembly );
+			Assert.IsTrue( loadedSuite.Tests[0] is TestAssembly );
+			Assert.IsTrue( loadedSuite.Tests[1] is TestAssembly );
 		}
 
 		[Test]
 		public void TestCaseCount()
 		{
-			TestSuite suite = builder.Build( "TestSuite", assemblies);
-			Assert.AreEqual( totalTests , suite.CountTestCases());
+			Assert.AreEqual( totalTests , loadedSuite.CountTestCases());
 		}
 
 		[Test]
 		public void LoadFixture()
 		{
-			TestSuite suite = builder.Build( assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
+			TestSuite suite = builder.Build( 
+				new TestProject( "MultipleAssemblies", assemblies), 
+				"NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.IsNotNull( suite );
 			Assert.AreEqual( MockTestFixture.Tests, suite.CountTestCases() );
 		}

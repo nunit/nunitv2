@@ -33,7 +33,6 @@ using System.Reflection;
 using System.Threading;
 using System.Reflection.Emit;
 
-using NUnit.Core;
 using NUnit.Framework;
 
 namespace NUnit.Core.Tests

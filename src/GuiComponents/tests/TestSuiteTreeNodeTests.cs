@@ -54,8 +54,7 @@ namespace NUnit.UiKit.Tests
 		public void SetUp()
 		{
 			testSuite = new TestSuite("MyTestSuite");
-			NUnitTestFixtureBuilder builder = new NUnitTestFixtureBuilder();
-			testFixture = builder.BuildFrom( typeof( MockTestFixture ) );
+			testFixture = TestFixtureBuilder.Make( typeof( MockTestFixture ) );
 			testSuite.Add( testFixture );
 
 			suiteInfo = new UITestNode( testSuite );

@@ -382,13 +382,8 @@ namespace NUnit.Core.Tests
 			verifyFail.failureMessage = failureMessage;
 			Type verifyFailType = typeof(VerifyFailThrowsException);
 
-			NUnit.Core.Test test = TestCaseBuilder.Make(
-				verifyFailType, 
-				Reflect.GetNamedMethod(
-					verifyFailType, 
-					"CallAssertionFail",
-					BindingFlags.Public | BindingFlags.Instance ) );
-			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom(verifyFailType);
+			NUnit.Core.Test test = TestCaseBuilder.Make( verifyFailType, "CallAssertionFail" );
+			TestSuite suite = TestFixtureBuilder.Make( verifyFailType );
 			suite.Add(test);
 			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);
 			Assertion.Assert("VerifyFailThrowsException should have failed", result.IsFailure);

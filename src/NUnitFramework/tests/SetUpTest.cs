@@ -37,11 +37,11 @@ namespace NUnit.Core.Tests
 	{	
 		private void RunTestOnFixture( object fixture )
 		{
-			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom( fixture.GetType() );
-			suite.Fixture = fixture;
+			TestSuite suite = TestFixtureBuilder.Make( fixture );
 			suite.Run( NullListener.NULL );
 		}
 
+		[TestFixture]
 		internal class SetUpAndTearDownFixture
 		{
 			internal bool wasSetUpCalled;
@@ -64,6 +64,7 @@ namespace NUnit.Core.Tests
 		}
 
 
+		[TestFixture]
 		internal class SetUpAndTearDownCounterFixture
 		{
 			internal int setUpCounter;
@@ -91,6 +92,7 @@ namespace NUnit.Core.Tests
 			public void TestThree(){}
 		}
 		
+		[TestFixture]
 		internal class InheritSetUpAndTearDown : SetUpAndTearDownFixture
 		{
 			[Test]
@@ -128,6 +130,7 @@ namespace NUnit.Core.Tests
 			Assert.IsTrue(fixture.wasTearDownCalled);
 		}
 
+		[TestFixture]
 		internal class DefineInheritSetUpAndTearDown : SetUpAndTearDownFixture
 		{
 			internal bool derivedSetUpCalled;

@@ -84,21 +84,21 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void LoadMultipleAssemblies()
 		{
-			Test test = runner.Load( "TestSuite", assemblies );
+			Test test = runner.Load( new TestProject( "TestSuite", assemblies ) );
 			Assert.IsNotNull( test, "Unable to load assemblies" );
 		}
 
 		[Test]
 		public void LoadMultipleAssembliesWithFixture()
 		{
-			Test test = runner.Load( "TestSuite", assemblies, "NUnit.Tests.Assemblies.MockTestFixture"  );
+			Test test = runner.Load( new TestProject( "TestSuite", assemblies), "NUnit.Tests.Assemblies.MockTestFixture"  );
 			Assert.IsNotNull(test, "Unable to build suite");
 		}
 
 		[Test]
 		public void LoadMultipleAssembliesWithSuite()
 		{
-			Test test = runner.Load( "TestSuite", assemblies, "NUnit.Tests.Assemblies.MockSuite" );
+			Test test = runner.Load( new TestProject( "TestSuite", assemblies ), "NUnit.Tests.Assemblies.MockSuite" );
 			Assert.IsNotNull(test, "Unable to build suite");
 		}
 
@@ -106,7 +106,7 @@ namespace NUnit.Core.Tests
 		public void CountTestCasesAcrossMultipleAssemblies()
 		{
 			assemblies[0] = "nonamespace-assembly.dll";
-			Test test = runner.Load( "TestSuite", assemblies );
+			Test test = runner.Load( new TestProject( "TestSuite", assemblies ) );
 			Assert.AreEqual( NoNamespaceTestFixture.Tests + MockAssembly.Tests, 
 				test.CountTestCases() );			
 		}
@@ -115,7 +115,7 @@ namespace NUnit.Core.Tests
 		public void RunMultipleAssemblies()
 		{
 			assemblies[0] = "nonamespace-assembly.dll";
-			Test test = runner.Load( "TestSuite", assemblies);
+			Test test = runner.Load( new TestProject( "TestSuite", assemblies ) );
 			TestResult result = runner.Run( NullListener.NULL );
 			ResultSummarizer summary = new ResultSummarizer(result);
 			Assert.AreEqual( 

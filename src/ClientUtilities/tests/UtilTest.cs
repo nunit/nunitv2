@@ -48,8 +48,7 @@ namespace NUnit.Util.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			NUnitTestFixtureBuilder builder = new NUnitTestFixtureBuilder();
-			testFixture = builder.BuildFrom( typeof ( OneTestCase ) );
+			testFixture = TestFixtureBuilder.Make( typeof ( OneTestCase ) );
 		}
 
 		[Test]

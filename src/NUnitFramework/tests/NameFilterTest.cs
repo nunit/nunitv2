@@ -16,7 +16,7 @@ namespace NUnit.Core.Tests
 		public void SetUp() 
 		{
 			testSuite = new TestSuite("Mock Test Suite");
-			testSuite.Add( new NUnitTestFixtureBuilder().BuildFrom( typeof( MockTestFixture ) ) );
+			testSuite.Add( TestFixtureBuilder.Make( typeof( MockTestFixture ) ) );
 			mock3 = (NUnit.Core.TestCase) findTest("MockTest3", testSuite);
 		}
 

@@ -12,18 +12,10 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class TestFixtureTests
 	{
-		NUnitTestFixtureBuilder builder;
-
-		[SetUp]
-		public void SetUp()
-		{
-			builder = new NUnitTestFixtureBuilder();
-		}
-
 		[Test]
 		public void ConstructFromType()
 		{
-			TestSuite fixture = builder.BuildFrom( typeof( NUnit.Tests.Assemblies.MockTestFixture ) );
+			TestSuite fixture = TestFixtureBuilder.Make( typeof( NUnit.Tests.Assemblies.MockTestFixture ) );
 			Assert.AreEqual( "MockTestFixture", fixture.Name );
 			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture", fixture.FullName );
 		}
@@ -31,7 +23,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void ConstructFromTypeWithoutNamespace()
 		{
-			TestSuite fixture = builder.BuildFrom( typeof( NoNamespaceTestFixture ) );
+			TestSuite fixture = TestFixtureBuilder.Make( typeof( NoNamespaceTestFixture ) );
 			Assert.AreEqual( "NoNamespaceTestFixture", fixture.Name );
 			Assert.AreEqual( "NoNamespaceTestFixture", fixture.FullName );
 		}
@@ -39,7 +31,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void ConstructFromNestedType()
 		{
-			TestSuite fixture = builder.BuildFrom( typeof( OuterClass.NestedTestFixture ) );
+			TestSuite fixture = TestFixtureBuilder.Make( typeof( OuterClass.NestedTestFixture ) );
 			Assert.AreEqual( "OuterClass+NestedTestFixture", fixture.Name );
 			Assert.AreEqual( "NUnit.TestUtilities.TestClasses.OuterClass+NestedTestFixture", fixture.FullName );
 		}
@@ -47,20 +39,20 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void ConstructFromDoublyNestedType()
 		{
-			TestSuite fixture = builder.BuildFrom( typeof( OuterClass.NestedTestFixture.DoublyNestedTestFixture ) );
+			TestSuite fixture = TestFixtureBuilder.Make( typeof( OuterClass.NestedTestFixture.DoublyNestedTestFixture ) );
 			Assert.AreEqual( "OuterClass+NestedTestFixture+DoublyNestedTestFixture", fixture.Name );
 			Assert.AreEqual( "NUnit.TestUtilities.TestClasses.OuterClass+NestedTestFixture+DoublyNestedTestFixture", fixture.FullName );
 		}
 
 		private void AssertNotRunnable( Type type )
 		{
-			TestSuite suite = builder.BuildFrom( type );
+			TestSuite suite = TestFixtureBuilder.Make( type );
 			Assert.IsFalse( suite.ShouldRun );
 		}
 
 		private void AssertNotRunnable( Type type, string reason )
 		{
-			TestSuite suite = builder.BuildFrom( type );
+			TestSuite suite = TestFixtureBuilder.Make( type );
 			Assert.IsFalse( suite.ShouldRun );
 			Assert.AreEqual( reason, suite.IgnoreReason );
 		}

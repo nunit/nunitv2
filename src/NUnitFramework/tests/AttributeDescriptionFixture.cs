@@ -54,29 +54,18 @@ namespace NUnit.Core.Tests
 	public class TestAttributeFixture
 	{
 		static readonly Type FixtureType = typeof( MockFixture );
-		NUnitTestFixtureBuilder fixtureBuilder = new NUnitTestFixtureBuilder();
 
 		[Test]
 		public void ReflectionTest()
 		{
-			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
-				FixtureType, 
-				Reflect.GetNamedMethod(
-					FixtureType, 
-					"Method",
-					BindingFlags.Public | BindingFlags.Instance ) );
+			TestCase testCase = TestCaseBuilder.Make( FixtureType, "Method" );
 			Assert.IsTrue(testCase.ShouldRun);
 		}
 
 		[Test]
 		public void Description()
 		{
-			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
-				FixtureType, 
-				Reflect.GetNamedMethod(
-					FixtureType, 
-					"Method",
-					BindingFlags.Public | BindingFlags.Instance ) );
+			TestCase testCase = TestCaseBuilder.Make( FixtureType, "Method" );
 			Assert.AreEqual("Test Description", testCase.Description);
 		}
 
@@ -84,7 +73,7 @@ namespace NUnit.Core.Tests
 		public void DescriptionInResult()
 		{
 			TestSuite suite = new TestSuite("Mock Fixture");
-			suite.Add( fixtureBuilder.BuildFrom( typeof( MockFixture ) ) );
+			suite.Add( TestFixtureBuilder.Make( typeof( MockFixture ) ) );
 			TestResult result = suite.Run(NullListener.NULL);
 
 			DescriptionVisitor visitor = new DescriptionVisitor("NUnit.Tests.Attributes.MockFixture.Method", "Test Description");
@@ -98,20 +87,15 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void NoDescription()
 		{
-			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
-				FixtureType, 
-				Reflect.GetNamedMethod(
-					FixtureType,
-					"NoDescriptionMethod",
-					BindingFlags.Public | BindingFlags.Instance ) );
+			TestCase testCase = TestCaseBuilder.Make( FixtureType, "NoDescriptionMethod" );
 			Assert.IsNull(testCase.Description);
 		}
 
 		[Test]
 		public void FixtureDescription()
 		{
-			NUnit.Core.TestSuite suite = new TestSuite("suite");
-			suite.Add( fixtureBuilder.BuildFrom( typeof( MockFixture ) ) );
+			TestSuite suite = new TestSuite("suite");
+			suite.Add( TestFixtureBuilder.Make( typeof( MockFixture ) ) );
 
 			ArrayList tests = suite.Tests;
 			TestSuite mockFixtureSuite = (TestSuite)tests[0];
@@ -123,7 +107,7 @@ namespace NUnit.Core.Tests
 		public void FixtureDescriptionInResult()
 		{
 			TestSuite suite = new TestSuite("Mock Fixture");
-			suite.Add( fixtureBuilder.BuildFrom( typeof( MockFixture ) ) );
+			suite.Add( TestFixtureBuilder.Make( typeof( MockFixture ) ) );
 			TestResult result = suite.Run(NullListener.NULL);
 
 			DescriptionVisitor visitor = new DescriptionVisitor("MockFixture", "Fixture Description");

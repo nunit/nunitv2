@@ -218,6 +218,7 @@ namespace NUnit.Framework.Tests
 				AnalyzeMessageForStrings( "12345", "123", "message" );
 			}
 
+			[Test]
 			public void TestFormatMessageForFailNotEqualsIgnoringCase()
 			{
 				AnalyzeMessageForStrings( "Name", "NAMES", "message" );

@@ -65,7 +65,7 @@ namespace NUnit.Extensions.Tests
 				{
 					// NOTE: Do NOT use Tests.Add since it doesn't
 					// set the parent up correctly.
-					this.Add( new NormalTestCase( method ) );
+					this.Add( new TemplateTestCase( method ) );
 				}
 			}
 		}
@@ -203,120 +203,4 @@ namespace NUnit.Extensions.Tests
 	}
 	#endregion
 
-	#region SetUpFixture
-#if SETUP_FIXTURE
-
-	// TODO: SetUpFixture requires modifications to TestSuiteBuilder
-	// if it is to work. Probably, the basic support for having
-	// setup and teardown on a namespace suite should be moved to
-	// the NUnit core, and extensions should build on that.
-
-	/// <summary>
-	/// MockSuiteBuilder knows how to build three different
-	/// types of suite extensions:
-	/// 1. MockSuiteExtension extends TestSuite
-	/// 2. MockFixtureExtension extends TestFixture
-	/// 3. SetUpFixture extends NamespaceSuite
-	/// </summary>
-	[SuiteBuilder]
-	public class MockSuiteBuilder : ISuiteBuilder
-	{	
-		public MockSuiteBuilder()
-		{
-			//
-			// TODO: Add constructor logic here	//
-		}
-
-	#region ISuiteBuilder Members
-
-		public TestSuite BuildFrom(Type type, int assemblyKey)
-		{
-			if ( type.IsDefined( typeof( MockSuiteExtensionAttribute ), false ) )
-				return new MockSuiteExtension( type, assemblyKey );
-			else if ( type.IsDefined( typeof( MockFixtureExtensionAttribute ), false ) )
-				return new MockFixtureExtension( type, assemblyKey );
-#if SETUP_FIXTURE
-			else if ( type.IsDefined( typeof( SetUpFixtureAttribute ), false ) )
-				return new SetUpFixture( type );
-#endif
-			throw new ArgumentException( "MockSuiteBuilder cannot use type " + type.FullName );
-		}
-
-		public bool CanBuildFrom(Type type)
-		{
-			return type.IsDefined( typeof( MockSuiteExtensionAttribute ), false )
-				|| type.IsDefined( typeof( MockFixtureExtensionAttribute ), false )
-#if SETUP_FIXTURE
-				|| type.IsDefined( typeof( SetUpFixtureAttribute ), false )
-#endif
-				;
-		}
-	#endregion
-	}
-
-	/// <summary>
-	/// SetUpFixtureAttribute is used to identify a SetUpFixture
-	/// </summary>
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple=false)]
-	public sealed class SetUpFixtureAttribute : Attribute
-	{
-	}
-
-	/// <summary>
-	/// SetUpFixture extends NamespaceSuite and allows a namespace to have
-	/// a TestFixtureSetup and TestFixtureTearDown.
-	/// </summary>
-	public class SetUpFixture : NamespaceSuite
-	{
-		public SetUpFixture( Type type ) : base( type.Namespace )
-		{
-			this.fixtureType = type;
-
-			// NOTE: Once again, since we are not inheriting from TestFixture,
-			// no automatic construction is performed for us, so we do it here.
-			this.Fixture = Reflect.Construct( fixtureType );
-
-			this.fixtureSetUp = Reflect.GetMethod( fixtureType, typeof( NUnit.Framework.TestFixtureSetUpAttribute ) );
-			this.fixtureTearDown = Reflect.GetMethod( fixtureType, typeof( NUnit.Framework.TestFixtureTearDownAttribute ) );
-		}
-
-		public override void DoSetUp(TestResult suiteResult)
-		{
-			if ( fixtureSetUp != null )
-				Reflect.InvokeMethod( fixtureSetUp, this.Fixture );
-
-			base.DoSetUp (suiteResult);
-		}
-
-		public override void DoTearDown(TestResult suiteResult)
-		{
-			base.DoTearDown (suiteResult);
-			if (fixtureTearDown != null )
-				Reflect.InvokeMethod( fixtureTearDown, this.Fixture );
-		}
-
-
-	}
-
-	/// <summary>
-	/// Test class for SetUpFixture
-	/// </summary>
-	[SetUpFixture]
-	public class ExtensionsNamespaceSetUpFixture
-	{
-		[TestFixtureSetUp]
-		public void DoNamespaceSetUp()
-		{
-			Console.WriteLine( "Namespace SetUp called" );
-		}
-
-		[TestFixtureTearDown]
-		public void DoNamespaceTearDown()
-		{
-			Console.WriteLine( "Namespace TearDown called" );
-		}
-	}
-
-#endif
-	#endregion
 }

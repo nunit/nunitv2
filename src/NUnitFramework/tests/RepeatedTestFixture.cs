@@ -29,8 +29,9 @@ namespace NUnit.Extensions.Tests
 
 		private TestResult RunTestOnFixture( object fixture )
 		{
-			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom( fixture.GetType() );
-			suite.Fixture = fixture;
+			TestSuite suite = TestFixtureBuilder.Make( fixture );
+			Assert.AreEqual( 1, suite.Tests.Count, "Test case count" );
+			TypeAssert.IsType( typeof( RepeatedTestCase ), suite.Tests[0] );
 			return suite.Run( listener );
 		}
 
@@ -72,12 +73,27 @@ namespace NUnit.Extensions.Tests
 			Assert.AreEqual(3, fixture.TeardownCount);
 			Assert.AreEqual(3, fixture.Count);
 		}
+
+		[Test]
+		public void IgnoreWorksWithRepeatedTest()
+		{
+			RepeatedTestWithIgnore fixture = new RepeatedTestWithIgnore();
+			TestResult result = RunTestOnFixture( fixture );
+
+			Assert.AreEqual( 0, fixture.SetupCount );
+			Assert.AreEqual( 0, fixture.TeardownCount );
+			Assert.AreEqual( 0, fixture.Count );
+		}
+
+
 	}
 
+	[TestFixture]
 	internal class RepeatingTestsBase
 	{
 		private int setupCount;
 		private int teardownCount;
+		protected int count;
 
 		[SetUp]
 		public void SetUp()
@@ -99,19 +115,15 @@ namespace NUnit.Extensions.Tests
 		{
 			get { return teardownCount; }
 		}
-
-	}
-
-	internal class RepeatSuccessFixture : RepeatingTestsBase
-	{
-		private int count = 0;
-
 		public int Count
 		{
 			get { return count; }
 		}
+	}
 
-		[Test]
+	internal class RepeatSuccessFixture : RepeatingTestsBase
+	{
+		//[Test]
 		[RepeatedTest(3)]
 		public void RepeatSuccess()
 		{
@@ -122,14 +134,7 @@ namespace NUnit.Extensions.Tests
 
 	internal class RepeatFailOnFirstFixture : RepeatingTestsBase
 	{
-		private int count;
-
-		public int Count
-		{
-			get { return count; }
-		}
-
-		[Test]
+		//[Test]
 		[RepeatedTest(3)]
 		public void RepeatFailOnFirst()
 		{
@@ -140,14 +145,7 @@ namespace NUnit.Extensions.Tests
 
 	internal class RepeatFailOnThirdFixture : RepeatingTestsBase
 	{
-		private int count = 0;
-
-		public int Count
-		{
-			get { return count; }
-		}
-
-		[Test]
+		//[Test]
 		[RepeatedTest(3)]
 		public void RepeatFailOnThird()
 		{
@@ -155,6 +153,16 @@ namespace NUnit.Extensions.Tests
 
 			if (count == 3)
 				Assert.IsTrue (false);
+		}
+	}
+
+	internal class RepeatedTestWithIgnore : RepeatingTestsBase
+	{
+		//[Test]
+		[RepeatedTest(3), Ignore( "Ignore this test" )]
+		public void RepeatShouldIgnore()
+		{
+			Assert.Fail( "Ignored test executed" );
 		}
 	}
 }

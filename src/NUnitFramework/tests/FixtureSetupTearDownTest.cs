@@ -40,11 +40,11 @@ namespace NUnit.Core.Tests
 	{
 		private TestSuiteResult RunTestOnFixture( object fixture )
 		{
-			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom( fixture.GetType() );
-			suite.Fixture = fixture;
+			TestSuite suite = TestFixtureBuilder.Make( fixture );
 			return (TestSuiteResult)suite.Run( NullListener.NULL );
 		}
 
+		[TestFixture]
 		internal class SetUpAndTearDownFixture
 		{
 			internal int setUpCount = 0;
@@ -69,6 +69,7 @@ namespace NUnit.Core.Tests
 			public void EvenMoreSuccess(){}
 		}
 
+		[TestFixture]
 		internal class InheritSetUpAndTearDown : SetUpAndTearDownFixture
 		{
 			[Test]
@@ -98,6 +99,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(1, fixture.tearDownCount);
 		}
 
+		[TestFixture]
 		internal class DefineInheritSetUpAndTearDown : SetUpAndTearDownFixture
 		{
 			internal int derivedSetUpCount;
@@ -134,6 +136,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(1, fixture.derivedTearDownCount);
 		}
 
+		[TestFixture]
 		internal class MisbehavingFixtureSetUp 
 		{
 			public bool blowUp = true;
@@ -198,6 +201,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(0, summ.SuitesNotRun);
 		}
 
+		[TestFixture]
 		internal class IgnoreInFixtureSetUp
 		{
 			[TestFixtureSetUp]
@@ -232,6 +236,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual("TestFixtureSetUp called Ignore", testResult.Message );
 		}
 
+		[TestFixture]
 		internal class MisbehavingFixtureTearDown
 		{
 			public bool blowUp = true;
@@ -289,6 +294,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(0, summ.SuitesNotRun);
 		}
 
+		[TestFixture]
 		internal class SetUpAndTearDownWithTestInName
 		{
 			internal int setUpCount = 0;
@@ -327,8 +333,7 @@ namespace NUnit.Core.Tests
 		public void RunningSingleMethodCallsSetUpAndTearDown()
 		{
 			SetUpAndTearDownFixture fixture = new SetUpAndTearDownFixture();
-			TestSuite suite = new NUnitTestFixtureBuilder().BuildFrom( fixture.GetType() );
-			suite.Fixture = fixture;
+			TestSuite suite = TestFixtureBuilder.Make( fixture );
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
 			
 			testCase.Run(NullListener.NULL);
@@ -337,8 +342,8 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(1, fixture.tearDownCount);
 		}
 
-		[Ignore( "Do Not Run This" )]
-		public class IgnoredFixture
+		[TestFixture, Ignore( "Do Not Run This" )]
+		internal class IgnoredFixture
 		{
 			public bool setupCalled = false;
 			public bool teardownCalled = false;
@@ -367,8 +372,7 @@ namespace NUnit.Core.Tests
 		{
 			IgnoredFixture fixture = new IgnoredFixture();
 			TestSuite suite = new TestSuite("IgnoredFixtureSuite");
-			TestSuite fixtureSuite = new NUnitTestFixtureBuilder().BuildFrom( fixture.GetType() );
-			fixtureSuite.Fixture = fixture;
+			TestSuite fixtureSuite = TestFixtureBuilder.Make( fixture );
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)fixtureSuite.Tests[0];
 			suite.Add( fixtureSuite );
 			
@@ -385,6 +389,7 @@ namespace NUnit.Core.Tests
 			Assert.IsFalse( fixture.teardownCalled, "TestFixtureTearDown called running a test case" );
 		}
 
+		[TestFixture]
 		internal class FixtureWithNoTests
 		{
 			internal bool setupCalled = false;

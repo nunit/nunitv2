@@ -41,8 +41,6 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class ExpectExceptionTest 
 	{
-		NUnitTestFixtureBuilder fixtureBuilder = new NUnitTestFixtureBuilder();
-
 		[Test]
 		[ExpectedException(typeof(Exception))]
 		public void TestSingle()
@@ -75,13 +73,8 @@ namespace NUnit.Core.Tests
 		public void TestBaseException()
 		{
 			Type fixtureType = typeof(BaseException);
-			Test test = TestCaseBuilder.Make(
-				fixtureType, 
-				Reflect.GetNamedMethod(
-					fixtureType, 
-					"BaseExceptionTest",
-					BindingFlags.Public | BindingFlags.Instance ) );
-			TestSuite suite = fixtureBuilder.BuildFrom(fixtureType);
+			Test test = TestCaseBuilder.Make( fixtureType, "BaseExceptionTest" );
+			TestSuite suite = TestFixtureBuilder.Make(fixtureType);
 			suite.Add(test);
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "BaseExceptionTest should have failed");
@@ -92,13 +85,8 @@ namespace NUnit.Core.Tests
 		public void TestMismatchedException()
 		{
 			Type fixtureType = typeof(MismatchedException);
-			Test test = TestCaseBuilder.Make(
-				fixtureType, 
-				Reflect.GetNamedMethod(
-					fixtureType,
-					"MismatchedExceptionTest",
-					BindingFlags.Public | BindingFlags.Instance ) );
-			TestSuite suite = fixtureBuilder.BuildFrom( fixtureType );
+			Test test = TestCaseBuilder.Make( fixtureType, "MismatchedExceptionTest" );
+			TestSuite suite = TestFixtureBuilder.Make( fixtureType );
 			suite.Add(test);
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "MismatchedExceptionTest should have failed");
@@ -255,7 +243,7 @@ namespace NUnit.Core.Tests
 
 		private TestResult RunInternalTest( Type type )
 		{
-			TestSuite suite = fixtureBuilder.BuildFrom( type );
+			TestSuite suite = TestFixtureBuilder.Make( type );
 			return suite.Run( NUnit.Core.NullListener.NULL );
 		}
 
