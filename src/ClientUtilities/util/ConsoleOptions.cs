@@ -23,6 +23,9 @@ namespace NUnit.Util
 		[Option(Description = "Require input to close console window")]
 		public bool wait = false;
 
+		[Option(Description = "Display xml to the console")]
+		public bool xmlConsole;
+
 		private bool isInvalid = false; 
 
 		public ConsoleOptions(String[] args) : base(args) 
