@@ -81,6 +81,23 @@ namespace NUnit.Core
 			return suite;
 		}
 
+		public TestSuite Build(IList assemblies)
+		{
+			TestSuite rootSuite = new TestSuite("root");
+
+			foreach(string assembly in assemblies)
+			{
+				TestSuite suite = Build(assembly);
+
+				TestAssembly testAssembly = new TestAssembly(assembly);
+				testAssembly.Add(suite);
+
+				rootSuite.Add(testAssembly);
+			}
+
+			return rootSuite;
+		}
+
 		public TestSuite Build(string assemblyName)
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();

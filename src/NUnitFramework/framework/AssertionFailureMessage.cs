@@ -439,7 +439,7 @@ namespace NUnit.Framework
             //
             // Same strings
             //
-            Assertion.Assert( sExpected.Equals( sActual ) );
+            Assert.True( sExpected.Equals( sActual ) );
             return -1;
         }
 
