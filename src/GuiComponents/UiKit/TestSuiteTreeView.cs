@@ -27,6 +27,13 @@
 '***********************************************************************************/
 #endregion
 
+// TODO: Eliminate the use of the treeMap hashtable, since it prevents
+// displaying test suites that put the same fixture in the tree more
+// than once. Start with a simple search, then look for optimizations
+// if we actually need them. Eventually, this should lead to removing
+// the AssemblyKey kludge from the ITest interface.
+#define USE_HASHTABLE
+
 using System;
 using System.IO;
 using System.Drawing;
@@ -67,10 +74,18 @@ namespace NUnit.UiKit
 			// leaf nodes hidden
 		}
 
+#if USE_HASHTABLE
 		/// <summary>
 		/// Hashtable provides direct access to TestNodes
 		/// </summary>
 		private Hashtable treeMap = new Hashtable();
+#else
+		/// <summary>
+		/// The lowest level node which is currently
+		/// being running its test.
+		/// </summary>
+		private TestSuiteTreeNode activeNode;
+#endif
 	
 		/// <summary>
 		/// The TestNode on which a right click was done
@@ -166,6 +181,10 @@ namespace NUnit.UiKit
 			
 			events.RunStarting	+= new TestEventHandler( OnRunStarting );
 			events.RunFinished	+= new TestEventHandler( OnRunFinished );
+#if !USE_HASHTABLE
+			events.TestStarting += new TestEventHandler( OnTestStarting );
+			events.SuiteStarting += new TestEventHandler( OnTestStarting );
+#endif
 			events.TestFinished	+= new TestEventHandler( OnTestResult );
 			events.SuiteFinished+= new TestEventHandler( OnTestResult );
 		}
@@ -291,7 +310,7 @@ namespace NUnit.UiKit
 		/// </summary>
 		private TestSuiteTreeNode this[ITest test]
 		{
-			get{ return treeMap[test.UniqueName] as TestSuiteTreeNode; }
+			get { return FindNode( test ); }
 		}
 
 		/// <summary>
@@ -299,7 +318,7 @@ namespace NUnit.UiKit
 		/// </summary>
 		private TestSuiteTreeNode this[TestResult result]
 		{
-			get	{ return treeMap[result.Test.UniqueName] as TestSuiteTreeNode; }
+			get	{ return FindNode( result.Test ); }
 		}
 
 		#endregion
@@ -335,22 +354,39 @@ namespace NUnit.UiKit
 			CheckPropertiesDialog();
 			ClearResults();
 			runCommandEnabled = false;
+#if !USE_HASHTABLE
+			activeNode = Nodes[0] as TestSuiteTreeNode;
+#endif
 		}
 
 		private void OnRunFinished( object sender, TestEventArgs e )
 		{
-			if ( e.Result != null )
-				this[e.Result].Expand();
+			if ( e.Results != null )
+				foreach( TestResult result in e.Results )
+					this[result].Expand();
 
 			if ( propertiesDialog != null )
 				propertiesDialog.Invoke( new PropertiesDisplayHandler( propertiesDialog.DisplayProperties ) );
 
 			runCommandEnabled = true;
+#if !USE_HASHTABLE
+			activeNode = null;
+#endif
 		}
+
+#if !USE_HASHTABLE
+		private void OnTestStarting( object sender, TestEventArgs e )
+		{
+			activeNode = FindNode( activeNode, e.Test );
+		}
+#endif
 
 		private void OnTestResult( object sender, TestEventArgs e )
 		{
 			SetTestResult(e.Result);
+#if !USE_HASHTABLE
+			activeNode = activeNode.Parent as TestSuiteTreeNode;
+#endif
 		}
 
 		#endregion
@@ -661,7 +697,9 @@ namespace NUnit.UiKit
 		/// </summary>
 		public void Clear()
 		{
+#if USE_HASHTABLE
 			treeMap.Clear();
+#endif
 			Nodes.Clear();
 		}
 
@@ -729,7 +767,13 @@ namespace NUnit.UiKit
 		/// <param name="result">The result of the test</param>
 		public void SetTestResult(TestResult result)
 		{
-			TestSuiteTreeNode node = this[result];	
+			TestSuiteTreeNode node = null;
+#if !USE_HASHTABLE
+			if ( activeNode != null )
+				node = FindNode( activeNode, result.Test );
+#endif
+			if ( node == null )
+				node = this[result];	
 			if ( node == null )
 				throw new ArgumentException( "Test not found in tree" );
 
@@ -836,7 +880,9 @@ namespace NUnit.UiKit
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( rootTest );
 //			if ( highlight ) node.ForeColor = Color.Blue;
+#if USE_HASHTABLE
 			treeMap.Add( node.Test.UniqueName, node );
+#endif
 			nodes.Add( node );
 			
 			if ( rootTest.IsSuite )
@@ -852,7 +898,9 @@ namespace NUnit.UiKit
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( rootResult );
 			//			if ( highlight ) node.ForeColor = Color.Blue;
+#if USE_HASHTABLE
 			treeMap.Add( node.Test.UniqueName, node );
+#endif
 			nodes.Add( node );
 			
 			TestSuiteResult suiteResult = rootResult as TestSuiteResult;
@@ -871,8 +919,9 @@ namespace NUnit.UiKit
 		{
 			foreach( TestSuiteTreeNode child in node.Nodes )
 				RemoveFromMap( child );
-
+#if USE_HASHTABLE
 			treeMap.Remove( node.Test.UniqueName );
+#endif
 		}
 
 		/// <summary>
@@ -1046,7 +1095,54 @@ namespace NUnit.UiKit
 			SelectedNode.EnsureVisible();
 		}
 
-		#endregion
+#if USE_HASHTABLE
+		private TestSuiteTreeNode FindNode( ITest test )
+		{
+			return treeMap[test.UniqueName] as TestSuiteTreeNode;
+		}
+#else
+		private TestSuiteTreeNode FindNode( ITest test )
+		{
+			TestSuiteTreeNode lastParent = 
+				lastNodeFound == null ? null : lastNodeFound.Parent as TestSuiteTreeNode;
+
+			while ( lastParent != null )
+			{
+				TestSuiteTreeNode resultNode = FindNode( lastParent, test );
+				if ( resultNode != null )
+					return resultNode;
+				lastParent = lastParent.Parent as TestSuiteTreeNode;
+			}
+
+			return null;
+
+			//return FindNode( Nodes[0] as TestSuiteTreeNode, test );
+		}
+
+		private TestSuiteTreeNode lastNodeFound = null;
+
+		/// <summary>
+		/// Find the TestSuiteTreeNode corresponding to a given test
+		/// </summary>
+		/// <param name="node">The node at which to begin the search</param>
+		/// <param name="test">The test to search for</param>
+		/// <returns>The node that represents the test, or null</returns>
+		private TestSuiteTreeNode FindNode( TestSuiteTreeNode node, ITest test )
+		{
+			if(test.FullName.Equals(node.Test.FullName)) return node;
+
+			foreach ( TestSuiteTreeNode childNode in node.Nodes )
+			{
+				TestSuiteTreeNode resultNode = FindNode( childNode, test );
+				if ( resultNode != null )
+					return resultNode;
+			}
+
+			return null;
+		}
+#endif
+		
+#endregion
 
 	}
 
