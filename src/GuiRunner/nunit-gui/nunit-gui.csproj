@@ -9,7 +9,7 @@
             <Settings
                 ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
-                AssemblyName = "nunit-gui"
+                AssemblyName = "nunit-gui-runner"
                 AssemblyOriginatorKeyFile = ""
                 DefaultClientScript = "JScript"
                 DefaultHTMLPageLayout = "Grid"
@@ -18,7 +18,7 @@
                 OutputType = "Library"
                 PreBuildEvent = ""
                 PostBuildEvent = ""
-                RootNamespace = "NUnit.Gui"
+                RootNamespace = "NUnit.GuiRunner"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
             >
@@ -160,10 +160,6 @@
                     RelPath = "NUnitForm.resx"
                     DependentUpon = "NUnitForm.cs"
                     BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "nunit-gui.exe.config"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "OptionsDialog.cs"
