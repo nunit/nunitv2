@@ -186,7 +186,17 @@ namespace NUnit.Core
 			ConstructorInfo ctor = fixtureType.GetConstructor(Type.EmptyTypes);
 			if(ctor == null) throw new InvalidTestFixtureException(fixtureType.FullName + " does not have a valid constructor");
 
-			object testFixture = ctor.Invoke(Type.EmptyTypes);
+			object testFixture;
+
+			try
+			{
+				testFixture = ctor.Invoke(Type.EmptyTypes);
+			}
+			catch( Exception ex )
+			{
+				throw new InvalidTestFixtureException( ctor.Name + " threw a exception", ex );
+			}
+
 			if(testFixture == null) throw new InvalidTestFixtureException(ctor.Name + " cannot be invoked");
 
 			if(HasMultipleSetUpMethods(testFixture))
