@@ -72,7 +72,7 @@ namespace NUnit.Core
 		/// Array of returned results
 		/// </summary>
 		private TestResult[] results;
-		public RunDelegate runMethod;
+//		public RunDelegate runMethod;
 
 		#endregion
 
@@ -98,40 +98,40 @@ namespace NUnit.Core
 
 		#region Constructor
 
-		public TestRunnerThread(RunDelegate runMethod, NUnit.Core.EventListener listener, string[] testNames)
-		{
-			this.runMethod = runMethod;
-			this.listener = listener;
-			this.testNames = testNames;
-
-			this.thread = new Thread( new ThreadStart( TestRunnerThreadProc2 ) );
-			thread.IsBackground = true;
-
-			this.settings = (NameValueCollection)
-				ConfigurationSettings.GetConfig( "NUnit/TestRunner" );
-	
-			if ( settings != null )
-			{
-				try
-				{
-					string apartment = settings["ApartmentState"];
-					if ( apartment != null )
-						thread.ApartmentState = (ApartmentState)
-							System.Enum.Parse( typeof( ApartmentState ), apartment, true );
-		
-					string priority = settings["ThreadPriority"];
-					if ( priority != null )
-						thread.Priority = (ThreadPriority)
-							System.Enum.Parse( typeof( ThreadPriority ), priority, true );
-				}
-				catch( ArgumentException ex )
-				{
-					string msg = string.Format( "Invalid configuration setting in {0}", 
-						AppDomain.CurrentDomain.SetupInformation.ConfigurationFile );
-					throw new ArgumentException( msg, ex );
-				}
-			}
-		}
+//		public TestRunnerThread(RunDelegate runMethod, NUnit.Core.EventListener listener, string[] testNames)
+//		{
+//			this.runMethod = runMethod;
+//			this.listener = listener;
+//			this.testNames = testNames;
+//
+//			this.thread = new Thread( new ThreadStart( TestRunnerThreadProc2 ) );
+//			thread.IsBackground = true;
+//
+//			this.settings = (NameValueCollection)
+//				ConfigurationSettings.GetConfig( "NUnit/TestRunner" );
+//	
+//			if ( settings != null )
+//			{
+//				try
+//				{
+//					string apartment = settings["ApartmentState"];
+//					if ( apartment != null )
+//						thread.ApartmentState = (ApartmentState)
+//							System.Enum.Parse( typeof( ApartmentState ), apartment, true );
+//		
+//					string priority = settings["ThreadPriority"];
+//					if ( priority != null )
+//						thread.Priority = (ThreadPriority)
+//							System.Enum.Parse( typeof( ThreadPriority ), priority, true );
+//				}
+//				catch( ArgumentException ex )
+//				{
+//					string msg = string.Format( "Invalid configuration setting in {0}", 
+//						AppDomain.CurrentDomain.SetupInformation.ConfigurationFile );
+//					throw new ArgumentException( msg, ex );
+//				}
+//			}
+//		}
 	
 		public TestRunnerThread( TestRunner runner ) 
 		{ 
@@ -224,26 +224,26 @@ namespace NUnit.Core
 		/// <summary>
 		/// The thread proc for our actual test run
 		/// </summary>
-		private void TestRunnerThreadProc2()
-		{
-			try
-			{
-				//TODO: do we need a run started event?
-
-				results = runMethod(listener, testNames);
-				
-				//TODO: do we need a run finished event?
-			}
-			catch( Exception )
-			{
-				//TODO: do we need a run finished event?
-			}
-			finally
-			{
-				testNames = null;	// Do we need this?
-				//runningThread = null;	// Ditto
-			}
-		}
+//		private void TestRunnerThreadProc2()
+//		{
+//			try
+//			{
+//				//TODO: do we need a run started event?
+//
+//				results = runMethod(listener, testNames);
+//				
+//				//TODO: do we need a run finished event?
+//			}
+//			catch( Exception )
+//			{
+//				//TODO: do we need a run finished event?
+//			}
+//			finally
+//			{
+//				testNames = null;	// Do we need this?
+//				//runningThread = null;	// Ditto
+//			}
+//		}
 
 		#endregion
 	}
