@@ -37,7 +37,6 @@ namespace NUnit.Console
 	using System.Xml.XPath;
 	using System.Resources;
 	using System.Text;
-
 	using NUnit.Core;
 	using NUnit.Util;
 	
