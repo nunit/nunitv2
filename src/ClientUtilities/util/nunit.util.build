@@ -6,7 +6,7 @@
             * bin.dir               - bin directory
             * src.dir               - source location(build) or target(copy)
             * build.debug           - (true|false) debug build?
-            * build.mono            - (true|false) mono build?
+            * build.win32           - (true|false) win32 build?
             * build.defines.csc     - build defines for build config
             * runtime.defines.csc   - build defines for target framework
     -->
@@ -32,16 +32,47 @@
             <fileset basedir=".">
                 <includes name="nunit.util.dll.csproj"/>
                 <includes name="nunit.util.build"/>
-                <includes name="*.cs"/>
+                <includes name="AssemblyInfo.cs"/>
+                <includes name="AssemblyList.cs"/>
+                <includes name="AssemblyListItem.cs"/>
+                <includes name="AssemblyWatcher.cs"/>
+                <includes name="CommandLineOptions.cs"/>
+                <includes name="ConsoleOptions.cs"/>
+                <includes name="ConsoleWriter.cs"/>
+                <includes name="FormSettings.cs" if="${build.win32}"/>
+                <includes name="GuiOptions.cs"/>
+                <includes name="ITestEvents.cs"/>
+                <includes name="ITestLoader.cs"/>
+                <includes name="NUnitGuiSettings.cs" if="${build.win32}"/>
+                <includes name="NUnitProject.cs"/>
+                <includes name="NUnitRegistry.cs" if="${build.win32}"/>
+                <includes name="OptionSettings.cs" if="${build.win32}"/>
+                <includes name="ProjectConfig.cs"/>
+                <includes name="ProjectConfigCollection.cs"/>
+                <includes name="ProjectFormatException.cs"/>
+                <includes name="ProjectPath.cs"/>
+                <includes name="RecentFileSettings.cs" if="${build.win32}"/>
+                <includes name="RecentProjectSettings.cs" if="${build.win32}"/>
+                <includes name="RegistrySettingsStorage.cs" if="${build.win32}"/>
+                <includes name="ResultSummarizer.cs"/>
+		<includes name="SettingsGroup.cs"/>
+                <includes name="SettingsStorage.cs"/>
+                <includes name="StackTraceFilter.cs"/>
+                <includes name="SummaryVisitor.cs"/>
+                <includes name="TestDomain.cs"/>
+                <includes name="TestEventArgs.cs"/>
+                <includes name="TestEventDispatcher.cs"/>
+                <includes name="TestExceptionHandler.cs"/>
+                <includes name="TestLoader.cs"/>
+                <includes name="TestResultItem.cs"/>
+                <includes name="UIHelper.cs"/>
+                <includes name="UITestNode.cs"/>
+                <includes name="UserSettings.cs" if="${build.win32}"/>
+                <includes name="VSProject.cs"/>
+                <includes name="VSProjectConfig.cs"/>
+                <includes name="VSProjectConfigCollection.cs"/>
+                <includes name="XmlResultVisitor.cs"/>
                 <includes name="Transform.resx"/>
-                <excludes name="FormSettings.cs" if="${build.mono}"/>
-                <excludes name="UserSettings.cs" if="${build.mono}"/>
-                <excludes name="NUnitRegistry.cs" if="${build.mono}"/>
-                <excludes name="NUnitGuiSettings.cs" if="${build.mono}"/>
-                <excludes name="OptionSettings.cs" if="${build.mono}"/>
-                <excludes name="RegistrySettingsStorage.cs" if="${build.mono}"/>
-                <excludes name="RecentFileSettings.cs" if="${build.mono}"/>
-                <excludes name="RecentProjectSettings.cs" if="${build.mono}"/>
             </fileset>
         </copy>
     </target>

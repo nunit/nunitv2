@@ -27,7 +27,8 @@
             <fileset basedir=".">
                 <includes name="nunit.extensions.dll.csproj"/>
                 <includes name="nunit.extensions.build"/>
-                <includes name="*.cs"/>
+                <includes name="AssemblyInfo.cs"/>
+                <includes name="RepeatedTest.cs"/>
             </fileset>
         </copy>
     </target>
