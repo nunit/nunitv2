@@ -137,11 +137,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "RecentAssemblyUtil.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "RegistrySettingsStorage.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
