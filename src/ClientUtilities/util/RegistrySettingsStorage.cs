@@ -121,17 +121,17 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
-		/// Load an int setting from this storage
+		/// Load an int setting from this storage. Since int is a
+		/// value type, we can't return null so zero is used to
+		/// indicate that nothing was found - or the found value
+		/// was zero. If you need to distinguish, use your own 
+		/// default value or call LoadSetting and check for null.
 		/// </summary>
 		/// <param name="settingName">Name of the setting to load</param>
-		/// <returns>Value of the setting</returns>
+		/// <returns>Value of the setting or zero if missing</returns>
 		public override int LoadIntSetting( string settingName )
 		{
-			object resultValue = storageKey.GetValue( settingName );
-			if ( resultValue is int )
-				return (int)resultValue;
-			
-			return int.Parse( (string)resultValue );
+			return LoadIntSetting( settingName, 0 );
 		}
 
 		/// <summary>
@@ -142,7 +142,7 @@ namespace NUnit.Util
 		public override string LoadStringSetting( string settingName )
 		{
 			object resultValue = storageKey.GetValue( settingName );
-			if ( resultValue is string )
+			if ( resultValue == null || resultValue is string )
 				return (string) resultValue;
 
 			return resultValue.ToString();

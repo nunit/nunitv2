@@ -37,8 +37,8 @@ namespace NUnit.Util
 			{
 				if ( location == Point.Empty )
 				{
-					int x = (int)LoadSetting( XLOCATION, DEFAULT_XLOCATION );
-					int y = (int)LoadSetting( YLOCATION, DEFAULT_YLOCATION );
+					int x = LoadIntSetting( XLOCATION, DEFAULT_XLOCATION );
+					int y = LoadIntSetting( YLOCATION, DEFAULT_YLOCATION );
 					location = new Point(x, y);
 				}
 				
@@ -58,8 +58,8 @@ namespace NUnit.Util
 			{ 
 				if ( size == Size.Empty )
 				{
-					int width = (int)LoadSetting( WIDTH, DEFAULT_WIDTH );
-					int height = (int)LoadSetting( HEIGHT, DEFAULT_HEIGHT );
+					int width = LoadIntSetting( WIDTH, DEFAULT_WIDTH );
+					int height = LoadIntSetting( HEIGHT, DEFAULT_HEIGHT );
 					size = new Size(width, height);
 				}
 
@@ -68,8 +68,8 @@ namespace NUnit.Util
 			set
 			{ 
 				size = value;
-				SaveSetting( WIDTH, size.Width );
-				SaveSetting( HEIGHT, size.Height );
+				SaveIntSetting( WIDTH, size.Width );
+				SaveIntSetting( HEIGHT, size.Height );
 			}
 		}
 	}

@@ -38,7 +38,7 @@ namespace NUnit.Util
 			assemblyEntries = new ArrayList();
 			foreach( string valueName in valueNames )
 			{
-				string assemblyName = (string)LoadSetting(valueName);
+				string assemblyName = LoadStringSetting(valueName);
 				if(assemblyName != null)
 					assemblyEntries.Add(assemblyName);
 			}
