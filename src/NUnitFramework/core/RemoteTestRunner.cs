@@ -71,7 +71,7 @@ namespace NUnit.Core
 		/// </summary>
 		private TestEventDispatcher events = new TestEventDispatcher();
 
-		//private EventListener listener; // Temp
+		private EventListener listener; // Temp
 
 		private Version frameworkVersion;
 
@@ -349,8 +349,8 @@ namespace NUnit.Core
 				TestResult[] results = new TestResult[ tests.Length ];
 
 				// Signal that we are starting the run
-//				this.listener = listener;
-//				listener.RunStarted( tests );
+				this.listener = listener;
+				listener.RunStarted( tests );
 				
 				// TODO: Get rid of count
 				int count = 0;
@@ -372,7 +372,7 @@ namespace NUnit.Core
 				}
 
 				// Signal that we are done
-//				listener.RunFinished( results );
+				listener.RunFinished( results );
 				events.FireRunFinished( results );
 
 				// Return result array
@@ -381,7 +381,7 @@ namespace NUnit.Core
 			catch( Exception exception )
 			{
 				// Signal that we finished with an exception
-//				listener.RunFinished( exception );
+				listener.RunFinished( exception );
 				events.FireRunFinished( exception );
 				// Rethrow - should we do this?
 				throw;
@@ -452,31 +452,31 @@ namespace NUnit.Core
 
 		public void TestStarted(TestCase testCase)
 		{
-			//this.listener.TestStarted( testCase );
+			this.listener.TestStarted( testCase );
 			events.FireTestStarting( testCase );
 		}
 
 		void NUnit.Core.EventListener.TestFinished(TestCaseResult result)
 		{
-			//listener.TestFinished( result );
+			listener.TestFinished( result );
 			events.FireTestFinished( result );
 		}
 
 		public void SuiteStarted(TestSuite suite)
 		{
-			//listener.SuiteStarted( suite );
+			listener.SuiteStarted( suite );
 			events.FireSuiteStarting( suite );
 		}
 
 		void NUnit.Core.EventListener.SuiteFinished(TestSuiteResult result)
 		{
-			//listener.SuiteFinished( result );
+			listener.SuiteFinished( result );
 			events.FireSuiteFinished( result );
 		}
 
 		public void UnhandledException(Exception exception)
 		{
-			//listener.UnhandledException( exception );
+			listener.UnhandledException( exception );
 			events.FireTestException( exception );
 		}
 
