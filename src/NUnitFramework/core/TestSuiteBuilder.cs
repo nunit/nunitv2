@@ -174,8 +174,13 @@ namespace NUnit.Core
 					if ( Reflect.HasAttribute( type, SuiteBuilderAttributeType, false )
 						&& Reflect.HasInterface( type, SuiteBuilderInterfaceType ) )
 					{
-						ISuiteBuilder builder = (ISuiteBuilder)Reflect.Construct( type );
-						builders.Add( builder );
+						object builderObject = Reflect.Construct( type );
+						ISuiteBuilder builder = builderObject as ISuiteBuilder;
+						// May not be able to cast, if the builder uses an earlier
+						// version of the interface.
+						// TODO: Wrap the object and use reflection
+						if ( builder != null )
+							builders.Add( builder );
 						// TODO: Figure out when to unload - this is
 						// not important now, since we use a different
 						// appdomain for each load, but may be in future.
