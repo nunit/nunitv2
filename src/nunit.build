@@ -66,6 +66,11 @@
 				<includes name="${build.dir}/nunit.framework.dll"/>
 			</references>
 		</csc>
+		<csc target="library" output="${build.dir}\notestfixtures-assembly.dll" debug="${debug}">
+			<sources basedir="tests/notestfixtures-assembly">
+				<includes name="*.cs"/>
+			</sources>
+		</csc>
 		<csc target="library" output="${build.dir}\nunit.tests.dll" debug="${debug}" define="NANTBUILD">
 			<sources basedir="Tests">
 				<includes name="*.cs"/>
@@ -77,13 +82,13 @@
 				<includes name="${build.dir}/nunit.framework.dll"/>
 				<includes name="${build.dir}/mock-assembly.dll"/>
 				<includes name="${build.dir}/nonamespace-assembly.dll"/>
+				<includes name="${build.dir}/notestfixture-assembly.dll"/>
 			</references>
 		</csc>
-		<copy todir="${build.dir}">
-			<fileset basedir="tests">
-				<includes name="nunit.tests.dll.config"/>
-			</fileset>
-		</copy>
+		<copy file="tests\nunit.tests.dll.1.0.config" todir="${build.dir}"/>
+		<copy file="tests\nunit.tests.dll.1.1.config" todir="${build.dir}"/>
+		<copy file="tests\nunit.tests.dll.1.1.config" todir="${build.dir}"/>
+			tofile="nunit.tests.dll.config"/>
 	</target>
 
 	<target name="test" depends="nunit.tests">
@@ -126,6 +131,10 @@
 				<includes name="${build.dir}/nunit.framework.dll"/>
 			</references>
 		</csc>
+		<copy file="nunit-gui\nunit.gui.exe.1.0.config" todir="${build.dir}"/>
+		<copy file="nunit-gui\nunit.gui.exe.1.1.config" todir="${build.dir}"/>
+		<copy file="nunit-gui\nunit.gui.exe.1.1.config" todir="${build.dir}"
+			tofile="nunit-gui.exe.config"/>
 	</target>
 	
 	<target name="nunit-console.exe" depends="nunit.framework.dll,nunit.util.dll">
@@ -138,6 +147,10 @@
 				<includes name="${build.dir}/nunit.util.dll"/>
 			</references>
 		</csc>
+		<copy file="nunit-console\nunit.console.exe.1.0.config" todir="${build.dir}"/>
+		<copy file="nunit-console\nunit.console.exe.1.1.config" todir="${build.dir}"/>
+		<copy file="nunit-console\nunit.console.exe.1.1.config" todir="${build.dir}"
+			tofile="nunit-console.exe.config"/>
 	</target>
 	
 	<target name="samples" depends="nunit.framework.dll">
