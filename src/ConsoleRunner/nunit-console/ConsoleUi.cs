@@ -33,7 +33,10 @@ namespace NUnit.Console
 			{
 				CommandLineParser parser = new CommandLineParser(args);
 				if(parser.NoArgs) 
-					Console.Error.WriteLine("fatal error: no inputs specified");
+				{
+					Console.Error.WriteLine("\nfatal error: no inputs specified");
+					WriteHelp(Console.Error);
+				}
 				else
 				{
 					TestSuite suite = MakeSuiteFromCommandLine(parser);
@@ -52,7 +55,8 @@ namespace NUnit.Console
 			}
 			catch(CommandLineException cle)
 			{
-				Console.Error.WriteLine(cle.Message);
+				Console.Error.WriteLine("\n" + cle.Message);
+				WriteHelp(Console.Error);
 				Environment.Exit(2);
 			}
 		}
