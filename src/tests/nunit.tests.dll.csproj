@@ -177,6 +177,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "MockUIEventSource.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "NamespaceAssemblyTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -197,6 +202,11 @@
                 />
                 <File
                     RelPath = "OneTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProgressBarTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -232,6 +242,11 @@
                 />
                 <File
                     RelPath = "StackOverflowTestFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "StatusBarTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
