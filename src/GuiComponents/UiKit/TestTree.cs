@@ -188,6 +188,8 @@ namespace NUnit.UiKit
 			tests.CheckedTestChanged += new CheckedTestChangedHandler(tests_CheckedTestChanged);
 
 			ShowCheckBoxes( UserSettings.Options.ShowCheckBoxes );
+
+			this.excludeCheckbox.Enabled = this.SelectedCategories.Length > 0;
 		}
 
 		public void Initialize(TestLoader loader) 
@@ -534,6 +536,8 @@ namespace NUnit.UiKit
 				}
 
 				tests.SelectedCategories = this.SelectedCategories;
+				if (this.SelectedCategories.Length > 0)
+					this.excludeCheckbox.Enabled = true;
 			}
 		}
 
@@ -551,6 +555,8 @@ namespace NUnit.UiKit
 				}
 
 				tests.SelectedCategories = this.SelectedCategories;
+				if (this.SelectedCategories.Length == 0)
+					this.excludeCheckbox.Enabled = false;
 			}
 		}
 
