@@ -3,7 +3,7 @@
         ProjectType = "Local"
         ProductVersion = "7.0.9466"
         SchemaVersion = "1.0"
-        ProjectGuid = "{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}"
+        ProjectGuid = "{B55A6E53-57A9-4205-B396-C9983B3AF46A}"
     >
         <Build>
             <Settings
@@ -48,26 +48,26 @@
                 <Reference
                     Name = "vjslib"
                     AssemblyName = "vjslib"
-                    HintPath = "..\..\..\WINDOWS\Microsoft Visual JSharp .NET\Framework\v1.0.4205\vjslib.dll"
+                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft Visual JSharp .NET\Framework\v1.0.4205\vjslib.dll"
                 />
                 <Reference
                     Name = "System"
                     AssemblyName = "System"
-                    HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
+                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
                 />
                 <Reference
                     Name = "System.Data"
                     AssemblyName = "System.Data"
-                    HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
+                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
                 />
                 <Reference
                     Name = "System.XML"
                     AssemblyName = "System.Xml"
-                    HintPath = "..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
+                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
                 />
                 <Reference
                     Name = "nunit.framework.dll"
-                    Project = "{D3639D7C-96AB-459D-B045-4DD81547D7C4}"
+                    Project = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
@@ -83,6 +83,10 @@
                     RelPath = "JSharpTest.jsl"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ReadMe.txt"
+                    BuildAction = "Content"
                 />
             </Include>
         </Files>

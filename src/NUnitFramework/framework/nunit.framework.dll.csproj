@@ -3,11 +3,7 @@
         ProjectType = "Local"
         ProductVersion = "7.0.9466"
         SchemaVersion = "1.0"
-        ProjectGuid = "{D3639D7C-96AB-459D-B045-4DD81547D7C4}"
-        SccProjectName = "SAK"
-        SccLocalPath = "SAK"
-        SccAuxPath = "SAK"
-        SccProvider = "SAK"
+        ProjectGuid = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
     >
         <Build>
             <Settings
@@ -20,7 +16,7 @@
                 DefaultTargetSchema = "IE50"
                 DelaySign = "false"
                 OutputType = "Library"
-                RootNamespace = "Nunit.Core"
+                RootNamespace = "NUnit.Framework"
                 StartupObject = ""
             >
                 <Config
@@ -47,7 +43,7 @@
                     BaseAddress = "285212672"
                     CheckForOverflowUnderflow = "false"
                     ConfigurationOverrideFile = ""
-                    DefineConstants = "TRACE;StronglyNamedAssembly"
+                    DefineConstants = "TRACE"
                     DocumentationFile = ""
                     DebugSymbols = "false"
                     FileAlignment = "4096"
@@ -64,17 +60,17 @@
                 <Reference
                     Name = "System"
                     AssemblyName = "System"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
                 />
                 <Reference
                     Name = "System.Data"
                     AssemblyName = "System.Data"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
                 />
                 <Reference
                     Name = "System.XML"
                     AssemblyName = "System.Xml"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
                 />
             </References>
         </Build>

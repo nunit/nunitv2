@@ -1,31 +1,23 @@
-========================================================================
-    DYNAMIC LINK LIBRARY : cpp-sample Project Overview
-========================================================================
+Due to an issue that has not been adequately addressed in the 
+installation procedure you will have to indicate the directory
+where the nunit.framework.dll is located on your disk. 
 
-AppWizard has created this cpp-sample DLL for you.  
+This problem presents itself by having this program failing to
+compile and link. 
 
-This file contains a summary of what you will find in each of the files that
-make up your cpp-sample application.
+Steps:
 
-cpp-sample.vcproj
-    This is the main project file for VC++ projects generated using an Application Wizard. 
-    It contains information about the version of Visual C++ that generated the file, and 
-    information about the platforms, configurations, and project features selected with the
-    Application Wizard.
+1.) Right-click on the "cpp-sample" element. Select "Properties" on 
+    the context menu. 
+    
+2.) Select the "C/C++" element in the tree. 
 
-cpp-sample.cpp
-    This is the main DLL source file.
+3.) The field that needs to be updated is 
+    "Resolve #using references". Update this field to the following
+    directory: "C:\Program Files\NUnit V2.0\bin" 
+    Note: This directory is the default installation directory 
+    if you have chosen a different directory then navigate to it. 
+    
+5.) Recompile. 
 
-cpp-sample.h
-    This file contains a class declaration.
-
-AssemblyInfo.cpp
-	Contains custom attributes for modifying assembly metadata.
-
-/////////////////////////////////////////////////////////////////////////////
-Other notes:
-
-AppWizard uses "TODO:" to indicate parts of the source code you
-should add to or customize.
-
-/////////////////////////////////////////////////////////////////////////////
+This issue is being worked on and will be fixed in the release. 

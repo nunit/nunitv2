@@ -3,11 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.00"
 	Name="cpp-sample"
-	ProjectGUID="{9C1C3459-24AB-4707-BDD5-EE866A945C38}"
-	SccProjectName="SAK"
-	SccAuxPath="SAK"
-	SccLocalPath="SAK"
-	SccProvider="SAK"
+	ProjectGUID="{7E5849C7-0469-4AD2-91B9-C87203934254}"
 	Keyword="ManagedCProj">
 	<Platforms>
 		<Platform
@@ -24,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalUsingDirectories="C:\SFKit\SourceForge\nunit20\framework\bin\Debug"
+				AdditionalUsingDirectories="C:\SFKit\SourceForge\nunit20\framework\bin\Release;C:\SFKit\SourceForge\nunit20\framework\bin\Debug"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="0"
@@ -65,7 +61,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalUsingDirectories="C:\SFKit\SourceForge\nunit20\framework\bin\Release;&quot;C:\Program Files\Nunit V2.0\bin&quot;"
+				AdditionalUsingDirectories="C:\SFKit\SourceForge\nunit20\framework\bin\Debug;&quot;C:\SFKit\SourceForge\nunit20\samples\cpp-sample\Release&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				MinimalRebuild="FALSE"
 				UsePrecompiledHeader="3"

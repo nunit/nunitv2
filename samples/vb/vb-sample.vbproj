@@ -3,17 +3,13 @@
         ProjectType = "Local"
         ProductVersion = "7.0.9466"
         SchemaVersion = "1.0"
-        ProjectGuid = "{D5412384-4C7D-4483-B32F-71CEE45704A2}"
-        SccProjectName = "SAK"
-        SccLocalPath = "SAK"
-        SccAuxPath = "SAK"
-        SccProvider = "SAK"
+        ProjectGuid = "{F199991B-6C8E-4AB0-9AAA-703CD4897700}"
     >
         <Build>
             <Settings
                 ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
-                AssemblyName = "vb.sample"
+                AssemblyName = "vb-sample"
                 AssemblyOriginatorKeyFile = ""
                 AssemblyOriginatorKeyMode = "None"
                 DefaultClientScript = "JScript"
@@ -24,7 +20,7 @@
                 OptionCompare = "Binary"
                 OptionExplicit = "On"
                 OptionStrict = "Off"
-                RootNamespace = ""
+                RootNamespace = "vb_sample"
                 StartupObject = ""
             >
                 <Config
@@ -75,7 +71,7 @@
                 />
                 <Reference
                     Name = "nunit.framework.dll"
-                    Project = "{D3639D7C-96AB-459D-B045-4DD81547D7C4}"
+                    Project = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
@@ -93,6 +89,10 @@
                     RelPath = "AssemblyInfo.vb"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ReadMe.txt"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "SimpleVBTest.vb"

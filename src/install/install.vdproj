@@ -16,19 +16,25 @@
         "Entry"
         {
         "MsmKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
+        "OwnerKey" = "8:_883DBB81B7FF42C9A2AB78ED9F353A04"
+        "MsmSig" = "8:nunit.utilc:\\sfkit\\sourceforge\\nunit20\\util\\obj\\release\\nunit.util.dll"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
+        "OwnerKey" = "8:_E5BEB3A716BD48038CD58A8DD41C229E"
+        "MsmSig" = "8:nunit.utilc:\\sfkit\\sourceforge\\nunit20\\util\\obj\\release\\nunit.util.dll"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
         "OwnerKey" = "8:_4E3D644EF9BC6227CDFEEB1FE6A0588D"
         "MsmSig" = "8:nunit.utilc:\\sfkit\\sourceforge\\nunit20\\util\\obj\\release\\nunit.util.dll"
         }
         "Entry"
         {
         "MsmKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
-        "OwnerKey" = "8:_FE9581A65C914304AB1A163372462511"
-        "MsmSig" = "8:nunit.utilc:\\sfkit\\sourceforge\\nunit20\\util\\obj\\release\\nunit.util.dll"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
-        "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
+        "OwnerKey" = "8:_FA76FC0178DA44278A8A7BB1612248C9"
         "MsmSig" = "8:nunit.utilc:\\sfkit\\sourceforge\\nunit20\\util\\obj\\release\\nunit.util.dll"
         }
         "Entry"
@@ -39,27 +45,21 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1B4BF25DFC34404C834C052BFC9F87A1"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:nunit.extensionsc:\\nunit\\extensions\\obj\\release\\nunit.extensions.dll"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1BEBD7E818BF42398E04E7CEB587F9DE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\DOC\\QUICKSTART.DOC"
         }
         "Entry"
         {
-        "MsmKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:nunit-consolec:\\nunit\\nunit-console\\obj\\release\\nunit-console.exe"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_2F0505D02AE145A7B03179F32A4EB535"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\DOC\\README.PDF"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_38F925A7CA074891B40F56513BC1C2DD"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:mock-assemblyc:\\sfkit\\sourceforge\\nunit20\\tests\\mock-assembly\\obj\\release\\mock-assembly.dll"
         }
         "Entry"
         {
@@ -76,14 +76,14 @@
         "Entry"
         {
         "MsmKey" = "8:_4E3D644EF9BC6227CDFEEB1FE6A0588D"
-        "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
+        "OwnerKey" = "8:_E5BEB3A716BD48038CD58A8DD41C229E"
         "MsmSig" = "8:nunit.testsc:\\sfkit\\sourceforge\\nunit20\\tests\\obj\\release\\nunit.tests.dll"
         }
         "Entry"
         {
-        "MsmKey" = "8:_54C13975D503EBD364EFB6167F2FE25C"
-        "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
-        "MsmSig" = "8:log4netc:\\log4net_1_1_1\\bin\\log4net.dll"
+        "MsmKey" = "8:_51B5A286DC314245AECFE8E7DA150C46"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\SAMPLES\\CSHARP\\README.TXT"
         }
         "Entry"
         {
@@ -94,7 +94,7 @@
         "Entry"
         {
         "MsmKey" = "8:_64BC00A22C6BD99E0F8F2C117ED84C18"
-        "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
+        "OwnerKey" = "8:_FA76FC0178DA44278A8A7BB1612248C9"
         "MsmSig" = "8:mock-assemblyc:\\sfkit\\sourceforge\\nunit20\\tests\\mock-assembly\\obj\\release\\mock-assembly.dll"
         }
         "Entry"
@@ -105,57 +105,111 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_93601871684D4296ABC9850F2C8DE0B9"
-        "OwnerKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
+        "MsmKey" = "8:_64BC00A22C6BD99E0F8F2C117ED84C18"
+        "OwnerKey" = "8:_E5BEB3A716BD48038CD58A8DD41C229E"
+        "MsmSig" = "8:mock-assemblyc:\\sfkit\\sourceforge\\nunit20\\tests\\mock-assembly\\obj\\release\\mock-assembly.dll"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_705FA5E14B0E471B95C603323E4BEAE8"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:nunit.extensionsc:\\sfkit\\sourceforge\\nunit20\\extensions\\obj\\release\\nunit.extensions.dll"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_754A34C1379649EAA760DFFEBE086ED2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\SAMPLES\\JSHARP\\README.TXT"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_883DBB81B7FF42C9A2AB78ED9F353A04"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:nunit-guic:\\sfkit\\sourceforge\\nunit20\\nunit-gui\\obj\\release\\nunit-gui.exe"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9306F56E07BD4014A912F31448C3B82E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\SAMPLES\\VB\\README.TXT"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A06A209F2F384BD7BA55B4CBE4D78E89"
+        "OwnerKey" = "8:_EE80B2EC40154D31B0E98B858032E321"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
-        "MsmKey" = "8:_93601871684D4296ABC9850F2C8DE0B9"
-        "OwnerKey" = "8:_FE9581A65C914304AB1A163372462511"
+        "MsmKey" = "8:_A06A209F2F384BD7BA55B4CBE4D78E89"
+        "OwnerKey" = "8:_E5BEB3A716BD48038CD58A8DD41C229E"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
-        "MsmKey" = "8:_93601871684D4296ABC9850F2C8DE0B9"
-        "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_93601871684D4296ABC9850F2C8DE0B9"
+        "MsmKey" = "8:_A06A209F2F384BD7BA55B4CBE4D78E89"
         "OwnerKey" = "8:_4E3D644EF9BC6227CDFEEB1FE6A0588D"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
-        "MsmKey" = "8:_93601871684D4296ABC9850F2C8DE0B9"
-        "OwnerKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
+        "MsmKey" = "8:_A06A209F2F384BD7BA55B4CBE4D78E89"
+        "OwnerKey" = "8:_FA76FC0178DA44278A8A7BB1612248C9"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
-        "MsmKey" = "8:_93601871684D4296ABC9850F2C8DE0B9"
+        "MsmKey" = "8:_A06A209F2F384BD7BA55B4CBE4D78E89"
         "OwnerKey" = "8:_64BC00A22C6BD99E0F8F2C117ED84C18"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
-        "MsmKey" = "8:_93601871684D4296ABC9850F2C8DE0B9"
+        "MsmKey" = "8:_A06A209F2F384BD7BA55B4CBE4D78E89"
         "OwnerKey" = "8:_FD1073B92A62B4C5F769BC4A015626EE"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
-        "MsmKey" = "8:_93601871684D4296ABC9850F2C8DE0B9"
-        "OwnerKey" = "8:_54C13975D503EBD364EFB6167F2FE25C"
+        "MsmKey" = "8:_A06A209F2F384BD7BA55B4CBE4D78E89"
+        "OwnerKey" = "8:_38F925A7CA074891B40F56513BC1C2DD"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
-        "MsmKey" = "8:_93601871684D4296ABC9850F2C8DE0B9"
-        "OwnerKey" = "8:_1B4BF25DFC34404C834C052BFC9F87A1"
+        "MsmKey" = "8:_A06A209F2F384BD7BA55B4CBE4D78E89"
+        "OwnerKey" = "8:_883DBB81B7FF42C9A2AB78ED9F353A04"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A06A209F2F384BD7BA55B4CBE4D78E89"
+        "OwnerKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A06A209F2F384BD7BA55B4CBE4D78E89"
+        "OwnerKey" = "8:_CB11B22DF6464CF6B0BD16DED7258560"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A06A209F2F384BD7BA55B4CBE4D78E89"
+        "OwnerKey" = "8:_705FA5E14B0E471B95C603323E4BEAE8"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_A06A209F2F384BD7BA55B4CBE4D78E89"
+        "OwnerKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_AC3583B7A1FF4169A0B56C1B3A78188B"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\SAMPLES\\MONEY\\README.TXT"
         }
         "Entry"
         {
@@ -178,44 +232,86 @@
         "Entry"
         {
         "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
-        "OwnerKey" = "8:_1B4BF25DFC34404C834C052BFC9F87A1"
-        "MsmSig" = "8:nunit.framework_b1fa6ba952cb147628d54a01e4329131"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
-        "OwnerKey" = "8:_FE9581A65C914304AB1A163372462511"
-        "MsmSig" = "8:nunit.framework_b1fa6ba952cb147628d54a01e4329131"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
-        "OwnerKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
-        "MsmSig" = "8:nunit.framework_b1fa6ba952cb147628d54a01e4329131"
+        "OwnerKey" = "8:_705FA5E14B0E471B95C603323E4BEAE8"
+        "MsmSig" = "8:nunit.frameworkc:\\sfkit\\sourceforge\\nunit20\\framework\\obj\\release\\nunit.framework.dll"
         }
         "Entry"
         {
         "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
         "OwnerKey" = "8:_4E3D644EF9BC6227CDFEEB1FE6A0588D"
-        "MsmSig" = "8:nunit.framework_b1fa6ba952cb147628d54a01e4329131"
+        "MsmSig" = "8:nunit.frameworkc:\\sfkit\\sourceforge\\nunit20\\framework\\obj\\release\\nunit.framework.dll"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
+        "OwnerKey" = "8:_E5BEB3A716BD48038CD58A8DD41C229E"
+        "MsmSig" = "8:nunit.frameworkc:\\sfkit\\sourceforge\\nunit20\\framework\\obj\\release\\nunit.framework.dll"
         }
         "Entry"
         {
         "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
         "OwnerKey" = "8:_64BC00A22C6BD99E0F8F2C117ED84C18"
-        "MsmSig" = "8:nunit.framework_b1fa6ba952cb147628d54a01e4329131"
+        "MsmSig" = "8:nunit.frameworkc:\\sfkit\\sourceforge\\nunit20\\framework\\obj\\release\\nunit.framework.dll"
         }
         "Entry"
         {
         "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
-        "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
-        "MsmSig" = "8:nunit.framework_b1fa6ba952cb147628d54a01e4329131"
+        "OwnerKey" = "8:_FA76FC0178DA44278A8A7BB1612248C9"
+        "MsmSig" = "8:nunit.frameworkc:\\sfkit\\sourceforge\\nunit20\\framework\\obj\\release\\nunit.framework.dll"
         }
         "Entry"
         {
         "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
         "OwnerKey" = "8:_FD1073B92A62B4C5F769BC4A015626EE"
-        "MsmSig" = "8:nunit.framework_b1fa6ba952cb147628d54a01e4329131"
+        "MsmSig" = "8:nunit.frameworkc:\\sfkit\\sourceforge\\nunit20\\framework\\obj\\release\\nunit.framework.dll"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
+        "OwnerKey" = "8:_38F925A7CA074891B40F56513BC1C2DD"
+        "MsmSig" = "8:nunit.frameworkc:\\sfkit\\sourceforge\\nunit20\\framework\\obj\\release\\nunit.framework.dll"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
+        "OwnerKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
+        "MsmSig" = "8:nunit.frameworkc:\\sfkit\\sourceforge\\nunit20\\framework\\obj\\release\\nunit.framework.dll"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
+        "OwnerKey" = "8:_883DBB81B7FF42C9A2AB78ED9F353A04"
+        "MsmSig" = "8:nunit.frameworkc:\\sfkit\\sourceforge\\nunit20\\framework\\obj\\release\\nunit.framework.dll"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
+        "OwnerKey" = "8:_CB11B22DF6464CF6B0BD16DED7258560"
+        "MsmSig" = "8:nunit.frameworkc:\\sfkit\\sourceforge\\nunit20\\framework\\obj\\release\\nunit.framework.dll"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CB11B22DF6464CF6B0BD16DED7258560"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:nunit.utilc:\\sfkit\\sourceforge\\nunit20\\util\\obj\\release\\nunit.util.dll"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E3FCBE3405B441AFB3D33C753C48C8B2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\SAMPLES\\MONEY-PORT\\README.TXT"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E5BEB3A716BD48038CD58A8DD41C229E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:nunit-consolec:\\sfkit\\sourceforge\\nunit20\\nunit-console\\obj\\release\\nunit-console.exe"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EE80B2EC40154D31B0E98B858032E321"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:nunit.frameworkc:\\sfkit\\sourceforge\\nunit20\\framework\\obj\\release\\nunit.framework.dll"
         }
         "Entry"
         {
@@ -225,8 +321,14 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_FA76FC0178DA44278A8A7BB1612248C9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:nunit.testsc:\\sfkit\\sourceforge\\nunit20\\tests\\obj\\release\\nunit.tests.dll"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_FD1073B92A62B4C5F769BC4A015626EE"
-        "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
+        "OwnerKey" = "8:_FA76FC0178DA44278A8A7BB1612248C9"
         "MsmSig" = "8:nunit.extensionsc:\\sfkit\\sourceforge\\nunit20\\extensions\\obj\\release\\nunit.extensions.dll"
         }
         "Entry"
@@ -237,9 +339,9 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FE9581A65C914304AB1A163372462511"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:nunit-guic:\\nunit\\nunit-gui\\obj\\release\\nunit-gui.exe"
+        "MsmKey" = "8:_FD1073B92A62B4C5F769BC4A015626EE"
+        "OwnerKey" = "8:_E5BEB3A716BD48038CD58A8DD41C229E"
+        "MsmSig" = "8:nunit.extensionsc:\\sfkit\\sourceforge\\nunit20\\extensions\\obj\\release\\nunit.extensions.dll"
         }
     }
     "Configurations"
@@ -455,23 +557,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{C7BF5952-4B9D-11D3-8E24-00C04F6837D0}:_54C13975D503EBD364EFB6167F2FE25C"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_51B5A286DC314245AECFE8E7DA150C46"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:log4net, Version=1.1.1.33753, Culture=neutral"
-                "ScatterAssemblies"
-                {
-                    "_54C13975D503EBD364EFB6167F2FE25C"
-                    {
-                    "Name" = "8:log4net.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:log4net.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\samples\\csharp\\ReadMe.txt"
+            "TargetName" = "8:ReadMe.txt"
             "Tag" = "8:"
-            "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
+            "Folder" = "8:_3A219CF102014C8EB18531BAB13EA23B"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -483,7 +574,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_614F80D3D3754ED4A903C917A8BF8BBC"
@@ -535,6 +626,66 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_754A34C1379649EAA760DFFEBE086ED2"
+            {
+            "SourcePath" = "8:..\\samples\\jsharp\\ReadMe.txt"
+            "TargetName" = "8:ReadMe.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_B362839DC2F14AD091A6EB528B2E6043"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_9306F56E07BD4014A912F31448C3B82E"
+            {
+            "SourcePath" = "8:..\\samples\\vb\\ReadMe.txt"
+            "TargetName" = "8:ReadMe.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_D9E79B9D7BD148D880260C4F5291F95C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_AC3583B7A1FF4169A0B56C1B3A78188B"
+            {
+            "SourcePath" = "8:..\\samples\\money\\ReadMe.txt"
+            "TargetName" = "8:ReadMe.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_C185830649514C9D878BDD89DECF6A84"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_B4B4D5C995334F9686D063BE87A77B33"
@@ -601,7 +752,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.framework, Version=2.0.3.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
+            "AssemblyAsmDisplayName" = "8:nunit.framework, Version=2.0.3.0, Culture=neutral"
                 "ScatterAssemblies"
                 {
                     "_C4DAFD63D1AA2C2C22DE425CF303BBA3"
@@ -626,6 +777,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_E3FCBE3405B441AFB3D33C753C48C8B2"
+            {
+            "SourcePath" = "8:..\\samples\\money-port\\ReadMe.txt"
+            "TargetName" = "8:ReadMe.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_F2F57CC67BFC42B99F1A6376225A1C44"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_F6F344E9EEC446AB8CB6017E26E8A66A"
@@ -1052,7 +1223,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_FE9581A65C914304AB1A163372462511"
+            "Target" = "8:"
             "Folder" = "8:_EBC90882CB524E73B3F1F22403F2E49A"
             "WorkingFolder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
             "Icon" = "8:_B9EC76C4B08E4A60A66D3265D186BB04"
@@ -1136,7 +1307,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_FE9581A65C914304AB1A163372462511"
+            "Target" = "8:"
             "Folder" = "8:_0F1FD446D3614039BAAA857ED8935A82"
             "WorkingFolder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
             "Icon" = "8:_B9EC76C4B08E4A60A66D3265D186BB04"
@@ -1266,64 +1437,6 @@
                 {
                 }
             }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_1B4BF25DFC34404C834C052BFC9F87A1"
-            {
-            "SourcePath" = "8:..\\extensions\\obj\\Release\\nunit.extensions.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectCanonicalName" = "8:extensions\\nunit.extensions.dll.csproj"
-            "OutputProjectGuid" = "8:{1091C15A-4788-40DE-A747-6C5B05FAF6C5}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_253BC73CE4C8415BB458A70F6A2512FE"
-            {
-            "SourcePath" = "8:..\\nunit-console\\obj\\Release\\nunit-console.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectCanonicalName" = "8:nunit-console\\nunit-console.csproj"
-            "OutputProjectGuid" = "8:{B2D66804-53C3-47D7-B5F3-95DAC08C8B3B}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
             "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_2A78CCB1F06E483085EA6BA2DD40AD79"
             {
             "SourcePath" = "8:"
@@ -1348,6 +1461,35 @@
             "OutputGroupCanonicalName" = "8:SourceFiles"
             "OutputProjectCanonicalName" = "8:tests\\mock-assembly\\mock-assembly.csproj"
             "OutputProjectGuid" = "8:{6BAFC16F-F058-4CA8-9207-37A2E9151AC9}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_38F925A7CA074891B40F56513BC1C2DD"
+            {
+            "SourcePath" = "8:..\\tests\\mock-assembly\\obj\\Release\\mock-assembly.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectCanonicalName" = "8:tests\\mock-assembly\\mock-assembly.csproj"
+            "OutputProjectGuid" = "8:{2E368281-3BA8-4050-B05E-0E0E43F8F446}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
@@ -1498,6 +1640,35 @@
                 {
                 }
             }
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_705FA5E14B0E471B95C603323E4BEAE8"
+            {
+            "SourcePath" = "8:..\\extensions\\obj\\Release\\nunit.extensions.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectCanonicalName" = "8:extensions\\nunit.extensions.dll.csproj"
+            "OutputProjectGuid" = "8:{98B10E98-003C-45A0-9587-119142E39986}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_83B4CBD26D2F4E60A23519C60A663D61"
             {
             "SourcePath" = "8:"
@@ -1556,6 +1727,35 @@
                 {
                 }
             }
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_883DBB81B7FF42C9A2AB78ED9F353A04"
+            {
+            "SourcePath" = "8:..\\nunit-gui\\obj\\Release\\nunit-gui.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectCanonicalName" = "8:nunit-gui\\nunit-gui.csproj"
+            "OutputProjectGuid" = "8:{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_8D9E0C9E4A0941BAA7DFEB21C2EE8117"
             {
             "SourcePath" = "8:"
@@ -1585,7 +1785,7 @@
                 {
                 }
             }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_B3BD1C09D4344D8AA242BCA3D98B5F6E"
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_C7534D923B7449BBAA0D03EBAD6475DC"
             {
             "SourcePath" = "8:"
             "TargetName" = "8:"
@@ -1605,10 +1805,39 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release"
+            "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:SourceFiles"
-            "OutputProjectCanonicalName" = "8:samples\\money\\money-sample.csproj"
-            "OutputProjectGuid" = "8:{2DA721DC-EB09-4439-85D7-7DDEFFABB96E}"
+            "OutputProjectCanonicalName" = "8:samples\\money\\money.csproj"
+            "OutputProjectGuid" = "8:{11EDF872-A04D-4F75-A1BF-71168DC86AF3}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_CB11B22DF6464CF6B0BD16DED7258560"
+            {
+            "SourcePath" = "8:..\\util\\obj\\Release\\nunit.util.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectCanonicalName" = "8:util\\nunit.util.dll.csproj"
+            "OutputProjectGuid" = "8:{61CE9CE5-943E-44D4-A381-814DC1406767}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
@@ -1701,6 +1930,93 @@
                 {
                 }
             }
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_E5BEB3A716BD48038CD58A8DD41C229E"
+            {
+            "SourcePath" = "8:..\\nunit-console\\obj\\Release\\nunit-console.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectCanonicalName" = "8:nunit-console\\nunit-console.csproj"
+            "OutputProjectGuid" = "8:{9367EC89-6A38-42BA-9607-0DC288E4BC3A}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_EE80B2EC40154D31B0E98B858032E321"
+            {
+            "SourcePath" = "8:..\\framework\\obj\\Release\\nunit.framework.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectCanonicalName" = "8:framework\\nunit.framework.dll.csproj"
+            "OutputProjectGuid" = "8:{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_FA76FC0178DA44278A8A7BB1612248C9"
+            {
+            "SourcePath" = "8:..\\tests\\obj\\Release\\nunit.tests.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectCanonicalName" = "8:tests\\nunit.tests.dll.csproj"
+            "OutputProjectGuid" = "8:{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_FAF1AB29A4AB44E485FC881275486895"
             {
             "SourcePath" = "8:"
@@ -1730,42 +2046,13 @@
                 {
                 }
             }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_FE9581A65C914304AB1A163372462511"
-            {
-            "SourcePath" = "8:..\\nunit-gui\\obj\\Release\\nunit-gui.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectCanonicalName" = "8:nunit-gui\\nunit-gui.csproj"
-            "OutputProjectGuid" = "8:{F5765100-5DB9-4FB2-B204-B6D780B96F41}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
         }
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NUnit V2.0"
         "ProductCode" = "8:{0A3EFFA7-BD78-4FFA-89C4-86B54B4A9651}"
-        "PackageCode" = "8:{C05DB54D-A8C3-46A2-AC67-8AFE36A75DB6}"
+        "PackageCode" = "8:{A01401BC-F716-48A9-9B70-3FE62AF4BD2A}"
         "UpgradeCode" = "8:{2E280DED-3E0E-4783-94A9-BE102C854C39}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
@@ -1791,7 +2078,7 @@
         }
         "MergeModule"
         {
-            "{AC8774A4-3E09-11D3-8E14-00C04F6837D0}:_93601871684D4296ABC9850F2C8DE0B9"
+            "{AC8774A4-3E09-11D3-8E14-00C04F6837D0}:_A06A209F2F384BD7BA55B4CBE4D78E89"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"

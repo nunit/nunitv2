@@ -3,11 +3,7 @@
         ProjectType = "Local"
         ProductVersion = "7.0.9466"
         SchemaVersion = "1.0"
-        ProjectGuid = "{1091C15A-4788-40DE-A747-6C5B05FAF6C5}"
-        SccProjectName = "SAK"
-        SccLocalPath = "SAK"
-        SccAuxPath = "SAK"
-        SccProvider = "SAK"
+        ProjectGuid = "{98B10E98-003C-45A0-9587-119142E39986}"
     >
         <Build>
             <Settings
@@ -20,7 +16,7 @@
                 DefaultTargetSchema = "IE50"
                 DelaySign = "false"
                 OutputType = "Library"
-                RootNamespace = "Nunit.Extensions"
+                RootNamespace = "NUnit.Extensions"
                 StartupObject = ""
             >
                 <Config
@@ -64,21 +60,21 @@
                 <Reference
                     Name = "System"
                     AssemblyName = "System"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
                 />
                 <Reference
                     Name = "System.Data"
                     AssemblyName = "System.Data"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
                 />
                 <Reference
                     Name = "System.XML"
-                    AssemblyName = "System.Xml"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
+                    AssemblyName = "System.XML"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
                 />
                 <Reference
                     Name = "nunit.framework.dll"
-                    Project = "{D3639D7C-96AB-459D-B045-4DD81547D7C4}"
+                    Project = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>

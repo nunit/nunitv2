@@ -3,15 +3,11 @@
         ProjectType = "Local"
         ProductVersion = "7.0.9466"
         SchemaVersion = "1.0"
-        ProjectGuid = "{B2D66804-53C3-47D7-B5F3-95DAC08C8B3B}"
-        SccProjectName = "SAK"
-        SccLocalPath = "SAK"
-        SccAuxPath = "SAK"
-        SccProvider = "SAK"
+        ProjectGuid = "{9367EC89-6A38-42BA-9607-0DC288E4BC3A}"
     >
         <Build>
             <Settings
-                ApplicationIcon = "App.ico"
+                ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
                 AssemblyName = "nunit-console"
                 AssemblyOriginatorKeyFile = ""
@@ -64,41 +60,37 @@
                 <Reference
                     Name = "System"
                     AssemblyName = "System"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
                 />
                 <Reference
                     Name = "System.Data"
                     AssemblyName = "System.Data"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
                 />
                 <Reference
                     Name = "System.XML"
                     AssemblyName = "System.Xml"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
-                />
-                <Reference
-                    Name = "nunit.util.dll"
-                    Project = "{A0C5635D-0624-4329-9AC1-3C06B6460800}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "nunit.tests.dll"
-                    Project = "{F5DDCC74-6966-4255-8E6A-089737B88EC1}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
                 />
                 <Reference
                     Name = "nunit.framework.dll"
-                    Project = "{D3639D7C-96AB-459D-B045-4DD81547D7C4}"
+                    Project = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.util.dll"
+                    Project = "{61CE9CE5-943E-44D4-A381-814DC1406767}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "tests"
+                    Project = "{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
         <Files>
             <Include>
-                <File
-                    RelPath = "App.ico"
-                    BuildAction = "Content"
-                />
                 <File
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"
@@ -112,11 +104,6 @@
                 <File
                     RelPath = "Results.xsd"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Results.xsx"
-                    DependentUpon = "Results.xsd"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Summary.xslt"

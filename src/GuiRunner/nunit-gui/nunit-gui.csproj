@@ -3,15 +3,11 @@
         ProjectType = "Local"
         ProductVersion = "7.0.9466"
         SchemaVersion = "1.0"
-        ProjectGuid = "{F5765100-5DB9-4FB2-B204-B6D780B96F41}"
-        SccProjectName = "SAK"
-        SccLocalPath = "SAK"
-        SccAuxPath = "SAK"
-        SccProvider = "SAK"
+        ProjectGuid = "{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}"
     >
         <Build>
             <Settings
-                ApplicationIcon = "App.ico"
+                ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
                 AssemblyName = "nunit-gui"
                 AssemblyOriginatorKeyFile = ""
@@ -20,7 +16,7 @@
                 DefaultTargetSchema = "IE50"
                 DelaySign = "false"
                 OutputType = "WinExe"
-                RootNamespace = "nunit_gui"
+                RootNamespace = "NUnit.Gui"
                 StartupObject = ""
             >
                 <Config
@@ -64,36 +60,36 @@
                 <Reference
                     Name = "System"
                     AssemblyName = "System"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
                 />
                 <Reference
                     Name = "System.Data"
                     AssemblyName = "System.Data"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
                 />
                 <Reference
                     Name = "System.Drawing"
                     AssemblyName = "System.Drawing"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Drawing.dll"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Drawing.dll"
                 />
                 <Reference
                     Name = "System.Windows.Forms"
                     AssemblyName = "System.Windows.Forms"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Windows.Forms.dll"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Windows.Forms.dll"
                 />
                 <Reference
                     Name = "System.XML"
                     AssemblyName = "System.Xml"
-                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
-                />
-                <Reference
-                    Name = "nunit.util.dll"
-                    Project = "{A0C5635D-0624-4329-9AC1-3C06B6460800}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
                 />
                 <Reference
                     Name = "nunit.framework.dll"
-                    Project = "{D3639D7C-96AB-459D-B045-4DD81547D7C4}"
+                    Project = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.util.dll"
+                    Project = "{61CE9CE5-943E-44D4-A381-814DC1406767}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
