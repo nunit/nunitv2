@@ -39,22 +39,17 @@ namespace NUnit.Core
 	[Serializable]
 	public class TestCaseResult : TestResult
 	{
-//		private TestCase testCase;
-//		private string testCaseName;
 		private string message;
 		private string stackTrace;
 
 		public TestCaseResult(TestCase testCase):base(testCase, testCase.FullName)
 		{
-//			this.testCase = testCase;
 			Executed = false;
 		}
 
 		public TestCaseResult(string testCaseString) : base(null, testCaseString)
 		{
-//			testCase = null;
 			Executed = false;
-//			testCaseName = testCaseString;
 		}
 
 		public void Success() 
@@ -93,9 +88,6 @@ namespace NUnit.Core
 		public override string ToString()
 		{
 			StringBuilder builder = new StringBuilder();
-//			string name = testCaseName;
-//			if(testCase != null)
-//				name = testCase.FullName;
 			string name = Name;
 			if ( Test != null )
 				name = Test.FullName;
