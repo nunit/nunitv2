@@ -298,6 +298,7 @@ namespace NUnit.Gui
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "OptionsDialog";
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "NUnit Options";
 			this.Load += new System.EventHandler(this.OptionsDialog_Load);

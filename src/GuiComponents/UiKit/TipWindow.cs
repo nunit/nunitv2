@@ -133,6 +133,8 @@ namespace CP.Windows.Forms
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.ClientSize = new System.Drawing.Size(292, 268);
 			this.Name = "TipWindow";
+			this.ShowInTaskbar = false;
+
 		}
 
 		protected override void OnLoad(System.EventArgs e)

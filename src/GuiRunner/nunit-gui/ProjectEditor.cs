@@ -160,7 +160,7 @@ namespace NUnit.Gui
 			// 
 			// editConfigsButton
 			// 
-			this.editConfigsButton.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
+			this.editConfigsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.editConfigsButton, "Add, remove or rename configurations.");
 			this.editConfigsButton.Location = new System.Drawing.Point(424, 32);
 			this.editConfigsButton.Name = "editConfigsButton";
@@ -172,8 +172,8 @@ namespace NUnit.Gui
 			// 
 			// configComboBox
 			// 
-			this.configComboBox.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
+			this.configComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.configComboBox, "Select the configuration to edit");
 			this.configComboBox.Location = new System.Drawing.Point(120, 32);
 			this.configComboBox.Name = "configComboBox";
@@ -192,12 +192,11 @@ namespace NUnit.Gui
 			// 
 			// projectTabControl
 			// 
-			this.projectTabControl.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.projectTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 				| System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
-			this.projectTabControl.Controls.AddRange(new System.Windows.Forms.Control[] {
-																							this.generalTabPage,
-																							this.assemblyTabPage});
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.projectTabControl.Controls.Add(this.generalTabPage);
+			this.projectTabControl.Controls.Add(this.assemblyTabPage);
 			this.projectTabControl.Location = new System.Drawing.Point(16, 64);
 			this.projectTabControl.Name = "projectTabControl";
 			this.projectTabControl.SelectedIndex = 0;
@@ -206,18 +205,17 @@ namespace NUnit.Gui
 			// 
 			// generalTabPage
 			// 
-			this.generalTabPage.Controls.AddRange(new System.Windows.Forms.Control[] {
-																						 this.label7,
-																						 this.autoBinPathRadioButton,
-																						 this.manualBinPathRadioButton,
-																						 this.noBinPathRadioButton,
-																						 this.browseBasePathButton,
-																						 this.privateBinPathTextBox,
-																						 this.label6,
-																						 this.configFileTextBox,
-																						 this.label4,
-																						 this.applicationBaseTextBox,
-																						 this.label3});
+			this.generalTabPage.Controls.Add(this.label7);
+			this.generalTabPage.Controls.Add(this.autoBinPathRadioButton);
+			this.generalTabPage.Controls.Add(this.manualBinPathRadioButton);
+			this.generalTabPage.Controls.Add(this.noBinPathRadioButton);
+			this.generalTabPage.Controls.Add(this.browseBasePathButton);
+			this.generalTabPage.Controls.Add(this.privateBinPathTextBox);
+			this.generalTabPage.Controls.Add(this.label6);
+			this.generalTabPage.Controls.Add(this.configFileTextBox);
+			this.generalTabPage.Controls.Add(this.label4);
+			this.generalTabPage.Controls.Add(this.applicationBaseTextBox);
+			this.generalTabPage.Controls.Add(this.label3);
 			this.generalTabPage.Location = new System.Drawing.Point(4, 25);
 			this.generalTabPage.Name = "generalTabPage";
 			this.generalTabPage.Size = new System.Drawing.Size(504, 227);
@@ -261,9 +259,9 @@ namespace NUnit.Gui
 			// 
 			// browseBasePathButton
 			// 
-			this.browseBasePathButton.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
+			this.browseBasePathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.browseBasePathButton, "Browse to locate ApplicationBase directory.");
-			this.browseBasePathButton.Image = ((System.Drawing.Bitmap)(resources.GetObject("browseBasePathButton.Image")));
+			this.browseBasePathButton.Image = ((System.Drawing.Image)(resources.GetObject("browseBasePathButton.Image")));
 			this.browseBasePathButton.Location = new System.Drawing.Point(472, 8);
 			this.browseBasePathButton.Name = "browseBasePathButton";
 			this.helpProvider1.SetShowHelp(this.browseBasePathButton, true);
@@ -273,8 +271,8 @@ namespace NUnit.Gui
 			// 
 			// privateBinPathTextBox
 			// 
-			this.privateBinPathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
+			this.privateBinPathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.privateBinPathTextBox, "Path searched when probing for private asemblies. Directories must be descendants" +
 				" of the ApplicationBase.");
 			this.privateBinPathTextBox.Location = new System.Drawing.Point(104, 160);
@@ -296,8 +294,8 @@ namespace NUnit.Gui
 			// 
 			// configFileTextBox
 			// 
-			this.configFileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
+			this.configFileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.configFileTextBox, "Configuration file to use when loading assemblies if it exists. Defaults to <proj" +
 				"ectname>.config. Must be located in the ApplicationBase directory.");
 			this.configFileTextBox.Location = new System.Drawing.Point(192, 40);
@@ -311,8 +309,8 @@ namespace NUnit.Gui
 			// 
 			// label4
 			// 
-			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
+			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this.label4.Location = new System.Drawing.Point(16, 40);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(160, 16);
@@ -321,8 +319,8 @@ namespace NUnit.Gui
 			// 
 			// applicationBaseTextBox
 			// 
-			this.applicationBaseTextBox.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
+			this.applicationBaseTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.applicationBaseTextBox, "The ApplicationBase for locating assemblies. Must be equal to or under the projec" +
 				"t directory. Defaults to the project directory if not set. Used as current direc" +
 				"tory when running tests.");
@@ -337,8 +335,8 @@ namespace NUnit.Gui
 			// 
 			// label3
 			// 
-			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.Location = new System.Drawing.Point(16, 8);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(120, 16);
@@ -347,13 +345,12 @@ namespace NUnit.Gui
 			// 
 			// assemblyTabPage
 			// 
-			this.assemblyTabPage.Controls.AddRange(new System.Windows.Forms.Control[] {
-																						  this.assemblyListBox,
-																						  this.addVSProjectButton,
-																						  this.editAssemblyButton,
-																						  this.addAssemblyButton,
-																						  this.deleteAssemblyButton,
-																						  this.label2});
+			this.assemblyTabPage.Controls.Add(this.assemblyListBox);
+			this.assemblyTabPage.Controls.Add(this.addVSProjectButton);
+			this.assemblyTabPage.Controls.Add(this.editAssemblyButton);
+			this.assemblyTabPage.Controls.Add(this.addAssemblyButton);
+			this.assemblyTabPage.Controls.Add(this.deleteAssemblyButton);
+			this.assemblyTabPage.Controls.Add(this.label2);
 			this.assemblyTabPage.Location = new System.Drawing.Point(4, 25);
 			this.assemblyTabPage.Name = "assemblyTabPage";
 			this.assemblyTabPage.Size = new System.Drawing.Size(504, 227);
@@ -376,7 +373,7 @@ namespace NUnit.Gui
 			// 
 			// addVSProjectButton
 			// 
-			this.addVSProjectButton.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
+			this.addVSProjectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.addVSProjectButton, "Add the output assembly from a VS project to this project. Assembly will be added" +
 				" to each configuration that exists in the VS project.");
 			this.addVSProjectButton.Location = new System.Drawing.Point(368, 72);
@@ -389,7 +386,7 @@ namespace NUnit.Gui
 			// 
 			// editAssemblyButton
 			// 
-			this.editAssemblyButton.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
+			this.editAssemblyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.editAssemblyButton, "Modify the path to the selected assembly.");
 			this.editAssemblyButton.Location = new System.Drawing.Point(368, 104);
 			this.editAssemblyButton.Name = "editAssemblyButton";
@@ -401,7 +398,7 @@ namespace NUnit.Gui
 			// 
 			// addAssemblyButton
 			// 
-			this.addAssemblyButton.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
+			this.addAssemblyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.addAssemblyButton, "Add an assembly to this configuration.");
 			this.addAssemblyButton.Location = new System.Drawing.Point(368, 40);
 			this.addAssemblyButton.Name = "addAssemblyButton";
@@ -413,7 +410,7 @@ namespace NUnit.Gui
 			// 
 			// deleteAssemblyButton
 			// 
-			this.deleteAssemblyButton.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
+			this.deleteAssemblyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.deleteAssemblyButton, "Remove the selected assembly from the configuration.");
 			this.deleteAssemblyButton.Location = new System.Drawing.Point(368, 136);
 			this.deleteAssemblyButton.Name = "deleteAssemblyButton";
@@ -443,7 +440,7 @@ namespace NUnit.Gui
 			// 
 			// closeButton
 			// 
-			this.closeButton.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+			this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.closeButton.Location = new System.Drawing.Point(400, 328);
 			this.closeButton.Name = "closeButton";
@@ -462,8 +459,8 @@ namespace NUnit.Gui
 			// 
 			// projectPathLabel
 			// 
-			this.projectPathLabel.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right);
+			this.projectPathLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this.projectPathLabel.Location = new System.Drawing.Point(128, 8);
 			this.projectPathLabel.Name = "projectPathLabel";
 			this.projectPathLabel.Size = new System.Drawing.Size(392, 16);
@@ -475,14 +472,13 @@ namespace NUnit.Gui
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.CancelButton = this.closeButton;
 			this.ClientSize = new System.Drawing.Size(538, 370);
-			this.Controls.AddRange(new System.Windows.Forms.Control[] {
-																		  this.projectPathLabel,
-																		  this.label5,
-																		  this.projectTabControl,
-																		  this.editConfigsButton,
-																		  this.configComboBox,
-																		  this.label1,
-																		  this.closeButton});
+			this.Controls.Add(this.projectPathLabel);
+			this.Controls.Add(this.label5);
+			this.Controls.Add(this.projectTabControl);
+			this.Controls.Add(this.editConfigsButton);
+			this.Controls.Add(this.configComboBox);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.closeButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.HelpButton = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -490,6 +486,7 @@ namespace NUnit.Gui
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(376, 400);
 			this.Name = "ProjectEditor";
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "NUnit Test Project Editor";
 			this.Load += new System.EventHandler(this.ProjectEditor_Load);
