@@ -48,13 +48,13 @@ namespace NUnitSamples {
 	}
 
 	void SimpleCPPSample::Equals() {
-		Assert::Equals("Integer.",12, 12);
-		Assert::Equals("Long.",12L, 12L);
-		Assert::Equals("Char.",'a', 'a');
+		Assert::Equals(12, 12, "Integer");
+		Assert::Equals(12L, 12L, "Long");
+		Assert::Equals('a', 'a', "Char");
 
 
-		Assert::Equals("Expected Failure (Integer).", 12, 13);
-		Assert::Equals("Expected Failure (Double).", 12.0, 11.99, 0.0);
+		Assert::Equals(12, 13, "Expected Failure (Integer)");
+		Assert::Equals(12.0, 11.99, 0.0, "Expected Failure (Double)");
 	}
 
 	void SimpleCPPSample::IgnoredTest()

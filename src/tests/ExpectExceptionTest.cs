@@ -74,7 +74,7 @@ namespace NUnit.Tests.Core
 			BaseException be = new BaseException();
 			Test test = TestCaseBuilder.Make(be, "BaseExceptionTest");
 			TestResult result = test.Run(NullListener.NULL);
-			Assert.True("BaseExceptionTest should have failed", result.IsFailure);
+			Assert.True(result.IsFailure, "BaseExceptionTest should have failed");
 			Assert.Equals("Expected: ArgumentException but was Exception", result.Message);
 		}
 
@@ -84,7 +84,7 @@ namespace NUnit.Tests.Core
 			MismatchedException me = new MismatchedException();
 			Test test = TestCaseBuilder.Make(me, "MismatchedExceptionTest");
 			TestResult result = test.Run(NullListener.NULL);
-			Assert.True("MismatchedExceptionTest should have failed", result.IsFailure);
+			Assert.True(result.IsFailure, "MismatchedExceptionTest should have failed");
 			Assert.Equals("Expected: ArgumentException but was ArgumentOutOfRangeException", result.Message);
 		}
 

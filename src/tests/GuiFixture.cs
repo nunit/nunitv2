@@ -70,7 +70,7 @@ namespace NUnit.Tests.CommandLine
 		public void ValidateSuccessful()
 		{
 			GuiOptions options = new GuiOptions(new string[] { "nunit.tests.dll" });
-			Assert.True("command line should be valid", options.Validate());
+			Assert.True(options.Validate(), "command line should be valid");
 		}
 
 		[Test]

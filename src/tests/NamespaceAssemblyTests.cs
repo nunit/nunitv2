@@ -80,12 +80,12 @@ namespace NUnit.Tests.Core
 			ArrayList tests = suite.Tests;
 			Assert.Equals(1, tests.Count);
 
-			Assert.True("TestSuite:NUnit - is not correct", tests[0] is TestSuite);
+			Assert.True(tests[0] is TestSuite, "TestSuite:NUnit - is not correct");
 			TestSuite testSuite = (TestSuite)tests[0];
 			Assert.Equals("NUnit", testSuite.Name);
 
 			tests = testSuite.Tests;
-			Assert.True("TestSuite:Tests - is invalid", tests[0] is TestSuite);
+			Assert.True(tests[0] is TestSuite, "TestSuite:Tests - is invalid");
 			testSuite = (TestSuite)tests[0];
 			Assert.Equals(1, tests.Count);
 			Assert.Equals("Tests", testSuite.Name);
@@ -93,13 +93,13 @@ namespace NUnit.Tests.Core
 			tests = testSuite.Tests;
 			Assert.Equals(3, tests.Count);
 
-			Assert.True("TestSuite:singletons - is invalid", tests[1] is TestSuite);
+			Assert.True(tests[1] is TestSuite, "TestSuite:singletons - is invalid");
 			TestSuite singletonSuite = (TestSuite)tests[2];
 			Assert.Equals("Singletons", singletonSuite.Name);
 			Assert.Equals(1, singletonSuite.Tests.Count);
 
 			MockTestFixture mockTestFixture = new MockTestFixture();			
-			Assert.True("TestSuite:assemblies - is invalid", tests[1] is TestSuite);
+			Assert.True(tests[1] is TestSuite, "TestSuite:assemblies - is invalid");
 			TestSuite mockSuite = (TestSuite)tests[1];
 			Assert.Equals("Assemblies", mockSuite.Name);
 
@@ -109,7 +109,7 @@ namespace NUnit.Tests.Core
 			ArrayList mockTests = mockFixtureSuite.Tests;
 			foreach(Test t in mockTests)
 			{
-				Assert.True("should be a TestCase", t is NUnit.Core.TestCase);
+				Assert.True(t is NUnit.Core.TestCase, "should be a TestCase");
 			}
 		}
 			

@@ -78,8 +78,8 @@ namespace NUnit.Tests.Util
 		public void LoadProject()
 		{
 			loader.LoadProject( assembly );
-			Assert.True( "Project not loaded", loader.IsProjectLoaded );
-			Assert.False( "Test should not be loaded", loader.IsTestLoaded );
+			Assert.True(loader.IsProjectLoaded,  "Project not loaded");
+			Assert.False(loader.IsTestLoaded,  "Test should not be loaded");
 			Assert.Equals( 2, catcher.Events.Count );
 			Assert.Equals( TestAction.ProjectLoading, catcher.Events[0].Action );
 			Assert.Equals( TestAction.ProjectLoaded, catcher.Events[1].Action );
@@ -90,8 +90,8 @@ namespace NUnit.Tests.Util
 		{
 			loader.LoadProject( assembly );
 			loader.UnloadProject();
-			Assert.False( "Project not unloaded", loader.IsProjectLoaded );
-			Assert.False( "Test not unloaded", loader.IsTestLoaded );
+			Assert.False( loader.IsProjectLoaded, "Project not unloaded" );
+			Assert.False( loader.IsTestLoaded, "Test not unloaded" );
 			Assert.Equals( 4, catcher.Events.Count );
 			Assert.Equals( TestAction.ProjectUnloading, catcher.Events[2].Action );
 			Assert.Equals( TestAction.ProjectUnloaded, catcher.Events[3].Action );
@@ -101,8 +101,8 @@ namespace NUnit.Tests.Util
 		public void LoadTest()
 		{
 			loader.LoadTest( assembly );
-			Assert.True( "Project not loaded", loader.IsProjectLoaded );
-			Assert.True( "Test not loaded", loader.IsTestLoaded );
+			Assert.True( loader.IsProjectLoaded, "Project not loaded" );
+			Assert.True( loader.IsTestLoaded, "Test not loaded" );
 			Assert.Equals( 4, catcher.Events.Count );
 			Assert.Equals( TestAction.TestLoading, catcher.Events[2].Action );
 			Assert.Equals( TestAction.TestLoaded, catcher.Events[3].Action );
@@ -123,8 +123,8 @@ namespace NUnit.Tests.Util
 		public void FileNotFound()
 		{
 			loader.LoadTest( "xxxxx" );
-			Assert.False( "Project should not load", loader.IsProjectLoaded );
-			Assert.False( "Test should not load", loader.IsTestLoaded );
+			Assert.False( loader.IsProjectLoaded, "Project should not load" );
+			Assert.False( loader.IsTestLoaded, "Test should not load" );
 			Assert.Equals( 2, catcher.Events.Count );
 			Assert.Equals( TestAction.ProjectLoadFailed, catcher.Events[1].Action );
 			Assert.Equals( typeof( FileNotFoundException ), catcher.Events[1].Exception.GetType() );
@@ -143,8 +143,8 @@ namespace NUnit.Tests.Util
 			sw.Close();
 
 			loader.LoadTest( badFile );
-			Assert.True( "Project not loaded", loader.IsProjectLoaded );
-			Assert.False( "Test should not be loaded", loader.IsTestLoaded );
+			Assert.True( loader.IsProjectLoaded, "Project not loaded" );
+			Assert.False( loader.IsTestLoaded, "Test should not be loaded" );
 			Assert.Equals( 4, catcher.Events.Count );
 			Assert.Equals( TestAction.TestLoadFailed, catcher.Events[3].Action );
 			Assert.Equals( typeof( BadImageFormatException ), catcher.Events[3].Exception.GetType() );
@@ -154,8 +154,8 @@ namespace NUnit.Tests.Util
 		public void AssemblyWithNoTests()
 		{
 			loader.LoadTest( "nunit.util.dll" );
-			Assert.True( "Project not loaded", loader.IsProjectLoaded );
-			Assert.True( "Test should be loaded", loader.IsTestLoaded );
+			Assert.True( loader.IsProjectLoaded, "Project not loaded" );
+			Assert.True( loader.IsTestLoaded, "Test should be loaded" );
 			Assert.Equals( 4, catcher.Events.Count );
 			Assert.Equals( TestAction.TestLoaded, catcher.Events[3].Action );
 		}

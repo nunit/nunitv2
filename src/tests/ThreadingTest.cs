@@ -51,7 +51,7 @@ namespace NUnit.Tests.Core
 			Thread thread = new Thread(new ThreadStart(r.Run));
 			thread.Start();
 			thread.Join(100);
-			Assert.True("Thread did not run.", r.WasRun);
+			Assert.True(r.WasRun, "Thread did not run.");
 		}
 
 		/// <summary>

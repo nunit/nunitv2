@@ -65,7 +65,7 @@ namespace NUnit.Tests.TestResultTests
 		public void EmptySuite()
 		{
 			TestSuiteResult result = new TestSuiteResult(null, "base suite");
-			Assert.True("result should be success", result.IsSuccess);
+			Assert.True(result.IsSuccess, "result should be success");
 		}
 
 		[Test]

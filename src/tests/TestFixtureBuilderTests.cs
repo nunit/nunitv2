@@ -63,7 +63,7 @@ namespace NUnit.Tests.Core
 			Assert.NotNull(testFixture);
 
 			AssemblyType assemblyType = (AssemblyType)testFixture;
-			Assert.True("AssemblyType constructor should be called", assemblyType.called);
+			Assert.True(assemblyType.called, "AssemblyType constructor should be called");
 		}
 
 		[TestFixture]
@@ -184,11 +184,12 @@ namespace NUnit.Tests.Core
 			suite = (TestSuite)suite.Tests[0];
 			
 			Assert.NotNull(suite);
-			Assert.False("Suite should not be runnable", suite.ShouldRun);
+			Assert.False(suite.ShouldRun, "Suite should not be runnable");
 			Assert.Equals("testing ignore a suite", suite.IgnoreReason);
 
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
-			Assert.False("test case should inherit run state from enclosing suite", testCase.ShouldRun);
+			Assert.False(testCase.ShouldRun,
+				"test case should inherit run state from enclosing suite");
 		}
 
 		[TestFixture]
@@ -354,7 +355,5 @@ namespace NUnit.Tests.Core
 
 			return foundTest;
 		}
-
-
 	}
 }

@@ -58,7 +58,7 @@ namespace NUnit.Tests.Assertions
 
 			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(verifyFail, "CallAssertionFail");
 			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);
-			Assert.True("VerifyFailThrowsException should have failed", result.IsFailure);
+			Assert.True(result.IsFailure, "VerifyFailThrowsException should have failed");
 			Assert.Equals(failureMessage, result.Message);
 		}
 

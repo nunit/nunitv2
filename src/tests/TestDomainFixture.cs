@@ -69,7 +69,7 @@ namespace NUnit.Tests.Core
 		public void InitTest()
 		{
 			Test test = domain.LoadAssembly("mock-assembly.dll");
-			Assert.NotNull("Test should not be null", test);
+			Assert.NotNull(test, "Test should not be null");
 		}
 
 		[Test]
@@ -141,7 +141,7 @@ namespace NUnit.Tests.Core
 		public void InvalidTestFixture()
 		{
 			Test test = domain.LoadAssembly( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" );
-			Assert.Null("test should be null", test);
+			Assert.Null(test, "test should be null");
 		}
 
 		[Test]
@@ -152,28 +152,9 @@ namespace NUnit.Tests.Core
 			assemblies.Add("nonamespace-assembly.dll");
 
 			Test test = domain.LoadAssemblies( assemblies );
-			Assert.NotNull("test should not be null", test);
+			Assert.NotNull(test, "test should not be null");
 			Assert.Equals(10, test.CountTestCases);
 		}
-
-//		[Test]
-//		[Ignore("Not Implemented Yet")]
-//		public void SpecificFixtureMultipleAssembly()
-//		{
-//			ArrayList assemblies = new ArrayList();
-//			assemblies.Add("mock-assembly.dll");
-//			assemblies.Add("nonamespace-assembly.dll");
-//
-//			Test test = domain.Load( assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
-//			Assert.NotNull(test);
-//
-//			TestResult result = domain.Run(NullListener.NULL);
-//			Assert.Equals(true, result.IsSuccess);
-//			
-//			ResultSummarizer summarizer = new ResultSummarizer(result);
-//			Assert.Equals(3, summarizer.ResultCount);
-//			Assert.Equals(2, summarizer.TestsNotRun);
-//		}
 
 		[Test]
 		public void BinPath()

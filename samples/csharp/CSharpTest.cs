@@ -63,7 +63,7 @@ namespace NUnit.Samples
 		{
 			double result= fValue1 + fValue2;
 			// forced failure result == 5
-			Assert.Equals("Expected Failure.",6,result);
+			Assert.Equals(6, result, "Expected Failure.");
 		}
 
 		/// <summary>
@@ -82,13 +82,13 @@ namespace NUnit.Samples
 		/// 
 		[Test] public void Equals() 
 		{
-			Assert.Equals("Integer.",12, 12);
-			Assert.Equals("Long.",12L, 12L);
-			Assert.Equals("Char.",'a', 'a');
-			Assert.Equals("Integer Object Cast.",(object)12, (object)12);
+			Assert.Equals(12, 12, "Integer");
+			Assert.Equals(12L, 12L, "Long");
+			Assert.Equals('a', 'a', "Char");
+			Assert.Equals((object)12, (object)12, "Integer Object Cast");
             
-			Assert.Equals("Expected Failure (Integer).", 12, 13);
-			Assert.Equals("Expected Failure (Double).", 12.0, 11.99, 0.0);
+			Assert.Equals(12, 13, "Expected Failure (Integer)");
+			Assert.Equals(12.0, 11.99, 0.0, "Expected Failure (Double).");
 		}
 
 		[Test]

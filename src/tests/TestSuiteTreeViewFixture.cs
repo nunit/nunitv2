@@ -143,7 +143,7 @@ namespace NUnit.Tests.UiKit
 			treeView.SetTestResult( result );
 
 			TestSuiteTreeNode fixtureNode = FixtureNode( treeView );
-			Assert.NotNull( "Result not set", fixtureNode.Result );
+			Assert.NotNull(fixtureNode.Result,  "Result not set" );
 			Assert.Equals( "My test result", fixtureNode.Result.Name );
 			Assert.Equals( fixtureNode.Test.FullName, fixtureNode.Result.Test.FullName );
 		}

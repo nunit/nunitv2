@@ -56,12 +56,53 @@ namespace NUnit.Tests.Core
 			public void Success(){}
 		}
 
+
+		internal class SetUpAndTearDownCounterFixture
+		{
+			internal int setUpCounter;
+			internal int tearDownCounter;
+
+			[SetUp]
+			public virtual void Init()
+			{
+				setUpCounter++;
+			}
+
+			[TearDown]
+			public virtual void Destroy()
+			{
+				tearDownCounter++;
+			}
+
+			[Test]
+			public void TestOne(){}
+
+			[Test]
+			public void TestTwo(){}
+
+			[Test]
+			public void TestThree(){}
+		}
+		
 		internal class InheritSetUpAndTearDown : SetUpAndTearDownFixture
 		{
 			[Test]
 			public void AnotherTest(){}
 		}
 
+		[Test]
+		public void SetUpAndTearDownCounter()
+		{
+			SetUpAndTearDownCounterFixture testFixture = new SetUpAndTearDownCounterFixture();
+			TestSuite suite = new TestSuite("SetUpAndTearDownSuite");
+			suite.Add(testFixture);
+			suite.Run(NullListener.NULL);
+
+			Assert.Equals(3, testFixture.setUpCounter);
+			Assert.Equals(3, testFixture.tearDownCounter);
+		}
+
+		
 		[Test]
 		public void MakeSureSetUpAndTearDownAreCalled()
 		{

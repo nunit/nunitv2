@@ -175,7 +175,8 @@ namespace NUnit.Tests.ConsoleRunner
 			StringBuilder builder = new StringBuilder();
 			int resultCode = executeProcess(p, builder);
 			Assert.Equals(0, resultCode);
-			Assert.True("Only XML should be displayed in xmlconsole mode", builder.ToString().Trim().StartsWith(@"<?xml version=""1.0"""));
+			Assert.True(builder.ToString().Trim().StartsWith(@"<?xml version=""1.0"""),
+				"Only XML should be displayed in xmlconsole mode");
 		}
 
 		private string[] MakeCommandLine(string assembly, string fixture, string xmlFile)

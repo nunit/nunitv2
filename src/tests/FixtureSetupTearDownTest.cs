@@ -222,10 +222,10 @@ namespace NUnit.Tests.Core
 			TestSuiteResult result = (TestSuiteResult) suite.Run(NullListener.NULL);
 			Assert.Equals(1, result.Results.Count);
 			TestResult failedResult = ((TestResult)result.Results[0]);
-			Assert.False("Suite should not have executed", failedResult.Executed);
+			Assert.False(failedResult.Executed, "Suite should not have executed");
 			String message = failedResult.Message.Substring(0, 119);
 			Assert.Equals("System.Exception: This was thrown from fixture teardown\r\n   at NUnit.Tests.Core.MisbehavingFixtureTearDown.willBlowUp()", message);
-			Assert.NotNull("StackTrace should not be null", failedResult.StackTrace);
+			Assert.NotNull(failedResult.StackTrace, "StackTrace should not be null");
 
 			// should have one suite and one fixture
 			ResultSummarizer summ = new ResultSummarizer(result);

@@ -542,7 +542,7 @@ namespace NUnit.Framework
         /// <param name="expected"></param>
         /// <param name="actual"></param>
         /// <returns></returns>
-        static public string FormatMessageForFailNotEquals(string message, Object expected, Object actual) 
+        static public string FormatMessageForFailNotEquals(Object expected, Object actual, string message) 
         {
             StringBuilder sbOutput = CreateStringBuilder( message );
             if( null != message )

@@ -63,28 +63,28 @@ namespace NUnit.Tests.Util
 			UITestNode test1 = new UITestNode( testSuite );
 			Assert.Equals( "MyTestSuite", test1.Name );
 			Assert.Equals( "MyTestSuite", test1.FullName );
-			Assert.True( "ShouldRun", test1.ShouldRun );
-			Assert.True( "IsSuite", test1.IsSuite );
-			Assert.False( "!IsTestCase", test1.IsTestCase );
-			Assert.False( "!IsFixture", test1.IsFixture );
+			Assert.True( test1.ShouldRun, "ShouldRun" );
+			Assert.True( test1.IsSuite, "IsSuite" );
+			Assert.False( test1.IsTestCase, "!IsTestCase" );
+			Assert.False( test1.IsFixture, "!IsFixture" );
 			Assert.Equals( 5, test1.CountTestCases );
 
 			UITestNode test2 = new UITestNode( testFixture, true );
 			Assert.Equals( "MockTestFixture", test2.Name );
 			Assert.Equals( "NUnit.Tests.Assemblies.MockTestFixture", test2.FullName );
-			Assert.True( "ShouldRun", test2.ShouldRun );
-			Assert.True( "IsSuite", test2.IsSuite );
-			Assert.False( "!IsTestCase", test2.IsTestCase );
-			Assert.True( "IsFixture", test2.IsFixture );
+			Assert.True( test2.ShouldRun, "ShouldRun" );
+			Assert.True( test2.IsSuite, "IsSuite" );
+			Assert.False( test2.IsTestCase, "!IsTestCase" );
+			Assert.True( test2.IsFixture, "IsFixture" );
 			Assert.Equals( 5, test2.CountTestCases );
 
 			UITestNode test3 = new UITestNode( testCase1 );
 			Assert.Equals( "MockTest1", test3.Name );
 			Assert.Equals( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", test3.FullName );
-			Assert.True( "ShouldRun", test3.ShouldRun );
-			Assert.False( "!IsSuite", test3.IsSuite );
-			Assert.True( "IsTestCase", test3.IsTestCase );
-			Assert.False( "!IsFixture", test3.IsFixture );
+			Assert.True( test3.ShouldRun, "ShouldRun" );
+			Assert.False( test3.IsSuite, "!IsSuite" );
+			Assert.True( test3.IsTestCase, "IsTestCase" );
+			Assert.False( test3.IsFixture, "!IsFixture" );
 			Assert.Equals( 1, test3.CountTestCases );
 		}
 
@@ -92,28 +92,28 @@ namespace NUnit.Tests.Util
 		public void PopulateTests()
 		{
 			UITestNode test1 = new UITestNode( testSuite );
-			Assert.False( "Default should be to not populate", test1.Populated );
+			Assert.False( test1.Populated, "Default should be to not populate" );
 			test1.PopulateTests();
-			Assert.True( "Should be populated after call", test1.Populated );
+			Assert.True( test1.Populated, "Should be populated after call" );
 			UITestNode test1Child = test1.Tests[0] as UITestNode;
-			Assert.True( "Child should be populated", test1Child.Populated );
+			Assert.True( test1Child.Populated, "Child should be populated" );
 
 			UITestNode test2 = new UITestNode( testSuite, true );
-			Assert.True( "Should be populated initialy", test2.Populated );
+			Assert.True( test2.Populated, "Should be populated initialy" );
 			UITestNode test2Child = test2.Tests[0] as UITestNode;
-			Assert.True( "Child should be populated", test2Child.Populated );
+			Assert.True( test2Child.Populated, "Child should be populated" );
 
 			UITestNode test3 = new UITestNode( testSuite );
 			int count = test3.CountTestCases;
-			Assert.True( "CountTestCases should populate", test3.Populated );
+			Assert.True( test3.Populated, "CountTestCases should populate" );
 
 			UITestNode test4 = new UITestNode( testSuite );
 			UITestNode test4Child = test4.Tests[0] as UITestNode;
-			Assert.True( "Accessing Tests should populate", test4.Populated );
+			Assert.True( test4.Populated, "Accessing Tests should populate" );
 
 			UITestNode test5 = new UITestNode( testSuite );
 			bool fixture = test5.IsFixture;
-			Assert.True( "IsFixture should populate", test5.Populated );
+			Assert.True( test5.Populated, "IsFixture should populate" );
 		}
 
 		[Test]
@@ -122,28 +122,28 @@ namespace NUnit.Tests.Util
 			UITestNode test1 = testSuite;
 			Assert.Equals( "MyTestSuite", test1.Name );
 			Assert.Equals( "MyTestSuite", test1.FullName );
-			Assert.True( "ShouldRun", test1.ShouldRun );
-			Assert.True( "IsSuite", test1.IsSuite );
-			Assert.False( "!IsTestCase", test1.IsTestCase );
-			Assert.False( "!IsFixture", test1.IsFixture );
+			Assert.True( test1.ShouldRun, "ShouldRun" );
+			Assert.True( test1.IsSuite, "IsSuite" );
+			Assert.False( test1.IsTestCase, "!IsTestCase" );
+			Assert.False( test1.IsFixture, "!IsFixture" );
 			Assert.Equals( 5, test1.CountTestCases );
 
 			UITestNode test2 = testFixture;
 			Assert.Equals( "MockTestFixture", test2.Name );
 			Assert.Equals( "NUnit.Tests.Assemblies.MockTestFixture", test2.FullName );
-			Assert.True( "ShouldRun", test2.ShouldRun );
-			Assert.True( "IsSuite", test2.IsSuite );
-			Assert.False( "!IsTestCase", test2.IsTestCase );
-			Assert.True( "IsFixture", test2.IsFixture );
+			Assert.True( test2.ShouldRun, "ShouldRun" );
+			Assert.True( test2.IsSuite, "IsSuite" );
+			Assert.False( test2.IsTestCase, "!IsTestCase" );
+			Assert.True( test2.IsFixture, "IsFixture" );
 			Assert.Equals( 5, test2.CountTestCases );
 
 			UITestNode test3 = testCase1;
 			Assert.Equals( "MockTest1", test3.Name );
 			Assert.Equals( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", test3.FullName );
-			Assert.True( "ShouldRun", test3.ShouldRun );
-			Assert.False( "!IsSuite", test3.IsSuite );
-			Assert.True( "IsTestCase", test3.IsTestCase );
-			Assert.False( "!IsFixture", test3.IsFixture );
+			Assert.True( test3.ShouldRun, "ShouldRun" );
+			Assert.False( test3.IsSuite, "!IsSuite" );
+			Assert.True( test3.IsTestCase, "IsTestCase" );
+			Assert.False( test3.IsFixture, "!IsFixture" );
 			Assert.Equals( 1, test3.CountTestCases );
 		}
 	}

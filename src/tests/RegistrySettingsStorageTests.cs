@@ -68,7 +68,7 @@ namespace NUnit.Tests.Util
 			Assert.NotNull( storage );
 			Assert.Equals( "Test", storage.StorageName );
 			Assert.Null( storage.ParentStorage );
-			Assert.NotNull( "Null storage key", storage.StorageKey );
+			Assert.NotNull( storage.StorageKey, "Null storage key" );
 		}
 
 		[Test]
@@ -76,8 +76,8 @@ namespace NUnit.Tests.Util
 		{
 			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
 			
-			Assert.Null( "X is not null", storage.LoadSetting( "X" ) );
-			Assert.Null( "NAME is not null", storage.LoadSetting( "NAME" ) );
+			Assert.Null( storage.LoadSetting( "X" ), "X is not null" );
+			Assert.Null( storage.LoadSetting( "NAME" ), "NAME is not null" );
 
 			storage.SaveSetting("X", 5);
 			storage.SaveSetting("NAME", "Charlie");
@@ -102,11 +102,11 @@ namespace NUnit.Tests.Util
 			storage.SaveSetting("NAME", "Charlie");
 
 			storage.RemoveSetting( "X" );
-			Assert.Null( "X not removed", storage.LoadSetting( "X" ) );
+			Assert.Null( storage.LoadSetting( "X" ), "X not removed" );
 			Assert.Equals( "Charlie", storage.LoadSetting( "NAME" ) );
 
 			storage.RemoveSetting( "NAME" );
-			Assert.Null( "NAME not removed", storage.LoadSetting( "NAME" ) );
+			Assert.Null( storage.LoadSetting( "NAME" ), "NAME not removed" );
 		}
 
 		[Test]
@@ -116,11 +116,11 @@ namespace NUnit.Tests.Util
 			RegistrySettingsStorage sub1 = new RegistrySettingsStorage( "Sub1", storage );
 			RegistrySettingsStorage sub2 = new RegistrySettingsStorage( "Sub2", storage );
 
-			Assert.NotNull( "Sub1 is null", sub1 );
-			Assert.NotNull( "Sub2 is null", sub2 );
+			Assert.NotNull( sub1, "Sub1 is null" );
+			Assert.NotNull( sub2, "Sub2 is null" );
 
-			Assert.Equals( "Sub1", sub1.StorageName );
-			Assert.Equals( "Sub2", sub2.StorageName );
+			Assert.Equals( sub1.StorageName, "Sub1" );
+			Assert.Equals( sub2.StorageName, "Sub2" );
 		}
 
 		[Test]
@@ -136,12 +136,12 @@ namespace NUnit.Tests.Util
 			Assert.Equals( "Charlie", sub.LoadSetting( "NAME" ) );
 
 			sub.RemoveSetting( "X" );
-			Assert.Null( "X not removed", sub.LoadSetting( "X" ) );
+			Assert.Null( sub.LoadSetting( "X" ), "X not removed" );
 			
 			Assert.Equals( "Charlie", sub.LoadSetting( "NAME" ) );
 
 			sub.RemoveSetting( "NAME" );
-			Assert.Null( "NAME not removed", sub.LoadSetting( "NAME" ) );
+			Assert.Null( sub.LoadSetting( "NAME" ), "NAME not removed" );
 		}
 
 		[Test]

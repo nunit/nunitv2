@@ -40,7 +40,7 @@ namespace NUnit.Framework
 		/// </summary> 
 		/// <param name="message">The message to display if the condition is false</param>
 		/// <param name="condition">The evaluated condition</param>
-		static public void True(string message, bool condition) 
+		static public void True(bool condition, string message) 
 		{
 			if (!condition)
 				Assert.Fail(message);
@@ -53,7 +53,7 @@ namespace NUnit.Framework
 		/// <param name="condition">The evaluated condition</param>
 		static public void True(bool condition) 
 		{
-			Assert.True(string.Empty, condition);
+			Assert.True(condition, string.Empty);
 		}
 
 		/// <summary>
@@ -62,7 +62,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="message">The message to display if the condition is true</param>
 		/// <param name="condition">The evaluated condition</param>
-		static public void False(string message, bool condition) 
+		static public void False(bool condition, string message) 
 		{
 			if (condition)
 				Assert.Fail(message);
@@ -75,7 +75,7 @@ namespace NUnit.Framework
 		/// <param name="condition">The evaluated condition</param>
 		static public void False(bool condition) 
 		{
-			Assert.False(string.Empty, condition);
+			Assert.False(condition, string.Empty);
 		}
 
 		/// <summary>
@@ -89,18 +89,18 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="delta">The maximum acceptable difference between the
 		/// the expected and the actual</param>
-		static public void Equals(string message, double expected, 
-			double actual, double delta) 
+		static public void Equals(double expected, 
+			double actual, double delta, string message) 
 		{
 			// handle infinity specially since subtracting two infinite values gives 
 			// NaN and the following test fails
 			if (double.IsInfinity(expected)) 
 			{
 				if (!(expected == actual))
-					Assert.FailNotEquals(message, expected, actual);
+					Assert.FailNotEquals(expected, actual, message);
 			} 
 			else if (!(Math.Abs(expected-actual) <= delta))
-				Assert.FailNotEquals(message, expected, actual);
+				Assert.FailNotEquals(expected, actual, message);
 		}
 
 		/// <summary>
@@ -115,7 +115,7 @@ namespace NUnit.Framework
 		/// the expected and the actual</param>
 		static public void Equals(double expected, double actual, double delta) 
 		{
-			Assert.Equals(string.Empty, expected, actual, delta);
+			Assert.Equals(expected, actual, delta, string.Empty);
 		}
 
 		/// <summary>
@@ -129,18 +129,18 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="delta">The maximum acceptable difference between the
 		/// the expected and the actual</param>
-		static public void Equals(string message, float expected, 
-			float actual, float delta) 
+		static public void Equals(float expected, 
+			float actual, float delta, string message) 
 		{
 			// handle infinity specially since subtracting two infinite values gives 
 			// NaN and the following test fails
 			if (float.IsInfinity(expected)) 
 			{
 				if (!(expected == actual))
-					Assert.FailNotEquals(message, expected, actual);
+					Assert.FailNotEquals(expected, actual, message);
 			} 
 			else if (!(Math.Abs(expected-actual) <= delta))
-				Assert.FailNotEquals(message, expected, actual);
+				Assert.FailNotEquals(expected, actual, message);
 		}
 
 		/// <summary>
@@ -155,7 +155,7 @@ namespace NUnit.Framework
 		/// the expected and the actual</param>
 		static public void Equals(float expected, float actual, float delta) 
 		{
-			Assert.Equals(string.Empty, expected, actual, delta);
+			Assert.Equals(expected, actual, delta, string.Empty);
 		}
 		
 		/// <summary>
@@ -166,11 +166,10 @@ namespace NUnit.Framework
 		/// <param name="message">The message printed out upon failure</param>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
-		static public void Equals(string message, int expected, 
-			int actual) 
+		static public void Equals(int expected, int actual, string message) 
 		{
 			if(!(expected == actual))
-				Assert.FailNotEquals(message, expected, actual);
+				Assert.FailNotEquals(expected, actual, message);
 		}
 
 		/// <summary>
@@ -182,7 +181,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		static public void Equals(int expected, int actual) 
 		{
-			Assert.Equals(string.Empty, expected, actual);
+			Assert.Equals(expected, actual, string.Empty);
 		}
 
 		
@@ -196,7 +195,7 @@ namespace NUnit.Framework
 		/// <param name="expected">The value that is expected</param>
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message to display if objects are not equal</param>
-		static public void Equals(string message, Object expected, Object actual)
+		static public void Equals(Object expected, Object actual, string message)
 		{
 			if (expected == null && actual == null) return;
 
@@ -207,7 +206,7 @@ namespace NUnit.Framework
 					return;
 				}
 			}
-			Assert.FailNotEquals(message, expected, actual);
+			Assert.FailNotEquals(expected, actual, message);
 		}
 
 		/// <summary>
@@ -220,7 +219,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		static new public void Equals(Object expected, Object actual) 
 		{
-			Assert.Equals(string.Empty, expected, actual);
+			Assert.Equals(expected, actual, string.Empty);
 		}
 				
 		/// <summary>
@@ -294,9 +293,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="message">The message to be printed when the object is null</param>
 		/// <param name="anObject">The object that is to be tested</param>
-		static public void NotNull(string message, Object anObject) 
+		static public void NotNull(Object anObject, string message) 
 		{
-			Assert.True(message, anObject != null); 
+			Assert.True(anObject != null, message); 
 		}
 
 		/// <summary>
@@ -307,7 +306,7 @@ namespace NUnit.Framework
 		/// <param name="anObject">The object that is to be tested</param>
 		static public void NotNull(Object anObject) 
 		{
-			Assert.NotNull(string.Empty, anObject);
+			Assert.NotNull(anObject, string.Empty);
 		}
     
 		    
@@ -318,9 +317,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="message">The message to be printed when the object is not null</param>
 		/// <param name="anObject">The object that is to be tested</param>
-		static public void Null(string message, Object anObject) 
+		static public void Null(Object anObject, string message) 
 		{
-			Assert.True(message, anObject == null); 
+			Assert.True(anObject == null, message); 
 		}
 
 		/// <summary>
@@ -331,7 +330,7 @@ namespace NUnit.Framework
 		/// <param name="anObject">The object that is to be tested</param>
 		static public void Null(Object anObject) 
 		{
-			Assert.Null(string.Empty, anObject);
+			Assert.Null(anObject, string.Empty);
 		}
     
     
@@ -342,11 +341,11 @@ namespace NUnit.Framework
 		/// <param name="message">The message to be printed when the two objects are not the same object.</param>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		static public void Same(string message, Object expected, Object actual)
+		static public void Same(Object expected, Object actual, string message)
 		{
-			if (object.ReferenceEquals(expected, actual))
-				return;
-			Assert.FailNotSame(message, expected, actual);
+			if (object.ReferenceEquals(expected, actual)) return;
+
+			Assert.FailNotSame(expected, actual, message);
 		}
 
 		/// <summary>
@@ -357,7 +356,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual object</param>
 		static public void Same(Object expected, Object actual) 
 		{
-			Assert.Same(string.Empty, expected, actual);
+			Assert.Same(expected, actual, string.Empty);
 		}
    
 		/// <summary>
@@ -367,8 +366,8 @@ namespace NUnit.Framework
 		/// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
 		static public void Fail(string message) 
 		{
-			if (message == null)
-				message = string.Empty;
+			if (message == null) message = string.Empty;
+
 			throw new AssertionException(message);
 		}
 
@@ -388,13 +387,13 @@ namespace NUnit.Framework
 		/// <param name="message">The message that is to be printed prior to the comparison failure</param>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		static private void FailNotEquals(string message, Object expected, Object actual) 
+		static private void FailNotEquals(Object expected, Object actual, string message) 
 		{
 			Assert.Fail( 
 				AssertionFailureMessage.FormatMessageForFailNotEquals( 
-				message, 
 				expected, 
-				actual) );
+				actual, 
+				message));
 		}
     
 		/// <summary>
@@ -403,7 +402,7 @@ namespace NUnit.Framework
 		/// <param name="message">The message to be printed on the screen</param>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		static private void FailNotSame(string message, Object expected, Object actual) 
+		static private void FailNotSame(Object expected, Object actual, string message) 
 		{
 			string formatted=string.Empty;
 			if (message != null)

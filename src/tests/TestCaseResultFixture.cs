@@ -50,7 +50,7 @@ namespace NUnit.Tests.TestResultSuite
 		[Test]
 		public void TestCaseSuccess()
 		{
-			Assert.True("result should be success", caseResult.IsSuccess);
+			Assert.True(caseResult.IsSuccess, "result should be success");
 		}
 
 		[Test]

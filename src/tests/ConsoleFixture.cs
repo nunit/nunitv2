@@ -98,7 +98,7 @@ namespace NUnit.Tests.CommandLine
 		public void ValidateSuccessful()
 		{
 			ConsoleOptions options = new ConsoleOptions(new string[] { "nunit.tests.dll" });
-			Assert.True("command line should be valid", options.Validate());
+			Assert.True(options.Validate(), "command line should be valid");
 		}
 
 		[Test]
@@ -128,10 +128,10 @@ namespace NUnit.Tests.CommandLine
 		public void XmlParameter()
 		{
 			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/xml:results.xml"});
-			Assert.True("assembly should be set", parser.ParameterCount == 1);
+			Assert.True(parser.ParameterCount == 1, "assembly should be set");
 			Assert.Equals("tests.dll", parser.Parameters[0]);
 
-			Assert.True("xml file name should be set", parser.IsXml);
+			Assert.True(parser.IsXml, "xml file name should be set");
 			Assert.Equals("results.xml", parser.xml);
 		}
 
@@ -139,10 +139,10 @@ namespace NUnit.Tests.CommandLine
 		public void XmlParameterWithFullPath()
 		{
 			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/xml:C:\\nunit\\tests\\bin\\Debug\\console-test.xml"});
-			Assert.True("assembly should be set", parser.ParameterCount == 1);
+			Assert.True(parser.ParameterCount == 1, "assembly should be set");
 			Assert.Equals("tests.dll", parser.Parameters[0]);
 
-			Assert.True("xml file name should be set", parser.IsXml);
+			Assert.True(parser.IsXml, "xml file name should be set");
 			Assert.Equals("C:\\nunit\\tests\\bin\\Debug\\console-test.xml", parser.xml);
 		}
 
@@ -150,10 +150,10 @@ namespace NUnit.Tests.CommandLine
 		public void TransformParameter()
 		{
 			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/transform:Summary.xslt"});
-			Assert.True("assembly should be set", parser.ParameterCount == 1);
+			Assert.True(parser.ParameterCount == 1, "assembly should be set");
 			Assert.Equals("tests.dll", parser.Parameters[0]);
 
-			Assert.True("transform file name should be set", parser.IsTransform);
+			Assert.True(parser.IsTransform, "transform file name should be set");
 			Assert.Equals("Summary.xslt", parser.transform);
 		}
 

@@ -78,7 +78,7 @@ namespace NUnit.Tests.Core
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Core.SuiteBuilderTests+Suite" );
-			Assert.NotNull("Could not discover suite attribute",suite);
+			Assert.NotNull(suite, "Could not discover suite attribute");
 		}
 
 		class NonConformingSuite
@@ -98,7 +98,7 @@ namespace NUnit.Tests.Core
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Assemblies.AssemblyTests+NonConformingSuite" );
-			Assert.Null("Suite propertye returns wrong type",suite);
+			Assert.Null(suite, "Suite propertye returns wrong type");
 		}
 
 		[Test]

@@ -65,8 +65,8 @@ namespace NUnit.Tests.Util
 				@"c:\folder1", @"c:\folder2\folder3" ) );
 			Assert.Equals( @"bin\debug", ProjectPath.RelativePath(
 				@"c:\folder1", @"bin\debug" ) );
-			Assert.Null( "Unrelated paths should return null",
-				ProjectPath.RelativePath( @"C:\folder", @"D:\folder" ) );
+			Assert.Null( ProjectPath.RelativePath( @"C:\folder", @"D:\folder" ),
+				"Unrelated paths should return null" );
 		}
 
 		[Test]

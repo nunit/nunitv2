@@ -74,14 +74,15 @@ namespace NUnit.Tests.UiKit
 
 			public void AssertControlExists( string name )
 			{
-				Assert.NotNull( string.Format( "Form {0} does not contain {1} control", form.Name, name ), FindControl( name ) );
+				Assert.NotNull(FindControl( name ), 
+					string.Format( "Form {0} does not contain {1} control", form.Name, name));
 			}
 
 			public void AssertControlExists( string name, Type type )
 			{
 				Control control = FindControl( name );
 
-				Assert.NotNull( string.Format( "Form {0} does not contain {1} control", form.Name, name ), control );
+				Assert.NotNull(control, string.Format( "Form {0} does not contain {1} control", form.Name, name ));
 				Assert.Equals( type, control.GetType() );
 			}
 

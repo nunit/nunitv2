@@ -98,9 +98,9 @@ namespace NUnit.Tests.Util
 			Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Recent-Projects", 
 				((RegistrySettingsStorage)projects.Storage).StorageKey.Name );
 			
-			Assert.NotNull( "GetFiles() returned null", projects.GetFiles() );
+			Assert.NotNull( projects.GetFiles(), "GetFiles() returned null" );
 			Assert.Equals( 0, projects.GetFiles().Count );
-			Assert.Null( "No RecentFile should return null", projects.RecentFile );
+			Assert.Null( projects.RecentFile, "No RecentFile should return null" );
 
 			projects.RecentFile = "one";
 			projects.RecentFile = "two";

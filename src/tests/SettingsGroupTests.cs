@@ -74,11 +74,11 @@ namespace NUnit.Tests.Util
 			Assert.Equals( "Charlie", testGroup.LoadSetting( "NAME" ) );
 
 			testGroup.RemoveSetting( "X" );
-			Assert.Null( "X not removed", testGroup.LoadSetting( "X" ) );
+			Assert.Null( testGroup.LoadSetting( "X" ), "X not removed" );
 			Assert.Equals( "Charlie", testGroup.LoadSetting( "NAME" ) );
 
 			testGroup.RemoveSetting( "NAME" );
-			Assert.Null( "NAME not removed", testGroup.LoadSetting( "NAME" ) );
+			Assert.Null( testGroup.LoadSetting( "NAME" ), "NAME not removed" );
 		}
 
 		[Test]
@@ -98,11 +98,11 @@ namespace NUnit.Tests.Util
 			Assert.Equals( "Charlie", subGroup.LoadSetting( "NAME" ) );
 
 			subGroup.RemoveSetting( "X" );
-			Assert.Null( "X not removed", subGroup.LoadSetting( "X" ) );
+			Assert.Null( subGroup.LoadSetting( "X" ), "X not removed" );
 			Assert.Equals( "Charlie", subGroup.LoadSetting( "NAME" ) );
 
 			subGroup.RemoveSetting( "NAME" );
-			Assert.Null( "NAME not removed", subGroup.LoadSetting( "NAME" ) );
+			Assert.Null( subGroup.LoadSetting( "NAME" ), "NAME not removed" );
 		}
 
 		[Test]

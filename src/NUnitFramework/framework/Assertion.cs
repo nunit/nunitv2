@@ -45,7 +45,7 @@ namespace NUnit.Framework
 		/// <param name="condition">The evaluated condition</param>
 		static public void Assert(string message, bool condition) 
 		{
-			NUnit.Framework.Assert.True(message, condition);
+			NUnit.Framework.Assert.True(condition, message);
 		}
     
 		/// <summary>
@@ -97,7 +97,7 @@ namespace NUnit.Framework
 
 		static public void AssertEquals(string message, int expected, int actual) 
 		{
-			NUnit.Framework.Assert.Equals(message, expected, actual);
+			NUnit.Framework.Assert.Equals(expected, actual, message);
 		}
 		
 		/// <summary>Asserts that two doubles are equal concerning a delta.
@@ -106,7 +106,7 @@ namespace NUnit.Framework
 		static public void AssertEquals(string message, double expected, 
 			double actual, double delta) 
 		{
-			NUnit.Framework.Assert.Equals(message, expected, actual, delta);
+			NUnit.Framework.Assert.Equals(expected, actual, delta, message);
 		}
 		
 		/// <summary>Asserts that two floats are equal concerning a delta.
@@ -115,7 +115,7 @@ namespace NUnit.Framework
 		static public void AssertEquals(string message, float expected, 
 			float actual, float delta) 
 		{
-			NUnit.Framework.Assert.Equals(message, expected, actual, delta);
+			NUnit.Framework.Assert.Equals(expected, actual, delta, message);
 		}
 
 		/// <summary>
@@ -128,31 +128,31 @@ namespace NUnit.Framework
 		/// </summary>
 		static public void AssertEquals(string message, Object expected, Object actual)
 		{
-			NUnit.Framework.Assert.Equals(message, expected, actual);
+			NUnit.Framework.Assert.Equals(expected, actual, message);
 		}
     
 		/// <summary>Asserts that an object isn't null.</summary>
 		static public void AssertNotNull(Object anObject) 
 		{
-			NUnit.Framework.Assert.NotNull(string.Empty, anObject);
+			NUnit.Framework.Assert.NotNull(anObject, string.Empty);
 		}
     
 		/// <summary>Asserts that an object isn't null.</summary>
 		static public void AssertNotNull(string message, Object anObject) 
 		{
-			NUnit.Framework.Assert.NotNull(message, anObject);
+			NUnit.Framework.Assert.NotNull(anObject, message);
 		}
     
 		/// <summary>Asserts that an object is null.</summary>
 		static public void AssertNull(Object anObject) 
 		{
-			NUnit.Framework.Assert.Null(string.Empty, anObject);
+			NUnit.Framework.Assert.Null(anObject, string.Empty);
 		}
     
 		/// <summary>Asserts that an object is null.</summary>
 		static public void AssertNull(string message, Object anObject) 
 		{
-			NUnit.Framework.Assert.Null(message, anObject);
+			NUnit.Framework.Assert.Null(anObject, message);
 		}
     
 		/// <summary>Asserts that two objects refer to the same object. If they
@@ -160,7 +160,7 @@ namespace NUnit.Framework
 		/// </summary>
 		static public void AssertSame(Object expected, Object actual) 
 		{
-			NUnit.Framework.Assert.Same(string.Empty, expected, actual);
+			NUnit.Framework.Assert.Same(expected, actual, string.Empty);
 		}
     
 		/// <summary>Asserts that two objects refer to the same object. 
@@ -168,7 +168,7 @@ namespace NUnit.Framework
 		/// </summary>
 		static public void AssertSame(string message, Object expected, Object actual)
 		{
-			NUnit.Framework.Assert.Same(message, expected, actual);
+			NUnit.Framework.Assert.Same(expected, actual, message);
 		}
     
 		/// <summary>Fails a test with no message.</summary>

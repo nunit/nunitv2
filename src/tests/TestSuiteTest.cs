@@ -65,7 +65,7 @@ namespace NUnit.Tests.Core
 
 			ArrayList tests = testSuite.Tests;
 			Test test = (Test)tests[0];
-			Assert.True("Expected a TestSuite",test is TestSuite);
+			Assert.True(test is TestSuite, "Expected a TestSuite");
 			Assert.Equals("OneTestCase",test.Name);
 		}
 
@@ -77,7 +77,7 @@ namespace NUnit.Tests.Core
 
 			ArrayList tests = testSuite.Tests;
 			Test test = (Test)tests[0];
-			Assert.True("Expected a TestSuite",test is TestSuite);
+			Assert.True(test is TestSuite, "Expected a TestSuite");
 			Assert.Equals(mockTestFixture.GetType().Name,test.Name);
 
 			Assert.Equals(5, testSuite.CountTestCases);
@@ -100,7 +100,7 @@ namespace NUnit.Tests.Core
 			TestSuite suite = new TestSuite("mock");
 			suite.Add(fixture);
 
-			Assert.True("default state is to run TestSuite", suite.ShouldRun);
+			Assert.True(suite.ShouldRun, "default state is to run TestSuite");
 		}
 
 		[Test]
@@ -110,7 +110,8 @@ namespace NUnit.Tests.Core
 			Assert.Equals(1, tests.Count);
 			TestSuite testSuite = (TestSuite)tests[0];
 
-			Assert.False("ShouldRun should be false because there are no tests", testSuite.ShouldRun);
+			Assert.False(testSuite.ShouldRun,
+				"ShouldRun should be false because there are no tests");
 			Assert.Equals(testSuite.Name + " does not have any tests", testSuite.IgnoreReason);
 		}
 
