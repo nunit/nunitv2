@@ -47,7 +47,8 @@ namespace NUnit.UiKit
 		private static TestLoader loader;
 		private static TestLoaderUI loaderUI;
 
-		public static void Init( Form ownerForm, TextWriter outWriter, TextWriter errWriter )
+		public static void Init( 
+			Form ownerForm, TextWriter outWriter, TextWriter errWriter,	TestLoader loader, bool vsSupport )
 		{
 			AppUI.outWriter = outWriter;
 			Console.SetOut( new ConsoleWriter( outWriter ) );
@@ -55,10 +56,9 @@ namespace NUnit.UiKit
 			AppUI.errWriter = errWriter;
 			Console.SetError( new ConsoleWriter( errWriter ) );
 
-			loader = new TestLoader( outWriter, errWriter );
-			loader.ReloadOnRun = UserSettings.Options.ReloadOnRun;
-			loader.ReloadOnChange = UserSettings.Options.ReloadOnChange;
-			loaderUI = new TestLoaderUI( ownerForm, loader );
+			AppUI.loader = loader;
+
+			AppUI.loaderUI = new TestLoaderUI( ownerForm, loader, vsSupport );
 		}
 
 		public static TextWriter Out
