@@ -598,13 +598,23 @@ namespace NUnit.UiKit
 		/// <param name="test">Test to be loaded</param>
 		public void Load( UITestNode test )
 		{
-			Clear();
+			using( new CP.Windows.Forms.WaitCursor() )
+			{
+				Clear();
+				BeginUpdate();
 
-			AddTreeNodes( Nodes, test, false );
+				try
+				{
 			
-			SetInitialExpansion();
-
-			contextNode = null;
+					AddTreeNodes( Nodes, test, false );		
+					SetInitialExpansion();
+				}
+				finally
+				{
+					EndUpdate();
+					contextNode = null;
+				}
+			}
 		}
 
 		/// <summary>
@@ -613,10 +623,21 @@ namespace NUnit.UiKit
 		/// <param name="result"></param>
 		public void Load( TestResult result )
 		{
-			Clear();
-			AddTreeNodes( Nodes, result, false );
+			using ( new CP.Windows.Forms.WaitCursor( ) )
+			{
+				Clear();
+				BeginUpdate();
 
-			SetInitialExpansion();
+				try
+				{
+					AddTreeNodes( Nodes, result, false );
+					SetInitialExpansion();
+				}
+				finally
+				{
+					EndUpdate();
+				}
+			}
 		}
 
 		/// <summary>
@@ -1022,6 +1043,7 @@ namespace NUnit.UiKit
 			}
 			
 			SelectedNode = Nodes[0];
+			SelectedNode.EnsureVisible();
 		}
 
 		#endregion
