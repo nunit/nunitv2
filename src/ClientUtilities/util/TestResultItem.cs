@@ -79,7 +79,7 @@ namespace NUnit.Util
 				if(stackTrace != null)
 					trace = StackTraceFilter.Filter(stackTrace);
 
-				return stackTrace;
+				return trace;
 			}
 		}
 	}
