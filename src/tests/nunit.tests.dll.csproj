@@ -172,6 +172,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "NUnitRegistryTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "OneTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -193,6 +198,11 @@
                 />
                 <File
                     RelPath = "SetUpTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "StackOverflowTestFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
