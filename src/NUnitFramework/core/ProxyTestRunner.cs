@@ -1,9 +1,8 @@
 namespace NUnit.Core
 {
-	using System;
 	using System.Collections;
 
-	public class ProxyTestRunner : LongLivingMarshalByRefObject, TestRunner
+	public class ProxyTestRunner : TestRunner
 	{
 		TestRunner testRunner;
 
