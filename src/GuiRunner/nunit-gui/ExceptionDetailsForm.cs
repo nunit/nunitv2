@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
@@ -158,6 +159,7 @@ namespace NUnit.Gui
 			this.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("$this.RightToLeft")));
 			this.StartPosition = ((System.Windows.Forms.FormStartPosition)(resources.GetObject("$this.StartPosition")));
 			this.Text = resources.GetString("$this.Text");
+			this.Resize += new System.EventHandler(this.ExceptionDetailsForm_Resize);
 			this.Load += new System.EventHandler(this.ExceptionDetailsForm_Load);
 			this.ResumeLayout(false);
 
@@ -166,8 +168,61 @@ namespace NUnit.Gui
 
 		private void ExceptionDetailsForm_Load(object sender, System.EventArgs e)
 		{
-			this.message.Text = string.Format( "{0}: {1}", exception.GetType().ToString(), exception.Message );
-			this.stackTrace.Text = exception.StackTrace;
+			this.message.Text = FormatMessage( exception );
+			SetMessageLabelSize();
+
+			this.stackTrace.Text = FormatStackTrace( exception );
+		}
+
+		private string FormatMessage( Exception exception )
+		{
+			StringBuilder sb = new StringBuilder();
+
+			for( Exception ex = exception; ex != null; ex = ex.InnerException )
+			{
+				if ( ex != exception ) sb.Append( "\r\n----> " );
+				sb.Append( ex.GetType().ToString() );
+				sb.Append( ": " );
+				sb.Append( ex.Message );
+			}
+
+			return sb.ToString();
+		}
+
+		private string FormatStackTrace( Exception exception )
+		{
+			StringBuilder sb = new StringBuilder();
+			AppendStackTrace( sb, exception );
+
+			return sb.ToString();
+		}
+
+		private void AppendStackTrace( StringBuilder sb, Exception ex )
+		{
+			if ( ex.InnerException != null )
+				AppendStackTrace( sb, ex.InnerException );
+
+			sb.Append( ex.GetType().ToString() );
+			sb.Append( "...\r\n" );
+			sb.Append( ex.StackTrace );
+			sb.Append( "\r\n\r\n" );
+		}
+
+		private void ExceptionDetailsForm_Resize(object sender, System.EventArgs e)
+		{
+			SetMessageLabelSize();
+		}
+
+		private void SetMessageLabelSize()
+		{
+			Rectangle rect = message.ClientRectangle;
+			Graphics g = Graphics.FromHwnd( Handle );
+			SizeF sizeNeeded = g.MeasureString( message.Text, message.Font, rect.Width );
+			int delta = sizeNeeded.ToSize().Height - rect.Height;
+			
+			message.Height += delta;
+			stackTrace.Top += delta;
+			stackTrace.Height -= delta;
 		}
 	}
 }
