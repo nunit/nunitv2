@@ -100,8 +100,8 @@ namespace NUnit.UiKit
 
 		public void OpenProject( string testFileName, string configName )
 		{
-			if ( loader.IsProjectLoaded )
-				SaveProjectIfDirty();
+			if ( loader.IsProjectLoaded && SaveProjectIfDirty() == DialogResult.Cancel )
+				return;
 
 			if ( loader.LoadProject( testFileName, configName ) )
 			{	
@@ -210,20 +210,24 @@ namespace NUnit.UiKit
 
 		public void CloseProject()
 		{
-			SaveProjectIfDirty();
-
-			loader.UnloadProject();
+			if( SaveProjectIfDirty() != DialogResult.Cancel )
+				loader.UnloadProject();
 		}
 
-		private void SaveProjectIfDirty()
+		private DialogResult SaveProjectIfDirty()
 		{
+			DialogResult result = DialogResult.OK;
+
 			if( loader.TestProject.IsDirty )
 			{
 				string msg = "Project has been changed. Do you want to save changes?";
 
-				if ( UserMessage.Ask( msg ) == DialogResult.Yes )
+				result = UserMessage.Ask( msg );
+				if ( result == DialogResult.Yes )
 					SaveProject();
-			}		
+			}
+
+			return result;
 		}
 
 		public void SaveLastResult()

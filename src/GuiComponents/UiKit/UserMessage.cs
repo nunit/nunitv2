@@ -102,14 +102,24 @@ namespace NUnit.UiKit
 			return Display( message, caption, MessageBoxButtons.OK, MessageBoxIcon.Information );
 		}
 
+		public static DialogResult Ask( string message, MessageBoxButtons buttons )
+		{
+			return Ask( message, nunitCaption, buttons );
+		}
+
 		public static DialogResult Ask( string message )
 		{
-			return Ask( message, nunitCaption );
+			return Ask( message, nunitCaption, MessageBoxButtons.YesNo );
 		}
 
 		public static DialogResult Ask( string message, string caption )
 		{
 			return Display( message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question );
+		}
+
+		public static DialogResult Ask( string message, string caption, MessageBoxButtons buttons )
+		{
+			return Display( message, caption, buttons, MessageBoxIcon.Question );
 		}
 
 	}
