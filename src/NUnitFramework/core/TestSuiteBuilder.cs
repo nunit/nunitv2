@@ -232,7 +232,7 @@ namespace NUnit.Core
 					{
 						if( type.Namespace == testName || type.Namespace.StartsWith(prefix) )
 						{
-							suite = BuildFromNameSpace(testName, 0);
+							suite = BuildFromNameSpace( type.Namespace, 0);
 						
 							suite.Add( BuildFrom( type, 0 ) );
 							testFixtureCount++;
