@@ -311,5 +311,43 @@ namespace NUnit.Tests.Core
 			Assert.AreEqual(1, testFixture.setUpCount);
 			Assert.AreEqual(1, testFixture.tearDownCount);
 		}
+
+		[Ignore( "Do Not Run This" )]
+		internal class IgnoredFixture
+		{
+			public bool setupCalled = false;
+			public bool teardownCalled = false;
+
+			[TestFixtureSetUp]
+			public virtual void ShouldNotRun()
+			{
+				setupCalled = true;
+			}
+
+			[TestFixtureTearDown]
+			public virtual void NeitherShouldThis()
+			{
+				teardownCalled = true;
+			}
+
+			[Test]
+			public void Success(){}
+
+			[Test]
+			public void EvenMoreSuccess(){}
+		}
+
+		[Test]
+		public void RunningIgnoredFixtureDoesNotCallFixtureSetUpOrTearDown()
+		{
+			IgnoredFixture testFixture = new IgnoredFixture();
+			TestSuite suite = new TestSuite("IgnoredFixtureSuite");
+			suite.Add(testFixture);
+			TestSuite fixtureSuite = (TestSuite)suite.Tests[0];
+			
+			fixtureSuite.Run(NullListener.NULL);
+			Assert.IsFalse( testFixture.setupCalled, "TestFixtureSetUp was called" );
+			Assert.IsFalse( testFixture.teardownCalled, "TestFixtureTearDown was called" );
+		}
 	}
 }
