@@ -975,7 +975,22 @@ namespace NUnit.Gui
 
 			// Run loaded test automatically if called for
 			if ( commandLineOptions.autorun && TestLoader.IsTestLoaded )
-				TestLoader.RunLoadedTest();
+			{
+				// TODO: Temporary fix to avoid problem when /run is used 
+				// with ReloadOnRun turned on. Refactor TestLoader so
+				// we can just do a run without reload.
+				bool reload = TestLoader.ReloadOnRun;
+				
+				try
+				{
+					TestLoader.ReloadOnRun = false;
+					TestLoader.RunLoadedTest();
+				}
+				finally
+				{
+					TestLoader.ReloadOnRun = reload;
+				}
+			}
 		}
 			
 		private void LoadFormSettings()
