@@ -96,6 +96,9 @@ namespace NUnit.Util
 		// Reload current test
 		void ReloadTest();
 
+		// Set a filter for running tests
+		void SetFilter( IFilter filter );
+
 		// Run a test suite
 		void RunTest( ITest test );
 
