@@ -25,12 +25,12 @@ namespace NUnit.Tests.Extensions
 
 		#region ISuiteBuilder Members
 
-		public TestSuite BuildFrom(Type type)
+		public TestSuite BuildFrom(Type type, int assemblyKey)
 		{
 			if ( type.IsDefined( typeof( MockSuiteExtensionAttribute ), false ) )
-				return new MockSuiteExtension( type );
+				return new MockSuiteExtension( type, assemblyKey );
 			else if ( type.IsDefined( typeof( MockFixtureExtensionAttribute ), false ) )
-				return new MockFixtureExtension( type );
+				return new MockFixtureExtension( type, assemblyKey );
 #if SETUP_FIXTURE
 			else if ( type.IsDefined( typeof( SetUpFixtureAttribute ), false ) )
 				return new SetUpFixture( type );
@@ -69,7 +69,8 @@ namespace NUnit.Tests.Extensions
 	/// </summary>
 	class MockSuiteExtension : TestSuite
 	{
-		public MockSuiteExtension( Type fixtureType ) : base( fixtureType )
+		public MockSuiteExtension( Type fixtureType, int assemblyKey ) 
+			: base( fixtureType, assemblyKey )
 		{
 			// NOTE: Since we are inheriting from TestSuite, the object
 			// will not be created for us, so for now we do it here.
@@ -128,7 +129,8 @@ namespace NUnit.Tests.Extensions
 	/// </summary>
 	class MockFixtureExtension : TestFixture
 	{
-		public MockFixtureExtension( Type fixtureType ) : base( fixtureType )
+		public MockFixtureExtension( Type fixtureType, int assemblyKey ) 
+			: base( fixtureType, assemblyKey )
 		{
 			// NOTE: Since we are inheriting from TestFixture we don't 
 			// have to do anything if we don't want to. Our tests will 

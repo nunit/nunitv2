@@ -15,9 +15,9 @@ namespace NUnit.Core.Builders
 			return !type.IsAbstract && type.IsDefined( TestFixtureType, true );	// Inheritable
 		}
 
-		public TestSuite BuildFrom( Type type )
+		public TestSuite BuildFrom( Type type, int assemblyKey )
 		{
-			return new TestFixture( type );
+			return new TestFixture( type, assemblyKey );
 		}
 	}
 }

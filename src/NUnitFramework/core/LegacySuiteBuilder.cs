@@ -12,9 +12,9 @@ namespace NUnit.Core.Builders
 			return !type.IsAbstract && LegacySuite.GetSuiteProperty( type ) != null;
 		}
 
-		public TestSuite BuildFrom( Type type )
+		public TestSuite BuildFrom( Type type, int assemblyKey )
 		{
-			return new LegacySuite( type );
+			return new LegacySuite( type, assemblyKey );
 		}
 	}
 }

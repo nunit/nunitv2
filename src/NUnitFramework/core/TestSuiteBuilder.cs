@@ -100,11 +100,11 @@ namespace NUnit.Core
 			return false;
 		}
 
-		public TestSuite BuildFrom(Type type)
+		public TestSuite BuildFrom(Type type, int assemblyKey)
 		{
 			foreach( ISuiteBuilder builder in builders )
 				if ( builder.CanBuildFrom( type ) )
-					return builder.BuildFrom( type );
+					return builder.BuildFrom( type, assemblyKey );
 
 			return null;
 		}
@@ -215,9 +215,9 @@ namespace NUnit.Core
 				{
 					// The only place we currently allow legacy suites
 					if ( legacySuiteBuilder.CanBuildFrom( testType ) )
-						return legacySuiteBuilder.BuildFrom( testType );
+						return legacySuiteBuilder.BuildFrom( testType, 0 );
 
-					return BuildFrom( testType );
+					return BuildFrom( testType, 0 );
 				}
 
 				// Assume that testName is a namespace
@@ -234,7 +234,7 @@ namespace NUnit.Core
 						{
 							suite = BuildFromNameSpace(testName, 0);
 						
-							suite.Add( BuildFrom( type ) );
+							suite.Add( BuildFrom( type, 0 ) );
 							testFixtureCount++;
 						}
 					}
@@ -360,7 +360,7 @@ namespace NUnit.Core
 					string namespaces = testType.Namespace;
 					TestSuite suite = builder.BuildFromNameSpace( namespaces, assemblyKey );
 
-					suite.Add( BuildFrom( testType ) );
+					suite.Add( BuildFrom( testType, assemblyKey ) );
 				}
 			}
 
