@@ -43,12 +43,13 @@ namespace NUnit.Tests.Core
 		internal class TestDelegate 
 		{ 
 			public bool delegateCalled = false;
+			public System.IAsyncResult ar;
 
 			public delegate void CallBackFunction(); 
 
 			public TestDelegate() 
 			{ 
-				new CallBackFunction 
+				ar = new CallBackFunction 
 					(DoSomething).BeginInvoke 
 					(null,null); 
 			} 
@@ -63,14 +64,8 @@ namespace NUnit.Tests.Core
 		public void DelegateTest()
 		{
 			TestDelegate testDelegate = new TestDelegate(); 
-			Yield();
+			testDelegate.ar.AsyncWaitHandle.WaitOne(1000, false );
 			Assert.IsTrue(testDelegate.delegateCalled);
-		}
-
-		private void Yield()
-		{
-			Thread currentThread = Thread.CurrentThread;
-			currentThread.Join(1000);
 		}
 	}
 } 
