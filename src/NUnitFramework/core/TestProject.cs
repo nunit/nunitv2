@@ -33,21 +33,30 @@ using System.IO;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Simple representation of a test project used
-	/// in the NUnit core. Unlike the NUnit.Util.TestProject
-	/// class, it only holds the single configuration that
-	/// we are currently working with.
+	/// Simple representation of a test project used in the NUnit
+	/// core. Unlike the NUnit.Util.NUnitProject class, it only holds 
+	/// the single configuration that we are currently working with.
+	/// 
+	/// TODO: This is a temporary arrangement to keep things working
+	/// while we determine the role of the two classes. It should be
+	/// a lot simpler than it is, but NUnitProject has grown to have
+	/// multiple roles and can't be used on the test side.
 	/// </summary>
 	[Serializable]
-	public struct TestProject
+	public class TestProject
 	{
 		private string projectPath;
+		private string basePath;
 		private string[] assemblies;
 
 		public TestProject( string projectPath, string[] assemblies )
+			:this( projectPath, assemblies, null ) { }
+
+		public TestProject( string projectPath, string[] assemblies, string basePath )
 		{
 			this.projectPath = projectPath;
 			this.assemblies = assemblies;
+			this.basePath = basePath;
 		}
 
 		public string Name
@@ -58,6 +67,17 @@ namespace NUnit.Core
 		public string ProjectPath
 		{
 			get { return projectPath; }
+		}
+
+		public string BasePath
+		{
+			get 
+			{
+				if ( basePath != null )
+					return basePath;
+				else
+					return Path.GetDirectoryName( Path.GetFullPath( projectPath ) ); 
+			}
 		}
 
 		public string[] Assemblies

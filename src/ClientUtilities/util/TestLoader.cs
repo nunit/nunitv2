@@ -650,8 +650,7 @@ namespace NUnit.Util
 				//kind of silly
 				string[] testNames = buildTestNameArray();
 
-				testDomain.SetFilter( filter );
-				testDomain.DisplayTestLabels = displayTestLabels;
+				testDomain.Filter = filter;
 				testDomain.Run( this, testNames );
 			}
 		}

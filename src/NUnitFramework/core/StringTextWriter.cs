@@ -32,6 +32,8 @@ using System.Text;
 
 namespace NUnit.Core
 {
+	// TODO: This class is not currently being used. Review to
+	// see if we will use it again, otherwise drop it.
 	#region StringTextWriter
 
 	/// <summary>

@@ -91,12 +91,6 @@ namespace NUnit.Util
 			}
 		}
 
-		public bool DisplayTestLabels
-		{
-			get { return Runner.DisplayTestLabels; }
-			set { Runner.DisplayTestLabels = value; }
-		}
-
 		private TestRunner MakeRemoteTestRunner( AppDomain runnerDomain )
 		{
 			// Inject assembly resolver into remote domain to help locate our assemblies
@@ -160,9 +154,10 @@ namespace NUnit.Util
 			get { return Runner.Results; }
 		}
 
-		public TestResult Result
+		public IFilter Filter
 		{
-			get { return Runner.Result; }
+			get { return Runner.Filter; }
+			set { Runner.Filter = value; }
 		}
 
 		#endregion
@@ -315,11 +310,6 @@ namespace NUnit.Util
 		#endregion
 
 		#region Running Tests
-
-		public void SetFilter( IFilter filter )
-		{
-			Runner.SetFilter( filter );
-		}
 
 		public virtual TestResult Run(NUnit.Core.EventListener listener)
 		{

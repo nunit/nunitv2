@@ -24,7 +24,7 @@ namespace NUnit.Core.Tests
 		{
 			mockRunner.Expect( "Run" );
 
-			runnerThread.Run(NullListener.NULL);
+			runnerThread.StartRun(NullListener.NULL, null);
 			runnerThread.Wait();
 
 			mockRunner.Verify();
@@ -35,7 +35,7 @@ namespace NUnit.Core.Tests
 		{
 			mockRunner.Expect( "Run" );
 
-			runnerThread.Run(NullListener.NULL, "SomeTest" );
+			runnerThread.StartRun(NullListener.NULL, new string[] { "SomeTest" } );
 			runnerThread.Wait();
 
 			mockRunner.Verify();
@@ -47,7 +47,7 @@ namespace NUnit.Core.Tests
 			string[] args = new string[] { "Test1", "Test2", "Test3" };
 			mockRunner.Expect( "Run" );
 
-			runnerThread.Run(NullListener.NULL, args );
+			runnerThread.StartRun(NullListener.NULL, args );
 			runnerThread.Wait();
 
 			mockRunner.Verify();

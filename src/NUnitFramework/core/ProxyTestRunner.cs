@@ -2,50 +2,63 @@ namespace NUnit.Core
 {
 	using System.Collections;
 
-	public class ProxyTestRunner : TestRunner
+	/// <summary>
+	/// ProxyTestRunner is the abstract base for all TestRunner
+	/// implementations that operate by controlling a downstream
+	/// TestRunner. All calls are simply passed on to the
+	/// TestRunner that is provided to the constructor.
+	/// 
+	/// In spite of its name, the class is part of core and is
+	/// used in the test domain as well as the client domain.
+	/// 
+	/// Although the class is abstract, it has no abstract 
+	/// methods specified because each implementation will
+	/// need to override different methods. All methods are
+	/// specified using interface syntax and the derived class
+	/// must explicitly implement TestRunner in order to 
+	/// redefine the selected methods.
+	/// </summary>
+	public abstract class ProxyTestRunner : LongLivingMarshalByRefObject, TestRunner
 	{
-		TestRunner testRunner;
+		#region Instance Variables
+
+		/// <summary>
+		/// The downstream TestRunner
+		/// </summary>
+		protected TestRunner testRunner;
+
+		#endregion
+
+		#region Constructors
 
 		public ProxyTestRunner(TestRunner testRunner)
 		{
 			this.testRunner = testRunner;
 		}
 
+		#endregion
+
+		#region Properties
+
 		public virtual IList TestFrameworks
 		{
-			get
-			{
-				return this.testRunner.TestFrameworks;
-			}
-		}
-
-		public virtual bool DisplayTestLabels
-		{
-			get
-			{
-				return this.testRunner.DisplayTestLabels;
-			}
-			set
-			{
-				this.testRunner.DisplayTestLabels = value;
-			}
+			get { return this.testRunner.TestFrameworks; }
 		}
 
 		public virtual TestResult[] Results
 		{
-			get
-			{
-				return this.testRunner.Results;
-			}
+			get { return this.testRunner.Results; }
 		}
 
-		public virtual TestResult Result
+		public virtual IFilter Filter
 		{
-			get
-			{
-				return this.testRunner.Result;
-			}
+			get { return this.testRunner.Filter; }
+			set { this.testRunner.Filter = value; }
 		}
+
+		#endregion
+
+		#region Load and Unload Methods
 
 		public virtual Test Load(string assemblyName)
 		{
@@ -72,10 +85,9 @@ namespace NUnit.Core
 			this.testRunner.Unload();
 		}
 
-		public virtual void SetFilter(IFilter filter)
-		{
-			this.testRunner.SetFilter(filter);
-		}
+		#endregion
+
+		#region Methods for Counting TestCases
 
 		public virtual int CountTestCases(string testName)
 		{
@@ -87,9 +99,35 @@ namespace NUnit.Core
 			return this.testRunner.CountTestCases(testNames);
 		}
 
+		#endregion
+
+		#region GetCategories Method
+
 		public virtual ICollection GetCategories()
 		{
 			return this.testRunner.GetCategories();
+		}
+
+		#endregion
+
+		#region Methods for Running Tests
+
+		public virtual TestResult Run(EventListener listener)
+		{
+			TestResult[] results = doRun( listener, null );
+			return results == null ? null : results[0];
+		}
+
+		public virtual TestResult[] Run(EventListener listener, string[] testNames)
+		{
+			return doRun(listener, testNames);
+		}
+
+		// Derived classes can change the behavior of both Run methods by
+		// overriding this method.
+		public virtual TestResult[] doRun( EventListener listener, string[] testNames )
+		{
+			return this.testRunner.Run( listener, testNames );
 		}
 
 		public virtual void CancelRun()
@@ -102,14 +140,6 @@ namespace NUnit.Core
 			this.testRunner.Wait();
 		}
 
-		public virtual TestResult Run(EventListener listener)
-		{
-			return this.testRunner.Run(listener);
-		}
-
-		public virtual TestResult[] Run(EventListener listener, string[] testNames)
-		{
-			return this.testRunner.Run(listener, testNames);
-		}
+		#endregion
 	}
 }

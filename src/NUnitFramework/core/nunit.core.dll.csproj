@@ -94,6 +94,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AbstractTestRunner.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AddinManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -115,6 +120,11 @@
                 />
                 <File
                     RelPath = "AssemblyResolver.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "BaseTestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

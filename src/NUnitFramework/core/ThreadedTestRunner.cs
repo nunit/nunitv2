@@ -1,52 +1,45 @@
 namespace NUnit.Core
 {
+	using System;
 	using System.Threading;
+	using System.Collections.Specialized;
 
-	public class ThreadedTestRunner : ProxyTestRunner
+	/// <summary>
+	/// ThreadedTestRunner creates a TestRunnerThread to run the
+	/// tests and at the same time sets up a PumpingEventListener
+	/// to ensure that events are sent back to the caller on the
+	/// same thread that originally called Run. The status of
+	/// the runner thread is checked periodically rather than
+	/// using Wait. This ensures that a gui calling thread is
+	/// available to process any events that are sent.
+	/// </summary>
+	public class ThreadedTestRunner : ProxyTestRunner, TestRunner
 	{
-		TestRunner testRunner;
+		#region Instance Variables
+
+		/// <summary>
+		/// The TestRunnerThread that runs our tests
+		/// </summary>
 		TestRunnerThread thread;
+		
+		#endregion
 
-		public ThreadedTestRunner(TestRunner testRunner) : base(testRunner)
-		{
-			this.testRunner = testRunner;
-		}
+		#region Constructor
 
-		public override TestResult Run(EventListener listener)
-		{
-			this.thread = new TestRunnerThread(this.testRunner);
-			try
-			{
-				using(PumpingEventListener pumpingEventListener = new PumpingEventListener(listener))
-				{
-					this.thread.Run(pumpingEventListener);
-					while(this.thread.IsAlive)
-					{
-						pumpingEventListener.DoEvents();
-						Thread.Sleep(1000 / 50);
-					}
+		public ThreadedTestRunner(TestRunner testRunner) : base( testRunner ) { }
+		
+		#endregion
 
-					if(this.thread.Results == null)
-					{
-						return null;
-					}
-					return this.thread.Results[0];
-				}
-			}
-			finally
-			{
-				this.thread = null;
-			}
-		}
+		#region Override Run Methods
 
-		public override TestResult[] Run(EventListener listener, string[] testNames)
+		protected override TestResult[] doRun(EventListener listener, string[] testNames)
 		{
 			this.thread = new TestRunnerThread(this.testRunner);
 			try
 			{
 				using(PumpingEventListener pumpingEventListener = new PumpingEventListener(listener))
 				{
-					this.thread.Run(pumpingEventListener, testNames);
+					this.thread.StartRun( pumpingEventListener, testNames );
 					while(this.thread.IsAlive)
 					{
 						pumpingEventListener.DoEvents();
@@ -61,12 +54,14 @@ namespace NUnit.Core
 			}
 		}
 
-		public override void CancelRun()
+		void TestRunner.CancelRun()
 		{
 			if(this.thread != null)
 			{
 				this.thread.Cancel();
 			}
 		}
+
+		#endregion
 	}
 }

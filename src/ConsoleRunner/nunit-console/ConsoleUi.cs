@@ -204,12 +204,12 @@ namespace NUnit.ConsoleRunner
 			if (options.HasInclude)
 			{
 				Console.WriteLine( "Included categories: " + options.include );
-				testDomain.SetFilter( new CategoryFilter( options.IncludedCategories ) );
+				testDomain.Filter = new CategoryFilter( options.IncludedCategories );
 			}
 			else if ( options.HasExclude )
 			{
 				Console.WriteLine( "Excluded categories: " + options.exclude );
-				testDomain.SetFilter( new CategoryFilter( options.ExcludedCategories, true ) );
+				testDomain.Filter = new CategoryFilter( options.ExcludedCategories, true );
 			}
 
 			TestResult result = null;
@@ -218,7 +218,7 @@ namespace NUnit.ConsoleRunner
 			{
 				testDomain.Run( collector );
 				testDomain.Wait();
-				result = testDomain.Result;
+				result = testDomain.Results[0];
 			}
 
 			Console.WriteLine();

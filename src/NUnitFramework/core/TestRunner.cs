@@ -76,19 +76,6 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Setting to show a header line for each test case in
-		/// the console output. Included in the interface because
-		/// the handling of text output requires the line to be
-		/// injected at the point of test execution, but may be
-		/// removed when text output is reorganized so that text
-		/// is associated with the test that issued it.
-		/// </summary>
-		bool DisplayTestLabels
-		{
-			get; set;
-		}
-
-		/// <summary>
 		/// Results from the last test run.
 		/// </summary>
 		TestResult[] Results
@@ -97,15 +84,12 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// First (or only) result from the last test run.
-		/// TODO: Calling this when there is more than one
-		/// result is an error. Should we simply remove it?
+		/// Get or set the current run filter
 		/// </summary>
-		TestResult Result
+		IFilter Filter
 		{
-			get;
+			get; set;
 		}
-		
 		#endregion
 
 		#region Load and Unload Methods
@@ -143,17 +127,6 @@ namespace NUnit.Core
 		/// Unload all tests previously loaded
 		/// </summary>
 		void Unload();
-		#endregion
-
-		#region SetFilter Method
-		/// <summary>
-		/// Set a filter that will affect which tests are counted
-		/// or run in any future calls. 
-		/// TODO: Should we make this a r/w property so we can query 
-		/// what filters are set?
-		/// </summary>
-		/// <param name="filter"></param>
-		void SetFilter( IFilter filter );
 		#endregion
 
 		#region CountTestCases Methods

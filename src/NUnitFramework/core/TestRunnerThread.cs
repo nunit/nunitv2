@@ -35,7 +35,9 @@ using System.Collections.Specialized;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Summary description for TestRunnerThread.
+	/// TestRunnerThread encapsulates running a test on a thread.
+	/// It knows how to create the thread based on configuration
+	/// settings and can cancel abort the test if necessary.
 	/// </summary>
 	public class TestRunnerThread
 	{
@@ -75,6 +77,14 @@ namespace NUnit.Core
 		#endregion
 
 		#region Properties
+
+		/// <summary>
+		/// True if the thread is executing
+		/// </summary>
+		public bool IsAlive
+		{
+			get	{ return this.thread.IsAlive; }
+		}
 
 		/// <summary>
 		/// Array of returned results
@@ -128,6 +138,7 @@ namespace NUnit.Core
 			this.runner = runner;
 			this.thread = new Thread( new ThreadStart( TestRunnerThreadProc ) );
 			thread.IsBackground = true;
+			thread.Name = "TestRunnerThread";
 
 			this.settings = (NameValueCollection)
 				ConfigurationSettings.GetConfig( "NUnit/TestRunner" );
@@ -167,30 +178,14 @@ namespace NUnit.Core
 
 		public void Cancel()
 		{
-			this.thread.Abort();
+			this.thread.Abort(); // Request abort first
+
+			// Wake up the thread if necessary
+			if ( ( this.thread.ThreadState & ThreadState.WaitSleepJoin ) != 0 )
+				this.thread.Interrupt();
 		}
 
-		public bool IsAlive
-		{
-			get
-			{
-				return this.thread.IsAlive;
-			}
-		}
-
-		public void Run( EventListener listener )
-		{
-			this.listener = listener;
-
-			thread.Start();
-		}
-
-		public void Run( EventListener listener, string testName )
-		{
-			Run(listener, new string[] { testName });	
-		}
-
-		public void Run( EventListener listener, string[] testNames )
+		public void StartRun( EventListener listener, string[] testNames )
 		{
 			this.listener = listener;
 			this.testNames = testNames;

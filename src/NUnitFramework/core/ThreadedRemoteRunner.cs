@@ -34,7 +34,7 @@ namespace NUnit.Core
 				return null;
 			}
 
-			runningThread.Run( listener, testNames );
+			runningThread.StartRun( listener, testNames );
 
 			//runningThread.Wait();
 

@@ -35,18 +35,47 @@ namespace NUnit.Core
 	using System.Collections;
 
 	/// <summary>
+	/// Implements a queue of work items each of which
+	/// is queued as a WaitCallback.
+	/// </summary>
+	class WorkItemQueue
+	{
+		Queue queue;
+
+		public WorkItemQueue()
+		{
+			this.queue = new Queue();
+		}
+
+		public int Count
+		{
+			get { return this.queue.Count; }
+		}
+
+		public void Enqueue( WaitCallback callback )
+		{
+			this.queue.Enqueue( callback );
+		}
+
+		public WaitCallback Dequeue()
+		{
+			return (WaitCallback)this.queue.Dequeue();
+		}
+	}
+
+	/// <summary>
 	/// This EventListener implementation is used to isolate
 	/// the test runner thread in the test app domain/context.
 	/// </summary>
 	class PumpingEventListener : EventListener, IDisposable
 	{
 		EventListener eventListener;
-		Queue queue;
+		WorkItemQueue workItems;
 
 		public PumpingEventListener(EventListener eventListener)
 		{
 			this.eventListener = eventListener;
-			this.queue = new Queue();
+			this.workItems = new WorkItemQueue();
 		}
 
 		public void Dispose()
@@ -56,9 +85,9 @@ namespace NUnit.Core
 
 		public void DoEvents()
 		{
-			while(this.queue.Count > 0)
+			while(this.workItems.Count > 0)
 			{
-				WaitCallback callback = (WaitCallback)this.queue.Dequeue();
+				WaitCallback callback = this.workItems.Dequeue();
 				callback.DynamicInvoke(new object[] {null});
 			}
 		}
@@ -70,7 +99,7 @@ namespace NUnit.Core
 		public void RunStarted( Test[] tests )
 		{
 			RunStartedWorkItem workItem = new RunStartedWorkItem(this.eventListener, tests);
-			queueWorkItem(new WaitCallback(workItem.Callback));
+			workItems.Enqueue(new WaitCallback(workItem.Callback));
 		}
 
 		class RunStartedWorkItem
@@ -97,7 +126,7 @@ namespace NUnit.Core
 		public void RunFinished( TestResult[] results )
 		{
 			RunFinishedWorkItem workItem = new RunFinishedWorkItem(this.eventListener, results);
-			queueWorkItem(new WaitCallback(workItem.Callback));
+			workItems.Enqueue(new WaitCallback(workItem.Callback));
 		}
 
 		class RunFinishedWorkItem
@@ -124,7 +153,7 @@ namespace NUnit.Core
 		public void RunFinished( Exception exception )
 		{
 			RunFinishedExceptionWorkItem workItem = new RunFinishedExceptionWorkItem(this.eventListener, exception);
-			queueWorkItem(new WaitCallback(workItem.Callback));
+			workItems.Enqueue(new WaitCallback(workItem.Callback));
 		}
 
 		class RunFinishedExceptionWorkItem
@@ -151,7 +180,7 @@ namespace NUnit.Core
 		public void TestStarted(TestCase testCase)
 		{
 			TestStartedWorkItem workItem = new TestStartedWorkItem(this.eventListener, testCase);
-			queueWorkItem(new WaitCallback(workItem.Callback));
+			workItems.Enqueue(new WaitCallback(workItem.Callback));
 		}
 
 		class TestStartedWorkItem
@@ -178,7 +207,7 @@ namespace NUnit.Core
 		public void TestFinished(TestCaseResult result)
 		{
 			TestFinishedWorkItem workItem = new TestFinishedWorkItem(this.eventListener, result);
-			queueWorkItem(new WaitCallback(workItem.Callback));
+			workItems.Enqueue(new WaitCallback(workItem.Callback));
 		}
 
 		class TestFinishedWorkItem
@@ -205,7 +234,7 @@ namespace NUnit.Core
 		public void SuiteStarted(TestSuite suite)
 		{
 			SuiteStartedWorkItem workItem = new SuiteStartedWorkItem(this.eventListener, suite);
-			queueWorkItem(new WaitCallback(workItem.Callback));
+			workItems.Enqueue(new WaitCallback(workItem.Callback));
 		}
 
 		class SuiteStartedWorkItem
@@ -232,7 +261,7 @@ namespace NUnit.Core
 		public void SuiteFinished(TestSuiteResult result)
 		{
 			SuiteFinishedWorkItem workItem = new SuiteFinishedWorkItem(this.eventListener, result);
-			queueWorkItem(new WaitCallback(workItem.Callback));
+			workItems.Enqueue(new WaitCallback(workItem.Callback));
 		}
 
 		class SuiteFinishedWorkItem
@@ -260,7 +289,7 @@ namespace NUnit.Core
 		public void UnhandledException( Exception exception )
 		{
 			UnhandledExceptionWorkItem workItem = new UnhandledExceptionWorkItem(this.eventListener, exception);
-			queueWorkItem(new WaitCallback(workItem.Callback));
+			workItems.Enqueue(new WaitCallback(workItem.Callback));
 		}
 
 		class UnhandledExceptionWorkItem
@@ -287,7 +316,7 @@ namespace NUnit.Core
 		public void TestOutput( TestOutput output )
 		{
 			OutputWorkItem workItem = new OutputWorkItem(this.eventListener, output);
-			queueWorkItem(new WaitCallback(workItem.Callback));
+			workItems.Enqueue(new WaitCallback(workItem.Callback));
 		}
 
 		class OutputWorkItem
@@ -305,11 +334,6 @@ namespace NUnit.Core
 			{
 				this.eventListener.TestOutput(this.output);
 			}
-		}
-
-		void queueWorkItem(WaitCallback callback)
-		{
-			this.queue.Enqueue(callback);
 		}
 	}
 }
