@@ -33,6 +33,17 @@ namespace NUnit.Gui
 	/// fires events in order to provide the information to any component
 	/// that is interested. It also fires events for starting the test
 	/// run, ending it and successfully loading the assembly.
+	/// 
+	/// Most of the events pass out a reference to a test suite, either
+	/// directly or in a TestResult. Since the tests are actually remote
+	/// objects, the references become invalid when the appdomain is 
+	/// unloaded, which can happen at any time. Currently, this requires
+	/// that the client maintain a certain discipline in the user of 
+	/// the references. Specific guarantees for the lifetime of references
+	/// passed to each delegate are provided in comments below.
+	/// 
+	/// At some time, we may want to change this so that clients
+	/// don't have to be so aware of what is happening under the covers.
 	/// </summary>
 	public class UIActions : MarshalByRefObject, NUnit.Core.EventListener
 	{
@@ -67,28 +78,86 @@ namespace NUnit.Gui
 
 		#region Delegates and Events
 
-		public delegate void TestStartedHandler( NUnit.Core.TestCase testCase );
-		public delegate void TestFinishedHandler( TestCaseResult result );
-		public delegate void SuiteStartedHandler( TestSuite suite );
-		public delegate void SuiteFinishedHandler( TestSuiteResult result );
-		public delegate void RunStartingHandler( Test test );
-		public delegate void RunFinishedHandler( TestResult result );
+		/// <summary>
+		/// Test suite was loaded. Client should not be holding any
+		/// previous references, since a SuiteUnloadedEvent will 
+		/// have preceded this one. The Test reference passed and
+		/// any contained references are valid until another event
+		/// occurs to invalidate them.
+		/// </summary>
 		public delegate void SuiteLoadedHandler( Test test, string assemblyFileName);
-		public delegate void SuiteChangedHandler( Test test );
-		public delegate void SuiteUnloadedHandler( );
-		public delegate void AssemblyLoadFailureHandler( string assemblyFileName, Exception exception );
-
-		public event TestStartedHandler TestStartedEvent;
-		public event TestFinishedHandler TestFinishedEvent;
-		public event SuiteStartedHandler SuiteStartedEvent;
-		public event SuiteFinishedHandler SuiteFinishedEvent;
-		public event RunStartingHandler RunStartingEvent;
-		public event RunFinishedHandler RunFinishedEvent;
 		public event SuiteLoadedHandler SuiteLoadedEvent;
+		
+		/// <summary>
+		/// Current test suite has changed. The previously received
+		/// references are valid for use during this call but must
+		/// be replaced by newly supplied references for later use.
+		/// NOTE: This is rather inconvenient for the client but
+		/// is required in order to reflect changes made to the 
+		/// tests while the client is running.
+		/// </summary>
+		public delegate void SuiteChangedHandler( Test test );
 		public event SuiteChangedHandler SuiteChangedEvent;
+		
+		/// <summary>
+		/// Test suite unloaded. The previously loaded test suite 
+		/// reference, and all it's contained test references are
+		/// valid for use during this call but not after.
+		/// </summary>
+		public delegate void SuiteUnloadedHandler( );
 		public event SuiteUnloadedHandler SuiteUnloadedEvent;
+		
+		/// <summary>
+		/// A failure occured in loading an assembly. This may be as
+		/// a result of a client request to load an assembly or as a 
+		/// result of an asynchronous change that required reloading 
+		/// the assembly. If the assemblyFileName is the same as that
+		/// which is currently held by the client, then all references
+		/// should be considered immediately invalid. If the name is
+		/// different, then old references are still valid - unless,
+		/// of course, an AssemblyUnloadEvent has been processed.
+		/// </summary>
+		public delegate void AssemblyLoadFailureHandler( string assemblyFileName, Exception exception );
 		public event AssemblyLoadFailureHandler AssemblyLoadFailureEvent;
 
+		/// <summary>
+		/// Test run starting. To allow for changes in the test runner,
+		/// consider the Test reference as only valid for this call.
+		/// </summary>
+		public delegate void RunStartingHandler( Test test );
+		public event RunStartingHandler RunStartingEvent;
+		
+		/// <summary>
+		/// A Suite has started. Reference is only valid for this call.
+		/// </summary>
+		public delegate void SuiteStartedHandler( TestSuite suite );
+		public event SuiteStartedHandler SuiteStartedEvent;
+		
+		/// <summary>
+		/// A test has started. Reference is only valid for this call.
+		/// </summary>
+		public delegate void TestStartedHandler( NUnit.Core.TestCase testCase );
+		public event TestStartedHandler TestStartedEvent;
+		
+		/// <summary>
+		/// A test has finished. Reference is only valid for this call.
+		/// </summary>
+		public delegate void TestFinishedHandler( TestCaseResult result );
+		public event TestFinishedHandler TestFinishedEvent;
+		
+		/// <summary>
+		/// A Suite has finished. Reference is only valid for this call.
+		/// </summary>
+		public delegate void SuiteFinishedHandler( TestSuiteResult result );
+		public event SuiteFinishedHandler SuiteFinishedEvent;
+		
+		/// <summary>
+		/// Test run finished. To allow for changes in the test runner,
+		/// consider the TestResult reference as only valid for this call.
+		/// </summary>
+		public delegate void RunFinishedHandler( TestResult result );
+		public event RunFinishedHandler RunFinishedEvent;
+		
 		#endregion
 
 		#region Constructor
@@ -166,7 +235,7 @@ namespace NUnit.Gui
 		/// firing the RunStarting and RunFinished events
 		/// </summary>
 		/// <param name="test">Test to be run</param>
-		public void RunTestSuite(Test test)
+		public void RunTestSuite( Test test )
 		{
 			if ( RunStartingEvent != null )
 				RunStartingEvent( test );
@@ -299,6 +368,7 @@ namespace NUnit.Gui
 			FileInfo info = new FileInfo(assemblyFileName);
 			watcher = new AssemblyWatcher(1000, info);
 			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( OnAssemblyChanged );
+			watcher.Start();
 		}
 
 		/// <summary>
