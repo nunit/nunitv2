@@ -276,6 +276,16 @@ namespace NUnit.Tests.Core
 			Assert.AreEqual(MockTestFixture.Tests, listener.testStarted.Count);
 		}
 
+		[Test]
+		public void RunSingleTest()
+		{
+			TestFixture fixture = new TestFixture( typeof( NUnit.Tests.Assemblies.MockTestFixture ) );
+			Test test = (Test) fixture.Tests[0];
+			RecordingListener listener = new RecordingListener();
+			test.Run(listener, null);
+			Assert.IsFalse(listener.lastResult.IsFailure);
+		}
+
 		private Test findTest(string name, Test test) 
 		{
 			Test result = null;
@@ -322,6 +332,8 @@ namespace NUnit.Tests.Core
 		public ArrayList suiteStarted = new ArrayList();
 		public ArrayList suiteFinished = new ArrayList();
 
+		public TestResult lastResult = null;
+
 		public void RunStarted(Test[] tests)
 		{
 		}
@@ -342,6 +354,7 @@ namespace NUnit.Tests.Core
 		public void TestFinished(TestCaseResult result)
 		{
 			testFinished.Add(result.Name);
+			lastResult = result;
 		}
 
 		public void SuiteStarted(TestSuite suite)
