@@ -36,8 +36,9 @@ using System.Xml;
 using System.Xml.Schema;
 using NUnit.Core;
 using NUnit.Framework;
+using NUnit.Util;
 
-namespace NUnit.Tests.Core
+namespace NUnit.Tests.Util
 {
 	/// <summary>
 	/// Summary description for XmlTest.

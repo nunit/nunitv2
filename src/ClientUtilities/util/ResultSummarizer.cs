@@ -27,102 +27,61 @@
 '***********************************************************************************/
 #endregion
 
-namespace NUnit.Core
+namespace NUnit.Util
 {
 	using System;
+	using NUnit.Core;
 
 	/// <summary>
-	/// Summary description for SiummaryVisitor.
+	/// Summary description for ResultSummarizer.
 	/// </summary>
-	public class SummaryVisitor : ResultVisitor
+	public class ResultSummarizer
 	{
-		private int totalCount;
-		private int failureCount;
-		private int testsNotRun;
-		private int suitesNotRun;
-		
-		private double time;
-		private string name;
-		private bool initialized;
+		private SummaryVisitor visitor = new SummaryVisitor();
 
-		public SummaryVisitor()
+		public ResultSummarizer(TestResult result)
 		{
-			totalCount = 0;
-			initialized = false;
-		}
-
-		public void Visit(TestCaseResult caseResult) 
-		{
-			SetNameandTime(caseResult.Name, caseResult.Time);
-
-			if(caseResult.Executed)
-			{
-				totalCount++;
-				if(caseResult.IsFailure)
-					failureCount++;
-			}
-			else
-				testsNotRun++;
-		}
-
-		public void Visit(TestSuiteResult suiteResult) 
-		{
-			SetNameandTime(suiteResult.Name, suiteResult.Time);
-
-			
-			
-			foreach (TestResult result in suiteResult.Results)
-			{
-				result.Accept(this);
-			}
-			
-			if(!suiteResult.Executed)
-				suitesNotRun++;
-		}
-
-		public double Time
-		{
-			get { return time; }
-		}
-
-		private void SetNameandTime(string name, double time)
-		{
-			if(!initialized)
-			{
-				this.time = time;
-				this.name = name;
-				initialized = true;
-			}
-		}
-
-		public bool Success
-		{
-			get { return (failureCount == 0); }
-		}
-
-		public int Count
-		{
-			get { return totalCount; }
-		}
-
-		public int Failures
-		{
-			get { return failureCount; }
-		}
-
-		public int TestsNotRun
-		{
-			get { return testsNotRun; }
-		}
-
-		public int SuitesNotRun
-		{
-			get { return suitesNotRun; }
+			result.Accept(visitor);
 		}
 
 		public string Name
 		{
-			get { return name; }
+			get { return visitor.Name; }
+		}
+
+		public bool Success
+		{
+			get { return visitor.Success; }
+		}
+
+		public int ResultCount
+		{
+			get { return visitor.Count; }
+		}
+
+//		public int Errors
+//		{
+//			get { return visitor.Errors; }
+//		}
+
+		public int Failures 
+		{
+			get { return visitor.Failures; }
+		}
+
+		public double Time
+		{
+			get { return visitor.Time; }
+		}
+
+		public int TestsNotRun
+		{
+			get { return visitor.TestsNotRun; }
+		}
+
+		public int SuitesNotRun
+		{
+			get { return visitor.SuitesNotRun; }
 		}
 	}
 }

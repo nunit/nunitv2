@@ -188,11 +188,6 @@
                     BuildAction = "None"
                 />
                 <File
-                    RelPath = "ResultSummarizer.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ResultVisitor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -215,11 +210,6 @@
                 <File
                     RelPath = "Summary.xslt"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "SummaryVisitor.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "TemplateTestCase.cs"
@@ -282,11 +272,6 @@
                 />
                 <File
                     RelPath = "WarningSuite.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "XmlResultVisitor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

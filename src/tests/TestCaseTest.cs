@@ -31,6 +31,7 @@ using System;
 using NUnit.Framework;
 using NUnit.Tests.Assemblies;
 using NUnit.Core;
+using NUnit.Util;
 
 namespace NUnit.Tests.Core
 {

@@ -555,7 +555,10 @@ namespace NUnit.Util
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
 					TestDomain newDomain = new TestDomain();
-					UITestNode newTest = testProject.LoadTest( newDomain );
+					Test newTest = testProject.LoadTest( newDomain );
+					TestSuite suite = newTest as TestSuite;
+					if ( suite != null )
+						suite.Sort();
 
 					testDomain.Unload();
 

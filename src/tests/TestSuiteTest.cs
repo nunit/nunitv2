@@ -30,6 +30,7 @@
 using System;
 using NUnit.Framework;
 using NUnit.Core;
+using NUnit.Util;
 using NUnit.Tests.Assemblies;
 using System.Collections;
 
