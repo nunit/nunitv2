@@ -1041,47 +1041,7 @@ namespace NUnit.Gui
 
 		#endregion
 
-		#region Other UI Event Handlers
-
-		/// <summary>
-		/// When the Run Button is clicked, run the selected test.
-		/// </summary>
-		private void runButton_Click(object sender, System.EventArgs e)
-		{
-			TestLoader.RunTestSuite( testSuiteTreeView.SelectedTest );
-		}
-
-		/// <summary>
-		/// When the Stop Button is clicked, cancel running test
-		/// </summary>
-		private void stopButton_Click(object sender, System.EventArgs e)
-		{
-			stopButton.Enabled = false;
-
-			if ( IsTestRunning )
-			{
-				DialogResult dialogResult = UserMessage.Ask( 
-					"Do you want to cancel the running test?" );
-
-				if ( dialogResult == DialogResult.No )
-					stopButton.Enabled = true;
-				else
-					TestLoader.CancelTestRun();
-			}
-		}
-
-		/// <summary>
-		/// When a tree item is selected, display info pertaining 
-		/// to that test unless a test is running.
-		/// </summary>
-		private void OnSelectedTestChanged( UITestNode test )
-		{
-			if ( !IsTestRunning )
-			{
-				suiteName.Text = test.ShortName;
-				statusBar.Initialize( test.CountTestCases );
-			}
-		}
+		#region Form Level Events
 
 		/// <summary>
 		/// Exit application when space key is tapped
@@ -1130,13 +1090,6 @@ namespace NUnit.Gui
 			if ( IsProjectLoaded )
 				TestLoaderUI.CloseProject();
 
-			if ( this.WindowState == FormWindowState.Normal )
-			{
-				UserSettings.Form.Location = this.Location;
-				UserSettings.Form.Size = this.Size;
-				UserSettings.Form.TreeSplitterPosition = this.splitter1.SplitPosition;
-				UserSettings.Form.TabSplitterPosition = this.splitter3.SplitPosition;
-			}
 		}
 
 		/// <summary>
@@ -1144,15 +1097,47 @@ namespace NUnit.Gui
 		/// </summary>
 		private void NUnitForm_Load(object sender, System.EventArgs e)
 		{
+			LoadFormSettings();
+			SubscribeToTestEvents();
+			InitializeControls();
+			
+			// Load test specified on command line or
+			// the most recent one if options call for it
+			if ( commandLineOptions.testFileName != null )
+				TestLoaderUI.OpenProject( commandLineOptions.testFileName, commandLineOptions.configName );
+			else if( UserSettings.Options.LoadLastProject && !commandLineOptions.noload )
+			{
+				string recentProjectName = UserSettings.RecentProjects.RecentFile;
+				if ( recentProjectName != null )
+					TestLoaderUI.OpenProject( recentProjectName );
+			}
+		}
+
+		private void LoadFormSettings()
+		{
 			// Set position of the form
 			this.Location = UserSettings.Form.Location;
 			this.Size = UserSettings.Form.Size;
 
+			// Maximize window if that was it's last state
+			if ( UserSettings.Form.IsMaximized )
+				this.WindowState = FormWindowState.Maximized;
+
+			// Handle changes to form position
+			this.Move += new System.EventHandler(this.NUnitForm_Move);
+			this.Resize += new System.EventHandler(this.NUnitForm_Resize);
+
 			// Set the splitter positions
 			this.splitter1.SplitPosition = UserSettings.Form.TreeSplitterPosition;
 			this.splitter3.SplitPosition = UserSettings.Form.TabSplitterPosition;
-		
-			// Set up events handled by the form
+
+			// Handle changes in splitter positions
+			this.splitter1.SplitterMoved += new SplitterEventHandler( splitter1_SplitterMoved );
+			this.splitter3.SplitterMoved += new SplitterEventHandler( splitter3_SplitterMoved );
+		}
+
+		private void SubscribeToTestEvents()
+		{
 			ITestEvents events = TestLoader.Events;
 
 			events.RunStarting += new TestEventHandler( OnRunStarting );
@@ -1170,8 +1155,10 @@ namespace NUnit.Gui
 			events.TestReloading	+= new TestEventHandler( OnReloadStarting );
 			events.TestReloaded		+= new TestEventHandler( OnTestChanged );
 			events.TestReloadFailed	+= new TestEventHandler( OnTestLoadFailure );
+		}
 
-			// Allow controls to initialize as well
+		private void InitializeControls()
+		{
 			// ToDo: Migrate more ui elements to handle events on their own.
 			this.testSuiteTreeView.Initialize( TestLoader, TestLoader.Events );
 			this.progressBar.Initialize( TestLoader.Events );
@@ -1182,16 +1169,82 @@ namespace NUnit.Gui
 			// be more than one app that uses the same controls.
 			testSuiteTreeView.ClearResultsOnChange = 
 				UserSettings.Options.ClearResults;
-			
-			// Load test specified on command line or
-			// the most recent one if options call for it
-			if ( commandLineOptions.testFileName != null )
-				TestLoaderUI.OpenProject( commandLineOptions.testFileName, commandLineOptions.configName );
-			else if( UserSettings.Options.LoadLastProject && !commandLineOptions.noload )
+		}
+
+		private void NUnitForm_Move(object sender, System.EventArgs e)
+		{
+			if ( this.WindowState == FormWindowState.Normal )
 			{
-				string recentProjectName = UserSettings.RecentProjects.RecentFile;
-				if ( recentProjectName != null )
-					TestLoaderUI.OpenProject( recentProjectName );
+				UserSettings.Form.Location = this.Location;
+				UserSettings.Form.IsMaximized = false;
+
+				this.statusBar.SizingGrip = true;
+			}
+			else if ( this.WindowState == FormWindowState.Maximized )
+			{
+				UserSettings.Form.IsMaximized = true;
+
+				this.statusBar.SizingGrip = false;
+			}
+		}
+
+		private void NUnitForm_Resize(object sender, System.EventArgs e)
+		{
+			if ( this.WindowState == FormWindowState.Normal )
+				UserSettings.Form.Size = this.Size;
+		}
+
+		private void splitter1_SplitterMoved( object sender, SplitterEventArgs e )
+		{
+			UserSettings.Form.TreeSplitterPosition = splitter1.SplitPosition;
+		}
+
+		private void splitter3_SplitterMoved( object sender, SplitterEventArgs e )
+		{
+			UserSettings.Form.TabSplitterPosition = splitter3.SplitPosition;
+		}
+
+		#endregion
+
+		#region Other UI Event Handlers
+
+		/// <summary>
+		/// When the Run Button is clicked, run the selected test.
+		/// </summary>
+		private void runButton_Click(object sender, System.EventArgs e)
+		{
+			TestLoader.RunTestSuite( testSuiteTreeView.SelectedTest );
+		}
+
+		/// <summary>
+		/// When the Stop Button is clicked, cancel running test
+		/// </summary>
+		private void stopButton_Click(object sender, System.EventArgs e)
+		{
+			stopButton.Enabled = false;
+
+			if ( IsTestRunning )
+			{
+				DialogResult dialogResult = UserMessage.Ask( 
+					"Do you want to cancel the running test?" );
+
+				if ( dialogResult == DialogResult.No )
+					stopButton.Enabled = true;
+				else
+					TestLoader.CancelTestRun();
+			}
+		}
+
+		/// <summary>
+		/// When a tree item is selected, display info pertaining 
+		/// to that test unless a test is running.
+		/// </summary>
+		private void OnSelectedTestChanged( UITestNode test )
+		{
+			if ( !IsTestRunning )
+			{
+				suiteName.Text = test.ShortName;
+				statusBar.Initialize( test.CountTestCases );
 			}
 		}
 
