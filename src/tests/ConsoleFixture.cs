@@ -147,6 +147,17 @@ namespace NUnit.Tests.CommandLine
 		}
 
 		[Test]
+		public void XmlParameterWithFullPathUsingEqualSign()
+		{
+			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/xml=C:\\nunit\\tests\\bin\\Debug\\console-test.xml"});
+			Assert.IsTrue(parser.ParameterCount == 1, "assembly should be set");
+			Assert.AreEqual("tests.dll", parser.Parameters[0]);
+
+			Assert.IsTrue(parser.IsXml, "XML file name should be set");
+			Assert.AreEqual("C:\\nunit\\tests\\bin\\Debug\\console-test.xml", parser.xml);
+		}
+
+		[Test]
 		public void TransformParameter()
 		{
 			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/transform:Summary.xslt"});
