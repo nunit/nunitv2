@@ -357,8 +357,8 @@ namespace NUnit.Util
 			TestNode node = this[result];	
 			if ( node != null )
 				node.SetResult( result );
-			else
-				Console.Error.WriteLine("Could not locate node: " + result.Test.FullName + " in tree map");
+//			else
+//				Console.Error.WriteLine("Could not locate node: " + result.Test.FullName + " in tree map");
 		}
 
 		/// <summary>
@@ -372,46 +372,25 @@ namespace NUnit.Util
 				node.Expand();
 		}
 
-#if CHARLIE		
-		/// <summary>
-		/// Helper figures out if a node represents a test fixture
-		/// </summary>
-		/// <param name="node">Node to be examined</param>
-		/// <returns>True if the node represents a test fixture</returns>
-		private bool NodeIsFixture( TestNode node )
-		{
-			// Test case isn't a fixture
-			if ( node.Test is NUnit.Core.TestSuite )
-				return false;
-			
-			// Suite with no children can only be a fixture
-			if ( node.Nodes.Count == 0 )
-				return true;
-
-			// Otherwise, it depends on what kind of children it has
-			TestNode child = (TestNode)node.Nodes[0];
-			return child.Test is NUnit.Core.TestCase;
-		}
-
 		/// <summary>
         /// Collapse all fixtures in the tree
         /// </summary>
 		public void CollapseFixtures()
 		{
-			CollapseFixtures( RootNode );
+			CollapseFixturesUnderNode( RootNode );
 		}
 
 		/// <summary>
 		/// Helper collapses all fixtures under a node
 		/// </summary>
 		/// <param name="node">Node under which to collapse fixtures</param>
-		private void CollapseFixtures( TestNode node )
+		private void CollapseFixturesUnderNode( TestNode node )
 		{
-			if ( NodeIsFixture( node ) )
+			if ( node.Test.IsFixture )
 				node.Collapse();
 			else 
 				foreach( TestNode child in node.Nodes )
-					CollapseFixtures( child );		
+					CollapseFixturesUnderNode( child );		
 		}
 
 		/// <summary>
@@ -419,22 +398,21 @@ namespace NUnit.Util
 		/// </summary>
 		public void ExpandFixtures()
 		{
-			ExpandFixtures( RootNode );
+			ExpandFixturesUnderNode( RootNode );
 		}
 
 		/// <summary>
 		/// Helper expands all fixtures under a node
 		/// </summary>
 		/// <param name="node">Node under which to expand fixtures</param>
-		private void ExpandFixtures( TestNode node )
+		private void ExpandFixturesUnderNode( TestNode node )
 		{
-			if ( NodeIsFixture( node ) )
+			if ( node.Test.IsFixture )
 				node.Expand();
 			else 
 				foreach( TestNode child in node.Nodes )
-					ExpandFixtures( child );		
+					ExpandFixturesUnderNode( child );		
 		}
-#endif
         #endregion
 	}
 }
