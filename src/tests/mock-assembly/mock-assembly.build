@@ -20,6 +20,9 @@
                 <include name="nunit.core.dll"/>
             </references>
         </csc>
+
+        <copy file="${src.dir}/tests/mock-assembly/mock-assembly.dll.config" todir="${bin.dir}"/>
+
     </target>
 
     <target name="copy">
@@ -27,6 +30,7 @@
             <fileset basedir=".">
                 <include name="mock-assembly.csproj"/>
                 <include name="mock-assembly.build"/>
+                <include name="mock-assembly.dll.config"/>
                 <include name="*.cs"/>
             </fileset>
         </copy>
