@@ -80,6 +80,8 @@ namespace NUnit.Tests.Core
 
 			Assert.AreEqual(1, testFixture.setUpCount);
 			Assert.AreEqual(1, testFixture.tearDownCount);
+			Assert.AreEqual(2, suite.CountTestCases );
+			Assert.AreEqual(2, ((TestSuite)suite.Tests[0]).Tests.Count );
 		}
 
 		[Test]
@@ -255,6 +257,59 @@ namespace NUnit.Tests.Core
 			Assert.AreEqual(1, summ.ResultCount);
 			Assert.AreEqual(0, summ.TestsNotRun);
 			Assert.AreEqual(0, summ.SuitesNotRun);
+		}
+
+		internal class SetUpAndTearDownWithTestInName
+		{
+			internal int setUpCount = 0;
+			internal int tearDownCount = 0;
+
+			[TestFixtureSetUp]
+			public virtual void TestFixtureSetUp()
+			{
+				setUpCount++;
+			}
+
+			[TestFixtureTearDown]
+			public virtual void TestFixtureTearDown()
+			{
+				tearDownCount++;
+			}
+
+			[Test]
+			public void Success(){}
+
+			[Test]
+			public void EvenMoreSuccess(){}
+		}
+
+		[Test]
+		public void HandleSetUpAndTearDownWithTestInName()
+		{
+			SetUpAndTearDownWithTestInName testFixture = new SetUpAndTearDownWithTestInName();
+			TestSuite suite = new TestSuite("SetUpAndTearDownSuite");
+			suite.Add(testFixture);
+			suite.Run(NullListener.NULL);
+
+			Assert.AreEqual(1, testFixture.setUpCount);
+			Assert.AreEqual(1, testFixture.tearDownCount);
+			Assert.AreEqual(2, suite.CountTestCases );
+			Assert.AreEqual(2, ((TestSuite)suite.Tests[0]).Tests.Count );
+		}
+
+		[Test]
+		public void RunningSingleMethodCallsSetUpAndTearDown()
+		{
+			SetUpAndTearDownFixture testFixture = new SetUpAndTearDownFixture();
+			TestSuite suite = new TestSuite("SetUpAndTearDownSuite");
+			suite.Add(testFixture);
+			TestSuite fixtureSuite = (TestSuite)suite.Tests[0];
+			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)fixtureSuite.Tests[0];
+			
+			// Normal Run does not run Fixture Setup and Teardown
+			testCase.Run(NullListener.NULL);
+			Assert.AreEqual(1, testFixture.setUpCount);
+			Assert.AreEqual(1, testFixture.tearDownCount);
 		}
 	}
 }
