@@ -67,7 +67,6 @@ namespace NUnit.Gui
 		public System.Windows.Forms.Splitter splitter1;
 		public System.Windows.Forms.Panel panel1;
 		public System.Windows.Forms.GroupBox groupBox1;
-		public System.Windows.Forms.Splitter splitter2;
 		public System.Windows.Forms.TabPage testsNotRun;
 		public System.Windows.Forms.MenuItem openMenuItem;
 		public System.Windows.Forms.MenuItem exitMenuItem;
@@ -77,7 +76,6 @@ namespace NUnit.Gui
 		public System.Windows.Forms.ListBox detailList;
 		public System.Windows.Forms.Splitter splitter3;
 		public System.Windows.Forms.TextBox stackTrace;
-		public System.Windows.Forms.Label label1;
 		public System.Windows.Forms.Label suiteName;
 		public System.Windows.Forms.Button runButton;
 		public NUnit.UiKit.StatusBar statusBar;
@@ -234,11 +232,9 @@ namespace NUnit.Gui
 			this.stdErrTab = new System.Windows.Forms.TextBox();
 			this.stdout = new System.Windows.Forms.TabPage();
 			this.stdOutTab = new System.Windows.Forms.TextBox();
-			this.splitter2 = new System.Windows.Forms.Splitter();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.runButton = new System.Windows.Forms.Button();
 			this.suiteName = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
 			this.progressBar = new NUnit.UiKit.ProgressBar();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -374,7 +370,6 @@ namespace NUnit.Gui
 			// 
 			this.panel1.Controls.AddRange(new System.Windows.Forms.Control[] {
 																				 this.resultTabs,
-																				 this.splitter2,
 																				 this.groupBox1});
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panel1.Location = new System.Drawing.Point(364, 0);
@@ -390,10 +385,10 @@ namespace NUnit.Gui
 																					 this.stderr,
 																					 this.stdout});
 			this.resultTabs.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.resultTabs.Location = new System.Drawing.Point(0, 189);
+			this.resultTabs.Location = new System.Drawing.Point(0, 120);
 			this.resultTabs.Name = "resultTabs";
 			this.resultTabs.SelectedIndex = 0;
-			this.resultTabs.Size = new System.Drawing.Size(567, 322);
+			this.resultTabs.Size = new System.Drawing.Size(567, 391);
 			this.resultTabs.TabIndex = 2;
 			// 
 			// errorPage
@@ -404,7 +399,7 @@ namespace NUnit.Gui
 																					this.detailList});
 			this.errorPage.Location = new System.Drawing.Point(4, 25);
 			this.errorPage.Name = "errorPage";
-			this.errorPage.Size = new System.Drawing.Size(559, 293);
+			this.errorPage.Size = new System.Drawing.Size(559, 362);
 			this.errorPage.TabIndex = 0;
 			this.errorPage.Text = "Errors and Failures";
 			// 
@@ -417,7 +412,7 @@ namespace NUnit.Gui
 			this.stackTrace.Name = "stackTrace";
 			this.stackTrace.ReadOnly = true;
 			this.stackTrace.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stackTrace.Size = new System.Drawing.Size(559, 186);
+			this.stackTrace.Size = new System.Drawing.Size(559, 255);
 			this.stackTrace.TabIndex = 2;
 			this.stackTrace.Text = "";
 			this.stackTrace.WordWrap = false;
@@ -451,7 +446,7 @@ namespace NUnit.Gui
 																					  this.notRunTree});
 			this.testsNotRun.Location = new System.Drawing.Point(4, 25);
 			this.testsNotRun.Name = "testsNotRun";
-			this.testsNotRun.Size = new System.Drawing.Size(559, 293);
+			this.testsNotRun.Size = new System.Drawing.Size(559, 354);
 			this.testsNotRun.TabIndex = 1;
 			this.testsNotRun.Text = "Tests Not Run";
 			// 
@@ -461,7 +456,7 @@ namespace NUnit.Gui
 			this.notRunTree.ImageIndex = -1;
 			this.notRunTree.Name = "notRunTree";
 			this.notRunTree.SelectedImageIndex = -1;
-			this.notRunTree.Size = new System.Drawing.Size(559, 293);
+			this.notRunTree.Size = new System.Drawing.Size(559, 354);
 			this.notRunTree.TabIndex = 0;
 			// 
 			// stderr
@@ -470,7 +465,7 @@ namespace NUnit.Gui
 																				 this.stdErrTab});
 			this.stderr.Location = new System.Drawing.Point(4, 25);
 			this.stderr.Name = "stderr";
-			this.stderr.Size = new System.Drawing.Size(559, 293);
+			this.stderr.Size = new System.Drawing.Size(559, 354);
 			this.stderr.TabIndex = 2;
 			this.stderr.Text = "Standard Error";
 			// 
@@ -482,7 +477,7 @@ namespace NUnit.Gui
 			this.stdErrTab.Name = "stdErrTab";
 			this.stdErrTab.ReadOnly = true;
 			this.stdErrTab.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stdErrTab.Size = new System.Drawing.Size(559, 293);
+			this.stdErrTab.Size = new System.Drawing.Size(559, 354);
 			this.stdErrTab.TabIndex = 0;
 			this.stdErrTab.Text = "";
 			this.stdErrTab.WordWrap = false;
@@ -493,7 +488,7 @@ namespace NUnit.Gui
 																				 this.stdOutTab});
 			this.stdout.Location = new System.Drawing.Point(4, 25);
 			this.stdout.Name = "stdout";
-			this.stdout.Size = new System.Drawing.Size(559, 293);
+			this.stdout.Size = new System.Drawing.Size(559, 354);
 			this.stdout.TabIndex = 3;
 			this.stdout.Text = "Standard Out";
 			// 
@@ -505,40 +500,29 @@ namespace NUnit.Gui
 			this.stdOutTab.Name = "stdOutTab";
 			this.stdOutTab.ReadOnly = true;
 			this.stdOutTab.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stdOutTab.Size = new System.Drawing.Size(559, 293);
+			this.stdOutTab.Size = new System.Drawing.Size(559, 354);
 			this.stdOutTab.TabIndex = 0;
 			this.stdOutTab.Text = "";
 			this.stdOutTab.WordWrap = false;
-			// 
-			// splitter2
-			// 
-			this.splitter2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.splitter2.Location = new System.Drawing.Point(0, 185);
-			this.splitter2.MinSize = 130;
-			this.splitter2.Name = "splitter2";
-			this.splitter2.Size = new System.Drawing.Size(567, 4);
-			this.splitter2.TabIndex = 1;
-			this.splitter2.TabStop = false;
 			// 
 			// groupBox1
 			// 
 			this.groupBox1.Controls.AddRange(new System.Windows.Forms.Control[] {
 																					this.runButton,
 																					this.suiteName,
-																					this.label1,
 																					this.progressBar});
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(567, 185);
+			this.groupBox1.Size = new System.Drawing.Size(567, 120);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Run";
 			// 
 			// runButton
 			// 
-			this.runButton.Location = new System.Drawing.Point(12, 80);
+			this.runButton.Location = new System.Drawing.Point(16, 24);
 			this.runButton.Name = "runButton";
-			this.runButton.Size = new System.Drawing.Size(112, 34);
+			this.runButton.Size = new System.Drawing.Size(92, 34);
 			this.runButton.TabIndex = 3;
 			this.runButton.Text = "&Run";
 			this.runButton.Click += new System.EventHandler(this.runButton_Click);
@@ -547,18 +531,10 @@ namespace NUnit.Gui
 			// 
 			this.suiteName.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right);
-			this.suiteName.Location = new System.Drawing.Point(108, 35);
+			this.suiteName.Location = new System.Drawing.Point(128, 32);
 			this.suiteName.Name = "suiteName";
-			this.suiteName.Size = new System.Drawing.Size(368, 22);
+			this.suiteName.Size = new System.Drawing.Size(416, 24);
 			this.suiteName.TabIndex = 2;
-			// 
-			// label1
-			// 
-			this.label1.Location = new System.Drawing.Point(12, 35);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(60, 22);
-			this.label1.TabIndex = 1;
-			this.label1.Text = "Test:";
 			// 
 			// progressBar
 			// 
@@ -567,11 +543,11 @@ namespace NUnit.Gui
 			this.progressBar.CausesValidation = false;
 			this.progressBar.Enabled = false;
 			this.progressBar.ForeColor = System.Drawing.SystemColors.Highlight;
-			this.progressBar.Location = new System.Drawing.Point(12, 127);
+			this.progressBar.Location = new System.Drawing.Point(16, 72);
 			this.progressBar.Maximum = 100;
 			this.progressBar.Minimum = 0;
 			this.progressBar.Name = "progressBar";
-			this.progressBar.Size = new System.Drawing.Size(535, 35);
+			this.progressBar.Size = new System.Drawing.Size(536, 35);
 			this.progressBar.Step = 1;
 			this.progressBar.TabIndex = 0;
 			this.progressBar.Value = 0;
