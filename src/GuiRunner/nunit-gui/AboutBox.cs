@@ -52,6 +52,8 @@ namespace NUnit.Gui
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label copyright;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Label dotNetVersionLabel;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -75,7 +77,8 @@ namespace NUnit.Gui
 
 			objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
 			AssemblyCopyrightAttribute copyrightAttr = (AssemblyCopyrightAttribute)objectAttrs[0];
-			versionLabel.Text = version.ToString(3); 
+			versionLabel.Text = version.ToString(3);
+			dotNetVersionLabel.Text = Environment.Version.ToString();
 
 			copyright.Text = copyrightAttr.Copyright;
 		}
@@ -114,12 +117,14 @@ namespace NUnit.Gui
 			this.label6 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.copyright = new System.Windows.Forms.Label();
+			this.label8 = new System.Windows.Forms.Label();
+			this.dotNetVersionLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// OkButton
 			// 
 			this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.OkButton.Location = new System.Drawing.Point(369, 217);
+			this.OkButton.Location = new System.Drawing.Point(369, 240);
 			this.OkButton.Name = "OkButton";
 			this.OkButton.Size = new System.Drawing.Size(96, 29);
 			this.OkButton.TabIndex = 0;
@@ -130,7 +135,7 @@ namespace NUnit.Gui
 			// 
 			this.label1.Location = new System.Drawing.Point(31, 217);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(102, 29);
+			this.label1.Size = new System.Drawing.Size(102, 15);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Version:";
 			// 
@@ -138,7 +143,7 @@ namespace NUnit.Gui
 			// 
 			this.versionLabel.Location = new System.Drawing.Point(164, 217);
 			this.versionLabel.Name = "versionLabel";
-			this.versionLabel.Size = new System.Drawing.Size(82, 29);
+			this.versionLabel.Size = new System.Drawing.Size(82, 23);
 			this.versionLabel.TabIndex = 2;
 			this.versionLabel.Text = "label2";
 			// 
@@ -209,12 +214,30 @@ namespace NUnit.Gui
 			this.copyright.TabIndex = 10;
 			this.copyright.Text = "label8";
 			// 
+			// label8
+			// 
+			this.label8.Location = new System.Drawing.Point(31, 248);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(102, 15);
+			this.label8.TabIndex = 11;
+			this.label8.Text = ".NET Version:";
+			// 
+			// dotNetVersionLabel
+			// 
+			this.dotNetVersionLabel.Location = new System.Drawing.Point(164, 248);
+			this.dotNetVersionLabel.Name = "dotNetVersionLabel";
+			this.dotNetVersionLabel.Size = new System.Drawing.Size(132, 23);
+			this.dotNetVersionLabel.TabIndex = 12;
+			this.dotNetVersionLabel.Text = "label9";
+			// 
 			// AboutBox
 			// 
 			this.AcceptButton = this.OkButton;
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.CancelButton = this.OkButton;
-			this.ClientSize = new System.Drawing.Size(491, 266);
+			this.ClientSize = new System.Drawing.Size(491, 282);
+			this.Controls.Add(this.dotNetVersionLabel);
+			this.Controls.Add(this.label8);
 			this.Controls.Add(this.copyright);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.label6);
