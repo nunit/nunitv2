@@ -75,52 +75,75 @@ namespace NUnit.UiKit
 
 		#region TextBoxWriterMethods
 
+		/// <summary>
+		/// Clear both the TextBox and the buffer.
+		/// </summary>
 		public void Clear()
 		{
 			textBox.Clear();
-			ClearBuffer();
+			sb = null;
 		}
 
 		#endregion
 
 		#region TextWriter Overrides
 
+		/// <summary>
+		/// Flush the buffer to the TextBox, if it has been 
+		/// created, and clear the buffer.
+		/// </summary>
 		public override void Flush()
 		{
-			if ( textBox.IsHandleCreated )
-				OutputBuffer();
+			if ( textBox.IsHandleCreated && sb != null )
+				AppendToTextBox( sb.ToString() );
+			sb = null;
 		}
 
+		/// <summary>
+		/// Write a single char
+		/// </summary>
+		/// <param name="c">The char to write</param>
 		public override void Write(char c)
 		{
 			Write( c.ToString() );
 		}
 
-		//		private delegate void TextAppender( string s );
-		//
-		//		private void AppendText( string s )
-		//		{
-		//			textBox.AppendText( s );
-		//		}
-		//
-		//		public override void Write(String s)
-		//		{
-		//			textBox.Invoke( new TextAppender( AppendText ) );
-		//		}
-
+		/// <summary>
+		/// Write a string
+		/// </summary>
+		/// <param name="s">The string to write</param>
 		public override void Write(String s)
 		{
 			if ( textBox.IsHandleCreated )
-				AppendText( s );
+			{
+				if ( sb != null )
+				{
+					sb.Append( s );
+					Flush();
+				}
+				else
+					AppendToTextBox( s );
+			}
 			else
-				BufferText( s );
+			{
+				if ( sb == null )
+					sb = new StringBuilder();
+				sb.Append( s );
+			}
 		}
 
+		/// <summary>
+		/// Write a string followed by a newline.
+		/// </summary>
+		/// <param name="s">The string to write</param>
 		public override void WriteLine(string s)
 		{
 			Write( s + "\r\n" );
 		}
 
+		/// <summary>
+		/// The encoding in use for this TextWriter.
+		/// </summary>
 		public override Encoding Encoding
 		{
 			get { return Encoding.Default; }
@@ -139,42 +162,30 @@ namespace NUnit.UiKit
 
 		#region Internal Helpers
 
-		private void BufferText( string s )
-		{
-			if ( sb == null )
-				sb = new StringBuilder();
+		/// <summary>
+		/// Delegate used to append text to the text box
+		/// </summary>
+		private delegate void AppendTextHandler( string s );
 
-			sb.Append( s );
+		/// <summary>
+		/// Append to the text box using the proper thread
+		/// </summary>
+		/// <param name="s">The string to append</param>
+		private void AppendToTextBox( string s )
+		{
+			textBox.Invoke( new AppendTextHandler( textBox.AppendText ),
+				new object[] { s } );
 		}
 
-		private void AppendText( string s )
-		{
-			if ( sb != null )
-			{
-				textBox.AppendText( sb.ToString() );
-				sb = null;
-			}
-			
-			textBox.AppendText( s );
-		}
-
-		private void OutputBuffer()
-		{
-			if ( sb != null )
-			{
-				textBox.AppendText( sb.ToString() );
-				ClearBuffer();
-			}
-		}
-
-		private void ClearBuffer()
-		{
-			sb = null;
-		}
-
+		/// <summary>
+		/// Respond to creation of the text box handle by flushing
+		/// any buffered text so that it is displayed.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void OnHandleCreated( object sender, EventArgs e )
 		{
-			OutputBuffer();
+			Flush();
 		}
 
 		#endregion
