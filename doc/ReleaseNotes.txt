@@ -1,5 +1,5 @@
 Release Notes for NUnit 2.2 Beta 3 - Version 2.1.93
-July 19, 2004
+July 21, 2004
 
 This is the fourth major release of NUnit and the third since it was 
 rewritten to take advantage of .NET custom attributes. Highlights of 

@@ -1,10 +1,13 @@
 Change Log for NUnit 2.2 Beta 3
-July 19, 2004
+July 21, 2004
 
 NUnit 2.2 Beta 3 - NUnit Version 2.1.93
 
 Bugs Fixed or Closed
 
+* 994922 - nunit-console.exe /help documents /fixture=STR
+* 994707 - nunit-gui.exe /run fails
+* 994702 - /fixture with bad arguments throws exception
 * 989835 - Status Bar inaccurate when multiple tests are checked.
 
 NUnit 2.2 Beta 2 - NUnit Version 2.1.92
