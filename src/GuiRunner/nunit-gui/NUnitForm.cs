@@ -1014,7 +1014,7 @@ namespace NUnit.Gui
 		private void aboutMenuItem_Click(object sender, System.EventArgs e)
 		{
 			AboutBox aboutBox = new AboutBox();
-			aboutBox.Show();
+			aboutBox.ShowDialog();
 		}
 
 		#endregion

@@ -215,19 +215,18 @@ namespace NUnit.Gui
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.CancelButton = this.OkButton;
 			this.ClientSize = new System.Drawing.Size(491, 266);
-			this.Controls.AddRange(new System.Windows.Forms.Control[] {
-																		  this.copyright,
-																		  this.label7,
-																		  this.label6,
-																		  this.label5,
-																		  this.label4,
-																		  this.linkLabel1,
-																		  this.label3,
-																		  this.label2,
-																		  this.versionLabel,
-																		  this.label1,
-																		  this.OkButton});
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+			this.Controls.Add(this.copyright);
+			this.Controls.Add(this.label7);
+			this.Controls.Add(this.label6);
+			this.Controls.Add(this.label5);
+			this.Controls.Add(this.label4);
+			this.Controls.Add(this.linkLabel1);
+			this.Controls.Add(this.label3);
+			this.Controls.Add(this.label2);
+			this.Controls.Add(this.versionLabel);
+			this.Controls.Add(this.label1);
+			this.Controls.Add(this.OkButton);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
