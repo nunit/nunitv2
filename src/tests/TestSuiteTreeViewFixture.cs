@@ -98,6 +98,48 @@ namespace NUnit.Tests.UiKit
 			Assert.AreEqual( "Tests", treeView.Nodes[0].Nodes[0].Nodes[0].Text );
 		}
 
+		[Test]
+		public void BuildFromResult()
+		{
+			TestSuiteTreeView treeView = new TestSuiteTreeView();
+			TestResult result = suite.Run( new NullListener() );
+			treeView.Load( result );
+			Assert.AreEqual( 16, treeView.GetNodeCount( true ) );
+			
+			TestSuiteTreeNode node = treeView.Nodes[0] as TestSuiteTreeNode;
+			Assert.AreEqual( "mock-assembly.dll", node.Text );
+			Assert.IsNotNull( node.Result, "No Result on top-level Node" );
+	
+			node = node.Nodes[0].Nodes[0] as TestSuiteTreeNode;
+			Assert.AreEqual( "Tests", node.Text );
+			Assert.IsNotNull( node.Result, "No Result on TestSuite" );
+
+			foreach( TestSuiteTreeNode child in node.Nodes )
+			{
+				if ( child.Text == "Assemblies" )
+				{
+					node = child.Nodes[0] as TestSuiteTreeNode;
+					Assert.AreEqual( "MockTestFixture", node.Text );
+					Assert.IsNotNull( node.Result, "No Result on TestFixture" );
+					Assert.IsTrue( node.Result.Executed, "MockTestFixture: Executed=false" );
+
+					TestSuiteTreeNode test1 = node.Nodes[0] as TestSuiteTreeNode;
+					Assert.AreEqual( "MockTest1", test1.Text );
+					Assert.IsNotNull( test1.Result, "No Result on TestCase" );
+					Assert.IsTrue( test1.Result.Executed, "MockTest1: Executed=false" );
+					Assert.IsTrue( test1.Result.IsSuccess, "MockTest1: IsSuccess=false");
+					Assert.AreEqual( TestSuiteTreeNode.SuccessIndex, test1.ImageIndex );
+
+					TestSuiteTreeNode test4 = node.Nodes[3] as TestSuiteTreeNode;
+					Assert.IsFalse( test4.Result.Executed, "MockTest4: Executed=true" );
+					Assert.AreEqual( TestSuiteTreeNode.NotRunIndex, test4.ImageIndex );
+					return;
+				}
+			}
+
+			Assert.Fail( "Cannot locate NUnit.Tests.Assemblies node" );
+		}
+
 		/// <summary>
 		/// Return the MockTestFixture node from a tree built
 		/// from the mock-assembly dll.
