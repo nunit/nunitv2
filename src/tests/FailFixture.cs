@@ -50,7 +50,7 @@ namespace NUnit.Tests.Assertions
 		[TestFixture]
 		internal class VerifyTestResultRecordsInnerExceptions
 		{
-			internal string failureMessage ="Outer Exception" + Environment.NewLine + "Inner Exception";
+			internal string failureMessage ="System.Exception : Outer Exception" + Environment.NewLine + "  ----> System.Exception : Inner Exception";
 			[Test]
 			public void ThrowInnerException()
 			{
