@@ -60,7 +60,7 @@ namespace NUnit.Util
 
 		public Project( string projectPath )
 		{
-			this.projectPath = projectPath;
+			this.projectPath = Path.GetFullPath( projectPath );
 			configs = new ProjectConfigCollection( this );		
 		}
 

@@ -28,15 +28,20 @@
 #endregion
 
 using System;
+using System.Text;
 using System.Collections;
 using System.IO;
 using NUnit.Core;
 
 namespace NUnit.Util
 {
-	/// <summary>
-	/// Summary description for ProjectConfig.
-	/// </summary>
+	public enum BinPathType
+	{
+		Auto,
+		Manual,
+		None
+	}
+
 	public class ProjectConfig
 	{
 		#region Instance Variables
@@ -79,7 +84,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// True if assembly paths should be added to bin path
 		/// </summary>
-		private bool autoBinPath = true;
+		private BinPathType binPathType = BinPathType.Auto;
 
 		#endregion
 
@@ -139,7 +144,13 @@ namespace NUnit.Util
 		{
 			get
 			{ 
-				return basePath;
+				if ( project == null || project.BasePath == null )
+					return basePath;
+
+				if ( basePath == null )
+					return project.BasePath;
+
+				return Path.Combine( project.BasePath, basePath );
 			}
 			set 
 			{
@@ -152,20 +163,16 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
-		/// Same as BasePath if the path is absolute,
-		/// otherwise, combined with project BasePath.
+		/// The base path relative to the project base
 		/// </summary>
-		public string FullBasePath
+		public string RelativeBasePath
 		{
 			get
 			{
-				if ( project == null || project.BasePath == null )
+				if ( project == null || basePath == null || !Path.IsPathRooted( basePath ) )
 					return basePath;
 
-				if ( basePath == null )
-					return project.BasePath;
-
-				return Path.Combine( project.BasePath, basePath );
+				return ProjectPath.RelativePath( project.BasePath, basePath );
 			}
 		}
 
@@ -193,63 +200,136 @@ namespace NUnit.Util
 					? project.ConfigurationFile
 					: configFile;
 					
-				if ( FullBasePath == null || file == null )
+				if ( BasePath == null || file == null )
 					return file;
 
-				return Path.Combine( FullBasePath, file );
+				return Path.Combine( BasePath, file );
 			}
 		}
 
-		public string BinPath
-		{
-			get 
-			{ 
-				return binPath;
-			}
-			set 
-			{
-				if ( binPath != value )
-				{
-					binPath = value; 
-					IsDirty = true;
-				}
-			}
-		}
-
-		public string FullBinPath
+		/// <summary>
+		/// The semicolon-separated path containing all the
+		/// assemblies in the list.
+		/// </summary>
+		public string PrivateBinPath
 		{
 			get
 			{
-				string assemblyPath = AutoBinPath
-					? Assemblies.PrivateBinPath
-					: null;
-
-				if ( assemblyPath == null )
-					return binPath;
-
-				if ( binPath == null )
-					return assemblyPath;
-
-				return assemblyPath + ";" + binPath;
-			}
-		}
-
-		public bool AutoBinPath
-		{
-			get { return autoBinPath; }
-			set 
-			{
-				if ( autoBinPath != value )
+				switch( binPathType )
 				{
-					autoBinPath = value; 
+					case BinPathType.Manual:
+						return binPath;
+
+					case BinPathType.Auto:
+						StringBuilder sb = new StringBuilder(200);
+						ArrayList dirList = new ArrayList();
+
+						foreach( AssemblyListItem assembly in Assemblies )
+						{
+							string dir = ProjectPath.RelativePath( BasePath, Path.GetDirectoryName( assembly.FullPath ) );
+							if ( dir != null && dir != "." && !dirList.Contains( dir ) )
+							{
+								dirList.Add( dir );
+								if ( sb.Length > 0 )
+									sb.Append( ';' );
+								sb.Append( dir );
+							}
+						}
+
+						return sb.Length == 0 ? null : sb.ToString();
+
+					default:
+						return null;
+				}
+			}
+
+			set
+			{
+				if ( binPath != value )
+				{
+					binPath = value;
+					binPathType = binPath == null ? BinPathType.Auto : BinPathType.Manual;
 					IsDirty = true;
 				}
 			}
 		}
 
+		/// <summary>
+		/// How our PrivateBinPath is generated
+		/// </summary>
+		public BinPathType BinPathType
+		{
+			get { return binPathType; }
+			set 
+			{
+				if ( binPathType != value )
+				{
+					binPathType = value;
+					IsDirty = true;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Return our AssemblyList
+		/// </summary>
 		public AssemblyList Assemblies
 		{
 			get { return assemblies; }
+		}
+
+		/// <summary>
+		/// Return an ArrayList with the absolute paths of all assemblies
+		/// </summary>
+		public IList AbsolutePaths
+		{
+			get
+			{
+				ArrayList paths = new ArrayList();
+				foreach( AssemblyListItem assembly in assemblies )
+					paths.Add( assembly.FullPath );
+				return paths;
+			}
+		}
+
+		/// <summary>
+		/// Return an ArrayList with the relative paths of all
+		/// assemblies from the configuration BasePath.
+		/// </summary>
+		public IList RelativePaths
+		{
+			get
+			{
+				ArrayList paths = new ArrayList();
+				foreach( AssemblyListItem assembly in Assemblies )
+					paths.Add( ProjectPath.RelativePath( BasePath, assembly.FullPath ) );
+				return paths;
+			}
+		}
+
+		/// <summary>
+		/// Return an ArrayList with the absolute paths of all
+		/// assemblies that have tests
+		/// </summary>
+		public IList TestAssemblies
+		{
+			get
+			{
+				ArrayList paths = new ArrayList();
+				foreach( AssemblyListItem assembly in Assemblies )
+					if ( assembly.HasTests )
+						paths.Add( assembly.FullPath );
+				return paths;
+			}
+		}
+
+		#endregion
+
+		#region Methods
+
+		public string RelativePathTo( string path )
+		{
+			return ProjectPath.RelativePath( BasePath, path );
 		}
 
 		#endregion

@@ -72,10 +72,10 @@ namespace NUnit.Util
 		void NewProject();
 
 		// Create a new project given a filename
-		void NewProject( string filename );
+//		void NewProject( string filename );
 
 		// Load a project given a filename
-		void LoadProject( string filename );
+		bool LoadProject( string filename );
 
 		// Unload current project
 		void UnloadProject();

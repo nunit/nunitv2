@@ -168,7 +168,7 @@ namespace NUnit.Util
 
 		public string TestFileName
 		{
-			get { return testProject.LoadPath; }
+			get { return testProject.ProjectPath; }
 		}
 
 		public TestResult LastResult
@@ -242,32 +242,32 @@ namespace NUnit.Util
 			}
 		}
 
-		public void NewProject( string filePath )
-		{
-			try
-			{
-				events.FireProjectLoading( filePath );
+//		public void NewProject( string filePath )
+//		{
+//			try
+//			{
+//				events.FireProjectLoading( filePath );
+//
+//				NUnitProject project = new NUnitProject( filePath );
+//
+//				project.Configs.Add( "Debug" );
+//				project.Configs.Add( "Release" );			
+//				project.IsDirty = false;
+//
+//				if ( IsProjectLoaded )
+//					UnloadProject();
+//
+//				testProject = project;
+//
+//				events.FireProjectLoaded( TestFileName );
+//			}
+//			catch( Exception exception )
+//			{
+//				events.FireProjectLoadFailed( filePath, exception );
+//			}
+//		}
 
-				NUnitProject project = new NUnitProject( filePath );
-
-				project.Configs.Add( "Debug" );
-				project.Configs.Add( "Release" );			
-				project.IsDirty = false;
-
-				if ( IsProjectLoaded )
-					UnloadProject();
-
-				testProject = project;
-
-				events.FireProjectLoaded( TestFileName );
-			}
-			catch( Exception exception )
-			{
-				events.FireProjectLoadFailed( filePath, exception );
-			}
-		}
-
-		public void LoadProject( string filePath )
+		public bool LoadProject( string filePath )
 		{
 			try
 			{
@@ -281,10 +281,14 @@ namespace NUnit.Util
 				testProject = newProject;
 
 				events.FireProjectLoaded( TestFileName );
+
+				return true;
 			}
 			catch( Exception exception )
 			{
 				events.FireProjectLoadFailed( filePath, exception );
+
+				return false;
 			}
 		}
 
@@ -292,7 +296,7 @@ namespace NUnit.Util
 		{
 			try
 			{
-				events.FireProjectLoading( "Multiple Assemblies" );
+				events.FireProjectLoading( "New Project" );
 
 				NUnitProject newProject = NUnitProject.FromAssemblies( assemblies );
 
@@ -301,11 +305,11 @@ namespace NUnit.Util
 			
 				testProject = newProject;
 
-				events.FireProjectLoaded( "Multiple Assemblies" );
+				events.FireProjectLoaded( testProject.ProjectPath );
 			}
 			catch( Exception exception )
 			{
-				events.FireProjectLoadFailed( "Multiple Assemblies", exception );
+				events.FireProjectLoadFailed( "New Project", exception );
 			}
 		}
 
@@ -316,6 +320,9 @@ namespace NUnit.Util
 			try
 			{
 				events.FireProjectUnloading( testFileName );
+
+				if ( testFileName != null && Path.IsPathRooted( testFileName ) )
+					UserSettings.RecentProjects.RecentFile = testFileName;
 
 				if ( IsTestLoaded )
 					UnloadTest();
@@ -374,12 +381,12 @@ namespace NUnit.Util
 				reloadPending = false;
 			
 				// TODO: Figure out how to handle relative paths in tests
-				Directory.SetCurrentDirectory( testProject.ActiveConfig.FullBasePath );
-
-				events.FireTestLoaded( TestFileName, this.loadedTest );
+				Directory.SetCurrentDirectory( testProject.ActiveConfig.BasePath );
 
 				if ( UserSettings.Options.ReloadOnChange )
 					InstallWatcher( );
+
+				events.FireTestLoaded( TestFileName, this.loadedTest );
 			}
 			catch( Exception exception )
 			{
@@ -540,7 +547,7 @@ namespace NUnit.Util
 		{
 			if(watcher!=null) watcher.Stop();
 
-			watcher = new AssemblyWatcher( 1000, TestProject.ActiveConfig.Assemblies.FullNames );
+			watcher = new AssemblyWatcher( 1000, TestProject.ActiveConfig.AbsolutePaths );
 			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( OnTestChanged );
 			watcher.Start();
 		}
