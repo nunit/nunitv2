@@ -68,6 +68,17 @@ namespace NUnit.Core
 		{
 			get { return theTextWriter.Encoding; }
 		}
+
+		public override void Close()
+		{
+			this.Flush();
+			theTextWriter.Close ();
+		}
+
+		public override void Flush()
+		{
+			theTextWriter.Flush ();
+		}
 	}
 
 	#endregion
@@ -124,18 +135,14 @@ namespace NUnit.Core
 					sb.Length = 0;
 				}
 			}
+
+			theTextWriter.Flush();
 		}
 
 		private void CheckBuffer()
 		{
 			if ( sb.Length >= MAX_BUFFER )
 				this.Flush();
-		}
-	
-		override public void Close()
-		{
-			this.Flush();
-			theTextWriter.Close();
 		}
 	}
 
