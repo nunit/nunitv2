@@ -64,7 +64,7 @@ namespace NUnit.UiKit
 			Expand,		// Expand fully
 			Collapse,	// Collpase fully
 			HideTests	// Expand all but the fixtures, leaving
-						// leaf nodes hidden
+			// leaf nodes hidden
 		}
 
 		/// <summary>
@@ -116,6 +116,10 @@ namespace NUnit.UiKit
 		/// True if the UI should allow a run command to be selected
 		/// </summary>
 		private bool runCommandEnabled = false;
+
+		private string[] selectedCategories;
+
+		private bool excludeSelectedCategories;
 
 		#endregion
 
@@ -270,6 +274,32 @@ namespace NUnit.UiKit
 			}
 		}
 
+		[Browsable(false)]
+		public string[] SelectedCategories
+		{
+			get { return selectedCategories; }
+			set	
+			{ 
+				selectedCategories = value; 
+
+				SelectedCategoriesVisitor visitor = new SelectedCategoriesVisitor( selectedCategories, excludeSelectedCategories );
+				this.Accept( visitor );
+			}
+		}
+
+		[Browsable(false)]
+		public bool ExcludeSelectedCategories
+		{
+			get { return excludeSelectedCategories; }
+			set
+			{
+				excludeSelectedCategories = value;
+
+				SelectedCategoriesVisitor visitor = new SelectedCategoriesVisitor( selectedCategories, excludeSelectedCategories );
+				this.Accept( visitor );
+			}
+		}
+
 		public event SelectedTestChangedHandler SelectedTestChanged;
 		public event CheckedTestChangedHandler CheckedTestChanged;
 
@@ -346,7 +376,8 @@ namespace NUnit.UiKit
 
 		/// <summary>
 		/// Handles right mouse button down by
-		/// remembering the proper context item.
+		/// remembering the proper context item
+		/// and implements multiple select with the left button.
 		/// </summary>
 		/// <param name="e">MouseEventArgs structure with information about the mouse position and button state</param>
 		protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs e)
@@ -358,9 +389,36 @@ namespace NUnit.UiKit
 				if ( theNode != null )
 					contextNode = theNode as TestSuiteTreeNode;
 			}
+//			else if (e.Button == MouseButtons.Left )
+//			{
+//				if ( Control.ModifierKeys == Keys.Control )
+//				{
+//					TestSuiteTreeNode theNode = GetNodeAt( e.X, e.Y ) as TestSuiteTreeNode;
+//					if ( theNode != null )
+//						theNode.Selected = true;
+//				}
+//				else
+//				{
+//					ClearSelected();
+//				}
+//			}
 
 			base.OnMouseDown( e );
 		}
+
+//		private void ClearSelected()
+//		{
+//			foreach( TestSuiteTreeNode node in Nodes )
+//				ClearSelected( node );
+//		}
+
+//		private void ClearSelected( TestSuiteTreeNode node )
+//		{
+//			node.Selected = false;
+//
+//			foreach( TestSuiteTreeNode child in node.Nodes )
+//				ClearSelected( child );
+//		}
 
 		/// <summary>
 		/// Build treeview context menu dynamically on popup
@@ -564,6 +622,8 @@ namespace NUnit.UiKit
 				CheckedTestChanged(CheckedTests);
 
 			base.OnAfterCheck (e);
+
+			((TestSuiteTreeNode)e.Node).WasChecked = e.Node.Checked;
 		}
 
 		#endregion
@@ -629,6 +689,36 @@ namespace NUnit.UiKit
 		{
 			treeMap.Clear();
 			Nodes.Clear();
+		}
+
+		private TreeNode savedTopNode;
+		
+		public void SaveVisualState()
+		{
+			this.savedTopNode = this.TopNode;
+		}
+
+		public void RestoreVisualState()
+		{
+			if ( savedTopNode != null )
+			{
+				foreach ( TestSuiteTreeNode node in this.Nodes )
+					node.RestoreVisualState();
+
+				this.savedTopNode.EnsureVisible();
+			}
+		}
+
+		protected override void OnAfterCollapse(TreeViewEventArgs e)
+		{
+			base.OnAfterCollapse (e);
+			((TestSuiteTreeNode)e.Node).WasExpanded = false;
+		}
+
+		protected override void OnAfterExpand(TreeViewEventArgs e)
+		{
+			base.OnAfterExpand (e);
+			((TestSuiteTreeNode)e.Node).WasExpanded = true;
 		}
 
 		public void Accept(TestSuiteTreeNodeVisitor visitor) 
@@ -1015,6 +1105,47 @@ namespace NUnit.UiKit
 		{
 			if (node.Test.Categories.Contains(category))
 				node.Checked = false;
+		}
+	}
+
+	public class SelectedCategoriesVisitor : TestSuiteTreeNodeVisitor
+	{
+		private string[] categories;
+		private bool exclude;
+
+		public SelectedCategoriesVisitor( string[] categories ) : this( categories, false ) { }
+		
+		public SelectedCategoriesVisitor( string[] categories, bool exclude )
+		{
+			this.categories = categories;
+			this.exclude = exclude;
+		}
+
+		public override void Visit( TestSuiteTreeNode node )
+		{
+			// If there are no categories selected
+			if ( categories.Length == 0 )
+			{
+				//node.Checked = false;
+				node.Included = true; //TODO: Look for explicit categories
+			}
+			else
+			{
+				node.Included = exclude;
+				TestSuiteTreeNode parent = node.Parent as TestSuiteTreeNode;
+				if ( parent != null )
+					node.Included = parent.Included;
+
+
+				foreach( string category in categories )
+				{
+					if ( node.Test.Categories.Contains( category ) )
+					{
+						node.Included = !exclude;
+						break;
+					}
+				}
+			}
 		}
 	}
 }

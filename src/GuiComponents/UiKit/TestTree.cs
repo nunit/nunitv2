@@ -14,6 +14,11 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class TestTree : System.Windows.Forms.UserControl
 	{
+		// Contains all available categories, whether
+		// selected or not. Unselected members of this
+		// list are displayed in selectedList
+		private IList availableCategories;
+
 		private System.Windows.Forms.TabControl tabs;
 		private System.Windows.Forms.TabPage testPage;
 		private System.Windows.Forms.TabPage categoryPage;
@@ -56,6 +61,20 @@ namespace NUnit.UiKit
 			get { return viewMenu; }
 		}
 
+		public string[] SelectedCategories
+		{
+			get
+			{
+				int n = this.selectedList.Items.Count;
+				string[] categories = new string[n];
+				for( int i = 0; i < n; i++ )
+					categories[i] = this.selectedList.Items[i].ToString();
+				return categories;
+			}
+		}
+
+		#region Construction and Initialization
+
 		public TestTree()
 		{
 			// This call is required by the Windows.Forms Form Designer.
@@ -80,18 +99,18 @@ namespace NUnit.UiKit
 			this.viewMenu.MergeType = MenuMerge.Add;
 			this.viewMenu.MergeOrder = 1;
 			this.viewMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					 this.expandMenuItem,
-																					 this.collapseMenuItem,
-																					 this.viewMenuSeparatorItem1,
-																					 this.expandAllMenuItem,
-																					 this.collapseAllMenuItem,
-																					 this.viewMenuSeparatorItem2,
-																					 this.expandFixturesMenuItem,
-																					 this.collapseFixturesMenuItem,
-																					 this.viewMenuSeparatorItem3,
-																					 this.propertiesMenuItem,
-																					 this.checkBoxesMenuItem,
-																					 this.menuItem2});
+										this.expandMenuItem,
+										this.collapseMenuItem,
+										this.viewMenuSeparatorItem1,
+										this.expandAllMenuItem,
+										this.collapseAllMenuItem,
+										this.viewMenuSeparatorItem2,
+										this.expandFixturesMenuItem,
+										this.collapseFixturesMenuItem,
+										this.viewMenuSeparatorItem3,
+										this.propertiesMenuItem,
+										this.checkBoxesMenuItem,
+										this.menuItem2});
 			this.viewMenu.Text = "&View";
 			this.viewMenu.Visible = false;
 			this.viewMenu.Popup += new System.EventHandler(this.viewMenu_Popup);
@@ -171,6 +190,31 @@ namespace NUnit.UiKit
 			ShowCheckBoxes( UserSettings.Options.ShowCheckBoxes );
 		}
 
+		public void Initialize(TestLoader loader) 
+		{
+			this.tests.Initialize(loader, loader.Events);
+			loader.Events.TestLoaded += new NUnit.Core.TestEventHandler(events_TestLoaded);
+			loader.Events.TestReloaded += new NUnit.Core.TestEventHandler(events_TestReloaded);
+			loader.Events.TestUnloaded += new NUnit.Core.TestEventHandler(Events_TestUnloaded);
+		}
+
+		/// <summary> 
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if(components != null)
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+		#endregion
+
 		#region View Menu Handlers
 
 		private void viewMenu_Popup(object sender, System.EventArgs e)
@@ -225,28 +269,6 @@ namespace NUnit.UiKit
 
 		#endregion
 
-		public void Initialize(TestLoader loader) 
-		{
-			this.tests.Initialize(loader, loader.Events);
-			loader.Events.TestLoaded += new NUnit.Core.TestEventHandler(events_TestLoaded);
-			loader.Events.TestUnloaded += new NUnit.Core.TestEventHandler(Events_TestUnloaded);
-		}
-
-		/// <summary> 
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if(components != null)
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
-
 		#region Component Designer generated code
 		/// <summary> 
 		/// Required method for Designer support - do not modify 
@@ -269,9 +291,9 @@ namespace NUnit.UiKit
 			this.addCategory = new System.Windows.Forms.Button();
 			this.selectedCategories = new System.Windows.Forms.GroupBox();
 			this.selectedList = new System.Windows.Forms.ListBox();
+			this.excludeCheckbox = new System.Windows.Forms.CheckBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.availableList = new System.Windows.Forms.ListBox();
-			this.excludeCheckbox = new System.Windows.Forms.CheckBox();
 			this.tabs.SuspendLayout();
 			this.testPage.SuspendLayout();
 			this.testPanel.SuspendLayout();
@@ -332,6 +354,7 @@ namespace NUnit.UiKit
 			this.tests.HideSelection = false;
 			this.tests.Location = new System.Drawing.Point(0, 0);
 			this.tests.Name = "tests";
+			this.tests.SelectedCategories = null;
 			this.tests.Size = new System.Drawing.Size(240, 430);
 			this.tests.TabIndex = 0;
 			// 
@@ -375,7 +398,6 @@ namespace NUnit.UiKit
 			// 
 			// categoryPanel
 			// 
-			this.categoryPanel.Controls.Add(this.excludeCheckbox);
 			this.categoryPanel.Controls.Add(this.categoryButtonPanel);
 			this.categoryPanel.Controls.Add(this.selectedCategories);
 			this.categoryPanel.Controls.Add(this.groupBox1);
@@ -419,9 +441,10 @@ namespace NUnit.UiKit
 			this.selectedCategories.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.selectedCategories.Controls.Add(this.selectedList);
+			this.selectedCategories.Controls.Add(this.excludeCheckbox);
 			this.selectedCategories.Location = new System.Drawing.Point(8, 307);
 			this.selectedCategories.Name = "selectedCategories";
-			this.selectedCategories.Size = new System.Drawing.Size(224, 125);
+			this.selectedCategories.Size = new System.Drawing.Size(224, 152);
 			this.selectedCategories.TabIndex = 1;
 			this.selectedCategories.TabStop = false;
 			this.selectedCategories.Text = "Selected Categories";
@@ -436,6 +459,17 @@ namespace NUnit.UiKit
 			this.selectedList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.selectedList.Size = new System.Drawing.Size(208, 95);
 			this.selectedList.TabIndex = 0;
+			// 
+			// excludeCheckbox
+			// 
+			this.excludeCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.excludeCheckbox.Location = new System.Drawing.Point(8, 128);
+			this.excludeCheckbox.Name = "excludeCheckbox";
+			this.excludeCheckbox.Size = new System.Drawing.Size(200, 16);
+			this.excludeCheckbox.TabIndex = 3;
+			this.excludeCheckbox.Text = "Exclude these categories";
+			this.excludeCheckbox.CheckedChanged += new System.EventHandler(this.excludeCheckbox_CheckedChanged);
 			// 
 			// groupBox1
 			// 
@@ -460,14 +494,6 @@ namespace NUnit.UiKit
 			this.availableList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.availableList.Size = new System.Drawing.Size(208, 199);
 			this.availableList.TabIndex = 0;
-			// 
-			// excludeCheckbox
-			// 
-			this.excludeCheckbox.Location = new System.Drawing.Point(8, 440);
-			this.excludeCheckbox.Name = "excludeCheckbox";
-			this.excludeCheckbox.Size = new System.Drawing.Size(224, 16);
-			this.excludeCheckbox.TabIndex = 3;
-			this.excludeCheckbox.Text = "Exclude these categories from the run";
 			// 
 			// TestTree
 			// 
@@ -499,13 +525,15 @@ namespace NUnit.UiKit
 			if (availableList.SelectedItems.Count > 0) 
 			{
 				ArrayList categories = new ArrayList(availableList.SelectedItems);
-				foreach (string category in categories) 
+				foreach ( string category in categories ) 
 				{
 					selectedList.Items.Add(category);
 					availableList.Items.Remove(category);
-					CheckCategoryVisitor visitor = new CheckCategoryVisitor(category);
-					tests.Accept(visitor);
+//					CheckCategoryVisitor visitor = new CheckCategoryVisitor(category);
+//					tests.Accept(visitor);
 				}
+
+				tests.SelectedCategories = this.SelectedCategories;
 			}
 		}
 
@@ -514,13 +542,15 @@ namespace NUnit.UiKit
 			if (selectedList.SelectedItems.Count > 0) 
 			{
 				ArrayList categories = new ArrayList(selectedList.SelectedItems);
-				foreach (string category in categories) 
+				foreach ( string category in categories )
 				{
 					selectedList.Items.Remove(category);
 					availableList.Items.Add(category);
-					UnCheckCategoryVisitor visitor = new UnCheckCategoryVisitor(category);
-					tests.Accept(visitor);
+//					UnCheckCategoryVisitor visitor = new UnCheckCategoryVisitor(category);
+//					tests.Accept(visitor);
 				}
+
+				tests.SelectedCategories = this.SelectedCategories;
 			}
 		}
 
@@ -544,17 +574,50 @@ namespace NUnit.UiKit
 		}
 
 		private void events_TestLoaded(object sender, NUnit.Core.TestEventArgs args)
-		{
+		{			
 			viewMenu.Visible = true;
+
+			availableCategories = AppUI.TestLoader.GetCategories();
 			availableList.Items.Clear();
 			selectedList.Items.Clear();
-			IList list = AppUI.TestLoader.GetCategories();
+			
 			availableList.SuspendLayout();
-			foreach (string category in list) 
-			{
+			foreach (string category in availableCategories) 
 				availableList.Items.Add(category);
-			}
 			availableList.ResumeLayout();
+		}
+
+		private void events_TestReloaded(object sender, NUnit.Core.TestEventArgs args)
+		{
+			// Get new list of available categories
+			availableCategories = AppUI.TestLoader.GetCategories();
+
+			// Remove any selected items that are no longer available
+			int index = selectedList.Items.Count;
+			selectedList.SuspendLayout();
+			while( --index >= 0 )
+			{
+				string category = selectedList.Items[index].ToString();
+				if ( !availableCategories.Contains( category )  )
+					selectedList.Items.RemoveAt( index );
+			}
+			selectedList.ResumeLayout();
+
+			// Put any unselected available items availableList
+			availableList.Items.Clear();
+			availableList.SuspendLayout();
+			foreach( string category in availableCategories )
+				if( selectedList.FindStringExact( category ) < 0 )
+					availableList.Items.Add( category );
+			availableList.ResumeLayout();
+
+			// Tell the tree what is selected
+			tests.SelectedCategories = this.SelectedCategories;
+		}
+
+		private void excludeCheckbox_CheckedChanged(object sender, System.EventArgs e)
+		{
+			tests.ExcludeSelectedCategories = excludeCheckbox.Checked;
 		}
 
 		private void Events_TestUnloaded(object sender, NUnit.Core.TestEventArgs args)
@@ -577,12 +640,14 @@ namespace NUnit.UiKit
 
 		private void ShowCheckBoxes( bool show )
 		{
+			tests.SaveVisualState();
 			tests.CheckBoxes = show;
 			buttonPanel.Visible	= show;
 			clearAllButton.Visible = show;
 			checkFailedButton.Visible = show;
 			checkBoxesMenuItem.Checked = show;
 			UserSettings.Options.ShowCheckBoxes = show;
+			tests.RestoreVisualState();
 		}
 
 		private void checkBoxesMenuItem_Click(object sender, System.EventArgs e)
@@ -592,6 +657,7 @@ namespace NUnit.UiKit
 			// Temporary till we can save tree state and restore
 			//this.SetInitialExpansion();
 		}
+
 	}
 
 	public class SelectedTestsChangedEventArgs : EventArgs 
