@@ -94,10 +94,10 @@ namespace NUnit.Framework
 		#endregion
 
 		/// <summary>
-		/// Display tow lines that communicate the expected value, and the actual value
+		/// Display two lines that communicate the expected value, and the actual value
 		/// </summary>
-		/// <param name="expected"></param>
-		/// <param name="actual"></param>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value found</param>
 		public void DisplayExpectedAndActual( Object expected, Object actual )
 		{
 			WriteLine();
@@ -110,7 +110,7 @@ namespace NUnit.Framework
 		/// Draws a marker under the expected/actual strings that highlights
 		/// where in the string a mismatch occurred.
 		/// </summary>
-		/// <param name="iPosition"></param>
+		/// <param name="iPosition">The position of the mismatch</param>
 		public void DisplayPositionMarker( int iPosition )
 		{
 			WriteLine();
@@ -126,8 +126,8 @@ namespace NUnit.Framework
 		/// Reports whether the string lengths are the same or different, and
 		/// what the string lengths are.
 		/// </summary>
-		/// <param name="sExpected"></param>
-		/// <param name="sActual"></param>
+		/// <param name="sExpected">The expected string</param>
+		/// <param name="sActual">The actual string value</param>
 		protected void BuildStringLengthReport( string sExpected, string sActual )
 		{
 			WriteLine();
@@ -148,6 +148,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
+		/// <param name="caseInsensitive">True if a case-insensitive comparison is being performed</param>
 		public void DisplayDifferences( object expected, object actual, bool caseInsensitive )
 		{
 			if( InputsAreStrings( expected, actual ) )
@@ -171,8 +172,9 @@ namespace NUnit.Framework
 		/// a line marking the position of the difference to make comparison
 		/// quicker.
 		/// </summary>
-		/// <param name="sExpected"></param>
-		/// <param name="sActual"></param>
+		/// <param name="sExpected">The expected string value</param>
+		/// <param name="sActual">The actual string value</param>
+		/// <param name="caseInsensitive">True if a case-insensitive comparison is being performed</param>
 		protected void DisplayStringDifferences( string sExpected, string sActual, bool caseInsensitive )
 		{
 			//
