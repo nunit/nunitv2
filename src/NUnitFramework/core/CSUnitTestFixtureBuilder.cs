@@ -8,17 +8,36 @@ namespace NUnit.Core.Builders
 	/// </summary>
 	public class CSUnitTestFixtureBuilder : GenericTestFixtureBuilder
 	{
-		public CSUnitTestFixtureBuilder() 
-			: base( CSUnitTestFixture.Parameters, new CSUnitTestCaseBuilder() ) { }
+		#region Constructor
+		public CSUnitTestFixtureBuilder() : base( CSUnitTestFixture.Parameters ) { }
+		#endregion
 
-		public override bool CanBuildFrom( Type type )
-		{
-			return 	base.CanBuildFrom( type ) || type.Name.EndsWith( "Test" );
-		}
-
-		protected override TestSuite Construct( Type type, int assemblyKey )
+		#region GenericTestFixtureBuilder Overrides
+		/// <summary>
+		/// Returns a CSUnitTestFixture
+		/// </summary>
+		/// <param name="type">The type to use in making the fixture</param>
+		/// <param name="assemblyKey">The index of the assembly</param>
+		/// <returns>A TestSuite or null</returns>
+		protected override TestSuite MakeSuite( Type type, int assemblyKey )
 		{
 			return new CSUnitTestFixture( type, assemblyKey );
 		}
+		
+		/// <summary>
+		/// Adds test cases to the fixture. Overrides the base class 
+		/// to install a CSUnitTestCaseBuilder while the tests are
+		/// being added.
+		/// </summary>
+		/// <param name="fixtureType">The type of the fixture</param>
+		protected override void AddTestCases(Type fixtureType)
+		{
+			using( new AddinState() )
+			{
+				Addins.Register( new CSUnitTestCaseBuilder() );
+				base.AddTestCases (fixtureType);
+			}
+		}
+		#endregion
 	}
 }

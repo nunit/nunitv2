@@ -40,35 +40,46 @@ namespace NUnit.Core
 	public class TestFixtureBuilder
 	{
 		/// <summary>
-		/// Determines whether a particular type can be used to 
-		/// build a test fixture.
-		/// </summary>
-		/// <param name="type"></param>
-		/// <returns>True if a fixture can be built, false if not</returns>
-		public static bool CanBuildFrom( Type type )
-		{
-			return AddinManager.Addins.CanBuildFrom( type )
-				|| AddinManager.Builtins.CanBuildFrom( type );
-		}
-
-		/// <summary>
 		/// Build a test fixture from a given type.
 		/// </summary>
 		/// <param name="type">The type to be used for the fixture</param>
 		/// <param name="assemblyKey">Integer indicating the assembly</param>
 		/// <returns>A TestSuite if the fixture can be built, null if not</returns>
-		public static TestSuite BuildFrom( Type type, int assemblyKey )
+		public static TestSuite Make( Type type, int assemblyKey )
 		{
-			TestSuite suite = AddinManager.Addins.BuildFrom( type, assemblyKey );
+			TestSuite suite = Addins.BuildFrom( type, assemblyKey );
 
 			if ( suite == null )
-				suite = AddinManager.Builtins.BuildFrom( type, assemblyKey );
+				suite = Builtins.BuildFrom( type, assemblyKey );
 
 			return suite;
 		}
 
 		/// <summary>
-		/// Private constructor to prevent instantiating this class.
+		/// Build a test fixture from a given type, using an assemblyKey of 0.
+		/// </summary>
+		/// <param name="type">The type to be used for the fixture</param>
+		/// <returns>A TestSuite if the fixture can be built, null if not</returns>
+		public static TestSuite Make( Type type )
+		{
+			return Make( type, 0 );
+		}
+
+		/// <summary>
+		/// Build a fixture from an object. This method is used only
+		/// for testing purposes.
+		/// </summary>
+		/// <param name="fixture">The object to be used for the fixture</param>
+		/// <returns>A TestSuite if fixture type can be built, null if not</returns>
+		public static TestSuite Make( object fixture )
+		{
+			TestSuite suite = Make( fixture.GetType() );
+			suite.Fixture = fixture;
+			return suite;
+		}
+
+		/// <summary>
+		/// Private constructor to prevent instantiation
 		/// </summary>
 		private TestFixtureBuilder() { }
 	}

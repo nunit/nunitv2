@@ -7,13 +7,22 @@ namespace NUnit.Core.Builders
 	/// </summary>
 	public class VstsTestFixtureBuilder : GenericTestFixtureBuilder
 	{
-		public VstsTestFixtureBuilder() : base( 
-			VstsTestFixture.Parameters, null ) { } // TODO: No test case builder yet
+		public VstsTestFixtureBuilder() : base( VstsTestFixture.Parameters ) { }
 
-		protected override TestSuite Construct( Type type, int assemblyKey )
+		protected override TestSuite MakeSuite( Type type, int assemblyKey )
 		{
 			return new VstsTestFixture( type, assemblyKey );
 		}
+
+		protected override void AddTestCases(Type fixtureType)
+		{
+			using( new AddinState() )
+			{
+				//AddinManager.Addins.Add( new VstsTestCaseBuilder() );
+				base.AddTestCases (fixtureType);
+			}
+		}
+
 	}
 
 }

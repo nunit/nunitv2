@@ -8,11 +8,5 @@ namespace NUnit.Core
 	{
 		public CSUnitTestCaseBuilder()
 			: base( CSUnitTestFixture.Parameters ) { }
-
-		protected override bool IsOldStyleTestMethod(MethodInfo method)
-		{
-			return method.Name.ToLower().StartsWith( "test" );
-		}
-
 	}
 }

@@ -33,64 +33,55 @@ using System.Reflection;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// This class originally did all the work of making test
-	/// cases. With the new extensibility mechanism, it's reduced
-	/// to a single static method and the AddinManager along with
-	/// any installed test builders do the job.
-	/// </summary>
-	public abstract class TestCaseBuilder
+	/// This class collects static methods that build test cases.
+	public class TestCaseBuilder
 	{
-		/// <summary>
-		/// Determine whether a test case can be created from
-		/// a given method.
-		/// </summary>
-		/// <param name="method">MethodInfo for the method to use</param>
-		/// <returns>True if a method can be created, false if not</returns>
-		public static bool CanBuildFrom( MethodInfo method )
-		{
-			return AddinManager.Addins.CanBuildFrom( method )
-				|| AddinManager.Builtins.CanBuildFrom( method );
-		}
-
 		/// <summary>
 		/// Makes a test case from a given method if any builders
 		/// know how to do it and returns null otherwise.
 		/// </summary>
 		/// <param name="method">MethodInfo for the particular method</param>
 		/// <returns>A test case or null</returns>
-		public static TestCase BuildFrom( MethodInfo method )
+		public static TestCase Make( MethodInfo method )
 		{
 			// First see if any addins are able to make the test case
-			TestCase testCase = AddinManager.Addins.BuildFrom( method );
+			TestCase testCase = Addins.BuildFrom( method );
 
 			// If not, try any builtin test case builders
 			if ( testCase == null )
-				testCase = AddinManager.Builtins.BuildFrom( method );
+				testCase = Builtins.BuildFrom( method );
 
 			return testCase;
 		}
 
 		/// <summary>
-		/// Make a test case from a given fixture type and method.
-		/// This method is retained for test compatibility.
+		/// Old method, still used by tests. We may need to revisit
+		/// this approach if the fixtureType for a test case is 
+		/// ever different from the method's ReflectedType.
 		/// </summary>
 		/// <param name="fixtureType">The fixture type</param>
 		/// <param name="method">MethodInfo for the particular method</param>
 		/// <returns>A test case or null</returns>
 		public static TestCase Make(Type fixtureType, MethodInfo method)
 		{
-			return BuildFrom( method );
+			return Make( method );
 		}
 
-		protected bool HasValidTestCaseSignature( MethodInfo method )
+		/// <summary>
+		/// Another method provided for test purposes only. Builds
+		/// a test case from a fixture type and the name of a method.
+		/// </summary>
+		/// <param name="fixtureType">The fixture type</param>
+		/// <param name="methodName">the method name to use for the test</param>
+		/// <returns>A test case or null</returns>
+		public static TestCase Make( Type fixtureType, string methodName )
 		{
-			return !method.IsStatic
-				&& !method.IsAbstract
-				&& method.IsPublic
-				&& method.GetParameters().Length == 0
-				&& method.ReturnType.Equals(typeof(void) );
+			return Make( Reflect.GetNamedMethod( 
+					fixtureType,
+					methodName,
+					BindingFlags.Public | BindingFlags.Instance ) );
 		}
-		
+
 		/// <summary>
 		/// Private constructor to prevent object creation
 		/// </summary>

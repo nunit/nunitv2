@@ -1,171 +1,194 @@
 using System;
 using System.Collections;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace NUnit.Core.Builders
 {
-	public abstract class GenericTestFixtureBuilder : ISuiteBuilder
+	public abstract class GenericTestFixtureBuilder : AbstractFixtureBuilder
 	{
+		#region Private Fields
 		private TestFixtureParameters parms;
+		#endregion
 
-		protected GenericTestCaseBuilder testCaseBuilder;
-
-		protected GenericTestFixtureBuilder( TestFixtureParameters parms, GenericTestCaseBuilder testCaseBuilder )
+		#region Constructor
+		/// <summary>
+		/// Constructor saves the parameters used for this generic fixture
+		/// </summary>
+		/// <param name="parms">TestFixtureParameters struct</param>
+		public GenericTestFixtureBuilder( TestFixtureParameters parms )
 		{
 			this.parms = parms;
-			this.testCaseBuilder = testCaseBuilder;
 		}
+		#endregion
 
-		public virtual bool CanBuildFrom(Type type)
+		#region AbstractFixtureBuilder Overrides
+		/// <summary>
+		/// Checks to see if the fixture type has the test fixture
+		/// attribute type specified in the parameters. Override
+		/// to allow additional types - based on name, for example.
+		/// </summary>
+		/// <param name="type">The fixture type to check</param>
+		/// <returns>True if the fixture can be built, false if not</returns>
+		public override bool CanBuildFrom(Type type)
 		{
-			return !type.IsAbstract 
-				&& Reflect.HasAttribute( type, parms.TestFixtureType, true ); // Inheritable
-		}
-
-//		protected virtual bool IsSetUpMethod( MethodInfo method )
-//		{
-//			return Reflect.HasAttribute( method, parms.SetUpType, false );
-//		}
-
-		// Provided for convenience of testing - not part of interface
-		public TestSuite BuildFrom( Type type )
-		{
-			return BuildFrom( type, 0 );
-		}
-
-		public virtual TestSuite BuildFrom(Type fixtureType, int assemblyKey)
-		{
-			TestSuite suite = null;
-
-			try
+			// See if we have a required framework and check it
+			if( parms.HasRequiredFramework )
 			{
-
-				suite = Construct( fixtureType, assemblyKey );
-
-				if ( Reflect.GetConstructor( fixtureType ) == null )
-					throw new InvalidTestFixtureException( 
-						string.Format( "{0} does not have a valid constructor", fixtureType.FullName ) );
-			
-				CheckSetUpTearDownMethod( fixtureType, parms.SetUpType );
-				CheckSetUpTearDownMethod( fixtureType, parms.TearDownType );
-				CheckSetUpTearDownMethod( fixtureType, parms.FixtureSetUpType );
-				CheckSetUpTearDownMethod( fixtureType, parms.FixtureTearDownType );
-			
-	
-				System.Attribute[] attributes = 
-					Reflect.GetAttributes( fixtureType, parms.CategoryType, false );
-				IList categories = new ArrayList();
-
-				foreach( Attribute categoryAttribute in attributes ) 
-					categories.Add( 
-						Reflect.GetPropertyValue( 
-						categoryAttribute, 
-						"Name", 
-						BindingFlags.Public | BindingFlags.Instance ) );
-			
-				CategoryManager.Add( categories );
-				suite.Categories = categories;
-
-				suite.IsExplicit = Reflect.HasAttribute( fixtureType, parms.ExplicitType, false );
-
-				PlatformHelper helper = new PlatformHelper();
-				if ( !helper.IsPlatformSupported( fixtureType ) )
+				ITestFramework framework = TestFramework.FromType( type );
+				if( framework != null && 
+					framework.Name != parms.RequiredFramework )
 				{
-					suite.ShouldRun = false;
-					suite.IgnoreReason = "Not running on correct platform";
+					return false;
 				}
+			}
 
+			// See if there's an attribute and check it
+			if( parms.HasTestFixtureType )
+			{
+				if( Reflect.HasAttribute( type, parms.TestFixtureType, true ) ) // Inheritable
+				{
+					return true;
+				}
+			}
+
+			// See if there's a pattern to match and check it
+			if( parms.HasTestFixturePattern )
+			{
+				Regex regex = new Regex( parms.TestFixturePattern );
+				if( regex.Match( type.Name ).Success )
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Checks to see if the fixture is runnable by looking for the ignore 
+		/// attribute specified in the parameters.
+		/// </summary>
+		/// <param name="fixtureType">The type to be checked</param>
+		/// <param name="reason">A message indicating why the fixture is not runnable</param>
+		/// <returns>True if runnable, false if not</returns>
+		protected override bool IsRunnable( Type fixtureType, ref string reason )
+		{
+			if ( parms.HasIgnoreType )
+			{
 				Attribute ignoreAttribute =
 					Reflect.GetAttribute( fixtureType, parms.IgnoreType, false );
 				if ( ignoreAttribute != null )
 				{
-					suite.ShouldRun = false;
-					suite.IgnoreReason = (string)Reflect.GetPropertyValue(
+					reason = (string)Reflect.GetPropertyValue(
 						ignoreAttribute, 
 						"Reason",
 						BindingFlags.Public | BindingFlags.Instance );
-				}
-		
-				suite.Description = GetFixtureDescription( fixtureType );
-
-				using( new AddinManagerState( AddinManager.Addins ) )
-				{
-					AddinManager.Addins.TestBuilders.Add( testCaseBuilder );
-
-					IList methods = GetCandidateTestMethods( fixtureType );
-					foreach(MethodInfo method in methods)
-					{
-						TestCase testCase = TestCaseBuilder.BuildFrom( method );
-						//					if ( IsTestMethod( method ) )
-						//						testCase = MakeTestCase( method );
-						//					else
-						//testCase = testCaseBuilder.Make( fixtureType, method );
-						//					TestCase testCase =	AddinManager.Addins.BuildFrom( method );
-						//					if ( testCase == null )
-						//						testCase = AddinManager.Builtins.BuildFrom( method );
-
-						if(testCase != null)
-						{
-							testCase.AssemblyKey = suite.AssemblyKey;
-							suite.Add( testCase );
-						}
-					}
-				}
-
-				if( suite.CountTestCases() == 0 )
-				{
-					suite.ShouldRun = false;
-					suite.IgnoreReason = suite.Name + " does not have any tests";
+					return false;
 				}
 			}
-			catch( InvalidTestFixtureException exception )
-			{
-				suite.ShouldRun = false;
-				suite.IgnoreReason = exception.Message;
-			}
 
-			return suite;
+			return true;
 		}
 
-		private void CheckSetUpTearDownMethod( Type fixtureType, string attributeName )
+		/// <summary>
+		/// Check that the fixture is valid. In addition to the base class
+		/// check for a valid constructor, this method ensures that there 
+		/// is no more than one of each setup or teardown method and that
+		/// their signatures are correct.
+		/// </summary>
+		/// <param name="fixtureType">The type of the fixture to check</param>
+		/// <param name="reason">A message indicating why the fixture is invalid</param>
+		/// <returns>True if the fixture is valid, false if not</returns>
+		protected override bool IsValidFixtureType(Type fixtureType, ref string reason)
 		{
-			MethodInfo theMethod = Reflect.GetUniqueMethod( fixtureType, attributeName );
+			if ( !base.IsValidFixtureType ( fixtureType, ref reason ) )
+				return false;
+
+			if ( !CheckSetUpTearDownMethod( fixtureType, parms.SetUpType ) )
+			{
+				reason = "Invalid SetUp method signature";
+				return false;
+			}
+			
+			if ( !CheckSetUpTearDownMethod( fixtureType, parms.TearDownType ) )
+			{
+				reason = "Invalid TearDown method signature";
+				return false;
+			}
+
+			if ( !CheckSetUpTearDownMethod( fixtureType, parms.FixtureSetUpType ) )
+			{
+				reason = "Invalid TestFixtureSetUp method signature";
+				return false;
+			}
+			
+			if ( !CheckSetUpTearDownMethod( fixtureType, parms.FixtureTearDownType ) )
+			{
+				reason = "Invalid TestFixtureTearDown method signature";
+				return false;
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Internal helper to check a single setup or teardown method
+		/// </summary>
+		/// <param name="fixtureType">The type to be checked</param>
+		/// <param name="attributeName">The attribute name to be checked</param>
+		/// <returns>True if the method is present no more than once and has a valid signature</returns>
+		private bool CheckSetUpTearDownMethod( Type fixtureType, string attributeName )
+		{
+			int count = Reflect.CountMethodsWithAttribute(
+				fixtureType, attributeName,
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly );
+			
+			if ( count == 0 ) return true;
+
+			if ( count > 1 ) return false;
+
+			MethodInfo theMethod = Reflect.GetMethodWithAttribute( 
+				fixtureType, attributeName, 
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly );
 
 			if ( theMethod != null )
 			{
-				if ( theMethod.IsStatic ||
+				if( theMethod.IsStatic ||
 					theMethod.IsAbstract ||
 					!theMethod.IsPublic && !theMethod.IsFamily ||
 					theMethod.GetParameters().Length != 0 ||
 					!theMethod.ReturnType.Equals( typeof(void) ) )
 				{
-					throw new InvalidTestFixtureException("Invalid SetUp or TearDown method signature");
+					 return false;
 				}
 			}
+
+			return true;
 		}
 
-		protected abstract TestSuite Construct( Type type, int assemblyKey );
-
-		protected virtual string GetFixtureDescription( Type fixtureType )
+		/// <summary>
+		/// Method to return the description for a fixture
+		/// </summary>
+		/// <param name="fixtureType">The fixture to check</param>
+		/// <returns>The description, if any, or null</returns>
+		protected override string GetFixtureDescription( Type fixtureType )
 		{
-			Attribute fixtureAttribute =
-				Reflect.GetAttribute( fixtureType, parms.TestFixtureType, true );
+			if ( parms.HasTestFixtureType )
+			{
+				Attribute fixtureAttribute =
+					Reflect.GetAttribute( fixtureType, parms.TestFixtureType, true );
 
-			// Some of our tests create a fixture without the attribute
-			if ( fixtureAttribute != null )
-				return (string)Reflect.GetPropertyValue( 
-					fixtureAttribute, 
-					"Description",
-					BindingFlags.Public | BindingFlags.Instance );
+				// Some of our tests create a fixture without the attribute
+				if ( fixtureAttribute != null )
+					return (string)Reflect.GetPropertyValue( 
+						fixtureAttribute, 
+						"Description",
+						BindingFlags.Public | BindingFlags.Instance );
+			}
 
 			return null;
 		}
-
-		protected IList GetCandidateTestMethods( Type fixtureType )
-		{
-			return fixtureType.GetMethods( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static );
-		}
-
+		#endregion
 	}
-
 }

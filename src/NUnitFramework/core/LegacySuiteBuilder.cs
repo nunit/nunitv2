@@ -9,7 +9,7 @@ namespace NUnit.Core.Builders
 	{
 		public bool CanBuildFrom( Type type )
 		{
-			return !type.IsAbstract && LegacySuite.GetSuiteProperty( type ) != null;
+			return LegacySuite.GetSuiteProperty( type ) != null;
 		}
 
 		public TestSuite BuildFrom( Type type, int assemblyKey )

@@ -1,14 +1,19 @@
 using System;
 using System.Reflection;
+using System.Collections;
 using System.Collections.Specialized;
 using System.Configuration;
 
-namespace NUnit.Core
+namespace NUnit.Core.Builders
 {
 	public class NUnitTestCaseBuilder : GenericTestCaseBuilder
 	{
 		public NUnitTestCaseBuilder() 
-			: base( NUnitTestFixture.Parameters ) { }
+			: base( NUnitTestFixture.Parameters ) 
+		{
+			if ( !allowOldStyleTests )
+				parms.TestCasePattern = "";
+		}
 
 		static bool allowOldStyleTests;
 
@@ -29,29 +34,40 @@ namespace NUnit.Core
 			}
 		}
 
-		protected override bool IsOldStyleTestMethod(MethodInfo methodToCheck)
+		public override TestCase BuildFrom( MethodInfo method )
 		{
-			if ( allowOldStyleTests )
-				if ( methodToCheck.Name.ToLower().StartsWith("test") )
+			TestCase testCase = base.BuildFrom( method );
+		
+			if ( testCase != null )
+			{
+				PlatformHelper helper = new PlatformHelper();
+				if ( !helper.IsPlatformSupported( method ) )
 				{
-					object[] attributes = methodToCheck.GetCustomAttributes( false );
-
-					foreach( Attribute attribute in attributes )
-					{
-						string typeName = attribute.GetType().FullName;
-						if( typeName == "NUnit.Framework.SetUpAttribute" ||
-							typeName == "NUnit.Framework.TestFixtureSetUpAttribute" ||
-							typeName == "NUnit.Framework.TearDownAttribute" || 
-							typeName == "NUnit.Framework.TestFixtureTearDownAttribute" )
-						{
-							return false;
-						}
-					}
-
-					return true;	
+					testCase.ShouldRun = false;
+					testCase.IgnoreReason = "Not running on correct platform";
 				}
 
-			return false;
+				testCase.Categories = CategoryManager.GetCategories( method );
+				testCase.IsExplicit = Reflect.HasAttribute( method, "NUnit.Framework.ExplicitAttribute", false );
+			}			
+
+			return testCase;
+		}
+
+		protected virtual IList GetCategories( MethodInfo method )
+		{
+			System.Attribute[] attributes = 
+				Reflect.GetAttributes( method, "NUnit.Framework.CategoryAttribute", false );
+			IList categories = new ArrayList();
+
+			foreach( Attribute categoryAttribute in attributes ) 
+				categories.Add( 
+					Reflect.GetPropertyValue( 
+					categoryAttribute, 
+					"Name", 
+					BindingFlags.Public | BindingFlags.Instance ) );
+
+			return categories;
 		}
 	}
 }

@@ -31,226 +31,138 @@ namespace NUnit.Core
 {
 	using System;
 	using System.Reflection;
-	using System.Collections;
-	using System.Collections.Specialized;
-	using System.Configuration;
+	using System.Text.RegularExpressions;
 
 	/// <summary>
 	/// GenericTestCaseBuilder is a parameterized builder of test cases
-	/// for use by test fixtures.
-	/// 
-	/// REFACTORING NOTE: 
-	/// 
-	/// This class started out with static members and has been
-	/// refactored to have instance members and variables so that it
-	/// can be used with CSUnit and VSTS test fixtures.
-	/// 
-	/// In it's current state, the class has a dual role. It is
-	/// both an ITestCaseBuilder and a dispatcher that uses
-	/// other ITestCaseBuilder objects if it can't build the
-	/// test case itself. This is an intermediate refactoring
-	/// stage and the two functions will ultimately be separated.
+	/// for use by test fixtures. It is the base for NUnitTestCaseBuilder, 
+	/// CSUnitTestCaseBuilder and VstsTestCaseBuilder.
 	/// </summary>
-	public class GenericTestCaseBuilder : ITestCaseBuilder
+	public class GenericTestCaseBuilder : AbstractTestCaseBuilder
 	{
+		#region Fields
 		protected TestFixtureParameters parms;
+		#endregion
 
+		#region Constructor
 		public GenericTestCaseBuilder( TestFixtureParameters parms )
 		{
 			this.parms = parms;
 		}
+		#endregion
 
-		//Backward Compatiblility
-//		public TestCase Make( Type fixtureType, MethodInfo method )
-//		{
-//			return BuildFrom( method );
-//		}
-
-//		/// <summary>
-//		/// Make a test case from a given fixture type and method
-//		/// </summary>
-//		/// <param name="fixtureType">The fixture type</param>
-//		/// <param name="method">MethodInfo for the particular method</param>
-//		/// <returns>A test case or null</returns>
-//		public TestCase Make(Type fixtureType, MethodInfo method)
-//		{
-//			TestCase testCase = null;
-//
-//			Attribute testAttribute = Reflect.GetAttribute( method, parms.TestType, false );
-//			if( testAttribute != null || IsOldStyleTestMethod( method ) )
-//			{
-//				if ( HasValidTestCaseSignature( method ) )
-//				{
-//					testCase =	AddinManager.Addins.BuildFrom( method );
-//					if ( testCase == null )
-//						testCase = AddinManager.Builtins.BuildFrom( method );
-//					if ( testCase == null )
-//						testCase = this.BuildFrom( method );
-//
-//					Attribute platformAttribute = 
-//						Reflect.GetAttribute( method, parms.PlatformType, false );
-//					if ( platformAttribute != null )
-//					{
-//						PlatformHelper helper = new PlatformHelper();
-//						if ( !helper.IsPlatformSupported( platformAttribute ) )
-//						{
-//							testCase.ShouldRun = false;
-//							testCase.IgnoreReason = "Not running on correct platform";
-//						}
-//					}
-//
-//					Attribute ignoreAttribute =
-//						Reflect.GetAttribute( method, parms.IgnoreType, false );
-//					if ( ignoreAttribute != null )
-//					{
-//						testCase.ShouldRun = false;
-//						testCase.IgnoreReason = (string)
-//							Reflect.GetPropertyValue( 
-//								ignoreAttribute, 
-//								"Reason",
-//								BindingFlags.Public | BindingFlags.Instance );
-//					}
-//
-//					Attribute[] categoryAttributes = 
-//						Reflect.GetAttributes( method, parms.CategoryType, false );
-//					if ( categoryAttributes.Length > 0 )
-//					{
-//						ArrayList categories = new ArrayList();
-//						foreach( Attribute categoryAttribute in categoryAttributes) 
-//						{
-//							string category = (string)
-//								Reflect.GetPropertyValue( 
-//									categoryAttribute, 
-//									"Name",
-//									BindingFlags.Public | BindingFlags.Instance );
-//							CategoryManager.Add( category );
-//							categories.Add( category );
-//						}
-//						testCase.Categories = categories;
-//					}
-//
-//					testCase.IsExplicit = Reflect.HasAttribute( method, parms.ExplicitType, false );
-//				
-//					if ( testAttribute != null )
-//						testCase.Description = (string)Reflect.GetPropertyValue( 
-//							testAttribute, 
-//							"Description", 
-//							BindingFlags.Public | BindingFlags.Instance );
-//				}
-//				else
-//				{
-//					testCase = new NotRunnableTestCase(method);
-//				}
-//			}
-//
-//			return testCase;
-//		}
-
-		#region ITestCaseBuilder Members
-
-		public bool CanBuildFrom(MethodInfo method)
+		#region AbstractTestCaseBuilder Overrides
+		public override bool CanBuildFrom(MethodInfo method)
 		{
-			return Reflect.HasAttribute( method, parms.TestType, false )
-				|| IsOldStyleTestMethod( method );
+			if( parms.HasTestCaseType )
+			{
+				if( Reflect.HasAttribute( method, parms.TestCaseType, false ) )
+					return true;
+			}
+
+			if( parms.HasTestCasePattern )
+			{
+				Regex regex = new Regex( parms.TestCasePattern );
+				if ( regex.Match( method.Name ).Success && !IsSpecialMethod( method ) )
+					return true;
+			}
+		
+			return false;
 		}
 
-		public TestCase BuildFrom(MethodInfo method)
+		protected override TestCase MakeTestCase( MethodInfo method )
 		{
-			TestCase testCase = null;
+			Type expectedException = null;
+			string expectedMessage = null;
 
-			Attribute testAttribute = Reflect.GetAttribute( method, parms.TestType, false );
-			if( testAttribute != null || IsOldStyleTestMethod( method ) )
+			if( parms.HasExpectedExceptionType )
 			{
-				if ( HasValidTestCaseSignature( method ) )
+				Attribute attribute = Reflect.GetAttribute( method, parms.ExpectedExceptionType, false );
+				if ( attribute != null )
 				{
-					Attribute attribute = Reflect.GetAttribute( method, parms.ExpectedExceptionType, false );
-					if ( attribute != null )
-					{
-						Type expectedException = (System.Type)Reflect.GetPropertyValue( 
-							attribute, "ExceptionType",
-							BindingFlags.Public | BindingFlags.Instance );
-						string expectedMessage = (string)Reflect.GetPropertyValue(
-							attribute, "ExpectedMessage",
-							BindingFlags.Public | BindingFlags.Instance );
-						testCase = new ExpectedExceptionTestCase( 
-							method, expectedException, expectedMessage );
-					}
-					else
-						testCase = new NormalTestCase( method );
-
-					Attribute platformAttribute = 
-						Reflect.GetAttribute( method, parms.PlatformType, false );
-					if ( platformAttribute != null )
-					{
-						PlatformHelper helper = new PlatformHelper();
-						if ( !helper.IsPlatformSupported( platformAttribute ) )
-						{
-							testCase.ShouldRun = false;
-							testCase.IgnoreReason = "Not running on correct platform";
-						}
-					}
-
-					Attribute ignoreAttribute =
-						Reflect.GetAttribute( method, parms.IgnoreType, false );
-					if ( ignoreAttribute != null )
-					{
-						testCase.ShouldRun = false;
-						testCase.IgnoreReason = (string)
-							Reflect.GetPropertyValue( 
-							ignoreAttribute, 
-							"Reason",
-							BindingFlags.Public | BindingFlags.Instance );
-					}
-
-					Attribute[] categoryAttributes = 
-						Reflect.GetAttributes( method, parms.CategoryType, false );
-					if ( categoryAttributes.Length > 0 )
-					{
-						ArrayList categories = new ArrayList();
-						foreach( Attribute categoryAttribute in categoryAttributes) 
-						{
-							string category = (string)
-								Reflect.GetPropertyValue( 
-								categoryAttribute, 
-								"Name",
-								BindingFlags.Public | BindingFlags.Instance );
-							CategoryManager.Add( category );
-							categories.Add( category );
-						}
-						testCase.Categories = categories;
-					}
-
-					testCase.IsExplicit = Reflect.HasAttribute( method, parms.ExplicitType, false );
-				
-					if ( testAttribute != null )
-						testCase.Description = (string)Reflect.GetPropertyValue( 
-							testAttribute, 
-							"Description", 
-							BindingFlags.Public | BindingFlags.Instance );
-				}
-				else
-				{
-					testCase = new NotRunnableTestCase( method );
+					expectedException = (System.Type)Reflect.GetPropertyValue( 
+						attribute, "ExceptionType",
+						BindingFlags.Public | BindingFlags.Instance );
+					expectedMessage = (string)Reflect.GetPropertyValue(
+						attribute, "ExpectedMessage",
+						BindingFlags.Public | BindingFlags.Instance );
 				}
 			}
 
-			return testCase;
+			return new TemplateTestCase( method, expectedException, expectedMessage );
 		}
 
+		/// <summary>
+		/// Checks to see if the test is runnable by looking for the ignore 
+		/// attribute specified in the parameters.
+		/// </summary>
+		/// <param name="method">The method to be checked</param>
+		/// <param name="reason">A message indicating why the fixture is not runnable</param>
+		/// <returns>True if runnable, false if not</returns>
+		protected override bool IsRunnable( MethodInfo method, ref string reason )
+		{
+			if ( parms.HasIgnoreType )
+			{
+				Attribute ignoreAttribute =
+					Reflect.GetAttribute( method, parms.IgnoreType, false );
+				if ( ignoreAttribute != null )
+				{
+					reason = (string)Reflect.GetPropertyValue(
+						ignoreAttribute, 
+						"Reason",
+						BindingFlags.Public | BindingFlags.Instance );
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		protected override string GetTestCaseDescription( MethodInfo method )
+		{
+			if ( parms.HasTestCaseType )
+			{
+				Attribute testAttribute = Reflect.GetAttribute( method, parms.TestCaseType, false );
+				if ( testAttribute != null )
+					return (string)Reflect.GetPropertyValue( 
+						testAttribute, 
+						"Description", 
+						BindingFlags.Public | BindingFlags.Instance );
+			}
+
+			return null;
+		}
 		#endregion
 
-		protected bool HasValidTestCaseSignature( MethodInfo method )
+		#region Virtual Methods
+		protected virtual bool IsSpecialMethod( MethodInfo method )
 		{
-			return !method.IsStatic
-				&& !method.IsAbstract
-				&& method.IsPublic
-				&& method.GetParameters().Length == 0
-				&& method.ReturnType.Equals(typeof(void) );
+			return IsSetUpMethod( method )
+				|| IsTearDownMethod( method )
+				|| IsFixtureSetUpMethod( method )
+				|| IsFixtureTearDownMethod( method );
 		}
 
-		protected virtual bool IsOldStyleTestMethod( MethodInfo method )
+		protected virtual bool IsSetUpMethod( MethodInfo method )
 		{
-			return false;
+			return parms.HasSetUpType
+				&& Reflect.HasAttribute( method, parms.SetUpType, false );
 		}
+		protected virtual bool IsTearDownMethod( MethodInfo method )
+		{
+			return parms.HasTearDownType
+				&& Reflect.HasAttribute( method, parms.TearDownType, false );
+		}
+		protected virtual bool IsFixtureSetUpMethod( MethodInfo method )
+		{
+			return parms.HasFixtureSetUpType
+				&& Reflect.HasAttribute( method, parms.FixtureSetUpType, false );
+		}
+		protected virtual bool IsFixtureTearDownMethod( MethodInfo method )
+		{
+			return parms.HasFixtureTearDownType
+				&& Reflect.HasAttribute( method, parms.FixtureTearDownType, false );
+		}
+		#endregion
 	}
 }
