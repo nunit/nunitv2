@@ -70,6 +70,8 @@
         <include name="samples_VS2005.sln"/>
         <include name="ClassLibrary1.csproj"/>
         <include name="WebApplication1.sln"/>
+        <include name="Unmanaged.vcproj"/>
+        <include name="Solution1.sln"/>
       </fileset>
     </copy>
   </target>
