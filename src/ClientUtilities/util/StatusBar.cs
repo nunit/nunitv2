@@ -92,6 +92,8 @@ namespace NUnit.UiKit
 		{
 			this.uiEvents = uiEvents;
 
+			uiEvents.TestSuiteUnloadedEvent += new TestSuiteUnloadedHandler( OnSuiteUnloaded );
+
 			uiEvents.TestStartedEvent += new TestStartedHandler( OnTestStarted );
 			uiEvents.TestFinishedEvent += new TestFinishedHandler( OnTestFinished );
 			uiEvents.RunStartingEvent += new RunStartingHandler( OnRunStarting );
@@ -147,6 +149,11 @@ namespace NUnit.UiKit
 			failuresPanel.Text = "Failures : " + failureCount.ToString();
 			testsRunPanel.Text = "Tests Run : " + summarizer.ResultCount.ToString();
 			timePanel.Text = "Time : " + summarizer.Time.ToString();
+		}
+
+		public void OnSuiteUnloaded()
+		{
+			Initialize( 0 );
 		}
 
 		public void OnTestStarted( UITestNode testCase )
