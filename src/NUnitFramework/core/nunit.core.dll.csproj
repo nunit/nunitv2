@@ -164,6 +164,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ISuiteBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ITest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -180,6 +185,11 @@
                 />
                 <File
                     RelPath = "LegacySuite.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LegacySuiteBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -313,6 +323,11 @@
                 />
                 <File
                     RelPath = "TestFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestFixtureBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
