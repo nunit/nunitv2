@@ -122,59 +122,69 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void FromCSharpProject()
 		{
-			string projectPath = GetSamplesPath( @"csharp\csharp-sample.csproj" );
-			NUnitProject project = NUnitProject.FromVSProject( projectPath );
-			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfigName );
-			Assert.AreEqual( "csharp-sample.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].FullPath.ToLower() ) );
-			Assert.IsTrue( project.IsLoadable, "Not loadable" );
-			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
+			using(TempResourceFile file = new TempResourceFile(this.GetType(), "csharp-sample.csproj"))
+			{
+				NUnitProject project = NUnitProject.FromVSProject( file.Path );
+				Assert.AreEqual( project.Configs[0].Name, project.ActiveConfigName );
+				Assert.AreEqual( "csharp-sample.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].FullPath.ToLower() ) );
+				Assert.IsTrue( project.IsLoadable, "Not loadable" );
+				Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
+			}
 		}
 
 		[Test]
 		public void FromVBProject()
 		{
-			string projectPath = GetSamplesPath( @"vb\vb-sample.vbproj" );
-			NUnitProject project = NUnitProject.FromVSProject( projectPath );
-			Assert.AreEqual( "vb-sample.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].FullPath.ToLower() ) );
-			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
-			Assert.IsTrue( project.IsLoadable, "Not loadable" );
-			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
+			using(TempResourceFile file = new TempResourceFile(this.GetType(), "vb-sample.vbproj"))
+			{
+				NUnitProject project = NUnitProject.FromVSProject( file.Path );
+				Assert.AreEqual( "vb-sample.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].FullPath.ToLower() ) );
+				Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
+				Assert.IsTrue( project.IsLoadable, "Not loadable" );
+				Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
+			}
 		}
 
 		[Test]
 		public void FromJsharpProject()
 		{
-			string projectPath = GetSamplesPath( @"jsharp\jsharp.vjsproj" );
-			NUnitProject project = NUnitProject.FromVSProject( projectPath );
-			Assert.AreEqual( "jsharp.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].FullPath.ToLower() ) );
-			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
-			Assert.IsTrue( project.IsLoadable, "Not loadable" );
-			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
+			using(TempResourceFile file = new TempResourceFile(this.GetType(), "jsharp.vjsproj"))
+			{
+				NUnitProject project = NUnitProject.FromVSProject( file.Path );
+				Assert.AreEqual( "jsharp.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].FullPath.ToLower() ) );
+				Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
+				Assert.IsTrue( project.IsLoadable, "Not loadable" );
+				Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
+			}
 		}
 
 		[Test]
 		public void FromCppProject()
 		{
-			string projectPath = GetSamplesPath( @"cpp-sample\cpp-sample.vcproj" );
-			NUnitProject project = NUnitProject.FromVSProject( projectPath );
-			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
-			Assert.AreEqual( "cpp-sample.dll", Path.GetFileName( project.Configs["Debug|Win32"].Assemblies[0].FullPath.ToLower() ) );
-			Assert.IsTrue( project.IsLoadable, "Not loadable" );
-			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
+			using(TempResourceFile file = new TempResourceFile(this.GetType(), "cpp-sample.vcproj"))
+			{
+				NUnitProject project = NUnitProject.FromVSProject( file.Path );
+				Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
+				Assert.AreEqual( "cpp-sample.dll", Path.GetFileName( project.Configs["Debug|Win32"].Assemblies[0].FullPath.ToLower() ) );
+				Assert.IsTrue( project.IsLoadable, "Not loadable" );
+				Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
+			}
 		}
 
 		[Test]
 		public void FromVSSolution()
 		{
-			NUnitProject project = NUnitProject.FromVSSolution( GetSamplesPath( "samples.sln" ) );
-
-			Assert.AreEqual( 4, project.Configs.Count );
-			Assert.AreEqual( 5, project.Configs["Debug"].Assemblies.Count );
-			Assert.AreEqual( 5, project.Configs["Release"].Assemblies.Count );
-			Assert.AreEqual( 1, project.Configs["Debug|Win32"].Assemblies.Count );
-			Assert.AreEqual( 1, project.Configs["Release|Win32"].Assemblies.Count );
-			Assert.IsTrue( project.IsLoadable, "Not loadable" );
-			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
+			using(TempResourceFile file = new TempResourceFile(this.GetType(), "samples.sln"))
+			{
+				NUnitProject project = NUnitProject.FromVSSolution( file.Path );
+				Assert.AreEqual( 4, project.Configs.Count );
+				Assert.AreEqual( 5, project.Configs["Debug"].Assemblies.Count );
+				Assert.AreEqual( 5, project.Configs["Release"].Assemblies.Count );
+				Assert.AreEqual( 1, project.Configs["Debug|Win32"].Assemblies.Count );
+				Assert.AreEqual( 1, project.Configs["Release|Win32"].Assemblies.Count );
+				Assert.IsTrue( project.IsLoadable, "Not loadable" );
+				Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
+			}
 		}
 	}
 }
