@@ -10,7 +10,6 @@ namespace NUnit.Tests.UiKit
 	{
 		private TextBoxWriter textBoxWriter;
 		private RichTextBox textBox;
-		private static readonly string testLine = "This is a test";
 		
 		[SetUp]
 		public void Init()
