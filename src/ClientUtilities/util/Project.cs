@@ -104,7 +104,7 @@ namespace NUnit.Util
 			get { return Path.GetFileNameWithoutExtension( projectPath ); }
 		}
 
-		public string ConfigurationFile
+		public virtual string ConfigurationFile
 		{
 			get { return Path.GetFileNameWithoutExtension( projectPath ) + ".config"; }
 		}

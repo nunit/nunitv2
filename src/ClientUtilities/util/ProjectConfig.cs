@@ -154,7 +154,7 @@ namespace NUnit.Util
 			}
 			set 
 			{
-				if ( basePath != value )
+				if ( BasePath != value )
 				{
 					basePath = value;
 					IsDirty = true;
@@ -180,11 +180,13 @@ namespace NUnit.Util
 		{
 			get 
 			{ 
-				return configFile;
+				return configFile == null && project != null
+					? project.ConfigurationFile 
+					: configFile;
 			}
 			set
 			{
-				if ( configFile != value )
+				if ( ConfigurationFile != value )
 				{
 					configFile = value;
 					IsDirty = true;
@@ -196,14 +198,9 @@ namespace NUnit.Util
 		{
 			get
 			{		
-				string file = configFile == null && project != null 
-					? project.ConfigurationFile
-					: configFile;
-					
-				if ( BasePath == null || file == null )
-					return file;
-
-				return Path.Combine( BasePath, file );
+				return BasePath != null && ConfigurationFile != null
+					? Path.Combine( BasePath, ConfigurationFile )
+					: ConfigurationFile;
 			}
 		}
 
