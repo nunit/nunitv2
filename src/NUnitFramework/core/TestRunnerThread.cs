@@ -128,9 +128,8 @@ namespace NUnit.Core
 			try
 			{
 				//TODO: do we need a run started event?
-				int count = runner.CountTestCases( testNames );
 
-				Directory.SetCurrentDirectory( AppDomain.CurrentDomain.BaseDirectory );
+				int count = runner.CountTestCases( testNames );
 				results = runner.Run(listener, testNames );
 				
 				//TODO: do we need a run finished event?
