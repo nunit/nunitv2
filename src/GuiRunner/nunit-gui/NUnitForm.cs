@@ -83,7 +83,7 @@ namespace NUnit.Gui
 		public System.Windows.Forms.TabPage stdout;
 		public System.Windows.Forms.RichTextBox stdErrTab;
 		public System.Windows.Forms.RichTextBox stdOutTab;
-		public System.Windows.Forms.TreeView notRunTree;
+		public NUnit.UiKit.NotRunTree notRunTree;
 		private System.ComponentModel.IContainer components;
 		public System.Windows.Forms.ToolTip toolTip;
 		private System.Windows.Forms.MenuItem closeMenuItem;
@@ -206,7 +206,7 @@ namespace NUnit.Gui
 			this.splitter3 = new System.Windows.Forms.Splitter();
 			this.detailList = new System.Windows.Forms.ListBox();
 			this.testsNotRun = new System.Windows.Forms.TabPage();
-			this.notRunTree = new System.Windows.Forms.TreeView();
+			this.notRunTree = new NUnit.UiKit.NotRunTree();
 			this.stderr = new System.Windows.Forms.TabPage();
 			this.stdErrTab = new System.Windows.Forms.RichTextBox();
 			this.stdout = new System.Windows.Forms.TabPage();
@@ -880,7 +880,8 @@ namespace NUnit.Gui
 
 		private void exceptionDetailsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			UserMessage.DisplayFailure( TestLoader.LastException.ToString(), "Exception Details" );
+			ExceptionDetailsForm details = new ExceptionDetailsForm( TestLoader.LastException );
+			details.ShowDialog();
 		}
 
 		private void optionsMenuItem_Click(object sender, System.EventArgs e)
@@ -1294,8 +1295,7 @@ namespace NUnit.Gui
 			}
 			else
 			{
-				//TODO: this must be invoked to prevent errors
-				notRunTree.Nodes.Add(MakeNotRunNode(result));
+				notRunTree.Add( result );
 			}
 		}
 
@@ -1303,7 +1303,7 @@ namespace NUnit.Gui
 		{
 			TestSuiteResult suiteResult = (TestSuiteResult) args.Result;
 			if(!suiteResult.Executed)
-				notRunTree.Nodes.Add(MakeNotRunNode(suiteResult));
+				notRunTree.Add( suiteResult );
 		}
 
 		private void OnTestException(object sender, TestEventArgs args)
@@ -1313,17 +1313,6 @@ namespace NUnit.Gui
 				args.Exception.ToString() );
 
 			UserMessage.DisplayFailure( msg, "Unhandled Exception" );
-		}
-
-		private TreeNode MakeNotRunNode(TestResult result)
-		{
-			TreeNode node = new TreeNode(result.Name);
-
-			TreeNode reasonNode = new TreeNode("Reason: " + result.Message);
-			
-			node.Nodes.Add(reasonNode);
-
-			return node;
 		}
 
 		#endregion
