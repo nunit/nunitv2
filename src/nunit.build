@@ -294,7 +294,7 @@
 
         <!-- We use exec rather than the nunit2 task because we are testing
              a new build of NUnit which is likely not to be included in the Nant build -->
-        <exec basedir="${build.dir}/bin" workingdir="${build.dir}/bin" program="nunit-console.exe" commandline="nunit.tests.dll"/>
+        <exec basedir="${build.dir}/bin" workingdir="${build.dir}/bin" program="nunit-console.exe" commandline="nunit.tests.dll" />
     </target>
 
     <target name="nunit2-test" 
@@ -441,7 +441,7 @@
         <nant buildfile="extensions\nunit.extensions.build" target="copy"/>
         <nant buildfile="util\nunit.util.build" target="copy"/>
         <nant buildfile="nunit-console\nunit-console.build" target="copy"/>
-        <nant buildfile="mocks\nunit.mocks.build" target="copy-all"/>
+        <nant buildfile="mocks\nunit.mocks.build" target="copy"/>
         <nant buildfile="tests\tests.build" target="copy-all"/>
         <nant buildfile="samples\samples.build" target="copy-all"/>
 
