@@ -60,15 +60,20 @@ namespace NUnit.Core
 			string assemblyDirectory = Path.GetDirectoryName( assemblyName );
 			bool swap = assemblyDirectory != null && assemblyDirectory != string.Empty;
 
-			if ( swap )
-				Environment.CurrentDirectory = assemblyDirectory;
+			try
+			{
+				if ( swap )
+					Environment.CurrentDirectory = assemblyDirectory;
 
-			Assembly assembly = AppDomain.CurrentDomain.Load(TrimPathAndExtension(assemblyName));
+				return AppDomain.CurrentDomain.Load(TrimPathAndExtension(assemblyName));
+			}
+			finally
+			{
+				if ( swap )
+					Environment.CurrentDirectory = currentDirectory;
+			}
 
-			if ( swap )
-				Environment.CurrentDirectory = currentDirectory;
 
-			return assembly;
 		}
 
 		private TestSuite BuildFromNameSpace( string nameSpace, int assemblyKey )
