@@ -258,6 +258,88 @@ namespace NUnit.Framework
 
 		#region AreEqual
 
+		#region Ints
+
+		/// <summary>
+		/// Verifies that two ints are equal. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be printed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void AreEqual(int expected, 
+			int actual, string message, params object[] args) 
+		{
+			DoAssert( new EqualAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that two ints are equal. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be printed on failure</param>
+		static public void AreEqual(int expected, int actual, string message) 
+		{
+			Assert.AreEqual( expected, actual, message, null );
+		}
+
+		/// <summary>
+		/// Verifies that two ints are equal. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void AreEqual(int expected, int actual ) 
+		{
+			Assert.AreEqual( expected, actual, string.Empty, null );
+		}
+
+		#endregion
+
+		#region Decimals
+
+		/// <summary>
+		/// Verifies that two decimals are equal. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be printed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void AreEqual(decimal expected, 
+			decimal actual, string message, params object[] args) 
+		{
+			DoAssert( new EqualAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that two decimal are equal. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be printed on failure</param>
+		static public void AreEqual(decimal expected, decimal actual, string message) 
+		{
+			Assert.AreEqual( expected, actual, message, null );
+		}
+
+		/// <summary>
+		/// Verifies that two decimals are equal. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void AreEqual(decimal expected, decimal actual ) 
+		{
+			Assert.AreEqual( expected, actual, string.Empty, null );
+		}
+
+		#endregion
+
 		#region Doubles
 
 		/// <summary>
@@ -416,6 +498,7 @@ namespace NUnit.Framework
 
 		#region AreNotEqual
 
+		#region Objects
 		/// <summary>
 		/// Asserts that two objects are not equal. If they are equal
 		/// an <see cref="AssertionException"/> is thrown.
@@ -452,6 +535,160 @@ namespace NUnit.Framework
 			Assert.AreNotEqual(expected, actual, string.Empty, null);
 		}
    
+		#endregion
+
+		#region Ints
+		/// <summary>
+		/// Asserts that two ints are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		/// <param name="message">The message to be printed when the two objects are the same object.</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void AreNotEqual( int expected, int actual, string message, params object[] args)
+		{
+			DoAssert( new NotEqualAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Asserts that two ints are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		/// <param name="message">The message to be printed when the objects are the same</param>
+		static public void AreNotEqual(int expected, int actual, string message) 
+		{
+			Assert.AreNotEqual(expected, actual, message, null);
+		}
+   
+		/// <summary>
+		/// Asserts that two ints are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		static public void AreNotEqual(int expected, int actual) 
+		{
+			Assert.AreNotEqual(expected, actual, string.Empty, null);
+		}
+		#endregion
+
+		#region Decimals
+		/// <summary>
+		/// Asserts that two decimals are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		/// <param name="message">The message to be printed when the two objects are the same object.</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void AreNotEqual( decimal expected, decimal actual, string message, params object[] args)
+		{
+			DoAssert( new NotEqualAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Asserts that two decimals are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		/// <param name="message">The message to be printed when the objects are the same</param>
+		static public void AreNotEqual(decimal expected, decimal actual, string message) 
+		{
+			Assert.AreNotEqual(expected, actual, message, null);
+		}
+   
+		/// <summary>
+		/// Asserts that two decimals are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		static public void AreNotEqual(decimal expected, decimal actual) 
+		{
+			Assert.AreNotEqual(expected, actual, string.Empty, null);
+		}
+		#endregion
+
+		#region Floats
+		/// <summary>
+		/// Asserts that two floats are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		/// <param name="message">The message to be printed when the two objects are the same object.</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void AreNotEqual( float expected, float actual, string message, params object[] args)
+		{
+			DoAssert( new NotEqualAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Asserts that two floats are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		/// <param name="message">The message to be printed when the objects are the same</param>
+		static public void AreNotEqual(float expected, float actual, string message) 
+		{
+			Assert.AreNotEqual(expected, actual, message, null);
+		}
+   
+		/// <summary>
+		/// Asserts that two floats are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		static public void AreNotEqual(float expected, float actual) 
+		{
+			Assert.AreNotEqual(expected, actual, string.Empty, null);
+		}
+		#endregion
+
+		#region Doubles
+		/// <summary>
+		/// Asserts that two doubles are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		/// <param name="message">The message to be printed when the two objects are the same object.</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void AreNotEqual( double expected, double actual, string message, params object[] args)
+		{
+			DoAssert( new NotEqualAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Asserts that two doubles are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		/// <param name="message">The message to be printed when the objects are the same</param>
+		static public void AreNotEqual(double expected, double actual, string message) 
+		{
+			Assert.AreNotEqual(expected, actual, message, null);
+		}
+   
+		/// <summary>
+		/// Asserts that two doubles are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		static public void AreNotEqual(double expected, double actual) 
+		{
+			Assert.AreNotEqual(expected, actual, string.Empty, null);
+		}
+		#endregion
+
 		#endregion
 
 		#region AreSame
