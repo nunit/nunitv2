@@ -31,7 +31,8 @@ namespace NUnit.Tests
 {
 	using System;	
 	using System.Globalization;
-	using System.IO;    
+	using System.IO;
+	using System.Text;
 	using System.Threading;
 	using System.Xml;
 	using System.Xml.Schema;
@@ -146,6 +147,43 @@ namespace NUnit.Tests
 			}
 		}
 
+		private void runSchemaValidatorTest(TextWriter writer, CultureInfo testCulture)
+		{
+			// Preserve current culture
+			CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
+
+			// Enable test culture
+			Thread.CurrentThread.CurrentCulture = testCulture;
+
+			try
+			{
+				string testsDll = "mock-assembly.dll";
+				TestSuiteBuilder builder = new TestSuiteBuilder();
+				TestSuite suite = builder.Build(testsDll);
+
+				TestResult result = suite.Run(NullListener.NULL);
+
+				XmlResultVisitor visitor = new XmlResultVisitor(writer, result);
+				result.Accept(visitor);
+				visitor.Write();
+
+				string schemaFile = null;
+				FileInfo file = new FileInfo("Results.xsd");
+				if(file.Exists)
+					schemaFile = file.FullName;
+				else
+					schemaFile = "..\\..\\..\\framework\\Results.xsd";
+
+				//SchemaValidator validator = new SchemaValidator(reportFileName, schemaFile);
+				//Assertion.Assert("validate failed", validator.Validate());
+			}
+			finally
+			{
+				// Restore previous culture
+				Thread.CurrentThread.CurrentCulture = previousCulture;
+			}
+		}
+
 		private string tempFile;
 
 		[SetUp]
@@ -175,10 +213,45 @@ namespace NUnit.Tests
 		}
 
 		[Test]
+		public void TestStream()
+		{
+			CultureInfo unitedStatesCulture = new CultureInfo("en-US", false);
+			runSchemaValidatorTest(tempFile,unitedStatesCulture);
+			StringBuilder builder = new StringBuilder();
+			StringWriter writer = new StringWriter(builder);
+			runSchemaValidatorTest(writer,unitedStatesCulture);
+			string second = builder.ToString();
+			StreamReader reader = new StreamReader(tempFile);
+			string first = reader.ReadToEnd();
+			reader.Close();
+			Assert.Equals(removeTimeAttributes(first), removeTimeAttributes(second));
+		}
+
+		[Test]
 		public void TestSchemaValidatorFrenchCulture()
 		{
 			CultureInfo frenchCulture = new CultureInfo("fr-FR", false);
 			runSchemaValidatorTest(tempFile, frenchCulture);
+		}
+
+		[Test]
+		public void removeTime() 
+		{
+			string input = "foo time=\"123.745774xxx\" bar time=\"0\"";
+			string output = removeTimeAttributes(input);
+			Assert.Equals("foo  bar ", output);
+		}
+
+		private string removeTimeAttributes(string text) 
+		{
+			int index = 0;
+			while ((index = text.IndexOf("time=\"")) != -1) 
+			{
+				int endQuote = text.IndexOf("\"", index + 7);
+				text = text.Remove(index, endQuote - index + 1);
+			}
+
+			return text;
 		}
 	}
 }
