@@ -63,6 +63,10 @@ namespace NUnit.Core
 					testResult.Success();
 				}
 			}
+			else if (exception is Framework.AssertionException)
+			{
+				RecordException(exception,testResult);
+			}
 			else
 			{
 				string message = "Expected: " + expectedException.Name + " but was " + exception.GetType().Name;

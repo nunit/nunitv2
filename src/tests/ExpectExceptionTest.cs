@@ -151,6 +151,17 @@ namespace NUnit.Tests.Core
 			}
 		}
 
+		[TestFixture]
+		internal class TestAssertsBeforeThrowingException
+		{
+			[Test]
+			[ExpectedException(typeof(Exception))]
+			public void TestAssertFail()
+			{
+				Assert.Fail( "private message" );
+			}
+		}
+
 		[Test] 
 		public void MethodThrowsException()
 		{
@@ -178,6 +189,16 @@ namespace NUnit.Tests.Core
 			TestResult result = RunInternalTest( typeof( TearDownExceptionTests ) );
 			Assert.AreEqual(true, result.IsFailure);
 		}
+
+		[Test]
+		public void AssertFailBeforeException() 
+		{ 
+			TestSuiteResult suiteResult = (TestSuiteResult)RunInternalTest( typeof (TestAssertsBeforeThrowingException) );
+			Assert.AreEqual( true, suiteResult.IsFailure );
+			suiteResult = (TestSuiteResult)suiteResult.Results[0];
+			TestResult result = (TestResult)suiteResult.Results[0];
+			Assert.AreEqual( "private message", result.Message );
+		} 
 
 		private TestResult RunInternalTest( Type type )
 		{
