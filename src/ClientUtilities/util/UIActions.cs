@@ -87,6 +87,12 @@ namespace NUnit.UiKit
 		/// </summary>
 		private AssemblyWatcher watcher;
 
+		/// <summary>
+		/// Assembly changed during a test and
+		/// needs to be reloaded later
+		/// </summary>
+		private bool reloadPending = false;
+
 		#endregion
 
 		#region Events
@@ -140,6 +146,11 @@ namespace NUnit.UiKit
 		public bool IsTestRunning
 		{
 			get { return runningTest != null; }
+		}
+
+		public bool IsReloadPending
+		{
+			get { return reloadPending; }
 		}
 
 		#endregion
@@ -262,6 +273,7 @@ namespace NUnit.UiKit
 
 				testDomain = newDomain;
 				currentTest = newTest;
+				reloadPending = false;
 
 				SetWorkingDirectory(assemblyFileName);
 
@@ -286,6 +298,7 @@ namespace NUnit.UiKit
 			{
 				testDomain.Unload();
 				testDomain = null;
+				reloadPending = false;
 
 				RemoveWatcher();
 
@@ -312,30 +325,33 @@ namespace NUnit.UiKit
 		/// <param name="assemblyFileName">Assembly file that changed</param>
 		public void OnAssemblyChanged( string assemblyFileName )
 		{
-			// Don't unload the old domain till after the event
-			// handlers get a chance to compare the trees.
-			try
-			{
-				TestDomain newDomain = new TestDomain(stdOutWriter, stdErrWriter);
-				UITestNode newTest = newDomain.Load(assemblyFileName);
+			if ( IsTestRunning )
+				reloadPending = true;
+			else 
+				try
+				{
+					// Don't unload the old domain till after the event
+					// handlers get a chance to compare the trees.
+					TestDomain newDomain = new TestDomain(stdOutWriter, stdErrWriter);
+					UITestNode newTest = newDomain.Load(assemblyFileName);
 
-				bool notifyClient = !UIHelper.CompareTree( currentTest, newTest );
+					bool notifyClient = !UIHelper.CompareTree( currentTest, newTest );
 
-				testDomain.Unload();
+					testDomain.Unload();
 
-				testDomain = newDomain;
-				currentTest = newTest;
+					testDomain = newDomain;
+					currentTest = newTest;
+					reloadPending = false;
 
-
-				if ( notifyClient && TestSuiteChangedEvent != null )
+					if ( notifyClient && TestSuiteChangedEvent != null )
 						TestSuiteChangedEvent( newTest );
 				
-			}
-			catch( Exception exception )
-			{
-				if ( TestSuiteLoadFailureEvent != null )
-					TestSuiteLoadFailureEvent( assemblyFileName, exception );
-			}
+				}
+				catch( Exception exception )
+				{
+					if ( TestSuiteLoadFailureEvent != null )
+						TestSuiteLoadFailureEvent( assemblyFileName, exception );
+				}
 		}
 
 		private static void SetWorkingDirectory(string assemblyFileName)

@@ -347,9 +347,13 @@ namespace NUnit.Util
 		/// </summary>
 		private void runMenuItem_Click(object sender, System.EventArgs e)
 		{
-			if ( !runCommandEnabled )
+			if ( runCommandEnabled )
 			{
 				runCommandEnabled = false;
+
+				if ( actions.IsReloadPending )
+					actions.ReloadAssembly();
+
 				actions.RunTestSuite( contextNode.Test );
 			}
 		}
@@ -412,6 +416,10 @@ namespace NUnit.Util
 			if ( runCommandSupported && runCommandEnabled && SelectedNode.Nodes.Count == 0 )
 			{
 				runCommandEnabled = false;
+
+				if ( actions.IsReloadPending )
+					actions.ReloadAssembly();
+
 				actions.RunTestSuite( SelectedTest );
 			}
 		}
