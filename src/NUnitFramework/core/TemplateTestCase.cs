@@ -36,7 +36,7 @@ namespace NUnit.Core
 	/// <summary>
 	/// Summary description for TestCase.
 	/// </summary>
-	public abstract class TemplateTestCase : TestCase
+	public class TemplateTestCase : TestCase
 	{
 		/// <summary>
 		/// The fixture object, to be used with this test, or null
@@ -47,14 +47,23 @@ namespace NUnit.Core
 		private MethodInfo setUpMethod;
 		private MethodInfo tearDownMethod;
 
+		internal Type expectedException;
+		internal string expectedMessage;
+
 		public TemplateTestCase( MethodInfo method ) 
+			: this( method, null, null ) { }
+
+		public TemplateTestCase( MethodInfo method,
+			Type expectedException, string expectedMessage ) 
 			: base( method.ReflectedType.FullName, method.Name )
 		{
 			this.method = method;
 			this.testFramework = TestFramework.FromMethod( method );
+			this.expectedException = expectedException;
+			this.expectedMessage = expectedMessage;
 		}
-
-		public override void Run(TestCaseResult testResult)
+	
+	public override void Run(TestCaseResult testResult)
 		{ 
 			if ( ShouldRun )
 			{
@@ -150,9 +159,6 @@ namespace NUnit.Core
 			{
 				if ( tearDownMethod != null )
 			 		tearDownMethod.Invoke( this.fixture, new object[0] );
-//				else // invoke dynamicly
-//					Reflect.InvokeMethod( TearDownType, this.Fixture, 
-//						BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
 			}
 			catch(Exception ex)
 			{
@@ -247,11 +253,47 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Abstract Methods
+		#region Virtual Methods
 
-		protected internal abstract void ProcessNoException(TestCaseResult testResult);
+		protected internal virtual void ProcessNoException(TestCaseResult testResult)
+		{
+			if ( expectedException == null )
+				testResult.Success();
+			else
+				testResult.Failure(expectedException.Name + " was expected", null);
+		}
 		
-		protected internal abstract void ProcessException(Exception exception, TestCaseResult testResult);
+		protected internal virtual void ProcessException(Exception exception, TestCaseResult testResult)
+		{
+			if ( expectedException == null )
+			{
+				RecordException( exception, testResult );
+			}
+			else if (expectedException.Equals(exception.GetType()))
+			{
+				if (expectedMessage != null && !expectedMessage.Equals(exception.Message))
+				{
+					string message = string.Format("Expected exception to have message: \"{0}\" but received message \"{1}\"", 
+						expectedMessage, exception.Message);
+					testResult.Failure(message, exception.StackTrace);
+				} 
+				else 
+				{
+					testResult.Success();
+				}
+			}
+			else if ( testFramework.IsAssertException( exception ) )
+			{
+				RecordException(exception,testResult);
+			}
+			else
+			{
+				string message = "Expected: " + expectedException.Name + " but was " + exception.GetType().Name;
+				testResult.Failure(message, exception.StackTrace);
+			}
+
+			return;
+		}
 
 		#endregion
 	}
