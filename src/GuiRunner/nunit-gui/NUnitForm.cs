@@ -163,7 +163,7 @@ namespace NUnit.Gui
 			}
 		}
 
-		private void LoadRecentAssemblies() 
+		private void LoadRecentAssemblyMenu() 
 		{
 			IList assemblies = assemblyUtil.GetAssemblies();
 			if (assemblies.Count == 0)
@@ -718,7 +718,7 @@ namespace NUnit.Gui
 		private void UpdateRecentAssemblies(string assemblyFileName)
 		{
 			assemblyUtil.RecentAssembly = assemblyFileName;
-			LoadRecentAssemblies();
+			LoadRecentAssemblyMenu();
 		}
 
 		private void InstallWatcher(string assemblyFileName)
@@ -774,7 +774,13 @@ namespace NUnit.Gui
 
 		private void testSuiteTreeView_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
 		{
-			suiteName.Text = testSuiteTreeView.SelectedNode.Text;
+			TestNode node = testSuiteTreeView.SelectedNode;
+
+			suiteName.Text = node.Text;
+			SetTestCaseCount(node.Test.CountTestCases, testCaseCount);
+			failures.Text = "Failures : 0";
+			testsRun.Text = "Tests Run : 0";
+			time.Text = "Time : 0";
 		}
 
 		private void detailList_SelectedIndexChanged(object sender, System.EventArgs e)
@@ -883,7 +889,7 @@ namespace NUnit.Gui
 
 			ClearTestResults();
 
-			testCaseCount.Text = "Test Cases : " + test.CountTestCases;
+			SetTestCaseCount(test.CountTestCases, testCaseCount);
 			failures.Text = "Failures : 0";
 			testsRun.Text = "Tests Run : 0";
 			time.Text = "Time : 0";
@@ -905,6 +911,7 @@ namespace NUnit.Gui
 			progressBar.ForeColor = Color.Lime;
 			progressBar.Value = 0;
 		}
+
 		private void ClearTestResults()
 		{
 			detailList.Items.Clear();
@@ -955,6 +962,13 @@ namespace NUnit.Gui
 				testSuiteTreeView.Load(test);
 
 			runButton.Enabled = true;
+			ClearTestResults();
+			ResetProgressBar();
+		}
+
+		private static void SetTestCaseCount(int count, StatusBarPanel countLabel)
+		{
+			countLabel.Text = String.Format("Test cases: {0}", count);
 		}
 		
 	}

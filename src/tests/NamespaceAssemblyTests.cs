@@ -62,8 +62,7 @@ namespace NUnit.Tests
 		}
 
 		[Test]
-		[Ignore("this test is too brittle")]
-		public void TestHiearchy()
+		public void Hierarchy()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build(testsDll);
@@ -77,17 +76,20 @@ namespace NUnit.Tests
 			tests = testSuite.Tests;
 			Assertion.Assert("TestSuite:Tests - is invalid", tests[0] is TestSuite);
 			testSuite = (TestSuite)tests[0];
+			Assertion.AssertEquals(1, tests.Count);
 			Assertion.AssertEquals("Tests", testSuite.Name);
 
 			tests = testSuite.Tests;
+			Assertion.AssertEquals(3, tests.Count);
+
 			Assertion.Assert("TestSuite:singletons - is invalid", tests[1] is TestSuite);
-			TestSuite singletonSuite = (TestSuite)tests[1];
+			TestSuite singletonSuite = (TestSuite)tests[2];
 			Assertion.AssertEquals("Singletons", singletonSuite.Name);
 			Assertion.AssertEquals(1, singletonSuite.Tests.Count);
 
 			MockTestFixture mockTestFixture = new MockTestFixture();			
-			Assertion.Assert("TestSuite:assemblies - is invalid", tests[0] is TestSuite);
-			TestSuite mockSuite = (TestSuite)tests[0];
+			Assertion.Assert("TestSuite:assemblies - is invalid", tests[1] is TestSuite);
+			TestSuite mockSuite = (TestSuite)tests[1];
 			Assertion.AssertEquals("Assemblies", mockSuite.Name);
 
 			TestSuite mockFixtureSuite = (TestSuite)mockSuite.Tests[0];

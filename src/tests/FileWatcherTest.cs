@@ -40,7 +40,7 @@ namespace NUnit.Tests
 		}
 
 		[Test]
-		public void TestManyFrequestEvents()
+		public void TestManyFrequentEvents()
 		{
 			for(int i=0; i<3; i++)
 			{
