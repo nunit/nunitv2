@@ -38,7 +38,7 @@ namespace NUnit.Gui
 	{
 		#region Static and instance variables
 
-		private static RecentAssemblyUtil assemblyUtil;
+		private static RecentAssemblySettings recentAssemblies;
 
 		private bool runCommandEnabled = false;
 		private string assemblyFileName;
@@ -80,7 +80,7 @@ namespace NUnit.Gui
 		public System.Windows.Forms.TabPage stdout;
 		public System.Windows.Forms.TextBox stdErrTab;
 		public System.Windows.Forms.TextBox stdOutTab;
-		public System.Windows.Forms.MenuItem RecentAssemblies;
+		public System.Windows.Forms.MenuItem recentAssembliesMenu;
 		public NUnit.Gui.ProgressBar progressBar;
 		public System.Windows.Forms.TreeView notRunTree;
 		private System.ComponentModel.IContainer components;
@@ -111,7 +111,7 @@ namespace NUnit.Gui
 
 		static NUnitForm()	
 		{
-			assemblyUtil = new RecentAssemblyUtil("recent-assemblies");
+			recentAssemblies = UserSettings.RecentAssemblies;
 		}
 		
 		public NUnitForm(string assemblyFileName)
@@ -140,7 +140,7 @@ namespace NUnit.Gui
 			actions.SuiteUnloadedEvent += new UIActions.SuiteUnloadedHandler(OnSuiteUnloaded);
 
 			if (assemblyFileName == null)
-				assemblyFileName = assemblyUtil.RecentAssembly;
+				assemblyFileName = recentAssemblies.RecentAssembly;
 
 			if(assemblyFileName != null)
 				LoadAssembly(assemblyFileName);
@@ -184,7 +184,7 @@ namespace NUnit.Gui
 			this.openMenuItem = new System.Windows.Forms.MenuItem();
 			this.closeMenuItem = new System.Windows.Forms.MenuItem();
 			this.menuItem3 = new System.Windows.Forms.MenuItem();
-			this.RecentAssemblies = new System.Windows.Forms.MenuItem();
+			this.recentAssembliesMenu = new System.Windows.Forms.MenuItem();
 			this.menuItem4 = new System.Windows.Forms.MenuItem();
 			this.exitMenuItem = new System.Windows.Forms.MenuItem();
 			this.menuItem6 = new System.Windows.Forms.MenuItem();
@@ -280,7 +280,7 @@ namespace NUnit.Gui
 																						 this.openMenuItem,
 																						 this.closeMenuItem,
 																						 this.menuItem3,
-																						 this.RecentAssemblies,
+																						 this.recentAssembliesMenu,
 																						 this.menuItem4,
 																						 this.exitMenuItem});
 			this.fileMenuItem.Text = "&File";
@@ -304,10 +304,10 @@ namespace NUnit.Gui
 			this.menuItem3.Index = 2;
 			this.menuItem3.Text = "-";
 			// 
-			// RecentAssemblies
+			// recentAssembliesMenu
 			// 
-			this.RecentAssemblies.Index = 3;
-			this.RecentAssemblies.Text = "Recent Assemblies";
+			this.recentAssembliesMenu.Index = 3;
+			this.recentAssembliesMenu.Text = "Recent Assemblies";
 			// 
 			// menuItem4
 			// 
@@ -968,7 +968,7 @@ namespace NUnit.Gui
 		/// <param name="assemblyFileName">Full path of the assembly to make most recent</param>
 		private void UpdateRecentAssemblies(string assemblyFileName)
 		{
-			assemblyUtil.RecentAssembly = assemblyFileName;
+			recentAssemblies.RecentAssembly = assemblyFileName;
 			LoadRecentAssemblyMenu();
 		}
 
@@ -979,7 +979,7 @@ namespace NUnit.Gui
 		/// <param name="assemblyFileName">Full path of the assembly to remove</param>
 		private void RemoveRecentAssembly(string assemblyFileName)
 		{
-			assemblyUtil.Remove( assemblyFileName );
+			recentAssemblies.Remove( assemblyFileName );
 			LoadRecentAssemblyMenu();
 		}
 
@@ -1125,19 +1125,19 @@ namespace NUnit.Gui
 		/// </summary>
 		private void LoadRecentAssemblyMenu() 
 		{
-			IList assemblies = assemblyUtil.GetAssemblies();
+			IList assemblies = recentAssemblies.GetAssemblies();
 			if (assemblies.Count == 0)
-				RecentAssemblies.Enabled = false;
+				recentAssembliesMenu.Enabled = false;
 			else 
 			{
-				RecentAssemblies.Enabled = true;
-				RecentAssemblies.MenuItems.Clear();
+				recentAssembliesMenu.Enabled = true;
+				recentAssembliesMenu.MenuItems.Clear();
 				int index = 1;
 				foreach (string name in assemblies) 
 				{
 					MenuItem item = new MenuItem(String.Format("{0} {1}", index++, name));
 					item.Click += new System.EventHandler(recentFile_clicked);
-					this.RecentAssemblies.MenuItems.Add(item);
+					this.recentAssembliesMenu.MenuItems.Add(item);
 				}
 			}
 		}
