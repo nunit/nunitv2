@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "WinExe"
                 PreBuildEvent = ""
-                PostBuildEvent = "copy $(ProjectDir)nunit-gui.exe.1.1.config $(TargetDir)nunit-gui.exe.config"
+                PostBuildEvent = 'copy "$(ProjectDir)nunit-gui.exe.1.1.config" "$(TargetDir)nunit-gui.exe.config"'
                 RootNamespace = "NUnit.Gui"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
