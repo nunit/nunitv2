@@ -522,6 +522,11 @@ namespace NUnit.UiKit
 		#endregion
 
 
+		public void RunTests()
+		{
+			tests.RunTests();
+		}
+
 		private void addCategory_Click(object sender, System.EventArgs e)
 		{
 			if (availableList.SelectedItems.Count > 0) 
