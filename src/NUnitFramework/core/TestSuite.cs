@@ -128,26 +128,26 @@ namespace NUnit.Core
 			// See also a line to change in TestSuiteBuilder.cs
 			////////////////////////////////////////////////////////////////////////
 
-			//			PropertyInfo [] properties = fixture.GetType().GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
-			//			foreach(PropertyInfo property in properties)
-			//			{
-			//				object[] attrributes = property.GetCustomAttributes(typeof(NUnit.Framework.SuiteAttribute),false);
-			//				if(attrributes.Length>0)
-			//				{
-			//					MethodInfo method = property.GetGetMethod(true);
-			//					if(method.ReturnType!=typeof(NUnit.Core.TestSuite) || method.GetParameters().Length>0)
-			//					{
-			//						testSuite.ShouldRun = false;
-			//						testSuite.IgnoreReason = "Invalid suite property method signature";
-			//					}
-			//					else
-			//					{
-			//						TestSuite suite = (TestSuite)property.GetValue(null, new Object[0]);
-			//						foreach( Test test in suite.Tests )
-			//							testSuite.Add( test );
-			//					}
-			//				}
-			//			}
+			PropertyInfo [] properties = fixture.GetType().GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
+			foreach(PropertyInfo property in properties)
+			{
+				object[] attrributes = property.GetCustomAttributes(typeof(NUnit.Framework.SuiteAttribute),false);
+				if(attrributes.Length>0)
+				{
+					MethodInfo method = property.GetGetMethod(true);
+					if(method.ReturnType!=typeof(NUnit.Core.TestSuite) || method.GetParameters().Length>0)
+					{
+						testSuite.ShouldRun = false;
+						testSuite.IgnoreReason = "Invalid suite property method signature";
+					}
+//					else
+//					{
+//						TestSuite suite = (TestSuite)property.GetValue(null, new Object[0]);
+//						foreach( Test test in suite.Tests )
+//							testSuite.Add( test );
+//					}
+				}
+			}
 
 			MethodInfo [] methods = fixture.GetType().GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.Static|BindingFlags.NonPublic);
 			foreach(MethodInfo method in methods)

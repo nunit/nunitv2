@@ -79,6 +79,15 @@ namespace NUnit.Tests.Core
 			Assert.AreEqual( 3, suite.Tests.Count );
 		}
 
+		[Test]
+		public void LoadNamespaceAsSuite()
+		{
+			TestSuite suite= builder.Build( testsDll, "NUnit.Tests.Core" );
+			Assert.IsNotNull( suite );
+			Assert.AreEqual( "NUnit", suite.Name );
+			Assert.IsTrue( suite.CountTestCases() > 100 );
+		}
+
 		class Suite
 		{
 			[Suite]

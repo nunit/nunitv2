@@ -42,6 +42,9 @@ namespace NUnit.Tests.Core
 	public class TestFixtureBuilderTests
 	{
 		private string testsDll = "NUnit.Tests.dll";
+		TestSuiteBuilder builder = new TestSuiteBuilder();
+
+		#region Private & Internal Classes Used by Tests
 
 		class AssemblyType
 		{
@@ -51,19 +54,6 @@ namespace NUnit.Tests.Core
 			{
 				called = true;
 			}
-		}
-
-		[Test]
-		public void CallTestFixtureConstructor()
-		{
-			ConstructorInfo ctor = typeof(NUnit.Tests.Core.TestFixtureBuilderTests.AssemblyType).GetConstructor(Type.EmptyTypes);
-			Assert.IsNotNull(ctor);
-
-			object testFixture = ctor.Invoke(Type.EmptyTypes);
-			Assert.IsNotNull(testFixture);
-
-			AssemblyType assemblyType = (AssemblyType)testFixture;
-			Assert.IsTrue(assemblyType.called, "AssemblyType constructor should be called");
 		}
 
 		[TestFixture]
@@ -76,22 +66,6 @@ namespace NUnit.Tests.Core
 			{}
 		}
 
-		[Test] 
-		[ExpectedException(typeof(InvalidTestFixtureException))]
-		public void BuildTestFixtureWithNoDefaultCtor()
-		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			object fixture = builder.BuildTestFixture(typeof(NoDefaultCtorFixture));
-		}
-
-		[Test]
-		public void BuildTestSuiteWithNoDefaultCtorFixture()
-		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.MakeSuiteFromTestFixtureType(typeof(NoDefaultCtorFixture));
-			Assert.IsFalse(suite.ShouldRun);
-		}
-
 		[TestFixture]
 			internal class BadCtorFixture
 		{
@@ -102,22 +76,6 @@ namespace NUnit.Tests.Core
 
 			[Test] public void OneTest()
 			{}
-		}
-
-		[Test]
-		[ExpectedException(typeof(InvalidTestFixtureException))]
-		public void BuildFixtureWithBadCtor()
-		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			object fixture = builder.BuildTestFixture(typeof(BadCtorFixture));
-		}
-
-		[Test]
-		public void BuildTestSuiteWithBadCtorFixture()
-		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.MakeSuiteFromTestFixtureType(typeof(BadCtorFixture));
-			Assert.IsFalse(suite.ShouldRun);
 		}
 
 		[TestFixture]
@@ -150,22 +108,6 @@ namespace NUnit.Tests.Core
 			{}
 		}
 
-		[Test] 
-		[ExpectedException(typeof(InvalidTestFixtureException))]
-		public void CheckMultipleSetUp()
-		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			object fixture = builder.BuildTestFixture(typeof(MultipleSetUpAttributes));
-		}
-
-		[Test] 
-		[ExpectedException(typeof(InvalidTestFixtureException))]
-		public void CheckMultipleTearDown()
-		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			object fixture = builder.BuildTestFixture(typeof(MultipleTearDownAttributes));
-		}
-
 		[TestFixture]
 			[Ignore("testing ignore a suite")]
 			private class IgnoredFixture
@@ -175,25 +117,8 @@ namespace NUnit.Tests.Core
 			{}
 		}
 
-		[Test]
-		public void TestIgnoredFixture()
-		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build(testsDll, "NUnit.Tests.Core.TestFixtureBuilderTests+IgnoredFixture" );
-			
-			suite = (TestSuite)suite.Tests[0];
-			
-			Assert.IsNotNull(suite);
-			Assert.IsFalse(suite.ShouldRun, "Suite should not be runnable");
-			Assert.AreEqual("testing ignore a suite", suite.IgnoreReason);
-
-			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
-			Assert.IsFalse(testCase.ShouldRun,
-				"test case should inherit run state from enclosing suite");
-		}
-
 		[TestFixture]
-		internal class SignatureTestFixture
+			internal class SignatureTestFixture
 		{
 			[Test]
 			public static void Static()
@@ -227,7 +152,7 @@ namespace NUnit.Tests.Core
 		private class NestedTestFixture
 		{
 			[TestFixture]
-			internal class DoubleNestedTestFixture
+				internal class DoubleNestedTestFixture
 			{
 				[Test]
 				public void Test()
@@ -236,32 +161,299 @@ namespace NUnit.Tests.Core
 			}
 		}
 
+		[TestFixture]
+		private abstract class AbstractTestFixture
+		{
+			[TearDown]
+			public void Destroy1()
+			{}
+		}
+
+		[TestFixture]
+		private class MultipleFixtureSetUpAttributes
+		{
+			[TestFixtureSetUp]
+			public void Init1()
+			{}
+
+			[TestFixtureSetUp]
+			public void Init2()
+			{}
+
+			[Test] public void OneTest()
+			{}
+		}
+
+		[TestFixture]
+		private class MultipleFixtureTearDownAttributes
+		{
+			[TestFixtureTearDown]
+			public void Destroy1()
+			{}
+
+			[TestFixtureTearDown]
+			public void Destroy2()
+			{}
+
+			[Test] public void OneTest()
+			{}
+		}
+
+		[TestFixture]
+		private class PrivateSetUp
+		{
+			[SetUp]
+			private void Setup()	{}
+		}
+
+		[TestFixture]
+		private class ProtectedSetUp
+		{
+			[SetUp]
+			protected void Setup()	{}
+		}
+
+		[TestFixture]
+		private class SetUpWithReturnValue
+		{
+			[SetUp]
+			public int Setup() { return 0; }
+		}
+
+		[TestFixture]
+		private class SetUpWithParameters
+		{
+			[SetUp]
+			public void Setup(int j) { }
+		}
+
+		[TestFixture]
+		private class PrivateTearDown
+		{
+			[TearDown]
+			private void Teardown()	{}
+		}
+
+		[TestFixture]
+		private class ProtectedTearDown
+		{
+			[TearDown]
+			protected void Teardown()	{}
+		}
+
+		[TestFixture]
+		private class TearDownWithReturnValue
+		{
+			[TearDown]
+			public int Teardown() { return 0; }
+		}
+
+		[TestFixture]
+		private class TearDownWithParameters
+		{
+			[TearDown]
+			public void Teardown(int j) { }
+		}
+
+		[TestFixture]
+		private class PrivateFixtureSetUp
+		{
+			[TestFixtureSetUp]
+			private void Setup()	{}
+		}
+
+		[TestFixture]
+		private class ProtectedFixtureSetUp
+		{
+			[TestFixtureSetUp]
+			protected void Setup()	{}
+		}
+
+		[TestFixture]
+		private class FixtureSetUpWithReturnValue
+		{
+			[TestFixtureSetUp]
+			public int Setup() { return 0; }
+		}
+
+		[TestFixture]
+		private class FixtureSetUpWithParameters
+		{
+			[SetUp]
+			public void Setup(int j) { }
+		}
+
+		[TestFixture]
+		private class PrivateFixtureTearDown
+		{
+			[TestFixtureTearDown]
+			private void Teardown()	{}
+		}
+
+		[TestFixture]
+		private class ProtectedFixtureTearDown
+		{
+			[TestFixtureTearDown]
+			protected void Teardown()	{}
+		}
+
+		[TestFixture]
+		private class FixtureTearDownWithReturnValue
+		{
+			[TestFixtureTearDown]
+			public int Teardown() { return 0; }
+		}
+
+		[TestFixture]
+		private class FixtureTearDownWithParameters
+		{
+			[TestFixtureTearDown]
+			public void Teardown(int j) { }
+		}
+
+		#endregion
+
+		#region Helper Methods
+
+		private void InvalidSignatureTest(string methodName, string reason)
+		{
+			TestSuite fixture = LoadFixture("NUnit.Tests.Core.TestFixtureBuilderTests+SignatureTestFixture");
+			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
+			Assert.IsNotNull(foundTest);
+			Assert.IsFalse(foundTest.ShouldRun);
+			string expected = String.Format("Method {0}'s signature is not correct: {1}.", methodName, reason);
+			Assert.AreEqual(expected, foundTest.IgnoreReason);
+		}
+
+		private TestSuite LoadFixture(string fixtureName)
+		{
+			TestSuite suite = builder.Build(testsDll, fixtureName );
+			Assert.IsNotNull(suite);
+
+//			TestSuite fixture = (TestSuite)suite.Tests[0];
+//			Assert.IsNotNull(fixture);
+//			return fixture;
+			return suite;
+		}
+
+		private NUnit.Core.TestCase FindTestByName(TestSuite fixture, string methodName)
+		{
+			NUnit.Core.TestCase foundTest = null;
+			foreach(Test test in fixture.Tests)
+			{
+				NUnit.Core.TestCase testCase = test as NUnit.Core.TestCase;
+				if(testCase != null)
+				{
+					if(testCase.Name.Equals(methodName))
+						foundTest = testCase;
+				}
+
+				if(foundTest != null)
+					break;
+			}
+
+			return foundTest;
+		}
+
+		#endregion
+
 		[Test]
-		public void TestStatic()
+		public void CallTestFixtureConstructor()
+		{
+			ConstructorInfo ctor = typeof(NUnit.Tests.Core.TestFixtureBuilderTests.AssemblyType).GetConstructor(Type.EmptyTypes);
+			Assert.IsNotNull(ctor);
+
+			object testFixture = ctor.Invoke(Type.EmptyTypes);
+			Assert.IsNotNull(testFixture);
+
+			AssemblyType assemblyType = (AssemblyType)testFixture;
+			Assert.IsTrue(assemblyType.called, "AssemblyType constructor should be called");
+		}
+
+		[Test] 
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void BuildTestFixtureWithNoDefaultCtor()
+		{
+			builder.BuildTestFixture(typeof(NoDefaultCtorFixture));
+		}
+
+		[Test]
+		public void BuildTestSuiteWithNoDefaultCtorFixture()
+		{
+			TestSuite suite = builder.MakeSuiteFromTestFixtureType(typeof(NoDefaultCtorFixture));
+			Assert.IsFalse(suite.ShouldRun);
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void BuildFixtureWithBadCtor()
+		{
+			builder.BuildTestFixture(typeof(BadCtorFixture));
+		}
+
+		[Test]
+		public void BuildTestSuiteWithBadCtorFixture()
+		{
+			TestSuite suite = builder.MakeSuiteFromTestFixtureType(typeof(BadCtorFixture));
+			Assert.IsFalse(suite.ShouldRun);
+		}
+
+		[Test] 
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckMultipleSetUp()
+		{
+			builder.BuildTestFixture(typeof(MultipleSetUpAttributes));
+		}
+
+		[Test] 
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckMultipleTearDown()
+		{
+			builder.BuildTestFixture(typeof(MultipleTearDownAttributes));
+		}
+
+		[Test]
+		public void TestIgnoredFixture()
+		{
+			TestSuite suite = builder.Build(testsDll, "NUnit.Tests.Core.TestFixtureBuilderTests+IgnoredFixture" );
+			
+			//suite = (TestSuite)suite.Tests[0];
+			
+			Assert.IsNotNull(suite);
+			Assert.IsFalse(suite.ShouldRun, "Suite should not be runnable");
+			Assert.AreEqual("testing ignore a suite", suite.IgnoreReason);
+
+			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
+			Assert.IsFalse(testCase.ShouldRun,
+				"test case should inherit run state from enclosing suite");
+		}
+
+		[Test]
+		public void IgnoreStaticTests()
 		{
 			InvalidSignatureTest("Static", "it must be an instance method" );
 		}
 
 		[Test]
-		public void TestNonVoidReturn()
+		public void IgnoreTestsThatReturnSomething()
 		{
 			InvalidSignatureTest("NotVoid", "it must return void");
 		}
 
 		[Test]
-		public void TestNonEmptyParameters()
+		public void IgnoreTestsWithParameters()
 		{
 			InvalidSignatureTest("Parameters", "it must not have parameters");
 		}
 
 		[Test]
-		public void TestProtected()
+		public void IgnoreProtectedTests()
 		{
 			InvalidSignatureTest("Protected", "it must be a public method");
 		}
 
 		[Test]
-		public void TestPrivate()
+		public void IgnorePrivateTests()
 		{
 			InvalidSignatureTest("Private", "it must be a public method");
 		}
@@ -297,107 +489,139 @@ namespace NUnit.Tests.Core
 			Assert.AreEqual( "TestFixtureBuilderTests+NestedTestFixture+DoubleNestedTestFixture", fixture.Name );
 		}
 
-		private void InvalidSignatureTest(string methodName, string reason)
-		{
-			TestSuite fixture = LoadFixture("NUnit.Tests.Core.TestFixtureBuilderTests+SignatureTestFixture");
-			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
-			Assert.IsNotNull(foundTest);
-			Assert.IsFalse(foundTest.ShouldRun);
-			string expected = String.Format("Method {0}'s signature is not correct: {1}.", methodName, reason);
-			Assert.AreEqual(expected, foundTest.IgnoreReason);
-		}
-
-		private TestSuite LoadFixture(string fixtureName)
-		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build(testsDll, fixtureName );
-			Assert.IsNotNull(suite);
-
-			TestSuite fixture = (TestSuite)suite.Tests[0];
-			Assert.IsNotNull(fixture);
-			return fixture;
-		}
-
-		[TestFixture]
-		private abstract class AbstractTestFixture
-		{
-			[TearDown]
-			public void Destroy1()
-			{}
-		}
-
 		[Test]
 		public void AbstractFixture()
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build(testsDll, "NUnit.Tests.Core.TestFixtureBuilderTests+AbstractTestFixture" );
 			Assert.IsNull(suite);
 		}
 
 
-		[TestFixture]
-		private class MultipleFixtureSetUpAttributes
-		{
-			[TestFixtureSetUp]
-			public void Init1()
-			{}
-
-			[TestFixtureSetUp]
-			public void Init2()
-			{}
-
-			[Test] public void OneTest()
-			{}
-		}
-
-		[TestFixture]
-		private class MultipleFixtureTearDownAttributes
-		{
-			[TestFixtureTearDown]
-			public void Destroy1()
-			{}
-
-			[TestFixtureTearDown]
-			public void Destroy2()
-			{}
-
-			[Test] public void OneTest()
-			{}
-		}
-
 		[Test] 
 		[ExpectedException(typeof(InvalidTestFixtureException))]
 		public void CheckMultipleTestFixtureSetUp()
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			object fixture = builder.BuildTestFixture(typeof(MultipleFixtureSetUpAttributes));
+			builder.BuildTestFixture(typeof(MultipleFixtureSetUpAttributes));
 		}
 
 		[Test] 
 		[ExpectedException(typeof(InvalidTestFixtureException))]
 		public void CheckMultipleTestFixtureTearDown()
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			object fixture = builder.BuildTestFixture(typeof(MultipleFixtureTearDownAttributes));
+			builder.BuildTestFixture(typeof(MultipleFixtureTearDownAttributes));
 		}
 
-		private NUnit.Core.TestCase FindTestByName(TestSuite fixture, string methodName)
+		[Test] 
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckPrivateSetUp()
 		{
-			NUnit.Core.TestCase foundTest = null;
-			foreach(Test test in fixture.Tests)
-			{
-				NUnit.Core.TestCase testCase = test as NUnit.Core.TestCase;
-				if(testCase != null)
-				{
-					if(testCase.Name.Equals(methodName))
-						foundTest = testCase;
-				}
-
-				if(foundTest != null)
-					break;
-			}
-
-			return foundTest;
+			builder.BuildTestFixture(typeof(PrivateSetUp));
 		}
+
+		[Test] 
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckProtectedSetUp()
+		{
+			builder.BuildTestFixture(typeof(ProtectedSetUp));
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckSetupWithReturnValue()
+		{
+			builder.BuildTestFixture(typeof(SetUpWithReturnValue));
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckSetupWithParameters()
+		{
+			builder.BuildTestFixture(typeof(SetUpWithParameters));
+		}
+
+		[Test] 
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckPrivateTearDown()
+		{
+			builder.BuildTestFixture(typeof(PrivateTearDown));
+		}
+
+		[Test] 
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckProtectedTearDown()
+		{
+			builder.BuildTestFixture(typeof(ProtectedTearDown));
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckTearDownWithReturnValue()
+		{
+			builder.BuildTestFixture(typeof(TearDownWithReturnValue));
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckTearDownWithParameters()
+		{
+			builder.BuildTestFixture(typeof(TearDownWithParameters));
+		}
+
+		[Test] 
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckPrivateFixtureSetUp()
+		{
+			builder.BuildTestFixture(typeof(PrivateFixtureSetUp));
+		}
+
+		[Test] 
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckProtectedFixtureSetUp()
+		{
+			builder.BuildTestFixture(typeof(ProtectedFixtureSetUp));
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckFixtureSetupWithReturnValue()
+		{
+			builder.BuildTestFixture(typeof(FixtureSetUpWithReturnValue));
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckFixtureSetupWithParameters()
+		{
+			builder.BuildTestFixture(typeof(FixtureSetUpWithParameters));
+		}
+
+		[Test] 
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckPrivateFixtureTearDown()
+		{
+			builder.BuildTestFixture(typeof(PrivateFixtureTearDown));
+		}
+
+		[Test] 
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckProtectedFixtureTearDown()
+		{
+			builder.BuildTestFixture(typeof(ProtectedFixtureTearDown));
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckFixtureTearDownWithReturnValue()
+		{
+			builder.BuildTestFixture(typeof(FixtureTearDownWithReturnValue));
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckFixtureTearDownWithParameters()
+		{
+			builder.BuildTestFixture(typeof(FixtureTearDownWithParameters));
+		}
+
 	}
 }
