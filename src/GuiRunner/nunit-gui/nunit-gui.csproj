@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "WinExe"
                 PreBuildEvent = ""
-                PostBuildEvent = ""
+                PostBuildEvent = "copy $(ProjectDir)nunit-gui.exe.1.1.config $(TargetDir)nunit-gui.exe.config"
                 RootNamespace = "NUnit.Gui"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -119,10 +119,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "app.config"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "App.ico"
                     BuildAction = "Content"
                 />
@@ -154,6 +150,14 @@
                     RelPath = "NUnitForm.resx"
                     DependentUpon = "NUnitForm.cs"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "nunit-gui.exe.1.0.config"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "nunit-gui.exe.1.1.config"
+                    BuildAction = "None"
                 />
                 <File
                     RelPath = "OptionsDialog.cs"
