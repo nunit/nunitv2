@@ -59,8 +59,6 @@ namespace NUnit.Console
 		{
 			int returnCode = 0;
 
-			NUnitRegistry.InitializeAddReferenceDialog();
-
 			ConsoleOptions parser = new ConsoleOptions(args);
 			if(!parser.nologo)
 				WriteCopyright();

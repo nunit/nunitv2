@@ -47,8 +47,6 @@ namespace NUnit.Gui
 		[STAThread]
 		static int Main(string[] args) 
 		{
-			NUnitRegistry.InitializeAddReferenceDialog();
-
 			NUnitForm.CommandLineOptions command =
 				new NUnitForm.CommandLineOptions();
 
