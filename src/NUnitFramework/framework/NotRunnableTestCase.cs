@@ -34,9 +34,29 @@ namespace NUnit.Core
 			IgnoreReason = reason;
 		}
 
+		public NotRunnableTestCase(MethodInfo method) : base(method.DeclaringType.FullName, method.Name)
+		{
+			string reason;
+
+			if (method.IsAbstract)
+				reason = "it must not be abstract";
+			else if (!method.IsPublic)
+				reason = "it must be a public method";
+			else if (method.GetParameters().Length != 0)
+				reason = "it must not have parameters";
+			else if (!method.ReturnType.Equals(typeof(void)))
+				reason = "it must return void";
+			else
+				reason = "reason not known";
+
+			ShouldRun = false;
+			IgnoreReason = String.Format("Method {0}'s signature is not correct: {1}.", method.Name, reason);
+		}
+
 		public override void Run(TestCaseResult result)
 		{
 			result.NotRun(base.IgnoreReason);
 		}
 	}
 }
+

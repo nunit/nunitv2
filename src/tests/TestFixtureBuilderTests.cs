@@ -183,25 +183,25 @@ namespace NUnit.Tests
 		[Test]
 		public void TestNonVoidReturn()
 		{
-			InvalidSignatureTest("NotVoid");
+			InvalidSignatureTest("NotVoid", "it must return void");
 		}
 
 		[Test]
 		public void TestNonEmptyParameters()
 		{
-			InvalidSignatureTest("Parameters");
+			InvalidSignatureTest("Parameters", "it must not have parameters");
 		}
 
 		[Test]
 		public void TestProtected()
 		{
-			InvalidSignatureTest("Protected");
+			InvalidSignatureTest("Protected", "it must be a public method");
 		}
 
 		[Test]
 		public void TestPrivate()
 		{
-			InvalidSignatureTest("Private");
+			InvalidSignatureTest("Private", "it must be a public method");
 		}
 
 		[Test]
@@ -214,13 +214,13 @@ namespace NUnit.Tests
 			Assertion.Assert(foundTest.ShouldRun);
 		}
 
-		private void InvalidSignatureTest(string methodName)
+		private void InvalidSignatureTest(string methodName, string reason)
 		{
 			TestSuite fixture = LoadFixture("NUnit.Tests.TestFixtureBuilderTests+SignatureTestFixture");
 			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
 			Assertion.AssertNotNull(foundTest);
 			Assertion.Assert(!foundTest.ShouldRun);
-			string expected = String.Format("Method: {0}'s signature is not correct", methodName);
+			string expected = String.Format("Method {0}'s signature is not correct: {1}.", methodName, reason);
 			Assertion.AssertEquals(expected, foundTest.IgnoreReason);
 		}
 
@@ -269,7 +269,6 @@ namespace NUnit.Tests
 
 			return foundTest;
 		}
-
-
 	}
 }
+

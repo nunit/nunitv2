@@ -51,8 +51,9 @@ namespace NUnit.Core
 				}
 				else
 				{
-					string reason = String.Format("Method: {0}'s signature is not correct", method.Name);
-					testCase = new NotRunnableTestCase(method, reason);
+					//					string reason = String.Format("Method: {0}'s signature is not correct", method.Name);
+					//					testCase = new NotRunnableTestCase(method, reason);
+					testCase = new NotRunnableTestCase(method);
 				}
 			}
 
@@ -155,3 +156,4 @@ namespace NUnit.Core
 		}
 	}
 }
+
