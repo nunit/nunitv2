@@ -230,6 +230,14 @@ namespace NUnit.UiKit
 		{	
 			string name = project.Configs[selectedIndex].Name;
 			
+			if ( project.Configs.Count == 1 )
+			{
+				string msg = "Removing the last configuration will make the project unloadable until you add another configuration.\r\rAre you sure you want to remove the configuration?";
+				
+				if( UserMessage.Ask( msg, "Remove Configuration" ) == DialogResult.No )
+					return;
+			}
+
 			project.Configs.RemoveAt( selectedIndex );
 			FillListBox();
 		}
