@@ -37,8 +37,6 @@ namespace NUnit.Core
 	/// </summary>
 	public abstract class TestCase : Test
 	{
-		private string description;
- 
 		public TestCase(string path, string name) : base(path, name)
 		{}
 
