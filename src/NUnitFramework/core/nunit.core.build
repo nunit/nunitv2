@@ -7,8 +7,12 @@
   <include buildfile="..\..\nunit.build.include"/>
 
   <target name="clean" depends="set-build-dir">
-    <delete file="${current.build.dir}/nunit.core.dll" failonerror="false"/>
-    <delete file="${current.build.dir}/nunit.core.pdb" failonerror="false"/>
+    <delete failonerror="false">
+      <fileset basedir="${current.build.dir}">
+        <include name="nunit.core.dll"/>
+        <include name="nunit.core.pdb"/>
+      </fileset>
+    </delete>
   </target>
 
   <target name="build" depends="make-build-dir">
@@ -17,7 +21,7 @@
         debug="${build.debug}" 
         define="${build.defines.csc},StronglyNamedAssembly">
       <sources basedir=".">
-        <includesfile name="sources.include"/>
+        <include name="*.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
@@ -30,8 +34,7 @@
       <fileset basedir=".">
         <include name="nunit.core.dll.csproj"/>
         <include name="nunit.core.build"/>
-        <include name="sources.include"/>
-        <includesfile name="sources.include"/>
+        <include name="*.cs"/>
         <include name="Results.xsd"/>
         <include name="Summary.xslt"/>
       </fileset>
