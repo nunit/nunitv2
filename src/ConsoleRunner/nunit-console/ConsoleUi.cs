@@ -71,12 +71,12 @@ namespace NUnit.Console
 			}
 			else if(parser.NoArgs) 
 			{
-				Console.Error.WriteLine("\nfatal error: no inputs specified");
+				Console.Error.WriteLine("fatal error: no inputs specified");
 				parser.Help();
 			}
 			else if(!parser.Validate())
 			{
-				Console.Error.WriteLine("\nfatal error: invalid arguments");
+				Console.Error.WriteLine("fatal error: invalid arguments");
 				parser.Help();
 				returnCode = 2;
 			}
@@ -89,7 +89,7 @@ namespace NUnit.Console
 				{
 					if(test == null)
 					{
-						Console.Error.WriteLine("\nfatal error: invalid assembly {0}", parser.Parameters[0]);
+						Console.Error.WriteLine("fatal error: invalid assembly {0}", parser.Parameters[0]);
 						returnCode = 2;
 					}
 					else
@@ -147,7 +147,7 @@ namespace NUnit.Console
 				FileInfo xsltInfo = new FileInfo(parser.transform);
 				if(!xsltInfo.Exists)
 				{
-					Console.Error.WriteLine("\nTransform file: {0} does not exist", xsltInfo.FullName);
+					Console.Error.WriteLine("Transform file: {0} does not exist", xsltInfo.FullName);
 					reader = null;
 				}
 				else
@@ -172,6 +172,7 @@ namespace NUnit.Console
 
 			Console.WriteLine(String.Format("{0} version {1}", productAttr.Product, version.ToString(3)));
 			Console.WriteLine(copyrightAttr.Copyright);
+			Console.WriteLine();
 		}
 
 		private static Test MakeTestFromCommandLine(NUnit.Core.TestDomain testDomain, 
@@ -234,7 +235,7 @@ namespace NUnit.Console
 			TestResult result = testDomain.Run(collector, outStream, errorStream);
 			Directory.SetCurrentDirectory( savedDirectory );
 			
-			Console.WriteLine("\n");
+			Console.WriteLine();
 
 			StringBuilder builder = new StringBuilder();
 			XmlResultVisitor resultVisitor = new XmlResultVisitor(new StringWriter( builder ), result);
