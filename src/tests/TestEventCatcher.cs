@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections;
+using NUnit.Core;
 using NUnit.Util;
 
 namespace NUnit.Tests.Util
@@ -40,12 +41,12 @@ namespace NUnit.Tests.Util
 	{
 		public class TestEventArgsCollection : ReadOnlyCollectionBase
 		{
-			public TestEventArgs this[int index]
+			public EventArgs this[int index]
 			{
-				get { return (TestEventArgs)InnerList[index]; }
+				get { return (EventArgs)InnerList[index]; }
 			}
 
-			public void Add( TestEventArgs e )
+			public void Add( EventArgs e )
 			{
 				InnerList.Add( e );
 			}
@@ -53,16 +54,16 @@ namespace NUnit.Tests.Util
 
 		private TestEventArgsCollection events;
 
-		public TestEventCatcher( ITestEvents source )
+		public TestEventCatcher( IProjectEvents source )
 		{
 			events = new TestEventArgsCollection();
 
-			source.ProjectLoading	+= new TestEventHandler( OnTestEvent );
-			source.ProjectLoaded	+= new TestEventHandler( OnTestEvent );
-			source.ProjectLoadFailed+= new TestEventHandler( OnTestEvent );
-			source.ProjectUnloading	+= new TestEventHandler( OnTestEvent );
-			source.ProjectUnloaded	+= new TestEventHandler( OnTestEvent );
-			source.ProjectUnloadFailed+= new TestEventHandler( OnTestEvent );
+			source.ProjectLoading	+= new TestProjectEventHandler( OnTestProjectEvent );
+			source.ProjectLoaded	+= new TestProjectEventHandler( OnTestProjectEvent );
+			source.ProjectLoadFailed+= new TestProjectEventHandler( OnTestProjectEvent );
+			source.ProjectUnloading	+= new TestProjectEventHandler( OnTestProjectEvent );
+			source.ProjectUnloaded	+= new TestProjectEventHandler( OnTestProjectEvent );
+			source.ProjectUnloadFailed+= new TestProjectEventHandler( OnTestProjectEvent );
 
 			source.TestLoading		+= new TestEventHandler( OnTestEvent );
 			source.TestLoaded		+= new TestEventHandler( OnTestEvent );
@@ -92,6 +93,11 @@ namespace NUnit.Tests.Util
 		}
 
 		private void OnTestEvent( object sender, TestEventArgs e )
+		{
+			events.Add( e );
+		}
+
+		private void OnTestProjectEvent( object sender, TestProjectEventArgs e )
 		{
 			events.Add( e );
 		}

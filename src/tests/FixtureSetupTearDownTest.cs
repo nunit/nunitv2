@@ -359,5 +359,40 @@ namespace NUnit.Tests.Core
 			Assert.IsFalse( testFixture.setupCalled, "TestFixtureSetUp called running a test case" );
 			Assert.IsFalse( testFixture.teardownCalled, "TestFixtureTearDown called running a test case" );
 		}
+
+		internal class FixtureWithNoTests
+		{
+			internal bool setupCalled = false;
+			internal bool teardownCalled = false;
+
+			[TestFixtureSetUp]
+			public virtual void Init()
+			{
+				setupCalled = true;
+			}
+
+			[TestFixtureTearDown]
+			public virtual void Destroy()
+			{
+				teardownCalled = true;
+			}
+		}
+
+		[Test]
+		public void FixtureWithNoTestsShouldNotCallFixtureSetUpOrTearDown()
+		{
+			FixtureWithNoTests testFixture = new FixtureWithNoTests();
+			TestSuite suite = new TestSuite("NoTestsFixtureSuite");
+			suite.Add(testFixture);
+			TestSuite fixtureSuite = (TestSuite)suite.Tests[0];
+			
+			fixtureSuite.Run(NullListener.NULL);
+			Assert.IsFalse( testFixture.setupCalled, "TestFixtureSetUp called running fixture" );
+			Assert.IsFalse( testFixture.teardownCalled, "TestFixtureTearDown called running fixture" );
+
+			suite.Run(NullListener.NULL);
+			Assert.IsFalse( testFixture.setupCalled, "TestFixtureSetUp called running enclosing suite" );
+			Assert.IsFalse( testFixture.teardownCalled, "TestFixtureTearDown called running enclosing suite" );
+		}
 	}
 }

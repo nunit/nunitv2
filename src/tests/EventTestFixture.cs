@@ -37,7 +37,7 @@ namespace NUnit.Tests.Core
 	/// Summary description for EventTestFixture.
 	/// </summary>
 	/// 
-	[TestFixture]
+	[TestFixture(Description="Tests that proper events are generated when running  test")]
 	public class EventTestFixture
 	{
 		private string testsDll = "mock-assembly.dll";

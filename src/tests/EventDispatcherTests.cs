@@ -41,7 +41,7 @@ namespace NUnit.Tests.Util
 	[TestFixture]
 	public class EventDispatcherTests
 	{
-		private TestEventDispatcher dispatcher;
+		private ProjectEventDispatcher dispatcher;
 		private TestEventCatcher catcher;
 		private Test test;
 		private TestResult result;
@@ -55,7 +55,7 @@ namespace NUnit.Tests.Util
 		[SetUp]
 		public void SetUp()
 		{
-			dispatcher = new TestEventDispatcher();
+			dispatcher = new ProjectEventDispatcher();
 			catcher = new TestEventCatcher( dispatcher );
 			test = new TestSuite( TESTNAME );
 			result = new TestSuiteResult( test, RSLTNAME );
@@ -66,42 +66,42 @@ namespace NUnit.Tests.Util
 		public void ProjectLoading()
 		{
 			dispatcher.FireProjectLoading( FILENAME );
-			CheckEvent( TestAction.ProjectLoading, FILENAME );
+			CheckEvent( TestProjectAction.ProjectLoading, FILENAME );
 		}
 
 		[Test]
 		public void ProjectLoaded()
 		{
 			dispatcher.FireProjectLoaded( FILENAME );
-			CheckEvent( TestAction.ProjectLoaded, FILENAME );
+			CheckEvent( TestProjectAction.ProjectLoaded, FILENAME );
 		}
 
 		[Test]
 		public void ProjectLoadFailed()
 		{
 			dispatcher.FireProjectLoadFailed( FILENAME, exception );
-			CheckEvent( TestAction.ProjectLoadFailed, FILENAME, exception );
+			CheckEvent( TestProjectAction.ProjectLoadFailed, FILENAME, exception );
 		}
 
 		[Test]
 		public void ProjectUnloading()
 		{
 			dispatcher.FireProjectUnloading( FILENAME );
-			CheckEvent( TestAction.ProjectUnloading, FILENAME );
+			CheckEvent( TestProjectAction.ProjectUnloading, FILENAME );
 		}
 
 		[Test]
 		public void ProjectUnloaded()
 		{
 			dispatcher.FireProjectUnloaded( FILENAME );
-			CheckEvent( TestAction.ProjectUnloaded, FILENAME );
+			CheckEvent( TestProjectAction.ProjectUnloaded, FILENAME );
 		}
 
 		[Test]
 		public void ProjectUnloadFailed()
 		{
 			dispatcher.FireProjectUnloadFailed( FILENAME, exception );
-			CheckEvent( TestAction.ProjectUnloadFailed, FILENAME, exception );
+			CheckEvent( TestProjectAction.ProjectUnloadFailed, FILENAME, exception );
 		}
 
 		[Test]
@@ -170,7 +170,7 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void RunStarting()
 		{
-			UITestNode[] tests = new UITestNode[] { test };
+			ITest[] tests = new ITest[] { test };
 
 			dispatcher.FireRunStarting( tests, test.CountTestCases() );
 
@@ -222,31 +222,49 @@ namespace NUnit.Tests.Util
 		private void CheckEvent( TestAction action )
 		{
 			Assert.AreEqual( 1, catcher.Events.Count );
-			Assert.AreEqual( action, catcher.Events[0].Action );
+			Assert.AreEqual( action, ((TestEventArgs)catcher.Events[0]).Action );
+		}
+
+		private void CheckEvent( TestProjectAction action )
+		{
+			Assert.AreEqual( 1, catcher.Events.Count );
+			Assert.AreEqual( action, ((TestProjectEventArgs)catcher.Events[0]).Action );
 		}
 
 		private void CheckEvent( TestAction action, string fileName )
 		{
 			CheckEvent( action );
-			Assert.AreEqual( fileName, catcher.Events[0].TestFileName );
+			Assert.AreEqual( fileName, ((TestEventArgs)catcher.Events[0]).Name );
+		}
+
+		private void CheckEvent( TestProjectAction action, string fileName )
+		{
+			CheckEvent( action );
+			Assert.AreEqual( fileName, ((TestProjectEventArgs)catcher.Events[0]).ProjectName );
 		}
 
 		private void CheckEvent( TestAction action, string fileName, Test test )
 		{
 			CheckEvent( action, fileName );
-			Assert.AreEqual( TESTNAME, catcher.Events[0].Test.Name );
+			Assert.AreEqual( TESTNAME, ((TestEventArgs)catcher.Events[0]).Test.Name );
 		}
 
 		private void CheckEvent( TestAction action, string fileName, Exception exception )
 		{
 			CheckEvent( action, fileName );
-			Assert.AreEqual( MESSAGE, catcher.Events[0].Exception.Message );
+			Assert.AreEqual( MESSAGE, ((TestEventArgs)catcher.Events[0]).Exception.Message );
+		}
+
+		private void CheckEvent( TestProjectAction action, string fileName, Exception exception )
+		{
+			CheckEvent( action, fileName );
+			Assert.AreEqual( MESSAGE, ((TestProjectEventArgs)catcher.Events[0]).Exception.Message );
 		}
 
 		private void CheckEvent( TestAction action, Test test )
 		{
 			CheckEvent( action );
-			Assert.AreEqual( TESTNAME, catcher.Events[0].Test.Name );
+			Assert.AreEqual( TESTNAME, ((TestEventArgs)catcher.Events[0]).Test.Name );
 		}
 
 		private void CheckEvent( TestAction action, TestResult result )
@@ -258,7 +276,7 @@ namespace NUnit.Tests.Util
 		private void CheckEvent( TestAction action, Exception exception )
 		{
 			CheckEvent( TestAction.RunFinished );
-			Assert.AreEqual( MESSAGE, catcher.Events[0].Exception.Message );
+			Assert.AreEqual( MESSAGE, ((TestEventArgs)catcher.Events[0]).Exception.Message );
 		}
 	}
 }

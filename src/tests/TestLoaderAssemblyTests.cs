@@ -91,8 +91,8 @@ namespace NUnit.Tests.Util
 			Assert.IsTrue(loader.IsProjectLoaded,  "Project not loaded");
 			Assert.IsFalse(loader.IsTestLoaded,  "Test should not be loaded");
 			Assert.AreEqual( 2, catcher.Events.Count );
-			Assert.AreEqual( TestAction.ProjectLoading, catcher.Events[0].Action );
-			Assert.AreEqual( TestAction.ProjectLoaded, catcher.Events[1].Action );
+			Assert.AreEqual( TestProjectAction.ProjectLoading, ((TestProjectEventArgs)catcher.Events[0]).Action );
+			Assert.AreEqual( TestProjectAction.ProjectLoaded, ((TestProjectEventArgs)catcher.Events[1]).Action );
 		}
 
 		[Test]
@@ -103,8 +103,8 @@ namespace NUnit.Tests.Util
 			Assert.IsFalse( loader.IsProjectLoaded, "Project not unloaded" );
 			Assert.IsFalse( loader.IsTestLoaded, "Test not unloaded" );
 			Assert.AreEqual( 4, catcher.Events.Count );
-			Assert.AreEqual( TestAction.ProjectUnloading, catcher.Events[2].Action );
-			Assert.AreEqual( TestAction.ProjectUnloaded, catcher.Events[3].Action );
+			Assert.AreEqual( TestProjectAction.ProjectUnloading, ((TestProjectEventArgs)catcher.Events[2]).Action );
+			Assert.AreEqual( TestProjectAction.ProjectUnloaded, ((TestProjectEventArgs)catcher.Events[3]).Action );
 		}
 
 		[Test]
@@ -114,9 +114,9 @@ namespace NUnit.Tests.Util
 			Assert.IsTrue( loader.IsProjectLoaded, "Project not loaded" );
 			Assert.IsTrue( loader.IsTestLoaded, "Test not loaded" );
 			Assert.AreEqual( 4, catcher.Events.Count );
-			Assert.AreEqual( TestAction.TestLoading, catcher.Events[2].Action );
-			Assert.AreEqual( TestAction.TestLoaded, catcher.Events[3].Action );
-			Assert.AreEqual( 7, catcher.Events[3].Test.CountTestCases() );
+			Assert.AreEqual( TestAction.TestLoading, ((TestEventArgs)catcher.Events[2]).Action );
+			Assert.AreEqual( TestAction.TestLoaded, ((TestEventArgs)catcher.Events[3]).Action );
+			Assert.AreEqual( 7, ((TestEventArgs)catcher.Events[3]).Test.CountTestCases() );
 		}
 
 		[Test]
@@ -125,8 +125,8 @@ namespace NUnit.Tests.Util
 			LoadTest( assembly );
 			loader.UnloadTest();
 			Assert.AreEqual( 6, catcher.Events.Count );
-			Assert.AreEqual( TestAction.TestUnloading, catcher.Events[4].Action );
-			Assert.AreEqual( TestAction.TestUnloaded, catcher.Events[5].Action );
+			Assert.AreEqual( TestAction.TestUnloading, ((TestEventArgs)catcher.Events[4]).Action );
+			Assert.AreEqual( TestAction.TestUnloaded, ((TestEventArgs)catcher.Events[5]).Action );
 		}
 
 		[Test]
@@ -136,8 +136,8 @@ namespace NUnit.Tests.Util
 			Assert.IsFalse( loader.IsProjectLoaded, "Project should not load" );
 			Assert.IsFalse( loader.IsTestLoaded, "Test should not load" );
 			Assert.AreEqual( 2, catcher.Events.Count );
-			Assert.AreEqual( TestAction.ProjectLoadFailed, catcher.Events[1].Action );
-			Assert.AreEqual( typeof( FileNotFoundException ), catcher.Events[1].Exception.GetType() );
+			Assert.AreEqual( TestProjectAction.ProjectLoadFailed, ((TestProjectEventArgs)catcher.Events[1]).Action );
+			Assert.AreEqual( typeof( FileNotFoundException ), ((TestProjectEventArgs)catcher.Events[1]).Exception.GetType() );
 		}
 
 		[Test]
@@ -156,8 +156,8 @@ namespace NUnit.Tests.Util
 			Assert.IsTrue( loader.IsProjectLoaded, "Project not loaded" );
 			Assert.IsFalse( loader.IsTestLoaded, "Test should not be loaded" );
 			Assert.AreEqual( 4, catcher.Events.Count );
-			Assert.AreEqual( TestAction.TestLoadFailed, catcher.Events[3].Action );
-			Assert.AreEqual( typeof( BadImageFormatException ), catcher.Events[3].Exception.GetType() );
+			Assert.AreEqual( TestAction.TestLoadFailed, ((TestEventArgs)catcher.Events[3]).Action );
+			Assert.AreEqual( typeof( BadImageFormatException ), ((TestEventArgs)catcher.Events[3]).Exception.GetType() );
 		}
 
 		[Test]
@@ -167,7 +167,7 @@ namespace NUnit.Tests.Util
 			Assert.IsTrue( loader.IsProjectLoaded, "Project not loaded" );
 			Assert.IsTrue( loader.IsTestLoaded, "Test should be loaded" );
 			Assert.AreEqual( 4, catcher.Events.Count );
-			Assert.AreEqual( TestAction.TestLoaded, catcher.Events[3].Action );
+			Assert.AreEqual( TestAction.TestLoaded, ((TestEventArgs)catcher.Events[3]).Action );
 		}
 
 		// TODO: Should wrapper project be unloaded on failure?
@@ -178,19 +178,21 @@ namespace NUnit.Tests.Util
 			loader.ReloadOnRun = false;
 			
 			LoadTest( assembly );
-			loader.RunTest( catcher.Events[3].Test );
+			loader.RunTest( ((TestEventArgs)catcher.Events[3]).Test );
 			while( loader.IsTestRunning )
 				Thread.Sleep( 500 );
 			
 			Assert.AreEqual( 38, catcher.Events.Count );
-			Assert.AreEqual( TestAction.RunStarting, catcher.Events[4].Action );
-			Assert.AreEqual( TestAction.RunFinished, catcher.Events[37].Action );
+			Assert.AreEqual( TestAction.RunStarting, ((TestEventArgs)catcher.Events[4]).Action );
+			Assert.AreEqual( TestAction.RunFinished, ((TestEventArgs)catcher.Events[37]).Action );
 
 			int nTests = 0;
 			int nRun = 0;
-			foreach( TestEventArgs e in catcher.Events )
+			foreach( object o in catcher.Events )
 			{
-				if ( e.Action == TestAction.TestFinished )
+				TestEventArgs e = o as TestEventArgs;
+
+				if ( e != null && e.Action == TestAction.TestFinished )
 				{
 					++nTests;
 					if ( e.Result.Executed )

@@ -50,7 +50,7 @@ namespace NUnit.Tests.Util
 
 		public void SimulateTestRun()
 		{
-			UITestNode[] tests = new UITestNode[] { test };
+			ITest[] tests = new ITest[] { test };
 
 			FireRunStarting( tests, test.CountTestCases() );
 
