@@ -414,6 +414,46 @@ namespace NUnit.Framework
 
 		#endregion
 
+		#region AreNotEqual
+
+		/// <summary>
+		/// Asserts that two objects are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		/// <param name="message">The message to be printed when the two objects are the same object.</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void AreNotEqual( Object expected, Object actual, string message, params object[] args)
+		{
+			DoAssert( new NotEqualAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Asserts that two objects are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		/// <param name="message">The message to be printed when the objects are the same</param>
+		static public void AreNotEqual(Object expected, Object actual, string message) 
+		{
+			Assert.AreNotEqual(expected, actual, message, null);
+		}
+   
+		/// <summary>
+		/// Asserts that two objects are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		static public void AreNotEqual(Object expected, Object actual) 
+		{
+			Assert.AreNotEqual(expected, actual, string.Empty, null);
+		}
+   
+		#endregion
+
 		#region AreSame
 
 		/// <summary>

@@ -244,6 +244,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "NotEqualFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "NoTestCases.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -310,6 +315,11 @@
                 />
                 <File
                     RelPath = "StackOverflowTestFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "StringAssertTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -6,11 +6,8 @@ namespace NUnit.Framework
 	/// <summary>
 	/// Class to assert that two objects are equal 
 	/// </summary>
-	public class EqualAsserter : ComparisonAsserter
+	public class EqualAsserter : EqualityAsserter
 	{
-		private double delta;
-//		private int failingIndex = -1;
-
 		/// <summary>
 		/// Constructs an EqualAsserter for two objects
 		/// </summary>
@@ -22,10 +19,7 @@ namespace NUnit.Framework
 			: base( expected, actual, message, args ) { }
 
 		public EqualAsserter( double expected, double actual, double delta, string message, params object[] args )
-			: base( expected, actual, message, args )
-		{
-			this.delta = delta;
-		}
+			: base( expected, actual, delta, message, args ) { }
 
 		/// <summary>
 		/// Assert that the objects are equal
@@ -35,7 +29,7 @@ namespace NUnit.Framework
 		{
 			if ( expected == null && actual == null ) return;
 			if ( expected == null || actual == null )
-				FailNotEquals();
+				FailNotEqual();
 
 			// For now, dynamically call array assertion if necessary. Try to move
 			// this into the ObjectsEqual method later on.
@@ -45,7 +39,7 @@ namespace NUnit.Framework
 				Array actualArray = actual as Array;
 
 				if ( expectedArray.Rank != actualArray.Rank )
-					FailNotEquals();
+					FailNotEqual();
 				
 				if ( expectedArray.Rank != 1 )
 					NUnit.Framework.Assert.Fail( "Multi-dimension array comparison is not supported" );
@@ -61,121 +55,15 @@ namespace NUnit.Framework
 			else 
 			{
 				if ( !ObjectsEqual( expected, actual ) )
-					FailNotEquals();
+					FailNotEqual();
 			}
 		}
 
-		/// <summary>
-		/// Used to compare two objects.  Two nulls are equal and null
-		/// is not equal to non-null. Comparisons between the same
-		/// numeric types are fine (Int32 to Int32, or Int64 to Int64),
-		/// but the Equals method fails across different types so we
-		/// use <c>ToString</c> and compare the results.
-		/// </summary>
-		/// <param name="expected"></param>
-		/// <param name="actual"></param>
-		/// <returns></returns>
-		protected virtual bool ObjectsEqual( Object expected, Object actual )
+		private void FailNotEqual()
 		{
-			if ( expected == null && actual == null ) return true;
-			if ( expected == null || actual == null ) return false;
-
-//			if ( expected.GetType().IsArray && actual.GetType().IsArray )
-//				return ArraysEqual( (System.Array)expected, (System.Array)actual );
-
-			if ( expected is double && actual is double )
-			{
-				// handle infinity specially since subtracting two infinite values gives 
-				// NaN and the following test fails. mono also needs NaN to be handled
-				// specially although ms.net could use either method.
-				if (double.IsInfinity((double)expected) || double.IsNaN((double)expected) || double.IsNaN((double)actual))
-					return (double)expected == (double)actual;
-				else 
-					return Math.Abs((double)expected-(double)actual) <= this.delta;
-			}
-
-//			if ( expected is float && actual is float )
-//			{
-//				// handle infinity specially since subtracting two infinite values gives 
-//				// NaN and the following test fails. mono also needs NaN to be handled
-//				// specially although ms.net could use either method.
-//				if (float.IsInfinity((float)expected) || float.IsNaN((float)expected) || float.IsNaN((float)actual))
-//					return (float)expected == (float)actual;
-//				else 
-//					return Math.Abs((float)expected-(float)actual) <= (float)this.delta;
-//			}
-
-			if ( expected.GetType() != actual.GetType() &&
-				IsNumericType( expected )  && IsNumericType( actual ) )
-			{
-				//
-				// Convert to strings and compare result to avoid
-				// issues with different types that have the same
-				// value
-				//
-				string sExpected = expected.ToString();
-				string sActual   = actual.ToString();
-				return sExpected.Equals( sActual );
-			}
-			return expected.Equals(actual);
-		}
-
-		/// <summary>
-		/// Checks the type of the object, returning true if
-		/// the object is a numeric type.
-		/// </summary>
-		/// <param name="obj">The object to check</param>
-		/// <returns>true if the object is a numeric type</returns>
-		private bool IsNumericType( Object obj )
-		{
-			if( null != obj )
-			{
-				if( obj is byte    ) return true;
-				if( obj is sbyte   ) return true;
-				if( obj is decimal ) return true;
-				if( obj is double  ) return true;
-				if( obj is float   ) return true;
-				if( obj is int     ) return true;
-				if( obj is uint    ) return true;
-				if( obj is long    ) return true;
-				if( obj is short   ) return true;
-				if( obj is ushort  ) return true;
-
-				if( obj is System.Byte    ) return true;
-				if( obj is System.SByte   ) return true;
-				if( obj is System.Decimal ) return true;
-				if( obj is System.Double  ) return true;
-				if( obj is System.Single  ) return true;
-				if( obj is System.Int32   ) return true;
-				if( obj is System.UInt32  ) return true;
-				if( obj is System.Int64   ) return true;
-				if( obj is System.UInt64  ) return true;
-				if( obj is System.Int16   ) return true;
-				if( obj is System.UInt16  ) return true;
-			}
-			return false;
-		}
-
-		private void FailNotEquals()
-		{
-//			AssertionFailureMessage msg = new AssertionFailureMessage( message, args );
-//			if( InputsAreStrings( expected, actual ) )
-//			{
-//				msg.BuildStringsDifferentMessage( 
-//					(string)expected, 
-//					(string)actual );
-//			}
-//			else
-//			{
-//				msg.AppendExpectedAndActual( expected, actual );
-//			}
-//			return msg.ToString();
-			throw new AssertionException( 
-				AssertionFailureMessage.FormatMessageForFailNotEquals(
-					expected,
-					actual,
-					message,
-					args ) );
+			AssertionFailureMessage msg = new AssertionFailureMessage( message, args );
+			msg.DisplayDifferences( expected, actual, false );
+			throw new AssertionException( msg.ToString() );
 		}
 
 		private void FailArraysNotEqual( int index )

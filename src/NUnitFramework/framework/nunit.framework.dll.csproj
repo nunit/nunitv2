@@ -154,6 +154,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "EqualityAsserter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ExpectedExceptionAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -175,6 +180,11 @@
                 />
                 <File
                     RelPath = "IgnoreException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NotEqualAsserter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
