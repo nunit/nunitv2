@@ -216,7 +216,12 @@ namespace NUnit.Util
 
 		public AssemblyList ActiveAssemblies
 		{
-			get { return configs[activeConfig].Assemblies; }
+			get 
+			{ 
+				return configs[activeConfig] == null
+					? null
+					: configs[activeConfig].Assemblies; 
+			}
 		}
 
 		public ProjectConfigCollection Configs
@@ -228,7 +233,11 @@ namespace NUnit.Util
 		{
 			get
 			{
-				return Configs.Count > 0 && ActiveAssemblies.Count > 0;
+				return	configs.Count > 0 &&
+						activeConfig != null &&
+						activeConfig != ""  &&
+						ActiveAssemblies != null &&
+						ActiveAssemblies.Count > 0;
 			}
 		}
 
@@ -262,12 +271,14 @@ namespace NUnit.Util
 				doc.Load( projectPath );
 
 				string projectDir = Path.GetDirectoryName( projectPath );
-				string activeConfigName = "Default";
+				string activeConfigName = null;
 
 				XmlNode settingsNode = doc.SelectSingleNode( "/NUnitProject/Settings" );
 
 				if ( settingsNode != null )
 					activeConfigName = settingsNode.Attributes["activeconfig"].Value;
+
+				bool foundActiveConfig = false;
 		
 				foreach( XmlNode configNode in doc.SelectNodes( "/NUnitProject/Config" ) )
 				{
@@ -283,11 +294,20 @@ namespace NUnit.Util
 					}
 
 					Configs.Add( config );
+
+					if ( config.Name == activeConfigName )
+						foundActiveConfig = true;
 				}
 
+				if ( foundActiveConfig && activeConfigName != null && activeConfigName != "" )
+					this.activeConfig = activeConfigName;
+				else if ( configs.Count > 0 )
+					this.activeConfig = configs[0].Name;
+				else
+					this.activeConfig = null;
+				
 				this.loadPath = projectPath;
-				this.projectPath = projectPath;
-				this.activeConfig = activeConfigName;
+				this.projectPath = projectPath;			
 				this.IsDirty = false;
 			}
 			catch( FileNotFoundException )
