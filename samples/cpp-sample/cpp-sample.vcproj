@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalUsingDirectories="..\..\framework\bin\Release;..\..\framework\bin\Debug"
+				AdditionalUsingDirectories="..\..\framework\bin\Debug"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="0"
