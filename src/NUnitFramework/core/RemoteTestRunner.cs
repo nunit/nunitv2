@@ -86,20 +86,10 @@ namespace NUnit.Core
 		private TextWriter saveError;
 
 		/// <summary>
-		/// Saved current directory to restore after a run
-		/// </summary>
-		private string currentDirectory;
-
-		/// <summary>
 		/// Saved paths of the assemblies we loaded - used to set 
 		/// current directory when we are running the tests.
 		/// </summary>
 		private string[] assemblies;
-
-		/// <summary>
-		/// Dispatcher used to put out runner's test events
-		/// </summary>
-		//private TestEventDispatcher events = new TestEventDispatcher();
 
 		private EventListener listener; // Temp
 
@@ -157,14 +147,6 @@ namespace NUnit.Core
 			get { return errorText; }
 			set { errorText = value; }
 		}
-
-		/// <summary>
-		/// Interface to the events sourced by the runner
-		/// </summary>
-//		public ITestEvents Events
-//		{
-//			get { return events; }
-//		}
 
 		public Version FrameworkVersion
 		{
@@ -379,10 +361,6 @@ namespace NUnit.Core
 			Console.SetOut( outBuffer );
 			Console.SetError( errorBuffer ); 
 
-			// Save the current directory so we can run each test in
-			// the same directory as its assembly
-			currentDirectory = Environment.CurrentDirectory;
-			
 			try
 			{
 				// Create an array for the results
@@ -396,24 +374,20 @@ namespace NUnit.Core
 				int count = 0;
 				foreach( Test test in tests )
 					count += filter == null ? test.CountTestCases() : test.CountTestCases( filter );
-
-				//events.FireRunStarting( tests, count );
-				
+		
 				// Run each test, saving the results
 				int index = 0;
 				foreach( Test test in tests )
 				{
-					string assemblyDirectory = Path.GetDirectoryName( this.assemblies[test.AssemblyKey] );
-
-					if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
-						Environment.CurrentDirectory = assemblyDirectory;
-
-					results[index++] = test.Run( this, filter );
+					using( new DirectorySwapper( 
+						Path.GetDirectoryName( this.assemblies[test.AssemblyKey] ) ) )
+					{
+						results[index++] = test.Run( this, filter );
+					}
 				}
 
 				// Signal that we are done
 				listener.RunFinished( results );
-				//events.FireRunFinished( results );
 
 				// Return result array
 				return results;
@@ -422,7 +396,6 @@ namespace NUnit.Core
 			{
 				// Signal that we finished with an exception
 				listener.RunFinished( exception );
-//				events.FireRunFinished( exception );
 				// Rethrow - should we do this?
 				throw;
 			}
@@ -464,13 +437,6 @@ namespace NUnit.Core
 
 		private void CleanUpAfterTestRun()
 		{
-			// Restore the directory we saved
-			if ( currentDirectory != null )
-			{
-				Environment.CurrentDirectory = currentDirectory;
-				currentDirectory = null;
-			}
-
 			// Close our output buffers
 			if ( outBuffer != null )
 			{
@@ -523,31 +489,26 @@ namespace NUnit.Core
 				outBuffer.WriteLine("***** {0}", testCase.FullName );
 			
 			this.listener.TestStarted( testCase );
-			//events.FireTestStarting( testCase );
 		}
 
 		void NUnit.Core.EventListener.TestFinished(TestCaseResult result)
 		{
 			listener.TestFinished( result );
-			//events.FireTestFinished( result );
 		}
 
 		public void SuiteStarted(TestSuite suite)
 		{
 			listener.SuiteStarted( suite );
-			//events.FireSuiteStarting( suite );
 		}
 
 		void NUnit.Core.EventListener.SuiteFinished(TestSuiteResult result)
 		{
 			listener.SuiteFinished( result );
-			//events.FireSuiteFinished( result );
 		}
 
 		public void UnhandledException(Exception exception)
 		{
 			listener.UnhandledException( exception );
-			//events.FireTestException( exception );
 		}
 
 		#endregion
