@@ -43,7 +43,8 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual("FixtureCategory", categories[0].Attributes["name"].Value);
 		}
 
-		public void TestHasSingleCategory()
+		[Test]
+		public void HasSingleCategory()
 		{
 			XmlNodeList categories = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest2\"]/categories/category");
 			Assert.IsNotNull(categories);
@@ -51,7 +52,8 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual("MockCategory", categories[0].Attributes["name"].Value);
 		}
 
-		public void TestHasMultipleCategories()
+		[Test]
+		public void HasMultipleCategories()
 		{
 			XmlNodeList categories = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest3\"]/categories/category");
 			Assert.IsNotNull(categories);
