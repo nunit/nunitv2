@@ -35,11 +35,8 @@ using Microsoft.Win32;
 
 namespace NUnit.Tests.Util
 {
-	/// <summary>
-	/// Summary description for UserSettingsTests.
-	/// </summary>
 	[TestFixture]
-	public class UserSettingsTests
+	public class FormSettingsTests
 	{
 		[SetUp]
 		public void Init()
@@ -53,37 +50,54 @@ namespace NUnit.Tests.Util
 		{
 			NUnitRegistry.TestMode = false;
 		}
-		
+
 		[Test]
-		public void GetStorageImpl()
+		public void StorageName()
 		{
-			Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test",
-				UserSettings.GetStorageImpl().StorageName );
+			Assert.Equals( @"Form", UserSettings.Form.Storage.StorageName );
 		}
 
 		[Test]
-		public void GetChildStorageImpl()
+		public void StorageKey()
 		{
-			Assert.Equals( "MySettings", 
-				UserSettings.GetStorageImpl( "MySettings" ).StorageName );
+			Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Form", 
+				((RegistrySettingsStorage)UserSettings.Form.Storage).StorageKey.Name );
 		}
 
 		[Test]
-		public void OptionSettings()
+		public void FormPosition()
 		{
-			Assert.NotNull( UserSettings.Options );
+			Point pt = new Point( 100, 200 );
+			Size sz = new Size( 20, 25 );
+			
+			UserSettings.Form.Location = pt;
+			UserSettings.Form.Size = sz;
+
+			Assert.Equals( pt, UserSettings.Form.Location );
+			Assert.Equals( sz, UserSettings.Form.Size );
 		}
 
 		[Test]
-		public void FormSettings()
+		public void SplitterPosition()
 		{
-			Assert.NotNull( UserSettings.Form );
+			int position = 383;
+
+			UserSettings.Form.TreeSplitterPosition = position; 
+			Assert.Equals(position, UserSettings.Form.TreeSplitterPosition);
+
+			UserSettings.Form.TabSplitterPosition = position;
+			Assert.Equals(position, UserSettings.Form.TabSplitterPosition);
 		}
 
 		[Test]
-		public void RecentProjects()
-		{
-			Assert.NotNull( UserSettings.RecentProjects );
+		public void FormPositionDefaults()
+		{	
+			FormSettings f = UserSettings.Form;
+			Point pt = f.Location;
+			Size sz = f.Size;
+
+			Assert.Equals( new Point( 10, 10 ), pt );
+			Assert.Equals( new Size( 632, 432 ), sz );
 		}
 	}
 }

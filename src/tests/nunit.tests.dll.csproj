@@ -212,6 +212,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "FormSettingsTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "GuiFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -327,6 +332,11 @@
                 />
                 <File
                     RelPath = "RecentFileMenuHandlerTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RecentProjectsFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
