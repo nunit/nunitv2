@@ -1,0 +1,20 @@
+<Project DefaultTargets="Test;Package" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Target Name="Update">
+		<Exec Command="cvs update" />
+	</Target>
+
+	<Target Name="Build">
+		<Exec Command="..\..\tools\mutantbuild\mutantbuild @debug(1.0).response /property:Configuration=Release /property:OutputPath=%cd%\bin\ /target:Clean;Rebuild ..\nunit.sln" />
+	</Target>
+
+	<Target Name="Test" DependsOnTargets="Build">
+		<Exec Command="bin\nunit-console.exe bin\nunit.tests.dll /xml=%cd%\nunit.tests-results.xml" />
+	</Target>
+
+	<Target Name="Package" DependsOnTargets="Build">
+		<Exec Command="..\..\tools\wix\candle NUnit.wxs UI.wxi bin.wxi doc.wxi src.wxi samples.wxi" />
+		<Exec Command="..\..\tools\wix\light NUnit.wixobj UI.wixobj bin.wixobj doc.wixobj src.wixobj samples.wixobj -out NUnit-2.2.1.msi" />
+	</Target>
+
+</Project>
