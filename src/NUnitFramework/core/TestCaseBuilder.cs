@@ -45,6 +45,7 @@ namespace NUnit.Core
 		private static readonly Type IgnoreType = typeof( NUnit.Framework.IgnoreAttribute );
 		private static readonly Type ExplicitType = typeof( NUnit.Framework.ExplicitAttribute );
 		private static readonly Type CategoryType = typeof( NUnit.Framework.CategoryAttribute );
+		private static readonly Type PlatformType = typeof( NUnit.Framework.PlatformAttribute );
 
 		private static Hashtable builders;
 		private static NormalBuilder normalBuilder = new NormalBuilder();
@@ -130,6 +131,17 @@ namespace NUnit.Core
 					 method.ReturnType.Equals(typeof(void) ) )
 				{
 					testCase = MakeTestCase(fixtureType, method);
+
+					object[] platformAttributes = method.GetCustomAttributes( PlatformType, false );
+					if ( platformAttributes.Length > 0 )
+					{
+						PlatformHelper helper = new PlatformHelper();
+						if ( !helper.IsPlatformSupported( (PlatformAttribute[])platformAttributes ) )
+						{
+							testCase.ShouldRun = false;
+							testCase.IgnoreReason = "Not running on correct platform";
+						}
+					}
 
 					IgnoreAttribute ignoreAttribute = (IgnoreAttribute)
 						Reflect.GetAttribute( method, typeof( IgnoreAttribute ), false );

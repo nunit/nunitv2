@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections;
 using System.Reflection;
 using NUnit.Framework;
@@ -20,6 +21,7 @@ namespace NUnit.Core
 		private static readonly Type CategoryType = typeof( CategoryAttribute );
 		private static readonly Type IgnoreType = typeof( IgnoreAttribute );
 		private static readonly Type ExpectedExceptionType = typeof( ExpectedExceptionAttribute );
+		private static readonly Type PlatformType = typeof( PlatformAttribute );
 
 		private const string FIXTURE_SETUP_FAILED = "Fixture setup failed";
 
@@ -70,6 +72,17 @@ namespace NUnit.Core
 				this.fixtureTearDown = Reflect.GetMethod( fixtureType, FixtureTearDownType );
 
 				this.IsExplicit = Reflect.HasAttribute( fixtureType, ExplicitType, false );
+
+				attributes = fixtureType.GetCustomAttributes( PlatformType, false );
+				if ( attributes.Length > 0 )
+				{
+					PlatformHelper helper = new PlatformHelper();
+					if ( !helper.IsPlatformSupported( (PlatformAttribute[])attributes ) )
+					{
+						this.ShouldRun = false;
+						this.IgnoreReason = "Not running on correct platform";
+					}
+				}
 
 				IgnoreAttribute ignoreAttribute = (IgnoreAttribute)
 					Reflect.GetAttribute( fixtureType, IgnoreType, false );
