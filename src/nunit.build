@@ -325,7 +325,7 @@
   <!-- Targets for packaging the NUnit distribution -->
   
   <!-- Package current config as a zip -->
-  <target name="package-zip" depends="set-package-config" description="Create distribution package">
+  <target name="package-zip" depends="clean-package-dir" description="Create distribution package">
 
     <!-- Perform a build and copy it to package dir-->
     <call target="build"/>
@@ -458,14 +458,11 @@
     <mkdir dir="${package.samples.dir}"/>
     <copy todir="${package.samples.dir}" includeemptydirs="false">
       <fileset basedir="${project.samples.dir}">
-        <include name="samples.sln"/>
-        <include name="samples_VS2005.sln"/>
-        <include name="samples.build"/>
         <include name="cpp-sample/*"/>
-        <include name="csharp/*"/>
+        <include name="csharp/simple/*"/>
+        <include name="csharp/money/*"/>
+        <include name="csharp/money-port/*"/>
         <include name="jsharp/*"/>
-        <include name="money/*"/>
-        <include name="money-port/*"/>
         <include name="vb/*"/>
       </fileset>
     </copy>
