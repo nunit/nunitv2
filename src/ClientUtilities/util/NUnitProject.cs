@@ -438,6 +438,12 @@ namespace NUnit.Util
 
 			if ( Changed != null )
 				Changed( this, new ProjectEventArgs( type, configName ) );
+
+			if ( type == ProjectChangeType.RemoveConfig && activeConfig.Name == configName )
+			{
+				if ( configs.Count > 0 )
+					SetActiveConfig( 0 );
+			}
 		}
 
 		public void Add( VSProject vsProject )
