@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Exe"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit-console.exe.1.1.config" "$(TargetDir)nunit-console.exe.config"'
+                PostBuildEvent = 'copy "$(ProjectDir)nunit-console.exe.config" "$(TargetDir)nunit-console.exe.config"'
                 RootNamespace = "nunit_console"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -104,11 +104,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "nunit-console.exe.1.0.config"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "nunit-console.exe.1.1.config"
+                    RelPath = "nunit-console.exe.config"
                     BuildAction = "None"
                 />
             </Include>

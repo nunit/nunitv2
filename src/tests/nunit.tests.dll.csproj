@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit.tests.dll.1.1.config" "$(TargetDir)nunit.tests.dll.config"'
+                PostBuildEvent = 'copy "$(ProjectDir)nunit.tests.dll.config" "$(TargetDir)nunit.tests.dll.config"'
                 RootNamespace = "NUnit.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -284,11 +284,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "nunit.tests.dll.1.0.config"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "nunit.tests.dll.1.1.config"
+                    RelPath = "nunit.tests.dll.config"
                     BuildAction = "None"
                 />
                 <File

@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "WinExe"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit-gui.exe.1.1.config" "$(TargetDir)nunit-gui.exe.config"'
+                PostBuildEvent = 'copy "$(ProjectDir)nunit-gui.exe.config" "$(TargetDir)nunit-gui.exe.config"'
                 RootNamespace = "NUnit.Gui"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -152,11 +152,7 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "nunit-gui.exe.1.0.config"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "nunit-gui.exe.1.1.config"
+                    RelPath = "nunit-gui.exe.config"
                     BuildAction = "None"
                 />
                 <File
