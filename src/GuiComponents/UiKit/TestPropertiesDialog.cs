@@ -14,11 +14,14 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class TestPropertiesDialog : System.Windows.Forms.Form
 	{
+		#region Instance Variables;
+
 		private TestSuiteTreeNode node;
 		private UITestNode test;
 		private TestResult result;
+		private Image pinnedImage;
+		private Image unpinnedImage;
 
-		private System.Windows.Forms.Button closeButton;
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.Label testCaseCount;
 		private System.Windows.Forms.Label label5;
@@ -37,7 +40,12 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.TabPage testTab;
 		private System.Windows.Forms.Label testResult;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.CheckBox pinButton;
 		private System.ComponentModel.IContainer components;
+
+		#endregion
+
+		#region Construction and Disposal
 
 		public TestPropertiesDialog( TestSuiteTreeNode node )
 		{
@@ -50,8 +58,6 @@ namespace NUnit.UiKit
 			// TODO: Add any constructor code after InitializeComponent call
 			//
 			this.node = node;
-			this.test = node.Test;
-			this.result = node.Result;
 		}
 
 		/// <summary>
@@ -69,6 +75,8 @@ namespace NUnit.UiKit
 			base.Dispose( disposing );
 		}
 
+		#endregion
+
 		#region Windows Form Designer generated code
 
 		/// <summary>
@@ -77,7 +85,6 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.closeButton = new System.Windows.Forms.Button();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.testTab = new System.Windows.Forms.TabPage();
 			this.testCaseCount = new System.Windows.Forms.Label();
@@ -96,26 +103,15 @@ namespace NUnit.UiKit
 			this.label12 = new System.Windows.Forms.Label();
 			this.elapsedTime = new System.Windows.Forms.Label();
 			this.message = new NUnit.UiKit.ExpandingLabel();
+			this.pinButton = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.testTab.SuspendLayout();
 			this.resultsTab.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// closeButton
-			// 
-			this.closeButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.closeButton.Location = new System.Drawing.Point(184, 160);
-			this.closeButton.Name = "closeButton";
-			this.closeButton.Size = new System.Drawing.Size(67, 23);
-			this.closeButton.TabIndex = 0;
-			this.closeButton.Text = "Close";
-			this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
-			// 
 			// tabControl1
 			// 
-			this.tabControl1.Anchor = (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-				| System.Windows.Forms.AnchorStyles.Left) 
+			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right);
 			this.tabControl1.Controls.AddRange(new System.Windows.Forms.Control[] {
 																					  this.testTab,
@@ -123,7 +119,7 @@ namespace NUnit.UiKit
 			this.tabControl1.Location = new System.Drawing.Point(8, 8);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(416, 144);
+			this.tabControl1.Size = new System.Drawing.Size(416, 140);
 			this.tabControl1.TabIndex = 13;
 			// 
 			// testTab
@@ -139,7 +135,7 @@ namespace NUnit.UiKit
 																				  this.label1});
 			this.testTab.Location = new System.Drawing.Point(4, 25);
 			this.testTab.Name = "testTab";
-			this.testTab.Size = new System.Drawing.Size(408, 115);
+			this.testTab.Size = new System.Drawing.Size(408, 111);
 			this.testTab.TabIndex = 0;
 			this.testTab.Text = "Test";
 			// 
@@ -224,7 +220,7 @@ namespace NUnit.UiKit
 																					 this.message});
 			this.resultsTab.Location = new System.Drawing.Point(4, 25);
 			this.resultsTab.Name = "resultsTab";
-			this.resultsTab.Size = new System.Drawing.Size(408, 115);
+			this.resultsTab.Size = new System.Drawing.Size(408, 107);
 			this.resultsTab.TabIndex = 1;
 			this.resultsTab.Text = "Result";
 			// 
@@ -293,15 +289,22 @@ namespace NUnit.UiKit
 			this.message.Size = new System.Drawing.Size(288, 16);
 			this.message.TabIndex = 25;
 			// 
+			// pinButton
+			// 
+			this.pinButton.Appearance = System.Windows.Forms.Appearance.Button;
+			this.pinButton.Location = new System.Drawing.Point(404, 8);
+			this.pinButton.Name = "pinButton";
+			this.pinButton.Size = new System.Drawing.Size(20, 20);
+			this.pinButton.TabIndex = 14;
+			this.pinButton.Click += new System.EventHandler(this.pinButton_Click);
+			// 
 			// TestPropertiesDialog
 			// 
-			this.AcceptButton = this.closeButton;
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
-			this.CancelButton = this.closeButton;
-			this.ClientSize = new System.Drawing.Size(434, 186);
+			this.ClientSize = new System.Drawing.Size(434, 154);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
-																		  this.tabControl1,
-																		  this.closeButton});
+																		  this.pinButton,
+																		  this.tabControl1});
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -313,6 +316,17 @@ namespace NUnit.UiKit
 			this.resultsTab.ResumeLayout(false);
 			this.ResumeLayout(false);
 
+		}
+
+		#endregion
+
+		#region Properties
+
+		[Browsable( false )]
+		public bool Pinned
+		{
+			get { return pinButton.Checked; }
+			set { pinButton.Checked = value; }
 		}
 
 		#endregion
@@ -340,6 +354,36 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void TestPropertiesDialog_Load(object sender, System.EventArgs e)
 		{
+			pinnedImage = new Bitmap( typeof( TestPropertiesDialog ), "pinned.bmp" );
+			unpinnedImage = new Bitmap( typeof( TestPropertiesDialog ), "unpinned.bmp" );
+			pinButton.Image = unpinnedImage;
+
+			DisplayProperties();
+
+			node.TreeView.AfterSelect += new TreeViewEventHandler( OnSelectedNodeChanged );	
+		}
+
+		private void OnSelectedNodeChanged( object sender, TreeViewEventArgs e )
+		{
+			if ( pinButton.Checked )
+			{
+				DisplayProperties( (TestSuiteTreeNode)e.Node );
+			}
+			else
+				this.Close();
+		}
+
+		public void DisplayProperties( )
+		{
+			DisplayProperties( this.node );
+		}
+
+		public void DisplayProperties( TestSuiteTreeNode node)
+		{
+			this.node = node;
+			this.test = node.Test;
+			this.result = node.Result;
+
 			SetTitleBarText();
 
 			// Initialize Test Tab
@@ -353,6 +397,11 @@ namespace NUnit.UiKit
 				tabControl1.TabPages.Remove( resultsTab );
 			else
 			{
+				if ( !tabControl1.TabPages.Contains( resultsTab ) )
+				{
+					tabControl1.TabPages.Add( resultsTab );
+				}
+
 				testResult.Text = result.IsSuccess ? "Success" : "Failure";
 				// message may have a leading blank line
 				// ToDo: take care of this in label?
@@ -389,6 +438,28 @@ namespace NUnit.UiKit
 
 			getout:
 			return start == 0 ? s : s.Substring( start );
+		}
+
+		protected override bool ProcessKeyPreview(ref System.Windows.Forms.Message m)
+		{
+			const int ESCAPE = 27;
+			const int WM_CHAR = 258;
+
+			if (m.Msg == WM_CHAR && m.WParam.ToInt32() == ESCAPE )
+			{
+				this.Close();
+				return true;
+			}
+
+			return base.ProcessKeyEventArgs( ref m ); 
+		}
+
+		private void pinButton_Click(object sender, System.EventArgs e)
+		{
+			if ( pinButton.Checked )
+				pinButton.Image = pinnedImage;
+			else
+				pinButton.Image = unpinnedImage;
 		}
 	}
 }

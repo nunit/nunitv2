@@ -75,6 +75,11 @@ namespace NUnit.UiKit
 		private bool displayProgress = false;
 
 		/// <summary>
+		/// The properties dialog if displayed
+		/// </summary>
+		private TestPropertiesDialog propertiesDialog;
+
+		/// <summary>
 		/// Source of events that the tree responds to and
 		/// target for the run command.
 		/// </summary>
@@ -219,6 +224,7 @@ namespace NUnit.UiKit
 
 		private void OnTestLoaded( object sender, TestLoadEventArgs e )
 		{
+			CheckPropertiesDialog();
 			Load( e.Test );
 			runCommandEnabled = true;
 		}
@@ -232,12 +238,15 @@ namespace NUnit.UiKit
 
 		private void OnTestUnloaded( object sender, TestLoadEventArgs e)
 		{
+			ClosePropertiesDialog();
+
 			Clear();
 			runCommandEnabled = false;
 		}
 
 		private void OnRunStarting( object sender, TestEventArgs e )
 		{
+			CheckPropertiesDialog();
 			ClearResults();
 			runCommandEnabled = false;
 		}
@@ -246,6 +255,9 @@ namespace NUnit.UiKit
 		{
 			if ( e.Result != null )
 				this[e.Result].Expand();
+
+			if ( propertiesDialog != null )
+				propertiesDialog.Invoke( new PropertiesDisplayHandler( propertiesDialog.DisplayProperties ) );
 
 			runCommandEnabled = true;
 		}
@@ -270,6 +282,7 @@ namespace NUnit.UiKit
 		{
 			if (e.Button == MouseButtons.Right )
 			{
+				CheckPropertiesDialog();
 				TreeNode theNode = GetNodeAt( e.X, e.Y );
 				if ( theNode != null )
 					contextNode = theNode as TestSuiteTreeNode;
@@ -358,7 +371,7 @@ namespace NUnit.UiKit
 
 		private void propertiesMenuItem_Click( object sender, System.EventArgs e)
 		{
-			ShowTestProperties( contextNode );
+			ShowPropertiesDialog( contextNode );
 		}
 	
 		#endregion
@@ -517,16 +530,45 @@ namespace NUnit.UiKit
 				ExpandFixturesUnderNode( node );
 		}
 
-		public void ShowTestProperties( UITestNode test )
+		public void ShowPropertiesDialog( UITestNode test )
 		{
-			ShowTestProperties( this[ test ] );
+			ShowPropertiesDialog( this[ test ] );
 		}
 
-		private void ShowTestProperties( TestSuiteTreeNode node )
+		private void ShowPropertiesDialog( TestSuiteTreeNode node )
 		{
-			TestPropertiesDialog dlg = new TestPropertiesDialog( node );
-			dlg.StartPosition = FormStartPosition.CenterParent;
-			dlg.ShowDialog( this );
+			if ( propertiesDialog == null )
+			{
+				Form owner = this.FindForm();
+				propertiesDialog = new TestPropertiesDialog( node );
+				propertiesDialog.Owner = owner;
+				propertiesDialog.StartPosition = FormStartPosition.Manual;
+				propertiesDialog.Left = owner.Left + ( owner.Width - propertiesDialog.Width ) / 2;
+				propertiesDialog.Top = owner.Top + ( owner.Height - propertiesDialog.Height ) / 2;
+				propertiesDialog.Show();
+				propertiesDialog.Closed += new EventHandler( OnPropertiesDialogClosed );
+			}
+			else
+			{
+				propertiesDialog.DisplayProperties( node );
+			}
+		}
+
+		private void ClosePropertiesDialog()
+		{
+			if ( propertiesDialog != null )
+				propertiesDialog.Close();
+		}
+
+		private void CheckPropertiesDialog()
+		{
+			if ( propertiesDialog != null && !propertiesDialog.Pinned )
+				propertiesDialog.Close();
+		}
+
+		private void OnPropertiesDialogClosed( object sender, System.EventArgs e )
+		{
+			propertiesDialog = null;
 		}
 
 		#endregion
@@ -665,6 +707,8 @@ namespace NUnit.UiKit
 		/// from the watcher thread.
 		/// </summary>
 		private delegate void LoadHandler( UITestNode test );
+
+		private delegate void PropertiesDisplayHandler();
 		
 		/// <summary>
 		/// Helper collapses all fixtures under a node

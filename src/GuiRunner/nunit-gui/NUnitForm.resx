@@ -198,6 +198,9 @@
   <data name="toolTip.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Public</value>
   </data>
+  <data name="saveResultsDialog.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>280, 20</value>
+  </data>
   <data name="$this.Name">
     <value>NUnitForm</value>
   </data>

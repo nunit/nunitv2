@@ -120,6 +120,10 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "pinned.bmp"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "ProgressBar.cs"
                     SubType = "Component"
                     BuildAction = "Compile"
@@ -177,6 +181,10 @@
                     RelPath = "UIEvents.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "unpinned.bmp"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "WaitCursor.cs"

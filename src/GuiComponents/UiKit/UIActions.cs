@@ -78,6 +78,11 @@ namespace NUnit.UiKit
 		private UITestNode runningTest = null;
 
 		/// <summary>
+		/// Result of the last test run
+		/// </summary>
+		private TestResult lastResult = null;
+
+		/// <summary>
 		/// The thread that is running a test
 		/// </summary>
 		private Thread runningThread = null;
@@ -137,7 +142,7 @@ namespace NUnit.UiKit
 			get { return testDomain != null; }
 		}
 
-		public string LoadedAssembly
+		public string AssemblyName
 		{
 			get { return testDomain == null ? null : testDomain.AssemblyName; }
 		}
@@ -145,6 +150,11 @@ namespace NUnit.UiKit
 		public bool IsTestRunning
 		{
 			get { return runningTest != null; }
+		}
+
+		public TestResult LastResult
+		{
+			get { return lastResult; }
 		}
 
 		public bool IsReloadPending
@@ -228,10 +238,10 @@ namespace NUnit.UiKit
 			try
 			{
 				testDomain.TestName = runningTest.FullName;
-				TestResult result = testDomain.Run(this);
+				lastResult = testDomain.Run(this);
 				
 				if ( RunFinishedEvent != null )
-					RunFinishedEvent( this, new TestEventArgs( TestAction.RunFinished, result ) );
+					RunFinishedEvent( this, new TestEventArgs( TestAction.RunFinished, lastResult ) );
 			}
 			catch( Exception exception )
 			{
@@ -263,35 +273,43 @@ namespace NUnit.UiKit
 		/// Load an assembly, firing the SuiteLoaded event.
 		/// </summary>
 		/// <param name="assemblyFileName">Assembly to be loaded</param>
-		public void LoadAssembly( string assemblyFileName )
+		public void LoadAssembly( string newAssemblyName )
 		{
 			try
 			{
+				// Signal that the load is starting
 				if ( LoadStartingEvent != null )
-					LoadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.LoadStarting, assemblyFileName ) );
+					LoadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.LoadStarting, newAssemblyName ) );
+
+				// If loading same one, unload first
+				if ( IsAssemblyLoaded && AssemblyName == newAssemblyName )
+					UnloadAssembly();
 
 				// Make sure it all works before switching old one out
 				NUnit.Framework.TestDomain newDomain = new NUnit.Framework.TestDomain(stdOutWriter, stdErrWriter);
-				Test newTest = newDomain.Load(assemblyFileName);
+				Test newTest = newDomain.Load(newAssemblyName);
 				
-				if  ( IsAssemblyLoaded ) UnloadAssembly();
+				// If we didn't unload earlier, do it now
+				if  ( IsAssemblyLoaded ) 
+					UnloadAssembly();
 
+				// Swap in the new values
 				testDomain = newDomain;
 				currentTest = newTest;
 				reloadPending = false;
 
-				SetWorkingDirectory(assemblyFileName);
+				SetWorkingDirectory(newAssemblyName);
 
 				if ( LoadCompleteEvent != null )
-					LoadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.LoadComplete, assemblyFileName, currentTest ) );
+					LoadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.LoadComplete, newAssemblyName, currentTest ) );
 
 				if ( UserSettings.Options.EnableWatcher )
-					InstallWatcher( assemblyFileName );
+					InstallWatcher( newAssemblyName );
 			}
 			catch( Exception exception )
 			{
 				if ( LoadFailedEvent != null )
-					LoadFailedEvent( this, new TestLoadEventArgs( TestLoadAction.LoadFailed, assemblyFileName, exception ) );
+					LoadFailedEvent( this, new TestLoadEventArgs( TestLoadAction.LoadFailed, newAssemblyName, exception ) );
 			}
 		}
 
@@ -302,7 +320,7 @@ namespace NUnit.UiKit
 		{
 			if(testDomain != null)
 			{
-				string assemblyName = LoadedAssembly;
+				string assemblyName = AssemblyName;
 
 				if ( UnloadStartingEvent != null )
 					UnloadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.UnloadStarting, assemblyName, currentTest ) );
@@ -310,6 +328,7 @@ namespace NUnit.UiKit
 				testDomain.Unload();
 				testDomain = null;
 				reloadPending = false;
+				lastResult = null;
 
 				RemoveWatcher();
 
@@ -342,7 +361,7 @@ namespace NUnit.UiKit
 				try
 				{
 					if ( ReloadStartingEvent != null )
-						ReloadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.ReloadStarting, LoadedAssembly, currentTest ) );
+						ReloadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.ReloadStarting, AssemblyName, currentTest ) );
 
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
@@ -358,7 +377,7 @@ namespace NUnit.UiKit
 					reloadPending = false;
 
 					if ( notifyClient && ReloadCompleteEvent != null )
-						ReloadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.ReloadComplete, LoadedAssembly, newTest ) );
+						ReloadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.ReloadComplete, AssemblyName, newTest ) );
 				
 				}
 				catch( Exception exception )

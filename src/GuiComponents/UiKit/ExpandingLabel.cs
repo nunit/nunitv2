@@ -39,12 +39,6 @@ namespace NUnit.UiKit
 		private bool overlay = true;
 		
 		/// <summary>
-		/// Internal flag which is set when the label text
-		/// does not completely fit in the label.
-		/// </summary>
-		private bool expansionNeeded = false;
-
-		/// <summary>
 		/// Time in milliseconds that the tip window
 		/// will remain displayed.
 		/// </summary>
@@ -59,21 +53,6 @@ namespace NUnit.UiKit
 		#endregion
 
 		#region Properties
-
-		public override string Text
-		{
-			get { return base.Text; }
-			set
-			{
-				base.Text = value;
-
-				Graphics g = Graphics.FromHwnd( Handle );
-				SizeF sizeNeeded = g.MeasureString( value, Font );
-				expansionNeeded = 
-					Width < (int)sizeNeeded.Width ||
-					Height < (int)sizeNeeded.Height;
-			}
-		}
 
 		[Browsable( false )]
 		public bool Expanded
@@ -373,6 +352,12 @@ namespace NUnit.UiKit
 
 		protected override void OnMouseHover(System.EventArgs e)
 		{
+			Graphics g = Graphics.FromHwnd( Handle );
+			SizeF sizeNeeded = g.MeasureString( Text, Font );
+			bool expansionNeeded = 
+				Width < (int)sizeNeeded.Width ||
+				Height < (int)sizeNeeded.Height;
+
 			if ( expansionNeeded ) Expand();
 		}
 

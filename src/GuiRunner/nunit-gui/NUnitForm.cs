@@ -55,11 +55,6 @@ namespace NUnit.Gui
 		private static RecentAssemblySettings recentAssemblies;
 
 		/// <summary>
-		/// The currently loaded assembly file name
-		/// </summary>
-		private string currentAssemblyFileName;
-
-		/// <summary>
 		/// Object that coordinates loading and running of tests
 		/// </summary>
 		private UIActions actions;
@@ -114,31 +109,13 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem collapseFixturesMenuItem;
 		private System.Windows.Forms.MenuItem viewMenuSeparatorItem3;
 		private System.Windows.Forms.MenuItem propertiesMenuItem;
+		private System.Windows.Forms.SaveFileDialog saveResultsDialog;
+		private System.Windows.Forms.MenuItem saveXmlResultsMenuItem;
+		private System.Windows.Forms.MenuItem menuItem2;
 		public TextWriter stdErrWriter;
 
 		#endregion
 		
-		#region Properties
-
-		/// <summary>
-		/// True if an assembly is currently loaded
-		/// </summary>
-		private bool IsAssemblyLoaded
-		{
-			get { return LoadedAssembly != null; }
-		}
-
-		/// <summary>
-		/// Full path to the currently loaded assembly file
-		/// </summary>
-		private string LoadedAssembly
-		{
-			get { return currentAssemblyFileName; }
-			set { currentAssemblyFileName = value; }
-		}
-
-		#endregion
-
 		#region Construction and Disposal
 
 		/// <summary>
@@ -243,6 +220,8 @@ namespace NUnit.Gui
 			this.viewMenuSeparatorItem3 = new System.Windows.Forms.MenuItem();
 			this.propertiesMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenu = new System.Windows.Forms.MenuItem();
+			this.saveXmlResultsMenuItem = new System.Windows.Forms.MenuItem();
+			this.menuItem2 = new System.Windows.Forms.MenuItem();
 			this.optionsMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpItem = new System.Windows.Forms.MenuItem();
 			this.helpMenuItem = new System.Windows.Forms.MenuItem();
@@ -269,6 +248,7 @@ namespace NUnit.Gui
 			this.progressBar = new NUnit.UiKit.ProgressBar();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.saveResultsDialog = new System.Windows.Forms.SaveFileDialog();
 			this.panel1.SuspendLayout();
 			this.resultTabs.SuspendLayout();
 			this.errorPage.SuspendLayout();
@@ -429,12 +409,26 @@ namespace NUnit.Gui
 			// 
 			this.toolsMenu.Index = 2;
 			this.toolsMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					  this.saveXmlResultsMenuItem,
+																					  this.menuItem2,
 																					  this.optionsMenuItem});
 			this.toolsMenu.Text = "&Tools";
+			this.toolsMenu.Popup += new System.EventHandler(this.toolsMenu_Popup);
+			// 
+			// saveXmlResultsMenuItem
+			// 
+			this.saveXmlResultsMenuItem.Index = 0;
+			this.saveXmlResultsMenuItem.Text = "&Save Results as XML...";
+			this.saveXmlResultsMenuItem.Click += new System.EventHandler(this.saveXmlResultsMenuItem_Click);
+			// 
+			// menuItem2
+			// 
+			this.menuItem2.Index = 1;
+			this.menuItem2.Text = "-";
 			// 
 			// optionsMenuItem
 			// 
-			this.optionsMenuItem.Index = 0;
+			this.optionsMenuItem.Index = 2;
 			this.optionsMenuItem.Text = "&Options";
 			this.optionsMenuItem.Click += new System.EventHandler(this.optionsMenuItem_Click);
 			// 
@@ -686,6 +680,13 @@ namespace NUnit.Gui
 			// 
 			this.openFileDialog.Filter = "Assemblies (*.dll)|*.dll|Executables (*.exe)|*.exe|All Files (*.*)|*.*";
 			// 
+			// saveResultsDialog
+			// 
+			this.saveResultsDialog.DefaultExt = "xml";
+			this.saveResultsDialog.FileName = "TestResult.xml";
+			this.saveResultsDialog.Filter = "Xml Files (*.xml)|*.xml|All Files (*.*)|*.*";
+			this.saveResultsDialog.Title = "Save Results as XML";
+			// 
 			// NUnitForm
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
@@ -774,8 +775,8 @@ namespace NUnit.Gui
 		private void fileMenu_Popup(object sender, System.EventArgs e)
 		{
 			openMenuItem.Enabled = !actions.IsTestRunning;
-			closeMenuItem.Enabled = IsAssemblyLoaded && !actions.IsTestRunning;
-			reloadMenuItem.Enabled = IsAssemblyLoaded && !actions.IsTestRunning;
+			closeMenuItem.Enabled = actions.IsAssemblyLoaded && !actions.IsTestRunning;
+			reloadMenuItem.Enabled = actions.IsAssemblyLoaded && !actions.IsTestRunning;
 			recentAssembliesMenu.Enabled = !actions.IsTestRunning;
 		}
 
@@ -880,12 +881,22 @@ namespace NUnit.Gui
 
 		private void propertiesMenuItem_Click(object sender, System.EventArgs e)
 		{
-			testSuiteTreeView.ShowTestProperties( testSuiteTreeView.SelectedTest );
+			testSuiteTreeView.ShowPropertiesDialog( testSuiteTreeView.SelectedTest );
 		}
 
 		#endregion
 
 		#region Tools Menu
+
+		private void toolsMenu_Popup(object sender, System.EventArgs e)
+		{		
+			saveXmlResultsMenuItem.Enabled = actions.IsAssemblyLoaded && actions.LastResult != null;
+		}
+
+		private void saveXmlResultsMenuItem_Click(object sender, System.EventArgs e)
+		{
+			SaveXmlResults( actions.LastResult );
+		}
 
 		private void optionsMenuItem_Click(object sender, System.EventArgs e)
 		{
@@ -1055,7 +1066,9 @@ namespace NUnit.Gui
 			runButton.Enabled = false;
 
 			if ( e.Result != null )
+			{
 				DisplayResults(e.Result);
+			}
 
 			if ( e.Exception != null )
 			{
@@ -1076,7 +1089,6 @@ namespace NUnit.Gui
 		/// always have the FullName set to the assembly name in future.
 		private void OnTestLoaded( object sender, TestLoadEventArgs e )
 		{
-			LoadedAssembly = e.AssemblyName;
 			UpdateRecentAssemblies( e.AssemblyName );
 
 			runButton.Enabled = true;
@@ -1089,7 +1101,6 @@ namespace NUnit.Gui
 		/// </summary>
 		private void OnTestUnloaded( object sender, TestLoadEventArgs e )
 		{
-			LoadedAssembly = null;
 			suiteName.Text = null;
 			runButton.Enabled = false;
 
@@ -1119,7 +1130,7 @@ namespace NUnit.Gui
 			FailureMessage( e.Exception, "Assembly Load Failure" );
 			RemoveRecentAssembly( e.AssemblyName );
 
-			if ( e.AssemblyName == LoadedAssembly )
+			if ( !actions.IsAssemblyLoaded )
 				OnTestUnloaded( sender, e );
 			else
 				runButton.Enabled = true;
@@ -1255,6 +1266,29 @@ namespace NUnit.Gui
 			detailResults.DisplayResults( results );
 		}
 
+		private void SaveXmlResults(TestResult result)
+		{
+			if ( saveResultsDialog.ShowDialog( this ) == DialogResult.OK )
+			{
+				try
+				{
+					string fileName = saveResultsDialog.FileName;
+
+					XmlResultVisitor resultVisitor 
+						= new XmlResultVisitor( fileName, result);
+					result.Accept(resultVisitor);
+					resultVisitor.Write();
+
+					string msg = String.Format( "Results saved as {0}", fileName );
+					MessageBox.Show( msg, "Save Results as XML" );
+				}
+				catch( Exception exception )
+				{
+					FailureMessage( exception, "Unable to Save Results" );
+				}
+			}
+		}
+
 		private void ShowOptionsDialog( )
 		{
 			OptionsDialog dialog = new OptionsDialog();
@@ -1262,7 +1296,6 @@ namespace NUnit.Gui
 		}
 
 		#endregion	
-	
 	}
 }
 
