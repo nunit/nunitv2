@@ -72,9 +72,18 @@ namespace NUnit.Util
 
 		#region Static Methods
 
+		// True if it's one of our project types
 		public static bool IsProjectFile( string path )
 		{
 			return Path.GetExtension( path ) == nunitExtension;
+		}
+
+		// True if it's ours or one we can load
+		public static bool CanLoadAsProject( string path )
+		{
+			return	IsProjectFile( path ) ||
+					VSProject.IsProjectFile( path ) ||
+					VSProject.IsSolutionFile( path );
 		}
 
 		public static string GenerateProjectName()
@@ -276,6 +285,16 @@ namespace NUnit.Util
 			get { return isAssemblyWrapper; }
 		}
 
+		public override string ConfigurationFile
+		{
+			get 
+			{ 
+				return isAssemblyWrapper
+					  ? projectPath + ".config"
+					  : base.ConfigurationFile;
+			}
+		}
+
 		#endregion
 
 		#region Instance Methods
@@ -431,8 +450,11 @@ namespace NUnit.Util
 				writer.WriteAttributeString( "name", config.Name );
 				if ( config.RelativeBasePath != null )
 					writer.WriteAttributeString( "appbase", config.RelativeBasePath );
-				if ( config.ConfigurationFile != null )
+				
+				string configFile = config.ConfigurationFile;
+				if ( configFile != null && configFile != this.ConfigurationFile )
 					writer.WriteAttributeString( "configfile", config.ConfigurationFile );
+				
 				if ( config.BinPathType == BinPathType.Manual )
 					writer.WriteAttributeString( "binpath", config.PrivateBinPath );
 				else
