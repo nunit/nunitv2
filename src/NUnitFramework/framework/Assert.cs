@@ -180,11 +180,11 @@ namespace NUnit.Framework
 
 		/// <summary>
 		/// Verifies that the object that is passed in is not equal to <code>null</code>
-		/// If the object is not <code>null</code> then an <see cref="AssertionException"/>
+		/// If the object is <code>null</code> then an <see cref="AssertionException"/>
 		/// is thrown.
 		/// </summary>
 		/// <param name="anObject">The object that is to be tested</param>
-		/// <param name="message">The message to be printed when the object is null</param>
+		/// <param name="message">The message to be displayed when the object is null</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void IsNotNull(Object anObject, string message, params object[] args) 
 		{
@@ -193,11 +193,11 @@ namespace NUnit.Framework
 
 		/// <summary>
 		/// Verifies that the object that is passed in is not equal to <code>null</code>
-		/// If the object is not <code>null</code> then an <see cref="AssertionException"/>
+		/// If the object is <code>null</code> then an <see cref="AssertionException"/>
 		/// is thrown.
 		/// </summary>
 		/// <param name="anObject">The object that is to be tested</param>
-		/// <param name="message"></param>
+		/// <param name="message">The message to be displayed when the object is null</param>
 		static public void IsNotNull(Object anObject, string message) 
 		{
 			Assert.IsNotNull(anObject, message, null);
@@ -205,7 +205,7 @@ namespace NUnit.Framework
     
 		/// <summary>
 		/// Verifies that the object that is passed in is not equal to <code>null</code>
-		/// If the object is not <code>null</code> then an <see cref="AssertionException"/>
+		/// If the object is <code>null</code> then an <see cref="AssertionException"/>
 		/// is thrown.
 		/// </summary>
 		/// <param name="anObject">The object that is to be tested</param>
@@ -220,11 +220,11 @@ namespace NUnit.Framework
 
 		/// <summary>
 		/// Verifies that the object that is passed in is equal to <code>null</code>
-		/// If the object is <code>null</code> then an <see cref="AssertionException"/>
+		/// If the object is not <code>null</code> then an <see cref="AssertionException"/>
 		/// is thrown.
 		/// </summary>
 		/// <param name="anObject">The object that is to be tested</param>
-		/// <param name="message">The message to be printed when the object is not null</param>
+		/// <param name="message">The message to be displayed when the object is not null</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void IsNull(Object anObject, string message, params object[] args) 
 		{
@@ -233,11 +233,11 @@ namespace NUnit.Framework
 
 		/// <summary>
 		/// Verifies that the object that is passed in is equal to <code>null</code>
-		/// If the object is <code>null</code> then an <see cref="AssertionException"/>
+		/// If the object is not <code>null</code> then an <see cref="AssertionException"/>
 		/// is thrown.
 		/// </summary>
 		/// <param name="anObject">The object that is to be tested</param>
-		/// <param name="message"></param>
+		/// <param name="message">The message to be displayed when the object is not null</param>
 		static public void IsNull(Object anObject, string message) 
 		{
 			Assert.IsNull(anObject, message, null);
@@ -245,7 +245,7 @@ namespace NUnit.Framework
     
 		/// <summary>
 		/// Verifies that the object that is passed in is equal to <code>null</code>
-		/// If the object is <code>null</code> then an <see cref="AssertionException"/>
+		/// If the object is not null <code>null</code> then an <see cref="AssertionException"/>
 		/// is thrown.
 		/// </summary>
 		/// <param name="anObject">The object that is to be tested</param>
@@ -266,7 +266,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
-		/// <param name="message">The message that will be printed on failure</param>
+		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void AreEqual(int expected, 
 			int actual, string message, params object[] args) 
@@ -280,7 +280,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
-		/// <param name="message">The message that will be printed on failure</param>
+		/// <param name="message">The message that will be displayed on failure</param>
 		static public void AreEqual(int expected, int actual, string message) 
 		{
 			Assert.AreEqual( expected, actual, message, null );
@@ -307,7 +307,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
-		/// <param name="message">The message that will be printed on failure</param>
+		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void AreEqual(decimal expected, 
 			decimal actual, string message, params object[] args) 
@@ -321,7 +321,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
-		/// <param name="message">The message that will be printed on failure</param>
+		/// <param name="message">The message that will be displayed on failure</param>
 		static public void AreEqual(decimal expected, decimal actual, string message) 
 		{
 			Assert.AreEqual( expected, actual, message, null );
@@ -352,7 +352,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="delta">The maximum acceptable difference between the
 		/// the expected and the actual</param>
-		/// <param name="message">The message that will be printed on failure</param>
+		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void AreEqual(double expected, 
 			double actual, double delta, string message, params object[] args) 
@@ -370,7 +370,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="delta">The maximum acceptable difference between the
 		/// the expected and the actual</param>
-		/// <param name="message">The message that will be printed on failure</param>
+		/// <param name="message">The message that will be displayed on failure</param>
 		static public void AreEqual(double expected, 
 			double actual, double delta, string message) 
 		{
@@ -406,7 +406,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="delta">The maximum acceptable difference between the
 		/// the expected and the actual</param>
-		/// <param name="message">The message printed out upon failure</param>
+		/// <param name="message">The message displayed upon failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void AreEqual(float expected, 
 			float actual, float delta, string message, params object[] args) 
@@ -424,7 +424,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="delta">The maximum acceptable difference between the
 		/// the expected and the actual</param>
-		/// <param name="message">The message printed out upon failure</param>
+		/// <param name="message">The message displayed upon failure</param>
 		static public void AreEqual(float expected, float actual, float delta, string message) 
 		{
 			Assert.AreEqual(expected, actual, delta, message, null);
@@ -505,7 +505,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the two objects are the same object.</param>
+		/// <param name="message">The message to be displayed when the two objects are the same object.</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void AreNotEqual( Object expected, Object actual, string message, params object[] args)
 		{
@@ -518,7 +518,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the objects are the same</param>
+		/// <param name="message">The message to be displayed when the objects are the same</param>
 		static public void AreNotEqual(Object expected, Object actual, string message) 
 		{
 			Assert.AreNotEqual(expected, actual, message, null);
@@ -544,7 +544,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the two objects are the same object.</param>
+		/// <param name="message">The message to be displayed when the two objects are the same object.</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void AreNotEqual( int expected, int actual, string message, params object[] args)
 		{
@@ -557,7 +557,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the objects are the same</param>
+		/// <param name="message">The message to be displayed when the objects are the same</param>
 		static public void AreNotEqual(int expected, int actual, string message) 
 		{
 			Assert.AreNotEqual(expected, actual, message, null);
@@ -582,7 +582,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the two objects are the same object.</param>
+		/// <param name="message">The message to be displayed when the two objects are the same object.</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void AreNotEqual( decimal expected, decimal actual, string message, params object[] args)
 		{
@@ -595,7 +595,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the objects are the same</param>
+		/// <param name="message">The message to be displayed when the objects are the same</param>
 		static public void AreNotEqual(decimal expected, decimal actual, string message) 
 		{
 			Assert.AreNotEqual(expected, actual, message, null);
@@ -620,7 +620,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the two objects are the same object.</param>
+		/// <param name="message">The message to be displayed when the two objects are the same object.</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void AreNotEqual( float expected, float actual, string message, params object[] args)
 		{
@@ -633,7 +633,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the objects are the same</param>
+		/// <param name="message">The message to be displayed when the objects are the same</param>
 		static public void AreNotEqual(float expected, float actual, string message) 
 		{
 			Assert.AreNotEqual(expected, actual, message, null);
@@ -658,7 +658,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the two objects are the same object.</param>
+		/// <param name="message">The message to be displayed when the two objects are the same object.</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void AreNotEqual( double expected, double actual, string message, params object[] args)
 		{
@@ -671,7 +671,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the objects are the same</param>
+		/// <param name="message">The message to be displayed when the objects are the same</param>
 		static public void AreNotEqual(double expected, double actual, string message) 
 		{
 			Assert.AreNotEqual(expected, actual, message, null);
@@ -699,7 +699,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the two objects are not the same object.</param>
+		/// <param name="message">The message to be displayed when the two objects are not the same object.</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void AreSame(Object expected, Object actual, string message, params object[] args)
 		{
@@ -712,7 +712,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the object is null</param>
+		/// <param name="message">The message to be displayed when the object is null</param>
 		static public void AreSame(Object expected, Object actual, string message) 
 		{
 			Assert.AreSame(expected, actual, message, null);
@@ -739,7 +739,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the two objects are the same object.</param>
+		/// <param name="message">The message to be displayed when the two objects are the same object.</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void AreNotSame(Object expected, Object actual, string message, params object[] args)
 		{
@@ -752,7 +752,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be printed when the objects are the same</param>
+		/// <param name="message">The message to be displayed when the objects are the same</param>
 		static public void AreNotSame(Object expected, Object actual, string message) 
 		{
 			Assert.AreNotSame(expected, actual, message, null);
