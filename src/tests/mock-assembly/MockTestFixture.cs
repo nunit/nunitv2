@@ -40,6 +40,9 @@ namespace NUnit.Tests.Assemblies
 	[Category("FixtureCategory")]
 	public class MockTestFixture
 	{
+		public static readonly int Tests = 6;
+		public static readonly int NotRun = 3;
+
 		[Test(Description="Mock Test #1")]
 		public void MockTest1()
 		{}
@@ -63,6 +66,11 @@ namespace NUnit.Tests.Assemblies
 		[Ignore("ignoring this test method for now")]
 		[Category("Foo")]
 		public void MockTest4()
+		{}
+
+		[Test, Explicit]
+		[Category( "Special" )]
+		public void ExplicitlyRunTest()
 		{}
 	}
 }
