@@ -34,6 +34,7 @@ namespace NUnit.Tests
 	public class NamespaceAssemblyTests
 	{
 		private string testsDll = "mock-assembly.dll";
+		private string nonamespaceDLL = "nonamespace-assembly.dll";
 		private Assembly testAssembly;
 		private Type assemblyTestType;
 		
@@ -100,6 +101,15 @@ namespace NUnit.Tests
 			{
 				Assertion.Assert("should be a TestCase", t is NUnit.Core.TestCase);
 			}
+		}
+			
+		[Test]
+		public void NoNamespaceInAssembly()
+		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build( nonamespaceDLL );
+			Assertion.Assert(suite != null);
+			Assertion.AssertEquals( 3, suite.CountTestCases );
 		}
 	}
 }

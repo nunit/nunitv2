@@ -51,7 +51,7 @@ namespace NUnit.Core
 
 		private TestSuite BuildFromNameSpace(string nameSpace)
 		{
-			if("".Equals(nameSpace)) return rootSuite;
+			if( nameSpace == null || nameSpace  == "" ) return rootSuite;
 			TestSuite suite = (TestSuite)suites[nameSpace];
 			if(suite!=null) return suite;
 			int index = nameSpace.LastIndexOf(".");
