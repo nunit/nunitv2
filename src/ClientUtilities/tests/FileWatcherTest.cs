@@ -36,6 +36,8 @@ using System.Timers;
 namespace NUnit.Util.Tests
 {
 	[TestFixture]
+	[Platform( ExcludeList = new TestPlatform[] 
+		{ TestPlatform.Win95, TestPlatform.Win98, TestPlatform.WinMe } )]
 	public class FileWatcherTest
 	{
 		private FileInfo file;
@@ -48,9 +50,6 @@ namespace NUnit.Util.Tests
 		[SetUp]
 		public void CreateFile()
 		{
-			if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
-				return;
-
 			file = new FileInfo(fileName);
 			FileStream stream = file.Create();
 			stream.Close();
@@ -64,9 +63,6 @@ namespace NUnit.Util.Tests
 		[TearDown]
 		public void DeleteFile()
 		{
-			if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
-				return;
-
 			watcher.Stop();
 			FileInfo fileInfo = new FileInfo(fileName);
 			fileInfo.Delete();
@@ -78,9 +74,6 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void TestManyFrequentEvents()
 		{
-			if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
-				return;
-
 			for(int i=0; i<3; i++)
 			{
 				StreamWriter writer =  file.AppendText();
@@ -97,9 +90,6 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void ChangeAttributes()
 		{
-			if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
-				return;
-
 			FileInfo fi = new FileInfo(fileName);
 			FileAttributes attr = fi.Attributes;
 			fi.Attributes = FileAttributes.Hidden | attr;
@@ -111,9 +101,6 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void CopyFile()
 		{
-			if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
-				return;
-
 			FileInfo fi = new FileInfo(fileName);
 			fi.CopyTo(tempFileName);
 			fi.Delete();
