@@ -62,6 +62,7 @@ namespace NUnit.Console
 
 					// Read XML data
 					while (myXmlValidatingReader.Read()){}
+					myXmlValidatingReader.Close();
 				}
 				catch (Exception e)
 				{
@@ -93,6 +94,15 @@ namespace NUnit.Console
 			}
 		}
 
+		private static readonly string fileName = "temp.xml";
+
+		[TearDown]
+		public void DeleteTempFiles()
+		{
+			FileInfo file = new FileInfo(fileName);
+			if(file.Exists) file.Delete();
+		}
+
 		[Test]
 		public void TestSchemaValidator()
 		{
@@ -112,7 +122,7 @@ namespace NUnit.Console
 			else
 				schemaFile = "..\\..\\..\\nunit-console\\Results.xsd";
 
-			SchemaValidator validator = new SchemaValidator("temp.xml", schemaFile);
+			SchemaValidator validator = new SchemaValidator(fileName, schemaFile);
 			Assertion.Assert("validate failed", validator.Validate());
 		}
 	}

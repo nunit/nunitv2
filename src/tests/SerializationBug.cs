@@ -14,6 +14,8 @@ namespace NUnit.Tests
 	[TestFixture]
 	public class SerializationBug
 	{
+		private static readonly string fileName = "perobj.tst";
+
 		[Serializable] 
 		public class Perob 
 		{ 
@@ -21,17 +23,16 @@ namespace NUnit.Tests
 			public int j; 
 			public Perob(int ii,int jj) 
 			{ 
-				// 
-				// TODO: Add constructor logic here 
-				// 
 				i = ii; 
 				j = jj; 
 			} 
+
 			void SurpressWarning() 
-			{ // just gets rid of the "unused variable" compiler warnings... 
+			{ 
 				j = i; 
 				i = j; 
 			} 
+
 			public void Serialize(string filename) 
 			{ 
 				StreamWriter stm = new StreamWriter(File.OpenWrite( filename )); 
@@ -50,23 +51,29 @@ namespace NUnit.Tests
 					stm.Close(); 
 					return rv; 
 				} 
-				catch ( Exception ex ) 
+				catch (Exception ex ) 
 				{ 
-					// Catch everything 
 					ex = ex; 
 				} 
 				return null; 
 			} 
 		} 
 
+		[TearDown]
+		public void CleanUp()
+		{
+			FileInfo file = new FileInfo(fileName);
+			if(file.Exists)
+				file.Delete();
+		}
+
 		[Test] 
 		public void SaveAndLoad() 
 		{ 
 			Perob p = new Perob(3,4); 
-			string filename = "perob.tst"; 
-			p.Serialize( filename ); 
+			p.Serialize( fileName ); 
 
-			Perob np = Perob.Deserialize( filename ); 
+			Perob np = Perob.Deserialize( fileName ); 
 
 			Assertion.AssertNotNull("np != null",np); 
 			Assertion.AssertEquals("i neq", p.i, np.i ); 

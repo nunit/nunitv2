@@ -37,7 +37,6 @@ namespace NUnit.Core
 		
 		protected internal override void ProcessException(Exception exception, TestCaseResult testResult)
 		{
-			//if(exception.GetType().IsAssignableFrom(typeof(NUnit.Framework.AssertionException)))
 			if(exception is NUnit.Framework.AssertionException)
 			{
 				NUnit.Framework.AssertionException error = (NUnit.Framework.AssertionException)exception;

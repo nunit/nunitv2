@@ -41,8 +41,10 @@ namespace NUnit.Console
 		private string outputFile;
 		private XmlTextReader transformReader;
 
-		public static void Main(string[] args)
+		public static int Main(string[] args)
 		{
+			int returnCode = 0;
+
 			WriteCopyright();
 
 			try
@@ -56,25 +58,34 @@ namespace NUnit.Console
 				else
 				{
 					TestSuite suite = MakeSuiteFromCommandLine(parser);
-					if(suite == null) Environment.Exit(2);
-				
-					Directory.SetCurrentDirectory(new FileInfo(parser.AssemblyName).DirectoryName);
-					string xmlResult = "TestResult.xml";
-					if(parser.IsXml)
-						xmlResult = parser.XmlFileName;
+					if(suite == null) 
+						returnCode = 2;
+					else
+					{
+						Directory.SetCurrentDirectory(new FileInfo(parser.AssemblyName).DirectoryName);
+						string xmlResult = "TestResult.xml";
+						if(parser.IsXml)
+							xmlResult = parser.XmlFileName;
 
-					XmlTextReader reader = GetTransformReader(parser);
-
-					ConsoleUi consoleUi = new ConsoleUi(suite, xmlResult, reader);
-					Environment.Exit(consoleUi.Execute());
+						XmlTextReader reader = GetTransformReader(parser);
+						if(reader != null)
+						{
+							ConsoleUi consoleUi = new ConsoleUi(suite, xmlResult, reader);
+							returnCode = consoleUi.Execute();
+						}
+						else
+							returnCode = 3;
+					}
 				}
 			}
 			catch(CommandLineException cle)
 			{
 				Console.Error.WriteLine("\n" + cle.Message);
 				WriteHelp(Console.Error);
-				Environment.Exit(2);
+				returnCode = 2;
 			}
+
+			return returnCode;
 		}
 
 		private static XmlTextReader GetTransformReader(CommandLineParser parser)
@@ -94,10 +105,12 @@ namespace NUnit.Console
 				if(!xsltInfo.Exists)
 				{
 					Console.Error.WriteLine("\nTransform file: {0} does not exist", xsltInfo.FullName);
-					Environment.Exit(3);
+					reader = null;
 				}
-
-				reader = new XmlTextReader(xsltInfo.FullName);
+				else
+				{
+					reader = new XmlTextReader(xsltInfo.FullName);
+				}
 			}
 
 			return reader;
@@ -178,6 +191,7 @@ namespace NUnit.Console
 			summaryXslTransform.Transform(originalXPathDocument,null,Console.Out);
 		}
 
+		[Serializable]
 		private class EventCollector : EventListener
 		{
 			public void TestFinished(TestCaseResult testResult)

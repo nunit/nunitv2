@@ -39,7 +39,7 @@ namespace NUnit.Core
 			TestCaseResult testResult = new TestCaseResult(this);
 
 			listener.TestStarted(this);
-
+			
 			long startTime = DateTime.Now.Ticks;
 
 			Run(testResult);

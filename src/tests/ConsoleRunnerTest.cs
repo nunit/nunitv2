@@ -23,17 +23,17 @@ namespace NUnit.Tests
 	using System.IO;
 	using System.Diagnostics;
 	using System.Reflection;
+	using System.Security.Policy;
 	using System.Text;
+	using System.Collections;
 
 	using NUnit.Framework;
-/// <summary>
-/// 
-/// </summary>
-/// 
+
 	[TestFixture]
 	public class ConsoleRunnerTest 
 	{
 		private String nunitExe;
+		private static readonly string xmlFile = "console-test.xml";
 
 		public ConsoleRunnerTest() 
 		{
@@ -43,6 +43,22 @@ namespace NUnit.Tests
 				nunitExe = file.FullName;
 			else
 				nunitExe = "..\\..\\..\\nunit-console\\bin\\Debug\\nunit-console.exe";
+		}
+
+		[TearDown]
+		public void CleanUp()
+		{
+			FileInfo file = new FileInfo(xmlFile);
+			if(file.Exists)
+				file.Delete();
+
+			file = new FileInfo("TestResult.xml");
+			if(file.Exists) file.Delete();
+			else
+			{
+				file = new FileInfo(@"..\..\..\nunit-console\bin\Debug\TestResult.xml");
+				if(file.Exists) file.Delete();
+			}
 		}
 
 		[TestFixture] internal class FailureTest
@@ -57,7 +73,7 @@ namespace NUnit.Tests
 		[Test]
 		public void FailureFixture() 
 		{
-			string arguments = MakeCommandLine(GetType().Module.Name, 
+			string[] arguments = MakeCommandLine(GetType().Module.Name, 
 				typeof(NUnit.Tests.ConsoleRunnerTest.FailureTest).FullName,
 				null);
 			RunConsoleTest(arguments, 1);
@@ -66,7 +82,7 @@ namespace NUnit.Tests
 		[Test]
 		public void SuccessFixture() 
 		{
-			string arguments = MakeCommandLine(GetType().Module.Name, 
+			string[] arguments = MakeCommandLine(GetType().Module.Name, 
 				typeof(NUnit.Tests.SuccessTest).FullName, 
 				null);
 			RunConsoleTest(arguments, 0);
@@ -75,10 +91,10 @@ namespace NUnit.Tests
 		[Test]
 		public void XmlResult() 
 		{
-			FileInfo info = new FileInfo("console-test.xml");
+			FileInfo info = new FileInfo(xmlFile);
 			info.Delete();
 
-			string arguments = MakeCommandLine(GetType().Module.Name, 
+			string[] arguments = MakeCommandLine(GetType().Module.Name, 
 				typeof(NUnit.Tests.SuccessTest).FullName,
 				info.FullName);
 			RunConsoleTest(arguments, 0);
@@ -88,34 +104,41 @@ namespace NUnit.Tests
 		[Test]
 		public void InvalidFixture()
 		{
-			string arguments = MakeCommandLine(GetType().Module.Name, 
+			string[] arguments = MakeCommandLine(GetType().Module.Name, 
 				"NUnit.Tests.BogusTest", 
 				null);
 			RunConsoleTest(arguments, 2);
 		}
 
-		private void RunConsoleTest(string arguments, int expected)
+		private void RunConsoleTest(string[] arguments, int expected)
 		{
-			Process p = new Process();
-			p.StartInfo.FileName = nunitExe;
-			p.StartInfo.Arguments = arguments;
-			p.Start();
+			AppDomain domain = AppDomain.CreateDomain("test domain");
 
-			p.WaitForExit();
-			Assertion.AssertEquals(expected, p.ExitCode);
+			Evidence baseEvidence = AppDomain.CurrentDomain.Evidence;
+			Evidence evidence = new Evidence(baseEvidence);
+		
+			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
+
+			Assertion.AssertEquals(expected, resultCode);
 		}
 
-		private string MakeCommandLine(string assembly, string fixture, string xmlFile)
+		private string[] MakeCommandLine(string assembly, string fixture, string xmlFile)
 		{
-			StringBuilder builder = new StringBuilder();
-			builder.AppendFormat("/assembly:{0}", assembly);
+			ArrayList list = new ArrayList();
+			list.Add(String.Format("/assembly:{0}", assembly));
 			if(fixture != null)
-				builder.AppendFormat(" /fixture:{0}", fixture);
-
+				list.Add(String.Format("/fixture:{0}", fixture));
 			if(xmlFile != null)
-				builder.AppendFormat(" /xml:\"{0}\"", xmlFile);
+				list.Add(String.Format("/xml:{0}", xmlFile));
 
-			return builder.ToString();
+			int index = 0;
+			string[] result = new string[list.Count];
+			foreach(string arg in list)
+			{
+				result[index] = arg;
+				index = index + 1;
+			}
+			return result;
 		}
 	}
 }

@@ -46,6 +46,11 @@ namespace NUnit.Gui
 			fTextBox.Text = fTextBox.Text + s;
 		}
 
+		public override void WriteLine(string s)
+		{
+			fTextBox.Text = fTextBox.Text + s + "\r\n";
+		}
+
 		public override Encoding Encoding
 		{
 			get { return Encoding.Default; }
