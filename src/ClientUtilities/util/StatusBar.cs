@@ -159,7 +159,7 @@ namespace NUnit.UiKit
 			Initialize( test.CountTestCases );
 		}
 
-		public void OnRunFinished(TestResult result)
+		private void OnRunFinished(TestResult result)
 		{
 			statusPanel.Text = "Completed";
 
@@ -167,7 +167,7 @@ namespace NUnit.UiKit
 			DisplayResults( result );
 		}
 
-		public void OnTestFinished( TestCaseResult result )
+		private void OnTestFinished( TestCaseResult result )
 		{
 			if ( DisplayTestProgress && result.Executed )
 			{
