@@ -17,25 +17,12 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
+using System;
 
-#pragma once
-
-#using <nunit.framework.dll>
-using namespace System;
-using namespace NUnit::Framework;
-
-namespace NUnitSamples
+namespace NUnit.Util
 {
-	[TestFixture]
-	public __gc class SimpleCPPSample
+	public interface FileChangedEventHandler
 	{
-		int fValue1;
-		int fValue2;
-	public:
-		[SetUp] void Init();
-		[Test]  void Add();
-		[Test] void DivideByZero();
-		[Test] void Equals();
-
-	};
+		void OnChanged(String fullPath);
+	}
 }

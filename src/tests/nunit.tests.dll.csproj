@@ -121,11 +121,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AssemblyWatcherFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "AssertionFailureMessageTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -152,6 +147,11 @@
                 />
                 <File
                     RelPath = "ExpectExceptionTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FileWatcherTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -18,24 +18,62 @@
 '
 '*******************************************************************************************************************/
 
-#pragma once
+using System;
+using System.IO;
+using System.Text;
+using System.Timers;
 
-#using <nunit.framework.dll>
-using namespace System;
-using namespace NUnit::Framework;
-
-namespace NUnitSamples
+namespace NUnit.Util
 {
-	[TestFixture]
-	public __gc class SimpleCPPSample
+	public class AssemblyWatcher
 	{
-		int fValue1;
-		int fValue2;
-	public:
-		[SetUp] void Init();
-		[Test]  void Add();
-		[Test] void DivideByZero();
-		[Test] void Equals();
+		FileSystemWatcher fileWatcher;
+		FileChangedEventHandler handler;
+		System.Timers.Timer timer;
+		FileInfo fileInfo;
 
-	};
+		public delegate void FileChanged(String fullPath);
+
+		public AssemblyWatcher(int delay, FileChangedEventHandler handler, FileInfo file)
+		{
+			fileWatcher = new FileSystemWatcher();
+			fileWatcher.Path = file.DirectoryName;
+			fileWatcher.Filter = file.Name;
+			fileWatcher.NotifyFilter = NotifyFilters.Size;
+			fileWatcher.Changed+=new FileSystemEventHandler(OnChanged);
+			fileWatcher.EnableRaisingEvents = true;
+			timer = new System.Timers.Timer(delay);
+			timer.AutoReset=false;
+			timer.Enabled=false;
+			timer.Elapsed+=new ElapsedEventHandler(OnTimer);
+			this.handler = handler;
+			fileInfo = file;
+		}
+
+		public void Stop()
+		{
+			fileWatcher.EnableRaisingEvents=false;
+		}
+
+		private void OnTimer(Object source, ElapsedEventArgs e)
+		{
+			lock(this)
+			{
+				handler.OnChanged(fileInfo.Name);	
+				timer.Enabled=false;
+			}
+		}
+		
+		private void OnChanged(object source, FileSystemEventArgs e)
+		{
+			lock(this)
+			{
+				if(!timer.Enabled)
+				{
+					timer.Enabled=true;
+				}
+				timer.Start();
+			}
+		}	
+	}
 }

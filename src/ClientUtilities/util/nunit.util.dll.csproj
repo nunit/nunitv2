@@ -91,12 +91,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssemblyWatcher.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "CommandLineException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "CommandLineParser.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FileChangedEventHandler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

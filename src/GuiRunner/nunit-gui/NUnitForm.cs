@@ -56,7 +56,7 @@ namespace NUnit.Gui
 		}
 		
 		private string assemblyFileName;
-		private FileSystemWatcher watcher;
+		private AssemblyWatcher watcher;
 		private UIActions actions;
 
 		public System.Windows.Forms.MenuItem menuItem1;
@@ -149,10 +149,18 @@ namespace NUnit.Gui
 
 		public delegate void loadAssemblyDelegate(string assemblyFileName);
 
-		public void OnChanged(object source, FileSystemEventArgs e) 
+		
+		internal class FileChanged : FileChangedEventHandler
 		{
-			FileInfo info = new FileInfo(e.FullPath);
-			this.Invoke(new loadAssemblyDelegate(this.LoadAssembly), new object[]{assemblyFileName});
+			NUnitForm nunitForm;
+			public FileChanged(NUnitForm nunitForm)
+			{
+				this.nunitForm = nunitForm;
+			}
+			public void OnChanged(String fileName) 
+			{
+				nunitForm.Invoke(new loadAssemblyDelegate(nunitForm.LoadAssembly), new object[]{fileName});
+			}
 		}
 
 		private void LoadRecentAssemblies() 
@@ -717,18 +725,11 @@ namespace NUnit.Gui
 		{
 			if(watcher!=null)
 			{
-				watcher.EnableRaisingEvents=false;
+				watcher.Stop();
 			}
 
-			watcher = new FileSystemWatcher();
 			FileInfo info = new FileInfo(assemblyFileName);
-			watcher.Path = info.DirectoryName;
-			watcher.Filter = info.Name;
-			
-			watcher.NotifyFilter = NotifyFilters.Size;
-
-			watcher.Changed += new FileSystemEventHandler(OnChanged);
-			watcher.EnableRaisingEvents = true;
+			watcher = new AssemblyWatcher(1000,new FileChanged(this),info);
 		}
 
 		private static void SetWorkingDirectory(string assemblyFileName)
