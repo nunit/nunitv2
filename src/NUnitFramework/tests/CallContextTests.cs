@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Principal;
 using NUnit.Framework;
@@ -15,26 +16,40 @@ namespace NUnit.Core.Tests
 		IPrincipal savedPrincipal;
 
 		[SetUp]
-		public void SetUp()
+		public void SaveCurrentPrincipal()
 		{
 			savedPrincipal = System.Threading.Thread.CurrentPrincipal;
 		}
 
 		[TearDown]
+		public void RestoreCurrentPrincipal()
+		{
+			System.Threading.Thread.CurrentPrincipal = savedPrincipal;
+		}
+
+		[TestFixtureTearDown]
 		public void FreeCallContextDataSlot()
 		{
-			// These are just workarounds. Currently, tests must free 
-			// any context data slots that have been allocated to avoid 
-			// serialization problems. If a custom principal is set,
-			// the original value must be restored.
+			// NOTE: We don't want possible side effects on other cross context tests.
 			CallContext.FreeNamedDataSlot(CONTEXT_DATA);
-			System.Threading.Thread.CurrentPrincipal = savedPrincipal;
 		}
 
 		[Test]
 		public void ILogicalThreadAffinativeTest()
 		{	
 			CallContext.SetData( CONTEXT_DATA, new EmptyCallContextData() );
+		}
+
+		[Test, Explicit]
+		public void ILogicalThreadAffinativeTestConsole()
+		{	
+			CallContext.SetData( CONTEXT_DATA, new EmptyCallContextData() );
+
+			// NOTE: Fill the console output buffer and cause it to flush.
+			for(int count = 0 ; count < 20 ; count++) 
+			{
+				Console.WriteLine("============================== ILogicalThreadAffinativeTest ================================");
+			}
 		}
 
 		[Test]
