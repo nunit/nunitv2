@@ -60,16 +60,6 @@ namespace NUnit.Util
 		private TestRunner testRunner;
 
 		/// <summary>
-		/// Writer for console standard output
-		/// </summary>
-		private TextWriter outWriter;
-
-		/// <summary>
-		/// Writer for console error output
-		/// </summary>
-		private TextWriter errorWriter;
-
-		/// <summary>
 		/// Holds the event listener while we are running
 		/// </summary>
 		private EventListener listener;
@@ -88,18 +78,6 @@ namespace NUnit.Util
 		public AppDomain AppDomain
 		{
 			get { return domain; }
-		}
-
-		public TextWriter Out
-		{
-			get { return outWriter; }
-			set { outWriter = value; }
-		}
-
-		public TextWriter Error
-		{
-			get { return errorWriter; }
-			set { errorWriter = value; }
 		}
 
 		private TestRunner Runner
@@ -136,9 +114,6 @@ namespace NUnit.Util
 				false, BindingFlags.Default,null,null,null,null,null);
 			
 			RemoteTestRunner runner = (RemoteTestRunner) obj;
-
-			runner.Out = this.outWriter;
-			runner.Error = this.errorWriter;
 
 			return runner;
 		}
@@ -194,17 +169,12 @@ namespace NUnit.Util
 
 		#region Constructors
 
-		public TestDomain( TextWriter outWriter, TextWriter errorWriter ) : this (outWriter, errorWriter, true)
+		public TestDomain( ) : this (true)
 		{ 
-			
 		}
 
-		public TestDomain() : this( TextWriter.Null, TextWriter.Null ) { }
-
-		public TestDomain( TextWriter outWriter, TextWriter errorWriter, bool threaded )
+		public TestDomain( bool threaded )
 		{
-			this.outWriter = outWriter;
-			this.errorWriter = errorWriter;
 			this.threaded = threaded;
 		}
 

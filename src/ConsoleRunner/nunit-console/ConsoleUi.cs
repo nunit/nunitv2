@@ -41,7 +41,6 @@ namespace NUnit.ConsoleRunner
 	using NUnit.Core;
 	using NUnit.Util;
 	
-
 	/// <summary>
 	/// Summary description for ConsoleUi.
 	/// </summary>
@@ -187,7 +186,7 @@ namespace NUnit.ConsoleRunner
 				? new ConsoleWriter( new StreamWriter( options.err ) )
 				: new ConsoleWriter(Console.Error);
 
-			TestDomain testDomain = new TestDomain(outStream, errorStream, options.thread);
+			TestDomain testDomain = new TestDomain(options.thread);
 			if ( options.noshadow  ) testDomain.ShadowCopyFiles = false;
 
 			Test test = MakeTestFromCommandLine(testDomain, options);
@@ -413,6 +412,11 @@ namespace NUnit.ConsoleRunner
 					Trace.WriteLine( msg );
 					Trace.WriteLine( exception.ToString() );
 				}
+			}
+
+			public void TestOutput( TestOutput output)
+			{
+				// TODO: When to output?
 			}
 		}
 

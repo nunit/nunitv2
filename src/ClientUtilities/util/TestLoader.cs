@@ -54,16 +54,6 @@ namespace NUnit.Util
 		#region Instance Variables
 
 		/// <summary>
-		/// StdOut stream for use by the TestRunner
-		/// </summary>
-		private TextWriter stdOutWriter;
-
-		/// <summary>
-		/// StdErr stream for use by the TestRunner
-		/// </summary>
-		private TextWriter stdErrWriter;
-
-		/// <summary>
 		/// Our event dispatiching helper object
 		/// </summary>
 		private TestEventDispatcher events;
@@ -135,13 +125,11 @@ namespace NUnit.Util
 
 		#region Constructors
 
-		public TestLoader(TextWriter stdOutWriter, TextWriter stdErrWriter)
-			: this( stdOutWriter, stdErrWriter, new TestEventDispatcher() ) { }
+		public TestLoader()
+			: this( new TestEventDispatcher() ) { }
 
-		public TestLoader(TextWriter stdOutWriter, TextWriter stdErrWriter, TestEventDispatcher eventDispatcher )
+		public TestLoader(TestEventDispatcher eventDispatcher )
 		{
-			this.stdOutWriter = stdOutWriter;
-			this.stdErrWriter = stdErrWriter;
 			this.events = eventDispatcher;
 			filter = new EmptyFilter();
 		}
@@ -290,6 +278,15 @@ namespace NUnit.Util
 		void EventListener.UnhandledException(Exception exception)
 		{
 			events.FireTestException( exception );
+		}
+
+		/// <summary>
+		/// Trigger event when output occurs during a test
+		/// </summary>
+		/// <param name="testOutput">The test output</param>
+		void EventListener.TestOutput(TestOutput testOutput)
+		{
+			events.FireTestOutput( testOutput );
 		}
 
 		#endregion
@@ -481,7 +478,7 @@ namespace NUnit.Util
 			{
 				events.FireTestLoading( TestFileName );
 
-				testDomain = new TestDomain( stdOutWriter, stdErrWriter );		
+				testDomain = new TestDomain( );		
 				Test test = TestProject.IsAssemblyWrapper
 					? testDomain.Load( TestProject.ActiveConfig.Assemblies[0].FullPath )
 					: testDomain.Load( TestProject.AsCoreTestProject );
@@ -590,7 +587,7 @@ namespace NUnit.Util
 
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
-					TestDomain newDomain = new TestDomain( stdOutWriter, stdErrWriter );
+					TestDomain newDomain = new TestDomain( );
 					Test newTest = newDomain.Load( testProject.AsCoreTestProject, loadedTestName );
 					TestSuite suite = newTest as TestSuite;
 					if ( suite != null )

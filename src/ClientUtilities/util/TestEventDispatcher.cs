@@ -72,6 +72,7 @@ namespace NUnit.Util
 		public event TestEventHandler TestFinished;
 
 		public event TestEventHandler TestException;
+		public event TestEventHandler TestOutput;
 
 		#endregion
 
@@ -242,6 +243,13 @@ namespace NUnit.Util
 			Fire(
 				TestException,
 				new TestEventArgs( TestAction.TestException, exception ) );
+		}
+
+		public void FireTestOutput( TestOutput testOutput )
+		{
+			Fire(
+				TestOutput,
+				new TestEventArgs( TestAction.TestOutput, testOutput ) );
 		}
 
 		#endregion

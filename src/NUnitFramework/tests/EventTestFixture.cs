@@ -102,6 +102,10 @@ namespace NUnit.Core.Tests
 			public void UnhandledException( Exception exception )
 			{
 			}
+
+			public void TestOutput(TestOutput testOutput)
+			{
+			}
 		}
 
 		[Test]

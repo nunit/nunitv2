@@ -169,6 +169,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CallContextTests.cs_"
+                    SubType = "Code"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "CategoryManagerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -405,6 +410,11 @@
                 />
                 <File
                     RelPath = "TestSuiteTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ThreadedTestRunnerTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

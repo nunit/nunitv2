@@ -61,7 +61,7 @@ namespace NUnit.Util.Tests
 			NUnitRegistry.TestMode = true;
 			NUnitRegistry.ClearTestKeys();
 
-			loader = new TestLoader( Console.Out, Console.Error );
+			loader = new TestLoader( );
 			catcher = new TestEventCatcher( loader.Events );
 		}
 

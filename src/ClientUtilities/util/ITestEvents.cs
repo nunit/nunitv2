@@ -81,5 +81,10 @@ namespace NUnit.Util
 		/// and it cannot be associated with a particular test failure.
 		/// </summary>
 		event TestEventHandler TestException;
+
+		/// <summary>
+		/// Console Out/Error
+		/// </summary>
+		event TestEventHandler TestOutput;
 	}
 }

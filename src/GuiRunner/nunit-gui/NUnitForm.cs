@@ -153,7 +153,7 @@ namespace NUnit.Gui
 			outWriter = new TextBoxWriter( stdOutTab );
 			errWriter = new TextBoxWriter( stdErrTab );
 
-			TestLoader loader = new TestLoader( outWriter, errWriter, new GuiTestEventDispatcher() );
+			TestLoader loader = new TestLoader( new GuiTestEventDispatcher() );
 			loader.ReloadOnRun = UserSettings.Options.ReloadOnRun;
 			loader.ReloadOnChange = UserSettings.Options.ReloadOnChange;
 			loader.DisplayTestLabels = UserSettings.Options.TestLabels;
@@ -1545,6 +1545,7 @@ namespace NUnit.Gui
 			events.TestFinished		+= new TestEventHandler( OnTestFinished );
 			events.SuiteFinished	+= new TestEventHandler( OnSuiteFinished );
 			events.TestException	+= new TestEventHandler( OnTestException );
+			events.TestOutput		+= new TestEventHandler( OnTestOutput );
 		}
 
 		private void InitializeControls()
@@ -1836,6 +1837,20 @@ namespace NUnit.Gui
 				args.Exception.ToString() );
 
 			UserMessage.DisplayFailure( msg, "Unhandled Exception" );
+		}
+
+		private void OnTestOutput(object sender, TestEventArgs args)
+		{
+			TestOutput output = args.TestOutput;
+			switch(output.Type)
+			{
+				case TestOutputType.Out:
+					this.outWriter.Write(output.Text);
+					break;
+				case TestOutputType.Error:
+					this.errWriter.Write(output.Text);
+					break;
+			}
 		}
 
 		#endregion

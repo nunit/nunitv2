@@ -44,9 +44,7 @@ namespace NUnit.Util.Tests
 		[TestFixtureSetUp]
 		public void MakeAppDomain()
 		{
-			TextWriter outStream = new ConsoleWriter(Console.Out);
-			TextWriter errorStream = new ConsoleWriter(Console.Error);
-			testDomain = new TestDomain( outStream, errorStream, false );
+			testDomain = new TestDomain( false );
 
 			loadedTest = testDomain.Load( "mock-assembly.dll" );
 		}
@@ -149,9 +147,7 @@ namespace NUnit.Util.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			TextWriter outStream = new ConsoleWriter(Console.Out);
-			TextWriter errorStream = new ConsoleWriter(Console.Error);
-			testDomain = new TestDomain( outStream, errorStream, false );
+			testDomain = new TestDomain( false );
 		}
 
 		[Test]

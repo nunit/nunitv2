@@ -20,9 +20,7 @@ namespace NUnit.Tests.TimingTests
 		[SetUp]
 		public void MakeAppDomain()
 		{
-			TextWriter outStream = new ConsoleWriter(Console.Out);
-			TextWriter errorStream = new ConsoleWriter(Console.Error);
-			domain = new TestDomain( outStream, errorStream );
+			domain = new TestDomain();
 			test = domain.Load("mock-assembly.dll");
 		}
 

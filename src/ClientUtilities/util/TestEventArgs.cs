@@ -43,8 +43,9 @@ namespace NUnit.Util
 		SuiteFinished,
 		TestStarting,
 		TestFinished,
-		TestException
-	}
+		TestException,
+		TestOutput
+}
 
 	#endregion
 
@@ -69,6 +70,9 @@ namespace NUnit.Util
 		
 		// The exception causing a failure
 		private Exception exception;
+
+		// The test output
+		private TestOutput testOutput;
 
 		// TODO: Remove this count of test cases
 		private int count;
@@ -124,6 +128,12 @@ namespace NUnit.Util
 			this.exception = exception;
 		}
 
+		public TestEventArgs( TestAction action, TestOutput testOutput )
+		{
+			this.action = action;
+			this.testOutput = testOutput;
+		}
+
 		public TestEventArgs( TestAction action, Test[] tests, int count) 
 		{
 			this.action = action;
@@ -173,6 +183,11 @@ namespace NUnit.Util
 		public Exception Exception
 		{
 			get { return exception; }
+		}
+
+		public TestOutput TestOutput
+		{
+			get { return testOutput; }
 		}
 
 		#endregion
