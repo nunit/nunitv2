@@ -174,7 +174,7 @@ namespace NUnit.Util
 						assemblyName = settingsNode.Attributes["AssemblyName"].Value;
 						string outputType = settingsNode.Attributes["OutputType"].Value;
 
-						if ( outputType == "Console" || outputType == "WinExe" )
+						if ( outputType == "Exe" || outputType == "WinExe" )
 							assemblyName = assemblyName + ".exe";
 						else
 							assemblyName = assemblyName + ".dll";
