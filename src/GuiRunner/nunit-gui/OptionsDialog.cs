@@ -27,6 +27,12 @@ namespace NUnit.Gui
 		private System.Windows.Forms.CheckBox loadLastProjectCheckBox;
 		private System.ComponentModel.IContainer components;
 
+		public static void EditOptions( )
+		{
+			OptionsDialog dialog = new OptionsDialog( UserSettings.Options );
+			dialog.ShowDialog();
+		}
+
 		public OptionsDialog( OptionSettings options )
 		{
 			//

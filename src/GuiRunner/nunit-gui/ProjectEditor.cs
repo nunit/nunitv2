@@ -51,9 +51,14 @@ namespace NUnit.Gui
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			this.Size = new System.Drawing.Size(300,300);
-			this.Text = "ProjectEditor";
+			// 
+			// ProjectEditor
+			// 
+			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
+			this.ClientSize = new System.Drawing.Size(576, 268);
+			this.Name = "ProjectEditor";
+			this.Text = "Test Project Editor";
+
 		}
 		#endregion
 

@@ -39,45 +39,22 @@ namespace NUnit.Gui
 	using NUnit.Util;
 	using NUnit.UiKit;
 
-	/// <summary>
-	/// Summary description for Form1.
-	/// </summary>
 	public class NUnitForm : System.Windows.Forms.Form
 	{
-		#region Static and instance variables
+		#region Instance variables
 
-		/// <summary>
-		/// Object maintaining the list of recently used assemblies
-		/// </summary>
-		private static RecentProjectSettings recentProjects;
+		// Handlers for our recentFiles and recentProjects
+		private RecentFileMenuHandler recentProjectsMenuHandler;
+		private RecentFileMenuHandler recentAssembliesMenuHandler;
 
-		/// <summary>
-		/// Object maintaining the list of recently used assemblies
-		/// </summary>
-		private static RecentAssemblySettings recentAssemblies;
-
-		/// <summary>
-		/// Object representing current option settings
-		/// </summary>
-		private static OptionSettings optionSettings;
-
-		/// <summary>
-		/// Object that coordinates loading and running of tests
-		/// </summary>
-		private ITestLoader loader;
-
-		/// <summary>
-		/// Structure used for command line options
-		/// </summary>
+		// Structure used for command line options
 		public struct CommandLineOptions
 		{
 			public string testFileName;
 		}
 
-		/// <summary>
-		/// Our current run command line options
-		/// </summary>
-		private CommandLineOptions command;
+		// Our current run command line options
+		private CommandLineOptions commandLineOptions;
 
 		public System.Windows.Forms.Splitter splitter1;
 		public System.Windows.Forms.Panel panel1;
@@ -90,7 +67,6 @@ namespace NUnit.Gui
 		public System.Windows.Forms.Splitter splitter3;
 		public System.Windows.Forms.TextBox stackTrace;
 		public NUnit.UiKit.StatusBar statusBar;
-		public System.Windows.Forms.OpenFileDialog openFileDialog;
 		public NUnit.UiKit.TestSuiteTreeView testSuiteTreeView;
 		public System.Windows.Forms.TabControl resultTabs;
 		public System.Windows.Forms.TabPage errorPage;
@@ -98,15 +74,11 @@ namespace NUnit.Gui
 		public System.Windows.Forms.TabPage stdout;
 		public System.Windows.Forms.TextBox stdErrTab;
 		public System.Windows.Forms.TextBox stdOutTab;
-		public System.Windows.Forms.MenuItem recentAssembliesMenu;
 		public System.Windows.Forms.TreeView notRunTree;
 		private System.ComponentModel.IContainer components;
-		public TextWriter stdOutWriter;
 		public System.Windows.Forms.ToolTip toolTip;
 		private System.Windows.Forms.MenuItem closeMenuItem;
 		public System.Windows.Forms.MenuItem fileMenu;
-		private System.Windows.Forms.MenuItem fileMenuSeparator1;
-		public System.Windows.Forms.MenuItem fileMenuSeparator2;
 		public System.Windows.Forms.MenuItem helpItem;
 		public System.Windows.Forms.MenuItem helpMenuSeparator1;
 		private System.Windows.Forms.MenuItem reloadMenuItem;
@@ -128,68 +100,51 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem collapseFixturesMenuItem;
 		private System.Windows.Forms.MenuItem viewMenuSeparatorItem3;
 		private System.Windows.Forms.MenuItem propertiesMenuItem;
-		private System.Windows.Forms.SaveFileDialog saveResultsDialog;
 		private System.Windows.Forms.MenuItem saveXmlResultsMenuItem;
-		private System.Windows.Forms.MenuItem menuItem2;
-		private System.Windows.Forms.SaveFileDialog saveProjectDialog;
-		private System.Windows.Forms.MenuItem recentProjectsMenu;
 		private System.Windows.Forms.MenuItem projectMenu;
 		private System.Windows.Forms.MenuItem editProjectMenuItem;
-		private System.Windows.Forms.MenuItem menuItem1;
-		private System.Windows.Forms.MenuItem menuItem3;
-		private System.Windows.Forms.MenuItem menuItem4;
 		private System.Windows.Forms.MenuItem configMenuItem;
-		private System.Windows.Forms.MenuItem menuItem6;
-		private System.Windows.Forms.MenuItem menuItem5;
-		private System.Windows.Forms.MenuItem menuItem7;
 		private System.Windows.Forms.MenuItem saveMenuItem;
 		private System.Windows.Forms.MenuItem saveAsMenuItem;
 		private System.Windows.Forms.MenuItem newMenuItem;
 		private System.Windows.Forms.MenuItem openMenuItem;
-		public TextWriter stdErrWriter;
+		private System.Windows.Forms.MenuItem recentProjectsMenu;
+		private System.Windows.Forms.MenuItem fileMenuSeparator1;
+		private System.Windows.Forms.MenuItem fileMenuSeparator2;
+		private System.Windows.Forms.MenuItem fileMenuSeparator3;
+		public System.Windows.Forms.MenuItem fileMenuSeparator4;
+		private System.Windows.Forms.MenuItem projectMenuSeparator1;
+		private System.Windows.Forms.MenuItem projectMenuSeparator2;
+		private System.Windows.Forms.MenuItem toolsMenuSeparator1;
+		private System.Windows.Forms.MenuItem addVSProjectMenuItem;
+		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
+		private System.Windows.Forms.MenuItem recentAssembliesMenu;
 
 		#endregion
 		
 		#region Construction and Disposal
 
-		/// <summary>
-		/// Static constructor creates our recent assemblies list
-		/// </summary>
-		static NUnitForm()	
-		{
-			recentProjects = UserSettings.RecentProjects;
-			recentAssemblies = UserSettings.RecentAssemblies;
-			optionSettings = UserSettings.Options;
-		}
-		
-		/// <summary>
-		/// Construct our form, optionally providing the
-		/// full path of to an test file to be loaded.
-		/// </summary>
-		public NUnitForm( CommandLineOptions command )
+		public NUnitForm( CommandLineOptions commandLineOptions )
 		{
 			InitializeComponent();
 
-			this.command = command;
+			this.commandLineOptions = commandLineOptions;
 
 			stdErrTab.Enabled = true;
 			stdOutTab.Enabled = true;
 
-			SetDefault(runButton);
 			runButton.Enabled = false;
 			stopButton.Enabled = false;
 
-			stdOutWriter = new TextBoxWriter(stdOutTab);
-			Console.SetOut(stdOutWriter);
-			stdErrWriter = new TextBoxWriter(stdErrTab);
-			Console.SetError(stdErrWriter);
+			AppUI.Init(
+				this,
+				new TextBoxWriter( stdOutTab ),
+				new TextBoxWriter( stdErrTab ) );
 
-			loader = new TestLoader(stdOutWriter, stdErrWriter);
+			recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, UserSettings.RecentProjects );
+			recentAssembliesMenuHandler = new RecentFileMenuHandler( recentAssembliesMenu, UserSettings.RecentAssemblies );
 		}
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
 		protected override void Dispose( bool disposing )
 		{
 			if( disposing )
@@ -201,7 +156,6 @@ namespace NUnit.Gui
 			}
 			base.Dispose( disposing );
 		}
-
 		#endregion
 		
 		#region Windows Form Designer generated code
@@ -219,15 +173,15 @@ namespace NUnit.Gui
 			this.newMenuItem = new System.Windows.Forms.MenuItem();
 			this.openMenuItem = new System.Windows.Forms.MenuItem();
 			this.closeMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem7 = new System.Windows.Forms.MenuItem();
+			this.fileMenuSeparator1 = new System.Windows.Forms.MenuItem();
 			this.saveMenuItem = new System.Windows.Forms.MenuItem();
 			this.saveAsMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem5 = new System.Windows.Forms.MenuItem();
+			this.fileMenuSeparator2 = new System.Windows.Forms.MenuItem();
 			this.reloadMenuItem = new System.Windows.Forms.MenuItem();
-			this.fileMenuSeparator1 = new System.Windows.Forms.MenuItem();
+			this.fileMenuSeparator3 = new System.Windows.Forms.MenuItem();
 			this.recentProjectsMenu = new System.Windows.Forms.MenuItem();
 			this.recentAssembliesMenu = new System.Windows.Forms.MenuItem();
-			this.fileMenuSeparator2 = new System.Windows.Forms.MenuItem();
+			this.fileMenuSeparator4 = new System.Windows.Forms.MenuItem();
 			this.exitMenuItem = new System.Windows.Forms.MenuItem();
 			this.viewMenu = new System.Windows.Forms.MenuItem();
 			this.expandMenuItem = new System.Windows.Forms.MenuItem();
@@ -242,14 +196,14 @@ namespace NUnit.Gui
 			this.propertiesMenuItem = new System.Windows.Forms.MenuItem();
 			this.projectMenu = new System.Windows.Forms.MenuItem();
 			this.configMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem3 = new System.Windows.Forms.MenuItem();
-			this.menuItem6 = new System.Windows.Forms.MenuItem();
-			this.menuItem4 = new System.Windows.Forms.MenuItem();
-			this.menuItem1 = new System.Windows.Forms.MenuItem();
+			this.projectMenuSeparator1 = new System.Windows.Forms.MenuItem();
+			this.addVSProjectMenuItem = new System.Windows.Forms.MenuItem();
+			this.addAssemblyMenuItem = new System.Windows.Forms.MenuItem();
+			this.projectMenuSeparator2 = new System.Windows.Forms.MenuItem();
 			this.editProjectMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenu = new System.Windows.Forms.MenuItem();
 			this.saveXmlResultsMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem2 = new System.Windows.Forms.MenuItem();
+			this.toolsMenuSeparator1 = new System.Windows.Forms.MenuItem();
 			this.optionsMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpItem = new System.Windows.Forms.MenuItem();
 			this.helpMenuItem = new System.Windows.Forms.MenuItem();
@@ -274,10 +228,7 @@ namespace NUnit.Gui
 			this.runButton = new System.Windows.Forms.Button();
 			this.suiteName = new System.Windows.Forms.Label();
 			this.progressBar = new NUnit.UiKit.ProgressBar();
-			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.saveResultsDialog = new System.Windows.Forms.SaveFileDialog();
-			this.saveProjectDialog = new System.Windows.Forms.SaveFileDialog();
 			this.panel1.SuspendLayout();
 			this.resultTabs.SuspendLayout();
 			this.errorPage.SuspendLayout();
@@ -313,15 +264,15 @@ namespace NUnit.Gui
 																					 this.newMenuItem,
 																					 this.openMenuItem,
 																					 this.closeMenuItem,
-																					 this.menuItem7,
+																					 this.fileMenuSeparator1,
 																					 this.saveMenuItem,
 																					 this.saveAsMenuItem,
-																					 this.menuItem5,
+																					 this.fileMenuSeparator2,
 																					 this.reloadMenuItem,
-																					 this.fileMenuSeparator1,
+																					 this.fileMenuSeparator3,
 																					 this.recentProjectsMenu,
 																					 this.recentAssembliesMenu,
-																					 this.fileMenuSeparator2,
+																					 this.fileMenuSeparator4,
 																					 this.exitMenuItem});
 			this.fileMenu.Text = "&File";
 			this.fileMenu.Popup += new System.EventHandler(this.fileMenu_Popup);
@@ -346,10 +297,10 @@ namespace NUnit.Gui
 			this.closeMenuItem.Text = "&Close";
 			this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
 			// 
-			// menuItem7
+			// fileMenuSeparator1
 			// 
-			this.menuItem7.Index = 3;
-			this.menuItem7.Text = "-";
+			this.fileMenuSeparator1.Index = 3;
+			this.fileMenuSeparator1.Text = "-";
 			// 
 			// saveMenuItem
 			// 
@@ -364,10 +315,10 @@ namespace NUnit.Gui
 			this.saveAsMenuItem.Text = "Save &As...";
 			this.saveAsMenuItem.Click += new System.EventHandler(this.saveAsMenuItem_Click);
 			// 
-			// menuItem5
+			// fileMenuSeparator2
 			// 
-			this.menuItem5.Index = 6;
-			this.menuItem5.Text = "-";
+			this.fileMenuSeparator2.Index = 6;
+			this.fileMenuSeparator2.Text = "-";
 			// 
 			// reloadMenuItem
 			// 
@@ -376,25 +327,25 @@ namespace NUnit.Gui
 			this.reloadMenuItem.Text = "&Reload";
 			this.reloadMenuItem.Click += new System.EventHandler(this.reloadMenuItem_Click);
 			// 
-			// fileMenuSeparator1
+			// fileMenuSeparator3
 			// 
-			this.fileMenuSeparator1.Index = 8;
-			this.fileMenuSeparator1.Text = "-";
+			this.fileMenuSeparator3.Index = 8;
+			this.fileMenuSeparator3.Text = "-";
 			// 
 			// recentProjectsMenu
 			// 
 			this.recentProjectsMenu.Index = 9;
-			this.recentProjectsMenu.Text = "Recent &Projects";
+			this.recentProjectsMenu.Text = "Recent Projects";
 			// 
 			// recentAssembliesMenu
 			// 
 			this.recentAssembliesMenu.Index = 10;
-			this.recentAssembliesMenu.Text = "Re&cent Assemblies";
+			this.recentAssembliesMenu.Text = "Recent Assemblies";
 			// 
-			// fileMenuSeparator2
+			// fileMenuSeparator4
 			// 
-			this.fileMenuSeparator2.Index = 11;
-			this.fileMenuSeparator2.Text = "-";
+			this.fileMenuSeparator4.Index = 11;
+			this.fileMenuSeparator4.Text = "-";
 			// 
 			// exitMenuItem
 			// 
@@ -482,10 +433,10 @@ namespace NUnit.Gui
 			this.projectMenu.Index = 2;
 			this.projectMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																						this.configMenuItem,
-																						this.menuItem3,
-																						this.menuItem6,
-																						this.menuItem4,
-																						this.menuItem1,
+																						this.projectMenuSeparator1,
+																						this.addAssemblyMenuItem,
+																						this.addVSProjectMenuItem,
+																						this.projectMenuSeparator2,
 																						this.editProjectMenuItem});
 			this.projectMenu.Text = "&Project";
 			this.projectMenu.Visible = false;
@@ -496,25 +447,27 @@ namespace NUnit.Gui
 			this.configMenuItem.Index = 0;
 			this.configMenuItem.Text = "&Configurations";
 			// 
-			// menuItem3
+			// projectMenuSeparator1
 			// 
-			this.menuItem3.Index = 1;
-			this.menuItem3.Text = "-";
+			this.projectMenuSeparator1.Index = 1;
+			this.projectMenuSeparator1.Text = "-";
 			// 
-			// menuItem6
+			// addVSProjectMenuItem
 			// 
-			this.menuItem6.Index = 2;
-			this.menuItem6.Text = "Add VS Project...";
+			this.addVSProjectMenuItem.Index = 3;
+			this.addVSProjectMenuItem.Text = "Add VS Project...";
+			this.addVSProjectMenuItem.Click += new System.EventHandler(this.addVSProjectMenuItem_Click);
 			// 
-			// menuItem4
+			// addAssemblyMenuItem
 			// 
-			this.menuItem4.Index = 3;
-			this.menuItem4.Text = "Add Assembly...";
+			this.addAssemblyMenuItem.Index = 2;
+			this.addAssemblyMenuItem.Text = "Add Assembly...";
+			this.addAssemblyMenuItem.Click += new System.EventHandler(this.addAssemblyMenuItem_Click);
 			// 
-			// menuItem1
+			// projectMenuSeparator2
 			// 
-			this.menuItem1.Index = 4;
-			this.menuItem1.Text = "-";
+			this.projectMenuSeparator2.Index = 4;
+			this.projectMenuSeparator2.Text = "-";
 			// 
 			// editProjectMenuItem
 			// 
@@ -527,7 +480,7 @@ namespace NUnit.Gui
 			this.toolsMenu.Index = 3;
 			this.toolsMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					  this.saveXmlResultsMenuItem,
-																					  this.menuItem2,
+																					  this.toolsMenuSeparator1,
 																					  this.optionsMenuItem});
 			this.toolsMenu.Text = "&Tools";
 			this.toolsMenu.Popup += new System.EventHandler(this.toolsMenu_Popup);
@@ -538,10 +491,10 @@ namespace NUnit.Gui
 			this.saveXmlResultsMenuItem.Text = "&Save Results as XML...";
 			this.saveXmlResultsMenuItem.Click += new System.EventHandler(this.saveXmlResultsMenuItem_Click);
 			// 
-			// menuItem2
+			// toolsMenuSeparator1
 			// 
-			this.menuItem2.Index = 1;
-			this.menuItem2.Text = "-";
+			this.toolsMenuSeparator1.Index = 1;
+			this.toolsMenuSeparator1.Text = "-";
 			// 
 			// optionsMenuItem
 			// 
@@ -791,20 +744,9 @@ namespace NUnit.Gui
 			this.progressBar.TabIndex = 0;
 			this.progressBar.Value = 0;
 			// 
-			// saveResultsDialog
-			// 
-			this.saveResultsDialog.DefaultExt = "xml";
-			this.saveResultsDialog.FileName = "TestResult.xml";
-			this.saveResultsDialog.Filter = "Xml Files (*.xml)|*.xml|All Files (*.*)|*.*";
-			this.saveResultsDialog.Title = "Save Results as XML";
-			// 
-			// saveProjectDialog
-			// 
-			this.saveProjectDialog.Filter = "NUnit Test Project (*.nunit)|*.nunit|All Files (*.*)|*.*";
-			this.saveProjectDialog.Title = "New Nunit Test Project";
-			// 
 			// NUnitForm
 			// 
+			this.AcceptButton = this.runButton;
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.ClientSize = new System.Drawing.Size(931, 542);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
@@ -831,188 +773,96 @@ namespace NUnit.Gui
 		}
 		#endregion
 
-		#region Application Entry Point
+		#region Properties used internally
 
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
-		static int Main(string[] args) 
+		private TestLoader TestLoader
 		{
-			CommandLineOptions command = new CommandLineOptions();
-
-			GuiOptions parser = new GuiOptions(args);
-			if(parser.Validate() && !parser.help) 
-			{
-				if(!parser.NoArgs)
-					command.testFileName = (string)parser.Assembly;
-
-				if(command.testFileName != null)
-				{
-					FileInfo fileInfo = new FileInfo(command.testFileName);
-					if(!fileInfo.Exists)
-					{
-						string message = String.Format("{0} does not exist", fileInfo.FullName);
-						UserMessage.DisplayFailure( message,"Specified test file does not exist" );
-						return 1;
-					}
-					else
-					{
-						command.testFileName = fileInfo.FullName;
-					}
-				}
-
-				NUnitForm form = new NUnitForm( command );
-				Application.Run(form);
-			}
-			else
-			{
-				string message = parser.GetHelpText();
-				UserMessage.DisplayFailure( message,"Help Syntax" );
-				return 2;
-			}	
-				
-			return 0;
+			get { return AppUI.TestLoader; }
 		}
 
+		private TestLoaderUI TestLoaderUI
+		{
+			get { return AppUI.TestLoaderUI; }
+		}
+
+		private bool IsProjectLoaded
+		{
+			get { return TestLoader.IsProjectLoaded; }
+		}
+
+		private NUnitProject TestProject
+		{
+			get { return TestLoader.TestProject; }
+		}
+
+		private bool IsTestLoaded
+		{
+			get { return TestLoader.IsTestLoaded; }
+		}
+
+		private bool IsTestRunning
+		{
+			get { return TestLoader.IsTestRunning; }
+		}
 		#endregion
 
-		#region Handlers for UI Events
+		#region File Menu Handlers
 
-		#region File Menu
-
-		/// <summary>
-		/// When File menu is about to display, enable/disable Close
-		/// </summary>
 		private void fileMenu_Popup(object sender, System.EventArgs e)
 		{
-			openMenuItem.Enabled = !loader.IsTestRunning;
-			closeMenuItem.Enabled = loader.IsTestLoaded && !loader.IsTestRunning;
+			newMenuItem.Enabled = !IsTestRunning;
+			openMenuItem.Enabled = !IsTestRunning;
+			closeMenuItem.Enabled = IsProjectLoaded && !IsTestRunning;
 
-			saveMenuItem.Enabled = loader.IsTestLoaded;
-			saveAsMenuItem.Enabled = loader.IsTestLoaded;
+			saveMenuItem.Enabled = IsProjectLoaded;
+			saveAsMenuItem.Enabled = IsProjectLoaded;
 
-			reloadMenuItem.Enabled = loader.IsTestLoaded && !loader.IsTestRunning;
+			reloadMenuItem.Enabled = IsTestLoaded && !IsTestRunning;
 
-			recentProjectsMenu.Enabled = !loader.IsTestRunning;
-			recentAssembliesMenu.Enabled = !loader.IsTestRunning;
+			recentProjectsMenu.Enabled = !IsTestRunning;
+			recentAssembliesMenu.Enabled = !IsTestRunning;
 
-			if ( !loader.IsTestRunning )
+			if ( !IsTestRunning )
 			{
-				LoadRecentFileMenu( recentProjectsMenu, recentProjects.GetFiles() );
-				LoadRecentFileMenu( recentAssembliesMenu, recentAssemblies.GetFiles() );
+				recentProjectsMenuHandler.Load();
+				recentAssembliesMenuHandler.Load();
 			}
 		}
 
 		private void newMenuItem_Click(object sender, System.EventArgs e)
 		{
-			if ( saveProjectDialog.ShowDialog( this ) == DialogResult.OK )
-			{
-				UnloadTest();
-				NUnitProject project = new NUnitProject();
-				project.Configs.Add( "Debug" );
-				project.Configs.Add( "Release" );
-				project.IsDirty = true;
-			}		
+			TestLoaderUI.NewProject();
 		}
 
-		/// <summary>
-		/// Open project selected by user
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
 		private void openMenuItem_Click(object sender, System.EventArgs e)
 		{
-			// ToDo: Move to filehandler object
-			if ( optionSettings.VisualStudioSupport )
-			{
-				openFileDialog.Filter =
-					"All Project Types (*.nunit,*.csproj,*.vbproj,*.vcproj,*.sln)|*.nunit;*.csproj;*.vbproj;*.vcproj;*.sln|" +
-					"Test Projects (*.nunit)|*.nunit|" +
-					"Solutions (*.sln)|*.sln|" +
-					"C# Projects (*.csproj)|*.csproj|" +
-					"VB Projects (*.vbproj)|*.vbproj|" +
-					"C++ Projects (*.vcproj)|*.vcproj|" +
-					"Assemblies (*.dll,*.exe)|*.dll;*.exe|" +
-					"All Files (*.*)|*.*";
-			}
-			else
-			{
-				openFileDialog.Filter =
-					"TestProjects (*.nunit)|*.nunit|" + 
-					"Assemblies (*.dll,*.exe)|*.dll;*.exe|" +
-					"All Files (*.*)|*.*";
-			}
-
-			openFileDialog.FilterIndex = 1;
-			openFileDialog.FileName = "";
-
-			if (openFileDialog.ShowDialog(this) == DialogResult.OK) 
-			{
-				LoadTest( openFileDialog.FileName );
-			}			
+			TestLoaderUI.OpenProject();
+			TestLoader.LoadTest();
 		}
 
-		/// <summary>
-		/// When File+Close is selected, unload the test
-		/// </summary>
 		private void closeMenuItem_Click(object sender, System.EventArgs e)
 		{
-			if ( loader.TestProject.IsDirty && !loader.TestProject.IsWrapper )
-			{
-				if ( UserMessage.Ask( "Project has been changed. Do you want to save changes? " )
-							== DialogResult.Yes )
-				{
-					// ToDo: Move to another object
-					saveMenuItem_Click( sender, e );
-				}
-			}
-
-			UnloadTest();
+			TestLoaderUI.CloseProject();
 		}
 
 		private void saveMenuItem_Click(object sender, System.EventArgs e)
 		{
-			// ToDo: Move to filehandler object
-			if ( loader.TestProject.ProjectPath == null )
-				saveAsMenuItem_Click( sender, e );
-			else
-				loader.TestProject.Save();
+			TestLoaderUI.SaveProject();
 		}
 
 		private void saveAsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			// TODo: Move to filehandler object
-			saveProjectDialog.FileName = loader.TestProject.ProjectPath;
-			if ( saveProjectDialog.ShowDialog( this ) == DialogResult.OK )
-				loader.TestProject.Save( saveProjectDialog.FileName );
+			TestLoaderUI.SaveProjectAs();
 		}
 
-		/// <summary>
-		/// Open recently used assembly when it's menu item is selected.
-		/// </summary>
-		private void recentFile_clicked(object sender, System.EventArgs args) 
-		{
-			MenuItem item = (MenuItem) sender;
-			string assemblyFileName = item.Text.Substring( 2 );
-
-			LoadTest( assemblyFileName );
-		}
-
-		/// <summary>
-		/// reload the current AppDoamin which will flush the cache and reload it
-		/// </summary>
 		private void reloadMenuItem_Click(object sender, System.EventArgs e)
 		{
 			using ( new WaitCursor() )
 			{
-				loader.ReloadTest();
+				TestLoader.ReloadTest();
 			}
 		}
 
-		/// <summary>
-		/// Exit application when menu item is selected.
-		/// </summary>
 		private void exitMenuItem_Click(object sender, System.EventArgs e)
 		{
 			this.Close();
@@ -1020,7 +870,7 @@ namespace NUnit.Gui
 
 		#endregion
 
-		#region View Menu
+		#region View Menu Handlers
 
 		private void viewMenu_Popup(object sender, System.EventArgs e)
 		{
@@ -1074,7 +924,7 @@ namespace NUnit.Gui
 
 		#endregion
 
-		#region Project Menu
+		#region Project Menu Handlers
 
 		/// <summary>
 		/// When the project menu pops up, we populate the
@@ -1082,17 +932,15 @@ namespace NUnit.Gui
 		/// </summary>
 		private void projectMenu_Popup(object sender, System.EventArgs e)
 		{
-			editProjectMenuItem.Enabled = false;
-
 			int index = 0;
 			configMenuItem.MenuItems.Clear();
 
-			foreach ( ProjectConfig config in loader.TestProject.Configs )
+			foreach ( ProjectConfig config in TestProject.Configs )
 			{
 				string text = string.Format( "&{0} {1}", index+1, config.Name );
 				MenuItem item = new MenuItem( 
 					text, new EventHandler( configMenuItem_Click ) );
-				if ( config.Name == loader.ActiveConfig ) 
+				if ( config.Name == TestProject.ActiveConfig ) 
 					item.Checked = true;
 				configMenuItem.MenuItems.Add( index++, item );
 			}
@@ -1109,55 +957,57 @@ namespace NUnit.Gui
 		private void configMenuItem_Click( object sender, EventArgs e )
 		{
 			MenuItem item = (MenuItem)sender;
-			
 			if ( !item.Checked )
-			{
-				NUnitProject project = loader.TestProject;
-				ProjectConfig config = project.Configs[item.Index];
-				if ( config.Assemblies.Count == 0 )
-					UserMessage.DisplayFailure( "Selected Config cannot be loaded. It contains no assemblies." );
-				else
-					loader.ActiveConfig = config.Name;
-			}
+				TestLoader.SetActiveConfig( TestProject.Configs[item.Index].Name );
 		}
 
 		private void addConfigurationMenuItem_Click( object sender, System.EventArgs e )
 		{
-			ConfigurationEditor.AddConfiguration( loader.TestProject );
+			ConfigurationEditor.AddConfiguration( TestProject );
 		}
 
 		private void editConfigurationsMenuItem_Click( object sender, System.EventArgs e )
 		{
-			ConfigurationEditor.Edit( loader.TestProject );
+			ConfigurationEditor.Edit( TestProject );
+		}
+
+		private void addAssemblyMenuItem_Click(object sender, System.EventArgs e)
+		{
+			TestLoaderUI.AddAssembly();
+		}
+
+		private void addVSProjectMenuItem_Click(object sender, System.EventArgs e)
+		{
+			TestLoaderUI.AddVSProject();
 		}
 
 		private void editProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-			ProjectEditor.Edit( loader.TestProject );
+			ProjectEditor.Edit( TestProject );
 		}
 
 		#endregion
 
-		#region Tools Menu
+		#region Tools Menu Handlers
 
 		private void toolsMenu_Popup(object sender, System.EventArgs e)
 		{		
-			saveXmlResultsMenuItem.Enabled = loader.IsTestLoaded && loader.LastResult != null;
+			saveXmlResultsMenuItem.Enabled = IsTestLoaded && TestLoader.LastResult != null;
 		}
 
 		private void saveXmlResultsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			SaveXmlResults( loader.LastResult );
+			TestLoaderUI.SaveLastResult();
 		}
 
 		private void optionsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			ShowOptionsDialog();
+			OptionsDialog.EditOptions();
 		}
 
 		#endregion
 
-		#region Help Menu
+		#region Help Menu Handlers
 
 		/// <summary>
 		/// Display the about box when menu item is selected
@@ -1170,16 +1020,14 @@ namespace NUnit.Gui
 
 		#endregion
 
+		#region Other UI Event Handlers
+
 		/// <summary>
 		/// When the Run Button is clicked, run the selected test.
 		/// </summary>
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
-			runButton.Enabled = false;
-			if ( loader.IsReloadPending || optionSettings.ReloadOnRun )
-				loader.ReloadTest();
-
-			loader.RunTestSuite( testSuiteTreeView.SelectedTest );
+			TestLoader.RunTestSuite( testSuiteTreeView.SelectedTest );
 		}
 
 		/// <summary>
@@ -1189,7 +1037,7 @@ namespace NUnit.Gui
 		{
 			stopButton.Enabled = false;
 
-			if ( loader.IsTestRunning )
+			if ( IsTestRunning )
 			{
 				DialogResult dialogResult = UserMessage.Ask( 
 					"Do you want to cancel the running test?" );
@@ -1197,7 +1045,7 @@ namespace NUnit.Gui
 				if ( dialogResult == DialogResult.No )
 					stopButton.Enabled = true;
 				else
-					loader.CancelTestRun();
+					TestLoader.CancelTestRun();
 			}
 		}
 
@@ -1207,7 +1055,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void OnSelectedTestChanged( UITestNode test )
 		{
-			if ( !loader.IsTestRunning )
+			if ( !IsTestRunning )
 			{
 				suiteName.Text = test.ShortName;
 				statusBar.Initialize( test.CountTestCases );
@@ -1256,7 +1104,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void NUnitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			if ( loader.IsTestRunning )
+			if ( IsTestRunning )
 			{
 				DialogResult dialogResult = UserMessage.Ask( 
 					"A test is running, do you want to stop the test and exit?" );
@@ -1267,10 +1115,11 @@ namespace NUnit.Gui
 					return;
 				}
 				
-				loader.CancelTestRun();
+				TestLoader.CancelTestRun();
 			}
 
-			UnloadTest();
+			if ( IsProjectLoaded )
+				TestLoaderUI.CloseProject();
 
 			if ( this.WindowState == FormWindowState.Normal )
 			{
@@ -1287,47 +1136,70 @@ namespace NUnit.Gui
 			// Set position of the form
 			this.Location = UserSettings.Form.Location;
 			this.Size = UserSettings.Form.Size;
-
+			
 			// Set up events handled by the form
-			loader.RunStartingEvent += new TestEventHandler( OnRunStarting );
-			loader.RunFinishedEvent += new TestEventHandler( OnRunFinished );
+			ITestEvents events = TestLoader.Events;
 
-			loader.LoadStartingEvent	+= new TestLoadEventHandler( OnTestLoadStarting );
-			loader.LoadCompleteEvent	+= new TestLoadEventHandler( OnTestLoaded );
-			loader.UnloadStartingEvent	+= new TestLoadEventHandler( OnTestUnloadStarting );
-			loader.UnloadCompleteEvent	+= new TestLoadEventHandler( OnTestUnloaded );
-			loader.ReloadCompleteEvent	+= new TestLoadEventHandler( OnTestChanged );
-			loader.LoadFailedEvent		+= new TestLoadEventHandler( OnTestLoadFailure );
-			loader.ReloadFailedEvent	+= new TestLoadEventHandler( OnTestLoadFailure );
+			events.RunStarting += new TestEventHandler( OnRunStarting );
+			events.RunFinished += new TestEventHandler( OnRunFinished );
 
-			// Set tree options
-			testSuiteTreeView.InitialDisplay =
-				(TestSuiteTreeView.DisplayStyle) optionSettings.InitialTreeDisplay;
+			events.ProjectLoaded	+= new TestEventHandler( OnTestProjectLoaded );
+			events.ProjectUnloaded	+= new TestEventHandler( OnTestProjectUnloaded );
+
+			events.TestLoading		+= new TestEventHandler( OnTestLoadStarting );
+			events.TestLoaded		+= new TestEventHandler( OnTestLoaded );
+			events.TestLoadFailed	+= new TestEventHandler( OnTestLoadFailure );
+			events.TestUnloading	+= new TestEventHandler( OnTestUnloadStarting );
+			events.TestUnloaded		+= new TestEventHandler( OnTestUnloaded );
+			events.TestReloading	+= new TestEventHandler( OnReloadStarting );
+			events.TestReloaded		+= new TestEventHandler( OnTestChanged );
+			events.TestReloadFailed	+= new TestEventHandler( OnTestLoadFailure );
 
 			// Allow controls to initialize as well
 			// ToDo: Migrate more ui elements to handle events on their own.
-			this.testSuiteTreeView.InitializeEvents( loader );
-			this.progressBar.InitializeEvents( loader );
-			this.statusBar.InitializeEvents( loader );
+			this.testSuiteTreeView.Initialize( TestLoader, TestLoader.Events );
+			this.progressBar.Initialize( TestLoader.Events );
+			this.statusBar.Initialize( TestLoader.Events );
+			
 			// Load test specified on command line or
 			// the most recent one if options call for it
-			if ( command.testFileName != null )
-				LoadTest( command.testFileName );
-			else if( optionSettings.LoadLastProject &&
-					 recentProjects.RecentFile != null )
-				LoadTest( recentProjects.RecentFile );
+			if ( commandLineOptions.testFileName != null )
+				TestLoader.LoadTest( commandLineOptions.testFileName );
+			else if( UserSettings.Options.LoadLastProject )
+			{
+				string recentProjectName = UserSettings.RecentProjects.RecentFile;
+				if ( recentProjectName != null )
+					TestLoader.LoadTest( recentProjectName );
+			}
 		}
 
 		#endregion
 
-		#region Handlers for Test Loading and Unloading Events
+		#region Event Handlers for Test Load and Unload
 
-		private void OnTestLoadStarting( object sender, TestLoadEventArgs e )
+		private void OnTestProjectLoaded( object sender, TestEventArgs e )
+		{
+			SetTitleBar( e.TestFileName );
+			projectMenu.Visible = true;
+		}
+
+		private void OnTestProjectUnloaded( object sender, TestEventArgs e )
+		{
+			SetTitleBar( null );
+			projectMenu.Visible = false;
+		}
+
+		private void OnTestLoadStarting( object sender, TestEventArgs e )
 		{
 			runButton.Enabled = false;
 		}
 
-		private void OnTestUnloadStarting( object sender, TestLoadEventArgs e )
+		private void OnTestUnloadStarting( object sender, TestEventArgs e )
+		{
+			runButton.Enabled = false;
+		}
+
+		private void OnReloadStarting( object sender, TestEventArgs e )
 		{
 			runButton.Enabled = false;
 		}
@@ -1336,26 +1208,9 @@ namespace NUnit.Gui
 		/// A test suite has been loaded, so update 
 		/// recent assemblies and display the tests in the UI
 		/// </summary>
-		/// <param name="test">Top level test for the assembly</param>
-		/// <param name="assemblyFileName">The full path of the assembly file</param>
-		/// Note: second argument could be omitted, but tests may not
-		/// always have the FullName set to the assembly name in future.
-		private void OnTestLoaded( object sender, TestLoadEventArgs e )
+		private void OnTestLoaded( object sender, TestEventArgs e )
 		{
-			if ( e.IsProjectFile )
-			{
-				recentProjects.RecentFile = e.TestFileName;
-				projectMenu.Visible = true;
-			}
-			else
-			{
-				recentAssemblies.RecentFile = e.TestFileName;
-				projectMenu.Visible = false;
-			}
-
-			SetTitleBar( e.TestFileName );
-			viewMenu.Visible = true;
-			
+			viewMenu.Visible = true;		
 			runButton.Enabled = true;
 			ClearTabs();
 		}
@@ -1364,14 +1219,12 @@ namespace NUnit.Gui
 		/// A test suite has been unloaded, so clear the UI
 		/// and remove any references to the suite.
 		/// </summary>
-		private void OnTestUnloaded( object sender, TestLoadEventArgs e )
+		private void OnTestUnloaded( object sender, TestEventArgs e )
 		{
 			suiteName.Text = null;
 			runButton.Enabled = false;
 
 			ClearTabs();
-			SetTitleBar( null );
-			projectMenu.Visible = false;
 			viewMenu.Visible = false;
 		}
 
@@ -1380,7 +1233,7 @@ namespace NUnit.Gui
 		/// so update the info in the UI and clear the
 		/// test results, since they are no longer valid.
 		/// </summary>
-		private void OnTestChanged( object sender, TestLoadEventArgs e )
+		private void OnTestChanged( object sender, TestEventArgs e )
 		{
 			if ( UserSettings.Options.ClearResults )
 				ClearTabs();
@@ -1390,20 +1243,20 @@ namespace NUnit.Gui
 		/// Event handler for assembly load faiulres. We do this via
 		/// an event since some errors may occur asynchronously.
 		/// </summary>
-		private void OnTestLoadFailure( object sender, TestLoadEventArgs e )
+		private void OnTestLoadFailure( object sender, TestEventArgs e )
 		{
 			UserMessage.DisplayFailure( e.Exception, "Assembly Load Failure" );
 
 			if ( e.IsProjectFile )
 			{
-				recentProjects.Remove( e.TestFileName );
+				UserSettings.RecentProjects.Remove( e.TestFileName );
 			}
 			else
 			{
-				recentAssemblies.Remove( e.TestFileName );
+				UserSettings.RecentAssemblies.Remove( e.TestFileName );
 			}
 
-			if ( !loader.IsTestLoaded )
+			if ( !IsTestLoaded )
 				OnTestUnloaded( sender, e );
 			else
 				runButton.Enabled = true;
@@ -1452,38 +1305,7 @@ namespace NUnit.Gui
 
 		#endregion
 
-		#region Helper methods for loading and running tests
-
-
-		/// <summary>
-		/// Load an assembly into the UI
-		/// </summary>
-		/// <param name="assemblyFileName">Full path of the assembly to load</param>
-		private void LoadTest(string testFileName)
-		{
-			loader.LoadTest( testFileName );
-		}
-
-		/// <summary>
-		/// Unload the current assembly
-		/// </summary>
-		private void UnloadTest()
-		{
-			loader.UnloadTest();
-		}
-
-		#endregion
-
 		#region Helper methods for modifying the UI display
-
-		/// <summary>
-		/// Set a button as the default for the form.
-		/// </summary>
-		/// <param name="myDefaultBtn">The button to be set as the default</param>
-		private void SetDefault(Button myDefaultBtn)
-		{
-			this.AcceptButton = myDefaultBtn;
-		}
 
 		/// <summary>
 		/// Clear info out of our four tabs and stack trace
@@ -1507,7 +1329,7 @@ namespace NUnit.Gui
 		{
 			this.Text = fileName == null 
 				? "NUnit"
-				: string.Format( "{0} - NUnit", Path.GetFileNameWithoutExtension( fileName ) );
+				: string.Format( "{0} - NUnit", fileName );
 		}
 	
 		/// <summary>
@@ -1520,59 +1342,8 @@ namespace NUnit.Gui
 			detailResults.DisplayResults( results );
 		}
 
-		/// <summary>
-		/// Load a menu with recently used files.
-		/// </summary>
-		private void LoadRecentFileMenu( MenuItem menu, IList files ) 
-		{
-			if ( files.Count == 0 )
-				menu.Enabled = false;
-			else 
-			{
-				menu.Enabled = true;
-				menu.MenuItems.Clear();
-				int index = 1;
-				foreach ( string name in files ) 
-				{
-					MenuItem item = new MenuItem(String.Format("{0} {1}", index++, name));
-					item.Click += new System.EventHandler(recentFile_clicked);
-					menu.MenuItems.Add( item );
-				}		
-			}
-		}
-
-		private void SaveXmlResults(TestResult result)
-		{
-			if ( saveResultsDialog.ShowDialog( this ) == DialogResult.OK )
-			{
-				try
-				{
-					string fileName = saveResultsDialog.FileName;
-
-					XmlResultVisitor resultVisitor 
-						= new XmlResultVisitor( fileName, result);
-					result.Accept(resultVisitor);
-					resultVisitor.Write();
-
-					string msg = String.Format( "Results saved as {0}", fileName );
-					UserMessage.DisplayInfo( msg, "Save Results as XML" );
-				}
-				catch( Exception exception )
-				{
-					UserMessage.DisplayFailure( exception, "Unable to Save Results" );
-				}
-			}
-		}
-
-		private void ShowOptionsDialog( )
-		{
-			OptionsDialog dialog = new OptionsDialog( optionSettings );
-			if ( dialog.ShowDialog() == DialogResult.OK )
-				testSuiteTreeView.InitialDisplay =
-					(TestSuiteTreeView.DisplayStyle) optionSettings.InitialTreeDisplay;
-		}
-
 		#endregion	
+
 	}
 }
 
