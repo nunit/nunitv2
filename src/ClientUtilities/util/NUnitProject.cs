@@ -401,6 +401,11 @@ namespace NUnit.Util
 			get { return configs; }
 		}
 
+		public TestProject AsCoreTestProject
+		{
+			get { return new TestProject( projectPath, ActiveConfig.AbsolutePaths ); }
+		}
+
 		public event ProjectEventHandler Changed;
 
 		#endregion
