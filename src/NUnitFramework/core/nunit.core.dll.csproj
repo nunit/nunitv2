@@ -319,11 +319,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "RealTestRunner.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Reflect.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -437,6 +432,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestContext.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -493,16 +493,6 @@
                 />
                 <File
                     RelPath = "TestSuiteResult.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ThreadedRemoteRunner.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ThreadedTestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
