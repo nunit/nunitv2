@@ -3,6 +3,7 @@ using NUnit.Util;
 
 namespace NUnit.UiKit
 {
+	[Serializable]
 	public class TestEventInvocationException : Exception
 	{
 		public TestEventInvocationException( Exception inner )
@@ -39,9 +40,12 @@ namespace NUnit.UiKit
 				}
 				catch( Exception ex )
 				{
+					// TODO: Stop rethrowing this since it goes back to the
+					// Test domain which may not know how to handle it!!!
 					Console.WriteLine( "Exception:" );
 					Console.WriteLine( ex );
-					throw new TestEventInvocationException( ex );
+					//throw new TestEventInvocationException( ex );
+					throw ex;
 				}
 			}
 		}
