@@ -222,6 +222,7 @@ namespace NUnit.Core
 			// set ShadowCopyDirectories because we  rely on the default
 			// setting of ApplicationBase plus PrivateBinPath
 			setup.ShadowCopyFiles = "true";
+			setup.ShadowCopyDirectories = appBase;
 
 			setup.ApplicationBase = appBase;
 			setup.ConfigurationFile =  configFile;

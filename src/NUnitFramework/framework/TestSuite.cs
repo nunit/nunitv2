@@ -71,6 +71,8 @@ namespace NUnit.Core
 				test.IgnoreReason = IgnoreReason;
 			}
 			tests.Add(test);
+			if (test.IsTestCase)
+				((TestCase) test).Suite = this;
 		}
 
 		protected internal virtual TestSuite CreateNewSuite(Type type)
@@ -107,34 +109,34 @@ namespace NUnit.Core
 				testSuite.Description = fixtureAttr.Description;
 			} 
 
-////////////////////////////////////////////////////////////////////////
-// Uncomment the following code block to allow including Suites in the
-// tree of tests. This causes a problem when the same test is added
-// in multiple suites so we need to either fix it or prevent it.
-//
-// See also a line to change in TestSuiteBuilder.cs
-////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////
+			// Uncomment the following code block to allow including Suites in the
+			// tree of tests. This causes a problem when the same test is added
+			// in multiple suites so we need to either fix it or prevent it.
+			//
+			// See also a line to change in TestSuiteBuilder.cs
+			////////////////////////////////////////////////////////////////////////
 
-//			PropertyInfo [] properties = fixture.GetType().GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
-//			foreach(PropertyInfo property in properties)
-//			{
-//				object[] attrributes = property.GetCustomAttributes(typeof(NUnit.Framework.SuiteAttribute),false);
-//				if(attrributes.Length>0)
-//				{
-//					MethodInfo method = property.GetGetMethod(true);
-//					if(method.ReturnType!=typeof(NUnit.Core.TestSuite) || method.GetParameters().Length>0)
-//					{
-//						testSuite.ShouldRun = false;
-//						testSuite.IgnoreReason = "Invalid suite property method signature";
-//					}
-//					else
-//					{
-//						TestSuite suite = (TestSuite)property.GetValue(null, new Object[0]);
-//						foreach( Test test in suite.Tests )
-//							testSuite.Add( test );
-//					}
-//				}
-//			}
+			//			PropertyInfo [] properties = fixture.GetType().GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
+			//			foreach(PropertyInfo property in properties)
+			//			{
+			//				object[] attrributes = property.GetCustomAttributes(typeof(NUnit.Framework.SuiteAttribute),false);
+			//				if(attrributes.Length>0)
+			//				{
+			//					MethodInfo method = property.GetGetMethod(true);
+			//					if(method.ReturnType!=typeof(NUnit.Core.TestSuite) || method.GetParameters().Length>0)
+			//					{
+			//						testSuite.ShouldRun = false;
+			//						testSuite.IgnoreReason = "Invalid suite property method signature";
+			//					}
+			//					else
+			//					{
+			//						TestSuite suite = (TestSuite)property.GetValue(null, new Object[0]);
+			//						foreach( Test test in suite.Tests )
+			//							testSuite.Add( test );
+			//					}
+			//				}
+			//			}
 
 			MethodInfo [] methods = fixture.GetType().GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.NonPublic);
 			foreach(MethodInfo method in methods)
@@ -210,8 +212,16 @@ namespace NUnit.Core
 			}
 		}
 
+		private bool suiteRunning = false;
+
+		public bool SuiteRunning 
+		{
+			get { return suiteRunning; }
+		}
+
 		public override TestResult Run(EventListener listener)
 		{
+			suiteRunning = true;
 			TestSuiteResult suiteResult = new TestSuiteResult(this, Name);
 
 			listener.SuiteStarted(this);
@@ -233,8 +243,15 @@ namespace NUnit.Core
 			if(!ShouldRun) suiteResult.NotRun(this.IgnoreReason);
 
 			listener.SuiteFinished(suiteResult);
+			suiteRunning = false;
 
 			return suiteResult;
+		}
+
+		public void InvokeFixtureTearDown() 
+		{
+			if (this.fixtureTearDown != null)
+				this.InvokeMethod(fixtureTearDown, fixture);
 		}
 
 		private void doFixtureTearDown(TestSuiteResult suiteResult)
@@ -243,8 +260,7 @@ namespace NUnit.Core
 			{
 				try 
 				{
-					if (this.fixtureTearDown != null)
-						this.InvokeMethod(fixtureTearDown, fixture);
+					InvokeFixtureTearDown();
 				} 
 				catch (Exception ex) 
 				{
@@ -262,8 +278,7 @@ namespace NUnit.Core
 		{
 			try 
 			{
-				if (this.fixtureSetUp != null)
-					this.InvokeMethod(fixtureSetUp, fixture);
+				InvoikeFixtureSetUp();
 			} 
 			catch (Exception ex) 
 			{
@@ -271,6 +286,12 @@ namespace NUnit.Core
 				this.ShouldRun = false;
 				this.IgnoreReason = FIXTURE_SETUP_FAILED;
 			}
+		}
+
+		public void InvoikeFixtureSetUp()
+		{
+			if (this.fixtureSetUp != null)
+				this.InvokeMethod(fixtureSetUp, fixture);
 		}
 
 		private void handleFixtureException(TestSuiteResult result, Exception ex) 

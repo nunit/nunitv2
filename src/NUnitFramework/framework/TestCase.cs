@@ -45,6 +45,14 @@ namespace NUnit.Core
 			get { return 1; }
 		}
 
+		private TestSuite suite;
+
+		public TestSuite Suite 
+		{
+			get { return suite; }
+			set { suite = value; }
+		}
+
 		public override TestResult Run(EventListener listener)
 		{
 			TestCaseResult testResult = new TestCaseResult(this);

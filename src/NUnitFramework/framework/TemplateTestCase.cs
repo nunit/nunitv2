@@ -40,18 +40,22 @@ namespace NUnit.Core
 		private object fixture;
 		private MethodInfo  method;
 
+
 		public TemplateTestCase(object fixture, MethodInfo method) : base(fixture.GetType().FullName, method.Name)
 		{
 			this.fixture = fixture;
 			this.method = method;
 		}
 
-		public override void Run(TestCaseResult testResult )
+		private bool suiteRunning 
 		{
-			Run( testResult, false );
+			get 
+			{
+				return (Suite != null && Suite.SuiteRunning);
+			}
 		}
 
-		public void Run(TestCaseResult testResult, bool topLevel )
+		public override void Run(TestCaseResult testResult )
 		{
 			if(ShouldRun)
 			{
@@ -62,10 +66,10 @@ namespace NUnit.Core
 
 				try 
 				{
-					if ( topLevel ) InvokeTestFixtureSetUp();
+					if ( !suiteRunning ) InvokeTestFixtureSetUp();
 					InvokeSetUp();
 					InvokeTestCase();
-					if ( topLevel ) InvokeTestFixtureTearDown();
+					if ( !suiteRunning ) InvokeTestFixtureTearDown();
 					ProcessNoException(testResult);
 				}
 				catch(NunitException exception)
