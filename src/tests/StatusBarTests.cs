@@ -3,6 +3,7 @@ namespace NUnit.Tests
 	using System;
 	using NUnit.Framework;
 	using NUnit.Core;
+	using NUnit.Util;
 	using NUnit.UiKit;
 
 	/// <summary>
@@ -21,10 +22,11 @@ namespace NUnit.Tests
 		public void Setup()
 		{
 			statusBar = new StatusBar();
-			mockEvents = new MockUIEventSource();
 
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( testsDll );
+
+			mockEvents = new MockUIEventSource( testsDll, suite );
 		}
 
 		[Test]
@@ -61,7 +63,7 @@ namespace NUnit.Tests
 			Assertion.AssertEquals( false, statusBar.DisplayTestProgress );
 			statusBar.InitializeEvents( mockEvents );
 
-			mockEvents.SimulateTestRun( suite );
+			mockEvents.SimulateTestRun();
 			Assertion.AssertEquals( "Completed", statusBar.Panels[0].Text );
 			Assertion.AssertEquals( "Test Cases : 7", statusBar.Panels[1].Text );
 			Assertion.AssertEquals( "Tests Run : 5", statusBar.Panels[2].Text );
@@ -76,9 +78,9 @@ namespace NUnit.Tests
 			statusBar.InitializeEvents( mockEvents );
 
 			testCount = 0;
-			mockEvents.TestFinishedEvent += new TestFinishedHandler( OnTestFinished );
+			mockEvents.TestFinishedEvent += new TestEventHandler( OnTestFinished );
 
-			mockEvents.SimulateTestRun( suite );
+			mockEvents.SimulateTestRun();
 			Assertion.AssertEquals( "Completed", statusBar.Panels[0].Text );
 			Assertion.AssertEquals( "Test Cases : 7", statusBar.Panels[1].Text );
 			Assertion.AssertEquals( "Tests Run : 5", statusBar.Panels[2].Text );
@@ -86,7 +88,7 @@ namespace NUnit.Tests
 			Assertion.AssertEquals( "Time : 0", statusBar.Panels[4].Text );
 		}
 
-		private void OnTestFinished( TestCaseResult result )
+		private void OnTestFinished( object sender, TestEventArgs e )
 		{
 			Assertion.AssertEquals( "Test Cases : 7", statusBar.Panels[1].Text );
 			Assertion.AssertEquals( "Failures : 0", statusBar.Panels[3].Text );

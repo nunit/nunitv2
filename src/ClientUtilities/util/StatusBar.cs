@@ -92,13 +92,14 @@ namespace NUnit.UiKit
 		{
 			this.uiEvents = uiEvents;
 
-			uiEvents.TestSuiteUnloadedEvent += new TestSuiteUnloadedHandler( OnSuiteUnloaded );
+			uiEvents.LoadCompleteEvent += new TestLoadEventHandler( OnTestLoaded );
+			uiEvents.ReloadCompleteEvent += new TestLoadEventHandler( OnTestReloaded );
+			uiEvents.UnloadCompleteEvent += new TestLoadEventHandler( OnTestUnloaded );
 
-			uiEvents.TestStartedEvent += new TestStartedHandler( OnTestStarted );
-			uiEvents.TestFinishedEvent += new TestFinishedHandler( OnTestFinished );
-			uiEvents.RunStartingEvent += new RunStartingHandler( OnRunStarting );
-			uiEvents.RunFinishedEvent += new RunFinishedHandler( OnRunFinished );
-			uiEvents.RunFailureEvent += new RunFailureHandler( OnRunFailure );
+			uiEvents.TestStartingEvent += new TestEventHandler( OnTestStarting );
+			uiEvents.TestFinishedEvent += new TestEventHandler( OnTestFinished );
+			uiEvents.RunStartingEvent += new TestEventHandler( OnRunStarting );
+			uiEvents.RunFinishedEvent += new TestEventHandler( OnRunFinished );
 		}
 
 		public void Initialize( int testCount )
@@ -157,41 +158,49 @@ namespace NUnit.UiKit
 			timePanel.Text = "Time : " + summarizer.Time.ToString();
 		}
 
-		public void OnSuiteUnloaded()
+		public void OnTestLoaded( object sender, TestLoadEventArgs e )
+		{
+			Initialize( e.Test.CountTestCases );
+		}
+
+		public void OnTestReloaded( object sender, TestLoadEventArgs e )
+		{
+			Initialize( e.Test.CountTestCases, "Reloaded" );
+		}
+
+		public void OnTestUnloaded( object sender, TestLoadEventArgs e )
 		{
 			Initialize( 0, "Unloaded" );
 		}
 
-		public void OnTestStarted( UITestNode testCase )
+		private void OnRunStarting( object sender, TestEventArgs e )
 		{
-			statusPanel.Text = "Running : " + testCase.Name;
+			Initialize( e.Test.CountTestCases, "Running :" + e.Test.Name );
 		}
 
-		private void OnRunStarting( UITestNode test )
+		private void OnRunFinished(object sender, TestEventArgs e )
 		{
-			Initialize( test.CountTestCases, "Running :" + test.Name );
+			if ( e.Exception != null )
+				statusPanel.Text = "Failed";
+			else
+			{
+				statusPanel.Text = "Completed";
+				DisplayResults( e.Result );
+			}
 		}
 
-		private void OnRunFinished(TestResult result)
+		public void OnTestStarting( object sender, TestEventArgs e )
 		{
-			statusPanel.Text = "Completed";
-
-			// NOTE: call DisplayResults always since we need the time
-			DisplayResults( result );
+			statusPanel.Text = "Running : " + e.Test.Name;
 		}
 
-		private void OnRunFailure( Exception e )
+		private void OnTestFinished( object sender, TestEventArgs e )
 		{
-			statusPanel.Text = "Failed";
-		}
-
-		private void OnTestFinished( TestCaseResult result )
-		{
-			if ( DisplayTestProgress && result.Executed )
+			if ( DisplayTestProgress && e.Result.Executed )
 			{
 				++testsRun;
 				DisplayTestsRun();
-				if ( result.IsFailure ) 
+				if ( e.Result.IsFailure ) 
 				{
 					++failures;
 					DisplayFailures();

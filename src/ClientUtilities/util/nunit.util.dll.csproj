@@ -179,6 +179,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "TestEventArgs.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestLoadEventArgs.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestSuiteTreeNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

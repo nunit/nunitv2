@@ -97,29 +97,26 @@ namespace NUnit.UiKit
 
 		#region Events
 
-		public event TestSuiteLoadedHandler TestSuiteLoadedEvent;
-		
-		public event TestSuiteChangedHandler TestSuiteChangedEvent;
-		
-		public event TestSuiteUnloadedHandler TestSuiteUnloadedEvent;
-		
-		public event TestSuiteLoadFailureHandler TestSuiteLoadFailureEvent;
+		public event TestLoadEventHandler LoadStartingEvent;	
+		public event TestLoadEventHandler LoadCompleteEvent;	
+		public event TestLoadEventHandler LoadFailedEvent;
 
-		public event RunStartingHandler RunStartingEvent;
-		
-		public event SuiteStartedHandler SuiteStartedEvent;
-		
-		public event TestStartedHandler TestStartedEvent;
-		
-		public event RunFinishedHandler RunFinishedEvent;
+		public event TestLoadEventHandler ReloadStartingEvent;
+		public event TestLoadEventHandler ReloadCompleteEvent;
+		public event TestLoadEventHandler ReloadFailedEvent;
 
-		public event RunCanceledHandler RunCanceledEvent;
+		public event TestLoadEventHandler UnloadStartingEvent;
+		public event TestLoadEventHandler UnloadCompleteEvent;
+		public event TestLoadEventHandler UnloadFailedEvent;
 
-		public event RunFailureHandler RunFailureEvent;
+		public event TestEventHandler RunStartingEvent;	
+		public event TestEventHandler RunFinishedEvent;
 		
-		public event SuiteFinishedHandler SuiteFinishedEvent;
-		
-		public event TestFinishedHandler TestFinishedEvent;
+		public event TestEventHandler SuiteStartingEvent;
+		public event TestEventHandler SuiteFinishedEvent;
+
+		public event TestEventHandler TestStartingEvent;
+		public event TestEventHandler TestFinishedEvent;
 
 		#endregion
 
@@ -165,8 +162,8 @@ namespace NUnit.UiKit
 		/// <param name="testCase">TestCase that is starting</param>
 		public void TestStarted(NUnit.Core.TestCase testCase)
 		{
-			if ( TestStartedEvent != null )
-				TestStartedEvent( testCase );
+			if ( TestStartingEvent != null )
+				TestStartingEvent( this, new TestEventArgs( TestAction.TestStarting, testCase ) );
 		}
 
 		/// <summary>
@@ -176,7 +173,7 @@ namespace NUnit.UiKit
 		public void TestFinished(TestCaseResult result)
 		{
 			if ( TestFinishedEvent != null )
-				TestFinishedEvent( result );
+				TestFinishedEvent( this, new TestEventArgs( TestAction.TestFinished, result ) );
 		}
 
 		/// <summary>
@@ -185,8 +182,8 @@ namespace NUnit.UiKit
 		/// <param name="suite">Suite that is starting</param>
 		public void SuiteStarted(TestSuite suite)
 		{
-			if ( SuiteStartedEvent != null )
-				SuiteStartedEvent( suite );
+			if ( SuiteStartingEvent != null )
+				SuiteStartingEvent( this, new TestEventArgs( TestAction.SuiteStarting, suite ) );
 		}
 
 		/// <summary>
@@ -196,7 +193,7 @@ namespace NUnit.UiKit
 		public void SuiteFinished(TestSuiteResult result)
 		{
 			if ( SuiteFinishedEvent != null )
-				SuiteFinishedEvent( result );
+				SuiteFinishedEvent( this, new TestEventArgs( TestAction.SuiteFinished, result ) );
 		}
 
 		#endregion
@@ -226,27 +223,20 @@ namespace NUnit.UiKit
 		private void TestRunThreadProc()
 		{
 			if ( RunStartingEvent != null )
-				RunStartingEvent( runningTest );
-
-			TestResult result = null;
+				RunStartingEvent( this, new TestEventArgs( TestAction.RunStarting, runningTest ) );
 
 			try
 			{
 				testDomain.TestName = runningTest.FullName;
-				result = testDomain.Run(this);
+				TestResult result = testDomain.Run(this);
 				
 				if ( RunFinishedEvent != null )
-					RunFinishedEvent( result );
-			}
-			catch( System.Threading.ThreadAbortException exception )
-			{
-				if ( RunCanceledEvent != null )
-					RunCanceledEvent( runningTest );
+					RunFinishedEvent( this, new TestEventArgs( TestAction.RunFinished, result ) );
 			}
 			catch( Exception exception )
 			{
-				if ( RunFailureEvent != null )
-					RunFailureEvent( exception );
+				if ( RunFinishedEvent != null )
+					RunFinishedEvent( this, new TestEventArgs( TestAction.RunFinished, exception ) );
 			}
 			finally
 			{
@@ -266,12 +256,6 @@ namespace NUnit.UiKit
 			{
 				runningThread.Abort();
 				runningThread.Join();
-
-				if ( RunCanceledEvent != null )
-					RunCanceledEvent( runningTest );
-
-				runningTest = null;
-				runningThread = null;
 			}
 		}
 
@@ -283,6 +267,9 @@ namespace NUnit.UiKit
 		{
 			try
 			{
+				if ( LoadStartingEvent != null )
+					LoadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.LoadStarting, assemblyFileName ) );
+
 				// Make sure it all works before switching old one out
 				NUnit.Framework.TestDomain newDomain = new NUnit.Framework.TestDomain(stdOutWriter, stdErrWriter);
 				Test newTest = newDomain.Load(assemblyFileName);
@@ -295,15 +282,15 @@ namespace NUnit.UiKit
 
 				SetWorkingDirectory(assemblyFileName);
 
-				if ( TestSuiteLoadedEvent != null )
-					TestSuiteLoadedEvent( currentTest, assemblyFileName );
+				if ( LoadCompleteEvent != null )
+					LoadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.LoadComplete, assemblyFileName, currentTest ) );
 
 				InstallWatcher( assemblyFileName );
 			}
 			catch( Exception exception )
 			{
-				if ( TestSuiteLoadFailureEvent != null )
-					TestSuiteLoadFailureEvent( assemblyFileName, exception );
+				if ( LoadFailedEvent != null )
+					LoadFailedEvent( this, new TestLoadEventArgs( TestLoadAction.LoadFailed, assemblyFileName, exception ) );
 			}
 		}
 
@@ -314,14 +301,19 @@ namespace NUnit.UiKit
 		{
 			if(testDomain != null)
 			{
+				string assemblyName = LoadedAssembly;
+
+				if ( UnloadStartingEvent != null )
+					UnloadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.UnloadStarting, assemblyName, currentTest ) );
+
 				testDomain.Unload();
 				testDomain = null;
 				reloadPending = false;
 
 				RemoveWatcher();
 
-				if ( TestSuiteUnloadedEvent != null )
-					TestSuiteUnloadedEvent( );
+				if ( UnloadCompleteEvent != null )
+					UnloadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.UnloadComplete, assemblyName, currentTest ) );
 			}
 		}
 
@@ -348,6 +340,9 @@ namespace NUnit.UiKit
 			else 
 				try
 				{
+					if ( ReloadStartingEvent != null )
+						ReloadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.ReloadStarting, LoadedAssembly, currentTest ) );
+
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
 					TestDomain newDomain = new TestDomain(stdOutWriter, stdErrWriter);
@@ -361,14 +356,14 @@ namespace NUnit.UiKit
 					currentTest = newTest;
 					reloadPending = false;
 
-					if ( notifyClient && TestSuiteChangedEvent != null )
-						TestSuiteChangedEvent( newTest );
+					if ( notifyClient && ReloadCompleteEvent != null )
+						ReloadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.ReloadComplete, LoadedAssembly, newTest ) );
 				
 				}
 				catch( Exception exception )
 				{
-					if ( TestSuiteLoadFailureEvent != null )
-						TestSuiteLoadFailureEvent( assemblyFileName, exception );
+					if ( ReloadFailedEvent != null )
+						ReloadFailedEvent( this, new TestLoadEventArgs( TestLoadAction.LoadFailed, assemblyFileName, exception ) );
 				}
 		}
 

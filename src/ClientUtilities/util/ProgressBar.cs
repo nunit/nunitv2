@@ -189,6 +189,7 @@ namespace NUnit.UiKit
 
 		#region Methods
 
+		// ToDo: Modify tests and make this private
 		public void Initialize( int testCount )
 		{
 			ForeColor = Color.Lime;
@@ -196,24 +197,20 @@ namespace NUnit.UiKit
 			Maximum = testCount;
 		}
 
+		// ToDo: Modify tests and make this private
 		public void Initialize( UITestNode test )
 		{
 			Initialize( test.CountTestCases );
-		}
-
-		public void ClearResults( )
-		{
-			Initialize( 100 );
 		}
 
 		public void InitializeEvents( UIEvents uiEvents )
 		{
 			this.uievents = uiEvents;
 
-			uievents.TestSuiteLoadedEvent += new TestSuiteLoadedHandler( OnSuiteLoaded );
-			uievents.TestSuiteChangedEvent += new TestSuiteChangedHandler( OnSuiteChanged );
-			uievents.RunStartingEvent += new RunStartingHandler( OnRunStarting );
-			uievents.TestFinishedEvent += new TestFinishedHandler( OnTestFinished );
+			uievents.LoadCompleteEvent += new TestLoadEventHandler( OnLoadComplete );
+			uievents.ReloadCompleteEvent += new TestLoadEventHandler( OnLoadComplete );
+			uievents.RunStartingEvent += new TestEventHandler( OnRunStarting );
+			uievents.TestFinishedEvent += new TestEventHandler( OnTestFinished );
 		}
 
 		public void PerformStep()
@@ -226,31 +223,26 @@ namespace NUnit.UiKit
 			Value = newValue;
 		}
 
-		private void OnRunStarting( UITestNode test )
+		private void OnRunStarting( object Sender, TestEventArgs e )
 		{
-			Initialize( test );
+			Initialize( e.Test );
 		}
 
-		private void OnSuiteLoaded( UITestNode test, string assemblyName )
+		private void OnLoadComplete( object sender, TestLoadEventArgs e )
 		{
-			Initialize( test );
+			Initialize( e.Test );
 		}
 
-		private void OnSuiteChanged( UITestNode test )
-		{
-			Initialize( test );
-		}
-
-		private void OnTestFinished( TestCaseResult result )
+		private void OnTestFinished( object sender, TestEventArgs e )
 		{
 			PerformStep();
 
-			if(!result.Executed)
+			if(!e.Result.Executed)
 			{
 				if( ForeColor == Color.Lime )
 					ForeColor = Color.Yellow;
 			}
-			else if( !result.IsSuccess )
+			else if( !e.Result.IsSuccess )
 				ForeColor = Color.Red;
 		}
 

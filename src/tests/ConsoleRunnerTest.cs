@@ -44,6 +44,8 @@ namespace NUnit.Tests
 	{
 		private String nunitExe;
 		private static readonly string xmlFile = "console-test.xml";
+		private AppDomain domain = null;
+		private Evidence evidence = null;
 
 		public ConsoleRunnerTest() 
 		{
@@ -57,6 +59,14 @@ namespace NUnit.Tests
 #else
 				nunitExe = "..\\..\\..\\nunit-console\\bin\\Release\\nunit-console.exe";
 #endif
+		}
+
+		[SetUp]
+		public void Setup()
+		{
+			domain = AppDomain.CreateDomain( "test domain" );
+			Evidence baseEvidence = AppDomain.CurrentDomain.Evidence;
+			evidence = new Evidence( baseEvidence );
 		}
 
 		[TearDown]
@@ -73,6 +83,9 @@ namespace NUnit.Tests
 				file = new FileInfo(@"..\..\..\nunit-console\bin\Debug\TestResult.xml");
 				if(file.Exists) file.Delete();
 			}
+
+			if ( domain != null )
+				AppDomain.Unload( domain );
 		}
 
 		[TestFixture] internal class FailureTest
@@ -90,7 +103,8 @@ namespace NUnit.Tests
 			string[] arguments = MakeCommandLine(GetType().Module.Name, 
 				typeof(NUnit.Tests.ConsoleRunnerTest.FailureTest).FullName,
 				null);
-			RunConsoleTest(arguments, 1);
+			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
+			Assertion.AssertEquals(1, resultCode);
 		}
 
 		[Test]
@@ -99,7 +113,8 @@ namespace NUnit.Tests
 			string[] arguments = MakeCommandLine(GetType().Module.Name, 
 				typeof(NUnit.Tests.SuccessTest).FullName, 
 				null);
-			RunConsoleTest(arguments, 0);
+			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
+			Assertion.AssertEquals(0, resultCode);
 		}
 
 		[Test]
@@ -111,7 +126,8 @@ namespace NUnit.Tests
 			string[] arguments = MakeCommandLine(GetType().Module.Name, 
 				typeof(NUnit.Tests.SuccessTest).FullName,
 				info.FullName);
-			RunConsoleTest(arguments, 0);
+			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
+			Assertion.AssertEquals(0, resultCode);
 			Assertion.AssertEquals(true, info.Exists);
 		}
 
@@ -121,21 +137,8 @@ namespace NUnit.Tests
 			string[] arguments = MakeCommandLine(GetType().Module.Name, 
 				"NUnit.Tests.BogusTest", 
 				null);
-			RunConsoleTest(arguments, 2);
-		}
-
-		private void RunConsoleTest(string[] arguments, int expected)
-		{
-			AppDomain domain = AppDomain.CreateDomain("test domain");
-
-			Evidence baseEvidence = AppDomain.CurrentDomain.Evidence;
-			Evidence evidence = new Evidence(baseEvidence);
-		
 			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
-
-			AppDomain.Unload( domain );
-
-			Assertion.AssertEquals(expected, resultCode);
+			Assertion.AssertEquals(2, resultCode);
 		}
 
 		private string[] MakeCommandLine(string assembly, string fixture, string xmlFile)

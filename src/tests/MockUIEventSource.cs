@@ -13,126 +13,136 @@ namespace NUnit.Tests
 		/// <summary>
 		/// The events we are simulating
 		/// </summary>
-		public event TestSuiteLoadedHandler TestSuiteLoadedEvent;
-		public event TestSuiteChangedHandler TestSuiteChangedEvent;
-		public event TestSuiteUnloadedHandler TestSuiteUnloadedEvent;
-		public event TestSuiteLoadFailureHandler TestSuiteLoadFailureEvent;
-		public event RunStartingHandler RunStartingEvent;
-		public event SuiteStartedHandler SuiteStartedEvent;
-		public event TestStartedHandler TestStartedEvent;
-		public event RunFinishedHandler RunFinishedEvent;
-		public event RunCanceledHandler RunCanceledEvent;
-		public event RunFailureHandler RunFailureEvent;
-		public event SuiteFinishedHandler SuiteFinishedEvent;
-		public event TestFinishedHandler TestFinishedEvent;
+		public event TestLoadEventHandler LoadStartingEvent;
+		public event TestLoadEventHandler LoadCompleteEvent;
+		public event TestLoadEventHandler LoadFailedEvent;
+
+		public event TestLoadEventHandler ReloadStartingEvent;
+		public event TestLoadEventHandler ReloadCompleteEvent;
+		public event TestLoadEventHandler ReloadFailedEvent;
+
+		public event TestLoadEventHandler UnloadStartingEvent;
+		public event TestLoadEventHandler UnloadCompleteEvent;
+		public event TestLoadEventHandler UnloadFailedEvent;
+
+		public event TestEventHandler RunStartingEvent;
+		public event TestEventHandler SuiteStartingEvent;
+		public event TestEventHandler TestStartingEvent;
+		public event TestEventHandler RunFinishedEvent;
+		public event TestEventHandler SuiteFinishedEvent;
+		public event TestEventHandler TestFinishedEvent;
+
+		private string assemblyName;
+		private Test test;
+
+		public MockUIEventSource( string assemblyName, Test test )
+		{
+			this.test = test;
+			this.assemblyName = assemblyName;
+		}
 
 		/// <summary>
 		/// Methods for firing each event
 		/// </summary>
-		public void FireTestSuiteLoadedEvent( UITestNode test, string assemblyFileName )
+		 
+		private TestLoadEventArgs LoadEventArgs( TestLoadAction action )
 		{
-			if ( TestSuiteLoadedEvent != null )
-				TestSuiteLoadedEvent( test, assemblyFileName );
+			return new TestLoadEventArgs( action, assemblyName, test );
+		}
+
+		public void LoadComplete()
+		{
+			if ( LoadCompleteEvent != null )
+				LoadCompleteEvent( this, LoadEventArgs( TestLoadAction.LoadComplete ) );
 		}
 		
-		public void FireTestSuiteChangedEvent( UITestNode test )
+		public void ReloadComplete()
 		{
-			if ( TestSuiteChangedEvent != null )
-				TestSuiteChangedEvent( test  );
+			if ( ReloadCompleteEvent != null )
+				ReloadCompleteEvent( this, LoadEventArgs( TestLoadAction.ReloadComplete ) );
 		}
 		
-		public void FireTestSuiteUnloadedEvent()
+		public void UnloadComplete()
 		{
-			if ( TestSuiteUnloadedEvent != null )
-				TestSuiteUnloadedEvent();
+			if ( UnloadCompleteEvent != null )
+				UnloadCompleteEvent( this, LoadEventArgs( TestLoadAction.UnloadComplete ) );
 		}
 		
-		public void FireTestSuiteLoadFailureEvent( string assemblyFileName, Exception exception )
+		public void LoadFailed( Exception exception )
 		{
-			if ( TestSuiteLoadFailureEvent != null )
-				TestSuiteLoadFailureEvent( assemblyFileName, exception );
+			if ( LoadFailedEvent != null )
+				LoadFailedEvent( this, new TestLoadEventArgs( TestLoadAction.LoadFailed, assemblyName, exception ) );
 		}
 	
-		public void FireRunStartingEvent( UITestNode test )
+		public void RunStarting( UITestNode test )
 		{
 			if ( RunStartingEvent != null )
-				RunStartingEvent( test );
+				RunStartingEvent( this, new TestEventArgs( TestAction.RunStarting, test ) );
 		}
 
-		public void FireSuiteStartedEvent( UITestNode suite )
+		public void SuiteStarting( UITestNode suite )
 		{
-			if ( SuiteStartedEvent != null )
-				SuiteStartedEvent( suite );
+			
+			if ( SuiteStartingEvent != null )
+				SuiteStartingEvent( this, new TestEventArgs( TestAction.SuiteStarting, suite ) );
 		}
 
-		public void FireTestStartedEvent( UITestNode testCase )
+		public void TestStarting( UITestNode testCase )
 		{
-			if ( TestStartedEvent != null )
-				TestStartedEvent( testCase );
+			if ( TestStartingEvent != null )
+				TestStartingEvent( this, new TestEventArgs( TestAction.TestStarting, testCase ) );
 		}
 
-		public void FireRunFinishedEvent( TestResult result )
+		public void RunFinished( TestResult result, Exception e )
 		{
 			if ( RunFinishedEvent != null )
-				RunFinishedEvent( result );
+				RunFinishedEvent( this, new TestEventArgs( TestAction.RunFinished, result ) );
 		}
 
-		public void FireRunCanceledEvent( UITestNode test )
-		{
-			if ( RunCanceledEvent != null )
-				RunCanceledEvent( test );
-		}
-
-		public void FireRunFailureEvent( Exception e )
-		{
-			if ( RunFailureEvent != null )
-				RunFailureEvent( e );
-		}
-
-		public void FireSuiteFinishedEvent( TestSuiteResult result )
+		public void SuiteFinished( TestSuiteResult result )
 		{
 			if ( SuiteFinishedEvent != null )
-				SuiteFinishedEvent( result );
+				SuiteFinishedEvent( this, new TestEventArgs( TestAction.SuiteFinished, result ) );
 		}
 
-		public void FireTestFinishedEvent( TestCaseResult result )
+		public void TestFinished( TestCaseResult result )
 		{
 			if ( TestFinishedEvent != null )
-				TestFinishedEvent( result );
+				TestFinishedEvent( this, new TestEventArgs( TestAction.TestFinished, result ) );
 		}
 
-		public void SimulateTestRun( Test test )
+		public void SimulateTestRun()
 		{
-			FireRunStartingEvent( test );
+			RunStarting( test );
 
 			TestResult result = SimulateTest( test );
 
-			FireRunFinishedEvent( result );
+			RunFinished( result, null );
 		}
 
 		private TestResult SimulateTest( Test test )
 		{
-			if ( test is TestSuite )
+			if ( test.IsSuite )
 			{
-				FireSuiteStartedEvent( test );
+				SuiteStarting( test );
 
 				TestSuiteResult result = new TestSuiteResult( test, test.Name );
 
 				foreach( Test childTest in test.Tests )
 					result.AddResult( SimulateTest( childTest ) );
 
-				FireSuiteFinishedEvent( result );
+				SuiteFinished( result );
 
 				return result;
 			}
 			else
 			{
-				FireTestStartedEvent( test );
+				TestStarting( test );
 				
 				TestCaseResult result = new TestCaseResult( test as TestCase );
 				result.Executed = test.ShouldRun;
 				
-				FireTestFinishedEvent( result );
+				TestFinished( result );
 
 				return result;
 			}

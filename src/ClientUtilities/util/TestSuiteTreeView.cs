@@ -39,6 +39,8 @@ namespace NUnit.Util
 	using NUnit.Core;
 	using NUnit.UiKit;
 
+	public delegate void SelectedTestChangedHandler( UITestNode test );
+
 	/// <summary>
 	/// TestSuiteTreeView is a tree view control
 	/// specialized for displaying the tests
@@ -127,14 +129,14 @@ namespace NUnit.Util
 		{
 			this.actions = actions;
 
-			actions.TestSuiteLoadedEvent += new TestSuiteLoadedHandler( OnSuiteLoaded );
-			actions.TestSuiteChangedEvent += new TestSuiteChangedHandler( OnSuiteChanged );
-			actions.TestSuiteUnloadedEvent += new TestSuiteUnloadedHandler( OnSuiteUnloaded );
-			actions.RunStartingEvent += new RunStartingHandler( OnRunStarting );
-			actions.TestFinishedEvent += new TestFinishedHandler( OnTestFinished );
-			actions.SuiteFinishedEvent += new SuiteFinishedHandler( OnSuiteFinished );
-			actions.RunFinishedEvent += new RunFinishedHandler( OnRunFinished );
-			actions.RunFailureEvent += new RunFailureHandler( OnRunFailure );
+			actions.LoadCompleteEvent += new TestLoadEventHandler( OnTestLoaded );
+			actions.ReloadCompleteEvent += new TestLoadEventHandler( OnTestChanged );
+			actions.UnloadCompleteEvent += new TestLoadEventHandler( OnTestUnloaded );
+			
+			actions.RunStartingEvent += new TestEventHandler( OnRunStarting );
+			actions.RunFinishedEvent += new TestEventHandler( OnRunFinished );
+			actions.TestFinishedEvent += new TestEventHandler( OnTestResult );
+			actions.SuiteFinishedEvent += new TestEventHandler( OnTestResult );
 		}
 
 		#endregion
@@ -216,49 +218,41 @@ namespace NUnit.Util
 
 		#region Handlers for events related to loading and running tests
 
-		private void OnSuiteLoaded( UITestNode test, string assemblyName )
+		private void OnTestLoaded( object sender, TestLoadEventArgs e )
 		{
-			Load( test );
+			Load( e.Test );
 			runCommandEnabled = true;
 		}
 
-		private void OnSuiteChanged( UITestNode test )
+		private void OnTestChanged( object sender, TestLoadEventArgs e )
 		{
-			Invoke( new LoadHandler( Reload ), new object[]{ test } );
+			Invoke( new LoadHandler( Reload ), new object[]{ e.Test } );
 			ClearResults();	// ToDo: Make this optional
 		}
 
-		private void OnSuiteUnloaded()
+		private void OnTestUnloaded( object sender, TestLoadEventArgs e)
 		{
 			Clear();
 			runCommandEnabled = false;
 		}
 
-		private void OnRunStarting( UITestNode test )
+		private void OnRunStarting( object sender, TestEventArgs e )
 		{
 			ClearResults();
 			runCommandEnabled = false;
 		}
 
-		private void OnTestFinished( TestCaseResult result )
+		private void OnRunFinished( object sender, TestEventArgs e )
 		{
-			SetTestResult(result);
-		}
+			if ( e.Result != null )
+				this[e.Result].Expand();
 
-		private void OnSuiteFinished( TestSuiteResult result )
-		{
-			SetTestResult(result);
-		}
-
-		private void OnRunFinished( TestResult result )
-		{
-			this[result].Expand();
 			runCommandEnabled = true;
 		}
 
-		private void OnRunFailure( Exception e )
+		private void OnTestResult( object sender, TestEventArgs e )
 		{
-			runCommandEnabled = true;
+			SetTestResult(e.Result);
 		}
 
 		#endregion

@@ -66,7 +66,6 @@ namespace NUnit.Gui
 
 		public System.Windows.Forms.Splitter splitter1;
 		public System.Windows.Forms.Panel panel1;
-		public System.Windows.Forms.GroupBox groupBox1;
 		public System.Windows.Forms.TabPage testsNotRun;
 		public System.Windows.Forms.MenuItem openMenuItem;
 		public System.Windows.Forms.MenuItem exitMenuItem;
@@ -76,8 +75,6 @@ namespace NUnit.Gui
 		public System.Windows.Forms.ListBox detailList;
 		public System.Windows.Forms.Splitter splitter3;
 		public System.Windows.Forms.TextBox stackTrace;
-		public System.Windows.Forms.Label suiteName;
-		public System.Windows.Forms.Button runButton;
 		public NUnit.UiKit.StatusBar statusBar;
 		public System.Windows.Forms.OpenFileDialog openFileDialog;
 		public NUnit.Util.TestSuiteTreeView testSuiteTreeView;
@@ -88,7 +85,6 @@ namespace NUnit.Gui
 		public System.Windows.Forms.TextBox stdErrTab;
 		public System.Windows.Forms.TextBox stdOutTab;
 		public System.Windows.Forms.MenuItem recentAssembliesMenu;
-		public NUnit.UiKit.ProgressBar progressBar;
 		public System.Windows.Forms.TreeView notRunTree;
 		private System.ComponentModel.IContainer components;
 		public TextWriter stdOutWriter;
@@ -100,6 +96,11 @@ namespace NUnit.Gui
 		public System.Windows.Forms.MenuItem helpItem;
 		public System.Windows.Forms.MenuItem helpMenuSeparator1;
 		private System.Windows.Forms.MenuItem reloadMenuItem;
+		public System.Windows.Forms.GroupBox groupBox1;
+		public System.Windows.Forms.Button runButton;
+		public System.Windows.Forms.Label suiteName;
+		public NUnit.UiKit.ProgressBar progressBar;
+		private System.Windows.Forms.Button stopButton;
 		public TextWriter stdErrWriter;
 
 		#endregion
@@ -149,6 +150,7 @@ namespace NUnit.Gui
 
 			SetDefault(runButton);
 			runButton.Enabled = false;
+			stopButton.Enabled = false;
 
 			stdOutWriter = new TextBoxWriter(stdOutTab);
 			Console.SetOut(stdOutWriter);
@@ -158,13 +160,14 @@ namespace NUnit.Gui
 			actions = new UIActions(stdOutWriter, stdErrWriter);
 
 			// Set up events handled by the form
-			actions.RunStartingEvent += new RunStartingHandler( OnRunStarting );
-			actions.RunFinishedEvent += new RunFinishedHandler( OnRunFinished );
-			actions.RunFailureEvent += new RunFailureHandler( OnRunFailure );
-			actions.TestSuiteLoadedEvent += new TestSuiteLoadedHandler( OnSuiteLoaded );
-			actions.TestSuiteUnloadedEvent += new TestSuiteUnloadedHandler( OnSuiteUnloaded );
-			actions.TestSuiteChangedEvent += new TestSuiteChangedHandler( OnSuiteChanged );
-			actions.TestSuiteLoadFailureEvent += new TestSuiteLoadFailureHandler( OnAssemblyLoadFailure );
+			actions.RunStartingEvent += new TestEventHandler( OnRunStarting );
+			actions.RunFinishedEvent += new TestEventHandler( OnRunFinished );
+
+			actions.LoadCompleteEvent	+= new TestLoadEventHandler( OnTestLoaded );
+			actions.UnloadCompleteEvent += new TestLoadEventHandler( OnTestUnloaded );
+			actions.ReloadCompleteEvent += new TestLoadEventHandler( OnTestChanged );
+			actions.LoadFailedEvent		+= new TestLoadEventHandler( OnAssemblyLoadFailure );
+			actions.ReloadFailedEvent	+= new TestLoadEventHandler( OnAssemblyLoadFailure );
 
 			// ToDo: Migrate more ui elements to handle events on their own.
 			this.testSuiteTreeView.InitializeEvents( actions );
@@ -234,6 +237,7 @@ namespace NUnit.Gui
 			this.stdout = new System.Windows.Forms.TabPage();
 			this.stdOutTab = new System.Windows.Forms.TextBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.stopButton = new System.Windows.Forms.Button();
 			this.runButton = new System.Windows.Forms.Button();
 			this.suiteName = new System.Windows.Forms.Label();
 			this.progressBar = new NUnit.UiKit.ProgressBar();
@@ -356,7 +360,7 @@ namespace NUnit.Gui
 			this.testSuiteTreeView.RunCommandSupported = true;
 			this.testSuiteTreeView.Size = new System.Drawing.Size(358, 511);
 			this.testSuiteTreeView.TabIndex = 1;
-			this.testSuiteTreeView.SelectedTestChanged += new NUnit.UiKit.SelectedTestChangedHandler(this.OnSelectedTestChanged);
+			this.testSuiteTreeView.SelectedTestChanged += new SelectedTestChangedHandler(this.OnSelectedTestChanged);
 			// 
 			// splitter1
 			// 
@@ -386,10 +390,10 @@ namespace NUnit.Gui
 																					 this.stderr,
 																					 this.stdout});
 			this.resultTabs.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.resultTabs.Location = new System.Drawing.Point(0, 120);
+			this.resultTabs.Location = new System.Drawing.Point(0, 88);
 			this.resultTabs.Name = "resultTabs";
 			this.resultTabs.SelectedIndex = 0;
-			this.resultTabs.Size = new System.Drawing.Size(567, 391);
+			this.resultTabs.Size = new System.Drawing.Size(567, 423);
 			this.resultTabs.TabIndex = 2;
 			// 
 			// errorPage
@@ -400,7 +404,7 @@ namespace NUnit.Gui
 																					this.detailList});
 			this.errorPage.Location = new System.Drawing.Point(4, 25);
 			this.errorPage.Name = "errorPage";
-			this.errorPage.Size = new System.Drawing.Size(559, 362);
+			this.errorPage.Size = new System.Drawing.Size(559, 394);
 			this.errorPage.TabIndex = 0;
 			this.errorPage.Text = "Errors and Failures";
 			// 
@@ -408,12 +412,12 @@ namespace NUnit.Gui
 			// 
 			this.stackTrace.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.stackTrace.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.stackTrace.Location = new System.Drawing.Point(0, 107);
+			this.stackTrace.Location = new System.Drawing.Point(0, 127);
 			this.stackTrace.Multiline = true;
 			this.stackTrace.Name = "stackTrace";
 			this.stackTrace.ReadOnly = true;
 			this.stackTrace.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stackTrace.Size = new System.Drawing.Size(559, 255);
+			this.stackTrace.Size = new System.Drawing.Size(559, 267);
 			this.stackTrace.TabIndex = 2;
 			this.stackTrace.Text = "";
 			this.stackTrace.WordWrap = false;
@@ -421,7 +425,7 @@ namespace NUnit.Gui
 			// splitter3
 			// 
 			this.splitter3.Dock = System.Windows.Forms.DockStyle.Top;
-			this.splitter3.Location = new System.Drawing.Point(0, 104);
+			this.splitter3.Location = new System.Drawing.Point(0, 124);
 			this.splitter3.MinSize = 100;
 			this.splitter3.Name = "splitter3";
 			this.splitter3.Size = new System.Drawing.Size(559, 3);
@@ -437,7 +441,7 @@ namespace NUnit.Gui
 			this.detailList.ItemHeight = 20;
 			this.detailList.Name = "detailList";
 			this.detailList.ScrollAlwaysVisible = true;
-			this.detailList.Size = new System.Drawing.Size(559, 104);
+			this.detailList.Size = new System.Drawing.Size(559, 124);
 			this.detailList.TabIndex = 0;
 			this.detailList.SelectedIndexChanged += new System.EventHandler(this.detailList_SelectedIndexChanged);
 			// 
@@ -447,7 +451,7 @@ namespace NUnit.Gui
 																					  this.notRunTree});
 			this.testsNotRun.Location = new System.Drawing.Point(4, 25);
 			this.testsNotRun.Name = "testsNotRun";
-			this.testsNotRun.Size = new System.Drawing.Size(559, 362);
+			this.testsNotRun.Size = new System.Drawing.Size(559, 394);
 			this.testsNotRun.TabIndex = 1;
 			this.testsNotRun.Text = "Tests Not Run";
 			// 
@@ -457,7 +461,7 @@ namespace NUnit.Gui
 			this.notRunTree.ImageIndex = -1;
 			this.notRunTree.Name = "notRunTree";
 			this.notRunTree.SelectedImageIndex = -1;
-			this.notRunTree.Size = new System.Drawing.Size(559, 362);
+			this.notRunTree.Size = new System.Drawing.Size(559, 394);
 			this.notRunTree.TabIndex = 0;
 			// 
 			// stderr
@@ -466,7 +470,7 @@ namespace NUnit.Gui
 																				 this.stdErrTab});
 			this.stderr.Location = new System.Drawing.Point(4, 25);
 			this.stderr.Name = "stderr";
-			this.stderr.Size = new System.Drawing.Size(559, 362);
+			this.stderr.Size = new System.Drawing.Size(559, 394);
 			this.stderr.TabIndex = 2;
 			this.stderr.Text = "Standard Error";
 			// 
@@ -478,7 +482,7 @@ namespace NUnit.Gui
 			this.stdErrTab.Name = "stdErrTab";
 			this.stdErrTab.ReadOnly = true;
 			this.stdErrTab.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stdErrTab.Size = new System.Drawing.Size(559, 362);
+			this.stdErrTab.Size = new System.Drawing.Size(559, 394);
 			this.stdErrTab.TabIndex = 0;
 			this.stdErrTab.Text = "";
 			this.stdErrTab.WordWrap = false;
@@ -489,7 +493,7 @@ namespace NUnit.Gui
 																				 this.stdOutTab});
 			this.stdout.Location = new System.Drawing.Point(4, 25);
 			this.stdout.Name = "stdout";
-			this.stdout.Size = new System.Drawing.Size(559, 362);
+			this.stdout.Size = new System.Drawing.Size(559, 394);
 			this.stdout.TabIndex = 3;
 			this.stdout.Text = "Standard Out";
 			// 
@@ -501,7 +505,7 @@ namespace NUnit.Gui
 			this.stdOutTab.Name = "stdOutTab";
 			this.stdOutTab.ReadOnly = true;
 			this.stdOutTab.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stdOutTab.Size = new System.Drawing.Size(559, 362);
+			this.stdOutTab.Size = new System.Drawing.Size(559, 394);
 			this.stdOutTab.TabIndex = 0;
 			this.stdOutTab.Text = "";
 			this.stdOutTab.WordWrap = false;
@@ -509,21 +513,30 @@ namespace NUnit.Gui
 			// groupBox1
 			// 
 			this.groupBox1.Controls.AddRange(new System.Windows.Forms.Control[] {
+																					this.stopButton,
 																					this.runButton,
 																					this.suiteName,
 																					this.progressBar});
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(567, 120);
+			this.groupBox1.Size = new System.Drawing.Size(567, 88);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Run";
+			// 
+			// stopButton
+			// 
+			this.stopButton.Location = new System.Drawing.Point(96, 16);
+			this.stopButton.Name = "stopButton";
+			this.stopButton.Size = new System.Drawing.Size(75, 30);
+			this.stopButton.TabIndex = 4;
+			this.stopButton.Text = "&Stop";
+			this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
 			// 
 			// runButton
 			// 
-			this.runButton.Location = new System.Drawing.Point(16, 24);
+			this.runButton.Location = new System.Drawing.Point(8, 16);
 			this.runButton.Name = "runButton";
-			this.runButton.Size = new System.Drawing.Size(92, 34);
+			this.runButton.Size = new System.Drawing.Size(75, 30);
 			this.runButton.TabIndex = 3;
 			this.runButton.Text = "&Run";
 			this.runButton.Click += new System.EventHandler(this.runButton_Click);
@@ -532,23 +545,23 @@ namespace NUnit.Gui
 			// 
 			this.suiteName.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right);
-			this.suiteName.Location = new System.Drawing.Point(128, 32);
+			this.suiteName.Location = new System.Drawing.Point(184, 24);
 			this.suiteName.Name = "suiteName";
-			this.suiteName.Size = new System.Drawing.Size(416, 24);
+			this.suiteName.Size = new System.Drawing.Size(359, 24);
 			this.suiteName.TabIndex = 2;
 			// 
 			// progressBar
 			// 
-			this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+			this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right);
 			this.progressBar.CausesValidation = false;
 			this.progressBar.Enabled = false;
 			this.progressBar.ForeColor = System.Drawing.SystemColors.Highlight;
-			this.progressBar.Location = new System.Drawing.Point(16, 72);
+			this.progressBar.Location = new System.Drawing.Point(8, 56);
 			this.progressBar.Maximum = 100;
 			this.progressBar.Minimum = 0;
 			this.progressBar.Name = "progressBar";
-			this.progressBar.Size = new System.Drawing.Size(536, 35);
+			this.progressBar.Size = new System.Drawing.Size(551, 24);
 			this.progressBar.Step = 1;
 			this.progressBar.TabIndex = 0;
 			this.progressBar.Value = 0;
@@ -689,7 +702,6 @@ namespace NUnit.Gui
 			using ( new WaitCursor() )
 			{
 				actions.ReloadAssembly();
-				statusBar.Text = "Reloaded";
 			}
 		}
 
@@ -713,7 +725,6 @@ namespace NUnit.Gui
 		#endregion
 
 		/// <summary>
-		/// <summary>
 		/// When the Run Button is clicked, run the selected test.
 		/// </summary>
 		private void runButton_Click(object sender, System.EventArgs e)
@@ -723,6 +734,25 @@ namespace NUnit.Gui
 				actions.ReloadAssembly();
 
 			actions.RunTestSuite( testSuiteTreeView.SelectedTest );
+		}
+
+		/// <summary>
+		/// When the Stop Button is clicked, cancel running test
+		/// </summary>
+		private void stopButton_Click(object sender, System.EventArgs e)
+		{
+			stopButton.Enabled = false;
+
+			if ( actions.IsTestRunning )
+			{
+				DialogResult dialogResult = MessageBox.Show( 
+					"Do you want to cancel the running test?", "NUnit", MessageBoxButtons.YesNo );
+
+				if ( dialogResult == DialogResult.No )
+					stopButton.Enabled = true;
+				else
+					actions.CancelTestRun();
+			}
 		}
 
 		/// <summary>
@@ -820,10 +850,11 @@ namespace NUnit.Gui
 		/// A test run is starting, so prepare the UI
 		/// </summary>
 		/// <param name="test">Top level Test for this run</param>
-		private void OnRunStarting( UITestNode test )
+		private void OnRunStarting( object sender, TestEventArgs e )
 		{
-			suiteName.Text = test.ShortName;
+			suiteName.Text = e.Test.ShortName;
 			runButton.Enabled = false;
+			stopButton.Enabled = true;
 
 			ClearTabs();
 		}
@@ -833,17 +864,21 @@ namespace NUnit.Gui
 		/// and re-enable the run button.
 		/// </summary>
 		/// <param name="result">Result of the run</param>
-		private void OnRunFinished( TestResult result )
+		private void OnRunFinished( object sender, TestEventArgs e )
 		{
+			stopButton.Enabled = false;
 			runButton.Enabled = false;
-			DisplayResults(result);
-			runButton.Enabled = true;
-		}
 
-		private void OnRunFailure( Exception e )
-		{
+			if ( e.Result != null )
+				DisplayResults(e.Result);
+
+			if ( e.Exception != null )
+			{
+				if ( ! ( e.Exception is System.Threading.ThreadAbortException ) )
+					FailureMessage( e.Exception, "NUnit Test Run Failed" );
+			}
+
 			runButton.Enabled = true;
-			FailureMessage( e, "NUnit Test Run Failed" );
 		}
 
 		/// <summary>
@@ -854,10 +889,10 @@ namespace NUnit.Gui
 		/// <param name="assemblyFileName">The full path of the assembly file</param>
 		/// Note: second argument could be omitted, but tests may not
 		/// always have the FullName set to the assembly name in future.
-		private void OnSuiteLoaded( UITestNode test, string assemblyFileName )
+		private void OnTestLoaded( object sender, TestLoadEventArgs e )
 		{
-			LoadedAssembly = assemblyFileName;
-			UpdateRecentAssemblies( assemblyFileName );
+			LoadedAssembly = e.AssemblyName;
+			UpdateRecentAssemblies( e.AssemblyName );
 
 			runButton.Enabled = true;
 			ClearTabs();
@@ -867,7 +902,7 @@ namespace NUnit.Gui
 		/// A test suite has been unloaded, so clear the UI
 		/// and remove any references to the suite.
 		/// </summary>
-		private void OnSuiteUnloaded()
+		private void OnTestUnloaded( object sender, TestLoadEventArgs e )
 		{
 			LoadedAssembly = null;
 			suiteName.Text = null;
@@ -882,7 +917,7 @@ namespace NUnit.Gui
 		/// test results, since they are no longer valid.
 		/// </summary>
 		/// <param name="test">Top level Test for the current assembly</param>
-		private void OnSuiteChanged( UITestNode test )
+		private void OnTestChanged( object sender, TestLoadEventArgs e )
 		{
 			ClearTabs();
 		}
@@ -893,14 +928,13 @@ namespace NUnit.Gui
 		/// </summary>
 		/// <param name="assemblyFileName">Name of the assembly file</param>
 		/// <param name="exception">Exception that occurred.</param>
-		private void OnAssemblyLoadFailure( string assemblyFileName, Exception exception )
+		private void OnAssemblyLoadFailure( object sender, TestLoadEventArgs e )
 		{
-			FailureMessage( exception, "Assembly Load Failure" );
+			FailureMessage( e.Exception, "Assembly Load Failure" );
+			RemoveRecentAssembly( e.AssemblyName );
 
-			RemoveRecentAssembly( assemblyFileName );
-
-			if ( assemblyFileName == LoadedAssembly )
-				OnSuiteUnloaded();
+			if ( e.AssemblyName == LoadedAssembly )
+				OnTestUnloaded( sender, e );
 			else
 				runButton.Enabled = true;
 		}
@@ -1036,6 +1070,7 @@ namespace NUnit.Gui
 		}
 
 		#endregion	
+	
 	}
 }
 

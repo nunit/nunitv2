@@ -23,10 +23,11 @@ namespace NUnit.Tests
 		public void Setup()
 		{
 			progressBar = new ProgressBar();
-			mockEvents = new MockUIEventSource();
 
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( testsDll );
+
+			mockEvents = new MockUIEventSource( testsDll, suite );
 		}
 
 		[Test]
@@ -45,10 +46,10 @@ namespace NUnit.Tests
 		public void TestProgressDisplay()
 		{
 			progressBar.InitializeEvents( mockEvents );
-			mockEvents.TestFinishedEvent += new TestFinishedHandler( OnTestFinished );
+			mockEvents.TestFinishedEvent += new TestEventHandler( OnTestFinished );
 
 			testCount = 0;
-			mockEvents.SimulateTestRun( suite );
+			mockEvents.SimulateTestRun();
 			
 			Assertion.AssertEquals( 0, progressBar.Minimum );
 			Assertion.AssertEquals( 7, progressBar.Maximum );
@@ -57,7 +58,7 @@ namespace NUnit.Tests
 			Assertion.AssertEquals( Color.Yellow, progressBar.ForeColor );
 		}
 
-		private void OnTestFinished( TestCaseResult result )
+		private void OnTestFinished( object sender, TestEventArgs e )
 		{
 			++testCount;
 			// Assumes delegates are called in order of adding
