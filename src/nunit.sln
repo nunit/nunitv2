@@ -117,6 +117,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "notestfixtures-assembly", "
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.dll", "core\nunit.core.dll.csproj", "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -193,6 +197,10 @@ Global
 		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Debug.Build.0 = Debug|.NET
 		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Release.ActiveCfg = Release|.NET
 		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Release.Build.0 = Release|.NET
+		{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}.Debug.ActiveCfg = Debug|.NET
+		{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}.Debug.Build.0 = Debug|.NET
+		{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}.Release.ActiveCfg = Release|.NET
+		{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
