@@ -32,6 +32,7 @@ using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
 using System.IO;
+using System.Reflection;
 
 namespace NUnit.Gui
 {
@@ -1000,14 +1001,14 @@ namespace NUnit.Gui
 
 		private void SubscribeToTestEvents()
 		{
-			ITestEvents events = TestLoader.Events;
+			IProjectEvents events = TestLoader.Events;
 
 			events.RunStarting += new TestEventHandler( OnRunStarting );
 			events.RunFinished += new TestEventHandler( OnRunFinished );
 
-			events.ProjectLoaded	+= new TestEventHandler( OnTestProjectLoaded );
-			events.ProjectLoadFailed+= new TestEventHandler( OnProjectLoadFailure );
-			events.ProjectUnloaded	+= new TestEventHandler( OnTestProjectUnloaded );
+			events.ProjectLoaded	+= new TestProjectEventHandler( OnTestProjectLoaded );
+			events.ProjectLoadFailed+= new TestProjectEventHandler( OnProjectLoadFailure );
+			events.ProjectUnloaded	+= new TestProjectEventHandler( OnTestProjectUnloaded );
 
 			events.TestLoading		+= new TestEventHandler( OnTestLoadStarting );
 			events.TestLoaded		+= new TestEventHandler( OnTestLoaded );
@@ -1113,39 +1114,39 @@ namespace NUnit.Gui
 		/// When a tree item is selected, display info pertaining 
 		/// to that test unless a test is running.
 		/// </summary>
-		private void OnSelectedTestChanged( UITestNode test )
-		{
-			if ( !IsTestRunning )
-			{
-				suiteName.Text = test.ShortName;
-				statusBar.Initialize( test.CountTestCases() );
-			}
-		}
-
-		private void OnCheckedTestChanged(System.Collections.IList tests)
-		{
-			if ( !IsTestRunning ) 
-			{
-				int count = 0;
-				foreach (UITestNode test in tests) 
-				{
-					count += test.CountTestCases();
-				}
-				statusBar.Initialize(count);
-			}
-		}
+//		private void OnSelectedTestChanged( UITestNode test )
+//		{
+//			if ( !IsTestRunning )
+//			{
+//				suiteName.Text = test.ShortName;
+//				statusBar.Initialize( test.CountTestCases() );
+//			}
+//		}
+//
+//		private void OnCheckedTestChanged(System.Collections.IList tests)
+//		{
+//			if ( !IsTestRunning ) 
+//			{
+//				int count = 0;
+//				foreach (UITestNode test in tests) 
+//				{
+//					count += test.CountTestCases();
+//				}
+//				statusBar.Initialize(count);
+//			}
+//		}
 
 		#endregion
 
 		#region Event Handlers for Test Load and Unload
 
-		private void OnTestProjectLoaded( object sender, TestEventArgs e )
+		private void OnTestProjectLoaded( object sender, TestProjectEventArgs e )
 		{
-			SetTitleBar( e.TestFileName );
+			SetTitleBar( e.ProjectName );
 			projectMenu.Visible = true;
 		}
 
-		private void OnTestProjectUnloaded( object sender, TestEventArgs e )
+		private void OnTestProjectUnloaded( object sender, TestProjectEventArgs e )
 		{
 			SetTitleBar( null );
 			projectMenu.Visible = false;
@@ -1174,6 +1175,14 @@ namespace NUnit.Gui
 		{
 			runButton.Enabled = true;
 			ClearTabs();
+			
+			Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+			if ( TestLoader.FrameworkVersion != currentVersion )
+			{
+				string msg = string.Format( "This program is using version {0} of the framework.\rThe {1} assembly is referencing version {2} of the framework.\r\rIf problems arise, rebuild the assembly referencing version {0}",
+					currentVersion, e.Name, TestLoader.FrameworkVersion, currentVersion );
+				UserMessage.Display( msg, "Incompatible nunit.framework.dll");
+			}
 		}
 
 		/// <summary>
@@ -1201,11 +1210,11 @@ namespace NUnit.Gui
 			runButton.Enabled = true;
 		}
 
-		private void OnProjectLoadFailure( object sender, TestEventArgs e )
+		private void OnProjectLoadFailure( object sender, TestProjectEventArgs e )
 		{
 			UserMessage.DisplayFailure( e.Exception, "Project Not Loaded" );
 
-			UserSettings.RecentProjects.Remove( e.TestFileName );
+			UserSettings.RecentProjects.Remove( e.ProjectName );
 
 			runButton.Enabled = true;
 		}
