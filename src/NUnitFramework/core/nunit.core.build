@@ -32,6 +32,8 @@
                 <includes name="nunit.core.dll.csproj"/>
                 <includes name="nunit.core.build"/>
                 <includes name="AssemblyInfo.cs"/>
+                <includes name="CategoryFilter.cs"/>
+                <includes name="CategoryManager.cs"/>
                 <includes name="EmptyFilter.cs"/>
                 <includes name="EventListener.cs"/>
                 <includes name="ExpectedExceptionTestCase.cs"/>
@@ -61,6 +63,7 @@
                 <includes name="TestCaseResult.cs"/>
                 <includes name="TestResult.cs"/>
                 <includes name="TestRunner.cs"/>
+		<includes name="TestRunnerThread.cs"/>
                 <includes name="TestSuite.cs"/>
                 <includes name="TestSuiteBuilder.cs"/>
                 <includes name="TestSuiteResult.cs"/>
