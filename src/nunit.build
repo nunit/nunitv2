@@ -369,7 +369,7 @@
     </zip>
   </target>
   
-  <target name="package-bins" depends="clean-package-dir"
+  <target name="package-bin" depends="clean-package-dir"
     description="Create zip of bins only for use in SCM systems">
     
     <call target="copy-bins"/>
@@ -404,6 +404,9 @@
       <fileset basedir="${project.doc.dir}">
         <include name="ReleaseNotes.txt"/>
         <include name="ChangeLog.txt"/>
+        <include name="Installation.txt"/>
+        <include name="TestConfig.txt"/>
+        <include name="Extensibility.txt"/>
         <include name="*.html"/>
 		<include name="css/*"/>
 		<include name="files/*"/>
