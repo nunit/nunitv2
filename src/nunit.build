@@ -63,7 +63,7 @@
 </if>
 
 <!-- Set up version for packaging (override as needed) -->
-    <property name="package.version" value="2.1.92"/>
+    <property name="package.version" value="2.1.93"/>
 <!-- Root of the package file name -->
     <property name="package.name" value="${nant.project.name}-${package.version}"/>
 <!-- Package directory - will effect top level directory name in zips -->
