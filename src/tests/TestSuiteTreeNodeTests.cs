@@ -112,7 +112,7 @@ namespace NUnit.Tests.UiKit
 
 			node.UpdateTest( suiteInfo );
 			Assert.AreEqual( "MyTestSuite", node.Test.FullName );
-			Assert.AreEqual( 5, node.Test.CountTestCases() );
+			Assert.AreEqual( MockTestFixture.Tests, node.Test.CountTestCases() );
 		}
 
 		[Test]
