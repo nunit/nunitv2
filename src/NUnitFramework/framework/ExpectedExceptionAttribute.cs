@@ -39,10 +39,17 @@ namespace NUnit.Framework
 	public sealed class ExpectedExceptionAttribute : Attribute
 	{
 		private Type expectedException;
+		private string expectedMessage;
 
 		public ExpectedExceptionAttribute(Type exceptionType)
 		{
 			expectedException = exceptionType;
+		}
+
+		public ExpectedExceptionAttribute(Type exceptionType, string expectedMessage)
+		{
+			expectedException = exceptionType;
+			this.expectedMessage = expectedMessage;
 		}
 
 		public Type ExceptionType 
@@ -51,5 +58,10 @@ namespace NUnit.Framework
 			set{ expectedException = value; }
 		}
 
-}
+		public string ExpectedMessage 
+		{
+			get { return expectedMessage; }
+			set { expectedMessage = value; }
+		}
+	}
 }

@@ -49,8 +49,8 @@ namespace NUnit.Core
 						testCase = new NormalTestCase(fixture, method);
 					else
 					{
-						Type expectedException = GetExpectedExceptions(method);
-						testCase = new ExpectedExceptionTestCase(fixture, method, expectedException);
+						NUnit.Framework.ExpectedExceptionAttribute expectedException = GetExpectedExceptions(method);
+						testCase = new ExpectedExceptionTestCase(fixture, method, expectedException.ExceptionType, expectedException.ExpectedMessage);
 					}
 
 					if(HasIgnoreAttribute(method))
@@ -89,21 +89,19 @@ namespace NUnit.Core
 			return attributes.Length == 1;
 		}
 
-		private static Type GetExpectedExceptions(MethodInfo method)
+		private static NUnit.Framework.ExpectedExceptionAttribute GetExpectedExceptions(MethodInfo method)
 		{
 			Type exceptionAttr = typeof(NUnit.Framework.ExpectedExceptionAttribute);
 			object[] attributes = method.GetCustomAttributes(exceptionAttr, false);
 
-			Type returnType = null;
+			NUnit.Framework.ExpectedExceptionAttribute expectedAttr = null;
 
 			if(attributes.Length == 1)
 			{
-				NUnit.Framework.ExpectedExceptionAttribute expectedAttr = 
-					(NUnit.Framework.ExpectedExceptionAttribute)attributes[0];
-				returnType = expectedAttr.ExceptionType;
+				expectedAttr = (NUnit.Framework.ExpectedExceptionAttribute)attributes[0];
 			}
 
-			return returnType;
+			return expectedAttr;
 		}
 
 		private static string GetDescription(MethodInfo method)

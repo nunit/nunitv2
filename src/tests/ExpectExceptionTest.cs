@@ -140,11 +140,34 @@ namespace NUnit.Tests.Core
 			}
 		}
 
+		[TestFixture]
+		internal class TestThrowsExceptionWithWrongMessage
+		{
+			[Test]
+			[ExpectedException(typeof(Exception), "not the message")]
+			public void TestThrow()
+			{
+				throw new Exception("the message");
+			}
+		}
+
 		[Test] 
 		public void MethodThrowsException()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			object testFixture = builder.BuildTestFixture(typeof(TestThrowsExceptionFixture));
+			TestSuite suite = new TestSuite("mock suite");
+			suite.Add(testFixture);	
+	
+			TestResult result = suite.Run(NUnit.Core.NullListener.NULL);
+			Assert.AreEqual(true, result.IsFailure);
+		}
+
+		[Test] 
+		public void MethodThrowsWrongExceptionMessage()
+		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			object testFixture = builder.BuildTestFixture(typeof(TestThrowsExceptionWithWrongMessage));
 			TestSuite suite = new TestSuite("mock suite");
 			suite.Add(testFixture);	
 	
@@ -169,6 +192,13 @@ namespace NUnit.Tests.Core
 		[Test]
 		[ExpectedException(typeof(MyAppException))] 
 		public void ThrowingMyAppException() 
+		{ 
+			throw new MyAppException("my app");
+		}
+
+		[Test]
+		[ExpectedException(typeof(MyAppException), "my app")] 
+		public void ThrowingMyAppExceptionWithMessage() 
 		{ 
 			throw new MyAppException("my app");
 		}

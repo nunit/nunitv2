@@ -39,18 +39,29 @@ namespace NUnit.Core
 	public class ExpectedExceptionTestCase : TemplateTestCase
 	{
 		private Type expectedException;
+		private string expectedMessage;
 
-		public ExpectedExceptionTestCase(object fixture, MethodInfo info, Type expectedException)
+		public ExpectedExceptionTestCase(object fixture, MethodInfo info, Type expectedException, string expectedMessage)
 			: base(fixture, info)
 		{
 			this.expectedException = expectedException;
+			this.expectedMessage = expectedMessage;
 		}
 
 		protected override internal void ProcessException(Exception exception, TestCaseResult testResult)
 		{
 			if (expectedException.Equals(exception.GetType()))
 			{
-				testResult.Success();
+				if (expectedMessage != null && !expectedMessage.Equals(exception.Message))
+				{
+					string message = string.Format("Expected exception to have message: \" {0} \" but recieved message \" {1}\" ", 
+						expectedMessage, exception.Message);
+					testResult.Failure(message, exception.StackTrace);
+				} 
+				else 
+				{
+					testResult.Success();
+				}
 			}
 			else
 			{
