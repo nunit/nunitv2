@@ -80,6 +80,8 @@ namespace NUnit.Gui
 		private System.Windows.Forms.RadioButton manualBinPathRadioButton;
 		private System.Windows.Forms.RadioButton autoBinPathRadioButton;
 		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.TextBox projectBaseTextBox;
 		private System.ComponentModel.IContainer components;
 
 		#endregion
@@ -153,6 +155,8 @@ namespace NUnit.Gui
 			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
 			this.label5 = new System.Windows.Forms.Label();
 			this.projectPathLabel = new CP.Windows.Forms.ExpandingLabel();
+			this.label8 = new System.Windows.Forms.Label();
+			this.projectBaseTextBox = new System.Windows.Forms.TextBox();
 			this.projectTabControl.SuspendLayout();
 			this.generalTabPage.SuspendLayout();
 			this.assemblyTabPage.SuspendLayout();
@@ -919,6 +923,63 @@ namespace NUnit.Gui
 			this.projectPathLabel.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("projectPathLabel.TextAlign")));
 			this.projectPathLabel.Visible = ((bool)(resources.GetObject("projectPathLabel.Visible")));
 			// 
+			// label8
+			// 
+			this.label8.AccessibleDescription = resources.GetString("label8.AccessibleDescription");
+			this.label8.AccessibleName = resources.GetString("label8.AccessibleName");
+			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label8.Anchor")));
+			this.label8.AutoSize = ((bool)(resources.GetObject("label8.AutoSize")));
+			this.label8.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label8.Dock")));
+			this.label8.Enabled = ((bool)(resources.GetObject("label8.Enabled")));
+			this.label8.Font = ((System.Drawing.Font)(resources.GetObject("label8.Font")));
+			this.helpProvider1.SetHelpKeyword(this.label8, resources.GetString("label8.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.label8, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("label8.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.label8, resources.GetString("label8.HelpString"));
+			this.label8.Image = ((System.Drawing.Image)(resources.GetObject("label8.Image")));
+			this.label8.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label8.ImageAlign")));
+			this.label8.ImageIndex = ((int)(resources.GetObject("label8.ImageIndex")));
+			this.label8.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label8.ImeMode")));
+			this.label8.Location = ((System.Drawing.Point)(resources.GetObject("label8.Location")));
+			this.label8.Name = "label8";
+			this.label8.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label8.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.label8, ((bool)(resources.GetObject("label8.ShowHelp"))));
+			this.label8.Size = ((System.Drawing.Size)(resources.GetObject("label8.Size")));
+			this.label8.TabIndex = ((int)(resources.GetObject("label8.TabIndex")));
+			this.label8.Text = resources.GetString("label8.Text");
+			this.label8.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label8.TextAlign")));
+			this.label8.Visible = ((bool)(resources.GetObject("label8.Visible")));
+			// 
+			// projectBaseTextBox
+			// 
+			this.projectBaseTextBox.AccessibleDescription = resources.GetString("projectBaseTextBox.AccessibleDescription");
+			this.projectBaseTextBox.AccessibleName = resources.GetString("projectBaseTextBox.AccessibleName");
+			this.projectBaseTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("projectBaseTextBox.Anchor")));
+			this.projectBaseTextBox.AutoSize = ((bool)(resources.GetObject("projectBaseTextBox.AutoSize")));
+			this.projectBaseTextBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("projectBaseTextBox.BackgroundImage")));
+			this.projectBaseTextBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("projectBaseTextBox.Dock")));
+			this.projectBaseTextBox.Enabled = ((bool)(resources.GetObject("projectBaseTextBox.Enabled")));
+			this.projectBaseTextBox.Font = ((System.Drawing.Font)(resources.GetObject("projectBaseTextBox.Font")));
+			this.helpProvider1.SetHelpKeyword(this.projectBaseTextBox, resources.GetString("projectBaseTextBox.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.projectBaseTextBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("projectBaseTextBox.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.projectBaseTextBox, resources.GetString("projectBaseTextBox.HelpString"));
+			this.projectBaseTextBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("projectBaseTextBox.ImeMode")));
+			this.projectBaseTextBox.Location = ((System.Drawing.Point)(resources.GetObject("projectBaseTextBox.Location")));
+			this.projectBaseTextBox.MaxLength = ((int)(resources.GetObject("projectBaseTextBox.MaxLength")));
+			this.projectBaseTextBox.Multiline = ((bool)(resources.GetObject("projectBaseTextBox.Multiline")));
+			this.projectBaseTextBox.Name = "projectBaseTextBox";
+			this.projectBaseTextBox.PasswordChar = ((char)(resources.GetObject("projectBaseTextBox.PasswordChar")));
+			this.projectBaseTextBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("projectBaseTextBox.RightToLeft")));
+			this.projectBaseTextBox.ScrollBars = ((System.Windows.Forms.ScrollBars)(resources.GetObject("projectBaseTextBox.ScrollBars")));
+			this.helpProvider1.SetShowHelp(this.projectBaseTextBox, ((bool)(resources.GetObject("projectBaseTextBox.ShowHelp"))));
+			this.projectBaseTextBox.Size = ((System.Drawing.Size)(resources.GetObject("projectBaseTextBox.Size")));
+			this.projectBaseTextBox.TabIndex = ((int)(resources.GetObject("projectBaseTextBox.TabIndex")));
+			this.projectBaseTextBox.Text = resources.GetString("projectBaseTextBox.Text");
+			this.projectBaseTextBox.TextAlign = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("projectBaseTextBox.TextAlign")));
+			this.projectBaseTextBox.Visible = ((bool)(resources.GetObject("projectBaseTextBox.Visible")));
+			this.projectBaseTextBox.WordWrap = ((bool)(resources.GetObject("projectBaseTextBox.WordWrap")));
+			this.projectBaseTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.projectBaseTextBox_Validating);
+			this.projectBaseTextBox.Validated += new System.EventHandler(this.projectBaseTextBox_Validated);
+			// 
 			// ProjectEditor
 			// 
 			this.AcceptButton = this.closeButton;
@@ -931,6 +992,8 @@ namespace NUnit.Gui
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.CancelButton = this.closeButton;
 			this.ClientSize = ((System.Drawing.Size)(resources.GetObject("$this.ClientSize")));
+			this.Controls.Add(this.projectBaseTextBox);
+			this.Controls.Add(this.label8);
 			this.Controls.Add(this.projectPathLabel);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.projectTabControl);
@@ -1082,6 +1145,55 @@ namespace NUnit.Gui
 
 		#region Validation Events
 
+		#region Project Base
+		private void projectBaseTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			if ( projectBaseTextBox.Text != string.Empty )
+			{
+				string projectBase = null;
+				try
+				{
+					projectBase = projectBaseTextBox.Text;
+					DirectoryInfo info = new DirectoryInfo( projectBase );
+				}
+				catch( Exception ex )
+				{
+					projectBaseTextBox.SelectAll();
+					UserMessage.DisplayFailure( ex, "Invalid Entry" );
+					e.Cancel = true;
+				}
+
+				if ( !Directory.Exists( projectBase ) )
+				{
+					string msg = string.Format( 
+						"The directory {0} does not exist. Do you want to create it?", 
+						projectBase );
+					switch ( UserMessage.Ask( msg, "Project Editor" ) )
+					{
+						case DialogResult.Yes:
+							Directory.CreateDirectory( projectBase );
+							break;
+						case DialogResult.Cancel:
+							e.Cancel = true;
+							break;
+						case DialogResult.No:
+						default:
+							break;
+					}
+				}
+			}
+		}
+
+		private void projectBaseTextBox_Validated(object sender, System.EventArgs e)
+		{
+			if ( projectBaseTextBox.Text == string.Empty )
+				projectBaseTextBox.Text = project.DefaultBasePath;
+
+			project.BasePath = projectBaseTextBox.Text;
+		}
+		#endregion
+
+		#region Configuration ApplicationBase
 		private void applicationBaseTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			if ( applicationBaseTextBox.Text != String.Empty )
@@ -1100,18 +1212,30 @@ namespace NUnit.Gui
 					e.Cancel = true;
 				}
 
-				if ( !PathUtils.SamePathOrUnder( project.BasePath, applicationBase ) )
+	/*			if ( !PathUtils.SamePathOrUnder( project.BasePath, applicationBase ) )
 				{
 					applicationBaseTextBox.SelectAll();
 					UserMessage.DisplayFailure( "Path must be equal to or under the project base", "Invalid Entry" );
 					e.Cancel = true;
 				}			
-				else if ( !Directory.Exists( applicationBase ) )
+				else */
+				if ( !Directory.Exists( applicationBase ) )
 				{
-					if ( UserMessage.Ask( "The directory {0} does not exist. Do you want to create it?", "Project Editor" ) == DialogResult.Yes )
-						Directory.CreateDirectory( applicationBase );
-					else
-						e.Cancel = true;
+					string msg = string.Format( 
+						"The directory {0} does not exist. Do you want to create it?", 
+						applicationBase );
+					switch ( UserMessage.Ask( msg, "Project Editor" ) )
+					{
+						case DialogResult.Yes:
+							Directory.CreateDirectory( applicationBase );
+							break;
+						case DialogResult.Cancel:
+							e.Cancel = true;
+							break;
+						case DialogResult.No:
+						default:
+							break;
+					}
 				}
 			}
 		}
@@ -1140,7 +1264,9 @@ namespace NUnit.Gui
 			else
 				applicationBaseTextBox.Text = selectedConfig.RelativeBasePath;
 		}
+		#endregion
 
+		#region Config File
 		private void configFileTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			string configFile = configFileTextBox.Text;
@@ -1173,7 +1299,9 @@ namespace NUnit.Gui
 			else
 				selectedConfig.ConfigurationFile = configFileTextBox.Text;
 		}
+		#endregion
 
+		#region PrivateBinPath
 		private void privateBinPathTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			string binPath = privateBinPathTextBox.Text;
@@ -1203,6 +1331,7 @@ namespace NUnit.Gui
 			else
 				selectedConfig.PrivateBinPath = privateBinPathTextBox.Text;
 		}
+		#endregion
 
 		#endregion
 
@@ -1214,6 +1343,8 @@ namespace NUnit.Gui
 				project.Name );
 
 			projectPathLabel.Text = project.ProjectPath;
+
+			projectBaseTextBox.Text = project.BasePath;
 
 			addVSProjectButton.Visible = UserSettings.Options.VisualStudioSupport;
 
