@@ -1,4 +1,4 @@
-Change Log for NUnit 2.1 Beta 2
+Change Log for NUnit 2.1.2 Beta 2
 August 5, 2003
 
 CHANGES FROM BETA 1 TO BETA2

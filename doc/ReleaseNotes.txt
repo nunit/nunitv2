@@ -1,4 +1,4 @@
-Release Notes for NUnit 2.1 Beta 2 - Windows Install Package
+Release Notes for NUnit 2.1.2 Beta 2 - Windows Install Package
 July 22, 2003
 
 This is the third major release of NUnit and the second since it was 
