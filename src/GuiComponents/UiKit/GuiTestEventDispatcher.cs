@@ -3,6 +3,14 @@ using NUnit.Util;
 
 namespace NUnit.UiKit
 {
+	public class TestEventInvocationException : Exception
+	{
+		public TestEventInvocationException( Exception inner )
+			: base( "Exception invoking TestEvent handler", inner )
+		{
+		}
+	}	
+
 	/// <summary>
 	/// Summary description for GuiTestEventDispatcher.
 	/// </summary>
@@ -22,10 +30,19 @@ namespace NUnit.UiKit
 				object target = handler.Target;
 				System.Windows.Forms.Control control 
 					= target as System.Windows.Forms.Control;
-				if ( control != null && control.InvokeRequired )
-					control.Invoke( handler, args );
-				else
-					handler.Method.Invoke( target, args );
+				try 
+				{
+					if ( control != null && control.InvokeRequired )
+						control.Invoke( handler, args );
+					else
+						handler.Method.Invoke( target, args );
+				}
+				catch( Exception ex )
+				{
+					Console.WriteLine( "Exception:" );
+					Console.WriteLine( ex );
+					throw new TestEventInvocationException( ex );
+				}
 			}
 		}
 
