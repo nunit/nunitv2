@@ -36,7 +36,7 @@ namespace NUnit.Core
 	/// <summary>
 	///		Test Class.
 	/// </summary>
-	public abstract class Test : LongLivingMarshalByRefObject, ITest
+	public abstract class Test : LongLivingMarshalByRefObject, ITest, IComparable
 	{
 		private string fullName;
 		private string testName;
@@ -153,5 +153,19 @@ namespace NUnit.Core
 				}
 			}
 		}
+
+		#region IComparable Members
+
+		public int CompareTo(object obj)
+		{
+			Test other = obj as Test;
+			
+			if ( other == null )
+				return -1;
+
+			return this.FullName.CompareTo( other.FullName );
+		}
+
+		#endregion
 	}
 }
