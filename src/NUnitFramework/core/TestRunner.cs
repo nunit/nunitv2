@@ -32,7 +32,7 @@ using System.Collections;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// The TestRunner Interface is allows client code, such as the NUnit console and
+	/// The TestRunner Interface allows client code, such as the NUnit console and
 	/// gui runners, to load and run tests. This is the lowest level interface generally
 	/// supported for running tests and is implemented by the RemoteTestRunner class in
 	/// the NUnit core as well as by other classes running on the client side.
@@ -40,23 +40,24 @@ namespace NUnit.Core
 	/// The Load family of methods is used to load a suite of tests from one or more 
 	/// assemblies, returning the resulting test suite to the caller.
 	/// 
+	/// The SetFilter method provides a general approach to running only a subset
+	/// of the tests. Any set filter affects future calls to CountTestCases or Run.
+	/// 
 	/// The CountTestCases family of methods returns the number of test cases in the
 	/// loaded suite, either in its entirety or by taking a subset of tests as roots.
 	/// 
 	/// The Run family of methods performs a test run synchronously, returning a TestResult
 	/// or TestResult[] to the caller. If provided, an EventListener interface will be 
-	/// notified of significant events in the running of the tests.
-	/// 
-	/// The RunTest family of methods uses the same set of signatures as Run but operates
-	/// asynchronously. The final result of the run may be obtained through the user of an
-	/// EventListener or through the Results property.
+	/// notified of significant events in the running of the tests. Methods to cancel
+	/// a run and to wait for a run to complete are also provided. Test results may also 
+	/// be obtained by querying the Results property after a run is complete.
 	/// </summary>
 	public interface TestRunner
 	{
 		#region Properties
 
 		/// <summary>
-		/// IsTestRunning indicates whether a test is in progress. MayTo retrieve the
+		/// IsTestRunning indicates whether a test is in progress. To retrieve the
 		/// results from an asynchronous test run, wait till IsTestRunning is false.
 		/// </summary>
 		//		bool IsTestRunning
@@ -64,6 +65,11 @@ namespace NUnit.Core
 		//			get;
 		//		}
 
+		/// <summary>
+		/// Returns the collection of test frameworks referenced by the running
+		/// tests. Currently in the interface for diagnostic purposes only.
+		/// Should be removed at some point.
+		/// </summary>
 		IList TestFrameworks
 		{
 			get;
@@ -71,7 +77,11 @@ namespace NUnit.Core
 
 		/// <summary>
 		/// Setting to show a header line for each test case in
-		/// the console output.
+		/// the console output. Included in the interface because
+		/// the handling of text output requires the line to be
+		/// injected at the point of test execution, but may be
+		/// removed when text output is reorganized so that text
+		/// is associated with the test that issued it.
 		/// </summary>
 		bool DisplayTestLabels
 		{
@@ -79,7 +89,7 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Results from the last test run
+		/// Results from the last test run.
 		/// </summary>
 		TestResult[] Results
 		{
@@ -87,7 +97,9 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// First (or only) result from the last test run
+		/// First (or only) result from the last test run.
+		/// TODO: Calling this when there is more than one
+		/// result is an error. Should we simply remove it?
 		/// </summary>
 		TestResult Result
 		{
@@ -96,6 +108,7 @@ namespace NUnit.Core
 		
 		#endregion
 
+		#region Load and Unload Methods
 		/// <summary>
 		/// Load all tests from an assembly
 		/// </summary>
@@ -117,7 +130,9 @@ namespace NUnit.Core
 		Test Load( TestProject testProject );
 
 		/// <summary>
-		/// Load a particular test in a TestProject
+		/// Load a particular test in a TestProject.
+		/// TODO: Decide how to encapsulate a group of assemblies
+		/// plus parameters for loading them. See TestProject.cs.
 		/// </summary>
 		/// <param name="testProject">The test project to load</param>
 		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
@@ -128,9 +143,20 @@ namespace NUnit.Core
 		/// Unload all tests previously loaded
 		/// </summary>
 		void Unload();
+		#endregion
 
+		#region SetFilter Method
+		/// <summary>
+		/// Set a filter that will affect which tests are counted
+		/// or run in any future calls. 
+		/// TODO: Should we make this a r/w property so we can query 
+		/// what filters are set?
+		/// </summary>
+		/// <param name="filter"></param>
 		void SetFilter( IFilter filter );
+		#endregion
 
+		#region CountTestCases Methods
 		/// <summary>
 		/// Count Test Cases under a given test name
 		/// </summary>
@@ -144,13 +170,19 @@ namespace NUnit.Core
 		/// <param name="testNames">An array of names of test cases, fixtures or suites</param>
 		/// <returns>The number of test cases found</returns>
 		int CountTestCases(string[] testNames);
+		#endregion
 
+		#region GetCategories Method
 		/// <summary>
-		/// Get the collectiion of categories used by the runner;
+		/// Get the collectiion of categories used by the runner.
+		/// TODO: Should this really be here? Can't the client
+		/// figure it out based on the loaded tests?
 		/// </summary>
 		/// <returns></returns>
 		ICollection GetCategories(); 
+		#endregion
 
+		#region Run Methods
 		/// <summary>
 		/// Run all loaded tests and return a test result. The test is run synchronously,
 		/// and the listener interface is notified as it progresses.
@@ -166,8 +198,17 @@ namespace NUnit.Core
 		/// <param name="testNames">The names of the test cases, fixtures or suites to be run</param>
 		TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames);
 
+		/// <summary>
+		///  Cancel the test run that is in progress. Since Run is synchronous,
+		///  a client wanting to call this must create a separate run thread.
+		/// </summary>
 		void CancelRun();
 
+		/// <summary>
+		/// Wait for the test run in progress to complete. Since Run is synchronous,
+		///  a client wanting to call this must create a separate run thread.
+		/// </summary>
 		void Wait();
+		#endregion
 	}
 }

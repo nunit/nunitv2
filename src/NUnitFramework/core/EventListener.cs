@@ -32,8 +32,10 @@ namespace NUnit.Core
 	using System;
 
 	/// <summary>
-	/// The EventListener interface is used to receive notifications of
-	/// significant events while a test is being run.
+	/// The EventListener interface is used within the NUnit core to receive 
+	/// notifications of significant events while a test is being run. These
+	/// events are propogated to any client, which may choose to convert them
+	/// to .NET events or to use them directly.
 	/// </summary>
 	public interface EventListener
 	{
