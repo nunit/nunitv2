@@ -36,6 +36,7 @@ namespace NUnit.Tests.UiKit
 	using NUnit.UiKit;
 	using NUnit.Util;
 	using NUnit.Tests.Util;
+	using NUnit.Tests.Assemblies;
 
 	/// <summary>
 	/// Summary description for ProgressBarTests.
@@ -70,9 +71,9 @@ namespace NUnit.Tests.UiKit
 			mockEvents.SimulateTestRun();
 			
 			Assert.AreEqual( 0, progressBar.Minimum );
-			Assert.AreEqual( 7, progressBar.Maximum );
+			Assert.AreEqual( MockAssembly.Tests, progressBar.Maximum );
 			Assert.AreEqual( 1, progressBar.Step );
-			Assert.AreEqual( 7, progressBar.Value );
+			Assert.AreEqual( MockAssembly.Tests, progressBar.Value );
 			Assert.AreEqual( Color.Yellow, progressBar.ForeColor );
 		}
 
