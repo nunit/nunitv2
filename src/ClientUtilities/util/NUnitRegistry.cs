@@ -17,41 +17,37 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
-using System;
-using System.Drawing;
-using Microsoft.Win32;
-
 namespace NUnit.Util
 {
+	using System;
+	using Microsoft.Win32;
+
 	/// <summary>
-	/// Summary description for NunitRegistry.
+	/// NUnitRegistry provides static properties for NUnit's
+	/// CurrentUser and LocalMachine subkeys.
 	/// </summary>
-	public class RegistryHelper
+	public class NUnitRegistry
 	{
 		private static string KEY = "Software\\Nascent Software\\Nunit\\";
 
-		public RegistryHelper()
+		/// <summary>
+		/// Prevent construction of object
+		/// </summary>
+		private NUnitRegistry()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
 		}
 
-		public static string ApplicationKey
-		{
-			get { return KEY; }
-		}
-
-		private static string FullKey( string subkey )
-		{
-			return String.Format( "{0}{1}", KEY, subkey );
-		}
-
+		/// <summary>
+		/// Registry subkey for the current user
+		/// </summary>
 		public static RegistryKey CurrentUser
 		{
 			get { return Registry.CurrentUser.CreateSubKey( KEY ); }
 		}
 
+		/// <summary>
+		/// Registry subkey for the local machine
+		/// </summary>
 		public static RegistryKey LocalMachine
 		{
 			get { return Registry.LocalMachine.CreateSubKey( KEY ); }

@@ -41,7 +41,7 @@ namespace NUnit.Util
 		public RecentAssemblyUtil(string subKey)
 		{
 			this.subKey = subKey;
-			key = RegistryHelper.CurrentUser.CreateSubKey(subKey);
+			key = NUnitRegistry.CurrentUser.CreateSubKey(subKey);
 			assemblyEntries = new ArrayList();
 			for(int index = 0; index < valueNames.Length; index++)
 			{
@@ -53,7 +53,7 @@ namespace NUnit.Util
 
 		public void Clear()
 		{
-			RegistryHelper.CurrentUser.DeleteSubKeyTree(subKey);
+			NUnitRegistry.CurrentUser.DeleteSubKeyTree(subKey);
 			assemblyEntries = new ArrayList();
 		}
 

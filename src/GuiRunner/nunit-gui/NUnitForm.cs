@@ -826,7 +826,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void NUnitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			RegistryKey key = RegistryHelper.CurrentUser.CreateSubKey("form");
+			RegistryKey key = NUnitRegistry.CurrentUser.CreateSubKey("form");
 
 			key.SetValue(WIDTH, this.Size.Width.ToString());
 			key.SetValue(HEIGHT, this.Size.Height.ToString());
@@ -839,7 +839,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void NUnitForm_Load(object sender, System.EventArgs e)
 		{
-			RegistryKey key = RegistryHelper.CurrentUser.OpenSubKey("form");
+			RegistryKey key = NUnitRegistry.CurrentUser.OpenSubKey("form");
 
 			int xLocation = 10; 
 			int yLocation = 10;

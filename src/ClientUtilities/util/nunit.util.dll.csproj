@@ -117,12 +117,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "RecentAssemblyUtil.cs"
+                    RelPath = "NUnitRegistry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "RegistryHelper.cs"
+                    RelPath = "RecentAssemblyUtil.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
