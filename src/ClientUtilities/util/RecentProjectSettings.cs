@@ -32,7 +32,18 @@ using System;
 namespace NUnit.Util
 {
 	/// <summary>
-	/// RecentAssemblySettings holds settings for recent projects
+	/// Holds list of most recent projects
+	/// 
+	/// NOTE: An earlier version had separate settings for
+	/// RecentProjects and RecentAssemblies. Currently we
+	/// currently only have RecentProjects, displayed in
+	/// the user interface as "Recent Files" and containing
+	/// all types of projects and assemblies that have
+	/// been opened. We retained the separation into two
+	/// classes in case we should need another recent list
+	/// at some time in the future. The UI component
+	/// RecentFilesMenuHandler can deal with any class
+	/// derived from RecentFileSettings.
 	/// </summary>
 	public class RecentProjectSettings : RecentFileSettings
 	{

@@ -44,7 +44,11 @@ namespace NUnit.Util
 		// We can fix this by using a singleton.
 		private IList fileEntries;
 
-		private int maxValues = 5;
+		public static readonly int MinSize = 1;
+
+		public static readonly int MaxSize = 24;
+
+		public static readonly int DefaultSize = 5;
 
 		public RecentFileSettings( string name ) : base ( name, UserSettings.GetStorageImpl( name ) )
 		{
@@ -61,15 +65,34 @@ namespace NUnit.Util
 			LoadFiles();
 		}
 
-		public int MaxValues
+		public int MaxFiles
 		{
-			get { return maxValues; }
+			get 
+			{ 
+				int size = LoadIntSetting( "MaxFiles", DefaultSize );
+				
+				if ( size < MinSize ) size = MinSize;
+				if ( size > MaxSize ) size = MaxSize;
+				
+				return size;
+			}
+			set 
+			{ 
+				int oldSize = MaxFiles;
+				int newSize = value;
+				
+				if ( newSize < MinSize ) newSize = MinSize;
+				if ( newSize > MaxSize ) newSize = MaxSize;
+
+				SaveIntSetting( "MaxFiles", newSize );
+				if ( newSize < oldSize ) SaveSettings();
+			}
 		}
 
 		protected void LoadFiles()
 		{
 			fileEntries = new ArrayList();
-			for ( int index = 1; index <= MaxValues; index++ )
+			for ( int index = 1; index <= MaxFiles; index++ )
 			{
 				string fileName = LoadStringSetting( ValueName( index ) );
 				if ( fileName != null )
@@ -113,8 +136,8 @@ namespace NUnit.Util
 				}
 
 				fileEntries.Insert( 0, value );
-				if( fileEntries.Count > MaxValues )
-					fileEntries.RemoveAt( MaxValues );
+				if( fileEntries.Count > MaxFiles )
+					fileEntries.RemoveAt( MaxFiles );
 
 				SaveSettings();			
 			}
@@ -129,9 +152,10 @@ namespace NUnit.Util
 
 		private void SaveSettings()
 		{
-			for ( int index = 0; 
-				index < MaxValues;
-				index++)
+			while( fileEntries.Count > MaxFiles )
+				fileEntries.RemoveAt( fileEntries.Count - 1 );
+
+			for( int index = 0; index < MaxSize; index++ ) 
 			{
 				string valueName = ValueName( index + 1 );
 				if ( index < fileEntries.Count )
