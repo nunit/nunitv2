@@ -5,7 +5,9 @@ namespace NUnit.Core
 {
 	/// <summary>
 	/// Simple representation of a test project used
-	/// in the NUnit core.
+	/// in the NUnit core. Unlike the NUnit.Util.TestProject
+	/// class, it only holds the single configuration that
+	/// we are currently working with.
 	/// </summary>
 	[Serializable]
 	public struct TestProject
