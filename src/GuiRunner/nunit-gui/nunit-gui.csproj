@@ -147,28 +147,8 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "ProgressBar.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ProgressBar.resx"
-                    DependentUpon = "ProgressBar.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "Red.jpg"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "StatusBar.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "StatusBar.resx"
-                    DependentUpon = "StatusBar.cs"
-                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "TestResultItem.cs"
@@ -177,16 +157,6 @@
                 />
                 <File
                     RelPath = "TextBoxWriter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UIActions.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UIEvents.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
