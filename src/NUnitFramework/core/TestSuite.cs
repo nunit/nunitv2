@@ -45,6 +45,7 @@ namespace NUnit.Core
 		private MethodInfo fixtureTearDown;
 		private object fixture;
 		private const string FIXTURE_SETUP_FAILED = "Fixture setup failed";
+		private bool isSetUp;
 
 		public TestSuite( string name ) : this( name, 0 ) { }
 
@@ -132,7 +133,7 @@ namespace NUnit.Core
 				NUnit.Framework.TestFixtureAttribute fixtureAttr = 
 					(NUnit.Framework.TestFixtureAttribute)attributes[0];
 				testSuite.Description = fixtureAttr.Description;
-			} 
+			}
 
 			////////////////////////////////////////////////////////////////////////
 			// Uncomment the following code block to allow including Suites in the
@@ -205,6 +206,11 @@ namespace NUnit.Core
 			get { return false; }
 		}
 
+		public bool IsSetUp
+		{
+			get { return isSetUp; }
+		}
+
 		/// <summary>
 		/// True if this is a fixture. May populate the test's
 		/// children as a side effect.
@@ -248,57 +254,60 @@ namespace NUnit.Core
 			return count;
 		}
 
-		private bool suiteRunning = false;
-
-		public bool SuiteRunning 
+		public override TestResult Run(EventListener listener)
 		{
-			get { return suiteRunning; }
+			return Run( listener, null );
 		}
-
-		public override TestResult Run(EventListener listener, IFilter filter) 
+			
+		public override TestResult Run(EventListener listener, IFilter filter)
 		{
-			suiteRunning = true;
 			TestSuiteResult suiteResult = new TestSuiteResult(this, Name);
 
 			listener.SuiteStarted(this);
+			long startTime = DateTime.Now.Ticks;
 
 			if ( ShouldRun )
 			{
-				suiteResult.Executed = true;
+				suiteResult.Executed = true;	
+				doFixtureSetup( suiteResult );
 
-				long startTime = DateTime.Now.Ticks;
-			
-				doFixtureSetup(suiteResult);
-				RunAllTests(suiteResult,listener, filter);
-				doFixtureTearDown(suiteResult);
+				RunAllTests( suiteResult, listener, filter );
 
-				long stopTime = DateTime.Now.Ticks;
-
-				double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-				suiteResult.Time = time;
+				doFixtureTearDown( suiteResult );
 			}
 			else
 				suiteResult.NotRun(this.IgnoreReason);
 
-			listener.SuiteFinished(suiteResult);
-			suiteRunning = false;
+			long stopTime = DateTime.Now.Ticks;
+			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+			suiteResult.Time = time;
 
+			listener.SuiteFinished(suiteResult);
 			return suiteResult;
+		}
+
+		public void DoSetUp( TestResult suiteResult )
+		{
+			doFixtureSetup( suiteResult );
+		}
+
+		public void DoTearDown( TestResult suiteResult )
+		{
+			doFixtureTearDown( suiteResult );
 		}
 
 		public void InvokeFixtureTearDown() 
 		{
 			if (this.fixtureTearDown != null)
-				this.InvokeMethod(fixtureTearDown, fixture);
-		}
+				this.InvokeMethod(fixtureTearDown, fixture);		}
 
-		private void doFixtureTearDown(TestSuiteResult suiteResult)
+		private void doFixtureTearDown(TestResult suiteResult)
 		{
 			if (this.ShouldRun) 
 			{
 				try 
 				{
+					isSetUp = false;
 					InvokeFixtureTearDown();
 				} 
 				catch (Exception ex) 
@@ -313,11 +322,12 @@ namespace NUnit.Core
 			}
 		}
 
-		private void doFixtureSetup(TestSuiteResult suiteResult)
+		private void doFixtureSetup(TestResult suiteResult)
 		{
 			try 
 			{
-				InvoikeFixtureSetUp();
+				InvokeFixtureSetUp();
+				isSetUp = true;
 			} 
 			catch (Exception ex) 
 			{
@@ -327,13 +337,13 @@ namespace NUnit.Core
 			}
 		}
 
-		public void InvoikeFixtureSetUp()
+		private void InvokeFixtureSetUp()
 		{
 			if (this.fixtureSetUp != null)
 				this.InvokeMethod(fixtureSetUp, fixture);
 		}
 
-		private void handleFixtureException(TestSuiteResult result, Exception ex) 
+		private void handleFixtureException(TestResult result, Exception ex) 
 		{
 			NunitException nex = ex as NunitException;
 			if (nex != null)
@@ -344,22 +354,24 @@ namespace NUnit.Core
 			result.StackTrace = ex.StackTrace;
 		}
 
-		protected virtual void RunAllTests(TestSuiteResult suiteResult,EventListener listener, IFilter filter)
+		protected virtual void RunAllTests(
+			TestSuiteResult suiteResult, EventListener listener, IFilter filter )
 		{
 			foreach(Test test in ArrayList.Synchronized(Tests))
 			{
 				if (this.ShouldRun == false) 
 				{
 					test.ShouldRun = false;
-					if (test.IgnoreReason == null)
+					if ( test.IgnoreReason == null )
 						test.IgnoreReason = FIXTURE_SETUP_FAILED;
 				}
-				if (test.Filter(filter))
-					suiteResult.AddResult(test.Run(listener, filter));
-				if (this.ShouldRun == false) 
+
+				if ( filter == null || test.Filter( filter ) )
+					suiteResult.AddResult( test.Run( listener, filter ) );
+				
+				if ( this.ShouldRun == false ) 
 				{
-					
-					if (test.IgnoreReason == FIXTURE_SETUP_FAILED) 
+					if ( test.IgnoreReason == FIXTURE_SETUP_FAILED ) 
 					{
 						test.ShouldRun = true;
 						test.IgnoreReason = null;

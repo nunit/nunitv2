@@ -55,22 +55,23 @@ namespace NUnit.Core
 
 		public override TestResult Run(EventListener listener, IFilter filter)
 		{
+			return Run( listener ); // Ignore filter for now
+		}
+
+		public override TestResult Run( EventListener listener )
+		{
 			TestCaseResult testResult = new TestCaseResult(this);
 
 			listener.TestStarted(this);
-			
 			long startTime = DateTime.Now.Ticks;
 
-			Run(testResult, filter);
+			Run( testResult );
 
 			long stopTime = DateTime.Now.Ticks;
-
 			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
 			testResult.Time = time;
 
 			listener.TestFinished(testResult);
-	
 			return testResult;
 		}
 
@@ -94,12 +95,11 @@ namespace NUnit.Core
 			get { return null; }
 		}
 
-		public abstract void Run(TestCaseResult result, IFilter filter);
-
 		public override bool Filter(IFilter filter) 
 		{
 			return filter.Pass(this);
 		}
 
+		public abstract void Run(TestCaseResult result);
 	}
 }

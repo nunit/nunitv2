@@ -38,14 +38,52 @@ namespace NUnit.Core
 	/// </summary>
 	public abstract class Test : LongLivingMarshalByRefObject, ITest, IComparable
 	{
-		private string fullName;
+		#region Private Fields
+
+		/// <summary>
+		/// Name of the test
+		/// </summary>
 		private string testName;
+
+		/// <summary>
+		/// Full Name of the test
+		/// </summary>
+		private string fullName;
+		
+		/// <summary>
+		/// Int used to distinguish suites of the same
+		/// name across multiple assemblies.
+		/// </summary>
 		private int assemblyKey;
+		
+		/// <summary>
+		/// Whether or not the test should be run
+		/// </summary>
 		private bool shouldRun;
+		
+		/// <summary>
+		/// Reason for not running the test, if applicable
+		/// </summary>
 		private string ignoreReason;
+		
+		/// <summary>
+		/// Description for this test 
+		/// </summary>
 		private string description;
-		private Test parent;
+		
+		/// <summary>
+		/// Test suite containing this test, or null
+		/// </summary>
+		private TestSuite parent;
+		
+		/// <summary>
+		/// List of categories applying to this test
+		/// </summary>
 		private IList categories;
+
+		#endregion
+
+		#region Constructors
 
 		public Test( string name ) : this( name, 0 ) { }
 
@@ -66,65 +104,18 @@ namespace NUnit.Core
 			shouldRun = true;
 		}
 
-		public Test Parent 
-		{
-			get { return parent; }
-			set { parent = value; }
-		}
+		#endregion
 
-		public string TestPath 
-		{
-			get
-			{
-				string testPath = "";
-				if (parent != null)
-					testPath = parent.TestPath;
-				return testPath + FullName;
-			}
-		}
-
-		public bool IsDescendant(Test test) 
-		{
-			if (parent != null) 
-			{
-				return parent == test || parent.IsDescendant(test);
-			}
-
-			return false;
-		}
-
-		public string IgnoreReason
-		{
-			get { return ignoreReason; }
-			set { ignoreReason = value; }
-		}
-
-		public virtual bool ShouldRun
-		{
-			get { return shouldRun; }
-			set { shouldRun = value; }
-		}
-
-		public String Description
-		{
-			get { return description; }
-			set { description = value; }
-		}
-
-		public string FullName 
-		{
-			get { return fullName; }
-		}
+		#region Properties
 
 		public string Name
 		{
 			get { return testName; }
 		}
 
-		public IList Categories 
+		public string FullName 
 		{
-			get { return categories; }
-			set { categories = value; }
+			get { return fullName; }
 		}
 
 		/// <summary>
@@ -142,32 +133,98 @@ namespace NUnit.Core
 			}
 		}
 
+		/// <summary>
+		/// Int used to distinguish suites of the same
+		/// name across multiple assemblies.
+		/// </summary>
 		public int AssemblyKey
 		{
 			get { return assemblyKey; }
 			set { assemblyKey = value; }
 		}
 
+		/// <summary>
+		/// Key used to look up a test in a hash table
+		/// </summary>
 		public string UniqueName
 		{
 			get { return string.Format( "[{0}]{1}", assemblyKey, fullName ); }
 		}
 
+		/// <summary>
+		/// Whether or not the test should be run
+		/// </summary>
+		public virtual bool ShouldRun
+		{
+			get { return shouldRun; }
+			set { shouldRun = value; }
+		}
+
+		/// <summary>
+		/// Reason for not running the test, if applicable
+		/// </summary>
+		public string IgnoreReason
+		{
+			get { return ignoreReason; }
+			set { ignoreReason = value; }
+		}
+
+		public TestSuite Parent 
+		{
+			get { return parent; }
+			set { parent = value; }
+		}
+
+		public string TestPath 
+		{
+			get
+			{
+				string testPath = "";
+				if (parent != null)
+					testPath = parent.TestPath;
+				return testPath + FullName;
+			}
+		}
+
+		public IList Categories 
+		{
+			get { return categories; }
+			set { categories = value; }
+		}
+
+		public bool IsDescendant(Test test) 
+		{
+			if (parent != null) 
+			{
+				return parent == test || parent.IsDescendant(test);
+			}
+
+			return false;
+		}
+
+		public String Description
+		{
+			get { return description; }
+			set { description = value; }
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Count of the test cases ( 1 if this is a test case )
+		/// </summary>
 		public abstract int CountTestCases();
 		public abstract int CountTestCases(IFilter filter);
+
 		public abstract bool IsSuite { get; }
 		public abstract bool IsFixture{ get; }
 		public abstract bool IsTestCase{ get; }
 		public abstract ArrayList Tests { get; }
-		
-		public abstract TestResult Run(EventListener listener, IFilter filter);
-
-		public TestResult Run(EventListener listener) 
-		{
-			return Run(listener, EmptyFilter.Empty);
-		}
 
 		public abstract bool Filter(IFilter filter);
+
+		public abstract TestResult Run( EventListener listener );
+		public abstract TestResult Run(EventListener listener, IFilter filter);
 
 		protected MethodInfo FindMethodByAttribute(object fixture, Type type)
 		{

@@ -47,6 +47,16 @@ namespace NUnit.Core
 		{
 		}
 
+		public override TestResult Run(EventListener listener)
+		{
+			string directoryName = Path.GetDirectoryName( this.Name );
+			
+			if ( directoryName != null && directoryName != string.Empty )
+				Environment.CurrentDirectory = directoryName;
+
+			return base.Run( listener );
+		}
+
 		public override TestResult Run(EventListener listener, IFilter filter)
 		{
 			string directoryName = Path.GetDirectoryName( this.Name );

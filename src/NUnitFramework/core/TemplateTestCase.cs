@@ -48,69 +48,115 @@ namespace NUnit.Core
 			this.method = method;
 		}
 
-		public override void Run(TestCaseResult testResult, IFilter filter )
-		{
-			if(ShouldRun)
+		public override void Run(TestCaseResult testResult)
+		{ 
+			if ( ShouldRun )
 			{
-				DateTime start = DateTime.Now;
-#if NUNIT_LEAKAGE_TEST
-				long before = System.GC.GetTotalMemory( true );
-#endif
-				bool setupComplete = false;
+				bool doParentSetUp = Parent != null && !Parent.IsSetUp;
 
-				try 
+				try
 				{
-					InvokeSetUp();
-					setupComplete = true;
-					InvokeTestCase();
-					ProcessNoException(testResult);
-				}
-				catch(NunitException exception)
-				{
-					if ( setupComplete )
-						ProcessException(exception.InnerException, testResult); 
-					else
-						RecordException( exception.InnerException, testResult );
-				}
-				catch(Exception exp)
-				{
-					if ( setupComplete )
-						ProcessException(exp, testResult);
-					else
-						RecordException( exp, testResult );
-				}
-				finally 
-				{
-					try
-					{
-						InvokeTearDown();
-					}
-					catch(NunitException exception)
-					{
-						RecordException(exception.InnerException, testResult, true); 
-					}
-					catch(Exception exp)
-					{
-						RecordException(exp, testResult, true);
-					}
+					if ( doParentSetUp )
+						Parent.DoSetUp( testResult );
 
-					DateTime stop = DateTime.Now;
-					TimeSpan span = stop.Subtract(start);
-					testResult.Time = (double)span.Ticks / (double)TimeSpan.TicksPerSecond;
-
-#if NUNIT_LEAKAGE_TEST
-					long after = System.GC.GetTotalMemory( true );
-					testResult.Leakage = after - before;
-#endif
+					if ( !testResult.IsFailure )
+						doRun( testResult );
+				}
+				finally
+				{
+					if ( doParentSetUp )
+						Parent.DoTearDown( testResult );
 				}
 			}
 			else
 			{
 				testResult.NotRun(this.IgnoreReason);
 			}
-
-			return;
 		}
+
+		/// <summary>
+		/// The doRun method is used to run a test internally.
+		/// It assumes that the caller is taking care of any 
+		/// TestFixtureSetUp and TestFixtureTearDown needed.
+		/// </summary>
+		/// <param name="testResult">The result in which to record success or failure</param>
+		public void doRun( TestCaseResult testResult )
+		{
+			DateTime start = DateTime.Now;
+
+			try 
+			{
+				doSetUp( testResult );
+				if ( !testResult.IsFailure )
+					doTestCase( testResult );
+			}
+			finally 
+			{
+				doTearDown( testResult );
+
+				DateTime stop = DateTime.Now;
+				TimeSpan span = stop.Subtract(start);
+				testResult.Time = (double)span.Ticks / (double)TimeSpan.TicksPerSecond;
+			}
+		}
+
+		#region Invoke Methods by Reflection, Recording Errors
+
+		private void doTestFixtureSetUp( TestCaseResult testResult )
+		{
+		}
+
+		private void doTestFixtureTearDown( TestCaseResult testResult )
+		{
+		}
+
+		private void doSetUp( TestCaseResult testResult )
+		{
+			try 
+			{
+				invokeSetUp();
+			}
+			catch(Exception ex)
+			{
+				if ( ex is NunitException )
+					ex = ex.InnerException;
+				RecordException( ex, testResult );
+			}
+		}
+
+		private void doTearDown( TestCaseResult testResult )
+		{
+			try
+			{
+				invokeTearDown();
+			}
+			catch(Exception ex)
+			{
+				if ( ex is NunitException )
+					ex = ex.InnerException;
+				RecordException(ex, testResult, true);
+			}
+		}
+
+		private void doTestCase( TestCaseResult testResult )
+		{
+			try
+			{
+				invokeTestCase();
+				ProcessNoException(testResult);
+			}
+			catch( Exception ex )
+			{
+				if ( ex is NunitException )
+					ex = ex.InnerException;
+
+				ProcessException(ex, testResult);
+			}
+		}
+
+		#endregion
+
+		#region Record Info About An Exception
 
 		protected void RecordException( Exception exception, TestCaseResult testResult )
 		{
@@ -167,35 +213,39 @@ namespace NUnit.Core
 				return exception.StackTrace;
 		}
 
-		private void InvokeTearDown()
+		#endregion
+
+		#region Invoking Methods by Reflection
+
+		private void invokeSetUp()
 		{
-			MethodInfo method = FindTearDownMethod(fixture);
+			MethodInfo method = findSetUpMethod(fixture);
 			if(method != null)
 			{
 				InvokeMethod(method, fixture);
 			}
 		}
 
-		private MethodInfo FindTearDownMethod(object fixture)
-		{			
-			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.TearDownAttribute));
-		}
-
-		private void InvokeSetUp()
-		{
-			MethodInfo method = FindSetUpMethod(fixture);
-			if(method != null)
-			{
-				InvokeMethod(method, fixture);
-			}
-		}
-
-		private MethodInfo FindSetUpMethod(object fixture)
+		private MethodInfo findSetUpMethod(object fixture)
 		{
 			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.SetUpAttribute));
 		}
 
-		private void InvokeTestCase() 
+		private void invokeTearDown()
+		{
+			MethodInfo method = findTearDownMethod(fixture);
+			if(method != null)
+			{
+				InvokeMethod(method, fixture);
+			}
+		}
+
+		private MethodInfo findTearDownMethod(object fixture)
+		{			
+			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.TearDownAttribute));
+		}
+
+		private void invokeTestCase() 
 		{
 			try
 			{
@@ -208,8 +258,14 @@ namespace NUnit.Core
 			}
 		}
 
+		#endregion
+
+		#region Abstract Methods
+
 		protected internal abstract void ProcessNoException(TestCaseResult testResult);
 		
 		protected internal abstract void ProcessException(Exception exception, TestCaseResult testResult);
+
+		#endregion
 	}
 }

@@ -59,6 +59,11 @@ namespace NUnit.Extensions
 
 		public override TestResult Run(EventListener listener, IFilter filter)
 		{
+			return Run( listener ); // If actually called, ignore the filter 
+		}
+
+		public override TestResult Run(EventListener listener )
+		{
 			TestSuiteResult suiteResult = new TestSuiteResult(this, testCase.Name);
 
 			for(int i = 0; i < repeatCount; i++)
@@ -97,6 +102,5 @@ namespace NUnit.Extensions
 		{
 			return testCase.Filter(filter);
 		}
-
 	}
 }

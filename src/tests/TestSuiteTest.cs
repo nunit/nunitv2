@@ -159,8 +159,8 @@ namespace NUnit.Tests.Core
 			testSuite.Add(mockTestFixture);
 			
 			RecordingListener listener = new RecordingListener();
-			NameFilter filter = new NameFilter(testSuite);
-			testSuite.Run(listener, filter);
+			testSuite.Run(listener);
+
 			Assert.AreEqual(5, listener.testStarted.Count);
 
 			Assert.AreEqual(2, listener.suiteStarted.Count);
@@ -244,6 +244,19 @@ namespace NUnit.Tests.Core
 		public ArrayList testFinished = new ArrayList();
 		public ArrayList suiteStarted = new ArrayList();
 		public ArrayList suiteFinished = new ArrayList();
+
+		public void RunStarted(Test[] tests)
+		{
+		}
+
+		public void RunFinished(NUnit.Core.TestResult[] results)
+		{
+		}
+
+		public void RunFinished(Exception exception)
+		{
+		}
+
 		public void TestStarted(NUnit.Core.TestCase testCase) 
 		{
 			testStarted.Add(testCase.Name);
@@ -264,5 +277,8 @@ namespace NUnit.Tests.Core
 			suiteFinished.Add(result.Name);
 		}
 
+		public void UnhandledException(Exception exception )
+		{
+		}
 	}
 }

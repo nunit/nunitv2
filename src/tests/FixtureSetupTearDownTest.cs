@@ -307,10 +307,8 @@ namespace NUnit.Tests.Core
 			TestSuite fixtureSuite = (TestSuite)suite.Tests[0];
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)fixtureSuite.Tests[0];
 			
-			// Normal Run does not run Fixture Setup and Teardown
-			//testCase.Run(NullListener.NULL);
-			NameFilter filter = new NameFilter(testCase);
-			suite.Run(NullListener.NULL, filter);
+			suite.Run(NullListener.NULL);
+
 			Assert.AreEqual(1, testFixture.setUpCount);
 			Assert.AreEqual(1, testFixture.tearDownCount);
 		}
