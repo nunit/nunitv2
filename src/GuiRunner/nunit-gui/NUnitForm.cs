@@ -1291,7 +1291,7 @@ namespace NUnit.Gui
 
 		private void ShowOptionsDialog( )
 		{
-			OptionsDialog dialog = new OptionsDialog();
+			OptionsDialog dialog = new OptionsDialog( actions );
 			DialogResult result = dialog.ShowDialog();
 		}
 
