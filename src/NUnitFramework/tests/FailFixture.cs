@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Reflection;
 using NUnit.Framework;
 using NUnit.Core;
 
@@ -64,7 +65,12 @@ namespace NUnit.Core.Tests
 			
 			Type fixtureType = typeof(VerifyFailThrowsException);
 
-			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType, "CallAssertionFail"));
+			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(
+				fixtureType, 
+				Reflect.GetMethod(
+					fixtureType, 
+					"CallAssertionFail",
+					BindingFlags.Public | BindingFlags.Instance ) );
 			TestFixture suite = new TestFixture(fixtureType);
 			suite.Add(test);
 			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);
@@ -102,7 +108,12 @@ namespace NUnit.Core.Tests
 				
 			string failureMessage = verifyInner.failureMessage;
 
-			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType, "ThrowInnerException"));
+			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(
+				fixtureType, 
+				Reflect.GetMethod(
+					fixtureType, 
+					"ThrowInnerException",
+					BindingFlags.Public | BindingFlags.Instance ) );
 			TestFixture suite = new TestFixture(fixtureType);
 			suite.Add(test);
 			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);

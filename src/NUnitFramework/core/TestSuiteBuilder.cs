@@ -43,7 +43,14 @@ namespace NUnit.Core
 	/// </summary>
 	public class TestSuiteBuilder
 	{
-		#region Private Fields
+		#region Static Fields
+
+		private static readonly Type SuiteBuilderAttributeType = typeof( NUnit.Framework.SuiteBuilderAttribute );
+		private static readonly Type SuiteBuilderInterfaceType = typeof( NUnit.Core.ISuiteBuilder );
+		
+		#endregion
+
+		#region Instance Fields
 
 		/// <summary>
 		/// Hashtable of all test suites we have created to represent namespaces.
@@ -68,9 +75,17 @@ namespace NUnit.Core
 		/// </summary>
 		Assembly frameworkAssembly = null;
 
+		/// <summary>
+		/// Collection of SuiteBuilders that get a shot at building 
+		/// each fixture we encounter.
+		/// </summary>
 		SuiteBuilderCollection builders = new SuiteBuilderCollection();
 		//	{ new NUnitTestFixtureBuilder(), new LegacySuiteBuilder() };
 
+		/// <summary>
+		/// Our LegacySuite builder, which is only used when a 
+		/// fixture has been passed by name on the command line.
+		/// </summary>
 		ISuiteBuilder legacySuiteBuilder;
 
 		#endregion
@@ -156,8 +171,8 @@ namespace NUnit.Core
 
 				foreach( Type type in assembly.GetExportedTypes() )
 				{
-					if ( type.IsDefined( typeof( NUnit.Framework.SuiteBuilderAttribute ), false )
-						&& typeof( ISuiteBuilder ).IsAssignableFrom( type )	)
+					if ( Reflect.HasAttribute( type, SuiteBuilderAttributeType, false )
+						&& Reflect.HasInterface( type, SuiteBuilderInterfaceType ) )
 					{
 						ISuiteBuilder builder = (ISuiteBuilder)Reflect.Construct( type );
 						builders.Add( builder );

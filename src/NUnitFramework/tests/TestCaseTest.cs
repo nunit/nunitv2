@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Reflection;
 using NUnit.Framework;
 using NUnit.Tests.Assemblies;
 using NUnit.Core;
@@ -46,7 +47,12 @@ namespace NUnit.Core.Tests
 		public void CreateIgnoredTestCase()
 		{
 			Type fixtureType = typeof(MockTestFixture);
-			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType, "MockTest4")); 
+			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
+				fixtureType, 
+				Reflect.GetMethod(
+					fixtureType, 
+					"MockTest4",
+					BindingFlags.Public | BindingFlags.Instance ) ); 
 			Assert.AreEqual(1, testCase.CountTestCases());
 			Assert.AreEqual(false, testCase.ShouldRun);
 			Assert.AreEqual("ignoring this test method for now", testCase.IgnoreReason);
@@ -56,7 +62,12 @@ namespace NUnit.Core.Tests
 		public void RunIgnoredTestCase()
 		{
 			Type fixtureType = typeof(MockTestFixture);
-			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType, "MockTest4")); 
+			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
+				fixtureType, 
+				Reflect.GetMethod(
+					fixtureType, 
+					"MockTest4",
+					BindingFlags.Public | BindingFlags.Instance ) ); 
 			Assert.AreEqual(1, testCase.CountTestCases());
 			
 			TestResult result = testCase.Run(NullListener.NULL);
@@ -69,7 +80,12 @@ namespace NUnit.Core.Tests
 		public void LoadMethodCategories() 
 		{
 			Type fixtureType = typeof(HasCategories);
-			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType, "ATest")); 
+			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
+				fixtureType, 
+				Reflect.GetMethod(
+					fixtureType, 
+					"ATest",
+					BindingFlags.Public | BindingFlags.Instance ) ); 
 			Assert.IsNotNull(testCase);
 			Assert.IsNotNull(testCase.Categories);
 			Assert.AreEqual(2, testCase.Categories.Count);

@@ -12,7 +12,6 @@ namespace NUnit.Core
 	public class TestFixture : TestSuite
 	{
 		private static readonly Type TestFixtureType = typeof( TestFixtureAttribute );
-		private static readonly Type TestType = typeof( TestAttribute );
 		private static readonly Type SetUpType = typeof( SetUpAttribute );
 		private static readonly Type TearDownType = typeof( TearDownAttribute );
 		private static readonly Type FixtureSetUpType = typeof( TestFixtureSetUpAttribute );
@@ -20,7 +19,6 @@ namespace NUnit.Core
 		private static readonly Type ExplicitType = typeof( ExplicitAttribute );
 		private static readonly Type CategoryType = typeof( CategoryAttribute );
 		private static readonly Type IgnoreType = typeof( IgnoreAttribute );
-		private static readonly Type ExpectedExceptionType = typeof( ExpectedExceptionAttribute );
 		private static readonly Type PlatformType = typeof( PlatformAttribute );
 
 		private const string FIXTURE_SETUP_FAILED = "Fixture setup failed";
@@ -59,45 +57,58 @@ namespace NUnit.Core
 				CheckSetUpTearDownMethod( fixtureType, FixtureSetUpType );
 				CheckSetUpTearDownMethod( fixtureType, FixtureTearDownType );
 
-				object[] attributes = fixtureType.GetCustomAttributes( CategoryType, false );
+				System.Attribute[] attributes = 
+					Reflect.GetAttributes( fixtureType, CategoryType, false );
 				IList categories = new ArrayList();
 
-				foreach(CategoryAttribute attribute in attributes) 
-					categories.Add(attribute.Name);
+				foreach( Attribute categoryAttribute in attributes ) 
+					categories.Add( 
+						Reflect.GetPropertyValue( 
+							categoryAttribute, 
+							"Name", 
+							BindingFlags.Public | BindingFlags.Instance ) );
 			
 				CategoryManager.Add( categories );
 				this.Categories = categories;
 
-				this.fixtureSetUp = Reflect.GetMethod( fixtureType, FixtureSetUpType );
-				this.fixtureTearDown = Reflect.GetMethod( fixtureType, FixtureTearDownType );
+				this.fixtureSetUp = Reflect.GetMethod( fixtureType, FixtureSetUpType,
+					BindingFlags.Public | BindingFlags.Instance );
+				this.fixtureTearDown = Reflect.GetMethod( fixtureType, FixtureTearDownType,
+					BindingFlags.Public | BindingFlags.Instance );
 
 				this.IsExplicit = Reflect.HasAttribute( fixtureType, ExplicitType, false );
 
-				attributes = fixtureType.GetCustomAttributes( PlatformType, false );
+				attributes = Reflect.GetAttributes( fixtureType, PlatformType, false );
 				if ( attributes.Length > 0 )
 				{
 					PlatformHelper helper = new PlatformHelper();
-					if ( !helper.IsPlatformSupported( (PlatformAttribute[])attributes ) )
+					if ( !helper.IsPlatformSupported( attributes ) )
 					{
 						this.ShouldRun = false;
 						this.IgnoreReason = "Not running on correct platform";
 					}
 				}
 
-				IgnoreAttribute ignoreAttribute = (IgnoreAttribute)
+				Attribute ignoreAttribute =
 					Reflect.GetAttribute( fixtureType, IgnoreType, false );
 				if ( ignoreAttribute != null )
 				{
 					this.ShouldRun = false;
-					this.IgnoreReason = ignoreAttribute.Reason;
+					this.IgnoreReason = (string)Reflect.GetPropertyValue(
+						ignoreAttribute, 
+						"Reason",
+						BindingFlags.Public | BindingFlags.Instance );
 				}
 		
-				TestFixtureAttribute fixtureAttribute 
-					= (TestFixtureAttribute)Reflect.GetAttribute( fixtureType, TestFixtureType, true );
+				Attribute fixtureAttribute =
+					Reflect.GetAttribute( fixtureType, TestFixtureType, true );
 
 				// Some of our tests create a fixture without the attribute
 				if ( fixtureAttribute != null )
-					this.Description = fixtureAttribute.Description;
+					this.Description = (string)Reflect.GetPropertyValue( 
+						fixtureAttribute, 
+						"Description",
+						BindingFlags.Public | BindingFlags.Instance );
 
 				MethodInfo [] methods = fixtureType.GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.Static|BindingFlags.NonPublic);
 				foreach(MethodInfo method in methods)

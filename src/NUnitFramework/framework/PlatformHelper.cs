@@ -51,7 +51,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="platformAttributes"></param>
 		/// <returns></returns>
-		public bool IsPlatformSupported( PlatformAttribute[] platformAttributes )
+		public bool IsPlatformSupported( Attribute[] platformAttributes )
 		{
 			ArrayList includes = new ArrayList();
 			ArrayList excludes = new ArrayList();

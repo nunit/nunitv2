@@ -12,7 +12,7 @@ namespace NUnit.Core.Builders
 
 		public bool CanBuildFrom( Type type )
 		{
-			return !type.IsAbstract && type.IsDefined( TestFixtureType, true );	// Inheritable
+			return !type.IsAbstract && Reflect.HasAttribute( type, TestFixtureType, true );	// Inheritable
 		}
 
 		public TestSuite BuildFrom( Type type, int assemblyKey )

@@ -52,14 +52,20 @@ namespace NUnit.Core
 
 		private void Initialize( MethodInfo method )
 		{
-			ExpectedExceptionAttribute attribute = (ExpectedExceptionAttribute)
+			Attribute attribute =
 				Reflect.GetAttribute( method, ExpectedExceptionType, false );
 
 			if ( attribute == null )
 				throw new InvalidTestFixtureException( "ExpectedExceptionAttribute not found" );
 
-			this.expectedException = attribute.ExceptionType;
-			this.expectedMessage = attribute.ExpectedMessage;
+			this.expectedException = (System.Type)Reflect.GetPropertyValue(
+				attribute, 
+				"ExceptionType", 
+				BindingFlags.Public | BindingFlags.Instance );
+			this.expectedMessage = (string)Reflect.GetPropertyValue( 
+				attribute, 
+				"ExpectedMessage", 
+				BindingFlags.Public | BindingFlags.Instance );
 		}
 
 		protected override internal void ProcessException(Exception exception, TestCaseResult testResult)

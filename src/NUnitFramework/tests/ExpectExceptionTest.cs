@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Reflection;
 using System.Runtime.Serialization;
 using NUnit.Framework;
 
@@ -71,7 +72,12 @@ namespace NUnit.Core.Tests
 		public void TestBaseException()
 		{
 			Type fixtureType = typeof(BaseException);
-			Test test = TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType,"BaseExceptionTest"));
+			Test test = TestCaseBuilder.Make(
+				fixtureType, 
+				Reflect.GetMethod(
+					fixtureType, 
+					"BaseExceptionTest",
+					BindingFlags.Public | BindingFlags.Instance ) );
 			TestFixture suite = new TestFixture(fixtureType);
 			suite.Add(test);
 			TestResult result = test.Run(NullListener.NULL);
@@ -83,7 +89,12 @@ namespace NUnit.Core.Tests
 		public void TestMismatchedException()
 		{
 			Type fixtureType = typeof(MismatchedException);
-			Test test = TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType,"MismatchedExceptionTest"));
+			Test test = TestCaseBuilder.Make(
+				fixtureType, 
+				Reflect.GetMethod(
+					fixtureType,
+					"MismatchedExceptionTest",
+					BindingFlags.Public | BindingFlags.Instance ) );
 			TestFixture suite = new TestFixture(fixtureType);
 			suite.Add(test);
 			TestResult result = test.Run(NullListener.NULL);

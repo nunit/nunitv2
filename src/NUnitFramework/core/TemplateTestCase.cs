@@ -116,7 +116,8 @@ namespace NUnit.Core
 
 			try 
 			{
-				Reflect.InvokeMethod( SetUpType, this.Fixture );
+				Reflect.InvokeMethod( SetUpType, this.Fixture, 
+					BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
 				doTestCase( testResult );
 			}
 			catch(Exception ex)
@@ -145,7 +146,8 @@ namespace NUnit.Core
 		{
 			try
 			{
-				Reflect.InvokeMethod( TearDownType, this.Fixture );
+				Reflect.InvokeMethod( TearDownType, this.Fixture, 
+					BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
 			}
 			catch(Exception ex)
 			{

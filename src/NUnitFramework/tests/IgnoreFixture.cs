@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using NUnit.Framework;
 using NUnit.Core;
 
@@ -29,7 +30,12 @@ namespace NUnit.Core.Tests
 		public void IgnoreWorksForTestCase()
 		{
 			Type fixtureType = typeof(IgnoredTestCaseFixture);
-			Test test = TestCaseBuilder.Make( fixtureType, Reflect.GetMethod(fixtureType, "CallsIgnore") );
+			Test test = TestCaseBuilder.Make( 
+				fixtureType, 
+				Reflect.GetMethod(
+					fixtureType, 
+					"CallsIgnore",
+					BindingFlags.Public | BindingFlags.Instance ) );
 			TestFixture suite = new TestFixture(fixtureType);
 			suite.Add(test);
 			TestResult result = test.Run( NullListener.NULL);

@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Collections;
 using NUnit.Framework;
 
@@ -55,14 +56,24 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void ReflectionTest()
 		{
-			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(FixtureType, Reflect.GetMethod(FixtureType, "Method"));
+			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
+				FixtureType, 
+				Reflect.GetMethod(
+					FixtureType, 
+					"Method",
+					BindingFlags.Public | BindingFlags.Instance ) );
 			Assert.IsTrue(testCase.ShouldRun);
 		}
 
 		[Test]
 		public void Description()
 		{
-			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(FixtureType, Reflect.GetMethod(FixtureType, "Method"));
+			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
+				FixtureType, 
+				Reflect.GetMethod(
+					FixtureType, 
+					"Method",
+					BindingFlags.Public | BindingFlags.Instance ) );
 			Assert.AreEqual("Test Description", testCase.Description);
 		}
 
@@ -84,7 +95,12 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void NoDescription()
 		{
-			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(FixtureType, Reflect.GetMethod(FixtureType,"NoDescriptionMethod"));
+			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(
+				FixtureType, 
+				Reflect.GetMethod(
+					FixtureType,
+					"NoDescriptionMethod",
+					BindingFlags.Public | BindingFlags.Instance ) );
 			Assert.IsNull(testCase.Description);
 		}
 

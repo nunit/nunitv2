@@ -26,36 +26,27 @@ namespace NUnit.Core
 
 		public static PropertyInfo GetSuiteProperty( Type testClass )
 		{
-			if( testClass != null )
-			{
-				PropertyInfo[] properties = testClass.GetProperties( 
-					BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly );
-				foreach( PropertyInfo property in properties )
-				{
-					if( property.IsDefined( SuiteType, false ) )
-					{
-						try 
-						{
-							CheckSuiteProperty(property);
-						}
-						catch( InvalidSuiteException )
-						{
-							return null;
-						}
-						return property;
-					}
-				}
-			}
-			return null;
-		}
+			if( testClass == null )
+				return null;
 
-		private static void CheckSuiteProperty(PropertyInfo property)
-		{
+			PropertyInfo property = Reflect.GetProperty( 
+				testClass, 
+				SuiteType,
+				BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly );
+
+			if ( property == null )
+				return null;
+
 			MethodInfo method = property.GetGetMethod(true);
+
 			if(method.ReturnType!=typeof(NUnit.Core.TestSuite))
-				throw new InvalidSuiteException("Invalid suite property method signature");
+				return null;
+				//throw new InvalidSuiteException("Invalid suite property method signature");
 			if(method.GetParameters().Length>0)
-				throw new InvalidSuiteException("Invalid suite property method signature");
+				return null;
+				//throw new InvalidSuiteException("Invalid suite property method signature");
+
+			return property;
 		}
 
 		#endregion
@@ -86,8 +77,10 @@ namespace NUnit.Core
 		{
 			suiteProperty = GetSuiteProperty( fixtureType );
 
-			this.fixtureSetUp = Reflect.GetMethod( fixtureType, FixtureSetUpType );
-			this.fixtureTearDown = Reflect.GetMethod( fixtureType, FixtureTearDownType );			
+			this.fixtureSetUp = Reflect.GetMethod( fixtureType, FixtureSetUpType,
+				BindingFlags.Public | BindingFlags.Instance );
+			this.fixtureTearDown = Reflect.GetMethod( fixtureType, FixtureTearDownType,
+				BindingFlags.Public | BindingFlags.Instance );			
 			
 			MethodInfo method = suiteProperty.GetGetMethod(true);
 			

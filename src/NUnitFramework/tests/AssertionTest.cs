@@ -30,6 +30,7 @@
 namespace NUnit.Core.Tests
 {
 	using System;
+	using System.Reflection;
 	using NUnit.Framework;
 	using NUnit.Core;
 
@@ -381,7 +382,12 @@ namespace NUnit.Core.Tests
 			verifyFail.failureMessage = failureMessage;
 			Type verifyFailType = typeof(VerifyFailThrowsException);
 
-			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(verifyFailType, Reflect.GetMethod(verifyFailType, "CallAssertionFail"));
+			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(
+				verifyFailType, 
+				Reflect.GetMethod(
+					verifyFailType, 
+					"CallAssertionFail",
+					BindingFlags.Public | BindingFlags.Instance ) );
 			TestFixture suite = new TestFixture(verifyFailType);
 			suite.Add(test);
 			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);

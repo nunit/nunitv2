@@ -55,7 +55,7 @@ namespace NUnit.Core
 		private static void InitBuilders() 
 		{
 			builders = new Hashtable();
-			builders[typeof(NUnit.Framework.ExpectedExceptionAttribute)] = new ExpectedExceptionBuilder();
+			builders["NUnit.Framework.ExpectedExceptionAttribute"] = new ExpectedExceptionBuilder();
 		}
 
 		static TestCaseBuilder()
@@ -95,7 +95,7 @@ namespace NUnit.Core
 		private static ITestBuilder GetBuilder(object attribute)
 		{
 			Type attributeType = attribute.GetType();
-			ITestBuilder builder = (ITestBuilder) builders[attribute.GetType()];
+			ITestBuilder builder = (ITestBuilder) builders[attribute.GetType().FullName];
 			if (builder == null)
 			{
 				object[] attributes = attributeType.GetCustomAttributes(typeof(TestBuilderAttribute), false);
@@ -104,7 +104,7 @@ namespace NUnit.Core
 					TestBuilderAttribute builderAttribute = (TestBuilderAttribute) attributes[0];
 					Type builderType = builderAttribute.BuilderType;
 					builder = (ITestBuilder) Activator.CreateInstance(builderType);
-					builders[attributeType] = builder;
+					builders[attributeType.FullName] = builder;
 				}
 			}
 
@@ -121,7 +121,7 @@ namespace NUnit.Core
 		{
 			TestCase testCase = null;
 
-			TestAttribute testAttribute = (TestAttribute)Reflect.GetAttribute( method, TestType, false );
+			Attribute testAttribute = Reflect.GetAttribute( method, TestType, false );
 			if( testAttribute != null || allowOldStyleTests && IsObsoleteTestMethod( method ) )
 			{
 				if (!method.IsStatic &&
@@ -164,9 +164,12 @@ namespace NUnit.Core
 					}
 
 					testCase.IsExplicit = Reflect.HasAttribute( method, ExplicitType, false );
-					
+				
 					if ( testAttribute != null )
-						testCase.Description = testAttribute.Description;
+						testCase.Description = (string)Reflect.GetPropertyValue( 
+							testAttribute, 
+							"Description", 
+							BindingFlags.Public | BindingFlags.Instance );
 				}
 				else
 				{
