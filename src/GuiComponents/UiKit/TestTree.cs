@@ -394,6 +394,7 @@ namespace NUnit.UiKit
 			this.tests.AllowDrop = true;
 			this.tests.CheckBoxes = true;
 			this.tests.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tests.ExcludeSelectedCategories = false;
 			this.tests.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.tests.HideSelection = false;
 			this.tests.Location = new System.Drawing.Point(0, 0);
@@ -503,6 +504,7 @@ namespace NUnit.UiKit
 			this.selectedList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.selectedList.Size = new System.Drawing.Size(208, 95);
 			this.selectedList.TabIndex = 0;
+			this.selectedList.DoubleClick += new System.EventHandler(this.removeCategory_Click);
 			// 
 			// excludeCheckbox
 			// 
@@ -538,6 +540,7 @@ namespace NUnit.UiKit
 			this.availableList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
 			this.availableList.Size = new System.Drawing.Size(208, 199);
 			this.availableList.TabIndex = 0;
+			this.availableList.DoubleClick += new System.EventHandler(this.addCategory_Click);
 			// 
 			// TestTree
 			// 
