@@ -27,7 +27,7 @@
 '***********************************************************************************/
 #endregion
 
-namespace NUnit.Samples.Money 
+namespace NUnit.Samples.Money.Port
 {
 	using System;
 	using NUnit.Framework;
