@@ -35,7 +35,7 @@ namespace NUnit.Util
 	/// <summary>
 	/// Base class for settings that hold lists of recent files
 	/// </summary>
-	public abstract class RecentFileSettings : SettingsGroup
+	public abstract class RecentFileSettings : SettingsGroup, RecentFiles
 	{
 		// TODO: This class does more loading and
 		// storing than it should but this is the
@@ -49,6 +49,8 @@ namespace NUnit.Util
 		public static readonly int MaxSize = 24;
 
 		public static readonly int DefaultSize = 5;
+
+		#region Constructors
 
 //		public RecentFileSettings( string name ) : base ( name, UserSettings.GetStorageImpl( name ) )
 //		{
@@ -64,6 +66,10 @@ namespace NUnit.Util
 		{ 
 			LoadFiles();
 		}
+
+		#endregion
+
+		#region Properties
 
 		public int MaxFiles
 		{
@@ -89,29 +95,6 @@ namespace NUnit.Util
 			}
 		}
 
-		protected void LoadFiles()
-		{
-			fileEntries = new ArrayList();
-			for ( int index = 1; index <= MaxFiles; index++ )
-			{
-				string fileName = LoadStringSetting( ValueName( index ) );
-				if ( fileName != null )
-					fileEntries.Add( fileName );
-			}
-		}
-
-		public override void Clear()
-		{
-			base.Clear();
-			fileEntries = new ArrayList();
-		}
-
-		public IList GetFiles()
-		{
-			LoadFiles();
-			return fileEntries;
-		}
-		
 		public string RecentFile
 		{
 			get 
@@ -141,6 +124,36 @@ namespace NUnit.Util
 
 				SaveSettings();			
 			}
+		}
+
+		#endregion
+
+		#region Public Methods
+
+		public IList GetFiles()
+		{
+			LoadFiles();
+			return fileEntries;
+		}
+		
+		#endregion
+
+
+		protected void LoadFiles()
+		{
+			fileEntries = new ArrayList();
+			for ( int index = 1; index <= MaxFiles; index++ )
+			{
+				string fileName = LoadStringSetting( ValueName( index ) );
+				if ( fileName != null )
+					fileEntries.Add( fileName );
+			}
+		}
+
+		public override void Clear()
+		{
+			base.Clear();
+			fileEntries = new ArrayList();
 		}
 
 		public void Remove( string fileName )

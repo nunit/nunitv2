@@ -40,9 +40,9 @@ namespace NUnit.UiKit
 	public class RecentFileMenuHandler
 	{
 		private MenuItem menu;
-		private RecentFileSettings recentFiles;
+		private RecentFiles recentFiles;
 
-		public RecentFileMenuHandler( MenuItem menu, RecentFileSettings recentFiles )
+		public RecentFileMenuHandler( MenuItem menu, RecentFiles recentFiles )
 		{
 			this.menu = menu;
 			this.recentFiles = recentFiles;
@@ -82,11 +82,6 @@ namespace NUnit.UiKit
 		{
 			MenuItem item = (MenuItem) sender;
 			string testFileName = item.Text.Substring( 2 );
-
-//			if ( AppUI.TestLoader.IsProjectLoaded )
-//				AppUI.TestLoaderUI.CloseProject();
-//
-//			AppUI.TestLoader.LoadTest( testFileName );
 
 			AppUI.TestLoaderUI.OpenProject( testFileName );
 		}

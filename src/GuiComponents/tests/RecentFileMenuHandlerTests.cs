@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Windows.Forms;
 using NUnit.Framework;
 using NUnit.Util;
@@ -38,24 +39,15 @@ namespace NUnit.UiKit.Tests
 	public class RecentFileMenuHandlerTests
 	{
 		private MenuItem menu;
-		private RecentProjectSettings projects;
+		private RecentFiles files;
 		private RecentFileMenuHandler handler;
 		
 		[SetUp]
 		public void SetUp()
 		{
-			NUnitRegistry.TestMode = true;
-			NUnitRegistry.ClearTestKeys();
-
 			menu = new MenuItem();
-			projects = UserSettings.RecentProjects;
-			handler = new RecentFileMenuHandler( menu, projects );
-		}
-
-		[TearDown]
-		public void TearDown()
-		{
-			NUnitRegistry.TestMode = false;
+			files = new FakeRecentFiles();
+			handler = new RecentFileMenuHandler( menu, files );
 		}
 
 		[Test]
@@ -68,22 +60,54 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void EnableOnLoadWhenNotEmpty()
 		{
-			projects.RecentFile = "Test";
+			files.RecentFile = "Test";
 			handler.Load();
 			Assert.IsTrue( menu.Enabled );
 		}
 		[Test]
 		public void LoadMenuItems()
 		{
-			projects.RecentFile = "Third";
-			projects.RecentFile = "Second";
-			projects.RecentFile = "First";
+			files.RecentFile = "Third";
+			files.RecentFile = "Second";
+			files.RecentFile = "First";
 			handler.Load();
 			Assert.AreEqual( 3, menu.MenuItems.Count );
 			Assert.AreEqual( "1 First", menu.MenuItems[0].Text );
 		}
 
-		
+		private class FakeRecentFiles : RecentFiles
+		{
+			private ArrayList files = new ArrayList();
+			private int maxFiles = 24;
+
+			public int MaxFiles
+			{
+				get { return maxFiles; }
+				set { maxFiles = value; }
+			}
+
+			public string RecentFile
+			{
+				get { return (string)files[files.Count-1]; }
+				set { files.Insert( 0, value ); }
+			}
+
+			public IList GetFiles()
+			{
+				return files;
+			}
+
+			public void Clear()
+			{
+				files.Clear();
+			}
+
+			public void Remove( string fileName )
+			{
+				files.Remove( fileName );
+			}
+		}
+	
 		// TODO: Need mock loader to test clicking
 	}
 }
