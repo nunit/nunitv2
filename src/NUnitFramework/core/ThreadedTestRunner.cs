@@ -1,11 +1,11 @@
 namespace NUnit.Core
 {
-	using System;
 	using System.Threading;
 
 	public class ThreadedTestRunner : ProxyTestRunner
 	{
 		TestRunner testRunner;
+		TestRunnerThread thread;
 
 		public ThreadedTestRunner(TestRunner testRunner) : base(testRunner)
 		{
@@ -14,31 +14,58 @@ namespace NUnit.Core
 
 		public override TestResult Run(EventListener listener)
 		{
-			using(PumpingEventListener pumpingEventListener = new PumpingEventListener(listener))
+			this.thread = new TestRunnerThread(this.testRunner);
+			try
 			{
-				TestRunnerThread thread = new TestRunnerThread(this.testRunner);
-				thread.Run(pumpingEventListener);
-				while(thread.Results == null)
+				using(PumpingEventListener pumpingEventListener = new PumpingEventListener(listener))
 				{
-					pumpingEventListener.DoEvents();
-					Thread.Sleep(1000 / 50);
+					this.thread.Run(pumpingEventListener);
+					while(this.thread.IsAlive)
+					{
+						pumpingEventListener.DoEvents();
+						Thread.Sleep(1000 / 50);
+					}
+
+					if(this.thread.Results == null)
+					{
+						return null;
+					}
+					return this.thread.Results[0];
 				}
-				return thread.Results[0];
+			}
+			finally
+			{
+				this.thread = null;
 			}
 		}
 
 		public override TestResult[] Run(EventListener listener, string[] testNames)
 		{
-			using(PumpingEventListener pumpingEventListener = new PumpingEventListener(listener))
+			this.thread = new TestRunnerThread(this.testRunner);
+			try
 			{
-				TestRunnerThread thread = new TestRunnerThread(this.testRunner);
-				thread.Run(pumpingEventListener, testNames);
-				while(thread.Results == null)
+				using(PumpingEventListener pumpingEventListener = new PumpingEventListener(listener))
 				{
-					pumpingEventListener.DoEvents();
-					Thread.Sleep(1000 / 50);
+					this.thread.Run(pumpingEventListener, testNames);
+					while(this.thread.IsAlive)
+					{
+						pumpingEventListener.DoEvents();
+						Thread.Sleep(1000 / 50);
+					}
+					return this.thread.Results;
 				}
-				return thread.Results;
+			}
+			finally
+			{
+				this.thread = null;
+			}
+		}
+
+		public override void CancelRun()
+		{
+			if(this.thread != null)
+			{
+				this.thread.Cancel();
 			}
 		}
 	}

@@ -34,6 +34,7 @@ namespace NUnit.Core.Tests
 			string source = 
 @"
 using System;
+using System.Threading;
 using System.Runtime.Remoting.Messaging;
 using NUnit.Framework;
 
@@ -52,8 +53,23 @@ public class MyFixture
 		Console.Error.WriteLine(""Hello, World!"");
 	}
 
+	[Test] public void TestSleep()
+	{
+		Thread.Sleep(10 * 1000);
+	}
+
 	[Serializable]
 	public class EmptyCallContextData : ILogicalThreadAffinative {}
+}
+
+[TestFixture]
+public class SleepFixture
+{
+	[Test] public void Sleep_1() { Thread.Sleep(1000); }
+	[Test] public void Sleep_2() { Thread.Sleep(1000); }
+	[Test] public void Sleep_3() { Thread.Sleep(1000); }
+	[Test] public void Sleep_4() { Thread.Sleep(1000); }
+	[Test] public void Sleep_5() { Thread.Sleep(1000); }
 }
 ";
 			source = source.Replace("$(CONTEXT_DATA_NAME)", CONTEXT_DATA_NAME);
@@ -95,6 +111,34 @@ public class MyFixture
 
 			Assert.IsNull(listener.Data, "Check that EventListener thread doesn't contain CallContext data");
 			Assert.IsTrue(listener.EventCount > 0, "Check that EventListener was called at least once");
+		}
+
+		[Test]
+		public void TestCancelSleep()
+		{
+			EventListener listener = NullListener.NULL;
+			string[] testNames = new string[] {"MyFixture.TestSleep"};
+			RunWorkItem workItem = new RunWorkItem(this.testRunner, listener, testNames);
+			Thread thread = new Thread(new ThreadStart(workItem.Run));
+			thread.Start();
+			Thread.Sleep(1000);
+			this.testRunner.CancelRun();
+			Thread.Sleep(1000);
+			Assert.IsFalse(thread.IsAlive, "Check that test run has been canceled");
+		}
+
+		[Test]
+		public void TestCancelSleepMany()
+		{
+			EventListener listener = NullListener.NULL;
+			string[] testNames = new string[] {"SleepFixture"};
+			RunWorkItem workItem = new RunWorkItem(this.testRunner, listener, testNames);
+			Thread thread = new Thread(new ThreadStart(workItem.Run));
+			thread.Start();
+			Thread.Sleep(1000);
+			this.testRunner.CancelRun();
+			Thread.Sleep(1000);
+			Assert.IsFalse(thread.IsAlive, "Check that test run has been canceled");
 		}
 
 		class RunWorkItem

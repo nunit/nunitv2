@@ -168,7 +168,14 @@ namespace NUnit.Core
 		public void Cancel()
 		{
 			this.thread.Abort();
-//			this.thread.Join();
+		}
+
+		public bool IsAlive
+		{
+			get
+			{
+				return this.thread.IsAlive;
+			}
 		}
 
 		public void Run( EventListener listener )
