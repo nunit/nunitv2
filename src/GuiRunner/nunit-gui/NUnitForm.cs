@@ -134,8 +134,11 @@ namespace NUnit.Gui
 		{
 			InitializeComponent();
 
+			this.testTree.ShowCheckBoxes = UserSettings.Options.ShowCheckBoxes;
+			this.testTree.VisualStudioSupport = UserSettings.Options.VisualStudioSupport;
+			this.testTree.InitialDisplay = 
+				(TestSuiteTreeView.DisplayStyle)UserSettings.Options.InitialTreeDisplay;
 			this.mainMenu.MenuItems.Add(1, testTree.ViewMenu);
-
 			this.commandLineOptions = commandLineOptions;
 
 			stdErrTab.Enabled = true;
@@ -147,7 +150,14 @@ namespace NUnit.Gui
 			outWriter = new TextBoxWriter( stdOutTab );
 			errWriter = new TextBoxWriter( stdErrTab );
 
-			AppUI.Init(	this, outWriter, errWriter );
+			TestLoader loader = new TestLoader( outWriter, errWriter, new GuiTestEventDispatcher() );
+			loader.ReloadOnRun = UserSettings.Options.ReloadOnRun;
+			loader.ReloadOnChange = UserSettings.Options.ReloadOnChange;
+			loader.DisplayTestLabels = UserSettings.Options.TestLabels;
+
+			bool vsSupport = UserSettings.Options.VisualStudioSupport;
+
+			AppUI.Init(	this, outWriter, errWriter, loader, vsSupport );
 
 			recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, UserSettings.RecentProjects );
 		}
@@ -707,6 +717,7 @@ namespace NUnit.Gui
 			this.ResumeLayout(false);
 
 		}
+
 		#endregion
 
 		#region Properties used internally
@@ -956,6 +967,9 @@ namespace NUnit.Gui
 			if ( !e.Cancel && IsProjectLoaded && 
 				 TestLoaderUI.CloseProject() == DialogResult.Cancel )
 				e.Cancel = true;
+
+			UserSettings.Options.ShowCheckBoxes = testTree.ShowCheckBoxes;
+			UserSettings.Options.VisualStudioSupport = testTree.VisualStudioSupport;
 		}
 
 		/// <summary>
@@ -1030,6 +1044,7 @@ namespace NUnit.Gui
 
 			events.ProjectLoaded	+= new TestEventHandler( OnTestProjectLoaded );
 			events.ProjectLoadFailed+= new TestEventHandler( OnProjectLoadFailure );
+			events.ProjectUnloading += new TestEventHandler( OnTestProjectUnloading );
 			events.ProjectUnloaded	+= new TestEventHandler( OnTestProjectUnloaded );
 
 			events.TestLoading		+= new TestEventHandler( OnTestLoadStarting );
@@ -1101,12 +1116,6 @@ namespace NUnit.Gui
 		/// </summary>
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
-//			if ( testTree.tests.SelectedCategories == null )
-//				AppUI.TestLoader.SetFilter( null );
-//			else
-//				AppUI.TestLoader.SetFilter( new CategoryFilter( testTree.tests.SelectedCategories, testTree.tests.ExcludeSelectedCategories ) );
-//
-//			TestLoader.RunTests( testTree.tests.SelectedTests );
 			testTree.RunTests();
 		}
 
@@ -1163,6 +1172,12 @@ namespace NUnit.Gui
 		{
 			SetTitleBar( e.Name );
 			projectMenu.Visible = true;
+		}
+
+		private void OnTestProjectUnloading( object sender, TestEventArgs e )
+		{
+			if ( e.Name != null && File.Exists( e.Name ) )
+				UserSettings.RecentProjects.RecentFile = e.Name;
 		}
 
 		private void OnTestProjectUnloaded( object sender, TestEventArgs e )
