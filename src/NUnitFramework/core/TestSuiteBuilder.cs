@@ -39,7 +39,7 @@ namespace NUnit.Core
 	/// to create fixtures from the qualified types in each assembly. It implements
 	/// the ISuiteBuilder interface itself, allowing it to be used by other classes
 	/// for queries and suite construction.
-	/// </summary>
+	/// </summary>D:\Dev\NUnit\nunit20\src\NUnitFramework\core\TestBuilderAttribute.cs
 	public class TestSuiteBuilder
 	{
 		#region Instance Variables
@@ -68,14 +68,14 @@ namespace NUnit.Core
 
 		#region Public Methods
 
-		public TestSuite Build(string projectName, IList assemblies)
+		public TestSuite Build( TestProject project )
 		{
-			RootTestSuite rootSuite = new RootTestSuite( projectName );
+			RootTestSuite rootSuite = new RootTestSuite( project.ProjectPath );
 			NamespaceTreeBuilder namespaceTree = 
 				new NamespaceTreeBuilder( rootSuite );
 
 			int assemblyKey = 0;
-			foreach(string assemblyName in assemblies)
+			foreach(string assemblyName in project.Assemblies)
 			{
 				TestAssemblyBuilder builder = new TestAssemblyBuilder( 
 					assemblyName, assemblyKey++, 
@@ -109,11 +109,11 @@ namespace NUnit.Core
 			return builder.Build( testName );
 		}
 
-		public TestSuite Build( IList assemblies, string testName )
+		public TestSuite Build( TestProject project, string testName )
 		{
 			TestSuite suite = null;
 
-			foreach(string assemblyName in assemblies)
+			foreach(string assemblyName in project.Assemblies)
 			{
 				TestAssemblyBuilder builder = 
 					new TestAssemblyBuilder( assemblyName, 0, this.autoNamespaceSuites );

@@ -80,15 +80,15 @@ namespace NUnit.Core.Builders
 
 		public bool CanBuildFrom(Type type)
 		{
-			return AddinManager.Addins.CanBuildFrom( type ) 
-				|| AddinManager.Builtins.CanBuildFrom( type );
+			return Addins.CanBuildFrom( type ) 
+				|| Builtins.CanBuildFrom( type );
 		}
 
 		public TestSuite BuildFrom(Type type, int assemblyKey)
 		{
-			TestSuite suite = AddinManager.Addins.BuildFrom( type, assemblyKey );
+			TestSuite suite = Addins.BuildFrom( type, assemblyKey );
 			if ( suite == null )
-				suite = AddinManager.Builtins.BuildFrom( type, assemblyKey );
+				suite = Builtins.BuildFrom( type, assemblyKey );
 
 			return suite;
 		}
@@ -186,7 +186,7 @@ namespace NUnit.Core.Builders
 				if ( assembly != null )
 				{
 					this.testFramework = TestFramework.FromAssembly( assembly );
-					AddinManager.Addins.Register( assembly );
+					Addins.Register( assembly );
 				}
 
 				return assembly;

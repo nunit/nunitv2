@@ -58,9 +58,30 @@ namespace NUnit.Core
 			int index = ns.LastIndexOf( '.' );
 			ns = index > 0 ? ns.Substring( 0, index ) : string.Empty;
 			TestSuite suite = BuildFromNameSpace( ns, fixture.AssemblyKey );
-
 			suite.Add( fixture );
-			//				this.rootSuite.Add( fixture );
+		}
+
+		public void Add( NamespaceSuite fixture )
+		{
+			string ns = fixture.FullName;
+			int index = ns.LastIndexOf( '.' );
+			ns = index > 0 ? ns.Substring( 0, index ) : string.Empty;
+			TestSuite suite = BuildFromNameSpace( ns, fixture.AssemblyKey );
+
+			// Make the parent point to this instead
+			TestSuite parent = suite.Parent;
+			if ( parent != null )
+			{
+				parent.Tests.Remove( suite );
+				parent.Add( fixture );
+			}
+
+			// Add the old suite's children
+			foreach( TestSuite child in suite.Tests )
+				fixture.Add( child );
+
+			// Update the hashtable
+			namespaceSuites[ns] = fixture;
 		}
 
 		#endregion
