@@ -93,97 +93,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_5125586E75154FD6BBC1135C74D7F9BB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_705583D6A817F08536E07681F4BF7FCF"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_472C836335ECA686068597EB4BA0F9D5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_6655B4F74925EADF0579E58C01C639C6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_4184E1A2E44D27E534EF8733231FFD4C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_FA76FC0178DA44278A8A7BB1612248C9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_E5BEB3A716BD48038CD58A8DD41C229E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_C7F11E9A0B884DA18422AB1E7873F32A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_4989FBDED9743550E3C5F53721B8228E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_A65668B743BC4714BE5622F8FBE6A9F7"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_931F49096F8245539C5B1F81FEC934CA"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_EEC5AB65E4BBD866231AE19F9299BDA0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_812ECA93C88B47C534E7F9E8C52AD5B3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_883DBB81B7FF42C9A2AB78ED9F353A04"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1AEFA5AD23C14873BB9C15207871BFA9"
-        "OwnerKey" = "8:_8BCCB2CA34AFB1566F8430BED5BC1CA0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1C00DBCE48E14B93B93F29C876717536"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1FF5199323364A238ABDC1C462B5C25B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -232,12 +148,6 @@
         "Entry"
         {
         "MsmKey" = "8:_29BA0D11A1E94AA6A87C82DCB87A9B6B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_29FE702701BA4414969434E5A103F3F4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -460,6 +370,12 @@
         "Entry"
         {
         "MsmKey" = "8:_67F90B9D2F824D28BAD0A0F2E6A9D530"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_68D0F37D879844FCB45B5CF8AB41F96B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -759,6 +675,96 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_5125586E75154FD6BBC1135C74D7F9BB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_705583D6A817F08536E07681F4BF7FCF"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_472C836335ECA686068597EB4BA0F9D5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_6655B4F74925EADF0579E58C01C639C6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_4184E1A2E44D27E534EF8733231FFD4C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_4989FBDED9743550E3C5F53721B8228E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_931F49096F8245539C5B1F81FEC934CA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_EEC5AB65E4BBD866231AE19F9299BDA0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_812ECA93C88B47C534E7F9E8C52AD5B3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_8BCCB2CA34AFB1566F8430BED5BC1CA0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_FA76FC0178DA44278A8A7BB1612248C9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_E5BEB3A716BD48038CD58A8DD41C229E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_C7F11E9A0B884DA18422AB1E7873F32A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_A65668B743BC4714BE5622F8FBE6A9F7"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9D61FACBEA4A4C2DA58A512F1D699158"
+        "OwnerKey" = "8:_883DBB81B7FF42C9A2AB78ED9F353A04"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_A206ED97465D4EA2A0701594740BA540"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -969,6 +975,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_DD504532B1194D5497522B8B6FD57574"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_E14A28236CAD4ABC8B61446E8AB51D0E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -1157,7 +1169,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\NUnit-2.1.92.msi"
+        "OutputFilename" = "8:Release\\NUnit-2.1.93.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -1478,6 +1490,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{A582A373-4685-4296-BEFE-614B80A702C3}:_1FF5199323364A238ABDC1C462B5C25B"
+            {
+            "SourcePath" = "8:..\\doc\\img\\pp-book-cover.gif"
+            "TargetName" = "8:pp-book-cover.gif"
+            "Tag" = "8:"
+            "Folder" = "8:_A7D308387CCE41889C1ABC1CBC5D8D78"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{A582A373-4685-4296-BEFE-614B80A702C3}:_21408EE7BE924CA2918680811D03CF16"
             {
             "SourcePath" = "8:..\\doc\\ChangeLog.txt"
@@ -1622,26 +1654,6 @@
             {
             "SourcePath" = "8:..\\doc\\upgrade.html"
             "TargetName" = "8:upgrade.html"
-            "Tag" = "8:"
-            "Folder" = "8:_14CBB7894D694BB18A52C157F8C173FB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{A582A373-4685-4296-BEFE-614B80A702C3}:_29FE702701BA4414969434E5A103F3F4"
-            {
-            "SourcePath" = "8:..\\doc\\docTemplate.html"
-            "TargetName" = "8:docTemplate.html"
             "Tag" = "8:"
             "Folder" = "8:_14CBB7894D694BB18A52C157F8C173FB"
             "Condition" = "8:"
@@ -1842,7 +1854,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.extensions, Version=2.1.92.1, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:nunit.extensions, Version=2.1.93.0, Culture=neutral"
                 "ScatterAssemblies"
                 {
                     "_4184E1A2E44D27E534EF8733231FFD4C"
@@ -1913,7 +1925,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nonamespace-assembly, Version=2.1.92.1, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:nonamespace-assembly, Version=2.1.93.0, Culture=neutral"
                 "ScatterAssemblies"
                 {
                     "_472C836335ECA686068597EB4BA0F9D5"
@@ -2024,7 +2036,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:mock-assembly, Version=2.1.92.1, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:mock-assembly, Version=2.1.93.0, Culture=neutral"
                 "ScatterAssemblies"
                 {
                     "_4989FBDED9743550E3C5F53721B8228E"
@@ -2402,6 +2414,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{A582A373-4685-4296-BEFE-614B80A702C3}:_68D0F37D879844FCB45B5CF8AB41F96B"
+            {
+            "SourcePath" = "8:..\\doc\\img\\jeffries-book-cover.gif"
+            "TargetName" = "8:jeffries-book-cover.gif"
+            "Tag" = "8:"
+            "Folder" = "8:_A7D308387CCE41889C1ABC1CBC5D8D78"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{A582A373-4685-4296-BEFE-614B80A702C3}:_69AB7AB6238D4C67A25D7A867C95F0D6"
             {
             "SourcePath" = "8:..\\doc\\img\\contactUsOff.gif"
@@ -2486,7 +2518,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:notestfixtures-assembly, Version=2.1.92.1, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:notestfixtures-assembly, Version=2.1.93.0, Culture=neutral"
                 "ScatterAssemblies"
                 {
                     "_705583D6A817F08536E07681F4BF7FCF"
@@ -2697,7 +2729,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.core, Version=2.1.92.1, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
+            "AssemblyAsmDisplayName" = "8:nunit.core, Version=2.1.93.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
                 "ScatterAssemblies"
                 {
                     "_812ECA93C88B47C534E7F9E8C52AD5B3"
@@ -2808,7 +2840,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.framework, Version=2.1.92.1, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
+            "AssemblyAsmDisplayName" = "8:nunit.framework, Version=2.1.93.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
                 "ScatterAssemblies"
                 {
                     "_8BCCB2CA34AFB1566F8430BED5BC1CA0"
@@ -2899,7 +2931,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.util, Version=2.1.92.1, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:nunit.util, Version=2.1.93.0, Culture=neutral"
                 "ScatterAssemblies"
                 {
                     "_931F49096F8245539C5B1F81FEC934CA"
@@ -3666,6 +3698,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{A582A373-4685-4296-BEFE-614B80A702C3}:_DD504532B1194D5497522B8B6FD57574"
+            {
+            "SourcePath" = "8:..\\doc\\tdd-book.html"
+            "TargetName" = "8:tdd-book.html"
+            "Tag" = "8:"
+            "Folder" = "8:_14CBB7894D694BB18A52C157F8C173FB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{A582A373-4685-4296-BEFE-614B80A702C3}:_E14A28236CAD4ABC8B61446E8AB51D0E"
             {
             "SourcePath" = "8:..\\doc\\img\\testFixtureOn.gif"
@@ -3870,7 +3922,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.uikit, Version=2.1.92.1, Culture=neutral"
+            "AssemblyAsmDisplayName" = "8:nunit.uikit, Version=2.1.93.0, Culture=neutral"
                 "ScatterAssemblies"
                 {
                     "_EEC5AB65E4BBD866231AE19F9299BDA0"
@@ -4538,20 +4590,20 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:NUnit 2.2"
         "ProductCode" = "8:{1AA69CCD-1078-473A-BD6E-11CE30A81C57}"
-        "PackageCode" = "8:{E1B3183A-E926-4AA5-A072-D1AB9CBD42F8}"
+        "PackageCode" = "8:{4F28E6C3-8A9D-4A9B-8F7A-A5A66DC8CBC6}"
         "UpgradeCode" = "8:{2E280DED-3E0E-4783-94A9-BE102C854C39}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
-        "ProductVersion" = "8:2.1.92"
+        "ProductVersion" = "8:2.1.93"
         "Manufacturer" = "8:NUnit"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.nunit.org"
-        "Title" = "8:Nunit 2.2 Beta 2"
+        "Title" = "8:Nunit 2.2 Beta 3"
         "Subject" = "8:"
         "ARPCONTACT" = "8:James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:NUnit 2.2 Beta2"
+        "ARPCOMMENTS" = "8:NUnit 2.2 Beta3"
         "ARPURLINFOABOUT" = "8:www.nunit.org"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
@@ -5333,7 +5385,7 @@
         }
         "MergeModule"
         {
-            "{35A69C6E-5BA4-440D-803D-762B59A45393}:_1AEFA5AD23C14873BB9C15207871BFA9"
+            "{35A69C6E-5BA4-440D-803D-762B59A45393}:_9D61FACBEA4A4C2DA58A512F1D699158"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
