@@ -32,16 +32,58 @@ namespace NUnit.Core
 	using System;
 
 	/// <summary>
-	/// Summary description for EventListener.
+	/// The EventListener interface is used to receive notifications of
+	/// significant events while a test is being run.
 	/// </summary>
 	public interface EventListener
 	{
+		/// <summary>
+		/// Run is starting
+		/// </summary>
+		/// <param name="tests">Array of tests to be run</param>
+		void RunStarted( Test[] tests );
+
+		/// <summary>
+		/// Run finished successfully
+		/// </summary>
+		/// <param name="results">Array of test results</param>
+		void RunFinished( TestResult[] results );
+
+		/// <summary>
+		/// Run was terminated due to an exception
+		/// </summary>
+		/// <param name="exception">Exception that was thrown</param>
+		void RunFinished( Exception exception );
+
+		/// <summary>
+		/// A single test case is starting
+		/// </summary>
+		/// <param name="testCase">The test case</param>
 		void TestStarted(TestCase testCase);
 			
+		/// <summary>
+		/// A test case finished
+		/// </summary>
+		/// <param name="result">Result of the test case</param>
 		void TestFinished(TestCaseResult result);
 
+		/// <summary>
+		/// A suite is starting
+		/// </summary>
+		/// <param name="suite">The suite that is starting</param>
 		void SuiteStarted(TestSuite suite);
 
+		/// <summary>
+		/// A suite finished
+		/// </summary>
+		/// <param name="result">Result of the suite</param>
 		void SuiteFinished(TestSuiteResult result);
+
+		/// <summary>
+		/// An unhandled exception occured while running a test,
+		/// but the test was not terminated.
+		/// </summary>
+		/// <param name="exception"></param>
+		void UnhandledException( Exception exception );
 	}
 }
