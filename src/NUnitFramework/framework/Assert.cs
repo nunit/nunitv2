@@ -477,7 +477,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="obj">The object to check</param>
 		/// <returns>true if the object is a numeric type</returns>
-		static private bool IsNumericType( Object obj )
+		static protected bool IsNumericType( Object obj )
 		{
 			if( null != obj )
 			{
@@ -517,7 +517,7 @@ namespace NUnit.Framework
 		/// <param name="expected"></param>
 		/// <param name="actual"></param>
 		/// <returns></returns>
-		static private bool ObjectsEqual( Object expected, Object actual )
+		static protected bool ObjectsEqual( Object expected, Object actual )
 		{
 			if ( expected == null && actual == null ) return true;
 			if ( expected == null || actual == null ) return false;
@@ -725,7 +725,7 @@ namespace NUnit.Framework
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static private void FailNotEquals(Object expected, Object actual, string message,
+		static protected void FailNotEquals(Object expected, Object actual, string message,
 			params object[] args) 
 		{
 			Assert.Fail( 
@@ -745,7 +745,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual array</param>
 		/// <param name="message">The message that is to be printed prior to the comparison failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static private void FailArraysNotEqual(int index, Array expected, Array actual, 
+		static protected void FailArraysNotEqual(int index, Array expected, Array actual, 
 			string message, params object[] args) 
 		{
 			Assert.Fail( 
@@ -764,7 +764,7 @@ namespace NUnit.Framework
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static private void FailNotSame(Object expected, Object actual, string message, params object[] args) 
+		static protected void FailNotSame(Object expected, Object actual, string message, params object[] args) 
 		{
 			string formatted = string.Empty;
 			if ( message != null )
