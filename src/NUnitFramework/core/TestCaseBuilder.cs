@@ -34,7 +34,6 @@ namespace NUnit.Core
 	using System.Collections;
 	using System.Collections.Specialized;
 	using System.Configuration;
-	using NUnit.Framework;
 
 	/// <summary>
 	/// Summary description for TestCaseBuilder.
@@ -132,33 +131,44 @@ namespace NUnit.Core
 				{
 					testCase = MakeTestCase(fixtureType, method);
 
-					object[] platformAttributes = method.GetCustomAttributes( PlatformType, false );
-					if ( platformAttributes.Length > 0 )
+					Attribute platformAttribute = 
+						Reflect.GetAttribute( method, PlatformType, false );
+					if ( platformAttribute != null )
 					{
 						PlatformHelper helper = new PlatformHelper();
-						if ( !helper.IsPlatformSupported( (PlatformAttribute[])platformAttributes ) )
+						if ( !helper.IsPlatformSupported( platformAttribute ) )
 						{
 							testCase.ShouldRun = false;
 							testCase.IgnoreReason = "Not running on correct platform";
 						}
 					}
 
-					IgnoreAttribute ignoreAttribute = (IgnoreAttribute)
-						Reflect.GetAttribute( method, typeof( IgnoreAttribute ), false );
+					Attribute ignoreAttribute =
+						Reflect.GetAttribute( method, IgnoreType, false );
 					if ( ignoreAttribute != null )
 					{
 						testCase.ShouldRun = false;
-						testCase.IgnoreReason = ignoreAttribute.Reason;
+						testCase.IgnoreReason = (string)
+							Reflect.GetPropertyValue( 
+								ignoreAttribute, 
+								"Reason",
+								BindingFlags.Public | BindingFlags.Instance );
 					}
 
-					object[] categoryAttributes = method.GetCustomAttributes( CategoryType, false );
+					Attribute[] categoryAttributes = 
+						Reflect.GetAttributes( method, CategoryType, false );
 					if ( categoryAttributes.Length > 0 )
 					{
 						ArrayList categories = new ArrayList();
-						foreach(CategoryAttribute categoryAttribute in categoryAttributes) 
+						foreach( Attribute categoryAttribute in categoryAttributes) 
 						{
-							CategoryManager.Add( categoryAttribute.Name );
-							categories.Add( categoryAttribute.Name );
+							string category = (string)
+								Reflect.GetPropertyValue( 
+									categoryAttribute, 
+									"Name",
+									BindingFlags.Public | BindingFlags.Instance );
+							CategoryManager.Add( category );
+							categories.Add( category );
 						}
 						testCase.Categories = categories;
 					}
@@ -187,13 +197,16 @@ namespace NUnit.Core
 				object[] attributes = methodToCheck.GetCustomAttributes( false );
 
 				foreach( Attribute attribute in attributes )
-					if( attribute is SetUpAttribute ||
-						attribute is TestFixtureSetUpAttribute ||
-						attribute is TearDownAttribute || 
-						attribute is TestFixtureTearDownAttribute )
+				{
+					string typeName = attribute.GetType().FullName;
+					if( typeName == "NUnit.Framework.SetUpAttribute" ||
+						typeName == "NUnit.Framework.TestFixtureSetUpAttribute" ||
+						typeName == "NUnit.Framework.TearDownAttribute" || 
+						typeName == "NUnit.Framework.TestFixtureTearDownAttribute" )
 					{
 						return false;
 					}
+				}
 
 				return true;	
 			}

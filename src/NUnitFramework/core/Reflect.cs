@@ -1,7 +1,6 @@
 using System;
 using System.Reflection;
 using System.Collections;
-using NUnit.Framework;
 
 namespace NUnit.Core
 {
@@ -213,15 +212,23 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="type">The type to examine</param>
 		/// <param name="propertyName">The name of the method</param>
-		/// <returns>A MethodInfo or null</returns>
-		public static PropertyInfo GetProperty( Type type, string name, BindingFlags binding )
+		/// <param name="bindingFlags">BindingFlags to use</param>
+		/// <returns>A PropertyInfo or null</returns>
+		public static PropertyInfo GetProperty( Type type, string name, BindingFlags bindingFlags )
 		{
-			return type.GetProperty( name, binding );
+			return type.GetProperty( name, bindingFlags );
 		}
 
-		public static object GetPropertyValue( object obj, string name, BindingFlags binding )
+		/// <summary>
+		/// Get the value of a named property on an object
+		/// </summary>
+		/// <param name="obj">The object for which the property value is needed</param>
+		/// <param name="name">The name of a non-indexed property of the object</param>
+		/// <param name="bindingFlags">BindingFlags for use in determining which properties are needed</param>param>
+		/// <returns></returns>
+		public static object GetPropertyValue( object obj, string name, BindingFlags bindingFlags )
 		{
-			PropertyInfo property = GetProperty( obj.GetType(), name, binding );
+			PropertyInfo property = GetProperty( obj.GetType(), name, bindingFlags );
 			if ( property != null )
 				return property.GetValue( obj, null );
 			return null;

@@ -87,7 +87,7 @@ namespace NUnit.Core
 					if ( ex is NunitException )
 						ex = ex.InnerException;
 
-					if ( ex is NUnit.Framework.IgnoreException )
+					if ( ex.GetType().FullName == "NUnit.Framework.IgnoreException" )
 						testResult.NotRun( ex.Message );
 					else
 						RecordException( ex, testResult );
@@ -125,7 +125,7 @@ namespace NUnit.Core
 				if ( ex is NunitException )
 					ex = ex.InnerException;
 
-				if ( ex is NUnit.Framework.IgnoreException )
+				if ( ex.GetType().FullName == "NUnit.Framework.IgnoreException" )
 					testResult.NotRun( ex.Message );
 				else
 					RecordException( ex, testResult );
@@ -169,7 +169,7 @@ namespace NUnit.Core
 				if ( ex is NunitException )
 					ex = ex.InnerException;
 
-				if ( ex is NUnit.Framework.IgnoreException )
+				if ( ex.GetType().FullName == "NUnit.Framework.IgnoreException" )
 					testResult.NotRun( ex.Message );
 				else
 					ProcessException(ex, testResult);
@@ -214,7 +214,7 @@ namespace NUnit.Core
 		private string BuildMessage(Exception exception)
 		{
 			StringBuilder sb = new StringBuilder();
-			if ( exception is NUnit.Framework.AssertionException )
+			if ( exception.GetType().FullName == "NUnit.Framework.AssertionException" )
 				sb.Append( exception.Message );
 			else
 				sb.AppendFormat( "{0} : {1}", exception.GetType().ToString(), exception.Message );

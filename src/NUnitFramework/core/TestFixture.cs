@@ -78,11 +78,12 @@ namespace NUnit.Core
 
 				this.IsExplicit = Reflect.HasAttribute( fixtureType, ExplicitType, false );
 
-				attributes = Reflect.GetAttributes( fixtureType, PlatformType, false );
-				if ( attributes.Length > 0 )
+				Attribute platformAttribute = 
+					Reflect.GetAttribute( fixtureType, PlatformType, false );
+				if ( platformAttribute != null )
 				{
 					PlatformHelper helper = new PlatformHelper();
-					if ( !helper.IsPlatformSupported( attributes ) )
+					if ( !helper.IsPlatformSupported( platformAttribute ) )
 					{
 						this.ShouldRun = false;
 						this.IgnoreReason = "Not running on correct platform";
@@ -182,7 +183,7 @@ namespace NUnit.Core
 				if (nex != null)
 					ex = nex.InnerException;
 
-				if ( ex is NUnit.Framework.IgnoreException )
+				if ( ex.GetType().FullName == "NUnit.Framework.IgnoreException" )
 				{
 					this.ShouldRun = false;
 					suiteResult.NotRun(ex.Message);
