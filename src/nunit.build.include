@@ -96,7 +96,7 @@
     </if>
 
     <!-- NUnit version for packaging -->
-    <property name="package.version" value="2.2.1"/>
+    <property name="package.version" value="2.2.2"/>
 
     <!-- Root of the package file name -->
     <property name="package.name" 
