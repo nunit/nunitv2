@@ -41,7 +41,7 @@ namespace NUnit.Core
 	/// </summary>
 	/// 
 	[Serializable]
-	public class RemoteTestRunner : LongLivingMarshalByRefObject, TestRunner
+	public class RemoteTestRunner : LongLivingMarshalByRefObject, TestRunner, EventListener
 	{
 		#region Instance variables
 
@@ -66,6 +66,15 @@ namespace NUnit.Core
 		/// </summary>
 		private string[] assemblies;
 
+		/// <summary>
+		/// Dispatcher used to put out runner's test events
+		/// </summary>
+		private TestEventDispatcher events = new TestEventDispatcher();
+
+		//private EventListener listener; // Temp
+
+		private Version frameworkVersion;
+
 		#endregion
 
 		#region Constructors
@@ -88,16 +97,35 @@ namespace NUnit.Core
 
 		#region Properties
 
+		/// <summary>
+		/// Writer for standard output
+		/// </summary>
 		public TextWriter Out
 		{
 			get { return outText; }
 			set { outText = value; }
 		}
 
+		/// <summary>
+		/// Writer for error output
+		/// </summary>
 		public TextWriter Error
 		{
 			get { return errorText; }
 			set { errorText = value; }
+		}
+
+		/// <summary>
+		/// Interface to the events sourced by the runner
+		/// </summary>
+		public ITestEvents Events
+		{
+			get { return events; }
+		}
+
+		public Version FrameworkVersion
+		{
+			get { return frameworkVersion; }
 		}
 
 		#endregion
@@ -113,6 +141,7 @@ namespace NUnit.Core
 			this.assemblies = new string[] { assemblyName };
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( assemblyName );
+			frameworkVersion = builder.FrameworkVersion;
 			return suite;
 		}
 
@@ -124,6 +153,7 @@ namespace NUnit.Core
 			this.assemblies = new string[] { assemblyName };
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( assemblyName, testName );
+			frameworkVersion = builder.FrameworkVersion;
 			return suite;
 		}
 
@@ -135,6 +165,7 @@ namespace NUnit.Core
 			this.assemblies = (string[])assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( projectName, assemblies );
+			frameworkVersion = builder.FrameworkVersion;
 			return suite;
 		}
 
@@ -143,12 +174,14 @@ namespace NUnit.Core
 			this.assemblies = (string[])assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( assemblies, testName );
+			frameworkVersion = builder.FrameworkVersion;
 			return suite;
 		}
 
 		public void Unload()
 		{
 			suite = null; // All for now
+			frameworkVersion = null;
 		}
 
 		#endregion
@@ -261,6 +294,11 @@ namespace NUnit.Core
 
 		private TestRunnerThread runningThread;
 
+		public void CancelRun()
+		{
+			if ( runningThread != null )
+				runningThread.Cancel();
+		}
 
 		#endregion
 
@@ -311,7 +349,15 @@ namespace NUnit.Core
 				TestResult[] results = new TestResult[ tests.Length ];
 
 				// Signal that we are starting the run
-				listener.RunStarted( tests );
+//				this.listener = listener;
+//				listener.RunStarted( tests );
+				
+				// TODO: Get rid of count
+				int count = 0;
+				foreach( Test test in tests )
+					count += test.CountTestCases();
+
+				events.FireRunStarting( tests, count );
 				
 				// Run each test, saving the results
 				int index = 0;
@@ -322,11 +368,12 @@ namespace NUnit.Core
 					if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
 						Environment.CurrentDirectory = assemblyDirectory;
 
-					results[index] = test.Run( listener );
+					results[index] = test.Run( this );
 				}
 
 				// Signal that we are done
-				listener.RunFinished( results );
+//				listener.RunFinished( results );
+				events.FireRunFinished( results );
 
 				// Return result array
 				return results;
@@ -334,7 +381,8 @@ namespace NUnit.Core
 			catch( Exception exception )
 			{
 				// Signal that we finished with an exception
-				listener.RunFinished( exception );
+//				listener.RunFinished( exception );
+				events.FireRunFinished( exception );
 				// Rethrow - should we do this?
 				throw;
 			}
@@ -382,6 +430,56 @@ namespace NUnit.Core
 
 			return tests;
 		}
+
+		#endregion
+
+		#region EventListener Members
+
+		public void RunStarted(Test[] tests)
+		{
+			// TODO:  Remove
+		}
+
+		void NUnit.Core.EventListener.RunFinished(TestResult[] results)
+		{
+			// TODO:  Remove
+		}
+
+		void NUnit.Core.EventListener.RunFinished(Exception exception)
+		{
+			// TODO:  Remove
+		}
+
+		public void TestStarted(TestCase testCase)
+		{
+			//this.listener.TestStarted( testCase );
+			events.FireTestStarting( testCase );
+		}
+
+		void NUnit.Core.EventListener.TestFinished(TestCaseResult result)
+		{
+			//listener.TestFinished( result );
+			events.FireTestFinished( result );
+		}
+
+		public void SuiteStarted(TestSuite suite)
+		{
+			//listener.SuiteStarted( suite );
+			events.FireSuiteStarting( suite );
+		}
+
+		void NUnit.Core.EventListener.SuiteFinished(TestSuiteResult result)
+		{
+			//listener.SuiteFinished( result );
+			events.FireSuiteFinished( result );
+		}
+
+		public void UnhandledException(Exception exception)
+		{
+			//listener.UnhandledException( exception );
+			events.FireTestException( exception );
+		}
+
 		#endregion
 	}
 }
