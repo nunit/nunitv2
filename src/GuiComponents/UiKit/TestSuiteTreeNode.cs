@@ -196,22 +196,6 @@ namespace NUnit.UiKit
 
 		#region Methods
 
-		public void RestoreVisualState()
-		{
-			if ( wasExpanded != IsExpanded )
-			{
-				if ( wasExpanded )
-					this.Expand();
-				else
-					this.Collapse();
-			}
-
-			this.Checked = wasChecked;
-
-			foreach ( TestSuiteTreeNode child in this.Nodes )
-				child.RestoreVisualState();
-		}
-
 		public void UpdateTest( UITestNode test )
 		{
 			if ( Test.FullName != test.FullName )
