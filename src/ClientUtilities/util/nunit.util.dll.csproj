@@ -258,6 +258,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "XmlResultTransform.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "XmlResultVisitor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

@@ -237,9 +237,23 @@ namespace NUnit.ConsoleRunner
 			string xmlOutput = CreateXmlOutput( result );
 			
 			if (options.xmlConsole)
+			{
 				Console.WriteLine(xmlOutput);
+			}
 			else
-				CreateSummaryDocument(xmlOutput, transformReader);
+			{
+				try
+				{
+					//CreateSummaryDocument(xmlOutput, transformReader );
+					XmlResultTransform xform = new XmlResultTransform( transformReader );
+					xform.Transform( new StringReader( xmlOutput ), Console.Out );
+				}
+				catch( Exception ex )
+				{
+					Console.WriteLine( "Error: {0}", ex.Message );
+					return 3;
+				}
+			}
 
 			// Write xml output here
 			string xmlResultFile = options.IsXml ? options.xml : "TestResult.xml";
@@ -263,18 +277,6 @@ namespace NUnit.ConsoleRunner
 			resultVisitor.Write();
 
 			return builder.ToString();
-		}
-
-		private void CreateSummaryDocument(string xmlOutput, XmlTextReader transformReader)
-		{
-			XPathDocument originalXPathDocument = new XPathDocument(new StringReader(xmlOutput));
-			XslTransform summaryXslTransform = new XslTransform();
-			
-			// Using obsolete form for now, remove warning suppression from project after changing
-			summaryXslTransform.Load(transformReader);
-			
-			// Using obsolete form for now, remove warning suppression from project after changing
-			summaryXslTransform.Transform(originalXPathDocument,null,Console.Out);
 		}
 
 		#region Nested Class to Handle Events
