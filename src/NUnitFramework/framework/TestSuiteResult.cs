@@ -42,7 +42,7 @@ namespace NUnit.Core
 		private ArrayList results = new ArrayList();
 		private string message;
 		
-		public TestSuiteResult(Test test, string name) : base(test, name)
+		public TestSuiteResult(ITest test, string name) : base(test, name)
 		{
 			Executed = false;
 		}

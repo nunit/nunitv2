@@ -42,7 +42,7 @@ namespace NUnit.Core
 		private bool isFailure; 
 		private double time;
 		private string name;
-		private TestInfo test;
+		private ITest test;
 		private string stackTrace;
 		private string description;
 
@@ -50,7 +50,7 @@ namespace NUnit.Core
 		private long leakage = 0;
 #endif
 		
-		protected TestResult(TestInfo test, string name)
+		protected TestResult(ITest test, string name)
 		{
 			this.name = name;
 			this.test = test;
@@ -74,7 +74,7 @@ namespace NUnit.Core
 			get{ return name;}
 		}
 
-		public TestInfo Test
+		public ITest Test
 		{
 			get{ return test;}
 		}

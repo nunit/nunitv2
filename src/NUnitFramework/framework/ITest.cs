@@ -38,7 +38,7 @@ namespace NUnit.Core
 	/// The Run method is specifically excluded to allow
 	/// for data-only representations of a test.
 	/// </summary>
-	public interface TestInfo
+	public interface ITest
 	{
 		/// <summary>
 		/// Name of the test
@@ -49,6 +49,11 @@ namespace NUnit.Core
 		/// Full Name of the test
 		/// </summary>
 		string FullName { get; }
+
+		/// <summary>
+		/// Last part of the full name
+		/// </summary>
+		string ShortName { get; }
 
 		/// <summary>
 		/// Int used to distinguish suites of the same
@@ -86,6 +91,16 @@ namespace NUnit.Core
 		/// True if this is a suite
 		/// </summary>
 		bool IsSuite { get; }
+
+		/// <summary>
+		/// True if this is a TestFixture
+		/// </summary>
+		bool IsFixture { get; }
+
+		/// <summary>
+		/// True if this is a TestCase
+		/// </summary>
+		bool IsTestCase { get; }
 
 		/// <summary>
 		/// Return the description field. 

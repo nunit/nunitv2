@@ -36,7 +36,7 @@ namespace NUnit.Core
 	/// <summary>
 	///		Test Class.
 	/// </summary>
-	public abstract class Test : LongLivingMarshalByRefObject, TestInfo
+	public abstract class Test : LongLivingMarshalByRefObject, ITest
 	{
 		private string fullName;
 		private string testName;
@@ -92,6 +92,21 @@ namespace NUnit.Core
 			get { return testName; }
 		}
 
+		/// <summary>
+		/// If the name is a path, this just returns the file part
+		/// </summary>
+		public string ShortName
+		{
+			get
+			{
+				string name = Name;
+				int val = name.LastIndexOf("\\");
+				if(val != -1)
+					name = name.Substring(val+1);
+				return name;
+			}
+		}
+
 		public int AssemblyKey
 		{
 			get { return assemblyKey; }
@@ -105,8 +120,10 @@ namespace NUnit.Core
 
 		public abstract int CountTestCases { get; }
 		public abstract bool IsSuite { get; }
+		public abstract bool IsFixture{ get; }
+		public abstract bool IsTestCase{ get; }
 		public abstract ArrayList Tests { get; }
-
+		
 		public abstract TestResult Run(EventListener listener);
 
 		protected MethodInfo FindMethodByAttribute(object fixture, Type type)

@@ -42,7 +42,7 @@ namespace NUnit.Core
 		private string message;
 		
 
-		public TestCaseResult(TestCase testCase):base(testCase, testCase.FullName)
+		public TestCaseResult(ITest testCase):base(testCase, testCase.FullName)
 		{
 			Executed = false;
 		}

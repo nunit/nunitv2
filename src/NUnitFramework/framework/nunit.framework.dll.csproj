@@ -142,6 +142,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ITest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "LongLivingMarshalByRefObject.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -291,11 +296,6 @@
                 />
                 <File
                     RelPath = "TestFixtureTearDownAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

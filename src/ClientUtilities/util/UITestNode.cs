@@ -38,7 +38,7 @@ namespace NUnit.Util
 	/// in the UI, avoiding the remoting issues associated
 	/// with holding an actual Test object.
 	/// </summary>
-	public class UITestNode : TestInfo
+	public class UITestNode : ITest
 	{
 		#region Instance Variables
 
@@ -88,7 +88,7 @@ namespace NUnit.Util
 		/// object was constructed. Used for deferred 
 		/// population of the object.
 		/// </summary>
-		private TestInfo testSuite;
+		private ITest testSuite;
 
 		/// <summary>
 		/// The test description
@@ -99,6 +99,31 @@ namespace NUnit.Util
 
 		#region Construction and Conversion
 
+		public UITestNode( string suiteName ) : this( suiteName, 0 ) { }
+
+		public UITestNode( string suiteName, int assemblyKey )
+		{
+			this.fullName = this.testName = suiteName;
+			this.assemblyKey = assemblyKey;
+			this.shouldRun = true;
+			this.isSuite = true;
+			this.testCaseCount = 0;
+			this.tests = new ArrayList();
+		}
+
+		public UITestNode( string pathName, string testName ) 
+			: this( pathName, testName, 0 ) { }
+
+		public UITestNode( string pathName, string testName, int assemblyKey ) 
+		{ 
+			this.fullName = pathName + "." + testName;
+			this.testName = testName;
+			this.assemblyKey = assemblyKey;
+			this.shouldRun = true;
+			this.isSuite = false;
+			this.testCaseCount = 1;
+		}
+
 		/// <summary>
 		/// Construct from a TestInfo interface, which might be
 		/// a Test or another UITestNode. Optionally, populate
@@ -106,7 +131,7 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="test">TestInfo interface from which a UITestNode is to be constructed</param>
 		/// <param name="populate">True if child array is to be populated</param>
-		public UITestNode ( TestInfo test, bool populate )
+		public UITestNode ( ITest test, bool populate )
 		{
 			fullName = test.FullName;
 			testName = test.Name;
@@ -136,7 +161,7 @@ namespace NUnit.Util
 		/// Default construction uses lazy population approach
 		/// </summary>
 		/// <param name="test"></param>
-		public UITestNode ( TestInfo test ) : this( test, false ) { }
+		public UITestNode ( ITest test ) : this( test, false ) { }
 
 		/// <summary>
 		/// Populate the arraylist of child Tests recursively.

@@ -173,6 +173,29 @@ namespace NUnit.Core
 			get { return true; }
 		}
 
+		public override bool IsTestCase
+		{
+			get { return false; }
+		}
+
+		/// <summary>
+		/// True if this is a fixture. May populate the test's
+		/// children as a side effect.
+		/// TODO: An easier way to tell this?
+		/// </summary>
+		public override bool IsFixture
+		{
+			get
+			{
+				// We have no way of constructing an empty suite unless it's a fixture
+				if ( Tests.Count == 0 ) return true;
+				
+				// Any suite with children is a fixture if the children are test cases
+				ITest firstChild = (ITest)Tests[0];
+				return !firstChild.IsSuite;
+			}
+		}
+
 		public override int CountTestCases 
 		{
 			get 
