@@ -95,11 +95,6 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "System.Drawing"
-                    AssemblyName = "System.Drawing"
-                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
-                />
-                <Reference
                     Name = "mock-assembly"
                     Project = "{2E368281-3BA8-4050-B05E-0E0E43F8F446}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
@@ -138,11 +133,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "ConsoleFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "cpp-sample.vcproj"
                     BuildAction = "EmbeddedResource"
                 />
@@ -169,11 +159,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "GuiFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "jsharp.vjsproj"
                     BuildAction = "EmbeddedResource"
                 />
@@ -183,11 +168,6 @@
                 />
                 <File
                     RelPath = "MockAssemblyWatcher.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MultipleAssemblyFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
