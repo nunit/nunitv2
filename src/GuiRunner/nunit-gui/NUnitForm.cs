@@ -1079,21 +1079,13 @@ namespace NUnit.Gui
 		/// </summary>
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
-
-//			ArrayList tests = testSuiteTreeView.CheckedTests;
-//			int count = tests.Count;
-//			if (count == 0)
-//				tests.Add(testSuiteTreeView.SelectedTest);
+//			if ( testTree.tests.SelectedCategories == null )
+//				AppUI.TestLoader.SetFilter( null );
+//			else
+//				AppUI.TestLoader.SetFilter( new CategoryFilter( testTree.tests.SelectedCategories, testTree.tests.ExcludeSelectedCategories ) );
 //
-//			TestLoader.RunTests( tests );
-			if ( testTree.tests.SelectedCategories == null )
-				AppUI.TestLoader.SetFilter( null );
-			else
-				AppUI.TestLoader.SetFilter( new CategoryFilter( testTree.tests.SelectedCategories, testTree.tests.ExcludeSelectedCategories ) );
-
-			TestLoader.RunTests( testTree.tests.SelectedTests );
-//			TestLoader.RunTests( testSuiteTreeView.SelectedTests );
-//			TestLoader.RunTest( testSuiteTreeView.SelectedTest );
+//			TestLoader.RunTests( testTree.tests.SelectedTests );
+			testTree.RunTests();
 		}
 
 		/// <summary>
@@ -1182,9 +1174,13 @@ namespace NUnit.Gui
 			ClearTabs();
 			
 			Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
-			if ( TestLoader.FrameworkVersion != currentVersion )
+			if ( TestLoader.FrameworkVersion == null )
 			{
-				string msg = string.Format( "This program is using version {0} of the framework.\rThe {1} assembly is referencing version {2} of the framework.\r\rIf problems arise, rebuild the assembly referencing version {0}",
+				UserMessage.Display( "This assembly was not built with the NUnit framework and contains no tests.", "Not a Test Assembly");
+			}
+			else if ( TestLoader.FrameworkVersion != currentVersion )
+			{
+				string msg = string.Format( "This assembly is using version {0} of the framework.\rThe {1} assembly is referencing version {2} of the framework.\r\rIf problems arise, rebuild the assembly referencing version {0}",
 					currentVersion, e.Name, TestLoader.FrameworkVersion, currentVersion );
 				UserMessage.Display( msg, "Incompatible nunit.framework.dll");
 			}
@@ -1298,6 +1294,7 @@ namespace NUnit.Gui
 			}
 			else
 			{
+				//TODO: this must be invoked to prevent errors
 				notRunTree.Nodes.Add(MakeNotRunNode(result));
 			}
 		}
