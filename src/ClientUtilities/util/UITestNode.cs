@@ -79,19 +79,20 @@ namespace NUnit.Util
 		private bool isSuite;
 
 		/// <summary>
-		/// The test suite from which this object was 
-		/// constructed. Used for deferred population
-		/// of the object.
+		/// Interface of the test suite from which this 
+		/// object was constructed. Used for deferred 
+		/// population of the object.
 		/// </summary>
-		private TestSuite testSuite;
+		private TestInfo testSuite;
 
 		#endregion;
 
 		#region Construction and Conversion
 
 		/// <summary>
-		/// Construct from a test and, for a suite, optionally
-		/// populate the array of child tests.
+		/// Construct from a TestInfo interface, which might be
+		/// a Test or another UITestNode. Optionally, populate
+		/// the array of child tests.
 		/// </summary>
 		/// <param name="test">TestInfo interface from which a UITestNode is to be constructed</param>
 		/// <param name="populate">True if child array is to be populated</param>
@@ -102,10 +103,10 @@ namespace NUnit.Util
 			shouldRun = test.ShouldRun;
 			ignoreReason = test.IgnoreReason;
 			
-			if ( test is TestSuite )
+			if ( test.IsSuite )
 			{
 				testCaseCount = 0;
-				testSuite = (TestSuite)test;
+				testSuite = test;
 				isSuite = true;
 
 				tests = new ArrayList();
