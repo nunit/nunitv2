@@ -12,7 +12,6 @@ namespace NUnit.Framework.Tests
 		public void NotSame()
 		{
 			Assert.AreNotSame(s1, s2);
-			new NotSameAsserter( s1, s2, null, null ).Assert();
 		}
 
 		[Test, ExpectedException( typeof( AssertionException ), "expected not same" )]
