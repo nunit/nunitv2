@@ -182,6 +182,9 @@
 			  without any file specified, it automatically loads the most recently
 			  loaded assembly.</p>
 
+                          <p><b>Note:</b> Options that take values may use an equal sign, a colon
+			  or a space to separate the option from its value.</p>
+
 			  <p><b>Run without loading an Assembly</b><br>
 			  To suppress loading of the most recent assembly, use the 
 			  <b>/noload</b> switch:
@@ -212,7 +215,7 @@
 			  TestFixture class, or a namespace. If a namespace is given, then 
 			  all fixtures under that namespace are loaded. This option may be 
 			  used with Visual Studio or NUnit projects as well.</p>
-			  
+
 			  <p><b>Load and Run Tests</b><br>
 			  Normally, nunit-gui only loads an assembly and then waits for
 			  the user to click on the Run button. If you wish to have the
@@ -227,6 +230,7 @@
 			  of the nunit.tests.dll:			  
 			  <pre class="programtext">        nunit-gui nunit.tests.csproj /config:Release</pre></p>
 			  
+			  <p><b>Note:</b> This option has no effect when loading an assembly directly.</p>			  		  
 			  <p><b>Specifying Multiple Assemblies</b><br>
 			  The forms interface does <b>not</b> currently provide for specifying 
 			  more than one assembly on the command line. Multiple-assembly
@@ -249,7 +253,10 @@
               <p><b>Note:</b> By default the nunit-console program is not added to your
               path. You must do this manually if this is the desired behavior.</p>
 
-              <p><b>Specifying an Assembly</b><br>
+                           <p><b>Note:</b> Options that take values may use an equal sign, a colon
+			  or a space to separate the option from its value.</p>
+
+             <p><b>Specifying an Assembly</b><br>
               The console program must always have an assembly or project specified. 
 			  To run the tests contained in the nunit.tests.dll use the 
 			  following command:			  
@@ -292,12 +299,11 @@
 			  using commas to separate them.
 			  
 			  <p><b>Note:</b>In the current release, you may choose to either
-			  include or exclude categories in a run, but not both. 
-			  
-			  <p><b>Note:</b>For a clear understanding of how category selection
+			  include or exclude categories in a run, but not both.
+			  For a clear understanding of how category selection
 			  works, review the documentation for both the 
 			  <a href="category.html">Category Attribute</a> and the 
-			  <a href="explicit.html">Explicit Attribute</a>.
+			  <a href="explicit.html">Explicit Attribute</a>.</p>
 			  			  
               <p><b>Redirecting Output</b><br>
 			  The output that is normally shown on the console may be redirected
@@ -310,7 +316,7 @@
 			  StdErr.txt file.
 			  <pre class="programtext">        nunit-console nunit.tests.dll /err:StdErr.txt</pre></p>
 			  
-			  <p></b>Labeling Test Output</b><br>
+			  <p><b>Labeling Test Output</b><br>
 			  The output from each test normally follows right after that of
 			  the preceding test. You may use the <b>/labels</b> option to cause an
 			  identifying label to be displayed at the start of each test case.
@@ -346,8 +352,7 @@
 			  Release configuration of nunit.tests.dll.
 			  <pre class="programtext">        nunit-console nunit.tests.csproj /config:Release</pre></p>
 			  
-			  <p><b>Note:</b>This option has no effect when loading an assembly directly.</p>
-			  
+			  <p><b>Note:</b> This option has no effect when loading an assembly directly.</p>					  
 			  <p><b>Specifying Multiple Assemblies</b><br>
 			  You may run tests from multiple assemblies in one run using the console
 			  interface even if you have not defined an NUnit test project file.
@@ -355,12 +360,11 @@
 			  assembly1.dll, assembly2.dll and assembly3.dll.
 			  <pre class="programtext">        nunit-console assembly1.dll assembly2.dll assembly3.dll</pre></p>
 			  
-			  <p><b>Note:</b>You may specify multiple assemblies, but not multiple
+			  <p><b>Note:</b> You may specify multiple assemblies, but not multiple
 			  NUnit or Visual Studio projects on the command line. Further, you
 			  may not specify an NUnit or Visual Studio project together with a
-			  list of assemblies.</p>
-			  
-			  <p><b>Note:</b>The <b>/fixture</b> option may be used with multiple
+			  list of assemblies.
+			  The <b>/fixture</b> option may be used with multiple
 			  assemblies but it's more efficient to simply specify the 
 			  assembly that contains the fixture.</p>
 			  
