@@ -134,6 +134,24 @@ namespace NUnit.Tests.Util
 		}
 
 		[Test]
+		public void ConfigurationFileFromAssembly() 
+		{
+			NUnitProject project = NUnitProject.FromAssembly("mock-assembly.dll");
+			string config = project.ConfigurationFile;
+			string[] splits = config.Split('\\');
+			Assert.AreEqual("mock-assembly.dll.config", splits[splits.Length - 1]);
+		}
+
+		[Test]
+		public void ConfigurationFileFromAssemblies() 
+		{
+			NUnitProject project = NUnitProject.FromAssemblies(new string[] {"mock-assembly.dll"});
+			string config = project.ConfigurationFile;
+			string[] splits = config.Split('\\');
+			Assert.AreEqual("mock-assembly.dll.config", splits[splits.Length - 1]);
+		}
+
+		[Test]
 		public void DefaultProjectName()
 		{
 			project.Save( xmlfile );

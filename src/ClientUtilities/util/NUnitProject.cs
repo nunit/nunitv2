@@ -189,6 +189,15 @@ namespace NUnit.Util
 		/// </summary>
 		public static NUnitProject FromAssemblies( string[] assemblies )
 		{
+			// if only one assembly is passed in then the configuration file
+			// should follow the name of the assembly. This will only happen
+			// if the LoadAssembly method is called. Currently the console ui
+			// does not differentiate between having one or multiple assemblies
+			// passed in.
+			if ( assemblies.Length == 1)
+				return NUnitProject.FromAssembly(assemblies[0]);
+
+
 			NUnitProject project = NUnitProject.EmptyProject();
 			ProjectConfig config = new ProjectConfig( "Default" );
 			foreach( string assembly in assemblies )
