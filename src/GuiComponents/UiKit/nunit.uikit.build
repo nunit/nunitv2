@@ -38,7 +38,10 @@
         <include name="nunit.uikit.dll.csproj"/>
         <include name="nunit.uikit.build"/>
         <include name="*.cs"/>
-        <include name="*.resx"/>      </fileset>
+        <include name="*.resx"/> 
+        <include name="*.gif"/>
+        <include name="*.jpg"/>
+      </fileset>
     </copy>
   </target>
 
