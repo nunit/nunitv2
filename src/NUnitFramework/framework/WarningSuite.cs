@@ -26,7 +26,13 @@ namespace NUnit.Core
 	/// </summary>
 	public class WarningSuite : TestSuite
 	{
-		public WarningSuite(string name) : base(name) {
+		public WarningSuite(string name) : base(name) 
+		{
+			ShouldRun=false;
+		}
+
+		public WarningSuite(string parentName, string name) : base(parentName,name) 
+		{
 			ShouldRun=false;
 		}
 
@@ -37,9 +43,9 @@ namespace NUnit.Core
 			test.IgnoreReason = "Containing Suite cannot be run";
 		}
 
-		protected internal override TestSuite CreateNewSuite(string name) 
+		protected internal override TestSuite CreateNewSuite(Type type) 
 		{
-			return new WarningSuite(name);
+			return new WarningSuite(type.Namespace,type.Name);
 		}
 	}
 }

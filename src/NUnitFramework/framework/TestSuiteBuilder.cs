@@ -65,7 +65,7 @@ namespace NUnit.Core
 			string parentNameSpace=nameSpace.Substring( 0,index);
 			TestSuite parent = BuildFromNameSpace(parentNameSpace);
 			string suiteName = nameSpace.Substring(index+1);
-			suite = new TestSuite(suiteName);
+			suite = new TestSuite(parentNameSpace,suiteName);
 			suites[nameSpace]=suite;
 			parent.Add(suite);
 			return suite;

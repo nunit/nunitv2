@@ -22,7 +22,7 @@ using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
 
-namespace NUnit.Gui
+namespace NUnit.Util
 {
 	using NUnit.Core;
 	using NUnit.Framework;

@@ -17,7 +17,7 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
-namespace NUnit.Gui
+namespace NUnit.Util
 {
 	using System;
 	using System.Collections;

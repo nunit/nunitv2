@@ -89,7 +89,7 @@ namespace NUnit.Gui
 		public System.Windows.Forms.ContextMenu treeViewMenu;
 		public System.Windows.Forms.MenuItem runMenuItem;
 		public System.Windows.Forms.ImageList treeImages;
-		public NUnit.Gui.TestSuiteTreeView testSuiteTreeView;
+		public NUnit.Util.TestSuiteTreeView testSuiteTreeView;
 		public System.Windows.Forms.TabControl resultTabs;
 		public System.Windows.Forms.TabPage errorPage;
 		public System.Windows.Forms.TabPage stderr;
@@ -230,7 +230,7 @@ namespace NUnit.Gui
 			this.helpMenuItem = new System.Windows.Forms.MenuItem();
 			this.menuItem8 = new System.Windows.Forms.MenuItem();
 			this.aboutMenuItem = new System.Windows.Forms.MenuItem();
-			this.testSuiteTreeView = new NUnit.Gui.TestSuiteTreeView();
+			this.testSuiteTreeView = new NUnit.Util.TestSuiteTreeView();
 			this.treeViewMenu = new System.Windows.Forms.ContextMenu();
 			this.runMenuItem = new System.Windows.Forms.MenuItem();
 			this.treeImages = new System.Windows.Forms.ImageList(this.components);

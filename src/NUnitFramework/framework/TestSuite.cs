@@ -37,6 +37,11 @@ namespace NUnit.Core
 			ShouldRun = true;
 		}
 
+		public TestSuite(string parentSuiteName, string name) : base(parentSuiteName,name)
+		{
+			ShouldRun = true;
+		}
+
 		protected internal virtual void Add(Test test) 
 		{
 			if(test.ShouldRun)
@@ -47,14 +52,14 @@ namespace NUnit.Core
 			tests.Add(test);
 		}
 
-		protected internal virtual TestSuite CreateNewSuite(string name)
+		protected internal virtual TestSuite CreateNewSuite(Type type)
 		{
-			return new TestSuite(name);
+			return new TestSuite(type.Namespace,type.Name);
 		}
 
 		public void Add(InvalidFixture fixture) 
 		{
-			TestSuite testSuite = CreateNewSuite(fixture.OriginalType.Name);
+			TestSuite testSuite = CreateNewSuite(fixture.OriginalType);
 			Add(testSuite);
 			testSuite.ShouldRun = false;
 			testSuite.IgnoreReason = fixture.Message;
@@ -76,7 +81,7 @@ namespace NUnit.Core
 
 		public void Add(object fixture) 
 		{
-			TestSuite testSuite = CreateNewSuite(fixture.GetType().Name);
+			TestSuite testSuite = CreateNewSuite(fixture.GetType());
 			Add(testSuite);
 
 			Type ignoreMethodAttribute = typeof(NUnit.Framework.IgnoreAttribute);
