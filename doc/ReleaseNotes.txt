@@ -1,4 +1,4 @@
-Release Notes for NUnit 2.2 Beta 2 - Version 2.1.92
+Release Notes for NUnit 2.2 Beta 2 - Version 2.1.92*
 July 6, 2004
 
 This is the fourth major release of NUnit and the third since it was 
@@ -8,6 +8,10 @@ GUI interface, a built-in lightweight mock object facility, new
 command line switches for both GUI and Console runners, and new
 Category and Explicit attributes.
 
+*NOTE
+
+The Mono download, NUnit.2.1.92-mono.zip, contains assemblies with
+version number 2.1.92.1 due to some late corrections.
 
 GENERAL
 
@@ -148,9 +152,6 @@ objects to experiment with them using our built-in facility and to
 migrate to a more complete framework as your needs call for it.
 
 LIMITATIONS
-
-The mono version of this release is still experimental and has not 
-been tested in all environments.
 
 The CategoryAttribute was originally designed to have an Explicit 
 property. This was included in some early releases and is described in
