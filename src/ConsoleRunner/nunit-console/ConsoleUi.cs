@@ -51,9 +51,9 @@ namespace NUnit.Console
 	public class ConsoleUi
 	{
 		private NUnit.Core.TestDomain testDomain;
-		private StringBuilder builder;
 		private XmlTextReader transformReader;
 		private bool silent;
+		private string xmlOutput;
 
 		public static int Main(string[] args)
 		{
@@ -98,20 +98,20 @@ namespace NUnit.Console
 						string xmlResult = "TestResult.xml";
 						if(parser.IsXml)
 							xmlResult = parser.xml;
-
-						StringBuilder b = new StringBuilder();
-						
+				
 						XmlTextReader reader = GetTransformReader(parser);
 						if(reader != null)
 						{
-							ConsoleUi consoleUi = new ConsoleUi(domain, b, reader, parser.xmlConsole);
+							ConsoleUi consoleUi = new ConsoleUi(domain, reader, parser.xmlConsole);
 							returnCode = consoleUi.Execute();
+
 							if (parser.xmlConsole)
-								Console.WriteLine(b.ToString());
+								Console.WriteLine(consoleUi.XmlOutput);
 							using (StreamWriter writer = new StreamWriter(xmlResult)) 
 							{
-								writer.Write(b.ToString());
+								writer.Write(consoleUi.XmlOutput);
 							}
+
 							if(parser.wait)
 							{
 								Console.Out.WriteLine("Hit <enter> key to continue");
@@ -179,9 +179,17 @@ namespace NUnit.Console
 		{
 			if(!DoAssembliesExist(parser.Parameters)) return null; 
 			
-			NUnitProject project = parser.IsTestProject
-				? NUnitProject.LoadProject( (string)parser.Parameters[0] )
-				: NUnitProject.FromAssemblies( (string[])parser.Parameters.ToArray( typeof( string ) ) );
+			NUnitProject project;
+
+			if ( parser.IsTestProject )
+			{
+				project = NUnitProject.LoadProject( (string)parser.Parameters[0] );
+				string configName = (string) parser.config;
+				if ( configName != null )
+					project.SetActiveConfig( configName );
+			}
+			else
+				project = NUnitProject.FromAssemblies( (string[])parser.Parameters.ToArray( typeof( string ) ) );
 
 			return project.LoadTest( testDomain, parser.fixture );
 		}
@@ -200,12 +208,16 @@ namespace NUnit.Console
 			return fileInfo.Exists;
 		}
 
-		public ConsoleUi(NUnit.Core.TestDomain testDomain, StringBuilder builder, XmlTextReader reader, bool silent)
+		public ConsoleUi(NUnit.Core.TestDomain testDomain, XmlTextReader reader, bool silent)
 		{
 			this.testDomain = testDomain;
-			this.builder = builder;
 			transformReader = reader;
 			this.silent = silent;
+		}
+
+		public string XmlOutput
+		{
+			get { return xmlOutput; }
 		}
 
 		public int Execute()
@@ -223,9 +235,14 @@ namespace NUnit.Console
 			Directory.SetCurrentDirectory( savedDirectory );
 			
 			Console.WriteLine("\n");
-			XmlResultVisitor resultVisitor = new XmlResultVisitor(new StringWriter(builder), result);
+
+			StringBuilder builder = new StringBuilder();
+			XmlResultVisitor resultVisitor = new XmlResultVisitor(new StringWriter( builder ), result);
 			result.Accept(resultVisitor);
 			resultVisitor.Write();
+
+			xmlOutput = builder.ToString();
+
 			if (!silent)
 				CreateSummaryDocument();
 
@@ -237,7 +254,7 @@ namespace NUnit.Console
 
 		private void CreateSummaryDocument()
 		{
-			XPathDocument originalXPathDocument = new XPathDocument(new StringReader(builder.ToString()));
+			XPathDocument originalXPathDocument = new XPathDocument(new StringReader(xmlOutput));
 			XslTransform summaryXslTransform = new XslTransform();
 			summaryXslTransform.Load(transformReader);
 			
