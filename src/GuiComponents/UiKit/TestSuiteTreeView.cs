@@ -270,6 +270,7 @@ namespace NUnit.UiKit
 			ClosePropertiesDialog();
 
 			Clear();
+			contextNode = null;
 			runCommandEnabled = false;
 		}
 
@@ -324,6 +325,9 @@ namespace NUnit.UiKit
 		private void ContextMenu_Popup(object sender, System.EventArgs e)
 		{
 			this.ContextMenu.MenuItems.Clear();
+
+			if ( contextNode == null )
+				return;
 
 			if ( RunCommandSupported )
 			{
@@ -528,11 +532,13 @@ namespace NUnit.UiKit
 		public void Load( UITestNode test )
 		{
 			Clear();
+
 			AddTreeNodes( Nodes, test, false );
 			
 			SetInitialExpansion();
 
 			SelectedNode = Nodes[0];
+			contextNode = null;
 		}
 
 		/// <summary>
