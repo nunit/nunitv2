@@ -67,8 +67,11 @@ namespace NUnit.Util
 		[Option(Description = "Label each test in stdOut")]
 		public bool labels = false;
 
-		[Option(Description = "List of categories to run")]
-		public string categories;
+		[Option(Description = "List of categories to include")]
+		public string include;
+
+		[Option(Description = "List of categories to exclude")]
+		public string exclude;
 
 		private bool isInvalid = false; 
 
@@ -83,6 +86,8 @@ namespace NUnit.Util
 		public bool Validate()
 		{
 			if(isInvalid) return false; 
+
+			if(HasInclude && HasExclude) return false;
 
 			if(NoArgs) return true; 
 
@@ -150,20 +155,39 @@ namespace NUnit.Util
 			}
 		}
 
-		public bool IsCategories 
+		public bool HasInclude 
 		{
 			get 
 			{
-				return categories != null && categories.Length != 0;
+				return include != null && include.Length != 0;
 			}
 		}
 
-		public string[] CategoryArray
+		public bool HasExclude 
+		{
+			get 
+			{
+				return exclude != null && exclude.Length != 0;
+			}
+		}
+
+		public string[] IncludedCategories
 		{
 			get
 			{
-				if (IsCategories)
-					return categories.Split(';');
+				if (HasInclude)
+					return include.Split( new char[] {';', ','});
+
+				return null;
+			}
+		}
+
+		public string[] ExcludedCategories
+		{
+			get
+			{
+				if (HasExclude)
+					return exclude.Split( new char[] {';', ','});
 
 				return null;
 			}
