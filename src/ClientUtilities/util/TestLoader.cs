@@ -32,6 +32,7 @@ namespace NUnit.Util
 	using System;
 	using System.IO;
 	using System.Collections;
+	using System.Configuration;
 	using System.Threading;
 	using NUnit.Core;
 	using NUnit.Framework;
@@ -566,6 +567,9 @@ namespace NUnit.Util
 
 				runningTest = testInfo;
 				runningThread = new Thread( new ThreadStart( this.TestRunThreadProc ) );
+				string apartment = ConfigurationSettings.AppSettings["apartment"];
+				if ( apartment == "STA" )
+					runningThread.ApartmentState = ApartmentState.STA;
 				runningThread.Start();
 			}
 		}
