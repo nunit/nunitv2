@@ -49,16 +49,28 @@ namespace CP.Windows.Forms
 	public class WaitCursor : IDisposable
 	{
 		private Cursor cursor;
+		private Control control;
 
 		public WaitCursor()
 		{
-			cursor = Cursor.Current;
+			this.control = null;
+			this.cursor = Cursor.Current;
 			Cursor.Current = Cursors.WaitCursor;
+		}
+
+		public WaitCursor( Control control )
+		{
+			this.control = control;
+			this.cursor = control.Cursor;
+			control.Cursor = Cursors.WaitCursor;
 		}
 
 		public void Dispose()
 		{
-			Cursor.Current = cursor;
+			if ( control != null )
+				control.Cursor = this.cursor;
+			else
+				Cursor.Current = this.cursor;
 		}
 	}
 }
