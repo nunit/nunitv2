@@ -27,7 +27,7 @@
 			<sources basedir="core">
 				<includes name="**/*.cs"/>
 			</sources>
-			<resources basedir="framework" prefix="NUnit.Framework">
+			<resources basedir="core" prefix="NUnit.Core">
 				<includes name="Transform.resx"/>
 			</resources>
 			<references>
@@ -150,13 +150,13 @@
 			tofile="nunit-gui.exe.config"/>
 	</target>
 	
-	<target name="nunit-console.exe" depends="nunit.framework.dll,nunit.util.dll">
+	<target name="nunit-console.exe" depends="nunit.core.dll,nunit.util.dll">
 		<csc target="exe" output="${build.dir}\nunit-console.exe" debug="${debug}">
 			<sources basedir="nunit-console">
 				<includes name="*.cs"/>
 			</sources>
 			<references>
-				<includes name="${build.dir}/nunit.framework.dll"/>
+				<includes name="${build.dir}/nunit.core.dll"/>
 				<includes name="${build.dir}/nunit.util.dll"/>
 			</references>
 		</csc>
