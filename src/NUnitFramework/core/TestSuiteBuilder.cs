@@ -479,7 +479,7 @@ namespace NUnit.Core
 		{
 			if ( method != null )
 			{
-				if ( !method.IsPublic || method.ReturnType != typeof(void) || method.GetParameters().Length > 0 )
+				if ( !method.IsPublic && !method.IsFamily || method.ReturnType != typeof(void) || method.GetParameters().Length > 0 )
 					throw new InvalidTestFixtureException("Invalid SetUp or TearDown method signature");
 			}
 		}

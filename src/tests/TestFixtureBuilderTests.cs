@@ -519,10 +519,10 @@ namespace NUnit.Tests.Core
 		}
 
 		[Test] 
-		[ExpectedException(typeof(InvalidTestFixtureException))]
 		public void CheckProtectedSetUp()
 		{
-			builder.BuildTestFixture(typeof(ProtectedSetUp));
+			object fixture = builder.BuildTestFixture(typeof(ProtectedSetUp));
+			Assert.IsNotNull( fixture );
 		}
 
 		[Test]
@@ -547,10 +547,10 @@ namespace NUnit.Tests.Core
 		}
 
 		[Test] 
-		[ExpectedException(typeof(InvalidTestFixtureException))]
 		public void CheckProtectedTearDown()
 		{
-			builder.BuildTestFixture(typeof(ProtectedTearDown));
+			object fixture = builder.BuildTestFixture(typeof(ProtectedTearDown));
+			Assert.IsNotNull( fixture );
 		}
 
 		[Test]
@@ -575,10 +575,10 @@ namespace NUnit.Tests.Core
 		}
 
 		[Test] 
-		[ExpectedException(typeof(InvalidTestFixtureException))]
 		public void CheckProtectedFixtureSetUp()
 		{
-			builder.BuildTestFixture(typeof(ProtectedFixtureSetUp));
+			object fixture = builder.BuildTestFixture(typeof(ProtectedFixtureSetUp));
+			Assert.IsNotNull( fixture );
 		}
 
 		[Test]
@@ -603,10 +603,10 @@ namespace NUnit.Tests.Core
 		}
 
 		[Test] 
-		[ExpectedException(typeof(InvalidTestFixtureException))]
 		public void CheckProtectedFixtureTearDown()
 		{
-			builder.BuildTestFixture(typeof(ProtectedFixtureTearDown));
+			object fixture = builder.BuildTestFixture(typeof(ProtectedFixtureTearDown));
+			Assert.IsNotNull( fixture );
 		}
 
 		[TestFixture]
