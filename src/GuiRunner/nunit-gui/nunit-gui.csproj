@@ -146,13 +146,13 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "NunitForm.cs"
+                    RelPath = "NUnitForm.cs"
                     SubType = "Form"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "NunitForm.resx"
-                    DependentUpon = "NunitForm.cs"
+                    RelPath = "NUnitForm.resx"
+                    DependentUpon = "NUnitForm.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
