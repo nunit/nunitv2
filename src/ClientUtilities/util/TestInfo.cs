@@ -162,6 +162,21 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
+		/// If the name is a path, this just returns the file part
+		/// </summary>
+		public string ShortName
+		{
+			get
+			{
+				string name = Name;
+				int val = name.LastIndexOf("\\");
+				if(val != -1)
+					name = name.Substring(val+1);
+				return name;
+			}
+		}
+
+		/// <summary>
 		/// Count of test cases in this test. If the suite
 		/// has never been populated, it will be done now.
 		/// </summary>
