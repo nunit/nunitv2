@@ -169,8 +169,8 @@ namespace NUnit.Tests.Util
 			NUnitProject project = NUnitProject.FromVSSolution( GetSamplesPath( "samples.sln" ) );
 
 			Assert.AreEqual( 4, project.Configs.Count );
-			Assert.AreEqual( 3, project.Configs["Debug"].Assemblies.Count );
-			Assert.AreEqual( 3, project.Configs["Release"].Assemblies.Count );
+			Assert.AreEqual( 5, project.Configs["Debug"].Assemblies.Count );
+			Assert.AreEqual( 5, project.Configs["Release"].Assemblies.Count );
 			Assert.AreEqual( 1, project.Configs["Debug|Win32"].Assemblies.Count );
 			Assert.AreEqual( 1, project.Configs["Release|Win32"].Assemblies.Count );
 			Assert.IsTrue( project.IsLoadable, "Not loadable" );
