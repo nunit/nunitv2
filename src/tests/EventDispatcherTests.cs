@@ -47,6 +47,13 @@ namespace NUnit.Tests
 		}
 
 		[Test]
+		public void ProjectLoadFailed()
+		{
+			dispatcher.FireProjectLoadFailed( FILENAME, exception );
+			CheckEvent( TestAction.ProjectLoadFailed, FILENAME, exception );
+		}
+
+		[Test]
 		public void ProjectUnloading()
 		{
 			dispatcher.FireProjectUnloading( FILENAME );
@@ -58,6 +65,13 @@ namespace NUnit.Tests
 		{
 			dispatcher.FireProjectUnloaded( FILENAME );
 			CheckEvent( TestAction.ProjectUnloaded, FILENAME );
+		}
+
+		[Test]
+		public void ProjectUnloadFailed()
+		{
+			dispatcher.FireProjectUnloadFailed( FILENAME, exception );
+			CheckEvent( TestAction.ProjectUnloadFailed, FILENAME, exception );
 		}
 
 		[Test]

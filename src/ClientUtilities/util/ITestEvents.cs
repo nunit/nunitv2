@@ -29,8 +29,10 @@ namespace NUnit.Util
 		// for the assemblies in the project.
 		event TestEventHandler ProjectLoading;
 		event TestEventHandler ProjectLoaded;
+		event TestEventHandler ProjectLoadFailed;
 		event TestEventHandler ProjectUnloading;
 		event TestEventHandler ProjectUnloaded;
+		event TestEventHandler ProjectUnloadFailed;
 
 		// Events related to loading tests. Note that
 		// if loading failed for a different assembly

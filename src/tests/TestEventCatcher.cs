@@ -30,8 +30,10 @@ namespace NUnit.Tests
 
 			source.ProjectLoading	+= new TestEventHandler( OnTestEvent );
 			source.ProjectLoaded	+= new TestEventHandler( OnTestEvent );
+			source.ProjectLoadFailed+= new TestEventHandler( OnTestEvent );
 			source.ProjectUnloading	+= new TestEventHandler( OnTestEvent );
 			source.ProjectUnloaded	+= new TestEventHandler( OnTestEvent );
+			source.ProjectUnloadFailed+= new TestEventHandler( OnTestEvent );
 
 			source.TestLoading		+= new TestEventHandler( OnTestEvent );
 			source.TestLoaded		+= new TestEventHandler( OnTestEvent );

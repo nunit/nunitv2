@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 using NUnit.Core;
 using NUnit.Util;
 using NUnit.Framework;
@@ -132,5 +133,32 @@ namespace NUnit.Tests
 		}
 
 		// TODO: Should wrapper project be unloaded on failure?
+
+		[Test]
+		public void RunTest()
+		{
+			loader.LoadTest( assembly );
+			loader.RunTestSuite( catcher.Events[3].Test );
+			while( loader.IsTestRunning )
+				Thread.Sleep( 500 );
+			
+			Assert.Equals( 38, catcher.Events.Count );
+			Assert.Equals( TestAction.RunStarting, catcher.Events[4].Action );
+			Assert.Equals( TestAction.RunFinished, catcher.Events[37].Action );
+
+			int nTests = 0;
+			int nRun = 0;
+			foreach( TestEventArgs e in catcher.Events )
+			{
+				if ( e.Action == TestAction.TestFinished )
+				{
+					++nTests;
+					if ( e.Result.Executed )
+						++nRun;
+				}
+			}
+			Assert.Equals( 7, nTests );
+			Assert.Equals( 5, nRun );
+		}
 	}
 }

@@ -13,8 +13,10 @@ namespace NUnit.Util
 		// Project loading events
 		public event TestEventHandler ProjectLoading;
 		public event TestEventHandler ProjectLoaded;
+		public event TestEventHandler ProjectLoadFailed;
 		public event TestEventHandler ProjectUnloading;
 		public event TestEventHandler ProjectUnloaded;
+		public event TestEventHandler ProjectUnloadFailed;
 
 		// Test loading events
 		public event TestEventHandler TestLoading;	
@@ -64,6 +66,13 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.ProjectLoaded, fileName ) );
 		}
 
+		public void FireProjectLoadFailed( string fileName, Exception exception )
+		{
+			Fire( 
+				ProjectLoadFailed,
+				new TestEventArgs( TestAction.ProjectLoadFailed, fileName, exception ) );
+		}
+
 		public void FireProjectUnloading( string fileName )
 		{
 			Fire( 
@@ -76,6 +85,13 @@ namespace NUnit.Util
 			Fire( 
 				ProjectUnloaded,
 				new TestEventArgs( TestAction.ProjectUnloaded, fileName ) );
+		}
+
+		public void FireProjectUnloadFailed( string fileName, Exception exception )
+		{
+			Fire( 
+				ProjectUnloadFailed,
+				new TestEventArgs( TestAction.ProjectUnloadFailed, fileName, exception ) );
 		}
 
 		public void FireTestLoading( string fileName )

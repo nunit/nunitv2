@@ -17,8 +17,10 @@ namespace NUnit.Util
 		// Project Loading Events
 		ProjectLoading,
 		ProjectLoaded,
+		ProjectLoadFailed,
 		ProjectUnloading,
 		ProjectUnloaded,
+		ProjectUnloadFailed,
 		// Test Loading Events
 		TestLoading,
 		TestLoaded,

@@ -221,30 +221,45 @@ namespace NUnit.Util
 		
 		public void LoadProject( string filePath )
 		{
-			events.FireProjectLoading( filePath );
+			try
+			{
+				events.FireProjectLoading( filePath );
 
-			NUnitProject newProject = NUnitProject.MakeProject( filePath );			
+				NUnitProject newProject = NUnitProject.MakeProject( filePath );			
 
-			if ( IsProjectLoaded )
-				UnloadProject();
+				if ( IsProjectLoaded )
+					UnloadProject();
 			
-			testProject = newProject;
+				testProject = newProject;
 
-			events.FireProjectLoaded( TestFileName );
+				events.FireProjectLoaded( TestFileName );
+			}
+			catch( Exception exception )
+			{
+				events.FireProjectLoadFailed( filePath, exception );
+			}
 		}
 
 		public void UnloadProject()
 		{
 			string testFileName = TestFileName;
 
-			events.FireProjectUnloading( testFileName );
+			try
+			{
+				events.FireProjectUnloading( testFileName );
 
-			if ( IsTestLoaded )
-				UnloadTest();
+				if ( IsTestLoaded )
+					UnloadTest();
 
-			testProject = null;
+				testProject = null;
 
-			events.FireProjectUnloaded( testFileName );
+				events.FireProjectUnloaded( testFileName );
+			}
+			catch (Exception exception )
+			{
+				events.FireProjectUnloadFailed( testFileName, exception );
+			}
+
 		}
 
 		#endregion
@@ -255,7 +270,7 @@ namespace NUnit.Util
 		{
 			LoadProject( testFileName );
 			
-			if( TestProject.IsLoadable )
+			if( IsProjectLoaded && TestProject.IsLoadable )
 				LoadTest();
 		}
 
