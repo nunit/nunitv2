@@ -1,11 +1,12 @@
 using System;
 using System.Reflection;
 using NUnit.Core;
+using NUnit.Core.Builders;
 
 namespace NUnit.Extensions
 {
 	[TestCaseBuilder]
-	public class RepeatedTestBuilder : ITestBuilder, ITestCaseBuilder
+	public class RepeatedTestBuilder : NUnitTestCaseBuilder
 	{
 		private static readonly string RepeatedTestType =
 			"NUnit.Extensions.RepeatedTestAttribute";
@@ -17,17 +18,23 @@ namespace NUnit.Extensions
 
 		#region ITestCaseBuilder Members
 
-		public TestCase BuildFrom(MethodInfo method)
-		{
-			return new RepeatedTestCase( method, GetRepeatCount( method ) );
-		}
-
-		public bool CanBuildFrom(MethodInfo method)
+		public override bool CanBuildFrom(MethodInfo method)
 		{
 			return Reflect.HasAttribute( method, RepeatedTestType, false );
 		}
 
+//		public override TestCase BuildFrom(MethodInfo method)
+//		{
+//			return new RepeatedTestCase( method, GetRepeatCount( method ) );
+//		}
+
 		#endregion
+
+		protected override TestCase MakeTestCase(MethodInfo method)
+		{
+			return new RepeatedTestCase( method, GetRepeatCount( method ) );
+		}
+
 
 		/// <summary>
 		/// Get the repeat count using reflection. This allows the extension
