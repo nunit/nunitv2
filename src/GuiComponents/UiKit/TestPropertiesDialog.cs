@@ -141,7 +141,8 @@ namespace NUnit.UiKit
 			// 
 			// tabControl1
 			// 
-			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+				| System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl1.Controls.Add(this.testTab);
 			this.tabControl1.Controls.Add(this.resultsTab);
@@ -194,7 +195,8 @@ namespace NUnit.UiKit
 			// 
 			// ignoreReason
 			// 
-			this.ignoreReason.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.ignoreReason.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+				| System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.ignoreReason.CopySupported = true;
 			this.ignoreReason.Location = new System.Drawing.Point(104, 80);
@@ -282,7 +284,8 @@ namespace NUnit.UiKit
 			// 
 			// stackTrace
 			// 
-			this.stackTrace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+			this.stackTrace.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+				| System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.stackTrace.CopySupported = true;
 			this.stackTrace.Expansion = CP.Windows.Forms.TipWindow.ExpansionStyle.Both;
@@ -322,6 +325,7 @@ namespace NUnit.UiKit
 			// 
 			// pinButton
 			// 
+			this.pinButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.pinButton.Appearance = System.Windows.Forms.Appearance.Button;
 			this.pinButton.Location = new System.Drawing.Point(404, 8);
 			this.pinButton.Name = "pinButton";
@@ -335,7 +339,7 @@ namespace NUnit.UiKit
 			this.ClientSize = new System.Drawing.Size(434, 154);
 			this.Controls.Add(this.pinButton);
 			this.Controls.Add(this.tabControl1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "TestPropertiesDialog";
