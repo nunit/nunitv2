@@ -237,7 +237,8 @@ namespace NUnit.UiKit
 
 		public void SaveLastResult()
 		{
-			TestResult result = loader.LastResult;
+			//TODO: Save all results
+			TestResult result = loader.Results[0];
 			
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.Title = "Save Test Results as XML";
