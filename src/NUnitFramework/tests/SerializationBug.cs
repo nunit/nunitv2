@@ -71,11 +71,6 @@ namespace NUnit.Core.Tests
 			} 
 			public static Perob Deserialize(string filename) 
 			{ 
-				System.Reflection.Assembly[] asses = AppDomain.CurrentDomain.GetAssemblies();
-				foreach (System.Reflection.Assembly ass in asses) 
-				{
-					Console.WriteLine(ass.FullName);
-				}
 				Console.WriteLine("deserialize : cd = {0}", Environment.CurrentDirectory);
 				Perob rv; 
 				using (StreamReader stm = new StreamReader(File.OpenRead( filename ))) 
