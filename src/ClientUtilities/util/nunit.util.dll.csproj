@@ -254,6 +254,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestExceptionHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestLoader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
