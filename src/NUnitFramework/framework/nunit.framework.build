@@ -29,6 +29,7 @@
                 <includes name="Assertion.cs"/>
                 <includes name="AssertionException.cs"/>
                 <includes name="AssertionFailureMessage.cs"/>
+		<includes name="CategoryAttribute.cs"/>
                 <includes name="ExpectedExceptionAttribute.cs"/>
                 <includes name="IgnoreAttribute.cs"/>
                 <includes name="OldTestCase.cs"/>
