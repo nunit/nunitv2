@@ -381,8 +381,9 @@ namespace CP.Windows.Forms
 			uint WM_MBUTTONDOWN = 0x207;
 
 			if ( m.Msg == WM_LBUTTONDOWN || m.Msg == WM_RBUTTONDOWN || m.Msg == WM_MBUTTONDOWN )
-			{
-				this.Close();
+			{	
+				if ( m.Msg != WM_LBUTTONDOWN )
+					this.Close();
 				SendMessage( control.Handle, m.Msg, m.WParam, m.LParam );
 			}
 			else
