@@ -58,6 +58,7 @@ namespace NUnit.Gui
 		public delegate void RunFinishedHandler( TestResult result );
 		public delegate void SuiteLoadedHandler( Test test , string assemblyFileName);
 		public delegate void SuiteChangedHandler( Test test );
+		public delegate void SuiteUnloadedHandler( );
 
 		public event TestStartedHandler TestStartedEvent;
 		public event TestFinishedHandler TestFinishedEvent;
@@ -67,6 +68,7 @@ namespace NUnit.Gui
 		public event RunFinishedHandler RunFinishedEvent;
 		public event SuiteLoadedHandler SuiteLoadedEvent;
 		public event SuiteChangedHandler SuiteChangedEvent;
+		public event SuiteUnloadedHandler SuiteUnloadedEvent;
 
 		public UIActions(TextWriter stdOutWriter, TextWriter stdErrWriter)
 		{
@@ -125,6 +127,18 @@ namespace NUnit.Gui
 
 			if ( SuiteLoadedEvent != null )
 				SuiteLoadedEvent( test, assemblyFileName );
+		}
+
+		public void UnloadAssembly( )
+		{
+			if ( testRunner != null )
+			{
+				testRunner.Unload();
+				testRunner = null;
+			}
+
+			if ( SuiteUnloadedEvent != null )
+				SuiteUnloadedEvent( );
 		}
 
 		public void ReloadAssembly( string assemblyFileName )
