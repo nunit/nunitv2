@@ -318,7 +318,7 @@
 
     </target>
 
-    <target name="nunit2-test" 
+    <target name="nunit2-test" depends="build"
       description="Run tests for a build using console runner">
         <echo message="*"/>
         <echo message="* Starting ${runtime.config} ${runtime.version} ${build.config} test run"/>
