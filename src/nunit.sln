@@ -111,6 +111,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui.exe", "GuiRunner\
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui.tests", "GuiRunner\tests\nunit-gui.tests.csproj", "{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -199,6 +203,10 @@ Global
 		{AAB186A4-FA3D-404D-AD78-7EB5BB861655}.Debug.Build.0 = Debug|.NET
 		{AAB186A4-FA3D-404D-AD78-7EB5BB861655}.Release.ActiveCfg = Release|.NET
 		{AAB186A4-FA3D-404D-AD78-7EB5BB861655}.Release.Build.0 = Release|.NET
+		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Debug.ActiveCfg = Debug|.NET
+		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Debug.Build.0 = Debug|.NET
+		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Release.ActiveCfg = Release|.NET
+		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		license.rtf = license.rtf
