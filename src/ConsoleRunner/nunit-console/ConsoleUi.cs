@@ -82,9 +82,10 @@ namespace NUnit.Console
 			{
 				NUnit.Core.TestDomain domain = new NUnit.Core.TestDomain();
 
-				Test test = MakeTestFromCommandLine(domain, parser);
 				try
 				{
+					Test test = MakeTestFromCommandLine(domain, parser);
+
 					if(test == null)
 					{
 						Console.Error.WriteLine("fatal error: invalid assembly {0}", parser.Parameters[0]);
@@ -116,7 +117,7 @@ namespace NUnit.Console
 				}
 				catch( Exception ex )
 				{
-					Console.WriteLine( "ERROR: {0}", ex.Message );
+					Console.WriteLine( "Unhandled Exception: {0}", ex.ToString() );
 				}
 				finally
 				{
