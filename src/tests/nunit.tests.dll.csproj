@@ -127,6 +127,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssemblyListTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AssemblyTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -211,6 +216,11 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "NUnitProjectTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "NUnitRegistryTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -222,6 +232,16 @@
                 />
                 <File
                     RelPath = "ProgressBarTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProjectConfigCollectionTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProjectConfigTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

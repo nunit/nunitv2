@@ -97,6 +97,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssemblyList.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AssemblyWatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -127,12 +132,27 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "NUnitProject.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "NUnitRegistry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "OptionSettings.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProjectConfig.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProjectConfigCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
