@@ -30,6 +30,7 @@
 using System;
 using System.IO;
 using NUnit.Framework;
+using NUnit.TestUtilities;
 
 namespace NUnit.Util.Tests
 {

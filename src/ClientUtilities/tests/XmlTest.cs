@@ -36,6 +36,7 @@ using System.Xml;
 using System.Xml.Schema;
 using NUnit.Core;
 using NUnit.Framework;
+using NUnit.TestUtilities;
 
 namespace NUnit.Util.Tests
 {
