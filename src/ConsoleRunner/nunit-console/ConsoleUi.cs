@@ -408,31 +408,6 @@ namespace NUnit.Console
 					Trace.WriteLine( exception.ToString() );
 				}
 			}
-
-			private string ParseTestCaseResult( TestCaseResult result ) 
-			{
-				string[] trace = StackTraceFilter.Filter( result.StackTrace ).Split( System.Environment.NewLine.ToCharArray() );
-			
-				string message = null;
-				foreach (string s in trace)
-				{
-					string link = Regex.Replace( s.Trim(), @".* in (.*):line (.*)", "$1($2)");
-
-					if ( message == null ) 
-					{
-						message = string.Format("{0}: {1}: {2}", 
-							link,
-							result.Test.FullName.Trim(' ', ':'),
-							result.Message.Replace(System.Environment.NewLine, "; ") );				
-					}
-					else
-					{
-						message = message + "\nat " + link;
-					}
-				}
-
-				return message;
-			}
 		}
 
 		#endregion
