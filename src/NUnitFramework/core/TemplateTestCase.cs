@@ -38,13 +38,18 @@ namespace NUnit.Core
 	/// </summary>
 	public abstract class TemplateTestCase : TestCase
 	{
-		private object fixture;
 		private MethodInfo  method;
 
+		public TemplateTestCase(Type fixtureType, MethodInfo method) : base(fixtureType.FullName, method.Name)
+		{
+			this.fixtureType = fixtureType;
+			this.method = method;
+		}
 
 		public TemplateTestCase(object fixture, MethodInfo method) : base(fixture.GetType().FullName, method.Name)
 		{
-			this.fixture = fixture;
+			this.Fixture = fixture;
+			this.fixtureType = fixture.GetType();
 			this.method = method;
 		}
 
@@ -52,7 +57,13 @@ namespace NUnit.Core
 		{ 
 			if ( ShouldRun )
 			{
-				bool doParentSetUp = Parent != null && !Parent.IsSetUp;
+				bool doParentSetUp = false;
+				if ( Parent != null )
+				{
+					doParentSetUp = !Parent.IsSetUp;
+					if ( Fixture == null )
+						Fixture = Parent.Fixture;
+				}
 
 				try
 				{
@@ -96,7 +107,7 @@ namespace NUnit.Core
 
 			try 
 			{
-				invokeSetUp();
+				Reflect.InvokeSetUp( this.Fixture );
 				doTestCase( testResult );
 			}
 			catch(Exception ex)
@@ -125,7 +136,7 @@ namespace NUnit.Core
 		{
 			try
 			{
-				invokeTearDown();
+				Reflect.InvokeTearDown( this.Fixture );
 			}
 			catch(Exception ex)
 			{
@@ -139,7 +150,7 @@ namespace NUnit.Core
 		{
 			try
 			{
-				invokeTestCase();
+				Reflect.InvokeMethod( this.method, this.Fixture );
 				ProcessNoException(testResult);
 			}
 			catch( Exception ex )
@@ -211,51 +222,6 @@ namespace NUnit.Core
 					BuildStackTrace(exception.InnerException);
 			else
 				return exception.StackTrace;
-		}
-
-		#endregion
-
-		#region Invoking Methods by Reflection
-
-		private void invokeSetUp()
-		{
-			MethodInfo method = findSetUpMethod(fixture);
-			if(method != null)
-			{
-				InvokeMethod(method, fixture);
-			}
-		}
-
-		private MethodInfo findSetUpMethod(object fixture)
-		{
-			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.SetUpAttribute));
-		}
-
-		private void invokeTearDown()
-		{
-			MethodInfo method = findTearDownMethod(fixture);
-			if(method != null)
-			{
-				InvokeMethod(method, fixture);
-			}
-		}
-
-		private MethodInfo findTearDownMethod(object fixture)
-		{			
-			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.TearDownAttribute));
-		}
-
-		private void invokeTestCase() 
-		{
-			try
-			{
-				method.Invoke(fixture, null);
-			}
-			catch(TargetInvocationException e)
-			{
-				Exception inner = e.InnerException;
-				throw new NunitException("Rethrown",inner);
-			}
 		}
 
 		#endregion

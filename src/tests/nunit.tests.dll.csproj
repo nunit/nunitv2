@@ -483,6 +483,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestClasses.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestConsole.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -514,6 +519,11 @@
                 />
                 <File
                     RelPath = "TestFixtureExtension.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestFixtureTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

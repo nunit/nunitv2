@@ -144,11 +144,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "InvalidFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "InvalidSuiteException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -200,6 +195,11 @@
                 />
                 <File
                     RelPath = "NunitException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Reflect.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -277,6 +277,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestResult.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -303,11 +308,6 @@
                 />
                 <File
                     RelPath = "TestSuiteResult.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "WarningSuite.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

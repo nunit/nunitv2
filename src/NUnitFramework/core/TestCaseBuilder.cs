@@ -64,6 +64,43 @@ namespace NUnit.Core
 			return normalBuilder;
 		}
 
+		public static TestCase Make(Type fixtureType, MethodInfo method)
+		{
+			TestCase testCase = null;
+
+			if(HasTestAttribute(method) || HasObsoleteTestName(method) && !HasAnySetUpOrTearDownAttribute(method) )
+			{
+				if(IsTestMethodSignatureCorrect(method))
+				{
+					ITestBuilder builder = GetBuilder(method);
+					testCase = builder.Make(fixtureType, method);
+
+					if(HasIgnoreAttribute(method))
+					{
+						testCase.ShouldRun = false;
+						testCase.IgnoreReason = GetIgnoreReason(method);
+					}
+
+					if (HasCategoryAttribute(method)) 
+					{
+						IList categories = GetCategories(method);
+						CategoryManager.Add(categories);
+						testCase.Categories = categories;
+					}
+
+					testCase.IsExplicit = HasExplicitAttribute(method);
+
+					testCase.Description = GetDescription(method);
+				}
+				else
+				{
+					testCase = new NotRunnableTestCase(method);
+				}
+			}
+
+			return testCase;
+		}
+
 		public static TestCase Make(object fixture, MethodInfo method)
 		{
 			TestCase testCase = null;
@@ -101,14 +138,12 @@ namespace NUnit.Core
 			return testCase;
 		}
 
+		//This is used only by our tests - it should really be a test method
 		public static TestCase Make(object fixture, string methodName)
 		{
-			MethodInfo [] methods = fixture.GetType().GetMethods(BindingFlags.NonPublic|BindingFlags.Public|BindingFlags.Instance);
-			foreach(MethodInfo method in methods)
-			{
-				if(method.Name.Equals(methodName))
-					return Make(fixture, method);
-			}
+			MethodInfo method = Reflect.GetMethod( fixture.GetType(), methodName );
+			if ( method != null )
+				return Make(fixture, method);
 
 			return null;
 		}
@@ -253,12 +288,21 @@ namespace NUnit.Core
 
 	internal interface ITestBuilder 
 	{
+		TestCase Make(Type fixtureType, MethodInfo method);
 		TestCase Make(object fixture, MethodInfo method);
 	}
 
 	internal class ExpectedExceptionBuilder : ITestBuilder
 	{
 		#region ITestBuilder Members
+
+		public TestCase Make(Type fixtureType, MethodInfo method)
+		{
+			NUnit.Framework.ExpectedExceptionAttribute expectedException = GetExpectedExceptions(method);
+			TestCase testCase = new ExpectedExceptionTestCase(fixtureType, method, expectedException.ExceptionType, expectedException.ExpectedMessage);
+
+			return testCase;
+		}
 
 		public TestCase Make(object fixture, MethodInfo method)
 		{
@@ -290,6 +334,11 @@ namespace NUnit.Core
 	internal class NormalBuilder : ITestBuilder
 	{
 		#region ITestBuilder Members
+
+		public TestCase Make(Type fixtureType, MethodInfo method)
+		{
+			return new NormalTestCase(fixtureType, method);
+		}
 
 		public TestCase Make(object fixture, MethodInfo method)
 		{
