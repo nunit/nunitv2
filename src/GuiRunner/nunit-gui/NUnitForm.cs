@@ -221,7 +221,6 @@ namespace NUnit.Gui
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.testTree = new NUnit.UiKit.TestTree();
 			this.panel2 = new System.Windows.Forms.Panel();
-			
 			this.panel1.SuspendLayout();
 			this.resultTabs.SuspendLayout();
 			this.errorPage.SuspendLayout();
@@ -235,10 +234,10 @@ namespace NUnit.Gui
 			// statusBar
 			// 
 			this.statusBar.DisplayTestProgress = true;
-			this.statusBar.Location = new System.Drawing.Point(0, 360);
+			this.statusBar.Location = new System.Drawing.Point(0, 497);
 			this.statusBar.Name = "statusBar";
 			this.statusBar.ShowPanels = true;
-			this.statusBar.Size = new System.Drawing.Size(622, 32);
+			this.statusBar.Size = new System.Drawing.Size(623, 32);
 			this.statusBar.TabIndex = 0;
 			this.statusBar.Text = "Status";
 			// 
@@ -333,6 +332,7 @@ namespace NUnit.Gui
 			this.exitMenuItem.Index = 10;
 			this.exitMenuItem.Text = "E&xit";
 			this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
+			// 
 			// projectMenu
 			// 
 			this.projectMenu.Index = 1;
@@ -425,9 +425,10 @@ namespace NUnit.Gui
 			// 
 			// helpMenuItem
 			// 
-			this.helpMenuItem.Enabled = false;
 			this.helpMenuItem.Index = 0;
-			this.helpMenuItem.Text = "Help";
+			this.helpMenuItem.Shortcut = System.Windows.Forms.Shortcut.F1;
+			this.helpMenuItem.Text = "NUnit &Help...";
+			this.helpMenuItem.Click += new System.EventHandler(this.helpMenuItem_Click);
 			// 
 			// helpMenuSeparator1
 			// 
@@ -503,7 +504,7 @@ namespace NUnit.Gui
 			this.splitter3.Location = new System.Drawing.Point(0, 124);
 			this.splitter3.MinSize = 100;
 			this.splitter3.Name = "splitter3";
-			this.splitter3.Size = new System.Drawing.Size(409, 3);
+			this.splitter3.Size = new System.Drawing.Size(410, 3);
 			this.splitter3.TabIndex = 1;
 			this.splitter3.TabStop = false;
 			// 
@@ -518,7 +519,7 @@ namespace NUnit.Gui
 			this.detailList.Location = new System.Drawing.Point(0, 0);
 			this.detailList.Name = "detailList";
 			this.detailList.ScrollAlwaysVisible = true;
-			this.detailList.Size = new System.Drawing.Size(409, 124);
+			this.detailList.Size = new System.Drawing.Size(410, 124);
 			this.detailList.TabIndex = 0;
 			this.detailList.MouseHover += new System.EventHandler(this.detailList_MouseHover);
 			this.detailList.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.detailList_MeasureItem);
@@ -597,7 +598,7 @@ namespace NUnit.Gui
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBox1.Location = new System.Drawing.Point(0, 0);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(417, 88);
+			this.groupBox1.Size = new System.Drawing.Size(418, 88);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			// 
@@ -625,7 +626,7 @@ namespace NUnit.Gui
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.suiteName.Location = new System.Drawing.Point(179, 24);
 			this.suiteName.Name = "suiteName";
-			this.suiteName.Size = new System.Drawing.Size(230, 25);
+			this.suiteName.Size = new System.Drawing.Size(231, 25);
 			this.suiteName.TabIndex = 2;
 			// 
 			// progressBar
@@ -639,7 +640,7 @@ namespace NUnit.Gui
 			this.progressBar.Maximum = 100;
 			this.progressBar.Minimum = 0;
 			this.progressBar.Name = "progressBar";
-			this.progressBar.Size = new System.Drawing.Size(402, 25);
+			this.progressBar.Size = new System.Drawing.Size(403, 25);
 			this.progressBar.Step = 1;
 			this.progressBar.TabIndex = 0;
 			this.progressBar.Value = 0;
@@ -662,7 +663,7 @@ namespace NUnit.Gui
 			this.testTree.Name = "testTree";
 			this.testTree.Size = new System.Drawing.Size(200, 497);
 			this.testTree.TabIndex = 0;
-			this.testTree.SelectedTestsChanged += new SelectedTestsChangedEventHandler(testTree_SelectedTestsChanged);
+			this.testTree.SelectedTestsChanged += new NUnit.UiKit.SelectedTestsChangedEventHandler(this.testTree_SelectedTestsChanged);
 			// 
 			// panel2
 			// 
@@ -1438,6 +1439,18 @@ namespace NUnit.Gui
 				suiteName.Text = e.TestName;
 				statusBar.Initialize(e.TestCount);
 			}
+		}
+
+		private void helpMenuItem_Click(object sender, System.EventArgs e)
+		{
+			FileInfo exe = new FileInfo( Assembly.GetExecutingAssembly().Location );
+			// In normal install, exe is in bin directory, so we get parent
+			DirectoryInfo dir = exe.Directory.Parent;
+			// If running from bin\Release or bin\Debug, go down two more
+			if ( dir.Name == "bin" ) dir = dir.Parent.Parent;
+
+			string indexFile = Path.Combine( dir.FullName, @"doc/index.html" );
+			System.Diagnostics.Process.Start( indexFile );
 		}
 	}
 }
