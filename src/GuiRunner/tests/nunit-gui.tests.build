@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<project name="NUnit-Gui.Tests" default="build">
+
+  <property name="project.src.dir" value="../.."
+    unless="${property::exists('project.src.dir')}"/>
+
+  <include buildfile="..\..\nunit.build.include"/>
+
+  <target name="clean" depends="set-build-dir">
+    <delete file="${current.build.dir}/nunit-gui.tests.dll" failonerror="false"/>
+    <delete file="${current.build.dir}/nunit-gui.tests.pdb" failonerror="false"/>
+  </target>
+
+  <target name="build" depends="make-build-dir">
+    <csc target="library" 
+        output="${current.build.dir}/nunit-gui.tests.dll" 
+        win32icon="Logo.ico" debug="${build.debug}"
+        define="${build.defines.csc}">
+      <sources basedir=".">
+        <includesfile name="*.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit-gui-runner.dll"/>
+        <include name="nunit.util.dll"/>
+        <include name="nunit.framework.dll"/>
+      </references>
+    </csc>
+  </target>
+
+  <target name="package">
+    <copy todir="${package.src.dir}/GuiRunner/tests">
+      <fileset basedir=".">
+        <include name="nunit-gui.tests.csproj"/>
+        <include name="nunit-gui.tests.build"/>
+        <include name="*.cs"/>
+        <include name="nunit-gui.tests.dll.config"/>
+      </fileset>
+    </copy>
+  </target>
+</project>
