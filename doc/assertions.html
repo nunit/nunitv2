@@ -329,7 +329,7 @@ Assert.Ignore( string message, object[] parms );</pre>
 public void AssertStringContains( string expected, string actual,
     string message )
 {
-    if ( actual.IsIndexOf( expected ) < 0 )
+    if ( actual.IndexOf( expected ) < 0 )
         Assert.Fail( string message );
 }</pre>
 		  		</td>
