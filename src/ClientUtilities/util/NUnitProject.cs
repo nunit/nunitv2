@@ -46,26 +46,6 @@ namespace NUnit.Util
 		/// </summary>
 		private ProjectConfigCollection configs = new ProjectConfigCollection();
 
-		/// <summary>
-		/// The test that is running
-		/// </summary>
-		private UITestNode runningTest = null;
-
-		/// <summary>
-		/// Result of the last test run
-		/// </summary>
-		private TestResult lastResult = null;
-
-		/// <summary>
-		/// The thread that is running a test
-		/// </summary>
-		private Thread runningThread = null;
-
-		/// <summary>
-		/// Our test domain
-		/// </summary>
-		private NUnit.Framework.TestDomain testDomain = null;
-
 		#endregion
 
 		#region Constructors
@@ -86,6 +66,41 @@ namespace NUnit.Util
 			return Path.GetExtension( path ) == nunitExtension;
 		}
 
+		/// <summary>
+		/// Return a test project by either loading it from
+		/// the supplied path, creating one from a VS file
+		/// or wrapping an assembly.
+		/// </summary>
+		public static NUnitProject MakeProject( string path )
+		{
+			NUnitProject project = null;
+
+			if ( NUnitProject.IsProjectFile( path ) )
+				project = new NUnitProject( path );
+			else
+			{
+				string projectPath = NUnitProject.ProjectPathFromFile( path );
+				
+				if ( File.Exists( projectPath ) )
+					project = new NUnitProject( projectPath );
+				else if ( VSProject.IsProjectFile( path ) )
+					project = NUnitProject.FromVSProject( path );
+				else if ( VSProject.IsSolutionFile( path ) )
+					project = NUnitProject.FromVSSolution( path );
+				else
+					project = NUnitProject.FromAssembly( path );
+					// No automatic save for assemblies
+			}
+
+			if ( project.IsDirty && ! project.isWrapper )
+				project.Save( path );
+
+			return project;
+		}
+
+		/// <summary>
+		/// Creates a project to wrap an assembly
+		/// </summary>
 		public static NUnitProject FromAssembly( string assemblyPath )
 		{
 			NUnitProject project = new NUnitProject();
@@ -169,10 +184,9 @@ namespace NUnit.Util
 			set { isDirty = value; }
 		}
 
-		public TestDomain TestDomain
+		public bool IsWrapper
 		{
-			get { return testDomain; }
-			set { testDomain = value; }
+			get { return isWrapper; }
 		}
 
 		public ProjectConfig ActiveConfig
@@ -264,33 +278,6 @@ namespace NUnit.Util
 			this.loadPath = projectPath;
 			this.projectPath = projectPath;
 			this.IsDirty = false;
-		}
-
-		public void RenameConfiguration( string oldName, string newName )
-		{
-			if ( oldName != newName )
-			{
-				ProjectConfig config = Configs[oldName];
-				if ( config == null )
-					throw new ArgumentException( "No configuration of that name exists", "oldName" );
-
-				if ( Configs.Contains( newName ) )
-					throw new ArgumentException( "A configuration with that name already exists", "newName" );
-
-				config.Name = newName;
-				IsDirty = true;
-			}
-		}
-	
-		public void RemoveConfiguration( string name )
-		{
-			if ( !Configs.Contains( name ) )
-				throw new ArgumentException( "No configuration of that name exists", name );
-
-			bool wasActive = ActiveConfig.Name == name;
-			Configs.Remove( name );
-			if ( wasActive && Configs.Count > 0 )
-				Configs[0].Active = true;
 		}
 
 		public void Save()
