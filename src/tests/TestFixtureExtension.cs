@@ -81,7 +81,7 @@ namespace NUnit.Tests.Core
 
 		[SetUp] public void LoadFixture()
 		{
-			string testsDll = "NUnit.Tests.dll";
+			string testsDll = "nunit.tests.dll";
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( testsDll, "NUnit.Tests.Core.TestFixtureExtension+DerivedTestFixture" );
 		}

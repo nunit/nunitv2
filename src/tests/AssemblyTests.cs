@@ -41,7 +41,7 @@ namespace NUnit.Tests.Assemblies
 	[TestFixture]
 	public class AssemblyTests 
 	{
-		private string testsDll = "NUnit.Tests.dll";
+		private string testsDll = "nunit.tests.dll";
 		private Assembly testAssembly;
 
 		[Test]

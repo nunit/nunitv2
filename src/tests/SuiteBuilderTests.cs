@@ -41,7 +41,7 @@ namespace NUnit.Tests.Core
 	[TestFixture]
 	public class SuiteBuilderTests
 	{
-		private string testsDll = "NUnit.Tests.dll";
+		private string testsDll = "nunit.tests.dll";
 		private string tempFile = "x.dll";
 		private TestSuiteBuilder builder;
 

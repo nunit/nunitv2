@@ -42,7 +42,7 @@ namespace NUnit.Tests.Core
 	[TestFixture]
 	public class TestFixtureBuilderTests
 	{
-		private string testsDll = "NUnit.Tests.dll";
+		private string testsDll = "nunit.tests.dll";
 		TestSuiteBuilder builder = new TestSuiteBuilder();
 
 		#region Private & Internal Classes Used by Tests
