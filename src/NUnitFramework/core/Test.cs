@@ -94,9 +94,7 @@ namespace NUnit.Core
 
 		#region Constructors
 
-		public Test( string name ) : this( name, 0 ) { }
-
-		public Test( string name, int assemblyKey )
+		protected Test( string name, int assemblyKey )
 		{
 			this.fullName = this.testName = name;
 			this.assemblyKey = assemblyKey;
