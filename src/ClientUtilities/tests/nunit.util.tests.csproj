@@ -114,6 +114,11 @@
                     Project = "{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "nonamespace-assembly"
+                    Project = "{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
@@ -160,11 +165,6 @@
                 />
                 <File
                     RelPath = "FileWatcherTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "FormSettingsTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -221,11 +221,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "OptionSettingsTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ProjectConfigCollectionTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -237,11 +232,6 @@
                 />
                 <File
                     RelPath = "ProjectPathTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RecentProjectsFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -278,6 +268,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestDomainFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestDomainTests_Multiple.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestEventCatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -295,11 +295,6 @@
                 <File
                     RelPath = "Unmanaged.vcproj"
                     BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "UserSettingsTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "UtilTest.cs"
