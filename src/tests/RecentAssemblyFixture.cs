@@ -195,5 +195,20 @@ namespace NUnit.Tests
 			Assertion.AssertEquals("3", assemblyList[0]);
 			Assertion.AssertEquals("1", assemblyList[1]);
 		}
+
+		[Test]
+		public void RemoveAssemblyFromList()
+		{
+			assemblies.RecentAssembly = "3";
+			assemblies.RecentAssembly = "2";
+			assemblies.RecentAssembly = "1";
+
+			assemblies.Remove("2");
+
+			IList assemblyList = assemblies.GetAssemblies();
+			Assertion.AssertEquals(2, assemblyList.Count);
+			Assertion.AssertEquals("1", assemblyList[0]);
+			Assertion.AssertEquals("3", assemblyList[1]);
+		}
 	}
 }
