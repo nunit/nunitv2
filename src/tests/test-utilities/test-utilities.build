@@ -7,8 +7,12 @@
   <include buildfile="..\..\nunit.build.include"/>
 
   <target name="clean" depends="set-build-dir">
-    <delete file="${current.build.dir}/test-utilities.dll" failonerror="false"/>
-    <delete file="${current.build.dir}/test-utilities.pdb" failonerror="false"/>
+    <delete failonerror="false">
+      <fileset basedir="${current.build.dir}">
+        <include name="test-utilities.dll"/>
+        <include name="test-utilities.pdb"/>
+      </fileset>
+    </delete>
   </target>
 
   <target name="build" depends="make-build-dir">
@@ -16,7 +20,7 @@
         output="${current.build.dir}/test-utilities.dll" 
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
-        <includesfile name="sources.include"/>
+        <include name="*.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
@@ -31,8 +35,7 @@
       <fileset basedir=".">
         <include name="test-utilities.csproj"/>
         <include name="test-utilities.build"/>
-        <include name="sources.include"/>
-        <includesfile name="sources.include"/>
+        <include name="*.cs"/>
       </fileset>
     </copy>
   </target>

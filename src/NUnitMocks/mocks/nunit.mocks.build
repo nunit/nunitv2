@@ -7,8 +7,12 @@
   <include buildfile="..\..\nunit.build.include"/>
 
   <target name="clean" depends="set-build-dir">
-    <delete file="${current.build.dir}/nunit.mocks.dll" failonerror="false"/>
-    <delete file="${current.build.dir}/nunit.mocks.pdb" failonerror="false"/>
+    <delete failonerror="false">
+      <fileset basedir="${current.build.dir}">
+        <include name="nunit.mocks.dll"/>
+        <include name="nunit.mocks.pdb"/>
+      </fileset>
+    </delete>
   </target>
 
   <target name="build" depends="make-build-dir">
@@ -16,7 +20,7 @@
         output="${current.build.dir}/nunit.mocks.dll"
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
-        <includesfile name="sources.include"/>
+        <include name="*.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
@@ -29,8 +33,7 @@
       <fileset basedir=".">
         <include name="nunit.mocks.csproj"/>
         <include name="nunit.mocks.build"/>
-        <include name="sources.include"/>
-        <includesfile name="sources.include"/>
+        <include name="*.cs"/>
       </fileset>
     </copy>
   </target>
