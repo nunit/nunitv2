@@ -70,9 +70,10 @@
                     AssemblyName = "System.Xml"
                 />
                 <Reference
-                    Name = "nunit.framework.dll"
-                    Project = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    Name = "nunit.framework"
+                    AssemblyName = "nunit.framework"
+                    HintPath = "E:\Program Files\NUnit 2.2\bin\nunit.framework.dll"
+                    AssemblyFolderKey = "hklm\dn\nunit.framework"
                 />
             </References>
             <Imports>

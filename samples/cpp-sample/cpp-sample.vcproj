@@ -102,6 +102,8 @@
 		</Configuration>
 	</Configurations>
 	<References>
+		<AssemblyReference
+			RelativePath="{ReferencesPath}\nunit.framework.dll"/>
 	</References>
 	<Files>
 		<Filter
