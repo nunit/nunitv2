@@ -104,7 +104,7 @@ namespace NUnit.Core
 		public void Cancel()
 		{
 			this.thread.Abort();
-			this.thread.Join();
+//			this.thread.Join();
 		}
 
 		public void Run( EventListener listener )
