@@ -39,6 +39,7 @@ namespace NUnit.Util
 	{
 		private static readonly string NAME = "Form";
 
+		private static readonly string MAXIMIZED = "maximized";
 		private static readonly string WIDTH = "width";
 		private static readonly string HEIGHT = "height";
 		private static readonly string XLOCATION = "x-location";
@@ -72,6 +73,19 @@ namespace NUnit.Util
 		private Size size = Size.Empty;
 		private int treeSplitterPosition = -1;
 		private int tabSplitterPosition = -1;
+
+		public bool IsMaximized
+		{
+			get
+			{
+				return LoadIntSetting( MAXIMIZED, 0 ) == 1 ? true : false;
+			}
+
+			set
+			{
+				SaveIntSetting( MAXIMIZED, value ? 1 : 0 );
+			}
+		}
 
 		public Point Location
 		{
