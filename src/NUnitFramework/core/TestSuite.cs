@@ -119,12 +119,6 @@ namespace NUnit.Core
 			tests.Add(test);
 		}
 
-		//Keep this in for testing for the time being
-		public void Add( object fixture )
-		{
-			Add( new TestFixture( fixture ) );
-		}
-
 		#region Properties
 
 		public override ArrayList Tests 
@@ -227,10 +221,12 @@ namespace NUnit.Core
 
 		public virtual void DoSetUp( TestResult suiteResult )
 		{
+			//TODO: Move stuff here from TestFixture
 		}
 
 		public virtual void DoTearDown( TestResult suiteResult )
 		{
+			//TODO: Move stuff here from TestFixture
 		}
 
 		protected virtual void RunAllTests(
