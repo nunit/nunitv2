@@ -25,37 +25,66 @@ namespace NUnit.Framework
 			this.errorStream = errorStream;
 		}
 
+		private void ThrowIfAlreadyLoaded()
+		{
+			if ( domain != null || testRunner != null )
+				throw new InvalidOperationException( "TestDomain already loaded" );
+		}
+
 		public Test Load(string assemblyFileName)
 		{
+			ThrowIfAlreadyLoaded();
+
 			assemblyName = assemblyFileName; 
 			FileInfo file = new FileInfo(assemblyFileName);
 
-			domain = MakeAppDomain(file);
-			testRunner = MakeRemoteTestRunner(file, domain);
-			return testRunner.Test;
+			try
+			{
+				domain = MakeAppDomain(file);
+				testRunner = MakeRemoteTestRunner(file, domain);
+				return testRunner.Test;
+			}
+			catch
+			{
+				Unload();
+				throw;
+			}
 		}
 
 		public Test Load(string testFixture, string assemblyFileName)
 		{
+			ThrowIfAlreadyLoaded();
+
 			assemblyName = assemblyFileName; 
 			FileInfo file = new FileInfo(assemblyFileName);
 
-			domain = MakeAppDomain(file);
-
-			testRunner = (
-				RemoteTestRunner) domain.CreateInstanceAndUnwrap(
-				typeof(RemoteTestRunner).Assembly.FullName, 
-				typeof(RemoteTestRunner).FullName,
-				false, BindingFlags.Default,null,null,null,null,null);
-			
-			if(testRunner != null)
+			try
 			{
-				testRunner.Initialize(testFixture, file.FullName);
-				domain.DoCallBack(new CrossAppDomainDelegate(testRunner.BuildSuite));
-				return testRunner.Test;
-			}
+				domain = MakeAppDomain(file);
 
-			return null;
+				testRunner = (
+					RemoteTestRunner) domain.CreateInstanceAndUnwrap(
+					typeof(RemoteTestRunner).Assembly.FullName, 
+					typeof(RemoteTestRunner).FullName,
+					false, BindingFlags.Default,null,null,null,null,null);
+			
+				if(testRunner != null)
+				{
+					testRunner.Initialize(testFixture, file.FullName);
+					domain.DoCallBack(new CrossAppDomainDelegate(testRunner.BuildSuite));
+					return testRunner.Test;
+				}
+				else
+				{
+					Unload();
+					return null;
+				}
+			}
+			catch
+			{
+				Unload();
+				throw;
+			}
 		}
 
 		public string AssemblyName
