@@ -38,6 +38,12 @@ namespace NUnit.Tests.Util
 	[TestFixture]
 	public class FormSettingsTests
 	{
+		static Point DEFAULT_LOCATION = new Point( FormSettings.DEFAULT_XLOCATION, FormSettings.DEFAULT_YLOCATION );
+		static Size DEFAULT_SIZE = new Size( FormSettings.DEFAULT_WIDTH, FormSettings.DEFAULT_HEIGHT );
+		static Size MIN_SIZE = new Size( FormSettings.MIN_WIDTH, FormSettings.MIN_HEIGHT );
+		static int TREE_MIN_POSITION = FormSettings.TREE_MIN_POSITION;
+		static int TAB_MIN_POSITION = FormSettings.TAB_MIN_POSITION;
+
 		[SetUp]
 		public void Init()
 		{
@@ -65,11 +71,10 @@ namespace NUnit.Tests.Util
 		}
 
 		[Test]
-		[Ignore("this test appears wrong, since the size is less than the minimum size the defaults will end up being used")]
 		public void FormPosition()
 		{
 			Point pt = new Point( 100, 200 );
-			Size sz = new Size( 20, 25 );
+			Size sz = new Size( 300, 200 );
 			
 			UserSettings.Form.Location = pt;
 			UserSettings.Form.Size = sz;
@@ -97,8 +102,53 @@ namespace NUnit.Tests.Util
 			Point pt = f.Location;
 			Size sz = f.Size;
 
-			Assert.AreEqual( new Point( 10, 10 ), pt );
-			Assert.AreEqual( new Size( 632, 432 ), sz );
+			Assert.AreEqual( DEFAULT_LOCATION, pt );
+			Assert.AreEqual( DEFAULT_SIZE, sz );
+		}
+
+		[Test]
+		public void FormSizeTooSmall()
+		{
+			Point pt = new Point( 100, 200 );
+			Size sz = new Size( 20, 25 );
+			
+			UserSettings.Form.Location = pt;
+			UserSettings.Form.Size = sz;
+
+			Assert.AreEqual( pt, UserSettings.Form.Location );
+			Assert.AreEqual( MIN_SIZE, UserSettings.Form.Size );
+		}
+
+		[Test]
+		public void PositionOutOfBounds()
+		{
+			Point pt = new Point( -1000, 200 );
+			Size sz = new Size( 300, 200 );
+			
+			UserSettings.Form.Location = pt;
+			UserSettings.Form.Size = sz;
+
+			Assert.AreEqual( DEFAULT_LOCATION, UserSettings.Form.Location );
+			Assert.AreEqual( sz, UserSettings.Form.Size );
+		}
+
+		[Test]
+		public void BadTreeSplitterPosition()
+		{
+			UserSettings.Form.TreeSplitterPosition = 5;
+			Assert.AreEqual( TREE_MIN_POSITION, UserSettings.Form.TreeSplitterPosition );
+			UserSettings.Form.TreeSplitterPosition = 5000; 
+			Assert.AreEqual( TREE_MIN_POSITION, UserSettings.Form.TreeSplitterPosition );
+		}
+	
+		[Test]
+		public void BadTabSplitterPosition()
+		{
+			UserSettings.Form.TabSplitterPosition = 5;
+			Assert.AreEqual( TAB_MIN_POSITION, UserSettings.Form.TabSplitterPosition );
+
+			UserSettings.Form.TabSplitterPosition = 5000;
+			Assert.AreEqual( TAB_MIN_POSITION, UserSettings.Form.TabSplitterPosition );
 		}
 	}
 }

@@ -40,24 +40,27 @@ namespace NUnit.Util
 		private static readonly string NAME = "Form";
 
 		private static readonly string WIDTH = "width";
-		private static readonly int DEFAULT_WIDTH = 632;
-		private static readonly int MIN_WIDTH = 160;
-
 		private static readonly string HEIGHT = "height";
-		private static readonly int DEFAULT_HEIGHT = 432;
-		private static readonly int MIN_HEIGHT = 32; 
-		
 		private static readonly string XLOCATION = "x-location";
-		private static readonly int DEFAULT_XLOCATION = 10;
-		
 		private static readonly string YLOCATION = "y-location";
-		private static readonly int DEFAULT_YLOCATION = 10;
-
 		private static readonly string TREE_SPLITTER_POSITION = "tree-splitter-position";
-		private static readonly int TREE_DEFAULT_POSITION = 380;
-		
 		private static readonly string TAB_SPLITTER_POSITION = "tab-splitter-position";
-		private static readonly int TAB_DEFAULT_POSITION = 119;
+
+		public static readonly int DEFAULT_WIDTH = 632;
+		public static readonly int MIN_WIDTH = 160;
+
+		public static readonly int DEFAULT_HEIGHT = 432;
+		public static readonly int MIN_HEIGHT = 32; 
+		
+		public static readonly int DEFAULT_XLOCATION = 10;
+		
+		public static readonly int DEFAULT_YLOCATION = 10;
+
+		public static readonly int TREE_DEFAULT_POSITION = 380;
+		public static readonly int TREE_MIN_POSITION = 240;
+		
+		public static readonly int TAB_DEFAULT_POSITION = 119;
+		public static readonly int TAB_MIN_POSITION = 100;
 
 		public FormSettings( ) : base( NAME, UserSettings.GetStorageImpl( NAME ) ) { }
 
@@ -78,7 +81,11 @@ namespace NUnit.Util
 				{
 					int x = LoadIntSetting( XLOCATION, DEFAULT_XLOCATION );
 					int y = LoadIntSetting( YLOCATION, DEFAULT_YLOCATION );
+
 					location = new Point(x, y);
+
+					if ( !IsValidLocation( location ) )
+						location = new Point( DEFAULT_XLOCATION, DEFAULT_YLOCATION );
 				}
 				
 				return location; 
@@ -89,6 +96,13 @@ namespace NUnit.Util
 				SaveSetting( XLOCATION, location.X );
 				SaveSetting( YLOCATION, location.Y );
 			}
+		}
+
+		private bool IsValidLocation( Point location )
+		{
+			Rectangle workingArea = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
+			Rectangle myArea = new Rectangle( location, this.Size );
+			return ( myArea.IntersectsWith( workingArea ) );
 		}
 
 		public Size Size
@@ -109,12 +123,9 @@ namespace NUnit.Util
 			}
 			set
 			{ 
-				if ( size.Width >= MIN_WIDTH && size.Height >= MIN_HEIGHT )
-				{
-					size = value;
-					SaveIntSetting( WIDTH, size.Width );
-					SaveIntSetting( HEIGHT, size.Height );
-				}
+				size = value;
+				SaveIntSetting( WIDTH, size.Width );
+				SaveIntSetting( HEIGHT, size.Height );
 			}
 		}
 
@@ -126,6 +137,9 @@ namespace NUnit.Util
 				{
 					treeSplitterPosition = 
 						LoadIntSetting( TREE_SPLITTER_POSITION, TREE_DEFAULT_POSITION );
+
+					if ( treeSplitterPosition < TREE_MIN_POSITION  || treeSplitterPosition > this.Size.Width )
+						treeSplitterPosition = TREE_MIN_POSITION;
 				}
 				
 				return treeSplitterPosition; 
@@ -145,6 +159,9 @@ namespace NUnit.Util
 				{
 					tabSplitterPosition = 
 						LoadIntSetting( TAB_SPLITTER_POSITION, TAB_DEFAULT_POSITION );
+					
+					if ( tabSplitterPosition < TAB_MIN_POSITION || tabSplitterPosition > this.Size.Height )
+						tabSplitterPosition = TAB_MIN_POSITION;
 				}
 				
 				return tabSplitterPosition; 
