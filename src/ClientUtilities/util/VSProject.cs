@@ -212,14 +212,24 @@ namespace NUnit.Util
 						string keyWord = topNode.Attributes["Keyword"].Value;
 						this.isManaged = keyWord == "ManagedCProj";
 
+						// TODO: This is all very hacked up... replace it.
 						foreach ( XmlNode configNode in doc.SelectNodes( "/VisualStudioProject/Configurations/Configuration" ) )
 						{
 							string name = configNode.Attributes["Name"].Value;
+							string dirName = name;
+							int bar = dirName.IndexOf( '|' );
+							if ( bar >= 0 )
+								dirName = dirName.Substring( 0, bar );
 							string outputPath = configNode.Attributes["OutputDirectory"].Value;
+							outputPath = outputPath.Replace( "$(SolutionDir)", Path.GetFullPath( Path.GetDirectoryName( projectPath ) ) + @"\" );
+							outputPath = outputPath.Replace( "$(ConfigurationName)", dirName );
+
 							string outputDirectory = Path.Combine( projectDirectory, outputPath );
 							XmlNode toolNode = configNode.SelectSingleNode( "Tool[@Name='VCLinkerTool']" );
 							if ( toolNode != null )
+							{
 								assemblyName = Path.GetFileName( toolNode.Attributes["OutputFile"].Value );
+							}
 							else
 							{
 								toolNode = configNode.SelectSingleNode( "Tool[@Name='VCNMakeTool']" );
@@ -227,10 +237,13 @@ namespace NUnit.Util
 									assemblyName = Path.GetFileName( toolNode.Attributes["Output"].Value );
 							}
 
+							assemblyName = assemblyName.Replace( "$(OutDir)", outputPath );
+							assemblyName = assemblyName.Replace( "$(ProjectName)", this.Name );
+
 							VSProjectConfig config = new VSProjectConfig ( name );
 							if ( assemblyName != null )
 								config.Assemblies.Add( Path.Combine( outputDirectory, assemblyName ) );
-
+							
 							this.configs.Add( config );
 						}
 					

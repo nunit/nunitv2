@@ -165,6 +165,21 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
+		public void LoadCppProjectWithMacros()
+		{
+			using ( TempResourceFile file = new TempResourceFile(this.GetType(), "CPPLibrary.vcproj" ))
+			{
+				VSProject project = new VSProject(file.Path);
+				Assert.AreEqual( "CPPLibrary", project.Name );
+				Assert.AreEqual( Path.GetFullPath(file.Path), project.ProjectPath);
+				Assert.AreEqual( Path.GetFullPath( @"debug\cpplibrary.dll" ).ToLower(), 
+					project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower());
+				Assert.AreEqual( Path.GetFullPath( @"release\cpplibrary.dll" ).ToLower(), 
+					project.Configs["Release|Win32"].Assemblies[0].ToString().ToLower());
+			}
+		}
+
+		[Test]
 		public void LoadCppProjectVS2005()
 		{
 			using(TempResourceFile file = new TempResourceFile(this.GetType(), "cpp-sample_VS2005.vcproj"))
