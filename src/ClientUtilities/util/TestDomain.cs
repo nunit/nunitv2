@@ -31,6 +31,7 @@ using System;
 
 namespace NUnit.Util
 {
+	using System.Diagnostics;
 	using System.Security.Policy;
 	using System.Reflection;
 	using System.Collections;
@@ -511,25 +512,51 @@ namespace NUnit.Util
 
 		/// <summary>
 		/// Helper method to delete the cache dir. This method deals 
-		/// with a bug that occurs when pdb files are marked read-only.
+		/// with a bug that occurs when files are marked read-only
+		/// and deletes each file separately in order to give better 
+		/// exception information when problems occur.
+		/// 
+		/// TODO: This entire method is problematic. Should we be doing it?
 		/// </summary>
 		/// <param name="cacheDir"></param>
 		private void DeleteCacheDir( DirectoryInfo cacheDir )
 		{
+			Debug.WriteLine( "Modules:");
+			foreach( ProcessModule module in Process.GetCurrentProcess().Modules )
+				Debug.WriteLine( module.ModuleName );
+			
+
 			if(cacheDir.Exists)
 			{
 				foreach( DirectoryInfo dirInfo in cacheDir.GetDirectories() )
-				{
-					dirInfo.Attributes &= ~FileAttributes.ReadOnly;
 					DeleteCacheDir( dirInfo );
-				}
 
 				foreach( FileInfo fileInfo in cacheDir.GetFiles() )
 				{
-					fileInfo.Attributes &= ~FileAttributes.ReadOnly;
+					fileInfo.Attributes = FileAttributes.Normal;
+					try 
+					{
+						fileInfo.Delete();
+						Debug.WriteLine( "Deleted " + fileInfo.Name );
+					}
+					catch( Exception ex )
+					{
+						Debug.WriteLine( string.Format( 
+							"Error deleting {0}, {1}", fileInfo.Name, ex.Message ) );
+					}
 				}
 
-				cacheDir.Delete(true);
+				cacheDir.Attributes = FileAttributes.Normal;
+
+				try
+				{
+					cacheDir.Delete();
+				}
+				catch( Exception ex )
+				{
+					Debug.WriteLine( string.Format( 
+						"Error deleting {0}, {1}", cacheDir.Name, ex.Message ) );
+				}
 			}
 		}
 		
