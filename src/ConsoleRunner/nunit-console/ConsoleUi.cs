@@ -176,7 +176,7 @@ namespace NUnit.Console
 			}
 			else if(parser.IsFixture)
 			{
-				test = testDomain.Load(parser.fixture, (string)parser.Parameters[0]);
+				test = testDomain.Load( (string)parser.Parameters[0], parser.fixture );
 				if(test == null) Console.WriteLine("\nfatal error: fixture ({0}) in assembly ({1}) is invalid", parser.fixture, parser.Parameters[0]);
 			}
 			return test;

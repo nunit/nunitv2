@@ -60,7 +60,7 @@ namespace NUnit.Tests
 		public void LoadTestFixtureFromAssembly()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build("NUnit.Tests.Assemblies.MockTestFixture", testsDll);
+			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Assemblies.MockTestFixture" );
 			Assertion.Assert(suite != null);
 		}
 

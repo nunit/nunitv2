@@ -97,9 +97,29 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "AddConfigurationDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AddConfigurationDialog.resx"
+                    DependentUpon = "AddConfigurationDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ConfigurationEditor.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ConfigurationEditor.resx"
+                    DependentUpon = "ConfigurationEditor.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "ExpandingLabel.cs"
@@ -135,6 +155,16 @@
                 />
                 <File
                     RelPath = "Red.jpg"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "RenameConfigurationDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RenameConfigurationDialog.resx"
+                    DependentUpon = "RenameConfigurationDialog.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

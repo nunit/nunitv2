@@ -1,7 +1,8 @@
 using System;
 using System.IO;
+using System.Collections;
 using NUnit.Framework;
-using NUnit.Util;
+using NUnit.Core;
 
 namespace NUnit.Tests
 {
@@ -11,43 +12,47 @@ namespace NUnit.Tests
 	[TestFixture]
 	public class AssemblyListTests
 	{
+		private AssemblyList assemblies;
+
+		[SetUp]
+		public void CreateAssemblyList()
+		{
+			assemblies = new AssemblyList();
+		}
+
 		[Test]
 		public void EmptyList()
 		{
-			AssemblyList assemblies = new AssemblyList();
-			Assertion.AssertEquals( 0, assemblies.Count );
+			Assert.Equals( 0, assemblies.Count );
 		}
 
 		[Test]
 		public void AddAssemblies()
 		{
-			AssemblyList assemblies = new AssemblyList();
 			assemblies.Add( @"bin\debug\assembly1.dll" );
 			assemblies.Add( @"bin\debug\assembly2.dll" );
 
 			string path1 = AssemblyList.GetFullPath( @"bin\debug\assembly1.dll" );
 			string path2 = AssemblyList.GetFullPath( @"bin\debug\assembly2.dll" );
 
-			Assertion.AssertEquals( 2, assemblies.Count );
-			Assertion.AssertEquals( path1, assemblies[0] );
-			Assertion.AssertEquals( path2, assemblies[1] );
+			Assert.Equals( 2, assemblies.Count );
+			Assert.Equals( path1, assemblies[0] );
+			Assert.Equals( path2, assemblies[1] );
 		}
 
 		[Test]
 		public void TryToAddDuplicates()
 		{
-			AssemblyList assemblies = new AssemblyList();
 			assemblies.Add( @"C:\junk\assembly1.dll" );
 			assemblies.Add( @"C:\junk\assembly1.dll" );			
 			assemblies.Add( @"C:\junk\Assembly1.dll" );
 
-			Assertion.AssertEquals( 1, assemblies.Count );
+			Assert.Equals( 1, assemblies.Count );
 		}
 
 		[Test]
 		public void RemoveAssemblies()
 		{
-			AssemblyList assemblies = new AssemblyList();
 			assemblies.Add( @"bin\debug\assembly1.dll" );
 			assemblies.Add( @"bin\debug\assembly2.dll" );
 			assemblies.Add( @"bin\debug\assembly3.dll" );
@@ -56,9 +61,30 @@ namespace NUnit.Tests
 			string path1 = AssemblyList.GetFullPath( @"bin\debug\assembly1.dll" );
 			string path3 = AssemblyList.GetFullPath( @"bin\debug\assembly3.dll" );
 
-			Assertion.AssertEquals( 2, assemblies.Count );
-			Assertion.AssertEquals( path1, assemblies[0] );
-			Assertion.AssertEquals( path3, assemblies[1] );
+			Assert.Equals( 2, assemblies.Count );
+			Assert.Equals( path1, assemblies[0] );
+			Assert.Equals( path3, assemblies[1] );
+		}
+
+		[Test]
+		public void Directories()
+		{
+			assemblies.Add( @"h:\app1\bin\debug\test1.dll" );
+			assemblies.Add( @"h:\app2\bin\debug\test2.dll" );
+			assemblies.Add( @"h:\app1\bin\debug\test3.dll" );
+
+			Assert.Equals( 2, assemblies.Directories.Count ); 
+		}
+
+		[Test]
+		public void AssemblyPath()
+		{
+			assemblies.Add( @"h:\app1\bin\debug\test1.dll" );
+			assemblies.Add( @"h:\app2\bin\debug\test2.dll" );
+			assemblies.Add( @"h:\app1\bin\debug\test3.dll" );
+
+			Assert.Equals( @"h:\app1\bin\debug;h:\app2\bin\debug", 
+				assemblies.AssemblyPath );
 		}
 	}
 }

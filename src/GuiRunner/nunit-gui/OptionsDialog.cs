@@ -19,11 +19,13 @@ namespace NUnit.Gui
 		private System.Windows.Forms.Button okButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.HelpProvider helpProvider1;
-		private System.Windows.Forms.CheckBox loadLastAssemblyCheckBox;
 		private System.Windows.Forms.CheckBox clearResultsCheckBox;
-		private System.Windows.Forms.CheckBox enableWatcherCheckBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ComboBox initialDisplayComboBox;
+		private System.Windows.Forms.CheckBox reloadOnChangeCheckBox;
+		private System.Windows.Forms.CheckBox reloadOnRunCheckBox;
+		private System.Windows.Forms.CheckBox visualStudioSupportCheckBox;
+		private System.Windows.Forms.CheckBox loadLastProjectCheckBox;
 		private System.ComponentModel.IContainer components;
 
 		public OptionsDialog( OptionSettings options, UIActions actions )
@@ -65,11 +67,13 @@ namespace NUnit.Gui
 			this.okButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
-			this.loadLastAssemblyCheckBox = new System.Windows.Forms.CheckBox();
+			this.loadLastProjectCheckBox = new System.Windows.Forms.CheckBox();
 			this.clearResultsCheckBox = new System.Windows.Forms.CheckBox();
-			this.enableWatcherCheckBox = new System.Windows.Forms.CheckBox();
+			this.reloadOnChangeCheckBox = new System.Windows.Forms.CheckBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.initialDisplayComboBox = new System.Windows.Forms.ComboBox();
+			this.reloadOnRunCheckBox = new System.Windows.Forms.CheckBox();
+			this.visualStudioSupportCheckBox = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// okButton
@@ -91,45 +95,45 @@ namespace NUnit.Gui
 			this.cancelButton.TabIndex = 1;
 			this.cancelButton.Text = "Cancel";
 			// 
-			// loadLastAssemblyCheckBox
+			// loadLastProjectCheckBox
 			// 
-			this.helpProvider1.SetHelpString(this.loadLastAssemblyCheckBox, "If checked, most recent assembly is loaded at startup.");
-			this.loadLastAssemblyCheckBox.Location = new System.Drawing.Point(24, 16);
-			this.loadLastAssemblyCheckBox.Name = "loadLastAssemblyCheckBox";
-			this.helpProvider1.SetShowHelp(this.loadLastAssemblyCheckBox, true);
-			this.loadLastAssemblyCheckBox.Size = new System.Drawing.Size(256, 24);
-			this.loadLastAssemblyCheckBox.TabIndex = 15;
-			this.loadLastAssemblyCheckBox.Text = "Load most recent assembly at startup.";
+			this.helpProvider1.SetHelpString(this.loadLastProjectCheckBox, "If checked, most recent project is loaded at startup.");
+			this.loadLastProjectCheckBox.Location = new System.Drawing.Point(24, 16);
+			this.loadLastProjectCheckBox.Name = "loadLastProjectCheckBox";
+			this.helpProvider1.SetShowHelp(this.loadLastProjectCheckBox, true);
+			this.loadLastProjectCheckBox.Size = new System.Drawing.Size(256, 24);
+			this.loadLastProjectCheckBox.TabIndex = 15;
+			this.loadLastProjectCheckBox.Text = "Load most recent project at startup.";
 			// 
 			// clearResultsCheckBox
 			// 
 			this.helpProvider1.SetHelpString(this.clearResultsCheckBox, "If checked, any prior results are cleared if tests are added or removed.");
-			this.clearResultsCheckBox.Location = new System.Drawing.Point(56, 80);
+			this.clearResultsCheckBox.Location = new System.Drawing.Point(48, 136);
 			this.clearResultsCheckBox.Name = "clearResultsCheckBox";
 			this.helpProvider1.SetShowHelp(this.clearResultsCheckBox, true);
 			this.clearResultsCheckBox.Size = new System.Drawing.Size(232, 24);
 			this.clearResultsCheckBox.TabIndex = 12;
 			this.clearResultsCheckBox.Text = "Clear results when tests change.";
 			// 
-			// enableWatcherCheckBox
+			// reloadOnChangeCheckBox
 			// 
-			this.helpProvider1.SetHelpString(this.enableWatcherCheckBox, "If checked, the assembly is reloaded whenever it changes. Changes to this setting" +
+			this.helpProvider1.SetHelpString(this.reloadOnChangeCheckBox, "If checked, the assembly is reloaded whenever it changes. Changes to this setting" +
 				" do not take effect until the next time an assembly is loaded.");
-			this.enableWatcherCheckBox.Location = new System.Drawing.Point(24, 56);
-			this.enableWatcherCheckBox.Name = "enableWatcherCheckBox";
-			this.helpProvider1.SetShowHelp(this.enableWatcherCheckBox, true);
-			this.enableWatcherCheckBox.Size = new System.Drawing.Size(256, 24);
-			this.enableWatcherCheckBox.TabIndex = 11;
-			this.enableWatcherCheckBox.Text = "Watch for changes to the assembly.";
-			this.enableWatcherCheckBox.CheckedChanged += new System.EventHandler(this.enableWatcherCheckBox_CheckedChanged);
+			this.reloadOnChangeCheckBox.Location = new System.Drawing.Point(24, 112);
+			this.reloadOnChangeCheckBox.Name = "reloadOnChangeCheckBox";
+			this.helpProvider1.SetShowHelp(this.reloadOnChangeCheckBox, true);
+			this.reloadOnChangeCheckBox.Size = new System.Drawing.Size(256, 24);
+			this.reloadOnChangeCheckBox.TabIndex = 11;
+			this.reloadOnChangeCheckBox.Text = "Reload when test assembly changes";
+			this.reloadOnChangeCheckBox.CheckedChanged += new System.EventHandler(this.enableWatcherCheckBox_CheckedChanged);
 			// 
 			// label1
 			// 
 			this.helpProvider1.SetHelpString(this.label1, "");
-			this.label1.Location = new System.Drawing.Point(32, 120);
+			this.label1.Location = new System.Drawing.Point(40, 48);
 			this.label1.Name = "label1";
 			this.helpProvider1.SetShowHelp(this.label1, true);
-			this.label1.Size = new System.Drawing.Size(104, 24);
+			this.label1.Size = new System.Drawing.Size(96, 24);
 			this.label1.TabIndex = 16;
 			this.label1.Text = "Initial Display:";
 			// 
@@ -142,11 +146,32 @@ namespace NUnit.Gui
 																		"Expand",
 																		"Collapse",
 																		"HideTests"});
-			this.initialDisplayComboBox.Location = new System.Drawing.Point(144, 120);
+			this.initialDisplayComboBox.Location = new System.Drawing.Point(144, 48);
 			this.initialDisplayComboBox.Name = "initialDisplayComboBox";
 			this.helpProvider1.SetShowHelp(this.initialDisplayComboBox, true);
 			this.initialDisplayComboBox.Size = new System.Drawing.Size(120, 24);
 			this.initialDisplayComboBox.TabIndex = 17;
+			// 
+			// reloadOnRunCheckBox
+			// 
+			this.helpProvider1.SetHelpString(this.reloadOnRunCheckBox, "If checked, the assembly is reloaded before each run.");
+			this.reloadOnRunCheckBox.Location = new System.Drawing.Point(24, 80);
+			this.reloadOnRunCheckBox.Name = "reloadOnRunCheckBox";
+			this.helpProvider1.SetShowHelp(this.reloadOnRunCheckBox, true);
+			this.reloadOnRunCheckBox.Size = new System.Drawing.Size(264, 24);
+			this.reloadOnRunCheckBox.TabIndex = 18;
+			this.reloadOnRunCheckBox.Text = "Reload before each test run";
+			// 
+			// visualStudioSupportCheckBox
+			// 
+			this.helpProvider1.SetHelpString(this.visualStudioSupportCheckBox, "If checked, Visual Studio projects and solutions may be opened or added to existi" +
+				"ng test projects.");
+			this.visualStudioSupportCheckBox.Location = new System.Drawing.Point(24, 176);
+			this.visualStudioSupportCheckBox.Name = "visualStudioSupportCheckBox";
+			this.helpProvider1.SetShowHelp(this.visualStudioSupportCheckBox, true);
+			this.visualStudioSupportCheckBox.Size = new System.Drawing.Size(264, 32);
+			this.visualStudioSupportCheckBox.TabIndex = 19;
+			this.visualStudioSupportCheckBox.Text = "Enable Visual Studio Support";
 			// 
 			// OptionsDialog
 			// 
@@ -155,11 +180,13 @@ namespace NUnit.Gui
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(298, 250);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
+																		  this.visualStudioSupportCheckBox,
+																		  this.reloadOnRunCheckBox,
 																		  this.initialDisplayComboBox,
 																		  this.label1,
-																		  this.loadLastAssemblyCheckBox,
+																		  this.loadLastProjectCheckBox,
 																		  this.clearResultsCheckBox,
-																		  this.enableWatcherCheckBox,
+																		  this.reloadOnChangeCheckBox,
 																		  this.cancelButton,
 																		  this.okButton});
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -177,31 +204,35 @@ namespace NUnit.Gui
 
 		private void OptionsDialog_Load(object sender, System.EventArgs e)
 		{
-			loadLastAssemblyCheckBox.Checked = options.LoadLastAssembly;
+			loadLastProjectCheckBox.Checked = options.LoadLastProject;
 
-			enableWatcherCheckBox.Checked = options.EnableWatcher;
-			clearResultsCheckBox.Enabled = enableWatcherCheckBox.Checked;
+			reloadOnChangeCheckBox.Checked = options.ReloadOnChange;
+			reloadOnRunCheckBox.Checked = options.ReloadOnRun;
+			clearResultsCheckBox.Enabled = reloadOnChangeCheckBox.Checked;
 			clearResultsCheckBox.Checked = options.ClearResults;
+			visualStudioSupportCheckBox.Checked = options.VisualStudioSupport;
 
 			initialDisplayComboBox.SelectedIndex = options.InitialTreeDisplay;
 		}
 
 		private void okButton_Click(object sender, System.EventArgs e)
 		{
-			if ( actions.IsAssemblyLoaded && 
-				options.EnableWatcher != enableWatcherCheckBox.Checked )
+			if ( actions.IsTestLoaded && 
+				options.ReloadOnChange != reloadOnChangeCheckBox.Checked )
 			{
 				string msg = String.Format(
 					"Watching for file changes will be {0} the next time you load an assembly.",
-					enableWatcherCheckBox.Checked ? "enabled" : "disabled" );
+					reloadOnChangeCheckBox.Checked ? "enabled" : "disabled" );
 
 				MessageBox.Show( msg, "NUnit Options" );
 			}
 
-			options.LoadLastAssembly = loadLastAssemblyCheckBox.Checked;
+			options.LoadLastProject = loadLastProjectCheckBox.Checked;
 			
-			options.EnableWatcher = enableWatcherCheckBox.Checked;
+			options.ReloadOnChange = reloadOnChangeCheckBox.Checked;
+			options.ReloadOnRun = reloadOnRunCheckBox.Checked;
 			options.ClearResults = clearResultsCheckBox.Checked;
+			options.VisualStudioSupport = visualStudioSupportCheckBox.Checked;
 
 			options.InitialTreeDisplay = initialDisplayComboBox.SelectedIndex;
 
@@ -212,7 +243,7 @@ namespace NUnit.Gui
 
 		private void enableWatcherCheckBox_CheckedChanged(object sender, System.EventArgs e)
 		{
-			clearResultsCheckBox.Enabled = enableWatcherCheckBox.Checked;
+			clearResultsCheckBox.Enabled = reloadOnChangeCheckBox.Checked;
 		}
 	}
 }

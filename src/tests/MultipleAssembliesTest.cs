@@ -22,13 +22,27 @@ namespace NUnit.Tests
 			assemblies.Add(testsDll);
 			assemblies.Add(mockDll);
 
-			suite = builder.Build(assemblies);
+			suite = builder.Build( "TestSuite", assemblies);
 		}
 
 		[Test]
 		public void BuildSuite()
 		{
 			Assertion.AssertNotNull(suite);
+		}
+
+		[Test]
+		public void RootNode()
+		{
+			Assert.True( suite is RootTestSuite );
+			Assert.Equals( "TestSuite", suite.Name );
+		}
+
+		[Test]
+		public void AssemblyNodes()
+		{
+			Assert.True( suite.Tests[0] is AssemblyTestSuite );
+			Assert.True( suite.Tests[1] is AssemblyTestSuite );
 		}
 
 		[Test]

@@ -30,8 +30,8 @@
 namespace NUnit.Core
 {
 	using System;
-	using System.Collections;
 	using System.IO;
+	using System.Collections;
 	using System.Reflection;
 	using System.Runtime.Remoting;
 
@@ -44,42 +44,27 @@ namespace NUnit.Core
 	{
 		private TestSuite suite;
 		private string fullName;
-		private string assemblyName;
+		private string testFileName;
 		private IList assemblies;
 
-		public void Initialize(string assemblyName)
+		public void Initialize( string testFileName, IList assemblies, string testFixture )
 		{
-			this.assemblyName = assemblyName;
-		}
-
-		public void Initialize(string fixtureName, string assemblyName)
-		{
-			TestName = fixtureName;
-			Initialize(assemblyName);
-		}
-
-		public void Initialize(string fixtureName, IList assemblies)
-		{
-			TestName = fixtureName;
-			Initialize(assemblies);
-		}
-
-		public void Initialize(IList assemblies)
-		{
+			this.testFileName = testFileName;
 			this.assemblies = assemblies;
+			this.TestName = testFixture;
 		}
 
 		public void BuildSuite() 
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			if(assemblies != null && fullName == null)
-				suite = builder.Build(assemblies);
-			else if(assemblies != null && fullName != null)
-				suite = builder.Build(fullName, assemblies);
-			else if(fullName == null) 
-				suite = builder.Build(assemblyName);
+
+			if(fullName == null)
+				if ( assemblies == null )
+					suite = builder.Build( testFileName );
+				else
+					suite = builder.Build( testFileName, assemblies );
 			else
-				suite = builder.Build(fullName, assemblyName);
+				suite = builder.Build( testFileName, fullName );
 
 			if(suite != null) TestName = suite.FullName;
 		}

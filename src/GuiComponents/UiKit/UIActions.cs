@@ -63,14 +63,35 @@ namespace NUnit.UiKit
 		private TextWriter stdErrWriter;
 
 		/// <summary>
-		/// Loads an assembly and executes tests.
+		/// Loads and executes tests. Non-null when
+		/// we have loaded a test.
 		/// </summary>
-		private TestDomain testDomain = null;
+//		private TestDomain testDomain = null;
+
+		/// <summary>
+		/// Our current test project, if we have one.
+		/// </summary>
+		private NUnitProject testProject = null;
+
+		/// <summary>
+		/// Set to true to indicate the user loaded
+		/// an assembly rather than a project. 
+		/// </summary>
+		private bool isAssembly = false;
+
+		/// <summary>
+		///  The file name of the currently loaded test.
+		///  This will be a project name if we loaded
+		///  a project, or an assembly name if not.
+		///  In the first case, testProject will be
+		///  non-null, in the second, null.
+		/// </summary>
+		private string testFileName;
 
 		/// <summary>
 		/// The currently loaded test, returned by the testrunner
 		/// </summary>
-		private UITestNode currentTest = null;
+		private UITestNode loadedTest = null;
 
 		/// <summary>
 		/// The test that is running
@@ -137,19 +158,64 @@ namespace NUnit.UiKit
 
 		#region Properties
 
-		public bool IsAssemblyLoaded
+		public bool IsTestLoaded
 		{
-			get { return testDomain != null; }
+			get { return loadedTest != null; }
 		}
 
-		public string AssemblyName
+		public UITestNode LoadedTest
 		{
-			get { return testDomain == null ? null : testDomain.AssemblyName; }
+			get { return loadedTest; }
+		}
+
+		public string TestFileName
+		{
+			get { return testFileName; }
 		}
 
 		public bool IsTestRunning
 		{
 			get { return runningTest != null; }
+		}
+
+		public bool IsProject
+		{
+			get { return !isAssembly; }
+		}
+
+		public bool IsAssembly
+		{
+			get { return isAssembly; }
+		}
+
+		public NUnitProject TestProject
+		{
+			get { return testProject; }
+		}
+
+		public TestDomain TestDomain
+		{
+			get { return TestProject.TestDomain; }
+			set { TestProject.TestDomain = value; }
+		}
+
+		public string ActiveConfig
+		{
+			get { return IsProject ? testProject.ActiveConfig.Name : null; }
+			set
+			{
+				if ( IsProject && testProject.ActiveConfig.Name != value )
+				{
+					testProject.SetActiveConfig( value );
+					testProject.Save();
+					LoadTest( TestFileName );
+				}
+			}
+		}
+
+		public string ProjectPath
+		{
+			get { return testProject.ProjectPath; }
 		}
 
 		public TestResult LastResult
@@ -237,8 +303,8 @@ namespace NUnit.UiKit
 
 			try
 			{
-				testDomain.TestName = runningTest.FullName;
-				lastResult = testDomain.Run(this);
+				TestDomain.TestName = runningTest.FullName;
+				lastResult = TestDomain.Run(this);
 				
 				if ( RunFinishedEvent != null )
 					RunFinishedEvent( this, new TestEventArgs( TestAction.RunFinished, lastResult ) );
@@ -269,80 +335,95 @@ namespace NUnit.UiKit
 			}
 		}
 
-		/// <summary>
-		/// Load an assembly, firing the SuiteLoaded event.
-		/// </summary>
-		/// <param name="assemblyFileName">Assembly to be loaded</param>
-		public void LoadAssembly( string newAssemblyName )
+		public void LoadTest( string newFileName )
 		{
 			try
 			{
-				// Signal that the load is starting
 				if ( LoadStartingEvent != null )
-					LoadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.LoadStarting, newAssemblyName ) );
+					LoadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.LoadStarting, newFileName ) );
+
+				// See if there is a test project
+				NUnitProject newProject = GetTestProject( newFileName );			
 
 				// If loading same one, unload first
-				if ( IsAssemblyLoaded && AssemblyName == newAssemblyName )
-					UnloadAssembly();
+				if ( IsTestLoaded && TestFileName == newFileName )
+					UnloadTest();
 
 				// Make sure it all works before switching old one out
-				NUnit.Framework.TestDomain newDomain = new NUnit.Framework.TestDomain(stdOutWriter, stdErrWriter);
-				Test newTest = newDomain.Load(newAssemblyName);
+				TestDomain newDomain = new TestDomain(stdOutWriter, stdErrWriter);
+
+				UITestNode newTest = this.IsAssembly
+					? newDomain.Load( newFileName )
+					: newDomain.Load( newFileName, newProject.ActiveConfig.Assemblies );
 				
 				// If we didn't unload earlier, do it now
-				if  ( IsAssemblyLoaded ) 
-					UnloadAssembly();
+				if  ( IsTestLoaded ) 
+					UnloadTest();
 
-				// Swap in the new values
-				testDomain = newDomain;
-				currentTest = newTest;
+				// We're cool, so swap in the new info
+				testProject = newProject;
+				testProject.TestDomain = newDomain;
+				testFileName = this.IsAssembly ? newFileName : newProject.ProjectPath;
+				loadedTest = newTest;
+				lastResult = null;
+				reloadPending = false;
+				
+				// Cancel any pending reload
 				reloadPending = false;
 
-				SetWorkingDirectory(newAssemblyName);
+				// ToDo - figure out how to handle
+				SetWorkingDirectory( this.IsAssembly
+					? newFileName
+					: newProject.ActiveConfig.Assemblies[0] );
 
 				if ( LoadCompleteEvent != null )
-					LoadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.LoadComplete, newAssemblyName, currentTest ) );
+					LoadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.LoadComplete, TestFileName, LoadedTest ) );
 
-				if ( UserSettings.Options.EnableWatcher )
-					InstallWatcher( newAssemblyName );
+				if ( UserSettings.Options.ReloadOnChange )
+					InstallWatcher( testFileName );
 			}
 			catch( Exception exception )
 			{
 				if ( LoadFailedEvent != null )
-					LoadFailedEvent( this, new TestLoadEventArgs( TestLoadAction.LoadFailed, newAssemblyName, exception ) );
+					LoadFailedEvent( this, new TestLoadEventArgs( TestLoadAction.LoadFailed, newFileName, exception ) );
 			}
 		}
 
 		/// <summary>
-		/// Unload the current assembly and fire the SuiteUnloaded event
+		/// Unload the current test suite and fire the Unloaded event
 		/// </summary>
-		public void UnloadAssembly( )
+		public void UnloadTest( )
 		{
-			if(testDomain != null)
+			if( IsTestLoaded )
 			{
-				string assemblyName = AssemblyName;
-
 				if ( UnloadStartingEvent != null )
-					UnloadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.UnloadStarting, assemblyName, currentTest ) );
+					UnloadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.UnloadStarting, TestFileName, LoadedTest ) );
 
-				testDomain.Unload();
-				testDomain = null;
-				reloadPending = false;
+				// Hold the name for notifications after unload
+				string fileName = TestFileName;
+
+				TestDomain.Unload();
+
+				TestDomain = null;
+				testFileName = null;
+				//testProject = null;
+				loadedTest = null;
 				lastResult = null;
+				reloadPending = false;
 
 				RemoveWatcher();
 
 				if ( UnloadCompleteEvent != null )
-					UnloadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.UnloadComplete, assemblyName, currentTest ) );
+					UnloadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.UnloadComplete, fileName, LoadedTest ) );
 			}
 		}
 
 		/// <summary>
-		/// Reload the current assembly on command
+		/// Reload the current test on command
 		/// </summary>
-		public void ReloadAssembly()
+		public void ReloadTest()
 		{
-			OnAssemblyChanged( testDomain.AssemblyName );
+			OnTestChanged( testFileName );
 		}
 
 		/// <summary>
@@ -353,7 +434,7 @@ namespace NUnit.UiKit
 		/// know that the failure happened.
 		/// </summary>
 		/// <param name="assemblyFileName">Assembly file that changed</param>
-		public void OnAssemblyChanged( string assemblyFileName )
+		public void OnTestChanged( string testFileName )
 		{
 			if ( IsTestRunning )
 				reloadPending = true;
@@ -361,41 +442,41 @@ namespace NUnit.UiKit
 				try
 				{
 					if ( ReloadStartingEvent != null )
-						ReloadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.ReloadStarting, AssemblyName, currentTest ) );
+						ReloadStartingEvent( this, new TestLoadEventArgs( TestLoadAction.ReloadStarting, TestFileName, loadedTest ) );
 
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
 					TestDomain newDomain = new TestDomain(stdOutWriter, stdErrWriter);
-					UITestNode newTest = newDomain.Load(assemblyFileName);
+					UITestNode newTest = newDomain.Load( testFileName );
 
-					bool notifyClient = !UIHelper.CompareTree( currentTest, newTest );
+					bool notifyClient = !UIHelper.CompareTree( LoadedTest, newTest );
 
-					testDomain.Unload();
+					TestDomain.Unload();
 
-					testDomain = newDomain;
-					currentTest = newTest;
+					TestDomain = newDomain;
+					loadedTest = newTest;
 					reloadPending = false;
 
 					if ( notifyClient && ReloadCompleteEvent != null )
-						ReloadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.ReloadComplete, AssemblyName, newTest ) );
+						ReloadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.ReloadComplete, TestFileName, newTest ) );
 				
 				}
 				catch( Exception exception )
 				{
 					if ( ReloadFailedEvent != null )
-						ReloadFailedEvent( this, new TestLoadEventArgs( TestLoadAction.LoadFailed, assemblyFileName, exception ) );
+						ReloadFailedEvent( this, new TestLoadEventArgs( TestLoadAction.LoadFailed, testFileName, exception ) );
 				}
 		}
 
-		private static void SetWorkingDirectory(string assemblyFileName)
+		private static void SetWorkingDirectory(string testFileName)
 		{
-			FileInfo info = new FileInfo(assemblyFileName);
+			FileInfo info = new FileInfo(testFileName);
 			Directory.SetCurrentDirectory(info.DirectoryName);
 		}
 		
 		/// <summary>
 		/// Install our watcher object so as to get notifications
-		/// about changes to an assembly.
+		/// about changes to a test.
 		/// </summary>
 		/// <param name="assemblyFileName">Full path of the assembly to watch</param>
 		private void InstallWatcher(string assemblyFileName)
@@ -404,7 +485,7 @@ namespace NUnit.UiKit
 
 			FileInfo info = new FileInfo(assemblyFileName);
 			watcher = new AssemblyWatcher(1000, info);
-			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( OnAssemblyChanged );
+			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( OnTestChanged );
 			watcher.Start();
 		}
 
@@ -420,7 +501,46 @@ namespace NUnit.UiKit
 			}
 		}
 
+		/// <summary>
+		/// Helper returns a test project if there is one,
+		/// creates one for VS files, returns null otherwise.
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		private NUnitProject GetTestProject( string path )
+		{
+			NUnitProject project = null;
+			this.isAssembly = false; // Assume a project
+
+			if ( NUnitProject.IsProjectFile( path ) )
+				project = new NUnitProject( path );
+			else
+			{
+				string projectPath = NUnitProject.ProjectPathFromFile( path );
+				// ToDo: Warn in this case?
+				if ( File.Exists( projectPath ) )
+					project = new NUnitProject( projectPath );
+				else if ( VSProject.IsProjectFile( path ) )
+				{
+					project = NUnitProject.FromVSProject( path );
+					project.Save( projectPath );
+				}
+				else if ( VSProject.IsSolutionFile( path ) )
+				{
+					project = NUnitProject.FromVSSolution( path );
+					project.Save( projectPath );
+				}
+				else
+				{
+					project = NUnitProject.FromAssembly( path );
+					this.isAssembly = true;
+					// No automatic save for assemblies
+				}
+			}
+
+			return project;
+		}
+
 		#endregion
 	}
 }
-

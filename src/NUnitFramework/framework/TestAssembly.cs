@@ -2,13 +2,19 @@ using System;
 
 namespace NUnit.Core
 {
-	public class TestAssembly : TestSuite
+	/// <summary>
+	/// Test Suite formed from an assembly. 
+	/// Class name changed from TestAssembly
+	/// to avoid conflict with namespace.
+	/// </summary>
+	public class AssemblyTestSuite : TestSuite
 	{
-		private string name;
-
-		public TestAssembly(string assembly) : base(assembly)
+		public AssemblyTestSuite( string assembly ) : this( assembly, 0 )
 		{
-			name = assembly;
+		}
+
+		public AssemblyTestSuite( string assembly, int key) : base( assembly, key )
+		{
 		}
 	}
 }

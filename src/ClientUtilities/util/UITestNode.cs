@@ -53,6 +53,11 @@ namespace NUnit.Util
 		private string testName;
 
 		/// <summary>
+		/// Used to distinguish tests in multiple assemblies;
+		/// </summary>
+		private int assemblyKey;
+
+		/// <summary>
 		/// True if the test should be run
 		/// </summary>
 		private bool shouldRun;
@@ -100,6 +105,7 @@ namespace NUnit.Util
 		{
 			fullName = test.FullName;
 			testName = test.Name;
+			assemblyKey = test.AssemblyKey;
 			shouldRun = test.ShouldRun;
 			ignoreReason = test.IgnoreReason;
 			
@@ -191,6 +197,20 @@ namespace NUnit.Util
 		public string Name
 		{
 			get { return testName; }
+		}
+
+		/// <summary>
+		/// Identifier for assembly containing this test
+		/// </summary>
+		public int AssemblyKey
+		{
+			get { return assemblyKey; }
+			set { assemblyKey = value; }
+		}
+
+		public string UniqueName
+		{
+			get{ return string.Format( "[{0}]{1}", assemblyKey, fullName ); }
 		}
 
 		/// <summary>

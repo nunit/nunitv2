@@ -30,7 +30,7 @@ namespace NUnit.Util
 	public class TestLoadEventArgs : EventArgs
 	{
 		private TestLoadAction action;
-		private string assemblyName;
+		private string testFileName;
 		private UITestNode test;
 		private Exception exception;
 
@@ -48,19 +48,19 @@ namespace NUnit.Util
 		/// Constructor for non-failure events
 		/// </summary>
 		public TestLoadEventArgs( TestLoadAction action, 
-			string assemblyName, UITestNode test )
+			string testFileName, UITestNode test )
 		{
 			this.action = action;
-			this.assemblyName = assemblyName;
+			this.testFileName = testFileName;
 			this.test = test;
 
 			Debug.Assert( !IsFailure( action ), "Invalid TestLoadAction in Constructor" );
 		}
 
-		public TestLoadEventArgs( TestLoadAction action, string assemblyName )
+		public TestLoadEventArgs( TestLoadAction action, string testFileName )
 		{
 			this.action = action;
-			this.assemblyName = assemblyName;
+			this.testFileName = testFileName;
 
 			Debug.Assert( action != TestLoadAction.UnloadStarting || action != TestLoadAction.UnloadComplete, 
 					"Invalid TestLoadAction in Constructor" );
@@ -70,10 +70,10 @@ namespace NUnit.Util
 		/// Constructor for failure events
 		/// </summary>
 		public TestLoadEventArgs( TestLoadAction action,
-			string assemblyName, Exception exception )
+			string testFileName, Exception exception )
 		{
 			this.action = action;
-			this.assemblyName = assemblyName;
+			this.testFileName = testFileName;
 			this.exception = exception;
 
 			Debug.Assert( IsFailure( action ), "Invalid TestLoadAction in Constructor" );
@@ -84,15 +84,20 @@ namespace NUnit.Util
 			get { return action; }
 		}
 
-		public string AssemblyName
+		public string TestFileName
 		{
-			get { return assemblyName; }
+			get { return testFileName; }
+		}
+
+		public bool IsProjectFile
+		{
+			get { return NUnitProject.IsProjectFile( testFileName ); }
 		}
 
 		public UITestNode Test
 		{
 			get { return test; }
-		}
+		}      
 
 		public Exception Exception
 		{

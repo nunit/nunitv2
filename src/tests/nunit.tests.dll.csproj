@@ -207,6 +207,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "MultipleAssembliesTestDomain.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "MultipleAssemblyFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -237,6 +242,11 @@
                 />
                 <File
                     RelPath = "OneTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OptionSettingsTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -387,6 +397,11 @@
                 />
                 <File
                     RelPath = "UtilTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "VSProjectTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

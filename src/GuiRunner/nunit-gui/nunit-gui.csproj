@@ -154,6 +154,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "ProjectEditor.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProjectEditor.resx"
+                    DependentUpon = "ProjectEditor.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "TestResultItem.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

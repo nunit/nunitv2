@@ -83,7 +83,7 @@ namespace NUnit.Tests
 		{
 			string testsDll = "NUnit.Tests.dll";
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			suite = builder.Build("NUnit.Tests.TestFixtureExtension+DerivedTestFixture", testsDll);
+			suite = builder.Build( testsDll, "NUnit.Tests.TestFixtureExtension+DerivedTestFixture" );
 		}
 
 		[Test] 

@@ -97,11 +97,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AssemblyList.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "AssemblyWatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -162,6 +157,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "RecentFileSettings.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RecentProjectSettings.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "RegistrySettingsStorage.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -198,6 +203,11 @@
                 />
                 <File
                     RelPath = "UserSettings.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "VSProject.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

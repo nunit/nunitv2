@@ -14,10 +14,17 @@ namespace NUnit.Tests
 	{
 		static readonly string xmlfile = "test.nunit";
 
-		[SetUp]
+		[SetUp, TearDown]
 		public void EraseFile()
 		{
 			File.Delete( xmlfile );
+		}
+
+		[Test]
+		public void ProjectFile()
+		{
+			Assertion.Assert( NUnitProject.IsProjectFile( @"\x\y\test.nunit" ) );
+			Assertion.Assert( !NUnitProject.IsProjectFile( @"\x\y\test.junit" ) );
 		}
 
 		[Test]
@@ -117,6 +124,54 @@ namespace NUnit.Tests
 			Assertion.AssertEquals( 2, config2.Assemblies.Count );
 			Assertion.AssertEquals( @"h:\bin\release\assembly1.dll", config2.Assemblies[0] );
 			Assertion.AssertEquals( @"h:\bin\release\assembly2.dll", config2.Assemblies[1] );
+		}
+
+		[Test]
+		public void FromAssembly()
+		{
+			NUnitProject project = NUnitProject.FromAssembly( @"h:\bin\debug\assembly1.dll" );
+			Assertion.AssertEquals( "Default", project.ActiveConfig.Name );
+			Assertion.AssertEquals( @"h:\bin\debug\assembly1.dll", project.ActiveConfig.Assemblies[0] );
+		}
+
+		[Test]
+		public void FromCSharpProject()
+		{
+			NUnitProject project = NUnitProject.FromVSProject( @"..\..\nunit.tests.dll.csproj" );
+			Assertion.AssertEquals( 2, project.Configs.Count );
+			Assertion.Assert( "Missing Debug Config", project.Configs.Contains( "Debug" ) );
+			Assertion.Assert( "Missing Release Config", project.Configs.Contains( "Release" ) );
+			Assertion.Assert( "Missing nunit.tests.dll", project.Configs["Debug"].Assemblies[0].EndsWith("nunit.tests.dll") );
+		}
+
+		[Test]
+		public void FromVBProject()
+		{
+			NUnitProject project = NUnitProject.FromVSProject( @"..\..\..\samples\vb\vb-sample.vbproj" );
+			Assertion.AssertEquals( 2, project.Configs.Count );
+			Assertion.Assert( "Missing Debug config", project.Configs.Contains( "Debug" ) );
+			Assertion.Assert( "Missing Release config", project.Configs.Contains( "Release" ) );
+			Assertion.Assert( "Missing vb-sample.dll", project.Configs["Debug"].Assemblies[0].EndsWith( "vb-sample.dll" ) );
+		}
+
+		[Test]
+		public void FromCppProject()
+		{
+			NUnitProject project = NUnitProject.FromVSProject( @"..\..\..\samples\cpp-sample\cpp-sample.vcproj" );
+			Assertion.AssertEquals( 2, project.Configs.Count );
+			Assertion.Assert( "Missing Debug Config", project.Configs.Contains( "Debug|Win32" ) );
+			Assertion.Assert( "Missing Release Config", project.Configs.Contains( "Release|Win32" ) );
+			Assertion.Assert( "Missing cpp-sample.dll", project.Configs["Debug|Win32"].Assemblies[0].EndsWith( "cpp-sample.dll" ) );
+		}
+
+		[Test]
+		public void FromVSSolution()
+		{
+			NUnitProject project = NUnitProject.FromVSSolution( @"..\..\..\nunit.sln" );
+			Assertion.AssertEquals( 4, project.Configs.Count );
+			Assertion.Assert( project.Configs.Contains( "Debug" ) );
+			Assertion.Assert( project.Configs.Contains( "Release" ) );
+			Assertion.AssertEquals( 14, project.Configs["Debug"].Assemblies.Count );
 		}
 	}
 }

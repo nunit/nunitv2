@@ -43,22 +43,19 @@ namespace NUnit.Tests
 	[TestFixture]
 	public class RecentAssemblyFixture
 	{
-//		RecentAssemblyUtil assemblies;
 		RecentAssemblySettings assemblies;
 
 		[SetUp]
-		public void CreateUtil()
+		public void SetUp()
 		{
-//			assemblies = new RecentAssemblyUtil("test-recent-assemblies");
 			NUnitRegistry.TestMode = true;
 			NUnitRegistry.ClearTestKeys();
 			assemblies = UserSettings.RecentAssemblies;
 		}
 
 		[TearDown]
-		public void ClearRegistry()
+		public void TearDown()
 		{
-//			assemblies.Clear();
 			NUnitRegistry.TestMode = false;
 		}
 
@@ -72,18 +69,18 @@ namespace NUnit.Tests
 		public void GetMostRecentAssembly()
 		{
 			string assemblyFileName = "tests.dll";
-			Assertion.AssertNull("first time this should be null", assemblies.RecentAssembly);
-			assemblies.RecentAssembly = assemblyFileName;
-			Assertion.AssertEquals(assemblyFileName, assemblies.RecentAssembly);
+			Assertion.AssertNull("first time this should be null", assemblies.RecentFile);
+			assemblies.RecentFile = assemblyFileName;
+			Assertion.AssertEquals(assemblyFileName, assemblies.RecentFile);
 		}
 
 		[Test]
 		public void GetAssemblies()
 		{
-			assemblies.RecentAssembly = "3";
-			assemblies.RecentAssembly = "2";
-			assemblies.RecentAssembly = "1";
-			IList list = assemblies.GetAssemblies();
+			assemblies.RecentFile = "3";
+			assemblies.RecentFile = "2";
+			assemblies.RecentFile = "1";
+			IList list = assemblies.GetFiles();
 			Assertion.AssertEquals(3, list.Count);
 			Assertion.AssertEquals("1", list[0]);
 		}
@@ -91,20 +88,20 @@ namespace NUnit.Tests
 
 		private void SetMockRegistryValues()
 		{
-			assemblies.RecentAssembly = "5";
-			assemblies.RecentAssembly = "4";
-			assemblies.RecentAssembly = "3";
-			assemblies.RecentAssembly = "2";
-			assemblies.RecentAssembly = "1";  // this is the most recent
+			assemblies.RecentFile = "5";
+			assemblies.RecentFile = "4";
+			assemblies.RecentFile = "3";
+			assemblies.RecentFile = "2";
+			assemblies.RecentFile = "1";  // this is the most recent
 		}
 
 		[Test]
 		public void ReorderAssemblies5()
 		{
 			SetMockRegistryValues();
-			assemblies.RecentAssembly = "5";
+			assemblies.RecentFile = "5";
 
-			IList assemblyList = assemblies.GetAssemblies();
+			IList assemblyList = assemblies.GetFiles();
 			Assertion.AssertEquals("5", assemblyList[0]);
 			Assertion.AssertEquals("1", assemblyList[1]);
 			Assertion.AssertEquals("2", assemblyList[2]);
@@ -116,9 +113,9 @@ namespace NUnit.Tests
 		public void ReorderAssemblies4()
 		{
 			SetMockRegistryValues();
-			assemblies.RecentAssembly = "4";
+			assemblies.RecentFile = "4";
 
-			IList assemblyList = assemblies.GetAssemblies();
+			IList assemblyList = assemblies.GetFiles();
 			Assertion.AssertEquals("4", assemblyList[0]);
 			Assertion.AssertEquals("1", assemblyList[1]);
 			Assertion.AssertEquals("2", assemblyList[2]);
@@ -130,9 +127,9 @@ namespace NUnit.Tests
 		public void ReorderAssembliesNew()
 		{
 			SetMockRegistryValues();
-			assemblies.RecentAssembly = "6";
+			assemblies.RecentFile = "6";
 
-			IList assemblyList = assemblies.GetAssemblies();
+			IList assemblyList = assemblies.GetFiles();
 			Assertion.AssertEquals("6", assemblyList[0]);
 			Assertion.AssertEquals("1", assemblyList[1]);
 			Assertion.AssertEquals("2", assemblyList[2]);
@@ -145,9 +142,9 @@ namespace NUnit.Tests
 		public void ReorderAssemblies3()
 		{
 			SetMockRegistryValues();
-			assemblies.RecentAssembly = "3";
+			assemblies.RecentFile = "3";
 
-			IList assemblyList = assemblies.GetAssemblies();
+			IList assemblyList = assemblies.GetFiles();
 			Assertion.AssertEquals("3", assemblyList[0]);
 			Assertion.AssertEquals("1", assemblyList[1]);
 			Assertion.AssertEquals("2", assemblyList[2]);
@@ -159,9 +156,9 @@ namespace NUnit.Tests
 		public void ReorderAssemblies2()
 		{
 			SetMockRegistryValues();
-			assemblies.RecentAssembly = "2";
+			assemblies.RecentFile = "2";
 
-			IList assemblyList = assemblies.GetAssemblies();
+			IList assemblyList = assemblies.GetFiles();
 			Assertion.AssertEquals("2", assemblyList[0]);
 			Assertion.AssertEquals("1", assemblyList[1]);
 			Assertion.AssertEquals("3", assemblyList[2]);
@@ -173,9 +170,9 @@ namespace NUnit.Tests
 		public void ReorderAssemblies1()
 		{
 			SetMockRegistryValues();
-			assemblies.RecentAssembly = "1";
+			assemblies.RecentFile = "1";
 
-			IList assemblyList = assemblies.GetAssemblies();
+			IList assemblyList = assemblies.GetFiles();
 			Assertion.AssertEquals("1", assemblyList[0]);
 			Assertion.AssertEquals("2", assemblyList[1]);
 			Assertion.AssertEquals("3", assemblyList[2]);
@@ -186,13 +183,13 @@ namespace NUnit.Tests
 		[Test]
 		public void AddAssemblyListNotFull()
 		{
-			assemblies.RecentAssembly = "3";
-			assemblies.RecentAssembly = "2";
-			assemblies.RecentAssembly = "1";  // this is the most recent
+			assemblies.RecentFile = "3";
+			assemblies.RecentFile = "2";
+			assemblies.RecentFile = "1";  // this is the most recent
 
-			assemblies.RecentAssembly = "3";
+			assemblies.RecentFile = "3";
 
-			IList assemblyList = assemblies.GetAssemblies();
+			IList assemblyList = assemblies.GetFiles();
 			Assertion.AssertEquals(3, assemblyList.Count);
 			Assertion.AssertEquals("3", assemblyList[0]);
 			Assertion.AssertEquals("1", assemblyList[1]);
@@ -202,10 +199,10 @@ namespace NUnit.Tests
 		[Test]
 		public void AddAssemblyToList()
 		{
-			assemblies.RecentAssembly = "1";
-			assemblies.RecentAssembly = "3";
+			assemblies.RecentFile = "1";
+			assemblies.RecentFile = "3";
 
-			IList assemblyList = assemblies.GetAssemblies();
+			IList assemblyList = assemblies.GetFiles();
 			Assertion.AssertEquals(2, assemblyList.Count);
 			Assertion.AssertEquals("3", assemblyList[0]);
 			Assertion.AssertEquals("1", assemblyList[1]);
@@ -214,13 +211,13 @@ namespace NUnit.Tests
 		[Test]
 		public void RemoveAssemblyFromList()
 		{
-			assemblies.RecentAssembly = "3";
-			assemblies.RecentAssembly = "2";
-			assemblies.RecentAssembly = "1";
+			assemblies.RecentFile = "3";
+			assemblies.RecentFile = "2";
+			assemblies.RecentFile = "1";
 
 			assemblies.Remove("2");
 
-			IList assemblyList = assemblies.GetAssemblies();
+			IList assemblyList = assemblies.GetFiles();
 			Assertion.AssertEquals(2, assemblyList.Count);
 			Assertion.AssertEquals("1", assemblyList[0]);
 			Assertion.AssertEquals("3", assemblyList[1]);

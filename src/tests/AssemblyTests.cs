@@ -80,7 +80,7 @@ namespace NUnit.Tests.Assemblies
 		public void LoadTestFixtureFromAssembly()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build("NUnit.Tests.Assemblies.AssemblyTests", testsDll);
+			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Assemblies.AssemblyTests" );
 			Assert.NotNull(suite);
 			Assert.Equals(suite.CountTestCases,TestCaseBuilder.CountTestCases(this));
 		}

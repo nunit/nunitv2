@@ -59,52 +59,59 @@ namespace NUnit.Core
 			return assembly;
 		}
 
-		private TestSuite BuildFromNameSpace(string nameSpace)
+		private TestSuite BuildFromNameSpace( string nameSpace, int assemblyKey )
 		{
 			if( nameSpace == null || nameSpace  == "" ) return rootSuite;
 			TestSuite suite = (TestSuite)suites[nameSpace];
 			if(suite!=null) return suite;
+
 			int index = nameSpace.LastIndexOf(".");
-			if(index==-1)
+			string prefix = string.Format( "[{0}]", assemblyKey );
+			if( index == -1 )
 			{
-				suite = new TestSuite(nameSpace);
+				suite = new TestSuite( nameSpace, assemblyKey );
 				rootSuite.Add(suite);
 				suites[nameSpace]=suite;
-				return suite;
 			}
-			string parentNameSpace=nameSpace.Substring( 0,index);
-			TestSuite parent = BuildFromNameSpace(parentNameSpace);
-			string suiteName = nameSpace.Substring(index+1);
-			suite = new TestSuite(parentNameSpace,suiteName);
-			suites[nameSpace]=suite;
-			parent.Add(suite);
+			else
+			{
+				string parentNameSpace = nameSpace.Substring( 0,index );
+				TestSuite parent = BuildFromNameSpace( parentNameSpace, assemblyKey );
+				string suiteName = nameSpace.Substring( index+1 );
+				suite = new TestSuite( parentNameSpace, suiteName, assemblyKey );
+				parent.Add( suite );
+				suites[nameSpace] = suite;
+			}
+
 			return suite;
 		}
 
-		public TestSuite Build(IList assemblies)
+		public TestSuite Build(string projectName, IList assemblies)
 		{
-			TestSuite rootSuite = new TestSuite("root");
+			RootTestSuite rootSuite = new RootTestSuite( projectName );
 
+			int assemblyKey = 0;
 			foreach(string assembly in assemblies)
 			{
-				TestSuite suite = Build(assembly);
-
-				TestAssembly testAssembly = new TestAssembly(assembly);
-				testAssembly.Add(suite);
-
-				rootSuite.Add(testAssembly);
+				TestSuite suite = Build( assembly, assemblyKey++ );
+				rootSuite.Add( suite );
 			}
 
 			return rootSuite;
 		}
 
-		public TestSuite Build(string assemblyName)
+		public TestSuite Build( string assemblyName )
+		{
+			return Build( assemblyName, 0 );
+		}
+
+		public TestSuite Build( string assemblyName, int assemblyKey )
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 
-			Assembly assembly = Load(assemblyName);
+			Assembly assembly = Load( assemblyName );
 
-			builder.rootSuite = new TestSuite(assemblyName);
+			builder.rootSuite = new AssemblyTestSuite( assemblyName, assemblyKey );
 			int testFixtureCount = 0;
 			Type[] testTypes = assembly.GetExportedTypes();
 			foreach(Type testType in testTypes)
@@ -113,11 +120,11 @@ namespace NUnit.Core
 				{
 					testFixtureCount++;
 					string namespaces = testType.Namespace;
-					TestSuite suite = builder.BuildFromNameSpace(namespaces);
+					TestSuite suite = builder.BuildFromNameSpace( namespaces, assemblyKey );
 
 					try
 					{
-						object fixture = BuildTestFixture(testType);
+						object fixture = BuildTestFixture( testType );
 						suite.Add(fixture);
 					}
 					catch(InvalidTestFixtureException exception)
@@ -135,7 +142,7 @@ namespace NUnit.Core
 		}
 
 
-		public TestSuite Build(string testName, string assemblyName)
+		public TestSuite Build(string assemblyName, string testName )
 		{
 			TestSuite suite = null;
 
@@ -159,7 +166,7 @@ namespace NUnit.Core
 			return suite;
 		}
 
-		public TestSuite Build(string testName, IList assemblies)
+		public TestSuite Build( IList assemblies, string testName )
 		{
 			TestSuite suite = null;
 
@@ -195,7 +202,7 @@ namespace NUnit.Core
 			return type.IsDefined(typeof(NUnit.Framework.TestFixtureAttribute), true);
 		}
 
-		public object BuildTestFixture(Type fixtureType)
+		public object BuildTestFixture( Type fixtureType )
 		{
 			ConstructorInfo ctor = fixtureType.GetConstructor(Type.EmptyTypes);
 			if(ctor == null) throw new InvalidTestFixtureException(fixtureType.FullName + " does not have a valid constructor");

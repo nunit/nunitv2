@@ -240,19 +240,11 @@ namespace NUnit.UiKit
 		public event SelectedTestChangedHandler SelectedTestChanged;
 
 		/// <summary>
-		/// TestNode corresponding to a test fullname
-		/// </summary>
-		private TestSuiteTreeNode this[string testName]
-		{
-			get { return treeMap[testName] as TestSuiteTreeNode; }
-		}
-
-		/// <summary>
 		/// Test node corresponding to a TestInfo interface
 		/// </summary>
 		private TestSuiteTreeNode this[TestInfo test]
 		{
-			get { return this[test.FullName]; }
+			get{ return treeMap[test.UniqueName] as TestSuiteTreeNode; }
 		}
 
 		/// <summary>
@@ -260,7 +252,7 @@ namespace NUnit.UiKit
 		/// </summary>
 		private TestSuiteTreeNode this[TestResult result]
 		{
-			get { return this[result.Test.FullName]; }
+			get	{ return treeMap[result.Test.UniqueName] as TestSuiteTreeNode; }
 		}
 
 		#endregion
@@ -408,7 +400,7 @@ namespace NUnit.UiKit
 				runCommandEnabled = false;
 
 				if ( actions.IsReloadPending )
-					actions.ReloadAssembly();
+					actions.ReloadTest();
 
 				actions.RunTestSuite( contextNode.Test );
 			}
@@ -458,7 +450,7 @@ namespace NUnit.UiKit
 			if ( IsValidFileDrop( e.Data ) )
 			{
 				string[] fileNames = e.Data.GetData( DataFormats.FileDrop ) as string[];
-					actions.LoadAssembly( fileNames[0] );
+					actions.LoadTest( fileNames[0] );
 			}
 		}
 
@@ -479,7 +471,7 @@ namespace NUnit.UiKit
 				runCommandEnabled = false;
 
 				if ( actions.IsReloadPending )
-					actions.ReloadAssembly();
+					actions.ReloadTest();
 
 				actions.RunTestSuite( SelectedTest );
 			}
@@ -532,8 +524,10 @@ namespace NUnit.UiKit
 		public void Reload( UITestNode test )
 		{
 			TestSuiteTreeNode rootNode = (TestSuiteTreeNode) Nodes[0];
-			if ( !Match( rootNode, test ) )
-				throw( new ArgumentException( "Reload called with non-matching test" ) );
+			
+// Temporary change till framework is updated
+//			if ( !Match( rootNode, test ) )
+//				throw( new ArgumentException( "Reload called with non-matching test" ) );
 				
 			UpdateNode( rootNode, test );
 		}
@@ -640,7 +634,7 @@ namespace NUnit.UiKit
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( rootTest );
 //			if ( highlight ) node.ForeColor = Color.Blue;
-			treeMap.Add( node.Test.FullName, node );
+			treeMap.Add( node.Test.UniqueName, node );
 			nodes.Add( node );
 			
 			if ( rootTest.IsSuite )
@@ -657,7 +651,7 @@ namespace NUnit.UiKit
 			foreach( TestSuiteTreeNode child in node.Nodes )
 				RemoveFromMap( child );
 
-			treeMap.Remove( node.Test.FullName );
+			treeMap.Remove( node.Test.UniqueName );
 		}
 
 		/// <summary>

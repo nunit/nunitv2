@@ -70,14 +70,14 @@ namespace NUnit.Tests
 		public void InitTest()
 		{
 			Test test = domain.Load("mock-assembly.dll");
-			Assertion.AssertNotNull("Test should not be null", test);
+			Assert.NotNull("Test should not be null", test);
 		}
 
 		[Test]
 		public void CountTestCases()
 		{
 			Test test = domain.Load("mock-assembly.dll");
-			Assertion.AssertEquals(7, test.CountTestCases);
+			Assert.Equals(7, test.CountTestCases);
 		}
 
 		[Test]
@@ -109,7 +109,7 @@ namespace NUnit.Tests
 			Test test = domain.Load("mock-assembly.dll");
 
 			TestResult result = domain.Run(NullListener.NULL);
-			Assertion.AssertNotNull(result);
+			Assert.NotNull(result);
 		}
 
 		[Test]
@@ -118,31 +118,31 @@ namespace NUnit.Tests
 			Test test = domain.Load("mock-assembly.dll");
 
 			TestResult result = domain.Run(NullListener.NULL);
-			Assertion.AssertEquals(true, result.IsSuccess);
+			Assert.Equals(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assertion.AssertEquals(5, summarizer.ResultCount);
-			Assertion.AssertEquals(2, summarizer.TestsNotRun);
+			Assert.Equals(5, summarizer.ResultCount);
+			Assert.Equals(2, summarizer.TestsNotRun);
 		}
 
 		[Test]
 		public void SpecificTestFixture()
 		{
-			Test test = domain.Load("NUnit.Tests.Assemblies.MockTestFixture", "mock-assembly.dll");
+			Test test = domain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.MockTestFixture" );
 
 			TestResult result = domain.Run(NullListener.NULL);
-			Assertion.AssertEquals(true, result.IsSuccess);
+			Assert.Equals(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assertion.AssertEquals(3, summarizer.ResultCount);
-			Assertion.AssertEquals(2, summarizer.TestsNotRun);
+			Assert.Equals(3, summarizer.ResultCount);
+			Assert.Equals(2, summarizer.TestsNotRun);
 		}
 
 		[Test]
 		public void InvalidTestFixture()
 		{
-			Test test = domain.Load("NUnit.Tests.Assemblies.Bogus", "mock-assembly.dll");
-			Assertion.AssertNull("test should be null", test);
+			Test test = domain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" );
+			Assert.Null("test should be null", test);
 		}
 
 		[Test]
@@ -164,8 +164,7 @@ namespace NUnit.Tests
 			assemblies.Add("mock-assembly.dll");
 			assemblies.Add("nonamespace-assembly.dll");
 
-			Test test = domain.Load("NUnit.Tests.Assemblies.MockTestFixture", 
-				assemblies);
+			Test test = domain.Load( assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.NotNull(test);
 
 			TestResult result = domain.Run(NullListener.NULL);

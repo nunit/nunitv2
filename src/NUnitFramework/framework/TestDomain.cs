@@ -42,8 +42,8 @@ namespace NUnit.Framework
 
 	public class TestDomain
 	{
-		private string assemblyName; 
 		private AppDomain domain; 
+	
 		private string cachePath;
 		private RemoteTestRunner testRunner;
 		private TextWriter outStream;
@@ -55,140 +55,82 @@ namespace NUnit.Framework
 			this.errorStream = errorStream;
 		}
 
-		private void ThrowIfAlreadyLoaded()
+		public bool IsTestLoaded
 		{
-			if ( domain != null || testRunner != null )
-				throw new InvalidOperationException( "TestDomain already loaded" );
+			get { return testRunner != null; }
 		}
 
-		public Test Load(string assemblyFileName)
+		public Test Test
 		{
-			ThrowIfAlreadyLoaded();
-
-			assemblyName = assemblyFileName; 
-			FileInfo file = new FileInfo(assemblyFileName);
-
-			try
-			{
-				domain = MakeAppDomain(file);
-				testRunner = MakeRemoteTestRunner(file, domain);
-				return testRunner.Test;
-			}
-			catch
-			{
-				Unload();
-				throw;
-			}
-		}
-
-		public Test Load(IList assemblies)
-		{
-			ThrowIfAlreadyLoaded();
-
-			if(assemblies.Count == 0) return null; 
-
-			assemblyName = (string)assemblies[0]; 
-			FileInfo file = new FileInfo(assemblyName);
-
-			try
-			{
-				domain = MakeAppDomain(file);
-				testRunner = MakeRemoteTestRunner(assemblies, domain);
-				return testRunner.Test;
-			}
-			catch
-			{
-				Unload();
-				throw;
-			}
-
-			return null;
-		}
-
-		public Test Load(string testFixture, IList assemblies)
-		{
-			ThrowIfAlreadyLoaded();
-
-			if(assemblies.Count == 0) return null; 
-
-			assemblyName = (string)assemblies[0]; 
-			FileInfo file = new FileInfo(assemblyName);
-
-			try
-			{
-				domain = MakeAppDomain(file);
-
-				testRunner = (
-					RemoteTestRunner) domain.CreateInstanceAndUnwrap(
-					typeof(RemoteTestRunner).Assembly.FullName, 
-					typeof(RemoteTestRunner).FullName,
-					false, BindingFlags.Default,null,null,null,null,null);
-			
-				if(testRunner != null)
-				{
-					testRunner.Initialize(testFixture, assemblies);
-					domain.DoCallBack(new CrossAppDomainDelegate(testRunner.BuildSuite));
-					return testRunner.Test;
-				}
-				else
-				{
-					Unload();
-					return null;
-				}
-			}
-			catch
-			{
-				Unload();
-				throw;
-			}
-		}
-
-		
-		public Test Load(string testFixture, string assemblyFileName)
-		{
-			ThrowIfAlreadyLoaded();
-
-			assemblyName = assemblyFileName; 
-			FileInfo file = new FileInfo(assemblyFileName);
-
-			try
-			{
-				domain = MakeAppDomain(file);
-
-				testRunner = (
-					RemoteTestRunner) domain.CreateInstanceAndUnwrap(
-					typeof(RemoteTestRunner).Assembly.FullName, 
-					typeof(RemoteTestRunner).FullName,
-					false, BindingFlags.Default,null,null,null,null,null);
-			
-				if(testRunner != null)
-				{
-					testRunner.Initialize(testFixture, file.FullName);
-					domain.DoCallBack(new CrossAppDomainDelegate(testRunner.BuildSuite));
-					return testRunner.Test;
-				}
-				else
-				{
-					Unload();
-					return null;
-				}
-			}
-			catch
-			{
-				Unload();
-				throw;
-			}
-		}
-
-		public string AssemblyName
-		{
-			get { return assemblyName; }
+			get { return IsTestLoaded ? testRunner.Test : null; }
 		}
 
 		public string TestName
 		{
 			get { return testRunner.TestName; }
 			set { testRunner.TestName = value; }
+		}
+
+		private void ThrowIfAlreadyLoaded()
+		{
+			if ( domain != null || testRunner != null )
+				throw new InvalidOperationException( "TestDomain already loaded" );
+		}
+
+		public Test Load( string projectPath, AssemblyList assemblies )
+		{
+			return Load( projectPath, assemblies, null );
+		}
+
+		public Test Load( AssemblyList assemblies )
+		{
+			// ToDo: Figure out a better way
+			return Load( assemblies[0], assemblies, null );
+		}
+
+		public Test Load( AssemblyList assemblies, string testFixture )
+		{
+			return Load( assemblies[0], assemblies, testFixture );
+		}
+
+		public Test Load( string assemblyFileName )
+		{
+			return Load( assemblyFileName, null, null );
+		}
+
+		public Test Load(string assemblyFileName, string testFixture)
+		{
+			return Load( assemblyFileName, null, testFixture );
+		}
+
+		private Test Load( string testFileName, AssemblyList assemblies, string testFixture )
+		{
+			ThrowIfAlreadyLoaded();
+
+			try
+			{
+				string testFilePath = Path.GetFullPath( testFileName );
+
+				domain = MakeAppDomain( testFilePath, assemblies );
+				testRunner = MakeRemoteTestRunner( domain );
+
+				if(testRunner != null)
+				{
+					testRunner.Initialize( testFilePath, assemblies, testFixture );
+					domain.DoCallBack( new CrossAppDomainDelegate( testRunner.BuildSuite ) );
+					return testRunner.Test;
+				}
+				else
+				{
+					Unload();
+					return null;
+				}
+			}
+			catch
+			{
+				Unload();
+				throw;
+			}
 		}
 
 		public TestResult Run(NUnit.Core.EventListener listener)
@@ -209,25 +151,42 @@ namespace NUnit.Framework
 			domain = null;
 		}
 
-		private AppDomain MakeAppDomain(FileInfo file)
+		private AppDomain MakeAppDomain(
+			string testFileName,
+			AssemblyList assemblies )
 		{
+			FileInfo testFile = new FileInfo( testFileName );
+
 			AppDomainSetup setup = new AppDomainSetup();
-			setup.ApplicationBase = file.DirectoryName;
+			
+			setup.ApplicationBase = testFile.DirectoryName;
 			setup.ApplicationName = "Tests";
-
 			setup.ShadowCopyFiles = "true";
-			setup.ShadowCopyDirectories = file.DirectoryName;
 
+			if ( assemblies == null )
+			{
+				setup.ConfigurationFile =  testFile.FullName + ".config";
 
-			setup.ConfigurationFile = file.DirectoryName + @"\" +
-				file.Name + ".config";
+				setup.ShadowCopyDirectories = testFile.DirectoryName;
+				setup.PrivateBinPath = testFile.DirectoryName;
+			}
+			else
+			{
+				setup.ConfigurationFile =  Path.ChangeExtension( testFile.FullName, ".config" );
+
+				setup.ShadowCopyDirectories = assemblies.AssemblyPath;
+				setup.PrivateBinPath = assemblies.AssemblyPath;
+			}
 
 			Evidence baseEvidence = AppDomain.CurrentDomain.Evidence;
 			Evidence evidence = new Evidence(baseEvidence);
 
-			string domainName = String.Format("domain-{0}", file.Name);
+			string domainName = string.Format( "domain-{0}", testFile.Name );
+			
 			AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
+			
 			ConfigureCachePath(runnerDomain);
+
 			return runnerDomain;
 		}
 
@@ -245,7 +204,7 @@ namespace NUnit.Framework
 			return;
 		}
 
-		private static RemoteTestRunner MakeRemoteTestRunner(FileInfo file, AppDomain runnerDomain)
+		private static RemoteTestRunner MakeRemoteTestRunner( AppDomain runnerDomain )
 		{
 			RemoteTestRunner runner = (
 				RemoteTestRunner) runnerDomain.CreateInstanceAndUnwrap(
@@ -253,29 +212,7 @@ namespace NUnit.Framework
 				typeof(RemoteTestRunner).FullName,
 				false, BindingFlags.Default,null,null,null,null,null);
 			
-			if(runner != null)
-			{
-				runner.Initialize(file.FullName);
-				runnerDomain.DoCallBack(new CrossAppDomainDelegate(runner.BuildSuite));
-			}
 			return runner;
 		}
-
-		private static RemoteTestRunner MakeRemoteTestRunner(IList assemblies, AppDomain runnerDomain)
-		{
-			RemoteTestRunner runner = (
-				RemoteTestRunner) runnerDomain.CreateInstanceAndUnwrap(
-				typeof(RemoteTestRunner).Assembly.FullName, 
-				typeof(RemoteTestRunner).FullName,
-				false, BindingFlags.Default,null,null,null,null,null);
-			
-			if(runner != null)
-			{
-				runner.Initialize(assemblies);
-				runnerDomain.DoCallBack(new CrossAppDomainDelegate(runner.BuildSuite));
-			}
-			return runner;
-		}
-
 	}
 }

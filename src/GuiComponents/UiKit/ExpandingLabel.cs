@@ -2,7 +2,6 @@ using System;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing;
-using NUnit.Util;
 
 namespace NUnit.UiKit
 {

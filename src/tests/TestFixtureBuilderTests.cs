@@ -179,7 +179,7 @@ namespace NUnit.Tests
 		public void TestIgnoredFixture()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build("NUnit.Tests.TestFixtureBuilderTests+IgnoredFixture", testsDll);
+			TestSuite suite = builder.Build(testsDll, "NUnit.Tests.TestFixtureBuilderTests+IgnoredFixture" );
 			
 			suite = (TestSuite)suite.Tests[0];
 			
@@ -265,7 +265,7 @@ namespace NUnit.Tests
 		private TestSuite LoadFixture(string fixtureName)
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build(fixtureName, testsDll);
+			TestSuite suite = builder.Build(testsDll, fixtureName );
 			Assertion.AssertNotNull(suite);
 
 			TestSuite fixture = (TestSuite)suite.Tests[0];

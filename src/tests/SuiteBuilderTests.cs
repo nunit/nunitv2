@@ -47,7 +47,7 @@ namespace NUnit.Tests
 		public void LoadTestSuiteFromAssembly()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build("NUnit.Tests.AllTests", testsDll);
+			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.AllTests" );
 			Assertion.Assert(suite != null);
 		}
 
@@ -77,7 +77,7 @@ namespace NUnit.Tests
 		public void DiscoverSuite()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build("NUnit.Tests.SuiteBuilderTests+Suite",testsDll);
+			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.SuiteBuilderTests+Suite" );
 			Assertion.AssertNotNull("Could not discover suite attribute",suite);
 		}
 
@@ -97,7 +97,7 @@ namespace NUnit.Tests
 		public void WrongReturnTypeSuite()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build("NUnit.Tests.assemblies.AssemblyTests+NonConformingSuite",testsDll);
+			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.assemblies.AssemblyTests+NonConformingSuite" );
 			Assertion.AssertNull("Suite propertye returns wrong type",suite);
 		}
 

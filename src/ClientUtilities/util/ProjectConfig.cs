@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using NUnit.Core;
 
 namespace NUnit.Util
 {
@@ -10,6 +11,7 @@ namespace NUnit.Util
 	public class ProjectConfig
 	{
 		private string name;
+		private bool active = false;
 		private AssemblyList assemblies = new AssemblyList();
 
 		public ProjectConfig( string name )
@@ -20,6 +22,13 @@ namespace NUnit.Util
 		public string Name
 		{
 			get { return name; }
+			set { name = value; }
+		}
+
+		public bool Active
+		{
+			get { return active; }
+			set { active = value; }
 		}
 
 		public AssemblyList Assemblies

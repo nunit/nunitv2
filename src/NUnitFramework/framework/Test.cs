@@ -40,13 +40,26 @@ namespace NUnit.Core
 	{
 		private string fullName;
 		private string testName;
+		private int assemblyKey;
 		private bool shouldRun;
 		private string ignoreReason;
 
-		protected Test(string pathName, string testName) 
+		public Test( string name ) : this( name, 0 ) { }
+
+		public Test( string name, int assemblyKey )
+		{
+			fullName = testName = name;
+			this.assemblyKey = assemblyKey;
+		}
+
+		protected Test( string pathName, string testName ) 
+			: this( pathName, testName, 0 ) { }
+
+		protected Test( string pathName, string testName, int assemblyKey ) 
 		{ 
 			fullName = pathName + "." + testName;
 			this.testName = testName;
+			this.assemblyKey = assemblyKey;
 			shouldRun = true;
 		}
 
@@ -62,11 +75,6 @@ namespace NUnit.Core
 			set { shouldRun = value; }
 		}
 
-		public Test(string name)
-		{
-			fullName = testName = name;
-		}
-
 		public string FullName 
 		{
 			get { return fullName; }
@@ -75,6 +83,17 @@ namespace NUnit.Core
 		public string Name
 		{
 			get { return testName; }
+		}
+
+		public int AssemblyKey
+		{
+			get { return assemblyKey; }
+			set { assemblyKey = value; }
+		}
+
+		public string UniqueName
+		{
+			get { return string.Format( "[{0}]{1}", assemblyKey, fullName ); }
 		}
 
 		public abstract int CountTestCases { get; }

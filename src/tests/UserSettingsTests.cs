@@ -57,13 +57,14 @@ namespace NUnit.Tests
 		[Test]
 		public void FormPosition()
 		{
-			UserSettings.Form.Location = new Point( 100, 200 );
-			UserSettings.Form.Size = new Size( 20, 25 );
+			Point pt = new Point( 100, 200 );
+			Size sz = new Size( 20, 25 );
+			
+			UserSettings.Form.Location = pt;
+			UserSettings.Form.Size = sz;
 
-			Assertion.AssertEquals( 100, UserSettings.Form.Location.X );
-			Assertion.AssertEquals( 200, UserSettings.Form.Location.Y );
-			Assertion.AssertEquals( 20, UserSettings.Form.Size.Width );
-			Assertion.AssertEquals( 25, UserSettings.Form.Size.Height );	
+			Assert.Equals( pt, UserSettings.Form.Location );
+			Assert.Equals( sz, UserSettings.Form.Size );
 		}
 
 		[Test]
@@ -73,65 +74,55 @@ namespace NUnit.Tests
 			Point pt = f.Location;
 			Size sz = f.Size;
 
-			Assertion.AssertEquals( 10, pt.X );
-			Assertion.AssertEquals( 10, pt.Y );
-			Assertion.AssertEquals( 632, sz.Width );
-			Assertion.AssertEquals( 432, sz.Height );	
-		}
-
-		[Test]
-		public void Options()
-		{
-			OptionSettings opts = UserSettings.Options;
-
-			opts.LoadLastAssembly = true;
-			Assertion.AssertEquals( true, opts.LoadLastAssembly );
-			opts.LoadLastAssembly = false;
-			Assertion.AssertEquals( false, opts.LoadLastAssembly );
-
-			opts.EnableWatcher = true;
-			Assertion.AssertEquals( true, opts.EnableWatcher );
-			opts.EnableWatcher = false;
-			Assertion.AssertEquals( false, opts.EnableWatcher );
-			
-			opts.ClearResults = true;
-			Assertion.AssertEquals( true, opts.ClearResults );
-			opts.ClearResults = false;
-			Assertion.AssertEquals( false, opts.ClearResults );
-		}
-
-		[Test]
-		public void DefaultOptions()
-		{
-			OptionSettings opts = UserSettings.Options;
-
-			Assertion.AssertEquals( true, opts.LoadLastAssembly );
-			Assertion.AssertEquals( 0, opts.InitialTreeDisplay );
-			Assertion.AssertEquals( true, opts.EnableWatcher );
-			Assertion.AssertEquals( true, opts.ClearResults );
+			Assert.Equals( new Point( 10, 10 ), pt );
+			Assert.Equals( new Size( 632, 432 ), sz );
 		}
 
 		[Test]
 		public void RecentAssemblyBasicTests()
 		{
-			RecentAssemblySettings ras = UserSettings.RecentAssemblies;
-			Assertion.AssertEquals( @"Recent-Assemblies", ras.Storage.StorageName );
-			Assertion.AssertEquals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Recent-Assemblies", 
-				((RegistrySettingsStorage)ras.Storage).StorageKey.Name );
-			Assertion.AssertNotNull( "GetAssemblies() returned null", ras.GetAssemblies() );
-			Assertion.AssertEquals( 0, ras.GetAssemblies().Count );
-			Assertion.AssertNull( "No RecentAssembly should return null", ras.RecentAssembly );
+			RecentAssemblySettings assemblies = UserSettings.RecentAssemblies;
+			Assert.Equals( @"Recent-Assemblies", assemblies.Storage.StorageName );
+			Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Recent-Assemblies", 
+				((RegistrySettingsStorage)assemblies.Storage).StorageKey.Name );
+			Assertion.AssertNotNull( "GetFiles() returned null", assemblies.GetFiles() );
+			Assert.Equals( 0, assemblies.GetFiles().Count );
+			Assertion.AssertNull( "No RecentAssembly should return null", assemblies.RecentFile );
 
-			ras.RecentAssembly = "one";
-			ras.RecentAssembly = "two";
-			Assertion.AssertEquals( 2, ras.GetAssemblies().Count );
-			Assertion.AssertEquals( "two", ras.RecentAssembly );
+			assemblies.RecentFile = "one";
+			assemblies.RecentFile = "two";
+			Assert.Equals( 2, assemblies.GetFiles().Count );
+			Assert.Equals( "two", assemblies.RecentFile );
 
 			using( RegistryKey key = NUnitRegistry.CurrentUser.OpenSubKey( "Recent-Assemblies" ) )
 			{
-				Assertion.AssertEquals( 2, key.ValueCount );
-				Assertion.AssertEquals( "two", key.GetValue( "RecentAssembly1" ) );
-				Assertion.AssertEquals( "one", key.GetValue( "RecentAssembly2" ) );
+				Assert.Equals( 2, key.ValueCount );
+				Assert.Equals( "two", key.GetValue( "File1" ) );
+				Assert.Equals( "one", key.GetValue( "File2" ) );
+			}
+		}
+
+		[Test]
+		public void RecentProjectBasicTests()
+		{
+			RecentProjectSettings projects = UserSettings.RecentProjects;
+			Assert.Equals( @"Recent-Projects", projects.Storage.StorageName );
+			Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Recent-Projects", 
+				((RegistrySettingsStorage)projects.Storage).StorageKey.Name );
+			Assertion.AssertNotNull( "GetFiles() returned null", projects.GetFiles() );
+			Assert.Equals( 0, projects.GetFiles().Count );
+			Assertion.AssertNull( "No RecentFile should return null", projects.RecentFile );
+
+			projects.RecentFile = "one";
+			projects.RecentFile = "two";
+			Assert.Equals( 2, projects.GetFiles().Count );
+			Assert.Equals( "two", projects.RecentFile );
+
+			using( RegistryKey key = NUnitRegistry.CurrentUser.OpenSubKey( "Recent-Projects" ) )
+			{
+				Assert.Equals( 2, key.ValueCount );
+				Assert.Equals( "two", key.GetValue( "File1" ) );
+				Assert.Equals( "one", key.GetValue( "File2" ) );
 			}
 		}
 	}

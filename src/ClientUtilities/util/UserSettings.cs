@@ -66,6 +66,11 @@ namespace NUnit.Util
 			get { return new FormSettings( GetStorageImpl( "Form" ) ); }
 		}
 
+		public static RecentProjectSettings RecentProjects
+		{
+			get { return new RecentProjectSettings( GetStorageImpl( "Recent-Projects" ) ); }
+		}
+
 		public static RecentAssemblySettings RecentAssemblies
 		{
 			get { return new RecentAssemblySettings( GetStorageImpl( "Recent-Assemblies" ) ); }

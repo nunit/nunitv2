@@ -22,6 +22,17 @@ namespace NUnit.Core
 		string FullName { get; }
 
 		/// <summary>
+		/// Int used to distinguish suites of the same
+		/// name across multiple assemblies.
+		/// </summary>
+		int AssemblyKey { get; set; }
+
+		/// <summary>
+		/// Key used to look up a test in a hash table
+		/// </summary>
+		string UniqueName { get; }
+
+		/// <summary>
 		/// Whether or not the test should be run
 		/// </summary>
 		bool ShouldRun { get; set; }

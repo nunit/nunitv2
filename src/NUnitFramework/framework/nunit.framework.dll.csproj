@@ -82,6 +82,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssemblyList.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Assert.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -197,6 +202,11 @@
                 />
                 <File
                     RelPath = "ResultVisitor.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RootTestSuite.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -9,39 +9,46 @@ namespace NUnit.Util
 	{
 		private static readonly string NAME = "Options";
 
-		private static readonly string LOAD_LAST_ASSEMBLY = "LoadLastAssembly";
-		private static readonly string INITIAL_TREE_DISPLAY = "InitialTreeDisplay";
-		private static readonly string ENABLE_WATCHER = "EnableWatcher";
-		private static readonly string CLEAR_RESULTS = "ClearResults";
-
 		public OptionSettings( ) : base( NAME, UserSettings.GetStorageImpl( NAME ) ) { }
 
 		public OptionSettings( SettingsStorage storage ) : base( NAME, storage ) { }
 
 		public OptionSettings( SettingsGroup parent ) : base( NAME, parent ) { }
 
-		public bool LoadLastAssembly
+		public bool LoadLastProject
 		{
-			get { return LoadIntSetting( LOAD_LAST_ASSEMBLY, 1 ) != 0; }
-			set { SaveIntSetting( LOAD_LAST_ASSEMBLY, value ? 1 : 0 ); }
+			get { return LoadIntSetting( "LoadLastProject", 1 ) != 0; }
+			set { SaveIntSetting( "LoadLastProject", value ? 1 : 0 ); }
 		}
 
 		public int InitialTreeDisplay
 		{
-			get { return LoadIntSetting( INITIAL_TREE_DISPLAY, 0 ); }
-			set { SaveIntSetting( INITIAL_TREE_DISPLAY, value ); }
+			get { return LoadIntSetting( "InitialTreeDisplay", 0 ); }
+			set { SaveIntSetting( "InitialTreeDisplay", value ); }
 		}
 
-		public bool EnableWatcher
+		public bool ReloadOnRun
 		{
-			get { return LoadIntSetting( ENABLE_WATCHER, 1 ) != 0; }
-			set { SaveIntSetting( ENABLE_WATCHER, value ? 1 : 0 ); }
+			get { return LoadIntSetting( "ReloadOnRun", 1 ) != 0; }
+			set { SaveIntSetting( "ReloadOnRun", value ? 1 : 0 ); }
+		}
+
+		public bool ReloadOnChange
+		{
+			get { return LoadIntSetting( "ReloadOnChange", 1 ) != 0; }
+			set { SaveIntSetting( "ReloadOnChange", value ? 1 : 0 ); }
 		}
 
 		public bool ClearResults
 		{
-			get { return LoadIntSetting( CLEAR_RESULTS, 1 ) != 0; }
-			set { SaveIntSetting( CLEAR_RESULTS, value ? 1 : 0 ); }
+			get { return LoadIntSetting( "ClearResults", 1 ) != 0; }
+			set { SaveIntSetting( "ClearResults", value ? 1 : 0 ); }
+		}
+
+		public bool VisualStudioSupport
+		{
+			get { return LoadIntSetting( "VisualStudioSupport", 0 ) != 0; }
+			set { SaveIntSetting( "VisualStudioSupport", value ? 1 : 0 ); }
 		}
 	}
 }

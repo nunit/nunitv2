@@ -45,12 +45,19 @@ namespace NUnit.Core
 		private MethodInfo fixtureTearDown;
 		private object fixture;
 
-		public TestSuite(string name) : base(name)
+		public TestSuite( string name ) : this( name, 0 ) { }
+
+		public TestSuite( string name, int assemblyKey ) 
+			: base( name, assemblyKey )
 		{
 			ShouldRun = true;
 		}
 
-		public TestSuite(string parentSuiteName, string name) : base(parentSuiteName,name)
+		public TestSuite( string parentSuiteName, string name ) 
+			: this( parentSuiteName, name, 0 ) { }
+
+		public TestSuite( string parentSuiteName, string name, int assemblyKey ) 
+			: base( parentSuiteName, name, assemblyKey )
 		{
 			ShouldRun = true;
 		}
@@ -67,7 +74,7 @@ namespace NUnit.Core
 
 		protected internal virtual TestSuite CreateNewSuite(Type type)
 		{
-			return new TestSuite(type.Namespace,type.Name);
+			return new TestSuite( type.Namespace, type.Name, this.AssemblyKey);
 		}
 
 		public void Add(object fixture) 
@@ -92,7 +99,10 @@ namespace NUnit.Core
 			{
 				TestCase testCase = TestCaseBuilder.Make(fixture, method);
 				if(testCase != null)
+				{
+					testCase.AssemblyKey = testSuite.AssemblyKey;
 					testSuite.Add(testCase);
+				}
 			}
 
 			if(testSuite.CountTestCases == 0)
