@@ -57,6 +57,7 @@
 		<excludes name="TestSuiteTreeNodeTests.cs" if="${build.mono}"/>
 		<excludes name="TestSuiteTreeViewFixture.cs" if="${build.mono}"/>
                 <excludes name="FormSettingsTests.cs" if="${build.mono}"/>
+		<excludes name="TestLoaderAssemblyTests.cs" if="${build.mono}"/>
 		<excludes name="TextBoxWriterTests.cs" if="${build.mono}"/>
                 <excludes name="UserSettingsTests.cs" if="${build.mono}"/>
                 <excludes name="NUnitRegistryTests.cs" if="${build.mono}"/>

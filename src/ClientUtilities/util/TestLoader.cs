@@ -394,10 +394,8 @@ namespace NUnit.Util
 			{
 				events.FireProjectUnloading( testFileName );
 
-#if !MONO
 				if ( testFileName != null && File.Exists( testFileName ) )
 					UserSettings.RecentProjects.RecentFile = testFileName;
-#endif
 
 				if ( IsTestLoaded )
 					UnloadTest();
@@ -638,9 +636,7 @@ namespace NUnit.Util
 					testNames[index++] = node.UniqueName;
 
 				testDomain.SetFilter( filter );
-#if !MONO
 				testDomain.DisplayTestLabels = UserSettings.Options.TestLabels;
-#endif
 				testDomain.RunTest( this, testNames );
 			}
 		}

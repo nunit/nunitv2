@@ -63,7 +63,7 @@
                 <includes name="TestEventArgs.cs"/>
                 <includes name="TestEventDispatcher.cs"/>
                 <includes name="TestExceptionHandler.cs"/>
-                <includes name="TestLoader.cs"/>
+                <includes name="TestLoader.cs if=${build.win32}"/>
                 <includes name="TestResultItem.cs"/>
                 <includes name="UIHelper.cs"/>
                 <includes name="UITestNode.cs"/>
