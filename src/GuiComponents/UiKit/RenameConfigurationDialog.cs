@@ -116,6 +116,7 @@ namespace NUnit.UiKit
 																		  this.configurationNameTextBox});
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "RenameConfigurationDialog";
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Rename Configuration";
 			this.Load += new System.EventHandler(this.ConfigurationNameDialog_Load);

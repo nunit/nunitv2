@@ -309,6 +309,7 @@ namespace NUnit.UiKit
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "TestPropertiesDialog";
+			this.ShowInTaskbar = false;
 			this.Text = "Test Properties";
 			this.Load += new System.EventHandler(this.TestPropertiesDialog_Load);
 			this.tabControl1.ResumeLayout(false);

@@ -118,50 +118,52 @@ namespace NUnit.Gui
 			// 
 			// OkButton
 			// 
-			this.OkButton.Location = new System.Drawing.Point(288, 176);
+			this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.OkButton.Location = new System.Drawing.Point(369, 217);
 			this.OkButton.Name = "OkButton";
+			this.OkButton.Size = new System.Drawing.Size(96, 29);
 			this.OkButton.TabIndex = 0;
 			this.OkButton.Text = "OK";
 			this.OkButton.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(24, 176);
+			this.label1.Location = new System.Drawing.Point(31, 217);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(80, 23);
+			this.label1.Size = new System.Drawing.Size(102, 29);
 			this.label1.TabIndex = 1;
 			this.label1.Text = "Version:";
 			// 
 			// versionLabel
 			// 
-			this.versionLabel.Location = new System.Drawing.Point(128, 176);
+			this.versionLabel.Location = new System.Drawing.Point(164, 217);
 			this.versionLabel.Name = "versionLabel";
-			this.versionLabel.Size = new System.Drawing.Size(64, 23);
+			this.versionLabel.Size = new System.Drawing.Size(82, 29);
 			this.versionLabel.TabIndex = 2;
 			this.versionLabel.Text = "label2";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(24, 88);
+			this.label2.Location = new System.Drawing.Point(31, 109);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(80, 23);
+			this.label2.Size = new System.Drawing.Size(102, 28);
 			this.label2.TabIndex = 3;
 			this.label2.Text = "Developers:";
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(128, 88);
+			this.label3.Location = new System.Drawing.Point(164, 109);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(224, 48);
+			this.label3.Size = new System.Drawing.Size(287, 59);
 			this.label3.TabIndex = 4;
 			this.label3.Text = "James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip Craig, Ethan Smith," +
 				" Doug de la Torre, Charlie Poole";
 			// 
 			// linkLabel1
 			// 
-			this.linkLabel1.Location = new System.Drawing.Point(128, 64);
+			this.linkLabel1.Location = new System.Drawing.Point(164, 79);
 			this.linkLabel1.Name = "linkLabel1";
-			this.linkLabel1.Size = new System.Drawing.Size(208, 23);
+			this.linkLabel1.Size = new System.Drawing.Size(266, 28);
 			this.linkLabel1.TabIndex = 5;
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "http://www.nunit.org ";
@@ -169,48 +171,50 @@ namespace NUnit.Gui
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(24, 64);
+			this.label4.Location = new System.Drawing.Point(31, 79);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(80, 23);
+			this.label4.Size = new System.Drawing.Size(102, 28);
 			this.label4.TabIndex = 6;
 			this.label4.Text = "Information:";
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(24, 144);
+			this.label5.Location = new System.Drawing.Point(31, 178);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(80, 23);
+			this.label5.Size = new System.Drawing.Size(102, 28);
 			this.label5.TabIndex = 7;
 			this.label5.Text = "Thanks to:";
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(128, 144);
+			this.label6.Location = new System.Drawing.Point(164, 178);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(168, 23);
+			this.label6.Size = new System.Drawing.Size(215, 28);
 			this.label6.TabIndex = 8;
 			this.label6.Text = "Kent Beck and Erich Gamma";
 			// 
 			// label7
 			// 
-			this.label7.Location = new System.Drawing.Point(24, 16);
+			this.label7.Location = new System.Drawing.Point(31, 20);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(80, 23);
+			this.label7.Size = new System.Drawing.Size(102, 28);
 			this.label7.TabIndex = 9;
 			this.label7.Text = "Copyright:";
 			// 
 			// copyright
 			// 
-			this.copyright.Location = new System.Drawing.Point(128, 16);
+			this.copyright.Location = new System.Drawing.Point(164, 20);
 			this.copyright.Name = "copyright";
-			this.copyright.Size = new System.Drawing.Size(232, 48);
+			this.copyright.Size = new System.Drawing.Size(297, 59);
 			this.copyright.TabIndex = 10;
 			this.copyright.Text = "label8";
 			// 
 			// AboutBox
 			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(384, 216);
+			this.AcceptButton = this.OkButton;
+			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
+			this.CancelButton = this.OkButton;
+			this.ClientSize = new System.Drawing.Size(491, 266);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
 																		  this.copyright,
 																		  this.label7,
@@ -228,6 +232,7 @@ namespace NUnit.Gui
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "AboutBox";
+			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "About NUnit";
 			this.ResumeLayout(false);

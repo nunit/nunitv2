@@ -68,6 +68,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(OptionsDialog));
 			this.okButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
@@ -195,6 +196,7 @@ namespace NUnit.Gui
 																		  this.okButton});
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.HelpButton = true;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "OptionsDialog";
