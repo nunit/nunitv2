@@ -200,7 +200,20 @@ namespace NUnit.Console
 			EventListener collector = new EventCollector( options, outStream );
 
 			string savedDirectory = Environment.CurrentDirectory;
-			TestResult result = testDomain.Run( collector );
+			TestResult result = null;
+			if (options.IsCategories) 
+			{
+				CategoryFilter filter = new CategoryFilter();
+				foreach (string category in options.CategoryArray)
+				{
+					filter.AddCategory(category);
+				}
+				result = testDomain.Run(collector, filter);
+			} 
+			else 
+			{
+				result = testDomain.Run( collector );
+			}
 			Directory.SetCurrentDirectory( savedDirectory );
 			
 			Console.WriteLine();
