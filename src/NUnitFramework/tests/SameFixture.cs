@@ -41,10 +41,11 @@ namespace NUnit.Framework.Tests
 		{
 			string s1 = "S1";
 			Assert.AreSame(s1, s1);
+			new SameAsserter( s1, s1, null, null ).Assert();
 		}
 
 		[Test]
-		[ExpectedException(typeof(AssertionException))]
+		[ExpectedException(typeof(AssertionException), "expected same" )]
 		public void SameFails()
 		{
 			StringBuilder builder = new StringBuilder();
@@ -54,6 +55,20 @@ namespace NUnit.Framework.Tests
 
 			Assert.AreEqual(s1, s2);
 			Assert.AreSame(s1, s2);
+		}
+
+
+		[Test]
+		[ExpectedException(typeof(AssertionException), "expected same" )]
+		public void SameAsserterFails()
+		{
+			StringBuilder builder = new StringBuilder();
+			builder.Append("S1");
+			string s1 = builder.ToString();
+			string s2 = "S1";
+
+			new EqualAsserter( s1, s2, null, null ).Assert();
+			new SameAsserter( s1, s2, null, null ).Assert();
 		}
 
 		[Test]

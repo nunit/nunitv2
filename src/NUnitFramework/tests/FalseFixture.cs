@@ -37,7 +37,14 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void AssertFalse()
 		{
+			new FalseAsserter( false, null, null ).Assert();
 			Assert.IsFalse(false);
+		}
+
+		[Test, ExpectedException( typeof(AssertionException) )]
+		public void FalseAsserterFails()
+		{
+			new FalseAsserter( true, null, null ).Assert();
 		}
 
 		[Test]

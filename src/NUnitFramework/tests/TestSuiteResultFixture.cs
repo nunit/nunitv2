@@ -27,7 +27,7 @@
 '***********************************************************************************/
 #endregion
 
-namespace NUnit.Tests.TestResultTests
+namespace NUnit.Core.Tests
 {
 	using System;
 	using System.Collections;

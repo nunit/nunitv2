@@ -27,7 +27,7 @@
 '***********************************************************************************/
 #endregion
 
-namespace NUnit.Tests.TestResultSuite
+namespace NUnit.Core.Tests
 {
 	using System;
 	using NUnit.Framework;	

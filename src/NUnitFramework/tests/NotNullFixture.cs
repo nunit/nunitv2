@@ -40,6 +40,13 @@ namespace NUnit.Framework.Tests
 		{
 			String s1 = "S1";
 			Assert.IsNotNull(s1);
+			new NotNullAsserter( s1, null, null ).Assert();
+		}
+
+		[Test, ExpectedException( typeof(AssertionException) )]
+		public void NotNullAsserter_Failure()
+		{
+			new NotNullAsserter( null, null, null ).Assert();
 		}
 
 		[Test]

@@ -3,7 +3,7 @@ using System.Reflection;
 using NUnit.Framework;
 using NUnit.Core;
 
-namespace NUnit.Tests.Extensions
+namespace NUnit.Extensions.Tests
 {
 	#region MockSuiteBuilder class
 
