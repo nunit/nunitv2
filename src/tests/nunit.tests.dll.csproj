@@ -184,6 +184,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CallContextTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "CategoryManagerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -260,11 +265,6 @@
                 />
                 <File
                     RelPath = "GuiFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ILogicalThreadAffinativeTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
