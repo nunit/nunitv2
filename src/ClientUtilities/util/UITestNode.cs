@@ -95,7 +95,7 @@ namespace NUnit.Util
 		/// </summary>
 		private string description;
 
-		#endregion;
+		#endregion
 
 		#region Construction and Conversion
 
