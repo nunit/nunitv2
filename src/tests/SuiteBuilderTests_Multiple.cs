@@ -28,62 +28,50 @@
 #endregion
 
 using System;
-using System.IO;
 using System.Collections;
 using NUnit.Framework;
 using NUnit.Core;
 
 namespace NUnit.Tests.Core
 {
-	/// <summary>
-	/// Summary description for MultipleAssembliesDomain.
-	/// </summary>
 	[TestFixture]
-	public class MultipleAssembliesTestDomain
+	public class SuiteBuilderTests_Multiple
 	{
-		private Test suite;
+		private readonly string testsDll = "nonamespace-assembly.dll";
+		private readonly string mockDll = "mock-assembly.dll";
 
-		private TestDomain domain; 
-		private TextWriter outStream;
-		private TextWriter errorStream;
+		private TestSuiteBuilder builder;
+		private ArrayList assemblies;
 
 		[SetUp]
 		public void LoadSuite()
 		{
-			outStream = new ConsoleWriter(Console.Out);
-			errorStream = new ConsoleWriter(Console.Error);
-			domain = new TestDomain();
+			builder = new TestSuiteBuilder();
+			assemblies = new ArrayList();
+			assemblies.Add(testsDll);
+			assemblies.Add(mockDll);
 
-			ArrayList assemblies = new ArrayList();
-			assemblies.Add( Path.GetFullPath( "nonamespace-assembly.dll" ) );
-			assemblies.Add( Path.GetFullPath( "mock-assembly.dll" ) );
-
-			suite = domain.LoadAssemblies( "Multiple Assemblies Test", assemblies );
 		}
 
-		[TearDown]
-		public void UnloadTestDomain()
-		{
-			domain.Unload();
-			domain = null;
-		}
-			
 		[Test]
 		public void BuildSuite()
 		{
+			TestSuite suite = builder.Build( "TestSuite", assemblies);
 			Assert.NotNull(suite);
 		}
 
 		[Test]
 		public void RootNode()
 		{
+			TestSuite suite = builder.Build( "TestSuite", assemblies);
 			Assert.True( suite is RootTestSuite );
-			Assert.Equals( "Multiple Assemblies Test", suite.Name );
+			Assert.Equals( "TestSuite", suite.Name );
 		}
 
 		[Test]
 		public void AssemblyNodes()
 		{
+			TestSuite suite = builder.Build( "TestSuite", assemblies);
 			Assert.True( suite.Tests[0] is AssemblyTestSuite );
 			Assert.True( suite.Tests[1] is AssemblyTestSuite );
 		}
@@ -91,15 +79,25 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void TestCaseCount()
 		{
+			TestSuite suite = builder.Build( "TestSuite", assemblies);
 			Assert.Equals(10, suite.CountTestCases);
 		}
 
 		[Test]
 		public void RunMultipleAssemblies()
 		{
+			TestSuite suite = builder.Build( "TestSuite", assemblies);
 			TestResult result = suite.Run(NullListener.NULL);
 			ResultSummarizer summary = new ResultSummarizer(result);
 			Assert.Equals(8, summary.ResultCount);
+		}
+
+		[Test]
+		public void LoadFixture()
+		{
+			TestSuite suite = builder.Build( assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
+			Assert.NotNull( suite );
+			Assert.Equals( 5, suite.CountTestCases );
 		}
 	}
 }
