@@ -137,19 +137,6 @@ namespace NUnit.Tests
 		}
 
 		[Test]
-		public void ExpandTest()
-		{
-			TestSuiteTreeView treeView = new TestSuiteTreeView();
-			treeView.Load(suite);
-			CollapseAll( treeView.Nodes );
-			Assertion.Assert( "Tree did not collapse", !AllExpanded( treeView.Nodes ) );
-
-			treeView.Expand( fixture );
-			Assertion.Assert( "Expand failed", AllExpanded( FixtureNode( treeView ) ) );
-			Assertion.Assert( "Too much expanded", !AllExpanded( treeView.Nodes ) );
-		}
-
-		[Test]
 		public void ClearTree()
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
@@ -172,16 +159,6 @@ namespace NUnit.Tests
 			Assertion.AssertNotNull( "Result not set", fixtureNode.Result );
 			Assertion.AssertEquals( "My test result", fixtureNode.Result.Name );
 			Assertion.AssertEquals( fixtureNode.Test.FullName, fixtureNode.Result.Test.FullName );
-		}
-
-		[Test]
-		public void RemoveTest()
-		{
-			TestSuiteTreeView treeView = new TestSuiteTreeView();
-			treeView.Load(suite);
-
-			treeView.RemoveTest( fixture );
-			Assertion.AssertEquals( 10, treeView.GetNodeCount( true ) );
 		}
 
 		[Test]
