@@ -98,12 +98,13 @@ namespace NUnit.UiKit
 				OpenProject( dlg.FileName );
 		}
 
-		public void OpenProject( string testFileName, string configName )
+		public void OpenProject( string testFileName, string configName, string testName )
 		{
 			if ( loader.IsProjectLoaded && SaveProjectIfDirty() == DialogResult.Cancel )
 				return;
 
-			if ( loader.LoadProject( testFileName, configName ) )
+			loader.LoadProject( testFileName, configName );
+			if ( loader.IsProjectLoaded )
 			{	
 				NUnitProject testProject = loader.TestProject;
 				if ( testProject.Configs.Count == 0 )
@@ -113,13 +114,13 @@ namespace NUnit.UiKit
 				else if ( testProject.ActiveConfig.Assemblies.Count == 0 )
 					UserMessage.DisplayInfo( "Active configuration contains no assemblies" );
 				else
-					loader.LoadTest();
+					loader.LoadTest( testName );
 			}
 		}
 
 		public void OpenProject( string testFileName )
 		{
-			OpenProject( testFileName, null );
+			OpenProject( testFileName, null, null );
 		}
 
 		public void AddAssembly( )

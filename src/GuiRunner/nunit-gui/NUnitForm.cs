@@ -52,6 +52,7 @@ namespace NUnit.Gui
 		{
 			public string testFileName;
 			public string configName;
+			public string testName;
 			public bool noload;
 			public bool autorun;
 		}
@@ -1172,12 +1173,12 @@ namespace NUnit.Gui
 			// Load test specified on command line or
 			// the most recent one if options call for it
 			if ( commandLineOptions.testFileName != null )
-				TestLoaderUI.OpenProject( commandLineOptions.testFileName, commandLineOptions.configName );
+				TestLoaderUI.OpenProject( commandLineOptions.testFileName, commandLineOptions.configName, commandLineOptions.testName );
 			else if( UserSettings.Options.LoadLastProject && !commandLineOptions.noload )
 			{
 				string recentProjectName = UserSettings.RecentProjects.RecentFile;
 				if ( recentProjectName != null )
-					TestLoaderUI.OpenProject( recentProjectName );
+					TestLoaderUI.OpenProject( recentProjectName, commandLineOptions.configName, commandLineOptions.testName );
 			}
 
 			// Run loaded test automatically if called for

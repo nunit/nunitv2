@@ -51,9 +51,6 @@ namespace NUnit.Util
 		// See if a test has been loaded from the project
 		bool IsTestLoaded { get; }
 
-		// True if there is a pending reload request
-		bool IsReloadPending { get; }
-
 		// See if a test is running
 		bool IsTestRunning { get; }
 
@@ -76,27 +73,22 @@ namespace NUnit.Util
 		void NewProject( string filename );
 
 		// Load a project given a filename
-		bool LoadProject( string filename );
+		void LoadProject( string filename );
 
 		// Load a project given a filename and config
-		bool LoadProject( string filename, string configname );
+		void LoadProject( string filename, string configname );
 
 		// Load a project given an array of assemblies
-		bool LoadProject( string[] assemblies );
+		void LoadProject( string[] assemblies );
 
 		// Unload current project
 		void UnloadProject();
 
-		// Load a project given a filename and then
-		// load the tests for the active config.
-		bool LoadTest( string filename );
-
-		// Create a project for a list of assemblies
-		// and then load the tests from the assemblies
-		bool LoadTest( string[] assemblies );
-
 		// Load tests for current project and config
-		bool LoadTest();
+		void LoadTest();
+
+		// Load a specific test for current project and config
+		void LoadTest( string testName );
 
 		// Unload current test
 		void UnloadTest();

@@ -47,6 +47,13 @@ namespace NUnit.Tests.Util
 
 		private TestLoader loader;
 		private TestEventCatcher catcher;
+
+		private void LoadTest( string assembly )
+		{
+			loader.LoadProject( assembly );
+			if (loader.IsProjectLoaded && loader.TestProject.IsLoadable)
+				loader.LoadTest();
+		}
 		
 		[SetUp]
 		public void SetUp()
@@ -103,7 +110,7 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void LoadTest()
 		{
-			loader.LoadTest( assembly );
+			LoadTest( assembly );
 			Assert.IsTrue( loader.IsProjectLoaded, "Project not loaded" );
 			Assert.IsTrue( loader.IsTestLoaded, "Test not loaded" );
 			Assert.AreEqual( 4, catcher.Events.Count );
@@ -115,7 +122,7 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void UnloadTest()
 		{
-			loader.LoadTest( assembly );
+			LoadTest( assembly );
 			loader.UnloadTest();
 			Assert.AreEqual( 6, catcher.Events.Count );
 			Assert.AreEqual( TestAction.TestUnloading, catcher.Events[4].Action );
@@ -125,7 +132,7 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void FileNotFound()
 		{
-			loader.LoadTest( "xxxxx" );
+			LoadTest( "xxxxx" );
 			Assert.IsFalse( loader.IsProjectLoaded, "Project should not load" );
 			Assert.IsFalse( loader.IsTestLoaded, "Test should not load" );
 			Assert.AreEqual( 2, catcher.Events.Count );
@@ -145,7 +152,7 @@ namespace NUnit.Tests.Util
 			sw.Flush();
 			sw.Close();
 
-			loader.LoadTest( badFile );
+			LoadTest( badFile );
 			Assert.IsTrue( loader.IsProjectLoaded, "Project not loaded" );
 			Assert.IsFalse( loader.IsTestLoaded, "Test should not be loaded" );
 			Assert.AreEqual( 4, catcher.Events.Count );
@@ -156,7 +163,7 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void AssemblyWithNoTests()
 		{
-			loader.LoadTest( "notestfixtures-assembly.dll" );
+			LoadTest( "notestfixtures-assembly.dll" );
 			Assert.IsTrue( loader.IsProjectLoaded, "Project not loaded" );
 			Assert.IsTrue( loader.IsTestLoaded, "Test should be loaded" );
 			Assert.AreEqual( 4, catcher.Events.Count );
@@ -170,7 +177,7 @@ namespace NUnit.Tests.Util
 		{
 			loader.ReloadOnRun = false;
 			
-			loader.LoadTest( assembly );
+			LoadTest( assembly );
 			loader.RunTestSuite( catcher.Events[3].Test );
 			while( loader.IsTestRunning )
 				Thread.Sleep( 500 );

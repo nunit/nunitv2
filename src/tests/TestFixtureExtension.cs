@@ -101,10 +101,11 @@ namespace NUnit.Tests.Core
 		{
 			Assert.IsNotNull(suite);
 
-			TestSuite fixture = (TestSuite)suite.Tests[0];
-			Assert.IsNotNull(fixture);
+//			TestSuite fixture = (TestSuite)suite.Tests[0];
+//			Assert.IsNotNull(fixture);
 
-			TestResult result = fixture.Run(NullListener.NULL);
+//			TestResult result = fixture.Run(NullListener.NULL);
+			TestResult result = suite.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsSuccess);
 		}
 

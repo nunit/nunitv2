@@ -449,8 +449,8 @@ namespace NUnit.UiKit
 				runCommandEnabled = false;
 
 				// TODO: Loader should handle this
-				if ( loader.IsReloadPending )
-					loader.ReloadTest();
+//				if ( loader.IsReloadPending )
+//					loader.ReloadTest();
 
 				loader.RunTestSuite( contextNode.Test );
 			}
@@ -514,9 +514,12 @@ namespace NUnit.UiKit
 			{
 				string[] fileNames = (string[])e.Data.GetData( DataFormats.FileDrop );
 				if ( fileNames.Length == 1 )
-					loader.LoadTest( fileNames[0] );
+					loader.LoadProject( fileNames[0] );
 				else
-					loader.LoadTest( fileNames );
+					loader.LoadProject( fileNames );
+
+				if (loader.IsProjectLoaded && loader.TestProject.IsLoadable)
+					loader.LoadTest();
 			}
 		}
 
@@ -539,8 +542,8 @@ namespace NUnit.UiKit
 				runCommandEnabled = false;
 
 				// TODO: loader should handle this
-				if ( loader.IsReloadPending )
-					loader.ReloadTest();
+//				if ( loader.IsReloadPending )
+//					loader.ReloadTest();
 
 				loader.RunTestSuite( SelectedTest );
 			}

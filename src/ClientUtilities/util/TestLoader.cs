@@ -87,6 +87,11 @@ namespace NUnit.Util
 		private UITestNode loadedTest = null;
 
 		/// <summary>
+		/// The test name that was specified when loading
+		/// </summary>
+		private string loadedTestName = null;
+
+		/// <summary>
 		/// The tests that are running
 		/// </summary>
 		private IList runningTests = null;
@@ -157,11 +162,6 @@ namespace NUnit.Util
 		public bool IsTestRunning
 		{
 			get { return runningTests != null; }
-		}
-
-		public bool IsReloadPending
-		{
-			get { return reloadPending; }
 		}
 
 		public NUnitProject TestProject
@@ -291,7 +291,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Load a new project, optionally selecting the config and fire events
 		/// </summary>
-		public bool LoadProject( string filePath, string configName )
+		public void LoadProject( string filePath, string configName )
 		{
 			try
 			{
@@ -306,29 +306,29 @@ namespace NUnit.Util
 
 				OnProjectLoad( newProject );
 
-				return true;
+//				return true;
 			}
 			catch( Exception exception )
 			{
 				lastException = exception;
 				events.FireProjectLoadFailed( filePath, exception );
 
-				return false;
+//				return false;
 			}
 		}
 
 		/// <summary>
 		/// Load a new project using the default config and fire events
 		/// </summary>
-		public bool LoadProject( string filePath )
+		public void LoadProject( string filePath )
 		{
-			return LoadProject( filePath, null );
+			LoadProject( filePath, null );
 		}
 
 		/// <summary>
 		/// Load a project from a list of assemblies and fire events
 		/// </summary>
-		public bool LoadProject( string[] assemblies )
+		public void LoadProject( string[] assemblies )
 		{
 			try
 			{
@@ -338,14 +338,14 @@ namespace NUnit.Util
 
 				OnProjectLoad( newProject );
 
-				return true;
+//				return true;
 			}
 			catch( Exception exception )
 			{
 				lastException = exception;
 				events.FireProjectLoadFailed( "New Project", exception );
 
-				return false;
+//				return false;
 			}
 		}
 
@@ -425,46 +425,33 @@ namespace NUnit.Util
 
 		#region Methods for Loading and Unloading Tests
 
-		public bool LoadTest( string testFileName )
+		public void LoadTest()
 		{
-			return LoadProject( testFileName ) 
-				&& TestProject.IsLoadable
-				&& LoadTest();
+			LoadTest( null );
 		}
-
-		public bool LoadTest( string[] assemblies )
-		{
-			return LoadProject( assemblies ) 
-				&& TestProject.IsLoadable 
-				&& LoadTest();
-		}
-
-		public bool LoadTest( )
+		
+		public void LoadTest( string testName )
 		{
 			try
 			{
 				events.FireTestLoading( TestFileName );
 
 				testDomain = new TestDomain( stdOutWriter, stdErrWriter );		
-				Test test = testDomain.Load( TestProject );
+				Test test = testDomain.Load( TestProject, testName );
 
 				TestSuite suite = test as TestSuite;
 				if ( suite != null )
 					suite.Sort();
 			
 				loadedTest = test;
+				loadedTestName = testName;
 				lastResult = null;
 				reloadPending = false;
 			
-				// TODO: Figure out how to handle relative paths in tests
-				//Directory.SetCurrentDirectory( testProject.ActiveConfig.BasePath );
-
 				if ( ReloadOnChange )
 					InstallWatcher( );
 
 				events.FireTestLoaded( TestFileName, this.loadedTest );
-
-				return true;
 			}
 			catch( FileNotFoundException exception )
 			{
@@ -481,15 +468,11 @@ namespace NUnit.Util
 				}
 
 				events.FireTestLoadFailed( TestFileName, lastException );
-
-				return false;
 			}
 			catch( Exception exception )
 			{
 				lastException = exception;
 				events.FireTestLoadFailed( TestFileName, exception );
-
-				return false;
 			}
 		}
 
@@ -514,6 +497,7 @@ namespace NUnit.Util
 					testDomain = null;
 
 					loadedTest = null;
+					loadedTestName = null;
 					lastResult = null;
 					reloadPending = false;
 
@@ -555,7 +539,7 @@ namespace NUnit.Util
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
 					TestDomain newDomain = new TestDomain( stdOutWriter, stdErrWriter );
-					Test newTest = newDomain.Load( testProject );
+					Test newTest = newDomain.Load( testProject, loadedTestName );
 					TestSuite suite = newTest as TestSuite;
 					if ( suite != null )
 						suite.Sort();
@@ -605,7 +589,7 @@ namespace NUnit.Util
 		{
 			if ( !IsTestRunning )
 			{
-				if ( IsReloadPending || ReloadOnRun )
+				if ( reloadPending || ReloadOnRun )
 					ReloadTest();
 
 				runningTests = tests;
