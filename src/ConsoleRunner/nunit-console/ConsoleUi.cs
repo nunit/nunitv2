@@ -228,8 +228,11 @@ namespace NUnit.Console
 				collector = new EventCollector();
 			ConsoleWriter outStream = new ConsoleWriter(Console.Out);
 			ConsoleWriter errorStream = new ConsoleWriter(Console.Error);
+			
+			string savedDirectory = Environment.CurrentDirectory;
 			TestResult result = testDomain.Run(collector, outStream, errorStream);
-
+			Directory.SetCurrentDirectory( savedDirectory );
+			
 			Console.WriteLine("\n");
 			XmlResultVisitor resultVisitor = new XmlResultVisitor(new StringWriter(builder), result);
 			result.Accept(resultVisitor);
