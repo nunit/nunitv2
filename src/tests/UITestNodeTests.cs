@@ -48,11 +48,9 @@ namespace NUnit.Tests.Util
 		[SetUp]
 		public void SetUp()
 		{
-			MockTestFixture mock = new MockTestFixture();
 			testSuite = new TestSuite("MyTestSuite");
-			testSuite.Add( mock );
-
-			testFixture = (TestSuite)testSuite.Tests[0];
+			testFixture = new TestFixture( typeof( MockTestFixture ) );
+			testSuite.Add( testFixture );
 
 			testCase1 = (NUnit.Core.TestCase)testFixture.Tests[0];
 		}

@@ -93,38 +93,35 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void SetUpAndTearDownCounter()
 		{
-			SetUpAndTearDownCounterFixture testFixture = new SetUpAndTearDownCounterFixture();
-			TestSuite suite = new TestSuite("SetUpAndTearDownSuite");
-			suite.Add(testFixture);
+			SetUpAndTearDownCounterFixture fixture = new SetUpAndTearDownCounterFixture();
+			TestSuite suite = new TestFixture( fixture );
 			suite.Run(NullListener.NULL);
 
-			Assert.AreEqual(3, testFixture.setUpCounter);
-			Assert.AreEqual(3, testFixture.tearDownCounter);
+			Assert.AreEqual(3, fixture.setUpCounter);
+			Assert.AreEqual(3, fixture.tearDownCounter);
 		}
 
 		
 		[Test]
 		public void MakeSureSetUpAndTearDownAreCalled()
 		{
-			SetUpAndTearDownFixture testFixture = new SetUpAndTearDownFixture();
-			TestSuite suite = new TestSuite("SetUpAndTearDownSuite");
-			suite.Add(testFixture);
+			SetUpAndTearDownFixture fixture = new SetUpAndTearDownFixture();
+			TestSuite suite = new TestFixture( fixture );
 			suite.Run(NullListener.NULL);
 
-			Assert.IsTrue(testFixture.wasSetUpCalled);
-			Assert.IsTrue(testFixture.wasTearDownCalled);
+			Assert.IsTrue(fixture.wasSetUpCalled);
+			Assert.IsTrue(fixture.wasTearDownCalled);
 		}
 
 		[Test]
 		public void CheckInheritedSetUpAndTearDownAreCalled()
 		{
-			InheritSetUpAndTearDown testFixture = new InheritSetUpAndTearDown();
-			TestSuite suite = new TestSuite("SetUpAndTearDownSuite");
-			suite.Add(testFixture);
+			InheritSetUpAndTearDown fixture = new InheritSetUpAndTearDown();
+			TestSuite suite = new TestFixture( fixture );
 			suite.Run(NullListener.NULL);
 
-			Assert.IsTrue(testFixture.wasSetUpCalled);
-			Assert.IsTrue(testFixture.wasTearDownCalled);
+			Assert.IsTrue(fixture.wasSetUpCalled);
+			Assert.IsTrue(fixture.wasTearDownCalled);
 		}
 
 		internal class DefineInheritSetUpAndTearDown : SetUpAndTearDownFixture
@@ -151,15 +148,14 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void CheckInheritedSetUpAndTearDownAreNotCalled()
 		{
-			DefineInheritSetUpAndTearDown testFixture = new DefineInheritSetUpAndTearDown();
-			TestSuite suite = new TestSuite("SetUpAndTearDownSuite");
-			suite.Add(testFixture);
+			DefineInheritSetUpAndTearDown fixture = new DefineInheritSetUpAndTearDown();
+			TestSuite suite = new TestFixture( fixture );
 			suite.Run(NullListener.NULL);
 
-			Assert.IsFalse(testFixture.wasSetUpCalled);
-			Assert.IsFalse(testFixture.wasTearDownCalled);
-			Assert.IsTrue(testFixture.derivedSetUpCalled);
-			Assert.IsTrue(testFixture.derivedTearDownCalled);
+			Assert.IsFalse(fixture.wasSetUpCalled);
+			Assert.IsFalse(fixture.wasTearDownCalled);
+			Assert.IsTrue(fixture.derivedSetUpCalled);
+			Assert.IsTrue(fixture.derivedTearDownCalled);
 		}
 	}
 }

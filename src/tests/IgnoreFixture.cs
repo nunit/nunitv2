@@ -50,9 +50,9 @@ namespace NUnit.Tests.Assertions
 		[Test]
 		public void IgnoreWorksForTestSuite()
 		{
-			IgnoredTestSuiteFixture testFixture = new IgnoredTestSuiteFixture();
+			//IgnoredTestSuiteFixture testFixture = new IgnoredTestSuiteFixture();
 			TestSuite suite = new TestSuite("IgnoredTestFixture");
-			suite.Add(testFixture);
+			suite.Add( new TestFixture( typeof( IgnoredTestSuiteFixture ) ) );
 			TestSuiteResult result = (TestSuiteResult)suite.Run( NullListener.NULL);
 
 			TestSuiteResult fixtureResult = (TestSuiteResult)result.Results[0];
@@ -85,12 +85,9 @@ namespace NUnit.Tests.Assertions
 		[Test]
 		public void IgnoreWorksFromSetUp()
 		{
-			IgnoreInSetUpFixture testFixture = new IgnoreInSetUpFixture();
-			TestSuite suite = new TestSuite("IgnoredTestFixture");
-			suite.Add(testFixture);
-			TestSuiteResult result = (TestSuiteResult)suite.Run( NullListener.NULL);
+			TestFixture testFixture = new TestFixture( typeof( IgnoreInSetUpFixture ) );
+			TestSuiteResult fixtureResult = (TestSuiteResult)testFixture.Run( NullListener.NULL);
 
-			TestSuiteResult fixtureResult = (TestSuiteResult)result.Results[0];
 			Assert.IsTrue( fixtureResult.Executed, "Fixture should have been executed" );
 			
 			foreach( TestResult testResult in fixtureResult.Results )

@@ -52,26 +52,19 @@ namespace NUnit.Tests.Attributes
 	[TestFixture]
 	public class TestAttributeFixture
 	{
-		MockFixture fixture = new MockFixture();
-		Type fixtureType;
-		NUnit.Core.TestCase testCase;
-
-		[SetUp]
-		public void Init()
-		{
-			fixtureType = typeof(MockFixture);
-			testCase = TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType, "Method"));
-		}
+		static readonly Type FixtureType = typeof( MockFixture );
 
 		[Test]
 		public void ReflectionTest()
 		{
+			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(FixtureType, Reflect.GetMethod(FixtureType, "Method"));
 			Assert.IsTrue(testCase.ShouldRun);
 		}
 
 		[Test]
 		public void Description()
 		{
+			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(FixtureType, Reflect.GetMethod(FixtureType, "Method"));
 			Assert.AreEqual("Test Description", testCase.Description);
 		}
 
@@ -79,7 +72,7 @@ namespace NUnit.Tests.Attributes
 		public void DescriptionInResult()
 		{
 			TestSuite suite = new TestSuite("Mock Fixture");
-			suite.Add(fixture);
+			suite.Add( new TestFixture( typeof( MockFixture ) ) );
 			TestResult result = suite.Run(NullListener.NULL);
 
 			DescriptionVisitor visitor = new DescriptionVisitor("NUnit.Tests.Attributes.MockFixture.Method", "Test Description");
@@ -93,7 +86,7 @@ namespace NUnit.Tests.Attributes
 		[Test]
 		public void NoDescription()
 		{
-			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType,"NoDescriptionMethod"));
+			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(FixtureType, Reflect.GetMethod(FixtureType,"NoDescriptionMethod"));
 			Assert.IsNull(testCase.Description);
 		}
 
@@ -101,7 +94,7 @@ namespace NUnit.Tests.Attributes
 		public void FixtureDescription()
 		{
 			NUnit.Core.TestSuite suite = new TestSuite("suite");
-			suite.Add(new MockFixture());
+			suite.Add(new TestFixture( typeof( MockFixture ) ) );
 
 			ArrayList tests = suite.Tests;
 			TestSuite mockFixtureSuite = (TestSuite)tests[0];
@@ -113,7 +106,7 @@ namespace NUnit.Tests.Attributes
 		public void FixtureDescriptionInResult()
 		{
 			TestSuite suite = new TestSuite("Mock Fixture");
-			suite.Add(fixture);
+			suite.Add(new TestFixture( typeof( MockFixture ) ) );
 			TestResult result = suite.Run(NullListener.NULL);
 
 			DescriptionVisitor visitor = new DescriptionVisitor("MockFixture", "Fixture Description");

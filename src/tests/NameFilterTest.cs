@@ -9,16 +9,14 @@ namespace NUnit.Tests.Core
 	[TestFixture]
 	public class NameFilterTest
 	{
-		private MockTestFixture mockTestFixture;
 		private TestSuite testSuite;
 		private NUnit.Core.TestCase mock3;
 
 		[SetUp]
 		public void SetUp() 
 		{
-			mockTestFixture = new MockTestFixture();
 			testSuite = new TestSuite("Mock Test Suite");
-			testSuite.Add(mockTestFixture);
+			testSuite.Add( new TestFixture( typeof( MockTestFixture ) ) );
 			mock3 = (NUnit.Core.TestCase) findTest("MockTest3", testSuite);
 		}
 

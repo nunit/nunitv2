@@ -89,12 +89,11 @@ namespace NUnit.Tests.Core
 		[Test] 
 		public void CheckMultipleSetUp()
 		{
-			SetUpDerivedTestFixture testFixture = new SetUpDerivedTestFixture();
-			TestSuite suite = new TestSuite("SetUpDerivedTestFixture");
-			suite.Add(testFixture);
+			SetUpDerivedTestFixture fixture = new SetUpDerivedTestFixture();
+			TestSuite suite = new TestFixture( fixture );
 			suite.Run(NullListener.NULL);
 
-			Assert.AreEqual(true, testFixture.baseSetup);		}
+			Assert.AreEqual(true, fixture.baseSetup);		}
 
 		[Test]
 		public void DerivedTest()
@@ -112,23 +111,21 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void InheritSetup()
 		{
-			DerivedTestFixture testFixture = new DerivedTestFixture();
-			TestSuite suite = new TestSuite("DerivedTestFixtureSuite");
-			suite.Add(testFixture);
+			DerivedTestFixture fixture = new DerivedTestFixture();
+			TestSuite suite = new TestFixture( fixture );
 			suite.Run(NullListener.NULL);
 
-			Assert.AreEqual(true, testFixture.baseSetup);
+			Assert.AreEqual(true, fixture.baseSetup);
 		}
 
 		[Test]
 		public void InheritTearDown()
 		{
-			DerivedTestFixture testFixture = new DerivedTestFixture();
-			TestSuite suite = new TestSuite("DerivedTestFixtureSuite");
-			suite.Add(testFixture);
+			DerivedTestFixture fixture = new DerivedTestFixture();
+			TestSuite suite = new TestFixture( fixture );
 			suite.Run(NullListener.NULL);
 
-			Assert.AreEqual(true, testFixture.baseTeardown);
+			Assert.AreEqual(true, fixture.baseTeardown);
 		}
 	}
 }

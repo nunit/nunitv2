@@ -53,12 +53,11 @@ namespace NUnit.Tests.UiKit
 		[SetUp]
 		public void SetUp()
 		{
-			MockTestFixture mock = new MockTestFixture();
 			testSuite = new TestSuite("MyTestSuite");
-			testSuite.Add( mock );
-			suiteInfo = new UITestNode( testSuite );
+			testFixture = new TestFixture( typeof( MockTestFixture ) );
+			testSuite.Add( testFixture );
 
-			testFixture = (TestSuite)testSuite.Tests[0];
+			suiteInfo = new UITestNode( testSuite );
 			fixtureInfo = new UITestNode( testFixture );
 
 			testCase = (NUnit.Core.TestCase)testFixture.Tests[0];

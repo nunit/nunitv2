@@ -41,9 +41,9 @@ namespace NUnit.Tests.Core
 			get 
 			{
 				TestSuite suite = new TestSuite("All Tests");
-				suite.Add(new OneTestCase());
-				suite.Add(new Assemblies.AssemblyTests());
-				suite.Add(new NoNamespaceTestFixture());
+				suite.Add(new TestFixture( typeof( OneTestCase ) ) );
+				suite.Add(new TestFixture( typeof( Assemblies.AssemblyTests ) ) );
+				suite.Add(new TestFixture( typeof( NoNamespaceTestFixture ) ) );
 				return suite;
 			}
 		}

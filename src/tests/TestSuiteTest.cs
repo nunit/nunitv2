@@ -43,54 +43,52 @@ namespace NUnit.Tests.Core
 	[TestFixture]
 	public class TestSuiteTest
 	{
-		OneTestCase oneTestFixture;
-		MockTestFixture mockTestFixture;
+		TestFixture oneTestFixture;
+		TestFixture mockTestFixture;
 		TestSuite noTestSuite;
 
 		[SetUp]
 		public void SetUp()
 		{
-			oneTestFixture = new OneTestCase();
-			mockTestFixture = new MockTestFixture();
+			oneTestFixture = new TestFixture( typeof( OneTestCase ) );
+			mockTestFixture = new TestFixture( typeof( MockTestFixture ) );
+			TestFixture noTestFixture = new TestFixture( typeof( EmptyFixture ) );
 
-			EmptyFixture fixture = new EmptyFixture();
+			//EmptyFixture fixture = new EmptyFixture();
 			noTestSuite = new TestSuite("No Tests");
-			noTestSuite.Add(fixture);
+			noTestSuite.Add( noTestFixture);
 		}
 
-		[Test]
-		public void AddTestFixture()
-		{
-			TestSuite testSuite = new TestSuite("Mock Test Suite");
-			testSuite.Add(oneTestFixture);
+//		[Test]
+//		public void AddTestFixture()
+//		{
+//			TestSuite testSuite = new TestSuite("Mock Test Suite");
+//			testSuite.Add( new TestFixture( oneTestFixture ) );
+//
+//			ArrayList tests = testSuite.Tests;
+//			Test test = (Test)tests[0];
+//			Assert.IsTrue(test is TestSuite, "Expected a TestSuite");
+//			Assert.AreEqual("OneTestCase",test.Name);
+//		}
 
-			ArrayList tests = testSuite.Tests;
-			Test test = (Test)tests[0];
-			Assert.IsTrue(test is TestSuite, "Expected a TestSuite");
-			Assert.AreEqual("OneTestCase",test.Name);
-		}
-
-		[Test]
-		public void TestCaseCountinFixture()
-		{
-			TestSuite testSuite = new TestSuite("Mock Test Suite");
-			testSuite.Add(mockTestFixture);
-
-			ArrayList tests = testSuite.Tests;
-			Test test = (Test)tests[0];
-			Assert.IsTrue(test is TestSuite, "Expected a TestSuite");
-			Assert.AreEqual(mockTestFixture.GetType().Name,test.Name);
-
-			Assert.AreEqual(MockTestFixture.Tests, testSuite.CountTestCases());
-		}
+//		[Test]
+//		public void TestCaseCountinFixture()
+//		{
+//			TestSuite testSuite = new TestSuite("Mock Test Suite");
+//			testSuite.Add(mockTestFixture);
+//
+//			ArrayList tests = testSuite.Tests;
+//			Test test = (Test)tests[0];
+//			Assert.IsTrue(test is TestSuite, "Expected a TestSuite");
+//			Assert.AreEqual(mockTestFixture.GetType().Name,test.Name);
+//
+//			Assert.AreEqual(MockTestFixture.Tests, testSuite.CountTestCases());
+//		}
 
 		[Test]
 		public void RunTestsInFixture()
 		{
-			TestSuite testSuite = new TestSuite("Mock Test Suite");
-			testSuite.Add( mockTestFixture );
-
-			TestResult result = testSuite.Run( NullListener.NULL );
+			TestResult result = mockTestFixture.Run( NullListener.NULL );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
 			Assert.AreEqual( MockTestFixture.Tests - MockTestFixture.NotRun, summarizer.ResultCount );
 			Assert.AreEqual( MockTestFixture.NotRun, summarizer.TestsNotRun );
@@ -104,10 +102,7 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void RunExplicitTestDirectly()
 		{
-			TestSuite testSuite = new TestSuite( "Mock Test Suite" );
-			testSuite.Add( mockTestFixture );
-
-			Test test = findTest( "ExplicitlyRunTest", testSuite );
+			Test test = findTest( "ExplicitlyRunTest", mockTestFixture );
 			Assert.IsNotNull( test, "Cannot find ExplicitlyRunTest" );
 			Assert.IsTrue( test.IsExplicit, "Test not marked Explicit" );
 			TestResult result = test.Run( NullListener.NULL );
@@ -118,15 +113,12 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void RunExplicitTestByName()
 		{
-			TestSuite testSuite = new TestSuite( "Mock Test Suite" );
-			testSuite.Add( mockTestFixture );
-
-			Test test = findTest( "ExplicitlyRunTest", testSuite );
+			Test test = findTest( "ExplicitlyRunTest", mockTestFixture );
 			Assert.IsNotNull( test, "Cannot find ExplicitlyRunTest" );
 			Assert.IsTrue( test.IsExplicit, "Test not marked Explicit" );
 
 			NameFilter filter = new NameFilter( test );
-			TestResult result = testSuite.Run( NullListener.NULL, filter );
+			TestResult result = mockTestFixture.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
 			Assert.AreEqual( 1, summarizer.ResultCount );
 		}
@@ -134,11 +126,8 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void RunExplicitTestByCategory()
 		{
-			TestSuite testSuite = new TestSuite( "Mock Test Suite" );
-			testSuite.Add( mockTestFixture );
- 
 			CategoryFilter filter = new CategoryFilter( "Special" );
-			TestResult result = testSuite.Run( NullListener.NULL, filter );
+			TestResult result = mockTestFixture.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
 			Assert.AreEqual( 1, summarizer.ResultCount );
 		}
@@ -146,21 +135,14 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void InheritedTestCount()
 		{
-			InheritedTestFixture testFixture = new InheritedTestFixture();
-			TestSuite suite = new TestSuite("mock");
-			suite.Add(testFixture);
-
+			TestSuite suite = new TestFixture( typeof( InheritedTestFixture ) );
 			Assert.AreEqual(InheritedTestFixture.Tests, suite.CountTestCases());
 		}
 
 		[Test]
 		public void SuiteRunInitialized()
 		{
-			MockTestFixture fixture = new MockTestFixture();
-			TestSuite suite = new TestSuite("mock");
-			suite.Add(fixture);
-
-			Assert.IsTrue(suite.ShouldRun, "default state is to run TestSuite");
+			Assert.IsTrue(mockTestFixture.ShouldRun, "default state is to run TestSuite");
 		}
 
 		[Test]
@@ -252,7 +234,7 @@ namespace NUnit.Tests.Core
 		public void RunTestByCategory() 
 		{
 			TestSuite testSuite = new TestSuite("Mock Test Suite");
-			testSuite.Add(mockTestFixture);
+			testSuite.Add( mockTestFixture );
 
 			CategoryFilter filter = new CategoryFilter();
 			filter.AddCategory("MockCategory");

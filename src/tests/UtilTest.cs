@@ -43,21 +43,19 @@ namespace NUnit.Tests.Util
 	[TestFixture]
 	public class UtilTest
 	{
-		OneTestCase oneTestFixture;
-		MockTestFixture mockTestFixture;
+		TestFixture testFixture;
 
 		[SetUp]
 		public void SetUp()
 		{
-			oneTestFixture = new OneTestCase();
-			mockTestFixture = new MockTestFixture();
+			testFixture = new TestFixture( typeof ( OneTestCase ) );
 		}
 
 		[Test]
 		public void CompareTreeToSelf()
 		{
 			TestSuite suite = new TestSuite("Test Suite");
-			suite.Add(oneTestFixture);
+			suite.Add( testFixture );
 
 			Assert.IsTrue(UIHelper.CompareTree(suite,suite));
 		}
@@ -66,11 +64,11 @@ namespace NUnit.Tests.Util
 		public void CompareStructurallyDifferentTrees()
 		{
 			TestSuite treeOne = new TestSuite("Test Suite");
-			treeOne.Add(oneTestFixture);
-			treeOne.Add(oneTestFixture);
+			treeOne.Add( testFixture );
+			treeOne.Add( testFixture);
 
 			TestSuite treeTwo = new TestSuite("Test Suite");
-			treeTwo.Add(oneTestFixture);
+			treeTwo.Add( testFixture );
 
 			Assert.IsFalse(UIHelper.CompareTree(treeOne,treeTwo));
 
@@ -80,10 +78,10 @@ namespace NUnit.Tests.Util
 		public void CompareStructurallyIdenticalTreesWithDifferentNames()
 		{
 			TestSuite treeOne = new TestSuite("Test Suite One");
-			treeOne.Add(oneTestFixture);
+			treeOne.Add( testFixture );
 
 			TestSuite treeTwo = new TestSuite("Test Suite Two");
-			treeTwo.Add(oneTestFixture);
+			treeTwo.Add( testFixture );
 
 			Assert.IsFalse(UIHelper.CompareTree(treeOne,treeTwo));
 		}
@@ -93,10 +91,10 @@ namespace NUnit.Tests.Util
 		{
 			TestSuite treeOne = new TestSuite("Test Suite One");
 			treeOne.ShouldRun = false;
-			treeOne.Add(oneTestFixture);
+			treeOne.Add( testFixture );
 
 			TestSuite treeTwo = new TestSuite("Test Suite One");
-			treeTwo.Add(oneTestFixture);
+			treeTwo.Add( testFixture );
 
 			Assert.IsFalse(UIHelper.CompareTree(treeOne,treeTwo));
 		}

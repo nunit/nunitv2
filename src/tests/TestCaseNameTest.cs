@@ -40,13 +40,8 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void TestName()
 		{
-			TestSuite suite = new TestSuite("mock suite");
-			OneTestCase oneTestCase = new OneTestCase();
-			suite.Add(oneTestCase);
-			
-			IList tests = suite.Tests;
-			TestSuite rootSuite = (TestSuite)tests[0];
-			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)rootSuite.Tests[0];
+			TestFixture testFixture = new TestFixture( typeof( OneTestCase ) );
+			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)testFixture.Tests[0];
 			Assert.AreEqual("NUnit.Tests.Core.OneTestCase.TestCase", testCase.FullName);
 			Assert.AreEqual("TestCase", testCase.Name);
 		}
@@ -54,12 +49,8 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void TestExpectedException()
 		{
-			TestSuite suite = new TestSuite("mock suite");
-			suite.Add(new ExpectExceptionTest());
- 
-			IList tests = suite.Tests;
-			TestSuite rootSuite = (TestSuite)tests[0];
-			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)rootSuite.Tests[0];
+			TestFixture testFixture = new TestFixture( typeof( ExpectExceptionTest ) );
+			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)testFixture.Tests[0];
 			Assert.AreEqual("NUnit.Tests.Core.ExpectExceptionTest.TestSingle", testCase.FullName);
 		}
 	}
