@@ -134,11 +134,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "PlatformAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "SetUpAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
