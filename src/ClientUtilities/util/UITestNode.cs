@@ -118,6 +118,7 @@ namespace NUnit.Util
 			shouldRun = test.ShouldRun;
 			ignoreReason = test.IgnoreReason;
 			description = test.Description;
+			isExplicit = test.IsExplicit;
 
 			if (test.Categories != null) 
 			{
