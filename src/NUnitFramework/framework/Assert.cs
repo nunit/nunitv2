@@ -1,8 +1,8 @@
-#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
+#region Copyright (c) 2002-2003, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright © 2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
+' Copyright © 2000-2003 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright © 2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
+' or Copyright © 2000-2003 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -28,17 +28,17 @@
 #endregion
 
 using System;
+using System.Collections;
 
 namespace NUnit.Framework
 {
 	public class Assert
 	{
 		/// <summary>
-		/// Asserts that a condition is true. If it isn't it throws
-		/// an <see cref="AssertionFailedError"/>.
-		/// </summary>
-		/// <param name="message">The message to display is the condition
-		/// is false</param>
+		/// Asserts that a condition is true. If the condition is false the method throws
+		/// an <see cref="AssertionException"/>.
+		/// </summary> 
+		/// <param name="message">The message to display if the condition is false</param>
 		/// <param name="condition">The evaluated condition</param>
 		static public void True(string message, bool condition) 
 		{
@@ -47,8 +47,8 @@ namespace NUnit.Framework
 		}
     
 		/// <summary>
-		/// Asserts that a condition is true. If it isn't it throws
-		/// an <see cref="AssertionFailedError"/>.
+		/// Asserts that a condition is true. If the condition is false the method throws
+		/// an <see cref="AssertionException"/>.
 		/// </summary>
 		/// <param name="condition">The evaluated condition</param>
 		static public void True(bool condition) 
@@ -57,11 +57,10 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// Asserts that a condition is false. If it isn't it throws
-		/// an <see cref="AssertionFailedError"/>.
+		/// Asserts that a condition is false. If the condition is true the method throws
+		/// an <see cref="AssertionException"/>.
 		/// </summary>
-		/// <param name="message">The message to display is the condition
-		/// is false</param>
+		/// <param name="message">The message to display if the condition is true</param>
 		/// <param name="condition">The evaluated condition</param>
 		static public void False(string message, bool condition) 
 		{
@@ -70,8 +69,8 @@ namespace NUnit.Framework
 		}
 		
 		/// <summary>
-		/// Asserts that a condition is false. If it isn't it throws
-		/// an <see cref="AssertionFailedError"/>.
+		/// Asserts that a condition is false. If the condition is true the method throws
+		/// an <see cref="AssertionException"/>.
 		/// </summary>
 		/// <param name="condition">The evaluated condition</param>
 		static public void False(bool condition) 
@@ -79,53 +78,17 @@ namespace NUnit.Framework
 			Assert.False(string.Empty, condition);
 		}
 
-
 		/// <summary>
-		/// /// Asserts that two doubles are equal concerning a delta. If the
-		/// expected value is infinity then the delta value is ignored.
+		/// Verifies that two doubles are equal considering a delta. If the
+		/// expected value is infinity then the delta value is ignored. If 
+		/// they are not equals then an <see cref="AssertionException"/> is
+		/// thrown.
 		/// </summary>
+		/// <param name="message">The message that will be printed on failure</param>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
 		/// <param name="delta">The maximum acceptable difference between the
 		/// the expected and the actual</param>
-		static public void Equals(double expected, double actual, double delta) 
-		{
-			Assert.Equals(string.Empty, expected, actual, delta);
-		}
-		/// <summary>
-		/// /// Asserts that two singles are equal concerning a delta. If the
-		/// expected value is infinity then the delta value is ignored.
-		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		/// <param name="delta">The maximum acceptable difference between the
-		/// the expected and the actual</param>
-		static public void Equals(float expected, float actual, float delta) 
-		{
-			Assert.Equals(string.Empty, expected, actual, delta);
-		}
-
-		/// <summary>Asserts that two objects are equal. If they are not
-		/// an <see cref="AssertionFailedError"/> is thrown.</summary>
-		static new public void Equals(Object expected, Object actual) 
-		{
-			Assert.Equals(string.Empty, expected, actual);
-		}
-
-		static public void Equals(int expected, int actual) 
-		{
-			Assert.Equals(string.Empty, expected, actual);
-		}
-
-		static public void Equals(string message, int expected, int actual) 
-		{
-			if (expected != actual)
-				Assert.FailNotEquals(message, expected, actual);
-		}
-		
-		/// <summary>Asserts that two doubles are equal concerning a delta.
-		/// If the expected value is infinity then the delta value is ignored.
-		/// </summary>
 		static public void Equals(string message, double expected, 
 			double actual, double delta) 
 		{
@@ -139,10 +102,33 @@ namespace NUnit.Framework
 			else if (!(Math.Abs(expected-actual) <= delta))
 				Assert.FailNotEquals(message, expected, actual);
 		}
-		
-		/// <summary>Asserts that two floats are equal concerning a delta.
-		/// If the expected value is infinity then the delta value is ignored.
+
+		/// <summary>
+		/// Verifies that two doubles are equal considering a delta. If the
+		/// expected value is infinity then the delta value is ignored. If 
+		/// they are not equals then an <see cref="AssertionException"/> is
+		/// thrown.
 		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="delta">The maximum acceptable difference between the
+		/// the expected and the actual</param>
+		static public void Equals(double expected, double actual, double delta) 
+		{
+			Assert.Equals(string.Empty, expected, actual, delta);
+		}
+
+		/// <summary>
+		/// Verifies that two floats are equal considering a delta. If the
+		/// expected value is infinity then the delta value is ignored. If 
+		/// they are not equals then an <see cref="AssertionException"/> is
+		/// thrown.
+		/// </summary>
+		/// <param name="message">The message printed out upon failure</param>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="delta">The maximum acceptable difference between the
+		/// the expected and the actual</param>
 		static public void Equals(string message, float expected, 
 			float actual, float delta) 
 		{
@@ -158,11 +144,62 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
+		/// Verifies that two floats are equal considering a delta. If the
+		/// expected value is infinity then the delta value is ignored. If 
+		/// they are not equals then an <see cref="AssertionException"/> is
+		/// thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="delta">The maximum acceptable difference between the
+		/// the expected and the actual</param>
+		static public void Equals(float expected, float actual, float delta) 
+		{
+			Assert.Equals(string.Empty, expected, actual, delta);
+		}
+		
+		/// <summary>
+		/// Verifies that two objects are equal.  Two objects are considered
+		/// equal if both are null, or if both have the same value.  All
+		/// non-numeric types are compared by using the <c>Equals</c> method.
+		/// If they are not equal an <see cref="AssertionFailedError"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The value that is expected</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message to display if objects are not equal</param>
+		static public void Equals(string message, Object expected, Object actual)
+		{
+			if (expected == null && actual == null) return;
+
+			if (expected != null && actual != null)
+			{
+				if(ObjectsEqual( expected, actual ))
+				{
+					return;
+				}
+			}
+			Assert.FailNotEquals(message, expected, actual);
+		}
+
+		/// <summary>
+		/// Verifies that two objects are equal.  Two objects are considered
+		/// equal if both are null, or if both have the same value.  All
+		/// non-numeric types are compared by using the <c>Equals</c> method.
+		/// If they are not equal an <see cref="AssertionFailedError"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The value that is expected</param>
+		/// <param name="actual">The actual value</param>
+		static new public void Equals(Object expected, Object actual) 
+		{
+			Assert.Equals(string.Empty, expected, actual);
+		}
+				
+		/// <summary>
 		/// Checks the type of the object, returning true if
 		/// the object is a numeric type.
 		/// </summary>
-		/// <param name="obj"></param>
-		/// <returns></returns>
+		/// <param name="obj">The object to check</param>
+		/// <returns>true if the object is a numeric type</returns>
 		static private bool IsNumericType( Object obj )
 		{
 			if( null != obj )
@@ -220,80 +257,85 @@ namespace NUnit.Framework
 			}
 			return expected.Equals(actual);
 		}
+    
+		/// <summary>
+		/// Verifies that the object that is passed in is not equal to <code>null</code>
+		/// If the object is not <code>null</code> then an <see cref="AssertionException"/>
+		/// is thrown.
+		/// </summary>
+		/// <param name="message">The message to be printed when the object is null</param>
+		/// <param name="anObject">The object that is to be tested</param>
+		static public void NotNull(string message, Object anObject) 
+		{
+			Assert.True(message, anObject != null); 
+		}
 
 		/// <summary>
-		/// Asserts that two objects are equal.  Two objects are considered
-		/// equal if both are null, or if both have the same value.  Numeric
-		/// types are compared via string comparision on their contents to
-		/// avoid problems comparing values between different types.  All
-		/// non-numeric types are compared by using the <c>Equals</c> method.
-		/// If they are not equal an <see cref="AssertionFailedError"/> is thrown.
+		/// Verifies that the object that is passed in is not equal to <code>null</code>
+		/// If the object is not <code>null</code> then an <see cref="AssertionException"/>
+		/// is thrown.
 		/// </summary>
-		static public void Equals(string message, Object expected, Object actual)
-		{
-			if (expected == null && actual == null)
-			{
-				return;
-			}
-			if (expected != null && actual != null )
-			{
-				if( ObjectsEqual( expected, actual ) )
-				{
-					return;
-				}
-			}
-			Assert.FailNotEquals(message, expected, actual);
-		}
-    
-		/// <summary>Asserts that an object isn't null.</summary>
+		/// <param name="anObject">The object that is to be tested</param>
 		static public void NotNull(Object anObject) 
 		{
 			Assert.NotNull(string.Empty, anObject);
 		}
     
-		/// <summary>Asserts that an object isn't null.</summary>
-		static public void NotNull(string message, Object anObject) 
+		    
+		/// <summary>
+		/// Verifies that the object that is passed in is equal to <code>null</code>
+		/// If the object is <code>null</code> then an <see cref="AssertionException"/>
+		/// is thrown.
+		/// </summary>
+		/// <param name="message">The message to be printed when the object is not null</param>
+		/// <param name="anObject">The object that is to be tested</param>
+		static public void Null(string message, Object anObject) 
 		{
-			Assert.True(message, anObject != null); 
+			Assert.True(message, anObject == null); 
 		}
-    
-		/// <summary>Asserts that an object is null.</summary>
+
+		/// <summary>
+		/// Verifies that the object that is passed in is equal to <code>null</code>
+		/// If the object is <code>null</code> then an <see cref="AssertionException"/>
+		/// is thrown.
+		/// </summary>
+		/// <param name="anObject">The object that is to be tested</param>
 		static public void Null(Object anObject) 
 		{
 			Assert.Null(string.Empty, anObject);
 		}
     
-		/// <summary>Asserts that an object is null.</summary>
-		static public void Null(string message, Object anObject) 
-		{
-			Assert.True(message, anObject == null); 
-		}
     
-		/// <summary>Asserts that two objects refer to the same object. If they
-		/// are not the same an <see cref="AssertionFailedError"/> is thrown.
+		/// <summary>
+		/// Asserts that two objects refer to the same object. If they
+		/// are not the same an <see cref="AssertionException"/> is thrown.
 		/// </summary>
+		/// <param name="message">The message to be printed when the two objects are not the same object.</param>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		static public void Same(string message, Object expected, Object actual)
+		{
+			if (object.ReferenceEquals(expected, actual))
+				return;
+			Assert.FailNotSame(message, expected, actual);
+		}
+
+		/// <summary>
+		/// Asserts that two objects refer to the same object. If they
+		/// are not the same an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
 		static public void Same(Object expected, Object actual) 
 		{
 			Assert.Same(string.Empty, expected, actual);
 		}
-    
-		/// <summary>Asserts that two objects refer to the same object. 
-		/// If they are not an <see cref="AssertionFailedError"/> is thrown.
+   
+		/// <summary>
+		/// Throws an <see cref="AssertionException"/> with the message that is 
+		/// passed in. This is used by the other Assert functions. 
 		/// </summary>
-		static public void Same(string message, Object expected, Object actual)
-		{
-			if (expected == actual)
-				return;
-			Assert.FailNotSame(message, expected, actual);
-		}
-    
-		/// <summary>Fails a test with no message.</summary>
-		static public void Fail() 
-		{
-			Assert.Fail(string.Empty);
-		}
-    
-		/// <summary>Fails a test with the given message.</summary>
+		/// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
 		static public void Fail(string message) 
 		{
 			if (message == null)
@@ -302,12 +344,21 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// Called when two objects have been compared and found to be
-		/// different.
+		/// Throws an <see cref="AssertionException"/> with the message that is 
+		/// passed in. This is used by the other Assert functions. 
 		/// </summary>
-		/// <param name="message"></param>
-		/// <param name="expected"></param>
-		/// <param name="actual"></param>
+		static public void Fail() 
+		{
+			Assert.Fail(string.Empty);
+		}
+    
+		/// <summary>
+		/// This method is called when two objects have been compared and found to be
+		/// different. This prints a nice message to the screen. 
+		/// </summary>
+		/// <param name="message">The message that is to be printed prior to the comparison failure</param>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
 		static private void FailNotEquals(string message, Object expected, Object actual) 
 		{
 			Assert.Fail( 
@@ -317,6 +368,12 @@ namespace NUnit.Framework
 				actual) );
 		}
     
+		/// <summary>
+		///  This method is called when the two objects are not the same. 
+		/// </summary>
+		/// <param name="message">The message to be printed on the screen</param>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
 		static private void FailNotSame(string message, Object expected, Object actual) 
 		{
 			string formatted=string.Empty;

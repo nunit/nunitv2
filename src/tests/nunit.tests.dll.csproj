@@ -147,17 +147,17 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AssertionTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ConsoleFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "ConsoleRunnerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "EqualsFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -173,6 +173,16 @@
                 />
                 <File
                     RelPath = "ExpectExceptionTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FailFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FalseFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -228,6 +238,16 @@
                 />
                 <File
                     RelPath = "NoTestCases.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NotNullFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NullFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -297,6 +317,11 @@
                 />
                 <File
                     RelPath = "RepeatedTestTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SameFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -412,6 +437,11 @@
                 />
                 <File
                     RelPath = "ThreadingTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TrueFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

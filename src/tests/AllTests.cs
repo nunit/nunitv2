@@ -43,7 +43,6 @@ namespace NUnit.Tests
 				TestSuite suite = new TestSuite("All Tests");
 				suite.Add(new OneTestCase());
 				suite.Add(new Assemblies.AssemblyTests());
-				suite.Add(new AssertionTest());
 				suite.Add(new NoNamespaceTestFixture());
 				return suite;
 			}
