@@ -44,12 +44,8 @@ namespace NUnit.Core.Tests
 		public void ILogicalThreadAffinativeTestConsole()
 		{	
 			CallContext.SetData( CONTEXT_DATA, new EmptyCallContextData() );
-
-			// NOTE: Fill the console output buffer and cause it to flush.
-			for(int count = 0 ; count < 20 ; count++) 
-			{
-				Console.WriteLine("============================== ILogicalThreadAffinativeTest ================================");
-			}
+			Console.WriteLine("ILogicalThreadAffinativeTest");
+			Console.Out.Flush();
 		}
 
 		[Test]
