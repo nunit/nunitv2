@@ -168,7 +168,7 @@ namespace NUnit.Core
 				Type testType = assembly.GetType(testName);
 				if( testType != null )
 					return BuildSingleFixture( testType );
-
+			
 				// Assume that testName is a namespace
 				string prefix = testName + '.';
 				int testFixtureCount = 0;
@@ -180,13 +180,10 @@ namespace NUnit.Core
 					{
 						if( CanBuildFrom( type ) && type.Namespace != null )
 						{
-							if( type.Namespace == testName || type.Namespace.StartsWith(prefix) )
-							{
-								suite = BuildFromNameSpace( type.Namespace, 0);
-						
-								suite.Add( BuildFrom( type, 0 ) );
-								testFixtureCount++;
-							}
+							suite = BuildFromNameSpace( type.Namespace, 0);
+					
+							suite.Add( BuildFrom( type, 0 ) );
+							testFixtureCount++;
 						}
 					}
 				}
@@ -351,6 +348,13 @@ namespace NUnit.Core
 				new AssemblyTestSuite( assemblyName, assemblyKey );
 			int testFixtureCount = 0;
 
+//			IList fixtures = GetFixtures( assembly, assemblyKey );
+//			foreach( Test test in fixtures )
+//			{
+//				TestSuite suite = BuildFromNameSpace( test.FullName, assemblyKey );
+//				suite.Add( test );
+//			}
+
 			if ( testFramework != null )
 			{
 				IList testTypes = testFramework.GetCandidateFixtureTypes( assembly );
@@ -375,6 +379,22 @@ namespace NUnit.Core
 
 			return builder.rootSuite;
 		}
+
+		private IList GetFixtures( Assembly assembly, int assemblyKey )
+		{
+			ArrayList fixtures = new ArrayList();
+			if ( testFramework != null )
+			{
+				IList testTypes = testFramework.GetCandidateFixtureTypes( assembly );
+				foreach(Type testType in testTypes)
+				{
+					if( CanBuildFrom( testType ) )
+						fixtures.Add( BuildFrom( testType, assemblyKey ) );
+				}
+			}
+			return fixtures;
+		}
+
 		private TestSuite BuildSingleFixture( Type testType )
 		{
 			// The only place we currently allow legacy suites
