@@ -54,6 +54,18 @@ namespace NUnit.Core
 			ShouldRun = true;
 		}
 
+		public void Sort()
+		{
+			this.Tests.Sort();
+
+			foreach( Test test in Tests )
+			{
+				TestSuite suite = test as TestSuite;
+				if ( suite != null )
+					suite.Sort();
+			}		
+		}
+
 		public TestSuite( string parentSuiteName, string name ) 
 			: this( parentSuiteName, name, 0 ) { }
 
