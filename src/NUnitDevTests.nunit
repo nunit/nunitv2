@@ -6,6 +6,7 @@
     <assembly path="ConsoleRunner\tests\bin\Debug\nunit-console.tests.dll" />
     <assembly path="ClientUtilities\tests\bin\Debug\nunit.util.tests.dll" />
     <assembly path="NUnitFramework\tests\bin\Debug\nunit.framework.tests.dll" />
+    <assembly path="GuiRunner\tests\bin\Debug\nunit-gui.tests.dll" />
   </Config>
   <Config name="Release" binpathtype="Auto">
     <assembly path="NUnitMocks\tests\bin\Release\nunit.mocks.tests.dll" />
@@ -13,6 +14,7 @@
     <assembly path="ConsoleRunner\tests\bin\Release\nunit-console.tests.dll" />
     <assembly path="ClientUtilities\tests\bin\Release\nunit.util.tests.dll" />
     <assembly path="NUnitFramework\tests\bin\Release\nunit.framework.tests.dll" />
+    <assembly path="GuiRunner\tests\bin\Release\nunit-gui.tests.dll" />
   </Config>
   <Config name="Package" binpathtype="Auto">
     <assembly path="install\bin\nunit.mocks.tests.dll" />
@@ -20,6 +22,7 @@
     <assembly path="install\bin\nunit-console.tests.dll" />
     <assembly path="install\bin\nunit.util.tests.dll" />
     <assembly path="install\bin\nunit.framework.tests.dll" />
+    <assembly path="install\bin\nunit-gui.tests.dll" />
   </Config>
   <Config name="Deployed" binpathtype="Auto">
     <assembly path="nunit.mocks.tests.dll" />
@@ -27,5 +30,6 @@
     <assembly path="nunit-console.tests.dll" />
     <assembly path="nunit.util.tests.dll" />
     <assembly path="nunit.framework.tests.dll" />
+    <assembly path="nunit-gui.tests.dll" />
   </Config>
 </NUnitProject>
