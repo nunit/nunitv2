@@ -33,7 +33,6 @@ using System.Xml;
 using System.Xml.Schema;
 using System.IO;
 using System.Threading;
-using NUnit.Framework;
 using NUnit.Core;
 
 namespace NUnit.Util
