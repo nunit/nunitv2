@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <project name="NUnit" default="build" basedir=".">
-
-
 <!--
     This build file will build NUnit for any of the supported
     runtimes which are actually installed.
@@ -40,78 +38,115 @@
 
 <!-- Global settings and defaults -->
     <property name="project.build.dir" value="${nant.project.basedir}\build"/>
+    <property name="project.package.dir" value="${nant.project.basedir}\package"/>
 
-<!-- Flag available frameworks -->
+<!-- List supported frameworks and flag which ones are available -->
+    <property name="frameworks" value="net-1.0,net-1.1,mono-1.0"/>
     <available type="Framework" resource="net-1.0" property="framework.available.net-1.0" />
     <available type="Framework" resource="net-1.1" property="framework.available.net-1.1" />
     <available type="Framework" resource="mono-1.0" property="framework.available.mono-1.0" />
-
     
 <!-- Set up default build and runtime configuration -->
     <property name="build.config" value="debug"/>
+    <property name="build.clean" value="false"/>
     <property name="runtime.config" value="net"/>
     <property name="runtime.version" value="1.1"/>
-	
-<!-- Initialize build options -->
-    <property name="build.clean" value="false"/>
+    
+<!-- Remove comments around vs.net.? properties and edit the values in order to enable
+        tasks requiring Visual Studio .NET for each runtime config -->
+    <property name="vs.2002.path" value="E:/Program Files/Microsoft Visual Studio .NET/Common7/IDE" />
+    <property name="vs.2003.path" value="Q:/Microsoft Visual Studio .NET 2003/Common7/IDE" />
 
+<!-- Set up version for packaging (temporary) -->
+    <property name="package.version" value="2.2.0"/>
+	
 <!-- Command-line build configurations -->
-    <target name="debug" description="Perform a 'debug' build">
+    <target name="debug" description="Set config to debug">
         <call target="set-debug-build-config" />
     </target>
 
-    <target name="release" description="Perform a 'release' build">
+    <target name="release" description="Set config to release">
         <call target="set-release-build-config" />
     </target>
 
-<!-- Command-line runtime configurations -->
-    <target name="net" description="Build for .NET 1.0 and 1.1">
-        <call target="set-net-1.1-runtime-config"/>
-    </target>
-    
-    <target name="net-1.0" description="Build for .NET 1.0">
-        <call target="set-net-1.0-runtime-config"/>
-    </target>
-    
-    <target name="net-1.1" description="Build for .NET 1.1">
-        <call target="set-net-1.1-runtime-config"/>
-    </target>
-    
-    <target name="mono" description="Build for Mono">
-        <call target="set-mono-1.0-runtime-config"/>
-    </target>
-
-    <target name="mono-1.0" description="Build for Mono">
-        <call target="set-mono-1.0-runtime-config"/>
-    </target>
-    
-<!-- Command-line targets to modify builds -->
-    <target name="clean" description="Set flag to do clean builds">
+    <target name="clean" description="Set flag to perform clean builds">
         <property name="build.clean" value="true"/>
     </target>
 
-    <target name="noclean" description="Set flag to not do clean builds">
-        <property name="build.clean" value="false"/>
+<!-- Command-line runtime configurations -->
+    <target name="net" description="Set runtime to .NET 1.1">
+        <call target="set-net-1.1-runtime-config"/>
+    </target>
+    
+    <target name="net-1.0" description="Set runtime to .NET 1.0">
+        <call target="set-net-1.0-runtime-config"/>
     </target>
 
-<!-- Targets that clean directories -->
+    <target name="net-1.1" description="Set runtime to .NET 1.1">
+        <call target="set-net-1.1-runtime-config"/>
+    </target>
+      
+    <target name="mono" description="Set runtime to Mono">
+        <call target="set-mono-1.0-runtime-config"/>
+    </target>
+
+    <target name="mono-1.0" description="Set runtime to Mono">
+        <call target="set-mono-1.0-runtime-config"/>
+    </target>
+
+<!-- Clean directories -->
+    <target name="clean-build-dir" depends="set-build-dir">
+        <available type="Directory" resource="${build.dir}" property="build.dir.exists" />
+        <if propertytrue="build.dir.exists">
+            <delete dir="${build.dir}" failonerror="false"/>
+        </if>
+    </target>
+
+    <target name="clean-package-dir" depends="set-package-config">
+        <available type="Directory" resource="${package.dir}" property="package.dir.exists" />
+        <if propertytrue="package.dir.exists">
+            <delete dir="${package.dir}" failonerror="false"/>
+        </if>
+    </target>
+
+<!-- Targets that operate on all configs and runtimes -->
     <target name="clean-all" description="Erase all build directories">
         <delete dir="${project.build.dir}" failonerror="false"/>
     </target>
 
-<!-- Targets that perform builds -->    
     <target name="build-all" 
-      description="Build all versions in both debug and release">
-        <echo message="Building all build configurations for all runtime configurations." />
+      description="Build all runtime versions in both debug and release">
         <call target="set-debug-build-config"/>
-        <call target="build-config"/>
+        <call target="build-each"/>
         <call target="set-release-build-config"/>
-        <call target="build-config"/>
+        <call target="build-each"/>
     </target>
 
-    <target name="build-runtime" 
-      description="Build debug and release for a runtime version">
-        <echo message="Compiling all build configurations for the ${runtime.config}-${runtime.version} runtime configuration." />
+    <target name="test-all" 
+      description="Test all versions in both debug and release">
+        <call target="set-debug-build-config"/>
+        <call target="test-each"/>
+        <call target="set-release-build-config"/>
+        <call target="test-each"/>
+    </target>
+
+<!-- Create standard packages for distribution - Note that this
+        target has different semantics from the other -all targets -->
+    <target name="package-all"
+      description="Create all the packages we normally distribute.">
+        <call target="package-src"/>
+         
+        <call target="set-release-build-config"/>
+        <call target="package-each-zip"/>
+
+        <call target="set-net-1.1-runtime-config"/>
+        <call target="set-release-build-config"/>
+        <call target="package-msi"/>
+    </target>
+
+<!-- Targets that operate on both debug and release -->
+    <target name="build-all-configs"
+      description="Build selected runtime version in both debug and release">
         <call target="set-debug-build-config"/>
         <call target="set-runtime-config"/>
         <call target="build"/>
@@ -120,370 +155,8 @@
         <call target="build"/>     
     </target>
 
-    <target name="build-config"
-      description="Build all supported versions in one config">
-        <echo message="Compiling all runtime configurations for the ${build.config} build configuration." />
-        <if propertytrue="framework.available.net-1.0">
-            <call target="set-net-1.0-runtime-config"/>
-            <call target="build" />
-        </if>
-        <if propertytrue="framework.available.net-1.1">
-            <call target="set-net-1.1-runtime-config" />
-            <call target="build" />
-        </if>
-        <if propertytrue="framework.available.mono-1.0">
-            <call target="set-mono-1.0-runtime-config" />
-            <call target="build" />
-        </if>
-    </target>
-	
-    <target name="build" description="Build all NUnit assemblies">
-        <call target="build-${runtime.config}-${runtime.version}"/>
-    </target>
-
-<!-- Each runtime may require a different set of assemblies -->
-    <target name="build-net-1.0"
-      depends="framework,core,extensions,util,nunit-console,uikit,nunit-gui,tests">
-    </target>
-
-    <target name="build-net-1.1"
-      depends="framework,core,extensions,util,nunit-console,uikit,nunit-gui,tests">
-    </target>
-
-    <target name="build-mono-1.0" 
-      depends="framework,core,extensions,util,nunit-console,tests">
-    </target>
-
-<!-- Targets that build single assemblies -->
-    <target name="framework" depends="build-init" description ="Build nunit.framework.dll">
-        <csc target="library" output="${build.dir}\nunit.framework.dll"
-                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="framework">
-                <includes name="**/*.cs"/>
-            </sources>
-        </csc>
-    </target>
-
-    <target name="core" depends="framework" description ="Build nunit.core.dll">
-        <csc target="library" output="${build.dir}\nunit.core.dll"
-                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="core">
-                <includes name="**/*.cs"/>
-            </sources>
-            <resources basedir="core" prefix="NUnit.Core">
-                <includes name="Transform.resx"/>
-            </resources>
-            <references>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-            </references>
-        </csc>
-        <copy file="core\Results.xsd" todir="${build.dir}"/>
-    </target>
-
-    <target name="extensions" depends="core" description ="Build nunit.extensions.dll">
-        <csc target="library" output="${build.dir}\nunit.extensions.dll"
-                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="extensions">
-                <includes name="**/*.cs"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.core.dll"/>
-            </references>
-        </csc>
-    </target>
-
-    <target name="util" depends="core" description ="Build nunit.util.dll">
-        <call target="util-${runtime.config}"/>
-    </target>
-
-    <target name="util-net">
-        <csc target="library" output="${build.dir}\nunit.util.dll"
-                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="util">
-                <includes name="**/*.cs"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.core.dll"/>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-            </references>
-        </csc>
-    </target>
-
-    <target name="util-mono">
-        <csc target="library" output="${build.dir}\nunit.util.dll"
-                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="util">
-                <includes name="**/*.cs"/>
-                <excludes name="FormSettings.cs"/>
-                <excludes name="UserSettings.cs"/>
-                <excludes name="NUnitRegistry.cs"/>
-                <excludes name="NUnitGuiSettings.cs"/>
-                <excludes name="OptionSettings.cs"/>
-                <excludes name="RegistrySettingsStorage.cs"/>
-                <excludes name="RecentFileSettings.cs"/>
-                <excludes name="RecentProjectSettings.cs"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.core.dll"/>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-            </references>
-        </csc>
-    </target>
-
-    <target name="nunit-console" depends="core,util" description ="Build nunit-console.exe">
-       <csc target="exe" output="${build.dir}\nunit-console.exe"
-                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="nunit-console">
-                <includes name="*.cs"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.core.dll"/>
-                <includes name="${build.dir}/nunit.util.dll"/>
-            </references>
-        </csc>
-        <copy file="nunit-console\nunit-console.exe.config" todir="${build.dir}"/>
-    </target>
-
-    <target name="uikit" depends="core,util" description ="Build nunit.uikit.dll">
-        <csc target="library" output="${build.dir}\nunit.uikit.dll"
-                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="uikit">
-                <includes name="*.cs"/>
-            </sources>
-            <resources basedir="uikit" prefix="NUnit.UiKit">
-                <includes name="Ellipsis.gif"/>
-                <includes name="Gray.jpg"/>
-                <includes name="Green.jpg"/>
-                <includes name="pinned.gif"/>
-                <includes name="Red.jpg"/>
-                <includes name="unpinned.gif"/>
-                <includes name="Yellow.jpg"/>
-                <includes name="*.resx"/>
-            </resources>
-            <references>
-                <includes name="${build.dir}/nunit.core.dll"/>
-                <includes name="${build.dir}/nunit.util.dll"/>
-            </references>
-        </csc>
-    </target>
-
-    <target name="nunit-gui" depends="core,util,uikit" description ="Build nunit-gui.exe">
-        <csc target="winexe" output="${build.dir}\nunit-gui.exe" 
-                win32icon="nunit-gui\Logo.ico" debug="${build.debug}"
-                define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="nunit-gui">
-                <includes name="**/*.cs"/>
-            </sources>
-            <resources basedir="nunit-gui">
-                <includes name="*.resx"/>
-            </resources>
-            <references>
-                <includes name="${build.dir}/nunit.util.dll"/>
-                <includes name="${build.dir}/nunit.uikit.dll"/>
-                <includes name="${build.dir}/nunit.core.dll"/>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-            </references>
-        </csc>
-        <copy file="nunit-gui\nunit-gui.exe.config" todir="${build.dir}"/>
-    </target>
-    
-    <target name="tests" description="Build test assemblies">
-        <call target="build-${runtime.config}-${runtime.version}-tests"/>
-    </target>
-
-    <target name="build-net-1.0-tests"
-depends="framework,core,util,extensions,nunit-console,uikit,mock-assembly,nonamespace-assembly,notestfixtures-assembly">
-        <csc target="library" output="${build.dir}\nunit.tests.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc},NANTBUILD">
-            <sources basedir="tests">
-                <includes name="*.cs"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.uikit.dll"/>
-                <includes name="${build.dir}/nunit.util.dll"/>
-                <includes name="${build.dir}/nunit.extensions.dll"/>
-                <includes name="${build.dir}/nunit.core.dll"/>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-                <includes name="${build.dir}/mock-assembly.dll"/>
-                <includes name="${build.dir}/nonamespace-assembly.dll"/>
-                <includes name="${build.dir}/notestfixtures-assembly.dll"/>
-            </references>
-        </csc>
-        <copy file="tests\nunit.tests.dll.config" todir="${build.dir}"/>
-    </target>
-
-    <target name="build-net-1.1-tests"          depends="framework,core,util,extensions,nunit-console,uikit,mock-assembly,nonamespace-assembly,notestfixtures-assembly">
-        <csc target="library" output="${build.dir}\nunit.tests.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc},NANTBUILD">
-            <sources basedir="tests">
-                <includes name="*.cs"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.uikit.dll"/>
-                <includes name="${build.dir}/nunit.util.dll"/>
-                <includes name="${build.dir}/nunit.extensions.dll"/>
-                <includes name="${build.dir}/nunit.core.dll"/>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-                <includes name="${build.dir}/mock-assembly.dll"/>
-                <includes name="${build.dir}/nonamespace-assembly.dll"/>
-                <includes name="${build.dir}/notestfixtures-assembly.dll"/>
-            </references>
-        </csc>
-        <copy file="tests\nunit.tests.dll.config" todir="${build.dir}"/>
-    </target>
-
-    <target name="build-mono-1.0-tests"
-depends="framework,core,util,extensions,nunit-console,mock-assembly,nonamespace-assembly,notestfixtures-assembly">
-        <csc target="library" output="${build.dir}\nunit.tests.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc},NANTBUILD">
-            <sources basedir="tests">
-                <includes name="*.cs"/>
-                <excludes name="AddConfigurationDialogTests.cs"/>
-	        <excludes name="ProgressBarTests.cs"/>
-		<excludes name="RecentFileMenuHandlerTests.cs"/>
-		<excludes name="StatusBarTests.cs"/>
-		<excludes name="TestSuiteTreeNodeTests.cs"/>
-		<excludes name="TestSuiteTreeViewFixture.cs"/>
-                <excludes name="FormSettingsTests.cs"/>
-		<excludes name="TextBoxWriterTests.cs"/>
-                <excludes name="UserSettingsTests.cs"/>
-                <excludes name="NUnitRegistryTests.cs"/>
-                <excludes name="OptionSettingsTests.cs"/>
-                <excludes name="RegistrySettingsStorageTests.cs"/>
-                <excludes name="RecentProjectsFixture.cs"/>
-                <excludes name="SettingsGroupTests.cs"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.util.dll"/>
-                <includes name="${build.dir}/nunit.extensions.dll"/>
-                <includes name="${build.dir}/nunit.core.dll"/>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-                <includes name="${build.dir}/mock-assembly.dll"/>
-                <includes name="${build.dir}/nonamespace-assembly.dll"/>
-                <includes name="${build.dir}/notestfixtures-assembly.dll"/>
-            </references>
-        </csc>
-        <copy file="tests\nunit.tests.dll.config" todir="${build.dir}"/>
-    </target>
-
-    <target name="mock-assembly" depends="framework">
-        <csc target="library" output="${build.dir}\mock-assembly.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="tests\mock-assembly">
-                <includes name="*.cs"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-            </references>
-        </csc>
-    </target>
-	
-    <target name="nonamespace-assembly" depends="framework">	
-        <csc target="library" output="${build.dir}\nonamespace-assembly.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="tests\nonamespace-assembly">
-                <includes name="*.cs"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-            </references>
-        </csc>
-    </target>
-
-    <target name="notestfixtures-assembly">
-        <csc target="library" output="${build.dir}\notestfixtures-assembly.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="tests\notestfixtures-assembly">
-                <includes name="*.cs"/>
-            </sources>
-        </csc>
-    </target>
-
-    <target name="samples" description ="Build samples">
-	<call target="build-${runtime.config}-${runtime.version}-samples"/>
-    </target>
-
-    <target name="build-net-1.0-samples" depends="framework,cpp-sample,csharp-sample,vb-sample,money-sample,moneyport-sample,jsharp-sample"/>
-
-    <target name="build-net-1.1-samples" depends="framework,cpp-sample,csharp-sample,vb-sample,money-sample,moneyport-sample,jsharp-sample"/>
-
-    <target name="build-mono-1.0-samples" depends="csharp-sample,money-sample,moneyport-sample"/>
-
-    <target name="cpp-sample" depends="framework">
-        <cl outputdir="${build.dir}" options="/clr /AI ${build.dir}">
-            <sources basedir="samples\cpp-sample">
-                <includes name="*.cpp"/>
-            </sources>
-        </cl>
-        <link output="${build.dir}\cpp-sample.dll" options="/DLL">
-            <sources basedir="${build.dir}">
-                <includes name="*.obj"/>
-            </sources>
-        </link>
-    </target>
-
-    <target name="csharp-sample" depends="framework">
-        <csc target="library" output="${build.dir}\csharp-sample.dll" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="samples\csharp">
-                <includes name="*.cs"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-            </references>
-        </csc>
-    </target>
-
-    <target name="vb-sample" depends="framework">
-        <vbc target="library" output="${build.dir}\vb-sample.dll" imports="Microsoft.VisualBasic,System,System.Collections" optionexplicit="true" rootnamespace="vb_sample">
-            <sources basedir="samples\vb">
-                <includes name="*.vb"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-            </references>
-        </vbc>
-    </target>
-
-    <target name="money-sample" depends="framework">		
-        <csc target="library" output="${build.dir}\money-sample.dll" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="samples\money">
-                <includes name="*.cs"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-            </references>
-        </csc>
-    </target>
-
-    <target name="moneyport-sample" depends="framework">
-        <csc target="library" output="${build.dir}\moneyport-sample.dll" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="samples\money-port">
-                <includes name="*.cs"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-            </references>
-        </csc>		
-    </target>
-
-    <target name="jsharp-sample" depends="framework">
-        <vjc target="library" output="${build.dir}\jsharp.dll">
-            <sources basedir="samples\jsharp">
-                <includes name="*.jsl"/>
-            </sources>
-            <references>
-                <includes name="${build.dir}/nunit.framework.dll"/>
-            </references>
-        </vjc>
-    </target>
-
-<!-- Targets for running tests -->
-    <target name="test-all" 
-      description="Test all versions in both debug and release">
-        <echo message="Testing all build configurations for all runtime configurations." />
-        <call target="set-debug-build-config"/>
-        <call target="test-config"/>
-        <call target="set-release-build-config"/>
-        <call target="test-config"/>
-    </target>
-
-    <target name="test-runtime" 
-      description="Test debug and release for a runtime version">
-        <echo message="Testing all build configurations for the ${runtime.config}-${runtime.version} runtime configuration." />
+    <target name="test-all-configs" 
+      description="Test debug and release for the selected runtime version">
         <call target="set-debug-build-config"/>
         <call target="set-runtime-config"/>
         <call target="test"/>
@@ -492,32 +165,299 @@ depends="framework,core,util,extensions,nunit-console,mock-assembly,nonamespace-
         <call target="test"/>     
     </target>
 
-    <target name="test-config"
-      description="Test all supported versions in one config">
-        <echo message="Testing all runtime configurations for the ${build.config} build configuration." />
-        <if propertytrue="framework.available.net-1.0">
-            <call target="set-net-1.0-runtime-config"/>
+<!-- Targets that operate on each available runtime -->
+    <target name="build-each"
+      description="Build for each available runtime">
+        <foreach item="String" delim="," property="framework" in="${frameworks}">
+        <if propertytrue="framework.available.${framework}">
+            <call target="set-${framework}-runtime-config"/>
+            <call target="build"/>
+        </if>
+        </foreach>
+    </target>
+	
+    <target name="test-each"
+      description="Test under each available runtime">
+        <foreach item="String" delim="," property="framework" in="${frameworks}">
+        <if propertytrue="framework.available.${framework}">
+            <call target="set-${framework}-runtime-config"/>
             <call target="test" />
         </if>
-        <if propertytrue="framework.available.net-1.1">
-            <call target="set-net-1.1-runtime-config" />
-            <call target="test" />
-        </if>
-        <if propertytrue="framework.available.mono-1.0">
-            <call target="set-mono-1.0-runtime-config" />
-            <call target="test" />
-        </if>
+        </foreach>
     </target>
    
-    <target name="test" depends="tests,nunit-console"
-      description="Run tests for a build using console runner">
-        <exec basedir="${build.dir}" workingdir="${build.dir}" program="nunit-console.exe" commandline="nunit.tests.dll"/>
+    <target name="package-each-zip"
+      description="Create zip package for each available runtime">
+        <foreach item="String" delim="," property="framework" in="${frameworks}">
+        <if propertytrue="framework.available.${framework}">
+            <call target="set-${framework}-runtime-config"/>
+            <call target="package-zip" />
+        </if>
+        </foreach>
+    </target>
+   
+    <target name="package-each-msi"
+      description="Create msi package for each win32 runtime">
+        <foreach item="String" delim="," property="framework" in="${frameworks}">
+        <if propertytrue="framework.available.${framework}">
+            <call target="set-${framework}-runtime-config"/>
+            <if propertytrue="build.win32">
+                <call target="package-msi" />
+            </if>
+        </if>
+        </foreach>
+    </target>
+   
+<!-- Targets that perform builds -->    
+    <target name="build" depends="set-build-dir"
+      description="Build NUnit for a single runtime version and config">
+        <echo message="*"/>
+        <echo message="* Starting ${runtime.config} ${runtime.version} ${build.config} build"/>
+        <echo message="*"/>
+
+        <!-- Clean the build directory if this is a clean build -->
+        <call target="clean-build-dir" if="${build.clean}"/>
+
+        <!-- Create the build directory -->
+        <mkdir dir="${build.dir}/bin"/>
+
+        <!-- Copy key file to the correct relative location -->
+        <copy file="nunit.key" todir="${project.build.dir}"/>
+
+        <!-- Build everything except the samples -->
+        <nant buildfile="framework\nunit.framework.build" target="build"/>
+        <nant buildfile="core\nunit.core.build" target="build"/>
+        <nant buildfile="extensions\nunit.extensions.build" target="build"/>
+        <nant buildfile="util\nunit.util.build" target="build"/>
+        <nant buildfile="nunit-console\nunit-console.build" target="build"/>
+        <nant buildfile="tests\tests.build" target="build"/>
+
+        <!-- Build Win32-only projects -->
+        <if propertytrue="build.win32">
+            <nant buildfile="uikit\nunit.uikit.build" target="build"/>
+            <nant buildfile="nunit-gui\nunit-gui.build" target="build"/>
+        </if>
     </target>
 
-    <target name="gui-test" depends="tests,nunit-gui"
+    <!-- Build sample programs -->
+    <target name="samples" depends="build" description="Build sample programs">
+        <nant buildfile="samples\samples.build" target="build"/>
+    </target>
+
+    <target name="build-msi" depends="set-build-dir,set-package-config"
+      description="Build msi file for installation on Windows systems">
+
+        <ifnot propertytrue="nant.platform.win32">
+            <fail message="MSI can only be built on the Win32 platform"/>
+        </ifnot>
+
+        <ifnot propertytrue="build.win32">
+            <fail message="MSI can only be built on for a Win32 runtime"/>
+        </ifnot>
+
+        <echo message="*"/>
+        <echo message="* Building msi for ${runtime.config} ${runtime.version} ${build.config}"/>
+        <echo message="*"/>
+        
+        <call target="build-${runtime.config}-${runtime.version}-msi"/>
+
+        <echo message="* Build complete - output saved as msi.txt"/>
+    </target>
+    
+    <target name="build-net-1.0-msi">
+        <ifnot propertyexists="vs.2002.path">
+            <fail message="Property vs.2002.path not set"/>
+        </ifnot>
+
+        <exec program="${vs.2002.path}\devenv.exe"
+          commandline="nunit.sln /build ${build.config} /project install /out msi.txt"/>
+    </target>
+    
+    <target name="build-net-1.1-msi">
+        <ifnot propertyexists="vs.2003.path">
+            <fail message="Property vs.2003.path not set"/>
+        </ifnot>
+
+        <exec program="${vs.2003.path}\devenv.exe"
+          commandline="nunit.sln /build ${build.config} /project install /out msi.txt"/>
+    </target>
+
+<!-- Targets for running tests -->
+    <target name="test" depends="build"
+      description="Run tests for a build using console runner">
+        <echo message="*"/>
+        <echo message="* Starting ${runtime.config} ${runtime.version} ${build.config} test run"/>
+        <echo message="*"/>
+
+        <!-- We use exec rather than the nunit2 task because we are testing
+             a new build of NUnit which is likely not to be included in the Nant build -->
+        <exec basedir="${build.dir}/bin" workingdir="${build.dir}/bin" program="nunit-console.exe" commandline="nunit.tests.dll"/>
+    </target>
+
+    <target name="nunit2-test" 
+      description="Run tests for a build using console runner">
+        <echo message="*"/>
+        <echo message="* Starting ${runtime.config} ${runtime.version} ${build.config} test run"/>
+        <echo message="*"/>
+
+        <nunit2>
+            <formatter type="Plain"/>
+            <test assemblyname="${build.dir}/bin/nunit.tests.dll"/>
+        </nunit2>
+    </target>
+
+    <target name="timing-test" depends="build"
+      description="Run timing tests (long)">
+        <echo message="*"/>
+        <echo message="* Starting ${runtime.config} ${runtime.version} ${build.config} timing tests"/>
+        <echo message="*"/>
+        <echo message="* WARNING: Test may take some time to run"/>
+        <echo message="*"/>
+
+        <exec basedir="${build.dir}/bin" workingdir="${build.dir}/bin" program="nunit-console.exe" commandline="timing-tests.dll"/>
+    </target>
+
+    <target name="gui-test" depends="build"
       description="Run tests for a build using gui runner">
-        <exec basedir="${build.dir}" workingdir="${build.dir}" program="nunit-gui.exe" commandline="nunit.tests.dll"/>
-    </target>    
+
+        <ifnot propertytrue="nant.platform.win32">
+            <fail message="NUnit-gui is only available on Win32"/>
+        </ifnot>
+
+        <ifnot propertytrue="build.win32">
+            <fail message="NUnit-gui is only available for Win32"/>
+        </ifnot>
+
+        <echo message="*"/>
+        <echo message="* Starting ${runtime.config} ${runtime.version} ${build.config} gui test run"/>
+        <echo message="*"/>
+
+        <exec basedir="${build.dir}/bin" workingdir="${build.dir}/bin" program="nunit-gui.exe" commandline="nunit.tests.dll"/>
+    </target>
+
+<!-- Targets for packaging the NUnit distribution -->
+    <target name="package-zip" depends="set-package-config" description="Create distribution package">
+
+        <!-- Perform a build -->
+        <call target="build"/>
+
+        <!-- Copy top level files -->
+        <copy file="nunit-gui/logo.ico" tofile="${build.dir}/logo.ico"/>
+        <copy file="license.rtf" tofile="${build.dir}/license.rtf"/>
+
+        <!-- Copy source files that build doesn't copy -->
+        <copy todir="${build.dir}/src">
+            <fileset basedir=".">
+                <includes name="license.rtf"/>
+                <includes name="nunit.build"/>
+                <includes name="nunit.sln"/>
+                <includes name="nunit.key"/>
+                <includes name="nunit20under21.config"/>
+                <includes name="install/install.vdproj"/>
+            </fileset>
+        </copy>
+
+        <!-- Samples are not built, so let them copy themselves -->
+        <nant buildfile="samples/samples.build" target="copy-all"/>
+
+        <!-- Copy docs -->
+        <call target="copy-docs"/>
+
+        <!-- Re-copy everything to our package dir - this is so
+            we get a single top level directory called NUNit-x.x.x -->
+        <call target="clean-package-dir"/>
+        <mkdir dir="${package.dir}"/>
+        <copy todir="${package.dir}">
+            <fileset basedir="${build.dir}">
+                <includes name="**"/>
+            </fileset>
+        </copy>
+
+        <!-- Create the zip file -->
+        <zip zipfile="${project.package.dir}/${package.file.name}.zip" ziplevel="9">
+            <fileset basedir="${project.package.dir}">
+                <includes name="${package.name}/**"/>
+            </fileset>
+        </zip>
+    </target>
+
+    <target name="package-src" depends="clean-package-dir"
+      description="Create full source package for developer use">
+
+        <!-- Get source files into the package dir directly -->
+        <property name="src.dir" value="${package.dir}"/>
+        <mkdir dir="${src.dir}"/>
+        <call target="copy-src"/>
+
+        <!-- Get docs into the doc subdirectory of the package dir -->
+        <property name="doc.dir" value="${package.dir}/doc"/>
+        <call target="copy-docs"/>
+
+        <!-- Create the zip file -->
+        <zip zipfile="${project.package.dir}/${package.name}.src.zip" ziplevel="9">
+            <fileset basedir="${project.package.dir}">
+                <includes name="${package.name}/**"/>
+            </fileset>
+        </zip>
+    </target>
+   
+    <target name="package-msi" depends="build-msi,set-package-config"
+      description="Build msi file and deploy it to the package dir">
+        <copy file="install\${build.config}\nunit-V2.1.msi" tofile="${project.package.dir}/${package.file.name}.msi"/>        
+    </target>
+
+    <target name="copy-docs">
+        <mkdir dir="${doc.dir}"/>
+        <copy todir="${doc.dir}">
+            <fileset basedir="doc">
+                <includes name="ReadMe.pdf"/>
+                <includes name="QuickStart.doc"/>
+                <includes name="QuickStart.Spanish.doc"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="copy-src">
+        <mkdir dir="${src.dir}"/>
+
+        <!-- Copy top level src files and install project -->
+        <copy todir="${src.dir}">
+            <fileset basedir=".">
+                <includes name="license.rtf"/>
+                <includes name="nunit.build"/>
+                <includes name="nunit.sln"/>
+                <includes name="nunit.key"/>
+                <includes name="nunit20under21.config"/>
+                <includes name="install/install.vdproj"/>
+            </fileset>
+        </copy>
+
+        <!-- Copy individual projects -->
+        <nant buildfile="framework\nunit.framework.build" target="copy"/>
+        <nant buildfile="core\nunit.core.build" target="copy"/>
+        <nant buildfile="extensions\nunit.extensions.build" target="copy"/>
+        <nant buildfile="util\nunit.util.build" target="copy"/>
+        <nant buildfile="nunit-console\nunit-console.build" target="copy"/>
+        <nant buildfile="tests\tests.build" target="copy-all"/>
+        <nant buildfile="samples\samples.build" target="copy-all"/>
+
+        <!-- Copy win32-only projects -->
+        <if propertytrue="build.win32">
+            <nant buildfile="uikit\nunit.uikit.build" target="copy"/>
+            <nant buildfile="nunit-gui\nunit-gui.build" target="copy"/>
+        </if>
+    </target>
+
+<!-- Register core and framework in the gac -->
+    <target name="add-to-gac" depends="build">
+        <exec program="${nant.settings.currentframework.sdkdirectory}/gacutil.exe"
+            commandline="/i ${build.dir}/bin/nunit.framework.dll"/>
+        <echo message="The assembly nunit.framework was added to the GAC"/>
+
+        <exec program="${nant.settings.currentframework.sdkdirectory}/gacutil.exe"
+            commandline="/i ${build.dir}/bin/nunit.core.dll"/>
+        <echo message="The assembly nunit.core was added to the GAC"/>
+    </target>
 
 <!-- Set up build configuration -->
 
@@ -561,6 +501,7 @@ depends="framework,core,util,extensions,nunit-console,mock-assembly,nonamespace-
         <property name="runtime.config" value="net"/>
         <property name="runtime.version" value="1.0"/>
         <property name="build.mono" value="false"/>
+        <property name="build.win32" value="true"/>
         <property name="nant.settings.currentframework" value="net-1.0"/>
         <property name="runtime.defines.csc" value="NET,NET_1_0"/>
         <property name="runtime.defines.jsc" value="NET,NET_1_0"/>
@@ -573,6 +514,7 @@ depends="framework,core,util,extensions,nunit-console,mock-assembly,nonamespace-
         <property name="runtime.config" value="net"/>
         <property name="runtime.version" value="1.1"/>
         <property name="build.mono" value="false"/>
+        <property name="build.win32" value="true"/>
         <property name="nant.settings.currentframework" value="net-1.1"/>
         <property name="runtime.defines.csc" value="NET,NET_1_1"/>
         <property name="runtime.defines.jsc" value="NET,NET_1_1"/>
@@ -585,6 +527,7 @@ depends="framework,core,util,extensions,nunit-console,mock-assembly,nonamespace-
         <property name="runtime.config" value="mono"/>
         <property name="runtime.version" value="1.0"/>
         <property name="build.mono" value="true"/>
+        <property name="build.win32" value="false"/>
         <property name="nant.settings.currentframework" value="mono-1.0"/>
         <property name="runtime.defines.csc" value="MONO,MONO_1_0"/>
         <property name="runtime.defines.jsc" value="MONO,MONO_1_0"/>
@@ -595,25 +538,43 @@ depends="framework,core,util,extensions,nunit-console,mock-assembly,nonamespace-
 
 <!-- Set up the build directory -->
     <target name="set-build-dir" depends="set-build-config,set-runtime-config">
-        <property name="build.dir" value="${project.build.dir}\${runtime.config}-${runtime.version}\${build.config}"/>	
+        <property name="build.dir" value="${project.build.dir}/${runtime.config}-${runtime.version}/${build.config}"/>
+        <property name="bin.dir" value="${build.dir}/bin"/>
+        <property name="src.dir" value="${build.dir}/src"/>
+        <property name="doc.dir" value="${build.dir}/doc"/>
     </target>
 
-<!-- Create the build directory -->
-    <target name="build-init" depends="set-build-dir">
-        <if propertytrue="build.clean">
-            <delete dir="${build.dir}" failonerror="false"/>
-        </if>
-        <mkdir dir="${build.dir}"/>
+<!-- Setup the package configuration info -->
+    <target name="set-package-config" depends="set-build-config,set-runtime-config">
+        <property name="package.name" value="${nant.project.name}-${package.version}"/>
+        <property name="package.dir" value="${project.package.dir}/${package.name}"/>
+        <property name="package.file.name" value="${package.name}-${runtime.config}-${runtime.version}.dbg" if="${build.debug}"/>
+        <property name="package.file.name" value="${package.name}-${runtime.config}-${runtime.version}" unless="${build.debug}"/>
     </target>
 
 <!-- Dump configuration settings for debugging -->
 
-    <target name="dump-config" depends="set-build-dir">
-        <echo>Build config:   ${build.config}</echo>
-        <echo>Runtime config: ${runtime.config}-${runtime.version}</echo>
-        <echo>Build dir:      ${build.dir}</echo>
-        <echo>Framework dir:  ${nant.settings.currentframework.frameworkdirectory}</echo>
-        <echo>SDK dir:        ${nant.settings.currentframework.sdkdirectory}</echo>
+    <target name="dump-settings" depends="set-build-dir,set-package-config">
+        <echo>Configuration</echo>
+        <echo>  Config:       ${build.config}</echo>
+        <echo>  Runtime:      ${runtime.config}-${runtime.version}</echo>
+        <echo>  Version:      ${package.version}</echo>
+        <echo>  Package name: ${package.name}</echo>
+        <echo></echo>
+        <echo>Project Directories</echo>
+        <echo>  Base:         ${nant.project.basedir}</echo>
+        <echo>  Build:        ${project.build.dir}</echo>
+        <echo>  Package:      ${project.package.dir}</echo>
+        <echo></echo>
+        <echo>Current Directories</echo>
+        <echo>  Build:        ${build.dir}</echo>
+        <echo>  Package:      ${package.dir}</echo>
+        <echo></echo>
+        <echo>System Directories</echo>
+        <echo>  Framework:    ${nant.settings.currentframework.frameworkdirectory}</echo>
+        <echo>  SDK:          ${nant.settings.currentframework.sdkdirectory}</echo>
+        <echo>  VS 2002:      ${vs.2002.path}</echo>
+        <echo>  VS 2003:      ${vs.2003.path}</echo>
     </target>
-	
+
 </project>

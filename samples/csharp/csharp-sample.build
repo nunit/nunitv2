@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="NUnit.Extensions" default="build">
+<project name="Samples" default="build">
 
     <!--
         Required properties:
@@ -11,23 +11,24 @@
     -->
 
     <target name="build" depends="copy">
-        <csc target="library" output="${bin.dir}/nunit.extensions.dll"
-                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir="${src.dir}/extensions">
-                <includes name="**/*.cs"/>
+        <csc target="library" output="${bin.dir}/csharp-sample.dll" 
+          define="${build.defines.csc},${runtime.defines.csc}">
+            <sources basedir="${src.dir}/samples/csharp">
+                <includes name="*.cs"/>
             </sources>
             <references>
-                <includes name="${bin.dir}/nunit.core.dll"/>
+                <includes name="${bin.dir}/nunit.framework.dll"/>
             </references>
         </csc>
     </target>
 
     <target name="copy">
-        <copy todir="${src.dir}/extensions">
+        <copy todir="${src.dir}/samples/csharp">
             <fileset basedir=".">
-                <includes name="nunit.extensions.dll.csproj"/>
-                <includes name="nunit.extensions.build"/>
+                <includes name="csharp-sample.csproj"/>
+                <includes name="csharp-sample.build"/>
                 <includes name="*.cs"/>
+                <includes name="readme.txt"/>
             </fileset>
         </copy>
     </target>

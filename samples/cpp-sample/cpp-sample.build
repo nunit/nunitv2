@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project name="Samples" default="build">
+
+    <!--
+        Required properties:
+            * bin.dir               - bin directory
+            * src.dir               - source location(build) or target(copy)
+            * build.debug           - (true|false) debug build?
+            * build.defines.csc     - build defines for build config
+            * runtime.defines.csc   - build defines for target framework
+    -->
+
+    <target name="build" depends="copy">
+        <!-- Build C++ sample -->
+        <cl outputdir="${bin.dir}" options="/clr /AI ${bin.dir}" failonerror="false">
+            <sources basedir="${src.dir}/samples/cpp-sample">
+                <includes name="*.cpp"/>
+            </sources>
+        </cl>
+        <link output="${bin.dir}/cpp-sample.dll" options="/DLL" failonerror="false">
+            <sources basedir="${bin.dir}">
+                <includes name="*.obj"/>
+            </sources>
+        </link>
+    </target>
+
+    <target name="copy">
+        <copy todir="${src.dir}/samples/cpp-sample">
+            <fileset basedir=".">
+                <includes name="cpp-sample.vcproj"/>
+                <includes name="cpp-sample.build"/>
+                <includes name="*.cpp"/>
+                <includes name="*.h"/>
+                <includes name="readme.txt"/>
+            </fileset>
+        </copy>
+    </target>
+</project>

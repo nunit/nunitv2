@@ -3,19 +3,20 @@
 
     <!--
         Required properties:
-            * build.dir             - build directory
+            * bin.dir               - bin directory
+            * src.dir               - source location(build) or target(copy)
             * build.debug           - (true|false) debug build?
             * build.defines.csc     - build defines for build config
             * runtime.defines.csc   - build defines for target framework
     -->
 
-    <target name="build">
-        <csc target="library" output="${build.dir}/bin/nunit.uikit.dll"
+    <target name="build" depends="copy">
+        <csc target="library" output="${bin.dir}/nunit.uikit.dll"
                 debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
-            <sources basedir=".">
+            <sources basedir="${src.dir}/uikit">
                 <includes name="*.cs"/>
             </sources>
-            <resources basedir="." prefix="NUnit.UiKit">
+            <resources basedir="${src.dir}/uikit" prefix="NUnit.UiKit">
                 <includes name="Ellipsis.gif"/>
                 <includes name="Gray.jpg"/>
                 <includes name="Green.jpg"/>
@@ -25,11 +26,28 @@
                 <includes name="Yellow.jpg"/>
                 <includes name="*.resx"/>
             </resources>
-            <references>
-                <includes name="${build.dir}/bin/nunit.core.dll"/>
-                <includes name="${build.dir}/bin/nunit.util.dll"/>
+            <references basedir="${bin.dir}">
+                <includes name="nunit.core.dll"/>
+                <includes name="nunit.util.dll"/>
             </references>
         </csc>
     </target>
 
+    <target name="copy">
+        <copy todir="${src.dir}/uikit">
+            <fileset basedir=".">
+                <includes name="nunit.uikit.dll.csproj"/>
+                <includes name="nunit.uikit.build"/>
+                <includes name="*.cs"/>
+                <includes name="Ellipsis.gif"/>
+                <includes name="Gray.jpg"/>
+                <includes name="Green.jpg"/>
+                <includes name="pinned.gif"/>
+                <includes name="Red.jpg"/>
+                <includes name="unpinned.gif"/>
+                <includes name="Yellow.jpg"/>
+                <includes name="*.resx"/>
+            </fileset>
+        </copy>
+    </target>
 </project>
