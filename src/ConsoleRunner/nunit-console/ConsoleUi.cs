@@ -275,8 +275,11 @@ namespace NUnit.Console
 		{
 			XPathDocument originalXPathDocument = new XPathDocument(new StringReader(xmlOutput));
 			XslTransform summaryXslTransform = new XslTransform();
+			
+			// Using obsolete form for now, remove warning suppression from project after changing
 			summaryXslTransform.Load(transformReader);
 			
+			// Using obsolete form for now, remove warning suppression from project after changing
 			summaryXslTransform.Transform(originalXPathDocument,null,Console.Out);
 		}
 
