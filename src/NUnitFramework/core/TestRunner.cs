@@ -30,24 +30,6 @@ namespace NUnit.Core
 		#region Properties
 
 		/// <summary>
-		/// The Out property is used to redirect any test output, which is sent to
-		/// Console.Out. It must not be changed while a test is running.
-		/// </summary>
-		TextWriter Out
-		{
-			get; set;
-		}
-
-		/// <summary>
-		/// The Error property is used to redirect any test output, which is sent to
-		/// Console.Error. It must not be changed while a test is running.
-		/// </summary>
-		TextWriter Error
-		{
-			get; set;
-		}
-
-		/// <summary>
 		/// IsTestRunning indicates whether a test is in progress. MayTo retrieve the
 		/// results from an asynchronous test run, wait till IsTestRunning is false.
 		/// </summary>
