@@ -1086,6 +1086,11 @@ namespace NUnit.Gui
 //				tests.Add(testSuiteTreeView.SelectedTest);
 //
 //			TestLoader.RunTests( tests );
+			if ( testTree.tests.SelectedCategories == null )
+				AppUI.TestLoader.SetFilter( null );
+			else
+				AppUI.TestLoader.SetFilter( new CategoryFilter( testTree.tests.SelectedCategories, testTree.tests.ExcludeSelectedCategories ) );
+
 			TestLoader.RunTests( testTree.tests.SelectedTests );
 //			TestLoader.RunTests( testSuiteTreeView.SelectedTests );
 //			TestLoader.RunTest( testSuiteTreeView.SelectedTest );
