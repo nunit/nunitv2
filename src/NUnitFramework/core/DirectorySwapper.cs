@@ -32,7 +32,18 @@ using System;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Summary description for DirectorySwapper.
+	/// Utility class that allows changing the current directory 
+	/// for the duration of some lexical scope and guaranteeing
+	/// that it will be restored upon exit.
+	/// 
+	/// Use it as follows:
+	///    using( new DirectorySwapper( @"X:\New\Path" )
+	///    {
+	///        // Code that operates in the new current directory
+	///    }
+	///    
+	/// Instantiating DirectorySwapper without a path merely
+	/// saves the current directory, but does not change it.
 	/// </summary>
 	public class DirectorySwapper : IDisposable
 	{
