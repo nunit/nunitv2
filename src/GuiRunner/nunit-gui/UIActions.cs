@@ -258,23 +258,23 @@ namespace NUnit.Gui
 
 			try
 			{
+				TestDomain oldDomain = testDomain;
 				TestDomain newDomain = new TestDomain(stdOutWriter, stdErrWriter);
 				Test newTest = newDomain.Load(assemblyFileName);
 
 				if(!UIHelper.CompareTree( currentTest, newTest ) )
 				{
-					testDomain.Unload();
-
 					testDomain = newDomain;
 					currentTest = newTest;
 
 					if ( SuiteChangedEvent != null )
 						SuiteChangedEvent( newTest );
 				}
+					
+				if ( testDomain == newDomain )
+					oldDomain.Unload();
 				else
-				{
 					newDomain.Unload();
-				}
 			}
 			catch( Exception exception )
 			{
