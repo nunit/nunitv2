@@ -46,57 +46,15 @@ namespace NUnit.Core
 				this.fixtureSetUp = Reflect.GetFixtureSetUpMethod( fixtureType );
 				this.fixtureTearDown = Reflect.GetFixtureTearDownMethod( fixtureType );
 
-				Type explicitAttribute = typeof(NUnit.Framework.ExplicitAttribute);
-				object[] attributes = fixtureType.GetCustomAttributes( explicitAttribute, false );
-				this.IsExplicit = attributes.Length > 0;
+				this.IsExplicit = Reflect.HasExplicitAttribute( fixtureType );
 
-				Type ignoreMethodAttribute = typeof(NUnit.Framework.IgnoreAttribute);
-				attributes = fixtureType.GetCustomAttributes(ignoreMethodAttribute, false);
-				if(attributes.Length == 1)
+				if ( Reflect.HasIgnoreAttribute( fixtureType ) )
 				{
-					NUnit.Framework.IgnoreAttribute attr = 
-						(NUnit.Framework.IgnoreAttribute)attributes[0];
 					this.ShouldRun = false;
-					this.IgnoreReason = attr.Reason;
+					this.IgnoreReason = Reflect.GetIgnoreReason( fixtureType );
 				}
-
-				Type fixtureAttribute = typeof(NUnit.Framework.TestFixtureAttribute);
-				attributes = fixtureType.GetCustomAttributes(fixtureAttribute, false);
-				if(attributes.Length == 1)
-				{
-					NUnit.Framework.TestFixtureAttribute fixtureAttr = 
-						(NUnit.Framework.TestFixtureAttribute)attributes[0];
-					this.Description = fixtureAttr.Description;
-				}
-
-				////////////////////////////////////////////////////////////////////////
-				// Uncomment the following code block to allow including Suites in the
-				// tree of tests. This causes a problem when the same test is added
-				// in multiple suites so we need to either fix it or prevent it.
-				//
-				// See also a line to change in TestSuiteBuilder.cs
-				////////////////////////////////////////////////////////////////////////
-
-				PropertyInfo [] properties = fixtureType.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
-				foreach(PropertyInfo property in properties)
-				{
-					attributes = property.GetCustomAttributes(typeof(NUnit.Framework.SuiteAttribute),false);
-					if(attributes.Length>0)
-					{
-						MethodInfo method = property.GetGetMethod(true);
-						if(method.ReturnType!=typeof(NUnit.Core.TestSuite) || method.GetParameters().Length>0)
-						{
-							this.ShouldRun = false;
-							this.IgnoreReason = "Invalid suite property method signature";
-						}
-						//					else
-						//					{
-						//						TestSuite suite = (TestSuite)property.GetValue(null, new Object[0]);
-						//						foreach( Test test in suite.Tests )
-						//							testSuite.Add( test );
-						//					}
-					}
-				}
+		
+				this.Description = Reflect.GetDescription( fixtureType );
 
 				MethodInfo [] methods = fixtureType.GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.Static|BindingFlags.NonPublic);
 				foreach(MethodInfo method in methods)
@@ -120,6 +78,15 @@ namespace NUnit.Core
 				this.ShouldRun = false;
 				this.IgnoreReason = exception.Message;
 			}
+		}
+
+		#endregion
+
+		#region Static Methods
+
+		public static bool IsValidType( Type type )
+		{
+			return !type.IsAbstract && Reflect.HasTestFixtureAttribute( type );
 		}
 
 		#endregion

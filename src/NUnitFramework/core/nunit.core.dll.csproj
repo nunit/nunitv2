@@ -164,12 +164,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "LegacySuite.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "LongLivingMarshalByRefObject.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "NameFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NamespaceSuite.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

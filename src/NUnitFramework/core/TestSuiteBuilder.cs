@@ -129,7 +129,7 @@ namespace NUnit.Core
 			if(assembly != null)
 			{
 				Type testType = assembly.GetType(testName);
-				if(testType != null)
+				if( testType != null )
 					return MakeSuite( testType );
 
 				// Assume that testName is a namespace
@@ -140,14 +140,14 @@ namespace NUnit.Core
 
 				foreach(Type type in testTypes)
 				{
-					if(IsTestFixture(type) && type.Namespace != null)
-					//if(IsTestFixture(type) || IsTestSuiteProperty(type))
+					if( CanMakeSuite( type ) && type.Namespace != null )
 					{
 						if( type.Namespace == testName || type.Namespace.StartsWith(prefix) )
 						{
 							suite = BuildFromNameSpace(testName, 0);
 						
-							suite.Add( new TestFixture( type ) );
+							//suite.Add( new TestFixture( type ) );
+							suite.Add( MakeSuite( type ) );
 							testFixtureCount++;
 						}
 					}
@@ -194,31 +194,6 @@ namespace NUnit.Core
 			return testFixture;
 		}
 
-		/// <summary>
-		/// Helper routine that makes a suite from either a TestFixture or
-		/// a legacy Suite property.
-		/// </summary>
-		/// <param name="testType"></param>
-		/// <returns></returns>
-		private TestSuite MakeSuite( Type testType )
-		{
-			TestSuite suite = null;
-
-			if(testType != null)
-			{
-				if(IsTestFixture(testType))
-				{
-					suite = new TestFixture(testType );
-				}
-				else if(IsTestSuiteProperty(testType))
-				{
-					suite = MakeSuiteFromProperty(testType);
-				}
-			}
-			
-			return suite;
-		}
-
 		#endregion
 
 		#region Nested TypeFilter Class
@@ -255,7 +230,7 @@ namespace NUnit.Core
 			string prefix = string.Format( "[{0}]", assemblyKey );
 			if( index == -1 )
 			{
-				suite = new TestSuite( nameSpace, assemblyKey );
+				suite = new NamespaceSuite( nameSpace, assemblyKey );
 				if ( rootSuite == null )
 					rootSuite = suite;
 				else
@@ -267,7 +242,7 @@ namespace NUnit.Core
 				string parentNameSpace = nameSpace.Substring( 0,index );
 				TestSuite parent = BuildFromNameSpace( parentNameSpace, assemblyKey );
 				string suiteName = nameSpace.Substring( index+1 );
-				suite = new TestSuite( parentNameSpace, suiteName, assemblyKey );
+				suite = new NamespaceSuite( parentNameSpace, suiteName, assemblyKey );
 				parent.Add( suite );
 				namespaceSuites[nameSpace] = suite;
 			}
@@ -286,22 +261,14 @@ namespace NUnit.Core
 			Type[] testTypes = assembly.GetExportedTypes();
 			foreach(Type testType in testTypes)
 			{
-				////////////////////////////////////////////////////////////////////////
-				// Use the second if statement to allow including Suites in the
-				// tree of tests. This causes a problem when the same test is added
-				// in multiple suites so we need to either fix it or prevent it.
-				//
-				// See also the block of code to uncomment in TestSuite.cs
-				////////////////////////////////////////////////////////////////////////
-
-				if(IsTestFixture(testType))
-				//if(IsTestFixture(testType) || IsTestSuiteProperty(testType))
+				if( CanMakeSuite( testType ) )
 				{
 					testFixtureCount++;
 					string namespaces = testType.Namespace;
 					TestSuite suite = builder.BuildFromNameSpace( namespaces, assemblyKey );
 
-					suite.Add( new TestFixture( testType ) );
+					//suite.Add( new TestFixture( testType ) );
+					suite.Add( MakeSuite( testType ) );
 				}
 			}
 
@@ -314,69 +281,35 @@ namespace NUnit.Core
 			return builder.rootSuite;
 		}
 
-		private bool IsTestFixture(Type type)
-		{
-			if(type.IsAbstract) return false;
-
-			return type.IsDefined(typeof(NUnit.Framework.TestFixtureAttribute), true);
-		}
-
-		private bool IsTestSuiteProperty(Type testClass)
-		{
-			return (GetSuiteProperty(testClass) != null);
-		}
-
 		/// <summary>
-		/// Uses reflection to obtain the suite property for the Type
+		/// Helper routine that makes a suite from either a TestFixture or
+		/// a legacy Suite property.
 		/// </summary>
-		/// <param name="testClass"></param>
-		/// <returns>The Suite property of the Type, or null if the property 
-		/// does not exist</returns>
-		private TestSuite MakeSuiteFromProperty(Type testClass) 
+		/// <param name="testType"></param>
+		/// <returns></returns>
+		private TestSuite MakeSuite( Type testType )
 		{
 			TestSuite suite = null;
-			PropertyInfo suiteProperty = null;
-			try
+
+			if(testType != null)
 			{
-				suiteProperty=GetSuiteProperty(testClass);
-				suite = (TestSuite)suiteProperty.GetValue(null, new Object[0]);
+				if( TestFixture.IsValidType( testType ) )
+				{
+					suite = new TestFixture( testType );
+				}
+				else if( LegacySuite.IsValidType( testType ) )
+				{
+					suite = new LegacySuite( testType );
+				}
 			}
-			catch(InvalidSuiteException)
-			{
-				return null;
-			}
+			
 			return suite;
 		}
 
-		private PropertyInfo GetSuiteProperty(Type testClass)
+		private bool CanMakeSuite( Type testType )
 		{
-			if(testClass != null)
-			{
-				PropertyInfo[] properties = testClass.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
-				foreach(PropertyInfo property in properties)
-				{
-					object[] attrributes = property.GetCustomAttributes(typeof(NUnit.Framework.SuiteAttribute),false);
-					if(attrributes.Length>0)
-					{
-						try {
-							CheckSuiteProperty(property);
-						}catch(InvalidSuiteException){
-							return null;
-						}
-						return property;
-					}
-				}
-			}
-			return null;
-		}
-
-		private void CheckSuiteProperty(PropertyInfo property)
-		{
-			MethodInfo method = property.GetGetMethod(true);
-			if(method.ReturnType!=typeof(NUnit.Core.TestSuite))
-				throw new InvalidSuiteException("Invalid suite property method signature");
-			if(method.GetParameters().Length>0)
-				throw new InvalidSuiteException("Invalid suite property method signature");
+			//return TestFixture.IsValidType( testType ) || LegacySuite.IsValidType( testType );
+			return TestFixture.IsValidType( testType );
 		}
 	}
 
