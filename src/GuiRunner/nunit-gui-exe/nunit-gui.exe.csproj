@@ -18,7 +18,7 @@
                 OutputType = "WinExe"
                 PreBuildEvent = ""
                 PostBuildEvent = ""
-                RootNamespace = "NUnit.GuiRunner"
+                RootNamespace = "NUnit.Gui"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
             >
@@ -82,6 +82,11 @@
                 <Reference
                     Name = "nunit-gui"
                     Project = "{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.uikit.dll"
+                    Project = "{27531BBF-183D-4C3A-935B-D840B9F1A3A4}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
