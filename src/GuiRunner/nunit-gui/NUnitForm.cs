@@ -826,9 +826,11 @@ namespace NUnit.Gui
 		/// </summary>
 		private void NUnitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-
-			UserSettings.Form.Location = this.Location;
-			UserSettings.Form.Size = this.Size;
+			if ( this.WindowState == FormWindowState.Normal )
+			{
+				UserSettings.Form.Location = this.Location;
+				UserSettings.Form.Size = this.Size;
+			}
 		}
 
 		/// <summary>
