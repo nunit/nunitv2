@@ -33,7 +33,8 @@
                 <includes name="nunit-console.csproj"/>
                 <includes name="nunit-console.build"/>
                 <includes name="app.ico"/>
-                <includes name="*.cs"/>
+                <includes name="AssemblyInfo.cs"/>
+                <includes name="ConsoleUi.cs"/>
                 <includes name="nunit-console.exe.config"/>
             </fileset>
         </copy>
