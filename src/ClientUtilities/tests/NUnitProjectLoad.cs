@@ -169,7 +169,7 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
-		public void FromVSSolution()
+		public void FromVSSolution2003()
 		{
 			using(new TempResourceFile(this.GetType(), "csharp-sample.csproj", @"csharp\csharp-sample.csproj"))
 			using(new TempResourceFile(this.GetType(), "jsharp.vjsproj", @"jsharp\jsharp.vjsproj"))
@@ -178,6 +178,28 @@ namespace NUnit.Util.Tests
 			using(new TempResourceFile(this.GetType(), "money.csproj", @"money\money.csproj"))
 			using(new TempResourceFile(this.GetType(), "money-port.csproj", @"money-port\money-port.csproj"))
 			using(TempResourceFile file = new TempResourceFile(this.GetType(), "samples.sln"))
+			{
+				NUnitProject project = NUnitProject.FromVSSolution( file.Path );
+				Assert.AreEqual( 4, project.Configs.Count );
+				Assert.AreEqual( 5, project.Configs["Debug"].Assemblies.Count );
+				Assert.AreEqual( 5, project.Configs["Release"].Assemblies.Count );
+				Assert.AreEqual( 1, project.Configs["Debug|Win32"].Assemblies.Count );
+				Assert.AreEqual( 1, project.Configs["Release|Win32"].Assemblies.Count );
+				Assert.IsTrue( project.IsLoadable, "Not loadable" );
+				Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
+			}
+		}
+
+		[Test]
+		public void FromVSSolution2005()
+		{
+			using(new TempResourceFile(this.GetType(), "csharp-sample_VS2005.csproj", @"csharp\csharp-sample_VS2005.csproj"))
+			using(new TempResourceFile(this.GetType(), "jsharp_VS2005.vjsproj", @"jsharp\jsharp_VS2005.vjsproj"))
+			using(new TempResourceFile(this.GetType(), "vb-sample_VS2005.vbproj", @"vb\vb-sample_VS2005.vbproj"))
+			using(new TempResourceFile(this.GetType(), "cpp-sample_VS2005.vcproj", @"cpp-sample\cpp-sample_VS2005.vcproj"))
+			using(new TempResourceFile(this.GetType(), "money_VS2005.csproj", @"money\money_VS2005.csproj"))
+			using(new TempResourceFile(this.GetType(), "money-port_VS2005.csproj", @"money-port\money-port_VS2005.csproj"))
+			using(TempResourceFile file = new TempResourceFile(this.GetType(), "samples_VS2005.sln"))
 			{
 				NUnitProject project = NUnitProject.FromVSSolution( file.Path );
 				Assert.AreEqual( 4, project.Configs.Count );

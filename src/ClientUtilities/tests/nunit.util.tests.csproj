@@ -189,8 +189,18 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "money_VS2005.csproj"
+                    Link = "..\..\..\samples\money\money_VS2005.csproj"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "money-port.csproj"
                     Link = "..\..\..\samples\money-port\money-port.csproj"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "money-port_VS2005.csproj"
+                    Link = "..\..\..\samples\money-port\money-port_VS2005.csproj"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -272,6 +282,11 @@
                 <File
                     RelPath = "samples.sln"
                     Link = "..\..\..\samples\samples.sln"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "samples_VS2005.sln"
+                    Link = "..\..\..\samples\samples_VS2005.sln"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
