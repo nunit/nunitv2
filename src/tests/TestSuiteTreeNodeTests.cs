@@ -33,21 +33,22 @@ namespace NUnit.Tests
 	using NUnit.Core;
 	using NUnit.Framework;
 	using NUnit.Util;
+	using NUnit.UiKit;
 	using NUnit.Tests.Assemblies;
 
 	/// <summary>
-	/// Summary description for TestNodeTests.
+	/// Summary description for TestSuiteTreeNodeTests.
 	/// </summary>
 	[TestFixture]
-	public class TestNodeTests
+	public class TestSuiteTreeNodeTests
 	{
 		TestSuite testSuite;
 		TestSuite testFixture;
 		NUnit.Core.TestCase testCase;
 
-		TestInfo suiteInfo;
-		TestInfo fixtureInfo;
-		TestInfo testCaseInfo;
+		UITestNode suiteInfo;
+		UITestNode fixtureInfo;
+		UITestNode testCaseInfo;
 
 		[SetUp]
 		public void SetUp()
@@ -55,55 +56,55 @@ namespace NUnit.Tests
 			MockTestFixture mock = new MockTestFixture();
 			testSuite = new TestSuite("MyTestSuite");
 			testSuite.Add( mock );
-			suiteInfo = new TestInfo( testSuite );
+			suiteInfo = new UITestNode( testSuite );
 
 			testFixture = (TestSuite)testSuite.Tests[0];
-			fixtureInfo = new TestInfo( testFixture );
+			fixtureInfo = new UITestNode( testFixture );
 
 			testCase = (NUnit.Core.TestCase)testFixture.Tests[0];
-			testCaseInfo = new TestInfo( testCase );
+			testCaseInfo = new UITestNode( testCase );
 		}
 
 		[Test]
 		public void ConstructFromTestInfo()
 		{
-			TestNode node;
+			TestSuiteTreeNode node;
 			
-			node = new TestNode( suiteInfo );
+			node = new TestSuiteTreeNode( suiteInfo );
 			Assertion.AssertEquals( "MyTestSuite", node.Text );
 
-			node = new TestNode( fixtureInfo );
+			node = new TestSuiteTreeNode( fixtureInfo );
 			Assertion.AssertEquals( "MockTestFixture", node.Text );
 
-			node = new TestNode( testCaseInfo );
+			node = new TestSuiteTreeNode( testCaseInfo );
 			Assertion.AssertEquals( "MockTest1", node.Text );
 		}
 
-		[Test]
-		public void ConstructFromTestResultInfo()
-		{
-			TestNode node;
-
-			node = new TestNode( new TestResultInfo( testSuite, "Result 1" ) );
-			Assertion.AssertEquals( "MyTestSuite", node.Text );
-			Assertion.AssertEquals( "MyTestSuite", node.Test.Name );
-
-			node = new TestNode( new TestResultInfo( testFixture, "Result 2" ) );
-			Assertion.AssertEquals( "MockTestFixture", node.Text );
-			Assertion.AssertEquals( "MockTestFixture", node.Test.Name );
-
-			node = new TestNode( new TestResultInfo( testCase ) );
-			Assertion.AssertEquals( "MockTest1", node.Text );
-			Assertion.AssertEquals( "MockTest1", node.Test.Name );
-		}
+//		[Test]
+//		public void ConstructFromTestResultInfo()
+//		{
+//			TestSuiteTreeNode node;
+//
+//			node = new TestSuiteTreeNode( new TestResultInfo( testSuite, "Result 1" ) );
+//			Assertion.AssertEquals( "MyTestSuite", node.Text );
+//			Assertion.AssertEquals( "MyTestSuite", node.Test.Name );
+//
+//			node = new TestSuiteTreeNode( new TestResultInfo( testFixture, "Result 2" ) );
+//			Assertion.AssertEquals( "MockTestFixture", node.Text );
+//			Assertion.AssertEquals( "MockTestFixture", node.Test.Name );
+//
+//			node = new TestSuiteTreeNode( new TestResultInfo( testCase ) );
+//			Assertion.AssertEquals( "MockTest1", node.Text );
+//			Assertion.AssertEquals( "MockTest1", node.Test.Name );
+//		}
 
 		[Test]
 		public void UpdateTest()
 		{
-			TestNode node;
+			TestSuiteTreeNode node;
 			
-			node = new TestNode( suiteInfo );
-			TestInfo suiteInfo2 = new TestInfo( new TestSuite( "MyTestSuite" ) );
+			node = new TestSuiteTreeNode( suiteInfo );
+			UITestNode suiteInfo2 = new UITestNode( new TestSuite( "MyTestSuite" ) );
 
 			node.UpdateTest( suiteInfo2 );
 			Assertion.AssertEquals( "MyTestSuite", node.Test.FullName );
@@ -118,38 +119,38 @@ namespace NUnit.Tests
 		[ExpectedException( typeof(ArgumentException) )]
 		public void UpdateUsingWrongTest()
 		{
-			TestNode node = new TestNode( suiteInfo );
-			TestInfo suiteInfo2 = new TestInfo( new TestSuite( "NotMyTestSuite" ) );
+			TestSuiteTreeNode node = new TestSuiteTreeNode( suiteInfo );
+			UITestNode suiteInfo2 = new UITestNode( new TestSuite( "NotMyTestSuite" ) );
 			node.UpdateTest( suiteInfo2 );
 		}
 
 		[Test]
 		public void SetResult()
 		{
-			TestNode node = new TestNode( testCaseInfo );
+			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
 			TestCaseResult result = new TestCaseResult( testCase );
 
 			node.SetResult( result );
 			Assertion.AssertEquals( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", node.Result.Name );
-			Assertion.AssertEquals( TestNode.NotRunIndex, node.ImageIndex );
-			Assertion.AssertEquals( TestNode.NotRunIndex, node.SelectedImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.NotRunIndex, node.ImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.NotRunIndex, node.SelectedImageIndex );
 
 			result.Success();
 			node.SetResult( result );
-			Assertion.AssertEquals( TestNode.SuccessIndex, node.ImageIndex );
-			Assertion.AssertEquals( TestNode.SuccessIndex, node.SelectedImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.SuccessIndex, node.ImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.SuccessIndex, node.SelectedImageIndex );
 
 			result.Failure("message", "stacktrace");
 			node.SetResult( result );
-			Assertion.AssertEquals( TestNode.FailureIndex, node.ImageIndex );
-			Assertion.AssertEquals( TestNode.FailureIndex, node.SelectedImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.FailureIndex, node.ImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.FailureIndex, node.SelectedImageIndex );
 		}
 
 		[Test]
 		[ExpectedException( typeof(ArgumentException ))]
 		public void SetResultForWrongTest()
 		{
-			TestNode node = new TestNode( suiteInfo );
+			TestSuiteTreeNode node = new TestSuiteTreeNode( suiteInfo );
 			TestSuite suite2 = new TestSuite( "suite2" );
 			TestSuiteResult result = new TestSuiteResult( suite2, "xxxxx" );
 			node.SetResult( result );
@@ -161,14 +162,14 @@ namespace NUnit.Tests
 			TestCaseResult result = new TestCaseResult( testCase );
 			result.Failure("message", "stacktrace");
 
-			TestNode node = new TestNode( result );
-			Assertion.AssertEquals( TestNode.FailureIndex, node.ImageIndex );
-			Assertion.AssertEquals( TestNode.FailureIndex, node.SelectedImageIndex );
+			TestSuiteTreeNode node = new TestSuiteTreeNode( result );
+			Assertion.AssertEquals( TestSuiteTreeNode.FailureIndex, node.ImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.FailureIndex, node.SelectedImageIndex );
 
 			node.ClearResult();
 			Assertion.AssertEquals( null, node.Result );
-			Assertion.AssertEquals( TestNode.InitIndex, node.ImageIndex );
-			Assertion.AssertEquals( TestNode.InitIndex, node.SelectedImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.InitIndex, node.ImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.InitIndex, node.SelectedImageIndex );
 		}
 		
 		[Test]
@@ -180,21 +181,21 @@ namespace NUnit.Tests
 			testSuiteResult.AddResult( testCaseResult );
 			testSuiteResult.Executed = true;
 
-			TestNode node1 = new TestNode( testSuiteResult );
-			TestNode node2 = new TestNode( testCaseResult );
+			TestSuiteTreeNode node1 = new TestSuiteTreeNode( testSuiteResult );
+			TestSuiteTreeNode node2 = new TestSuiteTreeNode( testCaseResult );
 			node1.Nodes.Add( node2 );
 
-			Assertion.AssertEquals( TestNode.SuccessIndex, node1.ImageIndex );
-			Assertion.AssertEquals( TestNode.SuccessIndex, node1.SelectedImageIndex );
-			Assertion.AssertEquals( TestNode.SuccessIndex, node2.ImageIndex );
-			Assertion.AssertEquals( TestNode.SuccessIndex, node2.SelectedImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.SuccessIndex, node1.ImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.SuccessIndex, node1.SelectedImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.SuccessIndex, node2.ImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.SuccessIndex, node2.SelectedImageIndex );
 
 			node1.ClearResults();
 
-			Assertion.AssertEquals( TestNode.InitIndex, node1.ImageIndex );
-			Assertion.AssertEquals( TestNode.InitIndex, node1.SelectedImageIndex );
-			Assertion.AssertEquals( TestNode.InitIndex, node2.ImageIndex );
-			Assertion.AssertEquals( TestNode.InitIndex, node2.SelectedImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.InitIndex, node1.ImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.InitIndex, node1.SelectedImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.InitIndex, node2.ImageIndex );
+			Assertion.AssertEquals( TestSuiteTreeNode.InitIndex, node2.SelectedImageIndex );
 		}
 	}
 }

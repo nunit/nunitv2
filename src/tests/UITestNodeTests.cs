@@ -39,7 +39,7 @@ namespace NUnit.Tests
 	/// Summary description for TestInfoTests.
 	/// </summary>
 	[TestFixture]	
-	public class TestInfoTests
+	public class UITestNodeTests
 	{
 		TestSuite testSuite;
 		TestSuite testFixture;
@@ -60,7 +60,7 @@ namespace NUnit.Tests
 		[Test]
 		public void Construction()
 		{
-			TestInfo test1 = new TestInfo( testSuite );
+			UITestNode test1 = new UITestNode( testSuite );
 			Assertion.AssertEquals( "MyTestSuite", test1.Name );
 			Assertion.AssertEquals( "MyTestSuite", test1.FullName );
 			Assertion.Assert( "ShouldRun", test1.ShouldRun );
@@ -69,7 +69,7 @@ namespace NUnit.Tests
 			Assertion.Assert( "!IsFixture", !test1.IsFixture );
 			Assertion.AssertEquals( 5, test1.CountTestCases );
 
-			TestInfo test2 = new TestInfo( testFixture, true );
+			UITestNode test2 = new UITestNode( testFixture, true );
 			Assertion.AssertEquals( "MockTestFixture", test2.Name );
 			Assertion.AssertEquals( "NUnit.Tests.Assemblies.MockTestFixture", test2.FullName );
 			Assertion.Assert( "ShouldRun", test2.ShouldRun );
@@ -78,7 +78,7 @@ namespace NUnit.Tests
 			Assertion.Assert( "IsFixture", test2.IsFixture );
 			Assertion.AssertEquals( 5, test2.CountTestCases );
 
-			TestInfo test3 = new TestInfo( testCase1 );
+			UITestNode test3 = new UITestNode( testCase1 );
 			Assertion.AssertEquals( "MockTest1", test3.Name );
 			Assertion.AssertEquals( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", test3.FullName );
 			Assertion.Assert( "ShouldRun", test3.ShouldRun );
@@ -91,27 +91,27 @@ namespace NUnit.Tests
 		[Test]
 		public void PopulateTests()
 		{
-			TestInfo test1 = new TestInfo( testSuite );
+			UITestNode test1 = new UITestNode( testSuite );
 			Assertion.Assert( "Default should be to not populate", !test1.Populated );
 			test1.PopulateTests();
 			Assertion.Assert( "Should be populated after call", test1.Populated );
-			TestInfo test1Child = test1.Tests[0] as TestInfo;
+			UITestNode test1Child = test1.Tests[0] as UITestNode;
 			Assertion.Assert( "Child should be populated", test1Child.Populated );
 
-			TestInfo test2 = new TestInfo( testSuite, true );
+			UITestNode test2 = new UITestNode( testSuite, true );
 			Assertion.Assert( "Should be populated initialy", test2.Populated );
-			TestInfo test2Child = test2.Tests[0] as TestInfo;
+			UITestNode test2Child = test2.Tests[0] as UITestNode;
 			Assertion.Assert( "Child should be populated", test2Child.Populated );
 
-			TestInfo test3 = new TestInfo( testSuite );
+			UITestNode test3 = new UITestNode( testSuite );
 			int count = test3.CountTestCases;
 			Assertion.Assert( "CountTestCases should populate", test3.Populated );
 
-			TestInfo test4 = new TestInfo( testSuite );
-			TestInfo test4Child = test4.Tests[0] as TestInfo;
+			UITestNode test4 = new UITestNode( testSuite );
+			UITestNode test4Child = test4.Tests[0] as UITestNode;
 			Assertion.Assert( "Accessing Tests should populate", test4.Populated );
 
-			TestInfo test5 = new TestInfo( testSuite );
+			UITestNode test5 = new UITestNode( testSuite );
 			bool fixture = test5.IsFixture;
 			Assertion.Assert( "IsFixture should populate", test5.Populated );
 		}
@@ -119,7 +119,7 @@ namespace NUnit.Tests
 		[Test]
 		public void Conversion()
 		{
-			TestInfo test1 = testSuite;
+			UITestNode test1 = testSuite;
 			Assertion.AssertEquals( "MyTestSuite", test1.Name );
 			Assertion.AssertEquals( "MyTestSuite", test1.FullName );
 			Assertion.Assert( "ShouldRun", test1.ShouldRun );
@@ -128,7 +128,7 @@ namespace NUnit.Tests
 			Assertion.Assert( "!IsFixture", !test1.IsFixture );
 			Assertion.AssertEquals( 5, test1.CountTestCases );
 
-			TestInfo test2 = testFixture;
+			UITestNode test2 = testFixture;
 			Assertion.AssertEquals( "MockTestFixture", test2.Name );
 			Assertion.AssertEquals( "NUnit.Tests.Assemblies.MockTestFixture", test2.FullName );
 			Assertion.Assert( "ShouldRun", test2.ShouldRun );
@@ -137,7 +137,7 @@ namespace NUnit.Tests
 			Assertion.Assert( "IsFixture", test2.IsFixture );
 			Assertion.AssertEquals( 5, test2.CountTestCases );
 
-			TestInfo test3 = testCase1;
+			UITestNode test3 = testCase1;
 			Assertion.AssertEquals( "MockTest1", test3.Name );
 			Assertion.AssertEquals( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", test3.FullName );
 			Assertion.Assert( "ShouldRun", test3.ShouldRun );

@@ -35,6 +35,7 @@ namespace NUnit.Tests
 	using NUnit.Framework;
 	using NUnit.Core;
 	using NUnit.Util;
+	using NUnit.UiKit;
 	using NUnit.Tests.Assemblies;
 
 	/// <summary>
@@ -65,7 +66,7 @@ namespace NUnit.Tests
 			Assertion.AssertNotNull(suite);
 		}
 
-		private bool AllExpanded( TestNode node)
+		private bool AllExpanded( TestSuiteTreeNode node)
 		{
 			if ( node.Nodes.Count == 0 )
 				return true;
@@ -73,7 +74,7 @@ namespace NUnit.Tests
 			if ( !node.IsExpanded )
 				return false;
 			
-			foreach( TestNode child in node.Nodes )
+			foreach( TestSuiteTreeNode child in node.Nodes )
 				if ( !AllExpanded( child ) )
 					return false;
 
@@ -100,7 +101,7 @@ namespace NUnit.Tests
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
 
-			TestNode node = treeView[fixture];
+			TestSuiteTreeNode node = treeView[fixture];
 			Assertion.AssertNotNull("Lookup failed", node);
 
 			Assertion.AssertEquals(5, node.Nodes.Count);
@@ -111,10 +112,10 @@ namespace NUnit.Tests
 		/// The tree view CollapseAll method doesn't seem to work in
 		/// this test environment. This replaces it.
 		/// </summary>
-		private void CollapseAll( TestNode node )
+		private void CollapseAll( TestSuiteTreeNode node )
 		{
 			node.Collapse();
-			foreach( TestNode child in node.Nodes )
+			foreach( TestSuiteTreeNode child in node.Nodes )
 				CollapseAll( child );
 		}
 
@@ -126,7 +127,7 @@ namespace NUnit.Tests
 			CollapseAll( treeView.RootNode );
 			Assertion.Assert( "Tree did not collapse", !AllExpanded( treeView.RootNode ) );
 
-			TestNode node = treeView[fixture];
+			TestSuiteTreeNode node = treeView[fixture];
 			Assertion.AssertNotNull("Lookup failed", node);
 
 			treeView.Expand( fixture );
@@ -153,7 +154,7 @@ namespace NUnit.Tests
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
 
-			TestNode node = treeView[fixture];
+			TestSuiteTreeNode node = treeView[fixture];
 			Assertion.AssertNotNull( "Not in map", node );
 
 			TestSuiteResult result = new TestSuiteResult( fixture, "My test result" );
@@ -170,8 +171,8 @@ namespace NUnit.Tests
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
 
-			TestNode node = treeView[fixture];
-			TestNode child = (TestNode)node.Nodes[0];
+			TestSuiteTreeNode node = treeView[fixture];
+			TestSuiteTreeNode child = (TestSuiteTreeNode)node.Nodes[0];
 
 			treeView.RemoveNode( node );
 			Assertion.AssertEquals( 9, treeView.RootNode.GetNodeCount( true ) );
