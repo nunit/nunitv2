@@ -10,8 +10,7 @@ namespace NUnit.Util
 		private static readonly string NAME = "Options";
 
 		private static readonly string LOAD_LAST_ASSEMBLY = "LoadLastAssembly";
-		private static readonly string EXPAND_ON_LOAD = "ExpandOnLoad";
-		private static readonly string HIDE_TEST_CASES = "HideTestCases";
+		private static readonly string INITIAL_TREE_DISPLAY = "InitialTreeDisplay";
 		private static readonly string ENABLE_WATCHER = "EnableWatcher";
 		private static readonly string CLEAR_RESULTS = "ClearResults";
 
@@ -27,16 +26,10 @@ namespace NUnit.Util
 			set { SaveIntSetting( LOAD_LAST_ASSEMBLY, value ? 1 : 0 ); }
 		}
 
-		public bool ExpandOnLoad
+		public int InitialTreeDisplay
 		{
-			get { return LoadIntSetting( EXPAND_ON_LOAD, 1 ) != 0; }
-			set { SaveIntSetting( EXPAND_ON_LOAD, value ? 1 : 0 ); }
-		}
-
-		public bool HideTestCases
-		{
-			get { return LoadIntSetting( HIDE_TEST_CASES, 0 ) != 0; }
-			set { SaveIntSetting( HIDE_TEST_CASES, value ? 1 : 0 ); }
+			get { return LoadIntSetting( INITIAL_TREE_DISPLAY, 0 ); }
+			set { SaveIntSetting( INITIAL_TREE_DISPLAY, value ); }
 		}
 
 		public bool EnableWatcher
