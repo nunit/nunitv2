@@ -31,19 +31,27 @@ namespace NUnit.Gui
 	/// program - typically the user interface. It implemements the
 	/// EventListener interface which is used by the test runner and
 	/// fires events in order to provide the information to any component
-	/// that is interested. It also fires events for starting the test
-	/// run, ending it and successfully loading the assembly.
+	/// that is interested. It also fires events of it's own for starting
+	/// and ending the test run and for loading, unloading or reloading
+	/// an assembly.
 	/// 
-	/// Most of the events pass out a reference to a test suite, either
-	/// directly or in a TestResult. Since the tests are actually remote
-	/// objects, the references become invalid when the appdomain is 
-	/// unloaded, which can happen at any time. Currently, this requires
-	/// that the client maintain a certain discipline in the user of 
-	/// the references. Specific guarantees for the lifetime of references
-	/// passed to each delegate are provided in comments below.
+	/// Modifications have been made to help isolate the ui client code
+	/// from the loading and unloading of test domains.. Events that 
+	/// formerly took a Test, TestCase or TestSuite as an argument, now
+	/// use a TestInfo object which gives the same information but isn't
+	/// connected to the remote domain.
 	/// 
-	/// At some time, we may want to change this so that clients
-	/// don't have to be so aware of what is happening under the covers.
+	/// The TestInfo object may in some cases be created using lazy 
+	/// evaluation of child TestInfo objects. Since evaluation of these
+	/// objects does cause a cross-domain reference, the client code
+	/// should access the full tree immediately, rather than at a later
+	/// time, if that is what is needed. This will normally happen if
+	/// the client building a tree, for example. However, some clients
+	/// may only want the name of the test being run and passing the
+	/// fully evaluated tree would be unnecessary for them.
+	/// 
+	/// See comments associated with each event for lifetime limitations 
+	/// on the objects passed to the delegates.
 	/// </summary>
 	public class UIActions : MarshalByRefObject, NUnit.Core.EventListener
 	{
@@ -67,7 +75,6 @@ namespace NUnit.Gui
 		/// <summary>
 		/// The currently loaded test, returned by the testrunner
 		/// </summary>
-//		private Test currentTest = null;
 		private TestInfo currentTest = null;
 
 		/// <summary>
@@ -80,89 +87,85 @@ namespace NUnit.Gui
 		#region Delegates and Events
 
 		/// <summary>
-		/// Test suite was loaded. Client should not be holding any
-		/// previous references, since a SuiteUnloadedEvent will 
-		/// have preceded this one. The Test reference passed and
-		/// any contained references are valid until another event
-		/// occurs to invalidate them.
+		/// Test suite was loaded. The TestInfo uses lazy evaluation
+		/// of child tests, so a client that needs information from
+		/// all levels should traverse the tree immediately to ensure
+		/// that they are expanded. Clients that only need a field
+		/// from the top level test don't need to do that. Since
+		/// that's what the clients would normally do anyway, this
+		/// should not cause a problem except in pathological cases.
 		/// </summary>
-//		public delegate void SuiteLoadedHandler( Test test, string assemblyFileName);
 		public delegate void SuiteLoadedHandler( TestInfo test, string assemblyFileName);
 		public event SuiteLoadedHandler SuiteLoadedEvent;
 		
 		/// <summary>
-		/// Current test suite has changed. The previously received
-		/// references are valid for use during this call but must
-		/// be replaced by newly supplied references for later use.
-		/// NOTE: This is rather inconvenient for the client but
-		/// is required in order to reflect changes made to the 
-		/// tests while the client is running.
+		/// Current test suite has changed. The new information should
+		/// replace or be merged with the old, depending on the needs
+		/// of the client. Lazy evaluation applies here too.
 		/// </summary>
-//		public delegate void SuiteChangedHandler( Test test );
 		public delegate void SuiteChangedHandler( TestInfo test );
 		public event SuiteChangedHandler SuiteChangedEvent;
 		
 		/// <summary>
-		/// Test suite unloaded. The previously loaded test suite 
-		/// reference, and all it's contained test references are
-		/// valid for use during this call but not after.
+		/// Test suite unloaded. The old information is still
+		/// available to the client - for example to produce any
+		/// reports - but will normally be removed from the UI.
 		/// </summary>
-		public delegate void SuiteUnloadedHandler( );
+		public delegate void SuiteUnloadedHandler();
 		public event SuiteUnloadedHandler SuiteUnloadedEvent;
 		
 		/// <summary>
 		/// A failure occured in loading an assembly. This may be as
 		/// a result of a client request to load an assembly or as a 
 		/// result of an asynchronous change that required reloading 
-		/// the assembly. If the assemblyFileName is the same as that
-		/// which is currently held by the client, then all references
-		/// should be considered immediately invalid. If the name is
-		/// different, then old references are still valid - unless,
-		/// of course, an AssemblyUnloadEvent has been processed.
+		/// the assembly. In the first case, the loaded assembly has
+		/// not been replaced unless the assemblyFileName is the same.
+		/// In the second case, the client will usually treat this
+		/// as a sort of involuntary unload.
 		/// </summary>
-		public delegate void AssemblyLoadFailureHandler( string assemblyFileName, Exception exception );
+		public delegate void AssemblyLoadFailureHandler( 
+			string assemblyFileName, Exception exception );
 		public event AssemblyLoadFailureHandler AssemblyLoadFailureEvent;
 
 		/// <summary>
-		/// Test run starting. To allow for changes in the test runner,
-		/// consider the Test reference as only valid for this call.
+		/// The following events signal that a test run, test suite
+		/// or test case has started. If client is holding the entire 
+		/// tree of tests that was previously loaded, this TestInfo 
+		/// should match one of them, but it won't generally be the 
+		/// same object. Best practice is to match the TestInfo with 
+		/// one that is already held rather than expanding it to 
+		/// create lots of new objects. In the future, these events
+		/// may just pass the name of the test.
 		/// </summary>
-//		public delegate void RunStartingHandler( Test test );
 		public delegate void RunStartingHandler( TestInfo test );
 		public event RunStartingHandler RunStartingEvent;
 		
-		/// <summary>
-		/// A Suite has started. Reference is only valid for this call.
-		/// </summary>
-//		public delegate void SuiteStartedHandler( TestSuite suite );
 		public delegate void SuiteStartedHandler( TestInfo suite );
 		public event SuiteStartedHandler SuiteStartedEvent;
 		
-		/// <summary>
-		/// A test has started. Reference is only valid for this call.
-		/// </summary>
-//		public delegate void TestStartedHandler( NUnit.Core.TestCase testCase );
 		public delegate void TestStartedHandler( TestInfo testCase );
 		public event TestStartedHandler TestStartedEvent;
 		
 		/// <summary>
-		/// A test has finished. Reference is only valid for this call.
-		/// </summary>
-		public delegate void TestFinishedHandler( TestCaseResult result );
-		public event TestFinishedHandler TestFinishedEvent;
-		
-		/// <summary>
-		/// A Suite has finished. Reference is only valid for this call.
-		/// </summary>
-		public delegate void SuiteFinishedHandler( TestSuiteResult result );
-		public event SuiteFinishedHandler SuiteFinishedEvent;
-		
-		/// <summary>
-		/// Test run finished. To allow for changes in the test runner,
-		/// consider the TestResult reference as only valid for this call.
+		/// The following events signal that a test run, test suite or
+		/// test case has finished. Client should make use of the result
+		/// value during the life of the call only. If the result is to
+		/// be saved in the application, it should be converted to a
+		/// TestResultInfo, which will cause it's internal Test reference
+		/// to be converted to a local TestInfo object.
+		/// 
+		/// NOTE: These cannot be converted to use TestResultInfo directly
+		/// because some client code makes use of ResultVisitor which would
+		/// also have to be changed. Maybe later...
 		/// </summary>
 		public delegate void RunFinishedHandler( TestResult result );
 		public event RunFinishedHandler RunFinishedEvent;
+		
+		public delegate void SuiteFinishedHandler( TestSuiteResult result );
+		public event SuiteFinishedHandler SuiteFinishedEvent;
+		
+		public delegate void TestFinishedHandler( TestCaseResult result );
+		public event TestFinishedHandler TestFinishedEvent;
 		
 		#endregion
 
@@ -241,14 +244,11 @@ namespace NUnit.Gui
 		/// firing the RunStarting and RunFinished events
 		/// </summary>
 		/// <param name="test">Test to be run</param>
-//		public void RunTestSuite( Test test )
 		public void RunTestSuite( TestInfo testInfo )
 		{
 			if ( RunStartingEvent != null )
 				RunStartingEvent( testInfo );
-//				RunStartingEvent( test );
 
-//			testDomain.TestFixture = test.FullName;
 			testDomain.TestFixture = testInfo.FullName;
 
 			TestResult result = testDomain.Run(this);
@@ -256,17 +256,7 @@ namespace NUnit.Gui
 			if ( RunFinishedEvent != null )
 				RunFinishedEvent( result );
 		}
-
-		/// <summary>
-		/// Load the test suite
-		/// </summary>
-		/// <param name="assemblyFileName"></param>
-		/// <returns></returns>
-//		private Test LoadTestSuite(string assemblyFileName)
-//		{
-//			return testDomain;
-//		}
-		
+	
 		/// <summary>
 		/// Load an assembly, firing the SuiteLoaded event.
 		/// </summary>
@@ -275,17 +265,11 @@ namespace NUnit.Gui
 		{
 			try
 			{
-				long memoryBeforeLoad = System.GC.GetTotalMemory( true );
-
 				// Make sure it all works before switching old one out
 				NUnit.Framework.TestDomain newDomain = new NUnit.Framework.TestDomain(stdOutWriter, stdErrWriter);
 				Test newTest = newDomain.Load(assemblyFileName);
 				
-				long memoryAfterLoad = System.GC.GetTotalMemory( true );
-
 				if  ( AssemblyLoaded ) UnloadAssembly();
-
-				long memoryAfterUnload = System.GC.GetTotalMemory( true );
 
 				testDomain = newDomain;
 				currentTest = newTest;
@@ -296,10 +280,6 @@ namespace NUnit.Gui
 					SuiteLoadedEvent( currentTest, assemblyFileName );
 
 				InstallWatcher( assemblyFileName );
-
-				long memoryAfterEvent = System.GC.GetTotalMemory( true );
-				Console.WriteLine( "Load: {0} bytes, Unload: {1} bytes, UI: {2} bytes", 
-					memoryAfterLoad - memoryBeforeLoad, memoryAfterUnload - memoryAfterLoad, memoryAfterEvent - memoryAfterUnload );
 			}
 			catch( Exception exception )
 			{
@@ -315,9 +295,6 @@ namespace NUnit.Gui
 		{
 			testDomain.Unload();
 			testDomain = null;
-
-//			currentTest.Clear();
-//			currentTest = null;
 
 			RemoveWatcher();
 
@@ -347,24 +324,20 @@ namespace NUnit.Gui
 			// handlers get a chance to compare the trees.
 			try
 			{
-				TestDomain oldDomain = testDomain;
 				TestDomain newDomain = new TestDomain(stdOutWriter, stdErrWriter);
-//				Test newTest = newDomain.Load(assemblyFileName);
 				TestInfo newTest = newDomain.Load(assemblyFileName);
 
-				if(!UIHelper.CompareTree( currentTest, newTest ) )
-				{
-					testDomain = newDomain;
-					currentTest = newTest;
+				bool notifyClient = !UIHelper.CompareTree( currentTest, newTest );
 
-					if ( SuiteChangedEvent != null )
+				testDomain.Unload();
+
+				testDomain = newDomain;
+				currentTest = newTest;
+
+
+				if ( notifyClient && SuiteChangedEvent != null )
 						SuiteChangedEvent( newTest );
-				}
-					
-				if ( testDomain == newDomain )
-					oldDomain.Unload();
-				else
-					newDomain.Unload();
+				
 			}
 			catch( Exception exception )
 			{

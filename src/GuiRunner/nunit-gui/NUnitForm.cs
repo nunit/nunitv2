@@ -812,6 +812,8 @@ namespace NUnit.Gui
 #endif
 
 #if CHARLIE
+			treeViewMenu.MenuItems.Add( "-" );
+
 			MenuItem propertiesMenuItem = new MenuItem(
 				"&Properties", new EventHandler( propertiesMenuItem_Click ) );
 			
@@ -858,14 +860,9 @@ namespace NUnit.Gui
 		{
 			TestInfo test = testSuiteTreeView.ContextNode.Test;
 			TestResultInfo result = testSuiteTreeView.ContextNode.Result;
-			string message;
 
-			if ( result == null )
-				message = "Test has not been run";
-			else
-				message = string.Format( "Test leaked {0} bytes", result.Leakage );
-			
-			MessageBox.Show( message, test.Name );
+			TestPropertiesDialog dlg = new TestPropertiesDialog( test, result );
+			dlg.ShowDialog( this );
 		}
 #endif
 
@@ -893,7 +890,7 @@ namespace NUnit.Gui
 		{
 			TestNode node = testSuiteTreeView.SelectedNode;
 
-			SetSuiteName( node.Text );
+			suiteName.Text = node.Test.ShortName;
 
 			// TODO: Do we really want to do this?
 			InitializeStatusBar( node.Test.CountTestCases );
@@ -1035,7 +1032,7 @@ namespace NUnit.Gui
 			ClearTestResults();
 			InitializeStatusBar(testCount);
 
-			SetSuiteName(test.Name);
+			suiteName.Text = test.ShortName;
 			InitializeProgressBar(testCount);
 		}
 
@@ -1324,18 +1321,6 @@ namespace NUnit.Gui
 		private void ClearStatusBar()
 		{
 			InitializeStatusBar( 0 );
-		}
-
-		/// <summary>
-		/// Set the current test suite name
-		/// </summary>
-		/// <param name="name">The name of the suite</param>
-		private void SetSuiteName( string name )
-		{
-			int val = name.LastIndexOf("\\");
-			if(val != -1)
-				name = name.Substring(val+1);
-			suiteName.Text = name;
 		}
 
 		/// <summary>
