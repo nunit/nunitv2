@@ -214,12 +214,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SuiteAttribute.cs"
+                    RelPath = "SetUpFixtureAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SuiteBuilderAttribute.cs"
+                    RelPath = "SuiteAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
