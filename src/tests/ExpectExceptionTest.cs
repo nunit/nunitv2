@@ -100,7 +100,7 @@ namespace NUnit.Tests.Core
 		}
 
 		[TestFixture]
-		public class SetUpExceptionTests  
+		internal class SetUpExceptionTests  
 		{
 			[SetUp]
 			public void Init()
@@ -116,7 +116,7 @@ namespace NUnit.Tests.Core
 		}
 
 		[TestFixture]
-		public class TearDownExceptionTests
+		internal class TearDownExceptionTests
 		{
 			[TearDown]
 			public void CleanUp()
@@ -154,25 +154,39 @@ namespace NUnit.Tests.Core
 		[Test] 
 		public void MethodThrowsException()
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			object testFixture = builder.BuildTestFixture(typeof(TestThrowsExceptionFixture));
-			TestSuite suite = new TestSuite("mock suite");
-			suite.Add(testFixture);	
-	
-			TestResult result = suite.Run(NUnit.Core.NullListener.NULL);
+			TestResult result = RunInternalTest( typeof( TestThrowsExceptionFixture ) );
 			Assert.AreEqual(true, result.IsFailure);
 		}
 
 		[Test] 
 		public void MethodThrowsWrongExceptionMessage()
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			object testFixture = builder.BuildTestFixture(typeof(TestThrowsExceptionWithWrongMessage));
-			TestSuite suite = new TestSuite("mock suite");
-			suite.Add(testFixture);	
-	
-			TestResult result = suite.Run(NUnit.Core.NullListener.NULL);
+			TestResult result = RunInternalTest( typeof( TestThrowsExceptionWithWrongMessage ) );
 			Assert.AreEqual(true, result.IsFailure);
+		}
+
+		[Test]
+		public void SetUpThrowsSameException()
+		{
+			TestResult result = RunInternalTest( typeof( SetUpExceptionTests ) );
+			Assert.AreEqual(true, result.IsFailure);
+		}
+
+		[Test]
+		public void TearDownThrowsSameException()
+		{
+			TestResult result = RunInternalTest( typeof( TearDownExceptionTests ) );
+			Assert.AreEqual(true, result.IsFailure);
+		}
+
+		private TestResult RunInternalTest( Type type )
+		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			object testFixture = builder.BuildTestFixture( type );
+			TestSuite suite = new TestSuite("mock suite");
+			suite.Add( testFixture );
+
+			return suite.Run( NUnit.Core.NullListener.NULL );
 		}
 
 		internal class MyAppException : System.Exception

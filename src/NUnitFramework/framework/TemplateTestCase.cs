@@ -63,21 +63,29 @@ namespace NUnit.Core
 #if NUNIT_LEAKAGE_TEST
 				long before = System.GC.GetTotalMemory( true );
 #endif
+				bool setupComplete = false;
 
 				try 
 				{
 					if ( !suiteRunning ) InvokeTestFixtureSetUp();
 					InvokeSetUp();
+					setupComplete = true;
 					InvokeTestCase();
 					ProcessNoException(testResult);
 				}
 				catch(NunitException exception)
 				{
-					ProcessException(exception.InnerException, testResult); 
+					if ( setupComplete )
+						ProcessException(exception.InnerException, testResult); 
+					else
+						RecordException( exception.InnerException, testResult );
 				}
 				catch(Exception exp)
 				{
-					ProcessException(exp, testResult);
+					if ( setupComplete )
+						ProcessException(exp, testResult);
+					else
+						RecordException( exp, testResult );
 				}
 				finally 
 				{
@@ -87,11 +95,11 @@ namespace NUnit.Core
 					}
 					catch(NunitException exception)
 					{
-						ProcessException(exception.InnerException, testResult); 
+						RecordException(exception.InnerException, testResult); 
 					}
 					catch(Exception exp)
 					{
-						ProcessException(exp, testResult);
+						RecordException(exp, testResult);
 					}
 
 					if ( !suiteRunning ) InvokeTestFixtureTearDown();
@@ -112,6 +120,37 @@ namespace NUnit.Core
 			}
 
 			return;
+		}
+
+		protected void RecordException( Exception exception, TestCaseResult testResult )
+		{
+			if(exception is NUnit.Framework.AssertionException)
+			{
+				NUnit.Framework.AssertionException error = (NUnit.Framework.AssertionException)exception;
+				testResult.Failure(BuildMessage(error), BuildStackTrace(error));
+			}
+			else
+			{
+				testResult.Failure(BuildMessage(exception), BuildStackTrace(exception));
+			}
+		}
+
+		private string BuildMessage(Exception exception)
+		{
+			if(exception.InnerException!=null)
+				return exception.Message + Environment.NewLine + BuildMessage(exception.InnerException);
+			else
+				return exception.Message;
+		}
+		
+		private string BuildStackTrace(Exception exception)
+		{
+			if(exception.InnerException!=null)
+				return exception.StackTrace + Environment.NewLine + 
+					"--" + exception.GetType().Name + Environment.NewLine +
+					BuildStackTrace(exception.InnerException);
+			else
+				return exception.StackTrace;
 		}
 
 		private void InvokeTestFixtureTearDown()
