@@ -69,6 +69,7 @@ namespace NUnit.Gui
 		// TipWindow for the detail list
 		CP.Windows.Forms.TipWindow tipWindow;
 		int hoverIndex = -1;
+		private System.Windows.Forms.Timer hoverTimer;
 
 		private TestTree testTree;
 		public System.Windows.Forms.Splitter splitter1;
@@ -526,7 +527,6 @@ namespace NUnit.Gui
 			this.detailList.ScrollAlwaysVisible = true;
 			this.detailList.Size = new System.Drawing.Size(410, 124);
 			this.detailList.TabIndex = 0;
-			this.detailList.MouseHover += new System.EventHandler(this.detailList_MouseHover);
 			this.detailList.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.detailList_MeasureItem);
 			this.detailList.MouseMove += new System.Windows.Forms.MouseEventHandler(this.detailList_MouseMove);
 			this.detailList.MouseLeave += new System.EventHandler(this.detailList_MouseLeave);
@@ -1390,7 +1390,7 @@ namespace NUnit.Gui
 		private void detailList_MeasureItem(object sender, System.Windows.Forms.MeasureItemEventArgs e)
 		{
 			TestResultItem item = (TestResultItem) detailList.Items[e.Index];
-			string s = item.ToString();
+			//string s = item.ToString();
 			SizeF size = e.Graphics.MeasureString(item.GetMessage(), detailList.Font);
 			e.ItemHeight = (int)size.Height;
 			e.ItemWidth = (int)size.Width;
@@ -1415,39 +1415,79 @@ namespace NUnit.Gui
 				Clipboard.SetDataObject( detailList.SelectedItem.ToString() );
 		}
 
-		private void detailList_MouseHover(object sender, System.EventArgs e)
+		private void OnMouseHover(object sender, System.EventArgs e)
 		{
 			if ( tipWindow != null ) tipWindow.Close();
 
 			if ( hoverIndex >= 0 && hoverIndex < detailList.Items.Count )
 			{
+				Graphics g = Graphics.FromHwnd( detailList.Handle );
+
 				Rectangle itemRect = detailList.GetItemRectangle( hoverIndex );
 				string text = detailList.Items[hoverIndex].ToString();
 
-				tipWindow = new TipWindow( detailList, hoverIndex );
-				tipWindow.ItemBounds = itemRect;
-				tipWindow.TipText = text;
-				tipWindow.Expansion = TipWindow.ExpansionStyle.Both;
-				tipWindow.Overlay = true;
-				tipWindow.WantClicks = true;
-				tipWindow.Closed += new EventHandler( tipWindow_Closed );
-				tipWindow.Show();
+				SizeF sizeNeeded = g.MeasureString( text, detailList.Font );
+				bool expansionNeeded = 
+					itemRect.Width < (int)sizeNeeded.Width ||
+					itemRect.Height < (int)sizeNeeded.Height;
+
+				if ( expansionNeeded )
+				{
+					tipWindow = new TipWindow( detailList, hoverIndex );
+					tipWindow.ItemBounds = itemRect;
+					tipWindow.TipText = text;
+					tipWindow.Expansion = TipWindow.ExpansionStyle.Both;
+					tipWindow.Overlay = true;
+					tipWindow.WantClicks = true;
+					tipWindow.Closed += new EventHandler( tipWindow_Closed );
+					tipWindow.Show();
+				}
 			}		
 		}
 
 		private void tipWindow_Closed( object sender, System.EventArgs e )
 		{
 			tipWindow = null;
+			hoverIndex = -1;
+			ClearTimer();
 		}
 
 		private void detailList_MouseLeave(object sender, System.EventArgs e)
 		{
 			hoverIndex = -1;
+			ClearTimer();
 		}
 
 		private void detailList_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
-			hoverIndex = detailList.IndexFromPoint( e.X, e.Y );		
+			ClearTimer();
+
+			hoverIndex = detailList.IndexFromPoint( e.X, e.Y );	
+
+			if ( hoverIndex >= 0 && hoverIndex < detailList.Items.Count )
+			{
+				// Workaround problem of IndexFromPoint returning an
+				// index when mouse is over bottom part of list.
+				Rectangle r = detailList.GetItemRectangle( hoverIndex );
+				if ( e.Y > r.Bottom )
+					hoverIndex = -1;
+				else
+				{
+					hoverTimer = new System.Windows.Forms.Timer();
+					hoverTimer.Interval = 300;
+					hoverTimer.Tick += new EventHandler( OnMouseHover );
+					hoverTimer.Start();
+				}
+			}
+		}
+
+		private void ClearTimer()
+		{
+			if ( hoverTimer != null )
+			{
+				hoverTimer.Stop();
+				hoverTimer.Dispose();
+			}
 		}
 
 		#endregion

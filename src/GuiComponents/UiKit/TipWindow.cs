@@ -132,6 +132,8 @@ namespace CP.Windows.Forms
 
 		public TipWindow( Control control )
 		{
+			InitializeComponent();
+
 			this.control = control;
 			this.Owner = control.FindForm();
 			this.itemBounds = control.ClientRectangle;
@@ -149,6 +151,8 @@ namespace CP.Windows.Forms
 
 		public TipWindow( ListBox listbox, int index ) : this ( listbox )
 		{
+			InitializeComponent();
+
 			this.listbox = listbox;
 			this.itemIndex = index;
 			this.itemBounds = listbox.GetItemRectangle( index );
@@ -185,6 +189,7 @@ namespace CP.Windows.Forms
 				sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font, itemBounds.Width ) );
 			else
 				sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font ) );
+
 				
 			if ( expansion == ExpansionStyle.Horizontal )
 				sizeNeeded.Height = itemBounds.Height;
@@ -202,7 +207,19 @@ namespace CP.Windows.Forms
 			// Make sure we'll fit on the screen
 			Screen screen = Screen.FromControl( control );
 			if ( this.Right > screen.WorkingArea.Right )
-				this.Left = screen.WorkingArea.Right - this.Width;
+			{
+				this.Left = Math.Min( 
+					screen.WorkingArea.Right - this.Width, 
+					screen.WorkingArea.Top );
+
+				if ( this.Right > screen.WorkingArea.Right )
+				{
+					this.Width = screen.WorkingArea.Width;
+					sizeNeeded = Size.Ceiling( 
+						g.MeasureString( tipText, Font, screen.WorkingArea.Width ) );
+					this.Height = sizeNeeded.Height;
+				}
+			}
 
 			if ( this.Bottom > screen.WorkingArea.Bottom )
 			{
