@@ -347,7 +347,7 @@ namespace NUnit.Gui
 			this.testSuiteTreeView.SelectedNode = null;
 			this.testSuiteTreeView.Size = new System.Drawing.Size(307, 438);
 			this.testSuiteTreeView.TabIndex = 1;
-			this.testSuiteTreeView.TrackTestProgress = false;
+			this.testSuiteTreeView.DisplayTestProgress = false;
 			this.testSuiteTreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.testSuiteTreeView_DragDrop);
 			this.testSuiteTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.testSuiteTreeView_AfterSelect);
 			this.testSuiteTreeView.DoubleClick += new System.EventHandler(this.testSuiteTreeView_DoubleClick);

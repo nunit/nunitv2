@@ -50,9 +50,24 @@ namespace NUnit.Util
 		/// </summary>
 		private TestNode contextNode;
 
+		/// <summary>
+		/// Whether or not we track progress of tests visibly in the tree
+		/// </summary>
+		private bool displayProgress = false;
+
 		#endregion
 
 		#region Properties
+
+		/// <summary>
+		/// Property determining whether tree should redraw nodes
+		/// as tests are complete in order to show progress.
+		/// </summary>
+		public bool DisplayTestProgress
+		{
+			get { return displayProgress; }
+			set { displayProgress = value; }
+		}
 
 		/// <summary>
 		/// A type-safe version of SelectedNode.
@@ -356,7 +371,15 @@ namespace NUnit.Util
 		{
 			TestNode node = this[result];	
 			if ( node != null )
+			{
 				node.SetResult( result );
+
+				if ( DisplayTestProgress )
+				{
+					Invalidate( node.Bounds );
+					Update();
+				}
+			}
 //			else
 //				Console.Error.WriteLine("Could not locate node: " + result.Test.FullName + " in tree map");
 		}
