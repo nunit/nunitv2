@@ -51,7 +51,7 @@ namespace NUnit.Core
 			lock( sb )
 			{
 				sb.Append( str );
-				sb.Append( '\n' );
+				sb.Append( base.NewLine );
 				this.CheckBuffer();
 			}
 		}
