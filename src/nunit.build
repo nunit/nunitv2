@@ -414,6 +414,7 @@
         <copy todir="${doc.dir}">
             <fileset basedir="doc">
                 <includes name="ReadMe.pdf"/>
+		<includes name="Changes in NUnit 2.1.5.doc"/>
                 <includes name="QuickStart.doc"/>
                 <includes name="QuickStart.Spanish.doc"/>
             </fileset>
