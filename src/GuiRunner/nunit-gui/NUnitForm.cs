@@ -617,7 +617,6 @@ namespace NUnit.Gui
 			this.progressBar.Step = 1;
 			this.progressBar.TabIndex = 0;
 			this.progressBar.Value = 0;
-			this.progressBar.Click += new System.EventHandler(this.progressBar1_Click);
 			// 
 			// openFileDialog
 			// 
@@ -706,11 +705,6 @@ namespace NUnit.Gui
 		private void exitMenuItem_Click(object sender, System.EventArgs e)
 		{
 			this.Close();
-		}
-
-		private void progressBar1_Click(object sender, System.EventArgs e)
-		{
-		
 		}
 
 		private void runButton_Click(object sender, System.EventArgs e)
