@@ -74,8 +74,8 @@ namespace NUnit.Util
 			xmlWriter.WriteAttributeString("not-run", summaryResults.TestsNotRun.ToString());
 
 			DateTime now = DateTime.Now;
-			xmlWriter.WriteAttributeString("date", now.ToShortDateString());
-			xmlWriter.WriteAttributeString("time", now.ToShortTimeString());
+			xmlWriter.WriteAttributeString("date", XmlConvert.ToString( now, "yyyy-MM-dd" ) );
+			xmlWriter.WriteAttributeString("time", XmlConvert.ToString( now, "hh:mm:ss" ));
 		}
 
 		public void Visit(TestCaseResult caseResult) 
@@ -159,7 +159,7 @@ namespace NUnit.Util
 				xmlWriter.WriteAttributeString("description", suiteResult.Description);
 
 			xmlWriter.WriteAttributeString("success", suiteResult.IsSuccess.ToString());
-			xmlWriter.WriteAttributeString("time", suiteResult.Time.ToString());
+			xmlWriter.WriteAttributeString("time", suiteResult.Time.ToString("#####0.000", NumberFormatInfo.InvariantInfo));
 			xmlWriter.WriteAttributeString("asserts", suiteResult.AssertCount.ToString() );
          
 			WriteCategories(suiteResult);
