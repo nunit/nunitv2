@@ -15,9 +15,9 @@
                 DefaultHTMLPageLayout = "Grid"
                 DefaultTargetSchema = "IE50"
                 DelaySign = "false"
-                OutputType = "WinExe"
+                OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit-gui.exe.config" "$(TargetDir)nunit-gui.exe.config"'
+                PostBuildEvent = ""
                 RootNamespace = "NUnit.Gui"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
