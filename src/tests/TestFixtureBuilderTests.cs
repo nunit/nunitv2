@@ -67,7 +67,7 @@ namespace NUnit.Tests.Core
 		}
 
 		[TestFixture]
-		internal class NoDefaultCtorFixture
+			internal class NoDefaultCtorFixture
 		{
 			public NoDefaultCtorFixture(int index)
 			{}
@@ -93,7 +93,7 @@ namespace NUnit.Tests.Core
 		}
 
 		[TestFixture]
-		internal class BadCtorFixture
+			internal class BadCtorFixture
 		{
 			BadCtorFixture()
 			{
@@ -121,7 +121,7 @@ namespace NUnit.Tests.Core
 		}
 
 		[TestFixture]
-		private class MultipleSetUpAttributes
+			private class MultipleSetUpAttributes
 		{
 			[SetUp]
 			public void Init1()
@@ -136,7 +136,7 @@ namespace NUnit.Tests.Core
 		}
 
 		[TestFixture]
-		private class MultipleTearDownAttributes
+			private class MultipleTearDownAttributes
 		{
 			[TearDown]
 			public void Destroy1()
@@ -167,8 +167,8 @@ namespace NUnit.Tests.Core
 		}
 
 		[TestFixture]
-		[Ignore("testing ignore a suite")]
-		private class IgnoredFixture
+			[Ignore("testing ignore a suite")]
+			private class IgnoredFixture
 		{
 			[Test]
 			public void Success()
@@ -219,6 +219,18 @@ namespace NUnit.Tests.Core
 			{}
 		}
 
+		private class NestedTestFixture
+		{
+			[TestFixture]
+			internal class DoubleNestedTestFixture
+			{
+				[Test]
+				public void Test()
+				{
+				}
+			}
+		}
+
 		[Test]
 		public void TestNonVoidReturn()
 		{
@@ -251,6 +263,27 @@ namespace NUnit.Tests.Core
 			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
 			Assert.NotNull(foundTest);
 			Assert.True(foundTest.ShouldRun);
+		}
+
+		[Test]
+		public void FixtureName()
+		{
+			TestSuite fixture = LoadFixture("NUnit.Tests.Core.TestFixtureBuilderTests");
+			Assert.Equals( "TestFixtureBuilderTests", fixture.Name );
+		}
+
+		[Test]
+		public void FixtureName_Nested()
+		{
+			TestSuite fixture = LoadFixture("NUnit.Tests.Core.TestFixtureBuilderTests+SignatureTestFixture");
+			Assert.Equals( "TestFixtureBuilderTests+SignatureTestFixture", fixture.Name );
+		}
+
+		[Test]
+		public void FixtureName_NestedTwice()
+		{
+			TestSuite fixture = LoadFixture("NUnit.Tests.Core.TestFixtureBuilderTests+NestedTestFixture+DoubleNestedTestFixture");
+			Assert.Equals( "TestFixtureBuilderTests+NestedTestFixture+DoubleNestedTestFixture", fixture.Name );
 		}
 
 		private void InvalidSignatureTest(string methodName, string reason)
