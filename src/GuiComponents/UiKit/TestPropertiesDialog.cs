@@ -226,7 +226,7 @@ namespace NUnit.UiKit
 			this.ignoreReason.CopySupported = true;
 			this.ignoreReason.Location = new System.Drawing.Point(87, 95);
 			this.ignoreReason.Name = "ignoreReason";
-			this.ignoreReason.Size = new System.Drawing.Size(244, 10);
+			this.ignoreReason.Size = new System.Drawing.Size(244, 14);
 			this.ignoreReason.TabIndex = 24;
 			// 
 			// shouldRun
