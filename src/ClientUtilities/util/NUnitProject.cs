@@ -385,7 +385,7 @@ namespace NUnit.Util
 			{ 
 				// TODO: Check this
 				return isAssemblyWrapper
-					  ? projectPath + ".config"
+					  ? Path.GetFileName( projectPath ) + ".config"
 					  : Path.GetFileNameWithoutExtension( projectPath ) + ".config";
 			}
 		}
