@@ -114,8 +114,7 @@ namespace NUnit.Tests.Util
 		public void SaveClearsAssemblyWrapper()
 		{
 			NUnitProject project = NUnitProject.FromAssembly( "nunit.tests.dll" );
-			XmlTextWriter writer = new XmlTextWriter( TextWriter.Null );
-			project.Save( writer );
+			project.Save( xmlfile );
 			Assert.False( project.IsAssemblyWrapper,
 				"Changed project should no longer be wrapper");
 		}
