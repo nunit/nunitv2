@@ -285,7 +285,8 @@ namespace NUnit.UiKit
 				if ( LoadCompleteEvent != null )
 					LoadCompleteEvent( this, new TestLoadEventArgs( TestLoadAction.LoadComplete, assemblyFileName, currentTest ) );
 
-				InstallWatcher( assemblyFileName );
+				if ( UserSettings.Options.EnableWatcher )
+					InstallWatcher( assemblyFileName );
 			}
 			catch( Exception exception )
 			{

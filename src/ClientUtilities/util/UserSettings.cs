@@ -56,6 +56,11 @@ namespace NUnit.Util
 //			get { return new NUnitGuiSettings( GetStorageImpl( "NUnitGui" ) ); }
 //		}
 
+		public static OptionSettings Options
+		{
+			get { return new OptionSettings( GetStorageImpl( "Options" ) ); }
+		}
+
 		public static FormSettings Form
 		{
 			get { return new FormSettings( GetStorageImpl( "Form" ) ); }

@@ -139,6 +139,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "OptionsDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OptionsDialog.resx"
+                    DependentUpon = "OptionsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "TestResultItem.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

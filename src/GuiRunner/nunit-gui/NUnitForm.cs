@@ -101,6 +101,17 @@ namespace NUnit.Gui
 		public System.Windows.Forms.Label suiteName;
 		public NUnit.UiKit.ProgressBar progressBar;
 		private System.Windows.Forms.Button stopButton;
+		private System.Windows.Forms.MenuItem viewMenu;
+		private System.Windows.Forms.MenuItem toolsMenu;
+		private System.Windows.Forms.MenuItem optionsMenuItem;
+		private System.Windows.Forms.MenuItem expandMenuItem;
+		private System.Windows.Forms.MenuItem collapseMenuItem;
+		private System.Windows.Forms.MenuItem viewMenuSeparatorItem1;
+		private System.Windows.Forms.MenuItem expandAllMenuItem;
+		private System.Windows.Forms.MenuItem collapseAllMenuItem;
+		private System.Windows.Forms.MenuItem viewMenuSeparatorItem2;
+		private System.Windows.Forms.MenuItem expandFixturesMenuItem;
+		private System.Windows.Forms.MenuItem collapseFixturesMenuItem;
 		public TextWriter stdErrWriter;
 
 		#endregion
@@ -174,7 +185,7 @@ namespace NUnit.Gui
 			this.progressBar.InitializeEvents( actions );
 			this.statusBar.InitializeEvents( actions );
 
-			if (assemblyFileName == null)
+			if (assemblyFileName == null && UserSettings.Options.LoadLastAssembly )
 				assemblyFileName = recentAssemblies.RecentAssembly;
 
 			if(assemblyFileName != null)
@@ -218,6 +229,17 @@ namespace NUnit.Gui
 			this.recentAssembliesMenu = new System.Windows.Forms.MenuItem();
 			this.fileMenuSeparator2 = new System.Windows.Forms.MenuItem();
 			this.exitMenuItem = new System.Windows.Forms.MenuItem();
+			this.viewMenu = new System.Windows.Forms.MenuItem();
+			this.expandMenuItem = new System.Windows.Forms.MenuItem();
+			this.collapseMenuItem = new System.Windows.Forms.MenuItem();
+			this.viewMenuSeparatorItem1 = new System.Windows.Forms.MenuItem();
+			this.expandAllMenuItem = new System.Windows.Forms.MenuItem();
+			this.collapseAllMenuItem = new System.Windows.Forms.MenuItem();
+			this.viewMenuSeparatorItem2 = new System.Windows.Forms.MenuItem();
+			this.expandFixturesMenuItem = new System.Windows.Forms.MenuItem();
+			this.collapseFixturesMenuItem = new System.Windows.Forms.MenuItem();
+			this.toolsMenu = new System.Windows.Forms.MenuItem();
+			this.optionsMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpItem = new System.Windows.Forms.MenuItem();
 			this.helpMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpMenuSeparator1 = new System.Windows.Forms.MenuItem();
@@ -266,6 +288,8 @@ namespace NUnit.Gui
 			// 
 			this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					 this.fileMenu,
+																					 this.viewMenu,
+																					 this.toolsMenu,
 																					 this.helpItem});
 			// 
 			// fileMenu
@@ -323,9 +347,83 @@ namespace NUnit.Gui
 			this.exitMenuItem.Text = "E&xit";
 			this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
 			// 
+			// viewMenu
+			// 
+			this.viewMenu.Index = 1;
+			this.viewMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					 this.expandMenuItem,
+																					 this.collapseMenuItem,
+																					 this.viewMenuSeparatorItem1,
+																					 this.expandAllMenuItem,
+																					 this.collapseAllMenuItem,
+																					 this.viewMenuSeparatorItem2,
+																					 this.expandFixturesMenuItem,
+																					 this.collapseFixturesMenuItem});
+			this.viewMenu.Text = "&View";
+			this.viewMenu.Popup += new System.EventHandler(this.viewMenu_Popup);
+			// 
+			// expandMenuItem
+			// 
+			this.expandMenuItem.Index = 0;
+			this.expandMenuItem.Text = "&Expand";
+			this.expandMenuItem.Click += new System.EventHandler(this.expandMenuItem_Click);
+			// 
+			// collapseMenuItem
+			// 
+			this.collapseMenuItem.Index = 1;
+			this.collapseMenuItem.Text = "&Collapse";
+			this.collapseMenuItem.Click += new System.EventHandler(this.collapseMenuItem_Click);
+			// 
+			// viewMenuSeparatorItem1
+			// 
+			this.viewMenuSeparatorItem1.Index = 2;
+			this.viewMenuSeparatorItem1.Text = "-";
+			// 
+			// expandAllMenuItem
+			// 
+			this.expandAllMenuItem.Index = 3;
+			this.expandAllMenuItem.Text = "Expand All";
+			this.expandAllMenuItem.Click += new System.EventHandler(this.expandAllMenuItem_Click);
+			// 
+			// collapseAllMenuItem
+			// 
+			this.collapseAllMenuItem.Index = 4;
+			this.collapseAllMenuItem.Text = "Collapse All";
+			this.collapseAllMenuItem.Click += new System.EventHandler(this.collapseAllMenuItem_Click);
+			// 
+			// viewMenuSeparatorItem2
+			// 
+			this.viewMenuSeparatorItem2.Index = 5;
+			this.viewMenuSeparatorItem2.Text = "-";
+			// 
+			// expandFixturesMenuItem
+			// 
+			this.expandFixturesMenuItem.Index = 6;
+			this.expandFixturesMenuItem.Text = "Expand Fixtures";
+			this.expandFixturesMenuItem.Click += new System.EventHandler(this.expandFixturesMenuItem_Click);
+			// 
+			// collapseFixturesMenuItem
+			// 
+			this.collapseFixturesMenuItem.Index = 7;
+			this.collapseFixturesMenuItem.Text = "Collapse Fixtures";
+			this.collapseFixturesMenuItem.Click += new System.EventHandler(this.collapseFixturesMenuItem_Click);
+			// 
+			// toolsMenu
+			// 
+			this.toolsMenu.Index = 2;
+			this.toolsMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					  this.optionsMenuItem});
+			this.toolsMenu.Text = "&Tools";
+			// 
+			// optionsMenuItem
+			// 
+			this.optionsMenuItem.Index = 0;
+			this.optionsMenuItem.Text = "&Options";
+			this.optionsMenuItem.Click += new System.EventHandler(this.optionsMenuItem_Click);
+			// 
 			// helpItem
 			// 
-			this.helpItem.Index = 1;
+			this.helpItem.Index = 3;
 			this.helpItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					 this.helpMenuItem,
 																					 this.helpMenuSeparator1,
@@ -359,8 +457,9 @@ namespace NUnit.Gui
 			this.testSuiteTreeView.Name = "testSuiteTreeView";
 			this.testSuiteTreeView.RunCommandSupported = true;
 			this.testSuiteTreeView.Size = new System.Drawing.Size(358, 511);
+			this.testSuiteTreeView.Sorted = true;
 			this.testSuiteTreeView.TabIndex = 1;
-			this.testSuiteTreeView.SelectedTestChanged += new SelectedTestChangedHandler(this.OnSelectedTestChanged);
+			this.testSuiteTreeView.SelectedTestChanged += new NUnit.Util.SelectedTestChangedHandler(this.OnSelectedTestChanged);
 			// 
 			// splitter1
 			// 
@@ -652,6 +751,8 @@ namespace NUnit.Gui
 
 		#region Main Menu Handlers
 
+		#region File Menu
+
 		/// <summary>
 		/// When File menu is about to display, enable/disable Close
 		/// </summary>
@@ -713,6 +814,68 @@ namespace NUnit.Gui
 			this.Close();
 		}
 
+		#endregion
+
+		#region View Menu
+
+		private void viewMenu_Popup(object sender, System.EventArgs e)
+		{
+			TreeNode selectedNode = testSuiteTreeView.SelectedNode;
+			if ( selectedNode != null && selectedNode.Nodes.Count > 0 )
+			{
+				bool isExpanded = testSuiteTreeView.SelectedNode.IsExpanded;
+				collapseMenuItem.Enabled = isExpanded;
+				expandMenuItem.Enabled = !isExpanded;		
+			}
+			else
+			{
+				collapseMenuItem.Enabled = expandMenuItem.Enabled = false;
+			}
+		}
+
+		private void collapseMenuItem_Click(object sender, System.EventArgs e)
+		{
+			testSuiteTreeView.SelectedNode.Collapse();
+		}
+
+		private void expandMenuItem_Click(object sender, System.EventArgs e)
+		{
+			testSuiteTreeView.SelectedNode.Expand();
+		}
+
+		private void collapseAllMenuItem_Click(object sender, System.EventArgs e)
+		{
+			testSuiteTreeView.CollapseAll();
+		}
+
+		private void expandAllMenuItem_Click(object sender, System.EventArgs e)
+		{
+			testSuiteTreeView.ExpandAll();
+		}
+
+		private void collapseFixturesMenuItem_Click(object sender, System.EventArgs e)
+		{
+			testSuiteTreeView.CollapseFixtures();		
+		}
+
+		private void expandFixturesMenuItem_Click(object sender, System.EventArgs e)
+		{
+			testSuiteTreeView.ExpandFixtures();		
+		}
+
+		#endregion
+
+		#region Tools Menu
+
+		private void optionsMenuItem_Click(object sender, System.EventArgs e)
+		{
+			ShowOptionsDialog();
+		}
+
+		#endregion
+
+		#region Help Menu
+
 		/// <summary>
 		/// Display the about box when menu item is selected
 		/// </summary>
@@ -721,6 +884,8 @@ namespace NUnit.Gui
 			AboutBox aboutBox = new AboutBox();
 			aboutBox.Show();
 		}
+
+		#endregion
 
 		#endregion
 
@@ -919,7 +1084,8 @@ namespace NUnit.Gui
 		/// <param name="test">Top level Test for the current assembly</param>
 		private void OnTestChanged( object sender, TestLoadEventArgs e )
 		{
-			ClearTabs();
+			if ( UserSettings.Options.ClearResults )
+				ClearTabs();
 		}
 
 		/// <summary>
@@ -1067,6 +1233,12 @@ namespace NUnit.Gui
 		{
 			DetailResults detailResults = new DetailResults(detailList, notRunTree);
 			detailResults.DisplayResults( results );
+		}
+
+		private void ShowOptionsDialog( )
+		{
+			OptionsDialog dialog = new OptionsDialog();
+			DialogResult result = dialog.ShowDialog();
 		}
 
 		#endregion	

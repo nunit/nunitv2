@@ -227,7 +227,8 @@ namespace NUnit.Util
 		private void OnTestChanged( object sender, TestLoadEventArgs e )
 		{
 			Invoke( new LoadHandler( Reload ), new object[]{ e.Test } );
-			ClearResults();	// ToDo: Make this optional
+			if ( UserSettings.Options.ClearResults )
+				ClearResults();
 		}
 
 		private void OnTestUnloaded( object sender, TestLoadEventArgs e)
@@ -445,7 +446,12 @@ namespace NUnit.Util
 		{
 			Clear();
 			AddTreeNodes( Nodes, test, false );
-			ExpandAll();
+			if ( UserSettings.Options.ExpandOnLoad )
+			{
+				ExpandAll();
+				if ( UserSettings.Options.HideTestCases )
+					CollapseFixtures();
+			}
 			SelectedNode = Nodes[0];
 		}
 
@@ -494,7 +500,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Collapse all fixtures in the tree
 		/// </summary>
-		private void CollapseFixtures()
+		public void CollapseFixtures()
 		{
 			foreach( TestSuiteTreeNode node in Nodes )
 				CollapseFixturesUnderNode( node );
@@ -503,7 +509,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Expand all fixtures in the tree
 		/// </summary>
-		private void ExpandFixtures()
+		public void ExpandFixtures()
 		{
 			foreach( TestSuiteTreeNode node in Nodes )
 				ExpandFixturesUnderNode( node );
