@@ -1,8 +1,8 @@
 using System;
-using Nunit.Framework;
-using Nunit.Core;
+using NUnit.Framework;
+using NUnit.Core;
 
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
 	/// <summary>
 	/// Summary description for SuiteBuilderTests.
@@ -11,12 +11,12 @@ namespace Nunit.Tests
 	[TestFixture]
 	public class SuiteBuilderTests
 	{
-		private string testsDll = "Nunit.Tests.dll";
+		private string testsDll = "NUnit.Tests.dll";
 
 		[Test]
 		public void LoadTestSuiteFromAssembly()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("Nunit.Tests.AllTests", testsDll);
+			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.AllTests", testsDll);
 			Assertion.Assert(suite != null);
 		}
 
@@ -44,7 +44,7 @@ namespace Nunit.Tests
 		[Test]
 		public void DiscoverSuite()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("Nunit.Tests.SuiteBuilderTests+Suite",testsDll);
+			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.SuiteBuilderTests+Suite",testsDll);
 			Assertion.AssertNotNull("Could not discover suite attribute",suite);
 		}
 
@@ -63,7 +63,7 @@ namespace Nunit.Tests
 		[Test]
 		public void WrongReturnTypeSuite()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("Nunit.Tests.assemblies.AssemblyTests+NonConformingSuite",testsDll);
+			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.assemblies.AssemblyTests+NonConformingSuite",testsDll);
 			Assertion.AssertNull("Suite propertye returns wrong type",suite);
 		}
 	}

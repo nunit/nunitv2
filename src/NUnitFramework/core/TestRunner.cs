@@ -1,7 +1,7 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
 //
-namespace Nunit.Core
+namespace NUnit.Core
 {
 	using System;
 	using System.Runtime.Remoting;
@@ -15,14 +15,14 @@ namespace Nunit.Core
 	public class TestRunner
 	{
 		private string assemblyName;
-		private Nunit.Core.EventListener eventHandler;
+		private NUnit.Core.EventListener eventHandler;
 		private AppDomain runnerDomain;
 		private RemoteTestRunner runner;
 		private string fullName;
 		private TextWriter stdOutWriter;
 		private TextWriter stdErrWriter;
 
-		public TestRunner(string assemblyName, Nunit.Core.EventListener listener, TextWriter stdOutWriter, TextWriter stdErrWriter)
+		public TestRunner(string assemblyName, NUnit.Core.EventListener listener, TextWriter stdOutWriter, TextWriter stdErrWriter)
 		{
 			this.assemblyName = assemblyName;
 			this.eventHandler = listener;

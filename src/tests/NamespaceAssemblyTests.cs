@@ -1,14 +1,14 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
 	using System;
 	using System.Collections;
 	using System.Reflection;
-	using Nunit.Framework;
-	using Nunit.Core;
-	using Nunit.Tests.Assemblies;
+	using NUnit.Framework;
+	using NUnit.Core;
+	using NUnit.Tests.Assemblies;
 
 	/// <summary>
 	/// Summary description for NamespaceAssemblyTests.
@@ -25,13 +25,13 @@ namespace Nunit.Tests
 		public void SetUp() 
 		{
 			testAssembly = TestSuiteBuilder.Load(testsDll);
-			assemblyTestType = testAssembly.GetType("Nunit.Tests.OneTestCase");
+			assemblyTestType = testAssembly.GetType("NUnit.Tests.OneTestCase");
 		}
 
 		[Test]
 		public void LoadTestFixtureFromAssembly()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("Nunit.Tests.Assemblies.MockTestFixture", testsDll);
+			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.Assemblies.MockTestFixture", testsDll);
 			Assertion.Assert(suite != null);
 		}
 
@@ -51,7 +51,7 @@ namespace Nunit.Tests
 
 			Assertion.Assert("TestSuite:NUnit - is not correct", tests[0] is TestSuite);
 			TestSuite testSuite = (TestSuite)tests[0];
-			Assertion.AssertEquals("Nunit", testSuite.Name);
+			Assertion.AssertEquals("NUnit", testSuite.Name);
 
 			tests = testSuite.Tests;
 			Assertion.Assert("TestSuite:Tests - is invalid", tests[0] is TestSuite);
@@ -75,7 +75,7 @@ namespace Nunit.Tests
 			ArrayList mockTests = mockFixtureSuite.Tests;
 			foreach(Test t in mockTests)
 			{
-				Assertion.Assert("should be a TestCase", t is TestCase);
+				Assertion.Assert("should be a TestCase", t is NUnit.Core.TestCase);
 			}
 		}
 	}

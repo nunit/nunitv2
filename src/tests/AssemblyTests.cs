@@ -1,15 +1,15 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Tests.Assemblies
+namespace NUnit.Tests.Assemblies
 {
 	using System;
 	using System.IO;
 	using System.Reflection;
 	using System.Reflection.Emit;
 	using System.Threading;
-	using Nunit.Framework;
-	using Nunit.Core;
+	using NUnit.Framework;
+	using NUnit.Core;
 
 	/// <summary>
 	/// Summary description for AssemblyTests.
@@ -18,7 +18,7 @@ namespace Nunit.Tests.Assemblies
 	[TestFixture]
 	public class AssemblyTests 
 	{
-		private string testsDll = "Nunit.Tests.dll";
+		private string testsDll = "NUnit.Tests.dll";
 		private Assembly testAssembly;
 		private Type assemblyTestType;
 
@@ -26,7 +26,7 @@ namespace Nunit.Tests.Assemblies
 		public void SetUp() 
 		{
 			testAssembly = TestSuiteBuilder.Load(testsDll);
-			assemblyTestType = testAssembly.GetType("Nunit.Tests.assemblies.AssemblyTests");
+			assemblyTestType = testAssembly.GetType("NUnit.Tests.assemblies.AssemblyTests");
 		}
 
 		[Test]
@@ -53,7 +53,7 @@ namespace Nunit.Tests.Assemblies
 		[Test]
 		public void LoadTestFixtureFromAssembly()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("Nunit.Tests.Assemblies.AssemblyTests", testsDll);
+			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.Assemblies.AssemblyTests", testsDll);
 			Assertion.Assert(suite != null);
 			Assertion.AssertEquals(suite.CountTestCases,TestCaseBuilder.CountTestCases(this));
 		}
@@ -62,7 +62,7 @@ namespace Nunit.Tests.Assemblies
 		public void GetNamespace()
 		{
 			string typeNamespace = this.GetType().Namespace;
-			Assertion.AssertEquals("Nunit.Tests.Assemblies", typeNamespace);
+			Assertion.AssertEquals("NUnit.Tests.Assemblies", typeNamespace);
 		}
 	}
 }

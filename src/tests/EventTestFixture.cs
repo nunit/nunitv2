@@ -1,8 +1,8 @@
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
 	using System;
-	using Nunit.Framework;
-	using Nunit.Core;
+	using NUnit.Framework;
+	using NUnit.Core;
 
 	/// <summary>
 	/// Summary description for EventTestFixture.
@@ -33,7 +33,7 @@ namespace Nunit.Tests
 			internal int suiteStarted = 0;
 			internal int suiteFinished = 0;
 
-			public void TestStarted(TestCase testCase)
+			public void TestStarted(NUnit.Core.TestCase testCase)
 			{
 				testCaseStart++;
 			}

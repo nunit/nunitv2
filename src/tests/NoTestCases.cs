@@ -1,9 +1,9 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
 //
-namespace Nunit.Tests 
+namespace NUnit.Tests 
 {
-	using Nunit.Framework;
+	using NUnit.Framework;
 
 	[TestFixture]
 	internal class EmptyFixture 

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Reflection;
 
-namespace Nunit.Gui
+namespace NUnit.Gui
 {
 	/// <summary>
 	/// Summary description for AboutBox.

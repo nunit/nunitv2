@@ -1,12 +1,12 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
 	using System;
-	using Nunit.Framework;
-	using Nunit.Tests.Assemblies;
-	using Nunit.Core;
+	using NUnit.Framework;
+	using NUnit.Tests.Assemblies;
+	using NUnit.Core;
 
 	/// <summary>
 	/// Summary description for TestCaseTest.
@@ -19,7 +19,7 @@ namespace Nunit.Tests
 		public void CreateIgnoredTestCase()
 		{
 			MockTestFixture mockTestFixture = new MockTestFixture();
-			TestCase testCase = TestCaseBuilder.Make(mockTestFixture, "MockTest4"); 
+			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(mockTestFixture, "MockTest4"); 
 			Assertion.AssertEquals(1, testCase.CountTestCases);
 			Assertion.AssertEquals(false, testCase.ShouldRun);
 			Assertion.AssertEquals("ignoring this test method for now", testCase.IgnoreReason);
@@ -29,7 +29,7 @@ namespace Nunit.Tests
 		public void RunIgnoredTestCase()
 		{
 			MockTestFixture mockTestFixture = new MockTestFixture();
-			TestCase testCase = TestCaseBuilder.Make(mockTestFixture, "MockTest4"); 
+			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(mockTestFixture, "MockTest4"); 
 			Assertion.AssertEquals(1, testCase.CountTestCases);
 			
 			TestResult result = testCase.Run(NullListener.NULL);

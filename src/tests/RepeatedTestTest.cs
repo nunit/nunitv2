@@ -1,12 +1,12 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
 	using System;
-	using Nunit.Framework;
-	using Nunit.Core;
-	using Nunit.Extensions;
+	using NUnit.Framework;
+	using NUnit.Core;
+	using NUnit.Extensions;
 
 	/// <summary>
 	/// Summary description for RepeatedTestTest.
@@ -27,7 +27,7 @@ namespace Nunit.Tests
 		[Test]
 		public void RepeatTestFiveTimes()
 		{
-			TestCase baseCase = TestCaseBuilder.Make(new SuccessTest(), "Success");
+			NUnit.Core.TestCase baseCase = TestCaseBuilder.Make(new SuccessTest(), "Success");
 			Test repeatTest = new RepeatedTest(baseCase, 5);
 			Assertion.Assert(repeatTest.CountTestCases == 5);
 

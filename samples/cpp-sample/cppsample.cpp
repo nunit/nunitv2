@@ -2,7 +2,7 @@
 
 #include "cppsample.h"
 
-namespace NunitSamples {
+namespace NUnitSamples {
 
 	void SimpleCPPSample::Init() {
 		fValue1 = 2;

@@ -1,4 +1,4 @@
-namespace Nunit.Samples.Money 
+namespace NUnit.Samples.Money 
 {
 
 	using System;

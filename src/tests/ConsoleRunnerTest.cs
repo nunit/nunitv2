@@ -1,4 +1,4 @@
-namespace Nunit.Tests 
+namespace NUnit.Tests 
 {
 	using System;
 	using System.IO;
@@ -6,7 +6,7 @@ namespace Nunit.Tests
 	using System.Reflection;
 	using System.Text;
 
-	using Nunit.Framework;
+	using NUnit.Framework;
 /// <summary>
 /// 
 /// </summary>
@@ -39,7 +39,7 @@ namespace Nunit.Tests
 		public void FailureFixture() 
 		{
 			string arguments = MakeCommandLine(GetType().Module.Name, 
-				typeof(Nunit.Tests.ConsoleRunnerTest.FailureTest).FullName,
+				typeof(NUnit.Tests.ConsoleRunnerTest.FailureTest).FullName,
 				null);
 			RunConsoleTest(arguments, 1);
 		}
@@ -48,7 +48,7 @@ namespace Nunit.Tests
 		public void SuccessFixture() 
 		{
 			string arguments = MakeCommandLine(GetType().Module.Name, 
-				typeof(Nunit.Tests.SuccessTest).FullName, 
+				typeof(NUnit.Tests.SuccessTest).FullName, 
 				null);
 			RunConsoleTest(arguments, 0);
 		}
@@ -60,7 +60,7 @@ namespace Nunit.Tests
 			info.Delete();
 
 			string arguments = MakeCommandLine(GetType().Module.Name, 
-				typeof(Nunit.Tests.SuccessTest).FullName,
+				typeof(NUnit.Tests.SuccessTest).FullName,
 				info.FullName);
 			RunConsoleTest(arguments, 0);
 			Assertion.AssertEquals(true, info.Exists);
@@ -70,7 +70,7 @@ namespace Nunit.Tests
 		public void InvalidFixture()
 		{
 			string arguments = MakeCommandLine(GetType().Module.Name, 
-				"Nunit.Tests.BogusTest", 
+				"NUnit.Tests.BogusTest", 
 				null);
 			RunConsoleTest(arguments, 2);
 		}

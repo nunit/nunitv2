@@ -1,14 +1,14 @@
 using System;
 
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
 	using System.IO;
 	using System.Reflection;
 	using System.Threading;
 	using System.Reflection.Emit;
 
-	using Nunit.Core;
-	using Nunit.Framework;
+	using NUnit.Core;
+	using NUnit.Framework;
 
 	/// <summary>
 	/// Summary description for AssemblyVersionFixture.

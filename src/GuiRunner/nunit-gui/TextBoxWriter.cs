@@ -1,7 +1,7 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Gui
+namespace NUnit.Gui
 {
 	using System;
 	using System.IO;

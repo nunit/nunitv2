@@ -1,11 +1,11 @@
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
 	using System;
 	using System.Collections;
 	using Microsoft.Win32;
 
-	using Nunit.Framework;
-	using Nunit.Util;
+	using NUnit.Framework;
+	using NUnit.Util;
 
 	/// <summary>
 	/// Summary description for RecentAssemblyFixture.

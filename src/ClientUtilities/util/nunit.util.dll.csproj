@@ -80,6 +80,7 @@
                     Name = "nunit.core.dll"
                     Project = "{D3639D7C-96AB-459D-B045-4DD81547D7C4}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    Private = "False"
                 />
             </References>
         </Build>

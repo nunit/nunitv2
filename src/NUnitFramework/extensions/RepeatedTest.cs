@@ -1,12 +1,10 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Extensions
+namespace NUnit.Extensions
 {
 	using System;
-	using Nunit.Core;
-	using Nunit.Framework;
-
+	using NUnit.Core;
 
 	/// <summary>
 	/// Summary description for RepeatedTest.

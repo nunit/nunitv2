@@ -3,9 +3,9 @@
 '
 Option Explicit On 
 Imports System
-Imports Nunit.Framework
+Imports NUnit.Framework
 
-Namespace Nunit.Samples
+Namespace NUnit.Samples
 
     <TestFixture()> Public Class SimpleVBTest
 

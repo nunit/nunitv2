@@ -1,10 +1,10 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Tests.Assemblies
+namespace NUnit.Tests.Assemblies
 {
 	using System;
-	using Nunit.Framework;
+	using NUnit.Framework;
 
 	/// <summary>
 	/// Summary description for MockTestFixture.

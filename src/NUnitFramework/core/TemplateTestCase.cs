@@ -1,7 +1,7 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Core
+namespace NUnit.Core
 {
 	using System;
 	using System.Reflection;
@@ -87,7 +87,7 @@ namespace Nunit.Core
 
 		private MethodInfo FindTearDownMethod(object fixture)
 		{			
-			return FindMethodByAttribute(fixture, typeof(Nunit.Framework.TearDownAttribute));
+			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.TearDownAttribute));
 		}
 
 		private void InvokeSetUp()
@@ -109,7 +109,7 @@ namespace Nunit.Core
 
 		private MethodInfo FindSetUpMethod(object fixture)
 		{
-			return FindMethodByAttribute(fixture, typeof(Nunit.Framework.SetUpAttribute));
+			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.SetUpAttribute));
 		}
 
 		private MethodInfo FindMethodByAttribute(object fixture, Type type)

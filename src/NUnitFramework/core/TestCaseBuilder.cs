@@ -1,11 +1,10 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Core
+namespace NUnit.Core
 {
 	using System;
 	using System.Reflection;
-	using Nunit.Framework;
 
 	/// <summary>
 	/// Summary description for TestCaseBuilder.
@@ -58,21 +57,22 @@ namespace Nunit.Core
 
 		private static bool IsExpectedException(MethodInfo method)
 		{
-			Type exceptionAttr = typeof(Nunit.Framework.ExpectedExceptionAttribute);
+			Type exceptionAttr = typeof(NUnit.Framework.ExpectedExceptionAttribute);
 			object[] attributes = method.GetCustomAttributes(exceptionAttr, false);
 			return attributes.Length == 1;
 		}
 
 		private static Type GetExpectedExceptions(MethodInfo method)
 		{
-			Type exceptionAttr = typeof(Nunit.Framework.ExpectedExceptionAttribute);
+			Type exceptionAttr = typeof(NUnit.Framework.ExpectedExceptionAttribute);
 			object[] attributes = method.GetCustomAttributes(exceptionAttr, false);
 
 			Type returnType = null;
 
 			if(attributes.Length == 1)
 			{
-				ExpectedExceptionAttribute expectedAttr = (ExpectedExceptionAttribute)attributes[0];
+				NUnit.Framework.ExpectedExceptionAttribute expectedAttr = 
+					(NUnit.Framework.ExpectedExceptionAttribute)attributes[0];
 				returnType = expectedAttr.ExceptionType;
 			}
 
@@ -112,7 +112,7 @@ namespace Nunit.Core
 
 		private static bool HasTestAttribute(MethodInfo methodToCheck)
 		{
-			return methodToCheck.IsDefined(typeof(Nunit.Framework.TestAttribute),false);
+			return methodToCheck.IsDefined(typeof(NUnit.Framework.TestAttribute),false);
 		}
 		
 		private static bool HasObsoleteTestName(MethodInfo methodToCheck)
@@ -122,15 +122,15 @@ namespace Nunit.Core
 
 		private static bool HasIgnoreAttribute(MethodInfo methodToCheck)
 		{
-			Type ignoreMethodAttribute = typeof(Nunit.Framework.IgnoreAttribute);
+			Type ignoreMethodAttribute = typeof(NUnit.Framework.IgnoreAttribute);
 			object[] attributes = methodToCheck.GetCustomAttributes(ignoreMethodAttribute, false);
 			return attributes.Length == 1;
 		}
 
 		private static string GetIgnoreReason(MethodInfo methodToCheck)
 		{
-			Type ignoreMethodAttribute = typeof(Nunit.Framework.IgnoreAttribute);
-			IgnoreAttribute[] attributes = (IgnoreAttribute[])methodToCheck.GetCustomAttributes(ignoreMethodAttribute, false);
+			Type ignoreMethodAttribute = typeof(NUnit.Framework.IgnoreAttribute);
+			NUnit.Framework.IgnoreAttribute[] attributes = (NUnit.Framework.IgnoreAttribute[])methodToCheck.GetCustomAttributes(ignoreMethodAttribute, false);
 			string result = "no reason";
 			if(attributes.Length > 0)
 				result = attributes[0].Reason;

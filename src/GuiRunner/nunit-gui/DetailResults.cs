@@ -1,10 +1,10 @@
 using System;
 
-namespace Nunit.Gui
+namespace NUnit.Gui
 {
 	using System;
 	using System.Windows.Forms;
-	using Nunit.Core;
+	using NUnit.Core;
 
 	/// <summary>
 	/// Summary description for ResultVisitor.

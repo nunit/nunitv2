@@ -1,7 +1,7 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Console
+namespace NUnit.Console
 {
 	using System;
 	using System.IO;
@@ -12,8 +12,8 @@ namespace Nunit.Console
 	using System.Resources;
 	using System.Text;
 
-	using Nunit.Core;
-	using Nunit.Util;
+	using NUnit.Core;
+	using NUnit.Util;
 	
 
 	/// <summary>
@@ -116,7 +116,7 @@ namespace Nunit.Console
 
 		private static void WriteHelp(TextWriter writer)
 		{
-			writer.WriteLine("\n\n         Nunit console options\n");
+			writer.WriteLine("\n\n         NUnit console options\n");
 			writer.WriteLine("/assembly:<assembly name>                            Assembly to test");
 			writer.WriteLine("/fixture:<class name> /assembly:<assembly name>      Fixture or Suite to run");
 			writer.WriteLine("\n\n         XML formatting options");

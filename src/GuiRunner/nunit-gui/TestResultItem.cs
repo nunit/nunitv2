@@ -1,8 +1,8 @@
 using System;
 
-namespace Nunit.Gui
+namespace NUnit.Gui
 {
-	using Nunit.Core;
+	using NUnit.Core;
 
 	/// <summary>
 	/// Summary description for TestResultItem.

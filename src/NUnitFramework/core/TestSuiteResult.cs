@@ -1,7 +1,7 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Core
+namespace NUnit.Core
 {
 	using System;
 	using System.Collections;

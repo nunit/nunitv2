@@ -1,8 +1,8 @@
 using System;
-using Nunit.Framework;
-using Nunit.Core;
+using NUnit.Framework;
+using NUnit.Core;
 
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
 	/// <summary>
 	/// Summary description for TestFixtureExtension.
@@ -14,7 +14,7 @@ namespace Nunit.Tests
 		private TestSuite suite;
 
 		[TestFixture]
-		private abstract class BaseTestFixture : TestFixture
+		private abstract class BaseTestFixture : NUnit.Framework.TestCase
 		{
 			internal bool baseSetup = false;
 			internal bool baseTeardown = false;
@@ -52,8 +52,8 @@ namespace Nunit.Tests
 
 		[SetUp] public void LoadFixture()
 		{
-			string testsDll = "Nunit.Tests.dll";
-			suite = TestSuiteBuilder.Build("Nunit.Tests.TestFixtureExtension+DerivedTestFixture", testsDll);
+			string testsDll = "NUnit.Tests.dll";
+			suite = TestSuiteBuilder.Build("NUnit.Tests.TestFixtureExtension+DerivedTestFixture", testsDll);
 		}
 
 		[Test] 

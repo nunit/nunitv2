@@ -1,9 +1,9 @@
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
 	using System;
 	using System.IO;
 	using System.Threading;
-	using Nunit.Framework;
+	using NUnit.Framework;
 
 	/// <summary>
 	/// Summary description for AssemblyWatcherFixture.

@@ -1,4 +1,4 @@
-namespace Nunit.Framework 
+namespace NUnit.Framework 
 {
 	using System;
 

@@ -1,7 +1,7 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Core
+namespace NUnit.Core
 {
 	using System;
 	using System.IO;
@@ -37,12 +37,12 @@ namespace Nunit.Core
 		{
 			string[] patterns = new string[]
 			{
-				"Nunit.Core.TestCase",
-				"Nunit.Core.ExpectedExceptionTestCase",
-				"Nunit.Core.TemplateTestCase",
-				"Nunit.Core.TestResult",
-				"Nunit.Core.TestSuite",
-				"Nunit.Framework.Assertion" 
+				"NUnit.Core.TestCase",
+				"NUnit.Core.ExpectedExceptionTestCase",
+				"NUnit.Core.TemplateTestCase",
+				"NUnit.Core.TestResult",
+				"NUnit.Core.TestSuite",
+				"NUnit.Framework.Assertion" 
 			};
 
 			for (int i = 0; i < patterns.Length; i++) 

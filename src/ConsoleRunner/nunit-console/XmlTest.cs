@@ -1,15 +1,15 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Console
+namespace NUnit.Console
 {
 	using System;
 	using System.IO;
 	using System.Xml;
 	using System.Xml.Schema;
-	using Nunit.Core;
-	using Nunit.Tests;
-	using Nunit.Framework;
+	using NUnit.Core;
+	using NUnit.Tests;
+	using NUnit.Framework;
 
 	/// <summary>
 	/// Summary description for XmlTest.

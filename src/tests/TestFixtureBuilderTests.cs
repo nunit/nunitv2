@@ -1,9 +1,9 @@
 using System;
 using System.Reflection;
-using Nunit.Framework;
-using Nunit.Core;
+using NUnit.Framework;
+using NUnit.Core;
 
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
 	/// <summary>
 	/// Summary description for AttributeTests.
@@ -12,7 +12,7 @@ namespace Nunit.Tests
 	[TestFixture]
 	public class TestFixtureBuilderTests
 	{
-		private string testsDll = "Nunit.Tests.dll";
+		private string testsDll = "NUnit.Tests.dll";
 
 		class AssemblyType
 		{
@@ -27,7 +27,7 @@ namespace Nunit.Tests
 		[Test]
 		public void CallTestFixtureConstructor()
 		{
-			ConstructorInfo ctor = typeof(Nunit.Tests.TestFixtureBuilderTests.AssemblyType).GetConstructor(Type.EmptyTypes);
+			ConstructorInfo ctor = typeof(NUnit.Tests.TestFixtureBuilderTests.AssemblyType).GetConstructor(Type.EmptyTypes);
 			Assertion.Assert(ctor != null);
 
 			object testFixture = ctor.Invoke(Type.EmptyTypes);
@@ -117,7 +117,7 @@ namespace Nunit.Tests
 		[Test]
 		public void TestIgnoredFixture()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("Nunit.Tests.TestFixtureBuilderTests+IgnoredFixture", testsDll);
+			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.TestFixtureBuilderTests+IgnoredFixture", testsDll);
 			
 			suite = (TestSuite)suite.Tests[0];
 			
@@ -125,7 +125,7 @@ namespace Nunit.Tests
 			Assertion.Assert("Suite should not be runnable", !suite.ShouldRun);
 			Assertion.AssertEquals("testing ignore a suite", suite.IgnoreReason);
 
-			TestCase testCase = (TestCase)suite.Tests[0];
+			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
 			Assertion.Assert("test case should inherit run state from enclosing suite", !testCase.ShouldRun);
 		}
 
@@ -184,16 +184,16 @@ namespace Nunit.Tests
 		public void GoodSignature()
 		{
 			string methodName = "TestVoid";
-			TestSuite fixture = LoadFixture("Nunit.Tests.TestFixtureBuilderTests+SignatureTestFixture");
-			TestCase foundTest = FindTestByName(fixture, methodName);
+			TestSuite fixture = LoadFixture("NUnit.Tests.TestFixtureBuilderTests+SignatureTestFixture");
+			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
 			Assertion.AssertNotNull(foundTest);
 			Assertion.Assert(foundTest.ShouldRun);
 		}
 
 		private void InvalidSignatureTest(string methodName)
 		{
-			TestSuite fixture = LoadFixture("Nunit.Tests.TestFixtureBuilderTests+SignatureTestFixture");
-			TestCase foundTest = FindTestByName(fixture, methodName);
+			TestSuite fixture = LoadFixture("NUnit.Tests.TestFixtureBuilderTests+SignatureTestFixture");
+			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
 			Assertion.AssertNotNull(foundTest);
 			Assertion.Assert(!foundTest.ShouldRun);
 			string expected = String.Format("Method: {0}'s signature is not correct", methodName);
@@ -221,16 +221,16 @@ namespace Nunit.Tests
 		[Test]
 		public void AbstractFixture()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("Nunit.Tests.TestFixtureBuilderTests+AbstractTestFixture", testsDll);
+			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.TestFixtureBuilderTests+AbstractTestFixture", testsDll);
 			Assertion.AssertNull(suite);
 		}
 
-		private TestCase FindTestByName(TestSuite fixture, string methodName)
+		private NUnit.Core.TestCase FindTestByName(TestSuite fixture, string methodName)
 		{
-			TestCase foundTest = null;
+			NUnit.Core.TestCase foundTest = null;
 			foreach(Test test in fixture.Tests)
 			{
-				TestCase testCase = test as TestCase;
+				NUnit.Core.TestCase testCase = test as NUnit.Core.TestCase;
 				if(testCase != null)
 				{
 					if(testCase.Name.Equals(methodName))

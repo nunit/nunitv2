@@ -1,7 +1,7 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Core
+namespace NUnit.Core
 {
 	using System;
 	using System.IO;
@@ -109,7 +109,7 @@ namespace Nunit.Core
 		{
 			if(type.IsAbstract) return false;
 
-			return type.IsDefined(typeof(Nunit.Framework.TestFixtureAttribute), true);
+			return type.IsDefined(typeof(NUnit.Framework.TestFixtureAttribute), true);
 		}
 
 		public static object BuildTestFixture(Type fixtureType)
@@ -144,12 +144,12 @@ namespace Nunit.Core
 		}
 		private static bool HasMultipleSetUpMethods(object fixture)
 		{
-			return CountMethodWithGivenAttribute(fixture,typeof(Nunit.Framework.SetUpAttribute)) > 1;
+			return CountMethodWithGivenAttribute(fixture,typeof(NUnit.Framework.SetUpAttribute)) > 1;
 		}
 
 		private static bool HasMultipleTearDownMethods(object fixture)
 		{
-			return CountMethodWithGivenAttribute(fixture,typeof(Nunit.Framework.TearDownAttribute)) > 1;
+			return CountMethodWithGivenAttribute(fixture,typeof(NUnit.Framework.TearDownAttribute)) > 1;
 		}
 
 		public static TestSuite MakeSuiteFromTestFixtureType(Type fixtureType)
@@ -205,7 +205,7 @@ namespace Nunit.Core
 				PropertyInfo[] properties = testClass.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
 				foreach(PropertyInfo property in properties)
 				{
-					object[] attrributes = property.GetCustomAttributes(typeof(Nunit.Framework.SuiteAttribute),false);
+					object[] attrributes = property.GetCustomAttributes(typeof(NUnit.Framework.SuiteAttribute),false);
 					if(attrributes.Length>0)
 					{
 						try {
@@ -223,7 +223,7 @@ namespace Nunit.Core
 		private static void CheckSuiteProperty(PropertyInfo property)
 		{
 			MethodInfo method = property.GetGetMethod(true);
-			if(method.ReturnType!=typeof(Nunit.Core.TestSuite))
+			if(method.ReturnType!=typeof(NUnit.Core.TestSuite))
 				throw new InvalidSuiteException("Invalid suite property method signature");
 			if(method.GetParameters().Length>0)
 				throw new InvalidSuiteException("Invalid suite property method signature");

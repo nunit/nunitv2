@@ -1,11 +1,11 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Tests.TestResultSuite
+namespace NUnit.Tests.TestResultSuite
 {
 	using System;
-	using Nunit.Framework;	
-	using Nunit.Core;
+	using NUnit.Framework;	
+	using NUnit.Core;
 
 	/// <summary>
 	/// Summary description for TestResultTests.

@@ -1,11 +1,11 @@
-namespace Nunit.Samples.Money 
+namespace NUnit.Samples.Money 
 {
 	using System;
-	using Nunit.Framework;
+	using NUnit.Framework;
 	/// <summary>
 	/// 
 	/// </summary>
-	public class MoneyTest : TestFixture 
+	public class MoneyTest: TestCase 
 	{
 		private Money f12CHF;
 		private Money f14CHF;

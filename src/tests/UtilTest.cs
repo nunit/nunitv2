@@ -1,14 +1,14 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
 //
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
 	using System;
-	using Nunit.Framework;
-	using Nunit.Core;
-	using Nunit.Tests.Singletons;
-	using Nunit.Tests.Assemblies;
-	using Nunit.Util;
+	using NUnit.Framework;
+	using NUnit.Core;
+	using NUnit.Tests.Singletons;
+	using NUnit.Tests.Assemblies;
+	using NUnit.Util;
 
 	/// <summary>
 	/// Summary description for UtilTest.

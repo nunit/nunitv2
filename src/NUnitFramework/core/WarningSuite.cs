@@ -1,6 +1,6 @@
 using System;
 
-namespace Nunit.Core
+namespace NUnit.Core
 {
 	/// <summary>
 	/// Summary description for WarningSuite.

@@ -131,7 +131,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestFixture.cs"
+                    RelPath = "TestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

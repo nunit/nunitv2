@@ -1,10 +1,10 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
 //
-namespace Nunit.Util
+namespace NUnit.Util
 {
 	using System;
-	using Nunit.Core;
+	using NUnit.Core;
 
 	/// <summary>
 	/// Summary description for UIHelper.

@@ -2,11 +2,11 @@
 
 #pragma once
 
-#using <Nunit.Framework.dll>
+#using <nunit.framework.dll>
 using namespace System;
-using namespace Nunit::Framework;
+using namespace NUnit::Framework;
 
-namespace NunitSamples
+namespace NUnitSamples
 {
 	[TestFixture]
 	public __gc class SimpleCPPSample

@@ -1,11 +1,10 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Core 
+namespace NUnit.Core 
 {
 	using System;
 	using System.Runtime.Serialization;
-	using Nunit.Framework;
   
 	/// <summary>
 	/// Thrown when an assertion failed. Here to preserve the inner

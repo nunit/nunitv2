@@ -1,7 +1,7 @@
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
-	using Nunit.Framework;
-	using Nunit.Core;
+	using NUnit.Framework;
+	using NUnit.Core;
 
 	[TestFixture]
 	public class SetUpTest
@@ -12,13 +12,13 @@ namespace Nunit.Tests
 			internal bool wasTearDownCalled;
 
 			[SetUp]
-			public void Init()
+			public virtual void Init()
 			{
 				wasSetUpCalled = true;
 			}
 
 			[TearDown]
-			public void Destroy()
+			public virtual void Destroy()
 			{
 				wasTearDownCalled = true;
 			}
@@ -63,13 +63,13 @@ namespace Nunit.Tests
 			internal bool derivedTearDownCalled;
 
 			[SetUp]
-			public void Init()
+			public override void Init()
 			{
 				derivedSetUpCalled = true;
 			}
 
 			[TearDown]
-			public void Destroy()
+			public override void Destroy()
 			{
 				derivedTearDownCalled = true;
 			}

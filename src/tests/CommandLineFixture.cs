@@ -1,9 +1,9 @@
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
 	using System;
 	using System.Collections;
-	using Nunit.Framework;
-	using Nunit.Util;
+	using NUnit.Framework;
+	using NUnit.Util;
 
 	[TestFixture]
 	public class CommandLineFixture

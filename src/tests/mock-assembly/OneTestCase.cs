@@ -1,9 +1,9 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Tests.Singletons
+namespace NUnit.Tests.Singletons
 {
-	using Nunit.Framework;
+	using NUnit.Framework;
 
 	/// <summary>
 	/// Summary description for OneTestCase.

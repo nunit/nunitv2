@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace Nunit.Framework
+namespace NUnit.Framework
 {
 	/// <summary>
 	/// Summary description for AssertionFailureMessage.

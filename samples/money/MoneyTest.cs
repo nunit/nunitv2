@@ -1,7 +1,7 @@
-namespace Nunit.Samples.Money 
+namespace NUnit.Samples.Money 
 {
 	using System;
-	using Nunit.Framework;
+	using NUnit.Framework;
 	/// <summary>
 	/// 
 	/// </summary>

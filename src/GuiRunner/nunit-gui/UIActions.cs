@@ -1,7 +1,7 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Gui
+namespace NUnit.Gui
 {
 	using System;
 	using System.Collections;
@@ -9,16 +9,16 @@ namespace Nunit.Gui
 	using System.IO;
 	using System.Windows.Forms;
 	using Microsoft.Win32;
-	using Nunit.Core;
-	using Nunit.Util;
+	using NUnit.Core;
+	using NUnit.Util;
 
 
 	/// <summary>
 	/// Summary description for UIActions.
 	/// </summary>
-	public class UIActions : MarshalByRefObject, Nunit.Core.EventListener
+	public class UIActions : MarshalByRefObject, NUnit.Core.EventListener
 	{
-		private NunitForm form;
+		private NUnitForm form;
 		private Hashtable treeMap = new Hashtable();
 		private TestNode currentSelectedNode;
 		private TestRunner testRunner = null;
@@ -34,7 +34,7 @@ namespace Nunit.Gui
 			assemblyUtil = new RecentAssemblyUtil("recent-assemblies");
 		}
 		
-		public UIActions(NunitForm form)
+		public UIActions(NUnitForm form)
 		{
 			this.form = form;
 		}

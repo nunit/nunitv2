@@ -1,12 +1,12 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Console
+namespace NUnit.Console
 {
 	using System;
 	using System.IO;
 	using System.Xml;
-	using Nunit.Core;
+	using NUnit.Core;
 
 	/// <summary>
 	/// Summary description for XmlResultVisitor.

@@ -1,12 +1,11 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Core
+namespace NUnit.Core
 {
 	using System;
 	using System.Collections;
 	using System.Reflection;
-	using Nunit.Framework;
 
 	/// <summary>
 	/// Summary description for TestSuite.
@@ -39,11 +38,12 @@ namespace Nunit.Core
 		{
 			TestSuite testSuite = CreateNewSuite(fixture.OriginalType.Name);
 			Add(testSuite);
-			testSuite.ShouldRun=false;
-			testSuite.IgnoreReason = "Fixture is invalid";
+			testSuite.ShouldRun = false;
+			testSuite.IgnoreReason = fixture.Message;
 
 			MethodInfo [] methods = fixture.OriginalType.GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.NonPublic);
-			foreach(MethodInfo method in methods) {
+			foreach(MethodInfo method in methods) 
+			{
 				TestCase testCase = TestCaseBuilder.Make(fixture, method);
 				if(testCase != null) 
 				{
@@ -61,11 +61,11 @@ namespace Nunit.Core
 			TestSuite testSuite = CreateNewSuite(fixture.GetType().Name);
 			Add(testSuite);
 
-			Type ignoreMethodAttribute = typeof(Nunit.Framework.IgnoreAttribute);
+			Type ignoreMethodAttribute = typeof(NUnit.Framework.IgnoreAttribute);
 			object[] attributes = fixture.GetType().GetCustomAttributes(ignoreMethodAttribute, false);
 			if(attributes.Length == 1)
 			{
-				IgnoreAttribute attr = (IgnoreAttribute)attributes[0];
+				NUnit.Framework.IgnoreAttribute attr = (NUnit.Framework.IgnoreAttribute)attributes[0];
 				testSuite.ShouldRun = false;
 				testSuite.IgnoreReason = attr.Reason;
 			}

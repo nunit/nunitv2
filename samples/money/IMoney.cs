@@ -1,4 +1,4 @@
-namespace Nunit.Samples.Money 
+namespace NUnit.Samples.Money 
 {
 
 	/// <summary>The common interface for simple Monies and MoneyBags.</summary>

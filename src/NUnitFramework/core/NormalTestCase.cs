@@ -1,11 +1,10 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov. All Rights Reserved.
 //
-namespace Nunit.Core
+namespace NUnit.Core
 {
 	using System;
 	using System.Reflection;
-	using Nunit.Framework;
 
 	/// <summary>
 	/// Summary description for TestCase.
@@ -22,9 +21,9 @@ namespace Nunit.Core
 		
 		protected internal override void ProcessException(Exception exception, TestCaseResult testResult)
 		{
-			if(exception.GetType().IsAssignableFrom(typeof(AssertionException)))
+			if(exception.GetType().IsAssignableFrom(typeof(NUnit.Framework.AssertionException)))
 			{
-				AssertionException error = (AssertionException)exception;
+				NUnit.Framework.AssertionException error = (NUnit.Framework.AssertionException)exception;
 				testResult.Failure(error.Message, error.StackTrace);
 			}
 			else

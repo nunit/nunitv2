@@ -1,7 +1,7 @@
-namespace Nunit.Tests
+namespace NUnit.Tests
 {
     using System;
-    using Nunit.Framework;
+    using NUnit.Framework;
 
     /// <summary>
     /// Wrapper class to give us 'inner-class' access to the methods of this
@@ -9,7 +9,7 @@ namespace Nunit.Tests
     /// these methods, but because this is a framework, don't want others
     /// calling the methods.
     /// </summary>
-    public class MyAssertionFailureMessage : Nunit.Framework.AssertionFailureMessage
+    public class MyAssertionFailureMessage : NUnit.Framework.AssertionFailureMessage
     {
         /// <summary>
         /// Protected constructor, used since this class is only used via

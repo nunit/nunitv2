@@ -1,4 +1,4 @@
-namespace Nunit.Util
+namespace NUnit.Util
 {
 	using System;
 	using System.Collections;

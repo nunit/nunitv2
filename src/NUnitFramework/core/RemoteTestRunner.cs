@@ -1,7 +1,7 @@
 //
 // Copyright (C) 2002. James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
 //
-namespace Nunit.Core
+namespace NUnit.Core
 {
 	using System;
 	using System.IO;
@@ -15,12 +15,12 @@ namespace Nunit.Core
 	{
 		private TestSuite suite;
 		private string fullName;
-		private Nunit.Core.EventListener handler;
+		private NUnit.Core.EventListener handler;
 		private string assemblyName;
 		private TextWriter stdOutWriter;
 		private TextWriter stdErrWriter;
 
-		public RemoteTestRunner(string assemblyName, Nunit.Core.EventListener handler, TextWriter stdOutWriter, TextWriter stdErrOut)
+		public RemoteTestRunner(string assemblyName, NUnit.Core.EventListener handler, TextWriter stdOutWriter, TextWriter stdErrOut)
 		{
 			this.assemblyName = assemblyName;
 			suite = TestSuiteBuilder.Build(assemblyName);

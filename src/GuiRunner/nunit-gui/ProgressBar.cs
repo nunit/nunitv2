@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
 
-namespace Nunit.Gui
+namespace NUnit.Gui
 {
 	/// <summary>
 	/// Summary description for ProgressBar.

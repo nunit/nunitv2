@@ -1,39 +1,36 @@
-package Nunit.Samples;
+package NUnit.Samples;
 
 import System.*;
-import Nunit.Framework.Assertion;
-import Nunit.Framework.TestAttribute;
-import Nunit.Framework.TestFixture;
+import NUnit.Framework.Assertion;
 
-
-/** @attribute Nunit.Framework.TestFixture() */
+/** @attribute NUnit.Framework.TestFixture() */
 public class SimpleJSharpTest
 {
 	protected int fValue1;
 	protected int fValue2;
 
-	/** @attribute Nunit.Framework.SetUp() */
+	/** @attribute NUnit.Framework.SetUp() */
 	public void Init()
 	{
 		fValue1 = 2;
 		fValue2 = 3;
 	}
 
-	/** @attribute Nunit.Framework.Test() */
+	/** @attribute NUnit.Framework.Test() */
 	public void Add() 
 	{
 		int result= fValue1 + fValue2;
 		Assertion.AssertEquals("Expected Failure.",6,result);
 	}
 
-	/** @attribute Nunit.Framework.Test() */
+	/** @attribute NUnit.Framework.Test() */
 	public void DivideByZero() 
 	{
 		int zero= 0;
 		int result = 8/zero;
 	}
 
-	/** @attribute Nunit.Framework.Test() */
+	/** @attribute NUnit.Framework.Test() */
 	public void Equals() 
 	{
 		Assertion.AssertEquals("Integer.",12, 12);

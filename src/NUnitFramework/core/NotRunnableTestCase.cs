@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using System.Diagnostics;
 
-namespace Nunit.Core
+namespace NUnit.Core
 {
 	/// <summary>
 	/// Summary description for NotRunnableTestCase.

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace Nunit.Util
+namespace NUnit.Util
 {
 	/// <summary>
 	/// Summary description for CommandLineParser.

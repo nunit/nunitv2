@@ -7,15 +7,15 @@ using System.Data;
 using System.IO;
 using Microsoft.Win32;
 
-namespace Nunit.Gui
+namespace NUnit.Gui
 {
-	using Nunit.Core;
-	using Nunit.Util;
+	using NUnit.Core;
+	using NUnit.Util;
 
 	/// <summary>
 	/// Summary description for Form1.
 	/// </summary>
-	public class NunitForm : System.Windows.Forms.Form
+	public class NUnitForm : System.Windows.Forms.Form
 	{
 		private string assemblyFileName;
 		private Test suite;
@@ -60,14 +60,14 @@ namespace Nunit.Gui
 		public System.Windows.Forms.TextBox stdErrTab;
 		public System.Windows.Forms.TextBox stdOutTab;
 		public System.Windows.Forms.MenuItem RecentAssemblies;
-		public Nunit.Gui.ProgressBar progressBar;
+		public NUnit.Gui.ProgressBar progressBar;
 		public System.Windows.Forms.TreeView notRunTree;
 		private System.ComponentModel.IContainer components;
 		public TextWriter stdOutWriter;
 		public System.Windows.Forms.ToolTip toolTip;
 		public TextWriter stdErrWriter;
 
-		public NunitForm(string assemblyFileName)
+		public NUnitForm(string assemblyFileName)
 		{
 			InitializeComponent();
 
@@ -162,7 +162,7 @@ namespace Nunit.Gui
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(NunitForm));
+			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(NUnitForm));
 			this.statusBar = new System.Windows.Forms.StatusBar();
 			this.status = new System.Windows.Forms.StatusBarPanel();
 			this.testCaseCount = new System.Windows.Forms.StatusBarPanel();
@@ -201,7 +201,7 @@ namespace Nunit.Gui
 			this.runButton = new System.Windows.Forms.Button();
 			this.suiteName = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
-			this.progressBar = new Nunit.Gui.ProgressBar();
+			this.progressBar = new NUnit.Gui.ProgressBar();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.status)).BeginInit();
@@ -567,7 +567,7 @@ namespace Nunit.Gui
 			// 
 			this.openFileDialog.Filter = "Assemblies (*.dll)|*.dll|Executables (*.exe)|*.exe|All Files (*.*)|*.*";
 			// 
-			// NunitForm
+			// NUnitForm
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.ClientSize = new System.Drawing.Size(624, 377);
@@ -578,11 +578,11 @@ namespace Nunit.Gui
 																		  this.statusBar});
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Menu = this.mainMenu;
-			this.Name = "NunitForm";
+			this.Name = "NUnitForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "NUnit";
-			this.Closing += new System.ComponentModel.CancelEventHandler(this.NunitForm_Closing);
-			this.Load += new System.EventHandler(this.NunitForm_Load);
+			this.Closing += new System.ComponentModel.CancelEventHandler(this.NUnitForm_Closing);
+			this.Load += new System.EventHandler(this.NUnitForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.status)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.testCaseCount)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.testsRun)).EndInit();
@@ -632,7 +632,7 @@ namespace Nunit.Gui
 					}
 				}
 
-				NunitForm form = new NunitForm(assemblyName);
+				NUnitForm form = new NUnitForm(assemblyName);
 				Application.Run(form);
 			}
 			catch(CommandLineException cle)
@@ -761,7 +761,7 @@ namespace Nunit.Gui
 		private static string YLOCATION = "y-location";
 
 
-		private void NunitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		private void NUnitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			string subKey = String.Format("{0}{1}", KEY, "form");
 			RegistryKey key = Registry.CurrentUser.CreateSubKey(subKey);
@@ -772,7 +772,7 @@ namespace Nunit.Gui
 			key.SetValue(YLOCATION, this.Location.Y.ToString());
 		}
 
-		private void NunitForm_Load(object sender, System.EventArgs e)
+		private void NUnitForm_Load(object sender, System.EventArgs e)
 		{
 			string subKey = String.Format("{0}{1}", KEY, "form");
 			RegistryKey key = Registry.CurrentUser.OpenSubKey(subKey);

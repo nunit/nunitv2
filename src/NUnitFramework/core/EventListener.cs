@@ -1,4 +1,4 @@
-namespace Nunit.Core
+namespace NUnit.Core
 {
 	using System;
 
