@@ -8,12 +8,11 @@
             * build.debug           - (true|false) debug build?
             * build.mono            - (true|false) mono build?
             * build.defines.csc     - build defines for build config
-            * runtime.defines.csc   - build defines for target framework
     -->
 
     <target name="build" depends="copy">
         <csc target="library" output="${bin.dir}/notestfixtures-assembly.dll" debug="${build.debug}" 
-          define="${build.defines.csc},${runtime.defines.csc}">
+          define="${build.defines.csc}">
             <sources basedir="${src.dir}/tests/notestfixtures-assembly">
                 <include name="*.cs"/>
             </sources>

@@ -8,11 +8,10 @@
             * build.debug           - (true|false) debug build?
             * build.mono            - (true|false) mono build?
             * build.defines.csc     - build defines for build config
-            * runtime.defines.csc   - build defines for target framework
     -->
 
     <target name="build" depends="copy">
-        <csc target="library" output="${bin.dir}/nonamespace-assembly.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
+        <csc target="library" output="${bin.dir}/nonamespace-assembly.dll" debug="${build.debug}" define="${build.defines.csc}">
             <sources basedir="${src.dir}/tests/nonamespace-assembly">
                 <include name="*.cs"/>
             </sources>

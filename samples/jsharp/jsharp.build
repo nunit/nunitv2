@@ -7,7 +7,6 @@
             * src.dir               - source location(build) or target(copy)
             * build.debug           - (true|false) debug build?
             * build.defines.csc     - build defines for build config
-            * runtime.defines.csc   - build defines for target framework
     -->
 
     <target name="build" depends="copy">

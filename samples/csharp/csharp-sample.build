@@ -7,12 +7,11 @@
             * src.dir               - source location(build) or target(copy)
             * build.debug           - (true|false) debug build?
             * build.defines.csc     - build defines for build config
-            * runtime.defines.csc   - build defines for target framework
     -->
 
     <target name="build" depends="copy">
         <csc target="library" output="${bin.dir}/csharp-sample.dll" 
-          define="${build.defines.csc},${runtime.defines.csc}">
+          define="${build.defines.csc}">
             <sources basedir="${src.dir}/samples/csharp">
                 <include name="*.cs"/>
             </sources>

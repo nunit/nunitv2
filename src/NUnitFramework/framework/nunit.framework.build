@@ -7,12 +7,11 @@
             * src.dir               - source location(build) or target(copy)
             * build.debug           - (true|false) debug build?
             * build.defines.csc     - build defines for build config
-            * runtime.defines.csc   - build defines for target framework
-    -->
+     -->
 
     <target name="build" depends="copy">
         <csc target="library" output="${bin.dir}/nunit.framework.dll"
-                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc},StronglyNamedAssembly">
+                debug="${build.debug}" define="${build.defines.csc},StronglyNamedAssembly">
             <sources basedir="${src.dir}/framework">
                 <include name="*.cs"/>
             </sources>
