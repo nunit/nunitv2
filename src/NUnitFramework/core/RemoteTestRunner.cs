@@ -51,6 +51,11 @@ namespace NUnit.Core
 		private TestSuite suite;
 
 		/// <summary>
+		/// TestRunner thread used for asynchronous running
+		/// </summary>
+		private TestRunnerThread runningThread;
+
+		/// <summary>
 		/// Our writer for standard output
 		/// </summary>
 		private TextWriter outText;
@@ -59,6 +64,31 @@ namespace NUnit.Core
 		/// Our writer for error output
 		/// </summary>
 		private TextWriter errorText;
+
+		/// <summary>
+		/// Buffered standard output writer created for each test run
+		/// </summary>
+		private BufferedStringTextWriter outBuffer;
+
+		/// <summary>
+		/// Buffered error writer created for each test run
+		/// </summary>
+		private BufferedStringTextWriter errorBuffer;
+
+		/// <summary>
+		/// Console standard output to restore after a run
+		/// </summary>
+		private TextWriter saveOut;
+
+		/// <summary>
+		/// Console error output to restore after a run
+		/// </summary>
+		private TextWriter saveError;
+
+		/// <summary>
+		/// Saved current directory to restore after a run
+		/// </summary>
+		private string currentDirectory;
 
 		/// <summary>
 		/// Saved paths of the assemblies we loaded - used to set 
@@ -102,7 +132,9 @@ namespace NUnit.Core
 		#region Properties
 
 		/// <summary>
-		/// Writer for standard output
+		/// Writer for standard output - this is a public property
+		/// so that we can set it when creating an instance
+		/// in another AppDomain.
 		/// </summary>
 		public TextWriter Out
 		{
@@ -111,7 +143,9 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Writer for error output
+		/// Writer for error output - this is a public property
+		/// so that we can set it when creating an instance
+		/// in another AppDomain.
 		/// </summary>
 		public TextWriter Error
 		{
@@ -232,45 +266,6 @@ namespace NUnit.Core
 			this.filter = filter;
 		}
 
-//		public TestResult Run(NUnit.Core.EventListener listener, IFilter filter)
-//		{
-//			BufferedStringTextWriter outBuffer = new BufferedStringTextWriter( outText );
-//			BufferedStringTextWriter errorBuffer = new BufferedStringTextWriter( errorText );
-//
-//			TextWriter saveOut = Console.Out;
-//			TextWriter saveError = Console.Error;
-//
-//			Console.SetOut( outBuffer );
-//			Console.SetError( errorBuffer );
-//
-////			string currentDirectory = Environment.CurrentDirectory;
-////
-////			string assemblyName = assemblies == null ? testFileName : (string)assemblies[test.AssemblyKey];
-////			string assemblyDirectory = Path.GetDirectoryName( assemblyName );
-////
-////			if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
-////				Environment.CurrentDirectory = assemblyDirectory;
-//
-//
-//			try
-//			{
-//				TestResult result = suite.Run(listener, filter);
-//				return result;
-//			}
-//			finally
-//			{
-//
-//				//	Environment.CurrentDirectory = currentDirectory;
-//
-//				outBuffer.Close();
-//				errorBuffer.Close();
-//
-//				// Helps us when we run tests of this class, among other things
-//				Console.SetOut( saveOut );
-//				Console.SetError( saveError );
-//			}
-//		}
-
 		public TestResult Run( EventListener listener )
 		{
 			return Run( listener, suite );
@@ -307,12 +302,12 @@ namespace NUnit.Core
 			runningThread.Run( listener, testNames );
 		}
 
-		private TestRunnerThread runningThread;
-
 		public void CancelRun()
 		{
 			if ( runningThread != null )
 				runningThread.Cancel();
+
+			CleanUpAfterTestRun();
 		}
 
 		#endregion
@@ -339,15 +334,15 @@ namespace NUnit.Core
 		private TestResult[] Run( EventListener listener, Test[] tests )
 		{
 			// Create buffered writers for efficiency
-			BufferedStringTextWriter outBuffer = new BufferedStringTextWriter( outText );
-			BufferedStringTextWriter errorBuffer = new BufferedStringTextWriter( errorText );
+			outBuffer = new BufferedStringTextWriter( outText );
+			errorBuffer = new BufferedStringTextWriter( errorText );
 
 			// Save previous state of Console. This is needed because Console.Out and
 			// Console.Error are static. In the case where the test itself calls this
 			// method, we can lose output if we don't save and restore their values.
 			// This is exactly what happens when we are testing NUnit itself.
-			TextWriter saveOut = Console.Out;
-			TextWriter saveError = Console.Error;
+			saveOut = Console.Out;
+			saveError = Console.Error;
 
 			// Set Console to go to our buffers. Note that any changes made by
 			// the user in the test code or the code it calls will defeat this.
@@ -356,7 +351,7 @@ namespace NUnit.Core
 
 			// Save the current directory so we can run each test in
 			// the same directory as its assembly
-			string currentDirectory = Environment.CurrentDirectory;
+			currentDirectory = Environment.CurrentDirectory;
 			
 			try
 			{
@@ -403,16 +398,7 @@ namespace NUnit.Core
 			}
 			finally
 			{
-				// Restore the directory we saved
-				Environment.CurrentDirectory = currentDirectory;
-
-				// Close our output buffers
-				outBuffer.Close();
-				errorBuffer.Close();
-
-				// Restore previous console values
-				Console.SetOut( saveOut );
-				Console.SetError( saveError );
+				CleanUpAfterTestRun();
 			}
 		}
 
@@ -444,6 +430,42 @@ namespace NUnit.Core
 				tests[index++] = FindTest( test, name );
 
 			return tests;
+		}
+
+		private void CleanUpAfterTestRun()
+		{
+			// Restore the directory we saved
+			if ( currentDirectory != null )
+			{
+				Environment.CurrentDirectory = currentDirectory;
+				currentDirectory = null;
+			}
+
+			// Close our output buffers
+			if ( outBuffer != null )
+			{
+				outBuffer.Close();
+				outBuffer = null;
+			}
+
+			if ( errorBuffer != null )
+			{
+				errorBuffer.Close();
+				errorBuffer = null;
+			}
+
+			// Restore previous console values
+			if ( saveOut != null )
+			{
+				Console.SetOut( saveOut );
+				saveOut = null;
+			}
+
+			if ( saveError != null )
+			{
+				Console.SetError( saveError );
+				saveError = null;
+			}
 		}
 
 		#endregion
