@@ -730,9 +730,8 @@ namespace NUnit.Gui
 		/// </summary>
 		private void reloadMenuItem_Click(object sender, System.EventArgs e)
 		{
-			string assemblyFileName = LoadedAssembly;
-			UnloadAssembly();
-			LoadAssembly(assemblyFileName);
+			actions.ReloadAssembly();
+			statusBar.Text = "Reloaded";
 		}
 
 		/// <summary>

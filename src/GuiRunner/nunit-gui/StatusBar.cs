@@ -82,6 +82,12 @@ namespace NUnit.Gui
 			DisplayPanels();
 		}
 
+		public override string Text
+		{
+			get { return statusPanel.Text; }
+			set { statusPanel.Text = value; }
+		}
+
 		public void InitializeEvents( UIEvents uiEvents )
 		{
 			this.uiEvents = uiEvents;

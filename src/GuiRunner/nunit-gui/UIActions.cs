@@ -243,7 +243,7 @@ namespace NUnit.Gui
 		/// </summary>
 		public void ReloadAssembly()
 		{
-			LoadAssembly( testDomain.AssemblyName );
+			OnAssemblyChanged( testDomain.AssemblyName );
 		}
 
 		/// <summary>
