@@ -77,18 +77,36 @@ namespace NUnit.Util
 
 		#region Methods for Firing Events
 		
-		private void Fire( 
-			TestEventHandler handler, TestEventArgs e )
+		private void Fire( TestEventHandler handler, TestEventArgs e )
 		{
 			if ( handler != null )
-				handler( this, e );
+				InvokeHandler( handler, e );
 		}
 
-		private void Fire( 
-			TestProjectEventHandler handler, TestProjectEventArgs e )
+		private void Fire( TestProjectEventHandler handler, TestProjectEventArgs e )
 		{
 			if ( handler != null )
-				handler( this, e );
+				InvokeHandler( handler, e );
+		}
+
+		/// NOTE: Temporarily, a reference to Windows.Forms has been added
+		/// so that controls may be invoked on the correct thread.
+		/// 
+		/// TODO: Refactor this so that the windows-based extension is in uikit.
+		/// 
+		private void InvokeHandler( MulticastDelegate handlerList, EventArgs e )
+		{
+			object[] args = new object[] { this, e };
+			foreach( Delegate handler in handlerList.GetInvocationList() )
+			{
+				object target = handler.Target;
+				System.Windows.Forms.Control control 
+					= target as System.Windows.Forms.Control;
+				if ( control != null && control.InvokeRequired )
+					control.Invoke( handler, args );
+				else
+					handler.Method.Invoke( target, args );
+			}
 		}
 
 		public void FireProjectLoading( string fileName )
