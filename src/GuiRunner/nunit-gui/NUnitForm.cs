@@ -718,6 +718,9 @@ namespace NUnit.Gui
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
 			runButton.Enabled = false;
+			if ( actions.IsReloadPending )
+				actions.ReloadAssembly();
+
 			actions.RunTestSuite( testSuiteTreeView.SelectedTest );
 		}
 
@@ -890,6 +893,8 @@ namespace NUnit.Gui
 
 			if ( assemblyFileName == LoadedAssembly )
 				OnSuiteUnloaded();
+			else
+				runButton.Enabled = true;
 		}
 
 		#endregion
