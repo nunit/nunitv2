@@ -44,6 +44,7 @@ namespace NUnit.Gui
 		private string assemblyFileName;
 		private AssemblyWatcher watcher;
 		private UIActions actions;
+
 		public System.Windows.Forms.Splitter splitter1;
 		public System.Windows.Forms.Panel panel1;
 		public System.Windows.Forms.GroupBox groupBox1;
@@ -138,6 +139,7 @@ namespace NUnit.Gui
 			actions.RunFinishedEvent += new UIActions.RunFinishedHandler(OnRunFinished);
 			actions.SuiteLoadedEvent += new UIActions.SuiteLoadedHandler(OnSuiteLoaded);
 			actions.SuiteUnloadedEvent += new UIActions.SuiteUnloadedHandler(OnSuiteUnloaded);
+			actions.SuiteChangedEvent += new UIActions.SuiteChangedHandler(OnSuiteChanged);
 
 			if (assemblyFileName == null)
 				assemblyFileName = recentAssemblies.RecentAssembly;
@@ -950,12 +952,12 @@ namespace NUnit.Gui
 			// TODO: Get rid of the use of the helper
 			// and consider keeping useful info in the tree
 			if(!UIHelper.CompareTree(SelectedSuite,test))
-				testSuiteTreeView.Load(test);
-
-			// TODO: may want to keep this info
-			EnableRunCommand();
-			ClearTestResults();
-			InitializeProgressBar( test.CountTestCases );
+			{
+				status.Text = "Loading";
+				testSuiteTreeView.InvokeLoadHandler( test );
+				ClearTestResults();
+				InitializeProgressBar( test.CountTestCases );
+			}
 		}
 
 		#endregion

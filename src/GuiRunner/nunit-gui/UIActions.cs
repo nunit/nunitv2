@@ -76,6 +76,16 @@ namespace NUnit.Gui
 			this.stdErrWriter = stdErrWriter;
 		}
 
+		public bool AssemblyLoaded
+		{
+			get { return testRunner != null; }
+		}
+
+		public string LoadedAssembly
+		{
+			get { return testRunner == null ? null : testRunner.AssemblyName; }
+		}
+
 		public void TestStarted(TestCase testCase)
 		{
 			if ( TestStartedEvent != null )
@@ -120,6 +130,9 @@ namespace NUnit.Gui
 		
 		public void LoadAssembly( string assemblyFileName )
 		{
+			if ( AssemblyLoaded )
+				UnloadAssembly();
+
 			testRunner = new TestRunner(assemblyFileName, this, stdOutWriter, stdErrWriter);
 			
 			Test test = LoadTestSuite(assemblyFileName);
@@ -131,11 +144,8 @@ namespace NUnit.Gui
 
 		public void UnloadAssembly( )
 		{
-			if ( testRunner != null )
-			{
-				testRunner.Unload();
-				testRunner = null;
-			}
+			testRunner.Unload();
+			testRunner = null;
 
 			if ( SuiteUnloadedEvent != null )
 				SuiteUnloadedEvent( );
@@ -143,10 +153,9 @@ namespace NUnit.Gui
 
 		public void ReloadAssembly( string assemblyFileName )
 		{
-//			testRunner = new TestRunner(assemblyFileName, this, stdOutWriter, stdErrWriter);
-			
+			testRunner.Unload();
+
 			Test test = LoadTestSuite(assemblyFileName);
-//			SetWorkingDirectory(assemblyFileName);
 
 			if ( SuiteChangedEvent != null )
 				SuiteChangedEvent( test );
