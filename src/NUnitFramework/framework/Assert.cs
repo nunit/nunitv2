@@ -38,6 +38,22 @@ namespace NUnit.Framework
 	/// </summary>
 	public class Assert
 	{
+		private static int counter = 0;
+		
+		/// <summary>
+		/// Gets the number of assertions executed so far and 
+		/// resets the counter to zero.
+		/// </summary>
+		public static int Counter
+		{
+			get
+			{
+				int cnt = counter;
+				counter = 0;
+				return cnt;
+			}
+		}
+
 		/// <summary>
 		/// A private constructor disallows any instances of this object. 
 		/// </summary>
@@ -52,6 +68,7 @@ namespace NUnit.Framework
 		/// <param name="condition">The evaluated condition</param>
 		static public void IsTrue(bool condition, string message) 
 		{
+			++counter;
 			if (!condition)
 				Assert.Fail(message);
 		}
@@ -74,6 +91,7 @@ namespace NUnit.Framework
 		/// <param name="condition">The evaluated condition</param>
 		static public void IsFalse(bool condition, string message) 
 		{
+			++counter;
 			if (condition)
 				Assert.Fail(message);
 		}
@@ -102,6 +120,7 @@ namespace NUnit.Framework
 		static public void AreEqual(double expected, 
 			double actual, double delta, string message) 
 		{
+			++counter;
 			// handle infinity specially since subtracting two infinite values gives 
 			// NaN and the following test fails
 			if (double.IsInfinity(expected)) 
@@ -142,6 +161,7 @@ namespace NUnit.Framework
 		static public void AreEqual(float expected, 
 			float actual, float delta, string message) 
 		{
+			++counter;
 			// handle infinity specially since subtracting two infinite values gives 
 			// NaN and the following test fails
 			if (float.IsInfinity(expected)) 
@@ -178,6 +198,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		static public void AreEqual(decimal expected, decimal actual, string message) 
 		{
+			++counter;
 			if(!(expected == actual))
 				Assert.FailNotEquals(expected, actual, message);
 		}
@@ -204,6 +225,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		static public void AreEqual(int expected, int actual, string message) 
 		{
+			++counter;
 			if(!(expected == actual))
 				Assert.FailNotEquals(expected, actual, message);
 		}
@@ -233,6 +255,7 @@ namespace NUnit.Framework
 		/// <param name="message">The message to display if objects are not equal</param>
 		static public void AreEqual(Object expected, Object actual, string message)
 		{
+			++counter;
 			if (expected == null && actual == null) return;
 
 			if (expected != null && actual != null)
@@ -403,6 +426,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual object</param>
 		static public void AreSame(Object expected, Object actual, string message)
 		{
+			++counter;
 			if (object.ReferenceEquals(expected, actual)) return;
 
 			Assert.FailNotSame(expected, actual, message);
