@@ -119,6 +119,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem addVSProjectMenuItem;
 		private System.Windows.Forms.ContextMenu detailListContextMenu;
 		private System.Windows.Forms.MenuItem copyDetailMenuItem;
+		private System.Windows.Forms.MenuItem exceptionDetailsMenuItem;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -201,6 +202,7 @@ namespace NUnit.Gui
 			this.editProjectMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenu = new System.Windows.Forms.MenuItem();
 			this.saveXmlResultsMenuItem = new System.Windows.Forms.MenuItem();
+			this.exceptionDetailsMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenuSeparator1 = new System.Windows.Forms.MenuItem();
 			this.optionsMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpItem = new System.Windows.Forms.MenuItem();
@@ -215,6 +217,8 @@ namespace NUnit.Gui
 			this.stackTrace = new System.Windows.Forms.TextBox();
 			this.splitter3 = new System.Windows.Forms.Splitter();
 			this.detailList = new System.Windows.Forms.ListBox();
+			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
+			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
 			this.testsNotRun = new System.Windows.Forms.TabPage();
 			this.notRunTree = new System.Windows.Forms.TreeView();
 			this.stderr = new System.Windows.Forms.TabPage();
@@ -227,8 +231,6 @@ namespace NUnit.Gui
 			this.suiteName = new System.Windows.Forms.Label();
 			this.progressBar = new NUnit.UiKit.ProgressBar();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
-			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
 			this.panel1.SuspendLayout();
 			this.resultTabs.SuspendLayout();
 			this.errorPage.SuspendLayout();
@@ -468,6 +470,7 @@ namespace NUnit.Gui
 			this.toolsMenu.Index = 3;
 			this.toolsMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					  this.saveXmlResultsMenuItem,
+																					  this.exceptionDetailsMenuItem,
 																					  this.toolsMenuSeparator1,
 																					  this.optionsMenuItem});
 			this.toolsMenu.Text = "&Tools";
@@ -479,15 +482,21 @@ namespace NUnit.Gui
 			this.saveXmlResultsMenuItem.Text = "&Save Results as XML...";
 			this.saveXmlResultsMenuItem.Click += new System.EventHandler(this.saveXmlResultsMenuItem_Click);
 			// 
+			// exceptionDetailsMenuItem
+			// 
+			this.exceptionDetailsMenuItem.Index = 1;
+			this.exceptionDetailsMenuItem.Text = "&Exception Details...";
+			this.exceptionDetailsMenuItem.Click += new System.EventHandler(this.exceptionDetailsMenuItem_Click);
+			// 
 			// toolsMenuSeparator1
 			// 
-			this.toolsMenuSeparator1.Index = 1;
+			this.toolsMenuSeparator1.Index = 2;
 			this.toolsMenuSeparator1.Text = "-";
 			// 
 			// optionsMenuItem
 			// 
-			this.optionsMenuItem.Index = 2;
-			this.optionsMenuItem.Text = "&Options";
+			this.optionsMenuItem.Index = 3;
+			this.optionsMenuItem.Text = "&Options...";
 			this.optionsMenuItem.Click += new System.EventHandler(this.optionsMenuItem_Click);
 			// 
 			// helpItem
@@ -614,12 +623,23 @@ namespace NUnit.Gui
 			this.detailList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.detailList_DrawItem);
 			this.detailList.SelectedIndexChanged += new System.EventHandler(this.detailList_SelectedIndexChanged);
 			// 
+			// detailListContextMenu
+			// 
+			this.detailListContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																								  this.copyDetailMenuItem});
+			// 
+			// copyDetailMenuItem
+			// 
+			this.copyDetailMenuItem.Index = 0;
+			this.copyDetailMenuItem.Text = "Copy";
+			this.copyDetailMenuItem.Click += new System.EventHandler(this.copyDetailMenuItem_Click);
+			// 
 			// testsNotRun
 			// 
 			this.testsNotRun.Controls.Add(this.notRunTree);
 			this.testsNotRun.Location = new System.Drawing.Point(4, 25);
 			this.testsNotRun.Name = "testsNotRun";
-			this.testsNotRun.Size = new System.Drawing.Size(510, 287);
+			this.testsNotRun.Size = new System.Drawing.Size(510, 286);
 			this.testsNotRun.TabIndex = 1;
 			this.testsNotRun.Text = "Tests Not Run";
 			// 
@@ -630,7 +650,7 @@ namespace NUnit.Gui
 			this.notRunTree.Location = new System.Drawing.Point(0, 0);
 			this.notRunTree.Name = "notRunTree";
 			this.notRunTree.SelectedImageIndex = -1;
-			this.notRunTree.Size = new System.Drawing.Size(510, 287);
+			this.notRunTree.Size = new System.Drawing.Size(510, 286);
 			this.notRunTree.TabIndex = 0;
 			// 
 			// stderr
@@ -638,7 +658,7 @@ namespace NUnit.Gui
 			this.stderr.Controls.Add(this.stdErrTab);
 			this.stderr.Location = new System.Drawing.Point(4, 25);
 			this.stderr.Name = "stderr";
-			this.stderr.Size = new System.Drawing.Size(510, 287);
+			this.stderr.Size = new System.Drawing.Size(510, 286);
 			this.stderr.TabIndex = 2;
 			this.stderr.Text = "Console.Error";
 			// 
@@ -649,7 +669,7 @@ namespace NUnit.Gui
 			this.stdErrTab.Location = new System.Drawing.Point(0, 0);
 			this.stdErrTab.Name = "stdErrTab";
 			this.stdErrTab.ReadOnly = true;
-			this.stdErrTab.Size = new System.Drawing.Size(510, 287);
+			this.stdErrTab.Size = new System.Drawing.Size(510, 286);
 			this.stdErrTab.TabIndex = 0;
 			this.stdErrTab.Text = "";
 			this.stdErrTab.WordWrap = false;
@@ -659,7 +679,7 @@ namespace NUnit.Gui
 			this.stdout.Controls.Add(this.stdOutTab);
 			this.stdout.Location = new System.Drawing.Point(4, 25);
 			this.stdout.Name = "stdout";
-			this.stdout.Size = new System.Drawing.Size(510, 287);
+			this.stdout.Size = new System.Drawing.Size(510, 286);
 			this.stdout.TabIndex = 3;
 			this.stdout.Text = "Console.Out";
 			// 
@@ -670,7 +690,7 @@ namespace NUnit.Gui
 			this.stdOutTab.Location = new System.Drawing.Point(0, 0);
 			this.stdOutTab.Name = "stdOutTab";
 			this.stdOutTab.ReadOnly = true;
-			this.stdOutTab.Size = new System.Drawing.Size(510, 287);
+			this.stdOutTab.Size = new System.Drawing.Size(510, 286);
 			this.stdOutTab.TabIndex = 0;
 			this.stdOutTab.Text = "";
 			this.stdOutTab.WordWrap = false;
@@ -730,17 +750,6 @@ namespace NUnit.Gui
 			this.progressBar.Step = 1;
 			this.progressBar.TabIndex = 0;
 			this.progressBar.Value = 0;
-			// 
-			// detailListContextMenu
-			// 
-			this.detailListContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																								  this.copyDetailMenuItem});
-			// 
-			// copyDetailMenuItem
-			// 
-			this.copyDetailMenuItem.Index = 0;
-			this.copyDetailMenuItem.Text = "Copy";
-			this.copyDetailMenuItem.Click += new System.EventHandler(this.copyDetailMenuItem_Click);
 			// 
 			// NUnitForm
 			// 
@@ -992,11 +1001,17 @@ namespace NUnit.Gui
 		private void toolsMenu_Popup(object sender, System.EventArgs e)
 		{		
 			saveXmlResultsMenuItem.Enabled = IsTestLoaded && TestLoader.LastResult != null;
+			exceptionDetailsMenuItem.Enabled = TestLoader.LastException != null;
 		}
 
 		private void saveXmlResultsMenuItem_Click(object sender, System.EventArgs e)
 		{
 			TestLoaderUI.SaveLastResult();
+		}
+
+		private void exceptionDetailsMenuItem_Click(object sender, System.EventArgs e)
+		{
+			UserMessage.DisplayFailure( TestLoader.LastException.ToString(), "Exception Details" );
 		}
 
 		private void optionsMenuItem_Click(object sender, System.EventArgs e)
@@ -1394,6 +1409,7 @@ namespace NUnit.Gui
 		{
 			Clipboard.SetDataObject( detailList.SelectedItem.ToString() );
 		}
+
 	}
 }
 
