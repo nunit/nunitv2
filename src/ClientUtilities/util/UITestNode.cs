@@ -101,31 +101,6 @@ namespace NUnit.Util
 
 		#region Construction and Conversion
 
-		public UITestNode( string suiteName ) : this( suiteName, 0 ) { }
-
-		public UITestNode( string suiteName, int assemblyKey )
-		{
-			this.fullName = this.testName = suiteName;
-			this.assemblyKey = assemblyKey;
-			this.shouldRun = true;
-			this.isSuite = true;
-			this.testCaseCount = 0;
-			this.tests = new ArrayList();
-		}
-
-		public UITestNode( string pathName, string testName ) 
-			: this( pathName, testName, 0 ) { }
-
-		public UITestNode( string pathName, string testName, int assemblyKey ) 
-		{ 
-			this.fullName = pathName + "." + testName;
-			this.testName = testName;
-			this.assemblyKey = assemblyKey;
-			this.shouldRun = true;
-			this.isSuite = false;
-			this.testCaseCount = 1;
-		}
-
 		/// <summary>
 		/// Construct from a TestInfo interface, which might be
 		/// a Test or another UITestNode. Optionally, populate
@@ -146,6 +121,9 @@ namespace NUnit.Util
 			{
 				categories.AddRange(test.Categories);
 			}
+
+			if ( test is UITestNode )
+				testCaseCount = 0;
 			
 			if ( test.IsSuite )
 			{
@@ -178,7 +156,7 @@ namespace NUnit.Util
 		{
 			if ( !Populated )
 			{
-				foreach( Test test in testSuite.Tests )
+				foreach( ITest test in testSuite.Tests )
 				{
 					UITestNode node = new UITestNode( test, true );
 					tests.Add( node );
@@ -194,10 +172,10 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="test"></param>
 		/// <returns></returns>
-		public static implicit operator UITestNode( Test test )
-		{
-			return new UITestNode( test );
-		}
+//		public static implicit operator UITestNode( Test test )
+//		{
+//			return new UITestNode( test );
+//		}
 
 		#endregion
 
