@@ -130,6 +130,7 @@ namespace NUnit.UiKit
 			this.fullName = new CP.Windows.Forms.ExpandingLabel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.resultsTab = new System.Windows.Forms.TabPage();
+			this.assertCount = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.testResult = new System.Windows.Forms.Label();
 			this.stackTrace = new CP.Windows.Forms.ExpandingLabel();
@@ -137,7 +138,6 @@ namespace NUnit.UiKit
 			this.elapsedTime = new System.Windows.Forms.Label();
 			this.message = new CP.Windows.Forms.ExpandingLabel();
 			this.pinButton = new System.Windows.Forms.CheckBox();
-			this.assertCount = new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.testTab.SuspendLayout();
 			this.resultsTab.SuspendLayout();
@@ -280,6 +280,14 @@ namespace NUnit.UiKit
 			this.resultsTab.TabIndex = 1;
 			this.resultsTab.Text = "Result";
 			// 
+			// assertCount
+			// 
+			this.assertCount.Location = new System.Drawing.Point(193, 13);
+			this.assertCount.Name = "assertCount";
+			this.assertCount.Size = new System.Drawing.Size(118, 14);
+			this.assertCount.TabIndex = 37;
+			this.assertCount.Text = "Asserts:";
+			// 
 			// label3
 			// 
 			this.label3.Location = new System.Drawing.Point(20, 42);
@@ -307,8 +315,7 @@ namespace NUnit.UiKit
 			this.stackTrace.Expansion = CP.Windows.Forms.TipWindow.ExpansionStyle.Both;
 			this.stackTrace.Location = new System.Drawing.Point(87, 69);
 			this.stackTrace.Name = "stackTrace";
-			this.stackTrace.Overlay = false;
-			this.stackTrace.Size = new System.Drawing.Size(244, 31);
+			this.stackTrace.Size = new System.Drawing.Size(244, 39);
 			this.stackTrace.TabIndex = 29;
 			// 
 			// label12
@@ -349,14 +356,6 @@ namespace NUnit.UiKit
 			this.pinButton.TabIndex = 14;
 			this.pinButton.Click += new System.EventHandler(this.pinButton_Click);
 			this.pinButton.CheckedChanged += new System.EventHandler(this.pinButton_CheckedChanged);
-			// 
-			// assertCount
-			// 
-			this.assertCount.Location = new System.Drawing.Point(193, 13);
-			this.assertCount.Name = "assertCount";
-			this.assertCount.Size = new System.Drawing.Size(118, 14);
-			this.assertCount.TabIndex = 37;
-			this.assertCount.Text = "Asserts:";
 			// 
 			// TestPropertiesDialog
 			// 
