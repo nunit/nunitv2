@@ -1,5 +1,66 @@
-Change Log for NUnit 2.1 Beta 1
-July 22, 2003
+Change Log for NUnit 2.1 Beta 2
+August 5, 2003
+
+CHANGES FROM BETA 1 TO BETA2
+
+Feature Requests Implemented
+* 660759 - Document how to install NUnit manually
+* 777256 - Test Case Properties dialog should support cut and paste
+* 660762 - Make text in error list copyable
+* 641437 - wrapped exception
+* 672419 - InnerException information isn't displayed
+* 678291 - Errors in TearDown hide the real errors
+* 692128 - Show type of exception in GUI output
+
+Bugs Fixed or Closed
+* 775813 - Running Nunit Gui 2.1 after install throws a cast exception
+* 775795 - V2.1 Beta 1 Install has naming conflict
+* 636535 - Problem with managed C++ wrappers
+* 761711 - NUnit doesn't allow lease-time to be changed
+* 777566 - nunit.build missing
+* 777571 - NUnit.build has "jpg" for "bmp" files
+* 776237 - console runner doesn't show all results in debugger
+* 764042 - detailList tooltip not cleared after succesful test
+* 748092 - nunit-console NoTestFixturesException
+* 725699 - Permission problem accessing resources in .NET 1.1
+* 745987 - Nunit-GUI frequently fails to unload assembly
+* 739798 - exception not being trapped properly
+* 739800 - not catching exception properly
+* 649189 - StdOut display not correct for 2+ runs
+* 637296 - NUnit trying to delete folder and cannot
+* 640173 - Assembly Load Failure
+* 653236 - Problem error loading assembly
+* 655291 - InvaildTestFixtureException gets lost
+* 686560 - AppDomainUnloadedException in nunit-console
+* 776720 - assert.equals doesn't handle decimal correctly
+* 761715 - hosting a winform in an NUnit-test gives exception
+* 767594 - NUnit hangs in case of stack overflow
+* 740190 - GUI/Console runners report spurious failures
+* 749590 - Overflow exception when defining static test methods
+* 761717 - testdriver doesn't exit when threads are running
+* 644494 - Bug with SSL
+* 614258 - R/o access to test dir fails badly
+* 760863 - Error with V2.1 ObjectsEqual
+* 614251 - Serialization test leaves test droppings
+* 633818 - Exception error opening databases
+* 694279 - XmlResultVisitor can't handle failure in xml string compare
+* 779455 - Truncated Labels in GUI Runner
+* 779523 - GUI Runner forgets that no tests were loaded
+* 779551 - Can open multiple "About" dialog boxes
+* 779445 - Incorrect Tab Order in Options Window
+* 779490 - Configuration Editor allows empty name
+* 779511 - Inconsistent "XML" spelling in user interfaces
+* 778872 - v2.1 is not backwards compatible with .NET 1.0
+* 777570 - NUnitForm resource naming problem
+* 779512 - Statistics not set for treeview selection
+* 781718 - Incorrect handling of ExpectedException test cases
+* 767256 - Static initializer exception report not helpful
+* 675680 - Exception names not reported
+* 660772 - TestFixture not found error when assembly can't be loaded
+* 782579 - Installer fails
+* 660776 - NT required?
+
+CHANGES FROM NUNIT 2.0 to BETA 1
 
 Feature Requests Implemented
 * 597609 - Support a cancel/stop operation
@@ -80,8 +141,6 @@ Bugs Fixed or Closed
 * 742163 - NUnit.Extensions.RepeatedTest.cs won’t compile
 * 770942 - AppSettings not loaded when using nunit-console.exe
 * 744649 - Lengthy COM calls cause failures in Console.WriteLine
-
-Bug Fixes during Beta 1
 * 775791 - nunit-gui requires admin rights in 2.1 beta 1
 * 775796 - NUnit 2.1 Beta 1 install requires .NET 1.1
 * 776053 - NUnit 2.1 won't install with 2.0

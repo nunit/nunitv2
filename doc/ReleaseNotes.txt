@@ -1,4 +1,4 @@
-Release Notes for NUnit 2.1 Beta 1 - Windows Install Package
+Release Notes for NUnit 2.1 Beta 2 - Windows Install Package
 July 22, 2003
 
 This is the third major release of NUnit and the second since it was 
@@ -8,6 +8,24 @@ to run test suites across multiple assemblies, improvements to the
 GUI interface, new command line switches for both GUI and Console 
 runners, some degree of integration with Visual Studio and new 
 TestFixtureSetup and TestFixtureTeardown attributes
+
+Changes From Beta 1
+
+This release includes separate configuration files for use with .NET
+versions 1.0 and 1.1. Both versions are copied and the correct config
+for the current system is installed ready for use. A sample config
+file for use with tests built against NUnit 2.0 is included.
+
+Substantial changes have been made to error and exception reporting.
+The exception type is listed along with all inner exceptions. In the
+console runner, this includes a full stacktrace. The full trace for
+exceptions that are caught by the GUI runner is now available under
+the Tools | Exception Details... menu item.
+
+This release has been verified to install and run under Windows 98.
+The feature of watching for changes in the assemblies and reloading
+them automatically is disabled in this environment. We haven't tested
+under Windows ME, but believe it will work in that environment as well.
 
 Installation
 
