@@ -73,6 +73,12 @@ namespace CP.Windows.Forms
 		/// </summary>
 		private int mouseLeaveDelay = 300;
 
+		/// <summary>
+		/// If true, a context menu with Copy is displayed which
+		/// allows copying contents to the clipboard.
+		/// </summary>
+		private bool copySupported = false;
+
 		#endregion
 
 		#region Properties
@@ -123,6 +129,50 @@ namespace CP.Windows.Forms
 			set { mouseLeaveDelay = value; }
 		}
 
+		[Category( "Behavior"), DefaultValue( false )]
+		[Description("If true, displays a context menu with Copy")]
+		public bool CopySupported
+		{
+			get { return copySupported; }
+			set 
+			{ 
+				copySupported = value; 
+				if ( copySupported )
+					base.ContextMenu = null;
+			}
+		}
+
+		/// <summary>
+		/// Override Text property to set up copy menu if
+		/// the value is non-empty.
+		/// </summary>
+		public override string Text
+		{
+			get { return base.Text; }
+			set 
+			{ 
+				base.Text = value;
+
+				if ( copySupported )
+				{
+					if ( value == null || value == string.Empty )
+					{
+						if ( this.ContextMenu != null )
+						{
+							this.ContextMenu.Dispose();
+							this.ContextMenu = null;
+						}
+					}
+					else
+					{
+						this.ContextMenu = new System.Windows.Forms.ContextMenu();
+						MenuItem copyMenuItem = new MenuItem( "Copy", new EventHandler( CopyToClipboard ) );
+						this.ContextMenu.MenuItems.Add( copyMenuItem );
+					}
+				}
+			}
+		}
+
 		#endregion
 
 		#region Public Methods
@@ -137,6 +187,7 @@ namespace CP.Windows.Forms
 				tipWindow.Overlay = this.Overlay;
 				tipWindow.AutoCloseDelay = this.AutoCloseDelay;
 				tipWindow.MouseLeaveDelay = this.MouseLeaveDelay;
+				tipWindow.WantClicks = this.CopySupported;
 				tipWindow.Show();
 			}
 		}
@@ -150,226 +201,6 @@ namespace CP.Windows.Forms
 		}
 
 		#endregion
-
-//		#region Nested TipWindow class
-//
-//		private class TipWindow : Form
-//		{
-//			#region Instance Variables
-//
-//			/// <summary>
-//			/// The label for which we are showing expanded text
-//			/// </summary>
-//			private ExpandingLabel label;
-//			private Control control;
-//
-//			/// <summary>
-//			/// True if we may overlay label
-//			/// </summary>
-//			private bool overlay;
-//			
-//			/// <summary>
-//			/// Directions we are allowed to expand
-//			/// </summary>
-//			private ExpansionStyle expansion;
-//
-//			/// <summary>
-//			/// Time before automatically closing
-//			/// </summary>
-//			private int autoCloseDelay;
-//
-//			/// <summary>
-//			/// Timer used for auto-close
-//			/// </summary>
-//			private System.Windows.Forms.Timer autoCloseTimer;
-//
-//			/// <summary>
-//			/// Time to wait for after mouse leaves
-//			/// the window or the label before closing.
-//			/// </summary>
-//			private int mouseLeaveDelay;
-//
-//			/// <summary>
-//			/// Timer used for mouse leave delay
-//			/// </summary>
-//			private System.Windows.Forms.Timer mouseLeaveTimer;
-//
-//			/// <summary>
-//			/// Text we are displaying
-//			/// </summary>
-//			private string tipText;
-//
-//			/// <summary>
-//			/// Rectangle used to draw border
-//			/// </summary>
-//			private Rectangle outlineRect;
-//			
-//			/// <summary>
-//			/// Rectangle used to display text
-//			/// </summary>
-//			private Rectangle textRect;
-//
-//			#endregion
-//
-//			#region Construction and Initialization
-//
-//			public TipWindow( ExpandingLabel label )
-//			{
-//				this.label = label;
-//				this.Owner = label.FindForm();
-//
-//				this.ControlBox = false;
-//				this.MaximizeBox = false;
-//				this.MinimizeBox = false;
-//				this.BackColor = Color.LightYellow;
-//				this.FormBorderStyle = FormBorderStyle.None;
-//				this.StartPosition = FormStartPosition.Manual; 			
-//			}
-//
-//			protected override void OnLoad(System.EventArgs e)
-//			{
-//				// At this point, further changes to the properties
-//				// of the label will have no effect on the tip.
-//				this.expansion = label.Expansion;
-//				this.overlay = label.Overlay;
-//				this.autoCloseDelay = label.AutoCloseDelay;
-//				this.mouseLeaveDelay = label.MouseLeaveDelay;
-//				this.tipText = label.Text;
-//				this.Font = label.Font;
-//
-//				Point origin = label.Parent.PointToScreen( label.Location );
-//				if ( !label.Overlay )
-//					origin.Offset( 0, label.Height );
-//				this.Location = origin;
-//
-//				Graphics g = Graphics.FromHwnd( Handle );
-//
-//				// This works if expanding in both directons
-//				Size sizeNeeded;
-//				if ( expansion == ExpansionStyle.Vertical )
-//					sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font, label.Width ) );
-//				else
-//					sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font ) );
-//				
-//				if ( expansion == ExpansionStyle.Horizontal )
-//					sizeNeeded.Height = label.Height;
-//
-//				this.ClientSize = sizeNeeded + new Size( 2, 2 );
-//				this.outlineRect = new Rectangle( 0, 0, sizeNeeded.Width + 1, sizeNeeded.Height + 1 );
-//				this.textRect = new Rectangle( 1, 1, sizeNeeded.Width, sizeNeeded.Height );
-//
-//				// Catch mouse entering and leaving the label
-//				label.MouseEnter += new EventHandler( label_MouseEnter );
-//				label.MouseLeave += new EventHandler( label_MouseLeave );
-//
-//				// Catch the form that holds the label closing
-//				label.FindForm().Closed += new EventHandler( label_FormClosed );
-//
-//				// Make sure we'll fit on the screen
-//				Screen screen = Screen.FromControl( label );
-//				if ( this.Right > screen.WorkingArea.Right )
-//					this.Left = screen.WorkingArea.Right - this.Width;
-//
-//				if ( this.Bottom > screen.WorkingArea.Bottom )
-//				{
-//					if ( overlay )
-//						this.Top = screen.WorkingArea.Bottom - this.Height;
-//					else if ( label.Top > this.Height )
-//						this.Top = origin.Y - label.Height - this.Height;
-//				}
-//
-//				if ( autoCloseDelay > 0 )
-//				{
-//					autoCloseTimer = new System.Windows.Forms.Timer();
-//					autoCloseTimer.Interval = autoCloseDelay;
-//					autoCloseTimer.Tick += new EventHandler( OnAutoClose );
-//					autoCloseTimer.Start();
-//				}
-//
-////				if ( mouseLeaveDelay > 0 )
-////				{
-////					mouseLeaveTimer = new System.Windows.Forms.Timer();
-////					mouseLeaveTimer.Interval = mouseLeaveDelay;
-////					mouseLeaveTimer.Tick += new EventHandler( OnAutoClose );
-////					// Don't start this one yet
-////				}
-//			}
-//
-//			#endregion
-//
-//			#region Event Handlers
-//
-//			protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
-//			{
-//				base.OnPaint( e );
-//				
-//				Graphics g = e.Graphics;
-//				g.DrawRectangle( Pens.Black, outlineRect );
-//				g.DrawString( tipText, Font, Brushes.Black, textRect );
-//			}
-//
-//			private void OnAutoClose( object sender, System.EventArgs e )
-//			{
-//				this.Close();
-//			}
-//
-//			protected override void OnMouseEnter(System.EventArgs e)
-//			{
-//				if ( mouseLeaveTimer != null )
-//				{
-//					mouseLeaveTimer.Stop();
-//					mouseLeaveTimer.Dispose();
-//				}
-//			}
-//
-//			protected override void OnMouseLeave(System.EventArgs e)
-//			{
-//				if ( mouseLeaveDelay > 0 )
-//				{
-//					mouseLeaveTimer = new System.Windows.Forms.Timer();
-//					mouseLeaveTimer.Interval = mouseLeaveDelay;
-//					mouseLeaveTimer.Tick += new EventHandler( OnAutoClose );
-//					mouseLeaveTimer.Start();
-//				}
-//			}
-//
-//			/// <summary>
-//			/// The form our label is on closed, so we should. 
-//			/// </summary>
-//			private void label_FormClosed( object sender, System.EventArgs e )
-//			{
-//				this.Close();
-//			}
-//
-//			private void label_MouseEnter( object sender, System.EventArgs e )
-//			{
-//				if ( mouseLeaveTimer != null )
-//				{
-//					mouseLeaveTimer.Stop();
-//					mouseLeaveTimer.Dispose();
-//				}
-//			}
-//
-//			/// <summary>
-//			/// The mouse left the label. We ignore if we are
-//			/// overlaying the label but otherwise start a
-//			/// delay for closing the window
-//			/// </summary>
-//			private void label_MouseLeave( object sender, System.EventArgs e )
-//			{
-//				if ( mouseLeaveDelay > 0 && !overlay )
-//				{
-//					mouseLeaveTimer = new System.Windows.Forms.Timer();
-//					mouseLeaveTimer.Interval = mouseLeaveDelay;
-//					mouseLeaveTimer.Tick += new EventHandler( OnAutoClose );
-//					mouseLeaveTimer.Start();
-//				}
-//			}
-//
-//			#endregion
-//		}
-//
-//		#endregion
 
 		#region Event Handlers
 
@@ -389,6 +220,14 @@ namespace CP.Windows.Forms
 			if ( expansionNeeded ) Expand();
 		}
 
-	#endregion
+		/// <summary>
+		/// Copy contents to clipboard
+		/// </summary>
+		private void CopyToClipboard( object sender, EventArgs e )
+		{
+			Clipboard.SetDataObject( this.Text );
+		}
+	
+		#endregion
 	}
 }
