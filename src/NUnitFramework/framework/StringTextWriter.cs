@@ -83,7 +83,7 @@ namespace NUnit.Core
 	{
 		public BufferedStringTextWriter( TextWriter aTextWriter ) : base( aTextWriter ){ }
 	
-		private static readonly int MAX_BUFFER = 100;
+		private static readonly int MAX_BUFFER = 1000;
 		private StringBuilder sb = new StringBuilder( MAX_BUFFER );
 
 		override public void Write(char aChar)
@@ -110,7 +110,7 @@ namespace NUnit.Core
 			{
 				sb.Append( aString );
 				sb.Append( '\n' );
-				this.Flush();
+				this.CheckBuffer();
 			}
 		}
 
