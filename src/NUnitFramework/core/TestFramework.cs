@@ -9,7 +9,7 @@ namespace NUnit.Core
 	/// </summary>
 	public interface ITestFramework
 	{
-//		string Name { get; }
+		string Name { get; }
 //		Assembly FrameworkAssembly { get; }
 //		string AssertionExceptionType { get; }
 //		string IgnoreExceptionType { get; }
@@ -215,12 +215,12 @@ namespace NUnit.Core
 //		{
 //			get { return frameworkAssembly; }
 //		}
-//
-//		public string FrameworkName
-//		{
-//			get { return this.frameworkInfo.Name; }
-//		}
-//
+
+		public string Name
+		{
+			get { return this.frameworkInfo.Name; }
+		}
+
 //		public AssemblyName AssemblyName
 //		{
 //			get { return frameworkAssembly.GetName(); }
