@@ -503,6 +503,8 @@ namespace NUnit.Gui
 			this.stackTrace.TabIndex = 2;
 			this.stackTrace.Text = "";
 			this.stackTrace.WordWrap = false;
+//			this.stackTrace.MouseHover += new System.EventHandler(this.stackTrace_MouseHover);
+//			this.stackTrace.MouseLeave += new System.EventHandler(this.stackTrace_MouseLeave);
 			// 
 			// splitter3
 			// 
@@ -1474,7 +1476,7 @@ namespace NUnit.Gui
 				else
 				{
 					hoverTimer = new System.Windows.Forms.Timer();
-					hoverTimer.Interval = 300;
+					hoverTimer.Interval = 800;
 					hoverTimer.Tick += new EventHandler( OnMouseHover );
 					hoverTimer.Start();
 				}
@@ -1522,6 +1524,39 @@ namespace NUnit.Gui
 
 			System.Diagnostics.Process.Start( helpUrl );
 		}
+
+//		private void stackTrace_MouseHover(object sender, System.EventArgs e)
+//		{
+//			if ( tipWindow != null ) tipWindow.Close();
+//
+//			Graphics g = Graphics.FromHwnd( stackTrace.Handle );
+//
+//			Rectangle clientRect = stackTrace.ClientRectangle;
+//			string text = stackTrace.Text;
+//
+//			SizeF sizeNeeded = g.MeasureString( text, stackTrace.Font );
+//			bool expansionNeeded = 
+//				clientRect.Width < (int)sizeNeeded.Width ||
+//				clientRect.Height < (int)sizeNeeded.Height;
+//
+//			if ( expansionNeeded )
+//			{
+//				tipWindow = new TipWindow( stackTrace );
+//				tipWindow.ItemBounds = clientRect;
+//				tipWindow.TipText = text;
+//				tipWindow.Expansion = TipWindow.ExpansionStyle.Both;
+//				tipWindow.Overlay = true;
+//				tipWindow.WantClicks = true;
+//				tipWindow.Closed += new EventHandler( tipWindow_Closed );
+//				tipWindow.Show();
+//			}				
+//		}
+//
+//		private void stackTrace_MouseLeave(object sender, System.EventArgs e)
+//		{
+////			if ( tipWindow != null )
+////				tipWindow.Close();
+//		}
 	}
 }
 

@@ -133,7 +133,27 @@ namespace CP.Windows.Forms
 		public TipWindow( Control control )
 		{
 			InitializeComponent();
+			InitControl( control );
 
+			// Note: This causes an error if called on a listbox
+			// with no item as yet selected, therefore, it is handled
+			// differently in the constructor for a listbox.
+			this.tipText = control.Text;
+		}
+
+		public TipWindow( ListBox listbox, int index ) : this ( listbox )
+		{
+			InitializeComponent();
+			InitControl( listbox );
+
+			this.listbox = listbox;
+			this.itemIndex = index;
+			this.itemBounds = listbox.GetItemRectangle( index );
+			this.tipText = listbox.Items[ index ].ToString();
+		}
+
+		private void InitControl( Control control )
+		{
 			this.control = control;
 			this.Owner = control.FindForm();
 			this.itemBounds = control.ClientRectangle;
@@ -145,18 +165,7 @@ namespace CP.Windows.Forms
 			this.FormBorderStyle = FormBorderStyle.None;
 			this.StartPosition = FormStartPosition.Manual; 			
 
-			this.tipText = control.Text;
 			this.Font = control.Font;
-		}
-
-		public TipWindow( ListBox listbox, int index ) : this ( listbox )
-		{
-			InitializeComponent();
-
-			this.listbox = listbox;
-			this.itemIndex = index;
-			this.itemBounds = listbox.GetItemRectangle( index );
-			this.tipText = listbox.Items[ index ].ToString();
 		}
 
 		private void InitializeComponent()
@@ -175,24 +184,26 @@ namespace CP.Windows.Forms
 		{
 			// At this point, further changes to the properties
 			// of the label will have no effect on the tip.
-
 			Point origin = control.Parent.PointToScreen( control.Location );
 			origin.Offset( itemBounds.Left, itemBounds.Top );
 			if ( !overlay )	origin.Offset( 0, itemBounds.Height );
 			this.Location = origin;
 
 			Graphics g = Graphics.FromHwnd( Handle );
-
-			// This works if expanding in both directons
-			Size sizeNeeded;
+			Screen screen = Screen.FromControl( control );
+			SizeF layoutArea = new SizeF( screen.WorkingArea.Width, screen.WorkingArea.Height );
 			if ( expansion == ExpansionStyle.Vertical )
-				sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font, itemBounds.Width ) );
-			else
-				sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font ) );
+				layoutArea.Width = itemBounds.Width;
+			else if ( expansion == ExpansionStyle.Horizontal )
+				layoutArea.Height = itemBounds.Height;
+			Size sizeNeeded;
+//			if ( expansion == ExpansionStyle.Vertical )
+//				sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font, itemBounds.Width ) );
+//			else // Both or Horizontal
+				sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font, layoutArea ) );
 
-				
-			if ( expansion == ExpansionStyle.Horizontal )
-				sizeNeeded.Height = itemBounds.Height;
+//			if ( expansion == ExpansionStyle.Horizontal )
+//				sizeNeeded.Height = itemBounds.Height;
 
 			this.ClientSize = sizeNeeded + new Size( 2, 2 );
 			this.outlineRect = new Rectangle( 0, 0, sizeNeeded.Width + 1, sizeNeeded.Height + 1 );
@@ -204,13 +215,11 @@ namespace CP.Windows.Forms
 			// Catch the form that holds the control closing
 			control.FindForm().Closed += new EventHandler( control_FormClosed );
 
-			// Make sure we'll fit on the screen
-			Screen screen = Screen.FromControl( control );
 			if ( this.Right > screen.WorkingArea.Right )
 			{
-				this.Left = Math.Min( 
+				this.Left = Math.Max( 
 					screen.WorkingArea.Right - this.Width, 
-					screen.WorkingArea.Top );
+					screen.WorkingArea.Left );
 
 				if ( this.Right > screen.WorkingArea.Right )
 				{
