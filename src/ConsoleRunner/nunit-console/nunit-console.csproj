@@ -87,13 +87,13 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "nunit.tests.dll"
-                    Project = "{F5DDCC74-6966-4255-8E6A-089737B88EC1}"
+                    Name = "nunit.util.dll"
+                    Project = "{A0C5635D-0624-4329-9AC1-3C06B6460800}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "nunit.util.dll"
-                    Project = "{A0C5635D-0624-4329-9AC1-3C06B6460800}"
+                    Name = "nunit.tests.dll"
+                    Project = "{F5DDCC74-6966-4255-8E6A-089737B88EC1}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>

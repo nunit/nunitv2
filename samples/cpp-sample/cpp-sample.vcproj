@@ -65,7 +65,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalUsingDirectories="&quot;C:\Program Files\Nunit V2.0\bin&quot;"
+				AdditionalUsingDirectories="C:\SFKit\SourceForge\nunit20\framework\bin\Release;&quot;C:\Program Files\Nunit V2.0\bin&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				MinimalRebuild="FALSE"
 				UsePrecompiledHeader="3"
