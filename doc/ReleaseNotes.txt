@@ -1,5 +1,5 @@
-Release Notes for NUnit 2.1.2 Beta 2 - Windows Install Package
-July 22, 2003
+Release Notes for NUnit 2.1.3 RC1
+August 22, 2003
 
 This is the third major release of NUnit and the second since it was 
 rewritten to take advantage of .NET custom attributes. Highlights of 
@@ -8,6 +8,11 @@ to run test suites across multiple assemblies, improvements to the
 GUI interface, new command line switches for both GUI and Console 
 runners, some degree of integration with Visual Studio and new 
 TestFixtureSetup and TestFixtureTeardown attributes
+
+Changes From Beta 2
+Tests now execute in the same order as they are displayed in the gui.
+The gui recognizes an appsetting to cause it to run tests in the STA.
+Various bugs have been fixed.
 
 Changes From Beta 1
 
