@@ -46,6 +46,7 @@ namespace NUnit.UiKit
 		#region Instance Variables
 
 		private NUnitProject project;
+		private TestLoader loader;
 
 		private int selectedIndex = -1;
 
@@ -247,6 +248,7 @@ namespace NUnit.UiKit
 		private void activeButton_Click(object sender, System.EventArgs e)
 		{
 			project.SetActiveConfig( selectedIndex );
+			//AppUI.TestLoader.LoadConfig( project.Configs[selectedIndex].Name );
 			FillListBox();
 		}
 

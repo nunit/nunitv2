@@ -150,15 +150,7 @@ namespace NUnit.Util
 		public NUnitProject TestProject
 		{
 			get { return testProject; }
-			set
-			{
-				if ( IsProjectLoaded )
-					UnloadProject();
-
-				testProject = value;
-
-				events.FireProjectLoaded( TestFileName );
-			}
+			set	{ OnProjectLoad( value ); }
 		}
 
 		public ITestEvents Events
@@ -229,9 +221,7 @@ namespace NUnit.Util
 			{
 				events.FireProjectLoading( "New Project" );
 
-				testProject = NUnitProject.NewProject();
-
-				events.FireProjectLoaded( testProject.ProjectPath );
+				OnProjectLoad( NUnitProject.NewProject() );
 			}
 			catch( Exception exception )
 			{
@@ -254,12 +244,7 @@ namespace NUnit.Util
 				project.Configs.Add( "Release" );			
 				project.IsDirty = false;
 
-				if ( IsProjectLoaded )
-					UnloadProject();
-
-				testProject = project;
-
-				events.FireProjectLoaded( TestFileName );
+				OnProjectLoad( project );
 			}
 			catch( Exception exception )
 			{
@@ -278,12 +263,7 @@ namespace NUnit.Util
 
 				NUnitProject newProject = NUnitProject.LoadProject( filePath );			
 
-				if ( IsProjectLoaded )
-					UnloadProject();
-			
-				testProject = newProject;
-
-				events.FireProjectLoaded( TestFileName );
+				OnProjectLoad( newProject );
 
 				return true;
 			}
@@ -306,12 +286,7 @@ namespace NUnit.Util
 
 				NUnitProject newProject = NUnitProject.FromAssemblies( assemblies );
 
-				if ( IsProjectLoaded )
-					UnloadProject();
-			
-				testProject = newProject;
-
-				events.FireProjectLoaded( testProject.ProjectPath );
+				OnProjectLoad( newProject );
 
 				return true;
 			}
@@ -340,6 +315,7 @@ namespace NUnit.Util
 				if ( IsTestLoaded )
 					UnloadTest();
 
+				testProject.Changed -= new ProjectEventHandler( OnProjectChanged );
 				testProject = null;
 
 				events.FireProjectUnloaded( testFileName );
@@ -349,6 +325,46 @@ namespace NUnit.Util
 				events.FireProjectUnloadFailed( testFileName, exception );
 			}
 
+		}
+
+		/// <summary>
+		/// Common operations done each time a project is loaded
+		/// </summary>
+		/// <param name="testProject">The newly loaded project</param>
+		private void OnProjectLoad( NUnitProject testProject )
+		{
+			if ( IsProjectLoaded )
+				UnloadProject();
+
+			this.testProject = testProject;
+			testProject.Changed += new ProjectEventHandler( OnProjectChanged );
+
+			events.FireProjectLoaded( TestFileName );
+		}
+
+		private void OnProjectChanged( object sender, ProjectEventArgs e )
+		{
+			switch ( e.type )
+			{
+				case ProjectChangeType.ActiveConfig:
+					if( TestProject.IsLoadable )
+						LoadTest();
+					break;
+
+				case ProjectChangeType.AddConfig:
+					break;
+
+				case ProjectChangeType.RemoveConfig:
+					break;
+
+				case ProjectChangeType.UpdateConfig:
+					if ( e.configName == TestProject.ActiveConfigName && TestProject.IsLoadable )
+						LoadTest();
+					break;
+
+				default:
+					break;
+			}
 		}
 
 		#endregion
@@ -367,17 +383,6 @@ namespace NUnit.Util
 			return LoadProject( assemblies ) 
 				&& TestProject.IsLoadable 
 				&& LoadTest();
-		}
-
-		public void LoadConfig( string configName )
-		{
-			string oldConfigName = TestProject.ActiveConfigName;
-			TestProject.SetActiveConfig( configName );
-
-			if( !TestProject.IsLoadable || !LoadTest() )
-				TestProject.SetActiveConfig( configName );
-			else
-				UnloadTest();
 		}
 
 		public bool LoadTest( )

@@ -39,12 +39,42 @@ using NUnit.Core;
 namespace NUnit.Util
 {
 	/// <summary>
+	/// Types of changes that may occur to a config
+	/// </summary>
+	public enum ProjectChangeType
+	{
+		ActiveConfig,
+		AddConfig,
+		RemoveConfig,
+		UpdateConfig,
+		Other
+	}
+
+	/// <summary>
+	///  Arguments for a project event
+	/// </summary>
+	public class ProjectEventArgs : EventArgs
+	{
+		public ProjectChangeType type;
+		public string configName;
+
+		public ProjectEventArgs( ProjectChangeType type, string configName )
+		{
+			this.type = type;
+			this.configName = configName;
+		}
+	}
+
+	/// <summary>
+	/// Delegate to be used to handle project events
+	/// </summary>
+	public delegate void ProjectEventHandler( object sender, ProjectEventArgs e );
+
+	/// <summary>
 	/// Class that represents an NUnit test project
 	/// </summary>
-	public class NUnitProject : Project
+	public class NUnitProject
 	{
-		public NUnitProject( string filePath ) : base( filePath ) { }
-
 		#region Static and instance variables
 
 		/// <summary>
@@ -58,6 +88,21 @@ namespace NUnit.Util
 		private static readonly string nunitExtension = ".nunit";
 
 		/// <summary>
+		/// Path to the file storing this project
+		/// </summary>
+		protected string projectPath;
+
+		/// <summary>
+		///  Whether the project is dirty
+		/// </summary>
+		protected bool isDirty = false;
+		
+		/// <summary>
+		/// Collection of configs for the project
+		/// </summary>
+		protected ProjectConfigCollection configs;
+
+		/// <summary>
 		/// The currently active configuration
 		/// </summary>
 		private ProjectConfig activeConfig;
@@ -67,6 +112,16 @@ namespace NUnit.Util
 		/// temporary wrapper for an assembly.
 		/// </summary>
 		private bool isAssemblyWrapper = false;
+
+		#endregion
+
+		#region Constructor
+
+		public NUnitProject( string projectPath )
+		{
+			this.projectPath = Path.GetFullPath( projectPath );
+			configs = new ProjectConfigCollection( this );		
+		}
 
 		#endregion
 
@@ -234,12 +289,42 @@ namespace NUnit.Util
 
 		#endregion
 
-		#region Properties
+		#region Properties and Events
 
 		public static int ProjectSeed
 		{
 			get { return projectSeed; }
 			set { projectSeed = value; }
+		}
+
+		/// <summary>
+		/// The path to which a project will be saved.
+		/// </summary>
+		public string ProjectPath
+		{
+			get { return projectPath; }
+			set 
+			{
+				projectPath = Path.GetFullPath( value );
+				isDirty = true;
+			}
+		}
+
+		/// <summary>
+		/// The base path for the project is the
+		/// directory part of the project path.
+		/// </summary>
+		public string BasePath
+		{
+			get { return Path.GetDirectoryName( projectPath ); }
+		}
+
+		/// <summary>
+		/// The name of the project.
+		/// </summary>
+		public string Name
+		{
+			get { return Path.GetFileNameWithoutExtension( projectPath ); }
 		}
 
 		public ProjectConfig ActiveConfig
@@ -285,15 +370,29 @@ namespace NUnit.Util
 			get { return isAssemblyWrapper; }
 		}
 
-		public override string ConfigurationFile
+		public string ConfigurationFile
 		{
 			get 
 			{ 
+				// TODO: Check this
 				return isAssemblyWrapper
 					  ? projectPath + ".config"
-					  : base.ConfigurationFile;
+					  : Path.GetFileNameWithoutExtension( projectPath ) + ".config";
 			}
 		}
+
+		public bool IsDirty
+		{
+			get { return isDirty; }
+			set { isDirty = value; }
+		}
+
+		public ProjectConfigCollection Configs
+		{
+			get { return configs; }
+		}
+
+		public event ProjectEventHandler Changed;
 
 		#endregion
 
@@ -302,6 +401,7 @@ namespace NUnit.Util
 		public void SetActiveConfig( int index )
 		{
 			activeConfig = configs[index];
+			OnProjectChange( ProjectChangeType.ActiveConfig, activeConfig.Name );
 		}
 
 		public void SetActiveConfig( string name )
@@ -311,15 +411,22 @@ namespace NUnit.Util
 				if ( config.Name == name )
 				{
 					activeConfig = config;
-					isDirty = true;
+					OnProjectChange( ProjectChangeType.ActiveConfig, activeConfig.Name );
 					break;
 				}
 			}
 		}
 
+		public void OnProjectChange( ProjectChangeType type, string configName )
+		{
+			isDirty = true;
+			if ( Changed != null )
+				Changed( this, new ProjectEventArgs( type, configName ) );
+		}
+
 		public void Add( VSProject vsProject )
 		{
-			foreach( ProjectConfig vsConfig in vsProject.Configs )
+			foreach( VSProjectConfig vsConfig in vsProject.Configs )
 			{
 				string name = vsConfig.Name;
 
@@ -328,11 +435,9 @@ namespace NUnit.Util
 
 				ProjectConfig config = this.Configs[name];
 
-				foreach ( AssemblyListItem assembly in vsConfig.Assemblies )
-					config.Assemblies.Add( assembly.FullPath );
+				foreach ( string assembly in vsConfig.Assemblies )
+					config.Assemblies.Add( assembly );
 			}
-
-			this.IsDirty = true;
 		}
 
 		public void Load()

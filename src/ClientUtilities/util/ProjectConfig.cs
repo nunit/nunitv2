@@ -49,17 +49,17 @@ namespace NUnit.Util
 		/// <summary>
 		/// The name of this config
 		/// </summary>
-		protected string name;
+		private string name;
 
 		/// <summary>
 		/// IProject interface of containing project
 		/// </summary>
-		protected Project project = null;
+		protected NUnitProject project = null;
 
 		/// <summary>
 		/// Mark this config as changed
 		/// </summary>
-		protected bool isDirty = false;
+		private bool isDirty = false;
 
 		/// <summary>
 		/// List of the names of the assemblies
@@ -103,9 +103,9 @@ namespace NUnit.Util
 
 		#endregion
 
-		#region Properties
+		#region Properties and Events
 
-		public Project Project
+		public NUnitProject Project
 		{
 			get { return project; }
 			set { project = value; }
@@ -118,8 +118,11 @@ namespace NUnit.Util
 			{ 
 				isDirty = value;
 
-				if ( isDirty && project != null )
-					project.IsDirty = true;
+				if ( isDirty )
+				{
+					if ( Changed != null )
+						Changed( this, EventArgs.Empty );
+				}
 			}
 		}
 
@@ -135,6 +138,8 @@ namespace NUnit.Util
 				}
 			}
 		}
+
+		public event EventHandler Changed;
 		
 		/// <summary>
 		/// The base directory for this config - used

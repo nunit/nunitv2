@@ -226,8 +226,8 @@ namespace NUnit.UiKit
 				copyConfigurationName = (string)configurationComboBox.SelectedItem;
 				ProjectConfig copyConfig = project.Configs[copyConfigurationName];
 				if ( copyConfig != null )
-					foreach( string path in copyConfig.Assemblies )
-						newConfig.Assemblies.Add( path );
+					foreach( AssemblyListItem item in copyConfig.Assemblies )
+						newConfig.Assemblies.Add( item.FullPath, item.HasTests );
 			}
 
 			project.Configs.Add( newConfig );
