@@ -61,14 +61,16 @@ namespace NUnit.Core
 				if ( Parent != null )
 				{
 					doParentSetUp = !Parent.IsSetUp;
-					if ( Fixture == null )
-						Fixture = Parent.Fixture;
+					
 				}
 
 				try
 				{
 					if ( doParentSetUp )
 						Parent.DoSetUp( testResult );
+
+					if ( Fixture == null && Parent != null)
+						Fixture = Parent.Fixture;
 
 					if ( !testResult.IsFailure )
 						doRun( testResult );
