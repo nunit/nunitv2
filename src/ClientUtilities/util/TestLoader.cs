@@ -557,7 +557,7 @@ namespace NUnit.Util
 			try
 			{
 				Directory.SetCurrentDirectory( testProject.ActiveConfig.BasePath );
-				testDomain.TestName = runningTest.FullName;
+				testDomain.TestName = runningTest.UniqueName;
 				lastResult = testDomain.Run(this, stdOutWriter, stdErrWriter );
 				
 				events.FireRunFinished( lastResult );
