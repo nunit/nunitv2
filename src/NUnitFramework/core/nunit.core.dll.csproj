@@ -232,12 +232,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestDomain.cs"
+                    RelPath = "TestResult.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestResult.cs"
+                    RelPath = "TestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

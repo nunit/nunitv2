@@ -40,7 +40,7 @@ namespace NUnit.Core
 	/// </summary>
 	/// 
 	[Serializable]
-	public class RemoteTestRunner : LongLivingMarshalByRefObject
+	public class RemoteTestRunner : LongLivingMarshalByRefObject, TestRunner
 	{
 		#region Instance variables
 
@@ -49,72 +49,50 @@ namespace NUnit.Core
 		/// </summary>
 		private TestSuite suite;
 
-		/// <summary>
-		/// The test Fixture name to load
-		/// </summary>
-		private string testName;
-
-		/// <summary>
-		/// The test file to load. If assemblies is null,
-		/// this must be an assembly file, otherwise it
-		/// is only used to provide a name for the root
-		/// test node having the assemblies as children.
-		/// </summary>
-		private string testFileName;
-
-		/// <summary>
-		/// The list of assemblies to load
-		/// </summary>
-		private IList assemblies;
-
 		#endregion
 
 		#region Properties
+		
+		#endregion
 
-		public string TestName 
-		{
-			get { return testName; }
-			set { testName = value; }
-		}
-			
-		public Test Test
-		{
-			get { return suite; }
-		}
+		#region Loading Tests
 
-		public string TestFileName
+		public Test Load( string assemblyName )
 		{
-			get { return testFileName; }
-			set { testFileName = value; }
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			suite = builder.Build( assemblyName );
+			return suite;
 		}
 
-		public IList Assemblies
+		public Test Load( string assemblyName, string testName )
 		{
-			get { return assemblies; }
-			set { assemblies = value; }
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			suite = builder.Build( assemblyName, testName );
+			return suite;
+		}
+
+		public Test Load( string projectName, IList assemblies )
+		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			suite = builder.Build( projectName, assemblies );
+			return suite;
+		}
+
+		public Test Load( string projectName, IList assemblies, string testName )
+		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			suite = builder.Build( assemblies, testName );
+			return suite;
+		}
+
+		public void Unload()
+		{
+			suite = null; // All for now
 		}
 
 		#endregion
 
-		#region Public Methods
-
-		public void BuildSuite() 
-		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-
-			if(testName == null )
-				if ( assemblies == null )
-					suite = builder.Build( testFileName );
-				else
-					suite = builder.Build( testFileName, assemblies );
-			else
-				if ( assemblies == null )
-					suite = builder.Build( testFileName, testName );
-				else
-					suite = builder.Build( assemblies, testName );
-
-			if(suite != null) TestName = suite.FullName;
-		}
+		#region Running Tests
 
 		public int CountTestCases(IList testNames) 
 		{
@@ -149,7 +127,14 @@ namespace NUnit.Core
 			return result;
 		}
 
-		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText)
+		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText )
+		{
+			NameFilter filter = new NameFilter(suite);
+
+			return Run(listener, outText, errorText, filter);
+		}
+
+		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText, string testName )
 		{
 			Test test = FindByName(suite, testName);
 
