@@ -504,19 +504,17 @@ namespace NUnit.Core
 
 		public void RunStarted(Test[] tests)
 		{
-			// TODO:  Remove
+			// TODO:  Remove - never called
 		}
 
 		void NUnit.Core.EventListener.RunFinished(TestResult[] results)
 		{
-			// TODO:  Remove
-			outText.Close();
+			// TODO:  Remove - never called
 		}
 
 		void NUnit.Core.EventListener.RunFinished(Exception exception)
 		{
-			// TODO:  Remove
-			outText.Close();
+			// TODO:  Remove - never called
 		}
 
 		public void TestStarted(TestCase testCase)
