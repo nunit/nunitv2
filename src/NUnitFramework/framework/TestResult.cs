@@ -61,6 +61,11 @@ namespace NUnit.Core
 			set { executed = value; }
 		}
 
+		public virtual bool AllTestsExecuted
+		{
+			get { return executed; }
+		}
+
 		public virtual string Name
 		{
 			get{ return name;}

@@ -189,14 +189,16 @@ namespace NUnit.UiKit
 		{
 			if ( this.result == null )
 				return INIT;
-
-			if ( !this.result.Executed )
+			
+			if ( !this.result.Executed  )
 				return NOT_RUN;
 
-			if ( this.result.IsSuccess )
-				return SUCCESS;
-			else if ( this.result.IsFailure )
+			if ( this.result.IsFailure )
 				return FAILURE;
+			else if ( !this.Result.AllTestsExecuted )
+				return NOT_RUN;
+			else if ( this.result.IsSuccess )
+				return SUCCESS;
 			else
 				return NOT_RUN;
 		}

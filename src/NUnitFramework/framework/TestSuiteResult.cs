@@ -74,6 +74,22 @@ namespace NUnit.Core
 			}
 		}
 
+		public override bool AllTestsExecuted
+		{
+			get
+			{
+				if (!this.Executed)
+					return false;
+
+				foreach( TestResult testResult in results )
+				{
+					if ( !testResult.AllTestsExecuted )
+						return false;
+				}
+				return true;
+			}
+		}
+
 		public override void NotRun(string message)
 		{
 			this.Executed = false;
