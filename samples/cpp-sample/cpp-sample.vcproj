@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalUsingDirectories="..\..\framework\bin\Debug"
+				AdditionalUsingDirectories="..\..\src\NUnitFramework\framework\bin\Debug"
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="0"
@@ -67,7 +67,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalUsingDirectories="..\..\framework\bin\Release;..\..\framework\bin\Debug"
+				AdditionalUsingDirectories="..\..\src\NUnitFramework\framework\bin\Release;..\..\src\NUnitFramework\framework\bin\Debug"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				MinimalRebuild="FALSE"
 				UsePrecompiledHeader="3"
