@@ -76,6 +76,9 @@ namespace NUnit.Gui
 					command.testName = parser.fixture;
 					command.noload = parser.noload;
 					command.autorun = parser.run;
+					if (parser.lang != null)
+						System.Threading.Thread.CurrentThread.CurrentUICulture =
+							new System.Globalization.CultureInfo( parser.lang );
 				}
 
 				if(command.testFileName != null)

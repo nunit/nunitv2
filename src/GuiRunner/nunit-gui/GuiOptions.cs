@@ -55,6 +55,9 @@ namespace NUnit.Gui
 		[Option(Description = ".NET Framework version to execute with (eg 'v1.0.3705')")]
 		public string framework;
 
+		[Option(Description = "Language to use for the NUnit GUI")]
+		public string lang;
+
 		public GuiOptions(String[] args) : base(args) 
 		{}
 
