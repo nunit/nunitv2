@@ -185,7 +185,7 @@ namespace NUnit.Core
 			}
 			finally
 			{
-				suiteResult.AssertCount = NUnit.Framework.Assert.Counter;
+				suiteResult.AssertCount = NUnit.Framework.Assert.GetAssertCount( true );
 			}
 		}
 
@@ -212,7 +212,7 @@ namespace NUnit.Core
 				}
 				finally
 				{
-					suiteResult.AssertCount += NUnit.Framework.Assert.Counter;
+					suiteResult.AssertCount += NUnit.Framework.Assert.GetAssertCount( true );
 				}
 			}
 
