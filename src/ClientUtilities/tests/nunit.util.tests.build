@@ -7,8 +7,12 @@
   <include buildfile="../../nunit.build.include"/>
 
   <target name="clean" depends="set-build-dir">
-    <delete file="${current.build.dir}/nunit.util.tests.dll" failonerror="false"/>
-    <delete file="${current.build.dir}/nunit.util.tests.pdb" failonerror="false"/>
+    <delete failonerror="false">
+      <fileset basedir="${current.build.dir}">
+        <include name="nunit.util.tests.dll"/>
+        <include name="nunit.util.tests.pdb"/>
+      </fileset>
+    </delete>
   </target>
 
   <target name="build" depends="make-build-dir">
@@ -17,14 +21,6 @@
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
         <include name="*.cs"/>
-        <exclude name="GuiFixture.cs" if="${build.mono}"/>
-        <exclude name="NUnitRegistryTests.cs" if="${build.mono}"/>
-        <exclude name="RegistrySettingsStorageTests.cs" if="${build.mono}"/>
-        <exclude name="RecentProjectsFixture.cs" if="${build.mono}"/>
-        <exclude name="SettingsGroupTests.cs" if="${build.mono}"/>
-        <exclude name="TestLoaderAssemblyTests.cs" if="${build.mono}"/>
-        <exclude name="TestEventCatcher.cs" if="${build.mono}"/>
-        <exclude name="EventDispatcherTests.cs" if="${build.mono}"/>
       </sources>
       <resources basedir="." prefix="NUnit.Util.Tests">
         <include name="cpp-sample.vcproj"/>

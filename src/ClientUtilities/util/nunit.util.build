@@ -21,10 +21,6 @@
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
         <include name="*.cs"/>
-        <exclude name="NUnitRegistry.cs" 
-          unless="${build.win32}"/>
-        <exclude name="RegistrySettingsStorage.cs" 
-          unless="${build.win32}"/>
       </sources>
       <resources basedir="." prefix="NUnit.Util">
         <include name="Transform.resx"/>
