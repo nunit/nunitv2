@@ -135,6 +135,8 @@ namespace NUnit.UiKit
 		{
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Title = "Add Assembly";
+
+			dlg.InitialDirectory = loader.TestProject.Configs[configName].BasePath;
 			
 			dlg.Filter =
 				"Assemblies (*.dll,*.exe)|*.dll;*.exe|" +
