@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<project name="NUnit" default="all">
+	<property name="build.dir" value="build"/>
+	<property name="test.dir" value="${build.dir}\test"/>
+	<property name="debug" value="true"/>
+	
+	<target name="all" depends="clean,tests,gui,console"/>
+	
+	<target name="init">
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${test.dir}"/>
+	</target>
+	
+	<target name="framework" depends="init">
+		<csc target="library" output="${build.dir}\nunit.framework.dll" debug="${debug}">
+			<sources basedir="framework">
+				<includes name="**/*.cs"/>
+			</sources>
+		</csc>
+	</target>
+	
+	
+	<target name="extensions" depends="framework">
+		<csc target="library" output="${build.dir}\nunit.extensions.dll" debug="${debug}">
+			<sources basedir="extensions">
+				<includes name="**/*.cs"/>
+			</sources>
+			<references>
+				<includes name="${build.dir}/nunit.framework.dll"/>
+			</references>
+		</csc>
+	</target>
+	
+	<target name="utils" depends="framework">
+		<csc target="library" output="${build.dir}\nunit.utils.dll" debug="${debug}">
+			<sources basedir="util">
+				<includes name="**/*.cs"/>
+			</sources>
+			<references>
+				<includes name="${build.dir}/nunit.framework.dll"/>
+			</references>
+		</csc>
+	</target>
+	
+	<target name="tests" depends="extensions,utils">
+		<csc target="library" output="${build.dir}\mock-assembly.dll" debug="${debug}">
+			<sources basedir="tests/mock-assembly">
+				<includes name="*.cs"/>
+			</sources>
+			<references>
+				<includes name="${build.dir}/nunit.framework.dll"/>
+			</references>
+		</csc>
+		<csc target="library" output="${build.dir}\nunit.tests.dll" debug="${debug}">
+			<sources basedir="Tests">
+				<includes name="*.cs"/>
+			</sources>
+			<references>
+				<includes name="${build.dir}/nunit.utils.dll"/>
+				<includes name="${build.dir}/nunit.extensions.dll"/>
+				<includes name="${build.dir}/nunit.framework.dll"/>
+				<includes name="${build.dir}/mock-assembly.dll"/>
+			</references>
+		</csc>
+	</target>
+	
+	<target name="gui" depends="utils,extensions">
+		<resgen input="nunit-gui\NunitForm.resx" output="build\Nunit.Gui.NunitForm.resources"/>
+		<resgen input="nunit-gui\ProgressBar.resx" output="build\Nunit.Gui.ProgressBar.resources"/>
+		<resgen input="nunit-gui\AboutBox.resx" output="build\Nunit.Gui.AboutBox.resources"/>
+		<csc target="winexe" output="${build.dir}\NUnitGui.exe" win32icon="nunit-gui\Logo.ico" debug="${debug}">
+			<sources basedir="nunit-gui">
+				<includes name="**/*.cs"/>
+			</sources>
+			<resources basedir="${build.dir}">
+				<includes name="Nunit.Gui.NunitForm.resources"/>
+				<includes name="Nunit.Gui.ProgressBar.resources"/>
+				<includes name="Nunit.Gui.AboutBox.resources"/>
+			</resources>
+			<references>
+				<includes name="${build.dir}/nunit.utils.dll"/>
+				<includes name="${build.dir}/nunit.extensions.dll"/>
+				<includes name="${build.dir}/nunit.framework.dll"/>
+			</references>
+		</csc>
+	</target>
+	
+	
+	<target name="console" depends="utils,extensions">
+		<resgen input="nunit-console\Transform.resx" output="build\nunit_console.Transform.resources"/>
+		<csc target="exe" output="${build.dir}\nunit-console.exe" debug="${debug}">
+			<sources basedir="nunit-console">
+				<includes name="*.cs"/>
+			</sources>
+			<resources basedir="${build.dir}">
+				<includes name="nunit_console.Transform.resources"/>
+			</resources>
+			<references>
+				<includes name="${build.dir}/nunit.framework.dll"/>
+				<includes name="${build.dir}/nunit.tests.dll"/>
+				<includes name="${build.dir}/nunit.utils.dll"/>
+			</references>
+		</csc>
+	</target>
+	
+	<target name="samples" depends="framework">
+		<cl outputdir="${build.dir}" options="/clr /AI ${build.dir}">
+			<sources basedir="samples\cpp">
+				<includes name="*.cpp"/>
+			</sources>
+		</cl>
+		<link output="${build.dir}\cpp-sample.dll" options="/DLL">
+			<sources basedir="${build.dir}">
+				<includes name="*.obj"/>
+			</sources>
+		</link>
+		
+		<csc target="library" output="${build.dir}\csharp-sample.dll">
+			<sources basedir="samples\csharp">
+				<includes name="*.cs"/>
+			</sources>
+			<references>
+				<includes name="${build.dir}/nunit.framework.dll"/>
+			</references>
+		</csc>
+		
+		<vbc target="library" output="${build.dir}\vb-sample.dll" imports="System">
+			<sources basedir="samples\vb">
+				<includes name="*.vb"/>
+			</sources>
+			<references>
+				<includes name="${build.dir}/nunit.framework.dll"/>
+			</references>
+		</vbc>
+		
+		<csc target="library" output="${build.dir}\money-sample.dll">
+			<sources basedir="samples\money">
+				<includes name="*.cs"/>
+			</sources>
+			<references>
+				<includes name="${build.dir}/nunit.framework.dll"/>
+			</references>
+		</csc>
+		
+		<csc target="library" output="${build.dir}\moneyport-sample.dll">
+			<sources basedir="samples\money-port">
+				<includes name="*.cs"/>
+			</sources>
+			<references>
+				<includes name="${build.dir}/nunit.framework.dll"/>
+			</references>
+		</csc>
+		<csc target="library" output="${build.dir}\calculator.dll">
+			<sources basedir="samples\calculator">
+				<includes name="*.cs"/>
+			</sources>
+		</csc>
+		<csc target="library" output="${build.dir}\calculator.test.dll">
+			<sources basedir="samples\calculator.test">
+				<includes name="*.cs"/>
+			</sources>
+			<references>
+				<includes name="${build.dir}\nunit.framework.dll"/>
+				<includes name="${build.dir}\calculator.dll"/>
+			</references>
+		</csc>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build.dir}" failonerror="false"/>
+	</target>
+</project>
