@@ -1,0 +1,22 @@
+Release Notes for NUnit 2.1 Beta 1 - Windows Install Package
+July 22, 2003
+
+This is the third major release of NUnit and the second since it was 
+rewritten to take advantage of .NET custom attributes. Highlights of 
+this release include support for the .NET framework 1.1, the ability 
+to run test suites across multiple assemblies, improvements to the 
+GUI interface, new command line switches for both GUI and Console 
+runners, some degree of integration with Visual Studio and new 
+TestFixtureSetup and TestFixtureTeardown attributes
+
+Installation
+
+Download and execute the nunit.msi file. By default the installation 
+program places the all files in the directory C:\Program Files\Nunit V2.1. 
+In the installation directory there are three sub-directories: bin, doc 
+and src. The samples directory is located under src.
+
+For more information, consult the Readme.pdf file located in the doc
+directory.
+
+The NUnit Team

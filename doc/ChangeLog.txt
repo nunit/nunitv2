@@ -1,0 +1,86 @@
+Change Log for NUnit 2.1 Beta 1
+July 21, 2003
+
+Feature Requests Implemented
+* 597609 - Support a cancel/stop operation
+* 606393 - Maintain results in gui when reloading
+* 603449 - Option to disable assembly watching
+* 597626 - /wait gone from NunitConsole.exe
+* 600119 - Per-test statistics in nunit-gui
+* 616931 - Sort order of TestFixtures
+* 594486 - Loading Switch
+* 599120 - Show help when invalid GuiRunner options
+* 598814 - Add TestFixtureSetup/TearDown
+* 660750 - A class SetUp which runs each time Run is clicked
+* 623090 - Warnings if fixtures not public
+* 609643 - Compound structure
+* 614602 - Load multiple test dlls in nunit-gui
+* 660751 - Do not expand Tree by default
+* 629138 - Add Class Setup/TearDown
+* 516161 - Test Project Files
+* 629136 - Remarks for TestFixture and Test Attributes
+* 677192 - Recursive assembly load by reference
+* 587855 - Need option to select default test case
+* 660767 - Assert should indicate which source line
+* 669203 - Save and restore splitter positions
+* 660761 - Add shortcut key to Recently Used list
+* 648492 - NUnit doesn’t display in reference list
+* 676195 - Increase the Number of Recent Assemblies
+* 600182 - REPOST: Output to IDE Output Window
+* 660764 - Set focus, when StdOut or Errors are reported
+* 660745 - NUnit GUI should nest nested classes
+* 757160 - Add Registry key to show assemblies in .NET Reference dialog
+* 755787 - Realtime Tree updates
+* 755791 - Stop button in GUI
+
+Bugs Fixed or Closed
+* 610910 - UI Problems while Test is running
+* 624007 - Object has been disconnected
+* 624935 - Splitter messes up Run Area
+* 624943 - Disabled Run Button
+* 610906 - Running Test Domain Unloaded
+* 615750 - Test of unsafe C# code stack ovflw excpt
+* 619823 - crash when specifying invalid assembly
+* 630663 - Documentation
+* 618673 - Installer fails with Interrupted.. error
+* 640533 - NUnit crashes when assembly is updated
+* 644877 - Assembly Load failure
+* 599145 - Failed check of sign. For MS.VisualBasic
+* 609440 - I have an error when I run nunit v2 rc2
+* 618945 - installer fails
+* 665558 - ConfigurationSettings not available
+* 661571 - nunit task from nant = failure
+* 660770 - ExpectedException doesn’t work as documented
+* 656401 - Missing dll reference in documentation
+* 648152 - Click on failed test then STDOUT tab
+* 668406 - ConfigurationSettings w/ networked assemblies
+* 699661 - Nunit-gui exits when pressing space bar
+* 699640 - Tests run in nunit-console fails
+* 703096 - Run All Tests in All Assemblies
+* 667664 - GUI updates
+* 646933 - Assembly Load failure: possible solution
+* 699641 - TestResult.xml written in wrong directory
+* 675968 - Another open database bug - VS.NET 2003
+* 706643 - Switching to StandardOut pane with too much text fails.
+* 707671 - System.Net.IPAddress.Parse - Invalid Pinvoke metadata format
+* 713681 - [STAThread] Attribute Missing in Console Runner
+* 713388 - (BUG) Dependent assemblies aren’t reloaded
+* 720225 - AssertEquals() incorrectly compares decimals in .NET 1.1
+* 722037 - Infinite loop causes test harness to lock
+* 730822 - Setup() should fail if an exception is thrown during execution
+* 731422 - AssertEquals fails with two Decimals in .NET v1.1
+* 731258 - suite not recognized
+* 738425 - NUnit-console.exe runs tests from a MTA
+* 730870 - Setup() should fail if an exception is thrown during execution
+* 640467 - Newline not rendered in GUI
+* 671642 - Multiline ToolTip messages improperly displayed
+* 735111 - assembly loading fails if assembly name contains a dot char
+* 743442 - timing-tests won’t compile
+* 735138 - nunit.console
+* 742163 - NUnit.Extensions.RepeatedTest.cs won’t compile
+* 770942 - AppSettings not loaded when using nunit-console.exe
+* 744649 - Lengthy COM calls cause failures in Console.WriteLine
+* 775791 - nunit-gui requires admin rights in 2.1 beta 1
+* 775796 - NUnit 2.1 Beta 1 install requires .NET 1.1
+* 776053 - NUnit 2.1 won't install with 2.0
+* 775566 - Typos in Readme.pdf with nunit v2.1 beta 1
