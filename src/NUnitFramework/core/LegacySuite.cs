@@ -105,5 +105,15 @@ namespace NUnit.Core
 		}
 
 		#endregion
+
+		#region Properties
+
+		public override bool IsFixture
+		{
+			get { return false; }
+		}
+
+
+		#endregion
 	}
 }

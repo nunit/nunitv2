@@ -151,15 +151,7 @@ namespace NUnit.Core
 		/// </summary>
 		public override bool IsFixture
 		{
-			get
-			{
-				// We have no way of constructing an empty suite unless it's a fixture
-				if ( Tests.Count == 0 ) return true;
-				
-				// Any suite with children is a fixture if the children are test cases
-				Test firstChild = (Test)Tests[0];
-				return !firstChild.IsSuite;
-			}
+			get	{ return false;	}
 		}
 
 		public override int CountTestCases()

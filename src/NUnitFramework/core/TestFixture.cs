@@ -129,6 +129,15 @@ namespace NUnit.Core
 
 		#endregion
 
+		#region Properties
+
+		public override bool IsFixture
+		{
+			get { return true; }
+		}
+
+		#endregion
+
 		public override void DoSetUp( TestResult suiteResult )
 		{
 			try 
