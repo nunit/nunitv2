@@ -52,6 +52,35 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
+		public void Bug1076043AreEqualsNotTransitiveForDecimal()
+		{
+			decimal d1 = 123M;
+			d1 /= 10M;
+			decimal d2 = Decimal.Parse("012.300");
+			decimal d3 = 12.30M;
+
+			Console.WriteLine(d1);
+			Console.WriteLine(d2);
+			Console.WriteLine(d3);
+
+			Assert.AreEqual(d1, d2, "1");
+			Assert.AreEqual(d1, d3, "2");
+			Assert.AreEqual(d2, d3, "3");
+
+			object o1 = d1;
+			object o2 = d2;
+			object o3 = d3;
+
+			Assert.AreEqual(o1, d1, "4");
+			Assert.AreEqual(o2, d2, "5");
+			Assert.AreEqual(o3, d3, "6");
+
+			Assert.AreEqual(o1, o2, "7");
+			Assert.AreEqual(o1, o3, "8");
+			Assert.AreEqual(o2, o3, "9");
+		}
+
+		[Test]
 		public void Bug575936Int32Int64Comparison()
 		{
 			long l64 = 0;
