@@ -216,8 +216,6 @@ namespace Codeblast
 		{
 			// Look for ":" or "=" separator in the option:
 			int pos = opt.IndexOfAny( new char[] { ':', '=' } );
-//			int pos = opt.IndexOf(':');
-//			if (pos < 1) pos = opt.IndexOf('=');
 			if (pos < 1) return;
 
 			val = opt.Substring(pos+1);
