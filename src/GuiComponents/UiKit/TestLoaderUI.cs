@@ -144,8 +144,6 @@ namespace NUnit.UiKit
 			if ( dlg.ShowDialog( owner ) == DialogResult.OK ) 
 			{
 				loader.TestProject.Configs[configName].Assemblies.Add( dlg.FileName );
-				if ( configName == loader.TestProject.ActiveConfigName )
-					loader.LoadTest();
 			}
 		}
 

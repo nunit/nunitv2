@@ -429,6 +429,13 @@ namespace NUnit.Util
 		public void OnProjectChange( ProjectChangeType type, string configName )
 		{
 			isDirty = true;
+
+			if ( isAssemblyWrapper )
+			{
+				projectPath = Path.ChangeExtension( projectPath, ".nunit" );
+				isAssemblyWrapper = false;
+			}
+
 			if ( Changed != null )
 				Changed( this, new ProjectEventArgs( type, configName ) );
 		}
