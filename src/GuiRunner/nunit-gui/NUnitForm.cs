@@ -45,7 +45,6 @@ namespace NUnit.Gui
 
 		// Handlers for our recentFiles and recentProjects
 		private RecentFileMenuHandler recentProjectsMenuHandler;
-		private RecentFileMenuHandler recentAssembliesMenuHandler;
 
 		// Structure used for command line options
 		public struct CommandLineOptions
@@ -111,14 +110,12 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem recentProjectsMenu;
 		private System.Windows.Forms.MenuItem fileMenuSeparator1;
 		private System.Windows.Forms.MenuItem fileMenuSeparator2;
-		private System.Windows.Forms.MenuItem fileMenuSeparator3;
 		public System.Windows.Forms.MenuItem fileMenuSeparator4;
 		private System.Windows.Forms.MenuItem projectMenuSeparator1;
 		private System.Windows.Forms.MenuItem projectMenuSeparator2;
 		private System.Windows.Forms.MenuItem toolsMenuSeparator1;
 		private System.Windows.Forms.MenuItem addVSProjectMenuItem;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
-		private System.Windows.Forms.MenuItem recentAssembliesMenu;
 
 		#endregion
 		
@@ -142,7 +139,6 @@ namespace NUnit.Gui
 				new TextBoxWriter( stdErrTab ) );
 
 			recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, UserSettings.RecentProjects );
-			recentAssembliesMenuHandler = new RecentFileMenuHandler( recentAssembliesMenu, UserSettings.RecentAssemblies );
 		}
 
 		protected override void Dispose( bool disposing )
@@ -178,9 +174,7 @@ namespace NUnit.Gui
 			this.saveAsMenuItem = new System.Windows.Forms.MenuItem();
 			this.fileMenuSeparator2 = new System.Windows.Forms.MenuItem();
 			this.reloadMenuItem = new System.Windows.Forms.MenuItem();
-			this.fileMenuSeparator3 = new System.Windows.Forms.MenuItem();
 			this.recentProjectsMenu = new System.Windows.Forms.MenuItem();
-			this.recentAssembliesMenu = new System.Windows.Forms.MenuItem();
 			this.fileMenuSeparator4 = new System.Windows.Forms.MenuItem();
 			this.exitMenuItem = new System.Windows.Forms.MenuItem();
 			this.viewMenu = new System.Windows.Forms.MenuItem();
@@ -241,10 +235,10 @@ namespace NUnit.Gui
 			// statusBar
 			// 
 			this.statusBar.DisplayTestProgress = true;
-			this.statusBar.Location = new System.Drawing.Point(0, 484);
+			this.statusBar.Location = new System.Drawing.Point(0, 596);
 			this.statusBar.Name = "statusBar";
 			this.statusBar.ShowPanels = true;
-			this.statusBar.Size = new System.Drawing.Size(850, 29);
+			this.statusBar.Size = new System.Drawing.Size(1088, 36);
 			this.statusBar.TabIndex = 0;
 			this.statusBar.Text = "Status";
 			// 
@@ -269,9 +263,7 @@ namespace NUnit.Gui
 																					 this.saveAsMenuItem,
 																					 this.fileMenuSeparator2,
 																					 this.reloadMenuItem,
-																					 this.fileMenuSeparator3,
 																					 this.recentProjectsMenu,
-																					 this.recentAssembliesMenu,
 																					 this.fileMenuSeparator4,
 																					 this.exitMenuItem});
 			this.fileMenu.Text = "&File";
@@ -281,7 +273,7 @@ namespace NUnit.Gui
 			// 
 			this.newMenuItem.Index = 0;
 			this.newMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlN;
-			this.newMenuItem.Text = "&New...";
+			this.newMenuItem.Text = "&New Project...";
 			this.newMenuItem.Click += new System.EventHandler(this.newMenuItem_Click);
 			// 
 			// openMenuItem
@@ -327,29 +319,19 @@ namespace NUnit.Gui
 			this.reloadMenuItem.Text = "&Reload";
 			this.reloadMenuItem.Click += new System.EventHandler(this.reloadMenuItem_Click);
 			// 
-			// fileMenuSeparator3
-			// 
-			this.fileMenuSeparator3.Index = 8;
-			this.fileMenuSeparator3.Text = "-";
-			// 
 			// recentProjectsMenu
 			// 
-			this.recentProjectsMenu.Index = 9;
-			this.recentProjectsMenu.Text = "Recent Projects";
-			// 
-			// recentAssembliesMenu
-			// 
-			this.recentAssembliesMenu.Index = 10;
-			this.recentAssembliesMenu.Text = "Recent Assemblies";
+			this.recentProjectsMenu.Index = 8;
+			this.recentProjectsMenu.Text = "Recent &Files";
 			// 
 			// fileMenuSeparator4
 			// 
-			this.fileMenuSeparator4.Index = 11;
+			this.fileMenuSeparator4.Index = 9;
 			this.fileMenuSeparator4.Text = "-";
 			// 
 			// exitMenuItem
 			// 
-			this.exitMenuItem.Index = 12;
+			this.exitMenuItem.Index = 10;
 			this.exitMenuItem.Text = "E&xit";
 			this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
 			// 
@@ -535,17 +517,17 @@ namespace NUnit.Gui
 			this.testSuiteTreeView.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.testSuiteTreeView.HideSelection = false;
 			this.testSuiteTreeView.Name = "testSuiteTreeView";
-			this.testSuiteTreeView.Size = new System.Drawing.Size(327, 484);
+			this.testSuiteTreeView.Size = new System.Drawing.Size(419, 596);
 			this.testSuiteTreeView.Sorted = true;
 			this.testSuiteTreeView.TabIndex = 1;
 			this.testSuiteTreeView.SelectedTestChanged += new NUnit.UiKit.SelectedTestChangedHandler(this.OnSelectedTestChanged);
 			// 
 			// splitter1
 			// 
-			this.splitter1.Location = new System.Drawing.Point(327, 0);
+			this.splitter1.Location = new System.Drawing.Point(419, 0);
 			this.splitter1.MinSize = 240;
 			this.splitter1.Name = "splitter1";
-			this.splitter1.Size = new System.Drawing.Size(5, 484);
+			this.splitter1.Size = new System.Drawing.Size(6, 596);
 			this.splitter1.TabIndex = 2;
 			this.splitter1.TabStop = false;
 			// 
@@ -555,9 +537,9 @@ namespace NUnit.Gui
 																				 this.resultTabs,
 																				 this.groupBox1});
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel1.Location = new System.Drawing.Point(332, 0);
+			this.panel1.Location = new System.Drawing.Point(425, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(518, 484);
+			this.panel1.Size = new System.Drawing.Size(663, 596);
 			this.panel1.TabIndex = 3;
 			// 
 			// resultTabs
@@ -568,10 +550,10 @@ namespace NUnit.Gui
 																					 this.stderr,
 																					 this.stdout});
 			this.resultTabs.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.resultTabs.Location = new System.Drawing.Point(0, 83);
+			this.resultTabs.Location = new System.Drawing.Point(0, 102);
 			this.resultTabs.Name = "resultTabs";
 			this.resultTabs.SelectedIndex = 0;
-			this.resultTabs.Size = new System.Drawing.Size(518, 401);
+			this.resultTabs.Size = new System.Drawing.Size(663, 494);
 			this.resultTabs.TabIndex = 2;
 			// 
 			// errorPage
@@ -580,9 +562,9 @@ namespace NUnit.Gui
 																					this.stackTrace,
 																					this.splitter3,
 																					this.detailList});
-			this.errorPage.Location = new System.Drawing.Point(4, 22);
+			this.errorPage.Location = new System.Drawing.Point(4, 25);
 			this.errorPage.Name = "errorPage";
-			this.errorPage.Size = new System.Drawing.Size(510, 375);
+			this.errorPage.Size = new System.Drawing.Size(655, 465);
 			this.errorPage.TabIndex = 0;
 			this.errorPage.Text = "Errors and Failures";
 			// 
@@ -590,12 +572,12 @@ namespace NUnit.Gui
 			// 
 			this.stackTrace.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.stackTrace.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.stackTrace.Location = new System.Drawing.Point(0, 119);
+			this.stackTrace.Location = new System.Drawing.Point(0, 147);
 			this.stackTrace.Multiline = true;
 			this.stackTrace.Name = "stackTrace";
 			this.stackTrace.ReadOnly = true;
 			this.stackTrace.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stackTrace.Size = new System.Drawing.Size(510, 256);
+			this.stackTrace.Size = new System.Drawing.Size(655, 318);
 			this.stackTrace.TabIndex = 2;
 			this.stackTrace.Text = "";
 			this.stackTrace.WordWrap = false;
@@ -603,10 +585,10 @@ namespace NUnit.Gui
 			// splitter3
 			// 
 			this.splitter3.Dock = System.Windows.Forms.DockStyle.Top;
-			this.splitter3.Location = new System.Drawing.Point(0, 116);
+			this.splitter3.Location = new System.Drawing.Point(0, 143);
 			this.splitter3.MinSize = 100;
 			this.splitter3.Name = "splitter3";
-			this.splitter3.Size = new System.Drawing.Size(510, 3);
+			this.splitter3.Size = new System.Drawing.Size(655, 4);
 			this.splitter3.TabIndex = 1;
 			this.splitter3.TabStop = false;
 			// 
@@ -620,7 +602,7 @@ namespace NUnit.Gui
 			this.detailList.ItemHeight = 16;
 			this.detailList.Name = "detailList";
 			this.detailList.ScrollAlwaysVisible = true;
-			this.detailList.Size = new System.Drawing.Size(510, 116);
+			this.detailList.Size = new System.Drawing.Size(655, 143);
 			this.detailList.TabIndex = 0;
 			this.detailList.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.detailList_MeasureItem);
 			this.detailList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.detailList_DrawItem);
@@ -630,9 +612,9 @@ namespace NUnit.Gui
 			// 
 			this.testsNotRun.Controls.AddRange(new System.Windows.Forms.Control[] {
 																					  this.notRunTree});
-			this.testsNotRun.Location = new System.Drawing.Point(4, 22);
+			this.testsNotRun.Location = new System.Drawing.Point(4, 25);
 			this.testsNotRun.Name = "testsNotRun";
-			this.testsNotRun.Size = new System.Drawing.Size(510, 375);
+			this.testsNotRun.Size = new System.Drawing.Size(655, 465);
 			this.testsNotRun.TabIndex = 1;
 			this.testsNotRun.Text = "Tests Not Run";
 			// 
@@ -642,16 +624,16 @@ namespace NUnit.Gui
 			this.notRunTree.ImageIndex = -1;
 			this.notRunTree.Name = "notRunTree";
 			this.notRunTree.SelectedImageIndex = -1;
-			this.notRunTree.Size = new System.Drawing.Size(510, 375);
+			this.notRunTree.Size = new System.Drawing.Size(655, 465);
 			this.notRunTree.TabIndex = 0;
 			// 
 			// stderr
 			// 
 			this.stderr.Controls.AddRange(new System.Windows.Forms.Control[] {
 																				 this.stdErrTab});
-			this.stderr.Location = new System.Drawing.Point(4, 22);
+			this.stderr.Location = new System.Drawing.Point(4, 25);
 			this.stderr.Name = "stderr";
-			this.stderr.Size = new System.Drawing.Size(510, 375);
+			this.stderr.Size = new System.Drawing.Size(655, 465);
 			this.stderr.TabIndex = 2;
 			this.stderr.Text = "Standard Error";
 			// 
@@ -663,7 +645,7 @@ namespace NUnit.Gui
 			this.stdErrTab.Name = "stdErrTab";
 			this.stdErrTab.ReadOnly = true;
 			this.stdErrTab.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stdErrTab.Size = new System.Drawing.Size(510, 375);
+			this.stdErrTab.Size = new System.Drawing.Size(655, 465);
 			this.stdErrTab.TabIndex = 0;
 			this.stdErrTab.Text = "";
 			this.stdErrTab.WordWrap = false;
@@ -672,9 +654,9 @@ namespace NUnit.Gui
 			// 
 			this.stdout.Controls.AddRange(new System.Windows.Forms.Control[] {
 																				 this.stdOutTab});
-			this.stdout.Location = new System.Drawing.Point(4, 22);
+			this.stdout.Location = new System.Drawing.Point(4, 25);
 			this.stdout.Name = "stdout";
-			this.stdout.Size = new System.Drawing.Size(510, 375);
+			this.stdout.Size = new System.Drawing.Size(655, 465);
 			this.stdout.TabIndex = 3;
 			this.stdout.Text = "Standard Out";
 			// 
@@ -686,7 +668,7 @@ namespace NUnit.Gui
 			this.stdOutTab.Name = "stdOutTab";
 			this.stdOutTab.ReadOnly = true;
 			this.stdOutTab.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stdOutTab.Size = new System.Drawing.Size(510, 375);
+			this.stdOutTab.Size = new System.Drawing.Size(655, 465);
 			this.stdOutTab.TabIndex = 0;
 			this.stdOutTab.Text = "";
 			this.stdOutTab.WordWrap = false;
@@ -700,24 +682,24 @@ namespace NUnit.Gui
 																					this.progressBar});
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(518, 83);
+			this.groupBox1.Size = new System.Drawing.Size(663, 102);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			// 
 			// stopButton
 			// 
-			this.stopButton.Location = new System.Drawing.Point(88, 15);
+			this.stopButton.Location = new System.Drawing.Point(113, 19);
 			this.stopButton.Name = "stopButton";
-			this.stopButton.Size = new System.Drawing.Size(68, 29);
+			this.stopButton.Size = new System.Drawing.Size(87, 35);
 			this.stopButton.TabIndex = 4;
 			this.stopButton.Text = "&Stop";
 			this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
 			// 
 			// runButton
 			// 
-			this.runButton.Location = new System.Drawing.Point(7, 15);
+			this.runButton.Location = new System.Drawing.Point(9, 19);
 			this.runButton.Name = "runButton";
-			this.runButton.Size = new System.Drawing.Size(69, 29);
+			this.runButton.Size = new System.Drawing.Size(88, 35);
 			this.runButton.TabIndex = 3;
 			this.runButton.Text = "&Run";
 			this.runButton.Click += new System.EventHandler(this.runButton_Click);
@@ -726,9 +708,9 @@ namespace NUnit.Gui
 			// 
 			this.suiteName.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right);
-			this.suiteName.Location = new System.Drawing.Point(168, 23);
+			this.suiteName.Location = new System.Drawing.Point(215, 28);
 			this.suiteName.Name = "suiteName";
-			this.suiteName.Size = new System.Drawing.Size(328, 22);
+			this.suiteName.Size = new System.Drawing.Size(420, 28);
 			this.suiteName.TabIndex = 2;
 			// 
 			// progressBar
@@ -738,11 +720,11 @@ namespace NUnit.Gui
 			this.progressBar.CausesValidation = false;
 			this.progressBar.Enabled = false;
 			this.progressBar.ForeColor = System.Drawing.SystemColors.Highlight;
-			this.progressBar.Location = new System.Drawing.Point(7, 53);
+			this.progressBar.Location = new System.Drawing.Point(9, 65);
 			this.progressBar.Maximum = 100;
 			this.progressBar.Minimum = 0;
 			this.progressBar.Name = "progressBar";
-			this.progressBar.Size = new System.Drawing.Size(504, 23);
+			this.progressBar.Size = new System.Drawing.Size(645, 29);
 			this.progressBar.Step = 1;
 			this.progressBar.TabIndex = 0;
 			this.progressBar.Value = 0;
@@ -750,8 +732,8 @@ namespace NUnit.Gui
 			// NUnitForm
 			// 
 			this.AcceptButton = this.runButton;
-			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.ClientSize = new System.Drawing.Size(850, 513);
+			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
+			this.ClientSize = new System.Drawing.Size(1088, 632);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
 																		  this.panel1,
 																		  this.splitter1,
@@ -823,13 +805,9 @@ namespace NUnit.Gui
 			reloadMenuItem.Enabled = IsTestLoaded && !IsTestRunning;
 
 			recentProjectsMenu.Enabled = !IsTestRunning;
-			recentAssembliesMenu.Enabled = !IsTestRunning;
 
 			if ( !IsTestRunning )
-			{
 				recentProjectsMenuHandler.Load();
-				recentAssembliesMenuHandler.Load();
-			}
 		}
 
 		private void newMenuItem_Click(object sender, System.EventArgs e)
@@ -945,7 +923,7 @@ namespace NUnit.Gui
 				string text = string.Format( "&{0} {1}", index+1, config.Name );
 				MenuItem item = new MenuItem( 
 					text, new EventHandler( configMenuItem_Click ) );
-				if ( config.Name == TestProject.ActiveConfig.Name ) 
+				if ( config.Name == TestProject.ActiveConfigName ) 
 					item.Checked = true;
 				configMenuItem.MenuItems.Add( index++, item );
 			}
@@ -1260,10 +1238,7 @@ namespace NUnit.Gui
 		{
 			UserMessage.DisplayFailure( e.Exception, "Project Not Loaded" );
 
-			if ( e.IsProjectFile )
-				UserSettings.RecentProjects.Remove( e.TestFileName );
-			else
-				UserSettings.RecentAssemblies.Remove( e.TestFileName );
+			UserSettings.RecentProjects.Remove( e.TestFileName );
 
 			runButton.Enabled = true;
 		}
