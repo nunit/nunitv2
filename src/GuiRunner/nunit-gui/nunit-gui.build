@@ -48,4 +48,13 @@
       </fileset>
     </copy>
   </target>
+
+  <target name="package-resources">
+    <copy todir="${package.resource.dir}/nunit-gui-runner">
+      <fileset basedir="obj\Release">
+        <include name="*.resources"/>
+      </fileset>
+    </copy>
+  </target>
+
 </project>

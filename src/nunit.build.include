@@ -109,6 +109,8 @@
       value="${path::combine(package.working.dir,'samples')}"/>
     <property name="package.src.dir" 
       value="${path::combine(package.working.dir,'src')}"/>
+    <property name="package.resource.dir"
+      value="${path::combine(package.working.dir, 'resources')}"/>
 
     <!-- Default build and runtime configurations -->
     <property name="build.config" value="debug"/>
@@ -251,6 +253,8 @@
       value="${package.name}-src.zip"/>
     <property name="zipped.bin.file.name"
       value="${package.name}-bin.zip"/>
+    <property name="zipped.resource.file.name"
+      value="${package.name}-resources.zip"/>
   </target>
 
   <!-- Dump configuration settings for debugging -->

@@ -41,4 +41,17 @@
         <include name="*.resx"/>      </fileset>
     </copy>
   </target>
+
+  <target name="package-resources">
+    <copy todir="${package.resource.dir}/nunit.uikit">
+      <fileset basedir="obj/Release">
+        <include name="NUnit.UiKit.AddConfigurationDialog.resources"/>
+        <include name="NUnit.UiKit.AssemblyPathDialog.resources"/>
+        <include name="NUnit.UiKit.ConfigurationEditor.resources"/>
+        <include name="NUnit.UiKit.RenameConfigurationDialog.resources"/>
+        <include name="NUnit.UiKit.TestPropertiesDialog.resources"/>
+        <include name="NUnit.UiKit.TestTree.resources"/>
+      </fileset>
+    </copy>
+  </target>
 </project>

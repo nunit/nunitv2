@@ -378,6 +378,47 @@
       </fileset>
     </zip>
   </target>
+
+  <target name="package-resources" depends="clean-package-dir">
+
+    <nant target="package-resources"
+      buildfile="GuiRunner\nunit-gui\nunit-gui.build"/>
+
+    <nant target="package-resources"
+      buildfile="GuiComponents\UiKit\nunit.uikit.build"/>
+
+    <copy todir="${package.working.dir}">
+      <fileset basedir="..\tools\localization">
+        <include name="*.*"/>
+      </fileset>
+    </copy>
+
+    <if test="${property::exists('localize')}">
+    <foreach property="culture" item="String" delim="," 
+        in="${localize}">
+    <foreach property="folder" item="Folder" 
+        in="${package.working.dir}/resources">
+      <property name="proj" 
+        value="${path::get-file-name(folder)}"/>
+      <property name="projdir" 
+        value="${package.working.dir}/${culture}/${proj}"/>
+    <foreach property="file" item="File" in="${folder}">
+      <property name="filename"
+        value="${path::get-file-name-without-extension(file)}"/>
+      <copy file="${file}" 
+        tofile="${projdir}/${filename}.${culture}.resources"/>"/>
+    </foreach>
+    </foreach>
+    </foreach>   
+    </if>
+
+    <zip zipfile="${project.package.dir}/${zipped.resource.file.name}" ziplevel="9">
+      <fileset basedir="${package.working.dir}">
+        <include name="**"/>
+      </fileset>
+    </zip>
+
+  </target>
    
   <target name="package-msi" depends="build-msi,set-package-config"
     description="Build msi file and deploy it to the package dir">
