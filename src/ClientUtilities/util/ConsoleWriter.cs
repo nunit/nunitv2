@@ -57,7 +57,7 @@ namespace NUnit.Util
 
 		public override void Close()
 		{
-			console.Close ();
+			//console.Close ();
 		}
 
 		public override void Flush()
