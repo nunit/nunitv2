@@ -1,6 +1,7 @@
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Diagnostics;
+using System.Threading;
 using Microsoft.CSharp;
 
 namespace NUnit.Core.Tests
@@ -31,7 +32,7 @@ namespace NUnit.Core.Tests
 			string source = 
 				@"
 using System;
-using System.Runtime.Remoting.Messaging;
+using System.Threading;
 using NUnit.Framework;
 
 [TestFixture]
@@ -55,6 +56,11 @@ public class MyFixture
 	[Test] public void TestOutChar()
 	{
 		Console.Write('$(TestOutChar)');
+	}
+
+	[Test] public void TestSleep()
+	{
+		Thread.Sleep(10 * 1000);
 	}
 }
 ";
@@ -146,6 +152,39 @@ public class MyFixture
 
 			TestOutput output = (TestOutput)listener.EventObjects[outputIndex];
 			Assert.AreEqual(TEST_OUT_CHAR.ToString(), output.Text);
+		}
+
+		[Test, Explicit]
+		public void TestCancelSleep()
+		{
+			MockEventListener listener = new MockEventListener();
+			string[] testNames = new string[] {"MyFixture.TestSleep"};
+			RunWorkItem workItem = new RunWorkItem(this.testRunner, listener, testNames);
+			Thread thread = new Thread(new ThreadStart(workItem.Run));
+			thread.Start();
+			Thread.Sleep(1000);
+			this.testRunner.CancelRun();
+			Thread.Sleep(1000);
+			Assert.IsFalse(thread.IsAlive, "Check that test run has been canceled");
+		}
+
+		class RunWorkItem
+		{
+			TestRunner testRunner;
+			MockEventListener listener;
+			string[] testNames;
+
+			public RunWorkItem(TestRunner testRunner, MockEventListener listener, string[] testNames)
+			{
+				this.testRunner = testRunner;
+				this.listener = listener;
+				this.testNames = testNames;
+			}
+
+			public void Run()
+			{
+				this.testRunner.Run(this.listener, this.testNames);
+			}
 		}
 
 		int findType(IList objects, Type type)
