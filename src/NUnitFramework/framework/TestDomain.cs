@@ -82,6 +82,8 @@ namespace NUnit.Core
 
 		#region Public Members
 
+		#region Load a single assembly
+
 		public Test LoadAssembly( string assemblyFileName )
 		{
 			return LoadAssembly( assemblyFileName, null );
@@ -89,31 +91,16 @@ namespace NUnit.Core
 
 		public Test LoadAssembly(string assemblyFileName, string testFixture)
 		{
-			AppDomainSetup setup = new AppDomainSetup();
 			FileInfo testFile = new FileInfo( assemblyFileName );
 
-			setup.ApplicationName = "Tests";
-			setup.ShadowCopyFiles = "true";
-
-			setup.ApplicationBase = testFile.DirectoryName;
-			setup.ConfigurationFile =  testFile.FullName + ".config";
-
-			setup.ShadowCopyDirectories = testFile.DirectoryName;
-			setup.PrivateBinPath = testFile.DirectoryName;
-
-			return LoadAssembly( setup, assemblyFileName, testFixture );
-		}
-
-		public Test LoadAssembly( AppDomainSetup setup, string assemblyName, string testFixture )
-		{
 			ThrowIfAlreadyLoaded();
 
 			try
 			{
-				string assemblyPath = Path.GetFullPath( assemblyName );
+				string assemblyPath = Path.GetFullPath( assemblyFileName );
 
-				string domainName = string.Format( "domain-{0}", Path.GetFileName( assemblyName ) );
-				domain = MakeAppDomain( domainName, setup );
+				string domainName = string.Format( "domain-{0}", Path.GetFileName( assemblyFileName ) );
+				domain = MakeAppDomain( domainName, testFile.DirectoryName, testFile.FullName + ".config", testFile.DirectoryName );
 				testRunner = MakeRemoteTestRunner( domain );
 
 				if(testRunner != null)
@@ -137,19 +124,9 @@ namespace NUnit.Core
 			}
 		}
 
-		public Test LoadAssemblies( IList assemblies )
-		{
-			// TODO: Figure out a better way to do this
-			string testFileName = Path.GetFullPath( (string)assemblies[0] );
-			return LoadAssemblies( testFileName, assemblies );
-		}
+		#endregion
 
-		public Test LoadAssemblies( IList assemblies, string testFixture )
-		{
-			// TODO: Figure out a better way to do this
-			string testFileName = Path.GetFullPath( (string)assemblies[0] );
-			return LoadAssemblies( testFileName, assemblies, testFixture );
-		}
+		#region Load multiple assemblies
 
 		public Test LoadAssemblies( string testFileName, IList assemblies )
 		{
@@ -158,41 +135,23 @@ namespace NUnit.Core
 
 		public Test LoadAssemblies( string testFileName, IList assemblies, string testFixture )
 		{
-			AppDomainSetup setup = new AppDomainSetup();
-			FileInfo testFile = new FileInfo( testFileName );
-			
-			setup.ApplicationName = "Tests";
-			setup.ShadowCopyFiles = "true";
-
-			setup.ApplicationBase = testFile.DirectoryName;
-			//setup.ConfigurationFile =  Path.ChangeExtension( testFile.FullName, ".config" );
-			setup.ConfigurationFile =  testFile.FullName + ".config";
-
-			string binPath = GetBinPath( assemblies );
-			setup.ShadowCopyDirectories = binPath;
-			setup.PrivateBinPath = binPath;
-
-			return LoadAssemblies( setup, testFileName, assemblies, testFixture );
+			FileInfo testFile = new FileInfo( testFileName );		
+			return LoadAssemblies( testFileName, testFile.DirectoryName, testFile.FullName + ".config", GetBinPath(assemblies), assemblies, testFixture );
 		}
 
-		public Test LoadAssemblies( AppDomainSetup setup, string rootName, IList assemblies )
-		{
-			return LoadAssemblies( setup, rootName, assemblies, null );
-		}
-
-		public Test LoadAssemblies( AppDomainSetup setup, string rootName, IList assemblies, string testFixture )
+		public Test LoadAssemblies( string testFileName, string appBase, string configFile, string binPath, IList assemblies, string testFixture )
 		{
 			ThrowIfAlreadyLoaded();
 
 			try
 			{
-				string domainName = string.Format( "domain-{0}", Path.GetFileName( rootName ) );
-				domain = MakeAppDomain( rootName, setup );
+				string domainName = string.Format( "domain-{0}", Path.GetFileName( testFileName ) );
+				domain = MakeAppDomain( testFileName, appBase, configFile, binPath );
 				testRunner = MakeRemoteTestRunner( domain );
 
 				if(testRunner != null)
 				{
-					testRunner.TestFileName = rootName;
+					testRunner.TestFileName = testFileName;
 					testRunner.Assemblies = assemblies;
 					if ( testFixture != null )
 						testRunner.TestName = testFixture;
@@ -211,6 +170,8 @@ namespace NUnit.Core
 				throw;
 			}
 		}
+
+		#endregion
 
 		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outStream, TextWriter errorStream )
 		{
@@ -240,10 +201,31 @@ namespace NUnit.Core
 				throw new InvalidOperationException( "TestDomain already loaded" );
 		}
 
-		private AppDomain MakeAppDomain( string domainName, AppDomainSetup setup )
+		/// <summary>
+		/// This method creates appDomains for the framework.
+		/// </summary>
+		/// <param name="domainName">Name of the domain</param>
+		/// <param name="appBase">ApplicationBase for the domain</param>
+		/// <param name="configFile">ConfigurationFile for the domain</param>
+		/// <param name="binPath">PrivateBinPath for the domain</param>
+		/// <returns></returns>
+		private AppDomain MakeAppDomain( string domainName, string appBase, string configFile, string binPath )
 		{
 			Evidence baseEvidence = AppDomain.CurrentDomain.Evidence;
 			Evidence evidence = new Evidence(baseEvidence);
+
+			AppDomainSetup setup = new AppDomainSetup();
+
+			// We always use the same application name
+			setup.ApplicationName = "Tests";
+			// We always want to do shadow copying. Note that we do NOT
+			// set ShadowCopyDirectories because we  rely on the default
+			// setting of ApplicationBase plus PrivateBinPath
+			setup.ShadowCopyFiles = "true";
+
+			setup.ApplicationBase = appBase;
+			setup.ConfigurationFile =  configFile;
+			setup.PrivateBinPath = binPath;
 
 			AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
 			
@@ -252,6 +234,10 @@ namespace NUnit.Core
 			return runnerDomain;
 		}
 
+		/// <summary>
+		/// Set the location for caching and delete any old cache info
+		/// </summary>
+		/// <param name="domain">Our domain</param>
 		private void ConfigureCachePath(AppDomain domain)
 		{
 			cachePath = String.Format(@"{0}\{1}", 
@@ -268,13 +254,12 @@ namespace NUnit.Core
 
 		private static RemoteTestRunner MakeRemoteTestRunner( AppDomain runnerDomain )
 		{
-			RemoteTestRunner runner = (
-				RemoteTestRunner) runnerDomain.CreateInstanceAndUnwrap(
+			object obj = runnerDomain.CreateInstanceAndUnwrap(
 				typeof(RemoteTestRunner).Assembly.FullName, 
 				typeof(RemoteTestRunner).FullName,
 				false, BindingFlags.Default,null,null,null,null,null);
 			
-			return runner;
+			return (RemoteTestRunner) obj;
 		}
 
 		public static string GetBinPath( IList assemblies )
