@@ -172,6 +172,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "FixtureSetupTearDownTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "InheritedTestFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

@@ -74,7 +74,7 @@ Namespace NUnit.Samples
 
         <Test(), Ignore("sample ignore")> Public Sub IgnoredTest()
             ' does not matter what we type the test is not run
-            Throw New InvalidExpressionException()
+            Throw New ArgumentException()
         End Sub
 
     End Class

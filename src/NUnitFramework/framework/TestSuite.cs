@@ -41,6 +41,9 @@ namespace NUnit.Core
 	public class TestSuite : Test
 	{
 		private ArrayList tests = new ArrayList();
+		private MethodInfo fixtureSetUp;
+		private MethodInfo fixtureTearDown;
+		private object fixture;
 
 		public TestSuite(string name) : base(name)
 		{
@@ -67,31 +70,12 @@ namespace NUnit.Core
 			return new TestSuite(type.Namespace,type.Name);
 		}
 
-		public void Add(InvalidFixture fixture) 
-		{
-			TestSuite testSuite = CreateNewSuite(fixture.OriginalType);
-			Add(testSuite);
-			testSuite.ShouldRun = false;
-			testSuite.IgnoreReason = fixture.Message;
-
-			MethodInfo [] methods = fixture.OriginalType.GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.NonPublic);
-			foreach(MethodInfo method in methods) 
-			{
-				TestCase testCase = TestCaseBuilder.Make(fixture, method);
-				if(testCase != null) 
-				{
-					testSuite.Add(testCase);
-					testCase.ShouldRun = false;
-					testCase.IgnoreReason = "Fixture is non-runnable";
-				}
-			}
-
-			return;
-		}
-
 		public void Add(object fixture) 
 		{
 			TestSuite testSuite = CreateNewSuite(fixture.GetType());
+			testSuite.fixture = fixture;
+			testSuite.fixtureSetUp = this.FindMethodByAttribute(fixture, typeof(NUnit.Framework.TestFixtureSetUpAttribute));
+			testSuite.fixtureTearDown = this.FindMethodByAttribute(fixture, typeof(NUnit.Framework.TestFixtureTearDownAttribute));
 			Add(testSuite);
 
 			Type ignoreMethodAttribute = typeof(NUnit.Framework.IgnoreAttribute);
@@ -151,15 +135,19 @@ namespace NUnit.Core
 			suiteResult.Executed = true;
 
 			long startTime = DateTime.Now.Ticks;
-#if NUNIT_LEAKAGE_TEST
-			long before = System.GC.GetTotalMemory( true );
-#endif
-			RunAllTests(suiteResult,listener);
 
-#if NUNIT_LEAKAGE_TEST
-			long after = System.GC.GetTotalMemory( true );
-			suiteResult.Leakage = after - before;
-#endif
+			
+			try 
+			{
+				if (this.fixtureSetUp != null)
+					this.InvokeMethod(fixtureSetUp, fixture);
+				RunAllTests(suiteResult,listener);
+			} 
+			finally 
+			{
+				if (this.fixtureTearDown != null)
+					this.InvokeMethod(fixtureTearDown, fixture);
+			}
 
 			long stopTime = DateTime.Now.Ticks;
 

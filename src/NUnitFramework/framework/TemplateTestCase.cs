@@ -107,15 +107,7 @@ namespace NUnit.Core
 			MethodInfo method = FindTearDownMethod(fixture);
 			if(method != null)
 			{
-				try
-				{
-					method.Invoke(fixture, null);
-				}
-				catch(TargetInvocationException e)
-				{
-					Exception inner = e.InnerException;
-					throw new NunitException("Rethrown",inner);
-				}
+				InvokeMethod(method, fixture);
 			}
 		}
 
@@ -129,33 +121,13 @@ namespace NUnit.Core
 			MethodInfo method = FindSetUpMethod(fixture);
 			if(method != null)
 			{
-				try
-				{
-					method.Invoke(fixture, null);
-				}
-				catch(TargetInvocationException e)
-				{
-					Exception inner = e.InnerException;
-					throw new NunitException("Rethrown",inner);
-				}
+				InvokeMethod(method, fixture);
 			}
 		}
 
 		private MethodInfo FindSetUpMethod(object fixture)
 		{
 			return FindMethodByAttribute(fixture, typeof(NUnit.Framework.SetUpAttribute));
-		}
-
-		private MethodInfo FindMethodByAttribute(object fixture, Type type)
-		{
-			foreach(MethodInfo method in fixture.GetType().GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.NonPublic))
-			{
-				if(method.IsDefined(type,true)) 
-				{
-					return method;
-				}
-			}
-			return null;
 		}
 
 		private void InvokeTestCase() 

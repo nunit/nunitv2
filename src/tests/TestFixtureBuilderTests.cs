@@ -289,6 +289,53 @@ namespace NUnit.Tests
 			Assertion.AssertNull(suite);
 		}
 
+
+		[TestFixture]
+		private class MultipleFixtureSetUpAttributes
+		{
+			[TestFixtureSetUp]
+			public void Init1()
+			{}
+
+			[TestFixtureSetUp]
+			public void Init2()
+			{}
+
+			[Test] public void OneTest()
+			{}
+		}
+
+		[TestFixture]
+		private class MultipleFixtureTearDownAttributes
+		{
+			[TestFixtureTearDown]
+			public void Destroy1()
+			{}
+
+			[TestFixtureTearDown]
+			public void Destroy2()
+			{}
+
+			[Test] public void OneTest()
+			{}
+		}
+
+		[Test] 
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckMultipleTestFixtureSetUp()
+		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			object fixture = builder.BuildTestFixture(typeof(MultipleFixtureSetUpAttributes));
+		}
+
+		[Test] 
+		[ExpectedException(typeof(InvalidTestFixtureException))]
+		public void CheckMultipleTestFixtureTearDown()
+		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			object fixture = builder.BuildTestFixture(typeof(MultipleFixtureTearDownAttributes));
+		}
+
 		private NUnit.Core.TestCase FindTestByName(TestSuite fixture, string methodName)
 		{
 			NUnit.Core.TestCase foundTest = null;

@@ -265,6 +265,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestFixtureSetUpAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestFixtureTearDownAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

@@ -1,22 +1,25 @@
 <?xml version="1.0"?>
 <project name="NUnit" default="all">
 	<property name="build.dir" value="build"/>
-	<property name="test.dir" value="${build.dir}\test"/>
 	<property name="debug" value="true"/>
 	
-	<target name="all" depends="clean,tests,gui,console"/>
+	<target name="all" depends="clean,tests,gui,console,samples,test,test-samples"/>
 	
 	<target name="init">
 		<mkdir dir="${build.dir}"/>
-		<mkdir dir="${test.dir}"/>
 	</target>
 	
 	<target name="framework" depends="init">
+		<resgen input="framework\Transform.resx" output="${build.dir}\Transform.resources"/>
 		<csc target="library" output="${build.dir}\nunit.framework.dll" debug="${debug}">
 			<sources basedir="framework">
 				<includes name="**/*.cs"/>
 			</sources>
+			<resources basedir="${build.dir}" prefix="NUnit.Framework">
+				<includes name="Transform.resources"/>
+			</resources>
 		</csc>
+		<copy file="framework\Results.xsd" todir="${build.dir}"/>
 	</target>
 	
 	
@@ -32,10 +35,18 @@
 	</target>
 	
 	<target name="utils" depends="framework">
+		<resgen input="util\ProgressBar.resx" output="build\NUnit.Util.ProgressBar.resources"/>
+		<resgen input="util\StatusBar.resx" output="build\NUnit.Util.StatusBar.resources"/>
+		<resgen input="util\TestSuiteTreeView.resx" output="build\NUnit.Util.TestSuiteTreeView.resources"/>
 		<csc target="library" output="${build.dir}\nunit.utils.dll" debug="${debug}">
 			<sources basedir="util">
 				<includes name="**/*.cs"/>
 			</sources>
+			<resources basedir="${build.dir}">
+				<includes name="NUnit.Util.ProgressBar.resources"/>
+				<includes name="NUnit.Util.TestSuiteTreeView.resources"/>
+				<includes name="NUnit.Util.StatusBar.resources"/>
+			</resources>
 			<references>
 				<includes name="${build.dir}/nunit.framework.dll"/>
 			</references>
@@ -70,20 +81,29 @@
 				<includes name="${build.dir}/mock-assembly.dll"/>
 			</references>
 		</csc>
+		<copy todir="${build.dir}">
+			<fileset basedir="tests">
+				<includes name="nunit.tests.dll.config"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="test" depends="tests">
+		<nunit2>
+			<test assemblyname="${build.dir}\nunit.tests.dll" fork="true" type="Plain"/>
+		</nunit2>
 	</target>
 	
 	<target name="gui" depends="utils,extensions">
-		<resgen input="nunit-gui\NunitForm.resx" output="build\Nunit.Gui.NunitForm.resources"/>
-		<resgen input="nunit-gui\ProgressBar.resx" output="build\Nunit.Gui.ProgressBar.resources"/>
-		<resgen input="nunit-gui\AboutBox.resx" output="build\Nunit.Gui.AboutBox.resources"/>
+		<resgen input="nunit-gui\NunitForm.resx" output="build\NUnit.Gui.NUnitForm.resources"/>
+		<resgen input="nunit-gui\AboutBox.resx" output="build\NUnit.Gui.AboutBox.resources"/>
 		<csc target="winexe" output="${build.dir}\NUnitGui.exe" win32icon="nunit-gui\Logo.ico" debug="${debug}">
 			<sources basedir="nunit-gui">
 				<includes name="**/*.cs"/>
 			</sources>
 			<resources basedir="${build.dir}">
-				<includes name="Nunit.Gui.NunitForm.resources"/>
-				<includes name="Nunit.Gui.ProgressBar.resources"/>
-				<includes name="Nunit.Gui.AboutBox.resources"/>
+				<includes name="NUnit.Gui.NUnitForm.resources"/>
+				<includes name="NUnit.Gui.AboutBox.resources"/>
 			</resources>
 			<references>
 				<includes name="${build.dir}/nunit.utils.dll"/>
@@ -93,19 +113,13 @@
 		</csc>
 	</target>
 	
-	
-	<target name="console" depends="utils,extensions">
-		<resgen input="nunit-console\Transform.resx" output="build\nunit_console.Transform.resources"/>
+	<target name="console" depends="framework">
 		<csc target="exe" output="${build.dir}\nunit-console.exe" debug="${debug}">
 			<sources basedir="nunit-console">
 				<includes name="*.cs"/>
 			</sources>
-			<resources basedir="${build.dir}">
-				<includes name="nunit_console.Transform.resources"/>
-			</resources>
 			<references>
 				<includes name="${build.dir}/nunit.framework.dll"/>
-				<includes name="${build.dir}/nunit.tests.dll"/>
 				<includes name="${build.dir}/nunit.utils.dll"/>
 			</references>
 		</csc>
@@ -113,7 +127,7 @@
 	
 	<target name="samples" depends="framework">
 		<cl outputdir="${build.dir}" options="/clr /AI ${build.dir}">
-			<sources basedir="samples\cpp">
+			<sources basedir="samples\cpp-sample">
 				<includes name="*.cpp"/>
 			</sources>
 		</cl>
@@ -132,7 +146,8 @@
 			</references>
 		</csc>
 		
-		<vbc target="library" output="${build.dir}\vb-sample.dll" imports="System">
+		<vbc target="library" output="${build.dir}\vb-sample.dll" imports="Microsoft.VisualBasic,System,System.Collections"
+			optionexplicit="true" rootnamespace="vb_sample">
 			<sources basedir="samples\vb">
 				<includes name="*.vb"/>
 			</sources>
@@ -158,20 +173,27 @@
 				<includes name="${build.dir}/nunit.framework.dll"/>
 			</references>
 		</csc>
-		<csc target="library" output="${build.dir}\calculator.dll">
-			<sources basedir="samples\calculator">
-				<includes name="*.cs"/>
-			</sources>
-		</csc>
-		<csc target="library" output="${build.dir}\calculator.test.dll">
-			<sources basedir="samples\calculator.test">
-				<includes name="*.cs"/>
+		
+<!--		<jsc target="library" output="${build.dir}\jsharp.dll">
+			<sources basedir="samples\jsharp">
+				<includes name="*.jsl"/>
 			</sources>
 			<references>
-				<includes name="${build.dir}\nunit.framework.dll"/>
-				<includes name="${build.dir}\calculator.dll"/>
+				<includes name="${build.dir}/nunit.framework.dll"/>
 			</references>
-		</csc>
+		</jsc>
+-->
+	</target>
+	
+	<target name="test-samples" depends="samples">
+	<nunit2>
+		<test assemblyname="${build.dir}\money-sample.dll" fork="true" type="Plain"/>
+		<test assemblyname="${build.dir}\moneyport-sample.dll" fork="true" type="Plain"/>
+		<!-- halt on failure set to false for the following samples. We expect some of the tests to fail -->
+		<test assemblyname="${build.dir}\vb-sample.dll" fork="true" type="Plain" haltonfailure="false"/>
+		<test assemblyname="${build.dir}\cpp-sample.dll" fork="true" type="Plain" haltonfailure="false"/>
+		<test assemblyname="${build.dir}\csharp-sample.dll" fork="true" type="Plain" haltonfailure="false"/>
+	</nunit2>
 	</target>
 
 	<target name="clean">

@@ -31,6 +31,7 @@ namespace NUnit.Core
 {
 	using System;
 	using System.Collections;
+	using System.Reflection;
 
 	/// <summary>
 	///		Test Class.
@@ -81,5 +82,33 @@ namespace NUnit.Core
 		public abstract ArrayList Tests { get; }
 
 		public abstract TestResult Run(EventListener listener);
+
+		protected MethodInfo FindMethodByAttribute(object fixture, Type type)
+		{
+			foreach(MethodInfo method in fixture.GetType().GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.NonPublic))
+			{
+				if(method.IsDefined(type,true)) 
+				{
+					return method;
+				}
+			}
+			return null;
+		}
+
+		protected void InvokeMethod(MethodInfo method, object fixture) 
+		{
+			if(method != null)
+			{
+				try
+				{
+					method.Invoke(fixture, null);
+				}
+				catch(TargetInvocationException e)
+				{
+					Exception inner = e.InnerException;
+					throw new NunitException("Rethrown",inner);
+				}
+			}
+		}
 	}
 }

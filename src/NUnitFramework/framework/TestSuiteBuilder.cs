@@ -165,6 +165,15 @@ namespace NUnit.Core
 			{
 				throw new InvalidTestFixtureException(ctor.Name + " has multiple TearDown methods");
 			}
+			if(HasMultipleFixtureSetUpMethods(testFixture))
+			{
+				throw new InvalidTestFixtureException(ctor.Name + " has multiple TestFixtureSetUp methods");
+			}
+			if(HasMultipleFixtureTearDownMethods(testFixture))
+			{
+				throw new InvalidTestFixtureException(ctor.Name + " has multiple TestFixtureTearDown methods");
+			}
+
 			return testFixture;
 		}
 
@@ -179,6 +188,7 @@ namespace NUnit.Core
 			return count;
 
 		}
+
 		private bool HasMultipleSetUpMethods(object fixture)
 		{
 			return CountMethodWithGivenAttribute(fixture,typeof(NUnit.Framework.SetUpAttribute)) > 1;
@@ -187,6 +197,16 @@ namespace NUnit.Core
 		private bool HasMultipleTearDownMethods(object fixture)
 		{
 			return CountMethodWithGivenAttribute(fixture,typeof(NUnit.Framework.TearDownAttribute)) > 1;
+		}
+
+		private bool HasMultipleFixtureSetUpMethods(object fixture)
+		{
+			return CountMethodWithGivenAttribute(fixture,typeof(NUnit.Framework.TestFixtureSetUpAttribute)) > 1;
+		}
+
+		private bool HasMultipleFixtureTearDownMethods(object fixture)
+		{
+			return CountMethodWithGivenAttribute(fixture,typeof(NUnit.Framework.TestFixtureTearDownAttribute)) > 1;
 		}
 
 		public TestSuite MakeSuiteFromTestFixtureType(Type fixtureType)
