@@ -1,29 +1,42 @@
 <?xml version="1.0"?>
-<project name="NUnit" default="all">
+<project name="NUnit" default="all" basedir=".">
 	<property name="build.dir" value="build"/>
 	<property name="debug" value="true"/>
 	
-	<target name="all" depends="clean,tests,gui,console,samples,test,test-samples"/>
+	<target name="all" depends="clean,nunit.framework.dll,nunit.util.dll,nunit.extensions.dll,nunit.uikit.dll,nunit.tests,nunit-gui.exe,nunit-console.exe,samples,test"/>
+	
+	<target name="clean">
+		<delete dir="${build.dir}" failonerror="false"/>
+	</target>
 	
 	<target name="init">
 		<mkdir dir="${build.dir}"/>
 	</target>
 	
-	<target name="framework" depends="init">
-		<resgen input="framework\Transform.resx" output="${build.dir}\Transform.resources"/>
+	<target name="nunit.framework.dll" depends="init">
 		<csc target="library" output="${build.dir}\nunit.framework.dll" debug="${debug}">
 			<sources basedir="framework">
 				<includes name="**/*.cs"/>
 			</sources>
-			<resources basedir="${build.dir}" prefix="NUnit.Framework">
-				<includes name="Transform.resources"/>
+			<resources basedir="framework" prefix="NUnit.Framework">
+				<includes name="Transform.resx"/>
 			</resources>
 		</csc>
 		<copy file="framework\Results.xsd" todir="${build.dir}"/>
 	</target>
 	
+	<target name="nunit.util.dll" depends="nunit.framework.dll">
+		<csc target="library" output="${build.dir}\nunit.util.dll" debug="${debug}">
+			<sources basedir="util">
+				<includes name="**/*.cs"/>
+			</sources>
+			<references>
+				<includes name="${build.dir}/nunit.framework.dll"/>
+			</references>
+		</csc>
+	</target>	
 	
-	<target name="extensions" depends="framework">
+	<target name="nunit.extensions.dll" depends="nunit.framework.dll">
 		<csc target="library" output="${build.dir}\nunit.extensions.dll" debug="${debug}">
 			<sources basedir="extensions">
 				<includes name="**/*.cs"/>
@@ -34,26 +47,9 @@
 		</csc>
 	</target>
 	
-	<target name="utils" depends="framework">
-		<resgen input="util\ProgressBar.resx" output="build\NUnit.Util.ProgressBar.resources"/>
-		<resgen input="util\StatusBar.resx" output="build\NUnit.Util.StatusBar.resources"/>
-		<resgen input="util\TestSuiteTreeView.resx" output="build\NUnit.Util.TestSuiteTreeView.resources"/>
-		<csc target="library" output="${build.dir}\nunit.utils.dll" debug="${debug}">
-			<sources basedir="util">
-				<includes name="**/*.cs"/>
-			</sources>
-			<resources basedir="${build.dir}">
-				<includes name="NUnit.Util.ProgressBar.resources"/>
-				<includes name="NUnit.Util.TestSuiteTreeView.resources"/>
-				<includes name="NUnit.Util.StatusBar.resources"/>
-			</resources>
-			<references>
-				<includes name="${build.dir}/nunit.framework.dll"/>
-			</references>
-		</csc>
-	</target>
+
 	
-	<target name="tests" depends="extensions,utils">
+	<target name="nunit.tests" depends="nunit.framework.dll,nunit.util.dll,nunit.extensions.dll">
 		<csc target="library" output="${build.dir}\mock-assembly.dll" debug="${debug}">
 			<sources basedir="tests/mock-assembly">
 				<includes name="*.cs"/>
@@ -75,10 +71,12 @@
 				<includes name="*.cs"/>
 			</sources>
 			<references>
-				<includes name="${build.dir}/nunit.utils.dll"/>
+				<includes name="${build.dir}/nunit.util.dll"/>
+				<includes name="${build.dir}/nunit.uikit.dll"/>
 				<includes name="${build.dir}/nunit.extensions.dll"/>
 				<includes name="${build.dir}/nunit.framework.dll"/>
 				<includes name="${build.dir}/mock-assembly.dll"/>
+				<includes name="${build.dir}/nonamespace-assembly.dll"/>
 			</references>
 		</csc>
 		<copy todir="${build.dir}">
@@ -88,44 +86,71 @@
 		</copy>
 	</target>
 	
-	<target name="test" depends="tests">
+<!-- comment out until nant supports nunit 2.1
+
+	<target name="test" depends="nunit.tests">
+		<echo message="${nant.project.basedir}"/>
 		<nunit2>
-			<test assemblyname="${build.dir}\nunit.tests.dll" fork="true" type="Plain"/>
+			<test assemblyname="${nant.project.basedir}\${build.dir}\nunit.tests.dll" fork="true" type="Plain"/>
 		</nunit2>
 	</target>
+-->
+
+	<target name="test" depends="nunit.tests">
+		<exec basedir="${build.dir}" workingdir="${build.dir}" program="nunit-console.exe" commandline="nunit.tests.dll"/>
+	</target>
 	
-	<target name="gui" depends="utils,extensions">
-		<resgen input="nunit-gui\NunitForm.resx" output="build\NUnit.Gui.NUnitForm.resources"/>
-		<resgen input="nunit-gui\AboutBox.resx" output="build\NUnit.Gui.AboutBox.resources"/>
-		<csc target="winexe" output="${build.dir}\NUnitGui.exe" win32icon="nunit-gui\Logo.ico" debug="${debug}">
+	<target name="nunit.uikit.dll" depends="nunit.framework.dll,nunit.util.dll">
+		<csc target="library" output="${build.dir}\nunit.uikit.dll" debug="${debug}">
+			<sources basedir="uikit">
+				<includes name="**/*.cs"/>
+			</sources>
+			<resources basedir="uikit" prefix="NUnit.UiKit">
+				<includes name="Ellipsis.bmp"/>
+				<includes name="Gray.jpg"/>
+				<includes name="Green.jpg"/>
+				<includes name="pinned.jpg"/>
+				<includes name="Red.jpg"/>
+				<includes name="unpinned.jpg"/>
+				<includes name="Yellow.jpg"/>
+				<includes name="*.resx"/>
+			</resources>
+			<references>
+				<includes name="${build.dir}\nunit.framework.dll"/>
+				<includes name="${build.dir}\nunit.util.dll"/>
+			</references>
+		</csc>
+	</target>
+	
+	<target name="nunit-gui.exe" depends="nunit.util.dll,nunit.uikit.dll,nunit.framework.dll">
+		<csc target="winexe" output="${build.dir}\nunit-gui.exe" win32icon="nunit-gui\Logo.ico" debug="${debug}">
 			<sources basedir="nunit-gui">
 				<includes name="**/*.cs"/>
 			</sources>
-			<resources basedir="${build.dir}">
-				<includes name="NUnit.Gui.NUnitForm.resources"/>
-				<includes name="NUnit.Gui.AboutBox.resources"/>
+			<resources basedir="nunit-gui">
+				<includes name="*.resx"/>
 			</resources>
 			<references>
-				<includes name="${build.dir}/nunit.utils.dll"/>
-				<includes name="${build.dir}/nunit.extensions.dll"/>
+				<includes name="${build.dir}/nunit.util.dll"/>
+				<includes name="${build.dir}/nunit.uikit.dll"/>
 				<includes name="${build.dir}/nunit.framework.dll"/>
 			</references>
 		</csc>
 	</target>
 	
-	<target name="console" depends="framework">
+	<target name="nunit-console.exe" depends="nunit.framework.dll,nunit.util.dll">
 		<csc target="exe" output="${build.dir}\nunit-console.exe" debug="${debug}">
 			<sources basedir="nunit-console">
 				<includes name="*.cs"/>
 			</sources>
 			<references>
 				<includes name="${build.dir}/nunit.framework.dll"/>
-				<includes name="${build.dir}/nunit.utils.dll"/>
+				<includes name="${build.dir}/nunit.util.dll"/>
 			</references>
 		</csc>
 	</target>
 	
-	<target name="samples" depends="framework">
+	<target name="samples" depends="nunit.framework.dll">
 		<cl outputdir="${build.dir}" options="/clr /AI ${build.dir}">
 			<sources basedir="samples\cpp-sample">
 				<includes name="*.cpp"/>
@@ -183,20 +208,5 @@
 			</references>
 		</jsc>
 -->
-	</target>
-	
-	<target name="test-samples" depends="samples">
-	<nunit2>
-		<test assemblyname="${build.dir}\money-sample.dll" fork="true" type="Plain"/>
-		<test assemblyname="${build.dir}\moneyport-sample.dll" fork="true" type="Plain"/>
-		<!-- halt on failure set to false for the following samples. We expect some of the tests to fail -->
-		<test assemblyname="${build.dir}\vb-sample.dll" fork="true" type="Plain" haltonfailure="false"/>
-		<test assemblyname="${build.dir}\cpp-sample.dll" fork="true" type="Plain" haltonfailure="false"/>
-		<test assemblyname="${build.dir}\csharp-sample.dll" fork="true" type="Plain" haltonfailure="false"/>
-	</nunit2>
-	</target>
-
-	<target name="clean">
-		<delete dir="${build.dir}" failonerror="false"/>
-	</target>
+	</target>	
 </project>
