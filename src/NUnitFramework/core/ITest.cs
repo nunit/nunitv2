@@ -92,6 +92,10 @@ namespace NUnit.Core
 		/// </summary>
 		IList Categories { get; }
 
+		bool HasCategory( string name );
+
+		bool HasCategory( IList names );
+
 		/// <summary>
 		/// True if this is a suite
 		/// </summary>

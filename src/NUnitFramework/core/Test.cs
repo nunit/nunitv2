@@ -192,6 +192,23 @@ namespace NUnit.Core
 			set { categories = value; }
 		}
 
+		public bool HasCategory( string name )
+		{
+			return categories != null && categories.Contains( name );
+		}
+
+		public bool HasCategory( IList names )
+		{
+			if ( categories == null )
+				return false;
+
+			foreach( string name in names )
+				if ( categories.Contains( name ) )
+					return true;
+			
+			return false;
+		}
+
 		public bool IsDescendant(Test test) 
 		{
 			if (parent != null) 

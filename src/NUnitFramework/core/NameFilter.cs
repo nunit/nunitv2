@@ -8,7 +8,7 @@ namespace NUnit.Core
 	/// </summary>
 	/// 
 	[Serializable]
-	public class NameFilter : IFilter
+	public class NameFilter : Filter
 	{
 		private ArrayList testNodes;
 
@@ -23,28 +23,31 @@ namespace NUnit.Core
 			testNodes = nodes;
 		}
 
-		public bool Pass(TestSuite suite) 
+		public override bool Pass(TestSuite suite) 
 		{
-			bool passed = false;
+			bool passed = Exclude;
+
 			foreach (Test node in testNodes) 
 			{
 				if (suite.IsDescendant(node) || node.IsDescendant(suite) || node == suite) 
 				{
-					passed = true;
+					passed = !Exclude;
 					break;
 				}
 			}
+
 			return passed;
 		}
 
-		public bool Pass(TestCase test) 
+		public override bool Pass(TestCase test) 
 		{
-			bool passed = false;
+			bool passed = Exclude;
+
 			foreach(Test node in testNodes) 
 			{
 				if (test.IsDescendant(node) || test == node) 
 				{
-					passed = true;
+					passed = !Exclude;
 					break;
 				}
 			}
