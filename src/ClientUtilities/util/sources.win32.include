@@ -1,0 +1,9 @@
+FormSettings.cs
+NUnitGuiSettings.cs
+NUnitRegistry.cs
+OptionSettings.cs
+RecentFileSettings.cs
+RecentProjectSettings.cs
+RegistrySettingsStorage.cs
+TestLoader.cs
+UserSettings.cs

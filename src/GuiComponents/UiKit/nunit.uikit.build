@@ -1,85 +1,38 @@
 <?xml version="1.0"?>
 <project name="NUnit.UiKit" default="build">
 
-    <!--
-        Required properties:
-            * bin.dir               - bin directory
-            * src.dir               - source location(build) or target(copy)
-            * build.debug           - (true|false) debug build?
-            * build.defines.csc     - build defines for build config
-    -->
+  <property name="project.src.dir" value="../.."
+    unless="${property::exists('project.src.dir')}"/>
 
-    <target name="build" depends="copy">
-        <csc target="library" output="${bin.dir}/nunit.uikit.dll"
-                debug="${build.debug}" define="${build.defines.csc}">
-            <sources basedir="${src.dir}/uikit">
-                <include name="*.cs"/>
-            </sources>
-            <resources basedir="${src.dir}/uikit" prefix="NUnit.UiKit">
-                <include name="Ellipsis.gif"/>
-                <include name="Gray.jpg"/>
-                <include name="Green.jpg"/>
-                <include name="pinned.gif"/>
-                <include name="Red.jpg"/>
-                <include name="unpinned.gif"/>
-                <include name="Yellow.jpg"/>
-                <include name="*.resx"/>
-            </resources>
-            <references basedir="${bin.dir}">
-                <include name="nunit.core.dll"/>
-                <include name="nunit.util.dll"/>
-            </references>
-        </csc>
-    </target>
+  <include buildfile="..\..\nunit.build.include"/>
+  
+  <target name="build" depends="make-build-dir">
+    <csc target="library" 
+        output="${current.build.dir}/nunit.uikit.dll"
+        debug="${build.debug}" define="${build.defines.csc}">
+      <sources basedir=".">
+        <includesfile name="sources.include"/>
+      </sources>
+      <resources basedir="." prefix="NUnit.UiKit">
+        <includesfile name="resources.include"/>
+      </resources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.core.dll"/>
+        <include name="nunit.util.dll"/>
+      </references>
+    </csc>
+  </target>
 
-    <target name="copy">
-        <copy todir="${src.dir}/uikit">
-            <fileset basedir=".">
-                <include name="nunit.uikit.dll.csproj"/>
-                <include name="nunit.uikit.build"/>
-                <include name="AddConfigurationDialog.cs"/>
-                <include name="AddConfigurationDialog.resx"/>
-                <include name="AppUI.cs"/>
-                <include name="AssemblyInfo.cs"/>
-                <include name="AssemblyListBox.cs"/>
-                <include name="AssemblyListBox.resx"/>
-                <include name="AssemblyPathDialog.cs"/>
-                <include name="AssemblyPathDialog.resx"/>
-                <include name="ConfigurationEditor.cs"/>
-                <include name="ConfigurationEditor.resx"/>
-                <include name="ExpandingLabel.cs"/>
-                <include name="ExpandingLabel.resx"/>
-                <include name="FolderBrowser.cs"/>
-		<include name="NotRunTree.cs"/>
-                <include name="ProgressBar.cs"/>
-                <include name="ProgressBar.resx"/>
-                <include name="RecentFileMenuHandler.cs"/>
-                <include name="RenameConfigurationDialog.cs"/>
-                <include name="RenameConfigurationDialog.resx"/>
-                <include name="StatusBar.cs"/>
-                <include name="StatusBar.resx"/>
-                <include name="TestLoaderUI.cs"/>
-                <include name="TestPropertiesDialog.cs"/>
-                <include name="TestPropertiesDialog.resx"/>
-                <include name="TestSuiteTreeNode.cs"/>
-                <include name="TestSuiteTreeView.cs"/>
-                <include name="TestSuiteTreeView.resx"/>
-                <include name="TestTree.cs"/>
-                <include name="TestTree.resx"/>
-                <include name="TextBoxWriter.cs"/>
-                <include name="TipWindow.cs"/>
-                <include name="TipWindow.resx"/>
-                <include name="UserMessage.cs"/>
-                <include name="UserMessage.resx"/>
-                <include name="WaitCursor.cs"/>
-                <include name="Ellipsis.gif"/>
-                <include name="Gray.jpg"/>
-                <include name="Green.jpg"/>
-                <include name="pinned.gif"/>
-                <include name="Red.jpg"/>
-                <include name="unpinned.gif"/>
-                <include name="Yellow.jpg"/>
-            </fileset>
-        </copy>
-    </target>
+  <target name="package">
+    <copy todir="${package.src.dir}/GuiComponents/UiKit">
+      <fileset basedir=".">
+        <include name="nunit.uikit.dll.csproj"/>
+        <include name="nunit.uikit.build"/>
+        <include name="sources.include"/>
+        <include name="resources.include"/>
+        <includesfile name="sources.include"/>
+        <includesfile name="resources.include"/>
+      </fileset>
+    </copy>
+  </target>
 </project>

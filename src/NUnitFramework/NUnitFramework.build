@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<project name="NUnit.Core" default="build">
+
+  <property name="project.src.dir" value=".."
+    unless="${property::exists('project.src.dir')}"/>
+
+  <include buildfile="../nunit.build.include"/>
+
+  <target name="build">
+    <nant target="build"
+      buildfile="framework/nunit.framework.build"/>
+    <nant target="build"
+      buildfile="core/nunit.core.build"/>
+    <nant target="build"
+      buildfile="extensions/nunit.extensions.build"/>
+  </target>
+
+  <target name="build-tests">
+    <nant target="build"
+      buildfile="tests/nunit.framework.tests.build"/>
+  </target>
+
+  <target name="package">
+    <nant target="package"
+      buildfile="framework/nunit.framework.build"/>
+    <nant target="package"
+      buildfile="core/nunit.core.build"/>
+    <nant target="package"
+      buildfile="extensions/nunit.extensions.build"/>
+    <nant target="package"
+      buildfile="tests/nunit.framework.tests.build"/>
+
+    <copy todir="${package.src.dir}/NUnitFramework"
+      file="NUnitFramework.build"/>
+  </target>
+
+</project>

@@ -1,36 +1,34 @@
 <?xml version="1.0"?>
 <project name="NUnit.TestsUtilities" default="build">
 
-    <!--
-        Required properties:
-            * bin.dir               - bin directory
-            * src.dir               - source location(build) or target(copy)
-            * build.debug           - (true|false) debug build?
-            * build.mono            - (true|false) mono build?
-            * build.defines.csc     - build defines for build config
-    -->
+  <property name="project.src.dir" value="../.."
+    unless="${property::exists('project.src.dir')}"/>
 
-    <target name="build" depends="copy">
-        <csc target="library" output="${bin.dir}/test-utilities.dll" debug="${build.debug}" define="${build.defines.csc}">
-            <sources basedir="${src.dir}/tests/test-utilities">
-                <include name="*.cs"/>
-            </sources>
-            <references basedir="${bin.dir}">
-                <include name="nunit.framework.dll"/>
-                <include name="nunit.core.dll"/>
-                <include name="nunit.util.dll"/>
-            </references>
-        </csc>
-    </target>
+  <include buildfile="..\..\nunit.build.include"/>
 
-    <target name="copy">
-        <copy todir="${src.dir}/tests/test-utilities">
-            <fileset basedir=".">
-                <include name="test-utilities.csproj"/>
-                <include name="test-utilities.build"/>
-                <include name="*.cs"/>
-            </fileset>
-        </copy>
-    </target>
+  <target name="build" depends="make-build-dir">
+    <csc target="library" 
+        output="${current.build.dir}/test-utilities.dll" 
+        debug="${build.debug}" define="${build.defines.csc}">
+      <sources basedir=".">
+        <includesfile name="sources.include"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.util.dll"/>
+      </references>
+    </csc>
+  </target>
 
+  <target name="package">
+    <copy todir="${package.src.dir}/tests/test-utilities">
+      <fileset basedir=".">
+        <include name="test-utilities.csproj"/>
+        <include name="test-utilities.build"/>
+        <include name="sources.include"/>
+        <includesfile name="sources.include"/>
+      </fileset>
+    </copy>
+  </target>
 </project>

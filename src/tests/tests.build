@@ -1,34 +1,41 @@
 <?xml version="1.0"?>
 <project name="NUnit.Tests" default="build">
 
-    <!--
-        Required properties:
-            * bin.dir               - bin directory
-            * src.dir               - source location(build) or target(copy)
-            * build.debug           - (true|false) debug build?
-            * build.mono            - (true|false) mono build?
-            * build.defines.cs"/>c     - build defines for build config
-    -->
+  <property name="project.src.dir" value=".."
+      unless="${property::exists('project.src.dir')}"/>
 
-    <target name="build" depends="copy">
+  <include buildfile="../nunit.build.include"/>
 
-        <!-- Build test assemblies used as data by the tests -->
-        <nant buildfile="mock-assembly/mock-assembly.build" target="build"/>
-        <nant buildfile="nonamespace-assembly/nonamespace-assembly.build" target="build"/>
-        <nant buildfile="notestfixtures-assembly/notestfixtures-assembly.build" target="build"/>
+  <target name="build">
+    <!-- Build test assemblies used as data by the tests -->
+    <nant target="build"
+      buildfile="mock-assembly/mock-assembly.build"/>
+    <nant target="build"
+      buildfile="nonamespace-assembly/nonamespace-assembly.build"/>
+    <nant target="build"
+      buildfile="notestfixtures-assembly/notestfixtures-assembly.build"/>
 
-        <!-- Build test-utilities -->
-        <nant buildfile="test-utilities/test-utilities.build" target="build"/>
+    <!-- Build test-utilities -->
+    <nant target="build"
+      buildfile="test-utilities/test-utilities.build"/>
 
-        <!-- Build timing-tests.dll -->
-        <nant buildfile="timing-tests/timing-tests.build" target="build" if="${build.win32}"/>
-    </target>
+    <!-- Build timing-tests.dll -->
+    <nant target="build" if="${build.win32}"
+      buildfile="timing-tests/timing-tests.build"/>
+  </target>
 
-    <target name="copy">
-        <nant buildfile="mock-assembly/mock-assembly.build" target="copy"/>
-        <nant buildfile="nonamespace-assembly/nonamespace-assembly.build" target="copy"/>
-        <nant buildfile="notestfixtures-assembly/notestfixtures-assembly.build" target="copy"/>
-        <nant buildfile="test-utilities/test-utilities.build" target="copy"/>
-        <nant buildfile="timing-tests/timing-tests.build" target="copy"  if="${build.win32}"/>
-    </target>
+  <target name="package">
+    <nant target="package"
+      buildfile="mock-assembly/mock-assembly.build"/>
+    <nant target="package"
+      buildfile="nonamespace-assembly/nonamespace-assembly.build"/>
+    <nant target="package"
+      buildfile="notestfixtures-assembly/notestfixtures-assembly.build"/>
+    <nant target="package"
+      buildfile="test-utilities/test-utilities.build"/>
+    <nant target="package"  if="${build.win32}"
+      buildfile="timing-tests/timing-tests.build"/>
+    <copy todir="${package.src.dir}/tests"
+      file="tests.build"/>
+  </target>
 </project>

@@ -1,44 +1,43 @@
 <?xml version="1.0"?>
 <project name="NUnit.Framework.Tests" default="build">
 
-    <!--
-        Required properties:
-            * bin.dir               - bin directory
-            * src.dir               - source location(build) or target(copy)
-            * build.debug           - (true|false) debug build?
-            * build.mono            - (true|false) mono build?
-            * build.defines.csc     - build defines for build config
-    -->
+  <property name="project.src.dir" value="../.."
+    unless="${property::exists('project.src.dir')}"/>
 
-    <target name="build" depends="copy">
+  <include buildfile="../../nunit.build.include"/>
 
-        <csc target="library" output="${bin.dir}/nunit.framework.tests.dll" debug="${build.debug}" define="${build.defines.csc}">
-            <sources basedir="${src.dir}/NUnitFramework/tests">
-                <include name="*.cs"/>
-            </sources>
-            <references basedir="${bin.dir}">
-                <include name="nunit.framework.dll"/>
-                <include name="nunit.core.dll"/>
-                <include name="nunit.extensions.dll"/>
-                <include name="nunit.util.dll"/>
-                <include name="nunit.mocks.dll"/>
-                <include name="test-utilities.dll"/>
-                <include name="mock-assembly.dll"/>
-                <include name="nonamespace-assembly.dll"/>
-            </references>
-        </csc>
+  <target name="build" depends="make-build-dir">
+    <csc target="library" 
+        output="${current.build.dir}/nunit.framework.tests.dll"
+        debug="${build.debug}" 
+        define="${build.defines.csc}">
+      <sources basedir=".">
+        <include name="*.cs"/>
+      </sources>
+      <resources basedir="." prefix="NUnit.Core.Tests">
+        <include name="../core/Results.xsd"/>
+      </resources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.extensions.dll"/>
+        <include name="nunit.util.dll"/>
+        <include name="nunit.mocks.dll"/>
+        <include name="test-utilities.dll"/>
+        <include name="mock-assembly.dll"/>
+        <include name="nonamespace-assembly.dll"/>
+      </references>
+    </csc>
+  </target>
 
-    </target>
-
-    <target name="copy">
-
-        <copy todir="${src.dir}/NUnitFramework/tests">
-            <fileset basedir=".">
-                <include name="nunit.util.tests.csproj"/>
-                <include name="nunit.util.build"/>
-                <include name="*.cs"/>
-            </fileset>
-        </copy>
-
-    </target>
+  <target name="package">
+    <copy todir="${package.src.dir}/NUnitFramework/tests">
+      <fileset basedir=".">
+          <include name="nunit.framework.tests.csproj"/>
+          <include name="nunit.framework.tests.build"/>
+          <include name="nunit.framework.tests.dll.config"/>
+          <include name="*.cs"/>
+      </fileset>
+    </copy>
+  </target>
 </project>

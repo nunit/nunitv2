@@ -1,40 +1,36 @@
 <?xml version="1.0"?>
 <project name="NUnit.Console.Tests" default="build">
 
-    <!--
-        Required properties:
-            * bin.dir               - bin directory
-            * src.dir               - source location(build) or target(copy)
-            * build.debug           - (true|false) debug build?
-            * build.mono            - (true|false) mono build?
-            * build.defines.csc     - build defines for build config
-    -->
+  <property name="project.src.dir" value="../.."
+    unless="${property::exists('project.src.dir')}"/>
 
-    <target name="build" depends="copy">
+  <include buildfile="..\..\nunit.build.include"/>
 
-        <csc target="library" output="${bin.dir}/nunit-console.tests.dll" debug="${build.debug}" define="${build.defines.csc}">
-            <sources basedir="${src.dir}/ConsoleRunner/tests">
-                <include name="*.cs"/>
-            </sources>
-            <references basedir="${bin.dir}">
-                <include name="nunit.framework.dll"/>
-                <include name="nunit.framework.tests.dll"/>
-                <include name="nunit-console-runner.dll"/>
-            </references>
-        </csc>
+  <target name="build" depends="make-build-dir">
+    <csc target="library" 
+        output="${current.build.dir}/nunit-console.tests.dll"
+        debug="${build.debug}" define="${build.defines.csc}">
+      <sources basedir=".">
+        <include name="AssemblyInfo.cs"/>
+        <include name="ConsoleRunnerTest.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.framework.tests.dll"/>
+        <include name="nunit-console-runner.dll"/>
+      </references>
+    </csc>
+  </target>
 
-    </target>
-
-    <target name="copy">
-
-        <copy todir="${src.dir}/ConsoleRunner/tests">
-            <fileset basedir=".">
-                <include name="nunit.util.tests.csproj"/>
-                <include name="nunit.util.build"/>
-                <include name="AssemblyInfo.cs"/>
-                <include name="ConsoleRunnerTest.cs"/>
-            </fileset>
-        </copy>
-
-    </target>
+  <target name="package">
+    <copy todir="${package.src.dir}/ConsoleRunner/tests">
+      <fileset basedir=".">
+        <include name="nunit-console.tests.csproj"/>
+        <include name="nunit-console.tests.build"/>
+        <include name="nunit-console.tests.dll.config"/>
+        <include name="AssemblyInfo.cs"/>
+        <include name="ConsoleRunnerTest.cs"/>
+      </fileset>
+    </copy>
+  </target>
 </project>

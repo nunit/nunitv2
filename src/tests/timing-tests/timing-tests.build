@@ -1,39 +1,37 @@
 <?xml version="1.0"?>
 <project name="NUnit.Tests" default="build">
 
-    <!--
-        Required properties:
-            * bin.dir               - bin directory
-            * src.dir               - source location(build) or target(copy)
-            * build.debug           - (true|false) debug build?
-            * build.mono            - (true|false) mono build?
-            * build.defines.csc     - build defines for build config
-            * runtime.defines.csc   - build defines for target framework
-    -->
+  <property name="project.src.dir" value="../.."
+    unless="${property::exists('project.src.dir')}"/>
 
-    <target name="build" depends="copy">
-        <csc target="library" output="${bin.dir}/timing-tests.dll">
-            <sources basedir="${src.dir}/tests/timing-tests">
-                <include name="*.cs"/>
-            </sources>
-            <references basedir="${bin.dir}">
-                <include name="nunit.util.dll"/>
-                <include name="nunit.core.dll"/>
-                <include name="nunit.framework.dll"/>
-                <include name="mock-assembly.dll"/>
-            </references>
-        </csc>
-    </target>
+  <include buildfile="..\..\nunit.build.include"/>
 
-    <target name="copy">
-        <copy todir="${src.dir}/tests/timing-tests">
-            <fileset basedir=".">
-                <include name="timing-tests.csproj"/>
-                <include name="timing-tests.build"/>
-                <include name="AssemblyInfo.cs"/>
-                <include name="ClientTimeoutFixture.cs"/>
-                <include name="ServerTimeoutFixture.cs"/>
-            </fileset>
-        </copy>
-    </target>
+  <target name="build" depends="make-build-dir">
+    <csc target="library" 
+        output="${current.build.dir}/timing-tests.dll">
+      <sources basedir=".">
+        <include name="AssemblyInfo.cs"/>
+        <include name="ClientTimeoutFixture"/>
+        <include name="ServerTimeoutFixture"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.util.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.framework.dll"/>
+        <include name="mock-assembly.dll"/>
+      </references>
+    </csc>
+  </target>
+
+  <target name="package">
+    <copy todir="${package.src.dir}/tests/timing-tests">
+      <fileset basedir=".">
+        <include name="timing-tests.csproj"/>
+        <include name="timing-tests.build"/>
+        <include name="AssemblyInfo.cs"/>
+        <include name="ClientTimeoutFixture.cs"/>
+        <include name="ServerTimeoutFixture.cs"/>
+      </fileset>
+    </copy>
+  </target>
 </project>

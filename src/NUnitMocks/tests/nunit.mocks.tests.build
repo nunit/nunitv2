@@ -1,40 +1,37 @@
 <?xml version="1.0"?>
 <project name="NUnit.Mocks.Tests" default="build">
 
-    <!--
-        Required properties:
-            * bin.dir               - bin directory
-            * src.dir               - source location(build) or target(copy)
-            * build.debug           - (true|false) debug build?
-            * build.mono            - (true|false) mono build?
-            * build.defines.csc     - build defines for build config
-    -->
+  <property name="project.src.dir" value="../.."
+    unless="${property::exists('project.src.dir')}"/>
 
-    <target name="build" depends="copy">
+  <include buildfile="..\..\nunit.build.include"/>
 
-        <csc target="library" output="${bin.dir}/nunit.mocks.tests.dll" debug="${build.debug}" define="${build.defines.csc}">
-            <sources basedir="${src.dir}/NUnitMocks/tests">
-                <include name="*.cs"/>
-            </sources>
-            <references basedir="${bin.dir}">
-                <include name="nunit.framework.dll"/>
-                <include name="nunit.mocks.dll"/>
-            </references>
-        </csc>
+  <target name="build" depends="make-build-dir">
+    <csc target="library"
+        output="${current.build.dir}/nunit.mocks.tests.dll" 
+        debug="${build.debug}" define="${build.defines.csc}">
+      <sources basedir=".">
+        <include name="AssemblyInfo.cs"/>
+        <include name="DynamicMockTests.cs"/>
+        <include name="MockTests.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.mocks.dll"/>
+      </references>
+    </csc>
+  </target>
 
-    </target>
-
-    <target name="copy">
-
-        <copy todir="${src.dir}/NUnitMocks/tests">
-            <fileset basedir=".">
-                <include name="nunit.mocks.tests.csproj"/>
-                <include name="nunit.mocks.build"/>
-                <include name="AssemblyInfo.cs"/>
-                <include name="DynamicMockTests.cs"/>
-                <include name="MockTests.cs"/>
-            </fileset>
-        </copy>
-
-    </target>
+  <target name="package">
+    <copy todir="${package.src.dir}/NUnitMocks/tests">
+      <fileset basedir=".">
+        <include name="nunit.mocks.tests.csproj"/>
+        <include name="nunit.mocks.tests.build"/>
+        <include name="nunit.mocks.tests.dll.config"/>
+        <include name="AssemblyInfo.cs"/>
+        <include name="DynamicMockTests.cs"/>
+        <include name="MockTests.cs"/>
+      </fileset>
+    </copy>
+  </target>
 </project>

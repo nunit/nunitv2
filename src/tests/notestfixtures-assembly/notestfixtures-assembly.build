@@ -1,31 +1,30 @@
 <?xml version="1.0"?>
 <project name="NUnit.Tests" default="build">
 
-    <!--
-        Required properties:
-            * bin.dir               - bin directory
-            * src.dir               - source location(build) or target(copy)
-            * build.debug           - (true|false) debug build?
-            * build.mono            - (true|false) mono build?
-            * build.defines.csc     - build defines for build config
-    -->
+  <property name="project.src.dir" value="../.."
+    unless="${property::exists('project.src.dir')}"/>
 
-    <target name="build" depends="copy">
-        <csc target="library" output="${bin.dir}/notestfixtures-assembly.dll" debug="${build.debug}" 
-          define="${build.defines.csc}">
-            <sources basedir="${src.dir}/tests/notestfixtures-assembly">
-                <include name="*.cs"/>
-            </sources>
-        </csc>
-    </target>
+  <include buildfile="..\..\nunit.build.include"/>
 
-    <target name="copy">
-        <copy todir="${src.dir}/tests/notestfixtures-assembly">
-            <fileset basedir=".">
-                <include name="notestfixtures-assembly.csproj"/>
-                <include name="notestfixtures-assembly.build"/>
-                <include name="*.cs"/>
-            </fileset>
-        </copy>
-    </target>
+  <target name="build" depends="make-build-dir">
+    <csc target="library" 
+        output="${current.build.dir}/notestfixtures-assembly.dll"
+        debug="${build.debug}" define="${build.defines.csc}">
+      <sources basedir=".">
+        <include name="AssemblyInfo.cs"/>
+        <include name="Class1.cs"/>
+      </sources>
+    </csc>
+  </target>
+
+  <target name="package">
+    <copy todir="${package.src.dir}/tests/notestfixtures-assembly">
+      <fileset basedir=".">
+        <include name="notestfixtures-assembly.csproj"/>
+        <include name="notestfixtures-assembly.build"/>
+        <include name="AssemblyInfo.cs"/>
+        <include name="Class1.cs"/>
+      </fileset>
+    </copy>
+  </target>
 </project>

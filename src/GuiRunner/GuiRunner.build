@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<project name="NUnit.Core" default="build">
+
+  <property name="project.src.dir" value=".."
+    unless="${property::exists('project.src.dir')}"/>
+
+  <include buildfile="../nunit.build.include"/>
+
+  <target name="build">
+    <nant target="build"
+      buildfile="nunit-gui/nunit-gui.build"/>
+    <nant target="build"
+      buildfile="nunit-gui-exe/nunit-gui.exe.build"/>
+  </target>
+
+  <target name="build-tests">
+  </target>
+
+  <target name="package">
+    <nant target="package"
+      buildfile="nunit-gui/nunit-gui.build"/>
+    <nant target="package"
+      buildfile="nunit-gui-exe/nunit-gui.exe.build"/>
+
+    <copy todir="${package.src.dir}/GuiRunner"
+      file="GuiRunner.build"/>
+  </target>
+
+</project>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<project name="NUnit.Core" default="build">
+
+  <property name="project.src.dir" value=".."
+    unless="${property::exists('project.src.dir')}"/>
+
+  <include buildfile="../nunit.build.include"/>
+
+  <target name="build">
+    <nant target="build"
+      buildfile="mocks/nunit.mocks.build"/>
+  </target>
+
+  <target name="build-tests">
+    <nant target="build"
+      buildfile="tests/nunit.mocks.tests.build"/>
+  </target>
+
+  <target name="package">
+    <nant target="package"
+      buildfile="mocks/nunit.mocks.build"/>
+    <nant target="package"
+      buildfile="tests/nunit.mocks.tests.build"/>
+
+    <copy todir="${package.src.dir}/NUnitMocks"
+      file="NUnitMocks.build"/>
+  </target>
+
+</project>

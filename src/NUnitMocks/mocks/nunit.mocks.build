@@ -1,47 +1,32 @@
 <?xml version="1.0"?>
 <project name="NUnit.Mocks" default="build">
 
-    <!--
-        Required properties:
-            * bin.dir               - bin directory
-            * src.dir               - source location(build) or target(copy)
-            * build.debug           - (true|false) debug build?
-            * build.defines.csc     - build defines for build config
-    -->
+  <property name="project.src.dir" value="../.."
+    unless="${property::exists('project.src.dir')}"/>
 
-    <target name="build" depends="copy">
+  <include buildfile="..\..\nunit.build.include"/>
 
-        <csc target="library" output="${bin.dir}/nunit.mocks.dll"
-                debug="${build.debug}" define="${build.defines.csc}">
-            <sources basedir="${src.dir}/mocks">
-                <include name="*.cs"/>
-            </sources>
-            <references>
-                <include name="${bin.dir}/nunit.framework.dll"/>
-            </references>
-        </csc>
+  <target name="build" depends="make-build-dir">
+    <csc target="library" 
+        output="${current.build.dir}/nunit.mocks.dll"
+        debug="${build.debug}" define="${build.defines.csc}">
+      <sources basedir=".">
+        <includesfile name="sources.include"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+      </references>
+    </csc>
+  </target>
 
-    </target>
-
-    <target name="copy">
-        <copy todir="${src.dir}/mocks">
-            <fileset basedir=".">
-                <include name="nunit.mocks.csproj"/>
-                <include name="nunit.mocks.build"/>
-                <include name="AssemblyInfo.cs"/>
-                <include name="DynamicMock.cs"/>
-                <include name="ICall.cs"/>
-                <include name="ICallHandler.cs"/>
-                <include name="IMethod.cs"/>
-                <include name="IMock.cs"/>
-                <include name="IVerify.cs"/>
-                <include name="MethodSignature.cs"/>
-                <include name="Mock.cs"/>
-                <include name="MockCall.cs"/>
-                <include name="MockInterfaceHandler.cs"/>
-                <include name="MockMethod.cs"/>
-            </fileset>
-        </copy>
-    </target>
-
+  <target name="package">
+    <copy todir="${package.src.dir}/NUnitMocks/mocks">
+      <fileset basedir=".">
+        <include name="nunit.mocks.csproj"/>
+        <include name="nunit.mocks.build"/>
+        <include name="sources.include"/>
+        <includesfile name="sources.include"/>
+      </fileset>
+    </copy>
+  </target>
 </project>

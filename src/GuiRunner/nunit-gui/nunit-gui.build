@@ -1,56 +1,42 @@
 <?xml version="1.0"?>
 <project name="NUnit-Gui" default="build">
 
-    <!--
-        Required properties:
-            * bin.dir               - bin directory
-            * src.dir               - source location(build) or target(copy)
-            * build.debug           - (true|false) debug build?
-            * build.defines.csc     - build defines for build config
-    -->
+  <property name="project.src.dir" value="../.."
+    unless="${property::exists('project.src.dir')}"/>
 
-    <target name="build" depends="copy">
+  <include buildfile="..\..\nunit.build.include"/>
 
-        <csc target="library" output="${bin.dir}/nunit-gui-runner.dll" 
-                win32icon="Logo.ico" debug="${build.debug}"
-                define="${build.defines.csc}">
-            <sources basedir="${src.dir}/GuiRunner/nunit-gui">
-                <include name="**/*.cs"/>
-            </sources>
-            <resources basedir="${src.dir}/GuiRunner/nunit-gui">
-                <include name="*.resx"/>
-            </resources>
-            <references basedir="${bin.dir}">
-                <include name="nunit.util.dll"/>
-                <include name="nunit.uikit.dll"/>
-                <include name="nunit.core.dll"/>
-                <include name="nunit.framework.dll"/>
-            </references>
-        </csc>
+  <target name="build" depends="make-build-dir">
+    <csc target="library" 
+        output="${current.build.dir}/nunit-gui-runner.dll" 
+        win32icon="Logo.ico" debug="${build.debug}"
+        define="${build.defines.csc}">
+      <sources basedir=".">
+        <includesfile name="sources.include"/>
+      </sources>
+      <resources basedir=".">
+        <includesfile name="resources.include"/>
+      </resources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.util.dll"/>
+        <include name="nunit.uikit.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.framework.dll"/>
+      </references>
+    </csc>
+  </target>
 
-    </target>
-
-    <target name="copy">
-        <copy todir="${src.dir}/GuiRunner/nunit-gui">
-            <fileset basedir=".">
-                <include name="nunit-gui.csproj"/>
-                <include name="nunit-gui.build"/>
-                <include name="AboutBox.cs"/>
-                <include name="AboutBox.resx"/>
-                <include name="AppEntry.cs"/>
-                <include name="AssemblyInfo.cs"/>
-                <include name="DetailResults.cs"/>
-		<include name="ExceptionDetailsForm.cs"/>
-                <include name="NUnitForm.cs"/>
-                <include name="NUnitForm.resx"/>
-                <include name="OptionsDialog.cs"/>
-                <include name="OptionsDialog.resx"/>
-                <include name="ProjectEditor.cs"/>
-                <include name="ProjectEditor.resx"/>
-                <include name="App.ico"/>
-                <include name="Logo.ico"/>
-                <include name="nunit-gui.exe.config"/>
-            </fileset>
-        </copy>
-    </target>
+  <target name="package">
+    <copy todir="${package.src.dir}/GuiRunner/nunit-gui">
+      <fileset basedir=".">
+        <include name="nunit-gui.csproj"/>
+        <include name="nunit-gui.build"/>
+        <include name="sources.include"/>
+        <include name="resources.include"/>
+        <includesfile name="sources.include"/>
+        <includesfile name="resources.include"/>
+        <include name="nunit-gui.exe.config"/>
+      </fileset>
+    </copy>
+  </target>
 </project>
