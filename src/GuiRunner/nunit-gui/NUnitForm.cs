@@ -30,6 +30,7 @@
 using System;
 using System.Drawing;
 using System.Collections;
+using System.Configuration;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
@@ -1464,8 +1465,18 @@ namespace NUnit.Gui
 			// If running from bin\Release or bin\Debug, go down two more
 			if ( dir.Name == "bin" ) dir = dir.Parent.Parent;
 
-			string indexFile = Path.Combine( dir.FullName, @"doc/index.html" );
-			System.Diagnostics.Process.Start( indexFile );
+			string helpUrl = ConfigurationSettings.AppSettings["helpUrl"];
+
+			if ( helpUrl == null )
+			{
+				UriBuilder uri = new UriBuilder();
+				uri.Scheme = "file";
+				uri.Host = "localhost";
+				uri.Path = Path.Combine( dir.FullName, @"doc/index.html" );
+				helpUrl = uri.ToString();
+			}
+
+			System.Diagnostics.Process.Start( helpUrl );
 		}
 	}
 }
