@@ -50,6 +50,7 @@ namespace NUnit.Console
 		private NUnit.Core.TestDomain testDomain;
 		private StringBuilder builder;
 		private XmlTextReader transformReader;
+		private bool silent;
 
 		public static int Main(string[] args)
 		{
@@ -98,7 +99,7 @@ namespace NUnit.Console
 						XmlTextReader reader = GetTransformReader(parser);
 						if(reader != null)
 						{
-							ConsoleUi consoleUi = new ConsoleUi(domain, b, reader);
+							ConsoleUi consoleUi = new ConsoleUi(domain, b, reader, parser.xmlConsole);
 							returnCode = consoleUi.Execute();
 							if (parser.xmlConsole)
 								Console.WriteLine(b.ToString());
@@ -202,26 +203,21 @@ namespace NUnit.Console
 			return fileInfo.Exists;
 		}
 
-		private static void WriteHelp(TextWriter writer)
-		{
-			writer.WriteLine("\n\n         NUnit console options\n");
-			writer.WriteLine("/assembly:<assembly name>                            Assembly to test");
-			writer.WriteLine("/fixture:<class name> /assembly:<assembly name>      Fixture or Suite to run");
-			writer.WriteLine("\n\n         XML formatting options");
-			writer.WriteLine("/xml:<file>                 XML result file to generate");
-			writer.WriteLine("/transform:<file>           XSL transform file");
-		}
-
-		public ConsoleUi(NUnit.Core.TestDomain testDomain, StringBuilder builder, XmlTextReader reader)
+		public ConsoleUi(NUnit.Core.TestDomain testDomain, StringBuilder builder, XmlTextReader reader, bool silent)
 		{
 			this.testDomain = testDomain;
 			this.builder = builder;
 			transformReader = reader;
+			this.silent = silent;
 		}
 
 		public int Execute()
 		{
-			EventCollector collector = new EventCollector();
+			EventListener collector = null;
+			if (silent)
+				collector = new NullListener();
+			else
+				collector = new EventCollector();
 			ConsoleWriter outStream = new ConsoleWriter(Console.Out);
 			ConsoleWriter errorStream = new ConsoleWriter(Console.Error);
 			TestResult result = testDomain.Run(collector, outStream, errorStream);
@@ -230,7 +226,8 @@ namespace NUnit.Console
 			XmlResultVisitor resultVisitor = new XmlResultVisitor(new StringWriter(builder), result);
 			result.Accept(resultVisitor);
 			resultVisitor.Write();
-			CreateSummaryDocument();
+			if (!silent)
+				CreateSummaryDocument();
 
 			int resultCode = 0;
 			if(result.IsFailure)

@@ -104,7 +104,9 @@ namespace NUnit.Tests.ConsoleRunner
 			string[] arguments = MakeCommandLine(GetType().Module.Name, 
 				typeof(NUnit.Tests.ConsoleRunner.ConsoleRunnerTest.FailureTest).FullName,
 				null);
-			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
+
+			Process p = this.createProcess(arguments);
+			int resultCode = executeProcess(p);
 			Assert.Equals(1, resultCode);
 		}
 
@@ -114,7 +116,8 @@ namespace NUnit.Tests.ConsoleRunner
 			string[] arguments = MakeCommandLine(GetType().Module.Name, 
 				typeof(NUnit.Tests.Core.SuccessTest).FullName, 
 				null);
-			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
+			Process p = this.createProcess(arguments);
+			int resultCode = executeProcess(p);
 			Assert.Equals(0, resultCode);
 		}
 
@@ -127,7 +130,8 @@ namespace NUnit.Tests.ConsoleRunner
 			string[] arguments = MakeCommandLine(GetType().Module.Name, 
 				typeof(NUnit.Tests.Core.SuccessTest).FullName,
 				info.FullName);
-			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
+			Process p = this.createProcess(arguments);
+			int resultCode = executeProcess(p);
 			Assert.Equals(0, resultCode);
 			Assert.Equals(true, info.Exists);
 		}
@@ -138,7 +142,8 @@ namespace NUnit.Tests.ConsoleRunner
 			string[] arguments = MakeCommandLine(GetType().Module.Name, 
 				"NUnit.Tests.BogusTest", 
 				null);
-			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
+			Process p = this.createProcess(arguments);
+			int resultCode = executeProcess(p);
 			Assert.Equals(2, resultCode);
 		}
 
@@ -148,8 +153,29 @@ namespace NUnit.Tests.ConsoleRunner
 			string[] arguments = MakeCommandLine("badassembly.dll", 
 				null, 
 				null);
-			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
+			Process p = this.createProcess(arguments);
+			int resultCode = executeProcess(p);
 			Assert.Equals(2, resultCode);
+		}
+
+		[Test]
+		public void XmlToConsole() 
+		{
+			string[] arguments = MakeCommandLine(GetType().Module.Name, 
+				typeof(NUnit.Tests.Core.SuccessTest).FullName, 
+				null);
+			ArrayList args = new ArrayList(arguments.Length + 2);
+			foreach( string arg in arguments) 
+			{
+				args.Add(arg);
+			}
+			args.Add("/xmlconsole");
+			args.Add("/nologo");
+			Process p = this.createProcess((string[])args.ToArray(typeof(string)));
+			StringBuilder builder = new StringBuilder();
+			int resultCode = executeProcess(p, builder);
+			Assert.Equals(0, resultCode);
+			Assert.True("Only XML should be displayed in xmlconsole mode", builder.ToString().Trim().StartsWith(@"<?xml version=""1.0"""));
 		}
 
 		private string[] MakeCommandLine(string assembly, string fixture, string xmlFile)
@@ -169,6 +195,33 @@ namespace NUnit.Tests.ConsoleRunner
 				index = index + 1;
 			}
 			return result;
+		}
+
+		private Process createProcess(string[] arguments) 
+		{
+			Process p = new Process();
+			p.StartInfo.Arguments = String.Join(" ", arguments);
+			p.StartInfo.FileName = nunitExe;
+			p.StartInfo.RedirectStandardOutput = true;
+			p.StartInfo.RedirectStandardError = true;
+			p.StartInfo.UseShellExecute = false;
+			p.StartInfo.WorkingDirectory = Path.GetDirectoryName(nunitExe);
+			return p;
+		}
+
+		private int executeProcess(Process p) 
+		{
+			return executeProcess(p, new StringBuilder());
+		}
+
+		private int executeProcess(Process p, StringBuilder builder) 
+		{
+			p.Start();
+			StreamReader stdOut = p.StandardOutput;
+			string output = stdOut.ReadToEnd();
+			builder.Append(output);
+			p.WaitForExit();
+			return p.ExitCode;
 		}
 	}
 }
