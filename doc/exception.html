@@ -196,66 +196,40 @@
 				The runner will execute the test and if it throws the specific exception,
 				then the test passes. If it throws a different exception the test
 				will fail. This is true even if the thrown exception inherits from
-				the expected exception.<br>
-				<br>
-				ExpectedException Example:</p>
-				<p>
+				the expected exception.</p>
+				<p><b>Example:</b></p>
 				<script language="JavaScript">
-    function doClick(index, numTabs, id) {
-        document.all("tab" + id, index).className = "tab";
-        for (var i=1; i < numTabs; i++) {
-            document.all("tab" + id, (index + i) % numTabs).className = "backtab";
-        }
-        document.all("code" + id, index).style.display = "";
-        for (var j=1; j < numTabs; j++) {
-          document.all("code" + id, (index + j) % numTabs).style.display = "none";
-        }
-    }
+	function Show( id ) {
+		document.getElementById(id).style.display = "";
+	}
+	function Hide( id ) {
+		document.getElementById(id).style.display = "none";
+	}
+    function ShowCS()
+	{
+	    Show('CS1'); Hide('VB1'); Hide('MC1');
+	}
+    function ShowVB()
+	{
+	    Hide('CS1'); Show('VB1'); Hide('MC1');
+	}
+    function ShowMC()
+	{
+	    Hide('CS1'); Hide('VB1'); Show('MC1');
+	}
 			</script>
-				<style>
-    td.code {
-      border-left:1px solid cccccc; border-bottom:1px solid cccccc; border-top:1px solid cccccc; border-right:1px solid cccccc; background-color:eeffff; padding-left:10; padding-right:10; padding-top:0; padding-bottom:0
-    }
-
-    td.tab {
-      border-left:1px solid black; border-top:1px solid black; border-bottom:1px solid black; text-align:center;
-      width:15%;
-      padding:3;
-      border-right:0px none black;
-      background-color:eeeeee;
-      cursor:hand; font-style:normal; font-variant:normal; font-weight:normal; font-size:8pt; font-family:verdana
-    }
-
-    td.backtab {
-      border-left:1px solid black; border-top:1px solid black; border-bottom:1px solid black; text-align:center;
-      width:15%;
-      padding:3;
-      border-right:0px none black;
-      background-color:cccccc;
-      cursor:hand; font-style:normal; font-variant:normal; font-weight:normal; font-size:8pt; font-family:verdana
-    }
-
-    td.topspace {
-      border-left:1px none cccccc; border-top:0px none cccccc; width:55%;
-      padding:0;
-      border-bottom:1px none cccccc;
-      border-right:1px none cccccc;
-      background-color:white; font-style:normal; font-variant:normal; font-weight:normal; font-size:8pt; font-family:verdana
-    }
-
-    td.space {
-      border-left:1px solid black; border-top:0px none cccccc; width:55%;
-      padding:0;
-      border-bottom:1px none cccccc;
-      border-right:1px none cccccc;
-      background-color:white; font-style:normal; font-variant:normal; font-weight:normal; font-size:8pt; font-family:verdana
-    }
-			</style>
-				</p>
-				<table cellpadding="0" cellspacing="0" width="95%">
+				<a href="javascript:Show('DD1')">
+				<img src="img/langFilter.gif" height="14" width="14" alt="Language Filter">
+				</a>
+				<div id="DD1" class="dropdown" style="display: none;" onclick="Hide('DD1')">
+					 <a href="javascript:ShowCS()">C#</a><br>
+					 <a href="javascript:ShowVB()">VB</a><br>
+					 <a href="javascript:ShowMC()">C++</a><br>
+				</div>
+				<table cellpadding="0" cellspacing="0">
 					<tr>
-						<td class="code" colspan="4">
-						<pre id="code_ctl2" style="display:">namespace NUnit.Tests
+						<td class="code">
+						<pre id="CS1" style="display:">namespace NUnit.Tests
 {
   using System;
   using NUnit.Framework;
@@ -270,7 +244,7 @@
   }
 }
 </pre>
-						<pre id="code_ctl2" style="display:none">Imports System
+						<pre id="VB1" style="display:none">Imports System
 Imports Nunit.Framework
 
 Namespace Nunit.Tests
@@ -283,7 +257,7 @@ Namespace Nunit.Tests
   End Class
 End Namespace
 </pre>
-						<pre id="code_ctl2" style="display:none">#using &lt;Nunit.Framework.dll&gt;
+						<pre id="MC1" style="display:none">#using &lt;Nunit.Framework.dll&gt;
 using namespace System;
 using namespace NUnit::Framework;
 
@@ -304,20 +278,6 @@ namespace NUnitTests {
 }
 </pre>
 						</td>
-						<td class="topspace"></td>
-					</tr>
-					<tr>
-						<td colspan="5"><br>
-						</td>
-					</tr>
-					<tr>
-						<td class="tab" id="tab_ctl2" onclick="doClick(0, 3, '_ctl2')">
-						<b>C#</b> </td>
-						<td class="backtab" id="tab_ctl2" onclick="doClick(1, 3, '_ctl2')">
-						<b>VB</b> </td>
-						<td class="backtab" id="tab_ctl2" onclick="doClick(2, 3, '_ctl2')">
-						<b>Managed C++</b> </td>
-						<td class="space">&nbsp;</td>
 					</tr>
 				</table>
 				</td>

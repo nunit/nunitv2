@@ -184,61 +184,10 @@
             <p><b>Suite Attribute syntax</b> <br>
               <br>
 
-<script language="JavaScript">
-    function doClick(index, numTabs, id) {
-        document.all("tab" + id, index).className = "tab";
-        for (var i=1; i < numTabs; i++) {
-            document.all("tab" + id, (index + i) % numTabs).className = "backtab";
-        }
-        document.all("code" + id, index).style.display = "";
-        for (var j=1; j < numTabs; j++) {
-          document.all("code" + id, (index + j) % numTabs).style.display = "none";
-        }
-    }
-			</script>
-            <style>
-    td.code {
-      border-left:1px solid cccccc; border-bottom:1px solid cccccc; border-top:1px solid cccccc; border-right:1px solid cccccc; background-color:eeffff; padding-left:10; padding-right:10; padding-top:0; padding-bottom:0
-    }
-
-    td.tab {
-      border-left:1px solid black; border-top:1px solid black; border-bottom:1px solid black; text-align:center;
-      width:15%;
-      padding:3;
-      border-right:0px none black;
-      background-color:eeeeee;
-      cursor:hand; font-style:normal; font-variant:normal; font-weight:normal; font-size:8pt; font-family:verdana
-    }
-
-    td.backtab {
-      border-left:1px solid black; border-top:1px solid black; border-bottom:1px solid black; text-align:center;
-      width:15%;
-      padding:3;
-      border-right:0px none black;
-      background-color:cccccc;
-      cursor:hand; font-style:normal; font-variant:normal; font-weight:normal; font-size:8pt; font-family:verdana
-    }
-
-    td.topspace {
-      border-left:1px none cccccc; border-top:0px none cccccc; width:55%;
-      padding:0;
-      border-bottom:1px none cccccc;
-      border-right:1px none cccccc;
-      background-color:white; font-style:normal; font-variant:normal; font-weight:normal; font-size:8pt; font-family:verdana
-    }
-
-    td.space {
-      border-left:1px solid black; border-top:0px none cccccc; width:55%;
-      padding:0;
-      border-bottom:1px none cccccc;
-      border-right:1px none cccccc;
-      background-color:white; font-style:normal; font-variant:normal; font-weight:normal; font-size:8pt; font-family:verdana
-    }
-			</style>
-            <table cellpadding="0" cellspacing="0" width="95%">
+            <table cellpadding="0" cellspacing="0">
 				<tr>
-					<td class="code" colspan="2">
-						<pre id="code_ctl2" style="display:">namespace NUnit.Tests
+					<td class="code">
+						<pre id="CS1" style="display:">namespace NUnit.Tests
 {
   using System;
   using NUnit.Framework;
@@ -261,16 +210,6 @@
 }
 </pre>
 					</td>
-					<td class="topspace"></td>
-				</tr>
-				<tr>
-					<td colspan="3"><br></td>
-				</tr>
-				<tr>
-					<td class="tab" id="tab_ctl2" onclick="doClick(0, 1, '_ctl2')">
-						<b>C#</b>
-					</td>
-					<td class="space">&nbsp;</td>
 				</tr>
 			</table>
             </td>

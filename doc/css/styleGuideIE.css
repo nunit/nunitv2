@@ -43,6 +43,16 @@ a:active {
   padding: 0px 0px 0px 5px;
 }
 
+.dropdown {
+  position: absolute;
+  border: 1px solid cccccc; 
+  background-color:ffffdd; 
+  padding-left:10; 
+  padding-right:10; 
+  padding-top:0; 
+  padding-bottom:0; 
+  text-align: left;
+}
 
 .rightimg {
   background: #FFFFFF url('../img/sideImg.gif') repeat-y;
@@ -116,6 +126,9 @@ a:active {
 
 
 .copyrighttext {
+  margin-left: 5%;
+  margin-right: 5%;
+  text-align: center;
   font-family: "Verdana", "Arial", "Helvetica", sans-serif;
   font-size: 0.61em;
   letter-spacing: 0em
@@ -140,6 +153,11 @@ a:active {
   color: #000000;
 }
 
+.code {
+  border: 1px solid cccccc; 
+  background-color:eeffff; 
+  padding-left:10; padding-right:10; padding-top:0; padding-bottom
+}
 
 .tableRowSpace {
 	background:#999999
