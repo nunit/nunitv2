@@ -82,11 +82,6 @@
                     Project = "{61CE9CE5-943E-44D4-A381-814DC1406767}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
-                <Reference
-                    Name = "nunit.tests.dll"
-                    Project = "{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
             </References>
         </Build>
         <Files>
