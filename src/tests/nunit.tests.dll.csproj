@@ -390,10 +390,7 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
-                <File
-                    RelPath = "bin\Debug\nunit.tests.dll.config"
-                    BuildAction = "EmbeddedResource"
-                />
+                <Folder RelPath = "bin\Debug\" />
             </Include>
         </Files>
     </CSHARP>
