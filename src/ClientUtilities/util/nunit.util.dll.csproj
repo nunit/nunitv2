@@ -122,6 +122,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ExpandingLabel.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExpandingLabel.resx"
+                    DependentUpon = "ExpandingLabel.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "FormSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -202,6 +212,16 @@
                     RelPath = "TestLoadEventArgs.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestPropertiesDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestPropertiesDialog.resx"
+                    DependentUpon = "TestPropertiesDialog.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "TestSuiteTreeNode.cs"

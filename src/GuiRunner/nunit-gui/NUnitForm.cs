@@ -112,6 +112,8 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem viewMenuSeparatorItem2;
 		private System.Windows.Forms.MenuItem expandFixturesMenuItem;
 		private System.Windows.Forms.MenuItem collapseFixturesMenuItem;
+		private System.Windows.Forms.MenuItem viewMenuSeparatorItem3;
+		private System.Windows.Forms.MenuItem propertiesMenuItem;
 		public TextWriter stdErrWriter;
 
 		#endregion
@@ -238,6 +240,8 @@ namespace NUnit.Gui
 			this.viewMenuSeparatorItem2 = new System.Windows.Forms.MenuItem();
 			this.expandFixturesMenuItem = new System.Windows.Forms.MenuItem();
 			this.collapseFixturesMenuItem = new System.Windows.Forms.MenuItem();
+			this.viewMenuSeparatorItem3 = new System.Windows.Forms.MenuItem();
+			this.propertiesMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenu = new System.Windows.Forms.MenuItem();
 			this.optionsMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpItem = new System.Windows.Forms.MenuItem();
@@ -358,7 +362,9 @@ namespace NUnit.Gui
 																					 this.collapseAllMenuItem,
 																					 this.viewMenuSeparatorItem2,
 																					 this.expandFixturesMenuItem,
-																					 this.collapseFixturesMenuItem});
+																					 this.collapseFixturesMenuItem,
+																					 this.viewMenuSeparatorItem3,
+																					 this.propertiesMenuItem});
 			this.viewMenu.Text = "&View";
 			this.viewMenu.Popup += new System.EventHandler(this.viewMenu_Popup);
 			// 
@@ -407,6 +413,17 @@ namespace NUnit.Gui
 			this.collapseFixturesMenuItem.Index = 7;
 			this.collapseFixturesMenuItem.Text = "Collapse Fixtures";
 			this.collapseFixturesMenuItem.Click += new System.EventHandler(this.collapseFixturesMenuItem_Click);
+			// 
+			// viewMenuSeparatorItem3
+			// 
+			this.viewMenuSeparatorItem3.Index = 8;
+			this.viewMenuSeparatorItem3.Text = "-";
+			// 
+			// propertiesMenuItem
+			// 
+			this.propertiesMenuItem.Index = 9;
+			this.propertiesMenuItem.Text = "&Properties";
+			this.propertiesMenuItem.Click += new System.EventHandler(this.propertiesMenuItem_Click);
 			// 
 			// toolsMenu
 			// 
@@ -861,6 +878,11 @@ namespace NUnit.Gui
 		private void expandFixturesMenuItem_Click(object sender, System.EventArgs e)
 		{
 			testSuiteTreeView.ExpandFixtures();		
+		}
+
+		private void propertiesMenuItem_Click(object sender, System.EventArgs e)
+		{
+			testSuiteTreeView.ShowTestProperties( testSuiteTreeView.SelectedTest );
 		}
 
 		#endregion

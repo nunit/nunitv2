@@ -103,7 +103,6 @@ namespace NUnit.Util
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			//Temporary fix till we adjust the namespaces
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(TestSuiteTreeView));
 			this.treeImages = new System.Windows.Forms.ImageList(this.components);
 			// 
@@ -112,7 +111,7 @@ namespace NUnit.Util
 			this.treeImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
 			this.treeImages.ImageSize = new System.Drawing.Size(16, 16);
 			this.treeImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("treeImages.ImageStream")));
-			this.treeImages.TransparentColor = System.Drawing.Color.Transparent;
+			this.treeImages.TransparentColor = System.Drawing.Color.White;
 			// 
 			// TestSuiteTreeView
 			// 
@@ -316,14 +315,12 @@ namespace NUnit.Util
 				}
 			}
 
-#if NUNIT_LEAKAGE_TEST
-			TestResult result = contextNode.Result;
-			if ( result != null )
-			{
-				this.ContextMenu.MenuItems.Add( "-" );
-				this.ContextMenu.MenuItems.Add( string.Format( "Leakage: {0} bytes", result.Leakage ) );
-			}
-#endif
+			this.ContextMenu.MenuItems.Add( "-" );
+
+			MenuItem propertiesMenuItem = new MenuItem(
+				"&Properties", new EventHandler( propertiesMenuItem_Click ) );
+			
+			this.ContextMenu.MenuItems.Add( propertiesMenuItem );
 		}
 
 		/// <summary>
@@ -359,6 +356,11 @@ namespace NUnit.Util
 			}
 		}
 
+		private void propertiesMenuItem_Click( object sender, System.EventArgs e)
+		{
+			ShowTestProperties( contextNode );
+		}
+	
 		#endregion
 
 		#region Drag and drop
@@ -513,6 +515,18 @@ namespace NUnit.Util
 		{
 			foreach( TestSuiteTreeNode node in Nodes )
 				ExpandFixturesUnderNode( node );
+		}
+
+		public void ShowTestProperties( UITestNode test )
+		{
+			ShowTestProperties( this[ test ] );
+		}
+
+		private void ShowTestProperties( TestSuiteTreeNode node )
+		{
+			TestPropertiesDialog dlg = new TestPropertiesDialog( node );
+			dlg.StartPosition = FormStartPosition.CenterParent;
+			dlg.ShowDialog( this );
 		}
 
 		#endregion
