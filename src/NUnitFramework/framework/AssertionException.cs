@@ -11,7 +11,7 @@ namespace NUnit.Framework
 	/// </summary>
 	/// 
 	[Serializable]
-	public class AssertionException : ApplicationException
+	public class AssertionException : System.Exception
 	{
 		/// <summary>
 		/// 

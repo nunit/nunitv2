@@ -24,6 +24,14 @@ namespace NUnit.Tests
 		}
 
 		[Test]
+		public void Bug575936Int32Int64Comparison()
+		{
+			long l64 = 0;
+			int i32 = 0;
+			Assertion.AssertEquals(i32, l64);
+		}
+
+		[Test]
 		public void IntegerLongComparison()
 		{
 			Assertion.AssertEquals(1, 1L);
@@ -285,6 +293,20 @@ namespace NUnit.Tests
 			throw new AssertionException("fail"); // You can't call fail() here
 		}
 
+		[Test]
+		public void Bug561909FailInheritsFromSystemException() 
+		{
+			try 
+			{
+				Assertion.Fail();
+			} 
+			catch (System.Exception) 
+			{
+				return;
+			}
+			throw new AssertionException("fail"); // You can't call fail() here
+		}
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -310,6 +332,31 @@ namespace NUnit.Tests
 		public void SucceedAssertNotNull() 
 		{
 			Assertion.AssertNotNull(new Object());
+		}
+
+		[TestFixture]
+		internal class VerifyFailThrowsException
+		{
+			internal string failureMessage;
+
+			[Test]
+			public void CallAssertionFail()
+			{
+				Assertion.Fail(failureMessage);
+			}
+		}
+
+		[Test]
+		public void VerifyFailIsCalled()
+		{
+			string failureMessage = "this should call fail";
+			VerifyFailThrowsException verifyFail = new VerifyFailThrowsException();
+			verifyFail.failureMessage = failureMessage;
+
+			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(verifyFail, "CallAssertionFail");
+			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);
+			Assertion.Assert("VerifyFailThrowsException should have failed", result.IsFailure);
+			Assertion.AssertEquals(failureMessage, result.Message);
 		}
 	}
 }
