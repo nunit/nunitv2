@@ -220,21 +220,18 @@ namespace NUnit.Util
 
 		#region Methods for Loading and Unloading Projects
 		
+		/// <summary>
+		/// Create a new project with default naming
+		/// </summary>
 		public void NewProject()
 		{
 			try
 			{
 				events.FireProjectLoading( "New Project" );
 
-				NUnitProject project = NUnitProject.EmptyProject();
+				testProject = NUnitProject.NewProject();
 
-				project.Configs.Add( "Debug" );
-				project.Configs.Add( "Release" );
-				project.IsDirty = false;
-
-				testProject = project;
-
-				events.FireProjectLoaded( project.ProjectPath );
+				events.FireProjectLoaded( testProject.ProjectPath );
 			}
 			catch( Exception exception )
 			{
@@ -242,31 +239,37 @@ namespace NUnit.Util
 			}
 		}
 
-//		public void NewProject( string filePath )
-//		{
-//			try
-//			{
-//				events.FireProjectLoading( filePath );
-//
-//				NUnitProject project = new NUnitProject( filePath );
-//
-//				project.Configs.Add( "Debug" );
-//				project.Configs.Add( "Release" );			
-//				project.IsDirty = false;
-//
-//				if ( IsProjectLoaded )
-//					UnloadProject();
-//
-//				testProject = project;
-//
-//				events.FireProjectLoaded( TestFileName );
-//			}
-//			catch( Exception exception )
-//			{
-//				events.FireProjectLoadFailed( filePath, exception );
-//			}
-//		}
+		/// <summary>
+		/// Create a new project using a given path
+		/// </summary>
+		public void NewProject( string filePath )
+		{
+			try
+			{
+				events.FireProjectLoading( filePath );
 
+				NUnitProject project = new NUnitProject( filePath );
+
+				project.Configs.Add( "Debug" );
+				project.Configs.Add( "Release" );			
+				project.IsDirty = false;
+
+				if ( IsProjectLoaded )
+					UnloadProject();
+
+				testProject = project;
+
+				events.FireProjectLoaded( TestFileName );
+			}
+			catch( Exception exception )
+			{
+				events.FireProjectLoadFailed( filePath, exception );
+			}
+		}
+
+		/// <summary>
+		/// Load a new project and fire events
+		/// </summary>
 		public bool LoadProject( string filePath )
 		{
 			try
@@ -292,7 +295,10 @@ namespace NUnit.Util
 			}
 		}
 
-		public void LoadProject( string[] assemblies )
+		/// <summary>
+		/// Load a project from a list of assemblies and fire events
+		/// </summary>
+		public bool LoadProject( string[] assemblies )
 		{
 			try
 			{
@@ -306,13 +312,20 @@ namespace NUnit.Util
 				testProject = newProject;
 
 				events.FireProjectLoaded( testProject.ProjectPath );
+
+				return true;
 			}
 			catch( Exception exception )
 			{
 				events.FireProjectLoadFailed( "New Project", exception );
+
+				return false;
 			}
 		}
 
+		/// <summary>
+		/// Unload the current project and fire events
+		/// </summary>
 		public void UnloadProject()
 		{
 			string testFileName = TestFileName;
@@ -321,7 +334,7 @@ namespace NUnit.Util
 			{
 				events.FireProjectUnloading( testFileName );
 
-				if ( testFileName != null && Path.IsPathRooted( testFileName ) )
+				if ( testFileName != null && File.Exists( testFileName ) )
 					UserSettings.RecentProjects.RecentFile = testFileName;
 
 				if ( IsTestLoaded )
@@ -342,33 +355,32 @@ namespace NUnit.Util
 
 		#region Methods for Loading and Unloading Tests
 
-		public void LoadTest( string testFileName )
+		public bool LoadTest( string testFileName )
 		{
-			LoadProject( testFileName );
-			
-			if( IsProjectLoaded && TestProject.IsLoadable )
-				LoadTest();
+			return LoadProject( testFileName ) 
+				&& TestProject.IsLoadable
+				&& LoadTest();
 		}
 
-		public void LoadTest( string[] assemblies )
+		public bool LoadTest( string[] assemblies )
 		{
-			LoadProject( assemblies );
-
-			if( IsProjectLoaded && TestProject.IsLoadable )
-				LoadTest();
+			return LoadProject( assemblies ) 
+				&& TestProject.IsLoadable 
+				&& LoadTest();
 		}
 
-		public void SetActiveConfig( string name )
+		public void LoadConfig( string configName )
 		{
-			TestProject.SetActiveConfig( name );
+			string oldConfigName = TestProject.ActiveConfigName;
+			TestProject.SetActiveConfig( configName );
 
-			if( TestProject.IsLoadable )
-				LoadTest();
+			if( !TestProject.IsLoadable || !LoadTest() )
+				TestProject.SetActiveConfig( configName );
 			else
 				UnloadTest();
 		}
 
-		public void LoadTest( )
+		public bool LoadTest( )
 		{
 			try
 			{
@@ -381,16 +393,20 @@ namespace NUnit.Util
 				reloadPending = false;
 			
 				// TODO: Figure out how to handle relative paths in tests
-				Directory.SetCurrentDirectory( testProject.ActiveConfig.BasePath );
+				//Directory.SetCurrentDirectory( testProject.ActiveConfig.BasePath );
 
 				if ( UserSettings.Options.ReloadOnChange )
 					InstallWatcher( );
 
 				events.FireTestLoaded( TestFileName, this.loadedTest );
+
+				return true;
 			}
 			catch( Exception exception )
 			{
 				events.FireTestLoadFailed( TestFileName, exception );
+
+				return false;
 			}
 		}
 
@@ -504,6 +520,7 @@ namespace NUnit.Util
 
 			try
 			{
+				Directory.SetCurrentDirectory( testProject.ActiveConfig.BasePath );
 				testDomain.TestName = runningTest.FullName;
 				lastResult = testDomain.Run(this, stdOutWriter, stdErrWriter );
 				

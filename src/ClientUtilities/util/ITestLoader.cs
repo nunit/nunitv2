@@ -72,23 +72,27 @@ namespace NUnit.Util
 		void NewProject();
 
 		// Create a new project given a filename
-//		void NewProject( string filename );
+		void NewProject( string filename );
 
 		// Load a project given a filename
 		bool LoadProject( string filename );
+
+		// Load a project given an array of assemblies
+		bool LoadProject( string[] assemblies );
 
 		// Unload current project
 		void UnloadProject();
 
 		// Load a project given a filename and then
 		// load the tests for the active config.
-		void LoadTest( string filename );
+		bool LoadTest( string filename );
 
-		// Load a project for a list of assemblies
-		void LoadTest( string[] assemblies );
+		// Create a project for a list of assemblies
+		// and then load the tests from the assemblies
+		bool LoadTest( string[] assemblies );
 
-		// Load tests for current project
-		void LoadTest();
+		// Load tests for current project and config
+		bool LoadTest();
 
 		// Unload current test
 		void UnloadTest();

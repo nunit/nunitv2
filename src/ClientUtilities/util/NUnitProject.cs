@@ -87,6 +87,17 @@ namespace NUnit.Util
 			return new NUnitProject( GenerateProjectName() );
 		}
 
+		public static NUnitProject NewProject()
+		{
+			NUnitProject project = EmptyProject();
+
+			project.Configs.Add( "Debug" );
+			project.Configs.Add( "Release" );
+			project.IsDirty = false;
+
+			return project;
+		}
+
 		/// <summary>
 		/// Return a test project by either loading it from
 		/// the supplied path, creating one from a VS file

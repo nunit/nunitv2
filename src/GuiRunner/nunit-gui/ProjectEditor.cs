@@ -776,7 +776,7 @@ namespace NUnit.Gui
 				selectedConfig.Assemblies[assemblyListBox.SelectedIndex].FullPath = dlg.Path;
 				assemblyListBox_Populate();
 				if ( AppUI.TestLoader.IsTestLoaded && selectedConfig == project.ActiveConfig )
-					AppUI.TestLoader.SetActiveConfig( selectedConfig.Name );
+					AppUI.TestLoader.LoadConfig( selectedConfig.Name );
 			}
 		}
 

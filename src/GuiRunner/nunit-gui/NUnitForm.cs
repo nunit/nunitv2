@@ -815,7 +815,7 @@ namespace NUnit.Gui
 			if ( IsProjectLoaded )
 				TestLoaderUI.CloseProject();
 
-			TestLoader.NewProject();
+			TestLoaderUI.NewProject();
 		}
 
 		private void openMenuItem_Click(object sender, System.EventArgs e)
@@ -943,7 +943,7 @@ namespace NUnit.Gui
 		{
 			MenuItem item = (MenuItem)sender;
 			if ( !item.Checked )
-				TestLoader.SetActiveConfig( TestProject.Configs[item.Index].Name );
+				TestLoader.LoadConfig( TestProject.Configs[item.Index].Name );
 		}
 
 		private void addConfigurationMenuItem_Click( object sender, System.EventArgs e )
@@ -1157,12 +1157,12 @@ namespace NUnit.Gui
 			// Load test specified on command line or
 			// the most recent one if options call for it
 			if ( commandLineOptions.testFileName != null )
-				TestLoader.LoadTest( commandLineOptions.testFileName );
+				TestLoaderUI.OpenProject( commandLineOptions.testFileName );
 			else if( UserSettings.Options.LoadLastProject )
 			{
 				string recentProjectName = UserSettings.RecentProjects.RecentFile;
 				if ( recentProjectName != null )
-					TestLoader.LoadTest( recentProjectName );
+					TestLoaderUI.OpenProject( recentProjectName );
 			}
 		}
 

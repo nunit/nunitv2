@@ -191,6 +191,20 @@ namespace NUnit.UiKit
 				loader.TestProject.Save( dlg.FileName );
 		}
 
+		public void NewProject()
+		{
+			SaveFileDialog dlg = new SaveFileDialog();
+			dlg.Title = "New Test Project";
+			dlg.Filter = "NUnit Test Project (*.nunit)|*.nunit|All Files (*.*)|*.*";
+			dlg.FileName = NUnitProject.GenerateProjectName();
+			dlg.DefaultExt = "nunit";
+			dlg.ValidateNames = true;
+			dlg.OverwritePrompt = true;
+
+			if ( dlg.ShowDialog( owner ) == DialogResult.OK )
+				loader.NewProject( dlg.FileName );
+		}
+
 		public void CloseProject()
 		{
 			SaveProjectIfDirty();
