@@ -1328,6 +1328,7 @@ namespace NUnit.Gui
 		private void ClearTabs()
 		{
 			detailList.Items.Clear();
+			toolTip.SetToolTip( detailList, null );
 			notRunTree.Nodes.Clear();
 
 			stdErrTab.Clear();
