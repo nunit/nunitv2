@@ -39,8 +39,6 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class SuiteBuilderTests_Multiple
 	{
-		private static readonly string testsDll = "nonamespace-assembly.dll";
-		private static readonly string mockDll = "mock-assembly.dll";
 		private static readonly int totalTests = NoNamespaceTestFixture.Tests + MockAssembly.Tests;
 
 		private TestSuiteBuilder builder;
