@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<project name="NUnit.Tests" default="build">
+
+    <!--
+        Required properties:
+            * bin.dir               - bin directory
+            * src.dir               - source location(build) or target(copy)
+            * build.debug           - (true|false) debug build?
+            * build.mono            - (true|false) mono build?
+            * build.defines.cs"/>c     - build defines for build config
+    -->
+
+    <target name="build" depends="copy">
+
+        <!-- Build test assemblies used as data by the tests -->
+        <nant buildfile="mock-assembly/mock-assembly.build" target="build"/>
+        <nant buildfile="nonamespace-assembly/nonamespace-assembly.build" target="build"/>
+        <nant buildfile="notestfixtures-assembly/notestfixtures-assembly.build" target="build"/>
+
+        <!-- Build test-utilities -->
+        <nant buildfile="test-utilities/test-utilities.build" target="build"/>
+
+        <!-- Build timing-tests.dll -->
+        <nant buildfile="timing-tests/timing-tests.build" target="build" if="${build.win32}"/>
+    </target>
+
+    <target name="copy">
+        <nant buildfile="mock-assembly/mock-assembly.build" target="copy"/>
+        <nant buildfile="nonamespace-assembly/nonamespace-assembly.build" target="copy"/>
+        <nant buildfile="notestfixtures-assembly/notestfixtures-assembly.build" target="copy"/>
+        <nant buildfile="test-utilities/test-utilities.build" target="copy"/>
+        <nant buildfile="timing-tests/timing-tests.build" target="copy"  if="${build.win32}"/>
+    </target>
+</project>
