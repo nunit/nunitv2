@@ -13,15 +13,23 @@ namespace NUnit.Tests
 	public class NUnitProjectTests
 	{
 		static readonly string xmlfile = "test.nunit";
+		NUnitProject project;
 
-		[SetUp, TearDown]
+		[SetUp]
+		public void SetUp()
+		{
+			File.Delete( xmlfile );
+			project = new NUnitProject();
+		}
+
+		[TearDown]
 		public void EraseFile()
 		{
 			File.Delete( xmlfile );
 		}
 
 		[Test]
-		public void ProjectFile()
+		public void IsProjectFile()
 		{
 			Assertion.Assert( NUnitProject.IsProjectFile( @"\x\y\test.nunit" ) );
 			Assertion.Assert( !NUnitProject.IsProjectFile( @"\x\y\test.junit" ) );
@@ -30,14 +38,12 @@ namespace NUnit.Tests
 		[Test]
 		public void EmptyProject()
 		{
-			NUnitProject project = new NUnitProject();
 			Assertion.AssertEquals( 0, project.Configs.Count );
 		}
 
 		[Test]
 		public void AddOneConfig()
 		{
-			NUnitProject project = new NUnitProject();
 			project.Configs.Add("Debug");
 			project.Configs["Debug"].Assemblies.Add( @"bin\debug\assembly1.dll" );
 			project.Configs["Debug"].Assemblies.Add( @"bin\debug\assembly2.dll" );
@@ -46,9 +52,44 @@ namespace NUnit.Tests
 		}
 
 		[Test]
+		public void AddMakesProjectDirty()
+		{
+			project.Configs.Add("Debug");
+			Assert.True( project.IsDirty );
+		}
+
+		[Test]
+		public void RenameMakesProjectDirty()
+		{
+			project.Configs.Add("Old");
+			project.IsDirty = false;
+			project.Configs[0].Name = "New";
+			Assert.True( project.IsDirty );
+		}
+
+		[Test]
+		public void RemoveMakesProjectDirty()
+		{
+			project.Configs.Add("Debug");
+			project.IsDirty = false;
+			project.Configs.Remove("Debug");
+			Assert.True( project.IsDirty );
+		}
+
+		[Test]
+		public void SettingActiveConfigMakesProjectDirty()
+		{
+			project.Configs.Add("Debug");
+			project.Configs.Add("Release");
+			project.ActiveConfig = "Debug";
+			project.IsDirty = false;
+			project.ActiveConfig = "Release";
+			Assert.True( project.IsDirty );
+		}
+
+		[Test]
 		public void AddTwoConfigs()
 		{
-			NUnitProject project = new NUnitProject();
 			project.Configs.Add("Debug");
 			project.Configs.Add("Release");
 			project.Configs["Debug"].Assemblies.Add( @"bin\debug\assembly1.dll" );
@@ -63,8 +104,7 @@ namespace NUnit.Tests
 		[Test]
 		public void SaveAndLoadEmptyProject()
 		{
-			NUnitProject project1 = new NUnitProject();
-			project1.Save( xmlfile );
+			project.Save( xmlfile );
 
 			Assertion.Assert( File.Exists( xmlfile ) );
 
@@ -77,10 +117,9 @@ namespace NUnit.Tests
 		[Test]
 		public void SaveAndLoadEmptyConfigs()
 		{
-			NUnitProject project1 = new NUnitProject();
-			project1.Configs.Add( "Debug" );
-			project1.Configs.Add( "Release" );
-			project1.Save( xmlfile );
+			project.Configs.Add( "Debug" );
+			project.Configs.Add( "Release" );
+			project.Save( xmlfile );
 
 			Assertion.Assert( File.Exists( xmlfile ) );
 
@@ -95,7 +134,6 @@ namespace NUnit.Tests
 		[Test]
 		public void SaveAndLoadConfigsWithAssemblies()
 		{
-			NUnitProject project1 = new NUnitProject();
 			ProjectConfig config1 = new ProjectConfig( "Debug" );
 			config1.Assemblies.Add( @"h:\bin\debug\assembly1.dll" );
 			config1.Assemblies.Add( @"h:\bin\debug\assembly2.dll" );
@@ -104,9 +142,9 @@ namespace NUnit.Tests
 			config2.Assemblies.Add( @"h:\bin\release\assembly1.dll" );
 			config2.Assemblies.Add( @"h:\bin\release\assembly2.dll" );
 
-			project1.Configs.Add( config1 );
-			project1.Configs.Add( config2 );
-			project1.Save( xmlfile );
+			project.Configs.Add( config1 );
+			project.Configs.Add( config2 );
+			project.Save( xmlfile );
 
 			Assertion.Assert( File.Exists( xmlfile ) );
 
@@ -130,8 +168,8 @@ namespace NUnit.Tests
 		public void FromAssembly()
 		{
 			NUnitProject project = NUnitProject.FromAssembly( @"h:\bin\debug\assembly1.dll" );
-			Assertion.AssertEquals( "Default", project.ActiveConfig.Name );
-			Assertion.AssertEquals( @"h:\bin\debug\assembly1.dll", project.ActiveConfig.Assemblies[0] );
+			Assertion.AssertEquals( "Default", project.ActiveConfig );
+			Assertion.AssertEquals( @"h:\bin\debug\assembly1.dll", project.ActiveAssemblies[0] );
 		}
 
 		[Test]
