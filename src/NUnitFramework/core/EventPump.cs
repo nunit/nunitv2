@@ -33,8 +33,10 @@ namespace NUnit.Core
 	using System.Threading;
 
 	/// <summary>
-	/// This EventListener implementation is used to isolate
-	/// the test runner thread in the test app domain/context.
+	/// EventPump pulls events out of an EventQUeue and sends
+	/// them to a listener. It is used to send events back to
+	/// the client without using the CallContext of the test
+	/// runner thread.
 	/// </summary>
 	public class EventPump : IDisposable
 	{
@@ -120,6 +122,7 @@ namespace NUnit.Core
 			if ( !this.Pumping )  // Ignore if already started
 			{
 				this.pumpThread = new Thread( new ThreadStart( PumpThreadProc ) );
+				this.pumpThread.Name = "EventPumpThread";
 				this.pumpThread.Start();
 			}
 		}
@@ -138,15 +141,6 @@ namespace NUnit.Core
 				}
 			}
 		}
-
-//		public void DoEvents()
-//		{
-//			while(this.events.Count > 0)
-//			{
-//				Event e = this.events.Dequeue();
-//				e.Send( this.eventListener );
-//			}
-//		}
 		#endregion
 
 		#region PumpThreadProc
