@@ -81,13 +81,17 @@ namespace NUnit.Util
 
 		private TestRunner MakeRemoteTestRunner( AppDomain runnerDomain )
 		{
-			object[] args = new object[] { this.outWriter, this.errorWriter };
 			object obj = runnerDomain.CreateInstanceAndUnwrap(
 				typeof(RemoteTestRunner).Assembly.FullName, 
 				typeof(RemoteTestRunner).FullName,
-				false, BindingFlags.Default,null,args,null,null,null);
+				false, BindingFlags.Default,null,null,null,null,null);
 			
-			return (RemoteTestRunner) obj;
+			RemoteTestRunner runner = (RemoteTestRunner) obj;
+
+			runner.Out = this.outWriter;
+			runner.Error = this.errorWriter;
+
+			return runner;
 		}
 
 		#endregion

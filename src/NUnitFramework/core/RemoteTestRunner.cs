@@ -79,6 +79,22 @@ namespace NUnit.Core
 
 		#endregion
 
+		#region Properties
+
+		public TextWriter Out
+		{
+			get { return outText; }
+			set { outText = value; }
+		}
+
+		public TextWriter Error
+		{
+			get { return errorText; }
+			set { errorText = value; }
+		}
+
+		#endregion
+
 		#region Loading Tests
 
 		/// <summary>
@@ -139,26 +155,38 @@ namespace NUnit.Core
 			BufferedStringTextWriter outBuffer = new BufferedStringTextWriter( outText );
 			BufferedStringTextWriter errorBuffer = new BufferedStringTextWriter( errorText );
 
+			TextWriter saveOut = Console.Out;
+			TextWriter saveError = Console.Error;
+
 			Console.SetOut( outBuffer );
 			Console.SetError( errorBuffer );
 
 //			string currentDirectory = Environment.CurrentDirectory;
-//
+
 //			string assemblyName = assemblies == null ? testFileName : (string)assemblies[test.AssemblyKey];
 //			string assemblyDirectory = Path.GetDirectoryName( assemblyName );
-//
+
 //			if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
 //				Environment.CurrentDirectory = assemblyDirectory;
 
 
-			TestResult result = suite.Run(listener, filter);
+			try
+			{
+				TestResult result = suite.Run(listener, filter);
+				return result;
+			}
+			finally
+			{
 
-		//	Environment.CurrentDirectory = currentDirectory;
+				//	Environment.CurrentDirectory = currentDirectory;
 
-			outBuffer.Close();
-			errorBuffer.Close();
+				outBuffer.Close();
+				errorBuffer.Close();
 
-			return result;
+				// Helps us when we run tests of this class, among other things
+				Console.SetOut( saveOut );
+				Console.SetError( saveError );
+			}
 		}
 
 		public TestResult Run(NUnit.Core.EventListener listener )
