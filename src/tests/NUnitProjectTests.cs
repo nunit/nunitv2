@@ -50,7 +50,6 @@ namespace NUnit.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			File.Delete( xmlfile );
 			NUnitProject.ProjectSeed = 0;
 			project = NUnitProject.EmptyProject();
 		}
@@ -58,7 +57,8 @@ namespace NUnit.Tests
 		[TearDown]
 		public void EraseFile()
 		{
-			File.Delete( xmlfile );
+			if ( File.Exists( xmlfile ) )
+				File.Delete( xmlfile );
 		}
 
 		[Test]
@@ -84,10 +84,10 @@ namespace NUnit.Tests
 		[Test] 
 		public void NewProjectDefaultPath()
 		{
-			Assert.Equals( "Project1", project.ProjectPath );
+			Assert.Equals( Path.GetFullPath( "Project1" ), project.ProjectPath );
 			Assert.Equals( "Project1", project.Name );
 			NUnitProject another = NUnitProject.EmptyProject();
-			Assert.Equals( "Project2", another.ProjectPath );
+			Assert.Equals( Path.GetFullPath( "Project2" ), another.ProjectPath );
 		}
 
 		[Test]
@@ -162,9 +162,9 @@ namespace NUnit.Tests
 			project.Configs.Add("Debug");
 			project.Configs.Add("Release");
 
-			project.Configs["Debug"].Assemblies.Add( @"bin\debug\assembly1.dll" );
-			project.Configs["Debug"].Assemblies.Add( @"bin\debug\assembly2.dll" );
-			project.Configs["Release"].Assemblies.Add( @"bin\debug\assembly3.dll" );
+			project.Configs["Debug"].Assemblies.Add( Path.GetFullPath( @"bin\debug\assembly1.dll" ) );
+			project.Configs["Debug"].Assemblies.Add( Path.GetFullPath( @"bin\debug\assembly2.dll" ) );
+			project.Configs["Release"].Assemblies.Add( Path.GetFullPath( @"bin\debug\assembly3.dll" ) );
 
 			Assert.Equals( 2, project.Configs.Count );
 			Assert.Equals( 2, project.Configs["Debug"].Assemblies.Count );
@@ -264,12 +264,12 @@ namespace NUnit.Tests
 		public void SaveAndLoadConfigsWithAssemblies()
 		{
 			ProjectConfig config1 = new ProjectConfig( "Debug" );
-			config1.Assemblies.Add( @"h:\bin\debug\assembly1.dll" );
-			config1.Assemblies.Add( @"h:\bin\debug\assembly2.dll" );
+			config1.Assemblies.Add( Path.GetFullPath( @"bin\debug\assembly1.dll" ) );
+			config1.Assemblies.Add( Path.GetFullPath( @"bin\debug\assembly2.dll" ) );
 
 			ProjectConfig config2 = new ProjectConfig( "Release" );
-			config2.Assemblies.Add( @"h:\bin\release\assembly1.dll" );
-			config2.Assemblies.Add( @"h:\bin\release\assembly2.dll" );
+			config2.Assemblies.Add( Path.GetFullPath( @"bin\release\assembly1.dll" ) );
+			config2.Assemblies.Add( Path.GetFullPath( @"bin\release\assembly2.dll" ) );
 
 			project.Configs.Add( config1 );
 			project.Configs.Add( config2 );
@@ -283,13 +283,13 @@ namespace NUnit.Tests
 
 			config1 = project2.Configs["Debug"];
 			Assert.Equals( 2, config1.Assemblies.Count );
-			Assert.Equals( @"h:\bin\debug\assembly1.dll", config1.Assemblies[0] );
-			Assert.Equals( @"h:\bin\debug\assembly2.dll", config1.Assemblies[1] );
+			Assert.Equals( Path.GetFullPath( @"bin\debug\assembly1.dll" ), config1.Assemblies[0].FullPath );
+			Assert.Equals( Path.GetFullPath( @"bin\debug\assembly2.dll" ), config1.Assemblies[1].FullPath );
 
 			config2 = project2.Configs["Release"];
 			Assert.Equals( 2, config2.Assemblies.Count );
-			Assert.Equals( @"h:\bin\release\assembly1.dll", config2.Assemblies[0] );
-			Assert.Equals( @"h:\bin\release\assembly2.dll", config2.Assemblies[1] );
+			Assert.Equals( Path.GetFullPath( @"bin\release\assembly1.dll" ), config2.Assemblies[0].FullPath );
+			Assert.Equals( Path.GetFullPath( @"bin\release\assembly2.dll" ), config2.Assemblies[1].FullPath );
 		}
 	}
 }

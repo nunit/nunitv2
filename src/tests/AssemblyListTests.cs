@@ -36,7 +36,7 @@ using NUnit.Util;
 namespace NUnit.Tests
 {
 	/// <summary>
-	/// Summary description for AssemblyListTests.
+	/// This fixture tests both AssemblyList and AssemblyListItem
 	/// </summary>
 	[TestFixture]
 	public class AssemblyListTests
@@ -48,7 +48,7 @@ namespace NUnit.Tests
 		public void CreateAssemblyList()
 		{
 			config = new ProjectConfig();
-			config.BasePath = @"c:\tests";
+			config.BasePath = @"C:\tests";
 			assemblies = new AssemblyList( config );
 		}
 
@@ -61,78 +61,44 @@ namespace NUnit.Tests
 		[Test]
 		public void CanAddAssemblies()
 		{
-			assemblies.Add( @"bin\debug\assembly1.dll" );
-			assemblies.Add( @"bin\debug\assembly2.dll" );
+			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
+			assemblies.Add( @"C:\tests\bin\debug\assembly2.dll" );
 
 			Assert.Equals( 2, assemblies.Count );
-			Assert.Equals( @"bin\debug\assembly1.dll", assemblies[0] );
-			Assert.Equals( @"bin\debug\assembly2.dll", assemblies[1] );
+			Assert.Equals( @"C:\tests\bin\debug\assembly1.dll", assemblies[0].FullPath );
+			Assert.Equals( @"C:\tests\bin\debug\assembly2.dll", assemblies[1].FullPath );
 		}
 
-		[Test]
-		public void GetListOfFiles()
+		[Test, ExpectedException( typeof( ArgumentException ) )]
+		public void MustAddAbsolutePath()
 		{
 			assemblies.Add( @"bin\debug\assembly1.dll" );
-			assemblies.Add( @"bin\debug\assembly2.dll" );
-
-			IList files = assemblies.Files;
-			Assert.Equals( @"bin\debug\assembly2.dll", files[1] );
-		}
-
-		[Test]
-		public void GetFullNames()
-		{
-			assemblies.Add( @"bin\debug\assembly1.dll" );
-			assemblies.Add( @"bin\debug\assembly2.dll" );
-
-			IList fullNames = assemblies.FullNames;
-			Assert.Equals( @"c:\tests\bin\debug\assembly2.dll", fullNames[1] );
-		}
-
-		[Test]
-		public void GetListOfDirectories()
-		{
-			assemblies.Add( @"h:\app1\bin\debug\test1.dll" );
-			assemblies.Add( @"h:\app2\bin\debug\test2.dll" );
-			assemblies.Add( @"h:\app1\bin\debug\test3.dll" );
-
-			Assert.Equals( 2, assemblies.Directories.Count ); 
-		}
-
-		[Test]
-		public void GetListOfNames()
-		{
-			assemblies.Add( @"h:\app1\bin\debug\test1.dll" );
-			assemblies.Add( @"h:\app2\bin\debug\test2.dll" );
-			assemblies.Add( @"h:\app1\bin\debug\test3.dll" );
-
-			Assert.Equals( "test3.dll", assemblies.Names[2] ); 
 		}
 
 		[Test]
 		public void AddMarksConfigurationDirty()
 		{
-			assemblies.Add( @"bin\debug\assembly1.dll" );
+			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
 			Assert.True( config.IsDirty );
 		}
 
 		[Test]
 		public void CanRemoveAssemblies()
 		{
-			assemblies.Add( @"bin\debug\assembly1.dll" );
-			assemblies.Add( @"bin\debug\assembly2.dll" );
-			assemblies.Add( @"bin\debug\assembly3.dll" );
-			assemblies.Remove( @"bin\debug\assembly2.dll" );
+			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
+			assemblies.Add( @"C:\tests\bin\debug\assembly2.dll" );
+			assemblies.Add( @"C:\tests\bin\debug\assembly3.dll" );
+			assemblies.Remove( @"C:\tests\bin\debug\assembly2.dll" );
 
 			Assert.Equals( 2, assemblies.Count );
-			Assert.Equals( @"bin\debug\assembly1.dll", assemblies[0] );
-			Assert.Equals( @"bin\debug\assembly3.dll", assemblies[1] );
+			Assert.Equals( @"C:\tests\bin\debug\assembly1.dll", assemblies[0].FullPath );
+			Assert.Equals( @"C:\tests\bin\debug\assembly3.dll", assemblies[1].FullPath );
 		}
 
 		[Test]
 		public void RemoveAtMarksConfigurationDirty()
 		{
-			assemblies.Add( @"C:\bin\debug\assembly1.dll" );
+			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
 			config.IsDirty = false;
 			assemblies.RemoveAt(0);
 			Assert.True( config.IsDirty );
@@ -141,20 +107,28 @@ namespace NUnit.Tests
 		[Test]
 		public void RemoveMarksConfigurationDirty()
 		{
-			assemblies.Add( @"C:\bin\debug\assembly1.dll" );
+			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
 			config.IsDirty = false;
-			assemblies.Remove( @"C:\bin\debug\assembly1.dll" );
+			assemblies.Remove( @"C:\tests\bin\debug\assembly1.dll" );
 			Assert.True( config.IsDirty );
 		}
 
 		[Test]
-		public void GetPrivateBinPath()
+		public void SettingFullPathMarksConfigurationDirty()
 		{
-			assemblies.Add( @"h:\app1\bin\debug\test1.dll" );
-			assemblies.Add( @"h:\app2\bin\debug\test2.dll" );
-			assemblies.Add( @"h:\app1\bin\debug\test3.dll" );
-
-			Assert.Equals( @"h:\app1\bin\debug;h:\app2\bin\debug", assemblies.PrivateBinPath ); 
+			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
+			config.IsDirty = false;
+			assemblies[0].FullPath = @"C:\tests\bin\debug\assembly2.dll";
+			Assert.True( config.IsDirty );
+		}
+		
+		[Test]
+		public void SettingHasTestsMarksConfigurationDirty()
+		{
+			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
+			config.IsDirty = false;
+			assemblies[0].HasTests = false;
+			Assert.True( config.IsDirty );
 		}
 	}
 }

@@ -29,6 +29,7 @@
 
 using System;
 using System.IO;
+using System.Collections;
 using NUnit.Framework;
 using NUnit.Util;
 
@@ -47,7 +48,7 @@ namespace NUnit.Tests
 		public void SetUp()
 		{
 			config = new ProjectConfig( "Debug" );
-			project = new Project( @"c:\test\myproject.nunit" );
+			project = new Project( @"C:\test\myproject.nunit" );
 			config.Project = project;
 		}
 
@@ -61,17 +62,51 @@ namespace NUnit.Tests
 		[Test]
 		public void CanAddAssemblies()
 		{
-			config.Assemblies.Add( @"C:\assembly1.dll" );
-			config.Assemblies.Add( "assembly2.dll" );
+			config.Assemblies.Add( @"C:\test\assembly1.dll" );
+			config.Assemblies.Add( @"C:\test\assembly2.dll" );
 			Assert.Equals( 2, config.Assemblies.Count );
-			Assert.Equals( @"C:\assembly1.dll", config.Assemblies[0] );
-			Assert.Equals( "assembly2.dll", config.Assemblies[1] );
+			Assert.Equals( @"C:\test\assembly1.dll", config.Assemblies[0].FullPath );
+			Assert.Equals( @"C:\test\assembly2.dll", config.Assemblies[1].FullPath );
+		}
+
+		[Test]
+		public void GetAbsolutePaths()
+		{
+			config.Assemblies.Add( @"C:\test\assembly1.dll" );
+			config.Assemblies.Add( @"C:\test\assembly2.dll" );
+
+			IList files = config.AbsolutePaths;
+			Assertion.AssertEquals( @"C:\test\assembly1.dll", files[0] );
+			Assertion.AssertEquals( @"C:\test\assembly2.dll", files[1] );
+		}
+
+		[Test]
+		public void GetRelativePaths()
+		{
+			config.Assemblies.Add( @"C:\test\bin\debug\assembly1.dll" );
+			config.Assemblies.Add( @"C:\test\bin\debug\assembly2.dll" );
+
+			IList files = config.RelativePaths;
+			Assert.Equals( @"bin\debug\assembly1.dll", files[0] );
+			Assert.Equals( @"bin\debug\assembly2.dll", files[1] );
+		}
+
+		public void GetTestAssemblies()
+		{
+			config.Assemblies.Add( @"C:\test\assembly1.dll" );
+			config.Assemblies.Add( @"C:\test\assembly2.dll", false );
+			config.Assemblies.Add( @"C:\test\assembly3.dll", true );
+
+			IList files = config.TestAssemblies;
+			Assert.Equals( 2, files.Count );
+			Assert.Equals( @"C:\test\assembly1.dll", files[0] );
+			Assert.Equals( @"C:\test\assembly2.dll", files[1] );
 		}
 
 		[Test]
 		public void AddMarksProjectDirty()
 		{
-			config.Assemblies.Add( @"bin\debug\assembly1.dll" );
+			config.Assemblies.Add( @"C:\test\bin\debug\assembly1.dll" );
 			Assert.True( project.IsDirty );
 		}
 
@@ -85,40 +120,43 @@ namespace NUnit.Tests
 		[Test]
 		public void RemoveMarksProjectDirty()
 		{
-			config.Assemblies.Add( @"bin\debug\assembly1.dll" );
+			config.Assemblies.Add( @"C:\test\bin\debug\assembly1.dll" );
 			project.IsDirty = false;
-			config.Assemblies.Remove( @"bin\debug\assembly1.dll" );
+			config.Assemblies.Remove( @"C:\test\bin\debug\assembly1.dll" );
 			Assert.True( project.IsDirty );			
 		}
 
 		[Test]
 		public void SettingApplicationBaseMarksProjectDirty()
 		{
-			config.BasePath = @"c:\junk";
+			config.BasePath = @"C:\junk";
 			Assert.True( project.IsDirty );
 		}
 
 		[Test]
 		public void AbsoluteBasePath()
 		{
-			config.BasePath = @"c:\junk";
-			config.Assemblies.Add( @"bin\debug\assembly1.dll" );
-			Assert.Equals( @"c:\junk\bin\debug\assembly1.dll", config.Assemblies.FullNames[0] );
+			config.BasePath = @"C:\junk";
+			config.Assemblies.Add( @"C:\junk\bin\debug\assembly1.dll" );
+			Assert.Equals( @"C:\junk\bin\debug\assembly1.dll", config.Assemblies[0].FullPath );
+			Assert.Equals( @"bin\debug\assembly1.dll", config.RelativePaths[0] );
 		}
 
 		[Test]
 		public void RelativeBasePath()
 		{
 			config.BasePath = @"junk";
-			config.Assemblies.Add( @"bin\debug\assembly1.dll" );
-			Assert.Equals( @"c:\test\junk\bin\debug\assembly1.dll", config.Assemblies.FullNames[0] );
+			config.Assemblies.Add( @"C:\test\junk\bin\debug\assembly1.dll" );
+			Assert.Equals( @"C:\test\junk\bin\debug\assembly1.dll", config.Assemblies[0].FullPath );
+			Assert.Equals( @"bin\debug\assembly1.dll", config.RelativePaths[0] );
 		}
 
 		[Test]
 		public void NoBasePathSet()
 		{
-			config.Assemblies.Add( @"bin\debug\assembly1.dll" );
-			Assert.Equals( @"c:\test\bin\debug\assembly1.dll", config.Assemblies.FullNames[0] );
+			config.Assemblies.Add( @"C:\test\bin\debug\assembly1.dll" );
+			Assert.Equals( @"C:\test\bin\debug\assembly1.dll", config.Assemblies[0].FullPath );
+			Assert.Equals( @"bin\debug\assembly1.dll", config.RelativePaths[0] );
 		}
 
 		[Test]
@@ -132,35 +170,45 @@ namespace NUnit.Tests
 		public void DefaultConfigurationFile()
 		{
 		//	Assert.Equals( "myproject.config", config.ConfigurationFile );
-			Assert.Equals( @"c:\test\myproject.config", config.ConfigurationFilePath );
+			Assert.Equals( @"C:\test\myproject.config", config.ConfigurationFilePath );
 		}
 
 		[Test]
 		public void AbsoluteConfigurationFile()
 		{
-			config.ConfigurationFile = @"c:\configs\myconfig.config";
-			Assert.Equals( @"c:\configs\myconfig.config", config.ConfigurationFilePath );
+			config.ConfigurationFile = @"C:\configs\myconfig.config";
+			Assert.Equals( @"C:\configs\myconfig.config", config.ConfigurationFilePath );
 		}
 
 		[Test]
 		public void RelativeConfigurationFile()
 		{
 			config.ConfigurationFile = "myconfig.config";
-			Assert.Equals( @"c:\test\myconfig.config", config.ConfigurationFilePath );
+			Assert.Equals( @"C:\test\myconfig.config", config.ConfigurationFilePath );
 		}
 
 		[Test]
 		public void SettingPrivateBinPathMarksProjectDirty()
 		{
-			config.BinPath = @"c:\junk;c:\bin";
+			config.PrivateBinPath = @"C:\junk;C:\bin";
 			Assert.True( project.IsDirty );
 		}
 
 		[Test]
-		public void SettingAutoBinPathMarksProjectDirty()
+		public void SettingBinPathTypeMarksProjectDirty()
 		{
-			config.AutoBinPath = !config.AutoBinPath;
+			config.BinPathType = BinPathType.Manual;
 			Assert.True( project.IsDirty );
+		}
+
+		[Test]
+		public void GetPrivateBinPath()
+		{
+			config.Assemblies.Add( @"C:\test\bin\debug\test1.dll" );
+			config.Assemblies.Add( @"C:\test\bin\debug\test2.dll" );
+			config.Assemblies.Add( @"C:\test\utils\test3.dll" );
+
+			Assert.Equals( @"bin\debug;utils", config.PrivateBinPath ); 
 		}
 
 		[Test]
@@ -168,37 +216,27 @@ namespace NUnit.Tests
 		{
 			config.Assemblies.Add( @"C:\bin\assembly1.dll" );
 			config.Assemblies.Add( @"C:\bin\assembly2.dll" );
-			config.AutoBinPath = false;
-			Assert.Null( config.FullBinPath );
+			config.BinPathType = BinPathType.None;
+			Assert.Null( config.PrivateBinPath );
 		}
 
 		[Test]
 		public void ManualPrivateBinPath()
 		{
-			config.Assemblies.Add( @"C:\bin\assembly1.dll" );
-			config.Assemblies.Add( @"C:\bin\assembly2.dll" );
-			config.AutoBinPath = false;
-			config.BinPath = @"C:\test";
-			Assert.Equals( @"C:\test", config.FullBinPath );
+			config.Assemblies.Add( @"C:\test\bin\assembly1.dll" );
+			config.Assemblies.Add( @"C:\test\bin\assembly2.dll" );
+			config.BinPathType = BinPathType.Manual;
+			config.PrivateBinPath = @"C:\test";
+			Assert.Equals( @"C:\test", config.PrivateBinPath );
 		}
 
 		[Test]
 		public void AutoPrivateBinPath()
 		{
-			config.Assemblies.Add( @"C:\bin\assembly1.dll" );
-			config.Assemblies.Add( @"C:\bin\assembly2.dll" );
-			config.AutoBinPath = true;
-			Assert.Equals( @"C:\bin", config.FullBinPath );
-		}
-
-		[Test]
-		public void CombinedPrivateBinPath()
-		{
-			config.Assemblies.Add( @"C:\bin\assembly1.dll" );
-			config.Assemblies.Add( @"C:\bin\assembly2.dll" );
-			config.AutoBinPath = true;
-			config.BinPath = @"C:\test";
-			Assert.Equals( @"C:\bin;C:\test", config.FullBinPath );
+			config.Assemblies.Add( @"C:\test\bin\assembly1.dll" );
+			config.Assemblies.Add( @"C:\test\bin\assembly2.dll" );
+			config.BinPathType = BinPathType.Auto;
+			Assert.Equals( @"bin", config.PrivateBinPath );
 		}
 	}
 }

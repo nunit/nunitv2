@@ -66,11 +66,11 @@ namespace NUnit.Tests
 			VSProject project = new VSProject( fileName );
 
 			Assert.Equals( "nunit.tests.dll", project.Name );
-			Assert.Equals( fileName, project.ProjectPath );
+			Assert.Equals( Path.GetFullPath( fileName ), project.ProjectPath );
 			Assert.Equals( 2, project.Configs.Count );
 			Assert.True( "Missing Debug config", project.Configs.Contains( "Debug" ) );
 			Assert.True( "Missing Release config", project.Configs.Contains( "Release" ) );
-			Assert.True( "Missing dll", project.Configs["Debug"].Assemblies[0].ToLower().EndsWith( @"\bin\debug\nunit.tests.dll" ) );
+			Assert.True( "Missing dll", project.Configs["Debug"].Assemblies[0].FullPath.ToLower().EndsWith( @"\bin\debug\nunit.tests.dll" ) );
 		}
 
 		[Test]
@@ -83,11 +83,11 @@ namespace NUnit.Tests
 			VSProject project = new VSProject( fileName );
 
 			Assert.Equals( "vb-sample", project.Name );
-			Assert.Equals( fileName, project.ProjectPath );
+			Assert.Equals( Path.GetFullPath( fileName ), project.ProjectPath );
 			Assert.Equals( 2, project.Configs.Count );
 			Assert.True( "Missing Debug config", project.Configs.Contains( "Debug" ) );
 			Assert.True( "Missing Release config", project.Configs.Contains( "Release" ) );
-			Assert.True( "Missing dll", project.Configs["Debug"].Assemblies[0].ToLower().EndsWith( @"samples\vb\bin\vb-sample.dll" ) );
+			Assert.True( "Missing dll", project.Configs["Debug"].Assemblies[0].FullPath.ToLower().EndsWith( @"samples\vb\bin\vb-sample.dll" ) );
 		}
 		[Test]
 		public void LoadCppProject()
@@ -99,11 +99,11 @@ namespace NUnit.Tests
 			VSProject project = new VSProject( fileName );
 
 			Assert.Equals( "cpp-sample", project.Name );
-			Assert.Equals( fileName, project.ProjectPath );
+			Assert.Equals( Path.GetFullPath( fileName ), project.ProjectPath );
 			Assert.Equals( 2, project.Configs.Count );
 			Assert.True( "Missing Debug config", project.Configs.Contains( "Debug|Win32" ) );
 			Assert.True( "Missing Release config", project.Configs.Contains( "Release|Win32" ) );
-			Assert.True( "Missing dll", project.Configs["Debug|Win32"].Assemblies[0].ToLower().EndsWith( @"samples\cpp-sample\debug\cpp-sample.dll" ) );
+			Assert.True( "Missing dll", project.Configs["Debug|Win32"].Assemblies[0].FullPath.ToLower().EndsWith( @"samples\cpp-sample\debug\cpp-sample.dll" ) );
 		}
 
 		[Test, ExpectedException( typeof ( ArgumentException ) ) ]

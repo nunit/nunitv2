@@ -123,11 +123,11 @@ namespace NUnit.Tests
 		public void FileNotFound()
 		{
 			loader.LoadTest( "xxxxx" );
-			Assert.True( "Project not loaded", loader.IsProjectLoaded );
+			Assert.False( "Project should not load", loader.IsProjectLoaded );
 			Assert.False( "Test should not load", loader.IsTestLoaded );
-			Assert.Equals( 4, catcher.Events.Count );
-			Assert.Equals( TestAction.TestLoadFailed, catcher.Events[3].Action );
-			Assert.Equals( typeof( FileNotFoundException ), catcher.Events[3].Exception.GetType() );
+			Assert.Equals( 2, catcher.Events.Count );
+			Assert.Equals( TestAction.ProjectLoadFailed, catcher.Events[1].Action );
+			Assert.Equals( typeof( FileNotFoundException ), catcher.Events[1].Exception.GetType() );
 		}
 
 		[Test]

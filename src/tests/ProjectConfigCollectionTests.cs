@@ -40,7 +40,7 @@ namespace NUnit.Tests
 	public class ProjectConfigCollectionTests
 	{
 		private ProjectConfigCollection configs;
-		private Project project = new Project( "myproject.nunit" );
+		private Project project = new Project( @"C:\tests\myproject.nunit" );
 
 		[SetUp]
 		public void SetUp()
@@ -58,8 +58,8 @@ namespace NUnit.Tests
 		public void AddConfig()
 		{
 			configs.Add("Debug");
-			configs["Debug"].Assemblies.Add( @"bin\debug\assembly1.dll" );
-			configs["Debug"].Assemblies.Add( @"bin\debug\assembly2.dll" );
+			configs["Debug"].Assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
+			configs["Debug"].Assemblies.Add( @"C:\tests\bin\debug\assembly2.dll" );
 
 			Assert.Equals( 2, configs["Debug"].Assemblies.Count );
 		}
@@ -75,8 +75,8 @@ namespace NUnit.Tests
 		public void BuildConfigAndAdd()
 		{
 			ProjectConfig config = new ProjectConfig("Debug");
-			config.Assemblies.Add( @"bin\debug\assembly1.dll" );
-			config.Assemblies.Add( @"bin\debug\assembly2.dll" );
+			config.Assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
+			config.Assemblies.Add( @"C:\tests\bin\debug\assembly2.dll" );
 
 			configs.Add( config );
 
@@ -88,9 +88,9 @@ namespace NUnit.Tests
 		{
 			configs.Add("Debug");
 			configs.Add("Release");
-			configs["Debug"].Assemblies.Add( @"bin\debug\assembly1.dll" );
-			configs["Debug"].Assemblies.Add( @"bin\debug\assembly2.dll" );
-			configs["Release"].Assemblies.Add( @"bin\debug\assembly3.dll" );
+			configs["Debug"].Assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
+			configs["Debug"].Assemblies.Add( @"C:\tests\bin\debug\assembly2.dll" );
+			configs["Release"].Assemblies.Add( @"C:\tests\bin\release\assembly3.dll" );
 
 			Assert.Equals( 2, configs.Count );
 			Assert.Equals( 2, configs["Debug"].Assemblies.Count );

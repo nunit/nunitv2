@@ -78,29 +78,29 @@ namespace NUnit.Tests
 			Assert.Equals( new Size( 632, 432 ), sz );
 		}
 
-		[Test]
-		public void RecentAssemblyBasicTests()
-		{
-			RecentAssemblySettings assemblies = UserSettings.RecentAssemblies;
-			Assert.Equals( @"Recent-Assemblies", assemblies.Storage.StorageName );
-			Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Recent-Assemblies", 
-				((RegistrySettingsStorage)assemblies.Storage).StorageKey.Name );
-			Assert.NotNull( "GetFiles() returned null", assemblies.GetFiles() );
-			Assert.Equals( 0, assemblies.GetFiles().Count );
-			Assert.Null( "No RecentAssembly should return null", assemblies.RecentFile );
-
-			assemblies.RecentFile = "one";
-			assemblies.RecentFile = "two";
-			Assert.Equals( 2, assemblies.GetFiles().Count );
-			Assert.Equals( "two", assemblies.RecentFile );
-
-			using( RegistryKey key = NUnitRegistry.CurrentUser.OpenSubKey( "Recent-Assemblies" ) )
-			{
-				Assert.Equals( 2, key.ValueCount );
-				Assert.Equals( "two", key.GetValue( "File1" ) );
-				Assert.Equals( "one", key.GetValue( "File2" ) );
-			}
-		}
+//		[Test]
+//		public void RecentAssemblyBasicTests()
+//		{
+//			RecentAssemblySettings assemblies = UserSettings.RecentAssemblies;
+//			Assert.Equals( @"Recent-Assemblies", assemblies.Storage.StorageName );
+//			Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Recent-Assemblies", 
+//				((RegistrySettingsStorage)assemblies.Storage).StorageKey.Name );
+//			Assertion.AssertNotNull( "GetFiles() returned null", assemblies.GetFiles() );
+//			Assert.Equals( 0, assemblies.GetFiles().Count );
+//			Assertion.AssertNull( "No RecentAssembly should return null", assemblies.RecentFile );
+//
+//			assemblies.RecentFile = "one";
+//			assemblies.RecentFile = "two";
+//			Assert.Equals( 2, assemblies.GetFiles().Count );
+//			Assert.Equals( "two", assemblies.RecentFile );
+//
+//			using( RegistryKey key = NUnitRegistry.CurrentUser.OpenSubKey( "Recent-Assemblies" ) )
+//			{
+//				Assert.Equals( 2, key.ValueCount );
+//				Assert.Equals( "two", key.GetValue( "File1" ) );
+//				Assert.Equals( "one", key.GetValue( "File2" ) );
+//			}
+//		}
 
 		[Test]
 		public void RecentProjectBasicTests()
