@@ -35,7 +35,11 @@ namespace NUnit.Core
 	using System.Collections;
 
 	/// <summary>
-	/// Summary description for TestSuiteBuilder.
+	/// This is the master suite builder for NUnit. It builds a test suite from
+	/// one or more assemblies using a list of internal and external suite builders 
+	/// to create fixtures from the qualified types in each assembly. It implements
+	/// the ISuiteBuilder interface itself, allowing it to be used by other classes
+	/// for queries and suite construction.
 	/// </summary>
 	public class TestSuiteBuilder
 	{
@@ -59,6 +63,16 @@ namespace NUnit.Core
 		/// </summary>
 		Version frameworkVersion = null;
 
+		/// <summary>
+		/// The NUnit Framework assembly referenced by the loaded assembly
+		/// </summary>
+		Assembly frameworkAssembly = null;
+
+		SuiteBuilderCollection builders = new SuiteBuilderCollection();
+		//	{ new NUnitTestFixtureBuilder(), new LegacySuiteBuilder() };
+
+		ISuiteBuilder legacySuiteBuilder;
+
 		#endregion
 
 		#region Properties
@@ -66,6 +80,46 @@ namespace NUnit.Core
 		public Version FrameworkVersion
 		{
 			get { return frameworkVersion; }
+		}
+
+		public SuiteBuilderCollection Builders
+		{
+			get { return builders; }	
+		}
+
+		#endregion
+
+		#region ISuiteBuilder Members
+
+		public bool CanBuildFrom(Type type)
+		{
+			foreach( ISuiteBuilder builder in builders )
+				if ( builder.CanBuildFrom( type ) )
+					return true;
+
+			return false;
+		}
+
+		public TestSuite BuildFrom(Type type)
+		{
+			foreach( ISuiteBuilder builder in builders )
+				if ( builder.CanBuildFrom( type ) )
+					return builder.BuildFrom( type );
+
+			return null;
+		}
+
+		#endregion
+
+		#region Constructor
+
+		public TestSuiteBuilder()
+		{
+			builders.Add( new NUnit.Core.Builders.TestFixtureBuilder() );
+
+			// TODO: Keeping this separate till we can make
+			//it work in all situations.
+			legacySuiteBuilder = new NUnit.Core.Builders.LegacySuiteBuilder();
 		}
 
 		#endregion
@@ -89,7 +143,35 @@ namespace NUnit.Core
 				foreach( AssemblyName refAssembly in assembly.GetReferencedAssemblies() )
 				{
 					if ( refAssembly.Name == "nunit.framework" )
+					{
 						this.frameworkVersion = refAssembly.Version;
+						AppDomain.CurrentDomain.Load( refAssembly.FullName );
+						break;
+					}
+				}
+
+				foreach( Assembly refAssembly in AppDomain.CurrentDomain.GetAssemblies() )
+				{
+					string name = refAssembly.GetName().Name;
+					if ( name == "nunit.framework" )
+					{
+						this.frameworkAssembly = refAssembly;
+						this.frameworkVersion = refAssembly.GetName().Version;
+						break;
+					}
+				}
+
+				foreach( Type type in assembly.GetExportedTypes() )
+				{
+					if ( type.IsDefined( typeof( NUnit.Framework.SuiteBuilderAttribute ), false )
+						&& typeof( ISuiteBuilder ).IsAssignableFrom( type )	)
+					{
+						ISuiteBuilder builder = (ISuiteBuilder)Reflect.Construct( type );
+						builders.Add( builder );
+						// TODO: Figure out when to unload - this is
+						// not important now, since we use a different
+						// appdomain for each load, but may be in future.
+					}
 				}
 
 				return assembly;
@@ -130,7 +212,13 @@ namespace NUnit.Core
 			{
 				Type testType = assembly.GetType(testName);
 				if( testType != null )
-					return MakeSuite( testType );
+				{
+					// The only place we currently allow legacy suites
+					if ( legacySuiteBuilder.CanBuildFrom( testType ) )
+						return legacySuiteBuilder.BuildFrom( testType );
+
+					return BuildFrom( testType );
+				}
 
 				// Assume that testName is a namespace
 				string prefix = testName + '.';
@@ -140,14 +228,13 @@ namespace NUnit.Core
 
 				foreach(Type type in testTypes)
 				{
-					if( CanMakeSuite( type ) && type.Namespace != null )
+					if( CanBuildFrom( type ) && type.Namespace != null )
 					{
 						if( type.Namespace == testName || type.Namespace.StartsWith(prefix) )
 						{
 							suite = BuildFromNameSpace(testName, 0);
 						
-							//suite.Add( new TestFixture( type ) );
-							suite.Add( MakeSuite( type ) );
+							suite.Add( BuildFrom( type ) );
 							testFixtureCount++;
 						}
 					}
@@ -261,14 +348,41 @@ namespace NUnit.Core
 			Type[] testTypes = assembly.GetExportedTypes();
 			foreach(Type testType in testTypes)
 			{
-				if( CanMakeSuite( testType ) )
+				if( CanBuildFrom( testType ) )
 				{
+//					TestSuite suite = BuildFrom( testType );
+//					testFixtureCount++;
+//
+//					bool isNamespaceSuite = suite is NamespaceSuite;
+//					string namespaces = testType.Namespace;
+//					if ( isNamespaceSuite )
+//					{
+//						int lastDot = namespaces.LastIndexOf( '.' );
+//						if ( lastDot > 0 ) namespaces = namespaces.Substring( 0, lastDot );
+//					}
+//
+//					TestSuite namespaceSuite = builder.BuildFromNameSpace( namespaces, assemblyKey );
+//
+//					if ( isNamespaceSuite )
+//					{
+//						if ( namespaceSuites.ContainsKey( suite.FullName ) )
+//						{
+//							NamespaceSuite oldSuite = (NamespaceSuite)namespaceSuites[suite.FullName];
+//							if ( oldSuite.Parent != null )
+//								oldSuite.Parent.Tests.Remove( oldSuite );
+//							else
+//								rootSuite.Tests.Remove( oldSuite );
+//						}
+//						namespaceSuites[suite.FullName] =  suite;
+//						System.Diagnostics.Debug.WriteLine( string.Format( "Plugged in {0} fixture", suite.FullName ) );
+//					}
+//
+//					namespaceSuite.Add( suite );
 					testFixtureCount++;
 					string namespaces = testType.Namespace;
 					TestSuite suite = builder.BuildFromNameSpace( namespaces, assemblyKey );
 
-					//suite.Add( new TestFixture( testType ) );
-					suite.Add( MakeSuite( testType ) );
+					suite.Add( BuildFrom( testType ) );
 				}
 			}
 
@@ -279,37 +393,6 @@ namespace NUnit.Core
 			}
 
 			return builder.rootSuite;
-		}
-
-		/// <summary>
-		/// Helper routine that makes a suite from either a TestFixture or
-		/// a legacy Suite property.
-		/// </summary>
-		/// <param name="testType"></param>
-		/// <returns></returns>
-		private TestSuite MakeSuite( Type testType )
-		{
-			TestSuite suite = null;
-
-			if(testType != null)
-			{
-				if( TestFixture.IsValidType( testType ) )
-				{
-					suite = new TestFixture( testType );
-				}
-				else if( LegacySuite.IsValidType( testType ) )
-				{
-					suite = new LegacySuite( testType );
-				}
-			}
-			
-			return suite;
-		}
-
-		private bool CanMakeSuite( Type testType )
-		{
-			//return TestFixture.IsValidType( testType ) || LegacySuite.IsValidType( testType );
-			return TestFixture.IsValidType( testType );
 		}
 	}
 
