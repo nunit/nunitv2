@@ -35,6 +35,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using NUnit.Util;
 using NUnit.UiKit;
+using CP.Windows.Forms;
 using CP.Windows.Shell;
 
 namespace NUnit.Gui
@@ -70,7 +71,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.TextBox configFileTextBox;
 		private System.Windows.Forms.HelpProvider helpProvider1;
 		private System.Windows.Forms.Label label5;
-		private NUnit.UiKit.ExpandingLabel projectPathLabel;
+		private CP.Windows.Forms.ExpandingLabel projectPathLabel;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.TextBox privateBinPathTextBox;
 		private ListViewItem hoverItem;
@@ -148,7 +149,7 @@ namespace NUnit.Gui
 			this.closeButton = new System.Windows.Forms.Button();
 			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
 			this.label5 = new System.Windows.Forms.Label();
-			this.projectPathLabel = new NUnit.UiKit.ExpandingLabel();
+			this.projectPathLabel = new CP.Windows.Forms.ExpandingLabel();
 			this.noBinPathRadioButton = new System.Windows.Forms.RadioButton();
 			this.manualBinPathRadioButton = new System.Windows.Forms.RadioButton();
 			this.autoBinPathRadioButton = new System.Windows.Forms.RadioButton();
