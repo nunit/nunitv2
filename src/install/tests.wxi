@@ -11,7 +11,6 @@
       <Directory Id="D__tests" Name="BIN" LongName="bin">
       
         <Component Id="component_tests" DiskId="1" Guid="85DD0370-9E05-4e9a-8AB4-02A6C24986AB">
-          <File Id="F__test1" Name="tests~1.DLL" LongName="nunit.tests.dll" src="bin\nunit.tests.dll" />
           <File Id="F__test2" Name="tests~2.DLL" LongName="nunit.util.tests.dll" src="bin\nunit.util.tests.dll" />
           <File Id="F__test3" Name="tests~3.DLL" LongName="nunit.framework.tests.dll" src="bin\nunit.framework.tests.dll" />
           <File Id="F__test4" Name="tests~4.DLL" LongName="nunit.mocks.tests.dll" src="bin\nunit.mocks.tests.dll" />
