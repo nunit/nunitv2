@@ -314,7 +314,21 @@ namespace NUnit.Console
 							failureCount++;
 							Console.Write("F");
 							if ( debugger )
-								messages.Add( ParseTestCaseResult( testResult ) );
+							{
+								messages.Add( string.Format( "{0}) {1} :", failureCount, testResult.Test.FullName ) );
+								messages.Add( testResult.Message.Trim( Environment.NewLine.ToCharArray() ) );
+
+								string stackTrace = StackTraceFilter.Filter( testResult.StackTrace );
+								string[] trace = stackTrace.Split( System.Environment.NewLine.ToCharArray() );
+								foreach( string s in trace )
+								{
+									if ( s != string.Empty )
+									{
+										string link = Regex.Replace( s.Trim(), @".* in (.*):line (.*)", "$1($2)");
+										messages.Add( string.Format( "at\n{0}", link ) );
+									}
+								}
+							}
 						}
 					}
 					else
@@ -397,23 +411,27 @@ namespace NUnit.Console
 
 			private string ParseTestCaseResult( TestCaseResult result ) 
 			{
-				string[] trace = result.StackTrace.Split( System.Environment.NewLine.ToCharArray() );
+				string[] trace = StackTraceFilter.Filter( result.StackTrace ).Split( System.Environment.NewLine.ToCharArray() );
 			
-				foreach (string s in trace) 
+				string message = null;
+				foreach (string s in trace)
 				{
-					if ( s.IndexOf( result.Test.FullName ) >= 0 ) 
-					{
-						string link = Regex.Replace( s.Trim(), @"at " + result.Test.FullName + @"\(\) in (.*):line (.*)", "$1($2)");
+					string link = Regex.Replace( s.Trim(), @".* in (.*):line (.*)", "$1($2)");
 
-						string message = string.Format("{1}: {0}", 
-							result.Message.Replace(System.Environment.NewLine, "; "), 
-							result.Test.FullName).Trim(' ', ':');
-					
-						return string.Format("{0}: {1}", link, message);
+					if ( message == null ) 
+					{
+						message = string.Format("{0}: {1}: {2}", 
+							link,
+							result.Test.FullName.Trim(' ', ':'),
+							result.Message.Replace(System.Environment.NewLine, "; ") );				
+					}
+					else
+					{
+						message = message + "\nat " + link;
 					}
 				}
 
-				return result.Message;
+				return message;
 			}
 		}
 
