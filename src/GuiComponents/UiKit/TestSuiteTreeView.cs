@@ -356,12 +356,12 @@ namespace NUnit.UiKit
 				}
 			}
 
-			if ( contextNode.Result != null )
-			{
-				MenuItem copyMenuItem = new MenuItem(
-					"&Copy", new EventHandler( copyMenuItem_Click ) );
-				this.ContextMenu.MenuItems.Add( copyMenuItem );
-			}
+//			if ( contextNode.Result != null )
+//			{
+//				MenuItem copyMenuItem = new MenuItem(
+//					"&Copy", new EventHandler( copyMenuItem_Click ) );
+//				this.ContextMenu.MenuItems.Add( copyMenuItem );
+//			}
 
 			if ( this.ContextMenu.MenuItems.Count > 0 )
 				this.ContextMenu.MenuItems.Add( "-" );
@@ -388,9 +388,9 @@ namespace NUnit.UiKit
 			contextNode.Collapse();
 		}
 
-		private void copyMenuItem_Click( object sender, System.EventArgs e )
-		{
-		}
+//		private void copyMenuItem_Click( object sender, System.EventArgs e )
+//		{
+//		}
 
 		/// <summary>
 		/// When Run context menu item is clicked, run the test that
