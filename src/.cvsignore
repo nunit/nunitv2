@@ -1,2 +1,3 @@
-_ReSharper.nunit
 *.suo
+_ReSharper.*
+*.nunit.resharperoptions
