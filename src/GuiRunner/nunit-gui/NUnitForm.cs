@@ -41,8 +41,7 @@ namespace NUnit.Gui
 		private static RecentAssemblySettings recentAssemblies;
 
 		private bool runCommandEnabled = false;
-		private string assemblyFileName;
-		private AssemblyWatcher watcher;
+		private string currentAssemblyFileName;
 		private UIActions actions;
 
 		public System.Windows.Forms.Splitter splitter1;
@@ -106,6 +105,17 @@ namespace NUnit.Gui
 			get { return testSuiteTreeView.ContextSuite; }
 		}
 
+		private bool AssemblyLoaded
+		{
+			get { return LoadedAssembly != null; }
+		}
+
+		private string LoadedAssembly
+		{
+			get { return currentAssemblyFileName; }
+			set { currentAssemblyFileName = value; }
+		}
+
 		#endregion
 
 		#region Construction and Disposal
@@ -140,6 +150,7 @@ namespace NUnit.Gui
 			actions.SuiteLoadedEvent += new UIActions.SuiteLoadedHandler(OnSuiteLoaded);
 			actions.SuiteUnloadedEvent += new UIActions.SuiteUnloadedHandler(OnSuiteUnloaded);
 			actions.SuiteChangedEvent += new UIActions.SuiteChangedHandler(OnSuiteChanged);
+			actions.AssemblyLoadFailureEvent += new UIActions.AssemblyLoadFailureHandler(OnAssemblyLoadFailure);
 
 			if (assemblyFileName == null)
 				assemblyFileName = recentAssemblies.RecentAssembly;
@@ -692,7 +703,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void fileMenu_Popup(object sender, System.EventArgs e)
 		{
-			closeMenuItem.Enabled = IsAssemblyOpen();
+			closeMenuItem.Enabled = AssemblyLoaded;
 		}
 
 		/// <summary>
@@ -703,10 +714,8 @@ namespace NUnit.Gui
 		{
 			if (openFileDialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK) 
 			{
-				assemblyFileName = openFileDialog.FileName;
-				LoadAssembly(assemblyFileName);
+				LoadAssembly( openFileDialog.FileName );
 			}
-		
 		}
 
 		/// <summary>
@@ -723,10 +732,9 @@ namespace NUnit.Gui
 		private void recentFile_clicked(object sender, System.EventArgs args) 
 		{
 			MenuItem item = (MenuItem) sender;
-			string text = item.Text;
+			string assemblyFileName = item.Text.Substring( 2 );
 
-			assemblyFileName = text.Substring(2);
-			LoadAssembly(assemblyFileName);
+			LoadAssembly( assemblyFileName );
 		}
 
 		/// <summary>
@@ -928,8 +936,7 @@ namespace NUnit.Gui
 		// always have the FullName set to the assembly name in future.
 		private void OnSuiteLoaded(Test test, string assemblyFileName)
 		{
-			this.assemblyFileName = assemblyFileName;
-			InstallWatcher( assemblyFileName );
+			LoadedAssembly = assemblyFileName;
 			UpdateRecentAssemblies( assemblyFileName );
 
 			testSuiteTreeView.Load(test);
@@ -941,23 +948,32 @@ namespace NUnit.Gui
 
 		private void OnSuiteUnloaded()
 		{
-			RemoveWatcher();
-			this.assemblyFileName = null;
+			LoadedAssembly = null;
 
 			ClearUI();
 		}
 
 		private void OnSuiteChanged(Test test)
 		{
-			// TODO: Get rid of the use of the helper
-			// and consider keeping useful info in the tree
-			if(!UIHelper.CompareTree(SelectedSuite,test))
-			{
-				status.Text = "Loading";
-				testSuiteTreeView.InvokeLoadHandler( test );
-				ClearTestResults();
-				InitializeProgressBar( test.CountTestCases );
-			}
+			// ToDO: Merge state info from old tree
+			testSuiteTreeView.InvokeLoadHandler( test );
+			ClearTestResults();
+			InitializeProgressBar( test.CountTestCases );
+		}
+
+		/// <summary>
+		/// Event handler for assembly load faiulres. We do this via
+		/// an event since some errors may occur asynchronously.
+		/// </summary>
+		/// <param name="assemblyFileName">Name of the assembly file</param>
+		/// <param name="exception">Exception that occurred.</param>
+		private void OnAssemblyLoadFailure( string assemblyFileName, Exception exception )
+		{
+			AssemblyLoadFailureMessage( assemblyFileName, exception );
+			RemoveRecentAssembly( assemblyFileName );
+
+			if ( assemblyFileName == LoadedAssembly )
+				OnSuiteUnloaded();
 		}
 
 		#endregion
@@ -988,48 +1004,17 @@ namespace NUnit.Gui
 		}
 
 		/// <summary>
-		/// Install our watcher object so as to get notifications
-		/// about changes to an assembly.
-		/// </summary>
-		/// <param name="assemblyFileName">Full path of the assembly to watch</param>
-		private void InstallWatcher(string assemblyFileName)
-		{
-			if(watcher!=null)
-			{
-				watcher.Stop();
-			}
-
-			FileInfo info = new FileInfo(assemblyFileName);
-			watcher = new AssemblyWatcher(1000, info);
-			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( ReloadAssembly );
-		}
-
-		/// <summary>
-		/// Stop and remove our current watcher object.
-		/// </summary>
-		private void RemoveWatcher()
-		{
-			if ( watcher != null )
-			{
-				watcher.Stop();
-				watcher = null;
-			}
-		}
-
-		/// <summary>
 		/// Display message and clean up after an assembly fails to load
 		/// </summary>
 		/// <param name="assemblyFileName">Full path to the assembly</param>
 		/// <param name="exception">Exception that was thrown when loading the assembly</param>
-		private void AssemblyLoadFailure( string assemblyFileName, Exception exception )
+		private void AssemblyLoadFailureMessage( string assemblyFileName, Exception exception )
 		{
 			string message = exception.Message;
 			if(exception.InnerException != null)
 				message = exception.InnerException.Message;
 			MessageBox.Show(this,message,"Assembly Load Failure",
 				MessageBoxButtons.OK,MessageBoxIcon.Stop);
-
-			RemoveRecentAssembly( assemblyFileName );
 		}
 
 		/// <summary>
@@ -1038,43 +1023,12 @@ namespace NUnit.Gui
 		/// <param name="assemblyFileName">Full path of the assembly to load</param>
 		private void LoadAssembly(string assemblyFileName)
 		{
-			try
-			{
-				actions.LoadAssembly( assemblyFileName );
-			}
-			catch(Exception exception)
-			{
-				AssemblyLoadFailure( assemblyFileName, exception );			
-			}
-		}
-
-		/// <summary>
-		/// Reload an assembly in response to a change event
-		/// </summary>
-		/// <param name="assemblyFileName"></param>
-		private void ReloadAssembly( string assemblyFileName )
-		{
-			try
-			{
-				actions.ReloadAssembly( assemblyFileName );
-			}
-			catch(Exception exception)
-			{
-				AssemblyLoadFailure( assemblyFileName, exception );
-				RemoveRecentAssembly( assemblyFileName );
-
-				OnSuiteUnloaded();
-			}
+			actions.LoadAssembly( assemblyFileName );
 		}
 
 		private void UnloadAssembly()
 		{
 			actions.UnloadAssembly();
-		}
-
-		private bool IsAssemblyOpen()
-		{
-			return assemblyFileName != null;
 		}
 
 		private bool IsAssemblyFileType( string path )

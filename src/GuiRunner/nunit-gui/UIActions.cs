@@ -35,6 +35,8 @@ namespace NUnit.Gui
 	/// </summary>
 	public class UIActions : MarshalByRefObject, NUnit.Core.EventListener
 	{
+		#region Instance Variables
+
 		/// <summary>
 		/// StdOut stream for use by the TestRunner
 		/// </summary>
@@ -50,15 +52,30 @@ namespace NUnit.Gui
 		/// </summary>
 		private TestRunner testRunner = null;
 
+		/// <summary>
+		/// The currently loaded test, returned by the testrunner
+		/// </summary>
+		private Test currentTest = null;
+
+		/// <summary>
+		/// Watcher fires when the assembly changes
+		/// </summary>
+		private AssemblyWatcher watcher;
+
+		#endregion
+
+		#region Delegates and Events
+
 		public delegate void TestStartedHandler( TestCase testCase );
 		public delegate void TestFinishedHandler( TestCaseResult result );
 		public delegate void SuiteStartedHandler( TestSuite suite );
 		public delegate void SuiteFinishedHandler( TestSuiteResult result );
 		public delegate void RunStartingHandler( Test test );
 		public delegate void RunFinishedHandler( TestResult result );
-		public delegate void SuiteLoadedHandler( Test test , string assemblyFileName);
+		public delegate void SuiteLoadedHandler( Test test, string assemblyFileName);
 		public delegate void SuiteChangedHandler( Test test );
 		public delegate void SuiteUnloadedHandler( );
+		public delegate void AssemblyLoadFailureHandler( string assemblyFileName, Exception exception );
 
 		public event TestStartedHandler TestStartedEvent;
 		public event TestFinishedHandler TestFinishedEvent;
@@ -69,12 +86,21 @@ namespace NUnit.Gui
 		public event SuiteLoadedHandler SuiteLoadedEvent;
 		public event SuiteChangedHandler SuiteChangedEvent;
 		public event SuiteUnloadedHandler SuiteUnloadedEvent;
+		public event AssemblyLoadFailureHandler AssemblyLoadFailureEvent;
+
+		#endregion
+
+		#region Constructor
 
 		public UIActions(TextWriter stdOutWriter, TextWriter stdErrWriter)
 		{
 			this.stdOutWriter = stdOutWriter;
 			this.stdErrWriter = stdErrWriter;
 		}
+
+		#endregion
+
+		#region Properties
 
 		public bool AssemblyLoaded
 		{
@@ -86,36 +112,65 @@ namespace NUnit.Gui
 			get { return testRunner == null ? null : testRunner.AssemblyName; }
 		}
 
+		#endregion
+
+		#region EventListener Handlers
+
+		/// <summary>
+		/// Trigger event when each test starts
+		/// </summary>
+		/// <param name="testCase">TestCase that is starting</param>
 		public void TestStarted(TestCase testCase)
 		{
 			if ( TestStartedEvent != null )
 				TestStartedEvent( testCase );
 		}
 
-		public void SuiteStarted(TestSuite suite)
-		{
-			if ( SuiteStartedEvent != null )
-				SuiteStartedEvent( suite );
-		}
-
-		public void SuiteFinished(TestSuiteResult result)
-		{
-			if ( SuiteFinishedEvent != null )
-				SuiteFinishedEvent( result );
-		}
-
+		/// <summary>
+		/// Trigger event when each test finishes
+		/// </summary>
+		/// <param name="result">Result of the case that finished</param>
 		public void TestFinished(TestCaseResult result)
 		{
 			if ( TestFinishedEvent != null )
 				TestFinishedEvent( result );
 		}
 
-		public void RunTestSuite(Test suite)
+		/// <summary>
+		/// Trigger event when each suite starts
+		/// </summary>
+		/// <param name="suite">Suite that is starting</param>
+		public void SuiteStarted(TestSuite suite)
+		{
+			if ( SuiteStartedEvent != null )
+				SuiteStartedEvent( suite );
+		}
+
+		/// <summary>
+		/// Trigger event when each suite finishes
+		/// </summary>
+		/// <param name="result">Result of the suite that finished</param>
+		public void SuiteFinished(TestSuiteResult result)
+		{
+			if ( SuiteFinishedEvent != null )
+				SuiteFinishedEvent( result );
+		}
+
+		#endregion
+
+		#region Methods
+
+		/// <summary>
+		/// Run a testcase or testsuite from the currrent tree
+		/// firing the RunStarting and RunFinished events
+		/// </summary>
+		/// <param name="test">Test to be run</param>
+		public void RunTestSuite(Test test)
 		{
 			if ( RunStartingEvent != null )
-				RunStartingEvent( suite );
+				RunStartingEvent( test );
 
-			testRunner.TestName = suite.FullName;
+			testRunner.TestName = test.FullName;
 
 			TestResult result = testRunner.Run();
 
@@ -123,42 +178,108 @@ namespace NUnit.Gui
 				RunFinishedEvent( result );
 		}
 
+		/// <summary>
+		/// Load the test suite
+		/// </summary>
+		/// <param name="assemblyFileName"></param>
+		/// <returns></returns>
 		private Test LoadTestSuite(string assemblyFileName)
 		{
 			return testRunner.Test;
 		}
 		
+		/// <summary>
+		/// Load an assembly, firing the SuiteLoaded event.
+		/// </summary>
+		/// <param name="assemblyFileName">Assembly to be loaded</param>
 		public void LoadAssembly( string assemblyFileName )
 		{
-			if ( AssemblyLoaded )
-				UnloadAssembly();
+			try
+			{
+				// Make sure it all works before switching old one out
+				TestRunner newRunner = new TestRunner(assemblyFileName, this, stdOutWriter, stdErrWriter);
+				Test newTest = newRunner.Test;
 
-			testRunner = new TestRunner(assemblyFileName, this, stdOutWriter, stdErrWriter);
-			
-			Test test = LoadTestSuite(assemblyFileName);
-			SetWorkingDirectory(assemblyFileName);
+				if  ( AssemblyLoaded ) UnloadAssembly();
 
-			if ( SuiteLoadedEvent != null )
-				SuiteLoadedEvent( test, assemblyFileName );
+				testRunner = newRunner;
+				currentTest = newTest;
+
+				SetWorkingDirectory(assemblyFileName);
+
+				if ( SuiteLoadedEvent != null )
+					SuiteLoadedEvent( currentTest, assemblyFileName );
+
+				InstallWatcher( assemblyFileName );
+			}
+			catch( Exception exception )
+			{
+				if ( AssemblyLoadFailureEvent != null )
+					AssemblyLoadFailureEvent( assemblyFileName, exception );
+			}
 		}
 
+		/// <summary>
+		/// Unload the current assembly and fire the SuiteUnloaded event
+		/// </summary>
 		public void UnloadAssembly( )
 		{
 			testRunner.Unload();
 			testRunner = null;
 
+			RemoveWatcher();
+
 			if ( SuiteUnloadedEvent != null )
 				SuiteUnloadedEvent( );
 		}
 
-		public void ReloadAssembly( string assemblyFileName )
+		/// <summary>
+		/// Reload the current assembly on command
+		/// </summary>
+		public void ReloadAssembly()
 		{
-			testRunner.Unload();
+			LoadAssembly( testRunner.AssemblyName );
+		}
 
-			Test test = LoadTestSuite(assemblyFileName);
+		/// <summary>
+		/// Handle watcher event that signals when the loaded assembly
+		/// file has changed. Make sure it's a real change before
+		/// firing the SuiteChangedEvent. Since this all happens
+		/// asynchronously, we use an event to let ui components
+		/// know that the failure happened.
+		/// </summary>
+		/// <param name="assemblyFileName">Assembly file that changed</param>
+		public void OnAssemblyChanged( string assemblyFileName )
+		{
+			// Don't unload the old domain till after the event
+			// handlers get a chance to compare the trees.
+			// TODO: Some changes to the runner might make this easier.
 
-			if ( SuiteChangedEvent != null )
-				SuiteChangedEvent( test );
+			try
+			{
+				TestRunner newRunner = new TestRunner(assemblyFileName, this, stdOutWriter, stdErrWriter);	
+				Test newTest = newRunner.Test;
+
+				if(!UIHelper.CompareTree( currentTest, newTest ) )
+				{
+					testRunner.Unload();
+
+					testRunner = newRunner;
+					currentTest = newTest;
+
+					if ( SuiteChangedEvent != null )
+						SuiteChangedEvent( newTest );
+				}
+				else
+				{
+					newRunner.Unload();
+				}
+			}
+			catch( Exception exception )
+			{
+				if ( AssemblyLoadFailureEvent != null )
+					AssemblyLoadFailureEvent( assemblyFileName, exception );
+			}
 		}
 
 		private static void SetWorkingDirectory(string assemblyFileName)
@@ -166,6 +287,34 @@ namespace NUnit.Gui
 			FileInfo info = new FileInfo(assemblyFileName);
 			Directory.SetCurrentDirectory(info.DirectoryName);
 		}
+		
+		/// <summary>
+		/// Install our watcher object so as to get notifications
+		/// about changes to an assembly.
+		/// </summary>
+		/// <param name="assemblyFileName">Full path of the assembly to watch</param>
+		private void InstallWatcher(string assemblyFileName)
+		{
+			if(watcher!=null) watcher.Stop();
+
+			FileInfo info = new FileInfo(assemblyFileName);
+			watcher = new AssemblyWatcher(1000, info);
+			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( OnAssemblyChanged );
+		}
+
+		/// <summary>
+		/// Stop and remove our current watcher object.
+		/// </summary>
+		private void RemoveWatcher()
+		{
+			if ( watcher != null )
+			{
+				watcher.Stop();
+				watcher = null;
+			}
+		}
+
+		#endregion
 	}
 }
 
