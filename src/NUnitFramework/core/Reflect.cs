@@ -153,11 +153,11 @@ namespace NUnit.Core
 		/// <param name="attributeName">The FullName of the attribute to look for</param>
 		/// <param name="bindingFlags">BindingFlags to use in looking for method</param>
 		/// <returns>A MethodInfo or null</returns>
-		public static MethodInfo GetMethodWithAttribute( Type fixtureType, string attributeName, BindingFlags bindingFlags )
+		public static MethodInfo GetMethodWithAttribute( Type fixtureType, string attributeName, BindingFlags bindingFlags, bool inherit )
 		{
 			foreach(MethodInfo method in fixtureType.GetMethods( bindingFlags ) )
 			{
-				if( HasAttribute( method, attributeName, true ) ) 
+				if( HasAttribute( method, attributeName, inherit ) ) 
 					return method;
 			}
 
@@ -172,13 +172,13 @@ namespace NUnit.Core
 		/// <param name="attributeName">The FullName of the attribute to look for</param>
 		/// <param name="bindingFlags">BindingFlags to use in looking for method</param>
 		/// <returns>The number of such methods found</returns>
-		public static int CountMethodsWithAttribute( Type fixtureType, string attributeName, BindingFlags bindingFlags )
+		public static int CountMethodsWithAttribute( Type fixtureType, string attributeName, BindingFlags bindingFlags, bool inherit )
 		{
 			int count = 0;
 
 			foreach(MethodInfo method in fixtureType.GetMethods( bindingFlags ) )
 			{
-				if( HasAttribute( method, attributeName, true ) ) 
+				if( HasAttribute( method, attributeName, inherit ) ) 
 					count++;
 			}
 

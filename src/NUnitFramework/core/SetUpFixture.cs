@@ -50,10 +50,10 @@ namespace NUnit.Core
 
 			this.fixtureSetUp = Reflect.GetMethodWithAttribute( 
 				type, "NUnit.Framework.TestFixtureSetUpAttribute",
-				BindingFlags.Public | BindingFlags.Instance );
+				BindingFlags.Public | BindingFlags.Instance, true );
 			this.fixtureTearDown = Reflect.GetMethodWithAttribute( 
 				type, "NUnit.Framework.TestFixtureTearDownAttribute",
-				BindingFlags.Public | BindingFlags.Instance );
+				BindingFlags.Public | BindingFlags.Instance, true );
 		}
 
 		public override void DoOneTimeSetUp(TestResult suiteResult)

@@ -74,7 +74,7 @@ namespace NUnit.Core.Builders
 			// See if there's an attribute and check it
 			if( parms.HasTestFixtureType )
 			{
-				if( Reflect.HasAttribute( type, parms.TestFixtureType, true ) ) // Inheritable
+				if( Reflect.HasAttribute( type, parms.TestFixtureType, parms.InheritTestFixtureType ) )
 				{
 					return true;
 				}
@@ -170,7 +170,8 @@ namespace NUnit.Core.Builders
 		{
 			int count = Reflect.CountMethodsWithAttribute(
 				fixtureType, attributeName,
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly );
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly,
+				parms.InheritSetUpAndTearDownTypes);
 			
 			if ( count == 0 ) return true;
 
@@ -178,7 +179,8 @@ namespace NUnit.Core.Builders
 
 			MethodInfo theMethod = Reflect.GetMethodWithAttribute( 
 				fixtureType, attributeName, 
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly );
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly,
+				parms.InheritSetUpAndTearDownTypes);
 
 			if ( theMethod != null )
 			{

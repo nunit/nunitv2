@@ -97,9 +97,9 @@ namespace NUnit.Core
 			suiteProperty = GetSuiteProperty( fixtureType );
 
 			this.fixtureSetUp = Reflect.GetMethodWithAttribute( fixtureType, FixtureSetUpType,
-				BindingFlags.Public | BindingFlags.Instance );
+				BindingFlags.Public | BindingFlags.Instance, true);
 			this.fixtureTearDown = Reflect.GetMethodWithAttribute( fixtureType, FixtureTearDownType,
-				BindingFlags.Public | BindingFlags.Instance );			
+				BindingFlags.Public | BindingFlags.Instance, true );			
 			
 			MethodInfo method = suiteProperty.GetGetMethod(true);
 			

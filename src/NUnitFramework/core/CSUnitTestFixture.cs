@@ -52,7 +52,8 @@ namespace NUnit.Core.Builders
 				"TearDownAttribute",
 				"FixtureSetUpAttribute",
 				"FixtureTearDownAttribute",
-				"IgnoreAttribute" 
+				"IgnoreAttribute",
+				true, true, true
 			);
 		#endregion
 

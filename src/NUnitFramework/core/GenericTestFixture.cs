@@ -70,22 +70,26 @@ namespace NUnit.Core
 		protected virtual MethodInfo GetSetUpMethod()
 		{
 			return Reflect.GetMethodWithAttribute( FixtureType, parms.SetUpType,
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+				parms.InheritSetUpAndTearDownTypes);
 		}
 		protected virtual MethodInfo GetTearDownMethod()
 		{
 			return Reflect.GetMethodWithAttribute( FixtureType, parms.TearDownType,
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance ,
+				parms.InheritSetUpAndTearDownTypes);
 		}
 		protected virtual MethodInfo GetFixtureSetUpMethod()
 		{
 			return Reflect.GetMethodWithAttribute( FixtureType, parms.FixtureSetUpType,
-				BindingFlags.Public | BindingFlags.Instance );
+				BindingFlags.Public | BindingFlags.Instance,
+				parms.InheritSetUpAndTearDownTypes);
 		}
 		protected virtual MethodInfo GetFixtureTearDownMethod()
 		{
 			return Reflect.GetMethodWithAttribute( FixtureType, parms.FixtureTearDownType,
-				BindingFlags.Public | BindingFlags.Instance );
+				BindingFlags.Public | BindingFlags.Instance,
+				parms.InheritSetUpAndTearDownTypes);
 		}
 
 //		protected virtual TestCase MakeTestCase( MethodInfo method )

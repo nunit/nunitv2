@@ -47,6 +47,9 @@ namespace NUnit.Core
 		public string FixtureSetUpType;
 		public string FixtureTearDownType;
 		public string IgnoreType;
+		public bool InheritTestFixtureType;
+		public bool InheritTestCaseType;
+		public bool InheritSetUpAndTearDownTypes;
 
 		public TestFixtureParameters(
 			string RequiredFramework,
@@ -60,7 +63,10 @@ namespace NUnit.Core
 			string TearDownType,
 			string FixtureSetUpType,
 			string FixtureTearDownType,
-			string IgnoreType )
+			string IgnoreType,
+			bool InheritTestFixtureType,
+			bool InheritTestCaseType,
+			bool InheritSetUpAndTearDownTypes )
 		{
 			this.RequiredFramework = RequiredFramework;
 			this.TestFixtureType = Namespace + "." + TestFixtureType;
@@ -73,6 +79,9 @@ namespace NUnit.Core
 			this.FixtureSetUpType = Namespace + "." + FixtureSetUpType;
 			this.FixtureTearDownType = Namespace + "." + FixtureTearDownType;
 			this.IgnoreType = Namespace + "." + IgnoreType;
+			this.InheritTestFixtureType = InheritTestFixtureType;
+			this.InheritTestCaseType = InheritTestCaseType;
+			this.InheritSetUpAndTearDownTypes = InheritSetUpAndTearDownTypes;
 		}
 
 		public bool HasRequiredFramework

@@ -56,7 +56,7 @@ namespace NUnit.Core
 		{
 			if( parms.HasTestCaseType )
 			{
-				if( Reflect.HasAttribute( method, parms.TestCaseType, false ) )
+				if( Reflect.HasAttribute( method, parms.TestCaseType, parms.InheritTestCaseType ) )
 					return true;
 			}
 

@@ -50,7 +50,8 @@ namespace NUnit.Core.Builders
 				"TestCleanupAttribute",
 				"ClassInitializeAttribute",
 				"ClassCleanupAttribute",
-				"IgnoreAttribute" //?
+				"IgnoreAttribute", //?
+				true, false, true
 			);
 
 		public VstsTestFixture( Type fixtureType ) : this( fixtureType, 0 ) { }

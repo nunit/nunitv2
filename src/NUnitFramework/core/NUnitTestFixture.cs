@@ -50,7 +50,8 @@ namespace NUnit.Core
 				"TearDownAttribute",
 				"TestFixtureSetUpAttribute",
 				"TestFixtureTearDownAttribute",
-				"IgnoreAttribute" 
+				"IgnoreAttribute",
+				true, false, true
 			);
 		
 		public NUnitTestFixture( Type fixtureType ) : this( fixtureType, 0 ) { }
