@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
 using System.IO;
+using Microsoft.Win32;
 
 namespace Nunit.Gui
 {
@@ -578,7 +579,10 @@ namespace Nunit.Gui
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Menu = this.mainMenu;
 			this.Name = "NunitForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "NUnit";
+			this.Closing += new System.ComponentModel.CancelEventHandler(this.NunitForm_Closing);
+			this.Load += new System.EventHandler(this.NunitForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.status)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.testCaseCount)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.testsRun)).EndInit();
@@ -732,10 +736,61 @@ namespace Nunit.Gui
 			actions.DetailItemSelected();
 		}
 
+		protected override bool ProcessKeyPreview(ref 
+			System.Windows.Forms.Message m) 
+		{ 
+			const int SPACE_BAR=32; 
+			if (m.WParam.ToInt32() == SPACE_BAR)
+			{ 
+				this.Close();
+			} 
+			return true; 
+		} 
+
+
 		private void aboutMenuItem_Click(object sender, System.EventArgs e)
 		{
 			AboutBox aboutBox = new AboutBox();
 			aboutBox.Show();
+		}
+
+		private static string KEY = "Software\\Nascent Software\\Nunit\\";
+		private static string WIDTH = "width";
+		private static string HEIGHT = "height";
+		private static string XLOCATION = "x-location";
+		private static string YLOCATION = "y-location";
+
+
+		private void NunitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			string subKey = String.Format("{0}{1}", KEY, "form");
+			RegistryKey key = Registry.CurrentUser.CreateSubKey(subKey);
+
+			key.SetValue(WIDTH, this.Size.Width.ToString());
+			key.SetValue(HEIGHT, this.Size.Height.ToString());
+			key.SetValue(XLOCATION, this.Location.X.ToString());
+			key.SetValue(YLOCATION, this.Location.Y.ToString());
+		}
+
+		private void NunitForm_Load(object sender, System.EventArgs e)
+		{
+			string subKey = String.Format("{0}{1}", KEY, "form");
+			RegistryKey key = Registry.CurrentUser.OpenSubKey(subKey);
+
+			int xLocation = 10; 
+			int yLocation = 10;
+			int width = 632;
+			int height = 432; 
+
+			if(key != null)
+			{
+				width = int.Parse((string)key.GetValue(WIDTH));
+				height = int.Parse((string)key.GetValue(HEIGHT));
+				xLocation = int.Parse((string)key.GetValue(XLOCATION));
+				yLocation = int.Parse((string)key.GetValue(YLOCATION));
+			}
+
+			SetBounds(xLocation, yLocation, width, height);	
 		}
 	}
 }

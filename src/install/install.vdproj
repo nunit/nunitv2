@@ -237,78 +237,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
-        "OwnerKey" = "8:_029DFDB386674C82831375E4F62F5D57"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
-        "OwnerKey" = "8:_FE9581A65C914304AB1A163372462511"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
-        "OwnerKey" = "8:_E538D54EB287464481101A6C70555700"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
-        "OwnerKey" = "8:_7670D62BA4394446832857D304CA1198"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
-        "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
-        "OwnerKey" = "8:_4E3D644EF9BC6227CDFEEB1FE6A0588D"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
-        "OwnerKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
-        "OwnerKey" = "8:_64BC00A22C6BD99E0F8F2C117ED84C18"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
-        "OwnerKey" = "8:_FD1073B92A62B4C5F769BC4A015626EE"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
-        "OwnerKey" = "8:_1B4BF25DFC34404C834C052BFC9F87A1"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
-        "OwnerKey" = "8:_03B172B0A4F3A89BA3110AC96B1D0D46"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
-        "OwnerKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_DED4D54641D443ACAD2E4E285E58BD4A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\SAMPLES\\CSHARP\\CSHARP-SAMPLE.CSPROJ"
@@ -318,6 +246,78 @@
         "MsmKey" = "8:_E538D54EB287464481101A6C70555700"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:nunit.framework_7e1aeb06ac530fe88ec409556ca43710"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA8DCBE273FF4C158E895DB5B83766B0"
+        "OwnerKey" = "8:_029DFDB386674C82831375E4F62F5D57"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA8DCBE273FF4C158E895DB5B83766B0"
+        "OwnerKey" = "8:_FE9581A65C914304AB1A163372462511"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA8DCBE273FF4C158E895DB5B83766B0"
+        "OwnerKey" = "8:_E538D54EB287464481101A6C70555700"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA8DCBE273FF4C158E895DB5B83766B0"
+        "OwnerKey" = "8:_7670D62BA4394446832857D304CA1198"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA8DCBE273FF4C158E895DB5B83766B0"
+        "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA8DCBE273FF4C158E895DB5B83766B0"
+        "OwnerKey" = "8:_4E3D644EF9BC6227CDFEEB1FE6A0588D"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA8DCBE273FF4C158E895DB5B83766B0"
+        "OwnerKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA8DCBE273FF4C158E895DB5B83766B0"
+        "OwnerKey" = "8:_64BC00A22C6BD99E0F8F2C117ED84C18"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA8DCBE273FF4C158E895DB5B83766B0"
+        "OwnerKey" = "8:_FD1073B92A62B4C5F769BC4A015626EE"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA8DCBE273FF4C158E895DB5B83766B0"
+        "OwnerKey" = "8:_1B4BF25DFC34404C834C052BFC9F87A1"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA8DCBE273FF4C158E895DB5B83766B0"
+        "OwnerKey" = "8:_03B172B0A4F3A89BA3110AC96B1D0D46"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EA8DCBE273FF4C158E895DB5B83766B0"
+        "OwnerKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
@@ -376,7 +376,7 @@
         "CertificateFile" = "8:"
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
-        "InstallerBootstrapper" = "3:2"
+        "InstallerBootstrapper" = "3:1"
         }
     }
     "Deployable"
@@ -2314,7 +2314,7 @@
         }
         "MergeModule"
         {
-            "{AC8774A4-3E09-11D3-8E14-00C04F6837D0}:_CDA42D0466154542BE8B9C4D0DD6ECC8"
+            "{AC8774A4-3E09-11D3-8E14-00C04F6837D0}:_EA8DCBE273FF4C158E895DB5B83766B0"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
