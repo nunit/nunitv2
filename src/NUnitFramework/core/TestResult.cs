@@ -47,10 +47,6 @@ namespace NUnit.Core
 		private string description;
 		protected string messageString;
 
-#if NUNIT_LEAKAGE_TEST
-		private long leakage = 0;
-#endif
-		
 		protected TestResult(ITest test, string name)
 		{
 			this.name = name;
@@ -102,14 +98,6 @@ namespace NUnit.Core
 			get{ return time; }
 			set{ time = value; }
 		}
-
-#if NUNIT_LEAKAGE_TEST
-		public long Leakage
-		{
-			get{ return leakage; }
-			set{ leakage = value; }
-		}
-#endif
 
 		public string Message
 		{
