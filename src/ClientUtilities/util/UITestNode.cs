@@ -258,6 +258,23 @@ namespace NUnit.Util
 			get { return categories; }
 		}
 
+		public bool HasCategory( string name )
+		{
+			return categories != null && categories.Contains( name );
+		}
+
+		public bool HasCategory( IList names )
+		{
+			if ( categories == null )
+				return false;
+
+			foreach( string name in names )
+				if ( categories.Contains( name ) )
+					return true;
+
+			return false;
+		}
+
 		/// <summary>
 		/// Count of test cases in this test. If the suite
 		/// has never been populated, it will be done now.
