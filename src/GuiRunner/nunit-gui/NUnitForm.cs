@@ -288,12 +288,13 @@ namespace NUnit.Gui
 																					  this.RecentAssemblies,
 																					  this.menuItem4,
 																					  this.exitMenuItem});
-			this.menuItem1.Text = "File";
+			this.menuItem1.Text = "&File";
 			// 
 			// openMenuItem
 			// 
 			this.openMenuItem.Index = 0;
-			this.openMenuItem.Text = "Open...";
+			this.openMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlO;
+			this.openMenuItem.Text = "&Open...";
 			this.openMenuItem.Click += new System.EventHandler(this.openMenuItem_Click);
 			// 
 			// RecentAssemblies
@@ -309,7 +310,7 @@ namespace NUnit.Gui
 			// exitMenuItem
 			// 
 			this.exitMenuItem.Index = 3;
-			this.exitMenuItem.Text = "Exit";
+			this.exitMenuItem.Text = "E&xit";
 			this.exitMenuItem.Click += new System.EventHandler(this.menuItem5_Click);
 			// 
 			// menuItem6
@@ -319,7 +320,7 @@ namespace NUnit.Gui
 																					  this.helpMenuItem,
 																					  this.menuItem8,
 																					  this.aboutMenuItem});
-			this.menuItem6.Text = "Help";
+			this.menuItem6.Text = "&Help";
 			// 
 			// helpMenuItem
 			// 
@@ -335,7 +336,7 @@ namespace NUnit.Gui
 			// aboutMenuItem
 			// 
 			this.aboutMenuItem.Index = 2;
-			this.aboutMenuItem.Text = "About NUnit...";
+			this.aboutMenuItem.Text = "&About NUnit...";
 			this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
 			// 
 			// assemblyViewer
@@ -763,8 +764,10 @@ namespace NUnit.Gui
 			if (m.WParam.ToInt32() == SPACE_BAR)
 			{ 
 				this.Close();
-			} 
-			return true; 
+				return true;
+			}
+
+			return base.ProcessKeyEventArgs( ref m ); 
 		} 
 
 
@@ -814,3 +817,4 @@ namespace NUnit.Gui
 		}
 	}
 }
+

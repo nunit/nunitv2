@@ -145,7 +145,7 @@ namespace NUnit.Gui
 			this.label3.Size = new System.Drawing.Size(224, 48);
 			this.label3.TabIndex = 4;
 			this.label3.Text = "James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip Craig, Ethan Smith," +
-				" Doug de la Torre";
+				" Doug de la Torre, Charlie Poole";
 			// 
 			// linkLabel1
 			// 
