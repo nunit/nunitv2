@@ -1,9 +1,9 @@
-namespace NUnit.Util.Tests
+namespace NUnit.TestUtilities
 {
 	using System;
 	using System.IO;
 
-	class TempResourceFile : IDisposable
+	public class TempResourceFile : IDisposable
 	{
 		string path;
 
