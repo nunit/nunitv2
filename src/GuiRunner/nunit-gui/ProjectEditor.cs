@@ -241,9 +241,9 @@ namespace NUnit.Gui
 			// 
 			// manualBinPathRadioButton
 			// 
-			this.manualBinPathRadioButton.Location = new System.Drawing.Point(32, 136);
+			this.manualBinPathRadioButton.Location = new System.Drawing.Point(32, 128);
 			this.manualBinPathRadioButton.Name = "manualBinPathRadioButton";
-			this.manualBinPathRadioButton.Size = new System.Drawing.Size(424, 16);
+			this.manualBinPathRadioButton.Size = new System.Drawing.Size(424, 24);
 			this.manualBinPathRadioButton.TabIndex = 9;
 			this.manualBinPathRadioButton.Text = "Specified manually";
 			this.manualBinPathRadioButton.CheckedChanged += new System.EventHandler(this.manualBinPathRadioButton_CheckedChanged);
@@ -441,9 +441,9 @@ namespace NUnit.Gui
 			// 
 			this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.closeButton.Location = new System.Drawing.Point(400, 328);
+			this.closeButton.Location = new System.Drawing.Point(424, 328);
 			this.closeButton.Name = "closeButton";
-			this.closeButton.Size = new System.Drawing.Size(128, 23);
+			this.closeButton.Size = new System.Drawing.Size(104, 23);
 			this.closeButton.TabIndex = 6;
 			this.closeButton.Text = "Close";
 			this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
@@ -470,7 +470,7 @@ namespace NUnit.Gui
 			this.AcceptButton = this.closeButton;
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.CancelButton = this.closeButton;
-			this.ClientSize = new System.Drawing.Size(538, 370);
+			this.ClientSize = new System.Drawing.Size(538, 374);
 			this.Controls.Add(this.projectPathLabel);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.projectTabControl);
@@ -488,6 +488,7 @@ namespace NUnit.Gui
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "NUnit Test Project Editor";
+			this.TransparencyKey = System.Drawing.Color.Green;
 			this.Load += new System.EventHandler(this.ProjectEditor_Load);
 			this.projectTabControl.ResumeLayout(false);
 			this.generalTabPage.ResumeLayout(false);
