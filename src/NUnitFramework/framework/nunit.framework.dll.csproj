@@ -169,6 +169,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "SuiteBuilderAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TearDownAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
