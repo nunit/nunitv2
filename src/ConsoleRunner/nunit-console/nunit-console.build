@@ -7,13 +7,12 @@
             * src.dir               - source location(build) or target(copy)
             * build.debug           - (true|false) debug build?
             * build.defines.csc     - build defines for build config
-            * runtime.defines.csc   - build defines for target framework
     -->
 
     <target name="build" depends="copy">
 
        <csc target="exe" output="${bin.dir}/nunit-console.exe"
-                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
+                debug="${build.debug}" define="${build.defines.csc}">
             <sources basedir="${src.dir}/nunit-console">
                 <include name="*.cs"/>
             </sources>
