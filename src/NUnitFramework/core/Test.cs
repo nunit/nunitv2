@@ -103,7 +103,7 @@ namespace NUnit.Core
 
 		public Test( string name, int assemblyKey )
 		{
-			fullName = testName = name;
+			this.fullName = this.testName = name;
 			this.assemblyKey = assemblyKey;
 		}
 
@@ -151,21 +151,6 @@ namespace NUnit.Core
 		public string FullName 
 		{
 			get { return fullName; }
-		}
-
-		/// <summary>
-		/// If the name is a path, this just returns the file part
-		/// </summary>
-		public string ShortName
-		{
-			get
-			{
-				string name = Name;
-				int val = name.LastIndexOf("\\");
-				if(val != -1)
-					name = name.Substring(val+1);
-				return name;
-			}
 		}
 
 		/// <summary>

@@ -51,11 +51,6 @@ namespace NUnit.Core
 		string FullName { get; }
 
 		/// <summary>
-		/// Last part of the full name
-		/// </summary>
-		string ShortName { get; }
-
-		/// <summary>
 		/// Int used to distinguish suites of the same
 		/// name across multiple assemblies.
 		/// </summary>

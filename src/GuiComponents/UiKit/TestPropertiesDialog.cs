@@ -397,7 +397,11 @@ namespace NUnit.UiKit
 			else
 				type = "Suite";
 
-			this.Text = string.Format( "Test {0} Properties - {1}", type, test.ShortName );
+			string name = test.Name;
+			int index = name.LastIndexOf( '\\' );
+			if ( index >= 0 )
+				name = name.Substring( index + 1 );
+			this.Text = string.Format( "Test {0} Properties - {1}", type, name );
 		}
 
 		/// <summary>

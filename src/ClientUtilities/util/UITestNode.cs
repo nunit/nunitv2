@@ -254,21 +254,6 @@ namespace NUnit.Util
 			get{ return string.Format( "[{0}]{1}", assemblyKey, fullName ); }
 		}
 
-		/// <summary>
-		/// If the name is a path, this just returns the file part
-		/// </summary>
-		public string ShortName
-		{
-			get
-			{
-				string name = Name;
-				int val = name.LastIndexOf("\\");
-				if(val != -1)
-					name = name.Substring(val+1);
-				return name;
-			}
-		}
-
 		public bool IsExplicit
 		{
 			get { return isExplicit; }

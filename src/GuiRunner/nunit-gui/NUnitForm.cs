@@ -1270,7 +1270,7 @@ namespace NUnit.Gui
 
 		private void OnRunStarting( object sender, TestEventArgs e )
 		{
-			suiteName.Text = e.Test.ShortName;
+			suiteName.Text = e.Test.Name;
 			runButton.Enabled = false;
 			stopButton.Enabled = true;
 
@@ -1497,7 +1497,7 @@ namespace NUnit.Gui
 			if (!IsTestRunning) 
 			{
 				suiteName.Text = e.TestName;
-				statusBar.Initialize(e.TestCount);
+				statusBar.Initialize(e.TestCount, e.TestName );
 			}
 		}
 

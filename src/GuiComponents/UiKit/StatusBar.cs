@@ -106,7 +106,7 @@ namespace NUnit.UiKit
 			Initialize( testCount, testCount > 0 ? "Ready" : "" );
 		}
 
-		private void Initialize( int testCount, string text )
+		public void Initialize( int testCount, string text )
 		{
 			this.statusPanel.Text = text;
 
