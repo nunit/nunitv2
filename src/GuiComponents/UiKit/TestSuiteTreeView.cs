@@ -40,8 +40,8 @@ using NUnit.Util;
 namespace NUnit.UiKit
 {
 
-	public delegate void SelectedTestChangedHandler( ITest test );
-	public delegate void CheckedTestChangedHandler( ITest[] tests );
+	public delegate void SelectedTestChangedHandler( UITestNode test );
+	public delegate void CheckedTestChangedHandler( UITestNode[] tests );
 
 	/// <summary>
 	/// TestSuiteTreeView is a tree view control
@@ -207,7 +207,7 @@ namespace NUnit.UiKit
 		/// The currently selected test.
 		/// </summary>
 		[Browsable( false )]
-		public ITest SelectedTest
+		public UITestNode SelectedTest
 		{
 			get 
 			{ 
@@ -217,18 +217,18 @@ namespace NUnit.UiKit
 		}
 
 		[Browsable( false )]
-		public ITest[] CheckedTests 
+		public UITestNode[] CheckedTests 
 		{
 			get 
 			{
 				ArrayList result = new ArrayList();
 				FindCheckedNodes(this.Nodes, result);
-				return (ITest[])result.ToArray( typeof( ITest ) );
+				return (UITestNode[])result.ToArray( typeof( UITestNode ) );
 			}
 		}
 
 		[Browsable( false )]
-		public ITest[] SelectedTests
+		public UITestNode[] SelectedTests
 		{
 			get
 			{
@@ -239,7 +239,7 @@ namespace NUnit.UiKit
 				if ( result.Count == 0 )
 					result.Add( SelectedTest );
 
-				return (ITest[])result.ToArray( typeof( ITest ) );
+				return (UITestNode[])result.ToArray( typeof( UITestNode ) );
 			}	
 		}
 
@@ -302,7 +302,8 @@ namespace NUnit.UiKit
 
 		private void OnTestChanged( object sender, TestEventArgs e )
 		{
-			Invoke( new LoadHandler( Reload ), new object[]{ e.Test } );
+			UITestNode test = e.Test;
+			Invoke( new LoadHandler( Reload ), new object[]{ test } );
 			if ( ClearResultsOnChange )
 				ClearResults();
 		}
@@ -582,7 +583,7 @@ namespace NUnit.UiKit
 		/// Load the tree with a test hierarchy
 		/// </summary>
 		/// <param name="test">Test to be loaded</param>
-		public void Load( ITest test )
+		public void Load( UITestNode test )
 		{
 			Clear();
 
@@ -610,7 +611,7 @@ namespace NUnit.UiKit
 		/// while maintaining as much gui state as possible
 		/// </summary>
 		/// <param name="test">Test suite to be loaded</param>
-		public void Reload( ITest test )
+		public void Reload( UITestNode test )
 		{
 			TestSuiteTreeNode rootNode = (TestSuiteTreeNode) Nodes[0];
 			
@@ -695,7 +696,7 @@ namespace NUnit.UiKit
 				ExpandFixturesUnderNode( node );
 		}
 
-		public void ShowPropertiesDialog( ITest test )
+		public void ShowPropertiesDialog( UITestNode test )
 		{
 			ShowPropertiesDialog( this[ test ] );
 		}
@@ -756,7 +757,7 @@ namespace NUnit.UiKit
 			
 			if ( rootTest.IsSuite )
 			{
-				foreach( ITest test in rootTest.Tests )
+				foreach( UITestNode test in rootTest.Tests )
 					AddTreeNodes( node.Nodes, test, highlight );
 			}
 
@@ -808,7 +809,7 @@ namespace NUnit.UiKit
 		/// <param name="node">Node to compare</param>
 		/// <param name="test">Test to compare</param>
 		/// <returns>True if the test has the same name</returns>
-		private bool Match( TestSuiteTreeNode node, ITest test )
+		private bool Match( TestSuiteTreeNode node, UITestNode test )
 		{
 			return node.Test.FullName == test.FullName;
 		}
@@ -822,7 +823,7 @@ namespace NUnit.UiKit
 		/// <param name="node">Node to be updated</param>
 		/// <param name="test">Test to plug into node</param>
 		/// <returns>True if a child node was added or deleted</returns>
-		private bool UpdateNode( TestSuiteTreeNode node, ITest test )
+		private bool UpdateNode( TestSuiteTreeNode node, UITestNode test )
 		{
 			node.UpdateTest( test );
 			
@@ -856,7 +857,7 @@ namespace NUnit.UiKit
 					showChanges = true;
 				}
 
-			foreach( ITest test in tests )
+			foreach( UITestNode test in tests )
 			{
 				TestSuiteTreeNode node = this[ test ];
 				if ( node == null )
@@ -879,7 +880,7 @@ namespace NUnit.UiKit
 		/// <param name="tests">List of tests to match with node</param>
 		private bool NodeWasDeleted( TestSuiteTreeNode node, IList tests )
 		{
-			foreach ( ITest test in tests )
+			foreach ( UITestNode test in tests )
 				if( Match( node, test ) )
 					return false;
 
@@ -890,7 +891,7 @@ namespace NUnit.UiKit
 		/// Delegate for use in invoking the tree loader
 		/// from the watcher thread.
 		/// </summary>
-		private delegate void LoadHandler( ITest test );
+		private delegate void LoadHandler( UITestNode test );
 
 		private delegate void PropertiesDisplayHandler();
 		

@@ -75,7 +75,7 @@ namespace NUnit.Core
 		private string name;
 		
 		// The tests we are running
-		private ITest[] tests;
+		private Test[] tests;
 
 		// The results from our tests
 		private TestResult[] results;
@@ -91,11 +91,11 @@ namespace NUnit.Core
 		#region Constructors
 
 		public TestEventArgs( TestAction action, 
-			string name, ITest test )
+			string name, Test test )
 		{
 			this.action = action;
 			this.name = name;
-			this.tests = new ITest[] { test };
+			this.tests = new Test[] { test };
 		}
 
 		public TestEventArgs( TestAction action, string name )
@@ -112,10 +112,10 @@ namespace NUnit.Core
 			this.exception = exception;
 		}
 
-		public TestEventArgs( TestAction action, ITest test )
+		public TestEventArgs( TestAction action, Test test )
 		{
 			this.action = action;
-			this.tests = new ITest[] { test };
+			this.tests = new Test[] { test };
 			this.count = test.CountTestCases();
 		}
 
@@ -137,7 +137,7 @@ namespace NUnit.Core
 			this.exception = exception;
 		}
 
-		public TestEventArgs( TestAction action, ITest[] tests, int count) 
+		public TestEventArgs( TestAction action, Test[] tests, int count) 
 		{
 			this.action = action;
 			this.tests = tests;
@@ -163,12 +163,12 @@ namespace NUnit.Core
 //			get { return NUnitProject.IsProjectFile( testFileName ); }
 //		}
 
-		public ITest Test
+		public Test Test
 		{
 			get { return tests[0]; }
 		}
 
-		public ITest[] Tests 
+		public Test[] Tests 
 		{
 			get { return tests; }
 		}

@@ -172,10 +172,10 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="test"></param>
 		/// <returns></returns>
-//		public static implicit operator UITestNode( Test test )
-//		{
-//			return new UITestNode( test );
-//		}
+		public static implicit operator UITestNode( Test test )
+		{
+			return new UITestNode( test );
+		}
 
 		#endregion
 

@@ -52,7 +52,7 @@ namespace NUnit.Core
 				new TestEventArgs( TestAction.TestLoading, fileName ) );
 		}
 
-		public void FireTestLoaded( string fileName, ITest test )
+		public void FireTestLoaded( string fileName, Test test )
 		{
 			Fire( 
 				TestLoaded,
@@ -66,14 +66,14 @@ namespace NUnit.Core
 				new TestEventArgs( TestAction.TestLoadFailed, fileName, exception ) );
 		}
 
-		public void FireTestUnloading( string fileName, ITest test )
+		public void FireTestUnloading( string fileName, Test test )
 		{
 			Fire(
 				TestUnloading,
 				new TestEventArgs( TestAction.TestUnloading, fileName, test ) );
 		}
 
-		public void FireTestUnloaded( string fileName, ITest test )
+		public void FireTestUnloaded( string fileName, Test test )
 		{
 			Fire(
 				TestUnloaded,
@@ -87,14 +87,14 @@ namespace NUnit.Core
 				new TestEventArgs( TestAction.TestUnloadFailed, fileName, exception ) );
 		}
 
-		public void FireTestReloading( string fileName, ITest test )
+		public void FireTestReloading( string fileName, Test test )
 		{
 			Fire(
 				TestReloading,
 				new TestEventArgs( TestAction.TestReloading, fileName, test ) );
 		}
 
-		public void FireTestReloaded( string fileName, ITest test )
+		public void FireTestReloaded( string fileName, Test test )
 		{
 			Fire(
 				TestReloaded,
@@ -108,7 +108,7 @@ namespace NUnit.Core
 				new TestEventArgs( TestAction.TestReloadFailed, fileName, exception ) );
 		}
 
-		public void FireRunStarting( ITest[] tests, int count )
+		public void FireRunStarting( Test[] tests, int count )
 		{
 			Fire(
 				RunStarting,
@@ -129,7 +129,7 @@ namespace NUnit.Core
 				new TestEventArgs( TestAction.RunFinished, exception ) );
 		}
 
-		public void FireTestStarting( ITest test )
+		public void FireTestStarting( Test test )
 		{
 			Fire(
 				TestStarting,
@@ -143,7 +143,7 @@ namespace NUnit.Core
 				new TestEventArgs( TestAction.TestFinished, result ) );
 		}
 
-		public void FireSuiteStarting( ITest test )
+		public void FireSuiteStarting( Test test )
 		{
 			Fire(
 				SuiteStarting,

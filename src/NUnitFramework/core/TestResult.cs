@@ -46,6 +46,7 @@ namespace NUnit.Core
 		private string stackTrace;
 		private string description;
 		protected string messageString;
+		private int assertCount;
 
 		protected TestResult(ITest test, string name)
 		{
@@ -114,6 +115,12 @@ namespace NUnit.Core
 			{
 				stackTrace = value;
 			}
+		}
+
+		public int AssertCount
+		{
+			get { return assertCount; }
+			set { assertCount = value; }
 		}
 
 		public abstract void NotRun(string message);

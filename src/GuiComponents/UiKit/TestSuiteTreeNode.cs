@@ -46,7 +46,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// The testcase or testsuite represented by this node
 		/// </summary>
-		private ITest test;
+		private UITestNode test;
 
 		/// <summary>
 		/// The result from the last run of the test
@@ -91,7 +91,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// Test represented by this node
 		/// </summary>
-		public ITest Test
+		public UITestNode Test
 		{
 			get { return this.test; }
 		}
@@ -140,7 +140,7 @@ namespace NUnit.UiKit
 
 		#region Methods
 
-		public void UpdateTest( ITest test )
+		public void UpdateTest( UITestNode test )
 		{
 			if ( Test.FullName != test.FullName )
 				throw( new ArgumentException( "Attempting to update node with an entirely different test" ) );

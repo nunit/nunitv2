@@ -84,7 +84,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// The currently loaded test, returned by the testrunner
 		/// </summary>
-		private UITestNode loadedTest = null;
+		private Test loadedTest = null;
 
 		/// <summary>
 		/// The test name that was specified when loading
@@ -212,17 +212,19 @@ namespace NUnit.Util
 			foreach( Test test in tests )
 				count += test.CountTestCases();
 
-			events.FireRunStarting( runningTests, count );
+			events.FireRunStarting( tests, count );
 		}
 
 		void EventListener.RunFinished(NUnit.Core.TestResult[] results)
 		{
+			this.results = results;
 			events.FireRunFinished( results );
 			runningTests = null;
 		}
 
 		void EventListener.RunFinished(Exception exception)
 		{
+			this.lastException = exception;
 			events.FireRunFinished( exception );
 			runningTests = null;
 		}
@@ -473,7 +475,7 @@ namespace NUnit.Util
 				if ( suite != null )
 					suite.Sort();
 			
-				loadedTest = new UITestNode( test );
+				loadedTest = test;
 				loadedTestName = testName;
 				results = null;
 				reloadPending = false;
@@ -577,7 +579,7 @@ namespace NUnit.Util
 					testDomain.Unload();
 
 					testDomain = newDomain;
-					loadedTest = new UITestNode( newTest );
+					loadedTest = newTest;
 					reloadPending = false;
 
 					events.FireTestReloaded( testFileName, newTest );				
@@ -607,10 +609,10 @@ namespace NUnit.Util
 		/// Silently ignore the call if a test is running
 		/// to allow for latency in the UI.
 		/// </summary>
-		/// <param name="test">Test to be run</param>
-		public void RunTest( ITest testInfo )
+		/// <param name="testName">The test to be run</param>
+		public void RunTest( ITest test )
 		{
-			RunTests( new ITest[] { testInfo } );
+			RunTests( new ITest[] { test } );
 		}
 
 		public void RunTests( ITest[] tests )
@@ -625,7 +627,7 @@ namespace NUnit.Util
 				//kind of silly
 				string[] testNames = new string[ runningTests.Length ];
 				int index = 0; 
-				foreach (UITestNode node in runningTests) 
+				foreach (ITest node in runningTests) 
 					testNames[index++] = node.UniqueName;
 
 				testDomain.RunTest( this, testNames );
