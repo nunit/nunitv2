@@ -77,6 +77,28 @@ namespace NUnit.Tests
 		}
 
 		[Test]
+		public void TypeSafeSettings()
+		{
+			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
+			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
+			
+			testGroup.SaveIntSetting( "X", 5);
+			testGroup.SaveStringSetting( "Y", "17" );
+			testGroup.SaveStringSetting( "NAME", "Charlie");
+
+			Assertion.AssertEquals( 5, testGroup.LoadSetting("X") );
+			Assertion.AssertEquals( 5, testGroup.LoadIntSetting( "X" ) );
+			Assertion.AssertEquals( "5", testGroup.LoadStringSetting( "X" ) );
+
+			Assertion.AssertEquals( "17", testGroup.LoadSetting( "Y" ) );
+			Assertion.AssertEquals( 17, testGroup.LoadIntSetting( "Y" ) );
+			Assertion.AssertEquals( "17", testGroup.LoadStringSetting( "Y" ) );
+
+			Assertion.AssertEquals( "Charlie", testGroup.LoadSetting( "NAME" ) );
+			Assertion.AssertEquals( "Charlie", testGroup.LoadStringSetting( "NAME" ) );
+		}
+
+		[Test]
 		public void DefaultSettings()
 		{
 			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
@@ -86,7 +108,31 @@ namespace NUnit.Tests
 			Assertion.AssertNull( testGroup.LoadSetting( "NAME" ) );
 
 			Assertion.AssertEquals( 5, testGroup.LoadSetting( "X", 5 ) );
+			Assertion.AssertEquals( 6, testGroup.LoadIntSetting( "X", 6 ) );
+			Assertion.AssertEquals( "7", testGroup.LoadStringSetting( "X", "7" ) );
+
 			Assertion.AssertEquals( "Charlie", testGroup.LoadSetting( "NAME", "Charlie" ) );
+			Assertion.AssertEquals( "Fred", testGroup.LoadStringSetting( "NAME", "Fred" ) );
+		}
+
+		[Test, ExpectedException( typeof( FormatException ) )]
+		public void BadSetting1()
+		{
+			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
+			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
+			testGroup.SaveSetting( "X", "1y25" );
+
+			int x = testGroup.LoadIntSetting( "X" );
+		}
+
+		[Test, ExpectedException( typeof( FormatException ) )]
+		public void BadSetting2()
+		{
+			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
+			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
+			testGroup.SaveSetting( "X", "1y25" );
+
+			int x = testGroup.LoadIntSetting( "X", 12 );
 		}
 	}
 }

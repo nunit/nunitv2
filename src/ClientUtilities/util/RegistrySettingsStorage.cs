@@ -121,6 +121,75 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
+		/// Load an int setting from this storage
+		/// </summary>
+		/// <param name="settingName">Name of the setting to load</param>
+		/// <returns>Value of the setting</returns>
+		public override int LoadIntSetting( string settingName )
+		{
+			object resultValue = storageKey.GetValue( settingName );
+			if ( resultValue is int )
+				return (int)resultValue;
+			
+			return int.Parse( (string)resultValue );
+		}
+
+		/// <summary>
+		/// Load a string setting from this storage
+		/// </summary>
+		/// <param name="settingName">Name of the setting to load</param>
+		/// <returns>Value of the setting</returns>
+		public override string LoadStringSetting( string settingName )
+		{
+			object resultValue = storageKey.GetValue( settingName );
+			if ( resultValue is string )
+				return (string) resultValue;
+
+			return resultValue.ToString();
+		}
+
+		/// <summary>
+		/// Load a setting from this storage or return a default value
+		/// </summary>
+		/// <param name="settingName">Name of setting to load</param>
+		/// <param name="defaultValue">Value to return if the seeting is not present</param>
+		/// <returns>Value of the setting or the default</returns>
+		public override object LoadSetting( string settingName, object defaultValue )
+		{
+			return storageKey.GetValue( settingName, defaultValue );
+		}
+
+		/// <summary>
+		/// Load an integer setting from this storage or return a default value
+		/// </summary>
+		/// <param name="settingName">Name of setting to load</param>
+		/// <param name="defaultValue">Value to return if the seeting is not present</param>
+		/// <returns>Value of the setting or the default</returns>
+		public override int LoadIntSetting( string settingName, int defaultValue )
+		{
+			object resultValue = storageKey.GetValue( settingName, defaultValue );
+			if ( resultValue is int )
+				return (int)resultValue;
+			
+			return int.Parse( (string)resultValue );
+		}
+
+		/// <summary>
+		/// Load a string setting from this storage or return a default value
+		/// </summary>
+		/// <param name="settingName">Name of setting to load</param>
+		/// <param name="defaultValue">Value to return if the seeting is not present</param>
+		/// <returns>Value of the setting or the default</returns>
+		public override string LoadStringSetting( string settingName, string defaultValue )
+		{
+			object resultValue = storageKey.GetValue( settingName, defaultValue );
+			if ( resultValue is string )
+				return (string) resultValue;
+
+			return resultValue.ToString();
+		}
+
+		/// <summary>
 		/// Remove a setting from the storage
 		/// </summary>
 		/// <param name="settingName">Name of the setting to remove</param>

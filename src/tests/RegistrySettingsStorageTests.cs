@@ -114,5 +114,60 @@ namespace NUnit.Tests
 			sub.RemoveSetting( "NAME" );
 			Assertion.AssertNull( "NAME not removed", sub.LoadSetting( "NAME" ) );
 		}
+
+		[Test]
+		public void TypeSafeSettings()
+		{
+			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
+			
+			storage.SaveSetting( "X", 5);
+			storage.SaveSetting( "Y", "17" );
+			storage.SaveSetting( "NAME", "Charlie");
+
+			Assertion.AssertEquals( 5, storage.LoadSetting("X") );
+			Assertion.AssertEquals( 5, storage.LoadIntSetting( "X" ) );
+			Assertion.AssertEquals( "5", storage.LoadStringSetting( "X" ) );
+
+			Assertion.AssertEquals( "17", storage.LoadSetting( "Y" ) );
+			Assertion.AssertEquals( 17, storage.LoadIntSetting( "Y" ) );
+			Assertion.AssertEquals( "17", storage.LoadStringSetting( "Y" ) );
+
+			Assertion.AssertEquals( "Charlie", storage.LoadSetting( "NAME" ) );
+			Assertion.AssertEquals( "Charlie", storage.LoadStringSetting( "NAME" ) );
+		}
+
+		[Test]
+		public void DefaultSettings()
+		{
+			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
+			
+			Assertion.AssertNull( storage.LoadSetting( "X" ) );
+			Assertion.AssertNull( storage.LoadSetting( "NAME" ) );
+
+			Assertion.AssertEquals( 5, storage.LoadSetting( "X", 5 ) );
+			Assertion.AssertEquals( 6, storage.LoadIntSetting( "X", 6 ) );
+			Assertion.AssertEquals( "7", storage.LoadStringSetting( "X", "7" ) );
+			
+			Assertion.AssertEquals( "Charlie", storage.LoadSetting( "NAME", "Charlie" ) );
+			Assertion.AssertEquals( "Fred", storage.LoadStringSetting( "NAME", "Fred" ) );
+		}
+
+		[Test, ExpectedException( typeof( FormatException ) )]
+		public void BadSetting1()
+		{
+			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
+			storage.SaveSetting( "X", "1y25" );
+
+			int x = storage.LoadIntSetting( "X" );
+		}
+
+		[Test, ExpectedException( typeof( FormatException ) )]
+		public void BadSetting2()
+		{
+			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
+			storage.SaveSetting( "X", "1y25" );
+
+			int x = storage.LoadIntSetting( "X", 12 );
+		}
 	}
 }

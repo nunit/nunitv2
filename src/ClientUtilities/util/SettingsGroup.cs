@@ -116,6 +116,28 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
+		/// Load the value of one of the group's integer settings
+		/// in a type-safe manner.
+		/// </summary>
+		/// <param name="settingName">Name of setting to load</param>
+		/// <returns>Value of the setting or null</returns>
+		public int LoadIntSetting( string settingName )
+		{
+			return storageImpl.LoadIntSetting( settingName );
+		}
+
+		/// <summary>
+		/// Load the value of one of the group's string settings
+		/// in a type-safe manner.
+		/// </summary>
+		/// <param name="settingName">Name of setting to load</param>
+		/// <returns>Value of the setting or null</returns>
+		public string LoadStringSetting( string settingName )
+		{
+			return storageImpl.LoadStringSetting( settingName );
+		}
+
+		/// <summary>
 		/// Load the value of one of the group's settings or return a default value
 		/// </summary>
 		/// <param name="settingName">Name of setting to load</param>
@@ -123,12 +145,31 @@ namespace NUnit.Util
 		/// <returns>Value of the setting or the default</returns>
 		public object LoadSetting( string settingName, object defaultValue )
 		{
-			object resultValue = LoadSetting( settingName );
+			return storageImpl.LoadSetting( settingName, defaultValue );
+		}
 
-			if ( resultValue != null )
-				return resultValue;
-			else
-				return defaultValue;
+		/// <summary>
+		/// Load the value of one of the group's integer settings
+		/// in a type-safe manner or return a default value
+		/// </summary>
+		/// <param name="settingName">Name of setting to load</param>
+		/// <param name="defaultValue">Value to return if the seeting is not present</param>
+		/// <returns>Value of the setting or the default</returns>
+		public int LoadIntSetting( string settingName, int defaultValue )
+		{
+			return storageImpl.LoadIntSetting( settingName, defaultValue );
+		}
+
+		/// <summary>
+		/// Load the value of one of the group's string settings
+		/// in a type-safe manner or return a default value
+		/// </summary>
+		/// <param name="settingName">Name of setting to load</param>
+		/// <param name="defaultValue">Value to return if the seeting is not present</param>
+		/// <returns>Value of the setting or the default</returns>
+		public string LoadStringSetting( string settingName, string defaultValue )
+		{
+			return storageImpl.LoadStringSetting( settingName, defaultValue );
 		}
 
 		/// <summary>
@@ -146,6 +187,28 @@ namespace NUnit.Util
 		/// <param name="settingName">Name of the setting to save</param>
 		/// <param name="settingValue">Value to be saved</param>
 		public void SaveSetting( string settingName, object settingValue )
+		{
+			storageImpl.SaveSetting( settingName, settingValue );
+		}
+
+		/// <summary>
+		/// Save the value of one of the group's integer settings
+		/// in a type-safe manner.
+		/// </summary>
+		/// <param name="settingName">Name of the setting to save</param>
+		/// <param name="settingValue">Value to be saved</param>
+		public void SaveIntSetting( string settingName, int settingValue )
+		{
+			storageImpl.SaveSetting( settingName, settingValue );
+		}
+
+		/// <summary>
+		/// Save the value of one of the group's string settings
+		/// in a type-safe manner.
+		/// </summary>
+		/// <param name="settingName">Name of the setting to save</param>
+		/// <param name="settingValue">Value to be saved</param>
+		public void SaveStringSetting( string settingName, string settingValue )
 		{
 			storageImpl.SaveSetting( settingName, settingValue );
 		}

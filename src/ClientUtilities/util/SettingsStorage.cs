@@ -94,11 +94,49 @@ namespace NUnit.Util
 		public abstract void Clear();
 
 		/// <summary>
-		/// Load a setting from the storage
+		/// Load a setting from the storage.
 		/// </summary>
 		/// <param name="settingName">Name of the setting to load</param>
 		/// <returns>Value of the setting or null</returns>
 		public abstract object LoadSetting( string settingName );
+
+		/// <summary>
+		/// Load an integer setting from the storage
+		/// </summary>
+		/// <param name="settingName">Name of the setting to load</param>
+		/// <returns>Value of the setting or null</returns>
+		public abstract int LoadIntSetting( string settingName );
+
+		/// <summary>
+		/// Load a string setting from the storage
+		/// </summary>
+		/// <param name="settingName">Name of the setting to load</param>
+		/// <returns>Value of the setting or null</returns>
+		public abstract string LoadStringSetting( string settingName );
+
+		/// <summary>
+		/// Load a setting from the storage or return a default value
+		/// </summary>
+		/// <param name="settingName">Name of the setting to load</param>
+		/// <param name="settingName">Value to return if the setting is missing</param>
+		/// <returns>Value of the setting or the default value</returns>
+		public abstract object LoadSetting( string settingName, object defaultValue );
+
+		/// <summary>
+		/// Load an integer setting from the storage or return a default value
+		/// </summary>
+		/// <param name="settingName">Name of the setting to load</param>
+		/// <param name="settingName">Value to return if the setting is missing</param>
+		/// <returns>Value of the setting or the default value</returns>
+		public abstract int LoadIntSetting( string settingName, int defaultValue );
+
+		/// <summary>
+		/// Load a string setting from the storage or return a default value
+		/// </summary>
+		/// <param name="settingName">Name of the setting to load</param>
+		/// <param name="settingName">Value to return if the setting is missing</param>
+		/// <returns>Value of the setting or the default value</returns>
+		public abstract string LoadStringSetting( string settingName, string defaultValue );
 
 		/// <summary>
 		/// Remove a setting from the storage
