@@ -41,13 +41,26 @@ namespace NUnit.Core
 	public class XmlResultVisitor : ResultVisitor
 	{
 		private XmlTextWriter xmlWriter;
+		private TextWriter writer;
 
 		public XmlResultVisitor(string fileName, TestResult result)
+		{
+			writer = new StreamWriter(fileName, false, System.Text.Encoding.Unicode);
+			initialize(result);
+		}
+
+		public XmlResultVisitor(TextWriter writer, TestResult result) 
+		{
+			this.writer = writer;
+			initialize(result);
+		}
+
+		private void initialize(TestResult result) 
 		{
 			ResultSummarizer summaryResults = new ResultSummarizer(result);
 			try
 			{
-				xmlWriter = new XmlTextWriter (fileName, null);
+				xmlWriter = new XmlTextWriter (writer);
 			}
 			catch(Exception e)
 			{
@@ -68,7 +81,6 @@ namespace NUnit.Core
 			DateTime now = DateTime.Now;
 			xmlWriter.WriteAttributeString("date", now.ToShortDateString());
 			xmlWriter.WriteAttributeString("time", now.ToShortTimeString());
-
 		}
 
 		public void visit(TestCaseResult caseResult) 
@@ -133,11 +145,17 @@ namespace NUnit.Core
 
 		public void Write()
 		{
-			xmlWriter.WriteEndElement();
-
-			xmlWriter.WriteEndDocument();
-			xmlWriter.Flush();
-			xmlWriter.Close();
+			try 
+			{
+				xmlWriter.WriteEndElement();
+				xmlWriter.WriteEndDocument();
+				xmlWriter.Flush();
+				xmlWriter.Close();
+			} 
+			finally 
+			{
+				//writer.Close();
+			}
 		}
 	}
 }
