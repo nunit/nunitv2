@@ -64,7 +64,7 @@
 </if>
 
 <!-- Set up version for packaging (override as needed) -->
-    <property name="package.version" value="2.1.93"/>
+    <property name="package.version" value="2.2.0"/>
 <!-- Root of the package file name -->
     <property name="package.name" value="${nant.project.name}-${package.version}"/>
 <!-- Package directory - will effect top level directory name in zips -->
@@ -448,6 +448,7 @@
 		<include name="*.html"/>
 		<include name="css/*"/>
 		<include name="files/*"/>
+		<exclude name="files/Supplement.doc"/>
 		<include name="img/*"/>
             </fileset>
         </copy>
@@ -463,7 +464,8 @@
                 <include name="nunit.build"/>
                 <include name="nunit.sln"/>
                 <include name="nunit.key"/>
-                <include name="nunit20under21.config"/>
+                <include name="nunit20under22.config"/>
+                <include name="nunit21under22.config"/>
                 <include name="install/install.vdproj"/>
             </fileset>
         </copy>
