@@ -840,7 +840,6 @@ namespace NUnit.Gui
 		private void openMenuItem_Click(object sender, System.EventArgs e)
 		{
 			TestLoaderUI.OpenProject();
-			TestLoader.LoadTest();
 		}
 
 		private void closeMenuItem_Click(object sender, System.EventArgs e)
@@ -955,6 +954,8 @@ namespace NUnit.Gui
 
 			configMenuItem.MenuItems.Add( "&Edit...", 
 				new System.EventHandler( editConfigurationsMenuItem_Click ) );
+
+			addVSProjectMenuItem.Visible = UserSettings.Options.VisualStudioSupport;
 		}
 
 		private void configMenuItem_Click( object sender, EventArgs e )
@@ -1346,11 +1347,19 @@ namespace NUnit.Gui
 				: string.Format( "{0} - NUnit", fileName );
 		}
 	
+		private delegate void DisplayResultsHandler( TestResult results );
+ 
+ 		// TODO: Temporary fix - find better way to ensure proper thread is always used
+		private void DisplayResults( TestResult results )
+		{
+ 			Invoke( new DisplayResultsHandler( DoDisplayResults ), new object[] { results } );
+ 		}
+ 
 		/// <summary>
 		/// Display test results in the UI
 		/// </summary>
 		/// <param name="results">Test results to be displayed</param>
-		private void DisplayResults(TestResult results)
+		private void DoDisplayResults(TestResult results)
 		{
 			DetailResults detailResults = new DetailResults(detailList, notRunTree);
 			detailResults.DisplayResults( results );
