@@ -1,8 +1,8 @@
-#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
+#region Copyright (c) 2003, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -32,7 +32,7 @@ using System.Reflection;
 using NUnit.Framework;
 using NUnit.Core;
 
-namespace NUnit.Tests
+namespace NUnit.Tests.Core
 {
 	/// <summary>
 	/// Summary description for AttributeTests.
@@ -56,7 +56,7 @@ namespace NUnit.Tests
 		[Test]
 		public void CallTestFixtureConstructor()
 		{
-			ConstructorInfo ctor = typeof(NUnit.Tests.TestFixtureBuilderTests.AssemblyType).GetConstructor(Type.EmptyTypes);
+			ConstructorInfo ctor = typeof(NUnit.Tests.Core.TestFixtureBuilderTests.AssemblyType).GetConstructor(Type.EmptyTypes);
 			Assert.NotNull(ctor);
 
 			object testFixture = ctor.Invoke(Type.EmptyTypes);
@@ -179,7 +179,7 @@ namespace NUnit.Tests
 		public void TestIgnoredFixture()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build(testsDll, "NUnit.Tests.TestFixtureBuilderTests+IgnoredFixture" );
+			TestSuite suite = builder.Build(testsDll, "NUnit.Tests.Core.TestFixtureBuilderTests+IgnoredFixture" );
 			
 			suite = (TestSuite)suite.Tests[0];
 			
@@ -246,7 +246,7 @@ namespace NUnit.Tests
 		public void GoodSignature()
 		{
 			string methodName = "TestVoid";
-			TestSuite fixture = LoadFixture("NUnit.Tests.TestFixtureBuilderTests+SignatureTestFixture");
+			TestSuite fixture = LoadFixture("NUnit.Tests.Core.TestFixtureBuilderTests+SignatureTestFixture");
 			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
 			Assert.NotNull(foundTest);
 			Assert.True(foundTest.ShouldRun);
@@ -254,7 +254,7 @@ namespace NUnit.Tests
 
 		private void InvalidSignatureTest(string methodName, string reason)
 		{
-			TestSuite fixture = LoadFixture("NUnit.Tests.TestFixtureBuilderTests+SignatureTestFixture");
+			TestSuite fixture = LoadFixture("NUnit.Tests.Core.TestFixtureBuilderTests+SignatureTestFixture");
 			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
 			Assert.NotNull(foundTest);
 			Assert.False(foundTest.ShouldRun);
@@ -285,7 +285,7 @@ namespace NUnit.Tests
 		public void AbstractFixture()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build("NUnit.Tests.TestFixtureBuilderTests+AbstractTestFixture", testsDll);
+			TestSuite suite = builder.Build(testsDll, "NUnit.Tests.Core.TestFixtureBuilderTests+AbstractTestFixture" );
 			Assert.Null(suite);
 		}
 

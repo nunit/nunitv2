@@ -1,8 +1,8 @@
-#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
+#region Copyright (c) 2003, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -31,7 +31,7 @@ using System;
 using NUnit.Framework;
 using NUnit.Core;
 
-namespace NUnit.Tests
+namespace NUnit.Tests.Core
 {
 	/// <summary>
 	/// Summary description for TestFixtureExtension.
@@ -83,7 +83,7 @@ namespace NUnit.Tests
 		{
 			string testsDll = "NUnit.Tests.dll";
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			suite = builder.Build( testsDll, "NUnit.Tests.TestFixtureExtension+DerivedTestFixture" );
+			suite = builder.Build( testsDll, "NUnit.Tests.Core.TestFixtureExtension+DerivedTestFixture" );
 		}
 
 		[Test] 

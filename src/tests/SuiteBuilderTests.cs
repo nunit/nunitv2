@@ -1,8 +1,8 @@
-#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
+#region Copyright (c) 2003, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -32,7 +32,7 @@ using System.IO;
 using NUnit.Framework;
 using NUnit.Core;
 
-namespace NUnit.Tests
+namespace NUnit.Tests.Core
 {
 	/// <summary>
 	/// Summary description for SuiteBuilderTests.
@@ -47,7 +47,7 @@ namespace NUnit.Tests
 		public void LoadTestSuiteFromAssembly()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.AllTests" );
+			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Core.AllTests" );
 			Assert.NotNull(suite);
 		}
 
@@ -77,7 +77,7 @@ namespace NUnit.Tests
 		public void DiscoverSuite()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.SuiteBuilderTests+Suite" );
+			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Core.SuiteBuilderTests+Suite" );
 			Assert.NotNull("Could not discover suite attribute",suite);
 		}
 
@@ -97,7 +97,7 @@ namespace NUnit.Tests
 		public void WrongReturnTypeSuite()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.assemblies.AssemblyTests+NonConformingSuite" );
+			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Assemblies.AssemblyTests+NonConformingSuite" );
 			Assert.Null("Suite propertye returns wrong type",suite);
 		}
 
