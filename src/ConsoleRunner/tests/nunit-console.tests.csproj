@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = ""
+                PostBuildEvent = 'copy "$(ProjectDir)nunit-console.tests.dll.config" "$(TargetDir)nunit-console.tests.dll.config"'
                 RootNamespace = "ConsoleRunner.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -107,6 +107,10 @@
                     RelPath = "ConsoleRunnerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "nunit-console.tests.dll.config"
+                    BuildAction = "None"
                 />
             </Include>
         </Files>
