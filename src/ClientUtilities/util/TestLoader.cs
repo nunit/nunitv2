@@ -483,7 +483,13 @@ namespace NUnit.Util
 				if ( ReloadOnChange )
 					InstallWatcher( );
 
-				events.FireTestLoaded( TestFileName, this.loadedTest );
+				if ( suite != null )
+					events.FireTestLoaded( TestFileName, this.loadedTest );
+				else
+				{
+					lastException = new ApplicationException( string.Format ( "Unable to find test {0} in assembly", testName ) );
+					events.FireTestLoadFailed( TestFileName, lastException );
+				}
 			}
 			catch( FileNotFoundException exception )
 			{
