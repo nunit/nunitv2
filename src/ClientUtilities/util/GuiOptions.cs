@@ -39,6 +39,12 @@ namespace NUnit.Util
 		[Option(Short="?", Description = "Display help")]
 		public bool help = false;
 
+		[Option(Description = "Project configuration to load")]
+		public string config;
+
+		[Option(Description = "Suppress loading of last project")]
+		public bool noload;
+
 		public GuiOptions(String[] args) : base(args) 
 		{}
 
@@ -63,7 +69,7 @@ namespace NUnit.Util
 
 		public bool Validate()
 		{
-			return (NoArgs || ParameterCount == 1) && !isInvalid;
+			return (NoArgs || ParameterCount <= 1) && !isInvalid;
 		}
 	}
 }

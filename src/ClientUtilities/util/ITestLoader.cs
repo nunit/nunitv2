@@ -77,6 +77,9 @@ namespace NUnit.Util
 		// Load a project given a filename
 		bool LoadProject( string filename );
 
+		// Load a project given a filename and config
+		bool LoadProject( string filename, string configname );
+
 		// Load a project given an array of assemblies
 		bool LoadProject( string[] assemblies );
 

@@ -50,6 +50,8 @@ namespace NUnit.Gui
 		public struct CommandLineOptions
 		{
 			public string testFileName;
+			public string configName;
+			public bool noload;
 		}
 
 		// Our current run command line options
@@ -1157,8 +1159,8 @@ namespace NUnit.Gui
 			// Load test specified on command line or
 			// the most recent one if options call for it
 			if ( commandLineOptions.testFileName != null )
-				TestLoaderUI.OpenProject( commandLineOptions.testFileName );
-			else if( UserSettings.Options.LoadLastProject )
+				TestLoaderUI.OpenProject( commandLineOptions.testFileName, commandLineOptions.configName );
+			else if( UserSettings.Options.LoadLastProject && !commandLineOptions.noload )
 			{
 				string recentProjectName = UserSettings.RecentProjects.RecentFile;
 				if ( recentProjectName != null )

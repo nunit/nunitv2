@@ -253,15 +253,20 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
-		/// Load a new project and fire events
+		/// Load a new project, optionally selecting the config and fire events
 		/// </summary>
-		public bool LoadProject( string filePath )
+		public bool LoadProject( string filePath, string configName )
 		{
 			try
 			{
 				events.FireProjectLoading( filePath );
 
-				NUnitProject newProject = NUnitProject.LoadProject( filePath );			
+				NUnitProject newProject = NUnitProject.LoadProject( filePath );
+				if ( configName != null ) 
+				{
+					newProject.SetActiveConfig( configName );
+					newProject.IsDirty = false;
+				}
 
 				OnProjectLoad( newProject );
 
@@ -273,6 +278,14 @@ namespace NUnit.Util
 
 				return false;
 			}
+		}
+
+		/// <summary>
+		/// Load a new project using the default config and fire events
+		/// </summary>
+		public bool LoadProject( string filePath )
+		{
+			return LoadProject( filePath, null );
 		}
 
 		/// <summary>

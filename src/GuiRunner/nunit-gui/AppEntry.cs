@@ -56,7 +56,12 @@ namespace NUnit.Gui
 			if(parser.Validate() && !parser.help) 
 			{
 				if(!parser.NoArgs)
-					command.testFileName = (string)parser.Assembly;
+				{
+					if (parser.IsAssembly)
+						command.testFileName = parser.Assembly;
+					command.configName = parser.config;
+					command.noload = parser.noload;
+				}
 
 				if(command.testFileName != null)
 				{

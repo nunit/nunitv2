@@ -55,6 +55,9 @@ namespace NUnit.Util
 		[Option(Description = "Display xml to the console")]
 		public bool xmlConsole;
 
+		[Option(Description = "Project configuration to load")]
+		public string config;
+
 		private bool isInvalid = false; 
 
 		public ConsoleOptions(String[] args) : base(args) 

@@ -97,7 +97,7 @@ namespace NUnit.UiKit
 				OpenProject( dlg.FileName );
 		}
 
-		public void OpenProject( string testFileName )
+		public void OpenProject( string testFileName, string configName )
 		{
 			if ( loader.IsProjectLoaded )
 				SaveProjectIfDirty();
@@ -105,7 +105,7 @@ namespace NUnit.UiKit
 //			loader.LoadProject( testFileName );
 //
 //			if ( loader.IsProjectLoaded )
-			if ( loader.LoadProject( testFileName ) )
+			if ( loader.LoadProject( testFileName, configName ) )
 			{	
 				if ( loader.TestProject.Configs.Count == 0 )
 					UserMessage.DisplayInfo( "Loaded project contains no configuration data" );
@@ -116,6 +116,11 @@ namespace NUnit.UiKit
 				else
 					loader.LoadTest();
 			}
+		}
+
+		public void OpenProject( string testFileName )
+		{
+			OpenProject( testFileName, null );
 		}
 
 		public void AddAssembly( )
