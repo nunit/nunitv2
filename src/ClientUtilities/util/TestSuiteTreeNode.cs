@@ -27,29 +27,31 @@
 '***********************************************************************************/
 #endregion
 
-namespace NUnit.Util
+namespace NUnit.UiKit
 {
 	using System;
 	using System.Collections;
 	using System.Windows.Forms;
+	using NUnit.Core;
+	using NUnit.Util;
 	
 	/// <summary>
 	/// Type safe TreeNode for use in the TestSuiteTreeView. 
 	/// NOTE: Hides some methods and properties of base class.
 	/// </summary>
-	public class TestNode : TreeNode
+	public class TestSuiteTreeNode : TreeNode
 	{
 		#region Instance variables and constant definitions
 
 		/// <summary>
 		/// The testcase or testsuite represented by this node
 		/// </summary>
-		private TestInfo test;
+		private UITestNode test;
 
 		/// <summary>
 		/// The result from the last run of the test
 		/// </summary>
-		private TestResultInfo result;
+		private TestResult result;
 
 		/// <summary>
 		/// Image indices for various test states
@@ -66,7 +68,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Construct a TestNode given a test
 		/// </summary>
-		public TestNode(TestInfo test) : base(test.Name)
+		public TestSuiteTreeNode( UITestNode test ) : base(test.Name)
 		{
 			this.test = test;
 			ImageIndex = SelectedImageIndex = CalcImageIndex();
@@ -75,9 +77,9 @@ namespace NUnit.Util
 		/// <summary>
 		/// Construct a TestNode given a TestResult
 		/// </summary>
-		public TestNode(TestResultInfo result) : base( result.Test.Name )
+		public TestSuiteTreeNode( TestResult result ) : base( result.Test.Name )
 		{
-			this.test = result.Test;
+			this.test = new UITestNode( result.Test );
 			this.result = result;
 			ImageIndex = SelectedImageIndex = CalcImageIndex();
 		}
@@ -89,7 +91,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Test represented by this node
 		/// </summary>
-		public TestInfo Test
+		public UITestNode Test
 		{
 			get { return this.test; }
 		}
@@ -97,7 +99,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Test result for this node
 		/// </summary>
-		public TestResultInfo Result
+		public TestResult Result
 		{
 			get { return this.result; }
 		}
@@ -138,7 +140,7 @@ namespace NUnit.Util
 
 		#region Methods
 
-		public void UpdateTest( TestInfo test )
+		public void UpdateTest( UITestNode test )
 		{
 			if ( Test.FullName != test.FullName )
 				throw( new ArgumentException( "Attempting to update node with an entirely different test" ) );
@@ -151,7 +153,7 @@ namespace NUnit.Util
 		/// result does not match the test we already hold.
 		/// </summary>
 		/// <param name="result">Result of the test</param>
-		public void SetResult( TestResultInfo result )
+		public void SetResult( TestResult result )
 		{
 			if ( result.Test.FullName != this.test.FullName )
 				throw( new ArgumentException("Attempting to set Result with a value that refers to a different test") );
@@ -175,7 +177,7 @@ namespace NUnit.Util
 		{
 			ClearResult();
 
-			foreach(TestNode node in Nodes)
+			foreach(TestSuiteTreeNode node in Nodes)
 				node.ClearResults();
 		}
 
