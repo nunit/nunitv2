@@ -6,12 +6,18 @@
 
   <include buildfile="..\..\nunit.build.include"/>
 
+  <target name="clean" depends="set-build-dir">
+    <delete file="${current.build.dir}/mock-assembly.dll" failonerror="false"/>
+    <delete file="${current.build.dir}/mock-assembly.dll.config" failonerror="false"/>
+    <delete file="${current.build.dir}/mock-assembly.pdb" failonerror="false"/> 
+  </target>
+
   <target name="build" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/mock-assembly.dll" 
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
-        <includesfile name="sources.include"/>
+        <include name="*.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
@@ -27,8 +33,7 @@
       <fileset basedir=".">
         <include name="mock-assembly.csproj"/>
         <include name="mock-assembly.build"/>
-        <include name="mock-assembly.dll.config"/>                <include name="sources.include"/>
-        <includesfile name="sources.include"/>
+        <include name="mock-assembly.dll.config"/>                            <include name="*.cs"/>
       </fileset>
     </copy>
   </target>
