@@ -36,42 +36,42 @@ namespace NUnit.Util
 	/// <summary>
 	/// Helper class used to dispatch test events
 	/// </summary>
-	public class TestEventDispatcher : ITestEvents
+	public class ProjectEventDispatcher : TestEventDispatcher, IProjectEvents
 	{
 		#region Events
 
 		// Project loading events
-		public event TestEventHandler ProjectLoading;
-		public event TestEventHandler ProjectLoaded;
-		public event TestEventHandler ProjectLoadFailed;
-		public event TestEventHandler ProjectUnloading;
-		public event TestEventHandler ProjectUnloaded;
-		public event TestEventHandler ProjectUnloadFailed;
+		public event TestProjectEventHandler ProjectLoading;
+		public event TestProjectEventHandler ProjectLoaded;
+		public event TestProjectEventHandler ProjectLoadFailed;
+		public event TestProjectEventHandler ProjectUnloading;
+		public event TestProjectEventHandler ProjectUnloaded;
+		public event TestProjectEventHandler ProjectUnloadFailed;
 
 		// Test loading events
-		public event TestEventHandler TestLoading;	
-		public event TestEventHandler TestLoaded;	
-		public event TestEventHandler TestLoadFailed;
-
-		public event TestEventHandler TestReloading;
-		public event TestEventHandler TestReloaded;
-		public event TestEventHandler TestReloadFailed;
-
-		public event TestEventHandler TestUnloading;
-		public event TestEventHandler TestUnloaded;
-		public event TestEventHandler TestUnloadFailed;
-
-		// Test running events
-		public event TestEventHandler RunStarting;	
-		public event TestEventHandler RunFinished;
-		
-		public event TestEventHandler SuiteStarting;
-		public event TestEventHandler SuiteFinished;
-
-		public event TestEventHandler TestStarting;
-		public event TestEventHandler TestFinished;
-
-		public event TestEventHandler TestException;
+//		public event TestEventHandler TestLoading;	
+//		public event TestEventHandler TestLoaded;	
+//		public event TestEventHandler TestLoadFailed;
+//
+//		public event TestEventHandler TestReloading;
+//		public event TestEventHandler TestReloaded;
+//		public event TestEventHandler TestReloadFailed;
+//
+//		public event TestEventHandler TestUnloading;
+//		public event TestEventHandler TestUnloaded;
+//		public event TestEventHandler TestUnloadFailed;
+//
+//		// Test running events
+//		public event TestEventHandler RunStarting;	
+//		public event TestEventHandler RunFinished;
+//		
+//		public event TestEventHandler SuiteStarting;
+//		public event TestEventHandler SuiteFinished;
+//
+//		public event TestEventHandler TestStarting;
+//		public event TestEventHandler TestFinished;
+//
+//		public event TestEventHandler TestException;
 
 		#endregion
 
@@ -84,166 +84,173 @@ namespace NUnit.Util
 				handler( this, e );
 		}
 
+		private void Fire( 
+			TestProjectEventHandler handler, TestProjectEventArgs e )
+		{
+			if ( handler != null )
+				handler( this, e );
+		}
+
 		public void FireProjectLoading( string fileName )
 		{
 			Fire(
 				ProjectLoading,
-				new TestEventArgs( TestAction.ProjectLoading, fileName ) );
+				new TestProjectEventArgs( TestProjectAction.ProjectLoading, fileName ) );
 		}
 
 		public void FireProjectLoaded( string fileName )
 		{
 			Fire( 
 				ProjectLoaded,
-				new TestEventArgs( TestAction.ProjectLoaded, fileName ) );
+				new TestProjectEventArgs( TestProjectAction.ProjectLoaded, fileName ) );
 		}
 
 		public void FireProjectLoadFailed( string fileName, Exception exception )
 		{
 			Fire( 
 				ProjectLoadFailed,
-				new TestEventArgs( TestAction.ProjectLoadFailed, fileName, exception ) );
+				new TestProjectEventArgs( TestProjectAction.ProjectLoadFailed, fileName, exception ) );
 		}
 
 		public void FireProjectUnloading( string fileName )
 		{
 			Fire( 
 				ProjectUnloading,
-				new TestEventArgs( TestAction.ProjectUnloading, fileName ) );
+				new TestProjectEventArgs( TestProjectAction.ProjectUnloading, fileName ) );
 		}
 
 		public void FireProjectUnloaded( string fileName )
 		{
 			Fire( 
 				ProjectUnloaded,
-				new TestEventArgs( TestAction.ProjectUnloaded, fileName ) );
+				new TestProjectEventArgs( TestProjectAction.ProjectUnloaded, fileName ) );
 		}
 
 		public void FireProjectUnloadFailed( string fileName, Exception exception )
 		{
 			Fire( 
 				ProjectUnloadFailed,
-				new TestEventArgs( TestAction.ProjectUnloadFailed, fileName, exception ) );
+				new TestProjectEventArgs( TestProjectAction.ProjectUnloadFailed, fileName, exception ) );
 		}
 
-		public void FireTestLoading( string fileName )
-		{
-			Fire( 
-				TestLoading,
-				new TestEventArgs( TestAction.TestLoading, fileName ) );
-		}
-
-		public void FireTestLoaded( string fileName, UITestNode test )
-		{
-			Fire( 
-				TestLoaded,
-				new TestEventArgs( TestAction.TestLoaded, fileName, test ) );
-		}
-
-		public void FireTestLoadFailed( string fileName, Exception exception )
-		{
-			Fire(
-				TestLoadFailed,
-				new TestEventArgs( TestAction.TestLoadFailed, fileName, exception ) );
-		}
-
-		public void FireTestUnloading( string fileName, UITestNode test )
-		{
-			Fire(
-				TestUnloading,
-				new TestEventArgs( TestAction.TestUnloading, fileName, test ) );
-		}
-
-		public void FireTestUnloaded( string fileName, UITestNode test )
-		{
-			Fire(
-				TestUnloaded,
-				new TestEventArgs( TestAction.TestUnloaded, fileName, test ) );
-		}
-
-		public void FireTestUnloadFailed( string fileName, Exception exception )
-		{
-			Fire(
-				TestUnloadFailed, 
-				new TestEventArgs( TestAction.TestUnloadFailed, fileName, exception ) );
-		}
-
-		public void FireTestReloading( string fileName, UITestNode test )
-		{
-			Fire(
-				TestReloading,
-				new TestEventArgs( TestAction.TestReloading, fileName, test ) );
-		}
-
-		public void FireTestReloaded( string fileName, UITestNode test )
-		{
-			Fire(
-				TestReloaded,
-				new TestEventArgs( TestAction.TestReloaded, fileName, test ) );
-		}
-
-		public void FireTestReloadFailed( string fileName, Exception exception )
-		{
-			Fire(
-				TestReloadFailed, 
-				new TestEventArgs( TestAction.TestReloadFailed, fileName, exception ) );
-		}
-
-		public void FireRunStarting( UITestNode[] tests, int count )
-		{
-			Fire(
-				RunStarting,
-				new TestEventArgs( TestAction.RunStarting, tests, count ) );
-		}
-
-		public void FireRunFinished( TestResult[] results )
-		{	
-			Fire(
-				RunFinished,
-				new TestEventArgs( TestAction.RunFinished, results ) );
-		}
-
-		public void FireRunFinished( Exception exception )
-		{
-			Fire(
-				RunFinished,
-				new TestEventArgs( TestAction.RunFinished, exception ) );
-		}
-
-		public void FireTestStarting( UITestNode test )
-		{
-			Fire(
-				TestStarting,
-				new TestEventArgs( TestAction.TestStarting, test ) );
-		}
-
-		public void FireTestFinished( TestResult result )
-		{	
-			Fire(
-				TestFinished,
-				new TestEventArgs( TestAction.TestFinished, result ) );
-		}
-
-		public void FireSuiteStarting( UITestNode test )
-		{
-			Fire(
-				SuiteStarting,
-				new TestEventArgs( TestAction.SuiteStarting, test ) );
-		}
-
-		public void FireSuiteFinished( TestResult result )
-		{	
-			Fire(
-				SuiteFinished,
-				new TestEventArgs( TestAction.SuiteFinished, result ) );
-		}
-
-		public void FireTestException( Exception exception )
-		{
-			Fire(
-				TestException,
-				new TestEventArgs( TestAction.TestException, exception ) );
-		}
+//		public void FireTestLoading( string fileName )
+//		{
+//			Fire( 
+//				TestLoading,
+//				new TestEventArgs( TestAction.TestLoading, fileName ) );
+//		}
+//
+//		public void FireTestLoaded( string fileName, ITest test )
+//		{
+//			Fire( 
+//				TestLoaded,
+//				new TestEventArgs( TestAction.TestLoaded, fileName, test ) );
+//		}
+//
+//		public void FireTestLoadFailed( string fileName, Exception exception )
+//		{
+//			Fire(
+//				TestLoadFailed,
+//				new TestEventArgs( TestAction.TestLoadFailed, fileName, exception ) );
+//		}
+//
+//		public void FireTestUnloading( string fileName, ITest test )
+//		{
+//			Fire(
+//				TestUnloading,
+//				new TestEventArgs( TestAction.TestUnloading, fileName, test ) );
+//		}
+//
+//		public void FireTestUnloaded( string fileName, ITest test )
+//		{
+//			Fire(
+//				TestUnloaded,
+//				new TestEventArgs( TestAction.TestUnloaded, fileName, test ) );
+//		}
+//
+//		public void FireTestUnloadFailed( string fileName, Exception exception )
+//		{
+//			Fire(
+//				TestUnloadFailed, 
+//				new TestEventArgs( TestAction.TestUnloadFailed, fileName, exception ) );
+//		}
+//
+//		public void FireTestReloading( string fileName, ITest test )
+//		{
+//			Fire(
+//				TestReloading,
+//				new TestEventArgs( TestAction.TestReloading, fileName, test ) );
+//		}
+//
+//		public void FireTestReloaded( string fileName, ITest test )
+//		{
+//			Fire(
+//				TestReloaded,
+//				new TestEventArgs( TestAction.TestReloaded, fileName, test ) );
+//		}
+//
+//		public void FireTestReloadFailed( string fileName, Exception exception )
+//		{
+//			Fire(
+//				TestReloadFailed, 
+//				new TestEventArgs( TestAction.TestReloadFailed, fileName, exception ) );
+//		}
+//
+//		public void FireRunStarting( ITest[] tests, int count )
+//		{
+//			Fire(
+//				RunStarting,
+//				new TestEventArgs( TestAction.RunStarting, tests, count ) );
+//		}
+//
+//		public void FireRunFinished( TestResult[] results )
+//		{	
+//			Fire(
+//				RunFinished,
+//				new TestEventArgs( TestAction.RunFinished, results ) );
+//		}
+//
+//		public void FireRunFinished( Exception exception )
+//		{
+//			Fire(
+//				RunFinished,
+//				new TestEventArgs( TestAction.RunFinished, exception ) );
+//		}
+//
+//		public void FireTestStarting( ITest test )
+//		{
+//			Fire(
+//				TestStarting,
+//				new TestEventArgs( TestAction.TestStarting, test ) );
+//		}
+//
+//		public void FireTestFinished( TestResult result )
+//		{	
+//			Fire(
+//				TestFinished,
+//				new TestEventArgs( TestAction.TestFinished, result ) );
+//		}
+//
+//		public void FireSuiteStarting( ITest test )
+//		{
+//			Fire(
+//				SuiteStarting,
+//				new TestEventArgs( TestAction.SuiteStarting, test ) );
+//		}
+//
+//		public void FireSuiteFinished( TestResult result )
+//		{	
+//			Fire(
+//				SuiteFinished,
+//				new TestEventArgs( TestAction.SuiteFinished, result ) );
+//		}
+//
+//		public void FireTestException( Exception exception )
+//		{
+//			Fire(
+//				TestException,
+//				new TestEventArgs( TestAction.TestException, exception ) );
+//		}
 
 		#endregion
 	}
