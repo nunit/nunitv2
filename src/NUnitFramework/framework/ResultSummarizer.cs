@@ -22,41 +22,55 @@ namespace NUnit.Core
 	using System;
 
 	/// <summary>
-	/// Summary description for TestCase.
+	/// Summary description for ResultSummarizer.
 	/// </summary>
-	public abstract class TestCase : Test
+	public class ResultSummarizer
 	{
-		public TestCase(string path, string name) : base(path, name)
-		{}
+		private SummaryVisitor visitor = new SummaryVisitor();
 
-		public override int CountTestCases 
+		public ResultSummarizer(TestResult result)
 		{
-			get { return 1; }
+			result.Accept(visitor);
 		}
 
-		public override TestResult Run(EventListener listener)
+		public string Name
 		{
-			TestCaseResult testResult = new TestCaseResult(this);
-
-			listener.TestStarted(this);
-
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
+			get { return visitor.Name; }
 		}
 
+		public bool Success
+		{
+			get { return visitor.Success; }
+		}
 
-		public abstract void Run(TestCaseResult result);
+		public int ResultCount
+		{
+			get { return visitor.Count; }
+		}
 
+//		public int Errors
+//		{
+//			get { return visitor.Errors; }
+//		}
+
+		public int Failures 
+		{
+			get { return visitor.Failures; }
+		}
+
+		public double Time
+		{
+			get { return visitor.Time; }
+		}
+
+		public int TestsNotRun
+		{
+			get { return visitor.TestsNotRun; }
+		}
+
+		public int SuitesNotRun
+		{
+			get { return visitor.SuitesNotRun; }
+		}
 	}
 }

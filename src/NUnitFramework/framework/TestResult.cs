@@ -22,41 +22,63 @@ namespace NUnit.Core
 	using System;
 
 	/// <summary>
-	/// Summary description for TestCase.
+	/// Summary description for TestResult.
 	/// </summary>
-	public abstract class TestCase : Test
+	/// 
+	[Serializable]
+	public abstract class TestResult
 	{
-		public TestCase(string path, string name) : base(path, name)
-		{}
-
-		public override int CountTestCases 
+		private bool isFailure; 
+		private double time;
+		private string name;
+		private Test test;
+		
+		protected TestResult(Test test, string name)
 		{
-			get { return 1; }
+			this.name = name;
+			this.test = test;
 		}
 
-		public override TestResult Run(EventListener listener)
+		public virtual string Name
 		{
-			TestCaseResult testResult = new TestCaseResult(this);
-
-			listener.TestStarted(this);
-
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
+			get{ return name;}
 		}
 
+		public Test Test
+		{
+			get{ return test;}
+		}
 
-		public abstract void Run(TestCaseResult result);
+		public virtual bool IsSuccess
+		{
+			get { return !(isFailure); }
+		}
+		
+		public virtual bool IsFailure
+		{
+			get { return isFailure; }
+			set { isFailure = value; }
+		}
 
+		public double Time 
+		{
+			get{ return time; }
+			set{ time = value; }
+		}
+
+		public abstract string Message
+		{
+			get;
+		}
+
+		public abstract string StackTrace
+		{
+			get;
+		}
+
+		public abstract void NotRun(string message);
+
+
+		public abstract void Accept(ResultVisitor visitor);
 	}
 }

@@ -20,43 +20,55 @@
 namespace NUnit.Core
 {
 	using System;
+	using System.IO;
 
 	/// <summary>
-	/// Summary description for TestCase.
+	/// Summary description for StackTraceFilter.
 	/// </summary>
-	public abstract class TestCase : Test
+	public class StackTraceFilter
 	{
-		public TestCase(string path, string name) : base(path, name)
-		{}
-
-		public override int CountTestCases 
+		public static string Filter(string stack) 
 		{
-			get { return 1; }
+			if(stack == null) return null;
+			StringWriter sw = new StringWriter();
+			StringReader sr = new StringReader(stack);
+
+			try 
+			{
+				string line;
+				while ((line = sr.ReadLine()) != null) 
+				{
+					if (!FilterLine(line))
+						sw.WriteLine(line);
+				}
+			} 
+			catch (Exception) 
+			{
+				return stack;
+			}
+			return sw.ToString();
 		}
 
-		public override TestResult Run(EventListener listener)
+		static bool FilterLine(string line) 
 		{
-			TestCaseResult testResult = new TestCaseResult(this);
+			string[] patterns = new string[]
+			{
+				"NUnit.Core.TestCase",
+				"NUnit.Core.ExpectedExceptionTestCase",
+				"NUnit.Core.TemplateTestCase",
+				"NUnit.Core.TestResult",
+				"NUnit.Core.TestSuite",
+				"NUnit.Framework.Assertion" 
+			};
 
-			listener.TestStarted(this);
+			for (int i = 0; i < patterns.Length; i++) 
+			{
+				if (line.IndexOf(patterns[i]) > 0)
+					return true;
+			}
 
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
+			return false;
 		}
-
-
-		public abstract void Run(TestCaseResult result);
 
 	}
 }

@@ -75,7 +75,7 @@
                 />
                 <Reference
                     Name = "nunit.framework.dll"
-                    Project = "{747CD772-9A6D-43F2-8D69-DE35BE599F6C}"
+                    Project = "{D3639D7C-96AB-459D-B045-4DD81547D7C4}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>

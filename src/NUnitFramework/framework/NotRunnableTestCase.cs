@@ -17,46 +17,26 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
+using System;
+using System.Reflection;
+using System.Diagnostics;
+
 namespace NUnit.Core
 {
-	using System;
-
 	/// <summary>
-	/// Summary description for TestCase.
+	/// Summary description for NotRunnableTestCase.
 	/// </summary>
-	public abstract class TestCase : Test
+	public class NotRunnableTestCase : TestCase
 	{
-		public TestCase(string path, string name) : base(path, name)
-		{}
-
-		public override int CountTestCases 
+		public NotRunnableTestCase(MethodInfo method, string reason) : base(method.DeclaringType.FullName, method.Name)
 		{
-			get { return 1; }
+			ShouldRun = false;
+			IgnoreReason = reason;
 		}
 
-		public override TestResult Run(EventListener listener)
+		public override void Run(TestCaseResult result)
 		{
-			TestCaseResult testResult = new TestCaseResult(this);
-
-			listener.TestStarted(this);
-
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
+			result.NotRun(base.IgnoreReason);
 		}
-
-
-		public abstract void Run(TestCaseResult result);
-
 	}
 }

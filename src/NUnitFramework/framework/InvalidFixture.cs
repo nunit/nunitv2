@@ -17,46 +17,32 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
+using System;
+
 namespace NUnit.Core
 {
-	using System;
-
 	/// <summary>
-	/// Summary description for TestCase.
+	/// Summary description for InvalidFixture.
 	/// </summary>
-	public abstract class TestCase : Test
+	public class InvalidFixture
 	{
-		public TestCase(string path, string name) : base(path, name)
-		{}
+		private Type fixtureType;
+		private string message;
 
-		public override int CountTestCases 
+		public InvalidFixture(Type original, string why)
 		{
-			get { return 1; }
+			fixtureType = original;
+			message = why;
 		}
 
-		public override TestResult Run(EventListener listener)
+		public Type OriginalType
 		{
-			TestCaseResult testResult = new TestCaseResult(this);
-
-			listener.TestStarted(this);
-
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
+			get { return fixtureType; }
 		}
 
-
-		public abstract void Run(TestCaseResult result);
-
+		public string Message
+		{
+			get { return message; }
+		}
 	}
 }

@@ -70,13 +70,15 @@ namespace NUnit.Tests
 		[ExpectedException(typeof(InvalidTestFixtureException))]
 		public void BuildTestFixture()
 		{
-			object fixture = TestSuiteBuilder.BuildTestFixture(typeof(NoDefaultCtorFixture));
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			object fixture = builder.BuildTestFixture(typeof(NoDefaultCtorFixture));
 		}
 
 		[Test]
 		public void BuildTestSuiteWithBadFixture()
 		{
-			TestSuite suite = TestSuiteBuilder.MakeSuiteFromTestFixtureType(typeof(NoDefaultCtorFixture));
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.MakeSuiteFromTestFixtureType(typeof(NoDefaultCtorFixture));
 			Assertion.Assert(!suite.ShouldRun);
 		}
 
@@ -114,14 +116,16 @@ namespace NUnit.Tests
 		[ExpectedException(typeof(InvalidTestFixtureException))]
 		public void CheckMultipleSetUp()
 		{
-			object fixture = TestSuiteBuilder.BuildTestFixture(typeof(MultipleSetUpAttributes));
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			object fixture = builder.BuildTestFixture(typeof(MultipleSetUpAttributes));
 		}
 
 		[Test] 
 		[ExpectedException(typeof(InvalidTestFixtureException))]
 		public void CheckMultipleTearDown()
 		{
-			object fixture = TestSuiteBuilder.BuildTestFixture(typeof(MultipleTearDownAttributes));
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			object fixture = builder.BuildTestFixture(typeof(MultipleTearDownAttributes));
 		}
 
 		[TestFixture]
@@ -136,7 +140,8 @@ namespace NUnit.Tests
 		[Test]
 		public void TestIgnoredFixture()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.TestFixtureBuilderTests+IgnoredFixture", testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build("NUnit.Tests.TestFixtureBuilderTests+IgnoredFixture", testsDll);
 			
 			suite = (TestSuite)suite.Tests[0];
 			
@@ -221,7 +226,8 @@ namespace NUnit.Tests
 
 		private TestSuite LoadFixture(string fixtureName)
 		{
-			TestSuite suite = TestSuiteBuilder.Build(fixtureName, testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build(fixtureName, testsDll);
 			Assertion.AssertNotNull(suite);
 
 			TestSuite fixture = (TestSuite)suite.Tests[0];
@@ -240,7 +246,8 @@ namespace NUnit.Tests
 		[Test]
 		public void AbstractFixture()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.TestFixtureBuilderTests+AbstractTestFixture", testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build("NUnit.Tests.TestFixtureBuilderTests+AbstractTestFixture", testsDll);
 			Assertion.AssertNull(suite);
 		}
 

@@ -17,76 +17,100 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
-namespace NUnit.Tests
+namespace NUnit.Core
 {
 	using System;
-	using NUnit.Framework;
-	using NUnit.Core;
 
 	/// <summary>
-	/// Summary description for EventTestFixture.
+	/// Summary description for SiummaryVisitor.
 	/// </summary>
-	/// 
-	[TestFixture]
-	public class EventTestFixture
+	public class SummaryVisitor : ResultVisitor
 	{
-		private string testsDll = "mock-assembly.dll";
+		private int totalCount;
+		private int failureCount;
+		private int testsNotRun;
+		private int suitesNotRun;
+		
+		private double time;
+		private string name;
+		private bool initialized;
 
-		private static int SuiteCount(TestSuite suite)
+		public SummaryVisitor()
 		{
-			int suites = 1;
-
-			foreach(Test test in suite.Tests)
-			{
-				if(test is TestSuite)
-					suites += SuiteCount((TestSuite)test);
-			}
-
-			return suites;
+			totalCount = 0;
+			initialized = false;
 		}
 
-		internal class EventCounter : EventListener
+		public void visit(TestCaseResult caseResult) 
 		{
-			internal int testCaseStart = 0;
-			internal int testCaseFinished = 0;
-			internal int suiteStarted = 0;
-			internal int suiteFinished = 0;
-
-			public void TestStarted(NUnit.Core.TestCase testCase)
+			if(caseResult.Executed)
 			{
-				testCaseStart++;
+				totalCount++;
+				if(caseResult.IsFailure)
+					failureCount++;
+			}
+			else
+				testsNotRun++;
+		}
+
+		public void visit(TestSuiteResult suiteResult) 
+		{
+			SetNameandTime(suiteResult.Name, suiteResult.Time);
+
+			
+			
+			foreach (TestResult result in suiteResult.Results)
+			{
+				result.Accept(this);
 			}
 			
-			public void TestFinished(TestCaseResult result)
-			{
-				testCaseFinished++;
-			}
+			if(!suiteResult.Executed)
+				suitesNotRun++;
+		}
 
-			public void SuiteStarted(TestSuite suite)
-			{
-				suiteStarted++;
-			}
+		public double Time
+		{
+			get { return time; }
+		}
 
-			public void SuiteFinished(TestSuiteResult result)
+		private void SetNameandTime(string name, double time)
+		{
+			if(!initialized)
 			{
-				suiteFinished++;
+				this.time = time;
+				this.name = name;
+				initialized = true;
 			}
 		}
 
-		[Test]
-		public void CheckEventListening()
+		public bool Success
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite testSuite = builder.Build(testsDll);
-			
-			EventCounter counter = new EventCounter();
-			TestResult result = testSuite.Run(counter);
-			Assertion.AssertEquals(testSuite.CountTestCases, counter.testCaseStart);
-			Assertion.AssertEquals(testSuite.CountTestCases, counter.testCaseFinished);
+			get { return (failureCount == 0); }
+		}
 
-			int suites = SuiteCount(testSuite);
-			Assertion.AssertEquals(suites, counter.suiteStarted);
-			Assertion.AssertEquals(suites, counter.suiteFinished);
+		public int Count
+		{
+			get { return totalCount; }
+		}
+
+		public int Failures
+		{
+			get { return failureCount; }
+		}
+
+		public int TestsNotRun
+		{
+			get { return testsNotRun; }
+		}
+
+		public int SuitesNotRun
+		{
+			get { return suitesNotRun; }
+		}
+
+		public string Name
+		{
+			get { return name; }
 		}
 	}
 }

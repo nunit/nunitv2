@@ -20,43 +20,38 @@
 namespace NUnit.Core
 {
 	using System;
+	using System.Runtime.Serialization;
 
-	/// <summary>
-	/// Summary description for TestCase.
-	/// </summary>
-	public abstract class TestCase : Test
+	[Serializable]
+	public class InvalidSuiteException : ApplicationException 
 	{
-		public TestCase(string path, string name) : base(path, name)
+		public InvalidSuiteException () : base() 
+		{} 
+
+		/// <summary>
+		/// Standard constructor
+		/// </summary>
+		/// <param name="message">The error message that explains 
+		/// the reason for the exception</param>
+		public InvalidSuiteException(string message) : base (message)
 		{}
 
-		public override int CountTestCases 
-		{
-			get { return 1; }
-		}
+		/// <summary>
+		/// Standard constructor
+		/// </summary>
+		/// <param name="message">The error message that explains 
+		/// the reason for the exception</param>
+		/// <param name="inner">The exception that caused the 
+		/// current exception</param>
+		public InvalidSuiteException(string message, Exception inner) :
+			base(message, inner) 
+		{}
 
-		public override TestResult Run(EventListener listener)
-		{
-			TestCaseResult testResult = new TestCaseResult(this);
-
-			listener.TestStarted(this);
-
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
-		}
-
-
-		public abstract void Run(TestCaseResult result);
+		/// <summary>
+		/// Serialization Constructor
+		/// </summary>
+		protected InvalidSuiteException(SerializationInfo info, 
+			StreamingContext context) : base(info,context){}
 
 	}
 }

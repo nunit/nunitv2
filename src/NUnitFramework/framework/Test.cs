@@ -22,41 +22,65 @@ namespace NUnit.Core
 	using System;
 
 	/// <summary>
-	/// Summary description for TestCase.
+	///		Test Class.
 	/// </summary>
-	public abstract class TestCase : Test
+	public abstract class Test : MarshalByRefObject
 	{
-		public TestCase(string path, string name) : base(path, name)
-		{}
+		private string fullName;
+		private string testName;
+		private bool shouldRun;
+		private string ignoreReason;
 
-		public override int CountTestCases 
-		{
-			get { return 1; }
+		protected Test(string pathName, string testName) 
+		{ 
+			fullName = pathName + "." + testName;
+			this.testName = testName;
+			shouldRun = true;
 		}
 
-		public override TestResult Run(EventListener listener)
+		public string IgnoreReason
 		{
-			TestCaseResult testResult = new TestCaseResult(this);
+			get { return ignoreReason; }
+			set { ignoreReason = value; }
+		}
 
-			listener.TestStarted(this);
+		public bool ShouldRun
+		{
+			get { return shouldRun; }
+			set { shouldRun = value; }
+		}
 
-			long startTime = DateTime.Now.Ticks;
+		public Test(string name)
+		{
+			fullName = testName = name;
+		}
 
-			Run(testResult);
+		public string FullName 
+		{
+			get { return fullName; }
+		}
 
-			long stopTime = DateTime.Now.Ticks;
+		public string Name
+		{
+			get { return testName; }
+		}
 
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+		public override Object InitializeLifetimeService()
+		{
+			System.Runtime.Remoting.Lifetime.ILease lease =
 
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
+				(System.Runtime.Remoting.Lifetime.ILease)base.InitializeLifetimeService(
+				);
+			if (lease.CurrentState ==
+				System.Runtime.Remoting.Lifetime.LeaseState.Initial)
+			{
+				lease.InitialLeaseTime = TimeSpan.Zero;
+			}
+			return lease;
 		}
 
 
-		public abstract void Run(TestCaseResult result);
-
+		public abstract int CountTestCases { get; }
+		public abstract TestResult Run(EventListener listener);
 	}
 }

@@ -735,6 +735,7 @@ namespace NUnit.Gui
 			if (openFileDialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK) 
 			{
 				assemblyFileName = openFileDialog.FileName;
+				suite = null;
 				LoadAssembly(assemblyFileName);
 			}
 		

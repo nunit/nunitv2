@@ -17,46 +17,26 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
-namespace NUnit.Core
+namespace NUnit.Framework
 {
 	using System;
 
 	/// <summary>
-	/// Summary description for TestCase.
+	/// TestFixture
 	/// </summary>
-	public abstract class TestCase : Test
+	/// 
+	[TestFixture]
+	[Obsolete("use TestFixture attribute instead of inheritance",false)]
+	public class TestCase : Assertion
 	{
-		public TestCase(string path, string name) : base(path, name)
+		[SetUp]
+		[Obsolete("use SetUp attribute instead of naming convention",false)]
+		protected virtual void SetUp()
 		{}
 
-		public override int CountTestCases 
-		{
-			get { return 1; }
-		}
-
-		public override TestResult Run(EventListener listener)
-		{
-			TestCaseResult testResult = new TestCaseResult(this);
-
-			listener.TestStarted(this);
-
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
-		}
-
-
-		public abstract void Run(TestCaseResult result);
-
+		[TearDown]
+		[Obsolete("use TearDown attribute instead of naming convention",false)]
+		protected virtual void TearDown()
+		{}
 	}
 }

@@ -97,7 +97,8 @@ namespace NUnit.Console
 		public void TestSchemaValidator()
 		{
 			string testsDll = "nunit.tests.dll";
-			TestSuite suite = TestSuiteBuilder.Build(testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build(testsDll);
 		
 			TestResult result = suite.Run(NullListener.NULL);
 			XmlResultVisitor visitor = new XmlResultVisitor("temp.xml", result);

@@ -17,46 +17,47 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
-namespace NUnit.Core
+namespace NUnit.Core 
 {
 	using System;
-
+	using System.Runtime.Serialization;
+  
 	/// <summary>
-	/// Summary description for TestCase.
+	/// Thrown when an assertion failed. Here to preserve the inner
+	/// exception and hence its stack trace.
 	/// </summary>
-	public abstract class TestCase : Test
+	/// 
+	[Serializable]
+	public class NunitException : ApplicationException 
 	{
-		public TestCase(string path, string name) : base(path, name)
+		public NunitException () : base() 
+		{} 
+
+		/// <summary>
+		/// Standard constructor
+		/// </summary>
+		/// <param name="message">The error message that explains 
+		/// the reason for the exception</param>
+		public NunitException(string message) : base (message)
 		{}
 
-		public override int CountTestCases 
-		{
-			get { return 1; }
-		}
+		/// <summary>
+		/// Standard constructor
+		/// </summary>
+		/// <param name="message">The error message that explains 
+		/// the reason for the exception</param>
+		/// <param name="inner">The exception that caused the 
+		/// current exception</param>
+		public NunitException(string message, Exception inner) :
+			base(message, inner) 
+		{}
 
-		public override TestResult Run(EventListener listener)
-		{
-			TestCaseResult testResult = new TestCaseResult(this);
+		/// <summary>
+		/// Serialization Constructor
+		/// </summary>
+		protected NunitException(SerializationInfo info, 
+			StreamingContext context) : base(info,context){}
 
-			listener.TestStarted(this);
-
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
-		}
-
-
-		public abstract void Run(TestCaseResult result);
 
 	}
 }

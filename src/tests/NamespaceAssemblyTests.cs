@@ -40,28 +40,32 @@ namespace NUnit.Tests
 		[SetUp]
 		public void SetUp() 
 		{
-			testAssembly = TestSuiteBuilder.Load(testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			testAssembly = builder.Load(testsDll);
 			assemblyTestType = testAssembly.GetType("NUnit.Tests.OneTestCase");
 		}
 
 		[Test]
 		public void LoadTestFixtureFromAssembly()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.Assemblies.MockTestFixture", testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build("NUnit.Tests.Assemblies.MockTestFixture", testsDll);
 			Assertion.Assert(suite != null);
 		}
 
 		[Test]
 		public void TestRoot()
 		{
-			TestSuite suite = TestSuiteBuilder.Build(testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build(testsDll);
 			Assertion.AssertEquals(testsDll, suite.Name);
 		}
 
 		[Test]
 		public void TestHiearchy()
 		{
-			TestSuite suite = TestSuiteBuilder.Build(testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build(testsDll);
 			ArrayList tests = suite.Tests;
 			Assertion.AssertEquals(1, tests.Count);
 

@@ -20,43 +20,28 @@
 namespace NUnit.Core
 {
 	using System;
+	using System.Runtime.Serialization;
 
 	/// <summary>
-	/// Summary description for TestCase.
+	/// Summary description for NoTestMethodsException.
 	/// </summary>
-	public abstract class TestCase : Test
+	/// 
+	[Serializable]
+	public class InvalidTestFixtureException : ApplicationException
 	{
-		public TestCase(string path, string name) : base(path, name)
+		public InvalidTestFixtureException() : base() {}
+
+		public InvalidTestFixtureException(string message) : base(message)
 		{}
 
-		public override int CountTestCases 
-		{
-			get { return 1; }
-		}
+		public InvalidTestFixtureException(string message, Exception inner) : base(message, inner)
+		{}
 
-		public override TestResult Run(EventListener listener)
-		{
-			TestCaseResult testResult = new TestCaseResult(this);
-
-			listener.TestStarted(this);
-
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
-		}
-
-
-		public abstract void Run(TestCaseResult result);
+		/// <summary>
+		/// Serialization Constructor
+		/// </summary>
+		protected InvalidTestFixtureException(SerializationInfo info, 
+			StreamingContext context) : base(info,context){}
 
 	}
 }

@@ -17,46 +17,29 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
+using System;
+
 namespace NUnit.Core
 {
-	using System;
-
 	/// <summary>
-	/// Summary description for TestCase.
+	/// Summary description for WarningSuite.
 	/// </summary>
-	public abstract class TestCase : Test
+	public class WarningSuite : TestSuite
 	{
-		public TestCase(string path, string name) : base(path, name)
-		{}
-
-		public override int CountTestCases 
-		{
-			get { return 1; }
+		public WarningSuite(string name) : base(name) {
+			ShouldRun=false;
 		}
 
-		public override TestResult Run(EventListener listener)
+		protected internal override void Add(Test test)
 		{
-			TestCaseResult testResult = new TestCaseResult(this);
-
-			listener.TestStarted(this);
-
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
+			base.Add(test);
+			test.ShouldRun = false;
+			test.IgnoreReason = "Containing Suite cannot be run";
 		}
 
-
-		public abstract void Run(TestCaseResult result);
-
+		protected internal override TestSuite CreateNewSuite(string name) 
+		{
+			return new WarningSuite(name);
+		}
 	}
 }

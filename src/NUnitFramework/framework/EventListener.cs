@@ -22,41 +22,16 @@ namespace NUnit.Core
 	using System;
 
 	/// <summary>
-	/// Summary description for TestCase.
+	/// Summary description for EventListener.
 	/// </summary>
-	public abstract class TestCase : Test
+	public interface EventListener
 	{
-		public TestCase(string path, string name) : base(path, name)
-		{}
+		void TestStarted(TestCase testCase);
+			
+		void TestFinished(TestCaseResult result);
 
-		public override int CountTestCases 
-		{
-			get { return 1; }
-		}
+		void SuiteStarted(TestSuite suite);
 
-		public override TestResult Run(EventListener listener)
-		{
-			TestCaseResult testResult = new TestCaseResult(this);
-
-			listener.TestStarted(this);
-
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
-		}
-
-
-		public abstract void Run(TestCaseResult result);
-
+		void SuiteFinished(TestSuiteResult result);
 	}
 }

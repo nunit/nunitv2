@@ -121,14 +121,15 @@ namespace NUnit.Console
 		private static TestSuite MakeSuiteFromCommandLine(CommandLineParser parser)
 		{
 			TestSuite suite = null;
+			TestSuiteBuilder builder = new TestSuiteBuilder();
 			if(parser.IsAssembly)
 			{
-				suite = TestSuiteBuilder.Build(parser.AssemblyName);
+				suite = builder.Build(parser.AssemblyName);
 				if(suite == null) Console.WriteLine("\nfatal error: assembly ({0}) is invalid", parser.AssemblyName);
 			}
 			else if(parser.IsFixture)
 			{
-				suite = TestSuiteBuilder.Build(parser.TestName, parser.AssemblyName);
+				suite = builder.Build(parser.TestName, parser.AssemblyName);
 				if(suite == null) Console.WriteLine("\nfatal error: fixture ({0}) in assembly ({1}) is invalid", parser.TestName, parser.AssemblyName);
 			}
 			return suite;

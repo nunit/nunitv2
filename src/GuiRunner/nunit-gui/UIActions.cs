@@ -204,6 +204,7 @@ namespace NUnit.Gui
 		private TreeNode BuildTreeNode(Test rootTest)
 		{
 			TestNode node = new TestNode(rootTest);
+			string localName = rootTest.FullName;
 			treeMap.Add(rootTest.FullName, node);
 			
 			if(rootTest is TestSuite)

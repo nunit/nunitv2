@@ -17,76 +17,86 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
-namespace NUnit.Tests
+namespace NUnit.Core
 {
 	using System;
-	using NUnit.Framework;
-	using NUnit.Core;
+	using System.Collections;
 
 	/// <summary>
-	/// Summary description for EventTestFixture.
+	///		TestSuiteResult
 	/// </summary>
 	/// 
-	[TestFixture]
-	public class EventTestFixture
+	[Serializable]
+	public class TestSuiteResult : TestResult
 	{
-		private string testsDll = "mock-assembly.dll";
-
-		private static int SuiteCount(TestSuite suite)
+		private ArrayList results = new ArrayList();
+		private bool executed;
+		private string message;
+		
+		public TestSuiteResult(Test test, string name) : base(test, name)
 		{
-			int suites = 1;
-
-			foreach(Test test in suite.Tests)
-			{
-				if(test is TestSuite)
-					suites += SuiteCount((TestSuite)test);
-			}
-
-			return suites;
+			executed = false;
 		}
 
-		internal class EventCounter : EventListener
+		public bool Executed 
 		{
-			internal int testCaseStart = 0;
-			internal int testCaseFinished = 0;
-			internal int suiteStarted = 0;
-			internal int suiteFinished = 0;
+			get { return executed; }
+			set { executed = value; }
+		}
 
-			public void TestStarted(NUnit.Core.TestCase testCase)
-			{
-				testCaseStart++;
-			}
-			
-			public void TestFinished(TestCaseResult result)
-			{
-				testCaseFinished++;
-			}
+		public void AddResult(TestResult result) 
+		{
+			results.Add(result);
+		}
 
-			public void SuiteStarted(TestSuite suite)
+		public override bool IsSuccess
+		{
+			get 
 			{
-				suiteStarted++;
-			}
-
-			public void SuiteFinished(TestSuiteResult result)
-			{
-				suiteFinished++;
+				bool result = true;
+				foreach(TestResult testResult in results)
+					result &= testResult.IsSuccess;
+				return result;
 			}
 		}
 
-		[Test]
-		public void CheckEventListening()
+		public override bool IsFailure
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite testSuite = builder.Build(testsDll);
-			
-			EventCounter counter = new EventCounter();
-			TestResult result = testSuite.Run(counter);
-			Assertion.AssertEquals(testSuite.CountTestCases, counter.testCaseStart);
-			Assertion.AssertEquals(testSuite.CountTestCases, counter.testCaseFinished);
+			get 
+			{
+				bool result = false;
+				foreach(TestResult testResult in results)
+					result |= testResult.IsFailure;
+				return result;
+			}
+		}
 
-			int suites = SuiteCount(testSuite);
-			Assertion.AssertEquals(suites, counter.suiteStarted);
-			Assertion.AssertEquals(suites, counter.suiteFinished);
+		public override void NotRun(string message)
+		{
+			this.Executed = false;
+			this.message = message;
+		}
+
+
+		public override string Message
+		{
+			get { return message; }
+		}
+
+		public override string StackTrace
+		{
+			get { return null; }
+		}
+
+
+		public IList Results
+		{
+			get { return results; }
+		}
+
+		public override void Accept(ResultVisitor visitor) 
+		{
+			visitor.visit(this);
 		}
 	}
 }

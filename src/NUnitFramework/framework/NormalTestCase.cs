@@ -20,43 +20,33 @@
 namespace NUnit.Core
 {
 	using System;
+	using System.Reflection;
 
 	/// <summary>
 	/// Summary description for TestCase.
 	/// </summary>
-	public abstract class TestCase : Test
+	public class NormalTestCase : TemplateTestCase
 	{
-		public TestCase(string path, string name) : base(path, name)
+		public NormalTestCase(object fixture, MethodInfo method) : base(fixture, method)
 		{}
 
-		public override int CountTestCases 
+		protected internal override void ProcessNoException(TestCaseResult testResult)
 		{
-			get { return 1; }
+			testResult.Success();
 		}
-
-		public override TestResult Run(EventListener listener)
+		
+		protected internal override void ProcessException(Exception exception, TestCaseResult testResult)
 		{
-			TestCaseResult testResult = new TestCaseResult(this);
-
-			listener.TestStarted(this);
-
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
+			if(exception.GetType().IsAssignableFrom(typeof(NUnit.Framework.AssertionException)))
+			{
+				NUnit.Framework.AssertionException error = (NUnit.Framework.AssertionException)exception;
+				testResult.Failure(error.Message, error.StackTrace);
+			}
+			else
+			{
+				testResult.Failure(exception.Message, exception.StackTrace);
+			}
 		}
-
-
-		public abstract void Run(TestCaseResult result);
-
 	}
 }
+

@@ -20,8 +20,10 @@
 namespace NUnit.Tests 
 {
 	using System;
+	using System.Runtime.Serialization;
 	using NUnit.Framework;
 	using NUnit.Core;
+
 
 	/// <summary>
 	/// 
@@ -122,6 +124,34 @@ namespace NUnit.Tests
 			[ExpectedException(typeof(ArgumentException))]
 			public void Test() 
 			{}
+		}
+
+		internal class MyAppException : System.Exception
+		{
+			public MyAppException (string message) : base(message) 
+			{}
+
+			public MyAppException(string message, Exception inner) :
+				base(message, inner) 
+			{}
+
+			protected MyAppException(SerializationInfo info, 
+				StreamingContext context) : base(info,context)
+			{}
+		}
+
+		[Test]
+		[ExpectedException(typeof(MyAppException))] 
+		public void ThrowingMyAppException() 
+		{ 
+			throw new MyAppException("my app");
+		}
+
+		[Test]
+		[ExpectedException(typeof(NunitException))]
+		public void ThrowNunitException()
+		{
+			throw new NunitException("Nunit exception");
 		}
 	}
 }

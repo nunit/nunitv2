@@ -41,7 +41,8 @@ namespace NUnit.Tests.Assemblies
 		[SetUp]
 		public void SetUp() 
 		{
-			testAssembly = TestSuiteBuilder.Load(testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			testAssembly = builder.Load(testsDll);
 			assemblyTestType = testAssembly.GetType("NUnit.Tests.assemblies.AssemblyTests");
 		}
 
@@ -55,21 +56,24 @@ namespace NUnit.Tests.Assemblies
 		[ExpectedException(typeof(FileNotFoundException))]
 		public void LoadAsssemblyNotFound()
 		{
-			Assembly assembly = TestSuiteBuilder.Load("XXXX");
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			Assembly assembly = builder.Load("XXXX");
 		}
 
 		[Test]
 		[ExpectedException(typeof(NoTestFixturesException))]
 		public void LoadAsssemblyWithoutTestFixtures()
 		{
-			string fileName = "nunit.core.dll";
-			TestSuiteBuilder.Build(fileName);
+			string fileName = "nunit.extensions.dll";
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			builder.Build(fileName);
 		}
 
 		[Test]
 		public void LoadTestFixtureFromAssembly()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.Assemblies.AssemblyTests", testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build("NUnit.Tests.Assemblies.AssemblyTests", testsDll);
 			Assertion.Assert(suite != null);
 			Assertion.AssertEquals(suite.CountTestCases,TestCaseBuilder.CountTestCases(this));
 		}

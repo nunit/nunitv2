@@ -1,8 +1,4 @@
 Microsoft Visual Studio Solution File, Format Version 7.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.dll", "framework\nunit.framework.dll.csproj", "{747CD772-9A6D-43F2-8D69-DE35BE599F6C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.dll", "core\nunit.core.dll.csproj", "{D3639D7C-96AB-459D-B045-4DD81547D7C4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.extensions.dll", "extensions\nunit.extensions.dll.csproj", "{1091C15A-4788-40DE-A747-6C5B05FAF6C5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.util.dll", "util\nunit.util.dll.csproj", "{A0C5635D-0624-4329-9AC1-3C06B6460800}"
@@ -29,6 +25,8 @@ Project("{E6FDF86B-F3D1-11D4-8576-0002A516ECE8}") = "jsharp", "samples\jsharp\js
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "install", "install\install.vdproj", "{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.dll", "framework\nunit.framework.dll.csproj", "{D3639D7C-96AB-459D-B045-4DD81547D7C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
@@ -37,14 +35,6 @@ Global
 	GlobalSection(ProjectDependencies) = postSolution
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
-		{747CD772-9A6D-43F2-8D69-DE35BE599F6C}.Debug.ActiveCfg = Debug|.NET
-		{747CD772-9A6D-43F2-8D69-DE35BE599F6C}.Debug.Build.0 = Debug|.NET
-		{747CD772-9A6D-43F2-8D69-DE35BE599F6C}.Release.ActiveCfg = Release|.NET
-		{747CD772-9A6D-43F2-8D69-DE35BE599F6C}.Release.Build.0 = Release|.NET
-		{D3639D7C-96AB-459D-B045-4DD81547D7C4}.Debug.ActiveCfg = Debug|.NET
-		{D3639D7C-96AB-459D-B045-4DD81547D7C4}.Debug.Build.0 = Debug|.NET
-		{D3639D7C-96AB-459D-B045-4DD81547D7C4}.Release.ActiveCfg = Release|.NET
-		{D3639D7C-96AB-459D-B045-4DD81547D7C4}.Release.Build.0 = Release|.NET
 		{1091C15A-4788-40DE-A747-6C5B05FAF6C5}.Debug.ActiveCfg = Debug|.NET
 		{1091C15A-4788-40DE-A747-6C5B05FAF6C5}.Debug.Build.0 = Debug|.NET
 		{1091C15A-4788-40DE-A747-6C5B05FAF6C5}.Release.ActiveCfg = Release|.NET
@@ -96,6 +86,10 @@ Global
 		{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}.Debug.ActiveCfg = Debug
 		{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}.Release.ActiveCfg = Release
 		{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}.Release.Build.0 = Release
+		{D3639D7C-96AB-459D-B045-4DD81547D7C4}.Debug.ActiveCfg = Debug|.NET
+		{D3639D7C-96AB-459D-B045-4DD81547D7C4}.Debug.Build.0 = Debug|.NET
+		{D3639D7C-96AB-459D-B045-4DD81547D7C4}.Release.ActiveCfg = Release|.NET
+		{D3639D7C-96AB-459D-B045-4DD81547D7C4}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		PostBuildRule0 = "C:\nunit\nunit-gui\bin\Debug\nunit-gui.exe" 

@@ -17,76 +17,43 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
-namespace NUnit.Tests
+namespace NUnit.Core
 {
 	using System;
-	using NUnit.Framework;
-	using NUnit.Core;
+	using System.Diagnostics;
+	using System.Reflection;
 
 	/// <summary>
-	/// Summary description for EventTestFixture.
+	/// Summary description for ExpectedExceptionTestCase.
 	/// </summary>
-	/// 
-	[TestFixture]
-	public class EventTestFixture
+	public class ExpectedExceptionTestCase : TemplateTestCase
 	{
-		private string testsDll = "mock-assembly.dll";
+		private Type expectedException;
 
-		private static int SuiteCount(TestSuite suite)
+		public ExpectedExceptionTestCase(object fixture, MethodInfo info, Type expectedException)
+			: base(fixture, info)
 		{
-			int suites = 1;
-
-			foreach(Test test in suite.Tests)
-			{
-				if(test is TestSuite)
-					suites += SuiteCount((TestSuite)test);
-			}
-
-			return suites;
+			this.expectedException = expectedException;
 		}
 
-		internal class EventCounter : EventListener
+		protected override internal void ProcessException(Exception exception, TestCaseResult testResult)
 		{
-			internal int testCaseStart = 0;
-			internal int testCaseFinished = 0;
-			internal int suiteStarted = 0;
-			internal int suiteFinished = 0;
-
-			public void TestStarted(NUnit.Core.TestCase testCase)
+			if (expectedException.Equals(exception.GetType()))
 			{
-				testCaseStart++;
+				testResult.Success();
 			}
-			
-			public void TestFinished(TestCaseResult result)
+			else
 			{
-				testCaseFinished++;
+				string message = "Expected: " + expectedException.Name + " but was " + exception.GetType().Name;
+				testResult.Failure(message, exception.StackTrace);
 			}
 
-			public void SuiteStarted(TestSuite suite)
-			{
-				suiteStarted++;
-			}
-
-			public void SuiteFinished(TestSuiteResult result)
-			{
-				suiteFinished++;
-			}
+			return;
 		}
 
-		[Test]
-		public void CheckEventListening()
+		protected override internal void ProcessNoException(TestCaseResult testResult)
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite testSuite = builder.Build(testsDll);
-			
-			EventCounter counter = new EventCounter();
-			TestResult result = testSuite.Run(counter);
-			Assertion.AssertEquals(testSuite.CountTestCases, counter.testCaseStart);
-			Assertion.AssertEquals(testSuite.CountTestCases, counter.testCaseFinished);
-
-			int suites = SuiteCount(testSuite);
-			Assertion.AssertEquals(suites, counter.suiteStarted);
-			Assertion.AssertEquals(suites, counter.suiteFinished);
+			testResult.Failure(expectedException.Name + " was expected", null);
 		}
 	}
 }

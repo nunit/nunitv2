@@ -18,6 +18,7 @@
 '
 '*******************************************************************************************************************/
 using System;
+using System.IO;
 using NUnit.Framework;
 using NUnit.Core;
 
@@ -35,14 +36,16 @@ namespace NUnit.Tests
 		[Test]
 		public void LoadTestSuiteFromAssembly()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.AllTests", testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build("NUnit.Tests.AllTests", testsDll);
 			Assertion.Assert(suite != null);
 		}
 
 		[Test]
 		public void BuildTestSuiteFromAssembly() 
 		{
-			TestSuite suite = TestSuiteBuilder.Build(testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build(testsDll);
 			Assertion.Assert(suite != null);
 		}
 
@@ -63,7 +66,8 @@ namespace NUnit.Tests
 		[Test]
 		public void DiscoverSuite()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.SuiteBuilderTests+Suite",testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build("NUnit.Tests.SuiteBuilderTests+Suite",testsDll);
 			Assertion.AssertNotNull("Could not discover suite attribute",suite);
 		}
 
@@ -82,8 +86,23 @@ namespace NUnit.Tests
 		[Test]
 		public void WrongReturnTypeSuite()
 		{
-			TestSuite suite = TestSuiteBuilder.Build("NUnit.Tests.assemblies.AssemblyTests+NonConformingSuite",testsDll);
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build("NUnit.Tests.assemblies.AssemblyTests+NonConformingSuite",testsDll);
 			Assertion.AssertNull("Suite propertye returns wrong type",suite);
+		}
+
+		[Test]
+		public void TrimPathAndExtensionTest() 
+		{
+			string fileName = @"d:\somedirectory\foo.txt";
+			FileInfo info = new FileInfo(fileName);
+			string extension = info.Extension;
+			Assertion.AssertEquals(".txt", extension);
+			Assertion.AssertEquals("foo.txt", info.Name);
+
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			string result = builder.TrimPathAndExtension(fileName);
+			Assertion.AssertEquals("foo", result);
 		}
 	}
 }

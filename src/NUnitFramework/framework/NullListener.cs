@@ -17,46 +17,26 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
+using System;
+
 namespace NUnit.Core
 {
-	using System;
-
 	/// <summary>
-	/// Summary description for TestCase.
+	/// Summary description for NullListener.
 	/// </summary>
-	public abstract class TestCase : Test
+	public class NullListener : EventListener
 	{
-		public TestCase(string path, string name) : base(path, name)
-		{}
+		public void TestStarted(TestCase testCase){}
+			
+		public void TestFinished(TestCaseResult result){}
 
-		public override int CountTestCases 
+		public void SuiteStarted(TestSuite suite){}
+
+		public void SuiteFinished(TestSuiteResult result){}
+
+		public static EventListener NULL
 		{
-			get { return 1; }
+			get { return new NullListener();}
 		}
-
-		public override TestResult Run(EventListener listener)
-		{
-			TestCaseResult testResult = new TestCaseResult(this);
-
-			listener.TestStarted(this);
-
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
-		}
-
-
-		public abstract void Run(TestCaseResult result);
-
 	}
 }

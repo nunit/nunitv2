@@ -20,43 +20,89 @@
 namespace NUnit.Core
 {
 	using System;
+	using System.Text;
 
 	/// <summary>
-	/// Summary description for TestCase.
+	/// 
 	/// </summary>
-	public abstract class TestCase : Test
+	//
+	[Serializable]
+	public class TestCaseResult : TestResult
 	{
-		public TestCase(string path, string name) : base(path, name)
-		{}
+		private TestCase testCase;
+		private string testCaseName;
+		private bool testExecuted;
+		private string message;
+		private string stackTrace;
 
-		public override int CountTestCases 
+		public TestCaseResult(TestCase testCase):base(testCase, testCase.FullName)
 		{
-			get { return 1; }
+			this.testCase = testCase;
+			testExecuted = false;
 		}
 
-		public override TestResult Run(EventListener listener)
+		public TestCaseResult(string testCaseString) : base(null, testCaseString)
 		{
-			TestCaseResult testResult = new TestCaseResult(this);
-
-			listener.TestStarted(this);
-
-			long startTime = DateTime.Now.Ticks;
-
-			Run(testResult);
-
-			long stopTime = DateTime.Now.Ticks;
-
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-
-			testResult.Time = time;
-
-			listener.TestFinished(testResult);
-	
-			return testResult;
+			testCase = null;
+			testExecuted = false;
+			testCaseName = testCaseString;
 		}
 
+		public bool Executed
+		{
+			get { return testExecuted; }
+		}
 
-		public abstract void Run(TestCaseResult result);
+		public void Success() 
+		{ 
+			testExecuted = true;
+			IsFailure = false; 
+		}
 
+		public override void NotRun(string reason)
+		{
+			testExecuted = false;
+			message = reason;
+		}
+
+		public void Failure(string message, string stackTrace)
+		{
+			testExecuted = true;
+			IsFailure = true;
+			this.message = message;
+			this.stackTrace = stackTrace;
+		}
+
+		public override string Message
+		{
+			get { return message; }
+		}
+
+		public override string StackTrace
+		{
+			get 
+			{ 
+				return stackTrace;
+			}
+		}
+
+		public override string ToString()
+		{
+			StringBuilder builder = new StringBuilder();
+			string name = testCaseName;
+			if(testCase != null)
+				name = testCase.FullName;
+			
+			builder.AppendFormat("{0} : " , name);
+			if(!IsSuccess)
+				builder.Append(message);
+
+			return builder.ToString();
+		}
+
+		public override void Accept(ResultVisitor visitor) 
+		{
+			visitor.visit(this);
+		}
 	}
 }

@@ -8,11 +8,11 @@ using System.Runtime.CompilerServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("NUnit Framework Class Library")]
+[assembly: AssemblyTitle("")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("NUnit")]
-[assembly: AssemblyProduct("NUnit")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
@@ -55,6 +55,9 @@ using System.Runtime.CompilerServices;
 //   (*) Delay Signing is an advanced option - see the Microsoft .NET Framework
 //       documentation for more information on this.
 //
+#if !StronglyNamedAssembly
 [assembly: AssemblyDelaySign(false)]
-[assembly: AssemblyKeyFile("..\\..\\..\\nunit.key")]
+#else
+[assembly: AssemblyKeyFile("..\\..\\..\\Nunit.key")]
 [assembly: AssemblyKeyName("")]
+#endif
