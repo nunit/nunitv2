@@ -29,8 +29,6 @@
 
 namespace NUnit.Core
 {
-	using System;
-	using System.Collections;
 	using NUnit.Core.Builders;
 
 	/// <summary>

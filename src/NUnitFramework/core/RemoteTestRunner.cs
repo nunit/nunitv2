@@ -32,9 +32,6 @@ namespace NUnit.Core
 	using System;
 	using System.IO;
 	using System.Collections;
-	using System.Reflection;
-	using System.Threading;
-	using System.Runtime.Remoting;
 
 	/// <summary>
 	/// Summary description for RemoteTestRunner.

@@ -31,11 +31,9 @@ using System;
 
 namespace NUnit.Util
 {
-	using System.Runtime.Remoting;
 	using System.Security.Policy;
 	using System.Reflection;
 	using System.Collections;
-	using System.Collections.Specialized;
 	using System.Configuration;
 	using System.IO;
 
@@ -234,8 +232,7 @@ namespace NUnit.Util
 					testProject.ProjectPath,
 					projectFile.DirectoryName,
 					configFilePath,
-					GetBinPath( testProject.Assemblies ),
-					testProject.Assemblies );
+					GetBinPath( testProject.Assemblies ));
 
 				if ( testName != null )
 					return Runner.Load( testProject, testName );
@@ -422,7 +419,6 @@ namespace NUnit.Util
 		{
 			FileInfo testFile = new FileInfo( assemblyFileName );
 			
-			string assemblyPath = Path.GetFullPath( assemblyFileName );
 			string domainName = string.Format( "domain-{0}", Path.GetFileName( assemblyFileName ) );
 
 			domain = MakeAppDomain( domainName, testFile.DirectoryName, testFile.Name + ".config", testFile.DirectoryName );
@@ -435,10 +431,8 @@ namespace NUnit.Util
 		/// <param name="appBase">The application base path</param>
 		/// <param name="configFile">The configuration file to use</param>
 		/// <param name="binPath">The private bin path</param>
-		/// <param name="assemblies">A collection of assemblies to load</param>
-		private void CreateDomain( string testFileName, string appBase, string configFile, string binPath, string[] assemblies )
+		private void CreateDomain( string testFileName, string appBase, string configFile, string binPath)
 		{
-			string domainName = string.Format( "domain-{0}", Path.GetFileName( testFileName ) );
 			domain = MakeAppDomain( testFileName, appBase, configFile, binPath );
 		}
 

@@ -27,11 +27,10 @@
 '***********************************************************************************/
 #endregion
 
+using System.Collections;
+
 namespace NUnit.Core
 {
-	using System;
-	using System.Collections;
-
 	/// <summary>
 	/// Common interface supported by all representations
 	/// of a test. Only includes informational fields.

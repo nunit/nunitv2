@@ -32,7 +32,6 @@ namespace NUnit.Core
 	using System;
 	using System.Collections;
 	using System.Reflection;
-	using System.Text;
 
 	/// <summary>
 	/// Summary description for TestSuite.
@@ -105,7 +104,6 @@ namespace NUnit.Core
 			: base( fixtureType.FullName, assemblyKey ) 
 		{
 			this.fixtureType = fixtureType;
-			string uname = fixtureType.AssemblyQualifiedName;
 			if ( fixtureType.Namespace != null )
 				testName = FullName.Substring( FullName.LastIndexOf( '.' ) + 1 );
 		}

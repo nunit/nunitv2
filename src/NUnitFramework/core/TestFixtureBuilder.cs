@@ -28,7 +28,6 @@
 #endregion
 
 using System;
-using System.Collections;
 
 namespace NUnit.Core
 {

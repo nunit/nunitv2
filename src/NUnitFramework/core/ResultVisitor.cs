@@ -29,11 +29,6 @@
 
 namespace NUnit.Core
 {
-	using System;
-
-	/// <summary>
-	/// 
-	/// </summary>
 	public interface ResultVisitor
 	{
 		void Visit(TestCaseResult caseResult);

@@ -32,8 +32,6 @@ namespace NUnit.Util
 	using System;
 	using System.IO;
 	using System.Collections;
-	using System.Configuration;
-	using System.Threading;
 	using NUnit.Core;
 
 
@@ -580,7 +578,6 @@ namespace NUnit.Util
 		/// asynchronously, we use an event to let ui components
 		/// know that the failure happened.
 		/// </summary>
-		/// <param name="assemblyFileName">Assembly file that changed</param>
 		public void OnTestChanged( string testFileName )
 		{
 			if ( IsTestRunning )
@@ -636,7 +633,6 @@ namespace NUnit.Util
 		/// Silently ignore the call if a test is running
 		/// to allow for latency in the UI.
 		/// </summary>
-		/// <param name="testName">The test to be run</param>
 		public void RunTest( ITest test )
 		{
 			RunTests( new ITest[] { test } );
@@ -689,7 +685,6 @@ namespace NUnit.Util
 		/// Install our watcher object so as to get notifications
 		/// about changes to a test.
 		/// </summary>
-		/// <param name="assemblyFileName">Full path of the assembly to watch</param>
 		private void InstallWatcher()
 		{
 			if(watcher!=null) watcher.Stop();
