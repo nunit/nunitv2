@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<project name="NUnit.Core" default="build">
+
+    <!--
+        Required properties:
+            * build.dir             - build directory
+            * build.debug           - (true|false) debug build?
+            * build.defines.csc     - build defines for build config
+            * runtime.defines.csc   - build defines for target framework
+    -->
+
+    <target name="build">
+
+        <csc target="library" output="${build.dir}/bin/nunit.core.dll"
+                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
+            <sources basedir=".">
+                <includes name="*.cs"/>
+<!--
+                <includes name="AssemblyInfo.cs"/>
+                <includes name="ConsoleWriter.cs"/>
+                <includes name="EventListener.cs"/>
+                <includes name="ExpectedExceptionTestCase.cs"/>
+                <includes name="InvalidFixture.cs"/>
+                <includes name="InvalidSuiteException.cs"/>
+                <includes name="InvalidTestFixtureException.cs"/>
+                <includes name="ITest.cs"/>
+                <includes name="LongLivingMarshalByRefObject.cs"/>
+                <includes name="NormalTestCase.cs"/>
+                <includes name="NoTestFixturesException.cs"/>
+                <includes name="NotRunnableTestCase.cs"/>
+                <includes name="NullListener.cs"/>
+                <includes name="NunitException.cs"/>
+                <includes name="RemoteTestRunner.cs"/>
+                <includes name="ResultSummarizer.cs"/>
+                <includes name="ResultVisitor.cs"/>
+                <includes name="RootTestSuite.cs"/>
+                <includes name="StackTraceFilter.cs"/>
+                <includes name="StringTextWriter.cs"/>
+                <includes name="SummaryVisitor.cs"/>
+                <includes name="TemplateTestCase.cs"/>
+                <includes name="Test.cs"/>
+                <includes name="TestAssembly.cs"/>
+                <includes name="TestCase.cs"/>
+                <includes name="TestCaseBuilder.cs"/>
+                <includes name="TestCaseResult.cs"/>
+                <includes name="TestResult.cs"/>
+                <includes name="TestSuite.cs"/>
+                <includes name="TestSuiteBuilder.cs"/>
+                <includes name="TestSuiteResult.cs"/>
+                <includes name="WarningSuite.cs"/>
+                <includes name="XmlResultVisitor.cs"/>
+                <includes name="EmptyFilter.cs"/>
+                <includes name="Filter.cs"/>
+                <includes name="NameFilter.cs"/>
+                <includes name="TestRunner.cs"/>
+-->
+            </sources>
+            <references>
+                <includes name="${build.dir}/bin/nunit.framework.dll"/>
+            </references>
+        </csc>
+ 
+       <copy file="Results.xsd" todir="${build.dir}/bin"/>
+
+    </target>
+
+</project>

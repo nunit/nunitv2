@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<project name="NUnit.Extensions" default="build">
+
+    <!--
+        Required properties:
+            * build.dir             - build directory
+            * build.debug           - (true|false) debug build?
+            * build.defines.csc     - build defines for build config
+            * runtime.defines.csc   - build defines for target framework
+    -->
+
+    <target name="build">
+        <csc target="library" output="${build.dir}/bin/nunit.extensions.dll"
+                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
+            <sources basedir=".">
+                <includes name="**/*.cs"/>
+            </sources>
+            <references>
+                <includes name="${build.dir}/bin/nunit.core.dll"/>
+            </references>
+        </csc>
+    </target>
+
+</project>

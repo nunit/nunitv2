@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<project name="NUnit.UiKit" default="build">
+
+    <!--
+        Required properties:
+            * build.dir             - build directory
+            * build.debug           - (true|false) debug build?
+            * build.defines.csc     - build defines for build config
+            * runtime.defines.csc   - build defines for target framework
+    -->
+
+    <target name="build">
+        <csc target="library" output="${build.dir}/bin/nunit.uikit.dll"
+                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
+            <sources basedir=".">
+                <includes name="*.cs"/>
+            </sources>
+            <resources basedir="." prefix="NUnit.UiKit">
+                <includes name="Ellipsis.gif"/>
+                <includes name="Gray.jpg"/>
+                <includes name="Green.jpg"/>
+                <includes name="pinned.gif"/>
+                <includes name="Red.jpg"/>
+                <includes name="unpinned.gif"/>
+                <includes name="Yellow.jpg"/>
+                <includes name="*.resx"/>
+            </resources>
+            <references>
+                <includes name="${build.dir}/bin/nunit.core.dll"/>
+                <includes name="${build.dir}/bin/nunit.util.dll"/>
+            </references>
+        </csc>
+    </target>
+
+</project>

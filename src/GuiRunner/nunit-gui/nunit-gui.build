@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<project name="NUnit-Gui" default="build">
+
+    <!--
+        Required properties:
+            * build.dir             - build directory
+            * build.debug           - (true|false) debug build?
+            * build.defines.csc     - build defines for build config
+            * runtime.defines.csc   - build defines for target framework
+    -->
+
+    <target name="build">
+
+        <csc target="winexe" output="${build.dir}/bin/nunit-gui.exe" 
+                win32icon="Logo.ico" debug="${build.debug}"
+                define="${build.defines.csc},${runtime.defines.csc}">
+            <sources basedir=".">
+                <includes name="**/*.cs"/>
+            </sources>
+            <resources basedir=".">
+                <includes name="*.resx"/>
+            </resources>
+            <references>
+                <includes name="${build.dir}/bin/nunit.util.dll"/>
+                <includes name="${build.dir}/bin/nunit.uikit.dll"/>
+                <includes name="${build.dir}/bin/nunit.core.dll"/>
+                <includes name="${build.dir}/bin/nunit.framework.dll"/>
+            </references>
+        </csc>
+
+        <copy file="nunit-gui.exe.config" todir="${build.dir}/bin"/>
+
+    </target>
+
+</project>

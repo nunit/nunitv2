@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<project name="NUnit.Tests" default="build">
+
+    <!--
+        Required properties:
+            * build.dir             - build directory
+            * build.debug           - (true|false) debug build?
+            * build.mono            - (true|false) mono build?
+            * build.defines.csc     - build defines for build config
+            * runtime.defines.csc   - build defines for target framework
+    -->
+
+    <target name="build">
+
+        <!-- Build mock-assembly.dll - used by the tests -->
+        <csc target="library" output="${build.dir}/bin/mock-assembly.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
+            <sources basedir="mock-assembly">
+                <includes name="*.cs"/>
+            </sources>
+            <references>
+                <includes name="${build.dir}/bin/nunit.framework.dll"/>
+                <includes name="${build.dir}/bin/nunit.core.dll"/>
+            </references>
+        </csc>
+
+        <!-- Build nonamespace-assembly.dll - used by the tests -->
+        <csc target="library" output="${build.dir}/bin/nonamespace-assembly.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
+            <sources basedir="nonamespace-assembly">
+                <includes name="*.cs"/>
+            </sources>
+            <references>
+                <includes name="${build.dir}/bin/nunit.framework.dll"/>
+            </references>
+        </csc>
+
+        <!-- Build notestfixtures-assembly.dll - used by the tests -->
+        <csc target="library" output="${build.dir}/bin/notestfixtures-assembly.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
+            <sources basedir="notestfixtures-assembly">
+                <includes name="*.cs"/>
+            </sources>
+        </csc>
+
+        <!-- Build nunit.tests.dll - the main test assembly -->
+        <csc target="library" output="${build.dir}/bin/nunit.tests.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc},NANTBUILD">
+            <sources basedir=".">
+                <includes name="*.cs"/>
+                <excludes name="AddConfigurationDialogTests.cs" if="${build.mono}"/>
+	        <excludes name="ProgressBarTests.cs" if="${build.mono}"/>
+		<excludes name="RecentFileMenuHandlerTests.cs" if="${build.mono}"/>
+		<excludes name="StatusBarTests.cs" if="${build.mono}"/>
+		<excludes name="TestSuiteTreeNodeTests.cs" if="${build.mono}"/>
+		<excludes name="TestSuiteTreeViewFixture.cs" if="${build.mono}"/>
+                <excludes name="FormSettingsTests.cs" if="${build.mono}"/>
+		<excludes name="TextBoxWriterTests.cs" if="${build.mono}"/>
+                <excludes name="UserSettingsTests.cs" if="${build.mono}"/>
+                <excludes name="NUnitRegistryTests.cs" if="${build.mono}"/>
+                <excludes name="OptionSettingsTests.cs" if="${build.mono}"/>
+                <excludes name="RegistrySettingsStorageTests.cs" if="${build.mono}"/>
+                <excludes name="RecentProjectsFixture.cs" if="${build.mono}"/>
+                <excludes name="SettingsGroupTests.cs" if="${build.mono}"/>
+            </sources>
+            <references>
+                <includes name="${build.dir}/bin/nunit.uikit.dll" unless="${build.mono}"/>
+                <includes name="${build.dir}/bin/nunit.util.dll"/>
+                <includes name="${build.dir}/bin/nunit.extensions.dll"/>
+                <includes name="${build.dir}/bin/nunit.core.dll"/>
+                <includes name="${build.dir}/bin/nunit.framework.dll"/>
+                <includes name="${build.dir}/bin/mock-assembly.dll"/>
+                <includes name="${build.dir}/bin/nonamespace-assembly.dll"/>
+                <includes name="${build.dir}/bin/notestfixtures-assembly.dll"/>
+            </references>
+        </csc>
+
+        <copy file="nunit.tests.dll.config" todir="${build.dir}/bin"/>
+
+        <!-- Build timing-tests.dll -->
+        <csc target="library" output="${build.dir}/bin/timing-tests.dll">
+            <sources basedir="timing-tests">
+                <includes name="*.cs"/>
+            </sources>
+            <references>
+                <includes name="${build.dir}/bin/nunit.util.dll"/>
+                <includes name="${build.dir}/bin/nunit.core.dll"/>
+                <includes name="${build.dir}/bin/nunit.framework.dll"/>
+                <includes name="${build.dir}/bin/mock-assembly.dll"/>
+            </references>
+        </csc>
+
+    </target>
+
+</project>

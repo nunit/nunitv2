@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<project name="Samples" default="build">
+
+    <!--
+        Required properties:
+            * build.dir             - build directory
+            * build.debug           - (true|false) debug build?
+            * build.defines.csc     - build defines for build config
+            * runtime.defines.csc   - build defines for target framework
+    -->
+
+    <target name="build">
+
+        <!-- Build C++ sample -->
+        <cl outputdir="${build.dir}/bin" options="/clr /AI ${build.dir}/bin" failonerror="false">
+            <sources basedir="cpp-sample">
+                <includes name="*.cpp"/>
+            </sources>
+        </cl>
+        <link output="${build.dir}/bin/cpp-sample.dll" options="/DLL" failonerror="false">
+            <sources basedir="${build.dir}/bin">
+                <includes name="*.obj"/>
+            </sources>
+        </link>
+
+        <!-- Build C# sample -->
+        <csc target="library" output="${build.dir}/bin/csharp-sample.dll" define="${build.defines.csc},${runtime.defines.csc}">
+            <sources basedir="csharp">
+                <includes name="*.cs"/>
+            </sources>
+            <references>
+                <includes name="${build.dir}/bin/nunit.framework.dll"/>
+            </references>
+        </csc>
+
+        <!-- Build VB.NET sample -->
+        <vbc target="library" output="${build.dir}/bin/vb-sample.dll"  failonerror="false" imports="Microsoft.VisualBasic,System,System.Collections" optionexplicit="true" rootnamespace="vb_sample" unless="${build.mono}">
+            <sources basedir="vb">
+                <includes name="*.vb"/>
+            </sources>
+            <references>
+                <includes name="${build.dir}/bin/nunit.framework.dll"/>
+            </references>
+        </vbc>
+
+        <!-- Build money-sample -->
+        <csc target="library" output="${build.dir}/bin/money-sample.dll" define="${build.defines.csc},${runtime.defines.csc}">
+            <sources basedir="money">
+                <includes name="*.cs"/>
+            </sources>
+            <references>
+                <includes name="${build.dir}/bin/nunit.framework.dll"/>
+            </references>
+        </csc>
+
+        <!-- Build money-port sample -->
+        <csc target="library" output="${build.dir}/bin/moneyport-sample.dll" define="${build.defines.csc},${runtime.defines.csc}">
+            <sources basedir="money-port">
+                <includes name="*.cs"/>
+            </sources>
+            <references>
+                <includes name="${build.dir}/bin/nunit.framework.dll"/>
+            </references>
+        </csc>		
+
+        <!-- Build J# sample -->
+        <vjc target="library" output="${build.dir}/bin/jsharp.dll" unless="${build.mono}" failonerror="false">
+            <sources basedir="jsharp">
+                <includes name="*.jsl"/>
+            </sources>
+            <references>
+                <includes name="${build.dir}/bin/nunit.framework.dll"/>
+            </references>
+        </vjc>
+    </target>
+
+</project>
