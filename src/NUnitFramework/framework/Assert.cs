@@ -164,6 +164,32 @@ namespace NUnit.Framework
 		{
 			Assert.AreEqual(expected, actual, delta, string.Empty);
 		}
+
+		/// <summary>
+		/// Verifies that two decimals are equal. If 
+		/// they are not equals then an <see cref="AssertionException"/> is
+		/// thrown.
+		/// </summary>
+		/// <param name="message">The message printed out upon failure</param>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void AreEqual(decimal expected, decimal actual, string message) 
+		{
+			if(!(expected == actual))
+				Assert.FailNotEquals(expected, actual, message);
+		}
+
+		/// <summary>
+		/// Verifies that two decimals are equal. If 
+		/// they are not equals then an <see cref="AssertionException"/> is
+		/// thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void AreEqual(decimal expected, decimal actual) 
+		{
+			Assert.AreEqual(expected, actual, string.Empty);
+		}
 		
 		/// <summary>
 		/// Verifies that two ints are equal. If 

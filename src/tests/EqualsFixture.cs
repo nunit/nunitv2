@@ -211,6 +211,17 @@ namespace NUnit.Tests.Assertions
 			Assert.AreEqual(expected, actual);
 		}
 
+		[Test]
+		public void Decimal() 
+		{
+			decimal expected = 100m;
+			decimal actual = 100.0m;
+
+			Assert.IsTrue( expected == actual );
+			Assert.AreEqual(expected, actual);
+		}
+
+
 		
 		/// <summary>
 		/// Checks to see that a value comparison works with all types.
