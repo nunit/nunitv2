@@ -900,8 +900,6 @@ namespace NUnit.Gui
 
 			SetSuiteName(test.Name);
 			InitializeProgressBar(testCount);
-
-			Console.Out.WriteLine("Test name {0}", test.FullName);
 		}
 
 		private void SetSuiteName( string name )
