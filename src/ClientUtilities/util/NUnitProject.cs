@@ -102,7 +102,7 @@ namespace NUnit.Util
 			}
 
 			if ( project.IsDirty && ! project.isWrapper )
-				project.Save( path );
+				project.Save();
 
 			return project;
 		}
@@ -256,37 +256,50 @@ namespace NUnit.Util
 
 		public void Load( string projectPath )
 		{
-			XmlDocument doc = new XmlDocument();
-			doc.Load( projectPath );
-
-			string projectDir = Path.GetDirectoryName( projectPath );
-			string activeConfigName = "Default";
-
-			XmlNode settingsNode = doc.SelectSingleNode( "/NUnitProject/Settings" );
-
-			if ( settingsNode != null )
-				activeConfigName = settingsNode.Attributes["activeconfig"].Value;
-		
-			foreach( XmlNode configNode in doc.SelectNodes( "/NUnitProject/Config" ) )
+			try
 			{
-				ProjectConfig config = new ProjectConfig( configNode.Attributes["name"].Value );
+				XmlDocument doc = new XmlDocument();
+				doc.Load( projectPath );
 
-				foreach( XmlNode assemblyNode in configNode.SelectNodes(  "assembly" ) )
+				string projectDir = Path.GetDirectoryName( projectPath );
+				string activeConfigName = "Default";
+
+				XmlNode settingsNode = doc.SelectSingleNode( "/NUnitProject/Settings" );
+
+				if ( settingsNode != null )
+					activeConfigName = settingsNode.Attributes["activeconfig"].Value;
+		
+				foreach( XmlNode configNode in doc.SelectNodes( "/NUnitProject/Config" ) )
 				{
-					string path = assemblyNode.Attributes["path"].Value;
-					if ( !Path.IsPathRooted( path ) )
-						path = Path.Combine( projectDir, path );
+					ProjectConfig config = new ProjectConfig( configNode.Attributes["name"].Value );
+
+					foreach( XmlNode assemblyNode in configNode.SelectNodes(  "assembly" ) )
+					{
+						string path = assemblyNode.Attributes["path"].Value;
+						if ( !Path.IsPathRooted( path ) )
+							path = Path.Combine( projectDir, path );
 				
-					config.Assemblies.Add( path );
+						config.Assemblies.Add( path );
+					}
+
+					Configs.Add( config );
 				}
 
-				Configs.Add( config );
+				this.loadPath = projectPath;
+				this.projectPath = projectPath;
+				this.activeConfig = activeConfigName;
+				this.IsDirty = false;
 			}
-
-			this.loadPath = projectPath;
-			this.projectPath = projectPath;
-			this.activeConfig = activeConfigName;
-			this.IsDirty = false;
+			catch( FileNotFoundException )
+			{
+				throw;
+			}
+			catch( Exception e )
+			{
+				throw new ArgumentException( 
+					string.Format( "Invalid project file format: {0}", 
+					Path.GetFileName( projectPath ) ), e );
+			}
 		}
 
 		public void Save()
