@@ -1,37 +1,34 @@
 <?xml version="1.0"?>
 <project name="Samples" default="build">
 
-    <!--
-        Required properties:
-            * bin.dir               - bin directory
-            * src.dir               - source location(build) or target(copy)
-            * build.debug           - (true|false) debug build?
-            * build.defines.csc     - build defines for build config
-    -->
+  <property name="project.src.dir" value="../.."
+    unless="${property::exists('project.src.dir')}"/>
 
-    <target name="build" depends="copy">
-        <!-- Build C++ sample -->
-        <cl outputdir="${bin.dir}" options="/clr /AI ${bin.dir}" failonerror="false">
-            <sources basedir="${src.dir}/samples/cpp-sample">
-                <include name="*.cpp"/>
-            </sources>
-        </cl>
-        <link output="${bin.dir}/cpp-sample.dll" options="/DLL" failonerror="false">
-            <sources basedir="${bin.dir}">
-                <include name="*.obj"/>
-            </sources>
-        </link>
-    </target>
+  <include buildfile="..\..\nunit.build.include"/>
 
-    <target name="copy">
-        <copy todir="${src.dir}/samples/cpp-sample">
-            <fileset basedir=".">
-                <include name="cpp-sample.vcproj"/>
-                <include name="cpp-sample.build"/>
-                <include name="*.cpp"/>
-                <include name="*.h"/>
-                <include name="readme.txt"/>
-            </fileset>
-        </copy>
-    </target>
+  <target name="build" depends="copy">
+    <!-- Build C++ sample -->
+    <cl outputdir="${bin.dir}" options="/clr /AI ${bin.dir}" failonerror="false">
+      <sources basedir=".">
+        <include name="*.cpp"/>
+      </sources>
+    </cl>
+    <link output="${bin.dir}/cpp-sample.dll" options="/DLL" failonerror="false">
+      <sources basedir="${bin.dir}">
+        <include name="*.obj"/>
+      </sources>
+    </link>
+  </target>
+
+  <target name="package">
+    <copy todir="${package.src.dir}/samples/cpp-sample">
+      <fileset basedir=".">
+        <include name="cpp-sample.vcproj"/>
+        <include name="cpp-sample.build"/>
+        <include name="*.cpp"/>
+        <include name="*.h"/>
+        <include name="readme.txt"/>
+      </fileset>
+    </copy>
+  </target>
 </project>
