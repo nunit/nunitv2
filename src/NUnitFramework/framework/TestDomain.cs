@@ -47,6 +47,7 @@ namespace NUnit.Framework
 	{
 		private string assemblyName; 
 		private AppDomain domain; 
+		private string cachePath;
 		private RemoteTestRunner testRunner;
 		private TextWriter outStream;
 		private TextWriter errorStream;
@@ -140,11 +141,15 @@ namespace NUnit.Framework
 			testRunner = null;
 
 			if(domain != null) 
+			{
 				AppDomain.Unload(domain);
+				DirectoryInfo cacheDir = new DirectoryInfo(cachePath);
+				if(cacheDir.Exists) cacheDir.Delete(true);
+			}
 			domain = null;
 		}
 
-		private static AppDomain MakeAppDomain(FileInfo file)
+		private AppDomain MakeAppDomain(FileInfo file)
 		{
 			AppDomainSetup setup = new AppDomainSetup();
 			setup.ApplicationBase = file.DirectoryName;
@@ -152,6 +157,7 @@ namespace NUnit.Framework
 
 			setup.ShadowCopyFiles = "true";
 			setup.ShadowCopyDirectories = file.DirectoryName;
+
 
 			setup.ConfigurationFile = file.DirectoryName + @"\" +
 				file.Name + ".config";
@@ -161,8 +167,23 @@ namespace NUnit.Framework
 
 			string domainName = String.Format("domain-{0}", file.Name);
 			AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
+			ConfigureCachePath(runnerDomain);
 			runnerDomain.InitializeLifetimeService();
 			return runnerDomain;
+		}
+
+		private void ConfigureCachePath(AppDomain domain)
+		{
+			cachePath = String.Format(@"{0}\{1}", 
+				ConfigurationSettings.AppSettings["shadowfiles.path"], DateTime.Now.Ticks);
+			cachePath = Environment.ExpandEnvironmentVariables(cachePath);
+
+			DirectoryInfo dir = new DirectoryInfo(cachePath);
+			if(dir.Exists) dir.Delete(true);
+
+			domain.SetCachePath(cachePath);
+
+			return;
 		}
 
 		private static RemoteTestRunner MakeRemoteTestRunner(FileInfo file, AppDomain runnerDomain)

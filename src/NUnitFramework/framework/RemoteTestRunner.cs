@@ -83,12 +83,46 @@ namespace NUnit.Core
 
 		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText)
 		{
-			Console.SetOut(outText);
-			Console.SetError(errorText);
+			Console.SetOut(new StringTextWriter(outText));
+			Console.SetError(new StringTextWriter(errorText));
 
 			Test test = FindByName(suite, fullName);
 			TestResult result = test.Run(listener);
 			return result;
+		}
+
+		/// <summary>
+		/// Use this wrapper to ensure that only strings get passed accross the AppDomain
+		/// boundry.  Otherwise tests will break when non-remotable objecs are passed to
+		/// Console.Write/WriteLine.
+		/// </summary>
+		private class StringTextWriter : TextWriter
+		{
+			public StringTextWriter(TextWriter aTextWriter)
+			{
+				theTextWriter = aTextWriter;
+			}
+			private TextWriter theTextWriter;
+
+			override public void Write(char aChar)
+			{
+				theTextWriter.Write(aChar);
+			}
+
+			override public void Write(string aString)
+			{
+				theTextWriter.Write(aString);
+			}
+
+			override public void WriteLine(string aString)
+			{
+				theTextWriter.WriteLine(aString);
+			}
+
+			override public System.Text.Encoding Encoding
+			{
+				get { return theTextWriter.Encoding; }
+			}
 		}
 
 		private Test FindByName(Test test, string fullName)

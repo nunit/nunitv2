@@ -1,8 +1,9 @@
-#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
+#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig, Douglas de la Torre
 /************************************************************************************
 '
 ' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
 ' Copyright © 2000-2002 Philip A. Craig
+' Copyright © 2001 Douglas de la Torre
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -17,7 +18,7 @@
 ' acknowledgment (see the following) in the product documentation is required.
 '
 ' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
-' or Copyright © 2000-2002 Philip A. Craig
+' Copyright © 2000-2002 Philip A. Craig, or Copyright © 2001 Douglas de la Torre
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -161,26 +162,30 @@ namespace NUnit.Tests
             }
 
             /// <summary>
-            /// Makes sure that newline conversion CR or LF characters into
-            /// 2 characters, one slash '\' and one 'r' or 'n' for display
+            /// Makes sure that whitespace conversion for CR, LF, or TAB
+            ///  characters into 2 characters, one slash '\' and 
+            ///  one 'r' or 'n' or 't' for display
             /// </summary>
 			[Test]
-			public void TestConvertNewlines()
+            public void TestConvertWhitespace()
             {
-                Assertion.AssertEquals( "\\n", ConvertNewlines("\n") );
-                Assertion.AssertEquals( "\\n\\n", ConvertNewlines("\n\n") );
-                Assertion.AssertEquals( "\\n\\n\\n", ConvertNewlines("\n\n\n") );
+                Assertion.AssertEquals( "\\n", ConvertWhitespace("\n") );
+                Assertion.AssertEquals( "\\n\\n", ConvertWhitespace("\n\n") );
+                Assertion.AssertEquals( "\\n\\n\\n", ConvertWhitespace("\n\n\n") );
 
-                Assertion.AssertEquals( "\\r", ConvertNewlines("\r") );
-                Assertion.AssertEquals( "\\r\\r", ConvertNewlines("\r\r") );
-                Assertion.AssertEquals( "\\r\\r\\r", ConvertNewlines("\r\r\r") );
+                Assertion.AssertEquals( "\\r", ConvertWhitespace("\r") );
+                Assertion.AssertEquals( "\\r\\r", ConvertWhitespace("\r\r") );
+                Assertion.AssertEquals( "\\r\\r\\r", ConvertWhitespace("\r\r\r") );
 
-                Assertion.AssertEquals( "\\r\\n", ConvertNewlines("\r\n") );
-                Assertion.AssertEquals( "\\n\\r", ConvertNewlines("\n\r") );
-                Assertion.AssertEquals( "This is a\\rtest message", ConvertNewlines("This is a\rtest message") );
+                Assertion.AssertEquals( "\\r\\n", ConvertWhitespace("\r\n") );
+                Assertion.AssertEquals( "\\n\\r", ConvertWhitespace("\n\r") );
+                Assertion.AssertEquals( "This is a\\rtest message", ConvertWhitespace("This is a\rtest message") );
 
-                Assertion.AssertEquals( "", ConvertNewlines("") );
-                Assertion.AssertEquals( null, ConvertNewlines(null) );
+                Assertion.AssertEquals( "", ConvertWhitespace("") );
+                Assertion.AssertEquals( null, ConvertWhitespace(null) );
+                
+                Assertion.AssertEquals( "\\t", ConvertWhitespace( "\t" ) );
+                Assertion.AssertEquals( "\\t\\n", ConvertWhitespace( "\t\n" ) );
             }
 
             /// <summary>

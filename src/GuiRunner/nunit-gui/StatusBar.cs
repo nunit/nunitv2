@@ -151,8 +151,8 @@ namespace NUnit.Gui
 		{
 			statusPanel.Text = "Completed";
 
-			if ( !DisplayTestProgress )
-				DisplayResults( result );
+			// NOTE: call DisplayResults always since we need the time
+			DisplayResults( result );
 		}
 
 		public void OnTestFinished( TestCaseResult result )

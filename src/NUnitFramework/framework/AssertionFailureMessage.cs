@@ -1,8 +1,9 @@
-#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
+#region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig, Douglas de la Torre
 /************************************************************************************
 '
 ' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
 ' Copyright © 2000-2002 Philip A. Craig
+' Copyright © 2001 Douglas de la Torre
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -17,7 +18,7 @@
 ' acknowledgment (see the following) in the product documentation is required.
 '
 ' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
-' or Copyright © 2000-2002 Philip A. Craig
+' Copyright © 2000-2002 Philip A. Craig, or Copyright © 2001 Douglas de la Torre
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -37,6 +38,10 @@ namespace NUnit.Framework
 	/// </summary>
 	public class AssertionFailureMessage
 	{
+        /// <summary>
+        /// Protected constructor, used since this class is only used via
+        /// static methods
+        /// </summary>
 		protected AssertionFailureMessage() 
 		{}
 
@@ -72,9 +77,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="iPosition"></param>
         /// <returns></returns>
-        static private bool IsPreClipped( int position )
+        static private bool IsPreClipped( int iPosition )
         {
-            if( position > PreClipLength )
+            if( iPosition > PreClipLength )
             {
                 return true;
             }
@@ -357,13 +362,11 @@ namespace NUnit.Framework
             sbOutput.Append( NewLine );
 
             //
-            // Clips the strings, then turns any hidden newlines into visible
-            // characters by replacing the '\r' into '\\' and 'r' characters,
-            // and the '\n' into '\\' and 'n' characters.  Thus the single 
-            // character becomes two characters for display.
+            // Clips the strings, then turns any hidden whitespace into visible
+            // characters
             //
-            string sClippedExpected = ConvertNewlines(ClipAroundPosition( sExpected, iPosition ));
-            string sClippedActual   = ConvertNewlines(ClipAroundPosition( sActual,   iPosition ));
+            string sClippedExpected = ConvertWhitespace(ClipAroundPosition( sExpected, iPosition ));
+            string sClippedActual   = ConvertWhitespace(ClipAroundPosition( sActual,   iPosition ));
 
             AppendExpectedAndActual( 
                 sbOutput, 
@@ -381,18 +384,23 @@ namespace NUnit.Framework
         }
 
         /// <summary>
-        /// Turns CR or LF into visual indicator to preserve visual marker 
-        /// position.
+        /// Turns CR, LF, or TAB into visual indicator to preserve visual marker 
+		/// position.   This is done by replacing the '\r' into '\\' and 'r' 
+		/// characters, and the '\n' into '\\' and 'n' characters, and '\t' into
+		/// '\\' and 't' characters.  
+		/// 
+		/// Thus the single character becomes two characters for display.
         /// </summary>
         /// <param name="sInput"></param>
         /// <returns></returns>
-        static protected string ConvertNewlines( string sInput )
+        static protected string ConvertWhitespace( string sInput )
         {
             if( null != sInput )
             {
                 sInput = sInput.Replace( "\r", "\\r" );
                 sInput = sInput.Replace( "\n", "\\n" );
-            }
+				sInput = sInput.Replace( "\t", "\\t" );
+			}
             return sInput;
         }
 

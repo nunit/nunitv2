@@ -135,36 +135,90 @@ namespace NUnit.Framework
 		}
 
         /// <summary>
-        /// Used to compare int and longs.  Comparisons between
+        /// Checks the type of the object, returning true if
+        /// the object is a numeric type.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        static private bool IsNumericType( Object obj )
+        {
+            if( null != obj )
+            {
+                if( obj is byte    ) return true;
+                if( obj is sbyte   ) return true;
+                if( obj is decimal ) return true;
+                if( obj is double  ) return true;
+                if( obj is float   ) return true;
+                if( obj is int     ) return true;
+                if( obj is uint    ) return true;
+                if( obj is long    ) return true;
+                if( obj is short   ) return true;
+                if( obj is ushort  ) return true;
+
+                if( obj is System.Byte    ) return true;
+                if( obj is System.SByte   ) return true;
+                if( obj is System.Decimal ) return true;
+                if( obj is System.Double  ) return true;
+                if( obj is System.Single  ) return true;
+                if( obj is System.Int32   ) return true;
+                if( obj is System.UInt32  ) return true;
+                if( obj is System.Int64   ) return true;
+                if( obj is System.UInt64  ) return true;
+                if( obj is System.Int16   ) return true;
+                if( obj is System.UInt16  ) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Used to compare numeric types.  Comparisons between
         /// same types are fine (Int32 to Int32, or Int64 to Int64),
         /// but the Equals method fails across different types.
-        /// This method was added to allow ints and longs to
-        /// be handled correctly via casting.
+        /// This method was added to allow any numeric type to
+        /// be handled correctly, by using <c>ToString</c> and
+        /// comparing the result
         /// </summary>
         /// <param name="expected"></param>
         /// <param name="actual"></param>
         /// <returns></returns>
         static private bool ObjectsEqual( Object expected, Object actual )
         {
-            if( expected is int && actual is long )
+            if( IsNumericType( expected )  &&
+                IsNumericType( actual ) )
             {
-                return (int)expected == (long)actual;
-            }
-            if( expected is long && actual is int )
-            {
-                return (long)expected == (int)actual;
+                //
+                // Convert to strings and compare result to avoid
+                // issues with different types that have the same
+                // value
+                //
+                string sExpected = expected.ToString();
+                string sActual   = actual.ToString();
+                return sExpected.Equals( sActual );
             }
             return expected.Equals(actual);
         }
 
-		/// <summary>Asserts that two objects are equal. If they are not
-		/// an <see cref="AssertionFailedError"/> is thrown.</summary>
+		/// <summary>
+		/// Asserts that two objects are equal.  Two objects are considered
+		/// equal if both are null, or if both have the same value.  Numeric
+		/// types are compared via string comparision on their contents to
+		/// avoid problems comparing values between different types.  All
+		/// non-numeric types are compared by using the <c>Equals</c> method.
+		/// If they are not equal an <see cref="AssertionFailedError"/> is thrown.
+		/// </summary>
 		static public void AssertEquals(string message, Object expected, Object actual)
 		{
-			if (expected == null && actual == null)
-				return;
-			if (expected != null && ObjectsEqual( expected, actual ))
-				return;
+            if (expected == null && actual == null)
+            {
+                return;
+            }
+            if (expected != null && actual != null )
+            {
+                if( ObjectsEqual( expected, actual ) )
+                {
+                    return;
+                }
+            }
 			Assertion.FailNotEquals(message, expected, actual);
 		}
     

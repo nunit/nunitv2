@@ -226,13 +226,16 @@ namespace NUnit.Gui
 		/// </summary>
 		public void UnloadAssembly( )
 		{
-			testDomain.Unload();
-			testDomain = null;
+			if(testDomain != null)
+			{
+				testDomain.Unload();
+				testDomain = null;
 
-			RemoveWatcher();
+				RemoveWatcher();
 
-			if ( TestSuiteUnloadedEvent != null )
-				TestSuiteUnloadedEvent( );
+				if ( TestSuiteUnloadedEvent != null )
+					TestSuiteUnloadedEvent( );
+			}
 		}
 
 		/// <summary>
