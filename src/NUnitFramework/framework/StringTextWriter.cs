@@ -37,7 +37,7 @@ namespace NUnit.Core
 
 	/// <summary>
 	/// Use this wrapper to ensure that only strings get passed accross the AppDomain
-	/// boundary.  Otherwise tests will break when non-remotable objecs are passed to
+	/// boundary.  Otherwise tests will break when non-remotable objects are passed to
 	/// Console.Write/WriteLine.
 	/// </summary>
 	public class StringTextWriter : TextWriter
@@ -88,29 +88,41 @@ namespace NUnit.Core
 
 		override public void Write(char aChar)
 		{
-			sb.Append( aChar );
-			this.CheckBuffer();
+			lock( sb )
+			{
+				sb.Append( aChar );
+				this.CheckBuffer();
+			}
 		}
 
 		override public void Write(string aString)
 		{
-			sb.Append( aString );
-			this.CheckBuffer();
+			lock( sb )
+			{
+				sb.Append( aString );
+				this.CheckBuffer();
+			}
 		}
 
 		override public void WriteLine(string aString)
 		{
-			sb.Append( aString );
-			sb.Append( '\n' );
-			this.Flush();
+			lock( sb )
+			{
+				sb.Append( aString );
+				sb.Append( '\n' );
+				this.Flush();
+			}
 		}
 
 		override public void Flush()
 		{
 			if ( sb.Length > 0 )
 			{
-				theTextWriter.Write( sb.ToString() );
-				sb.Length = 0;
+				lock( sb )
+				{
+					theTextWriter.Write( sb.ToString() );
+					sb.Length = 0;
+				}
 			}
 		}
 
