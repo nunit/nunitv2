@@ -63,10 +63,10 @@
                         <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
                           <tr>
                             <td>
-                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="selected">
+                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="link">
                                 <tr>
-                                  <td class="navtext">
-                                    <div align="center"><a href="download.html" target="_self"><img src="img/downloadOn.gif" width="78" height="12" alt="Download" border="0"></a></div>
+                                  <td class="navtext" bgcolor="#FFFFFF">
+                                    <div align="center"><a href="download.html" target="_self"><img src="img/downloadOff.gif" width="78" height="12" alt="Download" border="0"></a></div>
                                   </td>
                                 </tr>
                               </table>
@@ -78,12 +78,12 @@
                         <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
                           <tr>
                             <td>
-                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="link">
+                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="selected">
                                 <tr>
-                                  <td class="navtext" bgcolor="#FFFFFF">
+                                  <td class="navtext">
                                     <div align="center">
 										<a target="_self" href="documentation.html">
-                                      <img src="img/documentationOff.gif" width="118" height="12" alt="Documentation" border="0"></a></div>
+                                      <img src="img/documentationOn.gif" width="118" height="12" alt="Documentation" border="0"></a></div>
                                   </td>
                                 </tr>
                               </table>
@@ -146,12 +146,12 @@
       </table></span>
       <table border="0" cellspacing="0" cellpadding="0" width="100%">
         <tr>
-          <td align="right" width="120"><img src="img/navDiv.gif" width="1" height="23" alt=""></td>
+          <td align="right" width="240"><img src="img/navDiv.gif" width="1" height="23" alt=""></td>
           <td>&nbsp;</td>
           <td width="120">&nbsp;</td>
         </tr>
         <tr>
-          <td height="1" align="right" valign="top" width="120"><img src="img/cornerPixel.gif" width="1" height="1" alt=""></td>
+          <td height="1" align="right" valign="top" width="240"><img src="img/cornerPixel.gif" width="1" height="1" alt=""></td>
 			<script language="JavaScript" type="text/JavaScript"> <!--
 				document.writeln(navLine);
 			// -->
@@ -186,6 +186,37 @@
       <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
         <tr>
           <td class="bodytext">
+            <p><b>Configuration</b>
+              <br>
+	      If multiple versions of the .NET framework are installed, the configuration 
+              files <span class="programtext">nunit-gui.exe.config</span> and
+	      <span class="programtext">nunit-console.exe.config</span> control the
+              which one of them is selected when running the gui and console runner
+              respectively. As originally installed, that order is .NET 1.1, .NET 2.0
+              and .NET 1.0. To change which version is used, simply change the order
+              of the <supportedRuntime> elements in the config files. The nunit-gui
+	      About Box shows the current framework version.</p>
+
+              <p>Settings that you place in these files are not available to your tests
+              or to the production code you are testing. A separate config file is used 
+              when running tests. If you are running tests from the test.dll assembly, the
+	      config file should be named test.dll.config. If you are running tests from
+	      the NUnit test project MyTests.nunit, the config file should be named
+              MyTests.config. In either case the config file must reside in the same
+              directory as the file from which it takes its name.</p>
+
+              <p>In addition to settings of your own, the config file for a set of tests
+              may contain information used by NUnit in loading your tests. In particular,
+              this allows you to control the apartment state and priority of the thread
+              that NUnit uses to run your tests. Other settings may be added in the future.
+              See the file nunit.tests.dll for an example.</p>
+            </td>
+        </tr>
+      </table>
+      <br>
+      <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
+        <tr>
+          <td class="bodytext">
             <p><b>Start Menu</b>
               <br>
               The installation program places a number of items in the Start menu.
@@ -205,9 +236,9 @@
             The way we verify that the installation has worked successfully is
             to install the program and run the tests that were used to build the
             program. These tests can be found in the assembly, <span class="programText">nunit.tests.dll</span>.
-            There should be 607 tests and they should all pass.<br>
+            There should be 605 tests and they should all pass.<br>
           <br>
-          <img border="0" src="img/gui-verify.gif" width="628" height="471"></td>
+          <img border="0" src="img/gui-verify.gif" width="626" height="470"></td>
         </tr>
       </table>
       <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
