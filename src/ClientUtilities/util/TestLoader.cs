@@ -129,6 +129,8 @@ namespace NUnit.Util
 		/// </summary>
 		private bool reloadOnRun = false;
 
+		private IFilter filter;
+
 		#endregion
 
 		#region Constructor
@@ -210,7 +212,7 @@ namespace NUnit.Util
 		{
 			int count = 0;
 			foreach( Test test in tests )
-				count += test.CountTestCases();
+				count += filter == null ? test.CountTestCases() : test.CountTestCases( filter );
 
 			events.FireRunStarting( tests, count );
 		}
@@ -595,6 +597,11 @@ namespace NUnit.Util
 
 		#region Methods for Running Tests
 
+		public void SetFilter( IFilter filter )
+		{
+			this.filter = filter;
+		}
+
 		/// <summary>
 		/// Run the currently loaded top level test suite
 		/// </summary>
@@ -630,6 +637,10 @@ namespace NUnit.Util
 				foreach (ITest node in runningTests) 
 					testNames[index++] = node.UniqueName;
 
+				testDomain.SetFilter( filter );
+#if !MONO
+				testDomain.DisplayTestLabels = UserSettings.Options.TestLabels;
+#endif
 				testDomain.RunTest( this, testNames );
 			}
 		}
