@@ -173,72 +173,111 @@
       <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
         <tr>
           <td class="bodytext">
-            <p><b>Installation</b>
-              <br>
-              By default the installation program places all of the files into
-              the following directory: <span class="programtext">c:\Program Files\NUnit
-              V2.2</span>. In the installation directory there are three sub-directories;
-              bin, doc, and src.</p>
-            </td>
-        </tr>
-      </table>
-      <br>
-      <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
-        <tr>
-          <td class="bodytext">
-            <p><b>Configuration</b>
-              <br>
-	      If multiple versions of the .NET framework are installed, the configuration 
-              files <span class="programtext">nunit-gui.exe.config</span> and
-	      <span class="programtext">nunit-console.exe.config</span> control the
-              which one of them is selected when running the gui and console runner
-              respectively. As originally installed, that order is .NET 1.1, .NET 2.0
-              and .NET 1.0. To change which version is used, simply change the order
-              of the <supportedRuntime> elements in the config files. The nunit-gui
-	      About Box shows the current framework version.</p>
+            <p><b>Installation</b><br>
+            By default the installation program places all of the files into
+            the following directory: <span class="programtext">c:\Program Files\NUnit
+            V2.2</span>. In the installation directory there are three sub-directories;
+            bin, doc, and src.</p>
 
-              <p>Settings that you place in these files are not available to your tests
-              or to the production code you are testing. A separate config file is used 
-              when running tests. If you are running tests from the test.dll assembly, the
-	      config file should be named test.dll.config. If you are running tests from
-	      the NUnit test project MyTests.nunit, the config file should be named
-              MyTests.config. In either case the config file must reside in the same
-              directory as the file from which it takes its name.</p>
+            <p><b>Configuration</b><br>
+	        If multiple versions of the .NET framework are installed, the configuration 
+            files <span class="programtext">nunit-gui.exe.config</span> and
+	        <span class="programtext">nunit-console.exe.config</span> control the
+            which one of them is selected when running the gui and console runner
+            respectively. As originally installed, that order is .NET 1.1, .NET 2.0
+            and .NET 1.0. To change which version is used, simply change the order
+            of the <supportedRuntime> elements in the config files. The nunit-gui
+	        About Box shows the current framework version.</p>
 
-              <p>In addition to settings of your own, the config file for a set of tests
-              may contain information used by NUnit in loading your tests. In particular,
-              this allows you to control the apartment state and priority of the thread
-              that NUnit uses to run your tests. Other settings may be added in the future.
-              See the file nunit.tests.dll for an example.</p>
-            </td>
-        </tr>
-      </table>
-      <br>
-      <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
-        <tr>
-          <td class="bodytext">
-            <p><b>Start Menu</b>
-              <br>
-              The installation program places a number of items in the Start menu.
-              There is a shortcut to the nunit-gui executable. (There is
-              also a shortcut placed directly on the desktop). In addition to
-              the executable file, the menu items under Samples bring up the
+            <p>Settings that you place in these files are not available to your tests
+            or to the production code you are testing. A separate config file is used 
+            when running tests. If you are running tests from the test.dll assembly, the
+	        config file should be named test.dll.config. If you are running tests from
+	        the NUnit test project MyTests.nunit, the config file should be named
+            MyTests.config. In either case the config file must reside in the same
+            directory as the file from which it takes its name.</p>
+
+            <p>In addition to settings of your own, the config file for a set of tests
+            may contain information used by NUnit in loading your tests. In particular,
+            this allows you to control the apartment state and priority of the thread
+            that NUnit uses to run your tests. Other settings may be added in the future.
+            See the file nunit.tests.dll for an example.</p>
+
+            <p><b>Start Menu</b><br>
+            The installation program places a number of items in the Start menu.
+            There is a shortcut to the nunit-gui executable. (There is
+            also a shortcut placed directly on the desktop). In addition to
+            the executable file, the menu items under Samples bring up the
             folder for the particular sample. The source shortcut
-              brings up the folder which contains the source for the project.</p>
-            </td>
-        </tr>
-      </table>
-		<br>
-      <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
-        <tr>
-          <td class="bodytext"><b>Installation Verification</b>
-            <br>
+            brings up the folder which contains the source for the project.</p>
+
+		    <p><b>Installation Verification</b><br>
             The way we verify that the installation has worked successfully is
             to install the program and run the tests that were used to build the
             program. These tests can be found in the assembly, <span class="programText">nunit.tests.dll</span>.
-            There should be 605 tests and they should all pass.<br>
-          <br>
-          <img border="0" src="img/gui-verify.gif" width="626" height="470"></td>
+            There should be 605 tests and they should all pass.</p>
+          	
+			<img border="0" src="img/gui-verify.gif" width="626" height="470">
+
+		    <p><b>Timing Tests</b><br>
+	    	The assembly timing-tests.dll contains several long-running tests 
+			that are used to verify that all remoting timeout problems have been 
+			fixed. The test cases all run for six to 12 minutes and give no indication 
+			whatsoever that they are working! This is required since correct handling 
+			of a non-communicative user test is what these tests are all about.
+			
+		    <p><b>Additional Tests</b><br>
+		    Additional tests are included with the samples and in separate assemblies 
+			used as data by the verification tests themselves. Failures or not run 
+			conditions in these tests are intentional. You may load all the tests 
+			at once by running NUnit and opening the nunit.sln file.</p>
+
+		    <p><b>Manual Installation</b><br>
+            Those building NUnit 2.1 from source code may either build the install 
+			project and run the msi that is created or perform a manual installation 
+			by following these steps:</p>
+			
+			<ol>
+				<p><li>Copy the following files to the target directory:
+				<ul>
+					<li>nunit.framework.dll</li>
+					<li>nunit.extensions.dll</li>
+					<li>nunit.uikit.dll</li>
+					<li>nunit.util.dll</li>
+					<li>nunit-console.exe</li>
+					<li>nunit-console.exe.config (see note 2)</li>
+					<li>nunit-gui.exe</li>
+					<li>nunit-gui.exe.config (see note 2)</li>
+				</ul></li>
+
+				<li>Run gacutil.exe to install nunit.framework.dll into the GAC.</li>
+
+				<p><li>Create shortcuts as needed.</li>
+
+				<p><li>If you want to be able to run the nunit tests, copy the 
+				following files to the same location as the others:
+				<ul>
+					<li>mock-assembly.dll</li>
+					<li>nonamespace-assembly.dll</li>
+					<li>notestfixtures-assembly.dll</li>
+					<li>nunit.tests.dll</li>
+					<li>nunit.tests.dll.config (see note 2)</li>
+					<li>timing-tests.dll</li>
+				</ul></li>
+			</ol>
+			
+			<p><b>Note:</b> Some of the nunit tests require access to the source to run 
+			successfully. The source tree should be copied into a directory 
+			named src with the same parent as the directory containing the 
+			assemblies so that the solution may be found at ..\src\nunit.sln.
+
+			<p><b>Installation Under Mono</b><br>
+			Mono is delivered with a version of NUnit already pre-installed. 
+			The Mono 1.0 release included a beta version of NUnit 2.2.
+			Later builds may include a more up-to-date version of NUnit.
+			Before attempting to install NUnit under Mono, determine whether an equivalent or newer version is already installed. It may be necessary to remove the 
+			pre-installed version from the GAC in order for the new version to be recognized.</p>
+		  </td>
         </tr>
       </table>
       <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
