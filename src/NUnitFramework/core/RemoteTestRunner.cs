@@ -109,6 +109,11 @@ namespace NUnit.Core
 
 		private bool displayTestLabels;
 
+		/// <summary>
+		/// Results from the last test run
+		/// </summary>
+		private TestResult[] results;
+
 		#endregion
 
 		#region Constructors
@@ -170,6 +175,22 @@ namespace NUnit.Core
 		{
 			get { return displayTestLabels; }
 			set { displayTestLabels = value; }
+		}
+
+		/// <summary>
+		/// Results from the last test run
+		/// </summary>
+		public TestResult[] Results
+		{
+			get { return results; }
+		}
+
+		/// <summary>
+		/// First (or only) result from the last test run
+		/// </summary>
+		public TestResult Result
+		{
+			get { return results == null ? null : results[0]; }
 		}
 
 		#endregion
@@ -273,29 +294,32 @@ namespace NUnit.Core
 
 		public TestResult Run(NUnit.Core.EventListener listener, string testName )
 		{
-			return Run( listener, FindTest( suite, testName ) );
+			if ( testName == null || testName.Length == 0 )
+				return Run( listener, suite );
+			else
+				return Run( listener, FindTest( suite, testName ) );
 		}
 
 		public TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames)
 		{
-			return Run( listener, FindTests( suite, testNames ) );
+			if ( testNames == null || testNames.Length == 0 )
+				return new TestResult[] { Run( listener, suite ) };
+			else
+				return Run( listener, FindTests( suite, testNames ) );
 		}
 
-		// Temporary implementation - runs synchronously
 		public void RunTest(NUnit.Core.EventListener listener )
 		{
 			runningThread = new TestRunnerThread( this );
 			runningThread.Run( listener );
 		}
 		
-		// Temporary implementation - runs synchronously
 		public void RunTest(NUnit.Core.EventListener listener, string testName )
 		{
 			runningThread = new TestRunnerThread( this );
 			runningThread.Run( listener, testName );
 		}
 
-		// Temporary implementation - runs synchronously
 		public void RunTest(NUnit.Core.EventListener listener, string[] testNames)
 		{
 			runningThread = new TestRunnerThread( this );
@@ -310,6 +334,12 @@ namespace NUnit.Core
 			CleanUpAfterTestRun();
 		}
 
+		public void Wait()
+		{
+			if ( runningThread != null )
+				runningThread.Wait();
+		}
+
 		#endregion
 
 		#region Helper Routines
@@ -322,7 +352,7 @@ namespace NUnit.Core
 			// Create array with the one test
 			Test[] tests = new Test[] { test };
 			// Call our workhorse method
-			TestResult[] results = Run( listener, tests );
+			results = Run( listener, tests );
 			// Return the first result we got
 			return results[0];
 		}
@@ -356,7 +386,7 @@ namespace NUnit.Core
 			try
 			{
 				// Create an array for the resuls
-				TestResult[] results = new TestResult[ tests.Length ];
+				results = new TestResult[ tests.Length ];
 
 				// Signal that we are starting the run
 				this.listener = listener;

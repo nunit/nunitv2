@@ -206,7 +206,7 @@ namespace NUnit.Console
 			EventListener collector = new EventCollector( options, outStream );
 
 			string savedDirectory = Environment.CurrentDirectory;
-			TestResult result = null;
+
 			if (options.HasInclude)
 			{
 				Console.WriteLine( "Included categories: " + options.include );
@@ -218,13 +218,17 @@ namespace NUnit.Console
 				testDomain.SetFilter( new CategoryFilter( options.ExcludedCategories, true ) );
 			}
 
-			//			if ( runOnThread )
-			//			{
-			//				testDomain.RunTest( collector );
-			//				testDomain.WaitForTestToComplete();
-			//			}
-			//			else
-			result = testDomain.Run( collector );
+			TestResult result = null;
+			if ( options.thread )
+			{
+				testDomain.RunTest( collector );
+				testDomain.Wait();
+				result = testDomain.Result;
+			}
+			else
+			{
+				result = testDomain.Run( collector );
+			}
 
 			Directory.SetCurrentDirectory( savedDirectory );
 			

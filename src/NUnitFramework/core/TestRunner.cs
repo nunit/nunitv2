@@ -51,6 +51,22 @@ namespace NUnit.Core
 		{
 			get; set;
 		}
+
+		/// <summary>
+		/// Results from the last test run
+		/// </summary>
+		TestResult[] Results
+		{
+			get;
+		}
+
+		/// <summary>
+		/// First (or only) result from the last test run
+		/// </summary>
+		TestResult Result
+		{
+			get;
+		}
 		
 		#endregion
 
@@ -167,5 +183,7 @@ namespace NUnit.Core
 		void RunTest(NUnit.Core.EventListener listener, string[] testNames);
 
 		void CancelRun();
+
+		void Wait();
 	}
 }

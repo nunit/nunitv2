@@ -149,6 +149,16 @@ namespace NUnit.Util
 			}
 		}
 
+		public TestResult[] Results
+		{
+			get { return Runner.Results; }
+		}
+
+		public TestResult Result
+		{
+			get { return Runner.Result; }
+		}
+
 		#endregion
 
 		#region Constructors
@@ -380,6 +390,11 @@ namespace NUnit.Util
 		public void CancelRun()
 		{
 			Runner.CancelRun();
+		}
+
+		public void Wait()
+		{
+			Runner.Wait();
 		}
 
 		// For now, just publish any unhandled exceptions and let the listener
