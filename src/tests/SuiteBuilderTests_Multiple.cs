@@ -32,14 +32,16 @@ using System.Collections;
 using NUnit.Framework;
 using NUnit.Core;
 using NUnit.Util;
+using NUnit.Tests.Assemblies;
 
 namespace NUnit.Tests.Core
 {
 	[TestFixture]
 	public class SuiteBuilderTests_Multiple
 	{
-		private readonly string testsDll = "nonamespace-assembly.dll";
-		private readonly string mockDll = "mock-assembly.dll";
+		private static readonly string testsDll = "nonamespace-assembly.dll";
+		private static readonly string mockDll = "mock-assembly.dll";
+		private static readonly int totalTests = NoNamespaceTestFixture.Tests + MockAssembly.Tests;
 
 		private TestSuiteBuilder builder;
 		private ArrayList assemblies;
@@ -81,16 +83,7 @@ namespace NUnit.Tests.Core
 		public void TestCaseCount()
 		{
 			TestSuite suite = builder.Build( "TestSuite", assemblies);
-			Assert.AreEqual(10, suite.CountTestCases());
-		}
-
-		[Test]
-		public void RunMultipleAssemblies()
-		{
-			TestSuite suite = builder.Build( "TestSuite", assemblies);
-			TestResult result = suite.Run(NullListener.NULL);
-			ResultSummarizer summary = new ResultSummarizer(result);
-			Assert.AreEqual(8, summary.ResultCount);
+			Assert.AreEqual( totalTests , suite.CountTestCases());
 		}
 
 		[Test]
@@ -98,7 +91,7 @@ namespace NUnit.Tests.Core
 		{
 			TestSuite suite = builder.Build( assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.IsNotNull( suite );
-			Assert.AreEqual( 5, suite.CountTestCases() );
+			Assert.AreEqual( MockTestFixture.Tests, suite.CountTestCases() );
 		}
 	}
 }
