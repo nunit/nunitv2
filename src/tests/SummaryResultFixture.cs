@@ -33,7 +33,7 @@ using NUnit.Framework;
 using NUnit.Core;
 using NUnit.Util;
 	
-namespace NUnit.Tests.Core
+namespace NUnit.Tests.Util
 {
 	/// <summary>
 	/// Summary description for TestResultTests.
