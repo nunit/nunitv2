@@ -65,5 +65,19 @@ namespace NUnit.Gui
 		{
 			get { return Encoding.Default; }
 		}
+
+		public override Object InitializeLifetimeService()
+		{
+			System.Runtime.Remoting.Lifetime.ILease lease =
+				(System.Runtime.Remoting.Lifetime.ILease)base.InitializeLifetimeService();
+			
+			if (lease.CurrentState ==
+				System.Runtime.Remoting.Lifetime.LeaseState.Initial)
+			{
+				lease.InitialLeaseTime = TimeSpan.Zero;
+			}
+
+			return lease;
+		}
 	}
 }
