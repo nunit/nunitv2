@@ -38,15 +38,56 @@ namespace NUnit.Core
 	[Serializable]
 	public abstract class TestResult
 	{
+		#region Fields
+
+		/// <summary>
+		/// True if the test executed
+		/// </summary>
 		private bool executed;
+
+		/// <summary>
+		/// True if the test was marked as a failure
+		/// </summary>
 		private bool isFailure; 
+		
+		/// <summary>
+		/// The elapsed time for executing this test
+		/// </summary>
 		private double time;
+
+		/// <summary>
+		/// The name of the test
+		/// </summary>
 		private string name;
+
+		/// <summary>
+		/// The test that this result pertains to
+		/// </summary>
 		private ITest test;
+
+		/// <summary>
+		/// The stacktrace at the point of failure
+		/// </summary>
 		private string stackTrace;
+
+		/// <summary>
+		/// Description of this test
+		/// </summary>
 		private string description;
+
+		/// <summary>
+		/// Message giving the reason for failure
+		/// </summary>
 		protected string messageString;
+
+		/// <summary>
+		/// Number of asserts executed by this test
+		/// </summary>
 		private int assertCount;
+
+		#endregion
+
+		#region Protected Constructor
 
 		protected TestResult(ITest test, string name)
 		{
@@ -55,6 +96,10 @@ namespace NUnit.Core
 			if(test != null)
 				this.description = test.Description;
 		}
+
+		#endregion
+
+		#region Properties
 
 		public bool Executed 
 		{
@@ -123,7 +168,25 @@ namespace NUnit.Core
 			set { assertCount = value; }
 		}
 
-		public abstract void NotRun(string message);
+		#endregion
+
+		#region Public Methods
+
+		public void NotRun(string reason)
+		{
+			this.executed = false;
+			this.messageString = reason;
+		}
+
+		public void Failure(string message, string stackTrace)
+		{
+			this.executed = true;
+			this.isFailure = true;
+			this.messageString = message;
+			this.stackTrace = stackTrace;
+		}
+
+		#endregion
 
 		public abstract void Accept(ResultVisitor visitor);
 	}
