@@ -17,7 +17,7 @@
 	</Target>
 	
 	<Target Name="Test" DependsOnTargets="Install">
-		<Exec Command='$(NUnitConsole) "$(ProgramFiles)\NUnit 2.2.1\bin\NUnitTests.nunit" /config=Deployed /xml=%cd%\NUnitTests-results.xml' />
+		<Exec Command='$(NUnitConsole) "$(ProgramFiles)\NUnit 2.2.1\bin\NUnitTests.nunit" /xml=%cd%\NUnitTests-results.xml' />
 	</Target>
 
 	<Target Name="Package" DependsOnTargets="Build">
