@@ -38,7 +38,6 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void Null()
 		{
-			new NullAsserter( null, null, null ).Assert();
 			Assert.IsNull(null);
 		}
 
@@ -48,13 +47,6 @@ namespace NUnit.Framework.Tests
 		{
 			String s1 = "S1";
 			Assert.IsNull(s1);
-		}
-
-		[Test, ExpectedException( typeof(AssertionException) )]
-		public void NullAsserterFails()
-		{
-			String s1 = "S1";
-			new NullAsserter( s1, null, null ).Assert();
 		}
 	}
 }
