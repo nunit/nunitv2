@@ -167,7 +167,13 @@ namespace NUnit.UiKit
 		[Browsable(false)]
 		private float PercentValue
 		{
-			get{return ((float)this.fValue / ((float)Maximum - (float)Minimum));}
+			get
+            {
+                if (0 != Maximum - Minimum) // NRG 05/28/03: Prevent divide by zero
+                    return((float)this.fValue / ((float)Maximum - (float)Minimum));
+                else
+                    return(0);
+            }
 		}	
 
 		[Category("Behavior")]

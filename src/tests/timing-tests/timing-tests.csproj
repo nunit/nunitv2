@@ -102,11 +102,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ConsoleOutputTimingFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ServerTimeoutFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

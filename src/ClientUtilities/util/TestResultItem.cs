@@ -59,6 +59,18 @@ namespace NUnit.Util
 			return ToString();
 		}
 
+        public string GetToolTipMessage()   //NRG 05/28/03 - Substitute spaces for tab characters
+        {
+            return (ReplaceTabs(GetMessage(), 8)); // Change each tab to 8 space characters
+        }
+
+        public string ReplaceTabs(string strOriginal, int nSpaces)  //NRG 05/28/03
+        {
+            string strSpaces = string.Empty;
+            strSpaces = strSpaces.PadRight(nSpaces, ' ');
+            return(strOriginal.Replace("\t", strSpaces));
+        }
+
 		public string StackTrace
 		{
 			get 

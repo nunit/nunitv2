@@ -1055,7 +1055,8 @@ namespace NUnit.Gui
 			TestResultItem resultItem = (TestResultItem)detailList.SelectedItem;
 			//string stackTrace = resultItem.StackTrace;
 			stackTrace.Text = resultItem.StackTrace;
-			toolTip.SetToolTip(detailList,resultItem.GetMessage());
+
+			toolTip.SetToolTip(detailList,resultItem.GetToolTipMessage());
 		}
 
 		/// <summary>
