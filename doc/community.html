@@ -1,0 +1,356 @@
+<html>
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+
+<title>NUnit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<script language="JavaScript" type="text/JavaScript"> <!--
+	if (navigator.appName == "Netscape") {
+		if (parseInt(navigator.appVersion) >= 5) {
+			document.writeln("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styleGuide.css\">");
+		} else {
+			document.writeln("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styleGuideNN.css\">");
+			document.writeln("<style type=\"text/css\">");
+			document.writeln("<!-- .bodytext { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: .65em; color: #000000 }");
+			document.writeln("-->");
+			document.writeln("</style>");
+		}
+	}
+	 else if ((navigator.appName == "Microsoft Internet Explorer") && (parseInt(navigator.appVersion) >= 4)) {
+		document.writeln("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styleGuideIE.css\">");
+	}
+	else {
+		document.writeln("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styleGuide.css\">");
+	}
+// -->
+</script>
+<style>
+<!--
+SPAN.GramE {
+
+}
+SPAN.SpellE {
+
+}
+-->
+</style>
+</head>
+
+<body text="#000000" marginwidth="0" rightmargin="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="25%"><a href="index.html" target="_self"> <img src="img/logo.gif" hspace="15" vspace="11" border="0" alt="NUnit"></a></td>
+    <td valign="top"><span class="navTable">
+      <table width="110%" border="0" cellspacing="0" cellpadding="1" height="40" vspace="15" class="divider">
+        <tr>
+          <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="link">
+              <tr>
+                <td bgcolor="#FFFFFF">
+                  <table border="0" cellspacing="10" cellpadding="0">
+                    <tr>
+                      <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
+                          <tr>
+                            <td>
+                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="link">
+                                <tr>
+                                  <td class="navtext" bgcolor="#FFFFFF">
+                                    <div align="center"><a href="index.html" target="_self"><img src="img/homeOff.gif" width="40" height="12" alt="Home" border="0"></a></div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
+                          <tr>
+                            <td>
+                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="link">
+                                <tr>
+                                  <td class="navtext" bgcolor="#FFFFFF">
+                                    <div align="center"><a href="download.html" target="_self"><img src="img/downloadOff.gif" width="78" height="12" alt="Download" border="0"></a></div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
+                          <tr>
+                            <td>
+                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="link">
+                                <tr>
+                                  <td class="navtext" bgcolor="#FFFFFF">
+                                    <div align="center">
+										<a target="_self" href="documentation.html"><img src="img/documentationOff.gif" width="118" height="12" alt="Documentation" border="0"></a></div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
+                          <tr>
+                            <td>
+                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="selected">
+                                <tr>
+                                  <td class="navtext">
+                                    <div align="center"><a href="community.html" target="_self"><img src="img/communityOn.gif" width="83" height="12" alt="Community" border="0"></a></div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
+                          <tr>
+                            <td>
+                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="link">
+                                <tr>
+                                  <td class="navtext" bgcolor="#FFFFFF">
+                                    <div align="center"><a href="resources.html" target="_self"><img src="img/resourcesOff.gif" width="81" height="12" alt="Resources" border="0"></a></div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
+                          <tr>
+                            <td>
+                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="link">
+                                <tr>
+                                  <td class="navtext" bgcolor="#FFFFFF">
+                                    <div align="center"><a href="contactUs.html" target="_self"><img src="img/contactUsOff.gif" width="83" height="12" alt="Contact Us" border="0"></a></div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table></span>
+    </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td valign="top"><br><br>
+      <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
+        <tr>
+          <td class="bodytext"><b>Philosophy</b>
+            <br>
+            First and foremost, we have done our best to insure that this program
+            was developed test-first. As such we will accept no code changes without
+            associated tests. As for bug fixes we plan to follow the procedure
+            that we write a failing unit test first and then fix it. In this fashion,
+            the number of tests that we have will grow over time. Lastly, if a
+            change breaks an existing test it is the responsibility of the person
+            making the change to first understand the ramification of the change
+            and either fix the test or alter the modification that caused the
+            problem. That said, if you are interested, so are we, please help
+            make NUnit the best xUnit tool in any language.</td>
+        </tr>
+      </table>
+      <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
+        <tr>
+          <td class="bodytext">
+            <br>
+            <b>NUnit Development Guidelines<br>
+            </b>Our goal is to have as many people participate in the development
+            as possible. However, the normal random development of open-source
+            often leads to projects that stall and then die. Too often these projects
+            are technology driven and once the technical problem has been solved
+            the developer loses interest. We do not want this to happen to NUnit.
+            So we are attempting to put in a minimal amount of process to insure
+            that the development moves forward in a way that the community chooses.
+          </td>
+        </tr>
+      </table>
+      <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
+        <tr>
+          <td class="bodytext">
+            <br>
+            <b>Feature Selection/Prioritization<br>
+            </b>It is incumbent on all users to suggest new features that would
+            be useful and to participate in the prioritization of the features.
+            It is your program after all, why not try and make it better. These
+            requests should be sent to <A href="mailto:nunit-developer@lists.sourceforge.net">nunit-developer@lists.sourceforge.net</A>.
+            The requests should be more than one line of text. They should be
+            accompanied by additional information, such as code examples and possible
+            suggestions on implementation. They should also include pros/cons
+            of why this should be part of NUnit.
+            <p>
+<b>Note: </b>There is a
+balance that needs to occur for the development of NUnit. We could just allow
+NUnit features to emerge out of the feature requests and the product would be
+completely driven by the community. On the other hand NUnit is a unit-testing
+tool for on the .NET platform. So, overall the direction of new development must
+exist with the confines of this being a unit testing tool for .NET.<p>
+Once a feature request has been submitted it will be
+consolidated with other like feature requests and added to the list of features
+that have been suggested. There may be an initial poll to determine if the
+feature should even be prioritized.<p>
+Since we plan on doing two week iterations these feature
+request may be split up in order to be accomplished within an
+iteration. Based on developer availability every two weeks the features
+that are desired the most by the community will be the ones that are worked on.
+We will be developing a poll to be implemented on this site to facilitate this.&nbsp;
+            </td>
+        </tr>
+      </table>
+      <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
+        <tr>
+          <td class="bodytext">
+            <br>
+            <b>Iteration Development<br>
+            </b>An iteration begins with an iteration planning meeting. At this
+            meeting all current bugs are reviewed along with the current highest
+            rated features. Based on the amount of developer availability certain
+            items will be committed to the iteration.
+            <p>If you are interested in participating in
+an iteration send a message to <A
+href="mailto:nunit-developer@lists.sourceforge.net">nunit-developer@lists.sourceforge.net</A>. Along with your email
+please indicate the amount of time that you capable of spending within the next
+iteration and given a current scan of the bugs and features what you would most
+like to work on. If you would like to work on something that is not on the
+iteration list you will need to submit a feature request and have it be
+prioritized like everything else.</p>
+            <p>As part of committing to work on features we would like
+developers to break their work up into tasks. A task
+            duration should be no longer than 1 or 2 days. Upon completion code
+            should be checked into the source code control system. The code will be reviewed by the one of the
+Admins for adherence to the coding standard and other
+coding guidelines.</p>
+            <p>
+            </td>
+        </tr>
+      </table>
+      <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
+        <tr>
+          <td class="bodytext">
+            <br>
+            <b>Coding Guidelines<br>
+            </b><SPAN class=GramE>Test-Driven Development.</SPAN> This is non-negotiable.
+            There will be no code that is accepted without associated tests. Also,
+            we expect that <SPAN class=SpellE>Refactoring</SPAN> is part of your
+            everyday activities so if there is <SPAN class=GramE>a need to <SPAN
+class=SpellE>refactor</SPAN> do</SPAN> it.
+            <p>For <SPAN class=SpellE>bugfixes</SPAN> there must also be an
+associated test which exposes the bug. This allows the tests to increase over
+time and the overall coverage of the tests improves. There may be times when it
+is not possible to have a test. In these cases please let us know the
+circumstances and we will decide if there is a way to test a particular item.
+            </p>
+            <p>It also the goal that any current download from the source code
+            control system is
+releasable. Therefore, it is incumbent upon you to insure that you run all the
+tests on code prior to check-in. Also, once the files are checked-in you should
+download the current files&nbsp; into a new folder recompile it and run the
+tests. This verifies that what is in the source code control system is at least no worse than it was before
+you started. </p>
+            <p>
+            </td>
+        </tr>
+      </table>
+      <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
+        <tr>
+          <td class="bodytext">
+            <br>
+            <b>Code Samples<br>
+            </b>The following is a code sample that demonstrates the style in
+            which we want code to be written for the project.
+            <P class=MsoNormal style="mso-layout-grid-align: none"><SPAN class=GramE><SPAN
+style="FONT-SIZE: 10pt; COLOR: blue; FONT-FAMILY: 'Courier New'">namespace</SPAN></SPAN><SPAN
+style="FONT-SIZE: 10pt; FONT-FAMILY: 'Courier New'"> <SPAN
+class=SpellE>NUnit.Framework</SPAN> <br>
+{<SPAN
+class=GramE><SPAN style="COLOR: blue"><br>
+&nbsp; using</SPAN></SPAN>
+System;<o:p></o:p></SPAN></P>
+<P class=MsoNormal style="mso-layout-grid-align: none"><SPAN
+style="FONT-SIZE: 10pt; FONT-FAMILY: 'Courier New'"><SPAN
+style="mso-tab-count: 1">&nbsp; </SPAN><SPAN
+style="COLOR: gray">///</SPAN><SPAN style="COLOR: green"> </SPAN><SPAN
+style="COLOR: gray">&lt;summary&gt;</SPAN><SPAN style="COLOR: green">A set of
+Assert methods<SPAN class=GramE>.<SPAN
+style="COLOR: gray">&lt;</SPAN></SPAN></SPAN><SPAN
+style="COLOR: gray">/summary&gt;<br>
+&nbsp; </SPAN><SPAN
+class=GramE><SPAN style="COLOR: blue">public</SPAN></SPAN> <SPAN
+style="COLOR: blue">class</SPAN> Assertion<br>
+&nbsp; {<SPAN style="COLOR: gray"><br>
+&nbsp;&nbsp;&nbsp; ///</SPAN><SPAN style="COLOR: green">
+</SPAN><SPAN style="COLOR: gray">&lt;summary&gt;<br>
+&nbsp;&nbsp;&nbsp; /// </SPAN><SPAN style="COLOR: green"> <SPAN
+class=GramE>Asserts</SPAN> that a condition is true. If it isn't it
+throws<br>
+&nbsp;&nbsp;&nbsp; </SPAN><SPAN style="COLOR: gray">///</SPAN><SPAN style="COLOR: green"> an
+</SPAN><SPAN style="COLOR: gray">&lt;see <SPAN class=SpellE>cref</SPAN>="<SPAN
+class=SpellE>AssertionFailedError</SPAN>"/&gt;</SPAN><SPAN
+style="COLOR: green">.<br>
+&nbsp;&nbsp;&nbsp; </SPAN><SPAN style="COLOR: gray">///</SPAN><SPAN style="COLOR: green">
+</SPAN><SPAN style="COLOR: gray">&lt;/summary&gt;<br>
+&nbsp;&nbsp;&nbsp; ///</SPAN><SPAN style="COLOR: green">
+</SPAN><SPAN style="COLOR: gray">&lt;<SPAN class=SpellE>param</SPAN>
+name="message"&gt;</SPAN><SPAN class=GramE><SPAN
+style="COLOR: green">The</SPAN></SPAN><SPAN style="COLOR: green"> condition, if
+false</SPAN><SPAN style="COLOR: gray">&lt;/<SPAN
+class=SpellE>param</SPAN>&gt;<br>
+&nbsp;&nbsp;&nbsp; ///</SPAN><SPAN style="COLOR: green">
+</SPAN><SPAN style="COLOR: gray">&lt;<SPAN class=SpellE>param</SPAN>
+name="condition"&gt;</SPAN><SPAN class=GramE><SPAN
+style="COLOR: green">The</SPAN></SPAN><SPAN style="COLOR: green"> evaluated
+condition</SPAN><SPAN style="COLOR: gray">&lt;/<SPAN
+class=SpellE>param</SPAN>&gt;<o:p></o:p></SPAN></SPAN></P>
+<P class=MsoNormal style="mso-layout-grid-align: none"><SPAN
+style="FONT-SIZE: 10pt; FONT-FAMILY: 'Courier New'"><SPAN
+style="mso-tab-count: 2">&nbsp;&nbsp;&nbsp;
+</SPAN><SPAN class=GramE><SPAN style="COLOR: blue">static</SPAN></SPAN> <SPAN
+style="COLOR: blue">public</SPAN> <SPAN style="COLOR: blue">void</SPAN>
+Assert(<SPAN style="COLOR: blue">string</SPAN> message, <SPAN class=SpellE><SPAN
+style="COLOR: blue">bool</SPAN></SPAN> condition) <br>
+&nbsp;&nbsp;&nbsp; {<SPAN class=GramE><SPAN style="COLOR: blue"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if</SPAN></SPAN>
+(!condition)<SPAN class=SpellE><SPAN class=GramE><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Assertion.Fail</SPAN></SPAN><SPAN
+class=GramE>(</SPAN>message);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp; }<br>
+}</SPAN></P>
+            <p>&nbsp;</td>
+        </tr>
+      </table>
+       <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
+        <tr>
+          <td class="copyrighttext">
+            <br>
+            Copyright © 2002-2004 James W. Newkirk, Alexei A. Vorontsov. All Rights Reserved.
+		  </td>
+        </tr>
+      </table>
+    </td>
+    <td width="1" valign="top"><img src="img/sideDivider.gif" width="1" height="435" alt="|"></td>
+    <td width="235" >&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>
