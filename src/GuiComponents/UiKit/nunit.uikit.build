@@ -79,7 +79,6 @@
                 <includes name="Red.jpg"/>
                 <includes name="unpinned.gif"/>
                 <includes name="Yellow.jpg"/>
-                <includes name="*.resx"/>
             </fileset>
         </copy>
     </target>
