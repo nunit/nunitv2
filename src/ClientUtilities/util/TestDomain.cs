@@ -227,10 +227,13 @@ namespace NUnit.Util
 			try
 			{
 				FileInfo projectFile = new FileInfo( testProject.ProjectPath );
+				string configFilePath = projectFile.Extension == ".dll" 
+					? projectFile.FullName + ".config"
+					: Path.ChangeExtension( projectFile.FullName, ".config" );
 				CreateDomain( 
 					testProject.ProjectPath,
 					projectFile.DirectoryName,
-					Path.ChangeExtension( projectFile.FullName, ".config" ),
+					configFilePath,
 					GetBinPath( testProject.Assemblies ),
 					testProject.Assemblies );
 
