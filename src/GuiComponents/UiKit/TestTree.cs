@@ -461,7 +461,7 @@ namespace NUnit.UiKit
 			this.categoryButtonPanel.Location = new System.Drawing.Point(8, 259);
 			this.categoryButtonPanel.Name = "categoryButtonPanel";
 			this.categoryButtonPanel.Size = new System.Drawing.Size(224, 40);
-			this.categoryButtonPanel.TabIndex = 2;
+			this.categoryButtonPanel.TabIndex = 1;
 			// 
 			// removeCategory
 			// 
@@ -490,7 +490,7 @@ namespace NUnit.UiKit
 			this.selectedCategories.Location = new System.Drawing.Point(8, 307);
 			this.selectedCategories.Name = "selectedCategories";
 			this.selectedCategories.Size = new System.Drawing.Size(224, 152);
-			this.selectedCategories.TabIndex = 1;
+			this.selectedCategories.TabIndex = 2;
 			this.selectedCategories.TabStop = false;
 			this.selectedCategories.Text = "Selected Categories";
 			// 
@@ -513,7 +513,7 @@ namespace NUnit.UiKit
 			this.excludeCheckbox.Location = new System.Drawing.Point(8, 128);
 			this.excludeCheckbox.Name = "excludeCheckbox";
 			this.excludeCheckbox.Size = new System.Drawing.Size(200, 16);
-			this.excludeCheckbox.TabIndex = 3;
+			this.excludeCheckbox.TabIndex = 1;
 			this.excludeCheckbox.Text = "Exclude these categories";
 			this.excludeCheckbox.CheckedChanged += new System.EventHandler(this.excludeCheckbox_CheckedChanged);
 			// 
