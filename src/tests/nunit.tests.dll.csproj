@@ -147,6 +147,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssertionTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AttributeDescriptionFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
