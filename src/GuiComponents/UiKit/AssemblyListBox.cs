@@ -123,6 +123,7 @@ namespace NUnit.UiKit
 					tipWindow.TipText = text;
 					tipWindow.Expansion = TipWindow.ExpansionStyle.Horizontal;
 					tipWindow.Overlay = true;
+					tipWindow.WantClicks = true;
 					tipWindow.AutoCloseDelay = this.AutoCloseDelay;
 					tipWindow.MouseLeaveDelay = this.MouseLeaveDelay;
 					tipWindow.Closed += new EventHandler( tipWindow_Closed );
