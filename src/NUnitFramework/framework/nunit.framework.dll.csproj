@@ -104,6 +104,11 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "AbstractAsserter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -134,12 +139,32 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ComparisonAsserter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ConditionAsserters.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "EqualAsserter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ExpectedExceptionAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "ExplicitAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IAsserter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -154,7 +179,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "NotSameAsserter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "OldTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SameAsserter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
