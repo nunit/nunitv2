@@ -103,16 +103,14 @@ namespace NUnit.UiKit
 			if ( loader.IsProjectLoaded )
 				SaveProjectIfDirty();
 
-//			loader.LoadProject( testFileName );
-//
-//			if ( loader.IsProjectLoaded )
 			if ( loader.LoadProject( testFileName, configName ) )
 			{	
-				if ( loader.TestProject.Configs.Count == 0 )
+				NUnitProject testProject = loader.TestProject;
+				if ( testProject.Configs.Count == 0 )
 					UserMessage.DisplayInfo( "Loaded project contains no configuration data" );
-				else if ( loader.TestProject.ActiveConfig == null )
+				else if ( testProject.ActiveConfig == null )
 					UserMessage.DisplayInfo( "Loaded project has no active configuration" );
-				else if ( loader.TestProject.ActiveConfig.Assemblies.Count == 0 )
+				else if ( testProject.ActiveConfig.Assemblies.Count == 0 )
 					UserMessage.DisplayInfo( "Active configuration contains no assemblies" );
 				else
 					loader.LoadTest();

@@ -435,6 +435,24 @@ namespace NUnit.Util
 
 				return true;
 			}
+			catch( FileNotFoundException exception )
+			{
+				lastException = exception;
+
+				foreach( string assembly in TestProject.ActiveConfig.AbsolutePaths )
+				{
+					if ( Path.GetFileNameWithoutExtension( assembly ) == exception.FileName &&
+						!ProjectPath.SamePathOrUnder( testProject.ActiveConfig.BasePath, assembly ) )
+					{
+						lastException = new ApplicationException( string.Format( "Unable to load {0} because it is not located under the AppBase", exception.FileName ), exception );
+						break;
+					}
+				}
+
+				events.FireTestLoadFailed( TestFileName, lastException );
+
+				return false;
+			}
 			catch( Exception exception )
 			{
 				lastException = exception;
