@@ -93,8 +93,8 @@ namespace NUnit.Console
 			XmlTextReader reader = null;
 			if(!parser.IsTransform)
 			{
-				Assembly assembly = Assembly.GetEntryAssembly();
-				ResourceManager resourceManager = new ResourceManager("nunit_console.Transform",assembly);
+				Assembly assembly = Assembly.GetAssembly(typeof(XmlResultVisitor));
+				ResourceManager resourceManager = new ResourceManager("NUnit.Framework.Transform",assembly);
 				string xmlData = (string)resourceManager.GetObject("Summary.xslt");
 
 				reader = new XmlTextReader(new StringReader(xmlData));

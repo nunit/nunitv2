@@ -167,6 +167,15 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Results.xsd"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "Results.xsx"
+                    DependentUpon = "Results.xsd"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "ResultSummarizer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -190,6 +199,10 @@
                     RelPath = "SuiteAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Summary.xslt"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "SummaryVisitor.cs"
@@ -262,7 +275,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Transform.resx"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "WarningSuite.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "XmlResultVisitor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

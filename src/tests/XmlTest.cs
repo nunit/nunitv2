@@ -17,14 +17,13 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
-namespace NUnit.Console
+namespace NUnit.Tests
 {
 	using System;
 	using System.IO;
 	using System.Xml;
 	using System.Xml.Schema;
 	using NUnit.Core;
-	using NUnit.Tests;
 	using NUnit.Framework;
 
 	/// <summary>
@@ -106,7 +105,7 @@ namespace NUnit.Console
 		[Test]
 		public void TestSchemaValidator()
 		{
-			string testsDll = "nunit.tests.dll";
+			string testsDll = "mock-assembly.dll";
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build(testsDll);
 		
@@ -120,7 +119,7 @@ namespace NUnit.Console
 			if(file.Exists)
 				schemaFile = file.FullName;
 			else
-				schemaFile = "..\\..\\..\\nunit-console\\Results.xsd";
+				schemaFile = "..\\..\\..\\framework\\Results.xsd";
 
 			SchemaValidator validator = new SchemaValidator(fileName, schemaFile);
 			Assertion.Assert("validate failed", validator.Validate());

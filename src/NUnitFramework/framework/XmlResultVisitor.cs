@@ -17,12 +17,11 @@
 ' DEALINGS IN THE SOFTWARE.
 '
 '*******************************************************************************************************************/
-namespace NUnit.Console
+namespace NUnit.Core
 {
 	using System;
 	using System.IO;
 	using System.Xml;
-	using NUnit.Core;
 
 	/// <summary>
 	/// Summary description for XmlResultVisitor.
