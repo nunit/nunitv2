@@ -50,10 +50,10 @@ namespace NUnit.Util
 
 		public static readonly int DefaultSize = 5;
 
-		public RecentFileSettings( string name ) : base ( name, UserSettings.GetStorageImpl( name ) )
-		{
-			LoadFiles();
-		}
+//		public RecentFileSettings( string name ) : base ( name, UserSettings.GetStorageImpl( name ) )
+//		{
+//			LoadFiles();
+//		}
 
 		public RecentFileSettings( string name, SettingsStorage storage ) : base( name, storage ) 
 		{

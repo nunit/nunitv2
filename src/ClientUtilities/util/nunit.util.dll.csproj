@@ -139,11 +139,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "FormSettings.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "GuiOptions.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -159,22 +154,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "NUnitGuiSettings.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "NUnitProject.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "NUnitRegistry.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OptionSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -200,11 +185,6 @@
                 />
                 <File
                     RelPath = "RecentFileSettings.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RecentProjectSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -279,11 +259,6 @@
                 />
                 <File
                     RelPath = "UITestNode.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UserSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
