@@ -64,6 +64,15 @@ namespace NUnit.Core.Tests
 
 			System.Threading.Thread.CurrentPrincipal = prpal;
 		}
+
+		[Test]
+		public void UseCustomIdentity()
+		{
+			TestIdentity ident = new TestIdentity( "test" );
+			GenericPrincipal principal = new GenericPrincipal( ident, new string[] { "Level1" } );
+		
+			System.Threading.Thread.CurrentPrincipal = principal;
+		}
 	}
 
 	/// <summary>
@@ -108,6 +117,12 @@ namespace NUnit.Core.Tests
 			// TODO:  Add MyPrincipal.IsInRole implementation
 			return false;
 		}
+	}
+
+	[Serializable]
+	public class TestIdentity : GenericIdentity
+	{
+		public TestIdentity( string name ) : base( name ) { }
 	}
 
 }
