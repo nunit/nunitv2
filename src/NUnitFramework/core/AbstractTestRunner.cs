@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections;
 
 namespace NUnit.Core
@@ -12,7 +13,6 @@ namespace NUnit.Core
 	public abstract class AbstractTestRunner : LongLivingMarshalByRefObject, TestRunner
 	{
 		#region Instance variables
-
 		/// <summary>
 		/// The loaded test suite
 		/// </summary>
@@ -34,6 +34,15 @@ namespace NUnit.Core
 		/// </summary>
 		protected TestResult[] testResults;
 
+		/// <summary>
+		/// Our writer for standard output
+		/// </summary>
+		private TextWriter outText;
+
+		/// <summary>
+		/// Our writer for error output
+		/// </summary>
+		private TextWriter errorText;
 		#endregion
 
 		#region Constructors
@@ -69,6 +78,33 @@ namespace NUnit.Core
 			set { testFilter = value; }
 		}
 
+		/// <summary>
+		/// Writer for standard output. Set throws if a test is running
+		/// </summary>
+		public TextWriter Out
+		{
+			get { return outText; }
+			set 
+			{ 
+				if ( Running )
+					throw new InvalidOperationException( "Cannot change TextWriter while a test is running" );
+				outText = value; 
+			}
+		}
+
+		/// <summary>
+		/// Writer for error output. Set throws if a test is running
+		/// </summary>
+		public TextWriter Error
+		{
+			get { return errorText; }
+			set 
+			{ 
+				if ( Running )
+					throw new InvalidOperationException( "Cannot change TextWriter while a test is running" );
+				errorText = value; 
+			}
+		}
 		#endregion
 
 		#region Methods for Loading Tests
