@@ -817,7 +817,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Ignore( string message, object[] args )
+		static public void Ignore( string message, params object[] args )
 		{
 			if (message == null) message = string.Empty;
 			else if ( args != null && args.Length > 0 )
