@@ -285,19 +285,46 @@ namespace NUnit.Core
 
 		public void RunTest(NUnit.Core.EventListener listener )
 		{
-			runningThread = new TestRunnerThread( this );
+			try
+			{
+				runningThread = new TestRunnerThread( this );
+			}
+			catch( Exception ex )
+			{
+				listener.RunFinished( ex );
+				return;
+			}
+
 			runningThread.Run( listener );
 		}
 		
 		public void RunTest(NUnit.Core.EventListener listener, string testName )
 		{
-			runningThread = new TestRunnerThread( this );
+			try
+			{
+				runningThread = new TestRunnerThread( this );
+			}
+			catch( Exception ex )
+			{
+				listener.RunFinished( ex );
+				return;
+			}
+
 			runningThread.Run( listener, testName );
 		}
 
 		public void RunTest(NUnit.Core.EventListener listener, string[] testNames)
 		{
-			runningThread = new TestRunnerThread( this );
+			try 
+			{
+				runningThread = new TestRunnerThread( this );
+			}
+			catch( Exception ex )
+			{
+				listener.RunFinished( ex );
+				return;
+			}
+
 			runningThread.Run( listener, testNames );
 		}
 
