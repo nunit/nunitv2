@@ -1,3 +1,32 @@
+#region Copyright (c) 2002-2003, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
+/************************************************************************************
+'
+' Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
+'
+' This software is provided 'as-is', without any express or implied warranty. In no 
+' event will the authors be held liable for any damages arising from the use of this 
+' software.
+' 
+' Permission is granted to anyone to use this software for any purpose, including 
+' commercial applications, and to alter it and redistribute it freely, subject to the 
+' following restrictions:
+'
+' 1. The origin of this software must not be misrepresented; you must not claim that 
+' you wrote the original software. If you use this software in a product, an 
+' acknowledgment (see the following) in the product documentation is required.
+'
+' Portions Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
+'
+' 2. Altered source versions must be plainly marked as such, and must not be 
+' misrepresented as being the original software.
+'
+' 3. This notice may not be removed or altered from any source distribution.
+'
+'***********************************************************************************/
+#endregion
+
 using System;
 using System.Drawing;
 using System.Collections;
@@ -6,6 +35,7 @@ using System.Windows.Forms;
 using System.Text;
 using NUnit.Core;
 using NUnit.Util;
+using CP.Windows.Forms;
 
 namespace NUnit.UiKit
 {
@@ -26,16 +56,16 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.Label testCaseCount;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label4;
-		private NUnit.UiKit.ExpandingLabel ignoreReason;
+		private CP.Windows.Forms.ExpandingLabel ignoreReason;
 		private System.Windows.Forms.Label shouldRun;
 		private System.Windows.Forms.Label label2;
-		private NUnit.UiKit.ExpandingLabel fullName;
+		private CP.Windows.Forms.ExpandingLabel fullName;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label leakage;
-		private NUnit.UiKit.ExpandingLabel stackTrace;
+		private CP.Windows.Forms.ExpandingLabel stackTrace;
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label elapsedTime;
-		private NUnit.UiKit.ExpandingLabel message;
+		private CP.Windows.Forms.ExpandingLabel message;
 		private System.Windows.Forms.TabPage resultsTab;
 		private System.Windows.Forms.TabPage testTab;
 		private System.Windows.Forms.Label testResult;
@@ -90,19 +120,19 @@ namespace NUnit.UiKit
 			this.testCaseCount = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
-			this.ignoreReason = new NUnit.UiKit.ExpandingLabel();
+			this.ignoreReason = new CP.Windows.Forms.ExpandingLabel();
 			this.shouldRun = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
-			this.fullName = new NUnit.UiKit.ExpandingLabel();
+			this.fullName = new CP.Windows.Forms.ExpandingLabel();
 			this.label1 = new System.Windows.Forms.Label();
 			this.resultsTab = new System.Windows.Forms.TabPage();
 			this.label3 = new System.Windows.Forms.Label();
 			this.testResult = new System.Windows.Forms.Label();
 			this.leakage = new System.Windows.Forms.Label();
-			this.stackTrace = new NUnit.UiKit.ExpandingLabel();
+			this.stackTrace = new CP.Windows.Forms.ExpandingLabel();
 			this.label12 = new System.Windows.Forms.Label();
 			this.elapsedTime = new System.Windows.Forms.Label();
-			this.message = new NUnit.UiKit.ExpandingLabel();
+			this.message = new CP.Windows.Forms.ExpandingLabel();
 			this.pinButton = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.testTab.SuspendLayout();
@@ -255,7 +285,7 @@ namespace NUnit.UiKit
 			// 
 			this.stackTrace.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right);
-			this.stackTrace.Expansion = NUnit.UiKit.ExpandingLabel.ExpansionStyle.Both;
+			this.stackTrace.Expansion = CP.Windows.Forms.ExpandingLabel.ExpansionStyle.Both;
 			this.stackTrace.Location = new System.Drawing.Point(104, 80);
 			this.stackTrace.Name = "stackTrace";
 			this.stackTrace.Overlay = false;
@@ -283,7 +313,7 @@ namespace NUnit.UiKit
 			// 
 			this.message.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right);
-			this.message.Expansion = NUnit.UiKit.ExpandingLabel.ExpansionStyle.Both;
+			this.message.Expansion = CP.Windows.Forms.ExpandingLabel.ExpansionStyle.Both;
 			this.message.Location = new System.Drawing.Point(104, 48);
 			this.message.Name = "message";
 			this.message.Size = new System.Drawing.Size(288, 16);
