@@ -420,8 +420,13 @@ namespace NUnit.Util
 				events.FireTestLoading( TestFileName );
 
 				testDomain = new TestDomain();		
-				loadedTest = TestProject.LoadTest( testDomain );
+				Test test = TestProject.LoadTest( testDomain );
+
+				TestSuite suite = test as TestSuite;
+				if ( suite != null )
+					suite.Sort();
 			
+				loadedTest = test;
 				lastResult = null;
 				reloadPending = false;
 			

@@ -217,8 +217,6 @@ namespace NUnit.Gui
 			this.stackTrace = new System.Windows.Forms.TextBox();
 			this.splitter3 = new System.Windows.Forms.Splitter();
 			this.detailList = new System.Windows.Forms.ListBox();
-			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
-			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
 			this.testsNotRun = new System.Windows.Forms.TabPage();
 			this.notRunTree = new System.Windows.Forms.TreeView();
 			this.stderr = new System.Windows.Forms.TabPage();
@@ -230,6 +228,8 @@ namespace NUnit.Gui
 			this.runButton = new System.Windows.Forms.Button();
 			this.suiteName = new System.Windows.Forms.Label();
 			this.progressBar = new NUnit.UiKit.ProgressBar();
+			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
+			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.panel1.SuspendLayout();
 			this.resultTabs.SuspendLayout();
@@ -534,7 +534,6 @@ namespace NUnit.Gui
 			this.testSuiteTreeView.Location = new System.Drawing.Point(0, 0);
 			this.testSuiteTreeView.Name = "testSuiteTreeView";
 			this.testSuiteTreeView.Size = new System.Drawing.Size(224, 417);
-			this.testSuiteTreeView.Sorted = true;
 			this.testSuiteTreeView.TabIndex = 1;
 			this.testSuiteTreeView.SelectedTestChanged += new NUnit.UiKit.SelectedTestChangedHandler(this.OnSelectedTestChanged);
 			// 
@@ -621,17 +620,6 @@ namespace NUnit.Gui
 			this.detailList.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.detailList_MeasureItem);
 			this.detailList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.detailList_DrawItem);
 			this.detailList.SelectedIndexChanged += new System.EventHandler(this.detailList_SelectedIndexChanged);
-			// 
-			// detailListContextMenu
-			// 
-			this.detailListContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																								  this.copyDetailMenuItem});
-			// 
-			// copyDetailMenuItem
-			// 
-			this.copyDetailMenuItem.Index = 0;
-			this.copyDetailMenuItem.Text = "Copy";
-			this.copyDetailMenuItem.Click += new System.EventHandler(this.copyDetailMenuItem_Click);
 			// 
 			// testsNotRun
 			// 
@@ -749,6 +737,17 @@ namespace NUnit.Gui
 			this.progressBar.Step = 1;
 			this.progressBar.TabIndex = 0;
 			this.progressBar.Value = 0;
+			// 
+			// detailListContextMenu
+			// 
+			this.detailListContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																								  this.copyDetailMenuItem});
+			// 
+			// copyDetailMenuItem
+			// 
+			this.copyDetailMenuItem.Index = 0;
+			this.copyDetailMenuItem.Text = "Copy";
+			this.copyDetailMenuItem.Click += new System.EventHandler(this.copyDetailMenuItem_Click);
 			// 
 			// NUnitForm
 			// 
