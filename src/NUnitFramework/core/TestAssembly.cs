@@ -49,23 +49,10 @@ namespace NUnit.Core
 
 		public override TestResult Run(EventListener listener, IFilter filter)
 		{
-			string oldDirectoryName = Environment.CurrentDirectory;
-			string directoryName = Path.GetDirectoryName( this.Name );
-
-			bool swapDir = 
-				directoryName != null && 
-				directoryName != string.Empty && 
-				directoryName != oldDirectoryName;
-			
-			if ( swapDir )
-				Environment.CurrentDirectory = directoryName;
-
-			TestResult result = base.Run( listener, filter );
-
-			if ( swapDir )
-				Environment.CurrentDirectory = oldDirectoryName;
-
-			return result;
+			using( new DirectorySwapper( Path.GetDirectoryName( this.Name ) ) )
+			{
+				return base.Run( listener, filter );
+			}
 		}
 	}
 }

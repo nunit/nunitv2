@@ -129,15 +129,8 @@ namespace NUnit.Core
 		public Assembly Load(string assemblyName)
 		{
 			// Change currentDirectory in case assembly references unmanaged dlls
-			string currentDirectory = Environment.CurrentDirectory;
-			string assemblyDirectory = Path.GetDirectoryName( assemblyName );
-			bool swap = assemblyDirectory != null && assemblyDirectory != string.Empty;
-
-			try
+			using( new DirectorySwapper( Path.GetDirectoryName( assemblyName ) ) )
 			{
-				if ( swap )
-					Environment.CurrentDirectory = assemblyDirectory;
-
 				Assembly assembly = AppDomain.CurrentDomain.Load(Path.GetFileNameWithoutExtension(assemblyName));
 
 				foreach( AssemblyName refAssembly in assembly.GetReferencedAssemblies() )
@@ -175,11 +168,6 @@ namespace NUnit.Core
 				}
 
 				return assembly;
-			}
-			finally
-			{
-				if ( swap )
-					Environment.CurrentDirectory = currentDirectory;
 			}
 		}
 
