@@ -102,17 +102,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CommandLineException.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "CommandLineOptions.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "CommandLineParser.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -123,6 +113,11 @@
                 />
                 <File
                     RelPath = "FormSettings.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "GuiOptions.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -724,13 +724,11 @@ namespace NUnit.Gui
 		{
 			string assemblyName = null;
 
-			try 
+			GuiOptions parser = new GuiOptions(args);
+			if(parser.Validate() && !parser.help) 
 			{
-				ArrayList allowedParameters = new ArrayList();
-				allowedParameters.Add(CommandLineParser.ASSEMBLY_PARM);
-				CommandLineParser parser = new CommandLineParser(allowedParameters, args);
 				if(!parser.NoArgs)
-					assemblyName = parser.AssemblyName;
+					assemblyName = (string)parser.Assembly;
 
 				if(assemblyName != null)
 				{
@@ -751,10 +749,10 @@ namespace NUnit.Gui
 				NUnitForm form = new NUnitForm(assemblyName);
 				Application.Run(form);
 			}
-			catch(CommandLineException cle)
+			else
 			{
-				string message = cle.Message;
-				MessageBox.Show(null,message,"Invalid Command Line Options",
+				string message = parser.GetHelpText();
+				MessageBox.Show(null,message,"Help Syntax",
 					MessageBoxButtons.OK,MessageBoxIcon.Stop);
 				return 2;
 			}	

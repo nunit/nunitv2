@@ -84,12 +84,12 @@ namespace NUnit.Console
 				{
 					if(test == null)
 					{
-						Console.Error.WriteLine("\nfatal error: invalid assembly {0}", parser.assembly);
+						Console.Error.WriteLine("\nfatal error: invalid assembly {0}", parser.Assembly);
 						returnCode = 2;
 					}
 					else
 					{
-						Directory.SetCurrentDirectory(new FileInfo(parser.assembly).DirectoryName);
+						Directory.SetCurrentDirectory(new FileInfo(parser.Assembly).DirectoryName);
 						string xmlResult = "TestResult.xml";
 						if(parser.IsXml)
 							xmlResult = parser.xml;
@@ -167,17 +167,17 @@ namespace NUnit.Console
 		{
 			Test test = null;
 
-			if(!DoesFileExist(parser.assembly)) return null; 
+			if(!DoesFileExist(parser.Assembly)) return null; 
 			
 			if(parser.IsAssembly)
 			{
-				test = testDomain.Load(parser.assembly);
-				if(test == null) Console.WriteLine("\nfatal error: assembly ({0}) is invalid", parser.assembly);
+				test = testDomain.Load(parser.Assembly);
+				if(test == null) Console.WriteLine("\nfatal error: assembly ({0}) is invalid", parser.Assembly);
 			}
 			else if(parser.IsFixture)
 			{
-				test = testDomain.Load(parser.fixture, parser.assembly);
-				if(test == null) Console.WriteLine("\nfatal error: fixture ({0}) in assembly ({1}) is invalid", parser.fixture, parser.assembly);
+				test = testDomain.Load(parser.fixture, parser.Assembly);
+				if(test == null) Console.WriteLine("\nfatal error: fixture ({0}) in assembly ({1}) is invalid", parser.fixture, parser.Assembly);
 			}
 			return test;
 		}

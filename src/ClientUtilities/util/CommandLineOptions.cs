@@ -27,6 +27,7 @@
 // at http://codeblast.com/~gert/dotnet/sells.html
 // 
 // Gert Lombard (gert@codeblast.com)
+// James Newkirk (jim@nunit.org)
 
 namespace Codeblast
 {
@@ -73,11 +74,6 @@ namespace Codeblast
 	{
 		protected ArrayList parameters;
 		private int optionCount;
-
-
-		public CommandLineOptions()
-		{
-		}
 
 		public CommandLineOptions(string[] args)
 		{
@@ -194,6 +190,14 @@ namespace Codeblast
 					{
 						if (field.FieldType == typeof(bool))
 							value = true; // default for bool values is true
+						else if(field.FieldType == typeof(string))
+						{
+							value = cmdLineVal != null ? cmdLineVal : args[++index];
+							field.SetValue(this, Convert.ChangeType(value, field.FieldType));
+							string stringValue = (string)value;
+							if(stringValue == null || stringValue.Length == 0) return false; 
+							return true;
+						}
 						else
 							value = cmdLineVal != null ? cmdLineVal : args[++index];
 					}

@@ -147,11 +147,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CommandLineFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ConsoleCommandLineFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -178,6 +173,11 @@
                 />
                 <File
                     RelPath = "FixtureSetupTearDownTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "GuiCommandLineFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

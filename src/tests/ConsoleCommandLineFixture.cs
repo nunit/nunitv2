@@ -44,19 +44,12 @@ namespace NUnit.Tests
 		}
 
 		[Test]
-		public void NoParametersNullCheck()
-		{
-			ConsoleOptions options = new ConsoleOptions(new string[] {});
-			Assertion.AssertNull(options.assembly);
-		}
-
-		[Test]
 		public void AssemblyName()
 		{
 			string assemblyName = "nunit.tests.dll";
 			ConsoleOptions options = new ConsoleOptions(new string[] 
-              { "/assembly:" + assemblyName });
-			Assertion.AssertEquals(assemblyName, options.assembly);
+              { assemblyName });
+			Assertion.AssertEquals(assemblyName, options.Assembly);
 		}
 
 		[Test]
@@ -65,9 +58,9 @@ namespace NUnit.Tests
 			string assemblyName = "nunit.tests.dll";
 			string fixtureName = "NUnit.Tests.AllTests";
 			ConsoleOptions options = new ConsoleOptions(new string[] 
-			  { "/assembly:" + assemblyName,
-			    "/fixture:" + fixtureName });
-			Assertion.AssertEquals(assemblyName, options.assembly);
+			  { "/fixture:" + fixtureName, 
+				 assemblyName });
+			Assertion.AssertEquals(assemblyName, options.Assembly);
 			Assertion.AssertEquals(fixtureName, options.fixture);
 			Assertion.Assert(options.Validate());
 		}
@@ -75,7 +68,7 @@ namespace NUnit.Tests
 		[Test]
 		public void ValidateSuccessful()
 		{
-			ConsoleOptions options = new ConsoleOptions(new string[] { "/assembly:nunit.tests.dll" });
+			ConsoleOptions options = new ConsoleOptions(new string[] { "nunit.tests.dll" });
 			Assertion.Assert("command line should be valid", options.Validate());
 		}
 
@@ -86,18 +79,12 @@ namespace NUnit.Tests
 			Assertion.Assert(!options.Validate());
 		}
 
-		[Test]
-		public void NoAssemblyName()
-		{
-			ConsoleOptions options = new ConsoleOptions(new string[] { "/assembly:" });
-			Assertion.Assert(!options.Validate());
-		}
 
 		[Test]
 		public void NoFixtureName()
 		{
 			ConsoleOptions options = new ConsoleOptions(new string[] { 
-				"/assembly:nunit.tests.dll", "/fixture:" });
+				"/fixture:", "nunit.tests.dll",  });
 			Assertion.Assert(!options.Validate());
 		}
 
@@ -118,9 +105,9 @@ namespace NUnit.Tests
 		[Test]
 		public void XmlParameter()
 		{
-			ConsoleOptions parser = new ConsoleOptions(new String[]{"/assembly:tests.dll", "/xml:results.xml"});
-			Assertion.Assert("assembly should be set", parser.IsAssembly);
-			Assertion.AssertEquals("tests.dll", parser.assembly);
+			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/xml:results.xml"});
+			Assertion.Assert("assembly should be set", parser.ParameterCount == 1);
+			Assertion.AssertEquals("tests.dll", parser.Parameters[0]);
 
 			Assertion.Assert("xml file name should be set", parser.IsXml);
 			Assertion.AssertEquals("results.xml", parser.xml);
@@ -129,9 +116,9 @@ namespace NUnit.Tests
 		[Test]
 		public void XmlParameterWithFullPath()
 		{
-			ConsoleOptions parser = new ConsoleOptions(new String[]{"/assembly:tests.dll", "/xml:C:\\nunit\\tests\\bin\\Debug\\console-test.xml"});
-			Assertion.Assert("assembly should be set", parser.IsAssembly);
-			Assertion.AssertEquals("tests.dll", parser.assembly);
+			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/xml:C:\\nunit\\tests\\bin\\Debug\\console-test.xml"});
+			Assertion.Assert("assembly should be set", parser.ParameterCount == 1);
+			Assertion.AssertEquals("tests.dll", parser.Parameters[0]);
 
 			Assertion.Assert("xml file name should be set", parser.IsXml);
 			Assertion.AssertEquals("C:\\nunit\\tests\\bin\\Debug\\console-test.xml", parser.xml);
@@ -140,9 +127,9 @@ namespace NUnit.Tests
 		[Test]
 		public void TransformParameter()
 		{
-			ConsoleOptions parser = new ConsoleOptions(new String[]{"/assembly:tests.dll", "/transform:Summary.xslt"});
-			Assertion.Assert("assembly should be set", parser.IsAssembly);
-			Assertion.AssertEquals("tests.dll", parser.assembly);
+			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/transform:Summary.xslt"});
+			Assertion.Assert("assembly should be set", parser.ParameterCount == 1);
+			Assertion.AssertEquals("tests.dll", parser.Parameters[0]);
 
 			Assertion.Assert("transform file name should be set", parser.IsTransform);
 			Assertion.AssertEquals("Summary.xslt", parser.transform);
@@ -152,14 +139,14 @@ namespace NUnit.Tests
 		[Test]
 		public void FileNameWithoutXmlParameter()
 		{
-			ConsoleOptions parser = new ConsoleOptions(new String[]{"/assembly:tests.dll", ":result.xml"});
+			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", ":result.xml"});
 			Assertion.Assert(!parser.IsXml);
 		}
 
 		[Test]
 		public void XmlParameterWithoutFileName()
 		{
-			ConsoleOptions parser = new ConsoleOptions(new String[]{"/assembly:tests.dll", "/xml:"});
+			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/xml:"});
 			Assertion.Assert(!parser.IsXml);			
 		}
 	}

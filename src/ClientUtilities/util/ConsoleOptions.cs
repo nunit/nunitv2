@@ -5,9 +5,6 @@ namespace NUnit.Util
 
 	public class ConsoleOptions : CommandLineOptions
 	{
-		[Option(Description = "Assembly to test")]
-		public string assembly;
-
 		[Option(Description = "Fixture to test")]
 		public string fixture;
 
@@ -26,32 +23,43 @@ namespace NUnit.Util
 		[Option(Description = "Require input to close console window")]
 		public bool wait = false;
 
-		private bool invalidOption = false; 
+		private bool isInvalid = false; 
 
 		public ConsoleOptions(String[] args) : base(args) 
 		{}
 
 		protected override void InvalidOption(string name)
 		{
-			invalidOption = true;
+			isInvalid = true;
 		}
 
 		public bool Validate()
 		{
-			if(invalidOption || ParameterCount > 0) return false; 
+			if(isInvalid) return false; 
 
-			if(IsAssembly || IsFixture) return true;
+			if(NoArgs) return true; 
 
+			if(IsFixture) return true; 
+
+			if(ParameterCount == 1) return true; 
 
 			return false;
 		}
+
+		public string Assembly
+		{
+			get 
+			{
+				return (string)Parameters[0];
+			}
+		}
+
 
 		public bool IsAssembly 
 		{
 			get 
 			{
-				return (assembly != null) && (assembly.Length != 0) && 
-					   (fixture == null);
+				return ParameterCount == 1 && !IsFixture;
 			}
 		}
 
@@ -59,8 +67,8 @@ namespace NUnit.Util
 		{
 			get 
 			{
-				return ((assembly != null) && (assembly.Length != 0)) && 
-					   (fixture != null) && (fixture.Length != 0);
+				return ParameterCount == 1 && 
+					   ((fixture != null) && (fixture.Length > 0));
 			}
 		}
 

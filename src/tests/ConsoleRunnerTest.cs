@@ -154,7 +154,7 @@ namespace NUnit.Tests
 		private string[] MakeCommandLine(string assembly, string fixture, string xmlFile)
 		{
 			ArrayList list = new ArrayList();
-			list.Add(String.Format("/assembly:{0}", assembly));
+			list.Add(String.Format("{0}", assembly));
 			if(fixture != null)
 				list.Add(String.Format("/fixture:{0}", fixture));
 			if(xmlFile != null)
