@@ -254,7 +254,7 @@
     <property name="zipped.src.file.name"
       value="${package.name}-src.zip"/>
     <property name="zipped.bin.file.name"
-      value="${package.name}-bin-zip"/>
+      value="${package.name}-bin.zip"/>
   </target>
 
   <!-- Dump configuration settings for debugging -->
