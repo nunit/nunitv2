@@ -73,6 +73,16 @@ namespace NUnit.Extensions
 			get { return false; } 
 		}
 
+		public override bool IsFixture
+		{ 
+			get { return false; } 
+		}
+
+		public override bool IsTestCase
+		{ 
+			get { return true; } 
+		}
+
 		public override ArrayList Tests 
 		{ 
 			get { return null; }
