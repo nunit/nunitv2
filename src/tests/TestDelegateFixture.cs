@@ -65,7 +65,7 @@ namespace NUnit.Tests
 		{
 			TestDelegate testDelegate = new TestDelegate(); 
 			Yield();
-			Assertion.Assert(testDelegate.delegateCalled);
+			Assert.True(testDelegate.delegateCalled);
 		}
 
 		private void Yield()

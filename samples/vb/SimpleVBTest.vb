@@ -49,7 +49,7 @@ Namespace NUnit.Samples
             Dim result As Double
 
             result = fValue1 + fValue2
-            Assertion.AssertEquals(6, result)
+            Assert.Equals(6, result)
         End Sub
 
         <Test()> Public Sub DivideByZero()
@@ -61,11 +61,11 @@ Namespace NUnit.Samples
         End Sub
 
         <Test()> Public Sub TestEquals()
-            Assertion.AssertEquals(12, 12)
-            Assertion.AssertEquals(CLng(12), CLng(12))
+            Assert.Equals(12, 12)
+            Assert.Equals(CLng(12), CLng(12))
 
-            Assertion.AssertEquals("Size", 12, 13)
-            Assertion.AssertEquals("Capacity", 12, 11.99, 0)
+            Assert.Equals("Size", 12, 13)
+            Assert.Equals("Capacity", 12, 11.99, 0)
         End Sub
 
         <Test(), ExpectedException(GetType(Exception))> Public Sub ExpectAnException()

@@ -57,13 +57,13 @@ namespace NUnit.Tests
 		public void CallTestFixtureConstructor()
 		{
 			ConstructorInfo ctor = typeof(NUnit.Tests.TestFixtureBuilderTests.AssemblyType).GetConstructor(Type.EmptyTypes);
-			Assertion.Assert(ctor != null);
+			Assert.NotNull(ctor);
 
 			object testFixture = ctor.Invoke(Type.EmptyTypes);
-			Assertion.Assert(testFixture != null);
+			Assert.NotNull(testFixture);
 
 			AssemblyType assemblyType = (AssemblyType)testFixture;
-			Assertion.Assert("AssemblyType constructor should be called", assemblyType.called);
+			Assert.True("AssemblyType constructor should be called", assemblyType.called);
 		}
 
 		[TestFixture]
@@ -89,7 +89,7 @@ namespace NUnit.Tests
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.MakeSuiteFromTestFixtureType(typeof(NoDefaultCtorFixture));
-			Assertion.Assert(!suite.ShouldRun);
+			Assert.False(suite.ShouldRun);
 		}
 
 		[TestFixture]
@@ -117,7 +117,7 @@ namespace NUnit.Tests
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.MakeSuiteFromTestFixtureType(typeof(BadCtorFixture));
-			Assertion.Assert(!suite.ShouldRun);
+			Assert.False(suite.ShouldRun);
 		}
 
 		[TestFixture]
@@ -183,12 +183,12 @@ namespace NUnit.Tests
 			
 			suite = (TestSuite)suite.Tests[0];
 			
-			Assertion.AssertNotNull(suite);
-			Assertion.Assert("Suite should not be runnable", !suite.ShouldRun);
-			Assertion.AssertEquals("testing ignore a suite", suite.IgnoreReason);
+			Assert.NotNull(suite);
+			Assert.False("Suite should not be runnable", suite.ShouldRun);
+			Assert.Equals("testing ignore a suite", suite.IgnoreReason);
 
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
-			Assertion.Assert("test case should inherit run state from enclosing suite", !testCase.ShouldRun);
+			Assert.False("test case should inherit run state from enclosing suite", testCase.ShouldRun);
 		}
 
 		[TestFixture]
@@ -248,28 +248,28 @@ namespace NUnit.Tests
 			string methodName = "TestVoid";
 			TestSuite fixture = LoadFixture("NUnit.Tests.TestFixtureBuilderTests+SignatureTestFixture");
 			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
-			Assertion.AssertNotNull(foundTest);
-			Assertion.Assert(foundTest.ShouldRun);
+			Assert.NotNull(foundTest);
+			Assert.True(foundTest.ShouldRun);
 		}
 
 		private void InvalidSignatureTest(string methodName, string reason)
 		{
 			TestSuite fixture = LoadFixture("NUnit.Tests.TestFixtureBuilderTests+SignatureTestFixture");
 			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
-			Assertion.AssertNotNull(foundTest);
-			Assertion.Assert(!foundTest.ShouldRun);
+			Assert.NotNull(foundTest);
+			Assert.False(foundTest.ShouldRun);
 			string expected = String.Format("Method {0}'s signature is not correct: {1}.", methodName, reason);
-			Assertion.AssertEquals(expected, foundTest.IgnoreReason);
+			Assert.Equals(expected, foundTest.IgnoreReason);
 		}
 
 		private TestSuite LoadFixture(string fixtureName)
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build(testsDll, fixtureName );
-			Assertion.AssertNotNull(suite);
+			Assert.NotNull(suite);
 
 			TestSuite fixture = (TestSuite)suite.Tests[0];
-			Assertion.AssertNotNull(fixture);
+			Assert.NotNull(fixture);
 			return fixture;
 		}
 
@@ -286,7 +286,7 @@ namespace NUnit.Tests
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build("NUnit.Tests.TestFixtureBuilderTests+AbstractTestFixture", testsDll);
-			Assertion.AssertNull(suite);
+			Assert.Null(suite);
 		}
 
 

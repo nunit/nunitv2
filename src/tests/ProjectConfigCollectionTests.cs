@@ -51,7 +51,7 @@ namespace NUnit.Tests
 		[Test]
 		public void EmptyCollection()
 		{
-			Assertion.AssertEquals( 0, configs.Count );
+			Assert.Equals( 0, configs.Count );
 		}
 
 		[Test]
@@ -61,7 +61,7 @@ namespace NUnit.Tests
 			configs["Debug"].Assemblies.Add( @"bin\debug\assembly1.dll" );
 			configs["Debug"].Assemblies.Add( @"bin\debug\assembly2.dll" );
 
-			Assertion.AssertEquals( 2, configs["Debug"].Assemblies.Count );
+			Assert.Equals( 2, configs["Debug"].Assemblies.Count );
 		}
 
 		[Test]
@@ -80,7 +80,7 @@ namespace NUnit.Tests
 
 			configs.Add( config );
 
-			Assertion.AssertEquals( 2, configs["Debug"].Assemblies.Count );
+			Assert.Equals( 2, configs["Debug"].Assemblies.Count );
 		}
 
 		[Test]
@@ -92,9 +92,9 @@ namespace NUnit.Tests
 			configs["Debug"].Assemblies.Add( @"bin\debug\assembly2.dll" );
 			configs["Release"].Assemblies.Add( @"bin\debug\assembly3.dll" );
 
-			Assertion.AssertEquals( 2, configs.Count );
-			Assertion.AssertEquals( 2, configs["Debug"].Assemblies.Count );
-			Assertion.AssertEquals( 1, configs["Release"].Assemblies.Count );
+			Assert.Equals( 2, configs.Count );
+			Assert.Equals( 2, configs["Debug"].Assemblies.Count );
+			Assert.Equals( 1, configs["Release"].Assemblies.Count );
 		}
 	}
 }

@@ -37,7 +37,6 @@ namespace NUnit.Tests
 	/// <summary>
 	/// Summary description for TestResultTests.
 	/// </summary>
-	/// 
 	[TestFixture]
 	public class SummaryResultFixture
 	{
@@ -60,7 +59,7 @@ namespace NUnit.Tests
 		public void TestCountNotRunSuites()
 		{
 			ResultSummarizer summary = new ResultSummarizer(NotRunTestSuite());
-			Assertion.AssertEquals(1,summary.TestsNotRun);
+			Assert.Equals(1,summary.TestsNotRun);
 
 		}
 		private TestSuiteResult MockSuiteResult(string suiteName, bool failure)
@@ -100,11 +99,11 @@ namespace NUnit.Tests
 			string suiteName = "Base";
 			ResultSummarizer summary = new ResultSummarizer(MockSuiteResult(suiteName, false));
 
-			Assertion.AssertEquals(suiteName, summary.Name);
-			Assertion.Assert(summary.Success);
-			Assertion.AssertEquals(2, summary.ResultCount);
-			Assertion.AssertEquals(0, summary.Failures);
-			Assertion.AssertEquals(1, summary.TestsNotRun);
+			Assert.Equals(suiteName, summary.Name);
+			Assert.True(summary.Success);
+			Assert.Equals(2, summary.ResultCount);
+			Assert.Equals(0, summary.Failures);
+			Assert.Equals(1, summary.TestsNotRun);
 		}
 
 		[Test]
@@ -112,17 +111,17 @@ namespace NUnit.Tests
 		{
 			ResultSummarizer summary = new ResultSummarizer(MockSuiteResult("Base", true));
 
-			Assertion.Assert(!summary.Success);
-			Assertion.AssertEquals(2, summary.ResultCount);
-			Assertion.AssertEquals(1, summary.Failures);
-			Assertion.AssertEquals(1, summary.TestsNotRun);
+			Assert.False(summary.Success);
+			Assert.Equals(2, summary.ResultCount);
+			Assert.Equals(1, summary.Failures);
+			Assert.Equals(1, summary.TestsNotRun);
 		}
 
 		[Test]
 		public void TestTime()
 		{
 			ResultSummarizer summary = new ResultSummarizer(MockSuiteResult("Base", false));
-			Assertion.AssertEquals(time, summary.Time);
+			Assert.Equals(time, summary.Time);
 		}
 	}
 }

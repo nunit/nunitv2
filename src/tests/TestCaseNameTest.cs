@@ -47,8 +47,8 @@ namespace NUnit.Tests
 			IList tests = suite.Tests;
 			TestSuite rootSuite = (TestSuite)tests[0];
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)rootSuite.Tests[0];
-			Assertion.AssertEquals("NUnit.Tests.OneTestCase.TestCase", testCase.FullName);
-			Assertion.AssertEquals("TestCase", testCase.Name);
+			Assert.Equals("NUnit.Tests.OneTestCase.TestCase", testCase.FullName);
+			Assert.Equals("TestCase", testCase.Name);
 		}
 
 		[Test]
@@ -60,7 +60,7 @@ namespace NUnit.Tests
 			IList tests = suite.Tests;
 			TestSuite rootSuite = (TestSuite)tests[0];
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)rootSuite.Tests[0];
-			Assertion.AssertEquals("NUnit.Tests.ExpectExceptionTest.TestSingle", testCase.FullName);
+			Assert.Equals("NUnit.Tests.ExpectExceptionTest.TestSingle", testCase.FullName);
 		}
 	}
 }

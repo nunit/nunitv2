@@ -1,4 +1,4 @@
-namespace NUnit.Tests
+namespace NUnit.Tests.CommandLine
 {
 	using System;
 	using NUnit.Framework;
@@ -6,27 +6,27 @@ namespace NUnit.Tests
 	using Codeblast;
 
 	[TestFixture]
-	public class GuiCommandLineFixture
+	public class GuiFixture
 	{
 		[Test]
 		public void NoParametersCount()
 		{
 			GuiOptions options = new GuiOptions(new string[] {});
-			Assertion.Assert(options.NoArgs);
+			Assert.True(options.NoArgs);
 		}
 
 		[Test]
 		public void Help()
 		{
 			GuiOptions options = new GuiOptions(new string[] {"/help"});
-			Assertion.Assert(options.help);
+			Assert.True(options.help);
 		}
 
 		[Test]
 		public void ShortHelp()
 		{
 			GuiOptions options = new GuiOptions(new string[] {"/?"});
-			Assertion.Assert(options.help);
+			Assert.True(options.help);
 		}
 
 		[Test]
@@ -34,21 +34,21 @@ namespace NUnit.Tests
 		{
 			string assemblyName = "nunit.tests.dll";
 			GuiOptions options = new GuiOptions(new string[]{ assemblyName });
-			Assertion.AssertEquals(assemblyName, options.Assembly);
+			Assert.Equals(assemblyName, options.Assembly);
 		}
 
 		[Test]
 		public void ValidateSuccessful()
 		{
 			GuiOptions options = new GuiOptions(new string[] { "nunit.tests.dll" });
-			Assertion.Assert("command line should be valid", options.Validate());
+			Assert.True("command line should be valid", options.Validate());
 		}
 
 		[Test]
 		public void InvalidArgs()
 		{
 			GuiOptions options = new GuiOptions(new string[] { "/asembly:nunit.tests.dll" });
-			Assertion.Assert(!options.Validate());
+			Assert.False(options.Validate());
 		}
 
 
@@ -56,14 +56,14 @@ namespace NUnit.Tests
 		public void InvalidCommandLineParms()
 		{
 			GuiOptions parser = new GuiOptions(new String[]{"/garbage:TestFixture", "/assembly:Tests.dll"});
-			Assertion.AssertEquals(false, parser.Validate());
+			Assert.False(parser.Validate());
 		}
 
 		[Test] 
 		public void NoNameValuePairs()
 		{
 			GuiOptions parser = new GuiOptions(new String[]{"TestFixture", "Tests.dll"});
-			Assertion.Assert(!parser.Validate());
+			Assert.False(parser.Validate());
 		}
 	}
 }

@@ -64,7 +64,7 @@ namespace NUnit.Tests
 		[Test]
 		public void LoadSuite()
 		{
-			Assertion.AssertNotNull(suite);
+			Assert.NotNull(suite);
 		}
 
 		private bool AllExpanded( TreeNode node)
@@ -91,26 +91,13 @@ namespace NUnit.Tests
 		public void BuildTreeView()
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
-//			treeView.InitialDisplay = TestSuiteTreeView.DisplayStyle.Expand;
 			treeView.Load(suite);
-			Assertion.AssertNotNull( treeView.Nodes[0] );
-			Assertion.AssertEquals( 16, treeView.GetNodeCount( true ) );
-//			Assertion.Assert( "Nodes not expanded on load", AllExpanded( treeView.Nodes ) );
-
-			Assertion.AssertEquals( "mock-assembly.dll", treeView.Nodes[0].Text );	
-			Assertion.AssertEquals( "NUnit", treeView.Nodes[0].Nodes[0].Text );
-			Assertion.AssertEquals( "Tests", treeView.Nodes[0].Nodes[0].Nodes[0].Text );
+			Assert.NotNull( treeView.Nodes[0] );
+			Assert.Equals( 16, treeView.GetNodeCount( true ) );
+			Assert.Equals( "mock-assembly.dll", treeView.Nodes[0].Text );	
+			Assert.Equals( "NUnit", treeView.Nodes[0].Nodes[0].Text );
+			Assert.Equals( "Tests", treeView.Nodes[0].Nodes[0].Nodes[0].Text );
 		}
-
-//		[Test]
-//		public void MapLookup()
-//		{
-//			TestSuiteTreeView treeView = new TestSuiteTreeView();
-//			treeView.Load(suite);
-//
-//			Assertion.AssertEquals( 5, treeView.GetNodeCount( true ) );
-//			Assertion.AssertEquals("MockTest1", treeView.Nodes[0].Text);
-//		}
 
 		/// <summary>
 		/// Return the MockTestFixture node from a tree built
@@ -144,7 +131,7 @@ namespace NUnit.Tests
 			treeView.Load(suite);
 			
 			treeView.Clear();
-			Assertion.AssertEquals( 0, treeView.Nodes.Count );
+			Assert.Equals( 0, treeView.Nodes.Count );
 		}
 
 		[Test]
@@ -157,9 +144,9 @@ namespace NUnit.Tests
 			treeView.SetTestResult( result );
 
 			TestSuiteTreeNode fixtureNode = FixtureNode( treeView );
-			Assertion.AssertNotNull( "Result not set", fixtureNode.Result );
-			Assertion.AssertEquals( "My test result", fixtureNode.Result.Name );
-			Assertion.AssertEquals( fixtureNode.Test.FullName, fixtureNode.Result.Test.FullName );
+			Assert.NotNull( "Result not set", fixtureNode.Result );
+			Assert.Equals( "My test result", fixtureNode.Result.Name );
+			Assert.Equals( fixtureNode.Test.FullName, fixtureNode.Result.Test.FullName );
 		}
 
 		[Test]
@@ -168,8 +155,8 @@ namespace NUnit.Tests
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
 
-			Assertion.AssertEquals( 7, suite.CountTestCases );
-			Assertion.AssertEquals( 16, treeView.GetNodeCount( true ) );
+			Assert.Equals( 7, suite.CountTestCases );
+			Assert.Equals( 16, treeView.GetNodeCount( true ) );
 			
 			TestSuite nunitNamespaceSuite = suite.Tests[0] as TestSuite;
 			TestSuite testsNamespaceSuite = nunitNamespaceSuite.Tests[0] as TestSuite;
@@ -177,14 +164,14 @@ namespace NUnit.Tests
 			testsNamespaceSuite.Tests.RemoveAt( 1 );
 			treeView.Reload( suite );
 
-			Assertion.AssertEquals( 2, suite.CountTestCases );
-			Assertion.AssertEquals( 9, treeView.GetNodeCount( true ) );
+			Assert.Equals( 2, suite.CountTestCases );
+			Assert.Equals( 9, treeView.GetNodeCount( true ) );
 
 			testsNamespaceSuite.Tests.Insert( 1, assembliesNamespaceSuite );
 			treeView.Reload( suite );
 
-			Assertion.AssertEquals( 7, suite.CountTestCases );
-			Assertion.AssertEquals( 16, treeView.GetNodeCount( true ) );
+			Assert.Equals( 7, suite.CountTestCases );
+			Assert.Equals( 16, treeView.GetNodeCount( true ) );
 		}
 
 		[Test]

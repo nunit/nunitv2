@@ -137,7 +137,7 @@ namespace NUnit.Tests
 					schemaFile = "..\\..\\..\\framework\\Results.xsd";
 
 				SchemaValidator validator = new SchemaValidator(reportFileName, schemaFile);
-				Assertion.Assert("validate failed", validator.Validate());
+				Assert.True("validate failed", validator.Validate());
 			}
 			finally
 			{

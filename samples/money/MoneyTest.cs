@@ -72,9 +72,9 @@ namespace NUnit.Samples.Money
 			// {[12 CHF][7 USD]} *2 == {[24 CHF][14 USD]}
 			Money[] bag = { new Money(24, "CHF"), new Money(14, "USD") };
 			MoneyBag expected= new MoneyBag(bag);
-			Assertion.AssertEquals(expected, fMB1.Multiply(2));
-			Assertion.AssertEquals(fMB1, fMB1.Multiply(1));
-			Assertion.Assert(fMB1.Multiply(0).IsZero);
+			Assert.Equals(expected, fMB1.Multiply(2));
+			Assert.Equals(fMB1, fMB1.Multiply(1));
+			Assert.True(fMB1.Multiply(0).IsZero);
 		}
 
 		/// <summary>
@@ -87,7 +87,7 @@ namespace NUnit.Samples.Money
 			// {[12 CHF][7 USD]} negate == {[-12 CHF][-7 USD]}
 			Money[] bag= { new Money(-12, "CHF"), new Money(-7, "USD") };
 			MoneyBag expected= new MoneyBag(bag);
-			Assertion.AssertEquals(expected, fMB1.Negate());
+			Assert.Equals(expected, fMB1.Negate());
 		}
 
 		/// <summary>
@@ -100,7 +100,7 @@ namespace NUnit.Samples.Money
 			// {[12 CHF][7 USD]} + [14 CHF] == {[26 CHF][7 USD]}
 			Money[] bag= { new Money(26, "CHF"), new Money(7, "USD") };
 			MoneyBag expected= new MoneyBag(bag);
-			Assertion.AssertEquals(expected, fMB1.Add(f14CHF));
+			Assert.Equals(expected, fMB1.Add(f14CHF));
 		}
 
 		/// <summary>
@@ -113,7 +113,7 @@ namespace NUnit.Samples.Money
 			// {[12 CHF][7 USD]} - {[14 CHF][21 USD] == {[-2 CHF][-14 USD]}
 			Money[] bag= { new Money(-2, "CHF"), new Money(-14, "USD") };
 			MoneyBag expected= new MoneyBag(bag);
-			Assertion.AssertEquals(expected, fMB1.Subtract(fMB2));
+			Assert.Equals(expected, fMB1.Subtract(fMB2));
 		}
 
 		/// <summary>
@@ -126,7 +126,7 @@ namespace NUnit.Samples.Money
 			// {[12 CHF][7 USD]} + {[14 CHF][21 USD]} == {[26 CHF][28 USD]}
 			Money[] bag= { new Money(26, "CHF"), new Money(28, "USD") };
 			MoneyBag expected= new MoneyBag(bag);
-			Assertion.AssertEquals(expected, fMB1.Add(fMB2));
+			Assert.Equals(expected, fMB1.Add(fMB2));
 		}
 
 		/// <summary>
@@ -136,10 +136,10 @@ namespace NUnit.Samples.Money
 		[Test]
 		public void IsZero() 
 		{
-			Assertion.Assert(fMB1.Subtract(fMB1).IsZero);
+			Assert.True(fMB1.Subtract(fMB1).IsZero);
 
 			Money[] bag = { new Money(0, "CHF"), new Money(0, "USD") };
-			Assertion.Assert(new MoneyBag(bag).IsZero);
+			Assert.True(new MoneyBag(bag).IsZero);
 		}
 
 		/// <summary>
@@ -152,7 +152,7 @@ namespace NUnit.Samples.Money
 			// [12 CHF] + [7 USD] == {[12 CHF][7 USD]}
 			Money[] bag= { f12CHF, f7USD };
 			MoneyBag expected= new MoneyBag(bag);
-			Assertion.AssertEquals(expected, f12CHF.Add(f7USD));
+			Assert.Equals(expected, f12CHF.Add(f7USD));
 		}
 
 		/// <summary>
@@ -162,9 +162,9 @@ namespace NUnit.Samples.Money
 		[Test]
 		public void MoneyBagEquals() 
 		{
-			Assertion.Assert(!fMB1.Equals(null)); 
+			Assert.False(!fMB1.Equals(null)); 
 
-			Assertion.AssertEquals(fMB1, fMB1);
+			Assert.Equals(fMB1, fMB1);
 			MoneyBag equal= new MoneyBag(new Money(12, "CHF"), new Money(7, "USD"));
 			Assertion.Assert(fMB1.Equals(equal));
 			Assertion.Assert(!fMB1.Equals(f12CHF));
@@ -180,7 +180,7 @@ namespace NUnit.Samples.Money
 		public void MoneyBagHash() 
 		{
 			MoneyBag equal= new MoneyBag(new Money(12, "CHF"), new Money(7, "USD"));
-			Assertion.AssertEquals(fMB1.GetHashCode(), equal.GetHashCode());
+			Assert.Equals(fMB1.GetHashCode(), equal.GetHashCode());
 		}
 
 		/// <summary>
@@ -190,12 +190,12 @@ namespace NUnit.Samples.Money
 		[Test]
 		public void MoneyEquals() 
 		{
-			Assertion.Assert(!f12CHF.Equals(null)); 
+			Assert.False(f12CHF.Equals(null)); 
 			Money equalMoney= new Money(12, "CHF");
-			Assertion.AssertEquals(f12CHF, f12CHF);
-			Assertion.AssertEquals(f12CHF, equalMoney);
-			Assertion.AssertEquals(f12CHF.GetHashCode(), equalMoney.GetHashCode());
-			Assertion.Assert(!f12CHF.Equals(f14CHF));
+			Assert.Equals(f12CHF, f12CHF);
+			Assert.Equals(f12CHF, equalMoney);
+			Assert.Equals(f12CHF.GetHashCode(), equalMoney.GetHashCode());
+			Assert.False(f12CHF.Equals(f14CHF));
 		}
 
 		/// <summary>
@@ -205,9 +205,9 @@ namespace NUnit.Samples.Money
 		[Test]
 		public void MoneyHash() 
 		{
-			Assertion.Assert(!f12CHF.Equals(null)); 
+			Assert.False(f12CHF.Equals(null)); 
 			Money equal= new Money(12, "CHF");
-			Assertion.AssertEquals(f12CHF.GetHashCode(), equal.GetHashCode());
+			Assert.Equals(f12CHF.GetHashCode(), equal.GetHashCode());
 		}
 
 		/// <summary>
@@ -222,7 +222,7 @@ namespace NUnit.Samples.Money
 			Money[] expected = { new Money(60, "CHF") };
 			// note: expected is still a MoneyBag
 			MoneyBag expectedBag= new MoneyBag(expected);
-			Assertion.AssertEquals(expectedBag, moneyBag);
+			Assert.Equals(expectedBag, moneyBag);
 		}
 
 		/// <summary>
@@ -234,7 +234,7 @@ namespace NUnit.Samples.Money
 		{
 			// {[12 CHF][7 USD]} - [12 CHF] == [7 USD]
 			Money expected= new Money(7, "USD");
-			Assertion.AssertEquals(expected, fMB1.Subtract(f12CHF));
+			Assert.Equals(expected, fMB1.Subtract(f12CHF));
 		}
 
 		/// <summary>
@@ -248,7 +248,7 @@ namespace NUnit.Samples.Money
 			Money[] s1 = { new Money(12, "CHF"), new Money(3, "USD") };
 			MoneyBag ms1= new MoneyBag(s1);
 			Money expected= new Money(4, "USD");
-			Assertion.AssertEquals(expected, fMB1.Subtract(ms1));
+			Assert.Equals(expected, fMB1.Subtract(ms1));
 		}
 
 		/// <summary>
@@ -262,7 +262,7 @@ namespace NUnit.Samples.Money
 			Money[] s1 = { new Money(12, "CHF"), new Money(3, "USD") };
 			MoneyBag ms1= new MoneyBag(s1);
 			Money expected= new Money(-3, "USD");
-			Assertion.AssertEquals(expected, f12CHF.Subtract(ms1));
+			Assert.Equals(expected, f12CHF.Subtract(ms1));
 		}
 
 		/// <summary>
@@ -272,7 +272,7 @@ namespace NUnit.Samples.Money
 		[Test]
 		public void Print() 
 		{
-			Assertion.AssertEquals("[12 CHF]", f12CHF.ToString());
+			Assert.Equals("[12 CHF]", f12CHF.ToString());
 		}
 
 		/// <summary>
@@ -284,7 +284,7 @@ namespace NUnit.Samples.Money
 		{
 			// [12 CHF] + [14 CHF] == [26 CHF]
 			Money expected= new Money(26, "CHF");
-			Assertion.AssertEquals(expected, f12CHF.Add(f14CHF));
+			Assert.Equals(expected, f12CHF.Add(f14CHF));
 		}
 
 		/// <summary>
@@ -297,7 +297,7 @@ namespace NUnit.Samples.Money
 			// [14 CHF] + {[12 CHF][7 USD]} == {[26 CHF][7 USD]}
 			Money[] bag= { new Money(26, "CHF"), new Money(7, "USD") };
 			MoneyBag expected= new MoneyBag(bag);
-			Assertion.AssertEquals(expected, f14CHF.Add(fMB1));
+			Assert.Equals(expected, f14CHF.Add(fMB1));
 		}
 
 		/// <summary>
@@ -309,7 +309,7 @@ namespace NUnit.Samples.Money
 		{
 			// [14 CHF] *2 == [28 CHF]
 			Money expected= new Money(28, "CHF");
-			Assertion.AssertEquals(expected, f14CHF.Multiply(2));
+			Assert.Equals(expected, f14CHF.Multiply(2));
 		}
 
 		/// <summary>
@@ -321,7 +321,7 @@ namespace NUnit.Samples.Money
 		{
 			// [14 CHF] negate == [-14 CHF]
 			Money expected= new Money(-14, "CHF");
-			Assertion.AssertEquals(expected, f14CHF.Negate());
+			Assert.Equals(expected, f14CHF.Negate());
 		}
 
 		/// <summary>
@@ -333,7 +333,7 @@ namespace NUnit.Samples.Money
 		{
 			// [14 CHF] - [12 CHF] == [2 CHF]
 			Money expected= new Money(2, "CHF");
-			Assertion.AssertEquals(expected, f14CHF.Subtract(f12CHF));
+			Assert.Equals(expected, f14CHF.Subtract(f12CHF));
 		}
 	}
 }

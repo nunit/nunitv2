@@ -95,14 +95,6 @@ namespace NUnit.Tests.CommandLine
 			Assert.False(parser.Validate());
 		}
 
-		[Test] 
-		[Ignore("reconsider this test")]
-		public void NoNameValuePairs()
-		{
-			ConsoleOptions parser = new ConsoleOptions(new String[]{"TestFixture", "Tests.dll"});
-			Assert.False(parser.Validate());
-		}
-
 		[Test]
 		public void XmlParameter()
 		{

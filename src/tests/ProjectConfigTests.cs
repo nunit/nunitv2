@@ -63,9 +63,9 @@ namespace NUnit.Tests
 		{
 			config.Assemblies.Add( @"C:\assembly1.dll" );
 			config.Assemblies.Add( "assembly2.dll" );
-			Assertion.AssertEquals( 2, config.Assemblies.Count );
-			Assertion.AssertEquals( @"C:\assembly1.dll", config.Assemblies[0] );
-			Assertion.AssertEquals( "assembly2.dll", config.Assemblies[1] );
+			Assert.Equals( 2, config.Assemblies.Count );
+			Assert.Equals( @"C:\assembly1.dll", config.Assemblies[0] );
+			Assert.Equals( "assembly2.dll", config.Assemblies[1] );
 		}
 
 		[Test]

@@ -152,8 +152,8 @@ namespace NUnit.Tests
 			assemblies.Add("nonamespace-assembly.dll");
 
 			Test test = domain.LoadAssemblies( assemblies );
-			Assertion.AssertNotNull("test should not be null", test);
-			Assertion.AssertEquals(10, test.CountTestCases);
+			Assert.NotNull("test should not be null", test);
+			Assert.Equals(10, test.CountTestCases);
 		}
 
 //		[Test]
@@ -168,11 +168,11 @@ namespace NUnit.Tests
 //			Assert.NotNull(test);
 //
 //			TestResult result = domain.Run(NullListener.NULL);
-//			Assertion.AssertEquals(true, result.IsSuccess);
+//			Assert.Equals(true, result.IsSuccess);
 //			
 //			ResultSummarizer summarizer = new ResultSummarizer(result);
-//			Assertion.AssertEquals(3, summarizer.ResultCount);
-//			Assertion.AssertEquals(2, summarizer.TestsNotRun);
+//			Assert.Equals(3, summarizer.ResultCount);
+//			Assert.Equals(2, summarizer.TestsNotRun);
 //		}
 
 		[Test]

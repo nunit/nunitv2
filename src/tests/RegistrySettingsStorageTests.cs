@@ -65,10 +65,10 @@ namespace NUnit.Tests
 		{
 			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
 
-			Assertion.AssertNotNull( storage );
-			Assertion.AssertEquals( "Test", storage.StorageName );
-			Assertion.AssertNull( storage.ParentStorage );
-			Assertion.AssertNotNull( "Null storage key", storage.StorageKey );
+			Assert.NotNull( storage );
+			Assert.Equals( "Test", storage.StorageName );
+			Assert.Null( storage.ParentStorage );
+			Assert.NotNull( "Null storage key", storage.StorageKey );
 		}
 
 		[Test]
@@ -76,20 +76,20 @@ namespace NUnit.Tests
 		{
 			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
 			
-			Assertion.AssertNull( "X is not null", storage.LoadSetting( "X" ) );
-			Assertion.AssertNull( "NAME is not null", storage.LoadSetting( "NAME" ) );
+			Assert.Null( "X is not null", storage.LoadSetting( "X" ) );
+			Assert.Null( "NAME is not null", storage.LoadSetting( "NAME" ) );
 
 			storage.SaveSetting("X", 5);
 			storage.SaveSetting("NAME", "Charlie");
 
-			Assertion.AssertEquals( 5, storage.LoadSetting("X") );
-			Assertion.AssertEquals( "Charlie", storage.LoadSetting("NAME") );
+			Assert.Equals( 5, storage.LoadSetting("X") );
+			Assert.Equals( "Charlie", storage.LoadSetting("NAME") );
 
 			using( RegistryKey key = testKey.OpenSubKey( "Test" ) )
 			{
-				Assertion.AssertNotNull( key );
-				Assertion.AssertEquals( 5, key.GetValue( "X" ) );
-				Assertion.AssertEquals( "Charlie", key.GetValue( "NAME" ) );
+				Assert.NotNull( key );
+				Assert.Equals( 5, key.GetValue( "X" ) );
+				Assert.Equals( "Charlie", key.GetValue( "NAME" ) );
 			}
 		}
 
@@ -102,11 +102,11 @@ namespace NUnit.Tests
 			storage.SaveSetting("NAME", "Charlie");
 
 			storage.RemoveSetting( "X" );
-			Assertion.AssertNull( "X not removed", storage.LoadSetting( "X" ) );
-			Assertion.AssertEquals( "Charlie", storage.LoadSetting( "NAME" ) );
+			Assert.Null( "X not removed", storage.LoadSetting( "X" ) );
+			Assert.Equals( "Charlie", storage.LoadSetting( "NAME" ) );
 
 			storage.RemoveSetting( "NAME" );
-			Assertion.AssertNull( "NAME not removed", storage.LoadSetting( "NAME" ) );
+			Assert.Null( "NAME not removed", storage.LoadSetting( "NAME" ) );
 		}
 
 		[Test]
@@ -116,11 +116,11 @@ namespace NUnit.Tests
 			RegistrySettingsStorage sub1 = new RegistrySettingsStorage( "Sub1", storage );
 			RegistrySettingsStorage sub2 = new RegistrySettingsStorage( "Sub2", storage );
 
-			Assertion.AssertNotNull( "Sub1 is null", sub1 );
-			Assertion.AssertNotNull( "Sub2 is null", sub2 );
+			Assert.NotNull( "Sub1 is null", sub1 );
+			Assert.NotNull( "Sub2 is null", sub2 );
 
-			Assertion.AssertEquals( "Sub1", sub1.StorageName );
-			Assertion.AssertEquals( "Sub2", sub2.StorageName );
+			Assert.Equals( "Sub1", sub1.StorageName );
+			Assert.Equals( "Sub2", sub2.StorageName );
 		}
 
 		[Test]
@@ -132,16 +132,16 @@ namespace NUnit.Tests
 			sub.SaveSetting( "X", 5 );
 			sub.SaveSetting( "NAME", "Charlie" );
 
-			Assertion.AssertEquals( 5, sub.LoadSetting( "X" ) );
-			Assertion.AssertEquals( "Charlie", sub.LoadSetting( "NAME" ) );
+			Assert.Equals( 5, sub.LoadSetting( "X" ) );
+			Assert.Equals( "Charlie", sub.LoadSetting( "NAME" ) );
 
 			sub.RemoveSetting( "X" );
-			Assertion.AssertNull( "X not removed", sub.LoadSetting( "X" ) );
+			Assert.Null( "X not removed", sub.LoadSetting( "X" ) );
 			
-			Assertion.AssertEquals( "Charlie", sub.LoadSetting( "NAME" ) );
+			Assert.Equals( "Charlie", sub.LoadSetting( "NAME" ) );
 
 			sub.RemoveSetting( "NAME" );
-			Assertion.AssertNull( "NAME not removed", sub.LoadSetting( "NAME" ) );
+			Assert.Null( "NAME not removed", sub.LoadSetting( "NAME" ) );
 		}
 
 		[Test]
@@ -153,16 +153,16 @@ namespace NUnit.Tests
 			storage.SaveSetting( "Y", "17" );
 			storage.SaveSetting( "NAME", "Charlie");
 
-			Assertion.AssertEquals( 5, storage.LoadSetting("X") );
-			Assertion.AssertEquals( 5, storage.LoadIntSetting( "X" ) );
-			Assertion.AssertEquals( "5", storage.LoadStringSetting( "X" ) );
+			Assert.Equals( 5, storage.LoadSetting("X") );
+			Assert.Equals( 5, storage.LoadIntSetting( "X" ) );
+			Assert.Equals( "5", storage.LoadStringSetting( "X" ) );
 
-			Assertion.AssertEquals( "17", storage.LoadSetting( "Y" ) );
-			Assertion.AssertEquals( 17, storage.LoadIntSetting( "Y" ) );
-			Assertion.AssertEquals( "17", storage.LoadStringSetting( "Y" ) );
+			Assert.Equals( "17", storage.LoadSetting( "Y" ) );
+			Assert.Equals( 17, storage.LoadIntSetting( "Y" ) );
+			Assert.Equals( "17", storage.LoadStringSetting( "Y" ) );
 
-			Assertion.AssertEquals( "Charlie", storage.LoadSetting( "NAME" ) );
-			Assertion.AssertEquals( "Charlie", storage.LoadStringSetting( "NAME" ) );
+			Assert.Equals( "Charlie", storage.LoadSetting( "NAME" ) );
+			Assert.Equals( "Charlie", storage.LoadStringSetting( "NAME" ) );
 		}
 
 		[Test]
@@ -170,15 +170,15 @@ namespace NUnit.Tests
 		{
 			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
 			
-			Assertion.AssertNull( storage.LoadSetting( "X" ) );
-			Assertion.AssertNull( storage.LoadSetting( "NAME" ) );
+			Assert.Null( storage.LoadSetting( "X" ) );
+			Assert.Null( storage.LoadSetting( "NAME" ) );
 
-			Assertion.AssertEquals( 5, storage.LoadSetting( "X", 5 ) );
-			Assertion.AssertEquals( 6, storage.LoadIntSetting( "X", 6 ) );
-			Assertion.AssertEquals( "7", storage.LoadStringSetting( "X", "7" ) );
+			Assert.Equals( 5, storage.LoadSetting( "X", 5 ) );
+			Assert.Equals( 6, storage.LoadIntSetting( "X", 6 ) );
+			Assert.Equals( "7", storage.LoadStringSetting( "X", "7" ) );
 			
-			Assertion.AssertEquals( "Charlie", storage.LoadSetting( "NAME", "Charlie" ) );
-			Assertion.AssertEquals( "Fred", storage.LoadStringSetting( "NAME", "Fred" ) );
+			Assert.Equals( "Charlie", storage.LoadSetting( "NAME", "Charlie" ) );
+			Assert.Equals( "Fred", storage.LoadStringSetting( "NAME", "Fred" ) );
 		}
 
 		[Test, ExpectedException( typeof( FormatException ) )]

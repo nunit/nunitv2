@@ -25,7 +25,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.CheckBox reloadOnRunCheckBox;
 		private System.Windows.Forms.CheckBox visualStudioSupportCheckBox;
 		private System.Windows.Forms.CheckBox loadLastProjectCheckBox;
-		private System.ComponentModel.IContainer components;
+		private System.ComponentModel.IContainer components = null;
 
 		public static void EditOptions( )
 		{

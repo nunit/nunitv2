@@ -38,7 +38,7 @@ namespace NUnitSamples {
 
 	void SimpleCPPSample::Add() {
 		int result = fValue1 + fValue2;
-		Assertion::AssertEquals(6,result);
+		Assert::Equals(6,result);
 	}
 
 	void SimpleCPPSample::DivideByZero()
@@ -48,13 +48,13 @@ namespace NUnitSamples {
 	}
 
 	void SimpleCPPSample::Equals() {
-		Assertion::AssertEquals("Integer.",12, 12);
-		Assertion::AssertEquals("Long.",12L, 12L);
-		Assertion::AssertEquals("Char.",'a', 'a');
+		Assert::Equals("Integer.",12, 12);
+		Assert::Equals("Long.",12L, 12L);
+		Assert::Equals("Char.",'a', 'a');
 
 
-		Assertion::AssertEquals("Expected Failure (Integer).", 12, 13);
-		Assertion::AssertEquals("Expected Failure (Double).", 12.0, 11.99, 0.0);
+		Assert::Equals("Expected Failure (Integer).", 12, 13);
+		Assert::Equals("Expected Failure (Double).", 12.0, 11.99, 0.0);
 	}
 
 	void SimpleCPPSample::IgnoredTest()

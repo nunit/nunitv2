@@ -183,6 +183,18 @@ namespace NUnit.Tests.Assertions
 			Assert.True(expected == actual);
 			Assert.Equals(expected, actual);
 		}
+
+		[Test]
+		public void Int() 
+		{
+			int val = 1;
+			int expected = val;
+			int actual = val;
+
+			Assert.True(expected == actual);
+			Assert.Equals(expected, actual);
+		}
+
 		
 		/// <summary>
 		/// Checks to see that a value comparison works with all types.

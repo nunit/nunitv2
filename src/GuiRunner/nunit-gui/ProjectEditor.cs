@@ -77,7 +77,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.TextBox privateBinPathTextBox;
 		private ListViewItem hoverItem;
 		private System.Windows.Forms.CheckBox autoBinPathCheckBox;
-		private System.ComponentModel.IContainer components;
+		private System.ComponentModel.IContainer components = null;
 
 		#endregion
 

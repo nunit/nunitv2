@@ -82,8 +82,8 @@ namespace NUnit.Tests
 				System.Threading.Thread.Sleep(250);
 			}
 			WaitForTimerExpiration();
-			Assertion.AssertEquals(1,handler.Counter);
-			Assertion.AssertEquals(file.FullName,handler.FileName);			
+			Assert.Equals(1,handler.Counter);
+			Assert.Equals(file.FullName,handler.FileName);			
 		}
 
 		[Test]
@@ -94,7 +94,7 @@ namespace NUnit.Tests
 			fi.Attributes = FileAttributes.Hidden | attr;
 
 			WaitForTimerExpiration();
-			Assertion.AssertEquals(0, handler.Counter);
+			Assert.Equals(0, handler.Counter);
 		}
 
 		[Test]
@@ -105,7 +105,7 @@ namespace NUnit.Tests
 			fi.Delete();
 
 			WaitForTimerExpiration();
-			Assertion.AssertEquals(0, handler.Counter);
+			Assert.Equals(0, handler.Counter);
 		}
 
 		private static void WaitForTimerExpiration()

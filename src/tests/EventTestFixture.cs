@@ -91,12 +91,12 @@ namespace NUnit.Tests
 			
 			EventCounter counter = new EventCounter();
 			TestResult result = testSuite.Run(counter);
-			Assertion.AssertEquals(testSuite.CountTestCases, counter.testCaseStart);
-			Assertion.AssertEquals(testSuite.CountTestCases, counter.testCaseFinished);
+			Assert.Equals(testSuite.CountTestCases, counter.testCaseStart);
+			Assert.Equals(testSuite.CountTestCases, counter.testCaseFinished);
 
 			int suites = SuiteCount(testSuite);
-			Assertion.AssertEquals(suites, counter.suiteStarted);
-			Assertion.AssertEquals(suites, counter.suiteFinished);
+			Assert.Equals(suites, counter.suiteStarted);
+			Assert.Equals(suites, counter.suiteFinished);
 		}
 	}
 }

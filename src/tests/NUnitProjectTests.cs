@@ -166,9 +166,9 @@ namespace NUnit.Tests
 			project.Configs["Debug"].Assemblies.Add( @"bin\debug\assembly2.dll" );
 			project.Configs["Release"].Assemblies.Add( @"bin\debug\assembly3.dll" );
 
-			Assertion.AssertEquals( 2, project.Configs.Count );
-			Assertion.AssertEquals( 2, project.Configs["Debug"].Assemblies.Count );
-			Assertion.AssertEquals( 1, project.Configs["Release"].Assemblies.Count );
+			Assert.Equals( 2, project.Configs.Count );
+			Assert.Equals( 2, project.Configs["Debug"].Assemblies.Count );
+			Assert.Equals( 1, project.Configs["Release"].Assemblies.Count );
 		}
 
 		[Test]

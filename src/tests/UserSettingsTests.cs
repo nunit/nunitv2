@@ -85,9 +85,9 @@ namespace NUnit.Tests
 			Assert.Equals( @"Recent-Assemblies", assemblies.Storage.StorageName );
 			Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Recent-Assemblies", 
 				((RegistrySettingsStorage)assemblies.Storage).StorageKey.Name );
-			Assertion.AssertNotNull( "GetFiles() returned null", assemblies.GetFiles() );
+			Assert.NotNull( "GetFiles() returned null", assemblies.GetFiles() );
 			Assert.Equals( 0, assemblies.GetFiles().Count );
-			Assertion.AssertNull( "No RecentAssembly should return null", assemblies.RecentFile );
+			Assert.Null( "No RecentAssembly should return null", assemblies.RecentFile );
 
 			assemblies.RecentFile = "one";
 			assemblies.RecentFile = "two";
@@ -109,9 +109,10 @@ namespace NUnit.Tests
 			Assert.Equals( @"Recent-Projects", projects.Storage.StorageName );
 			Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Recent-Projects", 
 				((RegistrySettingsStorage)projects.Storage).StorageKey.Name );
-			Assertion.AssertNotNull( "GetFiles() returned null", projects.GetFiles() );
+			
+			Assert.NotNull( "GetFiles() returned null", projects.GetFiles() );
 			Assert.Equals( 0, projects.GetFiles().Count );
-			Assertion.AssertNull( "No RecentFile should return null", projects.RecentFile );
+			Assert.Null( "No RecentFile should return null", projects.RecentFile );
 
 			projects.RecentFile = "one";
 			projects.RecentFile = "two";

@@ -40,11 +40,6 @@ namespace NUnit.Util
 		#region Static and Instance Variables
 
 		/// <summary>
-		/// Used to generate default names for projects
-		/// </summary>
-		private static int projectSeed = 0;
-
-		/// <summary>
 		/// Path to the file storing this project
 		/// </summary>
 		protected string projectPath;

@@ -59,7 +59,7 @@ namespace NUnit.Tests
 			TestSuite suite = new TestSuite("Test Suite");
 			suite.Add(oneTestFixture);
 
-			Assertion.Assert(UIHelper.CompareTree(suite,suite));
+			Assert.True(UIHelper.CompareTree(suite,suite));
 		}
 
 		[Test]
@@ -72,7 +72,7 @@ namespace NUnit.Tests
 			TestSuite treeTwo = new TestSuite("Test Suite");
 			treeTwo.Add(oneTestFixture);
 
-			Assertion.Assert(!UIHelper.CompareTree(treeOne,treeTwo));
+			Assert.False(UIHelper.CompareTree(treeOne,treeTwo));
 
 		}
 
@@ -85,7 +85,7 @@ namespace NUnit.Tests
 			TestSuite treeTwo = new TestSuite("Test Suite Two");
 			treeTwo.Add(oneTestFixture);
 
-			Assertion.Assert(!UIHelper.CompareTree(treeOne,treeTwo));
+			Assert.False(UIHelper.CompareTree(treeOne,treeTwo));
 		}
 
 		[Test]
@@ -98,7 +98,7 @@ namespace NUnit.Tests
 			TestSuite treeTwo = new TestSuite("Test Suite One");
 			treeTwo.Add(oneTestFixture);
 
-			Assertion.Assert(!UIHelper.CompareTree(treeOne,treeTwo));
+			Assert.False(UIHelper.CompareTree(treeOne,treeTwo));
 		}
 
 	}

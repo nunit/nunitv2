@@ -159,6 +159,35 @@ namespace NUnit.Framework
 		}
 		
 		/// <summary>
+		/// Verifies that two ints are equal. If 
+		/// they are not equals then an <see cref="AssertionException"/> is
+		/// thrown.
+		/// </summary>
+		/// <param name="message">The message printed out upon failure</param>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void Equals(string message, int expected, 
+			int actual) 
+		{
+			if(!(expected == actual))
+				Assert.FailNotEquals(message, expected, actual);
+		}
+
+		/// <summary>
+		/// Verifies that two ints are equal. If 
+		/// they are not equals then an <see cref="AssertionException"/> is
+		/// thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void Equals(int expected, int actual) 
+		{
+			Assert.Equals(string.Empty, expected, actual);
+		}
+
+		
+		
+		/// <summary>
 		/// Verifies that two objects are equal.  Two objects are considered
 		/// equal if both are null, or if both have the same value.  All
 		/// non-numeric types are compared by using the <c>Equals</c> method.

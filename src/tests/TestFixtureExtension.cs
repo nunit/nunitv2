@@ -94,18 +94,18 @@ namespace NUnit.Tests
 			suite.Add(testFixture);
 			suite.Run(NullListener.NULL);
 
-			Assertion.AssertEquals(true, testFixture.baseSetup);		}
+			Assert.Equals(true, testFixture.baseSetup);		}
 
 		[Test]
 		public void DerivedTest()
 		{
-			Assertion.AssertNotNull(suite);
+			Assert.NotNull(suite);
 
 			TestSuite fixture = (TestSuite)suite.Tests[0];
-			Assertion.AssertNotNull(fixture);
+			Assert.NotNull(fixture);
 
 			TestResult result = fixture.Run(NullListener.NULL);
-			Assertion.Assert(result.IsSuccess);
+			Assert.True(result.IsSuccess);
 		}
 
 		[Test]
@@ -116,7 +116,7 @@ namespace NUnit.Tests
 			suite.Add(testFixture);
 			suite.Run(NullListener.NULL);
 
-			Assertion.AssertEquals(true, testFixture.baseSetup);
+			Assert.Equals(true, testFixture.baseSetup);
 		}
 
 		[Test]
@@ -127,7 +127,7 @@ namespace NUnit.Tests
 			suite.Add(testFixture);
 			suite.Run(NullListener.NULL);
 
-			Assertion.AssertEquals(true, testFixture.baseTeardown);
+			Assert.Equals(true, testFixture.baseTeardown);
 		}
 	}
 }

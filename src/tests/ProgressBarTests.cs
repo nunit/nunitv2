@@ -39,18 +39,18 @@ namespace NUnit.Tests
 			testCount = 0;
 			mockEvents.SimulateTestRun();
 			
-			Assertion.AssertEquals( 0, progressBar.Minimum );
-			Assertion.AssertEquals( 7, progressBar.Maximum );
-			Assertion.AssertEquals( 1, progressBar.Step );
-			Assertion.AssertEquals( 7, progressBar.Value );
-			Assertion.AssertEquals( Color.Yellow, progressBar.ForeColor );
+			Assert.Equals( 0, progressBar.Minimum );
+			Assert.Equals( 7, progressBar.Maximum );
+			Assert.Equals( 1, progressBar.Step );
+			Assert.Equals( 7, progressBar.Value );
+			Assert.Equals( Color.Yellow, progressBar.ForeColor );
 		}
 
 		private void OnTestFinished( object sender, TestEventArgs e )
 		{
 			++testCount;
 			// Assumes delegates are called in order of adding
-			Assertion.AssertEquals( testCount, progressBar.Value );
+			Assert.Equals( testCount, progressBar.Value );
 		}
 	}
 }

@@ -55,15 +55,15 @@ namespace NUnit.Tests
 		{
 			NUnit.Core.TestCase baseCase = TestCaseBuilder.Make(new SuccessTest(), "Success");
 			Test repeatTest = new RepeatedTest(baseCase, 5);
-			Assertion.Assert(repeatTest.CountTestCases == 5);
+			Assert.Equals(5, repeatTest.CountTestCases);
 
 			TestResult result = repeatTest.Run(NullListener.NULL);
-			Assertion.Assert(result.IsSuccess);
+			Assert.True(result.IsSuccess);
 
-			Assertion.Assert(result is TestSuiteResult);
+			Assert.True(result is TestSuiteResult);
 			TestSuiteResult suiteResult=(TestSuiteResult)result;
 			
-			Assertion.AssertEquals(5,suiteResult.Results.Count);
+			Assert.Equals(5,suiteResult.Results.Count);
 		}
 	}
 }

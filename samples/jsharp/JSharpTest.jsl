@@ -30,7 +30,7 @@
 package NUnit.Samples;
 
 import System.*;
-import NUnit.Framework.Assertion;
+import NUnit.Framework.Assert;
 
 /** @attribute NUnit.Framework.TestFixture() */
 public class SimpleJSharpTest
@@ -49,7 +49,7 @@ public class SimpleJSharpTest
 	public void Add() 
 	{
 		int result= fValue1 + fValue2;
-		Assertion.AssertEquals("Expected Failure.",6,result);
+		Assert.Equals("Expected Failure.",6,result);
 	}
 
 	/** @attribute NUnit.Framework.Test() */
@@ -63,13 +63,13 @@ public class SimpleJSharpTest
 	/** @attribute NUnit.Framework.Test() */
 	public void Equals() 
 	{
-		Assertion.AssertEquals("Integer.",12, 12);
-		Assertion.AssertEquals("Long.",new Long(12), new Long(13));
-		Assertion.AssertEquals("Char.",'a', 'a');
-		Assertion.AssertEquals("Integer Object Cast.",new Integer(12), new Integer(12));
+		Assert.Equals("Integer.",12, 12);
+		Assert.Equals("Long.",new Long(12), new Long(13));
+		Assert.Equals("Char.",'a', 'a');
+		Assert.Equals("Integer Object Cast.",new Integer(12), new Integer(12));
             
-		Assertion.AssertEquals("Expected Failure (Integer).", 12, 13);
-		Assertion.AssertEquals("Expected Failure (Double).", 12.0, 11.99, 0.0);
+		Assert.Equals("Expected Failure (Integer).", 12, 13);
+		Assert.Equals("Expected Failure (Double).", 12.0, 11.99, 0.0);
 	}
 
 	/** @attribute NUnit.Framework.Test() */

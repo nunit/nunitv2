@@ -62,16 +62,16 @@ namespace NUnit.Tests
 		[Test]
 		public void RetrieveSubKey()
 		{
-			Assertion.AssertNotNull(assemblies);
+			Assert.NotNull(assemblies);
 		}
 
 		[Test]
 		public void GetMostRecentAssembly()
 		{
 			string assemblyFileName = "tests.dll";
-			Assertion.AssertNull("first time this should be null", assemblies.RecentFile);
+			Assert.Null("first time this should be null", assemblies.RecentFile);
 			assemblies.RecentFile = assemblyFileName;
-			Assertion.AssertEquals(assemblyFileName, assemblies.RecentFile);
+			Assert.Equals(assemblyFileName, assemblies.RecentFile);
 		}
 
 		[Test]
@@ -81,8 +81,8 @@ namespace NUnit.Tests
 			assemblies.RecentFile = "2";
 			assemblies.RecentFile = "1";
 			IList list = assemblies.GetFiles();
-			Assertion.AssertEquals(3, list.Count);
-			Assertion.AssertEquals("1", list[0]);
+			Assert.Equals(3, list.Count);
+			Assert.Equals("1", list[0]);
 		}
 
 
@@ -102,11 +102,11 @@ namespace NUnit.Tests
 			assemblies.RecentFile = "5";
 
 			IList assemblyList = assemblies.GetFiles();
-			Assertion.AssertEquals("5", assemblyList[0]);
-			Assertion.AssertEquals("1", assemblyList[1]);
-			Assertion.AssertEquals("2", assemblyList[2]);
-			Assertion.AssertEquals("3", assemblyList[3]);
-			Assertion.AssertEquals("4", assemblyList[4]);
+			Assert.Equals("5", assemblyList[0]);
+			Assert.Equals("1", assemblyList[1]);
+			Assert.Equals("2", assemblyList[2]);
+			Assert.Equals("3", assemblyList[3]);
+			Assert.Equals("4", assemblyList[4]);
 		}
 
 		[Test]
@@ -116,11 +116,11 @@ namespace NUnit.Tests
 			assemblies.RecentFile = "4";
 
 			IList assemblyList = assemblies.GetFiles();
-			Assertion.AssertEquals("4", assemblyList[0]);
-			Assertion.AssertEquals("1", assemblyList[1]);
-			Assertion.AssertEquals("2", assemblyList[2]);
-			Assertion.AssertEquals("3", assemblyList[3]);
-			Assertion.AssertEquals("5", assemblyList[4]);
+			Assert.Equals("4", assemblyList[0]);
+			Assert.Equals("1", assemblyList[1]);
+			Assert.Equals("2", assemblyList[2]);
+			Assert.Equals("3", assemblyList[3]);
+			Assert.Equals("5", assemblyList[4]);
 		}
 
 		[Test]
@@ -130,11 +130,11 @@ namespace NUnit.Tests
 			assemblies.RecentFile = "6";
 
 			IList assemblyList = assemblies.GetFiles();
-			Assertion.AssertEquals("6", assemblyList[0]);
-			Assertion.AssertEquals("1", assemblyList[1]);
-			Assertion.AssertEquals("2", assemblyList[2]);
-			Assertion.AssertEquals("3", assemblyList[3]);
-			Assertion.AssertEquals("4", assemblyList[4]);
+			Assert.Equals("6", assemblyList[0]);
+			Assert.Equals("1", assemblyList[1]);
+			Assert.Equals("2", assemblyList[2]);
+			Assert.Equals("3", assemblyList[3]);
+			Assert.Equals("4", assemblyList[4]);
 		}
 
 
@@ -145,11 +145,11 @@ namespace NUnit.Tests
 			assemblies.RecentFile = "3";
 
 			IList assemblyList = assemblies.GetFiles();
-			Assertion.AssertEquals("3", assemblyList[0]);
-			Assertion.AssertEquals("1", assemblyList[1]);
-			Assertion.AssertEquals("2", assemblyList[2]);
-			Assertion.AssertEquals("4", assemblyList[3]);
-			Assertion.AssertEquals("5", assemblyList[4]);
+			Assert.Equals("3", assemblyList[0]);
+			Assert.Equals("1", assemblyList[1]);
+			Assert.Equals("2", assemblyList[2]);
+			Assert.Equals("4", assemblyList[3]);
+			Assert.Equals("5", assemblyList[4]);
 		}
 
 		[Test]
@@ -159,11 +159,11 @@ namespace NUnit.Tests
 			assemblies.RecentFile = "2";
 
 			IList assemblyList = assemblies.GetFiles();
-			Assertion.AssertEquals("2", assemblyList[0]);
-			Assertion.AssertEquals("1", assemblyList[1]);
-			Assertion.AssertEquals("3", assemblyList[2]);
-			Assertion.AssertEquals("4", assemblyList[3]);
-			Assertion.AssertEquals("5", assemblyList[4]);
+			Assert.Equals("2", assemblyList[0]);
+			Assert.Equals("1", assemblyList[1]);
+			Assert.Equals("3", assemblyList[2]);
+			Assert.Equals("4", assemblyList[3]);
+			Assert.Equals("5", assemblyList[4]);
 		}
 
 		[Test]
@@ -173,11 +173,11 @@ namespace NUnit.Tests
 			assemblies.RecentFile = "1";
 
 			IList assemblyList = assemblies.GetFiles();
-			Assertion.AssertEquals("1", assemblyList[0]);
-			Assertion.AssertEquals("2", assemblyList[1]);
-			Assertion.AssertEquals("3", assemblyList[2]);
-			Assertion.AssertEquals("4", assemblyList[3]);
-			Assertion.AssertEquals("5", assemblyList[4]);
+			Assert.Equals("1", assemblyList[0]);
+			Assert.Equals("2", assemblyList[1]);
+			Assert.Equals("3", assemblyList[2]);
+			Assert.Equals("4", assemblyList[3]);
+			Assert.Equals("5", assemblyList[4]);
 		}
 
 		[Test]
@@ -190,10 +190,10 @@ namespace NUnit.Tests
 			assemblies.RecentFile = "3";
 
 			IList assemblyList = assemblies.GetFiles();
-			Assertion.AssertEquals(3, assemblyList.Count);
-			Assertion.AssertEquals("3", assemblyList[0]);
-			Assertion.AssertEquals("1", assemblyList[1]);
-			Assertion.AssertEquals("2", assemblyList[2]);
+			Assert.Equals(3, assemblyList.Count);
+			Assert.Equals("3", assemblyList[0]);
+			Assert.Equals("1", assemblyList[1]);
+			Assert.Equals("2", assemblyList[2]);
 		}
 
 		[Test]
@@ -203,9 +203,9 @@ namespace NUnit.Tests
 			assemblies.RecentFile = "3";
 
 			IList assemblyList = assemblies.GetFiles();
-			Assertion.AssertEquals(2, assemblyList.Count);
-			Assertion.AssertEquals("3", assemblyList[0]);
-			Assertion.AssertEquals("1", assemblyList[1]);
+			Assert.Equals(2, assemblyList.Count);
+			Assert.Equals("3", assemblyList[0]);
+			Assert.Equals("1", assemblyList[1]);
 		}
 
 		[Test]
@@ -218,9 +218,9 @@ namespace NUnit.Tests
 			assemblies.Remove("2");
 
 			IList assemblyList = assemblies.GetFiles();
-			Assertion.AssertEquals(2, assemblyList.Count);
-			Assertion.AssertEquals("1", assemblyList[0]);
-			Assertion.AssertEquals("3", assemblyList[1]);
+			Assert.Equals(2, assemblyList.Count);
+			Assert.Equals("1", assemblyList[0]);
+			Assert.Equals("3", assemblyList[1]);
 		}
 	}
 }

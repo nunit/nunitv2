@@ -28,7 +28,7 @@ namespace NUnit.Tests
 		[Test]
 		public void BuildSuite()
 		{
-			Assertion.AssertNotNull(suite);
+			Assert.NotNull(suite);
 		}
 
 		[Test]
@@ -48,7 +48,7 @@ namespace NUnit.Tests
 		[Test]
 		public void TestCaseCount()
 		{
-			Assertion.AssertEquals(10, suite.CountTestCases);
+			Assert.Equals(10, suite.CountTestCases);
 		}
 
 		[Test]
@@ -56,7 +56,7 @@ namespace NUnit.Tests
 		{
 			TestResult result = suite.Run(NullListener.NULL);
 			ResultSummarizer summary = new ResultSummarizer(result);
-			Assertion.AssertEquals(8, summary.ResultCount);
+			Assert.Equals(8, summary.ResultCount);
 		}
 
 	}

@@ -65,8 +65,8 @@ namespace NUnit.Tests
 
 			ArrayList tests = testSuite.Tests;
 			Test test = (Test)tests[0];
-			Assertion.Assert("Expected a TestSuite",test is TestSuite);
-			Assertion.AssertEquals("OneTestCase",test.Name);
+			Assert.True("Expected a TestSuite",test is TestSuite);
+			Assert.Equals("OneTestCase",test.Name);
 		}
 
 		[Test]
@@ -77,10 +77,10 @@ namespace NUnit.Tests
 
 			ArrayList tests = testSuite.Tests;
 			Test test = (Test)tests[0];
-			Assertion.Assert("Expected a TestSuite",test is TestSuite);
-			Assertion.AssertEquals(mockTestFixture.GetType().Name,test.Name);
+			Assert.True("Expected a TestSuite",test is TestSuite);
+			Assert.Equals(mockTestFixture.GetType().Name,test.Name);
 
-			Assertion.AssertEquals(5, testSuite.CountTestCases);
+			Assert.Equals(5, testSuite.CountTestCases);
 		}
 
 		[Test]
@@ -90,7 +90,7 @@ namespace NUnit.Tests
 			TestSuite suite = new TestSuite("mock");
 			suite.Add(testFixture);
 
-			Assertion.AssertEquals(2, suite.CountTestCases);
+			Assert.Equals(2, suite.CountTestCases);
 		}
 
 		[Test]
@@ -100,31 +100,31 @@ namespace NUnit.Tests
 			TestSuite suite = new TestSuite("mock");
 			suite.Add(fixture);
 
-			Assertion.Assert("default state is to run TestSuite", suite.ShouldRun);
+			Assert.True("default state is to run TestSuite", suite.ShouldRun);
 		}
 
 		[Test]
 		public void SuiteWithNoTests()
 		{
 			ArrayList tests = noTestSuite.Tests;
-			Assertion.AssertEquals(1, tests.Count);
+			Assert.Equals(1, tests.Count);
 			TestSuite testSuite = (TestSuite)tests[0];
 
-			Assertion.Assert("ShouldRun should be false because there are no tests", !testSuite.ShouldRun);
-			Assertion.AssertEquals(testSuite.Name + " does not have any tests", testSuite.IgnoreReason);
+			Assert.False("ShouldRun should be false because there are no tests", testSuite.ShouldRun);
+			Assert.Equals(testSuite.Name + " does not have any tests", testSuite.IgnoreReason);
 		}
 
 		[Test]
 		public void RunNoTestSuite()
 		{
-			Assertion.AssertEquals(0, noTestSuite.CountTestCases);
+			Assert.Equals(0, noTestSuite.CountTestCases);
 			
 			TestResult result = noTestSuite.Run(NullListener.NULL);
 
 			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assertion.AssertEquals(0, summarizer.ResultCount);
-			Assertion.AssertEquals(0, summarizer.TestsNotRun);
-			Assertion.AssertEquals(1, summarizer.SuitesNotRun);
+			Assert.Equals(0, summarizer.ResultCount);
+			Assert.Equals(0, summarizer.TestsNotRun);
+			Assert.Equals(1, summarizer.SuitesNotRun);
 		}
 	}
 }

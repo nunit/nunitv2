@@ -142,11 +142,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AssertionFailureMessageTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ConsoleFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -182,6 +177,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "FailureMessageFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "FalseFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -197,7 +197,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "GuiCommandLineFixture.cs"
+                    RelPath = "GuiFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -64,21 +64,21 @@ namespace NUnit.Tests
 		{
 			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
 			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
-			Assertion.AssertNotNull( testGroup );
-			Assertion.AssertEquals( "TestGroup", testGroup.Name );
-			Assertion.AssertEquals( storage, testGroup.Storage );
+			Assert.NotNull( testGroup );
+			Assert.Equals( "TestGroup", testGroup.Name );
+			Assert.Equals( storage, testGroup.Storage );
 			
 			testGroup.SaveSetting( "X", 5 );
 			testGroup.SaveSetting( "NAME", "Charlie" );
-			Assertion.AssertEquals( 5, testGroup.LoadSetting( "X" ) );
-			Assertion.AssertEquals( "Charlie", testGroup.LoadSetting( "NAME" ) );
+			Assert.Equals( 5, testGroup.LoadSetting( "X" ) );
+			Assert.Equals( "Charlie", testGroup.LoadSetting( "NAME" ) );
 
 			testGroup.RemoveSetting( "X" );
-			Assertion.AssertNull( "X not removed", testGroup.LoadSetting( "X" ) );
-			Assertion.AssertEquals( "Charlie", testGroup.LoadSetting( "NAME" ) );
+			Assert.Null( "X not removed", testGroup.LoadSetting( "X" ) );
+			Assert.Equals( "Charlie", testGroup.LoadSetting( "NAME" ) );
 
 			testGroup.RemoveSetting( "NAME" );
-			Assertion.AssertNull( "NAME not removed", testGroup.LoadSetting( "NAME" ) );
+			Assert.Null( "NAME not removed", testGroup.LoadSetting( "NAME" ) );
 		}
 
 		[Test]
@@ -87,22 +87,22 @@ namespace NUnit.Tests
 			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
 			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
 			SettingsGroup subGroup = new SettingsGroup( "SubGroup", testGroup );
-			Assertion.AssertNotNull( subGroup );
-			Assertion.AssertEquals( "SubGroup", subGroup.Name );
-			Assertion.AssertNotNull( subGroup.Storage );
-			Assertion.AssertEquals( storage, subGroup.Storage.ParentStorage );
+			Assert.NotNull( subGroup );
+			Assert.Equals( "SubGroup", subGroup.Name );
+			Assert.NotNull( subGroup.Storage );
+			Assert.Equals( storage, subGroup.Storage.ParentStorage );
 
 			subGroup.SaveSetting( "X", 5 );
 			subGroup.SaveSetting( "NAME", "Charlie" );
-			Assertion.AssertEquals( 5, subGroup.LoadSetting( "X" ) );
-			Assertion.AssertEquals( "Charlie", subGroup.LoadSetting( "NAME" ) );
+			Assert.Equals( 5, subGroup.LoadSetting( "X" ) );
+			Assert.Equals( "Charlie", subGroup.LoadSetting( "NAME" ) );
 
 			subGroup.RemoveSetting( "X" );
-			Assertion.AssertNull( "X not removed", subGroup.LoadSetting( "X" ) );
-			Assertion.AssertEquals( "Charlie", subGroup.LoadSetting( "NAME" ) );
+			Assert.Null( "X not removed", subGroup.LoadSetting( "X" ) );
+			Assert.Equals( "Charlie", subGroup.LoadSetting( "NAME" ) );
 
 			subGroup.RemoveSetting( "NAME" );
-			Assertion.AssertNull( "NAME not removed", subGroup.LoadSetting( "NAME" ) );
+			Assert.Null( "NAME not removed", subGroup.LoadSetting( "NAME" ) );
 		}
 
 		[Test]
@@ -115,16 +115,16 @@ namespace NUnit.Tests
 			testGroup.SaveStringSetting( "Y", "17" );
 			testGroup.SaveStringSetting( "NAME", "Charlie");
 
-			Assertion.AssertEquals( 5, testGroup.LoadSetting("X") );
-			Assertion.AssertEquals( 5, testGroup.LoadIntSetting( "X" ) );
-			Assertion.AssertEquals( "5", testGroup.LoadStringSetting( "X" ) );
+			Assert.Equals( 5, testGroup.LoadSetting("X") );
+			Assert.Equals( 5, testGroup.LoadIntSetting( "X" ) );
+			Assert.Equals( "5", testGroup.LoadStringSetting( "X" ) );
 
-			Assertion.AssertEquals( "17", testGroup.LoadSetting( "Y" ) );
-			Assertion.AssertEquals( 17, testGroup.LoadIntSetting( "Y" ) );
-			Assertion.AssertEquals( "17", testGroup.LoadStringSetting( "Y" ) );
+			Assert.Equals( "17", testGroup.LoadSetting( "Y" ) );
+			Assert.Equals( 17, testGroup.LoadIntSetting( "Y" ) );
+			Assert.Equals( "17", testGroup.LoadStringSetting( "Y" ) );
 
-			Assertion.AssertEquals( "Charlie", testGroup.LoadSetting( "NAME" ) );
-			Assertion.AssertEquals( "Charlie", testGroup.LoadStringSetting( "NAME" ) );
+			Assert.Equals( "Charlie", testGroup.LoadSetting( "NAME" ) );
+			Assert.Equals( "Charlie", testGroup.LoadStringSetting( "NAME" ) );
 		}
 
 		[Test]
@@ -133,15 +133,15 @@ namespace NUnit.Tests
 			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
 			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
 			
-			Assertion.AssertNull( testGroup.LoadSetting( "X" ) );
-			Assertion.AssertNull( testGroup.LoadSetting( "NAME" ) );
+			Assert.Null( testGroup.LoadSetting( "X" ) );
+			Assert.Null( testGroup.LoadSetting( "NAME" ) );
 
-			Assertion.AssertEquals( 5, testGroup.LoadSetting( "X", 5 ) );
-			Assertion.AssertEquals( 6, testGroup.LoadIntSetting( "X", 6 ) );
-			Assertion.AssertEquals( "7", testGroup.LoadStringSetting( "X", "7" ) );
+			Assert.Equals( 5, testGroup.LoadSetting( "X", 5 ) );
+			Assert.Equals( 6, testGroup.LoadIntSetting( "X", 6 ) );
+			Assert.Equals( "7", testGroup.LoadStringSetting( "X", "7" ) );
 
-			Assertion.AssertEquals( "Charlie", testGroup.LoadSetting( "NAME", "Charlie" ) );
-			Assertion.AssertEquals( "Fred", testGroup.LoadStringSetting( "NAME", "Fred" ) );
+			Assert.Equals( "Charlie", testGroup.LoadSetting( "NAME", "Charlie" ) );
+			Assert.Equals( "Fred", testGroup.LoadStringSetting( "NAME", "Fred" ) );
 		}
 
 		[Test, ExpectedException( typeof( FormatException ) )]

@@ -44,7 +44,7 @@ namespace NUnit.Tests.Assertions
 			[Test]
 			public void CallAssertionFail()
 			{
-				Assertion.Fail(failureMessage);
+				Assert.Fail(failureMessage);
 			}
 		}
 

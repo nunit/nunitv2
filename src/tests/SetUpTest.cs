@@ -70,8 +70,8 @@ namespace NUnit.Tests
 			suite.Add(testFixture);
 			suite.Run(NullListener.NULL);
 
-			Assertion.Assert(testFixture.wasSetUpCalled);
-			Assertion.Assert(testFixture.wasTearDownCalled);
+			Assert.True(testFixture.wasSetUpCalled);
+			Assert.True(testFixture.wasTearDownCalled);
 		}
 
 		[Test]
@@ -82,8 +82,8 @@ namespace NUnit.Tests
 			suite.Add(testFixture);
 			suite.Run(NullListener.NULL);
 
-			Assertion.Assert(testFixture.wasSetUpCalled);
-			Assertion.Assert(testFixture.wasTearDownCalled);
+			Assert.True(testFixture.wasSetUpCalled);
+			Assert.True(testFixture.wasTearDownCalled);
 		}
 
 		internal class DefineInheritSetUpAndTearDown : SetUpAndTearDownFixture
@@ -115,10 +115,10 @@ namespace NUnit.Tests
 			suite.Add(testFixture);
 			suite.Run(NullListener.NULL);
 
-			Assertion.Assert(!testFixture.wasSetUpCalled);
-			Assertion.Assert(!testFixture.wasTearDownCalled);
-			Assertion.Assert(testFixture.derivedSetUpCalled);
-			Assertion.Assert(testFixture.derivedTearDownCalled);
+			Assert.False(testFixture.wasSetUpCalled);
+			Assert.False(testFixture.wasTearDownCalled);
+			Assert.True(testFixture.derivedSetUpCalled);
+			Assert.True(testFixture.derivedTearDownCalled);
 		}
 	}
 }

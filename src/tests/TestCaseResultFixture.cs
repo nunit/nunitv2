@@ -36,7 +36,6 @@ namespace NUnit.Tests.TestResultSuite
 	/// <summary>
 	/// Summary description for TestResultTests.
 	/// </summary>
-	/// 
 	[TestFixture]
 	public class TestCaseResultFixture
 	{
@@ -51,15 +50,15 @@ namespace NUnit.Tests.TestResultSuite
 		[Test]
 		public void TestCaseSuccess()
 		{
-			Assertion.Assert("result should be success", caseResult.IsSuccess);
+			Assert.True("result should be success", caseResult.IsSuccess);
 		}
 
 		[Test]
 		public void TestCaseFailure()
 		{
 			caseResult.Failure("an assertion failed error",null);
-			Assertion.Assert(caseResult.IsFailure);
-			Assertion.Assert(!caseResult.IsSuccess);
+			Assert.True(caseResult.IsFailure);
+			Assert.False(caseResult.IsSuccess);
 		}
 
 		[Test]
@@ -67,7 +66,7 @@ namespace NUnit.Tests.TestResultSuite
 		{
 			string message = "message";
 			caseResult.Failure(message,null);
-			Assertion.AssertEquals(message, caseResult.Message);
+			Assert.Equals(message, caseResult.Message);
 		}
 	}
 }

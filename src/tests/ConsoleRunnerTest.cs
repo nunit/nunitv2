@@ -93,7 +93,7 @@ namespace NUnit.Tests
 			[Test]
 			public void Fail()
 			{
-				Assertion.Fail();
+				Assert.Fail();
 			}
 		}
 
@@ -104,7 +104,7 @@ namespace NUnit.Tests
 				typeof(NUnit.Tests.ConsoleRunnerTest.FailureTest).FullName,
 				null);
 			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
-			Assertion.AssertEquals(1, resultCode);
+			Assert.Equals(1, resultCode);
 		}
 
 		[Test]
@@ -114,7 +114,7 @@ namespace NUnit.Tests
 				typeof(NUnit.Tests.SuccessTest).FullName, 
 				null);
 			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
-			Assertion.AssertEquals(0, resultCode);
+			Assert.Equals(0, resultCode);
 		}
 
 		[Test]
@@ -127,8 +127,8 @@ namespace NUnit.Tests
 				typeof(NUnit.Tests.SuccessTest).FullName,
 				info.FullName);
 			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
-			Assertion.AssertEquals(0, resultCode);
-			Assertion.AssertEquals(true, info.Exists);
+			Assert.Equals(0, resultCode);
+			Assert.Equals(true, info.Exists);
 		}
 
 		[Test]
@@ -138,7 +138,7 @@ namespace NUnit.Tests
 				"NUnit.Tests.BogusTest", 
 				null);
 			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
-			Assertion.AssertEquals(2, resultCode);
+			Assert.Equals(2, resultCode);
 		}
 
 		[Test]
@@ -148,7 +148,7 @@ namespace NUnit.Tests
 				null, 
 				null);
 			int resultCode = domain.ExecuteAssembly(nunitExe, evidence, arguments);
-			Assertion.AssertEquals(2, resultCode);
+			Assert.Equals(2, resultCode);
 		}
 
 		private string[] MakeCommandLine(string assembly, string fixture, string xmlFile)
