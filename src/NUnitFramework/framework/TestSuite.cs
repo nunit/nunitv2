@@ -153,10 +153,21 @@ namespace NUnit.Core
 					this.InvokeMethod(fixtureSetUp, fixture);
 				RunAllTests(suiteResult,listener);
 			} 
+			catch (Exception ex) 
+			{
+				handleFixtureException(suiteResult, ex);
+			}
 			finally 
 			{
-				if (this.fixtureTearDown != null)
-					this.InvokeMethod(fixtureTearDown, fixture);
+				try 
+				{
+					if (this.fixtureTearDown != null)
+						this.InvokeMethod(fixtureTearDown, fixture);
+				} 
+				catch (Exception ex) 
+				{
+					handleFixtureException(suiteResult, ex);
+				}
 			}
 
 			long stopTime = DateTime.Now.Ticks;
@@ -169,6 +180,17 @@ namespace NUnit.Core
 			listener.SuiteFinished(suiteResult);
 
 			return suiteResult;
+		}
+
+		private void handleFixtureException(TestSuiteResult result, Exception ex) 
+		{
+			NunitException nex = ex as NunitException;
+			if (nex != null)
+				ex = nex.InnerException;
+
+			result.Executed = false;
+			result.NotRun(ex.ToString());
+			result.StackTrace = ex.StackTrace;
 		}
 
 		protected virtual void RunAllTests(TestSuiteResult suiteResult,EventListener listener)

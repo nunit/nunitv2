@@ -86,12 +86,6 @@ namespace NUnit.Core
 			get { return message; }
 		}
 
-		public override string StackTrace
-		{
-			get { return null; }
-		}
-
-
 		public IList Results
 		{
 			get { return results; }

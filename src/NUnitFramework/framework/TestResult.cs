@@ -43,6 +43,7 @@ namespace NUnit.Core
 		private double time;
 		private string name;
 		private TestInfo test;
+		private string stackTrace;
 
 #if NUNIT_LEAKAGE_TEST
 		private long leakage = 0;
@@ -100,9 +101,16 @@ namespace NUnit.Core
 			get;
 		}
 
-		public abstract string StackTrace
+		public virtual string StackTrace
 		{
-			get;
+			get 
+			{ 
+				return stackTrace;
+			}
+			set 
+			{
+				stackTrace = value;
+			}
 		}
 
 		public abstract void NotRun(string message);

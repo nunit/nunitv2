@@ -40,7 +40,7 @@ namespace NUnit.Core
 	public class TestCaseResult : TestResult
 	{
 		private string message;
-		private string stackTrace;
+		
 
 		public TestCaseResult(TestCase testCase):base(testCase, testCase.FullName)
 		{
@@ -69,20 +69,12 @@ namespace NUnit.Core
 			Executed = true;
 			IsFailure = true;
 			this.message = message;
-			this.stackTrace = stackTrace;
+			StackTrace = stackTrace;
 		}
 
 		public override string Message
 		{
 			get { return message; }
-		}
-
-		public override string StackTrace
-		{
-			get 
-			{ 
-				return stackTrace;
-			}
 		}
 
 		public override string ToString()

@@ -102,5 +102,63 @@ namespace NUnit.Tests
 			Assertion.AssertEquals(1, testFixture.derivedSetUpCount);
 			Assertion.AssertEquals(1, testFixture.derivedTearDownCount);
 		}
+
+		internal class MisbehavingFixtureSetUp 
+		{
+			[TestFixtureSetUp]
+			public void willBlowUp() 
+			{
+				throw new Exception("This was thrown from fixture setup");
+			}
+
+			[Test]
+			public void nothingToTest() 
+			{
+			}
+		}
+
+		[Test]
+		public void HandleExceptionsInFixtureSetup() 
+		{
+			MisbehavingFixtureSetUp testFixture = new MisbehavingFixtureSetUp();
+			TestSuite suite = new TestSuite("ASuite");
+			suite.Add(testFixture);
+			TestSuiteResult result = (TestSuiteResult) suite.Run(NullListener.NULL);
+			Assertion.AssertEquals(1, result.Results.Count);
+			TestResult failedResult = ((TestResult)result.Results[0]);
+			Assertion.Assert("Suite should not have executed", !failedResult.Executed);
+			String message = failedResult.Message.Substring(0, 108);
+			Assertion.AssertEquals("System.Exception: This was thrown from fixture setup\r\n   at NUnit.Tests.MisbehavingFixtureSetUp.willBlowUp()", message);
+			Assertion.AssertNotNull("StackTrace should not be null", failedResult.StackTrace);
+		}
+
+		internal class MisbehavingFixtureTearDown
+		{
+			[TestFixtureTearDown]
+			public void willBlowUp() 
+			{
+				throw new Exception("This was thrown from fixture teardown");
+			}
+
+			[Test]
+			public void nothingToTest() 
+			{
+			}
+		}
+
+		[Test]
+		public void HandleExceptionsInFixtureTearDown() 
+		{
+			MisbehavingFixtureTearDown testFixture = new MisbehavingFixtureTearDown();
+			TestSuite suite = new TestSuite("ASuite");
+			suite.Add(testFixture);
+			TestSuiteResult result = (TestSuiteResult) suite.Run(NullListener.NULL);
+			Assertion.AssertEquals(1, result.Results.Count);
+			TestResult failedResult = ((TestResult)result.Results[0]);
+			Assertion.Assert("Suite should not have executed", !failedResult.Executed);
+			String message = failedResult.Message.Substring(0, 114);
+			Assertion.AssertEquals("System.Exception: This was thrown from fixture teardown\r\n   at NUnit.Tests.MisbehavingFixtureTearDown.willBlowUp()", message);
+			Assertion.AssertNotNull("StackTrace should not be null", failedResult.StackTrace);
+		}
 	}
 }
