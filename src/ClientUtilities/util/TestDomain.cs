@@ -117,6 +117,11 @@ namespace NUnit.Util
 			return runner;
 		}
 
+		public Version FrameworkVersion
+		{
+			get { return Runner.FrameworkVersion; }
+		}
+
 		#endregion
 
 		#region Constructors
@@ -339,6 +344,11 @@ namespace NUnit.Util
 				this.listener = listener;
 				Runner.RunTest( listener, testNames );
 			}
+		}
+
+		public void CancelRun()
+		{
+			Runner.CancelRun();
 		}
 
 		// For now, just publish any unhandled exceptions and let the listener
