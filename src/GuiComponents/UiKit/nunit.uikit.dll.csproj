@@ -191,6 +191,11 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "GuiTestEventDispatcher.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "NotRunTree.cs"
                     SubType = "Component"
                     BuildAction = "Compile"
@@ -292,11 +297,6 @@
                     RelPath = "TipWindow.resx"
                     DependentUpon = "TipWindow.cs"
                     BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "UITestEventDispatcher.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "unpinned.gif"
