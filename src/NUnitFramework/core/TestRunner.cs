@@ -56,6 +56,11 @@ namespace NUnit.Core
 		//			get;
 		//		}
 
+		Version FrameworkVersion
+		{
+			get;
+		}
+
 		#endregion
 
 		/// <summary>
@@ -167,5 +172,7 @@ namespace NUnit.Core
 		/// <param name="listener">Interface to an object to receive EventListener notifications</param>
 		/// <param name="testNames">The names of the test cases, fixtures or suites to be run</param>
 		void RunTest(NUnit.Core.EventListener listener, string[] testNames);
+
+		void CancelRun();
 	}
 }
