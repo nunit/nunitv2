@@ -15,6 +15,13 @@ namespace NUnit.Util.Tests
 			Stream stream = type.Assembly.GetManifestResourceStream(type, name);
 			byte[] buffer = new byte[(int)stream.Length];
 			stream.Read(buffer, 0, buffer.Length);
+
+			string dir = System.IO.Path.GetDirectoryName(path);
+			if(dir != null && dir.Length != 0)
+			{
+				Directory.CreateDirectory(dir);
+			}
+
 			using(FileStream fileStream = new FileStream(path, FileMode.Create))
 			{
 				fileStream.Write(buffer, 0, buffer.Length);
@@ -23,6 +30,18 @@ namespace NUnit.Util.Tests
 
 		public void Dispose()
 		{
+			string path = this.path;
+			while(true)
+			{
+				path = System.IO.Path.GetDirectoryName(path);
+				if(path == null || path.Length == 0 || Directory.GetFiles(path).Length > 0)
+				{
+					break;
+				}
+
+				Directory.Delete(path);
+			}
+
 			File.Delete(this.path);
 		}
 

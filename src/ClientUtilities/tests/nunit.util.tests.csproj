@@ -184,6 +184,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "money.csproj"
+                    Link = "..\..\..\samples\money\money.csproj"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "money-port.csproj"
+                    Link = "..\..\..\samples\money-port\money-port.csproj"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "MultipleAssemblyFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

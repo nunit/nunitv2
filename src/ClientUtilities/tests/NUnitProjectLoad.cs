@@ -27,11 +27,8 @@
 '***********************************************************************************/
 #endregion
 
-using System;
 using System.IO;
-using System.Xml;
 using NUnit.Framework;
-using NUnit.TestUtilities;
 
 namespace NUnit.Util.Tests
 {
@@ -171,9 +168,15 @@ namespace NUnit.Util.Tests
 			}
 		}
 
-		[Test, Ignore("Need to create whole embedded solution")]
+		[Test]
 		public void FromVSSolution()
 		{
+			using(new TempResourceFile(this.GetType(), "csharp-sample.csproj", @"csharp\csharp-sample.csproj"))
+			using(new TempResourceFile(this.GetType(), "jsharp.vjsproj", @"jsharp\jsharp.vjsproj"))
+			using(new TempResourceFile(this.GetType(), "vb-sample.vbproj", @"vb\vb-sample.vbproj"))
+			using(new TempResourceFile(this.GetType(), "cpp-sample.vcproj", @"cpp-sample\cpp-sample.vcproj"))
+			using(new TempResourceFile(this.GetType(), "money.csproj", @"money\money.csproj"))
+			using(new TempResourceFile(this.GetType(), "money-port.csproj", @"money-port\money-port.csproj"))
 			using(TempResourceFile file = new TempResourceFile(this.GetType(), "samples.sln"))
 			{
 				NUnitProject project = NUnitProject.FromVSSolution( file.Path );
