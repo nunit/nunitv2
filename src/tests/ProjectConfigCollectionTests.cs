@@ -40,7 +40,7 @@ namespace NUnit.Tests.Util
 	public class ProjectConfigCollectionTests
 	{
 		private ProjectConfigCollection configs;
-		private Project project = new Project( @"C:\tests\myproject.nunit" );
+		private NUnitProject project = new NUnitProject( @"C:\tests\myproject.nunit" );
 
 		[SetUp]
 		public void SetUp()

@@ -70,7 +70,7 @@ namespace NUnit.Tests.Util
 			Assert.AreEqual( 2, project.Configs.Count );
 			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug config" );
 			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release config" );
-			Assert.IsTrue( project.Configs["Debug"].Assemblies[0].FullPath.ToLower().EndsWith( @"\bin\debug\nunit.tests.dll" ),
+			Assert.IsTrue( project.Configs["Debug"].Assemblies[0].ToString().ToLower().EndsWith( @"\bin\debug\nunit.tests.dll" ),
 				"Missing dll");
 		}
 
@@ -88,7 +88,7 @@ namespace NUnit.Tests.Util
 			Assert.AreEqual( 2, project.Configs.Count );
 			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug config" );
 			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release config" );
-			Assert.IsTrue( project.Configs["Debug"].Assemblies[0].FullPath.ToLower().EndsWith( @"samples\vb\bin\vb-sample.dll" ),
+			Assert.IsTrue( project.Configs["Debug"].Assemblies[0].ToString().ToLower().EndsWith( @"samples\vb\bin\vb-sample.dll" ),
 				"Missing dll");
 		}
 		[Test]
@@ -105,7 +105,7 @@ namespace NUnit.Tests.Util
 			Assert.AreEqual( 2, project.Configs.Count );
 			Assert.IsTrue( project.Configs.Contains( "Debug|Win32" ), "Missing Debug config" );
 			Assert.IsTrue( project.Configs.Contains( "Release|Win32" ), "Missing Release config" );
-			Assert.IsTrue( project.Configs["Debug|Win32"].Assemblies[0].FullPath.ToLower().EndsWith( @"samples\cpp-sample\debug\cpp-sample.dll" ),
+			Assert.IsTrue( project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower().EndsWith( @"samples\cpp-sample\debug\cpp-sample.dll" ),
 				"Missing dll");
 		}
 

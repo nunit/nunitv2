@@ -46,12 +46,15 @@ namespace NUnit.Tests.Util
 		static readonly string xmlfile = "test.nunit";
 
 		private NUnitProject project;
+		private ProjectEventArgs lastEvent;
 
 		[SetUp]
 		public void SetUp()
 		{
 			NUnitProject.ProjectSeed = 0;
 			project = NUnitProject.EmptyProject();
+			project.Changed += new ProjectEventHandler( OnProjectChanged );
+			lastEvent = null;
 		}
 
 		[TearDown]
@@ -59,6 +62,11 @@ namespace NUnit.Tests.Util
 		{
 			if ( File.Exists( xmlfile ) )
 				File.Delete( xmlfile );
+		}
+
+		private void OnProjectChanged( object sender, ProjectEventArgs e )
+		{
+			lastEvent = e;
 		}
 
 		[Test]
@@ -177,6 +185,7 @@ namespace NUnit.Tests.Util
 		{
 			project.Configs.Add("Debug");
 			Assert.IsTrue( project.IsDirty );
+			Assert.AreEqual( ProjectChangeType.AddConfig, lastEvent.type );
 		}
 
 		[Test]
@@ -186,6 +195,7 @@ namespace NUnit.Tests.Util
 			project.IsDirty = false;
 			project.Configs[0].Name = "New";
 			Assert.IsTrue( project.IsDirty );
+			Assert.AreEqual( ProjectChangeType.UpdateConfig, lastEvent.type );
 		}
 
 		[Test]
@@ -211,6 +221,7 @@ namespace NUnit.Tests.Util
 			project.IsDirty = false;
 			project.Configs.Remove("Debug");
 			Assert.IsTrue( project.IsDirty );
+			Assert.AreEqual( ProjectChangeType.RemoveConfig, lastEvent.type );
 		}
 
 		[Test]
@@ -232,6 +243,7 @@ namespace NUnit.Tests.Util
 			project.IsDirty = false;
 			project.SetActiveConfig( "Release" );
 			Assert.IsTrue( project.IsDirty );
+			Assert.AreEqual( ProjectChangeType.ActiveConfig, lastEvent.type );
 		}
 
 		[Test]

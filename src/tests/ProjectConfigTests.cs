@@ -42,14 +42,15 @@ namespace NUnit.Tests.Util
 	public class ProjectConfigTests
 	{
 		private ProjectConfig config;
-		private Project project;
+		private NUnitProject project;
+		private bool gotChangedEvent;
 
 		[SetUp]
 		public void SetUp()
 		{
 			config = new ProjectConfig( "Debug" );
-			project = new Project( @"C:\test\myproject.nunit" );
-			config.Project = project;
+			project = new NUnitProject( @"C:\test\myproject.nunit" );
+			project.Configs.Add( config );
 		}
 
 		[Test]
@@ -237,6 +238,24 @@ namespace NUnit.Tests.Util
 			config.Assemblies.Add( @"C:\test\bin\assembly2.dll" );
 			config.BinPathType = BinPathType.Auto;
 			Assert.AreEqual( @"bin", config.PrivateBinPath );
+		}
+
+		[Test]
+		public void GeneratesChangedEvent()
+		{
+			gotChangedEvent = false;
+			config.Changed += new EventHandler( OnConfigChanged );
+			config.IsDirty = true;
+			Assert.IsTrue( gotChangedEvent, "Event not generated" );
+
+			gotChangedEvent = false;
+			config.IsDirty = false;
+			Assert.IsFalse( gotChangedEvent, "Event generated in error" );
+		}
+
+		private void OnConfigChanged( object sender, EventArgs e )
+		{
+			gotChangedEvent = true;
 		}
 	}
 }

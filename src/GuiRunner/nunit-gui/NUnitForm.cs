@@ -939,7 +939,7 @@ namespace NUnit.Gui
 		{
 			MenuItem item = (MenuItem)sender;
 			if ( !item.Checked )
-				TestLoader.LoadConfig( TestProject.Configs[item.Index].Name );
+				TestProject.SetActiveConfig( TestProject.Configs[item.Index].Name );
 		}
 
 		private void addConfigurationMenuItem_Click( object sender, System.EventArgs e )
