@@ -34,6 +34,12 @@
         "Entry"
         {
         "MsmKey" = "8:_03B172B0A4F3A89BA3110AC96B1D0D46"
+        "OwnerKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
+        "MsmSig" = "8:nunit.corec:\\sfkit\\sourceforge\\nunit20\\core\\obj\\release\\nunit.core.dll"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_03B172B0A4F3A89BA3110AC96B1D0D46"
         "OwnerKey" = "8:_4E3D644EF9BC6227CDFEEB1FE6A0588D"
         "MsmSig" = "8:nunit.corec:\\sfkit\\sourceforge\\nunit20\\core\\obj\\release\\nunit.core.dll"
         }
@@ -75,15 +81,9 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_0A00DBEBC1824F388A23645124E2850B"
+        "MsmKey" = "8:_08AC83AEBBE3448EACE7E0CDD8DBDCDE"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\VB\\SIMPLEVBTEST.VB"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1263572B74B743E794C41812260FDD80"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\CPP-SAMPLE\\STDAFX.H"
+        "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\SAMPLES\\VB\\VB-SAMPLE.VBPROJ"
         }
         "Entry"
         {
@@ -99,27 +99,9 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1E8BCE9A8249441481B35EC39C618590"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\JSHARP\\JSHARP.VJSPROJ"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1FDE20A02588459C8404C79B5DDB19E7"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\MONEY-PORT\\ASSEMBLYINFO.CS"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:nunit-consolec:\\nunit\\nunit-console\\obj\\release\\nunit-console.exe"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_260F45D4603A4A37A28688E3F6295AB1"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\VB\\VB-SAMPLE.VBPROJ"
         }
         "Entry"
         {
@@ -129,33 +111,9 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_305D6FD7F2A0417C874ED5D0A08E9CFE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\MONEY\\IMONEY.CS"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3235C660310D48619F95E2D8F0F48028"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\MONEY-PORT\\IMONEY.CS"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_327DDB2E190B4BB78D879895E3AD6696"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\CSHARP\\CSHARPTEST.CS"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_3A891C502207431AA2184578F16FBD32"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:C:\\NUNIT\\NUNIT-CONSOLE\\SUMMARY.XSLT"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3DA370DE6493449C96237E8D4D1FDBA3"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\MONEY-PORT\\MONEY.CS"
         }
         "Entry"
         {
@@ -165,45 +123,15 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_4595FFF2B0CA4F54B70973D5950134E1"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\SAMPLES\\MONEY-PORT\\MONEY-PORT.CSPROJ"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4E3D644EF9BC6227CDFEEB1FE6A0588D"
         "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
         "MsmSig" = "8:nunit.testsc:\\sfkit\\sourceforge\\nunit20\\tests\\obj\\release\\nunit.tests.dll"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_55F4BFC64B9E39E6384A8DF75461A587"
-        "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
-        "MsmSig" = "8:nunit.corec:\\sfkit\\sourceforge\\nunit20\\core\\bin\\debug\\nunit.core.dll"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_55F4BFC64B9E39E6384A8DF75461A587"
-        "OwnerKey" = "8:_4E3D644EF9BC6227CDFEEB1FE6A0588D"
-        "MsmSig" = "8:nunit.corec:\\sfkit\\sourceforge\\nunit20\\core\\bin\\debug\\nunit.core.dll"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_55F4BFC64B9E39E6384A8DF75461A587"
-        "OwnerKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
-        "MsmSig" = "8:nunit.corec:\\sfkit\\sourceforge\\nunit20\\core\\bin\\debug\\nunit.core.dll"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_55F4BFC64B9E39E6384A8DF75461A587"
-        "OwnerKey" = "8:_FE9581A65C914304AB1A163372462511"
-        "MsmSig" = "8:nunit.corec:\\sfkit\\sourceforge\\nunit20\\core\\bin\\debug\\nunit.core.dll"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5D42F122F40D4B38B7B2B46FB048897B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\CPP-SAMPLE\\CPP-SAMPLE.VCPROJ"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5D62628CB4524E1CB8BCA54BA944A005"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\CPP-SAMPLE\\CPPSAMPLE.CPP"
         }
         "Entry"
         {
@@ -225,69 +153,21 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_6690A715B2D3F87DC2857D1172E94424"
-        "OwnerKey" = "8:_55F4BFC64B9E39E6384A8DF75461A587"
-        "MsmSig" = "8:nunit.framework_d78de48b553b2ac9927dfa15d2c5e181"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6690A715B2D3F87DC2857D1172E94424"
-        "OwnerKey" = "8:_FE9581A65C914304AB1A163372462511"
-        "MsmSig" = "8:nunit.framework_d78de48b553b2ac9927dfa15d2c5e181"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6690A715B2D3F87DC2857D1172E94424"
-        "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
-        "MsmSig" = "8:nunit.framework_d78de48b553b2ac9927dfa15d2c5e181"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6A913456D1A04FF5845E4EF94B2B8890"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\MONEY-PORT\\MONEYBAG.CS"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_756FA73B55B242478E5C599A2F6930C5"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\MONEY\\MONEY.CS"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_760159A81A554672B58C94F7AD0D7DA3"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\CSHARP\\CSHARP-SAMPLE.CSPROJ"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_7670D62BA4394446832857D304CA1198"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:nunit.corec:\\nunit\\core\\obj\\release\\nunit.core.dll"
         }
         "Entry"
         {
-        "MsmKey" = "8:_76C16A3924644C598A5C0566332D52B0"
+        "MsmKey" = "8:_8F914DF132F54152A970FF50C090AE8B"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\JSHARP\\JSHARPTEST.JSL"
+        "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\SAMPLES\\CPP-SAMPLE\\CPP-SAMPLE.VCPROJ"
         }
         "Entry"
         {
-        "MsmKey" = "8:_7F6C1505196445198BCFC7BD68452288"
+        "MsmKey" = "8:_A77B729667DA4787B1E15217ABD6DF4D"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\JSHARP\\ASSEMBLYINFO.JSL"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_82722D863D73400CA30874E5847B7CC7"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\MONEY-PORT\\MONEYTEST.CS"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8E7C8FD3B5DB4550B346F16122C8E741"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\MONEY-PORT\\MONEY-PORT.CSPROJ"
+        "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\SAMPLES\\MONEY\\MONEY-SAMPLE.CSPROJ"
         }
         "Entry"
         {
@@ -297,9 +177,9 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_B56534A23B664B6DB7A4D489D01D54C1"
+        "MsmKey" = "8:_B6EF00F67490413B8B36EE3F198302CD"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\CPP-SAMPLE\\ASSEMBLYINFO.CPP"
+        "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\SAMPLES\\JSHARP\\JSHARP.VJSPROJ"
         }
         "Entry"
         {
@@ -309,42 +189,12 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_BC14944BA8F5460FA771FC6C3B12FBA5"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\MONEY\\MONEYTEST.CS"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_BC6C171523174DFB81187BFFF4EDE476"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:C:\\NUNIT\\NUNIT.KEY"
         }
         "Entry"
         {
-        "MsmKey" = "8:_BD7DB8EE04A849E993BBEFCF3D14241F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\CPP-SAMPLE\\README.TXT"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
-        "OwnerKey" = "8:_1B4BF25DFC34404C834C052BFC9F87A1"
-        "MsmSig" = "8:nunit.framework_6f9816425758d295e34abcf0eab78aed"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
-        "OwnerKey" = "8:_64BC00A22C6BD99E0F8F2C117ED84C18"
-        "MsmSig" = "8:nunit.framework_6f9816425758d295e34abcf0eab78aed"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
-        "OwnerKey" = "8:_4E3D644EF9BC6227CDFEEB1FE6A0588D"
-        "MsmSig" = "8:nunit.framework_6f9816425758d295e34abcf0eab78aed"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
         "OwnerKey" = "8:_03B172B0A4F3A89BA3110AC96B1D0D46"
         "MsmSig" = "8:nunit.framework_6f9816425758d295e34abcf0eab78aed"
@@ -364,140 +214,110 @@
         "Entry"
         {
         "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
+        "OwnerKey" = "8:_4E3D644EF9BC6227CDFEEB1FE6A0588D"
+        "MsmSig" = "8:nunit.framework_6f9816425758d295e34abcf0eab78aed"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
+        "OwnerKey" = "8:_64BC00A22C6BD99E0F8F2C117ED84C18"
+        "MsmSig" = "8:nunit.framework_6f9816425758d295e34abcf0eab78aed"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
         "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
         "MsmSig" = "8:nunit.framework_6f9816425758d295e34abcf0eab78aed"
         }
         "Entry"
         {
-        "MsmKey" = "8:_CABCDE541776418CA431A4DC3D022E54"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\CSHARP\\ASSEMBLYINFO.CS"
+        "MsmKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
+        "OwnerKey" = "8:_1B4BF25DFC34404C834C052BFC9F87A1"
+        "MsmSig" = "8:nunit.framework_6f9816425758d295e34abcf0eab78aed"
         }
         "Entry"
         {
-        "MsmKey" = "8:_CE2FAA4EF7664234B3CC7192DA71270F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\CPP-SAMPLE\\CPPSAMPLE.H"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D23263FF420A45B7BFDAA5CD063A14DD"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\MONEY\\MONEY-SAMPLE.CSPROJ"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_D7A56E536ABA4E45933E567E8A938341"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\VB\\ASSEMBLYINFO.VB"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DCAC3872DD0A496F92BFC7C8709033A5"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\MONEY\\MONEYBAG.CS"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
+        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
         "OwnerKey" = "8:_029DFDB386674C82831375E4F62F5D57"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
-        "OwnerKey" = "8:_55F4BFC64B9E39E6384A8DF75461A587"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
-        "OwnerKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
-        "OwnerKey" = "8:_4E3D644EF9BC6227CDFEEB1FE6A0588D"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
-        "OwnerKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
-        "OwnerKey" = "8:_64BC00A22C6BD99E0F8F2C117ED84C18"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
-        "OwnerKey" = "8:_FD1073B92A62B4C5F769BC4A015626EE"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
-        "OwnerKey" = "8:_03B172B0A4F3A89BA3110AC96B1D0D46"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
-        "OwnerKey" = "8:_6690A715B2D3F87DC2857D1172E94424"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
+        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
         "OwnerKey" = "8:_FE9581A65C914304AB1A163372462511"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
+        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
         "OwnerKey" = "8:_E538D54EB287464481101A6C70555700"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
+        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
         "OwnerKey" = "8:_7670D62BA4394446832857D304CA1198"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
+        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
         "OwnerKey" = "8:_253BC73CE4C8415BB458A70F6A2512FE"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
-        "MsmKey" = "8:_E2E6FFE6AD954720869591625C285562"
+        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
+        "OwnerKey" = "8:_4E3D644EF9BC6227CDFEEB1FE6A0588D"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
+        "OwnerKey" = "8:_049685CB0A01DB2C2732101CD4B1419D"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
+        "OwnerKey" = "8:_64BC00A22C6BD99E0F8F2C117ED84C18"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
+        "OwnerKey" = "8:_FD1073B92A62B4C5F769BC4A015626EE"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
         "OwnerKey" = "8:_1B4BF25DFC34404C834C052BFC9F87A1"
         "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
+        "OwnerKey" = "8:_03B172B0A4F3A89BA3110AC96B1D0D46"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CDA42D0466154542BE8B9C4D0DD6ECC8"
+        "OwnerKey" = "8:_C4DAFD63D1AA2C2C22DE425CF303BBA3"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DED4D54641D443ACAD2E4E285E58BD4A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\SAMPLES\\CSHARP\\CSHARP-SAMPLE.CSPROJ"
         }
         "Entry"
         {
         "MsmKey" = "8:_E538D54EB287464481101A6C70555700"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:nunit.framework_7e1aeb06ac530fe88ec409556ca43710"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_ECAC4F8716C54E18AE0ABC59BDC222D0"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\CPP-SAMPLE\\STDAFX.CPP"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F4379F63EB0A4F028C280713FD71EAAD"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:C:\\NUNIT\\SAMPLES\\MONEY\\ASSEMBLYINFO.CS"
         }
         "Entry"
         {
@@ -657,32 +477,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_0A00DBEBC1824F388A23645124E2850B"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_08AC83AEBBE3448EACE7E0CDD8DBDCDE"
             {
-            "SourcePath" = "8:..\\samples\\vb\\SimpleVBTest.vb"
-            "TargetName" = "8:SimpleVBTest.vb"
+            "SourcePath" = "8:..\\samples\\vb\\vb-sample.vbproj"
+            "TargetName" = "8:vb-sample.vbproj"
             "Tag" = "8:"
-            "Folder" = "8:_B16616C4505949E9B24C1C32F170C162"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_1263572B74B743E794C41812260FDD80"
-            {
-            "SourcePath" = "8:..\\samples\\cpp-sample\\Stdafx.h"
-            "TargetName" = "8:Stdafx.h"
-            "Tag" = "8:"
-            "Folder" = "8:_D6137C46ED604082AEF76F1F3F53CCAF"
+            "Folder" = "8:_D9E79B9D7BD148D880260C4F5291F95C"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -717,132 +517,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_1E8BCE9A8249441481B35EC39C618590"
-            {
-            "SourcePath" = "8:..\\samples\\jsharp\\jsharp.vjsproj"
-            "TargetName" = "8:jsharp.vjsproj"
-            "Tag" = "8:"
-            "Folder" = "8:_1561CD64A225417AB9E5DA84E859A737"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_1FDE20A02588459C8404C79B5DDB19E7"
-            {
-            "SourcePath" = "8:..\\samples\\money-port\\AssemblyInfo.cs"
-            "TargetName" = "8:AssemblyInfo.cs"
-            "Tag" = "8:"
-            "Folder" = "8:_86DF38E51A1B499D9EDCFE8339794691"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_260F45D4603A4A37A28688E3F6295AB1"
-            {
-            "SourcePath" = "8:..\\samples\\vb\\vb-sample.vbproj"
-            "TargetName" = "8:vb-sample.vbproj"
-            "Tag" = "8:"
-            "Folder" = "8:_B16616C4505949E9B24C1C32F170C162"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_2F0505D02AE145A7B03179F32A4EB535"
             {
             "SourcePath" = "8:..\\doc\\ReadMe.pdf"
             "TargetName" = "8:ReadMe.pdf"
             "Tag" = "8:"
             "Folder" = "8:_2A1CF507AB894992A743DD546A46D0A5"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_305D6FD7F2A0417C874ED5D0A08E9CFE"
-            {
-            "SourcePath" = "8:..\\samples\\money\\IMoney.cs"
-            "TargetName" = "8:IMoney.cs"
-            "Tag" = "8:"
-            "Folder" = "8:_ADDC6A1A97EA4EA18C9B7C38B6CFFB1F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_3235C660310D48619F95E2D8F0F48028"
-            {
-            "SourcePath" = "8:..\\samples\\money-port\\IMoney.cs"
-            "TargetName" = "8:IMoney.cs"
-            "Tag" = "8:"
-            "Folder" = "8:_86DF38E51A1B499D9EDCFE8339794691"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_327DDB2E190B4BB78D879895E3AD6696"
-            {
-            "SourcePath" = "8:..\\samples\\csharp\\CSharpTest.cs"
-            "TargetName" = "8:CSharpTest.cs"
-            "Tag" = "8:"
-            "Folder" = "8:_9E5414E7BD5F466E978EF236838EF60E"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -877,12 +557,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_3DA370DE6493449C96237E8D4D1FDBA3"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_3EECB6AB7E0B4143B876EB156ED74F8C"
             {
-            "SourcePath" = "8:..\\samples\\money-port\\Money.cs"
-            "TargetName" = "8:Money.cs"
+            "SourcePath" = "8:..\\doc\\ReadMe.pdf"
+            "TargetName" = "8:ReadMe.pdf"
             "Tag" = "8:"
-            "Folder" = "8:_86DF38E51A1B499D9EDCFE8339794691"
+            "Folder" = "8:_14CBB7894D694BB18A52C157F8C173FB"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -897,12 +577,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_3EECB6AB7E0B4143B876EB156ED74F8C"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_4595FFF2B0CA4F54B70973D5950134E1"
             {
-            "SourcePath" = "8:..\\doc\\ReadMe.pdf"
-            "TargetName" = "8:ReadMe.pdf"
+            "SourcePath" = "8:..\\samples\\money-port\\money-port.csproj"
+            "TargetName" = "8:money-port.csproj"
             "Tag" = "8:"
-            "Folder" = "8:_14CBB7894D694BB18A52C157F8C173FB"
+            "Folder" = "8:_F2F57CC67BFC42B99F1A6376225A1C44"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -946,77 +626,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{C7BF5952-4B9D-11D3-8E24-00C04F6837D0}:_55F4BFC64B9E39E6384A8DF75461A587"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.core, Version=1.9.81.0, Culture=neutral"
-                "ScatterAssemblies"
-                {
-                    "_55F4BFC64B9E39E6384A8DF75461A587"
-                    {
-                    "Name" = "8:nunit.core.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:nunit.core.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_5D42F122F40D4B38B7B2B46FB048897B"
-            {
-            "SourcePath" = "8:..\\samples\\cpp-sample\\cpp-sample.vcproj"
-            "TargetName" = "8:cpp-sample.vcproj"
-            "Tag" = "8:"
-            "Folder" = "8:_D6137C46ED604082AEF76F1F3F53CCAF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_5D62628CB4524E1CB8BCA54BA944A005"
-            {
-            "SourcePath" = "8:..\\samples\\cpp-sample\\cppsample.cpp"
-            "TargetName" = "8:cppsample.cpp"
-            "Tag" = "8:"
-            "Folder" = "8:_D6137C46ED604082AEF76F1F3F53CCAF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_614F80D3D3754ED4A903C917A8BF8BBC"
@@ -1070,43 +679,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{C7BF5952-4B9D-11D3-8E24-00C04F6837D0}:_6690A715B2D3F87DC2857D1172E94424"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_8F914DF132F54152A970FF50C090AE8B"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.framework, Version=1.9.82.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
-                "ScatterAssemblies"
-                {
-                    "_6690A715B2D3F87DC2857D1172E94424"
-                    {
-                    "Name" = "8:nunit.framework.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:nunit.framework.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\samples\\cpp-sample\\cpp-sample.vcproj"
+            "TargetName" = "8:cpp-sample.vcproj"
             "Tag" = "8:"
-            "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_6A913456D1A04FF5845E4EF94B2B8890"
-            {
-            "SourcePath" = "8:..\\samples\\money-port\\MoneyBag.cs"
-            "TargetName" = "8:MoneyBag.cs"
-            "Tag" = "8:"
-            "Folder" = "8:_86DF38E51A1B499D9EDCFE8339794691"
+            "Folder" = "8:_465BEBCCE84145F49DB3BF41E2ED6EFA"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1121,112 +699,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_756FA73B55B242478E5C599A2F6930C5"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_A77B729667DA4787B1E15217ABD6DF4D"
             {
-            "SourcePath" = "8:..\\samples\\money\\Money.cs"
-            "TargetName" = "8:Money.cs"
+            "SourcePath" = "8:..\\samples\\money\\money-sample.csproj"
+            "TargetName" = "8:money-sample.csproj"
             "Tag" = "8:"
-            "Folder" = "8:_ADDC6A1A97EA4EA18C9B7C38B6CFFB1F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_760159A81A554672B58C94F7AD0D7DA3"
-            {
-            "SourcePath" = "8:..\\samples\\csharp\\csharp-sample.csproj"
-            "TargetName" = "8:csharp-sample.csproj"
-            "Tag" = "8:"
-            "Folder" = "8:_9E5414E7BD5F466E978EF236838EF60E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_76C16A3924644C598A5C0566332D52B0"
-            {
-            "SourcePath" = "8:..\\samples\\jsharp\\JSharpTest.jsl"
-            "TargetName" = "8:JSharpTest.jsl"
-            "Tag" = "8:"
-            "Folder" = "8:_1561CD64A225417AB9E5DA84E859A737"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_7F6C1505196445198BCFC7BD68452288"
-            {
-            "SourcePath" = "8:..\\samples\\jsharp\\AssemblyInfo.jsl"
-            "TargetName" = "8:AssemblyInfo.jsl"
-            "Tag" = "8:"
-            "Folder" = "8:_1561CD64A225417AB9E5DA84E859A737"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_82722D863D73400CA30874E5847B7CC7"
-            {
-            "SourcePath" = "8:..\\samples\\money-port\\MoneyTest.cs"
-            "TargetName" = "8:MoneyTest.cs"
-            "Tag" = "8:"
-            "Folder" = "8:_86DF38E51A1B499D9EDCFE8339794691"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_8E7C8FD3B5DB4550B346F16122C8E741"
-            {
-            "SourcePath" = "8:..\\samples\\money-port\\money-port.csproj"
-            "TargetName" = "8:money-port.csproj"
-            "Tag" = "8:"
-            "Folder" = "8:_86DF38E51A1B499D9EDCFE8339794691"
+            "Folder" = "8:_C185830649514C9D878BDD89DECF6A84"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1261,12 +739,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_B56534A23B664B6DB7A4D489D01D54C1"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_B6EF00F67490413B8B36EE3F198302CD"
             {
-            "SourcePath" = "8:..\\samples\\cpp-sample\\AssemblyInfo.cpp"
-            "TargetName" = "8:AssemblyInfo.cpp"
+            "SourcePath" = "8:..\\samples\\jsharp\\jsharp.vjsproj"
+            "TargetName" = "8:jsharp.vjsproj"
             "Tag" = "8:"
-            "Folder" = "8:_D6137C46ED604082AEF76F1F3F53CCAF"
+            "Folder" = "8:_B362839DC2F14AD091A6EB528B2E6043"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1301,52 +779,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_BC14944BA8F5460FA771FC6C3B12FBA5"
-            {
-            "SourcePath" = "8:..\\samples\\money\\MoneyTest.cs"
-            "TargetName" = "8:MoneyTest.cs"
-            "Tag" = "8:"
-            "Folder" = "8:_ADDC6A1A97EA4EA18C9B7C38B6CFFB1F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_BC6C171523174DFB81187BFFF4EDE476"
             {
             "SourcePath" = "8:..\\nunit.key"
             "TargetName" = "8:nunit.key"
             "Tag" = "8:"
             "Folder" = "8:_326A8EE8B00C4C55AECF5B61784234DA"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_BD7DB8EE04A849E993BBEFCF3D14241F"
-            {
-            "SourcePath" = "8:..\\samples\\cpp-sample\\ReadMe.txt"
-            "TargetName" = "8:ReadMe.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_D6137C46ED604082AEF76F1F3F53CCAF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1392,132 +830,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_CABCDE541776418CA431A4DC3D022E54"
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_DED4D54641D443ACAD2E4E285E58BD4A"
             {
-            "SourcePath" = "8:..\\samples\\csharp\\AssemblyInfo.cs"
-            "TargetName" = "8:AssemblyInfo.cs"
+            "SourcePath" = "8:..\\samples\\csharp\\csharp-sample.csproj"
+            "TargetName" = "8:csharp-sample.csproj"
             "Tag" = "8:"
-            "Folder" = "8:_9E5414E7BD5F466E978EF236838EF60E"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_CE2FAA4EF7664234B3CC7192DA71270F"
-            {
-            "SourcePath" = "8:..\\samples\\cpp-sample\\cppsample.h"
-            "TargetName" = "8:cppsample.h"
-            "Tag" = "8:"
-            "Folder" = "8:_D6137C46ED604082AEF76F1F3F53CCAF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_D23263FF420A45B7BFDAA5CD063A14DD"
-            {
-            "SourcePath" = "8:..\\samples\\money\\money-sample.csproj"
-            "TargetName" = "8:money-sample.csproj"
-            "Tag" = "8:"
-            "Folder" = "8:_ADDC6A1A97EA4EA18C9B7C38B6CFFB1F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_D7A56E536ABA4E45933E567E8A938341"
-            {
-            "SourcePath" = "8:..\\samples\\vb\\AssemblyInfo.vb"
-            "TargetName" = "8:AssemblyInfo.vb"
-            "Tag" = "8:"
-            "Folder" = "8:_B16616C4505949E9B24C1C32F170C162"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_DCAC3872DD0A496F92BFC7C8709033A5"
-            {
-            "SourcePath" = "8:..\\samples\\money\\MoneyBag.cs"
-            "TargetName" = "8:MoneyBag.cs"
-            "Tag" = "8:"
-            "Folder" = "8:_ADDC6A1A97EA4EA18C9B7C38B6CFFB1F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_ECAC4F8716C54E18AE0ABC59BDC222D0"
-            {
-            "SourcePath" = "8:..\\samples\\cpp-sample\\Stdafx.cpp"
-            "TargetName" = "8:Stdafx.cpp"
-            "Tag" = "8:"
-            "Folder" = "8:_D6137C46ED604082AEF76F1F3F53CCAF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_F4379F63EB0A4F028C280713FD71EAAD"
-            {
-            "SourcePath" = "8:..\\samples\\money\\AssemblyInfo.cs"
-            "TargetName" = "8:AssemblyInfo.cs"
-            "Tag" = "8:"
-            "Folder" = "8:_ADDC6A1A97EA4EA18C9B7C38B6CFFB1F"
+            "Folder" = "8:_3A219CF102014C8EB18531BAB13EA23B"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1619,83 +937,6 @@
                     "Property" = "8:_F9C997D61F9C47FD970314E98E524BB8"
                         "Folders"
                         {
-                        }
-                    }
-                    "{461E96AF-1495-11D3-8D6C-00A0C9CFCEE6}:_789B6F21AD324703A809CC3872D2F69A"
-                    {
-                    "Name" = "8:samples"
-                    "AlwaysCreate" = "11:TRUE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_505E0406486F4F0A84FA1B27C7E4842F"
-                        "Folders"
-                        {
-                            "{461E96AF-1495-11D3-8D6C-00A0C9CFCEE6}:_1561CD64A225417AB9E5DA84E859A737"
-                            {
-                            "Name" = "8:jsharp"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_1730C4E49C4D45CF9A0DFFA131DDA9AD"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{461E96AF-1495-11D3-8D6C-00A0C9CFCEE6}:_86DF38E51A1B499D9EDCFE8339794691"
-                            {
-                            "Name" = "8:money-port"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_473B66CDA8EC42CEB556E4134749ACBC"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{461E96AF-1495-11D3-8D6C-00A0C9CFCEE6}:_9E5414E7BD5F466E978EF236838EF60E"
-                            {
-                            "Name" = "8:csharp"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_46665CABAA5D4330AC97303F53C84192"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{461E96AF-1495-11D3-8D6C-00A0C9CFCEE6}:_ADDC6A1A97EA4EA18C9B7C38B6CFFB1F"
-                            {
-                            "Name" = "8:money"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_6C69D51B0A0B4A048793CA446AB7762A"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{461E96AF-1495-11D3-8D6C-00A0C9CFCEE6}:_B16616C4505949E9B24C1C32F170C162"
-                            {
-                            "Name" = "8:vb"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_0AF4683FE5B74153B0DB851CE037118F"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{461E96AF-1495-11D3-8D6C-00A0C9CFCEE6}:_D6137C46ED604082AEF76F1F3F53CCAF"
-                            {
-                            "Name" = "8:cpp"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_98E7C7C812164FD4B0946D8D3F0F9229"
-                                "Folders"
-                                {
-                                }
-                            }
                         }
                     }
                     "{461E96AF-1495-11D3-8D6C-00A0C9CFCEE6}:_AEB7D21393AE4B0185A2D9DF52933C55"
@@ -1943,7 +1184,7 @@
                 {
                     "{461E96AF-1495-11D3-8D6C-00A0C9CFCEE6}:_EBC90882CB524E73B3F1F22403F2E49A"
                     {
-                    "Name" = "8:Nunit"
+                    "Name" = "8:Nunit V2.0"
                     "AlwaysCreate" = "11:FALSE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
@@ -1980,21 +1221,49 @@
         }
         "Shortcut"
         {
-            "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_0058A8AB9ABA43BC8608E8363D9B0CFA"
+            "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_22465E7F3F964CF3B6757C0B14A01511"
             {
-            "Name" = "8:Managed C++ Sample"
+            "Name" = "8:Managed C++"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_5D42F122F40D4B38B7B2B46FB048897B"
+            "Target" = "8:_8F914DF132F54152A970FF50C090AE8B"
             "Folder" = "8:_3A4C7898E8D74C5A8E2196960082D3EB"
-            "WorkingFolder" = "8:_D6137C46ED604082AEF76F1F3F53CCAF"
+            "WorkingFolder" = "8:_465BEBCCE84145F49DB3BF41E2ED6EFA"
             "Icon" = "8:"
             "Feature" = "8:"
             }
-            "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_45E8AD17CFA9485B981933673012B21E"
+            "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_3858453D76AB430AA5F9C7C371C6E9BA"
+            {
+            "Name" = "8:Money-port"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_4595FFF2B0CA4F54B70973D5950134E1"
+            "Folder" = "8:_3A4C7898E8D74C5A8E2196960082D3EB"
+            "WorkingFolder" = "8:_F2F57CC67BFC42B99F1A6376225A1C44"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_4FA9A8E4A6304BBCBDFDB4F260C5F59B"
+            {
+            "Name" = "8:C# Sample"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_DED4D54641D443ACAD2E4E285E58BD4A"
+            "Folder" = "8:_3A4C7898E8D74C5A8E2196960082D3EB"
+            "WorkingFolder" = "8:_3A219CF102014C8EB18531BAB13EA23B"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_5E1CFA3120CA478A9C919935AD8C7FD7"
             {
             "Name" = "8:J# Sample"
             "Arguments" = "8:"
@@ -2002,9 +1271,23 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_1E8BCE9A8249441481B35EC39C618590"
+            "Target" = "8:_B6EF00F67490413B8B36EE3F198302CD"
             "Folder" = "8:_3A4C7898E8D74C5A8E2196960082D3EB"
-            "WorkingFolder" = "8:_1561CD64A225417AB9E5DA84E859A737"
+            "WorkingFolder" = "8:_B362839DC2F14AD091A6EB528B2E6043"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
+            "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_65AE62DF5AA94C9C83246ADA65C341D5"
+            {
+            "Name" = "8:Money"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_A77B729667DA4787B1E15217ABD6DF4D"
+            "Folder" = "8:_3A4C7898E8D74C5A8E2196960082D3EB"
+            "WorkingFolder" = "8:_C185830649514C9D878BDD89DECF6A84"
             "Icon" = "8:"
             "Feature" = "8:"
             }
@@ -2020,34 +1303,6 @@
             "Folder" = "8:_EBC90882CB524E73B3F1F22403F2E49A"
             "WorkingFolder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
             "Icon" = "8:_B9EC76C4B08E4A60A66D3265D186BB04"
-            "Feature" = "8:"
-            }
-            "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_88F23A478EA445A6982048E4FA1BEF7A"
-            {
-            "Name" = "8:C# Money Port"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_8E7C8FD3B5DB4550B346F16122C8E741"
-            "Folder" = "8:_3A4C7898E8D74C5A8E2196960082D3EB"
-            "WorkingFolder" = "8:_86DF38E51A1B499D9EDCFE8339794691"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
-            "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_8C8422C4B4294816A0DFB8397D07B66A"
-            {
-            "Name" = "8:C# Sample"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_760159A81A554672B58C94F7AD0D7DA3"
-            "Folder" = "8:_3A4C7898E8D74C5A8E2196960082D3EB"
-            "WorkingFolder" = "8:_9E5414E7BD5F466E978EF236838EF60E"
-            "Icon" = "8:"
             "Feature" = "8:"
             }
             "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_B61EA7027D664B7481DF3D07993D57AE"
@@ -2092,20 +1347,6 @@
             "Icon" = "8:"
             "Feature" = "8:"
             }
-            "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_CB491DCC869D496A81D914454F650A7E"
-            {
-            "Name" = "8:C# Money Sample"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_D23263FF420A45B7BFDAA5CD063A14DD"
-            "Folder" = "8:_3A4C7898E8D74C5A8E2196960082D3EB"
-            "WorkingFolder" = "8:_ADDC6A1A97EA4EA18C9B7C38B6CFFB1F"
-            "Icon" = "8:"
-            "Feature" = "8:"
-            }
             "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_D7C8C56E93C04B1FBD4EB090A55B9282"
             {
             "Name" = "8:Nunit-gui"
@@ -2120,17 +1361,17 @@
             "Icon" = "8:_B9EC76C4B08E4A60A66D3265D186BB04"
             "Feature" = "8:"
             }
-            "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_DA287B98EED140FE87CB97C540DFA3C5"
+            "{D0C99CFE-1238-11D3-8E00-00C04F6837D0}:_FF45CCD82FC24D43A16EEA24F9B3A912"
             {
-            "Name" = "8:Visual Basic.NET Sample"
+            "Name" = "8:VB.Net Sample"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_260F45D4603A4A37A28688E3F6295AB1"
+            "Target" = "8:_08AC83AEBBE3448EACE7E0CDD8DBDCDE"
             "Folder" = "8:_3A4C7898E8D74C5A8E2196960082D3EB"
-            "WorkingFolder" = "8:_B16616C4505949E9B24C1C32F170C162"
+            "WorkingFolder" = "8:_D9E79B9D7BD148D880260C4F5291F95C"
             "Icon" = "8:"
             "Feature" = "8:"
             }
@@ -2403,35 +1644,6 @@
                 {
                 }
             }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_26E6C19B11374A2FA5528587A44A9E84"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_D9E79B9D7BD148D880260C4F5291F95C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:SourceFiles"
-            "OutputProjectCanonicalName" = "8:samples\\vb\\vb-sample.vbproj"
-            "OutputProjectGuid" = "8:{D5412384-4C7D-4483-B32F-71CEE45704A2}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
             "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_2A78CCB1F06E483085EA6BA2DD40AD79"
             {
             "SourcePath" = "8:"
@@ -2456,35 +1668,6 @@
             "OutputGroupCanonicalName" = "8:SourceFiles"
             "OutputProjectCanonicalName" = "8:tests\\mock-assembly\\mock-assembly.csproj"
             "OutputProjectGuid" = "8:{6BAFC16F-F058-4CA8-9207-37A2E9151AC9}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_38E0C5D7DF6847299B58335E2CC4A404"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_465BEBCCE84145F49DB3BF41E2ED6EFA"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:SourceFiles"
-            "OutputProjectCanonicalName" = "8:samples\\cpp-sample\\cpp-sample.vcproj"
-            "OutputProjectGuid" = "8:{9C1C3459-24AB-4707-BDD5-EE866A945C38}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
@@ -2548,12 +1731,41 @@
                 {
                 }
             }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_51E051E44AE549DA8B501E9101E889A5"
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_491B2C78093340DDA56D499576B91FE7"
             {
             "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_C185830649514C9D878BDD89DECF6A84"
+            "Folder" = "8:_E6F82054A1554E1C955190D6BD2FD8BE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:Release"
+            "OutputGroupCanonicalName" = "8:ContentFiles"
+            "OutputProjectCanonicalName" = "8:nunit-gui\\nunit-gui.csproj"
+            "OutputProjectGuid" = "8:{F5765100-5DB9-4FB2-B204-B6D780B96F41}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_521749E949B140D0B627C0B8B99D9805"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_F2F57CC67BFC42B99F1A6376225A1C44"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -2569,9 +1781,38 @@
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:ContentFiles"
-            "OutputProjectCanonicalName" = "8:samples\\money\\money-sample.csproj"
-            "OutputProjectGuid" = "8:{2DA721DC-EB09-4439-85D7-7DDEFFABB96E}"
+            "OutputGroupCanonicalName" = "8:SourceFiles"
+            "OutputProjectCanonicalName" = "8:samples\\money-port\\money-port.csproj"
+            "OutputProjectGuid" = "8:{947559E9-9F8C-4273-8801-5FB6E61914AA}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_53B3A75C14A34B16B7624EE6F251C808"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_B362839DC2F14AD091A6EB528B2E6043"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:Release"
+            "OutputGroupCanonicalName" = "8:SourceFiles"
+            "OutputProjectCanonicalName" = "8:samples\\jsharp\\jsharp.vjsproj"
+            "OutputProjectGuid" = "8:{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
@@ -2635,35 +1876,6 @@
                 {
                 }
             }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_5A079282A94140F79FE4FE0DD850F893"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_3A219CF102014C8EB18531BAB13EA23B"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:ContentFiles"
-            "OutputProjectCanonicalName" = "8:samples\\csharp\\csharp-sample.csproj"
-            "OutputProjectGuid" = "8:{B18C50BE-5231-4E32-B38A-F4DDBFF8DFA6}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
             "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_5AEE67738DC54184AF07232F9192F465"
             {
             "SourcePath" = "8:"
@@ -2693,122 +1905,6 @@
                 {
                 }
             }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_5C272D4FC9904ADCBB22B9937DF4DAEA"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_E6F82054A1554E1C955190D6BD2FD8BE"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:SourceFiles"
-            "OutputProjectCanonicalName" = "8:nunit-gui\\nunit-gui.csproj"
-            "OutputProjectGuid" = "8:{F5765100-5DB9-4FB2-B204-B6D780B96F41}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_6905F8101E8B400A95B8A5751C1AF74A"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_465BEBCCE84145F49DB3BF41E2ED6EFA"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:ContentFiles"
-            "OutputProjectCanonicalName" = "8:samples\\cpp-sample\\cpp-sample.vcproj"
-            "OutputProjectGuid" = "8:{9C1C3459-24AB-4707-BDD5-EE866A945C38}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_6ACD3219CBDD4F038CFDB063D8A83D34"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_F2F57CC67BFC42B99F1A6376225A1C44"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:ContentFiles"
-            "OutputProjectCanonicalName" = "8:samples\\money-port\\money-port.csproj"
-            "OutputProjectGuid" = "8:{947559E9-9F8C-4273-8801-5FB6E61914AA}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_6DDD4537BE69441A9941E375F7EB26BC"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_B362839DC2F14AD091A6EB528B2E6043"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:SourceFiles"
-            "OutputProjectCanonicalName" = "8:samples\\jsharp\\jsharp.vjsproj"
-            "OutputProjectGuid" = "8:{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
             "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_7670D62BA4394446832857D304CA1198"
             {
             "SourcePath" = "8:..\\core\\obj\\Release\\nunit.core.dll"
@@ -2833,35 +1929,6 @@
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectCanonicalName" = "8:core\\nunit.core.dll.csproj"
             "OutputProjectGuid" = "8:{D3639D7C-96AB-459D-B045-4DD81547D7C4}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_7E11411CCAA34F9192606F79BA01E38D"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_F2F57CC67BFC42B99F1A6376225A1C44"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:SourceFiles"
-            "OutputProjectCanonicalName" = "8:samples\\money-port\\money-port.csproj"
-            "OutputProjectGuid" = "8:{947559E9-9F8C-4273-8801-5FB6E61914AA}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
@@ -2954,36 +2021,7 @@
                 {
                 }
             }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_9833720C1F864C5699CD3EDE5C336BE5"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_B362839DC2F14AD091A6EB528B2E6043"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:ContentFiles"
-            "OutputProjectCanonicalName" = "8:samples\\jsharp\\jsharp.vjsproj"
-            "OutputProjectGuid" = "8:{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_9A0C15F3C48A46FFAA1441034461CCB4"
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_8FE7C0AF6CD0415B91AAABF09A1B1CC2"
             {
             "SourcePath" = "8:"
             "TargetName" = "8:"
@@ -3004,7 +2042,7 @@
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:ContentFiles"
+            "OutputGroupCanonicalName" = "8:SourceFiles"
             "OutputProjectCanonicalName" = "8:samples\\vb\\vb-sample.vbproj"
             "OutputProjectGuid" = "8:{D5412384-4C7D-4483-B32F-71CEE45704A2}"
             "ShowKeyOutput" = "11:TRUE"
@@ -3012,7 +2050,7 @@
                 {
                 }
             }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_BE09D78A32DD4E8388DE834DF2853E1B"
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_B3BD1C09D4344D8AA242BCA3D98B5F6E"
             {
             "SourcePath" = "8:"
             "TargetName" = "8:"
@@ -3032,39 +2070,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
+            "OutputConfiguration" = "8:Release"
             "OutputGroupCanonicalName" = "8:SourceFiles"
             "OutputProjectCanonicalName" = "8:samples\\money\\money-sample.csproj"
             "OutputProjectGuid" = "8:{2DA721DC-EB09-4439-85D7-7DDEFFABB96E}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_C987E8F578C3447DBF48E399157A81EC"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_E6F82054A1554E1C955190D6BD2FD8BE"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:ContentFiles"
-            "OutputProjectCanonicalName" = "8:nunit-gui\\nunit-gui.csproj"
-            "OutputProjectGuid" = "8:{F5765100-5DB9-4FB2-B204-B6D780B96F41}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
@@ -3099,6 +2108,35 @@
                 {
                 }
             }
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_CF20E2B8A2F8493CB3720EBF04C41554"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_E6F82054A1554E1C955190D6BD2FD8BE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:Release"
+            "OutputGroupCanonicalName" = "8:SourceFiles"
+            "OutputProjectCanonicalName" = "8:nunit-gui\\nunit-gui.csproj"
+            "OutputProjectGuid" = "8:{F5765100-5DB9-4FB2-B204-B6D780B96F41}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_DB28024C87674F2E92181E3297C1BE78"
             {
             "SourcePath" = "8:"
@@ -3123,6 +2161,35 @@
             "OutputGroupCanonicalName" = "8:ContentFiles"
             "OutputProjectCanonicalName" = "8:tests\\mock-assembly\\mock-assembly.csproj"
             "OutputProjectGuid" = "8:{6BAFC16F-F058-4CA8-9207-37A2E9151AC9}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_DC73FC67243342B3858F62DB8355B476"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_465BEBCCE84145F49DB3BF41E2ED6EFA"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:Release|Win32"
+            "OutputGroupCanonicalName" = "8:SourceFiles"
+            "OutputProjectCanonicalName" = "8:samples\\cpp-sample\\cpp-sample.vcproj"
+            "OutputProjectGuid" = "8:{9C1C3459-24AB-4707-BDD5-EE866A945C38}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
@@ -3157,7 +2224,7 @@
                 {
                 }
             }
-            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_FA55E218F82F4D5D9FEE79E0F9B833D3"
+            "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_FAF1AB29A4AB44E485FC881275486895"
             {
             "SourcePath" = "8:"
             "TargetName" = "8:"
@@ -3177,7 +2244,7 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
+            "OutputConfiguration" = "8:Release"
             "OutputGroupCanonicalName" = "8:SourceFiles"
             "OutputProjectCanonicalName" = "8:samples\\csharp\\csharp-sample.csproj"
             "OutputProjectGuid" = "8:{B18C50BE-5231-4E32-B38A-F4DDBFF8DFA6}"
@@ -3247,7 +2314,7 @@
         }
         "MergeModule"
         {
-            "{AC8774A4-3E09-11D3-8E14-00C04F6837D0}:_E2E6FFE6AD954720869591625C285562"
+            "{AC8774A4-3E09-11D3-8E14-00C04F6837D0}:_CDA42D0466154542BE8B9C4D0DD6ECC8"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"
