@@ -114,5 +114,57 @@ namespace NUnit.Core.Tests
 			{
 			}
 		}
+
+		[Test]
+		public void IgnoreWithUserMessage()
+		{
+			try
+			{
+				Assert.Ignore( "my message" );
+			}
+			catch( IgnoreException ex )
+			{
+				Assert.AreEqual( "my message", ex.Message );
+			}
+		}
+
+		[Test]
+		public void IgnoreWithUserMessage_OneArg()
+		{
+			try
+			{
+				Assert.Ignore( "The number is {0}", 5 );
+			}
+			catch( IgnoreException ex )
+			{
+				Assert.AreEqual( "The number is 5", ex.Message );
+			}
+		}
+
+		[Test]
+		public void IgnoreWithUserMessage_ThreeArgs()
+		{
+			try
+			{
+				Assert.Ignore( "The numbers are {0}, {1} and {2}", 1, 2, 3 );
+			}
+			catch( IgnoreException ex )
+			{
+				Assert.AreEqual( "The numbers are 1, 2 and 3", ex.Message );
+			}
+		}
+
+		[Test]
+		public void IgnoreWithUserMessage_ArrayOfArgs()
+		{
+			try
+			{
+			Assert.Ignore( "The numbers are {0}, {1} and {2}", new object[] { 1, 2, 3 } );
+			}
+			catch( IgnoreException ex )
+			{
+				Assert.AreEqual( "The numbers are 1, 2 and 3", ex.Message );
+			}
+		}
 	}
 }
