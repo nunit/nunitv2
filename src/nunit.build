@@ -567,11 +567,6 @@ depends="framework,core,util,extensions,nunit-console,mock-assembly,nonamespace-
         <property name="runtime.defines.vbc" value="NET=True,NET_1_0=True"/>
         <property name="runtime.defines.vjc" value="NET,NET_1_0"/>
         <property name="runtime.defines.cl" value="/D NET /D NET_1_0"/>
-        <property name="build.exename.cl" value="cl.exe"/>
-        <readregistry property="build.vc.dir" key="SOFTWARE\Microsoft\VisualStudio\7.0\Setup\VC\ProductDir" hive="LocalMachine"/>
-        <if propertyexists="build.vc.dir">
-            <property name="build.exename.cl" value="${build.vc.dir}bin\cl.exe"/>
-        </if>
     </target>
 	
     <target name="set-net-1.1-runtime-config">
@@ -584,11 +579,6 @@ depends="framework,core,util,extensions,nunit-console,mock-assembly,nonamespace-
         <property name="runtime.defines.vbc" value="NET=True,NET_1_1=True"/>
         <property name="runtime.defines.vjc" value="NET,NET_1_1"/>
         <property name="runtime.defines.cl" value="/D NET /D NET_1_1"/>
-        <property name="build.exename.cl" value="cl.exe"/>
-        <readregistry property="build.vc.dir" key="SOFTWARE\Microsoft\VisualStudio\7.1\Setup\VC\ProductDir" hive="LocalMachine"/>
-        <if propertyexists="build.vc.dir">
-            <property name="build.exename.cl" value="${build.vc.dir}bin\cl.exe"/>
-        </if>
     </target>
 	
     <target name="set-mono-1.0-runtime-config">
@@ -601,7 +591,6 @@ depends="framework,core,util,extensions,nunit-console,mock-assembly,nonamespace-
         <property name="runtime.defines.vbc" value="MONO=True,MONO_1_0=True"/>
         <property name="runtime.defines.vjc" value="MONO,MONO_1_0"/>
         <property name="runtime.defines.cl" value="/D MONO /D MONO_1_0"/>
-        <property name="build.exename.cl" value="cl.exe"/>
     </target>
 
 <!-- Set up the build directory -->
