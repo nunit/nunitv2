@@ -276,7 +276,7 @@ namespace Codeblast
 						helpText.AppendFormat("/{0,-20}{1}", field.Name+valType, att.Description);
 						if (att.Short != null) 
 							helpText.AppendFormat(" (Short format: /{0}{1})", att.Short, valType);
-						helpText.Append('\n');
+						helpText.Append( Environment.NewLine );
 					}
 				}
 			}
