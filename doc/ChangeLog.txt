@@ -1,5 +1,15 @@
-Change Log for NUnit 2.1 RC1 - Version 2.1.3
-August 24, 2003
+Change Log for NUnit 2.1 Final Release
+September 1, 2003
+
+CHANGES FROM RC1 to Final Release
+
+Feature Requests Implemented
+* 660774 - Document that assemblies cannot be loaded via a UNC
+
+Bugs Fixed or Closed
+* 794994 - Include Type differences in FailEquals Message
+* 795399 - Assembly load failed from UNC Path
+* 798474 - No intellisense documentation in VS.NET
 
 CHANGES FROM BETA 2 to RC1
 

@@ -1,5 +1,5 @@
-Release Notes for NUnit 2.1 RC1 - Version 2.1.3
-August 24, 2003
+Release Notes for NUnit 2.1 RC1 - Final Release
+September 1, 2003
 
 This is the third major release of NUnit and the second since it was 
 rewritten to take advantage of .NET custom attributes. Highlights of 
@@ -8,6 +8,12 @@ to run test suites across multiple assemblies, improvements to the
 GUI interface, new command line switches for both GUI and Console 
 runners, some degree of integration with Visual Studio and new 
 TestFixtureSetup and TestFixtureTeardown attributes
+
+Changes from RC1
+
+Fixes were made to the gui layout including use of a fixed font in
+the Errors & Failures tab so that unmatched strings would line up
+properly. 
 
 Changes From Beta 2
 
@@ -37,18 +43,18 @@ under Windows ME, but believe it will work in that environment as well.
 
 Installation
 
-Download and execute the nunit-v2.1.3.msi file. By default the installation 
+Download and execute the nunit-v2.1.4.msi file. By default the installation 
 program places the all files in the directory C:\Program Files\Nunit V2.1. 
 In the installation directory there are three sub-directories: bin, doc 
 and src. The samples directory is located under src.
 
-If you prefer to build from source, download NUnit-V2.1.3-src.zip and 
+If you prefer to build from source, download NUnit-V2.1.4-src.zip and 
 unzip it to a directory of your choice, preserving all path information. 
 Build using the NAnt build or in the Visual Studio .NET 2003 IDE.
 
 Documentation
 
-The Readme.pdf file is installed in the doc directory by the nunit.msi
+The Readme.pdf file is installed in the doc directory by the windows
 installation and is also available as a separate download.
 
 The NUnit Team
