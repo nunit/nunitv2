@@ -19,7 +19,8 @@
           <File Id="F__test6" Name="tests~6.DLL" LongName="nunit-console.tests.dll" src="bin\nunit-console.tests.dll" />
           <File Id="F__test7" Name="tests~7.DLL" LongName="timing-tests.dll" src="bin\timing-tests.dll" />
           <File Id="F__test8" Name="config~8.DLL" LongName="NUnitTests.config" src="..\NUnitTests.config" />
-          <File Id="F__test9" Name="nunit~9.DLL" LongName="NUnitTests.nunit" src="..\NUnitTests.nunit.template.txt" />
+          <File Id="F__test9" Name="nunit~9.DLL" LongName="NUnitBinTests.nunit" src="..\NUnitBinTests.nunit" />
+          
         </Component>
 
       </Directory>

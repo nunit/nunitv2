@@ -17,7 +17,7 @@
 	</Target>
 	
 	<Target Name="Test" DependsOnTargets="Install">
-		<Exec Command='$(NUnitConsole) "$(ProgramFiles)\NUnit 2.2.1\bin\NUnitTests.nunit" /xml=%cd%\NUnitTests-results.xml' />
+		<Exec Command='$(NUnitConsole) "$(ProgramFiles)\NUnit 2.2.1\bin\NUnitBinTests.nunit" /xml=%cd%\NUnitTests-results.xml' />
 	</Target>
 
 	<Target Name="Package" DependsOnTargets="Build">
@@ -29,7 +29,7 @@
 		<Exec Command="start /wait msiexec /q /i NUnit-2.2.1.msi /l* install.log" />
 	</Target>
 
-	<Target Name="Uninstall" Condition="Exists('$(ProgramFiles)\NUnit 2.2.1\bin\NUnitTests.nunit')">
+	<Target Name="Uninstall" Condition="Exists('$(ProgramFiles)\NUnit 2.2.1\bin\nunit-gui.exe')">
 		<Exec Command="start /wait msiexec /q /x $(PackageId) /l* uninstall.log" />
 	</Target>
 
