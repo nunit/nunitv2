@@ -10,7 +10,8 @@
     <csc target="library" 
         output="${current.build.dir}/nunit.framework.tests.dll"
         debug="${build.debug}" 
-        define="${build.defines.csc}">
+        define="${build.defines.csc}"
+        nowarn="618,672">
       <sources basedir=".">
         <include name="*.cs"/>
       </sources>
