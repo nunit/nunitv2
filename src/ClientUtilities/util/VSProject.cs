@@ -113,6 +113,16 @@ namespace NUnit.Util
 
 		public static bool IsProjectFile( string path )
 		{
+			try
+			{
+				FileInfo info = new FileInfo( path );
+			}
+			catch( ArgumentException )
+			{
+				// Uri or invalid path format
+				return false;
+			}
+
 			string extension = Path.GetExtension( path );
 
 			foreach( string validExtension in validExtensions )
