@@ -51,6 +51,14 @@
 				<includes name="${build.dir}/nunit.framework.dll"/>
 			</references>
 		</csc>
+		<csc target="library" output="${build.dir}\nonamespace-assembly.dll" debug="${debug}">
+			<sources basedir="tests/nonamespace-assembly">
+				<includes name="*.cs"/>
+			</sources>
+			<references>
+				<includes name="${build.dir}/nunit.framework.dll"/>
+			</references>
+		</csc>
 		<csc target="library" output="${build.dir}\nunit.tests.dll" debug="${debug}">
 			<sources basedir="Tests">
 				<includes name="*.cs"/>
