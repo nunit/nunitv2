@@ -101,12 +101,12 @@ namespace NUnit.Core
 						xmlWriter.WriteStartElement("error");
 				
 					xmlWriter.WriteStartElement("message");
-					xmlWriter.WriteCData(caseResult.Message);
+					xmlWriter.WriteCData( EncodeCData( caseResult.Message ) );
 					xmlWriter.WriteEndElement();
 				
 					xmlWriter.WriteStartElement("stack-trace");
 					if(caseResult.StackTrace != null)
-						xmlWriter.WriteCData(StackTraceFilter.Filter(caseResult.StackTrace));
+						xmlWriter.WriteCData( EncodeCData( StackTraceFilter.Filter( caseResult.StackTrace ) ) );
 					xmlWriter.WriteEndElement();
 				
 					xmlWriter.WriteEndElement();
@@ -123,6 +123,14 @@ namespace NUnit.Core
 			}
             
 			xmlWriter.WriteEndElement();
+		}
+
+		private string EncodeCData( string text )
+		{
+			if ( text.IndexOf( "]]>" ) < 0 )
+				return text;
+
+			return text.Replace( "]]>", "]]&gt;" );
 		}
 
 		public void Visit(TestSuiteResult suiteResult) 
