@@ -443,6 +443,8 @@ namespace NUnit.UiKit
 				stackTrace.Text = result.StackTrace;
 #if NUNIT_LEAKAGE_TEST
 				leakage.Text = string.Format( "Leakage: {0} bytes", result.Leakage );
+#else
+				leakage.Text = string.Empty;
 #endif
 			}
 		}
