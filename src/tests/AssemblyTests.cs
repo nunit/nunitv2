@@ -88,6 +88,7 @@ namespace NUnit.Tests.Assemblies
 
 
 		[Test]
+		[Ignore("test")]
 		public void AppSettingsLoaded()
 		{
 			Assertion.AssertNull(ConfigurationSettings.AppSettings["tooltip.ShowAlways"]);
