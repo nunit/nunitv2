@@ -31,85 +31,15 @@ using System;
 using System.Windows.Forms;
 using NUnit.Framework;
 using NUnit.Util;
+using NUnit.TestUtilities;
 
 namespace NUnit.UiKit.Tests
 {
 	[TestFixture]
-	public class AddConfigurationDialogTests
+	public class AddConfigurationDialogTests : FormTester
 	{
 		private NUnitProject project;
 		private AddConfigurationDialog dlg;
-		private FormTester tester;
-
-		private class FormTester
-		{
-			private Form form;
-
-			public FormTester( Form form )
-			{ 
-				this.form = form;
-			}
-
-			public Control FindControl( string name )
-			{
-				foreach( Control control in form.Controls )
-				{
-					if ( control.Name == name )
-						return control;
-				}
-
-				return null;
-			}
-
-			public Control FindControl( string name, Type type )
-			{
-				Control control = FindControl( name );
-
-				if ( control == null || control.GetType() != type )
-					return null;
-				
-				return control;			
-			}
-
-			public void AssertControlExists( string name )
-			{
-				Assert.IsNotNull(FindControl( name ), 
-					string.Format( "Form {0} does not contain {1} control", form.Name, name));
-			}
-
-			public void AssertControlExists( string name, Type type )
-			{
-				Control control = FindControl( name );
-
-				Assert.IsNotNull(control, string.Format( "Form {0} does not contain {1} control", form.Name, name ));
-				Assert.AreEqual( type, control.GetType() );
-			}
-
-			public Button FindButton( string name )
-			{
-				return FindControl( name ) as Button;
-			}
-
-			public TextBox FindTextBox( string name )
-			{
-				return FindControl( name ) as TextBox;
-			}
-
-			public ComboBox FindComboBox( string name )
-			{
-				return FindControl( name ) as ComboBox;
-			}
-
-			public Label FindLabel( string name )
-			{
-				return FindControl( name ) as Label;
-			}
-
-			public string GetText( string name )
-			{
-				return FindControl(name).Text;
-			}
-		}
 
 		[SetUp]
 		public void SetUp()
@@ -118,7 +48,7 @@ namespace NUnit.UiKit.Tests
 			project.Configs.Add( "Debug" );
 			project.Configs.Add( "Release" );
 			dlg = new AddConfigurationDialog( project );
-			tester = new FormTester( dlg );
+			this.Form = dlg;
 		}
 
 		[TearDown]
@@ -130,23 +60,23 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void CheckForControls()
 		{
-			tester.AssertControlExists( "configurationNameTextBox", typeof( TextBox ) );
-			tester.AssertControlExists( "configurationComboBox", typeof( ComboBox ) );
-			tester.AssertControlExists( "okButton", typeof( Button ) );
-			tester.AssertControlExists( "cancelButton", typeof( Button ) );
+			AssertControlExists( "configurationNameTextBox", typeof( TextBox ) );
+			AssertControlExists( "configurationComboBox", typeof( ComboBox ) );
+			AssertControlExists( "okButton", typeof( Button ) );
+			AssertControlExists( "cancelButton", typeof( Button ) );
 		}
 
 		[Test]
 		public void CheckTextBox()
 		{
-			TextBox configBox = tester.FindTextBox( "configurationNameTextBox" );
+			TextBox configBox = TextBoxes["configurationNameTextBox"];
 			Assert.AreEqual( "", configBox.Text );
 		}
 
 		[Test]
 		public void CheckComboBox()
 		{
-			ComboBox combo = tester.FindComboBox( "configurationComboBox" );
+			ComboBox combo = Combos["configurationComboBox"];
 			dlg.Show();
 			Assert.AreEqual( 3, combo.Items.Count );
 			Assert.AreEqual( "<none>", combo.Items[0] );
@@ -154,12 +84,13 @@ namespace NUnit.UiKit.Tests
 			Assert.AreEqual( "Release", combo.Items[2] );
 			Assert.AreEqual( "Debug", combo.SelectedItem );
 		}
+
 		[Test]
 		public void TestSimpleEntry()
 		{
 			dlg.Show();
-			TextBox config = tester.FindTextBox( "configurationNameTextBox" );
-			Button okButton = tester.FindButton( "okButton" );
+			TextBox config = TextBoxes["configurationNameTextBox"];
+			Button okButton = Buttons["okButton"];
 			config.Text = "Super";
 			okButton.PerformClick();
 			Assert.AreEqual( "Super", dlg.ConfigurationName );
@@ -170,9 +101,9 @@ namespace NUnit.UiKit.Tests
 		public void TestComplexEntry()
 		{
 			dlg.Show();
-			TextBox config = tester.FindTextBox( "configurationNameTextBox" );
-			Button okButton = tester.FindButton( "okButton" );
-			ComboBox combo = tester.FindComboBox( "configurationComboBox" );
+			TextBox config = TextBoxes["configurationNameTextBox"];
+			Button okButton = Buttons["okButton"];
+			ComboBox combo = Combos["configurationComboBox"];
 
 			config.Text = "Super";
 			combo.SelectedIndex = combo.FindStringExact( "<none>" );
