@@ -40,7 +40,7 @@ namespace NUnit.Util
 
 	using NUnit.Core;
 
-	public class TestDomain : TestRunner
+	public class TestDomain : ProxyTestRunner
 	{
 		#region Instance Variables
 
@@ -57,7 +57,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// The remote runner loaded in the test appdomain
 		/// </summary>
-		private TestRunner testRunner;
+//		private TestRunner testRunner;
 
 		/// <summary>
 		/// Holds the event listener while we are running
@@ -80,69 +80,6 @@ namespace NUnit.Util
 			get { return domain; }
 		}
 
-		private TestRunner Runner
-		{
-			get 
-			{
-				if ( testRunner == null )
-					testRunner = MakeRemoteTestRunner( domain );
-
-				return testRunner; 
-			}
-		}
-
-		private TestRunner MakeRemoteTestRunner( AppDomain runnerDomain )
-		{
-			// Inject assembly resolver into remote domain to help locate our assemblies
-			AssemblyResolver assemblyResolver = (AssemblyResolver)runnerDomain.CreateInstanceFromAndUnwrap(
-				typeof(AssemblyResolver).Assembly.CodeBase,
-				typeof(AssemblyResolver).FullName);
-
-			// Tell resolver to use our core assembly in the test domain
-			assemblyResolver.AddFile( typeof( NUnit.Core.RemoteTestRunner ).Assembly.Location );
-
-			Type runnerType = GetRunnerType();
-			object obj = runnerDomain.CreateInstanceAndUnwrap(
-				runnerType.Assembly.FullName, 
-				runnerType.FullName,
-				false, BindingFlags.Default,null,null,null,null,null);
-			
-			RemoteTestRunner runner = (RemoteTestRunner) obj;
-
-			return runner;
-		}
-
-		private Type GetRunnerType ()
-		{
-			Type runnerType = null;
-	
-			if (threaded)
-			{
-				runnerType = typeof(ThreadedRemoteRunner);
-			}
-			else
-			{
-				runnerType = typeof(RemoteTestRunner);
-			}
-			return runnerType;
-		}
-
-		public bool Running
-		{
-			get { return testRunner != null && testRunner.Running; }
-		}
-
-		public IList TestFrameworks
-		{
-			get 
-			{
-				if  ( testRunner == null )
-					return null;
-				
-				return testRunner.TestFrameworks;
-			}
-		}
-
 		public bool ShadowCopyFiles
 		{
 			get { return shadowCopyFiles; }
@@ -154,23 +91,13 @@ namespace NUnit.Util
 			}
 		}
 
-		public TestResult[] Results
-		{
-			get { return Runner.Results; }
-		}
-
-		public IFilter Filter
-		{
-			get { return Runner.Filter; }
-			set { Runner.Filter = value; }
-		}
-
 		#endregion
 
 		#region Constructors
 
-		public TestDomain( ) : this (false)
+		public TestDomain( )
 		{ 
+			this.threaded = false;
 		}
 
 		public TestDomain( bool threaded )
@@ -182,12 +109,12 @@ namespace NUnit.Util
 
 		#region Loading and Unloading Tests
 
-		public Test Load( string assemblyFileName )
+		public override Test Load( string assemblyFileName )
 		{
 			return Load( assemblyFileName, string.Empty );
 		}
 
-		public Test Load(string assemblyFileName, string testFixture)
+		public override Test Load(string assemblyFileName, string testFixture)
 		{
 			Unload();
 
@@ -196,10 +123,11 @@ namespace NUnit.Util
 				CreateDomain( assemblyFileName );
 				string assemblyPath = Path.GetFullPath( assemblyFileName );
 
+				testRunner = MakeRemoteTestRunner( domain );
 				if ( testFixture != null && testFixture != string.Empty )
-					return Runner.Load( assemblyPath, testFixture );
+					return testRunner.Load( assemblyPath, testFixture );
 				else
-					return Runner.Load( assemblyPath );
+					return testRunner.Load( assemblyPath );
 			}
 			catch
 			{
@@ -208,12 +136,12 @@ namespace NUnit.Util
 			}
 		}
 
-		public Test Load( TestProject testProject )
+		public override Test Load( TestProject testProject )
 		{
 			return Load( testProject, null );
 		}
 
-		public Test Load( TestProject testProject, string testName )
+		public override Test Load( TestProject testProject, string testName )
 		{
 			Unload();
 
@@ -229,10 +157,11 @@ namespace NUnit.Util
 					configFilePath,
 					GetBinPath( testProject.Assemblies ));
 
+				testRunner = MakeRemoteTestRunner( domain );
 				if ( testName != null )
-					return Runner.Load( testProject, testName );
+					return testRunner.Load( testProject, testName );
 				else
-					return Runner.Load( testProject );
+					return testRunner.Load( testProject );
 			}
 			catch
 			{
@@ -241,7 +170,7 @@ namespace NUnit.Util
 			}
 		}
 
-		public void Unload()
+		public override void Unload()
 		{
 			testRunner = null;
 
@@ -290,72 +219,22 @@ namespace NUnit.Util
 
 		#endregion
 
-		#region Counting Tests
-
-		public int CountTestCases( string testName )
-		{
-			return Runner.CountTestCases( testName );
-		}
-
-		
-		public int CountTestCases( string[] testNames )
-		{
-			return Runner.CountTestCases( testNames );
-		}
-
-		#endregion
-
-		#region Categories
-
-		public ICollection GetCategories()
-		{
-			return Runner.GetCategories();
-		}
-
-		#endregion
-
 		#region Running Tests
 
-		public virtual TestResult Run(NUnit.Core.EventListener listener)
-		{
-			TestResult[] results = Run(listener, null);
-			if (results != null)
-				return results[0];
-
-			return null;
-		}
-		
-		public virtual TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames)
+		public override TestResult[] doRun(NUnit.Core.EventListener listener, string[] testNames)
 		{
 			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
 			{
-				this.listener = listener;
-				return Runner.Run( listener, testNames );
+				return base.doRun( listener, testNames );
 			}
 		}
 
-		public virtual void StartRun( EventListener listener )
-		{
-			StartRun( listener, null );
-		}
-
-		public virtual void StartRun( EventListener listener, string[] testNames )
+		public override void doStartRun( EventListener listener, string[] testNames )
 		{
 			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
 			{
-				this.listener = listener;
-				Runner.StartRun( listener, testNames );
+				base.doStartRun( listener, testNames );
 			}
-		}
-
-		public void CancelRun()
-		{
-			Runner.CancelRun();
-		}
-
-		public void Wait()
-		{
-			Runner.Wait();
 		}
 
 		// For now, just publish any unhandled exceptions and let the listener
@@ -518,6 +397,42 @@ namespace NUnit.Util
 			}
 		}
 		
+		private TestRunner MakeRemoteTestRunner( AppDomain runnerDomain )
+		{
+			// Inject assembly resolver into remote domain to help locate our assemblies
+			AssemblyResolver assemblyResolver = (AssemblyResolver)runnerDomain.CreateInstanceFromAndUnwrap(
+				typeof(AssemblyResolver).Assembly.CodeBase,
+				typeof(AssemblyResolver).FullName);
+
+			// Tell resolver to use our core assembly in the test domain
+			assemblyResolver.AddFile( typeof( NUnit.Core.RemoteTestRunner ).Assembly.Location );
+
+			Type runnerType = GetRunnerType();
+			object obj = runnerDomain.CreateInstanceAndUnwrap(
+				runnerType.Assembly.FullName, 
+				runnerType.FullName,
+				false, BindingFlags.Default,null,null,null,null,null);
+			
+			RemoteTestRunner runner = (RemoteTestRunner) obj;
+
+			return runner;
+		}
+
+		private Type GetRunnerType ()
+		{
+			Type runnerType = null;
+	
+			//			if (threaded)
+			//			{
+			//				runnerType = typeof(ThreadedRemoteRunner);
+			//			}
+			//			else
+			//			{
+			runnerType = typeof(RemoteTestRunner);
+			//			}
+			return runnerType;
+		}
+
 		#endregion
 	}
 }
