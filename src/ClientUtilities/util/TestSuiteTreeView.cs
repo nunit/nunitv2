@@ -33,10 +33,10 @@ using System.Collections;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace NUnit.Util
+namespace NUnit.UiKit
 {
 	using NUnit.Core;
-	using NUnit.Framework;
+	using NUnit.Util;
 
 	/// <summary>
 	/// TestSuiteTreeView is a tree view control
@@ -58,12 +58,14 @@ namespace NUnit.Util
 		/// <summary>
 		/// The TestNode on which a right click was done
 		/// </summary>
-		private TestNode contextNode;
+		private TestSuiteTreeNode contextNode;
 
 		/// <summary>
 		/// Whether or not we track progress of tests visibly in the tree
 		/// </summary>
 		private bool displayProgress = false;
+
+		private UIEvents uievents;
 
 		#endregion
 
@@ -82,34 +84,34 @@ namespace NUnit.Util
 		/// <summary>
 		/// A type-safe version of SelectedNode.
 		/// </summary>
-		public new TestNode SelectedNode
+		public new TestSuiteTreeNode SelectedNode
 		{
-			get	{ return base.SelectedNode as TestNode;	}
+			get	{ return base.SelectedNode as TestSuiteTreeNode;	}
 			set	{ base.SelectedNode = value; }
 		}
 
 		/// <summary>
 		/// A type-safe version of TopNode.
 		/// </summary>
-		public new TestNode TopNode
+		public new TestSuiteTreeNode TopNode
 		{
-			get	{ return base.TopNode as TestNode;	}
+			get	{ return base.TopNode as TestSuiteTreeNode;	}
 		}
 
 		/// <summary>
 		/// A type-safe way to get the root node
 		/// of the tree. Presumed to be unique.
 		/// </summary>
-		public TestNode RootNode
+		public TestSuiteTreeNode RootNode
 		{
-			get { return Nodes[0] as TestNode; }
+			get { return Nodes[0] as TestSuiteTreeNode; }
 		}
 		
 		/// <summary>
 		/// The TestNode that any context menu
 		/// commands will operate on.
 		/// </summary>
-		public TestNode ContextNode
+		public TestSuiteTreeNode ContextNode
 		{
 			get	{ return contextNode; }
 		}
@@ -117,15 +119,15 @@ namespace NUnit.Util
 		/// <summary>
 		/// TestNode corresponding to a test fullname
 		/// </summary>
-		public TestNode this[string testName]
+		public TestSuiteTreeNode this[string testName]
 		{
-			get { return treeMap[testName] as TestNode; }
+			get { return treeMap[testName] as TestSuiteTreeNode; }
 		}
 
 		/// <summary>
 		/// Test node corresponding to a Test
 		/// </summary>
-		public TestNode this[Test test]
+		public TestSuiteTreeNode this[Test test]
 		{
 			get { return this[test.FullName]; }
 		}
@@ -133,7 +135,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Test node corresponding to a TestInfo
 		/// </summary>
-		public TestNode this[TestInfo test]
+		public TestSuiteTreeNode this[UITestNode test]
 		{
 			get { return this[test.FullName]; }
 		}
@@ -141,7 +143,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Test node corresponding to a TestResultInfo
 		/// </summary>
-		public TestNode this[TestResultInfo result]
+		public TestSuiteTreeNode this[TestResult result]
 		{
 			get { return this[result.Test.FullName]; }
 		}
@@ -149,6 +151,55 @@ namespace NUnit.Util
 		#endregion
 
 		#region Methods
+
+		public void InitializeEvents( UIEvents uievents )
+		{
+			this.uievents = uievents;
+
+			uievents.TestSuiteLoadedEvent += new TestSuiteLoadedHandler( OnSuiteLoaded );
+			uievents.TestSuiteChangedEvent += new TestSuiteChangedHandler( OnSuiteChanged );
+			uievents.TestSuiteUnloadedEvent += new TestSuiteUnloadedHandler( OnSuiteUnloaded );
+			uievents.RunStartingEvent += new RunStartingHandler( OnRunStarting );
+			uievents.TestFinishedEvent += new TestFinishedHandler( OnTestFinished );
+			uievents.SuiteFinishedEvent += new SuiteFinishedHandler( OnSuiteFinished );
+			uievents.RunFinishedEvent += new RunFinishedHandler( OnRunFinished );
+		}
+
+		private void OnRunStarting( UITestNode test )
+		{
+			ClearResults();
+		}
+
+		private void OnSuiteLoaded( UITestNode test, string assemblyName )
+		{
+			Load( test );
+		}
+
+		private void OnSuiteChanged( UITestNode test )
+		{
+			Reload( test );
+			ClearResults();	// ToDo: Make this optional
+		}
+
+		private void OnSuiteUnloaded()
+		{
+			Clear();
+		}
+
+		private void OnTestFinished( TestCaseResult result )
+		{
+			SetTestResult(result);
+		}
+
+		private void OnSuiteFinished( TestSuiteResult result )
+		{
+			SetTestResult(result);
+		}
+
+		private void OnRunFinished( TestResult result )
+		{
+			Expand( result.Test );
+		}
 
 		/// <summary>
 		/// Handles right mouse button down by
@@ -161,7 +212,7 @@ namespace NUnit.Util
 			{
 				TreeNode theNode = GetNodeAt( e.X, e.Y );
 				if ( theNode != null )
-					contextNode = theNode as TestNode;
+					contextNode = theNode as TestSuiteTreeNode;
 			}
 
 			base.OnMouseDown( e );
@@ -173,9 +224,9 @@ namespace NUnit.Util
 		/// <param name="x">X Position for which the node is to be returned</param>
 		/// <param name="y">Y Position for which the node is to be returned</param>
 		/// <returns></returns>
-		public new TestNode GetNodeAt(int x, int y)
+		public new TestSuiteTreeNode GetNodeAt(int x, int y)
 		{
-			return base.GetNodeAt(x, y) as TestNode;
+			return base.GetNodeAt(x, y) as TestSuiteTreeNode;
 		}
 
 		/// <summary>
@@ -183,9 +234,9 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="pt">Position for which the node is to be returned</param>
 		/// <returns></returns>
-		public new TestNode GetNodeAt(Point pt)
+		public new TestSuiteTreeNode GetNodeAt(Point pt)
 		{
-			return base.GetNodeAt(pt) as TestNode;
+			return base.GetNodeAt(pt) as TestSuiteTreeNode;
 		}
 
 		/// <summary>
@@ -193,7 +244,7 @@ namespace NUnit.Util
 		/// </summary>
 		public void ClearResults()
 		{
-			foreach ( TestNode rootNode in Nodes )
+			foreach ( TestSuiteTreeNode rootNode in Nodes )
 				rootNode.ClearResults();
 		}
 
@@ -201,12 +252,12 @@ namespace NUnit.Util
 		/// Load the tree with a test hierarchy
 		/// </summary>
 		/// <param name="test">Test to be loaded</param>
-		public void Load( TestInfo test )
+		public void Load( UITestNode test )
 		{
 			Clear();
 			AddTreeNodes( Nodes, test, false );
 			ExpandAll();
-			SelectedNode = Nodes[0] as TestNode;
+			SelectedNode = Nodes[0] as TestSuiteTreeNode;
 		}
 
 		/// <summary>
@@ -216,25 +267,25 @@ namespace NUnit.Util
 		/// <param name="rootTest">The test for which a node is to be built</param>
 		/// <param name="highlight">If true, highlight the text for this node in the tree</param>
 		/// <returns>A newly constructed TestNode, possibly with descendant nodes</returns>
-		private TestNode AddTreeNodes( IList nodes, TestInfo rootTest, bool highlight )
+		private TestSuiteTreeNode AddTreeNodes( IList nodes, UITestNode rootTest, bool highlight )
 		{
-			TestNode node = new TestNode( rootTest );
+			TestSuiteTreeNode node = new TestSuiteTreeNode( rootTest );
 //			if ( highlight ) node.ForeColor = Color.Blue;
 			treeMap.Add( node.Test.FullName, node );
 			nodes.Add( node );
 			
 			if ( rootTest.IsSuite )
 			{
-				foreach( TestInfo test in rootTest.Tests )
+				foreach( UITestNode test in rootTest.Tests )
 					AddTreeNodes( node.Nodes, test, highlight );
 			}
 
 			return node;
 		}
 
-		private void RemoveFromMap( TestNode node )
+		private void RemoveFromMap( TestSuiteTreeNode node )
 		{
-			foreach( TestNode child in node.Nodes )
+			foreach( TestSuiteTreeNode child in node.Nodes )
 				RemoveFromMap( child );
 
 			treeMap.Remove( node.Test.FullName );
@@ -244,7 +295,7 @@ namespace NUnit.Util
 		/// Remove a node from the tree itself and the hashtable
 		/// </summary>
 		/// <param name="node">Node to remove</param>
-		public void RemoveNode( TestNode node )
+		public void RemoveNode( TestSuiteTreeNode node )
 		{
 			if ( contextNode == node )
 				contextNode = null;
@@ -257,7 +308,7 @@ namespace NUnit.Util
 		/// while maintaining as much gui state as possible
 		/// </summary>
 		/// <param name="test">Test suite to be loaded</param>
-		public void Reload( TestInfo test )
+		public void Reload( UITestNode test )
 		{
 			if ( !Match( RootNode, test ) )
 				throw( new ArgumentException( "Reload called with non-matching test" ) );
@@ -271,7 +322,7 @@ namespace NUnit.Util
 		/// <param name="node">Node to compare</param>
 		/// <param name="test">Test to compare</param>
 		/// <returns>True if the test has the same name</returns>
-		private bool Match( TestNode node, TestInfo test )
+		private bool Match( TestSuiteTreeNode node, UITestNode test )
 		{
 			return node.Test.FullName == test.FullName;
 		}
@@ -285,7 +336,7 @@ namespace NUnit.Util
 		/// <param name="node">Node to be updated</param>
 		/// <param name="test">Test to plug into node</param>
 		/// <returns>True if a child node was added or deleted</returns>
-		private bool UpdateNode( TestNode node, TestInfo test )
+		private bool UpdateNode( TestSuiteTreeNode node, UITestNode test )
 		{
 			node.UpdateTest( test );
 			
@@ -312,16 +363,16 @@ namespace NUnit.Util
 		{
 			bool showChanges = false;
 
-			foreach( TestNode node in nodes )
+			foreach( TestSuiteTreeNode node in nodes )
 				if ( NodeWasDeleted( node, tests ) )
 				{
 					RemoveNode( node );
 					showChanges = true;
 				}
 
-			foreach( TestInfo test in tests )
+			foreach( UITestNode test in tests )
 			{
-				TestNode node = this[ test ];
+				TestSuiteTreeNode node = this[ test ];
 				if ( node == null )
 				{
 					AddTreeNodes( nodes, test, true );
@@ -340,9 +391,9 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="node">Node to examine</param>
 		/// <param name="tests">List of tests to match with node</param>
-		private bool NodeWasDeleted( TestNode node, IList tests )
+		private bool NodeWasDeleted( TestSuiteTreeNode node, IList tests )
 		{
-			foreach ( TestInfo test in tests )
+			foreach ( UITestNode test in tests )
 				if( Match( node, test ) )
 					return false;
 
@@ -353,13 +404,13 @@ namespace NUnit.Util
 		/// Delegate for use in invoking the tree loader
 		/// from the watcher thread.
 		/// </summary>
-		private delegate void LoadHandler( TestInfo test );
+		private delegate void LoadHandler( UITestNode test );
 		
 		/// <summary>
 		/// Called to load the tree from the watcher thread.
 		/// </summary>
 		/// <param name="test"></param>
-		public void InvokeLoadHandler( TestInfo test )
+		public void InvokeLoadHandler( UITestNode test )
 		{
 			Invoke( new LoadHandler( Reload ), new object[]{ test } );
 		}
@@ -377,9 +428,9 @@ namespace NUnit.Util
 		/// Add the result of a test to the tree
 		/// </summary>
 		/// <param name="result">The result of the test</param>
-		public void SetTestResult(TestResultInfo result)
+		public void SetTestResult(TestResult result)
 		{
-			TestNode node = this[result];	
+			TestSuiteTreeNode node = this[result];	
 			if ( node != null )
 			{
 				node.SetResult( result );
@@ -400,7 +451,7 @@ namespace NUnit.Util
 		/// <param name="test">The test to expand</param>
 		public void Expand( TestInfo test )
 		{
-			TestNode node = this[test];
+			TestSuiteTreeNode node = this[test.FullName];
 			if ( node != null )
 				node.Expand();
 		}
@@ -417,12 +468,12 @@ namespace NUnit.Util
 		/// Helper collapses all fixtures under a node
 		/// </summary>
 		/// <param name="node">Node under which to collapse fixtures</param>
-		private void CollapseFixturesUnderNode( TestNode node )
+		private void CollapseFixturesUnderNode( TestSuiteTreeNode node )
 		{
 			if ( node.Test.IsFixture )
 				node.Collapse();
 			else 
-				foreach( TestNode child in node.Nodes )
+				foreach( TestSuiteTreeNode child in node.Nodes )
 					CollapseFixturesUnderNode( child );		
 		}
 
@@ -438,12 +489,12 @@ namespace NUnit.Util
 		/// Helper expands all fixtures under a node
 		/// </summary>
 		/// <param name="node">Node under which to expand fixtures</param>
-		private void ExpandFixturesUnderNode( TestNode node )
+		private void ExpandFixturesUnderNode( TestSuiteTreeNode node )
 		{
 			if ( node.Test.IsFixture )
 				node.Expand();
 			else 
-				foreach( TestNode child in node.Nodes )
+				foreach( TestSuiteTreeNode child in node.Nodes )
 					ExpandFixturesUnderNode( child );		
 		}
         #endregion
