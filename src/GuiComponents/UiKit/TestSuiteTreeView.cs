@@ -298,8 +298,6 @@ namespace NUnit.UiKit
 
 		#endregion
 
-		#region Handlers for UI events
-
 		#region Context Menu
 
 		/// <summary>
@@ -422,10 +420,30 @@ namespace NUnit.UiKit
 				return false;
 
 			string [] fileNames = data.GetData( DataFormats.FileDrop ) as string [];
-				if ( fileNames == null )
+
+			if ( fileNames == null || fileNames.Length == 0 )
+				return false;
+			
+			// We can't open more than one project at a time
+			if ( fileNames.Length == 1 )
+			{
+				if ( NUnitProject.IsProjectFile( fileNames[0] ) )
+					return true;
+
+				if ( !UserSettings.Options.VisualStudioSupport )
+				{
+					if ( VSProject.IsProjectFile( fileNames[0] ) ||
+						VSProject.IsSolutionFile( fileNames[0] ) )
+						return true;
+				}
+			}
+
+			// Multiple assemblies are allowed
+			foreach( string fileName in fileNames )
+				if ( !IsAssemblyFileType( fileName ) )
 					return false;
 
-			return IsAssemblyFileType( fileNames[0] );
+			return true;
 		}
 
 		/// <summary>
@@ -444,7 +462,7 @@ namespace NUnit.UiKit
 			if ( IsValidFileDrop( e.Data ) )
 			{
 				string[] fileNames = e.Data.GetData( DataFormats.FileDrop ) as string[];
-					loader.LoadTest( fileNames[0] );
+				loader.LoadTest( fileNames );
 			}
 		}
 
@@ -458,6 +476,8 @@ namespace NUnit.UiKit
 
 		#endregion
 
+		#region UI Event Handlers
+
 		private void TestSuiteTreeView_DoubleClick(object sender, System.EventArgs e)
 		{
 			if ( runCommandSupported && runCommandEnabled && SelectedNode.Nodes.Count == 0 )
@@ -470,6 +490,14 @@ namespace NUnit.UiKit
 
 				loader.RunTestSuite( SelectedTest );
 			}
+		}
+
+		protected override void OnAfterSelect(System.Windows.Forms.TreeViewEventArgs e)
+		{
+			if ( SelectedTestChanged != null )
+				SelectedTestChanged( SelectedTest );
+
+			base.OnAfterSelect( e );
 		}
 
 		#endregion
@@ -800,13 +828,6 @@ namespace NUnit.UiKit
 
         #endregion
 
-		protected override void OnAfterSelect(System.Windows.Forms.TreeViewEventArgs e)
-		{
-			if ( SelectedTestChanged != null )
-				SelectedTestChanged( SelectedTest );
-
-			base.OnAfterSelect( e );
-		}
 	}
 }
 
