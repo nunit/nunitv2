@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Text;
 using System.Windows.Forms;
 
 namespace NUnit.UiKit
@@ -76,11 +77,17 @@ namespace NUnit.UiKit
 
 		public static DialogResult DisplayFailure( Exception exception, string caption )
 		{
-			string message = exception.Message;
-			if(exception.InnerException != null)
-				message = exception.InnerException.Message;
+			Exception ex = exception;
+			StringBuilder sb = new StringBuilder();		
+			sb.AppendFormat( "{0} : {1}", ex.GetType().ToString(), ex.Message );
 
-			return DisplayFailure( message, caption );
+			while( ex.InnerException != null )
+			{
+				ex = ex.InnerException;
+				sb.AppendFormat( "\r----> {0} : {1}", ex.GetType().ToString(), ex.Message );
+			}
+
+			return DisplayFailure( sb.ToString(), caption );
 		}
 
 		public static DialogResult DisplayInfo( string message )
