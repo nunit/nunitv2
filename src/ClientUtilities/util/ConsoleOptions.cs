@@ -219,6 +219,9 @@ namespace NUnit.Util
 			Console.WriteLine( "Options:" );
 			base.Help();
 			Console.WriteLine();
+			Console.WriteLine( "Options that take values may use an equal sign, a colon" );
+			Console.WriteLine( "or a space to separate the option from its value." );
+			Console.WriteLine();
 		}
 	}
 }
