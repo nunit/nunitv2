@@ -51,7 +51,7 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void EmptyCollection()
 		{
-			Assert.Equals( 0, configs.Count );
+			Assert.AreEqual( 0, configs.Count );
 		}
 
 		[Test]
@@ -61,14 +61,14 @@ namespace NUnit.Tests.Util
 			configs["Debug"].Assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
 			configs["Debug"].Assemblies.Add( @"C:\tests\bin\debug\assembly2.dll" );
 
-			Assert.Equals( 2, configs["Debug"].Assemblies.Count );
+			Assert.AreEqual( 2, configs["Debug"].Assemblies.Count );
 		}
 
 		[Test]
 		public void AddMakesProjectDirty()
 		{
 			configs.Add("Debug");
-			Assert.True( project.IsDirty );
+			Assert.IsTrue( project.IsDirty );
 		}
 
 		[Test]
@@ -80,7 +80,7 @@ namespace NUnit.Tests.Util
 
 			configs.Add( config );
 
-			Assert.Equals( 2, configs["Debug"].Assemblies.Count );
+			Assert.AreEqual( 2, configs["Debug"].Assemblies.Count );
 		}
 
 		[Test]
@@ -92,9 +92,9 @@ namespace NUnit.Tests.Util
 			configs["Debug"].Assemblies.Add( @"C:\tests\bin\debug\assembly2.dll" );
 			configs["Release"].Assemblies.Add( @"C:\tests\bin\release\assembly3.dll" );
 
-			Assert.Equals( 2, configs.Count );
-			Assert.Equals( 2, configs["Debug"].Assemblies.Count );
-			Assert.Equals( 1, configs["Release"].Assemblies.Count );
+			Assert.AreEqual( 2, configs.Count );
+			Assert.AreEqual( 2, configs["Debug"].Assemblies.Count );
+			Assert.AreEqual( 1, configs["Release"].Assemblies.Count );
 		}
 	}
 }

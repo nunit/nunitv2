@@ -58,64 +58,64 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void LoadLastProject()
 		{
-			Assert.Equals( true, opts.LoadLastProject );
+			Assert.AreEqual( true, opts.LoadLastProject );
 			opts.LoadLastProject = true;
-			Assert.Equals( true, opts.LoadLastProject );
+			Assert.AreEqual( true, opts.LoadLastProject );
 			opts.LoadLastProject = false;
-			Assert.Equals( false, opts.LoadLastProject );
+			Assert.AreEqual( false, opts.LoadLastProject );
 		}
 
 		[Test]
 		public void LoadLastInitialTreeDisplay()
 		{
-			Assert.Equals( 0, opts.InitialTreeDisplay );
+			Assert.AreEqual( 0, opts.InitialTreeDisplay );
 			opts.InitialTreeDisplay = 1;
-			Assert.Equals( 1, opts.InitialTreeDisplay );
+			Assert.AreEqual( 1, opts.InitialTreeDisplay );
 			opts.InitialTreeDisplay = 2;
-			Assert.Equals( 2, opts.InitialTreeDisplay );
+			Assert.AreEqual( 2, opts.InitialTreeDisplay );
 		}
 
 		[Test]
 		public void ReloadOnChange()
 		{
-			Assert.Equals( true, opts.ReloadOnChange );
+			Assert.AreEqual( true, opts.ReloadOnChange );
 			opts.ReloadOnChange = true;
-			Assert.Equals( true, opts.ReloadOnChange );
+			Assert.AreEqual( true, opts.ReloadOnChange );
 			opts.ReloadOnChange = false;
-			Assert.Equals( false, opts.ReloadOnChange );
+			Assert.AreEqual( false, opts.ReloadOnChange );
 			
 		}
 
 		[Test]
 		public void ReloadOnRun()
 		{
-			Assert.Equals( true, opts.ReloadOnRun );
+			Assert.AreEqual( true, opts.ReloadOnRun );
 			opts.ReloadOnRun = true;
-			Assert.Equals( true, opts.ReloadOnRun );
+			Assert.AreEqual( true, opts.ReloadOnRun );
 			opts.ReloadOnRun = false;
-			Assert.Equals( false, opts.ReloadOnRun );
+			Assert.AreEqual( false, opts.ReloadOnRun );
 			
 		}
 
 		[Test]
 		public void ClearResults()
 		{
-			Assert.Equals( true, opts.ClearResults );
+			Assert.AreEqual( true, opts.ClearResults );
 			opts.ClearResults = true;
-			Assert.Equals( true, opts.ClearResults );
+			Assert.AreEqual( true, opts.ClearResults );
 			opts.ClearResults = false;
-			Assert.Equals( false, opts.ClearResults );
+			Assert.AreEqual( false, opts.ClearResults );
 
 		}
 
 		[Test]
 		public void VisualStudioSupport()
 		{
-			Assert.Equals( false, opts.VisualStudioSupport );
+			Assert.AreEqual( false, opts.VisualStudioSupport );
 			opts.VisualStudioSupport = true;
-			Assert.Equals( true, opts.VisualStudioSupport );
+			Assert.AreEqual( true, opts.VisualStudioSupport );
 			opts.VisualStudioSupport = false;
-			Assert.Equals( false, opts.VisualStudioSupport );
+			Assert.AreEqual( false, opts.VisualStudioSupport );
 		}
 	}
 }

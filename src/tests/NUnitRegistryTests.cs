@@ -52,8 +52,8 @@ namespace NUnit.Tests.Util
 		{
 			using( RegistryKey key = NUnitRegistry.CurrentUser )
 			{
-				Assert.NotNull( key );
-				Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit", key.Name );
+				Assert.IsNotNull( key );
+				Assert.AreEqual( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit", key.Name );
 			}
 		}
 
@@ -62,8 +62,8 @@ namespace NUnit.Tests.Util
 		{
 			using( RegistryKey key = NUnitRegistry.LocalMachine )
 			{
-				Assert.NotNull( key );
-				Assert.Equals( @"HKEY_LOCAL_MACHINE\Software\Nascent Software\Nunit", key.Name );
+				Assert.IsNotNull( key );
+				Assert.AreEqual( @"HKEY_LOCAL_MACHINE\Software\Nascent Software\Nunit", key.Name );
 			}
 		}
 
@@ -80,8 +80,8 @@ namespace NUnit.Tests.Util
 
 			using( RegistryKey key = NUnitRegistry.AssemblyFolder )
 			{
-				Assert.NotNull( key );
-				Assert.Equals( sb.ToString(), key.Name );
+				Assert.IsNotNull( key );
+				Assert.AreEqual( sb.ToString(), key.Name );
 			}
 		}
 
@@ -93,8 +93,8 @@ namespace NUnit.Tests.Util
 				NUnitRegistry.TestMode = true;
 				using( RegistryKey key = NUnitRegistry.CurrentUser )
 				{
-					Assert.NotNull( key );
-					Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test", key.Name );
+					Assert.IsNotNull( key );
+					Assert.AreEqual( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test", key.Name );
 				}
 			}
 			finally
@@ -111,8 +111,8 @@ namespace NUnit.Tests.Util
 				NUnitRegistry.TestMode = true;
 				using( RegistryKey key = NUnitRegistry.LocalMachine )
 				{
-					Assert.NotNull( key );
-					Assert.Equals( @"HKEY_LOCAL_MACHINE\Software\Nascent Software\Nunit-Test", key.Name );
+					Assert.IsNotNull( key );
+					Assert.AreEqual( @"HKEY_LOCAL_MACHINE\Software\Nascent Software\Nunit-Test", key.Name );
 				}
 			}
 			finally
@@ -129,8 +129,8 @@ namespace NUnit.Tests.Util
 				NUnitRegistry.TestMode = true;
 				using( RegistryKey key = NUnitRegistry.AssemblyFolder )
 				{
-					Assert.NotNull( key );
-					Assert.Equals( @"HKEY_LOCAL_MACHINE\Software\Microsoft\.NETFramework\AssemblyFolders\Nunit.Framework.Test", key.Name );
+					Assert.IsNotNull( key );
+					Assert.AreEqual( @"HKEY_LOCAL_MACHINE\Software\Microsoft\.NETFramework\AssemblyFolders\Nunit.Framework.Test", key.Name );
 				}
 			}
 			finally
@@ -168,10 +168,10 @@ namespace NUnit.Tests.Util
 
 				NUnitRegistry.ClearTestKeys();
 
-				Assert.Equals( 0, key.ValueCount );
-				Assert.Equals( 0, key.SubKeyCount );
+				Assert.AreEqual( 0, key.ValueCount );
+				Assert.AreEqual( 0, key.SubKeyCount );
 				
-				Assert.Null( NUnitRegistry.LocalMachine.OpenSubKey( 
+				Assert.IsNull( NUnitRegistry.LocalMachine.OpenSubKey( 
 					@"Software\Microsoft\.NETFramework\AssemblyFolders\Nunit.Framework.Test" ) );
 
 			}
@@ -198,7 +198,7 @@ namespace NUnit.Tests.Util
 				
 				using( RegistryKey key = NUnitRegistry.AssemblyFolder )
 				{
-					Assert.Equals( expectedPath, (string)key.GetValue( "" ) );
+					Assert.AreEqual( expectedPath, (string)key.GetValue( "" ) );
 				}
 			}
 			finally

@@ -35,12 +35,18 @@ namespace NUnit.Framework
 	public class Assert
 	{
 		/// <summary>
+		/// A private constructor disallows any instances of this object. 
+		/// </summary>
+		private Assert()
+		{}
+
+		/// <summary>
 		/// Asserts that a condition is true. If the condition is false the method throws
 		/// an <see cref="AssertionException"/>.
 		/// </summary> 
 		/// <param name="message">The message to display if the condition is false</param>
 		/// <param name="condition">The evaluated condition</param>
-		static public void True(bool condition, string message) 
+		static public void IsTrue(bool condition, string message) 
 		{
 			if (!condition)
 				Assert.Fail(message);
@@ -51,9 +57,9 @@ namespace NUnit.Framework
 		/// an <see cref="AssertionException"/>.
 		/// </summary>
 		/// <param name="condition">The evaluated condition</param>
-		static public void True(bool condition) 
+		static public void IsTrue(bool condition) 
 		{
-			Assert.True(condition, string.Empty);
+			Assert.IsTrue(condition, string.Empty);
 		}
 
 		/// <summary>
@@ -62,7 +68,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="message">The message to display if the condition is true</param>
 		/// <param name="condition">The evaluated condition</param>
-		static public void False(bool condition, string message) 
+		static public void IsFalse(bool condition, string message) 
 		{
 			if (condition)
 				Assert.Fail(message);
@@ -73,9 +79,9 @@ namespace NUnit.Framework
 		/// an <see cref="AssertionException"/>.
 		/// </summary>
 		/// <param name="condition">The evaluated condition</param>
-		static public void False(bool condition) 
+		static public void IsFalse(bool condition) 
 		{
-			Assert.False(condition, string.Empty);
+			Assert.IsFalse(condition, string.Empty);
 		}
 
 		/// <summary>
@@ -89,7 +95,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="delta">The maximum acceptable difference between the
 		/// the expected and the actual</param>
-		static public void Equals(double expected, 
+		static public void AreEqual(double expected, 
 			double actual, double delta, string message) 
 		{
 			// handle infinity specially since subtracting two infinite values gives 
@@ -113,9 +119,9 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="delta">The maximum acceptable difference between the
 		/// the expected and the actual</param>
-		static public void Equals(double expected, double actual, double delta) 
+		static public void AreEqual(double expected, double actual, double delta) 
 		{
-			Assert.Equals(expected, actual, delta, string.Empty);
+			Assert.AreEqual(expected, actual, delta, string.Empty);
 		}
 
 		/// <summary>
@@ -129,7 +135,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="delta">The maximum acceptable difference between the
 		/// the expected and the actual</param>
-		static public void Equals(float expected, 
+		static public void AreEqual(float expected, 
 			float actual, float delta, string message) 
 		{
 			// handle infinity specially since subtracting two infinite values gives 
@@ -153,9 +159,9 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="delta">The maximum acceptable difference between the
 		/// the expected and the actual</param>
-		static public void Equals(float expected, float actual, float delta) 
+		static public void AreEqual(float expected, float actual, float delta) 
 		{
-			Assert.Equals(expected, actual, delta, string.Empty);
+			Assert.AreEqual(expected, actual, delta, string.Empty);
 		}
 		
 		/// <summary>
@@ -166,7 +172,7 @@ namespace NUnit.Framework
 		/// <param name="message">The message printed out upon failure</param>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
-		static public void Equals(int expected, int actual, string message) 
+		static public void AreEqual(int expected, int actual, string message) 
 		{
 			if(!(expected == actual))
 				Assert.FailNotEquals(expected, actual, message);
@@ -179,9 +185,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
-		static public void Equals(int expected, int actual) 
+		static public void AreEqual(int expected, int actual) 
 		{
-			Assert.Equals(expected, actual, string.Empty);
+			Assert.AreEqual(expected, actual, string.Empty);
 		}
 
 		
@@ -195,7 +201,7 @@ namespace NUnit.Framework
 		/// <param name="expected">The value that is expected</param>
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message to display if objects are not equal</param>
-		static public void Equals(Object expected, Object actual, string message)
+		static public void AreEqual(Object expected, Object actual, string message)
 		{
 			if (expected == null && actual == null) return;
 
@@ -217,9 +223,32 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The value that is expected</param>
 		/// <param name="actual">The actual value</param>
-		static new public void Equals(Object expected, Object actual) 
+		static public void AreEqual(Object expected, Object actual) 
 		{
-			Assert.Equals(expected, actual, string.Empty);
+			Assert.AreEqual(expected, actual, string.Empty);
+		}
+
+		/// <summary>
+		/// The Equals method throws an AssertionException. This is done 
+		/// to make sure there is no mistake by calling this function.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		public static new bool Equals(object a, object b)
+		{
+			throw new AssertionException("Assert.Equals should not be used for Assertions");
+		}
+
+		/// <summary>
+		/// override the default ReferenceEquals to throw an AssertionException. This 
+		/// implementation makes sure there is no mistake in calling this function 
+		/// as part of Assert. 
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		public static new void ReferenceEquals(object a, object b)
+		{
+			throw new AssertionException("Assert.ReferenceEquals should not be used for Assertions");
 		}
 				
 		/// <summary>
@@ -293,9 +322,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="message">The message to be printed when the object is null</param>
 		/// <param name="anObject">The object that is to be tested</param>
-		static public void NotNull(Object anObject, string message) 
+		static public void IsNotNull(Object anObject, string message) 
 		{
-			Assert.True(anObject != null, message); 
+			Assert.IsTrue(anObject != null, message); 
 		}
 
 		/// <summary>
@@ -304,9 +333,9 @@ namespace NUnit.Framework
 		/// is thrown.
 		/// </summary>
 		/// <param name="anObject">The object that is to be tested</param>
-		static public void NotNull(Object anObject) 
+		static public void IsNotNull(Object anObject) 
 		{
-			Assert.NotNull(anObject, string.Empty);
+			Assert.IsNotNull(anObject, string.Empty);
 		}
     
 		    
@@ -317,9 +346,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="message">The message to be printed when the object is not null</param>
 		/// <param name="anObject">The object that is to be tested</param>
-		static public void Null(Object anObject, string message) 
+		static public void IsNull(Object anObject, string message) 
 		{
-			Assert.True(anObject == null, message); 
+			Assert.IsTrue(anObject == null, message); 
 		}
 
 		/// <summary>
@@ -328,9 +357,9 @@ namespace NUnit.Framework
 		/// is thrown.
 		/// </summary>
 		/// <param name="anObject">The object that is to be tested</param>
-		static public void Null(Object anObject) 
+		static public void IsNull(Object anObject) 
 		{
-			Assert.Null(anObject, string.Empty);
+			Assert.IsNull(anObject, string.Empty);
 		}
     
     
@@ -341,7 +370,7 @@ namespace NUnit.Framework
 		/// <param name="message">The message to be printed when the two objects are not the same object.</param>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		static public void Same(Object expected, Object actual, string message)
+		static public void AreSame(Object expected, Object actual, string message)
 		{
 			if (object.ReferenceEquals(expected, actual)) return;
 
@@ -354,9 +383,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected object</param>
 		/// <param name="actual">The actual object</param>
-		static public void Same(Object expected, Object actual) 
+		static public void AreSame(Object expected, Object actual) 
 		{
-			Assert.Same(expected, actual, string.Empty);
+			Assert.AreSame(expected, actual, string.Empty);
 		}
    
 		/// <summary>

@@ -137,7 +137,7 @@ namespace NUnit.Tests.Core
 					schemaFile = "..\\..\\..\\framework\\Results.xsd";
 
 				SchemaValidator validator = new SchemaValidator(reportFileName, schemaFile);
-				Assert.True(validator.Validate(), "validate failed");
+				Assert.IsTrue(validator.Validate(), "validate failed");
 			}
 			finally
 			{
@@ -223,7 +223,7 @@ namespace NUnit.Tests.Core
 			StreamReader reader = new StreamReader(tempFile);
 			string first = reader.ReadToEnd();
 			reader.Close();
-			Assert.Equals(removeTimeAttributes(first), removeTimeAttributes(second));
+			Assert.AreEqual(removeTimeAttributes(first), removeTimeAttributes(second));
 		}
 
 		[Test]
@@ -238,7 +238,7 @@ namespace NUnit.Tests.Core
 		{
 			string input = "foo time=\"123.745774xxx\" bar time=\"0\"";
 			string output = removeTimeAttributes(input);
-			Assert.Equals("foo  bar ", output);
+			Assert.AreEqual("foo  bar ", output);
 		}
 
 		private string removeTimeAttributes(string text) 

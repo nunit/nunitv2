@@ -42,16 +42,16 @@ namespace NUnit.Tests.Util
 		{
 			TestDomain domain = new TestDomain();
 			Test test = domain.LoadAssembly("mock-assembly.dll");
-			Assert.NotNull(test);
+			Assert.IsNotNull(test);
 			TestResult result = domain.Run(new NullListener(), Console.Out, Console.Error);
 			TestSuiteResult suite = result as TestSuiteResult;
-			Assert.NotNull(suite);
+			Assert.IsNotNull(suite);
 			TestCaseResult caseResult = findCaseResult(suite);
-			Assert.NotNull(caseResult);
+			Assert.IsNotNull(caseResult);
 			TestResultItem item = new TestResultItem(caseResult);
 			domain.Unload();
 			string message = item.GetMessage();
-			Assert.NotNull(message);
+			Assert.IsNotNull(message);
 		}
 
 		private TestCaseResult findCaseResult(TestSuiteResult suite) 

@@ -70,44 +70,44 @@ namespace NUnit.Tests.Util
 		public void LoadEmptyProject()
 		{
 			LoadProject( NUnitProjectXml.EmptyProject );
-			Assert.Equals( 0, project.Configs.Count );
+			Assert.AreEqual( 0, project.Configs.Count );
 		}
 
 		[Test]
 		public void LoadEmptyConfigs()
 		{
 			LoadProject( NUnitProjectXml.EmptyConfigs );
-			Assert.Equals( 2, project.Configs.Count );
-			Assert.True( project.Configs.Contains( "Debug") );
-			Assert.True( project.Configs.Contains( "Release") );
+			Assert.AreEqual( 2, project.Configs.Count );
+			Assert.IsTrue( project.Configs.Contains( "Debug") );
+			Assert.IsTrue( project.Configs.Contains( "Release") );
 		}
 
 		[Test]
 		public void LoadNormalProject()
 		{
 			LoadProject( NUnitProjectXml.NormalProject );
-			Assert.Equals( 2, project.Configs.Count );
+			Assert.AreEqual( 2, project.Configs.Count );
 
 			ProjectConfig config1 = project.Configs["Debug"];
-			Assert.Equals( 2, config1.Assemblies.Count );
-			Assert.Equals( Path.GetFullPath( @"bin\debug\assembly1.dll" ), config1.Assemblies[0].FullPath );
-			Assert.Equals( Path.GetFullPath( @"bin\debug\assembly2.dll" ), config1.Assemblies[1].FullPath );
+			Assert.AreEqual( 2, config1.Assemblies.Count );
+			Assert.AreEqual( Path.GetFullPath( @"bin\debug\assembly1.dll" ), config1.Assemblies[0].FullPath );
+			Assert.AreEqual( Path.GetFullPath( @"bin\debug\assembly2.dll" ), config1.Assemblies[1].FullPath );
 
 			ProjectConfig config2 = project.Configs["Release"];
-			Assert.Equals( 2, config2.Assemblies.Count );
-			Assert.Equals( Path.GetFullPath( @"bin\release\assembly1.dll" ), config2.Assemblies[0].FullPath );
-			Assert.Equals( Path.GetFullPath( @"bin\release\assembly2.dll" ), config2.Assemblies[1].FullPath );
+			Assert.AreEqual( 2, config2.Assemblies.Count );
+			Assert.AreEqual( Path.GetFullPath( @"bin\release\assembly1.dll" ), config2.Assemblies[0].FullPath );
+			Assert.AreEqual( Path.GetFullPath( @"bin\release\assembly2.dll" ), config2.Assemblies[1].FullPath );
 		}
 
 		[Test]
 		public void FromAssembly()
 		{
 			NUnitProject project = NUnitProject.FromAssembly( "nunit.tests.dll" );
-			Assert.Equals( "Default", project.ActiveConfigName );
-			Assert.Equals( Path.GetFullPath( "nunit.tests.dll" ), project.ActiveConfig.Assemblies[0].FullPath );
-			Assert.True( project.IsLoadable, "Not loadable" );
-			Assert.True( project.IsAssemblyWrapper, "Not wrapper" );
-			Assert.False( project.IsDirty, "Not dirty" );
+			Assert.AreEqual( "Default", project.ActiveConfigName );
+			Assert.AreEqual( Path.GetFullPath( "nunit.tests.dll" ), project.ActiveConfig.Assemblies[0].FullPath );
+			Assert.IsTrue( project.IsLoadable, "Not loadable" );
+			Assert.IsTrue( project.IsAssemblyWrapper, "Not wrapper" );
+			Assert.IsFalse( project.IsDirty, "Not dirty" );
 		}
 
 		[Test]
@@ -115,7 +115,7 @@ namespace NUnit.Tests.Util
 		{
 			NUnitProject project = NUnitProject.FromAssembly( "nunit.tests.dll" );
 			project.Save( xmlfile );
-			Assert.False( project.IsAssemblyWrapper,
+			Assert.IsFalse( project.IsAssemblyWrapper,
 				"Changed project should no longer be wrapper");
 		}
 
@@ -127,13 +127,13 @@ namespace NUnit.Tests.Util
 			projectPath = @"..\tests\nunit.tests.dll.csproj";
 			#endif
 			NUnitProject project = NUnitProject.FromVSProject( projectPath );
-			Assert.Equals( 2, project.Configs.Count );
-			Assert.True( project.Configs.Contains( "Debug" ), "Missing Debug Config" );
-			Assert.True( project.Configs.Contains( "Release" ), "Missing Release Config" );
-			Assert.Equals( project.Configs[0].Name, project.ActiveConfigName );
-			Assert.True( ((string)project.Configs["Debug"].Assemblies[0].FullPath).EndsWith("nunit.tests.dll"), "Missing nunit.tests.dll" );
-			Assert.True( project.IsLoadable, "Not loadable" );
-			Assert.False( project.IsDirty, "Project should not be dirty" );
+			Assert.AreEqual( 2, project.Configs.Count );
+			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug Config" );
+			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release Config" );
+			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfigName );
+			Assert.IsTrue( ((string)project.Configs["Debug"].Assemblies[0].FullPath).EndsWith("nunit.tests.dll"), "Missing nunit.tests.dll" );
+			Assert.IsTrue( project.IsLoadable, "Not loadable" );
+			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
 		}
 
 		[Test]
@@ -144,14 +144,14 @@ namespace NUnit.Tests.Util
 			projectPath = @"..\samples\vb\vb-sample.vbproj";
 			#endif
 			NUnitProject project = NUnitProject.FromVSProject( projectPath );
-			Assert.Equals( 2, project.Configs.Count );
-			Assert.True( project.Configs.Contains( "Debug" ), "Missing Debug config" );
-			Assert.True( project.Configs.Contains( "Release" ), "Missing Release config" );
-			Assert.True( ((string)project.Configs["Debug"].Assemblies[0].FullPath).EndsWith( "vb-sample.dll" ),
+			Assert.AreEqual( 2, project.Configs.Count );
+			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug config" );
+			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release config" );
+			Assert.IsTrue( ((string)project.Configs["Debug"].Assemblies[0].FullPath).EndsWith( "vb-sample.dll" ),
 				"Missing vb-sample.dll");
-			Assert.Equals( project.Configs[0].Name, project.ActiveConfig.Name );
-			Assert.True( project.IsLoadable, "Not loadable" );
-			Assert.False( project.IsDirty, "Project should not be dirty" );
+			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
+			Assert.IsTrue( project.IsLoadable, "Not loadable" );
+			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
 		}
 
 		[Test]
@@ -162,13 +162,13 @@ namespace NUnit.Tests.Util
 			projectPath = @"..\samples\cpp-sample\cpp-sample.vcproj";
 			#endif
 			NUnitProject project = NUnitProject.FromVSProject( projectPath );
-			Assert.Equals( 2, project.Configs.Count );
-			Assert.True( project.Configs.Contains( "Debug|Win32" ), "Missing Debug Config" );
-			Assert.True( project.Configs.Contains( "Release|Win32" ), "Missing Release Config" );
-			Assert.Equals( project.Configs[0].Name, project.ActiveConfig.Name );
-			Assert.True( ((string)project.Configs["Debug|Win32"].Assemblies[0].FullPath).EndsWith( "cpp-sample.dll" ), "Missing cpp-sample.dll" );
-			Assert.True( project.IsLoadable, "Not loadable" );
-			Assert.False( project.IsDirty, "Project should not be dirty" );
+			Assert.AreEqual( 2, project.Configs.Count );
+			Assert.IsTrue( project.Configs.Contains( "Debug|Win32" ), "Missing Debug Config" );
+			Assert.IsTrue( project.Configs.Contains( "Release|Win32" ), "Missing Release Config" );
+			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
+			Assert.IsTrue( ((string)project.Configs["Debug|Win32"].Assemblies[0].FullPath).EndsWith( "cpp-sample.dll" ), "Missing cpp-sample.dll" );
+			Assert.IsTrue( project.IsLoadable, "Not loadable" );
+			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
 		}
 
 		[Test]
@@ -179,13 +179,13 @@ namespace NUnit.Tests.Util
 			projectPath = @"..\nunit.sln";
 			#endif
 			NUnitProject project = NUnitProject.FromVSSolution( projectPath );
-			Assert.Equals( 4, project.Configs.Count );
-			Assert.True( project.Configs.Contains( "Debug" ), "Missing Debug Config" );
-			Assert.True( project.Configs.Contains( "Release" ), "Missing Release Config" );
-			Assert.Equals( project.Configs[0].Name, project.ActiveConfig.Name );
-			Assert.Equals( 14, project.Configs["Debug"].Assemblies.Count );
-			Assert.True( project.IsLoadable, "Not loadable" );
-			Assert.False( project.IsDirty, "Project should not be dirty" );
+			Assert.AreEqual( 4, project.Configs.Count );
+			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug Config" );
+			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release Config" );
+			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
+			Assert.AreEqual( 14, project.Configs["Debug"].Assemblies.Count );
+			Assert.IsTrue( project.IsLoadable, "Not loadable" );
+			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
 		}
 	}
 }

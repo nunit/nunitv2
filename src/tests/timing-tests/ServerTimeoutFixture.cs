@@ -57,8 +57,8 @@ namespace NUnit.Tests.TimingTests
 
 			// Visit the results of the test after another delay
 			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assert.Equals(5, summarizer.ResultCount);
-			Assert.Equals(2, summarizer.TestsNotRun);
+			Assert.AreEqual(5, summarizer.ResultCount);
+			Assert.AreEqual(2, summarizer.TestsNotRun);
 
 			// Make sure we can still access the tests
 			// using the Test property of the result

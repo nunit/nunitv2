@@ -22,10 +22,10 @@ namespace NUnit.Tests.UiKit
 		[Test]
 		public void CreateWriter()
 		{
-			Assert.NotNull( textBoxWriter );
-			Assert.Equals( 0, textBox.Lines.Length );
-			Assert.Equals( "", textBox.Text );
-			Assert.Equals( 0, textBox.Lines.Length );
+			Assert.IsNotNull( textBoxWriter );
+			Assert.AreEqual( 0, textBox.Lines.Length );
+			Assert.AreEqual( "", textBox.Text );
+			Assert.AreEqual( 0, textBox.Lines.Length );
 		}
 
 		private void WriteTestLines( int count, int start )
@@ -43,7 +43,7 @@ namespace NUnit.Tests.UiKit
 		public void WriteLines()
 		{
 			WriteTestLines( 5 );
-			Assert.Equals( "This is line 3", textBox.Lines[2] );
+			Assert.AreEqual( "This is line 3", textBox.Lines[2] );
 		}
 
 		[Test]
@@ -53,7 +53,7 @@ namespace NUnit.Tests.UiKit
 			textBoxWriter.Write( " in three parts" );
 			textBoxWriter.Write( '!' );
 
-			Assert.Equals( "I wrote this in three parts!", textBox.Lines[0] );
+			Assert.AreEqual( "I wrote this in three parts!", textBox.Lines[0] );
 		}
 
 		[Test]
@@ -64,8 +64,8 @@ namespace NUnit.Tests.UiKit
 			textBoxWriter.WriteLine( " in two parts" );
 			textBoxWriter.WriteLine( "The final line" );
 
-			Assert.Equals( "This line written in two parts", textBox.Lines[5] );
-			Assert.Equals( "The final line", textBox.Lines[6] );
+			Assert.AreEqual( "This line written in two parts", textBox.Lines[5] );
+			Assert.AreEqual( "The final line", textBox.Lines[6] );
 		}
 	}
 }

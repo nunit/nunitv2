@@ -43,17 +43,17 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void SolutionExtension()
 		{
-			Assert.True( VSProject.IsSolutionFile( @"\x\y\project.sln" ) );
-			Assert.False( VSProject.IsSolutionFile( @"\x\y\project.sol" ) );
+			Assert.IsTrue( VSProject.IsSolutionFile( @"\x\y\project.sln" ) );
+			Assert.IsFalse( VSProject.IsSolutionFile( @"\x\y\project.sol" ) );
 		}
 
 		[Test]
 		public void ProjectExtensions()
 		{
-			Assert.True( VSProject.IsProjectFile( @"\x\y\project.csproj" ) );
-			Assert.True( VSProject.IsProjectFile( @"\x\y\project.vbproj" ) );
-			Assert.True( VSProject.IsProjectFile( @"\x\y\project.vcproj" ) );
-			Assert.False( VSProject.IsProjectFile( @"\x\y\project.xyproj" ) );
+			Assert.IsTrue( VSProject.IsProjectFile( @"\x\y\project.csproj" ) );
+			Assert.IsTrue( VSProject.IsProjectFile( @"\x\y\project.vbproj" ) );
+			Assert.IsTrue( VSProject.IsProjectFile( @"\x\y\project.vcproj" ) );
+			Assert.IsFalse( VSProject.IsProjectFile( @"\x\y\project.xyproj" ) );
 		}
 
 		[Test]
@@ -65,12 +65,12 @@ namespace NUnit.Tests.Util
 			#endif
 			VSProject project = new VSProject( fileName );
 
-			Assert.Equals( "nunit.tests.dll", project.Name );
-			Assert.Equals( Path.GetFullPath( fileName ), project.ProjectPath );
-			Assert.Equals( 2, project.Configs.Count );
-			Assert.True( project.Configs.Contains( "Debug" ), "Missing Debug config" );
-			Assert.True( project.Configs.Contains( "Release" ), "Missing Release config" );
-			Assert.True( project.Configs["Debug"].Assemblies[0].FullPath.ToLower().EndsWith( @"\bin\debug\nunit.tests.dll" ),
+			Assert.AreEqual( "nunit.tests.dll", project.Name );
+			Assert.AreEqual( Path.GetFullPath( fileName ), project.ProjectPath );
+			Assert.AreEqual( 2, project.Configs.Count );
+			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug config" );
+			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release config" );
+			Assert.IsTrue( project.Configs["Debug"].Assemblies[0].FullPath.ToLower().EndsWith( @"\bin\debug\nunit.tests.dll" ),
 				"Missing dll");
 		}
 
@@ -83,12 +83,12 @@ namespace NUnit.Tests.Util
 			#endif
 			VSProject project = new VSProject( fileName );
 
-			Assert.Equals( "vb-sample", project.Name );
-			Assert.Equals( Path.GetFullPath( fileName ), project.ProjectPath );
-			Assert.Equals( 2, project.Configs.Count );
-			Assert.True( project.Configs.Contains( "Debug" ), "Missing Debug config" );
-			Assert.True( project.Configs.Contains( "Release" ), "Missing Release config" );
-			Assert.True( project.Configs["Debug"].Assemblies[0].FullPath.ToLower().EndsWith( @"samples\vb\bin\vb-sample.dll" ),
+			Assert.AreEqual( "vb-sample", project.Name );
+			Assert.AreEqual( Path.GetFullPath( fileName ), project.ProjectPath );
+			Assert.AreEqual( 2, project.Configs.Count );
+			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug config" );
+			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release config" );
+			Assert.IsTrue( project.Configs["Debug"].Assemblies[0].FullPath.ToLower().EndsWith( @"samples\vb\bin\vb-sample.dll" ),
 				"Missing dll");
 		}
 		[Test]
@@ -100,12 +100,12 @@ namespace NUnit.Tests.Util
 			#endif
 			VSProject project = new VSProject( fileName );
 
-			Assert.Equals( "cpp-sample", project.Name );
-			Assert.Equals( Path.GetFullPath( fileName ), project.ProjectPath );
-			Assert.Equals( 2, project.Configs.Count );
-			Assert.True( project.Configs.Contains( "Debug|Win32" ), "Missing Debug config" );
-			Assert.True( project.Configs.Contains( "Release|Win32" ), "Missing Release config" );
-			Assert.True( project.Configs["Debug|Win32"].Assemblies[0].FullPath.ToLower().EndsWith( @"samples\cpp-sample\debug\cpp-sample.dll" ),
+			Assert.AreEqual( "cpp-sample", project.Name );
+			Assert.AreEqual( Path.GetFullPath( fileName ), project.ProjectPath );
+			Assert.AreEqual( 2, project.Configs.Count );
+			Assert.IsTrue( project.Configs.Contains( "Debug|Win32" ), "Missing Debug config" );
+			Assert.IsTrue( project.Configs.Contains( "Release|Win32" ), "Missing Release config" );
+			Assert.IsTrue( project.Configs["Debug|Win32"].Assemblies[0].FullPath.ToLower().EndsWith( @"samples\cpp-sample\debug\cpp-sample.dll" ),
 				"Missing dll");
 		}
 
@@ -155,7 +155,7 @@ namespace NUnit.Tests.Util
 		{
 			WriteInvalidFile( "<VisualStudioProject><CSharp><Build><Settings AssemblyName=\"invalid\" OutputType=\"Library\"></Settings></Build></CSharp></VisualStudioProject>" );
 			VSProject project = new VSProject( @".\invalid.csproj" );
-			Assert.Equals( 0, project.Configs.Count );
+			Assert.AreEqual( 0, project.Configs.Count );
 		}
 	}
 }

@@ -57,33 +57,33 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void GetStorageImpl()
 		{
-			Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test",
+			Assert.AreEqual( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test",
 				UserSettings.GetStorageImpl().StorageName );
 		}
 
 		[Test]
 		public void GetChildStorageImpl()
 		{
-			Assert.Equals( "MySettings", 
+			Assert.AreEqual( "MySettings", 
 				UserSettings.GetStorageImpl( "MySettings" ).StorageName );
 		}
 
 		[Test]
 		public void OptionSettings()
 		{
-			Assert.NotNull( UserSettings.Options );
+			Assert.IsNotNull( UserSettings.Options );
 		}
 
 		[Test]
 		public void FormSettings()
 		{
-			Assert.NotNull( UserSettings.Form );
+			Assert.IsNotNull( UserSettings.Form );
 		}
 
 		[Test]
 		public void RecentProjects()
 		{
-			Assert.NotNull( UserSettings.RecentProjects );
+			Assert.IsNotNull( UserSettings.RecentProjects );
 		}
 	}
 }

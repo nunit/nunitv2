@@ -63,7 +63,7 @@ namespace NUnit.Tests.UiKit
 		[Test]
 		public void LoadSuite()
 		{
-			Assert.NotNull(suite);
+			Assert.IsNotNull(suite);
 		}
 
 		private bool AllExpanded( TreeNode node)
@@ -91,11 +91,11 @@ namespace NUnit.Tests.UiKit
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
-			Assert.NotNull( treeView.Nodes[0] );
-			Assert.Equals( 16, treeView.GetNodeCount( true ) );
-			Assert.Equals( "mock-assembly.dll", treeView.Nodes[0].Text );	
-			Assert.Equals( "NUnit", treeView.Nodes[0].Nodes[0].Text );
-			Assert.Equals( "Tests", treeView.Nodes[0].Nodes[0].Nodes[0].Text );
+			Assert.IsNotNull( treeView.Nodes[0] );
+			Assert.AreEqual( 16, treeView.GetNodeCount( true ) );
+			Assert.AreEqual( "mock-assembly.dll", treeView.Nodes[0].Text );	
+			Assert.AreEqual( "NUnit", treeView.Nodes[0].Nodes[0].Text );
+			Assert.AreEqual( "Tests", treeView.Nodes[0].Nodes[0].Nodes[0].Text );
 		}
 
 		/// <summary>
@@ -130,7 +130,7 @@ namespace NUnit.Tests.UiKit
 			treeView.Load(suite);
 			
 			treeView.Clear();
-			Assert.Equals( 0, treeView.Nodes.Count );
+			Assert.AreEqual( 0, treeView.Nodes.Count );
 		}
 
 		[Test]
@@ -143,9 +143,9 @@ namespace NUnit.Tests.UiKit
 			treeView.SetTestResult( result );
 
 			TestSuiteTreeNode fixtureNode = FixtureNode( treeView );
-			Assert.NotNull(fixtureNode.Result,  "Result not set" );
-			Assert.Equals( "My test result", fixtureNode.Result.Name );
-			Assert.Equals( fixtureNode.Test.FullName, fixtureNode.Result.Test.FullName );
+			Assert.IsNotNull(fixtureNode.Result,  "Result not set" );
+			Assert.AreEqual( "My test result", fixtureNode.Result.Name );
+			Assert.AreEqual( fixtureNode.Test.FullName, fixtureNode.Result.Test.FullName );
 		}
 
 		[Test]
@@ -154,8 +154,8 @@ namespace NUnit.Tests.UiKit
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load(suite);
 
-			Assert.Equals( 7, suite.CountTestCases );
-			Assert.Equals( 16, treeView.GetNodeCount( true ) );
+			Assert.AreEqual( 7, suite.CountTestCases );
+			Assert.AreEqual( 16, treeView.GetNodeCount( true ) );
 			
 			TestSuite nunitNamespaceSuite = suite.Tests[0] as TestSuite;
 			TestSuite testsNamespaceSuite = nunitNamespaceSuite.Tests[0] as TestSuite;
@@ -163,14 +163,14 @@ namespace NUnit.Tests.UiKit
 			testsNamespaceSuite.Tests.RemoveAt( 1 );
 			treeView.Reload( suite );
 
-			Assert.Equals( 2, suite.CountTestCases );
-			Assert.Equals( 9, treeView.GetNodeCount( true ) );
+			Assert.AreEqual( 2, suite.CountTestCases );
+			Assert.AreEqual( 9, treeView.GetNodeCount( true ) );
 
 			testsNamespaceSuite.Tests.Insert( 1, assembliesNamespaceSuite );
 			treeView.Reload( suite );
 
-			Assert.Equals( 7, suite.CountTestCases );
-			Assert.Equals( 16, treeView.GetNodeCount( true ) );
+			Assert.AreEqual( 7, suite.CountTestCases );
+			Assert.AreEqual( 16, treeView.GetNodeCount( true ) );
 		}
 
 		[Test]

@@ -59,7 +59,7 @@ namespace NUnit.Tests.Core
 		public void TestCountNotRunSuites()
 		{
 			ResultSummarizer summary = new ResultSummarizer(NotRunTestSuite());
-			Assert.Equals(1,summary.TestsNotRun);
+			Assert.AreEqual(1,summary.TestsNotRun);
 
 		}
 		private TestSuiteResult MockSuiteResult(string suiteName, bool failure)
@@ -99,11 +99,11 @@ namespace NUnit.Tests.Core
 			string suiteName = "Base";
 			ResultSummarizer summary = new ResultSummarizer(MockSuiteResult(suiteName, false));
 
-			Assert.Equals(suiteName, summary.Name);
-			Assert.True(summary.Success);
-			Assert.Equals(2, summary.ResultCount);
-			Assert.Equals(0, summary.Failures);
-			Assert.Equals(1, summary.TestsNotRun);
+			Assert.AreEqual(suiteName, summary.Name);
+			Assert.IsTrue(summary.Success);
+			Assert.AreEqual(2, summary.ResultCount);
+			Assert.AreEqual(0, summary.Failures);
+			Assert.AreEqual(1, summary.TestsNotRun);
 		}
 
 		[Test]
@@ -111,17 +111,17 @@ namespace NUnit.Tests.Core
 		{
 			ResultSummarizer summary = new ResultSummarizer(MockSuiteResult("Base", true));
 
-			Assert.False(summary.Success);
-			Assert.Equals(2, summary.ResultCount);
-			Assert.Equals(1, summary.Failures);
-			Assert.Equals(1, summary.TestsNotRun);
+			Assert.IsFalse(summary.Success);
+			Assert.AreEqual(2, summary.ResultCount);
+			Assert.AreEqual(1, summary.Failures);
+			Assert.AreEqual(1, summary.TestsNotRun);
 		}
 
 		[Test]
 		public void TestTime()
 		{
 			ResultSummarizer summary = new ResultSummarizer(MockSuiteResult("Base", false));
-			Assert.Equals(time, summary.Time);
+			Assert.AreEqual(time, summary.Time);
 		}
 	}
 }

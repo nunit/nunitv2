@@ -65,13 +65,13 @@ namespace NUnit.Tests.TestResultTests
 		public void EmptySuite()
 		{
 			TestSuiteResult result = new TestSuiteResult(null, "base suite");
-			Assert.True(result.IsSuccess, "result should be success");
+			Assert.IsTrue(result.IsSuccess, "result should be success");
 		}
 
 		[Test]
 		public void SuiteSuccess()
 		{
-			Assert.True(MockSuiteResult().IsSuccess);
+			Assert.IsTrue(MockSuiteResult().IsSuccess);
 		}
 
 		[Test]
@@ -81,15 +81,15 @@ namespace NUnit.Tests.TestResultTests
 			AssertionException failure = new AssertionException("an assertion failed error");
 			testCase.Failure(failure.Message, failure.StackTrace);
 			
-			Assert.True(result.IsFailure);
-			Assert.False(result.IsSuccess); 
+			Assert.IsTrue(result.IsFailure);
+			Assert.IsFalse(result.IsSuccess); 
 
 			IList results = result.Results;
 			TestSuiteResult suiteA = (TestSuiteResult)results[0];
-			Assert.True(suiteA.IsFailure);
+			Assert.IsTrue(suiteA.IsFailure);
 
 			TestSuiteResult suiteB = (TestSuiteResult)results[1];
-			Assert.True(suiteB.IsSuccess);
+			Assert.IsTrue(suiteB.IsSuccess);
 		}		
 	}
 }

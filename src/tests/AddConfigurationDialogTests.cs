@@ -74,7 +74,7 @@ namespace NUnit.Tests.UiKit
 
 			public void AssertControlExists( string name )
 			{
-				Assert.NotNull(FindControl( name ), 
+				Assert.IsNotNull(FindControl( name ), 
 					string.Format( "Form {0} does not contain {1} control", form.Name, name));
 			}
 
@@ -82,8 +82,8 @@ namespace NUnit.Tests.UiKit
 			{
 				Control control = FindControl( name );
 
-				Assert.NotNull(control, string.Format( "Form {0} does not contain {1} control", form.Name, name ));
-				Assert.Equals( type, control.GetType() );
+				Assert.IsNotNull(control, string.Format( "Form {0} does not contain {1} control", form.Name, name ));
+				Assert.AreEqual( type, control.GetType() );
 			}
 
 			public Button FindButton( string name )
@@ -141,7 +141,7 @@ namespace NUnit.Tests.UiKit
 		public void CheckTextBox()
 		{
 			TextBox configBox = tester.FindTextBox( "configurationNameTextBox" );
-			Assert.Equals( "", configBox.Text );
+			Assert.AreEqual( "", configBox.Text );
 		}
 
 		[Test]
@@ -149,11 +149,11 @@ namespace NUnit.Tests.UiKit
 		{
 			ComboBox combo = tester.FindComboBox( "configurationComboBox" );
 			dlg.Show();
-			Assert.Equals( 3, combo.Items.Count );
-			Assert.Equals( "<none>", combo.Items[0] );
-			Assert.Equals( "Debug", combo.Items[1] );
-			Assert.Equals( "Release", combo.Items[2] );
-			Assert.Equals( "Debug", combo.SelectedItem );
+			Assert.AreEqual( 3, combo.Items.Count );
+			Assert.AreEqual( "<none>", combo.Items[0] );
+			Assert.AreEqual( "Debug", combo.Items[1] );
+			Assert.AreEqual( "Release", combo.Items[2] );
+			Assert.AreEqual( "Debug", combo.SelectedItem );
 		}
 		[Test]
 		public void TestSimpleEntry()
@@ -163,8 +163,8 @@ namespace NUnit.Tests.UiKit
 			Button okButton = tester.FindButton( "okButton" );
 			config.Text = "Super";
 			okButton.PerformClick();
-			Assert.Equals( "Super", dlg.ConfigurationName );
-			Assert.Equals( "Debug", dlg.CopyConfigurationName );
+			Assert.AreEqual( "Super", dlg.ConfigurationName );
+			Assert.AreEqual( "Debug", dlg.CopyConfigurationName );
 		}
 
 		[Test]
@@ -179,8 +179,8 @@ namespace NUnit.Tests.UiKit
 			combo.SelectedIndex = combo.FindStringExact( "<none>" );
 
 			okButton.PerformClick();
-			Assert.Equals( "Super", dlg.ConfigurationName );
-			Assert.Null( dlg.CopyConfigurationName );
+			Assert.AreEqual( "Super", dlg.ConfigurationName );
+			Assert.IsNull( dlg.CopyConfigurationName );
 		}
 	}
 }

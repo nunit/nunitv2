@@ -65,7 +65,7 @@ namespace NUnit.Tests.Core
 			Assembly assembly = FindAssemblyByName(nameString);
 
 			System.Version foundVersion = assembly.GetName().Version;
-			Assert.Equals(version, foundVersion);
+			Assert.AreEqual(version, foundVersion);
 		}
 
 		private Assembly FindAssemblyByName(string name)

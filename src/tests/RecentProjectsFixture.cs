@@ -1,8 +1,8 @@
 #region Copyright (c) 2002-2003, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -73,17 +73,17 @@ namespace NUnit.Tests.Util
 		private void CheckMockValues( int count )
 		{
 			IList files = projects.GetFiles();
-			Assert.Equals( count, files.Count, "Count" );
+			Assert.AreEqual( count, files.Count, "Count" );
 			
 			for( int index = 0; index < count; index++ )
-				Assert.Equals( (index + 1).ToString(), files[index], "Item" ); 
+				Assert.AreEqual( (index + 1).ToString(), files[index], "Item" ); 
 		}
 
 		// Check that we can add count items correctly
 		private void CheckAddItems( int count )
 		{
 			SetMockValues( count );
-			Assert.Equals( "1", projects.RecentFile, "RecentFile" );
+			Assert.AreEqual( "1", projects.RecentFile, "RecentFile" );
 
 			if ( count > UserSettings.RecentProjects.MaxFiles )
 				count = UserSettings.RecentProjects.MaxFiles;
@@ -96,78 +96,78 @@ namespace NUnit.Tests.Util
 		private void CheckListContains( params int[] item )
 		{
 			IList files = projects.GetFiles();
-			Assert.Equals( item.Length, files.Count, "Count" );
+			Assert.AreEqual( item.Length, files.Count, "Count" );
 
 			for( int index = 0; index < files.Count; index++ )
-				Assert.Equals( item[index].ToString(), files[index], "Item" );
+				Assert.AreEqual( item[index].ToString(), files[index], "Item" );
 		}
 
 		[Test]
 		public void RetrieveSubKey()
 		{
-			Assert.NotNull(projects);
+			Assert.IsNotNull(projects);
 		}
 
 		[Test]
 		public void StorageName()
 		{
-			Assert.Equals( @"Recent-Projects", projects.Storage.StorageName );
+			Assert.AreEqual( @"Recent-Projects", projects.Storage.StorageName );
 		}
 
 		[Test]
 		public void StorageKey()
 		{
-			Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Recent-Projects", 
+			Assert.AreEqual( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Recent-Projects", 
 				((RegistrySettingsStorage)projects.Storage).StorageKey.Name );
 		}
 
 		[Test]
 		public void DefaultRecentFilesCount()
 		{
-			Assert.Equals( RecentProjectSettings.DefaultSize, projects.MaxFiles );
+			Assert.AreEqual( RecentProjectSettings.DefaultSize, projects.MaxFiles );
 		}
 
 		[Test]
 		public void RecentFilesCount()
 		{
 			projects.MaxFiles = 12;
-			Assert.Equals( 12, projects.MaxFiles );
+			Assert.AreEqual( 12, projects.MaxFiles );
 		}
 
 		[Test]
 		public void RecentFilesCountOverMax()
 		{
 			projects.MaxFiles = RecentProjectSettings.MaxSize + 1;
-			Assert.Equals( RecentProjectSettings.MaxSize, projects.MaxFiles );
+			Assert.AreEqual( RecentProjectSettings.MaxSize, projects.MaxFiles );
 		}
 
 		[Test]
 		public void RecentFilesCountUnderMin()
 		{
 			projects.MaxFiles = RecentProjectSettings.MinSize - 1;
-			Assert.Equals( RecentProjectSettings.MinSize, projects.MaxFiles );
+			Assert.AreEqual( RecentProjectSettings.MinSize, projects.MaxFiles );
 		}
 
 		[Test]
 		public void RecentFilesCountAtMax()
 		{
 			projects.MaxFiles = RecentProjectSettings.MaxSize;
-			Assert.Equals( RecentProjectSettings.MaxSize, projects.MaxFiles );
+			Assert.AreEqual( RecentProjectSettings.MaxSize, projects.MaxFiles );
 		}
 
 		[Test]
 		public void RecentFilesCountAtMin()
 		{
 			projects.MaxFiles = RecentProjectSettings.MinSize;
-			Assert.Equals( RecentProjectSettings.MinSize, projects.MaxFiles );
+			Assert.AreEqual( RecentProjectSettings.MinSize, projects.MaxFiles );
 		}
 
 		[Test]
 		public void EmptyList()
 		{
-			Assert.NotNull(  projects.GetFiles(), "GetFiles() returned null" );
-			Assert.Equals( 0, projects.GetFiles().Count );
-			Assert.Null( projects.RecentFile, "No RecentFile should return null" );
+			Assert.IsNotNull(  projects.GetFiles(), "GetFiles() returned null" );
+			Assert.AreEqual( 0, projects.GetFiles().Count );
+			Assert.IsNull( projects.RecentFile, "No RecentFile should return null" );
 		}
 
 		[Test]
@@ -229,10 +229,10 @@ namespace NUnit.Tests.Util
 
 			using( RegistryKey key = NUnitRegistry.CurrentUser.OpenSubKey( "Recent-Projects" ) )
 			{
-				Assert.Equals( 3, key.ValueCount );
-				Assert.Equals( 2, key.GetValue( "MaxFiles" ) );
-				Assert.Equals( "1", key.GetValue( "File1" ) );
-				Assert.Equals( "2", key.GetValue( "File2" ) );
+				Assert.AreEqual( 3, key.ValueCount );
+				Assert.AreEqual( 2, key.GetValue( "MaxFiles" ) );
+				Assert.AreEqual( "1", key.GetValue( "File1" ) );
+				Assert.AreEqual( "2", key.GetValue( "File2" ) );
 			}
 		}
 
@@ -243,9 +243,9 @@ namespace NUnit.Tests.Util
 
 			using( RegistryKey key = NUnitRegistry.CurrentUser.OpenSubKey( "Recent-Projects" ) )
 			{
-				Assert.Equals( 2, key.ValueCount );
-				Assert.Equals( "1", key.GetValue( "File1" ) );
-				Assert.Equals( "2", key.GetValue( "File2" ) );
+				Assert.AreEqual( 2, key.ValueCount );
+				Assert.AreEqual( "1", key.GetValue( "File1" ) );
+				Assert.AreEqual( "2", key.GetValue( "File2" ) );
 			}
 		}
 

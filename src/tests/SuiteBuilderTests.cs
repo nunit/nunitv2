@@ -48,7 +48,7 @@ namespace NUnit.Tests.Core
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Core.AllTests" );
-			Assert.NotNull(suite);
+			Assert.IsNotNull(suite);
 		}
 
 		[Test]
@@ -56,7 +56,7 @@ namespace NUnit.Tests.Core
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build(testsDll);
-			Assert.NotNull(suite);
+			Assert.IsNotNull(suite);
 		}
 
 
@@ -78,7 +78,7 @@ namespace NUnit.Tests.Core
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Core.SuiteBuilderTests+Suite" );
-			Assert.NotNull(suite, "Could not discover suite attribute");
+			Assert.IsNotNull(suite, "Could not discover suite attribute");
 		}
 
 		class NonConformingSuite
@@ -98,7 +98,7 @@ namespace NUnit.Tests.Core
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Assemblies.AssemblyTests+NonConformingSuite" );
-			Assert.Null(suite, "Suite propertye returns wrong type");
+			Assert.IsNull(suite, "Suite propertye returns wrong type");
 		}
 
 		[Test]
@@ -107,12 +107,12 @@ namespace NUnit.Tests.Core
 			string fileName = @"d:\somedirectory\foo.txt";
 			FileInfo info = new FileInfo(fileName);
 			string extension = info.Extension;
-			Assert.Equals(".txt", extension);
-			Assert.Equals("foo.txt", info.Name);
+			Assert.AreEqual(".txt", extension);
+			Assert.AreEqual("foo.txt", info.Name);
 
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			string result = builder.TrimPathAndExtension(fileName);
-			Assert.Equals("foo", result);
+			Assert.AreEqual("foo", result);
 		}
 	}
 }

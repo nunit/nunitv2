@@ -107,7 +107,7 @@ namespace NUnit.Tests.ConsoleRunner
 
 			Process p = this.createProcess(arguments);
 			int resultCode = executeProcess(p);
-			Assert.Equals(1, resultCode);
+			Assert.AreEqual(1, resultCode);
 		}
 
 		[Test]
@@ -118,7 +118,7 @@ namespace NUnit.Tests.ConsoleRunner
 				null);
 			Process p = this.createProcess(arguments);
 			int resultCode = executeProcess(p);
-			Assert.Equals(0, resultCode);
+			Assert.AreEqual(0, resultCode);
 		}
 
 		[Test]
@@ -132,8 +132,8 @@ namespace NUnit.Tests.ConsoleRunner
 				info.FullName);
 			Process p = this.createProcess(arguments);
 			int resultCode = executeProcess(p);
-			Assert.Equals(0, resultCode);
-			Assert.Equals(true, info.Exists);
+			Assert.AreEqual(0, resultCode);
+			Assert.AreEqual(true, info.Exists);
 		}
 
 		[Test]
@@ -144,7 +144,7 @@ namespace NUnit.Tests.ConsoleRunner
 				null);
 			Process p = this.createProcess(arguments);
 			int resultCode = executeProcess(p);
-			Assert.Equals(2, resultCode);
+			Assert.AreEqual(2, resultCode);
 		}
 
 		[Test]
@@ -155,7 +155,7 @@ namespace NUnit.Tests.ConsoleRunner
 				null);
 			Process p = this.createProcess(arguments);
 			int resultCode = executeProcess(p);
-			Assert.Equals(2, resultCode);
+			Assert.AreEqual(2, resultCode);
 		}
 
 		[Test]
@@ -174,8 +174,8 @@ namespace NUnit.Tests.ConsoleRunner
 			Process p = this.createProcess((string[])args.ToArray(typeof(string)));
 			StringBuilder builder = new StringBuilder();
 			int resultCode = executeProcess(p, builder);
-			Assert.Equals(0, resultCode);
-			Assert.True(builder.ToString().Trim().StartsWith(@"<?xml version=""1.0"""),
+			Assert.AreEqual(0, resultCode);
+			Assert.IsTrue(builder.ToString().Trim().StartsWith(@"<?xml version=""1.0"""),
 				"Only XML should be displayed in xmlconsole mode");
 		}
 

@@ -41,21 +41,21 @@ namespace NUnit.Tests.CommandLine
 		public void NoParametersCount()
 		{
 			GuiOptions options = new GuiOptions(new string[] {});
-			Assert.True(options.NoArgs);
+			Assert.IsTrue(options.NoArgs);
 		}
 
 		[Test]
 		public void Help()
 		{
 			GuiOptions options = new GuiOptions(new string[] {"/help"});
-			Assert.True(options.help);
+			Assert.IsTrue(options.help);
 		}
 
 		[Test]
 		public void ShortHelp()
 		{
 			GuiOptions options = new GuiOptions(new string[] {"/?"});
-			Assert.True(options.help);
+			Assert.IsTrue(options.help);
 		}
 
 		[Test]
@@ -63,21 +63,21 @@ namespace NUnit.Tests.CommandLine
 		{
 			string assemblyName = "nunit.tests.dll";
 			GuiOptions options = new GuiOptions(new string[]{ assemblyName });
-			Assert.Equals(assemblyName, options.Assembly);
+			Assert.AreEqual(assemblyName, options.Assembly);
 		}
 
 		[Test]
 		public void ValidateSuccessful()
 		{
 			GuiOptions options = new GuiOptions(new string[] { "nunit.tests.dll" });
-			Assert.True(options.Validate(), "command line should be valid");
+			Assert.IsTrue(options.Validate(), "command line should be valid");
 		}
 
 		[Test]
 		public void InvalidArgs()
 		{
 			GuiOptions options = new GuiOptions(new string[] { "/asembly:nunit.tests.dll" });
-			Assert.False(options.Validate());
+			Assert.IsFalse(options.Validate());
 		}
 
 
@@ -85,14 +85,14 @@ namespace NUnit.Tests.CommandLine
 		public void InvalidCommandLineParms()
 		{
 			GuiOptions parser = new GuiOptions(new String[]{"/garbage:TestFixture", "/assembly:Tests.dll"});
-			Assert.False(parser.Validate());
+			Assert.IsFalse(parser.Validate());
 		}
 
 		[Test] 
 		public void NoNameValuePairs()
 		{
 			GuiOptions parser = new GuiOptions(new String[]{"TestFixture", "Tests.dll"});
-			Assert.False(parser.Validate());
+			Assert.IsFalse(parser.Validate());
 		}
 	}
 }

@@ -61,7 +61,7 @@ namespace NUnit.Tests.Core
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Assemblies.MockTestFixture" );
-			Assert.NotNull(suite);
+			Assert.IsNotNull(suite);
 		}
 
 		[Test]
@@ -69,7 +69,7 @@ namespace NUnit.Tests.Core
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build(testsDll);
-			Assert.Equals(testsDll, suite.Name);
+			Assert.AreEqual(testsDll, suite.Name);
 		}
 
 		[Test]
@@ -78,38 +78,38 @@ namespace NUnit.Tests.Core
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build(testsDll);
 			ArrayList tests = suite.Tests;
-			Assert.Equals(1, tests.Count);
+			Assert.AreEqual(1, tests.Count);
 
-			Assert.True(tests[0] is TestSuite, "TestSuite:NUnit - is not correct");
+			Assert.IsTrue(tests[0] is TestSuite, "TestSuite:NUnit - is not correct");
 			TestSuite testSuite = (TestSuite)tests[0];
-			Assert.Equals("NUnit", testSuite.Name);
+			Assert.AreEqual("NUnit", testSuite.Name);
 
 			tests = testSuite.Tests;
-			Assert.True(tests[0] is TestSuite, "TestSuite:Tests - is invalid");
+			Assert.IsTrue(tests[0] is TestSuite, "TestSuite:Tests - is invalid");
 			testSuite = (TestSuite)tests[0];
-			Assert.Equals(1, tests.Count);
-			Assert.Equals("Tests", testSuite.Name);
+			Assert.AreEqual(1, tests.Count);
+			Assert.AreEqual("Tests", testSuite.Name);
 
 			tests = testSuite.Tests;
-			Assert.Equals(3, tests.Count);
+			Assert.AreEqual(3, tests.Count);
 
-			Assert.True(tests[1] is TestSuite, "TestSuite:singletons - is invalid");
+			Assert.IsTrue(tests[1] is TestSuite, "TestSuite:singletons - is invalid");
 			TestSuite singletonSuite = (TestSuite)tests[2];
-			Assert.Equals("Singletons", singletonSuite.Name);
-			Assert.Equals(1, singletonSuite.Tests.Count);
+			Assert.AreEqual("Singletons", singletonSuite.Name);
+			Assert.AreEqual(1, singletonSuite.Tests.Count);
 
 			MockTestFixture mockTestFixture = new MockTestFixture();			
-			Assert.True(tests[1] is TestSuite, "TestSuite:assemblies - is invalid");
+			Assert.IsTrue(tests[1] is TestSuite, "TestSuite:assemblies - is invalid");
 			TestSuite mockSuite = (TestSuite)tests[1];
-			Assert.Equals("Assemblies", mockSuite.Name);
+			Assert.AreEqual("Assemblies", mockSuite.Name);
 
 			TestSuite mockFixtureSuite = (TestSuite)mockSuite.Tests[0];
-			Assert.Equals(5, mockFixtureSuite.Tests.Count);
+			Assert.AreEqual(5, mockFixtureSuite.Tests.Count);
 			
 			ArrayList mockTests = mockFixtureSuite.Tests;
 			foreach(Test t in mockTests)
 			{
-				Assert.True(t is NUnit.Core.TestCase, "should be a TestCase");
+				Assert.IsTrue(t is NUnit.Core.TestCase, "should be a TestCase");
 			}
 		}
 			
@@ -118,8 +118,8 @@ namespace NUnit.Tests.Core
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( nonamespaceDLL );
-			Assert.NotNull(suite);
-			Assert.Equals( 3, suite.CountTestCases );
+			Assert.IsNotNull(suite);
+			Assert.AreEqual( 3, suite.CountTestCases );
 		}
 	}
 }

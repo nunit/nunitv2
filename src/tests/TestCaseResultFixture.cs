@@ -50,15 +50,15 @@ namespace NUnit.Tests.TestResultSuite
 		[Test]
 		public void TestCaseSuccess()
 		{
-			Assert.True(caseResult.IsSuccess, "result should be success");
+			Assert.IsTrue(caseResult.IsSuccess, "result should be success");
 		}
 
 		[Test]
 		public void TestCaseFailure()
 		{
 			caseResult.Failure("an assertion failed error",null);
-			Assert.True(caseResult.IsFailure);
-			Assert.False(caseResult.IsSuccess);
+			Assert.IsTrue(caseResult.IsFailure);
+			Assert.IsFalse(caseResult.IsSuccess);
 		}
 
 		[Test]
@@ -66,7 +66,7 @@ namespace NUnit.Tests.TestResultSuite
 		{
 			string message = "message";
 			caseResult.Failure(message,null);
-			Assert.Equals(message, caseResult.Message);
+			Assert.AreEqual(message, caseResult.Message);
 		}
 	}
 }

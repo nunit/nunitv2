@@ -55,7 +55,7 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void EmptyList()
 		{
-			Assert.Equals( 0, assemblies.Count );
+			Assert.AreEqual( 0, assemblies.Count );
 		}
 
 		[Test]
@@ -64,9 +64,9 @@ namespace NUnit.Tests.Util
 			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
 			assemblies.Add( @"C:\tests\bin\debug\assembly2.dll" );
 
-			Assert.Equals( 2, assemblies.Count );
-			Assert.Equals( @"C:\tests\bin\debug\assembly1.dll", assemblies[0].FullPath );
-			Assert.Equals( @"C:\tests\bin\debug\assembly2.dll", assemblies[1].FullPath );
+			Assert.AreEqual( 2, assemblies.Count );
+			Assert.AreEqual( @"C:\tests\bin\debug\assembly1.dll", assemblies[0].FullPath );
+			Assert.AreEqual( @"C:\tests\bin\debug\assembly2.dll", assemblies[1].FullPath );
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
@@ -79,7 +79,7 @@ namespace NUnit.Tests.Util
 		public void AddMarksConfigurationDirty()
 		{
 			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
-			Assert.True( config.IsDirty );
+			Assert.IsTrue( config.IsDirty );
 		}
 
 		[Test]
@@ -90,9 +90,9 @@ namespace NUnit.Tests.Util
 			assemblies.Add( @"C:\tests\bin\debug\assembly3.dll" );
 			assemblies.Remove( @"C:\tests\bin\debug\assembly2.dll" );
 
-			Assert.Equals( 2, assemblies.Count );
-			Assert.Equals( @"C:\tests\bin\debug\assembly1.dll", assemblies[0].FullPath );
-			Assert.Equals( @"C:\tests\bin\debug\assembly3.dll", assemblies[1].FullPath );
+			Assert.AreEqual( 2, assemblies.Count );
+			Assert.AreEqual( @"C:\tests\bin\debug\assembly1.dll", assemblies[0].FullPath );
+			Assert.AreEqual( @"C:\tests\bin\debug\assembly3.dll", assemblies[1].FullPath );
 		}
 
 		[Test]
@@ -101,7 +101,7 @@ namespace NUnit.Tests.Util
 			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
 			config.IsDirty = false;
 			assemblies.RemoveAt(0);
-			Assert.True( config.IsDirty );
+			Assert.IsTrue( config.IsDirty );
 		}
 
 		[Test]
@@ -110,7 +110,7 @@ namespace NUnit.Tests.Util
 			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
 			config.IsDirty = false;
 			assemblies.Remove( @"C:\tests\bin\debug\assembly1.dll" );
-			Assert.True( config.IsDirty );
+			Assert.IsTrue( config.IsDirty );
 		}
 
 		[Test]
@@ -119,7 +119,7 @@ namespace NUnit.Tests.Util
 			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
 			config.IsDirty = false;
 			assemblies[0].FullPath = @"C:\tests\bin\debug\assembly2.dll";
-			Assert.True( config.IsDirty );
+			Assert.IsTrue( config.IsDirty );
 		}
 		
 		[Test]
@@ -128,7 +128,7 @@ namespace NUnit.Tests.Util
 			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
 			config.IsDirty = false;
 			assemblies[0].HasTests = false;
-			Assert.True( config.IsDirty );
+			Assert.IsTrue( config.IsDirty );
 		}
 	}
 }

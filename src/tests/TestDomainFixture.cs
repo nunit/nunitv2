@@ -69,14 +69,14 @@ namespace NUnit.Tests.Core
 		public void InitTest()
 		{
 			Test test = domain.LoadAssembly("mock-assembly.dll");
-			Assert.NotNull(test, "Test should not be null");
+			Assert.IsNotNull(test, "Test should not be null");
 		}
 
 		[Test]
 		public void CountTestCases()
 		{
 			Test test = domain.LoadAssembly("mock-assembly.dll");
-			Assert.Equals(7, test.CountTestCases);
+			Assert.AreEqual(7, test.CountTestCases);
 		}
 
 		[Test]
@@ -108,7 +108,7 @@ namespace NUnit.Tests.Core
 			Test test = domain.LoadAssembly("mock-assembly.dll");
 
 			TestResult result = domain.Run(NullListener.NULL,outStream,errorStream);
-			Assert.NotNull(result);
+			Assert.IsNotNull(result);
 		}
 
 		[Test]
@@ -117,11 +117,11 @@ namespace NUnit.Tests.Core
 			Test test = domain.LoadAssembly("mock-assembly.dll");
 
 			TestResult result = domain.Run(NullListener.NULL, outStream, errorStream);
-			Assert.Equals(true, result.IsSuccess);
+			Assert.AreEqual(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assert.Equals(5, summarizer.ResultCount);
-			Assert.Equals(2, summarizer.TestsNotRun);
+			Assert.AreEqual(5, summarizer.ResultCount);
+			Assert.AreEqual(2, summarizer.TestsNotRun);
 		}
 
 		[Test]
@@ -130,18 +130,18 @@ namespace NUnit.Tests.Core
 			Test test = domain.LoadAssembly( "mock-assembly.dll", "NUnit.Tests.Assemblies.MockTestFixture" );
 
 			TestResult result = domain.Run(NullListener.NULL, outStream, errorStream);
-			Assert.Equals(true, result.IsSuccess);
+			Assert.AreEqual(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assert.Equals(3, summarizer.ResultCount);
-			Assert.Equals(2, summarizer.TestsNotRun);
+			Assert.AreEqual(3, summarizer.ResultCount);
+			Assert.AreEqual(2, summarizer.TestsNotRun);
 		}
 
 		[Test]
 		public void InvalidTestFixture()
 		{
 			Test test = domain.LoadAssembly( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" );
-			Assert.Null(test, "test should be null");
+			Assert.IsNull(test, "test should be null");
 		}
 
 		[Test]
@@ -152,8 +152,8 @@ namespace NUnit.Tests.Core
 			assemblies.Add("nonamespace-assembly.dll");
 
 			Test test = domain.LoadAssemblies( assemblies );
-			Assert.NotNull(test, "test should not be null");
-			Assert.Equals(10, test.CountTestCases);
+			Assert.IsNotNull(test, "test should not be null");
+			Assert.AreEqual(10, test.CountTestCases);
 		}
 
 		[Test]
@@ -164,7 +164,7 @@ namespace NUnit.Tests.Core
 			assemblies.Add( @"h:\app2\bin\debug\test2.dll" );
 			assemblies.Add( @"h:\app1\bin\debug\test3.dll" );
 
-			Assert.Equals( @"h:\app1\bin\debug;h:\app2\bin\debug", 
+			Assert.AreEqual( @"h:\app1\bin\debug;h:\app2\bin\debug", 
 				TestDomain.GetBinPath( assemblies ) );
 		}
 	}

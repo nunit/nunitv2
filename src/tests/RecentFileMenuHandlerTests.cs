@@ -63,7 +63,7 @@ namespace NUnit.Tests.UiKit
 		public void DisableOnLoadWhenEmpty()
 		{
 			handler.Load();
-			Assert.False( menu.Enabled );
+			Assert.IsFalse( menu.Enabled );
 		}
 
 		[Test]
@@ -71,7 +71,7 @@ namespace NUnit.Tests.UiKit
 		{
 			projects.RecentFile = "Test";
 			handler.Load();
-			Assert.True( menu.Enabled );
+			Assert.IsTrue( menu.Enabled );
 		}
 		[Test]
 		public void LoadMenuItems()
@@ -80,8 +80,8 @@ namespace NUnit.Tests.UiKit
 			projects.RecentFile = "Second";
 			projects.RecentFile = "First";
 			handler.Load();
-			Assert.Equals( 3, menu.MenuItems.Count );
-			Assert.Equals( "1 First", menu.MenuItems[0].Text );
+			Assert.AreEqual( 3, menu.MenuItems.Count );
+			Assert.AreEqual( "1 First", menu.MenuItems[0].Text );
 		}
 
 		

@@ -1,8 +1,8 @@
 #region Copyright (c) 2002-2003, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
 /************************************************************************************
 '
-' Copyright © 2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, 
-' Charlie Poole or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, 
+' Charlie Poole or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -42,14 +42,14 @@ namespace NUnit.Tests.Assertions
 			string expected = nunitString;
 			string actual = nunitString;
 
-			Assert.True(expected == actual);
-			Assert.Equals(expected, actual);
+			Assert.IsTrue(expected == actual);
+			Assert.AreEqual(expected, actual);
 		}
 
 		[Test]
 		public void EqualsNull() 
 		{
-			Assert.Equals(null, null);
+			Assert.AreEqual(null, null);
 		}
 		
 		[Test]
@@ -57,21 +57,21 @@ namespace NUnit.Tests.Assertions
 		{
 			long l64 = 0;
 			int i32 = 0;
-			Assert.Equals(i32, l64);
+			Assert.AreEqual(i32, l64);
 		}
 		
 		[Test]
 		public void IntegerLongComparison()
 		{
-			Assert.Equals(1, 1L);
-			Assert.Equals(1L, 1);
+			Assert.AreEqual(1, 1L);
+			Assert.AreEqual(1L, 1);
 		}
 
 		[Test]
 		public void IntergerEquals()
 		{
 			int val = 42;
-			Assert.Equals(val, 42);
+			Assert.AreEqual(val, 42);
 		}
 
 		
@@ -82,15 +82,15 @@ namespace NUnit.Tests.Assertions
 			string junitString = "Goodbye JUnit";
 			string expected = "Hello NUnit";
 
-			Assert.False(expected.Equals(junitString));
-			Assert.Equals(expected, junitString);
+			Assert.IsFalse(expected.Equals(junitString));
+			Assert.AreEqual(expected, junitString);
 		}
 		
 		[Test]
 		[ExpectedException(typeof(AssertionException))]
 		public void EqualsNaNFails() 
 		{
-			Assert.Equals(1.234, Double.NaN, 0.0);
+			Assert.AreEqual(1.234, Double.NaN, 0.0);
 		}    
 
 
@@ -98,47 +98,63 @@ namespace NUnit.Tests.Assertions
 		[ExpectedException(typeof(AssertionException))]
 		public void NanEqualsFails() 
 		{
-			Assert.Equals(Double.NaN, 1.234, 0.0);
+			Assert.AreEqual(Double.NaN, 1.234, 0.0);
 		}     
 		
 		[Test]
 		[ExpectedException(typeof(AssertionException))]
 		public void NanEqualsNaNFails() 
 		{
-			Assert.Equals(Double.NaN, Double.NaN, 0.0);
+			Assert.AreEqual(Double.NaN, Double.NaN, 0.0);
 		}     
 
 		[Test]
 		public void NegInfinityEqualsInfinity() 
 		{
-			Assert.Equals(Double.NegativeInfinity, Double.NegativeInfinity, 0.0);
+			Assert.AreEqual(Double.NegativeInfinity, Double.NegativeInfinity, 0.0);
 		}
 
 		[Test]
 		public void PosInfinityEqualsInfinity() 
 		{
-			Assert.Equals(Double.PositiveInfinity, Double.PositiveInfinity, 0.0);
+			Assert.AreEqual(Double.PositiveInfinity, Double.PositiveInfinity, 0.0);
 		}
 		
 		[Test]
 		[ExpectedException(typeof(AssertionException))]
 		public void PosInfinityNotEquals() 
 		{
-			Assert.Equals(Double.PositiveInfinity, 1.23, 0.0);
+			Assert.AreEqual(Double.PositiveInfinity, 1.23, 0.0);
 		}
 
 		[Test]
 		[ExpectedException(typeof(AssertionException))]
 		public void PosInfinityNotEqualsNegInfinity() 
 		{
-			Assert.Equals(Double.PositiveInfinity, Double.NegativeInfinity, 0.0);
+			Assert.AreEqual(Double.PositiveInfinity, Double.NegativeInfinity, 0.0);
 		}
 
 		[Test]
 		[ExpectedException(typeof(AssertionException))]	
 		public void SinglePosInfinityNotEqualsNegInfinity() 
 		{
-			Assert.Equals(float.PositiveInfinity, float.NegativeInfinity, (float)0.0);
+			Assert.AreEqual(float.PositiveInfinity, float.NegativeInfinity, (float)0.0);
+		}
+
+		[Test]
+		[ExpectedException(typeof(AssertionException))]
+		public void EqualsThrowsException()
+		{
+			object o = new object();
+			Assert.Equals(o, o);
+		}
+
+		[Test]
+		[ExpectedException(typeof(AssertionException))]
+		public void ReferenceEqualsThrowsException()
+		{
+			object o = new object();
+			Assert.ReferenceEquals(o, o);
 		}
 		
 		[Test]
@@ -148,8 +164,8 @@ namespace NUnit.Tests.Assertions
 			float expected = val;
 			float actual = val;
 
-			Assert.True(expected == actual);
-			Assert.Equals(expected, actual, (float)0.0);
+			Assert.IsTrue(expected == actual);
+			Assert.AreEqual(expected, actual, (float)0.0);
 		}
 
 		[Test]
@@ -159,8 +175,8 @@ namespace NUnit.Tests.Assertions
 			byte expected = val;
 			byte actual = val;
 
-			Assert.True(expected == actual);
-			Assert.Equals(expected, actual);
+			Assert.IsTrue(expected == actual);
+			Assert.AreEqual(expected, actual);
 		}
 
 		[Test]
@@ -169,8 +185,8 @@ namespace NUnit.Tests.Assertions
 			string s1 = "test";
 			string s2 = new System.Text.StringBuilder(s1).ToString();
 
-			Assert.True(s1.Equals(s2));
-			Assert.Equals(s1,s2);
+			Assert.IsTrue(s1.Equals(s2));
+			Assert.AreEqual(s1,s2);
 		}
 
 		[Test]
@@ -180,8 +196,8 @@ namespace NUnit.Tests.Assertions
 			short expected = val;
 			short actual = val;
 
-			Assert.True(expected == actual);
-			Assert.Equals(expected, actual);
+			Assert.IsTrue(expected == actual);
+			Assert.AreEqual(expected, actual);
 		}
 
 		[Test]
@@ -191,8 +207,8 @@ namespace NUnit.Tests.Assertions
 			int expected = val;
 			int actual = val;
 
-			Assert.True(expected == actual);
-			Assert.Equals(expected, actual);
+			Assert.IsTrue(expected == actual);
+			Assert.AreEqual(expected, actual);
 		}
 
 		
@@ -231,28 +247,28 @@ namespace NUnit.Tests.Assertions
 			System.Int16   i21  = 35; 
 			System.UInt16  i22  = 35;
 		
-			Assert.Equals( 35, b1 );
-			Assert.Equals( 35, sb2 );
-			Assert.Equals( 35, d4 );
-			Assert.Equals( 35, d5 );
-			Assert.Equals( 35, f6 );
-			Assert.Equals( 35, i7 );
-			Assert.Equals( 35, u8 );
-			Assert.Equals( 35, l9 );
-			Assert.Equals( 35, s10 );
-			Assert.Equals( 35, us11 );
+			Assert.AreEqual( 35, b1 );
+			Assert.AreEqual( 35, sb2 );
+			Assert.AreEqual( 35, d4 );
+			Assert.AreEqual( 35, d5 );
+			Assert.AreEqual( 35, f6 );
+			Assert.AreEqual( 35, i7 );
+			Assert.AreEqual( 35, u8 );
+			Assert.AreEqual( 35, l9 );
+			Assert.AreEqual( 35, s10 );
+			Assert.AreEqual( 35, us11 );
 		
-			Assert.Equals( 35, b12  );
-			Assert.Equals( 35, sb13 );
-			Assert.Equals( 35, d14  );
-			Assert.Equals( 35, d15  );
-			Assert.Equals( 35, s16  );
-			Assert.Equals( 35, i17  );
-			Assert.Equals( 35, ui18 );
-			Assert.Equals( 35, i19  );
-			Assert.Equals( 35, ui20 );
-			Assert.Equals( 35, i21  );
-			Assert.Equals( 35, i22  );
+			Assert.AreEqual( 35, b12  );
+			Assert.AreEqual( 35, sb13 );
+			Assert.AreEqual( 35, d14  );
+			Assert.AreEqual( 35, d15  );
+			Assert.AreEqual( 35, s16  );
+			Assert.AreEqual( 35, i17  );
+			Assert.AreEqual( 35, ui18 );
+			Assert.AreEqual( 35, i19  );
+			Assert.AreEqual( 35, ui20 );
+			Assert.AreEqual( 35, i21  );
+			Assert.AreEqual( 35, i22  );
 		}
 	}
 }

@@ -1,8 +1,8 @@
 #region Copyright (c) 2002-2003, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2003 Philip A. Craig
+' Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2003 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright © 2000-2003 Philip A. Craig
+' Portions Copyright  2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2003 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -45,7 +45,7 @@ namespace NUnit.Framework
 		/// <param name="condition">The evaluated condition</param>
 		static public void Assert(string message, bool condition) 
 		{
-			NUnit.Framework.Assert.True(condition, message);
+			NUnit.Framework.Assert.IsTrue(condition, message);
 		}
     
 		/// <summary>
@@ -97,7 +97,7 @@ namespace NUnit.Framework
 
 		static public void AssertEquals(string message, int expected, int actual) 
 		{
-			NUnit.Framework.Assert.Equals(expected, actual, message);
+			NUnit.Framework.Assert.AreEqual(expected, actual, message);
 		}
 		
 		/// <summary>Asserts that two doubles are equal concerning a delta.
@@ -106,7 +106,7 @@ namespace NUnit.Framework
 		static public void AssertEquals(string message, double expected, 
 			double actual, double delta) 
 		{
-			NUnit.Framework.Assert.Equals(expected, actual, delta, message);
+			NUnit.Framework.Assert.AreEqual(expected, actual, delta, message);
 		}
 		
 		/// <summary>Asserts that two floats are equal concerning a delta.
@@ -115,7 +115,7 @@ namespace NUnit.Framework
 		static public void AssertEquals(string message, float expected, 
 			float actual, float delta) 
 		{
-			NUnit.Framework.Assert.Equals(expected, actual, delta, message);
+			NUnit.Framework.Assert.AreEqual(expected, actual, delta, message);
 		}
 
 		/// <summary>
@@ -128,31 +128,31 @@ namespace NUnit.Framework
 		/// </summary>
 		static public void AssertEquals(string message, Object expected, Object actual)
 		{
-			NUnit.Framework.Assert.Equals(expected, actual, message);
+			NUnit.Framework.Assert.AreEqual(expected, actual, message);
 		}
     
 		/// <summary>Asserts that an object isn't null.</summary>
 		static public void AssertNotNull(Object anObject) 
 		{
-			NUnit.Framework.Assert.NotNull(anObject, string.Empty);
+			NUnit.Framework.Assert.IsNotNull(anObject, string.Empty);
 		}
     
 		/// <summary>Asserts that an object isn't null.</summary>
 		static public void AssertNotNull(string message, Object anObject) 
 		{
-			NUnit.Framework.Assert.NotNull(anObject, message);
+			NUnit.Framework.Assert.IsNotNull(anObject, message);
 		}
     
 		/// <summary>Asserts that an object is null.</summary>
 		static public void AssertNull(Object anObject) 
 		{
-			NUnit.Framework.Assert.Null(anObject, string.Empty);
+			NUnit.Framework.Assert.IsNull(anObject, string.Empty);
 		}
     
 		/// <summary>Asserts that an object is null.</summary>
 		static public void AssertNull(string message, Object anObject) 
 		{
-			NUnit.Framework.Assert.Null(anObject, message);
+			NUnit.Framework.Assert.IsNull(anObject, message);
 		}
     
 		/// <summary>Asserts that two objects refer to the same object. If they
@@ -160,7 +160,7 @@ namespace NUnit.Framework
 		/// </summary>
 		static public void AssertSame(Object expected, Object actual) 
 		{
-			NUnit.Framework.Assert.Same(expected, actual, string.Empty);
+			NUnit.Framework.Assert.AreSame(expected, actual, string.Empty);
 		}
     
 		/// <summary>Asserts that two objects refer to the same object. 
@@ -168,7 +168,7 @@ namespace NUnit.Framework
 		/// </summary>
 		static public void AssertSame(string message, Object expected, Object actual)
 		{
-			NUnit.Framework.Assert.Same(expected, actual, message);
+			NUnit.Framework.Assert.AreSame(expected, actual, message);
 		}
     
 		/// <summary>Fails a test with no message.</summary>

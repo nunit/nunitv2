@@ -64,21 +64,21 @@ namespace NUnit.Tests.Util
 		{
 			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
 			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
-			Assert.NotNull( testGroup );
-			Assert.Equals( "TestGroup", testGroup.Name );
-			Assert.Equals( storage, testGroup.Storage );
+			Assert.IsNotNull( testGroup );
+			Assert.AreEqual( "TestGroup", testGroup.Name );
+			Assert.AreEqual( storage, testGroup.Storage );
 			
 			testGroup.SaveSetting( "X", 5 );
 			testGroup.SaveSetting( "NAME", "Charlie" );
-			Assert.Equals( 5, testGroup.LoadSetting( "X" ) );
-			Assert.Equals( "Charlie", testGroup.LoadSetting( "NAME" ) );
+			Assert.AreEqual( 5, testGroup.LoadSetting( "X" ) );
+			Assert.AreEqual( "Charlie", testGroup.LoadSetting( "NAME" ) );
 
 			testGroup.RemoveSetting( "X" );
-			Assert.Null( testGroup.LoadSetting( "X" ), "X not removed" );
-			Assert.Equals( "Charlie", testGroup.LoadSetting( "NAME" ) );
+			Assert.IsNull( testGroup.LoadSetting( "X" ), "X not removed" );
+			Assert.AreEqual( "Charlie", testGroup.LoadSetting( "NAME" ) );
 
 			testGroup.RemoveSetting( "NAME" );
-			Assert.Null( testGroup.LoadSetting( "NAME" ), "NAME not removed" );
+			Assert.IsNull( testGroup.LoadSetting( "NAME" ), "NAME not removed" );
 		}
 
 		[Test]
@@ -87,22 +87,22 @@ namespace NUnit.Tests.Util
 			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
 			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
 			SettingsGroup subGroup = new SettingsGroup( "SubGroup", testGroup );
-			Assert.NotNull( subGroup );
-			Assert.Equals( "SubGroup", subGroup.Name );
-			Assert.NotNull( subGroup.Storage );
-			Assert.Equals( storage, subGroup.Storage.ParentStorage );
+			Assert.IsNotNull( subGroup );
+			Assert.AreEqual( "SubGroup", subGroup.Name );
+			Assert.IsNotNull( subGroup.Storage );
+			Assert.AreEqual( storage, subGroup.Storage.ParentStorage );
 
 			subGroup.SaveSetting( "X", 5 );
 			subGroup.SaveSetting( "NAME", "Charlie" );
-			Assert.Equals( 5, subGroup.LoadSetting( "X" ) );
-			Assert.Equals( "Charlie", subGroup.LoadSetting( "NAME" ) );
+			Assert.AreEqual( 5, subGroup.LoadSetting( "X" ) );
+			Assert.AreEqual( "Charlie", subGroup.LoadSetting( "NAME" ) );
 
 			subGroup.RemoveSetting( "X" );
-			Assert.Null( subGroup.LoadSetting( "X" ), "X not removed" );
-			Assert.Equals( "Charlie", subGroup.LoadSetting( "NAME" ) );
+			Assert.IsNull( subGroup.LoadSetting( "X" ), "X not removed" );
+			Assert.AreEqual( "Charlie", subGroup.LoadSetting( "NAME" ) );
 
 			subGroup.RemoveSetting( "NAME" );
-			Assert.Null( subGroup.LoadSetting( "NAME" ), "NAME not removed" );
+			Assert.IsNull( subGroup.LoadSetting( "NAME" ), "NAME not removed" );
 		}
 
 		[Test]
@@ -115,16 +115,16 @@ namespace NUnit.Tests.Util
 			testGroup.SaveStringSetting( "Y", "17" );
 			testGroup.SaveStringSetting( "NAME", "Charlie");
 
-			Assert.Equals( 5, testGroup.LoadSetting("X") );
-			Assert.Equals( 5, testGroup.LoadIntSetting( "X" ) );
-			Assert.Equals( "5", testGroup.LoadStringSetting( "X" ) );
+			Assert.AreEqual( 5, testGroup.LoadSetting("X") );
+			Assert.AreEqual( 5, testGroup.LoadIntSetting( "X" ) );
+			Assert.AreEqual( "5", testGroup.LoadStringSetting( "X" ) );
 
-			Assert.Equals( "17", testGroup.LoadSetting( "Y" ) );
-			Assert.Equals( 17, testGroup.LoadIntSetting( "Y" ) );
-			Assert.Equals( "17", testGroup.LoadStringSetting( "Y" ) );
+			Assert.AreEqual( "17", testGroup.LoadSetting( "Y" ) );
+			Assert.AreEqual( 17, testGroup.LoadIntSetting( "Y" ) );
+			Assert.AreEqual( "17", testGroup.LoadStringSetting( "Y" ) );
 
-			Assert.Equals( "Charlie", testGroup.LoadSetting( "NAME" ) );
-			Assert.Equals( "Charlie", testGroup.LoadStringSetting( "NAME" ) );
+			Assert.AreEqual( "Charlie", testGroup.LoadSetting( "NAME" ) );
+			Assert.AreEqual( "Charlie", testGroup.LoadStringSetting( "NAME" ) );
 		}
 
 		[Test]
@@ -133,15 +133,15 @@ namespace NUnit.Tests.Util
 			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
 			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
 			
-			Assert.Null( testGroup.LoadSetting( "X" ) );
-			Assert.Null( testGroup.LoadSetting( "NAME" ) );
+			Assert.IsNull( testGroup.LoadSetting( "X" ) );
+			Assert.IsNull( testGroup.LoadSetting( "NAME" ) );
 
-			Assert.Equals( 5, testGroup.LoadSetting( "X", 5 ) );
-			Assert.Equals( 6, testGroup.LoadIntSetting( "X", 6 ) );
-			Assert.Equals( "7", testGroup.LoadStringSetting( "X", "7" ) );
+			Assert.AreEqual( 5, testGroup.LoadSetting( "X", 5 ) );
+			Assert.AreEqual( 6, testGroup.LoadIntSetting( "X", 6 ) );
+			Assert.AreEqual( "7", testGroup.LoadStringSetting( "X", "7" ) );
 
-			Assert.Equals( "Charlie", testGroup.LoadSetting( "NAME", "Charlie" ) );
-			Assert.Equals( "Fred", testGroup.LoadStringSetting( "NAME", "Fred" ) );
+			Assert.AreEqual( "Charlie", testGroup.LoadSetting( "NAME", "Charlie" ) );
+			Assert.AreEqual( "Fred", testGroup.LoadStringSetting( "NAME", "Fred" ) );
 		}
 
 		[Test, ExpectedException( typeof( FormatException ) )]

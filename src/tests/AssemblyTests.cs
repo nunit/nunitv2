@@ -56,7 +56,7 @@ namespace NUnit.Tests.Assemblies
 		[Test]
 		public void LoadAssembly()
 		{
-			Assert.NotNull(testAssembly, "should be able to load assembly");
+			Assert.IsNotNull(testAssembly, "should be able to load assembly");
 		}
 
 		[Test]
@@ -73,10 +73,10 @@ namespace NUnit.Tests.Assemblies
 			string fileName = "nunit.extensions.dll";
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build(fileName);
-			Assert.NotNull(suite,"Should not be null");
-			Assert.False(suite.ShouldRun, "Should not run");
-			Assert.Equals(suite.IgnoreReason, "Has no TestFixtures");
-			Assert.Equals(0, suite.Tests.Count);
+			Assert.IsNotNull(suite,"Should not be null");
+			Assert.IsFalse(suite.ShouldRun, "Should not run");
+			Assert.AreEqual(suite.IgnoreReason, "Has no TestFixtures");
+			Assert.AreEqual(0, suite.Tests.Count);
 		}
 
 		[Test]
@@ -84,23 +84,23 @@ namespace NUnit.Tests.Assemblies
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Assemblies.AssemblyTests" );
-			Assert.NotNull(suite, "Should not be Null");
-			Assert.Equals(suite.CountTestCases,TestCaseBuilder.CountTestCases(this));
+			Assert.IsNotNull(suite, "Should not be Null");
+			Assert.AreEqual(suite.CountTestCases,TestCaseBuilder.CountTestCases(this));
 		}
 
 		[Test]
 		public void GetNamespace()
 		{
 			string typeNamespace = this.GetType().Namespace;
-			Assert.Equals(typeNamespace, "NUnit.Tests.Assemblies");
+			Assert.AreEqual(typeNamespace, "NUnit.Tests.Assemblies");
 		}
 
 
 		[Test]
 		public void AppSettingsLoaded()
 		{
-			Assert.Null(ConfigurationSettings.AppSettings["tooltip.ShowAlways"]);
-			Assert.NotNull(ConfigurationSettings.AppSettings["test.setting"], 
+			Assert.IsNull(ConfigurationSettings.AppSettings["tooltip.ShowAlways"]);
+			Assert.IsNotNull(ConfigurationSettings.AppSettings["test.setting"], 
 				"test.setting should not be null");
 		}
 	}

@@ -103,9 +103,9 @@ namespace NUnit.Tests.Core
 
 			Perob np = Perob.Deserialize( fileName ); 
 
-			Assert.NotNull(np, "np != null"); 
-			Assert.Equals(p.i, np.i, "i neq" ); 
-			Assert.Equals(p.j, np.j, "j neq" ); 
+			Assert.IsNotNull(np, "np != null"); 
+			Assert.AreEqual(p.i, np.i, "i neq" ); 
+			Assert.AreEqual(p.j, np.j, "j neq" ); 
 		} 
 	}
 }

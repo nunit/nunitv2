@@ -32,14 +32,14 @@ namespace NUnit.Tests.Attributes
 		public void Visit(TestCaseResult caseResult)
 		{
 			if(caseResult.Name.Equals(name))
-				Assert.Equals(description, caseResult.Description);
+				Assert.AreEqual(description, caseResult.Description);
 		}
 
 		public void Visit(TestSuiteResult suiteResult)
 		{
 			Console.WriteLine(suiteResult.Name);
 			if(suiteResult.Name.Equals(name))
-				Assert.Equals(description, suiteResult.Description);
+				Assert.AreEqual(description, suiteResult.Description);
 
 			foreach (TestResult result in suiteResult.Results)
 			{
@@ -64,13 +64,13 @@ namespace NUnit.Tests.Attributes
 		[Test]
 		public void ReflectionTest()
 		{
-			Assert.True(testCase.ShouldRun);
+			Assert.IsTrue(testCase.ShouldRun);
 		}
 
 		[Test]
 		public void Description()
 		{
-			Assert.Equals("Test Description", testCase.Description);
+			Assert.AreEqual("Test Description", testCase.Description);
 		}
 
 		[Test]
@@ -92,7 +92,7 @@ namespace NUnit.Tests.Attributes
 		public void NoDescription()
 		{
 			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(fixture, "NoDescriptionMethod");
-			Assert.Null(testCase.Description);
+			Assert.IsNull(testCase.Description);
 		}
 
 		[Test]
@@ -104,7 +104,7 @@ namespace NUnit.Tests.Attributes
 			ArrayList tests = suite.Tests;
 			TestSuite mockFixtureSuite = (TestSuite)tests[0];
 
-			Assert.Equals("Fixture Description", mockFixtureSuite.Description);
+			Assert.AreEqual("Fixture Description", mockFixtureSuite.Description);
 		}
 
 		[Test]

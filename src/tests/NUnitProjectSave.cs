@@ -65,7 +65,7 @@ namespace NUnit.Tests.Util
 			StreamReader reader = new StreamReader( xmlfile );
 			string contents = reader.ReadToEnd();
 			reader.Close();
-			Assert.Equals( expected, contents );
+			Assert.AreEqual( expected, contents );
 		}
 
 		[Test]

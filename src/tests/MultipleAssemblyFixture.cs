@@ -55,50 +55,50 @@ namespace NUnit.Tests.CommandLine
 		[Test]
 		public void MultipleAssemblyValidate()
 		{
-			Assert.True(assemblyOptions.Validate());
+			Assert.IsTrue(assemblyOptions.Validate());
 		}
 
 		[Test]
 		public void IsAssemblyTest()
 		{
-			Assert.True(assemblyOptions.IsAssembly && 
+			Assert.IsTrue(assemblyOptions.IsAssembly && 
 				        !assemblyOptions.IsFixture);
 		}
 
 		[Test]
 		public void ParameterCount()
 		{
-			Assert.Equals(2, assemblyOptions.Parameters.Count);
+			Assert.AreEqual(2, assemblyOptions.Parameters.Count);
 		}
 
 		[Test]
 		public void CheckParameters()
 		{
 			ArrayList parms = assemblyOptions.Parameters;
-			Assert.True(parms.Contains(firstAssembly));
-			Assert.True(parms.Contains(secondAssembly));
+			Assert.IsTrue(parms.Contains(firstAssembly));
+			Assert.IsTrue(parms.Contains(secondAssembly));
 		}
 
 		[Test]
 		public void FixtureValidate()
 		{
-			Assert.True(fixtureOptions.Validate());
+			Assert.IsTrue(fixtureOptions.Validate());
 		}
 
 		[Test]
 		public void IsFixture()
 		{
-			Assert.True(fixtureOptions.IsFixture && 
+			Assert.IsTrue(fixtureOptions.IsFixture && 
 				        !fixtureOptions.IsAssembly);
 		}
 
 		[Test]
 		public void FixtureParameters()
 		{
-			Assert.Equals(fixture, fixtureOptions.fixture);
+			Assert.AreEqual(fixture, fixtureOptions.fixture);
 			ArrayList parms = fixtureOptions.Parameters;
-			Assert.True(parms.Contains(firstAssembly));
-			Assert.True(parms.Contains(secondAssembly));
+			Assert.IsTrue(parms.Contains(firstAssembly));
+			Assert.IsTrue(parms.Contains(secondAssembly));
 		}
 	}
 }

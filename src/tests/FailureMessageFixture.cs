@@ -60,14 +60,14 @@ namespace NUnit.Tests.Assertions
 			[Test]
             public void TestInputsAreStrings()
             {
-                Assert.Equals( false, InputsAreStrings( null, null ) );
-                Assert.Equals( false, InputsAreStrings( new Object(), null ) );
-                Assert.Equals( false, InputsAreStrings( null, new Object() ) );
-                Assert.Equals( false, InputsAreStrings( new Object(), "" ) );
-                Assert.Equals( false, InputsAreStrings( "", new Object() ) );
-                Assert.Equals( true,  InputsAreStrings( "", "" ) );
-                Assert.Equals( true,  InputsAreStrings( "test1", "test1" ) );
-                Assert.Equals( true,  InputsAreStrings( "some", "value" ) );
+                Assert.AreEqual( false, InputsAreStrings( null, null ) );
+                Assert.AreEqual( false, InputsAreStrings( new Object(), null ) );
+                Assert.AreEqual( false, InputsAreStrings( null, new Object() ) );
+                Assert.AreEqual( false, InputsAreStrings( new Object(), "" ) );
+                Assert.AreEqual( false, InputsAreStrings( "", new Object() ) );
+                Assert.AreEqual( true,  InputsAreStrings( "", "" ) );
+                Assert.AreEqual( true,  InputsAreStrings( "test1", "test1" ) );
+                Assert.AreEqual( true,  InputsAreStrings( "some", "value" ) );
             }
 
             /// <summary>
@@ -77,10 +77,10 @@ namespace NUnit.Tests.Assertions
 			[Test]
             public void TestCreateStringBuilder()
             {
-                Assert.Equals( "",        CreateStringBuilder( null ).ToString() );
-                Assert.Equals( "",        CreateStringBuilder( "" ).ToString() );
-                Assert.Equals( "a",       CreateStringBuilder( "a" ).ToString() );
-                Assert.Equals( "message", CreateStringBuilder( "message" ).ToString() );
+                Assert.AreEqual( "",        CreateStringBuilder( null ).ToString() );
+                Assert.AreEqual( "",        CreateStringBuilder( "" ).ToString() );
+                Assert.AreEqual( "a",       CreateStringBuilder( "a" ).ToString() );
+                Assert.AreEqual( "message", CreateStringBuilder( "message" ).ToString() );
             }
 
             /// <summary>
@@ -91,35 +91,35 @@ namespace NUnit.Tests.Assertions
 			public void TestClipAroundPosition()
             {
                 // Some spot-checks
-                Assert.Equals( "", ClipAroundPosition( null, 0 ) );
-                Assert.Equals( "", ClipAroundPosition( "", 0 ) );
-                Assert.Equals( "a", ClipAroundPosition( "a", 0 ) );
-                Assert.Equals( "ab", ClipAroundPosition( "ab", 0 ) );
-                Assert.Equals( "ab", ClipAroundPosition( "ab", 1 ) );
-                Assert.Equals( "abc", ClipAroundPosition( "abc", 0 ) );
-                Assert.Equals( "abc", ClipAroundPosition( "abc", 1 ) );
-                Assert.Equals( "abc", ClipAroundPosition( "abc", 2 ) );
+                Assert.AreEqual( "", ClipAroundPosition( null, 0 ) );
+                Assert.AreEqual( "", ClipAroundPosition( "", 0 ) );
+                Assert.AreEqual( "a", ClipAroundPosition( "a", 0 ) );
+                Assert.AreEqual( "ab", ClipAroundPosition( "ab", 0 ) );
+                Assert.AreEqual( "ab", ClipAroundPosition( "ab", 1 ) );
+                Assert.AreEqual( "abc", ClipAroundPosition( "abc", 0 ) );
+                Assert.AreEqual( "abc", ClipAroundPosition( "abc", 1 ) );
+                Assert.AreEqual( "abc", ClipAroundPosition( "abc", 2 ) );
 
-                Assert.Equals( "012345678", ClipAroundPosition( "012345678", 0 ) );
-                Assert.Equals( "012345678", ClipAroundPosition( "012345678", 1 ) );
-                Assert.Equals( "012345678", ClipAroundPosition( "012345678", 2 ) );
-                Assert.Equals( "012345678", ClipAroundPosition( "012345678", 7 ) );
-                Assert.Equals( "012345678", ClipAroundPosition( "012345678", 8 ) );
+                Assert.AreEqual( "012345678", ClipAroundPosition( "012345678", 0 ) );
+                Assert.AreEqual( "012345678", ClipAroundPosition( "012345678", 1 ) );
+                Assert.AreEqual( "012345678", ClipAroundPosition( "012345678", 2 ) );
+                Assert.AreEqual( "012345678", ClipAroundPosition( "012345678", 7 ) );
+                Assert.AreEqual( "012345678", ClipAroundPosition( "012345678", 8 ) );
 
-                Assert.Equals( "0123456789", ClipAroundPosition( "0123456789", 0 ) );
-                Assert.Equals( "0123456789", ClipAroundPosition( "0123456789", 1 ) );
-                Assert.Equals( "0123456789", ClipAroundPosition( "0123456789", 2 ) );
-                Assert.Equals( "0123456789", ClipAroundPosition( "0123456789", 7 ) );
-                Assert.Equals( "0123456789", ClipAroundPosition( "0123456789", 8 ) );
-                Assert.Equals( "0123456789", ClipAroundPosition( "0123456789", 9 ) );
+                Assert.AreEqual( "0123456789", ClipAroundPosition( "0123456789", 0 ) );
+                Assert.AreEqual( "0123456789", ClipAroundPosition( "0123456789", 1 ) );
+                Assert.AreEqual( "0123456789", ClipAroundPosition( "0123456789", 2 ) );
+                Assert.AreEqual( "0123456789", ClipAroundPosition( "0123456789", 7 ) );
+                Assert.AreEqual( "0123456789", ClipAroundPosition( "0123456789", 8 ) );
+                Assert.AreEqual( "0123456789", ClipAroundPosition( "0123456789", 9 ) );
 
-                Assert.Equals( "01234567890", ClipAroundPosition( "01234567890", 0 ) );
-                Assert.Equals( "01234567890", ClipAroundPosition( "01234567890", 1 ) );
-                Assert.Equals( "01234567890", ClipAroundPosition( "01234567890", 2 ) );
-                Assert.Equals( "01234567890", ClipAroundPosition( "01234567890", 7 ) );
-                Assert.Equals( "01234567890", ClipAroundPosition( "01234567890", 8 ) );
-                Assert.Equals( "01234567890", ClipAroundPosition( "01234567890", 9 ) );
-                Assert.Equals( "01234567890", ClipAroundPosition( "01234567890", 10 ) );
+                Assert.AreEqual( "01234567890", ClipAroundPosition( "01234567890", 0 ) );
+                Assert.AreEqual( "01234567890", ClipAroundPosition( "01234567890", 1 ) );
+                Assert.AreEqual( "01234567890", ClipAroundPosition( "01234567890", 2 ) );
+                Assert.AreEqual( "01234567890", ClipAroundPosition( "01234567890", 7 ) );
+                Assert.AreEqual( "01234567890", ClipAroundPosition( "01234567890", 8 ) );
+                Assert.AreEqual( "01234567890", ClipAroundPosition( "01234567890", 9 ) );
+                Assert.AreEqual( "01234567890", ClipAroundPosition( "01234567890", 10 ) );
             }
 
             /// <summary>
@@ -137,7 +137,7 @@ namespace NUnit.Tests.Assertions
                 for( int i=0; i<=PreClipLength; i++ )
                 {
                     iTestPosition = i;
-                    Assert.Equals( sTest.Substring( 0, i+PostClipLength ) + "...",
+                    Assert.AreEqual( sTest.Substring( 0, i+PostClipLength ) + "...",
                         ClipAroundPosition( sTest, iTestPosition ) );
                 }
 
@@ -146,7 +146,7 @@ namespace NUnit.Tests.Assertions
                 for( int i=PreClipLength+1; i<(sTest.Length - PostClipLength); i++ )
                 {
                     iTestPosition = i;
-                    Assert.Equals( "..." + sTest.Substring( iTestPosition-PreClipLength, PreClipLength+PostClipLength ) + "...",
+                    Assert.AreEqual( "..." + sTest.Substring( iTestPosition-PreClipLength, PreClipLength+PostClipLength ) + "...",
                         ClipAroundPosition( sTest, iTestPosition ) );
                 }
 
@@ -155,7 +155,7 @@ namespace NUnit.Tests.Assertions
                 for( int i=(sTest.Length - PostClipLength); i<sTest.Length; i++ )
                 {
                     iTestPosition = i;
-                    Assert.Equals( "..." + sTest.Substring( iTestPosition-PreClipLength ),
+                    Assert.AreEqual( "..." + sTest.Substring( iTestPosition-PreClipLength ),
                         ClipAroundPosition( sTest, iTestPosition ) );
                 }
             }
@@ -168,23 +168,23 @@ namespace NUnit.Tests.Assertions
 			[Test]
             public void TestConvertWhitespace()
             {
-                Assert.Equals( "\\n", ConvertWhitespace("\n") );
-                Assert.Equals( "\\n\\n", ConvertWhitespace("\n\n") );
-                Assert.Equals( "\\n\\n\\n", ConvertWhitespace("\n\n\n") );
+                Assert.AreEqual( "\\n", ConvertWhitespace("\n") );
+                Assert.AreEqual( "\\n\\n", ConvertWhitespace("\n\n") );
+                Assert.AreEqual( "\\n\\n\\n", ConvertWhitespace("\n\n\n") );
 
-                Assert.Equals( "\\r", ConvertWhitespace("\r") );
-                Assert.Equals( "\\r\\r", ConvertWhitespace("\r\r") );
-                Assert.Equals( "\\r\\r\\r", ConvertWhitespace("\r\r\r") );
+                Assert.AreEqual( "\\r", ConvertWhitespace("\r") );
+                Assert.AreEqual( "\\r\\r", ConvertWhitespace("\r\r") );
+                Assert.AreEqual( "\\r\\r\\r", ConvertWhitespace("\r\r\r") );
 
-                Assert.Equals( "\\r\\n", ConvertWhitespace("\r\n") );
-                Assert.Equals( "\\n\\r", ConvertWhitespace("\n\r") );
-                Assert.Equals( "This is a\\rtest message", ConvertWhitespace("This is a\rtest message") );
+                Assert.AreEqual( "\\r\\n", ConvertWhitespace("\r\n") );
+                Assert.AreEqual( "\\n\\r", ConvertWhitespace("\n\r") );
+                Assert.AreEqual( "This is a\\rtest message", ConvertWhitespace("This is a\rtest message") );
 
-                Assert.Equals( "", ConvertWhitespace("") );
-                Assert.Equals( null, ConvertWhitespace(null) );
+                Assert.AreEqual( "", ConvertWhitespace("") );
+                Assert.AreEqual( null, ConvertWhitespace(null) );
                 
-                Assert.Equals( "\\t", ConvertWhitespace( "\t" ) );
-                Assert.Equals( "\\t\\n", ConvertWhitespace( "\t\n" ) );
+                Assert.AreEqual( "\\t", ConvertWhitespace( "\t" ) );
+                Assert.AreEqual( "\\t\\n", ConvertWhitespace( "\t\n" ) );
             }
 
             /// <summary>
@@ -194,21 +194,21 @@ namespace NUnit.Tests.Assertions
 			[Test]
 			public void TestFormatMessageForFailNotEquals()
             {
-                Assert.Equals( "\r\n\texpected:<(null)>\r\n\t but was:<(null)>", 
+                Assert.AreEqual( "\r\n\texpected:<(null)>\r\n\t but was:<(null)>", 
                     FormatMessageForFailNotEquals( null, null, null ) );
-                Assert.Equals( "\r\n\texpected:<(null)>\r\n\t but was:<(null)>", 
+                Assert.AreEqual( "\r\n\texpected:<(null)>\r\n\t but was:<(null)>", 
                     FormatMessageForFailNotEquals(null, null,  "") );
-                Assert.Equals( "message \r\n\texpected:<(null)>\r\n\t but was:<(null)>", 
+                Assert.AreEqual( "message \r\n\texpected:<(null)>\r\n\t but was:<(null)>", 
                     FormatMessageForFailNotEquals(null, null, "message" ) );
-                Assert.Equals( "message \r\n\texpected:<1>\r\n\t but was:<2>", 
+                Assert.AreEqual( "message \r\n\texpected:<1>\r\n\t but was:<2>", 
                     FormatMessageForFailNotEquals( 1, 2, "message" ) );
-                Assert.Equals( "message \r\n\texpected:<>\r\n\t but was:<(null)>", 
+                Assert.AreEqual( "message \r\n\texpected:<>\r\n\t but was:<(null)>", 
                     FormatMessageForFailNotEquals( "", null, "message" ) );
-                Assert.Equals( "message \r\n\tString lengths differ.  Expected length=1, but was length=2.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<a>\r\n\t but was:<aa>\r\n\t-----------^\r\n\t",
+                Assert.AreEqual( "message \r\n\tString lengths differ.  Expected length=1, but was length=2.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<a>\r\n\t but was:<aa>\r\n\t-----------^\r\n\t",
                     FormatMessageForFailNotEquals( "a", "aa", "message" ) );
-                Assert.Equals( "message \r\n\tString lengths are both 2.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<aa>\r\n\t but was:<ab>\r\n\t-----------^\r\n\t",
+                Assert.AreEqual( "message \r\n\tString lengths are both 2.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<aa>\r\n\t but was:<ab>\r\n\t-----------^\r\n\t",
                     FormatMessageForFailNotEquals( "aa", "ab", "message" ) );
-                Assert.Equals( "message \r\n\tString lengths differ.  Expected length=1, but was length=3.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<a>\r\n\t but was:<abc>\r\n\t-----------^\r\n\t",
+                Assert.AreEqual( "message \r\n\tString lengths differ.  Expected length=1, but was length=3.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<a>\r\n\t but was:<abc>\r\n\t-----------^\r\n\t",
                     FormatMessageForFailNotEquals( "a", "abc", "message" ) );
             }
 
@@ -225,11 +225,11 @@ namespace NUnit.Tests.Assertions
 			[Test]
 			public void TestFormatMessageForFailNotEqualsNewlines()
             {
-                Assert.Equals( "message \r\n\tString lengths differ.  Expected length=2, but was length=3.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<a\\r>\r\n\t but was:<aa\\r>\r\n\t-----------^\r\n\t",
+                Assert.AreEqual( "message \r\n\tString lengths differ.  Expected length=2, but was length=3.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<a\\r>\r\n\t but was:<aa\\r>\r\n\t-----------^\r\n\t",
                     FormatMessageForFailNotEquals( "a\r", "aa\r", "message" ) );
-                Assert.Equals( "message \r\n\tString lengths differ.  Expected length=2, but was length=3.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<a\\n>\r\n\t but was:<aa\\n>\r\n\t-----------^\r\n\t",
+                Assert.AreEqual( "message \r\n\tString lengths differ.  Expected length=2, but was length=3.\r\n\tStrings differ at index 1.\r\n\t\r\n\texpected:<a\\n>\r\n\t but was:<aa\\n>\r\n\t-----------^\r\n\t",
                     FormatMessageForFailNotEquals( "a\n", "aa\n", "message" ) );
-                Assert.Equals( "message \r\n\tString lengths are both 6.\r\n\tStrings differ at index 5.\r\n\t\r\n\texpected:<aa\\r\\naa>\r\n\t but was:<aa\\r\\nab>\r\n\t-----------------^\r\n\t",
+                Assert.AreEqual( "message \r\n\tString lengths are both 6.\r\n\tStrings differ at index 5.\r\n\t\r\n\texpected:<aa\\r\\naa>\r\n\t but was:<aa\\r\\nab>\r\n\t-----------------^\r\n\t",
                     FormatMessageForFailNotEquals( "aa\r\naa", "aa\r\nab", "message" ) );
             }
 
@@ -266,7 +266,7 @@ namespace NUnit.Tests.Assertions
 
                 string sFirst  = "00000000001111111111222222222233333333334444444444555555555566666666667777777777888888888899999999990000000000111111111122222222223333333333444444444455555555556666";
                 string sSecond = "00000000001111111111222222222233333333334444444444555555555566666666667777777777888888888899999999990000000000111111111122222222223333333333444444444455555555556666++";
-                Assert.Equals( 
+                Assert.AreEqual( 
 					"\r\n\tString lengths differ.  Expected length=164, but was length=166.\r\n\tStrings differ at index 164.\r\n\t\r\n\texpected:<...23333333333444444444455555555556666>\r\n\t but was:<...23333333333444444444455555555556666++>\r\n\t" + (new string('-',ButWasText().Length+"...".Length+PreClipLength)) + "^\r\n\t",
                     FormatMessageForFailNotEquals( sFirst, sSecond, null ) );
             }
@@ -281,7 +281,7 @@ namespace NUnit.Tests.Assertions
             {
                 string sFirst  = "0000000000111111111122";
                 string sSecond = "0000000000111111111122++";
-                Assert.Equals( "\r\n\tString lengths differ.  Expected length=22, but was length=24.\r\n\tStrings differ at index 22.\r\n\t\r\n\texpected:<0000000000111111111122>\r\n\t but was:<0000000000111111111122++>\r\n\t" + (new string('-',ButWasText().Length+22)) + "^\r\n\t",
+                Assert.AreEqual( "\r\n\tString lengths differ.  Expected length=22, but was length=24.\r\n\tStrings differ at index 22.\r\n\t\r\n\texpected:<0000000000111111111122>\r\n\t but was:<0000000000111111111122++>\r\n\t" + (new string('-',ButWasText().Length+22)) + "^\r\n\t",
                     FormatMessageForFailNotEquals( sFirst, sSecond, null ) );
             }
 
@@ -312,7 +312,7 @@ namespace NUnit.Tests.Assertions
                 {
                     string sFirst  = new string( '=', i );
                     string sSecond = new string( '=', i ) + sExtra;
-                    Assert.Equals( "\r\n\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + ".\r\n\tStrings differ at index "+ i +".\r\n\t\r\n\texpected:<"+ sFirst +">\r\n\t but was:<"+ sSecond +">\r\n\t" + (new string('-',ButWasText().Length+i)) + "^\r\n\t",
+                    Assert.AreEqual( "\r\n\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + ".\r\n\tStrings differ at index "+ i +".\r\n\t\r\n\texpected:<"+ sFirst +">\r\n\t but was:<"+ sSecond +">\r\n\t" + (new string('-',ButWasText().Length+i)) + "^\r\n\t",
                         FormatMessageForFailNotEquals( sFirst, sSecond, null ),
 						"Failed at index " + i);
                 }
@@ -328,7 +328,7 @@ namespace NUnit.Tests.Assertions
                 {
                     string sFirst  = new string( '=', i );
                     string sSecond = new string( '=', i ) + sExtra;
-                    Assert.Equals( "\r\n\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + ".\r\n\tStrings differ at index "+ i +".\r\n\t\r\n\texpected:<"+ sExpected +">\r\n\t but was:<"+ sActual +">\r\n\t" + (new string('-',ButWasText().Length+"...".Length+PreClipLength)) + "^\r\n\t",
+                    Assert.AreEqual( "\r\n\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + ".\r\n\tStrings differ at index "+ i +".\r\n\t\r\n\texpected:<"+ sExpected +">\r\n\t but was:<"+ sActual +">\r\n\t" + (new string('-',ButWasText().Length+"...".Length+PreClipLength)) + "^\r\n\t",
                         FormatMessageForFailNotEquals( sFirst, sSecond, null ),
 						"Failed at index " + i );
                 }

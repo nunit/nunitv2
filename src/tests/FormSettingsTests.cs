@@ -54,13 +54,13 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void StorageName()
 		{
-			Assert.Equals( @"Form", UserSettings.Form.Storage.StorageName );
+			Assert.AreEqual( @"Form", UserSettings.Form.Storage.StorageName );
 		}
 
 		[Test]
 		public void StorageKey()
 		{
-			Assert.Equals( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Form", 
+			Assert.AreEqual( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Form", 
 				((RegistrySettingsStorage)UserSettings.Form.Storage).StorageKey.Name );
 		}
 
@@ -73,8 +73,8 @@ namespace NUnit.Tests.Util
 			UserSettings.Form.Location = pt;
 			UserSettings.Form.Size = sz;
 
-			Assert.Equals( pt, UserSettings.Form.Location );
-			Assert.Equals( sz, UserSettings.Form.Size );
+			Assert.AreEqual( pt, UserSettings.Form.Location );
+			Assert.AreEqual( sz, UserSettings.Form.Size );
 		}
 
 		[Test]
@@ -83,10 +83,10 @@ namespace NUnit.Tests.Util
 			int position = 383;
 
 			UserSettings.Form.TreeSplitterPosition = position; 
-			Assert.Equals(position, UserSettings.Form.TreeSplitterPosition);
+			Assert.AreEqual(position, UserSettings.Form.TreeSplitterPosition);
 
 			UserSettings.Form.TabSplitterPosition = position;
-			Assert.Equals(position, UserSettings.Form.TabSplitterPosition);
+			Assert.AreEqual(position, UserSettings.Form.TabSplitterPosition);
 		}
 
 		[Test]
@@ -96,8 +96,8 @@ namespace NUnit.Tests.Util
 			Point pt = f.Location;
 			Size sz = f.Size;
 
-			Assert.Equals( new Point( 10, 10 ), pt );
-			Assert.Equals( new Size( 632, 432 ), sz );
+			Assert.AreEqual( new Point( 10, 10 ), pt );
+			Assert.AreEqual( new Size( 632, 432 ), sz );
 		}
 	}
 }

@@ -57,30 +57,30 @@ namespace NUnit.Tests.Core
 		public void BuildSuite()
 		{
 			TestSuite suite = builder.Build( "TestSuite", assemblies);
-			Assert.NotNull(suite);
+			Assert.IsNotNull(suite);
 		}
 
 		[Test]
 		public void RootNode()
 		{
 			TestSuite suite = builder.Build( "TestSuite", assemblies);
-			Assert.True( suite is RootTestSuite );
-			Assert.Equals( "TestSuite", suite.Name );
+			Assert.IsTrue( suite is RootTestSuite );
+			Assert.AreEqual( "TestSuite", suite.Name );
 		}
 
 		[Test]
 		public void AssemblyNodes()
 		{
 			TestSuite suite = builder.Build( "TestSuite", assemblies);
-			Assert.True( suite.Tests[0] is AssemblyTestSuite );
-			Assert.True( suite.Tests[1] is AssemblyTestSuite );
+			Assert.IsTrue( suite.Tests[0] is AssemblyTestSuite );
+			Assert.IsTrue( suite.Tests[1] is AssemblyTestSuite );
 		}
 
 		[Test]
 		public void TestCaseCount()
 		{
 			TestSuite suite = builder.Build( "TestSuite", assemblies);
-			Assert.Equals(10, suite.CountTestCases);
+			Assert.AreEqual(10, suite.CountTestCases);
 		}
 
 		[Test]
@@ -89,15 +89,15 @@ namespace NUnit.Tests.Core
 			TestSuite suite = builder.Build( "TestSuite", assemblies);
 			TestResult result = suite.Run(NullListener.NULL);
 			ResultSummarizer summary = new ResultSummarizer(result);
-			Assert.Equals(8, summary.ResultCount);
+			Assert.AreEqual(8, summary.ResultCount);
 		}
 
 		[Test]
 		public void LoadFixture()
 		{
 			TestSuite suite = builder.Build( assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
-			Assert.NotNull( suite );
-			Assert.Equals( 5, suite.CountTestCases );
+			Assert.IsNotNull( suite );
+			Assert.AreEqual( 5, suite.CountTestCases );
 		}
 	}
 }

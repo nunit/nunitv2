@@ -1,8 +1,8 @@
 #region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -63,7 +63,7 @@ namespace NUnit.Samples
 		{
 			double result= fValue1 + fValue2;
 			// forced failure result == 5
-			Assert.Equals(6, result, "Expected Failure.");
+			Assert.AreEqual(6, result, "Expected Failure.");
 		}
 
 		/// <summary>
@@ -82,13 +82,13 @@ namespace NUnit.Samples
 		/// 
 		[Test] public void Equals() 
 		{
-			Assert.Equals(12, 12, "Integer");
-			Assert.Equals(12L, 12L, "Long");
-			Assert.Equals('a', 'a', "Char");
-			Assert.Equals((object)12, (object)12, "Integer Object Cast");
+			Assert.AreEqual(12, 12, "Integer");
+			Assert.AreEqual(12L, 12L, "Long");
+			Assert.AreEqual('a', 'a', "Char");
+			Assert.AreEqual((object)12, (object)12, "Integer Object Cast");
             
-			Assert.Equals(12, 13, "Expected Failure (Integer)");
-			Assert.Equals(12.0, 11.99, 0.0, "Expected Failure (Double).");
+			Assert.AreEqual(12, 13, "Expected Failure (Integer)");
+			Assert.AreEqual(12.0, 11.99, 0.0, "Expected Failure (Double).");
 		}
 
 		[Test]
