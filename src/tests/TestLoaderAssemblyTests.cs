@@ -160,10 +160,9 @@ namespace NUnit.Tests
 			loader.LoadTest( "nunit.util.dll" );
 			Assert.True( "Project not loaded", loader.IsProjectLoaded );
 			Assert.True( "Should be wrapper", loader.TestProject.IsWrapper );
-			Assert.False( "Test Should not be loaded", loader.IsTestLoaded );
+			Assert.True( "Test should be loaded", loader.IsTestLoaded );
 			Assert.Equals( 4, catcher.Events.Count );
-			Assert.Equals( TestAction.TestLoadFailed, catcher.Events[3].Action );
-			Assert.Equals( typeof( NoTestFixturesException), catcher.Events[3].Exception.GetType() );
+			Assert.Equals( TestAction.TestLoaded, catcher.Events[3].Action );
 		}
 
 		// TODO: Should wrapper project be unloaded on failure?

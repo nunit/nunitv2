@@ -68,12 +68,15 @@ namespace NUnit.Tests.Assemblies
 		}
 
 		[Test]
-		[ExpectedException(typeof(NoTestFixturesException))]
 		public void LoadAssemblyWithoutTestFixtures()
 		{
 			string fileName = "nunit.extensions.dll";
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			builder.Build(fileName);
+			TestSuite suite = builder.Build(fileName);
+			Assert.NotNull( "Should not be null", suite );
+			Assert.False( "Should not run", suite.ShouldRun );
+			Assert.Equals( "Has no TestFixtures", suite.IgnoreReason );
+			Assert.Equals( 0, suite.Tests.Count );
 		}
 
 		[Test]
@@ -81,7 +84,7 @@ namespace NUnit.Tests.Assemblies
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Assemblies.AssemblyTests" );
-			Assert.NotNull(suite);
+			Assert.NotNull("Should not be Null", suite);
 			Assert.Equals(suite.CountTestCases,TestCaseBuilder.CountTestCases(this));
 		}
 
