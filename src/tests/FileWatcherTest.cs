@@ -115,7 +115,7 @@ namespace NUnit.Tests
 
 	}
 
-	class CounterEventHandler : FileChangedEventHandler
+	class CounterEventHandler
 	{
 		int counter;
 		String fileName;

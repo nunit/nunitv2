@@ -260,6 +260,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestResult.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
