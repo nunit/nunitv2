@@ -56,6 +56,8 @@ namespace NUnit.UiKit
 			Console.SetError( errWriter );
 
 			loader = new TestLoader( outWriter, errWriter );
+			loader.ReloadOnRun = UserSettings.Options.ReloadOnRun;
+			loader.ReloadOnChange = UserSettings.Options.ReloadOnChange;
 			loaderUI = new TestLoaderUI( ownerForm, loader );
 		}
 

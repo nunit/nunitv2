@@ -334,8 +334,9 @@ namespace NUnit.Gui
 
 			options.LoadLastProject = loadLastProjectCheckBox.Checked;
 			
-			options.ReloadOnChange = reloadOnChangeCheckBox.Checked;
-			options.ReloadOnRun = reloadOnRunCheckBox.Checked;
+			TestLoader loader = AppUI.TestLoader;
+			loader.ReloadOnChange = options.ReloadOnChange = reloadOnChangeCheckBox.Checked;
+			loader.ReloadOnRun = options.ReloadOnRun = reloadOnRunCheckBox.Checked;
 			options.ClearResults = clearResultsCheckBox.Checked;
 			options.VisualStudioSupport = visualStudioSupportCheckBox.Checked;
 

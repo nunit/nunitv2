@@ -35,7 +35,6 @@ namespace NUnit.Util
 	using System.Configuration;
 	using System.Threading;
 	using NUnit.Core;
-	using NUnit.Framework;
 
 
 	/// <summary>
@@ -118,6 +117,18 @@ namespace NUnit.Util
 		/// </summary>
 		private bool reloadPending = false;
 
+		/// <summary>
+		/// Indicates whether to watch for changes
+		/// and reload the tests when a change occurs.
+		/// </summary>
+		private bool reloadOnChange = false;
+
+		/// <summary>
+		/// Indicates whether to reload the tests
+		/// before each run.
+		/// </summary>
+		private bool reloadOnRun = false;
+
 		#endregion
 
 		#region Constructor
@@ -177,6 +188,18 @@ namespace NUnit.Util
 		public Exception LastException
 		{
 			get { return lastException; }
+		}
+
+		public bool ReloadOnChange
+		{
+			get { return reloadOnChange; }
+			set { reloadOnChange = value; }
+		}
+
+		public bool ReloadOnRun
+		{
+			get { return reloadOnRun; }
+			set { reloadOnRun = value; }
 		}
 
 		#endregion
@@ -434,7 +457,7 @@ namespace NUnit.Util
 				// TODO: Figure out how to handle relative paths in tests
 				//Directory.SetCurrentDirectory( testProject.ActiveConfig.BasePath );
 
-				if ( UserSettings.Options.ReloadOnChange )
+				if ( ReloadOnChange )
 					InstallWatcher( );
 
 				events.FireTestLoaded( TestFileName, this.loadedTest );
@@ -562,7 +585,7 @@ namespace NUnit.Util
 		{
 			if ( !IsTestRunning )
 			{
-				if ( IsReloadPending || UserSettings.Options.ReloadOnRun )
+				if ( IsReloadPending || ReloadOnRun )
 					ReloadTest();
 
 				runningTest = testInfo;
