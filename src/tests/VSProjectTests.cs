@@ -75,45 +75,90 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void LoadCsharpProject()
 		{
-			string fileName = GetSamplesPath( @"csharp\csharp-sample.csproj" );
-			VSProject project = new VSProject( fileName );
+			string fileName = GetSamplesPath(@"csharp\csharp-sample.csproj");
+			VSProject project = new VSProject(fileName);
 
-			Assert.AreEqual( "csharp-sample", project.Name );
-			Assert.AreEqual( Path.GetFullPath( fileName ), project.ProjectPath );
-			Assert.AreEqual( "csharp-sample.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].ToString().ToLower() ) );
+			Assert.AreEqual("csharp-sample", project.Name);
+			Assert.AreEqual(Path.GetFullPath(fileName), project.ProjectPath);
+			Assert.AreEqual("csharp-sample.dll", Path.GetFileName(project.Configs["Debug"].Assemblies[0].ToString().ToLower()));
+		}
+
+		[Test]
+		public void LoadCsharpProjectVS2005()
+		{
+			string fileName = GetSamplesPath(@"csharp\csharp-sample_VS2005.csproj");
+			VSProject project = new VSProject(fileName);
+
+			Assert.AreEqual("csharp-sample_VS2005", project.Name);
+			Assert.AreEqual(Path.GetFullPath(fileName), project.ProjectPath);
+			Assert.AreEqual("csharp-sample.dll", Path.GetFileName(project.Configs["Debug"].Assemblies[0].ToString().ToLower()));
 		}
 
 		[Test]
 		public void LoadVbProject()
 		{
-			string fileName = GetSamplesPath( @"vb\vb-sample.vbproj" );
-			VSProject project = new VSProject( fileName );
+			string fileName = GetSamplesPath(@"vb\vb-sample.vbproj");
+			VSProject project = new VSProject(fileName);
 
-			Assert.AreEqual( "vb-sample", project.Name );
-			Assert.AreEqual( Path.GetFullPath( fileName ), project.ProjectPath );
-			Assert.AreEqual( "vb-sample.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].ToString().ToLower() ) );
+			Assert.AreEqual("vb-sample", project.Name);
+			Assert.AreEqual(Path.GetFullPath(fileName), project.ProjectPath);
+			Assert.AreEqual("vb-sample.dll", Path.GetFileName(project.Configs["Debug"].Assemblies[0].ToString().ToLower()));
 		}
-		
+
+
+		[Test]
+		public void LoadVbProjectVS2005()
+		{
+			string fileName = GetSamplesPath(@"vb\vb-sample_VS2005.vbproj");
+			VSProject project = new VSProject(fileName);
+
+			Assert.AreEqual("vb-sample_VS2005", project.Name);
+			Assert.AreEqual(Path.GetFullPath(fileName), project.ProjectPath);
+			Assert.AreEqual("vb-sample.dll", Path.GetFileName(project.Configs["Debug"].Assemblies[0].ToString().ToLower()));
+		}
+
 		[Test]
 		public void LoadJsharpProject()
 		{
-			string fileName = GetSamplesPath( @"jsharp\jsharp.vjsproj" );
-			VSProject project = new VSProject( fileName );
+			string fileName = GetSamplesPath(@"jsharp\jsharp.vjsproj");
+			VSProject project = new VSProject(fileName);
 
-			Assert.AreEqual( "jsharp", project.Name );
-			Assert.AreEqual( Path.GetFullPath( fileName ), project.ProjectPath );
-			Assert.AreEqual( "jsharp.dll", Path.GetFileName( project.Configs["Debug"].Assemblies[0].ToString().ToLower() ) );
+			Assert.AreEqual("jsharp", project.Name);
+			Assert.AreEqual(Path.GetFullPath(fileName), project.ProjectPath);
+			Assert.AreEqual("jsharp.dll", Path.GetFileName(project.Configs["Debug"].Assemblies[0].ToString().ToLower()));
+		}
+
+		[Test]
+		public void LoadJsharpProjectVS2005()
+		{
+			string fileName = GetSamplesPath(@"jsharp\jsharp_VS2005.vjsproj");
+			VSProject project = new VSProject(fileName);
+
+			Assert.AreEqual("jsharp_VS2005", project.Name);
+			Assert.AreEqual(Path.GetFullPath(fileName), project.ProjectPath);
+			Assert.AreEqual("jsharp.dll", Path.GetFileName(project.Configs["Debug"].Assemblies[0].ToString().ToLower()));
 		}
 
 		[Test]
 		public void LoadCppProject()
 		{
-			string fileName = GetSamplesPath( @"cpp-sample\cpp-sample.vcproj" );
-			VSProject project = new VSProject( fileName );
+			string fileName = GetSamplesPath(@"cpp-sample\cpp-sample.vcproj");
+			VSProject project = new VSProject(fileName);
 
-			Assert.AreEqual( "cpp-sample", project.Name );
-			Assert.AreEqual( Path.GetFullPath( fileName ), project.ProjectPath );
-			Assert.AreEqual( "cpp-sample.dll", Path.GetFileName( project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower() ) );
+			Assert.AreEqual("cpp-sample", project.Name);
+			Assert.AreEqual(Path.GetFullPath(fileName), project.ProjectPath);
+			Assert.AreEqual("cpp-sample.dll", Path.GetFileName(project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower()));
+		}
+
+		[Test]
+		public void LoadCppProjectVS2005()
+		{
+			string fileName = GetSamplesPath(@"cpp-sample\cpp-sample_VS2005.vcproj");
+			VSProject project = new VSProject(fileName);
+
+			Assert.AreEqual("cpp-sample_VS2005", project.Name);
+			Assert.AreEqual(Path.GetFullPath(fileName), project.ProjectPath);
+			Assert.AreEqual("cpp-sample.dll", Path.GetFileName(project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower()));
 		}
 
 		[Test, ExpectedException( typeof ( ArgumentException ) ) ]

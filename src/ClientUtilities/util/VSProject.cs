@@ -30,6 +30,7 @@
 using System;
 using System.IO;
 using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace NUnit.Util
 {
@@ -168,30 +169,8 @@ namespace NUnit.Util
 					case ".csproj":
 					case ".vbproj":
 					case ".vjsproj":
-						XmlNode settingsNode = doc.SelectSingleNode( "/VisualStudioProject/*/Build/Settings" );
-			
-						assemblyName = settingsNode.Attributes["AssemblyName"].Value;
-						string outputType = settingsNode.Attributes["OutputType"].Value;
 
-						if ( outputType == "Exe" || outputType == "WinExe" )
-							assemblyName = assemblyName + ".exe";
-						else
-							assemblyName = assemblyName + ".dll";
-
-						XmlNodeList nodes = settingsNode.SelectNodes("Config");
-						if ( nodes != null ) 
-							foreach ( XmlNode configNode in nodes )
-							{
-								string name = configNode.Attributes["Name"].Value;
-								string outputPath = configNode.Attributes["OutputPath"].Value;
-								string outputDirectory = Path.Combine( projectDirectory, outputPath );
-								string assemblyPath = Path.Combine( outputDirectory, assemblyName );
-				
-								VSProjectConfig config = new VSProjectConfig ( name );
-								config.Assemblies.Add( assemblyPath );
-
-								configs.Add( config );
-							}
+						LoadProject(projectDirectory, doc);
 
 						break;
 
@@ -209,7 +188,97 @@ namespace NUnit.Util
 			}
 		}
 
-		private void ThrowInvalidFileType( string projectPath )
+		private bool LoadProject(string projectDirectory, XmlDocument doc)
+		{
+			bool loaded = LoadVS2003Project(projectDirectory, doc);
+			if (loaded) return true;
+
+			loaded = LoadMSBuildProject(projectDirectory, doc);
+			if (loaded) return true;
+
+			return false;
+		}
+
+		private bool LoadVS2003Project(string projectDirectory, XmlDocument doc)
+		{
+			XmlNode settingsNode = doc.SelectSingleNode("/VisualStudioProject/*/Build/Settings");
+			if (settingsNode == null)
+				return false;
+
+			string assemblyName = settingsNode.Attributes["AssemblyName"].Value;
+			string outputType = settingsNode.Attributes["OutputType"].Value;
+
+			if (outputType == "Exe" || outputType == "WinExe")
+				assemblyName = assemblyName + ".exe";
+			else
+				assemblyName = assemblyName + ".dll";
+
+			XmlNodeList nodes = settingsNode.SelectNodes("Config");
+			if (nodes != null)
+				foreach (XmlNode configNode in nodes)
+				{
+					string name = configNode.Attributes["Name"].Value;
+					string outputPath = configNode.Attributes["OutputPath"].Value;
+					string outputDirectory = Path.Combine(projectDirectory, outputPath);
+					string assemblyPath = Path.Combine(outputDirectory, assemblyName);
+
+					VSProjectConfig config = new VSProjectConfig(name);
+					config.Assemblies.Add(assemblyPath);
+
+					configs.Add(config);
+				}
+
+			return true;
+		}
+
+		private bool LoadMSBuildProject(string projectDirectory, XmlDocument doc)
+		{
+			XmlNamespaceManager namespaceManager = new XmlNamespaceManager(doc.NameTable);
+			namespaceManager.AddNamespace("msbuild", "http://schemas.microsoft.com/developer/msbuild/2003");
+
+			XmlNodeList nodes = doc.SelectNodes("/msbuild:Project/msbuild:PropertyGroup", namespaceManager);
+			if (nodes == null) return false;
+
+			XmlElement assemblyNameElement = (XmlElement)doc.SelectSingleNode("/msbuild:Project/msbuild:PropertyGroup/msbuild:AssemblyName", namespaceManager);
+			string assemblyName = assemblyNameElement.InnerText;
+
+			XmlElement outputTypeElement = (XmlElement)doc.SelectSingleNode("/msbuild:Project/msbuild:PropertyGroup/msbuild:OutputType", namespaceManager);
+			string outputType = outputTypeElement.InnerText;
+
+			if (outputType == "Exe" || outputType == "WinExe")
+				assemblyName = assemblyName + ".exe";
+			else
+				assemblyName = assemblyName + ".dll";
+
+			foreach (XmlElement configNode in nodes)
+			{
+				XmlAttribute conditionAttribute = configNode.Attributes["Condition"];
+				if (conditionAttribute == null) continue;
+
+				string condition = conditionAttribute.Value;
+				string configurationPrefix = " '$(Configuration)|$(Platform)' == '";
+				string configurationPostfix = "|AnyCPU' ";
+				if (!condition.StartsWith(configurationPrefix) || !condition.EndsWith(configurationPostfix))
+					continue;
+
+				string configurationName = condition.Substring(configurationPrefix.Length, condition.Length - configurationPrefix.Length - configurationPostfix.Length);
+
+				XmlElement outputPathElement = (XmlElement)configNode.SelectSingleNode("msbuild:OutputPath", namespaceManager);
+				string outputPath = outputPathElement.InnerText;
+
+				string outputDirectory = Path.Combine(projectDirectory, outputPath);
+				string assemblyPath = Path.Combine(outputDirectory, assemblyName);
+
+				VSProjectConfig config = new VSProjectConfig(configurationName);
+				config.Assemblies.Add(assemblyPath);
+
+				configs.Add(config);
+			}
+
+			return true;
+		}
+
+		private void ThrowInvalidFileType(string projectPath)
 		{
 			throw new ArgumentException( 
 				string.Format( "Invalid project file type: {0}", 
