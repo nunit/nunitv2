@@ -5,6 +5,8 @@ NUnit 2.2 Beta 3 - NUnit Version 2.1.93
 
 Bugs Fixed or Closed
 
+* 993661 - Long folder structure problematic for NUnit Gui
+* 986598 - nUnit-gui crashes when first test starts
 * 994922 - nunit-console.exe /help documents /fixture=STR
 * 994707 - nunit-gui.exe /run fails
 * 994702 - /fixture with bad arguments throws exception
