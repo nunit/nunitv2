@@ -1042,7 +1042,10 @@ namespace NUnit.UiKit
 		public override void Visit(TestSuiteTreeNode node)
 		{
 			if (node.Test.IsTestCase && node.Result != null && node.Result.IsFailure)
+			{
 				node.Checked = true;
+				node.EnsureVisible();
+			}
 			else
 				node.Checked = false;
 			
