@@ -42,16 +42,16 @@ namespace NUnit.Core
 		Hashtable suites  = new Hashtable();
 		TestSuite rootSuite;
 
-		public string TrimPathAndExtension(string assemblyName) 
-		{
-			FileInfo info = new FileInfo(assemblyName);
-			string name = info.Name;
-			string extension = info.Extension;
-			if (extension != String.Empty)
-				name = name.Substring(0, name.IndexOf(extension));
-
-			return name;
-		}
+//		public string TrimPathAndExtension(string assemblyName) 
+//		{
+//			FileInfo info = new FileInfo(assemblyName);
+//			string name = info.Name;
+//			string extension = info.Extension;
+//			if (extension != String.Empty)
+//				name = name.Substring(0, name.IndexOf(extension));
+//
+//			return name;
+//		}
 
 		public Assembly Load(string assemblyName)
 		{
@@ -65,7 +65,8 @@ namespace NUnit.Core
 				if ( swap )
 					Environment.CurrentDirectory = assemblyDirectory;
 
-				return AppDomain.CurrentDomain.Load(TrimPathAndExtension(assemblyName));
+//				return AppDomain.CurrentDomain.Load(TrimPathAndExtension(assemblyName));
+				return AppDomain.CurrentDomain.Load(Path.GetFileNameWithoutExtension(assemblyName));
 			}
 			finally
 			{
