@@ -31,7 +31,7 @@ using System;
 using System.IO;
 using NUnit.Util;
 
-namespace NUnit.Tests.Util
+namespace NUnit.Util.Tests
 {
 	/// <summary>
 	/// MockAssemblyWatcher provides way of triggering change

@@ -182,6 +182,11 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "MockAssemblyWatcher.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "MultipleAssemblyFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
