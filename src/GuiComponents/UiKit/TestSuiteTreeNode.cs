@@ -71,7 +71,7 @@ namespace NUnit.UiKit
 		public TestSuiteTreeNode( UITestNode test ) : base(test.Name)
 		{
 			this.test = test;
-			ImageIndex = SelectedImageIndex = CalcImageIndex();
+			UpdateImageIndex();
 		}
 
 		/// <summary>
@@ -81,7 +81,7 @@ namespace NUnit.UiKit
 		{
 			this.test = new UITestNode( result.Test );
 			this.result = result;
-			ImageIndex = SelectedImageIndex = CalcImageIndex();
+			UpdateImageIndex();
 		}
 
 		#endregion
@@ -158,6 +158,14 @@ namespace NUnit.UiKit
 			if ( result.Test.FullName != this.test.FullName )
 				throw( new ArgumentException("Attempting to set Result with a value that refers to a different test") );
 			this.result = result;
+			UpdateImageIndex();
+		}
+
+		/// <summary>
+		/// UPdate the image index based on the result field
+		/// </summary>
+		public void UpdateImageIndex()
+		{
 			ImageIndex = SelectedImageIndex = CalcImageIndex();
 		}
 
