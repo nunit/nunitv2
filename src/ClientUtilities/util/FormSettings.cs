@@ -46,17 +46,17 @@ namespace NUnit.Util
 		private static readonly string TREE_SPLITTER_POSITION = "tree-splitter-position";
 		private static readonly string TAB_SPLITTER_POSITION = "tab-splitter-position";
 
-		public static readonly int DEFAULT_WIDTH = 632;
+		public static readonly int DEFAULT_WIDTH = 756;
 		public static readonly int MIN_WIDTH = 160;
 
-		public static readonly int DEFAULT_HEIGHT = 432;
+		public static readonly int DEFAULT_HEIGHT = 512;
 		public static readonly int MIN_HEIGHT = 32; 
 		
 		public static readonly int DEFAULT_XLOCATION = 10;
 		
 		public static readonly int DEFAULT_YLOCATION = 10;
 
-		public static readonly int TREE_DEFAULT_POSITION = 380;
+		public static readonly int TREE_DEFAULT_POSITION = 300;
 		public static readonly int TREE_MIN_POSITION = 240;
 		
 		public static readonly int TAB_DEFAULT_POSITION = 119;
