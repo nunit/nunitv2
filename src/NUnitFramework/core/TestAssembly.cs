@@ -47,24 +47,25 @@ namespace NUnit.Core
 		{
 		}
 
-		public override TestResult Run(EventListener listener)
-		{
-			string directoryName = Path.GetDirectoryName( this.Name );
-			
-			if ( directoryName != null && directoryName != string.Empty )
-				Environment.CurrentDirectory = directoryName;
-
-			return base.Run( listener );
-		}
-
 		public override TestResult Run(EventListener listener, IFilter filter)
 		{
+			string oldDirectoryName = Environment.CurrentDirectory;
 			string directoryName = Path.GetDirectoryName( this.Name );
+
+			bool swapDir = 
+				directoryName != null && 
+				directoryName != string.Empty && 
+				directoryName != oldDirectoryName;
 			
-			if ( directoryName != null && directoryName != string.Empty )
+			if ( swapDir )
 				Environment.CurrentDirectory = directoryName;
 
-			return base.Run( listener, filter );
+			TestResult result = base.Run( listener, filter );
+
+			if ( swapDir )
+				Environment.CurrentDirectory = oldDirectoryName;
+
+			return result;
 		}
 	}
 }
