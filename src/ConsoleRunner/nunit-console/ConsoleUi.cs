@@ -89,7 +89,8 @@ namespace NUnit.Console
 
 					if(test == null)
 					{
-						Console.Error.WriteLine("fatal error: invalid assembly {0}", parser.Parameters[0]);
+						Console.Error.WriteLine("Unable to locate fixture {0}", parser.fixture);
+
 						returnCode = 2;
 					}
 					else
@@ -116,9 +117,19 @@ namespace NUnit.Console
 							returnCode = 3;
 					}
 				}
+				catch( FileNotFoundException ex )
+				{
+					Console.WriteLine( ex.Message );
+					returnCode = 2;
+				}
+				catch( BadImageFormatException ex )
+				{
+					Console.WriteLine( ex.Message );
+					returnCode = 2;
+				}
 				catch( Exception ex )
 				{
-					Console.WriteLine( "Unhandled Exception: {0}", ex.ToString() );
+					Console.WriteLine( "Unhandled Exception:\n{0}", ex.ToString() );
 				}
 				finally
 				{
@@ -181,7 +192,7 @@ namespace NUnit.Console
 
 		private static Test MakeTestFromCommandLine(TestDomain testDomain, ConsoleOptions parser)
 		{
-			if(!DoAssembliesExist(parser.Parameters)) return null; 
+//			if(!DoAssembliesExist(parser.Parameters)) return null; 
 			
 			NUnitProject project;
 
