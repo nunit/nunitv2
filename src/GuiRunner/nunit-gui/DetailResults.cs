@@ -34,6 +34,7 @@ namespace NUnit.Gui
 	using System;
 	using System.Windows.Forms;
 	using NUnit.Core;
+	using NUnit.Util;
 
 	/// <summary>
 	/// Summary description for ResultVisitor.

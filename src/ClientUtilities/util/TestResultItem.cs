@@ -29,7 +29,7 @@
 
 using System;
 
-namespace NUnit.Gui
+namespace NUnit.Util
 {
 	using NUnit.Core;
 
@@ -38,46 +38,34 @@ namespace NUnit.Gui
 	/// </summary>
 	public class TestResultItem
 	{
-		private TestResult testResult;
-
-		// TODO: Remove kluges - we are copying the
-		// test result because it's needed when
-		// the detail list redraws itself. We should
-		// either update the detail list when the
-		// test is reloaded, or just cache the 
-		// information rather than the reference.
+		private string testName;
+		private string message;
+		private string stackTrace;
 
 		public TestResultItem(TestCaseResult result )
 		{
-			TestCaseResult copyResult = new TestCaseResult( (TestCase)result.Test );
-			copyResult.Failure( result.Message, result.StackTrace );
-			testResult = copyResult;
+			testName = result.Name;
+			message = result.Message;
+			stackTrace = result.StackTrace;
 		}
-
-//		public TestResultItem(TestSuiteResult result )
-//		{
-//			TestSuiteResult copyResult = new TestSuiteResult( (TestSuite)result.Test, result.Name );
-//			copyResult.IsFailure = true;
-//			testResult = copyResult;
-//		}
 
 		public override string ToString()
 		{
-			return String.Format("{0} : {1}", testResult.Test.Name, testResult.Message);
+			return String.Format("{0} : {1}", testName, message);
 		}
 
 		public string GetMessage()
 		{
-			return String.Format("{0} : {1}", testResult.Test.Name, testResult.Message);
+			return ToString();
 		}
 
 		public string StackTrace
 		{
 			get 
 			{
-				string stackTrace = "No stack trace is available";
-				if(testResult.StackTrace != null)
-					stackTrace = StackTraceFilter.Filter(testResult.StackTrace);
+				string trace = "No stack trace is available";
+				if(stackTrace != null)
+					trace = StackTraceFilter.Filter(stackTrace);
 
 				return stackTrace;
 			}

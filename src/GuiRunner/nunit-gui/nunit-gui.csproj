@@ -169,11 +169,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "TestResultItem.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TextBoxWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
