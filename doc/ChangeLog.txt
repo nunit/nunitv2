@@ -1,3 +1,20 @@
+NUnit 2.2.2 Iteration Release - December 7, 2004
+
+Bugs Fixed
+* 1010869 Exception when running with VS .NET 2005
+* 1058229 /fixture argument suppresses namespace hierarchy
+* 1023349 Gui's tooltip window throws an exception
+* 1040523 Exception by opening .sln with non-.NET projects
+* 1051632 NUnit does not properly handle absolute UNC paths
+* 1020855 one timing test fails
+* 1028529 Globalization issues in results.xml
+
+Feature Requests Implemented
+*  676154 AssertEqualsIgnoreCase method for strings
+* 1032799 Assert.AreNotEqual
+*  871799 Detect older NUnit version reference
+*  783604 Run test on specific platform only
+
 NUnit 2.2.1 Iteration Release - October 26, 2004
 
 Bugs Fixed
@@ -12,6 +29,7 @@ Bugs Fixed
 * 1026552 NotSupportedException when loading solution file
 * 1020817 exception running NUnit.sln
 * 1029041 2.2 Help out of date
+* 1055124 Method names beginning with 'Test' will be shown
 
 Feature Requests Implemented
 * 848853 - Display results in GUI while running

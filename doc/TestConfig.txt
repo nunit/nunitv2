@@ -1,4 +1,4 @@
-NUnit 2.2.1 Iteration Release - October 26, 2004
+NUnit 2.2.2 Iteration Release - December 7, 2004
 
 Test Config Files
 

@@ -1,11 +1,49 @@
-Release Notes for NUnit Iteration Release 2.2.1
-October 26, 2004
+Release Notes for NUnit Iteration Release 2.2.2
+December 7, 2004
 
-This iteration release fixes a number of bugs and introduces some experimental features. See the Changelog for more detail.
+This iteration release introduces several new features and fixes a number of bugs.
 
 Users requiring a stable release with full documentation should continue to use the latest full release of NUnit 2.2.
 
-Changes:
+Changes in NUnit 2.2.2
+
+With this version of NUnit, all references from the core to the framework assembly have been removed. It is now possible to run tests built against older versions of the framework, either debug or release build.
+
+The Assert class now provides an AreNotEqual method which gives an error if the two arguments are equal.
+
+A StringAssert class has been added to the extensions assembly. It provides methods Contains, ContainsAny, StartsWith, EndsWith and AreEqualIgnoringCase.
+
+The logic for each type of Assert is now been encapsulated in a class that implements the IAsserter interface. Asserter object instances are created for each individual assertion. This allows creating extended asserts by implementing new asserter classes. Several base classes are available for extension. The StringAssert class discussed above provides a model for making such extensions.
+
+A PlatformAttribute has been added to allow running tests only on certain OS or runtime platforms.
+
+Applications built with Visual Studio 2005 may now be debugged using NUnit. NUnit itself may now be built and debugged under Visual Studio 2005.
+
+A PlatformAttribute may be applied to test fixtures or tests, causing the tests to be run only on certain platforms. This is still experimental and may change - see the source for documentation.
+
+Trace output may be directed to standard output by setting TestContext.Tracing to true.
+
+Visual Studio projects and solutions may now be opened by dragging them to the tree control.
+
+The namespace hierarchy is no longer ignored, with only fixtures displayed, when nunit-gui was run with /fixture: plus a namespace argument.
+
+The TipWindow displayed over the errors and failures tab in the gui was throwing an exception under certain conditions. This is fixed and further usability improvements have been made.
+
+Solution files containing web applications now be loaded without an exception. The web application is ignored.
+
+Solution files containing projects specified using UNC paths may now be loaded without an exception. As before, changes to security settings are required to enable loading tests from shares.
+
+An error in one of the timing tests was corrected.
+
+The xml results file now uses the correct standard format for date and time independent of the system culture.
+
+Classes in the nunit.util assembly that were specific to either nunit-gui or nunit-console have been removed. As a result, nunit.util no longer refers to the Windows.Forms or System.Drawing assemblies. The classes are now in the nunit-gui-runner or nunit-console-runner assembly as appropriate.
+
+The NAnt build scripts in each subdirectory are now directly executable for convenience in working on a single component and for testing the scripts themselves.
+
+Further cases in which gui controls were being called on the wrong thread have been identified and corrected.
+
+Changes in NUnit 2.2.1
 
 Reorganized source code into separate components, each with associated tests. An NUnit project file is now provided to facilitate running all the tests together. Config files are provided for running the project and for each separate assembly.
 

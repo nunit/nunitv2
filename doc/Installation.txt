@@ -1,11 +1,11 @@
-NUnit 2.2.1 Iteration Release - October 26, 2004
+NUnit 2.2.2 Iteration Release - December 7, 2004
 
-This file lists differences in the installation of NUnit 2.2.1 from what is described in the NUnit 2.2 documentation.
+This file lists differences in the installation of NUnit 2.2.2 from what is described in the NUnit 2.2 documentation.
 
 Installation
 
-NUnit 2.2.1 creates four subdirectories under the installation directory: bin, doc, samples and src.
+NUnit 2.2.2 creates four subdirectories under the installation directory: bin, doc, samples and src.
 
 Installation Verification
 
-Verify the installation by running the nunit gui and loading NUnitTests.nunit in the bin directory. There are 615 tests and they should all pass.
+Verify the installation by running the nunit gui and loading NUnitTests.nunit in the bin directory. There are 666 tests and they should all pass.

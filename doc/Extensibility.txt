@@ -1,4 +1,4 @@
-NUnit 2.2.1 Iteration Release - October 26, 2004
+NUnit 2.2.2 Iteration Release - December 7, 2004
 
 Extensibility Features in NUnit
 
@@ -10,9 +10,9 @@ However, one thing was lost in the transition. JUnit has a simple, readily avail
 
 On the other hand, NUNit's TestCase, TestSuite and other classes are purely internal, and are not designed to be inherited from by user fixtures. Rather, they construct and manage the user fixture objects. Of course, it is possible to inherit from these internal classes and introduce new behavior. But, without changing NUnit itself, there has been no way to induce the test runner to make use of the new classes.
 
-With NUnit 2.2.1, we are introducing an experimental extensibility mechanism that makes up for this deficit. We call it experimental, because we want to signal that the interfaces described are by no means final. In fact, we expect them to change over the next few iteration releases in response to the feedback we receive from users.
+With NUnit 2.2.1, we introduced an experimental extensibility mechanism that makes up for this deficit. We call it experimental, because we want to signal that the interfaces described are by no means final. In fact, we expect them to change over the next few iteration releases in response to the feedback we receive from users.
 
-For this release, we are providing two separate extensibility mechanisms, one for Test Suites, the other for Test Cases. The approaches taken for each of these are similar, but not identical. We expect to select a common approach for the next release and are looking for input on this issue, among others.
+Currently, we are providing three separate extensibility mechanisms, one for Test Suites, one for Test Cases and a third for defining new assertions. The approaches taken for suites and test cases are similar, but not identical. We expect to select a common approach for the next release and are looking for input on this issue, among others.
 
 Test Suite Extensions
 
@@ -67,3 +67,8 @@ The Make method should use the arguments to construct and return a test case, wh
 
 For an example of a test case extension, see RepeatedTestBuilder in the extensions directory.
 
+Assert Extensions
+
+With NUnit 2.2.2, we introduced the IAsserter interface and asserter objects. Each static Assert method creates an asserter object and calls it's Assert method. By creating an object to represent each instance of an assertion, we enable users to use inheritance in defining their own assertions.
+
+For an example of how to create your own Assert verbs with this mechanism, see the StringAssert class in the nunit.extensions assembly.
