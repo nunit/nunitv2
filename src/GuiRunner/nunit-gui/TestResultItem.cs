@@ -40,10 +40,26 @@ namespace NUnit.Gui
 	{
 		private TestResult testResult;
 
-		public TestResultItem(TestResult result)
+		// TODO: Remove kluges - we are copying the
+		// test result because it's needed when
+		// the detail list redraws itself. We should
+		// either update the detail list when the
+		// test is reloaded, or just cache the 
+		// information rather than the reference.
+
+		public TestResultItem(TestCaseResult result )
 		{
-			testResult = result;
+			TestCaseResult copyResult = new TestCaseResult( (TestCase)result.Test );
+			copyResult.Failure( result.Message, result.StackTrace );
+			testResult = copyResult;
 		}
+
+//		public TestResultItem(TestSuiteResult result )
+//		{
+//			TestSuiteResult copyResult = new TestSuiteResult( (TestSuite)result.Test, result.Name );
+//			copyResult.IsFailure = true;
+//			testResult = copyResult;
+//		}
 
 		public override string ToString()
 		{
