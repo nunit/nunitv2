@@ -1242,7 +1242,7 @@
         "PackageCode" = "8:{5F972A93-9831-4D7B-8D66-F853569DCA5B}"
         "UpgradeCode" = "8:{2E280DED-3E0E-4783-94A9-BE102C854C39}"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:TRUE"
+        "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "ProductVersion" = "8:2.1.0"
         "Manufacturer" = "8:NUnit"
