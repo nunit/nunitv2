@@ -599,7 +599,7 @@ namespace NUnit.UiKit
 					? NUnitProject.CanLoadAsProject( fileName )
 					: NUnitProject.IsProjectFile( fileName );
 
-				return isProject || ProjectPath.IsAssemblyFileType( fileName );
+				return isProject || PathUtils.IsAssemblyFileType( fileName );
 			}
 
 			// Multiple assemblies are allowed - we
@@ -607,7 +607,7 @@ namespace NUnit.UiKit
 			// since they are being dragged together.
 			foreach( string fileName in fileNames )
 			{
-				if ( !ProjectPath.IsAssemblyFileType( fileName ) )
+				if ( !PathUtils.IsAssemblyFileType( fileName ) )
 					return false;
 			}
 

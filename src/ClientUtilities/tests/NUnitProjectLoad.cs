@@ -33,6 +33,8 @@ using NUnit.TestUtilities;
 
 namespace NUnit.Util.Tests
 {
+	// TODO: Some of these tests are really tests of VSProject and should be moved there.
+
 	[TestFixture]
 	public class NUnitProjectLoad
 	{
@@ -238,6 +240,20 @@ namespace NUnit.Util.Tests
 				Assert.IsTrue( project.Configs["Debug"].Assemblies[0].HasTests );
 				Assert.IsTrue( project.Configs["Release"].Assemblies[0].HasTests );
 				Assert.IsFalse( project.Configs["Debug|Win32"].Assemblies[0].HasTests );
+				Assert.IsFalse( project.Configs["Release|Win32"].Assemblies[0].HasTests );
+			}
+		}
+
+		[Test]
+		public void FromMakefileProject()
+		{
+			using( TempResourceFile file = new TempResourceFile( this.GetType(), "MakeFileProject.vcproj" ) )
+			{
+				NUnitProject project = NUnitProject.FromVSProject( file.Path );
+				Assert.AreEqual( 2, project.Configs.Count );
+				Assert.AreEqual( 1, project.Configs["Debug|Win32"].Assemblies.Count );
+				Assert.IsFalse( project.Configs["Debug|Win32"].Assemblies[0].HasTests );
+				Assert.AreEqual( 1, project.Configs["Release|Win32"].Assemblies.Count );
 				Assert.IsFalse( project.Configs["Release|Win32"].Assemblies[0].HasTests );
 			}
 		}

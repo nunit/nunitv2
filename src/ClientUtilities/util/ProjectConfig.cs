@@ -172,7 +172,7 @@ namespace NUnit.Util
 				if ( project == null || basePath == null || !Path.IsPathRooted( basePath ) )
 					return basePath;
 
-				return ProjectPath.RelativePath( project.BasePath, basePath );
+				return PathUtils.RelativePath( project.BasePath, basePath );
 			}
 		}
 
@@ -223,7 +223,7 @@ namespace NUnit.Util
 
 						foreach( AssemblyListItem assembly in Assemblies )
 						{
-							string dir = ProjectPath.RelativePath( BasePath, Path.GetDirectoryName( assembly.FullPath ) );
+							string dir = PathUtils.RelativePath( BasePath, Path.GetDirectoryName( assembly.FullPath ) );
 							if ( dir != null && dir != "." && !dirList.Contains( dir ) )
 							{
 								dirList.Add( dir );
@@ -299,7 +299,7 @@ namespace NUnit.Util
 			{
 				ArrayList paths = new ArrayList();
 				foreach( AssemblyListItem assembly in Assemblies )
-					paths.Add( ProjectPath.RelativePath( BasePath, assembly.FullPath ) );
+					paths.Add( PathUtils.RelativePath( BasePath, assembly.FullPath ) );
 				return (string[])paths.ToArray( typeof(string) );
 			}
 		}
@@ -326,7 +326,7 @@ namespace NUnit.Util
 
 		public string RelativePathTo( string path )
 		{
-			return ProjectPath.RelativePath( BasePath, path );
+			return PathUtils.RelativePath( BasePath, path );
 		}
 
 		#endregion

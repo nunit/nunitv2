@@ -512,7 +512,7 @@ namespace NUnit.Util
 				foreach( string assembly in TestProject.ActiveConfig.AbsolutePaths )
 				{
 					if ( Path.GetFileNameWithoutExtension( assembly ) == exception.FileName &&
-						!ProjectPath.SamePathOrUnder( testProject.ActiveConfig.BasePath, assembly ) )
+						!PathUtils.SamePathOrUnder( testProject.ActiveConfig.BasePath, assembly ) )
 					{
 						lastException = new ApplicationException( string.Format( "Unable to load {0} because it is not located under the AppBase", exception.FileName ), exception );
 						break;

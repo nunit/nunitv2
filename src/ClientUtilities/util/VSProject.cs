@@ -201,7 +201,7 @@ namespace NUnit.Util
 				doc.Load( projectPath );
 
 				string extension = Path.GetExtension( projectPath );
-				string assemblyName;
+				string assemblyName = null;
 
 				switch ( extension )
 				{
@@ -218,11 +218,18 @@ namespace NUnit.Util
 							string outputPath = configNode.Attributes["OutputDirectory"].Value;
 							string outputDirectory = Path.Combine( projectDirectory, outputPath );
 							XmlNode toolNode = configNode.SelectSingleNode( "Tool[@Name='VCLinkerTool']" );
-							assemblyName = Path.GetFileName( toolNode.Attributes["OutputFile"].Value );
-							string assemblyPath = Path.Combine( outputDirectory, assemblyName );
+							if ( toolNode != null )
+								assemblyName = Path.GetFileName( toolNode.Attributes["OutputFile"].Value );
+							else
+							{
+								toolNode = configNode.SelectSingleNode( "Tool[@Name='VCNMakeTool']" );
+								if ( toolNode != null )
+									assemblyName = Path.GetFileName( toolNode.Attributes["Output"].Value );
+							}
 
 							VSProjectConfig config = new VSProjectConfig ( name );
-							config.Assemblies.Add( assemblyPath );
+							if ( assemblyName != null )
+								config.Assemblies.Add( Path.Combine( outputDirectory, assemblyName ) );
 
 							this.configs.Add( config );
 						}

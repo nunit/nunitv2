@@ -139,6 +139,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "PathUtils.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ProjectConfig.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -150,11 +155,6 @@
                 />
                 <File
                     RelPath = "ProjectFormatException.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ProjectPath.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

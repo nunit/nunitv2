@@ -89,17 +89,22 @@ namespace NUnit.Util
 		/// <summary>
 		/// Path to the file storing this project
 		/// </summary>
-		protected string projectPath;
+		private string projectPath;
+
+		/// <summary>
+		/// Application Base for the project
+		/// </summary>
+		private string basePath;
 
 		/// <summary>
 		///  Whether the project is dirty
 		/// </summary>
-		protected bool isDirty = false;
+		private bool isDirty = false;
 		
 		/// <summary>
 		/// Collection of configs for the project
 		/// </summary>
-		protected ProjectConfigCollection configs;
+		private ProjectConfigCollection configs;
 
 		/// <summary>
 		/// The currently active configuration
@@ -119,6 +124,7 @@ namespace NUnit.Util
 		public NUnitProject( string projectPath )
 		{
 			this.projectPath = Path.GetFullPath( projectPath );
+			this.basePath = Path.GetDirectoryName( this.projectPath );
 			configs = new ProjectConfigCollection( this );		
 		}
 
@@ -320,12 +326,27 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
-		/// The base path for the project is the
-		/// directory part of the project path.
+		/// The base path for the project. Constructor sets
+		/// it to the directory part of the project path.
 		/// </summary>
 		public string BasePath
 		{
-			get { return Path.GetDirectoryName( projectPath ); }
+			get { return basePath; }
+			set	
+			{ 
+				basePath = value;
+				
+				if( basePath != null && 
+					basePath != string.Empty && 
+					!Path.IsPathRooted( basePath ) )
+				{
+					basePath = Path.Combine( 
+						Path.GetDirectoryName( projectPath ), 
+						basePath );	
+
+					basePath = PathUtils.Canonicalize( basePath );
+				}
+			}
 		}
 
 		/// <summary>

@@ -1100,7 +1100,7 @@ namespace NUnit.Gui
 					e.Cancel = true;
 				}
 
-				if ( !ProjectPath.SamePathOrUnder( project.BasePath, applicationBase ) )
+				if ( !PathUtils.SamePathOrUnder( project.BasePath, applicationBase ) )
 				{
 					applicationBaseTextBox.SelectAll();
 					UserMessage.DisplayFailure( "Path must be equal to or under the project base", "Invalid Entry" );
@@ -1128,7 +1128,7 @@ namespace NUnit.Gui
 			if ( appbase != String.Empty )
 			{
 				basePath = Path.Combine( project.BasePath, appbase );
-				if ( ProjectPath.SamePath( project.BasePath, basePath ) )
+				if ( PathUtils.SamePath( project.BasePath, basePath ) )
 					basePath = null;
 			}
 

@@ -34,11 +34,13 @@ using System.Runtime.InteropServices;
 
 namespace NUnit.Util
 {
+	// TODO: Remove dependency on shlwapi.dll for portability
+
 	/// <summary>
 	/// Static methods for manipulating project paths, including both directories
 	/// and files. Some synonyms for System.Path methods are included as well.
-	/// </summary>
-	public class ProjectPath
+	/// </summary> 
+	public class PathUtils
 	{
 		public const uint FILE_ATTRIBUTE_DIRECTORY  = 0x00000010;  
 		public const uint FILE_ATTRIBUTE_NORMAL     = 0x00000080;  

@@ -167,6 +167,10 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "MakeFileProject.vcproj"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "MockAssemblyWatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -201,17 +205,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "PathUtilTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ProjectConfigCollectionTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "ProjectConfigTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ProjectPathTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

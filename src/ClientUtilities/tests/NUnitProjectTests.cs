@@ -128,6 +128,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void DefaultConfigurationFile()
 		{
+			Assert.AreEqual( "Project1.config", project.ConfigurationFile );
 			project.Save( xmlfile );
 			Assert.AreEqual( "test.config", project.ConfigurationFile );
 		}
@@ -163,6 +164,14 @@ namespace NUnit.Util.Tests
 			project.Save( xmlfile );
 			NUnitProject project2 = NUnitProject.LoadProject( xmlfile );
 			Assert.IsFalse( project2.IsDirty );
+		}
+
+		[Test]
+		public void CanSetAppBase()
+		{
+			DirectoryInfo dir = new DirectoryInfo( Environment.CurrentDirectory );
+			project.BasePath = "..";
+			Assert.AreEqual( Path.GetDirectoryName( Environment.CurrentDirectory ), project.BasePath  );
 		}
 
 		[Test]
