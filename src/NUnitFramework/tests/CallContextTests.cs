@@ -40,7 +40,7 @@ namespace NUnit.Core.Tests
 			CallContext.SetData( CONTEXT_DATA, new EmptyCallContextData() );
 		}
 
-		[Test, Explicit]
+		[Test]
 		public void ILogicalThreadAffinativeTestConsole()
 		{	
 			CallContext.SetData( CONTEXT_DATA, new EmptyCallContextData() );
