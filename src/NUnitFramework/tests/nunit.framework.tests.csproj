@@ -17,8 +17,8 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = ""
-                RootNamespace = "NUnit.Framework.Tests"
+                PostBuildEvent = 'copy "$(ProjectDir)nunit.framework.tests.dll.config" "$(TargetDir)nunit.framework.tests.dll.config"'
+                RootNamespace = "NUnit.Core.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
             >
@@ -259,6 +259,10 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "nunit.framework.tests.dll.config"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "OneTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -272,6 +276,17 @@
                     RelPath = "RepeatedTestFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Results.xsd"
+                    Link = "..\core\Results.xsd"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Results.xsx"
+                    Link = "..\core\Results.xsx"
+                    DependentUpon = "Results.xsd"
+                    BuildAction = "None"
                 />
                 <File
                     RelPath = "SameFixture.cs"
@@ -382,6 +397,12 @@
                     RelPath = "TrueFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "XmlTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                    CustomToolNamespace = "NUnit.Core.Tests"
                 />
             </Include>
         </Files>
