@@ -2,6 +2,7 @@ using System;
 
 namespace NUnit.Core
 {
+	[AttributeUsage(AttributeTargets.Class)]
 	public class TestBuilderAttribute : Attribute
 	{
 		private Type builderType;
