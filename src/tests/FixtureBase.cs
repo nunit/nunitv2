@@ -10,7 +10,7 @@ namespace NUnit.Tests
 	{
 		static private string solutionPath;
 		static private readonly string[] trySolution =
-			{ @"..\nunit.sln", @"..\src\nunit.sln", @"..\..\nunit.sln", @"..\..\..\nunit.sln" };
+			{ @"..\nunit.sln", @"..\src\nunit.sln", @"..\..\nunit.sln", @"..\..\..\nunit.sln", @"..\..\..\..\nunit.sln" };
 
 		static private string sourcePath;
 
