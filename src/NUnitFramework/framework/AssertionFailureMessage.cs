@@ -670,12 +670,15 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		static protected StringBuilder CreateStringBuilder( string message )
+		static protected StringBuilder CreateStringBuilder( string message, params object[] args )
 		{
 			StringBuilder sbOutput;
 			if (message != null) 
 			{
-				sbOutput = new StringBuilder( message );
+				if ( args != null && args.Length > 0 )
+					sbOutput = new StringBuilder( string.Format( message, args ) );
+				else
+					sbOutput = new StringBuilder( message );
 			}
 			else
 			{
@@ -693,13 +696,15 @@ namespace NUnit.Framework
 		/// If the inputs are not strings, the ToString method of the objects
 		/// is used to show what is different about them.
 		/// </summary>
-		/// <param name="message"></param>
 		/// <param name="expected"></param>
 		/// <param name="actual"></param>
+		/// <param name="message"></param>
+		/// <param name="args"></param>
 		/// <returns></returns>
-		static public string FormatMessageForFailNotEquals(Object expected, Object actual, string message) 
+		static public string FormatMessageForFailNotEquals(Object expected, Object actual,
+			string message, params object[] args) 
 		{
-			StringBuilder sbOutput = CreateStringBuilder( message );
+			StringBuilder sbOutput = CreateStringBuilder( message, args );
 			if( null != message )
 			{
 				if( message.Length > 0 )
@@ -729,9 +734,10 @@ namespace NUnit.Framework
 		/// <param name="expected"></param>
 		/// <param name="actual"></param>
 		/// <returns></returns>
-		static public string FormatMessageForFailArraysNotEqual(int index, Array expected, Array actual, string message) 
+		static public string FormatMessageForFailArraysNotEqual(int index, Array expected, Array actual, 
+			string message, params object[] args) 
 		{
-			StringBuilder sbOutput = CreateStringBuilder( message );
+			StringBuilder sbOutput = CreateStringBuilder( message, args );
 			if( null != message )
 			{
 				if( message.Length > 0 )

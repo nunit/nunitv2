@@ -82,6 +82,8 @@ namespace NUnit.Tests.Assertions
                 Assert.AreEqual( "",        CreateStringBuilder( "" ).ToString() );
                 Assert.AreEqual( "a",       CreateStringBuilder( "a" ).ToString() );
                 Assert.AreEqual( "message", CreateStringBuilder( "message" ).ToString() );
+				Assert.AreEqual( "message 5 from me", 
+					CreateStringBuilder( "message {0} from {1}", 5, "me" ).ToString() );
             }
 
             /// <summary>
@@ -207,6 +209,8 @@ namespace NUnit.Tests.Assertions
                     FormatMessageForFailNotEquals( "", null, "message" ) );
 				Assert.AreEqual( "message \r\n\texpected:<1>\r\n\t but was:<\"1\">",
 					FormatMessageForFailNotEquals( 1, "1", "message" ) );
+				Assert.AreEqual( "message 5 \r\n\texpected:<1>\r\n\t but was:<\"1\">",
+					FormatMessageForFailNotEquals( 1, "1", "message {0}", 5 ) );
 			
 				AnalyzeMessageForStrings( "a", "aa", "message" );
 				AnalyzeMessageForStrings( "aa", "ab", "message" );
