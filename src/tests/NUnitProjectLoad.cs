@@ -77,7 +77,11 @@ namespace NUnit.Tests
 		[Test]
 		public void FromCSharpProject()
 		{
-			NUnitProject project = NUnitProject.FromVSProject( @"..\..\nunit.tests.dll.csproj" );
+			string projectPath = @"..\..\nunit.tests.dll.csproj";
+			#if NANTBUILD
+			projectPath = @"..\tests\nunit.tests.dll.csproj";
+			#endif
+			NUnitProject project = NUnitProject.FromVSProject( projectPath );
 			Assert.Equals( 2, project.Configs.Count );
 			Assert.True( "Missing Debug Config", project.Configs.Contains( "Debug" ) );
 			Assert.True( "Missing Release Config", project.Configs.Contains( "Release" ) );
@@ -90,7 +94,11 @@ namespace NUnit.Tests
 		[Test]
 		public void FromVBProject()
 		{
-			NUnitProject project = NUnitProject.FromVSProject( @"..\..\..\samples\vb\vb-sample.vbproj" );
+			string projectPath = @"..\..\..\samples\vb\vb-sample.vbproj";
+			#if NANTBUILD
+			projectPath = @"..\samples\vb\vb-sample.vbproj";
+			#endif
+			NUnitProject project = NUnitProject.FromVSProject( projectPath );
 			Assert.Equals( 2, project.Configs.Count );
 			Assert.True( "Missing Debug config", project.Configs.Contains( "Debug" ) );
 			Assert.True( "Missing Release config", project.Configs.Contains( "Release" ) );
@@ -103,7 +111,11 @@ namespace NUnit.Tests
 		[Test]
 		public void FromCppProject()
 		{
-			NUnitProject project = NUnitProject.FromVSProject( @"..\..\..\samples\cpp-sample\cpp-sample.vcproj" );
+			string projectPath = @"..\..\..\samples\cpp-sample\cpp-sample.vcproj";
+			#if NANTBUILD
+			projectPath = @"..\samples\cpp-sample\cpp-sample.vcproj";
+			#endif
+			NUnitProject project = NUnitProject.FromVSProject( projectPath );
 			Assert.Equals( 2, project.Configs.Count );
 			Assert.True( "Missing Debug Config", project.Configs.Contains( "Debug|Win32" ) );
 			Assert.True( "Missing Release Config", project.Configs.Contains( "Release|Win32" ) );
@@ -116,7 +128,11 @@ namespace NUnit.Tests
 		[Test]
 		public void FromVSSolution()
 		{
-			NUnitProject project = NUnitProject.FromVSSolution( @"..\..\..\nunit.sln" );
+			string projectPath = @"..\..\..\nunit.sln";
+			#if NANTBUILD
+			projectPath = @"..\nunit.sln";
+			#endif
+			NUnitProject project = NUnitProject.FromVSSolution( projectPath );
 			Assert.Equals( 4, project.Configs.Count );
 			Assert.True( "Missing Debug Config", project.Configs.Contains( "Debug" ) );
 			Assert.True( "Missing Release Config", project.Configs.Contains( "Release" ) );

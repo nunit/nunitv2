@@ -60,6 +60,9 @@ namespace NUnit.Tests
 		public void LoadCsharpProject()
 		{
 			string fileName = @"..\..\nunit.tests.dll.csproj";
+			#if NANTBUILD
+			fileName = @"..\tests\nunit.tests.dll.csproj";
+			#endif
 			VSProject project = new VSProject( fileName );
 
 			Assert.Equals( "nunit.tests.dll", project.Name );
@@ -74,6 +77,9 @@ namespace NUnit.Tests
 		public void LoadVbProject()
 		{
 			string fileName = @"..\..\..\samples\vb\vb-sample.vbproj";
+			#if NANTBUILD
+			fileName = @"..\samples\vb\vb-sample.vbproj";
+			#endif
 			VSProject project = new VSProject( fileName );
 
 			Assert.Equals( "vb-sample", project.Name );
@@ -87,6 +93,9 @@ namespace NUnit.Tests
 		public void LoadCppProject()
 		{
 			string fileName = @"..\..\..\samples\cpp-sample\cpp-sample.vcproj";
+			#if NANTBUILD
+			fileName = @"..\samples\cpp-sample\cpp-sample.vcproj";
+			#endif
 			VSProject project = new VSProject( fileName );
 
 			Assert.Equals( "cpp-sample", project.Name );

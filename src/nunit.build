@@ -66,7 +66,7 @@
 				<includes name="${build.dir}/nunit.framework.dll"/>
 			</references>
 		</csc>
-		<csc target="library" output="${build.dir}\nunit.tests.dll" debug="${debug}">
+		<csc target="library" output="${build.dir}\nunit.tests.dll" debug="${debug}" define="NANTBUILD">
 			<sources basedir="Tests">
 				<includes name="*.cs"/>
 			</sources>
@@ -85,16 +85,6 @@
 			</fileset>
 		</copy>
 	</target>
-	
-<!-- comment out until nant supports nunit 2.1
-
-	<target name="test" depends="nunit.tests">
-		<echo message="${nant.project.basedir}"/>
-		<nunit2>
-			<test assemblyname="${nant.project.basedir}\${build.dir}\nunit.tests.dll" fork="true" type="Plain"/>
-		</nunit2>
-	</target>
--->
 
 	<target name="test" depends="nunit.tests">
 		<exec basedir="${build.dir}" workingdir="${build.dir}" program="nunit-console.exe" commandline="nunit.tests.dll"/>
