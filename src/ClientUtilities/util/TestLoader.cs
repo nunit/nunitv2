@@ -380,14 +380,14 @@ namespace NUnit.Util
 					break;
 
 				case ProjectChangeType.AddConfig:
-					break;
-
-				case ProjectChangeType.RemoveConfig:
-					break;
-
 				case ProjectChangeType.UpdateConfig:
 					if ( e.configName == TestProject.ActiveConfigName && TestProject.IsLoadable )
 						LoadTest();
+					break;
+
+				case ProjectChangeType.RemoveConfig:
+					if ( IsTestLoaded && TestProject.Configs.Count == 0 )
+						UnloadTest();
 					break;
 
 				default:
