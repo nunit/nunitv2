@@ -191,6 +191,7 @@ namespace NUnit.Console
 				: new ConsoleWriter(Console.Error);
 
 			TestDomain testDomain = new TestDomain(outStream, errorStream);
+			if ( options.noshadow  ) testDomain.ShadowCopyFiles = false;
 
 			Test test = MakeTestFromCommandLine(testDomain, options);
 
@@ -217,38 +218,47 @@ namespace NUnit.Console
 				testDomain.SetFilter( new CategoryFilter( options.ExcludedCategories, true ) );
 			}
 
+			//			if ( runOnThread )
+			//			{
+			//				testDomain.RunTest( collector );
+			//				testDomain.WaitForTestToComplete();
+			//			}
+			//			else
 			result = testDomain.Run( collector );
 
 			Directory.SetCurrentDirectory( savedDirectory );
 			
 			Console.WriteLine();
 
-			StringBuilder builder = new StringBuilder();
-			XmlResultVisitor resultVisitor = new XmlResultVisitor(new StringWriter( builder ), result);
-			result.Accept(resultVisitor);
-			resultVisitor.Write();
-
-			string xmlOutput = builder.ToString();
-
+			string xmlOutput = CreateXmlOutput( result );
+			
 			if (options.xmlConsole)
 				Console.WriteLine(xmlOutput);
 			else
 				CreateSummaryDocument(xmlOutput, transformReader);
 
 			// Write xml output here
-			string xmlResult = options.IsXml ? options.xml : "TestResult.xml";
+			string xmlResultFile = options.IsXml ? options.xml : "TestResult.xml";
 
-			using (StreamWriter writer = new StreamWriter(xmlResult)) 
+			using ( StreamWriter writer = new StreamWriter( xmlResultFile ) ) 
 			{
 				writer.Write(xmlOutput);
 			}
 
-			int resultCode = 0;
-			
-			if(result.IsFailure)
-				resultCode = 1;
+			if ( testDomain != null )
+				testDomain.Unload();
 
-			return resultCode;
+			return result.IsFailure ? 1 : 0;
+		}
+
+		private string CreateXmlOutput( TestResult result )
+		{
+			StringBuilder builder = new StringBuilder();
+			XmlResultVisitor resultVisitor = new XmlResultVisitor(new StringWriter( builder ), result);
+			result.Accept(resultVisitor);
+			resultVisitor.Write();
+
+			return builder.ToString();
 		}
 
 		private void CreateSummaryDocument(string xmlOutput, XmlTextReader transformReader)
