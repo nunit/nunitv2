@@ -28,7 +28,7 @@
 #endregion
 
 using System;
-using System.Text;
+using NUnit.Core;
 using NUnit.Framework;
 
 namespace NUnit.Tests.Assertions
@@ -39,7 +39,7 @@ namespace NUnit.Tests.Assertions
 		[TestFixture]
 		internal class VerifyFailThrowsException
 		{
-			internal string failureMessage;
+			internal string failureMessage = "This should call fail";
 
 			[Test]
 			public void CallAssertionFail()
@@ -62,10 +62,11 @@ namespace NUnit.Tests.Assertions
 		{
 			string failureMessage = "This should call fail";
 			
-			VerifyFailThrowsException verifyFail = new VerifyFailThrowsException();
-			verifyFail.failureMessage = failureMessage;
+			Type fixtureType = typeof(VerifyFailThrowsException);
 
-			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(verifyFail, "CallAssertionFail");
+			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType, "CallAssertionFail"));
+			TestFixture suite = new TestFixture(fixtureType);
+			suite.Add(test);
 			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "VerifyFailThrowsException should have failed");
 			Assert.AreEqual(failureMessage, result.Message);
@@ -96,11 +97,14 @@ namespace NUnit.Tests.Assertions
 		[Test]
 		public void FailRecordInnerException()
 		{
+			Type fixtureType = typeof(VerifyTestResultRecordsInnerExceptions);
 			VerifyTestResultRecordsInnerExceptions verifyInner = new VerifyTestResultRecordsInnerExceptions();
 				
 			string failureMessage = verifyInner.failureMessage;
 
-			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(verifyInner, "ThrowInnerException");
+			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType, "ThrowInnerException"));
+			TestFixture suite = new TestFixture(fixtureType);
+			suite.Add(test);
 			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "VerifyTestResultRecordsInnerExceptions should have failed");
 			Assert.AreEqual(failureMessage, result.Message);

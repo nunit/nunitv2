@@ -33,15 +33,6 @@ namespace NUnit.Extensions
 			RecordException( exception, testResult );
 		}
 
-//		public override void RunTestMethod (TestCaseResult testResult)
-//		{
-//			TestCaseResult res = new TestCaseResult(this);
-//			for (int i = 0; i < count; i++)
-//			{
-//				base.RunTestMethod (testResult);
-//			}
-//		}
-
 		public override void doRun(TestCaseResult testResult)
 		{
 			failed = false;

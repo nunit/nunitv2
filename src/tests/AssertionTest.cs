@@ -1,3 +1,5 @@
+using NUnit.Core;
+
 #region Copyright (c) 2002-2003, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip A. Craig
 /************************************************************************************
 '
@@ -363,7 +365,7 @@ namespace NUnit.Tests.Assertions
 		[TestFixture]
 			internal class VerifyFailThrowsException
 		{
-			internal string failureMessage;
+			internal string failureMessage = "this should call fail";
 
 			[Test]
 			public void CallAssertionFail()
@@ -378,8 +380,11 @@ namespace NUnit.Tests.Assertions
 			string failureMessage = "this should call fail";
 			VerifyFailThrowsException verifyFail = new VerifyFailThrowsException();
 			verifyFail.failureMessage = failureMessage;
+			Type verifyFailType = typeof(VerifyFailThrowsException);
 
-			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(verifyFail, "CallAssertionFail");
+			NUnit.Core.Test test = NUnit.Core.TestCaseBuilder.Make(verifyFailType, Reflect.GetMethod(verifyFailType, "CallAssertionFail"));
+			TestFixture suite = new TestFixture(verifyFailType);
+			suite.Add(test);
 			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);
 			Assertion.Assert("VerifyFailThrowsException should have failed", result.IsFailure);
 			Assertion.AssertEquals(failureMessage, result.Message);

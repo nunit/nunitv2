@@ -124,30 +124,6 @@ namespace NUnit.Core
 
 			return testCase;
 		}
-
-		#region Make Test Cases with pre-created fixtures
-
-		// TODO: These methods are only used by our tests, since we no longer
-		// create the fixture in advance. They should be phased out.
-
-		public static TestCase Make(object fixture, MethodInfo method)
-		{
-			TestCase testCase = Make( fixture.GetType(), method );
-			testCase.Fixture = fixture;
-
-			return testCase;
-		}
-
-		public static TestCase Make(object fixture, string methodName)
-		{
-			MethodInfo method = Reflect.GetMethod( fixture.GetType(), methodName );
-			if ( method != null )
-				return Make(fixture, method);
-
-			return null;
-		}
-
-		#endregion
 	}
 }
 

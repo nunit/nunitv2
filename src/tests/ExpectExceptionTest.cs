@@ -71,8 +71,10 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void TestBaseException()
 		{
-			BaseException be = new BaseException();
-			Test test = TestCaseBuilder.Make(be, "BaseExceptionTest");
+			Type fixtureType = typeof(BaseException);
+			Test test = TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType,"BaseExceptionTest"));
+			TestFixture suite = new TestFixture(fixtureType);
+			suite.Add(test);
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "BaseExceptionTest should have failed");
 			Assert.AreEqual("Expected: ArgumentException but was Exception", result.Message);
@@ -81,8 +83,10 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void TestMismatchedException()
 		{
-			MismatchedException me = new MismatchedException();
-			Test test = TestCaseBuilder.Make(me, "MismatchedExceptionTest");
+			Type fixtureType = typeof(MismatchedException);
+			Test test = TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType,"MismatchedExceptionTest"));
+			TestFixture suite = new TestFixture(fixtureType);
+			suite.Add(test);
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "MismatchedExceptionTest should have failed");
 			Assert.AreEqual("Expected: ArgumentException but was ArgumentOutOfRangeException", result.Message);

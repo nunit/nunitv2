@@ -12,11 +12,6 @@ namespace NUnit.Core
 			return new NormalTestCase(fixtureType, method);
 		}
 
-		public TestCase Make(object fixture, MethodInfo method)
-		{
-			return new NormalTestCase(fixture, method);
-		}
-
 		public TestCase Make (Type fixtureType, MethodInfo method, object attribute)
 		{
 			return Make(fixtureType, method);

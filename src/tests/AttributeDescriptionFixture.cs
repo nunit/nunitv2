@@ -53,12 +53,14 @@ namespace NUnit.Tests.Attributes
 	public class TestAttributeFixture
 	{
 		MockFixture fixture = new MockFixture();
-		NUnit.Core.TestCase testCase; 
+		Type fixtureType;
+		NUnit.Core.TestCase testCase;
 
 		[SetUp]
 		public void Init()
 		{
-			testCase = TestCaseBuilder.Make(fixture, "Method");
+			fixtureType = typeof(MockFixture);
+			testCase = TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType, "Method"));
 		}
 
 		[Test]
@@ -91,7 +93,7 @@ namespace NUnit.Tests.Attributes
 		[Test]
 		public void NoDescription()
 		{
-			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(fixture, "NoDescriptionMethod");
+			NUnit.Core.TestCase testCase = TestCaseBuilder.Make(fixtureType, Reflect.GetMethod(fixtureType,"NoDescriptionMethod"));
 			Assert.IsNull(testCase.Description);
 		}
 

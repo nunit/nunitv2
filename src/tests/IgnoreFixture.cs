@@ -28,9 +28,11 @@ namespace NUnit.Tests.Assertions
 		[Test]
 		public void IgnoreWorksForTestCase()
 		{
-			IgnoredTestCaseFixture fixture = new IgnoredTestCaseFixture();
-			Test test = TestCaseBuilder.Make( fixture, "CallsIgnore" );
-			TestResult result = test.Run( NullListener.NULL, null );
+			Type fixtureType = typeof(IgnoredTestCaseFixture);
+			Test test = TestCaseBuilder.Make( fixtureType, Reflect.GetMethod(fixtureType, "CallsIgnore") );
+			TestFixture suite = new TestFixture(fixtureType);
+			suite.Add(test);
+			TestResult result = test.Run( NullListener.NULL);
 			Assert.IsFalse( result.Executed, "TestCase should not run" );
 			Assert.AreEqual( "Ignore me", result.Message );
 		}
