@@ -88,8 +88,7 @@
 		</csc>
 		<copy file="tests\nunit.tests.dll.1.0.config" todir="${build.dir}"/>
 		<copy file="tests\nunit.tests.dll.1.1.config" todir="${build.dir}"/>
-		<copy file="tests\nunit.tests.dll.${netversion}.config" todir="${build.dir}"/>
-			tofile="nunit.tests.dll.config"/>
+		<copy file="tests\nunit.tests.dll.${netversion}.config" 			tofile="${build.dir}\nunit.tests.dll.config"/>
 	</target>
 
 	<target name="test" depends="nunit.tests">
