@@ -27,6 +27,7 @@ namespace NUnit.Tests
 			handler = new CounterEventHandler();
 			watcher = new AssemblyWatcher(watcherDelayMs, file);
 			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( handler.OnChanged );
+			watcher.Start();
 		}
 
 		[TearDown]

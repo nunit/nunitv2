@@ -36,7 +36,7 @@ namespace NUnit.Util
 	public class AssemblyWatcher
 	{
 		FileSystemWatcher fileWatcher;
-		System.Timers.Timer timer;
+		protected System.Timers.Timer timer;
 		FileInfo fileInfo;
 
 		public delegate void AssemblyChangedHandler(String fullPath);
@@ -49,12 +49,35 @@ namespace NUnit.Util
 			fileWatcher.Filter = file.Name;
 			fileWatcher.NotifyFilter = NotifyFilters.Size;
 			fileWatcher.Changed+=new FileSystemEventHandler(OnChanged);
-			fileWatcher.EnableRaisingEvents = true;
-			timer = new System.Timers.Timer(delay);
+			fileWatcher.EnableRaisingEvents = false;
+
+			fileInfo = file;
+			
+			timer = new System.Timers.Timer( delay );
 			timer.AutoReset=false;
 			timer.Enabled=false;
 			timer.Elapsed+=new ElapsedEventHandler(OnTimer);
-			fileInfo = file;
+		}
+
+		public string Name
+		{
+			get { return fileInfo.Name; }
+		}
+
+		public string DirectoryName
+		{
+			get { return fileInfo.DirectoryName; }
+		}
+
+		public string FullName
+		{
+			get { return fileInfo.FullName; }
+		}
+
+
+		public void Start()
+		{
+			fileWatcher.EnableRaisingEvents=true;
 		}
 
 		public void Stop()
@@ -62,26 +85,38 @@ namespace NUnit.Util
 			fileWatcher.EnableRaisingEvents=false;
 		}
 
-		private void OnTimer(Object source, ElapsedEventArgs e)
+		protected void OnTimer(Object source, ElapsedEventArgs e)
 		{
 			lock(this)
 			{
-				if ( AssemblyChangedEvent != null )
-					AssemblyChangedEvent( fileInfo.FullName );
+				PublishEvent();
 				timer.Enabled=false;
 			}
 		}
 		
-		private void OnChanged(object source, FileSystemEventArgs e)
+		protected void OnChanged(object source, FileSystemEventArgs e)
 		{
-			lock(this)
+			if ( timer != null )
 			{
-				if(!timer.Enabled)
+				lock(this)
 				{
-					timer.Enabled=true;
+					if(!timer.Enabled)
+					{
+						timer.Enabled=true;
+					}
+					timer.Start();
 				}
-				timer.Start();
 			}
-		}	
+			else
+			{
+				PublishEvent();
+			}
+		}
+	
+		protected void PublishEvent()
+		{
+			if ( AssemblyChangedEvent != null )
+				AssemblyChangedEvent( fileInfo.FullName );
+		}
 	}
 }
