@@ -7,6 +7,7 @@ ConfigurationEditor.cs
 ExpandingLabel.cs
 ExpandingTextBox.cs
 FolderBrowser.cs
+GuiTestEventDispatcher.cs
 NotRunTree.cs
 ProgressBar.cs
 RecentFileMenuHandler.cs

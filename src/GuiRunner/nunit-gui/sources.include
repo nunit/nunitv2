@@ -3,6 +3,11 @@ AppEntry.cs
 AssemblyInfo.cs
 DetailResults.cs
 ExceptionDetailsForm.cs
+FormSettings.cs
 NUnitForm.cs
+NUnitGuiSettings.cs
 OptionsDialog.cs
+OptionSettings.cs
 ProjectEditor.cs
+RecentProjectSettings.cs
+UserSettings.cs

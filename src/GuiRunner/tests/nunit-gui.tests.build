@@ -14,10 +14,9 @@
   <target name="build" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/nunit-gui.tests.dll" 
-        win32icon="Logo.ico" debug="${build.debug}"
-        define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
-        <includesfile name="*.cs"/>
+        <include name="*.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit-gui-runner.dll"/>

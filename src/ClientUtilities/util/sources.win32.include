@@ -1,13 +1,8 @@
-FormSettings.cs
 ITestEvents.cs
 ITestLoader.cs
-NUnitGuiSettings.cs
 NUnitRegistry.cs
-OptionSettings.cs
 RecentFileSettings.cs
-RecentProjectSettings.cs
 RegistrySettingsStorage.cs
 TestEventArgs.cs
 TestEventDispatcher.cs
 TestLoader.cs
-UserSettings.cs

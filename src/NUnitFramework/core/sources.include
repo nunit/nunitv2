@@ -2,6 +2,7 @@ AssemblyInfo.cs
 AssemblyResolver.cs
 CategoryFilter.cs
 CategoryManager.cs
+DirectorySwapper.cs
 EmptyFilter.cs
 EventListener.cs
 ExpectedExceptionBuilder.cs

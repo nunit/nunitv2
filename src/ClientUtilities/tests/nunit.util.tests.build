@@ -17,15 +17,12 @@
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
         <include name="*.cs"/>
-        <exclude name="FormSettingsTests.cs" if="${build.mono}"/>
         <exclude name="GuiFixture.cs" if="${build.mono}"/>
         <exclude name="NUnitRegistryTests.cs" if="${build.mono}"/>
-        <exclude name="OptionSettingsTests.cs" if="${build.mono}"/>
         <exclude name="RegistrySettingsStorageTests.cs" if="${build.mono}"/>
         <exclude name="RecentProjectsFixture.cs" if="${build.mono}"/>
         <exclude name="SettingsGroupTests.cs" if="${build.mono}"/>
         <exclude name="TestLoaderAssemblyTests.cs" if="${build.mono}"/>
-        <exclude name="UserSettingsTests.cs" if="${build.mono}"/>
         <exclude name="TestEventCatcher.cs" if="${build.mono}"/>
         <exclude name="EventDispatcherTests.cs" if="${build.mono}"/>
       </sources>
@@ -42,6 +39,8 @@
         <include name="samples_VS2005.sln"/>
         <include name="ClassLibrary1.csproj"/>
         <include name="WebApplication1.sln"/>
+        <include name="Unmanaged.vcproj"/>
+        <include name="Solution1.sln"/>
       </resources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
@@ -50,6 +49,7 @@
         <include name="nunit.mocks.dll"/>
         <include name="test-utilities.dll"/>
         <include name="mock-assembly.dll"/>
+        <include name="nonamespace-assembly.dll"/>
         <include name="notestfixtures-assembly.dll"/>
       </references>
     </csc>

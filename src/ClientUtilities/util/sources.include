@@ -7,6 +7,7 @@ ConsoleOptions.cs
 ConsoleWriter.cs
 GuiOptions.cs
 NUnitProject.cs
+RecentFiles.cs
 ProjectConfig.cs
 ProjectConfigCollection.cs
 ProjectFormatException.cs

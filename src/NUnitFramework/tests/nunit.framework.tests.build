@@ -11,11 +11,6 @@
     <delete file="${current.build.dir}/nunit.framework.tests.pdb" failonerror="false"/>
   </target>
 
-  <target name="clean" depends="set-build-dir">
-    <delete file="${current.build.dir}/nunit.framework.tests.dll" failonerror="false"/>
-    <delete file="${current.build.dir}/nunit.framework.tests.pdb" failonerror="false"/>
-  </target>
-
   <target name="build" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/nunit.framework.tests.dll"
