@@ -1,8 +1,8 @@
 #region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -63,29 +63,6 @@ namespace NUnit.UiKit
 			this.loader = loader;
 		}
 
-		public void NewProject()
-		{
-			SaveFileDialog dlg = new SaveFileDialog();
-			dlg.Title = "Create New Test Project";
-			dlg.Filter = "NUnit Test Project (*.nunit)|*.nunit|All Files (*.*)|*.*";
-			dlg.DefaultExt = "nunit";
-			dlg.ValidateNames = true;
-			dlg.OverwritePrompt = true;
-
-			if ( dlg.ShowDialog( owner ) == DialogResult.OK )
-			{
-				CloseProject();
-
-				NUnitProject project = new NUnitProject();
-				project.Configs.Add( "Debug" );
-				project.Configs.Add( "Release" );
-				project.ActiveConfigName = "Debug";
-				project.Save( dlg.FileName );
-
-				loader.TestProject = project;
-			}		
-		}
-
 		public void OpenProject()
 		{
 			OpenFileDialog dlg = new OpenFileDialog();
@@ -118,6 +95,12 @@ namespace NUnit.UiKit
 
 			if ( dlg.ShowDialog( owner ) == DialogResult.OK ) 
 			{
+				// TODO: Split this function so we don't
+				// close a project till we succeed in
+				// opening the new one.
+				if ( loader.IsProjectLoaded )
+					CloseProject();
+
 				loader.LoadProject( dlg.FileName );
 
 				if ( loader.IsProjectLoaded )
@@ -134,30 +117,9 @@ namespace NUnit.UiKit
 			}
 		}
 
-		public void SetActiveConfig( int index )
-		{
-			SetActiveConfig( loader.TestProject.Configs[index] );
-		}
-
-		public void SetActiveConfig( string name )
-		{
-			SetActiveConfig( loader.TestProject.Configs[name] );
-		}
-
-		private void SetActiveConfig( ProjectConfig config )
-		{
-			if ( config.Assemblies.Count == 0 )
-				UserMessage.DisplayFailure( "Selected Config cannot be loaded. It contains no assemblies." );
-			else
-			{
-				loader.TestProject.ActiveConfigName = config.Name;
-				loader.LoadTest();
-			}
-		}
-
 		public void AddAssembly( )
 		{
-			AddAssembly( loader.TestProject.ActiveConfigName );
+			AddAssembly( loader.TestProject.ActiveConfig.Name );
 		}
 
 		public void AddAssembly( string configName )
@@ -175,7 +137,7 @@ namespace NUnit.UiKit
 			if ( dlg.ShowDialog( owner ) == DialogResult.OK ) 
 			{
 				loader.TestProject.Configs[configName].Assemblies.Add( dlg.FileName );
-				if ( loader.IsTestLoaded && configName == loader.TestProject.ActiveConfigName )
+				if ( loader.IsTestLoaded && configName == loader.TestProject.ActiveConfig.Name )
 					loader.LoadTest();
 			}
 		}
@@ -207,10 +169,10 @@ namespace NUnit.UiKit
 
 		public void SaveProject()
 		{
-			if ( loader.TestProject.ProjectPath == null )
-				SaveProjectAs();
-			else
+			if ( Path.IsPathRooted( loader.TestProject.ProjectPath ) )
 				loader.TestProject.Save();
+			else
+				SaveProjectAs();
 		}
 
 		public void SaveProjectAs()
@@ -229,18 +191,24 @@ namespace NUnit.UiKit
 
 		public void CloseProject()
 		{
-			if( loader.TestProject.IsDirty && !loader.TestProject.IsWrapper )
+			if( loader.TestProject.IsDirty )
 			{
 				string msg = "Project has been changed. Do you want to save changes?";
 
 				if ( UserMessage.Ask( msg ) == DialogResult.Yes )
 					SaveProject();
 			}
+			
+			string recentFileName = loader.TestFileName;
 
-			if ( loader.TestProject.IsWrapper )
-				UserSettings.RecentAssemblies.RecentFile = loader.TestFileName;
-			else
-				UserSettings.RecentProjects.RecentFile = loader.TestFileName;
+			if ( recentFileName != null )
+			{
+				// An unsaved assembly goes to recent assemblies
+				if( loader.TestProject.IsAssemblyWrapper )
+					UserSettings.RecentAssemblies.RecentFile = recentFileName;
+				else
+					UserSettings.RecentProjects.RecentFile = recentFileName;
+			}
 
 			loader.UnloadProject();
 		}

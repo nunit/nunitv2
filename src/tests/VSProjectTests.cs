@@ -41,13 +41,6 @@ namespace NUnit.Tests
 	public class VSProjectTests
 	{
 		[Test]
-		public void CreateEmptyProject()
-		{
-			VSProject project = new VSProject();
-			Assertion.AssertEquals( 0, project.Configs.Count );
-		}
-
-		[Test]
 		public void SolutionExtension()
 		{
 			Assertion.Assert( VSProject.IsSolutionFile( @"\x\y\project.sln" ) );

@@ -30,6 +30,7 @@
 using System;
 using System.Collections;
 using System.Xml;
+using System.Xml.Schema;
 using System.IO;
 using System.Threading;
 using NUnit.Framework;
@@ -40,9 +41,16 @@ namespace NUnit.Util
 	/// <summary>
 	/// Class that represents an NUnit test project
 	/// </summary>
-	public class NUnitProject : IProjectContainer
+	public class NUnitProject : Project
 	{
+		public NUnitProject( string filePath ) : base( filePath ) { }
+
 		#region Static and instance variables
+
+		/// <summary>
+		/// Used to generate default names for projects
+		/// </summary>
+		private static int projectSeed = 0;
 
 		/// <summary>
 		/// The extension used for test projects
@@ -50,55 +58,14 @@ namespace NUnit.Util
 		private static readonly string nunitExtension = ".nunit";
 
 		/// <summary>
-		/// The path to the project as saved.
-		/// </summary>
-		private string projectPath;
-
-		/// <summary>
 		/// The path from which the project was loaded
 		/// </summary>
 		private string loadPath;
 
 		/// <summary>
-		/// Dirty bit indicates we need to save
+		/// The currently active configuration
 		/// </summary>
-		private bool isDirty = false;
-
-		/// <summary>
-		/// Wrapper bit indicates an anonymous project
-		/// that is wrapping a single assembly.
-		/// </summary>
-		private bool isWrapper = false;
-
-		/// <summary>
-		/// Our collection of configurations
-		/// </summary>
-		private ProjectConfigCollection configs;
-
-		/// <summary>
-		/// Name of the current active configuration
-		/// </summary>
-		private string activeConfigName;
-
-		/// <summary>
-		/// Default base path for the project
-		/// </summary>
-		private string basePath;
-
-		#endregion
-
-		#region Constructors
-
-		public NUnitProject() 
-		{	
-			configs = new ProjectConfigCollection( this );		
-		}
-
-		public NUnitProject( string filePath )
-		{
-			configs = new ProjectConfigCollection( this );		
-			Load( filePath );
-		}
+		private ProjectConfig activeConfig;
 
 		#endregion
 
@@ -109,34 +76,56 @@ namespace NUnit.Util
 			return Path.GetExtension( path ) == nunitExtension;
 		}
 
+		public static string GenerateProjectName()
+		{
+			return string.Format( "Project{0}", ++projectSeed );
+		}
+
+		public static NUnitProject EmptyProject()
+		{
+			return new NUnitProject( GenerateProjectName() );
+		}
+
 		/// <summary>
 		/// Return a test project by either loading it from
 		/// the supplied path, creating one from a VS file
 		/// or wrapping an assembly.
 		/// </summary>
-		public static NUnitProject MakeProject( string path )
+		public static NUnitProject LoadProject( string path )
 		{
-			NUnitProject project = null;
-
 			if ( NUnitProject.IsProjectFile( path ) )
-				project = new NUnitProject( path );
-			else
 			{
-				string projectPath = NUnitProject.ProjectPathFromFile( path );
-				
-				if ( File.Exists( projectPath ) )
-					project = new NUnitProject( projectPath );
-				else if ( VSProject.IsProjectFile( path ) )
-					project = NUnitProject.FromVSProject( path );
-				else if ( VSProject.IsSolutionFile( path ) )
-					project = NUnitProject.FromVSSolution( path );
-				else
-					project = NUnitProject.FromAssembly( path );
-					// No automatic save for assemblies
+				NUnitProject project = new NUnitProject( path );
+				project.Load();
+				return project;
 			}
+			else if ( VSProject.IsProjectFile( path ) )
+				return NUnitProject.FromVSProject( path );
+			else if ( VSProject.IsSolutionFile( path ) )
+				return NUnitProject.FromVSSolution( path );
+			else
+				return NUnitProject.FromAssembly( path );
+			
+		}
 
-			if ( project.IsDirty && ! project.isWrapper )
-				project.Save();
+		/// <summary>
+		/// Creates a project to wrap a list of assemblies
+		/// </summary>
+		public static NUnitProject FromAssemblies( string[] assemblies )
+		{
+			NUnitProject project = NUnitProject.EmptyProject();
+			ProjectConfig config = new ProjectConfig( "Default" );
+			foreach( string assembly in assemblies )
+				config.Assemblies.Add( assembly );
+			project.Configs.Add( config );
+
+			// TODO: Deduce application base, and provide a
+			// better value for loadpath and project path
+			// analagous to how new projects are handled
+			string basePath = Path.GetDirectoryName( Path.GetFullPath( assemblies[0] ) );
+			project.projectPath = Path.Combine( basePath, project.Name + ".nunit" );
+
+			project.IsDirty = true;
 
 			return project;
 		}
@@ -144,45 +133,46 @@ namespace NUnit.Util
 		/// <summary>
 		/// Creates a project to wrap an assembly
 		/// </summary>
-		public static NUnitProject FromAssemblies( string[] assemblies )
+		public static NUnitProject FromAssembly( string assemblyPath )
 		{
-			NUnitProject project = new NUnitProject();
-			ProjectConfig config = new ProjectConfig( "Default" );
-			foreach( string assembly in assemblies )
-				config.Assemblies.Add( assembly );
-			project.Configs.Add( config );
-			project.ActiveConfigName = "Default";
+			string loadPath = Path.GetFullPath( assemblyPath );
+			string projectPath = ProjectPathFromFile( loadPath );
 
-			project.loadPath = Path.GetFullPath( assemblies[0] );
-			project.projectPath = ProjectPathFromFile( project.loadPath );
-			project.isWrapper = true;
+			NUnitProject project = new NUnitProject( projectPath );
+			project.loadPath = loadPath;
+			
+			ProjectConfig config = new ProjectConfig( "Default" );
+			config.Assemblies.Add( assemblyPath );
+			project.Configs.Add( config );
+
+			project.IsDirty = false;
 
 			return project;
 		}
 
-		public static NUnitProject FromAssembly( string assemblyPath )
-		{
-			return FromAssemblies( new string[] { assemblyPath } );
-		}
-
 		public static NUnitProject FromVSProject( string vsProjectPath )
 		{
-			NUnitProject project = new NUnitProject();
-			VSProject vsProject = new VSProject( vsProjectPath );
+			string loadPath = Path.GetFullPath( vsProjectPath );
+			string projectPath = ProjectPathFromFile( loadPath );
 
+			NUnitProject project = new NUnitProject( projectPath );
+			project.loadPath = loadPath;
+
+			VSProject vsProject = new VSProject( vsProjectPath );
 			project.Add( vsProject );
 
-			project.loadPath = Path.GetFullPath( vsProjectPath );
-			project.projectPath = ProjectPathFromFile( project.loadPath );
-			if ( project.Configs.Count > 0 )
-				project.ActiveConfigName = project.Configs[0].Name;
+			project.isDirty = true;
 
 			return project;
 		}
 
 		public static NUnitProject FromVSSolution( string solutionPath )
 		{
-			NUnitProject project = new NUnitProject();
+			string loadPath = Path.GetFullPath( solutionPath );
+			string projectPath = ProjectPathFromFile( loadPath );
+
+			NUnitProject project = new NUnitProject( projectPath );
+			project.loadPath = loadPath;
 
 			string solutionDirectory = Path.GetDirectoryName( solutionPath );
 			StreamReader reader = new StreamReader( solutionPath );
@@ -205,11 +195,7 @@ namespace NUnit.Util
 				line = reader.ReadLine();
 			}
 
-			project.loadPath = Path.GetFullPath( solutionPath );
-			project.projectPath = ProjectPathFromFile( project.loadPath );
-
-			if ( project.Configs.Count > 0 )
-				project.activeConfigName = project.Configs[0].Name;
+			project.isDirty = true;
 
 			return project;
 		}
@@ -227,46 +213,32 @@ namespace NUnit.Util
 
 		#region Properties
 
-		public string ProjectPath
+		public static int ProjectSeed
 		{
-			get { return projectPath; }
+			get { return projectSeed; }
+			set { projectSeed = value; }
 		}
 
+		// Path from which project was loaded.
 		public string LoadPath
 		{
 			get { return loadPath; }
 		}
 
-		public bool IsDirty
-		{
-			get { return isDirty; }
-			set { isDirty = value; }
-		}
-
-		public bool IsWrapper
-		{
-			get { return isWrapper; }
-		}
-
-		public string TestFileName
-		{
-			get { return isWrapper ? LoadPath : ProjectPath; }
-		}
-
-		public string ActiveConfigName
-		{
-			get	{ return activeConfigName; }
-			set	{ isDirty = true; activeConfigName = value; }
-		}
-
 		public ProjectConfig ActiveConfig
 		{
-			get { return configs[activeConfigName]; }
-		}
-
-		public ProjectConfigCollection Configs
-		{
-			get { return configs; }
+			get 
+			{ 
+				// In case the previous active config was removed
+				if ( activeConfig != null && !configs.Contains( activeConfig ) )
+					activeConfig = null;
+				
+				// In case no active config is set or it was removed
+				if ( activeConfig == null && configs.Count > 0 )
+					activeConfig = configs[0];
+				
+				return activeConfig; 
+			}
 		}
 
 		public bool IsLoadable
@@ -274,25 +246,43 @@ namespace NUnit.Util
 			get
 			{
 				return	ActiveConfig != null &&
-						ActiveConfig.Assemblies.Count > 0;
+					ActiveConfig.Assemblies.Count > 0;
 			}
 		}
 
-		public string BasePath
+		// A project made from a single assembly is treated
+		// as a transparent wrapper for some purposes until
+		// a change is made to it.
+		public bool IsAssemblyWrapper
 		{
-			get 
-			{ 
-				if ( basePath != null )
-					return basePath;
-
-				return Path.GetDirectoryName( projectPath );
+			get
+			{
+				string extension = Path.GetExtension( LoadPath );
+				return ( extension == ".dll" || extension == ".exe" ) && !IsDirty;
 			}
-			set { isDirty = true; basePath = value; }
 		}
 
 		#endregion
 
 		#region Instance Methods
+
+		public void SetActiveConfig( int index )
+		{
+			activeConfig = configs[index];
+		}
+
+		public void SetActiveConfig( string name )
+		{
+			foreach( ProjectConfig config in configs )
+			{
+				if ( config.Name == name )
+				{
+					activeConfig = config;
+					isDirty = true;
+					break;
+				}
+			}
+		}
 
 		public void Add( VSProject vsProject )
 		{
@@ -312,93 +302,142 @@ namespace NUnit.Util
 			this.IsDirty = true;
 		}
 
-		public void Load( string projectPath )
+		public void Load()
 		{
-			string fullPath = Path.GetFullPath( projectPath );
+			this.loadPath = projectPath;
+			Load( new XmlTextReader( projectPath ) );
+		}
 
+//		public void Load( string projectPath )
+//		{
+//			string fullPath = Path.GetFullPath( projectPath );
+//			//string projectDir = Path.GetDirectoryName( fullPath );
+//			Load( new XmlTextReader( fullPath ) );
+//			
+//			this.loadPath = fullPath;
+//			this.projectPath = fullPath;			
+//		}
+//
+		public void Load( XmlTextReader reader )
+		{
+			string activeConfigName = null;
+			ProjectConfig currentConfig = null;
+			
 			try
 			{
-				XmlDocument doc = new XmlDocument();
-				doc.Load( fullPath );
+				reader.MoveToContent();
+				if ( reader.NodeType != XmlNodeType.Element || reader.Name != "NUnitProject" )
+					throw new ProjectFormatException( 
+						"Invalid project format: <NUnitProject> expected.", 
+						reader.LineNumber, reader.LinePosition );
 
-				string projectDir = Path.GetDirectoryName( fullPath );
+				while( reader.Read() )
+					if ( reader.NodeType == XmlNodeType.Element )
+						switch( reader.Name )
+						{
+							case "Settings":
+								if ( reader.NodeType == XmlNodeType.Element )
+									activeConfigName = reader.GetAttribute( "activeconfig" );
+								break;
 
-				XmlNode settingsNode = doc.SelectSingleNode( "/NUnitProject/Settings" );
-				string activeConfigName = GetAttribute( settingsNode, "activeconfig" );
-				string applicationBase = GetAttribute( settingsNode, "appbase" );
+							case "Config":
+								if ( reader.NodeType == XmlNodeType.Element )
+								{
+									string configName = reader.GetAttribute( "name" );
+									currentConfig = new ProjectConfig( configName );
+									currentConfig.BasePath = reader.GetAttribute( "appbase" );
+									currentConfig.ConfigurationFile = reader.GetAttribute( "configfile" );
+									currentConfig.BinPath = reader.GetAttribute( "binpath" );
+									string auto = reader.GetAttribute( "auto" );
+									currentConfig.AutoBinPath = auto == null ? true : bool.Parse( auto );
+									Configs.Add( currentConfig );
+									if ( configName == activeConfigName )
+										activeConfig = currentConfig;
+								}
+								else if ( reader.NodeType == XmlNodeType.EndElement )
+									currentConfig = null;
+								break;
 
-				bool foundActiveConfig = false;
-		
-				foreach( XmlNode configNode in doc.SelectNodes( "/NUnitProject/Config" ) )
-				{
-					ProjectConfig config = new ProjectConfig( GetAttribute( configNode, "name" ) );
+							case "assembly":
+								if ( reader.NodeType == XmlNodeType.Element
+									&& currentConfig != null )
+									currentConfig.Assemblies.Add( reader.GetAttribute( "path" ) );
+								break;
 
-					foreach( XmlNode assemblyNode in configNode.SelectNodes(  "assembly" ) )
-					{
-						string path = GetAttribute( assemblyNode, "path" );
-				
-						config.Assemblies.Add( path );
-					}
+							default:
+								break;
+						}
 
-					Configs.Add( config );
+				reader.Close();
 
-					if ( config.Name == activeConfigName )
-						foundActiveConfig = true;
-				}
-
-				if ( foundActiveConfig && activeConfigName != null && activeConfigName != "" )
-					this.activeConfigName = activeConfigName;
-				else if ( configs.Count > 0 )
-					this.activeConfigName = configs[0].Name;
-				else
-					this.activeConfigName = null;
-
-				this.basePath = applicationBase;
-				
-				this.loadPath = fullPath;
-				this.projectPath = fullPath;			
 				this.IsDirty = false;
 			}
-			catch( FileNotFoundException )
+			catch( XmlException e )
 			{
-				throw;
+				throw new ProjectFormatException(
+					string.Format( "Invalid project format: {0}", e.Message ),
+					e.LineNumber, e.LinePosition );
 			}
 			catch( Exception e )
 			{
-				throw new ArgumentException( 
-					string.Format( "Invalid project file format: {0}", 
-					Path.GetFileName( projectPath ) ), e );
+				throw new ProjectFormatException( 
+					string.Format( "Invalid project format: {0} Line {1}, Position {2}", 
+					e.Message, reader.LineNumber, reader.LinePosition ),
+					reader.LineNumber, reader.LinePosition );
 			}
 		}
 
 		public void Save()
-		{			
-			StreamWriter writer = new StreamWriter( this.projectPath );
-			writer.WriteLine( "<NUnitProject>" );
+		{
+			XmlTextWriter writer = new XmlTextWriter( this.ProjectPath, System.Text.Encoding.UTF8 );
+			Save( writer );
+		}
 
-			if ( Configs.Count > 0 )
-				writer.WriteLine( "  <Settings activeconfig=\"{0}\"/>", ActiveConfigName );
+		public void Save( XmlTextWriter writer )
+		{
+			writer.Formatting = Formatting.Indented;
+			
+			writer.WriteStartElement( "NUnitProject" );
+			
+			if ( configs.Count > 0 )
+			{
+				writer.WriteStartElement( "Settings" );
+				writer.WriteAttributeString( "activeconfig", ActiveConfig.Name );
+				writer.WriteEndElement();
+			}
 			
 			foreach( ProjectConfig config in Configs )
 			{
-				writer.WriteLine( "  <Config name=\"{0}\">", config.Name );
+				writer.WriteStartElement( "Config" );
+				writer.WriteAttributeString( "name", config.Name );
+				if ( config.BasePath != null )
+					writer.WriteAttributeString( "appbase", config.BasePath );
+				if ( config.ConfigurationFile != null )
+					writer.WriteAttributeString( "configfile", config.ConfigurationFile );
+				if ( config.BinPath != null )
+					writer.WriteAttributeString( "binpath", config.BinPath );
+				if ( !config.AutoBinPath ) // Default is true
+					writer.WriteAttributeString( "auto", "false" );
 
 				foreach( string assembly in config.Assemblies )
 				{
-					writer.WriteLine( "    <assembly path=\"{0}\"/>", assembly );
+					writer.WriteStartElement( "assembly" );
+					writer.WriteAttributeString( "path", assembly );
+					writer.WriteEndElement();
 				}
 
-				writer.WriteLine( "  </Config>" );
+				writer.WriteEndElement();
 			}
 
-			writer.WriteLine( "</NUnitProject>" );
+			writer.WriteEndElement();
+
 			writer.Close();
 			this.IsDirty = false;
 		}
 
 		public void Save( string projectPath )
 		{
-			this.projectPath = projectPath;
+			this.ProjectPath = projectPath;
 			Save();
 		}
 
@@ -407,7 +446,7 @@ namespace NUnit.Util
 		/// </summary>
 		public Test LoadTest( TestDomain testDomain )
 		{
-			if ( IsWrapper && ActiveConfig.Assemblies.Count == 1 )
+			if ( IsAssemblyWrapper )
 			{
 				return testDomain.LoadAssembly( ActiveConfig.Assemblies[0] );
 			}
@@ -418,25 +457,15 @@ namespace NUnit.Util
 				setup.ApplicationName = "Tests";
 				setup.ShadowCopyFiles = "true";
 				
-				setup.ApplicationBase = ActiveConfig.BasePath;
-				setup.ConfigurationFile =  Path.ChangeExtension( ProjectPath, ".config" );
+				setup.ApplicationBase = ActiveConfig.FullBasePath;
+				setup.ConfigurationFile =  ActiveConfig.ConfigurationFilePath;
 
-				string binPath = ActiveConfig.Assemblies.PrivateBinPath;
+				string binPath = ActiveConfig.FullBinPath;
 				setup.ShadowCopyDirectories = binPath;
 				setup.PrivateBinPath = binPath;
 
 				return testDomain.LoadAssemblies( setup, ProjectPath, ActiveConfig.Assemblies.Files );
 			}
-		}
-
-		private string GetAttribute( XmlNode node, string name )
-		{
-			if ( node == null ) return null;
-
-			XmlNode attrNode = node.Attributes[name];
-			if ( attrNode == null ) return null;
-
-			return attrNode.Value;
 		}
 
 		#endregion

@@ -1,8 +1,8 @@
 #region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -834,7 +834,10 @@ namespace NUnit.Gui
 
 		private void newMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.NewProject();
+			if ( IsProjectLoaded )
+				TestLoaderUI.CloseProject();
+
+			TestLoader.NewProject();
 		}
 
 		private void openMenuItem_Click(object sender, System.EventArgs e)
@@ -942,7 +945,7 @@ namespace NUnit.Gui
 				string text = string.Format( "&{0} {1}", index+1, config.Name );
 				MenuItem item = new MenuItem( 
 					text, new EventHandler( configMenuItem_Click ) );
-				if ( config.Name == TestProject.ActiveConfigName ) 
+				if ( config.Name == TestProject.ActiveConfig.Name ) 
 					item.Checked = true;
 				configMenuItem.MenuItems.Add( index++, item );
 			}
@@ -987,7 +990,6 @@ namespace NUnit.Gui
 
 		private void editProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-//			ProjectEditor.Edit( TestProject );
 			ProjectEditor editor = new ProjectEditor( TestProject );
 			editor.ShowDialog( this );
 		}
@@ -1150,7 +1152,7 @@ namespace NUnit.Gui
 			events.RunFinished += new TestEventHandler( OnRunFinished );
 
 			events.ProjectLoaded	+= new TestEventHandler( OnTestProjectLoaded );
-			events.ProjectLoadFailed+= new TestEventHandler( OnTestLoadFailure );
+			events.ProjectLoadFailed+= new TestEventHandler( OnProjectLoadFailure );
 			events.ProjectUnloaded	+= new TestEventHandler( OnTestProjectUnloaded );
 
 			events.TestLoading		+= new TestEventHandler( OnTestLoadStarting );
@@ -1254,22 +1256,25 @@ namespace NUnit.Gui
 			runButton.Enabled = true;
 		}
 
+		private void OnProjectLoadFailure( object sender, TestEventArgs e )
+		{
+			UserMessage.DisplayFailure( e.Exception, "Project Not Loaded" );
+
+			if ( e.IsProjectFile )
+				UserSettings.RecentProjects.Remove( e.TestFileName );
+			else
+				UserSettings.RecentAssemblies.Remove( e.TestFileName );
+
+			runButton.Enabled = true;
+		}
+
 		/// <summary>
 		/// Event handler for assembly load faiulres. We do this via
 		/// an event since some errors may occur asynchronously.
 		/// </summary>
 		private void OnTestLoadFailure( object sender, TestEventArgs e )
 		{
-			UserMessage.DisplayFailure( e.Exception, "Assembly Load Failure" );
-
-			if ( e.IsProjectFile )
-			{
-				UserSettings.RecentProjects.Remove( e.TestFileName );
-			}
-			else
-			{
-				UserSettings.RecentAssemblies.Remove( e.TestFileName );
-			}
+			UserMessage.DisplayFailure( e.Exception, "Assembly Not Loaded" );
 
 			if ( !IsTestLoaded )
 				OnTestUnloaded( sender, e );
@@ -1344,7 +1349,7 @@ namespace NUnit.Gui
 		{
 			this.Text = fileName == null 
 				? "NUnit"
-				: string.Format( "{0} - NUnit", fileName );
+				: string.Format( "{0} - NUnit", Path.GetFileName( fileName ) );
 		}
 	
 		private delegate void DisplayResultsHandler( TestResult results );

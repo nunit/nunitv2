@@ -127,11 +127,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "IProjectContainer.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ITestEvents.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -162,12 +157,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Project.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ProjectConfig.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "ProjectConfigCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProjectFormatException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -1,8 +1,8 @@
 #region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov 
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -28,25 +28,54 @@
 #endregion
 
 using System;
-using NUnit.Util;
 
-namespace NUnit.Tests
+namespace NUnit.Util
 {
-	public class MockProjectContainer : IProjectContainer
+	/// <summary>
+	/// Exception raised when loading a project file with
+	/// an invalid format.
+	/// </summary>
+	public class ProjectFormatException : ApplicationException
 	{
-		private bool isDirty = false;
-		private string basePath;
+		#region Instance Variables
 
-		public string BasePath
+		private int lineNumber;
+
+		private int linePosition;
+
+		#endregion
+
+		#region Constructors
+
+		public ProjectFormatException() : base() {}
+
+		public ProjectFormatException( string message )
+			: base( message ) {}
+
+		public ProjectFormatException( string message, Exception inner )
+			: base( message, inner ) {}
+
+		public ProjectFormatException( string message, int lineNumber, int linePosition )
+			: base( message )
 		{
-			get { return basePath; }
-			set { basePath = value; }
+			this.lineNumber = lineNumber;
+			this.linePosition = linePosition;
 		}
 
-		public bool IsDirty
+		#endregion
+
+		#region Properties
+
+		public int LineNumber
 		{
-			get { return isDirty; }
-			set { isDirty = value; }
+			get { return lineNumber; }
 		}
+
+		public int LinePosition
+		{
+			get { return linePosition; }
+		}
+
+		#endregion
 	}
 }

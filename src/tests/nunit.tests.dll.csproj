@@ -202,11 +202,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "MockProjectContainer.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "MockTestEventSource.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -241,7 +236,22 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "NUnitProjectLoad.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NUnitProjectSave.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "NUnitProjectTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NUnitProjectXml.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -8,6 +8,11 @@ namespace NUnit.Util
 	/// </summary>
 	public abstract class RecentFileSettings : SettingsGroup
 	{
+		// TODO: This class does more loading and
+		// storing than it should but this is the
+		// current simplest solution to having
+		// multiple recentfiles objects around.
+		// We can fix this by using a singleton.
 		private IList fileEntries;
 
 		private int maxValues = 5;
@@ -51,6 +56,7 @@ namespace NUnit.Util
 
 		public IList GetFiles()
 		{
+			LoadFiles();
 			return fileEntries;
 		}
 		
@@ -58,6 +64,7 @@ namespace NUnit.Util
 		{
 			get 
 			{ 
+				LoadFiles();
 				if( fileEntries.Count > 0 )
 					return (string)fileEntries[0];
 
@@ -65,6 +72,8 @@ namespace NUnit.Util
 			}
 			set
 			{
+				LoadFiles();
+
 				int index = fileEntries.IndexOf(value);
 
 				if(index == 0) return;
@@ -84,6 +93,7 @@ namespace NUnit.Util
 
 		public void Remove( string fileName )
 		{
+			LoadFiles();
 			fileEntries.Remove( fileName );
 			SaveSettings();
 		}

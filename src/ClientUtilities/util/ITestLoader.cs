@@ -68,6 +68,12 @@ namespace NUnit.Util
 
 		#region Methods
 
+		// Create a new empty project using a default name
+		void NewProject();
+
+		// Create a new project given a filename
+		void NewProject( string filename );
+
 		// Load a project given a filename
 		void LoadProject( string filename );
 

@@ -79,7 +79,6 @@ namespace NUnit.Tests
 		{
 			loader.LoadProject( assembly );
 			Assert.True( "Project not loaded", loader.IsProjectLoaded );
-			Assert.True( "Should be wrapper", loader.TestProject.IsWrapper );
 			Assert.False( "Test should not be loaded", loader.IsTestLoaded );
 			Assert.Equals( 2, catcher.Events.Count );
 			Assert.Equals( TestAction.ProjectLoading, catcher.Events[0].Action );
@@ -103,7 +102,6 @@ namespace NUnit.Tests
 		{
 			loader.LoadTest( assembly );
 			Assert.True( "Project not loaded", loader.IsProjectLoaded );
-			Assert.True( "Should be wrapper", loader.TestProject.IsWrapper );
 			Assert.True( "Test not loaded", loader.IsTestLoaded );
 			Assert.Equals( 4, catcher.Events.Count );
 			Assert.Equals( TestAction.TestLoading, catcher.Events[2].Action );
@@ -126,7 +124,6 @@ namespace NUnit.Tests
 		{
 			loader.LoadTest( "xxxxx" );
 			Assert.True( "Project not loaded", loader.IsProjectLoaded );
-			Assert.True( "Should be wrapper", loader.TestProject.IsWrapper );
 			Assert.False( "Test should not load", loader.IsTestLoaded );
 			Assert.Equals( 4, catcher.Events.Count );
 			Assert.Equals( TestAction.TestLoadFailed, catcher.Events[3].Action );
@@ -147,7 +144,6 @@ namespace NUnit.Tests
 
 			loader.LoadTest( badFile );
 			Assert.True( "Project not loaded", loader.IsProjectLoaded );
-			Assert.True( "Should be wrapper", loader.TestProject.IsWrapper );
 			Assert.False( "Test should not be loaded", loader.IsTestLoaded );
 			Assert.Equals( 4, catcher.Events.Count );
 			Assert.Equals( TestAction.TestLoadFailed, catcher.Events[3].Action );
@@ -159,7 +155,6 @@ namespace NUnit.Tests
 		{
 			loader.LoadTest( "nunit.util.dll" );
 			Assert.True( "Project not loaded", loader.IsProjectLoaded );
-			Assert.True( "Should be wrapper", loader.TestProject.IsWrapper );
 			Assert.True( "Test should be loaded", loader.IsTestLoaded );
 			Assert.Equals( 4, catcher.Events.Count );
 			Assert.Equals( TestAction.TestLoaded, catcher.Events[3].Action );

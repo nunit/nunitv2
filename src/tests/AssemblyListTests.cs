@@ -1,8 +1,8 @@
 #region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -41,15 +41,15 @@ namespace NUnit.Tests
 	[TestFixture]
 	public class AssemblyListTests
 	{
-		IProjectContainer container;
+		ProjectConfig config;
 		private AssemblyList assemblies;
 
 		[SetUp]
 		public void CreateAssemblyList()
 		{
-			container = new MockProjectContainer();
-			container.BasePath = @"c:\tests";
-			assemblies = new AssemblyList( container );
+			config = new ProjectConfig();
+			config.BasePath = @"c:\tests";
+			assemblies = new AssemblyList( config );
 		}
 
 		[Test]
@@ -110,10 +110,10 @@ namespace NUnit.Tests
 		}
 
 		[Test]
-		public void AddMarksContainerDirty()
+		public void AddMarksConfigurationDirty()
 		{
 			assemblies.Add( @"bin\debug\assembly1.dll" );
-			Assert.True( container.IsDirty );
+			Assert.True( config.IsDirty );
 		}
 
 		[Test]
@@ -130,21 +130,31 @@ namespace NUnit.Tests
 		}
 
 		[Test]
-		public void RemoveAtMarksContainerDirty()
+		public void RemoveAtMarksConfigurationDirty()
 		{
 			assemblies.Add( @"C:\bin\debug\assembly1.dll" );
-			container.IsDirty = false;
+			config.IsDirty = false;
 			assemblies.RemoveAt(0);
-			Assert.True( container.IsDirty );
+			Assert.True( config.IsDirty );
 		}
 
 		[Test]
-		public void RemoveMarksContainerDirty()
+		public void RemoveMarksConfigurationDirty()
 		{
 			assemblies.Add( @"C:\bin\debug\assembly1.dll" );
-			container.IsDirty = false;
+			config.IsDirty = false;
 			assemblies.Remove( @"C:\bin\debug\assembly1.dll" );
-			Assert.True( container.IsDirty );
+			Assert.True( config.IsDirty );
+		}
+
+		[Test]
+		public void GetPrivateBinPath()
+		{
+			assemblies.Add( @"h:\app1\bin\debug\test1.dll" );
+			assemblies.Add( @"h:\app2\bin\debug\test2.dll" );
+			assemblies.Add( @"h:\app1\bin\debug\test3.dll" );
+
+			Assert.Equals( @"h:\app1\bin\debug;h:\app2\bin\debug", assemblies.PrivateBinPath ); 
 		}
 	}
 }

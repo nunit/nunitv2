@@ -133,6 +133,7 @@ namespace NUnit.UiKit
 			/// The label for which we are showing expanded text
 			/// </summary>
 			private ExpandingLabel label;
+			private Control control;
 
 			/// <summary>
 			/// True if we may overlay label

@@ -1,8 +1,8 @@
 #region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -42,9 +42,9 @@ namespace NUnit.Util
 	/// an attempt is made to load an invalid
 	/// file or one of an unknown type.
 	/// </summary>
-	public class VSProject : IProjectContainer
+	public class VSProject : Project
 	{
-		#region Static and Instance Variables
+		#region Static Variables
 		
 		/// <summary>
 		/// VS Project extentions
@@ -56,33 +56,18 @@ namespace NUnit.Util
 		/// </summary>
 		private static readonly string solutionExtension = ".sln";
 
-		/// <summary>
-		/// Path to the file storing this project
-		/// </summary>
-		private string projectPath;
+		#endregion
 
-		/// <summary>
-		///  Whether the project is dirty
-		/// </summary>
-		private bool isDirty = false;
-		
-		/// <summary>
-		/// Collection of configs for the project
-		/// </summary>
-		private ProjectConfigCollection configs;
+		#region Constructor
+
+		public VSProject( string projectPath ) : base( projectPath )
+		{
+			Load();
+		}
 
 		#endregion
 
-		public VSProject()
-		{ 
-			configs = new ProjectConfigCollection( this );		
-		}
-
-		public VSProject( string projectPath )
-		{
-			configs = new ProjectConfigCollection( this );		
-			Load( projectPath );
-		}
+		#region Static Methods
 
 		public static bool IsProjectFile( string path )
 		{
@@ -100,40 +85,11 @@ namespace NUnit.Util
 			return Path.GetExtension( path ) == solutionExtension;
 		}
 
-		public bool IsDirty
-		{
-			get { return isDirty; }
-			set { isDirty = value; }
-		}
+		#endregion
 
-		public string ProjectPath
-		{
-			get { return projectPath; }
-		}
+		#region Instance Methods
 
-		public string BasePath
-		{
-			get { return projectPath; }
-			set { projectPath = value; }
-		}
-
-		public string Name
-		{
-			get 
-			{ 
-				if ( projectPath == null )
-					return null;
-				else
-					return Path.GetFileNameWithoutExtension( projectPath );
-			}
-		}
-
-		public ProjectConfigCollection Configs
-		{
-			get { return configs; }
-		}
-
-		public void Load( string projectPath )
+		public void Load()
 		{
 			if ( !IsProjectFile( projectPath ) )
 				ThrowInvalidFileType( projectPath );
@@ -201,8 +157,6 @@ namespace NUnit.Util
 					default:
 						break;
 				}
-
-				this.projectPath = projectPath;
 			}
 			catch( FileNotFoundException )
 			{
@@ -227,5 +181,7 @@ namespace NUnit.Util
 				string.Format( "Invalid project file format: {0}", 
 								Path.GetFileName( projectPath ) ), e );
 		}
+
+		#endregion
 	}
 }

@@ -1,8 +1,8 @@
 #region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -29,6 +29,8 @@
 
 using System;
 using System.IO;
+using System.Xml;
+using System.Text;
 
 namespace NUnit.Tests
 {
@@ -42,13 +44,15 @@ namespace NUnit.Tests
 	public class NUnitProjectTests
 	{
 		static readonly string xmlfile = "test.nunit";
-		NUnitProject project;
+
+		private NUnitProject project;
 
 		[SetUp]
 		public void SetUp()
 		{
 			File.Delete( xmlfile );
-			project = new NUnitProject();
+			NUnitProject.ProjectSeed = 0;
+			project = NUnitProject.EmptyProject();
 		}
 
 		[TearDown]
@@ -68,7 +72,7 @@ namespace NUnit.Tests
 		public void NewProjectIsEmpty()
 		{
 			Assert.Equals( 0, project.Configs.Count );
-			Assert.Null( project.ActiveConfigName );
+			Assert.Null( project.ActiveConfig );
 		}
 
 		[Test]
@@ -77,16 +81,19 @@ namespace NUnit.Tests
 			Assert.False( project.IsDirty );
 		}
 
+		[Test] 
+		public void NewProjectDefaultPath()
+		{
+			Assert.Equals( "Project1", project.ProjectPath );
+			Assert.Equals( "Project1", project.Name );
+			NUnitProject another = NUnitProject.EmptyProject();
+			Assert.Equals( "Project2", another.ProjectPath );
+		}
+
 		[Test]
 		public void NewProjectNotLoadable()
 		{
 			Assert.False( project.IsLoadable );
-		}
-
-		[Test]
-		public void ProjectDefaultsToNonWrapper()
-		{
-			Assert.False( project.IsWrapper );
 		}
 
 		[Test]
@@ -97,11 +104,38 @@ namespace NUnit.Tests
 		}
 
 		[Test]
+		public void SaveSetsProjectPath()
+		{
+			project.Save( xmlfile );
+			Assert.Equals( Path.GetFullPath( xmlfile ), project.ProjectPath );
+			Assert.Equals( "test", project.Name );
+		}
+
+		[Test]
+		public void DefaultApplicationBase()
+		{
+			project.Save( xmlfile );
+			Assert.Equals( Path.GetDirectoryName( project.ProjectPath ), project.BasePath );
+		}
+
+		public void DefaultConfigurationFile()
+		{
+			project.Save( xmlfile );
+			Assert.Equals( "test.config", project.ConfigurationFile );
+		}
+
+		[Test]
+		public void DefaultProjectName()
+		{
+			project.Save( xmlfile );
+			Assert.Equals( "test", project.Name );
+		}
+
+		[Test]
 		public void LoadMakesProjectNotDirty()
 		{
 			project.Save( xmlfile );
-			NUnitProject project2 = new NUnitProject();
-			project2.Load( xmlfile );
+			NUnitProject project2 = NUnitProject.LoadProject( xmlfile );
 			Assert.False( project2.IsDirty );
 		}
 
@@ -118,8 +152,8 @@ namespace NUnit.Tests
 		{
 			project.Configs.Add("Debug");
 			project.Configs.Add("Release");
-			project.ActiveConfigName = "Release";
-			Assert.Equals( "Release", project.ActiveConfigName );
+			project.SetActiveConfig( "Release" );
+			Assert.Equals( "Release", project.ActiveConfig.Name );
 		}
 
 		[Test]
@@ -154,6 +188,22 @@ namespace NUnit.Tests
 		}
 
 		[Test]
+		public void DefaultActiveConfig()
+		{
+			project.Configs.Add("Debug");
+			Assert.Equals( "Debug", project.ActiveConfig.Name );
+		}
+
+		[Test]
+		public void RenameActiveConfig()
+		{
+			project.Configs.Add( "Old" );
+			project.SetActiveConfig( "Old" );
+			project.Configs[0].Name = "New";
+			Assert.Equals( "New", project.ActiveConfig.Name );
+		}
+
+		[Test]
 		public void RemoveConfigMakesProjectDirty()
 		{
 			project.Configs.Add("Debug");
@@ -163,13 +213,23 @@ namespace NUnit.Tests
 		}
 
 		[Test]
+		public void RemoveActiveConfig()
+		{
+			project.Configs.Add("Debug");
+			project.Configs.Add("Release");
+			project.SetActiveConfig("Debug");
+			project.Configs.Remove("Debug");
+			Assert.Equals( "Release", project.ActiveConfig.Name );
+		}
+
+		[Test]
 		public void SettingActiveConfigMakesProjectDirty()
 		{
 			project.Configs.Add("Debug");
 			project.Configs.Add("Release");
-			project.ActiveConfigName = "Debug";
+			project.SetActiveConfig( "Debug" );
 			project.IsDirty = false;
-			project.ActiveConfigName = "Release";
+			project.SetActiveConfig( "Release" );
 			Assert.True( project.IsDirty );
 		}
 
@@ -179,8 +239,7 @@ namespace NUnit.Tests
 			project.Save( xmlfile );
 			Assert.True( File.Exists( xmlfile ) );
 
-			NUnitProject project2 = new NUnitProject();
-			project2.Load( xmlfile );
+			NUnitProject project2 = NUnitProject.LoadProject( xmlfile );
 
 			Assert.Equals( 0, project2.Configs.Count );
 		}
@@ -194,8 +253,7 @@ namespace NUnit.Tests
 
 			Assert.True( File.Exists( xmlfile ) );
 
-			NUnitProject project2 = new NUnitProject();
-			project2.Load( xmlfile );
+			NUnitProject project2 = NUnitProject.LoadProject( xmlfile );
 
 			Assert.Equals( 2, project2.Configs.Count );
 			Assert.True( project2.Configs.Contains( "Debug" ) );
@@ -219,8 +277,7 @@ namespace NUnit.Tests
 
 			Assert.True( File.Exists( xmlfile ) );
 
-			NUnitProject project2 = new NUnitProject();
-			project2.Load( xmlfile );
+			NUnitProject project2 = NUnitProject.LoadProject( xmlfile );
 
 			Assert.Equals( 2, project2.Configs.Count );
 
@@ -233,73 +290,6 @@ namespace NUnit.Tests
 			Assert.Equals( 2, config2.Assemblies.Count );
 			Assert.Equals( @"h:\bin\release\assembly1.dll", config2.Assemblies[0] );
 			Assert.Equals( @"h:\bin\release\assembly2.dll", config2.Assemblies[1] );
-		}
-
-		[Test]
-		public void FromAssembly()
-		{
-			NUnitProject project = NUnitProject.FromAssembly( @"h:\bin\debug\assembly1.dll" );
-			Assert.Equals( "Default", project.ActiveConfigName );
-			Assert.Equals( @"h:\bin\debug\assembly1.dll", project.ActiveConfig.Assemblies[0] );
-			Assert.True( project.IsWrapper );
-			Assert.True( project.IsLoadable );
-			Assert.True( project.IsDirty );
-		}
-
-		[Test]
-		public void FromCSharpProject()
-		{
-			NUnitProject project = NUnitProject.FromVSProject( @"..\..\nunit.tests.dll.csproj" );
-			Assert.Equals( 2, project.Configs.Count );
-			Assert.True( "Missing Debug Config", project.Configs.Contains( "Debug" ) );
-			Assert.True( "Missing Release Config", project.Configs.Contains( "Release" ) );
-			Assert.Equals( project.Configs[0].Name, project.ActiveConfigName );
-			Assert.True( "Missing nunit.tests.dll", ((string)project.Configs["Debug"].Assemblies[0]).EndsWith("nunit.tests.dll") );
-			Assert.False( project.IsWrapper );
-			Assert.True( project.IsLoadable );
-			Assert.True( project.IsDirty );
-		}
-
-		[Test]
-		public void FromVBProject()
-		{
-			NUnitProject project = NUnitProject.FromVSProject( @"..\..\..\samples\vb\vb-sample.vbproj" );
-			Assert.Equals( 2, project.Configs.Count );
-			Assert.True( "Missing Debug config", project.Configs.Contains( "Debug" ) );
-			Assert.True( "Missing Release config", project.Configs.Contains( "Release" ) );
-			Assert.True( "Missing vb-sample.dll", ((string)project.Configs["Debug"].Assemblies[0]).EndsWith( "vb-sample.dll" ) );
-			Assert.Equals( project.Configs[0].Name, project.ActiveConfigName );
-			Assert.False( project.IsWrapper );
-			Assert.True( project.IsLoadable );
-			Assert.True( project.IsDirty );
-		}
-
-		[Test]
-		public void FromCppProject()
-		{
-			NUnitProject project = NUnitProject.FromVSProject( @"..\..\..\samples\cpp-sample\cpp-sample.vcproj" );
-			Assert.Equals( 2, project.Configs.Count );
-			Assert.True( "Missing Debug Config", project.Configs.Contains( "Debug|Win32" ) );
-			Assert.True( "Missing Release Config", project.Configs.Contains( "Release|Win32" ) );
-			Assert.Equals( project.Configs[0].Name, project.ActiveConfigName );
-			Assert.True( "Missing cpp-sample.dll", ((string)project.Configs["Debug|Win32"].Assemblies[0]).EndsWith( "cpp-sample.dll" ) );
-			Assert.False( project.IsWrapper );
-			Assert.True( project.IsLoadable );
-			Assert.True( project.IsDirty );
-		}
-
-		[Test]
-		public void FromVSSolution()
-		{
-			NUnitProject project = NUnitProject.FromVSSolution( @"..\..\..\nunit.sln" );
-			Assert.Equals( 4, project.Configs.Count );
-			Assert.True( "Missing Debug Config", project.Configs.Contains( "Debug" ) );
-			Assert.True( "Missing Release Config", project.Configs.Contains( "Release" ) );
-			Assert.Equals( project.Configs[0].Name, project.ActiveConfigName );
-			Assert.Equals( 14, project.Configs["Debug"].Assemblies.Count );
-			Assert.False( project.IsWrapper );
-			Assert.True( project.IsLoadable );
-			Assert.True( project.IsDirty );
 		}
 	}
 }

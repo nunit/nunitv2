@@ -32,12 +32,14 @@ using System;
 namespace NUnit.Util
 {
 	/// <summary>
-	/// Common Interface for all projects, allowing them
-	/// to be marked as dirty when their contents change.
+	/// Common Interface for all projects elements that contain
+	/// other elements. Contained elements use this interface
+	/// to get context information and to make the container
+	/// dirty when they change.
 	/// </summary>
 	public interface IProjectContainer
 	{
-		string BasePath { get; set; }
+		string ApplicationBase { get; set; }
 
 		bool IsDirty { get; set; }
 	}

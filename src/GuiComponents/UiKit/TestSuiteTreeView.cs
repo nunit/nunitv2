@@ -438,31 +438,28 @@ namespace NUnit.UiKit
 				}
 			}
 
-			// Multiple assemblies are allowed
+			// Multiple assemblies are allowed - we
+			// assume they are all in the same directory
+			// since they are being dragged together.
 			foreach( string fileName in fileNames )
-				if ( !IsAssemblyFileType( fileName ) )
+			{
+				string extension = Path.GetExtension( fileName );
+				if ( extension != ".dll" && extension != ".exe" )
 					return false;
+			}
 
 			return true;
-		}
-
-		/// <summary>
-		/// Helper method to determine if a file is a valid assembly file type
-		/// </summary>
-		/// <param name="path">File path</param>
-		/// <returns>True if the file type is valid for an assembly</returns>
-		private bool IsAssemblyFileType( string path )
-		{
-			string extension = Path.GetExtension( path );
-			return extension == ".dll" || extension == ".exe";
 		}
 
 		private void TestSuiteTreeView_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
 		{
 			if ( IsValidFileDrop( e.Data ) )
 			{
-				string[] fileNames = e.Data.GetData( DataFormats.FileDrop ) as string[];
-				loader.LoadTest( fileNames );
+				string[] fileNames = (string[])e.Data.GetData( DataFormats.FileDrop );
+				if ( fileNames.Length == 1 )
+					loader.LoadTest( fileNames[0] );
+				else
+					loader.LoadTest( fileNames );
 			}
 		}
 

@@ -37,19 +37,24 @@ namespace NUnit.Util
 	/// <summary>
 	/// Summary description for ProjectConfig.
 	/// </summary>
-	public class ProjectConfig : IProjectContainer
+	public class ProjectConfig
 	{
 		#region Instance Variables
 
 		/// <summary>
 		/// The name of this config
 		/// </summary>
-		private string name;
+		protected string name;
 
 		/// <summary>
 		/// IProject interface of containing project
 		/// </summary>
-		private IProjectContainer container = null;
+		protected Project project = null;
+
+		/// <summary>
+		/// Mark this config as changed
+		/// </summary>
+		protected bool isDirty = false;
 
 		/// <summary>
 		/// List of the names of the assemblies
@@ -57,18 +62,28 @@ namespace NUnit.Util
 		private AssemblyList assemblies;
 
 		/// <summary>
-		/// Base path for this configuration
+		/// Base path specific to this configuration
 		/// </summary>
 		private string basePath;
 
 		/// <summary>
-		/// Mark this config as changed
+		/// Our configuration file, if specified
 		/// </summary>
-		private bool isDirty;
+		private string configFile;
+
+		/// <summary>
+		/// Private bin path, if specified
+		/// </summary>
+		private string binPath;
+
+		/// <summary>
+		/// True if assembly paths should be added to bin path
+		/// </summary>
+		private bool autoBinPath = true;
 
 		#endregion
 
-		#region Constructors
+		#region Construction
 
 		public ProjectConfig()
 		{
@@ -85,21 +100,10 @@ namespace NUnit.Util
 
 		#region Properties
 
-		public IProjectContainer Container
+		public Project Project
 		{
-			get { return container; }
-			set { container = value; }
-		}
-
-		public string Name
-		{
-			get { return name; }
-			set 
-			{ 
-				name = value; 
-				if ( container != null )
-					container.IsDirty = true;
-			}
+			get { return project; }
+			set { project = value; }
 		}
 
 		public bool IsDirty
@@ -109,48 +113,143 @@ namespace NUnit.Util
 			{ 
 				isDirty = value;
 
-				if ( isDirty && container != null )
-					container.IsDirty = true;
+				if ( isDirty && project != null )
+					project.IsDirty = true;
 			}
 		}
 
+		public string Name
+		{
+			get { return name; }
+			set 
+			{
+				if ( name != value )
+				{
+					name = value; 
+					IsDirty = true;
+				}
+			}
+		}
+		
+		/// <summary>
+		/// The base directory for this config - used
+		/// as the application base for loading tests.
+		/// </summary>
 		public string BasePath
 		{
 			get
 			{ 
-				if ( basePath == null )
-					return container.BasePath;
-
-				if ( container.BasePath == null )
-					return basePath; 
-
-				return Path.Combine( container.BasePath, basePath );
+				return basePath;
 			}
-			set { basePath = value; }
+			set 
+			{
+				if ( basePath != value )
+				{
+					basePath = value;
+					IsDirty = true;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Same as BasePath if the path is absolute,
+		/// otherwise, combined with project BasePath.
+		/// </summary>
+		public string FullBasePath
+		{
+			get
+			{
+				if ( project == null || project.BasePath == null )
+					return basePath;
+
+				if ( basePath == null )
+					return project.BasePath;
+
+				return Path.Combine( project.BasePath, basePath );
+			}
+		}
+
+		public string ConfigurationFile
+		{
+			get 
+			{ 
+				return configFile;
+			}
+			set
+			{
+				if ( configFile != value )
+				{
+					configFile = value;
+					IsDirty = true;
+				}
+			}
+		}
+
+		public string ConfigurationFilePath
+		{
+			get
+			{		
+				string file = configFile == null && project != null 
+					? project.ConfigurationFile
+					: configFile;
+					
+				if ( FullBasePath == null || file == null )
+					return file;
+
+				return Path.Combine( FullBasePath, file );
+			}
+		}
+
+		public string BinPath
+		{
+			get 
+			{ 
+				return binPath;
+			}
+			set 
+			{
+				if ( binPath != value )
+				{
+					binPath = value; 
+					IsDirty = true;
+				}
+			}
+		}
+
+		public string FullBinPath
+		{
+			get
+			{
+				string assemblyPath = AutoBinPath
+					? Assemblies.PrivateBinPath
+					: null;
+
+				if ( assemblyPath == null )
+					return binPath;
+
+				if ( binPath == null )
+					return assemblyPath;
+
+				return assemblyPath + ";" + binPath;
+			}
+		}
+
+		public bool AutoBinPath
+		{
+			get { return autoBinPath; }
+			set 
+			{
+				if ( autoBinPath != value )
+				{
+					autoBinPath = value; 
+					IsDirty = true;
+				}
+			}
 		}
 
 		public AssemblyList Assemblies
 		{
 			get { return assemblies; }
-		}
-
-		public IList FullNames
-		{
-			get 
-			{
-				ArrayList fullNames = new ArrayList();
-				string fullBasePath = BasePath;
-
-				foreach( string assembly in assemblies )
-				{
-					if ( !Path.IsPathRooted( assembly ) && fullBasePath != null )
-						fullNames.Add( Path.Combine( fullBasePath, assembly ) );
-					else
-						fullNames.Add( assembly );
-				}
-
-				return fullNames;
-			}
 		}
 
 		#endregion

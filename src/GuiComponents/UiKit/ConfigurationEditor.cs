@@ -1,8 +1,8 @@
 #region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -58,6 +58,7 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.Button renameButton;
 		private System.Windows.Forms.Button addButton;
 		private System.Windows.Forms.Button activeButton;
+		private System.Windows.Forms.HelpProvider helpProvider1;
 		private System.Windows.Forms.Button closeButton;
 
 		#endregion
@@ -94,27 +95,33 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(ConfigurationEditor));
 			this.configListBox = new System.Windows.Forms.ListBox();
 			this.removeButton = new System.Windows.Forms.Button();
 			this.renameButton = new System.Windows.Forms.Button();
 			this.closeButton = new System.Windows.Forms.Button();
 			this.addButton = new System.Windows.Forms.Button();
 			this.activeButton = new System.Windows.Forms.Button();
+			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
 			this.SuspendLayout();
 			// 
 			// configListBox
 			// 
+			this.helpProvider1.SetHelpString(this.configListBox, "Selects the configuration to operate on.");
 			this.configListBox.ItemHeight = 16;
 			this.configListBox.Location = new System.Drawing.Point(8, 8);
 			this.configListBox.Name = "configListBox";
+			this.helpProvider1.SetShowHelp(this.configListBox, true);
 			this.configListBox.Size = new System.Drawing.Size(168, 244);
 			this.configListBox.TabIndex = 0;
 			this.configListBox.SelectedIndexChanged += new System.EventHandler(this.configListBox_SelectedIndexChanged);
 			// 
 			// removeButton
 			// 
+			this.helpProvider1.SetHelpString(this.removeButton, "Removes the selected configuration");
 			this.removeButton.Location = new System.Drawing.Point(192, 8);
 			this.removeButton.Name = "removeButton";
+			this.helpProvider1.SetShowHelp(this.removeButton, true);
 			this.removeButton.Size = new System.Drawing.Size(96, 32);
 			this.removeButton.TabIndex = 1;
 			this.removeButton.Text = "&Remove";
@@ -122,8 +129,10 @@ namespace NUnit.UiKit
 			// 
 			// renameButton
 			// 
+			this.helpProvider1.SetHelpString(this.renameButton, "Allows renaming the selected configuration");
 			this.renameButton.Location = new System.Drawing.Point(192, 48);
 			this.renameButton.Name = "renameButton";
+			this.helpProvider1.SetShowHelp(this.renameButton, true);
 			this.renameButton.Size = new System.Drawing.Size(96, 32);
 			this.renameButton.TabIndex = 2;
 			this.renameButton.Text = "Re&name";
@@ -132,8 +141,10 @@ namespace NUnit.UiKit
 			// closeButton
 			// 
 			this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.helpProvider1.SetHelpString(this.closeButton, "Closes this dialog");
 			this.closeButton.Location = new System.Drawing.Point(192, 216);
 			this.closeButton.Name = "closeButton";
+			this.helpProvider1.SetShowHelp(this.closeButton, true);
 			this.closeButton.Size = new System.Drawing.Size(96, 32);
 			this.closeButton.TabIndex = 4;
 			this.closeButton.Text = "Close";
@@ -141,8 +152,10 @@ namespace NUnit.UiKit
 			// 
 			// addButton
 			// 
+			this.helpProvider1.SetHelpString(this.addButton, "Allows adding a new configuration");
 			this.addButton.Location = new System.Drawing.Point(192, 88);
 			this.addButton.Name = "addButton";
+			this.helpProvider1.SetShowHelp(this.addButton, true);
 			this.addButton.Size = new System.Drawing.Size(96, 32);
 			this.addButton.TabIndex = 5;
 			this.addButton.Text = "&Add...";
@@ -150,8 +163,10 @@ namespace NUnit.UiKit
 			// 
 			// activeButton
 			// 
+			this.helpProvider1.SetHelpString(this.activeButton, "Makes the selected configuration active");
 			this.activeButton.Location = new System.Drawing.Point(192, 128);
 			this.activeButton.Name = "activeButton";
+			this.helpProvider1.SetShowHelp(this.activeButton, true);
 			this.activeButton.Size = new System.Drawing.Size(96, 32);
 			this.activeButton.TabIndex = 6;
 			this.activeButton.Text = "&Make Active";
@@ -170,7 +185,11 @@ namespace NUnit.UiKit
 																		  this.renameButton,
 																		  this.removeButton,
 																		  this.configListBox});
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.HelpButton = true;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "ConfigurationEditor";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -211,9 +230,6 @@ namespace NUnit.UiKit
 			string name = project.Configs[selectedIndex].Name;
 			
 			project.Configs.RemoveAt( selectedIndex );
-			project.IsDirty = true;
-			if ( name == project.ActiveConfigName && project.Configs.Count > 0 )
-				AppUI.TestLoaderUI.SetActiveConfig( 0 );
 			FillListBox();
 		}
 
@@ -230,8 +246,7 @@ namespace NUnit.UiKit
 
 		private void activeButton_Click(object sender, System.EventArgs e)
 		{
-			project.ActiveConfigName = project.Configs[selectedIndex].Name;
-			AppUI.TestLoaderUI.SetActiveConfig( selectedIndex );
+			project.SetActiveConfig( selectedIndex );
 			FillListBox();
 		}
 
@@ -244,7 +259,7 @@ namespace NUnit.UiKit
 		private void configListBox_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
 			selectedIndex = configListBox.SelectedIndex;
-			activeButton.Enabled = selectedIndex >= 0 && project.Configs[selectedIndex].Name != project.ActiveConfigName;
+			activeButton.Enabled = selectedIndex >= 0 && project.Configs[selectedIndex].Name != project.ActiveConfig.Name;
 			renameButton.Enabled = addButton.Enabled = selectedIndex >= 0;
 			removeButton.Enabled = selectedIndex >= 0 && configListBox.Items.Count > 0;
 		}
@@ -259,9 +274,6 @@ namespace NUnit.UiKit
 			if ( dlg.ShowDialog() == DialogResult.OK )
 			{
 				project.Configs[oldName].Name = dlg.ConfigurationName;
-				if ( project.ActiveConfigName == oldName )
-					project.ActiveConfigName = dlg.ConfigurationName;
-				project.IsDirty = true;
 				FillListBox();
 			}
 		}
@@ -275,7 +287,7 @@ namespace NUnit.UiKit
 			{
 				string name = config.Name;
 
-				if ( name == project.ActiveConfigName )
+				if ( name == project.ActiveConfig.Name )
 					name += " (active)";
 				
 				configListBox.Items.Add( name );

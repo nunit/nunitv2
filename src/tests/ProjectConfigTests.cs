@@ -1,8 +1,8 @@
 #region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -41,15 +41,14 @@ namespace NUnit.Tests
 	public class ProjectConfigTests
 	{
 		private ProjectConfig config;
-		private MockProjectContainer container;
+		private Project project;
 
 		[SetUp]
 		public void SetUp()
 		{
 			config = new ProjectConfig( "Debug" );
-			container = new MockProjectContainer();
-			container.BasePath = @"c:\test";
-			config.Container = container;
+			project = new Project( @"c:\test\myproject.nunit" );
+			config.Project = project;
 		}
 
 		[Test]
@@ -70,26 +69,33 @@ namespace NUnit.Tests
 		}
 
 		[Test]
-		public void AddMarksContainerDirty()
+		public void AddMarksProjectDirty()
 		{
 			config.Assemblies.Add( @"bin\debug\assembly1.dll" );
-			Assert.True( container.IsDirty );
+			Assert.True( project.IsDirty );
 		}
 
 		[Test]
-		public void RenameMarksContainerDirty()
+		public void RenameMarksProjectDirty()
 		{
 			config.Name = "Renamed";
-			Assert.True( container.IsDirty );
+			Assert.True( project.IsDirty );
 		}
 
 		[Test]
-		public void RemoveMarksContainerDirty()
+		public void RemoveMarksProjectDirty()
 		{
 			config.Assemblies.Add( @"bin\debug\assembly1.dll" );
-			container.IsDirty = false;
+			project.IsDirty = false;
 			config.Assemblies.Remove( @"bin\debug\assembly1.dll" );
-			Assert.True( container.IsDirty );			
+			Assert.True( project.IsDirty );			
+		}
+
+		[Test]
+		public void SettingApplicationBaseMarksProjectDirty()
+		{
+			config.BasePath = @"c:\junk";
+			Assert.True( project.IsDirty );
 		}
 
 		[Test]
@@ -97,7 +103,6 @@ namespace NUnit.Tests
 		{
 			config.BasePath = @"c:\junk";
 			config.Assemblies.Add( @"bin\debug\assembly1.dll" );
-			Assert.Equals( @"c:\junk\bin\debug\assembly1.dll", config.FullNames[0] );
 			Assert.Equals( @"c:\junk\bin\debug\assembly1.dll", config.Assemblies.FullNames[0] );
 		}
 
@@ -106,7 +111,6 @@ namespace NUnit.Tests
 		{
 			config.BasePath = @"junk";
 			config.Assemblies.Add( @"bin\debug\assembly1.dll" );
-			Assert.Equals( @"c:\test\junk\bin\debug\assembly1.dll", config.FullNames[0] );
 			Assert.Equals( @"c:\test\junk\bin\debug\assembly1.dll", config.Assemblies.FullNames[0] );
 		}
 
@@ -114,8 +118,87 @@ namespace NUnit.Tests
 		public void NoBasePathSet()
 		{
 			config.Assemblies.Add( @"bin\debug\assembly1.dll" );
-			Assert.Equals( @"c:\test\bin\debug\assembly1.dll", config.FullNames[0] );
 			Assert.Equals( @"c:\test\bin\debug\assembly1.dll", config.Assemblies.FullNames[0] );
+		}
+
+		[Test]
+		public void SettingConfigurationFileMarksProjectDirty()
+		{
+			config.ConfigurationFile = "MyProject.config";
+			Assert.True( project.IsDirty );
+		}
+
+		[Test]
+		public void DefaultConfigurationFile()
+		{
+		//	Assert.Equals( "myproject.config", config.ConfigurationFile );
+			Assert.Equals( @"c:\test\myproject.config", config.ConfigurationFilePath );
+		}
+
+		[Test]
+		public void AbsoluteConfigurationFile()
+		{
+			config.ConfigurationFile = @"c:\configs\myconfig.config";
+			Assert.Equals( @"c:\configs\myconfig.config", config.ConfigurationFilePath );
+		}
+
+		[Test]
+		public void RelativeConfigurationFile()
+		{
+			config.ConfigurationFile = "myconfig.config";
+			Assert.Equals( @"c:\test\myconfig.config", config.ConfigurationFilePath );
+		}
+
+		[Test]
+		public void SettingPrivateBinPathMarksProjectDirty()
+		{
+			config.BinPath = @"c:\junk;c:\bin";
+			Assert.True( project.IsDirty );
+		}
+
+		[Test]
+		public void SettingAutoBinPathMarksProjectDirty()
+		{
+			config.AutoBinPath = !config.AutoBinPath;
+			Assert.True( project.IsDirty );
+		}
+
+		[Test]
+		public void NoPrivateBinPath()
+		{
+			config.Assemblies.Add( @"C:\bin\assembly1.dll" );
+			config.Assemblies.Add( @"C:\bin\assembly2.dll" );
+			config.AutoBinPath = false;
+			Assert.Null( config.FullBinPath );
+		}
+
+		[Test]
+		public void ManualPrivateBinPath()
+		{
+			config.Assemblies.Add( @"C:\bin\assembly1.dll" );
+			config.Assemblies.Add( @"C:\bin\assembly2.dll" );
+			config.AutoBinPath = false;
+			config.BinPath = @"C:\test";
+			Assert.Equals( @"C:\test", config.FullBinPath );
+		}
+
+		[Test]
+		public void AutoPrivateBinPath()
+		{
+			config.Assemblies.Add( @"C:\bin\assembly1.dll" );
+			config.Assemblies.Add( @"C:\bin\assembly2.dll" );
+			config.AutoBinPath = true;
+			Assert.Equals( @"C:\bin", config.FullBinPath );
+		}
+
+		[Test]
+		public void CombinedPrivateBinPath()
+		{
+			config.Assemblies.Add( @"C:\bin\assembly1.dll" );
+			config.Assemblies.Add( @"C:\bin\assembly2.dll" );
+			config.AutoBinPath = true;
+			config.BinPath = @"C:\test";
+			Assert.Equals( @"C:\bin;C:\test", config.FullBinPath );
 		}
 	}
 }

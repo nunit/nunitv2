@@ -1,8 +1,8 @@
 #region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -40,18 +40,18 @@ namespace NUnit.Util
 	/// </summary>
 	public class AssemblyList : CollectionBase
 	{
-		private IProjectContainer container;
+		private ProjectConfig config;
 
-		public AssemblyList( IProjectContainer container )
+		public AssemblyList( ProjectConfig config )
 		{
-			this.container = container;
+			this.config = config;
 		}
 
 		#region Properties
 
-		public IProjectContainer Container
+		public ProjectConfig Config
 		{
-			get { return container; }
+			get { return config; }
 		}
 
 		/// <summary>
@@ -61,11 +61,6 @@ namespace NUnit.Util
 		{
 			get { return (string)List[index]; }
 			set { List[index] = value; }
-		}
-
-		public string ApplicationBase
-		{
-			get { return container.BasePath; }
 		}
 
 		// Use this property to pass to the TestDomain
@@ -88,7 +83,7 @@ namespace NUnit.Util
 			{
 				ArrayList files = new ArrayList();
 				foreach( string assembly in InnerList )
-					files.Add( Path.Combine( ApplicationBase, assembly ) );
+					files.Add( Path.Combine( config.FullBasePath, assembly ) );
 				return files;
 			}
 		}
@@ -164,17 +159,20 @@ namespace NUnit.Util
 
 		protected override void OnRemoveComplete(int index, object value)
 		{
-			container.IsDirty = true;
+			//container.IsDirty = true;
+			config.IsDirty = true;
 		}
 
 		protected override void OnInsertComplete(int index, object value)
 		{
-			container.IsDirty = true;
+			//container.IsDirty = true;
+			config.IsDirty = true;
 		}
 		
 		protected override void OnSetComplete(int index, object oldValue, object newValue )
 		{
-			container.IsDirty = true;
+			//container.IsDirty = true;
+			config.IsDirty = true;
 		}
 
 		#endregion

@@ -1,8 +1,8 @@
 #region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -168,7 +168,7 @@ namespace NUnit.Util
 
 		public string TestFileName
 		{
-			get { return testProject.TestFileName; }
+			get { return testProject.LoadPath; }
 		}
 
 		public TestResult LastResult
@@ -220,13 +220,60 @@ namespace NUnit.Util
 
 		#region Methods for Loading and Unloading Projects
 		
+		public void NewProject()
+		{
+			try
+			{
+				events.FireProjectLoading( "New Project" );
+
+				NUnitProject project = NUnitProject.EmptyProject();
+
+				project.Configs.Add( "Debug" );
+				project.Configs.Add( "Release" );
+				project.IsDirty = false;
+
+				testProject = project;
+
+				events.FireProjectLoaded( project.ProjectPath );
+			}
+			catch( Exception exception )
+			{
+				events.FireProjectLoadFailed( "New Project", exception );
+			}
+		}
+
+		public void NewProject( string filePath )
+		{
+			try
+			{
+				events.FireProjectLoading( filePath );
+
+				NUnitProject project = new NUnitProject( filePath );
+
+				project.Configs.Add( "Debug" );
+				project.Configs.Add( "Release" );			
+				project.IsDirty = false;
+
+				if ( IsProjectLoaded )
+					UnloadProject();
+
+				testProject = project;
+
+				events.FireProjectLoaded( TestFileName );
+			}
+			catch( Exception exception )
+			{
+				events.FireProjectLoadFailed( filePath, exception );
+			}
+		}
+
 		public void LoadProject( string filePath )
 		{
 			try
 			{
 				events.FireProjectLoading( filePath );
 
-				NUnitProject newProject = NUnitProject.MakeProject( filePath );			
+				NUnitProject newProject = NUnitProject.LoadProject( filePath );			
 
 				if ( IsProjectLoaded )
 					UnloadProject();
@@ -306,7 +353,7 @@ namespace NUnit.Util
 
 		public void SetActiveConfig( string name )
 		{
-			TestProject.ActiveConfigName = name;
+			TestProject.SetActiveConfig( name );
 
 			if( TestProject.IsLoadable )
 				LoadTest();
@@ -327,9 +374,7 @@ namespace NUnit.Util
 				reloadPending = false;
 			
 				// TODO: Figure out how to handle relative paths in tests
-				SetWorkingDirectory( TestProject.IsWrapper
-					? TestFileName
-					: (string)testProject.Configs[testProject.ActiveConfigName].FullNames[0] );
+				Directory.SetCurrentDirectory( testProject.ActiveConfig.FullBasePath );
 
 				events.FireTestLoaded( TestFileName, this.loadedTest );
 
@@ -486,12 +531,6 @@ namespace NUnit.Util
 
 		#region Helper Methods
 
-		private static void SetWorkingDirectory(string testFileName)
-		{
-			FileInfo info = new FileInfo(testFileName);
-			Directory.SetCurrentDirectory(info.DirectoryName);
-		}
-		
 		/// <summary>
 		/// Install our watcher object so as to get notifications
 		/// about changes to a test.
@@ -501,7 +540,7 @@ namespace NUnit.Util
 		{
 			if(watcher!=null) watcher.Stop();
 
-			watcher = new AssemblyWatcher( 1000, TestProject.Configs[TestProject.ActiveConfigName].FullNames );
+			watcher = new AssemblyWatcher( 1000, TestProject.ActiveConfig.Assemblies.FullNames );
 			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( OnTestChanged );
 			watcher.Start();
 		}

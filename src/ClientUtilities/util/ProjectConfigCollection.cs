@@ -1,8 +1,8 @@
 #region Copyright (c) 2002, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
 /************************************************************************************
 '
-' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright © 2000-2002 Philip A. Craig
+' Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' Copyright  2000-2002 Philip A. Craig
 '
 ' This software is provided 'as-is', without any express or implied warranty. In no 
 ' event will the authors be held liable for any damages arising from the use of this 
@@ -16,8 +16,8 @@
 ' you wrote the original software. If you use this software in a product, an 
 ' acknowledgment (see the following) in the product documentation is required.
 '
-' Portions Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright © 2000-2002 Philip A. Craig
+' Portions Copyright  2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
+' or Copyright  2000-2002 Philip A. Craig
 '
 ' 2. Altered source versions must be plainly marked as such, and must not be 
 ' misrepresented as being the original software.
@@ -37,18 +37,18 @@ namespace NUnit.Util
 	/// </summary>
 	public class ProjectConfigCollection : CollectionBase
 	{
-		private IProjectContainer container;
+		protected Project project;
 
-		public ProjectConfigCollection( IProjectContainer container ) 
+		public ProjectConfigCollection( Project project ) 
 		{ 
-			this.container = container;
+			this.project = project;
 		}
 
 		#region Properties
 
-		public IProjectContainer Container
+		public Project Project
 		{
-			get { return container; }
+			get { return project; }
 		}
 
 		public ArrayList Names
@@ -85,7 +85,7 @@ namespace NUnit.Util
 		public void Add( ProjectConfig config )
 		{
 			List.Add( config );
-			config.Container = this.Container;
+			config.Project = this.Project;
 		}
 
 		public void Add( string name )
@@ -136,17 +136,17 @@ namespace NUnit.Util
 
 		protected override void OnRemoveComplete( int index, object obj )
 		{
-			container.IsDirty = true;
+			project.IsDirty = true;
 		}
 
 		protected override void OnInsertComplete( int index, object obj )
 		{
-			container.IsDirty = true;
+			project.IsDirty = true;
 		}
 
 		protected override void OnSetComplete( int index, object oldValue, object newValue )
 		{
-			container.IsDirty = true;
+			project.IsDirty = true;
 		}
 
 		#endregion
