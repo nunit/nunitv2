@@ -73,6 +73,9 @@ namespace NUnit.Util
 		[Option(Description = "List of categories to exclude")]
 		public string exclude;
 
+		[Option(Description = "Disable shadow copying of assemblies")]
+		public bool noshadow;
+
 		private bool isInvalid = false; 
 
 		public ConsoleOptions(String[] args) : base(args) 
