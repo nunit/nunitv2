@@ -29,6 +29,7 @@
                 <includes name="nunit.extensions.dll"/>
                 <includes name="nunit.core.dll"/>
                 <includes name="nunit.framework.dll"/>
+                <includes name="nunit.mocks.dll"/>
                 <includes name="mock-assembly.dll"/>
                 <includes name="nonamespace-assembly.dll"/>
                 <includes name="notestfixtures-assembly.dll"/>
