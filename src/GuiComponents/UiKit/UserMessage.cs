@@ -87,6 +87,8 @@ namespace NUnit.UiKit
 				sb.AppendFormat( "\r----> {0} : {1}", ex.GetType().ToString(), ex.Message );
 			}
 
+			sb.Append( "\r\rFor further information, use the Exception Details menu item." );
+
 			return DisplayFailure( sb.ToString(), caption );
 		}
 
