@@ -29,6 +29,7 @@
                 <include name="nunit.core.dll.csproj"/>
                 <include name="nunit.core.build"/>
                 <include name="AssemblyInfo.cs"/>
+                <include name="AssemblyResolver.cs/>
                 <include name="CategoryFilter.cs"/>
                 <include name="CategoryManager.cs"/>
                 <include name="EmptyFilter.cs"/>
