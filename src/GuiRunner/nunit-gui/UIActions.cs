@@ -29,31 +29,15 @@ namespace NUnit.Gui
 	/// <summary>
 	/// UIActions handles interactions between a test runner and a client
 	/// program - typically the user interface. It implemements the
-	/// EventListener interface which is used by the test runner and
-	/// fires events in order to provide the information to any component
-	/// that is interested. It also fires events of it's own for starting
-	/// and ending the test run and for loading, unloading or reloading
-	/// an assembly.
+	/// EventListener interface which is used by the test runner and the
+	/// UIEvents interface in order to provide the information to any 
+	/// component that is interested. See comments in the definition
+	/// of UIEvents for more detailed information.
 	/// 
-	/// Modifications have been made to help isolate the ui client code
-	/// from the loading and unloading of test domains.. Events that 
-	/// formerly took a Test, TestCase or TestSuite as an argument, now
-	/// use a TestInfo object which gives the same information but isn't
-	/// connected to the remote domain.
-	/// 
-	/// The TestInfo object may in some cases be created using lazy 
-	/// evaluation of child TestInfo objects. Since evaluation of these
-	/// objects does cause a cross-domain reference, the client code
-	/// should access the full tree immediately, rather than at a later
-	/// time, if that is what is needed. This will normally happen if
-	/// the client building a tree, for example. However, some clients
-	/// may only want the name of the test being run and passing the
-	/// fully evaluated tree would be unnecessary for them.
-	/// 
-	/// See comments associated with each event for lifetime limitations 
-	/// on the objects passed to the delegates.
+	/// UIActions also provides a set of methods which allow the elements
+	/// in the UI to control loading, unloading and running of tests.
 	/// </summary>
-	public class UIActions : MarshalByRefObject, NUnit.Core.EventListener
+	public class UIActions : MarshalByRefObject, NUnit.Core.EventListener, UIEvents
 	{
 		#region Instance Variables
 
@@ -84,89 +68,28 @@ namespace NUnit.Gui
 
 		#endregion
 
-		#region Delegates and Events
+		#region Events
 
-		/// <summary>
-		/// Test suite was loaded. The TestInfo uses lazy evaluation
-		/// of child tests, so a client that needs information from
-		/// all levels should traverse the tree immediately to ensure
-		/// that they are expanded. Clients that only need a field
-		/// from the top level test don't need to do that. Since
-		/// that's what the clients would normally do anyway, this
-		/// should not cause a problem except in pathological cases.
-		/// </summary>
-		public delegate void SuiteLoadedHandler( TestInfo test, string assemblyFileName);
-		public event SuiteLoadedHandler SuiteLoadedEvent;
+		public event TestSuiteLoadedHandler TestSuiteLoadedEvent;
 		
-		/// <summary>
-		/// Current test suite has changed. The new information should
-		/// replace or be merged with the old, depending on the needs
-		/// of the client. Lazy evaluation applies here too.
-		/// </summary>
-		public delegate void SuiteChangedHandler( TestInfo test );
-		public event SuiteChangedHandler SuiteChangedEvent;
+		public event TestSuiteChangedHandler TestSuiteChangedEvent;
 		
-		/// <summary>
-		/// Test suite unloaded. The old information is still
-		/// available to the client - for example to produce any
-		/// reports - but will normally be removed from the UI.
-		/// </summary>
-		public delegate void SuiteUnloadedHandler();
-		public event SuiteUnloadedHandler SuiteUnloadedEvent;
+		public event TestSuiteUnloadedHandler TestSuiteUnloadedEvent;
 		
-		/// <summary>
-		/// A failure occured in loading an assembly. This may be as
-		/// a result of a client request to load an assembly or as a 
-		/// result of an asynchronous change that required reloading 
-		/// the assembly. In the first case, the loaded assembly has
-		/// not been replaced unless the assemblyFileName is the same.
-		/// In the second case, the client will usually treat this
-		/// as a sort of involuntary unload.
-		/// </summary>
-		public delegate void AssemblyLoadFailureHandler( 
-			string assemblyFileName, Exception exception );
-		public event AssemblyLoadFailureHandler AssemblyLoadFailureEvent;
+		public event TestSuiteLoadFailureHandler TestSuiteLoadFailureEvent;
 
-		/// <summary>
-		/// The following events signal that a test run, test suite
-		/// or test case has started. If client is holding the entire 
-		/// tree of tests that was previously loaded, this TestInfo 
-		/// should match one of them, but it won't generally be the 
-		/// same object. Best practice is to match the TestInfo with 
-		/// one that is already held rather than expanding it to 
-		/// create lots of new objects. In the future, these events
-		/// may just pass the name of the test.
-		/// </summary>
-		public delegate void RunStartingHandler( TestInfo test );
 		public event RunStartingHandler RunStartingEvent;
 		
-		public delegate void SuiteStartedHandler( TestInfo suite );
 		public event SuiteStartedHandler SuiteStartedEvent;
 		
-		public delegate void TestStartedHandler( TestInfo testCase );
 		public event TestStartedHandler TestStartedEvent;
 		
-		/// <summary>
-		/// The following events signal that a test run, test suite or
-		/// test case has finished. Client should make use of the result
-		/// value during the life of the call only. If the result is to
-		/// be saved in the application, it should be converted to a
-		/// TestResultInfo, which will cause it's internal Test reference
-		/// to be converted to a local TestInfo object.
-		/// 
-		/// NOTE: These cannot be converted to use TestResultInfo directly
-		/// because some client code makes use of ResultVisitor which would
-		/// also have to be changed. Maybe later...
-		/// </summary>
-		public delegate void RunFinishedHandler( TestResult result );
 		public event RunFinishedHandler RunFinishedEvent;
 		
-		public delegate void SuiteFinishedHandler( TestSuiteResult result );
 		public event SuiteFinishedHandler SuiteFinishedEvent;
 		
-		public delegate void TestFinishedHandler( TestCaseResult result );
 		public event TestFinishedHandler TestFinishedEvent;
-		
+
 		#endregion
 
 		#region Constructor
@@ -276,15 +199,15 @@ namespace NUnit.Gui
 
 				SetWorkingDirectory(assemblyFileName);
 
-				if ( SuiteLoadedEvent != null )
-					SuiteLoadedEvent( currentTest, assemblyFileName );
+				if ( TestSuiteLoadedEvent != null )
+					TestSuiteLoadedEvent( currentTest, assemblyFileName );
 
 				InstallWatcher( assemblyFileName );
 			}
 			catch( Exception exception )
 			{
-				if ( AssemblyLoadFailureEvent != null )
-					AssemblyLoadFailureEvent( assemblyFileName, exception );
+				if ( TestSuiteLoadFailureEvent != null )
+					TestSuiteLoadFailureEvent( assemblyFileName, exception );
 			}
 		}
 
@@ -298,8 +221,8 @@ namespace NUnit.Gui
 
 			RemoveWatcher();
 
-			if ( SuiteUnloadedEvent != null )
-				SuiteUnloadedEvent( );
+			if ( TestSuiteUnloadedEvent != null )
+				TestSuiteUnloadedEvent( );
 		}
 
 		/// <summary>
@@ -335,14 +258,14 @@ namespace NUnit.Gui
 				currentTest = newTest;
 
 
-				if ( notifyClient && SuiteChangedEvent != null )
-						SuiteChangedEvent( newTest );
+				if ( notifyClient && TestSuiteChangedEvent != null )
+						TestSuiteChangedEvent( newTest );
 				
 			}
 			catch( Exception exception )
 			{
-				if ( AssemblyLoadFailureEvent != null )
-					AssemblyLoadFailureEvent( assemblyFileName, exception );
+				if ( TestSuiteLoadFailureEvent != null )
+					TestSuiteLoadFailureEvent( assemblyFileName, exception );
 			}
 		}
 

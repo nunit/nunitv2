@@ -74,12 +74,7 @@ namespace NUnit.Gui
 		public System.Windows.Forms.Label label1;
 		public System.Windows.Forms.Label suiteName;
 		public System.Windows.Forms.Button runButton;
-		public System.Windows.Forms.StatusBar statusBar;
-		public System.Windows.Forms.StatusBarPanel status;
-		public System.Windows.Forms.StatusBarPanel testCaseCount;
-		public System.Windows.Forms.StatusBarPanel testsRun;
-		public System.Windows.Forms.StatusBarPanel failures;
-		public System.Windows.Forms.StatusBarPanel time;
+		public NUnit.Gui.StatusBar statusBar;
 		public System.Windows.Forms.OpenFileDialog openFileDialog;
 		public System.Windows.Forms.ContextMenu treeViewMenu;
 		public System.Windows.Forms.ImageList treeImages;
@@ -159,15 +154,18 @@ namespace NUnit.Gui
 
 			actions = new UIActions(stdOutWriter, stdErrWriter);
 
-			actions.TestStartedEvent += new UIActions.TestStartedHandler( OnTestStarted );
-			actions.TestFinishedEvent += new UIActions.TestFinishedHandler( OnTestFinished );
-			actions.SuiteFinishedEvent += new UIActions.SuiteFinishedHandler( OnSuiteFinished );
-			actions.RunStartingEvent += new UIActions.RunStartingHandler( OnRunStarting );
-			actions.RunFinishedEvent += new UIActions.RunFinishedHandler( OnRunFinished );
-			actions.SuiteLoadedEvent += new UIActions.SuiteLoadedHandler( OnSuiteLoaded );
-			actions.SuiteUnloadedEvent += new UIActions.SuiteUnloadedHandler( OnSuiteUnloaded );
-			actions.SuiteChangedEvent += new UIActions.SuiteChangedHandler( OnSuiteChanged );
-			actions.AssemblyLoadFailureEvent += new UIActions.AssemblyLoadFailureHandler( OnAssemblyLoadFailure );
+			// Set up events handled by the form
+			actions.TestFinishedEvent += new TestFinishedHandler( OnTestFinished );
+			actions.SuiteFinishedEvent += new SuiteFinishedHandler( OnSuiteFinished );
+			actions.RunStartingEvent += new RunStartingHandler( OnRunStarting );
+			actions.RunFinishedEvent += new RunFinishedHandler( OnRunFinished );
+			actions.TestSuiteLoadedEvent += new TestSuiteLoadedHandler( OnSuiteLoaded );
+			actions.TestSuiteUnloadedEvent += new TestSuiteUnloadedHandler( OnSuiteUnloaded );
+			actions.TestSuiteChangedEvent += new TestSuiteChangedHandler( OnSuiteChanged );
+			actions.TestSuiteLoadFailureEvent += new TestSuiteLoadFailureHandler( OnAssemblyLoadFailure );
+
+			// ToDo: Migrate more ui elements to handle events on their own.
+			this.statusBar.InitializeEvents( actions );
 
 			if (assemblyFileName == null)
 				assemblyFileName = recentAssemblies.RecentAssembly;
@@ -203,12 +201,7 @@ namespace NUnit.Gui
 		{
 			this.components = new System.ComponentModel.Container();
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(NUnitForm));
-			this.statusBar = new System.Windows.Forms.StatusBar();
-			this.status = new System.Windows.Forms.StatusBarPanel();
-			this.testCaseCount = new System.Windows.Forms.StatusBarPanel();
-			this.testsRun = new System.Windows.Forms.StatusBarPanel();
-			this.failures = new System.Windows.Forms.StatusBarPanel();
-			this.time = new System.Windows.Forms.StatusBarPanel();
+			this.statusBar = new NUnit.Gui.StatusBar();
 			this.mainMenu = new System.Windows.Forms.MainMenu();
 			this.fileMenu = new System.Windows.Forms.MenuItem();
 			this.openMenuItem = new System.Windows.Forms.MenuItem();
@@ -245,11 +238,6 @@ namespace NUnit.Gui
 			this.progressBar = new NUnit.Gui.ProgressBar();
 			this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-			((System.ComponentModel.ISupportInitialize)(this.status)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.testCaseCount)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.testsRun)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.failures)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.time)).BeginInit();
 			this.panel1.SuspendLayout();
 			this.resultTabs.SuspendLayout();
 			this.errorPage.SuspendLayout();
@@ -261,40 +249,13 @@ namespace NUnit.Gui
 			// 
 			// statusBar
 			// 
+			this.statusBar.DisplayTestProgress = true;
 			this.statusBar.Location = new System.Drawing.Point(0, 438);
 			this.statusBar.Name = "statusBar";
-			this.statusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
-																						 this.status,
-																						 this.testCaseCount,
-																						 this.testsRun,
-																						 this.failures,
-																						 this.time});
 			this.statusBar.ShowPanels = true;
 			this.statusBar.Size = new System.Drawing.Size(798, 27);
 			this.statusBar.TabIndex = 0;
 			this.statusBar.Text = "Status";
-			// 
-			// status
-			// 
-			this.status.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring;
-			this.status.Text = "Status";
-			this.status.Width = 382;
-			// 
-			// testCaseCount
-			// 
-			this.testCaseCount.Text = "Test Cases:";
-			// 
-			// testsRun
-			// 
-			this.testsRun.Text = "Tests Run:";
-			// 
-			// failures
-			// 
-			this.failures.Text = "Failures:";
-			// 
-			// time
-			// 
-			this.time.Text = "Time:";
 			// 
 			// mainMenu
 			// 
@@ -386,6 +347,7 @@ namespace NUnit.Gui
 			this.testSuiteTreeView.SelectedNode = null;
 			this.testSuiteTreeView.Size = new System.Drawing.Size(307, 438);
 			this.testSuiteTreeView.TabIndex = 1;
+			this.testSuiteTreeView.TrackTestProgress = false;
 			this.testSuiteTreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.testSuiteTreeView_DragDrop);
 			this.testSuiteTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.testSuiteTreeView_AfterSelect);
 			this.testSuiteTreeView.DoubleClick += new System.EventHandler(this.testSuiteTreeView_DoubleClick);
@@ -637,11 +599,6 @@ namespace NUnit.Gui
 			this.Text = "NUnit";
 			this.Closing += new System.ComponentModel.CancelEventHandler(this.NUnitForm_Closing);
 			this.Load += new System.EventHandler(this.NUnitForm_Load);
-			((System.ComponentModel.ISupportInitialize)(this.status)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.testCaseCount)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.testsRun)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.failures)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.time)).EndInit();
 			this.panel1.ResumeLayout(false);
 			this.resultTabs.ResumeLayout(false);
 			this.errorPage.ResumeLayout(false);
@@ -872,7 +829,7 @@ namespace NUnit.Gui
 			suiteName.Text = node.Test.ShortName;
 
 			// TODO: Do we really want to do this?
-			InitializeStatusBar( node.Test.CountTestCases );
+			//statusBar.Initialize( node.Test.CountTestCases );
 		}
 
 		/// <summary>
@@ -962,15 +919,6 @@ namespace NUnit.Gui
 		#region Handlers for events related to loading and running tests
 
 		/// <summary>
-		/// A test has started, so record it's name
-		/// </summary>
-		/// <param name="testCase">Test that started</param>
-		private void OnTestStarted(TestInfo testCase)
-		{
-			status.Text = "Running : " + testCase.Name;
-		}
-
-		/// <summary>
 		/// A test has finished, so capture the result and
 		/// update the progress bar.
 		/// </summary>
@@ -1009,7 +957,7 @@ namespace NUnit.Gui
 
 			DisableRunCommand();
 			ClearTestResults();
-			InitializeStatusBar(testCount);
+			statusBar.Initialize(testCount);
 
 			suiteName.Text = test.ShortName;
 			InitializeProgressBar(testCount);
@@ -1021,8 +969,6 @@ namespace NUnit.Gui
 		/// <param name="result">Result of the run</param>
 		private void OnRunFinished(TestResult result)
 		{
-			status.Text = "Completed"; 
-
 			DisplayResults(result);
 
 			if(detailList.Items.Count > 0)
@@ -1242,7 +1188,7 @@ namespace NUnit.Gui
 			ClearSuiteName();
 			ClearProgressBar();
 			ClearTabs();
-			ClearStatusBar();
+			statusBar.Initialize( 0 );
 		}
 
 		/// <summary>
@@ -1293,15 +1239,7 @@ namespace NUnit.Gui
 			stdErrTab.Clear();
 			stdOutTab.Clear();
 		}
-		
-		/// <summary>
-		/// Clear all info in the status bar
-		/// </summary>
-		private void ClearStatusBar()
-		{
-			InitializeStatusBar( 0 );
-		}
-
+	
 		/// <summary>
 		/// Initialize the progress bar for a loaded test suite.
 		/// </summary>
@@ -1314,18 +1252,6 @@ namespace NUnit.Gui
 		}
 
 		/// <summary>
-		/// Initialize the summary fields in the status bar
-		/// </summary>
-		/// <param name="testCount">The number of tests in the suite</param>
-		private void InitializeStatusBar( int testCount )
-		{
-			testCaseCount.Text = String.Format("Test cases: {0}", testCount);
-			failures.Text = "Failures : 0";
-			testsRun.Text = "Tests Run : 0";
-			time.Text = "Time : 0";
-		}
-		
-		/// <summary>
 		/// Display test results in the UI
 		/// </summary>
 		/// <param name="results">Test results to be displayed</param>
@@ -1335,14 +1261,6 @@ namespace NUnit.Gui
 			notRunTree.BeginUpdate();
 			results.Accept(detailResults);
 			notRunTree.EndUpdate();
-
-			ResultSummarizer summarizer = new ResultSummarizer(results);
-
-			int failureCount = summarizer.Failures;
-
-			failures.Text = "Failures : " + failureCount.ToString();
-			testsRun.Text = "Tests run : " + summarizer.ResultCount.ToString();
-			time.Text = "Time : " + summarizer.Time.ToString();
 		}
 
 		#endregion	

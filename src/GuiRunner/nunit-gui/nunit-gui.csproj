@@ -161,6 +161,16 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "StatusBar.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "StatusBar.resx"
+                    DependentUpon = "StatusBar.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "TestResultItem.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -172,6 +182,11 @@
                 />
                 <File
                     RelPath = "UIActions.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UIEvents.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
