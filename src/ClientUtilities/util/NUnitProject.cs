@@ -92,7 +92,9 @@ namespace NUnit.Util
 		private string projectPath;
 
 		/// <summary>
-		/// Application Base for the project
+		/// Application Base for the project. Since this
+		/// can be null, always fetch from the property
+		/// rather than using the field directly.
 		/// </summary>
 		private string basePath;
 
@@ -124,8 +126,7 @@ namespace NUnit.Util
 		public NUnitProject( string projectPath )
 		{
 			this.projectPath = Path.GetFullPath( projectPath );
-			this.basePath = Path.GetDirectoryName( this.projectPath );
-			configs = new ProjectConfigCollection( this );		
+			configs = new ProjectConfigCollection( this );
 		}
 
 		#endregion
@@ -325,27 +326,36 @@ namespace NUnit.Util
 			}
 		}
 
+		public string DefaultBasePath
+		{
+			get { return Path.GetDirectoryName( projectPath ); }
+		}
+
 		/// <summary>
 		/// The base path for the project. Constructor sets
 		/// it to the directory part of the project path.
 		/// </summary>
 		public string BasePath
 		{
-			get { return basePath; }
+			get 
+			{ 
+				if ( basePath == null || basePath == string.Empty )
+					return DefaultBasePath; 
+				return basePath;
+			}
 			set	
 			{ 
 				basePath = value;
 				
-				if( basePath != null && 
-					basePath != string.Empty && 
-					!Path.IsPathRooted( basePath ) )
+				if ( basePath != null && basePath != string.Empty 
+					&& !Path.IsPathRooted( basePath ) )
 				{
 					basePath = Path.Combine( 
-						Path.GetDirectoryName( projectPath ), 
+						DefaultBasePath, 
 						basePath );	
-
-					basePath = PathUtils.Canonicalize( basePath );
 				}
+
+				basePath = PathUtils.Canonicalize( basePath );
 			}
 		}
 
@@ -424,7 +434,7 @@ namespace NUnit.Util
 
 		public TestProject AsCoreTestProject
 		{
-			get { return new TestProject( projectPath, ActiveConfig.AbsolutePaths ); }
+			get { return new TestProject( projectPath, ActiveConfig.AbsolutePaths, ActiveConfig.BasePath ); }
 		}
 
 		public event ProjectEventHandler Changed;
@@ -517,7 +527,12 @@ namespace NUnit.Util
 						{
 							case "Settings":
 								if ( reader.NodeType == XmlNodeType.Element )
+								{
 									activeConfigName = reader.GetAttribute( "activeconfig" );
+									string appbase = reader.GetAttribute( "appbase" );
+									if ( appbase != null )
+										this.BasePath = appbase;
+								}
 								break;
 
 							case "Config":
@@ -591,10 +606,13 @@ namespace NUnit.Util
 
 			writer.WriteStartElement( "NUnitProject" );
 			
-			if ( configs.Count > 0 )
+			if ( configs.Count > 0 || this.BasePath != this.DefaultBasePath )
 			{
 				writer.WriteStartElement( "Settings" );
-				writer.WriteAttributeString( "activeconfig", ActiveConfigName );
+				if ( configs.Count > 0 )
+					writer.WriteAttributeString( "activeconfig", ActiveConfigName );
+				if ( this.BasePath != this.DefaultBasePath )
+					writer.WriteAttributeString( "appbase", this.BasePath );
 				writer.WriteEndElement();
 			}
 			
@@ -602,7 +620,10 @@ namespace NUnit.Util
 			{
 				writer.WriteStartElement( "Config" );
 				writer.WriteAttributeString( "name", config.Name );
-				if ( config.RelativeBasePath != null )
+				string appbase = config.BasePath;
+				if ( !PathUtils.SamePathOrUnder( this.BasePath, appbase ) )
+					writer.WriteAttributeString( "appbase", appbase );
+				else if ( config.RelativeBasePath != null )
 					writer.WriteAttributeString( "appbase", config.RelativeBasePath );
 				
 				string configFile = config.ConfigurationFile;
