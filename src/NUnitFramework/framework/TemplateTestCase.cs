@@ -96,11 +96,11 @@ namespace NUnit.Core
 					}
 					catch(NunitException exception)
 					{
-						RecordException(exception.InnerException, testResult); 
+						RecordException(exception.InnerException, testResult, true); 
 					}
 					catch(Exception exp)
 					{
-						RecordException(exp, testResult);
+						RecordException(exp, testResult, true);
 					}
 
 					if ( !suiteRunning ) InvokeTestFixtureTearDown();
@@ -125,15 +125,28 @@ namespace NUnit.Core
 
 		protected void RecordException( Exception exception, TestCaseResult testResult )
 		{
-			if(exception is NUnit.Framework.AssertionException)
+			RecordException( exception, testResult, false );
+		}
+
+		protected void RecordException( Exception exception, TestCaseResult testResult, bool inTearDown )
+		{
+			StringBuilder msg = new StringBuilder();
+			StringBuilder st = new StringBuilder();
+			
+			if ( inTearDown )
 			{
-				NUnit.Framework.AssertionException error = (NUnit.Framework.AssertionException)exception;
-				testResult.Failure(BuildMessage(error), BuildStackTrace(error));
+				msg.Append( testResult.Message );
+				msg.Append( Environment.NewLine );
+				msg.Append( "TearDown : " );
+				st.Append( testResult.StackTrace );
+				st.Append( Environment.NewLine );
+				st.Append( "--TearDown" );
+				st.Append( Environment.NewLine );
 			}
-			else
-			{
-				testResult.Failure(BuildMessage(exception), BuildStackTrace(exception));
-			}
+
+			msg.Append( BuildMessage( exception ) );
+			st.Append( BuildStackTrace( exception ) );
+			testResult.Failure( msg.ToString(), st.ToString() );
 		}
 
 		private string BuildMessage(Exception exception)
@@ -147,7 +160,8 @@ namespace NUnit.Core
 			Exception inner = exception.InnerException;
 			while( inner != null )
 			{
-				sb.AppendFormat( "\n  ----> {0} : {1}", inner.GetType().ToString(), inner.Message );
+				sb.Append( Environment.NewLine );
+				sb.AppendFormat( "  ----> {0} : {1}", inner.GetType().ToString(), inner.Message );
 				inner = inner.InnerException;
 			}
 
