@@ -43,20 +43,20 @@ namespace NUnit.Tests.Assemblies
 	{
 		private string testsDll = "NUnit.Tests.dll";
 		private Assembly testAssembly;
-		private Type assemblyTestType;
 
-		[SetUp]
-		public void SetUp() 
+		[Test]
+		public void RunSetsCurrentDirectory()
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			testAssembly = builder.Load(testsDll);
-			assemblyTestType = testAssembly.GetType("NUnit.Tests.assemblies.AssemblyTests");
+			Assert.IsTrue( File.Exists( testsDll ), "Run does not set current directory" );
 		}
 
 		[Test]
 		public void LoadAssembly()
 		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			testAssembly = builder.Load(testsDll);
 			Assert.IsNotNull(testAssembly, "should be able to load assembly");
+			Assert.IsTrue( File.Exists( testsDll ), "Load does not set current Directory" );
 		}
 
 		[Test]
@@ -95,10 +95,11 @@ namespace NUnit.Tests.Assemblies
 			Assert.AreEqual(typeNamespace, "NUnit.Tests.Assemblies");
 		}
 
-
 		[Test]
 		public void AppSettingsLoaded()
 		{
+			string configFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
+			Assert.IsTrue( File.Exists( configFile ), string.Format( "{0} does not exist", configFile ) );
 			Assert.IsNull(ConfigurationSettings.AppSettings["tooltip.ShowAlways"]);
 			Assert.IsNotNull(ConfigurationSettings.AppSettings["test.setting"], 
 				"test.setting should not be null");
