@@ -23,8 +23,8 @@ namespace NUnit.Tests.TimingTests
 		{
 			outStream = new ConsoleWriter(Console.Out);
 			errorStream = new ConsoleWriter(Console.Error);
-			domain = new TestDomain(outStream, errorStream);
-			test = domain.Load("mock-assembly.dll");
+			domain = new TestDomain();
+			test = domain.LoadAssembly("mock-assembly.dll");
 		}
 
 		[TearDown]
@@ -50,7 +50,7 @@ namespace NUnit.Tests.TimingTests
 
 			// Run the tests, which also verifies that
 			// RemoteTestRunner has not been disconnected
-			TestResult result = domain.Run(NullListener.NULL);
+			TestResult result = domain.Run(NullListener.NULL, outStream, errorStream);
 
 			// Delay again to let the results "ripen"
 			Thread.Sleep( timeout );
