@@ -45,6 +45,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_35FF6BE1BE3844CDBDF7B902B7D438A7"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:H:\\DEV\\VS.NET\\NUNIT\\NUNIT20\\SAMPLES\\SAMPLES.SLN"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3C324BB1BA95478D9C571573A26DC516"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\FRAMEWORK\\RESULTS.XSD"
@@ -54,72 +60,6 @@
         "MsmKey" = "8:_3EECB6AB7E0B4143B876EB156ED74F8C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\DOC\\README.PDF"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41C9C8CBE9C549569F782CC438583A6A"
-        "OwnerKey" = "8:_5C0DDF2F53DC434385571D8FC73F91EA"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41C9C8CBE9C549569F782CC438583A6A"
-        "OwnerKey" = "8:_858B2E187B4F0F900F4581D1DCE7ED07"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41C9C8CBE9C549569F782CC438583A6A"
-        "OwnerKey" = "8:_9FE770423A2133412A9DA6FF7090A9B8"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41C9C8CBE9C549569F782CC438583A6A"
-        "OwnerKey" = "8:_FA76FC0178DA44278A8A7BB1612248C9"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41C9C8CBE9C549569F782CC438583A6A"
-        "OwnerKey" = "8:_E5BEB3A716BD48038CD58A8DD41C229E"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41C9C8CBE9C549569F782CC438583A6A"
-        "OwnerKey" = "8:_8C23B5CE73F5A6D14BAC481A3BBB5318"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41C9C8CBE9C549569F782CC438583A6A"
-        "OwnerKey" = "8:_A65668B743BC4714BE5622F8FBE6A9F7"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41C9C8CBE9C549569F782CC438583A6A"
-        "OwnerKey" = "8:_728DA3F3C5BCF6A3ADD4B16D0771960A"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41C9C8CBE9C549569F782CC438583A6A"
-        "OwnerKey" = "8:_06B5879C72BFA14CE4D74BFE98B33EAB"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41C9C8CBE9C549569F782CC438583A6A"
-        "OwnerKey" = "8:_AB05C4355427B5E112787E88D0434DDB"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_41C9C8CBE9C549569F782CC438583A6A"
-        "OwnerKey" = "8:_883DBB81B7FF42C9A2AB78ED9F353A04"
-        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
@@ -180,6 +120,72 @@
         "MsmKey" = "8:_754A34C1379649EAA760DFFEBE086ED2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:C:\\SFKIT\\SOURCEFORGE\\NUNIT20\\SAMPLES\\JSHARP\\README.TXT"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_81D1DB641E064F7BB0D5128EC4137EF4"
+        "OwnerKey" = "8:_5C0DDF2F53DC434385571D8FC73F91EA"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_81D1DB641E064F7BB0D5128EC4137EF4"
+        "OwnerKey" = "8:_858B2E187B4F0F900F4581D1DCE7ED07"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_81D1DB641E064F7BB0D5128EC4137EF4"
+        "OwnerKey" = "8:_9FE770423A2133412A9DA6FF7090A9B8"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_81D1DB641E064F7BB0D5128EC4137EF4"
+        "OwnerKey" = "8:_FA76FC0178DA44278A8A7BB1612248C9"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_81D1DB641E064F7BB0D5128EC4137EF4"
+        "OwnerKey" = "8:_E5BEB3A716BD48038CD58A8DD41C229E"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_81D1DB641E064F7BB0D5128EC4137EF4"
+        "OwnerKey" = "8:_8C23B5CE73F5A6D14BAC481A3BBB5318"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_81D1DB641E064F7BB0D5128EC4137EF4"
+        "OwnerKey" = "8:_A65668B743BC4714BE5622F8FBE6A9F7"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_81D1DB641E064F7BB0D5128EC4137EF4"
+        "OwnerKey" = "8:_728DA3F3C5BCF6A3ADD4B16D0771960A"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_81D1DB641E064F7BB0D5128EC4137EF4"
+        "OwnerKey" = "8:_06B5879C72BFA14CE4D74BFE98B33EAB"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_81D1DB641E064F7BB0D5128EC4137EF4"
+        "OwnerKey" = "8:_AB05C4355427B5E112787E88D0434DDB"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_81D1DB641E064F7BB0D5128EC4137EF4"
+        "OwnerKey" = "8:_883DBB81B7FF42C9A2AB78ED9F353A04"
+        "MsmSig" = "8:mondo.E4183BB4_18A8_11D5_A549_0090278A1BB8"
         }
         "Entry"
         {
@@ -472,6 +478,26 @@
             "TargetName" = "8:ReadMe.pdf"
             "Tag" = "8:"
             "Folder" = "8:_2A1CF507AB894992A743DD546A46D0A5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{54DA9790-1474-11D3-8E00-00C04F6837D0}:_35FF6BE1BE3844CDBDF7B902B7D438A7"
+            {
+            "SourcePath" = "8:..\\samples\\samples.sln"
+            "TargetName" = "8:samples.sln"
+            "Tag" = "8:"
+            "Folder" = "8:_F2BD249338F242ECBC3FFC58227344A5"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1757,7 +1783,7 @@
             }
             "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_5C0DDF2F53DC434385571D8FC73F91EA"
             {
-            "SourcePath" = "8:..\\framework\\obj\\Debug\\nunit.framework.dll"
+            "SourcePath" = "8:..\\framework\\obj\\Release\\nunit.framework.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_83C96E21F9B64BD6A3D7C8191FD593C8"
@@ -1931,7 +1957,7 @@
             }
             "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_883DBB81B7FF42C9A2AB78ED9F353A04"
             {
-            "SourcePath" = "8:..\\nunit-gui\\obj\\Debug\\nunit-gui.exe"
+            "SourcePath" = "8:..\\nunit-gui\\obj\\Release\\nunit-gui.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
@@ -2018,7 +2044,7 @@
             }
             "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_A65668B743BC4714BE5622F8FBE6A9F7"
             {
-            "SourcePath" = "8:..\\tests\\timing-tests\\obj\\Debug\\timing-tests.dll"
+            "SourcePath" = "8:..\\tests\\timing-tests\\obj\\Release\\timing-tests.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
@@ -2163,7 +2189,7 @@
             }
             "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_E5BEB3A716BD48038CD58A8DD41C229E"
             {
-            "SourcePath" = "8:..\\nunit-console\\obj\\Debug\\nunit-console.exe"
+            "SourcePath" = "8:..\\nunit-console\\obj\\Release\\nunit-console.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
@@ -2192,7 +2218,7 @@
             }
             "{B1E2BB22-187D-11D3-8E02-00C04F6837D0}:_FA76FC0178DA44278A8A7BB1612248C9"
             {
-            "SourcePath" = "8:..\\tests\\obj\\Debug\\nunit.tests.dll"
+            "SourcePath" = "8:..\\tests\\obj\\Release\\nunit.tests.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_AEB7D21393AE4B0185A2D9DF52933C55"
@@ -2251,7 +2277,7 @@
         }
         "MergeModule"
         {
-            "{AC8774A4-3E09-11D3-8E14-00C04F6837D0}:_41C9C8CBE9C549569F782CC438583A6A"
+            "{AC8774A4-3E09-11D3-8E14-00C04F6837D0}:_81D1DB641E064F7BB0D5128EC4137EF4"
             {
             "UseDynamicProperties" = "11:TRUE"
             "IsDependency" = "11:TRUE"

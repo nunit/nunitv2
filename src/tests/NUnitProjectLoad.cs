@@ -166,13 +166,13 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void FromVSSolution()
 		{
-			NUnitProject project = NUnitProject.FromVSSolution( SolutionPath );
+			NUnitProject project = NUnitProject.FromVSSolution( GetSamplesPath( "samples.sln" ) );
 
 			Assert.AreEqual( 4, project.Configs.Count );
-			Assert.IsTrue( project.Configs.Contains( "Debug" ), "Missing Debug Config" );
-			Assert.IsTrue( project.Configs.Contains( "Release" ), "Missing Release Config" );
-			Assert.AreEqual( project.Configs[0].Name, project.ActiveConfig.Name );
-			Assert.AreEqual( 15, project.Configs["Debug"].Assemblies.Count );
+			Assert.AreEqual( 3, project.Configs["Debug"].Assemblies.Count );
+			Assert.AreEqual( 3, project.Configs["Release"].Assemblies.Count );
+			Assert.AreEqual( 1, project.Configs["Debug|Win32"].Assemblies.Count );
+			Assert.AreEqual( 1, project.Configs["Release|Win32"].Assemblies.Count );
 			Assert.IsTrue( project.IsLoadable, "Not loadable" );
 			Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
 		}
