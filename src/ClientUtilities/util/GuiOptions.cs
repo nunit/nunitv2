@@ -52,6 +52,9 @@ namespace NUnit.Util
 		[Option(Description = "Fixture to test")]
 		public string fixture;
 
+		[Option(Description = ".NET Framework version to execute with (eg 'v1.0.3705')")]
+		public string framework;
+
 		public GuiOptions(String[] args) : base(args) 
 		{}
 

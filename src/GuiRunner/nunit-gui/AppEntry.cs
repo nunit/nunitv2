@@ -30,6 +30,8 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using NUnit.Util;
 using NUnit.UiKit;
@@ -53,6 +55,19 @@ namespace NUnit.Gui
 			GuiOptions parser = new GuiOptions(args);
 			if(parser.Validate() && !parser.help) 
 			{
+				// If 'framework' is defined then re-spawn process using
+				// specified .NET Framework version.
+				string version = RuntimeEnvironment.GetSystemVersion();
+				if (parser.framework != null && version != parser.framework)
+				{
+					string exeFile = Environment.GetCommandLineArgs()[0];
+					ProcessStartInfo startInfo = new ProcessStartInfo(exeFile);
+					startInfo.UseShellExecute = false;
+					startInfo.EnvironmentVariables["ComPlus_Version"] = parser.framework;
+					Process.Start(startInfo);
+					return 0;
+				}
+
 				if(!parser.NoArgs)
 				{
 					if (parser.IsAssembly)
