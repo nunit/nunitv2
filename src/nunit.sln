@@ -98,6 +98,7 @@ Global
 		{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}.Release.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
+		PostBuildRule0 = "C:\nunit\nunit-gui\bin\Debug\nunit-gui.exe" 
 	EndGlobalSection
 	GlobalSection(ExtensibilityAddIns) = postSolution
 	EndGlobalSection
