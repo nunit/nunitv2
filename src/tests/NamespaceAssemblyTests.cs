@@ -121,6 +121,11 @@ namespace NUnit.Tests.Core
 			TestSuite suite = builder.Build( nonamespaceDLL );
 			Assert.IsNotNull(suite);
 			Assert.AreEqual( NoNamespaceTestFixture.Tests, suite.CountTestCases() );
+
+			suite = (TestSuite)suite.Tests[0];
+			Assert.IsNotNull(suite);
+			Assert.AreEqual( "NoNamespaceTestFixture", suite.Name );
+			Assert.AreEqual( "NoNamespaceTestFixture", suite.FullName );
 		}
 	}
 }

@@ -103,7 +103,7 @@ namespace NUnit.Core
 
 		protected Test( string pathName, string testName, int assemblyKey ) 
 		{ 
-			fullName = pathName + "." + testName;
+			fullName = pathName == null || pathName == string.Empty ? testName : pathName + "." + testName;
 			this.testName = testName;
 			this.assemblyKey = assemblyKey;
 			shouldRun = true;

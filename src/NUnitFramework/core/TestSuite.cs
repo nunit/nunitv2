@@ -104,7 +104,10 @@ namespace NUnit.Core
 		{
 			int index = type.FullName.LastIndexOf( "." ) + 1;
 			string name = type.FullName.Substring( index );
-			return new TestSuite( type.Namespace, name, this.AssemblyKey);
+			if ( type.Namespace != null )
+				return new TestSuite( type.Namespace, name, this.AssemblyKey);
+			else
+				return new TestSuite( name, this.AssemblyKey );
 		}
 
 		public void Add(object fixture) 
