@@ -83,7 +83,18 @@ namespace NUnit.Core
 
 		public void AddFile( string file )
 		{
-			_files.Add( file );
+			AddFile( file, false );
+		}
+
+		public void AddFile( string file, bool ignoreVersion )
+		{
+			if ( ignoreVersion )	// Go straight to cache
+			{
+				Assembly assembly = Assembly.LoadFrom( file );
+				_cache.Add( assembly.GetName().Name, assembly );
+			}
+			else	// Wait till a version is requested
+				_files.Add( file );
 		}
 
 		private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
