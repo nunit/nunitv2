@@ -202,7 +202,7 @@ namespace NUnit.UiKit
 			foreach( ProjectConfig config in project.Configs )
 			{
 				int index = configurationComboBox.Items.Add( config.Name );
-				if ( config.Name == project.ActiveConfig.Name )
+				if ( config.Name == project.ActiveConfigName )
 					configurationComboBox.SelectedIndex = index;
 			}
 		}

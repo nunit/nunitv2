@@ -259,7 +259,7 @@ namespace NUnit.UiKit
 		private void configListBox_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
 			selectedIndex = configListBox.SelectedIndex;
-			activeButton.Enabled = selectedIndex >= 0 && project.Configs[selectedIndex].Name != project.ActiveConfig.Name;
+			activeButton.Enabled = selectedIndex >= 0 && project.Configs[selectedIndex].Name != project.ActiveConfigName;
 			renameButton.Enabled = addButton.Enabled = selectedIndex >= 0;
 			removeButton.Enabled = selectedIndex >= 0 && configListBox.Items.Count > 0;
 		}
@@ -287,7 +287,7 @@ namespace NUnit.UiKit
 			{
 				string name = config.Name;
 
-				if ( name == project.ActiveConfig.Name )
+				if ( name == project.ActiveConfigName )
 					name += " (active)";
 				
 				configListBox.Items.Add( name );

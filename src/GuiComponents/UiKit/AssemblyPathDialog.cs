@@ -17,6 +17,7 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.TextBox assemblyPathTextBox;
 		private System.Windows.Forms.Button okButton;
 		private System.Windows.Forms.Button cancelButton;
+		private System.Windows.Forms.Button browseButton;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -63,9 +64,11 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(AssemblyPathDialog));
 			this.assemblyPathTextBox = new System.Windows.Forms.TextBox();
 			this.okButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
+			this.browseButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// assemblyPathTextBox
@@ -74,7 +77,7 @@ namespace NUnit.UiKit
 				| System.Windows.Forms.AnchorStyles.Right);
 			this.assemblyPathTextBox.Location = new System.Drawing.Point(8, 16);
 			this.assemblyPathTextBox.Name = "assemblyPathTextBox";
-			this.assemblyPathTextBox.Size = new System.Drawing.Size(472, 22);
+			this.assemblyPathTextBox.Size = new System.Drawing.Size(440, 22);
 			this.assemblyPathTextBox.TabIndex = 0;
 			this.assemblyPathTextBox.Text = "";
 			// 
@@ -96,6 +99,16 @@ namespace NUnit.UiKit
 			this.cancelButton.TabIndex = 3;
 			this.cancelButton.Text = "Cancel";
 			// 
+			// browseButton
+			// 
+			this.browseButton.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right);
+			this.browseButton.Image = ((System.Drawing.Bitmap)(resources.GetObject("browseButton.Image")));
+			this.browseButton.Location = new System.Drawing.Point(456, 16);
+			this.browseButton.Name = "browseButton";
+			this.browseButton.Size = new System.Drawing.Size(24, 24);
+			this.browseButton.TabIndex = 4;
+			this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
+			// 
 			// AssemblyPathDialog
 			// 
 			this.AcceptButton = this.okButton;
@@ -103,6 +116,7 @@ namespace NUnit.UiKit
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(490, 78);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
+																		  this.browseButton,
 																		  this.cancelButton,
 																		  this.okButton,
 																		  this.assemblyPathTextBox});
@@ -110,7 +124,7 @@ namespace NUnit.UiKit
 			this.Name = "AssemblyPathDialog";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Edit Assembly Path";
+			this.Text = "Assembly Path";
 			this.Load += new System.EventHandler(this.AssemblyPathDialog_Load);
 			this.ResumeLayout(false);
 
@@ -119,23 +133,53 @@ namespace NUnit.UiKit
 
 		private void okButton_Click(object sender, System.EventArgs e)
 		{
-			path = assemblyPathTextBox.Text;
+			string path = assemblyPathTextBox.Text;
 
-			if ( !File.Exists( path ) )
+			try
 			{
-				DialogResult answer = UserMessage.Ask( string.Format( 
-					"The path {0} does not exist. Do you want to use it anyway?", path ) );
-				if ( answer != DialogResult.Yes )
-					return;
+				FileInfo info = new FileInfo( path );
+
+				if ( !info.Exists )
+				{
+					DialogResult answer = UserMessage.Ask( string.Format( 
+						"The path {0} does not exist. Do you want to use it anyway?", path ) );
+					if ( answer != DialogResult.Yes )
+						return;
+				}
+
+				DialogResult = DialogResult.OK;
+				this.path = path;
+				this.Close();
 			}
-			
-			DialogResult = DialogResult.OK;
-			this.Close();
+			catch( System.Exception exception )
+			{
+				assemblyPathTextBox.SelectAll();
+				UserMessage.DisplayFailure( exception, "Invalid Entry" );
+			}	
 		}
 
 		private void AssemblyPathDialog_Load(object sender, System.EventArgs e)
 		{
 			assemblyPathTextBox.Text = path;
+		}
+
+		private void browseButton_Click(object sender, System.EventArgs e)
+		{
+			OpenFileDialog dlg = new OpenFileDialog();
+			dlg.Title = "Select Assembly";
+			
+			dlg.Filter =
+				"Assemblies (*.dll,*.exe)|*.dll;*.exe|" +
+				"All Files (*.*)|*.*";
+
+			dlg.InitialDirectory = System.IO.Path.GetDirectoryName( path );
+			dlg.FilterIndex = 1;
+			dlg.FileName = "";
+
+			if ( dlg.ShowDialog( this ) == DialogResult.OK ) 
+			{
+				assemblyPathTextBox.Text = dlg.FileName;
+			}
 		}
 	}
 }
