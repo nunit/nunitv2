@@ -446,7 +446,7 @@ namespace NUnit.Util
 				events.FireTestLoading( TestFileName );
 
 				testDomain = new TestDomain();		
-				Test test = TestProject.LoadTest( testDomain );
+				Test test = testDomain.Load( TestProject );
 
 				TestSuite suite = test as TestSuite;
 				if ( suite != null )
@@ -555,7 +555,7 @@ namespace NUnit.Util
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
 					TestDomain newDomain = new TestDomain();
-					Test newTest = testProject.LoadTest( newDomain );
+					Test newTest = newDomain.Load( testProject );
 					TestSuite suite = newTest as TestSuite;
 					if ( suite != null )
 						suite.Sort();
@@ -629,14 +629,14 @@ namespace NUnit.Util
 				testNames.Add(node.UniqueName);
 			}
 
-			int count = testDomain.CountTestCases(testNames);
+			int count = testDomain.Runner.CountTestCases(testNames);
 
 			events.FireRunStarting( runningTests, count );
 
 			try
 			{
 				Directory.SetCurrentDirectory( testProject.ActiveConfig.BasePath );
-				lastResult = testDomain.Run(this, stdOutWriter, stdErrWriter, testNames );
+				lastResult = testDomain.Runner.Run(this, stdOutWriter, stdErrWriter, testNames );
 				
 				events.FireRunFinished( lastResult );
 			}

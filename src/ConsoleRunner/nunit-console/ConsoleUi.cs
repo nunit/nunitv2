@@ -50,7 +50,7 @@ namespace NUnit.Console
 	/// </summary>
 	public class ConsoleUi
 	{
-		private NUnit.Core.TestDomain testDomain;
+		private TestDomain testDomain;
 		private XmlTextReader transformReader;
 		private bool silent;
 		private string xmlOutput;
@@ -81,7 +81,7 @@ namespace NUnit.Console
 			}
 			else
 			{
-				NUnit.Core.TestDomain domain = new NUnit.Core.TestDomain();
+				TestDomain domain = new TestDomain();
 
 				try
 				{
@@ -179,8 +179,7 @@ namespace NUnit.Console
 			Console.WriteLine();
 		}
 
-		private static Test MakeTestFromCommandLine(NUnit.Core.TestDomain testDomain, 
-			ConsoleOptions parser)
+		private static Test MakeTestFromCommandLine(TestDomain testDomain, ConsoleOptions parser)
 		{
 			if(!DoAssembliesExist(parser.Parameters)) return null; 
 			
@@ -196,7 +195,7 @@ namespace NUnit.Console
 			else
 				project = NUnitProject.FromAssemblies( (string[])parser.Parameters.ToArray( typeof( string ) ) );
 
-			return project.LoadTest( testDomain, parser.fixture );
+			return testDomain.Load( project, parser.fixture );
 		}
 
 		private static bool DoAssembliesExist(IList files)
@@ -213,7 +212,7 @@ namespace NUnit.Console
 			return fileInfo.Exists;
 		}
 
-		public ConsoleUi(NUnit.Core.TestDomain testDomain, XmlTextReader reader, bool silent)
+		public ConsoleUi(TestDomain testDomain, XmlTextReader reader, bool silent)
 		{
 			this.testDomain = testDomain;
 			transformReader = reader;
@@ -236,7 +235,7 @@ namespace NUnit.Console
 			ConsoleWriter errorStream = new ConsoleWriter(Console.Error);
 			
 			string savedDirectory = Environment.CurrentDirectory;
-			TestResult result = testDomain.Run(collector, outStream, errorStream);
+			TestResult result = testDomain.Runner.Run(collector, outStream, errorStream);
 			Directory.SetCurrentDirectory( savedDirectory );
 			
 			Console.WriteLine();
@@ -268,10 +267,10 @@ namespace NUnit.Console
 
 		private class EventCollector : LongLivingMarshalByRefObject, EventListener
 		{
-			private int level;
 			private int testRunCount;
 			private int testIgnoreCount;
 			private int failureCount;
+			private int level;
 			StringCollection messages;
 		
 			private bool debugger = false;
@@ -322,7 +321,7 @@ namespace NUnit.Console
 
 			public void SuiteFinished(TestSuiteResult suiteResult) 
 			{
-				if ( debugger && --level == 0 ) 
+				if ( debugger && --level == 0) 
 				{
 					Trace.WriteLine( "############################################################################" );
 

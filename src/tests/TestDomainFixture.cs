@@ -69,14 +69,14 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void InitTest()
 		{
-			Test test = domain.LoadAssembly("mock-assembly.dll");
+			Test test = domain.Load("mock-assembly.dll");
 			Assert.IsNotNull(test, "Test should not be null");
 		}
 
 		[Test]
 		public void CountTestCases()
 		{
-			Test test = domain.LoadAssembly("mock-assembly.dll");
+			Test test = domain.Load("mock-assembly.dll");
 			Assert.AreEqual(7, test.CountTestCases());
 		}
 
@@ -84,7 +84,7 @@ namespace NUnit.Tests.Core
 		[ExpectedException(typeof(FileNotFoundException))]
 		public void FileNotFound()
 		{
-			Test test = domain.LoadAssembly("xxxx");
+			Test test = domain.Load("xxxx");
 		}
 
 		[Test]
@@ -100,24 +100,24 @@ namespace NUnit.Tests.Core
 			sw.Flush();
 			sw.Close();
 
-			Test test = domain.LoadAssembly(tempFile);
+			Test test = domain.Load(tempFile);
 		}
 
 		[Test]
 		public void RunMockAssembly()
 		{
-			Test test = domain.LoadAssembly("mock-assembly.dll");
+			Test test = domain.Load("mock-assembly.dll");
 
-			TestResult result = domain.Run(NullListener.NULL,outStream,errorStream);
+			TestResult result = domain.Runner.Run(NullListener.NULL,outStream,errorStream);
 			Assert.IsNotNull(result);
 		}
 
 		[Test]
 		public void MockAssemblyResults()
 		{
-			Test test = domain.LoadAssembly("mock-assembly.dll");
+			Test test = domain.Load("mock-assembly.dll");
 
-			TestResult result = domain.Run(NullListener.NULL, outStream, errorStream);
+			TestResult result = domain.Runner.Run(NullListener.NULL, outStream, errorStream);
 			Assert.AreEqual(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
@@ -128,9 +128,9 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void SpecificTestFixture()
 		{
-			Test test = domain.LoadAssembly( "mock-assembly.dll", "NUnit.Tests.Assemblies.MockTestFixture" );
+			Test test = domain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.MockTestFixture" );
 
-			TestResult result = domain.Run(NullListener.NULL, outStream, errorStream);
+			TestResult result = domain.Runner.Run(NullListener.NULL, outStream, errorStream);
 			Assert.AreEqual(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
@@ -141,7 +141,7 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void InvalidTestFixture()
 		{
-			Test test = domain.LoadAssembly( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" );
+			Test test = domain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" );
 			Assert.IsNull(test, "test should be null");
 		}
 
@@ -152,7 +152,7 @@ namespace NUnit.Tests.Core
 			assemblies.Add("mock-assembly.dll");
 			assemblies.Add("nonamespace-assembly.dll");
 
-			Test test = domain.LoadAssemblies( "Multiple", assemblies );
+			Test test = domain.Load( "Multiple", assemblies );
 			Assert.IsNotNull(test, "test should not be null");
 			Assert.AreEqual(10, test.CountTestCases());
 		}

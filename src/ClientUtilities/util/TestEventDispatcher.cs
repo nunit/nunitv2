@@ -187,6 +187,13 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestReloadFailed, fileName, exception ) );
 		}
 
+		public void FireRunStarting( Test test )
+		{
+			Fire(
+				RunStarting,
+				new TestEventArgs( TestAction.RunStarting, test ) );
+		}
+
 		public void FireRunStarting( IList tests, int count )
 		{
 			Fire(

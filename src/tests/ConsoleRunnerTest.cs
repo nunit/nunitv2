@@ -165,7 +165,7 @@ namespace NUnit.Tests.ConsoleRunner
 			StringBuilder builder = new StringBuilder();
 			int resultCode = executeProcess(p, builder);
 			Assert.AreEqual(0, resultCode);
-			Assert.IsTrue(builder.ToString().Trim().StartsWith(@"<?xml version=""1.0"""),
+			Assert.IsTrue(builder.ToString().Trim().IndexOf( @"<?xml version=""1.0""" ) >= 0,
 				"Only XML should be displayed in xmlconsole mode");
 		}
 

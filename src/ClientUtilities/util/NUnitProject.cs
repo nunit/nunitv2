@@ -607,30 +607,6 @@ namespace NUnit.Util
 			Save();
 		}
 
-		/// <summary>
-		/// Load tests for this project into a test domain
-		/// </summary>
-		public Test LoadTest( TestDomain testDomain )
-		{
-			return LoadTest( testDomain, null );
-		}
-
-		/// <summary>
-		/// Load tests for this project or for a particular fixture 
-		/// in the project into a test domain.
-		/// </summary>
-		public Test LoadTest( TestDomain testDomain, string testFixture )
-		{
-			if ( IsAssemblyWrapper )
-			{
-				return testDomain.LoadAssembly( ActiveConfig.Assemblies[0].FullPath, testFixture );
-			}
-			else
-			{
-				return testDomain.LoadAssemblies( ProjectPath, ActiveConfig.BasePath, ActiveConfig.ConfigurationFilePath, ActiveConfig.PrivateBinPath, ActiveConfig.TestAssemblies, testFixture );
-			}
-		}
-
 		#endregion
 	}
 }
