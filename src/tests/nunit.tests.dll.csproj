@@ -279,7 +279,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "LegacySuiteTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "MockAssemblyWatcher.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MockSuiteBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
