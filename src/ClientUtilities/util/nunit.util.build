@@ -8,12 +8,11 @@
             * build.debug           - (true|false) debug build?
             * build.win32           - (true|false) win32 build?
             * build.defines.csc     - build defines for build config
-            * runtime.defines.csc   - build defines for target framework
     -->
 
     <target name="build" depends="copy">
         <csc target="library" output="${bin.dir}/nunit.util.dll"
-                debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc}">
+                debug="${build.debug}" define="${build.defines.csc}">
             <sources basedir="${src.dir}/util">
                 <include name="**/*.cs"/>
             </sources>

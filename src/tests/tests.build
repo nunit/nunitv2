@@ -8,7 +8,6 @@
             * build.debug           - (true|false) debug build?
             * build.mono            - (true|false) mono build?
             * build.defines.csc     - build defines for build config
-            * runtime.defines.csc   - build defines for target framework
     -->
 
     <target name="build" depends="copy">
@@ -19,7 +18,7 @@
         <nant buildfile="notestfixtures-assembly/notestfixtures-assembly.build" target="build"/>
 
         <!-- Build nunit.tests.dll - the main test assembly -->
-        <csc target="library" output="${bin.dir}/nunit.tests.dll" debug="${build.debug}" define="${build.defines.csc},${runtime.defines.csc},NANTBUILD">
+        <csc target="library" output="${bin.dir}/nunit.tests.dll" debug="${build.debug}" define="${build.defines.csc},NANTBUILD">
             <sources basedir="${src.dir}/tests">
                 <include name="*.cs"/>
             </sources>
