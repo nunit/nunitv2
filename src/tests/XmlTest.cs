@@ -176,7 +176,7 @@ namespace NUnit.Tests.Core
 		public void CreateTempFileName()
 		{
 			tempFile = "temp" + Guid.NewGuid().ToString() + ".xml";
-			schemaFile = SourcePath + @"\framework\results.xsd";
+			schemaFile = SourcePath + @"\core\results.xsd";
 		}
 
 		[TearDown]
