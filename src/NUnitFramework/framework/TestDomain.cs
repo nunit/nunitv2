@@ -153,7 +153,8 @@ namespace NUnit.Core
 			setup.ShadowCopyFiles = "true";
 
 			setup.ApplicationBase = testFile.DirectoryName;
-			setup.ConfigurationFile =  Path.ChangeExtension( testFile.FullName, ".config" );
+			//setup.ConfigurationFile =  Path.ChangeExtension( testFile.FullName, ".config" );
+			setup.ConfigurationFile =  testFile.FullName + ".config";
 
 			string binPath = GetBinPath( assemblies );
 			setup.ShadowCopyDirectories = binPath;
