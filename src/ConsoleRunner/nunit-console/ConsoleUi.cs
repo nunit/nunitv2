@@ -354,7 +354,7 @@ namespace NUnit.ConsoleRunner
 					writer.WriteLine("***** {0}", testCase.FullName );
 				else if ( !options.xmlConsole )
 					Console.Write(".");
-}
+			}
 
 			public void SuiteStarted(TestSuite suite) 
 			{
@@ -416,7 +416,15 @@ namespace NUnit.ConsoleRunner
 
 			public void TestOutput( TestOutput output)
 			{
-				// TODO: When to output?
+				switch ( output.Type )
+				{
+					case TestOutputType.Out:
+						Console.Out.WriteLine( output.Text );
+						break;
+					case TestOutputType.Error:
+						Console.Error.WriteLine( output.Text );
+						break;
+				}
 			}
 		}
 
