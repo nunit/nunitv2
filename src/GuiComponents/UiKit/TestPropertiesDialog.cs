@@ -332,6 +332,7 @@ namespace NUnit.UiKit
 			this.pinButton.Size = new System.Drawing.Size(20, 20);
 			this.pinButton.TabIndex = 14;
 			this.pinButton.Click += new System.EventHandler(this.pinButton_Click);
+			this.pinButton.CheckedChanged += new System.EventHandler(this.pinButton_CheckedChanged);
 			// 
 			// TestPropertiesDialog
 			// 
@@ -391,8 +392,8 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void TestPropertiesDialog_Load(object sender, System.EventArgs e)
 		{
-			pinnedImage = new Bitmap( typeof( TestPropertiesDialog ), "pinned.bmp" );
-			unpinnedImage = new Bitmap( typeof( TestPropertiesDialog ), "unpinned.bmp" );
+			pinnedImage = new Bitmap( typeof( TestPropertiesDialog ), "pinned.gif" );
+			unpinnedImage = new Bitmap( typeof( TestPropertiesDialog ), "unpinned.gif" );
 			pinButton.Image = unpinnedImage;
 
 			DisplayProperties();
@@ -499,6 +500,11 @@ namespace NUnit.UiKit
 				pinButton.Image = pinnedImage;
 			else
 				pinButton.Image = unpinnedImage;
+		}
+
+		private void pinButton_CheckedChanged(object sender, System.EventArgs e)
+		{
+		
 		}
 	}
 
