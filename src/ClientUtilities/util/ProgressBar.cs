@@ -52,7 +52,7 @@ namespace NUnit.UiKit
 		private int fValue = 0;
 		private int fmin = 0;
 		private int fmax = 100;
-		private int fStep = 10;
+		private int fStep = 1;
 		private Color fBarColor = SystemColors.ControlText;
 		
 		private float FMaxSegmentCount=0;
@@ -212,6 +212,7 @@ namespace NUnit.UiKit
 
 			uievents.TestSuiteLoadedEvent += new TestSuiteLoadedHandler( OnSuiteLoaded );
 			uievents.TestSuiteChangedEvent += new TestSuiteChangedHandler( OnSuiteChanged );
+			uievents.RunStartingEvent += new RunStartingHandler( OnRunStarting );
 			uievents.TestFinishedEvent += new TestFinishedHandler( OnTestFinished );
 		}
 
