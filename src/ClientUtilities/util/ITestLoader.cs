@@ -97,10 +97,10 @@ namespace NUnit.Util
 		void ReloadTest();
 
 		// Run a test suite
-		void RunTest( UITestNode test );
+		void RunTest( ITest test );
 
 		// Run a collection of tests
-		void RunTests(UITestNode[] tests);
+		void RunTests(ITest[] tests);
 
 		// Cancel the running test
 		void CancelTestRun();
