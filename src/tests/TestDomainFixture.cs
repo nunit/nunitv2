@@ -40,8 +40,6 @@ namespace NUnit.Tests.Core
 	public class TestDomainFixture
 	{
 		private TestDomain domain; 
-		private TextWriter outStream;
-		private TextWriter errorStream;
 		private static readonly string tempFile = "x.dll";
 		private ArrayList assemblies; 
 
@@ -49,9 +47,9 @@ namespace NUnit.Tests.Core
 		[SetUp]
 		public void MakeAppDomain()
 		{
-			outStream = new ConsoleWriter(Console.Out);
-			errorStream = new ConsoleWriter(Console.Error);
-			domain = new TestDomain();
+			TextWriter outStream = new ConsoleWriter(Console.Out);
+			TextWriter errorStream = new ConsoleWriter(Console.Error);
+			domain = new TestDomain( outStream, errorStream );
 
 			assemblies = new ArrayList();
 		}
@@ -108,7 +106,7 @@ namespace NUnit.Tests.Core
 		{
 			Test test = domain.Load("mock-assembly.dll");
 
-			TestResult result = domain.Runner.Run(NullListener.NULL,outStream,errorStream);
+			TestResult result = domain.Run( NullListener.NULL );
 			Assert.IsNotNull(result);
 		}
 
@@ -117,7 +115,7 @@ namespace NUnit.Tests.Core
 		{
 			Test test = domain.Load("mock-assembly.dll");
 
-			TestResult result = domain.Runner.Run(NullListener.NULL, outStream, errorStream);
+			TestResult result = domain.Run( NullListener.NULL );
 			Assert.AreEqual(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
@@ -130,7 +128,7 @@ namespace NUnit.Tests.Core
 		{
 			Test test = domain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.MockTestFixture" );
 
-			TestResult result = domain.Runner.Run(NullListener.NULL, outStream, errorStream);
+			TestResult result = domain.Run( NullListener.NULL );
 			Assert.AreEqual(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);

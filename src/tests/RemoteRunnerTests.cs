@@ -116,7 +116,7 @@ namespace NUnit.Tests.Core
 		{
 			assemblies[0] = "nonamespace-assembly.dll";
 			Test test = runner.Load( "TestSuite", assemblies);
-			TestResult result = runner.Run(NullListener.NULL, TextWriter.Null, TextWriter.Null);
+			TestResult result = runner.Run( NullListener.NULL );
 			ResultSummarizer summary = new ResultSummarizer(result);
 			Assert.AreEqual(8, summary.ResultCount);
 		}

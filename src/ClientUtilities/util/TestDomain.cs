@@ -38,9 +38,10 @@ namespace NUnit.Util
 	using System.Collections.Specialized;
 	using System.Configuration;
 	using System.IO;
+
 	using NUnit.Core;
 
-	public class TestDomain
+	public class TestDomain : TestRunner
 	{
 		#region Instance Variables
 
@@ -59,11 +60,15 @@ namespace NUnit.Util
 		/// </summary>
 		private TestRunner testRunner;
 
+		private TextWriter outWriter;
+
+		private TextWriter errorWriter;
+
 		#endregion
 
 		#region Properties
 
-		public TestRunner Runner
+		private TestRunner Runner
 		{
 			get 
 			{
@@ -76,13 +81,26 @@ namespace NUnit.Util
 
 		private TestRunner MakeRemoteTestRunner( AppDomain runnerDomain )
 		{
+			object[] args = new object[] { this.outWriter, this.errorWriter };
 			object obj = runnerDomain.CreateInstanceAndUnwrap(
 				typeof(RemoteTestRunner).Assembly.FullName, 
 				typeof(RemoteTestRunner).FullName,
-				false, BindingFlags.Default,null,null,null,null,null);
+				false, BindingFlags.Default,null,args,null,null,null);
 			
 			return (RemoteTestRunner) obj;
 		}
+
+		#endregion
+
+		#region Constructors
+
+		public TestDomain( TextWriter outWriter, TextWriter errorWriter )
+		{ 
+			this.outWriter = outWriter;
+			this.errorWriter = errorWriter;
+		}
+
+		public TestDomain() : this( TextWriter.Null, TextWriter.Null ) { }
 
 		#endregion
 
@@ -206,6 +224,50 @@ namespace NUnit.Util
 			}
 
 			return binPath;
+		}
+
+		#endregion
+
+		#region Running Tests
+
+		public int CountTestCases( IList testNames )
+		{
+			return Runner.CountTestCases( testNames );
+		}
+
+		public TestResult Run(NUnit.Core.EventListener listener, IFilter filter)
+		{
+			return Runner.Run( listener, filter );
+		}
+
+		public TestResult Run(NUnit.Core.EventListener listener)
+		{
+			return Runner.Run( listener );
+		}
+		
+		public TestResult Run(NUnit.Core.EventListener listener, string testName)
+		{
+			return Runner.Run( listener, testName );
+		}
+
+		public TestResult Run(NUnit.Core.EventListener listener, IList testNames)
+		{
+			return Runner.Run( listener, testNames );
+		}
+
+		public TestResult RunTest( EventListener listener, string assemblyName )
+		{
+			return Runner.RunTest( listener, assemblyName );
+		}
+
+		public TestResult RunTest( EventListener listener, string assemblyName, string testName )
+		{
+			return Runner.RunTest( listener, assemblyName, testName );
+		}
+
+		public TestResult RunTest( EventListener listener, IList assemblies )
+		{
+			return Runner.RunTest( listener, assemblies );
 		}
 
 		#endregion

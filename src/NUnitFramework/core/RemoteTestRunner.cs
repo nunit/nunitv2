@@ -49,14 +49,42 @@ namespace NUnit.Core
 		/// </summary>
 		private TestSuite suite;
 
+		/// <summary>
+		/// Our writer for standard output
+		/// </summary>
+		private TextWriter outText;
+
+		/// <summary>
+		/// Our writer for error output
+		/// </summary>
+		private TextWriter errorText;
+
 		#endregion
 
-		#region Properties
-		
+		#region Constructors
+
+		/// <summary>
+		/// Construct with stdOut and stdErr writers
+		/// </summary>
+		public RemoteTestRunner( TextWriter outText, TextWriter errorText )
+		{
+			this.outText = outText;
+			this.errorText = errorText;
+		}
+
+		/// <summary>
+		/// Default constructor uses Null writers.
+		/// </summary>
+		public RemoteTestRunner() : this( TextWriter.Null, TextWriter.Null ) { }
+
 		#endregion
 
 		#region Loading Tests
 
+		/// <summary>
+		/// Load an assembly
+		/// </summary>
+		/// <param name="assemblyName"></param>
 		public Test Load( string assemblyName )
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
@@ -64,6 +92,9 @@ namespace NUnit.Core
 			return suite;
 		}
 
+		/// <summary>
+		/// Load a particular test in an assembly
+		/// </summary>
 		public Test Load( string assemblyName, string testName )
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
@@ -71,6 +102,9 @@ namespace NUnit.Core
 			return suite;
 		}
 
+		/// <summary>
+		/// Load multiple assemblies
+		/// </summary>
 		public Test Load( string projectName, IList assemblies )
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
@@ -100,7 +134,7 @@ namespace NUnit.Core
 			return suite.CountTestCases(filter);
 		}
 
-		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText, IFilter filter) 
+		public TestResult Run(NUnit.Core.EventListener listener, IFilter filter) 
 		{
 			BufferedStringTextWriter outBuffer = new BufferedStringTextWriter( outText );
 			BufferedStringTextWriter errorBuffer = new BufferedStringTextWriter( errorText );
@@ -127,27 +161,27 @@ namespace NUnit.Core
 			return result;
 		}
 
-		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText )
+		public TestResult Run(NUnit.Core.EventListener listener )
 		{
 			NameFilter filter = new NameFilter(suite);
 
-			return Run(listener, outText, errorText, filter);
+			return Run(listener, filter);
 		}
 
-		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText, string testName )
+		public TestResult Run(NUnit.Core.EventListener listener, string testName )
 		{
 			Test test = FindByName(suite, testName);
 
 			NameFilter filter = new NameFilter(test);
 
-			return Run(listener, outText, errorText, filter);
+			return Run(listener, filter);
 		}
 
-		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText, IList testNames)
+		public TestResult Run(NUnit.Core.EventListener listener, IList testNames)
 		{
 			IFilter filter = BuildNameFilter(testNames);
 		
-			return Run(listener, outText, errorText, filter);
+			return Run(listener, filter);
 		}
 
 		private IFilter BuildNameFilter(IList testNames) 
@@ -160,6 +194,51 @@ namespace NUnit.Core
 			}
 
 			return new NameFilter(testNodes);
+		}
+
+		public TestResult RunTest( EventListener listener, string assemblyName )
+		{
+			TestResult result;
+			try
+			{
+				Load( assemblyName );
+				result = Run( listener );
+			}
+			finally
+			{
+				Unload();
+			}
+			return result;
+		}
+
+		public TestResult RunTest( EventListener listener, string assemblyName, string testName )
+		{
+			TestResult result;
+			try
+			{
+				Load( assemblyName, testName );
+				result = Run( listener );
+			}
+			finally
+			{
+				Unload();
+			}
+			return result;
+		}
+
+		public TestResult RunTest( EventListener listener, IList assemblies )
+		{
+			TestResult result;
+			try
+			{
+				Load( "Multiple Tests", assemblies );
+				result = Run( listener );
+			}
+			finally
+			{
+				Unload();
+			}
+			return result;
 		}
 
 		#endregion

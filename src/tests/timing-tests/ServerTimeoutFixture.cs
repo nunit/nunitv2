@@ -12,8 +12,6 @@ namespace NUnit.Tests.TimingTests
 	{
 		private TestDomain domain; 
 		private Test test;
-		private TextWriter outStream;
-		private TextWriter errorStream;
 
 		// Test using timeout greater than default of five minutes
 		private readonly TimeSpan timeout = TimeSpan.FromMinutes( 6 );
@@ -21,9 +19,9 @@ namespace NUnit.Tests.TimingTests
 		[SetUp]
 		public void MakeAppDomain()
 		{
-			outStream = new ConsoleWriter(Console.Out);
-			errorStream = new ConsoleWriter(Console.Error);
-			domain = new TestDomain();
+			TextWriter outStream = new ConsoleWriter(Console.Out);
+			TextWriter errorStream = new ConsoleWriter(Console.Error);
+			domain = new TestDomain( outStream, errorStream );
 			test = domain.Load("mock-assembly.dll");
 		}
 
@@ -46,7 +44,7 @@ namespace NUnit.Tests.TimingTests
 			
 			// Run the tests, which also verifies that
 			// RemoteTestRunner has not been disconnected
-			TestResult result = domain.Runner.Run(NullListener.NULL, outStream, errorStream);
+			TestResult result = domain.Run( NullListener.NULL );
 
 			// Delay again to let the results "ripen"
 			Thread.Sleep( timeout );

@@ -193,8 +193,6 @@ namespace NUnit.Console
 
 		private static Test MakeTestFromCommandLine(TestDomain testDomain, ConsoleOptions parser)
 		{
-//			if(!DoAssembliesExist(parser.Parameters)) return null; 
-			
 			NUnitProject project;
 
 			if ( parser.IsTestProject )
@@ -208,20 +206,6 @@ namespace NUnit.Console
 				project = NUnitProject.FromAssemblies( (string[])parser.Parameters.ToArray( typeof( string ) ) );
 
 			return testDomain.Load( project, parser.fixture );
-		}
-
-		private static bool DoAssembliesExist(IList files)
-		{
-			bool exist = true; 
-			foreach(string fileName in files)
-				exist &= DoesFileExist(fileName);
-			return exist;
-		}
-
-		private static bool DoesFileExist(string fileName)
-		{
-			FileInfo fileInfo = new FileInfo(fileName);
-			return fileInfo.Exists;
 		}
 
 		public ConsoleUi(TestDomain testDomain, XmlTextReader reader, ConsoleOptions options)
@@ -250,7 +234,7 @@ namespace NUnit.Console
 			EventListener collector = new EventCollector( options, outStream );
 
 			string savedDirectory = Environment.CurrentDirectory;
-			TestResult result = testDomain.Runner.Run(collector, outStream, errorStream);
+			TestResult result = testDomain.Run( collector );
 			Directory.SetCurrentDirectory( savedDirectory );
 			
 			Console.WriteLine();
