@@ -170,7 +170,7 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void RunStarting()
 		{
-			ITest[] tests = new ITest[] { test };
+			Test[] tests = new Test[] { test };
 
 			dispatcher.FireRunStarting( tests, test.CountTestCases() );
 
