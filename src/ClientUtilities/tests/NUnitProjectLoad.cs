@@ -215,10 +215,30 @@ namespace NUnit.Util.Tests
 			using( new TempResourceFile(this.GetType(), "ClassLibrary1.csproj", @"ClassLibrary1\ClassLibrary1.csproj" ) )
 			using( TempResourceFile file = new TempResourceFile( this.GetType(), "WebApplication1.sln" ) )
 			{
-				NUnitProject project = NUnitProject.FromVSSolution( file.Path );
+				NUnitProject project = NUnitProject.FromVSSolution( Path.GetFullPath( file.Path ) );
 				Assert.AreEqual( 2, project.Configs.Count );
 				Assert.AreEqual( 1, project.Configs["Debug"].Assemblies.Count );
 				Assert.AreEqual( 1, project.Configs["Release"].Assemblies.Count );
+			}
+		}
+
+		[Test]
+		public void WithUnmanagedCpp()
+		{
+			using( new TempResourceFile( this.GetType(), "ClassLibrary1.csproj", @"ClassLibrary1\ClassLibrary1.csproj" ) )
+			using( new TempResourceFile( this.GetType(), "Unmanaged.vcproj", @"Unmanaged\Unmanaged.vcproj" ) )
+			using( TempResourceFile file = new TempResourceFile( this.GetType(), "Solution1.sln" ) ) 
+			{
+				NUnitProject project = NUnitProject.FromVSSolution( file.Path );
+				Assert.AreEqual( 4, project.Configs.Count );
+				Assert.AreEqual( 1, project.Configs["Debug"].Assemblies.Count );
+				Assert.AreEqual( 1, project.Configs["Release"].Assemblies.Count );
+				Assert.AreEqual( 1, project.Configs["Debug|Win32"].Assemblies.Count );
+				Assert.AreEqual( 1, project.Configs["Release|Win32"].Assemblies.Count );
+				Assert.IsTrue( project.Configs["Debug"].Assemblies[0].HasTests );
+				Assert.IsTrue( project.Configs["Release"].Assemblies[0].HasTests );
+				Assert.IsFalse( project.Configs["Debug|Win32"].Assemblies[0].HasTests );
+				Assert.IsFalse( project.Configs["Release|Win32"].Assemblies[0].HasTests );
 			}
 		}
 	}

@@ -272,10 +272,10 @@ namespace NUnit.Util
 					if ( line.StartsWith( "Project" ) )
 					{
 						string[] parts = line.Split( delims );
-						string vsProjectPath = Path.Combine( solutionDirectory, parts[2].Trim(trimchars) );
+						string vsProjectPath = parts[2].Trim(trimchars);
 						
 						if ( VSProject.IsProjectFile( vsProjectPath ) )
-							project.Add( new VSProject( vsProjectPath ) );
+							project.Add( new VSProject( Path.Combine( solutionDirectory, vsProjectPath ) ) );
 					}
 
 					line = reader.ReadLine();
@@ -439,14 +439,22 @@ namespace NUnit.Util
 			if ( Changed != null )
 				Changed( this, new ProjectEventArgs( type, configName ) );
 
-			if ( type == ProjectChangeType.RemoveConfig && activeConfig.Name == configName )
+			if ( type == ProjectChangeType.RemoveConfig )
 			{
-				if ( configs.Count > 0 )
-					SetActiveConfig( 0 );
+				if ( activeConfig == null || activeConfig.Name == configName )
+				{
+					if ( configs.Count > 0 )
+						SetActiveConfig( 0 );
+				}
 			}
 		}
 
 		public void Add( VSProject vsProject )
+		{
+			Add( vsProject, vsProject.IsManaged );
+		}
+
+		public void Add( VSProject vsProject, bool hasTests )
 		{
 			foreach( VSProjectConfig vsConfig in vsProject.Configs )
 			{
@@ -458,7 +466,7 @@ namespace NUnit.Util
 				ProjectConfig config = this.Configs[name];
 
 				foreach ( string assembly in vsConfig.Assemblies )
-					config.Assemblies.Add( assembly );
+					config.Assemblies.Add( assembly, hasTests );
 			}
 		}
 

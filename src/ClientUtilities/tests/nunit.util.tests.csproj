@@ -269,6 +269,10 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Solution1.sln"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "SummaryResultFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -287,6 +291,10 @@
                     RelPath = "UITestNodeTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Unmanaged.vcproj"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "UserSettingsTests.cs"

@@ -35,6 +35,17 @@ using System.Text.RegularExpressions;
 namespace NUnit.Util
 {
 	/// <summary>
+	/// The ProjectType enumerator indicates the language of the project.
+	/// </summary>
+	public enum VSProjectType
+	{
+		CSharp,
+		JSharp,
+		VisualBasic,
+		CPlusPlus
+	}
+
+	/// <summary>
 	/// This class allows loading information about
 	/// configurations and assemblies in a Visual
 	/// Studio project file and inspecting them.
@@ -66,6 +77,18 @@ namespace NUnit.Util
 		/// Collection of configs for the project
 		/// </summary>
 		private VSProjectConfigCollection configs;
+
+		/// <summary>
+		/// The current project type
+		/// </summary>
+		private VSProjectType projectType;
+
+		/// <summary>
+		/// Indicates whether the project is managed code. This is
+		/// always true for C#, J# and VB projects but may vary in
+		/// the case of C++ projects.
+		/// </summary>
+		private bool isManaged;
 
 		#endregion
 
@@ -107,12 +130,31 @@ namespace NUnit.Util
 			get { return configs; }
 		}
 
+		/// <summary>
+		/// The current project type
+		/// </summary>
+		public VSProjectType ProjectType
+		{
+			get { return projectType; }
+		}
+
+		/// <summary>
+		/// Indicates whether the project is managed code. This is
+		/// always true for C#, J# and VB projects but may vary in
+		/// the case of C++ projects.
+		/// </summary>
+		public bool IsManaged
+		{
+			get { return isManaged; }
+		}
+
 		#endregion
 
 		#region Static Methods
 
 		public static bool IsProjectFile( string path )
 		{
+			// TODO: Test this without throwing an exception
 			try
 			{
 				FileInfo info = new FileInfo( path );
@@ -120,6 +162,11 @@ namespace NUnit.Util
 			catch( ArgumentException )
 			{
 				// Uri or invalid path format
+				return false;
+			}
+			catch( NotSupportedException )
+			{
+				// Some invalid formats give this instead
 				return false;
 			}
 
@@ -159,6 +206,12 @@ namespace NUnit.Util
 				switch ( extension )
 				{
 					case ".vcproj":
+						this.projectType = VSProjectType.CPlusPlus;
+
+						XmlNode topNode = doc.SelectSingleNode( "/VisualStudioProject" );
+						string keyWord = topNode.Attributes["Keyword"].Value;
+						this.isManaged = keyWord == "ManagedCProj";
+
 						foreach ( XmlNode configNode in doc.SelectNodes( "/VisualStudioProject/Configurations/Configuration" ) )
 						{
 							string name = configNode.Attributes["Name"].Value;
@@ -177,11 +230,21 @@ namespace NUnit.Util
 						break;
 
 					case ".csproj":
+						this.projectType = VSProjectType.CSharp;
+						this.isManaged = true;
+						LoadProject( projectDirectory, doc );
+						break;
+
 					case ".vbproj":
+						this.projectType = VSProjectType.VisualBasic;
+						this.isManaged = true;
+						LoadProject( projectDirectory, doc );
+						break;
+
 					case ".vjsproj":
-
-						LoadProject(projectDirectory, doc);
-
+						this.projectType = VSProjectType.JSharp;
+						this.isManaged = true;
+						LoadProject( projectDirectory, doc );
 						break;
 
 					default:

@@ -94,8 +94,6 @@ namespace NUnit.Util
 
 		public void Remove( ProjectConfig config )
 		{
-			string name = config.Name;
-			bool wasActive = name == this.Project.ActiveConfigName;
 			List.Remove( config );
 		}
 
@@ -104,7 +102,6 @@ namespace NUnit.Util
 			int index = IndexOf( name );
 			if ( index >= 0 )
 			{
-				bool wasActive = name == this.Project.ActiveConfigName;
 				RemoveAt( index );
 			}
 		}
@@ -146,22 +143,12 @@ namespace NUnit.Util
 		{
 			ProjectConfig config = obj as ProjectConfig;
 			project.OnProjectChange( ProjectChangeType.AddConfig, config.Name );
-			config.Changed += new EventHandler( OnConfigChanged );
 		}
 
 		protected override void OnSetComplete( int index, object oldValue, object newValue )
 		{
-			ProjectConfig oldConfig = oldValue as ProjectConfig;
 			ProjectConfig newConfig = newValue as ProjectConfig;
-			bool active = oldConfig.Name == project.ActiveConfigName;
-			
 			project.OnProjectChange( ProjectChangeType.UpdateConfig, newConfig.Name );
-		}
-
-		private void OnConfigChanged( object sender, EventArgs e )
-		{
-			ProjectConfig config = sender as ProjectConfig;
-			project.OnProjectChange( ProjectChangeType.UpdateConfig, config.Name );
 		}
 
 		#endregion

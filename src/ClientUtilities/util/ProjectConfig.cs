@@ -118,11 +118,8 @@ namespace NUnit.Util
 			{ 
 				isDirty = value;
 
-				if ( isDirty )
-				{
-					if ( Changed != null )
-						Changed( this, EventArgs.Empty );
-				}
+				if ( isDirty && project != null )
+					project.OnProjectChange( ProjectChangeType.UpdateConfig, name );
 			}
 		}
 
@@ -139,8 +136,6 @@ namespace NUnit.Util
 			}
 		}
 
-		public event EventHandler Changed;
-		
 		/// <summary>
 		/// The base directory for this config - used
 		/// as the application base for loading tests.

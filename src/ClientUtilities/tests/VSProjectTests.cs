@@ -76,6 +76,7 @@ namespace NUnit.Util.Tests
 		public void NotWebProject()
 		{
 			Assert.IsFalse(VSProject.IsProjectFile( @"http://localhost/web.csproj") );
+			Assert.IsFalse(VSProject.IsProjectFile( @"C:\MyProject\http://localhost/web.csproj") );
 		}
 
 		[Test]
