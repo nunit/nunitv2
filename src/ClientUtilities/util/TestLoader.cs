@@ -129,17 +129,22 @@ namespace NUnit.Util
 		/// </summary>
 		private bool reloadOnRun = false;
 
+		private bool displayTestLabels = false;
+
 		private IFilter filter;
 
 		#endregion
 
-		#region Constructor
+		#region Constructors
 
-		public TestLoader(TextWriter stdOutWriter, TextWriter stdErrWriter )
+		public TestLoader(TextWriter stdOutWriter, TextWriter stdErrWriter)
+			: this( stdOutWriter, stdErrWriter, new TestEventDispatcher() ) { }
+
+		public TestLoader(TextWriter stdOutWriter, TextWriter stdErrWriter, TestEventDispatcher eventDispatcher )
 		{
 			this.stdOutWriter = stdOutWriter;
 			this.stdErrWriter = stdErrWriter;
-			this.events = new TestEventDispatcher();
+			this.events = eventDispatcher;
 		}
 
 		#endregion
@@ -197,6 +202,12 @@ namespace NUnit.Util
 		{
 			get { return reloadOnRun; }
 			set { reloadOnRun = value; }
+		}
+
+		public bool DisplayTestLabels
+		{
+			get { return displayTestLabels; }
+			set { displayTestLabels = value; }
 		}
 
 		public Version FrameworkVersion
@@ -393,9 +404,6 @@ namespace NUnit.Util
 			try
 			{
 				events.FireProjectUnloading( testFileName );
-
-				if ( testFileName != null && File.Exists( testFileName ) )
-					UserSettings.RecentProjects.RecentFile = testFileName;
 
 				if ( IsTestLoaded )
 					UnloadTest();
@@ -642,7 +650,7 @@ namespace NUnit.Util
 					testNames[index++] = node.UniqueName;
 
 				testDomain.SetFilter( filter );
-				testDomain.DisplayTestLabels = UserSettings.Options.TestLabels;
+				testDomain.DisplayTestLabels = displayTestLabels;
 				testDomain.RunTest( this, testNames );
 			}
 		}
