@@ -63,9 +63,6 @@ namespace NUnit.Gui
 		public System.Windows.Forms.GroupBox groupBox1;
 		public System.Windows.Forms.Splitter splitter2;
 		public System.Windows.Forms.TabPage testsNotRun;
-		public System.Windows.Forms.MenuItem menuItem4;
-		public System.Windows.Forms.MenuItem menuItem6;
-		public System.Windows.Forms.MenuItem menuItem8;
 		public System.Windows.Forms.MenuItem openMenuItem;
 		public System.Windows.Forms.MenuItem exitMenuItem;
 		public System.Windows.Forms.MenuItem helpMenuItem;
@@ -99,9 +96,12 @@ namespace NUnit.Gui
 		private System.ComponentModel.IContainer components;
 		public TextWriter stdOutWriter;
 		public System.Windows.Forms.ToolTip toolTip;
-		private System.Windows.Forms.MenuItem menuItem3;
 		private System.Windows.Forms.MenuItem closeMenuItem;
-		public System.Windows.Forms.MenuItem fileMenuItem;
+		public System.Windows.Forms.MenuItem fileMenu;
+		private System.Windows.Forms.MenuItem fileMenuSeparator1;
+		public System.Windows.Forms.MenuItem fileMenuSeparator2;
+		public System.Windows.Forms.MenuItem helpItem;
+		public System.Windows.Forms.MenuItem helpMenuSeparator1;
 		public TextWriter stdErrWriter;
 
 		#endregion
@@ -210,16 +210,16 @@ namespace NUnit.Gui
 			this.failures = new System.Windows.Forms.StatusBarPanel();
 			this.time = new System.Windows.Forms.StatusBarPanel();
 			this.mainMenu = new System.Windows.Forms.MainMenu();
-			this.fileMenuItem = new System.Windows.Forms.MenuItem();
+			this.fileMenu = new System.Windows.Forms.MenuItem();
 			this.openMenuItem = new System.Windows.Forms.MenuItem();
 			this.closeMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem3 = new System.Windows.Forms.MenuItem();
+			this.fileMenuSeparator1 = new System.Windows.Forms.MenuItem();
 			this.recentAssembliesMenu = new System.Windows.Forms.MenuItem();
-			this.menuItem4 = new System.Windows.Forms.MenuItem();
+			this.fileMenuSeparator2 = new System.Windows.Forms.MenuItem();
 			this.exitMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem6 = new System.Windows.Forms.MenuItem();
+			this.helpItem = new System.Windows.Forms.MenuItem();
 			this.helpMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem8 = new System.Windows.Forms.MenuItem();
+			this.helpMenuSeparator1 = new System.Windows.Forms.MenuItem();
 			this.aboutMenuItem = new System.Windows.Forms.MenuItem();
 			this.testSuiteTreeView = new NUnit.Util.TestSuiteTreeView();
 			this.treeViewMenu = new System.Windows.Forms.ContextMenu();
@@ -299,21 +299,21 @@ namespace NUnit.Gui
 			// mainMenu
 			// 
 			this.mainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					 this.fileMenuItem,
-																					 this.menuItem6});
+																					 this.fileMenu,
+																					 this.helpItem});
 			// 
-			// fileMenuItem
+			// fileMenu
 			// 
-			this.fileMenuItem.Index = 0;
-			this.fileMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																						 this.openMenuItem,
-																						 this.closeMenuItem,
-																						 this.menuItem3,
-																						 this.recentAssembliesMenu,
-																						 this.menuItem4,
-																						 this.exitMenuItem});
-			this.fileMenuItem.Text = "&File";
-			this.fileMenuItem.Popup += new System.EventHandler(this.fileMenu_Popup);
+			this.fileMenu.Index = 0;
+			this.fileMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					 this.openMenuItem,
+																					 this.closeMenuItem,
+																					 this.fileMenuSeparator1,
+																					 this.recentAssembliesMenu,
+																					 this.fileMenuSeparator2,
+																					 this.exitMenuItem});
+			this.fileMenu.Text = "&File";
+			this.fileMenu.Popup += new System.EventHandler(this.fileMenu_Popup);
 			// 
 			// openMenuItem
 			// 
@@ -328,20 +328,20 @@ namespace NUnit.Gui
 			this.closeMenuItem.Text = "&Close";
 			this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
 			// 
-			// menuItem3
+			// fileMenuSeparator1
 			// 
-			this.menuItem3.Index = 2;
-			this.menuItem3.Text = "-";
+			this.fileMenuSeparator1.Index = 2;
+			this.fileMenuSeparator1.Text = "-";
 			// 
 			// recentAssembliesMenu
 			// 
 			this.recentAssembliesMenu.Index = 3;
 			this.recentAssembliesMenu.Text = "Recent Assemblies";
 			// 
-			// menuItem4
+			// fileMenuSeparator2
 			// 
-			this.menuItem4.Index = 4;
-			this.menuItem4.Text = "-";
+			this.fileMenuSeparator2.Index = 4;
+			this.fileMenuSeparator2.Text = "-";
 			// 
 			// exitMenuItem
 			// 
@@ -349,14 +349,14 @@ namespace NUnit.Gui
 			this.exitMenuItem.Text = "E&xit";
 			this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
 			// 
-			// menuItem6
+			// helpItem
 			// 
-			this.menuItem6.Index = 1;
-			this.menuItem6.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					  this.helpMenuItem,
-																					  this.menuItem8,
-																					  this.aboutMenuItem});
-			this.menuItem6.Text = "&Help";
+			this.helpItem.Index = 1;
+			this.helpItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					 this.helpMenuItem,
+																					 this.helpMenuSeparator1,
+																					 this.aboutMenuItem});
+			this.helpItem.Text = "&Help";
 			// 
 			// helpMenuItem
 			// 
@@ -364,10 +364,10 @@ namespace NUnit.Gui
 			this.helpMenuItem.Index = 0;
 			this.helpMenuItem.Text = "Help";
 			// 
-			// menuItem8
+			// helpMenuSeparator1
 			// 
-			this.menuItem8.Index = 1;
-			this.menuItem8.Text = "-";
+			this.helpMenuSeparator1.Index = 1;
+			this.helpMenuSeparator1.Text = "-";
 			// 
 			// aboutMenuItem
 			// 
@@ -802,22 +802,12 @@ namespace NUnit.Gui
 			}
 
 #if NUNIT_LEAKAGE_TEST
-
 			TestResultInfo result = testSuiteTreeView.ContextNode.Result;
 			if ( result != null )
 			{
 				treeViewMenu.MenuItems.Add( "-" );
 				treeViewMenu.MenuItems.Add( string.Format( "Leakage: {0} bytes", result.Leakage ) );
 			}
-#endif
-
-#if CHARLIE
-			treeViewMenu.MenuItems.Add( "-" );
-
-			MenuItem propertiesMenuItem = new MenuItem(
-				"&Properties", new EventHandler( propertiesMenuItem_Click ) );
-			
-			treeViewMenu.MenuItems.Add( propertiesMenuItem );
 #endif
 		}
 
@@ -854,17 +844,6 @@ namespace NUnit.Gui
 		{
 			actions.RunTestSuite( testSuiteTreeView.ContextNode.Test );
 		}
-
-#if CHARLIE
-		private void propertiesMenuItem_Click( object sender, System.EventArgs e )
-		{
-			TestInfo test = testSuiteTreeView.ContextNode.Test;
-			TestResultInfo result = testSuiteTreeView.ContextNode.Result;
-
-			TestPropertiesDialog dlg = new TestPropertiesDialog( test, result );
-			dlg.ShowDialog( this );
-		}
-#endif
 
 		#endregion
 
