@@ -4,9 +4,6 @@
         ProductVersion = "7.0.9466"
         SchemaVersion = "1.0"
         ProjectGuid = "{7E84B411-B627-4AF4-93DB-489F5CA3C4DF}"
-        SccProjectName = '"$/nunit-release", TABAAAAA'
-        SccLocalPath = "..\.."
-        SccProvider = "MSSCCI:Microsoft Visual SourceSafe"
     >
         <Build>
             <Settings
@@ -72,6 +69,7 @@
                     Name = "nunit.framework.dll"
                     Project = "{747CD772-9A6D-43F2-8D69-DE35BE599F6C}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    Private = "False"
                 />
             </References>
         </Build>

@@ -30,19 +30,6 @@ EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "install", "install\install.vdproj", "{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}"
 EndProject
 Global
-	GlobalSection(SourceCodeControl) = preSolution
-		SccNumberOfProjects = 2
-		SccProjectUniqueName0 = samples\\jsharp\\jsharp.vjsproj
-		SccProjectName0 = \u0022$/nunit-release\u0022,\u0020TABAAAAA
-		SccLocalPath0 = .
-		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-		SccProjectFilePathRelativizedFromConnection0 = samples\\jsharp\\
-		SccProjectUniqueName1 = install\\install.vdproj
-		SccProjectName1 = \u0022$/nunit-release\u0022,\u0020TABAAAAA
-		SccLocalPath1 = .
-		SccProvider1 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
-		SccProjectFilePathRelativizedFromConnection1 = install\\
-	EndGlobalSection
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
 		ConfigName.1 = Release
@@ -110,8 +97,6 @@ Global
 		{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}.Debug.Build.0 = Debug
 		{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}.Release.ActiveCfg = Release
 		{8B15316F-D5AD-434D-BD44-FAA68AE4E3AA}.Release.Build.0 = Release
-	EndGlobalSection
-	GlobalSection(SolutionItems) = postSolution
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
