@@ -27,7 +27,7 @@ namespace NUnit.Tests
 				j = jj; 
 			} 
 
-			void SurpressWarning() 
+			void SuppressWarning() 
 			{ 
 				j = i; 
 				i = j; 
