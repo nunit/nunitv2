@@ -97,6 +97,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ConsoleWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "EventListener.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -245,17 +250,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestDomain.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestFixtureAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "TestResult.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

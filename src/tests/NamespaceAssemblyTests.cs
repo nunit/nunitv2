@@ -104,6 +104,7 @@ namespace NUnit.Tests
 		}
 			
 		[Test]
+		[Ignore("charlie to upload no namespace dll")]
 		public void NoNamespaceInAssembly()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();

@@ -37,7 +37,7 @@ namespace NUnit.Console
 	/// </summary>
 	public class ConsoleUi
 	{
-		private TestSuite suite;
+		private NUnit.Framework.TestDomain testDomain;
 		private string outputFile;
 		private XmlTextReader transformReader;
 
@@ -57,8 +57,12 @@ namespace NUnit.Console
 				}
 				else
 				{
-					TestSuite suite = MakeSuiteFromCommandLine(parser);
-					if(suite == null) 
+					ConsoleWriter outStream = new ConsoleWriter(Console.Out);
+					ConsoleWriter errorStream = new ConsoleWriter(Console.Error);
+					NUnit.Framework.TestDomain domain = new NUnit.Framework.TestDomain(outStream, errorStream);
+
+					Test test = MakeTestFromCommandLine(domain, parser);
+					if(test == null) 
 						returnCode = 2;
 					else
 					{
@@ -70,7 +74,7 @@ namespace NUnit.Console
 						XmlTextReader reader = GetTransformReader(parser);
 						if(reader != null)
 						{
-							ConsoleUi consoleUi = new ConsoleUi(suite, xmlResult, reader);
+							ConsoleUi consoleUi = new ConsoleUi(domain, xmlResult, reader);
 							returnCode = consoleUi.Execute();
 						}
 						else
@@ -131,21 +135,21 @@ namespace NUnit.Console
 			Console.WriteLine(copyrightAttr.Copyright);
 		}
 
-		private static TestSuite MakeSuiteFromCommandLine(CommandLineParser parser)
+		private static Test MakeTestFromCommandLine(NUnit.Framework.TestDomain testDomain, 
+													CommandLineParser parser)
 		{
-			TestSuite suite = null;
-			TestSuiteBuilder builder = new TestSuiteBuilder();
+			Test test = null;
 			if(parser.IsAssembly)
 			{
-				suite = builder.Build(parser.AssemblyName);
-				if(suite == null) Console.WriteLine("\nfatal error: assembly ({0}) is invalid", parser.AssemblyName);
+				test = testDomain.Load(parser.AssemblyName);
+				if(test == null) Console.WriteLine("\nfatal error: assembly ({0}) is invalid", parser.AssemblyName);
 			}
 			else if(parser.IsFixture)
 			{
-				suite = builder.Build(parser.TestName, parser.AssemblyName);
-				if(suite == null) Console.WriteLine("\nfatal error: fixture ({0}) in assembly ({1}) is invalid", parser.TestName, parser.AssemblyName);
+				test = testDomain.Load(parser.TestName, parser.AssemblyName);
+				if(test == null) Console.WriteLine("\nfatal error: fixture ({0}) in assembly ({1}) is invalid", parser.TestName, parser.AssemblyName);
 			}
-			return suite;
+			return test;
 		}
 
 		private static void WriteHelp(TextWriter writer)
@@ -158,9 +162,9 @@ namespace NUnit.Console
 			writer.WriteLine("/transform:<file>           XSL transform file");
 		}
 
-		public ConsoleUi(TestSuite testSuite, string xmlFile, XmlTextReader reader)
+		public ConsoleUi(NUnit.Framework.TestDomain testDomain, string xmlFile, XmlTextReader reader)
 		{
-			suite = testSuite;
+			this.testDomain = testDomain;
 			outputFile = xmlFile;
 			transformReader = reader;
 		}
@@ -168,7 +172,7 @@ namespace NUnit.Console
 		public int Execute()
 		{
 			EventCollector collector = new EventCollector();
-			TestResult result = suite.Run(collector);
+			TestResult result = testDomain.Run(collector);
 
 			Console.WriteLine("\n");
 			XmlResultVisitor resultVisitor = new XmlResultVisitor(outputFile, result);
@@ -191,8 +195,7 @@ namespace NUnit.Console
 			summaryXslTransform.Transform(originalXPathDocument,null,Console.Out);
 		}
 
-		[Serializable]
-		private class EventCollector : EventListener
+		private class EventCollector : MarshalByRefObject, EventListener
 		{
 			public void TestFinished(TestCaseResult testResult)
 			{

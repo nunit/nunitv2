@@ -33,47 +33,37 @@ namespace NUnit.Core
 	{
 		private TestSuite suite;
 		private string fullName;
-		private NUnit.Core.EventListener handler;
 		private string assemblyName;
-		private TextWriter stdOutWriter;
-		private TextWriter stdErrWriter;
 
-		public RemoteTestRunner() 
-		{
-		}
-
-		public void Initialize(string assemblyName, NUnit.Core.EventListener handler, TextWriter stdOutWriter, TextWriter stdErrOut)
+		public void Initialize(string assemblyName)
 		{
 			this.assemblyName = assemblyName;
-			this.handler = handler;
-			this.stdErrWriter = stdErrOut;
-			this.stdOutWriter = stdOutWriter;
 		}
 
-		public void BuildSuite(string assemblyName, NUnit.Core.EventListener handler, TextWriter stdOutWriter, TextWriter stdErrOut) 
+		public void Initialize(string fixtureName, string assemblyName)
 		{
-			this.assemblyName = assemblyName;
-			this.handler = handler;
-			this.stdErrWriter = stdErrOut;
-			this.stdOutWriter = stdOutWriter;
-
-			BuildSuite();
+			TestName = fixtureName;
+			Initialize(assemblyName);
 		}
 
 		public void BuildSuite() 
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			suite = builder.Build(assemblyName);
-			TestName = suite.FullName;
+			if(fullName == null) 
+				suite = builder.Build(assemblyName);
+			else
+				suite = builder.Build(fullName, assemblyName);
+
+			if(suite != null) TestName = suite.FullName;
 		}
 
-		public TestResult Run()
+		public TestResult Run(NUnit.Core.EventListener listener, TextWriter outText, TextWriter errorText)
 		{
-			Console.SetOut(stdOutWriter);
-			Console.SetError(stdErrWriter);
+			Console.SetOut(outText);
+			Console.SetError(errorText);
 
 			Test test = FindByName(suite, fullName);
-			TestResult result = test.Run(handler);
+			TestResult result = test.Run(listener);
 			return result;
 		}
 

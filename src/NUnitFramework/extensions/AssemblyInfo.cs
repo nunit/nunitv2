@@ -53,6 +53,9 @@ using System.Runtime.CompilerServices;
 //   (*) Delay Signing is an advanced option - see the Microsoft .NET Framework
 //       documentation for more information on this.
 //
+#if !StronglyNamedAssembly
 [assembly: AssemblyDelaySign(false)]
-[assembly: AssemblyKeyFile("")]
+#else
+[assembly: AssemblyKeyFile("..\\..\\..\\Nunit.key")]
 [assembly: AssemblyKeyName("")]
+#endif

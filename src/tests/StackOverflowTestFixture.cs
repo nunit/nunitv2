@@ -9,10 +9,6 @@ namespace NUnit.Tests
 	[TestFixture]
 	public class StackOverflowTestFixture
 	{
-		public StackOverflowTestFixture()
-		{
-		}
-
 		private void FunctionCallsSelf()
 		{
 			FunctionCallsSelf();

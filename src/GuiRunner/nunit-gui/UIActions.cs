@@ -23,6 +23,7 @@ namespace NUnit.Gui
 	using System.IO;
 	using NUnit.Core;
 	using NUnit.Util;
+	using NUnit.Framework;
 
 
 	/// <summary>
@@ -50,7 +51,7 @@ namespace NUnit.Gui
 		/// <summary>
 		/// Loads an assembly and executes tests.
 		/// </summary>
-		private TestRunner testRunner = null;
+		private TestDomain testDomain = null;
 
 		/// <summary>
 		/// The currently loaded test, returned by the testrunner
@@ -66,7 +67,7 @@ namespace NUnit.Gui
 
 		#region Delegates and Events
 
-		public delegate void TestStartedHandler( TestCase testCase );
+		public delegate void TestStartedHandler( NUnit.Core.TestCase testCase );
 		public delegate void TestFinishedHandler( TestCaseResult result );
 		public delegate void SuiteStartedHandler( TestSuite suite );
 		public delegate void SuiteFinishedHandler( TestSuiteResult result );
@@ -104,12 +105,12 @@ namespace NUnit.Gui
 
 		public bool AssemblyLoaded
 		{
-			get { return testRunner != null; }
+			get { return testDomain != null; }
 		}
 
 		public string LoadedAssembly
 		{
-			get { return testRunner == null ? null : testRunner.AssemblyName; }
+			get { return testDomain == null ? null : testDomain.AssemblyName; }
 		}
 
 		#endregion
@@ -120,7 +121,7 @@ namespace NUnit.Gui
 		/// Trigger event when each test starts
 		/// </summary>
 		/// <param name="testCase">TestCase that is starting</param>
-		public void TestStarted(TestCase testCase)
+		public void TestStarted(NUnit.Core.TestCase testCase)
 		{
 			if ( TestStartedEvent != null )
 				TestStartedEvent( testCase );
@@ -170,9 +171,9 @@ namespace NUnit.Gui
 			if ( RunStartingEvent != null )
 				RunStartingEvent( test );
 
-			testRunner.TestName = test.FullName;
+			testDomain.TestFixture = test.FullName;
 
-			TestResult result = testRunner.Run();
+			TestResult result = testDomain.Run(this);
 
 			if ( RunFinishedEvent != null )
 				RunFinishedEvent( result );
@@ -183,10 +184,10 @@ namespace NUnit.Gui
 		/// </summary>
 		/// <param name="assemblyFileName"></param>
 		/// <returns></returns>
-		private Test LoadTestSuite(string assemblyFileName)
-		{
-			return testRunner.Test;
-		}
+//		private Test LoadTestSuite(string assemblyFileName)
+//		{
+//			return testDomain;
+//		}
 		
 		/// <summary>
 		/// Load an assembly, firing the SuiteLoaded event.
@@ -197,12 +198,12 @@ namespace NUnit.Gui
 			try
 			{
 				// Make sure it all works before switching old one out
-				TestRunner newRunner = new TestRunner(assemblyFileName, this, stdOutWriter, stdErrWriter);
-				Test newTest = newRunner.Test;
-
+				NUnit.Framework.TestDomain newDomain = new NUnit.Framework.TestDomain(stdOutWriter, stdErrWriter);
+				Test newTest = newDomain.Load(assemblyFileName);
+				
 				if  ( AssemblyLoaded ) UnloadAssembly();
 
-				testRunner = newRunner;
+				testDomain = newDomain;
 				currentTest = newTest;
 
 				SetWorkingDirectory(assemblyFileName);
@@ -224,8 +225,8 @@ namespace NUnit.Gui
 		/// </summary>
 		public void UnloadAssembly( )
 		{
-			testRunner.Unload();
-			testRunner = null;
+			testDomain.Unload();
+			testDomain = null;
 
 			RemoveWatcher();
 
@@ -238,7 +239,7 @@ namespace NUnit.Gui
 		/// </summary>
 		public void ReloadAssembly()
 		{
-			LoadAssembly( testRunner.AssemblyName );
+			LoadAssembly( testDomain.AssemblyName );
 		}
 
 		/// <summary>
@@ -257,14 +258,14 @@ namespace NUnit.Gui
 
 			try
 			{
-				TestRunner newRunner = new TestRunner(assemblyFileName, this, stdOutWriter, stdErrWriter);	
-				Test newTest = newRunner.Test;
+				TestDomain newDomain = new TestDomain(stdOutWriter, stdErrWriter);
+				Test newTest = newDomain.Load(assemblyFileName);
 
 				if(!UIHelper.CompareTree( currentTest, newTest ) )
 				{
-					testRunner.Unload();
+					testDomain.Unload();
 
-					testRunner = newRunner;
+					testDomain = newDomain;
 					currentTest = newTest;
 
 					if ( SuiteChangedEvent != null )
@@ -272,7 +273,7 @@ namespace NUnit.Gui
 				}
 				else
 				{
-					newRunner.Unload();
+					newDomain.Unload();
 				}
 			}
 			catch( Exception exception )

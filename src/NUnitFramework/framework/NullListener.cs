@@ -24,6 +24,8 @@ namespace NUnit.Core
 	/// <summary>
 	/// Summary description for NullListener.
 	/// </summary>
+	/// 
+	[Serializable]
 	public class NullListener : EventListener
 	{
 		public void TestStarted(TestCase testCase){}
