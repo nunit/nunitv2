@@ -1,7 +1,25 @@
-Change Log for NUnit 2.2 Final Release
-August 8, 2004
+NUnit 2.2.1 Iteration Release - October 26, 2004
 
-NUnit 2.2 Final Release
+Bugs Fixed
+
+* 1006909 Label test cases in test output
+* 1008777 Cache directories in drive root
+* 1006902 Console.Out pane does not clear always
+* 1020504 Assert has no protected constructor
+* 1017335 TipWindow problems
+* 1034527 No AttributeUsage specified on TestBuilder attribute
+* 1026207 Loading VS.NET 2005 .csproj
+* 1026552 NotSupportedException when loading solution file
+* 1020817 exception running NUnit.sln
+* 1029041 2.2 Help out of date
+
+Feature Requests Implemented
+* 848853 - Display results in GUI while running
+* 978781 - Make using old 'introspection' test style an option
+* 615499 - GUI and Console as DLL
+* 807193 - Support VS.NET solutions with web projects with virtual root
+
+NUnit 2.2 Final Release - August 8, 2004
 
 Bugs Fixed or Closed
 
