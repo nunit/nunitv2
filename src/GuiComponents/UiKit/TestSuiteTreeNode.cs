@@ -30,7 +30,6 @@
 namespace NUnit.UiKit
 {
 	using System;
-	using System.Collections;
 	using System.Windows.Forms;
 	using System.Drawing;
 	using NUnit.Core;
@@ -53,11 +52,6 @@ namespace NUnit.UiKit
 		/// The result from the last run of the test
 		/// </summary>
 		private TestResult result;
-
-		/// <summary>
-		/// Private field used for multiple selection
-		/// </summary>
-		private bool selected;
 
 		/// <summary>
 		/// Private field used for inclusion by category

@@ -557,6 +557,7 @@ namespace NUnit.Framework
 		/// is thrown.
 		/// </summary>
 		/// <param name="anObject">The object that is to be tested</param>
+		/// <param name="message"></param>
 		static public void IsNotNull(Object anObject, string message) 
 		{
 			Assert.IsNotNull(anObject, message, null);
@@ -593,6 +594,7 @@ namespace NUnit.Framework
 		/// is thrown.
 		/// </summary>
 		/// <param name="anObject">The object that is to be tested</param>
+		/// <param name="message"></param>
 		static public void IsNull(Object anObject, string message) 
 		{
 			Assert.IsNull(anObject, message, null);
@@ -712,7 +714,6 @@ namespace NUnit.Framework
 		/// Throws an <see cref="IgnoreException"/>. 
 		/// This causes the test to be reported as ignored. 
 		/// </summary>
-		/// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
 		static public void Ignore()
 		{
 			Assert.Ignore( string.Empty, null );

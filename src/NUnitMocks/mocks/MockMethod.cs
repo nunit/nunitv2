@@ -39,7 +39,7 @@ namespace NUnit.Mocks
 		/// <summary>
 		/// Actual sequence of calls... currently not used
 		/// </summary>
-		private ArrayList actualCalls = null;
+		//private ArrayList actualCalls = null;
 
 		#endregion
 

@@ -1,7 +1,5 @@
 using System;
-using System.IO;
 using System.Threading;
-using System.Collections;
 using NUnit.Framework;
 using NUnit.Core;
 using NUnit.Mocks;
@@ -13,7 +11,7 @@ namespace NUnit.Tests.Core
 	/// </summary>
 	public class MockTestRunner : DynamicMock
 	{
-		private Thread runnerThread;
+		private Thread runnerThread = null;
 
 		public MockTestRunner() : base( "MockTestRunner", typeof( TestRunner ) ) { }
 

@@ -27,15 +27,10 @@
 '***********************************************************************************/
 #endregion
 
-using System;
 using System.Drawing;
-using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
-using System.Text;
 using NUnit.Core;
-using NUnit.Util;
-using CP.Windows.Forms;
 
 namespace NUnit.UiKit
 {
@@ -73,7 +68,7 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.Label label6;
 		private CP.Windows.Forms.ExpandingLabel description;
 		private System.Windows.Forms.Label assertCount;
-		private System.ComponentModel.IContainer components;
+		private System.ComponentModel.IContainer components = null;
 
 		#endregion
 
@@ -391,11 +386,6 @@ namespace NUnit.UiKit
 		#endregion
 
 		#region Methods
-
-		private void closeButton_Click(object sender, System.EventArgs e)
-		{
-			this.Close();
-		}
 
 		private void SetTitleBarText()
 		{

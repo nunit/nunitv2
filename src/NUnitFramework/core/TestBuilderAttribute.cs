@@ -2,7 +2,7 @@ using System;
 
 namespace NUnit.Core
 {
-	[AttributeUsage(AttributeTargets.Class)]
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple=false)]
 	public class TestBuilderAttribute : Attribute
 	{
 		private Type builderType;

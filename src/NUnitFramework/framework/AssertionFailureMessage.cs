@@ -311,8 +311,8 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Tests if two arrays are different lengths.
 		/// </summary>
-		/// <param name="sExpected"></param>
-		/// <param name="sActual"></param>
+		/// <param name="expected"></param>
+		/// <param name="actual"></param>
 		/// <returns>True if array lengths are different</returns>
 		static protected bool LengthsDifferent( object[] expected, object[] actual )
 		{
@@ -602,6 +602,7 @@ namespace NUnit.Framework
 		/// and when the lengths match but content is mismatched.
 		/// </summary>
 		/// <param name="sbOutput"></param>
+		/// <param name="index"></param>
 		/// <param name="expected"></param>
 		/// <param name="actual"></param>
 		static private void BuildArraysDifferentMessage( StringBuilder sbOutput, int index, Array expected, Array actual )
@@ -669,6 +670,7 @@ namespace NUnit.Framework
 		/// StringBuilder is returned.
 		/// </summary>
 		/// <param name="message"></param>
+		/// <param name="args"></param>
 		/// <returns></returns>
 		static protected StringBuilder CreateStringBuilder( string message, params object[] args )
 		{
@@ -730,9 +732,11 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Called to create a message when two arrays are not equal. 
 		/// </summary>
-		/// <param name="message"></param>
+		/// <param name="index"></param>
 		/// <param name="expected"></param>
 		/// <param name="actual"></param>
+		/// <param name="message"></param>
+		/// <param name="args"></param>
 		/// <returns></returns>
 		static public string FormatMessageForFailArraysNotEqual(int index, Array expected, Array actual, 
 			string message, params object[] args) 
