@@ -93,6 +93,12 @@ namespace NUnit.Util
 			set { SaveIntSetting( "ClearResults", value ? 1 : 0 ); }
 		}
 
+		public bool TestLabels
+		{
+			get { return LoadIntSetting( "TestLabels", 0 ) != 0; }
+			set { SaveIntSetting( "TestLabels", value ? 1 : 0 ); }
+		}
+
 		public bool VisualStudioSupport
 		{
 			get { return LoadIntSetting( "VisualStudioSupport", 0 ) != 0; }
