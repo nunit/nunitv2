@@ -59,6 +59,10 @@ namespace NUnit.Gui
 			public bool autorun;
 		}
 
+		// Our TextBoxWriters for stdErr and stdOut
+		TextBoxWriter outWriter;
+		TextBoxWriter errWriter;
+
 		// Our current run command line options
 		private CommandLineOptions commandLineOptions;
 
@@ -139,10 +143,10 @@ namespace NUnit.Gui
 			runButton.Enabled = false;
 			stopButton.Enabled = false;
 
-			AppUI.Init(
-				this,
-				new TextBoxWriter( stdOutTab ),
-				new TextBoxWriter( stdErrTab ) );
+			outWriter = new TextBoxWriter( stdOutTab );
+			errWriter = new TextBoxWriter( stdErrTab );
+
+			AppUI.Init(	this, outWriter, errWriter );
 
 			recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, UserSettings.RecentProjects );
 		}
@@ -1346,8 +1350,8 @@ namespace NUnit.Gui
 			toolTip.SetToolTip( detailList, null );
 			notRunTree.Nodes.Clear();
 
-			stdErrTab.Clear();
-			stdOutTab.Clear();
+			errWriter.Clear();
+			outWriter.Clear();
 			
 			stackTrace.Text = "";
 		}
