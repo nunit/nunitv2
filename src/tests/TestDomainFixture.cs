@@ -30,6 +30,7 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Reflection;
 using NUnit.Framework;
 using NUnit.Core;
 using NUnit.Util;
@@ -40,17 +41,16 @@ namespace NUnit.Tests.Core
 	[TestFixture]
 	public class TestDomainFixture
 	{
-		private TestDomain domain; 
+		private TestDomain testDomain; 
 		private static readonly string tempFile = "x.dll";
 		private ArrayList assemblies; 
-
 
 		[SetUp]
 		public void MakeAppDomain()
 		{
 			TextWriter outStream = new ConsoleWriter(Console.Out);
 			TextWriter errorStream = new ConsoleWriter(Console.Error);
-			domain = new TestDomain( outStream, errorStream );
+			testDomain = new TestDomain( outStream, errorStream );
 
 			assemblies = new ArrayList();
 		}
@@ -58,24 +58,72 @@ namespace NUnit.Tests.Core
 		[TearDown]
 		public void UnloadTestDomain()
 		{
-			domain.Unload();
-			domain = null;
+			testDomain.Unload();
+			testDomain = null;
 
 			FileInfo info = new FileInfo(tempFile);
 			if(info.Exists) info.Delete();
 		}
 			
 		[Test]
-		public void InitTest()
+		public void LoadAssembly()
 		{
-			Test test = domain.Load("mock-assembly.dll");
+			Test test = testDomain.Load("mock-assembly.dll");
 			Assert.IsNotNull(test, "Test should not be null");
+		}
+
+		[Test]
+		public void AppDomainSetup()
+		{
+			Test test = testDomain.Load("mock-assembly.dll");
+			AppDomain domain = testDomain.AppDomain;
+			AppDomainSetup setup = testDomain.AppDomain.SetupInformation;
+			
+			Assert.AreEqual( "Tests", setup.ApplicationName, "ApplicationName" );
+			Assert.AreEqual( Environment.CurrentDirectory, setup.ApplicationBase, "ApplicationBase" );
+			Assert.AreEqual( Path.GetFullPath( "mock-assembly.dll.config" ), setup.ConfigurationFile, "ConfigurationFile" );
+			Assert.AreEqual( Environment.CurrentDirectory, setup.PrivateBinPath, "PrivateBinPath" );
+			Assert.AreEqual( Environment.CurrentDirectory, setup.ShadowCopyDirectories, "ShadowCopyDirectories" );
+
+			Assert.AreEqual( Environment.CurrentDirectory, domain.BaseDirectory, "BaseDirectory" );
+			Assert.AreEqual( "domain-mock-assembly.dll", domain.FriendlyName, "FriendlyName" );
+			Assert.IsTrue( testDomain.AppDomain.ShadowCopyFiles, "ShadowCopyFiles" );
+		}
+
+		[Test]
+		public void TurnOffShadowCopy()
+		{
+			testDomain.ShadowCopyFiles = false;
+			testDomain.Load( "mock-assembly.dll" );
+			Assert.IsFalse( testDomain.AppDomain.ShadowCopyFiles );
+			
+			// Prove that shadow copy is really off
+			string location = "NOT_FOUND";
+			foreach( Assembly assembly in testDomain.AppDomain.GetAssemblies() )
+			{
+				if ( assembly.FullName.StartsWith( "mock-assembly" ) )
+				{
+					location = assembly.Location;
+					break;
+				}
+			}
+
+			Assert.AreEqual( Environment.CurrentDirectory, location );
+		}
+
+		
+
+		[Test, ExpectedException( typeof( ArgumentException ) )]
+		public void TurnOffShadowCopyFailsAfterLoad()
+		{
+			testDomain.Load( "mock-assembly.dll" );
+			testDomain.ShadowCopyFiles = false;
 		}
 
 		[Test]
 		public void CountTestCases()
 		{
-			Test test = domain.Load("mock-assembly.dll");
+			Test test = testDomain.Load("mock-assembly.dll");
 			Assert.AreEqual(MockAssembly.Tests, test.CountTestCases());
 		}
 
@@ -83,7 +131,7 @@ namespace NUnit.Tests.Core
 		[ExpectedException(typeof(FileNotFoundException))]
 		public void FileNotFound()
 		{
-			Test test = domain.Load("xxxx");
+			Test test = testDomain.Load("xxxx");
 		}
 
 		[Test]
@@ -99,24 +147,24 @@ namespace NUnit.Tests.Core
 			sw.Flush();
 			sw.Close();
 
-			Test test = domain.Load(tempFile);
+			Test test = testDomain.Load(tempFile);
 		}
 
 		[Test]
 		public void RunMockAssembly()
 		{
-			Test test = domain.Load("mock-assembly.dll");
+			Test test = testDomain.Load("mock-assembly.dll");
 
-			TestResult result = domain.Run( NullListener.NULL );
+			TestResult result = testDomain.Run( NullListener.NULL );
 			Assert.IsNotNull(result);
 		}
 
 		[Test]
 		public void MockAssemblyResults()
 		{
-			Test test = domain.Load("mock-assembly.dll");
+			Test test = testDomain.Load("mock-assembly.dll");
 
-			TestResult result = domain.Run( NullListener.NULL );
+			TestResult result = testDomain.Run( NullListener.NULL );
 			Assert.AreEqual(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
@@ -127,9 +175,9 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void SpecificTestFixture()
 		{
-			Test test = domain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.MockTestFixture" );
+			Test test = testDomain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.MockTestFixture" );
 
-			TestResult result = domain.Run( NullListener.NULL );
+			TestResult result = testDomain.Run( NullListener.NULL );
 			Assert.AreEqual(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
@@ -140,7 +188,7 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void InvalidTestFixture()
 		{
-			Test test = domain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" );
+			Test test = testDomain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" );
 			Assert.IsNull(test, "test should be null");
 		}
 
@@ -150,7 +198,7 @@ namespace NUnit.Tests.Core
 			string[] assemblies = new string[] { "mock-assembly.dll", "nonamespace-assembly.dll" };
 			int expectedTests = MockAssembly.Tests + NoNamespaceTestFixture.Tests;
 
-			Test test = domain.Load( "Multiple", assemblies );
+			Test test = testDomain.Load( "Multiple", assemblies );
 			Assert.IsNotNull(test, "test should not be null");
 			Assert.AreEqual(expectedTests, test.CountTestCases());
 		}
