@@ -71,12 +71,16 @@ namespace NUnit.UiKit
 			statusPanel.Text = "Status";
 
 			testCountPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
+			testCountPanel.MinWidth = 120;
 			testsRunPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
+			testsRunPanel.MinWidth = 120;
 			failuresPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
+			failuresPanel.MinWidth = 104;
 			timePanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
+			timePanel.MinWidth = 120;
 
 			ShowPanels = true;
-			DisplayPanels();
+			InitPanels();
 		}
 
 		public override string Text
@@ -111,15 +115,15 @@ namespace NUnit.UiKit
 			this.failures = 0;
 			this.time = 0;
 
-			DisplayPanels();
+			InitPanels();
 		}
 
-		private void DisplayPanels()
+		private void InitPanels()
 		{
 			DisplayTestCount();
-			DisplayTestsRun();
-			DisplayFailures();
-			DisplayTime();
+			this.testsRunPanel.Text = "";
+			this.failuresPanel.Text = "";
+			this.timePanel.Text = "";
 		}
 
 		private void DisplayTestCount()
