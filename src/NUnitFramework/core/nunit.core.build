@@ -42,6 +42,7 @@
                 <includes name="InvalidSuiteException.cs"/>
                 <includes name="InvalidTestFixtureException.cs"/>
                 <includes name="ITest.cs"/>
+                <includes name="ITestEvents.cs"/>
                 <includes name="LongLivingMarshalByRefObject.cs"/>
                 <includes name="NameFilter.cs"/>
                 <includes name="NormalTestCase.cs"/>
@@ -61,6 +62,8 @@
                 <includes name="TestCase.cs"/>
                 <includes name="TestCaseBuilder.cs"/>
                 <includes name="TestCaseResult.cs"/>
+                <includes name="TestEventArgs.cs"/>
+                <includes name="TestEventDispatcher.cs"/>
                 <includes name="TestResult.cs"/>
                 <includes name="TestRunner.cs"/>
 		<includes name="TestRunnerThread.cs"/>
