@@ -281,6 +281,25 @@ namespace NUnit.Tests.Assertions
 			Assert.AreEqual( 35, i21  );
 			Assert.AreEqual( 35, i22  );
 		}
+
+		[Test]
+		public void EnumsEqual()
+		{
+			MyEnum actual = MyEnum.a;
+			Assert.AreEqual( MyEnum.a, actual );
+		}
+
+		[Test, ExpectedException( typeof(AssertionException) )]
+		public void EnumsNotEqual()
+		{
+			MyEnum actual = MyEnum.a;
+			Assert.AreEqual( MyEnum.c, actual );
+		}
+
+		private enum MyEnum
+		{
+			a, b, c
+		}
 	}
 }
 
