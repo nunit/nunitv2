@@ -45,7 +45,7 @@ namespace NUnit.Core
 
 		public Assembly Load(string assemblyName)
 		{
-			Assembly assembly = Assembly.Load(TrimPathAndExtension(assemblyName));
+			Assembly assembly = Assembly.LoadFrom(assemblyName);
 			return assembly;
 		}
 
