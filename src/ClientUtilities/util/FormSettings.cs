@@ -51,6 +51,9 @@ namespace NUnit.Util
 		private static readonly string YLOCATION = "y-location";
 		private static readonly int DEFAULT_YLOCATION = 10;
 
+		private static readonly string SPLITTER_POSITION = "splitter-position";
+		private static readonly int DEFAULT_POSITION = 380;
+		
 		public FormSettings( ) : base( NAME, UserSettings.GetStorageImpl( NAME ) ) { }
 
 		public FormSettings( SettingsStorage storage ) : base( NAME, storage ) { }
@@ -59,6 +62,7 @@ namespace NUnit.Util
 
 		private Point location = Point.Empty;
 		private Size size = Size.Empty;
+		private int splitterPosition = -1;
 
 		public Point Location
 		{
@@ -99,6 +103,24 @@ namespace NUnit.Util
 				size = value;
 				SaveIntSetting( WIDTH, size.Width );
 				SaveIntSetting( HEIGHT, size.Height );
+			}
+		}
+
+		public int TreeSplitterPosition
+		{
+			get 
+			{
+				if ( splitterPosition == -1 )
+				{
+					splitterPosition = LoadIntSetting( SPLITTER_POSITION, DEFAULT_POSITION );
+				}
+				
+				return splitterPosition; 
+			}
+			set 
+			{ 
+				splitterPosition = value;
+				SaveSetting( SPLITTER_POSITION, splitterPosition );
 			}
 		}
 	}

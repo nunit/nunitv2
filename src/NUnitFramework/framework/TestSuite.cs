@@ -90,10 +90,20 @@ namespace NUnit.Core
 			object[] attributes = fixture.GetType().GetCustomAttributes(ignoreMethodAttribute, false);
 			if(attributes.Length == 1)
 			{
-				NUnit.Framework.IgnoreAttribute attr = (NUnit.Framework.IgnoreAttribute)attributes[0];
+				NUnit.Framework.IgnoreAttribute attr = 
+					(NUnit.Framework.IgnoreAttribute)attributes[0];
 				testSuite.ShouldRun = false;
 				testSuite.IgnoreReason = attr.Reason;
 			}
+
+			Type fixtureAttribute = typeof(NUnit.Framework.TestFixtureAttribute);
+			attributes = fixture.GetType().GetCustomAttributes(fixtureAttribute, false);
+			if(attributes.Length == 1)
+			{
+				NUnit.Framework.TestFixtureAttribute fixtureAttr = 
+					(NUnit.Framework.TestFixtureAttribute)attributes[0];
+				testSuite.Description = fixtureAttr.Description;
+			} 
 
 ////////////////////////////////////////////////////////////////////////
 // Uncomment the following code block to allow including Suites in the

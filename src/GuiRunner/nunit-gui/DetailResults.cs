@@ -60,7 +60,7 @@ namespace NUnit.Gui
 				testDetails.SelectedIndex = 0;
 		}
 
-		public void visit(TestCaseResult result)
+		public void Visit(TestCaseResult result)
 		{
 			if(result.Executed)
 			{
@@ -79,7 +79,7 @@ namespace NUnit.Gui
 			}
 		}
 
-		public void visit(TestSuiteResult suiteResult)
+		public void Visit(TestSuiteResult suiteResult)
 		{
 			if(!suiteResult.Executed)
 				notRunTree.Nodes.Add(MakeNotRunNode(suiteResult));

@@ -36,7 +36,7 @@ namespace NUnit.Core
 	/// </summary>
 	public interface ResultVisitor
 	{
-		void visit(TestCaseResult caseResult);
-		void visit(TestSuiteResult suiteResult);
+		void Visit(TestCaseResult caseResult);
+		void Visit(TestSuiteResult suiteResult);
 	}
 }

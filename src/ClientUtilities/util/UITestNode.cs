@@ -90,6 +90,11 @@ namespace NUnit.Util
 		/// </summary>
 		private TestInfo testSuite;
 
+		/// <summary>
+		/// The test description
+		/// </summary>
+		private string description;
+
 		#endregion;
 
 		#region Construction and Conversion
@@ -108,6 +113,7 @@ namespace NUnit.Util
 			assemblyKey = test.AssemblyKey;
 			shouldRun = test.ShouldRun;
 			ignoreReason = test.IgnoreReason;
+			description = test.Description;
 			
 			if ( test.IsSuite )
 			{
@@ -164,6 +170,15 @@ namespace NUnit.Util
 		#endregion
 
 		#region Properties
+
+		/// <summary>
+		/// The test description 
+		/// </summary>
+		public string Description
+		{
+			get { return description; }
+			set { description = value; }
+		}
 
 		/// <summary>
 		/// The reason for ignoring a test

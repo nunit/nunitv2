@@ -1111,6 +1111,7 @@ namespace NUnit.Gui
 			{
 				UserSettings.Form.Location = this.Location;
 				UserSettings.Form.Size = this.Size;
+				UserSettings.Form.TreeSplitterPosition = this.splitter1.SplitPosition;
 			}
 		}
 
@@ -1122,6 +1123,7 @@ namespace NUnit.Gui
 			// Set position of the form
 			this.Location = UserSettings.Form.Location;
 			this.Size = UserSettings.Form.Size;
+			this.splitter1.SplitPosition = UserSettings.Form.TreeSplitterPosition;
 			
 			// Set up events handled by the form
 			ITestEvents events = TestLoader.Events;

@@ -52,17 +52,17 @@ namespace NUnit.Core
 						Type expectedException = GetExpectedExceptions(method);
 						testCase = new ExpectedExceptionTestCase(fixture, method, expectedException);
 					}
+
 					if(HasIgnoreAttribute(method))
 					{
 						testCase.ShouldRun = false;
 						testCase.IgnoreReason = GetIgnoreReason(method);
 					}
 
+					testCase.Description = GetDescription(method);
 				}
 				else
 				{
-					//					string reason = String.Format("Method: {0}'s signature is not correct", method.Name);
-					//					testCase = new NotRunnableTestCase(method, reason);
 					testCase = new NotRunnableTestCase(method);
 				}
 			}
@@ -105,6 +105,24 @@ namespace NUnit.Core
 
 			return returnType;
 		}
+
+		private static string GetDescription(MethodInfo method)
+		{
+			Type testAttr = typeof(NUnit.Framework.TestAttribute);
+			object[] attributes = method.GetCustomAttributes(testAttr, false);
+
+			string description = null;
+
+			if(attributes.Length == 1)
+			{
+				NUnit.Framework.TestAttribute attribute = 
+					(NUnit.Framework.TestAttribute)attributes[0];
+				description = attribute.Description;
+			}
+
+			return description;
+		}
+
 
 		public static int CountTestCases(object fixture) 
 		{

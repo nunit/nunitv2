@@ -46,16 +46,16 @@ namespace NUnit.Core
 		public XmlResultVisitor(string fileName, TestResult result)
 		{
 			writer = new StreamWriter(fileName, false, System.Text.Encoding.Unicode);
-			initialize(result);
+			Initialize(result);
 		}
 
 		public XmlResultVisitor(TextWriter writer, TestResult result) 
 		{
 			this.writer = writer;
-			initialize(result);
+			Initialize(result);
 		}
 
-		private void initialize(TestResult result) 
+		private void Initialize(TestResult result) 
 		{
 			ResultSummarizer summaryResults = new ResultSummarizer(result);
 			try
@@ -83,10 +83,14 @@ namespace NUnit.Core
 			xmlWriter.WriteAttributeString("time", now.ToShortTimeString());
 		}
 
-		public void visit(TestCaseResult caseResult) 
+		public void Visit(TestCaseResult caseResult) 
 		{
 			xmlWriter.WriteStartElement("test-case");
 			xmlWriter.WriteAttributeString("name",caseResult.Name);
+
+			if(caseResult.Description != null)
+				xmlWriter.WriteAttributeString("description", caseResult.Description);
+
 			xmlWriter.WriteAttributeString("executed", caseResult.Executed.ToString());
 			if(caseResult.Executed)
 			{
@@ -126,10 +130,13 @@ namespace NUnit.Core
 			xmlWriter.WriteEndElement();
 		}
 
-		public void visit(TestSuiteResult suiteResult) 
+		public void Visit(TestSuiteResult suiteResult) 
 		{
 			xmlWriter.WriteStartElement("test-suite");
 			xmlWriter.WriteAttributeString("name",suiteResult.Name);
+			if(suiteResult.Description != null)
+				xmlWriter.WriteAttributeString("description", suiteResult.Description);
+
 			xmlWriter.WriteAttributeString("success", suiteResult.IsSuccess.ToString());
 			xmlWriter.WriteAttributeString("time", suiteResult.Time.ToString());
             

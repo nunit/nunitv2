@@ -86,6 +86,11 @@ namespace NUnit.Core
 		/// True if this is a suite
 		/// </summary>
 		bool IsSuite { get; }
+
+		/// <summary>
+		/// Return the description field. 
+		/// </summary>
+		string Description { get; set; }
 	}
 }
 

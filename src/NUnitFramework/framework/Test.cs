@@ -43,6 +43,7 @@ namespace NUnit.Core
 		private int assemblyKey;
 		private bool shouldRun;
 		private string ignoreReason;
+		private string description;
 
 		public Test( string name ) : this( name, 0 ) { }
 
@@ -73,6 +74,12 @@ namespace NUnit.Core
 		{
 			get { return shouldRun; }
 			set { shouldRun = value; }
+		}
+
+		public String Description
+		{
+			get { return description; }
+			set { description = value; }
 		}
 
 		public string FullName 

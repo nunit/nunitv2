@@ -51,11 +51,6 @@ namespace NUnit.Util
 			return new RegistrySettingsStorage( name, NUnitRegistry.CurrentUser );
 		}
 
-//		public static NUnitGuiSettings NUnitGui
-//		{
-//			get { return new NUnitGuiSettings( GetStorageImpl( "NUnitGui" ) ); }
-//		}
-
 		public static OptionSettings Options
 		{
 			get { return new OptionSettings( GetStorageImpl( "Options" ) ); }

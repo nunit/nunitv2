@@ -93,7 +93,7 @@ namespace NUnit.Core
 
 		public override void Accept(ResultVisitor visitor) 
 		{
-			visitor.visit(this);
+			visitor.Visit(this);
 		}
 	}
 }

@@ -51,7 +51,7 @@ namespace NUnit.Core
 			initialized = false;
 		}
 
-		public void visit(TestCaseResult caseResult) 
+		public void Visit(TestCaseResult caseResult) 
 		{
 			SetNameandTime(caseResult.Name, caseResult.Time);
 
@@ -65,7 +65,7 @@ namespace NUnit.Core
 				testsNotRun++;
 		}
 
-		public void visit(TestSuiteResult suiteResult) 
+		public void Visit(TestSuiteResult suiteResult) 
 		{
 			SetNameandTime(suiteResult.Name, suiteResult.Time);
 

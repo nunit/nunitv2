@@ -44,6 +44,7 @@ namespace NUnit.Core
 		private string name;
 		private TestInfo test;
 		private string stackTrace;
+		private string description;
 
 #if NUNIT_LEAKAGE_TEST
 		private long leakage = 0;
@@ -53,6 +54,8 @@ namespace NUnit.Core
 		{
 			this.name = name;
 			this.test = test;
+			if(test != null)
+				this.description = test.Description;
 		}
 
 		public bool Executed 
@@ -85,6 +88,12 @@ namespace NUnit.Core
 		{
 			get { return isFailure; }
 			set { isFailure = value; }
+		}
+
+		public virtual string Description
+		{
+			get { return description; }
+			set { description = value; }
 		}
 
 		public double Time 
