@@ -41,9 +41,11 @@ namespace NUnit.Util
 
 		private static readonly string WIDTH = "width";
 		private static readonly int DEFAULT_WIDTH = 632;
+		private static readonly int MIN_WIDTH = 160;
 
 		private static readonly string HEIGHT = "height";
 		private static readonly int DEFAULT_HEIGHT = 432;
+		private static readonly int MIN_HEIGHT = 32; 
 		
 		private static readonly string XLOCATION = "x-location";
 		private static readonly int DEFAULT_XLOCATION = 10;
@@ -96,7 +98,10 @@ namespace NUnit.Util
 				if ( size == Size.Empty )
 				{
 					int width = LoadIntSetting( WIDTH, DEFAULT_WIDTH );
+					if ( width < MIN_WIDTH ) width = MIN_WIDTH;
 					int height = LoadIntSetting( HEIGHT, DEFAULT_HEIGHT );
+					if ( height < MIN_HEIGHT ) height = MIN_HEIGHT;
+
 					size = new Size(width, height);
 				}
 
@@ -104,9 +109,12 @@ namespace NUnit.Util
 			}
 			set
 			{ 
-				size = value;
-				SaveIntSetting( WIDTH, size.Width );
-				SaveIntSetting( HEIGHT, size.Height );
+				if ( size.Width >= MIN_WIDTH && size.Height >= MIN_HEIGHT )
+				{
+					size = value;
+					SaveIntSetting( WIDTH, size.Width );
+					SaveIntSetting( HEIGHT, size.Height );
+				}
 			}
 		}
 
