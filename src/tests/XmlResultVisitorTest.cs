@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using NUnit.Framework;
 using NUnit.Core;
 using NUnit.Util;
@@ -6,7 +7,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 
-namespace NUnit.Tests
+namespace NUnit.Tests.Util
 {
 	[TestFixture]
 	public class XmlResultVisitorTest
@@ -56,8 +57,11 @@ namespace NUnit.Tests
 			XmlNodeList categories = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest3\"]/categories/category");
 			Assert.IsNotNull(categories);
 			Assert.AreEqual(2, categories.Count);
-			Assert.AreEqual("AnotherCategory", categories[0].Attributes["name"].Value);
-			Assert.AreEqual("MockCategory", categories[1].Attributes["name"].Value);
+			ArrayList names = new ArrayList();
+			names.Add( categories[0].Attributes["name"].Value );
+			names.Add( categories [1].Attributes["name"].Value);
+			Assert.IsTrue( names.Contains( "AnotherCategory" ), "AnotherCategory" );
+			Assert.IsTrue( names.Contains( "MockCategory" ), "MockCategory" );
 		}
 	}
 }
