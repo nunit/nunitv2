@@ -20,8 +20,10 @@
 namespace NUnit.Core
 {
 	using System;
+	using System.Globalization;
 	using System.IO;
 	using System.Xml;
+	using NUnit.Core;
 
 	/// <summary>
 	/// Summary description for XmlResultVisitor.
@@ -67,7 +69,8 @@ namespace NUnit.Core
 			if(caseResult.Executed)
 			{
 				xmlWriter.WriteAttributeString("success", caseResult.IsSuccess.ToString());
-				xmlWriter.WriteAttributeString("time", caseResult.Time.ToString());
+
+				xmlWriter.WriteAttributeString("time", caseResult.Time.ToString("#####0.000", NumberFormatInfo.InvariantInfo));
 
 				if(caseResult.IsFailure)
 				{

@@ -38,7 +38,7 @@
 		</xs:choice>
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="success" type="xs:string" use="optional" />
-		<xs:attribute name="time" type="xs:decimal" use="optional" />
+		<xs:attribute name="time" type="xs:string" use="optional" />
 		<xs:attribute name="executed" type="xs:string" use="required" />
 	</xs:complexType>
 	<xs:complexType name="test-suiteType">
@@ -47,6 +47,6 @@
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="success" type="xs:string" use="required" />
-		<xs:attribute name="time" type="xs:decimal" use="required" />
+		<xs:attribute name="time" type="xs:string" use="required" />
 	</xs:complexType>
 </xs:schema>

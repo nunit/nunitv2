@@ -19,11 +19,14 @@
 '*******************************************************************************************************************/
 namespace NUnit.Tests
 {
-	using System;
-	using System.IO;
+	using System;	
+	using System.Globalization;
+	using System.IO;    
+	using System.Threading;
 	using System.Xml;
 	using System.Xml.Schema;
 	using NUnit.Core;
+	using NUnit.Tests;
 	using NUnit.Framework;
 
 	/// <summary>
@@ -61,11 +64,14 @@ namespace NUnit.Tests
 
 					// Read XML data
 					while (myXmlValidatingReader.Read()){}
-					myXmlValidatingReader.Close();
 				}
 				catch (Exception e)
 				{
 					throw new NunitException(e.Message, e);
+				}
+				finally
+				{
+					myXmlValidatingReader.Close();
 				}
 
 				return success;
@@ -93,36 +99,76 @@ namespace NUnit.Tests
 			}
 		}
 
-		private static readonly string fileName = "temp.xml";
+		private void runSchemaValidatorTest(string reportFileName, CultureInfo testCulture)
+		{
+			// Preserve current culture
+			CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
+
+			// Enable test culture
+			Thread.CurrentThread.CurrentCulture = testCulture;
+
+			try
+			{
+				string testsDll = "mock-assembly.dll";
+				TestSuiteBuilder builder = new TestSuiteBuilder();
+				TestSuite suite = builder.Build(testsDll);
+
+				TestResult result = suite.Run(NullListener.NULL);
+
+                XmlResultVisitor visitor = new XmlResultVisitor(reportFileName, result);
+				result.Accept(visitor);
+				visitor.Write();
+
+				string schemaFile = null;
+				FileInfo file = new FileInfo("Results.xsd");
+				if(file.Exists)
+					schemaFile = file.FullName;
+				else
+					schemaFile = "..\\..\\..\\framework\\Results.xsd";
+
+				SchemaValidator validator = new SchemaValidator(reportFileName, schemaFile);
+				Assertion.Assert("validate failed", validator.Validate());
+			}
+			finally
+			{
+				// Restore previous culture
+				Thread.CurrentThread.CurrentCulture = previousCulture;
+			}
+		}
+
+		private string tempFile;
+
+		[SetUp]
+		public void CreateTempFileName()
+		{
+			tempFile = "temp" + Guid.NewGuid().ToString() + ".xml";
+		}
 
 		[TearDown]
-		public void DeleteTempFiles()
+		public void RemoveTempFile()
 		{
-			FileInfo file = new FileInfo(fileName);
-			if(file.Exists) file.Delete();
+			FileInfo info = new FileInfo(tempFile);
+			if(info.Exists) info.Delete();
 		}
 
 		[Test]
-		public void TestSchemaValidator()
+		public void TestSchemaValidatorInvariantCulture()
 		{
-			string testsDll = "mock-assembly.dll";
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build(testsDll);
-		
-			TestResult result = suite.Run(NullListener.NULL);
-			XmlResultVisitor visitor = new XmlResultVisitor("temp.xml", result);
-			result.Accept(visitor);
-			visitor.Write();
+			runSchemaValidatorTest(tempFile, CultureInfo.InvariantCulture);
+		}
 
-			string schemaFile = null;
-			FileInfo file = new FileInfo("Results.xsd");
-			if(file.Exists)
-				schemaFile = file.FullName;
-			else
-				schemaFile = "..\\..\\..\\framework\\Results.xsd";
+		[Test]
+		public void TestSchemaValidatorUnitedStatesCulture()
+		{
+			CultureInfo unitedStatesCulture = new CultureInfo("en-US", false);
+			runSchemaValidatorTest(tempFile,unitedStatesCulture);
+		}
 
-			SchemaValidator validator = new SchemaValidator(fileName, schemaFile);
-			Assertion.Assert("validate failed", validator.Validate());
+		[Test]
+		public void TestSchemaValidatorFrenchCulture()
+		{
+			CultureInfo frenchCulture = new CultureInfo("fr-FR", false);
+			runSchemaValidatorTest(tempFile, frenchCulture);
 		}
 	}
 }
