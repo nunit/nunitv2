@@ -117,6 +117,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssemblyListBox.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AssemblyListBox.resx"
+                    DependentUpon = "AssemblyListBox.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "AssemblyPathDialog.cs"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -240,6 +250,16 @@
                     RelPath = "TextBoxWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TipWindow.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TipWindow.resx"
+                    DependentUpon = "TipWindow.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "unpinned.bmp"

@@ -285,7 +285,7 @@ namespace NUnit.UiKit
 			// 
 			this.stackTrace.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right);
-			this.stackTrace.Expansion = CP.Windows.Forms.ExpandingLabel.ExpansionStyle.Both;
+			this.stackTrace.Expansion = CP.Windows.Forms.TipWindow.ExpansionStyle.Both;
 			this.stackTrace.Location = new System.Drawing.Point(104, 80);
 			this.stackTrace.Name = "stackTrace";
 			this.stackTrace.Overlay = false;
@@ -313,7 +313,7 @@ namespace NUnit.UiKit
 			// 
 			this.message.Anchor = ((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right);
-			this.message.Expansion = CP.Windows.Forms.ExpandingLabel.ExpansionStyle.Both;
+			this.message.Expansion = CP.Windows.Forms.TipWindow.ExpansionStyle.Both;
 			this.message.Location = new System.Drawing.Point(104, 48);
 			this.message.Name = "message";
 			this.message.Size = new System.Drawing.Size(288, 16);
