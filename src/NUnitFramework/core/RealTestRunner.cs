@@ -36,27 +36,18 @@ namespace NUnit.Core
 	{
 		protected override TestResult[] doRun( EventListener listener, Test[] tests )
 		{
-			EventListenerTextWriter outWriter = new EventListenerTextWriter(listener, TestOutputType.Out);
-			EventListenerTextWriter errorWriter = new EventListenerTextWriter(listener, TestOutputType.Error);
-
-			// Set Console to go to our buffers. Note that any changes made by
-			// the user in the test code or the code it calls will defeat this.
-			TextWriter saveOut = Console.Out;
-			TextWriter saveError = Console.Error;
-			Console.SetOut( outWriter );
-			Console.SetError( errorWriter ); 
-
-			try
+			// Save static context so we can change and restore Console
+			// Out and Error and in case the tests change anything - as
+			// happens, for example, in testing NUnit itself.
+			using( new TestContext() )
 			{
+				EventListenerTextWriter outWriter = new EventListenerTextWriter(listener, TestOutputType.Out);
+				EventListenerTextWriter errorWriter = new EventListenerTextWriter(listener, TestOutputType.Error);
+
+				TestContext.Out = outWriter;
+				TestContext.Error = errorWriter;
+
 				return base.doRun (listener, tests);
-			}
-			finally
-			{
-				outWriter.Flush();
-				errorWriter.Flush();
-
-				Console.SetOut( saveOut );
-				Console.SetError( saveError ); 
 			}
 		}
 
