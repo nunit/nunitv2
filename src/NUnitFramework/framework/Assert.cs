@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections;
+using System.ComponentModel;
 
 namespace NUnit.Framework
 {
@@ -234,6 +235,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static new bool Equals(object a, object b)
 		{
 			throw new AssertionException("Assert.Equals should not be used for Assertions");
