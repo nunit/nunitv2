@@ -70,10 +70,9 @@ namespace NUnit.Tests.ConsoleRunner
 		public void CleanUp()
 		{
 			FileInfo file = new FileInfo(xmlFile);
-			if(file.Exists)
-				file.Delete();
+			if(file.Exists) file.Delete();
 
-			file = new FileInfo( Path.Combine( Path.GetDirectoryName( nunitExe ), "TestResult.xml" ) );
+			file = new FileInfo( "TestResult.xml" );
 			if(file.Exists) file.Delete();
 
 			if ( domain != null )
