@@ -76,6 +76,12 @@ namespace NUnit.Tests
 				RunFinishedEvent( result );
 		}
 
+		public void FireRunCanceledEvent( UITestNode test )
+		{
+			if ( RunCanceledEvent != null )
+				RunCanceledEvent( test );
+		}
+
 		public void FireSuiteFinishedEvent( TestSuiteResult result )
 		{
 			if ( SuiteFinishedEvent != null )
