@@ -278,6 +278,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "UserMessage.resx"
+                    DependentUpon = "UserMessage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "WaitCursor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
