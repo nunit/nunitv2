@@ -102,6 +102,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssemblyListItem.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AssemblyWatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -113,11 +118,6 @@
                 />
                 <File
                     RelPath = "ConsoleOptions.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "DependencyWatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -178,6 +178,11 @@
                 />
                 <File
                     RelPath = "ProjectFormatException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProjectPath.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
