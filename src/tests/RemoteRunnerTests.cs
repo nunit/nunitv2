@@ -43,15 +43,13 @@ namespace NUnit.Tests.Core
 		private readonly string testsDll = "nonamespace-assembly.dll";
 		private readonly string mockDll = "mock-assembly.dll";
 		private RemoteTestRunner runner;
-		private ArrayList assemblies;
+		private string[] assemblies;
 
 		[SetUp]
 		public void CreateRunner()
 		{
 			runner = new RemoteTestRunner();
-			assemblies = new ArrayList();
-			assemblies.Add(testsDll);
-			assemblies.Add(mockDll);
+			assemblies = new string[] { testsDll, mockDll };
 		}
 
 		[Test]

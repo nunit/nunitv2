@@ -76,7 +76,7 @@ namespace NUnit.Tests.Util
 			config.Assemblies.Add( @"C:\test\assembly1.dll" );
 			config.Assemblies.Add( @"C:\test\assembly2.dll" );
 
-			IList files = config.AbsolutePaths;
+			string[] files = config.AbsolutePaths;
 			Assertion.AssertEquals( @"C:\test\assembly1.dll", files[0] );
 			Assertion.AssertEquals( @"C:\test\assembly2.dll", files[1] );
 		}
@@ -87,7 +87,7 @@ namespace NUnit.Tests.Util
 			config.Assemblies.Add( @"C:\test\bin\debug\assembly1.dll" );
 			config.Assemblies.Add( @"C:\test\bin\debug\assembly2.dll" );
 
-			IList files = config.RelativePaths;
+			string[] files = config.RelativePaths;
 			Assert.AreEqual( @"bin\debug\assembly1.dll", files[0] );
 			Assert.AreEqual( @"bin\debug\assembly2.dll", files[1] );
 		}
@@ -98,8 +98,8 @@ namespace NUnit.Tests.Util
 			config.Assemblies.Add( @"C:\test\assembly2.dll", false );
 			config.Assemblies.Add( @"C:\test\assembly3.dll", true );
 
-			IList files = config.TestAssemblies;
-			Assert.AreEqual( 2, files.Count );
+			string[] files = config.TestAssemblies;
+			Assert.AreEqual( 2, files.Length );
 			Assert.AreEqual( @"C:\test\assembly1.dll", files[0] );
 			Assert.AreEqual( @"C:\test\assembly2.dll", files[1] );
 		}

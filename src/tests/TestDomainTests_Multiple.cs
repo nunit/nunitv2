@@ -42,7 +42,7 @@ namespace NUnit.Tests.Core
 	[TestFixture]
 	public class TestDomainTests_Multiple
 	{
-		private ArrayList assemblies;
+		private string[] assemblies;
 		private TestDomain domain; 
 		private TextWriter outStream;
 		private TextWriter errorStream;
@@ -56,9 +56,8 @@ namespace NUnit.Tests.Core
 			errorStream = new ConsoleWriter(Console.Error);
 			
 			domain = new TestDomain();
-			assemblies = new ArrayList();
-			assemblies.Add( Path.GetFullPath( "nonamespace-assembly.dll" ) );
-			assemblies.Add( Path.GetFullPath( "mock-assembly.dll" ) );
+			assemblies = new string[]
+				{ Path.GetFullPath( "nonamespace-assembly.dll" ), Path.GetFullPath( "mock-assembly.dll" ) };
 		}
 
 		[TearDown]

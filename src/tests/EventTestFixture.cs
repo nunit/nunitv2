@@ -57,10 +57,27 @@ namespace NUnit.Tests.Core
 
 		internal class EventCounter : EventListener
 		{
+			internal int runStarted = 0;
+			internal int runFinished = 0;
 			internal int testCaseStart = 0;
 			internal int testCaseFinished = 0;
 			internal int suiteStarted = 0;
 			internal int suiteFinished = 0;
+
+			public void RunStarted(Test[] tests)
+			{
+				runStarted++;
+			}
+
+			public void RunFinished(NUnit.Core.TestResult[] results)
+			{
+				runFinished++;
+			}
+
+			public void RunFinished(Exception exception)
+			{
+				runFinished++;
+			}
 
 			public void TestStarted(NUnit.Core.TestCase testCase)
 			{
@@ -80,6 +97,10 @@ namespace NUnit.Tests.Core
 			public void SuiteFinished(TestSuiteResult result)
 			{
 				suiteFinished++;
+			}
+
+			public void UnhandledException( Exception exception )
+			{
 			}
 		}
 

@@ -50,14 +50,13 @@ namespace NUnit.Tests.Util
 
 		public void SimulateTestRun()
 		{
-			ArrayList list = new ArrayList();
-			UITestNode node = new UITestNode(test);
-			list.Add(node);
-			FireRunStarting( list, test.CountTestCases() );
+			UITestNode[] tests = new UITestNode[] { test };
+
+			FireRunStarting( tests, test.CountTestCases() );
 
 			TestResult result = SimulateTest( test );
 
-			FireRunFinished( result );
+			FireRunFinished( new TestResult[] { result } );
 		}
 
 		private TestResult SimulateTest( Test test )

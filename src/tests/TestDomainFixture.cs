@@ -146,9 +146,7 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void MultipleAssemblies()
 		{
-			ArrayList assemblies = new ArrayList();
-			assemblies.Add("mock-assembly.dll");
-			assemblies.Add("nonamespace-assembly.dll");
+			string[] assemblies = new string[] { "mock-assembly.dll", "nonamespace-assembly.dll" };
 
 			Test test = domain.Load( "Multiple", assemblies );
 			Assert.IsNotNull(test, "test should not be null");
@@ -158,10 +156,8 @@ namespace NUnit.Tests.Core
 		[Test]
 		public void BinPath()
 		{
-			ArrayList assemblies = new ArrayList();
-			assemblies.Add( @"h:\app1\bin\debug\test1.dll" );
-			assemblies.Add( @"h:\app2\bin\debug\test2.dll" );
-			assemblies.Add( @"h:\app1\bin\debug\test3.dll" );
+			string[] assemblies = new string[]
+				{ @"h:\app1\bin\debug\test1.dll", @"h:\app2\bin\debug\test2.dll", @"h:\app1\bin\debug\test3.dll" };
 
 			Assert.AreEqual( @"h:\app1\bin\debug;h:\app2\bin\debug", 
 				TestDomain.GetBinPath( assemblies ) );

@@ -178,7 +178,7 @@ namespace NUnit.Tests.Util
 			loader.ReloadOnRun = false;
 			
 			LoadTest( assembly );
-			loader.RunTestSuite( catcher.Events[3].Test );
+			loader.RunTest( catcher.Events[3].Test );
 			while( loader.IsTestRunning )
 				Thread.Sleep( 500 );
 			

@@ -156,19 +156,5 @@ namespace NUnit.Tests.Core
 			TestSuite suite = builder.Build(testsDll, "NUnit.Tests.Junk" );
 			Assert.IsNull( suite );
 		}
-
-//		[Test]
-//		public void TrimPathAndExtensionTest() 
-//		{
-//			string fileName = @"d:\somedirectory\foo.txt";
-//			FileInfo info = new FileInfo(fileName);
-//			string extension = info.Extension;
-//			Assert.AreEqual(".txt", extension);
-//			Assert.AreEqual("foo.txt", info.Name);
-//
-//			TestSuiteBuilder builder = new TestSuiteBuilder();
-//			string result = builder.TrimPathAndExtension(fileName);
-//			Assert.AreEqual("foo", result);
-//		}
 	}
 }
