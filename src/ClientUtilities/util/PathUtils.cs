@@ -85,6 +85,7 @@ namespace NUnit.Util
 
 		/// <summary>
 		/// Return the canonical form of a path.
+		/// </summary>
 		public static string Canonicalize( string path )
 		{
 			StringBuilder sb = new StringBuilder( MAX_PATH );
