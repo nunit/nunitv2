@@ -31,7 +31,6 @@ namespace NUnit.Core
 {
 	using System;
 	using System.Collections;
-	using System.Reflection;
 
 	/// <summary>
 	/// Summary description for TestCase.
