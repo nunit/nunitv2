@@ -59,8 +59,8 @@ namespace NUnit.Util
 
 		string TestFileName { get; }
 
-		// Our last test result
-		TestResult LastResult { get; }
+		// Our last test results
+		TestResult[] Results { get; }
 
 		#endregion
 
@@ -97,10 +97,10 @@ namespace NUnit.Util
 		void ReloadTest();
 
 		// Run a test suite
-		void RunTestSuite( UITestNode test );
+		void RunTest( UITestNode test );
 
 		// Run a collection of tests
-		void RunTests(IList tests);
+		void RunTests(UITestNode[] tests);
 
 		// Cancel the running test
 		void CancelTestRun();
