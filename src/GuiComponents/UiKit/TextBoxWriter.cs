@@ -49,13 +49,13 @@ namespace NUnit.UiKit
 		public TextBoxWriter(TextBox textBox)
 		{
 			this.textBox = textBox;
-			textBox.HandleCreated+=new EventHandler( OnHandleCreated );
+			textBox.HandleCreated += new EventHandler( OnHandleCreated );
 		}
     			
 		public TextBoxWriter(RichTextBox textBox)
 		{
 			this.textBox = textBox;
-			textBox.HandleCreated+=new EventHandler( OnHandleCreated );
+			textBox.HandleCreated += new EventHandler( OnHandleCreated );
 		}
 
 		public override void Write(char c)
@@ -83,15 +83,6 @@ namespace NUnit.UiKit
 				BufferText( s );
 		}
 
-		private void OnHandleCreated( object sender, EventArgs e )
-		{
-			if ( sb != null )
-			{
-				textBox.AppendText( sb.ToString() );
-				sb = null;
-			}
-		}
-
 		private void BufferText( string s )
 		{
 			if ( sb == null )
@@ -101,8 +92,23 @@ namespace NUnit.UiKit
 		}
 
 		private void AppendText( string s )
-		{		
+		{
+			if ( sb != null )
+			{
+				textBox.AppendText( sb.ToString() );
+				sb = null;
+			}
+			
 			textBox.AppendText( s );
+		}
+
+		private void OnHandleCreated( object sender, EventArgs e )
+		{
+			if ( sb != null )
+			{
+				textBox.AppendText( sb.ToString() );
+				sb = null;
+			}
 		}
 
 		public override void WriteLine(string s)
