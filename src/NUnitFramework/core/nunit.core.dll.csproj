@@ -84,7 +84,27 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "AbstractFixtureBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AbstractTestCaseBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AddinManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Addins.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AddinState.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -95,6 +115,11 @@
                 />
                 <File
                     RelPath = "AssemblyResolver.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Builtins.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -139,16 +164,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ExpectedExceptionBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ExpectedExceptionTestCase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Filter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -189,7 +204,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ITestBuilder.cs"
+                    RelPath = "ITestCaseBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -220,16 +235,6 @@
                 />
                 <File
                     RelPath = "NamespaceTreeBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "NormalTestBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "NormalTestCase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -308,7 +313,27 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "SetUpFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SetUpFixtureBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "StringTextWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SuiteBuilderAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SuiteBuilderCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -352,6 +377,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestCaseBuilderAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestCaseBuilderCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestCaseResult.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -373,6 +408,11 @@
                 />
                 <File
                     RelPath = "TestFramework.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestProject.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
