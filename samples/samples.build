@@ -44,7 +44,7 @@
         </vbc>
 
         <!-- Build money-sample -->
-        <csc target="library" output="${build.dir}/bin/money-sample.dll" define="${build.defines.csc},${runtime.defines.csc}">
+        <csc target="library" output="${build.dir}/bin/money.dll" define="${build.defines.csc},${runtime.defines.csc}">
             <sources basedir="money">
                 <includes name="*.cs"/>
             </sources>
