@@ -234,7 +234,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// Test node corresponding to a TestInfo interface
 		/// </summary>
-		private TestSuiteTreeNode this[TestInfo test]
+		private TestSuiteTreeNode this[ITest test]
 		{
 			get{ return treeMap[test.UniqueName] as TestSuiteTreeNode; }
 		}
@@ -356,7 +356,8 @@ namespace NUnit.UiKit
 				}
 			}
 
-			this.ContextMenu.MenuItems.Add( "-" );
+			if ( this.ContextMenu.MenuItems.Count > 0 )
+				this.ContextMenu.MenuItems.Add( "-" );
 
 			MenuItem propertiesMenuItem = new MenuItem(
 				"&Properties", new EventHandler( propertiesMenuItem_Click ) );
@@ -518,19 +519,21 @@ namespace NUnit.UiKit
 			Clear();
 			AddTreeNodes( Nodes, test, false );
 			
-			switch ( GetDisplayStyle() )
-			{
-				case DisplayStyle.Expand:
-					ExpandAll();
-					break;
-				case DisplayStyle.HideTests:
-					ExpandAll();
-					CollapseFixtures();
-					break;
-				case DisplayStyle.Collapse:
-				default:
-					break;
-			}
+			SetInitialExpansion();
+
+			SelectedNode = Nodes[0];
+		}
+
+		/// <summary>
+		/// Load the tree from a test result
+		/// </summary>
+		/// <param name="result"></param>
+		public void Load( TestResult result )
+		{
+			Clear();
+			AddTreeNodes( Nodes, result, false );
+
+			SetInitialExpansion();
 
 			SelectedNode = Nodes[0];
 		}
@@ -661,6 +664,25 @@ namespace NUnit.UiKit
 				foreach( UITestNode test in rootTest.Tests )
 					AddTreeNodes( node.Nodes, test, highlight );
 			}
+
+			return node;
+		}
+
+		private TestSuiteTreeNode AddTreeNodes( IList nodes, TestResult rootResult, bool highlight )
+		{
+			TestSuiteTreeNode node = new TestSuiteTreeNode( rootResult );
+			//			if ( highlight ) node.ForeColor = Color.Blue;
+			treeMap.Add( node.Test.UniqueName, node );
+			nodes.Add( node );
+			
+			TestSuiteResult suiteResult = rootResult as TestSuiteResult;
+			if ( suiteResult != null )
+			{
+				foreach( TestResult result in suiteResult.Results )
+					AddTreeNodes( node.Nodes, result, highlight );
+			}
+
+			node.UpdateImageIndex();
 
 			return node;
 		}
@@ -822,8 +844,24 @@ namespace NUnit.UiKit
 			return DisplayStyle.HideTests;
 		}
 
-        #endregion
+		private void SetInitialExpansion()
+		{
+			switch ( GetDisplayStyle() )
+			{
+				case DisplayStyle.Expand:
+					ExpandAll();
+					break;
+				case DisplayStyle.HideTests:
+					ExpandAll();
+					CollapseFixtures();
+					break;
+				case DisplayStyle.Collapse:
+				default:
+					break;
+			}
+		}
 
+        #endregion
 	}
 }
 
