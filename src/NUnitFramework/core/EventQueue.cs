@@ -57,16 +57,6 @@ namespace NUnit.Core
 		}
 	}
 
-	public class RunFinishedExceptionEvent : Event
-	{
-		Exception exception;
-
-		public override void Send( EventListener listener )
-		{
-			listener.RunFinished( this.exception );
-		}
-	}
-
 	public class TestStartedEvent : Event
 	{
 		TestCase testCase;
