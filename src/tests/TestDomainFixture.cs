@@ -33,6 +33,7 @@ using System.IO;
 using NUnit.Framework;
 using NUnit.Core;
 using NUnit.Util;
+using NUnit.Tests.Assemblies;
 
 namespace NUnit.Tests.Core
 {
@@ -75,7 +76,7 @@ namespace NUnit.Tests.Core
 		public void CountTestCases()
 		{
 			Test test = domain.Load("mock-assembly.dll");
-			Assert.AreEqual(7, test.CountTestCases());
+			Assert.AreEqual(MockAssembly.Tests, test.CountTestCases());
 		}
 
 		[Test]
@@ -119,8 +120,8 @@ namespace NUnit.Tests.Core
 			Assert.AreEqual(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assert.AreEqual(5, summarizer.ResultCount);
-			Assert.AreEqual(2, summarizer.TestsNotRun);
+			Assert.AreEqual(MockAssembly.Tests - MockAssembly.NotRun, summarizer.ResultCount);
+			Assert.AreEqual(MockAssembly.NotRun, summarizer.TestsNotRun);
 		}
 
 		[Test]
@@ -132,8 +133,8 @@ namespace NUnit.Tests.Core
 			Assert.AreEqual(true, result.IsSuccess);
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assert.AreEqual(3, summarizer.ResultCount);
-			Assert.AreEqual(2, summarizer.TestsNotRun);
+			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.NotRun, summarizer.ResultCount);
+			Assert.AreEqual(MockTestFixture.NotRun, summarizer.TestsNotRun);
 		}
 
 		[Test]
@@ -147,10 +148,11 @@ namespace NUnit.Tests.Core
 		public void MultipleAssemblies()
 		{
 			string[] assemblies = new string[] { "mock-assembly.dll", "nonamespace-assembly.dll" };
+			int expectedTests = MockAssembly.Tests + NoNamespaceTestFixture.Tests;
 
 			Test test = domain.Load( "Multiple", assemblies );
 			Assert.IsNotNull(test, "test should not be null");
-			Assert.AreEqual(10, test.CountTestCases());
+			Assert.AreEqual(expectedTests, test.CountTestCases());
 		}
 
 		[Test]

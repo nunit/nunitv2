@@ -33,6 +33,7 @@ using System.Collections;
 using NUnit.Framework;
 using NUnit.Core;
 using NUnit.Util;
+using NUnit.Tests.Assemblies;
 
 namespace NUnit.Tests.Core
 {
@@ -94,7 +95,8 @@ namespace NUnit.Tests.Core
 		public void TestCaseCount()
 		{
 			Test suite = domain.Load( name, assemblies );
-			Assert.AreEqual(10, suite.CountTestCases());
+			Assert.AreEqual(NoNamespaceTestFixture.Tests + MockAssembly.Tests, 
+				suite.CountTestCases());
 		}
 
 		[Test]
@@ -103,7 +105,9 @@ namespace NUnit.Tests.Core
 			Test suite = domain.Load( name, assemblies );
 			TestResult result = suite.Run(NullListener.NULL);
 			ResultSummarizer summary = new ResultSummarizer(result);
-			Assert.AreEqual(8, summary.ResultCount);
+			Assert.AreEqual(
+				NoNamespaceTestFixture.Tests + MockAssembly.Tests - MockAssembly.NotRun, 
+				summary.ResultCount);
 		}
 
 		[Test]
@@ -111,7 +115,7 @@ namespace NUnit.Tests.Core
 		{
 			Test suite = domain.Load( name, assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.IsNotNull( suite );
-			Assert.AreEqual( 5, suite.CountTestCases() );
+			Assert.AreEqual( MockTestFixture.Tests, suite.CountTestCases() );
 		}
 	}
 }
