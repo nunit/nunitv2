@@ -983,7 +983,9 @@ namespace NUnit.Gui
 
 		private void editProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-			ProjectEditor.Edit( TestProject );
+//			ProjectEditor.Edit( TestProject );
+			ProjectEditor editor = new ProjectEditor( TestProject );
+			editor.ShowDialog( this );
 		}
 
 		#endregion
@@ -1144,6 +1146,7 @@ namespace NUnit.Gui
 			events.RunFinished += new TestEventHandler( OnRunFinished );
 
 			events.ProjectLoaded	+= new TestEventHandler( OnTestProjectLoaded );
+			events.ProjectLoadFailed+= new TestEventHandler( OnTestLoadFailure );
 			events.ProjectUnloaded	+= new TestEventHandler( OnTestProjectUnloaded );
 
 			events.TestLoading		+= new TestEventHandler( OnTestLoadStarting );
