@@ -181,6 +181,11 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "NotRunTree.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "pinned.gif"
                     BuildAction = "EmbeddedResource"
                 />
