@@ -33,6 +33,7 @@
                 <includes name="ExpectedExceptionAttribute.cs"/>
 		<includes name="ExplicitAttribute.cs"/>
                 <includes name="IgnoreAttribute.cs"/>
+		<includes name="IgnoreException.cs"/>
                 <includes name="OldTestCase.cs"/>
                 <includes name="SetUpAttribute.cs"/>
                 <includes name="SuiteAttribute.cs"/>

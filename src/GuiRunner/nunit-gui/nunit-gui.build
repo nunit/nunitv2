@@ -43,6 +43,7 @@
                 <includes name="AppEntry.cs"/>
                 <includes name="AssemblyInfo.cs"/>
                 <includes name="DetailResults.cs"/>
+		<includes name="ExceptionDetailsForm.cs"/>
                 <includes name="NUnitForm.cs"/>
                 <includes name="NUnitForm.resx"/>
                 <includes name="OptionsDialog.cs"/>

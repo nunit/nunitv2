@@ -51,6 +51,7 @@
                 <includes name="ExpandingLabel.cs"/>
                 <includes name="ExpandingLabel.resx"/>
                 <includes name="FolderBrowser.cs"/>
+		<includes name="NotRunTree.cs"/>
                 <includes name="ProgressBar.cs"/>
                 <includes name="ProgressBar.resx"/>
                 <includes name="RecentFileMenuHandler.cs"/>
