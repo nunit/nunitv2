@@ -1,0 +1,11 @@
+<Project DefaultTargets="Update;Go" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<Target Name="Update">
+		<Exec WorkingDirectory="..\.." Command="cvs update" />
+	</Target>
+	
+	<Target Name="Go">
+		<MSBuild Projects="NUnit.proj" />
+	</Target>
+
+</Project>

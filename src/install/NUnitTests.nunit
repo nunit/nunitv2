@@ -1,0 +1,10 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" />
+  <Config name="Deploy" binpathtype="Auto">
+    <assembly path="bin\nunit.mocks.tests.dll" />
+    <assembly path="bin\nunit.uikit.tests.dll" />
+    <assembly path="bin\nunit-console.tests.dll" />
+    <assembly path="bin\nunit.util.tests.dll" />
+    <assembly path="bin\nunit.framework.tests.dll" />
+  </Config>
+</NUnitProject>

@@ -1,19 +1,20 @@
-<Project DefaultTargets="Test;Package" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Clean;Build;Test;Package" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-	<Target Name="Update">
-		<Exec Command=
-"pushd
-cd ..\..
-cvs update
-popd" />
+	<PropertyGroup>
+		<Solution>..\nunit.sln</Solution>
+	</PropertyGroup>
+	
+	<Target Name="Clean">
+		<Delete Files="NUnitTests-results.xml" />
+		<Exec Command="..\..\tools\mutantbuild\mutantbuild @debug(1.0).response /property:Configuration=Release /target:Clean $(Solution)" />
 	</Target>
-
+	
 	<Target Name="Build">
-		<Exec Command="..\..\tools\mutantbuild\mutantbuild @debug(1.0).response /property:Configuration=Release /property:OutputPath=%cd%\bin\ /target:Clean;Rebuild ..\nunit.sln" />
+		<Exec Command="..\..\tools\mutantbuild\mutantbuild @debug(1.0).response /property:Configuration=Release /property:OutputPath=%cd%\bin\ $(Solution)" />
 	</Target>
-
+	
 	<Target Name="Test" DependsOnTargets="Build">
-		<Exec Command="bin\nunit-console.exe bin\nunit.tests.dll /xml=%cd%\nunit.tests-results.xml" />
+		<Exec Command="bin\nunit-console.exe NUnitTests.nunit /xml=%cd%\NUnitTests-results.xml" />
 	</Target>
 
 	<Target Name="Package" DependsOnTargets="Build">
