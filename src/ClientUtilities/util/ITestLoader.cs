@@ -62,8 +62,6 @@ namespace NUnit.Util
 		// Our last test results
 		TestResult[] Results { get; }
 
-		bool DisplayTestLabels { get; set; }
-
 		#endregion
 
 		#region Methods

@@ -156,7 +156,6 @@ namespace NUnit.Gui
 			TestLoader loader = new TestLoader( new GuiTestEventDispatcher() );
 			loader.ReloadOnRun = UserSettings.Options.ReloadOnRun;
 			loader.ReloadOnChange = UserSettings.Options.ReloadOnChange;
-			loader.DisplayTestLabels = UserSettings.Options.TestLabels;
 
 			bool vsSupport = UserSettings.Options.VisualStudioSupport;
 
@@ -1542,6 +1541,7 @@ namespace NUnit.Gui
 			events.TestReloading	+= new TestEventHandler( OnReloadStarting );
 			events.TestReloaded		+= new TestEventHandler( OnTestChanged );
 			events.TestReloadFailed	+= new TestEventHandler( OnTestLoadFailure );
+			events.TestStarting		+= new TestEventHandler( OnTestStarting );
 			events.TestFinished		+= new TestEventHandler( OnTestFinished );
 			events.SuiteFinished	+= new TestEventHandler( OnSuiteFinished );
 			events.TestException	+= new TestEventHandler( OnTestException );
@@ -1801,6 +1801,14 @@ namespace NUnit.Gui
 			}
 
 			runButton.Enabled = true;
+		}
+
+		private void OnTestStarting(object sender, TestEventArgs args)
+		{
+			if ( UserSettings.Options.TestLabels )
+			{
+				outWriter.WriteLine( "***** {0}", args.Test.FullName );
+			}
 		}
 
 		private void OnTestFinished(object sender, TestEventArgs args)
