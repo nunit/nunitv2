@@ -33,6 +33,7 @@ namespace NUnit.Core
 	using System.IO;
 	using System.Collections;
 	using System.Reflection;
+	using System.Threading;
 	using System.Runtime.Remoting;
 
 	/// <summary>
@@ -58,6 +59,12 @@ namespace NUnit.Core
 		/// Our writer for error output
 		/// </summary>
 		private TextWriter errorText;
+
+		/// <summary>
+		/// Saved paths of the assemblies we loaded - used to set 
+		/// current directory when we are running the tests.
+		/// </summary>
+		private string[] assemblies;
 
 		#endregion
 
@@ -95,7 +102,7 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Loading Tests
+		#region Methods for Loading Tests
 
 		/// <summary>
 		/// Load an assembly
@@ -103,6 +110,7 @@ namespace NUnit.Core
 		/// <param name="assemblyName"></param>
 		public Test Load( string assemblyName )
 		{
+			this.assemblies = new string[] { assemblyName };
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( assemblyName );
 			return suite;
@@ -113,6 +121,7 @@ namespace NUnit.Core
 		/// </summary>
 		public Test Load( string assemblyName, string testName )
 		{
+			this.assemblies = new string[] { assemblyName };
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( assemblyName, testName );
 			return suite;
@@ -121,15 +130,17 @@ namespace NUnit.Core
 		/// <summary>
 		/// Load multiple assemblies
 		/// </summary>
-		public Test Load( string projectName, IList assemblies )
+		public Test Load( string projectName, string[] assemblies )
 		{
+			this.assemblies = (string[])assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( projectName, assemblies );
 			return suite;
 		}
 
-		public Test Load( string projectName, IList assemblies, string testName )
+		public Test Load( string projectName, string[] assemblies, string testName )
 		{
+			this.assemblies = (string[])assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( assemblies, testName );
 			return suite;
@@ -142,12 +153,26 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Running Tests
+		#region Methods for Counting TestCases
 
-		public int CountTestCases(IList testNames) 
+		public int CountTestCases()
 		{
-			IFilter filter = BuildNameFilter(testNames);
-			return suite.CountTestCases(filter);
+			return suite.CountTestCases();
+		}
+
+		public int CountTestCases( string testName )
+		{
+			Test test = FindTest( suite, testName );
+			return test == null ? 0 : test.CountTestCases();
+		}
+
+		public int CountTestCases(string[] testNames) 
+		{
+			int count = 0;
+			foreach( string testName in testNames)
+				count += CountTestCases( testName );
+
+			return count;
 		}
 
 		public ICollection GetCategories() 
@@ -155,7 +180,11 @@ namespace NUnit.Core
 			return CategoryManager.Categories;
 		}
 
-		public TestResult Run(NUnit.Core.EventListener listener, IFilter filter) 
+		#endregion
+
+		#region Methods for Running Tests
+
+		public TestResult Run(NUnit.Core.EventListener listener, IFilter filter)
 		{
 			BufferedStringTextWriter outBuffer = new BufferedStringTextWriter( outText );
 			BufferedStringTextWriter errorBuffer = new BufferedStringTextWriter( errorText );
@@ -167,10 +196,10 @@ namespace NUnit.Core
 			Console.SetError( errorBuffer );
 
 //			string currentDirectory = Environment.CurrentDirectory;
-
+//
 //			string assemblyName = assemblies == null ? testFileName : (string)assemblies[test.AssemblyKey];
 //			string assemblyDirectory = Path.GetDirectoryName( assemblyName );
-
+//
 //			if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
 //				Environment.CurrentDirectory = assemblyDirectory;
 
@@ -194,91 +223,137 @@ namespace NUnit.Core
 			}
 		}
 
-		public TestResult Run(NUnit.Core.EventListener listener )
+		public TestResult Run( EventListener listener )
 		{
-			NameFilter filter = new NameFilter(suite);
-
-			return Run(listener, filter);
+			return Run( listener, suite );
 		}
 
 		public TestResult Run(NUnit.Core.EventListener listener, string testName )
 		{
-			Test test = FindByName(suite, testName);
-
-			NameFilter filter = new NameFilter(test);
-
-			return Run(listener, filter);
+			return Run( listener, FindTest( suite, testName ) );
 		}
 
-		public TestResult Run(NUnit.Core.EventListener listener, IList testNames)
+		public TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames)
 		{
-			IFilter filter = BuildNameFilter(testNames);
+			return Run( listener, FindTests( suite, testNames ) );
+		}
+
+		// Temporary implementation - runs synchronously
+		public void RunTest(NUnit.Core.EventListener listener )
+		{
+			runningThread = new TestRunnerThread( this );
+			runningThread.Run( listener );
+		}
 		
-			return Run(listener, filter);
-		}
-
-		private IFilter BuildNameFilter(IList testNames) 
+		// Temporary implementation - runs synchronously
+		public void RunTest(NUnit.Core.EventListener listener, string testName )
 		{
-			ArrayList testNodes = new ArrayList();
-			foreach (string name in testNames) 
-			{
-				Test test = FindByName(suite, name);
-				testNodes.Add(test);
-			}
-
-			return new NameFilter(testNodes);
+			runningThread = new TestRunnerThread( this );
+			runningThread.Run( listener, testName );
 		}
 
-		public TestResult RunTest( EventListener listener, string assemblyName )
+		// Temporary implementation - runs synchronously
+		public void RunTest(NUnit.Core.EventListener listener, string[] testNames)
 		{
-			TestResult result;
-			try
-			{
-				Load( assemblyName );
-				result = Run( listener );
-			}
-			finally
-			{
-				Unload();
-			}
-			return result;
+			runningThread = new TestRunnerThread( this );
+			runningThread.Run( listener, testNames );
 		}
 
-		public TestResult RunTest( EventListener listener, string assemblyName, string testName )
-		{
-			TestResult result;
-			try
-			{
-				Load( assemblyName, testName );
-				result = Run( listener );
-			}
-			finally
-			{
-				Unload();
-			}
-			return result;
-		}
+		private TestRunnerThread runningThread;
 
-		public TestResult RunTest( EventListener listener, IList assemblies )
-		{
-			TestResult result;
-			try
-			{
-				Load( "Multiple Tests", assemblies );
-				result = Run( listener );
-			}
-			finally
-			{
-				Unload();
-			}
-			return result;
-		}
 
 		#endregion
 
-		#region FindByName Helper
+		#region Helper Routines
 
-		private Test FindByName(Test test, string fullName)
+		/// <summary>
+		/// Private method to run a single test
+		/// </summary>
+		private TestResult Run( EventListener listener, Test test )
+		{
+			// Create array with the one test
+			Test[] tests = new Test[] { test };
+			// Call our workhorse method
+			TestResult[] results = Run( listener, tests );
+			// Return the first result we got
+			return results[0];
+		}
+
+		/// <summary>
+		/// Private method to run a set of tests. This routine is the workhorse
+		/// that is called anytime tests are run.
+		/// </summary>
+		private TestResult[] Run( EventListener listener, Test[] tests )
+		{
+			// Create buffered writers for efficiency
+			BufferedStringTextWriter outBuffer = new BufferedStringTextWriter( outText );
+			BufferedStringTextWriter errorBuffer = new BufferedStringTextWriter( errorText );
+
+			// Save previous state of Console. This is needed because Console.Out and
+			// Console.Error are static. In the case where the test itself calls this
+			// method, we can lose output if we don't save and restore their values.
+			// This is exactly what happens when we are testing NUnit itself.
+			TextWriter saveOut = Console.Out;
+			TextWriter saveError = Console.Error;
+
+			// Set Console to go to our buffers. Note that any changes made by
+			// the user in the test code or the code it calls will defeat this.
+			Console.SetOut( outBuffer );
+			Console.SetError( errorBuffer ); 
+
+			// Save the current directory so we can run each test in
+			// the same directory as its assembly
+			string currentDirectory = Environment.CurrentDirectory;
+			
+			try
+			{
+				// Create an array for the resuls
+				TestResult[] results = new TestResult[ tests.Length ];
+
+				// Signal that we are starting the run
+				listener.RunStarted( tests );
+				
+				// Run each test, saving the results
+				int index = 0;
+				foreach( Test test in tests )
+				{
+					string assemblyDirectory = Path.GetDirectoryName( this.assemblies[test.AssemblyKey] );
+
+					if ( assemblyDirectory != null && assemblyDirectory != string.Empty )
+						Environment.CurrentDirectory = assemblyDirectory;
+
+					results[index] = test.Run( listener );
+				}
+
+				// Signal that we are done
+				listener.RunFinished( results );
+
+				// Return result array
+				return results;
+			}
+			catch( Exception exception )
+			{
+				// Signal that we finished with an exception
+				listener.RunFinished( exception );
+				// Rethrow - should we do this?
+				throw;
+			}
+			finally
+			{
+				// Restore the directory we saved
+				Environment.CurrentDirectory = currentDirectory;
+
+				// Close our output buffers
+				outBuffer.Close();
+				errorBuffer.Close();
+
+				// Restore previous console values
+				Console.SetOut( saveOut );
+				Console.SetError( saveError );
+			}
+		}
+
+		private Test FindTest(Test test, string fullName)
 		{
 			if(test.UniqueName.Equals(fullName)) return test;
 			if(test.FullName.Equals(fullName)) return test;
@@ -289,15 +364,25 @@ namespace NUnit.Core
 				TestSuite suite = (TestSuite)test;
 				foreach(Test testCase in suite.Tests)
 				{
-					result = FindByName(testCase, fullName);
+					result = FindTest(testCase, fullName);
 					if(result != null) break;
 				}
 			}
 
 			return result;
 		}
-	}
 
-	#endregion
+		private Test[] FindTests( Test test, string[] names )
+		{
+			Test[] tests = new Test[ names.Length ];
+
+			int index = 0;
+			foreach( string name in names )
+				tests[index++] = FindTest( test, name );
+
+			return tests;
+		}
+		#endregion
+	}
 }
 
