@@ -27,8 +27,6 @@
 '***********************************************************************************/
 #endregion
 
-#define USE_TEST_RUNNER_THREAD
-
 namespace NUnit.Util
 {
 	using System;
@@ -70,7 +68,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Our event dispatiching helper object
 		/// </summary>
-		private TestEventDispatcher events;
+		private ProjectEventDispatcher events;
 
 		/// <summary>
 		/// Loads and executes tests. Non-null when
@@ -96,7 +94,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// The tests that are running
 		/// </summary>
-		private UITestNode[] runningTests = null;
+		private ITest[] runningTests = null;
 
 		/// <summary>
 		/// Result of the last test run
@@ -107,15 +105,6 @@ namespace NUnit.Util
 		/// The last exception received when trying to load, unload or run a test
 		/// </summary>
 		private Exception lastException = null;
-
-		/// <summary>
-		/// The thread that is running a test
-		/// </summary>
-#if USE_TEST_RUNNER_THREAD
-		private TestRunnerThread runningThread = null;
-#else
-		private Thread runningThread = null;
-#endif
 
 		/// <summary>
 		/// Watcher fires when the assembly changes
@@ -148,7 +137,7 @@ namespace NUnit.Util
 		{
 			this.stdOutWriter = stdOutWriter;
 			this.stdErrWriter = stdErrWriter;
-			this.events = new TestEventDispatcher();
+			this.events = new ProjectEventDispatcher();
 		}
 
 		#endregion
@@ -176,7 +165,7 @@ namespace NUnit.Util
 			set	{ OnProjectLoad( value ); }
 		}
 
-		public ITestEvents Events
+		public IProjectEvents Events
 		{
 			get { return events; }
 		}
@@ -208,6 +197,11 @@ namespace NUnit.Util
 			set { reloadOnRun = value; }
 		}
 
+		public Version FrameworkVersion
+		{
+			get { return this.testDomain.FrameworkVersion; }
+		}
+
 		#endregion
 
 		#region EventListener Handlers
@@ -225,14 +219,12 @@ namespace NUnit.Util
 		{
 			events.FireRunFinished( results );
 			runningTests = null;
-			runningThread = null;
 		}
 
 		void EventListener.RunFinished(Exception exception)
 		{
 			events.FireRunFinished( exception );
 			runningTests = null;
-			runningThread = null;
 		}
 
 		/// <summary>
@@ -481,7 +473,7 @@ namespace NUnit.Util
 				if ( suite != null )
 					suite.Sort();
 			
-				loadedTest = test;
+				loadedTest = new UITestNode( test );
 				loadedTestName = testName;
 				results = null;
 				reloadPending = false;
@@ -585,7 +577,7 @@ namespace NUnit.Util
 					testDomain.Unload();
 
 					testDomain = newDomain;
-					loadedTest = newTest;
+					loadedTest = new UITestNode( newTest );
 					reloadPending = false;
 
 					events.FireTestReloaded( testFileName, newTest );				
@@ -616,12 +608,12 @@ namespace NUnit.Util
 		/// to allow for latency in the UI.
 		/// </summary>
 		/// <param name="test">Test to be run</param>
-		public void RunTest( UITestNode testInfo )
+		public void RunTest( ITest testInfo )
 		{
-			RunTests( new UITestNode[] { testInfo } );
+			RunTests( new ITest[] { testInfo } );
 		}
 
-		public void RunTests( UITestNode[] tests )
+		public void RunTests( ITest[] tests )
 		{
 			if ( !IsTestRunning )
 			{
@@ -636,51 +628,7 @@ namespace NUnit.Util
 				foreach (UITestNode node in runningTests) 
 					testNames[index++] = node.UniqueName;
 
-//				int count = testDomain.CountTestCases( testNames );
-//				events.FireRunStarting( runningTests, count );
-
-#if USE_TEST_RUNNER_THREAD
-				runningThread = new TestRunnerThread( testDomain );
-				runningThread.Run( this, testNames );
-#else
-				runningThread = new Thread( new ThreadStart( this.TestRunThreadProc ) );
-				string apartment = ConfigurationSettings.AppSettings["apartment"];
-				if ( apartment == "STA" )
-					runningThread.ApartmentState = ApartmentState.STA;
-				runningThread.Start();
-#endif
-			}
-		}
-
-		/// <summary>
-		/// The thread proc for our actual test run
-		/// </summary>
-		private void TestRunThreadProc()
-		{
-			//kind of silly
-			string[] testNames = new string[ runningTests.Length ];
-			int index = 0; 
-			foreach (UITestNode node in runningTests) 
-				testNames[index++] = node.UniqueName;
-//			int count = testDomain.CountTestCases( testNames );
-//			events.FireRunStarting( runningTests, count );
-
-			try
-			{
-				Directory.SetCurrentDirectory( testProject.ActiveConfig.BasePath );
-				results = testDomain.Run(this, testNames );
-				
-//				events.FireRunFinished( results );
-			}
-			catch( Exception exception )
-			{
-				lastException = exception;
-//				events.FireRunFinished( exception );
-			}
-			finally
-			{
-				runningTests = null;
-				runningThread = null;
+				testDomain.RunTest( this, testNames );
 			}
 		}
 
@@ -692,14 +640,7 @@ namespace NUnit.Util
 		public void CancelTestRun()
 		{
 			if ( IsTestRunning )
-			{
-#if USE_TEST_RUNNER_THREAD
-				runningThread.Cancel();
-#else
-				runningThread.Abort();
-				runningThread.Join();
-#endif
-			}
+				testDomain.CancelRun();
 		}
 
 		public IList GetCategories() 
