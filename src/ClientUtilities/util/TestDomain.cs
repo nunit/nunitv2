@@ -499,9 +499,9 @@ namespace NUnit.Util
 		/// <param name="cacheDir"></param>
 		private void DeleteCacheDir( DirectoryInfo cacheDir )
 		{
-			Debug.WriteLine( "Modules:");
-			foreach( ProcessModule module in Process.GetCurrentProcess().Modules )
-				Debug.WriteLine( module.ModuleName );
+//			Debug.WriteLine( "Modules:");
+//			foreach( ProcessModule module in Process.GetCurrentProcess().Modules )
+//				Debug.WriteLine( module.ModuleName );
 			
 
 			if(cacheDir.Exists)
