@@ -33,6 +33,7 @@ using System.Threading;
 using NUnit.Core;
 using NUnit.Util;
 using NUnit.Framework;
+using NUnit.Tests.Assemblies;
 
 namespace NUnit.Tests.Util
 {
@@ -116,7 +117,7 @@ namespace NUnit.Tests.Util
 			Assert.AreEqual( 4, catcher.Events.Count );
 			Assert.AreEqual( TestAction.TestLoading, ((TestEventArgs)catcher.Events[2]).Action );
 			Assert.AreEqual( TestAction.TestLoaded, ((TestEventArgs)catcher.Events[3]).Action );
-			Assert.AreEqual( 7, ((TestEventArgs)catcher.Events[3]).Test.CountTestCases() );
+			Assert.AreEqual( MockAssembly.Tests, ((TestEventArgs)catcher.Events[3]).Test.CountTestCases() );
 		}
 
 		[Test]
@@ -182,9 +183,9 @@ namespace NUnit.Tests.Util
 			while( loader.IsTestRunning )
 				Thread.Sleep( 500 );
 			
-			Assert.AreEqual( 38, catcher.Events.Count );
+			Assert.AreEqual( 40, catcher.Events.Count );
 			Assert.AreEqual( TestAction.RunStarting, ((TestEventArgs)catcher.Events[4]).Action );
-			Assert.AreEqual( TestAction.RunFinished, ((TestEventArgs)catcher.Events[37]).Action );
+			Assert.AreEqual( TestAction.RunFinished, ((TestEventArgs)catcher.Events[39]).Action );
 
 			int nTests = 0;
 			int nRun = 0;
@@ -199,8 +200,8 @@ namespace NUnit.Tests.Util
 						++nRun;
 				}
 			}
-			Assert.AreEqual( 7, nTests );
-			Assert.AreEqual( 5, nRun );
+			Assert.AreEqual( MockAssembly.Tests, nTests );
+			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun, nRun );
 		}
 	}
 }

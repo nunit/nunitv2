@@ -81,7 +81,66 @@ namespace NUnit.Tests.Core
 			Assert.IsTrue(test is TestSuite, "Expected a TestSuite");
 			Assert.AreEqual(mockTestFixture.GetType().Name,test.Name);
 
-			Assert.AreEqual(5, testSuite.CountTestCases());
+			Assert.AreEqual(MockTestFixture.Tests, testSuite.CountTestCases());
+		}
+
+		[Test]
+		public void RunTestsInFixture()
+		{
+			TestSuite testSuite = new TestSuite("Mock Test Suite");
+			testSuite.Add( mockTestFixture );
+
+			TestResult result = testSuite.Run( NullListener.NULL );
+			ResultSummarizer summarizer = new ResultSummarizer( result );
+			Assert.AreEqual( MockTestFixture.Tests - MockTestFixture.NotRun, summarizer.ResultCount );
+			Assert.AreEqual( MockTestFixture.NotRun, summarizer.TestsNotRun );
+
+			result = findResult( "ExplicitlyRunTest", result );
+			Assert.IsNotNull( result, "Cannot find ExplicitlyRunTest result" );
+			Assert.IsFalse( result.Executed, "ExplicitlyRunTest should not be executed" );
+			Assert.AreEqual( "Explicit selection required", result.Message );
+		}
+
+		[Test]
+		public void RunExplicitTestDirectly()
+		{
+			TestSuite testSuite = new TestSuite( "Mock Test Suite" );
+			testSuite.Add( mockTestFixture );
+
+			Test test = findTest( "ExplicitlyRunTest", testSuite );
+			Assert.IsNotNull( test, "Cannot find ExplicitlyRunTest" );
+			Assert.IsTrue( test.IsExplicit, "Test not marked Explicit" );
+			TestResult result = test.Run( NullListener.NULL );
+			ResultSummarizer summarizer = new ResultSummarizer( result );
+			Assert.AreEqual( 1, summarizer.ResultCount );
+		}
+
+		[Test]
+		public void RunExplicitTestByName()
+		{
+			TestSuite testSuite = new TestSuite( "Mock Test Suite" );
+			testSuite.Add( mockTestFixture );
+
+			Test test = findTest( "ExplicitlyRunTest", testSuite );
+			Assert.IsNotNull( test, "Cannot find ExplicitlyRunTest" );
+			Assert.IsTrue( test.IsExplicit, "Test not marked Explicit" );
+
+			NameFilter filter = new NameFilter( test );
+			TestResult result = testSuite.Run( NullListener.NULL, filter );
+			ResultSummarizer summarizer = new ResultSummarizer( result );
+			Assert.AreEqual( 1, summarizer.ResultCount );
+		}
+
+		[Test]
+		public void RunExplicitTestByCategory()
+		{
+			TestSuite testSuite = new TestSuite( "Mock Test Suite" );
+			testSuite.Add( mockTestFixture );
+ 
+			CategoryFilter filter = new CategoryFilter( "Special" );
+			TestResult result = testSuite.Run( NullListener.NULL, filter );
+			ResultSummarizer summarizer = new ResultSummarizer( result );
+			Assert.AreEqual( 1, summarizer.ResultCount );
 		}
 
 		[Test]
@@ -91,7 +150,7 @@ namespace NUnit.Tests.Core
 			TestSuite suite = new TestSuite("mock");
 			suite.Add(testFixture);
 
-			Assert.AreEqual(2, suite.CountTestCases());
+			Assert.AreEqual(InheritedTestFixture.Tests, suite.CountTestCases());
 		}
 
 		[Test]
@@ -161,8 +220,7 @@ namespace NUnit.Tests.Core
 			RecordingListener listener = new RecordingListener();
 			testSuite.Run(listener);
 
-			Assert.AreEqual(5, listener.testStarted.Count);
-
+			Assert.AreEqual(MockTestFixture.Tests, listener.testStarted.Count);
 			Assert.AreEqual(2, listener.suiteStarted.Count);
 		}
 
@@ -171,7 +229,7 @@ namespace NUnit.Tests.Core
 		{
 			TestSuite testSuite = new TestSuite("Mock Test Suite");
 			testSuite.Add(mockTestFixture);
-			Assert.AreEqual(5, testSuite.CountTestCases(EmptyFilter.Empty));
+			Assert.AreEqual(MockTestFixture.Tests, testSuite.CountTestCases(EmptyFilter.Empty));
 			
 			NUnit.Core.TestCase mock3 = (NUnit.Core.TestCase) findTest("MockTest3", testSuite);
 			NUnit.Core.TestCase mock1 = (NUnit.Core.TestCase) findTest("MockTest1", testSuite);
@@ -187,7 +245,7 @@ namespace NUnit.Tests.Core
 
 			filter = new NameFilter(testSuite);
 
-			Assert.AreEqual(5, testSuite.CountTestCases(filter));
+			Assert.AreEqual(MockTestFixture.Tests, testSuite.CountTestCases(filter));
 		}
 
 		[Test]
@@ -215,7 +273,7 @@ namespace NUnit.Tests.Core
 			filter.AddCategory("FixtureCategory");
 			RecordingListener listener = new RecordingListener();
 			testSuite.Run(listener, filter);
-			Assert.AreEqual(5, listener.testStarted.Count);
+			Assert.AreEqual(MockTestFixture.Tests, listener.testStarted.Count);
 		}
 
 		private Test findTest(string name, Test test) 
@@ -234,6 +292,25 @@ namespace NUnit.Tests.Core
 			}
 
 			return result;
+		}
+
+		private TestResult findResult(string name, TestResult result) 
+		{
+			if (result.Test.Name == name)
+				return result;
+
+			TestSuiteResult suiteResult = result as TestSuiteResult;
+			if ( suiteResult != null )
+			{
+				foreach( TestResult r in suiteResult.Results ) 
+				{
+					TestResult myResult = findResult( name, r );
+					if ( myResult != null )
+						return myResult;
+				}
+			}
+
+			return null;
 		}
 	}
 
