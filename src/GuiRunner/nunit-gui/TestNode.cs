@@ -20,24 +20,92 @@
 namespace NUnit.Gui
 {
 	using System;
+	using System.Collections;
 	using System.Windows.Forms;
 	using NUnit.Core;
 	
 	/// <summary>
-	/// Summary description for TestNode.
+	/// Type safe TreeNode for use in the
+	/// TestSuiteTreeView. Various methods
+	/// of TreeNode are hidden.
 	/// </summary>
 	public class TestNode : TreeNode
 	{
 		private Test theTest;
+
+		private TestResult theResult;
+
+		private static int INIT = 0;
+		private static int SUCCESS = 2;
+		private static int FAILURE = 1;
+		private static int NOT_RUN = 3;
 
 		public TestNode(Test test) : base(test.Name)
 		{
 			theTest = test;
 		}
 
+		private int CalcImageIndex()
+		{
+			if ( theResult == null )
+				return INIT;
+
+			// The following code is a kludge to deal
+			// with the fact that Executed is implemented
+			// separately in TestCaseResult and TestSuiteResult
+			// rather than in the base class.
+			if ( theResult is TestCaseResult )
+			{
+				TestCaseResult result = (TestCaseResult)theResult;
+				if (!result.Executed)
+					return NOT_RUN;
+			}		  
+			else	// Must be TestSuiteResult
+			{
+				TestSuiteResult result = (TestSuiteResult)theResult;
+				if (!result.Executed)
+					return NOT_RUN;
+			}
+
+			if ( theResult.IsSuccess )
+				return SUCCESS;
+			else if ( theResult.IsFailure )
+				return FAILURE;
+			else
+				return NOT_RUN;
+		}
+
 		public Test Test
 		{
 			get { return theTest; }
 		}
+
+		public TestResult Result
+		{
+			get { return theResult; }
+		}
+
+		public void SetResult( TestResult result )
+		{
+			if ( result.Test.FullName != theTest.FullName )
+				throw( new ArgumentException("Attempting to set Result with a value that refers to a different test") );
+			theResult = result;
+			ImageIndex = SelectedImageIndex = CalcImageIndex();
+		}
+
+		public void ClearResult()
+		{
+			theResult = null;
+			ImageIndex = SelectedImageIndex = INIT;
+		}
+
+		public void ClearResults()
+		{
+			ClearResult();
+
+			foreach(TestNode node in Nodes)
+				node.ClearResults();
+		}
 	}
 }
+

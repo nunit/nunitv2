@@ -36,8 +36,26 @@ namespace NUnit.Gui
 	/// </summary>
 	public class NUnitForm : System.Windows.Forms.Form
 	{
+		//		public Hashtable treeMap = new Hashtable();
+
+		public Test SelectedSuite
+		{
+			get { return testSuiteTreeView.SelectedSuite; }
+		}
+
+		public Test ContextSuite
+		{
+			get { return testSuiteTreeView.ContextSuite; }
+		}
+
+		private static RecentAssemblyUtil assemblyUtil;
+
+		static NUnitForm()	
+		{
+			assemblyUtil = new RecentAssemblyUtil("recent-assemblies");
+		}
+		
 		private string assemblyFileName;
-		private Test suite;
 		private FileSystemWatcher watcher;
 		private UIActions actions;
 
@@ -69,9 +87,9 @@ namespace NUnit.Gui
 		public System.Windows.Forms.StatusBarPanel time;
 		public System.Windows.Forms.OpenFileDialog openFileDialog;
 		public System.Windows.Forms.ContextMenu treeViewMenu;
-		public System.Windows.Forms.MenuItem menuItem5;
+		public System.Windows.Forms.MenuItem runMenuItem;
 		public System.Windows.Forms.ImageList treeImages;
-		public System.Windows.Forms.TreeView assemblyViewer;
+		public NUnit.Gui.TestSuiteTreeView testSuiteTreeView;
 		public System.Windows.Forms.TabControl resultTabs;
 		public System.Windows.Forms.TabPage errorPage;
 		public System.Windows.Forms.TabPage stderr;
@@ -96,6 +114,12 @@ namespace NUnit.Gui
 			SetDefault(runButton);
 
 			actions = new UIActions(this);
+			actions.TestStartedEvent += new UIActions.TestStartedHandler(OnTestStarted);
+			actions.TestFinishedEvent += new UIActions.TestFinishedHandler(OnTestFinished);
+			actions.SuiteFinishedEvent += new UIActions.SuiteFinishedHandler(OnSuiteFinished);
+			actions.RunStartingEvent += new UIActions.RunStartingHandler(OnRunStarting);
+			actions.RunFinishedEvent += new UIActions.RunFinishedHandler(OnRunFinished);
+			actions.AssemblyLoadedEvent += new UIActions.AssemblyLoadedHandler(OnAssemblyLoaded);
 
 			stdErrWriter = new TextBoxWriter(stdErrTab);
 			Console.SetError(stdErrWriter);
@@ -104,11 +128,11 @@ namespace NUnit.Gui
 
 			if (assemblyFileName != null) 
 			{
-				UIActions.SetMostRecentAssembly(assemblyFileName);
+				assemblyUtil.RecentAssembly = assemblyFileName;
 			}
 			
 			if (assemblyFileName == null)
-				assemblyFileName = UIActions.GetMostRecentAssembly();
+				assemblyFileName = assemblyUtil.RecentAssembly;
 
 			if(assemblyFileName != null)
 			{
@@ -133,7 +157,7 @@ namespace NUnit.Gui
 
 		private void LoadRecentAssemblies() 
 		{
-			IList assemblies = UIActions.GetMostRecentAssemblies();
+			IList assemblies = assemblyUtil.GetAssemblies();
 			if (assemblies.Count == 0)
 				RecentAssemblies.Enabled = false;
 			else 
@@ -198,9 +222,9 @@ namespace NUnit.Gui
 			this.helpMenuItem = new System.Windows.Forms.MenuItem();
 			this.menuItem8 = new System.Windows.Forms.MenuItem();
 			this.aboutMenuItem = new System.Windows.Forms.MenuItem();
-			this.assemblyViewer = new System.Windows.Forms.TreeView();
+			this.testSuiteTreeView = new NUnit.Gui.TestSuiteTreeView();
 			this.treeViewMenu = new System.Windows.Forms.ContextMenu();
-			this.menuItem5 = new System.Windows.Forms.MenuItem();
+			this.runMenuItem = new System.Windows.Forms.MenuItem();
 			this.treeImages = new System.Windows.Forms.ImageList(this.components);
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.panel1 = new System.Windows.Forms.Panel();
@@ -311,7 +335,7 @@ namespace NUnit.Gui
 			// 
 			this.exitMenuItem.Index = 3;
 			this.exitMenuItem.Text = "E&xit";
-			this.exitMenuItem.Click += new System.EventHandler(this.menuItem5_Click);
+			this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
 			// 
 			// menuItem6
 			// 
@@ -339,27 +363,29 @@ namespace NUnit.Gui
 			this.aboutMenuItem.Text = "&About NUnit...";
 			this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
 			// 
-			// assemblyViewer
+			// testSuiteTreeView
 			// 
-			this.assemblyViewer.ContextMenu = this.treeViewMenu;
-			this.assemblyViewer.Dock = System.Windows.Forms.DockStyle.Left;
-			this.assemblyViewer.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.assemblyViewer.ImageList = this.treeImages;
-			this.assemblyViewer.Name = "assemblyViewer";
-			this.assemblyViewer.Size = new System.Drawing.Size(240, 355);
-			this.assemblyViewer.TabIndex = 1;
-			this.assemblyViewer.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.assemblyViewer_AfterSelect);
+			this.testSuiteTreeView.ContextMenu = this.treeViewMenu;
+			this.testSuiteTreeView.Dock = System.Windows.Forms.DockStyle.Left;
+			this.testSuiteTreeView.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.testSuiteTreeView.ImageList = this.treeImages;
+			this.testSuiteTreeView.Name = "testSuiteTreeView";
+			this.testSuiteTreeView.SelectedNode = null;
+			this.testSuiteTreeView.Size = new System.Drawing.Size(240, 355);
+			this.testSuiteTreeView.TabIndex = 1;
+			this.testSuiteTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.testSuiteTreeView_AfterSelect);
+			this.testSuiteTreeView.DoubleClick += new System.EventHandler(this.testSuiteTreeView_DoubleClick);
 			// 
 			// treeViewMenu
 			// 
 			this.treeViewMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																						 this.menuItem5});
+																						 this.runMenuItem});
 			// 
-			// menuItem5
+			// runMenuItem
 			// 
-			this.menuItem5.Index = 0;
-			this.menuItem5.Text = "Run";
-			this.menuItem5.Click += new System.EventHandler(this.menuItem5_Click_1);
+			this.runMenuItem.Index = 0;
+			this.runMenuItem.Text = "&Run";
+			this.runMenuItem.Click += new System.EventHandler(this.runMenuItem_Click);
 			// 
 			// treeImages
 			// 
@@ -546,7 +572,7 @@ namespace NUnit.Gui
 			this.runButton.Location = new System.Drawing.Point(8, 56);
 			this.runButton.Name = "runButton";
 			this.runButton.TabIndex = 3;
-			this.runButton.Text = "Run";
+			this.runButton.Text = "&Run";
 			this.runButton.Click += new System.EventHandler(this.runButton_Click);
 			// 
 			// suiteName
@@ -594,7 +620,7 @@ namespace NUnit.Gui
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
 																		  this.panel1,
 																		  this.splitter1,
-																		  this.assemblyViewer,
+																		  this.testSuiteTreeView,
 																		  this.statusBar});
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Menu = this.mainMenu;
@@ -667,7 +693,7 @@ namespace NUnit.Gui
 
 		}
 
-		private void menuItem5_Click(object sender, System.EventArgs e)
+		private void exitMenuItem_Click(object sender, System.EventArgs e)
 		{
 			this.Close();
 		}
@@ -679,11 +705,11 @@ namespace NUnit.Gui
 
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
-			actions.RunTestSuite(suite);
+			actions.RunTestSuite( SelectedSuite );
 		}
 		private void UpdateRecentAssemblies(string assemblyFileName)
 		{
-			UIActions.SetMostRecentAssembly(assemblyFileName);
+			assemblyUtil.RecentAssembly = assemblyFileName;
 			LoadRecentAssemblies();
 		}
 
@@ -715,11 +741,10 @@ namespace NUnit.Gui
 		{
 			try
 			{
-				suite = actions.LoadAssembly(assemblyFileName, suite);
+				actions.LoadAssembly(assemblyFileName, SelectedSuite);
 				SetWorkingDirectory(assemblyFileName);
 				InstallWatcher(assemblyFileName);
 				UpdateRecentAssemblies(assemblyFileName);
-				runButton.Enabled = true;
 			}
 			catch(Exception exception)
 			{
@@ -736,25 +761,27 @@ namespace NUnit.Gui
 			if (openFileDialog.ShowDialog(this) == System.Windows.Forms.DialogResult.OK) 
 			{
 				assemblyFileName = openFileDialog.FileName;
-				suite = null;
 				LoadAssembly(assemblyFileName);
 			}
 		
 		}
 
-		private void menuItem5_Click_1(object sender, System.EventArgs e)
+		private void runMenuItem_Click(object sender, System.EventArgs e)
 		{
-			actions.RunTestSuite(suite);
+			actions.RunTestSuite( ContextSuite );
 		}
 
-		private void assemblyViewer_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
+		private void testSuiteTreeView_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
 		{
-			suite = actions.TestSelected();
+			suiteName.Text = testSuiteTreeView.SelectedNode.Text;
 		}
 
 		private void detailList_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
-			actions.DetailItemSelected();
+			TestResultItem resultItem = (TestResultItem)detailList.SelectedItem;
+			//string stackTrace = resultItem.StackTrace;
+			stackTrace.Text = resultItem.StackTrace;
+			toolTip.SetToolTip(detailList,resultItem.GetMessage());
 		}
 
 		protected override bool ProcessKeyPreview(ref 
@@ -815,6 +842,120 @@ namespace NUnit.Gui
 
 			SetBounds(xLocation, yLocation, width, height);	
 		}
+
+		private void testSuiteTreeView_DoubleClick(object sender, System.EventArgs e)
+		{
+			if ( testSuiteTreeView.SelectedNode.Nodes.Count == 0 )
+			{
+				actions.RunTestSuite( SelectedSuite );
+			}
+		}
+
+		private void OnTestStarted(TestCase testCase)
+		{
+			status.Text = "Running : " + testCase.Name;
+		}
+
+		private void OnTestFinished(TestCaseResult result)
+		{
+			testSuiteTreeView.SetTestResult(result);
+
+			progressBar.PerformStep();		
+
+			if(!result.Executed)
+			{
+				if(progressBar.ForeColor == Color.Lime)
+					progressBar.ForeColor = Color.Yellow;
+			}
+			else if(!result.IsSuccess)
+				progressBar.ForeColor = Color.Red;
+		}
+
+		private void OnSuiteFinished(TestSuiteResult result)
+		{
+			testSuiteTreeView.SetTestResult(result);
+		}
+
+		private void OnRunStarting(Test test)
+		{
+			runButton.Enabled = false;
+
+			ClearTestResults();
+
+			testCaseCount.Text = "Test Cases : " + test.CountTestCases;
+			failures.Text = "Failures : 0";
+			testsRun.Text = "Tests Run : 0";
+			time.Text = "Time : 0";
+
+			string name = test.Name;
+			int val = test.Name.LastIndexOf("\\");
+			if(val != -1)
+				name = test.Name.Substring(val+1);
+			suiteName.Text = name;
+		
+			progressBar.Maximum = test.CountTestCases;
+			ResetProgressBar();
+
+			Console.Out.WriteLine("Test name {0}", test.FullName);
+		}
+
+		private void ResetProgressBar()
+		{
+			progressBar.ForeColor = Color.Lime;
+			progressBar.Value = 0;
+		}
+		private void ClearTestResults()
+		{
+			detailList.Items.Clear();
+			stackTrace.Text = "";
+
+			testSuiteTreeView.ClearResults();
+
+			notRunTree.Nodes.Clear();
+
+			stdErrTab.Clear();
+			stdOutTab.Clear();
+		}
+		
+		private void OnRunFinished(TestResult result)
+		{
+			status.Text = "Completed"; 
+
+			DisplayResults(result);
+
+			if(detailList.Items.Count > 0)
+				detailList.SelectedIndex = 0;
+
+			testSuiteTreeView.Expand( result.Test );
+
+			runButton.Enabled = true;
+		}
+
+		private void DisplayResults(TestResult results)
+		{
+			DetailResults detailResults = new DetailResults(detailList, notRunTree);
+			notRunTree.BeginUpdate();
+			results.Accept(detailResults);
+			notRunTree.EndUpdate();
+
+			ResultSummarizer summarizer = new ResultSummarizer(results);
+
+			int failureCount = summarizer.Failures;
+
+			failures.Text = "Failures : " + failureCount.ToString();
+			testsRun.Text = "Tests run : " + summarizer.ResultCount.ToString();
+			time.Text = "Time : " + summarizer.Time.ToString();
+		}
+
+		private void OnAssemblyLoaded(Test test)
+		{
+			// TODO: Get rid of the use of the helper
+			if(!UIHelper.CompareTree(SelectedSuite,test))
+				testSuiteTreeView.Load(test);
+
+			runButton.Enabled = true;
+		}
+		
 	}
 }
 
