@@ -195,9 +195,9 @@ namespace NUnit.UiKit
 		public void Initialize(TestLoader loader) 
 		{
 			this.tests.Initialize(loader, loader.Events);
-			loader.Events.TestLoaded += new NUnit.Core.TestEventHandler(events_TestLoaded);
-			loader.Events.TestReloaded += new NUnit.Core.TestEventHandler(events_TestReloaded);
-			loader.Events.TestUnloaded += new NUnit.Core.TestEventHandler(Events_TestUnloaded);
+			loader.Events.TestLoaded += new NUnit.Util.TestEventHandler(events_TestLoaded);
+			loader.Events.TestReloaded += new NUnit.Util.TestEventHandler(events_TestReloaded);
+			loader.Events.TestUnloaded += new NUnit.Util.TestEventHandler(Events_TestUnloaded);
 		}
 
 		/// <summary> 
@@ -541,8 +541,6 @@ namespace NUnit.UiKit
 				{
 					selectedList.Items.Add(category);
 					availableList.Items.Remove(category);
-//					CheckCategoryVisitor visitor = new CheckCategoryVisitor(category);
-//					tests.Accept(visitor);
 				}
 
 				tests.SelectedCategories = this.SelectedCategories;
@@ -560,8 +558,6 @@ namespace NUnit.UiKit
 				{
 					selectedList.Items.Remove(category);
 					availableList.Items.Add(category);
-//					UnCheckCategoryVisitor visitor = new UnCheckCategoryVisitor(category);
-//					tests.Accept(visitor);
 				}
 
 				tests.SelectedCategories = this.SelectedCategories;
@@ -589,7 +585,7 @@ namespace NUnit.UiKit
 			}
 		}
 
-		private void events_TestLoaded(object sender, NUnit.Core.TestEventArgs args)
+		private void events_TestLoaded(object sender, NUnit.Util.TestEventArgs args)
 		{			
 			viewMenu.Visible = true;
 
@@ -603,7 +599,7 @@ namespace NUnit.UiKit
 			availableList.ResumeLayout();
 		}
 
-		private void events_TestReloaded(object sender, NUnit.Core.TestEventArgs args)
+		private void events_TestReloaded(object sender, NUnit.Util.TestEventArgs args)
 		{
 			// Get new list of available categories
 			availableCategories = AppUI.TestLoader.GetCategories();
@@ -636,7 +632,7 @@ namespace NUnit.UiKit
 			tests.ExcludeSelectedCategories = excludeCheckbox.Checked;
 		}
 
-		private void Events_TestUnloaded(object sender, NUnit.Core.TestEventArgs args)
+		private void Events_TestUnloaded(object sender, NUnit.Util.TestEventArgs args)
 		{
 			viewMenu.Visible = false;
 		}

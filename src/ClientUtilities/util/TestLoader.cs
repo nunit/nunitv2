@@ -68,7 +68,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Our event dispatiching helper object
 		/// </summary>
-		private ProjectEventDispatcher events;
+		private TestEventDispatcher events;
 
 		/// <summary>
 		/// Loads and executes tests. Non-null when
@@ -139,7 +139,7 @@ namespace NUnit.Util
 		{
 			this.stdOutWriter = stdOutWriter;
 			this.stdErrWriter = stdErrWriter;
-			this.events = new ProjectEventDispatcher();
+			this.events = new TestEventDispatcher();
 		}
 
 		#endregion
@@ -167,7 +167,7 @@ namespace NUnit.Util
 			set	{ OnProjectLoad( value ); }
 		}
 
-		public IProjectEvents Events
+		public ITestEvents Events
 		{
 			get { return events; }
 		}

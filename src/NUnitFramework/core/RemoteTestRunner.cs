@@ -99,7 +99,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// Dispatcher used to put out runner's test events
 		/// </summary>
-		private TestEventDispatcher events = new TestEventDispatcher();
+		//private TestEventDispatcher events = new TestEventDispatcher();
 
 		private EventListener listener; // Temp
 
@@ -161,10 +161,10 @@ namespace NUnit.Core
 		/// <summary>
 		/// Interface to the events sourced by the runner
 		/// </summary>
-		public ITestEvents Events
-		{
-			get { return events; }
-		}
+//		public ITestEvents Events
+//		{
+//			get { return events; }
+//		}
 
 		public Version FrameworkVersion
 		{
@@ -397,7 +397,7 @@ namespace NUnit.Core
 				foreach( Test test in tests )
 					count += filter == null ? test.CountTestCases() : test.CountTestCases( filter );
 
-				events.FireRunStarting( tests, count );
+				//events.FireRunStarting( tests, count );
 				
 				// Run each test, saving the results
 				int index = 0;
@@ -413,7 +413,7 @@ namespace NUnit.Core
 
 				// Signal that we are done
 				listener.RunFinished( results );
-				events.FireRunFinished( results );
+				//events.FireRunFinished( results );
 
 				// Return result array
 				return results;
@@ -422,7 +422,7 @@ namespace NUnit.Core
 			{
 				// Signal that we finished with an exception
 				listener.RunFinished( exception );
-				events.FireRunFinished( exception );
+//				events.FireRunFinished( exception );
 				// Rethrow - should we do this?
 				throw;
 			}
@@ -523,31 +523,31 @@ namespace NUnit.Core
 				outBuffer.WriteLine("***** {0}", testCase.FullName );
 			
 			this.listener.TestStarted( testCase );
-			events.FireTestStarting( testCase );
+			//events.FireTestStarting( testCase );
 		}
 
 		void NUnit.Core.EventListener.TestFinished(TestCaseResult result)
 		{
 			listener.TestFinished( result );
-			events.FireTestFinished( result );
+			//events.FireTestFinished( result );
 		}
 
 		public void SuiteStarted(TestSuite suite)
 		{
 			listener.SuiteStarted( suite );
-			events.FireSuiteStarting( suite );
+			//events.FireSuiteStarting( suite );
 		}
 
 		void NUnit.Core.EventListener.SuiteFinished(TestSuiteResult result)
 		{
 			listener.SuiteFinished( result );
-			events.FireSuiteFinished( result );
+			//events.FireSuiteFinished( result );
 		}
 
 		public void UnhandledException(Exception exception)
 		{
 			listener.UnhandledException( exception );
-			events.FireTestException( exception );
+			//events.FireTestException( exception );
 		}
 
 		#endregion

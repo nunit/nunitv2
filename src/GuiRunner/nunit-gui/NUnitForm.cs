@@ -503,8 +503,6 @@ namespace NUnit.Gui
 			this.stackTrace.TabIndex = 2;
 			this.stackTrace.Text = "";
 			this.stackTrace.WordWrap = false;
-//			this.stackTrace.MouseHover += new System.EventHandler(this.stackTrace_MouseHover);
-//			this.stackTrace.MouseLeave += new System.EventHandler(this.stackTrace_MouseLeave);
 			// 
 			// splitter3
 			// 
@@ -1025,14 +1023,14 @@ namespace NUnit.Gui
 
 		private void SubscribeToTestEvents()
 		{
-			IProjectEvents events = TestLoader.Events;
+			ITestEvents events = TestLoader.Events;
 
 			events.RunStarting += new TestEventHandler( OnRunStarting );
 			events.RunFinished += new TestEventHandler( OnRunFinished );
 
-			events.ProjectLoaded	+= new TestProjectEventHandler( OnTestProjectLoaded );
-			events.ProjectLoadFailed+= new TestProjectEventHandler( OnProjectLoadFailure );
-			events.ProjectUnloaded	+= new TestProjectEventHandler( OnTestProjectUnloaded );
+			events.ProjectLoaded	+= new TestEventHandler( OnTestProjectLoaded );
+			events.ProjectLoadFailed+= new TestEventHandler( OnProjectLoadFailure );
+			events.ProjectUnloaded	+= new TestEventHandler( OnTestProjectUnloaded );
 
 			events.TestLoading		+= new TestEventHandler( OnTestLoadStarting );
 			events.TestLoaded		+= new TestEventHandler( OnTestLoaded );
@@ -1161,13 +1159,13 @@ namespace NUnit.Gui
 
 		#region Event Handlers for Test Load and Unload
 
-		private void OnTestProjectLoaded( object sender, TestProjectEventArgs e )
+		private void OnTestProjectLoaded( object sender, TestEventArgs e )
 		{
-			SetTitleBar( e.ProjectName );
+			SetTitleBar( e.Name );
 			projectMenu.Visible = true;
 		}
 
-		private void OnTestProjectUnloaded( object sender, TestProjectEventArgs e )
+		private void OnTestProjectUnloaded( object sender, TestEventArgs e )
 		{
 			SetTitleBar( null );
 			projectMenu.Visible = false;
@@ -1235,11 +1233,11 @@ namespace NUnit.Gui
 			runButton.Enabled = true;
 		}
 
-		private void OnProjectLoadFailure( object sender, TestProjectEventArgs e )
+		private void OnProjectLoadFailure( object sender, TestEventArgs e )
 		{
 			UserMessage.DisplayFailure( e.Exception, "Project Not Loaded" );
 
-			UserSettings.RecentProjects.Remove( e.ProjectName );
+			UserSettings.RecentProjects.Remove( e.Name );
 
 			runButton.Enabled = true;
 		}
@@ -1524,39 +1522,6 @@ namespace NUnit.Gui
 
 			System.Diagnostics.Process.Start( helpUrl );
 		}
-
-//		private void stackTrace_MouseHover(object sender, System.EventArgs e)
-//		{
-//			if ( tipWindow != null ) tipWindow.Close();
-//
-//			Graphics g = Graphics.FromHwnd( stackTrace.Handle );
-//
-//			Rectangle clientRect = stackTrace.ClientRectangle;
-//			string text = stackTrace.Text;
-//
-//			SizeF sizeNeeded = g.MeasureString( text, stackTrace.Font );
-//			bool expansionNeeded = 
-//				clientRect.Width < (int)sizeNeeded.Width ||
-//				clientRect.Height < (int)sizeNeeded.Height;
-//
-//			if ( expansionNeeded )
-//			{
-//				tipWindow = new TipWindow( stackTrace );
-//				tipWindow.ItemBounds = clientRect;
-//				tipWindow.TipText = text;
-//				tipWindow.Expansion = TipWindow.ExpansionStyle.Both;
-//				tipWindow.Overlay = true;
-//				tipWindow.WantClicks = true;
-//				tipWindow.Closed += new EventHandler( tipWindow_Closed );
-//				tipWindow.Show();
-//			}				
-//		}
-//
-//		private void stackTrace_MouseLeave(object sender, System.EventArgs e)
-//		{
-////			if ( tipWindow != null )
-////				tipWindow.Close();
-//		}
 	}
 }
 

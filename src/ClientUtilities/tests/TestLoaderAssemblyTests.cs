@@ -88,8 +88,8 @@ namespace NUnit.Util.Tests
 			Assert.IsTrue(loader.IsProjectLoaded,  "Project not loaded");
 			Assert.IsFalse(loader.IsTestLoaded,  "Test should not be loaded");
 			Assert.AreEqual( 2, catcher.Events.Count );
-			Assert.AreEqual( TestProjectAction.ProjectLoading, ((TestProjectEventArgs)catcher.Events[0]).Action );
-			Assert.AreEqual( TestProjectAction.ProjectLoaded, ((TestProjectEventArgs)catcher.Events[1]).Action );
+			Assert.AreEqual( TestAction.ProjectLoading, ((TestEventArgs)catcher.Events[0]).Action );
+			Assert.AreEqual( TestAction.ProjectLoaded, ((TestEventArgs)catcher.Events[1]).Action );
 		}
 
 		[Test]
@@ -100,8 +100,8 @@ namespace NUnit.Util.Tests
 			Assert.IsFalse( loader.IsProjectLoaded, "Project not unloaded" );
 			Assert.IsFalse( loader.IsTestLoaded, "Test not unloaded" );
 			Assert.AreEqual( 4, catcher.Events.Count );
-			Assert.AreEqual( TestProjectAction.ProjectUnloading, ((TestProjectEventArgs)catcher.Events[2]).Action );
-			Assert.AreEqual( TestProjectAction.ProjectUnloaded, ((TestProjectEventArgs)catcher.Events[3]).Action );
+			Assert.AreEqual( TestAction.ProjectUnloading, ((TestEventArgs)catcher.Events[2]).Action );
+			Assert.AreEqual( TestAction.ProjectUnloaded, ((TestEventArgs)catcher.Events[3]).Action );
 		}
 
 		[Test]
@@ -133,8 +133,8 @@ namespace NUnit.Util.Tests
 			Assert.IsFalse( loader.IsProjectLoaded, "Project should not load" );
 			Assert.IsFalse( loader.IsTestLoaded, "Test should not load" );
 			Assert.AreEqual( 2, catcher.Events.Count );
-			Assert.AreEqual( TestProjectAction.ProjectLoadFailed, ((TestProjectEventArgs)catcher.Events[1]).Action );
-			Assert.AreEqual( typeof( FileNotFoundException ), ((TestProjectEventArgs)catcher.Events[1]).Exception.GetType() );
+			Assert.AreEqual( TestAction.ProjectLoadFailed, ((TestEventArgs)catcher.Events[1]).Action );
+			Assert.AreEqual( typeof( FileNotFoundException ), ((TestEventArgs)catcher.Events[1]).Exception.GetType() );
 		}
 
 		[Test]

@@ -53,16 +53,16 @@ namespace NUnit.Util.Tests
 
 		private TestEventArgsCollection events;
 
-		public TestEventCatcher( IProjectEvents source )
+		public TestEventCatcher( ITestEvents source )
 		{
 			events = new TestEventArgsCollection();
 
-			source.ProjectLoading	+= new TestProjectEventHandler( OnTestProjectEvent );
-			source.ProjectLoaded	+= new TestProjectEventHandler( OnTestProjectEvent );
-			source.ProjectLoadFailed+= new TestProjectEventHandler( OnTestProjectEvent );
-			source.ProjectUnloading	+= new TestProjectEventHandler( OnTestProjectEvent );
-			source.ProjectUnloaded	+= new TestProjectEventHandler( OnTestProjectEvent );
-			source.ProjectUnloadFailed+= new TestProjectEventHandler( OnTestProjectEvent );
+			source.ProjectLoading	+= new TestEventHandler( OnTestEvent );
+			source.ProjectLoaded	+= new TestEventHandler( OnTestEvent );
+			source.ProjectLoadFailed+= new TestEventHandler( OnTestEvent );
+			source.ProjectUnloading	+= new TestEventHandler( OnTestEvent );
+			source.ProjectUnloaded	+= new TestEventHandler( OnTestEvent );
+			source.ProjectUnloadFailed+= new TestEventHandler( OnTestEvent );
 
 			source.TestLoading		+= new TestEventHandler( OnTestEvent );
 			source.TestLoaded		+= new TestEventHandler( OnTestEvent );
@@ -92,11 +92,6 @@ namespace NUnit.Util.Tests
 		}
 
 		private void OnTestEvent( object sender, TestEventArgs e )
-		{
-			events.Add( e );
-		}
-
-		private void OnTestProjectEvent( object sender, TestProjectEventArgs e )
 		{
 			events.Add( e );
 		}
