@@ -53,14 +53,17 @@ namespace NUnit.UiKit
 		/// </summary>
 		private ITestLoader loader;
 
+		private bool vsSupport;
+
 		#endregion
 
 		#region Public Members
 
-		public TestLoaderUI( Form owner, ITestLoader loader )
+		public TestLoaderUI( Form owner, ITestLoader loader, bool vsSupport )
 		{
 			this.owner = owner;
 			this.loader = loader;
+			this.vsSupport = vsSupport;
 		}
 
 		public void OpenProject()
@@ -68,7 +71,7 @@ namespace NUnit.UiKit
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Title = "Open Project";
 			
-			if ( UserSettings.Options.VisualStudioSupport )
+			if ( vsSupport )
 			{
 				dlg.Filter =
 					"Projects & Assemblies(*.nunit,*.csproj,*.vbproj,*.vjsproj, *.vcproj,*.sln,*.dll,*.exe )|*.nunit;*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.sln;*.dll;*.exe|" +
