@@ -109,20 +109,24 @@ namespace NUnit.Console
 							{
 								writer.Write(consoleUi.XmlOutput);
 							}
-
-							if(parser.wait)
-							{
-								Console.Out.WriteLine("Hit <enter> key to continue");
-								Console.ReadLine();
-							}
 						}
 						else
 							returnCode = 3;
 					}
 				}
+				catch( Exception ex )
+				{
+					Console.WriteLine( "ERROR: {0}", ex.Message );
+				}
 				finally
 				{
 					domain.Unload();
+
+					if(parser.wait)
+					{
+						Console.Out.WriteLine("\nHit <enter> key to continue");
+						Console.ReadLine();
+					}
 				}
 			}
 
