@@ -385,7 +385,7 @@ namespace NUnit.Core
 			
 			try
 			{
-				// Create an array for the resuls
+				// Create an array for the results
 				results = new TestResult[ tests.Length ];
 
 				// Signal that we are starting the run
