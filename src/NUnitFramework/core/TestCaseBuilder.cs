@@ -32,6 +32,8 @@ namespace NUnit.Core
 	using System;
 	using System.Reflection;
 	using System.Collections;
+	using System.Collections.Specialized;
+	using System.Configuration;
 	using NUnit.Framework;
 
 	/// <summary>
@@ -47,10 +49,29 @@ namespace NUnit.Core
 		private static Hashtable builders;
 		private static NormalBuilder normalBuilder = new NormalBuilder();
 
+		private static bool allowOldStyleTests;
+
 		private static void InitBuilders() 
 		{
 			builders = new Hashtable();
 			builders[typeof(NUnit.Framework.ExpectedExceptionAttribute)] = new ExpectedExceptionBuilder();
+		}
+
+		static TestCaseBuilder()
+		{
+			NameValueCollection settings = (NameValueCollection)
+				ConfigurationSettings.GetConfig( "NUnit/TestCaseBuilder" );
+
+			try
+			{
+				string oldStyle = settings["OldStyleTestCases"];
+				if ( oldStyle != null )
+					allowOldStyleTests = Boolean.Parse( oldStyle );
+			}
+			catch
+			{
+				// Use default values
+			}
 		}
 
 		private static TestCase MakeTestCase(Type fixtureType, MethodInfo method) 
@@ -100,7 +121,7 @@ namespace NUnit.Core
 			TestCase testCase = null;
 
 			TestAttribute testAttribute = (TestAttribute)Reflect.GetAttribute( method, TestType, false );
-			if( testAttribute != null || IsObsoleteTestMethod( method ) )
+			if( testAttribute != null || allowOldStyleTests && IsObsoleteTestMethod( method ) )
 			{
 				if (!method.IsStatic &&
 					!method.IsAbstract &&
