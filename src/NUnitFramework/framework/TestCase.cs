@@ -30,6 +30,7 @@
 namespace NUnit.Core
 {
 	using System;
+	using System.Collections;
 
 	/// <summary>
 	/// Summary description for TestCase.
@@ -65,6 +66,15 @@ namespace NUnit.Core
 			return testResult;
 		}
 
+		public override bool IsSuite
+		{
+			get { return false; }
+		}
+
+		public override ArrayList Tests
+		{
+			get { return null; }
+		}
 
 		public abstract void Run(TestCaseResult result);
 

@@ -30,11 +30,12 @@
 namespace NUnit.Core
 {
 	using System;
+	using System.Collections;
 
 	/// <summary>
 	///		Test Class.
 	/// </summary>
-	public abstract class Test : MarshalByRefObject
+	public abstract class Test : MarshalByRefObject, TestInfo
 	{
 		private string fullName;
 		private string testName;
@@ -91,6 +92,9 @@ namespace NUnit.Core
 
 
 		public abstract int CountTestCases { get; }
+		public abstract bool IsSuite { get; }
+		public abstract ArrayList Tests { get; }
+
 		public abstract TestResult Run(EventListener listener);
 	}
 }

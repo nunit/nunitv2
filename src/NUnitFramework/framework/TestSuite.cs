@@ -118,9 +118,14 @@ namespace NUnit.Core
 			}
 		}
 
-		public ArrayList Tests 
+		public override ArrayList Tests 
 		{
 			get { return tests; }
+		}
+
+		public override bool IsSuite
+		{
+			get { return true; }
 		}
 
 		public override int CountTestCases 

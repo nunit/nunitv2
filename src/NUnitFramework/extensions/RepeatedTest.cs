@@ -30,6 +30,7 @@
 namespace NUnit.Extensions
 {
 	using System;
+	using System.Collections;
 	using NUnit.Core;
 
 	/// <summary>
@@ -65,6 +66,16 @@ namespace NUnit.Extensions
 			}
 		
 			return suiteResult;
+		}
+
+		public override bool IsSuite 
+		{ 
+			get { return false; } 
+		}
+
+		public override ArrayList Tests 
+		{ 
+			get { return null; }
 		}
 	}
 }
