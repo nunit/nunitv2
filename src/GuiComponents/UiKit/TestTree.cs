@@ -28,7 +28,7 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.Panel categoryPanel;
 		private System.Windows.Forms.Panel treePanel;
 		private System.Windows.Forms.Panel buttonPanel;
-		public NUnit.UiKit.TestSuiteTreeView tests;
+		private NUnit.UiKit.TestSuiteTreeView tests;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.ListBox availableList;
 		private System.Windows.Forms.GroupBox selectedCategories;
@@ -84,13 +84,11 @@ namespace NUnit.UiKit
 			get { return tests.CheckBoxes; }
 			set 
 			{ 
-				tests.SaveVisualState();
 				tests.CheckBoxes = value;
 				buttonPanel.Visible	= value;
 				clearAllButton.Visible = value;
 				checkFailedButton.Visible = value;
 				checkBoxesMenuItem.Checked = value;
-				tests.RestoreVisualState();
 			}
 		}
 
@@ -104,6 +102,12 @@ namespace NUnit.UiKit
 		{
 			get { return tests.InitialDisplay; }
 			set { tests.InitialDisplay = value; }
+		}
+
+		public bool ClearResultsOnChange
+		{
+			get { return tests.ClearResultsOnChange; }
+			set { tests.ClearResultsOnChange = value; }
 		}
 
 		#endregion
