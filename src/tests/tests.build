@@ -7,7 +7,7 @@
             * src.dir               - source location(build) or target(copy)
             * build.debug           - (true|false) debug build?
             * build.mono            - (true|false) mono build?
-            * build.defines.csc     - build defines for build config
+            * build.defines.cs"/>c     - build defines for build config
     -->
 
     <target name="build" depends="copy">
@@ -38,7 +38,7 @@
         <copy file="${src.dir}/tests/nunit.tests.dll.config" todir="${bin.dir}"/>
 
         <!-- Build timing-tests.dll -->
-        <nant buildfile="timing-tests/timing-tests.build" target="build"/>
+        <nant buildfile="timing-tests/timing-tests.build" target="build" if="${build.win32}"/>
     </target>
 
     <target name="copy">
@@ -47,24 +47,116 @@
                 <include name="nunit.tests.dll.csproj"/>
                 <include name="nunit.tests.dll.config"/>
                 <include name="tests.build"/>
-                <include name="*.cs"/>
+                <include name="AssemblyInfo.cs"/>
+                <include name="FixtureBase.cs"/>
+                <include name="TestClasses.cs"/>
 
-                <exclude name="AddConfigurationDialogTests.cs" if="${build.mono}"/>
-	        <exclude name="ProgressBarTests.cs" if="${build.mono}"/>
-		<exclude name="RecentFileMenuHandlerTests.cs" if="${build.mono}"/>
-		<exclude name="StatusBarTests.cs" if="${build.mono}"/>
-		<exclude name="TestSuiteTreeNodeTests.cs" if="${build.mono}"/>
-		<exclude name="TestSuiteTreeViewFixture.cs" if="${build.mono}"/>
-                <exclude name="FormSettingsTests.cs" if="${build.mono}"/>
-		<exclude name="TestLoaderAssemblyTests.cs" if="${build.mono}"/>
-		<exclude name="TextBoxWriterTests.cs" if="${build.mono}"/>
-                <exclude name="UserSettingsTests.cs" if="${build.mono}"/>
-                <exclude name="NUnitRegistryTests.cs" if="${build.mono}"/>
-                <exclude name="OptionSettingsTests.cs" if="${build.mono}"/>
-                <exclude name="RegistrySettingsStorageTests.cs" if="${build.mono}"/>
-                <exclude name="RecentProjectsFixture.cs" if="${build.mono}"/>
-                <exclude name="SettingsGroupTests.cs" if="${build.mono}"/>
+                <!-- Depend on nunit.framework -->
+                <include name="ArrayEqualsFixture.cs"/>
+                <include name="AssertionTest.cs"/>
+                <include name="EqualsFixture.cs"/>
+                <include name="FailFixture.cs"/>
+                <include name="FailureMessageFixture.cs"/>
+                <include name="FalseFixture.cs"/>
+                <include name="NotNullFixture.cs"/>
+                <include name="NullFixture.cs"/>
+                <include name="SameFixture.cs"/>
+                <include name="TrueFixture.cs"/>
+
+                <!-- Depend on nunit.extensions -->
+                <include name="RepeatedTestTest.cs"/>
+
+                <!-- Depend on nunit.core -->
+                <include name="AllTests.cs"/>
+		<include name="AssemblyTests.cs"/>
+                <include name="AssemblyVersionFixture.cs"/>
+                <include name="AttributeDescriptionFixture.cs"/>
+                <include name="CallContextTests.cs"/>
+                <include name="CategoryManagerTest.cs"/>
+                <include name="EventTestFixture.cs"/>
+                <include name="ExpectExceptionTest.cs"/>
+                <include name="IgnoreFixture.cs"/>
+                <include name="InheritedTestFixture.cs"/>
+                <include name="MockTestRunner.cs"/>
+                <include name="NameFilterTest.cs"/>
+                <include name="NamespaceAssemblyTests.cs"/>
+                <include name="NoTestCases.cs"/>
+                <include name="OneTestCase.cs"/>
+                <include name="SerializationBug.cs"/>
+                <include name="SetUpTest.cs"/>
+                <include name="StackOverflowTestFixture.cs"/>
+                <include name="SuccessTest.cs"/>
+                <include name="SuiteBuilderTests.cs"/>
+                <include name="TestCaseNameTest.cs"/>
+                <include name="TestCaseResultFixture.cs"/>
+                <include name="TestConsole.cs"/>
+                <include name="TestDelegateFixture.cs"/>
+                <include name="TestFixtureBuilderTests.cs"/>
+                <include name="TestFixtureExtension.cs"/>
+                <include name="TestFixtureTests.cs"/>
+                <include name="TestRunnerThreadTests.cs"/>
+                <include name="TestSuiteResultFixture.cs"/>
+                <include name="ThreadingTest.cs"/>
+
+                <!-- Depend on nunit.mock -->
+                <include name="DynamicMockTests.cs"/>
+                <include name="MockTests.cs"/>
+
+                <!-- Depend on nunit.util -->
+                <include name="AssemblyListTests.cs"/>
+                <include name="ConsoleFixture.cs"/>
+                <include name="EventDispatcherTests.cs"/>
+                <include name="FileWatcherTest.cs"/>
+                <include name="FixtureSetupTearDownTest.cs"/>
+                <include name="MockAssemblyWatcher.cs"/>
+                <include name="MockTestEventSource.cs"/>
+                <include name="MultipleAssemblyFixture.cs"/>
+                <include name="NUnitProjectLoad.cs"/>
+                <include name="NUnitProjectSave.cs"/>
+                <include name="NUnitProjectTests.cs"/>
+                <include name="NUnitProjectXml.cs"/>
+                <include name="ProjectConfigCollectionTests.cs"/>
+                <include name="ProjectConfigTests.cs"/>
+                <include name="ProjectPathTests.cs"/>
+                <include name="RemoteRunnerTests.cs"/>
+                <include name="RemoteTestResultTest.cs"/>
+                <include name="SuiteBuilderTests_Multiple.cs"/>
+                <include name="SummaryResultFixture.cs"/>
+                <include name="TestCaseTest.cs"/>
+                <include name="TestDomainFixture.cs"/>
+                <include name="TestDomainTests_Multiple.cs"/>
+                <include name="TestEventCatcher.cs"/>
+                <include name="TestSuiteTest.cs"/>
+                <include name="UITestNodeTests.cs"/>
+                <include name="UtilTest.cs"/>
+                <include name="VSProjectTests.cs"/>
+                <include name="XmlResultVisitorTest.cs"/>
+                <include name="XmlTest.cs"/>
+
+                <include name="FormSettingsTests.cs" if="${build.win32}"/>
+                <include name="GuiFixture.cs" if="${build.win32}"/>
+                <include name="NUnitRegistryTests.cs" if="${build.win32}"/>
+                <include name="OptionSettingsTests.cs" if="${build.win32}"/>
+                <include name="RegistrySettingsStorageTests.cs" if="${build.win32}"/>
+                <include name="RecentProjectsFixture.cs" if="${build.win32}"/>
+                <include name="SettingsGroupTests.cs" if="${build.win32}"/>
+		<include name="TestLoaderAssemblyTests.cs" if="${build.win32}"/>
+                <include name="UserSettingsTests.cs" if="${build.win32}"/>
+
+                <!-- Depend on nunit-console -->
+                <include name="ConsoleRunnerTest.cs"/>
+
+                <!-- Depend on nunit.uikit -->
+		<include name="AddConfigurationDialogTests.cs" if="${build.win32}"/>
+	        <include name="ProgressBarTests.cs" if="${build.win32}"/>
+		<include name="RecentFileMenuHandlerTests.cs" if="${build.win32}"/>
+		<include name="StatusBarTests.cs" if="${build.win32}"/>
+		<include name="TestSuiteTreeNodeTests.cs" if="${build.win32}"/>
+		<include name="TestSuiteTreeViewFixture.cs" if="${build.win32}"/>
+		<include name="TextBoxWriterTests.cs" if="${build.win32}"/>
+
             </fileset>
+
         </copy>
     </target>
 
@@ -72,6 +164,6 @@
         <nant buildfile="mock-assembly/mock-assembly.build" target="copy"/>
         <nant buildfile="nonamespace-assembly/nonamespace-assembly.build" target="copy"/>
         <nant buildfile="notestfixtures-assembly/notestfixtures-assembly.build" target="copy"/>
-        <nant buildfile="timing-tests/timing-tests.build" target="copy"/>
+        <nant buildfile="timing-tests/timing-tests.build" target="copy"  if="${build.win32}"/>
     </target>
 </project>

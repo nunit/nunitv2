@@ -251,10 +251,12 @@
         <if test="${build.win32}">
             <nant buildfile="uikit\nunit.uikit.build" target="build"/>
             <nant buildfile="nunit-gui\nunit-gui.build" target="build"/>
-        </if>
-
         <!-- Tests need uikit, so build them last -->
 	<nant buildfile="tests\tests.build" target="build"/>
+        </if>
+
+	<!-- Tests are not compiling under mono, so they are temporarily moved above -->
+
     </target>
 
     <!-- Build sample programs -->
@@ -311,6 +313,7 @@
         <exec basedir="${build.dir}/bin"
 		workingdir="${build.dir}/bin" 
 		program="nunit-console.exe" 
+                useruntimeengine="true"
 		commandline="nunit.tests.dll" />
 
     </target>
@@ -472,7 +475,6 @@
         <nant buildfile="util\nunit.util.build" target="copy"/>
         <nant buildfile="nunit-console\nunit-console.build" target="copy"/>
         <nant buildfile="mocks\nunit.mocks.build" target="copy"/>
-        <nant buildfile="tests\tests.build" target="copy-all"/>
         <nant buildfile="samples\samples.build" target="copy-all"/>
 
         <!-- Copy win32-only projects -->
@@ -480,6 +482,8 @@
             <nant buildfile="uikit\nunit.uikit.build" target="copy"/>
             <nant buildfile="nunit-gui\nunit-gui.build" target="copy"/>
         </if>
+
+        <nant buildfile="tests\tests.build" target="copy-all"/>
     </target>
 
 <!-- Register core and framework in the gac -->
