@@ -51,10 +51,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "notestfixtures-assembly", "
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.dll", "NUnitFramework\extensions\framework\nunit.framework.dll.csproj", "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.dll", "NUnitFramework\core\nunit.core.dll.csproj", "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -80,6 +76,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.util.dll", "ClientUti
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.extensions.dll", "NUnitFramework\extensions\nunit.extensions.dll.csproj", "{98B10E98-003C-45A0-9587-119142E39986}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.dll", "NUnitFramework\framework\nunit.framework.dll.csproj", "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -123,12 +123,6 @@ Global
 		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Debug-Strong.Build.0 = Debug|.NET
 		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Release.ActiveCfg = Release|.NET
 		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Release.Build.0 = Release|.NET
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug.ActiveCfg = Debug|.NET
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug.Build.0 = Debug|.NET
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug-Strong.ActiveCfg = Debug-Strong|.NET
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug-Strong.Build.0 = Debug-Strong|.NET
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release.ActiveCfg = Release|.NET
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release.Build.0 = Release|.NET
 		{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}.Debug.ActiveCfg = Debug|.NET
 		{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}.Debug.Build.0 = Debug|.NET
 		{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}.Debug-Strong.ActiveCfg = Debug-Strong|.NET
@@ -171,6 +165,12 @@ Global
 		{98B10E98-003C-45A0-9587-119142E39986}.Debug-Strong.Build.0 = Debug|.NET
 		{98B10E98-003C-45A0-9587-119142E39986}.Release.ActiveCfg = Release|.NET
 		{98B10E98-003C-45A0-9587-119142E39986}.Release.Build.0 = Release|.NET
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug.ActiveCfg = Debug|.NET
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug.Build.0 = Debug|.NET
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug-Strong.ActiveCfg = Debug-Strong|.NET
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug-Strong.Build.0 = Debug-Strong|.NET
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release.ActiveCfg = Release|.NET
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
