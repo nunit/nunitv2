@@ -27,7 +27,6 @@
 '***********************************************************************************/
 #endregion
 
-using System;
 using NUnit.Framework;
 
 [TestFixture]

@@ -1,30 +1,4 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.dll", "framework\nunit.framework.dll.csproj", "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.extensions.dll", "extensions\nunit.extensions.dll.csproj", "{98B10E98-003C-45A0-9587-119142E39986}"
-	ProjectSection(ProjectDependencies) = postProject
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382} = {83DD7E12-A705-4DBA-9D71-09C8973D9382}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.util.dll", "util\nunit.util.dll.csproj", "{61CE9CE5-943E-44D4-A381-814DC1406767}"
-	ProjectSection(ProjectDependencies) = postProject
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382} = {83DD7E12-A705-4DBA-9D71-09C8973D9382}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui", "nunit-gui\nunit-gui.csproj", "{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}"
-	ProjectSection(ProjectDependencies) = postProject
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382} = {83DD7E12-A705-4DBA-9D71-09C8973D9382}
-		{61CE9CE5-943E-44D4-A381-814DC1406767} = {61CE9CE5-943E-44D4-A381-814DC1406767}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-console", "nunit-console\nunit-console.csproj", "{9367EC89-6A38-42BA-9607-0DC288E4BC3A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382} = {83DD7E12-A705-4DBA-9D71-09C8973D9382}
-		{61CE9CE5-943E-44D4-A381-814DC1406767} = {61CE9CE5-943E-44D4-A381-814DC1406767}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.tests.dll", "tests\nunit.tests.dll.csproj", "{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}"
 	ProjectSection(ProjectDependencies) = postProject
 		{83DD7E12-A705-4DBA-9D71-09C8973D9382} = {83DD7E12-A705-4DBA-9D71-09C8973D9382}
@@ -73,21 +47,39 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "timing-tests", "tests\timin
 		{61CE9CE5-943E-44D4-A381-814DC1406767} = {61CE9CE5-943E-44D4-A381-814DC1406767}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.uikit.dll", "UiKit\nunit.uikit.dll.csproj", "{27531BBF-183D-4C3A-935B-D840B9F1A3A4}"
-	ProjectSection(ProjectDependencies) = postProject
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382} = {83DD7E12-A705-4DBA-9D71-09C8973D9382}
-		{61CE9CE5-943E-44D4-A381-814DC1406767} = {61CE9CE5-943E-44D4-A381-814DC1406767}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "notestfixtures-assembly", "tests\notestfixtures-assembly\notestfixtures-assembly.csproj", "{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.dll", "core\nunit.core.dll.csproj", "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.dll", "NUnitFramework\extensions\framework\nunit.framework.dll.csproj", "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.mocks", "mocks\nunit.mocks.csproj", "{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.dll", "NUnitFramework\core\nunit.core.dll.csproj", "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-console", "ConsoleRunner\nunit-console\nunit-console.csproj", "{9367EC89-6A38-42BA-9607-0DC288E4BC3A}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui", "GuiRunner\nunit-gui\nunit-gui.csproj", "{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.mocks", "NUnitMocks\mocks\nunit.mocks.csproj", "{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.uikit.dll", "GuiComponents\UiKit\nunit.uikit.dll.csproj", "{27531BBF-183D-4C3A-935B-D840B9F1A3A4}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.util.dll", "ClientUtilities\util\nunit.util.dll.csproj", "{61CE9CE5-943E-44D4-A381-814DC1406767}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.extensions.dll", "NUnitFramework\extensions\nunit.extensions.dll.csproj", "{98B10E98-003C-45A0-9587-119142E39986}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -98,36 +90,6 @@ Global
 		Release = Release
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug.ActiveCfg = Debug|.NET
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug.Build.0 = Debug|.NET
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug-Strong.ActiveCfg = Debug-Strong|.NET
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug-Strong.Build.0 = Debug-Strong|.NET
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release.ActiveCfg = Release|.NET
-		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release.Build.0 = Release|.NET
-		{98B10E98-003C-45A0-9587-119142E39986}.Debug.ActiveCfg = Debug|.NET
-		{98B10E98-003C-45A0-9587-119142E39986}.Debug.Build.0 = Debug|.NET
-		{98B10E98-003C-45A0-9587-119142E39986}.Debug-Strong.ActiveCfg = Debug|.NET
-		{98B10E98-003C-45A0-9587-119142E39986}.Debug-Strong.Build.0 = Debug|.NET
-		{98B10E98-003C-45A0-9587-119142E39986}.Release.ActiveCfg = Release|.NET
-		{98B10E98-003C-45A0-9587-119142E39986}.Release.Build.0 = Release|.NET
-		{61CE9CE5-943E-44D4-A381-814DC1406767}.Debug.ActiveCfg = Debug|.NET
-		{61CE9CE5-943E-44D4-A381-814DC1406767}.Debug.Build.0 = Debug|.NET
-		{61CE9CE5-943E-44D4-A381-814DC1406767}.Debug-Strong.ActiveCfg = Debug|.NET
-		{61CE9CE5-943E-44D4-A381-814DC1406767}.Debug-Strong.Build.0 = Debug|.NET
-		{61CE9CE5-943E-44D4-A381-814DC1406767}.Release.ActiveCfg = Release|.NET
-		{61CE9CE5-943E-44D4-A381-814DC1406767}.Release.Build.0 = Release|.NET
-		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Debug.ActiveCfg = Debug|.NET
-		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Debug.Build.0 = Debug|.NET
-		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Debug-Strong.ActiveCfg = Debug|.NET
-		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Debug-Strong.Build.0 = Debug|.NET
-		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Release.ActiveCfg = Release|.NET
-		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Release.Build.0 = Release|.NET
-		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Debug.ActiveCfg = Debug|.NET
-		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Debug.Build.0 = Debug|.NET
-		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Debug-Strong.ActiveCfg = Debug|.NET
-		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Debug-Strong.Build.0 = Debug|.NET
-		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Release.ActiveCfg = Release|.NET
-		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Release.Build.0 = Release|.NET
 		{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}.Debug.ActiveCfg = Debug|.NET
 		{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}.Debug.Build.0 = Debug|.NET
 		{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}.Debug-Strong.ActiveCfg = Debug|.NET
@@ -155,30 +117,60 @@ Global
 		{F16DED73-A2AD-4711-BC1B-5DDFC2BF8667}.Debug-Strong.Build.0 = Debug|.NET
 		{F16DED73-A2AD-4711-BC1B-5DDFC2BF8667}.Release.ActiveCfg = Release|.NET
 		{F16DED73-A2AD-4711-BC1B-5DDFC2BF8667}.Release.Build.0 = Release|.NET
-		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Debug.ActiveCfg = Debug|.NET
-		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Debug.Build.0 = Debug|.NET
-		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Debug-Strong.ActiveCfg = Debug|.NET
-		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Debug-Strong.Build.0 = Debug|.NET
-		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Release.ActiveCfg = Release|.NET
-		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Release.Build.0 = Release|.NET
 		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Debug.ActiveCfg = Debug|.NET
 		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Debug.Build.0 = Debug|.NET
 		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Debug-Strong.ActiveCfg = Debug|.NET
 		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Debug-Strong.Build.0 = Debug|.NET
 		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Release.ActiveCfg = Release|.NET
 		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Release.Build.0 = Release|.NET
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug.ActiveCfg = Debug|.NET
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug.Build.0 = Debug|.NET
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug-Strong.ActiveCfg = Debug-Strong|.NET
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug-Strong.Build.0 = Debug-Strong|.NET
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release.ActiveCfg = Release|.NET
+		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release.Build.0 = Release|.NET
 		{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}.Debug.ActiveCfg = Debug|.NET
 		{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}.Debug.Build.0 = Debug|.NET
 		{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}.Debug-Strong.ActiveCfg = Debug-Strong|.NET
 		{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}.Debug-Strong.Build.0 = Debug-Strong|.NET
 		{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}.Release.ActiveCfg = Release|.NET
 		{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}.Release.Build.0 = Release|.NET
+		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Debug.ActiveCfg = Debug|.NET
+		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Debug.Build.0 = Debug|.NET
+		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Debug-Strong.ActiveCfg = Debug|.NET
+		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Debug-Strong.Build.0 = Debug|.NET
+		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Release.ActiveCfg = Release|.NET
+		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Release.Build.0 = Release|.NET
+		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Debug.ActiveCfg = Debug|.NET
+		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Debug.Build.0 = Debug|.NET
+		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Debug-Strong.ActiveCfg = Debug|.NET
+		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Debug-Strong.Build.0 = Debug|.NET
+		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Release.ActiveCfg = Release|.NET
+		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Release.Build.0 = Release|.NET
 		{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}.Debug.ActiveCfg = Debug|.NET
 		{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}.Debug.Build.0 = Debug|.NET
 		{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}.Debug-Strong.ActiveCfg = Debug|.NET
 		{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}.Debug-Strong.Build.0 = Debug|.NET
 		{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}.Release.ActiveCfg = Release|.NET
 		{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}.Release.Build.0 = Release|.NET
+		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Debug.ActiveCfg = Debug|.NET
+		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Debug.Build.0 = Debug|.NET
+		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Debug-Strong.ActiveCfg = Debug|.NET
+		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Debug-Strong.Build.0 = Debug|.NET
+		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Release.ActiveCfg = Release|.NET
+		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Release.Build.0 = Release|.NET
+		{61CE9CE5-943E-44D4-A381-814DC1406767}.Debug.ActiveCfg = Debug|.NET
+		{61CE9CE5-943E-44D4-A381-814DC1406767}.Debug.Build.0 = Debug|.NET
+		{61CE9CE5-943E-44D4-A381-814DC1406767}.Debug-Strong.ActiveCfg = Debug|.NET
+		{61CE9CE5-943E-44D4-A381-814DC1406767}.Debug-Strong.Build.0 = Debug|.NET
+		{61CE9CE5-943E-44D4-A381-814DC1406767}.Release.ActiveCfg = Release|.NET
+		{61CE9CE5-943E-44D4-A381-814DC1406767}.Release.Build.0 = Release|.NET
+		{98B10E98-003C-45A0-9587-119142E39986}.Debug.ActiveCfg = Debug|.NET
+		{98B10E98-003C-45A0-9587-119142E39986}.Debug.Build.0 = Debug|.NET
+		{98B10E98-003C-45A0-9587-119142E39986}.Debug-Strong.ActiveCfg = Debug|.NET
+		{98B10E98-003C-45A0-9587-119142E39986}.Debug-Strong.Build.0 = Debug|.NET
+		{98B10E98-003C-45A0-9587-119142E39986}.Release.ActiveCfg = Release|.NET
+		{98B10E98-003C-45A0-9587-119142E39986}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

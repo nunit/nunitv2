@@ -60,9 +60,9 @@ namespace NUnit.Tests.ConsoleRunner
 				nunitExe = file.FullName;
 			else
 #if DEBUG
-				nunitExe = SourcePath + @"\nunit-console\bin\Debug\nunit-console.exe";
+				nunitExe = SourcePath + @"\ConsoleRunner\nunit-console\bin\Debug\nunit-console.exe";
 #else
-				nunitExe = SourcePath + @"\nunit-console\bin\Release\nunit-console.exe";
+				nunitExe = SourcePath + @"\ConsoleRunner\nunit-console\bin\Release\nunit-console.exe";
 #endif
 		}
 

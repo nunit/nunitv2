@@ -66,7 +66,7 @@ namespace NUnit.Tests
 			get
 			{
 				if ( samplesPath == null )
-					samplesPath = Path.Combine( SourcePath, "samples" );
+					samplesPath = Path.Combine( SourcePath, @"..\samples" );
 
 				return samplesPath;
 			}
