@@ -165,7 +165,7 @@ namespace NUnit.Tests.Util
 		[Test]
 		public void RunTest()
 		{
-			UserSettings.Options.ReloadOnRun = false;
+			loader.ReloadOnRun = false;
 			
 			loader.LoadTest( assembly );
 			loader.RunTestSuite( catcher.Events[3].Test );
