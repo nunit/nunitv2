@@ -260,12 +260,6 @@ namespace NUnit.Gui
 			this.statusBar.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("statusBar.ImeMode")));
 			this.statusBar.Location = ((System.Drawing.Point)(resources.GetObject("statusBar.Location")));
 			this.statusBar.Name = "statusBar";
-//			this.statusBar.Panels.AddRange(new System.Windows.Forms.StatusBarPanel[] {
-//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels"))),
-//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels1"))),
-//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels2"))),
-//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels3"))),
-//																						 ((System.Windows.Forms.StatusBarPanel)(resources.GetObject("statusBar.Panels4")))});
 			this.statusBar.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("statusBar.RightToLeft")));
 			this.statusBar.ShowPanels = true;
 			this.statusBar.Size = ((System.Drawing.Size)(resources.GetObject("statusBar.Size")));
