@@ -33,6 +33,8 @@ using System.Text;
 
 namespace NUnit.Core
 {
+	#region StringTextWriter
+
 	/// <summary>
 	/// Use this wrapper to ensure that only strings get passed accross the AppDomain
 	/// boundary.  Otherwise tests will break when non-remotable objecs are passed to
@@ -68,6 +70,10 @@ namespace NUnit.Core
 		}
 	}
 
+	#endregion
+
+	#region BufferedStringTextWriter
+
 	/// <summary>
 	/// This wrapper derives from StringTextWriter and adds buffering
 	/// to improve cross-domain performance. The buffer is flushed whenever
@@ -83,20 +89,20 @@ namespace NUnit.Core
 		override public void Write(char aChar)
 		{
 			sb.Append( aChar );
-			CheckBuffer();
+			this.CheckBuffer();
 		}
 
 		override public void Write(string aString)
 		{
 			sb.Append( aString );
-			CheckBuffer();
+			this.CheckBuffer();
 		}
 
 		override public void WriteLine(string aString)
 		{
 			sb.Append( aString );
 			sb.Append( '\n' );
-			Flush();
+			this.Flush();
 		}
 
 		override public void Flush()
@@ -111,7 +117,15 @@ namespace NUnit.Core
 		private void CheckBuffer()
 		{
 			if ( sb.Length >= MAX_BUFFER )
-				Flush();
+				this.Flush();
+		}
+	
+		override public void Close()
+		{
+			this.Flush();
+			theTextWriter.Close();
 		}
 	}
+
+	#endregion
 }
