@@ -46,10 +46,11 @@ namespace NUnit.Util.Tests
 		private TestDomain domain; 
 		private TextWriter outStream;
 		private TextWriter errorStream;
+		private Test loadedSuite;
 
 		private string name = "Multiple Assemblies Test";
 
-		[SetUp]
+		[TestFixtureSetUp]
 		public void Init()
 		{
 			outStream = new ConsoleWriter(Console.Out);
@@ -58,9 +59,10 @@ namespace NUnit.Util.Tests
 			domain = new TestDomain();
 			assemblies = new string[]
 				{ Path.GetFullPath( "nonamespace-assembly.dll" ), Path.GetFullPath( "mock-assembly.dll" ) };
+			loadedSuite = domain.Load( new TestProject( name, assemblies ) );
 		}
 
-		[TearDown]
+		[TestFixtureTearDown]
 		public void UnloadTestDomain()
 		{
 			domain.Unload();
@@ -70,49 +72,53 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void BuildSuite()
 		{
-			Test suite = domain.Load( name, assemblies );
-			Assert.IsNotNull(suite);
+			Assert.IsNotNull(loadedSuite);
 		}
 
 		[Test]
 		public void RootNode()
 		{
-			Test suite = domain.Load( name, assemblies );
-			Assert.IsTrue( suite is RootTestSuite );
-			Assert.AreEqual( name, suite.Name );
+			Assert.IsTrue( loadedSuite is RootTestSuite );
+			Assert.AreEqual( name, loadedSuite.Name );
 		}
 
 		[Test]
 		public void AssemblyNodes()
 		{
-			Test suite = domain.Load( name, assemblies );
-			Assert.IsTrue( suite.Tests[0] is TestAssembly );
-			Assert.IsTrue( suite.Tests[1] is TestAssembly );
+			Assert.IsTrue( loadedSuite.Tests[0] is TestAssembly );
+			Assert.IsTrue( loadedSuite.Tests[1] is TestAssembly );
 		}
 
 		[Test]
 		public void TestCaseCount()
 		{
-			Test suite = domain.Load( name, assemblies );
 			Assert.AreEqual(NoNamespaceTestFixture.Tests + MockAssembly.Tests, 
-				suite.CountTestCases());
+				loadedSuite.CountTestCases());
 		}
 
 		[Test]
 		public void RunMultipleAssemblies()
 		{
-			Test suite = domain.Load( name, assemblies );
-			TestResult result = suite.Run(NullListener.NULL);
+			TestResult result = loadedSuite.Run(NullListener.NULL);
 			ResultSummarizer summary = new ResultSummarizer(result);
 			Assert.AreEqual(
 				NoNamespaceTestFixture.Tests + MockAssembly.Tests - MockAssembly.NotRun, 
 				summary.ResultCount);
 		}
+	}
 
+	[TestFixture]
+	public class TestDomainTests_MultipleFixture
+	{
 		[Test]
 		public void LoadFixture()
 		{
-			Test suite = domain.Load( name, assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
+			string name = "Multiple Assemblies Test";
+			string[] assemblies = new string[]
+				{ Path.GetFullPath( "nonamespace-assembly.dll" ), Path.GetFullPath( "mock-assembly.dll" ) };
+
+			TestDomain domain = new TestDomain();
+			Test suite = domain.Load( new TestProject( name, assemblies ), "NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.IsNotNull( suite );
 			Assert.AreEqual( MockTestFixture.Tests, suite.CountTestCases() );
 		}

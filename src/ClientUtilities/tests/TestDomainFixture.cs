@@ -40,41 +40,39 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class TestDomainFixture
 	{
-		private TestDomain testDomain; 
-		private static readonly string tempFile = "x.dll";
-		private ArrayList assemblies; 
+		private static TestDomain testDomain; 
+		private static ArrayList assemblies; 
+		private static Test loadedTest;
 
-		[SetUp]
+		[TestFixtureSetUp]
 		public void MakeAppDomain()
 		{
 			TextWriter outStream = new ConsoleWriter(Console.Out);
 			TextWriter errorStream = new ConsoleWriter(Console.Error);
 			testDomain = new TestDomain( outStream, errorStream );
 
+			loadedTest = testDomain.Load( "mock-assembly.dll" );
+
 			assemblies = new ArrayList();
 		}
 
-		[TearDown]
+		[TestFixtureTearDown]
 		public void UnloadTestDomain()
 		{
+			loadedTest = null;
 			testDomain.Unload();
 			testDomain = null;
-
-			FileInfo info = new FileInfo(tempFile);
-			if(info.Exists) info.Delete();
 		}
 			
 		[Test]
 		public void LoadAssembly()
 		{
-			Test test = testDomain.Load("mock-assembly.dll");
-			Assert.IsNotNull(test, "Test should not be null");
+			Assert.IsNotNull(loadedTest, "Test not loaded");
 		}
 
 		[Test]
 		public void AppDomainSetup()
 		{
-			Test test = testDomain.Load("mock-assembly.dll");
 			AppDomain domain = testDomain.AppDomain;
 			AppDomainSetup setup = testDomain.AppDomain.SetupInformation;
 			
@@ -89,45 +87,86 @@ namespace NUnit.Util.Tests
 			Assert.IsTrue( testDomain.AppDomain.ShadowCopyFiles, "ShadowCopyFiles" );
 		}
 
-// Turning off shadow copy only works when done for the primary app domain
-// So this test can only work if it's already off
-// This doesn't seem to be documented anywhere
-//		[Test]
-//		public void TurnOffShadowCopy()
-//		{
-//			testDomain.ShadowCopyFiles = false;
-//			testDomain.Load( "mock-assembly.dll" );
-//			Assert.IsFalse( testDomain.AppDomain.ShadowCopyFiles );
-//			
-//			// Prove that shadow copy is really off
-//			string location = "NOT_FOUND";
-//			foreach( Assembly assembly in testDomain.AppDomain.GetAssemblies() )
-//			{
-//				if ( assembly.FullName.StartsWith( "mock-assembly" ) )
-//				{
-//					location = Path.GetDirectoryName( assembly.Location );
-//					break;
-//				}
-//			}
-//
-//			//TODO: Find a non-platform-dependent way to do this
-//			Assert.AreEqual( Environment.CurrentDirectory.ToLower(), location.ToLower() );
-//		}
+		// Turning off shadow copy only works when done for the primary app domain
+		// So this test can only work if it's already off
+		// This doesn't seem to be documented anywhere
+		//		[Test]
+		//		public void TurnOffShadowCopy()
+		//		{
+		//			testDomain.ShadowCopyFiles = false;
+		//			testDomain.Load( "mock-assembly.dll" );
+		//			Assert.IsFalse( testDomain.AppDomain.ShadowCopyFiles );
+		//			
+		//			// Prove that shadow copy is really off
+		//			string location = "NOT_FOUND";
+		//			foreach( Assembly assembly in testDomain.AppDomain.GetAssemblies() )
+		//			{
+		//				if ( assembly.FullName.StartsWith( "mock-assembly" ) )
+		//				{
+		//					location = Path.GetDirectoryName( assembly.Location );
+		//					break;
+		//				}
+		//			}
+		//
+		//			//TODO: Find a non-platform-dependent way to do this
+		//			Assert.AreEqual( Environment.CurrentDirectory.ToLower(), location.ToLower() );
+		//		}
 
 		
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
 		public void TurnOffShadowCopyFailsAfterLoad()
 		{
-			testDomain.Load( "mock-assembly.dll" );
 			testDomain.ShadowCopyFiles = false;
 		}
 
 		[Test]
 		public void CountTestCases()
 		{
-			Test test = testDomain.Load("mock-assembly.dll");
-			Assert.AreEqual(MockAssembly.Tests, test.CountTestCases());
+			Assert.AreEqual(MockAssembly.Tests, loadedTest.CountTestCases());
+		}
+
+		[Test]
+		public void RunMockAssembly()
+		{
+			TestResult result = testDomain.Run( NullListener.NULL );
+			Assert.IsNotNull(result);
+		}
+
+		[Test]
+		public void MockAssemblyResults()
+		{
+			TestResult result = testDomain.Run( NullListener.NULL );
+			Assert.AreEqual(true, result.IsSuccess);
+			
+			ResultSummarizer summarizer = new ResultSummarizer(result);
+			Assert.AreEqual(MockAssembly.Tests - MockAssembly.NotRun, summarizer.ResultCount);
+			Assert.AreEqual(MockAssembly.NotRun, summarizer.TestsNotRun);
+		}
+
+	}
+
+	[TestFixture]
+	public class TestDomainTests
+	{ 
+		private static TestDomain testDomain;
+
+		[SetUp]
+		public void SetUp()
+		{
+			TextWriter outStream = new ConsoleWriter(Console.Out);
+			TextWriter errorStream = new ConsoleWriter(Console.Error);
+			testDomain = new TestDomain( outStream, errorStream );
+		}
+
+		[Test]
+		public void BinPath()
+		{
+			string[] assemblies = new string[]
+				{ @"h:\app1\bin\debug\test1.dll", @"h:\app2\bin\debug\test2.dll", @"h:\app1\bin\debug\test3.dll" };
+
+			Assert.AreEqual( @"h:\app1\bin\debug;h:\app2\bin\debug", 
+				TestDomain.GetBinPath( assemblies ) );
 		}
 
 		[Test]
@@ -138,41 +177,32 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
+		public void InvalidTestFixture()
+		{
+			Test test = testDomain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" );
+			Assert.IsNull(test, "test should be null");
+		}
+		[Test]
 		[ExpectedException(typeof(BadImageFormatException))]
 		public void FileFoundButNotValidAssembly()
 		{
-			FileInfo file = new FileInfo(tempFile);
+			FileInfo file = new FileInfo( "x.dll" );
+			try
+			{
+				StreamWriter sw = file.AppendText();
 
-			StreamWriter sw = file.AppendText();
+				sw.WriteLine("This is a new entry to add to the file");
+				sw.WriteLine("This is yet another line to add...");
+				sw.Flush();
+				sw.Close();
+				testDomain.Load( "x.dll" );
+			}
+			finally
+			{
+				if ( file.Exists )
+					file.Delete();
+			}
 
-			sw.WriteLine("This is a new entry to add to the file");
-			sw.WriteLine("This is yet another line to add...");
-			sw.Flush();
-			sw.Close();
-
-			Test test = testDomain.Load(tempFile);
-		}
-
-		[Test]
-		public void RunMockAssembly()
-		{
-			Test test = testDomain.Load("mock-assembly.dll");
-
-			TestResult result = testDomain.Run( NullListener.NULL );
-			Assert.IsNotNull(result);
-		}
-
-		[Test]
-		public void MockAssemblyResults()
-		{
-			Test test = testDomain.Load("mock-assembly.dll");
-
-			TestResult result = testDomain.Run( NullListener.NULL );
-			Assert.AreEqual(true, result.IsSuccess);
-			
-			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assert.AreEqual(MockAssembly.Tests - MockAssembly.NotRun, summarizer.ResultCount);
-			Assert.AreEqual(MockAssembly.NotRun, summarizer.TestsNotRun);
 		}
 
 		[Test]
@@ -186,34 +216,6 @@ namespace NUnit.Util.Tests
 			ResultSummarizer summarizer = new ResultSummarizer(result);
 			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.NotRun, summarizer.ResultCount);
 			Assert.AreEqual(MockTestFixture.NotRun, summarizer.TestsNotRun);
-		}
-
-		[Test]
-		public void InvalidTestFixture()
-		{
-			Test test = testDomain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" );
-			Assert.IsNull(test, "test should be null");
-		}
-
-		[Test]
-		public void MultipleAssemblies()
-		{
-			string[] assemblies = new string[] { "mock-assembly.dll", "nonamespace-assembly.dll" };
-			int expectedTests = MockAssembly.Tests + NoNamespaceTestFixture.Tests;
-
-			Test test = testDomain.Load( "Multiple", assemblies );
-			Assert.IsNotNull(test, "test should not be null");
-			Assert.AreEqual(expectedTests, test.CountTestCases());
-		}
-
-		[Test]
-		public void BinPath()
-		{
-			string[] assemblies = new string[]
-				{ @"h:\app1\bin\debug\test1.dll", @"h:\app2\bin\debug\test2.dll", @"h:\app1\bin\debug\test3.dll" };
-
-			Assert.AreEqual( @"h:\app1\bin\debug;h:\app2\bin\debug", 
-				TestDomain.GetBinPath( assemblies ) );
 		}
 	}
 }
