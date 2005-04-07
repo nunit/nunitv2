@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit.util.tests.dll.config" "$(TargetDir)nunit.util.dll.tests.config"'
+                PostBuildEvent = 'copy "$(ProjectDir)nunit.util.tests.dll.config" "$(TargetDir)nunit.util.dll.tests.config"&#xd;&#xa;copy "$(SolutionDir)NUnitTestServer\nunit-server\bin\$(ConfigurationName)\nunit-server.exe"  "$(TargetDir)"'
                 RootNamespace = "NUnit.Util.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -112,6 +112,16 @@
                 <Reference
                     Name = "nonamespace-assembly"
                     Project = "{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.framework.tests"
+                    Project = "{8C326431-AE57-4645-ACC1-A90A0B425129}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit-server"
+                    Project = "{BD9CA3B3-EDE9-4E47-A839-A74EFE3767BC}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
@@ -210,6 +220,11 @@
                 />
                 <File
                     RelPath = "PathUtilTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProcessRunnerTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
