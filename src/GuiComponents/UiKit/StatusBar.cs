@@ -83,6 +83,21 @@ namespace NUnit.UiKit
 			InitPanels();
 		}
 
+		// Kluge to keep VS from generating code that sets the Panels for
+		// the statusbar. Really, our status bar should be a user control
+		// to avoid this and shouldn't allow the panels to be set except
+		// according to specific protocols.
+		[System.ComponentModel.DesignerSerializationVisibility( 
+			 System.ComponentModel.DesignerSerializationVisibility.Hidden )]
+		public new System.Windows.Forms.StatusBar.StatusBarPanelCollection Panels
+		{
+			get 
+			{ 
+				return base.Panels;
+			}
+		}
+
+	
 		public override string Text
 		{
 			get { return statusPanel.Text; }
