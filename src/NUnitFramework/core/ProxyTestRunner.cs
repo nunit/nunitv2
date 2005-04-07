@@ -1,5 +1,6 @@
 namespace NUnit.Core
 {
+	using System;
 	using System.Collections;
 	using System.IO;
 
@@ -37,6 +38,15 @@ namespace NUnit.Core
 			this.testRunner = testRunner;
 		}
 
+		public ProxyTestRunner( Type runnerType )
+		{
+			this.testRunner = (TestRunner)runnerType.GetConstructor( Type.EmptyTypes ).Invoke( null );
+		}
+
+		/// <summary>
+		/// Protected constructor for runners that create their own
+		/// specialized downstream runner.
+		/// </summary>
 		protected ProxyTestRunner() { }
 
 		#endregion
