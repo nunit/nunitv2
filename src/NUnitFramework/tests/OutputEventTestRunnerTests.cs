@@ -88,7 +88,7 @@ public class SleepFixture
 		[SetUp]
 		public void SetUp()
 		{
-			this.testRunner = new RealTestRunner();
+			this.testRunner = new OutputEventTestRunner();
 			this.testRunner.Load(this.outputName);
 		}
 
