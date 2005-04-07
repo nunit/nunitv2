@@ -21,6 +21,9 @@ namespace NUnit.UiKit
 		// list are displayed in selectedList
 		private IList availableCategories;
 
+		// Our test loader
+		private TestLoader loader;
+
 		private System.Windows.Forms.TabControl tabs;
 		private System.Windows.Forms.TabPage testPage;
 		private System.Windows.Forms.TabPage categoryPage;
@@ -232,6 +235,7 @@ namespace NUnit.UiKit
 		public void Initialize(TestLoader loader) 
 		{
 			this.tests.Initialize(loader, loader.Events);
+			this.loader = loader;
 			loader.Events.TestLoaded += new NUnit.Util.TestEventHandler(events_TestLoaded);
 			loader.Events.TestReloaded += new NUnit.Util.TestEventHandler(events_TestReloaded);
 			loader.Events.TestUnloaded += new NUnit.Util.TestEventHandler(Events_TestUnloaded);
@@ -395,7 +399,6 @@ namespace NUnit.UiKit
 			this.tests.CheckBoxes = true;
 			this.tests.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tests.ExcludeSelectedCategories = false;
-			this.tests.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.tests.HideSelection = false;
 			this.tests.Location = new System.Drawing.Point(0, 0);
 			this.tests.Name = "tests";
@@ -631,7 +634,7 @@ namespace NUnit.UiKit
 		{			
 			viewMenu.Visible = true;
 
-			availableCategories = AppUI.TestLoader.GetCategories();
+			availableCategories = this.loader.GetCategories();
 			availableList.Items.Clear();
 			selectedList.Items.Clear();
 			
@@ -644,7 +647,7 @@ namespace NUnit.UiKit
 		private void events_TestReloaded(object sender, NUnit.Util.TestEventArgs args)
 		{
 			// Get new list of available categories
-			availableCategories = AppUI.TestLoader.GetCategories();
+			availableCategories = this.loader.GetCategories();
 
 			// Remove any selected items that are no longer available
 			int index = selectedList.Items.Count;

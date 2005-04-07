@@ -114,7 +114,7 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "AppUI.cs"
+                    RelPath = "AppContainer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

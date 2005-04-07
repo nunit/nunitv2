@@ -46,7 +46,7 @@ namespace NUnit.Gui.Tests
 		{
 			NUnitRegistry.TestMode = true;
 			NUnitRegistry.ClearTestKeys();
-			opts = UserSettings.Options;
+			opts = new UserSettings().Options;
 		}
 
 		[TearDown]

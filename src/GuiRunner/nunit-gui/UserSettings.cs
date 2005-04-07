@@ -38,7 +38,7 @@ namespace NUnit.Gui
 	/// </summary>
 	public class UserSettings : SettingsGroup
 	{
-		private UserSettings()
+		public UserSettings()
 			: base( "UserSettings", GetStorageImpl( )  ) { }
 
 		public static SettingsStorage GetStorageImpl()
@@ -51,19 +51,72 @@ namespace NUnit.Gui
 			return new RegistrySettingsStorage( name, NUnitRegistry.CurrentUser );
 		}
 
-		public static OptionSettings Options
+		private OptionSettings options;
+		public OptionSettings Options
 		{
-			get { return new OptionSettings( GetStorageImpl( "Options" ) ); }
+			get
+			{
+				if ( options == null )
+					options = new OptionSettings( GetStorageImpl( "Options" ) );
+				return options;
+			}
 		}
 
-		public static FormSettings Form
+		private FormSettings form;
+		public FormSettings Form
 		{
-			get { return new FormSettings( GetStorageImpl( "Form" ) ); }
+			get 
+			{ 
+				if ( form == null )
+					form = new FormSettings( GetStorageImpl( "Form" ) ); 
+				return form;
+			}
 		}
 
-		public static RecentProjectSettings RecentProjects
+		private RecentProjectSettings recent;
+		public RecentProjectSettings RecentProjects
 		{
-			get { return new RecentProjectSettings( GetStorageImpl( "Recent-Projects" ) ); }
+			get 
+			{ 
+				if ( recent == null )
+					recent = new RecentProjectSettings( GetStorageImpl( "Recent-Projects" ) ); 
+				return recent;
+			}
 		}
 	}
+
+//	/// <summary>
+//	/// UserSettings represents the main group of per-user
+//	/// settings used by NUnit.
+//	/// </summary>
+//	public class UserSettings : SettingsGroup
+//	{
+//		private UserSettings()
+//			: base( "UserSettings", GetStorageImpl( )  ) { }
+//
+//		public static SettingsStorage GetStorageImpl()
+//		{
+//			return new RegistrySettingsStorage( NUnitRegistry.CurrentUser );
+//		}
+//
+//		public static SettingsStorage GetStorageImpl( string name )
+//		{
+//			return new RegistrySettingsStorage( name, NUnitRegistry.CurrentUser );
+//		}
+//
+//		public static OptionSettings Options
+//		{
+//			get { return new OptionSettings( GetStorageImpl( "Options" ) ); }
+//		}
+//
+//		public static FormSettings Form
+//		{
+//			get { return new FormSettings( GetStorageImpl( "Form" ) ); }
+//		}
+//
+//		public static RecentProjectSettings RecentProjects
+//		{
+//			get { return new RecentProjectSettings( GetStorageImpl( "Recent-Projects" ) ); }
+//		}
+//	}
 }

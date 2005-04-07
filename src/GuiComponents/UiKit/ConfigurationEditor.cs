@@ -322,22 +322,6 @@ namespace NUnit.UiKit
 		}
 		#endregion
 
-		#region Static Methods
-
-		public static void Edit( NUnitProject project )
-		{
-			ConfigurationEditor editor = new ConfigurationEditor( project );
-			editor.ShowDialog();
-		}
-
-		public static void AddConfiguration( NUnitProject project )
-		{
-			AddConfigurationDialog dlg = new AddConfigurationDialog( project );
-			dlg.ShowDialog();
-		}
-
-		#endregion
-
 		#region UI Event Handlers
 
 		private void ConfigurationEditor_Load(object sender, System.EventArgs e)
@@ -370,8 +354,12 @@ namespace NUnit.UiKit
 
 		private void addButton_Click(object sender, System.EventArgs e)
 		{
-			AddConfiguration( project );
-			FillListBox();
+			using( AddConfigurationDialog dlg = new AddConfigurationDialog( project ) )
+			{
+				this.Site.Container.Add( dlg );
+				if ( dlg.ShowDialog() == DialogResult.OK )
+					FillListBox();
+			}
 		}
 
 		private void activeButton_Click(object sender, System.EventArgs e)
@@ -401,11 +389,15 @@ namespace NUnit.UiKit
 
 		private void RenameConfiguration( string oldName )
 		{
-			RenameConfigurationDialog dlg	= new RenameConfigurationDialog( project, oldName );
-			if ( dlg.ShowDialog() == DialogResult.OK )
+			using( RenameConfigurationDialog dlg = 
+					   new RenameConfigurationDialog( project, oldName ) )
 			{
-				project.Configs[oldName].Name = dlg.ConfigurationName;
-				FillListBox();
+				this.Site.Container.Add( dlg );
+				if ( dlg.ShowDialog() == DialogResult.OK )
+				{
+					project.Configs[oldName].Name = dlg.ConfigurationName;
+					FillListBox();
+				}
 			}
 		}
 

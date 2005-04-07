@@ -1031,14 +1031,27 @@ namespace NUnit.Gui
 		}
 		#endregion
 
-		#region Static Edit Method
-
-		public static DialogResult Edit( NUnitProject project )
+		#region Properties
+		private UserSettings _userSettings;
+		private UserSettings UserSettings
 		{
-			ProjectEditor editor = new ProjectEditor( project );
-			return editor.ShowDialog();
+			get
+			{
+				if ( _userSettings == null )
+					_userSettings = (UserSettings)GetService( typeof( UserSettings ) );
+				if ( _userSettings == null )
+					_userSettings = new UserSettings();
+				return _userSettings;
+			}
 		}
 
+		private TestLoaderUI TestLoaderUI
+		{
+			get
+			{
+				return (TestLoaderUI)GetService( typeof( TestLoaderUI ) );
+			}
+		}
 		#endregion
 
 		#region Config ComboBox Methods and Events
@@ -1353,29 +1366,37 @@ namespace NUnit.Gui
 
 		private void editConfigsButton_Click(object sender, System.EventArgs e)
 		{
-			ConfigurationEditor.Edit( project );
+			using( ConfigurationEditor editor = new ConfigurationEditor( project ) )
+			{
+				this.Site.Container.Add( editor );
+				editor.ShowDialog();
+			}
 			configComboBox_Populate();
 		}
 
 		private void addAssemblyButton_Click(object sender, System.EventArgs e)
 		{
-			AppUI.TestLoaderUI.AddAssembly( selectedConfig.Name );
+			TestLoaderUI.AddAssembly( this, selectedConfig.Name );
 			assemblyListBox_Populate();
 		}
 
 		private void addVSProjectButton_Click(object sender, System.EventArgs e)
 		{
-			AppUI.TestLoaderUI.AddVSProject( );
+			TestLoaderUI.AddVSProject( this );
 			assemblyListBox_Populate();
 		}
 
 		private void editAssemblyButton_Click(object sender, System.EventArgs e)
 		{
-			AssemblyPathDialog dlg = new AssemblyPathDialog( (string)selectedConfig.Assemblies[assemblyListBox.SelectedIndex].FullPath );
-			if ( dlg.ShowDialog() == DialogResult.OK )
+			using( AssemblyPathDialog dlg = new AssemblyPathDialog( 
+					   (string)selectedConfig.Assemblies[assemblyListBox.SelectedIndex].FullPath ) )
 			{
-				selectedConfig.Assemblies[assemblyListBox.SelectedIndex].FullPath = dlg.Path;
-				assemblyListBox_Populate();
+				this.Site.Container.Add( dlg );
+				if ( dlg.ShowDialog() == DialogResult.OK )
+				{
+					selectedConfig.Assemblies[assemblyListBox.SelectedIndex].FullPath = dlg.Path;
+					assemblyListBox_Populate();
+				}
 			}
 		}
 

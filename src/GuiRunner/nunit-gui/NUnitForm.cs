@@ -31,6 +31,7 @@ using System;
 using System.Drawing;
 using System.Collections;
 using System.Configuration;
+using System.ComponentModel.Design;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
@@ -61,8 +62,8 @@ namespace NUnit.Gui
 		}
 
 		// Our TextBoxWriters for stdErr and stdOut
-		TextBoxWriter outWriter;
-		TextBoxWriter errWriter;
+		//TextBoxWriter outWriter;
+		//TextBoxWriter errWriter;
 
 		// Our current run command line options
 		private CommandLineOptions commandLineOptions;
@@ -137,31 +138,31 @@ namespace NUnit.Gui
 		{
 			InitializeComponent();
 
-			this.testTree.ShowCheckBoxes = UserSettings.Options.ShowCheckBoxes;
-			this.testTree.VisualStudioSupport = UserSettings.Options.VisualStudioSupport;
-			this.testTree.InitialDisplay = 
-				(TestSuiteTreeView.DisplayStyle)UserSettings.Options.InitialTreeDisplay;
-			this.mainMenu.MenuItems.Add(1, testTree.ViewMenu);
+//			this.testTree.ShowCheckBoxes = UserSettings.Options.ShowCheckBoxes;
+//			this.testTree.VisualStudioSupport = UserSettings.Options.VisualStudioSupport;
+//			this.testTree.InitialDisplay = 
+//				(TestSuiteTreeView.DisplayStyle)UserSettings.Options.InitialTreeDisplay;
+//			this.mainMenu.MenuItems.Add(1, testTree.ViewMenu);
 			this.commandLineOptions = commandLineOptions;
-
-			stdErrTab.Enabled = true;
-			stdOutTab.Enabled = true;
-
-			runButton.Enabled = false;
-			stopButton.Enabled = false;
-
-			outWriter = new TextBoxWriter( stdOutTab );
-			errWriter = new TextBoxWriter( stdErrTab );
-
-			TestLoader loader = new TestLoader( new GuiTestEventDispatcher() );
-			loader.ReloadOnRun = UserSettings.Options.ReloadOnRun;
-			loader.ReloadOnChange = UserSettings.Options.ReloadOnChange;
-
-			bool vsSupport = UserSettings.Options.VisualStudioSupport;
-
-			AppUI.Init(	this, outWriter, errWriter, loader, vsSupport );
-
-			recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, UserSettings.RecentProjects );
+//
+//			stdErrTab.Enabled = true;
+//			stdOutTab.Enabled = true;
+//
+//			runButton.Enabled = false;
+//			stopButton.Enabled = false;
+//
+//			outWriter = new TextBoxWriter( stdOutTab );
+//			errWriter = new TextBoxWriter( stdErrTab );
+//
+//			TestLoader loader = new TestLoader( new GuiTestEventDispatcher() );
+//			loader.ReloadOnRun = UserSettings.Options.ReloadOnRun;
+//			loader.ReloadOnChange = UserSettings.Options.ReloadOnChange;
+//
+//			bool vsSupport = UserSettings.Options.VisualStudioSupport;
+//
+//			AppUI.Init(	this, outWriter, errWriter, loader, vsSupport );
+//
+//			recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, UserSettings.RecentProjects );
 		}
 
 		protected override void Dispose( bool disposing )
@@ -175,6 +176,7 @@ namespace NUnit.Gui
 			}
 			base.Dispose( disposing );
 		}
+
 		#endregion
 		
 		#region Windows Form Designer generated code
@@ -225,10 +227,10 @@ namespace NUnit.Gui
 			this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
 			this.splitter3 = new System.Windows.Forms.Splitter();
 			this.detailList = new System.Windows.Forms.ListBox();
-			this.testsNotRun = new System.Windows.Forms.TabPage();
-			this.notRunTree = new NUnit.UiKit.NotRunTree();
 			this.stderr = new System.Windows.Forms.TabPage();
 			this.stdErrTab = new System.Windows.Forms.RichTextBox();
+			this.testsNotRun = new System.Windows.Forms.TabPage();
+			this.notRunTree = new NUnit.UiKit.NotRunTree();
 			this.stdout = new System.Windows.Forms.TabPage();
 			this.stdOutTab = new System.Windows.Forms.RichTextBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -244,8 +246,8 @@ namespace NUnit.Gui
 			this.panel1.SuspendLayout();
 			this.resultTabs.SuspendLayout();
 			this.errorPage.SuspendLayout();
-			this.testsNotRun.SuspendLayout();
 			this.stderr.SuspendLayout();
+			this.testsNotRun.SuspendLayout();
 			this.stdout.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.panel2.SuspendLayout();
@@ -654,12 +656,13 @@ namespace NUnit.Gui
 			this.resultTabs.Appearance = ((System.Windows.Forms.TabAppearance)(resources.GetObject("resultTabs.Appearance")));
 			this.resultTabs.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("resultTabs.BackgroundImage")));
 			this.resultTabs.Controls.Add(this.errorPage);
-			this.resultTabs.Controls.Add(this.testsNotRun);
 			this.resultTabs.Controls.Add(this.stderr);
+			this.resultTabs.Controls.Add(this.testsNotRun);
 			this.resultTabs.Controls.Add(this.stdout);
 			this.resultTabs.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("resultTabs.Dock")));
 			this.resultTabs.Enabled = ((bool)(resources.GetObject("resultTabs.Enabled")));
 			this.resultTabs.Font = ((System.Drawing.Font)(resources.GetObject("resultTabs.Font")));
+			this.resultTabs.ForeColor = System.Drawing.Color.Red;
 			this.resultTabs.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("resultTabs.ImeMode")));
 			this.resultTabs.ItemSize = ((System.Drawing.Size)(resources.GetObject("resultTabs.ItemSize")));
 			this.resultTabs.Location = ((System.Drawing.Point)(resources.GetObject("resultTabs.Location")));
@@ -780,54 +783,6 @@ namespace NUnit.Gui
 			this.detailList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.detailList_DrawItem);
 			this.detailList.SelectedIndexChanged += new System.EventHandler(this.detailList_SelectedIndexChanged);
 			// 
-			// testsNotRun
-			// 
-			this.testsNotRun.AccessibleDescription = resources.GetString("testsNotRun.AccessibleDescription");
-			this.testsNotRun.AccessibleName = resources.GetString("testsNotRun.AccessibleName");
-			this.testsNotRun.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("testsNotRun.Anchor")));
-			this.testsNotRun.AutoScroll = ((bool)(resources.GetObject("testsNotRun.AutoScroll")));
-			this.testsNotRun.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("testsNotRun.AutoScrollMargin")));
-			this.testsNotRun.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("testsNotRun.AutoScrollMinSize")));
-			this.testsNotRun.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("testsNotRun.BackgroundImage")));
-			this.testsNotRun.Controls.Add(this.notRunTree);
-			this.testsNotRun.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("testsNotRun.Dock")));
-			this.testsNotRun.Enabled = ((bool)(resources.GetObject("testsNotRun.Enabled")));
-			this.testsNotRun.Font = ((System.Drawing.Font)(resources.GetObject("testsNotRun.Font")));
-			this.testsNotRun.ImageIndex = ((int)(resources.GetObject("testsNotRun.ImageIndex")));
-			this.testsNotRun.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("testsNotRun.ImeMode")));
-			this.testsNotRun.Location = ((System.Drawing.Point)(resources.GetObject("testsNotRun.Location")));
-			this.testsNotRun.Name = "testsNotRun";
-			this.testsNotRun.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("testsNotRun.RightToLeft")));
-			this.testsNotRun.Size = ((System.Drawing.Size)(resources.GetObject("testsNotRun.Size")));
-			this.testsNotRun.TabIndex = ((int)(resources.GetObject("testsNotRun.TabIndex")));
-			this.testsNotRun.Text = resources.GetString("testsNotRun.Text");
-			this.toolTip.SetToolTip(this.testsNotRun, resources.GetString("testsNotRun.ToolTip"));
-			this.testsNotRun.ToolTipText = resources.GetString("testsNotRun.ToolTipText");
-			this.testsNotRun.Visible = ((bool)(resources.GetObject("testsNotRun.Visible")));
-			// 
-			// notRunTree
-			// 
-			this.notRunTree.AccessibleDescription = resources.GetString("notRunTree.AccessibleDescription");
-			this.notRunTree.AccessibleName = resources.GetString("notRunTree.AccessibleName");
-			this.notRunTree.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("notRunTree.Anchor")));
-			this.notRunTree.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("notRunTree.BackgroundImage")));
-			this.notRunTree.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("notRunTree.Dock")));
-			this.notRunTree.Enabled = ((bool)(resources.GetObject("notRunTree.Enabled")));
-			this.notRunTree.Font = ((System.Drawing.Font)(resources.GetObject("notRunTree.Font")));
-			this.notRunTree.ImageIndex = ((int)(resources.GetObject("notRunTree.ImageIndex")));
-			this.notRunTree.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("notRunTree.ImeMode")));
-			this.notRunTree.Indent = ((int)(resources.GetObject("notRunTree.Indent")));
-			this.notRunTree.ItemHeight = ((int)(resources.GetObject("notRunTree.ItemHeight")));
-			this.notRunTree.Location = ((System.Drawing.Point)(resources.GetObject("notRunTree.Location")));
-			this.notRunTree.Name = "notRunTree";
-			this.notRunTree.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("notRunTree.RightToLeft")));
-			this.notRunTree.SelectedImageIndex = ((int)(resources.GetObject("notRunTree.SelectedImageIndex")));
-			this.notRunTree.Size = ((System.Drawing.Size)(resources.GetObject("notRunTree.Size")));
-			this.notRunTree.TabIndex = ((int)(resources.GetObject("notRunTree.TabIndex")));
-			this.notRunTree.Text = resources.GetString("notRunTree.Text");
-			this.toolTip.SetToolTip(this.notRunTree, resources.GetString("notRunTree.ToolTip"));
-			this.notRunTree.Visible = ((bool)(resources.GetObject("notRunTree.Visible")));
-			// 
 			// stderr
 			// 
 			this.stderr.AccessibleDescription = resources.GetString("stderr.AccessibleDescription");
@@ -880,6 +835,54 @@ namespace NUnit.Gui
 			this.stdErrTab.Visible = ((bool)(resources.GetObject("stdErrTab.Visible")));
 			this.stdErrTab.WordWrap = ((bool)(resources.GetObject("stdErrTab.WordWrap")));
 			this.stdErrTab.ZoomFactor = ((System.Single)(resources.GetObject("stdErrTab.ZoomFactor")));
+			// 
+			// testsNotRun
+			// 
+			this.testsNotRun.AccessibleDescription = resources.GetString("testsNotRun.AccessibleDescription");
+			this.testsNotRun.AccessibleName = resources.GetString("testsNotRun.AccessibleName");
+			this.testsNotRun.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("testsNotRun.Anchor")));
+			this.testsNotRun.AutoScroll = ((bool)(resources.GetObject("testsNotRun.AutoScroll")));
+			this.testsNotRun.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("testsNotRun.AutoScrollMargin")));
+			this.testsNotRun.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("testsNotRun.AutoScrollMinSize")));
+			this.testsNotRun.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("testsNotRun.BackgroundImage")));
+			this.testsNotRun.Controls.Add(this.notRunTree);
+			this.testsNotRun.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("testsNotRun.Dock")));
+			this.testsNotRun.Enabled = ((bool)(resources.GetObject("testsNotRun.Enabled")));
+			this.testsNotRun.Font = ((System.Drawing.Font)(resources.GetObject("testsNotRun.Font")));
+			this.testsNotRun.ImageIndex = ((int)(resources.GetObject("testsNotRun.ImageIndex")));
+			this.testsNotRun.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("testsNotRun.ImeMode")));
+			this.testsNotRun.Location = ((System.Drawing.Point)(resources.GetObject("testsNotRun.Location")));
+			this.testsNotRun.Name = "testsNotRun";
+			this.testsNotRun.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("testsNotRun.RightToLeft")));
+			this.testsNotRun.Size = ((System.Drawing.Size)(resources.GetObject("testsNotRun.Size")));
+			this.testsNotRun.TabIndex = ((int)(resources.GetObject("testsNotRun.TabIndex")));
+			this.testsNotRun.Text = resources.GetString("testsNotRun.Text");
+			this.toolTip.SetToolTip(this.testsNotRun, resources.GetString("testsNotRun.ToolTip"));
+			this.testsNotRun.ToolTipText = resources.GetString("testsNotRun.ToolTipText");
+			this.testsNotRun.Visible = ((bool)(resources.GetObject("testsNotRun.Visible")));
+			// 
+			// notRunTree
+			// 
+			this.notRunTree.AccessibleDescription = resources.GetString("notRunTree.AccessibleDescription");
+			this.notRunTree.AccessibleName = resources.GetString("notRunTree.AccessibleName");
+			this.notRunTree.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("notRunTree.Anchor")));
+			this.notRunTree.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("notRunTree.BackgroundImage")));
+			this.notRunTree.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("notRunTree.Dock")));
+			this.notRunTree.Enabled = ((bool)(resources.GetObject("notRunTree.Enabled")));
+			this.notRunTree.Font = ((System.Drawing.Font)(resources.GetObject("notRunTree.Font")));
+			this.notRunTree.ImageIndex = ((int)(resources.GetObject("notRunTree.ImageIndex")));
+			this.notRunTree.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("notRunTree.ImeMode")));
+			this.notRunTree.Indent = ((int)(resources.GetObject("notRunTree.Indent")));
+			this.notRunTree.ItemHeight = ((int)(resources.GetObject("notRunTree.ItemHeight")));
+			this.notRunTree.Location = ((System.Drawing.Point)(resources.GetObject("notRunTree.Location")));
+			this.notRunTree.Name = "notRunTree";
+			this.notRunTree.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("notRunTree.RightToLeft")));
+			this.notRunTree.SelectedImageIndex = ((int)(resources.GetObject("notRunTree.SelectedImageIndex")));
+			this.notRunTree.Size = ((System.Drawing.Size)(resources.GetObject("notRunTree.Size")));
+			this.notRunTree.TabIndex = ((int)(resources.GetObject("notRunTree.TabIndex")));
+			this.notRunTree.Text = resources.GetString("notRunTree.Text");
+			this.toolTip.SetToolTip(this.notRunTree, resources.GetString("notRunTree.ToolTip"));
+			this.notRunTree.Visible = ((bool)(resources.GetObject("notRunTree.Visible")));
 			// 
 			// stdout
 			// 
@@ -1154,8 +1157,8 @@ namespace NUnit.Gui
 			this.panel1.ResumeLayout(false);
 			this.resultTabs.ResumeLayout(false);
 			this.errorPage.ResumeLayout(false);
-			this.testsNotRun.ResumeLayout(false);
 			this.stderr.ResumeLayout(false);
+			this.testsNotRun.ResumeLayout(false);
 			this.stdout.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
@@ -1167,14 +1170,15 @@ namespace NUnit.Gui
 
 		#region Properties used internally
 
+		private TestLoader _testLoader;
 		private TestLoader TestLoader
 		{
-			get { return AppUI.TestLoader; }
-		}
-
-		private TestLoaderUI TestLoaderUI
-		{
-			get { return AppUI.TestLoaderUI; }
+			get
+			{ 
+				if ( _testLoader == null )
+					_testLoader = (TestLoader)GetService( typeof( TestLoader ) );
+				return _testLoader;
+			}
 		}
 
 		private bool IsProjectLoaded
@@ -1196,6 +1200,17 @@ namespace NUnit.Gui
 		{
 			get { return TestLoader.IsTestRunning; }
 		}
+
+		private UserSettings _userSettings;
+		private UserSettings UserSettings
+		{
+			get
+			{
+				if ( _userSettings == null )
+					_userSettings = (UserSettings)GetService( typeof( UserSettings ) );
+				return _userSettings;
+			}
+		}
 		#endregion
 
 		#region File Menu Handlers
@@ -1214,35 +1229,37 @@ namespace NUnit.Gui
 			recentProjectsMenu.Enabled = !IsTestRunning;
 
 			if ( !IsTestRunning )
+			{
 				recentProjectsMenuHandler.Load();
+			}
 		}
 
 		private void newMenuItem_Click(object sender, System.EventArgs e)
 		{
 			if ( IsProjectLoaded )
-				TestLoaderUI.CloseProject();
+				TestLoaderUI.CloseProject( this );
 
-			TestLoaderUI.NewProject();
+			TestLoaderUI.NewProject( this );
 		}
 
 		private void openMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.OpenProject();
+			TestLoaderUI.OpenProject( this, UserSettings.Options.VisualStudioSupport );
 		}
 
 		private void closeMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.CloseProject();
+			TestLoaderUI.CloseProject( this );
 		}
 
 		private void saveMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.SaveProject();
+			TestLoaderUI.SaveProject( this );
 		}
 
 		private void saveAsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.SaveProjectAs();
+			TestLoaderUI.SaveProjectAs( this );
 		}
 
 		private void reloadMenuItem_Click(object sender, System.EventArgs e)
@@ -1301,28 +1318,39 @@ namespace NUnit.Gui
 
 		private void addConfigurationMenuItem_Click( object sender, System.EventArgs e )
 		{
-			ConfigurationEditor.AddConfiguration( TestProject );
+			using( AddConfigurationDialog dlg = new AddConfigurationDialog( TestProject ) )
+			{
+				this.Site.Container.Add( dlg );
+				dlg.ShowDialog();
+			}
 		}
 
 		private void editConfigurationsMenuItem_Click( object sender, System.EventArgs e )
 		{
-			ConfigurationEditor.Edit( TestProject );
+			using( ConfigurationEditor editor = new ConfigurationEditor( TestProject ) )
+			{
+				this.Site.Container.Add( editor );
+				editor.ShowDialog();
+			}
 		}
 
 		private void addAssemblyMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.AddAssembly();
+			TestLoaderUI.AddAssembly( this );
 		}
 
 		private void addVSProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.AddVSProject();
+			TestLoaderUI.AddVSProject( this );
 		}
 
 		private void editProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-			ProjectEditor editor = new ProjectEditor( TestProject );
-			editor.ShowDialog( this );
+			using ( ProjectEditor editor = new ProjectEditor( TestProject ) )
+			{
+				this.Site.Container.Add( editor );
+				editor.ShowDialog( this );
+			}
 		}
 
 		#endregion
@@ -1338,18 +1366,25 @@ namespace NUnit.Gui
 
 		private void saveXmlResultsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.SaveLastResult();
+			TestLoaderUI.SaveLastResult( this );
 		}
 
 		private void exceptionDetailsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			ExceptionDetailsForm details = new ExceptionDetailsForm( TestLoader.LastException );
-			details.ShowDialog();
+			using( ExceptionDetailsForm details = new ExceptionDetailsForm( TestLoader.LastException ) )
+			{
+				this.Site.Container.Add( details );
+				details.ShowDialog();
+			}
 		}
 
 		private void optionsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			OptionsDialog.EditOptions();
+			using( OptionsDialog dialog = new OptionsDialog() )
+			{
+				this.Site.Container.Add( dialog );
+				dialog.ShowDialog();
+			}
 		}
 
 		private void frameworkInfoMenuItem_Click(object sender, System.EventArgs e)
@@ -1402,80 +1437,52 @@ namespace NUnit.Gui
 		/// </summary>
 		private void aboutMenuItem_Click(object sender, System.EventArgs e)
 		{
-			AboutBox aboutBox = new AboutBox();
-			aboutBox.ShowDialog();
+			using( AboutBox aboutBox = new AboutBox() )
+			{
+				this.Site.Container.Add( aboutBox );
+				aboutBox.ShowDialog();
+			}
 		}
 
 		#endregion
 
 		#region Form Level Events
-
-		/// <summary>
-		/// Exit application when space key is tapped
-		/// </summary>
-//		protected override bool ProcessKeyPreview(ref 
-//			System.Windows.Forms.Message m) 
-//		{ 
-//			const int SPACE_BAR=32; 
-//			const int WM_CHAR = 258;
-//
-//			if (m.Msg == WM_CHAR && m.WParam.ToInt32() == SPACE_BAR )
-//			{ 
-//				int altKeyBit = (int)m.LParam & 0x10000000;
-//				if ( altKeyBit == 0 )
-//				{
-//					this.Close();
-//					return true;
-//				}
-//			}
-//
-//			return base.ProcessKeyEventArgs( ref m ); 
-//		} 
-
-		/// <summary>
-		///	Form is about to close, first see if we 
-		///	have a test run going on and if so whether
-		///	we should cancel it. Then unload the 
-		///	test and save the latest form position.
-		/// </summary>
-		private void NUnitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-			if ( IsTestRunning )
-			{
-				DialogResult dialogResult = UserMessage.Ask( 
-					"A test is running, do you want to stop the test and exit?" );
-
-				if ( dialogResult == DialogResult.No )
-					e.Cancel = true;
-				else
-					TestLoader.CancelTestRun();
-			}
-
-			if ( !e.Cancel && IsProjectLoaded && 
-				 TestLoaderUI.CloseProject() == DialogResult.Cancel )
-				e.Cancel = true;
-
-			UserSettings.Options.ShowCheckBoxes = testTree.ShowCheckBoxes;
-		}
-
 		/// <summary>
 		/// Get saved options when form loads
 		/// </summary>
 		private void NUnitForm_Load(object sender, System.EventArgs e)
 		{
+			this.testTree.ShowCheckBoxes = UserSettings.Options.ShowCheckBoxes;
+			this.testTree.VisualStudioSupport = UserSettings.Options.VisualStudioSupport;
+			this.testTree.InitialDisplay = 
+				(TestSuiteTreeView.DisplayStyle)UserSettings.Options.InitialTreeDisplay;
+			this.mainMenu.MenuItems.Add(1, testTree.ViewMenu);
+//			this.commandLineOptions = commandLineOptions;
+
+			stdErrTab.Enabled = true;
+			stdOutTab.Enabled = true;
+
+			runButton.Enabled = false;
+			stopButton.Enabled = false;
+
+			//outWriter = new TextBoxWriter( stdOutTab );
+			//errWriter = new TextBoxWriter( stdErrTab );
+
+			recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, UserSettings.RecentProjects );
+
 			LoadFormSettings();
 			SubscribeToTestEvents();
 			InitializeControls();
-			
+
 			// Load test specified on command line or
 			// the most recent one if options call for it
 			if ( commandLineOptions.testFileName != null )
-				TestLoaderUI.OpenProject( commandLineOptions.testFileName, commandLineOptions.configName, commandLineOptions.testName );
+				TestLoaderUI.OpenProject( this, commandLineOptions.testFileName, commandLineOptions.configName, commandLineOptions.testName );
 			else if( UserSettings.Options.LoadLastProject && !commandLineOptions.noload )
 			{
 				string recentProjectName = UserSettings.RecentProjects.RecentFile;
 				if ( recentProjectName != null )
-					TestLoaderUI.OpenProject( recentProjectName, commandLineOptions.configName, commandLineOptions.testName );
+					TestLoaderUI.OpenProject( this, recentProjectName, commandLineOptions.configName, commandLineOptions.testName );
 			}
 
 			// Run loaded test automatically if called for
@@ -1497,7 +1504,7 @@ namespace NUnit.Gui
 				}
 			}
 		}
-			
+		
 		private void LoadFormSettings()
 		{
 			// Set position of the form
@@ -1593,6 +1600,32 @@ namespace NUnit.Gui
 		private void splitter3_SplitterMoved( object sender, SplitterEventArgs e )
 		{
 			UserSettings.Form.TabSplitterPosition = splitter3.SplitPosition;
+		}
+
+		/// <summary>
+		///	Form is about to close, first see if we 
+		///	have a test run going on and if so whether
+		///	we should cancel it. Then unload the 
+		///	test and save the latest form position.
+		/// </summary>
+		private void NUnitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			if ( IsTestRunning )
+			{
+				DialogResult dialogResult = UserMessage.Ask( 
+					"A test is running, do you want to stop the test and exit?" );
+
+				if ( dialogResult == DialogResult.No )
+					e.Cancel = true;
+				else
+					TestLoader.CancelTestRun();
+			}
+
+			if ( !e.Cancel && IsProjectLoaded && 
+				TestLoaderUI.CloseProject( this ) == DialogResult.Cancel )
+				e.Cancel = true;
+
+			UserSettings.Options.ShowCheckBoxes = testTree.ShowCheckBoxes;
 		}
 
 		#endregion
@@ -1807,7 +1840,8 @@ namespace NUnit.Gui
 		{
 			if ( UserSettings.Options.TestLabels )
 			{
-				outWriter.WriteLine( "***** {0}", args.Test.FullName );
+				//outWriter.WriteLine( "***** {0}", args.Test.FullName );
+				this.stdOutTab.AppendText( string.Format( "***** {0}\n", args.Test.FullName ) );
 			}
 		}
 
@@ -1853,10 +1887,12 @@ namespace NUnit.Gui
 			switch(output.Type)
 			{
 				case TestOutputType.Out:
-					this.outWriter.Write(output.Text);
+					//this.outWriter.Write(output.Text);
+					this.stdOutTab.AppendText( output.Text );
 					break;
 				case TestOutputType.Error:
-					this.errWriter.Write(output.Text);
+					//this.errWriter.Write(output.Text);
+					this.stdErrTab.AppendText( output.Text );
 					break;
 			}
 		}
@@ -1875,8 +1911,10 @@ namespace NUnit.Gui
 			toolTip.SetToolTip( detailList, null );
 			notRunTree.Nodes.Clear();
 
-			errWriter.Clear();
-			outWriter.Clear();
+			//errWriter.Clear();
+			//outWriter.Clear();
+			stdOutTab.Clear();
+			stdErrTab.Clear();
 			
 			stackTrace.Text = "";
 		}

@@ -41,34 +41,13 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class TestLoaderUI
 	{
-		#region Instance Variables
-
-		/// <summary>
-		/// The owning (main) form
-		/// </summary>
-		private Form owner;
-
-		/// <summary>
-		/// The test loader
-		/// </summary>
-		private ITestLoader loader;
-
-		private bool vsSupport;
-
-		#endregion
-
-		#region Public Members
-
-		public TestLoaderUI( Form owner, ITestLoader loader, bool vsSupport )
+		public static void OpenProject( Form owner, bool vsSupport )
 		{
-			this.owner = owner;
-			this.loader = loader;
-			this.vsSupport = vsSupport;
-		}
+			TestLoader loader = GetTestLoader( owner );
 
-		public void OpenProject()
-		{
 			OpenFileDialog dlg = new OpenFileDialog();
+			System.ComponentModel.ISite site = owner == null ? null : owner.Site;
+			if ( site != null ) dlg.Site = site;
 			dlg.Title = "Open Project";
 			
 			if ( vsSupport )
@@ -98,12 +77,14 @@ namespace NUnit.UiKit
 			dlg.FileName = "";
 
 			if ( dlg.ShowDialog( owner ) == DialogResult.OK ) 
-				OpenProject( dlg.FileName );
+				OpenProject( owner, dlg.FileName );
 		}
 
-		public void OpenProject( string testFileName, string configName, string testName )
+		public static void OpenProject( Form owner, string testFileName, string configName, string testName )
 		{
-			if ( loader.IsProjectLoaded && SaveProjectIfDirty() == DialogResult.Cancel )
+			TestLoader loader = GetTestLoader( owner );
+
+			if ( loader.IsProjectLoaded && SaveProjectIfDirty( owner ) == DialogResult.Cancel )
 				return;
 
 			loader.LoadProject( testFileName, configName );
@@ -121,27 +102,28 @@ namespace NUnit.UiKit
 			}
 		}
 
-		public void OpenProject( string testFileName )
+		public static void OpenProject( Form owner, string testFileName )
 		{
-			OpenProject( testFileName, null, null );
+			OpenProject( owner, testFileName, null, null );
 		}
 
-		public void AddAssembly( )
+		public static void AddAssembly( Form owner )
 		{
-			AddAssembly( loader.TestProject.ActiveConfigName );
+			AddAssembly( owner, null );
 		}
 
-		public void AddAssembly( string configName )
+		public static void AddAssembly( Form owner, string configName )
 		{
+			TestLoader loader = GetTestLoader( owner );
+
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Title = "Add Assembly";
-
-			dlg.InitialDirectory = loader.TestProject.Configs[configName].BasePath;
-			
+			dlg.InitialDirectory = configName == null
+				? loader.TestProject.ActiveConfig.BasePath
+				: loader.TestProject.Configs[configName].BasePath;		
 			dlg.Filter =
 				"Assemblies (*.dll,*.exe)|*.dll;*.exe|" +
 				"All Files (*.*)|*.*";
-
 			dlg.FilterIndex = 1;
 			dlg.FileName = "";
 
@@ -151,8 +133,9 @@ namespace NUnit.UiKit
 			}
 		}
 
-		public void AddVSProject()
+		public static void AddVSProject( Form owner )
 		{
+			TestLoader loader = GetTestLoader( owner );
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Title = "Add Visual Studio Project";
 
@@ -177,17 +160,21 @@ namespace NUnit.UiKit
 		}
 
 
-		public void SaveProject()
+		public static void SaveProject( Form owner )
 		{
+			TestLoader loader = GetTestLoader( owner );
+
 			if ( Path.IsPathRooted( loader.TestProject.ProjectPath ) &&
 				 NUnitProject.IsProjectFile( loader.TestProject.ProjectPath ) )
 				loader.TestProject.Save();
 			else
-				SaveProjectAs();
+				SaveProjectAs( owner );
 		}
 
-		public void SaveProjectAs()
+		public static void SaveProjectAs( Form owner )
 		{
+			TestLoader loader = GetTestLoader( owner );
+
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.Title = "Save Test Project";
 			dlg.Filter = "NUnit Test Project (*.nunit)|*.nunit|All Files (*.*)|*.*";
@@ -200,8 +187,9 @@ namespace NUnit.UiKit
 				loader.TestProject.Save( dlg.FileName );
 		}
 
-		public void NewProject()
+		public static void NewProject( Form owner )
 		{
+			TestLoader loader = GetTestLoader( owner );
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.Title = "New Test Project";
 			dlg.Filter = "NUnit Test Project (*.nunit)|*.nunit|All Files (*.*)|*.*";
@@ -214,19 +202,20 @@ namespace NUnit.UiKit
 				loader.NewProject( dlg.FileName );
 		}
 
-		public DialogResult CloseProject()
+		public static DialogResult CloseProject( Form owner )
 		{
-			DialogResult result = SaveProjectIfDirty();
+			DialogResult result = SaveProjectIfDirty( owner );
 
 			if( result != DialogResult.Cancel )
-				loader.UnloadProject();
+				GetTestLoader( owner ).UnloadProject();
 
 			return result;
 		}
 
-		private DialogResult SaveProjectIfDirty()
+		private static DialogResult SaveProjectIfDirty( Form owner )
 		{
 			DialogResult result = DialogResult.OK;
+			TestLoader loader = GetTestLoader( owner );
 
 			if( loader.TestProject.IsDirty )
 			{
@@ -234,15 +223,16 @@ namespace NUnit.UiKit
 
 				result = UserMessage.Ask( msg, MessageBoxButtons.YesNoCancel );
 				if ( result == DialogResult.Yes )
-					SaveProject();
+					SaveProject( owner );
 			}
 
 			return result;
 		}
 
-		public void SaveLastResult()
+		public static void SaveLastResult( Form owner )
 		{
 			//TODO: Save all results
+			TestLoader loader = GetTestLoader( owner );
 			TestResult result = loader.Results[0];
 			
 			SaveFileDialog dlg = new SaveFileDialog();
@@ -275,6 +265,9 @@ namespace NUnit.UiKit
 			}
 		}
 
-		#endregion
+		private static TestLoader GetTestLoader( Form owner )
+		{
+			return (TestLoader)owner.Site.GetService( typeof( TestLoader ) );
+		}
 	}
 }

@@ -51,7 +51,7 @@ namespace NUnit.Gui.Tests
 		{
 			NUnitRegistry.TestMode = true;
 			NUnitRegistry.ClearTestKeys();
-			projects = UserSettings.RecentProjects;
+			projects = new UserSettings().RecentProjects;
 		}
 
 		[TearDown]
@@ -85,8 +85,8 @@ namespace NUnit.Gui.Tests
 			SetMockValues( count );
 			Assert.AreEqual( "1", projects.RecentFile, "RecentFile" );
 
-			if ( count > UserSettings.RecentProjects.MaxFiles )
-				count = UserSettings.RecentProjects.MaxFiles;
+			if ( count > new UserSettings().RecentProjects.MaxFiles )
+				count = new UserSettings().RecentProjects.MaxFiles;
 
 			CheckMockValues( count );
 		}

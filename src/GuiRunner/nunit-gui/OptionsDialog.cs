@@ -64,13 +64,18 @@ namespace NUnit.Gui
 		private System.Windows.Forms.CheckBox labelTestOutputCheckBox;
 		private System.ComponentModel.IContainer components = null;
 
-		public static void EditOptions( )
+		private UserSettings _userSettings;
+		private UserSettings UserSettings
 		{
-			OptionsDialog dialog = new OptionsDialog( UserSettings.Options );
-			dialog.ShowDialog();
+			get
+			{
+				if ( _userSettings == null )
+					_userSettings = (UserSettings)GetService( typeof( UserSettings ) );
+				return _userSettings;
+			}
 		}
 
-		public OptionsDialog( OptionSettings options )
+		public OptionsDialog()
 		{
 			//
 			// Required for Windows Form Designer support
@@ -80,7 +85,6 @@ namespace NUnit.Gui
 			//
 			// TODO: Add any constructor code after InitializeComponent call
 			//
-			this.options = options;
 		}
 
 		/// <summary>
@@ -655,6 +659,8 @@ namespace NUnit.Gui
 		private void OptionsDialog_Load(object sender, System.EventArgs e)
 		{
 			recentFilesCountTextBox.Text = UserSettings.RecentProjects.MaxFiles.ToString();
+
+			this.options = UserSettings.Options;
 			loadLastProjectCheckBox.Checked = options.LoadLastProject;
 			initialDisplayComboBox.SelectedIndex = options.InitialTreeDisplay;
 
@@ -681,7 +687,8 @@ namespace NUnit.Gui
 
 			options.LoadLastProject = loadLastProjectCheckBox.Checked;
 			
-			TestLoader loader = AppUI.TestLoader;
+			//TestLoader loader = AppUI.TestLoader;
+			TestLoader loader = GetService( typeof( TestLoader ) ) as TestLoader;
 			loader.ReloadOnChange = options.ReloadOnChange = reloadOnChangeCheckBox.Checked;
 			loader.ReloadOnRun = options.ReloadOnRun = reloadOnRunCheckBox.Checked;
 			options.ClearResults = clearResultsCheckBox.Checked;

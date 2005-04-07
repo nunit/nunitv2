@@ -92,16 +92,13 @@ namespace NUnit.Gui
 		{
 			get 
 			{
-				if ( location == Point.Empty )
-				{
-					int x = LoadIntSetting( XLOCATION, DEFAULT_XLOCATION );
-					int y = LoadIntSetting( YLOCATION, DEFAULT_YLOCATION );
+				int x = LoadIntSetting( XLOCATION, DEFAULT_XLOCATION );
+				int y = LoadIntSetting( YLOCATION, DEFAULT_YLOCATION );
 
-					location = new Point(x, y);
+				location = new Point(x, y);
 
-					if ( !IsValidLocation( location ) )
-						location = new Point( DEFAULT_XLOCATION, DEFAULT_YLOCATION );
-				}
+				if ( !IsValidLocation( location ) )
+					location = new Point( DEFAULT_XLOCATION, DEFAULT_YLOCATION );
 				
 				return location; 
 			}
@@ -128,16 +125,12 @@ namespace NUnit.Gui
 		{
 			get 
 			{ 
-				if ( size == Size.Empty )
-				{
-					int width = LoadIntSetting( WIDTH, DEFAULT_WIDTH );
-					if ( width < MIN_WIDTH ) width = MIN_WIDTH;
-					int height = LoadIntSetting( HEIGHT, DEFAULT_HEIGHT );
-					if ( height < MIN_HEIGHT ) height = MIN_HEIGHT;
+				int width = LoadIntSetting( WIDTH, DEFAULT_WIDTH );
+				if ( width < MIN_WIDTH ) width = MIN_WIDTH;
+				int height = LoadIntSetting( HEIGHT, DEFAULT_HEIGHT );
+				if ( height < MIN_HEIGHT ) height = MIN_HEIGHT;
 
-					size = new Size(width, height);
-				}
-
+				size = new Size(width, height);
 				return size;
 			}
 			set
@@ -152,15 +145,12 @@ namespace NUnit.Gui
 		{
 			get 
 			{
-				if ( treeSplitterPosition == -1 )
-				{
-					treeSplitterPosition = 
-						LoadIntSetting( TREE_SPLITTER_POSITION, TREE_DEFAULT_POSITION );
-
-					if ( treeSplitterPosition < TREE_MIN_POSITION  || treeSplitterPosition > this.Size.Width )
-						treeSplitterPosition = TREE_MIN_POSITION;
-				}
+				treeSplitterPosition = 
+					LoadIntSetting( TREE_SPLITTER_POSITION, TREE_DEFAULT_POSITION );
 				
+				if ( treeSplitterPosition < TREE_MIN_POSITION  || treeSplitterPosition > this.Size.Width )
+					treeSplitterPosition = TREE_MIN_POSITION;
+
 				return treeSplitterPosition; 
 			}
 			set 
@@ -174,14 +164,11 @@ namespace NUnit.Gui
 		{
 			get 
 			{
-				if ( tabSplitterPosition == -1 )
-				{
-					tabSplitterPosition = 
-						LoadIntSetting( TAB_SPLITTER_POSITION, TAB_DEFAULT_POSITION );
+				tabSplitterPosition = 
+					LoadIntSetting( TAB_SPLITTER_POSITION, TAB_DEFAULT_POSITION );
 					
-					if ( tabSplitterPosition < TAB_MIN_POSITION || tabSplitterPosition > this.Size.Height )
-						tabSplitterPosition = TAB_MIN_POSITION;
-				}
+				if ( tabSplitterPosition < TAB_MIN_POSITION || tabSplitterPosition > this.Size.Height )
+					tabSplitterPosition = TAB_MIN_POSITION;
 				
 				return tabSplitterPosition; 
 			}

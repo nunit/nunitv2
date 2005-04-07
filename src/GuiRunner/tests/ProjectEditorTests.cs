@@ -24,6 +24,7 @@ namespace NUnit.Gui.Tests
 			project.Configs.Add( "Release" );
 
 			editor = new ProjectEditor( project );
+			
 			this.Form = editor;
 		}
 

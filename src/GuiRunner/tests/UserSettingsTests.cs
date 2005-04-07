@@ -71,19 +71,19 @@ namespace NUnit.Gui.Tests
 		[Test]
 		public void OptionSettings()
 		{
-			Assert.IsNotNull( UserSettings.Options );
+			Assert.IsNotNull( new UserSettings().Options );
 		}
 
 		[Test]
 		public void FormSettings()
 		{
-			Assert.IsNotNull( UserSettings.Form );
+			Assert.IsNotNull( new UserSettings().Form );
 		}
 
 		[Test]
 		public void RecentProjects()
 		{
-			Assert.IsNotNull( UserSettings.RecentProjects );
+			Assert.IsNotNull( new UserSettings().RecentProjects );
 		}
 	}
 }

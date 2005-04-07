@@ -83,7 +83,7 @@ namespace NUnit.UiKit
 			MenuItem item = (MenuItem) sender;
 			string testFileName = item.Text.Substring( 2 );
 
-			AppUI.TestLoaderUI.OpenProject( testFileName );
+			TestLoaderUI.OpenProject( item.GetMainMenu().GetForm(), testFileName ); 
 		}
 	}
 }

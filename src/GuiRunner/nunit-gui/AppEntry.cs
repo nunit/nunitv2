@@ -96,7 +96,25 @@ namespace NUnit.Gui
 					}
 				}
 
+				// Create container for top-level forms
+				AppContainer c = new AppContainer();
+
+				// Add standard services to the container's ServiceContainer
+				AmbientProperties ambient = new AmbientProperties();
+				// Todo: Get font from UserSettings
+				c.Services.AddService( typeof( AmbientProperties ), ambient );
+
+				UserSettings settings = new UserSettings();
+				c.Services.AddService( typeof( UserSettings ), settings );
+
+				TestLoader loader = new TestLoader( new GuiTestEventDispatcher() );
+				loader.ReloadOnRun = settings.Options.ReloadOnRun;
+				loader.ReloadOnChange = settings.Options.ReloadOnChange;
+				c.Services.AddService( typeof( TestLoader ), loader );
+
+				// Create top-level form
 				NUnitForm form = new NUnitForm( command );
+				c.Add( form );
 				Application.Run( form );
 			}
 			else
