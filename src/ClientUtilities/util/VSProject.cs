@@ -194,11 +194,11 @@ namespace NUnit.Util
 				ThrowInvalidFileType( projectPath );
 
 			string projectDirectory = Path.GetFullPath( Path.GetDirectoryName( projectPath ) );
+			StreamReader rdr = new StreamReader( projectPath, System.Text.Encoding.UTF8 );
 			
 			try
 			{
 				XmlDocument doc = new XmlDocument();
-				StreamReader rdr = new StreamReader( projectPath, System.Text.Encoding.UTF8 );
 				doc.Load( rdr );
 
 				string extension = Path.GetExtension( projectPath );
@@ -279,6 +279,10 @@ namespace NUnit.Util
 			catch( Exception e )
 			{
 				ThrowInvalidFormat( projectPath, e );
+			}
+			finally
+			{
+				rdr.Close();
 			}
 		}
 
