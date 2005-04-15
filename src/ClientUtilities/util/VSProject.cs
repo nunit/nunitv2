@@ -198,7 +198,8 @@ namespace NUnit.Util
 			try
 			{
 				XmlDocument doc = new XmlDocument();
-				doc.Load( projectPath );
+				StreamReader rdr = new StreamReader( projectPath, System.Text.Encoding.UTF8 );
+				doc.Load( rdr );
 
 				string extension = Path.GetExtension( projectPath );
 				string assemblyName = null;
