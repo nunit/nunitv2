@@ -41,6 +41,7 @@ namespace NUnit.Util.Tests
 	public class VSProjectTests
 	{
 		private string invalidFile = "invalid.csproj";
+		private string resourceDir = "resources";
 
 		private void WriteInvalidFile( string text )
 		{
@@ -79,95 +80,77 @@ namespace NUnit.Util.Tests
 			Assert.IsFalse(VSProject.IsProjectFile( @"C:\MyProject\http://localhost/web.csproj") );
 		}
 
+		private void AssertCanLoadProject( string resourceName )
+		{
+			string fileName = Path.GetFileNameWithoutExtension( resourceName );
+			using( TempResourceFile file = new TempResourceFile( this.GetType(), resourceDir + "." + resourceName, resourceName ) )
+			{
+				VSProject project = new VSProject( file.Path );
+				Assert.AreEqual( fileName, project.Name );
+				Assert.AreEqual( Path.GetFullPath( file.Path ), project.ProjectPath );
+				Assert.AreEqual( fileName.ToLower(), Path.GetFileNameWithoutExtension( project.Configs[0].Assemblies[0].ToString().ToLower() ) );
+			}
+		}
+
 		[Test]
 		public void LoadCsharpProject()
 		{
-			using(TempResourceFile file = new TempResourceFile(this.GetType(), "csharp-sample.csproj"))
-			{
-				VSProject project = new VSProject(file.Path);
-				Assert.AreEqual("csharp-sample", project.Name);
-				Assert.AreEqual(Path.GetFullPath(file.Path), project.ProjectPath);
-				Assert.AreEqual("csharp-sample.dll", Path.GetFileName(project.Configs["Debug"].Assemblies[0].ToString().ToLower()));
-			}
+			AssertCanLoadProject( "csharp-sample.csproj" );
 		}
 
 		[Test]
 		public void LoadCsharpProjectVS2005()
 		{
-			using(TempResourceFile file = new TempResourceFile(this.GetType(), "csharp-sample_VS2005.csproj"))
-			{
-				VSProject project = new VSProject(file.Path);
-				Assert.AreEqual("csharp-sample_VS2005", project.Name);
-				Assert.AreEqual(Path.GetFullPath(file.Path), project.ProjectPath);
-				Assert.AreEqual("csharp-sample.dll", Path.GetFileName(project.Configs["Debug"].Assemblies[0].ToString().ToLower()));
-			}
+			AssertCanLoadProject( "csharp-sample_VS2005.csproj" );
 		}
 
 		[Test]
 		public void LoadVbProject()
 		{
-			using(TempResourceFile file = new TempResourceFile(this.GetType(), "vb-sample.vbproj"))
-			{
-				VSProject project = new VSProject(file.Path);
-				Assert.AreEqual("vb-sample", project.Name);
-				Assert.AreEqual(Path.GetFullPath(file.Path), project.ProjectPath);
-				Assert.AreEqual("vb-sample.dll", Path.GetFileName(project.Configs["Debug"].Assemblies[0].ToString().ToLower()));
-			}
+			AssertCanLoadProject( "vb-sample.vbproj" );
 		}
 
 
 		[Test]
 		public void LoadVbProjectVS2005()
 		{
-			using(TempResourceFile file = new TempResourceFile(this.GetType(), "vb-sample_VS2005.vbproj"))
-			{
-				VSProject project = new VSProject(file.Path);
-				Assert.AreEqual("vb-sample_VS2005", project.Name);
-				Assert.AreEqual(Path.GetFullPath(file.Path), project.ProjectPath);
-				Assert.AreEqual("vb-sample.dll", Path.GetFileName(project.Configs["Debug"].Assemblies[0].ToString().ToLower()));
-			}
+			AssertCanLoadProject( "vb-sample_VS2005.vbproj" );
 		}
 
 		[Test]
 		public void LoadJsharpProject()
 		{
-			using(TempResourceFile file = new TempResourceFile(this.GetType(), "jsharp.vjsproj"))
-			{
-				VSProject project = new VSProject(file.Path);
-				Assert.AreEqual("jsharp", project.Name);
-				Assert.AreEqual(Path.GetFullPath(file.Path), project.ProjectPath);
-				Assert.AreEqual("jsharp.dll", Path.GetFileName(project.Configs["Debug"].Assemblies[0].ToString().ToLower()));
-			}
+			AssertCanLoadProject( "jsharp.vjsproj" );
 		}
 
 		[Test]
 		public void LoadJsharpProjectVS2005()
 		{
-			using(TempResourceFile file = new TempResourceFile(this.GetType(), "jsharp_VS2005.vjsproj"))
-			{
-				VSProject project = new VSProject(file.Path);
-				Assert.AreEqual("jsharp_VS2005", project.Name);
-				Assert.AreEqual(Path.GetFullPath(file.Path), project.ProjectPath);
-				Assert.AreEqual("jsharp.dll", Path.GetFileName(project.Configs["Debug"].Assemblies[0].ToString().ToLower()));
-			}
+			AssertCanLoadProject( "jsharp_VS2005.vjsproj" );
 		}
 
 		[Test]
 		public void LoadCppProject()
 		{
-			using(TempResourceFile file = new TempResourceFile(this.GetType(), "cpp-sample.vcproj"))
-			{
-				VSProject project = new VSProject(file.Path);
-				Assert.AreEqual("cpp-sample", project.Name);
-				Assert.AreEqual(Path.GetFullPath(file.Path), project.ProjectPath);
-				Assert.AreEqual("cpp-sample.dll", Path.GetFileName(project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower()));
-			}
+			AssertCanLoadProject( "cpp-sample.vcproj" );
+		}
+
+		[Test]
+		public void LoadCppProjectVS2005()
+		{
+			AssertCanLoadProject( "cpp-sample_VS2005.vcproj" );
+		}
+
+		[Test]
+		public void LoadProjectWithHebrewFileIncluded()
+		{
+			AssertCanLoadProject( "HebrewFileProblem.csproj" );
 		}
 
 		[Test]
 		public void LoadCppProjectWithMacros()
 		{
-			using ( TempResourceFile file = new TempResourceFile(this.GetType(), "CPPLibrary.vcproj" ))
+			using ( TempResourceFile file = new TempResourceFile(this.GetType(), "resources.CPPLibrary.vcproj", "CPPLibrary.vcproj" ))
 			{
 				VSProject project = new VSProject(file.Path);
 				Assert.AreEqual( "CPPLibrary", project.Name );
@@ -176,18 +159,6 @@ namespace NUnit.Util.Tests
 					project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower());
 				Assert.AreEqual( Path.GetFullPath( @"release\cpplibrary.dll" ).ToLower(), 
 					project.Configs["Release|Win32"].Assemblies[0].ToString().ToLower());
-			}
-		}
-
-		[Test]
-		public void LoadCppProjectVS2005()
-		{
-			using(TempResourceFile file = new TempResourceFile(this.GetType(), "cpp-sample_VS2005.vcproj"))
-			{
-				VSProject project = new VSProject(file.Path);
-				Assert.AreEqual("cpp-sample_VS2005", project.Name);
-				Assert.AreEqual(Path.GetFullPath(file.Path), project.ProjectPath);
-				Assert.AreEqual("cpp-sample.dll", Path.GetFileName(project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower()));
 			}
 		}
 

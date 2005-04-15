@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="cpp-sample"
+	Name="cpp-sample_VS2005"
 	ProjectGUID="{7E5849C7-0469-4AD2-91B9-C87203934254}"
 	Keyword="ManagedCProj"
 	>
@@ -60,7 +60,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/cpp-sample.dll"
+				OutputFile="$(OutDir)/cpp-sample_VS2005.dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 			/>
@@ -133,7 +133,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/cpp-sample.dll"
+				OutputFile="$(OutDir)/cpp-sample_VS2005.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
 			/>
