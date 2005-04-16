@@ -44,7 +44,7 @@ namespace NUnit.Core
 				"TestFixtureAttribute",
 				"",
 				"TestAttribute",
-				"^Test",
+				"^(?i:test)",
 				"ExpectedExceptionAttribute",
 				"SetUpAttribute",
 				"TearDownAttribute",
