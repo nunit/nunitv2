@@ -32,6 +32,7 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace NUnit.Core.Builders
 {
@@ -48,18 +49,20 @@ namespace NUnit.Core.Builders
 
 		static NUnitTestCaseBuilder()
 		{
-			NameValueCollection settings = (NameValueCollection)
-				ConfigurationSettings.GetConfig( "NUnit/TestCaseBuilder" );
-
 			try
 			{
-				string oldStyle = settings["OldStyleTestCases"];
-				if ( oldStyle != null )
-					allowOldStyleTests = Boolean.Parse( oldStyle );
+				NameValueCollection settings = (NameValueCollection)
+					ConfigurationSettings.GetConfig("NUnit/TestCaseBuilder");
+				if (settings != null)
+				{
+					string oldStyle = settings["OldStyleTestCases"];
+					if (oldStyle != null)
+						allowOldStyleTests = Boolean.Parse(oldStyle);
+				}
 			}
-			catch
+			catch(Exception e)
 			{
-				// Use default values
+				Debug.WriteLine(e);
 			}
 		}
 
