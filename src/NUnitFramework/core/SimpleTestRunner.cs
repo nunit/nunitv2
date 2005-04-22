@@ -117,17 +117,20 @@ namespace NUnit.Core
 			}
 			else 
 #endif
-			if ( runThread != null )
+            if (this.runThread != null)
 			{
 				// Cancel Synchronous run only if on another thread
 				if ( runThread == Thread.CurrentThread )
 					throw new InvalidOperationException( "May not CancelRun on same thread that is running the test" );
-					
-				runThread.Abort();
+
+                this.runThread.Abort();
 				
-				// Wake up the thread if necessary
-				if ( ( runThread.ThreadState & ThreadState.WaitSleepJoin ) != 0 )
-					runThread.Interrupt();				
+                if (this.runThread != null)
+                {
+                    // Wake up the thread if necessary
+                    if ((runThread.ThreadState & ThreadState.WaitSleepJoin) != 0)
+                        runThread.Interrupt();
+                }
 			}
 		}
 		#endregion
