@@ -1,3 +1,27 @@
+NUnit 2.2.3 Iteration Release 
+
+Bugs Fixed
+* 1099669 Missing function in framework
+* 1076043 Assert.AreEqual and boxing
+* 1077941 Custom Identity prevents test from completing
+* 1107950 NullReferenceException on Tools -> Framework info...
+* 1104326 Clicking Stop during test requires restart of GUI
+* 1103744 Ctrl-A to select exception stack trace
+* 1071502 NullReference exception on reload
+* 1063359 System.IO.IOException after run with unmanaged C++
+* 1060639 Dll does not unload properly when testing unmanaged C++
+* 1115605 Cannot open solution file that contains a makefile project
+* 1124049 params-keyword is missing in overloaded Assert.Ignore
+* 1116442 Cannot open C++ project file [with macros in paths]
+* 1109309 Cannot add assemblies from directories below AppBase
+* 1031617 Crash when repeatedly running tests in same session 
+* 1169186 The tab order of the controls in the Categories tab is wrong
+* 1173204 Incorrect XML Documentation for Assert.IsNull/IsNotNull
+* 1182239 NUnit GUI cannot load VS Proj. with non-English named files
+
+Feature Requests Implemented
+* 1006156 Assert.IsType() Would be very helpful
+
 NUnit 2.2.2 Iteration Release - December 7, 2004
 
 Bugs Fixed
