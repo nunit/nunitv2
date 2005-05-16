@@ -3,13 +3,13 @@
         ProjectType = "Local"
         ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
-        ProjectGuid = "{3BCA62D3-4C9D-4E24-80C0-291D5CD059FA}"
+        ProjectGuid = "{BD9CA3B3-EDE9-4E47-A839-A74EFE3767BC}"
     >
         <Build>
             <Settings
                 ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
-                AssemblyName = "nunit-server.tests"
+                AssemblyName = "nunit-test-server"
                 AssemblyOriginatorKeyFile = ""
                 DefaultClientScript = "JScript"
                 DefaultHTMLPageLayout = "Grid"
@@ -17,8 +17,8 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = "copy ..\..\..\nunit-server-exe\bin\$(ConfigurationName)\nunit-server.exe $(TargetDir)&#xd;&#xa;"
-                RootNamespace = "NUnit.TestServer.Tests"
+                PostBuildEvent = ""
+                RootNamespace = "NUnit.TestServer"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
             >
@@ -80,11 +80,6 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "nunit.framework.dll"
-                    Project = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "nunit.core.dll"
                     Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
@@ -93,16 +88,6 @@
                     Name = "System.Runtime.Remoting"
                     AssemblyName = "System.Runtime.Remoting"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Runtime.Remoting.dll"
-                />
-                <Reference
-                    Name = "nunit.util.dll"
-                    Project = "{61CE9CE5-943E-44D4-A381-814DC1406767}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "nunit-server"
-                    Project = "{BD9CA3B3-EDE9-4E47-A839-A74EFE3767BC}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
@@ -114,12 +99,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestServerTests.cs"
+                    RelPath = "ServerUtilities.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "UtilityTests.cs"
+                    RelPath = "TestServer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
