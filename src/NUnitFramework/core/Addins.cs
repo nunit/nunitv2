@@ -48,10 +48,10 @@ namespace NUnit.Core
 		#region Static Constructor
 		static Addins()
 		{	
-			// Load nunit extensions if available
+			// Load nunit.core.extensions if available
 			try
 			{
-				Assembly assembly = AppDomain.CurrentDomain.Load( "nunit.extensions" );
+				Assembly assembly = AppDomain.CurrentDomain.Load( "nunit.core.extensions" );
 				current.Register( assembly );
 				System.Diagnostics.Trace.WriteLine( "NUnit extensions loaded" );
 			}
