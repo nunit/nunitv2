@@ -1,7 +1,6 @@
 using System;
-using NUnit.Framework;
 
-namespace NUnit.Extensions
+namespace NUnit.Framework.Extensions
 {
 	/// <summary>
 	/// Summary description for TypeAssert.

@@ -1,15 +1,14 @@
 using System;
 using System.Reflection;
-using NUnit.Core;
 using NUnit.Core.Builders;
 
-namespace NUnit.Extensions
+namespace NUnit.Core.Extensions
 {
 	[TestCaseBuilder]
 	public class RepeatedTestBuilder : NUnitTestCaseBuilder
 	{
 		private static readonly string RepeatedTestType =
-			"NUnit.Extensions.RepeatedTestAttribute";
+			"NUnit.Framework.Extensions.RepeatedTestAttribute";
 
 		public TestCase Make ( MethodInfo method )
 		{
@@ -45,7 +44,7 @@ namespace NUnit.Extensions
 		private int GetRepeatCount( MethodInfo method )
 		{
 			Attribute repeatedAttribute =
-				Reflect.GetAttribute( method, "NUnit.Extensions.RepeatedTestAttribute", false );
+				Reflect.GetAttribute( method, RepeatedTestType, false );
 			if ( repeatedAttribute == null )
 				return 1;
 			

@@ -1,7 +1,7 @@
 using System;
 //using NUnit.Core;
 
-namespace NUnit.Extensions
+namespace NUnit.Framework.Extensions
 {
 	//[TestBuilder(typeof(RepeatedTestBuilder))]
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple=false)]

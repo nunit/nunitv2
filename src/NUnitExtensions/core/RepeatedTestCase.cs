@@ -1,8 +1,7 @@
 using System;
 using System.Reflection;
-using NUnit.Core;
 
-namespace NUnit.Extensions
+namespace NUnit.Core.Extensions
 {
 	/// <summary>
 	/// Summary description for RepeatedTestCase.
