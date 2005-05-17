@@ -20,6 +20,7 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "install", "install\install.
 		{83DD7E12-A705-4DBA-9D71-09C8973D9382} = {83DD7E12-A705-4DBA-9D71-09C8973D9382}
 		{83DD7E12-A705-4DBA-9D71-09C8973D9382} = {83DD7E12-A705-4DBA-9D71-09C8973D9382}
 		{83DD7E12-A705-4DBA-9D71-09C8973D9382} = {83DD7E12-A705-4DBA-9D71-09C8973D9382}
+		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0} = {6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}
 		{2E368281-3BA8-4050-B05E-0E0E43F8F446} = {2E368281-3BA8-4050-B05E-0E0E43F8F446}
 		{2E368281-3BA8-4050-B05E-0E0E43F8F446} = {2E368281-3BA8-4050-B05E-0E0E43F8F446}
 		{9367EC89-6A38-42BA-9607-0DC288E4BC3A} = {9367EC89-6A38-42BA-9607-0DC288E4BC3A}
@@ -27,7 +28,10 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "install", "install\install.
 		{9367EC89-6A38-42BA-9607-0DC288E4BC3A} = {9367EC89-6A38-42BA-9607-0DC288E4BC3A}
 		{98B10E98-003C-45A0-9587-119142E39986} = {98B10E98-003C-45A0-9587-119142E39986}
 		{98B10E98-003C-45A0-9587-119142E39986} = {98B10E98-003C-45A0-9587-119142E39986}
+		{D248419D-99C4-40DC-BE91-76A2230CD537} = {D248419D-99C4-40DC-BE91-76A2230CD537}
+		{BD9CA3B3-EDE9-4E47-A839-A74EFE3767BC} = {BD9CA3B3-EDE9-4E47-A839-A74EFE3767BC}
 		{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D} = {5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}
+		{3BCA62D3-4C9D-4E24-80C0-291D5CD059FA} = {3BCA62D3-4C9D-4E24-80C0-291D5CD059FA}
 		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148} = {3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}
 		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148} = {3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}
 		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148} = {3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}
@@ -75,10 +79,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.util.dll", "ClientUti
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.extensions.dll", "NUnitFramework\extensions\nunit.extensions.dll.csproj", "{98B10E98-003C-45A0-9587-119142E39986}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.dll", "NUnitFramework\framework\nunit.framework.dll.csproj", "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -117,13 +117,26 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui.tests", "GuiRunne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-server.tests", "NUnitTestServer\tests\nunit-server.tests.csproj", "{3BCA62D3-4C9D-4E24-80C0-291D5CD059FA}"
 	ProjectSection(ProjectDependencies) = postProject
+		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0} = {6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-server.exe", "NUnitTestServer\nunit-server\nunit-server.exe.csproj", "{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.extensions.tests", "NUnitExtensions\tests\nunit.extensions.tests.csproj", "{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-server", "NUnitTestServer\server\nunit-server.csproj", "{BD9CA3B3-EDE9-4E47-A839-A74EFE3767BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.extensions.dll", "NUnitExtensions\framework\nunit.framework.extensions.dll.csproj", "{D248419D-99C4-40DC-BE91-76A2230CD537}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.extensions.dll", "NUnitExtensions\core\nunit.core.extensions.dll.csproj", "{98B10E98-003C-45A0-9587-119142E39986}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-server", "NUnitTestServer\nunit-server\nunit-server.csproj", "{BD9CA3B3-EDE9-4E47-A839-A74EFE3767BC}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-server.exe", "NUnitTestServer\nunit-server-exe\nunit-server.exe.csproj", "{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -179,10 +192,6 @@ Global
 		{61CE9CE5-943E-44D4-A381-814DC1406767}.Debug.Build.0 = Debug|.NET
 		{61CE9CE5-943E-44D4-A381-814DC1406767}.Release.ActiveCfg = Release|.NET
 		{61CE9CE5-943E-44D4-A381-814DC1406767}.Release.Build.0 = Release|.NET
-		{98B10E98-003C-45A0-9587-119142E39986}.Debug.ActiveCfg = Debug|.NET
-		{98B10E98-003C-45A0-9587-119142E39986}.Debug.Build.0 = Debug|.NET
-		{98B10E98-003C-45A0-9587-119142E39986}.Release.ActiveCfg = Release|.NET
-		{98B10E98-003C-45A0-9587-119142E39986}.Release.Build.0 = Release|.NET
 		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug.ActiveCfg = Debug|.NET
 		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Debug.Build.0 = Debug|.NET
 		{83DD7E12-A705-4DBA-9D71-09C8973D9382}.Release.ActiveCfg = Release|.NET
@@ -223,14 +232,26 @@ Global
 		{3BCA62D3-4C9D-4E24-80C0-291D5CD059FA}.Debug.Build.0 = Debug|.NET
 		{3BCA62D3-4C9D-4E24-80C0-291D5CD059FA}.Release.ActiveCfg = Release|.NET
 		{3BCA62D3-4C9D-4E24-80C0-291D5CD059FA}.Release.Build.0 = Release|.NET
-		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Debug.ActiveCfg = Debug|.NET
-		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Debug.Build.0 = Debug|.NET
-		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Release.ActiveCfg = Release|.NET
-		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Release.Build.0 = Release|.NET
+		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Debug.ActiveCfg = Debug|.NET
+		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Debug.Build.0 = Debug|.NET
+		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Release.ActiveCfg = Release|.NET
+		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Release.Build.0 = Release|.NET
+		{D248419D-99C4-40DC-BE91-76A2230CD537}.Debug.ActiveCfg = Debug|.NET
+		{D248419D-99C4-40DC-BE91-76A2230CD537}.Debug.Build.0 = Debug|.NET
+		{D248419D-99C4-40DC-BE91-76A2230CD537}.Release.ActiveCfg = Release|.NET
+		{D248419D-99C4-40DC-BE91-76A2230CD537}.Release.Build.0 = Release|.NET
+		{98B10E98-003C-45A0-9587-119142E39986}.Debug.ActiveCfg = Debug|.NET
+		{98B10E98-003C-45A0-9587-119142E39986}.Debug.Build.0 = Debug|.NET
+		{98B10E98-003C-45A0-9587-119142E39986}.Release.ActiveCfg = Release|.NET
+		{98B10E98-003C-45A0-9587-119142E39986}.Release.Build.0 = Release|.NET
 		{BD9CA3B3-EDE9-4E47-A839-A74EFE3767BC}.Debug.ActiveCfg = Debug|.NET
 		{BD9CA3B3-EDE9-4E47-A839-A74EFE3767BC}.Debug.Build.0 = Debug|.NET
 		{BD9CA3B3-EDE9-4E47-A839-A74EFE3767BC}.Release.ActiveCfg = Release|.NET
 		{BD9CA3B3-EDE9-4E47-A839-A74EFE3767BC}.Release.Build.0 = Release|.NET
+		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Debug.ActiveCfg = Debug|.NET
+		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Debug.Build.0 = Debug|.NET
+		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Release.ActiveCfg = Release|.NET
+		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		license.rtf = license.rtf

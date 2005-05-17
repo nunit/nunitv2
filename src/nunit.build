@@ -51,6 +51,20 @@
       if="${directory::exists( current.build.dir )}"/>
   </target>
 
+  <target name="clean-each-project" depends="set-build-dir">
+    
+    <nant buildfile="NUnitFramework/NunitFramework.build" target="clean"/>
+    <nant buildfile="ClientUtilities/ClientUtilities.build" target="clean"/>
+    <nant buildfile="ConsoleRunner/ConsoleRunner.build" target="clean"/>
+    <nant buildfile="NUnitTestServer/NUnitTestServer.build" target="clean"/>
+    <nant buildfile="NUnitMocks/NunitMocks.build" target="clean"/>
+    <nant buildfile="NUnitExtensions\NUnitExtensions.build" target="clean"/>
+    <nant buildfile="GuiComponents/GuiComponents.build" target="clean"/>
+    <nant buildfile="GuiRunner/GuiRunner.build" target="clean"/>
+    <nant buildfile="tests/tests.build" target="clean"/>
+
+  </target>
+
   <target name="clean-package-dir" depends="set-package-config">
         <delete dir="${package.working.dir}" 
             if="${directory::exists( package.working.dir )}"/>
@@ -185,7 +199,12 @@
     <nant target="build"
       buildfile="ConsoleRunner\ConsoleRunner.build"/>
     <nant target="build"
+      buildfile="NUnitTestServer\NUnitTestServer.build"/>
+    <nant target="build"
       buildfile="NUnitMocks\NUnitMocks.build"/>
+    <nant target="build"
+      buildfile="NUnitExtensions\NUnitExtensions.build"/>
+
     <nant target="build" if="${build.win32}"
       buildfile="GuiComponents\GuiComponents.build"/>
     <nant target="build" if="${build.win32}"
@@ -202,7 +221,12 @@
     <nant target="build-tests"
       buildfile="ConsoleRunner\ConsoleRunner.build"/>
     <nant target="build-tests"
+      buildfile="NUnitTestServer\NUnitTestServer.build"/>
+    <nant target="build-tests"
       buildfile="NUnitMocks\NUnitMocks.build"/>
+    <nant target="build-tests"
+      buildfile="NUnitExtensions\NUnitExtensions.build"/>
+
     <nant target="build-tests" if="${build.win32}"
       buildfile="GuiComponents\GuiComponents.build"/>
     <nant target="build-tests" if="${build.win32}"
@@ -495,7 +519,9 @@
     <nant buildfile="NUnitFramework/NunitFramework.build" target="package"/>
     <nant buildfile="ClientUtilities/ClientUtilities.build" target="package"/>
     <nant buildfile="ConsoleRunner/ConsoleRunner.build" target="package"/>
+    <nant buildfile="NUnitTestRunner/NUnitTestRunner.build" target="package"/>
     <nant buildfile="NUnitMocks/NunitMocks.build" target="package"/>
+    <nant buildfile="NUnitExtensions\NUnitExtensions.build" target="package"/>
     <nant buildfile="GuiComponents/GuiComponents.build" target="package"/>
     <nant buildfile="GuiRunner/GuiRunner.build" target="package"/>
     <nant buildfile="tests/tests.build" target="package"/>
