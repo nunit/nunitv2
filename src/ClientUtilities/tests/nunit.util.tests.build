@@ -1,19 +1,9 @@
 <?xml version="1.0"?>
 <project name="NUnit.Util.Tests" default="build">
 
-  <property name="project.src.dir" value="../.."
-    unless="${property::exists('project.src.dir')}"/>
+  <include buildfile="../../nunit.project.include"/>
 
-  <include buildfile="../../nunit.build.include"/>
-
-  <target name="clean" depends="set-build-dir">
-    <delete failonerror="false">
-      <fileset basedir="${current.build.dir}">
-        <include name="nunit.util.tests.dll"/>
-        <include name="nunit.util.tests.pdb"/>
-      </fileset>
-    </delete>
-  </target>
+  <property name="current.build.output" value="nunit.util.tests"/>
 
   <target name="build" depends="make-build-dir">
     <csc target="library" 
@@ -22,27 +12,16 @@
       <sources basedir=".">
         <include name="*.cs"/>
       </sources>
-      <resources basedir="." prefix="NUnit.Util.Tests">
-        <include name="cpp-sample.vcproj"/>
-        <include name="cpp-sample_VS2005.vcproj"/>
-        <include name="csharp-sample.csproj"/>
-        <include name="csharp-sample_VS2005.csproj"/>
-        <include name="jsharp.vjsproj"/>
-        <include name="jsharp_VS2005.vjsproj"/>
-        <include name="vb-sample.vbproj"/>
-        <include name="vb-sample_VS2005.vbproj"/>
-        <include name="samples.sln"/>
-        <include name="samples_VS2005.sln"/>
-        <include name="ClassLibrary1.csproj"/>
-        <include name="WebApplication1.sln"/>
-        <include name="Unmanaged.vcproj"/>
-        <include name="Solution1.sln"/>
+      <resources basedir="." prefix="NUnit.Util.Tests.resources">
+        <include name="resources/*"/>
       </resources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.util.dll"/>
         <include name="nunit.mocks.dll"/>
+        <include name="nunit-server.dll"/>
+        <include name="nunit.framework.tests.dll"/>
         <include name="test-utilities.dll"/>
         <include name="mock-assembly.dll"/>
         <include name="nonamespace-assembly.dll"/>

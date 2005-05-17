@@ -1,24 +1,17 @@
 <?xml version="1.0"?>
 <project name="NUnit-Console?" default="build">
 
-  <property name="project.src.dir" value="../.."
-    unless="${property::exists('project.src.dir')}"/>
+  <include buildfile="../../nunit.project.include"/>
 
-  <include buildfile="..\..\nunit.build.include"/>
-
-  <target name="clean" depends="set-build-dir">
-    <delete file="${current.build.dir}/nunit-console.exe" failonerror="false"/>
-    <delete file="${current.build.dir}/nunit-console.exe.config" failonerror="false"/>
-    <delete file="${current.build.dir}/nunit-console.pdb" failonerror="false"/>
-  </target>
+  <property name="current.build.output" value="nunit-console"/>
+  <property name="current.build.type" value="exe"/>
 
   <target name="build" depends="make-build-dir">
     <csc target="exe" 
         output="${current.build.dir}/nunit-console.exe"
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
-        <include name="AssemblyInfo.cs"/>
-        <include name="Class1.cs"/>
+        <include name="*.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.core.dll"/>
