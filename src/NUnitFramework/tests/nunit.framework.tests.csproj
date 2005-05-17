@@ -105,11 +105,6 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "nunit.extensions.dll"
-                    Project = "{98B10E98-003C-45A0-9587-119142E39986}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "test-utilities"
                     Project = "{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
@@ -239,11 +234,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "MockSuiteBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "MockTestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -308,11 +298,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "RepeatedTestFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Results.xsd"
                     Link = "..\core\Results.xsd"
                     BuildAction = "EmbeddedResource"
@@ -350,11 +335,6 @@
                 />
                 <File
                     RelPath = "StackOverflowTestFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "StringAssertTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -435,11 +415,6 @@
                 />
                 <File
                     RelPath = "TrueFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TypeAssertTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
