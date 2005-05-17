@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = "copy ..\..\..\nunit-server-exe\bin\$(ConfigurationName)\nunit-server.exe $(TargetDir)&#xd;&#xa;"
+                PostBuildEvent = 'copy "..\..\..\nunit-server-exe\bin\$(ConfigurationName)\nunit-server.exe" "$(TargetDir)"'
                 RootNamespace = "NUnit.TestServer.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
