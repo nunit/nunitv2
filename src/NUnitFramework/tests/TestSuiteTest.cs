@@ -281,7 +281,7 @@ namespace NUnit.Core.Tests
 	}
 
 	[Serializable]
-	internal class RecordingListener : EventListener
+	public class RecordingListener : EventListener
 	{
 		public ArrayList testStarted = new ArrayList();
 		public ArrayList testFinished = new ArrayList();
