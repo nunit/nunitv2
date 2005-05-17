@@ -1,16 +1,9 @@
 <?xml version="1.0"?>
 <project name="NUnit.Tests" default="build">
 
-  <property name="project.src.dir" value="../.."
-    unless="${property::exists('project.src.dir')}"/>
+  <include buildfile="../../nunit.project.include"/>
 
-  <include buildfile="..\..\nunit.build.include"/>
-
-  <target name="clean" depends="set-build-dir">
-    <delete file="${current.build.dir}/mock-assembly.dll" failonerror="false"/>
-    <delete file="${current.build.dir}/mock-assembly.dll.config" failonerror="false"/>
-    <delete file="${current.build.dir}/mock-assembly.pdb" failonerror="false"/> 
-  </target>
+  <property name="current.build.output" value="mock-assembly"/>
 
   <target name="build" depends="make-build-dir">
     <csc target="library" 

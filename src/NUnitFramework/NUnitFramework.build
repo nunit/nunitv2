@@ -11,8 +11,6 @@
       target="clean"/>
     <nant buildfile="core/nunit.core.build" 
       target="clean"/>
-    <nant buildfile="extensions/nunit.extensions.build"
-      target="clean"/>
     <nant buildfile="tests/nunit.framework.tests.build"
       target="clean"/>
   </target>
@@ -21,8 +19,6 @@
     <nant buildfile="framework/nunit.framework.build"
       target="build"/>
     <nant buildfile="core/nunit.core.build" 
-      target="build"/>
-    <nant buildfile="extensions/nunit.extensions.build"
       target="build"/>
   </target>
 
@@ -35,8 +31,6 @@
     <nant buildfile="framework/nunit.framework.build"
       target="package"/>
     <nant buildfile="core/nunit.core.build" 
-      target="package"/>
-    <nant buildfile="extensions/nunit.extensions.build"
       target="package"/>
     <nant buildfile="tests/nunit.framework.tests.build"
       target="package"/>

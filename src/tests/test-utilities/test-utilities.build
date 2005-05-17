@@ -1,19 +1,9 @@
 <?xml version="1.0"?>
 <project name="NUnit.TestsUtilities" default="build">
 
-  <property name="project.src.dir" value="../.."
-    unless="${property::exists('project.src.dir')}"/>
+  <include buildfile="../../nunit.project.include"/>
 
-  <include buildfile="..\..\nunit.build.include"/>
-
-  <target name="clean" depends="set-build-dir">
-    <delete failonerror="false">
-      <fileset basedir="${current.build.dir}">
-        <include name="test-utilities.dll"/>
-        <include name="test-utilities.pdb"/>
-      </fileset>
-    </delete>
-  </target>
+  <property name="current.build.output" value="test-utilities"/>
 
   <target name="build" depends="make-build-dir">
     <csc target="library" 

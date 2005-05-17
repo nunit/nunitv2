@@ -1,15 +1,9 @@
 <?xml version="1.0"?>
 <project name="NUnit-Gui.Tests" default="build">
 
-  <property name="project.src.dir" value="../.."
-    unless="${property::exists('project.src.dir')}"/>
+  <include buildfile="../../nunit.project.include"/>
 
-  <include buildfile="..\..\nunit.build.include"/>
-
-  <target name="clean" depends="set-build-dir">
-    <delete file="${current.build.dir}/nunit-gui.tests.dll" failonerror="false"/>
-    <delete file="${current.build.dir}/nunit-gui.tests.pdb" failonerror="false"/>
-  </target>
+  <property name="current.build.output" value="nunit-gui.tests"/>
 
   <target name="build" depends="make-build-dir">
     <csc target="library" 
@@ -22,6 +16,7 @@
         <include name="nunit-gui-runner.dll"/>
         <include name="nunit.util.dll"/>
         <include name="nunit.framework.dll"/>
+        <include name="test-utilities.dll"/>
       </references>
     </csc>
   </target>
