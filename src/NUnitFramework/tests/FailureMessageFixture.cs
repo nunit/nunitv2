@@ -439,8 +439,10 @@ namespace NUnit.Framework.Tests
 
 			private void AnalyzeMessageForArrays( int index, Array expected, Array actual, string message )
 			{
-				string[] lines = SplitMessage( 
-					FormatMessageForFailArraysNotEqual( index, expected, actual, message ) );
+				AssertionFailureMessage afm = new AssertionFailureMessage( message );
+				afm.DisplayArrayDifferences( expected, actual, index );
+				string[] lines = SplitMessage( afm.ToString() );
+
 				string msg = string.Format( "Testing expected={0}, actual={1}", expected, actual );
 	
 				// First line should contain the user message

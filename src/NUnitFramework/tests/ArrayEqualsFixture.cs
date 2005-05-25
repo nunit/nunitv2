@@ -25,21 +25,23 @@ namespace NUnit.Framework.Tests
 			Assert.AreEqual( array1, array2 );
 		}
 
-		[Test, ExpectedException( typeof( AssertionException ) )]
+		[Test]
 		public void DifferentLengthArrays()
 		{
 			string[] array1 = { "one", "two", "three" };
 			string[] array2 = { "one", "two", "three", "four", "five" };
 
-			Assert.AreEqual( array1, array2 );
+			EqualAsserter eq = new EqualAsserter( array1, array2, null, null );
+			Assert.AreEqual( false, eq.Test() );
 		}
 
-		[Test, ExpectedException( typeof( AssertionException ) )]
+		[Test]
 		public void SameLengthDifferentContent()
 		{
 			string[] array1 = { "one", "two", "three" };
 			string[] array2 = { "one", "two", "ten" };
-			Assert.AreEqual( array1, array2 );
+			EqualAsserter eq = new EqualAsserter( array1, array2, null, null );
+			Assert.AreEqual( false, eq.Test() );
 		}
 
 		[Test]
@@ -59,12 +61,15 @@ namespace NUnit.Framework.Tests
 			Assert.AreEqual( array1, array2 );
 		}
 
-		[Test, ExpectedException( typeof( AssertionException ) )]
+		[Test]
 		public void DifferentArrayTypesNotEqual()
 		{
 			string[] array1 = { "one", "two", "three" };
 			object[] array2 = { "one", "three", "two" };
-			Assert.AreEqual( array1, array2 );
+			EqualAsserter eq = new EqualAsserter( array1, array2, null, null );
+			Assert.AreEqual( false, eq.Test() );
+			Assert.AreEqual( "\r\nArray lengths are both 3.\r\nArrays differ at index 1.\r\n\tString lengths differ.  Expected length=3, but was length=5.\r\n\tStrings differ at index 1.\r\n\texpected:<\"two\">\r\n\t but was:<\"three\">\r\n\t------------^",
+				eq.Message );
 		}
 
 		[Test]
@@ -100,15 +105,18 @@ namespace NUnit.Framework.Tests
 			Assert.AreEqual( b, a );
 		}
 
-		[Test, ExpectedException( typeof( AssertionException ) )]
+		[Test]
 		public void RanksOfArraysMustMatch()
 		{
 			int[,] a = new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
 			int[] b = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-			Assert.AreEqual( a , b );
+			EqualAsserter eq = new EqualAsserter( a , b, null, null );
+			Assert.AreEqual( false, eq.Test() );
+			Assert.AreEqual( "\r\n\texpected:<System.Int32[,]>\r\n\t but was:<System.Int32[]>",
+				eq.Message );
 		}
 
-		[Test, ExpectedException( typeof( AssertionException ), "Multi-dimension array comparison is not supported" )]
+		[Test, ExpectedException( typeof( ArgumentException ), "Multi-dimension array comparison is not supported" )]
 		public void MultiDimensionedArraysNotSupported()
 		{
 			int[,] a = new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };

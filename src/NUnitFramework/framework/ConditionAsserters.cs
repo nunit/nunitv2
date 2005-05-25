@@ -29,12 +29,11 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// Assert the condition.
+		/// Test the condition being asserted directly
 		/// </summary>
-		public override void Assert()
+		public override bool Test()
 		{
-			if ( !condition )
-				NUnit.Framework.Assert.Fail( message, args );
+			return condition;
 		}
 	}
 

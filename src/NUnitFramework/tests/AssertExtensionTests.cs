@@ -24,10 +24,8 @@ namespace NUnit.Framework.Tests
 
 			public void Test( string expected )
 			{
-				NUnit.Framework.Assert.AreEqual( expected, FormattedMessage );
+				NUnit.Framework.Assert.AreEqual( expected, Message );
 			}
-
-			public override void Assert() { }
 		}
 
 		[Test]
@@ -62,16 +60,16 @@ namespace NUnit.Framework.Tests
 				this.num = num;
 			}
 
-			public override void Assert()
+			public override string Message
 			{
-				if ( !condition )
+				get
 				{	
-					StringBuilder sb = new StringBuilder( FormattedMessage );
-					if ( sb.Length > 0 ) sb.Append( Environment.NewLine );
-					sb.Append( "\texpected: odd number" );
-					sb.Append( Environment.NewLine );
-					sb.AppendFormat( "\tactual:  <{0}>", this.num );
-					throw new AssertionException( sb.ToString() );
+					CreateFailureMessage();
+					if ( failureMessage.GetStringBuilder().Length > 0 )
+						failureMessage.WriteLine();
+					failureMessage.WriteLine( "\texpected: odd number" );
+					failureMessage.Write( "\tactual:  <{0}>", this.num );
+					return failureMessage.ToString();
 				}
 			}
 

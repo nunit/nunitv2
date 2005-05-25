@@ -70,60 +70,6 @@ namespace NUnit.Framework.Extensions
 		#endregion
 
 		#region Asserters
-		private class ImplementsAsserter : TypeAsserter
-		{
-			public ImplementsAsserter( System.Type expected, object actual, string message, params object[] args )
-				: base( expected, actual, message, args ) { }
-
-			public override void Assert()
-			{
-				try
-				{
-					System.Reflection.InterfaceMapping x = actual.GetType().GetInterfaceMap(expected);
-				}
-				catch( ArgumentException )	
-				{
-					Fail();
-				}
-			}
-		}
-
-		private class IsSubclassOfAsserter : TypeAsserter
-		{
-			public IsSubclassOfAsserter( System.Type expected, object actual, string message, params object[] args )
-				: base( expected, actual, message, args ) { }
-
-			public override void Assert()
-			{
-				if ( !actual.GetType().IsSubclassOf(expected) )
-					Fail();
-			}
-		}
-
-		private class IsAssignableFromAsserter : TypeAsserter
-		{
-			public IsAssignableFromAsserter( System.Type expected, object actual, string message, params object[] args )
-				: base( expected, actual, message, args ) { }
-
-			public override void Assert()
-			{
-				if ( !actual.GetType().IsAssignableFrom(expected) )
-					Fail();
-			}
-		}
-
-		private class IsTypeAsserter : TypeAsserter
-		{
-			public IsTypeAsserter( System.Type expected, object actual, string message, params object[] args )
-				: base( expected, actual, message, args ) { }
-
-			public override void Assert()
-			{
-				if ( !actual.GetType().Equals(expected) )
-					Fail();
-			}
-		}
-
 		/// <summary>
 		/// The abstract asserter from which all specific type asserters
 		/// will inherit from in order to limit code-reproduction.
@@ -133,6 +79,9 @@ namespace NUnit.Framework.Extensions
 			protected System.Type   expected;
 			protected object        actual;
 
+			/// <summary>
+			/// Constructor
+			/// </summary>
 			public TypeAsserter( System.Type expected, object actual, string message, params object[] args )
 				: base( message, args ) 
 			{
@@ -140,11 +89,66 @@ namespace NUnit.Framework.Extensions
 				this.actual = actual;
 			}
 
-			protected virtual void Fail()
+			public override string Message
 			{
-				AssertionFailureMessage msg = new AssertionFailureMessage( message, args );
-				msg.DisplayExpectedAndActual( expected.ToString(), actual.GetType().ToString() );
-				throw new AssertionException( msg.ToString() );
+				get
+				{
+					CreateFailureMessage().DisplayExpectedAndActual( expected.ToString(), actual.GetType().ToString() );
+					return failureMessage.ToString();
+				}
+			}
+		}
+
+		private class ImplementsAsserter : TypeAsserter
+		{
+			public ImplementsAsserter( System.Type expected, object actual, string message, params object[] args )
+				: base( expected, actual, message, args ) { }
+
+			// TODO: Find another approach to this
+			public override bool Test()
+			{
+				try
+				{
+					System.Reflection.InterfaceMapping x = actual.GetType().GetInterfaceMap(expected);
+					return true;
+				}
+				catch( ArgumentException )	
+				{
+					return false;
+				}
+			}
+		}
+
+		private class IsSubclassOfAsserter : TypeAsserter
+		{
+			public IsSubclassOfAsserter( System.Type expected, object actual, string message, params object[] args )
+				: base( expected, actual, message, args ) { }
+
+			public override bool Test()
+			{
+				return actual.GetType().IsSubclassOf(expected);
+			}
+		}
+
+		private class IsAssignableFromAsserter : TypeAsserter
+		{
+			public IsAssignableFromAsserter( System.Type expected, object actual, string message, params object[] args )
+				: base( expected, actual, message, args ) { }
+
+			public override bool Test()
+			{
+				return actual.GetType().IsAssignableFrom(expected);
+			}
+		}
+
+		private class IsTypeAsserter : TypeAsserter
+		{
+			public IsTypeAsserter( System.Type expected, object actual, string message, params object[] args )
+				: base( expected, actual, message, args ) { }
+
+			public override bool Test()
+			{
+				return actual.GetType().Equals(expected);
 			}
 		}
 		#endregion

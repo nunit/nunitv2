@@ -216,6 +216,25 @@ namespace NUnit.Framework
 				: FindMismatchPosition( sClippedExpected, sClippedActual, 0 ) );
 		}
 
+		public void DisplayArrayDifferences( Array expected, Array actual, int index )
+		{
+			WriteLine();
+			if( expected.Length != actual.Length )
+				Write( diffArrayLengthsFmt, expected.Length, actual.Length );
+			else
+				Write( sameArrayLengthsFmt, expected.Length );
+			
+			WriteLine();
+			Write( arraysDifferAtIndexFmt, index );
+				
+			if ( index < expected.Length && index < actual.Length )
+				DisplayDifferences( expected.GetValue( index ), actual.GetValue( index ), false );
+			else if( expected.Length < actual.Length )
+				DisplayAdditionalElements( "   extra:", actual, index, 3 );
+			else
+				DisplayAdditionalElements( " missing:", expected, index, 3 );
+		}
+
 		private void DisplayAdditionalElements( string label, Array array, int index, int max )
 		{
 			WriteLine();
@@ -391,40 +410,6 @@ namespace NUnit.Framework
 			}
 			return sInput;
 		}
-
-		/// <summary>
-		/// Called to create a message when two arrays are not equal. 
-		/// </summary>
-		/// <param name="index"></param>
-		/// <param name="expected"></param>
-		/// <param name="actual"></param>
-		/// <param name="message"></param>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		static public string FormatMessageForFailArraysNotEqual(int index, Array expected, Array actual, 
-			string message, params object[] args) 
-		{
-			AssertionFailureMessage msg = new AssertionFailureMessage( message, args );
-			
-			msg.WriteLine();
-			if( expected.Length != actual.Length )
-				msg.Write( diffArrayLengthsFmt, expected.Length, actual.Length );
-			else
-				msg.Write( sameArrayLengthsFmt, expected.Length );
-			
-			msg.WriteLine();
-			msg.Write( arraysDifferAtIndexFmt, index );
-				
-			if ( index < expected.Length && index < actual.Length )
-				msg.DisplayDifferences( expected.GetValue( index ), actual.GetValue( index ), false );
-			else if( expected.Length < actual.Length )
-				msg.DisplayAdditionalElements( "   extra:", actual, index, 3 );
-			else
-				msg.DisplayAdditionalElements( " missing:", expected, index, 3 );
-
-			return msg.ToString();
-		}
-
 		#endregion
 	}
 }

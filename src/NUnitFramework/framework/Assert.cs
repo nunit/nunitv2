@@ -849,10 +849,16 @@ namespace NUnit.Framework
 
 		#region DoAssert
 
+		/// <summary>
+		/// Test the condition asserted by an asserter and throw
+		/// an assertion exception using provided message on failure.
+		/// </summary>
+		/// <param name="asserter">An object that implements IAsserter</param>
 		static public void DoAssert( IAsserter asserter )
 		{
 			Assert.IncrementAssertCount();
-			asserter.Assert();
+			if ( !asserter.Test() )
+				throw new AssertionException( asserter.Message );
 		}
 
 		#endregion

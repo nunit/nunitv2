@@ -9,6 +9,13 @@ namespace NUnit.Framework
 	{
 		private double delta;
 
+		/// <summary>
+		/// Constructor for an EqualityAsserter
+		/// </summary>
+		/// <param name="expected"></param>
+		/// <param name="actual"></param>
+		/// <param name="message"></param>
+		/// <param name="args"></param>
 		public EqualityAsserter( object expected, object actual, string message, params object[] args )
 			: base( expected, actual, message, args ) { }
 

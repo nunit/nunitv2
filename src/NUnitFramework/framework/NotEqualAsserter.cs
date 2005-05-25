@@ -19,31 +19,17 @@ namespace NUnit.Framework
 			: base( expected, actual, message, args ) { }
 
 		/// <summary>
-		/// Assert that the two objects are not equal, failing
-		/// if they are found to be equal.
+		/// Test that the objects are not equal
 		/// </summary>
-		public override void Assert()
+		public override bool Test()
 		{
-			if ( expected == null && actual == null ) Fail();
-			if ( expected == null || actual == null ) return;
+			if ( expected == null && actual == null ) return false;
+			if ( expected == null || actual == null ) return true;
 
 			if ( expected.GetType().IsArray && actual.GetType().IsArray )
-			{
-				if ( ArraysEqual( (Array)expected, (Array)actual ) )
-					Fail();
-			}
-			else if ( ObjectsEqual( expected, actual ) )
-				Fail();
-		}
-
-		/// <summary>
-		/// Fail by throwing an AssertionException with the message 
-		/// provided by the user.
-		/// </summary>
-		/// <returns></returns>
-		public bool Fail()
-		{
-			throw new AssertionException( FormattedMessage );
+				return !ArraysEqual( (Array)expected, (Array)actual );
+			else 
+				return !ObjectsEqual( expected, actual );
 		}
 	}
 }

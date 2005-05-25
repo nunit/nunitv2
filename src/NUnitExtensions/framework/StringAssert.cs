@@ -71,11 +71,13 @@ namespace NUnit.Framework.Extensions
 				this.actual = actual;
 			}
 
-			protected virtual void Fail()
+			public override string Message
 			{
-				AssertionFailureMessage msg = new AssertionFailureMessage( message, args );
-				msg.DisplayExpectedAndActual( expected, actual );
-				throw new AssertionException( msg.ToString() );
+				get
+				{
+					CreateFailureMessage().DisplayExpectedAndActual( expected, actual );
+					return failureMessage.ToString();
+				}
 			}
 		}
 
@@ -87,10 +89,9 @@ namespace NUnit.Framework.Extensions
 			public ContainsAsserter( string expected, string actual, string message, params object[] args )
 				: base( expected, actual, message, args ) { }
 
-			public override void Assert()
+			public override bool Test()
 			{
-				if ( actual.IndexOf( expected ) < 0 )
-					Fail();
+				return actual.IndexOf( expected ) >= 0;
 			}
 		}
 
@@ -102,10 +103,9 @@ namespace NUnit.Framework.Extensions
 			public ContainsAnyAsserter( string expected, string actual, string message, params object[] args )
 				: base( expected, actual, message, args ) { }
 
-			public override void Assert()
+			public override bool Test()
 			{
-				if ( actual.IndexOfAny( expected.ToCharArray() ) < 0 )
-					Fail();
+				return actual.IndexOfAny( expected.ToCharArray() ) >= 0;
 			}
 		}
 
@@ -117,10 +117,9 @@ namespace NUnit.Framework.Extensions
 			public StartsWithAsserter( string expected, string actual, string message, params object[] args )
 				: base( expected, actual, message, args ) { }
 
-			public override void Assert()
+			public override bool Test()
 			{
-				if ( !actual.StartsWith( expected ) )
-					Fail();
+				return actual.StartsWith( expected );
 			}
 		}
 
@@ -132,10 +131,9 @@ namespace NUnit.Framework.Extensions
 			public EndsWithAsserter( string expected, string actual, string message, params object[] args )
 				: base( expected, actual, message, args ) { }
 
-			public override void Assert()
+			public override bool Test()
 			{
-				if ( !actual.EndsWith( expected ) )
-					Fail();
+				return actual.EndsWith( expected );
 			}
 		}
 
@@ -144,13 +142,17 @@ namespace NUnit.Framework.Extensions
 			public EqualIgnoringCaseAsserter( string expected, string actual, string message, params object[] args )
 				: base( expected, actual, message, args ) { }
 
-			public override void Assert()
+			public override bool Test()
 			{
-				if ( string.Compare( expected, actual, true ) != 0 )
+				return string.Compare( expected, actual, true ) == 0;
+			}
+
+			public override string Message
+			{
+				get
 				{
-					AssertionFailureMessage msg = new AssertionFailureMessage( message, args );
-					msg.DisplayDifferences( expected, actual, true );
-					throw new AssertionException( msg.ToString() );
+					CreateFailureMessage().DisplayDifferences( expected, actual, true );
+					return failureMessage.ToString();
 				}
 			}
 		}
