@@ -68,7 +68,7 @@ namespace NUnit.Framework.Tests
 			object[] array2 = { "one", "three", "two" };
 			EqualAsserter eq = new EqualAsserter( array1, array2, null, null );
 			Assert.AreEqual( false, eq.Test() );
-			Assert.AreEqual( "\r\nArray lengths are both 3.\r\nArrays differ at index 1.\r\n\tString lengths differ.  Expected length=3, but was length=5.\r\n\tStrings differ at index 1.\r\n\texpected:<\"two\">\r\n\t but was:<\"three\">\r\n\t------------^",
+			Assert.AreEqual( "\r\nArray lengths are both 3.\r\nArrays differ at index 1.\r\n\tString lengths differ.  Expected length=3, but was length=5.\r\n\tStrings differ at index 1.\r\n\texpected: <\"two\">\r\n\t but was: <\"three\">\r\n\t-------------^",
 				eq.Message );
 		}
 
@@ -112,7 +112,7 @@ namespace NUnit.Framework.Tests
 			int[] b = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 			EqualAsserter eq = new EqualAsserter( a , b, null, null );
 			Assert.AreEqual( false, eq.Test() );
-			Assert.AreEqual( "\r\n\texpected:<System.Int32[,]>\r\n\t but was:<System.Int32[]>",
+			Assert.AreEqual( "\r\n\texpected: <System.Int32[,]>\r\n\t but was: <System.Int32[]>",
 				eq.Message );
 		}
 

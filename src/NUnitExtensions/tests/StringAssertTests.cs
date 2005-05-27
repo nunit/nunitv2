@@ -11,10 +11,16 @@ namespace NUnit.Framework.Extensions.Tests
 			StringAssert.Contains( "abc", "**abc**" );
 		}
 
-		[Test, ExpectedException( typeof( AssertionException ) )]
+		[Test]
 		public void ContainsFails()
 		{
-			StringAssert.Contains( "abc", "abxcdxbc" );
+			ContainsAsserter asserter = 
+				new ContainsAsserter( "abc", "abxcdxbc", null, null );
+			Assert.AreEqual( false, asserter.Test() );
+			Assert.AreEqual( @"
+	expected: String containing ""abc""
+	 but was: <""abxcdxbc"">",
+				asserter.Message );
 		}
 
 		[Test]
@@ -25,10 +31,16 @@ namespace NUnit.Framework.Extensions.Tests
 			StringAssert.ContainsAny( "xX", "axbxcxd" );		
 		}
 
-		[Test, ExpectedException( typeof( AssertionException ) )]
+		[Test]
 		public void ContainsAnyFails()
 		{
-			StringAssert.Contains( "XYZ", "abxcdxbc" );
+			ContainsAnyAsserter asserter = 
+				new ContainsAnyAsserter( "XYZ", "abxcdxbc", null, null );
+			Assert.AreEqual( false, asserter.Test() );
+			Assert.AreEqual( @"
+	expected: String containing any of ""XYZ""
+	 but was: <""abxcdxbc"">",
+				asserter.Message );
 		}
 
 		[Test]
@@ -38,10 +50,16 @@ namespace NUnit.Framework.Extensions.Tests
 			StringAssert.StartsWith( "abc", "abc" );
 		}
 
-		[Test, ExpectedException( typeof( AssertionException ) )]
+		[Test]
 		public void StartsWithFails()
 		{
-			StringAssert.StartsWith( "xyz", "abcxyz" );
+			StartsWithAsserter asserter = 
+				new StartsWithAsserter( "xyz", "abcxyz", null, null );
+			Assert.AreEqual( false, asserter.Test() );
+			Assert.AreEqual( @"
+	expected: String starting with ""xyz""
+	 but was: <""abcxyz"">",
+				asserter.Message );
 		}
 	
 		[Test]
@@ -51,10 +69,16 @@ namespace NUnit.Framework.Extensions.Tests
 			StringAssert.EndsWith( "abc", "123abc" );
 		}
 
-		[Test, ExpectedException( typeof( AssertionException ) )]
+		[Test]
 		public void EndsWithFails()
 		{
-			StringAssert.EndsWith( "xyz", "abcdef" );
+			EndsWithAsserter asserter =
+				new EndsWithAsserter( "xyz", "abcdef", null, null );
+			Assert.AreEqual( false, asserter.Test() );
+			Assert.AreEqual( @"
+	expected: String ending with ""xyz""
+	 but was: <""abcdef"">",
+				asserter.Message );
 		}
 
 		[Test]
@@ -63,10 +87,19 @@ namespace NUnit.Framework.Extensions.Tests
 			StringAssert.AreEqualIgnoringCase( "name", "NAME" );
 		}
 
-		[Test, ExpectedException( typeof( AssertionException ) )]
+		[Test]
 		public void CaseInsensitiveCompareFails()
 		{
-			StringAssert.AreEqualIgnoringCase( "Name", "NAMES" );
+			EqualIgnoringCaseAsserter asserter =
+				new EqualIgnoringCaseAsserter( "Name", "NAMES", null, null );
+			Assert.AreEqual( false, asserter.Test() );
+			Assert.AreEqual( @"
+	String lengths differ.  Expected length=4, but was length=5.
+	Strings differ at index 4.
+	expected: <""Name"">
+	 but was: <""NAMES"">
+	----------------^",
+				asserter.Message );
 		}
 	}
 }

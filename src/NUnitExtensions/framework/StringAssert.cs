@@ -1,5 +1,6 @@
 namespace NUnit.Framework.Extensions
 {
+	#region StringAssert
 	/// <summary>
 	/// Summary description for StringAssert.
 	/// </summary>
@@ -54,107 +55,146 @@ namespace NUnit.Framework.Extensions
 		{
 			AreEqualIgnoringCase( expected, actual, string.Empty );
 		}
+	}
+	#endregion
 
-	
-		/// <summary>
-		/// Summary description for StringContainsAsserter.
-		/// </summary>
-		private abstract class StringAsserter : AbstractAsserter
+	#region StringAsserter
+	/// <summary>
+	/// Summary description for StringAsserter.
+	/// </summary>
+	public abstract class StringAsserter : AbstractAsserter
+	{
+		protected string expected;
+		protected string actual;
+
+		public StringAsserter( string expected, string actual, string message, params object[] args )
+			: base( message, args ) 
 		{
-			protected string expected;
-			protected string actual;
+			this.expected = expected;
+			this.actual = actual;
+		}
 
-			public StringAsserter( string expected, string actual, string message, params object[] args )
-				: base( message, args ) 
+		public override string Message
+		{
+			get
 			{
-				this.expected = expected;
-				this.actual = actual;
-			}
-
-			public override string Message
-			{
-				get
-				{
-					CreateFailureMessage().DisplayExpectedAndActual( expected, actual );
-					return failureMessage.ToString();
-				}
+				CreateFailureMessage();
+				failureMessage.AddExpectedLine( Expectation );
+				failureMessage.DisplayActualValue( actual );
+				return failureMessage.ToString();
 			}
 		}
 
-		/// <summary>
-		/// Summary description for StringContainsAsserter.
-		/// </summary>
-		private class ContainsAsserter : StringAsserter
+		protected virtual string Expectation
 		{
-			public ContainsAsserter( string expected, string actual, string message, params object[] args )
-				: base( expected, actual, message, args ) { }
+			get { return string.Format( "<\"{0}\">", expected ); }
+		}
+	}
+	#endregion
 
-			public override bool Test()
-			{
-				return actual.IndexOf( expected ) >= 0;
-			}
+	#region ContainsAsserter
+	/// <summary>
+	/// Summary description for ContainsAsserter.
+	/// </summary>
+	public class ContainsAsserter : StringAsserter
+	{
+		public ContainsAsserter( string expected, string actual, string message, params object[] args )
+			: base( expected, actual, message, args ) { }
+
+		public override bool Test()
+		{
+			return actual.IndexOf( expected ) >= 0;
 		}
 
-		/// <summary>
-		/// Summary description for StringContainsAsserter.
-		/// </summary>
-		private class ContainsAnyAsserter : StringAsserter
+		protected override string Expectation
 		{
-			public ContainsAnyAsserter( string expected, string actual, string message, params object[] args )
-				: base( expected, actual, message, args ) { }
+			get { return string.Format( "String containing \"{0}\"", expected ); }
+		}
+	}
+	#endregion
 
-			public override bool Test()
-			{
-				return actual.IndexOfAny( expected.ToCharArray() ) >= 0;
-			}
+	#region ContainsAnyAsserter
+	/// <summary>
+	/// Summary description for ContainsAnyAsserter.
+	/// </summary>
+	public class ContainsAnyAsserter : StringAsserter
+	{
+		public ContainsAnyAsserter( string expected, string actual, string message, params object[] args )
+			: base( expected, actual, message, args ) { }
+
+		public override bool Test()
+		{
+			return actual.IndexOfAny( expected.ToCharArray() ) >= 0;
 		}
 
-		/// <summary>
-		/// Summary description for StringContainsAsserter.
-		/// </summary>
-		private class StartsWithAsserter : StringAsserter
+		protected override string Expectation
 		{
-			public StartsWithAsserter( string expected, string actual, string message, params object[] args )
-				: base( expected, actual, message, args ) { }
+			get { return string.Format( "String containing any of \"{0}\"", expected ); }
+		}
+	}
+	#endregion
 
-			public override bool Test()
-			{
-				return actual.StartsWith( expected );
-			}
+	#region StartsWithAsserter
+	/// <summary>
+	/// Summary description for StartsWithAsserter.
+	/// </summary>
+	public class StartsWithAsserter : StringAsserter
+	{
+		public StartsWithAsserter( string expected, string actual, string message, params object[] args )
+			: base( expected, actual, message, args ) { }
+
+		public override bool Test()
+		{
+			return actual.StartsWith( expected );
 		}
 
-		/// <summary>
-		/// Summary description for StringContainsAsserter.
-		/// </summary>
-		private class EndsWithAsserter : StringAsserter
+		protected override string Expectation
 		{
-			public EndsWithAsserter( string expected, string actual, string message, params object[] args )
-				: base( expected, actual, message, args ) { }
+			get { return string.Format( "String starting with \"{0}\"", expected ); }
+		}
+	}
+	#endregion
 
-			public override bool Test()
-			{
-				return actual.EndsWith( expected );
-			}
+	#region EndsWithAsserter
+	/// <summary>
+	/// Summary description for EndsWithAsserter.
+	/// </summary>
+	public class EndsWithAsserter : StringAsserter
+	{
+		public EndsWithAsserter( string expected, string actual, string message, params object[] args )
+			: base( expected, actual, message, args ) { }
+
+		public override bool Test()
+		{
+			return actual.EndsWith( expected );
 		}
 
-		private class EqualIgnoringCaseAsserter : StringAsserter
+		protected override string Expectation
 		{
-			public EqualIgnoringCaseAsserter( string expected, string actual, string message, params object[] args )
-				: base( expected, actual, message, args ) { }
+			get { return string.Format( "String ending with \"{0}\"", expected ); }
+		}
+	}
+	#endregion
 
-			public override bool Test()
-			{
-				return string.Compare( expected, actual, true ) == 0;
-			}
+	#region EqualIgnoringCaseAsserter
+	public class EqualIgnoringCaseAsserter : StringAsserter
+	{
+		public EqualIgnoringCaseAsserter( string expected, string actual, string message, params object[] args )
+			: base( expected, actual, message, args ) { }
 
-			public override string Message
+		public override bool Test()
+		{
+			return string.Compare( expected, actual, true ) == 0;
+		}
+
+		public override string Message
+		{
+			get
 			{
-				get
-				{
-					CreateFailureMessage().DisplayDifferences( expected, actual, true );
-					return failureMessage.ToString();
-				}
+				CreateFailureMessage().DisplayDifferences( expected, actual, true );
+				return failureMessage.ToString();
 			}
 		}
 	}
+	#endregion
 }

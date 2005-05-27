@@ -4,7 +4,7 @@ namespace NUnit.Framework.Extensions.Tests
 	[TestFixture()]
 	public class TypeAssertTest
 	{
-		[Test()]
+		[Test]
 		public void Implements()
 		{
 			TypeAssert.Implements(typeof(System.Runtime.Serialization.ISerializable),new System.ApplicationException("Bad News"));
@@ -12,13 +12,18 @@ namespace NUnit.Framework.Extensions.Tests
 			TypeAssert.Implements(typeof(System.Runtime.Serialization.ISerializable),new System.ApplicationException("Bad News"),"Type Failure Message",null);
 		}
 
-		[Test(), ExpectedException( typeof( AssertionException ) )]
+		[Test]
 		public void ImplementsFails()
 		{
-			TypeAssert.Implements(typeof(System.IServiceProvider),new System.Exception("Bad News"));
+			ImplementsAsserter asserter = new ImplementsAsserter(
+				typeof(System.IServiceProvider),new System.Exception("Bad News"), null, null );
+			Assert.AreEqual( false, asserter.Test() );
+			Assert.AreEqual( 
+				"\r\n\texpected: Type implementing System.IServiceProvider\r\n\t but was: System.Exception", 
+				asserter.Message );
 		}
 
-		[Test()]
+		[Test]
 		public void IsSubclassOf()
 		{
 			TypeAssert.IsSubclassOf(typeof(System.Exception),new System.ApplicationException("Bad News"));
@@ -26,13 +31,22 @@ namespace NUnit.Framework.Extensions.Tests
 			TypeAssert.IsSubclassOf(typeof(System.Exception),new System.ApplicationException("Bad News"),"Type Failure Message",null);
 		}
 
-		[Test(), ExpectedException( typeof( AssertionException ) )]
+		[Test]
 		public void IsSubclassOfFails()
 		{
-			TypeAssert.IsSubclassOf(typeof(System.Data.DataSet),new System.Exception("Bad News"));
+			IsSubclassOfAsserter asserter = new IsSubclassOfAsserter(
+				typeof(System.Data.DataSet),new System.Exception("Bad News"), null, null );
+			Assert.AreEqual( false, asserter.Test() );
+			Assert.AreEqual( "\r\n\texpected: Subclass of System.Data.DataSet\r\n\t but was: System.Exception", asserter.Message );
 		}
 
-		[Test()]
+		[Test]
+		public void IsSubclassMessage()
+		{
+		}
+
+
+		[Test]
 		public void IsType()
 		{
 			TypeAssert.IsType(typeof(System.String),"abc123");
@@ -40,10 +54,15 @@ namespace NUnit.Framework.Extensions.Tests
 			TypeAssert.IsType(typeof(System.String),"abc123","Type Failure Message",null);
 		}
 
-		[Test(), ExpectedException( typeof( AssertionException ) )]
+		[Test]
 		public void IsTypeFails()
 		{
-			TypeAssert.IsType(typeof(System.Object),"abc123");
+			IsTypeAsserter asserter = new IsTypeAsserter(
+				typeof(System.Object), "abc123", null, null );
+			Assert.AreEqual( false, asserter.Test() );
+			Assert.AreEqual( 
+				"\r\n\texpected: System.Object\r\n\t but was: System.String", 
+				asserter.Message );
 		}
 
 		[Test()]
@@ -57,13 +76,18 @@ namespace NUnit.Framework.Extensions.Tests
 			TypeAssert.IsAssignableFrom(array2.GetType(),array10,"Type Failure Message",null);
 		}
 
-		[Test(), ExpectedException( typeof( AssertionException ) )]
+		[Test]
 		public void IsAssignableFromFails()
 		{
 			int [] array10 = new int [10];
 			int [,] array2 = new int[2,2];
 
-			TypeAssert.IsAssignableFrom(array2.GetType(),array10);
+			IsAssignableFromAsserter asserter = new IsAssignableFromAsserter(
+				array2.GetType(), array10, null, null );
+			Assert.AreEqual( false, asserter.Test() );
+			Assert.AreEqual( 
+				"\r\n\texpected: Type assignable from System.Int32[,]\r\n\t but was: System.Int32[]", 
+				asserter.Message );
 		}
 
 	}
