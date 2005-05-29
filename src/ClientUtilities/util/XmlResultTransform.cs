@@ -32,7 +32,7 @@ namespace NUnit.Util
 
 		public void Load( XmlReader reader )
 		{
-			xslTransform.Load( reader );
+			xslTransform.Load( reader, null, null );
 		}
 
 		public void Transform( string inputFile, string outputFile )
@@ -47,7 +47,7 @@ namespace NUnit.Util
 
 		public void Transform( IXPathNavigable xpnav, TextWriter writer )
 		{
-			xslTransform.Transform( xpnav, null, writer );
+			xslTransform.Transform( xpnav, null, writer, null );
 		}
 	}
 }

@@ -10,7 +10,7 @@ namespace NUnit.Framework
 		private double delta;
 
 		/// <summary>
-		/// Constructor for an EqualityAsserter
+		/// Constructor taking expected and actual values and a user message with arguments.
 		/// </summary>
 		/// <param name="expected"></param>
 		/// <param name="actual"></param>
@@ -19,13 +19,22 @@ namespace NUnit.Framework
 		public EqualityAsserter( object expected, object actual, string message, params object[] args )
 			: base( expected, actual, message, args ) { }
 
+		/// <summary>
+		/// Constructor taking expected and actual values, a tolerance
+		/// and a user message and arguments.
+		/// </summary>
+		/// <param name="expected"></param>
+		/// <param name="actual"></param>
+		/// <param name="delta"></param>
+		/// <param name="message"></param>
+		/// <param name="args"></param>
 		public EqualityAsserter( double expected, double actual, double delta, string message, params object[] args )
 			: base( expected, actual, message, args )
-	{
-		this.delta = delta;
-	}
+		{
+			this.delta = delta;
+		}
 
-	/// <summary>
+		/// <summary>
 		/// Used to compare two objects.  Two nulls are equal and null
 		/// is not equal to non-null. Comparisons between the same
 		/// numeric types are fine (Int32 to Int32, or Int64 to Int64),
@@ -116,6 +125,9 @@ namespace NUnit.Framework
 			return false;
 		}
 
+		/// <summary>
+		/// Helper method to compare two arrays
+		/// </summary>
 		protected virtual bool ArraysEqual( Array expected, Array actual )
 		{
 			if ( expected.Rank != actual.Rank )

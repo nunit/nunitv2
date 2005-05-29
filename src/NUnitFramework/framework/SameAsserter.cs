@@ -17,11 +17,17 @@ namespace NUnit.Framework
 		public SameAsserter( object expected, object actual, string message, params object[] args )
 			: base( expected, actual, message, args ) { }
 
+		/// <summary>
+		/// Test that actual and expected reference the same object
+		/// </summary>
 		public override bool Test()
 		{
 			return object.ReferenceEquals( expected, actual );
 		}
 
+		/// <summary>
+		/// Provide error message when the objects are different.
+		/// </summary>
 		public override string Message
 		{
 			get

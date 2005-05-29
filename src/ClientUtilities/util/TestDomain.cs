@@ -225,6 +225,7 @@ namespace NUnit.Util
 		{
 			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
 			{
+				this.listener = listener; // Save listener for unhandled exception event handler
 				return base.doRun( listener, testNames );
 			}
 		}

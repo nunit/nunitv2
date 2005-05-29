@@ -82,7 +82,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.TextBox projectBaseTextBox;
-		private System.ComponentModel.IContainer components;
+		private System.ComponentModel.IContainer components = null;
 
 		#endregion
 

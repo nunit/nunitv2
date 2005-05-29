@@ -12,8 +12,16 @@ namespace NUnit.Framework
 		private string include;
 		private string exclude;
 
+		/// <summary>
+		/// Constructor with no platforms specified, for use
+		/// with named property syntax.
+		/// </summary>
 		public PlatformAttribute() { }
 
+		/// <summary>
+		/// Constructor taking one or more platforms
+		/// </summary>
+		/// <param name="platforms">Comma-deliminted list of platforms</param>
 		public PlatformAttribute( string platforms )
 		{
 			this.include = platforms;

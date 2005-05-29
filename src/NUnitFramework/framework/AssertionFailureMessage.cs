@@ -55,8 +55,16 @@ namespace NUnit.Framework
 		/// </summary>
 		static public readonly int PostClipLength = 35;
 
-		// Note: The expected and actual prefixes must be the same length
+		/// <summary>
+		/// Prefix used to start an expected value line.
+		/// Must be same length as actualPrefix.
+		/// </summary>
 		static protected readonly string expectedPrefix = "expected:";
+		
+		/// <summary>
+		/// Prefix used to start an actual value line.
+		/// Must be same length as expectedPrefix.
+		/// </summary>
 		static protected readonly string actualPrefix   = " but was:";
 
 		static private readonly string expectedAndActualFmt = "\t{0} {1}";
@@ -114,21 +122,41 @@ namespace NUnit.Framework
 			Write( fmt, args );
 		}
 
+		/// <summary>
+		/// Add an expected value line to the message containing
+		/// the text provided as an argument.
+		/// </summary>
+		/// <param name="text">Text describing what was expected.</param>
 		public void AddExpectedLine( string text )
 		{
 			AddLine( string.Format( expectedAndActualFmt, expectedPrefix, text ) );
 		}
 
+		/// <summary>
+		/// Add an actual value line to the message containing
+		/// the text provided as an argument.
+		/// </summary>
+		/// <param name="text">Text describing the actual value.</param>
 		public void AddActualLine( string text )
 		{
 			AddLine( string.Format( expectedAndActualFmt, actualPrefix, text ) );
 		}
 
+		/// <summary>
+		/// Add an expected value line to the message containing
+		/// a string representation of the object provided.
+		/// </summary>
+		/// <param name="expected">An object representing the expected value</param>
 		public void DisplayExpectedValue( object expected )
 		{
 			AddExpectedLine( FormatObjectForDisplay( expected ) );
 		}
 
+		/// <summary>
+		/// Add an actual value limne to the message containing
+		/// a string representation of the object provided.
+		/// </summary>
+		/// <param name="actual">An object representing what was actually found</param>
 		public void DisplayActualValue( object actual )
 		{
 			AddActualLine( FormatObjectForDisplay( actual ) );
@@ -247,6 +275,13 @@ namespace NUnit.Framework
 				: FindMismatchPosition( sClippedExpected, sClippedActual, 0 ) );
 		}
 
+		/// <summary>
+		/// Display a standard message showing the differences found between 
+		/// two arrays that were expected to be equal.
+		/// </summary>
+		/// <param name="expected">The expected array value</param>
+		/// <param name="actual">The actual array value</param>
+		/// <param name="index">The index at which a difference was found</param>
 		public void DisplayArrayDifferences( Array expected, Array actual, int index )
 		{
 			if( expected.Length != actual.Length )
