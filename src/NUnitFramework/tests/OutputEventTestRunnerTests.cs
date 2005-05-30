@@ -10,7 +10,7 @@ namespace NUnit.Core.Tests
 	using NUnit.Framework;
 
 	[TestFixture]
-	public class RealTestRunnerTests
+	public class OutputEventTestRunnerTests
 	{
 		const string TEST_OUT_TEXT = "__TEST_OUT_TEXT__";
 		const string TEST_ERROR_TEXT = "__TEST_ERROR_TEXT__";
