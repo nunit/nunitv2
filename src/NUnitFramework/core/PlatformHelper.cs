@@ -37,7 +37,14 @@ namespace NUnit.Core
 		private OperatingSystem os;
 		private RuntimeFramework rt;
 
+		// Set whenever we fail to support a list of platforms
+		private string reason = string.Empty;
+
 		private static readonly string PlatformType = "NUnit.Framework.PlatformAttribute";
+
+		// Defined here and used in tests. We can't use PlatformID.Unix
+		// if we are building on .NET 1.0 or 1.1
+		public static readonly PlatformID UnixPlatformID = (PlatformID) 4;
 
 		/// <summary>
 		/// Comma-delimited list of all supported OS platform constants
@@ -104,11 +111,25 @@ namespace NUnit.Core
 				platformAttribute, "Exclude", 
 				BindingFlags.Public | BindingFlags.Instance );
 
-			if ( include != null && !IsPlatformSupported( include ) )
-				return false;
+			try
+			{
+				if (include != null && !IsPlatformSupported(include))
+				{
+					reason = string.Format("Only supported on {0}", include);
+					return false;
+				}
 
-			if ( exclude != null && IsPlatformSupported( exclude ) )
-				return false;
+				if (exclude != null && IsPlatformSupported(exclude))
+				{
+					reason = string.Format("Not supported on {0}", exclude);
+					return false;
+				}
+			}
+			catch( ArgumentException ex )
+			{
+				reason = string.Format( "Invalid platform name: {0}", ex.ParamName );
+				return false; 
+			}
 
 			return true;
 		}
@@ -139,7 +160,7 @@ namespace NUnit.Core
 			if ( platform.IndexOf( ',' ) >= 0 )
 				return IsPlatformSupported( platform.Split( new char[] { ',' } ) );
 
-			string platformName = platform.ToUpper().Trim();
+			string platformName = platform.Trim();
 			bool nameOK = false;
 
 			string versionSpecification = null;
@@ -198,7 +219,7 @@ namespace NUnit.Core
 					break;
 				case "UNIX":
 				case "LINUX":
-					nameOK = (int)os.Platform == 128;  // Not defined in .NET 1.0 or 1.1
+					nameOK = os.Platform == UnixPlatformID;
 					break;
 				case "NET":
 					nameOK = rt.Runtime == RuntimeType.Net;
@@ -241,6 +262,16 @@ namespace NUnit.Core
 				return false;
 
 			return true;
+		}
+
+		/// <summary>
+		/// Return the last failure reason. Results are not
+		/// defined if called before IsSupported( Attribute )
+		/// is called.
+		/// </summary>
+		public string Reason
+		{
+			get { return reason; }
 		}
 	}
 }

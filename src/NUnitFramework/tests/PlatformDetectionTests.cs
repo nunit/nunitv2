@@ -135,7 +135,7 @@ namespace NUnit.Core.Tests
 		public void DetectUnix()
 		{
 			CheckOSPlatforms( 
-				new OperatingSystem( (PlatformID)128, new Version() ),
+				new OperatingSystem( PlatformHelper.UnixPlatformID, new Version() ),
 				"UNIX,Linux" );
 		}
 
@@ -218,6 +218,7 @@ namespace NUnit.Core.Tests
 			PlatformAttribute attr = new PlatformAttribute( "Win2K,WinXP,NT4" );
 			Assert.IsTrue( winXPHelper.IsPlatformSupported( attr ) );
 			Assert.IsFalse( win95Helper.IsPlatformSupported( attr ) );
+			Assert.AreEqual("Only supported on Win2K,WinXP,NT4", win95Helper.Reason);
 		}
 
 		[Test]
@@ -226,6 +227,7 @@ namespace NUnit.Core.Tests
 			PlatformAttribute attr = new PlatformAttribute();
 			attr.Exclude = "Win2K,WinXP,NT4";
 			Assert.IsFalse( winXPHelper.IsPlatformSupported( attr ) );
+			Assert.AreEqual( "Not supported on Win2K,WinXP,NT4", winXPHelper.Reason );
 			Assert.IsTrue( win95Helper.IsPlatformSupported( attr ) );
 		}
 
@@ -235,11 +237,21 @@ namespace NUnit.Core.Tests
 			PlatformAttribute attr = new PlatformAttribute( "Win2K,WinXP,NT4" );
 			attr.Exclude = "Mono";
 			Assert.IsFalse( win95Helper.IsPlatformSupported( attr ) );
+			Assert.AreEqual( "Only supported on Win2K,WinXP,NT4", win95Helper.Reason );
 			Assert.IsTrue( winXPHelper.IsPlatformSupported( attr ) );
 			attr.Exclude = "Net";
 			Assert.IsFalse( win95Helper.IsPlatformSupported( attr ) );
+			Assert.AreEqual( "Only supported on Win2K,WinXP,NT4", win95Helper.Reason );
 			Assert.IsFalse( winXPHelper.IsPlatformSupported( attr ) );
+			Assert.AreEqual( "Not supported on Net", winXPHelper.Reason );
 		}
 
+		[Test]
+		public void PlatformAttribute_InvalidPlatform()
+		{
+			PlatformAttribute attr = new PlatformAttribute( "Net-1.0,Net11,Mono" );
+			Assert.IsFalse( winXPHelper.IsPlatformSupported( attr ) );
+			Assert.AreEqual( "Invalid platform name: Net11", winXPHelper.Reason );
+		}
 	}
 }
