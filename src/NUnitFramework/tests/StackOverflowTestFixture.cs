@@ -35,7 +35,7 @@ namespace NUnit.Core.Tests
 	/// <summary>
 	/// Summary description for StackOverflowTestFixture.
 	/// </summary>
-	[TestFixture]
+	[TestFixture, Platform(Exclude="Net-2.0,Mono")]
 	public class StackOverflowTestFixture
 	{
 		private void FunctionCallsSelf()
@@ -44,7 +44,6 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test, ExpectedException( typeof( StackOverflowException ) )]
-		[Platform( Exclude = "Mono" )]
 		public void SimpleOverflow()
 		{
 			FunctionCallsSelf();
