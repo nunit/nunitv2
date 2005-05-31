@@ -47,8 +47,7 @@ namespace NUnit.Core
 		/// </summary>
 		protected override TestResult[] doRun( EventListener listener, Test[] tests )
 		{
-			//			AddinManager.Addins.Save();
-			//			AddinManager.Addins.Clear();
+			Addins.Save();
 
 			try
 			{
@@ -87,10 +86,7 @@ namespace NUnit.Core
 			}
 			finally
 			{
-				// Flag that we are no longer running
-				this.runThread = null;
-
-//				AddinManager.Addins.Restore();
+				Addins.Restore();
 			}
 		}
 
