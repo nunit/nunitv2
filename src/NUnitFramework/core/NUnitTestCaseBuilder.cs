@@ -76,7 +76,7 @@ namespace NUnit.Core.Builders
 				if ( !helper.IsPlatformSupported( method ) )
 				{
 					testCase.ShouldRun = false;
-					testCase.IgnoreReason = "Not running on correct platform";
+					testCase.IgnoreReason = helper.Reason;
 				}
 
 				testCase.Categories = CategoryManager.GetCategories( method );

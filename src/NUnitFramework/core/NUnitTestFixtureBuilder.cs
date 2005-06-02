@@ -70,7 +70,7 @@ namespace NUnit.Core.Builders
 				if ( !helper.IsPlatformSupported( type ) )
 				{
 					suite.ShouldRun = false;
-					suite.IgnoreReason = "Not running on correct platform";
+					suite.IgnoreReason = helper.Reason;
 				}
 
 				suite.Categories = CategoryManager.GetCategories( type );	
