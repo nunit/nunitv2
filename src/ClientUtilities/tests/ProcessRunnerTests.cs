@@ -10,7 +10,9 @@ namespace NUnit.Util.Tests
 	/// <summary>
 	/// Summary description for ProcessRunnerTests.
 	/// </summary>
+#if DEBUG
 	[TestFixture]
+#endif
 	public class ProcessRunnerTests : BasicRunnerTests
 	{
 		private ProcessRunner myRunner;
