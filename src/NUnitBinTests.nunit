@@ -6,7 +6,6 @@
     <assembly path="nunit.uikit.tests.dll" />
     <assembly path="nunit-console.tests.dll" />
     <assembly path="nunit-gui.tests.dll" />
-    <assembly path="nunit-server.tests.dll" />
     <assembly path="nunit.extensions.tests.dll" />
   </Config>
 </NUnitProject>
