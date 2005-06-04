@@ -10,7 +10,7 @@ namespace NUnit.Core.Tests
 	/// Summary description for CallContextTests.
 	/// </summary>
 	// TODO: Make this work for .NET 2.0
-	[TestFixture, Platform( Exclude="Net-2.0" )]
+	[TestFixture]
 	public class CallContextTests
 	{
 		const string CONTEXT_DATA = "MyContextData";
