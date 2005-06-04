@@ -68,7 +68,16 @@
   <target name="clean-package-dir" depends="set-package-config">
         <delete dir="${package.working.dir}" 
             if="${directory::exists( package.working.dir )}"/>
-    </target>
+  </target>
+
+  <target name="clean-vs-dirs">
+    <delete>
+      <fileset>
+        <include name="**/obj/${build.config}/*"/>
+        <include name="**/bin/${build.config}/*"/>
+      </fileset>
+    </delete>
+  </target>
 
   <!-- Targets that operate on all configs and runtimes -->
   
