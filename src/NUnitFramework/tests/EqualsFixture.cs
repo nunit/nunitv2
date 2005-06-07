@@ -295,6 +295,22 @@ namespace NUnit.Framework.Tests
 			Assert.AreEqual( MyEnum.c, actual );
 		}
 
+		[Test]
+		public void DateTimeEqual()
+		{
+			DateTime dt1 = new DateTime( 2005, 6, 1, 7, 0, 0 );
+			DateTime dt2 = new DateTime( 2005, 6, 1, 0, 0, 0 ) + TimeSpan.FromHours( 7.0 );
+			Assert.AreEqual( dt1, dt2 );
+		}
+
+		[Test, ExpectedException( typeof (AssertionException) )]
+		public void DateTimeNotEqual()
+		{
+			DateTime dt1 = new DateTime( 2005, 6, 1, 7, 0, 0 );
+			DateTime dt2 = new DateTime( 2005, 6, 1, 0, 0, 0 );
+			Assert.AreEqual( dt1, dt2 );
+		}
+
 		private enum MyEnum
 		{
 			a, b, c

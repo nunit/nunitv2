@@ -270,6 +270,11 @@ namespace NUnit.Framework.Tests
 	 but was: <""123"">
 	---------------^",
 					GetMsg( "12345", "123", "message" ) );
+
+				Assert.AreEqual( @"message
+	expected: <6/1/2005 12:00:00 AM>
+	 but was: <6/7/2005 12:00:00 AM>",
+					GetMsg( new DateTime( 2005, 6, 1 ), new DateTime( 2005, 6, 7 ), "message" ) );
 			}
 
 			[Test]
