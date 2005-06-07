@@ -27,6 +27,7 @@
 '***********************************************************************************/
 #endregion
 
+using System;
 using System.Collections;
 using System.IO;
 
@@ -52,6 +53,11 @@ namespace NUnit.Core
 	/// notified of significant events in the running of the tests. Methods to cancel
 	/// a run and to wait for a run to complete are also provided. Test results may also 
 	/// be obtained by querying the Results property after a run is complete.
+	/// 
+	/// BeginRun and EndRun provide a simplified form of the asynchronous invocation
+	/// pattern used in many places within the .NET framework. Because the current
+	/// implementation allows only one run to be in process at a time, an IAsyncResult
+	/// is not used at this time.
 	/// </summary>
 	public interface TestRunner
 	{
@@ -187,13 +193,12 @@ namespace NUnit.Core
 		/// <param name="testNames">The names of the test cases, fixtures or suites to be run</param>
 		TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames);
 
-#if STARTRUN_SUPPORT
 		/// <summary>
 		/// Start a run of all loaded tests. The tests are run aynchronously and the 
 		/// listener interface is notified as it progresses.
 		/// </summary>
 		/// <param name="listener">Interface to receive EventListener notifications.</param>
-		void StartRun(NUnit.Core.EventListener listener);
+		void BeginRun(NUnit.Core.EventListener listener);
 		
 		/// <summary>
 		/// Start running a set of loaded tests. The tests are run asynchronously and 
@@ -201,8 +206,10 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="listener">Interface to receive EventListener notifications</param>
 		/// <param name="testNames">The names of the test cases, fixtures or suites to be run</param>
-		void StartRun(NUnit.Core.EventListener listener, string[] testNames);
-#endif
+		void BeginRun(NUnit.Core.EventListener listener, string[] testNames);
+
+		TestResult[] EndRun();
+
 		/// <summary>
 		///  Cancel the test run that is in progress. For a synchronous run,
 		///  a client wanting to call this must create a separate run thread.

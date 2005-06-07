@@ -78,19 +78,52 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void CountTestCasesAcrossMultipleAssemblies()
 		{
-			assemblies[0] = "nonamespace-assembly.dll";
 			Test test = runner.Load( new TestProject( "TestSuite", assemblies ) );
 			Assert.AreEqual( NoNamespaceTestFixture.Tests + MockAssembly.Tests, 
 				test.CountTestCases() );			
 		}
 
 		[Test]
+		public void RunAssembly()
+		{
+			Test test = runner.Load(mockDll);
+			TestResult result = runner.Run( NullListener.NULL );
+			ResultSummarizer summary = new ResultSummarizer(result);
+			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun, summary.ResultCount );
+		}
+
+		[Test]
+		public void RunAssemblyUsingBeginAndEndRun()
+		{
+			Test test = runner.Load(mockDll);
+			runner.BeginRun( NullListener.NULL );
+			TestResult[] results = runner.EndRun();
+			Assert.IsNotNull( results );
+			Assert.AreEqual( 1, results.Length );
+			ResultSummarizer summary = new ResultSummarizer( results[0] );
+			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun, summary.ResultCount );
+		}
+
+		[Test]
 		public void RunMultipleAssemblies()
 		{
-			assemblies[0] = "nonamespace-assembly.dll";
 			Test test = runner.Load( new TestProject( "TestSuite", assemblies ) );
 			TestResult result = runner.Run( NullListener.NULL );
 			ResultSummarizer summary = new ResultSummarizer(result);
+			Assert.AreEqual( 
+				NoNamespaceTestFixture.Tests + MockAssembly.Tests - MockAssembly.NotRun, 
+				summary.ResultCount);
+		}
+
+		[Test]
+		public void RunMultipleAssembliesUsingBeginAndEndRun()
+		{
+			Test test = runner.Load( new TestProject( "TestSuite", assemblies ) );
+			runner.BeginRun( NullListener.NULL );
+			TestResult[] results = runner.EndRun();
+			Assert.IsNotNull( results );
+			Assert.AreEqual( 1, results.Length );
+			ResultSummarizer summary = new ResultSummarizer( results[0] );
 			Assert.AreEqual( 
 				NoNamespaceTestFixture.Tests + MockAssembly.Tests - MockAssembly.NotRun, 
 				summary.ResultCount);

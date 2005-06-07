@@ -55,21 +55,9 @@ namespace NUnit.Util
 		private string cachePath;
 		
 		/// <summary>
-		/// The remote runner loaded in the test appdomain
-		/// </summary>
-//		private TestRunner testRunner;
-
-		/// <summary>
-		/// Holds the event listener while we are running
-		/// </summary>
-		private EventListener listener;
-
-		/// <summary>
 		/// Indicate whether files should be shadow copied
 		/// </summary>
 		private bool shadowCopyFiles = true;
-
-		private bool threaded = true;
 
 		#endregion
 
@@ -89,20 +77,6 @@ namespace NUnit.Util
 					throw new ArgumentException( "ShadowCopyFiles may not be set after domain is created" );
 				shadowCopyFiles = value;
 			}
-		}
-
-		#endregion
-
-		#region Constructors
-
-		public TestDomain( )
-		{ 
-			this.threaded = false;
-		}
-
-		public TestDomain( bool threaded )
-		{
-			this.threaded = threaded;
 		}
 
 		#endregion
@@ -221,24 +195,22 @@ namespace NUnit.Util
 
 		#region Running Tests
 
-		public override TestResult[] doRun(NUnit.Core.EventListener listener, string[] testNames)
+		public override TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames)
 		{
 			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
 			{
-				this.listener = listener; // Save listener for unhandled exception event handler
-				return base.doRun( listener, testNames );
+				return base.Run( listener, testNames );
 			}
 		}
 
-#if STARTRUN_SUPPORT
-		public override void doStartRun( EventListener listener, string[] testNames )
+
+		public override void BeginRun( EventListener listener, string[] testNames )
 		{
 			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
 			{
-				base.doStartRun( listener, testNames );
+				base.BeginRun( listener, testNames );
 			}
 		}
-#endif
 
 		// For now, just publish any unhandled exceptions and let the listener
 		// figure out what to do with them.
@@ -410,7 +382,7 @@ namespace NUnit.Util
 			// Tell resolver to use our core assembly in the test domain
 			assemblyResolver.AddFile( typeof( NUnit.Core.RemoteTestRunner ).Assembly.Location );
 
-			Type runnerType = GetRunnerType();
+			Type runnerType = typeof( RemoteTestRunner );
 			object obj = runnerDomain.CreateInstanceAndUnwrap(
 				runnerType.Assembly.FullName, 
 				runnerType.FullName,
@@ -421,21 +393,21 @@ namespace NUnit.Util
 			return runner;
 		}
 
-		private Type GetRunnerType ()
-		{
-			Type runnerType = null;
-	
-			if (threaded)
-			{
-				//runnerType = typeof(ThreadedRemoteRunner);
-				runnerType = typeof(RemoteTestRunner);
-			}
-			else
-			{
-				runnerType = typeof(RemoteTestRunner);
-			}
-			return runnerType;
-		}
+//		private Type GetRunnerType ()
+//		{
+//			Type runnerType = null;
+//	
+//			if (threaded)
+//			{
+//				//runnerType = typeof(ThreadedRemoteRunner);
+//				runnerType = typeof(RemoteTestRunner);
+//			}
+//			else
+//			{
+//				runnerType = typeof(RemoteTestRunner);
+//			}
+//			return runnerType;
+//		}
 
 		#endregion
 	}

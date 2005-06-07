@@ -29,6 +29,11 @@ namespace NUnit.Core
 		/// </summary>
 		protected TestRunner testRunner;
 
+		/// <summary>
+		/// The event listener for the currently running test
+		/// </summary>
+		protected EventListener listener;
+
 		#endregion
 
 		#region Constructors
@@ -38,10 +43,10 @@ namespace NUnit.Core
 			this.testRunner = testRunner;
 		}
 
-		public ProxyTestRunner( Type runnerType )
-		{
-			this.testRunner = (TestRunner)runnerType.GetConstructor( Type.EmptyTypes ).Invoke( null );
-		}
+//		public ProxyTestRunner( Type runnerType )
+//		{
+//			this.testRunner = (TestRunner)runnerType.GetConstructor( Type.EmptyTypes ).Invoke( null );
+//		}
 
 		/// <summary>
 		/// Protected constructor for runners that create their own
@@ -52,24 +57,6 @@ namespace NUnit.Core
 		#endregion
 
 		#region Properties
-
-		/// <summary>
-		/// Writer for standard output. Set throws if a test is running
-		/// </summary>
-//		public TextWriter Out
-//		{
-//			get { return this.testRunner.Out; }
-//			set { this.testRunner.Out = value; }
-//		}
-//
-//		/// <summary>
-//		/// Writer for error output. Set throws if a test is running
-//		/// </summary>
-//		public TextWriter Error
-//		{
-//			get { return this.testRunner.Error; }
-//			set { this.testRunner.Error = value; }
-//		}
 
 		public virtual bool Running
 		{
@@ -150,38 +137,34 @@ namespace NUnit.Core
 
 		public virtual TestResult Run(EventListener listener)
 		{
-			TestResult[] results = doRun( listener, null );
+			TestResult[] results = Run( listener, null );
 			return results == null ? null : results[0];
 		}
 
 		public virtual TestResult[] Run(EventListener listener, string[] testNames)
 		{
-			return doRun(listener, testNames);
+			// Save active listener for derived classes
+			this.listener = listener;
+			return this.testRunner.Run(listener, testNames);
 		}
 
-		// Derived classes can change the behavior of both Run methods by
-		// overriding this method.
-		public virtual TestResult[] doRun( EventListener listener, string[] testNames )
+		public virtual void BeginRun( EventListener listener )
 		{
-			return this.testRunner.Run( listener, testNames );
+			BeginRun( listener, null );
 		}
 
-#if STARTRUN_SUPPORT
-		public virtual void StartRun( EventListener listener )
+		public virtual void BeginRun( EventListener listener, string[] testNames )
 		{
-			doStartRun( listener, null );
+			// Save active listener for derived classes
+			this.listener = listener;
+			this.testRunner.BeginRun( listener, testNames );
 		}
 
-		public virtual void StartRun( EventListener listener, string[] testNames )
+		public virtual TestResult[] EndRun()
 		{
-			doStartRun( listener, testNames );
+			return this.testRunner.EndRun();
 		}
 
-		public virtual void doStartRun( EventListener listener, string[] testNames )
-		{
-			this.testRunner.StartRun( listener, testNames );
-		}
-#endif
 		public virtual void CancelRun()
 		{
 			this.testRunner.CancelRun();

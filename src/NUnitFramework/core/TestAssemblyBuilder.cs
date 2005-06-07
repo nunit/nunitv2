@@ -128,6 +128,9 @@ namespace NUnit.Core.Builders
 
 		public TestSuite Build( string testName )
 		{
+			if ( testName == null || testName == string.Empty )
+				return Build();
+
 			this.assembly = Load( this.assemblyName );
 			if ( assembly == null ) return null;
 

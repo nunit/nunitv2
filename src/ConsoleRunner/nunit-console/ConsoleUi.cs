@@ -152,7 +152,7 @@ namespace NUnit.ConsoleRunner
 			Console.WriteLine();
 		}
 
-		private static Test MakeTestFromCommandLine(TestDomain testDomain, ConsoleOptions parser)
+		private static Test MakeTestFromCommandLine(TestRunner testRunner, ConsoleOptions parser)
 		{
 			NUnitProject project;
 
@@ -166,7 +166,7 @@ namespace NUnit.ConsoleRunner
 			else
 				project = NUnitProject.FromAssemblies( (string[])parser.Parameters.ToArray( typeof( string ) ) );
 
-			return testDomain.Load( project.AsCoreTestProject, parser.fixture );
+			return testRunner.Load( project.AsCoreTestProject, parser.fixture );
 		}
 
 		public ConsoleUi()
@@ -186,10 +186,13 @@ namespace NUnit.ConsoleRunner
 				? new ConsoleWriter( new StreamWriter( options.err ) )
 				: new ConsoleWriter(Console.Error);
 
-			TestDomain testDomain = new TestDomain(options.thread);
+			// TODO: Use other kinds of runners
+			TestDomain testDomain = new TestDomain();
 			if ( options.noshadow  ) testDomain.ShadowCopyFiles = false;
+			
+			TestRunner testRunner = testDomain;
 
-			Test test = MakeTestFromCommandLine(testDomain, options);
+			Test test = MakeTestFromCommandLine(testRunner, options);
 
 			if(test == null)
 			{
@@ -204,21 +207,19 @@ namespace NUnit.ConsoleRunner
 			if (options.HasInclude)
 			{
 				Console.WriteLine( "Included categories: " + options.include );
-				testDomain.Filter = new CategoryFilter( options.IncludedCategories );
+				testRunner.Filter = new CategoryFilter( options.IncludedCategories );
 			}
 			else if ( options.HasExclude )
 			{
 				Console.WriteLine( "Excluded categories: " + options.exclude );
-				testDomain.Filter = new CategoryFilter( options.ExcludedCategories, true );
+				testRunner.Filter = new CategoryFilter( options.ExcludedCategories, true );
 			}
 
 			TestResult result = null;
 
 			using( new DirectorySwapper() )
 			{
-				testDomain.Run( collector );
-				testDomain.Wait();
-				result = testDomain.Results[0];
+				result = testRunner.Run( collector );
 			}
 
 			Console.WriteLine();
@@ -252,8 +253,8 @@ namespace NUnit.ConsoleRunner
 				writer.Write(xmlOutput);
 			}
 
-			if ( testDomain != null )
-				testDomain.Unload();
+			if ( testRunner != null )
+				testRunner.Unload();
 
 			return result.IsFailure ? 1 : 0;
 		}

@@ -640,25 +640,11 @@ namespace NUnit.Util
 
 				runningTests = tests;
 
-#if STARTRUN_SUPPORT
 				//kind of silly
 				string[] testNames = buildTestNameArray();
 				testDomain.Filter = filter;
-				testDomain.StartRun( this, testNames );
-#else
-				Thread thread = new Thread( new ThreadStart( RunTestsOnThread ) );
-				thread.Start();
-#endif
+				testDomain.BeginRun( this, testNames );
 			}
-		}
-
-		// TODO: Add exception handling here
-		private void RunTestsOnThread()
-		{
-			//kind of silly
-			string[] testNames = buildTestNameArray();
-			testDomain.Filter = filter;
-			testDomain.Run( this, testNames );
 		}
 
 		private string[] buildTestNameArray () 

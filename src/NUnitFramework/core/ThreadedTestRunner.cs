@@ -5,74 +5,54 @@ namespace NUnit.Core
 	using System.Collections.Specialized;
 
 	/// <summary>
-	/// ThreadedTestRunner creates a TestRunnerThread to run the
-	/// tests and at the same time sets up a PumpingEventListener
-	/// to ensure that events are sent back to the caller on the
-	/// same thread that originally called Run. The status of
-	/// the runner thread is checked periodically rather than
-	/// using Wait. This ensures that a gui calling thread is
-	/// available to process any events that are sent.
+	/// ThreadedTestRunner overrides the Run and BeginRun methods 
+	/// so that they are always run on a separate thread. The actual
 	/// </summary>
-	public class ThreadedTestRunner : ProxyTestRunner, TestRunner
+	public class ThreadedTestRunner : ProxyTestRunner
 	{
 		#region Instance Variables
-
-		/// <summary>
-		/// The TestRunnerThread that runs our tests
-		/// </summary>
-		TestRunnerThread thread;
-		
+		private TestRunnerThread testRunnerThread;
 		#endregion
 
-		#region Constructor
-
-		public ThreadedTestRunner(TestRunner testRunner) : base( testRunner ) { }
-		
+		#region Constructors
+		public ThreadedTestRunner( TestRunner testRunner ) : base ( testRunner ) { }
 		#endregion
 
-		#region Override Run Methods
+		#region Overrides
 
-		public override TestResult[] doRun( EventListener listener, string[] testNames )
+		public override TestResult[] Run( EventListener listener, string[] testNames )
 		{
-			this.thread = new TestRunnerThread(this.testRunner);
-			try
-			{
-				QueuingEventListener queue = new QueuingEventListener();
-				using( EventPump pump = new EventPump( listener, queue.Events, true) )
-				{
-					pump.Start();
-					this.thread.StartRun( queue, testNames );
-					while(this.thread.IsAlive)
-					{
-						//pumpingEventListener.DoEvents();
-						Thread.Sleep(1000 / 50);
-					}
-					return this.thread.Results;
-				}
-			}
-			finally
-			{
-				this.thread = null;
-			}
+			BeginRun( listener, testNames );
+			return EndRun();
 		}
 
-#if STARTRUN_SUPPORT
-		public override void doStartRun( EventListener listener, string[] testNames )
+		public override void BeginRun( EventListener listener, string[] testNames )
 		{
-			this.thread = new TestRunnerThread(this.testRunner);
-			QueuingEventListener queue = new QueuingEventListener();
-			EventPump pump = new EventPump( listener, queue.Events, true);
-			pump.Start();
-			this.thread.StartRun( queue, testNames );
-		}
-#endif
+			testRunnerThread = new TestRunnerThread( testRunner );
 
-		void TestRunner.CancelRun()
+			if ( testNames == null || testNames.Length == 0 )
+				testRunnerThread.StartRun( listener, null );
+			else
+				testRunnerThread.StartRun( listener, testNames );
+		}
+
+		public override TestResult[] EndRun()
 		{
-			if(this.thread != null)
-			{
-				this.thread.Cancel();
-			}
+			this.Wait();
+			return testRunner.Results;
+		}
+
+
+		public override void Wait()
+		{
+			if ( testRunnerThread != null )
+				testRunnerThread.Wait();
+		}
+
+		public override void CancelRun()
+		{
+			if ( testRunnerThread != null )
+				testRunnerThread.Cancel();
 		}
 
 		#endregion

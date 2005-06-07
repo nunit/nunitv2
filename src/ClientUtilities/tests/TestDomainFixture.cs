@@ -44,7 +44,7 @@ namespace NUnit.Util.Tests
 		[TestFixtureSetUp]
 		public void MakeAppDomain()
 		{
-			testDomain = new TestDomain( false );
+			testDomain = new TestDomain();
 
 			loadedTest = testDomain.Load( "mock-assembly.dll" );
 		}
@@ -147,7 +147,7 @@ namespace NUnit.Util.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			testDomain = new TestDomain( false );
+			testDomain = new TestDomain();
 		}
 
 		[Test]

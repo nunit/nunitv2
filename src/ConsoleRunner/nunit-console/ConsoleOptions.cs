@@ -69,7 +69,7 @@ namespace NUnit.ConsoleRunner
 //		public bool process;
 
 //		[Option(Description = "Run in a separate AppDomain")]
-//		public bool domain;
+//		public bool nodomain;
 
 //		[Option(Description = "Disable shadow copy when running in separate domain")]
 		[Option(Description = "Disable shadow copy")]

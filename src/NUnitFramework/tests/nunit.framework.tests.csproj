@@ -283,11 +283,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "OutputEventTestRunnerTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "PlatformDetectionTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -409,7 +404,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ThreadingTest.cs"
+                    RelPath = "ThreadedTestRunnerTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -217,7 +217,6 @@ namespace NUnit.Core
 			finally
 			{
 				testNames = null;	// Do we need this?
-				//runningThread = null;	// Ditto
 			}
 		}
 

@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using NUnit.Framework;
 using NUnit.Tests.Assemblies;
 
@@ -10,9 +11,20 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class SimpleTestRunnerTests : BasicRunnerTests
 	{
+		private SimpleTestRunner myRunner;
+
 		public override TestRunner CreateRunner()
 		{
-			return new SimpleTestRunner();
+			myRunner = new SimpleTestRunner();
+			return myRunner;
 		}
+
+//		[Test]
+//		public void BeginRunIsSynchronous()
+//		{
+//			myRunner.Load( "mock-assembly.dll" );
+//			myRunner.BeginRun( NullListener.NULL );
+//			Assert.IsFalse( myRunner.Running );
+//		}
 	}
 }

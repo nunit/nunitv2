@@ -94,11 +94,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AbstractTestRunner.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "AddinManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -290,11 +285,6 @@
                 />
                 <File
                     RelPath = "NUnitTestFixtureBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OutputEventTestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
