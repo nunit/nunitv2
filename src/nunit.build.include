@@ -88,7 +88,10 @@
         hive="LocalMachine" failonerror="false"/>
       <readregistry property="vs.2003.path" 
         key="Software\Microsoft\VisualStudio\7.1\InstallDir" 
-        hive="LocalMachine" />
+        hive="LocalMachine" failonerror="false"/>
+      <readregistry property="vs.2005.path" 
+        key="Software\Microsoft\VisualStudio\8.0\InstallDir" 
+        hive="LocalMachine" failonerror="false"/>
     </if>
 
     <!-- NUnit version for packaging -->
