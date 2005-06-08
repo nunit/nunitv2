@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<project name="NUnit.TestServer" default="build">
+
+  <property name="project.src.dir" value=".."
+    unless="${property::exists('project.src.dir')}"/>
+
+  <include buildfile="../nunit.build.include"/>
+
+  <target name="clean" depends="set-build-dir">
+    <nant target="clean"
+      buildfile="nunit-server/nunit-server.build"/>
+    <nant target="clean"
+      buildfile="nunit-server-exe/nunit-server-exe.build"/>
+    <nant target="clean"
+      buildfile="tests/nunit-server.tests.build"/>
+  </target>
+
+  <target name="build">
+    <nant target="build"
+      buildfile="nunit-server/nunit-server.build"/>
+    <nant target="build"
+      buildfile="nunit-server-exe/nunit-server-exe.build"/>
+  </target>
+
+  <target name="build-tests">
+    <nant target="build"
+      buildfile="tests/nunit-server.tests.build"/>
+  </target>
+
+  <target name="package">
+    <nant target="package"
+      buildfile="nunit-server/nunit-server.build"/>
+    <nant target="package"
+      buildfile="nunit-server-exe/nunit-server-exe.build"/>
+    <nant target="package"
+      buildfile="tests/nunit-server.tests.build"/>
+
+    <copy todir="${package.src.dir}/NUnitTestServer"
+      file="NUnitTestServer.build"/>
+  </target>
+
+</project>

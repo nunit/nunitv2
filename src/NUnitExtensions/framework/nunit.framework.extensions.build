@@ -1,29 +1,29 @@
 <?xml version="1.0"?>
-<project name="NUnit.TestServer" default="build">
+<project name="NUnit.Framework.Extensions" default="build">
 
   <include buildfile="../../nunit.project.include"/>
 
-  <property name="current.build.output" 
-    value="nunit-test-server"/>
+  <property name="current.build.output"
+    value="nunit.framework.extensions"/>
 
   <target name="build" depends="make-build-dir">
     <csc target="library" 
-        output="${current.build.dir}/nunit-test-server.dll"
+        output="${current.build.dir}/nunit.framework.extensions.dll"
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
         <include name="*.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
-        <include name="nunit.core.dll"/>
+        <include name="nunit.framework.dll"/>
       </references>
     </csc>
   </target>
 
   <target name="package">
-    <copy todir="${package.src.dir}/NUnitTestServer/nunit-server">
+    <copy todir="${package.src.dir}/NUnitExtensions/framework">
       <fileset basedir=".">
-        <include name="nunit-server.csproj"/>
-        <include name="nunit-server.build"/>
+        <include name="nunit.framework.extensions.dll.csproj"/>
+        <include name="nunit.framework.extensions.build"/>
         <include name="*.cs"/>
       </fileset>
     </copy>

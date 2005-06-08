@@ -22,10 +22,10 @@
   </target>
 
   <target name="package">
-    <copy todir="${package.src.dir}/NUnitExtensions/core">
+    <copy todir="${package.src.dir}/NUnitTestServer/tests">
       <fileset basedir=".">
-        <include name="nunit.core.extensions.dll.csproj"/>
-        <include name="nunit.core.extensions.build"/>
+        <include name="nunit-server.tests.csproj"/>
+        <include name="nunit-server.tests.build"/>
         <include name="*.cs"/>
       </fileset>
     </copy>
