@@ -497,6 +497,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "VstsTestCaseBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "VstsTestFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

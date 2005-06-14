@@ -27,31 +27,13 @@
 '***********************************************************************************/
 #endregion
 
-using System;
+using NUnit.Core.Builders;
 
-namespace NUnit.Core.Builders
+namespace NUnit.Core
 {
-	/// <summary>
-	///  Builder for Visual Studio Team System test fixtures
-	/// </summary>
-	public class VstsTestFixtureBuilder : GenericTestFixtureBuilder
+	public class VstsTestCaseBuilder : GenericTestCaseBuilder
 	{
-		public VstsTestFixtureBuilder() : base( VstsTestFixture.Parameters ) { }
-
-		protected override TestSuite MakeSuite( Type type, int assemblyKey )
-		{
-			return new VstsTestFixture( type, assemblyKey );
-		}
-
-		protected override void AddTestCases(Type fixtureType)
-		{
-			using( new AddinState() )
-			{
-				Addins.Register( new VstsTestCaseBuilder() );
-				base.AddTestCases (fixtureType);
-			}
-		}
-
+		public VstsTestCaseBuilder()
+			: base( VstsTestFixture.Parameters ) { }
 	}
-
 }
