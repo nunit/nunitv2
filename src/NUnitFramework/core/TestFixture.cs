@@ -60,13 +60,13 @@ namespace NUnit.Core
 
 				if (this.fixtureSetUp != null)
 					Reflect.InvokeMethod(fixtureSetUp, Fixture);
-				IsSetUp = true;
+				Status = SetUpState.SetUpComplete;
 			} 
 			catch (Exception ex) 
 			{
-				NunitException nex = ex as NunitException;
-				if (nex != null)
-					ex = nex.InnerException;
+				//NunitException nex = ex as NunitException;
+				if ( ex is NunitException || ex is System.Reflection.TargetInvocationException )
+					ex = ex.InnerException;
 
 				if ( testFramework.IsIgnoreException( ex ) )
 				{
@@ -78,6 +78,7 @@ namespace NUnit.Core
 				else
 				{
 					suiteResult.Failure( ex.Message, ex.StackTrace, true );
+					this.Status = SetUpState.SetUpFailed;
 				}
 			}
 			finally
@@ -93,7 +94,7 @@ namespace NUnit.Core
 			{
 				try 
 				{
-					IsSetUp = false;
+					Status = SetUpState.SetUpNeeded;
 					if (this.fixtureTearDown != null)
 						Reflect.InvokeMethod(fixtureTearDown, Fixture);
 				} 

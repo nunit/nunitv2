@@ -73,11 +73,14 @@ namespace NUnit.Core
 				{
 					if ( Parent != null )
 					{
-						if ( !Parent.IsSetUp )
+						if ( Parent.SetUpNeeded  )
 						{
 							Parent.DoOneTimeSetUp( testResult );
-							needParentTearDown = true;
+							needParentTearDown = Parent.SetUpComplete;
 						}
+						
+						if ( Parent.SetUpFailed )
+							testResult.Failure( "TestFixtureSetUp Failed", null, true );
 
 						if ( fixture == null )
 							fixture = Parent.Fixture;

@@ -41,7 +41,14 @@ namespace NUnit.Core
 	public class TestSuite : Test
 	{
 		private static readonly string EXPLICIT_SELECTION_REQUIRED = "Explicit selection required";
-		
+	
+		public enum SetUpState
+		{
+			SetUpNeeded,
+			SetUpComplete,
+			SetUpFailed
+		}
+
 		#region Fields
 		/// <summary>
 		/// Our collection of child tests
@@ -80,10 +87,16 @@ namespace NUnit.Core
 
 		private bool needParentTearDown;
 
+//		/// <summary>
+//		/// True if the fixture has been set up successfully
+//		/// </summary>
+//		private bool isSetUp;
+
 		/// <summary>
-		/// True if the fixture has been set up
+		/// Indicates whether setup has been done yet
 		/// </summary>
-		private bool isSetUp;
+		private SetUpState status = SetUpState.SetUpNeeded;
+
 		#endregion
 
 		#region Constructors
@@ -142,10 +155,25 @@ namespace NUnit.Core
 			get { return tests; }
 		}
 
-		public bool IsSetUp
+		public bool SetUpComplete
 		{
-			get { return isSetUp; }
-			set { isSetUp = value; }
+			get { return status == SetUpState.SetUpComplete; }
+		}
+
+		public bool SetUpNeeded
+		{
+			get { return status == SetUpState.SetUpNeeded; }
+		}
+
+		public bool SetUpFailed
+		{
+			get { return status == SetUpState.SetUpFailed; }
+		}
+
+		public SetUpState Status
+		{
+			get { return status; }
+			set { status = value; }
 		}
 
 		public object Fixture
@@ -235,7 +263,8 @@ namespace NUnit.Core
 
 				RunAllTests( suiteResult, listener, filter );
 
-				DoOneTimeTearDown( suiteResult );
+				if ( this.SetUpComplete )
+					DoOneTimeTearDown( suiteResult );
 			}
 			else
 				suiteResult.NotRun(this.IgnoreReason);
@@ -257,25 +286,26 @@ namespace NUnit.Core
 		#region Virtual Methods
 		public virtual void DoOneTimeSetUp( TestResult suiteResult )
 		{
-			if ( this.Parent != null && !this.Parent.IsSetUp )
+			if ( this.Parent != null && this.Parent.SetUpNeeded )
 			{
 				Parent.DoOneTimeSetUp( suiteResult );
-				needParentTearDown = true;
+				needParentTearDown = this.Parent.SetUpComplete;
 			}
 
-			DoFixtureSetUp( suiteResult );
+			if ( this.Parent == null || this.Parent.SetUpComplete )
+				DoFixtureSetUp( suiteResult );
 		}
 
 		public virtual void DoFixtureSetUp( TestResult suiteResult )
 		{
-			isSetUp = true;
+			this.status = SetUpState.SetUpComplete;
 		}
 
 		public virtual void DoOneTimeTearDown( TestResult suiteResult )
 		{
 			DoFixtureTearDown( suiteResult );
 			
-			if ( this.Parent != null  && Parent.IsSetUp && needParentTearDown )
+			if ( this.Parent != null  && Parent.SetUpComplete && needParentTearDown )
 			{
 				needParentTearDown = false; // Do first in case of exception
 				Parent.DoOneTimeTearDown( suiteResult );
@@ -284,7 +314,7 @@ namespace NUnit.Core
 
 		public virtual void DoFixtureTearDown( TestResult suiteResult )
 		{
-			isSetUp = false;
+			this.status = SetUpState.SetUpNeeded;
 		}
 
 		protected virtual void RunAllTests(
