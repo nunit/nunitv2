@@ -1,0 +1,344 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50215</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>nunit.core</AssemblyName>
+    <AssemblyOriginatorKeyFile>nunit.key</AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>NUnit.Core</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG;VS2005</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractFixtureBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AbstractTestCaseBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AddinManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Addins.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AddinState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Builtins.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CategoryFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CategoryManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CSUnitTestCaseBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CSUnitTestFixture.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CSUnitTestFixtureBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DirectorySwapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EmptyFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EventListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EventListenerTextWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EventPump.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EventQueue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Filter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GenericTestCaseBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GenericTestFixture.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GenericTestFixtureBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InvalidSuiteException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InvalidTestFixtureException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ISuiteBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ITest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ITestCaseBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegacySuite.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LegacySuiteBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LongLivingMarshalByRefObject.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NameFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NamespaceSuite.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NamespaceTreeBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NoTestFixturesException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NotRunnableTestCase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NullListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NunitException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NUnitTestCaseBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NUnitTestFixture.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NUnitTestFixtureBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PlatformHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProxyEventListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProxyTestRunner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="QueuingEventListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Reflect.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RemoteTestRunner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ResultVisitor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RootTestSuite.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RuntimeFramework.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SetUpFixture.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SetUpFixtureBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimpleTestRunner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StringTextWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SuiteBuilderAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SuiteBuilderCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TemplateTestCase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestAssembly.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestAssemblyBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestBuilderAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestCase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestCaseBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestCaseBuilderAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestCaseBuilderCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestCaseResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestFixture.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestFixtureBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestFixtureParameters.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestFramework.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestOutput.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestProject.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestRunner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestRunnerThread.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestSuite.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestSuiteBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestSuiteResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ThreadedTestRunner.cs" />
+    <Compile Include="VstsTestCaseBuilder.cs" />
+    <Compile Include="VstsTestFixture.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="VstsTestFixtureBuilder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Content Include="Results.xsd" />
+    <Content Include="Summary.xslt" />
+    <None Include="nunit.key" />
+    <None Include="Results.xsx">
+      <DependentUpon>Results.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,214 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50215</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{61CE9CE5-943E-44D4-A381-814DC1406767}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>nunit.util</AssemblyName>
+    <AssemblyOriginatorKeyFile>nunit.key</AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>NUnit.Util</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE;DEBUG;VS2005</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting">
+      <Name>System.Runtime.Remoting</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyListItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyWatcher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CommandLineOptions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ConsoleWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ITestEvents.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ITestLoader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NUnitProject.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NUnitRegistry.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PathUtils.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProcessRunner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProjectConfig.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProjectConfigCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ProjectFormatException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RecentFiles.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RecentFileSettings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RegistrySettingsStorage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ResultSummarizer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SettingsGroup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SettingsStorage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StackTraceFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SummaryVisitor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestDomain.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestEventDispatcher.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestExceptionHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestLoader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestResultItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UIHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UITestNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="VSProject.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="VSProjectConfig.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="VSProjectConfigCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlResultTransform.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="XmlResultVisitor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Transform.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nunit.key" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NUnitFramework\core\nunit.core.dll_VS2005.csproj">
+      <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
+      <Name>nunit.core.dll_VS2005</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
