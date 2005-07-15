@@ -69,29 +69,27 @@
     <property name="project.samples.dir"
       value="${path::combine(project.base.dir,'samples')}"/>
 
-    <!-- Supported frameworks -->
-    <property name="frameworks" 
+    <!-- Supported frameworks --> 
+    <property name="supported.frameworks" 
       value="net-1.0,net-1.1,mono-1.0"/>
-    <property name="framework.available.net-1.0" 
-      value="${framework::exists('net-1.0')}"/>
-    <property name="framework.available.net-1.1" 
-      value="${framework::exists('net-1.1')}"/>
-    <property name="framework.available.net-2.0" 
-      value="${framework::exists('net-2.0')}"/>
-    <property name="framework.available.mono-1.0" 
-      value="${framework::exists('mono-1.0')}"/>
   
     <!-- Visual Studio locations -->
     <if test="${platform::is-win32()}">
       <readregistry property="vs.2002.path" 
         key="Software\Microsoft\VisualStudio\7.0\InstallDir" 
         hive="LocalMachine" failonerror="false"/>
+      <echo message="VS 2002 targets are unavailable"
+        unless="${property::exists( 'vs.2002.path' )}"/>
       <readregistry property="vs.2003.path" 
         key="Software\Microsoft\VisualStudio\7.1\InstallDir" 
         hive="LocalMachine" failonerror="false"/>
+      <echo message="VS 2003 targets are unavailable"
+        unless="${property::exists( 'vs.2003.path' )}"/>
       <readregistry property="vs.2005.path" 
         key="Software\Microsoft\VisualStudio\8.0\InstallDir" 
         hive="LocalMachine" failonerror="false"/>
+      <echo message="VS 2005 targets are unavailable"
+        unless="${property::exists( 'vs.2005.path' )}"/>
     </if>
 
     <!-- NUnit version for packaging -->
@@ -169,12 +167,15 @@
   </target>
 
   <!-- Set up runtime configuration -->
-  <target name="set-runtime-config">
+  <target name="set-runtime-config">   
     <call target="set-${runtime.config}-runtime-config"/>
     <property name="build.dir.set" value="false"/>
   </target>
 
   <target name="set-net-1.0-runtime-config">
+    <fail unless="${framework::sdk-exists( 'net-1.0' )}"
+      message="The .NET 1.0 SDK is not configured or not installed"/>
+
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="1.0"/>
     <property name="runtime.config" value="net-1.0"/>
@@ -188,6 +189,9 @@
 	
   <target name="set-net-1.1-runtime-config">
     <property name="runtime.platform" value="net"/>
+    <fail unless="${framework::sdk-exists( 'net-1.1' )}"
+      message="The .NET 1.1 SDK is not configured or not installed"/>
+
     <property name="runtime.version" value="1.1"/>
     <property name="runtime.config" value="net-1.1"/>
     <property name="build.mono" value="false"/>
@@ -200,6 +204,9 @@
   </target>
 	
   <target name="set-net-2.0-runtime-config">
+    <fail unless="${framework::sdk-exists( 'net-2.0' )}"
+      message="The .NET 2.0 SDK is not configured or not installed"/>
+
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="2.0"/>
     <property name="runtime.config" value="net-2.0"/>
@@ -208,11 +215,13 @@
     <property name="nant.settings.currentframework" 
       value="net-2.0"/>
     <property name="zip.runtime.suffix" value="-net-2.0"/>
-    <!-- no suffix for the msi -->
-    <property name="msi.runtime.suffix" value=""/>
+    <property name="msi.runtime.suffix" value="-net-2.0"/>
   </target>
 	
   <target name="set-mono-1.0-runtime-config">
+    <fail unless="${framework::sdk-exists( 'mono-1.0' )}"
+      message="The Mono 1.0 SDK is not configured or not installed"/>
+
     <property name="runtime.platform" value="mono"/>
     <property name="runtime.version" value="1.0"/>
     <property name="runtime.config" value="mono-1.0"/>
@@ -254,8 +263,6 @@
       value="${package.name}${msi.runtime.suffix}${msi.build.suffix}.msi"/>
     <property name="zipped.src.file.name"
       value="${package.name}-src.zip"/>
-    <property name="zipped.bin.file.name"
-      value="${package.name}-bin.zip"/>
     <property name="zipped.resource.file.name"
       value="${package.name}-resources.zip"/>
   </target>
@@ -294,6 +301,7 @@
     <echo>  SDK:          ${nant.settings.currentframework.sdkdirectory}</echo>
     <echo>  VS 2002:      ${vs.2002.path}</echo>
     <echo>  VS 2003:      ${vs.2003.path}</echo>
+    <echo>  VS 2005:      ${vs.2005.path}</echo>
   </target>
 
 </project>

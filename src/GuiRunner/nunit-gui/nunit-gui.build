@@ -29,12 +29,11 @@
   <target name="package">
     <copy todir="${package.src.dir}/GuiRunner/nunit-gui">
       <fileset basedir=".">
-        <include name="nunit-gui.csproj"/>
-        <include name="nunit-gui.build"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
         <include name="*.cs"/>
         <include name="*.resx"/>
         <include name="*.ico"/>
-        <include name="nunit-gui.exe.config"/>
       </fileset>
     </copy>
   </target>

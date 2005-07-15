@@ -144,8 +144,8 @@
   <target name="build-each"
       description="Build for each available runtime">
     <foreach item="String" delim="," 
-        property="framework" in="${frameworks}">
-      <if test="${framework::exists( framework )}">
+        property="framework" in="${supported.frameworks}">
+      <if test="${framework::sdk-exists( framework )}">
         <call target="set-${framework}-runtime-config"/>
         <call target="build"/>
       </if>
@@ -155,8 +155,8 @@
   <target name="test-each"
       description="Test under each available runtime">
     <foreach item="String" delim="," 
-        property="framework" in="${frameworks}">
-      <if test="${framework::exists( framework )}">
+        property="framework" in="${supported.frameworks}">
+      <if test="${framework::sdk-exists( framework )}">
         <call target="set-${framework}-runtime-config"/>
         <call target="test" />
       </if>
@@ -166,8 +166,8 @@
   <target name="package-each-zip"
       description="Create zip package for each available runtime">
     <foreach item="String" delim="," 
-        property="framework" in="${frameworks}">
-      <if test="${framework::exists( framework )}">
+        property="framework" in="${supported.frameworks}">
+      <if test="${framework::sdk-exists( framework )}">
         <call target="set-${framework}-runtime-config"/>
         <call target="package-zip" />
       </if>
@@ -181,8 +181,8 @@
         unless="${platform::is-win32()}"/>
 
     <foreach item="String" delim="," 
-        property="framework" in="${frameworks}">
-      <if test="${framework::exists( framework )}">
+        property="framework" in="${supported.frameworks}">
+      <if test="${framework::sdk-exists( framework )}">
         <call target="set-${framework}-runtime-config"/>
         <if test="${build.win32}">
             <call target="package-msi" />
@@ -356,17 +356,20 @@
     </target>
 
   <!-- Targets for packaging the NUnit distribution -->
+
+  <!-- Produce standard packages for current config -->
+  <target name="package" depends="build" description="Create standard packages for distribution">
+    <call target="package-zip"/>
+    <call target="package-bin"/>
+    <call target="package-src"/>
+  </target>
   
   <!-- Package current config as a zip -->
   <target name="package-zip" depends="clean-package-dir" description="Create distribution package">
 
-    <!-- Perform a build and copy it to package dir-->
-    <call target="build"/>
-
     <call target="copy-bins"/>
     <call target="copy-docs"/>
     <call target="copy-samples"/>
-    <call target="copy-src"/>
 
 	<!-- Remove any temporary output files produced by tests
 		from the build directory - temporary fix -->
@@ -399,19 +402,6 @@
     </zip>
   </target>
   
-  <target name="package-bin" depends="clean-package-dir"
-    description="Create zip of bins only for use in SCM systems">
-    
-    <call target="copy-bins"/>
-    <call target="copy-docs"/>
-    
-    <zip zipfile="${project.package.dir}/${zipped.bin.file.name}" ziplevel="9">
-      <fileset basedir="${package.working.dir}">
-        <include name="**"/>
-      </fileset>
-    </zip>
-  </target>
-
   <target name="package-resources" depends="clean-package-dir">
 
     <nant target="package-resources"
@@ -491,12 +481,26 @@
     <mkdir dir="${package.samples.dir}"/>
     <copy todir="${package.samples.dir}" includeemptydirs="false">
       <fileset basedir="${project.samples.dir}">
-        <include name="cpp-sample/*"/>
-        <include name="csharp/simple/*"/>
-        <include name="csharp/money/*"/>
-        <include name="csharp/money-port/*"/>
-        <include name="jsharp/*"/>
-        <include name="vb/*"/>
+        <include name="cpp-sample/*.vcproj"/>
+        <include name="cpp-sample/*.cpp"/>
+        <include name="cpp-sample/*.h"/>
+        <include name="cpp-sample/*.txt"/>
+        <include name="csharp/simple/*.csproj"/>
+        <include name="csharp/simple/*.cs"/>
+        <include name="csharp/simple/*.txt"/>
+        <include name="csharp/money/*.csproj"/>
+        <include name="csharp/money/*.cs"/>
+        <include name="csharp/money/*.txt"/>
+        <include name="csharp/money-port/*.csproj"/>
+        <include name="csharp/money-port/*.cs"/>
+        <include name="csharp/money-port/*.txt"/>
+        <include name="csharp/money-port/*.config"/>
+        <include name="jsharp/*.vjsproj"/>
+        <include name="jsharp/*.jsl"/>
+        <include name="jsharp/*.txt"/>
+        <include name="vb/*.vbproj"/>
+        <include name="vb/*.vb"/>
+        <include name="vb/*.txt"/>
       </fileset>
     </copy>
   </target>
@@ -510,17 +514,18 @@
         <include name="license.rtf"/>
         <include name="nunit.build"/>
         <include name="nunit.build.include"/>
+        <include name="nunit.project.include"/>
         <include name="nunit.sln"/>
+        <include name="nunit_VS2005.sln"/>
         <include name="nunit.key"/>
         <include name="nunit20under21.config"/>
         <include name="nunit20under22.config"/>
         <include name="nunit21under22.config"/>
-        <include name="install/install.vdproj"/>
         <include name="NUnitBinTests.config"/>
         <include name="NUnitBinTests.nunit"/>
         <include name="NUnitDevTests.config"/>
         <include name="NUnitDevTests.nunit"/>
-        <include name="install/install.vdproj"/>
+        <include name="install/*.vdproj"/>
       </fileset>
     </copy>
 

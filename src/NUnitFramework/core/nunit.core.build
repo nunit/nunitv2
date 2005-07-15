@@ -22,8 +22,8 @@
   <target name="package">
     <copy todir="${package.src.dir}/NUnitFramework/core">
       <fileset basedir=".">
-        <include name="nunit.core.dll.csproj"/>
-        <include name="nunit.core.build"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
         <include name="*.cs"/>
         <include name="Results.xsd"/>
         <include name="Summary.xslt"/>

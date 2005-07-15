@@ -24,9 +24,9 @@
   <target name="package">
     <copy todir="${package.src.dir}/ConsoleRunner/tests">
       <fileset basedir=".">
-        <include name="nunit-console.tests.csproj"/>
-        <include name="nunit-console.tests.build"/>
-        <include name="nunit-console.tests.dll.config"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
+        <include name="*.config"/>
         <include name="*.cs"/>
       </fileset>
     </copy>

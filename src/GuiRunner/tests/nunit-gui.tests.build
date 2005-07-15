@@ -24,10 +24,10 @@
   <target name="package">
     <copy todir="${package.src.dir}/GuiRunner/tests">
       <fileset basedir=".">
-        <include name="nunit-gui.tests.csproj"/>
-        <include name="nunit-gui.tests.build"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
         <include name="*.cs"/>
-        <include name="nunit-gui.tests.dll.config"/>
+        <include name="*.config"/>
       </fileset>
     </copy>
   </target>

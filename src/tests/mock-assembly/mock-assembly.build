@@ -24,9 +24,10 @@
   <target name="package">
     <copy todir="${package.src.dir}/tests/mock-assembly">
       <fileset basedir=".">
-        <include name="mock-assembly.csproj"/>
-        <include name="mock-assembly.build"/>
-        <include name="mock-assembly.dll.config"/>                            <include name="*.cs"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
+        <include name="*.config"/>
+        <include name="*.cs"/>
       </fileset>
     </copy>
   </target>

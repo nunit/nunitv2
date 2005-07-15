@@ -20,10 +20,9 @@
   <target name="package">
     <copy todir="${package.src.dir}/tests/notestfixtures-assembly">
       <fileset basedir=".">
-        <include name="notestfixtures-assembly.csproj"/>
-        <include name="notestfixtures-assembly.build"/>
-        <include name="AssemblyInfo.cs"/>
-        <include name="Class1.cs"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
+        <include name="*.cs"/>
       </fileset>
     </copy>
   </target>

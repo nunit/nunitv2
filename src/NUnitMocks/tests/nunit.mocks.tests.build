@@ -24,12 +24,10 @@
   <target name="package">
     <copy todir="${package.src.dir}/NUnitMocks/tests">
       <fileset basedir=".">
-        <include name="nunit.mocks.tests.csproj"/>
-        <include name="nunit.mocks.tests.build"/>
-        <include name="nunit.mocks.tests.dll.config"/>
-        <include name="AssemblyInfo.cs"/>
-        <include name="DynamicMockTests.cs"/>
-        <include name="MockTests.cs"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
+        <include name="*.config"/>
+        <include name="*.cs"/>
       </fileset>
     </copy>
   </target>

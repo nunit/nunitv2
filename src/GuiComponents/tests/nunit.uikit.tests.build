@@ -27,9 +27,9 @@
   <target name="package">
     <copy todir="${package.src.dir}/GuiComponents/tests">
       <fileset basedir=".">
-        <include name="nunit.uikit.tests.csproj"/>
-        <include name="nunit.uikit.tests.build"/>
-        <include name="nunit.uikit.tests.dll.config"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
+        <include name="*.config"/>
         <include name="*.cs"/>
       </fileset>
     </copy>

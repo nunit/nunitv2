@@ -34,9 +34,9 @@
   <target name="package">
     <copy todir="${package.src.dir}/NUnitFramework/tests">
       <fileset basedir=".">
-          <include name="nunit.framework.tests.csproj"/>
-          <include name="nunit.framework.tests.build"/>
-          <include name="nunit.framework.tests.dll.config"/>
+          <include name="*.csproj"/>
+          <include name="*.build"/>
+          <include name="*.config"/>
           <include name="*.cs"/>
       </fileset>
     </copy>

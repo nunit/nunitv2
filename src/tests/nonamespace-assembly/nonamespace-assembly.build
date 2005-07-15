@@ -23,10 +23,9 @@
   <target name="package">
     <copy todir="${package.src.dir}/tests/nonamespace-assembly">
       <fileset basedir=".">
-        <include name="nonamespace-assembly.csproj"/>
-        <include name="nonamespace-assembly.build"/>
-        <include name="AssemblyInfo.cs"/>
-        <include name="NoNamespaceTestFixture.cs"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
+        <include name="*.cs"/>
       </fileset>
     </copy>
   </target>

@@ -23,8 +23,10 @@
   <target name="package">
     <copy todir="${package.src.dir}/NUnitTestServer/nunit-server-exe">
       <fileset basedir=".">
-        <include name="nunit-server-exe.csproj"/>
-        <include name="nunit-server.exe.build"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
+	<include name="App.config"/>
+	<include name="App.ico"/>
         <include name="*.cs"/>
       </fileset>
     </copy>

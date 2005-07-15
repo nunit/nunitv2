@@ -25,11 +25,9 @@
   <target name="package">
     <copy todir="${package.src.dir}/tests/timing-tests">
       <fileset basedir=".">
-        <include name="timing-tests.csproj"/>
-        <include name="timing-tests.build"/>
-        <include name="AssemblyInfo.cs"/>
-        <include name="ClientTimeoutFixture.cs"/>
-        <include name="ServerTimeoutFixture.cs"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
+        <include name="*.cs"/>
       </fileset>
     </copy>
   </target>

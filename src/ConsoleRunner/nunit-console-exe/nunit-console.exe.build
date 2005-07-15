@@ -28,12 +28,11 @@
   <target name="package">
     <copy todir="${package.src.dir}/ConsoleRunner/nunit-console-exe">
       <fileset basedir=".">
-        <include name="nunit-console.exe.csproj"/>
-        <include name="nunit-console.exe.build"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
         <include name="App.config"/>
         <include name="App.ico"/>
-        <include name="AssemblyInfo.cs"/>
-        <include name="Class1.cs"/>
+        <include name="*.cs"/>
       </fileset>
     </copy>
   </target>

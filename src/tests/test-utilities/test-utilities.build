@@ -23,8 +23,8 @@
   <target name="package">
     <copy todir="${package.src.dir}/tests/test-utilities">
       <fileset basedir=".">
-        <include name="test-utilities.csproj"/>
-        <include name="test-utilities.build"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
         <include name="*.cs"/>
       </fileset>
     </copy>

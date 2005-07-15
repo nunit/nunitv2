@@ -22,8 +22,8 @@
   <target name="package">
     <copy todir="${package.src.dir}/NUnitExtensions/core">
       <fileset basedir=".">
-        <include name="nunit.core.extensions.dll.csproj"/>
-        <include name="nunit.core.extensions.build"/>
+        <include name="*.csproj"/>
+        <include name="*.build"/>
         <include name="*.cs"/>
       </fileset>
     </copy>
