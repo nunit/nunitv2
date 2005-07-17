@@ -71,4 +71,14 @@ Assert Extensions
 
 With NUnit 2.2.2, we introduced the IAsserter interface and asserter objects. Each static Assert method creates an asserter object and calls it's Assert method. By creating an object to represent each instance of an assertion, we enable users to use inheritance in defining their own assertions.
 
-For an example of how to create your own Assert verbs with this mechanism, see the StringAssert class in the nunit.extensions assembly.
+As of NUnit 2.2.3, this mechanism has been improved. The IAsserter interface now separates testing the assertion from the retrieval of the failure message:
+
+	interface IAsserter
+	{
+		bool Test();
+		string Message { get; }
+	}
+
+This new approach takes the action of throwing an exception entirely out of the asserter object and makes it much easier to test.
+
+For an example of how to create your own Assert verbs with this mechanism, see the StringAssert and TypeAssert class in the nunit.extensions assembly as well as the standard Assert methods in nunit.framework.
