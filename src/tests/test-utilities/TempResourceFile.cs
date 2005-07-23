@@ -30,6 +30,8 @@ namespace NUnit.TestUtilities
 
 		public void Dispose()
 		{
+			File.Delete(this.path);
+			
 			string path = this.path;
 			while(true)
 			{
@@ -41,8 +43,6 @@ namespace NUnit.TestUtilities
 
 				Directory.Delete(path);
 			}
-
-			File.Delete(this.path);
 		}
 
 		public string Path
