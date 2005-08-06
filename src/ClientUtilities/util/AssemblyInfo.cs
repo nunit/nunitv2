@@ -81,8 +81,6 @@ using System.Reflection;
 //   (*) Delay Signing is an advanced option - see the Microsoft .NET Framework
 //       documentation for more information on this.
 //
-#if !VS2005
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("..\\..\\..\\..\\nunit.key")]
 [assembly: AssemblyKeyName("")]
-#endif
