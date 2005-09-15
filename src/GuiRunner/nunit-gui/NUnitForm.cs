@@ -1415,8 +1415,9 @@ namespace NUnit.Gui
 			FileInfo exe = new FileInfo( Assembly.GetExecutingAssembly().Location );
 			// In normal install, exe is in bin directory, so we get parent
 			DirectoryInfo dir = exe.Directory.Parent;
-			// If running from bin\Release or bin\Debug, go down two more
-			if ( dir.Name == "bin" ) dir = dir.Parent.Parent;
+			// If running from bin\Release or bin\Debug, go down four more
+			// to the parent of the src and doc directories
+			if ( dir.Name == "bin" ) dir = dir.Parent.Parent.Parent.Parent;
 
 			string helpUrl = ConfigurationSettings.AppSettings["helpUrl"];
 
