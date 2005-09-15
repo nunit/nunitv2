@@ -1,218 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
 <html>
+<!-- Standard Head Part -->
 <head>
-<title>NUnit</title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script language="JavaScript" type="text/JavaScript"> <!--
-	var navLine = null;
-	if (navigator.appName == "Netscape") {
-		if (parseInt(navigator.appVersion) >= 5) {
-			document.writeln("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styleGuide.css\">");
-			navLine = "<td height=\"1\" bgcolor=\"666030\" width=\"*\"><img src=\"img/blankPixel.gif\"></td>";
-		} else {
-			navLine = "<td height=\"1\" bgcolor=\"666030\" width=\"52%\"><img src=\"img/blankPixel.gif\"></td>";
-			document.writeln("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styleGuideNN.css\">");
-			document.writeln("<style type=\"text/css\">");
-			document.writeln("<!-- .bodytext { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: .65em; color: #000000 }");
-			document.writeln("-->");
-			document.writeln("</style>");
-		}
-	}
-	 else if ((navigator.appName == "Microsoft Internet Explorer") && (parseInt(navigator.appVersion) >= 4)) {
-		navLine = "<td height=\"1\" bgcolor=\"666030\" width=\"*\"><img src=\"img/blankPixel.gif\"></td>";
-		document.writeln("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styleGuideIE.css\">");
-	}
-	else {
-		navLine = "<td height=\"1\" bgcolor=\"666030\" width=\"*\"><img src=\"img/blankPixel.gif\"></td>";
-		document.writeln("<link rel=\"stylesheet\" type=\"text/css\" href=\"css/styleGuide.css\">");
-	}
-// -->
-</script>
+<title>NUnit - Assertions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+<style type="text/css"><!--
+--></style>
 </head>
+<!-- End Standard Head Part -->
 
-<body text="#000000" marginwidth="0" rightmargin="0">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td width="25%"><a href="index.html" target="_self">
-    <img src="img/logo.gif" hspace="15" vspace="0" border="0" alt="NUnit"></a></td>
-    <td valign="top"><span class="navTable">
-      <table width="110%" border="0" cellspacing="0" cellpadding="1" height="40" vspace="15" class="divider">
-        <tr>
-          <td>
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="link">
-              <tr>
-                <td bgcolor="#FFFFFF">
-                  <table border="0" cellspacing="10" cellpadding="0">
-                    <tr>
-                      <td>
-                        <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
-                          <tr>
-                            <td>
-                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="link">
-                                <tr>
-                                  <td class="navtext" bgcolor="#FFFFFF">
-                                    <div align="center">
-										<a target="_self" href="index.html"><img src="img/homeOff.gif" width="40" height="12" alt="Home" border="0"></a></div>
-                                  </td>
-                                </tr>
-                              </table>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                      <td>
-                        <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
-                          <tr>
-                            <td>
-                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="link">
-                                <tr>
-                                  <td class="navtext" bgcolor="#FFFFFF">
-                                    <div align="center"><a href="download.html" target="_self"><img src="img/downloadOff.gif" width="78" height="12" alt="Download" border="0"></a></div>
-                                  </td>
-                                </tr>
-                              </table>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                      <td>
-                        <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
-                          <tr>
-                            <td>
-                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="selected">
-                                <tr>
-                                  <td class="navtext">
-                                    <div align="center"><a href="documentation.html" target="_self"><img src="img/documentationOn.gif" width="118" height="12" alt="Documentation" border="0"></a></div>
-                                  </td>
-                                </tr>
-                              </table>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                      <td>
-                        <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
-                          <tr>
-                            <td>
-                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="link">
-                                <tr>
-                                  <td class="navtext" bgcolor="#FFFFFF">
-                                    <div align="center"><a href="community.html" target="_self"><img src="img/communityOff.gif" width="83" height="12" alt="Community" border="0"></a></div>
-                                  </td>
-                                </tr>
-                              </table>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                      <td>
-                        <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
-                          <tr>
-                            <td>
-                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="link">
-                                <tr>
-                                  <td class="navtext" bgcolor="#FFFFFF">
-                                    <div align="center"><a href="resources.html" target="_self"><img src="img/resourcesOff.gif" width="81" height="12" alt="Resources" border="0"></a></div>
-                                  </td>
-                                </tr>
-                              </table>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                      <td>
-                        <table width="100%" border="0" cellspacing="0" cellpadding="1" class="divider">
-                          <tr>
-                            <td>
-                              <table width="100%" border="0" cellspacing="0" cellpadding="5" class="link">
-                                <tr>
-                                  <td class="navtext" bgcolor="#FFFFFF">
-                                    <div align="center"><a href="contactUs.html" target="_self"><img src="img/contactUsOff.gif" width="83" height="12" alt="Contact Us" border="0"></a></div>
-                                  </td>
-                                </tr>
-                              </table>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-      </span>
-      <table border="0" cellspacing="0" cellpadding="0" width="100%">
-        <tr>
-          <td align="right" width="240"><img src="img/navDiv.gif" width="1" height="23" alt="|"></td>
-          <td>&nbsp;</td>
-          <td width="120">&nbsp;</td>
-        </tr>
-        <tr>
-          <td height="1" align="right" valign="top" width="240"><img src="img/cornerPixel.gif" width="1" height="1" alt="*"></td>
-			<script language="JavaScript" type="text/JavaScript"> <!--
-				document.writeln(navLine);
-			// -->
-			</script>
-          <td height="1" align="left" valign="bottom" width="120"><img src="img/cornerPixel.gif" width="1" height="1" alt=*"></td>
-        </tr>
-        <tr>
-          <td width="240">&nbsp;</td>
-          <td>&nbsp;</td>
-          <td align="left" width="120"><img src="img/navDiv.gif" width="1" height="23" alt="|"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+<body>
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="index.html"><img src="img/logo.gif" alt="NUnit.org"></a>
+  <div id="nav">
+    <a href="index.html">Home</a>
+    <a href="download.html">Download</a>
+    <a href="documentation.html" class="active">Documentation</a>
+    <a href="community.html">Community</a>
+    <a href="resources.html">Resources</a>
+    <a href="contactUs.html">Contact&nbsp;Us</a>
+  </div>
+</div>
+<!-- End of Header -->
 
-<style>
-  <!--
-	td.code {
-	  border:1px solid cccccc; 
-	  background-color: eeeeff; 
-	  padding-left: 10px; padding-right: 10px; padding-top: 10px; 
-	  font-family: Monospace; font-size: 12px;
-	}
-  -->
-</style>
-			
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td valign="top"><br>
-      <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
-        <tr>
-          <td class="bodytext">
-            <p><b>Assertions</b><br>
-            Assertions are central to unit testing in any of the xUnit frameworks,
-			and NUnit is no exception. NUnit provides a rich set of assertions as
-			static methods of the Assert class.</p>
-			
-			<p>If an assertion fails, the method call does not return and an 
-			error is reported. If a test contains multiple assertions, any that
-			follow the one that failed will not be executed. For this reason,
-			it's usually best to try for one assertion per test.</p>
-			
-			<p>Each method may be called without a message, with a simple
-			text message or with a message and arguments. In the last case
-			the message is formatted using the provided text and arguments.</p>
-			
-			<p>For convenience of presentation, we list the available 
-			assertions in three groups: <a href="#comparisons">comparisons</a>,
-			single <a href="#conditions">condition tests</a> 
-			and <a href="#fail">utility methods</a>.</p>
+<!-- Main Content -->
+<div id="content">
 
-		  	<p><a name="comparisons"><b>Comparisons</b></a><br>
-		  	Assertions that perform comparisons are often your best choice
-		  	because they report both expected and actual values. The expected
-		  	value is always the first argument. NUnit provides the following 
-			comparison asserts:</p>
-
-			<table cellpadding="0" cellspacing="0" width="90%" align="center" border="">
-			  <tr>
-		 	  	<td class="code">
-<pre>Assert.AreEqual( int expected, int actual );
+<h2>Assertions</h2>
+<p>Assertions are central to unit testing in any of the xUnit frameworks, and NUnit 
+	is no exception. NUnit provides a rich set of assertions as static methods of 
+	the Assert class.</p>
+<p>If an assertion fails, the method call does not return and an error is reported. 
+	If a test contains multiple assertions, any that follow the one that failed 
+	will not be executed. For this reason, it's usually best to try for one 
+	assertion per test.</p>
+<p>Each method may be called without a message, with a simple text message or with 
+	a message and arguments. In the last case the message is formatted using the 
+	provided text and arguments.</p>
+<p>For convenience of presentation, we list the available assertions in three 
+	groups: <a href="#comparisons">comparisons</a>, single <a href="#conditions">condition 
+		tests</a> and <a href="#utility">utility methods</a>.</p>
+<h3><a name="comparisons">Comparisons</a></h3>
+<p>Assertions that perform comparisons are often your best choice because they 
+	report both expected and actual values. The expected value is always the first 
+	argument. NUnit provides the following comparison asserts:</p>
+<div class="code" style="width: 36em" >
+	<pre>Assert.AreEqual( int expected, int actual );
 Assert.AreEqual( int expected, int actual, string message );
 Assert.AreEqual( int expected, int actual, string message, 
                  object[] parms );
@@ -243,37 +80,26 @@ Assert.AreSame( object expected, object actual );
 Assert.AreSame( object expected, object actual, string message );
 Assert.AreSame( object expected, object actual, string message, 
                 object[] parms );</pre>
-		  		</td>
-			  </tr>
-			</table>
-			
-			<p>The AreSame method tests that the same objects are
-			referenced by both arguments. All the variants of AreEqual
-			test for equality.</p>
-			
-			<p>Overloaded AreEqual methods are provided 
-			for the most common types. In addition, the overload that compares
-			two objects makes special provisions so that numeric values of
-			different types compare as expected. This makes it possible for
-			asserts like the following to succeed:
-			<pre>        Assert.AreEqual( 5, 5.0 )</pre></p>
-			
-			<p>Starting with version 2.2, special provision is also made for comparing arrays.
-			Two arrays will be treated as equal by Assert.AreEqual 
-			if they are the same length and each of the corresponding elements is equal.
-			
-			<i><b>Note:</b> In version 2.2, this only applies to arrays, not to
-			other collection types, such as ArrayList.</i></p>
-			
-			<p><a name="conditions"><b>Condition Tests</b></a><br>
-			Methods that test a specific condition are named for the condition
-			they test and take the value tested as their first argument and,
-			optionally a message as the second. The following methods are provided:</p>
-			
-			<table cellpadding="0" cellspacing="0" width="90%" align="center" border="">
-			  <tr>
-		 	  	<td class="code">
-<pre>Assert.IsTrue( bool condition );
+</div>
+<p>The AreSame method tests that the same objects are referenced by both arguments. 
+	All the variants of AreEqual test for equality.</p>
+<p>Overloaded AreEqual methods are provided for the most common types. In addition, 
+	the overload that compares two objects makes special provisions so that numeric 
+	values of different types compare as expected. This makes it possible for 
+	asserts like the following to succeed:
+	<pre>        Assert.AreEqual( 5, 5.0 )</pre>
+</p>
+<p>Starting with version 2.2, special provision is also made for comparing single-dimensioned
+	arrays. Two arrays will be treated as equal by Assert.AreEqual if they are the same 
+	length and each of the corresponding elements is equal. 
+	<i><b>Note:</b> Multi-dimensioned arrays, nested arrays (arrays of arrays) 
+	and other collection types such as ArrayList are not currently supported.</i></p>
+<h3><a name="conditions">Condition Tests</a></h3>
+<p>Methods that test a specific condition are named for the condition they test and 
+	take the value tested as their first argument and, optionally a message as the 
+	second. The following methods are provided:</p>
+<div class="code" style="width: 36em">
+	<pre>Assert.IsTrue( bool condition );
 Assert.IsTrue( bool condition, string message );
 Assert.IsTrue( bool condition, string message, object[] parms );
 
@@ -288,111 +114,68 @@ Assert.IsNull( object anObject, string message, object[] parms );
 Assert.IsNotNull( object anObject );
 Assert.IsNotNull( object anObject, string message );
 Assert.IsNotNull( object anObject, string message, object[] parms );</pre>
-		  		</td>
-			  </tr>
-			</table> 
-			
-			<p><a name="fail"><b>Utility Methods</b></a><br>
-			Two utility methods, Fail() and Ignore() are provided in order
-			to allow more direct control of the test process:</p>
-			
-			<table cellpadding="0" cellspacing="0" width="90%" align="center" border="">
-			  <tr>
-		 	  	<td class="code">
-<pre>Assert.Fail();
+</div>
+<h3><a name="utility">Utility Methods</a></h3>
+<p>Two utility methods, Fail() and Ignore() are provided in order to allow more 
+	direct control of the test process:</p>
+<div class="code" style="width: 36em">
+	<pre>Assert.Fail();
 Assert.Fail( string message );
 Assert.Fail( string message, object[] parms );
 
 Assert.Ignore();
 Assert.Ignore( string message );
 Assert.Ignore( string message, object[] parms );</pre>
-		  		</td>
-			  </tr>
-			</table>
-			
-			<p>The Assert.Fail method provides you with the ability to
-			generate a failure based on tests that are not encapsulated by the 
-			other methods. It is also useful in developing your own project-specific
-			assertions.</p>
-			
-			<p>Here's an example of its use to create a private assertion that
-			tests whether a string contains an expected value.</p>
-			
-			<table cellpadding="0" cellspacing="0" width="90%" align="center" border="">
-			  <tr>
-		 	  	<td class="code">
-<pre>public void AssertStringContains( string expected, string actual )
+</div>
+<p>The Assert.Fail method provides you with the ability to generate a failure based 
+	on tests that are not encapsulated by the other methods. It is also useful in 
+	developing your own project-specific assertions.</p>
+<p>Here's an example of its use to create a private assertion that tests whether a 
+	string contains an expected value.</p>
+<div class="code" style="width: 36em">
+	<pre>public void AssertStringContains( string expected, string actual )
 {
-    AssertStringContains( expected, text, string.Empty );
+    AssertStringContains( expected, actual, string.Empty );
 }
 
 public void AssertStringContains( string expected, string actual,
     string message )
 {
     if ( actual.IndexOf( expected ) < 0 )
-        Assert.Fail( string message );
+        Assert.Fail( message );
 }</pre>
-		  		</td>
-			  </tr>
-			</table>
-			
-			<p>The Assert.Ignore method provides you with the ability to dynamically
-			cause a test or suite to be ignored at runtime. It may be called in a test, setup or
-			fixture setup method. We recommend that you use this only in isolated
-			cases. The category facility is provided for more extensive inclusion
-			or exclusion of tests or you may elect to simply divide tests run
-			on different occasions into different assemblies.</p>		
-			
-		  </td>
-		</tr>
-      </table>
-      <table width="90%" border="0" cellspacing="0" cellpadding="0" class="lefttables">
-        <tr>
-          <td class="copyrighttext">
-            <br><hr>
-            Copyright © 2004 Charlie Poole. All Rights Reserved.
-		  </td>
-        </tr>
-      </table>
-    </td>
-    <td width="1" valign="top"><img src="img/sideDivider.gif" width="1" height="435" alt="|"></td>
-    <td width="235"  valign="top">
-      <table border="0" cellspacing="0" cellpadding="0" align="center" class="subnavtable">
-        <tr>
-          <td align="center" width="15" class="blanktd"><a href="download.html" target="_self"><img src="img/bulletOff.gif" width="8" height="8" alt="*" border="0"></a></td>
-          <td height="25" class="blanktd"><a href="getStarted.html" target="_self"><img src="img/getStarted.gif" width="125" height="12" alt="Getting Started" border="0"></a></td>
-        </tr>
-        <tr>
-          <td align="center" width="15" class="blanktd"><a href="installation.html" target="_self"><img src="img/bulletOff.gif" width="8" height="8" alt="*" border="0"></a></td>
-          <td height="25" class="blanktd"><a href="installation.html" target="_self"><img src="img/installation.gif" width="99" height="12" alt="Installation" border="0"></a></td>
-        </tr>
-        <tr>
-          <td align="center" width="15" class="blanktd"><img src="img/bulletOn.gif" width="8" height="8" alt="&amp;#149;" border="0"></td>
-          <td height="25" class="blanktd"><a href="assertions.html" target="_self"><img src="img/assertions.gif" width="83" height="12" alt="Assertions" border="0"></a></td>
-        </tr>
-        <tr>
-          <td align="center" width="15" class="blanktd"><img src="img/bulletOff.gif" width="8" height="8" alt="&amp;#149;" border="0"></td>
-          <td height="25" class="blanktd"><a href="attributes.html" target="_self"><img src="img/attribute.gif" width="83" height="12" alt="Attributes" border="0"></a></td>
-        </tr>
-        <tr>
-          <td align="center" width="15" class="blanktd"><a href="upgrade.html" target="_self"><img src="img/bulletOff.gif" width="8" height="8" alt="&amp;#149;" border="0"></a></td>
-          <td height="25" class="blanktd"><a href="upgrade.html" target="_self"><img src="img/upgrade.gif" width="83" height="12" alt="Upgrading" border="0"></a></td>
-        </tr>
-        <tr>
-          <td align="center" width="15" class="blanktd"><a href="commandLine.html" target="_self"><img src="img/bulletOff.gif" width="8" height="8" alt="&amp;#149;" border="0"></a></td>
-          <td height="25" class="blanktd"><a href="commandLine.html" target="_self"><img src="img/commandLine.gif" width="195" height="12" alt="Command-Line Parameters" border="0"></a></td>
-        </tr>
-        <tr>
-          <td align="center" width="15" class="blanktd"><a href="samples.html" target="_self"><img src="img/bulletOff.gif" width="8" height="8" alt="*" border="0"></a></td>
-          <td height="25" class="blanktd"><a href="samples.html" target="_self"><img src="img/samples.gif" width="60" height="12" alt="Samples" border="0"></a></td>
-        </tr>
-        <tr>
-          <td align="center" width="15" class="blanktd"><a href="license.html" target="_self"><img src="img/bulletOff.gif" width="8" height="8" alt="&amp;#149;" border="0"></a></td>
-          <td height="25" class="blanktd"><a href="license.html" target="_self"><img src="img/license.gif" width="62" height="12" alt="License" border="0"></a></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+</div>
+<p>The Assert.Ignore method provides you with the ability to dynamically cause a 
+	test or suite to be ignored at runtime. It may be called in a test, setup or 
+	fixture setup method. We recommend that you use this only in isolated cases. 
+	The category facility is provided for more extensive inclusion or exclusion of 
+	tests or you may elect to simply divide tests run on different occasions into 
+	different assemblies.</p>
+</div>
+<!-- End of Main Content -->
+
+<!-- Submenu -->
+<div id="subnav">
+  <ul>
+    <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+    <li><a href="installation.html">Installation</a></li>
+    <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+    <li id="current"><a href="assertions.html">Assertions</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="attributes.html">Attributes</a></li>
+    <li><a href="upgrade.html">Upgrading</a></li>
+    <li><a href="commandLine.html">Command-Line Parameters</a></li>
+    <li><a href="samples.html">Samples</a></li>
+    <li><a href="license.html">License</a></li>
+  </ul>
+</div>  
+<!-- End of Submenu -->
+<!-- Standard Footer for NUnit.org -->
+<div id="footer">
+  Copyright &copy; 2002-2005. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+
+
 </body>
 </html>
