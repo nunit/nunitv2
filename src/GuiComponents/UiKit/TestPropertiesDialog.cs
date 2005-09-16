@@ -748,7 +748,7 @@ namespace NUnit.UiKit
 			testCaseCount.Text = test.CountTestCases().ToString();
 
 			// Initialize Result Tab
-			if ( result == null || !result.Executed )
+			if ( result == null )
 				tabControl1.TabPages.Remove( resultsTab );
 			else
 			{
@@ -757,7 +757,13 @@ namespace NUnit.UiKit
 					tabControl1.TabPages.Add( resultsTab );
 				}
 
-				testResult.Text = result.IsSuccess ? "Success" : "Failure";
+				if ( !result.Executed )
+					testResult.Text = "Not Run";
+				else if ( result.IsSuccess )
+					testResult.Text = "Success";
+				else
+					testResult.Text = "Failure";
+
 				// message may have a leading blank line
 				// TODO: take care of this in label?
 				message.Text = TrimLeadingBlankLines( result.Message );
