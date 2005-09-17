@@ -28,13 +28,15 @@
 #endregion
 
 using System;
-using System.IO;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Runtime.InteropServices;
-using Microsoft.Win32;
-using NUnit.Util;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 using NUnit.UiKit;
+using NUnit.Util;
 
 namespace NUnit.Gui
 {
@@ -64,6 +66,17 @@ namespace NUnit.Gui
 					ProcessStartInfo startInfo = new ProcessStartInfo(exeFile);
 					startInfo.UseShellExecute = false;
 					startInfo.EnvironmentVariables["ComPlus_Version"] = parser.framework;
+					StringBuilder sb = new StringBuilder();
+					foreach ( string s in args )
+					{
+						if ( !s.StartsWith( "/framework" ) )
+						{
+							if ( sb.Length > 0 )
+								sb.Append( ' ' );
+							sb.Append( s );
+						}
+					}
+					startInfo.Arguments = sb.ToString();
 					Process.Start(startInfo);
 					return 0;
 				}
@@ -77,8 +90,8 @@ namespace NUnit.Gui
 					command.noload = parser.noload;
 					command.autorun = parser.run;
 					if (parser.lang != null)
-						System.Threading.Thread.CurrentThread.CurrentUICulture =
-							new System.Globalization.CultureInfo( parser.lang );
+						Thread.CurrentThread.CurrentUICulture =
+							new CultureInfo( parser.lang );
 				}
 
 				if(command.testFileName != null)
