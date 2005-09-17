@@ -469,10 +469,10 @@
         <include name="TestConfig.txt"/>
         <include name="Extensibility.txt"/>
         <include name="*.html"/>
-		<include name="css/*"/>
-		<include name="files/*"/>
-		<exclude name="files/Supplement.doc"/>
-		<include name="img/*"/>
+	<include name="nunit.css"/>
+	<include name="files/*"/>
+	<exclude name="files/Supplement.doc"/>
+	<include name="img/*"/>
       </fileset>
     </copy>
   </target>
