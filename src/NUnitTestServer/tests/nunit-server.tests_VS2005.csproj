@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50215</ProductVersion>
+    <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3BCA62D3-4C9D-4E24-80C0-291D5CD059FA}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -107,6 +107,10 @@
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Name>nunit.framework.dll_VS2005</Name>
     </ProjectReference>
+    <ProjectReference Include="..\nunit-server-exe\nunit-server.exe_VS2005.csproj">
+      <Project>{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}</Project>
+      <Name>nunit-server.exe_VS2005</Name>
+    </ProjectReference>
     <ProjectReference Include="..\nunit-server\nunit-server_VS2005.csproj">
       <Project>{BD9CA3B3-EDE9-4E47-A839-A74EFE3767BC}</Project>
       <Name>nunit-server_VS2005</Name>
@@ -116,6 +120,6 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "..\..\..\nunit-server-exe\bin\$(ConfigurationName)\nunit-server.exe" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)..\nunit-server-exe\obj\$(ConfigurationName)\nunit-server.exe" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
