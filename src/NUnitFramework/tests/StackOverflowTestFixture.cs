@@ -29,6 +29,7 @@
 
 using System;
 using NUnit.Framework;
+using System.Runtime.InteropServices;
 
 namespace NUnit.Core.Tests
 {
@@ -46,7 +47,12 @@ namespace NUnit.Core.Tests
 		[Test, ExpectedException( typeof( StackOverflowException ) )]
 		public void SimpleOverflow()
 		{
-			FunctionCallsSelf();
-		}
+			if (RuntimeEnvironment.GetSystemVersion().StartsWith("v2.0."))
+			{
+				Assert.Fail("Platform .NET 2.0 should not execute this test.");
+			}
+
+                        FunctionCallsSelf();
+                }
 	}
 }
