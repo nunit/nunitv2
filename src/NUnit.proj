@@ -1,0 +1,16 @@
+<Project DefaultTargets="Clean;Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<MSBuildExtensionsPath>$(MSBuildProjectDirectory)\..\tools\MSBuildExtensions</MSBuildExtensionsPath>
+		<Properties_v1_0>NoWarn=;TargetFrameworkVersion=v1.0;MSBuildExtensionsPath=$(MSBuildExtensionsPath);CustomAfterMicrosoftCommonTargets=$(MSBuildExtensionsPath)\CrossCompile.CSharp.targets</Properties_v1_0>
+	</PropertyGroup>
+	
+	<Target Name="Clean">
+		<MSBuild Projects="nunit_VS2005.sln" Targets="Clean" Properties="$(Properties_v1_0)" />
+	</Target>
+	
+	<Target Name="Build">
+		<MSBuild Projects="nunit_VS2005.sln" Targets="Rebuild" Properties="$(Properties_v1_0)" />
+	</Target>
+	
+</Project>
