@@ -32,8 +32,11 @@ namespace NUnit.Util
 
 		public void Load( XmlReader reader )
 		{
-			xslTransform.Load( reader, null, null );
-		}
+			// NOTE: Not compatable with .NET 1.0.
+			// xslTransform.Load(reader, null, null);
+
+			xslTransform.Load(reader);
+	        }
 
 		public void Transform( string inputFile, string outputFile )
 		{
@@ -47,7 +50,10 @@ namespace NUnit.Util
 
 		public void Transform( IXPathNavigable xpnav, TextWriter writer )
 		{
-			xslTransform.Transform( xpnav, null, writer, null );
+			// NOTE: Not compatable with .NET 1.0.
+			// xslTransform.Transform(xpnav, null, writer, null);
+
+			xslTransform.Transform(xpnav, null, writer);
 		}
 	}
 }
