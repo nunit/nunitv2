@@ -1,16 +1,16 @@
-using System;
-using System.IO;
 using System.Diagnostics;
-using NUnit.Framework;
+using System.IO;
 using NUnit.Core;
 using NUnit.Core.Tests;
+using NUnit.Framework;
 
 namespace NUnit.Util.Tests
 {
 	/// <summary>
 	/// Summary description for ProcessRunnerTests.
 	/// </summary>
-	[TestFixture, Explicit]
+	// TODO: Reinstate after release is complete
+	//[TestFixture, Explicit]
 	public class ProcessRunnerTests : BasicRunnerTests
 	{
 		private ProcessRunner myRunner;
