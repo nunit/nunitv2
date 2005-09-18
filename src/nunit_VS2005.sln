@@ -100,7 +100,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-server.exe_VS2005", "NUnitTestServer\nunit-server-exe\nunit-server.exe_VS2005.csproj", "{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3EE8FF35-CFD4-474A-B122-68F5E8EE0C7D}"
-	ProjectSection(SolutionItems) = postProject
+	ProjectSection(SolutionItems) = preProject
 		license.rtf = license.rtf
 		nunit.key = nunit.key
 		NUnitBinTests.config = NUnitBinTests.config
@@ -108,6 +108,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		NUnitDevTests.config = NUnitDevTests.config
 		NUnitDevTests.nunit = NUnitDevTests.nunit
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.addin.dll_VS2005", "NUnitAddIn\nunit-addin\nunit.addin.dll_VS2005.csproj", "{8FEEED1C-AA39-44BD-93C5-2E2505492D6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.addin.tests_VS2005", "NUnitAddIn\tests\nunit.addin.tests_VS2005.csproj", "{C793FA34-0A35-4530-A8C4-ABF6E8B5922E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -221,6 +225,14 @@ Global
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FEEED1C-AA39-44BD-93C5-2E2505492D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FEEED1C-AA39-44BD-93C5-2E2505492D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FEEED1C-AA39-44BD-93C5-2E2505492D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FEEED1C-AA39-44BD-93C5-2E2505492D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C793FA34-0A35-4530-A8C4-ABF6E8B5922E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C793FA34-0A35-4530-A8C4-ABF6E8B5922E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C793FA34-0A35-4530-A8C4-ABF6E8B5922E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C793FA34-0A35-4530-A8C4-ABF6E8B5922E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

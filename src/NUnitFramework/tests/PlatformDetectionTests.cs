@@ -83,11 +83,13 @@ namespace NUnit.Core.Tests
 				"WinMe,Win32Windows,Win32,Win" );
 		}
 
-		[Test]
+        // WinCE isn't defined in .NET 1.0.
+		[Test, Platform(Exclude="Net-1.0")]
 		public void DetectWinCE()
 		{
-			CheckOSPlatforms( 
-				new OperatingSystem( (PlatformID)3, new Version( 1, 0 ) ),
+            PlatformID winCE = (PlatformID)Enum.Parse(typeof(PlatformID), "WinCE");
+			CheckOSPlatforms(
+                new OperatingSystem(winCE, new Version(1, 0)),
 				"WinCE,Win32,Win" );
 		}
 
