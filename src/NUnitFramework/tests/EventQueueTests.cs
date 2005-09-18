@@ -63,9 +63,9 @@ namespace NUnit.Core.Tests
 		public void StartAndStopPumpOnEmptyQueue()
 		{
 			EventPump pump = new EventPump( NullListener.NULL, new EventQueue(), false );
-			pump.Start(); Thread.Sleep( 0 );
+			pump.Start(); Thread.Sleep( 100 );
 			Assert.IsTrue( pump.Pumping, "Pump failed to start" );
-			pump.Stop(); Thread.Sleep( 0 );
+			pump.Stop(); Thread.Sleep( 100 );
 			Assert.IsFalse( pump.Pumping, "Pump failed to stop" );
 		}
 
@@ -75,9 +75,9 @@ namespace NUnit.Core.Tests
 			EventQueue q = new EventQueue();
 			EventPump pump = new EventPump( NullListener.NULL, q, true );
 			Assert.IsFalse( pump.Pumping, "Should not be pumping initially" );
-			pump.Start(); Thread.Sleep( 0 );
+			pump.Start(); Thread.Sleep( 100 );
 			Assert.IsTrue( pump.Pumping, "Pump failed to start" );
-			q.Enqueue( new RunFinishedEvent( new Exception() ) ); Thread.Sleep(0);
+			q.Enqueue( new RunFinishedEvent( new Exception() ) ); Thread.Sleep(100);
 			Assert.IsFalse( pump.Pumping, "Pump failed to stop" );
 		}
 
@@ -89,9 +89,9 @@ namespace NUnit.Core.Tests
 			QueuingEventListener el = new QueuingEventListener();
 			EventPump pump = new EventPump( el, q, false );
 			Assert.IsFalse( pump.Pumping, "Should not be pumping initially" );
-			pump.Start(); Thread.Sleep(0);
+			pump.Start(); Thread.Sleep(100);
 			Assert.IsTrue( pump.Pumping, "Pump should still be running" );
-			pump.Stop(); Thread.Sleep(0);
+			pump.Stop(); Thread.Sleep(100);
 			Assert.IsFalse( pump.Pumping, "Pump should have stopped" );
 			VerifyQueue( el.Events );
 		}
@@ -107,7 +107,7 @@ namespace NUnit.Core.Tests
 			int tries = 10;
 			while( --tries > 0 && q.Count > 0 )
 			{
-				Thread.Sleep(0);
+				Thread.Sleep(100);
 			}
 			VerifyQueue( el.Events );
 			Assert.IsFalse( pump.Pumping, "Pump failed to stop" );
