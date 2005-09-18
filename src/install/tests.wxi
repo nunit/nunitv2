@@ -21,6 +21,7 @@
           <File Id="F__test8" Name="config~8.DLL" LongName="NUnitBinTests.config" src="..\NUnitBinTests.config" />
           <File Id="F__test9" Name="nunit~9.DLL" LongName="NUnitBinTests.nunit" src="..\NUnitBinTests.nunit" />
           <File Id="F__test10" Name="tests~10.DLL" LongName="nunit-gui.tests.dll" src="bin\nunit-gui.tests.dll" />
+          <File Id="F__test11" Name="tests~11.DLL" LongName="nunit.extensions.tests.dll" src="bin\nunit.extensions.tests.dll" />
         </Component>
 
       </Directory>
