@@ -104,6 +104,7 @@
     <ProjectReference Include="..\framework\nunit.framework.dll_VS2005.csproj">
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Name>nunit.framework.dll_VS2005</Name>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
