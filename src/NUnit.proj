@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<MSBuildExtensionsPath>$(MSBuildProjectDirectory)\..\tools\MSBuildExtensions</MSBuildExtensionsPath>
-		<OutputPath>$(MSBuildProjectDirectory)\out\</OutputPath>
+		<OutputPath>$(MSBuildProjectDirectory)\bin\</OutputPath>
 		<Properties_v1_0>OutputPath=$(OutputPath);NoWarn=;TargetFrameworkVersion=v1.0;MSBuildExtensionsPath=$(MSBuildExtensionsPath);CustomAfterMicrosoftCommonTargets=$(MSBuildExtensionsPath)\CrossCompile.CSharp.targets</Properties_v1_0>
 	</PropertyGroup>
 	
