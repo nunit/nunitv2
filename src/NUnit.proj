@@ -1,9 +1,13 @@
-<Project DefaultTargets="Clean;Build;Test;Package" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Clean;Build;Test;Package;Install;TestInstall" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
 		<MSBuildExtensionsPath>$(MSBuildProjectDirectory)\..\tools\MSBuildExtensions</MSBuildExtensionsPath>
 		<OutputPath>$(MSBuildProjectDirectory)\bin\</OutputPath>
 		<Properties_v1_0>OutputPath=$(OutputPath);NoWarn=;TargetFrameworkVersion=v1.0;MSBuildExtensionsPath=$(MSBuildExtensionsPath);CustomAfterMicrosoftCommonTargets=$(MSBuildExtensionsPath)\CrossCompile.CSharp.targets</Properties_v1_0>
+		<PackageId>{1AA69CCD-1078-473A-BD6E-11CE30A81C57}</PackageId>
+		<Version>2.2.3</Version>
+		<Msi>NUnit-$(Version).msi</Msi>
+		<NUnitConsole>$(OutputPath)nunit-console.exe</NUnitConsole>
 	</PropertyGroup>
 	
 	<ItemGroup>
@@ -23,18 +27,30 @@
 		<Copy SourceFiles="NUnitBinTests.nunit;NUnitBinTests.config" DestinationFolder="$(OutputPath)" />
 
 		<Exec Command='set ComPlus_Version=v1.0.3705
-"$(OutputPath)nunit-console.exe" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
+"$(NUnitConsole)" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
 
 		<Exec Command='set ComPlus_Version=v1.1.4322
-"$(OutputPath)nunit-console.exe" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
+"$(NUnitConsole)" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
 
 		<Exec Command='set ComPlus_Version=v2.0.50727
-"$(OutputPath)nunit-console.exe" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
+"$(NUnitConsole)" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
 	</Target>
 	
 	<Target Name="Package" DependsOnTargets="Build">
 		<Exec Command='..\tools\wix\candle "@(Wxs)" -out "$(OutputPath)%(Wxs.Filename).wixobj"' />	
-		<Exec Command="..\tools\wix\light @(Wxs->'$(OutputPath)%(Filename).wixobj', ' ') -b install -out NUnit-2.2.3.msi" />
+		<Exec Command="..\tools\wix\light @(Wxs->'$(OutputPath)%(Filename).wixobj', ' ') -b install -out $(Msi)" />
+	</Target>
+	
+	<Target Name="Install" DependsOnTargets="Uninstall;Package">
+		<Exec Command="start /wait msiexec /q /i $(Msi) /l* install.log" />
+	</Target>
+
+	<Target Name="Uninstall" Condition="Exists('$(ProgramFiles)\NUnit $(Version)\bin\nunit-gui.exe')">
+		<Exec Command="start /wait msiexec /q /x $(PackageId) /l* uninstall.log" />
+	</Target>
+	
+	<Target Name="TestInstall" DependsOnTargets="Install">
+		<Exec Command='"$(NUnitConsole)" "$(ProgramFiles)\NUnit $(Version)\bin\NUnitBinTests.nunit" "/xml=$(MSBuildProjectDirectory)\NUnitTests-results.xml"' />
 	</Target>
 	
 </Project>
