@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
+  <Fragment>
+  
+    <Feature Id="AddInFeature" Level="1" ConfigurableDirectory="TARGETDIR">
+		<ComponentRef Id="C__nunit_addin_dll" />
+    </Feature>
+    
+	<DirectoryRef Id="TARGETDIR">
+      <Directory Id="D__addin" Name="BIN" LongName="bin">
+        <Component Id="C__nunit_addin_dll" DiskId="1" Guid="c06309b0-b34d-11d9-9669-0800200c9a66">
+			<File Id="F__nunit_addin_dll" Name="NADDIN.DLL" LongName="nunit.addin.dll" src="bin\nunit.addin.dll" />
+			<Registry Id="R__NUnit" Root="HKMU" Key="SOFTWARE\MutantDesign\TestDriven.NET\TestRunners\NUnit_2_2_3_0" Type="string" Value="0" />
+			<Registry Id="R__NUnit_AssemblyPath" Root="HKMU" Key="SOFTWARE\MutantDesign\TestDriven.NET\TestRunners\NUnit_2_2_3_0" Name="AssemblyPath" Type="string" Value="[TARGETDIR]bin\nunit.addin.dll" />
+			<Registry Id="R__NUnit_TypeName" Root="HKMU" Key="SOFTWARE\MutantDesign\TestDriven.NET\TestRunners\NUnit_2_2_3_0" Name="TypeName" Type="string" Value="NUnit.AddInRunner.NUnitTestRunner" />
+			<Registry Id="R__NUnit_TargetFrameworkAssemblyName" Root="HKMU" Key="SOFTWARE\MutantDesign\TestDriven.NET\TestRunners\NUnit_2_2_3_0"
+				Name="TargetFrameworkAssemblyName" Type="string"
+				Value="nunit.framework, Version=2.2.3.0" />
+        </Component>
+      </Directory>
+	</DirectoryRef>
+	
+  </Fragment>
+</Wix>

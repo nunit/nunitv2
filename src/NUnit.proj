@@ -1,4 +1,4 @@
-<Project DefaultTargets="Clean;Build;Test" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Clean;Build;Test;Package" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
 		<MSBuildExtensionsPath>$(MSBuildProjectDirectory)\..\tools\MSBuildExtensions</MSBuildExtensionsPath>
@@ -6,6 +6,11 @@
 		<Properties_v1_0>OutputPath=$(OutputPath);NoWarn=;TargetFrameworkVersion=v1.0;MSBuildExtensionsPath=$(MSBuildExtensionsPath);CustomAfterMicrosoftCommonTargets=$(MSBuildExtensionsPath)\CrossCompile.CSharp.targets</Properties_v1_0>
 	</PropertyGroup>
 	
+	<ItemGroup>
+		<Wxs Include="install\*.wxs" />
+		<Wxs Include="install\*.wxi" />
+	</ItemGroup>
+  	
 	<Target Name="Clean">
 		<MSBuild Projects="nunit_VS2005.sln" Targets="Clean" Properties="$(Properties_v1_0)" />
 	</Target>
@@ -25,6 +30,11 @@
 
 		<Exec Command='set ComPlus_Version=v2.0.50727
 "$(OutputPath)nunit-console.exe" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
+	</Target>
+	
+	<Target Name="Package" DependsOnTargets="Build">
+		<Exec Command='..\tools\wix\candle "@(Wxs)" -out "$(OutputPath)%(Wxs.Filename).wixobj"' />	
+		<Exec Command="..\tools\wix\light @(Wxs->'$(OutputPath)%(Filename).wixobj', ' ') -b install -out NUnit-2.2.3.msi" />
 	</Target>
 	
 </Project>
