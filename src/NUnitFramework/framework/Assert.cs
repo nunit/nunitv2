@@ -28,7 +28,6 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.ComponentModel;
 
 namespace NUnit.Framework
@@ -252,6 +251,46 @@ namespace NUnit.Framework
 		static public void IsNull(Object anObject) 
 		{
 			Assert.IsNull(anObject, string.Empty, null);
+		}
+    
+		#endregion
+
+		#region IsNaN
+
+		/// <summary>
+		/// Verifies that the double is passed is an <code>NaN</code> value.
+		/// If the object is not <code>NaN</code> then an <see cref="AssertionException"/>
+		/// is thrown.
+		/// </summary>
+		/// <param name="aDouble">The value that is to be tested</param>
+		/// <param name="message">The message to be displayed when the object is not null</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void IsNaN(double aDouble, string message, params object[] args) 
+		{
+			DoAssert( new NaNAsserter( aDouble, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that the double is passed is an <code>NaN</code> value.
+		/// If the object is not <code>NaN</code> then an <see cref="AssertionException"/>
+		/// is thrown.
+		/// </summary>
+		/// <param name="aDouble">The object that is to be tested</param>
+		/// <param name="message">The message to be displayed when the object is not null</param>
+		static public void IsNaN(double aDouble, string message) 
+		{
+			Assert.IsNaN(aDouble, message, null);
+		}
+    
+		/// <summary>
+		/// Verifies that the double is passed is an <code>NaN</code> value.
+		/// If the object is not <code>NaN</code> then an <see cref="AssertionException"/>
+		/// is thrown.
+		/// </summary>
+		/// <param name="aDouble">The object that is to be tested</param>
+		static public void IsNaN(double aDouble) 
+		{
+			Assert.IsNaN(aDouble, string.Empty, null);
 		}
     
 		#endregion

@@ -97,4 +97,19 @@ namespace NUnit.Framework
 		public NotNullAsserter( object anObject, string message, params object[] args )
 			: base( anObject != null, message, args ) { }
 	}
+
+	/// <summary>
+	/// Class to assert that a double is an NaN
+	/// </summary>
+	public class NaNAsserter : ConditionAsserter
+	{
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="aDouble">The value to test</param>
+		/// <param name="message">The message to issue on failure</param>
+		/// <param name="args">Arguments to apply in formatting the message</param>
+		public NaNAsserter( double aDouble, string message, params object[] args )
+			: base( double.IsNaN( aDouble ), message, args ) { }
+	}
 }
