@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50215</ProductVersion>
+    <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{74EF7165-117E-48ED-98EA-068EAE438E53}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -90,6 +90,10 @@
     <ProjectReference Include="..\..\NUnitFramework\tests\nunit.framework.tests_VS2005.csproj">
       <Project>{8C326431-AE57-4645-ACC1-A90A0B425129}</Project>
       <Name>nunit.framework.tests_VS2005</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NUnitTestServer\nunit-server-exe\nunit-server.exe_VS2005.csproj">
+      <Project>{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}</Project>
+      <Name>nunit-server.exe_VS2005</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\tests\mock-assembly\mock-assembly_VS2005.csproj">
       <Project>{2E368281-3BA8-4050-B05E-0E0E43F8F446}</Project>
@@ -191,7 +195,9 @@
     <Compile Include="XmlResultVisitorTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="nunit.util.tests.dll.config" />
+    <None Include="nunit.util.tests.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <EmbeddedResource Include="resources\ClassLibrary1.csproj" />
     <EmbeddedResource Include="resources\CPPLibrary.vcproj" />
     <EmbeddedResource Include="resources\cpp-sample.vcproj" />
@@ -214,7 +220,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)nunit.util.tests.dll.config" "$(TargetDir)nunit.util.dll.tests.config"
-copy "$(SolutionDir)NUnitTestServer\nunit-server-exe\bin\$(ConfigurationName)\nunit-server.exe"  "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
