@@ -106,8 +106,10 @@ namespace NUnit.UiKit.Tests
 			Assert.AreEqual( "Time : 0", statusBar.Panels[4].Text );
 		}
 
-		[Test]
-		public void TestProgressDisplay()
+        // .NET 1.0 sometimes throws:
+        // ExternalException : A generic error occurred in GDI+.
+        [Test, Platform(Exclude = "Net-1.0")]
+        public void TestProgressDisplay()
 		{
 			statusBar.DisplayTestProgress = true;
 			statusBar.Initialize( mockEvents );
