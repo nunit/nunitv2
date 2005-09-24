@@ -2,13 +2,15 @@
   <Fragment>
 
     <Feature Id="DocFeature" Level="1" ConfigurableDirectory="TARGETDIR">
+<!--
       <ComponentRef Id="C__index" />
       <ComponentRef Id="C__doc0" />
       <ComponentRef Id="C__doc1" />
       <ComponentRef Id="C__doc4" />
       <ComponentRef Id="C__doc6" />
+-->
     </Feature>
-  
+<!--  
     <DirectoryRef Id="TARGETDIR">
       <Directory Id="D__doc0" Name="doc">
       
@@ -131,6 +133,6 @@
     </DirectoryRef>
     
     <Icon Id="doc_icon.exe" src="Icon\doc_icon.exe.ibd" />
-    
+-->    
   </Fragment>
 </Wix>
