@@ -60,8 +60,10 @@ namespace NUnit.UiKit.Tests
 			mockEvents = new MockTestEventSource( testsDll, suite );
 		}
 
-		[Test]
-		public void TestProgressDisplay()
+        // .NET 1.0 sometimes throws:
+        // ExternalException : A generic error occurred in GDI+.
+        [Test, Platform(Exclude = "Net-1.0")]
+        public void TestProgressDisplay()
 		{
 			progressBar.Initialize( mockEvents );
 			mockEvents.TestFinished += new TestEventHandler( OnTestFinished );
