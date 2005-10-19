@@ -11,13 +11,13 @@ namespace NUnit.AddInRunner
     {
         TestSuiteBuilder testSuiteBuilder = new TestSuiteBuilder();
 
-        public TestResultSummary RunAssembly(ITestListener testListener, Assembly assembly)
+        public TestRunResult RunAssembly(ITestListener testListener, Assembly assembly)
         {
             IFilter filter = new NoFilter();
             return run(testListener, assembly, filter);
         }
 
-        public TestResultSummary RunMember(ITestListener testListener, Assembly assembly, MemberInfo member)
+        public TestRunResult RunMember(ITestListener testListener, Assembly assembly, MemberInfo member)
         {
             if (member is Type)
             {
@@ -35,23 +35,33 @@ namespace NUnit.AddInRunner
             }
             else
             {
-                return null;
+                return TestRunResult.NoTests;
             }
         }
 
-        public TestResultSummary RunNamespace(ITestListener testListener, Assembly assembly, string ns)
+        public TestRunResult RunNamespace(ITestListener testListener, Assembly assembly, string ns)
         {
             Filter filter = new Filter(ns);
             return run(testListener, assembly, filter);
         }
 
-        TestResultSummary run(ITestListener testListener, Assembly assembly, IFilter filter)
+        TestRunResult run(ITestListener testListener, Assembly assembly, IFilter filter)
         {
             TestSuite testSuite = this.testSuiteBuilder.Build(assembly.FullName);
             EventListener listener = new ProxyEventListener(testListener);
             TestResult result = testSuite.Run(listener, filter);
-            TestResultSummary summary = new TestResultSummary();
-            return summary;
+            if (result.IsFailure)
+            {
+                return TestRunResult.Failure;
+            }
+            else if (result.Executed)
+            {
+                return TestRunResult.Success;
+            }
+            else
+            {
+                return TestRunResult.NoTests;
+            }
         }
 
         class NoFilter : IFilter

@@ -19,9 +19,9 @@ namespace NUnit.AddInRunner.Tests
             MockTestListener testListener = new MockTestListener();
             Assembly assembly = Assembly.GetExecutingAssembly();
             MemberInfo member = new ThreadStart(new Examples.MockTestFixture().Test1).Method;
-            TestResultSummary summary = testRunner.RunMember(testListener, assembly, member);
+            TestRunResult result = testRunner.RunMember(testListener, assembly, member);
             Assert.AreEqual(1, testListener.TestFinishedCount, "Expect 1 test to finnish");
-            Assert.IsNotNull(summary, "Check that TestResultSummary was returned");
+            Assert.AreEqual(result, TestRunResult.Success, "Check that tests were executed");
         }
 
         [Test]
@@ -31,9 +31,9 @@ namespace NUnit.AddInRunner.Tests
             MockTestListener testListener = new MockTestListener();
             Assembly assembly = Assembly.GetExecutingAssembly();
             MemberInfo member = typeof(Examples.MockTestFixture);
-            TestResultSummary summary = testRunner.RunMember(testListener, assembly, member);
+            TestRunResult result = testRunner.RunMember(testListener, assembly, member);
             Assert.AreEqual(2, testListener.TestFinishedCount, "expect 2 tests to finnish");
-            Assert.IsNotNull(summary, "Check that TestResultSummary was returned");
+            Assert.AreEqual(result, TestRunResult.Success, "Check that tests were executed");
         }
 
         [Test]
@@ -43,9 +43,9 @@ namespace NUnit.AddInRunner.Tests
             MockTestListener testListener = new MockTestListener();
             Assembly assembly = Assembly.GetExecutingAssembly();
             string ns = typeof(Examples.MockTestFixture).Namespace;
-            TestResultSummary summary = testRunner.RunNamespace(testListener, assembly, ns);
+            TestRunResult result = testRunner.RunNamespace(testListener, assembly, ns);
             Assert.AreEqual(3, testListener.TestFinishedCount, "expect 3 tests to finnish");
-            Assert.IsNotNull(summary, "Check that TestResultSummary was returned");
+            Assert.AreEqual(result, TestRunResult.Success, "Check that tests were executed");
         }
 
         class MockTestListener : ITestListener

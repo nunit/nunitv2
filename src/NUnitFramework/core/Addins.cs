@@ -29,6 +29,7 @@
 
 using System;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace NUnit.Core
 {
@@ -53,11 +54,10 @@ namespace NUnit.Core
 			{
 				Assembly assembly = AppDomain.CurrentDomain.Load( "nunit.core.extensions" );
 				current.Register( assembly );
-				System.Diagnostics.Trace.WriteLine( "NUnit extensions loaded" );
 			}
 			catch( Exception )
 			{
-				System.Diagnostics.Trace.WriteLine( "NUnit extensions not loaded" );
+				Trace.WriteLine( "NUnit extensions not loaded" );
 			}
 		}
 		#endregion
