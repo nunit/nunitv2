@@ -54,11 +54,13 @@ namespace NUnit.Framework
 
 			if ( expected is double && actual is double )
 			{
+				if ( double.IsNaN((double)expected) && double.IsNaN((double)actual) )
+					return true;
 				// handle infinity specially since subtracting two infinite values gives 
 				// NaN and the following test fails. mono also needs NaN to be handled
 				// specially although ms.net could use either method.
 				if (double.IsInfinity((double)expected) || double.IsNaN((double)expected) || double.IsNaN((double)actual))
-					return (double)expected == (double)actual;
+					return expected.Equals( actual );
 				else 
 					return Math.Abs((double)expected-(double)actual) <= this.delta;
 			}

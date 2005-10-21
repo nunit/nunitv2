@@ -158,17 +158,9 @@ namespace NUnit.Core.Tests
 		/// 
 		/// </summary>
 		[Test]
-		public void AssertNanEqualsNaNFails() 
+		public void AssertNanEqualsNaNSucceeds() 
 		{
-			try 
-			{
-				Assertion.AssertEquals(Double.NaN, Double.NaN, 0.0);
-			} 
-			catch (AssertionException) 
-			{
-				return;
-			}
-			Assertion.Fail();
+			Assertion.AssertEquals(Double.NaN, Double.NaN, 0.0);
 		}     
 
 		/// <summary>

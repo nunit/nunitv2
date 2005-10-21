@@ -101,8 +101,7 @@ namespace NUnit.Framework.Tests
 		}     
 		
 		[Test]
-		[ExpectedException(typeof(AssertionException))]
-		public void NanEqualsNaNFails() 
+		public void NanEqualsNaNSucceeds() 
 		{
 			Assert.AreEqual(Double.NaN, Double.NaN, 0.0);
 		}     
