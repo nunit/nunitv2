@@ -219,16 +219,17 @@ namespace NUnit.AddInRunner
                     return TDF.TestResult.Failure;
                 }
 
-                if (result.IsSuccess)
-                {
-                    return TDF.TestResult.Success;
-                }
-
                 if (!result.Executed)
                 {
                     // NOTE: Does this always mean ignored?
                     return TDF.TestResult.Ignored;
                 }
+
+                if (result.IsSuccess)
+                {
+                    return TDF.TestResult.Success;
+                }
+
 
                 // NOTE: What would this mean?
                 return TDF.TestResult.Ignored;

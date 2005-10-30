@@ -26,6 +26,19 @@ namespace NUnit.AddInRunner.Tests
         }
 
         [Test]
+        public void RunMember_Ignored_Test()
+        {
+            NUnitTestRunner testRunner = new NUnitTestRunner();
+            MockTestListener testListener = new MockTestListener();
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            MemberInfo member = typeof(Examples.IgnoredTests);
+            TestRunResult result = testRunner.RunMember(testListener, assembly, member);
+            Assert.AreEqual(1, testListener.TestFinishedCount, "Expect 1 test to finnish");
+            Assert.AreEqual(1, testListener.IgnoredCount, "Expect 1 test to be ignored");
+            Assert.AreEqual(result, TestRunResult.Success, "Check that tests were executed");
+        }
+
+        [Test]
         public void RunMember_NoTest_Test()
         {
             NUnitTestRunner testRunner = new NUnitTestRunner();
@@ -70,8 +83,9 @@ namespace NUnit.AddInRunner.Tests
             Assembly assembly = Assembly.GetExecutingAssembly();
             string ns = typeof(Examples.MockTestFixture).Namespace;
             TestRunResult result = testRunner.RunNamespace(testListener, assembly, ns);
-            Assert.AreEqual(3, testListener.TestFinishedCount, "expect 3 tests to finnish");
+            Assert.AreEqual(4, testListener.TestFinishedCount, "expect 4 tests");
             Assert.AreEqual(3, testListener.SuccessCount, "Expect 3 tests to succeed");
+            Assert.AreEqual(1, testListener.IgnoredCount, "Expect 1 tests ignored");
             Assert.AreEqual(result, TestRunResult.Success, "Check that tests were executed");
         }
 
@@ -134,6 +148,15 @@ namespace NUnit.AddInRunner.Tests
         {
             [Test]
             public void Test1()
+            {
+            }
+        }
+
+        [TestFixture]
+        public class IgnoredTests
+        {
+            [Test, Ignore("Ignore Me")]
+            public void IgnoreTest()
             {
             }
         }
