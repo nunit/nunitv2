@@ -29,7 +29,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="TestDriven.Framework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=50ecb853f8c6b8d2" />
+    <Reference Include="TestDriven.Framework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=50ecb853f8c6b8d2" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NUnitTestRunnerTests.cs" />
