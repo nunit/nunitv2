@@ -8,6 +8,8 @@ namespace NUnit.AddInRunner
     using NUnit.Core;
     using NUC = NUnit.Core;
     using System.Diagnostics;
+    using System.Collections;
+    using NUnit.Util;
 
     public class NUnitTestRunner : ITestRunner
     {
@@ -92,11 +94,29 @@ namespace NUnit.AddInRunner
         {
             Assembly assembly;
             MethodInfo method;
+            ArrayList types;
 
             public MethodFilter(Assembly assembly, MethodInfo method)
             {
                 this.assembly = assembly;
                 this.method = method;
+                Type type = method.ReflectedType;
+
+                this.types = new ArrayList();
+                if (type.IsAbstract)
+                {
+                    foreach (Type candidateType in assembly.GetExportedTypes())
+                    {
+                        if (type.IsAssignableFrom(candidateType) && !candidateType.IsAbstract)
+                        {
+                            this.types.Add(candidateType);
+                        }
+                    }
+                }
+                else
+                {
+                    this.types.Add(type);
+                }
             }
 
             public bool Pass(TestSuite suite)
@@ -107,9 +127,13 @@ namespace NUnit.AddInRunner
             public bool Pass(TestCase test)
             {
                 string testFullName = test.FullName;
-                if (testFullName == this.method.ReflectedType.FullName + "." + this.method.Name)
+
+                foreach (Type type in this.types)
                 {
-                    return true;
+                    if (testFullName == type.FullName + "." + this.method.Name)
+                    {
+                        return true;
+                    }
                 }
 
                 return false;
@@ -119,12 +143,27 @@ namespace NUnit.AddInRunner
         class TypeFilter : IFilter
         {
             Assembly assembly;
-            Type type;
+            ArrayList types;
 
             public TypeFilter(Assembly assembly, Type type)
             {
                 this.assembly = assembly;
-                this.type = type;
+
+                this.types = new ArrayList();
+                if (type.IsAbstract)
+                {
+                    foreach (Type candidateType in assembly.GetExportedTypes())
+                    {
+                        if (type.IsAssignableFrom(candidateType) && !candidateType.IsAbstract)
+                        {
+                            this.types.Add(candidateType);
+                        }
+                    }
+                }
+                else
+                {
+                    this.types.Add(type);
+                }
             }
 
             public bool Pass(TestSuite suite)
@@ -135,9 +174,13 @@ namespace NUnit.AddInRunner
             public bool Pass(TestCase test)
             {
                 string testFullName = test.FullName;
-                if (testFullName.StartsWith(this.type.FullName + "."))
+
+                foreach (Type type in this.types)
                 {
-                    return true;
+                    if (testFullName.StartsWith(type.FullName + "."))
+                    {
+                        return true;
+                    }
                 }
 
                 return false;
@@ -203,11 +246,11 @@ namespace NUnit.AddInRunner
             {
                 TestResultSummary summary = new TestResultSummary();
                 summary.TotalTests = totalTestCases;
-                summary.TestRunner = typeof(NUnitTestRunner).AssemblyQualifiedName;
+                summary.TestRunner = typeof(NUnitTestRunner).FullName;
                 summary.Result = toTestResult(result);
                 summary.Message = result.Message;
                 summary.Name = result.Name;
-                summary.StackTrace = result.StackTrace;
+                summary.StackTrace = StackTraceFilter.Filter(result.StackTrace);
                 summary.TimeSpan = TimeSpan.FromSeconds(result.Time);
                 this.testListener.TestFinished(summary);
             }
