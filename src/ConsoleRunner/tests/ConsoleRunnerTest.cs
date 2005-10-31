@@ -142,6 +142,48 @@ namespace NUnit.ConsoleRunner.Tests
 				"Only XML should be displayed in xmlconsole mode");
 		}
 
+		[Test]
+		public void Bug1073539Test()
+		{
+			int resultCode = runFixture( typeof( Bug1073539Fixture ) );
+			Assert.AreEqual( 1, resultCode );
+		}
+
+		[TestFixture]
+		internal class Bug1073539Fixture
+		{
+			[Test]
+			public void TestCaseMessageOutput()
+			{
+				//Test with lower 128 characters that are common across Windows code pages.
+				byte[] encodedBytes = new byte[255];
+				byte y = 0;
+				for(int x = 0 ; x < 255 ; x++)
+				{
+					encodedBytes[x] = y++;
+				}
+				string specialString = System.Text.Encoding.Default.GetString(encodedBytes);
+				throw new ApplicationException("Will I break NUnit XML " + specialString);
+			}
+		}
+
+		[Test]
+		public void Bug1311644Test()
+		{
+			int resultCode = runFixture( typeof( Bug1311644Fixture ) );
+			Assert.AreEqual( 1, resultCode );
+		}
+
+		[TestFixture]
+		internal class Bug1311644Fixture
+		{
+			[Test]
+			public void TestCaseAssertMessageOutput()
+			{
+				Assert.AreEqual(new char[] {(char)0}, new char[] {' '});
+			}
+		}
+		
 		private int runFixture( Type type )
 		{
 			return executeConsole( new string[] 

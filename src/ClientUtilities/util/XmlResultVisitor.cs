@@ -128,12 +128,42 @@ namespace NUnit.Util
 			xmlWriter.WriteEndElement();
 		}
 
+		/// <summary>
+		/// Makes string safe for xml parsing, replacing control chars with '?'
+		/// </summary>
+		/// <param name="encodedString">string to make safe</param>
+		/// <returns>xml safe string</returns>
+		private static string CharacterSafeString(string encodedString)
+		{
+			/*The default code page for the system will be used.
+			Since all code pages use the same lower 128 bytes, this should be sufficient
+			for finding uprintable control characters that make the xslt processor error.
+			We use characters encoded by the default code page to avoid mistaking bytes as
+			individual characters on non-latin code pages.*/
+			char[] encodedChars = System.Text.Encoding.Default.GetChars(System.Text.Encoding.Default.GetBytes(encodedString));
+			
+			System.Collections.ArrayList pos = new System.Collections.ArrayList();
+			for(int x = 0 ; x < encodedChars.Length ; x++)
+			{
+				char currentChar = encodedChars[x];
+				//unprintable characters are below 0x20 in Unicode tables
+				//some control characters are acceptable. (carriage return 0x0D, line feed 0x0A, horizontal tab 0x09)
+				if(currentChar < 32 && (currentChar != 9 && currentChar != 10 && currentChar != 13))
+				{
+					//save the array index for later replacement.
+					pos.Add(x);
+				}
+			}
+			foreach(int index in pos)
+			{
+				encodedChars[index] = '?';//replace unprintable control characters with ?(3F)
+			}
+			return System.Text.Encoding.Default.GetString(System.Text.Encoding.Default.GetBytes(encodedChars));
+		}
+
 		private string EncodeCData( string text )
 		{
-			if ( text.IndexOf( "]]>" ) < 0 )
-				return text;
-
-			return text.Replace( "]]>", "]]&gt;" );
+			return CharacterSafeString( text ).Replace( "]]>", "]]&gt;" );
 		}
 
 		public void WriteCategories(TestResult result)
