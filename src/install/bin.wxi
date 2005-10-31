@@ -65,7 +65,7 @@
 			  <Shortcut Id="_910BC241F9494A3A8A10AACED6A74ABC" Directory="DesktopFolder" Name="NUNIT2~2.2" LongName="NUnit 2.2" Icon="nunit_icon.exe" IconIndex="0" Show="normal" WorkingDirectory="D__bin" />
 			  <Shortcut Id="S__nunit-gui_1_0" Arguments="/framework:v1.0.3705" Directory="D__nunit_menu" Name="SNUNIT10" LongName="NUnit GUI (.NET 1.0)" Icon="nunit_icon.exe" IconIndex="0" Show="normal" WorkingDirectory="D__bin" />
 			  <Shortcut Id="S__nunit_gui_1_1" Arguments="/framework:v1.1.4322"  Directory="D__nunit_menu" Name="SNUNIT11" LongName="NUnit GUI (.NET 1.1)" Icon="nunit_icon.exe" IconIndex="0" Show="normal" WorkingDirectory="D__bin" />
-			  <Shortcut Id="S__nunit_gui_2_0" Arguments="/framework:v2.0.40607"  Directory="D__nunit_menu" Name="SNUNIT20" LongName="NUnit GUI (.NET 2.0)" Icon="nunit_icon.exe" IconIndex="0" Show="normal" WorkingDirectory="D__bin" />
+			  <Shortcut Id="S__nunit_gui_2_0" Arguments="/framework:v2.0.50727"  Directory="D__nunit_menu" Name="SNUNIT20" LongName="NUnit GUI (.NET 2.0)" Icon="nunit_icon.exe" IconIndex="0" Show="normal" WorkingDirectory="D__bin" />
           </File>
         </Component>
 
