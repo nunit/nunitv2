@@ -187,7 +187,7 @@ namespace NUnit.Core
 					ex = ex.InnerException;
 
 				if ( testFramework.IsIgnoreException( ex ) )
-					testResult.NotRun( ex.Message );
+					testResult.NotRun(ex.Message, BuildStackTrace(ex));
 				else
 					ProcessException(ex, testResult);
 			}

@@ -181,8 +181,19 @@ namespace NUnit.Core
 		/// <param name="reason">The reason the test was not run</param>
 		public void NotRun(string reason)
 		{
+			NotRun( reason, null );
+		}
+
+		/// <summary>
+		/// Mark the test as not run.
+		/// </summary>
+		/// <param name="reason">The reason the test was not run</param>
+		/// <param name="stackTrace">Stack trace giving the location of the command</param>
+		public void NotRun(string reason, string stackTrace)
+		{
 			this.executed = false;
 			this.messageString = reason;
+			this.stackTrace = stackTrace;
 		}
 
 		/// <summary>
