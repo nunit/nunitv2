@@ -65,7 +65,18 @@ namespace NUnit.ConsoleRunner.Tests
 			if(file.Exists) file.Delete();
 		}
 
-		[TestFixture] internal class FailureTest
+		[TestFixture]
+		internal class SuccessTest
+		{
+			public static readonly int Tests = 1;
+
+			[Test]
+			public void Success()
+			{}
+		}
+		
+		[TestFixture] 
+		internal class FailureTest
 		{
 			[Test]
 			public void Fail()
@@ -85,7 +96,7 @@ namespace NUnit.ConsoleRunner.Tests
 		public void SuccessFixture() 
 		{
 			int resultCode = runFixture( 
-				typeof(NUnit.Core.Tests.SuccessTest) );
+				typeof(SuccessTest) );
 			Assert.AreEqual(0, resultCode);
 		}
 
@@ -96,7 +107,7 @@ namespace NUnit.ConsoleRunner.Tests
 			info.Delete();
 
 			int resultCode = runFixture( 
-				typeof(NUnit.Core.Tests.SuccessTest),
+				typeof(SuccessTest),
 				"/xml:" + info.FullName );
 
 			Assert.AreEqual(0, resultCode);
@@ -122,7 +133,7 @@ namespace NUnit.ConsoleRunner.Tests
 		public void XmlToConsole() 
 		{
 			int resultCode = runFixture( 
-				typeof(NUnit.Core.Tests.SuccessTest),
+				typeof(SuccessTest),
 				"/xmlconsole", 
 				"/nologo" );
 
