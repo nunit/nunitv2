@@ -186,6 +186,7 @@
     <Compile Include="NamespaceAssemblyTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="NaNFixture.cs" />
     <Compile Include="NotEqualFixture.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -226,9 +227,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="StackOverflowTestFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SuccessTest.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SuiteBuilderTests.cs">

@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50215</ProductVersion>
+    <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,7 +11,8 @@
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>nunit.core</AssemblyName>
-    <AssemblyOriginatorKeyFile>nunit.key</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
@@ -248,9 +249,6 @@
     <Compile Include="SuiteBuilderCollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TemplateTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Test.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -293,6 +291,7 @@
     <Compile Include="TestFramework.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestMethod.cs" />
     <Compile Include="TestOutput.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -327,7 +326,6 @@
     </Compile>
     <Content Include="Results.xsd" />
     <Content Include="Summary.xslt" />
-    <None Include="nunit.key" />
     <None Include="Results.xsx">
       <DependentUpon>Results.xsd</DependentUpon>
     </None>
