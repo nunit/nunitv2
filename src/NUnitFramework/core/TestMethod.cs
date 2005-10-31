@@ -34,9 +34,13 @@ namespace NUnit.Core
 	using System.Reflection;
 
 	/// <summary>
-	/// Summary description for TestCase.
+	/// The TestMethod class represents
+	/// a TestCase implemented as a method call on
+	/// a fixture object. At the moment, this is the
+	/// only way we implement a TestCase, but others
+	/// are expected in the future.
 	/// </summary>
-	public class TemplateTestCase : TestCase
+	public class TestMethod : TestCase
 	{
 		/// <summary>
 		/// The fixture object, to be used with this test, or null
@@ -50,10 +54,10 @@ namespace NUnit.Core
 		internal Type expectedException;
 		internal string expectedMessage;
 
-		public TemplateTestCase( MethodInfo method ) 
+		public TestMethod( MethodInfo method ) 
 			: this( method, null, null ) { }
 
-		public TemplateTestCase( MethodInfo method,
+		public TestMethod( MethodInfo method,
 			Type expectedException, string expectedMessage ) 
 			: base( method.ReflectedType.FullName, method.Name )
 		{
@@ -63,7 +67,7 @@ namespace NUnit.Core
 			this.expectedMessage = expectedMessage;
 		}
 	
-	public override void Run(TestCaseResult testResult)
+		public override void Run(TestCaseResult testResult)
 		{ 
 			if ( ShouldRun )
 			{
@@ -80,7 +84,7 @@ namespace NUnit.Core
 						}
 						
 						if ( Parent.SetUpFailed )
-							testResult.Failure( "TestFixtureSetUp Failed", null, true );
+							testResult.Failure( "TestFixtureSetUp Failed", null );
 
 						if ( fixture == null )
 							fixture = Parent.Fixture;
@@ -100,10 +104,11 @@ namespace NUnit.Core
 					if ( ex is NunitException )
 						ex = ex.InnerException;
 
-					if ( testFramework.IsIgnoreException( ex ) )
-						testResult.NotRun( ex.Message );
-					else
-						RecordException( ex, testResult );
+					RecordException( ex, testResult );
+//					if ( testFramework.IsIgnoreException( ex ) )
+//						testResult.NotRun( ex.Message );
+//					else
+//						testResult.Error( ex );
 				}
 				finally
 				{
@@ -139,10 +144,7 @@ namespace NUnit.Core
 				if ( ex is NunitException )
 					ex = ex.InnerException;
 
-				if ( testFramework.IsIgnoreException( ex ) )
-					testResult.NotRun( ex.Message );
-				else
-					RecordException( ex, testResult );
+				RecordException( ex, testResult );
 			}
 			finally 
 			{
@@ -167,7 +169,8 @@ namespace NUnit.Core
 			{
 				if ( ex is NunitException )
 					ex = ex.InnerException;
-				RecordException(ex, testResult, true);
+				// TODO: What about ignore exceptions in teardown?
+				RecordException(ex, testResult);
 			}
 		}
 
@@ -199,31 +202,41 @@ namespace NUnit.Core
 
 		#region Record Info About An Exception
 
-		protected void RecordException( Exception exception, TestCaseResult testResult )
+		protected void RecordException( Exception ex, TestResult testResult )
 		{
-			RecordException( exception, testResult, false );
+			if ( testFramework.IsIgnoreException( ex ) )
+				testResult.NotRun( ex.Message );
+			else if ( testFramework.IsAssertException( ex ) )
+				testResult.Failure( ex.Message, ex.StackTrace );
+			else	
+				testResult.Failure( BuildMessage(ex), BuildStackTrace(ex) );
 		}
 
-		protected void RecordException( Exception exception, TestCaseResult testResult, bool inTearDown )
-		{
-			StringBuilder msg = new StringBuilder();
-			StringBuilder st = new StringBuilder();
-			
-			if ( inTearDown )
-			{
-				msg.Append( testResult.Message );
-				msg.Append( Environment.NewLine );
-				msg.Append( "TearDown : " );
-				st.Append( testResult.StackTrace );
-				st.Append( Environment.NewLine );
-				st.Append( "--TearDown" );
-				st.Append( Environment.NewLine );
-			}
+//		protected void RecordException( Exception exception, TestCaseResult testResult )
+//		{
+//			RecordException( exception, testResult, false );
+//		}
 
-			msg.Append( BuildMessage( exception ) );
-			st.Append( BuildStackTrace( exception ) );
-			testResult.Failure( msg.ToString(), st.ToString() );
-		}
+//		protected void RecordException( Exception exception, TestCaseResult testResult )
+//		{
+//			StringBuilder msg = new StringBuilder();
+//			StringBuilder st = new StringBuilder();
+//			
+////			if ( inTearDown )
+////			{
+////				msg.Append( testResult.Message );
+////				msg.Append( Environment.NewLine );
+////				msg.Append( "TearDown : " );
+////				st.Append( testResult.StackTrace );
+////				st.Append( Environment.NewLine );
+////				st.Append( "--TearDown" );
+////				st.Append( Environment.NewLine );
+////			}
+//
+//			msg.Append( BuildMessage( exception ) );
+//			st.Append( BuildStackTrace( exception ) );
+//			testResult.Failure( msg.ToString(), st.ToString() );
+//		}
 
 		private string BuildMessage(Exception exception)
 		{
@@ -247,11 +260,23 @@ namespace NUnit.Core
 		private string BuildStackTrace(Exception exception)
 		{
 			if(exception.InnerException!=null)
-				return exception.StackTrace + Environment.NewLine + 
+				return GetStackTrace(exception) + Environment.NewLine + 
 					"--" + exception.GetType().Name + Environment.NewLine +
 					BuildStackTrace(exception.InnerException);
 			else
+				return GetStackTrace(exception);
+		}
+
+		private string GetStackTrace(Exception exception)
+		{
+			try
+			{
 				return exception.StackTrace;
+			}
+			catch( Exception )
+			{
+				return "No stack trace available";
+			}
 		}
 
 		#endregion
@@ -278,7 +303,7 @@ namespace NUnit.Core
 				{
 					string message = string.Format("Expected exception to have message: \"{0}\" but received message \"{1}\"", 
 						expectedMessage, exception.Message);
-					testResult.Failure(message, exception.StackTrace);
+					testResult.Failure(message, GetStackTrace(exception) );
 				} 
 				else 
 				{
@@ -292,7 +317,7 @@ namespace NUnit.Core
 			else
 			{
 				string message = "Expected: " + expectedException.Name + " but was " + exception.GetType().Name;
-				testResult.Failure(message, exception.StackTrace);
+				testResult.Failure( message, GetStackTrace(exception) );
 			}
 
 			return;

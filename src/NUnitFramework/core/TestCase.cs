@@ -33,7 +33,10 @@ namespace NUnit.Core
 	using System.Collections;
 
 	/// <summary>
-	/// Summary description for TestCase.
+	/// The abstract TestCase class represents a single test case.
+	/// In the present implementation, the only derived class is
+	/// TestMethod, but we allow for future test cases which are
+	/// implemented in other ways.
 	/// </summary>
 	public abstract class TestCase : Test
 	{

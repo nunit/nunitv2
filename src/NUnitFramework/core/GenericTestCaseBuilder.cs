@@ -89,7 +89,7 @@ namespace NUnit.Core
 				}
 			}
 
-			return new TemplateTestCase( method, expectedException, expectedMessage );
+			return new TestMethod( method, expectedException, expectedMessage );
 		}
 
 		/// <summary>

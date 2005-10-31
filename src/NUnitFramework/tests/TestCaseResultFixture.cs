@@ -54,19 +54,21 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
-		public void TestCaseFailure()
+		public void TestCaseNotRun()
 		{
-			caseResult.Failure("an assertion failed error",null);
-			Assert.IsTrue(caseResult.IsFailure);
-			Assert.IsFalse(caseResult.IsSuccess);
+			caseResult.NotRun( "because" );
+			Assert.AreEqual( false, caseResult.Executed );
+			Assert.AreEqual( "because", caseResult.Message );
 		}
 
 		[Test]
-		public void TestExceptionContents()
+		public void TestCaseFailure()
 		{
-			string message = "message";
-			caseResult.Failure(message,null);
-			Assert.AreEqual(message, caseResult.Message);
+			caseResult.Failure("message", "stack trace");
+			Assert.IsTrue(caseResult.IsFailure);
+			Assert.IsFalse(caseResult.IsSuccess);
+			Assert.AreEqual("message",caseResult.Message);
+			Assert.AreEqual("stack trace",caseResult.StackTrace);
 		}
 	}
 }

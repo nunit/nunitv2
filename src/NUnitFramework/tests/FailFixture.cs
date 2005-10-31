@@ -37,10 +37,18 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class FailFixture
 	{
+		private TestResult RunTestCase( Type fixtureType, string methodName )
+		{
+			TestCase test = TestCaseBuilder.Make( fixtureType, methodName );		
+			TestSuite suite = TestFixtureBuilder.Make( fixtureType );
+			suite.Add( test );
+			return test.Run( NullListener.NULL );
+		}
+
 		[TestFixture]
 		internal class VerifyFailThrowsException
 		{
-			internal string failureMessage = "This should call fail";
+			internal static string failureMessage = "This should call fail";
 
 			[Test]
 			public void CallAssertionFail()
@@ -48,29 +56,17 @@ namespace NUnit.Core.Tests
 				Assert.Fail(failureMessage);
 			}
 		}
-		[TestFixture]
-		internal class VerifyTestResultRecordsInnerExceptions
-		{
-			internal string failureMessage ="System.Exception : Outer Exception" + Environment.NewLine + "  ----> System.Exception : Inner Exception";
-			[Test]
-			public void ThrowInnerException()
-			{
-				throw new Exception("Outer Exception", new Exception("Inner Exception"));
-			}
-		}
+
 		[Test]
 		public void FailWorks()
 		{
-			string failureMessage = "This should call fail";
-			
-			Type fixtureType = typeof(VerifyFailThrowsException);
-
-			Test test = TestCaseBuilder.Make( fixtureType, "CallAssertionFail" );
-			TestSuite suite = TestFixtureBuilder.Make(fixtureType);
-			suite.Add(test);
-			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);
-			Assert.IsTrue(result.IsFailure, "VerifyFailThrowsException should have failed");
-			Assert.AreEqual(failureMessage, result.Message);
+			TestResult result = RunTestCase( 
+				typeof(VerifyFailThrowsException), 
+				"CallAssertionFail" );
+			Assert.IsTrue(result.IsFailure, "Should have failed");
+			Assert.AreEqual(
+				VerifyFailThrowsException.failureMessage, 
+				result.Message);
 		}
 
 		[Test]
@@ -95,21 +91,57 @@ namespace NUnit.Core.Tests
 			throw new AssertionException("fail"); // You can't call fail() here
 		}
 
-		[Test]
-		public void FailRecordInnerException()
+		[TestFixture]
+		internal class VerifyTestResultRecordsInnerExceptions
 		{
-			Type fixtureType = typeof(VerifyTestResultRecordsInnerExceptions);
-			VerifyTestResultRecordsInnerExceptions verifyInner = new VerifyTestResultRecordsInnerExceptions();
-				
-			string failureMessage = verifyInner.failureMessage;
-
-			Test test = TestCaseBuilder.Make( fixtureType, "ThrowInnerException" );
-			TestSuite suite = TestFixtureBuilder.Make(fixtureType);
-			suite.Add(test);
-			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);
-			Assert.IsTrue(result.IsFailure, "VerifyTestResultRecordsInnerExceptions should have failed");
-			Assert.AreEqual(failureMessage, result.Message);
+			[Test]
+			public void ThrowInnerException()
+			{
+				throw new Exception("Outer Exception", new Exception("Inner Exception"));
+			}
 		}
 
+		[Test]
+		public void FailRecordsInnerException()
+		{
+			Type fixtureType = typeof(VerifyTestResultRecordsInnerExceptions);
+			string expectedMessage ="System.Exception : Outer Exception" + Environment.NewLine + "  ----> System.Exception : Inner Exception";
+			NUnit.Core.TestResult result = RunTestCase(fixtureType, "ThrowInnerException");
+			Assert.IsTrue(result.IsFailure, "Should have failed");
+			Assert.AreEqual(expectedMessage, result.Message);
+		}
+
+		[TestFixture]
+		private class BadStackTraceFixture
+		{
+			[Test]
+			public void TestFailure()
+			{
+				throw new ExceptionWithBadStackTrace("thrown by me");
+			}
+		}
+
+		private class ExceptionWithBadStackTrace : Exception
+		{
+			public ExceptionWithBadStackTrace( string message )
+				: base( message ) { }
+
+			public override string StackTrace
+			{
+				get
+				{
+					throw new InvalidOperationException( "Simulated failure getting stack trace" );
+				}
+			}
+		}
+
+		[Test]
+		public void BadStackTraceIsHandled()
+		{
+			TestResult result = RunTestCase( typeof( BadStackTraceFixture ), "TestFailure" );
+			Assert.AreEqual( true, result.IsFailure );
+			Assert.AreEqual( "NUnit.Core.Tests.FailFixture+ExceptionWithBadStackTrace : thrown by me", result.Message );
+			Assert.AreEqual( "No stack trace available", result.StackTrace );
+		}
 	}
 }

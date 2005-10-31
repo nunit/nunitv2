@@ -30,9 +30,12 @@
 namespace NUnit.Core
 {
 	using System;
+	using System.Text;
 
 	/// <summary>
-	/// Summary description for TestResult.
+	/// The TestResult abstract class represents
+	/// the result of a test and is used to
+	/// communicate results across AppDomains.
 	/// </summary>
 	/// 
 	[Serializable]
@@ -50,12 +53,6 @@ namespace NUnit.Core
 		/// </summary>
 		private bool isFailure; 
 
-		/// <summary>
-		/// True if the setup failed: This means SetUp for a test case,
-		/// or TestFixtureSetUp for a fixture.
-		/// </summary>
-		private bool setupFailure;
-		
 		/// <summary>
 		/// The elapsed time for executing this test
 		/// </summary>
@@ -139,12 +136,6 @@ namespace NUnit.Core
 			set { isFailure = value; }
 		}
 
-		public bool SetupFailure
-		{
-			get { return setupFailure; }
-			set { setupFailure = value; }
-		}
-
 		public virtual string Description
 		{
 			get { return description; }
@@ -184,24 +175,70 @@ namespace NUnit.Core
 
 		#region Public Methods
 
+		/// <summary>
+		/// Mark the test as not run.
+		/// </summary>
+		/// <param name="reason">The reason the test was not run</param>
 		public void NotRun(string reason)
 		{
 			this.executed = false;
 			this.messageString = reason;
 		}
 
+		/// <summary>
+		/// Mark the test as a failure due to an
+		/// assertion having failed.
+		/// </summary>
+		/// <param name="message">Message to display</param>
+		/// <param name="stackTrace">Stack trace giving the location of the failure</param>
 		public void Failure(string message, string stackTrace )
-		{
-			Failure( message, stackTrace, false );
-		}
-
-		public void Failure(string message, string stackTrace, bool setupFailure)
 		{
 			this.executed = true;
 			this.isFailure = true;
 			this.messageString = message;
 			this.stackTrace = stackTrace;
-			this.setupFailure = setupFailure;
+		}
+
+		#endregion
+
+		#region Exception Helpers
+
+		private string BuildMessage(Exception exception)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.AppendFormat( "{0} : {1}", exception.GetType().ToString(), exception.Message );
+
+			Exception inner = exception.InnerException;
+			while( inner != null )
+			{
+				sb.Append( Environment.NewLine );
+				sb.AppendFormat( "  ----> {0} : {1}", inner.GetType().ToString(), inner.Message );
+				inner = inner.InnerException;
+			}
+
+			return sb.ToString();
+		}
+		
+		private string BuildStackTrace(Exception exception)
+		{
+			if(exception.InnerException!=null)
+				return GetStackTrace(exception) + Environment.NewLine + 
+					"--" + exception.GetType().Name + Environment.NewLine +
+					BuildStackTrace(exception.InnerException);
+			else
+				return GetStackTrace(exception);
+		}
+
+		private string GetStackTrace(Exception exception)
+		{
+			try
+			{
+				return exception.StackTrace;
+			}
+			catch( Exception )
+			{
+				return "No stack trace available";
+			}
 		}
 
 		#endregion

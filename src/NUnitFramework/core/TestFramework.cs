@@ -225,47 +225,12 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region ITestFramwework Interface
-
-//		public Assembly FrameworkAssembly
-//		{
-//			get { return frameworkAssembly; }
-//		}
+		#region ITestFramework Interface
 
 		public string Name
 		{
 			get { return this.frameworkInfo.Name; }
 		}
-
-//		public AssemblyName AssemblyName
-//		{
-//			get { return frameworkAssembly.GetName(); }
-//		}
-//
-//		public Version Version
-//		{
-//			get { return AssemblyName.Version; }
-//		}
-//
-//		public string Namespace
-//		{
-//			get { return frameworkInfo.Namespace; }
-//		}
-//
-//		public AssemblyName ReferencedAssembly
-//		{
-//			get { return refAssembly; }
-//		}
-//
-//		public string AssertionExceptionType
-//		{
-//			get { return frameworkInfo.AssertionExceptionType; }
-//		}
-//
-//		public string IgnoreExceptionType
-//		{
-//			get { return frameworkInfo.IgnoreExceptionType; }
-//		}
 
 		public bool AllowPrivateTests
 		{

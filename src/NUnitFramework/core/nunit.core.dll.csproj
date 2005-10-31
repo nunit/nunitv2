@@ -377,11 +377,6 @@
                     BuildAction = "Content"
                 />
                 <File
-                    RelPath = "TemplateTestCase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Test.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -448,6 +443,11 @@
                 />
                 <File
                     RelPath = "TestFramework.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestMethod.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

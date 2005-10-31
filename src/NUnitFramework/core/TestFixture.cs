@@ -77,7 +77,7 @@ namespace NUnit.Core
 				}
 				else
 				{
-					suiteResult.Failure( ex.Message, ex.StackTrace, true );
+					suiteResult.Failure( ex.Message, ex.StackTrace );
 					this.Status = SetUpState.SetUpFailed;
 				}
 			}
