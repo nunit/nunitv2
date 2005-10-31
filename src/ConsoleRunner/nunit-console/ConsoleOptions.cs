@@ -89,8 +89,11 @@ namespace NUnit.ConsoleRunner
 
 		private bool isInvalid = false; 
 
-		public ConsoleOptions(String[] args) : base(args) 
-		{}
+		//public ConsoleOptions(String[] args) : base(args) {}
+
+		public ConsoleOptions( params string[] args ) : base( args ) {}
+
+		public ConsoleOptions( bool allowForwardSlash, params string[] args ) : base( allowForwardSlash, args ) {}
 
 		protected override void InvalidOption(string name)
 		{

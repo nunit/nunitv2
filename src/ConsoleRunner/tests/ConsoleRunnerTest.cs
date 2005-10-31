@@ -108,7 +108,7 @@ namespace NUnit.ConsoleRunner.Tests
 
 			int resultCode = runFixture( 
 				typeof(SuccessTest),
-				"/xml:" + info.FullName );
+				"-xml:" + info.FullName );
 
 			Assert.AreEqual(0, resultCode);
 			Assert.AreEqual(true, info.Exists);
@@ -118,7 +118,7 @@ namespace NUnit.ConsoleRunner.Tests
 		public void InvalidFixture()
 		{
 			int resultCode = executeConsole( new string[] 
-				{ GetType().Module.Name, "/fixture:NUnit.Tests.BogusTest" } );
+				{ GetType().Module.Name, "-fixture:NUnit.Tests.BogusTest" } );
 			Assert.AreEqual(2, resultCode);
 		}
 
@@ -134,8 +134,8 @@ namespace NUnit.ConsoleRunner.Tests
 		{
 			int resultCode = runFixture( 
 				typeof(SuccessTest),
-				"/xmlconsole", 
-				"/nologo" );
+				"-xmlconsole", 
+				"-nologo" );
 
 			Assert.AreEqual(0, resultCode);
 			Assert.IsTrue(output.ToString().Trim().IndexOf( @"<?xml version=""1.0""" ) >= 0,
@@ -145,7 +145,7 @@ namespace NUnit.ConsoleRunner.Tests
 		private int runFixture( Type type )
 		{
 			return executeConsole( new string[] 
-				{ type.Module.Name, "/fixture:" + type.FullName } );
+				{ type.Module.Name, "-fixture:" + type.FullName } );
 		}
 
 		private int runFixture( Type type, params string[] arguments )
@@ -153,7 +153,7 @@ namespace NUnit.ConsoleRunner.Tests
 			string[] args = new string[arguments.Length+2];
 			int n = 0;
 			args[n++] = type.Module.Name;
-			args[n++] = "/fixture:" + type.FullName;
+			args[n++] = "-fixture:" + type.FullName;
 			foreach( string arg in arguments )
 				args[n++] = arg;
 			return executeConsole( args ); 

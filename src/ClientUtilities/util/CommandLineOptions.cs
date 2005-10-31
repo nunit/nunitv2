@@ -7,7 +7,7 @@
 // Uses reflection to populate member variables the derived class with the values 
 // of the options.
 //
-// An option can start with "/", "-" or "--".
+// An option can start with "-" or "--". On Windows systems, it can start with "/" as well.
 //
 // I define 3 types of "options":
 //   1. Boolean options (yes/no values), e.g: /r to recurse
@@ -74,10 +74,15 @@ namespace Codeblast
 	{
 		protected ArrayList parameters;
 		private int optionCount;
+		private bool allowForwardSlash;
 
-		public CommandLineOptions(string[] args)
+		public CommandLineOptions( string[] args )
+			: this( System.IO.Path.PathSeparator != '/', args ) {}
+
+		public CommandLineOptions( bool allowForwardSlash, string[] args )
 		{
-			optionCount = Init(args);
+			this.allowForwardSlash = allowForwardSlash;
+			optionCount = Init( args );
 		}
 
 		public bool NoArgs
@@ -88,7 +93,12 @@ namespace Codeblast
 			}
 		}
 
-		public int Init(string[] args)
+		public bool AllowForwardSlash
+		{
+			get { return allowForwardSlash; }
+		}
+
+		public int Init(params string[] args)
 		{
 			int count = 0;
 			int n = 0;
@@ -131,7 +141,7 @@ namespace Codeblast
 			{
 				c = opt.ToCharArray(0, 2);
 			}
-			if ((c[0] == '-' || c[0] == '/') && IsOptionNameChar(c[1])) return 1;
+			if ((c[0] == '-' || c[0] == '/' && AllowForwardSlash) && IsOptionNameChar(c[1])) return 1;
 			return 0; 
 		}
 

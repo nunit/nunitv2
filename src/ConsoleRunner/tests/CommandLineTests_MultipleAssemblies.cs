@@ -48,7 +48,7 @@ namespace NUnit.ConsoleRunner.Tests
 			assemblyOptions = new ConsoleOptions(new string[]
 				{ firstAssembly, secondAssembly });
 			fixtureOptions = new ConsoleOptions(new string[]
-				{ "/fixture:"+fixture, firstAssembly, secondAssembly });
+				{ "-fixture:"+fixture, firstAssembly, secondAssembly });
 		}
 
 		[Test]

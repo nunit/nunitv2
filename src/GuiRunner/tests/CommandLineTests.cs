@@ -45,14 +45,14 @@ namespace NUnit.Gui.Tests
 		[Test]
 		public void Help()
 		{
-			GuiOptions options = new GuiOptions(new string[] {"/help"});
+			GuiOptions options = new GuiOptions(new string[] {"-help"});
 			Assert.IsTrue(options.help);
 		}
 
 		[Test]
 		public void ShortHelp()
 		{
-			GuiOptions options = new GuiOptions(new string[] {"/?"});
+			GuiOptions options = new GuiOptions(new string[] {"-?"});
 			Assert.IsTrue(options.help);
 		}
 
@@ -74,7 +74,7 @@ namespace NUnit.Gui.Tests
 		[Test]
 		public void InvalidArgs()
 		{
-			GuiOptions options = new GuiOptions(new string[] { "/asembly:nunit.tests.dll" });
+			GuiOptions options = new GuiOptions(new string[] { "-asembly:nunit.tests.dll" });
 			Assert.IsFalse(options.Validate());
 		}
 
@@ -82,7 +82,7 @@ namespace NUnit.Gui.Tests
 		[Test] 
 		public void InvalidCommandLineParms()
 		{
-			GuiOptions parser = new GuiOptions(new String[]{"/garbage:TestFixture", "/assembly:Tests.dll"});
+			GuiOptions parser = new GuiOptions(new String[]{"-garbage:TestFixture", "-assembly:Tests.dll"});
 			Assert.IsFalse(parser.Validate());
 		}
 

@@ -30,6 +30,8 @@
 namespace NUnit.ConsoleRunner.Tests
 {
 	using System;
+	using System.IO;
+	using System.Reflection;
 	using NUnit.Framework;
 
 	[TestFixture]
@@ -38,52 +40,93 @@ namespace NUnit.ConsoleRunner.Tests
 		[Test]
 		public void NoParametersCount()
 		{
-			ConsoleOptions options = new ConsoleOptions(new string[] {});
+			ConsoleOptions options = new ConsoleOptions();
 			Assert.IsTrue(options.NoArgs);
 		}
 
 		[Test]
-		public void NoLogo()
+		public void AllowForwardSlashDefaultsCorrectly()
 		{
-			ConsoleOptions options = new ConsoleOptions(new string[] {"/nologo"});
-			Assert.IsTrue(options.nologo);
+			ConsoleOptions options = new ConsoleOptions();
+			Assert.AreEqual( Path.PathSeparator != '/', options.AllowForwardSlash );
+		}
+
+		private void TestBooleanOption( string fieldName )
+		{
+			TestBooleanOption( fieldName, fieldName );
+		}
+
+		private void TestBooleanOption( string fieldName, string option )
+		{
+			FieldInfo field = typeof(ConsoleOptions).GetField( fieldName );
+			Assert.IsNotNull( field, "Field '{0}' not found", fieldName );
+			Assert.AreEqual( typeof(bool), field.FieldType, "Field '{0}' is wrong type", fieldName );
+
+			ConsoleOptions options = new ConsoleOptions( "-" + option );
+			Assert.AreEqual( true, (bool)field.GetValue( options ), "Didn't recognize -" + option );
+			options = new ConsoleOptions( "--" + option );
+			Assert.AreEqual( true, (bool)field.GetValue( options ), "Didn't recognize --" + option );
+			options = new ConsoleOptions( false, "/" + option );
+			Assert.AreEqual( false, (bool)field.GetValue( options ), "Incorrectly recognized /" + option );
+			options = new ConsoleOptions( true, "/" + option );
+			Assert.AreEqual( true, (bool)field.GetValue( options ), "Didn't recognize /" + option );
+		}
+
+		private void TestStringOption( string fieldName )
+		{
+			TestStringOption( fieldName, fieldName );
+		}
+
+		private void TestStringOption( string fieldName, string option )
+		{
+			FieldInfo field = typeof(ConsoleOptions).GetField( fieldName );
+			Assert.IsNotNull( field, "Field {0} not found", fieldName );
+			Assert.AreEqual( typeof(string), field.FieldType );
+
+			ConsoleOptions options = new ConsoleOptions( "-" + option + ":text" );
+			Assert.AreEqual( "text", (string)field.GetValue( options ), "Didn't recognize -" + option );
+			options = new ConsoleOptions( "--" + option + ":text" );
+			Assert.AreEqual( "text", (string)field.GetValue( options ), "Didn't recognize --" + option );
+			options = new ConsoleOptions( false, "/" + option + ":text" );
+			Assert.AreEqual( null, (string)field.GetValue( options ), "Incorrectly recognized /" + option );
+			options = new ConsoleOptions( true, "/" + option + ":text" );
+			Assert.AreEqual( "text", (string)field.GetValue( options ), "Didn't recognize /" + option );
 		}
 
 		[Test]
-		public void Help()
+		public void OptionsAreRecognized()
 		{
-			ConsoleOptions options = new ConsoleOptions(new string[] {"/help"});
-			Assert.IsTrue(options.help);
-		}
-
-		[Test]
-		public void ShortHelp()
-		{
-			ConsoleOptions options = new ConsoleOptions(new string[] {"/?"});
-			Assert.IsTrue(options.help);
-		}
-
-		[Test]
-		public void Wait()
-		{
-			ConsoleOptions options = new ConsoleOptions(new string[] {"/wait"});
-			Assert.IsTrue(options.wait);
+			TestBooleanOption( "nologo" );
+			TestBooleanOption( "help" );
+			TestBooleanOption( "help", "?" );
+			TestBooleanOption( "wait" );
+			TestBooleanOption( "xmlConsole" );
+			TestBooleanOption( "labels" );
+			TestBooleanOption( "noshadow" );
+			TestBooleanOption( "thread" );
+			TestStringOption( "fixture" );
+			TestStringOption( "config" );
+			TestStringOption( "xml" );
+			TestStringOption( "transform" );
+			TestStringOption( "output" );
+			TestStringOption( "output", "out" );
+			TestStringOption( "err" );
+			TestStringOption( "include" );
+			TestStringOption( "exclude" );
 		}
 
 		[Test]
 		public void AssemblyName()
 		{
-			string assemblyName = "nunit.tests.dll";
-			ConsoleOptions options = new ConsoleOptions(new string[] 
-              { assemblyName });
-			Assert.AreEqual(assemblyName, options.Parameters[0]);
+			ConsoleOptions options = new ConsoleOptions( "nunit.tests.dll" );
+			Assert.AreEqual( "nunit.tests.dll", options.Parameters[0] );
 		}
 
 		[Test]
 		public void IncludeCategories() 
 		{
-			ConsoleOptions options = new ConsoleOptions(new string[] {"/include:Database;Slow"});
-//			Assert.IsTrue( options.Validate() );
+			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-include:Database;Slow" );
+			Assert.IsTrue( options.Validate() );
 			Assert.IsNotNull(options.include);
 			Assert.AreEqual(options.include, "Database;Slow");
 			Assert.IsTrue(options.HasInclude);
@@ -97,8 +140,8 @@ namespace NUnit.ConsoleRunner.Tests
 		[Test]
 		public void ExcludeCategories() 
 		{
-			ConsoleOptions options = new ConsoleOptions(new string[] {"/exclude:Database;Slow"});
-//			Assert.IsTrue( options.Validate() );
+			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-exclude:Database;Slow" );
+			Assert.IsTrue( options.Validate() );
 			Assert.IsNotNull(options.exclude);
 			Assert.AreEqual(options.exclude, "Database;Slow");
 			Assert.IsTrue(options.HasExclude);
@@ -112,110 +155,105 @@ namespace NUnit.ConsoleRunner.Tests
 		[Test]
 		public void IncludeAndExcludeAreInvalidTogether()
 		{
-			ConsoleOptions options = new ConsoleOptions(new string[] {"/include:Database;Slow /exclude:Fast"});
+			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-include:Database;Slow", "-exclude:Fast" );
 			Assert.IsFalse( options.Validate() );
 		}
 
 		[Test]
-		public void FixtureName()
+		public void FixtureNamePlusAssemblyIsValid()
 		{
-			string assemblyName = "nunit.tests.dll";
-			string fixtureName = "NUnit.Tests.AllTests";
-			ConsoleOptions options = new ConsoleOptions(new string[] 
-			  { "/fixture:" + fixtureName, 
-				 assemblyName });
-			Assert.AreEqual(assemblyName, options.Parameters[0]);
-			Assert.AreEqual(fixtureName, options.fixture);
+			ConsoleOptions options = new ConsoleOptions( "-fixture:NUnit.Tests.AllTests", "nunit.tests.dll" );
+			Assert.AreEqual("nunit.tests.dll", options.Parameters[0]);
+			Assert.AreEqual("NUnit.Tests.AllTests", options.fixture);
 			Assert.IsTrue(options.Validate());
 		}
 
 		[Test]
-		public void ValidateSuccessful()
+		public void AssemblyAloneIsValid()
 		{
-			ConsoleOptions options = new ConsoleOptions(new string[] { "nunit.tests.dll" });
+			ConsoleOptions options = new ConsoleOptions( "nunit.tests.dll" );
 			Assert.IsTrue(options.Validate(), "command line should be valid");
 		}
 
 		[Test]
-		public void InvalidArgs()
+		public void InvalidOption()
 		{
-			ConsoleOptions options = new ConsoleOptions(new string[] { "/asembly:nunit.tests.dll" });
+			ConsoleOptions options = new ConsoleOptions( "-asembly:nunit.tests.dll" );
 			Assert.IsFalse(options.Validate());
 		}
 
 
 		[Test]
-		public void NoFixtureName()
+		public void NoFixtureNameProvided()
 		{
-			ConsoleOptions options = new ConsoleOptions(new string[] { 
-				"/fixture:", "nunit.tests.dll",  });
+			ConsoleOptions options = new ConsoleOptions( "-fixture:", "nunit.tests.dll" );
 			Assert.IsFalse(options.Validate());
 		}
 
 		[Test] 
 		public void InvalidCommandLineParms()
 		{
-			ConsoleOptions parser = new ConsoleOptions(new String[]{"/garbage:TestFixture", "/assembly:Tests.dll"});
-			Assert.IsFalse(parser.Validate());
+			ConsoleOptions options = new ConsoleOptions( "-garbage:TestFixture", "-assembly:Tests.dll" );
+			Assert.IsFalse(options.Validate());
 		}
 
 		[Test]
 		public void XmlParameter()
 		{
-			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/xml:results.xml"});
-			Assert.IsTrue(parser.ParameterCount == 1, "assembly should be set");
-			Assert.AreEqual("tests.dll", parser.Parameters[0]);
+			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml:results.xml" );
+			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
+			Assert.AreEqual("tests.dll", options.Parameters[0]);
 
-			Assert.IsTrue(parser.IsXml, "XML file name should be set");
-			Assert.AreEqual("results.xml", parser.xml);
+			Assert.IsTrue(options.IsXml, "XML file name should be set");
+			Assert.AreEqual("results.xml", options.xml);
 		}
 
 		[Test]
 		public void XmlParameterWithFullPath()
 		{
-			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/xml:C:\\nunit\\tests\\bin\\Debug\\console-test.xml"});
-			Assert.IsTrue(parser.ParameterCount == 1, "assembly should be set");
-			Assert.AreEqual("tests.dll", parser.Parameters[0]);
+			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml:C:\\nunit\\tests\\bin\\Debug\\console-test.xml" );
+			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
+			Assert.AreEqual("tests.dll", options.Parameters[0]);
 
-			Assert.IsTrue(parser.IsXml, "XML file name should be set");
-			Assert.AreEqual("C:\\nunit\\tests\\bin\\Debug\\console-test.xml", parser.xml);
+			Assert.IsTrue(options.IsXml, "XML file name should be set");
+			Assert.AreEqual("C:\\nunit\\tests\\bin\\Debug\\console-test.xml", options.xml);
 		}
 
 		[Test]
 		public void XmlParameterWithFullPathUsingEqualSign()
 		{
-			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/xml=C:\\nunit\\tests\\bin\\Debug\\console-test.xml"});
-			Assert.IsTrue(parser.ParameterCount == 1, "assembly should be set");
-			Assert.AreEqual("tests.dll", parser.Parameters[0]);
+			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml=C:\\nunit\\tests\\bin\\Debug\\console-test.xml" );
+			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
+			Assert.AreEqual("tests.dll", options.Parameters[0]);
 
-			Assert.IsTrue(parser.IsXml, "XML file name should be set");
-			Assert.AreEqual("C:\\nunit\\tests\\bin\\Debug\\console-test.xml", parser.xml);
+			Assert.IsTrue(options.IsXml, "XML file name should be set");
+			Assert.AreEqual("C:\\nunit\\tests\\bin\\Debug\\console-test.xml", options.xml);
 		}
 
 		[Test]
 		public void TransformParameter()
 		{
-			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/transform:Summary.xslt"});
-			Assert.IsTrue(parser.ParameterCount == 1, "assembly should be set");
-			Assert.AreEqual("tests.dll", parser.Parameters[0]);
+			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-transform:Summary.xslt" );
+			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
+			Assert.AreEqual("tests.dll", options.Parameters[0]);
 
-			Assert.IsTrue(parser.IsTransform, "transform file name should be set");
-			Assert.AreEqual("Summary.xslt", parser.transform);
+			Assert.IsTrue(options.IsTransform, "transform file name should be set");
+			Assert.AreEqual("Summary.xslt", options.transform);
 		}
 
 
 		[Test]
-		public void FileNameWithoutXmlParameter()
+		public void FileNameWithoutXmlParameterIsInvalid()
 		{
-			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", ":result.xml"});
-			Assert.IsFalse(parser.IsXml);
+			ConsoleOptions options = new ConsoleOptions( "tests.dll", ":result.xml" );
+			Assert.IsFalse(options.IsXml);
 		}
 
 		[Test]
-		public void XmlParameterWithoutFileName()
+		public void XmlParameterWithoutFileNameIsInvalid()
 		{
-			ConsoleOptions parser = new ConsoleOptions(new String[]{"tests.dll", "/xml:"});
-			Assert.IsFalse(parser.IsXml);			
+			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml:" );
+			Assert.IsFalse(options.IsXml);			
 		}
 	}
 }
