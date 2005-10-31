@@ -6,7 +6,7 @@ namespace NUnit.Core.Extensions
 	/// <summary>
 	/// Summary description for RepeatedTestCase.
 	/// </summary>
-	public class RepeatedTestCase : TemplateTestCase
+	public class RepeatedTestCase : TestMethod
 	{
 		private int count;
 		private bool failed = false;
