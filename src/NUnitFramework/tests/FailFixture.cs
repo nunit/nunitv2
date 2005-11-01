@@ -143,5 +143,37 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( "NUnit.Core.Tests.FailFixture+ExceptionWithBadStackTrace : thrown by me", result.Message );
 			Assert.AreEqual( "No stack trace available", result.StackTrace );
 		}
+
+		[Test]
+		public void CustomExceptionIsHandled()
+		{
+			TestResult result = RunTestCase( typeof( CustomExceptionFixture ), "ThrowCustomException" );
+			Assert.AreEqual( true, result.IsFailure );
+			Assert.AreEqual( "NUnit.Core.Tests.FailFixture+CustomExceptionFixture+CustomException : message", result.Message );
+		}
+
+		[TestFixture]
+		private class CustomExceptionFixture
+		{
+			[Test]
+			public void ThrowCustomException()
+			{
+				throw new CustomException( "message", new CustomType() );
+			}
+
+			private class CustomType
+			{
+			}
+
+			private class CustomException : Exception
+			{
+				private CustomType custom;
+
+				public CustomException( string msg, CustomType custom ) : base( msg )
+				{
+					this.custom = custom;
+				}
+			}
+		}
 	}
 }
