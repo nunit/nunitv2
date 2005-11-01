@@ -57,7 +57,9 @@ namespace NUnit.Core
 			}
 			catch( Exception )
 			{
-				Trace.WriteLine( "NUnit extensions not loaded" );
+                // HACK: Where should this be logged? 
+                // Don't pollute the trace listeners.
+				new DefaultTraceListener().WriteLine( "NUnit extensions not loaded" );
 			}
 		}
 		#endregion
