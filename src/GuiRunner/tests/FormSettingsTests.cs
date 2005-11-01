@@ -29,6 +29,7 @@
 
 using System;
 using System.Drawing;
+using System.Windows.Forms;
 using NUnit.Framework;
 using NUnit.Util;
 using Microsoft.Win32;
@@ -124,9 +125,14 @@ namespace NUnit.Gui.Tests
 		[Test]
 		public void PositionOutOfBounds()
 		{
-			Point pt = new Point( -1000, 200 );
+			int minX = 0;
+			foreach( Screen screen in Screen.AllScreens )
+				if ( screen.Bounds.Left < minX )
+					minX = screen.Bounds.Left;
+
+			Point pt = new Point( minX-1000, 200 );
 			Size sz = new Size( 300, 200 );
-			
+
 			form.Location = pt;
 			form.Size = sz;
 
