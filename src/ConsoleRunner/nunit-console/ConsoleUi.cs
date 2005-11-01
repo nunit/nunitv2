@@ -325,13 +325,16 @@ namespace NUnit.ConsoleRunner
 								messages.Add( testResult.Message.Trim( Environment.NewLine.ToCharArray() ) );
 
 								string stackTrace = StackTraceFilter.Filter( testResult.StackTrace );
-								string[] trace = stackTrace.Split( System.Environment.NewLine.ToCharArray() );
-								foreach( string s in trace )
+								if ( stackTrace != null && stackTrace != string.Empty )
 								{
-									if ( s != string.Empty )
+									string[] trace = stackTrace.Split( System.Environment.NewLine.ToCharArray() );
+									foreach( string s in trace )
 									{
-										string link = Regex.Replace( s.Trim(), @".* in (.*):line (.*)", "$1($2)");
-										messages.Add( string.Format( "at\n{0}", link ) );
+										if ( s != string.Empty )
+										{
+											string link = Regex.Replace( s.Trim(), @".* in (.*):line (.*)", "$1($2)");
+											messages.Add( string.Format( "at\n{0}", link ) );
+										}
 									}
 								}
 							}
