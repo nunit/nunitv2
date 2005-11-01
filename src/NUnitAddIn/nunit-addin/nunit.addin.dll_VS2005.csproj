@@ -32,6 +32,9 @@
     <Reference Include="TestDriven.Framework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=50ecb853f8c6b8d2" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\ClientUtilities\util\StackTraceFilter.cs">
+      <Link>StackTraceFilter.cs</Link>
+    </Compile>
     <Compile Include="NUnitTestRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -39,10 +42,6 @@
     <Content Include="TestDriven.Framework.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ClientUtilities\util\nunit.util.dll_VS2005.csproj">
-      <Project>{61CE9CE5-943E-44D4-A381-814DC1406767}</Project>
-      <Name>nunit.util.dll_VS2005</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\NUnitFramework\core\nunit.core.dll_VS2005.csproj">
       <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
       <Name>nunit.core.dll_VS2005</Name>

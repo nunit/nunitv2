@@ -15,13 +15,13 @@ namespace NUnit.AddInRunner
     {
         TestSuiteBuilder testSuiteBuilder = new TestSuiteBuilder();
 
-        public TestRunResult RunAssembly(ITestListener testListener, Assembly assembly)
+        public TestRunState RunAssembly(ITestListener testListener, Assembly assembly)
         {
             IFilter filter = new NoFilter();
             return run(testListener, assembly, filter);
         }
 
-        public TestRunResult RunMember(ITestListener testListener, Assembly assembly, MemberInfo member)
+        public TestRunState RunMember(ITestListener testListener, Assembly assembly, MemberInfo member)
         {
             if (member is Type)
             {
@@ -37,43 +37,43 @@ namespace NUnit.AddInRunner
             }
             else
             {
-                return TestRunResult.NoTests;
+                return TestRunState.NoTests;
             }
         }
 
-        public TestRunResult RunNamespace(ITestListener testListener, Assembly assembly, string ns)
+        public TestRunState RunNamespace(ITestListener testListener, Assembly assembly, string ns)
         {
             IFilter filter = new NamespaceFilter(assembly, ns);
             return run(testListener, assembly, filter);
         }
 
-        TestRunResult run(ITestListener testListener, Assembly assembly, IFilter filter)
+        TestRunState run(ITestListener testListener, Assembly assembly, IFilter filter)
         {
             TestSuite testSuite = this.testSuiteBuilder.Build(assembly.FullName);
             int totalTestCases = testSuite.CountTestCases(filter);
             if (totalTestCases == 0)
             {
-                return TestRunResult.NoTests;
+                return TestRunState.NoTests;
             }
 
             EventListener listener = new ProxyEventListener(testListener, totalTestCases);
             NUC.TestResult result = testSuite.Run(listener, filter);
-            return toTestRunResult(result);
+            return toTestRunState(result);
         }
 
-        static TestRunResult toTestRunResult(NUC.TestResult result)
+        static TestRunState toTestRunState(NUC.TestResult result)
         {
             if (result.IsFailure)
             {
-                return TestRunResult.Failure;
+                return TestRunState.Failure;
             }
             else if (result.Executed)
             {
-                return TestRunResult.Success;
+                return TestRunState.Success;
             }
             else
             {
-                return TestRunResult.NoTests;
+                return TestRunState.NoTests;
             }
         }
 
@@ -244,10 +244,9 @@ namespace NUnit.AddInRunner
 
             public void TestFinished(TestCaseResult result)
             {
-                TestResultSummary summary = new TestResultSummary();
+                TDF.TestResult summary = new TDF.TestResult();
                 summary.TotalTests = totalTestCases;
-                summary.TestRunner = typeof(NUnitTestRunner).FullName;
-                summary.Result = toTestResult(result);
+                summary.State = toTestState(result);
                 summary.Message = result.Message;
                 summary.Name = result.Name;
                 summary.StackTrace = StackTraceFilter.Filter(result.StackTrace);
@@ -255,27 +254,27 @@ namespace NUnit.AddInRunner
                 this.testListener.TestFinished(summary);
             }
 
-            static TDF.TestResult toTestResult(TestCaseResult result)
+            static TDF.TestState toTestState(TestCaseResult result)
             {
                 if (result.IsFailure)
                 {
-                    return TDF.TestResult.Failure;
+                    return TDF.TestState.Failed;
                 }
 
                 if (!result.Executed)
                 {
                     // NOTE: Does this always mean ignored?
-                    return TDF.TestResult.Ignored;
+                    return TDF.TestState.Ignored;
                 }
 
                 if (result.IsSuccess)
                 {
-                    return TDF.TestResult.Success;
+                    return TDF.TestState.Passed;
                 }
 
 
                 // NOTE: What would this mean?
-                return TDF.TestResult.Ignored;
+                return TDF.TestState.Ignored;
             }
 
             public void SuiteStarted(TestSuite suite)

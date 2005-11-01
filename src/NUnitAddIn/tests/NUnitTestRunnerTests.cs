@@ -19,10 +19,10 @@ namespace NUnit.AddInRunner.Tests
             MockTestListener testListener = new MockTestListener();
             Assembly assembly = Assembly.GetExecutingAssembly();
             MemberInfo member = new ThreadStart(new Examples.MockTestFixture().Test1).Method;
-            TestRunResult result = testRunner.RunMember(testListener, assembly, member);
+            TestRunState result = testRunner.RunMember(testListener, assembly, member);
             Assert.AreEqual(1, testListener.TestFinishedCount, "Expect 1 test to finnish");
             Assert.AreEqual(1, testListener.SuccessCount, "Expect 1 test to succeed");
-            Assert.AreEqual(result, TestRunResult.Success, "Check that tests were executed");
+            Assert.AreEqual(result, TestRunState.Success, "Check that tests were executed");
         }
 
         [Test]
@@ -32,10 +32,10 @@ namespace NUnit.AddInRunner.Tests
             MockTestListener testListener = new MockTestListener();
             Assembly assembly = Assembly.GetExecutingAssembly();
             MemberInfo member = typeof(Examples.AbstractTests);
-            TestRunResult result = testRunner.RunMember(testListener, assembly, member);
+            TestRunState result = testRunner.RunMember(testListener, assembly, member);
             Assert.AreEqual(4, testListener.TestFinishedCount, "Expect tests to finnish");
             Assert.AreEqual(4, testListener.SuccessCount, "Expect tests to succeed");
-            Assert.AreEqual(result, TestRunResult.Success, "Check that tests were executed");
+            Assert.AreEqual(result, TestRunState.Success, "Check that tests were executed");
         }
 
         [Test]
@@ -45,10 +45,10 @@ namespace NUnit.AddInRunner.Tests
             MockTestListener testListener = new MockTestListener();
             Assembly assembly = Assembly.GetExecutingAssembly();
             MemberInfo member = typeof(Examples.AbstractTests).GetMethod("Test1");
-            TestRunResult result = testRunner.RunMember(testListener, assembly, member);
+            TestRunState result = testRunner.RunMember(testListener, assembly, member);
             Assert.AreEqual(2, testListener.TestFinishedCount, "Expect tests to finnish");
             Assert.AreEqual(2, testListener.SuccessCount, "Expect tests to succeed");
-            Assert.AreEqual(result, TestRunResult.Success, "Check that tests were executed");
+            Assert.AreEqual(result, TestRunState.Success, "Check that tests were executed");
         }
 
         [Test]
@@ -58,10 +58,10 @@ namespace NUnit.AddInRunner.Tests
             MockTestListener testListener = new MockTestListener();
             Assembly assembly = Assembly.GetExecutingAssembly();
             MemberInfo member = typeof(Examples.IgnoredTests);
-            TestRunResult result = testRunner.RunMember(testListener, assembly, member);
+            TestRunState result = testRunner.RunMember(testListener, assembly, member);
             Assert.AreEqual(2, testListener.TestFinishedCount, "Expect test to finnish");
             Assert.AreEqual(2, testListener.IgnoredCount, "Expect test to be ignored");
-            Assert.AreEqual(result, TestRunResult.Success, "Check that tests were executed");
+            Assert.AreEqual(result, TestRunState.Success, "Check that tests were executed");
         }
 
         [Test]
@@ -71,9 +71,9 @@ namespace NUnit.AddInRunner.Tests
             MockTestListener testListener = new MockTestListener();
             Assembly assembly = Assembly.GetExecutingAssembly();
             MemberInfo member = new ThreadStart(new Examples.NoTests().NoTest).Method;
-            TestRunResult result = testRunner.RunMember(testListener, assembly, member);
+            TestRunState result = testRunner.RunMember(testListener, assembly, member);
             Assert.AreEqual(0, testListener.TestFinishedCount, "Expect no tests to finnish");
-            Assert.AreEqual(result, TestRunResult.NoTests);
+            Assert.AreEqual(result, TestRunState.NoTests);
         }
 
         [Test]
@@ -83,9 +83,9 @@ namespace NUnit.AddInRunner.Tests
             MockTestListener testListener = new MockTestListener();
             Assembly assembly = Assembly.GetExecutingAssembly();
             MemberInfo member = typeof(NUnit.AddInRunner.Tests.Examples.NoTests).GetField("NotAMethod");
-            TestRunResult result = testRunner.RunMember(testListener, assembly, member);
+            TestRunState result = testRunner.RunMember(testListener, assembly, member);
             Assert.AreEqual(0, testListener.TestFinishedCount, "Expect no tests to finnish");
-            Assert.AreEqual(result, TestRunResult.NoTests);
+            Assert.AreEqual(result, TestRunState.NoTests);
         }
 
         [Test]
@@ -95,10 +95,10 @@ namespace NUnit.AddInRunner.Tests
             MockTestListener testListener = new MockTestListener();
             Assembly assembly = Assembly.GetExecutingAssembly();
             MemberInfo member = typeof(Examples.MockTestFixture);
-            TestRunResult result = testRunner.RunMember(testListener, assembly, member);
+            TestRunState result = testRunner.RunMember(testListener, assembly, member);
             Assert.AreEqual(2, testListener.TestFinishedCount, "expect 2 tests to finnish");
             Assert.AreEqual(2, testListener.SuccessCount, "Expect 2 tests to succeed");
-            Assert.AreEqual(result, TestRunResult.Success, "Check that tests were executed");
+            Assert.AreEqual(result, TestRunState.Success, "Check that tests were executed");
         }
 
         [Test]
@@ -108,11 +108,11 @@ namespace NUnit.AddInRunner.Tests
             MockTestListener testListener = new MockTestListener();
             Assembly assembly = Assembly.GetExecutingAssembly();
             string ns = typeof(Examples.MockTestFixture).Namespace;
-            TestRunResult result = testRunner.RunNamespace(testListener, assembly, ns);
+            TestRunState result = testRunner.RunNamespace(testListener, assembly, ns);
             Assert.AreEqual(9, testListener.TestFinishedCount, "expect tests");
             Assert.AreEqual(7, testListener.SuccessCount, "Expect tests to succeed");
             Assert.AreEqual(2, testListener.IgnoredCount, "Expect tests ignored");
-            Assert.AreEqual(result, TestRunResult.Success, "Check that tests were executed");
+            Assert.AreEqual(result, TestRunState.Success, "Check that tests were executed");
         }
 
         class MockTestListener : ITestListener
@@ -124,18 +124,18 @@ namespace NUnit.AddInRunner.Tests
             public int FailureCount;
             public int IgnoredCount;
 
-            public void TestFinished(TestResultSummary summary)
+            public void TestFinished(TestResult summary)
             {
                 this.TestFinishedCount++;
-                switch (summary.Result)
+                switch (summary.State)
                 {
-                    case TestResult.Success:
+                    case TestState.Passed:
                         this.SuccessCount++;
                         break;
-                    case TestResult.Failure:
+                    case TestState.Failed:
                         this.FailureCount++;
                         break;
-                    case TestResult.Ignored:
+                    case TestState.Ignored:
                         this.IgnoredCount++;
                         break;
                 }
