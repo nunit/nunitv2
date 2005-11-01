@@ -159,13 +159,18 @@ namespace NUnit.UiKit
 			}
 		}
 
+		private static bool IsWriteable( string path )
+		{
+			return (File.GetAttributes( path ) & FileAttributes.ReadOnly) == 0;
+		}
 
 		public static void SaveProject( Form owner )
 		{
 			TestLoader loader = GetTestLoader( owner );
 
 			if ( Path.IsPathRooted( loader.TestProject.ProjectPath ) &&
-				 NUnitProject.IsProjectFile( loader.TestProject.ProjectPath ) )
+				 NUnitProject.IsProjectFile( loader.TestProject.ProjectPath ) &&
+				 IsWriteable( loader.TestProject.ProjectPath ) )
 				loader.TestProject.Save();
 			else
 				SaveProjectAs( owner );
@@ -178,13 +183,23 @@ namespace NUnit.UiKit
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.Title = "Save Test Project";
 			dlg.Filter = "NUnit Test Project (*.nunit)|*.nunit|All Files (*.*)|*.*";
-			dlg.FileName = NUnitProject.ProjectPathFromFile( loader.TestProject.ProjectPath );
+			string path = NUnitProject.ProjectPathFromFile( loader.TestProject.ProjectPath );
+			if ( IsWriteable( path ) )
+				dlg.FileName = path;
 			dlg.DefaultExt = "nunit";
 			dlg.ValidateNames = true;
 			dlg.OverwritePrompt = true;
 
-			if ( dlg.ShowDialog( owner ) == DialogResult.OK )
-				loader.TestProject.Save( dlg.FileName );
+			while( dlg.ShowDialog( owner ) == DialogResult.OK )
+			{
+				if ( !IsWriteable( dlg.FileName ) )
+					UserMessage.DisplayInfo( string.Format( "File {0} is write-protected. Select another file name.", dlg.FileName ) );
+				else
+				{
+					loader.TestProject.Save( dlg.FileName );
+					return;
+				}
+			}
 		}
 
 		public static void NewProject( Form owner )
