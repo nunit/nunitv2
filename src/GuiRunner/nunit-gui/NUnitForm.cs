@@ -656,8 +656,8 @@ namespace NUnit.Gui
 			this.resultTabs.Appearance = ((System.Windows.Forms.TabAppearance)(resources.GetObject("resultTabs.Appearance")));
 			this.resultTabs.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("resultTabs.BackgroundImage")));
 			this.resultTabs.Controls.Add(this.errorPage);
-			this.resultTabs.Controls.Add(this.stderr);
 			this.resultTabs.Controls.Add(this.testsNotRun);
+			this.resultTabs.Controls.Add(this.stderr);
 			this.resultTabs.Controls.Add(this.stdout);
 			this.resultTabs.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("resultTabs.Dock")));
 			this.resultTabs.Enabled = ((bool)(resources.GetObject("resultTabs.Enabled")));
@@ -1384,6 +1384,9 @@ namespace NUnit.Gui
 			{
 				this.Site.Container.Add( dialog );
 				dialog.ShowDialog();
+
+				// for now, reflect changes to stacktrace tooltips here
+				this.stackTrace.AutoExpand = UserSettings.Options.FailureToolTips;
 			}
 		}
 
@@ -1527,6 +1530,9 @@ namespace NUnit.Gui
 			// Handle changes in splitter positions
 			this.splitter1.SplitterMoved += new SplitterEventHandler( splitter1_SplitterMoved );
 			this.splitter3.SplitterMoved += new SplitterEventHandler( splitter3_SplitterMoved );
+
+			// Turn stacktrace tooltips on or off
+			this.stackTrace.AutoExpand = UserSettings.Options.FailureToolTips;
 		}
 
 		private void SubscribeToTestEvents()
@@ -1983,7 +1989,7 @@ namespace NUnit.Gui
 		{
 			if ( tipWindow != null ) tipWindow.Close();
 
-			if ( hoverIndex >= 0 && hoverIndex < detailList.Items.Count )
+			if ( UserSettings.Options.FailureToolTips && hoverIndex >= 0 && hoverIndex < detailList.Items.Count )
 			{
 				Graphics g = Graphics.FromHwnd( detailList.Handle );
 

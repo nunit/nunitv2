@@ -95,6 +95,11 @@ namespace CP.Windows.Forms
 		/// </summary>
 		private System.Windows.Forms.Timer hoverTimer;
 
+		/// <summary>
+		/// True if control should expand automatically on hover.
+		/// </summary>
+		private bool autoExpand = true;
+
 		#endregion
 
 		#region Properties
@@ -110,6 +115,13 @@ namespace CP.Windows.Forms
 		{
 			get { return expansion; }
 			set { expansion = value; }
+		}
+
+		[Category ( "Behavior" ), DefaultValue( true )]
+		public bool AutoExpand
+		{
+			get { return autoExpand; }
+			set { autoExpand = value; }
 		}
 
 		[Category( "Behavior" ), DefaultValue( true )]
@@ -246,13 +258,16 @@ namespace CP.Windows.Forms
 
 		private void OnMouseHover( object sender, System.EventArgs e )
 		{
-			Graphics g = Graphics.FromHwnd( Handle );
-			SizeF sizeNeeded = g.MeasureString( Text, Font );
-			bool expansionNeeded = 
-				Width < (int)sizeNeeded.Width ||
-				Height < (int)sizeNeeded.Height;
+			if ( autoExpand )
+			{
+				Graphics g = Graphics.FromHwnd( Handle );
+				SizeF sizeNeeded = g.MeasureString( Text, Font );
+				bool expansionNeeded = 
+					Width < (int)sizeNeeded.Width ||
+					Height < (int)sizeNeeded.Height;
 
-			if ( expansionNeeded ) Expand();
+				if ( expansionNeeded ) Expand();
+			}
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)

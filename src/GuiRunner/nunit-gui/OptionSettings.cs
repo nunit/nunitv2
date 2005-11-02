@@ -100,6 +100,12 @@ namespace NUnit.Gui
 			set { SaveIntSetting( "TestLabels", value ? 1 : 0 ); }
 		}
 
+		public bool FailureToolTips
+		{
+			get { return LoadIntSetting( "FailureToolTips", 1 ) != 0; }
+			set { SaveIntSetting( "FailureToolTips", value ? 1 : 0 ); }
+		}
+
 		public bool VisualStudioSupport
 		{
 			get { return LoadIntSetting( "VisualStudioSupport", 0 ) != 0; }
