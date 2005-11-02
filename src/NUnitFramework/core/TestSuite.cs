@@ -260,14 +260,12 @@ namespace NUnit.Core
 			{
 				suiteResult.Executed = true;	
 				DoOneTimeSetUp( suiteResult );
-
-				RunAllTests( suiteResult, listener, filter );
-
-				if ( this.SetUpComplete )
-					DoOneTimeTearDown( suiteResult );
 			}
-			else
-				suiteResult.NotRun(this.IgnoreReason);
+
+			RunAllTests( suiteResult, listener, filter );
+
+			if ( ShouldRun && SetUpComplete )
+				DoOneTimeTearDown( suiteResult );
 
 			long stopTime = DateTime.Now.Ticks;
 			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
