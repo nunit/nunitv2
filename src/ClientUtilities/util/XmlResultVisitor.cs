@@ -76,6 +76,36 @@ namespace NUnit.Util
 			DateTime now = DateTime.Now;
 			xmlWriter.WriteAttributeString("date", XmlConvert.ToString( now, "yyyy-MM-dd" ) );
 			xmlWriter.WriteAttributeString("time", XmlConvert.ToString( now, "hh:mm:ss" ));
+			WriteEnvironment();
+			WriteCultureInfo();
+		}
+
+		private void WriteCultureInfo() {
+			xmlWriter.WriteStartElement("culture-info");
+			xmlWriter.WriteAttributeString("current-culture",
+			                               CultureInfo.CurrentCulture.ToString());
+			xmlWriter.WriteAttributeString("current-uiculture",
+			                               CultureInfo.CurrentUICulture.ToString());
+			xmlWriter.WriteEndElement();
+		}
+
+		private void WriteEnvironment() {
+			xmlWriter.WriteStartElement("environment");
+			xmlWriter.WriteAttributeString("framework-version", 
+			                               Environment.Version.ToString());
+			xmlWriter.WriteAttributeString("os-version",
+			                               Environment.OSVersion.ToString());
+			xmlWriter.WriteAttributeString("platform",
+				Environment.OSVersion.Platform.ToString());
+			xmlWriter.WriteAttributeString("cwd",
+			                               Environment.CurrentDirectory);
+			xmlWriter.WriteAttributeString("machine-name",
+			                               Environment.MachineName);
+			xmlWriter.WriteAttributeString("user",
+			                               Environment.UserName);
+			xmlWriter.WriteAttributeString("user-domain",
+			                               Environment.UserDomainName);
+			xmlWriter.WriteEndElement();
 		}
 
 		public void Visit(TestCaseResult caseResult) 

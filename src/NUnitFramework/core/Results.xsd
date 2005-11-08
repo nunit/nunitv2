@@ -28,8 +28,23 @@
 	<xs:complexType name="categoryType">
 		<xs:attribute name="name" type="xs:string" use="required"/>
 	</xs:complexType>
+    <xs:complexType name="environmentType">
+      <xs:attribute name="framework-version" type="xs:string" use="required" />
+      <xs:attribute name="os-version" type="xs:string" use="required" />
+      <xs:attribute name="platform" type="xs:string" use="required" />
+      <xs:attribute name="cwd" type="xs:string" use="required" />
+      <xs:attribute name="machine-name" type="xs:string" use="required" />
+      <xs:attribute name="user" type="xs:string" use="required" />
+      <xs:attribute name="user-domain" type="xs:string" use="required" />
+    </xs:complexType>
+    <xs:complexType name="culture-infoType" >
+      <xs:attribute name="current-culture" type="xs:string" use="required" />
+      <xs:attribute name="current-uiculture" type="xs:string" use="required" />
+    </xs:complexType>
 	<xs:complexType name="resultType">
 		<xs:sequence>
+            <xs:element name="environment" type="environmentType" />
+            <xs:element name="culture-info" type="culture-infoType" />
 			<xs:element name="test-suite" type="test-suiteType" />
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required" />

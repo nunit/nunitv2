@@ -4,6 +4,7 @@ using NUnit.Framework;
 using NUnit.Core;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace NUnit.Util.Tests
@@ -63,6 +64,47 @@ namespace NUnit.Util.Tests
 			names.Add( categories [1].Attributes["name"].Value);
 			Assert.IsTrue( names.Contains( "AnotherCategory" ), "AnotherCategory" );
 			Assert.IsTrue( names.Contains( "MockCategory" ), "MockCategory" );
+		}
+
+		[Test]
+		public void TestHasEnvironmentInfo() 
+		{
+			XmlNodeList categories = resultDoc.SelectNodes("//environment");
+			Assert.IsNotNull(categories);
+			Assert.AreEqual(1, categories.Count);
+			XmlNode sysinfo = categories[0];
+			// In theory, we could do some validity checking on the values
+			// of the attributes, but that seems redundant.
+			Assert.IsNotNull(sysinfo.Attributes["framework-version"]);
+			Assert.IsNotNull(sysinfo.Attributes["os-version"]);
+			Assert.IsNotNull(sysinfo.Attributes["platform"]);
+			Assert.IsNotNull(sysinfo.Attributes["cwd"]);
+			Assert.IsNotNull(sysinfo.Attributes["machine-name"]);
+			Assert.IsNotNull(sysinfo.Attributes["user"]);
+			Assert.IsNotNull(sysinfo.Attributes["user-domain"]);
+			
+		}
+
+		[Test]
+		public void TestHasCultureInfo() 
+		{
+			XmlNodeList categories = resultDoc.SelectNodes("//culture-info");
+			Assert.IsNotNull(categories);
+			Assert.AreEqual(1, categories.Count);
+			XmlNode cultureInfo = categories[0];
+			Assert.IsNotNull(cultureInfo.Attributes["current-culture"]);
+			Assert.IsNotNull(cultureInfo.Attributes["current-uiculture"]);
+
+			String currentCulture = cultureInfo.Attributes["current-culture"].Value;
+			String currentUiCulture = cultureInfo.Attributes["current-uiculture"].Value;
+
+			Regex r = new Regex("^[a-z][a-z]-[A-Z][A-Z]$");
+			Assert.IsTrue(r.IsMatch(currentCulture),
+			              "Expected match to xx-XX, got {0}", 
+						  currentCulture);
+			Assert.IsTrue(r.IsMatch(currentUiCulture),
+			              "Expected match to xx-XX, got {0}", 
+						  currentUiCulture);
 		}
 	}
 }
