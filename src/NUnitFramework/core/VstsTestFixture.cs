@@ -40,7 +40,7 @@ namespace NUnit.Core.Builders
 			= new TestFixtureParameters
 			(
 				"vsts",
-				"Microsoft.VisualStudio.QualityTools.UnitTesting.Framework",
+                "Microsoft.VisualStudio.TestTools.UnitTesting",
 				"TestClassAttribute",
 				"",
 				"TestMethodAttribute",
