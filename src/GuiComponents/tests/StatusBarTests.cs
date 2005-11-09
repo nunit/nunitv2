@@ -33,6 +33,7 @@ using NUnit.Core;
 using NUnit.Util;
 using NUnit.Tests.Assemblies;
 using NUnit.TestUtilities;
+using NUnit.Framework.Extensions;
 
 namespace NUnit.UiKit.Tests
 {
@@ -141,62 +142,41 @@ namespace NUnit.UiKit.Tests
 			switch( ++testCount )
 			{
 				case 1:
-					Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.ExplicitlyRunTest", e.Result.Test.FullName );
-					Assert.AreEqual( "Running : ExplicitlyRunTest", statusBar.Panels[0].Text );
-					Assert.AreEqual( string.Empty,
-						//PanelMessage( "Tests Run", 0 ),
-						statusBar.Panels[2].Text );
+					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.ExplicitlyRunTest", e, 0 );
 					break;
 				case 2:
-					Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", e.Result.Test.FullName );
-					Assert.AreEqual( "Running : MockTest1", statusBar.Panels[0].Text );
-					Assert.AreEqual( 
-						PanelMessage( "Tests Run", 1 ),
-						statusBar.Panels[2].Text );
+					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", e, 1 );
 					break;
 				case 3:
-					Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest2", e.Result.Test.FullName );
-					Assert.AreEqual( "Running : MockTest2", statusBar.Panels[0].Text );
-					Assert.AreEqual( 
-						PanelMessage( "Tests Run", 2 ),
-						statusBar.Panels[2].Text );
+					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.MockTest2", e, 2 );
 					break;
 				case 4:
-					Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest3", e.Result.Test.FullName );
-					Assert.AreEqual( "Running : MockTest3", statusBar.Panels[0].Text );
-					Assert.AreEqual( 
-						PanelMessage( "Tests Run", 3 ),
-						statusBar.Panels[2].Text );
+					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.MockTest3", e, 3 );
 					break;
 				case 5:
-					Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest4", e.Result.Test.FullName );
-					Assert.AreEqual( "Running : MockTest4", statusBar.Panels[0].Text );
-					Assert.AreEqual( 
-						PanelMessage( "Tests Run", 3 ),
-						statusBar.Panels[2].Text );
+					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.MockTest4", e, 3 );
 					break;
 				case 6:
-					Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest5", e.Result.Test.FullName );
-					Assert.AreEqual( "Running : MockTest5", statusBar.Panels[0].Text );
-					Assert.AreEqual( 
-						PanelMessage( "Tests Run", 3 ),
-						statusBar.Panels[2].Text );
+					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.MockTest5", e, 3 );
 					break;
 				case 7:
-					Assert.AreEqual( "NUnit.Tests.Singletons.OneTestCase.TestCase", e.Result.Test.FullName );
-					Assert.AreEqual( "Running : TestCase", statusBar.Panels[0].Text );
-					Assert.AreEqual( 
-						PanelMessage( "Tests Run", 4 ),
-						statusBar.Panels[2].Text );
+					CheckTestDisplay( "NUnit.Tests.Singletons.OneTestCase.TestCase", e, 4 );
 					break;
 				case 8:			
-					Assert.AreEqual( "NUnit.Tests.TestAssembly.MockTestFixture.MyTest", e.Result.Test.FullName );
-					Assert.AreEqual( "Running : MyTest", statusBar.Panels[0].Text );
-					Assert.AreEqual( 
-						PanelMessage( "Tests Run", 5 ),
-						statusBar.Panels[2].Text );
+					CheckTestDisplay( "NUnit.Tests.TestAssembly.MockTestFixture.MyTest", e, 5 );
 					break;
 			}
+		}
+
+		private void CheckTestDisplay( string expected, TestEventArgs e, int testsRun )
+		{
+			Assert.AreEqual( expected, e.Result.Test.FullName );
+			int index = expected.LastIndexOf( '.' ) + 1;
+			StringAssert.EndsWith( expected.Substring( index ), statusBar.Panels[0].Text );
+			if ( testsRun > 0 )
+				Assert.AreEqual( PanelMessage( "Tests Run", testsRun ), statusBar.Panels[2].Text );
+			else
+				Assert.AreEqual( "", statusBar.Panels[2].Text );
 		}
 
 		private static string PanelMessage( string text, int count )

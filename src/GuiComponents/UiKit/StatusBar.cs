@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using NUnit.Core;
 using NUnit.Util;
@@ -50,6 +51,8 @@ namespace NUnit.UiKit
 		private int testsRun = 0;
 		private int failures = 0;
 		private int time = 0;
+		private System.ComponentModel.IContainer components;
+		private System.Windows.Forms.ToolTip toolTip;
 
 		private bool displayProgress = false;
 
@@ -208,7 +211,30 @@ namespace NUnit.UiKit
 
 		public void OnTestStarting( object sender, TestEventArgs e )
 		{
-			statusPanel.Text = "Running : " + e.Test.Name;
+			string fullText = "Running : " + e.Test.FullName;
+			string shortText = "Running : " + e.Test.Name;
+
+			Graphics g = Graphics.FromHwnd( Handle );
+			SizeF sizeNeeded = g.MeasureString( fullText, Font );
+			if ( statusPanel.Width >= (int)sizeNeeded.Width )
+			{
+				statusPanel.Text = fullText;
+				statusPanel.ToolTipText = "";
+			}
+			else
+			{
+				sizeNeeded = g.MeasureString( shortText, Font );
+				statusPanel.Text = statusPanel.Width >= (int)sizeNeeded.Width
+					? shortText : e.Test.Name;
+				statusPanel.ToolTipText = e.Test.FullName;
+			}
+		}
+
+		private void InitializeComponent()
+		{
+			this.components = new System.ComponentModel.Container();
+			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+
 		}
 
 		private void OnTestFinished( object sender, TestEventArgs e )

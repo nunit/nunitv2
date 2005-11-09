@@ -119,6 +119,11 @@
                     Project = "{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "nunit.framework.extensions.dll"
+                    Project = "{D248419D-99C4-40DC-BE91-76A2230CD537}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
