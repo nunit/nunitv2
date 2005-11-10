@@ -33,6 +33,7 @@ namespace NUnit.Util
 	using System.Globalization;
 	using System.IO;
 	using System.Xml;
+	using System.Reflection;
 	using NUnit.Core;
 
 	/// <summary>
@@ -91,7 +92,9 @@ namespace NUnit.Util
 
 		private void WriteEnvironment() {
 			xmlWriter.WriteStartElement("environment");
-			xmlWriter.WriteAttributeString("framework-version", 
+			xmlWriter.WriteAttributeString("nunit-version", 
+										   Assembly.GetExecutingAssembly().GetName().Version.ToString());
+			xmlWriter.WriteAttributeString("clr-version", 
 			                               Environment.Version.ToString());
 			xmlWriter.WriteAttributeString("os-version",
 			                               Environment.OSVersion.ToString());

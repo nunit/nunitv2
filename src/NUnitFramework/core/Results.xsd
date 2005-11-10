@@ -29,7 +29,8 @@
 		<xs:attribute name="name" type="xs:string" use="required"/>
 	</xs:complexType>
     <xs:complexType name="environmentType">
-      <xs:attribute name="framework-version" type="xs:string" use="required" />
+      <xs:attribute name="nunit-version" type="xs:string" use="required" />
+      <xs:attribute name="clr-version" type="xs:string" use="required" />
       <xs:attribute name="os-version" type="xs:string" use="required" />
       <xs:attribute name="platform" type="xs:string" use="required" />
       <xs:attribute name="cwd" type="xs:string" use="required" />

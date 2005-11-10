@@ -69,13 +69,12 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void TestHasEnvironmentInfo() 
 		{
-			XmlNodeList categories = resultDoc.SelectNodes("//environment");
-			Assert.IsNotNull(categories);
-			Assert.AreEqual(1, categories.Count);
-			XmlNode sysinfo = categories[0];
+			XmlNode sysinfo = resultDoc.SelectSingleNode("//environment");
+			Assert.IsNotNull(sysinfo);
 			// In theory, we could do some validity checking on the values
 			// of the attributes, but that seems redundant.
-			Assert.IsNotNull(sysinfo.Attributes["framework-version"]);
+			Assert.IsNotNull(sysinfo.Attributes["nunit-version"]);
+			Assert.IsNotNull(sysinfo.Attributes["clr-version"]);
 			Assert.IsNotNull(sysinfo.Attributes["os-version"]);
 			Assert.IsNotNull(sysinfo.Attributes["platform"]);
 			Assert.IsNotNull(sysinfo.Attributes["cwd"]);
@@ -88,10 +87,8 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void TestHasCultureInfo() 
 		{
-			XmlNodeList categories = resultDoc.SelectNodes("//culture-info");
-			Assert.IsNotNull(categories);
-			Assert.AreEqual(1, categories.Count);
-			XmlNode cultureInfo = categories[0];
+			XmlNode cultureInfo = resultDoc.SelectSingleNode("//culture-info");
+			Assert.IsNotNull(cultureInfo);
 			Assert.IsNotNull(cultureInfo.Attributes["current-culture"]);
 			Assert.IsNotNull(cultureInfo.Attributes["current-uiculture"]);
 
