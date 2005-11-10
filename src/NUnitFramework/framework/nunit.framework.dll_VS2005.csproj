@@ -127,6 +127,7 @@
     <Compile Include="IgnoreException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ListContentsAsserter.cs" />
     <Compile Include="NotEqualAsserter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -148,6 +149,7 @@
     <Compile Include="SetUpFixtureAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="StringAsserters.cs" />
     <Compile Include="SuiteAttribute.cs">
       <SubType>Code</SubType>
     </Compile>

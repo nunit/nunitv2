@@ -118,10 +118,6 @@
       <Project>{61CE9CE5-943E-44D4-A381-814DC1406767}</Project>
       <Name>nunit.util.dll_VS2005</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NUnitExtensions\framework\nunit.framework.extensions.dll_VS2005.csproj">
-      <Project>{D248419D-99C4-40DC-BE91-76A2230CD537}</Project>
-      <Name>nunit.framework.extensions.dll_VS2005</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\NUnitFramework\core\nunit.core.dll_VS2005.csproj">
       <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
       <Name>nunit.core.dll_VS2005</Name>
