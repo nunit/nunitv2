@@ -8,9 +8,6 @@
 		
 		<!-- nunit-gui.exe -->
 		<ComponentRef Id="C__243FEAF8F6D78D23A4A811915AEB23F8" />
-
-		<!-- GAC nunit.framework -->
-		<ComponentRef Id="C__nunit_framework" />
 		
 		<!-- Make the NUnit directory default reference dir -->
 		<Feature Id="AssemblyFoldersFeature" Level="1">

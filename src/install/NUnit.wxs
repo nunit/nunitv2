@@ -4,6 +4,10 @@
   
     <Package Id="FB49338B-7E40-4D3E-8961-B0FE0A03FF01" Comments="NUnit 2.2.3" Manufacturer="James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Jamie Cansdale" InstallerVersion="200" Platforms="Intel" Languages="1033" Compressed="yes" SummaryCodepage="1252" />
     <Directory Id="TARGETDIR" Name="SourceDir">
+    
+		<Component Id="C__TargetDir" Guid="36AE84ED-5510-40eb-A3B1-D821AC06259C">
+			<Registry Id="R__TargetDir" Root="HKCU" Key="Software\NUnit\2.2" Name="TargetDir" Type="string" KeyPath="yes" Value="[TARGETDIR]" />
+		</Component>
 
       <Component Id="C__LOGO" Guid="99080421-75CC-4DFC-0987-AA16B7E68659">
         <File Id="_LOGO" Name="LOGO.ICO" src="..\GuiRunner\nunit-gui\Logo.ico" LongName="Logo.ico" Vital="yes" KeyPath="yes" DiskId="1" />
@@ -14,16 +18,6 @@
       </Component>
       
       <Directory Id="DesktopFolder" Name="." SourceName="USER'S~1" LongSource="User's Desktop" />
-      
-      <Directory Id="GAC" Name="." SourceName="GLOBAL~1" LongSource="Global Assembly Cache Folder">
-        <Directory Id="_D4DB137A682245B69A4F915AF81FC002" Name="." SourceName="NUNIT~1.FRA" LongSource="nunit.framework">
-          <Directory Id="_67CB2627B88349E482BC84C775720395" Name="." SourceName="221~1.0_9" LongSource="2.2.3.0_96D09A1EB7F44A77">
-            <Component Id="C__nunit_framework" Guid="1A9285AA-886C-CEC2-D96C-5DE884A12517">
-              <File Id="_nunit_framework" Name="NUNITF~2.DLL" src="bin\nunit.framework.dll" LongName="nunit.framework.dll" Vital="yes" KeyPath="yes" AssemblyManifest="_nunit_framework" Assembly=".net" DiskId="1" />
-            </Component>
-          </Directory>
-        </Directory>
-      </Directory>
       
       <Directory Id="ProgramMenuFolder" Name="." SourceName="USER'S~2" LongSource="User's Programs Menu">
         <Directory Id="D__nunit_menu" Name="NUnit">
@@ -41,8 +35,8 @@
       
     </Directory>
     
-    
     <Feature Id="DefaultFeature" Level="1" ConfigurableDirectory="TARGETDIR">
+      <ComponentRef Id="C__TargetDir" />
       <ComponentRef Id="C__LICENSE" />
       <ComponentRef Id="C__LOGO" />
       <ComponentRef Id="C__samples" />
