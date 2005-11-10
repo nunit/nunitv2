@@ -227,12 +227,12 @@ namespace NUnit.Gui
 			this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
 			this.splitter3 = new System.Windows.Forms.Splitter();
 			this.detailList = new System.Windows.Forms.ListBox();
-			this.stderr = new System.Windows.Forms.TabPage();
-			this.stdErrTab = new System.Windows.Forms.RichTextBox();
 			this.testsNotRun = new System.Windows.Forms.TabPage();
 			this.notRunTree = new NUnit.UiKit.NotRunTree();
 			this.stdout = new System.Windows.Forms.TabPage();
 			this.stdOutTab = new System.Windows.Forms.RichTextBox();
+			this.stderr = new System.Windows.Forms.TabPage();
+			this.stdErrTab = new System.Windows.Forms.RichTextBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.stopButton = new System.Windows.Forms.Button();
 			this.runButton = new System.Windows.Forms.Button();
@@ -246,9 +246,9 @@ namespace NUnit.Gui
 			this.panel1.SuspendLayout();
 			this.resultTabs.SuspendLayout();
 			this.errorPage.SuspendLayout();
-			this.stderr.SuspendLayout();
 			this.testsNotRun.SuspendLayout();
 			this.stdout.SuspendLayout();
+			this.stderr.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.panel2.SuspendLayout();
 			this.SuspendLayout();
@@ -657,8 +657,8 @@ namespace NUnit.Gui
 			this.resultTabs.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("resultTabs.BackgroundImage")));
 			this.resultTabs.Controls.Add(this.errorPage);
 			this.resultTabs.Controls.Add(this.testsNotRun);
-			this.resultTabs.Controls.Add(this.stderr);
 			this.resultTabs.Controls.Add(this.stdout);
+			this.resultTabs.Controls.Add(this.stderr);
 			this.resultTabs.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("resultTabs.Dock")));
 			this.resultTabs.Enabled = ((bool)(resources.GetObject("resultTabs.Enabled")));
 			this.resultTabs.Font = ((System.Drawing.Font)(resources.GetObject("resultTabs.Font")));
@@ -783,59 +783,6 @@ namespace NUnit.Gui
 			this.detailList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.detailList_DrawItem);
 			this.detailList.SelectedIndexChanged += new System.EventHandler(this.detailList_SelectedIndexChanged);
 			// 
-			// stderr
-			// 
-			this.stderr.AccessibleDescription = resources.GetString("stderr.AccessibleDescription");
-			this.stderr.AccessibleName = resources.GetString("stderr.AccessibleName");
-			this.stderr.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stderr.Anchor")));
-			this.stderr.AutoScroll = ((bool)(resources.GetObject("stderr.AutoScroll")));
-			this.stderr.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("stderr.AutoScrollMargin")));
-			this.stderr.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("stderr.AutoScrollMinSize")));
-			this.stderr.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stderr.BackgroundImage")));
-			this.stderr.Controls.Add(this.stdErrTab);
-			this.stderr.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stderr.Dock")));
-			this.stderr.Enabled = ((bool)(resources.GetObject("stderr.Enabled")));
-			this.stderr.Font = ((System.Drawing.Font)(resources.GetObject("stderr.Font")));
-			this.stderr.ImageIndex = ((int)(resources.GetObject("stderr.ImageIndex")));
-			this.stderr.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stderr.ImeMode")));
-			this.stderr.Location = ((System.Drawing.Point)(resources.GetObject("stderr.Location")));
-			this.stderr.Name = "stderr";
-			this.stderr.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stderr.RightToLeft")));
-			this.stderr.Size = ((System.Drawing.Size)(resources.GetObject("stderr.Size")));
-			this.stderr.TabIndex = ((int)(resources.GetObject("stderr.TabIndex")));
-			this.stderr.Text = resources.GetString("stderr.Text");
-			this.toolTip.SetToolTip(this.stderr, resources.GetString("stderr.ToolTip"));
-			this.stderr.ToolTipText = resources.GetString("stderr.ToolTipText");
-			this.stderr.Visible = ((bool)(resources.GetObject("stderr.Visible")));
-			// 
-			// stdErrTab
-			// 
-			this.stdErrTab.AccessibleDescription = resources.GetString("stdErrTab.AccessibleDescription");
-			this.stdErrTab.AccessibleName = resources.GetString("stdErrTab.AccessibleName");
-			this.stdErrTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stdErrTab.Anchor")));
-			this.stdErrTab.AutoSize = ((bool)(resources.GetObject("stdErrTab.AutoSize")));
-			this.stdErrTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stdErrTab.BackgroundImage")));
-			this.stdErrTab.BulletIndent = ((int)(resources.GetObject("stdErrTab.BulletIndent")));
-			this.stdErrTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stdErrTab.Dock")));
-			this.stdErrTab.Enabled = ((bool)(resources.GetObject("stdErrTab.Enabled")));
-			this.stdErrTab.Font = ((System.Drawing.Font)(resources.GetObject("stdErrTab.Font")));
-			this.stdErrTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stdErrTab.ImeMode")));
-			this.stdErrTab.Location = ((System.Drawing.Point)(resources.GetObject("stdErrTab.Location")));
-			this.stdErrTab.MaxLength = ((int)(resources.GetObject("stdErrTab.MaxLength")));
-			this.stdErrTab.Multiline = ((bool)(resources.GetObject("stdErrTab.Multiline")));
-			this.stdErrTab.Name = "stdErrTab";
-			this.stdErrTab.ReadOnly = true;
-			this.stdErrTab.RightMargin = ((int)(resources.GetObject("stdErrTab.RightMargin")));
-			this.stdErrTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stdErrTab.RightToLeft")));
-			this.stdErrTab.ScrollBars = ((System.Windows.Forms.RichTextBoxScrollBars)(resources.GetObject("stdErrTab.ScrollBars")));
-			this.stdErrTab.Size = ((System.Drawing.Size)(resources.GetObject("stdErrTab.Size")));
-			this.stdErrTab.TabIndex = ((int)(resources.GetObject("stdErrTab.TabIndex")));
-			this.stdErrTab.Text = resources.GetString("stdErrTab.Text");
-			this.toolTip.SetToolTip(this.stdErrTab, resources.GetString("stdErrTab.ToolTip"));
-			this.stdErrTab.Visible = ((bool)(resources.GetObject("stdErrTab.Visible")));
-			this.stdErrTab.WordWrap = ((bool)(resources.GetObject("stdErrTab.WordWrap")));
-			this.stdErrTab.ZoomFactor = ((System.Single)(resources.GetObject("stdErrTab.ZoomFactor")));
-			// 
 			// testsNotRun
 			// 
 			this.testsNotRun.AccessibleDescription = resources.GetString("testsNotRun.AccessibleDescription");
@@ -936,6 +883,59 @@ namespace NUnit.Gui
 			this.stdOutTab.Visible = ((bool)(resources.GetObject("stdOutTab.Visible")));
 			this.stdOutTab.WordWrap = ((bool)(resources.GetObject("stdOutTab.WordWrap")));
 			this.stdOutTab.ZoomFactor = ((System.Single)(resources.GetObject("stdOutTab.ZoomFactor")));
+			// 
+			// stderr
+			// 
+			this.stderr.AccessibleDescription = resources.GetString("stderr.AccessibleDescription");
+			this.stderr.AccessibleName = resources.GetString("stderr.AccessibleName");
+			this.stderr.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stderr.Anchor")));
+			this.stderr.AutoScroll = ((bool)(resources.GetObject("stderr.AutoScroll")));
+			this.stderr.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("stderr.AutoScrollMargin")));
+			this.stderr.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("stderr.AutoScrollMinSize")));
+			this.stderr.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stderr.BackgroundImage")));
+			this.stderr.Controls.Add(this.stdErrTab);
+			this.stderr.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stderr.Dock")));
+			this.stderr.Enabled = ((bool)(resources.GetObject("stderr.Enabled")));
+			this.stderr.Font = ((System.Drawing.Font)(resources.GetObject("stderr.Font")));
+			this.stderr.ImageIndex = ((int)(resources.GetObject("stderr.ImageIndex")));
+			this.stderr.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stderr.ImeMode")));
+			this.stderr.Location = ((System.Drawing.Point)(resources.GetObject("stderr.Location")));
+			this.stderr.Name = "stderr";
+			this.stderr.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stderr.RightToLeft")));
+			this.stderr.Size = ((System.Drawing.Size)(resources.GetObject("stderr.Size")));
+			this.stderr.TabIndex = ((int)(resources.GetObject("stderr.TabIndex")));
+			this.stderr.Text = resources.GetString("stderr.Text");
+			this.toolTip.SetToolTip(this.stderr, resources.GetString("stderr.ToolTip"));
+			this.stderr.ToolTipText = resources.GetString("stderr.ToolTipText");
+			this.stderr.Visible = ((bool)(resources.GetObject("stderr.Visible")));
+			// 
+			// stdErrTab
+			// 
+			this.stdErrTab.AccessibleDescription = resources.GetString("stdErrTab.AccessibleDescription");
+			this.stdErrTab.AccessibleName = resources.GetString("stdErrTab.AccessibleName");
+			this.stdErrTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stdErrTab.Anchor")));
+			this.stdErrTab.AutoSize = ((bool)(resources.GetObject("stdErrTab.AutoSize")));
+			this.stdErrTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stdErrTab.BackgroundImage")));
+			this.stdErrTab.BulletIndent = ((int)(resources.GetObject("stdErrTab.BulletIndent")));
+			this.stdErrTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stdErrTab.Dock")));
+			this.stdErrTab.Enabled = ((bool)(resources.GetObject("stdErrTab.Enabled")));
+			this.stdErrTab.Font = ((System.Drawing.Font)(resources.GetObject("stdErrTab.Font")));
+			this.stdErrTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stdErrTab.ImeMode")));
+			this.stdErrTab.Location = ((System.Drawing.Point)(resources.GetObject("stdErrTab.Location")));
+			this.stdErrTab.MaxLength = ((int)(resources.GetObject("stdErrTab.MaxLength")));
+			this.stdErrTab.Multiline = ((bool)(resources.GetObject("stdErrTab.Multiline")));
+			this.stdErrTab.Name = "stdErrTab";
+			this.stdErrTab.ReadOnly = true;
+			this.stdErrTab.RightMargin = ((int)(resources.GetObject("stdErrTab.RightMargin")));
+			this.stdErrTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stdErrTab.RightToLeft")));
+			this.stdErrTab.ScrollBars = ((System.Windows.Forms.RichTextBoxScrollBars)(resources.GetObject("stdErrTab.ScrollBars")));
+			this.stdErrTab.Size = ((System.Drawing.Size)(resources.GetObject("stdErrTab.Size")));
+			this.stdErrTab.TabIndex = ((int)(resources.GetObject("stdErrTab.TabIndex")));
+			this.stdErrTab.Text = resources.GetString("stdErrTab.Text");
+			this.toolTip.SetToolTip(this.stdErrTab, resources.GetString("stdErrTab.ToolTip"));
+			this.stdErrTab.Visible = ((bool)(resources.GetObject("stdErrTab.Visible")));
+			this.stdErrTab.WordWrap = ((bool)(resources.GetObject("stdErrTab.WordWrap")));
+			this.stdErrTab.ZoomFactor = ((System.Single)(resources.GetObject("stdErrTab.ZoomFactor")));
 			// 
 			// groupBox1
 			// 
@@ -1157,9 +1157,9 @@ namespace NUnit.Gui
 			this.panel1.ResumeLayout(false);
 			this.resultTabs.ResumeLayout(false);
 			this.errorPage.ResumeLayout(false);
-			this.stderr.ResumeLayout(false);
 			this.testsNotRun.ResumeLayout(false);
 			this.stdout.ResumeLayout(false);
+			this.stderr.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
 			this.panel2.ResumeLayout(false);
 			this.ResumeLayout(false);
