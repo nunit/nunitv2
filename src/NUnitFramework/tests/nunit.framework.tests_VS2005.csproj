@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>8.0.50215</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8C326431-AE57-4645-ACC1-A90A0B425129}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -177,6 +177,7 @@
     <Compile Include="LegacySuiteTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ListContentsTests.cs" />
     <Compile Include="MockTestRunner.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -229,6 +230,7 @@
     <Compile Include="StackOverflowTestFixture.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="StringAssertTests.cs" />
     <Compile Include="SuiteBuilderTests.cs">
       <SubType>Code</SubType>
     </Compile>
