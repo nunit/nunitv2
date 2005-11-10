@@ -31,6 +31,7 @@
 using System;
 using System.Text;
 using System.IO;
+using System.Collections;
 
 namespace NUnit.Framework
 {
@@ -294,26 +295,26 @@ namespace NUnit.Framework
 			if ( index < expected.Length && index < actual.Length )
 				DisplayDifferences( expected.GetValue( index ), actual.GetValue( index ), false );
 			else if( expected.Length < actual.Length )
-				DisplayAdditionalElements( "   extra:", actual, index, 3 );
+				DisplayListElements( "   extra:", actual, index, 3 );
 			else
-				DisplayAdditionalElements( " missing:", expected, index, 3 );
+				DisplayListElements( " missing:", expected, index, 3 );
 		}
 
-		private void DisplayAdditionalElements( string label, Array array, int index, int max )
+		public void DisplayListElements( string label, IList list, int index, int max )
 		{
 			AddLine( "{0}<", label );
 
 			for( int i = 0; i < max; i++ )
 			{
-				Write( FormatObjectForDisplay( array.GetValue(index++) ) );
+				Write( FormatObjectForDisplay( list[index++] ) );
 				
-				if ( index >= array.Length )
+				if ( index >= list.Count )
 					break;
 
 				Write( "," );
 			}
 
-			if ( index < array.Length )
+			if ( index < list.Count )
 				Write( "..." );
 
 			Write( ">" );

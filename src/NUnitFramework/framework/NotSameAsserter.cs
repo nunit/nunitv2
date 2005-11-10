@@ -32,8 +32,8 @@ namespace NUnit.Framework
 		{
 			get
 			{
-				CreateFailureMessage().Write( "expected not same" );
-				return failureMessage.ToString();
+				FailureMessage.Write( "expected not same" );
+				return FailureMessage.ToString();
 			}
 		}
 	}

@@ -244,6 +244,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ListContentsTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "MockTestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -345,6 +350,11 @@
                 />
                 <File
                     RelPath = "StackOverflowTestFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "StringAssertTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

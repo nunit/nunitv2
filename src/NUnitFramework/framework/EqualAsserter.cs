@@ -87,13 +87,13 @@ namespace NUnit.Framework
 
 		private void DisplayDifferences()
 		{
-			CreateFailureMessage().DisplayDifferences( expected, actual, false );
+			FailureMessage.DisplayDifferences( expected, actual, false );
 		}
 
 
 		private void DisplayArrayDifferences( int index )
 		{
-			CreateFailureMessage().DisplayArrayDifferences( (Array)expected, (Array)actual, index );
+			FailureMessage.DisplayArrayDifferences( (Array)expected, (Array)actual, index );
 		}
 	}
 }

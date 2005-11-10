@@ -33,7 +33,6 @@ using NUnit.Core;
 using NUnit.Util;
 using NUnit.Tests.Assemblies;
 using NUnit.TestUtilities;
-using NUnit.Framework.Extensions;
 
 namespace NUnit.UiKit.Tests
 {
@@ -172,7 +171,7 @@ namespace NUnit.UiKit.Tests
 		{
 			Assert.AreEqual( expected, e.Result.Test.FullName );
 			int index = expected.LastIndexOf( '.' ) + 1;
-			StringAssert.EndsWith( expected.Substring( index ), statusBar.Panels[0].Text );
+			Assert.EndsWith( expected.Substring( index ), statusBar.Panels[0].Text );
 			if ( testsRun > 0 )
 				Assert.AreEqual( PanelMessage( "Tests Run", testsRun ), statusBar.Panels[2].Text );
 			else

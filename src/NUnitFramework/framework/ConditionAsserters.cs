@@ -50,6 +50,15 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to apply in formatting the message</param>
 		public TrueAsserter( bool condition, string message, params object[] args )
 			: base( condition, message, args ) { }
+
+		public override string Message
+		{
+			get
+			{
+				return base.Message;
+			}
+		}
+
 	}
 
 	/// <summary>

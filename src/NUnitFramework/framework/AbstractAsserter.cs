@@ -27,7 +27,7 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Our failure message object, initialized as needed
 		/// </summary>
-		protected AssertionFailureMessage failureMessage;
+		private AssertionFailureMessage failureMessage;
 
 		/// <summary>
 		/// Constructs an AbstractAsserter
@@ -41,15 +41,16 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// Helper routine to initialize the failure message object.
-		/// It returns the message for ease in chaining calls that
-		/// add to the message.
+		/// AssertionFailureMessage object used internally
 		/// </summary>
-		/// <returns>A reference to our failure message</returns>
-		protected AssertionFailureMessage CreateFailureMessage()
+		protected AssertionFailureMessage FailureMessage
 		{
-			failureMessage = new AssertionFailureMessage( userMessage, args );
-			return failureMessage;
+			get
+			{
+				if ( failureMessage == null )
+					failureMessage = new AssertionFailureMessage( userMessage, args );
+				return failureMessage;
+			}
 		}
 
 		#region IAsserter Interface
@@ -71,9 +72,7 @@ namespace NUnit.Framework
 		{
 			get
 			{
-				if ( failureMessage == null )
-					CreateFailureMessage();
-				return failureMessage.ToString();
+				return FailureMessage.ToString();
 			}
 		}
 		#endregion

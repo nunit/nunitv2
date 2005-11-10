@@ -64,12 +64,11 @@ namespace NUnit.Framework.Tests
 			{
 				get
 				{	
-					CreateFailureMessage();
-					if ( failureMessage.GetStringBuilder().Length > 0 )
-						failureMessage.WriteLine();
-					failureMessage.WriteLine( "\texpected: odd number" );
-					failureMessage.Write( "\tactual:  <{0}>", this.num );
-					return failureMessage.ToString();
+					if ( FailureMessage.GetStringBuilder().Length > 0 )
+						FailureMessage.WriteLine();
+					FailureMessage.WriteLine( "\texpected: odd number" );
+					FailureMessage.Write( "\tactual:  <{0}>", this.num );
+					return FailureMessage.ToString();
 				}
 			}
 

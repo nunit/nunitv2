@@ -94,10 +94,9 @@ namespace NUnit.Framework.Extensions
 		{
 			get
 			{
-				CreateFailureMessage();
-				failureMessage.AddExpectedLine( Expectation );
-				failureMessage.AddActualLine( actual.GetType().ToString() );
-				return failureMessage.ToString();
+				FailureMessage.AddExpectedLine( Expectation );
+				FailureMessage.AddActualLine( actual.GetType().ToString() );
+				return FailureMessage.ToString();
 			}
 		}
 

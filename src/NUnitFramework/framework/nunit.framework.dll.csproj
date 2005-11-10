@@ -164,6 +164,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ListContentsAsserter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "NotEqualAsserter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -195,6 +200,11 @@
                 />
                 <File
                     RelPath = "SetUpFixtureAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "StringAsserters.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
