@@ -1,4 +1,4 @@
-namespace NUnit.Framework.Extensions.Tests
+namespace NUnit.Framework.Tests
 {
 	[TestFixture]
 	public class StringAssertTests
@@ -6,16 +6,16 @@ namespace NUnit.Framework.Extensions.Tests
 		[Test]
 		public void Contains()
 		{
-			StringAssert.Contains( "abc", "abc" );
-			StringAssert.Contains( "abc", "***abc" );
-			StringAssert.Contains( "abc", "**abc**" );
+			Assert.Contains( "abc", "abc" );
+			Assert.Contains( "abc", "***abc" );
+			Assert.Contains( "abc", "**abc**" );
 		}
 
 		[Test]
 		public void ContainsFails()
 		{
-			ContainsAsserter asserter = 
-				new ContainsAsserter( "abc", "abxcdxbc", null, null );
+			SubstringAsserter asserter = 
+				new SubstringAsserter( "abc", "abxcdxbc", null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual( @"
 	expected: String containing ""abc""
@@ -23,31 +23,31 @@ namespace NUnit.Framework.Extensions.Tests
 				asserter.Message );
 		}
 
-		[Test]
-		public void ContainsAny()
-		{
-			StringAssert.ContainsAny( "xX", "abxcd" );
-			StringAssert.ContainsAny( "xX", "abXcd" );
-			StringAssert.ContainsAny( "xX", "axbxcxd" );		
-		}
-
-		[Test]
-		public void ContainsAnyFails()
-		{
-			ContainsAnyAsserter asserter = 
-				new ContainsAnyAsserter( "XYZ", "abxcdxbc", null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( @"
-	expected: String containing any of ""XYZ""
-	 but was: <""abxcdxbc"">",
-				asserter.Message );
-		}
+//		[Test]
+//		public void ContainsAny()
+//		{
+//			Assert.ContainsAny( "xX", "abxcd" );
+//			Assert.ContainsAny( "xX", "abXcd" );
+//			Assert.ContainsAny( "xX", "axbxcxd" );		
+//		}
+//
+//		[Test]
+//		public void ContainsAnyFails()
+//		{
+//			ContainsAnyAsserter asserter = 
+//				new ContainsAnyAsserter( "XYZ", "abxcdxbc", null, null );
+//			Assert.AreEqual( false, asserter.Test() );
+//			Assert.AreEqual( @"
+//	expected: String containing any of ""XYZ""
+//	 but was: <""abxcdxbc"">",
+//				asserter.Message );
+//		}
 
 		[Test]
 		public void StartsWith()
 		{
-			StringAssert.StartsWith( "abc", "abcdef" );
-			StringAssert.StartsWith( "abc", "abc" );
+			Assert.StartsWith( "abc", "abcdef" );
+			Assert.StartsWith( "abc", "abc" );
 		}
 
 		[Test]
@@ -65,8 +65,8 @@ namespace NUnit.Framework.Extensions.Tests
 		[Test]
 		public void EndsWith()
 		{
-			StringAssert.EndsWith( "abc", "abc" );
-			StringAssert.EndsWith( "abc", "123abc" );
+			Assert.EndsWith( "abc", "abc" );
+			Assert.EndsWith( "abc", "123abc" );
 		}
 
 		[Test]
@@ -84,7 +84,7 @@ namespace NUnit.Framework.Extensions.Tests
 		[Test]
 		public void CaseInsensitiveCompare()
 		{
-			StringAssert.AreEqualIgnoringCase( "name", "NAME" );
+			Assert.AreEqualIgnoringCase( "name", "NAME" );
 		}
 
 		[Test]
