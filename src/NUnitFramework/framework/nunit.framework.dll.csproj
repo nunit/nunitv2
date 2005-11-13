@@ -204,6 +204,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "StringAssert.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "StringAsserters.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -235,6 +240,11 @@
                 />
                 <File
                     RelPath = "TestFixtureTearDownAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TypeAssert.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

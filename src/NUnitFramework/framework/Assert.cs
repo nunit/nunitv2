@@ -811,112 +811,36 @@ namespace NUnit.Framework
    
 		#endregion
 
-		#region String Asserts
-
-		#region Contains
-
-		static public void Contains( string expected, string actual, string message, params object[] args )
-		{
-			Assert.DoAssert( new SubstringAsserter( expected, actual, message, args ) );
-		}
-
-		static public void Contains( string expected, string actual, string message )
-		{
-			Contains( expected, actual, message, null );
-		}
-
-		static public void Contains( string expected, string actual )
-		{
-			Contains( expected, actual, string.Empty, null );
-		}
-
-		#endregion
-
-		#region ContainsAny
-
-//		static public void ContainsAny( string expected, string actual, string message, params object[] args )
-//		{
-//			Assert.DoAssert( new ContainsAnyAsserter( expected, actual, message, args ) );
-//		}
-//
-//		static public void ContainsAny( string expected, string actual )
-//		{
-//			ContainsAny( expected, actual, string.Empty );
-//		}
-
-		#endregion
-
-		#region StartsWith
-
-		static public void StartsWith( string expected, string actual, string message, params object[] args )
-		{
-			Assert.DoAssert( new StartsWithAsserter( expected, actual, message, args ) );
-		}
-
-		static public void StartsWith( string expected, string actual, string message )
-		{
-			StartsWith( expected, actual, message, null );
-		}
-
-		static public void StartsWith( string expected, string actual )
-		{
-			StartsWith( expected, actual, string.Empty, null );
-		}
-
-		#endregion
-
-		#region EndsWith
-
-		static public void EndsWith( string expected, string actual, string message, params object[] args )
-		{
-			Assert.DoAssert( new EndsWithAsserter( expected, actual, message, args ) );
-		}
-
-		static public void EndsWith( string expected, string actual, string message )
-		{
-			EndsWith( expected, actual, message, null );
-		}
-
-		static public void EndsWith( string expected, string actual )
-		{
-			EndsWith( expected, actual, string.Empty, null );
-		}
-
-		#endregion
-
-		#region AreEqualIgnoringCase
-
-		static public void AreEqualIgnoringCase( string expected, string actual, string message, params object[] args )
-		{
-			Assert.DoAssert( new EqualIgnoringCaseAsserter( expected, actual, message, args ) );
-		}
-
-		static public void AreEqualIgnoringCase( string expected, string actual, string message )
-		{
-			AreEqualIgnoringCase( expected, actual, message, null );
-		}
-
-		static public void AreEqualIgnoringCase( string expected, string actual )
-		{
-			AreEqualIgnoringCase( expected, actual, string.Empty, null );
-		}
-
-		#endregion
-
-		#endregion
-
 		#region List Containment
 
+		/// <summary>
+		/// Asserts that an object is contained in a list.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The list to be examined</param>
+		/// <param name="message">The message to display in case of failure</param>
+		/// <param name="args">Arguments used in formatting the message</param>
 		static public void Contains( object expected, IList actual, string message, params object[] args )
 		{
 			Assert.DoAssert( new ListContentsAsserter( expected, actual, message, args ) );
 		}
 
+		/// <summary>
+		/// Asserts that an object is contained in a list.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The list to be examined</param>
+		/// <param name="message">The message to display in case of failure</param>
 		static public void Contains( object expected, IList actual, string message )
 		{
 			Contains( expected, actual, message, null );
 		}
 
+		/// <summary>
+		/// Asserts that an object is contained in a list.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The list to be examined</param>
 		static public void Contains( object expected, IList actual )
 		{
 			Contains( expected, actual, string.Empty, null );

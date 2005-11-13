@@ -300,6 +300,13 @@ namespace NUnit.Framework
 				DisplayListElements( " missing:", expected, index, 3 );
 		}
 
+		/// <summary>
+		/// Displays elements from a list on a line
+		/// </summary>
+		/// <param name="label">Text to prefix the line with</param>
+		/// <param name="list">The list of items to display</param>
+		/// <param name="index">The index in the list of the first element to display</param>
+		/// <param name="max">The maximum number of elements to display</param>
 		public void DisplayListElements( string label, IList list, int index, int max )
 		{
 			AddLine( "{0}<", label );

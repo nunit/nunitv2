@@ -12,6 +12,13 @@ namespace NUnit.Framework
 		private object expected;
 		private IList list;
 
+		/// <summary>
+		/// Constructs a ListContentsAsserter for a particular list and object.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="list">The list to be examined</param>
+		/// <param name="message">The message to issue on failure</param>
+		/// <param name="args">Arguments to apply in formatting the message</param>
 		public ListContentsAsserter( object expected, IList list, string message, params object[] args )
 			: base( message, args )
 		{
@@ -19,11 +26,18 @@ namespace NUnit.Framework
 			this.list = list;
 		}
 
+		/// <summary>
+		/// Test that the object is contained in the list
+		/// </summary>
+		/// <returns>True if the object is found</returns>
 		public override bool Test()
 		{
 			return list.Contains( expected );
 		}
 
+		/// <summary>
+		/// Error message to display after a failure.
+		/// </summary>
 		public override string Message
 		{
 			get

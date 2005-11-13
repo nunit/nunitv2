@@ -171,7 +171,7 @@ namespace NUnit.UiKit.Tests
 		{
 			Assert.AreEqual( expected, e.Result.Test.FullName );
 			int index = expected.LastIndexOf( '.' ) + 1;
-			Assert.EndsWith( expected.Substring( index ), statusBar.Panels[0].Text );
+			StringAssert.EndsWith( expected.Substring( index ), statusBar.Panels[0].Text );
 			if ( testsRun > 0 )
 				Assert.AreEqual( PanelMessage( "Tests Run", testsRun ), statusBar.Panels[2].Text );
 			else

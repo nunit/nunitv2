@@ -58,20 +58,20 @@ namespace NUnit.Framework
 	}
 	#endregion
 
-	#region SubstringAsserter
+	#region ContainsAsserter
 	/// <summary>
 	/// Summary description for ContainsAsserter.
 	/// </summary>
-	public class SubstringAsserter : StringAsserter
+	public class ContainsAsserter : StringAsserter
 	{
 		/// <summary>
-		/// Constructs a SubstringAsserter for two strings
+		/// Constructs a ContainsAsserter for two strings
 		/// </summary>
 		/// <param name="expected">The expected substring</param>
 		/// <param name="actual">The actual string to be examined</param>
 		/// <param name="message">The message to issue on failure</param>
 		/// <param name="args">Arguments to apply in formatting the message</param>
-		public SubstringAsserter( string expected, string actual, string message, params object[] args )
+		public ContainsAsserter( string expected, string actual, string message, params object[] args )
 			: base( expected, actual, message, args ) { }
 
 		/// <summary>
@@ -91,27 +91,6 @@ namespace NUnit.Framework
 			get { return string.Format( "String containing \"{0}\"", expected ); }
 		}
 	}
-	#endregion
-
-	#region ContainsAnyAsserter
-//	/// <summary>
-//	/// Summary description for ContainsAnyAsserter.
-//	/// </summary>
-//	public class ContainsAnyAsserter : StringAsserter
-//	{
-//		public ContainsAnyAsserter( string expected, string actual, string message, params object[] args )
-//			: base( expected, actual, message, args ) { }
-//
-//		public override bool Test()
-//		{
-//			return actual.IndexOfAny( expected.ToCharArray() ) >= 0;
-//		}
-//
-//		protected override string Expectation
-//		{
-//			get { return string.Format( "String containing any of \"{0}\"", expected ); }
-//		}
-//	}
 	#endregion
 
 	#region StartsWithAsserter
@@ -185,6 +164,9 @@ namespace NUnit.Framework
 	#endregion
 
 	#region EqualIgnoringCaseAsserter
+	/// <summary>
+	/// Asserter that implements AreEqualIgnoringCase
+	/// </summary>
 	public class EqualIgnoringCaseAsserter : StringAsserter
 	{
 		/// <summary>
