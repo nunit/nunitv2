@@ -23,11 +23,27 @@ Bugs Fixed
 * 1189808 Build fails without VS.Net Installed
 * 1056946 TestFixtureSetUp and TestFixtureTearDown run between tests
 * 1236483 Nunit.build references unavailable registry keys
+* 1292875 double.NaN equals fails
+*  823573 NullReferenceException handling a COM exception
+* 1224378 Can't specify an absolute path to an assembly on unix
+* 1073539 Create Summary Document error
+* 1311644 Unprintable chars in Assert.AreEqual parms causes errors
+* 1242836 Exception in CreateSummaryDocument()
+* 1020791 PositionOutOfBounds failed
+* 1265810 Crash when saving project to project file marked read-only
+*  919674 Custom Exceptions Cause Error in gui
+* 1022105 ExpectedException yields NullReference bug
+* 1222749 "Index was outside the bounds of the array." Exception
+* 1214117 NullReferenceException is thrown
+* 1276193 Errors and Failures Tooltip makes errors hard to read
+* 1036266 Tests are no longer repeatable
 
 Feature Requests Implemented
 * 1006156 Assert.IsType() Would be very helpful
 *  644012 Adjusting task priority (actually fixed earlier)
 * 1159528 Assemblies must be strong named
+*  780114 Display full type name for running test
+*  836512 Report with information about current...
 
 NUnit 2.2.2 Iteration Release - December 7, 2004
 
