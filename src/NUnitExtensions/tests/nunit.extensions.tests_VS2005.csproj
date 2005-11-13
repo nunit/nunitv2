@@ -93,9 +93,6 @@
     <Compile Include="SampleSuiteExtensionTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TypeAssertTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NUnitFramework\core\nunit.core.dll_VS2005.csproj">
@@ -113,10 +110,6 @@
     <ProjectReference Include="..\core\nunit.core.extensions.dll_VS2005.csproj">
       <Project>{98B10E98-003C-45A0-9587-119142E39986}</Project>
       <Name>nunit.core.extensions.dll_VS2005</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\framework\nunit.framework.extensions.dll_VS2005.csproj">
-      <Project>{D248419D-99C4-40DC-BE91-76A2230CD537}</Project>
-      <Name>nunit.framework.extensions.dll_VS2005</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

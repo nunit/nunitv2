@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50215</ProductVersion>
+    <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8C326431-AE57-4645-ACC1-A90A0B425129}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -274,6 +274,7 @@
     <Compile Include="TrueFixture.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeAssertTest.cs" />
     <Compile Include="XmlTest.cs">
       <SubType>Code</SubType>
       <CustomToolNamespace>NUnit.Core.Tests</CustomToolNamespace>

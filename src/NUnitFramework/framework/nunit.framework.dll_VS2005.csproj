@@ -149,6 +149,7 @@
     <Compile Include="SetUpFixtureAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="StringAssert.cs" />
     <Compile Include="StringAsserters.cs" />
     <Compile Include="SuiteAttribute.cs">
       <SubType>Code</SubType>
@@ -168,6 +169,7 @@
     <Compile Include="TestFixtureTearDownAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TypeAssert.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
