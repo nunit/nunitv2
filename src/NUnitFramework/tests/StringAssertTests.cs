@@ -6,16 +6,16 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void Contains()
 		{
-			Assert.Contains( "abc", "abc" );
-			Assert.Contains( "abc", "***abc" );
-			Assert.Contains( "abc", "**abc**" );
+			StringAssert.Contains( "abc", "abc" );
+			StringAssert.Contains( "abc", "***abc" );
+			StringAssert.Contains( "abc", "**abc**" );
 		}
 
 		[Test]
 		public void ContainsFails()
 		{
-			SubstringAsserter asserter = 
-				new SubstringAsserter( "abc", "abxcdxbc", null, null );
+			ContainsAsserter asserter = 
+				new ContainsAsserter( "abc", "abxcdxbc", null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual( @"
 	expected: String containing ""abc""
@@ -23,31 +23,11 @@ namespace NUnit.Framework.Tests
 				asserter.Message );
 		}
 
-//		[Test]
-//		public void ContainsAny()
-//		{
-//			Assert.ContainsAny( "xX", "abxcd" );
-//			Assert.ContainsAny( "xX", "abXcd" );
-//			Assert.ContainsAny( "xX", "axbxcxd" );		
-//		}
-//
-//		[Test]
-//		public void ContainsAnyFails()
-//		{
-//			ContainsAnyAsserter asserter = 
-//				new ContainsAnyAsserter( "XYZ", "abxcdxbc", null, null );
-//			Assert.AreEqual( false, asserter.Test() );
-//			Assert.AreEqual( @"
-//	expected: String containing any of ""XYZ""
-//	 but was: <""abxcdxbc"">",
-//				asserter.Message );
-//		}
-
 		[Test]
 		public void StartsWith()
 		{
-			Assert.StartsWith( "abc", "abcdef" );
-			Assert.StartsWith( "abc", "abc" );
+			StringAssert.StartsWith( "abc", "abcdef" );
+			StringAssert.StartsWith( "abc", "abc" );
 		}
 
 		[Test]
@@ -65,8 +45,8 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void EndsWith()
 		{
-			Assert.EndsWith( "abc", "abc" );
-			Assert.EndsWith( "abc", "123abc" );
+			StringAssert.EndsWith( "abc", "abc" );
+			StringAssert.EndsWith( "abc", "123abc" );
 		}
 
 		[Test]
@@ -84,7 +64,7 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void CaseInsensitiveCompare()
 		{
-			Assert.AreEqualIgnoringCase( "name", "NAME" );
+			StringAssert.AreEqualIgnoringCase( "name", "NAME" );
 		}
 
 		[Test]
