@@ -95,11 +95,6 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "nunit.framework.extensions.dll"
-                    Project = "{D248419D-99C4-40DC-BE91-76A2230CD537}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "nunit.core.extensions.dll"
                     Project = "{98B10E98-003C-45A0-9587-119142E39986}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
@@ -125,11 +120,6 @@
                 />
                 <File
                     RelPath = "SampleSuiteExtensionTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TypeAssertTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
