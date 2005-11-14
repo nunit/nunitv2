@@ -38,8 +38,6 @@
           <File Id="file12" Name="NUNIT-~2.PDB" LongName="nunit-gui.pdb" src="bin\nunit-gui.pdb" />
           <File Id="file13" Name="NUNITC~1.DLL" LongName="nunit.core.dll" src="bin\nunit.core.dll" />
           <File Id="file14" Name="NUNITC~1.PDB" LongName="nunit.core.pdb" src="bin\nunit.core.pdb" />
-          <File Id="file15" Name="NUNITE~1.DLL" LongName="nunit.framework.extensions.dll" src="bin\nunit.framework.extensions.dll" />
-          <File Id="file16" Name="NUNITE~1.PDB" LongName="nunit.framework.extensions.pdb" src="bin\nunit.framework.extensions.pdb" />
           <File Id="file17" Name="NUNITF~1.DLL" LongName="nunit.framework.dll" src="bin\nunit.framework.dll" />
           <File Id="file18" Name="NUNITF~1.PDB" LongName="nunit.framework.pdb" src="bin\nunit.framework.pdb" />
           <File Id="file19" Name="NUNITF~1.XML" LongName="nunit.framework.xml" src="bin\nunit.framework.xml" />
