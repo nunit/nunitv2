@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 namespace NUnit.Framework
 {
@@ -15,6 +16,12 @@ namespace NUnit.Framework
 		/// The condition we are testing
 		/// </summary>
 		protected bool condition;
+
+		/// <summary>
+		/// Phrase indicating what we expected to find
+		/// Ignored unless set by derived class
+		/// </summary>
+		protected string expectation;
 
 		/// <summary>
 		/// Constructor
@@ -111,5 +118,14 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to apply in formatting the message</param>
 		public NaNAsserter( double aDouble, string message, params object[] args )
 			: base( double.IsNaN( aDouble ), message, args ) { }
+	}
+
+	public class EmptyAsserter : ConditionAsserter
+	{
+		public EmptyAsserter( string aString, string message, params object[] args )
+			: base( aString == string.Empty, message, args ) { }
+
+		public EmptyAsserter( ICollection collection, string message, params object[] args )
+			: base( collection.Count == 0, message, args ) { }
 	}
 }

@@ -70,11 +70,6 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
                 />
                 <Reference
-                    Name = "System.Data"
-                    AssemblyName = "System.Data"
-                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
-                />
-                <Reference
                     Name = "System.XML"
                     AssemblyName = "System.Xml"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
@@ -123,6 +118,11 @@
                     Name = "System.Windows.Forms"
                     AssemblyName = "System.Windows.Forms"
                     HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
                 />
             </References>
         </Build>
@@ -184,6 +184,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ConditionAsserts.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "DirectorySwapperTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -215,11 +220,6 @@
                 />
                 <File
                     RelPath = "FailureMessageFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "FalseFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -264,11 +264,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "NaNFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "NotEqualFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -279,17 +274,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "NotNullFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "NotSameFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "NullFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -425,11 +410,6 @@
                 />
                 <File
                     RelPath = "ThreadedTestRunnerTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TrueFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

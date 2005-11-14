@@ -35,9 +35,9 @@ namespace NUnit.Framework.Tests
 		public void IsSubclassOfFails()
 		{
 			IsSubclassOfAsserter asserter = new IsSubclassOfAsserter(
-				typeof(System.Data.DataSet),new System.Exception("Bad News"), null, null );
+				typeof(System.ApplicationException),new System.Exception("Bad News"), null, null );
 			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( "\r\n\texpected: Subclass of System.Data.DataSet\r\n\t but was: System.Exception", asserter.Message );
+			Assert.AreEqual( "\r\n\texpected: Subclass of System.ApplicationException\r\n\t but was: System.Exception", asserter.Message );
 		}
 
 		[Test]

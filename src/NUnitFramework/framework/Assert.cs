@@ -296,6 +296,70 @@ namespace NUnit.Framework
     
 		#endregion
 
+		#region IsEmpty
+
+		/// <summary>
+		/// Assert that a string is empty - that is equal to string.Emtpy
+		/// </summary>
+		/// <param name="aString">The string to be tested</param>
+		/// <param name="message">The message to be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		public static void IsEmpty( string aString, string message, params object[] args )
+		{
+			DoAssert( new EmptyAsserter( aString, message, args ) );
+		}
+
+		/// <summary>
+		/// Assert that a string is empty - that is equal to string.Emtpy
+		/// </summary>
+		/// <param name="aString">The string to be tested</param>
+		/// <param name="message">The message to be displayed on failure</param>
+		public static void IsEmpty( string aString, string message )
+		{
+			IsEmpty( aString, message, null );
+		}
+
+		/// <summary>
+		/// Assert that a string is empty - that is equal to string.Emtpy
+		/// </summary>
+		/// <param name="aString">The string to be tested</param>
+		public static void IsEmpty( string aString )
+		{
+			IsEmpty( aString, string.Empty, null );
+		}
+
+		/// <summary>
+		/// Assert that an array or other collection is empty
+		/// </summary>
+		/// <param name="aList">An array, list or collection implementing ICollection</param>
+		/// <param name="message">The message to be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		public static void IsEmpty( ICollection collection, string message, params object[] args )
+		{
+			DoAssert( new EmptyAsserter( collection, message, args ) );
+		}
+
+		/// <summary>
+		/// Assert that an array or other collection is empty
+		/// </summary>
+		/// <param name="aList">An array, list or collection implementing ICollection</param>
+		/// <param name="message">The message to be displayed on failure</param>
+		public static void IsEmpty( ICollection collection, string message )
+		{
+			IsEmpty( collection, message, null );
+		}
+
+		/// <summary>
+		/// Assert that an array or other collection is empty
+		/// </summary>
+		/// <param name="aList">An array, list or collection implementing ICollection</param>
+		public static void IsEmpty( ICollection collection )
+		{
+			IsEmpty( collection, string.Empty, null );
+		}
+
+		#endregion
+
 		#region AreEqual
 
 		#region Ints

@@ -141,6 +141,7 @@
     <Compile Include="CategoryManagerTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ConditionAsserts.cs" />
     <Compile Include="DirectorySwapperTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -160,9 +161,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FailureMessageFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FalseFixture.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FixtureSetupTearDownTest.cs">
@@ -187,20 +185,13 @@
     <Compile Include="NamespaceAssemblyTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NaNFixture.cs" />
     <Compile Include="NotEqualFixture.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NoTestCases.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NotNullFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="NotSameFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="NullFixture.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="OneTestCase.cs">
@@ -271,9 +262,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ThreadedTestRunnerTests.cs" />
-    <Compile Include="TrueFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="TypeAssertTest.cs" />
     <Compile Include="XmlTest.cs">
       <SubType>Code</SubType>
