@@ -2,66 +2,39 @@ using System;
 namespace NUnit.Framework.Tests
 {
 	[TestFixture()]
-	public class TypeAssertTest
+	public class TypeAssertTests
 	{
 		[Test]
-		public void Implements()
+		public void IsInstanceOfType()
 		{
-			TypeAssert.Implements(typeof(System.Runtime.Serialization.ISerializable),new System.ApplicationException("Bad News"));
-			TypeAssert.Implements(typeof(System.Runtime.Serialization.ISerializable),new System.ApplicationException("Bad News"),"Type Failure Message");
-			TypeAssert.Implements(typeof(System.Runtime.Serialization.ISerializable),new System.ApplicationException("Bad News"),"Type Failure Message",null);
+			Assert.IsInstanceOfType(typeof(System.Exception), new ApplicationException() );
 		}
 
 		[Test]
-		public void ImplementsFails()
+		public void IsInstanceOfTypeFails()
 		{
-			ImplementsAsserter asserter = new ImplementsAsserter(
-				typeof(System.IServiceProvider),new System.Exception("Bad News"), null, null );
+			InstanceOfTypeAsserter asserter = new InstanceOfTypeAsserter(
+				typeof(System.Int32), "abc123", null, null );
 			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( 
-				"\r\n\texpected: Type implementing System.IServiceProvider\r\n\t but was: System.Exception", 
+			Assert.AreEqual(
+				"\r\n\texpected: Object to be instance of System.Int32\r\n\t but was: System.String",
 				asserter.Message );
 		}
 
 		[Test]
-		public void IsSubclassOf()
+		public void IsNotInstanceOfType()
 		{
-			TypeAssert.IsSubclassOf(typeof(System.Exception),new System.ApplicationException("Bad News"));
-			TypeAssert.IsSubclassOf(typeof(System.Exception),new System.ApplicationException("Bad News"),"Type Failure Message");
-			TypeAssert.IsSubclassOf(typeof(System.Exception),new System.ApplicationException("Bad News"),"Type Failure Message",null);
+			Assert.IsNotInstanceOfType(typeof(System.Int32), "abc123" );
 		}
 
 		[Test]
-		public void IsSubclassOfFails()
+		public void IsNotInstanceOfTypeFails()
 		{
-			IsSubclassOfAsserter asserter = new IsSubclassOfAsserter(
-				typeof(System.ApplicationException),new System.Exception("Bad News"), null, null );
+			NotInstanceOfTypeAsserter asserter = new NotInstanceOfTypeAsserter(
+				typeof(System.Exception), new System.ApplicationException(), null, null );
 			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( "\r\n\texpected: Subclass of System.ApplicationException\r\n\t but was: System.Exception", asserter.Message );
-		}
-
-		[Test]
-		public void IsSubclassMessage()
-		{
-		}
-
-
-		[Test]
-		public void IsType()
-		{
-			TypeAssert.IsType(typeof(System.String),"abc123");
-			TypeAssert.IsType(typeof(System.String),"abc123","Type Failure Message");
-			TypeAssert.IsType(typeof(System.String),"abc123","Type Failure Message",null);
-		}
-
-		[Test]
-		public void IsTypeFails()
-		{
-			IsTypeAsserter asserter = new IsTypeAsserter(
-				typeof(System.Object), "abc123", null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( 
-				"\r\n\texpected: System.Object\r\n\t but was: System.String", 
+			Assert.AreEqual(
+				"\r\n\texpected: Object not an instance of System.Exception\r\n\t but was: System.ApplicationException",
 				asserter.Message );
 		}
 
@@ -71,9 +44,9 @@ namespace NUnit.Framework.Tests
 			int [] array10 = new int [10];
 			int [] array2 = new int[2];
 
-			TypeAssert.IsAssignableFrom(array2.GetType(),array10);
-			TypeAssert.IsAssignableFrom(array2.GetType(),array10,"Type Failure Message");
-			TypeAssert.IsAssignableFrom(array2.GetType(),array10,"Type Failure Message",null);
+			Assert.IsAssignableFrom(array2.GetType(),array10);
+			Assert.IsAssignableFrom(array2.GetType(),array10,"Type Failure Message");
+			Assert.IsAssignableFrom(array2.GetType(),array10,"Type Failure Message",null);
 		}
 
 		[Test]
@@ -82,7 +55,7 @@ namespace NUnit.Framework.Tests
 			int [] array10 = new int [10];
 			int [,] array2 = new int[2,2];
 
-			IsAssignableFromAsserter asserter = new IsAssignableFromAsserter(
+			AssignableFromAsserter asserter = new AssignableFromAsserter(
 				array2.GetType(), array10, null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual( 
@@ -90,5 +63,29 @@ namespace NUnit.Framework.Tests
 				asserter.Message );
 		}
 
+		[Test()]
+		public void IsNotAssignableFrom()
+		{
+			int [] array10 = new int [10];
+			int [,] array2 = new int[2,2];
+
+			Assert.IsNotAssignableFrom(array2.GetType(),array10);
+			Assert.IsNotAssignableFrom(array2.GetType(),array10,"Type Failure Message");
+			Assert.IsNotAssignableFrom(array2.GetType(),array10,"Type Failure Message",null);
+		}
+
+		[Test]
+		public void IsNotAssignableFromFails()
+		{
+			int [] array10 = new int [10];
+			int [] array2 = new int[2];
+
+			NotAssignableFromAsserter asserter = new NotAssignableFromAsserter(
+				array2.GetType(), array10, null, null );
+			Assert.AreEqual( false, asserter.Test() );
+			Assert.AreEqual( 
+				"\r\n\texpected: Type not assignable from System.Int32[]\r\n\t but was: System.Int32[]", 
+				asserter.Message );
+		}
 	}
 }

@@ -234,7 +234,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TypeAssert.cs"
+                    RelPath = "TypeAsserters.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

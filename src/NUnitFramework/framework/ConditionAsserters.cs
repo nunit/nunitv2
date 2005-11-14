@@ -3,6 +3,7 @@ using System.Collections;
 
 namespace NUnit.Framework
 {
+	#region ConditionAsserter
 	/// <summary>
 	/// ConditionAsserter class represents an asssertion
 	/// that tests a particular condition, which is passed
@@ -43,7 +44,9 @@ namespace NUnit.Framework
 			return condition;
 		}
 	}
+	#endregion
 
+	#region TrueAsserter
 	/// <summary>
 	/// Class to assert that a condition is true
 	/// </summary>
@@ -58,7 +61,9 @@ namespace NUnit.Framework
 		public TrueAsserter( bool condition, string message, params object[] args )
 			: base( condition, message, args ) { }
 	}
+	#endregion
 
+	#region FalseAsserter
 	/// <summary>
 	/// Class to assert that a condition is false
 	/// </summary>
@@ -74,7 +79,9 @@ namespace NUnit.Framework
 			: base( !condition, message, args ) { }
 
 	}
+	#endregion
 
+	#region NullAsserter
 	/// <summary>
 	/// Class to assert that an object is null
 	/// </summary>
@@ -89,7 +96,9 @@ namespace NUnit.Framework
 		public NullAsserter( object anObject, string message, params object[] args )
 			: base( anObject == null, message, args ) { }
 	}
+	#endregion
 
+	#region NotNullAsserter
 	/// <summary>
 	/// Class to assert that an object is not null
 	/// </summary>
@@ -104,7 +113,9 @@ namespace NUnit.Framework
 		public NotNullAsserter( object anObject, string message, params object[] args )
 			: base( anObject != null, message, args ) { }
 	}
+	#endregion
 
+	#region NaNAsserter
 	/// <summary>
 	/// Class to assert that a double is an NaN
 	/// </summary>
@@ -119,7 +130,9 @@ namespace NUnit.Framework
 		public NaNAsserter( double aDouble, string message, params object[] args )
 			: base( double.IsNaN( aDouble ), message, args ) { }
 	}
+	#endregion
 
+	#region EmptyAsserter
 	public class EmptyAsserter : ConditionAsserter
 	{
 		public EmptyAsserter( string aString, string message, params object[] args )
@@ -128,4 +141,16 @@ namespace NUnit.Framework
 		public EmptyAsserter( ICollection collection, string message, params object[] args )
 			: base( collection.Count == 0, message, args ) { }
 	}
+	#endregion
+
+	#region NotEmptyAsserter
+	public class NotEmptyAsserter : ConditionAsserter
+	{
+		public NotEmptyAsserter( string aString, string message, params object[] args )
+			: base( aString != string.Empty, message, args ) { }
+
+		public NotEmptyAsserter( ICollection collection, string message, params object[] args )
+			: base( collection.Count != 0, message, args ) { }
+	}
+	#endregion
 }

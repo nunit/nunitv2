@@ -329,9 +329,9 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// Assert that an array or other collection is empty
+		/// Assert that an array, list or other collection is empty
 		/// </summary>
-		/// <param name="aList">An array, list or collection implementing ICollection</param>
+		/// <param name="collection">An array, list or other collection implementing ICollection</param>
 		/// <param name="message">The message to be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void IsEmpty( ICollection collection, string message, params object[] args )
@@ -340,9 +340,9 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// Assert that an array or other collection is empty
+		/// Assert that an array, list or other collection is empty
 		/// </summary>
-		/// <param name="aList">An array, list or collection implementing ICollection</param>
+		/// <param name="collection">An array, list or other collection implementing ICollection</param>
 		/// <param name="message">The message to be displayed on failure</param>
 		public static void IsEmpty( ICollection collection, string message )
 		{
@@ -350,14 +350,139 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// Assert that an array or other collection is empty
+		/// Assert that an array,list or other collection is empty
 		/// </summary>
-		/// <param name="aList">An array, list or collection implementing ICollection</param>
+		/// <param name="collection">An array, list or other collection implementing ICollection</param>
 		public static void IsEmpty( ICollection collection )
 		{
 			IsEmpty( collection, string.Empty, null );
 		}
+		#endregion
 
+		#region IsNotEmpty
+		/// <summary>
+		/// Assert that a string is empty - that is equal to string.Emtpy
+		/// </summary>
+		/// <param name="aString">The string to be tested</param>
+		/// <param name="message">The message to be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		public static void IsNotEmpty( string aString, string message, params object[] args )
+		{
+			DoAssert( new NotEmptyAsserter( aString, message, args ) );
+		}
+
+		/// <summary>
+		/// Assert that a string is empty - that is equal to string.Emtpy
+		/// </summary>
+		/// <param name="aString">The string to be tested</param>
+		/// <param name="message">The message to be displayed on failure</param>
+		public static void IsNotEmpty( string aString, string message )
+		{
+			IsNotEmpty( aString, message, null );
+		}
+
+		/// <summary>
+		/// Assert that a string is empty - that is equal to string.Emtpy
+		/// </summary>
+		/// <param name="aString">The string to be tested</param>
+		public static void IsNotEmpty( string aString )
+		{
+			IsNotEmpty( aString, string.Empty, null );
+		}
+
+		/// <summary>
+		/// Assert that an array, list or other collection is empty
+		/// </summary>
+		/// <param name="collection">An array, list or other collection implementing ICollection</param>
+		/// <param name="message">The message to be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		public static void IsNotEmpty( ICollection collection, string message, params object[] args )
+		{
+			DoAssert( new NotEmptyAsserter( collection, message, args ) );
+		}
+
+		/// <summary>
+		/// Assert that an array, list or other collection is empty
+		/// </summary>
+		/// <param name="collection">An array, list or other collection implementing ICollection</param>
+		/// <param name="message">The message to be displayed on failure</param>
+		public static void IsNotEmpty( ICollection collection, string message )
+		{
+			IsNotEmpty( collection, message, null );
+		}
+
+		/// <summary>
+		/// Assert that an array,list or other collection is empty
+		/// </summary>
+		/// <param name="collection">An array, list or other collection implementing ICollection</param>
+		public static void IsNotEmpty( ICollection collection )
+		{
+			IsNotEmpty( collection, string.Empty, null );
+		}
+		#endregion
+
+		#region IsAssignableFrom
+		static public void IsAssignableFrom( System.Type expected, object actual )
+		{
+			IsAssignableFrom(expected, actual, "");
+		}
+		static public void IsAssignableFrom( System.Type expected, object actual, string message )
+		{
+			IsAssignableFrom(expected, actual, message, null);
+		}
+		static public void IsAssignableFrom( System.Type expected, object actual, string message, params object[] args )
+		{
+			Assert.DoAssert( new AssignableFromAsserter( expected, actual, message, args ) );
+		}
+		#endregion
+		
+		#region IsNotAssignableFrom
+		static public void IsNotAssignableFrom( System.Type expected, object actual )
+		{
+			IsNotAssignableFrom(expected, actual, "");
+		}
+		static public void IsNotAssignableFrom( System.Type expected, object actual, string message )
+		{
+			IsNotAssignableFrom(expected, actual, message, null);
+		}
+		static public void IsNotAssignableFrom( System.Type expected, object actual, string message, params object[] args )
+		{
+			Assert.DoAssert( new NotAssignableFromAsserter( expected, actual, message, args ) );
+		}
+		#endregion
+		
+		#region IsInstanceOfType
+		public static void IsInstanceOfType( System.Type expected, object actual )
+		{
+			IsInstanceOfType( expected, actual, string.Empty, null );
+		}
+
+		public static void IsInstanceOfType( System.Type expected, object actual, string message )
+		{
+			IsInstanceOfType( expected, actual, message, null );
+		}
+
+		public static void IsInstanceOfType( System.Type expected, object actual, string message, params object[] args )
+		{
+			Assert.DoAssert( new InstanceOfTypeAsserter( expected, actual, message, args ) );
+		}
+		#endregion
+
+		#region IsNotInstanceOfType
+		public static void IsNotInstanceOfType( System.Type expected, object actual )
+		{
+			IsNotInstanceOfType( expected, actual, string.Empty, null );
+		}
+
+		public static void IsNotInstanceOfType( System.Type expected, object actual, string message )
+		{
+			IsNotInstanceOfType( expected, actual, message, null );
+		}
+
+		public static void IsNotInstanceOfType( System.Type expected, object actual, string message, params object[] args )
+		{
+			Assert.DoAssert( new NotInstanceOfTypeAsserter( expected, actual, message, args ) );
+		}
 		#endregion
 
 		#region AreEqual

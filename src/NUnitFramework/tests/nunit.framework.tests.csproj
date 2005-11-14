@@ -184,7 +184,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ConditionAsserts.cs"
+                    RelPath = "ConditionAssertTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -141,7 +141,7 @@
     <Compile Include="CategoryManagerTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ConditionAsserts.cs" />
+    <Compile Include="ConditionAssertTests.cs" />
     <Compile Include="DirectorySwapperTests.cs">
       <SubType>Code</SubType>
     </Compile>
