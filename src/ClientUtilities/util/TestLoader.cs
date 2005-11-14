@@ -581,7 +581,9 @@ namespace NUnit.Util
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
 					TestDomain newDomain = new TestDomain( );
-					Test newTest = newDomain.Load( testProject.AsCoreTestProject, loadedTestName );
+                    Test newTest = TestProject.IsAssemblyWrapper
+                        ? newDomain.Load(testProject.ActiveConfig.Assemblies[0].FullPath)
+                        : newDomain.Load(testProject.AsCoreTestProject, loadedTestName);
 					TestSuite suite = newTest as TestSuite;
 					if ( suite != null )
 						suite.Sort();
