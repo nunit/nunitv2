@@ -67,7 +67,7 @@ namespace NUnit.Gui
 				if(result.IsFailure)
 				{
 					TestResultItem item = new TestResultItem(result);
-					string resultString = String.Format("{0}:{1}", result.Name, result.Message);
+					//string resultString = String.Format("{0}:{1}", result.Name, result.Message);
 					testDetails.BeginUpdate();
 					testDetails.Items.Insert(testDetails.Items.Count, item);
 					testDetails.EndUpdate();
