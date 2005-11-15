@@ -7,6 +7,8 @@ h1 { font-size: 1.8em; font-weight: bold; }
 h2 { font-size: 1.5em; font-weight: bold; }
 h3 { font-size: 1.2em; font-weight: bold; }
 h4 { font-size: 1em; font-weight: bold; margin: 0; padding: 0; }
+ul.across { width: 100%; display: block; list-style: none; }
+ul.across li { float: left; display: block; width: 9em }
 
 /* Masthead and Main Menu */
 #header { margin: 0; padding: 0; width: 100%; }
@@ -15,12 +17,11 @@ h4 { font-size: 1em; font-weight: bold; margin: 0; padding: 0; }
 #header #nav { min-width: 670px; margin: 25px 0 10px 200px; padding: 15px 0 15px 5px;
     border-top: 1px solid black; border-bottom: 1px solid black; border-left: 1px solid black;
     white-space: nowrap; }
-
 /* Hide from IE-mac \*/
 * html #nav { height: 1%; }
 /* End of IE-mac hack */
 
-#nav a { text-decoration: none; color: #000; font: 1em "Times New Roman", Roman, serif;
+#nav a{  text-decoration: none; color: #000; font: 1em "Times New Roman", Roman, serif;
          text-transform: uppercase; margin: 0 5px; padding: 5px 10px; border: 1px solid black; }
 #nav a.active { background: #999; } 
 #nav a:hover { background: #CCC; }
@@ -31,10 +32,12 @@ h4 { font-size: 1em; font-weight: bold; margin: 0; padding: 0; }
           border-width: .1em 0 .1em .1em; }
 #subnav ul { margin: 0; padding: 0; list-style: none; }
 #subnav li{ margin: 0; padding: 2px 0 2px; }
-#subnav a { font: 1em "Times New Roman", Roman, serif; margin: 0; padding: 0 0 0 36px; 
+#subnav a { font: 1em "Times New Roman", Roman, serif; margin: 0; padding: 0 0 0 26px; 
   		text-transform: uppercase; text-decoration: none; color: #000; white-space: nowrap;
-  		background: url(img/bulletOff.gif) no-repeat 20px 50%; display: block}
-#subnav ul ul a { padding: 0 0 0 56px; background-position: 40px 50%; }
+  		background: url(img/bulletOff.gif) no-repeat 10px 50%; display: block}
+#subnav ul ul a { padding: 0 0 0 46px; background-position: 30px 50%; }
+#subnav ul ul ul a { padding: 0 0 0 66px; background-position: 50px 50%; }
+#subnav ul ul ul ul a { padding: 0 0 0 86px; background-position: 70px 50%; }
 #subnav li#current a{ background-image: url(img/bulletOn.gif) }
 #subnav li a:hover { background-image: url(img/bulletOn.gif) }
 
@@ -44,10 +47,11 @@ h4 { font-size: 1em; font-weight: bold; margin: 0; padding: 0; }
 #content p { padding: 0; margin: 0 0 1em 0; max-width: 660px; }
 #content blockquote { max-width: 580px }
 #content div.screenshot { text-align: center; margin: 1em 0; }
+#content div.screenshot-right { text-align: center; float: right; margin: 0, 0, 0, 1em; }
 #content img { padding: 0; margin: 0; border: 0 }
               
 /* Page Footer */
-#footer { text-align: center; font-size: .8em; color: #444;
+#footer { text-align: center; font-size: .8em; color: #444; clear: both;
           border-top: 2px solid #999; margin: 0 30% 10px 5%; padding: 5px 0 0 0; }          
 #sig { text-align: right; font-size: .8em; width: 95%; display: none }
           

@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - SetupTeardown</title>
+<title>NUnit - Platform</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -58,25 +58,18 @@
 	    Hide('CS2'); Hide('VB2'); Hide('MC2'); Show('JS2');
 	}
 </script>
+<style><!--
+div.code { width: 34em }
+--></style>
+<h2>PlatformAttribute (NUnit 2.2.2)</h2> 
+<p>The Platform attribute is used to specify platforms for which a test or fixture
+	should be run. Platforms are specified using case-insensitive string values
+	and may be either included or excluded from the run by use of the Include or 
+	Exclude properties respectively. Platforms to be included may alternatively
+	be specified as an argument to the PlatformAttribute constructor. In either
+	case, multiple comma-separated values may be specified.
 
-<h3>SetUp and TearDown Attributes</h3>
-
-<p>These attributes are used to construct the test environment prior to running the 
-	tests (<a href="#TestFixtureSetUp/TestFixtureTearDown"> 
-	TestFixtureSetUpAttribute</a> and <a href="#SetUp/TearDown">SetUpAttribute</a>) 
-	and also to restore the environment after the tests are completed (<a href="#TestFixtureSetUp/TestFixtureTearDown">
-	TestFixtureTearDownAttribute</a> and <a href="#SetUp/TearDown">TearDownAttribute</a>)</p>
-
-<h4><a name="TestFixtureSetUp/TestFixtureTearDown"> TestFixtureSetUp/TestFixtureTearDown</a> (NUnit 2.1)</h4>
-				
-<p>These two attributes are used inside a TestFixture to provide a single set of 
-	functions that are performed once (TestFixtureSetUp) prior to executing any of 
-	the tests in the fixture and once after (TestFixtureTearDown) all tests are 
-	completed. A TestFixture can have only one TestFixtureSetUp method and only one 
-	TestFixtureTearDown method. If more than one of each type is defined the 
-	TestFixture will not be run. It will compile however.</p>
-
-<h4>Example:</h4>
+<h4>Test Fixture Syntax</h4>
 
 <div class="code">
 
@@ -96,103 +89,64 @@
   using NUnit.Framework;
 
   [TestFixture]
-  public class SuccessTests
+  [Platform(&quot;NET-2.0&quot;)]
+  public class DotNetTwoTests
   {
-    [TestFixtureSetUp] public void Init()
-    { /* ... */ }
-
-    [TestFixtureTearDown] public void Dispose()
-    { /* ... */ }
-
-    [Test] public void Add()
-    { /* ... */ }
+    // ...
   }
 }
 </pre>
-
-<pre id="VB1" style="display:none">Imports System
+	<pre id="VB1" style="display:none">Imports System
 Imports Nunit.Framework
 
 Namespace Nunit.Tests
 
-  &lt;TestFixture()&gt; Public Class SuccessTests
-    &lt;TestFixtureSetUp()&gt; Public Sub Init()
-    ' ...
-    End Sub
-
-    &lt;TestFixtureTearDown()&gt; Public Sub Dispose()
-    ' ...
-    End Sub
-
-    &lt;Test()&gt; Public Sub Add()
-    ' ...
-    End Sub
+  &lt;TestFixture(), Platform(&quot;NET-2.0&quot;)&gt;
+  Public Class DotNetTwoTests
+    &#39; ...
   End Class
 End Namespace
 </pre>
-
-<pre id="MC1" style="display:none">#using &lt;Nunit.Framework.dll&gt;
+	<pre id="MC1" style="display:none">#using &lt;Nunit.Framework.dll&gt;
 using namespace System;
 using namespace NUnit::Framework;
 
 namespace NUnitTests
 {
   [TestFixture]
-  public __gc class SuccessTests
+  [Platform(&quot;NET-2.0&quot;)]
+  public __gc class DotNetTwoTests
   {
-    [TestFixtureSetUp] void Init();
-    [TestFixtureTearDown] void Dispose();
-
-    [Test] void Add();
+    // ...
   };
 }
 
-#include "cppsample.h"
+#include &quot;cppsample.h&quot;
 
 namespace NUnitTests {
   // ...
 }
 </pre>
-
-<pre id="JS1" style="display:none">package NUnit.Tests;
+	<pre id="JS1" style="display:none">package NUnit.Tests;
 
 import System.*;
 import NUnit.Framework.TestFixture;
 
 
 /** @attribute NUnit.Framework.TestFixture() */
-public class SuccessTests
+/** @attribute NUnit.Framework.Platform(&quot;NET-2.0&quot;) */
+public class DotNetTwoTests
 {
-  /** @attribute NUnit.Framework.TestFixtureSetUp() */
-  public void Init()
-  { /* ... */ }
-
-  /** @attribute NUnit.Framework.TestFixtureTearDown() */
-  public void Dispose()
-  { /* ... */ }
-
-  /** @attribute NUnit.Framework.Test() */
-  public void Add()
-  { /* ... */ }
+  // ...
 }
 </pre>
-
 </div>
-
-<h4><a name="SetUp/TearDown">SetUp/TearDown</a> (NUnit 2.0)</h4>
-<p>These two attributes are used inside a TestFixture to provide a common set of 
-	functions that are performed prior (SetUp) and after (TearDown) a test method 
-	is called. A TestFixture can have only one SetUp method and only one TearDown 
-	method. If more than one of each type is defined the TestFixture will not be 
-	run. It will compile however.</p>
-
-<h4>Example:</h4>
-
+<h4>Test Syntax</h4>
 <div class="code">
-
+	
 <div class="langFilter">
 	<a href="javascript:Show('DD2')" onmouseover="Show('DD2')"><img src="img/langFilter.gif" width="14" height="14" alt="Language Filter"></a>
-	<div id="DD2" class="dropdown" style="display: none" onclick="Hide('DD2')">
+	<div id="DD2" class="dropdown" style="display: none;" onclick="Hide('DD2')">
 		<a href="javascript:ShowCS()">C#</a><br>
 		<a href="javascript:ShowVB()">VB</a><br>
 		<a href="javascript:ShowMC()">C++</a><br>
@@ -208,40 +162,26 @@ public class SuccessTests
   [TestFixture]
   public class SuccessTests
   {
-    [SetUp] public void Init()
+    [Test]
+    [Platform(Exclude=&quot;Win98,WinME&quot;)]
+    public void SomeTest()
     { /* ... */ }
-
-    [TearDown] public void Dispose()
-    { /* ... */ }
-
-    [Test] public void Add()
-    { /* ... */ }
-  }
 }
 </pre>
-
-<pre id="VB2" style="display:none">Imports System
+	<pre id="VB2" style="display:none">Imports System
 Imports Nunit.Framework
 
 Namespace Nunit.Tests
 
-  &lt;TestFixture()&gt; Public Class SuccessTests
-    &lt;SetUp()&gt; Public Sub Init()
-    ' ...
-    End Sub
-
-    &lt;TearDown()&gt; Public Sub Dispose()
-    ' ...
-    End Sub
-
-    &lt;Test()&gt; Public Sub Add()
-    ' ...
+  &lt;TestFixture()&gt;
+  Public Class SuccessTests
+    &lt;Test(), Platform(Exclude=&quot;Win98,WinME&quot;)&gt; Public Sub SomeTest()
+      &#39; ...
     End Sub
   End Class
 End Namespace
 </pre>
-
-<pre id="MC2" style="display:none">#using &lt;Nunit.Framework.dll&gt;
+	<pre id="MC2" style="display:none">#using &lt;Nunit.Framework.dll&gt;
 using namespace System;
 using namespace NUnit::Framework;
 
@@ -250,21 +190,17 @@ namespace NUnitTests
   [TestFixture]
   public __gc class SuccessTests
   {
-    [SetUp] void Init();
-    [TearDown] void Dispose();
-
-    [Test] void Add();
+    [Test][Platform(Exclude=&quot;Win98,WinME&quot;)] void SomeTest();
   };
 }
 
-#include "cppsample.h"
+#include &quot;cppsample.h&quot;
 
 namespace NUnitTests {
   // ...
 }
 </pre>
-
-<pre id="JS2" style="display:none">package NUnit.Tests;
+	<pre id="JS2" style="display:none">package NUnit.Tests;
 
 import System.*;
 import NUnit.Framework.TestFixture;
@@ -273,29 +209,85 @@ import NUnit.Framework.TestFixture;
 /** @attribute NUnit.Framework.TestFixture() */
 public class SuccessTests
 {
-  /** @attribute NUnit.Framework.SetUp() */
-  public void Init()
-  { /* ... */ }
-
-  /** @attribute NUnit.Framework.TearDown() */
-  public void Dispose()
-  { /* ... */ }
-
   /** @attribute NUnit.Framework.Test() */
-  public void Add()
+  /** @attribute NUnit.Framework.Platform(Exclude=&quot;Win98,WinME&quot;) */
+  public void SomeTest()
   { /* ... */ }
 }
 </pre>
 
 </div>
 
-<h4>SetUp/TearDown Inheritance</h4>
+<h3>Platform Specifiers</h3>
+<p>The following values are recognized as platform specifiers...</p>
 
-<p>These two attributes are inherited from base classes. Therefore, if a base 
-	class has defined a <code>SetUp</code> method that method will be called prior 
-	to execution of test methods in the derived class. If you wish to add more 
-	SetUp/TearDown functionality in a derived class you need to mark the method 
-	with the appropriate attribute and then call the base classes method.</p>
+<ul class="across">
+<li>Win</li>
+<li>Win32</li>
+<li>Win32S</li>
+<li>Win32Windows</li>
+<li>Win32NT</li>
+<li>WinCE</li>
+<li>Win95</li>
+<li>Win98</li>
+<li>WinMe</li>
+<li>NT3</li>
+<li>NT4</li>
+<li>NT5</li>
+<li>Win2K</li>
+<li>WinXP</li>
+<li>Win2003Server</li>
+<li>Unix</li>
+<li>Linux</li>
+<li>Net</li>
+<li>Net-1.0</li>
+<li>Net-1.1</li>
+<li>Net-2.0</li>
+<li>NetCF</li>
+<li>SSCLI</li>
+<li>Rotor</li>
+<li>Mono</li>
+</ul>
+
+<p>&nbsp;</p>
+<p>They may be expressed in upper, lower or mixed case.</p>
+</div>
+<!-- End of Main Content -->
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="docHome.html">NUnit 2.2.2</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="features.html">Features</a></li>
+<ul>
+<li><a href="assertions.html">Assertions</a></li>
+<li><a href="attributes.html">Attributes</a></li>
+<ul>
+<li><a href="testFixture.html">Test&nbsp;Fixture</a></li>
+<li><a href="test.html">Test</a></li>
+<li><a href="setupTeardown.html">Setup/Teardown</a></li>
+<li><a href="exception.html">Expected&nbsp;Exception</a></li>
+<li id="current"><a href="platform.html">Platform</a></li>
+<li><a href="category.html">Category</a></li>
+<li><a href="explicit.html">Explicit</a></li>
+<li><a href="suite.html">Suite</a></li>
+<li><a href="ignore.html">Ignore</a></li>
+</ul>
+<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
+<li><a href="projects.html">Test&nbsp;Projects</a></li>
+<li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
+</ul>
+<li><a href="nunit-console.html">NUnit-Console</a></li>
+<li><a href="nunit-gui.html">NUnit-Gui</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="samples.html">Samples</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+</ul>
 </div>
 <!-- End of Main Content -->
 
@@ -313,9 +305,9 @@ public class SuccessTests
 <ul>
 <li><a href="testFixture.html">Test&nbsp;Fixture</a></li>
 <li><a href="test.html">Test</a></li>
-<li id="current"><a href="setupTeardown.html">Setup/Teardown</a></li>
+<li><a href="setupTeardown.html">Setup/Teardown</a></li>
 <li><a href="exception.html">Expected&nbsp;Exception</a></li>
-<li><a href="platform.html">Platform</a></li>
+<li id="current"><a href="platform.html">Platform</a></li>
 <li><a href="category.html">Category</a></li>
 <li><a href="explicit.html">Explicit</a></li>
 <li><a href="suite.html">Suite</a></li>

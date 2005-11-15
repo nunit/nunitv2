@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - GetStarted</title>
+<title>NUnit - Nunit-console</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -30,25 +30,24 @@
 <!-- Main Content -->
 <div id="content">
 
-<h2>Getting Started with NUnit</h2>
+<h2>NUnit-Console</h2>
+<p>The nunit-console.exe program is a text-based runner and can be used when you 
+	want to run all your tests and don&#146;t need a red/yellow/green indication of 
+	success or failure.</p>
+<p>It is useful for automation of tests and integration into other systems. It 
+	automatically saves its results in XML format, allowing you to produce reports 
+	or otherwise process the results. The following is a screenshot of the console 
+	program.</p>
 
-<p>If you haven't already done so, go to our <a href="download.html">Download</a>	page, select a version of NUnit and download it. The 
-	<a href="installation.html">Installation</a> page 
-	contains instructions for installing on your system.</p>
+<div class="screenshot">
+      <img src="img/console-mock.jpg"></div>
 
-<p>To get started using NUnit, read the <a href="quickStart.html">Quick Start</a>	page. This article demonstrates the development process with NUnit in the 
-	context of a C# banking application. Check the 
-	<a href="samples.html">Samples</a> page for additional examples, 
-	including some in VB.Net, J# and managed C++.</p>
-
-<h3>Which Test Runner to use?</h3>
-
-<p>NUnit has two different ways to run your tests. The 
-	<a href="nunit-console.html">console runner</a>, nunit-console.exe, 
-	is the fastest to launch, but is not interactive. 
- 	The <a href="nunit-gui.html">gui runner</a>, 
-	nunit-gui.exe, is a Windows Forms application that allows you to work 
-	selectively with your tests and provides graphical feedback.</p>
+<p>In this example, nunit-console has just run the tests in the mock-assembly.dll 
+	that is part of the NUnit distribution. This assembly contains seven tests, 
+	three of which are not run. The first ignored test has an incorrect method 
+	signature, the second has been marked with the Ignore attribute and the third 
+	uses the Explicit attribute, so that it can only be run directly. Click 
+	<a href="files/TestResult.xml">here</a> to see the XML produced for this test run.</p>
 </div>
 <!-- End of Main Content -->
 
@@ -57,13 +56,13 @@
 <ul>
 <li><a href="docHome.html">NUnit 2.2.3</a></li>
 <ul>
-<li id="current"><a href="getStarted.html">Getting&nbsp;Started</a></li>
-<ul>
-<li><a href="quickStart.html">Quick&nbsp;Start</a></li>
-</ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
 <li><a href="features.html">Features</a></li>
-<li><a href="nunit-console.html">NUnit-Console</a></li>
+<li id="current"><a href="nunit-console.html">NUnit-Console</a></li>
+<ul>
+<li><a href="consoleCommandLine.html">Command-Line</a></li>
+</ul>
 <li><a href="nunit-gui.html">NUnit-Gui</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>

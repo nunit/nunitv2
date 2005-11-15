@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - GetStarted</title>
+<title>NUnit - Nunit-gui</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -30,25 +30,20 @@
 <!-- Main Content -->
 <div id="content">
 
-<h2>Getting Started with NUnit</h2>
+<h2>NUnit-Gui</h2>
+<p>The nunit-gui.exe program is a graphical runner. It shows the tests in an 
+	explorer-like browser window and provides a visual indication of the success or 
+	failure of the tests. It allows you to selectively run single tests or suites 
+	and reloads automatically as you modify and re-compile your code. The following 
+	is a screenshot of nunit-gui running the same mock-assembly.dll shown in the 
+	previous example.</p>
 
-<p>If you haven't already done so, go to our <a href="download.html">Download</a>	page, select a version of NUnit and download it. The 
-	<a href="installation.html">Installation</a> page 
-	contains instructions for installing on your system.</p>
+<div class="screenshot">
+     <img src="img/gui-screenshot.jpg"></div>
 
-<p>To get started using NUnit, read the <a href="quickStart.html">Quick Start</a>	page. This article demonstrates the development process with NUnit in the 
-	context of a C# banking application. Check the 
-	<a href="samples.html">Samples</a> page for additional examples, 
-	including some in VB.Net, J# and managed C++.</p>
-
-<h3>Which Test Runner to use?</h3>
-
-<p>NUnit has two different ways to run your tests. The 
-	<a href="nunit-console.html">console runner</a>, nunit-console.exe, 
-	is the fastest to launch, but is not interactive. 
- 	The <a href="nunit-gui.html">gui runner</a>, 
-	nunit-gui.exe, is a Windows Forms application that allows you to work 
-	selectively with your tests and provides graphical feedback.</p>
+<p>As you can see, the tests that were not run are marked with a yellow circle, 
+	while those that were run successfully are colored green. If any tests had 
+	failed, they would be marked red.</p>
 </div>
 <!-- End of Main Content -->
 
@@ -57,14 +52,20 @@
 <ul>
 <li><a href="docHome.html">NUnit 2.2.3</a></li>
 <ul>
-<li id="current"><a href="getStarted.html">Getting&nbsp;Started</a></li>
-<ul>
-<li><a href="quickStart.html">Quick&nbsp;Start</a></li>
-</ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
 <li><a href="features.html">Features</a></li>
 <li><a href="nunit-console.html">NUnit-Console</a></li>
-<li><a href="nunit-gui.html">NUnit-Gui</a></li>
+<li id="current"><a href="nunit-gui.html">NUnit-Gui</a></li>
+<ul>
+<li><a href="guiCommandLine.html">Command-Line</a></li>
+<li><a href="mainMenu.html">Main&nbsp;Menu</a></li>
+<li><a href="contextMenu.html">Context&nbsp;Menu</a></li>
+<li><a href="optionsDialog.html">Options&nbsp;Dialog</a></li>
+<li><a href="testProperties.html">Test&nbsp;Properties</a></li>
+<li><a href="configEditor.html">Configuration&nbsp;Editor</a></li>
+<li><a href="projectEditor.html">Project&nbsp;Editor</a></li>
+</ul>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>
 <li><a href="license.html">License</a></li>

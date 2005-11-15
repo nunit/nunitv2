@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - GetStarted</title>
+<title>NUnit - Features</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -30,25 +30,23 @@
 <!-- Main Content -->
 <div id="content">
 
-<h2>Getting Started with NUnit</h2>
+<h2>NUnit Features</h2>
 
-<p>If you haven't already done so, go to our <a href="download.html">Download</a>	page, select a version of NUnit and download it. The 
-	<a href="installation.html">Installation</a> page 
-	contains instructions for installing on your system.</p>
+<p>In order to test an application under NUnit, you write test code that is
+specially annotated using custom <a href="attributes.html">Attributes</a>.
+Your test code contains <a href="assertions.html">Assertions</a>, which
+demonstrate the correct working of the application.</p>
 
-<p>To get started using NUnit, read the <a href="quickStart.html">Quick Start</a>	page. This article demonstrates the development process with NUnit in the 
-	context of a C# banking application. Check the 
-	<a href="samples.html">Samples</a> page for additional examples, 
-	including some in VB.Net, J# and managed C++.</p>
+<p>If your application stores settings in <a href="configFiles.html">Configuration Files</a>,
+NUnit provides you with the ability to have settings for your test, which are different
+from those uesed in production.</p>
 
-<h3>Which Test Runner to use?</h3>
+<p>In addition to running tests in a single assembly, NUnit provides support for tests
+organized as <a href="multiAssembly.html">Multiple Assemblies</a> and for
+creating and running tests as <a href="projects.html">NUnit Test Projects</a>.
 
-<p>NUnit has two different ways to run your tests. The 
-	<a href="nunit-console.html">console runner</a>, nunit-console.exe, 
-	is the fastest to launch, but is not interactive. 
- 	The <a href="nunit-gui.html">gui runner</a>, 
-	nunit-gui.exe, is a Windows Forms application that allows you to work 
-	selectively with your tests and provides graphical feedback.</p>
+<p>For those using NUnit on a Windows system with Visual Studio installed, 
+<a href="vsSupport.html">Visual Studio Support</a> is available.
 </div>
 <!-- End of Main Content -->
 
@@ -57,12 +55,16 @@
 <ul>
 <li><a href="docHome.html">NUnit 2.2.3</a></li>
 <ul>
-<li id="current"><a href="getStarted.html">Getting&nbsp;Started</a></li>
-<ul>
-<li><a href="quickStart.html">Quick&nbsp;Start</a></li>
-</ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
-<li><a href="features.html">Features</a></li>
+<li id="current"><a href="features.html">Features</a></li>
+<ul>
+<li><a href="assertions.html">Assertions</a></li>
+<li><a href="attributes.html">Attributes</a></li>
+<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
+<li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
+</ul>
 <li><a href="nunit-console.html">NUnit-Console</a></li>
 <li><a href="nunit-gui.html">NUnit-Gui</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>

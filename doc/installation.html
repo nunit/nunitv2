@@ -15,11 +15,11 @@
 <body>
 <!-- Standard Header for NUnit.org -->
 <div id="header">
-  <a id="logo" href="index.html"><img src="img/logo.gif" alt="NUnit.org"></a>
+  <a id="logo" href="index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
   <div id="nav">
     <a href="index.html">Home</a>
     <a href="download.html">Download</a>
-    <a href="documentation.html" class="active">Documentation</a>
+    <a href="docHome.html" class="active">Documentation</a>
     <a href="community.html">Community</a>
     <a href="resources.html">Resources</a>
     <a href="contactUs.html">Contact&nbsp;Us</a>
@@ -32,8 +32,10 @@
 
 <h2>Installation</h2>
 <p>By default the installation program places all of the files into the 
-	C:\Program&nbsp;Files\NUnit&nbsp;2.2 directory. In the installation directory 
-	there are three sub-directories: bin, doc, and src.</p>
+	C:\Program&nbsp;Files\NUnit&nbsp;2.2.3 directory. In the installation directory 
+	there are three sub-directories: bin, doc, and samples. Source code is no
+      longer provided with the standard installation package but must be downloaded
+      separately if needed.</p>
 <h3>Configuration</h3>
 <p>If multiple versions of the .NET framework are installed, the configuration 
 	files nunit-gui.exe.config and nunit-console.exe.config control which one of 
@@ -62,13 +64,11 @@
 	Samples bring up the folder for the particular sample. The source shortcut 
 	brings up the folder which contains the source for the project.</p>
 <h3>Installation Verification</h3>
-The way we verify that the installation has worked successfully is to install 
-the program and run the tests that were used to build the program. These tests 
-can be found in the assembly nunit.tests.dll. There should be 605 tests and 
-they should all pass.</p> 
+Verify that the installation has worked successfully by running the NUnit gui 
+and loading and running NUnitTests.nunit in the bin directory.
+There are 735 tests and they should all pass.</p> 
 <div class="screenshot">
-    <img src="img/gui-verify.gif" width="550" height="385">
-</div>
+    <img src="img/gui-verify.jpg"></div>
 <h3>Timing Tests</h3>
 <p>The assembly timing-tests.dll contains several long-running tests that are used 
 	to verify that all remoting timeout problems have been fixed. The test cases 
@@ -142,19 +142,23 @@ they should all pass.</p>
 
 <!-- Submenu -->
 <div id="subnav">
-  <ul>
-    <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
-    <li id="current"><a href="installation.html">Installation</a></li>
-    <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
-    <li><a href="assertions.html">Assertions</a></li>
-    <li><a href="projects.html">Projects</a></li>
-    <li><a href="attributes.html">Attributes</a></li>
-    <li><a href="upgrade.html">Upgrading</a></li>
-    <li><a href="commandLine.html">Command-Line Parameters</a></li>
-    <li><a href="samples.html">Samples</a></li>
-    <li><a href="license.html">License</a></li>
-  </ul>
-</div>  
+<ul>
+<li><a href="docHome.html">NUnit 2.2.3</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li id="current"><a href="installation.html">Installation</a></li>
+<ul>
+<li><a href="upgrade.html">Upgrading</a></li>
+</ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="nunit-console.html">NUnit-Console</a></li>
+<li><a href="nunit-gui.html">NUnit-Gui</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="samples.html">Samples</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+</ul>
+</div>
 <!-- End of Submenu -->
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">

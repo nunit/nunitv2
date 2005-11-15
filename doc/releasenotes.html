@@ -15,11 +15,11 @@
 <body>
 <!-- Standard Header for NUnit.org -->
 <div id="header">
-  <a id="logo" href="index.html"><img src="img/logo.gif" alt="NUnit.org"></a>
+  <a id="logo" href="index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
   <div id="nav">
     <a href="index.html">Home</a>
     <a href="download.html">Download</a>
-    <a href="documentation.html" class="active">Documentation</a>
+    <a href="docHome.html" class="active">Documentation</a>
     <a href="community.html">Community</a>
     <a href="resources.html">Resources</a>
     <a href="contactUs.html">Contact&nbsp;Us</a>
@@ -33,18 +33,52 @@
 <style><!--
 li { padding-bottom: .5em; }
 ul ul li { padding-bottom: 0; }
+dt { font-weight: bold }
 --></style>
 
 <h2>Release Notes</h2>
 
-<h3>NUnit Iteration Release 2.2.3 - August ??, 2005</h3>
+<h3>NUnit Iteration Release 2.2.3 - November 14, 2005</h3>
 
 <h4>General</h4>
 <ul>
-<li>NUnit can now be installed and run under .NET 2.0 Beta 2 and used in 
-conjunction with VS2005 Beta 2. A problem that prevented installation when 
+<li>NUnit can now be installed and run under .NET 2.0 and used in 
+conjunction with VS2005. A problem that prevented installation when 
 .NET 2.0 Beta 2 was the only installed framework has been corrected.
+NUnit 2.2.3 installation requires one of the following .NET framework
+versions to be present: 2.0.50727, 2.0.50215, 2.0.40607, 1.1.4322 or 1.0.3705.
 
+<li>Both the console and gui runners now accept an option <c>/framework</c>,
+which provides a simple way to run NUnit under any installed version of the
+common language runtime.
+
+<li>Additional NUnit library assemblies are now strongly named: nunit.framework,
+nunit.core, nunit.util, nunit.uikit, nunit-console-runner and nunit-gui-runner.
+As in prior releases, only nunit.framework is installed in the GAC.
+
+<li>Separate assemblies are now used for extensions to the NUnit framework and
+core. Assemblies nunit.extensions.framework and nunit.extensions.core replace the
+older nunit.extensions assembly.
+
+<li>As of this release, the msi files no longer install a copy of the source. To
+get the source, download the source package.
+
+<li>Problems in the NAnt build having to do with attempted access to 
+registry keys that may not be set in some systems have been fixed.
+
+<li>Various image files, missing in the 2.2.2 source download, have been restored.
+
+<li>Both the console and gui command lines no longer recognize '/' as an option
+delimiter when run on Unix or Linux systems. This allows use of absolute
+file paths as arguments to both programs.
+
+<li>The documentation has been reorganized and is now completely converted
+to HTML.
+
+</ul
+
+<h4>Framework</h4>
+<ul>
 <li>The NUnit core now creates an additional thread for use in pumping events
 back to the GUI. This avoids problems that occur in earlier releases when the
 system under test changes the thread context, as in the case of context-bound
@@ -57,30 +91,111 @@ csUnit attributes can be mixed in the same test project but only one framework
 may be used per assembly. The NUnit emulation has been tested by executing the 
 tests provided with csUnit 1.94 and gives the same results (1 failure) as csUnit.
 
+<li>Assert.AreEqual now succeeds when the expected and actual values are both NaNs.
+[For the rationale behind this, see the extended discussion on the Yahoo 
+testdrivendevelopment list]</li>
+
+<li>A number of new Assert Methods have been added.
+  <dl style="margin-left: 2em">
+    <dt>Assert.IsNaN(double)
+	<dd>Tests whether it's argument is NaN.
+	<dt>Assert.IsEmpty(string)
+	<dd>Tests that it's argument is the empty string.
+	<dt>Assert.IsNotEmpty(string)
+	<dd>Tests that it's argument is not the empty string.
+	<dt>Assert.IsEmpty(ICollection)
+	<dd>Tests that an array, list or collection is empty.
+	<dt>Assert.IsNotEmpty(ICollection)
+	<dd>Tests that an array, list or collection is not empty.
+    <dt>Assert.IsInstanceOf(Type,object)
+	<dd>Tests that an object is an instance of the supplied Type.
+    <dt>Assert.IsNotInstanceOf(Type,object)
+	<dd>Tests that an object is an not instance of the supplied Type.
+	<dt>Assert.IsAssignableFrom(Type,object)
+	<dd>Tests that an object may be assigned to an object of the supplied Type.
+	<dt>Assert.IsNotAssignableFrom(Type,object) 
+	<dd>Tests that an object may not be assigned to an object of the supplied Type.
+	<dt>Assert.Contains(object,IList) 
+	<dd>Tests whether an object is in a list or array.
+  </dl>
+</li>
+
+<li>The StringAssert class has been moved from the extensions assembly into
+    nunit.framework. It supports the following methods
+<dl style="margin-left: 2em">
+    <dt>StringAssert.Contains(string,string) 
+	<dd>Tests whether a string contains an expected string.
+    <dt>StringAssert.StartsWith(string,string) 
+	<dd>Tests whether a string begins with an expected string.
+    <dt>StringAssert.EndsWith(string,string) 
+	<dd>Tests whether a string ends with an expected string.
+    <dt>StringAssert.AreEqualIgnoringCase(string,string) 
+	<dd>Compares two strings for equality without regard to case and 
+	gives an error message showing the actual strings, without case adjustment.
+</dl>
+</li>
+
 <li>The interface used for extending Assert has been changed from prior
-versions. Extensions written using the older interface will require
+versions. Extensions written using the older interface may require
 modification in order to work with this version.
 
-<li>A TypeAssert class has been added to the extensions assembly. It 
-provides methods IsType, IsAssignableFrom, IsSubclassOf and Implements.
+<li>The following additional information has been added to the XML output:
+  <ul>
+    <li>NUnit famework version
+    <li>Common language runtime version
+    <li>Operating system and platform id
+    <li>Current working directory at start of the run
+    <li>Machine name
+    <li>User name and domain
+    <li>Current culture and ui culture
+  </ul>
+  
+<li>Special characters in CDATA sections of the XML file are now encoded correctly.
 
-<li>Additional NUnit library assemblies are now strongly named: nunit.framework,
-nunit.core, nunit.util, nunit.uikit, nunit-console-runner, nunit-gui-runner. As
-in prior releases, only nunit.framework is installed in the GAC.
+<li>Restored assert overloads erroneously removed from NUnit 2.2.2. These were
+    removed because they were redundant when using C#, but their absence caused
+	certain managed C++ and J# programs to fail to compile.
+	
+<li>Various bugs related to opening Visual Studio projects have been resolved.
 
-<li>Separate assemblies are now used for extensions to the NUnit framework and
-core. Assemblies nunit.extensions.framework and nunit.extensions.core replace the
-older nunit.extensions assembly.
+<li>A problem has been fixed that caused TestFixtureSetUp and TestFixtureTearDown
+to run between each test in certain circumstances.
 
-<li> As of this release, the msi files no longer install a copy of the source. To
-get the source, download the source package.
+<li>Exceptions thrown by the framework in attempting to access the stack trace
+of certain COM exceptions are now caught and the stack trace is reported as
+unavailable.
+
+<li>Fixed a bug whereby an exception, thrown in the constructor of a TestFixture,
+was causing NUnit to crash.
+
 </ul>
 
 <h4>Forms Interface</h4>
 
 <ul>
+<li>The project editor now allows setting an arbitrary AppBase. Previously, it
+had to be at or below the directory containing the project file itself.
+
+<li>The Options dialog is now divided into two tabs. An additional option has
+been added to allow disabling the tooltip-like windows that appear over the
+Errors and Failures display and stacktrace when hovering.
+
+<li>The status bar now displays the full name of the running test, provided there
+is room to display it. If there is not enough room, the class name is displayed
+and a tooltip shows the full name when the mouse is held over that panel.
+
 <li>The space bar no longer exits the application. This feature was originally added
 to emulate a feature of VBUnit, but has been the source of numerous complaints by users.
+
+<li>The application no longer crashes when attempting to save to a project file
+marked as read-only.
+
+<li>Fixed a bug that occured when custom exceptions were passed back to the GUI.
+
+<li>Fixed a bug that occured in debug mode, when attempting to display stack
+trace information from an ExpectedException failure, which doesn't report
+a stack trace location.
+
 </ul>
 
 <h3>NUnit Iteration Release 2.2.2 - December 7, 2004</h3>
@@ -591,24 +706,26 @@ a command line argument.
 <li>Backwards compatibility with running suites. The Forms interface currently has no
 mechanism to run suites defined with the suite property. Using the fixture command line
 argument you must specify a class that is either a TestFixture or contains a Suite attribute.
-</ul></div>
+</ul>
+</div>
 <!-- End of Main Content -->
 
 <!-- Submenu -->
 <div id="subnav">
-  <ul>
-    <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
-    <li><a href="installation.html">Installation</a></li>
-    <li id="current"><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
-    <li><a href="assertions.html">Assertions</a></li>
-    <li><a href="projects.html">Projects</a></li>
-    <li><a href="attributes.html">Attributes</a></li>
-    <li><a href="upgrade.html">Upgrading</a></li>
-    <li><a href="commandLine.html">Command-Line Parameters</a></li>
-    <li><a href="samples.html">Samples</a></li>
-    <li><a href="license.html">License</a></li>
-  </ul>
-</div>  
+<ul>
+<li><a href="docHome.html">NUnit 2.2.3</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="features.html">Features</a></li>
+<li><a href="nunit-console.html">NUnit-Console</a></li>
+<li><a href="nunit-gui.html">NUnit-Gui</a></li>
+<li id="current"><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="samples.html">Samples</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+</ul>
+</div>
 <!-- End of Submenu -->
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
