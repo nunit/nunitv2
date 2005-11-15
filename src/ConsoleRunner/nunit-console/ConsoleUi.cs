@@ -38,6 +38,7 @@ namespace NUnit.ConsoleRunner
 	using System.Text;
 	using System.Text.RegularExpressions;
 	using System.Diagnostics;
+	using System.Runtime.InteropServices;
 	using NUnit.Core;
 	using NUnit.Util;
 	
@@ -50,6 +51,31 @@ namespace NUnit.ConsoleRunner
 		public static int Main(string[] args)
 		{
 			ConsoleOptions options = new ConsoleOptions(args);
+			
+			// If 'framework' is defined then re-spawn process using
+			// specified .NET Framework version.
+			string version = RuntimeEnvironment.GetSystemVersion();
+			if (options.framework != null && version != options.framework)
+			{
+				string exeFile = Environment.GetCommandLineArgs()[0];
+				ProcessStartInfo startInfo = new ProcessStartInfo(exeFile);
+				startInfo.UseShellExecute = false;
+				startInfo.EnvironmentVariables["ComPlus_Version"] = options.framework;
+				StringBuilder sb = new StringBuilder();
+				foreach ( string s in args )
+				{
+					if ( !s.StartsWith( "/framework" ) )
+					{
+						if ( sb.Length > 0 )
+							sb.Append( ' ' );
+						sb.Append( s );
+					}
+				}
+				startInfo.Arguments = sb.ToString();
+				Process.Start(startInfo);
+				return 0;
+			}
+
 			if(!options.nologo)
 				WriteCopyright();
 
