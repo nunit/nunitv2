@@ -49,7 +49,6 @@
     <FeatureRef Id="BinFeature" />    
     <FeatureRef Id="TestsFeature" />
     <FeatureRef Id="DocFeature" />    
-    <FeatureRef Id="AddInFeature" />
 
     <Upgrade Id="2E280DED-3E0E-4783-94A9-BE102C854C39">
       <UpgradeVersion Minimum="2.2.0" Property="NEWERPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="yes" />
