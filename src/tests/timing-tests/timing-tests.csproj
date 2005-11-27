@@ -104,12 +104,13 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "AssemblyInfo.cs"
+                    RelPath = "ClientTimeoutFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ClientTimeoutFixture.cs"
+                    RelPath = "CommonAssemblyInfo.cs"
+                    Link = "..\..\CommonAssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -30,14 +30,14 @@
 using System.Reflection;
 
 //
-// General Information about an assembly is controlled through the following 
+// Common Information about all NUnit assemblies is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
 [assembly: AssemblyTitle("")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("NUnit.org")]
 [assembly: AssemblyProduct("NUnit")]
 [assembly: AssemblyCopyright("Copyright (C) 2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole.\r\nCopyright (C) 2000-2003 Philip Craig.\r\nAll Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
@@ -54,4 +54,4 @@ using System.Reflection;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("2.2.3.0")]
+[assembly: AssemblyVersion("2.4.1.0")]

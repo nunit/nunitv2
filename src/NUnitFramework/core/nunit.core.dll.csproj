@@ -134,6 +134,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CommonAssemblyInfo.cs"
+                    Link = "..\..\CommonAssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "CSUnitTestCaseBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
