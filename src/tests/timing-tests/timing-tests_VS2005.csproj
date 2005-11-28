@@ -104,9 +104,9 @@
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Name>nunit.framework.dll_VS2005</Name>
     </ProjectReference>
-    <ProjectReference Include="..\mock-assembly\mock-assembly-net20.csproj">
+    <ProjectReference Include="..\mock-assembly\mock-assembly_VS2005.csproj">
       <Project>{2E368281-3BA8-4050-B05E-0E0E43F8F446}</Project>
-      <Name>mock-assembly-net20</Name>
+      <Name>mock-assembly_VS2005</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -85,7 +85,7 @@
       <Project>{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}</Project>
       <Name>nunit.mocks_VS2005</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\tests\mock-assembly\mock-assembly-net20.csproj">
+    <ProjectReference Include="..\..\tests\mock-assembly\mock-assembly_VS2005.csproj">
       <Project>{2E368281-3BA8-4050-B05E-0E0E43F8F446}</Project>
       <Name>mock-assembly-net20</Name>
     </ProjectReference>

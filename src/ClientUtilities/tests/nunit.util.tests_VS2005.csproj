@@ -95,7 +95,7 @@
       <Project>{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}</Project>
       <Name>nunit-server.exe_VS2005</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\tests\mock-assembly\mock-assembly-net20.csproj">
+    <ProjectReference Include="..\..\tests\mock-assembly\mock-assembly_VS2005.csproj">
       <Project>{2E368281-3BA8-4050-B05E-0E0E43F8F446}</Project>
       <Name>mock-assembly-net20</Name>
     </ProjectReference>
