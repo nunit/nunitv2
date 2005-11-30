@@ -34,6 +34,7 @@ using NUnit.Core.Builders;
 
 namespace NUnit.Core.Tests
 {
+	//TODO: Review whether we need these tests at all
 	[TestFixture]
 	public class TestCaseNameTest
 	{
@@ -51,7 +52,7 @@ namespace NUnit.Core.Tests
 		{
 			TestSuite suite = TestFixtureBuilder.Make( typeof( ExpectExceptionTest ) );
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
-			Assert.AreEqual("NUnit.Core.Tests.ExpectExceptionTest.TestSingle", testCase.FullName);
+			Assert.AreEqual("NUnit.Core.Tests.ExpectExceptionTest.CanSpecifyExceptionType", testCase.FullName);
 		}
 	}
 }
