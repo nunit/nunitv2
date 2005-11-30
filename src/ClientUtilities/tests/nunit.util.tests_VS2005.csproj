@@ -97,7 +97,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\tests\mock-assembly\mock-assembly_VS2005.csproj">
       <Project>{2E368281-3BA8-4050-B05E-0E0E43F8F446}</Project>
-      <Name>mock-assembly-net20</Name>
+      <Name>mock-assembly_VS2005</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\tests\nonamespace-assembly\nonamespace-assembly_VS2005.csproj">
       <Project>{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}</Project>
