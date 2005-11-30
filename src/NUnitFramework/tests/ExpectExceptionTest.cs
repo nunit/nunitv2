@@ -43,18 +43,29 @@ namespace NUnit.Core.Tests
 	{
 
 		[Test]
-		[ExpectedException(typeof(Exception))]
-		public void TestSingle()
+		[ExpectedException(typeof(ArgumentException))]
+		public void CanSpecifyExceptionType()
 		{
-			throw new Exception("single exception");
+			throw new ArgumentException("argument exception");
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
 		[Test]
-		[ExpectedException(typeof(ArgumentException))]
-		public void TestSpecificException()
+		[ExpectedException("System.ArgumentException")]
+		public void CanSpecifyExceptionName()
+		{
+			throw new ArgumentException("argument exception");
+		}
+
+		[Test]
+		[ExpectedException(typeof(ArgumentException),"argument exception")]
+		public void CanSpecifyExceptionTypeAndMessage()
+		{
+			throw new ArgumentException("argument exception");
+		}
+
+		[Test]
+		[ExpectedException("System.ArgumentException","argument exception")]
+		public void CanSpecifyExceptionNameAndMessage()
 		{
 			throw new ArgumentException("argument exception");
 		}

@@ -39,25 +39,47 @@ namespace NUnit.Framework
 	public sealed class ExpectedExceptionAttribute : Attribute
 	{
 		private Type expectedException;
+		private string expectedExceptionName;
 		private string expectedMessage;
 
 		/// <summary>
 		/// Constructor for a given type of exception
 		/// </summary>
-		/// <param name="exceptionType"></param>
+		/// <param name="exceptionType">The type of the expected exception</param>
 		public ExpectedExceptionAttribute(Type exceptionType)
 		{
-			expectedException = exceptionType;
+			this.expectedException = exceptionType;
+			this.expectedExceptionName = exceptionType.FullName;
+		}
+
+		/// <summary>
+		/// Constructor for a given exception name
+		/// </summary>
+		/// <param name="exceptionName">The full name of the expected exception</param>
+		public ExpectedExceptionAttribute(string exceptionName)
+		{
+			this.expectedExceptionName = exceptionName;
 		}
 
 		/// <summary>
 		/// Constructor for a given type of exception and expected message text
 		/// </summary>
-		/// <param name="exceptionType"></param>
-		/// <param name="expectedMessage"></param>
+		/// <param name="exceptionType">The type of the expected exception</param>
+		/// <param name="expectedMessage">The expected message text</param>
 		public ExpectedExceptionAttribute(Type exceptionType, string expectedMessage)
 		{
-			expectedException = exceptionType;
+			this.expectedException = exceptionType;
+			this.expectedMessage = expectedMessage;
+		}
+
+		/// <summary>
+		/// Constructor for a given exception name and expected message text
+		/// </summary>
+		/// <param name="exceptionName">The full name of the expected exception</param>
+		/// <param name="expectedMessage">The expected messge text</param>
+		public ExpectedExceptionAttribute(string exceptionName, string expectedMessage)
+		{
+			this.expectedExceptionName = exceptionName;
 			this.expectedMessage = expectedMessage;
 		}
 
@@ -68,6 +90,12 @@ namespace NUnit.Framework
 		{
 			get{ return expectedException; }
 			set{ expectedException = value; }
+		}
+
+		public string ExceptionName
+		{
+			get{ return expectedExceptionName; }
+			set{ expectedExceptionName = value; }
 		}
 
 		/// <summary>

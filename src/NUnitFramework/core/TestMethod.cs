@@ -52,18 +52,31 @@ namespace NUnit.Core
 		private MethodInfo tearDownMethod;
 
 		internal Type expectedException;
+		internal string expectedExceptionName;
 		internal string expectedMessage;
 
-		public TestMethod( MethodInfo method ) 
-			: this( method, null, null ) { }
-
-		public TestMethod( MethodInfo method,
-			Type expectedException, string expectedMessage ) 
+		public TestMethod( MethodInfo method )
 			: base( method.ReflectedType.FullName, method.Name )
 		{
 			this.method = method;
 			this.testFramework = TestFramework.FromMethod( method );
+		}
+
+		public TestMethod( MethodInfo method,
+			Type expectedException, string expectedMessage ) 
+			: this( method )
+		{
 			this.expectedException = expectedException;
+			if ( expectedException != null )
+				this.expectedExceptionName = expectedException.FullName;
+			this.expectedMessage = expectedMessage;
+		}
+	
+		public TestMethod( MethodInfo method,
+			string expectedExceptionName, string expectedMessage ) 
+			: this( method )
+		{
+			this.expectedExceptionName = expectedExceptionName;
 			this.expectedMessage = expectedMessage;
 		}
 	
@@ -293,11 +306,11 @@ namespace NUnit.Core
 		
 		protected internal virtual void ProcessException(Exception exception, TestCaseResult testResult)
 		{
-			if ( expectedException == null )
+			if ( !ExceptionExpected() )
 			{
 				RecordException( exception, testResult );
 			}
-			else if (expectedException.Equals(exception.GetType()))
+			else if (expectedExceptionName.Equals(exception.GetType().FullName))
 			{
 				if (expectedMessage != null && !expectedMessage.Equals(exception.Message))
 				{
@@ -323,6 +336,13 @@ namespace NUnit.Core
 			return;
 		}
 
+		#endregion
+
+		#region Helper Methods
+		private bool ExceptionExpected()
+		{
+			return expectedException != null || expectedExceptionName != null;
+		}
 		#endregion
 	}
 }

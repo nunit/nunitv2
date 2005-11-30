@@ -73,6 +73,7 @@ namespace NUnit.Core
 		protected override TestCase MakeTestCase( MethodInfo method )
 		{
 			Type expectedException = null;
+			string expectedExceptionName = null;
 			string expectedMessage = null;
 
 			if( parms.HasExpectedExceptionType )
@@ -83,13 +84,18 @@ namespace NUnit.Core
 					expectedException = (System.Type)Reflect.GetPropertyValue( 
 						attribute, "ExceptionType",
 						BindingFlags.Public | BindingFlags.Instance );
+					expectedExceptionName = (string)Reflect.GetPropertyValue(
+						attribute, "ExceptionName",
+						BindingFlags.Public | BindingFlags.Instance );
 					expectedMessage = (string)Reflect.GetPropertyValue(
 						attribute, "ExpectedMessage",
 						BindingFlags.Public | BindingFlags.Instance );
 				}
 			}
 
-			return new TestMethod( method, expectedException, expectedMessage );
+			return expectedException != null
+				? new TestMethod( method, expectedException, expectedMessage )
+				: new TestMethod( method, expectedExceptionName, expectedMessage );
 		}
 
 		/// <summary>
