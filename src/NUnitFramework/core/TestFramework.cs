@@ -122,9 +122,10 @@ namespace NUnit.Core
 			testFrameworks.Add( new FrameworkInfo( 
 				"vsts",
 				"Microsoft.VisualStudio.QualityTools.UnitTestFramework",
-				"Microsoft.VisualStudio.QualityTools.UnitTesting.Framework",
-				"Assert", "AssertionException", null,
+				"Microsoft.VisualStudio.TestTools.UnitTesting",
+				"Assert", "AssertionException", "AssertInconclusiveException",
 				true) );
+
 		}
 
 		#endregion
