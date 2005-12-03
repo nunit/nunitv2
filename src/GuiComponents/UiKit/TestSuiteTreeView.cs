@@ -1260,7 +1260,7 @@ namespace NUnit.UiKit
 		internal class CheckedTestFinder
 		{
 			[Flags]
-				public enum SelectionFlags
+		    public enum SelectionFlags
 			{
 				Top= 1,
 				Sub = 2,

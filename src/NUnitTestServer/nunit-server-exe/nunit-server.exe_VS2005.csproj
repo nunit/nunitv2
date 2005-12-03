@@ -38,7 +38,6 @@
     <OutputPath>bin\Debug2005\</OutputPath>
     <DefineConstants>TRACE;DEBUG;VS2005</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
