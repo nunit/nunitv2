@@ -38,7 +38,9 @@ namespace NUnit.Core
 	{
 		bool Pass(TestSuite suite);
 
-		bool Pass(TestCase test); 
+		bool Pass(TestCase test);
+ 
+		bool Exclude { get; }
 	}
 
 	[Serializable]
@@ -53,12 +55,6 @@ namespace NUnit.Core
 			this.exclude = exclude;
 		}
 
-		public bool Exclude
-		{
-			get { return exclude; }
-			set { exclude = value; }
-		}
-
 		public void Negate()
 		{
 			exclude = !exclude;
@@ -69,6 +65,11 @@ namespace NUnit.Core
 		public abstract bool Pass(TestSuite suite);
 
 		public abstract bool Pass(TestCase test);
+
+		public bool Exclude
+		{
+			get { return exclude; }
+		}
 
 		#endregion
 	}

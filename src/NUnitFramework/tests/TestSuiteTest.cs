@@ -107,6 +107,15 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
+		public void ExcludingCategoryDoesNotRunExplicitTests()
+		{
+			CategoryFilter filter = new CategoryFilter( "MockCategory", true );
+			TestResult result = mockTestFixture.Run( NullListener.NULL, filter );
+			ResultSummarizer summarizer = new ResultSummarizer( result );
+			Assert.AreEqual( 1, summarizer.ResultCount );
+		}
+
+		[Test]
 		public void InheritedTestCount()
 		{
 			TestSuite suite = TestFixtureBuilder.Make( typeof( InheritedTestFixture ) );

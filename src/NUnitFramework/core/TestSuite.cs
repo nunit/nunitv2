@@ -329,7 +329,7 @@ namespace NUnit.Core
 						test.ShouldRun = false;
 						test.IgnoreReason = this.IgnoreReason;
 					}
-					else if ( test.IsExplicit && filter is EmptyFilter)
+					else if ( test.IsExplicit && ( filter is EmptyFilter || filter.Exclude ) )
 					{
 						test.ShouldRun = false;
 						test.IgnoreReason = EXPLICIT_SELECTION_REQUIRED;
