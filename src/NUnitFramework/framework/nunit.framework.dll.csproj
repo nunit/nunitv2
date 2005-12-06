@@ -145,6 +145,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "GreaterAsserter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "IAsserter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -156,6 +161,11 @@
                 />
                 <File
                     RelPath = "IgnoreException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LessAsserter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

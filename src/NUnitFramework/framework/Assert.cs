@@ -1000,6 +1000,495 @@ namespace NUnit.Framework
    
 		#endregion
 
+		#region Greater
+
+		#region Ints
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Greater(int actual, 
+			int expected, string message, params object[] args) 
+		{
+			DoAssert( new GreaterAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Greater(int actual, int expected, string message) 
+		{
+			Assert.Greater( actual, expected, message, null );
+		}
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void Greater(int actual, int expected ) 
+		{
+			Assert.Greater( actual, expected, string.Empty, null );
+		}
+
+		#endregion
+
+		#region Decimals
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Greater(decimal actual, 
+			decimal expected, string message, params object[] args) 
+		{
+			DoAssert( new GreaterAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Greater(decimal actual, decimal expected, string message) 
+		{
+			Assert.Greater( actual, expected, message, null );
+		}
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void Greater(decimal actual, decimal expected ) 
+		{
+			Assert.AreEqual( actual, expected, string.Empty, null );
+		}
+
+		#endregion
+
+		#region Doubles
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Greater(double actual, 
+			double expected, string message, params object[] args) 
+		{
+			DoAssert( new GreaterAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Greater(double actual, 
+			double expected, string message) 
+		{
+			Assert.Greater( actual, expected, message, null );
+		}
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void Greater(double actual, double expected) 
+		{
+			Assert.Greater(actual, expected, string.Empty, null);
+		}
+
+		#endregion
+
+		#region Floats
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Greater(float actual, 
+			float expected, string message, params object[] args) 
+		{
+			DoAssert( new GreaterAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Greater(float actual, float expected, string message) 
+		{
+			Assert.Greater(actual, expected, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void Greater(float actual, float expected) 
+		{
+			Assert.Greater(actual, expected, string.Empty, null);
+		}
+
+		#endregion
+
+		#region IComparables
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Greater(IComparable actual, 
+			IComparable expected, string message, params object[] args) 
+		{
+			DoAssert( new GreaterAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Greater(IComparable actual, IComparable expected, string message) 
+		{
+			Assert.Greater(actual, expected, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the actual value is greater than the expected
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown. For this method
+		/// expected and actual are reversed from their normal order to 
+		/// more closely fit the way this operation would read in english.
+		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void Greater(IComparable actual, IComparable expected) 
+		{
+			Assert.Greater(actual, expected, string.Empty, null);
+		}
+
+		#endregion
+
+		#endregion
+
+		#region Less
+
+		#region Ints
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Less(int expected, int actual, string message, params object[] args) 
+		{
+			DoAssert( new LessAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Less(int expected, int actual, string message) 
+		{
+			Assert.Less(expected, actual, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void Less(int expected, int actual) 
+		{
+			Assert.Less(expected, actual, string.Empty, null);
+		}
+
+		#endregion
+
+		#region Decimals
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Less(decimal expected, decimal actual, string message, params object[] args) 
+		{
+			DoAssert( new LessAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Less(decimal expected, decimal actual, string message) 
+		{
+			Assert.Less(expected, actual, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void Less(decimal expected, decimal actual) 
+		{
+			Assert.Less(expected, actual, string.Empty, null);
+		}
+
+		#endregion
+
+		#region Doubles
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Less(double expected, double actual, string message, params object[] args) 
+		{
+			DoAssert( new LessAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Less(double expected, double actual, string message) 
+		{
+			Assert.Less(expected, actual, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void Less(double expected, double actual) 
+		{
+			Assert.Less(expected, actual, string.Empty, null);
+		}
+
+		#endregion
+
+		#region Floats
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Less(float expected, float actual, string message, params object[] args) 
+		{
+			DoAssert( new LessAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Less(float expected, float actual, string message) 
+		{
+			Assert.Less(expected, actual, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void Less(float expected, float actual) 
+		{
+			Assert.Less(expected, actual, string.Empty, null);
+		}
+
+		#endregion
+
+		#region IComparables
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Less(IComparable expected, IComparable actual, string message, params object[] args) 
+		{
+			DoAssert( new LessAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Less(IComparable expected, IComparable actual, string message) 
+		{
+			Assert.Less(expected, actual, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the expected value is less than the actual
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void Less(IComparable expected, IComparable actual) 
+		{
+			Assert.Less(expected, actual, string.Empty, null);
+		}
+
+		#endregion
+
+		#endregion
+
 		#region List Containment
 
 		/// <summary>

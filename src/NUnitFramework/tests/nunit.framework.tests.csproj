@@ -230,6 +230,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "GreaterFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "IgnoreFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -241,6 +246,11 @@
                 />
                 <File
                     RelPath = "LegacySuiteTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LessFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
