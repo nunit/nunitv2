@@ -306,11 +306,9 @@ namespace NUnit.Core
 		
 		protected internal virtual void ProcessException(Exception exception, TestCaseResult testResult)
 		{
-			if ( !ExceptionExpected() )
-			{
+			if ( !ExpectingException )
 				RecordException( exception, testResult );
-			}
-			else if (expectedExceptionName.Equals(exception.GetType().FullName))
+			else if ( IsExpectedExceptionType( exception ) )
 			{
 				if (expectedMessage != null && !expectedMessage.Equals(exception.Message))
 				{
@@ -339,10 +337,20 @@ namespace NUnit.Core
 		#endregion
 
 		#region Helper Methods
-		private bool ExceptionExpected()
+
+		private bool ExpectingException
 		{
-			return expectedException != null || expectedExceptionName != null;
+			get
+			{
+				return expectedException != null || expectedExceptionName != null;
+			}
 		}
+
+		private bool IsExpectedExceptionType( Exception exception )
+		{
+			return expectedExceptionName.Equals(exception.GetType().FullName);
+		}
+
 		#endregion
 	}
 }

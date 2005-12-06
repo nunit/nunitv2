@@ -273,6 +273,7 @@ namespace NUnit.Util
 			{
 				setup.ShadowCopyFiles = "true";
 				setup.ShadowCopyDirectories = appBase;
+				setup.CachePath = GetCachePath();
 			}
 			else
 			{
@@ -285,17 +286,13 @@ namespace NUnit.Util
 
 			AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
 			
-			if ( this.ShadowCopyFiles )
-				ConfigureCachePath(runnerDomain);
-
 			return runnerDomain;
 		}
 
 		/// <summary>
-		/// Set the location for caching and delete any old cache info
+		/// Get the location for caching and delete any old cache info
 		/// </summary>
-		/// <param name="domain">Our domain</param>
-		private void ConfigureCachePath(AppDomain domain)
+		private string GetCachePath()
 		{
 			cachePath = ConfigurationSettings.AppSettings["shadowfiles.path"];
 			if ( cachePath == "" || cachePath== null )
@@ -317,9 +314,7 @@ namespace NUnit.Util
 					ex );
 			}
 
-			domain.SetCachePath(cachePath);
-
-			return;
+			return cachePath;
 		}
 
 		/// <summary>

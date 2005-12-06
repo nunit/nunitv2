@@ -29,6 +29,7 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using NUnit.Framework;
 using NUnit.Core;
 using NUnit.Tests.Assemblies;
@@ -45,7 +46,6 @@ namespace NUnit.Util.Tests
 		public void MakeAppDomain()
 		{
 			testDomain = new TestDomain();
-
 			loadedTest = testDomain.Load( "mock-assembly.dll" );
 		}
 
@@ -58,13 +58,14 @@ namespace NUnit.Util.Tests
 		}
 			
 		[Test]
-		public void LoadAssembly()
+		public void AssemblyIsLoadedCorrectly()
 		{
 			Assert.IsNotNull(loadedTest, "Test not loaded");
+			Assert.AreEqual(MockAssembly.Tests, loadedTest.CountTestCases());
 		}
 
 		[Test]
-		public void AppDomainSetup()
+		public void AppDomainIsSetUpCorrectly()
 		{
 			AppDomain domain = testDomain.AppDomain;
 			AppDomainSetup setup = testDomain.AppDomain.SetupInformation;
@@ -78,34 +79,7 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual( Environment.CurrentDirectory, domain.BaseDirectory, "BaseDirectory" );
 			Assert.AreEqual( "domain-mock-assembly.dll", domain.FriendlyName, "FriendlyName" );
 			Assert.IsTrue( testDomain.AppDomain.ShadowCopyFiles, "ShadowCopyFiles" );
-		}
-
-		// Turning off shadow copy only works when done for the primary app domain
-		// So this test can only work if it's already off
-		// This doesn't seem to be documented anywhere
-		//		[Test]
-		//		public void TurnOffShadowCopy()
-		//		{
-		//			testDomain.ShadowCopyFiles = false;
-		//			testDomain.Load( "mock-assembly.dll" );
-		//			Assert.IsFalse( testDomain.AppDomain.ShadowCopyFiles );
-		//			
-		//			// Prove that shadow copy is really off
-		//			string location = "NOT_FOUND";
-		//			foreach( Assembly assembly in testDomain.AppDomain.GetAssemblies() )
-		//			{
-		//				if ( assembly.FullName.StartsWith( "mock-assembly" ) )
-		//				{
-		//					location = Path.GetDirectoryName( assembly.Location );
-		//					break;
-		//				}
-		//			}
-		//
-		//			//TODO: Find a non-platform-dependent way to do this
-		//			Assert.AreEqual( Environment.CurrentDirectory.ToLower(), location.ToLower() );
-		//		}
-
-		
+		}	
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
 		public void TurnOffShadowCopyFailsAfterLoad()
@@ -114,29 +88,16 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
-		public void CountTestCases()
-		{
-			Assert.AreEqual(MockAssembly.Tests, loadedTest.CountTestCases());
-		}
-
-		[Test]
-		public void RunMockAssembly()
+		public void CanRunMockAssemblyTests()
 		{
 			TestResult result = testDomain.Run( NullListener.NULL );
 			Assert.IsNotNull(result);
-		}
-
-		[Test]
-		public void MockAssemblyResults()
-		{
-			TestResult result = testDomain.Run( NullListener.NULL );
-			Assert.AreEqual(true, result.IsSuccess);
+			Assert.AreEqual(true, result.IsSuccess, "Test run failed");
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
 			Assert.AreEqual(MockAssembly.Tests - MockAssembly.NotRun, summarizer.ResultCount);
 			Assert.AreEqual(MockAssembly.NotRun, summarizer.TestsNotRun);
 		}
-
 	}
 
 	[TestFixture]
@@ -216,6 +177,31 @@ namespace NUnit.Util.Tests
 			ResultSummarizer summarizer = new ResultSummarizer(result);
 			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.NotRun, summarizer.ResultCount);
 			Assert.AreEqual(MockTestFixture.NotRun, summarizer.TestsNotRun);
+		}
+
+		// Turning off shadow copy only works when done for the primary app domain
+		// So this test can only work if it's already off
+		// This doesn't seem to be documented anywhere
+		[Test]
+		public void TurnOffShadowCopy()
+		{
+			testDomain.ShadowCopyFiles = false;
+			testDomain.Load( "mock-assembly.dll" );
+			Assert.IsFalse( testDomain.AppDomain.ShadowCopyFiles );
+					
+//			// Prove that shadow copy is really off
+//			string location = "NOT_FOUND";
+//			foreach( Assembly assembly in testDomain.AppDomain.GetAssemblies() )
+//			{
+//				if ( assembly.FullName.StartsWith( "mock-assembly" ) )
+//				{
+//					location = Path.GetDirectoryName( assembly.Location );
+//					break;
+//				}
+//			}
+//		
+//			//TODO: Find a non-platform-dependent way to do this
+//			Assert.AreEqual( Environment.CurrentDirectory.ToLower(), location.ToLower() );
 		}
 	}
 }
