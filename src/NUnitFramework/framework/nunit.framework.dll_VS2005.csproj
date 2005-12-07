@@ -96,7 +96,7 @@
     <Compile Include="ExplicitAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="greaterasserter.cs" />
+    <Compile Include="GreaterAsserter.cs" />
     <Compile Include="IAsserter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -106,7 +106,7 @@
     <Compile Include="IgnoreException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="lessasserter.cs" />
+    <Compile Include="LessAsserter.cs" />
     <Compile Include="ListContentsAsserter.cs" />
     <Compile Include="NotEqualAsserter.cs">
       <SubType>Code</SubType>

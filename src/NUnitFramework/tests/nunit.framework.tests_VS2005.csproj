@@ -140,6 +140,7 @@
     <Compile Include="FixtureSetupTearDownTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GreaterFixture.cs" />
     <Compile Include="IgnoreFixture.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -149,6 +150,7 @@
     <Compile Include="LegacySuiteTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LessFixture.cs" />
     <Compile Include="ListContentsTests.cs" />
     <Compile Include="MockTestRunner.cs">
       <SubType>Code</SubType>
