@@ -204,7 +204,7 @@ namespace NUnit.UiKit.Tests
 			treeView.Reload( suite );
 
 			Assert.AreEqual( MockAssembly.Tests - MockTestFixture.Tests, suite.CountTestCases() );
-			Assert.AreEqual( 9, treeView.GetNodeCount( true ) );
+			Assert.AreEqual( 13, treeView.GetNodeCount( true ) );
 
 			testsNamespaceSuite.Tests.Insert( 0, assembliesNamespaceSuite );
 			treeView.Reload( suite );

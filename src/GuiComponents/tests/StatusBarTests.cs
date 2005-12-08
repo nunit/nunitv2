@@ -159,9 +159,18 @@ namespace NUnit.UiKit.Tests
 					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.MockTest5", e, 3 );
 					break;
 				case 7:
+					CheckTestDisplay( "NUnit.Tests.IgnoredFixture.Test1", e, 3 );
+					break;
+				case 8:
+					CheckTestDisplay( "NUnit.Tests.IgnoredFixture.Test2", e, 3 );
+					break;
+				case 9:
+					CheckTestDisplay( "NUnit.Tests.IgnoredFixture.Test3", e, 3 );
+					break;
+				case 10:
 					CheckTestDisplay( "NUnit.Tests.Singletons.OneTestCase.TestCase", e, 4 );
 					break;
-				case 8:			
+				case 11:			
 					CheckTestDisplay( "NUnit.Tests.TestAssembly.MockTestFixture.MyTest", e, 5 );
 					break;
 			}

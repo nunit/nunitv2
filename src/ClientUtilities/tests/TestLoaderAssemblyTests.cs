@@ -182,9 +182,9 @@ namespace NUnit.Util.Tests
 			while( loader.IsTestRunning )
 				Thread.Sleep( 500 );
 			
-			Assert.AreEqual( 40, catcher.Events.Count );
+			Assert.AreEqual( 48, catcher.Events.Count );
 			Assert.AreEqual( TestAction.RunStarting, ((TestEventArgs)catcher.Events[4]).Action );
-			Assert.AreEqual( TestAction.RunFinished, ((TestEventArgs)catcher.Events[39]).Action );
+			Assert.AreEqual( TestAction.RunFinished, ((TestEventArgs)catcher.Events[47]).Action );
 
 			int nTests = 0;
 			int nRun = 0;

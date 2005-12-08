@@ -81,11 +81,11 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual("Tests", testSuite.Name);
 
 			tests = testSuite.Tests;
-			Assert.AreEqual(3, tests.Count);
+			Assert.AreEqual(4, tests.Count);
 			tests.Sort();
 
-			Assert.IsTrue(tests[1] is TestSuite, "TestSuite:singletons - is invalid");
-			TestSuite singletonSuite = (TestSuite)tests[1];
+			Assert.IsTrue(tests[2] is TestSuite, "TestSuite:singletons - is invalid");
+			TestSuite singletonSuite = (TestSuite)tests[2];
 			Assert.AreEqual("Singletons", singletonSuite.Name);
 			Assert.AreEqual(1, singletonSuite.Tests.Count);
 
