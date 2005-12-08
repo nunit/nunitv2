@@ -77,15 +77,22 @@ namespace NUnit.UiKit
 
 		public static DialogResult DisplayFailure( Exception exception, string caption )
 		{
+			return DisplayFailure( exception, null, caption );
+		}
+
+		public static DialogResult DisplayFailure( Exception exception, string message, string caption )
+		{
 			Exception ex = exception;
 			StringBuilder sb = new StringBuilder();		
 			sb.AppendFormat( "{0} : {1}", ex.GetType().ToString(), ex.Message );
-
 			while( ex.InnerException != null )
 			{
 				ex = ex.InnerException;
 				sb.AppendFormat( "\r----> {0} : {1}", ex.GetType().ToString(), ex.Message );
 			}
+
+			if ( message != null )
+				sb.AppendFormat( "\r\r{0}", message );
 
 			sb.Append( "\r\rFor further information, use the Exception Details menu item." );
 
