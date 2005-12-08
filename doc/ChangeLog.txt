@@ -1,3 +1,11 @@
+NUnit 2.2.4 Release
+
+Bugs Fixed
+* 1220723 Tests always fail after first run
+
+Feature Requests Implemented
+* ExpectedExceptionAttribute Constructor with Type as String
+
 NUnit 2.2.3 Iteration Release 
 
 Bugs Fixed
