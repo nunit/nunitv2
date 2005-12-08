@@ -20,7 +20,6 @@ namespace NUnit.Core.Tests
 				new RunFinishedEvent( new TestResult[0] )
 			};
 
-
 		private void EnqueueEvents( EventQueue q )
 		{
 			foreach( Event e in events )
@@ -40,6 +39,32 @@ namespace NUnit.Core.Tests
 				Event e = q.Dequeue();
 				Assert.AreEqual( events[index].GetType(), e.GetType(), 
 					string.Format("Event {0}",index) );
+			}
+		}
+
+		private void StartPump( EventPump pump, int waitTime )
+		{
+			pump.Start();
+			
+			while( waitTime > 0 && !pump.Pumping )
+			{
+				Thread.Sleep( 10 );
+				waitTime -= 10;
+			}
+		}
+
+		private void StopPump( EventPump pump, int waitTime )
+		{
+			pump.Stop();
+			WaitForPumpToStop( pump, waitTime );
+		}
+
+		private void WaitForPumpToStop( EventPump pump, int waitTime )
+		{
+			while( waitTime > 0 && pump.Pumping )
+			{
+				Thread.Sleep( 10 );
+				waitTime -= 10;
 			}
 		}
 
@@ -63,9 +88,9 @@ namespace NUnit.Core.Tests
 		public void StartAndStopPumpOnEmptyQueue()
 		{
 			EventPump pump = new EventPump( NullListener.NULL, new EventQueue(), false );
-			pump.Start(); Thread.Sleep( 100 );
+			StartPump( pump, 1000 ); 
 			Assert.IsTrue( pump.Pumping, "Pump failed to start" );
-			pump.Stop(); Thread.Sleep( 100 );
+			StopPump( pump, 1000 );
 			Assert.IsFalse( pump.Pumping, "Pump failed to stop" );
 		}
 
@@ -75,9 +100,10 @@ namespace NUnit.Core.Tests
 			EventQueue q = new EventQueue();
 			EventPump pump = new EventPump( NullListener.NULL, q, true );
 			Assert.IsFalse( pump.Pumping, "Should not be pumping initially" );
-			pump.Start(); Thread.Sleep( 100 );
+			StartPump( pump, 1000 );
 			Assert.IsTrue( pump.Pumping, "Pump failed to start" );
-			q.Enqueue( new RunFinishedEvent( new Exception() ) ); Thread.Sleep(100);
+			q.Enqueue( new RunFinishedEvent( new Exception() ) );
+			WaitForPumpToStop( pump, 1000 );
 			Assert.IsFalse( pump.Pumping, "Pump failed to stop" );
 		}
 
@@ -89,9 +115,9 @@ namespace NUnit.Core.Tests
 			QueuingEventListener el = new QueuingEventListener();
 			EventPump pump = new EventPump( el, q, false );
 			Assert.IsFalse( pump.Pumping, "Should not be pumping initially" );
-			pump.Start(); Thread.Sleep(100);
+			StartPump( pump, 1000 );
 			Assert.IsTrue( pump.Pumping, "Pump should still be running" );
-			pump.Stop(); Thread.Sleep(100);
+			StopPump( pump, 1000 );
 			Assert.IsFalse( pump.Pumping, "Pump should have stopped" );
 			VerifyQueue( el.Events );
 		}
