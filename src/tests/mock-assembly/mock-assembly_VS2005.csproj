@@ -57,6 +57,7 @@
     <Compile Include="AnotherMockFixture.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IgnoredFixture.cs" />
     <Compile Include="MockAssembly.cs">
       <SubType>Code</SubType>
     </Compile>
