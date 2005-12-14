@@ -47,16 +47,18 @@ namespace NUnit.Core
 	{
 		private string projectPath;
 		private string basePath;
+		private string configFile;
 		private string[] assemblies;
 
 		public TestProject( string projectPath, string[] assemblies )
-			:this( projectPath, assemblies, null ) { }
+			:this( projectPath, assemblies, null, null ) { }
 
-		public TestProject( string projectPath, string[] assemblies, string basePath )
+		public TestProject( string projectPath, string[] assemblies, string basePath, string configFile )
 		{
 			this.projectPath = projectPath;
 			this.assemblies = assemblies;
 			this.basePath = basePath;
+			this.configFile = configFile;
 		}
 
 		public string Name
@@ -78,6 +80,24 @@ namespace NUnit.Core
 				else
 					return Path.GetDirectoryName( Path.GetFullPath( projectPath ) ); 
 			}
+		}
+
+		public string ConfigurationFile
+		{
+			get 
+			{ 
+				if ( configFile != null )
+					return configFile; 
+				else if ( Path.GetExtension(projectPath).ToLower() == ".nunit" )
+					return Name + ".config";
+				else
+					return projectPath + ".config";
+			}
+		}
+
+		public string ConfigurationFilePath
+		{
+			get { return Path.Combine( BasePath, ConfigurationFile ); }
 		}
 
 		public string[] Assemblies
