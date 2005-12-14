@@ -100,8 +100,7 @@ namespace NUnit.Core.Tests
 			string configFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
 			Assert.IsTrue( File.Exists( configFile ), string.Format( "{0} does not exist", configFile ) );
 			Assert.IsNull(ConfigurationSettings.AppSettings["tooltip.ShowAlways"]);
-			Assert.IsNotNull(ConfigurationSettings.AppSettings["test.setting"], 
-				"test.setting should not be null");
+			Assert.AreEqual("54321",ConfigurationSettings.AppSettings["test.setting"]);
 		}
 	}
 }
