@@ -39,13 +39,13 @@ namespace NUnit.TestUtilities
 	/// </summary>
 	public class MockTestEventSource : TestEventDispatcher
 	{
-		private string testFileName;
+		//private string testFileName;
 		private Test test;
 
-		public MockTestEventSource( string testFileName, Test test )
+		public MockTestEventSource( Test test )
 		{
 			this.test = test;
-			this.testFileName = testFileName;
+			//this.testFileName = testFileName;
 		}
 
 		public void SimulateTestRun()

@@ -57,7 +57,7 @@ namespace NUnit.UiKit.Tests
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( testsDll );
 
-			mockEvents = new MockTestEventSource( testsDll, suite );
+			mockEvents = new MockTestEventSource( suite );
 		}
 
         // .NET 1.0 sometimes throws:
