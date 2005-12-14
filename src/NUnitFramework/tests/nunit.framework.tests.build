@@ -14,6 +14,7 @@
         nowarn="618,672">
       <sources basedir=".">
         <include name="*.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <resources basedir="." prefix="NUnit.Core.Tests">
         <include name="../core/Results.xsd"/>
@@ -27,6 +28,7 @@
         <include name="test-utilities.dll"/>
         <include name="mock-assembly.dll"/>
         <include name="nonamespace-assembly.dll"/>
+        <include name="System.Data.dll"/>
       </references>
     </csc>
   </target>

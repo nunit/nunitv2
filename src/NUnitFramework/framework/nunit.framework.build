@@ -13,6 +13,7 @@
         nowarn="618,672">
       <sources basedir=".">
         <include name="*.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
     </csc>
   </target>
@@ -22,6 +23,7 @@
        <fileset basedir=".">
           <include name="*.csproj"/>
           <include name="*.build"/>
+          <include name="*.snk"/>
           <include name="*.cs"/>
       </fileset>
     </copy>

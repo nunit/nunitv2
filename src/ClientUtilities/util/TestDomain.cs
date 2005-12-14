@@ -110,33 +110,54 @@ namespace NUnit.Util
 			}
 		}
 
-		public override Test Load( TestProject testProject )
+		public Test Load( NUnitProject project )
 		{
-			return Load( testProject, null );
+			return Load( project, null );
 		}
 
-		public override Test Load( TestProject testProject, string testName )
+		public Test Load( NUnitProject project, string testName )
 		{
 			Unload();
 
 			try
 			{
-				FileInfo projectFile = new FileInfo( testProject.ProjectPath );
+				FileInfo projectFile = new FileInfo( project.ProjectPath );
 				string configFilePath = projectFile.Extension == ".dll" 
 					? projectFile.FullName + ".config"
 					: Path.ChangeExtension( projectFile.FullName, ".config" );
 				CreateDomain( 
-					testProject.ProjectPath,
-					testProject.BasePath,
-					//configFilePath,
-					testProject.ConfigurationFilePath,
-					GetBinPath( testProject.Assemblies ));
+					project.ProjectPath,
+					project.BasePath,
+					configFilePath,
+					GetBinPath( project.ActiveConfig.AbsolutePaths ));
 
 				testRunner = MakeRemoteTestRunner( domain );
-				if ( testName != null )
-					return testRunner.Load( testProject, testName );
-				else
-					return testRunner.Load( testProject );
+
+				return testRunner.Load( project.ProjectPath, project.ActiveConfig.AbsolutePaths, testName );
+			}
+			catch
+			{
+				Unload();
+				throw;
+			}
+		}
+
+		public override Test Load( string projectName, string[] assemblies )
+		{
+			return Load( projectName, assemblies, string.Empty );
+		}
+
+		public override Test Load( string projectName, string[] assemblies, string testName )
+		{
+			Unload();
+
+			try
+			{
+				CreateDomain( projectName );
+
+				testRunner = MakeRemoteTestRunner( domain );
+
+				return testRunner.Load( projectName, assemblies, testName );
 			}
 			catch
 			{

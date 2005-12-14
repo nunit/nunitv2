@@ -11,7 +11,8 @@
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>nunit.core</AssemblyName>
-    <AssemblyOriginatorKeyFile>nunit.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
@@ -269,9 +270,6 @@
     <Compile Include="TestOutput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestProject.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="TestResult.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -300,7 +298,6 @@
     </Compile>
     <Content Include="Results.xsd" />
     <Content Include="Summary.xslt" />
-    <None Include="nunit.snk" />
     <None Include="Results.xsx">
       <DependentUpon>Results.xsd</DependentUpon>
     </None>

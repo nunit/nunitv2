@@ -50,7 +50,7 @@ namespace NUnit.Core.Tests
 		public void LoadSuite()
 		{
 			builder = new TestSuiteBuilder();
-			loadedSuite = builder.Build( new TestProject( "TestSuite", assemblies ) );
+			loadedSuite = builder.Build( "TestSuite", assemblies );
 		}
 
 		[Test]
@@ -83,7 +83,7 @@ namespace NUnit.Core.Tests
 		public void LoadFixture()
 		{
 			TestSuite suite = builder.Build( 
-				new TestProject( "MultipleAssemblies", assemblies), 
+				"MultipleAssemblies", assemblies, 
 				"NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.IsNotNull( suite );
 			Assert.AreEqual( MockTestFixture.Tests, suite.CountTestCases() );

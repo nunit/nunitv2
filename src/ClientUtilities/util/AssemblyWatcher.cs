@@ -32,7 +32,6 @@ using System.IO;
 using System.Text;
 using System.Timers;
 using System.Collections;
-using NUnit.Core;
 
 namespace NUnit.Util
 {

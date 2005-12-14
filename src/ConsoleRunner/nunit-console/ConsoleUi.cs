@@ -52,30 +52,6 @@ namespace NUnit.ConsoleRunner
 		{
 			ConsoleOptions options = new ConsoleOptions(args);
 			
-			// If 'framework' is defined then re-spawn process using
-			// specified .NET Framework version.
-			string version = RuntimeEnvironment.GetSystemVersion();
-			if (options.framework != null && version != options.framework)
-			{
-				string exeFile = Environment.GetCommandLineArgs()[0];
-				ProcessStartInfo startInfo = new ProcessStartInfo(exeFile);
-				startInfo.UseShellExecute = false;
-				startInfo.EnvironmentVariables["ComPlus_Version"] = options.framework;
-				StringBuilder sb = new StringBuilder();
-				foreach ( string s in args )
-				{
-					if ( !s.StartsWith( "/framework" ) )
-					{
-						if ( sb.Length > 0 )
-							sb.Append( ' ' );
-						sb.Append( s );
-					}
-				}
-				startInfo.Arguments = sb.ToString();
-				Process.Start(startInfo);
-				return 0;
-			}
-
 			if(!options.nologo)
 				WriteCopyright();
 
@@ -178,7 +154,7 @@ namespace NUnit.ConsoleRunner
 			Console.WriteLine();
 		}
 
-		private static Test MakeTestFromCommandLine(TestRunner testRunner, ConsoleOptions parser)
+		private static Test MakeTestFromCommandLine(TestDomain testDomain, ConsoleOptions parser)
 		{
 			NUnitProject project;
 
@@ -192,7 +168,7 @@ namespace NUnit.ConsoleRunner
 			else
 				project = NUnitProject.FromAssemblies( (string[])parser.Parameters.ToArray( typeof( string ) ) );
 
-			return testRunner.Load( project.AsCoreTestProject, parser.fixture );
+			return testDomain.Load( project, parser.fixture );
 		}
 
 		public ConsoleUi()
@@ -204,21 +180,21 @@ namespace NUnit.ConsoleRunner
 			XmlTextReader transformReader = GetTransformReader(options);
 			if(transformReader == null) return 3;
 
-			ConsoleWriter outStream = options.isOut
-				? new ConsoleWriter( new StreamWriter( options.output ) )
-				: new ConsoleWriter(Console.Out);
+			TextWriter outWriter = options.isOut
+				? new StreamWriter( options.output )
+				: Console.Out;
 
-			ConsoleWriter errorStream = options.isErr
-				? new ConsoleWriter( new StreamWriter( options.err ) )
-				: new ConsoleWriter(Console.Error);
+			TextWriter errorWriter = options.isErr
+				? new StreamWriter( options.err )
+				: Console.Error;
 
 			// TODO: Use other kinds of runners
 			TestDomain testDomain = new TestDomain();
-			if ( options.noshadow  ) testDomain.ShadowCopyFiles = false;
-			
 			TestRunner testRunner = testDomain;
 
-			Test test = MakeTestFromCommandLine(testRunner, options);
+			if ( options.noshadow  ) testDomain.ShadowCopyFiles = false;
+			
+			Test test = MakeTestFromCommandLine(testDomain, options);
 
 			if(test == null)
 			{
@@ -226,9 +202,7 @@ namespace NUnit.ConsoleRunner
 				return 2;
 			}
 
-			Directory.SetCurrentDirectory(new FileInfo((string)options.Parameters[0]).DirectoryName);
-		
-			EventListener collector = new EventCollector( options, outStream );
+			EventListener collector = new EventCollector( options, outWriter, errorWriter );
 
 			if (options.HasInclude)
 			{
@@ -242,10 +216,19 @@ namespace NUnit.ConsoleRunner
 			}
 
 			TestResult result = null;
-
 			using( new DirectorySwapper() )
 			{
-				result = testRunner.Run( collector );
+				try
+				{
+					result = testRunner.Run( collector );
+				}
+				finally
+				{
+					if ( options.isOut )
+						outWriter.Close();
+					if ( options.isErr )
+						errorWriter.Close();
+				}
 			}
 
 			Console.WriteLine();
@@ -282,6 +265,7 @@ namespace NUnit.ConsoleRunner
 			if ( testRunner != null )
 				testRunner.Unload();
 
+
 			return result.IsFailure ? 1 : 0;
 		}
 
@@ -305,20 +289,24 @@ namespace NUnit.ConsoleRunner
 			private int level;
 
 			private ConsoleOptions options;
-			private ConsoleWriter writer;
+			private TextWriter outWriter;
+			private TextWriter errorWriter;
 
 			StringCollection messages;
 		
 			private bool debugger = false;
+			private bool progress = false;
 			private string currentTestName;
 
-			public EventCollector( ConsoleOptions options, ConsoleWriter writer )
+			public EventCollector( ConsoleOptions options, TextWriter outWriter, TextWriter errorWriter )
 			{
 				debugger = Debugger.IsAttached;
 				level = 0;
 				this.options = options;
-				this.writer = writer;
+				this.outWriter = outWriter;
+				this.errorWriter = errorWriter;
 				this.currentTestName = string.Empty;
+				this.progress = !options.xmlConsole && !options.labels;
 			}
 
 			public void RunStarted(Test[] tests)
@@ -335,42 +323,44 @@ namespace NUnit.ConsoleRunner
 
 			public void TestFinished(TestCaseResult testResult)
 			{
-				if ( !options.xmlConsole && !options.labels )
+				if(testResult.Executed)
 				{
-					if(testResult.Executed)
-					{
-						testRunCount++;
+					testRunCount++;
+					
+					if(testResult.IsFailure)
+					{	
+						failureCount++;
 						
-						if(testResult.IsFailure)
-						{	
-							failureCount++;
+						if ( progress )
 							Console.Write("F");
-							if ( debugger )
-							{
-								messages.Add( string.Format( "{0}) {1} :", failureCount, testResult.Test.FullName ) );
-								messages.Add( testResult.Message.Trim( Environment.NewLine.ToCharArray() ) );
+						
+						if ( debugger )
+						{
+							messages.Add( string.Format( "{0}) {1} :", failureCount, testResult.Test.FullName ) );
+							messages.Add( testResult.Message.Trim( Environment.NewLine.ToCharArray() ) );
 
-								string stackTrace = StackTraceFilter.Filter( testResult.StackTrace );
-								if ( stackTrace != null && stackTrace != string.Empty )
+							string stackTrace = StackTraceFilter.Filter( testResult.StackTrace );
+							if ( stackTrace != null && stackTrace != string.Empty )
+							{
+								string[] trace = stackTrace.Split( System.Environment.NewLine.ToCharArray() );
+								foreach( string s in trace )
 								{
-									string[] trace = stackTrace.Split( System.Environment.NewLine.ToCharArray() );
-									foreach( string s in trace )
+									if ( s != string.Empty )
 									{
-										if ( s != string.Empty )
-										{
-											string link = Regex.Replace( s.Trim(), @".* in (.*):line (.*)", "$1($2)");
-											messages.Add( string.Format( "at\n{0}", link ) );
-										}
+										string link = Regex.Replace( s.Trim(), @".* in (.*):line (.*)", "$1($2)");
+										messages.Add( string.Format( "at\n{0}", link ) );
 									}
 								}
 							}
 						}
 					}
-					else
-					{
-						testIgnoreCount++;
+				}
+				else
+				{
+					testIgnoreCount++;
+					
+					if ( progress )
 						Console.Write("N");
-					}
 				}
 
 				currentTestName = string.Empty;
@@ -381,8 +371,9 @@ namespace NUnit.ConsoleRunner
 				currentTestName = testCase.FullName;
 
 				if ( options.labels )
-					writer.WriteLine("***** {0}", testCase.FullName );
-				else if ( !options.xmlConsole )
+					outWriter.WriteLine("***** {0}", testCase.FullName );
+				
+				if ( progress )
 					Console.Write(".");
 			}
 
@@ -433,9 +424,9 @@ namespace NUnit.ConsoleRunner
 				string msg = string.Format( "##### Unhandled Exception while running {0}", currentTestName );
 
 				// If we do labels, we already have a newline
-				if ( !options.labels ) writer.WriteLine();
-				writer.WriteLine( msg );
-				writer.WriteLine( exception.ToString() );
+				if ( !options.labels ) outWriter.WriteLine();
+				outWriter.WriteLine( msg );
+				outWriter.WriteLine( exception.ToString() );
 
 				if ( debugger )
 				{
@@ -449,10 +440,10 @@ namespace NUnit.ConsoleRunner
 				switch ( output.Type )
 				{
 					case TestOutputType.Out:
-						Console.Out.WriteLine( output.Text );
+						outWriter.WriteLine( output.Text );
 						break;
 					case TestOutputType.Error:
-						Console.Error.WriteLine( output.Text );
+						errorWriter.WriteLine( output.Text );
 						break;
 				}
 			}

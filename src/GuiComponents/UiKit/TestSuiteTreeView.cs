@@ -921,7 +921,11 @@ namespace NUnit.UiKit
 			TestSuiteTreeNode node = new TestSuiteTreeNode( rootTest );
 			//			if ( highlight ) node.ForeColor = Color.Blue;
 #if USE_HASHTABLE
-			treeMap.Add( node.Test.UniqueName, node );
+			if ( treeMap.ContainsKey(node.Test.UniqueName) )
+				UserMessage.Display( string.Format( 
+					"The test {0} is duplicated\r\rResults will not be displayed correctly in the tree.", node.Test.FullName ), "Duplicate Test" );
+			else
+				treeMap.Add( node.Test.UniqueName, node );
 #endif
 			nodes.Add( node );
 			

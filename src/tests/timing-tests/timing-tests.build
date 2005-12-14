@@ -10,8 +10,9 @@
         output="${current.build.dir}/timing-tests.dll">
       <sources basedir=".">
         <include name="AssemblyInfo.cs"/>
-        <include name="ClientTimeoutFixture"/>
-        <include name="ServerTimeoutFixture"/>
+        <include name="ClientTimeoutFixture.cs"/>
+        <include name="ServerTimeoutFixture.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.util.dll"/>

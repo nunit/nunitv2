@@ -66,7 +66,7 @@ namespace NUnit.Util.Tests
 			using( RegistryKey key = NUnitRegistry.LocalMachine )
 			{
 				Assert.IsNotNull( key );
-				Assert.AreEqual( @"HKEY_LOCAL_MACHINE\Software\nunit.org\Nunit\2.4", key.Name );
+				StringAssert.EndsWith( @"Software\nunit.org\Nunit\2.4", key.Name );
 			}
 		}
 
@@ -89,7 +89,7 @@ namespace NUnit.Util.Tests
 			using( RegistryKey key = NUnitRegistry.LocalMachine )
 			{
 				Assert.IsNotNull( key );
-				Assert.AreEqual( @"HKEY_LOCAL_MACHINE\Software\nunit.org\Nunit-Test", key.Name );
+				StringAssert.EndsWith( @"Software\nunit.org\Nunit-Test", key.Name );
 			}
 		}
 

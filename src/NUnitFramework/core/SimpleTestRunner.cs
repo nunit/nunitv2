@@ -85,10 +85,7 @@ namespace NUnit.Core
 		/// <param name="assemblyName"></param>
 		public Test Load( string assemblyName )
 		{
-			this.assemblies = new string[] { assemblyName };
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			this.suite = builder.Build( assemblyName );
-			return suite;
+			return Load( assemblyName, string.Empty );
 		}
 
 		/// <summary>
@@ -102,25 +99,35 @@ namespace NUnit.Core
 			return suite;
 		}
 
-		public Test Load( TestProject testProject )
+		/// <summary>
+		/// Load the assemblies in a test project
+		/// </summary>
+		/// <param name="projectName">The name of the test project being loaded</param>
+		/// <param name="assemblies">The assemblies comprising the project</param>
+		/// <returns>The loaded test</returns>
+		public Test Load( string projectName, string[] assemblies )
 		{
-			this.assemblies = (string[])testProject.Assemblies.Clone();
+			return Load( projectName, assemblies, string.Empty );
+		}
+
+		/// <summary>
+		/// Load a particular test in a TestProject.
+		/// </summary>
+		/// <param name="projectName">The name of the test project being loaded</param>
+		/// <param name="assemblies">The assemblies comprising the project</param>
+		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
+		/// <returns>The loaded test</returns>
+		public Test Load( string projectName, string[] assemblies, string testName )
+		{
+			this.assemblies = (string[])assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			this.suite = builder.Build( testProject );
+			this.suite = builder.Build( projectName, assemblies, testName );
 			return suite;
 		}
 
 		/// <summary>
-		/// Load a particular test from a test project
+		/// Unload all tests previously loaded
 		/// </summary>
-		public Test Load( TestProject project, string testName )
-		{
-			this.assemblies = (string[])project.Assemblies.Clone();
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			this.suite = builder.Build( project, testName );
-			return suite;
-		}
-
 		public void Unload()
 		{
 			this.suite = null; // All for now

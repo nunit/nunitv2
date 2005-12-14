@@ -11,6 +11,8 @@
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
         <include name="*.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+        <exclude name="FormTester.cs" if="${build.mono}"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>

@@ -56,7 +56,7 @@ namespace NUnit.Core.Tests
 		{
 			decimal d1 = 123M;
 			d1 /= 10M;
-			decimal d2 = Decimal.Parse("012.300");
+			decimal d2 = Decimal.Parse("012.300", System.Globalization.CultureInfo.InvariantCulture);
 			decimal d3 = 12.30M;
 
 			Console.WriteLine(d1);

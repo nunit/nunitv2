@@ -52,7 +52,7 @@ namespace NUnit.Util.Tests
 			domain = new TestDomain();
 			assemblies = new string[]
 				{ Path.GetFullPath( "nonamespace-assembly.dll" ), Path.GetFullPath( "mock-assembly.dll" ) };
-			loadedSuite = domain.Load( new TestProject( name, assemblies ) );
+			loadedSuite = domain.Load( name, assemblies );
 		}
 
 		[TestFixtureTearDown]
@@ -111,7 +111,7 @@ namespace NUnit.Util.Tests
 				{ Path.GetFullPath( "nonamespace-assembly.dll" ), Path.GetFullPath( "mock-assembly.dll" ) };
 
 			TestDomain domain = new TestDomain();
-			Test suite = domain.Load( new TestProject( name, assemblies ), "NUnit.Tests.Assemblies.MockTestFixture" );
+			Test suite = domain.Load( name, assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.IsNotNull( suite );
 			Assert.AreEqual( MockTestFixture.Tests, suite.CountTestCases() );
 		}

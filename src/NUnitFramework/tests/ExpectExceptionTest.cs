@@ -172,8 +172,7 @@ namespace NUnit.Core.Tests
 		internal class TestThrowsArgumentOutOfRangeException
 		{
 			[Test]
-			[ExpectedException(typeof(ArgumentOutOfRangeException),
-				 "the message\r\nParameter name: param\r\nActual value was actual value.")]
+			[ExpectedException(typeof(ArgumentOutOfRangeException)) ]
 			public void TestThrow()
 			{
 				throw new ArgumentOutOfRangeException("param", "actual value", "the message");

@@ -47,13 +47,9 @@ namespace NUnit.Framework.Tests
 		[ExpectedException(typeof(AssertionException), "expected same" )]
 		public void SameFails()
 		{
-			StringBuilder builder = new StringBuilder();
-			builder.Append("S1");
-			string s1 = builder.ToString();
-			string s2 = "S1";
-
-			Assert.AreEqual(s1, s2);
-			Assert.AreSame(s1, s2);
+			Exception ex1 = new Exception();
+			Exception ex2 = new Exception();
+			Assert.AreSame(ex1, ex2);
 		}
 
 		[Test]

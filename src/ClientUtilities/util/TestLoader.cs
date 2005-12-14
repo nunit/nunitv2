@@ -474,7 +474,7 @@ namespace NUnit.Util
 				testDomain = new TestDomain( );		
 				Test test = TestProject.IsAssemblyWrapper
 					? testDomain.Load( TestProject.ActiveConfig.Assemblies[0].FullPath )
-					: testDomain.Load( TestProject.AsCoreTestProject );
+					: testDomain.Load( TestProject );
 
 				TestSuite suite = test as TestSuite;
 				if ( suite != null )
@@ -583,7 +583,7 @@ namespace NUnit.Util
 					TestDomain newDomain = new TestDomain( );
                     Test newTest = TestProject.IsAssemblyWrapper
                         ? newDomain.Load(testProject.ActiveConfig.Assemblies[0].FullPath)
-                        : newDomain.Load(testProject.AsCoreTestProject, loadedTestName);
+                        : newDomain.Load(testProject, loadedTestName);
 					TestSuite suite = newTest as TestSuite;
 					if ( suite != null )
 						suite.Sort();

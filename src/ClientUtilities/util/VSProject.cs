@@ -154,22 +154,12 @@ namespace NUnit.Util
 
 		public static bool IsProjectFile( string path )
 		{
-			// TODO: Test this without throwing an exception
-			try
-			{
-				FileInfo info = new FileInfo( path );
-			}
-			catch( ArgumentException )
-			{
-				// Uri or invalid path format
+			if ( path.IndexOfAny( Path.InvalidPathChars ) >= 0 )
 				return false;
-			}
-			catch( NotSupportedException )
-			{
-				// Some invalid formats give this instead
-				return false;
-			}
 
+			if ( path.ToLower().IndexOf( "http:" ) >= 0 )
+				return false;
+		
 			string extension = Path.GetExtension( path );
 
 			foreach( string validExtension in validExtensions )

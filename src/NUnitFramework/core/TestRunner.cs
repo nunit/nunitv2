@@ -131,19 +131,19 @@ namespace NUnit.Core
 		/// <summary>
 		/// Load the assemblies in a test project
 		/// </summary>
-		/// <param name="testProject">The test project to load</param>
+		/// <param name="projectName">The name of the test project being loaded</param>
+		/// <param name="assemblies">The assemblies comprising the project</param>
 		/// <returns>The loaded test</returns>
-		Test Load( TestProject testProject );
+		Test Load( string projectName, string[] assemblies );
 
 		/// <summary>
 		/// Load a particular test in a TestProject.
-		/// TODO: Decide how to encapsulate a group of assemblies
-		/// plus parameters for loading them. See TestProject.cs.
 		/// </summary>
-		/// <param name="testProject">The test project to load</param>
+		/// <param name="projectName">The name of the test project being loaded</param>
+		/// <param name="assemblies">The assemblies comprising the project</param>
 		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
 		/// <returns>The loaded test</returns>
-		Test Load( TestProject testProject, string testName );
+		Test Load( string projectName, string[] assemblies, string testName );
 
 		/// <summary>
 		/// Unload all tests previously loaded

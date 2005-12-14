@@ -66,14 +66,14 @@ namespace NUnit.Core
 
 		#region Public Methods
 
-		public TestSuite Build( TestProject project )
+		public TestSuite Build( string projectName, string[] assemblies )
 		{
-			RootTestSuite rootSuite = new RootTestSuite( project.ProjectPath );
+			RootTestSuite rootSuite = new RootTestSuite( projectName );
 			NamespaceTreeBuilder namespaceTree = 
 				new NamespaceTreeBuilder( rootSuite );
 
 			int assemblyKey = 0;
-			foreach(string assemblyName in project.Assemblies)
+			foreach(string assemblyName in assemblies)
 			{
 				TestAssemblyBuilder builder = new TestAssemblyBuilder( 
 					assemblyName, assemblyKey++, 
@@ -95,9 +95,7 @@ namespace NUnit.Core
 
 		public TestSuite Build( string assemblyName )
 		{
-			TestAssemblyBuilder builder = 
-				new TestAssemblyBuilder( assemblyName, 0, this.autoNamespaceSuites );
-			return builder.Build();
+			return Build( assemblyName, string.Empty );
 		}
 
 		public TestSuite Build(string assemblyName, string testName )
@@ -107,11 +105,14 @@ namespace NUnit.Core
 			return builder.Build( testName );
 		}
 
-		public TestSuite Build( TestProject project, string testName )
+		public TestSuite Build( string projectName, string[] assemblies, string testName )
 		{
+			if ( testName == null || testName == string.Empty )
+				return Build( projectName, assemblies );
+
 			TestSuite suite = null;
 
-			foreach(string assemblyName in project.Assemblies)
+			foreach(string assemblyName in assemblies)
 			{
 				TestAssemblyBuilder builder = 
 					new TestAssemblyBuilder( assemblyName, 0, this.autoNamespaceSuites );

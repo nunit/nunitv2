@@ -11,6 +11,7 @@
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
         <include name="*.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <resources basedir="." prefix="NUnit.Util">
         <include name="Transform.resx"/>

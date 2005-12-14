@@ -432,14 +432,6 @@ namespace NUnit.Util
 			get { return configs; }
 		}
 
-		public TestProject AsCoreTestProject
-		{
-			get 
-			{ 
-				ProjectConfig activeConfig = ActiveConfig;
-				return new TestProject( projectPath, activeConfig.AbsolutePaths, activeConfig.BasePath, activeConfig.ConfigurationFile ); }
-		}
-
 		public event ProjectEventHandler Changed;
 
 		#endregion

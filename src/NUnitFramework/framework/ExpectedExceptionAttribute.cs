@@ -32,7 +32,7 @@ namespace NUnit.Framework
 	using System;
 
 	/// <summary>
-	/// ExpectedAttributeException.
+	/// ExpectedExceptionAttribute
 	/// </summary>
 	/// 
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple=false)]
@@ -92,6 +92,9 @@ namespace NUnit.Framework
 			set{ expectedException = value; }
 		}
 
+		/// <summary>
+		/// The full Type name of the expected exception
+		/// </summary>
 		public string ExceptionName
 		{
 			get{ return expectedExceptionName; }

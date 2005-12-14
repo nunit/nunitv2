@@ -57,30 +57,6 @@ namespace NUnit.Gui
 			GuiOptions parser = new GuiOptions(args);
 			if(parser.Validate() && !parser.help) 
 			{
-				// If 'framework' is defined then re-spawn process using
-				// specified .NET Framework version.
-				string version = RuntimeEnvironment.GetSystemVersion();
-				if (parser.framework != null && version != parser.framework)
-				{
-					string exeFile = Environment.GetCommandLineArgs()[0];
-					ProcessStartInfo startInfo = new ProcessStartInfo(exeFile);
-					startInfo.UseShellExecute = false;
-					startInfo.EnvironmentVariables["ComPlus_Version"] = parser.framework;
-					StringBuilder sb = new StringBuilder();
-					foreach ( string s in args )
-					{
-						if ( !s.StartsWith( "/framework" ) )
-						{
-							if ( sb.Length > 0 )
-								sb.Append( ' ' );
-							sb.Append( s );
-						}
-					}
-					startInfo.Arguments = sb.ToString();
-					Process.Start(startInfo);
-					return 0;
-				}
-
 				if(!parser.NoArgs)
 				{
 					if (parser.IsAssembly)

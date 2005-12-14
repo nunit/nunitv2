@@ -12,6 +12,7 @@
         define="${build.defines.csc}">
       <sources basedir=".">
         <include name="*.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <resources basedir=".">
         <include name="*.resx"/>

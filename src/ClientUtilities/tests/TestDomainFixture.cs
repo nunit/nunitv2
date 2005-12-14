@@ -72,7 +72,7 @@ namespace NUnit.Util.Tests
 			
 			Assert.AreEqual( "Tests", setup.ApplicationName, "ApplicationName" );
 			Assert.AreEqual( Environment.CurrentDirectory, setup.ApplicationBase, "ApplicationBase" );
-			Assert.AreEqual( Path.GetFullPath( "mock-assembly.dll.config" ), setup.ConfigurationFile, "ConfigurationFile" );
+			Assert.AreEqual( "mock-assembly.dll.config", Path.GetFileName( setup.ConfigurationFile ), "ConfigurationFile" );
 			Assert.AreEqual( Environment.CurrentDirectory, setup.PrivateBinPath, "PrivateBinPath" );
 			Assert.AreEqual( Environment.CurrentDirectory, setup.ShadowCopyDirectories, "ShadowCopyDirectories" );
 

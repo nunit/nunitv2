@@ -36,10 +36,9 @@ using System.Timers;
 namespace NUnit.Util.Tests
 {
 	[TestFixture]
-	[Platform( Exclude = "Win95,Win98,WinMe" )]
+	[Platform( Exclude = "Win95,Win98,WinMe,Mono" )]
 	public class FileWatcherTest
 	{
-		private FileInfo file;
 		private AssemblyWatcher watcher;
 		private CounterEventHandler handler;
 		private static int watcherDelayMs = 100;
@@ -49,9 +48,9 @@ namespace NUnit.Util.Tests
 		[SetUp]
 		public void CreateFile()
 		{
-			file = new FileInfo(fileName);
-			FileStream stream = file.Create();
-			stream.Close();
+			StreamWriter writer = new StreamWriter( fileName );
+			writer.Write( "Hello" );
+			writer.Close();
 
 			handler = new CounterEventHandler();
 			watcher = new AssemblyWatcher(watcherDelayMs, fileName);
@@ -71,23 +70,34 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
-		public void TestManyFrequentEvents()
+		public void MultipleCloselySpacedChangesTriggerWatcherOnlyOnce()
 		{
 			for(int i=0; i<3; i++)
 			{
-				StreamWriter writer =  file.AppendText();
+				StreamWriter writer = new StreamWriter( fileName, true );
 				writer.WriteLine("Data");
-				writer.Flush();
 				writer.Close();
 				System.Threading.Thread.Sleep(20);
 			}
 			WaitForTimerExpiration();
 			Assert.AreEqual(1,handler.Counter);
-			Assert.AreEqual(file.FullName,handler.FileName);			
+			Assert.AreEqual(Path.GetFullPath( fileName ), handler.FileName );
 		}
 
 		[Test]
-		public void ChangeAttributes()
+		public void ChangingFileTriggersWatcher()
+		{
+			StreamWriter writer = new StreamWriter( fileName );
+			writer.Write( "Goodbye" );
+			writer.Close();
+
+			WaitForTimerExpiration();
+			Assert.AreEqual( 1, handler.Counter );
+			Assert.AreEqual( Path.GetFullPath( fileName ), handler.FileName );
+		}
+
+		[Test]
+		public void ChangingAttributesDoesNotTriggerWatcher()
 		{
 			FileInfo fi = new FileInfo(fileName);
 			FileAttributes attr = fi.Attributes;
@@ -98,7 +108,7 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
-		public void CopyFile()
+		public void CopyingFileDoesNotTriggerWatcher()
 		{
 			FileInfo fi = new FileInfo(fileName);
 			fi.CopyTo(tempFileName);

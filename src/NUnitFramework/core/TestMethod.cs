@@ -55,8 +55,9 @@ namespace NUnit.Core
 		internal string expectedExceptionName;
 		internal string expectedMessage;
 
-		public TestMethod( MethodInfo method )
-			: base( method.ReflectedType.FullName, method.Name )
+		public TestMethod( MethodInfo method ) : base( method.ReflectedType.FullName, 
+				method.DeclaringType == method.ReflectedType 
+			? method.Name : method.DeclaringType.Name + "." + method.Name )
 		{
 			this.method = method;
 			this.testFramework = TestFramework.FromMethod( method );
@@ -183,7 +184,7 @@ namespace NUnit.Core
 				if ( ex is NunitException )
 					ex = ex.InnerException;
 				// TODO: What about ignore exceptions in teardown?
-				RecordException(ex, testResult);
+				RecordTearDownException(ex, testResult);
 			}
 		}
 
@@ -225,31 +226,23 @@ namespace NUnit.Core
 				testResult.Failure( BuildMessage(ex), BuildStackTrace(ex) );
 		}
 
-//		protected void RecordException( Exception exception, TestCaseResult testResult )
-//		{
-//			RecordException( exception, testResult, false );
-//		}
+		protected void RecordTearDownException( Exception exception, TestCaseResult testResult )
+		{
+			StringBuilder msg = new StringBuilder();
+			StringBuilder st = new StringBuilder();
+			
+			msg.Append( testResult.Message );
+			msg.Append( Environment.NewLine );
+			msg.Append( "TearDown : " );
+			st.Append( testResult.StackTrace );
+			st.Append( Environment.NewLine );
+			st.Append( "--TearDown" );
+			st.Append( Environment.NewLine );
 
-//		protected void RecordException( Exception exception, TestCaseResult testResult )
-//		{
-//			StringBuilder msg = new StringBuilder();
-//			StringBuilder st = new StringBuilder();
-//			
-////			if ( inTearDown )
-////			{
-////				msg.Append( testResult.Message );
-////				msg.Append( Environment.NewLine );
-////				msg.Append( "TearDown : " );
-////				st.Append( testResult.StackTrace );
-////				st.Append( Environment.NewLine );
-////				st.Append( "--TearDown" );
-////				st.Append( Environment.NewLine );
-////			}
-//
-//			msg.Append( BuildMessage( exception ) );
-//			st.Append( BuildStackTrace( exception ) );
-//			testResult.Failure( msg.ToString(), st.ToString() );
-//		}
+			msg.Append( BuildMessage( exception ) );
+			st.Append( BuildStackTrace( exception ) );
+			testResult.Failure( msg.ToString(), st.ToString() );
+		}
 
 		private string BuildMessage(Exception exception)
 		{

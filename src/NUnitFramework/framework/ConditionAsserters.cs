@@ -133,22 +133,52 @@ namespace NUnit.Framework
 	#endregion
 
 	#region EmptyAsserter
+	/// <summary>
+	/// Class to Assert that a string or collection is empty
+	/// </summary>
 	public class EmptyAsserter : ConditionAsserter
 	{
+		/// <summary>
+		/// Construct an EmptyAsserter for a string
+		/// </summary>
+		/// <param name="aString">The string to be tested</param>
+		/// <param name="message">The message to display if the string is not empty</param>
+		/// <param name="args">Arguements to use in formatting the message</param>
 		public EmptyAsserter( string aString, string message, params object[] args )
 			: base( aString == string.Empty, message, args ) { }
 
+		/// <summary>
+		/// Construct an EmptyAsserter for a collection
+		/// </summary>
+		/// <param name="collection">The collection to be tested</param>
+		/// <param name="message">The message to display if the collection is not empty</param>
+		/// <param name="args">Arguements to use in formatting the message</param>
 		public EmptyAsserter( ICollection collection, string message, params object[] args )
 			: base( collection.Count == 0, message, args ) { }
 	}
 	#endregion
 
 	#region NotEmptyAsserter
+	/// <summary>
+	/// Class to Assert that a string or collection is not empty
+	/// </summary>
 	public class NotEmptyAsserter : ConditionAsserter
 	{
+		/// <summary>
+		/// Construct a NotEmptyAsserter for a string
+		/// </summary>
+		/// <param name="aString">The string to be tested</param>
+		/// <param name="message">The message to display if the string is empty</param>
+		/// <param name="args">Arguements to use in formatting the message</param>
 		public NotEmptyAsserter( string aString, string message, params object[] args )
 			: base( aString != string.Empty, message, args ) { }
 
+		/// <summary>
+		/// Construct a NotEmptyAsserter for a collection
+		/// </summary>
+		/// <param name="collection">The collection to be tested</param>
+		/// <param name="message">The message to display if the collection is empty</param>
+		/// <param name="args">Arguements to use in formatting the message</param>
 		public NotEmptyAsserter( ICollection collection, string message, params object[] args )
 			: base( collection.Count != 0, message, args ) { }
 	}
