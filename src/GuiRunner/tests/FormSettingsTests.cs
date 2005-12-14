@@ -70,7 +70,7 @@ namespace NUnit.Gui.Tests
 		[Test]
 		public void StorageKey()
 		{
-			Assert.AreEqual( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Form", 
+			Assert.AreEqual( @"HKEY_CURRENT_USER\Software\nunit.org\Nunit-Test\Form", 
 				((RegistrySettingsStorage)form.Storage).StorageKey.Name );
 		}
 

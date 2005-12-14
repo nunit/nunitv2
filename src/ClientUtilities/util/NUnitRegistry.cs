@@ -41,11 +41,14 @@ namespace NUnit.Util
 	public class NUnitRegistry
 	{
 		private static readonly string KEY = 
+			@"Software\nunit.org\Nunit\2.4";
+
+		private static readonly string LEGACY_KEY = 
 			@"Software\Nascent Software\Nunit\";
 
 		private static bool testMode = false;
 		private static string testKey = 
-			@"Software\Nascent Software\Nunit-Test";
+			@"Software\nunit.org\Nunit-Test";
 
 
 		/// <summary>
@@ -72,16 +75,22 @@ namespace NUnit.Util
 		{
 			get 
 			{
-				// Todo: Code can go here to migrate the registry
-				// if we change our location.
-				//	Try to open new key
-				//	if ( key doesn't exist )
-				//		create it
-				//		open old key
-				//		if ( it was opened )
-				//			copy entries to new key
-				//	return new key
-				return Registry.CurrentUser.CreateSubKey( testMode ? testKey : KEY ); 
+				if ( testMode )
+					return Registry.CurrentUser.CreateSubKey( testKey );
+				
+				RegistryKey newKey = Registry.CurrentUser.OpenSubKey( KEY, true );
+				if (newKey == null)
+				{
+					newKey = Registry.CurrentUser.CreateSubKey( KEY );
+					RegistryKey oldKey = Registry.CurrentUser.OpenSubKey( LEGACY_KEY );
+					if ( oldKey != null )
+					{
+						CopyKey( oldKey, newKey );
+						oldKey.Close();
+					}
+				}
+
+				return newKey; 
 			}
 		}
 
@@ -123,6 +132,24 @@ namespace NUnit.Util
 
 			foreach( string name in key.GetSubKeyNames() )
 				key.DeleteSubKeyTree( name );
+		}
+
+		/// <summary>
+		/// Static method that copies the contents of one key to another
+		/// </summary>
+		/// <param name="fromKey">The source key for the copy</param>
+		/// <param name="toKey">The target key for the copy</param>
+		public static void CopyKey( RegistryKey fromKey, RegistryKey toKey )
+		{
+			foreach( string name in fromKey.GetValueNames() )
+				toKey.SetValue( name, fromKey.GetValue( name ) );
+
+			foreach( string name in fromKey.GetSubKeyNames() )
+				using( RegistryKey fromSubKey = fromKey.OpenSubKey( name ) )
+				using( RegistryKey toSubKey = toKey.CreateSubKey( name ) )
+				{
+					CopyKey( fromSubKey, toSubKey );
+				}
 		}
 	}
 }

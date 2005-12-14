@@ -117,7 +117,7 @@ namespace NUnit.Gui.Tests
 		[Test]
 		public void StorageKey()
 		{
-			Assert.AreEqual( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test\Recent-Projects", 
+			Assert.AreEqual( @"HKEY_CURRENT_USER\Software\nunit.org\Nunit-Test\Recent-Projects", 
 				((RegistrySettingsStorage)projects.Storage).StorageKey.Name );
 		}
 

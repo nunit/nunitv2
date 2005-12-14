@@ -55,7 +55,7 @@ namespace NUnit.Util.Tests
 			using( RegistryKey key = NUnitRegistry.CurrentUser )
 			{
 				Assert.IsNotNull( key );
-				Assert.AreEqual( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit", key.Name );
+				Assert.AreEqual( @"HKEY_CURRENT_USER\Software\nunit.org\Nunit\2.4", key.Name );
 			}
 		}
 
@@ -66,7 +66,7 @@ namespace NUnit.Util.Tests
 			using( RegistryKey key = NUnitRegistry.LocalMachine )
 			{
 				Assert.IsNotNull( key );
-				Assert.AreEqual( @"HKEY_LOCAL_MACHINE\Software\Nascent Software\Nunit", key.Name );
+				Assert.AreEqual( @"HKEY_LOCAL_MACHINE\Software\nunit.org\Nunit\2.4", key.Name );
 			}
 		}
 
@@ -78,7 +78,7 @@ namespace NUnit.Util.Tests
 			using( RegistryKey key = NUnitRegistry.CurrentUser )
 			{
 				Assert.IsNotNull( key );
-				Assert.AreEqual( @"HKEY_CURRENT_USER\Software\Nascent Software\Nunit-Test", key.Name );
+				Assert.AreEqual( @"HKEY_CURRENT_USER\Software\nunit.org\Nunit-Test", key.Name );
 			}
 		}
 
@@ -89,7 +89,7 @@ namespace NUnit.Util.Tests
 			using( RegistryKey key = NUnitRegistry.LocalMachine )
 			{
 				Assert.IsNotNull( key );
-				Assert.AreEqual( @"HKEY_LOCAL_MACHINE\Software\Nascent Software\Nunit-Test", key.Name );
+				Assert.AreEqual( @"HKEY_LOCAL_MACHINE\Software\nunit.org\Nunit-Test", key.Name );
 			}
 		}
 
