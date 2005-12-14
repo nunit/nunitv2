@@ -128,7 +128,8 @@ namespace NUnit.Util
 				CreateDomain( 
 					testProject.ProjectPath,
 					testProject.BasePath,
-					configFilePath,
+					//configFilePath,
+					testProject.ConfigurationFilePath,
 					GetBinPath( testProject.Assemblies ));
 
 				testRunner = MakeRemoteTestRunner( domain );
