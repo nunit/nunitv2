@@ -248,6 +248,7 @@ Global
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 		license.rtf = license.rtf
 		nunit.build = nunit.build
+		nunit.snk = nunit.snk
 		NUnitBinTests.config = NUnitBinTests.config
 		NUnitBinTests.nunit = NUnitBinTests.nunit
 		NUnitDevTests.config = NUnitDevTests.config
