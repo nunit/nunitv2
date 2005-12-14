@@ -41,16 +41,16 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.Button removeCategory;
 		private System.Windows.Forms.Button clearAllButton;
 		private System.Windows.Forms.Button checkFailedButton;
-		private System.Windows.Forms.MenuItem viewMenu;
+		private System.Windows.Forms.MenuItem treeMenu;
 		private System.Windows.Forms.MenuItem expandMenuItem;
 		private System.Windows.Forms.MenuItem collapseMenuItem;
-		private System.Windows.Forms.MenuItem viewMenuSeparatorItem1;
+		private System.Windows.Forms.MenuItem treeMenuSeparatorItem1;
 		private System.Windows.Forms.MenuItem expandAllMenuItem;
 		private System.Windows.Forms.MenuItem collapseAllMenuItem;
-		private System.Windows.Forms.MenuItem viewMenuSeparatorItem2;
+		private System.Windows.Forms.MenuItem treeMenuSeparatorItem2;
 		private System.Windows.Forms.MenuItem expandFixturesMenuItem;
 		private System.Windows.Forms.MenuItem collapseFixturesMenuItem;
-		private System.Windows.Forms.MenuItem viewMenuSeparatorItem3;
+		private System.Windows.Forms.MenuItem treeMenuSeparatorItem3;
 		private System.Windows.Forms.MenuItem propertiesMenuItem;
 		private System.Windows.Forms.MenuItem checkBoxesMenuItem;
 		private System.Windows.Forms.MenuItem menuItem2;
@@ -65,9 +65,9 @@ namespace NUnit.UiKit
 
 		#region Properties
 
-		public MenuItem ViewMenu 
+		public MenuItem TreeMenu 
 		{
-			get { return viewMenu; }
+			get { return treeMenu; }
 		}
 
 		public string[] SelectedCategories
@@ -121,41 +121,41 @@ namespace NUnit.UiKit
 		{
 			// This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
-			viewMenu = new MenuItem();
+			treeMenu = new MenuItem();
 			this.expandMenuItem = new System.Windows.Forms.MenuItem();
 			this.collapseMenuItem = new System.Windows.Forms.MenuItem();
-			this.viewMenuSeparatorItem1 = new System.Windows.Forms.MenuItem();
+			this.treeMenuSeparatorItem1 = new System.Windows.Forms.MenuItem();
 			this.expandAllMenuItem = new System.Windows.Forms.MenuItem();
 			this.collapseAllMenuItem = new System.Windows.Forms.MenuItem();
-			this.viewMenuSeparatorItem2 = new System.Windows.Forms.MenuItem();
+			this.treeMenuSeparatorItem2 = new System.Windows.Forms.MenuItem();
 			this.expandFixturesMenuItem = new System.Windows.Forms.MenuItem();
 			this.collapseFixturesMenuItem = new System.Windows.Forms.MenuItem();
-			this.viewMenuSeparatorItem3 = new System.Windows.Forms.MenuItem();
+			this.treeMenuSeparatorItem3 = new System.Windows.Forms.MenuItem();
 			this.propertiesMenuItem = new System.Windows.Forms.MenuItem();
 			this.checkBoxesMenuItem = new System.Windows.Forms.MenuItem();
 			this.menuItem2 = new System.Windows.Forms.MenuItem();
 
 			// 
-			// viewMenu
+			// treeMenu
 			// 
-			this.viewMenu.MergeType = MenuMerge.Add;
-			this.viewMenu.MergeOrder = 1;
-			this.viewMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+			this.treeMenu.MergeType = MenuMerge.Add;
+			this.treeMenu.MergeOrder = 1;
+			this.treeMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 										this.expandMenuItem,
 										this.collapseMenuItem,
-										this.viewMenuSeparatorItem1,
+										this.treeMenuSeparatorItem1,
 										this.expandAllMenuItem,
 										this.collapseAllMenuItem,
-										this.viewMenuSeparatorItem2,
+										this.treeMenuSeparatorItem2,
 										this.expandFixturesMenuItem,
 										this.collapseFixturesMenuItem,
-										this.viewMenuSeparatorItem3,
+										this.treeMenuSeparatorItem3,
 										this.propertiesMenuItem,
 										this.checkBoxesMenuItem,
 										this.menuItem2});
-			this.viewMenu.Text = "&View";
-			this.viewMenu.Visible = false;
-			this.viewMenu.Popup += new System.EventHandler(this.viewMenu_Popup);
+			this.treeMenu.Text = "&Tree";
+			this.treeMenu.Visible = false;
+			this.treeMenu.Popup += new System.EventHandler(this.treeMenu_Popup);
 			// 
 			// expandMenuItem
 			// 
@@ -169,10 +169,10 @@ namespace NUnit.UiKit
 			this.collapseMenuItem.Text = "&Collapse";
 			this.collapseMenuItem.Click += new System.EventHandler(this.collapseMenuItem_Click);
 			// 
-			// viewMenuSeparatorItem1
+			// treeMenuSeparatorItem1
 			// 
-			this.viewMenuSeparatorItem1.Index = 2;
-			this.viewMenuSeparatorItem1.Text = "-";
+			this.treeMenuSeparatorItem1.Index = 2;
+			this.treeMenuSeparatorItem1.Text = "-";
 			// 
 			// expandAllMenuItem
 			// 
@@ -186,10 +186,10 @@ namespace NUnit.UiKit
 			this.collapseAllMenuItem.Text = "Collapse All";
 			this.collapseAllMenuItem.Click += new System.EventHandler(this.collapseAllMenuItem_Click);
 			// 
-			// viewMenuSeparatorItem2
+			// treeMenuSeparatorItem2
 			// 
-			this.viewMenuSeparatorItem2.Index = 5;
-			this.viewMenuSeparatorItem2.Text = "-";
+			this.treeMenuSeparatorItem2.Index = 5;
+			this.treeMenuSeparatorItem2.Text = "-";
 			// 
 			// expandFixturesMenuItem
 			// 
@@ -203,10 +203,10 @@ namespace NUnit.UiKit
 			this.collapseFixturesMenuItem.Text = "Collapse Fixtures";
 			this.collapseFixturesMenuItem.Click += new System.EventHandler(this.collapseFixturesMenuItem_Click);
 			// 
-			// viewMenuSeparatorItem3
+			// treeMenuSeparatorItem3
 			// 
-			this.viewMenuSeparatorItem3.Index = 8;
-			this.viewMenuSeparatorItem3.Text = "-";
+			this.treeMenuSeparatorItem3.Index = 8;
+			this.treeMenuSeparatorItem3.Text = "-";
 			// 
 			// propertiesMenuItem
 			// 
@@ -217,7 +217,7 @@ namespace NUnit.UiKit
 			// checkBoxesMenuItem
 			// 
 			this.checkBoxesMenuItem.Index = 0;
-			this.checkBoxesMenuItem.Text = "Check&Boxes";
+			this.checkBoxesMenuItem.Text = "Show Check&Boxes";
 			this.checkBoxesMenuItem.Click += new System.EventHandler(this.checkBoxesMenuItem_Click);
 			// 
 			// menuItem2
@@ -260,7 +260,7 @@ namespace NUnit.UiKit
 
 		#region View Menu Handlers
 
-		private void viewMenu_Popup(object sender, System.EventArgs e)
+		private void treeMenu_Popup(object sender, System.EventArgs e)
 		{
 			TreeNode selectedNode = tests.SelectedNode;
 			if ( selectedNode != null && selectedNode.Nodes.Count > 0 )
@@ -632,7 +632,7 @@ namespace NUnit.UiKit
 
 		private void events_TestLoaded(object sender, NUnit.Util.TestEventArgs args)
 		{			
-			viewMenu.Visible = true;
+			treeMenu.Visible = true;
 
 			availableCategories = this.loader.GetCategories();
 			availableList.Items.Clear();
@@ -679,7 +679,7 @@ namespace NUnit.UiKit
 
 		private void Events_TestUnloaded(object sender, NUnit.Util.TestEventArgs args)
 		{
-			viewMenu.Visible = false;
+			treeMenu.Visible = false;
 		}
 
 		private void tests_CheckedTestChanged(UITestNode[] tests)
