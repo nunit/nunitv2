@@ -15,14 +15,10 @@
 <body>
 <!-- Standard Header for NUnit.org -->
 <div id="header">
-  <a id="logo" href="index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
   <div id="nav">
-    <a href="index.html">Home</a>
-    <a href="download.html">Download</a>
-    <a href="docHome.html" class="active">Documentation</a>
-    <a href="community.html">Community</a>
-    <a href="resources.html">Resources</a>
-    <a href="contactUs.html">Contact&nbsp;Us</a>
+    <a href="http://www.nunit.org">NUnit</a>
+    <a class="active" href="index.html">Documentation</a>
   </div>
 </div>
 <!-- End of Header -->
@@ -62,14 +58,34 @@ the tests contained in the nunit.tests.dll use the following command:
 	class, a legacy suite (using the Suite property ) or a namespace. If a 
 	namespace is given, then all fixtures under that namespace are run. This option 
 	may be used with Visual Studio or NUnit projects as well.</p>
+
 <h4>Specifying the Version of the CLR</h4>
-<p>As an alternative to using the config file, you may run NUnit under a different
-version of the CLR by use of the /framework option. For example, to run the tests
-in nunit.tests.dll using an installed version of the .Net 2.0 framework, use:
-    <pre class="programtext">       nunit-console nunit.tests.dll /framework:v2.0.50727</pre>
-</p>
-<p>The version to be used must be specified in the form shown and, of course, 
-must be installed on your system for the command to work.</p
+
+<p>Most applications are written to run under a specific version of the CLR.
+A few are designed to operate correctly under multiple versions. In either case,
+it is important to be able to specify the CLR version to be used for testing.</p>
+
+<p>When only one version of the CLR is used, the config files for nunit-gui and
+nunit-console may be set up to specify that version. As a more convenient
+alternative when switching CLRs, you may use the provided <b>clr.bat</b>
+command to specify the version under which NUnit should run.</p>
+
+<p>For example, to run the tests in nunit.tests.dll under the RTM version of 
+the .Net 2.0 framework, use:</p>
+
+<pre class="programtext">       clr net-2.0 nunit-console nunit.tests.dll</pre>
+
+<p>The <b>clr.bat</b> file is located in the NUnit <b>bin</b> directory. You may
+put this on your path, or copy it to a convenient location. Enter <b>clr /?</b> 
+for a list of options.</p>
+	
+<p><b>Note:</b> If you use a &lt;startup&gt; section in the config file, it takes
+precedence over this option.</p>
+
+<p><b>Note:</b> This command is specific to the Microsoft .Net 
+framework. The Mono framework provides other means to specify the version
+to be used when running a command.</p>
+
 <h4>Specifying Test Categories to Include or Exclude</h4>
 <p>NUnit 2.2 provides CategoryAttribute for use in marking tests as belonging to 
 	one or more categories. Categories may be included or excluded in a test run 
@@ -168,7 +184,7 @@ separate them.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="docHome.html">NUnit 2.2.3</a></li>
+<li><a href="index.html">NUnit 2.2.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>

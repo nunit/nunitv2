@@ -15,14 +15,10 @@
 <body>
 <!-- Standard Header for NUnit.org -->
 <div id="header">
-  <a id="logo" href="index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
   <div id="nav">
-    <a href="index.html">Home</a>
-    <a href="download.html">Download</a>
-    <a href="docHome.html" class="active">Documentation</a>
-    <a href="community.html">Community</a>
-    <a href="resources.html">Resources</a>
-    <a href="contactUs.html">Contact&nbsp;Us</a>
+    <a href="http://www.nunit.org">NUnit</a>
+    <a class="active" href="index.html">Documentation</a>
   </div>
 </div>
 <!-- End of Header -->
@@ -38,6 +34,84 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
+<h3>NUnit Iteration Release 2.2.4 - December 14, 2005</h3>
+
+<h4>General</h4>
+<ul>
+<li>The <b>/framework</b> option, introduced in NUnit 2.2.3, has been removed.
+The same functionality is now provided by the <b>clr.bat</b> command file. 
+
+<li>A number of tests, failing only on certain systems, have been corrected.
+  <ul>
+    <li>All tests now pass on Mono 1.1.10, with one exception having to do
+	with FileSystemWatcher. That test is ignored for now, since the watcher 
+	is only used in the Windows Gui. 
+    <li>A race condition, which caused intermittent failures in the 
+	EventPump tests, has been removed.
+	<li>Some culture-specific tests have been corrected
+  </ul>
+
+<li>Common assembly info has been moved to a single file in the source.
+
+<li>The release documentation has been separated from other information that may change 
+over time. Only the documentation itself is included in the installed package, with a
+link to the web site providing access to additional resources.
+</ul>
+
+<h4>Framework</h4>
+<ul>
+<li>Two new Assert Methods have been added.
+  <dl style="margin-left: 2em">
+    <dt>Assert.Greater
+	<dd>Tests whether its first argument is greater than the second
+	<dt>Assert.Less
+	<dd>Tests whether its first argument is less than the second
+  </dl>
+  
+<li>The ExpectedException attribute may now be used with a string argument,
+representing the full type name of the expected exception. This eliminates
+the need to have a reference to the assembly defining the exception and will
+thus allow the test to pass across multiple versions of that assembly.
+
+<li>When an error or exception in a test is followed by a second error in
+the TearDown, both errors are now reported.
+
+<li>A custom configuration file, specified in a test project, is no longer ignored.
+
+</ul>
+
+<h4>Console Interface</h4>
+<ul>
+<li>The <b>/noshadow</b> parameter now works, suppressing the use of ShadowCopy
+    for the tests. <b>Note:</b> This cannot be seen when running the NUnit tests
+	themselves, because certain tests enable ShadowCopy in AppDomains that
+	they create.
+	
+<li>The <b>/out</b> parameter is no longer ignored.
+
+<li>The <b>/xml</b> parameter now bases a relative path on the current directory rather
+than the directory containing the executing assembly.
+</ul>
+
+<h4>Forms Interface</h4>
+<ul>
+<li>Test methods inherited from a base class now appear in the gui prefixed by
+the name of the base class. As a result, a test method in a derived class can
+redefine a test method in the base class using <b>new</b> without crashing the 
+Gui.
+
+<li>Attempting to add a duplicate name to the Gui now gives a warning method
+as opposed to throwing an exception.  
+
+<li>Fixed an error that occured when creating a new project from the Gui.
+
+<li>Fixed an error in the progress bar, which caused it to remain green when
+encountering an ignored TestFixture.
+
+<li>Provided an advisory message when an assembly that uses the 2.0 framework
+fails to load under .Net 1.1.
+</ul>
+
 <h3>NUnit Iteration Release 2.2.3 - November 14, 2005</h3>
 
 <h4>General</h4>
@@ -48,9 +122,9 @@ conjunction with VS2005. A problem that prevented installation when
 NUnit 2.2.3 installation requires one of the following .NET framework
 versions to be present: 2.0.50727, 2.0.50215, 2.0.40607, 1.1.4322 or 1.0.3705.
 
-<li>Both the console and gui runners now accept an option <c>/framework</c>,
-which provides a simple way to run NUnit under any installed version of the
-common language runtime.
+<li>As an alternative to the use of the config file, both the console and gui 
+runners now accept an option <b>/framework</b>, which provides a simple way to 
+run NUnit under any installed version of the common language runtime.
 
 <li>Additional NUnit library assemblies are now strongly named: nunit.framework,
 nunit.core, nunit.util, nunit.uikit, nunit-console-runner and nunit-gui-runner.
@@ -713,7 +787,7 @@ argument you must specify a class that is either a TestFixture or contains a Sui
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="docHome.html">NUnit 2.2.3</a></li>
+<li><a href="index.html">NUnit 2.2.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>

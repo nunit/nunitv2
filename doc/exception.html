@@ -15,14 +15,10 @@
 <body>
 <!-- Standard Header for NUnit.org -->
 <div id="header">
-  <a id="logo" href="index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
   <div id="nav">
-    <a href="index.html">Home</a>
-    <a href="download.html">Download</a>
-    <a href="docHome.html" class="active">Documentation</a>
-    <a href="community.html">Community</a>
-    <a href="resources.html">Resources</a>
-    <a href="contactUs.html">Contact&nbsp;Us</a>
+    <a href="http://www.nunit.org">NUnit</a>
+    <a class="active" href="index.html">Documentation</a>
   </div>
 </div>
 <!-- End of Header -->
@@ -51,13 +47,17 @@
 	}
 </script>
 
-<h3>ExpectedExceptionAttribute (NUnit 2.0)</h3>
+<h3>ExpectedExceptionAttribute (NUnit 2.0 / 2.2.4)</h3>
 
 <p>This is the way to specify that the execution of a test will throw an 
-	exception. This attribute takes a parameter which is a Type. The runner will 
-	execute the test and if it throws the specific exception, then the test passes. 
-	If it throws a different exception the test will fail. This is true even if the 
-	thrown exception inherits from the expected exception.</p>
+	exception. This attribute has two constructors. The first (NUnit 2.0) takes a Type 
+	representing the exact type of the expected exception. The second (NUnit 2.2.4) takes 
+	the full name of the expected exception type as a string</p>
+	
+<p>In either case, the runner will execute the test, which passes only if it 
+    throws the specified exception.	If it throws a different exception then
+	the test will fail. This is true even if the thrown exception inherits from 
+	the expected exception.</p>
 
 <h4>Example:</h4>
 
@@ -82,7 +82,12 @@
   {
     [Test]
     [ExpectedException(typeof(InvalidOperationException))]
-    public void ExpectAnException()
+    public void ExpectAnExceptionByType()
+    { /* ... */ }
+
+    [Test]
+    [ExpectedException("System.InvalidOperationException")]
+    public void ExpectAnExceptionByName()
     { /* ... */ }
   }
 }
@@ -95,7 +100,13 @@ Namespace Nunit.Tests
 
   &lt;TestFixture()&gt; Public Class SuccessTests
     &lt;Test(), ExpectedException(GetType(Exception))&gt;
-      Public Sub ExpectAnException()
+      Public Sub ExpectAnExceptionByType()
+    &#39; ...
+    End Sub
+
+  &lt;TestFixture()&gt; Public Class SuccessTests
+    &lt;Test(), ExpectedException("System.Exception")&gt;
+      Public Sub ExpectAnExceptionByName()
     &#39; ...
     End Sub
   End Class
@@ -113,7 +124,11 @@ namespace NUnitTests
   {
     [Test]
     [ExpectedException(__typeof(InvalidOperationException))]
-    void ExpectAnException();
+    void ExpectAnExceptionByType();
+
+    [Test]
+    [ExpectedException(S"SystemInvalidOperationException")]
+    void ExpectAnExceptionByName();
   };
 }
 
@@ -131,7 +146,7 @@ namespace NUnitTests {
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="docHome.html">NUnit 2.2.3</a></li>
+<li><a href="index.html">NUnit 2.2.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
@@ -142,7 +157,10 @@ namespace NUnitTests {
 <ul>
 <li><a href="testFixture.html">Test&nbsp;Fixture</a></li>
 <li><a href="test.html">Test</a></li>
-<li><a href="setupTeardown.html">Setup/Teardown</a></li>
+<li><a href="setup.html">Setup</a></li>
+<li><a href="teardown.html">Teardown</a></li>
+<li><a href="fixtureSetup.html">Test&nbsp;Fixture&nbsp;SetUp</a></li>
+<li><a href="fixtureTeardown.html">Test&nbsp;Fixture&nbsp;TearDown</a></li>
 <li id="current"><a href="exception.html">Expected&nbsp;Exception</a></li>
 <li><a href="platform.html">Platform</a></li>
 <li><a href="category.html">Category</a></li>

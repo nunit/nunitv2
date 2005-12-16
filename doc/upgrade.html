@@ -15,14 +15,10 @@
 <body>
 <!-- Standard Header for NUnit.org -->
 <div id="header">
-  <a id="logo" href="index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
   <div id="nav">
-    <a href="index.html">Home</a>
-    <a href="download.html">Download</a>
-    <a href="docHome.html" class="active">Documentation</a>
-    <a href="community.html">Community</a>
-    <a href="resources.html">Resources</a>
-    <a href="contactUs.html">Contact&nbsp;Us</a>
+    <a href="http://www.nunit.org">NUnit</a>
+    <a class="active" href="index.html">Documentation</a>
   </div>
 </div>
 <!-- End of Header -->
@@ -30,13 +26,16 @@
 <!-- Main Content -->
 <div id="content">
 
-<h2>From NUnit 2.2</h2>
+<h2>From NUnit 2.x</h2>
 
 <p>Beginning with version 2.2.1, old style test cases ("Test....") are no longer 
 recognized by default. We recommend that you convert such test cases to use the
-<a href="testAttribute.html">TestAttribute</a>. Alternatively, you may
+<a href="test.html">TestAttribute</a>. Alternatively, you may
 specify a setting in the test config file to allow use of old style test cases by
 default.</p>
+
+<p>Beginning with NUnit 2.2.2, NUnit is able to run tests Built with older
+versions of NUnit 2.x without recompilation.</p>
 
 <h2>From NUnit 1.x</h2>
 
@@ -59,13 +58,14 @@ default.</p>
 <h3>AssertionFailedError</h3>
 <p>If you have written code expecting the exception AssertionFailedError, this must 
 	be changed to AssertionException.</p>
+
 </div>
 <!-- End of Main Content -->
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="docHome.html">NUnit 2.2.3</a></li>
+<li><a href="index.html">NUnit 2.2.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
