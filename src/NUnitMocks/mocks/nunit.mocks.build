@@ -10,6 +10,7 @@
         output="${current.build.dir}/nunit.mocks.dll"
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir=".">
+        <include name="../../CommonAssemblyInfo.cs"/>
         <include name="*.cs"/>
       </sources>
       <references basedir="${current.build.dir}">

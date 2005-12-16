@@ -13,6 +13,7 @@
         <include name="AssemblyInfo.cs"/>
         <include name="DynamicMockTests.cs"/>
         <include name="MockTests.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>

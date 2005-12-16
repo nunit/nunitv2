@@ -98,13 +98,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-server.exe_VS2005", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3EE8FF35-CFD4-474A-B122-68F5E8EE0C7D}"
 	ProjectSection(SolutionItems) = preProject
+		clr.bat = clr.bat
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 		license.rtf = license.rtf
-		nunit.key = nunit.key
+		nunit.snk = nunit.snk
 		NUnitBinTests.config = NUnitBinTests.config
 		NUnitBinTests.nunit = NUnitBinTests.nunit
 		NUnitDevTests.config = NUnitDevTests.config
 		NUnitDevTests.nunit = NUnitDevTests.nunit
+		NUnitMonoTests.nunit = NUnitMonoTests.nunit
 	EndProjectSection
 EndProject
 Global

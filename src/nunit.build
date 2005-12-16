@@ -191,6 +191,17 @@
     </foreach>
 
   </target>
+
+  <target name="create-asm-info" depends="set-build-dir">
+    <asminfo output="${current.build.dir}/asminfo.cs" language="CSharp">
+      <imports>
+        <import namespace="System"/>
+      </imports>
+      <attributes>
+        <attribute type="AssemblyVersionAttribute" value="${package.version}" asis="true"/>
+      </attributes>
+    </asminfo>
+  </target>
    
   <!-- Targets that perform builds -->    
   <target name="build" depends="set-build-dir"
@@ -208,12 +219,12 @@
     <nant target="build"
       buildfile="ConsoleRunner\ConsoleRunner.build"/>
     <nant target="build"
-      buildfile="NUnitTestServer\NUnitTestServer.build"/>
-    <nant target="build"
       buildfile="NUnitMocks\NUnitMocks.build"/>
     <nant target="build"
       buildfile="NUnitExtensions\NUnitExtensions.build"/>
 
+    <nant target="build" if="${build.win32}"
+      buildfile="NUnitTestServer\NUnitTestServer.build"/>
     <nant target="build" if="${build.win32}"
       buildfile="GuiComponents\GuiComponents.build"/>
     <nant target="build" if="${build.win32}"
@@ -230,23 +241,29 @@
     <nant target="build-tests"
       buildfile="ConsoleRunner\ConsoleRunner.build"/>
     <nant target="build-tests"
-      buildfile="NUnitTestServer\NUnitTestServer.build"/>
-    <nant target="build-tests"
       buildfile="NUnitMocks\NUnitMocks.build"/>
     <nant target="build-tests"
       buildfile="NUnitExtensions\NUnitExtensions.build"/>
 
+    <nant target="build-tests" if="${build.win32}"
+      buildfile="NUnitTestServer\NUnitTestServer.build"/>
     <nant target="build-tests" if="${build.win32}"
       buildfile="GuiComponents\GuiComponents.build"/>
     <nant target="build-tests" if="${build.win32}"
       buildfile="GuiRunner\GuiRunner.build"/>
 
     <!-- Create NUnit and config files for running tests -->
-    <copy file="NUnitBinTests.nunit" 
+    <copy file="NUnitBinTests.nunit" if="${build.win32}"
+      tofile="${current.build.dir}/NUnitTests.nunit"/>
+    <copy file="NUnitMonoTests.nunit" if="${build.mono}"
       tofile="${current.build.dir}/NUnitTests.nunit"/>
 
     <copy file="NUnitBinTests.config"
       tofile="${current.build.dir}/NUnitTests.config"/>
+
+    <!-- Copy clr.bat file for running under alternative frameworks -->
+    <copy file="clr.bat"
+      tofile="${current.build.dir}/clr.bat"/>
 
   </target>
 
@@ -517,7 +534,7 @@
         <include name="nunit.project.include"/>
         <include name="nunit.sln"/>
         <include name="nunit_VS2005.sln"/>
-        <include name="nunit.key"/>
+        <include name="nunit.snk"/>
         <include name="nunit20under21.config"/>
         <include name="nunit20under22.config"/>
         <include name="nunit21under22.config"/>
@@ -525,6 +542,9 @@
         <include name="NUnitBinTests.nunit"/>
         <include name="NUnitDevTests.config"/>
         <include name="NUnitDevTests.nunit"/>
+        <include name="NUnitMonoTests.nunit"/>
+        <include name="CommonAssemblyInfo.cs"/>
+        <include name="clr.bat"/>
         <include name="install/*.vdproj"/>
       </fileset>
     </copy>
