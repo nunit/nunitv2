@@ -32,7 +32,7 @@ namespace NUnit.Framework
 		/// <returns>True if the object is found</returns>
 		public override bool Test()
 		{
-			return list.Contains( expected );
+			return list != null && list.Contains( expected );
 		}
 
 		/// <summary>

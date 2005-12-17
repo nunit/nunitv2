@@ -311,18 +311,23 @@ namespace NUnit.Framework
 		{
 			AddLine( "{0}<", label );
 
-			for( int i = 0; i < max; i++ )
+			if ( list == null )
+				Write( "null" );
+			else if ( list.Count == 0 )
+				Write( "empty" );
+			else
 			{
-				Write( FormatObjectForDisplay( list[index++] ) );
+				for( int i = 0; i < max && index < list.Count; i++ )
+				{
+					Write( FormatObjectForDisplay( list[index++] ) );
 				
-				if ( index >= list.Count )
-					break;
+					if ( index < list.Count )
+						Write( "," );
+				}
 
-				Write( "," );
+				if ( index < list.Count )
+					Write( "..." );
 			}
-
-			if ( index < list.Count )
-				Write( "..." );
 
 			Write( ">" );
 		}

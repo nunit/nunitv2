@@ -116,6 +116,9 @@ namespace NUnit.UiKit
 		{
 			TestLoader loader = GetTestLoader( owner );
 
+			if ( configName == null )
+				configName = loader.TestProject.ActiveConfigName;
+
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Title = "Add Assembly";
 			dlg.InitialDirectory = configName == null

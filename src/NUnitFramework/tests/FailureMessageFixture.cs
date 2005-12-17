@@ -448,9 +448,48 @@ namespace NUnit.Framework.Tests
 			}
 
 			[Test]
+			public void DisplayListElements()
+			{
+				AssertionFailureMessage msg = null;
+
+				msg = new AssertionFailureMessage( "message");
+				msg.DisplayListElements( "label:", new object[] { "a", "b", "c" }, 0, 3 );
+				Assert.AreEqual( "message\r\nlabel:<<\"a\">,<\"b\">,<\"c\">>",
+					msg.ToString() );
+
+				msg = new AssertionFailureMessage( "message");
+				msg.DisplayListElements( "label:", new object[] { "a", "b", "c" }, 0, 5 );
+				Assert.AreEqual( "message\r\nlabel:<<\"a\">,<\"b\">,<\"c\">>",
+					msg.ToString() );
+
+				msg = new AssertionFailureMessage( "message");
+				msg.DisplayListElements( "label:", new object[] { "a", "b", "c" }, 1, 1 );
+				Assert.AreEqual( "message\r\nlabel:<<\"b\">,...>",
+					msg.ToString() );
+
+				msg = new AssertionFailureMessage( "message");
+				msg.DisplayListElements( "label:", new object[] { "a", "b", "c" }, 1, 5 );
+				Assert.AreEqual( "message\r\nlabel:<<\"b\">,<\"c\">>",
+					msg.ToString() );
+
+				msg = new AssertionFailureMessage( "message");
+				msg.DisplayListElements( "label:", new object[0], 0, 5 );
+				Assert.AreEqual( "message\r\nlabel:<empty>",
+					msg.ToString() );
+
+
+				msg = new AssertionFailureMessage( "message");
+				msg.DisplayListElements( "label:", null, 0, 5 );
+				Assert.AreEqual( "message\r\nlabel:<null>",
+					msg.ToString() );
+			}
+
+			[Test]
 			public void TestFormatMessageForArraysNotEqual()
 			{
-				AssertionFailureMessage msg = new AssertionFailureMessage( "message" );
+				AssertionFailureMessage msg = null;
+				
+				msg = new AssertionFailureMessage( "message" );
 				msg.DisplayArrayDifferences( 
 					new object[] { "one", "two", "three" },
 					new object[] { "one", "two", "three", "four", "five" },

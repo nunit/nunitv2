@@ -33,6 +33,30 @@ namespace NUnit.Framework.Tests
 		}
 
 		[Test]
+		public void EmptyArrayFails()
+		{
+			ListContentsAsserter asserter =
+				new ListContentsAsserter( "def", new object[0], null, null );
+			Assert.AreEqual( false, asserter.Test() );
+			Assert.AreEqual( @"
+	expected: <""def"">
+	 but was: <empty>",
+				asserter.Message );
+		}
+
+		[Test]
+		public void NullArrayFails()
+		{
+			ListContentsAsserter asserter =
+				new ListContentsAsserter( "def", null, null, null );
+			Assert.AreEqual( false, asserter.Test() );
+			Assert.AreEqual( @"
+	expected: <""def"">
+	 but was: <null>",
+				asserter.Message );
+		}
+
+		[Test]
 		public void ArrayListSucceeds()
 		{
 			ArrayList list = new ArrayList( testArray );
