@@ -48,7 +48,7 @@ namespace NUnit.ConsoleRunner.Tests
 		public void AllowForwardSlashDefaultsCorrectly()
 		{
 			ConsoleOptions options = new ConsoleOptions();
-			Assert.AreEqual( Path.PathSeparator != '/', options.AllowForwardSlash );
+			Assert.AreEqual( Path.DirectorySeparatorChar != '/', options.AllowForwardSlash );
 		}
 
 		private void TestBooleanOption( string fieldName )

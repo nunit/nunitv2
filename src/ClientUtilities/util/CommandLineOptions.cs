@@ -77,7 +77,7 @@ namespace Codeblast
 		private bool allowForwardSlash;
 
 		public CommandLineOptions( string[] args )
-			: this( System.IO.Path.PathSeparator != '/', args ) {}
+			: this( System.IO.Path.DirectorySeparatorChar != '/', args ) {}
 
 		public CommandLineOptions( bool allowForwardSlash, string[] args )
 		{
