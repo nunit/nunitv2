@@ -58,7 +58,7 @@
     <nant buildfile="ConsoleRunner/ConsoleRunner.build" target="clean"/>
     <nant buildfile="NUnitTestServer/NUnitTestServer.build" target="clean"/>
     <nant buildfile="NUnitMocks/NunitMocks.build" target="clean"/>
-    <nant buildfile="NUnitExtensions\NUnitExtensions.build" target="clean"/>
+    <nant buildfile="NUnitExtensions/NUnitExtensions.build" target="clean"/>
     <nant buildfile="GuiComponents/GuiComponents.build" target="clean"/>
     <nant buildfile="GuiRunner/GuiRunner.build" target="clean"/>
     <nant buildfile="tests/tests.build" target="clean"/>
@@ -213,44 +213,44 @@
 
     <!-- Build NUnit components assemblies -->
     <nant target="build"
-      buildfile="NUnitFramework\NUnitFramework.build"/>
+      buildfile="NUnitFramework/NUnitFramework.build"/>
     <nant target="build"
-      buildfile="ClientUtilities\ClientUtilities.build"/>
+      buildfile="ClientUtilities/ClientUtilities.build"/>
     <nant target="build"
-      buildfile="ConsoleRunner\ConsoleRunner.build"/>
+      buildfile="ConsoleRunner/ConsoleRunner.build"/>
     <nant target="build"
-      buildfile="NUnitMocks\NUnitMocks.build"/>
+      buildfile="NUnitMocks/NUnitMocks.build"/>
     <nant target="build"
-      buildfile="NUnitExtensions\NUnitExtensions.build"/>
+      buildfile="NUnitExtensions/NUnitExtensions.build"/>
 
     <nant target="build" if="${build.win32}"
-      buildfile="NUnitTestServer\NUnitTestServer.build"/>
+      buildfile="NUnitTestServer/NUnitTestServer.build"/>
     <nant target="build" if="${build.win32}"
-      buildfile="GuiComponents\GuiComponents.build"/>
+      buildfile="GuiComponents/GuiComponents.build"/>
     <nant target="build" if="${build.win32}"
-      buildfile="GuiRunner\GuiRunner.build"/>
+      buildfile="GuiRunner/GuiRunner.build"/>
 
 	<!-- Build the Test Utilities and dummy projects -->
-    <nant buildfile="tests\tests.build" target="build"/>
+    <nant buildfile="tests/tests.build" target="build"/>
 
     <!-- Build the NUnit tests -->
     <nant target="build-tests"
-      buildfile="NUnitFramework\NUnitFramework.build"/>
+      buildfile="NUnitFramework/NUnitFramework.build"/>
     <nant target="build-tests"
-      buildfile="ClientUtilities\ClientUtilities.build"/>
+      buildfile="ClientUtilities/ClientUtilities.build"/>
     <nant target="build-tests"
-      buildfile="ConsoleRunner\ConsoleRunner.build"/>
+      buildfile="ConsoleRunner/ConsoleRunner.build"/>
     <nant target="build-tests"
-      buildfile="NUnitMocks\NUnitMocks.build"/>
+      buildfile="NUnitMocks/NUnitMocks.build"/>
     <nant target="build-tests"
-      buildfile="NUnitExtensions\NUnitExtensions.build"/>
+      buildfile="NUnitExtensions/NUnitExtensions.build"/>
 
     <nant target="build-tests" if="${build.win32}"
-      buildfile="NUnitTestServer\NUnitTestServer.build"/>
+      buildfile="NUnitTestServer/NUnitTestServer.build"/>
     <nant target="build-tests" if="${build.win32}"
-      buildfile="GuiComponents\GuiComponents.build"/>
+      buildfile="GuiComponents/GuiComponents.build"/>
     <nant target="build-tests" if="${build.win32}"
-      buildfile="GuiRunner\GuiRunner.build"/>
+      buildfile="GuiRunner/GuiRunner.build"/>
 
     <!-- Create NUnit and config files for running tests -->
     <copy file="NUnitBinTests.nunit" if="${build.win32}"
@@ -289,7 +289,7 @@
 
     <fail message="Property vs.2002.path not set" unless="${property::exists( 'vs.2002.path' )}"/>
 
-    <exec program="${vs.2002.path}\devenv.exe"
+    <exec program="${vs.2002.path}/devenv.exe"
       commandline="nunit.sln /build ${build.config} /project install /out msi.txt"/>
 
   </target>
@@ -298,7 +298,7 @@
 
     <fail message="Property vs.2003.path not set" unless="${property::exists( 'vs.2003.path' )}"/>
 
-    <exec program="${vs.2003.path}\devenv.exe"
+    <exec program="${vs.2003.path}/devenv.exe"
       commandline="nunit.sln /build ${build.config} /project install /out msi.txt"/>
 
   </target>
@@ -422,13 +422,13 @@
   <target name="package-resources" depends="clean-package-dir">
 
     <nant target="package-resources"
-      buildfile="GuiRunner\nunit-gui\nunit-gui.build"/>
+      buildfile="GuiRunner/nunit-gui/nunit-gui.build"/>
 
     <nant target="package-resources"
-      buildfile="GuiComponents\UiKit\nunit.uikit.build"/>
+      buildfile="GuiComponents/UiKit/nunit.uikit.build"/>
 
     <copy todir="${package.working.dir}">
-      <fileset basedir="..\tools\localization">
+      <fileset basedir="../tools/localization">
         <include name="*.*"/>
       </fileset>
     </copy>
@@ -463,7 +463,7 @@
   <target name="package-msi" depends="build-msi,set-package-config"
     description="Build msi file and deploy it to the package dir">
 
-    <copy file="install\${build.config}\${msi.file.name}" tofile="${project.package.dir}/${msi.file.name}"/>        
+    <copy file="install/${build.config}/${msi.file.name}" tofile="${project.package.dir}/${msi.file.name}"/>        
 
   </target>
 
@@ -555,7 +555,7 @@
     <nant buildfile="ConsoleRunner/ConsoleRunner.build" target="package"/>
     <nant buildfile="NUnitTestServer/NUnitTestServer.build" target="package"/>
     <nant buildfile="NUnitMocks/NunitMocks.build" target="package"/>
-    <nant buildfile="NUnitExtensions\NUnitExtensions.build" target="package"/>
+    <nant buildfile="NUnitExtensions/NUnitExtensions.build" target="package"/>
     <nant buildfile="GuiComponents/GuiComponents.build" target="package"/>
     <nant buildfile="GuiRunner/GuiRunner.build" target="package"/>
     <nant buildfile="tests/tests.build" target="package"/>

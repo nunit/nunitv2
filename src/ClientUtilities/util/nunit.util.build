@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="NUnit.Util" default="build">
 
-  <include buildfile="..\..\nunit.project.include"/>
+  <include buildfile="../../nunit.project.include"/>
   
   <property name="current.build.output" value="nunit.util"/>
 
