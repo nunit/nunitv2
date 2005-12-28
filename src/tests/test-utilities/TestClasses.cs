@@ -133,6 +133,17 @@ namespace NUnit.TestUtilities.TestClasses
 	}
 
 	[TestFixture]
+	public class BaseClassTestFixture
+	{
+		[Test]
+		public void Success() { }
+	}
+	
+	public abstract class AbstractDerivedTestFixture : BaseClassTestFixture
+	{
+	}
+
+	[TestFixture]
 	public class MultipleFixtureSetUpAttributes
 	{
 		[TestFixtureSetUp]

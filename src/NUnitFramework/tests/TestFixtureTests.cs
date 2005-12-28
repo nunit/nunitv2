@@ -85,17 +85,6 @@ namespace NUnit.Core.Tests
 		public void CannotRunIgnoredFixture()
 		{
 			AssertNotRunnable( typeof( IgnoredFixture ), "testing ignore a suite" );
-//			TestSuite suite = builder.Build(testsDll, "NUnit.Core.Tests.TestFixtureBuilderTests+IgnoredFixture" );
-//			
-//			//suite = (TestSuite)suite.Tests[0];
-//			
-//			Assert.IsNotNull(suite);
-//			Assert.IsFalse(suite.ShouldRun, "Suite should not be runnable");
-//			Assert.AreEqual("testing ignore a suite", suite.IgnoreReason);
-//
-//			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
-//			Assert.IsFalse(testCase.ShouldRun,
-//				"test case should inherit run state from enclosing suite");
 		}
 
 //		[Test]
@@ -144,6 +133,11 @@ namespace NUnit.Core.Tests
 			AssertNotRunnable( typeof( AbstractTestFixture ) );
 		}
 
+		[Test]
+		public void CannotRunAbstractDerivedFixture()
+		{
+			AssertNotRunnable( typeof( AbstractDerivedTestFixture ) );
+		}
 
 		[Test] 
 		public void CannotRunMultipleTestFixtureSetUp()
