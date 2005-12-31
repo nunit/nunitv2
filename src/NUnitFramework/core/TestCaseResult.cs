@@ -39,15 +39,11 @@ namespace NUnit.Core
 	[Serializable]
 	public class TestCaseResult : TestResult
 	{
-		public TestCaseResult(ITest testCase):base(testCase, testCase.FullName)
-		{
-			Executed = false;
-		}
+		public TestCaseResult(ITest testCase)
+			: base(testCase, testCase.FullName) { }
 
-		public TestCaseResult(string testCaseString) : base(null, testCaseString)
-		{
-			Executed = false;
-		}
+		public TestCaseResult(string testCaseString) 
+			: base(null, testCaseString) { }
 
 		public void Success() 
 		{ 
@@ -55,19 +51,19 @@ namespace NUnit.Core
 			IsFailure = false; 
 		}
 
-		public override string ToString()
-		{
-			StringBuilder builder = new StringBuilder();
-			string name = Name;
-			if ( Test != null )
-				name = Test.FullName;
-			
-			builder.AppendFormat("{0} : " , name);
-			if(!IsSuccess)
-				builder.Append(messageString);
-
-			return builder.ToString();
-		}
+//		public override string ToString()
+//		{
+//			StringBuilder builder = new StringBuilder();
+//			string name = Name;
+//			if ( Test != null )
+//				name = Test.FullName;
+//			
+//			builder.AppendFormat("{0} : " , name);
+//			if(!IsSuccess)
+//				builder.Append(messageString);
+//
+//			return builder.ToString();
+//		}
 
 		public override void Accept(ResultVisitor visitor) 
 		{

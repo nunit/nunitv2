@@ -46,17 +46,17 @@ namespace NUnit.Core
 		/// <summary>
 		/// True if the test executed
 		/// </summary>
-		private bool executed;
+		private bool executed = false;
 
 		/// <summary>
 		/// True if the test was marked as a failure
 		/// </summary>
-		private bool isFailure; 
+		private bool isFailure = false; 
 
 		/// <summary>
 		/// The elapsed time for executing this test
 		/// </summary>
-		private double time;
+		private double time = 0.0;
 
 		/// <summary>
 		/// The name of the test
@@ -86,7 +86,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// Number of asserts executed by this test
 		/// </summary>
-		private int assertCount;
+		private int assertCount = 0;
 
 		#endregion
 
