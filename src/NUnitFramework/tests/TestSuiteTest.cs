@@ -299,7 +299,7 @@ namespace NUnit.Core.Tests
 
 		public TestResult lastResult = null;
 
-		public void RunStarted(Test[] tests)
+		public void RunStarted(TestInfo[] tests)
 		{
 		}
 
@@ -311,7 +311,7 @@ namespace NUnit.Core.Tests
 		{
 		}
 
-		public void TestStarted(NUnit.Core.TestCase testCase) 
+		public void TestStarted(TestInfo testCase) 
 		{
 			testStarted.Add(testCase.Name);
 		}
@@ -322,7 +322,7 @@ namespace NUnit.Core.Tests
 			lastResult = result;
 		}
 
-		public void SuiteStarted(TestSuite suite)
+		public void SuiteStarted(TestInfo suite)
 		{
 			suiteStarted.Add(suite.Name);
 		}

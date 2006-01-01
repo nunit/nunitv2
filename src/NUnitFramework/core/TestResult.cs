@@ -66,7 +66,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// The test that this result pertains to
 		/// </summary>
-		private ITest test;
+		private TestInfo test;
 
 		/// <summary>
 		/// The stacktrace at the point of failure
@@ -91,15 +91,13 @@ namespace NUnit.Core
 		#endregion
 
 		#region Protected Constructor
-
-		protected TestResult(ITest test, string name)
+		protected TestResult(TestInfo test, string name)
 		{
 			this.name = name;
 			this.test = test;
 			if(test != null)
 				this.description = test.Description;
 		}
-
 		#endregion
 
 		#region Properties
@@ -120,7 +118,7 @@ namespace NUnit.Core
 			get{ return name;}
 		}
 
-		public ITest Test
+		public TestInfo Test
 		{
 			get{ return test;}
 		}

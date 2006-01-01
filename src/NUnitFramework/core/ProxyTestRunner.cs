@@ -83,22 +83,22 @@ namespace NUnit.Core
 
 		#region Load and Unload Methods
 
-		public virtual Test Load(string assemblyName)
+		public virtual TestNode Load(string assemblyName)
 		{
 			return this.testRunner.Load(assemblyName);
 		}
 
-		public virtual Test Load(string assemblyName, string testName)
+		public virtual TestNode Load(string assemblyName, string testName)
 		{
 			return this.testRunner.Load(assemblyName, testName);
 		}
 
-		public virtual Test Load( string projectName, string[] assemblies )
+		public virtual TestNode Load( string projectName, string[] assemblies )
 		{
 			return this.testRunner.Load( projectName, assemblies );
 		}
 
-		public virtual Test Load( string projectName, string[] assemblies, string testName )
+		public virtual TestNode Load( string projectName, string[] assemblies, string testName )
 		{
 			return this.testRunner.Load( projectName, assemblies, testName );
 		}

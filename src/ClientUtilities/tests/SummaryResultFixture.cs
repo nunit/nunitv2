@@ -45,7 +45,7 @@ namespace NUnit.Util.Tests
 
 		private TestSuiteResult NotRunTestSuite()
 		{
-			TestSuiteResult result = new TestSuiteResult(null,"RootSuite");
+			TestSuiteResult result = new TestSuiteResult("RootSuite");
 			result.Executed = false;
 
 			TestCaseResult testCaseResult = new TestCaseResult("NonRunTestCase");
@@ -64,15 +64,15 @@ namespace NUnit.Util.Tests
 		}
 		private TestSuiteResult MockSuiteResult(string suiteName, bool failure)
 		{
-			TestSuiteResult result = new TestSuiteResult(null, suiteName);
+			TestSuiteResult result = new TestSuiteResult(suiteName);
 			result.Time = time;
 			result.Executed = true;
 
-			TestSuiteResult level1SuiteA = new TestSuiteResult(null, "level 1 A");
+			TestSuiteResult level1SuiteA = new TestSuiteResult("level 1 A");
 			result.AddResult(level1SuiteA);
 			level1SuiteA.Executed = true;
 
-			TestSuiteResult level1SuiteB = new TestSuiteResult(null, "level 1 B");
+			TestSuiteResult level1SuiteB = new TestSuiteResult("level 1 B");
 			result.AddResult(level1SuiteB);
 			level1SuiteB.Executed = true;
 

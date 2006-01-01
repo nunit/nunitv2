@@ -20,9 +20,9 @@ namespace NUnit.Core
 
 	public class RunStartedEvent : Event
 	{
-		Test[] tests;
+		TestInfo[] tests;
 
-		public RunStartedEvent( Test[] tests )
+		public RunStartedEvent( TestInfo[] tests )
 		{
 			this.tests = tests;
 		}
@@ -59,9 +59,9 @@ namespace NUnit.Core
 
 	public class TestStartedEvent : Event
 	{
-		TestCase testCase;
+		TestInfo testCase;
 
-		public TestStartedEvent( TestCase testCase )
+		public TestStartedEvent( TestInfo testCase )
 		{
 			this.testCase = testCase;
 		}
@@ -89,9 +89,9 @@ namespace NUnit.Core
 
 	public class SuiteStartedEvent : Event
 	{
-		TestSuite suite;
+		TestInfo suite;
 
-		public SuiteStartedEvent( TestSuite suite )
+		public SuiteStartedEvent( TestInfo suite )
 		{
 			this.suite = suite;
 		}

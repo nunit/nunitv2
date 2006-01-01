@@ -47,8 +47,8 @@ using NUnit.Util;
 namespace NUnit.UiKit
 {
 
-	public delegate void SelectedTestChangedHandler( UITestNode test );
-	public delegate void CheckedTestChangedHandler( UITestNode[] tests );
+	public delegate void SelectedTestChangedHandler( TestInfo test );
+	public delegate void CheckedTestChangedHandler( TestInfo[] tests );
 
 	/// <summary>
 	/// TestSuiteTreeView is a tree view control
@@ -288,7 +288,7 @@ namespace NUnit.UiKit
 		/// The currently selected test.
 		/// </summary>
 		[Browsable( false )]
-		public UITestNode SelectedTest
+		public TestInfo SelectedTest
 		{
 			get 
 			{ 
@@ -298,7 +298,7 @@ namespace NUnit.UiKit
 		}
 
 		[Browsable( false )]
-		public UITestNode[] CheckedTests 
+		public TestInfo[] CheckedTests 
 		{
 			get 
 			{
@@ -308,15 +308,15 @@ namespace NUnit.UiKit
 		}
 
 		[Browsable( false )]
-		public UITestNode[] SelectedTests
+		public TestInfo[] SelectedTests
 		{
 			get
 			{
 				CheckedTestFinder finder = new CheckedTestFinder( this );
-				UITestNode[] result = finder.GetCheckedTests( 
+				TestInfo[] result = finder.GetCheckedTests( 
 					CheckedTestFinder.SelectionFlags.Top | CheckedTestFinder.SelectionFlags.Explicit );
 				if ( result.Length == 0 )
-					result = new UITestNode[] { this.SelectedTest };
+					result = new TestInfo[] { this.SelectedTest };
 				return result;
 			}	
 		}
@@ -366,7 +366,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// Test node corresponding to a TestInfo interface
 		/// </summary>
-		private TestSuiteTreeNode this[ITest test]
+		private TestSuiteTreeNode this[TestInfo test]
 		{
 			get { return FindNode( test ); }
 		}
@@ -386,16 +386,21 @@ namespace NUnit.UiKit
 		private void OnTestLoaded( object sender, TestEventArgs e )
 		{
 			CheckPropertiesDialog();
-			Load( e.Test );
+			TestNode test = e.Test as TestNode;
+			if ( test != null )
+				Load( test );
 			runCommandEnabled = true;
 		}
 
 		private void OnTestChanged( object sender, TestEventArgs e )
 		{
-			UITestNode test = e.Test;
-			Invoke( new LoadHandler( Reload ), new object[]{ test } );
-			if ( ClearResultsOnChange )
-				ClearResults();
+			TestNode test = e.Test as TestNode;
+			if ( test != null )
+			{
+				Invoke( new LoadHandler( Reload ), new object[]{ test } );
+				if ( ClearResultsOnChange )
+					ClearResults();
+			}
 		}
 
 		private void OnTestUnloaded( object sender, TestEventArgs e)
@@ -694,7 +699,7 @@ namespace NUnit.UiKit
 		/// Load the tree with a test hierarchy
 		/// </summary>
 		/// <param name="test">Test to be loaded</param>
-		public void Load( UITestNode test )
+		public void Load( TestNode test )
 		{
 			using( new CP.Windows.Forms.WaitCursor() )
 			{
@@ -743,7 +748,7 @@ namespace NUnit.UiKit
 		/// while maintaining as much gui state as possible
 		/// </summary>
 		/// <param name="test">Test suite to be loaded</param>
-		public void Reload( UITestNode test )
+		public void Reload( TestNode test )
 		{
 			TestSuiteTreeNode rootNode = (TestSuiteTreeNode) Nodes[0];
 			
@@ -844,7 +849,7 @@ namespace NUnit.UiKit
 				ExpandFixturesUnderNode( node );
 		}
 
-		public void ShowPropertiesDialog( UITestNode test )
+		public void ShowPropertiesDialog( TestInfo test )
 		{
 			ShowPropertiesDialog( this[ test ] );
 		}
@@ -890,12 +895,12 @@ namespace NUnit.UiKit
 			RunTests( SelectedTests );			
 		}
 
-		private void RunTest( UITestNode test )
+		private void RunTest( TestInfo test )
 		{
-			RunTests( new UITestNode[] { test } );
+			RunTests( new TestInfo[] { test } );
 		}
 
-		private void RunTests( UITestNode[] tests )
+		private void RunTests( TestInfo[] tests )
 		{
 			if ( SelectedCategories != null && SelectedCategories.Length > 0 )
 				loader.SetFilter( new CategoryFilter( this.SelectedCategories, this.ExcludeSelectedCategories ) );
@@ -916,22 +921,22 @@ namespace NUnit.UiKit
 		/// <param name="rootTest">The test for which a node is to be built</param>
 		/// <param name="highlight">If true, highlight the text for this node in the tree</param>
 		/// <returns>A newly constructed TestNode, possibly with descendant nodes</returns>
-		private TestSuiteTreeNode AddTreeNodes( IList nodes, ITest rootTest, bool highlight )
+		private TestSuiteTreeNode AddTreeNodes( IList nodes, TestNode rootTest, bool highlight )
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( rootTest );
 			//			if ( highlight ) node.ForeColor = Color.Blue;
 #if USE_HASHTABLE
-			if ( treeMap.ContainsKey(node.Test.UniqueName) )
+			if ( treeMap.ContainsKey( node.Test.Key ) )
 				UserMessage.Display( string.Format( 
 					"The test {0} is duplicated\r\rResults will not be displayed correctly in the tree.", node.Test.FullName ), "Duplicate Test" );
 			else
-				treeMap.Add( node.Test.UniqueName, node );
+				treeMap.Add( node.Test.Key, node );
 #endif
 			nodes.Add( node );
 			
 			if ( rootTest.IsSuite )
 			{
-				foreach( UITestNode test in rootTest.Tests )
+				foreach( TestNode test in rootTest.Tests )
 					AddTreeNodes( node.Nodes, test, highlight );
 			}
 
@@ -941,9 +946,8 @@ namespace NUnit.UiKit
 		private TestSuiteTreeNode AddTreeNodes( IList nodes, TestResult rootResult, bool highlight )
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( rootResult );
-			//			if ( highlight ) node.ForeColor = Color.Blue;
 #if USE_HASHTABLE
-			treeMap.Add( node.Test.UniqueName, node );
+			treeMap.Add( node.Test.Key, node );
 #endif
 			nodes.Add( node );
 			
@@ -964,7 +968,7 @@ namespace NUnit.UiKit
 			foreach( TestSuiteTreeNode child in node.Nodes )
 				RemoveFromMap( child );
 #if USE_HASHTABLE
-			treeMap.Remove( node.Test.UniqueName );
+			treeMap.Remove( node.Test.Key );
 #endif
 		}
 
@@ -986,7 +990,7 @@ namespace NUnit.UiKit
 		/// <param name="node">Node to compare</param>
 		/// <param name="test">Test to compare</param>
 		/// <returns>True if the test has the same name</returns>
-		private bool Match( TestSuiteTreeNode node, UITestNode test )
+		private bool Match( TestSuiteTreeNode node, TestNode test )
 		{
 			return node.Test.FullName == test.FullName;
 		}
@@ -1000,7 +1004,7 @@ namespace NUnit.UiKit
 		/// <param name="node">Node to be updated</param>
 		/// <param name="test">Test to plug into node</param>
 		/// <returns>True if a child node was added or deleted</returns>
-		private bool UpdateNode( TestSuiteTreeNode node, UITestNode test )
+		private bool UpdateNode( TestSuiteTreeNode node, TestNode test )
 		{
 			node.UpdateTest( test );
 			
@@ -1034,7 +1038,7 @@ namespace NUnit.UiKit
 					showChanges = true;
 				}
 
-			foreach( UITestNode test in tests )
+			foreach( TestNode test in tests )
 			{
 				TestSuiteTreeNode node = this[ test ];
 				if ( node == null )
@@ -1057,7 +1061,7 @@ namespace NUnit.UiKit
 		/// <param name="tests">List of tests to match with node</param>
 		private bool NodeWasDeleted( TestSuiteTreeNode node, IList tests )
 		{
-			foreach ( UITestNode test in tests )
+			foreach ( TestNode test in tests )
 				if( Match( node, test ) )
 					return false;
 
@@ -1068,7 +1072,7 @@ namespace NUnit.UiKit
 		/// Delegate for use in invoking the tree loader
 		/// from the watcher thread.
 		/// </summary>
-		private delegate void LoadHandler( UITestNode test );
+		private delegate void LoadHandler( TestNode test );
 
 		private delegate void PropertiesDisplayHandler();
 		
@@ -1137,12 +1141,12 @@ namespace NUnit.UiKit
 		}
 
 #if USE_HASHTABLE
-		private TestSuiteTreeNode FindNode( ITest test )
+		private TestSuiteTreeNode FindNode( TestInfo test )
 		{
-			return treeMap[test.UniqueName] as TestSuiteTreeNode;
+			return treeMap[test.Key] as TestSuiteTreeNode;
 		}
 #else
-		private TestSuiteTreeNode FindNode( ITest test )
+		private TestSuiteTreeNode FindNode( TestNode test )
 		{
 			TestSuiteTreeNode lastParent = 
 				lastNodeFound == null ? null : lastNodeFound.Parent as TestSuiteTreeNode;
@@ -1168,7 +1172,7 @@ namespace NUnit.UiKit
 		/// <param name="node">The node at which to begin the search</param>
 		/// <param name="test">The test to search for</param>
 		/// <returns>The node that represents the test, or null</returns>
-		private TestSuiteTreeNode FindNode( TestSuiteTreeNode node, ITest test )
+		private TestSuiteTreeNode FindNode( TestSuiteTreeNode node, TestNode test )
 		{
 			if(test.FullName.Equals(node.Test.FullName)) return node;
 
@@ -1275,23 +1279,23 @@ namespace NUnit.UiKit
 			private ArrayList checkedTests = new ArrayList();
 			private struct CheckedTestInfo
 			{
-				public UITestNode Test;
+				public TestInfo Test;
 				public bool TopLevel;
 
-				public CheckedTestInfo( UITestNode test, bool topLevel )
+				public CheckedTestInfo( TestInfo test, bool topLevel )
 				{
 					this.Test = test;
 					this.TopLevel = topLevel;
 				}
 			}
 
-			public UITestNode[] GetCheckedTests( SelectionFlags flags )
+			public TestInfo[] GetCheckedTests( SelectionFlags flags )
 			{
 				int count = 0;
 				foreach( CheckedTestInfo info in checkedTests )
 					if ( isSelected( info, flags ) ) count++;
 		
-				UITestNode[] result = new UITestNode[count];
+				TestInfo[] result = new TestNode[count];
 				
 				int index = 0;
 				foreach( CheckedTestInfo info in checkedTests )

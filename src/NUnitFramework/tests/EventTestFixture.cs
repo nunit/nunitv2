@@ -64,7 +64,7 @@ namespace NUnit.Core.Tests
 			internal int suiteStarted = 0;
 			internal int suiteFinished = 0;
 
-			public void RunStarted(Test[] tests)
+			public void RunStarted(TestInfo[] tests)
 			{
 				runStarted++;
 			}
@@ -79,7 +79,7 @@ namespace NUnit.Core.Tests
 				runFinished++;
 			}
 
-			public void TestStarted(NUnit.Core.TestCase testCase)
+			public void TestStarted(TestInfo testCase)
 			{
 				testCaseStart++;
 			}
@@ -89,7 +89,7 @@ namespace NUnit.Core.Tests
 				testCaseFinished++;
 			}
 
-			public void SuiteStarted(TestSuite suite)
+			public void SuiteStarted(TestInfo suite)
 			{
 				suiteStarted++;
 			}

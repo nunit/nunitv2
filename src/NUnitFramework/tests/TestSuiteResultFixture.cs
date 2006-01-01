@@ -45,12 +45,12 @@ namespace NUnit.Core.Tests
 
 		private TestSuiteResult MockSuiteResult()
 		{
-			TestSuiteResult result = new TestSuiteResult(null, "base");
+			TestSuiteResult result = new TestSuiteResult("base");
 
-			TestSuiteResult level1SuiteA = new TestSuiteResult(null, "level 1 A");
+			TestSuiteResult level1SuiteA = new TestSuiteResult("level 1 A");
 			result.AddResult(level1SuiteA);
 
-			TestSuiteResult level1SuiteB = new TestSuiteResult(null, "level 1 B");
+			TestSuiteResult level1SuiteB = new TestSuiteResult("level 1 B");
 			result.AddResult(level1SuiteB);
 
 			testCase = new TestCaseResult("a test case");
@@ -64,7 +64,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void EmptySuite()
 		{
-			TestSuiteResult result = new TestSuiteResult(null, "base suite");
+			TestSuiteResult result = new TestSuiteResult("base suite");
 			Assert.IsTrue(result.IsSuccess, "result should be success");
 		}
 

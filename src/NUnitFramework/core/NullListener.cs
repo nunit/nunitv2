@@ -38,17 +38,17 @@ namespace NUnit.Core
 	[Serializable]
 	public class NullListener : EventListener
 	{
-		public void RunStarted( Test[] tests ){ }
+		public void RunStarted( TestInfo[] tests ){ }
 
 		public void RunFinished( TestResult[] results ) { }
 
 		public void RunFinished( Exception exception ) { }
 
-		public void TestStarted(TestCase testCase){}
+		public void TestStarted(TestInfo testCase){}
 			
 		public void TestFinished(TestCaseResult result){}
 
-		public void SuiteStarted(TestSuite suite){}
+		public void SuiteStarted(TestInfo suite){}
 
 		public void SuiteFinished(TestSuiteResult result){}
 

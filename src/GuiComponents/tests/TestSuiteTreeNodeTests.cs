@@ -46,9 +46,9 @@ namespace NUnit.UiKit.Tests
 		TestSuite testFixture;
 		NUnit.Core.TestCase testCase;
 
-		UITestNode suiteInfo;
-		UITestNode fixtureInfo;
-		UITestNode testCaseInfo;
+		TestNode suiteInfo;
+		TestNode fixtureInfo;
+		TestNode testCaseInfo;
 
 		[SetUp]
 		public void SetUp()
@@ -57,11 +57,11 @@ namespace NUnit.UiKit.Tests
 			testFixture = TestFixtureBuilder.Make( typeof( MockTestFixture ) );
 			testSuite.Add( testFixture );
 
-			suiteInfo = new UITestNode( testSuite );
-			fixtureInfo = new UITestNode( testFixture );
+			suiteInfo = new TestNode( testSuite );
+			fixtureInfo = new TestNode( testFixture );
 
 			testCase = (NUnit.Core.TestCase)testFixture.Tests[0];
-			testCaseInfo = new UITestNode( testCase );
+			testCaseInfo = new TestNode( testCase );
 		}
 
 		[Test]
@@ -79,39 +79,21 @@ namespace NUnit.UiKit.Tests
 			Assert.AreEqual( "MockTest1", node.Text );
 		}
 
-//		[Test]
-//		public void ConstructFromTestResultInfo()
-//		{
-//			TestSuiteTreeNode node;
-//
-//			node = new TestSuiteTreeNode( new TestResultInfo( testSuite, "Result 1" ) );
-//			Assert.Equals( "MyTestSuite", node.Text );
-//			Assert.Equals( "MyTestSuite", node.Test.Name );
-//
-//			node = new TestSuiteTreeNode( new TestResultInfo( testFixture, "Result 2" ) );
-//			Assert.Equals( "MockTestFixture", node.Text );
-//			Assert.Equals( "MockTestFixture", node.Test.Name );
-//
-//			node = new TestSuiteTreeNode( new TestResultInfo( testCase ) );
-//			Assert.Equals( "MockTest1", node.Text );
-//			Assert.Equals( "MockTest1", node.Test.Name );
-//		}
-
 		[Test]
 		public void UpdateTest()
 		{
 			TestSuiteTreeNode node;
 			
 			node = new TestSuiteTreeNode( suiteInfo );
-			UITestNode suiteInfo2 = new UITestNode( new TestSuite( "MyTestSuite" ) );
+			TestNode suiteInfo2 = new TestNode( new TestSuite( "MyTestSuite" ) );
 
 			node.UpdateTest( suiteInfo2 );
 			Assert.AreEqual( "MyTestSuite", node.Test.FullName );
-			Assert.AreEqual( 0, node.Test.CountTestCases() );
+			Assert.AreEqual( 0, node.Test.TestCount );
 
 			node.UpdateTest( suiteInfo );
 			Assert.AreEqual( "MyTestSuite", node.Test.FullName );
-			Assert.AreEqual( MockTestFixture.Tests, node.Test.CountTestCases() );
+			Assert.AreEqual( MockTestFixture.Tests, node.Test.TestCount );
 		}
 
 		[Test]
@@ -119,7 +101,7 @@ namespace NUnit.UiKit.Tests
 		public void UpdateUsingWrongTest()
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( suiteInfo );
-			UITestNode suiteInfo2 = new UITestNode( new TestSuite( "NotMyTestSuite" ) );
+			TestNode suiteInfo2 = new TestNode( new TestSuite( "NotMyTestSuite" ) );
 			node.UpdateTest( suiteInfo2 );
 		}
 
@@ -127,7 +109,7 @@ namespace NUnit.UiKit.Tests
 		public void SetResult()
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
-			TestCaseResult result = new TestCaseResult( testCase );
+			TestCaseResult result = new TestCaseResult( testCaseInfo );
 
 			node.SetResult( result );
 			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", node.Result.Name );
@@ -158,7 +140,7 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void ClearResult()
 		{
-			TestCaseResult result = new TestCaseResult( testCase );
+			TestCaseResult result = new TestCaseResult( testCaseInfo );
 			result.Failure("message", "stacktrace");
 
 			TestSuiteTreeNode node = new TestSuiteTreeNode( result );
@@ -174,9 +156,9 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void ClearResults()
 		{
-			TestCaseResult testCaseResult = new TestCaseResult( testCase );
+			TestCaseResult testCaseResult = new TestCaseResult( testCaseInfo );
 			testCaseResult.Success();
-			TestSuiteResult testSuiteResult = new TestSuiteResult( testFixture, "MockTestFixture" );
+			TestSuiteResult testSuiteResult = new TestSuiteResult( fixtureInfo, "MockTestFixture" );
 			testSuiteResult.AddResult( testCaseResult );
 			testSuiteResult.Executed = true;
 

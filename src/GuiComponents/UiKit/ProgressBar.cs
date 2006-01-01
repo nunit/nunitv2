@@ -208,10 +208,10 @@ namespace NUnit.UiKit
 			Maximum = testCount;
 		}
 
-		private void Initialize( ITest test )
-		{
-			Initialize( test.CountTestCases() );
-		}
+//		private void Initialize( TestNode test )
+//		{
+//			Initialize( test.CountTestCases() );
+//		}
 
 		protected override void OnCreateControl()
 		{
@@ -234,7 +234,7 @@ namespace NUnit.UiKit
 
 		private void OnLoadComplete( object sender, TestEventArgs e )
 		{
-			Initialize( e.Test );
+			Initialize( e.TestCount );
 		}
 
 		private void OnUnloadComplete( object sender, TestEventArgs e )

@@ -251,9 +251,9 @@ namespace NUnit.Core
 			
 		public override TestResult Run(EventListener listener, IFilter filter)
 		{
-			TestSuiteResult suiteResult = new TestSuiteResult(this, Name);
+			TestSuiteResult suiteResult = new TestSuiteResult( this, Name);
 
-			listener.SuiteStarted(this);
+			listener.SuiteStarted( new TestNode( this ) );
 			long startTime = DateTime.Now.Ticks;
 
 			if ( ShouldRun )

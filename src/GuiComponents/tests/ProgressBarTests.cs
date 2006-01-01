@@ -46,7 +46,7 @@ namespace NUnit.UiKit.Tests
 		private ProgressBar progressBar;
 		private MockTestEventSource mockEvents;
 		private string testsDll = "mock-assembly.dll";
-		private TestSuite suite;
+		private TestNode suite;
 		int testCount;
 
 		[SetUp]
@@ -55,7 +55,7 @@ namespace NUnit.UiKit.Tests
 			progressBar = new ProgressBar();
 
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			suite = builder.Build( testsDll );
+			suite = new TestNode( builder.Build( testsDll ) );
 
 			mockEvents = new MockTestEventSource( suite );
 		}

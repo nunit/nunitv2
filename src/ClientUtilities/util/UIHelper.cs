@@ -67,7 +67,7 @@ namespace NUnit.Util
 			return true;
 		}
 
-		private static bool AreNodesTheSame( UITestNode testOne, UITestNode testTwo )
+		private static bool AreNodesTheSame( TestNode testOne, TestNode testTwo )
 		{
 			if( testOne == null && testTwo != null ) return false;
 			if( testTwo == null && testOne != null ) return false;
@@ -77,7 +77,7 @@ namespace NUnit.Util
 			return testOne.FullName.Equals(testTwo.FullName);
 		}
 
-		public static bool CompareTree( UITestNode rootTestOriginal, UITestNode rootTestNew )
+		public static bool CompareTree( TestNode rootTestOriginal, TestNode rootTestNew )
 		{
 			if( !AreNodesTheSame( rootTestOriginal, rootTestNew ) ) 
 				return false;
@@ -88,7 +88,7 @@ namespace NUnit.Util
 					return false;
 
 				for(int i=0; i< rootTestOriginal.Tests.Count; i++)
-					if( !CompareTree( (UITestNode)rootTestOriginal.Tests[i], (UITestNode)rootTestNew.Tests[i] ) ) 
+					if( !CompareTree( (TestNode)rootTestOriginal.Tests[i], (TestNode)rootTestNew.Tests[i] ) ) 
 						return false;
 			}
 

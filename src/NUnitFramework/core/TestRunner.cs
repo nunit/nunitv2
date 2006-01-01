@@ -40,9 +40,9 @@ namespace NUnit.Core
 	/// the NUnit core as well as by other classes running on the client side.
 	/// 
 	/// The Load family of methods is used to load a suite of tests from one or more 
-	/// assemblies, returning the resulting test suite to the caller.
+	/// assemblies, returning a tree of TestNodes to the caller.
 	/// 
-	/// The SetFilter method provides a general approach to running only a subset
+	/// The Filter property provides a general approach to running only a subset
 	/// of the tests. Any set filter affects future calls to CountTestCases or Run.
 	/// 
 	/// The CountTestCases family of methods returns the number of test cases in the
@@ -62,22 +62,6 @@ namespace NUnit.Core
 	public interface TestRunner
 	{
 		#region Properties
-//		/// <summary>
-//		/// Writer for standard output.
-//		/// </summary>
-//		TextWriter Out
-//		{
-//			get; set;
-//		}
-//
-//		/// <summary>
-//		/// Writer for error output.
-//		/// </summary>
-//		TextWriter Error
-//		{
-//			get; set;
-//		}
-
 		/// <summary>
 		/// IsTestRunning indicates whether a test is in progress. To retrieve the
 		/// results from an asynchronous test run, wait till IsTestRunning is false.
@@ -119,14 +103,14 @@ namespace NUnit.Core
 		/// Load all tests from an assembly
 		/// </summary>
 		/// <param name="assemblyName">The assembly from which tests are to be loaded</param>
-		Test Load( string assemblyName );
+		TestNode Load( string assemblyName );
 
 		/// <summary>
 		/// Load a particular test in an assembly
 		/// </summary>
 		/// <param name="assemblyName">The assembly from which tests are to be loaded</param>
 		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
-		Test Load( string assemblyName, string testName );
+		TestNode Load( string assemblyName, string testName );
 
 		/// <summary>
 		/// Load the assemblies in a test project
@@ -134,7 +118,7 @@ namespace NUnit.Core
 		/// <param name="projectName">The name of the test project being loaded</param>
 		/// <param name="assemblies">The assemblies comprising the project</param>
 		/// <returns>The loaded test</returns>
-		Test Load( string projectName, string[] assemblies );
+		TestNode Load( string projectName, string[] assemblies );
 
 		/// <summary>
 		/// Load a particular test in a TestProject.
@@ -143,7 +127,7 @@ namespace NUnit.Core
 		/// <param name="assemblies">The assemblies comprising the project</param>
 		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
 		/// <returns>The loaded test</returns>
-		Test Load( string projectName, string[] assemblies, string testName );
+		TestNode Load( string projectName, string[] assemblies, string testName );
 
 		/// <summary>
 		/// Unload all tests previously loaded

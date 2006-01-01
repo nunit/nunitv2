@@ -42,7 +42,7 @@ namespace NUnit.Util.Tests
 	{
 		private string[] assemblies;
 		private TestDomain domain; 
-		private Test loadedSuite;
+		private TestNode loadedSuite;
 
 		private string name = "Multiple Assemblies Test";
 
@@ -71,28 +71,32 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void RootNode()
 		{
-			Assert.IsTrue( loadedSuite is RootTestSuite );
+			//Assert.IsTrue( loadedSuite is RootTestSuite );
 			Assert.AreEqual( name, loadedSuite.Name );
 		}
 
 		[Test]
 		public void AssemblyNodes()
 		{
-			Assert.IsTrue( loadedSuite.Tests[0] is TestAssembly );
-			Assert.IsTrue( loadedSuite.Tests[1] is TestAssembly );
+			//Assert.IsTrue( loadedSuite.Tests[0] is TestAssembly );
+			//Assert.IsTrue( loadedSuite.Tests[1] is TestAssembly );
+			TestNode test0 = (TestNode)loadedSuite.Tests[0];
+			TestNode test1 = (TestNode)loadedSuite.Tests[1];
+			Assert.AreEqual( assemblies[0], test0.Name );
+			Assert.AreEqual( assemblies[1], test1.Name );
 		}
 
 		[Test]
 		public void TestCaseCount()
 		{
 			Assert.AreEqual(NoNamespaceTestFixture.Tests + MockAssembly.Tests, 
-				loadedSuite.CountTestCases());
+				loadedSuite.TestCount );
 		}
 
 		[Test]
 		public void RunMultipleAssemblies()
 		{
-			TestResult result = loadedSuite.Run(NullListener.NULL);
+			TestResult result = domain.Run(NullListener.NULL);
 			ResultSummarizer summary = new ResultSummarizer(result);
 			Assert.AreEqual(
 				NoNamespaceTestFixture.Tests + MockAssembly.Tests - MockAssembly.NotRun, 
@@ -111,9 +115,9 @@ namespace NUnit.Util.Tests
 				{ Path.GetFullPath( "nonamespace-assembly.dll" ), Path.GetFullPath( "mock-assembly.dll" ) };
 
 			TestDomain domain = new TestDomain();
-			Test suite = domain.Load( name, assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
+			TestNode suite = domain.Load( name, assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.IsNotNull( suite );
-			Assert.AreEqual( MockTestFixture.Tests, suite.CountTestCases() );
+			Assert.AreEqual( MockTestFixture.Tests, suite.TestCount );
 		}
 	}
 }

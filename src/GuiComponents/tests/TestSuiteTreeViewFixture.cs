@@ -46,16 +46,15 @@ namespace NUnit.UiKit.Tests
 	{
 		private string testsDll = "mock-assembly.dll";
 		private TestSuite suite;
-		private TestSuite fixture;
+		//private TestSuite fixture;
 
 		[SetUp]
 		public void SetUp() 
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( testsDll );
-			suite.Sort();
 
-			fixture = new NUnitTestFixture ( typeof( MockTestFixture ) );
+			//fixture = new NUnitTestFixture ( typeof( MockTestFixture ) );
 		}
 
 		[Test]
@@ -88,7 +87,7 @@ namespace NUnit.UiKit.Tests
 		public void BuildTreeView()
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
-			treeView.Load(suite);
+			treeView.Load( new TestNode( suite ) );
 			Assert.IsNotNull( treeView.Nodes[0] );
 			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
 			Assert.AreEqual( "mock-assembly.dll", treeView.Nodes[0].Text );	
@@ -167,7 +166,7 @@ namespace NUnit.UiKit.Tests
 		public void ClearTree()
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
-			treeView.Load(suite);
+			treeView.Load( new TestNode( suite ) );
 			
 			treeView.Clear();
 			Assert.AreEqual( 0, treeView.Nodes.Count );
@@ -177,8 +176,9 @@ namespace NUnit.UiKit.Tests
 		public void SetTestResult()
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
-			treeView.Load(suite);
-
+			treeView.Load( new TestNode( suite ) );
+			
+			TestSuite fixture = (TestSuite)findTest( "MockTestFixture", suite );		
 			TestSuiteResult result = new TestSuiteResult( fixture, "My test result" );
 			treeView.SetTestResult( result );
 
@@ -188,11 +188,29 @@ namespace NUnit.UiKit.Tests
 			Assert.AreEqual( fixtureNode.Test.FullName, fixtureNode.Result.Test.FullName );
 		}
 
+		private Test findTest(string name, Test test) 
+		{
+			Test result = null;
+			if (test.Name == name)
+				result = test;
+			else if (test.Tests != null)
+			{
+				foreach(Test t in test.Tests) 
+				{
+					result = findTest(name, t);
+					if (result != null)
+						break;
+				}
+			}
+
+			return result;
+		}
+
 		[Test]
 		public void ReloadTree()
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
-			treeView.Load(suite);
+			treeView.Load( new TestNode( suite ) );
 
 			Assert.AreEqual( MockAssembly.Tests, suite.CountTestCases() );
 			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
@@ -201,13 +219,13 @@ namespace NUnit.UiKit.Tests
 			TestSuite testsNamespaceSuite = nunitNamespaceSuite.Tests[0] as TestSuite;
 			TestSuite assembliesNamespaceSuite = testsNamespaceSuite.Tests[0] as TestSuite;
 			testsNamespaceSuite.Tests.RemoveAt( 0 );
-			treeView.Reload( suite );
+			treeView.Reload( new TestNode( suite ) );
 
 			Assert.AreEqual( MockAssembly.Tests - MockTestFixture.Tests, suite.CountTestCases() );
 			Assert.AreEqual( 13, treeView.GetNodeCount( true ) );
 
 			testsNamespaceSuite.Tests.Insert( 0, assembliesNamespaceSuite );
-			treeView.Reload( suite );
+			treeView.Reload( new TestNode( suite ) );
 
 			Assert.AreEqual( MockAssembly.Tests, suite.CountTestCases() );
 			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
@@ -218,17 +236,17 @@ namespace NUnit.UiKit.Tests
 		public void ReloadTreeWithWrongTest()
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
-			treeView.Load(suite);
+			treeView.Load( new TestNode( suite ) );
 
 			TestSuite suite2 = new TestSuite( "WrongSuite" );
-			treeView.Reload( suite2 );
+			treeView.Reload( new TestNode( suite2 ) );
 		}
 
 		[Test]
 		public void ProcessChecks()
 		{
 			TestSuiteTreeView treeView = new TestSuiteTreeView();
-			treeView.Load(suite);
+			treeView.Load( new TestNode( suite ) );
 
 			Assert.AreEqual(0, treeView.CheckedTests.Length);
 			Assert.IsFalse(Checked(treeView.Nodes));

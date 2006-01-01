@@ -259,11 +259,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "UITestNode.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "VSProject.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

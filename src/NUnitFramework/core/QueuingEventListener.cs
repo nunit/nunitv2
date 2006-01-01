@@ -23,7 +23,7 @@ namespace NUnit.Core
 		/// Run is starting
 		/// </summary>
 		/// <param name="tests">Array of tests to be run</param>
-		public void RunStarted( Test[] tests )
+		public void RunStarted( TestInfo[] tests )
 		{
 			events.Enqueue( new RunStartedEvent( tests ) );
 		}
@@ -50,7 +50,7 @@ namespace NUnit.Core
 		/// A single test case is starting
 		/// </summary>
 		/// <param name="testCase">The test case</param>
-		public void TestStarted(TestCase testCase)
+		public void TestStarted(TestInfo testCase)
 		{
 			events.Enqueue( new TestStartedEvent( testCase ) );
 		}
@@ -68,7 +68,7 @@ namespace NUnit.Core
 		/// A suite is starting
 		/// </summary>
 		/// <param name="suite">The suite that is starting</param>
-		public void SuiteStarted(TestSuite suite)
+		public void SuiteStarted(TestInfo suite)
 		{
 			events.Enqueue( new SuiteStartedEvent( suite ) );
 		}

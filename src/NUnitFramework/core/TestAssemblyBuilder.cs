@@ -178,6 +178,9 @@ namespace NUnit.Core.Builders
 				testAssembly.IgnoreReason = "Has no TestFixtures";
 			}
 			
+			// TODO: Make this an option? Add Option to sort assemblies as well?
+			testAssembly.Sort();
+
 			return testAssembly;
 		}
 

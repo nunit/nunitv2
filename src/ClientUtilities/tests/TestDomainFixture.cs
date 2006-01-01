@@ -40,7 +40,7 @@ namespace NUnit.Util.Tests
 	public class TestDomainFixture
 	{
 		private static TestDomain testDomain; 
-		private static Test loadedTest;
+		private static TestNode loadedTest;
 
 		[TestFixtureSetUp]
 		public void MakeAppDomain()
@@ -61,7 +61,7 @@ namespace NUnit.Util.Tests
 		public void AssemblyIsLoadedCorrectly()
 		{
 			Assert.IsNotNull(loadedTest, "Test not loaded");
-			Assert.AreEqual(MockAssembly.Tests, loadedTest.CountTestCases());
+			Assert.AreEqual(MockAssembly.Tests, loadedTest.TestCount );
 		}
 
 		[Test]
@@ -131,15 +131,16 @@ namespace NUnit.Util.Tests
 		[ExpectedException(typeof(FileNotFoundException))]
 		public void FileNotFound()
 		{
-			Test test = testDomain.Load("xxxx");
+			TestNode test = testDomain.Load("xxxx");
 		}
 
 		[Test]
 		public void InvalidTestFixture()
 		{
-			Test test = testDomain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" );
+			TestNode test = testDomain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" );
 			Assert.IsNull(test, "test should be null");
 		}
+
 		// Doesn't work under .NET 2.0 Beta 2
 		//[Test]
 		//[ExpectedException(typeof(BadImageFormatException))]
@@ -169,7 +170,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void SpecificTestFixture()
 		{
-			Test test = testDomain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.MockTestFixture" );
+			TestNode test = testDomain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.MockTestFixture" );
 
 			TestResult result = testDomain.Run( NullListener.NULL );
 			Assert.AreEqual(true, result.IsSuccess);

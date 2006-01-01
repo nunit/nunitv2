@@ -11,7 +11,7 @@ namespace NUnit.Core
 			this.eventListener = eventListener;
 		}
 
-		public virtual void RunStarted(Test[] tests)
+		public virtual void RunStarted(TestInfo[] tests)
 		{
 			this.eventListener.RunStarted(tests);
 		}
@@ -26,7 +26,7 @@ namespace NUnit.Core
 			this.eventListener.RunFinished(exception);
 		}
 
-		public virtual void TestStarted(TestCase testCase)
+		public virtual void TestStarted(TestInfo testCase)
 		{
 			this.eventListener.TestStarted(testCase);
 		}
@@ -36,7 +36,7 @@ namespace NUnit.Core
 			this.eventListener.TestFinished(result);
 		}
 
-		public virtual void SuiteStarted(TestSuite suite)
+		public virtual void SuiteStarted(TestInfo suite)
 		{
 			this.eventListener.SuiteStarted(suite);
 		}

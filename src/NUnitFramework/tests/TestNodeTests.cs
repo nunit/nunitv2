@@ -28,63 +28,59 @@
 #endregion
 
 using System;
-using System.Collections;
-using NUnit.Core;
-using NUnit.Util;
+using NUnit.Framework;
+using NUnit.Tests.Assemblies;
+using NUnit.Core.Builders;
 
-namespace NUnit.TestUtilities
+namespace NUnit.Core.Tests
 {
 	/// <summary>
-	/// Summary description for MockUiEventSource.
+	/// TestNode construction tests. Does not repeat tests
+	/// for the TestInfo base class.
 	/// </summary>
-	public class MockTestEventSource : TestEventDispatcher
+	[TestFixture]	
+	public class TestNodeTests
 	{
-		//private string testFileName;
-		private TestNode test;
+		TestSuite testSuite;
+		TestSuite testFixture;
+		NUnit.Core.TestCase testCase1;
 
-		public MockTestEventSource( TestNode test )
+		[SetUp]
+		public void SetUp()
 		{
-			this.test = test;
-			//this.testFileName = testFileName;
+			testSuite = new TestSuite("MyTestSuite");
+			testFixture = TestFixtureBuilder.Make( typeof( MockTestFixture ) );
+			testSuite.Add( testFixture );
+
+			testCase1 = (NUnit.Core.TestCase)testFixture.Tests[0];
 		}
 
-		public void SimulateTestRun()
+		[Test]
+		public void ConstructFromSuite()
 		{
-			TestInfo[] tests = new TestInfo[] { test };
-
-			FireRunStarting( tests );
-
-			TestResult result = SimulateTest( test );
-
-			FireRunFinished( new TestResult[] { result } );
+			TestNode test = new TestNode( testSuite );
+			Assert.IsNotNull( test.Tests );
+			Assert.AreEqual( test.TestCount, CountTests( test ) );
 		}
 
-		private TestResult SimulateTest( TestNode test )
+		private int CountTests( TestNode node )
 		{
-			if ( test.IsSuite )
-			{
-				FireSuiteStarting( test );
+			if ( node.IsTestCase )
+				return 1;
 
-				TestSuiteResult result = new TestSuiteResult( test, test.Name );
-
-				foreach( TestNode childTest in test.Tests )
-					result.AddResult( SimulateTest( childTest ) );
-
-				FireSuiteFinished( result );
-
-				return result;
-			}
-			else
-			{
-				FireTestStarting( test );
+			int count = 0;
+			if ( node.Tests != null )
+				foreach( TestNode child in node.Tests )
+					count += CountTests( child );
 				
-				TestCaseResult result = new TestCaseResult( test );
-				result.Executed = test.ShouldRun && !test.IsExplicit;
-				
-				FireTestFinished( result );
+			return count;
+		}
 
-				return result;
-			}
+		[Test]
+		public void ConstructFromTestCase()
+		{
+			TestNode test = new TestNode( testCase1 );
+			Assert.IsNull( test.Tests );
 		}
 	}
 }

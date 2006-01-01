@@ -39,9 +39,13 @@ namespace NUnit.Core
 	[Serializable]
 	public class TestCaseResult : TestResult
 	{
-		public TestCaseResult(ITest testCase)
+		public TestCaseResult(TestInfo testCase)
 			: base(testCase, testCase.FullName) { }
 
+		public TestCaseResult(Test testCase)
+			: this( new TestInfo( testCase ) ){ }
+
+		// For tests
 		public TestCaseResult(string testCaseString) 
 			: base(null, testCaseString) { }
 

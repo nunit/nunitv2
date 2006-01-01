@@ -40,7 +40,7 @@ namespace NUnit.Util.Tests
 		public void ResultStillValidAfterDomainUnload() 
 		{
 			TestDomain domain = new TestDomain();
-			Test test = domain.Load("mock-assembly.dll");
+			TestNode test = domain.Load("mock-assembly.dll");
 			Assert.IsNotNull(test);
 			TestResult result = domain.Run( new NullListener() );
 			TestSuiteResult suite = result as TestSuiteResult;

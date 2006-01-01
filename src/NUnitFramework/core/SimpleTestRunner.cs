@@ -83,7 +83,7 @@ namespace NUnit.Core
 		/// Load an assembly
 		/// </summary>
 		/// <param name="assemblyName"></param>
-		public Test Load( string assemblyName )
+		public TestNode Load( string assemblyName )
 		{
 			return Load( assemblyName, string.Empty );
 		}
@@ -91,12 +91,12 @@ namespace NUnit.Core
 		/// <summary>
 		/// Load a particular test in an assembly
 		/// </summary>
-		public Test Load( string assemblyName, string testName )
+		public TestNode Load( string assemblyName, string testName )
 		{
 			this.assemblies = new string[] { assemblyName };
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			this.suite = builder.Build( assemblyName, testName );
-			return suite;
+			return suite == null ? null : new TestNode( suite );
 		}
 
 		/// <summary>
@@ -105,7 +105,7 @@ namespace NUnit.Core
 		/// <param name="projectName">The name of the test project being loaded</param>
 		/// <param name="assemblies">The assemblies comprising the project</param>
 		/// <returns>The loaded test</returns>
-		public Test Load( string projectName, string[] assemblies )
+		public TestNode Load( string projectName, string[] assemblies )
 		{
 			return Load( projectName, assemblies, string.Empty );
 		}
@@ -117,12 +117,12 @@ namespace NUnit.Core
 		/// <param name="assemblies">The assemblies comprising the project</param>
 		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
 		/// <returns>The loaded test</returns>
-		public Test Load( string projectName, string[] assemblies, string testName )
+		public TestNode Load( string projectName, string[] assemblies, string testName )
 		{
 			this.assemblies = (string[])assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			this.suite = builder.Build( projectName, assemblies, testName );
-			return suite;
+			return suite == null ? null : new TestNode( suite );
 		}
 
 		/// <summary>
@@ -271,10 +271,14 @@ namespace NUnit.Core
 				testResults = new TestResult[ tests.Length ];
 
 				// Signal that we are starting the run
-				listener.RunStarted( tests );
+				TestNode[] nodes = new TestNode[tests.Length];
+				int index = 0;
+				foreach( Test test in tests )
+					nodes[index++] = new TestNode( test );
+				listener.RunStarted( nodes );
 				
 				// Run each test, saving the results
-				int index = 0;
+				index = 0;
 				foreach( Test test in tests )
 				{
 					using( new DirectorySwapper( 

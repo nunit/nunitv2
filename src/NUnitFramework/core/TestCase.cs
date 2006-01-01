@@ -62,9 +62,9 @@ namespace NUnit.Core
 
 		public override TestResult Run( EventListener listener )
 		{
-			TestCaseResult testResult = new TestCaseResult(this);
+			TestCaseResult testResult = new TestCaseResult( this );
 
-			listener.TestStarted(this);
+			listener.TestStarted( new TestNode( this ) );
 			long startTime = DateTime.Now.Ticks;
 
 			Run( testResult );

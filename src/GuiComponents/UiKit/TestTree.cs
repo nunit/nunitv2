@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
+using NUnit.Core;
 using NUnit.Util;
 
 namespace NUnit.UiKit
@@ -621,11 +622,11 @@ namespace NUnit.UiKit
 			tests.CheckFailedNodes();
 		}
 
-		private void tests_SelectedTestChanged(UITestNode test)
+		private void tests_SelectedTestChanged(TestInfo test)
 		{
 			if (SelectedTestsChanged != null) 
 			{
-			    SelectedTestsChangedEventArgs args = new SelectedTestsChangedEventArgs(test.Name, test.CountTestCases());
+			    SelectedTestsChangedEventArgs args = new SelectedTestsChangedEventArgs(test.Name, test.TestCount);
 				SelectedTestsChanged(tests, args);
 			}
 		}
@@ -682,7 +683,7 @@ namespace NUnit.UiKit
 			treeMenu.Visible = false;
 		}
 
-		private void tests_CheckedTestChanged(UITestNode[] tests)
+		private void tests_CheckedTestChanged(TestInfo[] tests)
 		{
 			if (SelectedTestsChanged != null) 
 			{

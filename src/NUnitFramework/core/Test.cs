@@ -56,6 +56,15 @@ namespace NUnit.Core
 		private int assemblyKey;
 
 		/// <summary>
+		/// Int that is set to a unique ascending value by the
+		/// TestSuiteBuilder, allowing unique identification
+		/// of tests by client software.
+		/// </summary>
+		private int key;
+
+		private static int nextKey = Int32.MaxValue;
+
+		/// <summary>
 		/// Whether or not the test should be run
 		/// </summary>
 		private bool shouldRun;
@@ -99,6 +108,7 @@ namespace NUnit.Core
 			this.fullName = this.testName = name;
 			this.assemblyKey = assemblyKey;
 			this.shouldRun = true;
+			this.key = unchecked( nextKey++ );
 		}
 
 		protected Test( string pathName, string testName ) 
@@ -110,6 +120,7 @@ namespace NUnit.Core
 			this.testName = testName;
 			this.assemblyKey = assemblyKey;
 			this.shouldRun = true;
+			this.key = nextKey++;
 		}
 
 		#endregion
@@ -142,6 +153,11 @@ namespace NUnit.Core
 		public string UniqueName
 		{
 			get { return string.Format( "[{0}]{1}", assemblyKey, fullName ); }
+		}
+
+		public int Key
+		{
+			get { return key; }
 		}
 
 		/// <summary>
@@ -202,7 +218,7 @@ namespace NUnit.Core
 			return false;
 		}
 
-		public bool IsDescendant(Test test) 
+		public bool IsDescendant(Test test)
 		{
 			if (parent != null) 
 			{

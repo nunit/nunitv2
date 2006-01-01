@@ -41,8 +41,15 @@ namespace NUnit.Core
 	{
 		private ArrayList results = new ArrayList();
 		
-		public TestSuiteResult(ITest test, string name) 
+		public TestSuiteResult(TestInfo test, string name) 
 			: base(test, name) { }
+
+		public TestSuiteResult(TestSuite suite, string name)
+			: this(new TestInfo(suite), name) { }
+
+		// For tests
+		public TestSuiteResult(string testSuiteString) 
+			: base(null, testSuiteString) { }
 
 		public void AddResult(TestResult result) 
 		{

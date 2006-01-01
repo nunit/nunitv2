@@ -43,7 +43,7 @@ namespace NUnit.Core
 		/// Run is starting
 		/// </summary>
 		/// <param name="tests">Array of tests to be run</param>
-		void RunStarted( Test[] tests );
+		void RunStarted( TestInfo[] tests );
 
 		/// <summary>
 		/// Run finished successfully
@@ -61,7 +61,7 @@ namespace NUnit.Core
 		/// A single test case is starting
 		/// </summary>
 		/// <param name="testCase">The test case</param>
-		void TestStarted(TestCase testCase);
+		void TestStarted(TestInfo testCase);
 			
 		/// <summary>
 		/// A test case finished
@@ -73,7 +73,7 @@ namespace NUnit.Core
 		/// A suite is starting
 		/// </summary>
 		/// <param name="suite">The suite that is starting</param>
-		void SuiteStarted(TestSuite suite);
+		void SuiteStarted(TestInfo suite);
 
 		/// <summary>
 		/// A suite finished

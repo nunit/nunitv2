@@ -154,7 +154,7 @@ namespace NUnit.ConsoleRunner
 			Console.WriteLine();
 		}
 
-		private static Test MakeTestFromCommandLine(TestDomain testDomain, ConsoleOptions parser)
+		private static TestNode MakeTestFromCommandLine(TestDomain testDomain, ConsoleOptions parser)
 		{
 			NUnitProject project;
 
@@ -194,7 +194,7 @@ namespace NUnit.ConsoleRunner
 
 			if ( options.noshadow  ) testDomain.ShadowCopyFiles = false;
 			
-			Test test = MakeTestFromCommandLine(testDomain, options);
+			TestNode test = MakeTestFromCommandLine(testDomain, options);
 
 			if(test == null)
 			{
@@ -309,7 +309,7 @@ namespace NUnit.ConsoleRunner
 				this.progress = !options.xmlConsole && !options.labels;
 			}
 
-			public void RunStarted(Test[] tests)
+			public void RunStarted(TestInfo[] tests)
 			{
 			}
 
@@ -366,7 +366,7 @@ namespace NUnit.ConsoleRunner
 				currentTestName = string.Empty;
 			}
 
-			public void TestStarted(TestCase testCase)
+			public void TestStarted(TestInfo testCase)
 			{
 				currentTestName = testCase.FullName;
 
@@ -377,7 +377,7 @@ namespace NUnit.ConsoleRunner
 					Console.Write(".");
 			}
 
-			public void SuiteStarted(TestSuite suite) 
+			public void SuiteStarted(TestInfo suite) 
 			{
 				if ( debugger && level++ == 0 )
 				{

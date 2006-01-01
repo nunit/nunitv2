@@ -133,7 +133,7 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestLoading, fileName ) );
 		}
 
-		public void FireTestLoaded( string fileName, Test test )
+		public void FireTestLoaded( string fileName, TestNode test )
 		{
 			Fire( 
 				TestLoaded,
@@ -147,14 +147,14 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestLoadFailed, fileName, exception ) );
 		}
 
-		public void FireTestUnloading( string fileName, Test test )
+		public void FireTestUnloading( string fileName, TestNode test )
 		{
 			Fire(
 				TestUnloading,
 				new TestEventArgs( TestAction.TestUnloading, fileName, test ) );
 		}
 
-		public void FireTestUnloaded( string fileName, Test test )
+		public void FireTestUnloaded( string fileName, TestNode test )
 		{
 			Fire(
 				TestUnloaded,
@@ -168,14 +168,14 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestUnloadFailed, fileName, exception ) );
 		}
 
-		public void FireTestReloading( string fileName, Test test )
+		public void FireTestReloading( string fileName, TestNode test )
 		{
 			Fire(
 				TestReloading,
 				new TestEventArgs( TestAction.TestReloading, fileName, test ) );
 		}
 
-		public void FireTestReloaded( string fileName, Test test )
+		public void FireTestReloaded( string fileName, TestNode test )
 		{
 			Fire(
 				TestReloaded,
@@ -189,11 +189,11 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestReloadFailed, fileName, exception ) );
 		}
 
-		public void FireRunStarting( Test[] tests, int count )
+		public void FireRunStarting( TestInfo[] tests )
 		{
 			Fire(
 				RunStarting,
-				new TestEventArgs( TestAction.RunStarting, tests, count ) );
+				new TestEventArgs( TestAction.RunStarting, tests ) );
 		}
 
 		public void FireRunFinished( TestResult[] results )
@@ -210,7 +210,7 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.RunFinished, exception ) );
 		}
 
-		public void FireTestStarting( Test test )
+		public void FireTestStarting( TestInfo test )
 		{
 			Fire(
 				TestStarting,
@@ -224,7 +224,7 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestFinished, result ) );
 		}
 
-		public void FireSuiteStarting( Test test )
+		public void FireSuiteStarting( TestInfo test )
 		{
 			Fire(
 				SuiteStarting,

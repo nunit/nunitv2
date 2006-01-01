@@ -42,7 +42,7 @@ namespace NUnit.UiKit
 		#region Instance Variables;
 
 		private TestSuiteTreeNode node;
-		private ITest test;
+		private TestInfo test;
 		private TestResult result;
 		private Image pinnedImage;
 		private Image unpinnedImage;
@@ -745,7 +745,7 @@ namespace NUnit.UiKit
 			shouldRun.Text = test.ShouldRun ? "Yes" : "No";
 			description.Text = test.Description;
 			ignoreReason.Text = test.IgnoreReason;
-			testCaseCount.Text = test.CountTestCases().ToString();
+			testCaseCount.Text = test.TestCount.ToString();
 
 			// Initialize Result Tab
 			if ( result == null )

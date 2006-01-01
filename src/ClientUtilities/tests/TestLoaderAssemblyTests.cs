@@ -109,7 +109,7 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual( 4, catcher.Events.Count );
 			Assert.AreEqual( TestAction.TestLoading, ((TestEventArgs)catcher.Events[2]).Action );
 			Assert.AreEqual( TestAction.TestLoaded, ((TestEventArgs)catcher.Events[3]).Action );
-			Assert.AreEqual( MockAssembly.Tests, ((TestEventArgs)catcher.Events[3]).Test.CountTestCases() );
+			Assert.AreEqual( MockAssembly.Tests, ((TestEventArgs)catcher.Events[3]).TestCount );
 		}
 
 		[Test]

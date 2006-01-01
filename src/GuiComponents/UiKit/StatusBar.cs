@@ -177,12 +177,12 @@ namespace NUnit.UiKit
 
 		public void OnTestLoaded( object sender, TestEventArgs e )
 		{
-			Initialize( e.Test.CountTestCases() );
+			Initialize( e.TestCount );
 		}
 
 		public void OnTestReloaded( object sender, TestEventArgs e )
 		{
-			Initialize( e.Test.CountTestCases(), "Reloaded" );
+			Initialize( e.TestCount, "Reloaded" );
 		}
 
 		public void OnTestUnloaded( object sender, TestEventArgs e )

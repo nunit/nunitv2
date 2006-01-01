@@ -63,7 +63,7 @@ namespace NUnit.Util
 		private string name;
 		
 		// The tests we are running
-		private Test[] tests;
+		private TestInfo[] tests;
 
 		// The results from our tests
 		private TestResult[] results;
@@ -74,19 +74,16 @@ namespace NUnit.Util
 		// The test output
 		private TestOutput testOutput;
 
-		// TODO: Remove this count of test cases
-		private int count;
-
 		#endregion
 
 		#region Constructors
 
 		public TestEventArgs( TestAction action, 
-			string name, Test test )
+			string name, TestInfo test )
 		{
 			this.action = action;
 			this.name = name;
-			this.tests = new Test[] { test };
+			this.tests = new TestInfo[] { test };
 		}
 
 		public TestEventArgs( TestAction action, string name )
@@ -103,11 +100,10 @@ namespace NUnit.Util
 			this.exception = exception;
 		}
 
-		public TestEventArgs( TestAction action, Test test )
+		public TestEventArgs( TestAction action, TestInfo test )
 		{
 			this.action = action;
-			this.tests = new Test[] { test };
-			this.count = test.CountTestCases();
+			this.tests = new TestInfo[] { test };
 		}
 
 		public TestEventArgs( TestAction action, TestResult result )
@@ -134,11 +130,10 @@ namespace NUnit.Util
 			this.testOutput = testOutput;
 		}
 
-		public TestEventArgs( TestAction action, Test[] tests, int count) 
+		public TestEventArgs( TestAction action, TestInfo[] tests ) 
 		{
 			this.action = action;
 			this.tests = tests;
-			this.count = count;
 		}
 
 		#endregion
@@ -155,19 +150,25 @@ namespace NUnit.Util
 			get { return name; }
 		}
 
-		public Test Test
+		public TestInfo Test
 		{
 			get { return tests == null || tests.Length == 0 ? null : tests[0]; }
 		}
 
-		public Test[] Tests 
+		public TestInfo[] Tests 
 		{
 			get { return tests; }
 		}
 
 		public int TestCount 
 		{
-			get { return count; }
+			get 
+			{
+				int count = 0;
+				foreach( TestInfo test in tests )
+					count += test.TestCount;
+				return count; 
+			}
 		}
 
 		public TestResult Result

@@ -82,7 +82,6 @@ namespace NUnit.Core.Tests
 
 			tests = testSuite.Tests;
 			Assert.AreEqual(4, tests.Count);
-			tests.Sort();
 
 			Assert.IsTrue(tests[2] is TestSuite, "TestSuite:singletons - is invalid");
 			TestSuite singletonSuite = (TestSuite)tests[2];

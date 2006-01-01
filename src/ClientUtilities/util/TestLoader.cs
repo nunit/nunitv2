@@ -73,7 +73,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// The currently loaded test, returned by the testrunner
 		/// </summary>
-		private Test loadedTest = null;
+		private TestNode loadedTest = null;
 
 		/// <summary>
 		/// The test name that was specified when loading
@@ -83,7 +83,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// The tests that are running
 		/// </summary>
-		private ITest[] runningTests = null;
+		private TestInfo[] runningTests = null;
 
 		/// <summary>
 		/// Result of the last test run
@@ -205,13 +205,9 @@ namespace NUnit.Util
 
 		#region EventListener Handlers
 
-		void EventListener.RunStarted(Test[] tests)
+		void EventListener.RunStarted(TestInfo[] tests)
 		{
-			int count = 0;
-			foreach( Test test in tests )
-				count += test.CountTestCases( filter );
-
-			events.FireRunStarting( tests, count );
+			events.FireRunStarting( tests );
 		}
 
 		void EventListener.RunFinished(NUnit.Core.TestResult[] results)
@@ -232,7 +228,7 @@ namespace NUnit.Util
 		/// Trigger event when each test starts
 		/// </summary>
 		/// <param name="testCase">TestCase that is starting</param>
-		void EventListener.TestStarted(NUnit.Core.TestCase testCase)
+		void EventListener.TestStarted(TestInfo testCase)
 		{
 			events.FireTestStarting( testCase );
 		}
@@ -250,7 +246,7 @@ namespace NUnit.Util
 		/// Trigger event when each suite starts
 		/// </summary>
 		/// <param name="suite">Suite that is starting</param>
-		void EventListener.SuiteStarted(TestSuite suite)
+		void EventListener.SuiteStarted(TestInfo suite)
 		{
 			events.FireSuiteStarting( suite );
 		}
@@ -472,14 +468,10 @@ namespace NUnit.Util
 				events.FireTestLoading( TestFileName );
 
 				testDomain = new TestDomain( );		
-				Test test = TestProject.IsAssemblyWrapper
+				TestNode test = TestProject.IsAssemblyWrapper
 					? testDomain.Load( TestProject.ActiveConfig.Assemblies[0].FullPath )
 					: testDomain.Load( TestProject );
 
-				TestSuite suite = test as TestSuite;
-				if ( suite != null )
-					suite.Sort();
-			
 				loadedTest = test;
 				loadedTestName = testName;
 				results = null;
@@ -488,8 +480,8 @@ namespace NUnit.Util
 				if ( ReloadOnChange )
 					InstallWatcher( );
 
-				if ( suite != null )
-					events.FireTestLoaded( TestFileName, this.loadedTest );
+				if ( test != null )
+					events.FireTestLoaded( TestFileName, test );
 				else
 				{
 					lastException = new ApplicationException( string.Format ( "Unable to find test {0} in assembly", testName ) );
@@ -581,12 +573,9 @@ namespace NUnit.Util
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
 					TestDomain newDomain = new TestDomain( );
-                    Test newTest = TestProject.IsAssemblyWrapper
+                    TestNode newTest = TestProject.IsAssemblyWrapper
                         ? newDomain.Load(testProject.ActiveConfig.Assemblies[0].FullPath)
                         : newDomain.Load(testProject, loadedTestName);
-					TestSuite suite = newTest as TestSuite;
-					if ( suite != null )
-						suite.Sort();
 
 					testDomain.Unload();
 
@@ -628,12 +617,12 @@ namespace NUnit.Util
 		/// Silently ignore the call if a test is running
 		/// to allow for latency in the UI.
 		/// </summary>
-		public void RunTest( ITest test )
+		public void RunTest( TestInfo test )
 		{
-			RunTests( new ITest[] { test } );
+			RunTests( new TestInfo[] { test } );
 		}
 
-		public void RunTests( ITest[] tests )
+		public void RunTests( TestInfo[] tests )
 		{
 			if ( !IsTestRunning )
 			{
@@ -642,7 +631,7 @@ namespace NUnit.Util
 
 				runningTests = tests;
 
-				//kind of silly
+				// TODO: This is kind of silly - we should use names in the first place
 				string[] testNames = buildTestNameArray();
 				testDomain.Filter = filter;
 				testDomain.BeginRun( this, testNames );
@@ -653,7 +642,7 @@ namespace NUnit.Util
 		{
 			string[] testNames = new string[ runningTests.Length ];
 			int index = 0; 
-			foreach (ITest node in runningTests) 
+			foreach (TestNode node in runningTests) 
 				testNames[index++] = node.UniqueName;
 			return testNames;
 		}

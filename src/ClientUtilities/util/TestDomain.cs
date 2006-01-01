@@ -83,12 +83,12 @@ namespace NUnit.Util
 
 		#region Loading and Unloading Tests
 
-		public override Test Load( string assemblyFileName )
+		public override TestNode Load( string assemblyFileName )
 		{
 			return Load( assemblyFileName, string.Empty );
 		}
 
-		public override Test Load(string assemblyFileName, string testFixture)
+		public override TestNode Load(string assemblyFileName, string testFixture)
 		{
 			Unload();
 
@@ -110,12 +110,12 @@ namespace NUnit.Util
 			}
 		}
 
-		public Test Load( NUnitProject project )
+		public TestNode Load( NUnitProject project )
 		{
 			return Load( project, null );
 		}
 
-		public Test Load( NUnitProject project, string testName )
+		public TestNode Load( NUnitProject project, string testName )
 		{
 			Unload();
 
@@ -142,12 +142,12 @@ namespace NUnit.Util
 			}
 		}
 
-		public override Test Load( string projectName, string[] assemblies )
+		public override TestNode Load( string projectName, string[] assemblies )
 		{
 			return Load( projectName, assemblies, string.Empty );
 		}
 
-		public override Test Load( string projectName, string[] assemblies, string testName )
+		public override TestNode Load( string projectName, string[] assemblies, string testName )
 		{
 			Unload();
 
