@@ -149,9 +149,6 @@
     <Compile Include="UIHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UITestNode.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="VSProject.cs">
       <SubType>Code</SubType>
     </Compile>

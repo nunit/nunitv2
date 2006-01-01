@@ -228,6 +228,8 @@
     <Compile Include="TestFixtureTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestInfoTests.cs" />
+    <Compile Include="TestNodeTests.cs" />
     <Compile Include="TestRunnerThreadTests.cs">
       <SubType>Code</SubType>
     </Compile>

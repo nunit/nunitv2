@@ -153,9 +153,6 @@
     <Compile Include="TestLoaderAssemblyTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UITestNodeTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="UtilTest.cs">
       <SubType>Code</SubType>
     </Compile>
