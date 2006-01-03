@@ -42,7 +42,7 @@ namespace NUnit.Util.Tests
 	{
 		private TestEventDispatcher dispatcher;
 		private TestEventCatcher catcher;
-		private TestNode test;
+		private TestInfo test;
 		private TestResult result;
 		private Exception exception;
 
@@ -56,7 +56,7 @@ namespace NUnit.Util.Tests
 		{
 			dispatcher = new TestEventDispatcher();
 			catcher = new TestEventCatcher( dispatcher );
-			test = new TestNode( new TestSuite( TESTNAME ) );
+			test = new TestInfo( new TestSuite( TESTNAME ) );
 			result = new TestSuiteResult( test, RSLTNAME );
 			exception = new Exception( MESSAGE );
 		}
@@ -230,7 +230,7 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual( fileName, ((TestEventArgs)catcher.Events[0]).Name );
 		}
 
-		private void CheckEvent( TestAction action, string fileName, TestNode test )
+		private void CheckEvent( TestAction action, string fileName, TestInfo test )
 		{
 			CheckEvent( action, fileName );
 			Assert.AreEqual( TESTNAME, ((TestEventArgs)catcher.Events[0]).Test.Name );
@@ -242,7 +242,7 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual( MESSAGE, ((TestEventArgs)catcher.Events[0]).Exception.Message );
 		}
 
-		private void CheckEvent( TestAction action, TestNode test )
+		private void CheckEvent( TestAction action, TestInfo test )
 		{
 			CheckEvent( action );
 			Assert.AreEqual( TESTNAME, ((TestEventArgs)catcher.Events[0]).Test.Name );

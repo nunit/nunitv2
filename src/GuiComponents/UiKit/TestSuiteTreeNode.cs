@@ -78,7 +78,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// Construct a TestNode given a test
 		/// </summary>
-		public TestSuiteTreeNode( TestNode test ) : base(test.Name)
+		public TestSuiteTreeNode( TestInfo test ) : base(test.Name)
 		{
 			this.test = test;
 			UpdateImageIndex();
@@ -196,7 +196,7 @@ namespace NUnit.UiKit
 
 		#region Methods
 
-		public void UpdateTest( TestNode test )
+		public void UpdateTest( TestInfo test )
 		{
 			if ( Test.FullName != test.FullName )
 				throw( new ArgumentException( "Attempting to update node with an entirely different test" ) );

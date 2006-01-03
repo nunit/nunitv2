@@ -133,7 +133,7 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestLoading, fileName ) );
 		}
 
-		public void FireTestLoaded( string fileName, TestNode test )
+		public void FireTestLoaded( string fileName, TestInfo test )
 		{
 			Fire( 
 				TestLoaded,
@@ -147,14 +147,14 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestLoadFailed, fileName, exception ) );
 		}
 
-		public void FireTestUnloading( string fileName, TestNode test )
+		public void FireTestUnloading( string fileName, TestInfo test )
 		{
 			Fire(
 				TestUnloading,
 				new TestEventArgs( TestAction.TestUnloading, fileName, test ) );
 		}
 
-		public void FireTestUnloaded( string fileName, TestNode test )
+		public void FireTestUnloaded( string fileName, TestInfo test )
 		{
 			Fire(
 				TestUnloaded,
@@ -168,14 +168,14 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestUnloadFailed, fileName, exception ) );
 		}
 
-		public void FireTestReloading( string fileName, TestNode test )
+		public void FireTestReloading( string fileName, TestInfo test )
 		{
 			Fire(
 				TestReloading,
 				new TestEventArgs( TestAction.TestReloading, fileName, test ) );
 		}
 
-		public void FireTestReloaded( string fileName, TestNode test )
+		public void FireTestReloaded( string fileName, TestInfo test )
 		{
 			Fire(
 				TestReloaded,

@@ -46,9 +46,9 @@ namespace NUnit.UiKit.Tests
 		TestSuite testFixture;
 		NUnit.Core.TestCase testCase;
 
-		TestNode suiteInfo;
-		TestNode fixtureInfo;
-		TestNode testCaseInfo;
+		TestInfo suiteInfo;
+		TestInfo fixtureInfo;
+		TestInfo testCaseInfo;
 
 		[SetUp]
 		public void SetUp()
@@ -57,11 +57,11 @@ namespace NUnit.UiKit.Tests
 			testFixture = TestFixtureBuilder.Make( typeof( MockTestFixture ) );
 			testSuite.Add( testFixture );
 
-			suiteInfo = new TestNode( testSuite );
-			fixtureInfo = new TestNode( testFixture );
+			suiteInfo = new TestInfo( testSuite );
+			fixtureInfo = new TestInfo( testFixture );
 
 			testCase = (NUnit.Core.TestCase)testFixture.Tests[0];
-			testCaseInfo = new TestNode( testCase );
+			testCaseInfo = new TestInfo( testCase );
 		}
 
 		[Test]
@@ -85,7 +85,7 @@ namespace NUnit.UiKit.Tests
 			TestSuiteTreeNode node;
 			
 			node = new TestSuiteTreeNode( suiteInfo );
-			TestNode suiteInfo2 = new TestNode( new TestSuite( "MyTestSuite" ) );
+			TestInfo suiteInfo2 = new TestInfo( new TestSuite( "MyTestSuite" ) );
 
 			node.UpdateTest( suiteInfo2 );
 			Assert.AreEqual( "MyTestSuite", node.Test.FullName );
@@ -101,7 +101,7 @@ namespace NUnit.UiKit.Tests
 		public void UpdateUsingWrongTest()
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( suiteInfo );
-			TestNode suiteInfo2 = new TestNode( new TestSuite( "NotMyTestSuite" ) );
+			TestInfo suiteInfo2 = new TestInfo( new TestSuite( "NotMyTestSuite" ) );
 			node.UpdateTest( suiteInfo2 );
 		}
 
