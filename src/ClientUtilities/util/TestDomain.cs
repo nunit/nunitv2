@@ -178,11 +178,13 @@ namespace NUnit.Util
 					if ( this.ShadowCopyFiles )
 						DeleteCacheDir( new DirectoryInfo( cachePath ) );
 				}
-				catch( CannotUnloadAppDomainException )
+				catch( Exception ex)
 				{
-					// TODO: Do something useful. For now we just
-					// leave the orphaned AppDomain "out there"
-					// rather than aborting the application.
+					// We assume that the tests did something bad and just leave
+					// the orphaned AppDomain "out there". 
+					// TODO: Something useful.
+					Trace.WriteLine( "Unable to unload AppDomain {0}", domain.FriendlyName );
+					Trace.WriteLine( ex.ToString() );
 				}
 				finally
 				{
