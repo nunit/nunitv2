@@ -38,9 +38,7 @@ namespace NUnit.Core
 	/// </summary>
 	public class TestAssembly : TestSuite
 	{
-		public TestAssembly( string assembly ) : base( assembly, 0 ) { }
-
-		public TestAssembly( string assembly, int key) : base( assembly, key ) { }
+		public TestAssembly( string assembly ) : base( assembly ) { }
 
 		public override TestResult Run(EventListener listener, IFilter filter)
 		{

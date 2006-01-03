@@ -54,10 +54,8 @@ namespace NUnit.Core.Builders
 				true, false, true
 			);
 
-		public VstsTestFixture( Type fixtureType ) : this( fixtureType, 0 ) { }
-
-		public VstsTestFixture( Type fixtureType, int assemblyKey ) 
-			: base( Parameters, fixtureType, assemblyKey )
+		public VstsTestFixture( Type fixtureType ) 
+			: base( Parameters, fixtureType )
 		{
 		}
 	}

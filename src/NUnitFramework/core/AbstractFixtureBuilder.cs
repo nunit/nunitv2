@@ -59,11 +59,10 @@ namespace NUnit.Core
 		/// the virtual methods that it calls.
 		/// </summary>
 		/// <param name="type"></param>
-		/// <param name="assemblyKey"></param>
 		/// <returns></returns>
-		public virtual TestSuite BuildFrom(Type type, int assemblyKey)
+		public virtual TestSuite BuildFrom(Type type)
 		{
-			this.suite = MakeSuite( type, assemblyKey );
+			this.suite = MakeSuite( type );
 
 			string reason = null;
 			if( !IsValidFixtureType( type, ref reason ) ||
@@ -95,9 +94,8 @@ namespace NUnit.Core
 		/// that derives from TestSuite.
 		/// </summary>
 		/// <param name="type">The user fixture type</param>
-		/// <param name="assemblyKey">The index of the containing assembly</param>
 		/// <returns></returns>
-		protected abstract TestSuite MakeSuite( Type type, int assemblyKey );
+		protected abstract TestSuite MakeSuite( Type type );
 
 		#endregion
 
@@ -169,7 +167,6 @@ namespace NUnit.Core
 
 				if(testCase != null)
 				{
-					testCase.AssemblyKey = suite.AssemblyKey;
 					this.suite.Add( testCase );
 				}
 			}

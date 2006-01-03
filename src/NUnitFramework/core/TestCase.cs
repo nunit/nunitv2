@@ -64,7 +64,7 @@ namespace NUnit.Core
 		{
 			TestCaseResult testResult = new TestCaseResult( this );
 
-			listener.TestStarted( new TestNode( this ) );
+			listener.TestStarted( new TestInfo( this ) );
 			long startTime = DateTime.Now.Ticks;
 
 			Run( testResult );

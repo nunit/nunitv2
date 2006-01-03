@@ -38,13 +38,13 @@ namespace NUnit.Core
 	/// </summary>
 	public class NamespaceSuite : TestSuite
 	{
-		public NamespaceSuite( string name, int assemblyKey ) 
-			: base( name, assemblyKey ) { }
+		public NamespaceSuite( string name ) 
+			: base( name ) { }
 
-		public NamespaceSuite( string parentSuiteName, string name, int assemblyKey ) 
-			: base( parentSuiteName, name, assemblyKey ) { }
+		public NamespaceSuite( string parentSuiteName, string name ) 
+			: base( parentSuiteName, name ) { }
 
-		public NamespaceSuite( Type type, int assemblyKey )
-			: base( type, assemblyKey ) { }
+		public NamespaceSuite( Type type ) 
+			: base( type ) { }
 	}
 }

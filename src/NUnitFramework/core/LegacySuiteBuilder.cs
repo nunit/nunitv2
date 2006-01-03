@@ -41,9 +41,9 @@ namespace NUnit.Core.Builders
 			return LegacySuite.GetSuiteProperty( type ) != null;
 		}
 
-		public TestSuite BuildFrom( Type type, int assemblyKey )
+		public TestSuite BuildFrom( Type type )
 		{
-			return new LegacySuite( type, assemblyKey );
+			return new LegacySuite( type );
 		}
 	}
 }

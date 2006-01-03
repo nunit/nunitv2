@@ -47,11 +47,6 @@ namespace NUnit.Core.Builders
 		string assemblyName;
 
 		/// <summary>
-		/// The internal key for this assembly 
-		/// </summary>
-		int assemblyKey;
-
-		/// <summary>
 		/// The loaded assembly
 		/// </summary>
 		Assembly assembly;
@@ -92,10 +87,9 @@ namespace NUnit.Core.Builders
 
 		#region Constructor
 
-		public TestAssemblyBuilder( string assemblyName, int assemblyKey, bool autoNamespaceSuites )
+		public TestAssemblyBuilder( string assemblyName, bool autoNamespaceSuites )
 		{
 			this.assemblyName = assemblyName;
-			this.assemblyKey = assemblyKey;
 			this.autoNamespaceSuites = autoNamespaceSuites;
 
 			// TODO: Keeping this separate till we can make
@@ -113,11 +107,11 @@ namespace NUnit.Core.Builders
 				|| Builtins.CanBuildFrom( type );
 		}
 
-		public TestSuite BuildFrom(Type type, int assemblyKey)
+		public TestSuite BuildFrom(Type type)
 		{
-			TestSuite suite = Addins.BuildFrom( type, assemblyKey );
+			TestSuite suite = Addins.BuildFrom( type );
 			if ( suite == null )
-				suite = Builtins.BuildFrom( type, assemblyKey );
+				suite = Builtins.BuildFrom( type );
 
 			return suite;
 		}
@@ -141,7 +135,7 @@ namespace NUnit.Core.Builders
 				return BuildSingleFixture( testType );
 		
 			// Assume that testName is a namespace and get all fixtures in it
-			IList fixtures = GetFixtures( assembly, testName, 0 );
+			IList fixtures = GetFixtures( assembly, testName );
 			if ( fixtures.Count > 0 ) 
 				return BuildTestAssembly( fixtures );
 			return null;
@@ -152,13 +146,13 @@ namespace NUnit.Core.Builders
 			this.assembly = Load( this.assemblyName );
 			if ( this.assembly == null ) return null;
 
-			IList fixtures = GetFixtures( assembly, null, assemblyKey );
+			IList fixtures = GetFixtures( assembly, null );
 			return BuildTestAssembly( fixtures );
 		}
 
 		private TestAssembly BuildTestAssembly( IList fixtures )
 		{
-			TestAssembly testAssembly = CreateTestAssembly(this.assemblyName, this.assemblyKey);
+			TestAssembly testAssembly = CreateTestAssembly(this.assemblyName);
 
 			if ( autoNamespaceSuites )
 			{
@@ -190,9 +184,9 @@ namespace NUnit.Core.Builders
 		/// <summary>
 		/// Factory method for constructing TestAssembly instance.
 		/// </summary>
-		protected virtual TestAssembly CreateTestAssembly(string assemblyName, int assemblyKey)
+		protected virtual TestAssembly CreateTestAssembly(string assemblyName)
 		{
-			return new TestAssembly(assemblyName, assemblyKey);
+			return new TestAssembly(assemblyName);
 		} 
 		#endregion
 
@@ -237,7 +231,7 @@ namespace NUnit.Core.Builders
 			}
 		}
 
-		private IList GetFixtures( Assembly assembly, string ns, int assemblyKey )
+		private IList GetFixtures( Assembly assembly, string ns )
 		{
 			ArrayList fixtures = new ArrayList();
 			if ( testFramework != null )
@@ -246,7 +240,7 @@ namespace NUnit.Core.Builders
 				foreach(Type testType in testTypes)
 				{
 					if( CanBuildFrom( testType ) )
-						fixtures.Add( BuildFrom( testType, assemblyKey ) );
+						fixtures.Add( BuildFrom( testType ) );
 				}
 			}
 			return fixtures;
@@ -256,9 +250,9 @@ namespace NUnit.Core.Builders
 		{
 			// The only place we currently allow legacy suites
 			if ( legacySuiteBuilder.CanBuildFrom( testType ) )
-				return legacySuiteBuilder.BuildFrom( testType, 0 );
+				return legacySuiteBuilder.BuildFrom( testType );
 
-			return BuildFrom( testType, 0 );
+			return BuildFrom( testType );
 		}
 		
 		private IList GetCandidateFixtureTypes( Assembly assembly, string ns )

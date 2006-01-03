@@ -38,7 +38,7 @@ namespace NUnit.Core.Tests
 			Assert.IsNotNull(test.Categories, "Categories should not be null");
 			Assert.AreEqual(1, test.Categories.Count);
 			Assert.AreEqual("FixtureCategory", (string)test.Categories[0]);
-			Assert.AreEqual( testFixture.Key, test.Key, "Key" );
+			Assert.AreEqual( testFixture.ID, test.ID, "ID" );
 		}
 
 		[Test]
@@ -52,7 +52,7 @@ namespace NUnit.Core.Tests
 			Assert.IsFalse( test.IsTestCase, "!IsTestCase" );
 			Assert.IsFalse( test.IsFixture, "!IsFixture" );
 			Assert.AreEqual( MockTestFixture.Tests, test.TestCount );
-			Assert.AreEqual( testSuite.Key, test.Key, "Key" );
+			Assert.AreEqual( testSuite.ID, test.ID, "ID" );
 		}
 
 		[Test]
@@ -66,7 +66,7 @@ namespace NUnit.Core.Tests
 			Assert.IsTrue( test.IsTestCase, "IsTestCase" );
 			Assert.IsFalse( test.IsFixture, "!IsFixture" );
 			Assert.AreEqual( 1, test.TestCount );
-			Assert.AreEqual( testCase1.Key, test.Key, "Key" );
+			Assert.AreEqual( testCase1.ID, test.ID, "ID" );
 		}
 	}
 }

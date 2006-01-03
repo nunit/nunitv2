@@ -271,18 +271,31 @@ namespace NUnit.Core
 				testResults = new TestResult[ tests.Length ];
 
 				// Signal that we are starting the run
-				TestNode[] nodes = new TestNode[tests.Length];
+				TestInfo[] info = new TestInfo[tests.Length];
 				int index = 0;
 				foreach( Test test in tests )
-					nodes[index++] = new TestNode( test );
-				listener.RunStarted( nodes );
+					info[index++] = new TestInfo( test );
+				listener.RunStarted( info );
 				
 				// Run each test, saving the results
 				index = 0;
 				foreach( Test test in tests )
 				{
-					using( new DirectorySwapper( 
-						Path.GetDirectoryName( this.assemblies[test.AssemblyKey] ) ) )
+					string workingDir = null;
+					if ( !(test is TestAssembly) ) // TestAssembly sets the cwd itself
+					{
+						Test t = test;
+						do
+						{
+							t = t.Parent;
+						}
+						while( t != null && !(t is TestAssembly) );
+						
+						if ( t != null )
+							workingDir = Path.GetDirectoryName( t.Name );
+					}
+
+					using( new DirectorySwapper( workingDir ) )
 					{
 						testResults[index++] = test.Run( listener, Filter );
 					}

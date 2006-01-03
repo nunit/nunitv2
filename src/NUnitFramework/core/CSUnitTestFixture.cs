@@ -58,8 +58,8 @@ namespace NUnit.Core.Builders
 		#endregion
 
 		#region Constructor
-		public CSUnitTestFixture( Type fixtureType, int assemblyKey ) 
-			: base( CSUnitTestFixture.Parameters, fixtureType, assemblyKey )
+		public CSUnitTestFixture( Type fixtureType ) 
+			: base( CSUnitTestFixture.Parameters, fixtureType )
 		{
 		}
 		#endregion

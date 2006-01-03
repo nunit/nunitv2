@@ -50,6 +50,6 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="type">The type of the fixture to be used</param>
 		/// <returns>A TestSuite</returns>
-		TestSuite BuildFrom( Type type, int assemblyKey );
+		TestSuite BuildFrom( Type type );
 	}
 }

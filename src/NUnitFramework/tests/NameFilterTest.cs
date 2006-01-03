@@ -23,11 +23,11 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void SingleNameMatch() 
 		{
-			string uniqueName = "[0]NUnit.Tests.Assemblies.MockTestFixture.MockTest3";
-			Assert.AreEqual(uniqueName, mock3.UniqueName);
+			string fullName = "NUnit.Tests.Assemblies.MockTestFixture.MockTest3";
+			Assert.AreEqual(fullName, mock3.FullName);
 			NameFilter filter = new NameFilter(mock3);
 			Assert.IsTrue(filter.Pass(mock3), "Name Filter did not pass test case");
-			Assert.AreEqual("[0]NUnit.Tests.Assemblies.MockTestFixture", ((TestSuite)testSuite.Tests[0]).UniqueName);
+			Assert.AreEqual("NUnit.Tests.Assemblies.MockTestFixture", ((TestSuite)testSuite.Tests[0]).FullName);
 			Assert.IsTrue(filter.Pass((TestSuite)testSuite.Tests[0]), "Name Filter did not pass test suite");
 		}
 

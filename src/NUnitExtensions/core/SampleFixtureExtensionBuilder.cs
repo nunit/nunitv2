@@ -16,10 +16,10 @@ namespace NUnit.Core.Extensions
 		// extension suite. Many builders will need to do more work, 
 		// looking for other attributes, setting properties on the 
 		// suite and locating methods for tests, setup and teardown.
-		public override TestSuite BuildFrom(Type type, int assemblyKey)
+		public override TestSuite BuildFrom(Type type)
 		{
 			if ( CanBuildFrom( type ) )
-				return base.BuildFrom( type, assemblyKey );
+				return base.BuildFrom( type );
 			return null;
 		}
 

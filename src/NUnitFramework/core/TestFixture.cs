@@ -38,8 +38,8 @@ namespace NUnit.Core
 	public class TestFixture : TestSuite
 	{
 		#region Constructors
-		public TestFixture( Type fixtureType, int assemblyKey )
-			: base( fixtureType, assemblyKey ) { }
+		public TestFixture( Type fixtureType )
+			: base( fixtureType ) { }
 		#endregion
 
 		#region Properties

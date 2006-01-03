@@ -9,8 +9,8 @@ namespace NUnit.Core.Extensions
 	/// </summary>
 	class SampleFixtureExtension : NUnitTestFixture
 	{
-		public SampleFixtureExtension( Type fixtureType, int assemblyKey ) 
-			: base( fixtureType, assemblyKey )
+		public SampleFixtureExtension( Type fixtureType ) 
+			: base( fixtureType )
 		{
 			// NOTE: Since we are inheriting from TestFixture we don't 
 			// have to do anything if we don't want to. Our tests will 

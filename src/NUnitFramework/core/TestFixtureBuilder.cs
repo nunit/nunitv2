@@ -42,26 +42,15 @@ namespace NUnit.Core
 		/// Build a test fixture from a given type.
 		/// </summary>
 		/// <param name="type">The type to be used for the fixture</param>
-		/// <param name="assemblyKey">Integer indicating the assembly</param>
-		/// <returns>A TestSuite if the fixture can be built, null if not</returns>
-		public static TestSuite Make( Type type, int assemblyKey )
-		{
-			TestSuite suite = Addins.BuildFrom( type, assemblyKey );
-
-			if ( suite == null )
-				suite = Builtins.BuildFrom( type, assemblyKey );
-
-			return suite;
-		}
-
-		/// <summary>
-		/// Build a test fixture from a given type, using an assemblyKey of 0.
-		/// </summary>
-		/// <param name="type">The type to be used for the fixture</param>
 		/// <returns>A TestSuite if the fixture can be built, null if not</returns>
 		public static TestSuite Make( Type type )
 		{
-			return Make( type, 0 );
+			TestSuite suite = Addins.BuildFrom( type );
+
+			if ( suite == null )
+				suite = Builtins.BuildFrom( type );
+
+			return suite;
 		}
 
 		/// <summary>

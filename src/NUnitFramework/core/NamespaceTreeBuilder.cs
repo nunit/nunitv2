@@ -85,7 +85,7 @@ namespace NUnit.Core
 			string ns = fixture.FullName;
 			int index = ns.LastIndexOf( '.' );
 			ns = index > 0 ? ns.Substring( 0, index ) : string.Empty;
-			TestSuite suite = BuildFromNameSpace( ns, fixture.AssemblyKey );
+			TestSuite suite = BuildFromNameSpace( ns );
 			suite.Add( fixture );
 		}
 
@@ -94,7 +94,7 @@ namespace NUnit.Core
 			string ns = fixture.FullName;
 			int index = ns.LastIndexOf( '.' );
 			ns = index > 0 ? ns.Substring( 0, index ) : string.Empty;
-			TestSuite suite = BuildFromNameSpace( ns, fixture.AssemblyKey );
+			TestSuite suite = BuildFromNameSpace( ns );
 
 			// Make the parent point to this instead
 			TestSuite parent = suite.Parent;
@@ -116,17 +116,17 @@ namespace NUnit.Core
 
 		#region Helper Method
 
-		private TestSuite BuildFromNameSpace( string nameSpace, int assemblyKey )
+		private TestSuite BuildFromNameSpace( string nameSpace )
 		{
 			if( nameSpace == null || nameSpace  == "" ) return rootSuite;
 			TestSuite suite = (TestSuite)namespaceSuites[nameSpace];
 			if(suite!=null) return suite;
 
 			int index = nameSpace.LastIndexOf(".");
-			//string prefix = string.Format( "[{0}]", assemblyKey );
+			//string prefix = string.Format( "[{0}]" );
 			if( index == -1 )
 			{
-				suite = new NamespaceSuite( nameSpace, assemblyKey );
+				suite = new NamespaceSuite( nameSpace );
 				if ( rootSuite == null )
 					rootSuite = suite;
 				else
@@ -136,9 +136,9 @@ namespace NUnit.Core
 			else
 			{
 				string parentNameSpace = nameSpace.Substring( 0,index );
-				TestSuite parent = BuildFromNameSpace( parentNameSpace, assemblyKey );
+				TestSuite parent = BuildFromNameSpace( parentNameSpace );
 				string suiteName = nameSpace.Substring( index+1 );
-				suite = new NamespaceSuite( parentNameSpace, suiteName, assemblyKey );
+				suite = new NamespaceSuite( parentNameSpace, suiteName );
 				parent.Add( suite );
 				namespaceSuites[nameSpace] = suite;
 			}

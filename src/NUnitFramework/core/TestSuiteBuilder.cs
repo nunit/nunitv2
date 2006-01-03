@@ -72,12 +72,10 @@ namespace NUnit.Core
 			NamespaceTreeBuilder namespaceTree = 
 				new NamespaceTreeBuilder( rootSuite );
 
-			int assemblyKey = 0;
 			foreach(string assemblyName in assemblies)
 			{
 				TestAssemblyBuilder builder = new TestAssemblyBuilder( 
-					assemblyName, assemblyKey++, 
-					autoNamespaceSuites & !mergeAssemblies );
+					assemblyName, autoNamespaceSuites & !mergeAssemblies );
 				TestSuite testAssembly =  builder.Build();
 
 				if ( !mergeAssemblies )
@@ -101,7 +99,7 @@ namespace NUnit.Core
 		public TestSuite Build(string assemblyName, string testName )
 		{
 			TestAssemblyBuilder builder = 
-				new TestAssemblyBuilder( assemblyName, 0, this.autoNamespaceSuites );
+				new TestAssemblyBuilder( assemblyName, this.autoNamespaceSuites );
 			return builder.Build( testName );
 		}
 
@@ -115,7 +113,7 @@ namespace NUnit.Core
 			foreach(string assemblyName in assemblies)
 			{
 				TestAssemblyBuilder builder = 
-					new TestAssemblyBuilder( assemblyName, 0, this.autoNamespaceSuites );
+					new TestAssemblyBuilder( assemblyName, this.autoNamespaceSuites );
 				suite = builder.Build( testName );
 				if ( suite != null ) break;
 			}

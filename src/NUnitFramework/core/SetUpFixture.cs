@@ -38,7 +38,7 @@ namespace NUnit.Core
 	/// </summary>
 	public class SetUpFixture : NamespaceSuite
 	{
-		public SetUpFixture( Type type, int assemblyKey ) : base( type, assemblyKey )
+		public SetUpFixture( Type type ) : base( type )
 		{
 			testName = type.Namespace;
 			int index = testName.LastIndexOf( '.' );

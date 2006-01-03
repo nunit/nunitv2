@@ -77,9 +77,9 @@ namespace NUnit.Core
 			return suiteBuilders.CanBuildFrom( type );
 		}
 
-		public TestSuite BuildFrom(Type type, int assemblyKey)
+		public TestSuite BuildFrom(Type type)
 		{
-			return suiteBuilders.BuildFrom( type, assemblyKey );
+			return suiteBuilders.BuildFrom( type );
 		}
 		#endregion
 
@@ -176,9 +176,9 @@ namespace NUnit.Core
 				return (bool)canBuildFromMethod.Invoke( builder, new object[] { type } );
 			}
 
-			public TestSuite BuildFrom(Type type, int assemblyKey)
+			public TestSuite BuildFrom(Type type)
 			{
-				return (TestSuite)buildFromMethod.Invoke( builder, new object[] { type, assemblyKey } );
+				return (TestSuite)buildFromMethod.Invoke( builder, new object[] { type } );
 			}
 
 			#endregion

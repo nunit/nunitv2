@@ -46,11 +46,8 @@ namespace NUnit.Core
 	
 		#region Constructors
 
-		public GenericTestFixture( TestFixtureParameters parms, Type fixtureType ) 
-			: this( parms, fixtureType, 0 ) { }
-
-		public GenericTestFixture( TestFixtureParameters parms, Type fixtureType, int assemblyKey ) 
-			: base( fixtureType, assemblyKey ) 
+		public GenericTestFixture( TestFixtureParameters parms, Type fixtureType )
+			: base( fixtureType )
 		{ 
 			// This must be first, GetXxxxXxMethod calls depend on it
 			this.parms = parms;

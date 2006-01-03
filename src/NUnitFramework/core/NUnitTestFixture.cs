@@ -54,10 +54,8 @@ namespace NUnit.Core
 				true, false, true
 			);
 		
-		public NUnitTestFixture( Type fixtureType ) : this( fixtureType, 0 ) { }
-
-		public NUnitTestFixture( Type fixtureType, int assemblyKey ) 
-			: base( Parameters, fixtureType, assemblyKey )
+		public NUnitTestFixture( Type fixtureType ) 
+			: base( Parameters, fixtureType )
 		{
 		}
 	}

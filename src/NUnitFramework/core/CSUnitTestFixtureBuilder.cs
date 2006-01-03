@@ -45,11 +45,10 @@ namespace NUnit.Core.Builders
 		/// Returns a CSUnitTestFixture
 		/// </summary>
 		/// <param name="type">The type to use in making the fixture</param>
-		/// <param name="assemblyKey">The index of the assembly</param>
 		/// <returns>A TestSuite or null</returns>
-		protected override TestSuite MakeSuite( Type type, int assemblyKey )
+		protected override TestSuite MakeSuite( Type type )
 		{
-			return new CSUnitTestFixture( type, assemblyKey );
+			return new CSUnitTestFixture( type );
 		}
 		
 		/// <summary>

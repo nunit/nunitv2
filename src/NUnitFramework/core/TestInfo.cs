@@ -10,8 +10,13 @@ namespace NUnit.Core
 	/// tests. Since it is informational only, it can easily be passed
 	/// around using .Net remoting.
 	/// 
+	/// TestInfo is used directly in all EventListener events and in
+	/// TestResults. It contains an ID, which can be used by a 
+	/// runner to locate the actual test.
+	/// 
 	/// TestInfo also serves as the base class for TestNode, which
-	/// adds hierarchical information.
+	/// adds hierarchical information and is used in client code to
+	/// maintain a visible image of the structure of the tests.
 	/// </summary>
 	[Serializable]
 	public class TestInfo
@@ -27,11 +32,6 @@ namespace NUnit.Core
 		/// The test name
 		/// </summary>
 		private string testName;
-
-		/// <summary>
-		/// Used to distinguish tests in multiple assemblies;
-		/// </summary>
-		private int assemblyKey;
 
 		/// <summary>
 		/// True if the test should be run
@@ -63,13 +63,27 @@ namespace NUnit.Core
 		/// </summary>
 		private string description;
 
+		/// <summary>
+		/// A list of all the categories assigned to a test
+		/// </summary>
 		private ArrayList categories = new ArrayList();
 
-		private ListDictionary properties;
+		/// <summary>
+		/// A dictionary of properties, used to add information
+		/// to tests without requiring the class to change.
+		/// </summary>
+		private ListDictionary properties = new ListDictionary();
 
+		/// <summary>
+		/// True if the test is marked as Explicit
+		/// </summary>
 		private bool isExplicit;
-
-		private int key;
+		
+		/// <summary>
+		/// Integer id allowing tests to be located and identified 
+		/// by the test runner.
+		/// </summary>
+		private int id;
 
 		#endregion
 
@@ -82,7 +96,6 @@ namespace NUnit.Core
 		{
 			this.fullName = test.FullName;
 			this.testName = test.Name;
-			this.assemblyKey = test.AssemblyKey;
 			this.shouldRun = test.ShouldRun;
 			this.ignoreReason = test.IgnoreReason;
 			this.description = test.Description;
@@ -92,9 +105,15 @@ namespace NUnit.Core
 
 			if (test.Categories != null) 
 				this.categories.AddRange(test.Categories);
+			if (test.Properties != null)
+			{
+				this.properties = new ListDictionary();
+				foreach( DictionaryEntry entry in test.Properties )
+					this.properties.Add( entry.Key, entry.Value );
+			}
 
 			this.testCaseCount = test.CountTestCases();
-			this.key = test.Key;
+			this.id = test.ID;
 		}
 		#endregion
 
@@ -143,18 +162,9 @@ namespace NUnit.Core
 			get { return testName; }
 		}
 
-		/// <summary>
-		/// Identifier for assembly containing this test
-		/// </summary>
-		public int AssemblyKey
-		{
-			get { return assemblyKey; }
-			set { assemblyKey = value; }
-		}
-
 		public string UniqueName
 		{
-			get{ return string.Format( "[{0}]{1}", assemblyKey, fullName ); }
+			get{ return string.Format( "[{0}]{1}", id, fullName ); }
 		}
 
 		public bool IsExplicit
@@ -228,9 +238,9 @@ namespace NUnit.Core
 			}
 		}
 
-		public int Key
+		public int ID
 		{
-			get { return key; }
+			get { return id; }
 		}
 
 		#endregion

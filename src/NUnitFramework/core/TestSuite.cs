@@ -101,20 +101,14 @@ namespace NUnit.Core
 
 		#region Constructors
 
-		/// <summary>
-		/// Only used by tests and by RootTestSuite
-		/// </summary>
-		/// <param name="name"></param>
-		public TestSuite( string name ) : this( name, 0 ) { }
+		public TestSuite( string name ) 
+			: base( name ) { }
 
-		public TestSuite( string name, int assemblyKey ) 
-			: base( name, assemblyKey ) { }
+		public TestSuite( string parentSuiteName, string name ) 
+			: base( parentSuiteName, name ) { }
 
-		public TestSuite( string parentSuiteName, string name, int assemblyKey ) 
-			: base( parentSuiteName, name, assemblyKey ) { }
-
-		public TestSuite( Type fixtureType, int assemblyKey ) 
-			: base( fixtureType.FullName, assemblyKey ) 
+		public TestSuite( Type fixtureType ) 
+			: base( fixtureType.FullName ) 
 		{
 			this.fixtureType = fixtureType;
 			if ( fixtureType.Namespace != null )
@@ -253,7 +247,7 @@ namespace NUnit.Core
 		{
 			TestSuiteResult suiteResult = new TestSuiteResult( this, Name);
 
-			listener.SuiteStarted( new TestNode( this ) );
+			listener.SuiteStarted( new TestInfo( this ) );
 			long startTime = DateTime.Now.Ticks;
 
 			if ( ShouldRun )

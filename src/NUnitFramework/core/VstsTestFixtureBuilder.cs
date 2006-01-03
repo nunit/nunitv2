@@ -38,9 +38,9 @@ namespace NUnit.Core.Builders
 	{
 		public VstsTestFixtureBuilder() : base( VstsTestFixture.Parameters ) { }
 
-		protected override TestSuite MakeSuite( Type type, int assemblyKey )
+		protected override TestSuite MakeSuite( Type type )
 		{
-			return new VstsTestFixture( type, assemblyKey );
+			return new VstsTestFixture( type );
 		}
 
 		protected override void AddTestCases(Type fixtureType)

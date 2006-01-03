@@ -90,9 +90,9 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="type">The type of the fixture to be used</param>
 		/// <returns>A TestSuite or null</returns>
-		public static TestSuite BuildFrom( Type type, int assemblyKey )
+		public static TestSuite BuildFrom( Type type )
 		{
-			return suiteBuilders.BuildFrom( type, assemblyKey );
+			return suiteBuilders.BuildFrom( type );
 		}
 		#endregion
 

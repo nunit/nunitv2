@@ -82,17 +82,7 @@ namespace NUnit.Core
 
 		#region Constructors
 
-		public LegacySuite( Type fixtureType ) : base( fixtureType, 0 )
-		{
-			Initialize( fixtureType );
-		}
-
-		public LegacySuite( Type fixtureType, int assemblyKey ) : base( fixtureType, assemblyKey ) 
-		{
-			Initialize( fixtureType );
-		}
-
-		private void Initialize( Type fixtureType )
+		public LegacySuite( Type fixtureType ) : base( fixtureType )
 		{
 			suiteProperty = GetSuiteProperty( fixtureType );
 

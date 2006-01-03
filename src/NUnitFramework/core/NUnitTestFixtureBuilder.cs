@@ -45,11 +45,10 @@ namespace NUnit.Core.Builders
 		/// Makes an NUnitTestFixture instance
 		/// </summary>
 		/// <param name="type">The type to be used</param>
-		/// <param name="assemblyKey">The assembly key</param>
 		/// <returns>A TestSuite or null</returns>
-		protected override TestSuite MakeSuite( Type type, int assemblyKey )
+		protected override TestSuite MakeSuite( Type type )
 		{
-			return new NUnitTestFixture( type, assemblyKey );
+			return new NUnitTestFixture( type );
 		}
 
 		/// <summary>
@@ -58,11 +57,10 @@ namespace NUnit.Core.Builders
 		/// on NUnitTestFixtures:
 		/// </summary>
 		/// <param name="type">The type to use in building the fixture</param>
-		/// <param name="assemblyKey">The assembly key</param>
 		/// <returns>A TestSuite or null</returns>
-		public override TestSuite BuildFrom(Type type, int assemblyKey)
+		public override TestSuite BuildFrom(Type type)
 		{
-			TestSuite suite = base.BuildFrom (type, assemblyKey);
+			TestSuite suite = base.BuildFrom (type);
 
 			if ( suite != null )
 			{

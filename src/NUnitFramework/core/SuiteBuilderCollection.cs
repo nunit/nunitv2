@@ -77,11 +77,11 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="type">The type of the fixture to be used</param>
 		/// <returns>A TestSuite or null</returns>
-		public TestSuite BuildFrom(Type type, int assemblyKey)
+		public TestSuite BuildFrom(Type type)
 		{
 			foreach( ISuiteBuilder builder in this )
 				if ( builder.CanBuildFrom( type ) )
-					return builder.BuildFrom( type, assemblyKey );
+					return builder.BuildFrom( type );
 			return null;
 		}
 

@@ -12,8 +12,8 @@ namespace NUnit.Core.Extensions
 	/// </summary>
 	class SampleSuiteExtension : TestSuite
 	{
-		public SampleSuiteExtension( Type fixtureType, int assemblyKey ) 
-			: base( fixtureType, assemblyKey )
+		public SampleSuiteExtension( Type fixtureType ) 
+			: base( fixtureType )
 		{
 			// Create the fixture object. We could wait to do this when
 			// it is needed, but we do it here for simplicity.

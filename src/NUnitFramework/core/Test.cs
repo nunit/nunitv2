@@ -31,6 +31,7 @@ namespace NUnit.Core
 {
 	using System;
 	using System.Collections;
+	using System.Collections.Specialized;
 
 	/// <summary>
 	///		Test Class.
@@ -50,19 +51,16 @@ namespace NUnit.Core
 		private string fullName;
 		
 		/// <summary>
-		/// Int used to distinguish suites of the same
-		/// name across multiple assemblies.
+		/// Integer id that is set as each test is built, allowing
+		/// tests to be located and identified by the test runner.
 		/// </summary>
-		private int assemblyKey;
+		private int id;
 
 		/// <summary>
-		/// Int that is set to a unique ascending value by the
-		/// TestSuiteBuilder, allowing unique identification
-		/// of tests by client software.
+		/// Static value to seed ids. It's started at 1000 so any
+		/// uninitialized ids will stand out.
 		/// </summary>
-		private int key;
-
-		private static int nextKey = Int32.MaxValue;
+		private static int nextId = 1000;
 
 		/// <summary>
 		/// Whether or not the test should be run
@@ -90,6 +88,12 @@ namespace NUnit.Core
 		private IList categories;
 
 		/// <summary>
+		/// A dictionary of properties, used to add information
+		/// to tests without requiring the class to change.
+		/// </summary>
+		private ListDictionary properties;
+
+		/// <summary>
 		/// True if the test had the Explicit attribute
 		/// </summary>
 		private bool isExplicit;
@@ -103,24 +107,19 @@ namespace NUnit.Core
 
 		#region Constructors
 
-		protected Test( string name, int assemblyKey )
+		protected Test( string name )
 		{
 			this.fullName = this.testName = name;
-			this.assemblyKey = assemblyKey;
 			this.shouldRun = true;
-			this.key = unchecked( nextKey++ );
+			this.id = unchecked( nextId++ );
 		}
 
 		protected Test( string pathName, string testName ) 
-			: this( pathName, testName, 0 ) { }
-
-		protected Test( string pathName, string testName, int assemblyKey ) 
 		{ 
 			fullName = pathName == null || pathName == string.Empty ? testName : pathName + "." + testName;
 			this.testName = testName;
-			this.assemblyKey = assemblyKey;
 			this.shouldRun = true;
-			this.key = nextKey++;
+			this.id = unchecked( nextId++ );
 		}
 
 		#endregion
@@ -138,26 +137,22 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Int used to distinguish suites of the same
-		/// name across multiple assemblies.
-		/// </summary>
-		public int AssemblyKey
-		{
-			get { return assemblyKey; }
-			set { assemblyKey = value; }
-		}
-
-		/// <summary>
-		/// Key used to look up a test in a hash table
+		/// Key used to look up a test in a hash table. Although the
+		/// ID alone would be sufficient, we combine it with the
+		/// FullName for ease in debugging and for use in messages.
 		/// </summary>
 		public string UniqueName
 		{
-			get { return string.Format( "[{0}]{1}", assemblyKey, fullName ); }
+			get { return string.Format( "[{0}]{1}", id, fullName ); }
 		}
 
-		public int Key
+		/// <summary>
+		/// The test ID is a quasi-unique identifier for tests. It supports
+		/// over four billion test nodes in a single runner tree.
+		/// </summary>
+		public int ID
 		{
-			get { return key; }
+			get { return id; }
 		}
 
 		/// <summary>
@@ -238,6 +233,17 @@ namespace NUnit.Core
 		{
 			get { return isExplicit; }
 			set { isExplicit = value; }
+		}
+
+		public ListDictionary Properties
+		{
+			get 
+			{
+				if ( properties == null )
+					properties = new ListDictionary();
+
+				return properties; 
+			}
 		}
 
 		#endregion
