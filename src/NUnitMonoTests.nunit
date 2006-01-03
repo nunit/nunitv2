@@ -3,7 +3,7 @@
     <assembly path="nunit.framework.tests.dll" />
     <assembly path="nunit.util.tests.dll" />
     <assembly path="nunit.mocks.tests.dll" />
-    <assembly path="nunit-console.tests.dll" />
     <assembly path="nunit.extensions.tests.dll" />
+    <assembly path="nunit-console.tests.dll" />
   </Config>
 </NUnitProject>
