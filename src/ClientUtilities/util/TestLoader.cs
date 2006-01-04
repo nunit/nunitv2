@@ -469,8 +469,8 @@ namespace NUnit.Util
 
 				testDomain = new TestDomain( );		
 				TestNode test = TestProject.IsAssemblyWrapper
-					? testDomain.Load( TestProject.ActiveConfig.Assemblies[0].FullPath )
-					: testDomain.Load( TestProject );
+					? testDomain.Load( TestProject.ActiveConfig.Assemblies[0].FullPath, testName )
+					: testDomain.Load( TestProject, testName );
 
 				loadedTest = test;
 				loadedTestName = testName;
