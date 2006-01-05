@@ -111,8 +111,10 @@ namespace NUnit.Mocks.Tests
 			MBRClass classInstance = (MBRClass)classMock.MockInstance;
 			classMock.Expect( "SomeMethod" );
 			classMock.ExpectAndReturn( "AnotherMethod", "Hello World", 5, "hello" );
+			classMock.ExpectAndReturn( "MethodWithParams", 42, new object[] { new string[] { "the", "answer" } } );
 			classInstance.SomeMethod();
 			Assert.AreEqual( "Hello World", classInstance.AnotherMethod( 5, "hello" ) );
+			Assert.AreEqual( 42, classInstance.MethodWithParams( "the", "answer" ) );
 			classMock.Verify();
 		}
 
@@ -154,6 +156,7 @@ namespace NUnit.Mocks.Tests
 		{
 			public void SomeMethod(){ }
 			public string AnotherMethod( int a, string b ) { return b + a.ToString(); }
+			public int MethodWithParams( params string[] args ) { return args.Length; }
 		}
 
 		#endregion
