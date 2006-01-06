@@ -17,9 +17,9 @@ namespace NUnit.Core.Extensions
 			// be recognized in the normal way by TestFixture, based
 			// on the presence of the Test attribute.
 			//
-			// Just to have something to do, we override DoSetUp and DoTearDown
-			// below to do some special processing before and after the normal
-			// TestFixtureSetUp and TestFixtureTearDown
+			// Just to have something to do, we override DoOneTimeSetUp and 
+			// DoOneTimeTearDown below to do some special processing before 
+			// and after the normal TestFixtureSetUp and TestFixtureTearDown.
 		}
 
 		public override void DoOneTimeSetUp(TestResult suiteResult)
