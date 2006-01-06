@@ -65,17 +65,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NUnitFramework\core\nunit.core.dll_VS2005.csproj">
+    <ProjectReference Include="..\..\NUnitCore\core\nunit.core.dll_VS2005.csproj">
       <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
       <Name>nunit.core.dll_VS2005</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NUnitCore\tests\nunit.core.tests_VS2005.csproj">
+      <Project>{DD758D21-E5D5-4D40-9450-5F65A32F359C}</Project>
+      <Name>nunit.core.tests_VS2005</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll_VS2005.csproj">
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Name>nunit.framework.dll_VS2005</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NUnitFramework\tests\nunit.framework.tests_VS2005.csproj">
-      <Project>{8C326431-AE57-4645-ACC1-A90A0B425129}</Project>
-      <Name>nunit.framework.tests_VS2005</Name>
     </ProjectReference>
     <ProjectReference Include="..\core\nunit.core.extensions.dll_VS2005.csproj">
       <Project>{98B10E98-003C-45A0-9587-119142E39986}</Project>

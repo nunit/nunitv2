@@ -65,7 +65,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NUnitFramework\core\nunit.core.dll_VS2005.csproj">
+    <ProjectReference Include="..\..\NUnitCore\core\nunit.core.dll_VS2005.csproj">
       <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
       <Name>nunit.core.dll_VS2005</Name>
     </ProjectReference>

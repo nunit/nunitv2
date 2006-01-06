@@ -55,6 +55,10 @@
       <Project>{61CE9CE5-943E-44D4-A381-814DC1406767}</Project>
       <Name>nunit.util.dll_VS2005</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\NUnitCore\core\nunit.core.dll_VS2005.csproj">
+      <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
+      <Name>nunit.core.dll_VS2005</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NUnitMocks\mocks\nunit.mocks_VS2005.csproj">
       <Project>{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}</Project>
       <Name>nunit.mocks_VS2005</Name>
@@ -71,10 +75,6 @@
       <Project>{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}</Project>
       <Name>test-utilities_VS2005</Name>
     </ProjectReference>
-    <ProjectReference Include="..\core\nunit.core.dll_VS2005.csproj">
-      <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
-      <Name>nunit.core.dll_VS2005</Name>
-    </ProjectReference>
     <ProjectReference Include="..\framework\nunit.framework.dll_VS2005.csproj">
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Name>nunit.framework.dll_VS2005</Name>
@@ -85,16 +85,7 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AllTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ArrayEqualsFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AssemblyTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AssemblyVersionFixture.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AssertExtensionTests.cs">
@@ -103,148 +94,27 @@
     <Compile Include="AssertionTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AttributeDescriptionFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BasicRunnerTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CallContextTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="CategoryManagerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ConditionAssertTests.cs" />
-    <Compile Include="DirectorySwapperTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="EqualsFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="EventQueueTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="EventTestFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ExpectExceptionTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FailFixture.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FailureMessageFixture.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FixtureSetupTearDownTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="GreaterFixture.cs" />
-    <Compile Include="IgnoreFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="InheritedTestFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LegacySuiteTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="LessFixture.cs" />
     <Compile Include="ListContentsTests.cs" />
-    <Compile Include="MockTestRunner.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="NameFilterTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="NamespaceAssemblyTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="NotEqualFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="NoTestCases.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NotSameFixture.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="OneTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="PlatformDetectionTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="RemoteRunnerTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="SameFixture.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SerializationBug.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SetUpFixtureTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SetUpTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SimpleTestRunnerTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="StackOverflowTestFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="StringAssertTests.cs" />
-    <Compile Include="SuiteBuilderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SuiteBuilderTests_Multiple.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestCaseNameTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestCaseResultFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestCaseTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestConsole.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestDelegateFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestFixtureBuilderTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestFixtureExtension.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestFixtureTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestInfoTests.cs" />
-    <Compile Include="TestNodeTests.cs" />
-    <Compile Include="TestRunnerThreadTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestSuiteResultFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestSuiteTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ThreadedTestRunnerTests.cs" />
     <Compile Include="TypeAssertTest.cs" />
-    <Compile Include="XmlTest.cs">
-      <SubType>Code</SubType>
-      <CustomToolNamespace>NUnit.Core.Tests</CustomToolNamespace>
-    </Compile>
     <None Include="..\core\Results.xsx">
       <Link>Results.xsx</Link>
       <DependentUpon>Results.xsd</DependentUpon>

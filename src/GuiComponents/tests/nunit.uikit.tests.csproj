@@ -100,11 +100,6 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Windows.Forms.dll"
                 />
                 <Reference
-                    Name = "nunit.core.dll"
-                    Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "mock-assembly"
                     Project = "{2E368281-3BA8-4050-B05E-0E0E43F8F446}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
@@ -117,6 +112,11 @@
                 <Reference
                     Name = "test-utilities"
                     Project = "{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.core.dll"
+                    Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>

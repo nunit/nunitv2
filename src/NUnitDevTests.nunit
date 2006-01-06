@@ -2,6 +2,7 @@
   <Settings activeconfig="Debug" />
   <Config name="Debug" binpathtype="Auto">
     <assembly path="NUnitFramework\tests\bin\Debug\nunit.framework.tests.dll" />
+    <assembly path="NUnitCore\tests\bin\Debug\nunit.core.tests.dll" />
     <assembly path="ClientUtilities\tests\bin\Debug\nunit.util.tests.dll" />
     <assembly path="NUnitMocks\tests\bin\Debug\nunit.mocks.tests.dll" />
     <assembly path="NUnitExtensions\tests\bin\Debug\nunit.extensions.tests.dll" />
@@ -11,6 +12,7 @@
   </Config>
   <Config name="Debug2005" binpathtype="Auto">
     <assembly path="NUnitFramework\tests\bin\Debug2005\nunit.framework.tests.dll" />
+    <assembly path="NUnitCore\tests\bin\Debug2005\nunit.core.tests.dll" />
     <assembly path="ClientUtilities\tests\bin\Debug2005\nunit.util.tests.dll" />
     <assembly path="NUnitMocks\tests\bin\Debug2005\nunit.mocks.tests.dll" />
     <assembly path="NUnitExtensions\tests\bin\Debug2005\nunit.extensions.tests.dll" />
@@ -20,6 +22,7 @@
   </Config>
   <Config name="Release" binpathtype="Auto">
     <assembly path="NUnitFramework\tests\bin\Release\nunit.framework.tests.dll" />
+    <assembly path="NUnitCore\tests\bin\Release\nunit.core.tests.dll" />
     <assembly path="ClientUtilities\tests\bin\Release\nunit.util.tests.dll" />
     <assembly path="NUnitMocks\tests\bin\Release\nunit.mocks.tests.dll" />
     <assembly path="NUnitExtensions\tests\bin\Release\nunit.extensions.tests.dll" />
@@ -29,6 +32,7 @@
   </Config>
   <Config name="Release2005" binpathtype="Auto">
     <assembly path="NUnitFramework\tests\bin\Release2005\nunit.framework.tests.dll" />
+    <assembly path="NUnitCore\tests\bin\Release2005\nunit.core.tests.dll" />
     <assembly path="ClientUtilities\tests\bin\Release2005\nunit.util.tests.dll" />
     <assembly path="NUnitMocks\tests\bin\Release2005\nunit.mocks.tests.dll" />
     <assembly path="NUnitExtensions\tests\bin\Release2005\nunit.extensions.tests.dll" />
