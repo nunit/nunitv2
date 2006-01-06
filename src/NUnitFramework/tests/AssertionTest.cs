@@ -32,7 +32,6 @@ namespace NUnit.Core.Tests
 	using System;
 	using System.Reflection;
 	using NUnit.Framework;
-	using NUnit.Core.Builders;
 
 	[TestFixture]
 	public class AssertionTest
