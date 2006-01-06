@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="NUnitFramework" default="build">
+<project name="NUnitCore" default="build">
 
   <property name="project.src.dir" value=".."
     unless="${property::exists('project.src.dir')}"/>
@@ -7,30 +7,30 @@
   <include buildfile="../nunit.build.include"/>
   
   <target name="clean">
-    <nant buildfile="framework/nunit.framework.build"
+    <nant buildfile="core/nunit.core.build" 
       target="clean"/>
-    <nant buildfile="tests/nunit.framework.tests.build"
+    <nant buildfile="tests/nunit.core.tests.build"
       target="clean"/>
   </target>
 
   <target name="build">
-    <nant buildfile="framework/nunit.framework.build"
+    <nant buildfile="core/nunit.core.build" 
       target="build"/>
   </target>
 
   <target name="build-tests">
     <nant target="build"
-      buildfile="tests/nunit.framework.tests.build"/>
+      buildfile="tests/nunit.core.tests.build"/>
   </target>
 
   <target name="package">
-    <nant buildfile="framework/nunit.framework.build"
+    <nant buildfile="core/nunit.core.build" 
       target="package"/>
-    <nant buildfile="tests/nunit.framework.tests.build"
+    <nant buildfile="tests/nunit.core.tests.build"
       target="package"/>
 
-    <copy todir="${package.src.dir}/NUnitFramework"
-      file="NUnitFramework.build"/>
+    <copy todir="${package.src.dir}/NUnitCore"
+      file="NUnitCore.build"/>
   </target>
 
 </project>

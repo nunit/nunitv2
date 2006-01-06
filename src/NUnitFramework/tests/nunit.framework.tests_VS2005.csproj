@@ -115,14 +115,15 @@
     </Compile>
     <Compile Include="StringAssertTests.cs" />
     <Compile Include="TypeAssertTest.cs" />
-    <None Include="..\core\Results.xsx">
+    <None Include="..\..\NUnitCore\core\Results.xsd">
+      <Link>Results.xsd</Link>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="..\..\NUnitCore\core\Results.xsx">
       <Link>Results.xsx</Link>
       <DependentUpon>Results.xsd</DependentUpon>
     </None>
     <None Include="nunit.framework.tests.dll.config" />
-    <EmbeddedResource Include="..\core\Results.xsd">
-      <Link>Results.xsd</Link>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

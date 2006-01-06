@@ -16,10 +16,9 @@
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
-        <include name="nunit.framework.extensions.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.core.extensions.dll"/>
-        <include name="nunit.framework.tests.dll"/>
+        <include name="nunit.core.tests.dll"/>
       </references>
     </csc>
   </target>

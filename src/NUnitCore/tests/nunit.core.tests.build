@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project name="NUnit.Core.Tests" default="build">
+
+  <include buildfile="../../nunit.project.include"/>
+
+  <property name="current.build.output"
+    value="nunit.core.tests"/>
+
+  <target name="build" depends="make-build-dir">
+    <csc target="library" 
+        output="${current.build.dir}/nunit.core.tests.dll"
+        debug="${build.debug}" 
+        define="${build.defines.csc}"
+        nowarn="618,672">
+      <sources basedir=".">
+        <include name="*.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <resources basedir="." prefix="NUnit.Core.Tests">
+        <include name="../core/Results.xsd"/>
+      </resources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.util.dll"/>
+        <include name="nunit.mocks.dll"/>
+        <include name="test-utilities.dll"/>
+        <include name="mock-assembly.dll"/>
+        <include name="nonamespace-assembly.dll"/>
+        <include name="System.Data.dll"/>
+      </references>
+    </csc>
+  </target>
+
+  <target name="package">
+    <copy todir="${package.src.dir}/NUnitCore/tests">
+      <fileset basedir=".">
+          <include name="*.csproj"/>
+          <include name="*.build"/>
+          <include name="*.config"/>
+          <include name="*.cs"/>
+      </fileset>
+    </copy>
+  </target>
+</project>

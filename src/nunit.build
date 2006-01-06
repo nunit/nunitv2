@@ -54,6 +54,7 @@
   <target name="clean-each-project" depends="set-build-dir">
     
     <nant buildfile="NUnitFramework/NunitFramework.build" target="clean"/>
+    <nant buildfile="NUnitCore/NunitCore.build" target="clean"/>
     <nant buildfile="ClientUtilities/ClientUtilities.build" target="clean"/>
     <nant buildfile="ConsoleRunner/ConsoleRunner.build" target="clean"/>
     <nant buildfile="NUnitTestServer/NUnitTestServer.build" target="clean"/>
@@ -215,6 +216,8 @@
     <nant target="build"
       buildfile="NUnitFramework/NUnitFramework.build"/>
     <nant target="build"
+      buildfile="NUnitCore/NUnitCore.build"/>
+    <nant target="build"
       buildfile="ClientUtilities/ClientUtilities.build"/>
     <nant target="build"
       buildfile="ConsoleRunner/ConsoleRunner.build"/>
@@ -236,6 +239,8 @@
     <!-- Build the NUnit tests -->
     <nant target="build-tests"
       buildfile="NUnitFramework/NUnitFramework.build"/>
+    <nant target="build-tests"
+      buildfile="NUnitCore/NUnitCore.build"/>
     <nant target="build-tests"
       buildfile="ClientUtilities/ClientUtilities.build"/>
     <nant target="build-tests"
@@ -551,6 +556,7 @@
 
     <!-- Copy individual projects -->
     <nant buildfile="NUnitFramework/NunitFramework.build" target="package"/>
+    <nant buildfile="NUnitCore/NunitCore.build" target="package"/>
     <nant buildfile="ClientUtilities/ClientUtilities.build" target="package"/>
     <nant buildfile="ConsoleRunner/ConsoleRunner.build" target="package"/>
     <nant buildfile="NUnitTestServer/NUnitTestServer.build" target="package"/>
