@@ -133,6 +133,27 @@ namespace NUnit.Core
 
 		#endregion
 
+		#region Inheritance
+		//SHMARYA: [ 10/12/2005 ]
+		/// <summary>
+		/// Checks to see if a type inherits from a named type. 
+		/// </summary>
+		/// <param name="type">The type to examine</param>
+		/// <param name="parentType">The FullName of the inherited type to look for</param>
+		/// <returns>True if the type inherits from the named type.</returns>
+		public static bool InheritsFrom( Type type, string parentType )
+		{
+			Type current = type;
+			while( current != typeof( object ) )
+				if( current.BaseType.FullName == parentType )
+					return true;
+				else
+					current = current.BaseType;
+
+			return false;
+		}
+		#endregion
+
 		#region Get Methods of a type
 
 		/// <summary>
