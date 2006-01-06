@@ -573,6 +573,10 @@ namespace NUnit.Util
 
 				this.IsDirty = false;
 			}
+			catch( FileNotFoundException )
+			{
+				throw;
+			}
 			catch( XmlException e )
 			{
 				throw new ProjectFormatException(
