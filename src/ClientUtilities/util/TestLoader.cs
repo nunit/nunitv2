@@ -468,11 +468,11 @@ namespace NUnit.Util
 				events.FireTestLoading( TestFileName );
 
 				testDomain = new TestDomain( );		
-				TestNode test = TestProject.IsAssemblyWrapper
+				bool loaded = TestProject.IsAssemblyWrapper
 					? testDomain.Load( TestProject.ActiveConfig.Assemblies[0].FullPath, testName )
 					: testDomain.Load( TestProject, testName );
 
-				loadedTest = test;
+				loadedTest = testDomain.Test;
 				loadedTestName = testName;
 				results = null;
 				reloadPending = false;
@@ -480,8 +480,8 @@ namespace NUnit.Util
 				if ( ReloadOnChange )
 					InstallWatcher( );
 
-				if ( test != null )
-					events.FireTestLoaded( TestFileName, test );
+				if ( loaded )
+					events.FireTestLoaded( TestFileName, loadedTest );
 				else
 				{
 					lastException = new ApplicationException( string.Format ( "Unable to find test {0} in assembly", testName ) );
@@ -573,17 +573,17 @@ namespace NUnit.Util
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
 					TestDomain newDomain = new TestDomain( );
-                    TestNode newTest = TestProject.IsAssemblyWrapper
+                    bool loaded = TestProject.IsAssemblyWrapper
                         ? newDomain.Load(testProject.ActiveConfig.Assemblies[0].FullPath)
                         : newDomain.Load(testProject, loadedTestName);
 
 					testDomain.Unload();
 
 					testDomain = newDomain;
-					loadedTest = newTest;
+					loadedTest = testDomain.Test;
 					reloadPending = false;
 
-					events.FireTestReloaded( testFileName, newTest );				
+					events.FireTestReloaded( testFileName, loadedTest );				
 				}
 				catch( Exception exception )
 				{

@@ -229,13 +229,18 @@ namespace NUnit.Core
 			set { description = value; }
 		}
 
+		public int TestCount
+		{
+			get { return CountTestCases(); }
+		}
+
 		public bool IsExplicit
 		{
 			get { return isExplicit; }
 			set { isExplicit = value; }
 		}
 
-		public ListDictionary Properties
+		public IDictionary Properties
 		{
 			get 
 			{
@@ -259,7 +264,7 @@ namespace NUnit.Core
 		public abstract bool IsSuite { get; }
 		public abstract bool IsFixture{ get; }
 		public abstract bool IsTestCase{ get; }
-		public abstract ArrayList Tests { get; }
+		public abstract IList Tests { get; }
 
 		public abstract bool Filter(IFilter filter);
 

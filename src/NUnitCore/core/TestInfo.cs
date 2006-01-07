@@ -19,7 +19,7 @@ namespace NUnit.Core
 	/// maintain a visible image of the structure of the tests.
 	/// </summary>
 	[Serializable]
-	public class TestInfo
+	public class TestInfo : ITest
 	{
 		#region Instance Variables
 
@@ -112,7 +112,7 @@ namespace NUnit.Core
 //					this.properties.Add( entry.Key, entry.Value );
 //			}
 
-			this.testCaseCount = test.CountTestCases();
+			this.testCaseCount = test.TestCount;
 			this.id = test.ID;
 		}
 		#endregion
@@ -201,6 +201,11 @@ namespace NUnit.Core
 		public int TestCount
 		{ 
 			get { return testCaseCount; } 
+		}
+
+		public virtual IList Tests
+		{
+			get { return null; }
 		}
 
 		/// <summary>

@@ -81,6 +81,11 @@ namespace NUnit.Core
 			get;
 		}
 
+		TestNode Test
+		{
+			get;
+		}
+
 		/// <summary>
 		/// Results from the last test run.
 		/// </summary>
@@ -103,14 +108,14 @@ namespace NUnit.Core
 		/// Load all tests from an assembly
 		/// </summary>
 		/// <param name="assemblyName">The assembly from which tests are to be loaded</param>
-		TestNode Load( string assemblyName );
+		bool Load( string assemblyName );
 
 		/// <summary>
 		/// Load a particular test in an assembly
 		/// </summary>
 		/// <param name="assemblyName">The assembly from which tests are to be loaded</param>
 		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
-		TestNode Load( string assemblyName, string testName );
+		bool Load( string assemblyName, string testName );
 
 		/// <summary>
 		/// Load the assemblies in a test project
@@ -118,7 +123,7 @@ namespace NUnit.Core
 		/// <param name="projectName">The name of the test project being loaded</param>
 		/// <param name="assemblies">The assemblies comprising the project</param>
 		/// <returns>The loaded test</returns>
-		TestNode Load( string projectName, string[] assemblies );
+		bool Load( string projectName, string[] assemblies );
 
 		/// <summary>
 		/// Load a particular test in a TestProject.
@@ -127,7 +132,7 @@ namespace NUnit.Core
 		/// <param name="assemblies">The assemblies comprising the project</param>
 		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
 		/// <returns>The loaded test</returns>
-		TestNode Load( string projectName, string[] assemblies, string testName );
+		bool Load( string projectName, string[] assemblies, string testName );
 
 		/// <summary>
 		/// Unload all tests previously loaded

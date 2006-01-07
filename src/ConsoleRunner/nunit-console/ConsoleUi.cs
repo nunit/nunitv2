@@ -154,7 +154,7 @@ namespace NUnit.ConsoleRunner
 			Console.WriteLine();
 		}
 
-		private static TestNode MakeTestFromCommandLine(TestDomain testDomain, ConsoleOptions parser)
+		private static bool MakeTestFromCommandLine(TestDomain testDomain, ConsoleOptions parser)
 		{
 			NUnitProject project;
 
@@ -194,9 +194,7 @@ namespace NUnit.ConsoleRunner
 
 			if ( options.noshadow  ) testDomain.ShadowCopyFiles = false;
 			
-			TestNode test = MakeTestFromCommandLine(testDomain, options);
-
-			if(test == null)
+			if ( !MakeTestFromCommandLine(testDomain, options) )
 			{
 				Console.Error.WriteLine("Unable to locate fixture {0}", options.fixture);
 				return 2;

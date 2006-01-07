@@ -68,6 +68,11 @@ namespace NUnit.Core
 			get { return testRunner == null ? null : testRunner.TestFrameworks; }
 		}
 
+		public virtual TestNode Test
+		{
+			get { return testRunner == null ? null : testRunner.Test; }
+		}
+
 		public virtual TestResult[] Results
 		{
 			get { return testRunner == null ? null : testRunner.Results; }
@@ -83,22 +88,22 @@ namespace NUnit.Core
 
 		#region Load and Unload Methods
 
-		public virtual TestNode Load(string assemblyName)
+		public virtual bool Load(string assemblyName)
 		{
 			return this.testRunner.Load(assemblyName);
 		}
 
-		public virtual TestNode Load(string assemblyName, string testName)
+		public virtual bool Load(string assemblyName, string testName)
 		{
 			return this.testRunner.Load(assemblyName, testName);
 		}
 
-		public virtual TestNode Load( string projectName, string[] assemblies )
+		public virtual bool Load( string projectName, string[] assemblies )
 		{
 			return this.testRunner.Load( projectName, assemblies );
 		}
 
-		public virtual TestNode Load( string projectName, string[] assemblies, string testName )
+		public virtual bool Load( string projectName, string[] assemblies, string testName )
 		{
 			return this.testRunner.Load( projectName, assemblies, testName );
 		}

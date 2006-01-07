@@ -120,7 +120,7 @@ namespace NUnit.Core
 		#region Public Methods
 		public void Sort()
 		{
-			this.Tests.Sort();
+			this.tests.Sort();
 
 			foreach( Test test in Tests )
 			{
@@ -144,7 +144,7 @@ namespace NUnit.Core
 
 		#region Properties
 
-		public override ArrayList Tests 
+		public override IList Tests 
 		{
 			get { return tests; }
 		}

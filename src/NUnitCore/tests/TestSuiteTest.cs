@@ -131,7 +131,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void SuiteWithNoTests()
 		{
-			ArrayList tests = noTestSuite.Tests;
+			IList tests = noTestSuite.Tests;
 			Assert.AreEqual(1, tests.Count);
 			TestSuite testSuite = (TestSuite)tests[0];
 

@@ -67,7 +67,7 @@ namespace NUnit.Core.Tests
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build(testsDll);
-			ArrayList tests = suite.Tests;
+			IList tests = suite.Tests;
 			Assert.AreEqual(1, tests.Count);
 
 			Assert.IsTrue(tests[0] is TestSuite, "TestSuite:NUnit - is not correct");
@@ -96,7 +96,7 @@ namespace NUnit.Core.Tests
 			TestSuite mockFixtureSuite = (TestSuite)mockSuite.Tests[0];
 			Assert.AreEqual(MockTestFixture.Tests, mockFixtureSuite.Tests.Count);
 			
-			ArrayList mockTests = mockFixtureSuite.Tests;
+			IList mockTests = mockFixtureSuite.Tests;
 			foreach(Test t in mockTests)
 			{
 				Assert.IsTrue(t is NUnit.Core.TestCase, "should be a TestCase");

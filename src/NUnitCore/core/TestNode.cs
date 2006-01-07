@@ -15,24 +15,6 @@ namespace NUnit.Core
 	/// Like TestInfo, TestNode is purely a data class, and is not able
 	/// to execute tests.
 	/// 
-	/// TODO: Complete TestNode implementation
-	/// 
-	/// STATUS:
-	///       TestNode has replaced UITestNode, previously defined 
-	///       in the nunit.util assembly.
-	///
-	///       TestResult now uses TestNode. The TestRunner Load methods
-	///       all return a TestNode. Test objects are no longer passed
-	///       back to the client.
-	/// 	  
-	///       Currently TestNode implements ITest and so duplicates much
-	///       of the functionality of Test. In the future, the ITest interface
-	///       will be simplified and Test will either extend or aggregate
-	///       TestNode.
-	///              
-	///       TestNodes should contain enough info to allow a runner
-	///       to locate the actual test object and execute it.
-	///       
 	/// </summary>
 	[Serializable]
 	public class TestNode : TestInfo
@@ -69,7 +51,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// Array of child tests, null if this is a test case.
 		/// </summary>
-		public ArrayList Tests 
+		public override IList Tests 
 		{
 			get { return tests; }
 		}

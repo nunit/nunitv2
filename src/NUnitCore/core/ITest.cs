@@ -75,13 +75,13 @@ namespace NUnit.Core
 		/// <summary>
 		/// Count of the test cases ( 1 if this is a test case )
 		/// </summary>
-		int CountTestCases();
+		int TestCount { get; }
 
 		/// <summary>
 		/// For a test suite, the child tests or suites
 		/// Null if this is not a test suite
 		/// </summary>
-		ArrayList Tests { get; }
+		IList Tests { get; }
 
 		/// <summary>
 		/// Categories available for this test

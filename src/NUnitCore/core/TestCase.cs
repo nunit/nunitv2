@@ -95,7 +95,7 @@ namespace NUnit.Core
 			get { return true; }
 		}
 
-		public override ArrayList Tests
+		public override IList Tests
 		{
 			get { return null; }
 		}

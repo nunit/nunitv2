@@ -97,7 +97,7 @@ namespace NUnit.Core.Tests
 			TestSuite suite = new TestSuite("suite");
 			suite.Add( TestFixtureBuilder.Make( typeof( MockFixture ) ) );
 
-			ArrayList tests = suite.Tests;
+			IList tests = suite.Tests;
 			TestSuite mockFixtureSuite = (TestSuite)tests[0];
 
 			Assert.AreEqual("Fixture Description", mockFixtureSuite.Description);
