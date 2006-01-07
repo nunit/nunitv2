@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
-  <Product UpgradeCode="2E280DED-3E0E-4783-94A9-BE102C854C39" Name="NUnit" Id="1AA69CCD-1078-473A-BD6E-11CE30A81C57" Version="2.2.3" Manufacturer="NUnit" Language="1033">
+  <Product UpgradeCode="2E280DED-3E0E-4783-94A9-BE102C854C39" Name="NUnit" Id="1AA69CCD-1078-473A-BD6E-11CE30A81C57" Version="2.3" Manufacturer="NUnit" Language="1033">
   
-    <Package Id="FB49338B-7E40-4D3E-8961-B0FE0A03FF01" Comments="NUnit 2.2.3" Manufacturer="James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Jamie Cansdale" InstallerVersion="200" Platforms="Intel" Languages="1033" Compressed="yes" SummaryCodepage="1252" />
+    <Package Id="FB49338B-7E40-4D3E-8961-B0FE0A03FF01" Comments="NUnit 2.3" Manufacturer="James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Jamie Cansdale" InstallerVersion="200" Platforms="Intel" Languages="1033" Compressed="yes" SummaryCodepage="1252" />
     <Directory Id="TARGETDIR" Name="SourceDir">
     
 		<Component Id="C__TargetDir" Guid="36AE84ED-5510-40eb-A3B1-D821AC06259C">
-			<Registry Id="R__TargetDir" Root="HKCU" Key="Software\NUnit\2.2" Name="TargetDir" Type="string" KeyPath="yes" Value="[TARGETDIR]" />
+			<Registry Id="R__TargetDir" Root="HKCU" Key="Software\NUnit\2.3" Name="TargetDir" Type="string" KeyPath="yes" Value="[TARGETDIR]" />
 		</Component>
 
       <Component Id="C__LOGO" Guid="99080421-75CC-4DFC-0987-AA16B7E68659">
@@ -51,7 +51,7 @@
     <FeatureRef Id="DocFeature" />    
 
     <Upgrade Id="2E280DED-3E0E-4783-94A9-BE102C854C39">
-      <UpgradeVersion Minimum="2.2.0" Property="NEWERPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="yes" />
+      <UpgradeVersion Minimum="2.3.0" Property="NEWERPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="yes" />
     </Upgrade>
     
     <Media Id="1" EmbedCab="yes" Cabinet="nunit.cab" />
