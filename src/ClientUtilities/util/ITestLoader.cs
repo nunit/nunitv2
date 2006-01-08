@@ -100,10 +100,10 @@ namespace NUnit.Util
 		void SetFilter( IFilter filter );
 
 		// Run a test suite
-		void RunTest( TestInfo test );
+		void RunTest( string testName );
 
 		// Run a collection of tests
-		void RunTests(TestInfo[] tests);
+		void RunTests( string[] testNames );
 
 		// Cancel the running test
 		void CancelTestRun();

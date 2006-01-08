@@ -619,7 +619,7 @@ namespace NUnit.UiKit
 				
 				// Since this is a terminal node, don't use a filter
 				loader.SetFilter( null );
-				loader.RunTest( SelectedTest );
+				loader.RunTest( SelectedTest.UniqueName );
 			}
 		}
 
@@ -856,7 +856,12 @@ namespace NUnit.UiKit
 
 		private void RunTest( TestInfo test )
 		{
-			RunTests( new TestInfo[] { test } );
+			if ( SelectedCategories != null && SelectedCategories.Length > 0 )
+				loader.SetFilter( new CategoryFilter( this.SelectedCategories, this.ExcludeSelectedCategories ) );
+			else
+				loader.SetFilter( null );
+
+			loader.RunTest( test.UniqueName );
 		}
 
 		private void RunTests( TestInfo[] tests )
@@ -866,7 +871,11 @@ namespace NUnit.UiKit
 			else
 				loader.SetFilter( null );
 
-			loader.RunTests( tests );
+			string[] testNames = new string[tests.Length];
+			int index = 0;
+			foreach( TestInfo test in tests )
+				testNames[index++] = test.UniqueName;
+			loader.RunTests( testNames );
 		}
 
 		#endregion

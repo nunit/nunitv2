@@ -83,7 +83,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// The tests that are running
 		/// </summary>
-		private TestInfo[] runningTests = null;
+		private string[] runningTests = null;
 
 		/// <summary>
 		/// Result of the last test run
@@ -608,7 +608,7 @@ namespace NUnit.Util
 		/// </summary>
 		public void RunLoadedTest()
 		{
-			RunTest( loadedTest );
+			RunTest( loadedTest.UniqueName );
 		}
 
 		/// <summary>
@@ -617,35 +617,35 @@ namespace NUnit.Util
 		/// Silently ignore the call if a test is running
 		/// to allow for latency in the UI.
 		/// </summary>
-		public void RunTest( TestInfo test )
+		public void RunTest( string testName )
 		{
-			RunTests( new TestInfo[] { test } );
+			RunTests( new string[] { testName } );
 		}
 
-		public void RunTests( TestInfo[] tests )
+		public void RunTests( string[] testNames )
 		{
 			if ( !IsTestRunning )
 			{
 				if ( reloadPending || ReloadOnRun )
 					ReloadTest();
 
-				runningTests = tests;
+				runningTests = testNames;
 
 				// TODO: This is kind of silly - we should use names in the first place
-				string[] testNames = buildTestNameArray();
+				//string[] testNames = buildTestNameArray();
 				testDomain.Filter = filter;
 				testDomain.BeginRun( this, testNames );
 			}
 		}
 
-		private string[] buildTestNameArray () 
-		{
-			string[] testNames = new string[ runningTests.Length ];
-			int index = 0; 
-			foreach (TestNode node in runningTests) 
-				testNames[index++] = node.UniqueName;
-			return testNames;
-		}
+//		private string[] buildTestNameArray () 
+//		{
+//			string[] testNames = new string[ runningTests.Length ];
+//			int index = 0; 
+//			foreach (TestNode node in runningTests) 
+//				testNames[index++] = node.UniqueName;
+//			return testNames;
+//		}
 
 		/// <summary>
 		/// Cancel the currently running test.
