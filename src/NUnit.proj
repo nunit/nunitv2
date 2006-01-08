@@ -4,7 +4,7 @@
 		<MSBuildExtensionsPath>$(MSBuildProjectDirectory)\..\tools\MSBuildExtensions</MSBuildExtensionsPath>
 		<OutputPath>$(MSBuildProjectDirectory)\bin\</OutputPath>
 		<Properties_v1_0>OutputPath=$(OutputPath);NoWarn=;TargetFrameworkVersion=v1.0;MSBuildExtensionsPath=$(MSBuildExtensionsPath);CustomAfterMicrosoftCommonTargets=$(MSBuildExtensionsPath)\CrossCompile.CSharp.targets</Properties_v1_0>
-		<PackageId>{1AA69CCD-1078-473A-BD6E-11CE30A81C57}</PackageId>
+		<PackageId>{1AA69CCD-1078-473A-BD6E-11CE30A81C58}</PackageId>
 		<Version>2.3</Version>
 		<Msi>NUnit-$(Version).msi</Msi>
 		<NUnitConsole>$(OutputPath)nunit-console.exe</NUnitConsole>
