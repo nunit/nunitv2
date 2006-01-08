@@ -139,6 +139,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.tests", "NUnitCo
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.common.dll", "NUnitCore\common\nunit.common.dll.csproj", "{F9B59130-8C42-4D01-AC25-C819EA18D6C4}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -251,6 +255,10 @@ Global
 		{DD758D21-E5D5-4D40-9450-5F65A32F359C}.Debug.Build.0 = Debug|.NET
 		{DD758D21-E5D5-4D40-9450-5F65A32F359C}.Release.ActiveCfg = Release|.NET
 		{DD758D21-E5D5-4D40-9450-5F65A32F359C}.Release.Build.0 = Release|.NET
+		{F9B59130-8C42-4D01-AC25-C819EA18D6C4}.Debug.ActiveCfg = Debug|.NET
+		{F9B59130-8C42-4D01-AC25-C819EA18D6C4}.Debug.Build.0 = Debug|.NET
+		{F9B59130-8C42-4D01-AC25-C819EA18D6C4}.Release.ActiveCfg = Release|.NET
+		{F9B59130-8C42-4D01-AC25-C819EA18D6C4}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		clr.bat = clr.bat
