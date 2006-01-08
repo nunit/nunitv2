@@ -89,7 +89,7 @@ namespace NUnit.Core
 
 		#region Constructors
 		/// <summary>
-		/// Construct from a Test
+		/// Construct from an ITest
 		/// </summary>
 		/// <param name="test">Test from which a TestNode is to be constructed</param>
 		public TestInfo( ITest test )
@@ -114,6 +114,14 @@ namespace NUnit.Core
 
 			this.testCaseCount = test.TestCount;
 			this.id = test.ID;
+		}
+
+		public TestInfo( string name )
+		{
+			this.testName = name;
+			this.fullName = name;
+			this.ShouldRun = true;
+			this.isSuite = true;
 		}
 		#endregion
 

@@ -29,7 +29,7 @@ namespace NUnit.Core
 
 		#region Constructors
 		/// <summary>
-		/// Construct from a Test
+		/// Construct from an ITest
 		/// </summary>
 		/// <param name="test">Test from which a TestNode is to be constructed</param>
 		public TestNode ( ITest test ) : base( test )
@@ -44,6 +44,11 @@ namespace NUnit.Core
 					this.Tests.Add( node );
 				}
 			}
+		}
+
+		public TestNode ( string name ) : base( name )
+		{
+			this.tests = new ArrayList();
 		}
 		#endregion
 
