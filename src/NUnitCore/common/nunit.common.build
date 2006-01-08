@@ -1,28 +1,24 @@
 <?xml version="1.0"?>
-<project name="NUnit.Core.Extensions" default="build">
+<project name="NUnit.Core" default="build">
 
   <include buildfile="../../nunit.project.include"/>
 
-  <property name="current.build.output"
-    value="nunit.core.extensions"/>
+  <property name="current.build.output" value="nunit.common"/>
 
   <target name="build" depends="make-build-dir">
     <csc target="library" 
-        output="${current.build.dir}/nunit.core.extensions.dll"
-        debug="${build.debug}" define="${build.defines.csc}">
+        output="${current.build.dir}/nunit.common.dll"
+        debug="${build.debug}" 
+        define="${build.defines.csc},StronglyNamedAssembly">
       <sources basedir=".">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.common.dll"/>
-        <include name="nunit.core.dll"/>
-      </references>
     </csc>
   </target>
 
   <target name="package">
-    <copy todir="${package.src.dir}/NUnitExtensions/core">
+    <copy todir="${package.src.dir}/NUnitCore/core">
       <fileset basedir=".">
         <include name="*.csproj"/>
         <include name="*.build"/>

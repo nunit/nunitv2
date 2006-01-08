@@ -7,6 +7,8 @@
   <include buildfile="../nunit.build.include"/>
   
   <target name="clean">
+    <nant buildfile="common/nunit.common.build" 
+      target="clean"/>
     <nant buildfile="core/nunit.core.build" 
       target="clean"/>
     <nant buildfile="tests/nunit.core.tests.build"
@@ -14,6 +16,8 @@
   </target>
 
   <target name="build">
+    <nant buildfile="common/nunit.common.build" 
+      target="build"/>
     <nant buildfile="core/nunit.core.build" 
       target="build"/>
   </target>
@@ -24,6 +28,8 @@
   </target>
 
   <target name="package">
+    <nant buildfile="common/nunit.common.build" 
+      target="package"/>
     <nant buildfile="core/nunit.core.build" 
       target="package"/>
     <nant buildfile="tests/nunit.core.tests.build"

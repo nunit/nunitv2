@@ -21,6 +21,7 @@
       </resources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
+        <include name="nunit.common.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.extensions.dll"/>
         <include name="nunit.util.dll"/>

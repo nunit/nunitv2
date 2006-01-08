@@ -19,6 +19,7 @@
         <include name="*.ico"/>
       </resources>
       <references basedir="${current.build.dir}">
+        <include name="nunit.common.dll"/>
         <include name="nunit.util.dll"/>
         <include name="nunit.uikit.dll"/>
         <include name="nunit.core.dll"/>

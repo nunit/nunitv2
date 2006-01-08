@@ -18,6 +18,7 @@
       </resources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
+        <include name="nunit.common.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.util.dll"/>
         <include name="nunit.mocks.dll"/>

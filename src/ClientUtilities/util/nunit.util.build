@@ -17,6 +17,7 @@
         <include name="Transform.resx"/>
       </resources>
       <references basedir="${current.build.dir}">
+        <include name="nunit.common.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.framework.dll"/>
       </references>

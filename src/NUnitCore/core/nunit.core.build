@@ -15,6 +15,9 @@
         <include name="Builders/*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.common.dll"/>
+      </references>
     </csc>
   </target>
 
