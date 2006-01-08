@@ -111,6 +111,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.dll_VS2005", "NU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.tests_VS2005", "NUnitCore\tests\nunit.core.tests_VS2005.csproj", "{DD758D21-E5D5-4D40-9450-5F65A32F359C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.common.dll_VS2005", "NUnitCore\common\nunit.common.dll_VS2005.csproj", "{F9B59130-8C42-4D01-AC25-C819EA18D6C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -333,6 +335,14 @@ Global
 		{DD758D21-E5D5-4D40-9450-5F65A32F359C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DD758D21-E5D5-4D40-9450-5F65A32F359C}.Release2005|Any CPU.ActiveCfg = Release2005|Any CPU
 		{DD758D21-E5D5-4D40-9450-5F65A32F359C}.Release2005|Any CPU.Build.0 = Release2005|Any CPU
+		{F9B59130-8C42-4D01-AC25-C819EA18D6C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9B59130-8C42-4D01-AC25-C819EA18D6C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9B59130-8C42-4D01-AC25-C819EA18D6C4}.Debug2005|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9B59130-8C42-4D01-AC25-C819EA18D6C4}.Debug2005|Any CPU.Build.0 = Debug|Any CPU
+		{F9B59130-8C42-4D01-AC25-C819EA18D6C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9B59130-8C42-4D01-AC25-C819EA18D6C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9B59130-8C42-4D01-AC25-C819EA18D6C4}.Release2005|Any CPU.ActiveCfg = Release2005|Any CPU
+		{F9B59130-8C42-4D01-AC25-C819EA18D6C4}.Release2005|Any CPU.Build.0 = Release2005|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

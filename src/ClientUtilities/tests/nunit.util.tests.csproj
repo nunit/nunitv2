@@ -124,6 +124,11 @@
                     Project = "{DD758D21-E5D5-4D40-9450-5F65A32F359C}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "nunit.common.dll"
+                    Project = "{F9B59130-8C42-4D01-AC25-C819EA18D6C4}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>

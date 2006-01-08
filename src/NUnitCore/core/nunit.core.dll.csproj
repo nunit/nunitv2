@@ -195,11 +195,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ITest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ITestCaseBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -403,17 +398,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestMethod.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
