@@ -150,11 +150,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "EventListener.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "EventListenerTextWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -201,11 +196,6 @@
                 />
                 <File
                     RelPath = "LegacySuite.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "LongLivingMarshalByRefObject.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -289,11 +279,6 @@
                     BuildAction = "None"
                 />
                 <File
-                    RelPath = "ResultVisitor.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "RootTestSuite.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -368,11 +353,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestCaseResult.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestContext.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -403,16 +383,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestOutput.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestResult.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -429,11 +399,6 @@
                 />
                 <File
                     RelPath = "TestSuiteBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestSuiteResult.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -44,7 +44,7 @@ namespace NUnit.Core
 		public TestSuiteResult(TestInfo test, string name) 
 			: base(test, name) { }
 
-		public TestSuiteResult(TestSuite suite, string name)
+		public TestSuiteResult(ITest suite, string name)
 			: this(new TestInfo(suite), name) { }
 
 		// For tests
