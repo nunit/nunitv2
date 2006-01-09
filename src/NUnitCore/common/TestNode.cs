@@ -46,9 +46,10 @@ namespace NUnit.Core
 			}
 		}
 
-		public TestNode ( string name ) : base( name )
+		public TestNode ( string name, ITest[] tests ) : base( name, tests )
 		{
 			this.tests = new ArrayList();
+			this.tests.AddRange( tests );
 		}
 		#endregion
 

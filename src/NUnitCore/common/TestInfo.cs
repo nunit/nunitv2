@@ -80,10 +80,9 @@ namespace NUnit.Core
 		private bool isExplicit;
 		
 		/// <summary>
-		/// Integer id allowing tests to be located and identified 
-		/// by the test runner.
+		/// Unique Test identifier 
 		/// </summary>
-		private int id;
+		private TestID testID;
 
 		#endregion
 
@@ -113,15 +112,27 @@ namespace NUnit.Core
 //			}
 
 			this.testCaseCount = test.TestCount;
-			this.id = test.ID;
+			this.testID = test.ID;
 		}
 
-		public TestInfo( string name )
+		protected TestInfo( string name, ITest[] tests )
 		{
 			this.testName = name;
 			this.fullName = name;
-			this.ShouldRun = true;
+			this.shouldRun = true;
+			this.ignoreReason = null;
+			this.description = null;
+			this.isExplicit = false;
 			this.isSuite = true;
+			this.isFixture = false;
+			this.testID = new TestID();
+
+			foreach( ITest test in tests )
+			{
+				if ( test.Categories != null )
+					this.categories.AddRange( test.Categories );
+				this.testCaseCount += test.TestCount;
+			}
 		}
 		#endregion
 
@@ -172,7 +183,7 @@ namespace NUnit.Core
 
 		public string UniqueName
 		{
-			get{ return string.Format( "[{0}]{1}", id, fullName ); }
+			get{ return string.Format( "[{0}]{1}", testID, fullName ); }
 		}
 
 		public bool IsExplicit
@@ -251,11 +262,10 @@ namespace NUnit.Core
 			}
 		}
 
-		public int ID
+		public TestID ID
 		{
-			get { return id; }
+			get { return testID; }
 		}
-
 		#endregion
 	}
 }

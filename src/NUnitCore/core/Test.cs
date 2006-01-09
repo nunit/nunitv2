@@ -54,13 +54,7 @@ namespace NUnit.Core
 		/// Integer id that is set as each test is built, allowing
 		/// tests to be located and identified by the test runner.
 		/// </summary>
-		private int id;
-
-		/// <summary>
-		/// Static value to seed ids. It's started at 1000 so any
-		/// uninitialized ids will stand out.
-		/// </summary>
-		private static int nextId = 1000;
+		private TestID testID;
 
 		/// <summary>
 		/// Whether or not the test should be run
@@ -111,7 +105,7 @@ namespace NUnit.Core
 		{
 			this.fullName = this.testName = name;
 			this.shouldRun = true;
-			this.id = unchecked( nextId++ );
+			this.testID = new TestID();
 		}
 
 		protected Test( string pathName, string testName ) 
@@ -119,7 +113,7 @@ namespace NUnit.Core
 			fullName = pathName == null || pathName == string.Empty ? testName : pathName + "." + testName;
 			this.testName = testName;
 			this.shouldRun = true;
-			this.id = unchecked( nextId++ );
+			this.testID = new TestID();
 		}
 
 		#endregion
@@ -143,16 +137,16 @@ namespace NUnit.Core
 		/// </summary>
 		public string UniqueName
 		{
-			get { return string.Format( "[{0}]{1}", id, fullName ); }
+			get { return string.Format( "[{0}]{1}", testID, fullName ); }
 		}
 
 		/// <summary>
-		/// The test ID is a quasi-unique identifier for tests. It supports
+		/// The TestID is a quasi-unique identifier for tests. It supports
 		/// over four billion test nodes in a single runner tree.
 		/// </summary>
-		public int ID
+		public TestID ID
 		{
-			get { return id; }
+			get { return testID; }
 		}
 
 		/// <summary>
