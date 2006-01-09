@@ -61,6 +61,12 @@ namespace NUnit.Util
 
 		#endregion
 
+		#region Constructors
+		public TestDomain() : base( 0 ) { }
+
+		public TestDomain( int runnerID ) : base( runnerID ) { }
+		#endregion
+
 		#region Properties
 
 		public AppDomain AppDomain
@@ -405,7 +411,7 @@ namespace NUnit.Util
 			object obj = runnerDomain.CreateInstanceAndUnwrap(
 				runnerType.Assembly.FullName, 
 				runnerType.FullName,
-				false, BindingFlags.Default,null,null,null,null,null);
+				false, BindingFlags.Default,null,new object[] { this.ID },null,null,null);
 			
 			RemoteTestRunner runner = (RemoteTestRunner) obj;
 

@@ -63,6 +63,18 @@ namespace NUnit.Core
 	{
 		#region Properties
 		/// <summary>
+		/// TestRunners are identified by an ID. So long as there
+		/// is only one test runner or a single chain of test runners,
+		/// the default id of 0 may be used. However, any client that
+		/// creates multiple runners must ensure that each one has a
+		/// unique ID in order to locate and run specific tests.
+		/// </summary>
+		int ID
+		{
+			get;
+		}
+
+		/// <summary>
 		/// IsTestRunning indicates whether a test is in progress. To retrieve the
 		/// results from an asynchronous test run, wait till IsTestRunning is false.
 		/// </summary>

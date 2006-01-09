@@ -12,8 +12,10 @@ namespace NUnit.Core
 	public class RemoteTestRunner : ProxyTestRunner
 	{
 		#region Constructor
-		public RemoteTestRunner() 
-			: base( new ThreadedTestRunner( new SimpleTestRunner() ) ) { }
+		public RemoteTestRunner() : this( 0 ) { }
+
+		public RemoteTestRunner( int runnerID ) 
+			: base( new ThreadedTestRunner( new SimpleTestRunner( runnerID ) ) ) { }
 		#endregion
 
 		#region Method Overrides

@@ -20,7 +20,9 @@ namespace NUnit.TestServer
 
 		private object theLock = new object();
 
-		public TestServer( string uri )
+		public TestServer( string uri ) : this( uri, 0 ) { }
+
+		public TestServer( string uri, int runnerID ) : base( runnerID )
 		{
 			this.uri = uri;
 			this.testRunner = new RemoteTestRunner();

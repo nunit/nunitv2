@@ -17,6 +17,14 @@ namespace NUnit.Core
 		#region Instance Variables
 
 		/// <summary>
+		/// Identifier for this runner. Must be unique among all
+		/// active runners in order to locate tests. Default
+		/// value of 0 is adequate in applications with a single
+		/// runner or a non-branching chain of runners.
+		/// </summary>
+		private int runnerID = 0;
+
+		/// <summary>
 		/// The loaded test suite
 		/// </summary>
 		private TestSuite suite;
@@ -45,13 +53,21 @@ namespace NUnit.Core
 		#endregion
 
 		#region Constructor
-		public SimpleTestRunner()
+		public SimpleTestRunner() : this( 0 ) { }
+
+		public SimpleTestRunner( int runnerID )
 		{
 			this.testFilter = EmptyFilter.Empty;
+			this.runnerID = runnerID;
 		}
 		#endregion
 
 		#region Properties
+		public virtual int ID
+		{
+			get { return runnerID; }
+		}
+
 		public IList TestFrameworks
 		{
 			get { return TestFramework.GetLoadedFrameworks(); }

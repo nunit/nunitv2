@@ -13,7 +13,9 @@ namespace NUnit.Util
 	{
 		private Process process;
 
-		public ProcessRunner() { }
+		public ProcessRunner() : base( 0 ) { }
+
+		public ProcessRunner( int runnerID ) : base( runnerID ) { }
 
 		public void Start()
 		{

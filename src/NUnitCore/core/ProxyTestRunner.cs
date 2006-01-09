@@ -25,6 +25,11 @@ namespace NUnit.Core
 		#region Instance Variables
 
 		/// <summary>
+		/// Our runner ID
+		/// </summary>
+		protected int runnerID;
+
+		/// <summary>
 		/// The downstream TestRunner
 		/// </summary>
 		protected TestRunner testRunner;
@@ -41,6 +46,7 @@ namespace NUnit.Core
 		public ProxyTestRunner(TestRunner testRunner)
 		{
 			this.testRunner = testRunner;
+			this.runnerID = testRunner.ID;
 		}
 
 //		public ProxyTestRunner( Type runnerType )
@@ -52,11 +58,19 @@ namespace NUnit.Core
 		/// Protected constructor for runners that create their own
 		/// specialized downstream runner.
 		/// </summary>
-		protected ProxyTestRunner() { }
+		protected ProxyTestRunner( int runnerID )
+		{
+			this.runnerID = runnerID;
+		}
 
 		#endregion
 
 		#region Properties
+
+		public virtual int ID
+		{
+			get { return runnerID; }
+		}
 
 		public virtual bool Running
 		{
