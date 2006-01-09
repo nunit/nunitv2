@@ -35,11 +35,7 @@ namespace NUnit.Util
 {
 	/// <summary>
 	/// The ITestLoader interface supports the loading and running
-	/// of tests in a remote domain. In addition to methods for
-	/// performing these operations, it inherits from the ITestEvents
-	/// interface to provide appropriate events. The two interfaces
-	/// are kept separate so that client objects not intended to
-	/// issue commands can just handle the first interface.
+	/// of tests in a remote domain.
 	/// </summary>
 	public interface ITestLoader
 	{
