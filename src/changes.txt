@@ -5,7 +5,9 @@ Work In Process
   causing a large increase in the number of references between assemblies, but
   it should result in significant decoupling when it is complete.
 
-* Currently in nunit.common: ITest, TestInfo, TestNode
+* Currently in nunit.common: ITest, TestInfo, TestNode, EventListener, LongLivingMarshalByRefObject, ResultVisior, TestResult, TestCaseResult, TestSuiteResult, TestID
+
+* References: gui no longer refers to core but to common.
 
 NUnit 2.3.6006 Snapshot
 
