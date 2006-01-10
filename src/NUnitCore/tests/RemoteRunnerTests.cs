@@ -41,9 +41,9 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class RemoteRunnerTests : BasicRunnerTests
 	{
-		public override TestRunner CreateRunner()
+		protected override TestRunner CreateRunner( int runnerID )
 		{
-			return new RemoteTestRunner();
+			return new RemoteTestRunner( runnerID );
 		}
 	}
 }

@@ -21,12 +21,18 @@ namespace NUnit.Core.Tests
 		[SetUp]
 		public void SetUpRunner()
 		{
-			runner = CreateRunner();
+			runner = CreateRunner( 123 );
 		}
 
-		public abstract TestRunner CreateRunner();
+		protected abstract TestRunner CreateRunner( int runnerID );
 
-		[Test]
+        [Test]
+        public void CheckRunnerID()
+        {
+            Assert.AreEqual(123, runner.ID);
+        }
+
+        [Test]
 		public void LoadAssembly() 
 		{
 			Assert.IsTrue(runner.Load(testsDll), "Unable to load assembly" );

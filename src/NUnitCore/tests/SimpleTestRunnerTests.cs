@@ -13,9 +13,9 @@ namespace NUnit.Core.Tests
 	{
 		private SimpleTestRunner myRunner;
 
-		public override TestRunner CreateRunner()
+		protected override TestRunner CreateRunner( int runnerID )
 		{
-			myRunner = new SimpleTestRunner();
+			myRunner = new SimpleTestRunner( runnerID );
 			return myRunner;
 		}
 

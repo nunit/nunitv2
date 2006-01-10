@@ -15,9 +15,9 @@ namespace NUnit.Util.Tests
 	{
 		private ProcessRunner myRunner;
 
-		public override TestRunner CreateRunner()
+		protected override TestRunner CreateRunner( int runnerID )
 		{
-			myRunner = new ProcessRunner();
+			myRunner = new ProcessRunner( runnerID );
 			myRunner.Start();
 			return myRunner;
 		}
