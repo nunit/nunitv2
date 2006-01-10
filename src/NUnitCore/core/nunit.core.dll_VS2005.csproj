@@ -89,9 +89,6 @@
     <Compile Include="EmptyFilter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EventListener.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="EventListenerTextWriter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -120,9 +117,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LegacySuite.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="LongLivingMarshalByRefObject.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NameFilter.cs">
@@ -167,9 +161,6 @@
     <Compile Include="RemoteTestRunner.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ResultVisitor.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="RootTestSuite.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -212,9 +203,6 @@
     <Compile Include="TestCaseBuilderCollection.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestCaseResult.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="TestContext.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -231,12 +219,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TestMethod.cs" />
-    <Compile Include="TestOutput.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestResult.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="TestRunner.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -247,9 +229,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TestSuiteBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestSuiteResult.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ThreadedTestRunner.cs" />

@@ -105,9 +105,17 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EventListener.cs" />
     <Compile Include="ITest.cs" />
+    <Compile Include="LongLivingMarshalByRefObject.cs" />
+    <Compile Include="ResultVisitor.cs" />
+    <Compile Include="TestCaseResult.cs" />
+    <Compile Include="TestID.cs" />
     <Compile Include="TestInfo.cs" />
     <Compile Include="TestNode.cs" />
+    <Compile Include="TestOutput.cs" />
+    <Compile Include="TestResult.cs" />
+    <Compile Include="TestSuiteResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
