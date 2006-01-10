@@ -173,17 +173,6 @@ namespace NUnit.Core
 			set { parent = value; }
 		}
 
-		public string TestPath 
-		{
-			get
-			{
-				string testPath = "";
-				if (parent != null)
-					testPath = parent.TestPath;
-				return testPath + FullName;
-			}
-		}
-
 		public IList Categories 
 		{
 			get { return categories; }

@@ -162,8 +162,6 @@ namespace NUnit.Core.Tests
 			Assert.IsNull(testSuite.Parent);
 			Test firstTest = (Test)testSuite.Tests[0];
 			Assert.AreEqual(testSuite, firstTest.Parent);
-			Assert.AreEqual("Mock Test Suite", testSuite.TestPath);
-			Assert.AreEqual("Mock Test SuiteNUnit.Tests.Assemblies.MockTestFixture", firstTest.TestPath);
 			Assert.IsTrue(firstTest.IsDescendant(testSuite), "test should be a descendant of suite");
 			Test bottom = (Test)firstTest.Tests[2];
 			Assert.IsTrue(bottom.IsDescendant(firstTest));
