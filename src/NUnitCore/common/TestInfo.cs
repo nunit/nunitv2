@@ -251,7 +251,7 @@ namespace NUnit.Core
 			get { return isFixture; }
 		}
 
-		public ListDictionary Properties
+		public IDictionary Properties
 		{
 			get 
 			{
