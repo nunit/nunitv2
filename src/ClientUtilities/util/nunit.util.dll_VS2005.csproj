@@ -59,6 +59,7 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AggregatingTestRunner.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -83,6 +84,7 @@
     <Compile Include="ITestLoader.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MultipleTestDomainRunner.cs" />
     <Compile Include="NUnitProject.cs">
       <SubType>Code</SubType>
     </Compile>
