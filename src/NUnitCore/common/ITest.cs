@@ -117,6 +117,8 @@ namespace NUnit.Core
 		/// if it was marked with the ExplicitAttribute.
 		/// </summary>
 		bool IsExplicit { get; set; }
+
+		IDictionary Properties { get; }
 	}
 }
 
