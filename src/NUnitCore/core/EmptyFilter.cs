@@ -36,12 +36,7 @@ namespace NUnit.Core
 	{
 		#region IFilter Members
 
-		public override bool Pass(TestSuite suite)
-		{
-			return true;
-		}
-
-		public override bool Pass(TestCase test)
+		public override bool Pass(Test test)
 		{
 			return true;
 		}

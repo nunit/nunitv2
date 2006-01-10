@@ -52,36 +52,21 @@ namespace NUnit.Core
 			testNodes = nodes;
 		}
 
-		public override bool Pass(TestSuite suite) 
-		{
-			bool passed = Exclude;
+        public override bool Pass(Test test)
+        {
+            bool passed = Exclude;
 
-			foreach (Test node in testNodes) 
-			{
-				if (suite.IsDescendant(node) || node.IsDescendant(suite) || node == suite) 
-				{
-					passed = !Exclude;
-					break;
-				}
-			}
+            foreach (Test node in testNodes)
+            {
+                // TODO: Make this more efficient when applied repeatedly to nodes in a tree
+                if ( test == node || test.IsDescendant( node ) || test.IsSuite && node.IsDescendant( test ) )
+                {
+                        passed = !Exclude;
+                        break;
+                }
+            }
 
-			return passed;
-		}
-
-		public override bool Pass(TestCase test) 
-		{
-			bool passed = Exclude;
-
-			foreach(Test node in testNodes) 
-			{
-				if (test.IsDescendant(node) || test == node) 
-				{
-					passed = !Exclude;
-					break;
-				}
-			}
-
-			return passed;
-		}
+            return passed;
+        }
 	}
 }

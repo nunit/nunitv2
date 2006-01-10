@@ -36,10 +36,8 @@ namespace NUnit.Core
 	/// </summary>
 	public interface IFilter
 	{
-		bool Pass(TestSuite suite);
+		bool Pass( Test test );
 
-		bool Pass(TestCase test);
- 
 		bool Exclude { get; }
 	}
 
@@ -62,9 +60,7 @@ namespace NUnit.Core
 
 		#region IFilter Members
 
-		public abstract bool Pass(TestSuite suite);
-
-		public abstract bool Pass(TestCase test);
+		public abstract bool Pass( Test test );
 
 		public bool Exclude
 		{

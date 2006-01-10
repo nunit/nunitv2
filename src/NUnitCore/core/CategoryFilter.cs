@@ -71,40 +71,26 @@ namespace NUnit.Core
 
 		#region IFilter Members
 
-		public override bool Pass(TestSuite suite)
+		public override bool Pass( Test test )
 		{
-//			return CheckCategories( suite ) ? !Exclude : Exclude;
+            if ( categories.Count == 0 ) return true;
 
-			if ( categories.Count == 0 ) return true;
+            if ( CheckCategories( test ) ) return !Exclude;
 
-			bool pass = Exclude;
+            bool pass = Exclude;
 
-			if (CheckCategories(suite))
-				return !Exclude;
+            if (test.IsSuite)
+                foreach (Test child in test.Tests)
+                {
+                    if ( Pass( child ) == !Exclude)
+                    {
+                        pass = true;
+                        break;
+                    }
+                }
 
-			foreach (Test test in suite.Tests) 
-			{
-				if ( test.Filter(this) == !Exclude )
-				{
-					pass=true;
-					break;
-				}
-			}
-
-			return pass;
-		}
-
-		public override bool Pass(TestCase test)
-		{
-			if ( categories.Count == 0 )
-				return true;
-			return CheckCategories( test ) ? !Exclude : Exclude ;
-
-//			if (CheckCategories(test.Parent))
-//				return true;
-//
-//			return CheckCategories(test);
-		}
+            return pass;
+        }
 
 		#endregion
 
@@ -120,17 +106,6 @@ namespace NUnit.Core
 			return test.HasCategory( categories )
 				|| test.Parent != null 
 				&& test.Parent.HasCategory( categories );
-
-//			if (test.Categories != null) 
-//			{
-//				foreach (string name in categories) 
-//				{
-//					if (test.Categories.Contains(name))
-//						return true;
-//				}
-//			}
-//
-//			return false;
 		}
 	}
 }
