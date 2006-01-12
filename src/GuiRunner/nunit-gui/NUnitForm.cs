@@ -2007,11 +2007,23 @@ the version under which NUnit is currently running, {0}.",
 
 		private void OnTestException(object sender, TestEventArgs args)
 		{
-			string msg = string.Format(
-				"An unhandled exception was detected. Since it was most likely thrown on a separate thread, it may or may not have been caused by the current test.\r\r{0}",
-				args.Exception.ToString() );
+			// Don't throw inside an exception!
+			try
+			{
+				string msg = string.Format(
+					"An unhandled exception was detected. Since it was most likely thrown on a separate thread, it may or may not have been caused by the current test.\r\r{0}",
+					args.Exception.ToString() );
 
-			UserMessage.DisplayFailure( msg, "Unhandled Exception" );
+				UserMessage.DisplayFailure( msg, "Unhandled Exception" );
+			}
+			catch( Exception ex )
+			{
+				UserMessage.DisplayFailure( 
+					"Exception thrown in unhandled exception handler.\r\r" 
+						+ "Original exception was " + args.Exception.GetType().FullName + "\r\r"
+						+ "Exception handler threw " + ex.GetType().FullName,
+					"Unhandled Exception" );
+			}
 		}
 
 		private void OnTestOutput(object sender, TestEventArgs args)
