@@ -40,12 +40,6 @@ namespace NUnit.Core.Builders
 	public class TestAssemblyBuilder
 	{
 		#region Instance Fields
-
-		/// <summary>
-		/// The file path of the assembly this builder is building from
-		/// </summary>
-		string assemblyName;
-
 		/// <summary>
 		/// The loaded assembly
 		/// </summary>
@@ -87,11 +81,8 @@ namespace NUnit.Core.Builders
 
 		#region Constructor
 
-		public TestAssemblyBuilder( string assemblyName, bool autoNamespaceSuites )
+		public TestAssemblyBuilder()
 		{
-			this.assemblyName = assemblyName;
-			this.autoNamespaceSuites = autoNamespaceSuites;
-
 			// TODO: Keeping this separate till we can make
 			//it work in all situations.
 			legacySuiteBuilder = new NUnit.Core.Builders.LegacySuiteBuilder();
@@ -120,12 +111,12 @@ namespace NUnit.Core.Builders
 
 		#region Other Public Methods
 
-		public TestSuite Build( string testName )
+		public TestSuite Build( string assemblyName, string testName )
 		{
 			if ( testName == null || testName == string.Empty )
-				return Build();
+				return Build( assemblyName );
 
-			this.assembly = Load( this.assemblyName );
+			this.assembly = Load( assemblyName );
 			if ( assembly == null ) return null;
 
 			// If provided test name is actually a fixture,
@@ -137,22 +128,22 @@ namespace NUnit.Core.Builders
 			// Assume that testName is a namespace and get all fixtures in it
 			IList fixtures = GetFixtures( assembly, testName );
 			if ( fixtures.Count > 0 ) 
-				return BuildTestAssembly( fixtures );
+				return BuildTestAssembly( assemblyName, fixtures );
 			return null;
 		}
 
-		public TestSuite Build()
+		public TestSuite Build( string assemblyName )
 		{
-			this.assembly = Load( this.assemblyName );
+			this.assembly = Load( assemblyName );
 			if ( this.assembly == null ) return null;
 
 			IList fixtures = GetFixtures( assembly, null );
-			return BuildTestAssembly( fixtures );
+			return BuildTestAssembly( assemblyName, fixtures );
 		}
 
-		private TestAssembly BuildTestAssembly( IList fixtures )
+		private TestAssembly BuildTestAssembly( string assemblyName, IList fixtures )
 		{
-			TestAssembly testAssembly = CreateTestAssembly(this.assemblyName);
+			TestAssembly testAssembly = CreateTestAssembly( assemblyName );
 
 			if ( autoNamespaceSuites )
 			{

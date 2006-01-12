@@ -406,6 +406,7 @@ namespace NUnit.Util
 
 			// Tell resolver to use our core assembly in the test domain
 			assemblyResolver.AddFile( typeof( NUnit.Core.RemoteTestRunner ).Assembly.Location );
+			assemblyResolver.AddFile( typeof( NUnit.Core.ITest ).Assembly.Location );
 
 			Type runnerType = typeof( RemoteTestRunner );
 			object obj = runnerDomain.CreateInstanceAndUnwrap(

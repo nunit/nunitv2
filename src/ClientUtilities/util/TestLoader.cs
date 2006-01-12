@@ -55,7 +55,7 @@ namespace NUnit.Util
 		#region Instance Variables
 
 		/// <summary>
-		/// Our event dispatiching helper object
+		/// Our event dispatching helper object
 		/// </summary>
 		private TestEventDispatcher events;
 
@@ -63,7 +63,11 @@ namespace NUnit.Util
 		/// Loads and executes tests. Non-null when
 		/// we have loaded a test.
 		/// </summary>
+#if MD
+		private MultipleTestDomainRunner testDomain = null;
+#else
 		private TestDomain testDomain = null;
+#endif
 
 		/// <summary>
 		/// Our current test project, if we have one.
@@ -467,7 +471,11 @@ namespace NUnit.Util
 			{
 				events.FireTestLoading( TestFileName );
 
-				testDomain = new TestDomain( );		
+#if MD
+				testDomain = new MultipleTestDomainRunner();
+#else
+				testDomain = new TestDomain( );
+#endif
 				bool loaded = TestProject.IsAssemblyWrapper
 					? testDomain.Load( TestProject.ActiveConfig.Assemblies[0].FullPath, testName )
 					: testDomain.Load( TestProject, testName );
@@ -572,8 +580,12 @@ namespace NUnit.Util
 
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
+#if MD
+					MultipleTestDomainRunner newDomain = new MultipleTestDomainRunner();
+#else
 					TestDomain newDomain = new TestDomain( );
-                    bool loaded = TestProject.IsAssemblyWrapper
+#endif
+					bool loaded = TestProject.IsAssemblyWrapper
                         ? newDomain.Load(testProject.ActiveConfig.Assemblies[0].FullPath)
                         : newDomain.Load(testProject, loadedTestName);
 
@@ -631,21 +643,13 @@ namespace NUnit.Util
 
 				runningTests = testNames;
 
-				// TODO: This is kind of silly - we should use names in the first place
-				//string[] testNames = buildTestNameArray();
 				testDomain.Filter = filter;
-				testDomain.BeginRun( this, testNames );
+				if ( testNames.Length == 1 && testNames[0] == loadedTest.UniqueName )
+					testDomain.BeginRun( this );
+				else
+					testDomain.BeginRun( this, testNames );
 			}
 		}
-
-//		private string[] buildTestNameArray () 
-//		{
-//			string[] testNames = new string[ runningTests.Length ];
-//			int index = 0; 
-//			foreach (TestNode node in runningTests) 
-//				testNames[index++] = node.UniqueName;
-//			return testNames;
-//		}
 
 		/// <summary>
 		/// Cancel the currently running test.

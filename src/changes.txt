@@ -1,5 +1,11 @@
 Work In Process
 
+* Classes AggregatingTestRunner and MultipleTestDomainRunner have been added to allow running each assemblies tests in a separate domain. This is still experimental and is activated using conditional compilation. Individual running of tests does not yet work.
+
+* All TestRunners are now created with a runner ID.
+
+* Tests and TestInfos now store a TestID object rather than a simple int key. The property has been changed in the ITest interface to TestID. TestID encapsulates both the runner ID and the test key. The runner ID is separately accessible to allow routing run requests to the proper runner. A test's UniqueName now incorporates the both the runner id and the test key.
+
 * Created new nunit.common project as part of NUnitCore to hold interfaces and
   other types that are referenced from outside the core. Initially, this is 
   causing a large increase in the number of references between assemblies, but

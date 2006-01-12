@@ -82,5 +82,23 @@ namespace NUnit.Core.Tests
 			TestNode test = new TestNode( testCase1 );
 			Assert.IsNull( test.Tests );
 		}
+
+		[Test]
+		public void ConstructFromMultipleTests()
+		{
+			ITest[] tests = new ITest[testFixture.Tests.Count];
+			for( int index = 0; index < tests.Length; index++ )
+				tests[index] = (ITest)testFixture.Tests[index];
+
+			TestNode test = new TestNode( "Combined", tests );
+			Assert.AreEqual( "Combined", test.Name );
+			Assert.AreEqual( "Combined", test.FullName );
+			Assert.IsTrue( test.ShouldRun, "ShouldRun" );
+			Assert.IsTrue( test.IsSuite, "IsSuite" );
+			Assert.AreEqual( tests.Length, test.Tests.Count );
+			Assert.AreEqual( MockTestFixture.Tests, test.TestCount );
+			Assert.AreEqual( 0, test.Categories.Count, "Categories");
+			Assert.AreNotEqual( testFixture.TestID, test.TestID, "ID" );
+		}
 	}
 }

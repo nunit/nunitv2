@@ -104,6 +104,11 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "AggregatingTestRunner.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -150,7 +155,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "MultiDomainTestRunner.cs"
+                    RelPath = "MultipleTestDomainRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

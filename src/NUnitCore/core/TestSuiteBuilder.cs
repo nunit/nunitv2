@@ -74,9 +74,9 @@ namespace NUnit.Core
 
 			foreach(string assemblyName in assemblies)
 			{
-				TestAssemblyBuilder builder = new TestAssemblyBuilder( 
-					assemblyName, autoNamespaceSuites & !mergeAssemblies );
-				TestSuite testAssembly =  builder.Build();
+				TestAssemblyBuilder builder = new TestAssemblyBuilder();
+
+				TestSuite testAssembly =  builder.Build( assemblyName );
 
 				if ( !mergeAssemblies )
 					rootSuite.Add( testAssembly );
@@ -98,9 +98,9 @@ namespace NUnit.Core
 
 		public TestSuite Build(string assemblyName, string testName )
 		{
-			TestAssemblyBuilder builder = 
-				new TestAssemblyBuilder( assemblyName, this.autoNamespaceSuites );
-			return builder.Build( testName );
+			TestAssemblyBuilder builder = new TestAssemblyBuilder();
+
+			return builder.Build( assemblyName, testName );
 		}
 
 		public TestSuite Build( string projectName, string[] assemblies, string testName )
@@ -112,9 +112,8 @@ namespace NUnit.Core
 
 			foreach(string assemblyName in assemblies)
 			{
-				TestAssemblyBuilder builder = 
-					new TestAssemblyBuilder( assemblyName, this.autoNamespaceSuites );
-				suite = builder.Build( testName );
+				TestAssemblyBuilder builder = new TestAssemblyBuilder();
+				suite = builder.Build( assemblyName, testName );
 				if ( suite != null ) break;
 			}
 

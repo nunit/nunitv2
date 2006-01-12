@@ -49,7 +49,7 @@ namespace NUnit.Core
 		/// Full Name of the test
 		/// </summary>
 		private string fullName;
-		
+
 		/// <summary>
 		/// Integer id that is set as each test is built, allowing
 		/// tests to be located and identified by the test runner.
@@ -99,7 +99,7 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Constructors
+		#region Construction
 
 		protected Test( string name )
 		{
@@ -114,6 +114,15 @@ namespace NUnit.Core
 			this.testName = testName;
 			this.shouldRun = true;
 			this.testID = new TestID();
+		}
+
+		internal void SetRunnerID( int runnerID, bool recursive )
+		{
+			this.testID.RunnerID = runnerID;
+
+			if ( recursive && this.Tests != null )
+				foreach( Test child in this.Tests )
+					child.SetRunnerID( runnerID, true );
 		}
 
 		#endregion
@@ -137,16 +146,24 @@ namespace NUnit.Core
 		/// </summary>
 		public string UniqueName
 		{
-			get { return string.Format( "[{0}]{1}", testID, fullName ); }
+			get { return string.Format( "[{0}-{1}]{2}", TestID.RunnerID, TestID.TestKey, fullName ); }
 		}
 
 		/// <summary>
 		/// The TestID is a quasi-unique identifier for tests. It supports
 		/// over four billion test nodes in a single runner tree.
 		/// </summary>
-		public TestID ID
+		public TestID TestID
 		{
 			get { return testID; }
+		}
+
+		/// <summary>
+		/// ID of the runner that loaded or created this test.
+		/// </summary>
+		public int RunnerID
+		{
+			get { return testID.RunnerID; }
 		}
 
 		/// <summary>

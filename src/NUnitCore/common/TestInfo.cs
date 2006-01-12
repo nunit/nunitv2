@@ -33,6 +33,8 @@ namespace NUnit.Core
 		/// </summary>
 		private string testName;
 
+		private ITest parent;
+
 		/// <summary>
 		/// True if the test should be run
 		/// </summary>
@@ -80,6 +82,11 @@ namespace NUnit.Core
 		private bool isExplicit;
 		
 		/// <summary>
+		/// ID of the runner that loaded this test
+		/// </summary>
+//		private int runnerID;
+
+		/// <summary>
 		/// Unique Test identifier 
 		/// </summary>
 		private TestID testID;
@@ -112,10 +119,12 @@ namespace NUnit.Core
 //			}
 
 			this.testCaseCount = test.TestCount;
-			this.testID = test.ID;
+//			this.runnerID = test.RunnerID;
+//			this.testID = test.ID;
+			this.testID = test.TestID;
 		}
 
-		protected TestInfo( string name, ITest[] tests )
+		public TestInfo( string name, ITest[] tests )
 		{
 			this.testName = name;
 			this.fullName = name;
@@ -129,8 +138,6 @@ namespace NUnit.Core
 
 			foreach( ITest test in tests )
 			{
-				if ( test.Categories != null )
-					this.categories.AddRange( test.Categories );
 				this.testCaseCount += test.TestCount;
 			}
 		}
@@ -183,7 +190,13 @@ namespace NUnit.Core
 
 		public string UniqueName
 		{
-			get{ return string.Format( "[{0}]{1}", testID, fullName ); }
+			get { return string.Format( "[{0}-{1}]{2}", testID.RunnerID, testID.TestKey, fullName ); }
+		}
+
+		public ITest Parent
+		{
+			get { return parent; }
+			set { parent = value; }
 		}
 
 		public bool IsExplicit
@@ -262,7 +275,17 @@ namespace NUnit.Core
 			}
 		}
 
-		public TestID ID
+//		public int RunnerID
+//		{
+//			get { return runnerID; }
+//		}
+//
+//		public int ID
+//		{
+//			get { return testID; }
+//		}
+
+		public TestID TestID
 		{
 			get { return testID; }
 		}

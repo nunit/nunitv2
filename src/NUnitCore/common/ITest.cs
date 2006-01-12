@@ -56,11 +56,7 @@ namespace NUnit.Core
 		/// </summary>
 		string UniqueName { get; }
 
-		/// <summary>
-		/// The test ID is a quasi-unique identifier for tests. It supports
-		/// over four billion test nodes in a single runner tree.
-		/// </summary>
-		TestID ID { get; }
+		TestID TestID { get; }
 
 		/// <summary>
 		/// Whether or not the test should be run

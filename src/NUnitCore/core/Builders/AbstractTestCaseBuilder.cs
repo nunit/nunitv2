@@ -40,6 +40,7 @@ namespace NUnit.Core.Builders
 	public abstract class AbstractTestCaseBuilder : ITestCaseBuilder
 	{
 		#region Instance Fields
+		protected int runnerID;
 		protected TestCase testCase;
 		#endregion
 

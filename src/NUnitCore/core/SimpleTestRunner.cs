@@ -121,7 +121,11 @@ namespace NUnit.Core
 			this.assemblies = new string[] { assemblyName };
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			this.suite = builder.Build( assemblyName, testName );
-			return suite != null;
+
+			if ( suite == null ) return false;
+
+			suite.SetRunnerID( this.runnerID, true );
+			return true;
 		}
 
 		/// <summary>
@@ -147,7 +151,11 @@ namespace NUnit.Core
 			this.assemblies = (string[])assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			this.suite = builder.Build( projectName, assemblies, testName );
-			return suite != null;
+
+			if ( suite == null ) return false;
+
+			suite.SetRunnerID( this.runnerID, true );
+			return true;
 		}
 
 		/// <summary>

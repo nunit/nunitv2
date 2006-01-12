@@ -24,49 +24,46 @@ namespace NUnit.Core.Tests
 			testCase1 = (NUnit.Core.TestCase)testFixture.Tests[0];
 		}
 
+		private void CheckConstructionFromTest( ITest expected )
+		{
+			TestInfo actual = new TestInfo( expected );
+			Assert.AreEqual( expected.Name, actual.Name );
+			Assert.AreEqual( expected.FullName, actual.FullName );
+			Assert.AreEqual( expected.UniqueName, actual.UniqueName );
+			Assert.AreEqual( expected.ShouldRun, actual.ShouldRun, "ShouldRun" );
+			Assert.AreEqual( expected.IsSuite, actual.IsSuite, "IsSuite" );
+			Assert.AreEqual( expected.IsTestCase, actual.IsTestCase, "IsTestCase" );
+			Assert.AreEqual( expected.IsFixture, actual.IsFixture, "IsFixture" );
+			Assert.AreEqual( expected.TestCount, actual.TestCount, "TestCount" );
+
+			if ( expected.Categories == null )
+				Assert.AreEqual( 0, actual.Categories.Count, "Categories" );
+			else
+			{
+				Assert.AreEqual( expected.Categories.Count, actual.Categories.Count, "Categories" );
+				for ( int index = 0; index < expected.Categories.Count; index++ )
+					Assert.AreEqual( expected.Categories[index], actual.Categories[index], "Category {0}", index );
+			}
+
+			Assert.AreEqual( expected.TestID, actual.TestID, "TestID" );
+		}
+
 		[Test]
 		public void ConstructFromFixture()
 		{
-			TestInfo test = new TestInfo( testFixture );
-			Assert.AreEqual( "MockTestFixture", test.Name );
-			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture", test.FullName );
-			Assert.IsTrue( test.ShouldRun, "ShouldRun" );
-			Assert.IsTrue( test.IsSuite, "IsSuite" );
-			Assert.IsFalse( test.IsTestCase, "!IsTestCase" );
-			Assert.IsTrue( test.IsFixture, "IsFixture" );
-			Assert.AreEqual( MockTestFixture.Tests, test.TestCount );
-			Assert.IsNotNull(test.Categories, "Categories should not be null");
-			Assert.AreEqual(1, test.Categories.Count);
-			Assert.AreEqual("FixtureCategory", (string)test.Categories[0]);
-			Assert.AreEqual( testFixture.ID, test.ID, "ID" );
+			CheckConstructionFromTest( testFixture );
 		}
 
 		[Test]
 		public void ConstructFromSuite()
 		{
-			TestInfo test = new TestInfo( testSuite );
-			Assert.AreEqual( "MyTestSuite", test.Name );
-			Assert.AreEqual( "MyTestSuite", test.FullName );
-			Assert.IsTrue( test.ShouldRun, "ShouldRun" );
-			Assert.IsTrue( test.IsSuite, "IsSuite" );
-			Assert.IsFalse( test.IsTestCase, "!IsTestCase" );
-			Assert.IsFalse( test.IsFixture, "!IsFixture" );
-			Assert.AreEqual( MockTestFixture.Tests, test.TestCount );
-			Assert.AreEqual( testSuite.ID, test.ID, "ID" );
+			CheckConstructionFromTest( testSuite );
 		}
 
 		[Test]
 		public void ConstructFromTestCase()
 		{
-			TestInfo test = new TestInfo( testCase1 );
-			Assert.AreEqual( "MockTest1", test.Name );
-			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", test.FullName );
-			Assert.IsTrue( test.ShouldRun, "ShouldRun" );
-			Assert.IsFalse( test.IsSuite, "!IsSuite" );
-			Assert.IsTrue( test.IsTestCase, "IsTestCase" );
-			Assert.IsFalse( test.IsFixture, "!IsFixture" );
-			Assert.AreEqual( 1, test.TestCount );
-			Assert.AreEqual( testCase1.ID, test.ID, "ID" );
+			CheckConstructionFromTest( testCase1 );
 		}
 	}
 }
