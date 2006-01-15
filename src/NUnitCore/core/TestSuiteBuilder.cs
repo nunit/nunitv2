@@ -66,7 +66,7 @@ namespace NUnit.Core
 
 		#region Public Methods
 
-		public TestSuite Build( string projectName, string[] assemblies )
+		public TestSuite Build( string projectName, string[] assemblies, string testName )
 		{
 			RootTestSuite rootSuite = new RootTestSuite( projectName );
 			NamespaceTreeBuilder namespaceTree = 
@@ -76,17 +76,23 @@ namespace NUnit.Core
 			{
 				TestAssemblyBuilder builder = new TestAssemblyBuilder();
 
-				TestSuite testAssembly =  builder.Build( assemblyName );
+				TestSuite testAssembly =  builder.Build( assemblyName, testName );
 
-				if ( !mergeAssemblies )
-					rootSuite.Add( testAssembly );
-				else 
-					foreach( Test test in testAssembly.Tests )
-						if (autoNamespaceSuites )
-							namespaceTree.Add( test );
-						else
-							rootSuite.Add( test );
+				if ( testAssembly != null )
+				{
+					if ( !mergeAssemblies )
+						rootSuite.Add( testAssembly );
+					else 
+						foreach( Test test in testAssembly.Tests )
+							if (autoNamespaceSuites )
+								namespaceTree.Add( test );
+							else
+								rootSuite.Add( test );
+				}
 			}
+
+			if ( rootSuite.Tests.Count == 0 )
+				return null;
 
 			return rootSuite;
 		}
@@ -103,21 +109,9 @@ namespace NUnit.Core
 			return builder.Build( assemblyName, testName );
 		}
 
-		public TestSuite Build( string projectName, string[] assemblies, string testName )
+		public TestSuite Build( string projectName, string[] assemblies )
 		{
-			if ( testName == null || testName == string.Empty )
-				return Build( projectName, assemblies );
-
-			TestSuite suite = null;
-
-			foreach(string assemblyName in assemblies)
-			{
-				TestAssemblyBuilder builder = new TestAssemblyBuilder();
-				suite = builder.Build( assemblyName, testName );
-				if ( suite != null ) break;
-			}
-
-			return suite;
+			return Build( projectName, assemblies, null );
 		}
 
 		#endregion
