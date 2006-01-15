@@ -247,7 +247,7 @@ namespace NUnit.Core
 				PropertyInfo property = Reflect.GetNamedProperty( 
 					assertionType, 
 					"Counter", 
-					BindingFlags.Public | BindingFlags.Instance );
+					BindingFlags.Public | BindingFlags.Static );
 				if ( property != null )
 					count = (int)property.GetValue( null, new object[0] );
 			}
