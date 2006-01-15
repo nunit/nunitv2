@@ -180,6 +180,36 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual(MockTestFixture.NotRun, summarizer.TestsNotRun);
 		}
 
+		[Test]
+		public void ProjectConfigFileOverrideIsHonored()
+		{
+			NUnitProject project = new NUnitProject( "MyProject.nunit" );
+			ProjectConfig config = new ProjectConfig( "default" );
+			config.Assemblies.Add( Path.GetFullPath( "mock-assembly.dll" ) );
+			project.Configs.Add( config );
+			project.ActiveConfig.ConfigurationFile = "Override.config";
+
+			testDomain.Load( project );
+
+			Assert.AreEqual( Path.GetFullPath( "Override.config" ), 
+				testDomain.AppDomain.SetupInformation.ConfigurationFile );
+		}
+
+		[Test]
+		public void ProjectBinPathOverrideIsHonored()
+		{
+			NUnitProject project = new NUnitProject( "MyProject.nunit" );
+			ProjectConfig config = new ProjectConfig( "default" );
+			config.Assemblies.Add( Path.GetFullPath( "mock-assembly.dll" ) );
+			project.Configs.Add( config );
+			project.ActiveConfig.PrivateBinPath = "dummy;junk";
+
+			testDomain.Load( project );
+
+			Assert.AreEqual( "dummy;junk", 
+				testDomain.AppDomain.SetupInformation.PrivateBinPath );
+		}
+
 		// Turning off shadow copy only works when done for the primary app domain
 		// So this test can only work if it's already off
 		// This doesn't seem to be documented anywhere

@@ -127,15 +127,11 @@ namespace NUnit.Util
 
 			try
 			{
-				FileInfo projectFile = new FileInfo( project.ProjectPath );
-				string configFilePath = projectFile.Extension == ".dll" 
-					? projectFile.FullName + ".config"
-					: Path.ChangeExtension( projectFile.FullName, ".config" );
 				CreateDomain( 
 					project.ProjectPath,
 					project.BasePath,
-					configFilePath,
-					GetBinPath( project.ActiveConfig.AbsolutePaths ));
+					project.ActiveConfig.ConfigurationFile,
+					project.ActiveConfig.PrivateBinPath );
 
 				testRunner = MakeRemoteTestRunner( domain );
 
