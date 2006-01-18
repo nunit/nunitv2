@@ -1179,7 +1179,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		static public void Greater(decimal actual, decimal expected ) 
 		{
-			Assert.AreEqual( actual, expected, string.Empty, null );
+			Assert.Greater( actual, expected, string.Empty, null );
 		}
 
 		#endregion
