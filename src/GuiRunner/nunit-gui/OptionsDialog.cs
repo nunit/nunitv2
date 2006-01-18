@@ -68,6 +68,10 @@ namespace NUnit.Gui
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.GroupBox groupBox5;
 		private System.Windows.Forms.CheckBox failureToolTips;
+		private System.Windows.Forms.GroupBox groupBox6;
+		private System.Windows.Forms.RadioButton multiDomainRadioButton;
+		private System.Windows.Forms.RadioButton singleDomainRadioButton;
+		private System.Windows.Forms.CheckBox mergeAssembliesCheckBox;
 
 		private UserSettings _userSettings;
 		private UserSettings UserSettings
@@ -138,6 +142,10 @@ namespace NUnit.Gui
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.groupBox6 = new System.Windows.Forms.GroupBox();
+			this.mergeAssembliesCheckBox = new System.Windows.Forms.CheckBox();
+			this.singleDomainRadioButton = new System.Windows.Forms.RadioButton();
+			this.multiDomainRadioButton = new System.Windows.Forms.RadioButton();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -146,6 +154,7 @@ namespace NUnit.Gui
 			this.tabPage1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
 			this.tabPage2.SuspendLayout();
+			this.groupBox6.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// okButton
@@ -749,6 +758,7 @@ namespace NUnit.Gui
 			this.tabPage2.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("tabPage2.AutoScrollMargin")));
 			this.tabPage2.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("tabPage2.AutoScrollMinSize")));
 			this.tabPage2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabPage2.BackgroundImage")));
+			this.tabPage2.Controls.Add(this.groupBox6);
 			this.tabPage2.Controls.Add(this.groupBox2);
 			this.tabPage2.Controls.Add(this.groupBox3);
 			this.tabPage2.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("tabPage2.Dock")));
@@ -768,6 +778,122 @@ namespace NUnit.Gui
 			this.tabPage2.Text = resources.GetString("tabPage2.Text");
 			this.tabPage2.ToolTipText = resources.GetString("tabPage2.ToolTipText");
 			this.tabPage2.Visible = ((bool)(resources.GetObject("tabPage2.Visible")));
+			// 
+			// groupBox6
+			// 
+			this.groupBox6.AccessibleDescription = resources.GetString("groupBox6.AccessibleDescription");
+			this.groupBox6.AccessibleName = resources.GetString("groupBox6.AccessibleName");
+			this.groupBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox6.Anchor")));
+			this.groupBox6.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox6.BackgroundImage")));
+			this.groupBox6.Controls.Add(this.mergeAssembliesCheckBox);
+			this.groupBox6.Controls.Add(this.singleDomainRadioButton);
+			this.groupBox6.Controls.Add(this.multiDomainRadioButton);
+			this.groupBox6.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("groupBox6.Dock")));
+			this.groupBox6.Enabled = ((bool)(resources.GetObject("groupBox6.Enabled")));
+			this.groupBox6.Font = ((System.Drawing.Font)(resources.GetObject("groupBox6.Font")));
+			this.helpProvider1.SetHelpKeyword(this.groupBox6, resources.GetString("groupBox6.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.groupBox6, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("groupBox6.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.groupBox6, resources.GetString("groupBox6.HelpString"));
+			this.groupBox6.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("groupBox6.ImeMode")));
+			this.groupBox6.Location = ((System.Drawing.Point)(resources.GetObject("groupBox6.Location")));
+			this.groupBox6.Name = "groupBox6";
+			this.groupBox6.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("groupBox6.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.groupBox6, ((bool)(resources.GetObject("groupBox6.ShowHelp"))));
+			this.groupBox6.Size = ((System.Drawing.Size)(resources.GetObject("groupBox6.Size")));
+			this.groupBox6.TabIndex = ((int)(resources.GetObject("groupBox6.TabIndex")));
+			this.groupBox6.TabStop = false;
+			this.groupBox6.Text = resources.GetString("groupBox6.Text");
+			this.groupBox6.Visible = ((bool)(resources.GetObject("groupBox6.Visible")));
+			// 
+			// mergeAssembliesCheckBox
+			// 
+			this.mergeAssembliesCheckBox.AccessibleDescription = resources.GetString("mergeAssembliesCheckBox.AccessibleDescription");
+			this.mergeAssembliesCheckBox.AccessibleName = resources.GetString("mergeAssembliesCheckBox.AccessibleName");
+			this.mergeAssembliesCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("mergeAssembliesCheckBox.Anchor")));
+			this.mergeAssembliesCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("mergeAssembliesCheckBox.Appearance")));
+			this.mergeAssembliesCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mergeAssembliesCheckBox.BackgroundImage")));
+			this.mergeAssembliesCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("mergeAssembliesCheckBox.CheckAlign")));
+			this.mergeAssembliesCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("mergeAssembliesCheckBox.Dock")));
+			this.mergeAssembliesCheckBox.Enabled = ((bool)(resources.GetObject("mergeAssembliesCheckBox.Enabled")));
+			this.mergeAssembliesCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("mergeAssembliesCheckBox.FlatStyle")));
+			this.mergeAssembliesCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("mergeAssembliesCheckBox.Font")));
+			this.helpProvider1.SetHelpKeyword(this.mergeAssembliesCheckBox, resources.GetString("mergeAssembliesCheckBox.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.mergeAssembliesCheckBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("mergeAssembliesCheckBox.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.mergeAssembliesCheckBox, resources.GetString("mergeAssembliesCheckBox.HelpString"));
+			this.mergeAssembliesCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("mergeAssembliesCheckBox.Image")));
+			this.mergeAssembliesCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("mergeAssembliesCheckBox.ImageAlign")));
+			this.mergeAssembliesCheckBox.ImageIndex = ((int)(resources.GetObject("mergeAssembliesCheckBox.ImageIndex")));
+			this.mergeAssembliesCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("mergeAssembliesCheckBox.ImeMode")));
+			this.mergeAssembliesCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("mergeAssembliesCheckBox.Location")));
+			this.mergeAssembliesCheckBox.Name = "mergeAssembliesCheckBox";
+			this.mergeAssembliesCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("mergeAssembliesCheckBox.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.mergeAssembliesCheckBox, ((bool)(resources.GetObject("mergeAssembliesCheckBox.ShowHelp"))));
+			this.mergeAssembliesCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("mergeAssembliesCheckBox.Size")));
+			this.mergeAssembliesCheckBox.TabIndex = ((int)(resources.GetObject("mergeAssembliesCheckBox.TabIndex")));
+			this.mergeAssembliesCheckBox.Text = resources.GetString("mergeAssembliesCheckBox.Text");
+			this.mergeAssembliesCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("mergeAssembliesCheckBox.TextAlign")));
+			this.mergeAssembliesCheckBox.Visible = ((bool)(resources.GetObject("mergeAssembliesCheckBox.Visible")));
+			// 
+			// singleDomainRadioButton
+			// 
+			this.singleDomainRadioButton.AccessibleDescription = resources.GetString("singleDomainRadioButton.AccessibleDescription");
+			this.singleDomainRadioButton.AccessibleName = resources.GetString("singleDomainRadioButton.AccessibleName");
+			this.singleDomainRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("singleDomainRadioButton.Anchor")));
+			this.singleDomainRadioButton.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("singleDomainRadioButton.Appearance")));
+			this.singleDomainRadioButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("singleDomainRadioButton.BackgroundImage")));
+			this.singleDomainRadioButton.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("singleDomainRadioButton.CheckAlign")));
+			this.singleDomainRadioButton.Checked = true;
+			this.singleDomainRadioButton.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("singleDomainRadioButton.Dock")));
+			this.singleDomainRadioButton.Enabled = ((bool)(resources.GetObject("singleDomainRadioButton.Enabled")));
+			this.singleDomainRadioButton.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("singleDomainRadioButton.FlatStyle")));
+			this.singleDomainRadioButton.Font = ((System.Drawing.Font)(resources.GetObject("singleDomainRadioButton.Font")));
+			this.helpProvider1.SetHelpKeyword(this.singleDomainRadioButton, resources.GetString("singleDomainRadioButton.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.singleDomainRadioButton, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("singleDomainRadioButton.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.singleDomainRadioButton, resources.GetString("singleDomainRadioButton.HelpString"));
+			this.singleDomainRadioButton.Image = ((System.Drawing.Image)(resources.GetObject("singleDomainRadioButton.Image")));
+			this.singleDomainRadioButton.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("singleDomainRadioButton.ImageAlign")));
+			this.singleDomainRadioButton.ImageIndex = ((int)(resources.GetObject("singleDomainRadioButton.ImageIndex")));
+			this.singleDomainRadioButton.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("singleDomainRadioButton.ImeMode")));
+			this.singleDomainRadioButton.Location = ((System.Drawing.Point)(resources.GetObject("singleDomainRadioButton.Location")));
+			this.singleDomainRadioButton.Name = "singleDomainRadioButton";
+			this.singleDomainRadioButton.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("singleDomainRadioButton.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.singleDomainRadioButton, ((bool)(resources.GetObject("singleDomainRadioButton.ShowHelp"))));
+			this.singleDomainRadioButton.Size = ((System.Drawing.Size)(resources.GetObject("singleDomainRadioButton.Size")));
+			this.singleDomainRadioButton.TabIndex = ((int)(resources.GetObject("singleDomainRadioButton.TabIndex")));
+			this.singleDomainRadioButton.TabStop = true;
+			this.singleDomainRadioButton.Text = resources.GetString("singleDomainRadioButton.Text");
+			this.singleDomainRadioButton.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("singleDomainRadioButton.TextAlign")));
+			this.singleDomainRadioButton.Visible = ((bool)(resources.GetObject("singleDomainRadioButton.Visible")));
+			this.singleDomainRadioButton.CheckedChanged += new System.EventHandler(this.singleDomainRadioButton_CheckedChanged);
+			// 
+			// multiDomainRadioButton
+			// 
+			this.multiDomainRadioButton.AccessibleDescription = resources.GetString("multiDomainRadioButton.AccessibleDescription");
+			this.multiDomainRadioButton.AccessibleName = resources.GetString("multiDomainRadioButton.AccessibleName");
+			this.multiDomainRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("multiDomainRadioButton.Anchor")));
+			this.multiDomainRadioButton.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("multiDomainRadioButton.Appearance")));
+			this.multiDomainRadioButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("multiDomainRadioButton.BackgroundImage")));
+			this.multiDomainRadioButton.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("multiDomainRadioButton.CheckAlign")));
+			this.multiDomainRadioButton.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("multiDomainRadioButton.Dock")));
+			this.multiDomainRadioButton.Enabled = ((bool)(resources.GetObject("multiDomainRadioButton.Enabled")));
+			this.multiDomainRadioButton.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("multiDomainRadioButton.FlatStyle")));
+			this.multiDomainRadioButton.Font = ((System.Drawing.Font)(resources.GetObject("multiDomainRadioButton.Font")));
+			this.helpProvider1.SetHelpKeyword(this.multiDomainRadioButton, resources.GetString("multiDomainRadioButton.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.multiDomainRadioButton, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("multiDomainRadioButton.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.multiDomainRadioButton, resources.GetString("multiDomainRadioButton.HelpString"));
+			this.multiDomainRadioButton.Image = ((System.Drawing.Image)(resources.GetObject("multiDomainRadioButton.Image")));
+			this.multiDomainRadioButton.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("multiDomainRadioButton.ImageAlign")));
+			this.multiDomainRadioButton.ImageIndex = ((int)(resources.GetObject("multiDomainRadioButton.ImageIndex")));
+			this.multiDomainRadioButton.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("multiDomainRadioButton.ImeMode")));
+			this.multiDomainRadioButton.Location = ((System.Drawing.Point)(resources.GetObject("multiDomainRadioButton.Location")));
+			this.multiDomainRadioButton.Name = "multiDomainRadioButton";
+			this.multiDomainRadioButton.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("multiDomainRadioButton.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.multiDomainRadioButton, ((bool)(resources.GetObject("multiDomainRadioButton.ShowHelp"))));
+			this.multiDomainRadioButton.Size = ((System.Drawing.Size)(resources.GetObject("multiDomainRadioButton.Size")));
+			this.multiDomainRadioButton.TabIndex = ((int)(resources.GetObject("multiDomainRadioButton.TabIndex")));
+			this.multiDomainRadioButton.Text = resources.GetString("multiDomainRadioButton.Text");
+			this.multiDomainRadioButton.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("multiDomainRadioButton.TextAlign")));
+			this.multiDomainRadioButton.Visible = ((bool)(resources.GetObject("multiDomainRadioButton.Visible")));
 			// 
 			// OptionsDialog
 			// 
@@ -812,6 +938,7 @@ namespace NUnit.Gui
 			this.tabPage1.ResumeLayout(false);
 			this.groupBox5.ResumeLayout(false);
 			this.tabPage2.ResumeLayout(false);
+			this.groupBox6.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -829,6 +956,12 @@ namespace NUnit.Gui
 			reloadOnChangeCheckBox.Checked = options.ReloadOnChange;
 			reloadOnRunCheckBox.Checked = options.ReloadOnRun;
 			clearResultsCheckBox.Checked = options.ClearResults;
+
+			bool multiDomain = options.MultiDomain;
+			multiDomainRadioButton.Checked = multiDomain;
+			singleDomainRadioButton.Checked = !multiDomain;
+			mergeAssembliesCheckBox.Enabled = !multiDomain;
+			mergeAssembliesCheckBox.Checked = options.MergeAssemblies;
 
 			labelTestOutputCheckBox.Checked = options.TestLabels;
 			failureToolTips.Checked = options.FailureToolTips;
@@ -854,6 +987,9 @@ namespace NUnit.Gui
 			loader.ReloadOnChange = options.ReloadOnChange = reloadOnChangeCheckBox.Checked;
 			loader.ReloadOnRun = options.ReloadOnRun = reloadOnRunCheckBox.Checked;
 			options.ClearResults = clearResultsCheckBox.Checked;
+
+			loader.MultiDomain = options.MultiDomain = multiDomainRadioButton.Checked;
+			loader.MergeAssemblies = options.MergeAssemblies = mergeAssembliesCheckBox.Checked;
 
 			options.TestLabels = labelTestOutputCheckBox.Checked;
 			options.FailureToolTips = failureToolTips.Checked;
@@ -912,6 +1048,11 @@ namespace NUnit.Gui
 		private void OptionsDialog_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			e.Cancel = false;
+		}
+
+		private void singleDomainRadioButton_CheckedChanged(object sender, System.EventArgs e)
+		{
+			mergeAssembliesCheckBox.Enabled = singleDomainRadioButton.Checked;
 		}
 	}
 }

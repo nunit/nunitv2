@@ -88,6 +88,18 @@ namespace NUnit.Gui
 			}
 		}
 
+		public bool MergeAssemblies
+		{
+			get { return LoadIntSetting( "MergeAssemblies", 0 ) != 0; }
+			set { SaveIntSetting( "MergeAssemblies", value ? 1 : 0 ); }
+		}
+
+		public bool MultiDomain
+		{
+			get { return LoadIntSetting( "MultiDomain", 0 ) != 0; }
+			set { SaveIntSetting( "MultiDomain", value ? 1 : 0 ); }
+		}
+
 		public bool ClearResults
 		{
 			get { return LoadIntSetting( "ClearResults", 1 ) != 0; }

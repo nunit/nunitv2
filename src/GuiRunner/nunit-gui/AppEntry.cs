@@ -99,6 +99,8 @@ namespace NUnit.Gui
 				TestLoader loader = new TestLoader( new GuiTestEventDispatcher() );
 				loader.ReloadOnRun = settings.Options.ReloadOnRun;
 				loader.ReloadOnChange = settings.Options.ReloadOnChange;
+				loader.MultiDomain = settings.Options.MultiDomain;
+				loader.MergeAssemblies = settings.Options.MergeAssemblies;
 				c.Services.AddService( typeof( TestLoader ), loader );
 
 				// Create top-level form
