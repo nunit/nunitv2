@@ -60,6 +60,16 @@ namespace NUnit.Util
 		private TestEventDispatcher events;
 
 		/// <summary>
+		/// Use MuiltipleTestDomainRunner if true
+		/// </summary>
+		private bool multiDomain;
+
+		/// <summary>
+		/// Merge namespaces across multiple assemblies
+		/// </summary>
+		private bool mergeAssemblies;
+
+		/// <summary>
 		/// Loads and executes tests. Non-null when
 		/// we have loaded a test.
 		/// </summary>
@@ -192,6 +202,18 @@ namespace NUnit.Util
 		{
 			get { return reloadOnRun; }
 			set { reloadOnRun = value; }
+		}
+
+		public bool MultiDomain
+		{
+			get { return multiDomain; }
+			set { multiDomain = value; }
+		}
+
+		public bool MergeAssemblies
+		{
+			get { return mergeAssemblies; }
+			set { mergeAssemblies = value; }
 		}
 
 		public IList TestFrameworks
