@@ -109,7 +109,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// Get or set the current run filter
 		/// </summary>
-		IFilter Filter
+		ITestFilter Filter
 		{
 			get; set;
 		}

@@ -32,11 +32,11 @@ using System;
 namespace NUnit.Core
 {
 	[Serializable]
-	public class EmptyFilter : Filter
+	public class EmptyFilter : ITestFilter
 	{
-		#region IFilter Members
+		#region ITestFilter Members
 
-		public override bool Pass(Test test)
+		public bool Pass(ITest test)
 		{
 			return true;
 		}

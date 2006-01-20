@@ -47,7 +47,7 @@ namespace NUnit.Core
 			return 1;
 		}
 
-		public override int CountTestCases(IFilter filter) 
+		public override int CountTestCases(ITestFilter filter) 
 		{
 			if (Filter(filter))
 				return 1;
@@ -55,7 +55,7 @@ namespace NUnit.Core
 			return 0;
 		}
 
-		public override TestResult Run(EventListener listener, IFilter filter)
+		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
 			return Run( listener ); // Ignore filter for now
 		}
@@ -100,7 +100,7 @@ namespace NUnit.Core
 			get { return null; }
 		}
 
-		public override bool Filter(IFilter filter) 
+		public override bool Filter(ITestFilter filter) 
 		{
 			return filter.Pass(this);
 		}

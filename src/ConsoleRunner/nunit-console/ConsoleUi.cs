@@ -210,7 +210,7 @@ namespace NUnit.ConsoleRunner
 			else if ( options.HasExclude )
 			{
 				Console.WriteLine( "Excluded categories: " + options.exclude );
-				testRunner.Filter = new CategoryFilter( options.ExcludedCategories, true );
+				testRunner.Filter = new NotFilter( new CategoryFilter( options.ExcludedCategories ) );
 			}
 
 			TestResult result = null;

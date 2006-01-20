@@ -12,6 +12,7 @@
         define="${build.defines.csc},StronglyNamedAssembly">
       <sources basedir=".">
         <include name="*.cs"/>
+	<include name="Filters/*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
     </csc>
@@ -23,6 +24,7 @@
         <include name="*.csproj"/>
         <include name="*.build"/>
         <include name="*.cs"/>
+	<include name="Filters/*.cs"/>
       </fileset>
     </copy>
   </target>

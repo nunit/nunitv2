@@ -28,45 +28,78 @@
 #endregion
 
 using System;
+using System.Collections;
 
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Summary description for Filter.
+	/// Summary description for CategoryFilter.
 	/// </summary>
-	public interface IFilter
-	{
-		bool Pass( Test test );
-
-		bool Exclude { get; }
-	}
-
+	/// 
 	[Serializable]
-	public abstract class Filter : IFilter
+	public class CategoryFilter : ITestFilter
 	{
-		private bool exclude;
+		ArrayList categories;
 
-		public Filter() : this( false ) { }
-
-		public Filter( bool exclude )
+		public CategoryFilter()
 		{
-			this.exclude = exclude;
+			categories = new ArrayList();
 		}
 
-		public void Negate()
+		public CategoryFilter( string name )
 		{
-			exclude = !exclude;
+			categories = new ArrayList();
+			categories.Add( name );
+		}
+
+		public CategoryFilter( string[] names )
+		{
+			categories = new ArrayList();
+			categories.AddRange( names );
+		}
+
+		public void AddCategory(string name) 
+		{
+			categories.Add( name );
 		}
 
 		#region IFilter Members
 
-		public abstract bool Pass( Test test );
-
-		public bool Exclude
+		public bool Pass( ITest test )
 		{
-			get { return exclude; }
-		}
+            if ( categories.Count == 0 ) return true;
+
+            if ( CheckCategories( test ) ) return true;
+
+            bool pass = false;
+
+            if (test.IsSuite)
+                foreach (ITest child in test.Tests)
+                {
+                    if ( Pass( child ) )
+                    {
+                        pass = true;
+                        break;
+                    }
+                }
+
+            return pass;
+        }
 
 		#endregion
+
+		/// <summary>
+		/// Method returns true if the test has a particular
+		/// category or if an ancestor test does. We don't
+		/// worry about whether this is an include or an
+		/// exclude filter at this point because only positive
+		/// categories are inherited, not their absence.
+		/// </summary>
+		private bool CheckCategories(ITest test) 
+		{
+			return test.HasCategory( categories )
+				|| test.Parent != null 
+				&& test.Parent.HasCategory( categories );
+		}
 	}
 }

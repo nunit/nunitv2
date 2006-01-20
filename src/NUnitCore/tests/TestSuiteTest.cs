@@ -109,7 +109,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void ExcludingCategoryDoesNotRunExplicitTests()
 		{
-			CategoryFilter filter = new CategoryFilter( "MockCategory", true );
+			ITestFilter filter = new NotFilter( new CategoryFilter( "MockCategory" ) );
 			TestResult result = mockTestFixture.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
 			Assert.AreEqual( 1, summarizer.ResultCount );
@@ -162,10 +162,7 @@ namespace NUnit.Core.Tests
 			Assert.IsNull(testSuite.Parent);
 			Test firstTest = (Test)testSuite.Tests[0];
 			Assert.AreEqual(testSuite, firstTest.Parent);
-			Assert.IsTrue(firstTest.IsDescendant(testSuite), "test should be a descendant of suite");
 			Test bottom = (Test)firstTest.Tests[2];
-			Assert.IsTrue(bottom.IsDescendant(firstTest));
-			Assert.IsTrue(bottom.IsDescendant(testSuite));
 			
 			RecordingListener listener = new RecordingListener();
 			NameFilter filter = new NameFilter(bottom);

@@ -74,7 +74,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// Test suite containing this test, or null
 		/// </summary>
-		private TestSuite parent;
+		private ITest parent;
 		
 		/// <summary>
 		/// List of categories applying to this test
@@ -184,7 +184,7 @@ namespace NUnit.Core
 			set { ignoreReason = value; }
 		}
 
-		public TestSuite Parent 
+		public ITest Parent 
 		{
 			get { return parent; }
 			set { parent = value; }
@@ -210,16 +210,6 @@ namespace NUnit.Core
 				if ( categories.Contains( name ) )
 					return true;
 			
-			return false;
-		}
-
-		public bool IsDescendant(Test test)
-		{
-			if (parent != null) 
-			{
-				return parent == test || parent.IsDescendant(test);
-			}
-
 			return false;
 		}
 
@@ -259,17 +249,17 @@ namespace NUnit.Core
 		/// Count of the test cases ( 1 if this is a test case )
 		/// </summary>
 		public abstract int CountTestCases();
-		public abstract int CountTestCases(IFilter filter);
+		public abstract int CountTestCases(ITestFilter filter);
 		
 		public abstract bool IsSuite { get; }
 		public abstract bool IsFixture{ get; }
 		public abstract bool IsTestCase{ get; }
 		public abstract IList Tests { get; }
 
-		public abstract bool Filter(IFilter filter);
+		public abstract bool Filter(ITestFilter filter);
 
 		public abstract TestResult Run( EventListener listener );
-		public abstract TestResult Run(EventListener listener, IFilter filter);
+		public abstract TestResult Run(EventListener listener, ITestFilter filter);
 
 		#endregion
 

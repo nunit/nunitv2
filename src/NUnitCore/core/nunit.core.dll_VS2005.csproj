@@ -74,9 +74,6 @@
     <Compile Include="Builtins.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CategoryFilter.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="CategoryManager.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -86,9 +83,6 @@
     <Compile Include="DirectorySwapper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EmptyFilter.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="EventListenerTextWriter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -96,9 +90,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="EventQueue.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Filter.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GenericTestFixture.cs">
@@ -117,9 +108,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LegacySuite.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="NameFilter.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NamespaceSuite.cs">

@@ -260,6 +260,7 @@
     <Compile Include="TestFixtureTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="testidtests.cs" />
     <Compile Include="TestInfoTests.cs">
       <SubType>Code</SubType>
     </Compile>

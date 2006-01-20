@@ -87,27 +87,33 @@ namespace NUnit.Core
 			{
 				bool needParentTearDown = false;
 
+				// TODO: In order to change Parent from TestSuite
+				// to Test and eventually ITest, we temporarily
+				// use a cast here. This should be removed when 
+				// the refactoring is complete.
+				TestSuite parentSuite = this.Parent as TestSuite;
+
 				try
 				{
-					if ( Parent != null )
+					if ( parentSuite != null )
 					{
-						if ( Parent.SetUpNeeded  )
+						if ( parentSuite.SetUpNeeded  )
 						{
-							Parent.DoOneTimeSetUp( testResult );
-							needParentTearDown = Parent.SetUpComplete;
+							parentSuite.DoOneTimeSetUp( testResult );
+							needParentTearDown = parentSuite.SetUpComplete;
 						}
 						
-						if ( Parent.SetUpFailed )
+						if ( parentSuite.SetUpFailed )
 							testResult.Failure( "TestFixtureSetUp Failed", null );
 
 						if ( fixture == null )
-							fixture = Parent.Fixture;
+							fixture = parentSuite.Fixture;
 
 						if ( setUpMethod == null )
-							setUpMethod = Parent.SetUpMethod;
+							setUpMethod = parentSuite.SetUpMethod;
 
 						if ( tearDownMethod == null )
-							tearDownMethod = Parent.TearDownMethod;
+							tearDownMethod = parentSuite.TearDownMethod;
 					}
 
 					if ( !testResult.IsFailure )
@@ -127,7 +133,7 @@ namespace NUnit.Core
 				finally
 				{
 					if ( needParentTearDown )
-						Parent.DoOneTimeTearDown( testResult );
+						parentSuite.DoOneTimeTearDown( testResult );
 				}
 			}
 			else

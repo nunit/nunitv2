@@ -92,7 +92,7 @@ namespace NUnit.Core
 			get { return testRunner == null ? null : testRunner.Results; }
 		}
 
-		public virtual IFilter Filter
+		public virtual ITestFilter Filter
 		{
 			get { return this.testRunner.Filter; }
 			set { this.testRunner.Filter = value; }

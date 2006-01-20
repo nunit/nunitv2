@@ -224,7 +224,7 @@ namespace NUnit.Core
 			return count;
 		}
 
-		public override int CountTestCases(IFilter filter)
+		public override int CountTestCases(ITestFilter filter)
 		{
 			int count = 0;
 
@@ -243,7 +243,7 @@ namespace NUnit.Core
 			return Run( listener, EmptyFilter.Empty);
 		}
 			
-		public override TestResult Run(EventListener listener, IFilter filter)
+		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
 			TestSuiteResult suiteResult = new TestSuiteResult( this, Name);
 
@@ -269,7 +269,7 @@ namespace NUnit.Core
 			return suiteResult;
 		}
 
-		public override bool Filter(IFilter filter) 
+		public override bool Filter(ITestFilter filter) 
 		{
 			return filter.Pass(this);
 		}
@@ -278,13 +278,15 @@ namespace NUnit.Core
 		#region Virtual Methods
 		public virtual void DoOneTimeSetUp( TestResult suiteResult )
 		{
-			if ( this.Parent != null && this.Parent.SetUpNeeded )
+			// TODO: Get rid of the cast, if possible
+			TestSuite parentSuite = this.Parent as TestSuite;
+			if ( parentSuite != null && parentSuite.SetUpNeeded )
 			{
-				Parent.DoOneTimeSetUp( suiteResult );
-				needParentTearDown = this.Parent.SetUpComplete;
+				parentSuite.DoOneTimeSetUp( suiteResult );
+				needParentTearDown = parentSuite.SetUpComplete;
 			}
 
-			if ( this.Parent == null || this.Parent.SetUpComplete )
+			if ( parentSuite == null || parentSuite.SetUpComplete )
 				DoFixtureSetUp( suiteResult );
 		}
 
@@ -297,10 +299,12 @@ namespace NUnit.Core
 		{
 			DoFixtureTearDown( suiteResult );
 			
-			if ( this.Parent != null  && Parent.SetUpComplete && needParentTearDown )
+			// TODO: Remove the need to do this cast
+			TestSuite parentSuite = this.Parent as TestSuite;
+			if ( parentSuite != null  && parentSuite.SetUpComplete && needParentTearDown )
 			{
 				needParentTearDown = false; // Do first in case of exception
-				Parent.DoOneTimeTearDown( suiteResult );
+				parentSuite.DoOneTimeTearDown( suiteResult );
 			}
 		}
 
@@ -310,7 +314,7 @@ namespace NUnit.Core
 		}
 
 		protected virtual void RunAllTests(
-			TestSuiteResult suiteResult, EventListener listener, IFilter filter )
+			TestSuiteResult suiteResult, EventListener listener, ITestFilter filter )
 		{
 			foreach(Test test in ArrayList.Synchronized(Tests))
 			{
@@ -323,7 +327,7 @@ namespace NUnit.Core
 						test.ShouldRun = false;
 						test.IgnoreReason = this.IgnoreReason;
 					}
-					else if ( test.IsExplicit && ( filter is EmptyFilter || filter.Exclude ) )
+					else if ( test.IsExplicit && ( filter is EmptyFilter || filter is NotFilter ) )
 					{
 						test.ShouldRun = false;
 						test.IgnoreReason = EXPLICIT_SELECTION_REQUIRED;

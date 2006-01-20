@@ -38,7 +38,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// The currently set filter
 		/// </summary>
-		private IFilter testFilter;
+		private ITestFilter testFilter;
 
 		/// <summary>
 		/// Results from the last test run
@@ -86,7 +86,7 @@ namespace NUnit.Core
 			get { return testResults; }
 		}
 
-		public IFilter Filter
+		public ITestFilter Filter
 		{
 			get { return testFilter; }
 			set { testFilter = value; }
@@ -317,7 +317,7 @@ namespace NUnit.Core
 					string workingDir = null;
 					if ( !(test is TestAssembly) ) // TestAssembly sets the cwd itself
 					{
-						Test t = test;
+						ITest t = test;
 						do
 						{
 							t = t.Parent;

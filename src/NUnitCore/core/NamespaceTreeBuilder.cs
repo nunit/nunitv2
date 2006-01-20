@@ -97,7 +97,8 @@ namespace NUnit.Core
 			TestSuite suite = BuildFromNameSpace( ns );
 
 			// Make the parent point to this instead
-			TestSuite parent = suite.Parent;
+			// TODO: Get rid of this or eliminate the cast
+			TestSuite parent = suite.Parent as TestSuite;
 			if ( parent != null )
 			{
 				parent.Tests.Remove( suite );

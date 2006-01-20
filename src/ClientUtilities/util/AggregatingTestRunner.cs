@@ -30,7 +30,7 @@ namespace NUnit.Util
 		/// </summary>
 		protected EventListener listener;
 
-		protected IFilter filter;
+		protected ITestFilter filter;
 
 		protected string projectName;
 
@@ -114,7 +114,7 @@ namespace NUnit.Util
 			}
 		}
 
-		public virtual IFilter Filter
+		public virtual ITestFilter Filter
 		{
 			get { return this.filter; }
 			set 

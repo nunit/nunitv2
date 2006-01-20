@@ -710,7 +710,7 @@ namespace NUnit.UiKit
 
 		/// <summary>
 		/// Reload the tree with a changed test hierarchy
-		/// while maintaining as much gui state as possible
+		/// while maintaining as much gui state as possible.
 		/// </summary>
 		/// <param name="test">Test suite to be loaded</param>
 		public void Reload( TestNode test )
@@ -856,26 +856,34 @@ namespace NUnit.UiKit
 
 		private void RunTest( TestInfo test )
 		{
-			if ( SelectedCategories != null && SelectedCategories.Length > 0 )
-				loader.SetFilter( new CategoryFilter( this.SelectedCategories, this.ExcludeSelectedCategories ) );
-			else
-				loader.SetFilter( null );
+			SetFilter();
 
 			loader.RunTest( test.UniqueName );
 		}
 
 		private void RunTests( TestInfo[] tests )
 		{
-			if ( SelectedCategories != null && SelectedCategories.Length > 0 )
-				loader.SetFilter( new CategoryFilter( this.SelectedCategories, this.ExcludeSelectedCategories ) );
-			else
-				loader.SetFilter( null );
+			SetFilter();
 
 			string[] testNames = new string[tests.Length];
 			int index = 0;
 			foreach( TestInfo test in tests )
 				testNames[index++] = test.UniqueName;
 			loader.RunTests( testNames );
+		}
+
+		private void SetFilter()
+		{
+			ITestFilter filter = null;
+
+			if ( SelectedCategories != null && SelectedCategories.Length > 0 )
+			{
+				filter = new CategoryFilter( SelectedCategories );
+				if ( ExcludeSelectedCategories )
+					filter = new NotFilter( filter );
+			}
+
+			loader.SetFilter( filter );
 		}
 
 		#endregion

@@ -93,7 +93,7 @@ namespace NUnit.Util
 		void ReloadTest();
 
 		// Set a filter for running tests
-		void SetFilter( IFilter filter );
+		void SetFilter( ITestFilter filter );
 
 		// Run a test suite
 		void RunTest( string testName );

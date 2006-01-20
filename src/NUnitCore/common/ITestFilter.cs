@@ -28,45 +28,16 @@
 #endregion
 
 using System;
-using System.Collections;
 
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Summary description for NameFilter.
+	/// Interface to be implemented by filters applied to tests.
+	/// The filter applies when running the test, after it has been
+	/// loaded, since this is the only time an ITest exists.
 	/// </summary>
-	/// 
-	[Serializable]
-	public class NameFilter : Filter
+	public interface ITestFilter
 	{
-		private ArrayList testNodes;
-
-		public NameFilter(Test node)
-		{
-			testNodes = new ArrayList();
-			testNodes.Add(node);
-		}
-
-		public NameFilter(ArrayList nodes) 
-		{
-			testNodes = nodes;
-		}
-
-        public override bool Pass(Test test)
-        {
-            bool passed = Exclude;
-
-            foreach (Test node in testNodes)
-            {
-                // TODO: Make this more efficient when applied repeatedly to nodes in a tree
-                if ( test == node || test.IsDescendant( node ) || test.IsSuite && node.IsDescendant( test ) )
-                {
-                        passed = !Exclude;
-                        break;
-                }
-            }
-
-            return passed;
-        }
+		bool Pass( ITest test );
 	}
 }

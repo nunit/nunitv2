@@ -27,25 +27,57 @@
 '***********************************************************************************/
 #endregion
 
-using System.IO;
+using System;
+using System.Collections;
 
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Test Suite formed from an assembly. Used to ensure
-	/// that the directory is changed when a new assembly is
-	/// encountered in running a set of tests.
+	/// Summary description for NameFilter.
 	/// </summary>
-	public class TestAssembly : TestSuite
+	/// 
+	[Serializable]
+	public class NameFilter : ITestFilter
 	{
-		public TestAssembly( string assembly ) : base( assembly ) { }
+		private ArrayList testNodes;
 
-		public override TestResult Run(EventListener listener, ITestFilter filter)
+		public NameFilter(ITest node)
 		{
-			using( new DirectorySwapper( Path.GetDirectoryName( this.Name ) ) )
+			testNodes = new ArrayList();
+			testNodes.Add(node);
+		}
+
+		public NameFilter(ArrayList nodes) 
+		{
+			testNodes = nodes;
+		}
+
+        public bool Pass(ITest test)
+        {
+            bool passed = false;
+
+            foreach (ITest node in testNodes)
+            {
+                // TODO: Make this more efficient when applied repeatedly to nodes in a tree
+                if ( test == node || IsDescendantOf( node, test ) || test.IsSuite && IsDescendantOf( test, node ) )
+                {
+                        passed = true;
+                        break;
+                }
+            }
+
+            return passed;
+        }
+
+		private bool IsDescendantOf( ITest target, ITest child )
+		{
+			for( ITest parent = child.Parent; parent != null; parent = parent.Parent )
 			{
-				return base.Run( listener, filter );
+				if ( parent == target )
+					return true;
 			}
+
+			return false;
 		}
 	}
 }

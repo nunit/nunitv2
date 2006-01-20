@@ -132,7 +132,7 @@ namespace NUnit.Util
 		/// </summary>
 		private bool reloadOnRun = false;
 
-		private IFilter filter;
+		private ITestFilter filter;
 
 		#endregion
 
@@ -630,7 +630,7 @@ namespace NUnit.Util
 
 		#region Methods for Running Tests
 
-		public void SetFilter( IFilter filter )
+		public void SetFilter( ITestFilter filter )
 		{
 			if (filter == null)
 				filter = EmptyFilter.Empty;

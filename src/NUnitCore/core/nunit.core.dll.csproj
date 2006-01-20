@@ -119,11 +119,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CategoryFilter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "CategoryManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -145,11 +140,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "EmptyFilter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "EventListenerTextWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -161,11 +151,6 @@
                 />
                 <File
                     RelPath = "EventQueue.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Filter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -196,11 +181,6 @@
                 />
                 <File
                     RelPath = "LegacySuite.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "NameFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
