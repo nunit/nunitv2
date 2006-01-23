@@ -22,16 +22,10 @@ namespace NUnit.Core
 	public class TestInfo : ITest
 	{
 		#region Instance Variables
-
 		/// <summary>
-		/// The full name of the test, including the assembly and namespaces
+		/// TestName that identifies this test
 		/// </summary>
-		private string fullName;
-
-		/// <summary>
-		/// The test name
-		/// </summary>
-		private string testName;
+		private TestName testName;
 
 		private ITest parent;
 
@@ -82,14 +76,9 @@ namespace NUnit.Core
 		private bool isExplicit;
 		
 		/// <summary>
-		/// ID of the runner that loaded this test
-		/// </summary>
-//		private int runnerID;
-
-		/// <summary>
 		/// Unique Test identifier 
 		/// </summary>
-		private TestID testID;
+//		private TestID testID;
 
 		#endregion
 
@@ -100,8 +89,11 @@ namespace NUnit.Core
 		/// <param name="test">Test from which a TestNode is to be constructed</param>
 		public TestInfo( ITest test )
 		{
-			this.fullName = test.FullName;
-			this.testName = test.Name;
+			this.testName = new TestName();
+			this.testName.FullName = test.FullName;
+			this.testName.Name = test.Name;
+			this.testName.TestID = test.TestID;
+
 			this.shouldRun = test.ShouldRun;
 			this.ignoreReason = test.IgnoreReason;
 			this.description = test.Description;
@@ -111,30 +103,29 @@ namespace NUnit.Core
 
 			if (test.Categories != null) 
 				this.categories.AddRange(test.Categories);
-//			if (test.Properties != null)
-//			{
-//				this.properties = new ListDictionary();
-//				foreach( DictionaryEntry entry in test.Properties )
-//					this.properties.Add( entry.Key, entry.Value );
-//			}
+			if (test.Properties != null)
+			{
+				this.properties = new ListDictionary();
+				foreach( DictionaryEntry entry in test.Properties )
+					this.properties.Add( entry.Key, entry.Value );
+			}
 
 			this.testCaseCount = test.TestCount;
-//			this.runnerID = test.RunnerID;
-//			this.testID = test.ID;
-			this.testID = test.TestID;
 		}
 
 		public TestInfo( string name, ITest[] tests )
 		{
-			this.testName = name;
-			this.fullName = name;
+			this.testName = new TestName();
+			this.testName.FullName = name;
+			this.testName.Name = name;
+			this.testName.TestID = new TestID();
+
 			this.shouldRun = true;
 			this.ignoreReason = null;
 			this.description = null;
 			this.isExplicit = false;
 			this.isSuite = true;
 			this.isFixture = false;
-			this.testID = new TestID();
 
 			foreach( ITest test in tests )
 			{
@@ -177,7 +168,7 @@ namespace NUnit.Core
 		/// </summary>
 		public string FullName 
 		{
-			get { return fullName; }
+			get { return testName.FullName; }
 		}
 
 		/// <summary>
@@ -185,12 +176,17 @@ namespace NUnit.Core
 		/// </summary>
 		public string Name
 		{
-			get { return testName; }
+			get { return testName.Name; }
 		}
 
 		public string UniqueName
 		{
-			get { return string.Format( "[{0}-{1}]{2}", testID.RunnerID, testID.TestKey, fullName ); }
+			get { return testName.UniqueName; }
+		}
+
+		public TestID TestID
+		{
+			get { return testName.TestID; }
 		}
 
 		public ITest Parent
@@ -273,21 +269,6 @@ namespace NUnit.Core
 
 				return properties; 
 			}
-		}
-
-//		public int RunnerID
-//		{
-//			get { return runnerID; }
-//		}
-//
-//		public int ID
-//		{
-//			get { return testID; }
-//		}
-
-		public TestID TestID
-		{
-			get { return testID; }
 		}
 		#endregion
 	}

@@ -40,10 +40,10 @@ namespace NUnit.Core
 	{
 		public SetUpFixture( Type type ) : base( type )
 		{
-			testName = type.Namespace;
-			int index = testName.LastIndexOf( '.' );
+			this.TestName.Name = type.Namespace;
+			int index = TestName.Name.LastIndexOf( '.' );
 			if ( index > 0 )
-				testName = testName.Substring( index + 1 );
+				this.TestName.Name = this.TestName.Name.Substring( index + 1 );
 			// NOTE: Once again, since we are not inheriting from TestFixture,
 			// no automatic construction is performed for us, so we do it here.
 			this.Fixture = Reflect.Construct( type );

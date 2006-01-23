@@ -39,22 +39,10 @@ namespace NUnit.Core
 	public abstract class Test : LongLivingMarshalByRefObject, ITest, IComparable
 	{
 		#region Fields
-
 		/// <summary>
-		/// Name of the test
+		/// TestName that identifies this test
 		/// </summary>
-		protected string testName;
-
-		/// <summary>
-		/// Full Name of the test
-		/// </summary>
-		private string fullName;
-
-		/// <summary>
-		/// Integer id that is set as each test is built, allowing
-		/// tests to be located and identified by the test runner.
-		/// </summary>
-		private TestID testID;
+		private TestName testName;
 
 		/// <summary>
 		/// Whether or not the test should be run
@@ -103,22 +91,28 @@ namespace NUnit.Core
 
 		protected Test( string name )
 		{
-			this.fullName = this.testName = name;
+			this.testName = new TestName();
+			this.testName.FullName = name;
+			this.testName.Name = name;
+			this.testName.TestID = new TestID();
+
 			this.shouldRun = true;
-			this.testID = new TestID();
 		}
 
-		protected Test( string pathName, string testName ) 
+		protected Test( string pathName, string name ) 
 		{ 
-			fullName = pathName == null || pathName == string.Empty ? testName : pathName + "." + testName;
-			this.testName = testName;
+			this.testName = new TestName();
+			this.testName.FullName = pathName == null || pathName == string.Empty 
+				? name: pathName + "." + name;
+			this.testName.Name = name;
+			this.testName.TestID = new TestID();
+
 			this.shouldRun = true;
-			this.testID = new TestID();
 		}
 
 		internal void SetRunnerID( int runnerID, bool recursive )
 		{
-			this.testID.RunnerID = runnerID;
+			this.testName.TestID.RunnerID = runnerID;
 
 			if ( recursive && this.Tests != null )
 				foreach( Test child in this.Tests )
@@ -129,14 +123,19 @@ namespace NUnit.Core
 
 		#region Properties
 
-		public string Name
+		public TestName TestName
 		{
 			get { return testName; }
 		}
 
+		public string Name
+		{
+			get { return testName.Name; }
+		}
+
 		public string FullName 
 		{
-			get { return fullName; }
+			get { return testName.FullName; }
 		}
 
 		/// <summary>
@@ -146,7 +145,7 @@ namespace NUnit.Core
 		/// </summary>
 		public string UniqueName
 		{
-			get { return string.Format( "[{0}-{1}]{2}", TestID.RunnerID, TestID.TestKey, fullName ); }
+			get { return testName.UniqueName; }
 		}
 
 		/// <summary>
@@ -155,7 +154,7 @@ namespace NUnit.Core
 		/// </summary>
 		public TestID TestID
 		{
-			get { return testID; }
+			get { return testName.TestID; }
 		}
 
 		/// <summary>
@@ -163,7 +162,7 @@ namespace NUnit.Core
 		/// </summary>
 		public int RunnerID
 		{
-			get { return testID.RunnerID; }
+			get { return testName.TestID.RunnerID; }
 		}
 
 		/// <summary>

@@ -117,6 +117,7 @@
     <Compile Include="TestCaseResult.cs" />
     <Compile Include="TestID.cs" />
     <Compile Include="TestInfo.cs" />
+    <Compile Include="TestName.cs" />
     <Compile Include="TestNode.cs" />
     <Compile Include="TestOutput.cs" />
     <Compile Include="TestResult.cs" />
