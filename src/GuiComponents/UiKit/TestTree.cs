@@ -43,18 +43,18 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.Button clearAllButton;
 		private System.Windows.Forms.Button checkFailedButton;
 		private System.Windows.Forms.MenuItem treeMenu;
+		private System.Windows.Forms.MenuItem checkBoxesMenuItem;
+		private System.Windows.Forms.MenuItem treeMenuSeparatorItem1;
 		private System.Windows.Forms.MenuItem expandMenuItem;
 		private System.Windows.Forms.MenuItem collapseMenuItem;
-		private System.Windows.Forms.MenuItem treeMenuSeparatorItem1;
+		private System.Windows.Forms.MenuItem treeMenuSeparatorItem2;
 		private System.Windows.Forms.MenuItem expandAllMenuItem;
 		private System.Windows.Forms.MenuItem collapseAllMenuItem;
-		private System.Windows.Forms.MenuItem treeMenuSeparatorItem2;
+		private System.Windows.Forms.MenuItem treeMenuSeparatorItem3;
 		private System.Windows.Forms.MenuItem expandFixturesMenuItem;
 		private System.Windows.Forms.MenuItem collapseFixturesMenuItem;
-		private System.Windows.Forms.MenuItem treeMenuSeparatorItem3;
+		private System.Windows.Forms.MenuItem treeMenuSeparatorItem4;
 		private System.Windows.Forms.MenuItem propertiesMenuItem;
-		private System.Windows.Forms.MenuItem checkBoxesMenuItem;
-		private System.Windows.Forms.MenuItem menuItem2;
 		private System.Windows.Forms.CheckBox excludeCheckbox;
 
 		/// <summary> 
@@ -123,97 +123,43 @@ namespace NUnit.UiKit
 			// This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
 			treeMenu = new MenuItem();
+			this.checkBoxesMenuItem = new System.Windows.Forms.MenuItem();
+			this.treeMenuSeparatorItem1 = new System.Windows.Forms.MenuItem();
 			this.expandMenuItem = new System.Windows.Forms.MenuItem();
 			this.collapseMenuItem = new System.Windows.Forms.MenuItem();
-			this.treeMenuSeparatorItem1 = new System.Windows.Forms.MenuItem();
+			this.treeMenuSeparatorItem2 = new System.Windows.Forms.MenuItem();
 			this.expandAllMenuItem = new System.Windows.Forms.MenuItem();
 			this.collapseAllMenuItem = new System.Windows.Forms.MenuItem();
-			this.treeMenuSeparatorItem2 = new System.Windows.Forms.MenuItem();
+			this.treeMenuSeparatorItem3 = new System.Windows.Forms.MenuItem();
 			this.expandFixturesMenuItem = new System.Windows.Forms.MenuItem();
 			this.collapseFixturesMenuItem = new System.Windows.Forms.MenuItem();
-			this.treeMenuSeparatorItem3 = new System.Windows.Forms.MenuItem();
+			this.treeMenuSeparatorItem4 = new System.Windows.Forms.MenuItem();
 			this.propertiesMenuItem = new System.Windows.Forms.MenuItem();
-			this.checkBoxesMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem2 = new System.Windows.Forms.MenuItem();
 
 			// 
 			// treeMenu
 			// 
 			this.treeMenu.MergeType = MenuMerge.Add;
 			this.treeMenu.MergeOrder = 1;
-			this.treeMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-										this.expandMenuItem,
-										this.collapseMenuItem,
-										this.treeMenuSeparatorItem1,
-										this.expandAllMenuItem,
-										this.collapseAllMenuItem,
-										this.treeMenuSeparatorItem2,
-										this.expandFixturesMenuItem,
-										this.collapseFixturesMenuItem,
-										this.treeMenuSeparatorItem3,
-										this.propertiesMenuItem,
-										this.checkBoxesMenuItem,
-										this.menuItem2});
+			this.treeMenu.MenuItems.AddRange(
+				new System.Windows.Forms.MenuItem[] 
+				{
+					this.checkBoxesMenuItem,
+					this.treeMenuSeparatorItem1,
+					this.expandMenuItem,
+					this.collapseMenuItem,
+					this.treeMenuSeparatorItem2,
+					this.expandAllMenuItem,
+					this.collapseAllMenuItem,
+					this.treeMenuSeparatorItem3,
+					this.expandFixturesMenuItem,
+					this.collapseFixturesMenuItem,
+					this.treeMenuSeparatorItem4,
+					this.propertiesMenuItem 
+				} );
 			this.treeMenu.Text = "&Tree";
 			this.treeMenu.Visible = false;
 			this.treeMenu.Popup += new System.EventHandler(this.treeMenu_Popup);
-			// 
-			// expandMenuItem
-			// 
-			this.expandMenuItem.Index = 0;
-			this.expandMenuItem.Text = "&Expand";
-			this.expandMenuItem.Click += new System.EventHandler(this.expandMenuItem_Click);
-			// 
-			// collapseMenuItem
-			// 
-			this.collapseMenuItem.Index = 1;
-			this.collapseMenuItem.Text = "&Collapse";
-			this.collapseMenuItem.Click += new System.EventHandler(this.collapseMenuItem_Click);
-			// 
-			// treeMenuSeparatorItem1
-			// 
-			this.treeMenuSeparatorItem1.Index = 2;
-			this.treeMenuSeparatorItem1.Text = "-";
-			// 
-			// expandAllMenuItem
-			// 
-			this.expandAllMenuItem.Index = 3;
-			this.expandAllMenuItem.Text = "Expand All";
-			this.expandAllMenuItem.Click += new System.EventHandler(this.expandAllMenuItem_Click);
-			// 
-			// collapseAllMenuItem
-			// 
-			this.collapseAllMenuItem.Index = 4;
-			this.collapseAllMenuItem.Text = "Collapse All";
-			this.collapseAllMenuItem.Click += new System.EventHandler(this.collapseAllMenuItem_Click);
-			// 
-			// treeMenuSeparatorItem2
-			// 
-			this.treeMenuSeparatorItem2.Index = 5;
-			this.treeMenuSeparatorItem2.Text = "-";
-			// 
-			// expandFixturesMenuItem
-			// 
-			this.expandFixturesMenuItem.Index = 6;
-			this.expandFixturesMenuItem.Text = "Expand Fixtures";
-			this.expandFixturesMenuItem.Click += new System.EventHandler(this.expandFixturesMenuItem_Click);
-			// 
-			// collapseFixturesMenuItem
-			// 
-			this.collapseFixturesMenuItem.Index = 7;
-			this.collapseFixturesMenuItem.Text = "Collapse Fixtures";
-			this.collapseFixturesMenuItem.Click += new System.EventHandler(this.collapseFixturesMenuItem_Click);
-			// 
-			// treeMenuSeparatorItem3
-			// 
-			this.treeMenuSeparatorItem3.Index = 8;
-			this.treeMenuSeparatorItem3.Text = "-";
-			// 
-			// propertiesMenuItem
-			// 
-			this.propertiesMenuItem.Index = 9;
-			this.propertiesMenuItem.Text = "&Properties";
-			this.propertiesMenuItem.Click += new System.EventHandler(this.propertiesMenuItem_Click);
 			// 
 			// checkBoxesMenuItem
 			// 
@@ -221,10 +167,67 @@ namespace NUnit.UiKit
 			this.checkBoxesMenuItem.Text = "Show Check&Boxes";
 			this.checkBoxesMenuItem.Click += new System.EventHandler(this.checkBoxesMenuItem_Click);
 			// 
-			// menuItem2
+			// treeMenuSeparatorItem1
 			// 
-			this.menuItem2.Index = 1;
-			this.menuItem2.Text = "-";
+			this.treeMenuSeparatorItem1.Index = 1;
+			this.treeMenuSeparatorItem1.Text = "-";
+			// 
+			// expandMenuItem
+			// 
+			this.expandMenuItem.Index = 2;
+			this.expandMenuItem.Text = "&Expand";
+			this.expandMenuItem.Click += new System.EventHandler(this.expandMenuItem_Click);
+			// 
+			// collapseMenuItem
+			// 
+			this.collapseMenuItem.Index = 3;
+			this.collapseMenuItem.Text = "&Collapse";
+			this.collapseMenuItem.Click += new System.EventHandler(this.collapseMenuItem_Click);
+			// 
+			// treeMenuSeparatorItem2
+			// 
+			this.treeMenuSeparatorItem2.Index = 4;
+			this.treeMenuSeparatorItem2.Text = "-";
+			// 
+			// expandAllMenuItem
+			// 
+			this.expandAllMenuItem.Index = 5;
+			this.expandAllMenuItem.Text = "Expand All";
+			this.expandAllMenuItem.Click += new System.EventHandler(this.expandAllMenuItem_Click);
+			// 
+			// collapseAllMenuItem
+			// 
+			this.collapseAllMenuItem.Index = 6;
+			this.collapseAllMenuItem.Text = "Collapse All";
+			this.collapseAllMenuItem.Click += new System.EventHandler(this.collapseAllMenuItem_Click);
+			// 
+			// treeMenuSeparatorItem3
+			// 
+			this.treeMenuSeparatorItem3.Index = 7;
+			this.treeMenuSeparatorItem3.Text = "-";
+			// 
+			// expandFixturesMenuItem
+			// 
+			this.expandFixturesMenuItem.Index = 8;
+			this.expandFixturesMenuItem.Text = "Expand Fixtures";
+			this.expandFixturesMenuItem.Click += new System.EventHandler(this.expandFixturesMenuItem_Click);
+			// 
+			// collapseFixturesMenuItem
+			// 
+			this.collapseFixturesMenuItem.Index = 9;
+			this.collapseFixturesMenuItem.Text = "Collapse Fixtures";
+			this.collapseFixturesMenuItem.Click += new System.EventHandler(this.collapseFixturesMenuItem_Click);
+			// 
+			// treeMenuSeparatorItem4
+			// 
+			this.treeMenuSeparatorItem4.Index = 10;
+			this.treeMenuSeparatorItem4.Text = "-";
+			// 
+			// propertiesMenuItem
+			// 
+			this.propertiesMenuItem.Index = 11;
+			this.propertiesMenuItem.Text = "&Properties";
+			this.propertiesMenuItem.Click += new System.EventHandler(this.propertiesMenuItem_Click);
 
 
 			tests.SelectedTestChanged += new SelectedTestChangedHandler(tests_SelectedTestChanged);
@@ -626,7 +629,7 @@ namespace NUnit.UiKit
 		{
 			if (SelectedTestsChanged != null) 
 			{
-			    SelectedTestsChangedEventArgs args = new SelectedTestsChangedEventArgs(test.Name, test.TestCount);
+				SelectedTestsChangedEventArgs args = new SelectedTestsChangedEventArgs(test.Name, test.TestCount);
 				SelectedTestsChanged(tests, args);
 			}
 		}
