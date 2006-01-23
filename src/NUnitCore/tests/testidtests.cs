@@ -9,39 +9,29 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class TestIDTests
 	{
-		private TestID testID1;
-		private TestID testID2;
-		private TestID testID3;
-
-		[SetUp]
-		public void ConstructTestIDs()
+		[Test]
+		public void ClonedTestIDsAreEqual()
 		{
-			testID1 = new TestID();
-			testID2 = new TestID( 5 );
-			testID3 = new TestID( testID2 );
+			TestID testID = new TestID();
+			Assert.AreEqual( testID, testID.Clone() );
 		}
 
 		[Test]
-		public void CanConstruct()
+		public void DifferentTestIDsAreNotEqual()
 		{
-			Assert.AreNotEqual( testID1.TestKey, testID2.TestKey );
-			Assert.AreEqual( 0, testID1.RunnerID );
-			Assert.AreEqual( 5, testID2.RunnerID );
-		}
-
-		[Test]
-		public void CanCompareForEquality()
-		{
+			TestID testID1 = new TestID();
+			TestID testID2 = new TestID();
 			Assert.AreNotEqual( testID1, testID2 );
-			Assert.AreEqual( testID2, testID3 );
 		}
 
 		[Test]
-		public void CanAssignRunnerID()
+		public void TestIDsWithDifferentRunnersAreNotEqual()
 		{
-			testID3.RunnerID = 7;
-			Assert.AreEqual( 7, testID3.RunnerID );
-			Assert.AreNotEqual( testID2, testID3 );
+			TestID testID1 = new TestID();
+			TestID testID2 = (TestID)testID1.Clone();
+			testID1.RunnerID = 5;
+			testID2.RunnerID = 7;
+			Assert.AreNotEqual( testID1, testID2 );
 		}
 	}
 }
