@@ -30,7 +30,7 @@
 using System;
 using System.Collections;
 
-namespace NUnit.Core
+namespace NUnit.Core.Filters
 {
 	/// <summary>
 	/// Summary description for CategoryFilter.

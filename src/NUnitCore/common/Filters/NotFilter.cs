@@ -1,6 +1,6 @@
 using System;
 
-namespace NUnit.Core
+namespace NUnit.Core.Filters
 {
 	/// <summary>
 	/// NotFilter negates the operation of another filter

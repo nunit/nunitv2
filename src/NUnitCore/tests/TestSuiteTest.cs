@@ -33,6 +33,7 @@ using NUnit.Core.Builders;
 using NUnit.Util;
 using NUnit.Tests.Assemblies;
 using System.Collections;
+using NUnit.Core.Filters;
 
 namespace NUnit.Core.Tests
 {

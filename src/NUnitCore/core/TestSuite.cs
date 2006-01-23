@@ -32,6 +32,7 @@ namespace NUnit.Core
 	using System;
 	using System.Collections;
 	using System.Reflection;
+	using NUnit.Core.Filters;
 
 	/// <summary>
 	/// Summary description for TestSuite.

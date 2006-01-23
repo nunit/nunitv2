@@ -155,7 +155,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestRunner.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestSuiteResult.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filters\AndFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

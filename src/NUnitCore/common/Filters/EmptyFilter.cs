@@ -29,7 +29,7 @@ using System;
 '***********************************************************************************/
 #endregion
 
-namespace NUnit.Core
+namespace NUnit.Core.Filters
 {
 	[Serializable]
 	public class EmptyFilter : ITestFilter

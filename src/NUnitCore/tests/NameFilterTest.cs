@@ -3,6 +3,7 @@ using System.Collections;
 using NUnit.Framework;
 using NUnit.Tests.Assemblies;
 using NUnit.Core.Builders;
+using NUnit.Core.Filters;
 
 namespace NUnit.Core.Tests
 {
