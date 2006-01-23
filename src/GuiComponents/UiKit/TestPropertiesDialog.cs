@@ -30,6 +30,7 @@
 using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
+using System.Text;
 using NUnit.Core;
 
 namespace NUnit.UiKit
@@ -68,6 +69,10 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.Label label6;
 		private CP.Windows.Forms.ExpandingLabel description;
 		private System.Windows.Forms.Label assertCount;
+		private System.Windows.Forms.TabPage propertiesTab;
+		private System.Windows.Forms.ListView propertiesList;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Label categories;
 		private System.ComponentModel.IContainer components = null;
 
 		#endregion
@@ -115,6 +120,8 @@ namespace NUnit.UiKit
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(TestPropertiesDialog));
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.testTab = new System.Windows.Forms.TabPage();
+			this.categories = new System.Windows.Forms.Label();
+			this.label7 = new System.Windows.Forms.Label();
 			this.description = new CP.Windows.Forms.ExpandingLabel();
 			this.label6 = new System.Windows.Forms.Label();
 			this.testCaseCount = new System.Windows.Forms.Label();
@@ -133,10 +140,13 @@ namespace NUnit.UiKit
 			this.label12 = new System.Windows.Forms.Label();
 			this.elapsedTime = new System.Windows.Forms.Label();
 			this.message = new CP.Windows.Forms.ExpandingLabel();
+			this.propertiesTab = new System.Windows.Forms.TabPage();
+			this.propertiesList = new System.Windows.Forms.ListView();
 			this.pinButton = new System.Windows.Forms.CheckBox();
 			this.tabControl1.SuspendLayout();
 			this.testTab.SuspendLayout();
 			this.resultsTab.SuspendLayout();
+			this.propertiesTab.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
@@ -149,6 +159,7 @@ namespace NUnit.UiKit
 			this.tabControl1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabControl1.BackgroundImage")));
 			this.tabControl1.Controls.Add(this.testTab);
 			this.tabControl1.Controls.Add(this.resultsTab);
+			this.tabControl1.Controls.Add(this.propertiesTab);
 			this.tabControl1.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("tabControl1.Dock")));
 			this.tabControl1.Enabled = ((bool)(resources.GetObject("tabControl1.Enabled")));
 			this.tabControl1.Font = ((System.Drawing.Font)(resources.GetObject("tabControl1.Font")));
@@ -174,6 +185,8 @@ namespace NUnit.UiKit
 			this.testTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("testTab.AutoScrollMargin")));
 			this.testTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("testTab.AutoScrollMinSize")));
 			this.testTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("testTab.BackgroundImage")));
+			this.testTab.Controls.Add(this.categories);
+			this.testTab.Controls.Add(this.label7);
 			this.testTab.Controls.Add(this.description);
 			this.testTab.Controls.Add(this.label6);
 			this.testTab.Controls.Add(this.testCaseCount);
@@ -197,6 +210,50 @@ namespace NUnit.UiKit
 			this.testTab.Text = resources.GetString("testTab.Text");
 			this.testTab.ToolTipText = resources.GetString("testTab.ToolTipText");
 			this.testTab.Visible = ((bool)(resources.GetObject("testTab.Visible")));
+			// 
+			// categories
+			// 
+			this.categories.AccessibleDescription = resources.GetString("categories.AccessibleDescription");
+			this.categories.AccessibleName = resources.GetString("categories.AccessibleName");
+			this.categories.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("categories.Anchor")));
+			this.categories.AutoSize = ((bool)(resources.GetObject("categories.AutoSize")));
+			this.categories.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("categories.Dock")));
+			this.categories.Enabled = ((bool)(resources.GetObject("categories.Enabled")));
+			this.categories.Font = ((System.Drawing.Font)(resources.GetObject("categories.Font")));
+			this.categories.Image = ((System.Drawing.Image)(resources.GetObject("categories.Image")));
+			this.categories.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("categories.ImageAlign")));
+			this.categories.ImageIndex = ((int)(resources.GetObject("categories.ImageIndex")));
+			this.categories.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("categories.ImeMode")));
+			this.categories.Location = ((System.Drawing.Point)(resources.GetObject("categories.Location")));
+			this.categories.Name = "categories";
+			this.categories.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("categories.RightToLeft")));
+			this.categories.Size = ((System.Drawing.Size)(resources.GetObject("categories.Size")));
+			this.categories.TabIndex = ((int)(resources.GetObject("categories.TabIndex")));
+			this.categories.Text = resources.GetString("categories.Text");
+			this.categories.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("categories.TextAlign")));
+			this.categories.Visible = ((bool)(resources.GetObject("categories.Visible")));
+			// 
+			// label7
+			// 
+			this.label7.AccessibleDescription = resources.GetString("label7.AccessibleDescription");
+			this.label7.AccessibleName = resources.GetString("label7.AccessibleName");
+			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label7.Anchor")));
+			this.label7.AutoSize = ((bool)(resources.GetObject("label7.AutoSize")));
+			this.label7.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label7.Dock")));
+			this.label7.Enabled = ((bool)(resources.GetObject("label7.Enabled")));
+			this.label7.Font = ((System.Drawing.Font)(resources.GetObject("label7.Font")));
+			this.label7.Image = ((System.Drawing.Image)(resources.GetObject("label7.Image")));
+			this.label7.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label7.ImageAlign")));
+			this.label7.ImageIndex = ((int)(resources.GetObject("label7.ImageIndex")));
+			this.label7.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label7.ImeMode")));
+			this.label7.Location = ((System.Drawing.Point)(resources.GetObject("label7.Location")));
+			this.label7.Name = "label7";
+			this.label7.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label7.RightToLeft")));
+			this.label7.Size = ((System.Drawing.Size)(resources.GetObject("label7.Size")));
+			this.label7.TabIndex = ((int)(resources.GetObject("label7.TabIndex")));
+			this.label7.Text = resources.GetString("label7.Text");
+			this.label7.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label7.TextAlign")));
+			this.label7.Visible = ((bool)(resources.GetObject("label7.Visible")));
 			// 
 			// description
 			// 
@@ -609,6 +666,50 @@ namespace NUnit.UiKit
 			this.message.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("message.TextAlign")));
 			this.message.Visible = ((bool)(resources.GetObject("message.Visible")));
 			// 
+			// propertiesTab
+			// 
+			this.propertiesTab.AccessibleDescription = resources.GetString("propertiesTab.AccessibleDescription");
+			this.propertiesTab.AccessibleName = resources.GetString("propertiesTab.AccessibleName");
+			this.propertiesTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("propertiesTab.Anchor")));
+			this.propertiesTab.AutoScroll = ((bool)(resources.GetObject("propertiesTab.AutoScroll")));
+			this.propertiesTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("propertiesTab.AutoScrollMargin")));
+			this.propertiesTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("propertiesTab.AutoScrollMinSize")));
+			this.propertiesTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("propertiesTab.BackgroundImage")));
+			this.propertiesTab.Controls.Add(this.propertiesList);
+			this.propertiesTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("propertiesTab.Dock")));
+			this.propertiesTab.Enabled = ((bool)(resources.GetObject("propertiesTab.Enabled")));
+			this.propertiesTab.Font = ((System.Drawing.Font)(resources.GetObject("propertiesTab.Font")));
+			this.propertiesTab.ImageIndex = ((int)(resources.GetObject("propertiesTab.ImageIndex")));
+			this.propertiesTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("propertiesTab.ImeMode")));
+			this.propertiesTab.Location = ((System.Drawing.Point)(resources.GetObject("propertiesTab.Location")));
+			this.propertiesTab.Name = "propertiesTab";
+			this.propertiesTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("propertiesTab.RightToLeft")));
+			this.propertiesTab.Size = ((System.Drawing.Size)(resources.GetObject("propertiesTab.Size")));
+			this.propertiesTab.TabIndex = ((int)(resources.GetObject("propertiesTab.TabIndex")));
+			this.propertiesTab.Text = resources.GetString("propertiesTab.Text");
+			this.propertiesTab.ToolTipText = resources.GetString("propertiesTab.ToolTipText");
+			this.propertiesTab.Visible = ((bool)(resources.GetObject("propertiesTab.Visible")));
+			// 
+			// propertiesList
+			// 
+			this.propertiesList.AccessibleDescription = resources.GetString("propertiesList.AccessibleDescription");
+			this.propertiesList.AccessibleName = resources.GetString("propertiesList.AccessibleName");
+			this.propertiesList.Alignment = ((System.Windows.Forms.ListViewAlignment)(resources.GetObject("propertiesList.Alignment")));
+			this.propertiesList.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("propertiesList.Anchor")));
+			this.propertiesList.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("propertiesList.BackgroundImage")));
+			this.propertiesList.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("propertiesList.Dock")));
+			this.propertiesList.Enabled = ((bool)(resources.GetObject("propertiesList.Enabled")));
+			this.propertiesList.Font = ((System.Drawing.Font)(resources.GetObject("propertiesList.Font")));
+			this.propertiesList.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("propertiesList.ImeMode")));
+			this.propertiesList.LabelWrap = ((bool)(resources.GetObject("propertiesList.LabelWrap")));
+			this.propertiesList.Location = ((System.Drawing.Point)(resources.GetObject("propertiesList.Location")));
+			this.propertiesList.Name = "propertiesList";
+			this.propertiesList.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("propertiesList.RightToLeft")));
+			this.propertiesList.Size = ((System.Drawing.Size)(resources.GetObject("propertiesList.Size")));
+			this.propertiesList.TabIndex = ((int)(resources.GetObject("propertiesList.TabIndex")));
+			this.propertiesList.Text = resources.GetString("propertiesList.Text");
+			this.propertiesList.Visible = ((bool)(resources.GetObject("propertiesList.Visible")));
+			// 
 			// pinButton
 			// 
 			this.pinButton.AccessibleDescription = resources.GetString("pinButton.AccessibleDescription");
@@ -667,6 +768,7 @@ namespace NUnit.UiKit
 			this.tabControl1.ResumeLayout(false);
 			this.testTab.ResumeLayout(false);
 			this.resultsTab.ResumeLayout(false);
+			this.propertiesTab.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -740,10 +842,19 @@ namespace NUnit.UiKit
 
 			SetTitleBarText();
 
+			string catText = "";
+			foreach( string cat in test.Categories )
+			{
+				if ( catText != "" )
+					catText += ',';
+				catText += cat;
+			}
+
 			// Initialize Test Tab
 			fullName.Text = test.FullName;
 			shouldRun.Text = test.ShouldRun ? "Yes" : "No";
 			description.Text = test.Description;
+			categories.Text = catText;
 			ignoreReason.Text = test.IgnoreReason;
 			testCaseCount.Text = test.TestCount.ToString();
 
@@ -770,6 +881,29 @@ namespace NUnit.UiKit
 				elapsedTime.Text = string.Format( "Time: {0}", result.Time );
 				assertCount.Text = string.Format( "Asserts: {0}", result.AssertCount );
 				stackTrace.Text = result.StackTrace;
+			}
+
+			// Initialize Properties Tab
+			if ( test.Properties.Count == 0 )
+				tabControl1.TabPages.Remove( propertiesTab );
+			else
+			{
+				if ( !tabControl1.TabPages.Contains( propertiesTab ) )
+					tabControl1.TabPages.Add( propertiesTab );
+
+				propertiesList.Clear();
+				propertiesList.View = View.Details;
+				propertiesList.Columns.Add( "Name", 100, HorizontalAlignment.Left );
+				propertiesList.Columns.Add( "Value", 200, HorizontalAlignment.Left );
+				propertiesList.GridLines = true;
+
+				int index = 0;
+				foreach( string key in test.Properties.Keys )
+				{
+					propertiesList.Items.Add( key );
+					propertiesList.Items[index].SubItems.Add( test.Properties[key].ToString() );
+					++index;
+				}
 			}
 		}
 
