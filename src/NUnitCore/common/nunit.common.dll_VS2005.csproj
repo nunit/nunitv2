@@ -106,6 +106,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="EventListener.cs" />
+    <Compile Include="Filters\AndFilter.cs" />
     <Compile Include="Filters\CategoryFilter.cs" />
     <Compile Include="Filters\EmptyFilter.cs" />
     <Compile Include="Filters\NameFilter.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="TestNode.cs" />
     <Compile Include="TestOutput.cs" />
     <Compile Include="TestResult.cs" />
+    <Compile Include="TestRunner.cs" />
     <Compile Include="TestSuiteResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

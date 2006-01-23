@@ -35,6 +35,7 @@ namespace NUnit.Util
 	using System.Threading;
 	using System.Configuration;
 	using NUnit.Core;
+    using NUnit.Core.Filters;
 
 
 	/// <summary>

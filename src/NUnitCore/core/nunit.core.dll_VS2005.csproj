@@ -207,9 +207,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TestMethod.cs" />
-    <Compile Include="TestRunner.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="TestRunnerThread.cs">
       <SubType>Code</SubType>
     </Compile>

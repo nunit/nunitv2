@@ -35,6 +35,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.ComponentModel;
 using NUnit.Core;
+using NUnit.Core.Filters;
 using NUnit.Util;
 
 namespace NUnit.UiKit
