@@ -24,7 +24,7 @@ namespace NUnit.Util
 			this.process = Process.Start( startInfo );
 			System.Threading.Thread.Sleep( 1000 );
 			Object obj = Activator.GetObject( typeof( TestRunner ), "tcp://localhost:9000/TestServer" );
-			this.testRunner = (TestRunner) obj;
+			this.TestRunner = (TestRunner) obj;
 		}
 
 		public void Stop()

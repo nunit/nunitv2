@@ -25,7 +25,7 @@ namespace NUnit.TestServer
 		public TestServer( string uri, int runnerID ) : base( runnerID )
 		{
 			this.uri = uri;
-			this.testRunner = new RemoteTestRunner();
+			this.TestRunner = new RemoteTestRunner();
 		}
 
 		public string URI 

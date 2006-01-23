@@ -28,7 +28,7 @@ namespace NUnit.Core
 
 		public override void BeginRun( EventListener listener, string[] testNames )
 		{
-			testRunnerThread = new TestRunnerThread( testRunner );
+			testRunnerThread = new TestRunnerThread( this.TestRunner );
 
 			if ( testNames == null || testNames.Length == 0 )
 				testRunnerThread.StartRun( listener, null );
@@ -39,7 +39,7 @@ namespace NUnit.Core
 		public override TestResult[] EndRun()
 		{
 			this.Wait();
-			return testRunner.Results;
+			return this.TestRunner.Results;
 		}
 
 

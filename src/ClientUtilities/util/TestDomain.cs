@@ -40,7 +40,7 @@ namespace NUnit.Util
 
 	using NUnit.Core;
 
-	public class TestDomain : ProxyTestRunner
+	public class TestDomain : ProxyTestRunner, TestRunnerEx
 	{
 		#region Instance Variables
 
@@ -103,11 +103,11 @@ namespace NUnit.Util
 				CreateDomain( assemblyFileName );
 				string assemblyPath = Path.GetFullPath( assemblyFileName );
 
-				testRunner = MakeRemoteTestRunner( domain );
+				this.TestRunner = MakeRemoteTestRunner( domain );
 				if ( testFixture != null && testFixture != string.Empty )
-					return testRunner.Load( assemblyPath, testFixture );
+					return TestRunner.Load( assemblyPath, testFixture );
 				else
-					return testRunner.Load( assemblyPath );
+					return TestRunner.Load( assemblyPath );
 			}
 			catch
 			{
@@ -133,9 +133,9 @@ namespace NUnit.Util
 					project.ActiveConfig.ConfigurationFile,
 					project.ActiveConfig.PrivateBinPath );
 
-				testRunner = MakeRemoteTestRunner( domain );
+				this.TestRunner = MakeRemoteTestRunner( domain );
 
-				return testRunner.Load( project.ProjectPath, project.ActiveConfig.AbsolutePaths, testName );
+				return TestRunner.Load( project.ProjectPath, project.ActiveConfig.AbsolutePaths, testName );
 			}
 			catch
 			{
@@ -157,9 +157,9 @@ namespace NUnit.Util
 			{
 				CreateDomain( projectName );
 
-				testRunner = MakeRemoteTestRunner( domain );
+				this.TestRunner = MakeRemoteTestRunner( domain );
 
-				return testRunner.Load( projectName, assemblies, testName );
+				return TestRunner.Load( projectName, assemblies, testName );
 			}
 			catch
 			{
@@ -170,7 +170,7 @@ namespace NUnit.Util
 
 		public override void Unload()
 		{
-			testRunner = null;
+			this.TestRunner = null;
 
 			if(domain != null) 
 			{

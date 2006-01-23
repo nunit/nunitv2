@@ -33,6 +33,7 @@ namespace NUnit.Util
 	using System.IO;
 	using System.Collections;
 	using System.Threading;
+	using System.Configuration;
 	using NUnit.Core;
 
 
@@ -73,11 +74,7 @@ namespace NUnit.Util
 		/// Loads and executes tests. Non-null when
 		/// we have loaded a test.
 		/// </summary>
-#if MD
-		private MultipleTestDomainRunner testDomain = null;
-#else
-		private TestDomain testDomain = null;
-#endif
+		private TestRunnerEx testRunner = null;
 
 		/// <summary>
 		/// Our current test project, if we have one.
@@ -144,7 +141,13 @@ namespace NUnit.Util
 		public TestLoader(TestEventDispatcher eventDispatcher )
 		{
 			this.events = eventDispatcher;
-			filter = new EmptyFilter();
+			this.filter = new EmptyFilter();
+
+			string mdSetting = ConfigurationSettings.AppSettings["multipleAppDomains"];
+			if ( mdSetting != null && mdSetting.ToLower() == "true" )
+				this.multiDomain = true;
+			else
+				this.multiDomain = false;
 		}
 
 		#endregion
@@ -220,10 +223,10 @@ namespace NUnit.Util
 		{
 			get 
 			{ 
-				if ( testDomain == null )
+				if ( testRunner == null )
 					return null;
 				
-				return testDomain.TestFrameworks; 
+				return testRunner.TestFrameworks; 
 			}
 		}
 
@@ -493,16 +496,13 @@ namespace NUnit.Util
 			{
 				events.FireTestLoading( TestFileName );
 
-#if MD
-				testDomain = new MultipleTestDomainRunner();
-#else
-				testDomain = new TestDomain( );
-#endif
-				bool loaded = TestProject.IsAssemblyWrapper
-					? testDomain.Load( TestProject.ActiveConfig.Assemblies[0].FullPath, testName )
-					: testDomain.Load( TestProject, testName );
+				testRunner = CreateRunner();
 
-				loadedTest = testDomain.Test;
+				bool loaded = TestProject.IsAssemblyWrapper
+					? testRunner.Load( TestProject.ActiveConfig.Assemblies[0].FullPath, testName )
+					: testRunner.Load( TestProject, testName );
+
+				loadedTest = testRunner.Test;
 				loadedTestName = testName;
 				results = null;
 				reloadPending = false;
@@ -557,9 +557,9 @@ namespace NUnit.Util
 
 					RemoveWatcher();
 
-					testDomain.Unload();
+					testRunner.Unload();
 
-					testDomain = null;
+					testRunner = null;
 
 					loadedTest = null;
 					loadedTestName = null;
@@ -602,19 +602,16 @@ namespace NUnit.Util
 
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
-#if MD
-					MultipleTestDomainRunner newDomain = new MultipleTestDomainRunner();
-#else
-					TestDomain newDomain = new TestDomain( );
-#endif
+					TestRunnerEx newRunner = CreateRunner( );
+
 					bool loaded = TestProject.IsAssemblyWrapper
-                        ? newDomain.Load(testProject.ActiveConfig.Assemblies[0].FullPath)
-                        : newDomain.Load(testProject, loadedTestName);
+                        ? newRunner.Load(testProject.ActiveConfig.Assemblies[0].FullPath)
+                        : newRunner.Load(testProject, loadedTestName);
 
-					testDomain.Unload();
+					testRunner.Unload();
 
-					testDomain = newDomain;
-					loadedTest = testDomain.Test;
+					testRunner = newRunner;
+					loadedTest = testRunner.Test;
 					reloadPending = false;
 
 					events.FireTestReloaded( testFileName, loadedTest );				
@@ -665,11 +662,11 @@ namespace NUnit.Util
 
 				runningTests = testNames;
 
-				testDomain.Filter = filter;
+				testRunner.Filter = filter;
 				if ( testNames.Length == 1 && testNames[0] == loadedTest.UniqueName )
-					testDomain.BeginRun( this );
+					testRunner.BeginRun( this );
 				else
-					testDomain.BeginRun( this, testNames );
+					testRunner.BeginRun( this, testNames );
 			}
 		}
 
@@ -681,13 +678,13 @@ namespace NUnit.Util
 		public void CancelTestRun()
 		{
 			if ( IsTestRunning )
-				testDomain.CancelRun();
+				testRunner.CancelRun();
 		}
 
 		public IList GetCategories() 
 		{
 			ArrayList list = new ArrayList();
-			list.AddRange(testDomain.GetCategories());
+			list.AddRange(testRunner.GetCategories());
 			return list;
 		}
 
@@ -718,6 +715,21 @@ namespace NUnit.Util
 				watcher.Stop();
 				watcher = null;
 			}
+		}
+
+		private TestRunnerEx CreateRunner()
+		{
+			TestRunnerEx runner = null;
+
+			if ( multiDomain )
+				runner = new MultipleTestDomainRunner();
+			else
+			{
+				runner = new TestDomain();
+				runner.Settings["MergeAssemblies"] = this.mergeAssemblies;
+			}
+
+			return runner;
 		}
 
 		#endregion

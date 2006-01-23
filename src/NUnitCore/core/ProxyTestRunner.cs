@@ -32,27 +32,28 @@ namespace NUnit.Core
 		/// <summary>
 		/// The downstream TestRunner
 		/// </summary>
-		protected TestRunner testRunner;
+		private TestRunner testRunner;
 
 		/// <summary>
 		/// The event listener for the currently running test
 		/// </summary>
 		protected EventListener listener;
 
+		/// <summary>
+		/// Our dictionary of settings, used to hold any settings
+		/// if the downstream TestRunner has not been set.
+		/// </summary>
+		private IDictionary settings;
 		#endregion
 
-		#region Constructors
+		#region Construction
 
 		public ProxyTestRunner(TestRunner testRunner)
 		{
 			this.testRunner = testRunner;
 			this.runnerID = testRunner.ID;
+			this.settings = new System.Collections.Specialized.ListDictionary();
 		}
-
-//		public ProxyTestRunner( Type runnerType )
-//		{
-//			this.testRunner = (TestRunner)runnerType.GetConstructor( Type.EmptyTypes ).Invoke( null );
-//		}
 
 		/// <summary>
 		/// Protected constructor for runners that create their own
@@ -61,8 +62,8 @@ namespace NUnit.Core
 		protected ProxyTestRunner( int runnerID )
 		{
 			this.runnerID = runnerID;
+			this.settings = new System.Collections.Specialized.ListDictionary();
 		}
-
 		#endregion
 
 		#region Properties
@@ -98,6 +99,33 @@ namespace NUnit.Core
 			set { this.testRunner.Filter = value; }
 		}
 
+		public virtual IDictionary Settings
+		{
+			get 
+			{ 
+				// If testrunner creation is delayed, the derived class must
+				// copy any settings to to the test runner at that point.
+				return testRunner != null ? testRunner.Settings : this.settings;
+			}
+		}
+
+		/// <summary>
+		/// Protected property copies any settings to the downstream test runner
+		/// when it is set. Derived runners overriding this should call the base
+		/// or copy the settings themselves.
+		/// </summary>
+		protected virtual TestRunner TestRunner
+		{
+			get { return testRunner; }
+			set 
+			{ 
+				testRunner = value; 
+
+				if ( testRunner != null )
+					foreach( string key in settings.Keys )
+						testRunner.Settings[key] = settings[key];
+			}
+		}
 		#endregion
 
 		#region Load and Unload Methods
@@ -126,7 +154,6 @@ namespace NUnit.Core
 		{
 			this.testRunner.Unload();
 		}
-
 		#endregion
 
 		#region Methods for Counting TestCases

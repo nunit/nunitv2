@@ -113,6 +113,11 @@ namespace NUnit.Core
 		{
 			get; set;
 		}
+
+		IDictionary Settings
+		{
+			get;
+		}
 		#endregion
 
 		#region Load and Unload Methods
