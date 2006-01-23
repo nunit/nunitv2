@@ -214,18 +214,21 @@ namespace NUnit.UiKit.Tests
 
 			Assert.AreEqual( MockAssembly.Tests, suite.CountTestCases() );
 			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
-			
+			CheckThatTreeIsSorted( treeView, "Tree out of order initially" );
+
 			TestSuite nunitNamespaceSuite = suite.Tests[0] as TestSuite;
 			TestSuite testsNamespaceSuite = nunitNamespaceSuite.Tests[0] as TestSuite;
 			TestSuite assembliesNamespaceSuite = testsNamespaceSuite.Tests[0] as TestSuite;
 			testsNamespaceSuite.Tests.RemoveAt( 0 );
 			treeView.Reload( new TestNode( suite ) );
+			CheckThatTreeIsSorted( treeView, "Tree out of order after remove" );
 
 			Assert.AreEqual( MockAssembly.Tests - MockTestFixture.Tests, suite.CountTestCases() );
 			Assert.AreEqual( 13, treeView.GetNodeCount( true ) );
 
 			testsNamespaceSuite.Tests.Insert( 0, assembliesNamespaceSuite );
 			treeView.Reload( new TestNode( suite ) );
+			CheckThatTreeIsSorted( treeView, "Tree out of order after insert" );
 
 			Assert.AreEqual( MockAssembly.Tests, suite.CountTestCases() );
 			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
@@ -311,6 +314,25 @@ namespace NUnit.UiKit.Tests
 			}
 
 			return result;
+		}
+
+		private void CheckThatTreeIsSorted( TestSuiteTreeView treeView, string msg )
+		{
+			CheckThatNodesAreSorted( treeView.Nodes, msg );
+		}
+
+		private void CheckThatNodesAreSorted( TreeNodeCollection nodes, string msg )
+		{
+			TreeNode priorNode = null;
+			foreach( TreeNode node in nodes )
+			{
+				if ( priorNode != null && priorNode.Text.CompareTo( node.Text ) > 0 )
+					Assert.Fail( msg + " at node " + node.Text );
+				priorNode = node;
+			}
+
+			foreach( TreeNode node in nodes )
+				CheckThatNodesAreSorted( node.Nodes, msg );
 		}
 	}
 }
