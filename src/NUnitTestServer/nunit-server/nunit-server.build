@@ -16,7 +16,6 @@
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.core.dll"/>
-        <include name="nunit.common.dll"/>
       </references>
     </csc>
   </target>
