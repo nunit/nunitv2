@@ -112,7 +112,7 @@ namespace NUnit.Core
 		{
 			this.fixtureType = fixtureType;
 			if ( fixtureType.Namespace != null )
-				testName = FullName.Substring( FullName.LastIndexOf( '.' ) + 1 );
+				this.TestName.Name = FullName.Substring( FullName.LastIndexOf( '.' ) + 1 );
 		}
 
 		#endregion
@@ -139,6 +139,13 @@ namespace NUnit.Core
 			}
 			test.Parent = this;
 			tests.Add(test);
+		}
+
+		public void Add( object fixture )
+		{
+			Test test = TestFixtureBuilder.Make( fixture );
+			if ( test != null )
+				Add( test );
 		}
 		#endregion
 
