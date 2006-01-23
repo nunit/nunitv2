@@ -199,7 +199,8 @@ namespace NUnit.UiKit
 		public void UpdateTest( TestInfo test )
 		{
 			if ( Test.FullName != test.FullName )
-				throw( new ArgumentException( "Attempting to update node with an entirely different test" ) );
+				throw( new ArgumentException( 
+					string.Format( "Attempting to update {0} with {1}", Test.FullName, test.FullName ) ) );
 
 			this.test = test;
 		}
