@@ -68,10 +68,10 @@ namespace NUnit.Core
 
 			MethodInfo method = property.GetGetMethod(true);
 
-			if(method.ReturnType!=typeof(NUnit.Core.TestSuite))
+			if( method.ReturnType.FullName != "NUnit.Core.TestSuite" )
 				return null;
 				//throw new InvalidSuiteException("Invalid suite property method signature");
-			if(method.GetParameters().Length>0)
+			if( method.GetParameters().Length > 0 )
 				return null;
 				//throw new InvalidSuiteException("Invalid suite property method signature");
 
@@ -93,7 +93,7 @@ namespace NUnit.Core
 			
 			MethodInfo method = suiteProperty.GetGetMethod(true);
 			
-			if(method.ReturnType!=typeof(NUnit.Core.TestSuite) || method.GetParameters().Length>0)
+			if( method.ReturnType.FullName != "NUnit.Core.TestSuite" || method.GetParameters().Length > 0 )
 			{
 				this.ShouldRun = false;
 				this.IgnoreReason = "Invalid suite property method signature";
