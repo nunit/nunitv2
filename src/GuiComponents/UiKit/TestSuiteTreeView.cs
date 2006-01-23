@@ -902,6 +902,7 @@ namespace NUnit.UiKit
 			TestSuiteTreeNode node = new TestSuiteTreeNode( rootTest );
 			//			if ( highlight ) node.ForeColor = Color.Blue;
 			AddToMap( node );
+
 			nodes.Add( node );
 			
 			if ( rootTest.IsSuite )
@@ -986,6 +987,8 @@ namespace NUnit.UiKit
 		/// <returns>True if a child node was added or deleted</returns>
 		private bool UpdateNode( TestSuiteTreeNode node, TestNode test )
 		{
+			// Only called from here. Checks that names are the same
+			// and sets node.Test to test
 			node.UpdateTest( test );
 			
 			if ( !test.IsSuite )
@@ -1009,8 +1012,16 @@ namespace NUnit.UiKit
 		/// <returns>True if the parent should expand to show that something was added or deleted</returns>
 		private bool UpdateNodes( IList nodes, IList tests )
 		{
+			// As of NUnit 2.3.6006, the newly reloaded tests 
+			// are guaranteed to be in the same order as the
+			// originally loaded tests. Hence, we can merge
+			// the two lists. However, we can only use an
+			// equality comparison, since we don't know what
+			// determines the order. Hence the two passes.
+
 			bool showChanges = false;
 
+			// Pass1: delete nodes as needed
 			foreach( TestSuiteTreeNode node in nodes )
 				if ( NodeWasDeleted( node, tests ) )
 				{
@@ -1018,17 +1029,44 @@ namespace NUnit.UiKit
 					showChanges = true;
 				}
 
+			// Pass2: All nodes in the node list are also
+			// in the tests, so we can merge in changes
+			// and add any new nodes.
+			int index = 0;
 			foreach( TestNode test in tests )
 			{
-				TestSuiteTreeNode node = this[ test ];
-				if ( node == null )
+				TestSuiteTreeNode node = index < nodes.Count ? (TestSuiteTreeNode)nodes[index] : null;
+
+				if ( node != null && node.Test.FullName == test.FullName )
+					UpdateNode( node, test );
+				else
 				{
-					AddTreeNodes( nodes, test, true );
+					TestSuiteTreeNode newNode = new TestSuiteTreeNode( test );
+					//			if ( highlight ) node.ForeColor = Color.Blue;
+					AddToMap( newNode );
+
+					nodes.Insert( index, newNode );
+			
+					if ( test.IsSuite )
+					{
+						foreach( TestNode childTest in test.Tests )
+							AddTreeNodes( newNode.Nodes, childTest, false );
+					}
+
 					showChanges = true;
 				}
-				else
-					UpdateNode( node, test );
+
+				index++;
 			}
+//				TestSuiteTreeNode node = this[ test ];
+//				if ( node == null )
+//				{
+//					AddTreeNodes( nodes, test, true );
+//					showChanges = true;
+//				}
+//				else
+//					UpdateNode( node, test );
+//			}
 
 			return showChanges;
 		}
