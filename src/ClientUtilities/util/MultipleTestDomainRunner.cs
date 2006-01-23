@@ -45,10 +45,10 @@ namespace NUnit.Util
 			CreateRunners( assemblies.Length );
 
 			//TODO: Loading a namespace or fixture needs work
-			bool result = true;
+			bool result = false;
 			for( int index = 0; index < assemblies.Length; index++ )
-				if ( !runners[index].Load( assemblies[index], testName ) )
-					result = false;
+				if ( runners[index].Load( assemblies[index], testName ) )
+					result = true;
 
 			return result;
 		}

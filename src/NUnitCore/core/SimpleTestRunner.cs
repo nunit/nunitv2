@@ -50,6 +50,8 @@ namespace NUnit.Core
 		/// current thread while a run is in process.
 		/// </summary>
 		private Thread runThread;
+
+		private IDictionary settings;
 		#endregion
 
 		#region Constructor
@@ -59,6 +61,7 @@ namespace NUnit.Core
 		{
 			this.testFilter = EmptyFilter.Empty;
 			this.runnerID = runnerID;
+			this.settings = new System.Collections.Specialized.ListDictionary();
 		}
 		#endregion
 
@@ -96,6 +99,11 @@ namespace NUnit.Core
 		{
 			get { return runThread != null && runThread.IsAlive; }
 		}
+
+		public IDictionary Settings
+		{
+			get { return settings; }
+		}
 		#endregion
 
 		#region Methods for Loading Tests
@@ -120,6 +128,8 @@ namespace NUnit.Core
 		{
 			this.assemblies = new string[] { assemblyName };
 			TestSuiteBuilder builder = new TestSuiteBuilder();
+			object merge = settings["MergeAssemblies"];
+			builder.MergeAssemblies = merge is bool && (bool)merge;
 			this.suite = builder.Build( assemblyName, testName );
 
 			if ( suite == null ) return false;
@@ -150,6 +160,9 @@ namespace NUnit.Core
 		{
 			this.assemblies = (string[])assemblies.Clone();
 			TestSuiteBuilder builder = new TestSuiteBuilder();
+			//builder.AutoNamespaceSuites = this.runnerProperties["AutoNamespaceSuites"];
+			object merge = settings["MergeAssemblies"];
+			builder.MergeAssemblies = merge is bool && (bool)merge;
 			this.suite = builder.Build( projectName, assemblies, testName );
 
 			if ( suite == null ) return false;

@@ -9,7 +9,7 @@ namespace NUnit.Util
 	/// AggregatingTestRunner allows running multiple TestRunners
 	/// and combining the results.
 	/// </summary>
-	public abstract class AggregatingTestRunner : LongLivingMarshalByRefObject, TestRunner, EventListener
+	public abstract class AggregatingTestRunner : LongLivingMarshalByRefObject, TestRunnerEx, EventListener
 	{
 		#region Instance Variables
 
@@ -34,6 +34,7 @@ namespace NUnit.Util
 
 		protected string projectName;
 
+		private IDictionary settings;
 		#endregion
 
 		#region Constructors
@@ -41,6 +42,7 @@ namespace NUnit.Util
 		public AggregatingTestRunner( int runnerID )
 		{
 			this.runnerID = runnerID;
+			this.settings = new System.Collections.Specialized.ListDictionary();
 		}
 		#endregion
 
@@ -90,11 +92,24 @@ namespace NUnit.Util
 				if ( runners.Length == 1 )
 					return runners[0].Test;
 
-				ITest[] tests = new ITest[runners.Length];
-				for( int index = 0; index < runners.Length; index++ )
-					tests[index] = runners[index].Test;
 
-				return new TestNode( projectName, tests );
+				// Count non-null tests, in case we specified a fixture
+				int count = 0;
+				foreach( TestRunner runner in runners )
+					if ( runner.Test != null )
+						++count;  
+
+				// Copy non-null tests to an array
+				int index = 0;
+				ITest[] tests = new ITest[count];
+				foreach( TestRunner runner in runners )
+					if ( runner.Test != null )
+						tests[index++] = runner.Test;
+
+				// Return master node containing all the tests
+				TestNode rootNode = new TestNode( projectName, tests );
+				rootNode.TestID.RunnerID = this.runnerID;
+				return rootNode;
 			}
 		}
 
@@ -108,7 +123,8 @@ namespace NUnit.Util
 				ArrayList results = new ArrayList();
 
 				foreach( TestRunner runner in runners )
-					results.AddRange( runner.Results );
+					if ( runner.Results != null )
+						results.AddRange( runner.Results );
 
 				return (TestResult[])results.ToArray( typeof(TestResult) );
 			}
@@ -126,6 +142,10 @@ namespace NUnit.Util
 			}
 		}
 
+		public IDictionary Settings
+		{
+			get { return settings; }
+		}
 		#endregion
 
 		#region Load and Unload Methods
@@ -214,8 +234,19 @@ namespace NUnit.Util
 			this.listener = listener;
 			ArrayList results = new ArrayList();
 
+			foreach( string name in testNames )
+			{
+				if ( name[0] == '[' )
+				{
+					int runnerID = int.Parse( name.Substring( 1, name.IndexOf( '-' ) - 1 ) );
+					
+				}
+			}
+
 			foreach( TestRunner runner in runners )
+			{
 				results.AddRange( runner.Run( listener, testNames ) );
+			}
 
 			return (TestResult[])results.ToArray( typeof( TestResult ) );
 		}
@@ -234,7 +265,8 @@ namespace NUnit.Util
 			this.listener.RunStarted( new TestInfo[]{ this.Test } );
 
 			foreach( TestRunner runner in runners )
-				runner.Run( this );
+				if ( runner.Test != null )
+					runner.Run( this );
 
 			this.listener.RunFinished( this.Results );
 		}
