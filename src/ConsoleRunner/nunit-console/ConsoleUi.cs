@@ -40,6 +40,7 @@ namespace NUnit.ConsoleRunner
 	using System.Diagnostics;
 	using System.Runtime.InteropServices;
 	using NUnit.Core;
+	using NUnit.Core.Filters;
 	using NUnit.Util;
 	
 	/// <summary>
@@ -202,15 +203,22 @@ namespace NUnit.ConsoleRunner
 
 			EventListener collector = new EventCollector( options, outWriter, errorWriter );
 
+			ITestFilter catFilter = null;
+
 			if (options.HasInclude)
 			{
 				Console.WriteLine( "Included categories: " + options.include );
-				testRunner.Filter = new CategoryFilter( options.IncludedCategories );
+				catFilter = new CategoryFilter( options.IncludedCategories );
 			}
-			else if ( options.HasExclude )
+			
+			if ( options.HasExclude )
 			{
 				Console.WriteLine( "Excluded categories: " + options.exclude );
-				testRunner.Filter = new NotFilter( new CategoryFilter( options.ExcludedCategories ) );
+				ITestFilter excludeFilter = new NotFilter( new CategoryFilter( options.ExcludedCategories ) );
+				if ( catFilter == null )
+					catFilter = excludeFilter;
+				else
+					catFilter = new AndFilter( catFilter, excludeFilter );
 			}
 
 			TestResult result = null;
