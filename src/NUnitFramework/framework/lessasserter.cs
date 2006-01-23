@@ -24,7 +24,7 @@ namespace NUnit.Framework
 		/// <returns>True if actual is greater than expected</returns>
 		public override bool Test()
 		{
-			if ( ((IComparable)expected).CompareTo(actual) < 0 ) return true;
+			if ( ((IComparable)actual).CompareTo(expected) < 0 ) return true;
 
 			DisplayDifferences();
 			return false;

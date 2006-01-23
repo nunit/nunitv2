@@ -1359,7 +1359,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Less(int expected, int actual, string message, params object[] args) 
+		static public void Less(int actual, int expected, string message, params object[] args) 
 		{
 			DoAssert( new LessAsserter( expected, actual, message, args ) );
 		}
@@ -1372,9 +1372,9 @@ namespace NUnit.Framework
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Less(int expected, int actual, string message) 
+		static public void Less(int actual, int expected, string message) 
 		{
-			Assert.Less(expected, actual, message, null);
+			Assert.Less(actual, expected, message, null);
 		}
 
 		/// <summary>
@@ -1384,9 +1384,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
-		static public void Less(int expected, int actual) 
+		static public void Less(int actual, int expected) 
 		{
-			Assert.Less(expected, actual, string.Empty, null);
+			Assert.Less(actual, expected, string.Empty, null);
 		}
 
 		#endregion
@@ -1402,7 +1402,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Less(decimal expected, decimal actual, string message, params object[] args) 
+		static public void Less(decimal actual, decimal expected, string message, params object[] args) 
 		{
 			DoAssert( new LessAsserter( expected, actual, message, args ) );
 		}
@@ -1415,9 +1415,9 @@ namespace NUnit.Framework
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Less(decimal expected, decimal actual, string message) 
+		static public void Less(decimal actual, decimal expected, string message) 
 		{
-			Assert.Less(expected, actual, message, null);
+			Assert.Less(actual, expected, message, null);
 		}
 
 		/// <summary>
@@ -1427,9 +1427,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
-		static public void Less(decimal expected, decimal actual) 
+		static public void Less(decimal actual, decimal expected) 
 		{
-			Assert.Less(expected, actual, string.Empty, null);
+			Assert.Less(actual, expected, string.Empty, null);
 		}
 
 		#endregion
@@ -1445,7 +1445,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Less(double expected, double actual, string message, params object[] args) 
+		static public void Less(double actual, double expected, string message, params object[] args) 
 		{
 			DoAssert( new LessAsserter( expected, actual, message, args ) );
 		}
@@ -1458,9 +1458,9 @@ namespace NUnit.Framework
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Less(double expected, double actual, string message) 
+		static public void Less(double actual, double expected, string message) 
 		{
-			Assert.Less(expected, actual, message, null);
+			Assert.Less(actual, expected, message, null);
 		}
 
 		/// <summary>
@@ -1470,9 +1470,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
-		static public void Less(double expected, double actual) 
+		static public void Less(double actual, double expected) 
 		{
-			Assert.Less(expected, actual, string.Empty, null);
+			Assert.Less(actual, expected, string.Empty, null);
 		}
 
 		#endregion
@@ -1488,7 +1488,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Less(float expected, float actual, string message, params object[] args) 
+		static public void Less(float actual, float expected, string message, params object[] args) 
 		{
 			DoAssert( new LessAsserter( expected, actual, message, args ) );
 		}
@@ -1501,9 +1501,9 @@ namespace NUnit.Framework
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Less(float expected, float actual, string message) 
+		static public void Less(float actual, float expected, string message) 
 		{
-			Assert.Less(expected, actual, message, null);
+			Assert.Less(actual, expected, message, null);
 		}
 
 		/// <summary>
@@ -1513,9 +1513,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
-		static public void Less(float expected, float actual) 
+		static public void Less(float actual, float expected) 
 		{
-			Assert.Less(expected, actual, string.Empty, null);
+			Assert.Less(actual, expected, string.Empty, null);
 		}
 
 		#endregion
@@ -1531,7 +1531,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Less(IComparable expected, IComparable actual, string message, params object[] args) 
+		static public void Less(IComparable actual, IComparable expected, string message, params object[] args) 
 		{
 			DoAssert( new LessAsserter( expected, actual, message, args ) );
 		}
@@ -1544,9 +1544,9 @@ namespace NUnit.Framework
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Less(IComparable expected, IComparable actual, string message) 
+		static public void Less(IComparable actual, IComparable expected, string message) 
 		{
-			Assert.Less(expected, actual, message, null);
+			Assert.Less(actual, expected, message, null);
 		}
 
 		/// <summary>
@@ -1556,9 +1556,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value</param>
-		static public void Less(IComparable expected, IComparable actual) 
+		static public void Less(IComparable actual, IComparable expected) 
 		{
-			Assert.Less(expected, actual, string.Empty, null);
+			Assert.Less(actual, expected, string.Empty, null);
 		}
 
 		#endregion

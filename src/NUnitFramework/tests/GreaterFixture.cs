@@ -42,6 +42,24 @@ namespace NUnit.Framework.Tests
 		{
 			Assert.Greater(e2,e1);
 		}
+
+		[Test]
+		public void FailureMessage()
+		{
+			string msg = null;
+
+			try
+			{
+				Assert.Greater( 7, 99 );
+			}
+			catch( AssertionException ex )
+			{
+				msg = ex.Message;
+			}
+
+			StringAssert.Contains( "expected: Value greater than 99", msg );
+			StringAssert.Contains( "but was: 7", msg );
+		}
 	}
 }
 
