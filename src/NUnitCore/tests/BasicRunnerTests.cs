@@ -35,7 +35,18 @@ namespace NUnit.Core.Tests
         [Test]
 		public void LoadAssembly() 
 		{
-			Assert.IsTrue(runner.Load(testsDll), "Unable to load assembly" );
+			Assert.IsTrue(runner.Load(mockDll), "Unable to load assembly" );
+		}
+
+		[Test]
+		public void LoadAssemblyWithoutNamespaces()
+		{
+			runner.Settings["AutoNamespaceSuites"] = false;
+			Assert.IsTrue(runner.Load(mockDll), "Unable to load assembly" );
+			ITest test = runner.Test;
+			Assert.IsNotNull( test );
+			Assert.AreEqual( 4, test.Tests.Count );
+			Assert.AreEqual( "MockTestFixture", ((ITest)test.Tests[0]).Name );
 		}
 
 		[Test]

@@ -43,7 +43,7 @@ namespace NUnit.Core
 		/// Our dictionary of settings, used to hold any settings
 		/// if the downstream TestRunner has not been set.
 		/// </summary>
-		private IDictionary settings;
+		private TestRunnerSettings settings;
 		#endregion
 
 		#region Construction
@@ -52,7 +52,8 @@ namespace NUnit.Core
 		{
 			this.testRunner = testRunner;
 			this.runnerID = testRunner.ID;
-			this.settings = new System.Collections.Specialized.ListDictionary();
+			this.settings = new TestRunnerSettings( this );
+			this.settings.Changed += new TestRunnerSettings.SettingsChangedHandler(settings_Changed);
 		}
 
 		/// <summary>
@@ -62,7 +63,7 @@ namespace NUnit.Core
 		protected ProxyTestRunner( int runnerID )
 		{
 			this.runnerID = runnerID;
-			this.settings = new System.Collections.Specialized.ListDictionary();
+			this.settings = new TestRunnerSettings( this );
 		}
 		#endregion
 
@@ -99,13 +100,14 @@ namespace NUnit.Core
 			set { this.testRunner.Filter = value; }
 		}
 
-		public virtual IDictionary Settings
+		public virtual TestRunnerSettings Settings
 		{
 			get 
 			{ 
 				// If testrunner creation is delayed, the derived class must
 				// copy any settings to to the test runner at that point.
-				return testRunner != null ? testRunner.Settings : this.settings;
+				//return testRunner != null ? testRunner.Settings : this.settings;
+				return settings;
 			}
 		}
 
@@ -221,6 +223,14 @@ namespace NUnit.Core
 			this.testRunner.Wait();
 		}
 
+		#endregion
+
+		#region Settings Changed Handler
+		private void settings_Changed(string name, object value)
+		{
+			if ( this.testRunner != null )
+				testRunner.Settings[name] = value;
+		}
 		#endregion
 	}
 }

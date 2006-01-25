@@ -34,7 +34,7 @@ namespace NUnit.Util
 
 		protected string projectName;
 
-		private IDictionary settings;
+		private TestRunnerSettings settings;
 		#endregion
 
 		#region Constructors
@@ -42,7 +42,8 @@ namespace NUnit.Util
 		public AggregatingTestRunner( int runnerID )
 		{
 			this.runnerID = runnerID;
-			this.settings = new System.Collections.Specialized.ListDictionary();
+			this.settings = new TestRunnerSettings( this );
+			this.settings.Changed += new TestRunnerSettings.SettingsChangedHandler(settings_Changed);
 		}
 		#endregion
 
@@ -87,11 +88,6 @@ namespace NUnit.Util
 			{ 
 				if ( runners == null )
 					return null;
-
-				// Temporary
-				if ( runners.Length == 1 )
-					return runners[0].Test;
-
 
 				// Count non-null tests, in case we specified a fixture
 				int count = 0;
@@ -142,9 +138,10 @@ namespace NUnit.Util
 			}
 		}
 
-		public IDictionary Settings
+		public TestRunnerSettings Settings
 		{
 			get { return settings; }
+			set { settings = value; }
 		}
 		#endregion
 
@@ -349,6 +346,16 @@ namespace NUnit.Util
 			this.listener.SuiteStarted( suite );
 		}
 
+		#endregion
+
+		#region Handler for Settings Changed Event
+		private void settings_Changed(string name, object value)
+		{
+			if ( runners != null )
+				foreach( TestRunner runner in runners )
+					if ( runner != null )
+						runner.Settings[name] = value;
+		}
 		#endregion
 	}
 }

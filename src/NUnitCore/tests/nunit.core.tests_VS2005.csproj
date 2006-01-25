@@ -264,6 +264,7 @@
     <Compile Include="TestInfoTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestNameTests.cs" />
     <Compile Include="TestNodeTests.cs">
       <SubType>Code</SubType>
     </Compile>

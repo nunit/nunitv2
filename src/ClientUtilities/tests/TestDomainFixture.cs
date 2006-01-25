@@ -82,12 +82,6 @@ namespace NUnit.Util.Tests
 			Assert.IsTrue( testDomain.AppDomain.ShadowCopyFiles, "ShadowCopyFiles" );
 		}	
 
-		[Test, ExpectedException( typeof( ArgumentException ) )]
-		public void TurnOffShadowCopyFailsAfterLoad()
-		{
-			testDomain.ShadowCopyFiles = false;
-		}
-
 		[Test]
 		public void CanRunMockAssemblyTests()
 		{
@@ -99,6 +93,16 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual(MockAssembly.Tests - MockAssembly.NotRun, summarizer.ResultCount);
 			Assert.AreEqual(MockAssembly.NotRun, summarizer.TestsNotRun);
 		}
+	}
+
+	[TestFixture]
+	public class TestDomainRunnerTests : NUnit.Core.Tests.BasicRunnerTests
+	{
+		protected override TestRunner CreateRunner(int runnerID)
+		{
+			return new TestDomain(runnerID);
+		}
+
 	}
 
 	[TestFixture]
@@ -216,7 +220,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void TurnOffShadowCopy()
 		{
-			testDomain.ShadowCopyFiles = false;
+			testDomain.Settings["ShadowCopyFiles"] = false;
 			testDomain.Load( "mock-assembly.dll" );
 			Assert.IsFalse( testDomain.AppDomain.ShadowCopyFiles );
 					

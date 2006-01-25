@@ -72,6 +72,11 @@ namespace NUnit.Util
 		private bool mergeAssemblies;
 
 		/// <summary>
+		/// Generate suites for each level of namespace containing tests
+		/// </summary>
+		private bool autoNamespaceSuites;
+
+		/// <summary>
 		/// Loads and executes tests. Non-null when
 		/// we have loaded a test.
 		/// </summary>
@@ -218,6 +223,12 @@ namespace NUnit.Util
 		{
 			get { return mergeAssemblies; }
 			set { mergeAssemblies = value; }
+		}
+
+		public bool AutoNamespaceSuites
+		{
+			get { return autoNamespaceSuites; }
+			set { autoNamespaceSuites = value; }
 		}
 
 		public IList TestFrameworks
@@ -720,15 +731,12 @@ namespace NUnit.Util
 
 		private TestRunnerEx CreateRunner()
 		{
-			TestRunnerEx runner = null;
-
-			if ( multiDomain )
-				runner = new MultipleTestDomainRunner();
-			else
-			{
-				runner = new TestDomain();
-				runner.Settings["MergeAssemblies"] = this.mergeAssemblies;
-			}
+			TestRunnerEx runner = multiDomain
+				? (TestRunnerEx)new MultipleTestDomainRunner()
+				: (TestRunnerEx)new TestDomain();
+				
+			runner.Settings["MergeAssemblies"] = mergeAssemblies;
+			runner.Settings["AutoNamespaceSuites"] = autoNamespaceSuites;
 
 			return runner;
 		}

@@ -62,6 +62,18 @@ namespace NUnit.Core.Tests
 		{
 			TestSuite suite = builder.Build(testsDll);
 			Assert.IsNotNull(suite, "Unable to build suite" );
+			Assert.AreEqual( 1, suite.Tests.Count );
+			Assert.AreEqual( "NUnit", ((ITest)suite.Tests[0]).Name );
+		}
+
+		[Test]
+		public void LoadAssemblyWithoutNamespaces()
+		{
+			builder.AutoNamespaceSuites = false;
+			TestSuite suite = builder.Build(testsDll);
+			Assert.IsNotNull(suite, "Unable to build suite" );
+			Assert.AreEqual( 41, suite.Tests.Count );
+			Assert.AreEqual( "AssemblyTests", ((ITest)suite.Tests[0]).Name );
 		}
 
 		[Test]

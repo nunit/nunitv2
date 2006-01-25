@@ -101,6 +101,7 @@ namespace NUnit.Gui
 				loader.ReloadOnChange = settings.Options.ReloadOnChange;
 				loader.MultiDomain = settings.Options.MultiDomain;
 				loader.MergeAssemblies = settings.Options.MergeAssemblies;
+				loader.AutoNamespaceSuites = settings.Options.AutoNamespaceSuites;
 				c.Services.AddService( typeof( TestLoader ), loader );
 
 				// Create top-level form

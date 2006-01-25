@@ -114,7 +114,7 @@ namespace NUnit.Core
 			get; set;
 		}
 
-		IDictionary Settings
+		TestRunnerSettings Settings
 		{
 			get;
 		}

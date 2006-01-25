@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Collections;
+using NUnit.Core.Filters;
 
 namespace NUnit.Core
 {
@@ -51,7 +52,7 @@ namespace NUnit.Core
 		/// </summary>
 		private Thread runThread;
 
-		private IDictionary settings;
+		private TestRunnerSettings settings;
 		#endregion
 
 		#region Constructor
@@ -61,7 +62,7 @@ namespace NUnit.Core
 		{
 			this.testFilter = EmptyFilter.Empty;
 			this.runnerID = runnerID;
-			this.settings = new System.Collections.Specialized.ListDictionary();
+			this.settings = new TestRunnerSettings( this );
 		}
 		#endregion
 
@@ -100,7 +101,7 @@ namespace NUnit.Core
 			get { return runThread != null && runThread.IsAlive; }
 		}
 
-		public IDictionary Settings
+		public TestRunnerSettings Settings
 		{
 			get { return settings; }
 		}
@@ -127,9 +128,7 @@ namespace NUnit.Core
 		public bool Load( string assemblyName, string testName )
 		{
 			this.assemblies = new string[] { assemblyName };
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			object merge = settings["MergeAssemblies"];
-			builder.MergeAssemblies = merge is bool && (bool)merge;
+			TestSuiteBuilder builder = CreateBuilder();
 			this.suite = builder.Build( assemblyName, testName );
 
 			if ( suite == null ) return false;
@@ -159,10 +158,7 @@ namespace NUnit.Core
 		public bool Load( string projectName, string[] assemblies, string testName )
 		{
 			this.assemblies = (string[])assemblies.Clone();
-			TestSuiteBuilder builder = new TestSuiteBuilder();
-			//builder.AutoNamespaceSuites = this.runnerProperties["AutoNamespaceSuites"];
-			object merge = settings["MergeAssemblies"];
-			builder.MergeAssemblies = merge is bool && (bool)merge;
+			TestSuiteBuilder builder = CreateBuilder();
 			this.suite = builder.Build( projectName, assemblies, testName );
 
 			if ( suite == null ) return false;
@@ -270,6 +266,18 @@ namespace NUnit.Core
 		#endregion
 
 		#region Helper Routines
+		private TestSuiteBuilder CreateBuilder()
+		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+
+			if ( settings.Contains( "AutoNamespaceSuites" ) )
+				builder.AutoNamespaceSuites = (bool)settings["AutoNamespaceSuites"];
+			if ( settings.Contains( "MergeAssemblies" ) )
+				builder.MergeAssemblies = (bool)settings["MergeAssemblies"];
+
+			return builder;
+		}
+
 		private Test FindTest(Test test, string fullName)
 		{
 			if(test.UniqueName.Equals(fullName)) return test;

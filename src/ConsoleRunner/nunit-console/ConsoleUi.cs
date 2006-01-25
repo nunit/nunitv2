@@ -155,7 +155,7 @@ namespace NUnit.ConsoleRunner
 			Console.WriteLine();
 		}
 
-		private static bool MakeTestFromCommandLine(TestDomain testDomain, ConsoleOptions parser)
+		private static bool MakeTestFromCommandLine(TestRunnerEx testRunner, ConsoleOptions parser)
 		{
 			NUnitProject project;
 
@@ -169,7 +169,7 @@ namespace NUnit.ConsoleRunner
 			else
 				project = NUnitProject.FromAssemblies( (string[])parser.Parameters.ToArray( typeof( string ) ) );
 
-			return testDomain.Load( project, parser.fixture );
+			return testRunner.Load( project, parser.fixture );
 		}
 
 		public ConsoleUi()
@@ -189,13 +189,13 @@ namespace NUnit.ConsoleRunner
 				? new StreamWriter( options.err )
 				: Console.Error;
 
-			// TODO: Use other kinds of runners
-			TestDomain testDomain = new TestDomain();
-			TestRunner testRunner = testDomain;
+			TestRunnerEx testRunner = options.ParameterCount == 1 
+				? (TestRunnerEx)new TestDomain()
+				: (TestRunnerEx)new MultipleTestDomainRunner();
 
-			if ( options.noshadow  ) testDomain.ShadowCopyFiles = false;
+			if ( options.noshadow  ) testRunner.Settings["ShadowCopyFiles"] = false;
 			
-			if ( !MakeTestFromCommandLine(testDomain, options) )
+			if ( !MakeTestFromCommandLine(testRunner, options) )
 			{
 				Console.Error.WriteLine("Unable to locate fixture {0}", options.fixture);
 				return 2;

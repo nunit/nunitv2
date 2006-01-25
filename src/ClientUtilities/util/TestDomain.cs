@@ -68,23 +68,10 @@ namespace NUnit.Util
 		#endregion
 
 		#region Properties
-
 		public AppDomain AppDomain
 		{
 			get { return domain; }
 		}
-
-		public bool ShadowCopyFiles
-		{
-			get { return shadowCopyFiles; }
-			set
-			{
-				if ( this.domain != null )
-					throw new ArgumentException( "ShadowCopyFiles may not be set after domain is created" );
-				shadowCopyFiles = value;
-			}
-		}
-
 		#endregion
 
 		#region Loading and Unloading Tests
@@ -177,7 +164,7 @@ namespace NUnit.Util
 				try
 				{
 					AppDomain.Unload(domain);
-					if ( this.ShadowCopyFiles )
+					if ( this.shadowCopyFiles )
 						DeleteCacheDir( new DirectoryInfo( cachePath ) );
 				}
 				catch( Exception ex)
@@ -295,7 +282,11 @@ namespace NUnit.Util
 			// Note that we do NOT
 			// set ShadowCopyDirectories because we  rely on the default
 			// setting of ApplicationBase plus PrivateBinPath
-			if ( this.ShadowCopyFiles )
+
+			if ( this.Settings.Contains("ShadowCopyFiles") )
+				this.shadowCopyFiles = (bool)this.Settings["ShadowCopyFiles"];
+
+			if ( this.shadowCopyFiles )
 			{
 				setup.ShadowCopyFiles = "true";
 				setup.ShadowCopyDirectories = appBase;

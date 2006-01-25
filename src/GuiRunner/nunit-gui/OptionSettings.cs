@@ -94,6 +94,12 @@ namespace NUnit.Gui
 			set { SaveIntSetting( "MergeAssemblies", value ? 1 : 0 ); }
 		}
 
+		public bool AutoNamespaceSuites
+		{
+			get { return LoadIntSetting( "AutoNamespaceSuites", 1 ) != 0; }
+			set { SaveIntSetting( "AutoNamespaceSuites", value ? 1 : 0 ); }
+		}
+
 		public bool MultiDomain
 		{
 			get { return LoadIntSetting( "MultiDomain", 0 ) != 0; }

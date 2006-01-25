@@ -62,6 +62,10 @@ namespace NUnit.Util.Tests
 			NUnitRegistry.ClearTestKeys();
 
 			loader = new TestLoader( );
+			loader.MergeAssemblies = false;
+			loader.AutoNamespaceSuites = true;
+			loader.MultiDomain = false;
+
 			catcher = new TestEventCatcher( loader.Events );
 		}
 

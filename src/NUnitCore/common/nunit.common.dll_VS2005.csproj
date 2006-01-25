@@ -123,6 +123,7 @@
     <Compile Include="TestOutput.cs" />
     <Compile Include="TestResult.cs" />
     <Compile Include="TestRunner.cs" />
+    <Compile Include="TestRunnerSettings.cs" />
     <Compile Include="TestSuiteResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

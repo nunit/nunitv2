@@ -57,7 +57,12 @@ namespace NUnit.Util
 		{
 			runners = new TestRunner[count];
 			for( int index = 0; index < count; index++ )
-				runners[index] = new TestDomain( this.runnerID * 100 + index + 1 );
+			{
+				TestDomain runner = new TestDomain( this.runnerID * 100 + index + 1 );
+				foreach( string key in this.Settings.Keys )
+					runner.Settings[key] = this.Settings[key];
+				runners[index] = runner;
+			}
 		}
 		#endregion
 	}
