@@ -19,7 +19,7 @@
   </target>
 
   <target name="package">
-    <copy todir="${package.src.dir}/NUnitCore/core">
+    <copy todir="${package.src.dir}/NUnitCore/common">
       <fileset basedir=".">
         <include name="*.csproj"/>
         <include name="*.build"/>
