@@ -1,17 +1,19 @@
-Work In Process
+NUnit 2.3.6024 Snapshot
 
-* Classes AggregatingTestRunner and MultipleTestDomainRunner have been added to allow running each assemblies tests in a separate domain. This is still experimental and is activated using conditional compilation. Individual running of tests does not yet work.
+* Classes AggregatingTestRunner and MultipleTestDomainRunner have been added 
+to allow running each assemblies tests in a separate domain. The feature is
+accessible by means of an option in the gui or by specifying multiple assemblies
+on the command line of nunit-console. There are still some issues with running
+individual tests when using this feature.
 
-* All TestRunners are now created with a runner ID.
+* Options are available to disable automatic creation of suites for each 
+namespace and to merge tests from multiple assemblies into a single tree.
 
-* Tests and TestInfos now store a TestID object rather than a simple int key. The property has been changed in the ITest interface to TestID. TestID encapsulates both the runner ID and the test key. The runner ID is separately accessible to allow routing run requests to the proper runner. A test's UniqueName now incorporates the both the runner id and the test key.
+* Tests and TestInfos now store a multi-part TestName object, analogous to an
+AssemblyName, rather than just a simple text name.
 
 * Created new nunit.common project as part of NUnitCore to hold interfaces and
-  other types that are referenced from outside the core. Initially, this is 
-  causing a large increase in the number of references between assemblies, but
-  it should result in significant decoupling when it is complete.
-
-* Currently in nunit.common: ITest, TestInfo, TestNode, EventListener, LongLivingMarshalByRefObject, ResultVisior, TestResult, TestCaseResult, TestSuiteResult, TestID
+  other types that are referenced from outside the core..
 
 * References: gui no longer refers to core but to common.
 
