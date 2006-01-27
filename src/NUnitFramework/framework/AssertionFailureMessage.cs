@@ -345,6 +345,10 @@ namespace NUnit.Framework
 				return "<(null)>";
 			else if ( obj is string )
 				return string.Format( "<\"{0}\">", obj );
+			else if ( obj is double )
+				return string.Format( "<{0}>", ((double)obj).ToString( "G17" ) );
+			else if ( obj is float )
+				return string.Format( "<{0}>", ((float)obj).ToString( "G9" ) );
 			else
 				return string.Format( "<{0}>", obj );
 		}

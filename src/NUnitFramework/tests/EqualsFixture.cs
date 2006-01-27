@@ -314,6 +314,61 @@ namespace NUnit.Framework.Tests
 		{
 			a, b, c
 		}
+
+		[Test]
+		public void DoubleNotEqualMessageDisplaysAllDigits()
+		{
+			string message = "";
+
+			try
+			{
+				double d1 = 36.1;
+				double d2 = 36.099999999999994;
+				Assert.AreEqual( d1, d2 );
+				Assert.Fail( "Should have thrown an AssertionException" );
+			}
+			catch(AssertionException ex)
+			{
+				message = ex.Message;
+			}
+
+			int i = message.IndexOf( "<" );
+			int j = message.IndexOf( ">", i );
+			string expected = message.Substring( i + 1, j - i - 1 );
+			i = message.IndexOf( "<", j );
+			j = message.IndexOf( ">", i );
+			string actual = message.Substring( i + 1, j - i - 1 );
+			Assert.AreNotEqual( expected, actual );
+		}
+
+		[Test]
+		public void FloatNotEqualMessageDisplaysAllDigits()
+		{
+			string message = "";
+
+			try
+			{
+				float f1 = 36.125F;
+				float f2 = 36.125004F;
+				Assert.AreEqual( f1, f2 );
+			}
+			catch(AssertionException ex)
+			{
+				message = ex.Message;
+			}
+
+			if ( message == "" )
+				Assert.Fail( "Should have thrown an AssertionException" );
+
+			Console.WriteLine( message );
+			int i = message.IndexOf( "<" );
+			int j = message.IndexOf( ">", i );
+			string expected = message.Substring( i + 1, j - i - 1 );
+			i = message.IndexOf( "<", j );
+			j = message.IndexOf( ">", i );
+			string actual = message.Substring( i + 1, j - i - 1 );
+			Assert.AreNotEqual( expected, actual );
+		}
 	}
 }
 
