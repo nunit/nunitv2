@@ -89,10 +89,7 @@ namespace NUnit.Core
 		/// <param name="test">Test from which a TestNode is to be constructed</param>
 		public TestInfo( ITest test )
 		{
-			this.testName = new TestName();
-			this.testName.FullName = test.FullName;
-			this.testName.Name = test.Name;
-			this.testName.TestID = test.TestID;
+			this.testName = (TestName)test.TestName.Clone();
 
 			this.shouldRun = test.ShouldRun;
 			this.ignoreReason = test.IgnoreReason;
@@ -113,6 +110,11 @@ namespace NUnit.Core
 			this.testCaseCount = test.TestCount;
 		}
 
+		/// <summary>
+		/// Construct as a parent to multiple tests.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="tests"></param>
 		public TestInfo( string name, ITest[] tests )
 		{
 			this.testName = new TestName();
@@ -135,6 +137,51 @@ namespace NUnit.Core
 		#endregion
 
 		#region Properties
+		/// <summary>
+		/// Gets the completely specified name of the test
+		/// encapsulated in a TestName object. TestInfo exposes
+		/// getters for retrieving components of the name
+		/// directly, but this property must be used to set
+		/// any of them.
+		/// </summary>
+		public TestName TestName
+		{
+			get { return testName; }
+		}
+
+		/// <summary>
+		/// Name of the test
+		/// </summary>
+		public string Name
+		{
+			get { return testName.Name; }
+		}
+
+		/// <summary>
+		/// Full name of the test
+		/// </summary>
+		public string FullName 
+		{
+			get { return testName.FullName; }
+		}
+
+		/// <summary>
+		/// Gets or sets the ID of the runner that holds the test.
+		/// </summary>
+		public int RunnerID
+		{
+			get { return testName.RunnerID; }
+			set { testName.RunnerID = value; }
+		}
+
+		/// <summary>
+		/// Gets the string representation of the TestName, 
+		/// which uniquely identifies a test.
+		/// </summary>
+		public string UniqueName
+		{
+			get { return testName.UniqueName; }
+		}
 
 		/// <summary>
 		/// The test description 
@@ -143,15 +190,6 @@ namespace NUnit.Core
 		{
 			get { return description; }
 			set { description = value; }
-		}
-
-		/// <summary>
-		/// The reason for ignoring a test
-		/// </summary>
-		public string IgnoreReason
-		{
-			get { return ignoreReason; }
-			set { ignoreReason = value; }
 		}
 
 		/// <summary>
@@ -164,31 +202,25 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Full name of the test
+		/// The reason for ignoring a test
 		/// </summary>
-		public string FullName 
+		public string IgnoreReason
 		{
-			get { return testName.FullName; }
+			get { return ignoreReason; }
+			set { ignoreReason = value; }
 		}
 
 		/// <summary>
-		/// Name of the test
+		/// Count of test cases in this test.
 		/// </summary>
-		public string Name
-		{
-			get { return testName.Name; }
+		public int TestCount
+		{ 
+			get { return testCaseCount; } 
 		}
 
-		public string UniqueName
-		{
-			get { return testName.UniqueName; }
-		}
-
-		public TestID TestID
-		{
-			get { return testName.TestID; }
-		}
-
+		/// <summary>
+		///  Gets the parent test of this test
+		/// </summary>
 		public ITest Parent
 		{
 			get { return parent; }
@@ -221,14 +253,6 @@ namespace NUnit.Core
 					return true;
 
 			return false;
-		}
-
-		/// <summary>
-		/// Count of test cases in this test.
-		/// </summary>
-		public int TestCount
-		{ 
-			get { return testCaseCount; } 
 		}
 
 		public virtual IList Tests

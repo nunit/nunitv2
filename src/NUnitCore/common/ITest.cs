@@ -40,6 +40,15 @@ namespace NUnit.Core
 	public interface ITest
 	{
 		/// <summary>
+		/// Gets the completely specified name of the test
+		/// encapsulated in a TestName object. ITest exposes
+		/// getters for retrieving components of the name
+		/// directly, but this property must be used to set
+		/// any of them.
+		/// </summary>
+		TestName TestName { get; }
+
+		/// <summary>
 		/// Name of the test
 		/// </summary>
 		string Name	{ get; }
@@ -50,13 +59,15 @@ namespace NUnit.Core
 		string FullName { get; }
 
 		/// <summary>
-		/// Key used to locate a test. Although the
-		/// ID alone would be sufficient, we combine it with the
-		/// FullName for ease in debugging and for use in messages.
+		/// Gets or sets the ID of the runner that holds the test.
+		/// </summary>
+		int RunnerID { get; set; }
+
+		/// <summary>
+		/// Gets the string representation of the TestName, 
+		/// which uniquely identifies a test.
 		/// </summary>
 		string UniqueName { get; }
-
-		TestID TestID { get; }
 
 		/// <summary>
 		/// Whether or not the test should be run
@@ -73,6 +84,9 @@ namespace NUnit.Core
 		/// </summary>
 		int TestCount { get; }
 
+		/// <summary>
+		///  Gets the parent test of this test
+		/// </summary>
 		ITest Parent { get; }
 
 		/// <summary>

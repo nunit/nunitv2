@@ -45,7 +45,7 @@ namespace NUnit.Core.Tests
 					Assert.AreEqual( expected.Categories[index], actual.Categories[index], "Category {0}", index );
 			}
 
-			Assert.AreEqual( expected.TestID, actual.TestID, "TestID" );
+			Assert.AreEqual( expected.TestName, actual.TestName, "TestName" );
 		}
 
 		[Test]

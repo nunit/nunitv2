@@ -98,7 +98,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( tests.Length, test.Tests.Count );
 			Assert.AreEqual( MockTestFixture.Tests, test.TestCount );
 			Assert.AreEqual( 0, test.Categories.Count, "Categories");
-			Assert.AreNotEqual( testFixture.TestID, test.TestID, "ID" );
+			Assert.AreNotEqual( testFixture.Name, test.TestName, "TestName" );
 		}
 	}
 }

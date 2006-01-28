@@ -112,7 +112,7 @@ namespace NUnit.Core
 
 		internal void SetRunnerID( int runnerID, bool recursive )
 		{
-			this.testName.TestID.RunnerID = runnerID;
+			this.testName.RunnerID = runnerID;
 
 			if ( recursive && this.Tests != null )
 				foreach( Test child in this.Tests )
@@ -152,17 +152,13 @@ namespace NUnit.Core
 		/// The TestID is a quasi-unique identifier for tests. It supports
 		/// over four billion test nodes in a single runner tree.
 		/// </summary>
-		public TestID TestID
-		{
-			get { return testName.TestID; }
-		}
-
 		/// <summary>
 		/// ID of the runner that loaded or created this test.
 		/// </summary>
 		public int RunnerID
 		{
-			get { return testName.TestID.RunnerID; }
+			get { return testName.RunnerID; }
+			set { testName.RunnerID = value; }
 		}
 
 		/// <summary>

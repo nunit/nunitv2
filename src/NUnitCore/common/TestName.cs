@@ -3,16 +3,23 @@ using System;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Summary description for TestName.
+	/// TestName encapsulates all info needed to identify and
+	/// locate a test that has been loaded by a runner. It consists
+	/// of a three components: the simple name of the test, an int
+	/// id that is unique to a given tree of tests and an int 
+	/// runner id that identifies the particular runner that
+	/// holds the test instance.
 	/// </summary>
 	[Serializable]
 	public class TestName : ICloneable
 	{
 		#region Fields
 		/// <summary>
-		/// TestID that uniquely identifies the test - may be null
+		/// ID that uniquely identifies the test
 		/// </summary>
 		private TestID testID;
+
+		private int runnerID;
 
 		/// <summary>
 		/// The simple name of the test, without qualification
@@ -41,7 +48,8 @@ namespace NUnit.Core
 		/// </summary>
 		public int RunnerID
 		{
-			get { return testID == null ? -1 : testID.RunnerID; }
+			get { return runnerID; }
+			set { runnerID = value; }
 		}
 
 		/// <summary>
@@ -62,19 +70,53 @@ namespace NUnit.Core
 			set { fullName = value; }
 		}
 
+		/// <summary>
+		/// Get the string representation of this test name, incorporating all
+		/// the components of the name.
+		/// </summary>
 		public string UniqueName
 		{
 			get
 			{
 				if ( this.testID == null )
-					return this.fullName;
+					return string.Format( "[{0}]{1}", this.runnerID, this.fullName );
 				else
-					return string.Format( "[{0}-{1}]{2}", testID.RunnerID, testID.TestKey, this.fullName );
+					return string.Format( "[{0}-{1}]{2}", this.RunnerID, this.testID, this.fullName );
 			}
 		}
 		#endregion
 
-		#region Methods
+		#region Static Methods
+		public static TestName Parse( string s )
+		{
+			if ( s == null ) throw new ArgumentNullException( "s", "Cannot parse a null string" );
+
+			TestName testName = new TestName();
+			testName.FullName = testName.Name = s;
+
+			if ( s.StartsWith( "[" ) )
+			{
+				int rbrack = s.IndexOf( "]" );
+				if ( rbrack < 0 || rbrack == s.Length - 1 )
+					throw new FormatException( "Invalid TestName format: " + s );
+
+				testName.FullName = testName.Name = s.Substring( rbrack + 1 );
+
+				int dash = s.IndexOf( "-" );
+				if ( dash < 0 || dash > rbrack )
+					testName.RunnerID = Int32.Parse( s.Substring( 1, rbrack - 1 ) );
+				else
+				{
+					testName.RunnerID = Int32.Parse( s.Substring( 1, dash - 1 ) );
+					testName.TestID = TestID.Parse( s.Substring( dash + 1, rbrack - dash - 1 ) );
+				}
+			}
+
+			return testName;
+		}
+		#endregion
+
+		#region Object Overrides
 		/// <summary>
 		/// Compares two TestNames for equality
 		/// </summary>
@@ -83,10 +125,12 @@ namespace NUnit.Core
 		public override bool Equals(object obj)
 		{
 			TestName other = obj as TestName;
-			if ( other != null )
-				return this.testID == other.testID && this.fullName == other.fullName;
+			if ( other == null )
+				return base.Equals (obj);
 
-			return base.Equals (obj);
+			return this.TestID == other.testID
+				&& this.runnerID == other.runnerID 
+				&& this.fullName == other.fullName;
 		}
 
 		/// <summary>
@@ -99,6 +143,17 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
+		/// Override ToString() to display the UniqueName
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			return this.UniqueName;
+		}
+		#endregion
+
+		#region ICloneable Implementation
+		/// <summary>
 		/// Returns a duplicate of this TestName
 		/// </summary>
 		/// <returns></returns>
@@ -106,7 +161,6 @@ namespace NUnit.Core
 		{
 			return this.MemberwiseClone();
 		}
-
 		#endregion
 	}
 }

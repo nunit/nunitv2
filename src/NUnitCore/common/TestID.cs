@@ -3,29 +3,42 @@ using System;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// TestID encapsulates a unique identifier for tests, consisting of
-	/// the runner identifier and a unique test key.
+	/// TestID encapsulates a unique identifier for tests. As
+	/// currently implemented, this is an integer and is unique
+	/// within the AppDomain. TestID is one component of a 
+	/// TestName. We use this object, rather than a raw int,
+	/// for two reasons: (1) to hide the implementation so
+	/// it may be changed later if necessary and (2) so that the
+	/// id may be null in a "weak" TestName.
 	/// </summary>
 	[Serializable]
 	public class TestID : ICloneable
 	{
-		#region Fields
-		/// <summary>
-		/// The int ID of the TestRunner that originally loaded this test.
-		/// </summary>
-		private int runnerID;
+		public static bool operator ==( TestID id1, TestID id2 )
+		{
+			if ( Object.Equals( id1, null ) )
+				return Object.Equals( id2, null );
 
-		/// <summary>
-		/// The int key that distinguishes this test from all others created
-		/// by the same runner.
-		/// </summary>
-		private int testKey;
+			return id1.Equals( id2 );
+		}
+
+		public static bool operator !=( TestID id1, TestID id2 )
+		{
+			return id1 == id2 ? false : true;
+		}
+
+		#region Fields
+			/// <summary>
+			/// The int key that distinguishes this test from all others created
+			/// by the same runner.
+			/// </summary>
+			private int id;
 		
 		/// <summary>
 		/// Static value to seed ids. It's started at 1000 so any
 		/// uninitialized ids will stand out.
 		/// </summary>
-		private static int nextKey = 1000;
+		private static int nextID = 1000;
 
 		#endregion
 
@@ -35,31 +48,33 @@ namespace NUnit.Core
 		/// </summary>
 		public TestID()
 		{
-			this.testKey = unchecked( nextKey++ );
-		}
-		#endregion
-
-		#region Properties
-		/// <summary>
-		/// The int key that distinguishes this test from all
-		/// others created by the same runner.
-		/// </summary>
-		public int TestKey
-		{
-			get { return testKey; }
+			this.id = unchecked( nextID++ );
 		}
 
 		/// <summary>
-		/// The id of the runner that originally created a test
+		/// Construct a TestID with a given value
 		/// </summary>
-		public int RunnerID
+		/// <param name="id"></param>
+		private TestID( int id )
 		{
-			get { return runnerID; }
-			set { runnerID = value; }
+			this.id = id;
 		}
 		#endregion
 
-		#region Methods
+		#region Static Methods
+		/// <summary>
+		/// Parse a TestID from it's string representation
+		/// </summary>
+		/// <param name="s"></param>
+		/// <returns></returns>
+		public static TestID Parse( string s )
+		{
+			int id = Int32.Parse( s );
+			return new TestID( id );
+		}
+		#endregion
+
+		#region Object Overrides
 		/// <summary>
 		/// Override of Equals method to allow comparison of TestIDs
 		/// </summary>
@@ -69,7 +84,7 @@ namespace NUnit.Core
 		{
 			TestID other = obj as TestID;
 			if ( other != null )
-				return this.runnerID == other.runnerID && this.testKey == other.testKey;
+				return this.id == other.id;
 
 			return base.Equals (obj);
 		}
@@ -80,9 +95,20 @@ namespace NUnit.Core
 		/// <returns></returns>
 		public override int GetHashCode()
 		{
-			return this.testKey.GetHashCode();
+			return id.GetHashCode();
 		}
 
+		/// <summary>
+		/// Override ToString() to display the int id
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			return id.ToString();
+		}
+		#endregion
+
+		#region ICloneable Implementation
 		public object Clone()
 		{
 			return this.MemberwiseClone();

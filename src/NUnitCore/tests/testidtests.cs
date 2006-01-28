@@ -3,9 +3,6 @@ using NUnit.Framework;
 
 namespace NUnit.Core.Tests
 {
-	/// <summary>
-	/// Summary description for TestIDTests.
-	/// </summary>
 	[TestFixture]
 	public class TestIDTests
 	{
@@ -13,7 +10,11 @@ namespace NUnit.Core.Tests
 		public void ClonedTestIDsAreEqual()
 		{
 			TestID testID = new TestID();
-			Assert.AreEqual( testID, testID.Clone() );
+			TestID cloneID = (TestID)testID.Clone();
+			Assert.AreEqual( testID, cloneID );
+
+			Assert.IsTrue( testID == cloneID, "operator ==" );
+			Assert.IsFalse( testID != cloneID, "operator !=" );
 		}
 
 		[Test]
@@ -22,16 +23,17 @@ namespace NUnit.Core.Tests
 			TestID testID1 = new TestID();
 			TestID testID2 = new TestID();
 			Assert.AreNotEqual( testID1, testID2 );
+
+			Assert.IsFalse( testID1 == testID2, "operator ==" );
+			Assert.IsTrue( testID1 != testID2, "operator !=" );
 		}
 
 		[Test]
-		public void TestIDsWithDifferentRunnersAreNotEqual()
+		public void DifferentTestIDsDisplayDifferentStrings()
 		{
 			TestID testID1 = new TestID();
-			TestID testID2 = (TestID)testID1.Clone();
-			testID1.RunnerID = 5;
-			testID2.RunnerID = 7;
-			Assert.AreNotEqual( testID1, testID2 );
+			TestID testID2 = new TestID();
+			Assert.AreNotEqual( testID1.ToString(), testID2.ToString() );
 		}
 	}
 }
