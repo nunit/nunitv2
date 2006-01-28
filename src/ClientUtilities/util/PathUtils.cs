@@ -153,13 +153,7 @@ namespace NUnit.Util
 		private static extern bool PathCanonicalize(
 			StringBuilder result,
 			string path );
-
-		[DllImport("shlwapi.dll")]
-		private static extern int PathCommonPrefix(
-			string file1,
-			string file2,
-			StringBuilder result );
-			
+		
 		#endregion
 	}
 }
