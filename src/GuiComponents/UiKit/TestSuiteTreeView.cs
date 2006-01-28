@@ -936,14 +936,14 @@ namespace NUnit.UiKit
 
 		private void AddToMap( TestSuiteTreeNode node )
 		{
-			if ( treeMap.ContainsKey( node.Test.TestID ) )
+			if ( treeMap.ContainsKey( node.Test.UniqueName ) )
 				Trace.WriteLine( "Duplicate entry: " + node.Test.UniqueName );
 				//				UserMessage.Display( string.Format( 
 				//					"The test {0} is duplicated\r\rResults will not be displayed correctly in the tree.", node.Test.FullName ), "Duplicate Test" );
 			else
 			{
 				Trace.WriteLine( "Added to map: " + node.Test.UniqueName );
-				treeMap.Add( node.Test.TestID, node );
+				treeMap.Add( node.Test.UniqueName, node );
 			}
 		}
 
@@ -951,7 +951,7 @@ namespace NUnit.UiKit
 		{
 			foreach( TestSuiteTreeNode child in node.Nodes )
 				RemoveFromMap( child );
-			treeMap.Remove( node.Test.TestID );
+			treeMap.Remove( node.Test.UniqueName );
 		}
 
 		/// <summary>
@@ -1161,7 +1161,7 @@ namespace NUnit.UiKit
 
 		private TestSuiteTreeNode FindNode( TestInfo test )
 		{
-			return treeMap[test.TestID] as TestSuiteTreeNode;
+			return treeMap[test.UniqueName] as TestSuiteTreeNode;
 		}	
 		#endregion
 

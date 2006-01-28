@@ -204,11 +204,10 @@ namespace NUnit.Core
 		{
 			try
 			{
-				//TODO: do we need a run started event?
-
-				results = runner.Run(this.listener, testNames );
-				
-				//TODO: do we need a run finished event?
+				if ( testNames == null || testNames.Length == 0 )
+					results = new TestResult[] { runner.Run( this.listener ) };
+				else
+					results = runner.Run( this.listener, testNames );
 			}
 			catch( Exception )
 			{
