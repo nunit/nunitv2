@@ -63,7 +63,7 @@ namespace NUnit.Util
 		private string name;
 		
 		// The tests we are running
-		private TestInfo[] tests;
+		private TestInfo test;
 
 		// The results from our tests
 		private TestResult[] results;
@@ -74,24 +74,39 @@ namespace NUnit.Util
 		// The test output
 		private TestOutput testOutput;
 
+		// The number of tests we are running
+		private int testCount;
+
 		#endregion
 
 		#region Constructors
 
+		// TestLoaded, TestUnloaded, TestReloading, TestReloaded
 		public TestEventArgs( TestAction action, 
 			string name, TestInfo test )
 		{
 			this.action = action;
 			this.name = name;
-			this.tests = new TestInfo[] { test };
+			this.test = test;
+			if ( test != null )
+				this.testCount = test.TestCount;
 		}
 
+		// ProjectLoading, ProjectLoaded, ProjectUnloading, ProjectUnloaded, TestLoading, TestUnloading
 		public TestEventArgs( TestAction action, string name )
 		{
 			this.action = action;
 			this.name = name;
 		}
 
+		public TestEventArgs( TestAction action, string name, int testCount )
+		{
+			this.action = action;
+			this.name = name;
+			this.testCount = testCount;
+		}
+
+		// ProjectLoadFailed, ProjectUnloadFailed, TestLoadFailed, TestUnloadFailed, TestReloadFailed
 		public TestEventArgs( TestAction action,
 			string name, Exception exception )
 		{
@@ -100,41 +115,47 @@ namespace NUnit.Util
 			this.exception = exception;
 		}
 
+		// TestStarting, SuiteStarting, 
 		public TestEventArgs( TestAction action, TestInfo test )
 		{
 			this.action = action;
-			this.tests = new TestInfo[] { test };
+			this.test = test;
 		}
 
+		// TestFinished, SuiteFinished
 		public TestEventArgs( TestAction action, TestResult result )
 		{
 			this.action = action;
 			this.results = new TestResult[] { result };
 		}
 
+		// RunFinished
 		public TestEventArgs( TestAction action, TestResult[] results )
 		{
 			this.action = action;
 			this.results = results;
 		}
 
+		// RunFinished, TestException
 		public TestEventArgs( TestAction action, Exception exception )
 		{
 			this.action = action;
 			this.exception = exception;
 		}
 
+		// TestOutput
 		public TestEventArgs( TestAction action, TestOutput testOutput )
 		{
 			this.action = action;
 			this.testOutput = testOutput;
 		}
 
-		public TestEventArgs( TestAction action, TestInfo[] tests ) 
-		{
-			this.action = action;
-			this.tests = tests;
-		}
+		// RunStarting
+//		public TestEventArgs( TestAction action, TestInfo[] tests ) 
+//		{
+//			this.action = action;
+//			this.tests = tests;
+//		}
 
 		#endregion
 
@@ -152,22 +173,19 @@ namespace NUnit.Util
 
 		public TestInfo Test
 		{
-			get { return tests == null || tests.Length == 0 ? null : tests[0]; }
-		}
-
-		public TestInfo[] Tests 
-		{
-			get { return tests; }
+			get { return test; }
 		}
 
 		public int TestCount 
 		{
 			get 
 			{
-				int count = 0;
-				foreach( TestInfo test in tests )
-					count += test.TestCount;
-				return count; 
+//				int count = 0;
+//				foreach( TestInfo test in tests )
+//					count += test.TestCount;
+//				return count; 
+
+				return testCount;
 			}
 		}
 

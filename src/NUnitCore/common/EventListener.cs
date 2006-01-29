@@ -43,7 +43,7 @@ namespace NUnit.Core
 		/// Run is starting
 		/// </summary>
 		/// <param name="tests">Array of tests to be run</param>
-		void RunStarted( TestInfo[] tests );
+		void RunStarted( string name, int testCount );
 
 		/// <summary>
 		/// Run finished successfully

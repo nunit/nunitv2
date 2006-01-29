@@ -209,10 +209,10 @@ namespace NUnit.Core
 				else
 					results = runner.Run( this.listener, testNames );
 			}
-			catch( Exception )
-			{
-				//TODO: do we need a run finished event?
-			}
+//			catch( Exception )
+//			{
+//				//TODO: do we need a run finished event?
+//			}
 			finally
 			{
 				testNames = null;	// Do we need this?

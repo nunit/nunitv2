@@ -192,7 +192,7 @@ namespace NUnit.UiKit
 
 		private void OnRunStarting( object sender, TestEventArgs e )
 		{
-			Initialize( e.TestCount, "Running :" + e.Test.Name );
+			Initialize( e.TestCount, "Running :" + e.Name );
 			DisplayTestCount();
 			DisplayFailures();
 			DisplayTime();

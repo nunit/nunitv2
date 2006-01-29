@@ -246,9 +246,9 @@ namespace NUnit.Util
 
 		#region EventListener Handlers
 
-		void EventListener.RunStarted(TestInfo[] tests)
+		void EventListener.RunStarted(string name, int testCount)
 		{
-			events.FireRunStarting( tests );
+			events.FireRunStarting( name, testCount );
 		}
 
 		void EventListener.RunFinished(NUnit.Core.TestResult[] results)

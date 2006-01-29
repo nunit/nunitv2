@@ -189,11 +189,11 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestReloadFailed, fileName, exception ) );
 		}
 
-		public void FireRunStarting( TestInfo[] tests )
+		public void FireRunStarting( string name, int testCount )
 		{
 			Fire(
 				RunStarting,
-				new TestEventArgs( TestAction.RunStarting, tests ) );
+				new TestEventArgs( TestAction.RunStarting, name, testCount ) );
 		}
 
 		public void FireRunFinished( TestResult[] results )

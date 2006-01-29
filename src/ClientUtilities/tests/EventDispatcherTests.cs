@@ -171,9 +171,9 @@ namespace NUnit.Util.Tests
 		{
 			TestInfo[] tests = new TestInfo[] { test };
 
-			dispatcher.FireRunStarting( tests );
+			dispatcher.FireRunStarting( test.FullName, test.TestCount );
 
-			CheckEvent( TestAction.RunStarting, test );
+			CheckEvent( TestAction.RunStarting, test.FullName, test.TestCount );
 		}
 
 		[Test]
@@ -228,6 +228,12 @@ namespace NUnit.Util.Tests
 		{
 			CheckEvent( action );
 			Assert.AreEqual( fileName, ((TestEventArgs)catcher.Events[0]).Name );
+		}
+
+		private void CheckEvent( TestAction action, string fileName, int testCount )
+		{
+			CheckEvent( action, fileName );
+			Assert.AreEqual( testCount, ((TestEventArgs)catcher.Events[0]).TestCount );
 		}
 
 		private void CheckEvent( TestAction action, string fileName, TestInfo test )

@@ -295,7 +295,7 @@ namespace NUnit.Core.Tests
 
 		public TestResult lastResult = null;
 
-		public void RunStarted(TestInfo[] tests)
+		public void RunStarted(string name, int testCount)
 		{
 		}
 

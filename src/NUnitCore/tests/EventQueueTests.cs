@@ -12,7 +12,7 @@ namespace NUnit.Core.Tests
 	public class EventQueueTests
 	{
 		static readonly Event[] events = {
-				new RunStartedEvent( new TestInfo[0] ),
+				new RunStartedEvent( string.Empty, 0 ),
 				new SuiteStartedEvent( null ),
 				new TestStartedEvent( null ),
 				new TestFinishedEvent( null ),

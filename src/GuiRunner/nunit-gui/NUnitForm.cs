@@ -1951,7 +1951,7 @@ the version under which NUnit is currently running, {0}.",
 
 		private void OnRunStarting( object sender, TestEventArgs e )
 		{
-			suiteName.Text = e.Test.Name;
+			suiteName.Text = e.Name;
 			runButton.Enabled = false;
 			stopButton.Enabled = true;
 

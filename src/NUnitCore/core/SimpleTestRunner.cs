@@ -327,9 +327,13 @@ namespace NUnit.Core
 				// Signal that we are starting the run
 				TestInfo[] info = new TestInfo[tests.Length];
 				int index = 0;
+				int count = 0;
 				foreach( Test test in tests )
+				{
 					info[index++] = new TestInfo( test );
-				listener.RunStarted( info );
+					count += test.TestCount;
+				}
+				listener.RunStarted( tests[0].FullName, count );
 				
 				// Run each test, saving the results
 				index = 0;

@@ -20,16 +20,18 @@ namespace NUnit.Core
 
 	public class RunStartedEvent : Event
 	{
-		TestInfo[] tests;
+		string name;
+		int testCount;
 
-		public RunStartedEvent( TestInfo[] tests )
+		public RunStartedEvent( string name, int testCount )
 		{
-			this.tests = tests;
+			this.name = name;
+			this.testCount = testCount;
 		}
 
 		public override void Send( EventListener listener )
 		{
-			listener.RunStarted(this.tests);
+			listener.RunStarted(name, testCount);
 		}
 	}
 

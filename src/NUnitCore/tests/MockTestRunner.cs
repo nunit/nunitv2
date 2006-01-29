@@ -39,7 +39,7 @@ namespace NUnit.Core.Tests
 
 			try
 			{
-				listener.RunStarted( new TestInfo[0] );
+				listener.RunStarted( string.Empty, 0 );
 				base.Call( "Run", args );
 				listener.RunFinished( new TestResult[0] );
 			}

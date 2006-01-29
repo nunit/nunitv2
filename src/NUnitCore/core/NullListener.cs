@@ -38,7 +38,7 @@ namespace NUnit.Core
 	[Serializable]
 	public class NullListener : EventListener
 	{
-		public void RunStarted( TestInfo[] tests ){ }
+		public void RunStarted( string name, int testCount ){ }
 
 		public void RunFinished( TestResult[] results ) { }
 

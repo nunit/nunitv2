@@ -50,9 +50,7 @@ namespace NUnit.TestUtilities
 
 		public void SimulateTestRun()
 		{
-			TestInfo[] tests = new TestInfo[] { test };
-
-			FireRunStarting( tests );
+			FireRunStarting( test.FullName, test.TestCount );
 
 			TestResult result = SimulateTest( test );
 

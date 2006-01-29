@@ -315,7 +315,7 @@ namespace NUnit.ConsoleRunner
 				this.progress = !options.xmlConsole && !options.labels;
 			}
 
-			public void RunStarted(TestInfo[] tests)
+			public void RunStarted(string name, int testCount)
 			{
 			}
 

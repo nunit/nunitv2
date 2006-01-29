@@ -23,9 +23,9 @@ namespace NUnit.Core
 		/// Run is starting
 		/// </summary>
 		/// <param name="tests">Array of tests to be run</param>
-		public void RunStarted( TestInfo[] tests )
+		public void RunStarted( string name, int testCount )
 		{
-			events.Enqueue( new RunStartedEvent( tests ) );
+			events.Enqueue( new RunStartedEvent( name, testCount ) );
 		}
 
 		/// <summary>

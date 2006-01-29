@@ -64,7 +64,7 @@ namespace NUnit.Core.Tests
 			internal int suiteStarted = 0;
 			internal int suiteFinished = 0;
 
-			public void RunStarted(TestInfo[] tests)
+			public void RunStarted(string name, int testCount)
 			{
 				runStarted++;
 			}

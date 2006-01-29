@@ -11,9 +11,9 @@ namespace NUnit.Core
 			this.eventListener = eventListener;
 		}
 
-		public virtual void RunStarted(TestInfo[] tests)
+		public virtual void RunStarted(string name, int testCount)
 		{
-			this.eventListener.RunStarted(tests);
+			this.eventListener.RunStarted(name, testCount);
 		}
 
 		public virtual void RunFinished(TestResult[] results)
