@@ -218,7 +218,7 @@ namespace NUnit.Util
 			for( int index = 0; index < runners.Length; index++ )
 				tests[index] = runners[index].Test;
 
-			this.listener.RunStarted( new TestInfo[]{ this.Test } );
+			this.listener.RunStarted( this.Test.Name, this.Test.TestCount );
 
 			TestSuiteResult result = new TestSuiteResult( new TestInfo( projectName, tests ), projectName );
 			foreach( TestRunner runner in runners )
@@ -231,7 +231,14 @@ namespace NUnit.Util
 
 		public virtual TestResult[] Run(EventListener listener, string[] testNames)
 		{
-			if ( testNames == null ) return new TestResult[] { Run( listener ) };
+			if ( testNames == null || testNames.Length == 0 ) 
+				return new TestResult[] { Run( listener ) };
+
+//			TestName[] testNames = new TestName[names.Length];
+//			for ( int index = 0; index < names.Length; index++ )
+//				testNames[index] = TestName.Parse( names[index] );
+//
+//			return Run( listener, testNames );
 
 			// Save active listener for derived classes
 			this.listener = listener;
@@ -243,7 +250,7 @@ namespace NUnit.Util
 //			foreach( Test test in tests )
 //				info[index++] = new TestInfo( test );
 //			listener.RunStarted( info );
-			this.listener.RunStarted( new TestInfo[]{ this.Test } );
+			this.listener.RunStarted( this.Test.Name, this.CountTestCases( testNames ) );
 
 			foreach( string name in testNames )
 			{
@@ -258,28 +265,35 @@ namespace NUnit.Util
 				}
 			}
 
-			this.listener.RunFinished( this.Results );
+			TestResult[] testResults = (TestResult[])results.ToArray( typeof( TestResult ) );
+			this.listener.RunFinished( testResults );
 
-			return (TestResult[])results.ToArray( typeof( TestResult ) );
+			return testResults;
 		}
 
-		public virtual TestResult[] Run(EventListener listener, TestName[] testNames)
-		{
-			// Save active listener for derived classes
-			this.listener = listener;
-			ArrayList results = new ArrayList();
-
-			this.listener.RunStarted( new TestInfo[]{ this.Test } );
-
-			foreach( TestName testName in testNames )
-			{
-				foreach( TestRunner runner in runners )
-					if ( testName.RunnerID == runner.ID )
-						results.Add( runner.Run( listener, new string[] { testName.UniqueName } ) );
-			}
-
-			return (TestResult[])results.ToArray( typeof( TestResult ) );
-		}
+//		public virtual TestResult[] Run(EventListener listener, TestName[] testNames)
+//		{
+//			// Save active listener for derived classes
+//			this.listener = listener;
+//			ArrayList results = new ArrayList();
+//
+//			this.listener.RunStarted( this.Test.FullName, this.Test.TestCount );
+//
+//			foreach( TestName testName in testNames )
+//			{
+//				foreach( TestRunner runner in runners )
+//					if ( testName.RunnerID == runner.ID )
+//					{
+//						results.AddRange( runner.Run( this, new string[] { testName.UniqueName } ) );
+//						break;
+//					}
+//			}
+//
+//			TestResult[] testResults = (TestResult[])results.ToArray( typeof( TestResult ) );
+//			this.listener.RunFinished( testResults );
+//
+//			return testResults;
+//		}
 
 		public virtual void BeginRun( EventListener listener )
 		{
@@ -305,16 +319,16 @@ namespace NUnit.Util
 			threadedRunner.BeginRun( listener, null );
 #endif
 		}
-		private void runnerProc()
-		{
-			this.listener.RunStarted( new TestInfo[]{ this.Test } );
-
-			foreach( TestRunner runner in runners )
-				if ( runner.Test != null )
-					runner.Run( this );
-
-			this.listener.RunFinished( this.Results );
-		}
+//		private void runnerProc()
+//		{
+//			this.listener.RunStarted( this.Test.FullName, this.Test.TestCount );
+//
+//			foreach( TestRunner runner in runners )
+//				if ( runner.Test != null )
+//					runner.Run( this );
+//
+//			this.listener.RunFinished( this.Results );
+//		}
 
 		public virtual void BeginRun( EventListener listener, string[] testNames )
 		{
@@ -328,16 +342,16 @@ namespace NUnit.Util
 			threadedRunner.BeginRun( listener, testNames );
 		}
 
-		private void runnerProc2()
-		{
-			this.listener.RunStarted( new TestInfo[]{ this.Test } );
-
-			foreach( TestRunner runner in runners )
-				if ( runner.Test != null )
-					runner.Run( this );
-
-			this.listener.RunFinished( this.Results );
-		}
+//		private void runnerProc2()
+//		{
+//			this.listener.RunStarted( this.Test.FullName, this.Test.TestCount );
+//
+//			foreach( TestRunner runner in runners )
+//				if ( runner.Test != null )
+//					runner.Run( this );
+//
+//			this.listener.RunFinished( this.Results );
+//		}
 
 		public virtual TestResult[] EndRun()
 		{
@@ -368,7 +382,7 @@ namespace NUnit.Util
 			this.listener.TestStarted( testCase );
 		}
 
-		public void RunStarted(TestInfo[] tests)
+		public void RunStarted(string name, int testCount)
 		{
 			// TODO: We may want to count how many runs are started
 			// Ignore - we provide our own
@@ -418,6 +432,38 @@ namespace NUnit.Util
 				foreach( TestRunner runner in runners )
 					if ( runner != null )
 						runner.Settings[name] = value;
+		}
+		#endregion
+
+		#region Helper Methods
+		private ITest FindTest(ITest test, string fullName)
+		{
+			if(test.UniqueName.Equals(fullName)) return test;
+			if(test.FullName.Equals(fullName)) return test;
+			
+			ITest result = null;
+			if(test is TestSuite)
+			{
+				TestSuite suite = (TestSuite)test;
+				foreach(Test testCase in suite.Tests)
+				{
+					result = FindTest(testCase, fullName);
+					if(result != null) break;
+				}
+			}
+
+			return result;
+		}
+
+		private ITest[] FindTests( ITest test, string[] names )
+		{
+			ITest[] tests = new ITest[ names.Length ];
+
+			int index = 0;
+			foreach( string name in names )
+				tests[index++] = FindTest( test, name );
+
+			return tests;
 		}
 		#endregion
 	}
