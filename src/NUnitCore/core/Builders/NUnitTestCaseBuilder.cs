@@ -81,7 +81,20 @@ namespace NUnit.Core.Builders
 
 				testCase.Categories = CategoryManager.GetCategories( method );
 				testCase.IsExplicit = Reflect.HasAttribute( method, "NUnit.Framework.ExplicitAttribute", false );
-			}			
+				
+				System.Attribute[] attributes = 
+					Reflect.GetAttributes( method, "NUnit.Framework.PropertyAttribute", false );
+
+				foreach( Attribute propertyAttribute in attributes ) 
+				{
+					string name = (string)Reflect.GetPropertyValue( propertyAttribute, "Name", BindingFlags.Public | BindingFlags.Instance );
+					if ( name != null && name != string.Empty )
+					{
+						object value = Reflect.GetPropertyValue( propertyAttribute, "Value", BindingFlags.Public | BindingFlags.Instance );
+						testCase.Properties[name] = value;
+					}
+				}
+			}
 
 			return testCase;
 		}

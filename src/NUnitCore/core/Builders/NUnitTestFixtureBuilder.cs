@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Reflection;
 
 namespace NUnit.Core.Builders
 {
@@ -73,6 +74,19 @@ namespace NUnit.Core.Builders
 
 				suite.Categories = CategoryManager.GetCategories( type );	
 				suite.IsExplicit = Reflect.HasAttribute( type, "NUnit.Framework.ExplicitAttribute", false );
+				
+				System.Attribute[] attributes = 
+					Reflect.GetAttributes( type, "NUnit.Framework.PropertyAttribute", false );
+
+				foreach( Attribute propertyAttribute in attributes ) 
+				{
+					string name = (string)Reflect.GetPropertyValue( propertyAttribute, "Name", BindingFlags.Public | BindingFlags.Instance );
+					if ( name != null && name != string.Empty )
+					{
+						object value = Reflect.GetPropertyValue( propertyAttribute, "Value", BindingFlags.Public | BindingFlags.Instance );
+						suite.Properties[name] = value;
+					}
+				}
 			}
 
 			return suite;
