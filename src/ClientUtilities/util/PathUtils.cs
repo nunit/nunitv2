@@ -30,12 +30,11 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Collections;
 using System.Runtime.InteropServices;
 
 namespace NUnit.Util
 {
-	// TODO: Remove dependency on shlwapi.dll for portability
-
 	/// <summary>
 	/// Static methods for manipulating project paths, including both directories
 	/// and files. Some synonyms for System.Path methods are included as well.
@@ -45,6 +44,9 @@ namespace NUnit.Util
 		public const uint FILE_ATTRIBUTE_DIRECTORY  = 0x00000010;  
 		public const uint FILE_ATTRIBUTE_NORMAL     = 0x00000080;  
 		public const int MAX_PATH = 256;
+
+		protected static char DirectorySeparatorChar = Path.DirectorySeparatorChar;
+		protected static char AltDirectorySeparatorChar = Path.AltDirectorySeparatorChar;
 
 		#region Public methods
 
@@ -60,27 +62,46 @@ namespace NUnit.Util
 		/// </summary>
 		public static string RelativePath( string from, string to )
 		{
-			from = Canonicalize( from );
-			to = Canonicalize( to );
-
-			// Second argument to PathRelativeTo must be absolute
-			if ( !Path.IsPathRooted( to ) )
+			if (from == null)
+				throw new ArgumentNullException (from);
+			if (to == null)
+				throw new ArgumentNullException (to);
+			if (!Path.IsPathRooted (to))
 				return to;
-			
-			StringBuilder sb = new StringBuilder( MAX_PATH );
-
-			// Return null if call fails
-			if ( !PathRelativePathTo( sb, from, FILE_ATTRIBUTE_DIRECTORY, to, FILE_ATTRIBUTE_DIRECTORY ) )
+			if (Path.GetPathRoot (from) != Path.GetPathRoot (to))
 				return null;
 
-			// Remove initial .\ from path if present
-			if ( sb.Length >=2 && sb[0] == '.' && sb[1] == '\\' )
-				sb.Remove( 0, 2 );
+			string[] _from = from.Split (PathUtils.DirectorySeparatorChar, 
+				PathUtils.AltDirectorySeparatorChar);
+			string[] _to   =   to.Split (PathUtils.DirectorySeparatorChar, 
+				PathUtils.AltDirectorySeparatorChar);
 
-			if ( sb.Length == 0 )
-				return null;
+			StringBuilder sb = new StringBuilder (Math.Max (from.Length, to.Length));
 
-			return sb.ToString();
+			int last_common, min = Math.Min (_from.Length, _to.Length);
+			for (last_common = 0; last_common < min;  ++last_common) 
+			{
+				if (!_from [last_common].Equals (_to [last_common]))
+					break;
+			}
+
+			if (last_common < _from.Length)
+				sb.Append ("..");
+			for (int i = last_common + 1; i < _from.Length; ++i) 
+			{
+				sb.Append (PathUtils.DirectorySeparatorChar).Append ("..");
+			}
+
+			if (sb.Length > 0)
+				sb.Append (PathUtils.DirectorySeparatorChar);
+			if (last_common < _to.Length)
+				sb.Append (_to [last_common]);
+			for (int i = last_common + 1; i < _to.Length; ++i) 
+			{
+				sb.Append (PathUtils.DirectorySeparatorChar).Append (_to [i]);
+			}
+
+			return sb.ToString ();
 		}
 
 		/// <summary>
@@ -88,11 +109,31 @@ namespace NUnit.Util
 		/// </summary>
 		public static string Canonicalize( string path )
 		{
-			StringBuilder sb = new StringBuilder( MAX_PATH );
-			if ( !PathCanonicalize( sb, path ) )
-				throw new ArgumentException( string.Format( "Invalid path passed to PathCanonicalize: {0}", path ) );
+			ArrayList parts = new ArrayList(
+				path.Split( DirectorySeparatorChar, AltDirectorySeparatorChar ) );
 
-			return sb.ToString();
+			for( int index = 0; index < parts.Count; )
+			{
+				string part = (string)parts[index];
+		
+				switch( part )
+				{
+					case ".":
+						parts.RemoveAt( index );
+						break;
+				
+					case "..":
+						parts.RemoveAt( index );
+						if ( index > 0 )
+							parts.RemoveAt( --index );
+						break;
+					default:
+						index++;
+						break;
+				}
+			}
+	
+			return String.Join( DirectorySeparatorChar.ToString(), (string[])parts.ToArray( typeof( string ) ) );
 		}
 
 		/// <summary>
@@ -102,7 +143,7 @@ namespace NUnit.Util
 		/// </summary>
 		public static bool SamePath( string path1, string path2 )
 		{
-			return Canonicalize(path1).ToLower() == Canonicalize(path2).ToLower();
+			return string.Compare( Canonicalize(path1), Canonicalize(path2), PathUtils.IsWindows() ) == 0;
 		}
 
 		/// <summary>
@@ -126,34 +167,25 @@ namespace NUnit.Util
 
 			// if lengths are the same, check for equality
 			if ( length1 == length2 )
-				return path1.ToLower() == path2.ToLower();
+				//return path1.ToLower() == path2.ToLower();
+				return string.Compare( path1, path2, IsWindows() ) == 0;
 
 			// path 2 is longer than path 1: see if initial parts match
-			if ( path1.ToLower() != path2.Substring( 0, length1 ).ToLower() )
+			//if ( path1.ToLower() != path2.Substring( 0, length1 ).ToLower() )
+			if ( string.Compare( path1, path2.Substring( 0, length1 ), IsWindows() ) != 0 )
 				return false;
 			
 			// must match through or up to a directory separator boundary
-			return	path2[length1-1] == Path.DirectorySeparatorChar ||
-					path2[length1] == Path.DirectorySeparatorChar;
+			return	path2[length1-1] == DirectorySeparatorChar ||
+				path2[length1] == DirectorySeparatorChar;
 		}
-
 		#endregion
 
-		#region Shlwapi functions used internally
-
-		[DllImport("shlwapi.dll")]
-		private static extern bool PathRelativePathTo(
-			StringBuilder result,
-			string from,
-			uint attrFrom,
-			string to,
-			uint attrTo );
-
-		[DllImport("shlwapi.dll")]
-		private static extern bool PathCanonicalize(
-			StringBuilder result,
-			string path );
-		
+		#region Helper Methods
+		private static bool IsWindows()
+		{
+			return PathUtils.DirectorySeparatorChar == '\\';
+		}
 		#endregion
 	}
 }
