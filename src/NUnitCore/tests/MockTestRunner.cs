@@ -41,7 +41,7 @@ namespace NUnit.Core.Tests
 			{
 				listener.RunStarted( string.Empty, 0 );
 				base.Call( "Run", args );
-				listener.RunFinished( new TestResult[0] );
+				listener.RunFinished( (TestResult)null );
 			}
 			catch( Exception e )
 			{

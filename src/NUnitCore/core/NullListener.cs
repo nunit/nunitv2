@@ -40,7 +40,7 @@ namespace NUnit.Core
 	{
 		public void RunStarted( string name, int testCount ){ }
 
-		public void RunFinished( TestResult[] results ) { }
+		public void RunFinished( TestResult result ) { }
 
 		public void RunFinished( Exception exception ) { }
 

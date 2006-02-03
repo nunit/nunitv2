@@ -16,9 +16,9 @@ namespace NUnit.Core
 			this.eventListener.RunStarted(name, testCount);
 		}
 
-		public virtual void RunFinished(TestResult[] results)
+		public virtual void RunFinished(TestResult result)
 		{
-			this.eventListener.RunFinished(results);
+			this.eventListener.RunFinished(result);
 		}
 
 		public virtual void RunFinished(Exception exception)

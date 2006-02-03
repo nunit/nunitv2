@@ -44,7 +44,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// Results from the last test run
 		/// </summary>
-		private TestResult[] testResults;
+		private TestResult testResult;
 
 		/// <summary>
 		/// The thread on which Run was called. Set to the
@@ -52,6 +52,9 @@ namespace NUnit.Core
 		/// </summary>
 		private Thread runThread;
 
+		/// <summary>
+		/// The settings for this runner
+		/// </summary>
 		private TestRunnerSettings settings;
 		#endregion
 
@@ -85,9 +88,9 @@ namespace NUnit.Core
 		/// <summary>
 		/// Results from the last test run
 		/// </summary>
-		public TestResult[] Results
+		public TestResult TestResult
 		{
-			get { return testResults; }
+			get { return testResult; }
 		}
 
 		public ITestFilter Filter
@@ -177,23 +180,11 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Methods for Counting TestCases
-
-		public int CountTestCases( string testName )
+		#region CountTestCases
+		public int CountTestCases( ITestFilter filter )
 		{
-			Test test = FindTest( suite, testName );
-			return test == null ? 0 : test.CountTestCases();
+			return suite.CountTestCases( filter );
 		}
-
-		public int CountTestCases(string[] testNames ) 
-		{
-			int count = 0;
-			foreach( string testName in testNames)
-				count += this.CountTestCases( testName );
-
-			return count;
-		}
-
 		#endregion
 
 		#region GetCategories Method
@@ -204,35 +195,47 @@ namespace NUnit.Core
 		#endregion
 
 		#region Methods for Running Tests
-
 		public virtual TestResult Run( EventListener listener )
 		{
-			Test[] tests = new Test[] { suite };
-			TestResult[] results = Run( listener, tests );
-			return results[0];
-		}
+			Addins.Save();
 
-		public virtual TestResult[] Run( EventListener listener, string[] testNames )
-		{
-			if ( testNames == null || testNames.Length == 0 )
-				return Run( listener, new Test[] { suite } );
-			else
-				return Run( listener, FindTests( suite, testNames ) );
+			try
+			{
+				// Take note of the fact that we are running
+				this.runThread = Thread.CurrentThread;
+
+				listener.RunStarted( this.Test.FullName, suite.CountTestCases( Filter ) );
+				
+				testResult = suite.Run( listener, Filter );
+
+				// Signal that we are done
+				listener.RunFinished( testResult );
+
+				// Return result array
+				return testResult;
+			}
+			catch( Exception exception )
+			{
+				// Signal that we finished with an exception
+				listener.RunFinished( exception );
+				// Rethrow - should we do this?
+				throw;
+			}
+			finally
+			{
+				runThread = null;
+				Addins.Restore();
+			}
 		}
 
 		public void BeginRun( EventListener listener )
 		{
-			BeginRun( listener, null );
+			testResult = this.Run( listener );
 		}
 
-		public virtual void BeginRun( EventListener listener, string[] testNames )
+		public virtual TestResult EndRun()
 		{
-			testResults = this.Run( listener, testNames );
-		}
-
-		public virtual TestResult[] EndRun()
-		{
-			return Results;
+			return TestResult;
 		}
 
 		/// <summary>
@@ -306,77 +309,6 @@ namespace NUnit.Core
 				tests[index++] = FindTest( test, name );
 
 			return tests;
-		}
-
-		/// <summary>
-		/// Private method to run a set of tests. This routine is the workhorse
-		/// that is called anytime tests are run.
-		/// </summary>
-		private TestResult[] Run( EventListener listener, Test[] tests )
-		{
-			Addins.Save();
-
-			try
-			{
-				// Take note of the fact that we are running
-				this.runThread = Thread.CurrentThread;
-
-				// Create an array for the results
-				testResults = new TestResult[ tests.Length ];
-
-				// Signal that we are starting the run
-				TestInfo[] info = new TestInfo[tests.Length];
-				int index = 0;
-				int count = 0;
-				foreach( Test test in tests )
-				{
-					info[index++] = new TestInfo( test );
-					count += test.TestCount;
-				}
-				listener.RunStarted( tests[0].FullName, count );
-				
-				// Run each test, saving the results
-				index = 0;
-				foreach( Test test in tests )
-				{
-					string workingDir = null;
-					if ( !(test is TestAssembly) ) // TestAssembly sets the cwd itself
-					{
-						ITest t = test;
-						do
-						{
-							t = t.Parent;
-						}
-						while( t != null && !(t is TestAssembly) );
-						
-						if ( t != null )
-							workingDir = Path.GetDirectoryName( t.Name );
-					}
-
-					using( new DirectorySwapper( workingDir ) )
-					{
-						testResults[index++] = test.Run( listener, Filter );
-					}
-				}
-
-				// Signal that we are done
-				listener.RunFinished( testResults );
-
-				// Return result array
-				return testResults;
-			}
-			catch( Exception exception )
-			{
-				// Signal that we finished with an exception
-				listener.RunFinished( exception );
-				// Rethrow - should we do this?
-				throw;
-			}
-			finally
-			{
-				runThread = null;
-				Addins.Restore();
-			}
 		}
 		#endregion
 	}

@@ -182,9 +182,13 @@ namespace NUnit.Util.Tests
 			loader.ReloadOnRun = false;
 			
 			LoadTest( assembly );
-			loader.RunTest( ((TestEventArgs)catcher.Events[3]).Test.FullName );
-			while( loader.IsTestRunning )
+			loader.RunTests();
+			do 
+			{
+				// TODO: Find a more robust way of handling this
 				Thread.Sleep( 500 );
+			}
+			while( loader.IsTestRunning );
 			
 			Assert.AreEqual( 48, catcher.Events.Count );
 			Assert.AreEqual( TestAction.RunStarting, ((TestEventArgs)catcher.Events[4]).Action );

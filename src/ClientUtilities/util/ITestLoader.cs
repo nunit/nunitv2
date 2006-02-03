@@ -56,7 +56,7 @@ namespace NUnit.Util
 		string TestFileName { get; }
 
 		// Our last test results
-		TestResult[] Results { get; }
+		TestResult TestResult { get; }
 
 		#endregion
 
@@ -92,14 +92,11 @@ namespace NUnit.Util
 		// Reload current test
 		void ReloadTest();
 
-		// Set a filter for running tests
-		void SetFilter( ITestFilter filter );
+		// Run all tests
+		void RunTests();
 
-		// Run a test suite
-		void RunTest( string testName );
-
-		// Run a collection of tests
-		void RunTests( string[] testNames );
+		// Run specific tests
+		void RunTests( ITestFilter filter );
 
 		// Cancel the running test
 		void CancelTestRun();

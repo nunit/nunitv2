@@ -319,7 +319,7 @@ namespace NUnit.ConsoleRunner
 			{
 			}
 
-			public void RunFinished(TestResult[] results)
+			public void RunFinished(TestResult result)
 			{
 			}
 

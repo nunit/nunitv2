@@ -112,10 +112,9 @@ namespace NUnit.Core.Tests
 		{
 			runner.Load(mockDll);
 			runner.BeginRun( NullListener.NULL );
-			TestResult[] results = runner.EndRun();
-			Assert.IsNotNull( results );
-			Assert.AreEqual( 1, results.Length );
-			ResultSummarizer summary = new ResultSummarizer( results[0] );
+			TestResult result = runner.EndRun();
+			Assert.IsNotNull( result );
+			ResultSummarizer summary = new ResultSummarizer( result );
 			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun, summary.ResultCount );
 		}
 
@@ -135,10 +134,9 @@ namespace NUnit.Core.Tests
 		{
 			runner.Load( "TestSuite", assemblies );
 			runner.BeginRun( NullListener.NULL );
-			TestResult[] results = runner.EndRun();
-			Assert.IsNotNull( results );
-			Assert.AreEqual( 1, results.Length );
-			ResultSummarizer summary = new ResultSummarizer( results[0] );
+			TestResult result = runner.EndRun();
+			Assert.IsNotNull( result );
+			ResultSummarizer summary = new ResultSummarizer( result );
 			Assert.AreEqual( 
 				NoNamespaceTestFixture.Tests + MockAssembly.Tests - MockAssembly.NotRun, 
 				summary.ResultCount);

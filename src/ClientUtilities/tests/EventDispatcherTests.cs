@@ -179,7 +179,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void RunFinished()
 		{
-			dispatcher.FireRunFinished( new TestResult[] { result } );
+			dispatcher.FireRunFinished( result );
 			CheckEvent( TestAction.RunFinished, result );
 		}
 

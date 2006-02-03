@@ -66,7 +66,7 @@ namespace NUnit.Util
 		private TestInfo test;
 
 		// The results from our tests
-		private TestResult[] results;
+		private TestResult testResult;
 		
 		// The exception causing a failure
 		private Exception exception;
@@ -122,19 +122,19 @@ namespace NUnit.Util
 			this.test = test;
 		}
 
-		// TestFinished, SuiteFinished
-		public TestEventArgs( TestAction action, TestResult result )
+		// TestFinished, SuiteFinished, RunFinished
+		public TestEventArgs( TestAction action, TestResult testResult )
 		{
 			this.action = action;
-			this.results = new TestResult[] { result };
+			this.testResult = testResult;
 		}
 
 		// RunFinished
-		public TestEventArgs( TestAction action, TestResult[] results )
-		{
-			this.action = action;
-			this.results = results;
-		}
+//		public TestEventArgs( TestAction action, TestResult[] results )
+//		{
+//			this.action = action;
+//			this.results = results;
+//		}
 
 		// RunFinished, TestException
 		public TestEventArgs( TestAction action, Exception exception )
@@ -191,13 +191,13 @@ namespace NUnit.Util
 
 		public TestResult Result
 		{
-			get { return results == null || results.Length == 0 ? null : results[0]; }
+			get { return testResult; }
 		}
 
-		public TestResult[] Results
-		{
-			get { return results; }
-		}
+//		public TestResult[] Results
+//		{
+//			get { return results; }
+//		}
 
 		public Exception Exception
 		{

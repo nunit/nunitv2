@@ -17,7 +17,7 @@ namespace NUnit.Core.Tests
 				new TestStartedEvent( null ),
 				new TestFinishedEvent( null ),
 				new SuiteFinishedEvent( null ),
-				new RunFinishedEvent( new TestResult[0] )
+				new RunFinishedEvent( (TestResult)null )
 			};
 
 		private void EnqueueEvents( EventQueue q )

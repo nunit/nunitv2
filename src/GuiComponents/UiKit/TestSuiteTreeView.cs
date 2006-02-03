@@ -26,7 +26,7 @@
 '
 '***********************************************************************************/
 #endregion
-
+#define USE_NAME_FILTER
 using System;
 using System.IO;
 using System.Drawing;
@@ -403,9 +403,9 @@ namespace NUnit.UiKit
 
 		private void OnRunFinished( object sender, TestEventArgs e )
 		{
-			if ( e.Results != null )
-				foreach( TestResult result in e.Results )
-					this[result].Expand();
+			if ( e.Result != null )
+//				foreach( TestResult result in e.Results )
+					this[e.Result].Expand();
 
 			if ( propertiesDialog != null )
 				propertiesDialog.Invoke( new PropertiesDisplayHandler( propertiesDialog.DisplayProperties ) );
@@ -530,7 +530,8 @@ namespace NUnit.UiKit
 			if ( runCommandEnabled )
 			{
 				runCommandEnabled = false;
-				RunTest( contextNode.Test );
+
+				loader.RunTests( MakeFilter( contextNode.Test ) );
 			}
 		}
 
@@ -618,9 +619,8 @@ namespace NUnit.UiKit
 			{
 				runCommandEnabled = false;
 				
-				// Since this is a terminal node, don't use a filter
-				loader.SetFilter( null );
-				loader.RunTest( SelectedTest.UniqueName );
+				// Since this is a terminal node, don't use a category filter
+				loader.RunTests( new NameFilter( SelectedTest.TestName ) );
 			}
 		}
 
@@ -732,6 +732,11 @@ namespace NUnit.UiKit
 		{
 			treeMap.Clear();
 			Nodes.Clear();
+		}
+
+		public void RunTests()
+		{
+			loader.RunTests( MakeFilter( SelectedTests ) );			
 		}
 
 		protected override void OnAfterCollapse(TreeViewEventArgs e)
@@ -848,43 +853,6 @@ namespace NUnit.UiKit
 		private void OnPropertiesDialogClosed( object sender, System.EventArgs e )
 		{
 			propertiesDialog = null;
-		}
-
-		public void RunTests()
-		{
-			RunTests( SelectedTests );			
-		}
-
-		private void RunTest( TestInfo test )
-		{
-			SetFilter();
-
-			loader.RunTest( test.UniqueName );
-		}
-
-		private void RunTests( TestInfo[] tests )
-		{
-			SetFilter();
-
-			string[] testNames = new string[tests.Length];
-			int index = 0;
-			foreach( TestInfo test in tests )
-				testNames[index++] = test.UniqueName;
-			loader.RunTests( testNames );
-		}
-
-		private void SetFilter()
-		{
-			ITestFilter filter = null;
-
-			if ( SelectedCategories != null && SelectedCategories.Length > 0 )
-			{
-				filter = new CategoryFilter( SelectedCategories );
-				if ( ExcludeSelectedCategories )
-					filter = new NotFilter( filter );
-			}
-
-			loader.SetFilter( filter );
 		}
 
 		#endregion
@@ -1163,6 +1131,28 @@ namespace NUnit.UiKit
 		{
 			return treeMap[test.UniqueName] as TestSuiteTreeNode;
 		}	
+		
+		private ITestFilter MakeFilter( TestInfo test )
+		{
+			return MakeFilter( new TestInfo[] { test } );
+		}
+
+		private ITestFilter MakeFilter( TestInfo[] tests )
+		{
+			NameFilter nameFilter = new NameFilter();
+			foreach( TestInfo test in tests )
+				nameFilter.Add( test.TestName );
+
+			if ( SelectedCategories == null || SelectedCategories.Length == 0 )
+				return nameFilter;
+
+			ITestFilter catFilter = new CategoryFilter( SelectedCategories );
+			if ( ExcludeSelectedCategories )
+				catFilter = new NotFilter( catFilter );
+
+			return new AndFilter( nameFilter, catFilter );
+		}
+
 		#endregion
 
 	}

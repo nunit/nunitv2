@@ -105,7 +105,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Result of the last test run
 		/// </summary>
-		private TestResult[] results = null;
+		private TestResult testResult = null;
 
 		/// <summary>
 		/// The last exception received when trying to load, unload or run a test
@@ -135,8 +135,6 @@ namespace NUnit.Util
 		/// </summary>
 		private bool reloadOnRun = false;
 
-		private ITestFilter filter;
-
 		#endregion
 
 		#region Constructors
@@ -147,13 +145,6 @@ namespace NUnit.Util
 		public TestLoader(TestEventDispatcher eventDispatcher )
 		{
 			this.events = eventDispatcher;
-			this.filter = new EmptyFilter();
-
-			string mdSetting = ConfigurationSettings.AppSettings["multipleAppDomains"];
-			if ( mdSetting != null && mdSetting.ToLower() == "true" )
-				this.multiDomain = true;
-			else
-				this.multiDomain = false;
 		}
 
 		#endregion
@@ -191,9 +182,9 @@ namespace NUnit.Util
 			get { return testProject.ProjectPath; }
 		}
 
-		public TestResult[] Results
+		public TestResult TestResult
 		{
-			get { return results; }
+			get { return testResult; }
 		}
 
 		public Exception LastException
@@ -251,10 +242,10 @@ namespace NUnit.Util
 			events.FireRunStarting( name, testCount );
 		}
 
-		void EventListener.RunFinished(NUnit.Core.TestResult[] results)
+		void EventListener.RunFinished(NUnit.Core.TestResult testResult)
 		{
-			this.results = results;
-			events.FireRunFinished( results );
+			this.testResult = testResult;
+			events.FireRunFinished( testResult );
 			runningTests = null;
 		}
 
@@ -382,15 +373,11 @@ namespace NUnit.Util
 				}
 
 				OnProjectLoad( newProject );
-
-//				return true;
 			}
 			catch( Exception exception )
 			{
 				lastException = exception;
 				events.FireProjectLoadFailed( filePath, exception );
-
-//				return false;
 			}
 		}
 
@@ -414,15 +401,11 @@ namespace NUnit.Util
 				NUnitProject newProject = NUnitProject.FromAssemblies( assemblies );
 
 				OnProjectLoad( newProject );
-
-//				return true;
 			}
 			catch( Exception exception )
 			{
 				lastException = exception;
 				events.FireProjectLoadFailed( "New Project", exception );
-
-//				return false;
 			}
 		}
 
@@ -516,7 +499,7 @@ namespace NUnit.Util
 
 				loadedTest = testRunner.Test;
 				loadedTestName = testName;
-				results = null;
+				testResult = null;
 				reloadPending = false;
 			
 				if ( ReloadOnChange )
@@ -575,7 +558,7 @@ namespace NUnit.Util
 
 					loadedTest = null;
 					loadedTestName = null;
-					results = null;
+					testResult = null;
 					reloadPending = false;
 
 					events.FireTestUnloaded( fileName, this.loadedTest );
@@ -638,47 +621,28 @@ namespace NUnit.Util
 		#endregion
 
 		#region Methods for Running Tests
-
-		public void SetFilter( ITestFilter filter )
+		/// <summary>
+		/// Run all the tests
+		/// </summary>
+		public void RunTests()
 		{
-			if (filter == null)
-				filter = EmptyFilter.Empty;
-			this.filter = filter;
+			RunTests( new EmptyFilter() );
 		}
 
 		/// <summary>
-		/// Run the currently loaded top level test suite
+		/// Run selected tests using a filter
 		/// </summary>
-		public void RunLoadedTest()
-		{
-			RunTest( loadedTest.UniqueName );
-		}
-
-		/// <summary>
-		/// Run a testcase or testsuite from the currrent tree
-		/// firing the RunStarting and RunFinished events.
-		/// Silently ignore the call if a test is running
-		/// to allow for latency in the UI.
-		/// </summary>
-		public void RunTest( string testName )
-		{
-			RunTests( new string[] { testName } );
-		}
-
-		public void RunTests( string[] testNames )
+		/// <param name="filter">The filter to be used</param>
+		public void RunTests( ITestFilter filter )
 		{
 			if ( !IsTestRunning )
 			{
 				if ( reloadPending || ReloadOnRun )
 					ReloadTest();
 
-				runningTests = testNames;
-
 				testRunner.Filter = filter;
-				if ( testNames.Length == 1 && testNames[0] == loadedTest.UniqueName )
-					testRunner.BeginRun( this );
-				else
-					testRunner.BeginRun( this, testNames );
+
+				testRunner.BeginRun( this );
 			}
 		}
 
@@ -699,7 +663,6 @@ namespace NUnit.Util
 			list.AddRange(testRunner.GetCategories());
 			return list;
 		}
-
 		#endregion
 
 		#region Helper Methods

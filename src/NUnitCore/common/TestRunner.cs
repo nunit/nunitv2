@@ -93,15 +93,19 @@ namespace NUnit.Core
 			get;
 		}
 
+		/// <summary>
+		/// The loaded test, converted to a tree of TestNodes so they can be
+		/// serialized and marshalled to a remote client.
+		/// </summary>
 		TestNode Test
 		{
 			get;
 		}
 
 		/// <summary>
-		/// Results from the last test run.
+		/// Result of the last test run.
 		/// </summary>
-		TestResult[] Results
+		TestResult TestResult
 		{
 			get;
 		}
@@ -159,18 +163,11 @@ namespace NUnit.Core
 
 		#region CountTestCases Methods
 		/// <summary>
-		/// Count Test Cases under a given test name
+		/// Count Test Cases using a filter
 		/// </summary>
-		/// <param name="testName">The name of a test case, fixture or suite</param>
+		/// <param name="testName">The filter to apply</param>
 		/// <returns>The number of test cases found</returns>
-		int CountTestCases(string testName );
-
-		/// <summary>
-		/// Count test cases starting at a set of roots
-		/// </summary>
-		/// <param name="testNames">An array of names of test cases, fixtures or suites</param>
-		/// <returns>The number of test cases found</returns>
-		int CountTestCases(string[] testNames);
+		int CountTestCases(ITestFilter filter );
 		#endregion
 
 		#region GetCategories Method
@@ -192,14 +189,6 @@ namespace NUnit.Core
 		TestResult Run(NUnit.Core.EventListener listener);
 		
 		/// <summary>
-		/// Run a set of loaded tests and return a set of results.  The test is run
-		/// synchronously and the listener interface is notified as it progresses.
-		/// </summary>
-		/// <param name="listener">Interface to receive EventListener notifications</param>
-		/// <param name="testNames">The names of the test cases, fixtures or suites to be run</param>
-		TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames);
-
-		/// <summary>
 		/// Start a run of all loaded tests. The tests are run aynchronously and the 
 		/// listener interface is notified as it progresses.
 		/// </summary>
@@ -207,14 +196,10 @@ namespace NUnit.Core
 		void BeginRun(NUnit.Core.EventListener listener);
 		
 		/// <summary>
-		/// Start running a set of loaded tests. The tests are run asynchronously and 
-		/// the listener interface is notified as it progresses.
+		/// Wait for an asynchronous run to complete and return the result.
 		/// </summary>
-		/// <param name="listener">Interface to receive EventListener notifications</param>
-		/// <param name="testNames">The names of the test cases, fixtures or suites to be run</param>
-		void BeginRun(NUnit.Core.EventListener listener, string[] testNames);
-
-		TestResult[] EndRun();
+		/// <returns>A TestResult for the entire run</returns>
+		TestResult EndRun();
 
 		/// <summary>
 		///  Cancel the test run that is in progress. For a synchronous run,

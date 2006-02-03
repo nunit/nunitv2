@@ -1489,7 +1489,7 @@ namespace NUnit.Gui
 
 		private void toolsMenu_Popup(object sender, System.EventArgs e)
 		{		
-			saveXmlResultsMenuItem.Enabled = IsTestLoaded && TestLoader.Results != null;
+			saveXmlResultsMenuItem.Enabled = IsTestLoaded && TestLoader.TestResult != null;
 			exceptionDetailsMenuItem.Enabled = TestLoader.LastException != null;
 			frameworkInfoMenuItem.Enabled = IsTestLoaded;
 		}
@@ -1631,7 +1631,7 @@ namespace NUnit.Gui
 				try
 				{
 					TestLoader.ReloadOnRun = false;
-					TestLoader.RunLoadedTest();
+					TestLoader.RunTests();
 				}
 				finally
 				{

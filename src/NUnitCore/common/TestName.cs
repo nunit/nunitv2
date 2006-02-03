@@ -152,6 +152,21 @@ namespace NUnit.Core
 		}
 		#endregion
 
+		#region Operator Overrides
+		public static bool operator ==( TestName name1, TestName name2 )
+		{
+			if ( Object.Equals( name1, null ) )
+				return Object.Equals( name2, null );
+
+			return name1.Equals( name2 );
+		}
+
+		public static bool operator !=( TestName name1, TestName name2 )
+		{
+			return name1 == name2 ? false : true;
+		}
+		#endregion
+
 		#region ICloneable Implementation
 		/// <summary>
 		/// Returns a duplicate of this TestName

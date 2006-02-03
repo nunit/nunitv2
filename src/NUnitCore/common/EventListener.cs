@@ -49,7 +49,7 @@ namespace NUnit.Core
 		/// Run finished successfully
 		/// </summary>
 		/// <param name="results">Array of test results</param>
-		void RunFinished( TestResult[] results );
+		void RunFinished( TestResult result );
 
 		/// <summary>
 		/// Run was terminated due to an exception

@@ -208,22 +208,37 @@ namespace NUnit.Util
 
 		#region Running Tests
 
-		public override TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames)
+		public override TestResult Run( NUnit.Core.EventListener listener )
 		{
 			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
 			{
-				return base.Run( listener, testNames );
+				return base.Run( listener );
 			}
 		}
 
+//		public override TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames)
+//		{
+//			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
+//			{
+//				return base.Run( listener, testNames );
+//			}
+//		}
 
-		public override void BeginRun( EventListener listener, string[] testNames )
+		public override void BeginRun( EventListener listener )
 		{
 			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
 			{
-				base.BeginRun( listener, testNames );
+				base.BeginRun( listener );
 			}
 		}
+
+//		public override void BeginRun( EventListener listener, string[] testNames )
+//		{
+//			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
+//			{
+//				base.BeginRun( listener, testNames );
+//			}
+//		}
 
 		// For now, just publish any unhandled exceptions and let the listener
 		// figure out what to do with them.

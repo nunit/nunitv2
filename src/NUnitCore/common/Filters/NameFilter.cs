@@ -39,41 +39,78 @@ namespace NUnit.Core.Filters
 	[Serializable]
 	public class NameFilter : ITestFilter
 	{
-		private ArrayList testNodes;
+		private ArrayList testNames = new ArrayList();
 
-		public NameFilter(ITest node)
+		/// <summary>
+		/// Construct an empty NameFilter
+		/// </summary>
+		public NameFilter() { }
+
+		/// <summary>
+		/// Construct a NameFilter for a single TestName
+		/// </summary>
+		/// <param name="testName"></param>
+		public NameFilter( TestName testName )
 		{
-			testNodes = new ArrayList();
-			testNodes.Add(node);
+			testNames.Add( testName );
 		}
 
-		public NameFilter(ArrayList nodes) 
+		/// <summary>
+		/// Add a TestName to a NameFilter
+		/// </summary>
+		/// <param name="testName"></param>
+		public void Add( TestName testName )
 		{
-			testNodes = nodes;
+			testNames.Add( testName );
 		}
 
-        public bool Pass(ITest test)
+		/// <summary>
+		/// Test the filter on a given test node
+		/// </summary>
+		/// <param name="test"></param>
+		/// <returns></returns>
+		public bool Pass(ITest test)
         {
-            bool passed = false;
+			foreach (TestName testName in testNames )
+			{
+				if ( test.TestName == testName )
+					return true;
 
-            foreach (ITest node in testNodes)
-            {
-                // TODO: Make this more efficient when applied repeatedly to nodes in a tree
-                if ( test == node || IsDescendantOf( node, test ) || test.IsSuite && IsDescendantOf( test, node ) )
-                {
-                        passed = true;
-                        break;
-                }
-            }
+				if ( IsDescendantOf( testName, test ) )
+					return true;
 
-            return passed;
+				if ( IsParentOf( testName, test ) )
+					return true;
+			}
+
+			return false;
         }
 
-		private bool IsDescendantOf( ITest target, ITest child )
+		private bool IsDescendantOf( TestName testName, ITest test )
 		{
-			for( ITest parent = child.Parent; parent != null; parent = parent.Parent )
+			for( ITest parent = test.Parent; parent != null; parent = parent.Parent )
 			{
-				if ( parent == target )
+				if ( parent.TestName == testName )
+					return true;
+			}
+
+			return false;
+		}
+
+		private bool IsParentOf( TestName testName, ITest test )
+		{
+			if ( !test.IsSuite || test.Tests == null )
+				return false;
+
+			foreach( ITest child in test.Tests )
+			{
+				if ( child.TestName == testName )
+					return true;
+			}
+
+			foreach( ITest child in test.Tests )
+			{
+				if ( IsParentOf( testName, child ) )
 					return true;
 			}
 

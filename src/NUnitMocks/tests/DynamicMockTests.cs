@@ -62,6 +62,15 @@ namespace NUnit.Mocks.Tests
 		}
 
 		[Test]
+		public void RefParameter()
+		{
+			int x = 7;
+			mock.Expect( "Increment" );
+			instance.Increment( ref x );
+			mock.Verify();
+		}
+
+		[Test]
 		public void MethodWithReturnValue()
 		{
 			mock.SetReturnValue( "GetInt", 5 );
@@ -130,6 +139,7 @@ namespace NUnit.Mocks.Tests
 			decimal GetDecimal();
 			char GetChar();
 			int Add( int a, int b );
+			void Increment( ref int n );
 		}
 
 		class DerivedMock : DynamicMock

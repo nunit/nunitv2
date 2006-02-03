@@ -54,7 +54,7 @@ namespace NUnit.TestUtilities
 
 			TestResult result = SimulateTest( test );
 
-			FireRunFinished( new TestResult[] { result } );
+			FireRunFinished( result );
 		}
 
 		private TestResult SimulateTest( TestNode test )

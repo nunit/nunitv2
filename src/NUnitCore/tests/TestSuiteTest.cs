@@ -92,7 +92,7 @@ namespace NUnit.Core.Tests
 			Assert.IsNotNull( test, "Cannot find ExplicitlyRunTest" );
 			Assert.IsTrue( test.IsExplicit, "Test not marked Explicit" );
 
-			NameFilter filter = new NameFilter( test );
+			NameFilter filter = new NameFilter( test.TestName );
 			TestResult result = mockTestFixture.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
 			Assert.AreEqual( 1, summarizer.ResultCount );
@@ -166,7 +166,7 @@ namespace NUnit.Core.Tests
 			Test bottom = (Test)firstTest.Tests[2];
 			
 			RecordingListener listener = new RecordingListener();
-			NameFilter filter = new NameFilter(bottom);
+			NameFilter filter = new NameFilter(bottom.TestName);
 			testSuite.Run(listener, filter);
 			Assert.AreEqual(1, listener.testStarted.Count);
 			Assert.AreEqual("MockTest3", (string)listener.testStarted[0]);
@@ -194,17 +194,16 @@ namespace NUnit.Core.Tests
 			
 			NUnit.Core.TestCase mock3 = (NUnit.Core.TestCase) findTest("MockTest3", testSuite);
 			NUnit.Core.TestCase mock1 = (NUnit.Core.TestCase) findTest("MockTest1", testSuite);
-			NameFilter filter = new NameFilter(mock3);
+			NameFilter filter = new NameFilter(mock3.TestName);
 			Assert.AreEqual(1, testSuite.CountTestCases(filter));
 
-			ArrayList nodes = new ArrayList();
-			nodes.Add(mock3);
-			nodes.Add(mock1);
-			filter = new NameFilter(nodes);
+			filter = new NameFilter();
+			filter.Add(mock3.TestName);
+			filter.Add(mock1.TestName);
 
 			Assert.AreEqual(2, testSuite.CountTestCases(filter));
 
-			filter = new NameFilter(testSuite);
+			filter = new NameFilter(testSuite.TestName);
 
 			Assert.AreEqual(MockTestFixture.Tests, testSuite.CountTestCases(filter));
 		}
@@ -299,7 +298,7 @@ namespace NUnit.Core.Tests
 		{
 		}
 
-		public void RunFinished(NUnit.Core.TestResult[] results)
+		public void RunFinished(NUnit.Core.TestResult result)
 		{
 		}
 

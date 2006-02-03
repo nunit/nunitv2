@@ -29,27 +29,39 @@ namespace NUnit.Core.Tests
 		public void CanCompareWeakTestNames()
 		{
 			Assert.AreEqual( weakName1, weakName2 );
+			Assert.IsTrue( weakName1 == weakName2, "operator ==");
+			Assert.IsFalse( weakName1 != weakName2, "operator !=");
 
 			weakName2.FullName = "A.Different.Name";
 			Assert.AreNotEqual( weakName1, weakName2 );
+			Assert.IsFalse( weakName1 == weakName2, "operator ==");
+			Assert.IsTrue( weakName1 != weakName2, "operator !=");
 		}
 
 		[Test]
 		public void CanCompareStrongTestNames()
 		{
 			Assert.AreNotEqual( strongName1, strongName2 );
+			Assert.IsFalse( strongName1 == strongName2, "operator ==" );
+			Assert.IsTrue( strongName1 != strongName2, "operator !=" );
 
 			strongName2.TestID = strongName1.TestID;
 			Assert.AreEqual( strongName1, strongName2 );
+			Assert.IsTrue( strongName1 == strongName2, "operator ==" );
+			Assert.IsFalse( strongName1 != strongName2, "operator !=" );
 
 			strongName2.FullName = "A.Different.Name";
 			Assert.AreNotEqual( strongName1, strongName2 );
+			Assert.IsFalse( strongName1 == strongName2, "operator ==" );
+			Assert.IsTrue( strongName1 != strongName2, "operator !=" );
 		}
 
 		[Test]
 		public void CanCompareWeakAndStrongTestNames()
 		{
 			Assert.AreNotEqual( weakName1, strongName1 );
+			Assert.IsFalse( weakName1 == strongName1, "operator ==" );
+			Assert.IsTrue( weakName1 != strongName1, "operator !=" );
 		}
 
 		[Test]
@@ -58,18 +70,29 @@ namespace NUnit.Core.Tests
 			weakName2.RunnerID = 7;
 			Assert.AreEqual( 0, weakName1.RunnerID );
 			Assert.AreNotEqual( weakName1, weakName2 );
+			Assert.IsFalse( weakName1 == weakName2, "operator ==" );
+			Assert.IsTrue( weakName1 != weakName2, "operator !=" );
 
 			strongName1.RunnerID = 3;
 			strongName2.RunnerID = 5;
 			strongName2.TestID = strongName1.TestID;
 			Assert.AreNotEqual( strongName1, strongName2 );
+			Assert.IsFalse( strongName1 == strongName2, "operator ==" );
+			Assert.IsTrue( strongName1 != strongName2, "operator !=" );
 		}
 
 		[Test]
 		public void ClonedTestNamesAreEqual()
 		{
-			Assert.AreEqual( weakName1, weakName1.Clone() );
-			Assert.AreEqual( strongName1, strongName1.Clone() );
+			TestName clonedName = (TestName)weakName1.Clone();
+			Assert.AreEqual( weakName1, clonedName );
+			Assert.IsTrue( weakName1 == clonedName, "operator ==" );
+			Assert.IsFalse( weakName1 != clonedName, "operator !=" );
+
+			clonedName = (TestName)strongName1.Clone();
+			Assert.AreEqual( strongName1, clonedName );
+			Assert.IsTrue( strongName1 == clonedName, "operator ==" );
+			Assert.IsFalse( strongName1 != clonedName, "operator !=" );
 		}
 
 		[Test]

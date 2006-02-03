@@ -204,10 +204,12 @@ namespace NUnit.Core
 		{
 			try
 			{
-				if ( testNames == null || testNames.Length == 0 )
-					results = new TestResult[] { runner.Run( this.listener ) };
-				else
-					results = runner.Run( this.listener, testNames );
+//				if ( testNames == null || testNames.Length == 0 )
+//					results = new TestResult[] { runner.Run( this.listener ) };
+//				else
+//					results = runner.Run( this.listener, testNames );
+
+				results = new TestResult[] { runner.Run( this.listener ) };
 			}
 //			catch( Exception )
 //			{

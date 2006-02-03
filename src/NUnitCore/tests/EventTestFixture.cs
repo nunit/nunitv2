@@ -69,7 +69,7 @@ namespace NUnit.Core.Tests
 				runStarted++;
 			}
 
-			public void RunFinished(NUnit.Core.TestResult[] results)
+			public void RunFinished(NUnit.Core.TestResult result)
 			{
 				runFinished++;
 			}

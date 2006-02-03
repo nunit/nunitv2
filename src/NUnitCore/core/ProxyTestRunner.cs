@@ -47,7 +47,6 @@ namespace NUnit.Core
 		#endregion
 
 		#region Construction
-
 		public ProxyTestRunner(TestRunner testRunner)
 		{
 			this.testRunner = testRunner;
@@ -68,7 +67,6 @@ namespace NUnit.Core
 		#endregion
 
 		#region Properties
-
 		public virtual int ID
 		{
 			get { return runnerID; }
@@ -89,9 +87,9 @@ namespace NUnit.Core
 			get { return testRunner == null ? null : testRunner.Test; }
 		}
 
-		public virtual TestResult[] Results
+		public virtual TestResult TestResult
 		{
-			get { return testRunner == null ? null : testRunner.Results; }
+			get { return testRunner == null ? null : testRunner.TestResult; }
 		}
 
 		public virtual ITestFilter Filter
@@ -131,7 +129,6 @@ namespace NUnit.Core
 		#endregion
 
 		#region Load and Unload Methods
-
 		public virtual bool Load(string assemblyName)
 		{
 			return this.testRunner.Load(assemblyName);
@@ -158,57 +155,36 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region Methods for Counting TestCases
-
-		public virtual int CountTestCases(string testName)
+		#region CountTestCases
+		public virtual int CountTestCases( ITestFilter filter )
 		{
-			return this.testRunner.CountTestCases(testName);
+			return this.testRunner.CountTestCases( filter );
 		}
-
-		public virtual int CountTestCases(string[] testNames)
-		{
-			return this.testRunner.CountTestCases(testNames);
-		}
-
 		#endregion
 
 		#region GetCategories Method
-
 		public virtual ICollection GetCategories()
 		{
 			return this.testRunner.GetCategories();
 		}
-
 		#endregion
 
 		#region Methods for Running Tests
-
 		public virtual TestResult Run(EventListener listener)
-		{
-			TestResult[] results = Run( listener, null );
-			return results == null ? null : results[0];
-		}
-
-		public virtual TestResult[] Run(EventListener listener, string[] testNames)
 		{
 			// Save active listener for derived classes
 			this.listener = listener;
-			return this.testRunner.Run(listener, testNames);
+			return this.testRunner.Run(listener);
 		}
 
 		public virtual void BeginRun( EventListener listener )
 		{
-			BeginRun( listener, null );
-		}
-
-		public virtual void BeginRun( EventListener listener, string[] testNames )
-		{
 			// Save active listener for derived classes
 			this.listener = listener;
-			this.testRunner.BeginRun( listener, testNames );
+			this.testRunner.BeginRun( listener );
 		}
 
-		public virtual TestResult[] EndRun()
+		public virtual TestResult EndRun()
 		{
 			return this.testRunner.EndRun();
 		}
@@ -222,7 +198,6 @@ namespace NUnit.Core
 		{
 			this.testRunner.Wait();
 		}
-
 		#endregion
 
 		#region Settings Changed Handler

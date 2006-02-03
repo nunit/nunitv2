@@ -26,7 +26,7 @@ namespace NUnit.Core.Tests
 		{
 			string fullName = "NUnit.Tests.Assemblies.MockTestFixture.MockTest3";
 			Assert.AreEqual(fullName, mock3.FullName);
-			NameFilter filter = new NameFilter(mock3);
+			NameFilter filter = new NameFilter(mock3.TestName);
 			Assert.IsTrue(filter.Pass(mock3), "Name Filter did not pass test case");
 			Assert.AreEqual("NUnit.Tests.Assemblies.MockTestFixture", ((TestSuite)testSuite.Tests[0]).FullName);
 			Assert.IsTrue(filter.Pass((TestSuite)testSuite.Tests[0]), "Name Filter did not pass test suite");
@@ -36,10 +36,9 @@ namespace NUnit.Core.Tests
 		public void MultipleNameMatch() 
 		{
 			NUnit.Core.TestCase mock1 = (NUnit.Core.TestCase) findTest("MockTest1", testSuite);
-			ArrayList testList = new ArrayList();
-			testList.Add(mock3);
-			testList.Add(mock1);
-			NameFilter filter = new NameFilter(testList);
+			NameFilter filter = new NameFilter();
+			filter.Add(mock3.TestName);
+			filter.Add(mock1.TestName);
 			Assert.IsTrue(filter.Pass(mock3), "Name Filter did not pass test case");
 			Assert.IsTrue(filter.Pass(mock1), "Name Filter did not pass test case");
 			Assert.IsTrue(filter.Pass((TestSuite)testSuite.Tests[0]), "Name Filter did not pass test suite");
@@ -49,7 +48,7 @@ namespace NUnit.Core.Tests
 		public void SuiteNameMatch() 
 		{
 			NUnit.Core.TestSuite mockTest = (NUnit.Core.TestSuite) findTest("MockTestFixture", testSuite);
-			NameFilter filter = new NameFilter(mockTest);
+			NameFilter filter = new NameFilter(mockTest.TestName);
 			Assert.IsTrue(filter.Pass(mock3), "Name Filter did not pass test case");
 			Assert.IsTrue(filter.Pass(mockTest), "Suite did not pass test case");
 			Assert.IsTrue(filter.Pass(testSuite), "Suite did not pass test case");
@@ -59,7 +58,7 @@ namespace NUnit.Core.Tests
 		public void TestDoesNotMatch() 
 		{
 			NUnit.Core.TestCase mock1 = (NUnit.Core.TestCase) findTest("MockTest1", testSuite);
-			NameFilter filter = new NameFilter(mock1);
+			NameFilter filter = new NameFilter(mock1.TestName);
 			Assert.IsFalse(filter.Pass(mock3), "Name Filter did pass test case");
 			Assert.IsTrue(filter.Pass(testSuite), "Name Filter did not pass test suite");
 		}
@@ -68,7 +67,7 @@ namespace NUnit.Core.Tests
 		public void HighLevelSuite() 
 		{
 			NUnit.Core.TestSuite mockTest = (NUnit.Core.TestSuite) findTest("MockTestFixture", testSuite);
-			NameFilter filter = new NameFilter(testSuite);
+			NameFilter filter = new NameFilter(testSuite.TestName);
 			Assert.IsTrue(filter.Pass(mock3), "Name Filter did not pass test case");
 			Assert.IsTrue(filter.Pass(mockTest), "Name Filter did not pass middle suite");
 			Assert.IsTrue(filter.Pass(testSuite), "Name Filter did not pass test suite");

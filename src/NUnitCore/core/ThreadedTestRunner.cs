@@ -20,26 +20,39 @@ namespace NUnit.Core
 
 		#region Overrides
 
-		public override TestResult[] Run( EventListener listener, string[] testNames )
+		public override TestResult Run( EventListener listener )
 		{
-			BeginRun( listener, testNames );
+			BeginRun( listener );
 			return EndRun();
 		}
 
-		public override void BeginRun( EventListener listener, string[] testNames )
+//		public override TestResult[] Run( EventListener listener, string[] testNames )
+//		{
+//			BeginRun( listener, testNames );
+//			return EndRun();
+//		}
+
+		public override void BeginRun( EventListener listener )
 		{
 			testRunnerThread = new TestRunnerThread( this.TestRunner );
 
-			if ( testNames == null || testNames.Length == 0 )
-				testRunnerThread.StartRun( listener, null );
-			else
-				testRunnerThread.StartRun( listener, testNames );
+			testRunnerThread.StartRun( listener, null );
 		}
 
-		public override TestResult[] EndRun()
+//		public override void BeginRun( EventListener listener, string[] testNames )
+//		{
+//			testRunnerThread = new TestRunnerThread( this.TestRunner );
+//
+//			if ( testNames == null || testNames.Length == 0 )
+//				testRunnerThread.StartRun( listener, null );
+//			else
+//				testRunnerThread.StartRun( listener, testNames );
+//		}
+
+		public override TestResult EndRun()
 		{
 			this.Wait();
-			return this.TestRunner.Results;
+			return this.TestRunner.TestResult;
 		}
 
 

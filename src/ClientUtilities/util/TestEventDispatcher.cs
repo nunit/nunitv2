@@ -196,11 +196,11 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.RunStarting, name, testCount ) );
 		}
 
-		public void FireRunFinished( TestResult[] results )
+		public void FireRunFinished( TestResult result )
 		{	
 			Fire(
 				RunFinished,
-				new TestEventArgs( TestAction.RunFinished, results ) );
+				new TestEventArgs( TestAction.RunFinished, result ) );
 		}
 
 		public void FireRunFinished( Exception exception )

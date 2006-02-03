@@ -37,12 +37,12 @@ namespace NUnit.Core
 
 	public class RunFinishedEvent : Event
 	{
-		TestResult[] results;
+		TestResult result;
 		Exception exception;
 
-		public RunFinishedEvent( TestResult[] results )
+		public RunFinishedEvent( TestResult result )
 		{
-			this.results = results;
+			this.result = result;
 		}
 
 		public RunFinishedEvent( Exception exception )
@@ -55,7 +55,7 @@ namespace NUnit.Core
 			if ( this.exception != null )
 				listener.RunFinished( this.exception );
 			else
-				listener.RunFinished( this.results );
+				listener.RunFinished( this.result );
 		}
 	}
 

@@ -32,9 +32,9 @@ namespace NUnit.Core
 		/// Run finished successfully
 		/// </summary>
 		/// <param name="results">Array of test results</param>
-		public void RunFinished( TestResult[] results )
+		public void RunFinished( TestResult result )
 		{
-			events.Enqueue( new RunFinishedEvent( results ) );
+			events.Enqueue( new RunFinishedEvent( result ) );
 		}
 
 		/// <summary>

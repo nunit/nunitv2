@@ -252,7 +252,7 @@ namespace NUnit.UiKit
 		{
 			//TODO: Save all results
 			TestLoader loader = GetTestLoader( owner );
-			TestResult result = loader.Results[0];
+			TestResult result = loader.TestResult;
 			
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.Title = "Save Test Results as XML";

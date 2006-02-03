@@ -14,19 +14,6 @@ namespace NUnit.Core
 	[Serializable]
 	public class TestID : ICloneable
 	{
-		public static bool operator ==( TestID id1, TestID id2 )
-		{
-			if ( Object.Equals( id1, null ) )
-				return Object.Equals( id2, null );
-
-			return id1.Equals( id2 );
-		}
-
-		public static bool operator !=( TestID id1, TestID id2 )
-		{
-			return id1 == id2 ? false : true;
-		}
-
 		#region Fields
 			/// <summary>
 			/// The int key that distinguishes this test from all others created
@@ -105,6 +92,21 @@ namespace NUnit.Core
 		public override string ToString()
 		{
 			return id.ToString();
+		}
+		#endregion
+
+		#region Operator Overrides
+		public static bool operator ==( TestID id1, TestID id2 )
+		{
+			if ( Object.Equals( id1, null ) )
+				return Object.Equals( id2, null );
+
+			return id1.Equals( id2 );
+		}
+
+		public static bool operator !=( TestID id1, TestID id2 )
+		{
+			return id1 == id2 ? false : true;
 		}
 		#endregion
 
