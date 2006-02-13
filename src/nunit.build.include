@@ -18,7 +18,7 @@
   <target name="net" description="Set runtime to .NET 1.1">
     <call target="set-net-1.1-runtime-config"/>
   </target>
-    
+
   <target name="net-1.0" description="Set runtime to .NET 1.0">
     <call target="set-net-1.0-runtime-config"/>
   </target>
@@ -69,10 +69,11 @@
     <property name="project.samples.dir"
       value="${path::combine(project.base.dir,'samples')}"/>
 
-    <!-- Supported frameworks --> 
+    <!-- Frameworks supported by this build script. The first
+         installed framework found is the default for builds. --> 
     <property name="supported.frameworks" 
-      value="net-1.0,net-1.1,mono-1.0"/>
-  
+      value="net-1.1,net-1.0,net-2.0,mono-1.0"/>
+
     <!-- Visual Studio locations -->
     <if test="${platform::is-win32()}">
       <readregistry property="vs.2002.path" 
@@ -113,13 +114,18 @@
     <property name="package.resource.dir"
       value="${path::combine(package.working.dir, 'resources')}"/>
 
-    <!-- Default build and runtime configurations -->
+    <!-- Default build configuration -->
     <property name="build.config" value="debug"/>
     <property name="build.clean" value="false"/>
-    <property name="runtime.platform" value="net"/>
-    <property name="runtime.version" value="1.1"/>
-    <property name="runtime.config" value="net-1.1"/>
     <property name="build.dir.set" value="false"/>
+
+    <!-- Default runtime configuration -->
+    <foreach item="String" delim="," 
+        property="framework" in="${supported.frameworks}">
+      <if test="${framework::sdk-exists( framework )}">
+        <call target="set-${framework}-runtime-config" unless="${property::exists('runtime.config')}"/>
+      </if>
+    </foreach>
 
     <!-- Indicate that we initialized global settings -->
     <property name="project.initialized" value="true"/>
