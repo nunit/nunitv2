@@ -40,5 +40,13 @@ namespace NUnit.Framework.Tests
 		{
 			Assert.AreNotEqual( new object[] { 1, 2, 3 }, new object[] { 1, 2, 3 } );
 		}
+
+		[Test]
+		public void UInt()
+		{
+			uint u1 = 5;
+			uint u2 = 8;
+			Assert.AreNotEqual( u1, u2 );
+		}
 	}
 }

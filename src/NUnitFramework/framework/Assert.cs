@@ -604,6 +604,47 @@ namespace NUnit.Framework
 
 		#endregion
 
+		#region UInts
+
+		/// <summary>
+		/// Verifies that two uints are equal. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void AreEqual(uint expected, 
+			uint actual, string message, params object[] args) 
+		{
+			DoAssert( new EqualAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that two uints are equal. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void AreEqual(uint expected, uint actual, string message) 
+		{
+			Assert.AreEqual( expected, actual, message, null );
+		}
+
+		/// <summary>
+		/// Verifies that two uints are equal. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		static public void AreEqual(uint expected, uint actual ) 
+		{
+			Assert.AreEqual( expected, actual, string.Empty, null );
+		}
+
+		#endregion
+
 		#region Decimals
 
 		/// <summary>
@@ -880,6 +921,44 @@ namespace NUnit.Framework
 		}
 		#endregion
 
+		#region UInts
+		/// <summary>
+		/// Asserts that two uints are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		/// <param name="message">The message to be displayed when the two objects are the same object.</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void AreNotEqual( uint expected, uint actual, string message, params object[] args)
+		{
+			DoAssert( new NotEqualAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Asserts that two uints are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		/// <param name="message">The message to be displayed when the objects are the same</param>
+		static public void AreNotEqual(uint expected, uint actual, string message) 
+		{
+			Assert.AreNotEqual(expected, actual, message, null);
+		}
+   
+		/// <summary>
+		/// Asserts that two uints are not equal. If they are equal
+		/// an <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		/// <param name="actual">The actual object</param>
+		static public void AreNotEqual(uint expected, uint actual) 
+		{
+			Assert.AreNotEqual(expected, actual, string.Empty, null);
+		}
+		#endregion
+
 		#region Decimals
 		/// <summary>
 		/// Asserts that two decimals are not equal. If they are equal
@@ -1081,52 +1160,87 @@ namespace NUnit.Framework
 		#region Ints
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown. 
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Greater(int actual, 
-			int expected, string message, params object[] args) 
+		static public void Greater(int arg1, 
+			int arg2, string message, params object[] args) 
 		{
-			DoAssert( new GreaterAsserter( expected, actual, message, args ) );
+			DoAssert( new GreaterAsserter( arg2, arg1, message, args ) );
 		}
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Greater(int actual, int expected, string message) 
+		static public void Greater(int arg1, int arg2, string message) 
 		{
-			Assert.Greater( actual, expected, message, null );
+			Assert.Greater( arg1, arg2, message, null );
 		}
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		static public void Greater(int actual, int expected ) 
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		static public void Greater(int arg1, int arg2 ) 
 		{
-			Assert.Greater( actual, expected, string.Empty, null );
+			Assert.Greater( arg1, arg2, string.Empty, null );
+		}
+
+		#endregion
+
+		#region UInts
+
+		/// <summary>
+		/// Verifies that the first value is greater than the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Greater(uint arg1, 
+			uint arg2, string message, params object[] args) 
+		{
+			DoAssert( new GreaterAsserter( arg2, arg1, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that the first value is greater than the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Greater(uint arg1, uint arg2, string message) 
+		{
+			Assert.Greater( arg1, arg2, message, null );
+		}
+
+		/// <summary>
+		/// Verifies that the first value is greater than the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		static public void Greater(uint arg1, uint arg2 ) 
+		{
+			Assert.Greater( arg1, arg2, string.Empty, null );
 		}
 
 		#endregion
@@ -1134,52 +1248,43 @@ namespace NUnit.Framework
 		#region Decimals
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Greater(decimal actual, 
-			decimal expected, string message, params object[] args) 
+		static public void Greater(decimal arg1, 
+			decimal arg2, string message, params object[] args) 
 		{
-			DoAssert( new GreaterAsserter( expected, actual, message, args ) );
+			DoAssert( new GreaterAsserter( arg2, arg1, message, args ) );
 		}
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Greater(decimal actual, decimal expected, string message) 
+		static public void Greater(decimal arg1, decimal arg2, string message) 
 		{
-			Assert.Greater( actual, expected, message, null );
+			Assert.Greater( arg1, arg2, message, null );
 		}
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		static public void Greater(decimal actual, decimal expected ) 
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		static public void Greater(decimal arg1, decimal arg2 ) 
 		{
-			Assert.Greater( actual, expected, string.Empty, null );
+			Assert.Greater( arg1, arg2, string.Empty, null );
 		}
 
 		#endregion
@@ -1187,53 +1292,44 @@ namespace NUnit.Framework
 		#region Doubles
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Greater(double actual, 
-			double expected, string message, params object[] args) 
+		static public void Greater(double arg1, 
+			double arg2, string message, params object[] args) 
 		{
-			DoAssert( new GreaterAsserter( expected, actual, message, args ) );
+			DoAssert( new GreaterAsserter( arg2, arg1, message, args ) );
 		}
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Greater(double actual, 
-			double expected, string message) 
+		static public void Greater(double arg1, 
+			double arg2, string message) 
 		{
-			Assert.Greater( actual, expected, message, null );
+			Assert.Greater( arg1, arg2, message, null );
 		}
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		static public void Greater(double actual, double expected) 
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		static public void Greater(double arg1, double arg2) 
 		{
-			Assert.Greater(actual, expected, string.Empty, null);
+			Assert.Greater(arg1, arg2, string.Empty, null);
 		}
 
 		#endregion
@@ -1241,52 +1337,43 @@ namespace NUnit.Framework
 		#region Floats
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Greater(float actual, 
-			float expected, string message, params object[] args) 
+		static public void Greater(float arg1, 
+			float arg2, string message, params object[] args) 
 		{
-			DoAssert( new GreaterAsserter( expected, actual, message, args ) );
+			DoAssert( new GreaterAsserter( arg2, arg1, message, args ) );
 		}
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Greater(float actual, float expected, string message) 
+		static public void Greater(float arg1, float arg2, string message) 
 		{
-			Assert.Greater(actual, expected, message, null);
+			Assert.Greater(arg1, arg2, message, null);
 		}
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		static public void Greater(float actual, float expected) 
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		static public void Greater(float arg1, float arg2) 
 		{
-			Assert.Greater(actual, expected, string.Empty, null);
+			Assert.Greater(arg1, arg2, string.Empty, null);
 		}
 
 		#endregion
@@ -1294,52 +1381,43 @@ namespace NUnit.Framework
 		#region IComparables
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Greater(IComparable actual, 
-			IComparable expected, string message, params object[] args) 
+		static public void Greater(IComparable arg1, 
+			IComparable arg2, string message, params object[] args) 
 		{
-			DoAssert( new GreaterAsserter( expected, actual, message, args ) );
+			DoAssert( new GreaterAsserter( arg2, arg1, message, args ) );
 		}
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Greater(IComparable actual, IComparable expected, string message) 
+		static public void Greater(IComparable arg1, IComparable arg2, string message) 
 		{
-			Assert.Greater(actual, expected, message, null);
+			Assert.Greater(arg1, arg2, message, null);
 		}
 
 		/// <summary>
-		/// Verifies that the actual value is greater than the expected
+		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. For this method
-		/// expected and actual are reversed from their normal order to 
-		/// more closely fit the way this operation would read in english.
-		/// For instance 5 > 4 would be written Assert.Greater(5,4).
+		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		static public void Greater(IComparable actual, IComparable expected) 
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		static public void Greater(IComparable arg1, IComparable arg2) 
 		{
-			Assert.Greater(actual, expected, string.Empty, null);
+			Assert.Greater(arg1, arg2, string.Empty, null);
 		}
 
 		#endregion
@@ -1351,42 +1429,85 @@ namespace NUnit.Framework
 		#region Ints
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Less(int actual, int expected, string message, params object[] args) 
+		static public void Less(int arg1, int arg2, string message, params object[] args) 
 		{
-			DoAssert( new LessAsserter( expected, actual, message, args ) );
+			DoAssert( new LessAsserter( arg2, arg1, message, args ) );
 		}
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Less(int actual, int expected, string message) 
+		static public void Less(int arg1, int arg2, string message) 
 		{
-			Assert.Less(actual, expected, message, null);
+			Assert.Less(arg1, arg2, message, null);
 		}
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		static public void Less(int actual, int expected) 
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		static public void Less(int arg1, int arg2) 
 		{
-			Assert.Less(actual, expected, string.Empty, null);
+			Assert.Less( arg1, arg2, string.Empty, null);
+		}
+
+		#endregion
+
+		#region UInts
+
+		/// <summary>
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Less(uint arg1, uint arg2, string message, params object[] args) 
+		{
+			DoAssert( new LessAsserter( arg2, arg1, message, args ) );
+		}
+
+		/// <summary>
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Less(uint arg1, uint arg2, string message) 
+		{
+			Assert.Less(arg1, arg2, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		static public void Less(uint arg1, uint arg2) 
+		{
+			Assert.Less( arg1, arg2, string.Empty, null);
 		}
 
 		#endregion
@@ -1394,42 +1515,42 @@ namespace NUnit.Framework
 		#region Decimals
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Less(decimal actual, decimal expected, string message, params object[] args) 
+		static public void Less(decimal arg1, decimal arg2, string message, params object[] args) 
 		{
-			DoAssert( new LessAsserter( expected, actual, message, args ) );
+			DoAssert( new LessAsserter( arg2, arg1, message, args ) );
 		}
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Less(decimal actual, decimal expected, string message) 
+		static public void Less(decimal arg1, decimal arg2, string message) 
 		{
-			Assert.Less(actual, expected, message, null);
+			Assert.Less(arg1, arg2, message, null);
 		}
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		static public void Less(decimal actual, decimal expected) 
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		static public void Less(decimal arg1, decimal arg2) 
 		{
-			Assert.Less(actual, expected, string.Empty, null);
+			Assert.Less(arg1, arg2, string.Empty, null);
 		}
 
 		#endregion
@@ -1437,42 +1558,42 @@ namespace NUnit.Framework
 		#region Doubles
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Less(double actual, double expected, string message, params object[] args) 
+		static public void Less(double arg1, double arg2, string message, params object[] args) 
 		{
-			DoAssert( new LessAsserter( expected, actual, message, args ) );
+			DoAssert( new LessAsserter( arg2, arg1, message, args ) );
 		}
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Less(double actual, double expected, string message) 
+		static public void Less(double arg1, double arg2, string message) 
 		{
-			Assert.Less(actual, expected, message, null);
+			Assert.Less(arg1, arg2, message, null);
 		}
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		static public void Less(double actual, double expected) 
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		static public void Less(double arg1, double arg2) 
 		{
-			Assert.Less(actual, expected, string.Empty, null);
+			Assert.Less(arg1, arg2, string.Empty, null);
 		}
 
 		#endregion
@@ -1480,42 +1601,42 @@ namespace NUnit.Framework
 		#region Floats
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Less(float actual, float expected, string message, params object[] args) 
+		static public void Less(float arg1, float arg2, string message, params object[] args) 
 		{
-			DoAssert( new LessAsserter( expected, actual, message, args ) );
+			DoAssert( new LessAsserter( arg2, arg1, message, args ) );
 		}
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Less(float actual, float expected, string message) 
+		static public void Less(float arg1, float arg2, string message) 
 		{
-			Assert.Less(actual, expected, message, null);
+			Assert.Less(arg1, arg2, message, null);
 		}
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		static public void Less(float actual, float expected) 
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		static public void Less(float arg1, float arg2) 
 		{
-			Assert.Less(actual, expected, string.Empty, null);
+			Assert.Less(arg1, arg2, string.Empty, null);
 		}
 
 		#endregion
@@ -1523,42 +1644,42 @@ namespace NUnit.Framework
 		#region IComparables
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Less(IComparable actual, IComparable expected, string message, params object[] args) 
+		static public void Less(IComparable arg1, IComparable arg2, string message, params object[] args) 
 		{
-			DoAssert( new LessAsserter( expected, actual, message, args ) );
+			DoAssert( new LessAsserter( arg2, arg1, message, args ) );
 		}
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Less(IComparable actual, IComparable expected, string message) 
+		static public void Less(IComparable arg1, IComparable arg2, string message) 
 		{
-			Assert.Less(actual, expected, message, null);
+			Assert.Less(arg1, arg2, message, null);
 		}
 
 		/// <summary>
-		/// Verifies that the expected value is less than the actual
-		/// value. If they are not, then an 
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
 		/// <see cref="AssertionException"/> is thrown.
 		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		static public void Less(IComparable actual, IComparable expected) 
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		static public void Less(IComparable arg1, IComparable arg2) 
 		{
-			Assert.Less(actual, expected, string.Empty, null);
+			Assert.Less(arg1, arg2, string.Empty, null);
 		}
 
 		#endregion

@@ -7,6 +7,8 @@ namespace NUnit.Framework.Tests
 	{
 		private readonly int i1 = 5;
 		private readonly int i2 = 8;
+		private readonly uint u1 = 12345678;
+		private readonly uint u2 = 12345879;
 		private readonly float f1 = 3.543F;
 		private readonly float f2 = 8.543F;
 		private readonly decimal de1 = 53.4M;
@@ -23,6 +25,8 @@ namespace NUnit.Framework.Tests
 			Assert.Less(i1,i2);
 			Assert.Less(i1,i2,"int");
 			Assert.Less(i1,i2,"{0}","int");
+			Assert.Less(u1,u2,"uint");
+			Assert.Less(u1,u2,"{0}","uint");
 			Assert.Less(d1,d2);
 			Assert.Less(d1,d2, "double");
 			Assert.Less(d1,d2, "{0}", "double");

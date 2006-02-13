@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Text.RegularExpressions;
 
 namespace NUnit.Framework.Tests
 {
@@ -210,6 +211,17 @@ namespace NUnit.Framework.Tests
 		}
 
 		[Test]
+		public void UInt() 
+		{
+			uint val = 1;
+			uint expected = val;
+			uint actual = val;
+
+			Assert.IsTrue(expected == actual);
+			Assert.AreEqual(expected, actual);
+		}
+
+		[Test]
 		public void Decimal() 
 		{
 			decimal expected = 100m;
@@ -360,7 +372,6 @@ namespace NUnit.Framework.Tests
 			if ( message == "" )
 				Assert.Fail( "Should have thrown an AssertionException" );
 
-			Console.WriteLine( message );
 			int i = message.IndexOf( "<" );
 			int j = message.IndexOf( ">", i );
 			string expected = message.Substring( i + 1, j - i - 1 );

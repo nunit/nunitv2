@@ -7,6 +7,8 @@ namespace NUnit.Framework.Tests
 	{
 		private readonly int i1 = 5;
 		private readonly int i2 = 4;
+		private readonly uint u1 = 12345879;
+		private readonly uint u2 = 12345678;
 		private readonly float f1 = 3.543F;
 		private readonly float f2 = 2.543F;
 		private readonly decimal de1 = 53.4M;
@@ -20,6 +22,7 @@ namespace NUnit.Framework.Tests
 		public void Greater()
 		{
 			Assert.Greater(i1,i2);
+			Assert.Greater(u1,u2);
 			Assert.Greater(d1,d2, "double");
 			Assert.Greater(de1,de2, "{0}", "decimal");
 			Assert.Greater(f1,f2, "float");
