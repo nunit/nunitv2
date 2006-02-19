@@ -1296,7 +1296,7 @@ namespace NUnit.Gui
 					e.Cancel = true;
 				}
 
-				if ( configFile.IndexOfAny( new char[] { '\\', ':' } ) >= 0 )
+				if ( configFile != Path.GetFileName( configFile ) )
 				{
 					configFileTextBox.SelectAll();
 					UserMessage.DisplayFailure( "Specify configuration file as filename and extension only", "Invalid Entry" );

@@ -211,23 +211,23 @@ namespace NUnit.ConsoleRunner.Tests
 		[Test]
 		public void XmlParameterWithFullPath()
 		{
-			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml:C:\\nunit\\tests\\bin\\Debug\\console-test.xml" );
+			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml:C:/nunit/tests/bin/Debug/console-test.xml" );
 			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", options.Parameters[0]);
 
 			Assert.IsTrue(options.IsXml, "XML file name should be set");
-			Assert.AreEqual("C:\\nunit\\tests\\bin\\Debug\\console-test.xml", options.xml);
+			Assert.AreEqual("C:/nunit/tests/bin/Debug/console-test.xml", options.xml);
 		}
 
 		[Test]
 		public void XmlParameterWithFullPathUsingEqualSign()
 		{
-			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml=C:\\nunit\\tests\\bin\\Debug\\console-test.xml" );
+			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml=C:/nunit/tests/bin/Debug/console-test.xml" );
 			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", options.Parameters[0]);
 
 			Assert.IsTrue(options.IsXml, "XML file name should be set");
-			Assert.AreEqual("C:\\nunit\\tests\\bin\\Debug\\console-test.xml", options.xml);
+			Assert.AreEqual("C:/nunit/tests/bin/Debug/console-test.xml", options.xml);
 		}
 
 		[Test]
