@@ -79,6 +79,7 @@
     <Compile Include="CategoryAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CollectionAssert.cs" />
     <Compile Include="ComparisonAsserter.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -98,6 +98,7 @@
     <Compile Include="AssertionTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CollectionAssertTest.cs" />
     <Compile Include="ConditionAssertTests.cs" />
     <Compile Include="EqualsFixture.cs">
       <SubType>Code</SubType>
