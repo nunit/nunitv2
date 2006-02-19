@@ -31,6 +31,7 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Text;
+using System.IO;
 using NUnit.Core;
 
 namespace NUnit.UiKit
@@ -799,7 +800,7 @@ namespace NUnit.UiKit
 				type = "Suite";
 
 			string name = test.Name;
-			int index = name.LastIndexOf( '\\' );
+			int index = name.LastIndexOfAny( new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar } );
 			if ( index >= 0 )
 				name = name.Substring( index + 1 );
 			this.Text = string.Format( "Test {0} Properties - {1}", type, name );
