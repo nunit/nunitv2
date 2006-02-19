@@ -21,6 +21,11 @@ namespace NUnit.Core
 		#region Method Overrides
 		public override TestResult Run( EventListener listener )
 		{
+			return Run( listener, NUnit.Core.Filters.EmptyFilter.Empty );
+		}
+
+		public override TestResult Run( EventListener listener, ITestFilter filter )
+		{
 			QueuingEventListener queue = new QueuingEventListener();
 
 			TestContext.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
@@ -29,25 +34,16 @@ namespace NUnit.Core
 			using( EventPump pump = new EventPump( listener, queue.Events, true ) )
 			{
 				pump.Start();
-				return base.Run( queue );
+				return base.Run( queue, filter );
 			}
 		}
 
-//		public override TestResult[] Run( EventListener listener, string[] testNames )
-//		{
-//			QueuingEventListener queue = new QueuingEventListener();
-//
-//			TestContext.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
-//			TestContext.Error = new EventListenerTextWriter( queue, TestOutputType.Error );
-//
-//			using( EventPump pump = new EventPump( listener, queue.Events, true ) )
-//			{
-//				pump.Start();
-//				return base.Run( queue, testNames );
-//			}
-//		}
-
 		public override void BeginRun( EventListener listener )
+		{
+			BeginRun( listener, NUnit.Core.Filters.EmptyFilter.Empty );
+		}
+
+		public override void BeginRun( EventListener listener, ITestFilter filter )
 		{
 			QueuingEventListener queue = new QueuingEventListener();
 
@@ -58,22 +54,8 @@ namespace NUnit.Core
 			pump.Start(); // Will run till RunFinished is received
 			// TODO: Make sure the thread is cleaned up if we abort the run
 			
-			base.BeginRun( queue );
+			base.BeginRun( queue, filter );
 		}
-
-//		public override void BeginRun( EventListener listener, string[] testNames )
-//		{
-//			QueuingEventListener queue = new QueuingEventListener();
-//
-//			TestContext.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
-//			TestContext.Error = new EventListenerTextWriter( queue, TestOutputType.Error );
-//
-//			EventPump pump = new EventPump( listener, queue.Events, true);
-//			pump.Start(); // Will run till RunFinished is received
-//			// TODO: Make sure the thread is cleaned up if we abort the run
-//			
-//			base.BeginRun( queue, testNames );
-//		}
 
 		#endregion
 	}

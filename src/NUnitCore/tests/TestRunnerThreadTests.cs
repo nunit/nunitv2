@@ -35,7 +35,7 @@ namespace NUnit.Core.Tests
 		{
 			mockRunner.Expect( "Run" );
 
-			runnerThread.StartRun(NullListener.NULL, new string[] { "SomeTest" } );
+			runnerThread.StartRun( NullListener.NULL, new NUnit.Core.Filters.NameFilter( TestName.Parse( "SomeTest" ) ) );
 			runnerThread.Wait();
 
 			mockRunner.Verify();
@@ -44,10 +44,13 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void RunMultipleTests()
 		{
-			string[] args = new string[] { "Test1", "Test2", "Test3" };
+			NUnit.Core.Filters.NameFilter filter = new NUnit.Core.Filters.NameFilter();
+			filter.Add( TestName.Parse( "Test1" ) );
+			filter.Add( TestName.Parse( "Test2" ) );
+			filter.Add( TestName.Parse( "Test3" ) );
 			mockRunner.Expect( "Run" );
 
-			runnerThread.StartRun(NullListener.NULL, args );
+			runnerThread.StartRun( NullListener.NULL, filter );
 			runnerThread.Wait();
 
 			mockRunner.Verify();

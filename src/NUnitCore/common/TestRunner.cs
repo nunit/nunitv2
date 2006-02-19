@@ -42,23 +42,23 @@ namespace NUnit.Core
 	/// The Load family of methods is used to load a suite of tests from one or more 
 	/// assemblies, returning a tree of TestNodes to the caller.
 	/// 
-	/// The Filter property provides a general approach to running only a subset
-	/// of the tests. Any set filter affects future calls to CountTestCases or Run.
-	/// 
 	/// The CountTestCases family of methods returns the number of test cases in the
-	/// loaded suite, either in its entirety or by taking a subset of tests as roots.
+	/// loaded suite, either in its entirety or by using a filter to count a subset of tests.
 	/// 
 	/// The Run family of methods performs a test run synchronously, returning a TestResult
 	/// or TestResult[] to the caller. If provided, an EventListener interface will be 
-	/// notified of significant events in the running of the tests. Methods to cancel
-	/// a run and to wait for a run to complete are also provided. Test results may also 
-	/// be obtained by querying the Results property after a run is complete.
-	/// 
-	/// BeginRun and EndRun provide a simplified form of the asynchronous invocation
+	/// notified of significant events in the running of the tests. A filter may be used
+    /// to run a subset of the tests.
+    ///
+    /// BeginRun and EndRun provide a simplified form of the asynchronous invocation
 	/// pattern used in many places within the .NET framework. Because the current
 	/// implementation allows only one run to be in process at a time, an IAsyncResult
 	/// is not used at this time.
-	/// </summary>
+    /// 
+    /// Methods to cancel a run and to wait for a run to complete are also provided. The 
+    /// result of the last run may be obtained by querying the TestResult property.
+    /// 
+    /// </summary>
 	public interface TestRunner
 	{
 		#region Properties
@@ -108,14 +108,6 @@ namespace NUnit.Core
 		TestResult TestResult
 		{
 			get;
-		}
-
-		/// <summary>
-		/// Get or set the current run filter
-		/// </summary>
-		ITestFilter Filter
-		{
-			get; set;
 		}
 
 		TestRunnerSettings Settings
@@ -187,6 +179,13 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="listener">Interface to receive EventListener notifications.</param>
 		TestResult Run(NUnit.Core.EventListener listener);
+
+		/// <summary>
+		/// Run selected tests and return a test result. The test is run synchronously,
+		/// and the listener interface is notified as it progresses.
+		/// </summary>
+		/// <param name="listener">Interface to receive EventListener notifications.</param>
+		TestResult Run(NUnit.Core.EventListener listener, ITestFilter filter);
 		
 		/// <summary>
 		/// Start a run of all loaded tests. The tests are run aynchronously and the 
@@ -194,6 +193,13 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="listener">Interface to receive EventListener notifications.</param>
 		void BeginRun(NUnit.Core.EventListener listener);
+
+		/// <summary>
+		/// Start a run of selected tests. The tests are run aynchronously and the 
+		/// listener interface is notified as it progresses.
+		/// </summary>
+		/// <param name="listener">Interface to receive EventListener notifications.</param>
+		void BeginRun(NUnit.Core.EventListener listener, ITestFilter filter);
 		
 		/// <summary>
 		/// Wait for an asynchronous run to complete and return the result.

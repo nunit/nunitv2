@@ -26,7 +26,7 @@
 '
 '***********************************************************************************/
 #endregion
-#define USE_NAME_FILTER
+
 using System;
 using System.IO;
 using System.Drawing;
@@ -364,7 +364,6 @@ namespace NUnit.UiKit
 		#endregion
 
 		#region Handlers for events related to loading and running tests
-
 		private void OnTestLoaded( object sender, TestEventArgs e )
 		{
 			CheckPropertiesDialog();
@@ -404,8 +403,7 @@ namespace NUnit.UiKit
 		private void OnRunFinished( object sender, TestEventArgs e )
 		{
 			if ( e.Result != null )
-//				foreach( TestResult result in e.Results )
-					this[e.Result].Expand();
+				this[e.Result].Expand();
 
 			if ( propertiesDialog != null )
 				propertiesDialog.Invoke( new PropertiesDisplayHandler( propertiesDialog.DisplayProperties ) );
@@ -417,11 +415,9 @@ namespace NUnit.UiKit
 		{
 			SetTestResult(e.Result);
 		}
-
 		#endregion
 
 		#region Context Menu
-
 		/// <summary>
 		/// Handles right mouse button down by
 		/// remembering the proper context item
@@ -540,7 +536,6 @@ namespace NUnit.UiKit
 			if ( contextNode != null )
 				ShowPropertiesDialog( contextNode );
 		}
-	
 		#endregion
 
 		#region Drag and drop
@@ -1027,15 +1022,6 @@ namespace NUnit.UiKit
 
 				index++;
 			}
-//				TestSuiteTreeNode node = this[ test ];
-//				if ( node == null )
-//				{
-//					AddTreeNodes( nodes, test, true );
-//					showChanges = true;
-//				}
-//				else
-//					UpdateNode( node, test );
-//			}
 
 			return showChanges;
 		}
@@ -1139,18 +1125,48 @@ namespace NUnit.UiKit
 
 		private ITestFilter MakeFilter( TestInfo[] tests )
 		{
+			ITestFilter nameFilter = MakeNameFilter( tests );
+			ITestFilter catFilter = MakeCategoryFilter();
+
+
+			if ( nameFilter is EmptyFilter )
+				return catFilter;
+
+			if ( tests.Length == 1 )
+			{
+				TestSuiteTreeNode rootNode = (TestSuiteTreeNode)Nodes[0];
+				if ( tests[0] == rootNode.Test )
+					return catFilter;
+			}
+
+			if ( catFilter is EmptyFilter )
+				return nameFilter;
+
+			return new AndFilter( nameFilter, catFilter );
+		}
+
+		private ITestFilter MakeNameFilter( TestInfo[] tests )
+		{
+			if ( tests == null || tests.Length == 0 )
+				return EmptyFilter.Empty;
+
 			NameFilter nameFilter = new NameFilter();
 			foreach( TestInfo test in tests )
 				nameFilter.Add( test.TestName );
 
+			return nameFilter;
+		}
+
+		private ITestFilter MakeCategoryFilter()
+		{
 			if ( SelectedCategories == null || SelectedCategories.Length == 0 )
-				return nameFilter;
+				return EmptyFilter.Empty;
 
 			ITestFilter catFilter = new CategoryFilter( SelectedCategories );
 			if ( ExcludeSelectedCategories )
 				catFilter = new NotFilter( catFilter );
 
-			return new AndFilter( nameFilter, catFilter );
+			return catFilter;
 		}
 
 		#endregion

@@ -640,9 +640,7 @@ namespace NUnit.Util
 				if ( reloadPending || ReloadOnRun )
 					ReloadTest();
 
-				testRunner.Filter = filter;
-
-				testRunner.BeginRun( this );
+				testRunner.BeginRun( this, filter );
 			}
 		}
 

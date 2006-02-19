@@ -37,11 +37,6 @@ namespace NUnit.Core
 		private string[] assemblies;
 
 		/// <summary>
-		/// The currently set filter
-		/// </summary>
-		private ITestFilter testFilter;
-
-		/// <summary>
 		/// Results from the last test run
 		/// </summary>
 		private TestResult testResult;
@@ -63,7 +58,6 @@ namespace NUnit.Core
 
 		public SimpleTestRunner( int runnerID )
 		{
-			this.testFilter = EmptyFilter.Empty;
 			this.runnerID = runnerID;
 			this.settings = new TestRunnerSettings( this );
 		}
@@ -93,12 +87,6 @@ namespace NUnit.Core
 			get { return testResult; }
 		}
 
-		public ITestFilter Filter
-		{
-			get { return testFilter; }
-			set { testFilter = value; }
-		}
-		
 		public virtual bool Running
 		{
 			get { return runThread != null && runThread.IsAlive; }
@@ -177,7 +165,6 @@ namespace NUnit.Core
 		{
 			this.suite = null; // All for now
 		}
-
 		#endregion
 
 		#region CountTestCases
@@ -197,6 +184,11 @@ namespace NUnit.Core
 		#region Methods for Running Tests
 		public virtual TestResult Run( EventListener listener )
 		{
+			return Run( listener, EmptyFilter.Empty );
+		}
+
+		public virtual TestResult Run( EventListener listener, ITestFilter filter )
+		{
 			Addins.Save();
 
 			try
@@ -204,9 +196,9 @@ namespace NUnit.Core
 				// Take note of the fact that we are running
 				this.runThread = Thread.CurrentThread;
 
-				listener.RunStarted( this.Test.FullName, suite.CountTestCases( Filter ) );
+				listener.RunStarted( this.Test.FullName, suite.CountTestCases( filter ) );
 				
-				testResult = suite.Run( listener, Filter );
+				testResult = suite.Run( listener, filter );
 
 				// Signal that we are done
 				listener.RunFinished( testResult );
@@ -231,6 +223,11 @@ namespace NUnit.Core
 		public void BeginRun( EventListener listener )
 		{
 			testResult = this.Run( listener );
+		}
+
+		public void BeginRun( EventListener listener, ITestFilter filter )
+		{
+			testResult = this.Run( listener, filter );
 		}
 
 		public virtual TestResult EndRun()
@@ -279,36 +276,6 @@ namespace NUnit.Core
 				builder.MergeAssemblies = (bool)settings["MergeAssemblies"];
 
 			return builder;
-		}
-
-		private Test FindTest(Test test, string fullName)
-		{
-			if(test.UniqueName.Equals(fullName)) return test;
-			if(test.FullName.Equals(fullName)) return test;
-			
-			Test result = null;
-			if(test is TestSuite)
-			{
-				TestSuite suite = (TestSuite)test;
-				foreach(Test testCase in suite.Tests)
-				{
-					result = FindTest(testCase, fullName);
-					if(result != null) break;
-				}
-			}
-
-			return result;
-		}
-
-		private Test[] FindTests( Test test, string[] names )
-		{
-			Test[] tests = new Test[ names.Length ];
-
-			int index = 0;
-			foreach( string name in names )
-				tests[index++] = FindTest( test, name );
-
-			return tests;
 		}
 		#endregion
 	}

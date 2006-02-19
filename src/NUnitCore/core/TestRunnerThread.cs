@@ -66,13 +66,13 @@ namespace NUnit.Core
 		/// <summary>
 		/// Array of test names for ues by the thread proc
 		/// </summary>
-		private string[] testNames;
+		//private string[] testNames;
+		private ITestFilter filter;
 			
 		/// <summary>
 		/// Array of returned results
 		/// </summary>
 		private TestResult[] results;
-//		public RunDelegate runMethod;
 
 		#endregion
 
@@ -98,41 +98,6 @@ namespace NUnit.Core
 
 		#region Constructor
 
-//		public TestRunnerThread(RunDelegate runMethod, NUnit.Core.EventListener listener, string[] testNames)
-//		{
-//			this.runMethod = runMethod;
-//			this.listener = listener;
-//			this.testNames = testNames;
-//
-//			this.thread = new Thread( new ThreadStart( TestRunnerThreadProc2 ) );
-//			thread.IsBackground = true;
-//
-//			this.settings = (NameValueCollection)
-//				ConfigurationSettings.GetConfig( "NUnit/TestRunner" );
-//	
-//			if ( settings != null )
-//			{
-//				try
-//				{
-//					string apartment = settings["ApartmentState"];
-//					if ( apartment != null )
-//						thread.ApartmentState = (ApartmentState)
-//							System.Enum.Parse( typeof( ApartmentState ), apartment, true );
-//		
-//					string priority = settings["ThreadPriority"];
-//					if ( priority != null )
-//						thread.Priority = (ThreadPriority)
-//							System.Enum.Parse( typeof( ThreadPriority ), priority, true );
-//				}
-//				catch( ArgumentException ex )
-//				{
-//					string msg = string.Format( "Invalid configuration setting in {0}", 
-//						AppDomain.CurrentDomain.SetupInformation.ConfigurationFile );
-//					throw new ArgumentException( msg, ex );
-//				}
-//			}
-//		}
-	
 		public TestRunnerThread( TestRunner runner ) 
 		{ 
 			this.runner = runner;
@@ -185,10 +150,15 @@ namespace NUnit.Core
 				this.thread.Interrupt();
 		}
 
-		public void StartRun( EventListener listener, string[] testNames )
+		public void StartRun( EventListener listener )
+		{
+			StartRun( listener, NUnit.Core.Filters.EmptyFilter.Empty );
+		}
+
+		public void StartRun( EventListener listener, ITestFilter filter )
 		{
 			this.listener = listener;
-			this.testNames = testNames;
+			this.filter = filter;
 
 			thread.Start();
 		}
@@ -196,55 +166,13 @@ namespace NUnit.Core
 		#endregion
 
 		#region Thread Proc
-
 		/// <summary>
 		/// The thread proc for our actual test run
 		/// </summary>
 		private void TestRunnerThreadProc()
 		{
-			try
-			{
-//				if ( testNames == null || testNames.Length == 0 )
-//					results = new TestResult[] { runner.Run( this.listener ) };
-//				else
-//					results = runner.Run( this.listener, testNames );
-
-				results = new TestResult[] { runner.Run( this.listener ) };
-			}
-//			catch( Exception )
-//			{
-//				//TODO: do we need a run finished event?
-//			}
-			finally
-			{
-				testNames = null;	// Do we need this?
-			}
+			results = new TestResult[] { runner.Run( this.listener, this.filter ) };
 		}
-
-		/// <summary>
-		/// The thread proc for our actual test run
-		/// </summary>
-//		private void TestRunnerThreadProc2()
-//		{
-//			try
-//			{
-//				//TODO: do we need a run started event?
-//
-//				results = runMethod(listener, testNames);
-//				
-//				//TODO: do we need a run finished event?
-//			}
-//			catch( Exception )
-//			{
-//				//TODO: do we need a run finished event?
-//			}
-//			finally
-//			{
-//				testNames = null;	// Do we need this?
-//				//runningThread = null;	// Ditto
-//			}
-//		}
-
 		#endregion
 	}
 }

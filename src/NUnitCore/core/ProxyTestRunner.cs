@@ -92,12 +92,6 @@ namespace NUnit.Core
 			get { return testRunner == null ? null : testRunner.TestResult; }
 		}
 
-		public virtual ITestFilter Filter
-		{
-			get { return this.testRunner.Filter; }
-			set { this.testRunner.Filter = value; }
-		}
-
 		public virtual TestRunnerSettings Settings
 		{
 			get 
@@ -177,11 +171,25 @@ namespace NUnit.Core
 			return this.testRunner.Run(listener);
 		}
 
+		public virtual TestResult Run(EventListener listener, ITestFilter filter)
+		{
+			// Save active listener for derived classes
+			this.listener = listener;
+			return this.testRunner.Run(listener, filter);
+		}
+
 		public virtual void BeginRun( EventListener listener )
 		{
 			// Save active listener for derived classes
 			this.listener = listener;
 			this.testRunner.BeginRun( listener );
+		}
+
+		public virtual void BeginRun( EventListener listener, ITestFilter filter )
+		{
+			// Save active listener for derived classes
+			this.listener = listener;
+			this.testRunner.BeginRun( listener, filter );
 		}
 
 		public virtual TestResult EndRun()

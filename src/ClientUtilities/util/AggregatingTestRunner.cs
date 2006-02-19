@@ -19,18 +19,19 @@ namespace NUnit.Util
 		protected int runnerID;
 
 		/// <summary>
-		/// The downstream TestRunner
+		/// The downstream TestRunners
 		/// </summary>
 		protected TestRunner[] runners;
 
-		protected ITest[] loadedTests;
+		/// <summary>
+		/// The loaded test suite
+		/// </summary>
+		protected TestNode loadedTest;
 
 		/// <summary>
 		/// The event listener for the currently running test
 		/// </summary>
 		protected EventListener listener;
-
-		protected ITestFilter filter;
 
 		protected string projectName;
 
@@ -85,27 +86,28 @@ namespace NUnit.Util
 		public virtual TestNode Test
 		{
 			get
-			{ 
-				if ( runners == null )
-					return null;
+			{
+				if ( loadedTest == null && runners != null )
+				{
+					// Count non-null tests, in case we specified a fixture
+					int count = 0;
+					foreach( TestRunner runner in runners )
+						if ( runner.Test != null )
+							++count;  
 
-				// Count non-null tests, in case we specified a fixture
-				int count = 0;
-				foreach( TestRunner runner in runners )
-					if ( runner.Test != null )
-						++count;  
+					// Copy non-null tests to an array
+					int index = 0;
+					ITest[] tests = new ITest[count];
+					foreach( TestRunner runner in runners )
+						if ( runner.Test != null )
+							tests[index++] = runner.Test;
 
-				// Copy non-null tests to an array
-				int index = 0;
-				ITest[] tests = new ITest[count];
-				foreach( TestRunner runner in runners )
-					if ( runner.Test != null )
-						tests[index++] = runner.Test;
+					// Return master node containing all the tests
+					loadedTest = new TestNode( projectName, tests );
+					loadedTest.RunnerID = this.runnerID;
+				}
 
-				// Return master node containing all the tests
-				TestNode rootNode = new TestNode( projectName, tests );
-				rootNode.RunnerID = this.runnerID;
-				return rootNode;
+				return loadedTest;
 			}
 		}
 
@@ -123,18 +125,6 @@ namespace NUnit.Util
 						suiteResult.Results.Add( runner.TestResult );
 
 				return suiteResult;
-			}
-		}
-
-		public virtual ITestFilter Filter
-		{
-			get { return this.filter; }
-			set 
-			{ 
-				this.filter = value;
- 
-				foreach( TestRunner runner in runners )
-					runner.Filter = filter;
 			}
 		}
 
@@ -168,6 +158,7 @@ namespace NUnit.Util
 		{
 			foreach( TestRunner runner in runners )
 				runner.Unload();
+			loadedTest = null;
 		}
 		#endregion
 
@@ -182,7 +173,6 @@ namespace NUnit.Util
 		#endregion
 
 		#region GetCategories Method
-
 		public virtual ICollection GetCategories()
 		{
 			ArrayList categories = new ArrayList();
@@ -192,11 +182,15 @@ namespace NUnit.Util
 
 			return categories;
 		}
-
 		#endregion
 
 		#region Methods for Running Tests
-		public virtual TestResult Run(EventListener listener)
+		public virtual TestResult Run( EventListener listener )
+		{
+			return Run( listener, NUnit.Core.Filters.EmptyFilter.Empty );
+		}
+
+		public virtual TestResult Run(EventListener listener, ITestFilter filter )
 		{
 			// Save active listener for derived classes
 			this.listener = listener;
@@ -205,11 +199,11 @@ namespace NUnit.Util
 			for( int index = 0; index < runners.Length; index++ )
 				tests[index] = runners[index].Test;
 
-			this.listener.RunStarted( this.Test.Name, this.CountTestCases( Filter ) );
+			this.listener.RunStarted( this.Test.Name, this.CountTestCases( filter ) );
 
 			TestSuiteResult result = new TestSuiteResult( new TestInfo( projectName, tests ), projectName );
 			foreach( TestRunner runner in runners )
-				result.Results.Add( runner.Run( this ) );
+				result.Results.Add( runner.Run( this, filter ) );
 
 			this.listener.RunFinished( this.TestResult );
 
@@ -217,6 +211,11 @@ namespace NUnit.Util
 		}
 
 		public virtual void BeginRun( EventListener listener )
+		{
+			BeginRun( listener, NUnit.Core.Filters.EmptyFilter.Empty );
+		}
+
+		public virtual void BeginRun( EventListener listener, ITestFilter filter )
 		{
 			// Save active listener for derived classes
 			this.listener = listener;
@@ -226,12 +225,12 @@ namespace NUnit.Util
 
 			foreach( TestRunner runner in runners )
 				if ( runner.Test != null )
-					runner.BeginRun( this );
+					runner.BeginRun( this, filter );
 
 			//this.listener.RunFinished( this.Results );
 #else
 			ThreadedTestRunner threadedRunner = new ThreadedTestRunner( this );
-			threadedRunner.BeginRun( listener );
+			threadedRunner.BeginRun( listener, filter );
 #endif
 		}
 
