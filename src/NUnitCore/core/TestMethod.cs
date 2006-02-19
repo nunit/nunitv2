@@ -55,6 +55,7 @@ namespace NUnit.Core
 		internal string expectedExceptionName;
 		internal string expectedMessage;
 
+		#region Constructors
 		public TestMethod( MethodInfo method ) : base( method.ReflectedType.FullName, 
 				method.DeclaringType == method.ReflectedType 
 			? method.Name : method.DeclaringType.Name + "." + method.Name )
@@ -80,7 +81,8 @@ namespace NUnit.Core
 			this.expectedExceptionName = expectedExceptionName;
 			this.expectedMessage = expectedMessage;
 		}
-	
+		#endregion
+
 		public override void Run(TestCaseResult testResult)
 		{ 
 			if ( ShouldRun )
@@ -297,10 +299,10 @@ namespace NUnit.Core
 
 		protected internal virtual void ProcessNoException(TestCaseResult testResult)
 		{
-			if ( expectedException == null )
+			if ( !ExpectingException )
 				testResult.Success();
 			else
-				testResult.Failure(expectedException.Name + " was expected", null);
+				testResult.Failure(expectedExceptionName + " was expected", null);
 		}
 		
 		protected internal virtual void ProcessException(Exception exception, TestCaseResult testResult)
@@ -326,7 +328,7 @@ namespace NUnit.Core
 			}
 			else
 			{
-				string message = "Expected: " + expectedException.Name + " but was " + exception.GetType().Name;
+				string message = "Expected: " + expectedExceptionName + " but was " + exception.GetType().FullName;
 				testResult.Failure( message, GetStackTrace(exception) );
 			}
 
