@@ -90,19 +90,55 @@ namespace NUnit.Core.Tests
 			suite.Add(test);
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "BaseExceptionTest should have failed");
-			Assert.AreEqual("Expected: ArgumentException but was Exception", result.Message);
+			Assert.AreEqual("Expected: System.ArgumentException but was System.Exception", result.Message);
 		}
 
 		[Test]
-		public void TestMismatchedException()
+		public void TestMismatchedExceptionType()
 		{
 			Type fixtureType = typeof(MismatchedException);
-			Test test = TestCaseBuilder.Make( fixtureType, "MismatchedExceptionTest" );
+			Test test = TestCaseBuilder.Make( fixtureType, "MismatchedExceptionType" );
 			TestSuite suite = TestFixtureBuilder.Make( fixtureType );
 			suite.Add(test);
 			TestResult result = test.Run(NullListener.NULL);
-			Assert.IsTrue(result.IsFailure, "MismatchedExceptionTest should have failed");
-			Assert.AreEqual("Expected: ArgumentException but was ArgumentOutOfRangeException", result.Message);
+			Assert.IsTrue(result.IsFailure, "MismatchedExceptionType should have failed");
+			Assert.AreEqual("Expected: System.ArgumentException but was System.ArgumentOutOfRangeException", result.Message);
+		}
+
+		[Test]
+		public void TestMismatchedExceptionName()
+		{
+			Type fixtureType = typeof(MismatchedException);
+			Test test = TestCaseBuilder.Make( fixtureType, "MismatchedExceptionName" );
+			TestSuite suite = TestFixtureBuilder.Make( fixtureType );
+			suite.Add(test);
+			TestResult result = test.Run(NullListener.NULL);
+			Assert.IsTrue(result.IsFailure, "MismatchedExceptionName should have failed");
+			Assert.AreEqual("Expected: System.ArgumentException but was System.ArgumentOutOfRangeException", result.Message);
+		}
+
+		[Test]
+		public void TestExceptionTypeNotThrown()
+		{
+			Type fixtureType = typeof(TestDoesNotThrowExceptionFixture);
+			Test test = TestCaseBuilder.Make( fixtureType, "TestDoesNotThrowExceptionType" );
+			TestSuite suite = TestFixtureBuilder.Make( fixtureType );
+			suite.Add(test);
+			TestResult result = test.Run(NullListener.NULL);
+			Assert.IsTrue(result.IsFailure, "MismatchedExceptionType should have failed");
+			Assert.AreEqual("System.ArgumentException was expected", result.Message);
+		}
+
+		[Test]
+		public void TestExceptionNameNotThrown()
+		{
+			Type fixtureType = typeof(TestDoesNotThrowExceptionFixture);
+			Test test = TestCaseBuilder.Make( fixtureType, "TestDoesNotThrowExceptionName" );
+			TestSuite suite = TestFixtureBuilder.Make( fixtureType );
+			suite.Add(test);
+			TestResult result = test.Run(NullListener.NULL);
+			Assert.IsTrue(result.IsFailure, "MismatchedExceptionName should have failed");
+			Assert.AreEqual("System.ArgumentException was expected", result.Message);
 		}
 
 		[TestFixture]
@@ -110,7 +146,14 @@ namespace NUnit.Core.Tests
 		{
 			[Test]
 			[ExpectedException(typeof(ArgumentException))]
-			public void MismatchedExceptionTest()
+			public void MismatchedExceptionType()
+			{
+				throw new ArgumentOutOfRangeException();
+			}
+
+			[Test]
+			[ExpectedException("System.ArgumentException")]
+			public void MismatchedExceptionName()
 			{
 				throw new ArgumentOutOfRangeException();
 			}
@@ -154,6 +197,19 @@ namespace NUnit.Core.Tests
 			public void TestThrow()
 			{
 				throw new Exception();
+			}
+		}
+
+		[TestFixture]
+		internal class TestDoesNotThrowExceptionFixture
+		{
+			[Test, ExpectedException("System.ArgumentException")]
+			public void TestDoesNotThrowExceptionName()
+			{
+			}
+			[Test, ExpectedException( typeof( System.ArgumentException ) )]
+			public void TestDoesNotThrowExceptionType()
+			{
 			}
 		}
 
