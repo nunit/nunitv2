@@ -61,9 +61,9 @@
 
     <!-- Other directories are derived from src and base -->
     <property name="project.build.dir" 
-      value="${path::combine(project.src.dir,'build')}"/>
+      value="${path::combine(project.base.dir,'build')}"/>
     <property name="project.package.dir" 
-      value="${path::combine(project.src.dir,'package')}"/>
+      value="${path::combine(project.base.dir,'package')}"/>
     <property name="project.doc.dir"
       value="${path::combine(project.base.dir,'doc')}"/>
     <property name="project.samples.dir"
@@ -94,7 +94,7 @@
     </if>
 
     <!-- NUnit version for packaging -->
-    <property name="package.version" value="2.3.6024"/>
+    <property name="package.version" value="2.3.6050"/>
 
     <!-- Root of the package file name -->
     <property name="package.name" 

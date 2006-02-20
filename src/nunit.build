@@ -212,6 +212,9 @@
     <echo message="* Starting ${runtime.config} ${build.config} build"/>
     <echo message="*"/>
 
+    <!-- Copy key file to base directory, so build can access it -->
+    <copy file="nunit.snk" todir="${project.base.dir}"/>
+
     <!-- Build NUnit components assemblies -->
     <nant target="build"
       buildfile="NUnitFramework/NUnitFramework.build"/>
