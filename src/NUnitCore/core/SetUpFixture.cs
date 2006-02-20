@@ -56,7 +56,7 @@ namespace NUnit.Core
 				BindingFlags.Public | BindingFlags.Instance, true );
 		}
 
-		public override void DoOneTimeSetUp(TestResult suiteResult)
+		protected override void DoOneTimeSetUp(TestResult suiteResult)
 		{
 			base.DoOneTimeSetUp (suiteResult);
 
@@ -64,7 +64,7 @@ namespace NUnit.Core
 				Reflect.InvokeMethod( fixtureSetUp, this.Fixture );
 		}
 
-		public override void DoOneTimeTearDown(TestResult suiteResult)
+		protected override void DoOneTimeTearDown(TestResult suiteResult)
 		{
 			if (fixtureTearDown != null )
 				Reflect.InvokeMethod( fixtureTearDown, this.Fixture );

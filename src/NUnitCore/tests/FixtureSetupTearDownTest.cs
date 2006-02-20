@@ -241,7 +241,7 @@ namespace NUnit.Core.Tests
 			TestSuite suite = TestFixtureBuilder.Make( fixture );
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
 			
-			testCase.Run(NullListener.NULL);
+			suite.Run(NullListener.NULL, new Filters.NameFilter( testCase.TestName ) );
 
 			Assert.AreEqual(1, fixture.setUpCount);
 			Assert.AreEqual(1, fixture.tearDownCount);

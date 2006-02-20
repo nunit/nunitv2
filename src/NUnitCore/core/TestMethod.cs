@@ -51,6 +51,8 @@ namespace NUnit.Core
 		private MethodInfo setUpMethod;
 		private MethodInfo tearDownMethod;
 
+		private Type fixtureType;
+
 		internal Type expectedException;
 		internal string expectedExceptionName;
 		internal string expectedMessage;
@@ -62,6 +64,7 @@ namespace NUnit.Core
 		{
 			this.method = method;
 			this.testFramework = TestFramework.FromMethod( method );
+			this.fixtureType = method.ReflectedType;
 		}
 
 		public TestMethod( MethodInfo method,
@@ -85,62 +88,38 @@ namespace NUnit.Core
 
 		public override void Run(TestCaseResult testResult)
 		{ 
-			if ( ShouldRun )
+			TestSuite parentSuite = this.Parent;
+
+			try
 			{
-				bool needParentTearDown = false;
-
-				// TODO: In order to change Parent from TestSuite
-				// to Test and eventually ITest, we temporarily
-				// use a cast here. This should be removed when 
-				// the refactoring is complete.
-				TestSuite parentSuite = this.Parent as TestSuite;
-
-				try
+				if ( parentSuite != null )
 				{
-					if ( parentSuite != null )
-					{
-						if ( parentSuite.SetUpNeeded  )
-						{
-							parentSuite.DoOneTimeSetUp( testResult );
-							needParentTearDown = parentSuite.SetUpComplete;
-						}
-						
-						if ( parentSuite.SetUpFailed )
-							testResult.Failure( "TestFixtureSetUp Failed", null );
 
-						if ( fixture == null )
-							fixture = parentSuite.Fixture;
+					if ( fixture == null )
+						fixture = parentSuite.Fixture;
+					
+					if ( setUpMethod == null )
+						setUpMethod = parentSuite.SetUpMethod;
 
-						if ( setUpMethod == null )
-							setUpMethod = parentSuite.SetUpMethod;
-
-						if ( tearDownMethod == null )
-							tearDownMethod = parentSuite.TearDownMethod;
-					}
-
-					if ( !testResult.IsFailure )
-						doRun( testResult );
+					if ( tearDownMethod == null )
+						tearDownMethod = parentSuite.TearDownMethod;
 				}
-				catch(Exception ex)
-				{
-					if ( ex is NunitException )
-						ex = ex.InnerException;
 
-					RecordException( ex, testResult );
-//					if ( testFramework.IsIgnoreException( ex ) )
-//						testResult.NotRun( ex.Message );
-//					else
-//						testResult.Error( ex );
-				}
-				finally
+				if ( !testResult.IsFailure )
 				{
-					if ( needParentTearDown )
-						parentSuite.DoOneTimeTearDown( testResult );
+					// Temporary... to allow for tests that directly execute a test case
+					if ( fixture == null )
+						fixture = Reflect.Construct( this.fixtureType );
+
+					doRun( testResult );
 				}
 			}
-			else
+			catch(Exception ex)
 			{
-				testResult.NotRun(this.IgnoreReason);
+				if ( ex is NunitException )
+					ex = ex.InnerException;
+
+				RecordException( ex, testResult );
 			}
 		}
 

@@ -51,7 +51,7 @@ namespace NUnit.Core
 
 		#region TestSuite Overrides
 
-		public override void DoFixtureSetUp( TestResult suiteResult )
+		protected override void DoOneTimeSetUp( TestResult suiteResult )
 		{
 			try 
 			{
@@ -63,7 +63,7 @@ namespace NUnit.Core
 
 				if (this.fixtureSetUp != null)
 					Reflect.InvokeMethod(fixtureSetUp, Fixture);
-				Status = SetUpState.SetUpComplete;
+				setUpStatus = SetUpState.SetUpComplete;
 			} 
 			catch (Exception ex) 
 			{
@@ -81,7 +81,7 @@ namespace NUnit.Core
 				else
 				{
 					suiteResult.Failure( ex.Message, ex.StackTrace );
-					this.Status = SetUpState.SetUpFailed;
+					setUpStatus = SetUpState.SetUpFailed;
 				}
 			}
 			finally
@@ -91,13 +91,13 @@ namespace NUnit.Core
 			}
 		}
 
-		public override void DoFixtureTearDown( TestResult suiteResult )
+		protected override void DoOneTimeTearDown( TestResult suiteResult )
 		{
 			if (this.ShouldRun) 
 			{
 				try 
 				{
-					Status = SetUpState.SetUpNeeded;
+					setUpStatus = SetUpState.SetUpNeeded;
 					if (this.fixtureTearDown != null)
 						Reflect.InvokeMethod(fixtureTearDown, Fixture);
 				} 

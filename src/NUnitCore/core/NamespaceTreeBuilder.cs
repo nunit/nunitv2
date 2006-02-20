@@ -98,7 +98,7 @@ namespace NUnit.Core
 
 			// Make the parent point to this instead
 			// TODO: Get rid of this or eliminate the cast
-			TestSuite parent = suite.Parent as TestSuite;
+			TestSuite parent = suite.Parent;
 			if ( parent != null )
 			{
 				parent.Tests.Remove( suite );

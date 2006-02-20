@@ -67,7 +67,12 @@ namespace NUnit.Core
 			listener.TestStarted( new TestInfo( this ) );
 			long startTime = DateTime.Now.Ticks;
 
-			Run( testResult );
+			if ( this.Parent != null && this.Parent.SetUpFailed )
+				testResult.Failure( "TestFixtureSetUp Failed", null );
+			else if ( ShouldRun )
+				Run( testResult );
+			else
+				testResult.NotRun( IgnoreReason );
 
 			if ( testFramework != null )
 				testResult.AssertCount = testFramework.GetAssertCount();

@@ -54,8 +54,7 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Build a fixture from an object. This method is used only
-		/// for testing purposes.
+		/// Build a fixture from an object. 
 		/// </summary>
 		/// <param name="fixture">The object to be used for the fixture</param>
 		/// <returns>A TestSuite if fixture type can be built, null if not</returns>

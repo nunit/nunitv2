@@ -43,7 +43,7 @@ namespace NUnit.Core
 	{
 		private static readonly string EXPLICIT_SELECTION_REQUIRED = "Explicit selection required";
 	
-		public enum SetUpState
+		protected enum SetUpState
 		{
 			SetUpNeeded,
 			SetUpComplete,
@@ -56,16 +56,6 @@ namespace NUnit.Core
 		/// </summary>
 		private ArrayList tests = new ArrayList();
 
-		/// <summary>
-		/// The Type of the fixture, or null
-		/// </summary>
-		private Type fixtureType;
-
-		/// <summary>
-		/// The fixture object, if it has been created
-		/// </summary>
-		private object fixture;
-		
 		/// <summary>
 		/// The test setup method for this suite
 		/// </summary>
@@ -86,36 +76,22 @@ namespace NUnit.Core
 		/// </summary>
 		protected MethodInfo fixtureTearDown;
 
-		private bool needParentTearDown;
-
-//		/// <summary>
-//		/// True if the fixture has been set up successfully
-//		/// </summary>
-//		private bool isSetUp;
-
 		/// <summary>
-		/// Indicates whether setup has been done yet
+		/// Indicates the status of any one-time setup needed
 		/// </summary>
-		private SetUpState status = SetUpState.SetUpNeeded;
+		protected SetUpState setUpStatus = SetUpState.SetUpNeeded;
 
 		#endregion
 
 		#region Constructors
-
 		public TestSuite( string name ) 
 			: base( name ) { }
 
 		public TestSuite( string parentSuiteName, string name ) 
 			: base( parentSuiteName, name ) { }
 
-		public TestSuite( Type fixtureType ) 
-			: base( fixtureType.FullName ) 
-		{
-			this.fixtureType = fixtureType;
-			if ( fixtureType.Namespace != null )
-				this.TestName.Name = FullName.Substring( FullName.LastIndexOf( '.' ) + 1 );
-		}
-
+		public TestSuite( Type fixtureType )
+			: base( fixtureType ) { }
 		#endregion
 
 		#region Public Methods
@@ -151,42 +127,14 @@ namespace NUnit.Core
 		#endregion
 
 		#region Properties
-
 		public override IList Tests 
 		{
 			get { return tests; }
 		}
 
-		public bool SetUpComplete
-		{
-			get { return status == SetUpState.SetUpComplete; }
-		}
-
-		public bool SetUpNeeded
-		{
-			get { return status == SetUpState.SetUpNeeded; }
-		}
-
 		public bool SetUpFailed
 		{
-			get { return status == SetUpState.SetUpFailed; }
-		}
-
-		public SetUpState Status
-		{
-			get { return status; }
-			set { status = value; }
-		}
-
-		public object Fixture
-		{
-			get { return fixture; }
-			set { fixture = value; }
-		}
-
-		public Type FixtureType
-		{
-			get { return fixtureType; }
+			get { return setUpStatus == SetUpState.SetUpFailed; }
 		}
 
 		public MethodInfo SetUpMethod
@@ -217,7 +165,6 @@ namespace NUnit.Core
 		{
 			get	{ return false;	}
 		}
-
 		#endregion
 
 		#region Test Overrides
@@ -266,7 +213,7 @@ namespace NUnit.Core
 
 			RunAllTests( suiteResult, listener, filter );
 
-			if ( ShouldRun && SetUpComplete )
+			if ( ShouldRun && !SetUpFailed )
 				DoOneTimeTearDown( suiteResult );
 
 			long stopTime = DateTime.Now.Ticks;
@@ -284,41 +231,14 @@ namespace NUnit.Core
 		#endregion
 
 		#region Virtual Methods
-		public virtual void DoOneTimeSetUp( TestResult suiteResult )
+		protected virtual void DoOneTimeSetUp( TestResult suiteResult )
 		{
-			// TODO: Get rid of the cast, if possible
-			TestSuite parentSuite = this.Parent as TestSuite;
-			if ( parentSuite != null && parentSuite.SetUpNeeded )
-			{
-				parentSuite.DoOneTimeSetUp( suiteResult );
-				needParentTearDown = parentSuite.SetUpComplete;
-			}
-
-			if ( parentSuite == null || parentSuite.SetUpComplete )
-				DoFixtureSetUp( suiteResult );
+			this.setUpStatus = SetUpState.SetUpComplete;
 		}
 
-		public virtual void DoFixtureSetUp( TestResult suiteResult )
+		protected virtual void DoOneTimeTearDown( TestResult suiteResult )
 		{
-			this.status = SetUpState.SetUpComplete;
-		}
-
-		public virtual void DoOneTimeTearDown( TestResult suiteResult )
-		{
-			DoFixtureTearDown( suiteResult );
-			
-			// TODO: Remove the need to do this cast
-			TestSuite parentSuite = this.Parent as TestSuite;
-			if ( parentSuite != null  && parentSuite.SetUpComplete && needParentTearDown )
-			{
-				needParentTearDown = false; // Do first in case of exception
-				parentSuite.DoOneTimeTearDown( suiteResult );
-			}
-		}
-
-		public virtual void DoFixtureTearDown( TestResult suiteResult )
-		{
-			this.status = SetUpState.SetUpNeeded;
+			this.setUpStatus = SetUpState.SetUpNeeded;
 		}
 
 		protected virtual void RunAllTests(

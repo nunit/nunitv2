@@ -22,13 +22,13 @@ namespace NUnit.Core.Extensions
 			// and after the normal TestFixtureSetUp and TestFixtureTearDown.
 		}
 
-		public override void DoOneTimeSetUp(TestResult suiteResult)
+		protected override void DoOneTimeSetUp(TestResult suiteResult)
 		{
 			Console.WriteLine( "Extended Fixture SetUp called" );
 			base.DoOneTimeSetUp (suiteResult);
 		}
 
-		public override void DoOneTimeTearDown(TestResult suiteResult)
+		protected override void DoOneTimeTearDown(TestResult suiteResult)
 		{
 			base.DoOneTimeTearDown (suiteResult);
 			Console.WriteLine( "Extended Fixture TearDown called" );

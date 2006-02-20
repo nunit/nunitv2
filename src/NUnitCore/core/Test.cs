@@ -62,7 +62,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// Test suite containing this test, or null
 		/// </summary>
-		private ITest parent;
+		private TestSuite parent;
 		
 		/// <summary>
 		/// List of categories applying to this test
@@ -85,6 +85,16 @@ namespace NUnit.Core
 		/// </summary>
 		protected ITestFramework testFramework;
 
+		/// <summary>
+		/// The Type of the fixture, or null
+		/// </summary>
+		private Type fixtureType;
+
+		/// <summary>
+		/// The fixture object, if it has been created
+		/// </summary>
+		private object fixture;
+		
 		#endregion
 
 		#region Construction
@@ -108,6 +118,14 @@ namespace NUnit.Core
 			this.testName.TestID = new TestID();
 
 			this.shouldRun = true;
+		}
+
+		protected Test( Type fixtureType ) 
+			: this( fixtureType.FullName ) 
+		{
+			this.fixtureType = fixtureType;
+			if ( fixtureType.Namespace != null )
+				this.TestName.Name = FullName.Substring( FullName.LastIndexOf( '.' ) + 1 );
 		}
 
 		internal void SetRunnerID( int runnerID, bool recursive )
@@ -179,7 +197,12 @@ namespace NUnit.Core
 			set { ignoreReason = value; }
 		}
 
-		public ITest Parent 
+		ITest ITest.Parent 
+		{
+			get { return parent; }
+		}
+
+		public TestSuite Parent
 		{
 			get { return parent; }
 			set { parent = value; }
@@ -234,6 +257,17 @@ namespace NUnit.Core
 
 				return properties; 
 			}
+		}
+
+		public object Fixture
+		{
+			get { return fixture; }
+			set { fixture = value; }
+		}
+
+		public Type FixtureType
+		{
+			get { return fixtureType; }
 		}
 
 		#endregion
