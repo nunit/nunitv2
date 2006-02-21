@@ -7,7 +7,7 @@
 
 	<PropertyGroup>
 		<MSBuildExtensionsPath>$(MSBuildProjectDirectory)\..\tools\MSBuildExtensions</MSBuildExtensionsPath>
-		<OutputPath>$(MSBuildProjectDirectory)\..\build\</OutputPath>
+		<OutputPath>$(MSBuildProjectDirectory)\..\build\net\1.0\Debug\</OutputPath>
 		<Properties_v1_0>OutputPath=$(OutputPath);NoWarn=;TargetFrameworkVersion=v1.0;MSBuildExtensionsPath=$(MSBuildExtensionsPath);CustomAfterMicrosoftCommonTargets=$(MSBuildExtensionsPath)\CrossCompile.CSharp.targets</Properties_v1_0>
 		<PackageId>{1AA69CCD-1078-473A-BD6E-11CE30A81C58}</PackageId>
 		<Msi>NUnit-$(Version)-net-1.0.msi</Msi>
