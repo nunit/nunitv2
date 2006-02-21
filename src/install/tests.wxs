@@ -11,29 +11,29 @@
       
         <Component Id="component_tests" DiskId="1" Guid="85DD0370-9E05-4e9a-8AB4-02A6C24986AB">
           <File Id="F__test1" Name="tests_1.DLL"
-			LongName="nunit.testutilities.dll" src="bin\nunit.testutilities.dll" />
+			LongName="nunit.testutilities.dll" src="nunit.testutilities.dll" />
           <File Id="F__test2" Name="tests_2.DLL"
-			LongName="nunit.util.tests.dll" src="bin\nunit.util.tests.dll" />
+			LongName="nunit.util.tests.dll" src="nunit.util.tests.dll" />
           <File Id="F__test3" Name="tests_3.DLL"
-			LongName="nunit.framework.tests.dll" src="bin\nunit.framework.tests.dll" />
+			LongName="nunit.framework.tests.dll" src="nunit.framework.tests.dll" />
           <File Id="F__test4" Name="tests_4.DLL"
-			LongName="nunit.mocks.tests.dll" src="bin\nunit.mocks.tests.dll" />
+			LongName="nunit.mocks.tests.dll" src="nunit.mocks.tests.dll" />
           <File Id="F__test5" Name="tests_5.DLL"
-			LongName="nunit.uikit.tests.dll" src="bin\nunit.uikit.tests.dll" />
+			LongName="nunit.uikit.tests.dll" src="nunit.uikit.tests.dll" />
           <File Id="F__test6" Name="tests_6.DLL"
-			LongName="nunit-console.tests.dll" src="bin\nunit-console.tests.dll" />
+			LongName="nunit-console.tests.dll" src="nunit-console.tests.dll" />
           <File Id="F__test7" Name="tests_7.DLL"
-			LongName="timing-tests.dll" src="bin\timing-tests.dll" />
+			LongName="timing-tests.dll" src="timing-tests.dll" />
           <File Id="F__test8" Name="config_8.DLL"
 			LongName="NUnitBinTests.config" src="..\NUnitBinTests.config" />
           <File Id="F__test9" Name="nunit_9.DLL"
 			LongName="NUnitBinTests.nunit" src="..\NUnitBinTests.nunit" />
           <File Id="F__test10" Name="tests_10.DLL"
-			LongName="nunit-gui.tests.dll" src="bin\nunit-gui.tests.dll" />
+			LongName="nunit-gui.tests.dll" src="nunit-gui.tests.dll" />
           <File Id="F__test11" Name="tests_11.DLL"
-			LongName="nunit.extensions.tests.dll" src="bin\nunit.extensions.tests.dll" />
+			LongName="nunit.extensions.tests.dll" src="nunit.extensions.tests.dll" />
           <File Id="F__test12" Name="tests_12.DLL"
-			LongName="nunit.core.tests.dll" src="bin\nunit.core.tests.dll" />
+			LongName="nunit.core.tests.dll" src="nunit.core.tests.dll" />
         </Component>
 
       </Directory>

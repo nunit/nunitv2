@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<MSBuildExtensionsPath>$(MSBuildProjectDirectory)\..\tools\MSBuildExtensions</MSBuildExtensionsPath>
-		<OutputPath>$(MSBuildProjectDirectory)\bin\</OutputPath>
+		<OutputPath>$(MSBuildProjectDirectory)\..\build\</OutputPath>
 		<Properties_v1_0>OutputPath=$(OutputPath);NoWarn=;TargetFrameworkVersion=v1.0;MSBuildExtensionsPath=$(MSBuildExtensionsPath);CustomAfterMicrosoftCommonTargets=$(MSBuildExtensionsPath)\CrossCompile.CSharp.targets</Properties_v1_0>
 		<PackageId>{1AA69CCD-1078-473A-BD6E-11CE30A81C58}</PackageId>
 		<Version>2.3</Version>
@@ -16,6 +16,7 @@
 	</ItemGroup>
   	
 	<Target Name="Clean">
+		<RemoveDir Directories="$(OutputPath)" />
 		<MSBuild Projects="nunit_VS2005.sln" Targets="Clean" Properties="$(Properties_v1_0)" />
 	</Target>
 	
@@ -26,14 +27,15 @@
 	<Target Name="Test" DependsOnTargets="Build">
 		<Copy SourceFiles="NUnitBinTests.nunit;NUnitBinTests.config" DestinationFolder="$(OutputPath)" />
 
-		<Exec Command='set ComPlus_Version=v2.0.50727
-"$(NUnitConsole)" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
-
 		<Exec Command='set ComPlus_Version=v1.1.4322
 "$(NUnitConsole)" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
 
 		<Exec Command='set ComPlus_Version=v1.0.3705
 "$(NUnitConsole)" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
+
+		<Exec Command='set ComPlus_Version=v2.0.50727
+"$(NUnitConsole)" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
+
 	</Target>
 	
 	<Target Name="Package" DependsOnTargets="Build">
