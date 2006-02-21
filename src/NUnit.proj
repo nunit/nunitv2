@@ -46,6 +46,7 @@
 	<Target Name="Package" DependsOnTargets="Build">
 		<Exec Command='..\tools\wix\candle "@(Wxs)" -dProductVersion=$(Version) -out "$(OutputPath)%(Wxs.Filename).wixobj"' />	
 		<Exec Command="..\tools\wix\light @(Wxs->'$(OutputPath)%(Filename).wixobj', ' ') -b install -out $(Msi)" />
+		<Copy Condition=" '$(CCNetArtifactDirectory)'!='' " SourceFiles="$(Msi)" DestinationFolder="$(CCNetArtifactDirectory)" />
 	</Target>
 	
 	<Target Name="Install" DependsOnTargets="Uninstall;Package">
