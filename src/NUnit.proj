@@ -1,11 +1,17 @@
 <Project DefaultTargets="Clean;Build;Package;Test" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 	<PropertyGroup>
+		<MajorVersion>2</MajorVersion>
+		<MinorVersion>2</MinorVersion>
+		<Version Condition="'$(CCNetLabel)' != ''">$(MajorVersion).$(MinorVersion).$(CCNetLabel)</Version>
+		<Version Condition="'$(CCNetLabel)' == ''">$(MajorVersion).$(MinorVersion).0</Version>
+	</PropertyGroup>
+
+	<PropertyGroup>
 		<MSBuildExtensionsPath>$(MSBuildProjectDirectory)\..\tools\MSBuildExtensions</MSBuildExtensionsPath>
 		<OutputPath>$(MSBuildProjectDirectory)\..\build\</OutputPath>
 		<Properties_v1_0>OutputPath=$(OutputPath);NoWarn=;TargetFrameworkVersion=v1.0;MSBuildExtensionsPath=$(MSBuildExtensionsPath);CustomAfterMicrosoftCommonTargets=$(MSBuildExtensionsPath)\CrossCompile.CSharp.targets</Properties_v1_0>
 		<PackageId>{1AA69CCD-1078-473A-BD6E-11CE30A81C58}</PackageId>
-		<Version>2.2.7</Version>
 		<Msi>NUnit-$(Version).msi</Msi>
 		<NUnitConsole>$(OutputPath)nunit-console.exe</NUnitConsole>
 	</PropertyGroup>
