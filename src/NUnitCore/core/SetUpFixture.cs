@@ -40,10 +40,13 @@ namespace NUnit.Core
 	{
 		public SetUpFixture( Type type ) : base( type )
 		{
-			this.TestName.Name = type.Namespace;
-			int index = TestName.Name.LastIndexOf( '.' );
-			if ( index > 0 )
-				this.TestName.Name = this.TestName.Name.Substring( index + 1 );
+            this.TestName.Name = type.Namespace;
+            if (this.TestName.Name == null)
+                this.TestName.Name = "[default namespace]";
+            int index = TestName.Name.LastIndexOf('.');
+            if (index > 0)
+                this.TestName.Name = this.TestName.Name.Substring(index + 1);
+            
 			// NOTE: Once again, since we are not inheriting from TestFixture,
 			// no automatic construction is performed for us, so we do it here.
 			this.Fixture = Reflect.Construct( type );

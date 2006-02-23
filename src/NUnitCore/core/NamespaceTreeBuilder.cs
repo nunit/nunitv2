@@ -76,12 +76,16 @@ namespace NUnit.Core
 
 		public void Add( IList fixtures )
 		{
-			foreach( TestSuite fixture in fixtures )
-				Add( fixture );
+            foreach (TestSuite fixture in fixtures)
+                if (fixture is NamespaceSuite)
+                    Add(fixture as NamespaceSuite);
+                else
+                    Add( fixture );
 		}
 
 		public void Add( Test fixture )
 		{
+            
 			string ns = fixture.FullName;
 			int index = ns.LastIndexOf( '.' );
 			ns = index > 0 ? ns.Substring( 0, index ) : string.Empty;
@@ -109,6 +113,11 @@ namespace NUnit.Core
 			foreach( TestSuite child in suite.Tests )
 				fixture.Add( child );
 
+            if (parent == null && fixture is SetUpFixture)
+            {
+                suite.Tests.Clear();
+                suite.Add(fixture);
+            }
 			// Update the hashtable
 			namespaceSuites[ns] = fixture;
 		}
@@ -122,7 +131,7 @@ namespace NUnit.Core
 			if( nameSpace == null || nameSpace  == "" ) return rootSuite;
 			TestSuite suite = (TestSuite)namespaceSuites[nameSpace];
 			if(suite!=null) return suite;
-
+            
 			int index = nameSpace.LastIndexOf(".");
 			//string prefix = string.Format( "[{0}]" );
 			if( index == -1 )
