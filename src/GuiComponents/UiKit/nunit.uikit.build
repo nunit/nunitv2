@@ -15,6 +15,7 @@
       </sources>
       <resources basedir="." prefix="NUnit.UiKit">
         <include name="*.resx"/>
+        <include name="*.gif"/>
       </resources>
       <references basedir="${current.build.dir}">
         <include name="nunit.common.dll"/>
