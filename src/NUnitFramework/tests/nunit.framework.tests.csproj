@@ -18,7 +18,7 @@
                 OutputType = "Library"
                 PreBuildEvent = ""
                 PostBuildEvent = 'copy "$(ProjectDir)nunit.framework.tests.dll.config" "$(TargetDir)nunit.framework.tests.dll.config"'
-                RootNamespace = "NUnit.Core.Tests"
+                RootNamespace = "NUnit.Framework.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
             >
@@ -175,6 +175,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "FileAssertTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "GreaterFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -212,6 +217,22 @@
                     RelPath = "StringAssertTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestImage1.jpg"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "TestImage2.jpg"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "TestText1.txt"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "TestText2.txt"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "TypeAssertTest.cs"

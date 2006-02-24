@@ -98,6 +98,7 @@
     <Compile Include="ExplicitAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FileAssert.cs" />
     <Compile Include="GreaterAsserter.cs" />
     <Compile Include="IAsserter.cs">
       <SubType>Code</SubType>
@@ -122,6 +123,7 @@
     <Compile Include="PlatformAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PropertyAttribute.cs" />
     <Compile Include="SameAsserter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -131,6 +133,7 @@
     <Compile Include="SetUpFixtureAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="StreamAsserter.cs" />
     <Compile Include="StringAssert.cs" />
     <Compile Include="StringAsserters.cs" />
     <Compile Include="SuiteAttribute.cs">
