@@ -31,7 +31,7 @@ using System;
 using System.Reflection;
 using System.Runtime.Serialization;
 using NUnit.Framework;
-using NUnit.Core.Builders;
+//using NUnit.Core.Builders;
 
 namespace NUnit.Core.Tests
 {
@@ -64,21 +64,52 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
+		[ExpectedException(typeof(ArgumentException),"argument exception", MessageMatch.Exact)]
+		public void CanSpecifyExceptionTypeAndExactMatch()
+		{
+			throw new ArgumentException("argument exception");
+		}
+
+		[Test]
+		[ExpectedException(typeof(ArgumentException),"invalid", MessageMatch.Contains)]
+		public void CanSpecifyExceptionTypeAndContainsMatch()
+		{
+			throw new ArgumentException("argument invalid exception");
+		}
+
+		[Test]
+		[ExpectedException(typeof(ArgumentException),"exception$", MessageMatch.Regex)]
+		public void CanSpecifyExceptionTypeAndRegexMatch()
+		{
+			throw new ArgumentException("argument invalid exception");
+		}
+
+		[Test]
 		[ExpectedException("System.ArgumentException","argument exception")]
 		public void CanSpecifyExceptionNameAndMessage()
 		{
 			throw new ArgumentException("argument exception");
 		}
 
-		[TestFixture]
-		internal class BaseException
+		[Test]
+		[ExpectedException("System.ArgumentException","argument exception",MessageMatch.Exact)]
+		public void CanSpecifyExceptionNameAndExactMatch()
 		{
-			[Test]
-			[ExpectedException(typeof(ArgumentException))]
-			public void BaseExceptionTest()
-			{
-				throw new Exception();
-			}
+			throw new ArgumentException("argument exception");
+		}
+
+		[Test]
+		[ExpectedException("System.ArgumentException","invalid", MessageMatch.Contains)]
+		public void CanSpecifyExceptionNameAndContainsMatch()
+		{
+			throw new ArgumentException("argument invalid exception");
+		}
+
+		[Test]
+		[ExpectedException("System.ArgumentException","exception$", MessageMatch.Regex)]
+		public void CanSpecifyExceptionNameAndRegexMatch()
+		{
+			throw new ArgumentException("argument invalid exception");
 		}
 
 		[Test]
@@ -139,122 +170,6 @@ namespace NUnit.Core.Tests
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "MismatchedExceptionName should have failed");
 			Assert.AreEqual("System.ArgumentException was expected", result.Message);
-		}
-
-		[TestFixture]
-		internal class MismatchedException
-		{
-			[Test]
-			[ExpectedException(typeof(ArgumentException))]
-			public void MismatchedExceptionType()
-			{
-				throw new ArgumentOutOfRangeException();
-			}
-
-			[Test]
-			[ExpectedException("System.ArgumentException")]
-			public void MismatchedExceptionName()
-			{
-				throw new ArgumentOutOfRangeException();
-			}
-		}
-
-		[TestFixture]
-		internal class SetUpExceptionTests  
-		{
-			[SetUp]
-			public void Init()
-			{
-				throw new ArgumentException("SetUp Exception");
-			}
-
-			[Test]
-			[ExpectedException(typeof(ArgumentException))]
-			public void Test() 
-			{
-			}
-		}
-
-		[TestFixture]
-		internal class TearDownExceptionTests
-		{
-			[TearDown]
-			public void CleanUp()
-			{
-				throw new ArgumentException("TearDown Exception");
-			}
-
-			[Test]
-			[ExpectedException(typeof(ArgumentException))]
-			public void Test() 
-			{}
-		}
-
-		[TestFixture]
-		internal class TestThrowsExceptionFixture
-		{
-			[Test]
-			public void TestThrow()
-			{
-				throw new Exception();
-			}
-		}
-
-		[TestFixture]
-		internal class TestDoesNotThrowExceptionFixture
-		{
-			[Test, ExpectedException("System.ArgumentException")]
-			public void TestDoesNotThrowExceptionName()
-			{
-			}
-			[Test, ExpectedException( typeof( System.ArgumentException ) )]
-			public void TestDoesNotThrowExceptionType()
-			{
-			}
-		}
-
-		[TestFixture]
-		internal class TestThrowsExceptionWithRightMessage
-		{
-			[Test]
-			[ExpectedException(typeof(Exception), "the message")]
-			public void TestThrow()
-			{
-				throw new Exception("the message");
-			}
-		}
-
-		[TestFixture]
-		internal class TestThrowsArgumentOutOfRangeException
-		{
-			[Test]
-			[ExpectedException(typeof(ArgumentOutOfRangeException)) ]
-			public void TestThrow()
-			{
-				throw new ArgumentOutOfRangeException("param", "actual value", "the message");
-			}
-		}
-
-		[TestFixture]
-			internal class TestThrowsExceptionWithWrongMessage
-		{
-			[Test]
-			[ExpectedException(typeof(Exception), "not the message")]
-			public void TestThrow()
-			{
-				throw new Exception("the message");
-			}
-		}
-
-		[TestFixture]
-		internal class TestAssertsBeforeThrowingException
-		{
-			[Test]
-			[ExpectedException(typeof(Exception))]
-			public void TestAssertFail()
-			{
-				Assert.Fail( "private message" );
-			}
 		}
 
 		[Test] 
@@ -348,5 +263,134 @@ namespace NUnit.Core.Tests
 		{
 			throw new NunitException("Nunit exception");
 		}
+
+		#region Internal Nested Test Fixtures
+		[TestFixture]
+			internal class BaseException
+		{
+			[Test]
+			[ExpectedException(typeof(ArgumentException))]
+			public void BaseExceptionTest()
+			{
+				throw new Exception();
+			}
+		}
+
+		[TestFixture]
+			internal class MismatchedException
+		{
+			[Test]
+			[ExpectedException(typeof(ArgumentException))]
+			public void MismatchedExceptionType()
+			{
+				throw new ArgumentOutOfRangeException();
+			}
+
+			[Test]
+			[ExpectedException("System.ArgumentException")]
+			public void MismatchedExceptionName()
+			{
+				throw new ArgumentOutOfRangeException();
+			}
+		}
+
+		[TestFixture]
+			internal class SetUpExceptionTests  
+		{
+			[SetUp]
+			public void Init()
+			{
+				throw new ArgumentException("SetUp Exception");
+			}
+
+			[Test]
+			[ExpectedException(typeof(ArgumentException))]
+			public void Test() 
+			{
+			}
+		}
+
+		[TestFixture]
+			internal class TearDownExceptionTests
+		{
+			[TearDown]
+			public void CleanUp()
+			{
+				throw new ArgumentException("TearDown Exception");
+			}
+
+			[Test]
+			[ExpectedException(typeof(ArgumentException))]
+			public void Test() 
+			{}
+		}
+
+		[TestFixture]
+			internal class TestThrowsExceptionFixture
+		{
+			[Test]
+			public void TestThrow()
+			{
+				throw new Exception();
+			}
+		}
+
+		[TestFixture]
+			internal class TestDoesNotThrowExceptionFixture
+		{
+			[Test, ExpectedException("System.ArgumentException")]
+			public void TestDoesNotThrowExceptionName()
+			{
+			}
+			[Test, ExpectedException( typeof( System.ArgumentException ) )]
+			public void TestDoesNotThrowExceptionType()
+			{
+			}
+		}
+
+		[TestFixture]
+			internal class TestThrowsExceptionWithRightMessage
+		{
+			[Test]
+			[ExpectedException(typeof(Exception), "the message")]
+			public void TestThrow()
+			{
+				throw new Exception("the message");
+			}
+		}
+
+		[TestFixture]
+			internal class TestThrowsArgumentOutOfRangeException
+		{
+			[Test]
+			[ExpectedException(typeof(ArgumentOutOfRangeException)) ]
+			public void TestThrow()
+			{
+				throw new ArgumentOutOfRangeException("param", "actual value", "the message");
+			}
+		}
+
+		[TestFixture]
+			internal class TestThrowsExceptionWithWrongMessage
+		{
+			[Test]
+			[ExpectedException(typeof(Exception), "not the message")]
+			public void TestThrow()
+			{
+				throw new Exception("the message");
+			}
+		}
+
+		[TestFixture]
+			internal class TestAssertsBeforeThrowingException
+		{
+			[Test]
+			[ExpectedException(typeof(Exception))]
+			public void TestAssertFail()
+			{
+				Assert.Fail( "private message" );
+			}
+		}
+		#endregion
 	}
 }

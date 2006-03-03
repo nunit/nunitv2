@@ -31,6 +31,7 @@ namespace NUnit.Core
 {
 	using System;
 	using System.Text;
+	using System.Text.RegularExpressions;
 	using System.Reflection;
 
 	/// <summary>
@@ -53,36 +54,14 @@ namespace NUnit.Core
 
 		private Type fixtureType;
 
-		internal Type expectedException;
-		internal string expectedExceptionName;
-		internal string expectedMessage;
-
 		#region Constructors
 		public TestMethod( MethodInfo method ) : base( method.ReflectedType.FullName, 
-				method.DeclaringType == method.ReflectedType 
+			method.DeclaringType == method.ReflectedType 
 			? method.Name : method.DeclaringType.Name + "." + method.Name )
 		{
 			this.method = method;
 			this.testFramework = TestFramework.FromMethod( method );
 			this.fixtureType = method.ReflectedType;
-		}
-
-		public TestMethod( MethodInfo method,
-			Type expectedException, string expectedMessage ) 
-			: this( method )
-		{
-			this.expectedException = expectedException;
-			if ( expectedException != null )
-				this.expectedExceptionName = expectedException.FullName;
-			this.expectedMessage = expectedMessage;
-		}
-	
-		public TestMethod( MethodInfo method,
-			string expectedExceptionName, string expectedMessage ) 
-			: this( method )
-		{
-			this.expectedExceptionName = expectedExceptionName;
-			this.expectedMessage = expectedMessage;
 		}
 		#endregion
 
@@ -171,7 +150,7 @@ namespace NUnit.Core
 				if ( ex is NunitException )
 					ex = ex.InnerException;
 				// TODO: What about ignore exceptions in teardown?
-				RecordTearDownException(ex, testResult);
+				testResult.TearDownError( ex );
 			}
 		}
 
@@ -188,7 +167,7 @@ namespace NUnit.Core
 					ex = ex.InnerException;
 
 				if ( testFramework.IsIgnoreException( ex ) )
-					testResult.NotRun(ex.Message, BuildStackTrace(ex));
+					testResult.NotRun( ex );
 				else
 					ProcessException(ex, testResult);
 			}
@@ -210,57 +189,10 @@ namespace NUnit.Core
 			else if ( testFramework.IsAssertException( ex ) )
 				testResult.Failure( ex.Message, ex.StackTrace );
 			else	
-				testResult.Failure( BuildMessage(ex), BuildStackTrace(ex) );
+				testResult.Error( ex );
 		}
 
-		protected void RecordTearDownException( Exception exception, TestCaseResult testResult )
-		{
-			StringBuilder msg = new StringBuilder();
-			StringBuilder st = new StringBuilder();
-			
-			msg.Append( testResult.Message );
-			msg.Append( Environment.NewLine );
-			msg.Append( "TearDown : " );
-			st.Append( testResult.StackTrace );
-			st.Append( Environment.NewLine );
-			st.Append( "--TearDown" );
-			st.Append( Environment.NewLine );
-
-			msg.Append( BuildMessage( exception ) );
-			st.Append( BuildStackTrace( exception ) );
-			testResult.Failure( msg.ToString(), st.ToString() );
-		}
-
-		private string BuildMessage(Exception exception)
-		{
-			StringBuilder sb = new StringBuilder();
-			if ( testFramework.IsAssertException( exception ) )
-				sb.Append( exception.Message );
-			else
-				sb.AppendFormat( "{0} : {1}", exception.GetType().ToString(), exception.Message );
-
-			Exception inner = exception.InnerException;
-			while( inner != null )
-			{
-				sb.Append( Environment.NewLine );
-				sb.AppendFormat( "  ----> {0} : {1}", inner.GetType().ToString(), inner.Message );
-				inner = inner.InnerException;
-			}
-
-			return sb.ToString();
-		}
-		
-		private string BuildStackTrace(Exception exception)
-		{
-			if(exception.InnerException!=null)
-				return GetStackTrace(exception) + Environment.NewLine + 
-					"--" + exception.GetType().Name + Environment.NewLine +
-					BuildStackTrace(exception.InnerException);
-			else
-				return GetStackTrace(exception);
-		}
-
-		private string GetStackTrace(Exception exception)
+		protected string GetStackTrace(Exception exception)
 		{
 			try
 			{
@@ -275,62 +207,125 @@ namespace NUnit.Core
 		#endregion
 
 		#region Virtual Methods
-
 		protected internal virtual void ProcessNoException(TestCaseResult testResult)
 		{
-			if ( !ExpectingException )
-				testResult.Success();
-			else
-				testResult.Failure(expectedExceptionName + " was expected", null);
+			testResult.Success();
 		}
 		
 		protected internal virtual void ProcessException(Exception exception, TestCaseResult testResult)
 		{
-			if ( !ExpectingException )
-				RecordException( exception, testResult );
-			else if ( IsExpectedExceptionType( exception ) )
+			RecordException( exception, testResult );
+		}
+		#endregion
+	}
+
+	public class ExpectedExceptionTestMethod : TestMethod
+	{
+		internal Type expectedException;
+		internal string expectedExceptionName;
+		internal string expectedMessage;
+		internal string matchType;
+
+		#region Constructors
+		public ExpectedExceptionTestMethod( MethodInfo method,
+			Type expectedException, string expectedMessage, string matchType ) 
+			: base( method )
+		{
+			this.expectedException = expectedException;
+			if ( expectedException != null )
+				this.expectedExceptionName = expectedException.FullName;
+			this.expectedMessage = expectedMessage;
+			this.matchType = matchType;
+		}
+	
+		public ExpectedExceptionTestMethod( MethodInfo method,
+			string expectedExceptionName, string expectedMessage, string matchType ) 
+			: base( method )
+		{
+			this.expectedExceptionName = expectedExceptionName;
+			this.expectedMessage = expectedMessage;
+			this.matchType = matchType;
+		}
+		#endregion
+
+		protected internal override void ProcessNoException(TestCaseResult testResult)
+		{
+			testResult.Failure( NoExceptionMessage(), null );
+		}
+
+		protected internal override void ProcessException(Exception exception, TestCaseResult testResult)
+		{
+			if ( IsExpectedExceptionType( exception ) )
 			{
-				if (expectedMessage != null && !expectedMessage.Equals(exception.Message))
-				{
-					string message = string.Format("Expected exception to have message: \"{0}\" but received message \"{1}\"", 
-						expectedMessage, exception.Message);
-					testResult.Failure(message, GetStackTrace(exception) );
-				} 
-				else 
+				if ( IsExpectedMessageMatch( exception ) )
 				{
 					testResult.Success();
 				}
+				else 
+				{
+					testResult.Failure( WrongTextMessage( exception ), GetStackTrace( exception ) );
+				} 
 			}
 			else if ( testFramework.IsAssertException( exception ) )
 			{
-				RecordException(exception,testResult);
+				testResult.Failure( exception.Message, exception.StackTrace );
 			}
 			else
 			{
-				string message = "Expected: " + expectedExceptionName + " but was " + exception.GetType().FullName;
-				testResult.Failure( message, GetStackTrace(exception) );
+				testResult.Failure( WrongTypeMessage( exception ), GetStackTrace( exception ) );
 			}
-
-			return;
 		}
-
-		#endregion
 
 		#region Helper Methods
-
-		private bool ExpectingException
-		{
-			get
-			{
-				return expectedException != null || expectedExceptionName != null;
-			}
-		}
-
 		private bool IsExpectedExceptionType( Exception exception )
 		{
 			return expectedExceptionName.Equals(exception.GetType().FullName);
 		}
 
+		private bool IsExpectedMessageMatch( Exception exception )
+		{
+			if ( expectedMessage == null )
+				return true;
+			
+			switch( matchType )
+			{
+				case "Exact":
+				default:
+					return expectedMessage.Equals(exception.Message);
+				case "Contains":
+					return exception.Message.IndexOf( expectedMessage ) >= 0;
+				case "Regex":
+					return Regex.IsMatch( exception.Message, expectedMessage );
+			}
+		}
+
+		private string NoExceptionMessage()
+		{
+			return expectedExceptionName + " was expected";
+		}
+
+		private string WrongTypeMessage( Exception exception )
+		{
+			return "Expected: " + expectedExceptionName + " but was " + exception.GetType().FullName;
+		}
+
+		private string WrongTextMessage( Exception exception )
+		{
+			switch( matchType )
+			{
+				default:
+				case "Exact":
+					return string.Format("Expected exception message: \"{0}\" but received message \"{1}\"", 
+						expectedMessage, exception.Message);
+				case "Contains":
+					return string.Format("Expected exception message containing: \"{0}\" but received message \"{1}\"", 
+						expectedMessage, exception.Message);
+				case "Regex":
+					return string.Format("Expected exception message matching: \"{0}\" but received message \"{1}\"", 
+						expectedMessage, exception.Message);
+			}
+		}
 		#endregion
+
 	}
 }

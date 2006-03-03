@@ -172,7 +172,6 @@ namespace NUnit.Core
 		#endregion
 
 		#region Public Methods
-
 		/// <summary>
 		/// Mark the test as not run.
 		/// </summary>
@@ -194,6 +193,11 @@ namespace NUnit.Core
 			this.stackTrace = stackTrace;
 		}
 
+		public void NotRun( Exception ex )
+		{
+			NotRun( ex.Message, BuildStackTrace( ex ) );
+		}
+
 		/// <summary>
 		/// Mark the test as a failure due to an
 		/// assertion having failed.
@@ -208,6 +212,21 @@ namespace NUnit.Core
 			this.stackTrace = stackTrace;
 		}
 
+		public void Error( Exception exception )
+		{
+			this.executed = true;
+			this.isFailure = true;
+			this.messageString = BuildMessage( exception );
+			this.stackTrace = BuildStackTrace( exception );
+		}
+
+		public void TearDownError( Exception exception )
+		{
+			this.executed = true;
+			this.IsFailure = true;
+			this.messageString += Environment.NewLine + "TearDown : " + BuildMessage( exception );
+			this.stackTrace += Environment.NewLine + "--TearDown" + Environment.NewLine + BuildStackTrace( exception );
+		}
 		#endregion
 
 		#region Exception Helpers

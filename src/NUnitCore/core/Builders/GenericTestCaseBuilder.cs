@@ -75,27 +75,36 @@ namespace NUnit.Core.Builders
 			Type expectedException = null;
 			string expectedExceptionName = null;
 			string expectedMessage = null;
+			string matchType = null;
 
 			if( parms.HasExpectedExceptionType )
 			{
 				Attribute attribute = Reflect.GetAttribute( method, parms.ExpectedExceptionType, false );
 				if ( attribute != null )
 				{
-					expectedException = (System.Type)Reflect.GetPropertyValue( 
+					expectedException = Reflect.GetPropertyValue( 
 						attribute, "ExceptionType",
-						BindingFlags.Public | BindingFlags.Instance );
+						BindingFlags.Public | BindingFlags.Instance ) as Type;
 					expectedExceptionName = (string)Reflect.GetPropertyValue(
 						attribute, "ExceptionName",
-						BindingFlags.Public | BindingFlags.Instance );
+						BindingFlags.Public | BindingFlags.Instance ) as String;
 					expectedMessage = (string)Reflect.GetPropertyValue(
 						attribute, "ExpectedMessage",
+						BindingFlags.Public | BindingFlags.Instance ) as String;
+					object matchEnum = Reflect.GetPropertyValue(
+						attribute, "MatchType",
 						BindingFlags.Public | BindingFlags.Instance );
+					if ( matchEnum != null )
+						matchType = matchEnum.ToString();
 				}
 			}
 
-			return expectedException != null
-				? new TestMethod( method, expectedException, expectedMessage )
-				: new TestMethod( method, expectedExceptionName, expectedMessage );
+			if ( expectedException != null )
+				return new ExpectedExceptionTestMethod( method, expectedException, expectedMessage, matchType );
+			else if ( expectedExceptionName != null )
+				return new ExpectedExceptionTestMethod( method, expectedExceptionName, expectedMessage, matchType );
+			else
+				return new TestMethod( method );
 		}
 
 		/// <summary>

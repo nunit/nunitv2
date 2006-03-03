@@ -31,6 +31,13 @@ namespace NUnit.Framework
 {
 	using System;
 
+	public enum MessageMatch
+	{
+		Exact,
+		Contains,
+		Regex
+	}
+
 	/// <summary>
 	/// ExpectedExceptionAttribute
 	/// </summary>
@@ -41,6 +48,8 @@ namespace NUnit.Framework
 		private Type expectedException;
 		private string expectedExceptionName;
 		private string expectedMessage;
+		private MessageMatch matchType;
+		private string userMessage;
 
 		/// <summary>
 		/// Constructor for a given type of exception
@@ -67,9 +76,19 @@ namespace NUnit.Framework
 		/// <param name="exceptionType">The type of the expected exception</param>
 		/// <param name="expectedMessage">The expected message text</param>
 		public ExpectedExceptionAttribute(Type exceptionType, string expectedMessage)
+			: this( exceptionType, expectedMessage, MessageMatch.Exact ) { }
+
+		/// <summary>
+		/// Constructor for a given exception name and expected message text
+		/// </summary>
+		/// <param name="exceptionName">The full name of the expected exception</param>
+		/// <param name="expectedMessage">The expected messge text</param>
+		/// <param name="matchType">The matching method to be used: Exact, Contains or Regex</param>
+		public ExpectedExceptionAttribute(Type exceptionType, string expectedMessage, MessageMatch matchType)
 		{
 			this.expectedException = exceptionType;
 			this.expectedMessage = expectedMessage;
+			this.matchType = matchType;
 		}
 
 		/// <summary>
@@ -78,9 +97,45 @@ namespace NUnit.Framework
 		/// <param name="exceptionName">The full name of the expected exception</param>
 		/// <param name="expectedMessage">The expected messge text</param>
 		public ExpectedExceptionAttribute(string exceptionName, string expectedMessage)
+			: this( exceptionName, expectedMessage, MessageMatch.Exact ) { }
+
+		/// <summary>
+		/// Constructor for a given exception name and expected message text
+		/// </summary>
+		/// <param name="exceptionName">The full name of the expected exception</param>
+		/// <param name="expectedMessage">The expected messge text</param>
+		/// <param name="matchType">The matching method to be used: Exact, Contains or Regex</param>
+		public ExpectedExceptionAttribute(string exceptionName, string expectedMessage, MessageMatch matchType)
 		{
 			this.expectedExceptionName = exceptionName;
 			this.expectedMessage = expectedMessage;
+			this.matchType = matchType;
+		}
+
+		/// <summary>
+		/// Constructor for a given type of exception, expected message text and
+		/// user failure message.
+		/// </summary>
+		/// <param name="exceptionType">The type of the expected exception</param>
+		/// <param name="expectedMessage">The expected message text</param>
+		public ExpectedExceptionAttribute(Type exceptionType, string expectedMessage, string userMessage)
+		{
+			this.expectedException = exceptionType;
+			this.expectedMessage = expectedMessage;
+			this.userMessage = userMessage;
+		}
+
+		/// <summary>
+		/// Constructor for a given exception name, expected message text and
+		/// user failure message.
+		/// </summary>
+		/// <param name="exceptionName">The full name of the expected exception</param>
+		/// <param name="expectedMessage">The expected messge text</param>
+		public ExpectedExceptionAttribute(string exceptionName, string expectedMessage, string userMessage)
+		{
+			this.expectedExceptionName = exceptionName;
+			this.expectedMessage = expectedMessage;
+			this.userMessage = userMessage;
 		}
 
 		/// <summary>
@@ -109,5 +164,23 @@ namespace NUnit.Framework
 			get { return expectedMessage; }
 			set { expectedMessage = value; }
 		}
+
+		public string UserMessage
+		{
+			get { return userMessage; }
+			set { userMessage = value; }
+		}
+
+		public MessageMatch MatchType
+		{
+			get { return matchType; }
+			set { matchType = value; }
+		}
+
+//		public string Contains
+//		{
+//			get { return mode == contains ? expectedMessage : null ; }
+//			set { expectedMessage = value; mode = contains; }
+//		}
 	}
 }
