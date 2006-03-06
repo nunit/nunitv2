@@ -54,20 +54,7 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AnotherMockFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="IgnoredFixture.cs" />
     <Compile Include="MockAssembly.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MockSuite.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MockTestFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OneTestCase.cs">
       <SubType>Code</SubType>
     </Compile>
     <None Include="mock-assembly.dll.config" />

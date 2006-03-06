@@ -99,18 +99,8 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "AnotherMockFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "CommonAssemblyInfo.cs"
                     Link = "..\..\CommonAssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "IgnoredFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -122,21 +112,6 @@
                 <File
                     RelPath = "mock-assembly.dll.config"
                     BuildAction = "None"
-                />
-                <File
-                    RelPath = "MockSuite.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MockTestFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OneTestCase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
                 />
             </Include>
         </Files>
