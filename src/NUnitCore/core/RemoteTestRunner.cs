@@ -21,10 +21,10 @@ namespace NUnit.Core
 		#region Method Overrides
 		public override TestResult Run( EventListener listener )
 		{
-			return Run( listener, NUnit.Core.Filters.EmptyFilter.Empty );
+			return Run( listener, TestFilter.Empty );
 		}
 
-		public override TestResult Run( EventListener listener, ITestFilter filter )
+		public override TestResult Run( EventListener listener, TestFilter filter )
 		{
 			QueuingEventListener queue = new QueuingEventListener();
 
@@ -40,10 +40,10 @@ namespace NUnit.Core
 
 		public override void BeginRun( EventListener listener )
 		{
-			BeginRun( listener, NUnit.Core.Filters.EmptyFilter.Empty );
+			BeginRun( listener, TestFilter.Empty );
 		}
 
-		public override void BeginRun( EventListener listener, ITestFilter filter )
+		public override void BeginRun( EventListener listener, TestFilter filter )
 		{
 			QueuingEventListener queue = new QueuingEventListener();
 

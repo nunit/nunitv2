@@ -46,17 +46,24 @@ namespace NUnit.Core.Tests
 		{
 			caseResult = new TestCaseResult("test case result");
 		}
+		
+		[Test]
+		public void TestCaseDefault()
+		{
+			Assert.AreEqual( RunState.NotRun, caseResult.RunState );
+		}
 
 		[Test]
 		public void TestCaseSuccess()
 		{
+			caseResult.Success();
 			Assert.IsTrue(caseResult.IsSuccess, "result should be success");
 		}
 
 		[Test]
 		public void TestCaseNotRun()
 		{
-			caseResult.NotRun( "because" );
+			caseResult.Ignore( "because" );
 			Assert.AreEqual( false, caseResult.Executed );
 			Assert.AreEqual( "because", caseResult.Message );
 		}

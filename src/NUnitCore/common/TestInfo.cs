@@ -76,6 +76,11 @@ namespace NUnit.Core
 		private bool isExplicit;
 		
 		/// <summary>
+		/// True if the test is valid and could be run
+		/// </summary>
+		private bool isRunnable;
+
+		/// <summary>
 		/// Unique Test identifier 
 		/// </summary>
 //		private TestID testID;
@@ -95,6 +100,7 @@ namespace NUnit.Core
 			this.ignoreReason = test.IgnoreReason;
 			this.description = test.Description;
 			this.isExplicit = test.IsExplicit;
+			this.isRunnable = test.IsRunnable;
 			this.isSuite = test.IsSuite;
 			this.isFixture = test.IsFixture;
 
@@ -126,6 +132,7 @@ namespace NUnit.Core
 			this.ignoreReason = null;
 			this.description = null;
 			this.isExplicit = false;
+			this.isRunnable = true;
 			this.isSuite = true;
 			this.isFixture = false;
 
@@ -231,6 +238,12 @@ namespace NUnit.Core
 		{
 			get { return isExplicit; }
 			set { isExplicit = value; }
+		}
+
+		public bool IsRunnable
+		{
+			get { return isRunnable; }
+			set { isRunnable = value; }
 		}
 
 		public IList Categories 

@@ -5,16 +5,17 @@ namespace NUnit.Core.Filters
 	/// <summary>
 	/// NotFilter negates the operation of another filter
 	/// </summary>
-	public class NotFilter : ITestFilter
+	[Serializable]
+	public class NotFilter : TestFilter
 	{
-		ITestFilter baseFilter;
+		TestFilter baseFilter;
 
-		public NotFilter( ITestFilter baseFilter)
+		public NotFilter( TestFilter baseFilter)
 		{
 			this.baseFilter = baseFilter;
 		}
 
-		public bool Pass(ITest test)
+		public override bool Pass( ITest test )
 		{
 			return !baseFilter.Pass( test );
 		}

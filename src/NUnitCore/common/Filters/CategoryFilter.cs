@@ -37,7 +37,7 @@ namespace NUnit.Core.Filters
 	/// </summary>
 	/// 
 	[Serializable]
-	public class CategoryFilter : ITestFilter
+	public class CategoryFilter : TestFilter
 	{
 		ArrayList categories;
 
@@ -65,7 +65,7 @@ namespace NUnit.Core.Filters
 
 		#region IFilter Members
 
-		public bool Pass( ITest test )
+		public override bool Pass( ITest test )
 		{
             if ( categories.Count == 0 ) return true;
 
@@ -85,7 +85,6 @@ namespace NUnit.Core.Filters
 
             return pass;
         }
-
 		#endregion
 
 		/// <summary>

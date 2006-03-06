@@ -109,7 +109,7 @@ namespace NUnit.Core.Tests
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build( nonamespaceDLL );
 			Assert.IsNotNull(suite);
-			Assert.AreEqual( NoNamespaceTestFixture.Tests, suite.CountTestCases() );
+			Assert.AreEqual( NoNamespaceTestFixture.Tests, suite.TestCount );
 
 			suite = (TestSuite)suite.Tests[0];
 			Assert.IsNotNull(suite);

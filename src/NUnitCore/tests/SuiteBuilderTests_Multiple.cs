@@ -76,7 +76,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void TestCaseCount()
 		{
-			Assert.AreEqual( totalTests , loadedSuite.CountTestCases());
+			Assert.AreEqual( totalTests , loadedSuite.TestCount);
 		}
 
 		[Test]
@@ -86,7 +86,7 @@ namespace NUnit.Core.Tests
 				"MultipleAssemblies", assemblies, 
 				"NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.IsNotNull( suite );
-			Assert.AreEqual( MockTestFixture.Tests, suite.CountTestCases() );
+			Assert.AreEqual( MockTestFixture.Tests, suite.TestCount );
 		}
 	}
 }

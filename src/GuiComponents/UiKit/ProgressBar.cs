@@ -208,11 +208,6 @@ namespace NUnit.UiKit
 			Maximum = testCount;
 		}
 
-//		private void Initialize( TestNode test )
-//		{
-//			Initialize( test.CountTestCases() );
-//		}
-
 		protected override void OnCreateControl()
 		{
 		}
@@ -251,7 +246,7 @@ namespace NUnit.UiKit
 				if( ForeColor == Color.Lime )
 					ForeColor = Color.Yellow;
 			}
-			else if( !e.Result.IsSuccess )
+			else if( e.Result.IsFailure )
 				ForeColor = Color.Red;
 		}
 

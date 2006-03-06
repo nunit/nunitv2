@@ -32,6 +32,22 @@ namespace NUnit.Core
 	using System;
 	using System.Text;
 
+	public enum RunState
+	{
+		NotRun,
+		Executed,
+		Skipped,
+		Ignored,
+	}
+
+	public enum ResultState
+	{
+		NotRun,
+		Success,
+		Failure,
+		Error
+	}
+
 	/// <summary>
 	/// The TestResult abstract class represents
 	/// the result of a test and is used to
@@ -42,16 +58,12 @@ namespace NUnit.Core
 	public abstract class TestResult
 	{
 		#region Fields
-
 		/// <summary>
-		/// True if the test executed
+		/// Indicates whether the test was executed or not
 		/// </summary>
-		private bool executed = false;
+		private RunState runState;
 
-		/// <summary>
-		/// True if the test was marked as a failure
-		/// </summary>
-		private bool isFailure = false; 
+		private ResultState resultState;
 
 		/// <summary>
 		/// The elapsed time for executing this test
@@ -97,20 +109,26 @@ namespace NUnit.Core
 			this.test = test;
 			if(test != null)
 				this.description = test.Description;
+			this.runState = RunState.NotRun;
 		}
 		#endregion
 
 		#region Properties
 
-		public bool Executed 
+		public RunState RunState
 		{
-			get { return executed; }
-			set { executed = value; }
+			get { return runState; }
+			set { runState = value; }
 		}
 
-		public virtual bool AllTestsExecuted
+		public ResultState ResultState
 		{
-			get { return executed; }
+			get { return resultState; }
+		}
+
+		public bool Executed 
+		{
+			get { return runState == RunState.Executed; }
 		}
 
 		public virtual string Name
@@ -125,13 +143,15 @@ namespace NUnit.Core
 
 		public virtual bool IsSuccess
 		{
-			get { return !(isFailure); }
+			// TODO: Redefine this more precisely
+			get { return !IsFailure; }
+			//get { return resultState == ResultState.Success; }
 		}
 		
+		// TODO: Distinguish errors from failures
 		public virtual bool IsFailure
 		{
-			get { return isFailure; }
-			set { isFailure = value; }
+			get { return resultState == ResultState.Failure || resultState == ResultState.Error; }
 		}
 
 		public virtual string Description
@@ -173,29 +193,72 @@ namespace NUnit.Core
 
 		#region Public Methods
 		/// <summary>
-		/// Mark the test as not run.
+		/// Mark the test as succeeding
 		/// </summary>
-		/// <param name="reason">The reason the test was not run</param>
-		public void NotRun(string reason)
-		{
-			NotRun( reason, null );
+		public void Success() 
+		{ 
+			this.runState = RunState.Executed;
+			this.resultState = ResultState.Success; 
 		}
 
 		/// <summary>
-		/// Mark the test as not run.
+		/// Mark the test as ignored.
+		/// </summary>
+		/// <param name="reason">The reason the test was not run</param>
+		public void Ignore(string reason)
+		{
+			Ignore( reason, null );
+		}
+
+		/// <summary>
+		/// Mark the test as ignored.
+		/// </summary>
+		/// <param name="ex">The ignore exception that was thrown</param>
+		public void Ignore( Exception ex )
+		{
+			Ignore( ex.Message, BuildStackTrace( ex ) );
+		}
+
+		/// <summary>
+		/// Mark the test as ignored.
 		/// </summary>
 		/// <param name="reason">The reason the test was not run</param>
 		/// <param name="stackTrace">Stack trace giving the location of the command</param>
-		public void NotRun(string reason, string stackTrace)
+		public void Ignore(string reason, string stackTrace)
 		{
-			this.executed = false;
+			this.runState = RunState.Ignored;
 			this.messageString = reason;
 			this.stackTrace = stackTrace;
 		}
 
-		public void NotRun( Exception ex )
+		/// <summary>
+		/// Mark the test as skipped.
+		/// </summary>
+		/// <param name="reason">The reason the test was not run</param>
+		public void Skip(string reason)
 		{
-			NotRun( ex.Message, BuildStackTrace( ex ) );
+			Skip( reason, null );
+		}
+
+		/// <summary>
+		/// Mark the test as ignored.
+		/// </summary>
+		/// <param name="ex">The ignore exception that was thrown</param>
+		public void Skip( Exception ex )
+		{
+			Skip( ex.Message, BuildStackTrace( ex ) );
+		}
+
+		/// <summary>
+		/// Mark the test as skipped.
+		/// </summary>
+		/// <param name="reason">The reason the test was not run</param>
+		/// <param name="stackTrace">Stack trace giving the location of the command</param>
+		public void Skip(string reason, string stackTrace)
+		{
+			this.runState = RunState.Skipped;
+			this.messageString = reason;
+			this.stackTrace = stackTrace;
 		}
 
 		/// <summary>
@@ -206,24 +269,24 @@ namespace NUnit.Core
 		/// <param name="stackTrace">Stack trace giving the location of the failure</param>
 		public void Failure(string message, string stackTrace )
 		{
-			this.executed = true;
-			this.isFailure = true;
+			this.runState = RunState.Executed;
+			this.resultState = ResultState.Failure;
 			this.messageString = message;
 			this.stackTrace = stackTrace;
 		}
 
 		public void Error( Exception exception )
 		{
-			this.executed = true;
-			this.isFailure = true;
+			this.runState = RunState.Executed;
+			this.resultState = ResultState.Error;
 			this.messageString = BuildMessage( exception );
 			this.stackTrace = BuildStackTrace( exception );
 		}
 
 		public void TearDownError( Exception exception )
 		{
-			this.executed = true;
-			this.IsFailure = true;
+			this.runState = RunState.Executed;
+			this.resultState = ResultState.Error;
 			this.messageString += Environment.NewLine + "TearDown : " + BuildMessage( exception );
 			this.stackTrace += Environment.NewLine + "--TearDown" + Environment.NewLine + BuildStackTrace( exception );
 		}

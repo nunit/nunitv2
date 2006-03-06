@@ -203,7 +203,7 @@ namespace NUnit.ConsoleRunner
 
 			EventListener collector = new EventCollector( options, outWriter, errorWriter );
 
-			ITestFilter catFilter = null;
+			TestFilter catFilter = null;
 
 			if (options.HasInclude)
 			{
@@ -214,7 +214,7 @@ namespace NUnit.ConsoleRunner
 			if ( options.HasExclude )
 			{
 				Console.WriteLine( "Excluded categories: " + options.exclude );
-				ITestFilter excludeFilter = new NotFilter( new CategoryFilter( options.ExcludedCategories ) );
+				TestFilter excludeFilter = new NotFilter( new CategoryFilter( options.ExcludedCategories ) );
 				if ( catFilter == null )
 					catFilter = excludeFilter;
 				else

@@ -130,6 +130,11 @@ namespace NUnit.Core
 		/// </summary>
 		bool IsExplicit { get; set; }
 
+		/// <summary>
+		/// True if this is a valid, runnable test.
+		/// </summary>
+		bool IsRunnable { get; set; }
+
 		IDictionary Properties { get; }
 	}
 }

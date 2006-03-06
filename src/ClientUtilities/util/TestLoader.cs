@@ -98,11 +98,6 @@ namespace NUnit.Util
 		private string loadedTestName = null;
 
 		/// <summary>
-		/// The tests that are running
-		/// </summary>
-		private string[] runningTests = null;
-
-		/// <summary>
 		/// Result of the last test run
 		/// </summary>
 		private TestResult testResult = null;
@@ -161,9 +156,9 @@ namespace NUnit.Util
 			get { return loadedTest != null; }
 		}
 
-		public bool IsTestRunning
+		public bool Running
 		{
-			get { return runningTests != null; }
+			get { return testRunner != null && testRunner.Running; }
 		}
 
 		public NUnitProject TestProject
@@ -246,14 +241,12 @@ namespace NUnit.Util
 		{
 			this.testResult = testResult;
 			events.FireRunFinished( testResult );
-			runningTests = null;
 		}
 
 		void EventListener.RunFinished(Exception exception)
 		{
 			this.lastException = exception;
 			events.FireRunFinished( exception );
-			runningTests = null;
 		}
 
 		/// <summary>
@@ -588,7 +581,7 @@ namespace NUnit.Util
 		/// </summary>
 		public void OnTestChanged( string testFileName )
 		{
-			if ( IsTestRunning )
+			if ( Running )
 				reloadPending = true;
 			else 
 				try
@@ -626,16 +619,16 @@ namespace NUnit.Util
 		/// </summary>
 		public void RunTests()
 		{
-			RunTests( new EmptyFilter() );
+			RunTests( TestFilter.Empty );
 		}
 
 		/// <summary>
 		/// Run selected tests using a filter
 		/// </summary>
 		/// <param name="filter">The filter to be used</param>
-		public void RunTests( ITestFilter filter )
+		public void RunTests( TestFilter filter )
 		{
-			if ( !IsTestRunning )
+			if ( !Running )
 			{
 				if ( reloadPending || ReloadOnRun )
 					ReloadTest();
@@ -651,7 +644,7 @@ namespace NUnit.Util
 		/// </summary>
 		public void CancelTestRun()
 		{
-			if ( IsTestRunning )
+			if ( Running )
 				testRunner.CancelRun();
 		}
 

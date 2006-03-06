@@ -46,10 +46,10 @@ namespace NUnit.Util.Tests
 		private TestSuiteResult NotRunTestSuite()
 		{
 			TestSuiteResult result = new TestSuiteResult("RootSuite");
-			result.Executed = false;
+			result.RunState = RunState.Executed;
 
 			TestCaseResult testCaseResult = new TestCaseResult("NonRunTestCase");
-			testCaseResult.NotRun("No Reason");
+			testCaseResult.Ignore("No Reason");
 			result.AddResult(testCaseResult);
 
 			return result;
@@ -66,15 +66,15 @@ namespace NUnit.Util.Tests
 		{
 			TestSuiteResult result = new TestSuiteResult(suiteName);
 			result.Time = time;
-			result.Executed = true;
+			result.RunState = RunState.Executed;
 
 			TestSuiteResult level1SuiteA = new TestSuiteResult("level 1 A");
 			result.AddResult(level1SuiteA);
-			level1SuiteA.Executed = true;
+			level1SuiteA.RunState = RunState.Executed;
 
 			TestSuiteResult level1SuiteB = new TestSuiteResult("level 1 B");
 			result.AddResult(level1SuiteB);
-			level1SuiteB.Executed = true;
+			level1SuiteB.RunState = RunState.Executed;
 
 			testCase = new TestCaseResult("a test case");
 			if(failure) testCase.Failure("argument exception",null);
@@ -87,7 +87,7 @@ namespace NUnit.Util.Tests
 			level1SuiteB.AddResult(testCase);
 
 			testCase = new TestCaseResult("a not run test");
-			testCase.NotRun("test not run");
+			testCase.Ignore("test not run");
 			level1SuiteB.AddResult(testCase);
 
 			return result;

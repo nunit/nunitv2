@@ -165,21 +165,29 @@ namespace NUnit.Core
 		{
 			get	{ return false;	}
 		}
+
+		public override int TestCount
+		{
+			get
+			{
+				int count = 0;
+
+				foreach(Test test in Tests)
+				{
+					count += test.TestCount;
+				}
+				return count;
+			}
+		}
 		#endregion
 
 		#region Test Overrides
 		public override int CountTestCases()
 		{
-			int count = 0;
-
-			foreach(Test test in Tests)
-			{
-				count += test.CountTestCases();
-			}
-			return count;
+			return CountTestCases( TestFilter.Empty );
 		}
 
-		public override int CountTestCases(ITestFilter filter)
+		public override int CountTestCases(TestFilter filter)
 		{
 			int count = 0;
 
@@ -195,10 +203,10 @@ namespace NUnit.Core
 
 		public override TestResult Run(EventListener listener)
 		{
-			return Run( listener, EmptyFilter.Empty);
+			return Run( listener, TestFilter.Empty);
 		}
 			
-		public override TestResult Run(EventListener listener, ITestFilter filter)
+		public override TestResult Run(EventListener listener, TestFilter filter)
 		{
 			TestSuiteResult suiteResult = new TestSuiteResult( this, Name);
 
@@ -207,8 +215,12 @@ namespace NUnit.Core
 
 			if ( ShouldRun )
 			{
-				suiteResult.Executed = true;	
+				suiteResult.RunState = RunState.Executed;
 				DoOneTimeSetUp( suiteResult );
+			}
+			else
+			{
+				suiteResult.RunState = RunState.Ignored;
 			}
 
 			RunAllTests( suiteResult, listener, filter );
@@ -224,7 +236,7 @@ namespace NUnit.Core
 			return suiteResult;
 		}
 
-		public override bool Filter(ITestFilter filter) 
+		public override bool Filter(TestFilter filter) 
 		{
 			return filter.Pass(this);
 		}
@@ -242,7 +254,7 @@ namespace NUnit.Core
 		}
 
 		protected virtual void RunAllTests(
-			TestSuiteResult suiteResult, EventListener listener, ITestFilter filter )
+			TestSuiteResult suiteResult, EventListener listener, TestFilter filter )
 		{
 			foreach(Test test in ArrayList.Synchronized(Tests))
 			{
@@ -255,16 +267,24 @@ namespace NUnit.Core
 						test.ShouldRun = false;
 						test.IgnoreReason = this.IgnoreReason;
 					}
-					else if ( test.IsExplicit && ( filter is EmptyFilter || filter is NotFilter ) )
-					{
-						test.ShouldRun = false;
-						test.IgnoreReason = EXPLICIT_SELECTION_REQUIRED;
-					}
 				}
 					
 				if ( filter == null || test.Filter( filter ) )
 				{
-					suiteResult.AddResult( test.Run( listener, filter ) );
+					bool skip = test.IsExplicit 
+						&& ( filter == null || filter is NotFilter || filter.IsEmpty );
+
+					if ( skip )
+					{
+						test.ShouldRun = false;
+						test.IgnoreReason = EXPLICIT_SELECTION_REQUIRED;
+					}
+
+					TestResult result = test.Run( listener, filter );
+
+					if ( skip ) 
+						result.RunState = RunState.Skipped;
+					suiteResult.AddResult( result );
 				}
 				
 				if ( saveShouldRun && !test.ShouldRun ) 

@@ -167,7 +167,7 @@ namespace NUnit.Core
 					ex = ex.InnerException;
 
 				if ( testFramework.IsIgnoreException( ex ) )
-					testResult.NotRun( ex );
+					testResult.Ignore( ex );
 				else
 					ProcessException(ex, testResult);
 			}
@@ -185,7 +185,7 @@ namespace NUnit.Core
 		protected void RecordException( Exception ex, TestResult testResult )
 		{
 			if ( testFramework.IsIgnoreException( ex ) )
-				testResult.NotRun( ex.Message );
+				testResult.Ignore( ex.Message );
 			else if ( testFramework.IsAssertException( ex ) )
 				testResult.Failure( ex.Message, ex.StackTrace );
 			else	

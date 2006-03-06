@@ -77,7 +77,10 @@ namespace NUnit.TestUtilities
 				FireTestStarting( test );
 				
 				TestCaseResult result = new TestCaseResult( test );
-				result.Executed = test.ShouldRun && !test.IsExplicit;
+				if ( test.ShouldRun && !test.IsExplicit )
+					result.RunState = RunState.Executed;
+				else
+					result.RunState = RunState.Ignored;
 				
 				FireTestFinished( result );
 

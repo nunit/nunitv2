@@ -871,10 +871,10 @@ namespace NUnit.UiKit
 
 				if ( !result.Executed )
 					testResult.Text = "Not Run";
-				else if ( result.IsSuccess )
-					testResult.Text = "Success";
-				else
+				else if ( result.IsFailure )
 					testResult.Text = "Failure";
+				else
+					testResult.Text = "Success";
 
 				// message may have a leading blank line
 				// TODO: take care of this in label?

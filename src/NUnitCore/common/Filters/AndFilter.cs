@@ -4,34 +4,36 @@ using System.Collections;
 namespace NUnit.Core.Filters
 {
 	/// <summary>
-	/// Summary description for AndFilter.
+	/// Combines multiple filters so that a test must pass all 
+	/// of them in order to pass this filter.
 	/// </summary>
-	public class AndFilter : ITestFilter
+	[Serializable]
+	public class AndFilter : TestFilter
 	{
 		private ArrayList filters = new ArrayList();
 
 		public AndFilter() { }
 
-		public AndFilter( params ITestFilter[] filters )
+		public AndFilter( params TestFilter[] filters )
 		{
 			this.filters.AddRange( filters );
 		}
 
 		// NOTE: Not all languages support use of params
-		public AndFilter( ITestFilter f1, ITestFilter f2 )
+		public AndFilter( TestFilter f1, TestFilter f2 )
 		{
 			this.filters.Add( f1 );
 			this.filters.Add( f2 );
 		}
 
-		public AndFilter( ITestFilter f1, ITestFilter f2, ITestFilter f3 )
+		public AndFilter( TestFilter f1, TestFilter f2, TestFilter f3 )
 		{
 			this.filters.Add( f1 );
 			this.filters.Add( f2 );
 			this.filters.Add( f3 );
 		}
 
-		public AndFilter( ITestFilter f1, ITestFilter f2, ITestFilter f3, ITestFilter f4 )
+		public AndFilter( TestFilter f1, TestFilter f2, TestFilter f3, TestFilter f4 )
 		{
 			this.filters.Add( f1 );
 			this.filters.Add( f2 );
@@ -44,9 +46,9 @@ namespace NUnit.Core.Filters
 			this.filters.Add( test );
 		}
 
-		public bool Pass( ITest test )
+		public override bool Pass( ITest test )
 		{
-			foreach( ITestFilter filter in filters )
+			foreach( TestFilter filter in filters )
 				if ( !filter.Pass( test ) )
 					return false;
 

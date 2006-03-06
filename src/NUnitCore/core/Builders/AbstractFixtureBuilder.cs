@@ -76,7 +76,7 @@ namespace NUnit.Core.Builders
 
 			this.AddTestCases( type );
 
-			if( this.suite.CountTestCases() == 0 )
+			if( this.suite.TestCount == 0 )
 			{
 				this.suite.ShouldRun = false;
 				this.suite.IgnoreReason = suite.Name + " does not have any tests";

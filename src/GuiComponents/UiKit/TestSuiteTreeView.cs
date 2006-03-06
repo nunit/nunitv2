@@ -463,7 +463,7 @@ namespace NUnit.UiKit
 			if ( RunCommandSupported )
 			{
 				// TODO: handle in Starting event
-				if ( loader.IsTestRunning )
+				if ( loader.Running )
 					runCommandEnabled = false;
 
 				MenuItem runMenuItem = new MenuItem( "&Run", new EventHandler( runMenuItem_Click ) );
@@ -1118,18 +1118,18 @@ namespace NUnit.UiKit
 			return treeMap[test.UniqueName] as TestSuiteTreeNode;
 		}	
 		
-		private ITestFilter MakeFilter( TestInfo test )
+		private TestFilter MakeFilter( TestInfo test )
 		{
 			return MakeFilter( new TestInfo[] { test } );
 		}
 
-		private ITestFilter MakeFilter( TestInfo[] tests )
+		private TestFilter MakeFilter( TestInfo[] tests )
 		{
-			ITestFilter nameFilter = MakeNameFilter( tests );
-			ITestFilter catFilter = MakeCategoryFilter();
+			TestFilter nameFilter = MakeNameFilter( tests );
+			TestFilter catFilter = MakeCategoryFilter();
 
 
-			if ( nameFilter is EmptyFilter )
+			if ( nameFilter == TestFilter.Empty )
 				return catFilter;
 
 			if ( tests.Length == 1 )
@@ -1139,16 +1139,16 @@ namespace NUnit.UiKit
 					return catFilter;
 			}
 
-			if ( catFilter is EmptyFilter )
+			if ( catFilter == TestFilter.Empty )
 				return nameFilter;
 
 			return new AndFilter( nameFilter, catFilter );
 		}
 
-		private ITestFilter MakeNameFilter( TestInfo[] tests )
+		private TestFilter MakeNameFilter( TestInfo[] tests )
 		{
 			if ( tests == null || tests.Length == 0 )
-				return EmptyFilter.Empty;
+				return TestFilter.Empty;
 
 			NameFilter nameFilter = new NameFilter();
 			foreach( TestInfo test in tests )
@@ -1157,12 +1157,12 @@ namespace NUnit.UiKit
 			return nameFilter;
 		}
 
-		private ITestFilter MakeCategoryFilter()
+		private TestFilter MakeCategoryFilter()
 		{
 			if ( SelectedCategories == null || SelectedCategories.Length == 0 )
-				return EmptyFilter.Empty;
+				return TestFilter.Empty;
 
-			ITestFilter catFilter = new CategoryFilter( SelectedCategories );
+			TestFilter catFilter = new CategoryFilter( SelectedCategories );
 			if ( ExcludeSelectedCategories )
 				catFilter = new NotFilter( catFilter );
 

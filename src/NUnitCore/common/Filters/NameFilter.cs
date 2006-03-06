@@ -37,7 +37,7 @@ namespace NUnit.Core.Filters
 	/// </summary>
 	/// 
 	[Serializable]
-	public class NameFilter : ITestFilter
+	public class NameFilter : TestFilter
 	{
 		private ArrayList testNames = new ArrayList();
 
@@ -69,48 +69,58 @@ namespace NUnit.Core.Filters
 		/// </summary>
 		/// <param name="test"></param>
 		/// <returns></returns>
-		public bool Pass(ITest test)
+		public override bool Pass( ITest test )
         {
-			foreach (TestName testName in testNames )
-			{
-				if ( test.TestName == testName )
-					return true;
+			if ( Match( test ) )
+				return true;
 
-				if ( IsDescendantOf( testName, test ) )
-					return true;
+			if ( MatchParent( test ) )
+				return true;
 
-				if ( IsParentOf( testName, test ) )
-					return true;
-			}
+			if ( MatchDescendant( test ) )
+				return true;
 
 			return false;
         }
 
-		private bool IsDescendantOf( TestName testName, ITest test )
+		private bool Match( ITest test )
 		{
+			foreach( TestName testName in testNames )
+				if ( test.TestName == testName )
+					return true;
+
+			return false;
+		}
+
+		private bool MatchParent( ITest test )
+		{
+			if ( test.IsExplicit )
+				return false;
+
 			for( ITest parent = test.Parent; parent != null; parent = parent.Parent )
 			{
-				if ( parent.TestName == testName )
+				if ( Match( parent ) )
 					return true;
+
+				// Don't proceed past a parent marked Explicit
+				if ( parent.IsExplicit )
+					return false;
 			}
 
 			return false;
 		}
 
-		private bool IsParentOf( TestName testName, ITest test )
+		private bool MatchDescendant( ITest test )
 		{
 			if ( !test.IsSuite || test.Tests == null )
 				return false;
 
 			foreach( ITest child in test.Tests )
 			{
-				if ( child.TestName == testName )
+				if ( Match( child ) )
 					return true;
-			}
 
-			foreach( ITest child in test.Tests )
-			{
-				if ( IsParentOf( testName, child ) )
+				if ( MatchDescendant( child ) )
 					return true;
 			}
 

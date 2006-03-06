@@ -40,7 +40,7 @@ namespace NUnit.Core
 	{
 		public TestAssembly( string assembly ) : base( assembly ) { }
 
-		public override TestResult Run(EventListener listener, ITestFilter filter)
+		public override TestResult Run(EventListener listener, TestFilter filter)
 		{
 			using( new DirectorySwapper( Path.GetDirectoryName( this.Name ) ) )
 			{

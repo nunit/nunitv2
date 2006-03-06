@@ -60,13 +60,14 @@ namespace NUnit.Core
 			else
 				reason = "reason not known";
 
+			IsRunnable = false;
 			ShouldRun = false;
 			IgnoreReason = String.Format("Method {0}'s signature is not correct: {1}.", method.Name, reason);
 		}
 
 		public override void Run(TestCaseResult result)
 		{
-			result.NotRun(base.IgnoreReason);
+			result.Ignore(base.IgnoreReason);
 		}
 	}
 }

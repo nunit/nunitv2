@@ -87,11 +87,11 @@ namespace NUnit.Util.Tests
 		{
 			TestResult result = testDomain.Run( NullListener.NULL );
 			Assert.IsNotNull(result);
-			Assert.AreEqual(true, result.IsSuccess, "Test run failed");
+			Assert.AreEqual(false, result.IsFailure, "Test run failed");
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
 			Assert.AreEqual(MockAssembly.Tests - MockAssembly.NotRun, summarizer.ResultCount);
-			Assert.AreEqual(MockAssembly.NotRun, summarizer.TestsNotRun);
+			Assert.AreEqual(MockAssembly.Ignored, summarizer.TestsNotRun);
 		}
 	}
 
@@ -181,7 +181,7 @@ namespace NUnit.Util.Tests
 			
 			ResultSummarizer summarizer = new ResultSummarizer(result);
 			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.NotRun, summarizer.ResultCount);
-			Assert.AreEqual(MockTestFixture.NotRun, summarizer.TestsNotRun);
+			Assert.AreEqual(MockTestFixture.Ignored, summarizer.TestsNotRun);
 		}
 
 		[Test]

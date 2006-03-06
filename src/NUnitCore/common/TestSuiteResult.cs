@@ -56,17 +56,6 @@ namespace NUnit.Core
 			results.Add(result);
 		}
 
-		public override bool IsSuccess
-		{
-			get 
-			{
-				bool result = true;
-				foreach(TestResult testResult in results)
-					result &= testResult.IsSuccess;
-				return result;
-			}
-		}
-
 		/// <summary>
 		/// A suite is considered as failing if it is marked as a failure - usually
 		/// because TestFixtureSetUp or TestFixtureTearDown failed - or if one of the
@@ -84,22 +73,6 @@ namespace NUnit.Core
 						return true;
 
 				return false;
-			}
-		}
-
-		public override bool AllTestsExecuted
-		{
-			get
-			{
-				if (!this.Executed)
-					return false;
-
-				foreach( TestResult testResult in results )
-				{
-					if ( !testResult.AllTestsExecuted )
-						return false;
-				}
-				return true;
 			}
 		}
 

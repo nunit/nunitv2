@@ -105,11 +105,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ITestFilter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "LongLivingMarshalByRefObject.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -121,6 +116,11 @@
                 />
                 <File
                     RelPath = "TestCaseResult.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -176,11 +176,6 @@
                 />
                 <File
                     RelPath = "Filters\CategoryFilter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Filters\EmptyFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

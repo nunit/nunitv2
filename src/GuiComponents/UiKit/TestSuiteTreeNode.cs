@@ -59,12 +59,14 @@ namespace NUnit.UiKit
 		private bool included;
 
 		/// <summary>
-		/// Image indices for various test states
+		/// Image indices for various test states - the values 
+		/// must match the indices of the image list used
 		/// </summary>
-		private static int INIT = 0;
-		private static int SUCCESS = 2;
-		private static int FAILURE = 1;
-		private static int NOT_RUN = 3;
+		public static readonly int InitIndex = 0;
+		public static readonly int SkippedIndex = 0; 
+		public static readonly int FailureIndex = 1;
+		public static readonly int SuccessIndex = 2;
+		public static readonly int IgnoredIndex = 3;
 
 		// Save info about expansion and check state to be used
 		// when the handle is recreated
@@ -148,38 +150,6 @@ namespace NUnit.UiKit
 			}
 		}
 
-		/// <summary>
-		/// Image index for a test that has not been run
-		/// </summary>
-		public static int InitIndex
-		{
-			get { return INIT; }
-		}
-
-		/// <summary>
-		/// Image index for a test that succeeded
-		/// </summary>
-		public static int SuccessIndex
-		{
-			get { return SUCCESS; }
-		}
-
-		/// <summary>
-		/// Image index for a test that failed
-		/// </summary>
-		public static int FailureIndex
-		{
-			get { return FAILURE; }
-		}
-
-		/// <summary>
-		/// Image index for a test that was not run
-		/// </summary>
-		public static int NotRunIndex
-		{
-			get { return NOT_RUN; }
-		}
-
 		public bool WasExpanded
 		{
 			get { return wasExpanded; }
@@ -232,7 +202,7 @@ namespace NUnit.UiKit
 		public void ClearResult()
 		{
 			this.result = null;
-			ImageIndex = SelectedImageIndex = INIT;
+			ImageIndex = SelectedImageIndex = InitIndex;
 		}
 
 		/// <summary>
@@ -253,19 +223,36 @@ namespace NUnit.UiKit
 		private int CalcImageIndex()
 		{
 			if ( this.result == null )
-				return INIT;
+				return InitIndex;
 			
-			if ( !this.result.Executed  )
-				return NOT_RUN;
-
-			if ( this.result.IsFailure )
-				return FAILURE;
-			else if ( !this.Result.AllTestsExecuted )
-				return NOT_RUN;
-			else if ( this.result.IsSuccess )
-				return SUCCESS;
-			else
-				return NOT_RUN;
+			switch( this.result.RunState )
+			{
+				case RunState.NotRun:
+					return InitIndex;
+				case RunState.Skipped:
+					return SkippedIndex;
+				case RunState.Ignored:
+				default:
+					return IgnoredIndex;
+				case RunState.Executed:
+					switch( this.result.ResultState )
+					{
+						case ResultState.Failure:
+						case ResultState.Error:
+							return FailureIndex;
+						default:
+						case ResultState.Success:
+							int index = SuccessIndex;
+							foreach( TestSuiteTreeNode node in this.Nodes )
+							{
+								if ( node.ImageIndex == FailureIndex )
+									return FailureIndex;
+								if ( node.ImageIndex == IgnoredIndex )
+									index = IgnoredIndex;
+							}
+							return index;
+					}
+			}
 		}
 
 		internal void Accept(TestSuiteTreeNodeVisitor visitor) 

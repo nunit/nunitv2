@@ -42,12 +42,18 @@ namespace NUnit.Core
 	{
 		public TestCase( string path, string name ) : base( path, name ) { }
 
-		public override int CountTestCases() 
+		public override int TestCount 
 		{
-			return 1;
+			get { return 1; }
 		}
 
-		public override int CountTestCases(ITestFilter filter) 
+		public override int CountTestCases()
+		{
+			return CountTestCases( TestFilter.Empty );
+		}
+
+
+		public override int CountTestCases( TestFilter filter ) 
 		{
 			if (Filter(filter))
 				return 1;
@@ -55,7 +61,7 @@ namespace NUnit.Core
 			return 0;
 		}
 
-		public override TestResult Run(EventListener listener, ITestFilter filter)
+		public override TestResult Run(EventListener listener, TestFilter filter)
 		{
 			return Run( listener ); // Ignore filter for now
 		}
@@ -72,7 +78,7 @@ namespace NUnit.Core
 			else if ( ShouldRun )
 				Run( testResult );
 			else
-				testResult.NotRun( IgnoreReason );
+				testResult.Ignore( IgnoreReason );
 
 			if ( testFramework != null )
 				testResult.AssertCount = testFramework.GetAssertCount();
@@ -105,7 +111,7 @@ namespace NUnit.Core
 			get { return null; }
 		}
 
-		public override bool Filter(ITestFilter filter) 
+		public override bool Filter(TestFilter filter) 
 		{
 			return filter.Pass(this);
 		}

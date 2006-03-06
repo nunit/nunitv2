@@ -47,7 +47,7 @@ namespace NUnit.Core.Tests
 		{
 			Type fixtureType = typeof(MockTestFixture);
 			TestCase testCase = TestCaseBuilder.Make( fixtureType, "MockTest4" );
-			Assert.AreEqual(1, testCase.CountTestCases());
+			Assert.AreEqual(1, testCase.TestCount);
 			Assert.AreEqual(false, testCase.ShouldRun);
 			Assert.AreEqual("ignoring this test method for now", testCase.IgnoreReason);
 		}
@@ -57,7 +57,7 @@ namespace NUnit.Core.Tests
 		{
 			Type fixtureType = typeof(MockTestFixture);
 			TestCase testCase = TestCaseBuilder.Make( fixtureType, "MockTest4" );
-			Assert.AreEqual(1, testCase.CountTestCases());
+			Assert.AreEqual(1, testCase.TestCount);
 			
 			TestResult result = testCase.Run(NullListener.NULL);
 			ResultSummarizer summarizer = new ResultSummarizer(result);

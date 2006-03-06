@@ -108,14 +108,13 @@
     <Compile Include="EventListener.cs" />
     <Compile Include="Filters\AndFilter.cs" />
     <Compile Include="Filters\CategoryFilter.cs" />
-    <Compile Include="Filters\EmptyFilter.cs" />
     <Compile Include="Filters\NameFilter.cs" />
     <Compile Include="Filters\NotFilter.cs" />
     <Compile Include="ITest.cs" />
-    <Compile Include="ITestFilter.cs" />
     <Compile Include="LongLivingMarshalByRefObject.cs" />
     <Compile Include="ResultVisitor.cs" />
     <Compile Include="TestCaseResult.cs" />
+    <Compile Include="TestFilter.cs" />
     <Compile Include="TestID.cs" />
     <Compile Include="TestInfo.cs" />
     <Compile Include="TestName.cs" />

@@ -48,7 +48,7 @@ namespace NUnit.Util
 		bool IsTestLoaded { get; }
 
 		// See if a test is running
-		bool IsTestRunning { get; }
+		bool Running { get; }
 
 		// The loaded test project
 		NUnitProject TestProject { get; set; }
@@ -96,7 +96,7 @@ namespace NUnit.Util
 		void RunTests();
 
 		// Run specific tests
-		void RunTests( ITestFilter filter );
+		void RunTests( TestFilter filter );
 
 		// Cancel the running test
 		void CancelTestRun();

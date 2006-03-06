@@ -18,7 +18,7 @@ namespace NUnit.Core.Tests.SetupFixture
         {
             return runTests(nameSpace, null);
         }
-        private TestResult runTests(string nameSpace,ITestFilter filter)
+        private TestResult runTests(string nameSpace,TestFilter filter)
         {
             TestSuiteBuilder builder = new TestSuiteBuilder();
 

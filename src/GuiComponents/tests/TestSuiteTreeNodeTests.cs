@@ -106,25 +106,64 @@ namespace NUnit.UiKit.Tests
 		}
 
 		[Test]
-		public void SetResult()
+		public void SetResult_Init()
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
 			TestCaseResult result = new TestCaseResult( testCaseInfo );
 
 			node.SetResult( result );
 			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", node.Result.Name );
-			Assert.AreEqual( TestSuiteTreeNode.NotRunIndex, node.ImageIndex );
-			Assert.AreEqual( TestSuiteTreeNode.NotRunIndex, node.SelectedImageIndex );
+			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.ImageIndex );
+			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.SelectedImageIndex );
+		}
+
+		[Test]
+		public void SetResult_NotRun()
+		{
+			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
+			TestCaseResult result = new TestCaseResult( testCaseInfo );
+
+			result.Ignore( "reason" );
+			node.SetResult( result );
+			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", node.Result.Name );
+			Assert.AreEqual( TestSuiteTreeNode.IgnoredIndex, node.ImageIndex );
+			Assert.AreEqual( TestSuiteTreeNode.IgnoredIndex, node.SelectedImageIndex );
+		}
+
+		[Test]
+		public void SetResult_Success()
+		{
+			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
+			TestCaseResult result = new TestCaseResult( testCaseInfo );
 
 			result.Success();
 			node.SetResult( result );
 			Assert.AreEqual( TestSuiteTreeNode.SuccessIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.SuccessIndex, node.SelectedImageIndex );
+		}
+
+		[Test]
+		public void SetResult_Failure()
+		{
+			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
+			TestCaseResult result = new TestCaseResult( testCaseInfo );
 
 			result.Failure("message", "stacktrace");
 			node.SetResult( result );
 			Assert.AreEqual( TestSuiteTreeNode.FailureIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.FailureIndex, node.SelectedImageIndex );
+		}
+
+		[Test]
+		public void SetResult_Skipped()
+		{
+			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
+			TestCaseResult result = new TestCaseResult( testCaseInfo );
+
+			result.RunState = RunState.Skipped;
+			node.SetResult( result );
+			Assert.AreEqual( TestSuiteTreeNode.SkippedIndex, node.ImageIndex );
+			Assert.AreEqual( TestSuiteTreeNode.SkippedIndex, node.SelectedImageIndex );
 		}
 
 		[Test]
@@ -160,7 +199,7 @@ namespace NUnit.UiKit.Tests
 			testCaseResult.Success();
 			TestSuiteResult testSuiteResult = new TestSuiteResult( fixtureInfo, "MockTestFixture" );
 			testSuiteResult.AddResult( testCaseResult );
-			testSuiteResult.Executed = true;
+			testSuiteResult.RunState = RunState.Executed;
 
 			TestSuiteTreeNode node1 = new TestSuiteTreeNode( testSuiteResult );
 			TestSuiteTreeNode node2 = new TestSuiteTreeNode( testCaseResult );

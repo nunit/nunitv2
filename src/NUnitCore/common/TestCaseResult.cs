@@ -49,26 +49,6 @@ namespace NUnit.Core
 		public TestCaseResult(string testCaseString) 
 			: base(null, testCaseString) { }
 
-		public void Success() 
-		{ 
-			Executed = true;
-			IsFailure = false; 
-		}
-
-//		public override string ToString()
-//		{
-//			StringBuilder builder = new StringBuilder();
-//			string name = Name;
-//			if ( Test != null )
-//				name = Test.FullName;
-//			
-//			builder.AppendFormat("{0} : " , name);
-//			if(!IsSuccess)
-//				builder.Append(messageString);
-//
-//			return builder.ToString();
-//		}
-
 		public override void Accept(ResultVisitor visitor) 
 		{
 			visitor.Visit(this);

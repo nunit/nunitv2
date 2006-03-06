@@ -150,7 +150,7 @@ namespace NUnit.Core
 		#endregion
 
 		#region CountTestCases
-		public virtual int CountTestCases( ITestFilter filter )
+		public virtual int CountTestCases( TestFilter filter )
 		{
 			return this.testRunner.CountTestCases( filter );
 		}
@@ -171,7 +171,7 @@ namespace NUnit.Core
 			return this.testRunner.Run(listener);
 		}
 
-		public virtual TestResult Run(EventListener listener, ITestFilter filter)
+		public virtual TestResult Run(EventListener listener, TestFilter filter)
 		{
 			// Save active listener for derived classes
 			this.listener = listener;
@@ -185,7 +185,7 @@ namespace NUnit.Core
 			this.testRunner.BeginRun( listener );
 		}
 
-		public virtual void BeginRun( EventListener listener, ITestFilter filter )
+		public virtual void BeginRun( EventListener listener, TestFilter filter )
 		{
 			// Save active listener for derived classes
 			this.listener = listener;

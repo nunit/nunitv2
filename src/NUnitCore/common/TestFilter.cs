@@ -36,8 +36,37 @@ namespace NUnit.Core
 	/// The filter applies when running the test, after it has been
 	/// loaded, since this is the only time an ITest exists.
 	/// </summary>
-	public interface ITestFilter
+	[Serializable]
+	public abstract class TestFilter
 	{
-		bool Pass( ITest test );
+		/// <summary>
+		/// Unique Empty filter.
+		/// </summary>
+		public static TestFilter Empty = new EmptyFilter();
+
+		public bool IsEmpty
+		{
+			get { return this is TestFilter.EmptyFilter; }
+		}
+
+		/// <summary>
+		/// Determine if a particular test passes the filter criteria.
+		/// </summary>
+		/// <param name="test">The test to which the filter is applied</param>
+		/// <returns>True if the test passes the filter, otherwise false</returns>
+		public abstract bool Pass( ITest test );
+
+		/// <summary>
+		/// Nested class provides an empty filter - one that always
+		/// returns true when called, unless the test is marked explicit.
+		/// </summary>
+		[Serializable]
+		private class EmptyFilter : TestFilter
+		{
+			public override bool Pass( ITest test )
+			{
+				return !test.IsExplicit;
+			}
+		}
 	}
 }

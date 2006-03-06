@@ -1328,7 +1328,7 @@ namespace NUnit.Gui
 
 		private bool IsTestRunning
 		{
-			get { return TestLoader.IsTestRunning; }
+			get { return TestLoader.Running; }
 		}
 
 		private UserSettings _userSettings;
@@ -1796,32 +1796,6 @@ namespace NUnit.Gui
 					TestLoader.CancelTestRun();
 			}
 		}
-
-		/// <summary>
-		/// When a tree item is selected, display info pertaining 
-		/// to that test unless a test is running.
-		/// </summary>
-		//		private void OnSelectedTestChanged( UITestNode test )
-		//		{
-		//			if ( !IsTestRunning )
-		//			{
-		//				suiteName.Text = test.ShortName;
-		//				statusBar.Initialize( test.CountTestCases() );
-		//			}
-		//		}
-		//
-		//		private void OnCheckedTestChanged(System.Collections.IList tests)
-		//		{
-		//			if ( !IsTestRunning ) 
-		//			{
-		//				int count = 0;
-		//				foreach (UITestNode test in tests) 
-		//				{
-		//					count += test.CountTestCases();
-		//				}
-		//				statusBar.Initialize(count);
-		//			}
-		//		}
 
 		private void testTree_SelectedTestsChanged(object sender, SelectedTestsChangedEventArgs e)
 		{

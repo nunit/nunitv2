@@ -122,7 +122,7 @@ namespace NUnit.Util
 			xmlWriter.WriteAttributeString("executed", caseResult.Executed.ToString());
 			if(caseResult.Executed)
 			{
-				xmlWriter.WriteAttributeString("success", caseResult.IsSuccess.ToString());
+				xmlWriter.WriteAttributeString("success", caseResult.IsSuccess.ToString() );
 
 				xmlWriter.WriteAttributeString("time", caseResult.Time.ToString("#####0.000", NumberFormatInfo.InvariantInfo));
 

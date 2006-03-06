@@ -74,7 +74,7 @@ namespace NUnit.Core
 				if ( testFramework.IsIgnoreException( ex ) )
 				{
 					this.ShouldRun = false;
-					suiteResult.NotRun(ex.Message);
+					suiteResult.Ignore(ex.Message);
 					suiteResult.StackTrace = ex.StackTrace;
 					this.IgnoreReason = ex.Message;
 				}

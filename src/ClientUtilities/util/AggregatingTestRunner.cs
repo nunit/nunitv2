@@ -163,7 +163,7 @@ namespace NUnit.Util
 		#endregion
 
 		#region CountTestCases
-		public virtual int CountTestCases( ITestFilter filter )
+		public virtual int CountTestCases( TestFilter filter )
 		{
 			int count = 0;
 			foreach( TestRunner runner in runners )
@@ -187,10 +187,10 @@ namespace NUnit.Util
 		#region Methods for Running Tests
 		public virtual TestResult Run( EventListener listener )
 		{
-			return Run( listener, NUnit.Core.Filters.EmptyFilter.Empty );
+			return Run( listener, TestFilter.Empty );
 		}
 
-		public virtual TestResult Run(EventListener listener, ITestFilter filter )
+		public virtual TestResult Run(EventListener listener, TestFilter filter )
 		{
 			// Save active listener for derived classes
 			this.listener = listener;
@@ -212,10 +212,10 @@ namespace NUnit.Util
 
 		public virtual void BeginRun( EventListener listener )
 		{
-			BeginRun( listener, NUnit.Core.Filters.EmptyFilter.Empty );
+			BeginRun( listener, TestFilter.Empty );
 		}
 
-		public virtual void BeginRun( EventListener listener, ITestFilter filter )
+		public virtual void BeginRun( EventListener listener, TestFilter filter )
 		{
 			// Save active listener for derived classes
 			this.listener = listener;

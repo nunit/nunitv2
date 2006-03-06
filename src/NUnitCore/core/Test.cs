@@ -81,6 +81,11 @@ namespace NUnit.Core
 		private bool isExplicit;
 
 		/// <summary>
+		/// True if the test is valid and could be run
+		/// </summary>
+		private bool isRunnable;
+
+		/// <summary>
 		/// TestFramework under which this test runs
 		/// </summary>
 		protected ITestFramework testFramework;
@@ -107,6 +112,7 @@ namespace NUnit.Core
 			this.testName.TestID = new TestID();
 
 			this.shouldRun = true;
+			this.isRunnable = true;
 		}
 
 		protected Test( string pathName, string name ) 
@@ -118,6 +124,7 @@ namespace NUnit.Core
 			this.testName.TestID = new TestID();
 
 			this.shouldRun = true;
+			this.isRunnable = true;
 		}
 
 		protected Test( Type fixtureType ) 
@@ -237,15 +244,16 @@ namespace NUnit.Core
 			set { description = value; }
 		}
 
-		public int TestCount
-		{
-			get { return CountTestCases(); }
-		}
-
 		public bool IsExplicit
 		{
 			get { return isExplicit; }
 			set { isExplicit = value; }
+		}
+
+		public bool IsRunnable
+		{
+			get { return isRunnable; }
+			set { isRunnable = value; }
 		}
 
 		public IDictionary Properties
@@ -278,17 +286,20 @@ namespace NUnit.Core
 		/// Count of the test cases ( 1 if this is a test case )
 		/// </summary>
 		public abstract int CountTestCases();
-		public abstract int CountTestCases(ITestFilter filter);
+		public abstract int CountTestCases(TestFilter filter);
 		
+		public abstract int TestCount { get; }
+
 		public abstract bool IsSuite { get; }
 		public abstract bool IsFixture{ get; }
 		public abstract bool IsTestCase{ get; }
+
 		public abstract IList Tests { get; }
 
-		public abstract bool Filter(ITestFilter filter);
+		public abstract bool Filter(TestFilter filter);
 
 		public abstract TestResult Run( EventListener listener );
-		public abstract TestResult Run(EventListener listener, ITestFilter filter);
+		public abstract TestResult Run(EventListener listener, TestFilter filter);
 
 		#endregion
 

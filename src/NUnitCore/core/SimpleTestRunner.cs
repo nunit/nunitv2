@@ -168,7 +168,7 @@ namespace NUnit.Core
 		#endregion
 
 		#region CountTestCases
-		public int CountTestCases( ITestFilter filter )
+		public int CountTestCases( TestFilter filter )
 		{
 			return suite.CountTestCases( filter );
 		}
@@ -184,10 +184,10 @@ namespace NUnit.Core
 		#region Methods for Running Tests
 		public virtual TestResult Run( EventListener listener )
 		{
-			return Run( listener, EmptyFilter.Empty );
+			return Run( listener, TestFilter.Empty );
 		}
 
-		public virtual TestResult Run( EventListener listener, ITestFilter filter )
+		public virtual TestResult Run( EventListener listener, TestFilter filter )
 		{
 			Addins.Save();
 
@@ -225,7 +225,7 @@ namespace NUnit.Core
 			testResult = this.Run( listener );
 		}
 
-		public void BeginRun( EventListener listener, ITestFilter filter )
+		public void BeginRun( EventListener listener, TestFilter filter )
 		{
 			testResult = this.Run( listener, filter );
 		}

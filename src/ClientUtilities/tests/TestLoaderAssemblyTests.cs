@@ -188,11 +188,11 @@ namespace NUnit.Util.Tests
 				// TODO: Find a more robust way of handling this
 				Thread.Sleep( 500 );
 			}
-			while( loader.IsTestRunning );
+			while( loader.Running );
 			
-			Assert.AreEqual( 48, catcher.Events.Count );
+			Assert.AreEqual( 46, catcher.Events.Count );
 			Assert.AreEqual( TestAction.RunStarting, ((TestEventArgs)catcher.Events[4]).Action );
-			Assert.AreEqual( TestAction.RunFinished, ((TestEventArgs)catcher.Events[47]).Action );
+			Assert.AreEqual( TestAction.RunFinished, ((TestEventArgs)catcher.Events[45]).Action );
 
 			int nTests = 0;
 			int nRun = 0;
@@ -207,7 +207,7 @@ namespace NUnit.Util.Tests
 						++nRun;
 				}
 			}
-			Assert.AreEqual( MockAssembly.Tests, nTests );
+			Assert.AreEqual( MockAssembly.Tests - MockAssembly.Explicit, nTests );
 			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun, nRun );
 		}
 	}
