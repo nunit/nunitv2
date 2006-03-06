@@ -118,10 +118,10 @@ namespace NUnit.Core.Tests.SetupFixture
         {
             Assert.IsTrue(runTests("NUnit.Core.Tests.SetupFixture.Mocks.Namespace3").IsSuccess);
             EventRegistrar.Verify("NamespaceSetup",
+                                    "FixtureSetup", "Setup", "Test", "TearDown", "FixtureTearDown",                     
                                     "SubNamespaceSetup",
                                         "FixtureSetup", "Setup", "Test", "TearDown", "FixtureTearDown",
                                     "SubNamespaceTearDown",
-                                    "FixtureSetup", "Setup", "Test", "TearDown", "FixtureTearDown", 
                                   "NamespaceTearDown");
         }
         #endregion SubNamespace
@@ -363,87 +363,64 @@ namespace NUnit.Core.Tests.SetupFixture.Mocks.Namespace2
 
 namespace NUnit.Core.Tests.SetupFixture.Mocks.Namespace3
 {
-    namespace NUnit
+    namespace SubNamespace
     {
-        namespace Core
+
+
+        #region SomeTestFixture
+        [TestFixture]
+        public class SomeTestFixture
         {
-            namespace Tests
+            [TestFixtureSetUp]
+            public void FixtureSetup()
             {
-                namespace SetupFixture
-                {
-                    namespace Mocks
-                    {
-                        namespace Namespace3
-                        {
-                            namespace SubNamespace
-                            {
-                                class ping
-                                {
-                                    void pong()
-                                    {
-                                        Console.WriteLine(GetType().Namespace);
-                                    }
-                                }
+                EventRegistrar.RegisterEvent("FixtureSetup");
+            }
 
-                                #region SomeTestFixture
-                                [TestFixture]
-                                public class SomeTestFixture
-                                {
-                                    [TestFixtureSetUp]
-                                    public void FixtureSetup()
-                                    {
-                                        EventRegistrar.RegisterEvent("FixtureSetup");
-                                    }
+            [SetUp]
+            public void Setup()
+            {
+                EventRegistrar.RegisterEvent("Setup");
+            }
 
-                                    [SetUp]
-                                    public void Setup()
-                                    {
-                                        EventRegistrar.RegisterEvent("Setup");
-                                    }
+            [Test]
+            public void Test()
+            {
+                EventRegistrar.RegisterEvent("Test");
+            }
 
-                                    [Test]
-                                    public void Test()
-                                    {
-                                        EventRegistrar.RegisterEvent("Test");
-                                    }
+            [TearDown]
+            public void TearDown()
+            {
+                EventRegistrar.RegisterEvent("TearDown");
+            }
 
-                                    [TearDown]
-                                    public void TearDown()
-                                    {
-                                        EventRegistrar.RegisterEvent("TearDown");
-                                    }
-
-                                    [TestFixtureTearDown]
-                                    public void FixtureTearDown()
-                                    {
-                                        EventRegistrar.RegisterEvent("FixtureTearDown");
-                                    }
-                                }
-                                #endregion SomeTestFixture
-
-                                [SetUpFixture]
-                                public class NUnitNamespaceSetUpFixture
-                                {
-                                    [TestFixtureSetUp]
-                                    public void DoNamespaceSetUp()
-                                    {
-                                        EventRegistrar.RegisterEvent("SubNamespaceSetup");
-                                    }
-
-                                    [TestFixtureTearDown]
-                                    public void DoNamespaceTearDown()
-                                    {
-                                        EventRegistrar.RegisterEvent("SubNamespaceTearDown");
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                }
+            [TestFixtureTearDown]
+            public void FixtureTearDown()
+            {
+                EventRegistrar.RegisterEvent("FixtureTearDown");
             }
         }
+        #endregion SomeTestFixture
+
+        [SetUpFixture]
+        public class NUnitNamespaceSetUpFixture
+        {
+            [TestFixtureSetUp]
+            public void DoNamespaceSetUp()
+            {
+                EventRegistrar.RegisterEvent("SubNamespaceSetup");
+            }
+
+            [TestFixtureTearDown]
+            public void DoNamespaceTearDown()
+            {
+                EventRegistrar.RegisterEvent("SubNamespaceTearDown");
+            }
+        }
+
     }
+
 
     #region SomeTestFixture
     [TestFixture]

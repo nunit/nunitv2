@@ -16,8 +16,9 @@
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
-      <resources basedir="." prefix="NUnit.Core.Tests">
-        <include name="../core/Results.xsd"/>
+      <resources basedir="." prefix="NUnit.Framework.Tests">
+	<include name="*.jpg"/>
+	<include name="*.txt"/>
       </resources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
@@ -41,6 +42,8 @@
           <include name="*.build"/>
           <include name="*.config"/>
           <include name="*.cs"/>
+	  <include name="*.jpg"/>
+  	  <include name="*.txt"/>
       </fileset>
     </copy>
   </target>

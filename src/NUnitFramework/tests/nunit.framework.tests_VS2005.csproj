@@ -18,7 +18,7 @@
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
-    <RootNamespace>NUnit.Core.Tests</RootNamespace>
+    <RootNamespace>NUnit.Framework.Tests</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject>
     </StartupObject>
@@ -106,6 +106,7 @@
     <Compile Include="FailureMessageFixture.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FileAssertTests.cs" />
     <Compile Include="GreaterFixture.cs" />
     <Compile Include="LessFixture.cs" />
     <Compile Include="ListContentsTests.cs" />
@@ -129,6 +130,12 @@
       <DependentUpon>Results.xsd</DependentUpon>
     </None>
     <None Include="nunit.framework.tests.dll.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TestImage1.jpg" />
+    <EmbeddedResource Include="TestImage2.jpg" />
+    <EmbeddedResource Include="TestText1.txt" />
+    <EmbeddedResource Include="TestText2.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
