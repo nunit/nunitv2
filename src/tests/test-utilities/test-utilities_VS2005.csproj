@@ -65,6 +65,7 @@
     <Compile Include="TestClasses.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestFinder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ClientUtilities\util\nunit.util.dll_VS2005.csproj">
