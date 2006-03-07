@@ -446,10 +446,10 @@ namespace NUnit.ConsoleRunner
 				switch ( output.Type )
 				{
 					case TestOutputType.Out:
-						outWriter.WriteLine( output.Text );
+						outWriter.Write( output.Text );
 						break;
 					case TestOutputType.Error:
-						errorWriter.WriteLine( output.Text );
+						errorWriter.Write( output.Text );
 						break;
 				}
 			}
