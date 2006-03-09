@@ -29,81 +29,19 @@
 
 using NUnit.Framework;
 using NUnit.Core.Builders;
+using NUnit.TestUtilities;
+using NUnit.TestData.SetUpTest;
 
 namespace NUnit.Core.Tests
 {
 	[TestFixture]
 	public class SetUpTest
 	{	
-		private void RunTestOnFixture( object fixture )
-		{
-			TestSuite suite = TestFixtureBuilder.Make( fixture );
-			suite.Run( NullListener.NULL );
-		}
-
-		[TestFixture]
-		internal class SetUpAndTearDownFixture
-		{
-			internal bool wasSetUpCalled;
-			internal bool wasTearDownCalled;
-
-			[SetUp]
-			public virtual void Init()
-			{
-				wasSetUpCalled = true;
-			}
-
-			[TearDown]
-			public virtual void Destroy()
-			{
-				wasTearDownCalled = true;
-			}
-
-			[Test]
-			public void Success(){}
-		}
-
-
-		[TestFixture]
-		internal class SetUpAndTearDownCounterFixture
-		{
-			internal int setUpCounter;
-			internal int tearDownCounter;
-
-			[SetUp]
-			public virtual void Init()
-			{
-				setUpCounter++;
-			}
-
-			[TearDown]
-			public virtual void Destroy()
-			{
-				tearDownCounter++;
-			}
-
-			[Test]
-			public void TestOne(){}
-
-			[Test]
-			public void TestTwo(){}
-
-			[Test]
-			public void TestThree(){}
-		}
-		
-		[TestFixture]
-		internal class InheritSetUpAndTearDown : SetUpAndTearDownFixture
-		{
-			[Test]
-			public void AnotherTest(){}
-		}
-
 		[Test]
 		public void SetUpAndTearDownCounter()
 		{
 			SetUpAndTearDownCounterFixture fixture = new SetUpAndTearDownCounterFixture();
-			RunTestOnFixture( fixture );
+			TestBuilder.RunTestFixture( fixture );
 
 			Assert.AreEqual(3, fixture.setUpCounter);
 			Assert.AreEqual(3, fixture.tearDownCounter);
@@ -114,7 +52,7 @@ namespace NUnit.Core.Tests
 		public void MakeSureSetUpAndTearDownAreCalled()
 		{
 			SetUpAndTearDownFixture fixture = new SetUpAndTearDownFixture();
-			RunTestOnFixture( fixture );
+			TestBuilder.RunTestFixture( fixture );
 
 			Assert.IsTrue(fixture.wasSetUpCalled);
 			Assert.IsTrue(fixture.wasTearDownCalled);
@@ -124,39 +62,17 @@ namespace NUnit.Core.Tests
 		public void CheckInheritedSetUpAndTearDownAreCalled()
 		{
 			InheritSetUpAndTearDown fixture = new InheritSetUpAndTearDown();
-			RunTestOnFixture( fixture );
+			TestBuilder.RunTestFixture( fixture );
 
 			Assert.IsTrue(fixture.wasSetUpCalled);
 			Assert.IsTrue(fixture.wasTearDownCalled);
-		}
-
-		[TestFixture]
-		internal class DefineInheritSetUpAndTearDown : SetUpAndTearDownFixture
-		{
-			internal bool derivedSetUpCalled;
-			internal bool derivedTearDownCalled;
-
-			[SetUp]
-			public override void Init()
-			{
-				derivedSetUpCalled = true;
-			}
-
-			[TearDown]
-			public override void Destroy()
-			{
-				derivedTearDownCalled = true;
-			}
-
-			[Test]
-			public void AnotherTest(){}
 		}
 
 		[Test]
 		public void CheckInheritedSetUpAndTearDownAreNotCalled()
 		{
 			DefineInheritSetUpAndTearDown fixture = new DefineInheritSetUpAndTearDown();
-			RunTestOnFixture( fixture );
+			TestBuilder.RunTestFixture( fixture );
 
 			Assert.IsFalse(fixture.wasSetUpCalled);
 			Assert.IsFalse(fixture.wasTearDownCalled);

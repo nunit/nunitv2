@@ -30,6 +30,7 @@
 using System;
 using NUnit.Framework;
 using NUnit.Core.Builders;
+using NUnit.TestData;
 
 namespace NUnit.Core.Tests
 {
@@ -44,9 +45,6 @@ namespace NUnit.Core.Tests
 				suite.Add( new OneTestCase() );
 				suite.Add( new AssemblyTests() );
 				suite.Add( new NoNamespaceTestFixture() );
-//				suite.Add( TestFixtureBuilder.Make( typeof( OneTestCase ) ) );
-//				suite.Add( TestFixtureBuilder.Make( typeof( AssemblyTests ) ) );
-//				suite.Add( TestFixtureBuilder.Make( typeof( NoNamespaceTestFixture ) ) );
 				return suite;
 			}
 		}

@@ -31,6 +31,7 @@ using System;
 using System.IO;
 using NUnit.Framework;
 using NUnit.Core;
+using NUnit.TestData.SuiteBuilderTests;
 
 namespace NUnit.Core.Tests
 {
@@ -42,6 +43,7 @@ namespace NUnit.Core.Tests
 	public class SuiteBuilderTests
 	{
 		private string testsDll = "nunit.core.tests.dll";
+		private string testData = "test-assembly.dll";
 		private string tempFile = "x.dll";
 		private TestSuiteBuilder builder;
 
@@ -99,42 +101,17 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( "NUnit", ((Test)suite.Tests[0]).Name );
 		}
 
-		class Suite
-		{
-			[Suite]
-			public static TestSuite MockSuite
-			{
-				get 
-				{
-					TestSuite testSuite = new TestSuite("TestSuite");
-					return testSuite;
-				}
-			}
-		}
-
 		[Test]
 		public void DiscoverSuite()
 		{
-			TestSuite suite = builder.Build( testsDll, "NUnit.Core.Tests.SuiteBuilderTests+Suite" );
+			TestSuite suite = builder.Build( testData, "NUnit.TestData.SuiteBuilderTests.Suite" );
 			Assert.IsNotNull(suite, "Could not discover suite attribute");
-		}
-
-		class NonConformingSuite
-		{
-			[Suite]
-			public static int Integer
-			{
-				get 
-				{
-					return 5;
-				}
-			}
 		}
 
 		[Test]
 		public void WrongReturnTypeSuite()
 		{
-			TestSuite suite = builder.Build( testsDll, "NUnit.Tests.Assemblies.AssemblyTests+NonConformingSuite" );
+			TestSuite suite = builder.Build( testData, "NUnit.TestData.SuiteBuilderTests.NonConformingSuite" );
 			Assert.IsNull(suite, "Suite property returns wrong type");
 		}
 

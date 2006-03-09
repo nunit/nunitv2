@@ -1,5 +1,7 @@
 using System;
 using NUnit.Framework;
+using NUnit.TestUtilities;
+using NUnit.TestData.PropertyAttributeTests;
 
 namespace NUnit.Core.Tests
 {
@@ -11,7 +13,7 @@ namespace NUnit.Core.Tests
 		[SetUp]
 		public void CreateFixture()
 		{
-			fixture = TestFixtureBuilder.Make( typeof( FixtureWithProperties ) );
+			fixture = TestBuilder.MakeFixture( typeof( FixtureWithProperties ) );
 		}
 
 		[Test]
@@ -33,16 +35,6 @@ namespace NUnit.Core.Tests
 		public void PropertyWorksOnFixtures()
 		{
 			Assert.AreEqual( "SomeClass", fixture.Properties["ClassUnderTest"] );
-		}
-
-		[TestFixture, Property("ClassUnderTest","SomeClass" )]
-		class FixtureWithProperties
-		{
-			[Test, Property("user","Charlie")]
-			public void Test1() { }
-
-			[Test, Property("X",10.0), Property("Y",17.0)]
-			public void Test2() { }
 		}
 	}
 }

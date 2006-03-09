@@ -52,6 +52,13 @@ namespace NUnit.Core.Builders
 			return new NUnitTestFixture( type );
 		}
 
+//		public override bool CanBuildFrom(Type type)
+//		{
+//			if ( !type.IsPublic && !type.IsNestedPublic )
+//				return false;
+//			return base.CanBuildFrom( type );
+//		}
+
 		/// <summary>
 		/// Overrides GenericTestFixtureBuilder.BuildFrom to allow
 		/// use of the Category, Explicit and Platform attributes

@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using NUnit.Tests.Assemblies;
+using NUnit.TestUtilities;
 
 namespace NUnit.Core.Tests
 {
@@ -18,7 +19,7 @@ namespace NUnit.Core.Tests
 		public void SetUp()
 		{
 			testSuite = new TestSuite("MyTestSuite");
-			testFixture = TestFixtureBuilder.Make( typeof( MockTestFixture ) );
+			testFixture = TestBuilder.MakeFixture( typeof( MockTestFixture ) );
 			testSuite.Add( testFixture );
 
 			testCase1 = (NUnit.Core.TestCase)testFixture.Tests[0];

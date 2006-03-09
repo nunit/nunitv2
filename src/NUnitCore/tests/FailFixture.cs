@@ -30,37 +30,29 @@
 using System;
 using System.Reflection;
 using NUnit.Framework;
-using NUnit.Core.Builders;
+using NUnit.TestUtilities;
+using NUnit.TestData.FailFixture;
 
 namespace NUnit.Core.Tests
 {
 	[TestFixture]
 	public class FailFixture
 	{
-		private TestResult RunTestCase( Type fixtureType, string methodName )
-		{
-			TestCase test = TestCaseBuilder.Make( fixtureType, methodName );		
-			TestSuite suite = TestFixtureBuilder.Make( fixtureType );
-			suite.Add( test );
-			return test.Run( NullListener.NULL );
-		}
-
-		[TestFixture]
-		internal class VerifyFailThrowsException
-		{
-			internal static string failureMessage = "This should call fail";
-
-			[Test]
-			public void CallAssertionFail()
-			{
-				Assert.Fail(failureMessage);
-			}
-		}
-
 		[Test]
-		public void FailWorks()
+		public void VerifyFailWorks()
 		{
-			TestResult result = RunTestCase( 
+			TestResult result = TestBuilder.RunTestCase( 
+				typeof(VerifyFailThrowsException), 
+				"CallAssertFail" );
+			Assert.IsTrue(result.IsFailure, "Should have failed");
+			Assert.AreEqual(
+				VerifyFailThrowsException.failureMessage, 
+				result.Message);
+		}
+		[Test]
+		public void VerifyAssertionFailWorks()
+		{
+			TestResult result = TestBuilder.RunTestCase( 
 				typeof(VerifyFailThrowsException), 
 				"CallAssertionFail" );
 			Assert.IsTrue(result.IsFailure, "Should have failed");
@@ -91,89 +83,31 @@ namespace NUnit.Core.Tests
 			throw new AssertionException("fail"); // You can't call fail() here
 		}
 
-		[TestFixture]
-		internal class VerifyTestResultRecordsInnerExceptions
-		{
-			[Test]
-			public void ThrowInnerException()
-			{
-				throw new Exception("Outer Exception", new Exception("Inner Exception"));
-			}
-		}
-
 		[Test]
 		public void FailRecordsInnerException()
 		{
 			Type fixtureType = typeof(VerifyTestResultRecordsInnerExceptions);
 			string expectedMessage ="System.Exception : Outer Exception" + Environment.NewLine + "  ----> System.Exception : Inner Exception";
-			NUnit.Core.TestResult result = RunTestCase(fixtureType, "ThrowInnerException");
+			NUnit.Core.TestResult result = TestBuilder.RunTestCase(fixtureType, "ThrowInnerException");
 			Assert.IsTrue(result.IsFailure, "Should have failed");
 			Assert.AreEqual(expectedMessage, result.Message);
-		}
-
-		[TestFixture]
-		private class BadStackTraceFixture
-		{
-			[Test]
-			public void TestFailure()
-			{
-				throw new ExceptionWithBadStackTrace("thrown by me");
-			}
-		}
-
-		private class ExceptionWithBadStackTrace : Exception
-		{
-			public ExceptionWithBadStackTrace( string message )
-				: base( message ) { }
-
-			public override string StackTrace
-			{
-				get
-				{
-					throw new InvalidOperationException( "Simulated failure getting stack trace" );
-				}
-			}
 		}
 
 		[Test]
 		public void BadStackTraceIsHandled()
 		{
-			TestResult result = RunTestCase( typeof( BadStackTraceFixture ), "TestFailure" );
+			TestResult result = TestBuilder.RunTestCase( typeof( BadStackTraceFixture ), "TestFailure" );
 			Assert.AreEqual( true, result.IsFailure );
-			Assert.AreEqual( "NUnit.Core.Tests.FailFixture+ExceptionWithBadStackTrace : thrown by me", result.Message );
+			Assert.AreEqual( "NUnit.TestData.FailFixture.ExceptionWithBadStackTrace : thrown by me", result.Message );
 			Assert.AreEqual( "No stack trace available", result.StackTrace );
 		}
 
 		[Test]
 		public void CustomExceptionIsHandled()
 		{
-			TestResult result = RunTestCase( typeof( CustomExceptionFixture ), "ThrowCustomException" );
+			TestResult result = TestBuilder.RunTestCase( typeof( CustomExceptionFixture ), "ThrowCustomException" );
 			Assert.AreEqual( true, result.IsFailure );
-			Assert.AreEqual( "NUnit.Core.Tests.FailFixture+CustomExceptionFixture+CustomException : message", result.Message );
-		}
-
-		[TestFixture]
-		private class CustomExceptionFixture
-		{
-			[Test]
-			public void ThrowCustomException()
-			{
-				throw new CustomException( "message", new CustomType() );
-			}
-
-			private class CustomType
-			{
-			}
-
-			private class CustomException : Exception
-			{
-				private CustomType custom;
-
-				public CustomException( string msg, CustomType custom ) : base( msg )
-				{
-					this.custom = custom;
-				}
-			}
+			Assert.AreEqual( "NUnit.TestData.FailFixture.CustomExceptionFixture+CustomException : message", result.Message );
 		}
 	}
 }

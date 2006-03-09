@@ -28,33 +28,36 @@
 #endregion
 
 using System;
-using System.Collections;
 using NUnit.Framework;
-using NUnit.Core.Builders;
-using NUnit.TestUtilities;
-using NUnit.TestData;
 
-namespace NUnit.Core.Tests
+namespace NUnit.TestData
 {
-	//TODO: Review whether we need these tests at all
 	[TestFixture]
-	public class TestCaseNameTest
-	{
-		[Test]
-		public void TestName()
-		{
-			TestSuite suite = TestBuilder.MakeFixture( typeof( OneTestCase ) );
-			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
-			Assert.AreEqual("NUnit.TestData.OneTestCase.TestCase", testCase.FullName);
-			Assert.AreEqual("TestCase", testCase.Name);
-		}
+	public class EmptyFixture 
+	{}
 
+	/// <summary>
+	/// Summary description for OneTestCase. This class serves the purpose of 
+	/// having a test fixture that has one and only one test case. It is used 
+	/// internally for the framework tests. 
+	/// </summary>
+	/// 
+	[TestFixture]
+	public class OneTestCase
+	{
+		/// <summary>
+		///  The one and only test case in this fixture. It always succeeds. 
+		/// </summary>
 		[Test]
-		public void TestExpectedException()
-		{
-			TestSuite suite = TestBuilder.MakeFixture( typeof( ExpectExceptionTest ) );
-			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
-			Assert.AreEqual("NUnit.Core.Tests.ExpectExceptionTest.CanSpecifyExceptionType", testCase.FullName);
-		}
+		public virtual void TestCase() {}
+	}
+
+	public class InheritedTestFixture : OneTestCase 
+	{
+		public static readonly int Tests = 2;
+ 
+		[Test]
+		public void Test2() 
+		{}
 	}
 }

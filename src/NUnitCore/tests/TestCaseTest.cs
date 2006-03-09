@@ -32,6 +32,7 @@ using System.Reflection;
 using NUnit.Framework;
 using NUnit.Tests.Assemblies;
 using NUnit.Util;
+using NUnit.TestData.TestCaseTest;
 
 namespace NUnit.Core.Tests
 {
@@ -73,16 +74,6 @@ namespace NUnit.Core.Tests
 			Assert.IsNotNull(testCase);
 			Assert.IsNotNull(testCase.Categories);
 			Assert.AreEqual(2, testCase.Categories.Count);
-		}
-
-		[TestFixture]
-		private class HasCategories 
-		{
-			[Test] 
-			[Category("A category")]
-			[Category("Another Category")]
-			public void ATest()
-			{}
 		}
 	}
 }

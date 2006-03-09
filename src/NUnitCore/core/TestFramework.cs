@@ -39,9 +39,6 @@ namespace NUnit.Core
 	public interface ITestFramework
 	{
 		string Name { get; }
-//		Assembly FrameworkAssembly { get; }
-//		string AssertionExceptionType { get; }
-//		string IgnoreExceptionType { get; }
 		bool AllowPrivateTests { get; }
 
 		int GetAssertCount();

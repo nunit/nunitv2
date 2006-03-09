@@ -1,8 +1,8 @@
 using System;
 using NUnit.Framework;
 using NUnit.Core;
-using NUnit.TestUtilities.TestClasses;
-using NUnit.Core.Builders;
+using NUnit.TestUtilities;
+using NUnit.TestData.TestFixtureTests;
 
 namespace NUnit.Core.Tests
 {
@@ -15,7 +15,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void ConstructFromType()
 		{
-			TestSuite fixture = TestFixtureBuilder.Make( typeof( NUnit.Tests.Assemblies.MockTestFixture ) );
+			TestSuite fixture = TestBuilder.MakeFixture( typeof( NUnit.Tests.Assemblies.MockTestFixture ) );
 			Assert.AreEqual( "MockTestFixture", fixture.Name );
 			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture", fixture.FullName );
 		}
@@ -23,7 +23,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void ConstructFromTypeWithoutNamespace()
 		{
-			TestSuite fixture = TestFixtureBuilder.Make( typeof( NoNamespaceTestFixture ) );
+			TestSuite fixture = TestBuilder.MakeFixture( typeof( NoNamespaceTestFixture ) );
 			Assert.AreEqual( "NoNamespaceTestFixture", fixture.Name );
 			Assert.AreEqual( "NoNamespaceTestFixture", fixture.FullName );
 		}
@@ -31,28 +31,28 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void ConstructFromNestedType()
 		{
-			TestSuite fixture = TestFixtureBuilder.Make( typeof( OuterClass.NestedTestFixture ) );
+			TestSuite fixture = TestBuilder.MakeFixture( typeof( OuterClass.NestedTestFixture ) );
 			Assert.AreEqual( "OuterClass+NestedTestFixture", fixture.Name );
-			Assert.AreEqual( "NUnit.TestUtilities.TestClasses.OuterClass+NestedTestFixture", fixture.FullName );
+			Assert.AreEqual( "NUnit.TestData.TestFixtureTests.OuterClass+NestedTestFixture", fixture.FullName );
 		}
 
 		[Test]
 		public void ConstructFromDoublyNestedType()
 		{
-			TestSuite fixture = TestFixtureBuilder.Make( typeof( OuterClass.NestedTestFixture.DoublyNestedTestFixture ) );
+			TestSuite fixture = TestBuilder.MakeFixture( typeof( OuterClass.NestedTestFixture.DoublyNestedTestFixture ) );
 			Assert.AreEqual( "OuterClass+NestedTestFixture+DoublyNestedTestFixture", fixture.Name );
-			Assert.AreEqual( "NUnit.TestUtilities.TestClasses.OuterClass+NestedTestFixture+DoublyNestedTestFixture", fixture.FullName );
+			Assert.AreEqual( "NUnit.TestData.TestFixtureTests.OuterClass+NestedTestFixture+DoublyNestedTestFixture", fixture.FullName );
 		}
 
 		private void AssertNotRunnable( Type type )
 		{
-			TestSuite suite = TestFixtureBuilder.Make( type );
+			TestSuite suite = TestBuilder.MakeFixture( type );
 			Assert.IsFalse( suite.ShouldRun );
 		}
 
 		private void AssertNotRunnable( Type type, string reason )
 		{
-			TestSuite suite = TestFixtureBuilder.Make( type );
+			TestSuite suite = TestBuilder.MakeFixture( type );
 			Assert.IsFalse( suite.ShouldRun );
 			Assert.AreEqual( reason, suite.IgnoreReason );
 		}

@@ -31,7 +31,8 @@ using System;
 using NUnit.Framework;
 using NUnit.Core.Builders;
 using NUnit.Util;
-
+using NUnit.TestUtilities;
+using NUnit.TestData.FixtureSetUpTearDown;
 
 namespace NUnit.Core.Tests
 {
@@ -40,7 +41,8 @@ namespace NUnit.Core.Tests
 	{
 		private TestSuiteResult RunTestOnFixture( object fixture )
 		{
-			TestSuite suite = TestFixtureBuilder.Make( fixture );
+			TestSuite suite = TestBuilder.MakeFixture( fixture.GetType() );
+			suite.Fixture = fixture;
 			return (TestSuiteResult)suite.Run( NullListener.NULL );
 		}
 
@@ -178,7 +180,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void HandleExceptionInFixtureConstructor()
 		{
-			TestSuite suite = TestFixtureBuilder.Make( typeof( ExceptionInConstructor ) );
+			TestSuite suite = TestBuilder.MakeFixture( typeof( ExceptionInConstructor ) );
 			TestSuiteResult result = (TestSuiteResult)suite.Run( NullListener.NULL );
 
 			// should have one suite and one fixture
@@ -238,7 +240,8 @@ namespace NUnit.Core.Tests
 		public void RunningSingleMethodCallsSetUpAndTearDown()
 		{
 			SetUpAndTearDownFixture fixture = new SetUpAndTearDownFixture();
-			TestSuite suite = TestFixtureBuilder.Make( fixture );
+			TestSuite suite = TestBuilder.MakeFixture( fixture.GetType() );
+			suite.Fixture = fixture;
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
 			
 			suite.Run(NullListener.NULL, new Filters.NameFilter( testCase.TestName ) );
@@ -252,7 +255,8 @@ namespace NUnit.Core.Tests
 		{
 			IgnoredFixture fixture = new IgnoredFixture();
 			TestSuite suite = new TestSuite("IgnoredFixtureSuite");
-			TestSuite fixtureSuite = TestFixtureBuilder.Make( fixture );
+			TestSuite fixtureSuite = TestBuilder.MakeFixture( fixture.GetType() );
+			suite.Fixture = fixture;
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)fixtureSuite.Tests[0];
 			suite.Add( fixtureSuite );
 			
@@ -286,205 +290,5 @@ namespace NUnit.Core.Tests
 //			Assert.IsFalse( fixture.setupCalled, "TestFixtureSetUp called running enclosing suite" );
 //			Assert.IsFalse( fixture.teardownCalled, "TestFixtureTearDown called running enclosing suite" );
 		}
-
-		#region Internal classes used for tests
-		[TestFixture]
-		internal class SetUpAndTearDownFixture
-		{
-			internal int setUpCount = 0;
-			internal int tearDownCount = 0;
-
-			[TestFixtureSetUp]
-			public virtual void Init()
-			{
-				setUpCount++;
-			}
-
-			[TestFixtureTearDown]
-			public virtual void Destroy()
-			{
-				tearDownCount++;
-			}
-
-			[Test]
-			public void Success(){}
-
-			[Test]
-			public void EvenMoreSuccess(){}
-		}
-
-		[TestFixture]
-		internal class InheritSetUpAndTearDown : SetUpAndTearDownFixture
-		{
-			[Test]
-			public void AnotherTest(){}
-
-			[Test]
-			public void YetAnotherTest(){}
-		}
-
-		[TestFixture]
-		internal class DefineInheritSetUpAndTearDown : SetUpAndTearDownFixture
-		{
-			internal int derivedSetUpCount;
-			internal int derivedTearDownCount;
-
-			[TestFixtureSetUp]
-			public override void Init()
-			{
-				derivedSetUpCount++;
-			}
-
-			[TestFixtureTearDown]
-			public override void Destroy()
-			{
-				derivedTearDownCount++;
-			}
-
-			[Test]
-			public void AnotherTest(){}
-
-			[Test]
-			public void YetAnotherTest(){}
-		}
-
-		[TestFixture]
-		internal class MisbehavingFixture 
-		{
-			public bool blowUpInSetUp = false;
-			public bool blowUpInTearDown = false;
-
-			public int setUpCount = 0;
-			public int tearDownCount = 0;
-
-			public void Reinitialize()
-			{
-				setUpCount = 0;
-				tearDownCount = 0;
-
-				blowUpInSetUp = false;
-				blowUpInTearDown = false;
-			}
-
-			[TestFixtureSetUp]
-			public void BlowUpInSetUp() 
-			{
-				setUpCount++;
-				if (blowUpInSetUp)
-					throw new Exception("This was thrown from fixture setup");
-			}
-
-			[TestFixtureTearDown]
-			public void BlowUpInTearDown()
-			{
-				tearDownCount++;
-				if ( blowUpInTearDown )
-					throw new Exception("This was thrown from fixture teardown");
-			}
-
-			[Test]
-			public void nothingToTest() 
-			{
-			}
-		}
-
-		[TestFixture]
-		internal class ExceptionInConstructor
-		{
-			public ExceptionInConstructor()
-			{
-				throw new Exception( "This was thrown in constructor" );
-			}
-
-			[Test]
-			public void nothingToTest()
-			{
-			}
-		}
-
-		[TestFixture]
-		internal class IgnoreInFixtureSetUp
-		{
-			[TestFixtureSetUp]
-			public void SetUpCallsIgnore() 
-			{
-				Assert.Ignore( "TestFixtureSetUp called Ignore" );
-			}
-
-			[Test]
-			public void nothingToTest() 
-			{
-			}
-		}
-
-		[TestFixture]
-		internal class SetUpAndTearDownWithTestInName
-		{
-			internal int setUpCount = 0;
-			internal int tearDownCount = 0;
-
-			[TestFixtureSetUp]
-			public virtual void TestFixtureSetUp()
-			{
-				setUpCount++;
-			}
-
-			[TestFixtureTearDown]
-			public virtual void TestFixtureTearDown()
-			{
-				tearDownCount++;
-			}
-
-			[Test]
-			public void Success(){}
-
-			[Test]
-			public void EvenMoreSuccess(){}
-		}
-
-		[TestFixture, Ignore( "Do Not Run This" )]
-		internal class IgnoredFixture
-		{
-			public bool setupCalled = false;
-			public bool teardownCalled = false;
-
-			[TestFixtureSetUp]
-			public virtual void ShouldNotRun()
-			{
-				setupCalled = true;
-			}
-
-			[TestFixtureTearDown]
-			public virtual void NeitherShouldThis()
-			{
-				teardownCalled = true;
-			}
-
-			[Test]
-			public void Success(){}
-
-			[Test]
-			public void EvenMoreSuccess(){}
-		}
-
-		[TestFixture]
-		internal class FixtureWithNoTests
-		{
-			internal bool setupCalled = false;
-			internal bool teardownCalled = false;
-
-			[TestFixtureSetUp]
-			public virtual void Init()
-			{
-				setupCalled = true;
-			}
-
-			[TestFixtureTearDown]
-			public virtual void Destroy()
-			{
-				teardownCalled = true;
-			}
-		}
-		#endregion
 	}
 }

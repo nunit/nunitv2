@@ -4,7 +4,7 @@ using NUnit.Core;
 namespace NUnit.TestUtilities
 {
 	/// <summary>
-	/// Summary description for TestFinder.
+	/// Utility class used to locate tests by name in a test tree
 	/// </summary>
 	public class TestFinder
 	{

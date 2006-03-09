@@ -30,6 +30,8 @@
 using System;
 using NUnit.Framework;
 using NUnit.Core.Builders;
+using NUnit.TestUtilities;
+using NUnit.TestData.TestFixtureExtension;
 
 namespace NUnit.Core.Tests
 {
@@ -42,54 +44,17 @@ namespace NUnit.Core.Tests
 	{
 		private TestSuite suite;
 
-		[TestFixture]
-		private abstract class BaseTestFixture : NUnit.Framework.TestCase
-		{
-			internal bool baseSetup = false;
-			internal bool baseTeardown = false;
-
-			protected override void SetUp()
-			{ baseSetup = true; }
-
-			protected override void TearDown()
-			{ baseTeardown = true; }
-		}
-
-		private class DerivedTestFixture : BaseTestFixture
-		{
-			[Test]
-			public void Success()
-			{
-				Assert(true);
-			}
-		}
-
-		private class SetUpDerivedTestFixture : BaseTestFixture
-		{
-			[SetUp]
-			public void Init()
-			{
-				base.SetUp();
-			}
-
-			[Test]
-			public void Success()
-			{
-				Assert(true);
-			}
-		}
-
 		private void RunTestOnFixture( object fixture )
 		{
-			TestSuite suite = TestFixtureBuilder.Make( fixture );
+			TestSuite suite = TestBuilder.MakeFixture( fixture );
 			suite.Run( NullListener.NULL );
 		}
 
 		[SetUp] public void LoadFixture()
 		{
-			string testsDll = "nunit.core.tests.dll";
+			string testsDll = "test-assembly.dll";
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			suite = builder.Build( testsDll, "NUnit.Core.Tests.TestFixtureExtension+DerivedTestFixture" );
+			suite = builder.Build( testsDll, "NUnit.TestData.TestFixtureExtension.DerivedTestFixture" );
 		}
 
 		[Test] 

@@ -33,6 +33,7 @@ using System.Text;
 using System.Collections;
 
 using NUnit.Framework;
+using NUnit.TestData.ConsoleRunnerTest;
 
 namespace NUnit.ConsoleRunner.Tests
 {
@@ -63,26 +64,6 @@ namespace NUnit.ConsoleRunner.Tests
 
 			file = new FileInfo( "TestResult.xml" );
 			if(file.Exists) file.Delete();
-		}
-
-		[TestFixture]
-		internal class SuccessTest
-		{
-			public static readonly int Tests = 1;
-
-			[Test]
-			public void Success()
-			{}
-		}
-		
-		[TestFixture] 
-		internal class FailureTest
-		{
-			[Test]
-			public void Fail()
-			{
-				Assert.Fail();
-			}
 		}
 
 		[Test]
@@ -149,24 +130,6 @@ namespace NUnit.ConsoleRunner.Tests
 			Assert.AreEqual( 1, resultCode );
 		}
 
-		[TestFixture]
-		internal class Bug1073539Fixture
-		{
-			[Test]
-			public void TestCaseMessageOutput()
-			{
-				//Test with lower 128 characters that are common across Windows code pages.
-				byte[] encodedBytes = new byte[255];
-				byte y = 0;
-				for(int x = 0 ; x < 255 ; x++)
-				{
-					encodedBytes[x] = y++;
-				}
-				string specialString = System.Text.Encoding.Default.GetString(encodedBytes);
-				throw new ApplicationException("Will I break NUnit XML " + specialString);
-			}
-		}
-
 		[Test]
 		public void Bug1311644Test()
 		{
@@ -174,16 +137,6 @@ namespace NUnit.ConsoleRunner.Tests
 			Assert.AreEqual( 1, resultCode );
 		}
 
-		[TestFixture]
-		internal class Bug1311644Fixture
-		{
-			[Test]
-			public void TestCaseAssertMessageOutput()
-			{
-				Assert.AreEqual(new char[] {(char)0}, new char[] {' '});
-			}
-		}
-		
 		private int runFixture( Type type )
 		{
 			return executeConsole( new string[] 

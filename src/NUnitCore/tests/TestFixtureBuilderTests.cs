@@ -31,7 +31,8 @@ using System;
 using System.Reflection;
 using NUnit.Framework;
 using NUnit.Core;
-using NUnit.TestUtilities.TestClasses;
+using NUnit.TestUtilities;
+using NUnit.TestData.TestFixtureBuilderTests;
 
 namespace NUnit.Core.Tests
 {
@@ -48,8 +49,8 @@ namespace NUnit.Core.Tests
 
 		private void InvalidSignatureTest(string methodName, string reason)
 		{
-			TestSuite fixture = loadFixture( typeof( NUnit.TestUtilities.TestClasses.SignatureTestFixture ) );
-			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
+			TestSuite fixture = loadFixture( typeof( SignatureTestFixture ) );
+			Test foundTest = TestFinder.Find( methodName, fixture );
 			Assert.IsNotNull(foundTest);
 			Assert.IsFalse(foundTest.ShouldRun);
 			string expected = String.Format("Method {0}'s signature is not correct: {1}.", methodName, reason);
@@ -63,51 +64,22 @@ namespace NUnit.Core.Tests
 
 			return suite;
 		}
-
-		private NUnit.Core.TestCase FindTestByName(TestSuite fixture, string methodName)
-		{
-			NUnit.Core.TestCase foundTest = null;
-			foreach(Test test in fixture.Tests)
-			{
-				NUnit.Core.TestCase testCase = test as NUnit.Core.TestCase;
-				if(testCase != null)
-				{
-					if(testCase.Name.Equals(methodName))
-						foundTest = testCase;
-				}
-
-				if(foundTest != null)
-					break;
-			}
-
-			return foundTest;
-		}
-
 		#endregion
 
 		[Test]
 		public void GoodSignature()
 		{
 			string methodName = "TestVoid";
-			TestSuite fixture = loadFixture( typeof( NUnit.TestUtilities.TestClasses.SignatureTestFixture ) );
-			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
+			TestSuite fixture = loadFixture( typeof( SignatureTestFixture ) );
+			Test foundTest = TestFinder.Find( methodName, fixture );
 			Assert.IsNotNull(foundTest);
 			Assert.IsTrue(foundTest.ShouldRun);
-		}
-
-		[TestFixture]
-		[Category("fixture category")]
-		[Category("second")]
-		private class HasCategories 
-		{
-			[Test] public void OneTest()
-			{}
 		}
 
 		[Test]
 		public void LoadCategories() 
 		{
-			TestSuite fixture = loadFixture( typeof( NUnit.Core.Tests.TestFixtureBuilderTests.HasCategories ) );
+			TestSuite fixture = loadFixture( typeof( HasCategories ) );
 			Assert.IsNotNull(fixture);
 			Assert.AreEqual(2, fixture.Categories.Count);
 		}

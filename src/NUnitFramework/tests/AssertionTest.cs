@@ -27,10 +27,9 @@
 '***********************************************************************************/
 #endregion
 
-namespace NUnit.Core.Tests
+namespace NUnit.Framework.Tests
 {
 	using System;
-	using System.Reflection;
 	using NUnit.Framework;
 
 	[TestFixture]
@@ -380,34 +379,6 @@ namespace NUnit.Core.Tests
 		public void SucceedAssertNotNull() 
 		{
 			Assertion.AssertNotNull(new Object());
-		}
-
-		[TestFixture]
-			internal class VerifyFailThrowsException
-		{
-			internal string failureMessage = "this should call fail";
-
-			[Test]
-			public void CallAssertionFail()
-			{
-				Assertion.Fail(failureMessage);
-			}
-		}
-
-		[Test]
-		public void VerifyFailIsCalled()
-		{
-			string failureMessage = "this should call fail";
-			VerifyFailThrowsException verifyFail = new VerifyFailThrowsException();
-			verifyFail.failureMessage = failureMessage;
-			Type verifyFailType = typeof(VerifyFailThrowsException);
-
-			NUnit.Core.Test test = TestCaseBuilder.Make( verifyFailType, "CallAssertionFail" );
-			TestSuite suite = TestFixtureBuilder.Make( verifyFailType );
-			suite.Add(test);
-			NUnit.Core.TestResult result = test.Run(NUnit.Core.NullListener.NULL);
-			Assertion.Assert("VerifyFailThrowsException should have failed", result.IsFailure);
-			Assertion.AssertEquals(failureMessage, result.Message);
 		}
 
 		/// <summary>

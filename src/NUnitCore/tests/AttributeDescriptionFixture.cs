@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Collections;
 using NUnit.Framework;
 using NUnit.Core.Builders;
+using NUnit.TestUtilities;
 
 namespace NUnit.Core.Tests
 {
@@ -73,7 +74,7 @@ namespace NUnit.Core.Tests
 		public void DescriptionInResult()
 		{
 			TestSuite suite = new TestSuite("Mock Fixture");
-			suite.Add( TestFixtureBuilder.Make( typeof( MockFixture ) ) );
+			suite.Add( TestBuilder.MakeFixture( typeof( MockFixture ) ) );
 			TestResult result = suite.Run(NullListener.NULL);
 
 			DescriptionVisitor visitor = new DescriptionVisitor("NUnit.Tests.Attributes.MockFixture.Method", "Test Description");
@@ -95,7 +96,7 @@ namespace NUnit.Core.Tests
 		public void FixtureDescription()
 		{
 			TestSuite suite = new TestSuite("suite");
-			suite.Add( TestFixtureBuilder.Make( typeof( MockFixture ) ) );
+			suite.Add( TestBuilder.MakeFixture( typeof( MockFixture ) ) );
 
 			IList tests = suite.Tests;
 			TestSuite mockFixtureSuite = (TestSuite)tests[0];
@@ -107,7 +108,7 @@ namespace NUnit.Core.Tests
 		public void FixtureDescriptionInResult()
 		{
 			TestSuite suite = new TestSuite("Mock Fixture");
-			suite.Add( TestFixtureBuilder.Make( typeof( MockFixture ) ) );
+			suite.Add( TestBuilder.MakeFixture( typeof( MockFixture ) ) );
 			TestResult result = suite.Run(NullListener.NULL);
 
 			DescriptionVisitor visitor = new DescriptionVisitor("MockFixture", "Fixture Description");

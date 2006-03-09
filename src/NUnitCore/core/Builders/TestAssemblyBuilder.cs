@@ -248,9 +248,11 @@ namespace NUnit.Core.Builders
 		
 		private IList GetCandidateFixtureTypes( Assembly assembly, string ns )
 		{
-			IList types = testFramework.AllowPrivateTests
-				? assembly.GetTypes()
-				: assembly.GetExportedTypes();
+//			IList types = testFramework.AllowPrivateTests
+//				? assembly.GetTypes()
+//				: assembly.GetExportedTypes();
+
+			IList types = assembly.GetTypes();
 				
 			if ( ns == null || ns == string.Empty || types.Count == 0 ) 
 				return types;
