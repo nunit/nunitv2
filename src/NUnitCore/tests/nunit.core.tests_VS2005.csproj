@@ -127,6 +127,10 @@
       <Project>{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\..\tests\test-assembly\test-assembly_VS2005.csproj">
+      <Project>{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}</Project>
+      <Name>test-assembly_VS2005</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\tests\test-utilities\test-utilities_VS2005.csproj">
       <Name>test-utilities_VS2005</Name>
       <Project>{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}</Project>

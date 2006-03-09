@@ -81,6 +81,10 @@
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Name>nunit.framework.dll_VS2005</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\tests\test-assembly\test-assembly_VS2005.csproj">
+      <Project>{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}</Project>
+      <Name>test-assembly_VS2005</Name>
+    </ProjectReference>
     <ProjectReference Include="..\core\nunit.core.extensions.dll_VS2005.csproj">
       <Project>{98B10E98-003C-45A0-9587-119142E39986}</Project>
       <Name>nunit.core.extensions.dll_VS2005</Name>

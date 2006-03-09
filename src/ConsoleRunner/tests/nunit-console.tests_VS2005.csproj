@@ -82,6 +82,10 @@
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Name>nunit.framework.dll_VS2005</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\tests\test-assembly\test-assembly_VS2005.csproj">
+      <Project>{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}</Project>
+      <Name>test-assembly_VS2005</Name>
+    </ProjectReference>
     <ProjectReference Include="..\nunit-console\nunit-console_VS2005.csproj">
       <Project>{9367EC89-6A38-42BA-9607-0DC288E4BC3A}</Project>
       <Name>nunit-console_VS2005</Name>
