@@ -20,6 +20,7 @@
         <include name="nunit.core.dll"/>
         <include name="nunit.core.extensions.dll"/>
         <include name="nunit.core.tests.dll"/>
+        <include name="test-assembly.dll"/>
       </references>
     </csc>
   </target>

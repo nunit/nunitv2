@@ -25,6 +25,7 @@
         <include name="nunit.core.dll"/>
         <include name="nunit.util.dll"/>
         <include name="nunit.mocks.dll"/>
+        <include name="test-assembly.dll"/>
         <include name="test-utilities.dll"/>
         <include name="mock-assembly.dll"/>
         <include name="nonamespace-assembly.dll"/>
