@@ -27,7 +27,7 @@ namespace NUnit.Core.Extensions
 		// implemented using reflection on the type.
 		public bool CanBuildFrom(Type type)
 		{
-			return type.IsDefined( typeof( SampleSuiteExtensionAttribute ), false );
+			return Reflect.HasAttribute( type, "NUnit.Core.Extensions.SampleSuiteExtensionAttribute", false );
 		}
 
 		#endregion

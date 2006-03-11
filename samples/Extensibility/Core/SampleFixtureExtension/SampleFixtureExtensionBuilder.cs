@@ -29,7 +29,7 @@ namespace NUnit.Core.Extensions
 		// implemented using reflection on the type.
 		public override bool CanBuildFrom(Type type)
 		{
-			return type.IsDefined( typeof( SampleFixtureExtensionAttribute ), false );
+			return Reflect.HasAttribute( type, "NUnit.Core.Extensions.SampleFixtureExtensionAttribute", false );
 		}
 		#endregion
 	}

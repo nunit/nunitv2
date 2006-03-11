@@ -1,12 +1,10 @@
 using System;
 using System.Reflection;
-using NUnit.Framework;
-using NUnit.Core.Builders;
 
 namespace NUnit.Core.Extensions.Tests
 {
 	/// <summary>
-	/// Test class that demonstrates MockSuiteExtension
+	/// Test class that demonstrates SampleSuiteExtension
 	/// </summary>
 	[SampleSuiteExtension]
 	public class SampleSuiteExtensionTests
