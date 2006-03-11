@@ -39,7 +39,6 @@ namespace NUnit.Core
 	public interface ITestFramework
 	{
 		string Name { get; }
-		bool AllowPrivateTests { get; }
 
 		int GetAssertCount();
 		bool IsAssertException( Exception ex );
@@ -66,7 +65,6 @@ namespace NUnit.Core
 			public string AssertionType;
 			public string AssertionExceptionType;
 			public string IgnoreExceptionType;
-			public bool AllowPrivateTests;
 
 			public FrameworkInfo( 
 				string frameworkName,
@@ -74,8 +72,7 @@ namespace NUnit.Core
 				string ns,
 				string assertionType,
 				string assertionExceptionType,
-				string ignoreExceptionType,
-				bool allowPrivateTests )
+				string ignoreExceptionType )
 			{
 				this.Name = frameworkName;
 				this.AssemblyName = assemblyName;
@@ -83,7 +80,6 @@ namespace NUnit.Core
 				this.AssertionType = ns + "." + assertionType;
 				this.AssertionExceptionType = ns + "." + assertionExceptionType;
 				this.IgnoreExceptionType = ns + "." + ignoreExceptionType;
-				this.AllowPrivateTests = allowPrivateTests;
 			}
 		}
 
@@ -110,18 +106,15 @@ namespace NUnit.Core
 			testFrameworks = new ArrayList();
 			testFrameworks.Add( new FrameworkInfo( 
 				"NUnit", "nunit.framework", "NUnit.Framework", 
-				"Assert", "AssertionException", "IgnoreException",
-				false ) );
+				"Assert", "AssertionException", "IgnoreException" ) );
 			testFrameworks.Add( new FrameworkInfo( 
 				"csUnit", "csUnit", "csUnit", 
-				"Assert", "AssertionException", null,
-				false ) );
+				"Assert", "AssertionException", null ) );
 			testFrameworks.Add( new FrameworkInfo( 
 				"vsts",
 				"Microsoft.VisualStudio.QualityTools.UnitTestFramework",
 				"Microsoft.VisualStudio.TestTools.UnitTesting",
-				"Assert", "AssertionException", "AssertInconclusiveException",
-				true) );
+				"Assert", "AssertionException", "AssertInconclusiveException" ) );
 
 		}
 
@@ -228,11 +221,6 @@ namespace NUnit.Core
 		public string Name
 		{
 			get { return this.frameworkInfo.Name; }
-		}
-
-		public bool AllowPrivateTests
-		{
-			get { return frameworkInfo.AllowPrivateTests; }
 		}
 
 		public int GetAssertCount()

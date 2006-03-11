@@ -46,11 +46,6 @@ namespace NUnit.Core.Builders
 		Assembly assembly;
 
 		/// <summary>
-		/// The TestFramework used by the loaded assembly
-		/// </summary>
-		ITestFramework testFramework = null;
-
-		/// <summary>
 		/// Our LegacySuite builder, which is only used when a 
 		/// fixture has been passed by name on the command line.
 		/// </summary>
@@ -65,11 +60,6 @@ namespace NUnit.Core.Builders
 		#endregion
 
 		#region Properties
-
-		public ITestFramework Framework
-		{
-			get { return testFramework; }
-		}
 
 		public bool AutoNamespaceSuites
 		{
@@ -213,10 +203,7 @@ namespace NUnit.Core.Builders
 				Assembly assembly = AppDomain.CurrentDomain.Load(Path.GetFileNameWithoutExtension(assemblyName));
 				
 				if ( assembly != null )
-				{
-					this.testFramework = TestFramework.FromAssembly( assembly );
 					Addins.Register( assembly );
-				}
 
 				return assembly;
 			}
@@ -225,15 +212,14 @@ namespace NUnit.Core.Builders
 		private IList GetFixtures( Assembly assembly, string ns )
 		{
 			ArrayList fixtures = new ArrayList();
-			if ( testFramework != null )
+
+			IList testTypes = GetCandidateFixtureTypes( assembly, ns );
+			foreach(Type testType in testTypes)
 			{
-				IList testTypes = GetCandidateFixtureTypes( assembly, ns );
-				foreach(Type testType in testTypes)
-				{
-					if( CanBuildFrom( testType ) )
-						fixtures.Add( BuildFrom( testType ) );
-				}
+				if( CanBuildFrom( testType ) )
+					fixtures.Add( BuildFrom( testType ) );
 			}
+
 			return fixtures;
 		}
 
@@ -248,10 +234,6 @@ namespace NUnit.Core.Builders
 		
 		private IList GetCandidateFixtureTypes( Assembly assembly, string ns )
 		{
-//			IList types = testFramework.AllowPrivateTests
-//				? assembly.GetTypes()
-//				: assembly.GetExportedTypes();
-
 			IList types = assembly.GetTypes();
 				
 			if ( ns == null || ns == string.Empty || types.Count == 0 ) 
