@@ -905,7 +905,7 @@ namespace NUnit.UiKit
 				//					"The test {0} is duplicated\r\rResults will not be displayed correctly in the tree.", node.Test.FullName ), "Duplicate Test" );
 			else
 			{
-				Trace.WriteLine( "Added to map: " + node.Test.UniqueName );
+				//Trace.WriteLine( "Added to map: " + node.Test.UniqueName );
 				treeMap.Add( node.Test.UniqueName, node );
 			}
 		}
