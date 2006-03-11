@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.IO;
 using System.Reflection;
 using System.Diagnostics;
 
@@ -49,18 +50,42 @@ namespace NUnit.Core
 		#region Static Constructor
 		static Addins()
 		{	
+			//Figure out the directory from which NUnit is exeuting
+			string moduleName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+			string nunitDirPath = Path.GetDirectoryName( moduleName );
+
 			// Load nunit.core.extensions if available
-			try
+			string extensions = Path.Combine( nunitDirPath, "nunit.core.extensions.dll" );
+			if ( File.Exists( extensions ) )
 			{
-				Assembly assembly = AppDomain.CurrentDomain.Load( "nunit.core.extensions" );
-				current.Register( assembly );
+				try
+				{
+					Assembly assembly = Assembly.LoadFile( extensions );
+					current.Register( assembly );
+				}
+				catch( Exception )
+				{
+					// HACK: Where should this be logged? 
+					// Don't pollute the trace listeners.
+					new DefaultTraceListener().WriteLine( "NUnit extensions not loaded" );
+				}
 			}
-			catch( Exception )
-			{
-                // HACK: Where should this be logged? 
-                // Don't pollute the trace listeners.
-				new DefaultTraceListener().WriteLine( "NUnit extensions not loaded" );
-			}
+
+			// Load any extensions in the addins directory
+			DirectoryInfo dir = new DirectoryInfo( Path.Combine( nunitDirPath, "addins" ) );
+			if ( dir.Exists )
+				foreach( FileInfo file in dir.GetFiles( "*.dll" ) )
+					try
+					{
+						Assembly assembly = Assembly.LoadFile( file.FullName );
+						current.Register( assembly );
+					}
+					catch( Exception )
+					{
+						// HACK: Where should this be logged? 
+						// Don't pollute the trace listeners.
+						new DefaultTraceListener().WriteLine( "Addins in " + file.Name + " not loaded" );
+					}
 		}
 		#endregion
 
