@@ -33,7 +33,7 @@ namespace NUnit.Core.Extensions.Tests
 		{
 			TestSuite suite = TestFixtureBuilder.Make( fixture );
 			Assert.AreEqual( 1, suite.Tests.Count, "Test case count" );
-			Assert.IsInstanceOfType( typeof( RepeatedTestCase ), suite.Tests[0] );
+			Assert.AreEqual( "NUnit.Core.Extensions.RepeatedTestCase", suite.Tests[0].GetType().FullName );
 			return suite.Run( listener );
 		}
 
