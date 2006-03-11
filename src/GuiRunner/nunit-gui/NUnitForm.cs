@@ -1852,7 +1852,7 @@ namespace NUnit.Gui
 			runButton.Enabled = true;
 			ClearTabs();
 			
-			if ( TestLoader.TestFrameworks.Count == 0 )
+			if ( TestLoader.TestCount == 0 && TestLoader.TestFrameworks.Count == 0 )
 				UserMessage.Display( "This assembly was not built with any known testing framework.", "Not a Test Assembly");
 		}
 

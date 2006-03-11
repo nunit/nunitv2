@@ -228,6 +228,10 @@ namespace NUnit.Util
 			}
 		}
 
+		public int TestCount
+		{
+			get { return loadedTest == null ? 0 : loadedTest.TestCount; }
+		}
 		#endregion
 
 		#region EventListener Handlers
