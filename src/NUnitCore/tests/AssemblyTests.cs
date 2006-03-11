@@ -77,7 +77,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void LoadAssemblyWithoutTestFixtures()
 		{
-			string fileName = "nunit.framework.dll";
+			string fileName = "notestfixtures-assembly.dll";
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build(fileName);
 			Assert.IsNotNull(suite,"Should not be null");

@@ -192,9 +192,6 @@
     <Compile Include="IgnoreFixture.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InheritedTestFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="LegacySuiteTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -205,12 +202,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NamespaceAssemblyTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="NoTestCases.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OneTestCase.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlatformDetectionTests.cs">

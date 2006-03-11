@@ -108,6 +108,7 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AttributeDescriptionTests.cs" />
     <Compile Include="ConsoleRunnerTest.cs">
       <SubType>Code</SubType>
     </Compile>

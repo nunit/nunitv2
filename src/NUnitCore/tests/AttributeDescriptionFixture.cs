@@ -4,21 +4,11 @@ using System.Collections;
 using NUnit.Framework;
 using NUnit.Core.Builders;
 using NUnit.TestUtilities;
+using NUnit.TestData.AttributeDescriptionFixture;
 
 namespace NUnit.Core.Tests
 {
 	// TODO: Review to see if we need these tests
-	[TestFixture(Description = "Fixture Description")]
-	internal class MockFixture
-	{
-		[Test(Description = "Test Description")]
-		public void Method()
-		{}
-
-		[Test]
-		public void NoDescriptionMethod()
-		{}
-	}
 
 	internal class DescriptionVisitor : ResultVisitor
 	{

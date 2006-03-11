@@ -63,9 +63,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TestBuilder.cs" />
-    <Compile Include="TestClasses.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="TestFinder.cs" />
   </ItemGroup>
   <ItemGroup>
