@@ -63,24 +63,6 @@
     <Compile Include="RepeatedTestCase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SampleFixtureExtension.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SampleFixtureExtensionAttribute.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SampleFixtureExtensionBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SampleSuiteExtension.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SampleSuiteExtensionAttribute.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SampleSuiteExtensionBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NUnitCore\common\nunit.common.dll_VS2005.csproj">

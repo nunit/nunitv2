@@ -57,12 +57,6 @@
     <Compile Include="RepeatedTestFixture.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SampleFixtureExtensionTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="SampleSuiteExtensionTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NUnitCore\common\nunit.common.dll_VS2005.csproj">

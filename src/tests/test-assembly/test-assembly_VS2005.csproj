@@ -130,6 +130,7 @@
     <Compile Include="RepeatedTestFixtureTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SetupFixtureTests.cs" />
     <Compile Include="SetUpTest.cs">
       <SubType>Code</SubType>
     </Compile>
