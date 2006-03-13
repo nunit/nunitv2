@@ -50,6 +50,12 @@ namespace NUnit.Core
 			if ( suite == null )
 				suite = Builtins.BuildFrom( type );
 
+			if ( suite != null )
+			{
+				suite = Builtins.Decorate( suite, type );
+				suite = Addins.Decorate( suite, type );
+			}
+
 			return suite;
 		}
 

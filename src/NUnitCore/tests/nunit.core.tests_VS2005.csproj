@@ -281,6 +281,7 @@
     </Compile>
     <EmbeddedResource Include="..\core\Results.xsd">
       <Link>Results.xsd</Link>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="..\core\Results.xsx">
       <Link>Results.xsx</Link>

@@ -32,6 +32,7 @@ namespace NUnit.Core
 	using System;
 	using System.Collections;
 	using System.Collections.Specialized;
+	using System.Reflection;
 
 	/// <summary>
 	///		Test Class.
@@ -93,7 +94,12 @@ namespace NUnit.Core
 		/// <summary>
 		/// The Type of the fixture, or null
 		/// </summary>
-		private Type fixtureType;
+//		private Type fixtureType;
+
+		/// <summary>
+		/// The method that implements this test, or null
+		/// </summary>
+//		private MethodInfo  method;
 
 		/// <summary>
 		/// The fixture object, if it has been created
@@ -119,7 +125,7 @@ namespace NUnit.Core
 		{ 
 			this.testName = new TestName();
 			this.testName.FullName = pathName == null || pathName == string.Empty 
-				? name: pathName + "." + name;
+				? name : pathName + "." + name;
 			this.testName.Name = name;
 			this.testName.TestID = new TestID();
 
@@ -127,15 +133,24 @@ namespace NUnit.Core
 			this.isRunnable = true;
 		}
 
-		protected Test( Type fixtureType ) 
-			: this( fixtureType.FullName ) 
-		{
-			this.fixtureType = fixtureType;
-			if ( fixtureType.Namespace != null )
-				this.TestName.Name = FullName.Substring( FullName.LastIndexOf( '.' ) + 1 );
-		}
+//		protected Test( Type fixtureType ) 
+//			: this( fixtureType.FullName ) 
+//		{
+//			this.fixtureType = fixtureType;
+//			if ( fixtureType.Namespace != null )
+//				this.TestName.Name = FullName.Substring( FullName.LastIndexOf( '.' ) + 1 );
+//		}
 
-		internal void SetRunnerID( int runnerID, bool recursive )
+//		public Test( MethodInfo method ) : this( method.ReflectedType.FullName, 
+//			method.DeclaringType == method.ReflectedType 
+//			? method.Name : method.DeclaringType.Name + "." + method.Name )
+//		{
+//			this.method = method;
+//			this.testFramework = TestFramework.FromMethod( method );
+//			this.fixtureType = method.ReflectedType;
+//		}
+	
+	internal void SetRunnerID( int runnerID, bool recursive )
 		{
 			this.testName.RunnerID = runnerID;
 
@@ -273,10 +288,15 @@ namespace NUnit.Core
 			set { fixture = value; }
 		}
 
-		public Type FixtureType
-		{
-			get { return fixtureType; }
-		}
+//		public Type FixtureType
+//		{
+//			get { return fixtureType; }
+//		}
+
+//		public MethodInfo Method
+//		{
+//			get { return method; }
+//		}
 
 		#endregion
 

@@ -56,6 +56,8 @@ namespace NUnit.Core
 		/// </summary>
 		private ArrayList tests = new ArrayList();
 
+		private Type fixtureType;
+
 		/// <summary>
 		/// The test setup method for this suite
 		/// </summary>
@@ -91,7 +93,12 @@ namespace NUnit.Core
 			: base( parentSuiteName, name ) { }
 
 		public TestSuite( Type fixtureType )
-			: base( fixtureType ) { }
+			: base( fixtureType.FullName )
+		{
+			if ( fixtureType.Namespace != null )
+				this.TestName.Name = FullName.Substring( FullName.LastIndexOf( '.' ) + 1 );
+			this.fixtureType = fixtureType;
+		}
 		#endregion
 
 		#region Public Methods
@@ -179,7 +186,12 @@ namespace NUnit.Core
 				return count;
 			}
 		}
-		#endregion
+
+		public new Type FixtureType
+		{
+			get { return fixtureType; }
+		}
+		#endregion€
 
 		#region Test Overrides
 		public override int CountTestCases()

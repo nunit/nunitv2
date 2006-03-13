@@ -89,6 +89,11 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "AbstractTestCaseDecoration.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AddinManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -160,6 +165,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "IgnoreDecorator.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "InvalidSuiteException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -176,6 +186,11 @@
                 />
                 <File
                     RelPath = "ITestCaseBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ITestDecorator.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -334,6 +349,16 @@
                 />
                 <File
                     RelPath = "TestContext.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestDecoratorAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestDecoratorCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -43,16 +43,27 @@ namespace NUnit.Core
 	/// </summary>
 	public class TestMethod : TestCase
 	{
+		#region Fields
 		/// <summary>
-		/// The fixture object, to be used with this test, or null
+		/// The Type of the fixture implementing this TestMethod
 		/// </summary>
-		private object fixture;
-
-		private MethodInfo  method;
-		private MethodInfo setUpMethod;
-		private MethodInfo tearDownMethod;
-
 		private Type fixtureType;
+
+		/// <summary>
+		/// The test method
+		/// </summary>
+		private MethodInfo method;
+
+		/// <summary>
+		/// The SetUp method.
+		/// </summary>
+		private MethodInfo setUpMethod;
+
+		/// <summary>
+		/// The teardown method
+		/// </summary>
+		private MethodInfo tearDownMethod;
+		#endregion
 
 		#region Constructors
 		public TestMethod( MethodInfo method ) : base( method.ReflectedType.FullName, 
@@ -65,6 +76,13 @@ namespace NUnit.Core
 		}
 		#endregion
 
+		#region Properties
+		public Type FixtureType
+		{
+			get { return fixtureType; }
+		}
+		#endregion
+
 		public override void Run(TestCaseResult testResult)
 		{ 
 			TestSuite parentSuite = this.Parent;
@@ -73,9 +91,8 @@ namespace NUnit.Core
 			{
 				if ( parentSuite != null )
 				{
-
-					if ( fixture == null )
-						fixture = parentSuite.Fixture;
+					if ( Fixture == null )
+						Fixture = parentSuite.Fixture;
 					
 					if ( setUpMethod == null )
 						setUpMethod = parentSuite.SetUpMethod;
@@ -87,8 +104,8 @@ namespace NUnit.Core
 				if ( !testResult.IsFailure )
 				{
 					// Temporary... to allow for tests that directly execute a test case
-					if ( fixture == null )
-						fixture = Reflect.Construct( this.fixtureType );
+					if ( Fixture == null )
+						Fixture = Reflect.Construct( this.FixtureType );
 
 					doRun( testResult );
 				}
@@ -115,7 +132,7 @@ namespace NUnit.Core
 			try 
 			{
 				if ( setUpMethod != null )
-					Reflect.InvokeMethod( setUpMethod, this.fixture );
+					Reflect.InvokeMethod( setUpMethod, this.Fixture );
 
 				doTestCase( testResult );
 			}
@@ -143,7 +160,7 @@ namespace NUnit.Core
 			try
 			{
 				if ( tearDownMethod != null )
-			 		tearDownMethod.Invoke( this.fixture, new object[0] );
+			 		tearDownMethod.Invoke( this.Fixture, new object[0] );
 			}
 			catch(Exception ex)
 			{
@@ -175,7 +192,7 @@ namespace NUnit.Core
 
 		public virtual void RunTestMethod(TestCaseResult testResult)
 		{
-			Reflect.InvokeMethod( this.method, this.fixture );
+			Reflect.InvokeMethod( this.method, this.Fixture );
 		}
 
 		#endregion

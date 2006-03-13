@@ -51,6 +51,12 @@ namespace NUnit.Core
 			if ( testCase == null )
 				testCase = Builtins.BuildFrom( method );
 
+			if ( testCase != null )
+			{
+				testCase = Builtins.Decorate( testCase, method );
+				testCase = Addins.Decorate( testCase, method );
+			}
+
 			return testCase;
 		}
 

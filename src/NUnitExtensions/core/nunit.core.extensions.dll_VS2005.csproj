@@ -54,15 +54,11 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="RepeatedTestAttribute.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="RepeatedTestBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="RepeatAttribute.cs" />
     <Compile Include="RepeatedTestCase.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RepeatedTestDecorator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NUnitCore\common\nunit.common.dll_VS2005.csproj">

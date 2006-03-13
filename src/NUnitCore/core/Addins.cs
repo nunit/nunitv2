@@ -161,5 +161,17 @@ namespace NUnit.Core
 			return current.BuildFrom( method );
 		}
 		#endregion
+
+		#region TestDecorator Methods
+		public static TestCase Decorate( TestCase testCase, MethodInfo method )
+		{
+			return (TestCase)current.Decorate( testCase, method ); 
+		}
+
+		public static TestSuite Decorate( TestSuite suite, Type fixtureType )
+		{
+			return (TestSuite)current.Decorate( suite, fixtureType );
+		}
+		#endregion
 	}
 }

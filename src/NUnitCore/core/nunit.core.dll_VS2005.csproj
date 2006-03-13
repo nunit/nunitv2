@@ -56,6 +56,7 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AbstractTestCaseDecoration.cs" />
     <Compile Include="AddinManager.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -95,6 +96,7 @@
     <Compile Include="GenericTestFixture.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IgnoreDecorator.cs" />
     <Compile Include="InvalidSuiteException.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -107,6 +109,7 @@
     <Compile Include="ITestCaseBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ITestDecorator.cs" />
     <Compile Include="LegacySuite.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -194,6 +197,8 @@
     <Compile Include="TestContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestDecoratorAttribute.cs" />
+    <Compile Include="TestDecoratorCollection.cs" />
     <Compile Include="TestFixture.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -257,7 +262,9 @@
     <Compile Include="Builders\VstsTestFixtureBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Content Include="Results.xsd" />
+    <Content Include="Results.xsd">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Summary.xslt" />
     <None Include="Results.xsx">
       <DependentUpon>Results.xsd</DependentUpon>

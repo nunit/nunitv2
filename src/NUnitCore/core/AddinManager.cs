@@ -32,7 +32,7 @@ using System.Reflection;
 
 namespace NUnit.Core
 {
-	public class AddinManager : ISuiteBuilder, ITestCaseBuilder
+	public class AddinManager : ISuiteBuilder, ITestCaseBuilder, ITestDecorator
 	{
 		#region Static Fields
 
@@ -40,6 +40,8 @@ namespace NUnit.Core
 		private static readonly string SuiteBuilderInterfaceType = typeof( ISuiteBuilder ).FullName;
 		private static readonly string TestCaseBuilderAttributeName = typeof( TestCaseBuilderAttribute ).FullName;
 		private static readonly string TestCaseBuilderInterfaceName = typeof( ITestCaseBuilder ).FullName;
+		private static readonly string TestDecoratorAttributeName = typeof( TestDecoratorAttribute ).FullName;
+		private static readonly string TestDecoratorInterfaceName = typeof( ITestDecorator ).FullName;
 		
 		#endregion
 
@@ -48,6 +50,7 @@ namespace NUnit.Core
 
 		private SuiteBuilderCollection suiteBuilders = new SuiteBuilderCollection();
 		private TestCaseBuilderCollection testBuilders = new TestCaseBuilderCollection();
+		private TestDecoratorCollection testDecorators = new TestDecoratorCollection();
 
 		#endregion
 
@@ -60,6 +63,7 @@ namespace NUnit.Core
 			this.priorState = priorState;
 			this.suiteBuilders = new SuiteBuilderCollection( priorState.suiteBuilders );
 			this.testBuilders = new TestCaseBuilderCollection( priorState.testBuilders );
+			this.testDecorators = new TestDecoratorCollection( priorState.testDecorators );
 		}
 
 		#endregion
@@ -95,6 +99,18 @@ namespace NUnit.Core
 		}
 		#endregion
 
+		#region ITestDecorator Members
+		public TestCase Decorate(TestCase testCase, MethodInfo method)
+		{
+			return testDecorators.Decorate( testCase, method );
+		}
+
+		public TestSuite Decorate(TestSuite suite, Type fixtureType)
+		{
+			return testDecorators.Decorate( suite, fixtureType );
+		}
+		#endregion
+
 		#region Addin Registration
 		public void Register( Assembly assembly ) 
 		{
@@ -124,6 +140,14 @@ namespace NUnit.Core
 					if ( builder != null )
 						testBuilders.Add( builder );
 				}
+				else if ( Reflect.HasAttribute( type, TestDecoratorAttributeName, false )
+					&& Reflect.HasInterface( type, TestDecoratorInterfaceName ) )
+				{
+					object decoratorObject = Reflect.Construct( type );
+					ITestDecorator decorator = (ITestDecorator)decoratorObject;
+					if ( decorator != null )
+						testDecorators.Add( decorator );
+				}
 			}
 		}
 
@@ -137,10 +161,16 @@ namespace NUnit.Core
 			testBuilders.Add( builder );
 		}
 
+		public void Register( ITestDecorator decorator )
+		{
+			testDecorators.Add( decorator );
+		}
+
 		public void Clear()
 		{
 			suiteBuilders.Clear();
 			testBuilders.Clear();
+			testDecorators.Clear();
 		}
 
 		#endregion

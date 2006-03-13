@@ -31,6 +31,7 @@ namespace NUnit.Core
 {
 	using System;
 	using System.Collections;
+	using System.Reflection;
 
 	/// <summary>
 	/// The abstract TestCase class represents a single test case.

@@ -54,6 +54,8 @@ namespace NUnit.Core
 		/// Collection of test case builders
 		/// </summary>
 		private static TestCaseBuilderCollection testBuilders = new TestCaseBuilderCollection();
+
+		private static TestDecoratorCollection testDecorators = new TestDecoratorCollection();
 		#endregion
 
 		#region Static Constructor
@@ -70,6 +72,9 @@ namespace NUnit.Core
 
 			//Add builtin TestCaseBuilders
 			testBuilders.Add( new Builders.NUnitTestCaseBuilder() );
+
+			//Add builtin TestDecorators
+			//testDecorators.Add( new IgnoreDecorator( "NUnit.Framework.IgnoreAttribute" ) );
 		}
 		#endregion
 
@@ -116,6 +121,18 @@ namespace NUnit.Core
 		public static TestCase BuildFrom( MethodInfo method )
 		{
 			return testBuilders.BuildFrom( method );
+		}
+		#endregion
+
+		#region TestDecorator Methods
+		public static TestCase Decorate( TestCase testCase, MethodInfo method )
+		{
+			return testDecorators.Decorate( testCase, method );
+		}
+
+		public static TestSuite Decorate( TestSuite suite, Type type )
+		{
+			return testDecorators.Decorate( suite, type );
 		}
 		#endregion
 

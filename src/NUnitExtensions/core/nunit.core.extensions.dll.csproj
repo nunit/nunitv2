@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = ""
+                PostBuildEvent = "copy $(TargetPath) $(SolutionDir)GuiRunner\nunit-gui-exe\bin\Debug\"
                 RootNamespace = "NUnit.Core.Extensions"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -100,6 +100,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "RepeatAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "RepeatedTestAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -111,6 +116,11 @@
                 />
                 <File
                     RelPath = "RepeatedTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RepeatedTestDecorator.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
