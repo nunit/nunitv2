@@ -39,7 +39,7 @@ namespace NUnit.Core
 	{
 		public NotRunnableTestCase(MethodInfo method, string reason) : base(method.DeclaringType.FullName, method.Name)
 		{
-			ShouldRun = false;
+			RunState = RunState.NotRunnable;
 			IgnoreReason = reason;
 		}
 
@@ -61,7 +61,7 @@ namespace NUnit.Core
 				reason = "reason not known";
 
 			IsRunnable = false;
-			ShouldRun = false;
+			RunState = RunState.NotRunnable;
 			IgnoreReason = String.Format("Method {0}'s signature is not correct: {1}.", method.Name, reason);
 		}
 

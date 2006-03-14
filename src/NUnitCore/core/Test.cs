@@ -46,12 +46,12 @@ namespace NUnit.Core
 		private TestName testName;
 
 		/// <summary>
-		/// Whether or not the test should be run
+		/// Indicates whether the test should be executed
 		/// </summary>
-		private bool shouldRun;
-		
+		private RunState runState;
+
 		/// <summary>
-		/// Reason for not running the test, if applicable
+		/// The reason for not running the test
 		/// </summary>
 		private string ignoreReason;
 		
@@ -90,22 +90,6 @@ namespace NUnit.Core
 		/// TestFramework under which this test runs
 		/// </summary>
 		protected ITestFramework testFramework;
-
-		/// <summary>
-		/// The Type of the fixture, or null
-		/// </summary>
-//		private Type fixtureType;
-
-		/// <summary>
-		/// The method that implements this test, or null
-		/// </summary>
-//		private MethodInfo  method;
-
-		/// <summary>
-		/// The fixture object, if it has been created
-		/// </summary>
-		private object fixture;
-		
 		#endregion
 
 		#region Construction
@@ -117,8 +101,8 @@ namespace NUnit.Core
 			this.testName.Name = name;
 			this.testName.TestID = new TestID();
 
-			this.shouldRun = true;
 			this.isRunnable = true;
+            this.runState = RunState.Runnable;
 		}
 
 		protected Test( string pathName, string name ) 
@@ -129,28 +113,11 @@ namespace NUnit.Core
 			this.testName.Name = name;
 			this.testName.TestID = new TestID();
 
-			this.shouldRun = true;
 			this.isRunnable = true;
+            this.runState = RunState.Runnable;
 		}
-
-//		protected Test( Type fixtureType ) 
-//			: this( fixtureType.FullName ) 
-//		{
-//			this.fixtureType = fixtureType;
-//			if ( fixtureType.Namespace != null )
-//				this.TestName.Name = FullName.Substring( FullName.LastIndexOf( '.' ) + 1 );
-//		}
-
-//		public Test( MethodInfo method ) : this( method.ReflectedType.FullName, 
-//			method.DeclaringType == method.ReflectedType 
-//			? method.Name : method.DeclaringType.Name + "." + method.Name )
-//		{
-//			this.method = method;
-//			this.testFramework = TestFramework.FromMethod( method );
-//			this.fixtureType = method.ReflectedType;
-//		}
 	
-	internal void SetRunnerID( int runnerID, bool recursive )
+		internal void SetRunnerID( int runnerID, bool recursive )
 		{
 			this.testName.RunnerID = runnerID;
 
@@ -162,7 +129,6 @@ namespace NUnit.Core
 		#endregion
 
 		#region Properties
-
 		public TestName TestName
 		{
 			get { return testName; }
@@ -206,9 +172,14 @@ namespace NUnit.Core
 		/// </summary>
 		public virtual bool ShouldRun
 		{
-			get { return shouldRun; }
-			set { shouldRun = value; }
+            get { return runState == RunState.Runnable; }
 		}
+
+        public RunState RunState
+        {
+            get { return runState; }
+            set { runState = value; }
+        }
 
 		/// <summary>
 		/// Reason for not running the test, if applicable
@@ -281,27 +252,9 @@ namespace NUnit.Core
 				return properties; 
 			}
 		}
-
-		public object Fixture
-		{
-			get { return fixture; }
-			set { fixture = value; }
-		}
-
-//		public Type FixtureType
-//		{
-//			get { return fixtureType; }
-//		}
-
-//		public MethodInfo Method
-//		{
-//			get { return method; }
-//		}
-
 		#endregion
 
 		#region Abstract Methods and Properties
-
 		/// <summary>
 		/// Count of the test cases ( 1 if this is a test case )
 		/// </summary>
@@ -320,11 +273,9 @@ namespace NUnit.Core
 
 		public abstract TestResult Run( EventListener listener );
 		public abstract TestResult Run(EventListener listener, TestFilter filter);
-
 		#endregion
 
 		#region IComparable Members
-
 		public int CompareTo(object obj)
 		{
 			Test other = obj as Test;
@@ -334,7 +285,6 @@ namespace NUnit.Core
 
 			return this.FullName.CompareTo( other.FullName );
 		}
-
 		#endregion
 	}
 }

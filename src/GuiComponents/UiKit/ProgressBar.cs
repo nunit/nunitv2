@@ -241,13 +241,19 @@ namespace NUnit.UiKit
 		{
 			PerformStep();
 
-			if(!e.Result.Executed)
-			{
-				if( ForeColor == Color.Lime )
-					ForeColor = Color.Yellow;
-			}
-			else if( e.Result.IsFailure )
-				ForeColor = Color.Red;
+            switch (e.Result.RunState)
+            {
+                case RunState.Executed:
+                    if (e.Result.IsFailure)
+                        ForeColor = Color.Red;
+                    break;
+                case RunState.Ignored:
+                    if (ForeColor == Color.Lime)
+                        ForeColor = Color.Yellow;
+                    break;
+                default:
+                    break;
+            }
 		}
 
 		protected override void OnResize(System.EventArgs e)

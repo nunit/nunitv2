@@ -5,7 +5,7 @@ using NUnit.TestData.RepeatedTestFixture;
 
 namespace NUnit.Core.Extensions.Tests
 {
-	[TestFixture, Ignore("Update in Progress")]
+	[TestFixture]
 	public class RepeatedTestFixture
 	{
 		private MethodInfo successMethod;

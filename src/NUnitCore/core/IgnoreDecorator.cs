@@ -4,7 +4,9 @@ using System.Reflection;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Summary description for IgnoreDecorator.
+	/// Ignore Decorator is an alternative method of marking tests to
+	/// be ignored. It is currently not used, since the test builders
+	/// take care of the ignore attribute.
 	/// </summary>
 	public class IgnoreDecorator : ITestDecorator
 	{
@@ -33,7 +35,7 @@ namespace NUnit.Core
 
 			if ( ignoreAttribute != null )
 			{
-				test.ShouldRun = false;
+				test.RunState = RunState.Ignored;
 				test.IgnoreReason = (string)Reflect.GetPropertyValue(
 					ignoreAttribute, 
 					"Reason",

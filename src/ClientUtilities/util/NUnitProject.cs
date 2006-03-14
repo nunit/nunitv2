@@ -524,6 +524,20 @@ namespace NUnit.Util
 								if ( reader.NodeType == XmlNodeType.Element )
 								{
 									activeConfigName = reader.GetAttribute( "activeconfig" );
+                                    if (activeConfigName == "NUnitAutoConfig")
+                                    {
+#if DEBUG
+                                        if (Environment.Version.Major == 2)
+                                            activeConfigName = "Debug2005";
+                                        else
+                                            activeConfigName = "Debug";
+#else
+                                        if (Environment.Version.Major == 2)
+                                            activeConfigName = "Release2005";
+                                        else
+                                            activeConfigName = "Release";
+#endif
+                                    }
 									string appbase = reader.GetAttribute( "appbase" );
 									if ( appbase != null )
 										this.BasePath = appbase;

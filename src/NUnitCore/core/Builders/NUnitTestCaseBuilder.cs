@@ -75,7 +75,7 @@ namespace NUnit.Core.Builders
 				PlatformHelper helper = new PlatformHelper();
 				if ( !helper.IsPlatformSupported( method ) )
 				{
-					testCase.ShouldRun = false;
+					testCase.RunState = RunState.Skipped;
 					testCase.IgnoreReason = helper.Reason;
 				}
 

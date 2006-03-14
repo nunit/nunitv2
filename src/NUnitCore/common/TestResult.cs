@@ -34,10 +34,11 @@ namespace NUnit.Core
 
 	public enum RunState
 	{
-		NotRun,
-		Executed,
+        NotRunnable,
+		Runnable,
 		Skipped,
 		Ignored,
+        Executed
 	}
 
 	public enum ResultState
@@ -107,10 +108,14 @@ namespace NUnit.Core
 		{
 			this.name = name;
 			this.test = test;
-			if(test != null)
-				this.description = test.Description;
-			this.runState = RunState.NotRun;
-		}
+            this.RunState = RunState.Runnable;
+            if (test != null)
+            {
+                this.description = test.Description;
+                this.runState = test.RunState;
+                this.messageString = test.IgnoreReason;
+            }
+        }
 		#endregion
 
 		#region Properties

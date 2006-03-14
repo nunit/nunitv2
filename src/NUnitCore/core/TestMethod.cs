@@ -63,6 +63,11 @@ namespace NUnit.Core
 		/// The teardown method
 		/// </summary>
 		private MethodInfo tearDownMethod;
+
+		/// <summary>
+		/// The fixture object constructed for this test
+		/// </summary>
+		private object fixture;
 		#endregion
 
 		#region Constructors
@@ -80,6 +85,12 @@ namespace NUnit.Core
 		public Type FixtureType
 		{
 			get { return fixtureType; }
+		}
+
+		public object Fixture
+		{
+			get { return fixture; }
+			set { fixture = value; }
 		}
 		#endregion
 

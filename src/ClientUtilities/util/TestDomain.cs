@@ -216,13 +216,13 @@ namespace NUnit.Util
 			}
 		}
 
-//		public override TestResult[] Run(NUnit.Core.EventListener listener, string[] testNames)
-//		{
-//			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
-//			{
-//				return base.Run( listener, testNames );
-//			}
-//		}
+		public override TestResult Run(EventListener listener, TestFilter filter)
+		{
+			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
+			{
+				return base.Run( listener, filter );
+			}
+		}
 
 		public override void BeginRun( EventListener listener )
 		{
@@ -232,20 +232,21 @@ namespace NUnit.Util
 			}
 		}
 
-//		public override void BeginRun( EventListener listener, string[] testNames )
-//		{
-//			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
-//			{
-//				base.BeginRun( listener, testNames );
-//			}
-//		}
+		public override void BeginRun( EventListener listener, TestFilter filter )
+		{
+			using( new TestExceptionHandler( new UnhandledExceptionEventHandler( OnUnhandledException ) ) )
+			{
+				base.BeginRun( listener, filter );
+			}
+		}
 
 		// For now, just publish any unhandled exceptions and let the listener
 		// figure out what to do with them.
 		private void OnUnhandledException( object sender, UnhandledExceptionEventArgs e )
 		{
 			if ( e.ExceptionObject.GetType() != typeof( System.Threading.ThreadAbortException ) )
-				this.listener.UnhandledException( (Exception)e.ExceptionObject );
+				//this.listener.UnhandledException( (Exception)e.ExceptionObject );
+				Trace.WriteLine( "Got unhandled exception" );
 		}
 
 		#endregion

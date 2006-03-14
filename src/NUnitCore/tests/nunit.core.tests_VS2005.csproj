@@ -207,6 +207,7 @@
     <Compile Include="PlatformDetectionTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PropertyAttributeTests.cs" />
     <Compile Include="RemoteRunnerTests.cs">
       <SubType>Code</SubType>
     </Compile>

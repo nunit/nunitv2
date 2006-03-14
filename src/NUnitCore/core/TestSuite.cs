@@ -58,6 +58,8 @@ namespace NUnit.Core
 
 		private Type fixtureType;
 
+		private object fixture;
+
 		/// <summary>
 		/// The test setup method for this suite
 		/// </summary>
@@ -118,8 +120,8 @@ namespace NUnit.Core
 		{
 			if(test.ShouldRun)
 			{
-				test.ShouldRun = ShouldRun;
-				test.IgnoreReason = IgnoreReason;
+				test.RunState = this.RunState;
+				test.IgnoreReason = this.IgnoreReason;
 			}
 			test.Parent = this;
 			tests.Add(test);
@@ -187,11 +189,17 @@ namespace NUnit.Core
 			}
 		}
 
-		public new Type FixtureType
+		public Type FixtureType
 		{
 			get { return fixtureType; }
 		}
-		#endregion€
+
+		public  object Fixture
+		{
+			get { return fixture; }
+			set { fixture = value; }
+		}
+		#endregion
 
 		#region Test Overrides
 		public override int CountTestCases()
@@ -225,15 +233,21 @@ namespace NUnit.Core
 			listener.SuiteStarted( new TestInfo( this ) );
 			long startTime = DateTime.Now.Ticks;
 
-			if ( ShouldRun )
-			{
-				suiteResult.RunState = RunState.Executed;
-				DoOneTimeSetUp( suiteResult );
-			}
-			else
-			{
-				suiteResult.RunState = RunState.Ignored;
-			}
+            switch (this.RunState)
+            {
+                case RunState.Runnable:
+                    suiteResult.RunState = RunState.Executed;
+                    DoOneTimeSetUp(suiteResult);
+                    break;
+                case RunState.Skipped:
+                    suiteResult.Skip(this.IgnoreReason);
+                    break;
+                default:
+                case RunState.Ignored:
+                case RunState.NotRunnable:
+                    suiteResult.Ignore(this.IgnoreReason);
+                    break;
+            }
 
 			RunAllTests( suiteResult, listener, filter );
 
@@ -270,15 +284,11 @@ namespace NUnit.Core
 		{
 			foreach(Test test in ArrayList.Synchronized(Tests))
 			{
-				bool saveShouldRun = test.ShouldRun;
-
-				if (test.ShouldRun)
+				RunState saveRunState = test.RunState;
+				if ( test.ShouldRun && !this.ShouldRun )
 				{
-					if (this.ShouldRun == false)
-					{
-						test.ShouldRun = false;
-						test.IgnoreReason = this.IgnoreReason;
-					}
+					test.RunState = this.RunState;
+					test.IgnoreReason = this.IgnoreReason;
 				}
 					
 				if ( filter == null || test.Filter( filter ) )
@@ -288,7 +298,7 @@ namespace NUnit.Core
 
 					if ( skip )
 					{
-						test.ShouldRun = false;
+						test.RunState = RunState.Skipped;
 						test.IgnoreReason = EXPLICIT_SELECTION_REQUIRED;
 					}
 
@@ -299,9 +309,9 @@ namespace NUnit.Core
 					suiteResult.AddResult( result );
 				}
 				
-				if ( saveShouldRun && !test.ShouldRun ) 
+				if ( saveRunState != test.RunState ) 
 				{
-					test.ShouldRun = true;
+					test.RunState = saveRunState;
 					test.IgnoreReason = null;
 				}
 			}

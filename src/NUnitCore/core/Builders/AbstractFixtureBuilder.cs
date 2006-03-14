@@ -65,20 +65,24 @@ namespace NUnit.Core.Builders
 			this.suite = MakeSuite( type );
 
 			string reason = null;
-			if( !IsValidFixtureType( type, ref reason ) ||
-				!IsRunnable( type, ref reason ) )
-			{
-				this.suite.ShouldRun = false;
-				this.suite.IgnoreReason = reason;
-			}
+            if (!IsValidFixtureType(type, ref reason) )
+            {
+                this.suite.RunState = RunState.NotRunnable;
+                this.suite.IgnoreReason = reason;
+            }
+            else if (!IsRunnable(type, ref reason))
+            {
+                this.suite.RunState = RunState.Ignored;
+                this.suite.IgnoreReason = reason;
+            }
 
-			this.suite.Description = GetFixtureDescription( type );
+            this.suite.Description = GetFixtureDescription(type);
 
 			this.AddTestCases( type );
 
 			if( this.suite.TestCount == 0 )
 			{
-				this.suite.ShouldRun = false;
+				this.suite.RunState = RunState.NotRunnable;
 				this.suite.IgnoreReason = suite.Name + " does not have any tests";
 			}
 

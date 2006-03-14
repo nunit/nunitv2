@@ -32,7 +32,9 @@ namespace NUnit.Core
 		/// <summary>
 		/// True if the test should be run
 		/// </summary>
-		private bool shouldRun;
+		//private bool shouldRun;
+
+        private RunState runState;
 
 		/// <summary>
 		/// Reason for not running the test
@@ -96,7 +98,8 @@ namespace NUnit.Core
 		{
 			this.testName = (TestName)test.TestName.Clone();
 
-			this.shouldRun = test.ShouldRun;
+			//this.shouldRun = test.ShouldRun;
+            this.runState = test.RunState;
 			this.ignoreReason = test.IgnoreReason;
 			this.description = test.Description;
 			this.isExplicit = test.IsExplicit;
@@ -128,7 +131,8 @@ namespace NUnit.Core
 			this.testName.Name = name;
 			this.testName.TestID = new TestID();
 
-			this.shouldRun = true;
+			//this.shouldRun = true;
+            this.runState = RunState.Runnable;
 			this.ignoreReason = null;
 			this.description = null;
 			this.isExplicit = false;
@@ -204,9 +208,14 @@ namespace NUnit.Core
 		/// </summary>
 		public bool ShouldRun
 		{
-			get { return shouldRun; }
-			set { shouldRun = value; }
+            get { return runState == RunState.Runnable; }
 		}
+
+        public RunState RunState
+        {
+            get { return runState; }
+            set { runState = value; }
+        }
 
 		/// <summary>
 		/// The reason for ignoring a test

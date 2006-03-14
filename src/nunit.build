@@ -76,6 +76,8 @@
       <fileset>
         <include name="**/obj/${build.config}/*"/>
         <include name="**/bin/${build.config}/*"/>
+        <include name="**/obj/${build.config}2005/*"/>
+        <include name="**/bin/${build.config}2005/*"/>
       </fileset>
     </delete>
   </target>

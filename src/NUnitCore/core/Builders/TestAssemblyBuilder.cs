@@ -149,7 +149,7 @@ namespace NUnit.Core.Builders
 
 			if ( fixtures.Count == 0 )
 			{
-				testAssembly.ShouldRun = false;
+				testAssembly.RunState = RunState.NotRunnable;
 				testAssembly.IgnoreReason = "Has no TestFixtures";
 			}
 			

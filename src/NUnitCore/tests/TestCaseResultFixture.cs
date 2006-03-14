@@ -50,7 +50,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void TestCaseDefault()
 		{
-			Assert.AreEqual( RunState.NotRun, caseResult.RunState );
+			Assert.AreEqual( RunState.Runnable, caseResult.RunState );
 		}
 
 		[Test]

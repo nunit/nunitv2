@@ -90,7 +90,7 @@ namespace NUnit.Util.Tests
 		public void CompareIdenticalTreesWithOneIgnored()
 		{
 			TestSuite treeOne = new TestSuite("Test Suite One");
-			treeOne.ShouldRun = false;
+			treeOne.RunState = RunState.Ignored;
 			treeOne.Add( testFixture );
 
 			TestSuite treeTwo = new TestSuite("Test Suite One");

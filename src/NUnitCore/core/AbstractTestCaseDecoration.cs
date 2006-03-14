@@ -14,7 +14,7 @@ namespace NUnit.Core
 			: base( testCase.FullName, testCase.Name )
 		{
 			this.testCase = testCase;
-			this.ShouldRun = testCase.ShouldRun;
+			this.RunState = testCase.RunState;
 			this.IgnoreReason = testCase.IgnoreReason;
 			this.IsRunnable = testCase.IsRunnable;
 		}

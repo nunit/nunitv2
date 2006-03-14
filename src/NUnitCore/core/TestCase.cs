@@ -74,12 +74,23 @@ namespace NUnit.Core
 			listener.TestStarted( new TestInfo( this ) );
 			long startTime = DateTime.Now.Ticks;
 
-			if ( this.Parent != null && this.Parent.SetUpFailed )
-				testResult.Failure( "TestFixtureSetUp Failed", null );
-			else if ( ShouldRun )
-				Run( testResult );
-			else
-				testResult.Ignore( IgnoreReason );
+            switch (this.RunState)
+            {
+                case RunState.Runnable:
+                    if (this.Parent != null && this.Parent.SetUpFailed)
+                        testResult.Failure("TestFixtureSetUp Failed", null);
+                    else
+                        Run(testResult);
+                    break;
+                case RunState.Skipped:
+                    testResult.Skip(IgnoreReason);
+                    break;
+                default:
+                case RunState.NotRunnable:
+                case RunState.Ignored:
+                    testResult.Ignore(IgnoreReason);
+                    break;
+            }
 
 			if ( testFramework != null )
 				testResult.AssertCount = testFramework.GetAssertCount();

@@ -63,7 +63,7 @@ namespace NUnit.UiKit
 		/// must match the indices of the image list used
 		/// </summary>
 		public static readonly int InitIndex = 0;
-		public static readonly int SkippedIndex = 0; 
+		public static readonly int SkippedIndex = 3; 
 		public static readonly int FailureIndex = 1;
 		public static readonly int SuccessIndex = 2;
 		public static readonly int IgnoredIndex = 3;
@@ -227,7 +227,7 @@ namespace NUnit.UiKit
 			
 			switch( this.result.RunState )
 			{
-				case RunState.NotRun:
+				case RunState.Runnable:
 					return InitIndex;
 				case RunState.Skipped:
 					return SkippedIndex;

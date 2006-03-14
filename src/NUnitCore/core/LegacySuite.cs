@@ -95,7 +95,7 @@ namespace NUnit.Core
 			
 			if( method.ReturnType.FullName != "NUnit.Core.TestSuite" || method.GetParameters().Length > 0 )
 			{
-				this.ShouldRun = false;
+				this.RunState = RunState.NotRunnable;
 				this.IgnoreReason = "Invalid suite property method signature";
 			}
 			else

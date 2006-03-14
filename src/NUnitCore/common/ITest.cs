@@ -72,7 +72,9 @@ namespace NUnit.Core
 		/// <summary>
 		/// Whether or not the test should be run
 		/// </summary>
-		bool ShouldRun { get; set; }
+		bool ShouldRun { get; }
+
+        RunState RunState { get; set; }
 
 		/// <summary>
 		/// Reason for not running the test, if applicable

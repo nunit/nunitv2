@@ -67,7 +67,7 @@ namespace NUnit.Core.Builders
 				string reason = null;
 				if ( !IsRunnable( method, ref reason ) )
 				{
-					testCase.ShouldRun = false;
+					testCase.RunState = RunState.NotRunnable;
 					testCase.IgnoreReason = reason;
 				}
 
