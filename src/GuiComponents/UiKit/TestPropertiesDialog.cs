@@ -48,32 +48,34 @@ namespace NUnit.UiKit
 		private TestResult result;
 		private Image pinnedImage;
 		private Image unpinnedImage;
-
-		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.CheckBox pinButton;
+		private System.Windows.Forms.Label testResult;
+		private System.Windows.Forms.Label testName;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.Label categories;
+		private System.Windows.Forms.Label label7;
+		private CP.Windows.Forms.ExpandingLabel description;
+		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label testCaseCount;
-		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label4;
-		private CP.Windows.Forms.ExpandingLabel ignoreReason;
 		private System.Windows.Forms.Label shouldRun;
 		private System.Windows.Forms.Label label2;
 		private CP.Windows.Forms.ExpandingLabel fullName;
 		private System.Windows.Forms.Label label1;
+		private CP.Windows.Forms.ExpandingLabel ignoreReason;
+		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Label testType;
+		private System.Windows.Forms.Label assertCount;
+		private System.Windows.Forms.Label label3;
 		private CP.Windows.Forms.ExpandingLabel stackTrace;
-		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.Label label10;
+		private CP.Windows.Forms.ExpandingLabel expandingLabel1;
 		private System.Windows.Forms.Label elapsedTime;
 		private CP.Windows.Forms.ExpandingLabel message;
-		private System.Windows.Forms.TabPage resultsTab;
-		private System.Windows.Forms.TabPage testTab;
-		private System.Windows.Forms.Label testResult;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.CheckBox pinButton;
-		private System.Windows.Forms.Label label6;
-		private CP.Windows.Forms.ExpandingLabel description;
-		private System.Windows.Forms.Label assertCount;
-		private System.Windows.Forms.TabPage propertiesTab;
-		private System.Windows.Forms.ListView propertiesList;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label categories;
+		private System.Windows.Forms.Label label12;
 		private System.ComponentModel.IContainer components = null;
 
 		#endregion
@@ -119,98 +121,231 @@ namespace NUnit.UiKit
 		private void InitializeComponent()
 		{
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(TestPropertiesDialog));
-			this.tabControl1 = new System.Windows.Forms.TabControl();
-			this.testTab = new System.Windows.Forms.TabPage();
+			this.pinButton = new System.Windows.Forms.CheckBox();
+			this.testResult = new System.Windows.Forms.Label();
+			this.testName = new System.Windows.Forms.Label();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.ignoreReason = new CP.Windows.Forms.ExpandingLabel();
+			this.label5 = new System.Windows.Forms.Label();
+			this.testType = new System.Windows.Forms.Label();
+			this.label8 = new System.Windows.Forms.Label();
 			this.categories = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.description = new CP.Windows.Forms.ExpandingLabel();
 			this.label6 = new System.Windows.Forms.Label();
 			this.testCaseCount = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
-			this.ignoreReason = new CP.Windows.Forms.ExpandingLabel();
 			this.shouldRun = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.fullName = new CP.Windows.Forms.ExpandingLabel();
 			this.label1 = new System.Windows.Forms.Label();
-			this.resultsTab = new System.Windows.Forms.TabPage();
 			this.assertCount = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
-			this.testResult = new System.Windows.Forms.Label();
 			this.stackTrace = new CP.Windows.Forms.ExpandingLabel();
-			this.label12 = new System.Windows.Forms.Label();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.label9 = new System.Windows.Forms.Label();
+			this.label10 = new System.Windows.Forms.Label();
+			this.expandingLabel1 = new CP.Windows.Forms.ExpandingLabel();
 			this.elapsedTime = new System.Windows.Forms.Label();
 			this.message = new CP.Windows.Forms.ExpandingLabel();
-			this.propertiesTab = new System.Windows.Forms.TabPage();
-			this.propertiesList = new System.Windows.Forms.ListView();
-			this.pinButton = new System.Windows.Forms.CheckBox();
-			this.tabControl1.SuspendLayout();
-			this.testTab.SuspendLayout();
-			this.resultsTab.SuspendLayout();
-			this.propertiesTab.SuspendLayout();
+			this.label12 = new System.Windows.Forms.Label();
+			this.groupBox1.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// tabControl1
+			// pinButton
 			// 
-			this.tabControl1.AccessibleDescription = resources.GetString("tabControl1.AccessibleDescription");
-			this.tabControl1.AccessibleName = resources.GetString("tabControl1.AccessibleName");
-			this.tabControl1.Alignment = ((System.Windows.Forms.TabAlignment)(resources.GetObject("tabControl1.Alignment")));
-			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("tabControl1.Anchor")));
-			this.tabControl1.Appearance = ((System.Windows.Forms.TabAppearance)(resources.GetObject("tabControl1.Appearance")));
-			this.tabControl1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabControl1.BackgroundImage")));
-			this.tabControl1.Controls.Add(this.testTab);
-			this.tabControl1.Controls.Add(this.resultsTab);
-			this.tabControl1.Controls.Add(this.propertiesTab);
-			this.tabControl1.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("tabControl1.Dock")));
-			this.tabControl1.Enabled = ((bool)(resources.GetObject("tabControl1.Enabled")));
-			this.tabControl1.Font = ((System.Drawing.Font)(resources.GetObject("tabControl1.Font")));
-			this.tabControl1.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("tabControl1.ImeMode")));
-			this.tabControl1.ItemSize = ((System.Drawing.Size)(resources.GetObject("tabControl1.ItemSize")));
-			this.tabControl1.Location = ((System.Drawing.Point)(resources.GetObject("tabControl1.Location")));
-			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.Padding = ((System.Drawing.Point)(resources.GetObject("tabControl1.Padding")));
-			this.tabControl1.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("tabControl1.RightToLeft")));
-			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.ShowToolTips = ((bool)(resources.GetObject("tabControl1.ShowToolTips")));
-			this.tabControl1.Size = ((System.Drawing.Size)(resources.GetObject("tabControl1.Size")));
-			this.tabControl1.TabIndex = ((int)(resources.GetObject("tabControl1.TabIndex")));
-			this.tabControl1.Text = resources.GetString("tabControl1.Text");
-			this.tabControl1.Visible = ((bool)(resources.GetObject("tabControl1.Visible")));
+			this.pinButton.AccessibleDescription = resources.GetString("pinButton.AccessibleDescription");
+			this.pinButton.AccessibleName = resources.GetString("pinButton.AccessibleName");
+			this.pinButton.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("pinButton.Anchor")));
+			this.pinButton.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("pinButton.Appearance")));
+			this.pinButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pinButton.BackgroundImage")));
+			this.pinButton.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("pinButton.CheckAlign")));
+			this.pinButton.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("pinButton.Dock")));
+			this.pinButton.Enabled = ((bool)(resources.GetObject("pinButton.Enabled")));
+			this.pinButton.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("pinButton.FlatStyle")));
+			this.pinButton.Font = ((System.Drawing.Font)(resources.GetObject("pinButton.Font")));
+			this.pinButton.Image = ((System.Drawing.Image)(resources.GetObject("pinButton.Image")));
+			this.pinButton.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("pinButton.ImageAlign")));
+			this.pinButton.ImageIndex = ((int)(resources.GetObject("pinButton.ImageIndex")));
+			this.pinButton.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("pinButton.ImeMode")));
+			this.pinButton.Location = ((System.Drawing.Point)(resources.GetObject("pinButton.Location")));
+			this.pinButton.Name = "pinButton";
+			this.pinButton.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("pinButton.RightToLeft")));
+			this.pinButton.Size = ((System.Drawing.Size)(resources.GetObject("pinButton.Size")));
+			this.pinButton.TabIndex = ((int)(resources.GetObject("pinButton.TabIndex")));
+			this.pinButton.Text = resources.GetString("pinButton.Text");
+			this.pinButton.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("pinButton.TextAlign")));
+			this.pinButton.Visible = ((bool)(resources.GetObject("pinButton.Visible")));
+			this.pinButton.Click += new System.EventHandler(this.pinButton_Click);
+			this.pinButton.CheckedChanged += new System.EventHandler(this.pinButton_CheckedChanged);
 			// 
-			// testTab
+			// testResult
 			// 
-			this.testTab.AccessibleDescription = resources.GetString("testTab.AccessibleDescription");
-			this.testTab.AccessibleName = resources.GetString("testTab.AccessibleName");
-			this.testTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("testTab.Anchor")));
-			this.testTab.AutoScroll = ((bool)(resources.GetObject("testTab.AutoScroll")));
-			this.testTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("testTab.AutoScrollMargin")));
-			this.testTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("testTab.AutoScrollMinSize")));
-			this.testTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("testTab.BackgroundImage")));
-			this.testTab.Controls.Add(this.categories);
-			this.testTab.Controls.Add(this.label7);
-			this.testTab.Controls.Add(this.description);
-			this.testTab.Controls.Add(this.label6);
-			this.testTab.Controls.Add(this.testCaseCount);
-			this.testTab.Controls.Add(this.label5);
-			this.testTab.Controls.Add(this.label4);
-			this.testTab.Controls.Add(this.ignoreReason);
-			this.testTab.Controls.Add(this.shouldRun);
-			this.testTab.Controls.Add(this.label2);
-			this.testTab.Controls.Add(this.fullName);
-			this.testTab.Controls.Add(this.label1);
-			this.testTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("testTab.Dock")));
-			this.testTab.Enabled = ((bool)(resources.GetObject("testTab.Enabled")));
-			this.testTab.Font = ((System.Drawing.Font)(resources.GetObject("testTab.Font")));
-			this.testTab.ImageIndex = ((int)(resources.GetObject("testTab.ImageIndex")));
-			this.testTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("testTab.ImeMode")));
-			this.testTab.Location = ((System.Drawing.Point)(resources.GetObject("testTab.Location")));
-			this.testTab.Name = "testTab";
-			this.testTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("testTab.RightToLeft")));
-			this.testTab.Size = ((System.Drawing.Size)(resources.GetObject("testTab.Size")));
-			this.testTab.TabIndex = ((int)(resources.GetObject("testTab.TabIndex")));
-			this.testTab.Text = resources.GetString("testTab.Text");
-			this.testTab.ToolTipText = resources.GetString("testTab.ToolTipText");
-			this.testTab.Visible = ((bool)(resources.GetObject("testTab.Visible")));
+			this.testResult.AccessibleDescription = resources.GetString("testResult.AccessibleDescription");
+			this.testResult.AccessibleName = resources.GetString("testResult.AccessibleName");
+			this.testResult.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("testResult.Anchor")));
+			this.testResult.AutoSize = ((bool)(resources.GetObject("testResult.AutoSize")));
+			this.testResult.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("testResult.Dock")));
+			this.testResult.Enabled = ((bool)(resources.GetObject("testResult.Enabled")));
+			this.testResult.Font = ((System.Drawing.Font)(resources.GetObject("testResult.Font")));
+			this.testResult.Image = ((System.Drawing.Image)(resources.GetObject("testResult.Image")));
+			this.testResult.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("testResult.ImageAlign")));
+			this.testResult.ImageIndex = ((int)(resources.GetObject("testResult.ImageIndex")));
+			this.testResult.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("testResult.ImeMode")));
+			this.testResult.Location = ((System.Drawing.Point)(resources.GetObject("testResult.Location")));
+			this.testResult.Name = "testResult";
+			this.testResult.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("testResult.RightToLeft")));
+			this.testResult.Size = ((System.Drawing.Size)(resources.GetObject("testResult.Size")));
+			this.testResult.TabIndex = ((int)(resources.GetObject("testResult.TabIndex")));
+			this.testResult.Text = resources.GetString("testResult.Text");
+			this.testResult.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("testResult.TextAlign")));
+			this.testResult.Visible = ((bool)(resources.GetObject("testResult.Visible")));
+			// 
+			// testName
+			// 
+			this.testName.AccessibleDescription = resources.GetString("testName.AccessibleDescription");
+			this.testName.AccessibleName = resources.GetString("testName.AccessibleName");
+			this.testName.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("testName.Anchor")));
+			this.testName.AutoSize = ((bool)(resources.GetObject("testName.AutoSize")));
+			this.testName.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("testName.Dock")));
+			this.testName.Enabled = ((bool)(resources.GetObject("testName.Enabled")));
+			this.testName.Font = ((System.Drawing.Font)(resources.GetObject("testName.Font")));
+			this.testName.Image = ((System.Drawing.Image)(resources.GetObject("testName.Image")));
+			this.testName.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("testName.ImageAlign")));
+			this.testName.ImageIndex = ((int)(resources.GetObject("testName.ImageIndex")));
+			this.testName.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("testName.ImeMode")));
+			this.testName.Location = ((System.Drawing.Point)(resources.GetObject("testName.Location")));
+			this.testName.Name = "testName";
+			this.testName.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("testName.RightToLeft")));
+			this.testName.Size = ((System.Drawing.Size)(resources.GetObject("testName.Size")));
+			this.testName.TabIndex = ((int)(resources.GetObject("testName.TabIndex")));
+			this.testName.Text = resources.GetString("testName.Text");
+			this.testName.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("testName.TextAlign")));
+			this.testName.Visible = ((bool)(resources.GetObject("testName.Visible")));
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.AccessibleDescription = resources.GetString("groupBox1.AccessibleDescription");
+			this.groupBox1.AccessibleName = resources.GetString("groupBox1.AccessibleName");
+			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox1.Anchor")));
+			this.groupBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox1.BackgroundImage")));
+			this.groupBox1.Controls.Add(this.ignoreReason);
+			this.groupBox1.Controls.Add(this.label5);
+			this.groupBox1.Controls.Add(this.testType);
+			this.groupBox1.Controls.Add(this.label8);
+			this.groupBox1.Controls.Add(this.categories);
+			this.groupBox1.Controls.Add(this.label7);
+			this.groupBox1.Controls.Add(this.description);
+			this.groupBox1.Controls.Add(this.label6);
+			this.groupBox1.Controls.Add(this.testCaseCount);
+			this.groupBox1.Controls.Add(this.label4);
+			this.groupBox1.Controls.Add(this.shouldRun);
+			this.groupBox1.Controls.Add(this.label2);
+			this.groupBox1.Controls.Add(this.fullName);
+			this.groupBox1.Controls.Add(this.label1);
+			this.groupBox1.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("groupBox1.Dock")));
+			this.groupBox1.Enabled = ((bool)(resources.GetObject("groupBox1.Enabled")));
+			this.groupBox1.Font = ((System.Drawing.Font)(resources.GetObject("groupBox1.Font")));
+			this.groupBox1.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("groupBox1.ImeMode")));
+			this.groupBox1.Location = ((System.Drawing.Point)(resources.GetObject("groupBox1.Location")));
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("groupBox1.RightToLeft")));
+			this.groupBox1.Size = ((System.Drawing.Size)(resources.GetObject("groupBox1.Size")));
+			this.groupBox1.TabIndex = ((int)(resources.GetObject("groupBox1.TabIndex")));
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = resources.GetString("groupBox1.Text");
+			this.groupBox1.Visible = ((bool)(resources.GetObject("groupBox1.Visible")));
+			// 
+			// ignoreReason
+			// 
+			this.ignoreReason.AccessibleDescription = resources.GetString("ignoreReason.AccessibleDescription");
+			this.ignoreReason.AccessibleName = resources.GetString("ignoreReason.AccessibleName");
+			this.ignoreReason.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("ignoreReason.Anchor")));
+			this.ignoreReason.AutoSize = ((bool)(resources.GetObject("ignoreReason.AutoSize")));
+			this.ignoreReason.CopySupported = true;
+			this.ignoreReason.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("ignoreReason.Dock")));
+			this.ignoreReason.Enabled = ((bool)(resources.GetObject("ignoreReason.Enabled")));
+			this.ignoreReason.Expansion = CP.Windows.Forms.TipWindow.ExpansionStyle.Vertical;
+			this.ignoreReason.Font = ((System.Drawing.Font)(resources.GetObject("ignoreReason.Font")));
+			this.ignoreReason.Image = ((System.Drawing.Image)(resources.GetObject("ignoreReason.Image")));
+			this.ignoreReason.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("ignoreReason.ImageAlign")));
+			this.ignoreReason.ImageIndex = ((int)(resources.GetObject("ignoreReason.ImageIndex")));
+			this.ignoreReason.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("ignoreReason.ImeMode")));
+			this.ignoreReason.Location = ((System.Drawing.Point)(resources.GetObject("ignoreReason.Location")));
+			this.ignoreReason.Name = "ignoreReason";
+			this.ignoreReason.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("ignoreReason.RightToLeft")));
+			this.ignoreReason.Size = ((System.Drawing.Size)(resources.GetObject("ignoreReason.Size")));
+			this.ignoreReason.TabIndex = ((int)(resources.GetObject("ignoreReason.TabIndex")));
+			this.ignoreReason.Text = resources.GetString("ignoreReason.Text");
+			this.ignoreReason.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("ignoreReason.TextAlign")));
+			this.ignoreReason.Visible = ((bool)(resources.GetObject("ignoreReason.Visible")));
+			// 
+			// label5
+			// 
+			this.label5.AccessibleDescription = resources.GetString("label5.AccessibleDescription");
+			this.label5.AccessibleName = resources.GetString("label5.AccessibleName");
+			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label5.Anchor")));
+			this.label5.AutoSize = ((bool)(resources.GetObject("label5.AutoSize")));
+			this.label5.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label5.Dock")));
+			this.label5.Enabled = ((bool)(resources.GetObject("label5.Enabled")));
+			this.label5.Font = ((System.Drawing.Font)(resources.GetObject("label5.Font")));
+			this.label5.Image = ((System.Drawing.Image)(resources.GetObject("label5.Image")));
+			this.label5.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label5.ImageAlign")));
+			this.label5.ImageIndex = ((int)(resources.GetObject("label5.ImageIndex")));
+			this.label5.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label5.ImeMode")));
+			this.label5.Location = ((System.Drawing.Point)(resources.GetObject("label5.Location")));
+			this.label5.Name = "label5";
+			this.label5.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label5.RightToLeft")));
+			this.label5.Size = ((System.Drawing.Size)(resources.GetObject("label5.Size")));
+			this.label5.TabIndex = ((int)(resources.GetObject("label5.TabIndex")));
+			this.label5.Text = resources.GetString("label5.Text");
+			this.label5.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label5.TextAlign")));
+			this.label5.Visible = ((bool)(resources.GetObject("label5.Visible")));
+			// 
+			// testType
+			// 
+			this.testType.AccessibleDescription = resources.GetString("testType.AccessibleDescription");
+			this.testType.AccessibleName = resources.GetString("testType.AccessibleName");
+			this.testType.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("testType.Anchor")));
+			this.testType.AutoSize = ((bool)(resources.GetObject("testType.AutoSize")));
+			this.testType.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("testType.Dock")));
+			this.testType.Enabled = ((bool)(resources.GetObject("testType.Enabled")));
+			this.testType.Font = ((System.Drawing.Font)(resources.GetObject("testType.Font")));
+			this.testType.Image = ((System.Drawing.Image)(resources.GetObject("testType.Image")));
+			this.testType.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("testType.ImageAlign")));
+			this.testType.ImageIndex = ((int)(resources.GetObject("testType.ImageIndex")));
+			this.testType.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("testType.ImeMode")));
+			this.testType.Location = ((System.Drawing.Point)(resources.GetObject("testType.Location")));
+			this.testType.Name = "testType";
+			this.testType.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("testType.RightToLeft")));
+			this.testType.Size = ((System.Drawing.Size)(resources.GetObject("testType.Size")));
+			this.testType.TabIndex = ((int)(resources.GetObject("testType.TabIndex")));
+			this.testType.Text = resources.GetString("testType.Text");
+			this.testType.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("testType.TextAlign")));
+			this.testType.Visible = ((bool)(resources.GetObject("testType.Visible")));
+			// 
+			// label8
+			// 
+			this.label8.AccessibleDescription = resources.GetString("label8.AccessibleDescription");
+			this.label8.AccessibleName = resources.GetString("label8.AccessibleName");
+			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label8.Anchor")));
+			this.label8.AutoSize = ((bool)(resources.GetObject("label8.AutoSize")));
+			this.label8.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label8.Dock")));
+			this.label8.Enabled = ((bool)(resources.GetObject("label8.Enabled")));
+			this.label8.Font = ((System.Drawing.Font)(resources.GetObject("label8.Font")));
+			this.label8.Image = ((System.Drawing.Image)(resources.GetObject("label8.Image")));
+			this.label8.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label8.ImageAlign")));
+			this.label8.ImageIndex = ((int)(resources.GetObject("label8.ImageIndex")));
+			this.label8.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label8.ImeMode")));
+			this.label8.Location = ((System.Drawing.Point)(resources.GetObject("label8.Location")));
+			this.label8.Name = "label8";
+			this.label8.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label8.RightToLeft")));
+			this.label8.Size = ((System.Drawing.Size)(resources.GetObject("label8.Size")));
+			this.label8.TabIndex = ((int)(resources.GetObject("label8.TabIndex")));
+			this.label8.Text = resources.GetString("label8.Text");
+			this.label8.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label8.TextAlign")));
+			this.label8.Visible = ((bool)(resources.GetObject("label8.Visible")));
 			// 
 			// categories
 			// 
@@ -265,6 +400,7 @@ namespace NUnit.UiKit
 			this.description.CopySupported = true;
 			this.description.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("description.Dock")));
 			this.description.Enabled = ((bool)(resources.GetObject("description.Enabled")));
+			this.description.Expansion = CP.Windows.Forms.TipWindow.ExpansionStyle.Both;
 			this.description.Font = ((System.Drawing.Font)(resources.GetObject("description.Font")));
 			this.description.Image = ((System.Drawing.Image)(resources.GetObject("description.Image")));
 			this.description.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("description.ImageAlign")));
@@ -323,28 +459,6 @@ namespace NUnit.UiKit
 			this.testCaseCount.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("testCaseCount.TextAlign")));
 			this.testCaseCount.Visible = ((bool)(resources.GetObject("testCaseCount.Visible")));
 			// 
-			// label5
-			// 
-			this.label5.AccessibleDescription = resources.GetString("label5.AccessibleDescription");
-			this.label5.AccessibleName = resources.GetString("label5.AccessibleName");
-			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label5.Anchor")));
-			this.label5.AutoSize = ((bool)(resources.GetObject("label5.AutoSize")));
-			this.label5.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label5.Dock")));
-			this.label5.Enabled = ((bool)(resources.GetObject("label5.Enabled")));
-			this.label5.Font = ((System.Drawing.Font)(resources.GetObject("label5.Font")));
-			this.label5.Image = ((System.Drawing.Image)(resources.GetObject("label5.Image")));
-			this.label5.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label5.ImageAlign")));
-			this.label5.ImageIndex = ((int)(resources.GetObject("label5.ImageIndex")));
-			this.label5.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label5.ImeMode")));
-			this.label5.Location = ((System.Drawing.Point)(resources.GetObject("label5.Location")));
-			this.label5.Name = "label5";
-			this.label5.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label5.RightToLeft")));
-			this.label5.Size = ((System.Drawing.Size)(resources.GetObject("label5.Size")));
-			this.label5.TabIndex = ((int)(resources.GetObject("label5.TabIndex")));
-			this.label5.Text = resources.GetString("label5.Text");
-			this.label5.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label5.TextAlign")));
-			this.label5.Visible = ((bool)(resources.GetObject("label5.Visible")));
-			// 
 			// label4
 			// 
 			this.label4.AccessibleDescription = resources.GetString("label4.AccessibleDescription");
@@ -366,29 +480,6 @@ namespace NUnit.UiKit
 			this.label4.Text = resources.GetString("label4.Text");
 			this.label4.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label4.TextAlign")));
 			this.label4.Visible = ((bool)(resources.GetObject("label4.Visible")));
-			// 
-			// ignoreReason
-			// 
-			this.ignoreReason.AccessibleDescription = resources.GetString("ignoreReason.AccessibleDescription");
-			this.ignoreReason.AccessibleName = resources.GetString("ignoreReason.AccessibleName");
-			this.ignoreReason.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("ignoreReason.Anchor")));
-			this.ignoreReason.AutoSize = ((bool)(resources.GetObject("ignoreReason.AutoSize")));
-			this.ignoreReason.CopySupported = true;
-			this.ignoreReason.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("ignoreReason.Dock")));
-			this.ignoreReason.Enabled = ((bool)(resources.GetObject("ignoreReason.Enabled")));
-			this.ignoreReason.Font = ((System.Drawing.Font)(resources.GetObject("ignoreReason.Font")));
-			this.ignoreReason.Image = ((System.Drawing.Image)(resources.GetObject("ignoreReason.Image")));
-			this.ignoreReason.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("ignoreReason.ImageAlign")));
-			this.ignoreReason.ImageIndex = ((int)(resources.GetObject("ignoreReason.ImageIndex")));
-			this.ignoreReason.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("ignoreReason.ImeMode")));
-			this.ignoreReason.Location = ((System.Drawing.Point)(resources.GetObject("ignoreReason.Location")));
-			this.ignoreReason.Name = "ignoreReason";
-			this.ignoreReason.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("ignoreReason.RightToLeft")));
-			this.ignoreReason.Size = ((System.Drawing.Size)(resources.GetObject("ignoreReason.Size")));
-			this.ignoreReason.TabIndex = ((int)(resources.GetObject("ignoreReason.TabIndex")));
-			this.ignoreReason.Text = resources.GetString("ignoreReason.Text");
-			this.ignoreReason.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("ignoreReason.TextAlign")));
-			this.ignoreReason.Visible = ((bool)(resources.GetObject("ignoreReason.Visible")));
 			// 
 			// shouldRun
 			// 
@@ -479,36 +570,6 @@ namespace NUnit.UiKit
 			this.label1.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label1.TextAlign")));
 			this.label1.Visible = ((bool)(resources.GetObject("label1.Visible")));
 			// 
-			// resultsTab
-			// 
-			this.resultsTab.AccessibleDescription = resources.GetString("resultsTab.AccessibleDescription");
-			this.resultsTab.AccessibleName = resources.GetString("resultsTab.AccessibleName");
-			this.resultsTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("resultsTab.Anchor")));
-			this.resultsTab.AutoScroll = ((bool)(resources.GetObject("resultsTab.AutoScroll")));
-			this.resultsTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("resultsTab.AutoScrollMargin")));
-			this.resultsTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("resultsTab.AutoScrollMinSize")));
-			this.resultsTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("resultsTab.BackgroundImage")));
-			this.resultsTab.Controls.Add(this.assertCount);
-			this.resultsTab.Controls.Add(this.label3);
-			this.resultsTab.Controls.Add(this.testResult);
-			this.resultsTab.Controls.Add(this.stackTrace);
-			this.resultsTab.Controls.Add(this.label12);
-			this.resultsTab.Controls.Add(this.elapsedTime);
-			this.resultsTab.Controls.Add(this.message);
-			this.resultsTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("resultsTab.Dock")));
-			this.resultsTab.Enabled = ((bool)(resources.GetObject("resultsTab.Enabled")));
-			this.resultsTab.Font = ((System.Drawing.Font)(resources.GetObject("resultsTab.Font")));
-			this.resultsTab.ImageIndex = ((int)(resources.GetObject("resultsTab.ImageIndex")));
-			this.resultsTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("resultsTab.ImeMode")));
-			this.resultsTab.Location = ((System.Drawing.Point)(resources.GetObject("resultsTab.Location")));
-			this.resultsTab.Name = "resultsTab";
-			this.resultsTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("resultsTab.RightToLeft")));
-			this.resultsTab.Size = ((System.Drawing.Size)(resources.GetObject("resultsTab.Size")));
-			this.resultsTab.TabIndex = ((int)(resources.GetObject("resultsTab.TabIndex")));
-			this.resultsTab.Text = resources.GetString("resultsTab.Text");
-			this.resultsTab.ToolTipText = resources.GetString("resultsTab.ToolTipText");
-			this.resultsTab.Visible = ((bool)(resources.GetObject("resultsTab.Visible")));
-			// 
 			// assertCount
 			// 
 			this.assertCount.AccessibleDescription = resources.GetString("assertCount.AccessibleDescription");
@@ -553,28 +614,6 @@ namespace NUnit.UiKit
 			this.label3.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label3.TextAlign")));
 			this.label3.Visible = ((bool)(resources.GetObject("label3.Visible")));
 			// 
-			// testResult
-			// 
-			this.testResult.AccessibleDescription = resources.GetString("testResult.AccessibleDescription");
-			this.testResult.AccessibleName = resources.GetString("testResult.AccessibleName");
-			this.testResult.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("testResult.Anchor")));
-			this.testResult.AutoSize = ((bool)(resources.GetObject("testResult.AutoSize")));
-			this.testResult.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("testResult.Dock")));
-			this.testResult.Enabled = ((bool)(resources.GetObject("testResult.Enabled")));
-			this.testResult.Font = ((System.Drawing.Font)(resources.GetObject("testResult.Font")));
-			this.testResult.Image = ((System.Drawing.Image)(resources.GetObject("testResult.Image")));
-			this.testResult.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("testResult.ImageAlign")));
-			this.testResult.ImageIndex = ((int)(resources.GetObject("testResult.ImageIndex")));
-			this.testResult.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("testResult.ImeMode")));
-			this.testResult.Location = ((System.Drawing.Point)(resources.GetObject("testResult.Location")));
-			this.testResult.Name = "testResult";
-			this.testResult.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("testResult.RightToLeft")));
-			this.testResult.Size = ((System.Drawing.Size)(resources.GetObject("testResult.Size")));
-			this.testResult.TabIndex = ((int)(resources.GetObject("testResult.TabIndex")));
-			this.testResult.Text = resources.GetString("testResult.Text");
-			this.testResult.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("testResult.TextAlign")));
-			this.testResult.Visible = ((bool)(resources.GetObject("testResult.Visible")));
-			// 
 			// stackTrace
 			// 
 			this.stackTrace.AccessibleDescription = resources.GetString("stackTrace.AccessibleDescription");
@@ -599,27 +638,98 @@ namespace NUnit.UiKit
 			this.stackTrace.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("stackTrace.TextAlign")));
 			this.stackTrace.Visible = ((bool)(resources.GetObject("stackTrace.Visible")));
 			// 
-			// label12
+			// groupBox2
 			// 
-			this.label12.AccessibleDescription = resources.GetString("label12.AccessibleDescription");
-			this.label12.AccessibleName = resources.GetString("label12.AccessibleName");
-			this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label12.Anchor")));
-			this.label12.AutoSize = ((bool)(resources.GetObject("label12.AutoSize")));
-			this.label12.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label12.Dock")));
-			this.label12.Enabled = ((bool)(resources.GetObject("label12.Enabled")));
-			this.label12.Font = ((System.Drawing.Font)(resources.GetObject("label12.Font")));
-			this.label12.Image = ((System.Drawing.Image)(resources.GetObject("label12.Image")));
-			this.label12.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label12.ImageAlign")));
-			this.label12.ImageIndex = ((int)(resources.GetObject("label12.ImageIndex")));
-			this.label12.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label12.ImeMode")));
-			this.label12.Location = ((System.Drawing.Point)(resources.GetObject("label12.Location")));
-			this.label12.Name = "label12";
-			this.label12.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label12.RightToLeft")));
-			this.label12.Size = ((System.Drawing.Size)(resources.GetObject("label12.Size")));
-			this.label12.TabIndex = ((int)(resources.GetObject("label12.TabIndex")));
-			this.label12.Text = resources.GetString("label12.Text");
-			this.label12.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label12.TextAlign")));
-			this.label12.Visible = ((bool)(resources.GetObject("label12.Visible")));
+			this.groupBox2.AccessibleDescription = resources.GetString("groupBox2.AccessibleDescription");
+			this.groupBox2.AccessibleName = resources.GetString("groupBox2.AccessibleName");
+			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox2.Anchor")));
+			this.groupBox2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox2.BackgroundImage")));
+			this.groupBox2.Controls.Add(this.label9);
+			this.groupBox2.Controls.Add(this.label10);
+			this.groupBox2.Controls.Add(this.expandingLabel1);
+			this.groupBox2.Controls.Add(this.elapsedTime);
+			this.groupBox2.Controls.Add(this.message);
+			this.groupBox2.Controls.Add(this.label12);
+			this.groupBox2.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("groupBox2.Dock")));
+			this.groupBox2.Enabled = ((bool)(resources.GetObject("groupBox2.Enabled")));
+			this.groupBox2.Font = ((System.Drawing.Font)(resources.GetObject("groupBox2.Font")));
+			this.groupBox2.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("groupBox2.ImeMode")));
+			this.groupBox2.Location = ((System.Drawing.Point)(resources.GetObject("groupBox2.Location")));
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("groupBox2.RightToLeft")));
+			this.groupBox2.Size = ((System.Drawing.Size)(resources.GetObject("groupBox2.Size")));
+			this.groupBox2.TabIndex = ((int)(resources.GetObject("groupBox2.TabIndex")));
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Text = resources.GetString("groupBox2.Text");
+			this.groupBox2.Visible = ((bool)(resources.GetObject("groupBox2.Visible")));
+			// 
+			// label9
+			// 
+			this.label9.AccessibleDescription = resources.GetString("label9.AccessibleDescription");
+			this.label9.AccessibleName = resources.GetString("label9.AccessibleName");
+			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label9.Anchor")));
+			this.label9.AutoSize = ((bool)(resources.GetObject("label9.AutoSize")));
+			this.label9.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label9.Dock")));
+			this.label9.Enabled = ((bool)(resources.GetObject("label9.Enabled")));
+			this.label9.Font = ((System.Drawing.Font)(resources.GetObject("label9.Font")));
+			this.label9.Image = ((System.Drawing.Image)(resources.GetObject("label9.Image")));
+			this.label9.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label9.ImageAlign")));
+			this.label9.ImageIndex = ((int)(resources.GetObject("label9.ImageIndex")));
+			this.label9.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label9.ImeMode")));
+			this.label9.Location = ((System.Drawing.Point)(resources.GetObject("label9.Location")));
+			this.label9.Name = "label9";
+			this.label9.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label9.RightToLeft")));
+			this.label9.Size = ((System.Drawing.Size)(resources.GetObject("label9.Size")));
+			this.label9.TabIndex = ((int)(resources.GetObject("label9.TabIndex")));
+			this.label9.Text = resources.GetString("label9.Text");
+			this.label9.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label9.TextAlign")));
+			this.label9.Visible = ((bool)(resources.GetObject("label9.Visible")));
+			// 
+			// label10
+			// 
+			this.label10.AccessibleDescription = resources.GetString("label10.AccessibleDescription");
+			this.label10.AccessibleName = resources.GetString("label10.AccessibleName");
+			this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label10.Anchor")));
+			this.label10.AutoSize = ((bool)(resources.GetObject("label10.AutoSize")));
+			this.label10.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label10.Dock")));
+			this.label10.Enabled = ((bool)(resources.GetObject("label10.Enabled")));
+			this.label10.Font = ((System.Drawing.Font)(resources.GetObject("label10.Font")));
+			this.label10.Image = ((System.Drawing.Image)(resources.GetObject("label10.Image")));
+			this.label10.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label10.ImageAlign")));
+			this.label10.ImageIndex = ((int)(resources.GetObject("label10.ImageIndex")));
+			this.label10.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label10.ImeMode")));
+			this.label10.Location = ((System.Drawing.Point)(resources.GetObject("label10.Location")));
+			this.label10.Name = "label10";
+			this.label10.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label10.RightToLeft")));
+			this.label10.Size = ((System.Drawing.Size)(resources.GetObject("label10.Size")));
+			this.label10.TabIndex = ((int)(resources.GetObject("label10.TabIndex")));
+			this.label10.Text = resources.GetString("label10.Text");
+			this.label10.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label10.TextAlign")));
+			this.label10.Visible = ((bool)(resources.GetObject("label10.Visible")));
+			// 
+			// expandingLabel1
+			// 
+			this.expandingLabel1.AccessibleDescription = resources.GetString("expandingLabel1.AccessibleDescription");
+			this.expandingLabel1.AccessibleName = resources.GetString("expandingLabel1.AccessibleName");
+			this.expandingLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("expandingLabel1.Anchor")));
+			this.expandingLabel1.AutoSize = ((bool)(resources.GetObject("expandingLabel1.AutoSize")));
+			this.expandingLabel1.CopySupported = true;
+			this.expandingLabel1.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("expandingLabel1.Dock")));
+			this.expandingLabel1.Enabled = ((bool)(resources.GetObject("expandingLabel1.Enabled")));
+			this.expandingLabel1.Expansion = CP.Windows.Forms.TipWindow.ExpansionStyle.Both;
+			this.expandingLabel1.Font = ((System.Drawing.Font)(resources.GetObject("expandingLabel1.Font")));
+			this.expandingLabel1.Image = ((System.Drawing.Image)(resources.GetObject("expandingLabel1.Image")));
+			this.expandingLabel1.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("expandingLabel1.ImageAlign")));
+			this.expandingLabel1.ImageIndex = ((int)(resources.GetObject("expandingLabel1.ImageIndex")));
+			this.expandingLabel1.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("expandingLabel1.ImeMode")));
+			this.expandingLabel1.Location = ((System.Drawing.Point)(resources.GetObject("expandingLabel1.Location")));
+			this.expandingLabel1.Name = "expandingLabel1";
+			this.expandingLabel1.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("expandingLabel1.RightToLeft")));
+			this.expandingLabel1.Size = ((System.Drawing.Size)(resources.GetObject("expandingLabel1.Size")));
+			this.expandingLabel1.TabIndex = ((int)(resources.GetObject("expandingLabel1.TabIndex")));
+			this.expandingLabel1.Text = resources.GetString("expandingLabel1.Text");
+			this.expandingLabel1.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("expandingLabel1.TextAlign")));
+			this.expandingLabel1.Visible = ((bool)(resources.GetObject("expandingLabel1.Visible")));
 			// 
 			// elapsedTime
 			// 
@@ -667,76 +777,27 @@ namespace NUnit.UiKit
 			this.message.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("message.TextAlign")));
 			this.message.Visible = ((bool)(resources.GetObject("message.Visible")));
 			// 
-			// propertiesTab
+			// label12
 			// 
-			this.propertiesTab.AccessibleDescription = resources.GetString("propertiesTab.AccessibleDescription");
-			this.propertiesTab.AccessibleName = resources.GetString("propertiesTab.AccessibleName");
-			this.propertiesTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("propertiesTab.Anchor")));
-			this.propertiesTab.AutoScroll = ((bool)(resources.GetObject("propertiesTab.AutoScroll")));
-			this.propertiesTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("propertiesTab.AutoScrollMargin")));
-			this.propertiesTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("propertiesTab.AutoScrollMinSize")));
-			this.propertiesTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("propertiesTab.BackgroundImage")));
-			this.propertiesTab.Controls.Add(this.propertiesList);
-			this.propertiesTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("propertiesTab.Dock")));
-			this.propertiesTab.Enabled = ((bool)(resources.GetObject("propertiesTab.Enabled")));
-			this.propertiesTab.Font = ((System.Drawing.Font)(resources.GetObject("propertiesTab.Font")));
-			this.propertiesTab.ImageIndex = ((int)(resources.GetObject("propertiesTab.ImageIndex")));
-			this.propertiesTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("propertiesTab.ImeMode")));
-			this.propertiesTab.Location = ((System.Drawing.Point)(resources.GetObject("propertiesTab.Location")));
-			this.propertiesTab.Name = "propertiesTab";
-			this.propertiesTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("propertiesTab.RightToLeft")));
-			this.propertiesTab.Size = ((System.Drawing.Size)(resources.GetObject("propertiesTab.Size")));
-			this.propertiesTab.TabIndex = ((int)(resources.GetObject("propertiesTab.TabIndex")));
-			this.propertiesTab.Text = resources.GetString("propertiesTab.Text");
-			this.propertiesTab.ToolTipText = resources.GetString("propertiesTab.ToolTipText");
-			this.propertiesTab.Visible = ((bool)(resources.GetObject("propertiesTab.Visible")));
-			// 
-			// propertiesList
-			// 
-			this.propertiesList.AccessibleDescription = resources.GetString("propertiesList.AccessibleDescription");
-			this.propertiesList.AccessibleName = resources.GetString("propertiesList.AccessibleName");
-			this.propertiesList.Alignment = ((System.Windows.Forms.ListViewAlignment)(resources.GetObject("propertiesList.Alignment")));
-			this.propertiesList.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("propertiesList.Anchor")));
-			this.propertiesList.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("propertiesList.BackgroundImage")));
-			this.propertiesList.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("propertiesList.Dock")));
-			this.propertiesList.Enabled = ((bool)(resources.GetObject("propertiesList.Enabled")));
-			this.propertiesList.Font = ((System.Drawing.Font)(resources.GetObject("propertiesList.Font")));
-			this.propertiesList.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("propertiesList.ImeMode")));
-			this.propertiesList.LabelWrap = ((bool)(resources.GetObject("propertiesList.LabelWrap")));
-			this.propertiesList.Location = ((System.Drawing.Point)(resources.GetObject("propertiesList.Location")));
-			this.propertiesList.Name = "propertiesList";
-			this.propertiesList.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("propertiesList.RightToLeft")));
-			this.propertiesList.Size = ((System.Drawing.Size)(resources.GetObject("propertiesList.Size")));
-			this.propertiesList.TabIndex = ((int)(resources.GetObject("propertiesList.TabIndex")));
-			this.propertiesList.Text = resources.GetString("propertiesList.Text");
-			this.propertiesList.Visible = ((bool)(resources.GetObject("propertiesList.Visible")));
-			// 
-			// pinButton
-			// 
-			this.pinButton.AccessibleDescription = resources.GetString("pinButton.AccessibleDescription");
-			this.pinButton.AccessibleName = resources.GetString("pinButton.AccessibleName");
-			this.pinButton.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("pinButton.Anchor")));
-			this.pinButton.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("pinButton.Appearance")));
-			this.pinButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pinButton.BackgroundImage")));
-			this.pinButton.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("pinButton.CheckAlign")));
-			this.pinButton.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("pinButton.Dock")));
-			this.pinButton.Enabled = ((bool)(resources.GetObject("pinButton.Enabled")));
-			this.pinButton.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("pinButton.FlatStyle")));
-			this.pinButton.Font = ((System.Drawing.Font)(resources.GetObject("pinButton.Font")));
-			this.pinButton.Image = ((System.Drawing.Image)(resources.GetObject("pinButton.Image")));
-			this.pinButton.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("pinButton.ImageAlign")));
-			this.pinButton.ImageIndex = ((int)(resources.GetObject("pinButton.ImageIndex")));
-			this.pinButton.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("pinButton.ImeMode")));
-			this.pinButton.Location = ((System.Drawing.Point)(resources.GetObject("pinButton.Location")));
-			this.pinButton.Name = "pinButton";
-			this.pinButton.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("pinButton.RightToLeft")));
-			this.pinButton.Size = ((System.Drawing.Size)(resources.GetObject("pinButton.Size")));
-			this.pinButton.TabIndex = ((int)(resources.GetObject("pinButton.TabIndex")));
-			this.pinButton.Text = resources.GetString("pinButton.Text");
-			this.pinButton.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("pinButton.TextAlign")));
-			this.pinButton.Visible = ((bool)(resources.GetObject("pinButton.Visible")));
-			this.pinButton.Click += new System.EventHandler(this.pinButton_Click);
-			this.pinButton.CheckedChanged += new System.EventHandler(this.pinButton_CheckedChanged);
+			this.label12.AccessibleDescription = resources.GetString("label12.AccessibleDescription");
+			this.label12.AccessibleName = resources.GetString("label12.AccessibleName");
+			this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label12.Anchor")));
+			this.label12.AutoSize = ((bool)(resources.GetObject("label12.AutoSize")));
+			this.label12.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label12.Dock")));
+			this.label12.Enabled = ((bool)(resources.GetObject("label12.Enabled")));
+			this.label12.Font = ((System.Drawing.Font)(resources.GetObject("label12.Font")));
+			this.label12.Image = ((System.Drawing.Image)(resources.GetObject("label12.Image")));
+			this.label12.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label12.ImageAlign")));
+			this.label12.ImageIndex = ((int)(resources.GetObject("label12.ImageIndex")));
+			this.label12.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label12.ImeMode")));
+			this.label12.Location = ((System.Drawing.Point)(resources.GetObject("label12.Location")));
+			this.label12.Name = "label12";
+			this.label12.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label12.RightToLeft")));
+			this.label12.Size = ((System.Drawing.Size)(resources.GetObject("label12.Size")));
+			this.label12.TabIndex = ((int)(resources.GetObject("label12.TabIndex")));
+			this.label12.Text = resources.GetString("label12.Text");
+			this.label12.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label12.TextAlign")));
+			this.label12.Visible = ((bool)(resources.GetObject("label12.Visible")));
 			// 
 			// TestPropertiesDialog
 			// 
@@ -748,8 +809,11 @@ namespace NUnit.UiKit
 			this.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("$this.AutoScrollMinSize")));
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.ClientSize = ((System.Drawing.Size)(resources.GetObject("$this.ClientSize")));
+			this.Controls.Add(this.groupBox2);
+			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.testName);
+			this.Controls.Add(this.testResult);
 			this.Controls.Add(this.pinButton);
-			this.Controls.Add(this.tabControl1);
 			this.Enabled = ((bool)(resources.GetObject("$this.Enabled")));
 			this.Font = ((System.Drawing.Font)(resources.GetObject("$this.Font")));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -766,10 +830,8 @@ namespace NUnit.UiKit
 			this.StartPosition = ((System.Windows.Forms.FormStartPosition)(resources.GetObject("$this.StartPosition")));
 			this.Text = resources.GetString("$this.Text");
 			this.Load += new System.EventHandler(this.TestPropertiesDialog_Load);
-			this.tabControl1.ResumeLayout(false);
-			this.testTab.ResumeLayout(false);
-			this.resultsTab.ResumeLayout(false);
-			this.propertiesTab.ResumeLayout(false);
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox2.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -791,19 +853,11 @@ namespace NUnit.UiKit
 
 		private void SetTitleBarText()
 		{
-			string type;
-			if ( test.IsTestCase )
-				type = "Case";
-			else if ( test.IsFixture )
-				type = "Fixture";
-			else
-				type = "Suite";
-
 			string name = test.Name;
 			int index = name.LastIndexOfAny( new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar } );
 			if ( index >= 0 )
 				name = name.Substring( index + 1 );
-			this.Text = string.Format( "Test {0} Properties - {1}", type, name );
+			this.Text = string.Format( "{0} Properties - {1}", node.TestType, name );
 		}
 
 		/// <summary>
@@ -851,7 +905,10 @@ namespace NUnit.UiKit
 				catText += cat;
 			}
 
-			// Initialize Test Tab
+			testResult.Text = node.StatusText;
+			testName.Text = test.Name;
+
+			testType.Text = node.TestType;
 			fullName.Text = test.FullName;
 			shouldRun.Text = test.ShouldRun ? "Yes" : "No";
 			description.Text = test.Description;
@@ -859,52 +916,19 @@ namespace NUnit.UiKit
 			ignoreReason.Text = test.IgnoreReason;
 			testCaseCount.Text = test.TestCount.ToString();
 
-			// Initialize Result Tab
-			if ( result == null )
-				tabControl1.TabPages.Remove( resultsTab );
-			else
+			message.Text = "";
+			elapsedTime.Text = "Execution Time:";
+			assertCount.Text = "Assert Count:";
+			stackTrace.Text = "";
+
+			if ( result != null )
 			{
-				if ( !tabControl1.TabPages.Contains( resultsTab ) )
-				{
-					tabControl1.TabPages.Add( resultsTab );
-				}
-
-				if ( !result.Executed )
-					testResult.Text = "Not Run";
-				else if ( result.IsFailure )
-					testResult.Text = "Failure";
-				else
-					testResult.Text = "Success";
-
 				// message may have a leading blank line
 				// TODO: take care of this in label?
 				message.Text = TrimLeadingBlankLines( result.Message );
-				elapsedTime.Text = string.Format( "Time: {0}", result.Time );
-				assertCount.Text = string.Format( "Asserts: {0}", result.AssertCount );
+				elapsedTime.Text = string.Format( "Execution Time: {0}", result.Time );
+				assertCount.Text = string.Format( "Assert Count: {0}", result.AssertCount );
 				stackTrace.Text = result.StackTrace;
-			}
-
-			// Initialize Properties Tab
-			if ( test.Properties.Count == 0 )
-				tabControl1.TabPages.Remove( propertiesTab );
-			else
-			{
-				if ( !tabControl1.TabPages.Contains( propertiesTab ) )
-					tabControl1.TabPages.Add( propertiesTab );
-
-				propertiesList.Clear();
-				propertiesList.View = View.Details;
-				propertiesList.Columns.Add( "Name", 100, HorizontalAlignment.Left );
-				propertiesList.Columns.Add( "Value", 200, HorizontalAlignment.Left );
-				propertiesList.GridLines = true;
-
-				int index = 0;
-				foreach( string key in test.Properties.Keys )
-				{
-					propertiesList.Items.Add( key );
-					propertiesList.Items[index].SubItems.Add( test.Properties[key].ToString() );
-					++index;
-				}
 			}
 		}
 
@@ -957,6 +981,11 @@ namespace NUnit.UiKit
 		}
 
 		private void pinButton_CheckedChanged(object sender, System.EventArgs e)
+		{
+		
+		}
+
+		private void label5_Click(object sender, System.EventArgs e)
 		{
 		
 		}

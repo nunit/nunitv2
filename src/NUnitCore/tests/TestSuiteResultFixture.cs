@@ -41,22 +41,22 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class TestSuiteResultFixture
 	{
-		private TestCaseResult testCase;
+		//private TestCaseResult testCase;
 
-		private TestSuiteResult MockSuiteResult()
+		private TestSuiteResult MockSuiteResult( bool failure )
 		{
-			TestSuiteResult result = new TestSuiteResult("base");
+			TestCaseResult testCaseResult = new TestCaseResult("a test case");
+			if ( failure ) testCaseResult.Failure( "case failed", null );
 
 			TestSuiteResult level1SuiteA = new TestSuiteResult("level 1 A");
-			result.AddResult(level1SuiteA);
+			level1SuiteA.AddResult(testCaseResult);
 
 			TestSuiteResult level1SuiteB = new TestSuiteResult("level 1 B");
-			result.AddResult(level1SuiteB);
-
-			testCase = new TestCaseResult("a test case");
-			level1SuiteA.AddResult(testCase);
-
 			level1SuiteB.AddResult(new TestCaseResult("a successful test"));
+
+			TestSuiteResult result = new TestSuiteResult("base");
+			result.AddResult(level1SuiteA);
+			result.AddResult(level1SuiteB);
 
 			return result;
 		}
@@ -71,15 +71,16 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void SuiteSuccess()
 		{
-			Assert.IsTrue(MockSuiteResult().IsSuccess);
+			Assert.IsTrue(MockSuiteResult( false ).IsSuccess);
 		}
 
 		[Test]
 		public void TestSuiteFailure()
 		{
-			TestSuiteResult result = MockSuiteResult();
-			AssertionException failure = new AssertionException("an assertion failed error");
-			testCase.Failure(failure.Message, failure.StackTrace);
+//			AssertionException failure = new AssertionException("an assertion failed error");
+//			testCase.Failure(failure.Message, failure.StackTrace);
+
+			TestSuiteResult result = MockSuiteResult( true );
 			
 			Assert.IsTrue(result.IsFailure);
 			Assert.IsFalse(result.IsSuccess); 

@@ -77,6 +77,7 @@ namespace NUnit.Core
             switch (this.RunState)
             {
                 case RunState.Runnable:
+				case RunState.Explicit:
                     if (this.Parent != null && this.Parent.SetUpFailed)
                         testResult.Failure("TestFixtureSetUp Failed", null);
                     else

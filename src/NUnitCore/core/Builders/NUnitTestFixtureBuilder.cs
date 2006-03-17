@@ -81,6 +81,8 @@ namespace NUnit.Core.Builders
 
 				suite.Categories = CategoryManager.GetCategories( type );	
 				suite.IsExplicit = Reflect.HasAttribute( type, "NUnit.Framework.ExplicitAttribute", false );
+				if ( suite.IsExplicit )
+					suite.RunState = RunState.Explicit;
 				
 				System.Attribute[] attributes = 
 					Reflect.GetAttributes( type, "NUnit.Framework.PropertyAttribute", false );

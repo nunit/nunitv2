@@ -16,7 +16,7 @@ namespace NUnit.Core.Tests.SetupFixture
 
         private TestResult runTests(string nameSpace)
         {
-            return runTests(nameSpace, null);
+            return runTests(nameSpace, TestFilter.Empty);
         }
         private TestResult runTests(string nameSpace,TestFilter filter)
         {

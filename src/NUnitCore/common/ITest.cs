@@ -31,6 +31,16 @@ using System.Collections;
 
 namespace NUnit.Core
 {
+	public enum RunState
+	{
+		NotRunnable,
+		Runnable,
+		Explicit,
+		Skipped,
+		Ignored,
+		Executed
+	}
+
 	/// <summary>
 	/// Common interface supported by all representations
 	/// of a test. Only includes informational fields.

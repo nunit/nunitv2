@@ -32,21 +32,11 @@ namespace NUnit.Core
 	using System;
 	using System.Text;
 
-	public enum RunState
-	{
-        NotRunnable,
-		Runnable,
-		Skipped,
-		Ignored,
-        Executed
-	}
-
 	public enum ResultState
 	{
-		NotRun,
 		Success,
 		Failure,
-		Error
+		Error,
 	}
 
 	/// <summary>

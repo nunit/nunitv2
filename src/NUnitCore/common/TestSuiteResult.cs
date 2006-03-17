@@ -54,25 +54,10 @@ namespace NUnit.Core
 		public void AddResult(TestResult result) 
 		{
 			results.Add(result);
-		}
 
-		/// <summary>
-		/// A suite is considered as failing if it is marked as a failure - usually
-		/// because TestFixtureSetUp or TestFixtureTearDown failed - or if one of the
-		/// tests it contains failed. 
-		/// </summary>
-		public override bool IsFailure
-		{
-			get 
+			if ( result.IsFailure && !this.IsFailure )
 			{
-				if ( base.IsFailure )
-					return true;
-
-				foreach(TestResult testResult in results)
-					if ( testResult.IsFailure )
-						return true;
-
-				return false;
+				this.Failure( "Child test failed", null );
 			}
 		}
 

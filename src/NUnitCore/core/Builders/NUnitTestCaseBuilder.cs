@@ -81,6 +81,8 @@ namespace NUnit.Core.Builders
 
 				testCase.Categories = CategoryManager.GetCategories( method );
 				testCase.IsExplicit = Reflect.HasAttribute( method, "NUnit.Framework.ExplicitAttribute", false );
+				if ( testCase.IsExplicit )
+					testCase.RunState = RunState.Explicit;
 				
 				System.Attribute[] attributes = 
 					Reflect.GetAttributes( method, "NUnit.Framework.PropertyAttribute", false );

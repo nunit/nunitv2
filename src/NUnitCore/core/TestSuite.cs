@@ -236,6 +236,7 @@ namespace NUnit.Core
             switch (this.RunState)
             {
                 case RunState.Runnable:
+				case RunState.Explicit:
                     suiteResult.RunState = RunState.Executed;
                     DoOneTimeSetUp(suiteResult);
                     break;
@@ -285,27 +286,28 @@ namespace NUnit.Core
 			foreach(Test test in ArrayList.Synchronized(Tests))
 			{
 				RunState saveRunState = test.RunState;
+
 				if ( test.ShouldRun && !this.ShouldRun )
 				{
 					test.RunState = this.RunState;
 					test.IgnoreReason = this.IgnoreReason;
 				}
-					
-				if ( filter == null || test.Filter( filter ) )
-				{
-					bool skip = test.IsExplicit 
-						&& ( filter == null || filter is NotFilter || filter.IsEmpty );
 
-					if ( skip )
-					{
-						test.RunState = RunState.Skipped;
-						test.IgnoreReason = EXPLICIT_SELECTION_REQUIRED;
-					}
+				if ( test.Filter( filter ) )
+				{
+//					bool skip = test.IsExplicit 
+//						&& ( filter == null || filter is NotFilter || filter.IsEmpty );
+//
+//					if ( skip )
+//					{
+//						test.RunState = RunState.Skipped;
+//						test.IgnoreReason = EXPLICIT_SELECTION_REQUIRED;
+//					}
 
 					TestResult result = test.Run( listener, filter );
 
-					if ( skip ) 
-						result.RunState = RunState.Skipped;
+//					if ( skip ) 
+//						result.RunState = RunState.Skipped;
 					suiteResult.AddResult( result );
 				}
 				

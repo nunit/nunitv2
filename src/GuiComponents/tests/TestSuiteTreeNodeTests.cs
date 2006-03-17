@@ -71,12 +71,15 @@ namespace NUnit.UiKit.Tests
 			
 			node = new TestSuiteTreeNode( suiteInfo );
 			Assert.AreEqual( "MyTestSuite", node.Text );
+			Assert.AreEqual( "Test Suite", node.TestType );
 
 			node = new TestSuiteTreeNode( fixtureInfo );
 			Assert.AreEqual( "MockTestFixture", node.Text );
+			Assert.AreEqual( "Test Fixture", node.TestType );
 
 			node = new TestSuiteTreeNode( testCaseInfo );
 			Assert.AreEqual( "MockTest1", node.Text );
+			Assert.AreEqual( "Test Case", node.TestType );
 		}
 
 		[Test]
@@ -115,10 +118,11 @@ namespace NUnit.UiKit.Tests
 			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", node.Result.Name );
 			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.SelectedImageIndex );
+			Assert.AreEqual( "Runnable", node.StatusText );
 		}
 
 		[Test]
-		public void SetResult_NotRun()
+		public void SetResult_Ignore()
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
 			TestCaseResult result = new TestCaseResult( testCaseInfo );
@@ -128,6 +132,7 @@ namespace NUnit.UiKit.Tests
 			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", node.Result.Name );
 			Assert.AreEqual( TestSuiteTreeNode.IgnoredIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.IgnoredIndex, node.SelectedImageIndex );
+			Assert.AreEqual( "Ignored", node.StatusText );
 		}
 
 		[Test]
@@ -140,6 +145,7 @@ namespace NUnit.UiKit.Tests
 			node.SetResult( result );
 			Assert.AreEqual( TestSuiteTreeNode.SuccessIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.SuccessIndex, node.SelectedImageIndex );
+			Assert.AreEqual( "Success", node.StatusText );
 		}
 
 		[Test]
@@ -152,6 +158,7 @@ namespace NUnit.UiKit.Tests
 			node.SetResult( result );
 			Assert.AreEqual( TestSuiteTreeNode.FailureIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.FailureIndex, node.SelectedImageIndex );
+			Assert.AreEqual( "Failure", node.StatusText );
 		}
 
 		[Test]
@@ -164,6 +171,7 @@ namespace NUnit.UiKit.Tests
 			node.SetResult( result );
 			Assert.AreEqual( TestSuiteTreeNode.SkippedIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.SkippedIndex, node.SelectedImageIndex );
+			Assert.AreEqual( "Skipped", node.StatusText );
 		}
 
 		[Test]

@@ -34,7 +34,7 @@ namespace NUnit.UiKit
 	using System.Drawing;
 	using NUnit.Core;
 	using NUnit.Util;
-	
+
 	/// <summary>
 	/// Type safe TreeNode for use in the TestSuiteTreeView. 
 	/// NOTE: Hides some methods and properties of base class.
@@ -116,29 +116,32 @@ namespace NUnit.UiKit
 			get { return this.result; }
 		}
 
-//		/// <summary>
-//		/// Property used for multiple selection
-//		/// </summary>
-//		public bool Selected
-//		{
-//			get { return selected; }
-//			set
-//			{
-//	
-//				selected=value;
-//
-//				if ( selected )
-//				{
-//					this.BackColor = SystemColors.Highlight;
-//					this.ForeColor = SystemColors.HighlightText;
-//				}
-//				else
-//				{
-//					this.BackColor = SystemColors.Window;
-//					this.ForeColor = SystemColors.WindowText;
-//				}
-//			}
-//		}
+		public string TestType
+		{
+			get
+			{
+				if ( test.IsTestCase )
+					return "Test Case";
+				else if ( test.IsFixture )
+					return "Test Fixture";
+				else
+					return "Test Suite";
+			}
+		}
+
+		public string StatusText
+		{
+			get
+			{
+				if ( result == null )
+					return test.RunState.ToString();
+
+				if ( !result.Executed )
+					return result.RunState.ToString();
+				
+				return result.ResultState.ToString();
+			}
+		}
 
 		public bool Included
 		{

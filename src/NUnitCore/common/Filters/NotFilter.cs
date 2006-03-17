@@ -17,7 +17,7 @@ namespace NUnit.Core.Filters
 
 		public override bool Pass( ITest test )
 		{
-			return !baseFilter.Pass( test );
+			return !test.IsExplicit && !baseFilter.Pass( test );
 		}
  	}
 }
