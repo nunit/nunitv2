@@ -74,7 +74,6 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)GuiRunner\nunit-gui-exe\$(OutDir)</PostBuildEvent>
   </PropertyGroup>
 </Project>

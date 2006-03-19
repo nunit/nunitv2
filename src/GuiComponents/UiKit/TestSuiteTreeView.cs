@@ -163,6 +163,22 @@ namespace NUnit.UiKit
 			this.DoubleClick += new System.EventHandler(this.TestSuiteTreeView_DoubleClick);
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.TestSuiteTreeView_DragEnter);
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.TestSuiteTreeView_DragDrop);
+
+			// See if there are any overriding images in the directory;
+			Uri myUri = new Uri( System.Reflection.Assembly.GetExecutingAssembly().CodeBase );
+			string imageDir = Path.GetDirectoryName( myUri.LocalPath );
+			
+			string successFile = Path.Combine( imageDir, "Success.jpg" );
+			if ( File.Exists( successFile ) )
+				treeImages.Images[TestSuiteTreeNode.SuccessIndex] = Image.FromFile( successFile );
+
+			string failureFile = Path.Combine( imageDir, "Failure.jpg" );
+			if ( File.Exists( failureFile ) )
+				treeImages.Images[TestSuiteTreeNode.FailureIndex] = Image.FromFile( failureFile );
+			
+			string ignoredFile = Path.Combine( imageDir, "Ignored.jpg" );
+			if ( File.Exists( ignoredFile ) )
+				treeImages.Images[TestSuiteTreeNode.IgnoredIndex] = Image.FromFile( ignoredFile );
 		}
 
 		public void Initialize( ITestLoader loader, ITestEvents events )
@@ -498,6 +514,21 @@ namespace NUnit.UiKit
 				"&Properties", new EventHandler( propertiesMenuItem_Click ) );
 			
 			this.ContextMenu.MenuItems.Add( propertiesMenuItem );
+
+			MenuItem saveImagesMenuItem = new MenuItem(
+				"Save Images", new EventHandler( saveImagesMenuItem_Click ) );
+
+			this.ContextMenu.MenuItems.Add( saveImagesMenuItem );
+		}
+
+		private void saveImagesMenuItem_Click(object sender, System.EventArgs e)
+		{
+			int n = 0;
+			foreach( Image image in treeImages.Images )
+			{
+				string filename = string.Format( @"C:\Image{0}.png", n++ );
+				image.Save( filename, System.Drawing.Imaging.ImageFormat.Png );
+			}
 		}
 
 		/// <summary>

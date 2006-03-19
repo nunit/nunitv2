@@ -156,6 +156,17 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
+		/// Load the value of one of the group's boolean settings
+		/// in a type-safe manner.
+		/// </summary>
+		/// <param name="settingName">Name of setting to load</param>
+		/// <returns>Value of the setting</returns>
+		public bool LoadBooleanSetting( string settingName )
+		{
+			return LoadIntSetting( settingName ) == 1 ? true : false;
+		}
+
+		/// <summary>
 		/// Load the value of one of the group's string settings
 		/// in a type-safe manner.
 		/// </summary>
@@ -187,6 +198,18 @@ namespace NUnit.Util
 		public int LoadIntSetting( string settingName, int defaultValue )
 		{
 			return storageImpl.LoadIntSetting( settingName, defaultValue );
+		}
+
+		/// <summary>
+		/// Load the value of one of the group's boolean settings
+		/// in a type-safe manner.
+		/// </summary>
+		/// <param name="settingName">Name of setting to load</param>
+		/// <param name="defaultValue">Value of the setting or the default</param>
+		/// <returns>Value of the setting</returns>
+		public bool LoadBooleanSetting( string settingName, bool defaultValue )
+		{
+			return LoadIntSetting( settingName, defaultValue ? 1 : 0 ) == 1 ? true : false;
 		}
 
 		/// <summary>
@@ -229,6 +252,17 @@ namespace NUnit.Util
 		public void SaveIntSetting( string settingName, int settingValue )
 		{
 			storageImpl.SaveSetting( settingName, settingValue );
+		}
+
+		/// <summary>
+		/// Save the value of one of the group's integer settings
+		/// in a type-safe manner.
+		/// </summary>
+		/// <param name="settingName">Name of the setting to save</param>
+		/// <param name="settingValue">Value to be saved</param>
+		public void SaveBooleanSetting( string settingName, bool settingValue )
+		{
+			storageImpl.SaveSetting( settingName, settingValue ? 1 : 0 );
 		}
 
 		/// <summary>

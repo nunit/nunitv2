@@ -40,6 +40,8 @@ namespace NUnit.Gui
 	{
 		private static readonly string NAME = "Form";
 
+		private static readonly string FULL_DISPLAY = "full-display";
+
 		private static readonly string MAXIMIZED = "maximized";
 		private static readonly string WIDTH = "width";
 		private static readonly string HEIGHT = "height";
@@ -47,6 +49,10 @@ namespace NUnit.Gui
 		private static readonly string YLOCATION = "y-location";
 		private static readonly string TREE_SPLITTER_POSITION = "tree-splitter-position";
 		private static readonly string TAB_SPLITTER_POSITION = "tab-splitter-position";
+
+		private static readonly string MINI_WIDTH = "mini-width";
+		private static readonly string MINI_HEIGHT = "mini-HEIGHT";
+		private static readonly int DEFAULT_MINI_WIDTH = 300;
 
 		public static readonly int DEFAULT_WIDTH = 756;
 		public static readonly int MIN_WIDTH = 160;
@@ -75,17 +81,16 @@ namespace NUnit.Gui
 		private int treeSplitterPosition = -1;
 		private int tabSplitterPosition = -1;
 
+		public bool FullDisplay
+		{
+			get	{ return LoadBooleanSetting( FULL_DISPLAY, true ) ;	}
+			set { SaveBooleanSetting( FULL_DISPLAY, value ); }
+		}
+
 		public bool IsMaximized
 		{
-			get
-			{
-				return LoadIntSetting( MAXIMIZED, 0 ) == 1 ? true : false;
-			}
-
-			set
-			{
-				SaveIntSetting( MAXIMIZED, value ? 1 : 0 );
-			}
+			get { return LoadBooleanSetting( MAXIMIZED, false ); }
+			set	{ SaveBooleanSetting( MAXIMIZED, value ); }
 		}
 
 		public Point Location
@@ -125,9 +130,13 @@ namespace NUnit.Gui
 		{
 			get 
 			{ 
-				int width = LoadIntSetting( WIDTH, DEFAULT_WIDTH );
+				int width = FullDisplay
+					? LoadIntSetting( WIDTH, DEFAULT_WIDTH )
+					: LoadIntSetting( MINI_WIDTH, DEFAULT_MINI_WIDTH );
 				if ( width < MIN_WIDTH ) width = MIN_WIDTH;
-				int height = LoadIntSetting( HEIGHT, DEFAULT_HEIGHT );
+				int height = FullDisplay
+					? LoadIntSetting( HEIGHT, DEFAULT_HEIGHT )
+					: LoadIntSetting( MINI_HEIGHT, DEFAULT_HEIGHT );
 				if ( height < MIN_HEIGHT ) height = MIN_HEIGHT;
 
 				size = new Size(width, height);
@@ -136,8 +145,8 @@ namespace NUnit.Gui
 			set
 			{ 
 				size = value;
-				SaveIntSetting( WIDTH, size.Width );
-				SaveIntSetting( HEIGHT, size.Height );
+				SaveIntSetting( FullDisplay ? WIDTH : MINI_WIDTH, size.Width );
+				SaveIntSetting( FullDisplay ? HEIGHT : MINI_HEIGHT, size.Height );
 			}
 		}
 
@@ -176,6 +185,48 @@ namespace NUnit.Gui
 			{ 
 				tabSplitterPosition = value;
 				SaveSetting( TAB_SPLITTER_POSITION, tabSplitterPosition );
+			}
+		}
+
+		public bool DisplayErrorsTab
+		{
+			get { return LoadBooleanSetting( "errors-tab", true ); }
+			set { SaveBooleanSetting( "errors-tab", value ); }
+		}
+
+		public bool DisplayNotRunTab
+		{
+			get { return LoadBooleanSetting( "notrun-tab", true ); }
+			set { SaveBooleanSetting( "notrun-tab", value ); }
+		}
+
+		public bool DisplayConsoleOutTab
+		{
+			get { return LoadBooleanSetting( "stdout-tab", true ); }
+			set { SaveBooleanSetting( "stdout-tab", value ); }
+		}
+
+		public bool DisplayConsoleErrorTab
+		{
+			get { return LoadBooleanSetting( "stderr-tab", true ); }
+			set { SaveBooleanSetting( "stderr-tab", value ); }
+		}
+
+		public Font Font
+		{
+			get
+			{
+				string fontFamily = LoadStringSetting( "font-family", "Microsoft Sans Serif" );
+				string fontSize = LoadStringSetting( "font-size", "7.8" );
+				float emSize = float.Parse( fontSize );
+				FontStyle fontStyle = (FontStyle)LoadIntSetting( "font-style", (int)FontStyle.Regular );
+				return new Font( fontFamily, emSize, fontStyle );
+			}
+			set
+			{
+				SaveStringSetting( "font-family", value.FontFamily.Name );
+				SaveStringSetting( "font-size", value.SizeInPoints.ToString() );
+				SaveIntSetting( "font-style", (int)value.Style );
 			}
 		}
 	}

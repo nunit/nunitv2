@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = ""
+                PostBuildEvent = "copy $(ProjectDir)Success.jpg $(SolutionDir)GuiRunner\nunit-gui-exe\$(OutDir)&#xd;&#xa;copy $(ProjectDir)Failure.jpg $(SolutionDir)GuiRunner\nunit-gui-exe\$(OutDir)&#xd;&#xa;copy $(ProjectDir)Ignored.jpg $(SolutionDir)GuiRunner\nunit-gui-exe\$(OutDir)&#xd;&#xa;"
                 RootNamespace = "NUnit.UiKit"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -184,6 +184,10 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "Failure.jpg"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "FolderBrowser.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -193,13 +197,13 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "Green.jpg"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "GuiTestEventDispatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Ignored.jpg"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "NotRunTree.cs"
@@ -226,10 +230,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Red.jpg"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "RenameConfigurationDialog.cs"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -248,6 +248,10 @@
                     RelPath = "StatusBar.resx"
                     DependentUpon = "StatusBar.cs"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "Success.jpg"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "TestLoaderUI.cs"
@@ -322,10 +326,6 @@
                     RelPath = "WaitCursor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Yellow.jpg"
-                    BuildAction = "EmbeddedResource"
                 />
             </Include>
         </Files>

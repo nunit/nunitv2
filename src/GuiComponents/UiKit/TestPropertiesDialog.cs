@@ -32,6 +32,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Text;
 using System.IO;
+using System.Collections;
 using NUnit.Core;
 
 namespace NUnit.UiKit
@@ -76,6 +77,8 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.Label elapsedTime;
 		private CP.Windows.Forms.ExpandingLabel message;
 		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.Label label11;
+		private System.Windows.Forms.Label properties;
 		private System.ComponentModel.IContainer components = null;
 
 		#endregion
@@ -125,6 +128,8 @@ namespace NUnit.UiKit
 			this.testResult = new System.Windows.Forms.Label();
 			this.testName = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.properties = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
 			this.ignoreReason = new CP.Windows.Forms.ExpandingLabel();
 			this.label5 = new System.Windows.Forms.Label();
 			this.testType = new System.Windows.Forms.Label();
@@ -230,6 +235,8 @@ namespace NUnit.UiKit
 			this.groupBox1.AccessibleName = resources.GetString("groupBox1.AccessibleName");
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox1.Anchor")));
 			this.groupBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox1.BackgroundImage")));
+			this.groupBox1.Controls.Add(this.properties);
+			this.groupBox1.Controls.Add(this.label11);
 			this.groupBox1.Controls.Add(this.ignoreReason);
 			this.groupBox1.Controls.Add(this.label5);
 			this.groupBox1.Controls.Add(this.testType);
@@ -256,6 +263,50 @@ namespace NUnit.UiKit
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = resources.GetString("groupBox1.Text");
 			this.groupBox1.Visible = ((bool)(resources.GetObject("groupBox1.Visible")));
+			// 
+			// properties
+			// 
+			this.properties.AccessibleDescription = resources.GetString("properties.AccessibleDescription");
+			this.properties.AccessibleName = resources.GetString("properties.AccessibleName");
+			this.properties.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("properties.Anchor")));
+			this.properties.AutoSize = ((bool)(resources.GetObject("properties.AutoSize")));
+			this.properties.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("properties.Dock")));
+			this.properties.Enabled = ((bool)(resources.GetObject("properties.Enabled")));
+			this.properties.Font = ((System.Drawing.Font)(resources.GetObject("properties.Font")));
+			this.properties.Image = ((System.Drawing.Image)(resources.GetObject("properties.Image")));
+			this.properties.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("properties.ImageAlign")));
+			this.properties.ImageIndex = ((int)(resources.GetObject("properties.ImageIndex")));
+			this.properties.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("properties.ImeMode")));
+			this.properties.Location = ((System.Drawing.Point)(resources.GetObject("properties.Location")));
+			this.properties.Name = "properties";
+			this.properties.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("properties.RightToLeft")));
+			this.properties.Size = ((System.Drawing.Size)(resources.GetObject("properties.Size")));
+			this.properties.TabIndex = ((int)(resources.GetObject("properties.TabIndex")));
+			this.properties.Text = resources.GetString("properties.Text");
+			this.properties.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("properties.TextAlign")));
+			this.properties.Visible = ((bool)(resources.GetObject("properties.Visible")));
+			// 
+			// label11
+			// 
+			this.label11.AccessibleDescription = resources.GetString("label11.AccessibleDescription");
+			this.label11.AccessibleName = resources.GetString("label11.AccessibleName");
+			this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label11.Anchor")));
+			this.label11.AutoSize = ((bool)(resources.GetObject("label11.AutoSize")));
+			this.label11.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label11.Dock")));
+			this.label11.Enabled = ((bool)(resources.GetObject("label11.Enabled")));
+			this.label11.Font = ((System.Drawing.Font)(resources.GetObject("label11.Font")));
+			this.label11.Image = ((System.Drawing.Image)(resources.GetObject("label11.Image")));
+			this.label11.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label11.ImageAlign")));
+			this.label11.ImageIndex = ((int)(resources.GetObject("label11.ImageIndex")));
+			this.label11.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label11.ImeMode")));
+			this.label11.Location = ((System.Drawing.Point)(resources.GetObject("label11.Location")));
+			this.label11.Name = "label11";
+			this.label11.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label11.RightToLeft")));
+			this.label11.Size = ((System.Drawing.Size)(resources.GetObject("label11.Size")));
+			this.label11.TabIndex = ((int)(resources.GetObject("label11.TabIndex")));
+			this.label11.Text = resources.GetString("label11.Text");
+			this.label11.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label11.TextAlign")));
+			this.label11.Visible = ((bool)(resources.GetObject("label11.Visible")));
 			// 
 			// ignoreReason
 			// 
@@ -910,11 +961,20 @@ namespace NUnit.UiKit
 
 			testType.Text = node.TestType;
 			fullName.Text = test.FullName;
-			shouldRun.Text = test.ShouldRun ? "Yes" : "No";
+			shouldRun.Text = test.IsExplicit ? "Explicit" : test.ShouldRun ? "Yes" : "No";
 			description.Text = test.Description;
 			categories.Text = catText;
 			ignoreReason.Text = test.IgnoreReason;
 			testCaseCount.Text = test.TestCount.ToString();
+			if ( test.Properties.Count == 0 )
+				properties.Text = "";
+			else
+			{
+				StringBuilder sb = new StringBuilder();
+				foreach( DictionaryEntry entry in test.Properties )
+					sb.AppendFormat( "{0}={1} ", entry.Key, entry.Value.ToString() );
+				properties.Text = sb.ToString();
+			}
 
 			message.Text = "";
 			elapsedTime.Text = "Execution Time:";

@@ -87,7 +87,7 @@ namespace NUnit.Tests
 			public void MockTest3()
 			{}
 
-			[Test]
+			[Test, Property("TargetMethod", "SomeClassName"), Property("Size", 5), Property("TargetType", typeof( System.Threading.Thread ))]
 			protected void MockTest5()
 			{}
 

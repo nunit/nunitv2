@@ -199,11 +199,15 @@
       <Name>nunit.core.dll_VS2005</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Failure.jpg" />
+    <Content Include="Ignored.jpg" />
+    <Content Include="Success.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy $(ProjectDir)*.jpg $(SolutionDir)GuiRunner\nunit-gui-exe\$(OutDir)</PostBuildEvent>
   </PropertyGroup>
 </Project>

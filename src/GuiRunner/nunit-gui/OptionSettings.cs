@@ -47,8 +47,8 @@ namespace NUnit.Gui
 
 		public bool LoadLastProject
 		{
-			get { return LoadIntSetting( "LoadLastProject", 1 ) != 0; }
-			set { SaveIntSetting( "LoadLastProject", value ? 1 : 0 ); }
+			get { return LoadBooleanSetting( "LoadLastProject", true ); }
+			set { SaveBooleanSetting( "LoadLastProject", value ); }
 		}
 
 		public int InitialTreeDisplay
@@ -59,14 +59,14 @@ namespace NUnit.Gui
 
 		public bool ReloadOnRun
 		{
-			get { return LoadIntSetting( "ReloadOnRun", 1 ) != 0; }
-			set { SaveIntSetting( "ReloadOnRun", value ? 1 : 0 ); }
+			get { return LoadBooleanSetting( "ReloadOnRun", true ); }
+			set { SaveBooleanSetting( "ReloadOnRun", value ); }
 		}
 
 		public bool ShowCheckBoxes
 		{
-			get { return LoadIntSetting( "ShowCheckBoxes", 0 ) != 0; }
-			set { SaveIntSetting( "ShowCheckBoxes", value ? 1 : 0 ); }
+			get { return LoadBooleanSetting( "ShowCheckBoxes", false ); }
+			set { SaveBooleanSetting( "ShowCheckBoxes", value ); }
 		}
 
 		public bool ReloadOnChange
@@ -76,7 +76,7 @@ namespace NUnit.Gui
 				if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
 					return false;
 
-				return LoadIntSetting( "ReloadOnChange", 1 ) != 0; 
+				return LoadBooleanSetting( "ReloadOnChange", true ); 
 			}
 
 			set 
@@ -84,50 +84,50 @@ namespace NUnit.Gui
 				if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
 					return;
 
-				SaveIntSetting( "ReloadOnChange", value ? 1 : 0 ); 
+				SaveBooleanSetting( "ReloadOnChange", value ); 
 			}
 		}
 
 		public bool MergeAssemblies
 		{
-			get { return LoadIntSetting( "MergeAssemblies", 0 ) != 0; }
-			set { SaveIntSetting( "MergeAssemblies", value ? 1 : 0 ); }
+			get { return LoadBooleanSetting( "MergeAssemblies", false ); }
+			set { SaveBooleanSetting( "MergeAssemblies", value ); }
 		}
 
 		public bool AutoNamespaceSuites
 		{
-			get { return LoadIntSetting( "AutoNamespaceSuites", 1 ) != 0; }
-			set { SaveIntSetting( "AutoNamespaceSuites", value ? 1 : 0 ); }
+			get { return LoadBooleanSetting( "AutoNamespaceSuites", true ); }
+			set { SaveBooleanSetting( "AutoNamespaceSuites", value ); }
 		}
 
 		public bool MultiDomain
 		{
-			get { return LoadIntSetting( "MultiDomain", 0 ) != 0; }
-			set { SaveIntSetting( "MultiDomain", value ? 1 : 0 ); }
+			get { return LoadBooleanSetting( "MultiDomain", false ); }
+			set { SaveBooleanSetting( "MultiDomain", value ); }
 		}
 
 		public bool ClearResults
 		{
-			get { return LoadIntSetting( "ClearResults", 1 ) != 0; }
-			set { SaveIntSetting( "ClearResults", value ? 1 : 0 ); }
+			get { return LoadBooleanSetting( "ClearResults", true ); }
+			set { SaveBooleanSetting( "ClearResults", value ); }
 		}
 
 		public bool TestLabels
 		{
-			get { return LoadIntSetting( "TestLabels", 0 ) != 0; }
-			set { SaveIntSetting( "TestLabels", value ? 1 : 0 ); }
+			get { return LoadBooleanSetting( "TestLabels", false ); }
+			set { SaveBooleanSetting( "TestLabels", value ); }
 		}
 
 		public bool FailureToolTips
 		{
-			get { return LoadIntSetting( "FailureToolTips", 1 ) != 0; }
-			set { SaveIntSetting( "FailureToolTips", value ? 1 : 0 ); }
+			get { return LoadBooleanSetting( "FailureToolTips", true ); }
+			set { SaveBooleanSetting( "FailureToolTips", value ); }
 		}
 
 		public bool VisualStudioSupport
 		{
-			get { return LoadIntSetting( "VisualStudioSupport", 0 ) != 0; }
-			set { SaveIntSetting( "VisualStudioSupport", value ? 1 : 0 ); }
+			get { return LoadBooleanSetting( "VisualStudioSupport", false ); }
+			set { SaveBooleanSetting( "VisualStudioSupport", value ); }
 		}
 	}
 }
