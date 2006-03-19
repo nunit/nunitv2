@@ -147,6 +147,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-assembly", "tests\test
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.extensions.dll", "NUnitExtensions\framework\nunit.framework.extensions.dll.csproj", "{486C498D-B9F8-477F-ACA7-CED9245BBFCF}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -267,6 +271,10 @@ Global
 		{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}.Debug.Build.0 = Debug|.NET
 		{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}.Release.ActiveCfg = Release|.NET
 		{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}.Release.Build.0 = Release|.NET
+		{486C498D-B9F8-477F-ACA7-CED9245BBFCF}.Debug.ActiveCfg = Debug|.NET
+		{486C498D-B9F8-477F-ACA7-CED9245BBFCF}.Debug.Build.0 = Debug|.NET
+		{486C498D-B9F8-477F-ACA7-CED9245BBFCF}.Release.ActiveCfg = Release|.NET
+		{486C498D-B9F8-477F-ACA7-CED9245BBFCF}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		clr.bat = clr.bat

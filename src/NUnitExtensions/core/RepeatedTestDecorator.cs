@@ -1,6 +1,5 @@
 using System;
 using System.Reflection;
-using NUnit.Framework.Extensions;
 
 namespace NUnit.Core.Extensions
 {
@@ -10,7 +9,7 @@ namespace NUnit.Core.Extensions
 	[TestDecorator]
 	public class RepeatedTestDecorator : ITestDecorator
 	{
-		private static readonly string RepeatAttributeType = typeof( RepeatAttribute ).FullName;
+		private static readonly string RepeatAttributeType = "NUnit.Framework.Extensions.RepeatAttribute";
 
 		#region ITestDecorator Members
 		public TestCase Decorate(TestCase testCase, MethodInfo method)

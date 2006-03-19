@@ -54,7 +54,6 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="RepeatAttribute.cs" />
     <Compile Include="RepeatedTestCase.cs">
       <SubType>Code</SubType>
     </Compile>
