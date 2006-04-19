@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.IO;
 
 namespace NUnit.Util.Tests
 {
@@ -39,23 +40,29 @@ namespace NUnit.Util.Tests
 		public static readonly string EmptyProject = "<NUnitProject />";
 		
 		public static readonly string EmptyConfigs = 
-			"<NUnitProject>\r\n" +
-			"  <Settings activeconfig=\"Debug\" />\r\n" +
-			"  <Config name=\"Debug\" binpathtype=\"Auto\" />\r\n" +
-			"  <Config name=\"Release\" binpathtype=\"Auto\" />\r\n" +
+			"<NUnitProject>" + System.Environment.NewLine +
+			"  <Settings activeconfig=\"Debug\" />" + System.Environment.NewLine +
+			"  <Config name=\"Debug\" binpathtype=\"Auto\" />" + System.Environment.NewLine +
+			"  <Config name=\"Release\" binpathtype=\"Auto\" />" + System.Environment.NewLine +
 			"</NUnitProject>";
 		
 		public static readonly string NormalProject =
-			"<NUnitProject>\r\n" +
-			"  <Settings activeconfig=\"Debug\" />\r\n" +
-			"  <Config name=\"Debug\" appbase=\"bin\\debug\" binpathtype=\"Auto\">\r\n" +
-			"    <assembly path=\"assembly1.dll\" />\r\n" +
-			"    <assembly path=\"assembly2.dll\" />\r\n" +
-			"  </Config>\r\n" +
-			"  <Config name=\"Release\" appbase=\"bin\\release\" binpathtype=\"Auto\">\r\n" +
-			"    <assembly path=\"assembly1.dll\" />\r\n" +
-			"    <assembly path=\"assembly2.dll\" />\r\n" +
-			"  </Config>\r\n" +
+			"<NUnitProject>" + System.Environment.NewLine +
+			"  <Settings activeconfig=\"Debug\" />" + System.Environment.NewLine +
+			"  <Config name=\"Debug\" appbase=\"bin" + Path.DirectorySeparatorChar + "debug\" binpathtype=\"Auto\">" + System.Environment.NewLine +
+			"    <assembly path=\"assembly1.dll\" />" + System.Environment.NewLine +
+			"    <assembly path=\"assembly2.dll\" />" + System.Environment.NewLine +
+			"  </Config>" + System.Environment.NewLine +
+			"  <Config name=\"Release\" appbase=\"bin" + Path.DirectorySeparatorChar + "release\" binpathtype=\"Auto\">" + System.Environment.NewLine +
+			"    <assembly path=\"assembly1.dll\" />" + System.Environment.NewLine +
+			"    <assembly path=\"assembly2.dll\" />" + System.Environment.NewLine +
+			"  </Config>" + System.Environment.NewLine +
+			"</NUnitProject>";
+		
+		public static readonly string ManualBinPathProject =
+			"<NUnitProject>" + System.Environment.NewLine +
+			"  <Settings activeconfig=\"Debug\" />" + System.Environment.NewLine +
+			"  <Config name=\"Debug\" binpath=\"bin_path_value\"  /> " + System.Environment.NewLine +
 			"</NUnitProject>";
 	}
 }

@@ -553,6 +553,7 @@ namespace NUnit.Util
 									currentConfig.ConfigurationFile = reader.GetAttribute( "configfile" );
 
 									string binpath = reader.GetAttribute( "binpath" );
+									currentConfig.PrivateBinPath = binpath;
 									string type = reader.GetAttribute( "binpathtype" );
 									if ( type == null )
 										if ( binpath == null )

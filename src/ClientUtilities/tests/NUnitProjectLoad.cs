@@ -91,13 +91,22 @@ namespace NUnit.Util.Tests
 
 			ProjectConfig config1 = project.Configs["Debug"];
 			Assert.AreEqual( 2, config1.Assemblies.Count );
-			Assert.AreEqual( Path.GetFullPath( @"bin\debug\assembly1.dll" ), config1.Assemblies[0].FullPath );
-			Assert.AreEqual( Path.GetFullPath( @"bin\debug\assembly2.dll" ), config1.Assemblies[1].FullPath );
+			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly1.dll" ), config1.Assemblies[0].FullPath );
+			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly2.dll" ), config1.Assemblies[1].FullPath );
 
 			ProjectConfig config2 = project.Configs["Release"];
 			Assert.AreEqual( 2, config2.Assemblies.Count );
-			Assert.AreEqual( Path.GetFullPath( @"bin\release\assembly1.dll" ), config2.Assemblies[0].FullPath );
-			Assert.AreEqual( Path.GetFullPath( @"bin\release\assembly2.dll" ), config2.Assemblies[1].FullPath );
+			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "release" + Path.DirectorySeparatorChar + "assembly1.dll" ), config2.Assemblies[0].FullPath );
+			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "release" + Path.DirectorySeparatorChar + "assembly2.dll" ), config2.Assemblies[1].FullPath );
+		}
+
+		[Test]
+		public void LoadProjectWithManualBinPath()
+		{
+			LoadProject( NUnitProjectXml.ManualBinPathProject );
+			Assert.AreEqual( 1, project.Configs.Count );
+			ProjectConfig config1 = project.Configs["Debug"];
+			Assert.AreEqual( "bin_path_value", config1.PrivateBinPath );
 		}
 
 		[Test]
