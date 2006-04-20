@@ -51,6 +51,34 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="..\..\GuiComponents\UiKit\Failure.jpg">
+      <Link>Failure.jpg</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\GuiComponents\UiKit\Gray.jpg">
+      <Link>Gray.jpg</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\GuiComponents\UiKit\Green.jpg">
+      <Link>Green.jpg</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\GuiComponents\UiKit\Ignored.jpg">
+      <Link>Ignored.jpg</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\GuiComponents\UiKit\Red.jpg">
+      <Link>Red.jpg</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\GuiComponents\UiKit\Success.jpg">
+      <Link>Success.jpg</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\GuiComponents\UiKit\Yellow.jpg">
+      <Link>Yellow.jpg</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="App.ico" />
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
@@ -63,6 +91,10 @@
     <ProjectReference Include="..\..\GuiComponents\UiKit\nunit.uikit.dll_VS2005.csproj">
       <Project>{27531BBF-183D-4C3A-935B-D840B9F1A3A4}</Project>
       <Name>nunit.uikit.dll_VS2005</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NUnitExtensions\core\nunit.core.extensions.dll_VS2005.csproj">
+      <Project>{98B10E98-003C-45A0-9587-119142E39986}</Project>
+      <Name>nunit.core.extensions.dll_VS2005</Name>
     </ProjectReference>
     <ProjectReference Include="..\nunit-gui\nunit-gui_VS2005.csproj">
       <Project>{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}</Project>
