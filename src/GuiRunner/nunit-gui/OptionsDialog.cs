@@ -75,6 +75,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.GroupBox groupBox7;
 		private System.Windows.Forms.RadioButton autoNamespaceSuites;
 		private System.Windows.Forms.RadioButton flatTestList;
+		private System.Windows.Forms.CheckBox rerunOnChangeCheckBox;
 
 		private UserSettings _userSettings;
 		private UserSettings UserSettings
@@ -145,13 +146,14 @@ namespace NUnit.Gui
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.flatTestList = new System.Windows.Forms.RadioButton();
+			this.autoNamespaceSuites = new System.Windows.Forms.RadioButton();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
 			this.mergeAssembliesCheckBox = new System.Windows.Forms.CheckBox();
 			this.singleDomainRadioButton = new System.Windows.Forms.RadioButton();
 			this.multiDomainRadioButton = new System.Windows.Forms.RadioButton();
-			this.groupBox7 = new System.Windows.Forms.GroupBox();
-			this.autoNamespaceSuites = new System.Windows.Forms.RadioButton();
-			this.flatTestList = new System.Windows.Forms.RadioButton();
+			this.rerunOnChangeCheckBox = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -160,8 +162,8 @@ namespace NUnit.Gui
 			this.tabPage1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
 			this.tabPage2.SuspendLayout();
-			this.groupBox6.SuspendLayout();
 			this.groupBox7.SuspendLayout();
+			this.groupBox6.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// okButton
@@ -311,6 +313,7 @@ namespace NUnit.Gui
 			this.reloadOnChangeCheckBox.Text = resources.GetString("reloadOnChangeCheckBox.Text");
 			this.reloadOnChangeCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("reloadOnChangeCheckBox.TextAlign")));
 			this.reloadOnChangeCheckBox.Visible = ((bool)(resources.GetObject("reloadOnChangeCheckBox.Visible")));
+			this.reloadOnChangeCheckBox.CheckedChanged += new System.EventHandler(this.reloadOnChangeCheckBox_CheckedChanged);
 			// 
 			// label1
 			// 
@@ -544,6 +547,7 @@ namespace NUnit.Gui
 			this.groupBox2.AccessibleName = resources.GetString("groupBox2.AccessibleName");
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox2.Anchor")));
 			this.groupBox2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox2.BackgroundImage")));
+			this.groupBox2.Controls.Add(this.rerunOnChangeCheckBox);
 			this.groupBox2.Controls.Add(this.reloadOnRunCheckBox);
 			this.groupBox2.Controls.Add(this.reloadOnChangeCheckBox);
 			this.groupBox2.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("groupBox2.Dock")));
@@ -787,6 +791,89 @@ namespace NUnit.Gui
 			this.tabPage2.ToolTipText = resources.GetString("tabPage2.ToolTipText");
 			this.tabPage2.Visible = ((bool)(resources.GetObject("tabPage2.Visible")));
 			// 
+			// groupBox7
+			// 
+			this.groupBox7.AccessibleDescription = resources.GetString("groupBox7.AccessibleDescription");
+			this.groupBox7.AccessibleName = resources.GetString("groupBox7.AccessibleName");
+			this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox7.Anchor")));
+			this.groupBox7.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox7.BackgroundImage")));
+			this.groupBox7.Controls.Add(this.flatTestList);
+			this.groupBox7.Controls.Add(this.autoNamespaceSuites);
+			this.groupBox7.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("groupBox7.Dock")));
+			this.groupBox7.Enabled = ((bool)(resources.GetObject("groupBox7.Enabled")));
+			this.groupBox7.Font = ((System.Drawing.Font)(resources.GetObject("groupBox7.Font")));
+			this.helpProvider1.SetHelpKeyword(this.groupBox7, resources.GetString("groupBox7.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.groupBox7, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("groupBox7.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.groupBox7, resources.GetString("groupBox7.HelpString"));
+			this.groupBox7.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("groupBox7.ImeMode")));
+			this.groupBox7.Location = ((System.Drawing.Point)(resources.GetObject("groupBox7.Location")));
+			this.groupBox7.Name = "groupBox7";
+			this.groupBox7.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("groupBox7.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.groupBox7, ((bool)(resources.GetObject("groupBox7.ShowHelp"))));
+			this.groupBox7.Size = ((System.Drawing.Size)(resources.GetObject("groupBox7.Size")));
+			this.groupBox7.TabIndex = ((int)(resources.GetObject("groupBox7.TabIndex")));
+			this.groupBox7.TabStop = false;
+			this.groupBox7.Text = resources.GetString("groupBox7.Text");
+			this.groupBox7.Visible = ((bool)(resources.GetObject("groupBox7.Visible")));
+			// 
+			// flatTestList
+			// 
+			this.flatTestList.AccessibleDescription = resources.GetString("flatTestList.AccessibleDescription");
+			this.flatTestList.AccessibleName = resources.GetString("flatTestList.AccessibleName");
+			this.flatTestList.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("flatTestList.Anchor")));
+			this.flatTestList.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("flatTestList.Appearance")));
+			this.flatTestList.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("flatTestList.BackgroundImage")));
+			this.flatTestList.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("flatTestList.CheckAlign")));
+			this.flatTestList.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("flatTestList.Dock")));
+			this.flatTestList.Enabled = ((bool)(resources.GetObject("flatTestList.Enabled")));
+			this.flatTestList.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("flatTestList.FlatStyle")));
+			this.flatTestList.Font = ((System.Drawing.Font)(resources.GetObject("flatTestList.Font")));
+			this.helpProvider1.SetHelpKeyword(this.flatTestList, resources.GetString("flatTestList.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.flatTestList, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("flatTestList.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.flatTestList, resources.GetString("flatTestList.HelpString"));
+			this.flatTestList.Image = ((System.Drawing.Image)(resources.GetObject("flatTestList.Image")));
+			this.flatTestList.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("flatTestList.ImageAlign")));
+			this.flatTestList.ImageIndex = ((int)(resources.GetObject("flatTestList.ImageIndex")));
+			this.flatTestList.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("flatTestList.ImeMode")));
+			this.flatTestList.Location = ((System.Drawing.Point)(resources.GetObject("flatTestList.Location")));
+			this.flatTestList.Name = "flatTestList";
+			this.flatTestList.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("flatTestList.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.flatTestList, ((bool)(resources.GetObject("flatTestList.ShowHelp"))));
+			this.flatTestList.Size = ((System.Drawing.Size)(resources.GetObject("flatTestList.Size")));
+			this.flatTestList.TabIndex = ((int)(resources.GetObject("flatTestList.TabIndex")));
+			this.flatTestList.Text = resources.GetString("flatTestList.Text");
+			this.flatTestList.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("flatTestList.TextAlign")));
+			this.flatTestList.Visible = ((bool)(resources.GetObject("flatTestList.Visible")));
+			// 
+			// autoNamespaceSuites
+			// 
+			this.autoNamespaceSuites.AccessibleDescription = resources.GetString("autoNamespaceSuites.AccessibleDescription");
+			this.autoNamespaceSuites.AccessibleName = resources.GetString("autoNamespaceSuites.AccessibleName");
+			this.autoNamespaceSuites.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("autoNamespaceSuites.Anchor")));
+			this.autoNamespaceSuites.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("autoNamespaceSuites.Appearance")));
+			this.autoNamespaceSuites.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("autoNamespaceSuites.BackgroundImage")));
+			this.autoNamespaceSuites.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("autoNamespaceSuites.CheckAlign")));
+			this.autoNamespaceSuites.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("autoNamespaceSuites.Dock")));
+			this.autoNamespaceSuites.Enabled = ((bool)(resources.GetObject("autoNamespaceSuites.Enabled")));
+			this.autoNamespaceSuites.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("autoNamespaceSuites.FlatStyle")));
+			this.autoNamespaceSuites.Font = ((System.Drawing.Font)(resources.GetObject("autoNamespaceSuites.Font")));
+			this.helpProvider1.SetHelpKeyword(this.autoNamespaceSuites, resources.GetString("autoNamespaceSuites.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.autoNamespaceSuites, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("autoNamespaceSuites.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.autoNamespaceSuites, resources.GetString("autoNamespaceSuites.HelpString"));
+			this.autoNamespaceSuites.Image = ((System.Drawing.Image)(resources.GetObject("autoNamespaceSuites.Image")));
+			this.autoNamespaceSuites.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("autoNamespaceSuites.ImageAlign")));
+			this.autoNamespaceSuites.ImageIndex = ((int)(resources.GetObject("autoNamespaceSuites.ImageIndex")));
+			this.autoNamespaceSuites.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("autoNamespaceSuites.ImeMode")));
+			this.autoNamespaceSuites.Location = ((System.Drawing.Point)(resources.GetObject("autoNamespaceSuites.Location")));
+			this.autoNamespaceSuites.Name = "autoNamespaceSuites";
+			this.autoNamespaceSuites.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("autoNamespaceSuites.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.autoNamespaceSuites, ((bool)(resources.GetObject("autoNamespaceSuites.ShowHelp"))));
+			this.autoNamespaceSuites.Size = ((System.Drawing.Size)(resources.GetObject("autoNamespaceSuites.Size")));
+			this.autoNamespaceSuites.TabIndex = ((int)(resources.GetObject("autoNamespaceSuites.TabIndex")));
+			this.autoNamespaceSuites.Text = resources.GetString("autoNamespaceSuites.Text");
+			this.autoNamespaceSuites.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("autoNamespaceSuites.TextAlign")));
+			this.autoNamespaceSuites.Visible = ((bool)(resources.GetObject("autoNamespaceSuites.Visible")));
+			// 
 			// groupBox6
 			// 
 			this.groupBox6.AccessibleDescription = resources.GetString("groupBox6.AccessibleDescription");
@@ -903,88 +990,34 @@ namespace NUnit.Gui
 			this.multiDomainRadioButton.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("multiDomainRadioButton.TextAlign")));
 			this.multiDomainRadioButton.Visible = ((bool)(resources.GetObject("multiDomainRadioButton.Visible")));
 			// 
-			// groupBox7
+			// rerunOnChangeCheckBox
 			// 
-			this.groupBox7.AccessibleDescription = resources.GetString("groupBox7.AccessibleDescription");
-			this.groupBox7.AccessibleName = resources.GetString("groupBox7.AccessibleName");
-			this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox7.Anchor")));
-			this.groupBox7.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox7.BackgroundImage")));
-			this.groupBox7.Controls.Add(this.flatTestList);
-			this.groupBox7.Controls.Add(this.autoNamespaceSuites);
-			this.groupBox7.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("groupBox7.Dock")));
-			this.groupBox7.Enabled = ((bool)(resources.GetObject("groupBox7.Enabled")));
-			this.groupBox7.Font = ((System.Drawing.Font)(resources.GetObject("groupBox7.Font")));
-			this.helpProvider1.SetHelpKeyword(this.groupBox7, resources.GetString("groupBox7.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.groupBox7, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("groupBox7.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.groupBox7, resources.GetString("groupBox7.HelpString"));
-			this.groupBox7.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("groupBox7.ImeMode")));
-			this.groupBox7.Location = ((System.Drawing.Point)(resources.GetObject("groupBox7.Location")));
-			this.groupBox7.Name = "groupBox7";
-			this.groupBox7.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("groupBox7.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.groupBox7, ((bool)(resources.GetObject("groupBox7.ShowHelp"))));
-			this.groupBox7.Size = ((System.Drawing.Size)(resources.GetObject("groupBox7.Size")));
-			this.groupBox7.TabIndex = ((int)(resources.GetObject("groupBox7.TabIndex")));
-			this.groupBox7.TabStop = false;
-			this.groupBox7.Text = resources.GetString("groupBox7.Text");
-			this.groupBox7.Visible = ((bool)(resources.GetObject("groupBox7.Visible")));
-			// 
-			// autoNamespaceSuites
-			// 
-			this.autoNamespaceSuites.AccessibleDescription = resources.GetString("autoNamespaceSuites.AccessibleDescription");
-			this.autoNamespaceSuites.AccessibleName = resources.GetString("autoNamespaceSuites.AccessibleName");
-			this.autoNamespaceSuites.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("autoNamespaceSuites.Anchor")));
-			this.autoNamespaceSuites.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("autoNamespaceSuites.Appearance")));
-			this.autoNamespaceSuites.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("autoNamespaceSuites.BackgroundImage")));
-			this.autoNamespaceSuites.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("autoNamespaceSuites.CheckAlign")));
-			this.autoNamespaceSuites.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("autoNamespaceSuites.Dock")));
-			this.autoNamespaceSuites.Enabled = ((bool)(resources.GetObject("autoNamespaceSuites.Enabled")));
-			this.autoNamespaceSuites.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("autoNamespaceSuites.FlatStyle")));
-			this.autoNamespaceSuites.Font = ((System.Drawing.Font)(resources.GetObject("autoNamespaceSuites.Font")));
-			this.helpProvider1.SetHelpKeyword(this.autoNamespaceSuites, resources.GetString("autoNamespaceSuites.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.autoNamespaceSuites, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("autoNamespaceSuites.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.autoNamespaceSuites, resources.GetString("autoNamespaceSuites.HelpString"));
-			this.autoNamespaceSuites.Image = ((System.Drawing.Image)(resources.GetObject("autoNamespaceSuites.Image")));
-			this.autoNamespaceSuites.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("autoNamespaceSuites.ImageAlign")));
-			this.autoNamespaceSuites.ImageIndex = ((int)(resources.GetObject("autoNamespaceSuites.ImageIndex")));
-			this.autoNamespaceSuites.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("autoNamespaceSuites.ImeMode")));
-			this.autoNamespaceSuites.Location = ((System.Drawing.Point)(resources.GetObject("autoNamespaceSuites.Location")));
-			this.autoNamespaceSuites.Name = "autoNamespaceSuites";
-			this.autoNamespaceSuites.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("autoNamespaceSuites.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.autoNamespaceSuites, ((bool)(resources.GetObject("autoNamespaceSuites.ShowHelp"))));
-			this.autoNamespaceSuites.Size = ((System.Drawing.Size)(resources.GetObject("autoNamespaceSuites.Size")));
-			this.autoNamespaceSuites.TabIndex = ((int)(resources.GetObject("autoNamespaceSuites.TabIndex")));
-			this.autoNamespaceSuites.Text = resources.GetString("autoNamespaceSuites.Text");
-			this.autoNamespaceSuites.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("autoNamespaceSuites.TextAlign")));
-			this.autoNamespaceSuites.Visible = ((bool)(resources.GetObject("autoNamespaceSuites.Visible")));
-			// 
-			// flatTestList
-			// 
-			this.flatTestList.AccessibleDescription = resources.GetString("flatTestList.AccessibleDescription");
-			this.flatTestList.AccessibleName = resources.GetString("flatTestList.AccessibleName");
-			this.flatTestList.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("flatTestList.Anchor")));
-			this.flatTestList.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("flatTestList.Appearance")));
-			this.flatTestList.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("flatTestList.BackgroundImage")));
-			this.flatTestList.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("flatTestList.CheckAlign")));
-			this.flatTestList.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("flatTestList.Dock")));
-			this.flatTestList.Enabled = ((bool)(resources.GetObject("flatTestList.Enabled")));
-			this.flatTestList.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("flatTestList.FlatStyle")));
-			this.flatTestList.Font = ((System.Drawing.Font)(resources.GetObject("flatTestList.Font")));
-			this.helpProvider1.SetHelpKeyword(this.flatTestList, resources.GetString("flatTestList.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.flatTestList, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("flatTestList.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.flatTestList, resources.GetString("flatTestList.HelpString"));
-			this.flatTestList.Image = ((System.Drawing.Image)(resources.GetObject("flatTestList.Image")));
-			this.flatTestList.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("flatTestList.ImageAlign")));
-			this.flatTestList.ImageIndex = ((int)(resources.GetObject("flatTestList.ImageIndex")));
-			this.flatTestList.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("flatTestList.ImeMode")));
-			this.flatTestList.Location = ((System.Drawing.Point)(resources.GetObject("flatTestList.Location")));
-			this.flatTestList.Name = "flatTestList";
-			this.flatTestList.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("flatTestList.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.flatTestList, ((bool)(resources.GetObject("flatTestList.ShowHelp"))));
-			this.flatTestList.Size = ((System.Drawing.Size)(resources.GetObject("flatTestList.Size")));
-			this.flatTestList.TabIndex = ((int)(resources.GetObject("flatTestList.TabIndex")));
-			this.flatTestList.Text = resources.GetString("flatTestList.Text");
-			this.flatTestList.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("flatTestList.TextAlign")));
-			this.flatTestList.Visible = ((bool)(resources.GetObject("flatTestList.Visible")));
+			this.rerunOnChangeCheckBox.AccessibleDescription = resources.GetString("rerunOnChangeCheckBox.AccessibleDescription");
+			this.rerunOnChangeCheckBox.AccessibleName = resources.GetString("rerunOnChangeCheckBox.AccessibleName");
+			this.rerunOnChangeCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("rerunOnChangeCheckBox.Anchor")));
+			this.rerunOnChangeCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("rerunOnChangeCheckBox.Appearance")));
+			this.rerunOnChangeCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rerunOnChangeCheckBox.BackgroundImage")));
+			this.rerunOnChangeCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("rerunOnChangeCheckBox.CheckAlign")));
+			this.rerunOnChangeCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("rerunOnChangeCheckBox.Dock")));
+			this.rerunOnChangeCheckBox.Enabled = ((bool)(resources.GetObject("rerunOnChangeCheckBox.Enabled")));
+			this.rerunOnChangeCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("rerunOnChangeCheckBox.FlatStyle")));
+			this.rerunOnChangeCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("rerunOnChangeCheckBox.Font")));
+			this.helpProvider1.SetHelpKeyword(this.rerunOnChangeCheckBox, resources.GetString("rerunOnChangeCheckBox.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.rerunOnChangeCheckBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("rerunOnChangeCheckBox.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.rerunOnChangeCheckBox, resources.GetString("rerunOnChangeCheckBox.HelpString"));
+			this.rerunOnChangeCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("rerunOnChangeCheckBox.Image")));
+			this.rerunOnChangeCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("rerunOnChangeCheckBox.ImageAlign")));
+			this.rerunOnChangeCheckBox.ImageIndex = ((int)(resources.GetObject("rerunOnChangeCheckBox.ImageIndex")));
+			this.rerunOnChangeCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("rerunOnChangeCheckBox.ImeMode")));
+			this.rerunOnChangeCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("rerunOnChangeCheckBox.Location")));
+			this.rerunOnChangeCheckBox.Name = "rerunOnChangeCheckBox";
+			this.rerunOnChangeCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("rerunOnChangeCheckBox.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.rerunOnChangeCheckBox, ((bool)(resources.GetObject("rerunOnChangeCheckBox.ShowHelp"))));
+			this.rerunOnChangeCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("rerunOnChangeCheckBox.Size")));
+			this.rerunOnChangeCheckBox.TabIndex = ((int)(resources.GetObject("rerunOnChangeCheckBox.TabIndex")));
+			this.rerunOnChangeCheckBox.Text = resources.GetString("rerunOnChangeCheckBox.Text");
+			this.rerunOnChangeCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("rerunOnChangeCheckBox.TextAlign")));
+			this.rerunOnChangeCheckBox.Visible = ((bool)(resources.GetObject("rerunOnChangeCheckBox.Visible")));
 			// 
 			// OptionsDialog
 			// 
@@ -1029,8 +1062,8 @@ namespace NUnit.Gui
 			this.tabPage1.ResumeLayout(false);
 			this.groupBox5.ResumeLayout(false);
 			this.tabPage2.ResumeLayout(false);
-			this.groupBox6.ResumeLayout(false);
 			this.groupBox7.ResumeLayout(false);
+			this.groupBox6.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -1046,6 +1079,7 @@ namespace NUnit.Gui
 
 			reloadOnChangeCheckBox.Enabled = Environment.OSVersion.Platform == System.PlatformID.Win32NT;
 			reloadOnChangeCheckBox.Checked = options.ReloadOnChange;
+			rerunOnChangeCheckBox.Checked = options.RerunOnChange;
 			reloadOnRunCheckBox.Checked = options.ReloadOnRun;
 			clearResultsCheckBox.Checked = options.ClearResults;
 
@@ -1076,9 +1110,9 @@ namespace NUnit.Gui
 
 			options.LoadLastProject = loadLastProjectCheckBox.Checked;
 			
-			//TestLoader loader = AppUI.TestLoader;
 			TestLoader loader = GetService( typeof( TestLoader ) ) as TestLoader;
 			loader.ReloadOnChange = options.ReloadOnChange = reloadOnChangeCheckBox.Checked;
+			loader.RerunOnChange = options.RerunOnChange = rerunOnChangeCheckBox.Checked;
 			loader.ReloadOnRun = options.ReloadOnRun = reloadOnRunCheckBox.Checked;
 			options.ClearResults = clearResultsCheckBox.Checked;
 
@@ -1148,6 +1182,12 @@ namespace NUnit.Gui
 		private void singleDomainRadioButton_CheckedChanged(object sender, System.EventArgs e)
 		{
 			mergeAssembliesCheckBox.Enabled = singleDomainRadioButton.Checked;
+		}
+
+		private void reloadOnChangeCheckBox_CheckedChanged(object sender, System.EventArgs e)
+		{
+			rerunOnChangeCheckBox.Enabled = reloadOnChangeCheckBox.Checked;
+			rerunOnChangeCheckBox.Checked = false;
 		}
 	}
 }

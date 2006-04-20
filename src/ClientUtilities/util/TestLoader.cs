@@ -125,6 +125,12 @@ namespace NUnit.Util
 		private bool reloadOnChange = false;
 
 		/// <summary>
+		/// Indicates whether to automatically rerun
+		/// the tests when a change occurs.
+		/// </summary>
+		private bool rerunOnChange = false;
+
+		/// <summary>
 		/// Indicates whether to reload the tests
 		/// before each run.
 		/// </summary>
@@ -191,6 +197,12 @@ namespace NUnit.Util
 		{
 			get { return reloadOnChange; }
 			set { reloadOnChange = value; }
+		}
+
+		public bool RerunOnChange
+		{
+			get { return rerunOnChange; }
+			set { rerunOnChange = value; }
 		}
 
 		public bool ReloadOnRun
@@ -588,6 +600,7 @@ namespace NUnit.Util
 			if ( Running )
 				reloadPending = true;
 			else 
+			{
 				try
 				{
 					events.FireTestReloading( testFileName, this.loadedTest );
@@ -597,8 +610,8 @@ namespace NUnit.Util
 					TestRunnerEx newRunner = CreateRunner( );
 
 					bool loaded = TestProject.IsAssemblyWrapper
-                        ? newRunner.Load(testProject.ActiveConfig.Assemblies[0].FullPath)
-                        : newRunner.Load(testProject, loadedTestName);
+						? newRunner.Load(testProject.ActiveConfig.Assemblies[0].FullPath)
+						: newRunner.Load(testProject, loadedTestName);
 
 					testRunner.Unload();
 
@@ -613,6 +626,12 @@ namespace NUnit.Util
 					lastException = exception;
 					events.FireTestReloadFailed( testFileName, exception );
 				}
+			}
+
+			if ( rerunOnChange )
+			{
+				testRunner.BeginRun( this );
+			}
 		}
 
 		#endregion

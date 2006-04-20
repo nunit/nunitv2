@@ -84,7 +84,32 @@ namespace NUnit.Gui
 				if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
 					return;
 
-				SaveBooleanSetting( "ReloadOnChange", value ); 
+				SaveBooleanSetting( "ReloadOnChange", value );
+
+				if ( value == false )
+					RerunOnChange = false;
+			}
+		}
+
+		public bool RerunOnChange
+		{
+			get
+			{
+				if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
+					return false;
+
+				return LoadBooleanSetting( "RerunOnChange", false );
+			}
+
+			set
+			{
+				if ( Environment.OSVersion.Platform != System.PlatformID.Win32NT )
+					return;
+
+				SaveBooleanSetting( "RerunOnChange", value );
+
+				if ( value == true )
+					ReloadOnChange = true;
 			}
 		}
 
