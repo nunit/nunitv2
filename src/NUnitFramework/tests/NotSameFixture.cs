@@ -14,10 +14,20 @@ namespace NUnit.Framework.Tests
 			Assert.AreNotSame(s1, s2);
 		}
 
-		[Test, ExpectedException( typeof( AssertionException ), "expected not same" )]
+		//CCF 3/11/06
+		//Modified to try/catch the exception since .NET won't let us use
+		//System.Environment.NewLines in Custom Properties
+		[Test]
 		public void NotSameFails()
 		{
-			Assert.AreNotSame( s1, s1 );
+			try
+			{
+				Assert.AreNotSame( s1, s1 );
+			} catch(AssertionException ae) {
+				Assert.AreEqual(System.Environment.NewLine + "Objects should be different" + System.Environment.NewLine + "\tboth are: <\"S1\">", ae.Message);
+				return;
+			}
+			Assert.Fail("Expected AssertionException to be thrown");
 		}
 	}
 }
