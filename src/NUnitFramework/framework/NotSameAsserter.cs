@@ -32,7 +32,8 @@ namespace NUnit.Framework
 		{
 			get
 			{
-				FailureMessage.Write( "expected not same" );
+				FailureMessage.AddLine( "Objects should be different" );
+				FailureMessage.AddLine( "\tboth are: {0}", AssertionFailureMessage.FormatObjectForDisplay( this.actual ) );
 				return FailureMessage.ToString();
 			}
 		}
