@@ -149,7 +149,7 @@ namespace NUnit.UiKit
 			set
 			{ 
 				included = value;
-				this.ForeColor = included ? Color.Black : Color.LightBlue;
+				this.ForeColor = included ? SystemColors.WindowText : Color.LightBlue;
 			}
 		}
 

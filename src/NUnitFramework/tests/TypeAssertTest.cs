@@ -17,7 +17,7 @@ namespace NUnit.Framework.Tests
 				typeof(System.Int32), "abc123", null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual(
-				"\r\n\texpected: Object to be instance of System.Int32\r\n\t but was: System.String",
+				System.Environment.NewLine + "\texpected: Object to be instance of System.Int32" + System.Environment.NewLine + "\t but was: System.String",
 				asserter.Message );
 		}
 
@@ -34,7 +34,7 @@ namespace NUnit.Framework.Tests
 				typeof(System.Exception), new System.ApplicationException(), null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual(
-				"\r\n\texpected: Object not an instance of System.Exception\r\n\t but was: System.ApplicationException",
+				System.Environment.NewLine + "\texpected: Object not an instance of System.Exception" + System.Environment.NewLine + "\t but was: System.ApplicationException",
 				asserter.Message );
 		}
 
@@ -59,7 +59,7 @@ namespace NUnit.Framework.Tests
 				array2.GetType(), array10, null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual( 
-				"\r\n\texpected: Type assignable from System.Int32[,]\r\n\t but was: System.Int32[]", 
+				System.Environment.NewLine + "\texpected: Type assignable from System.Int32[,]" + System.Environment.NewLine + "\t but was: System.Int32[]", 
 				asserter.Message );
 		}
 
@@ -84,7 +84,7 @@ namespace NUnit.Framework.Tests
 				array2.GetType(), array10, null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual( 
-				"\r\n\texpected: Type not assignable from System.Int32[]\r\n\t but was: System.Int32[]", 
+				System.Environment.NewLine + "\texpected: Type not assignable from System.Int32[]" + System.Environment.NewLine + "\t but was: System.Int32[]", 
 				asserter.Message );
 		}
 	}

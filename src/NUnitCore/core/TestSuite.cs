@@ -41,8 +41,6 @@ namespace NUnit.Core
 	[Serializable]
 	public class TestSuite : Test
 	{
-		private static readonly string EXPLICIT_SELECTION_REQUIRED = "Explicit selection required";
-	
 		protected enum SetUpState
 		{
 			SetUpNeeded,
@@ -228,7 +226,7 @@ namespace NUnit.Core
 			
 		public override TestResult Run(EventListener listener, TestFilter filter)
 		{
-			TestSuiteResult suiteResult = new TestSuiteResult( this, Name);
+			TestSuiteResult suiteResult = new TestSuiteResult( this, FullName);
 
 			listener.SuiteStarted( new TestInfo( this ) );
 			long startTime = DateTime.Now.Ticks;

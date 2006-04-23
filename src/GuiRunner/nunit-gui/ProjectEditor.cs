@@ -1081,6 +1081,8 @@ namespace NUnit.Gui
 				selectedConfig = null;
 			else
 				configComboBox.SelectedIndex = selectedIndex;
+		
+			addAssemblyButton.Enabled = editAssemblyButton.Enabled = deleteAssemblyButton.Enabled = project.Configs.Count > 0;
 		}
 
 		private void configComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
@@ -1383,7 +1385,7 @@ namespace NUnit.Gui
 		private void addVSProjectButton_Click(object sender, System.EventArgs e)
 		{
 			TestLoaderUI.AddVSProject( this );
-			assemblyListBox_Populate();
+			configComboBox_Populate();
 		}
 
 		private void editAssemblyButton_Click(object sender, System.EventArgs e)

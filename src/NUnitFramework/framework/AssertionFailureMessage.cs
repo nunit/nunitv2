@@ -339,7 +339,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="obj">The object to be displayed</param>
 		/// <returns></returns>
-		static protected string FormatObjectForDisplay( object  obj )
+		static public string FormatObjectForDisplay( object  obj )
 		{
 			if ( obj == null ) 
 				return "<(null)>";

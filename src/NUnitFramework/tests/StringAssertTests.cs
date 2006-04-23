@@ -17,9 +17,9 @@ namespace NUnit.Framework.Tests
 			ContainsAsserter asserter = 
 				new ContainsAsserter( "abc", "abxcdxbc", null, null );
 			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( @"
-	expected: String containing ""abc""
-	 but was: <""abxcdxbc"">",
+			Assert.AreEqual( System.Environment.NewLine
+	+ "\t" + @"expected: String containing ""abc""" + System.Environment.NewLine
+	+ "\t" + @" but was: <""abxcdxbc"">",
 				asserter.Message );
 		}
 
@@ -36,9 +36,9 @@ namespace NUnit.Framework.Tests
 			StartsWithAsserter asserter = 
 				new StartsWithAsserter( "xyz", "abcxyz", null, null );
 			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( @"
-	expected: String starting with ""xyz""
-	 but was: <""abcxyz"">",
+			Assert.AreEqual( System.Environment.NewLine
+	+ "\t" + @"expected: String starting with ""xyz""" + System.Environment.NewLine
+	+ "\t" + @" but was: <""abcxyz"">",
 				asserter.Message );
 		}
 	
@@ -55,9 +55,9 @@ namespace NUnit.Framework.Tests
 			EndsWithAsserter asserter =
 				new EndsWithAsserter( "xyz", "abcdef", null, null );
 			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( @"
-	expected: String ending with ""xyz""
-	 but was: <""abcdef"">",
+			Assert.AreEqual( System.Environment.NewLine
+	+ "\t" + @"expected: String ending with ""xyz""" + System.Environment.NewLine
+	+ "\t" + @" but was: <""abcdef"">",
 				asserter.Message );
 		}
 
@@ -73,12 +73,12 @@ namespace NUnit.Framework.Tests
 			EqualIgnoringCaseAsserter asserter =
 				new EqualIgnoringCaseAsserter( "Name", "NAMES", null, null );
 			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( @"
-	String lengths differ.  Expected length=4, but was length=5.
-	Strings differ at index 4.
-	expected: <""Name"">
-	 but was: <""NAMES"">
-	----------------^",
+			Assert.AreEqual( System.Environment.NewLine
+	+ "\tString lengths differ.  Expected length=4, but was length=5." + System.Environment.NewLine
+	+ "\tStrings differ at index 4." + System.Environment.NewLine
+	+ "\t" + @"expected: <""Name"">" + System.Environment.NewLine
+	+ "\t" + @" but was: <""NAMES"">" + System.Environment.NewLine
+	+ "\t----------------^",
 				asserter.Message );
 		}
 	}

@@ -38,7 +38,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void SuiteResultHasCategories()
 		{
-			XmlNodeList categories = resultDoc.SelectNodes("//test-suite[@name=\"MockTestFixture\"]/categories/category");
+			XmlNodeList categories = resultDoc.SelectNodes("//test-suite[@name=\"NUnit.Tests.Assemblies.MockTestFixture\"]/categories/category");
 			Assert.IsNotNull(categories);
 			Assert.AreEqual(1, categories.Count);
 			Assert.AreEqual("FixtureCategory", categories[0].Attributes["name"].Value);

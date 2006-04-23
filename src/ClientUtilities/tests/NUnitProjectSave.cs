@@ -90,14 +90,14 @@ namespace NUnit.Util.Tests
 		public void SaveNormalProject()
 		{
 			ProjectConfig config1 = new ProjectConfig( "Debug" );
-			config1.BasePath = @"bin\debug";
-			config1.Assemblies.Add( Path.GetFullPath( @"bin\debug\assembly1.dll" ) );
-			config1.Assemblies.Add( Path.GetFullPath( @"bin\debug\assembly2.dll" ) );
+			config1.BasePath = "bin" + Path.DirectorySeparatorChar + "debug";
+			config1.Assemblies.Add( Path.GetFullPath( "bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly1.dll" ) );
+			config1.Assemblies.Add( Path.GetFullPath( "bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly2.dll" ) );
 
 			ProjectConfig config2 = new ProjectConfig( "Release" );
-			config2.BasePath = @"bin\release";
-			config2.Assemblies.Add( Path.GetFullPath( @"bin\release\assembly1.dll" ) );
-			config2.Assemblies.Add( Path.GetFullPath( @"bin\release\assembly2.dll" ) );
+			config2.BasePath = "bin" + Path.DirectorySeparatorChar + "release";
+			config2.Assemblies.Add( Path.GetFullPath( "bin" + Path.DirectorySeparatorChar + "release" + Path.DirectorySeparatorChar + "assembly1.dll" ) );
+			config2.Assemblies.Add( Path.GetFullPath( "bin" + Path.DirectorySeparatorChar + "release" + Path.DirectorySeparatorChar + "assembly2.dll" ) );
 
 			project.Configs.Add( config1 );
 			project.Configs.Add( config2 );

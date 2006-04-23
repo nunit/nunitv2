@@ -205,7 +205,7 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
-		/// The semicolon-separated path containing all the
+		/// The Path.PathSeparator-separated path containing all the
 		/// assemblies in the list.
 		/// </summary>
 		public string PrivateBinPath
@@ -228,7 +228,7 @@ namespace NUnit.Util
 							{
 								dirList.Add( dir );
 								if ( sb.Length > 0 )
-									sb.Append( ';' );
+									sb.Append( Path.PathSeparator );
 								sb.Append( dir );
 							}
 						}
