@@ -60,7 +60,9 @@ namespace NUnit.Core
 			{
 				try
 				{
-					Assembly assembly = Assembly.LoadFrom( extensions );
+                    AssemblyName assemblyName = new AssemblyName("nunit.core.extensions");
+                    assemblyName.CodeBase = extensions;
+                    Assembly assembly = Assembly.Load(assemblyName);
 					current.Register( assembly );
 				}
 				catch( Exception )
@@ -77,7 +79,9 @@ namespace NUnit.Core
 				foreach( FileInfo file in dir.GetFiles( "*.dll" ) )
 					try
 					{
-						Assembly assembly = Assembly.LoadFrom( file.FullName );
+                        AssemblyName assemblyName = new AssemblyName();
+                        assemblyName.CodeBase = file.FullName;
+                        Assembly assembly = Assembly.Load(assemblyName);
 						current.Register( assembly );
 					}
 					catch( Exception )
