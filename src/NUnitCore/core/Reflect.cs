@@ -206,26 +206,62 @@ namespace NUnit.Core
 			return count;
 		}
 
-		/// <summary>
-		/// Examine a fixture type and get a method with a particular name.
-		/// In the case of overloads, the first one found is returned.
-		/// </summary>
-		/// <param name="fixtureType">The type to examine</param>
-		/// <param name="methodName">The name of the method</param>
-		/// <param name="bindingFlags">BindingFlags to use in the search</param>
-		/// <returns>A MethodInfo or null</returns>
-		public static MethodInfo GetNamedMethod( Type fixtureType, string methodName, BindingFlags bindingFlags )
-		{
-			foreach(MethodInfo method in fixtureType.GetMethods( bindingFlags ) )
-			{
-				if( method.Name == methodName ) 
-					return method;
-			}
+        /// <summary>
+        /// Examine a fixture type and get a method with a particular name.
+        /// In the case of overloads, the first one found is returned.
+        /// </summary>
+        /// <param name="fixtureType">The type to examine</param>
+        /// <param name="methodName">The name of the method</param>
+        /// <param name="bindingFlags">BindingFlags to use in the search</param>
+        /// <returns>A MethodInfo or null</returns>
+        public static MethodInfo GetNamedMethod(Type fixtureType, string methodName, BindingFlags bindingFlags)
+        {
+            foreach (MethodInfo method in fixtureType.GetMethods(bindingFlags))
+            {
+                if (method.Name == methodName)
+                    return method;
+            }
 
-			return null;
-		}
+            return null;
+        }
 
-		#endregion
+        /// <summary>
+        /// Examine a fixture type and get a method with a particular name and list
+        /// of arguments. In the case of overloads, the first one found is returned.
+        /// </summary>
+        /// <param name="fixtureType">The type to examine</param>
+        /// <param name="methodName">The name of the method</param>
+        /// <param name="argTypes">The full anmes of the argument types to search for</param>
+        /// <param name="bindingFlags">BindingFlags to use in the search</param>
+        /// <returns>A MethodInfo or null</returns>
+        public static MethodInfo GetNamedMethod(Type fixtureType, string methodName, 
+            string[] argTypes, BindingFlags bindingFlags)
+        {
+            foreach (MethodInfo method in fixtureType.GetMethods(bindingFlags))
+            {
+                if (method.Name == methodName)
+                {
+                    ParameterInfo[] parameters = method.GetParameters();
+                    if (parameters.Length == argTypes.Length)
+                    {
+                        bool match = true;
+                        for (int i = 0; i < argTypes.Length; i++)
+                            if (parameters[i].ParameterType.FullName != argTypes[i])
+                            {
+                                match = false;
+                                break;
+                            }
+
+                        if (match)
+                            return method;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
 
 		#region Get Properties of a type
 

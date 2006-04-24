@@ -121,10 +121,9 @@ namespace NUnit.Core
 				{
 					object builderObject = Reflect.Construct( type );
 					ISuiteBuilder builder = builderObject as ISuiteBuilder;
-					// May not be able to cast, if the builder uses an earlier
-					// version of the interface.
-					// TODO: Wrap the object and use reflection
-					if ( builder != null )
+                    // May not be able to cast, if the builder uses an earlier
+                    // version of the interface, so we use reflection.
+                    if (builder != null)
 						suiteBuilders.Add( builder );
 					else 
 						suiteBuilders.Add( new SuiteBuilderWrapper( builderObject ) );
@@ -136,17 +135,25 @@ namespace NUnit.Core
 					&& Reflect.HasInterface( type, TestCaseBuilderInterfaceName ) )
 				{
 					object builderObject = Reflect.Construct( type );
-					ITestCaseBuilder builder = (ITestCaseBuilder)builderObject;
-					if ( builder != null )
-						testBuilders.Add( builder );
+					ITestCaseBuilder builder = builderObject as ITestCaseBuilder;
+                    // May not be able to cast, if the builder uses an earlier
+                    // version of the interface, so we use reflection.
+                    if (builder != null)
+                        testBuilders.Add(builder);
+                    else
+                        testBuilders.Add(new TestCaseBuilderWrapper(builderObject));
 				}
 				else if ( Reflect.HasAttribute( type, TestDecoratorAttributeName, false )
 					&& Reflect.HasInterface( type, TestDecoratorInterfaceName ) )
 				{
 					object decoratorObject = Reflect.Construct( type );
-					ITestDecorator decorator = (ITestDecorator)decoratorObject;
-					if ( decorator != null )
-						testDecorators.Add( decorator );
+					ITestDecorator decorator = decoratorObject as ITestDecorator;
+                    // May not be able to cast, if the decorator uses an earlier
+                    // version of the interface, so we use reflection.
+                    if (decorator != null)
+                        testDecorators.Add(decorator);
+                    //else
+                    //    testDecorators.Add(new TestDecoratorWrapper(decoratorObject));
 				}
 			}
 		}
@@ -175,46 +182,133 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Nested SuiteBuilderWrapper Class
+        #region Nested SuiteBuilderWrapper Class
 
-		private class SuiteBuilderWrapper : ISuiteBuilder
-		{
-			private object builder;
-			private MethodInfo canBuildFromMethod;
-			private MethodInfo buildFromMethod;
+        private class SuiteBuilderWrapper : ISuiteBuilder
+        {
+            private object builder;
+            private MethodInfo canBuildFromMethod;
+            private MethodInfo buildFromMethod;
 
-			public SuiteBuilderWrapper( object builder )
-			{
-				this.builder = builder;
-				this.canBuildFromMethod = Reflect.GetNamedMethod( 
-					builder.GetType(), 
-					"CanBuildFrom", 
-					BindingFlags.Public | BindingFlags.Instance );
-				this.buildFromMethod = Reflect.GetNamedMethod(
-					builder.GetType(),
-					"BuildFrom",
-					BindingFlags.Public | BindingFlags.Instance );
-				if ( buildFromMethod == null || canBuildFromMethod == null )
-					throw new ArgumentException( "Invalid suite builder" );
-				// TODO: Check for proper signature - put in Reflect?
-			}
+            public SuiteBuilderWrapper(object builder)
+            {
+                this.builder = builder;
+                this.canBuildFromMethod = Reflect.GetNamedMethod(
+                    builder.GetType(),
+                    "CanBuildFrom",
+                    BindingFlags.Public | BindingFlags.Instance);
+                this.buildFromMethod = Reflect.GetNamedMethod(
+                    builder.GetType(),
+                    "BuildFrom",
+                    BindingFlags.Public | BindingFlags.Instance);
+                if (buildFromMethod == null || canBuildFromMethod == null)
+                    throw new ArgumentException("Invalid suite builder");
+                // TODO: Check for proper signature - put in Reflect?
+            }
 
-			#region ISuiteBuilder Members
+            #region ISuiteBuilder Members
 
-			public bool CanBuildFrom(Type type)
-			{
-				return (bool)canBuildFromMethod.Invoke( builder, new object[] { type } );
-			}
+            public bool CanBuildFrom(Type type)
+            {
+                return (bool)canBuildFromMethod.Invoke(builder, new object[] { type });
+            }
 
-			public TestSuite BuildFrom(Type type)
-			{
-				return (TestSuite)buildFromMethod.Invoke( builder, new object[] { type } );
-			}
+            public TestSuite BuildFrom(Type type)
+            {
+                return (TestSuite)buildFromMethod.Invoke(builder, new object[] { type });
+            }
 
-			#endregion
+            #endregion
 
-		}
+        }
 
-		#endregion
-	}
+        #endregion
+
+        #region Nested TestCaseBuilderWrapper Class
+
+        private class TestCaseBuilderWrapper : ITestCaseBuilder
+        {
+            private object builder;
+            private MethodInfo canBuildFromMethod;
+            private MethodInfo buildFromMethod;
+
+            public TestCaseBuilderWrapper(object builder)
+            {
+                this.builder = builder;
+                this.canBuildFromMethod = Reflect.GetNamedMethod(
+                    builder.GetType(),
+                    "CanBuildFrom",
+                    BindingFlags.Public | BindingFlags.Instance);
+                this.buildFromMethod = Reflect.GetNamedMethod(
+                    builder.GetType(),
+                    "BuildFrom",
+                    BindingFlags.Public | BindingFlags.Instance);
+                if (buildFromMethod == null || canBuildFromMethod == null)
+                    throw new ArgumentException("Invalid suite builder");
+                // TODO: Check for proper signature - put in Reflect?
+            }
+
+            #region ITestCaseBuilder Members
+
+            public bool CanBuildFrom(MethodInfo method)
+            {
+                return (bool)canBuildFromMethod.Invoke(builder, new object[] { method });
+            }
+
+            public TestCase BuildFrom(MethodInfo method)
+            {
+                return (TestCase)buildFromMethod.Invoke(builder, new object[] { method });
+            }
+
+            #endregion
+
+        }
+
+        #endregion
+
+        #region Nested TestDecoratorWrapper Class
+
+        private class TestDecoratorWrapper : ITestDecorator
+        {
+            private object decorator;
+            private MethodInfo testCaseDecoratorMethod;
+            private MethodInfo testSuiteDecoratorMethod;
+
+            public TestDecoratorWrapper(object decorator)
+            {
+                this.decorator = decorator;
+                this.testCaseDecoratorMethod = Reflect.GetNamedMethod(
+                    decorator.GetType(),
+                    "Decorate",
+                    new string[] { "NUnit.Core.TestCase", "System.Reflection.MethodInfo" },
+                    BindingFlags.Public | BindingFlags.Instance);
+                this.testSuiteDecoratorMethod = Reflect.GetNamedMethod(
+                    decorator.GetType(),
+                    "Decorate",
+                    new string[] { "NUnit.Core.TestSuite", "System.Type" },
+                    BindingFlags.Public | BindingFlags.Instance);
+                if (testCaseDecoratorMethod == null || testSuiteDecoratorMethod == null)
+                    throw new ArgumentException("Invalid suite builder");
+                // TODO: Check for proper signature - put in Reflect?
+            }
+
+            #region ITestDecorator Members
+
+            public TestCase Decorate(TestCase testCase, MethodInfo method)
+            {
+                return (TestCase)testCaseDecoratorMethod.Invoke(decorator, new object[] { testCase, method });
+            }
+
+            public TestSuite Decorate(TestSuite suite, Type fixtureType)
+            {
+                return (TestSuite)testSuiteDecoratorMethod.Invoke(decorator, new object[] { suite, fixtureType });
+            }
+
+            #endregion
+
+        }
+
+        #endregion
+
+    }
 }
