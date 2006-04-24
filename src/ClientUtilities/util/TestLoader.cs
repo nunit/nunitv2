@@ -146,6 +146,8 @@ namespace NUnit.Util
 		public TestLoader(TestEventDispatcher eventDispatcher )
 		{
 			this.events = eventDispatcher;
+
+			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler( OnUnhandledException );
 		}
 
 		#endregion
@@ -308,6 +310,12 @@ namespace NUnit.Util
 		void EventListener.UnhandledException(Exception exception)
 		{
 			events.FireTestException( exception );
+		}
+
+		void OnUnhandledException( object sender, UnhandledExceptionEventArgs args )
+		{
+			if ( Running && args.ExceptionObject.GetType() != typeof( System.Threading.ThreadAbortException ) )
+				events.FireTestException( (Exception)args.ExceptionObject );
 		}
 
 		/// <summary>
