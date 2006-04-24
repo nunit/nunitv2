@@ -1582,6 +1582,7 @@ namespace NUnit.Gui
 				new System.EventHandler( editConfigurationsMenuItem_Click ) );
 
 			addVSProjectMenuItem.Visible = UserSettings.Options.VisualStudioSupport;
+			addAssemblyMenuItem.Enabled = TestProject.Configs.Count > 0;
 		}
 
 		private void configMenuItem_Click( object sender, EventArgs e )
@@ -2126,18 +2127,23 @@ the version under which NUnit is currently running, {0}.",
 			}
 		}
 
+		private void InsertTestResultItem( TestResult result )
+		{
+			TestResultItem item = new TestResultItem(result);
+			detailList.BeginUpdate();
+			detailList.Items.Insert(detailList.Items.Count, item);
+			detailList.EndUpdate();
+		}
+
 		private void OnTestFinished(object sender, TestEventArgs args)
 		{
-			TestCaseResult result = (TestCaseResult) args.Result;
+			TestResult result = args.Result;
 			if(result.Executed)
 			{
-				if(result.IsFailure)
+				// Temp fix to avoid showing test case failures due to test fixture setup failure
+				if(result.IsFailure && result.Message != "TestFixtureSetUp Failed" )
 				{
-					TestResultItem item = new TestResultItem(result);
-					string resultString = String.Format("{0}:{1}", result.Name, result.Message);
-					detailList.BeginUpdate();
-					detailList.Items.Insert(detailList.Items.Count, item);
-					detailList.EndUpdate();
+					InsertTestResultItem( result );
 				}
 			}
 			else
@@ -2148,9 +2154,23 @@ the version under which NUnit is currently running, {0}.",
 
 		private void OnSuiteFinished(object sender, TestEventArgs args)
 		{
-			TestSuiteResult suiteResult = (TestSuiteResult) args.Result;
-			if(!suiteResult.Executed)
+			TestResult suiteResult = args.Result;
+			if(suiteResult.Executed)
+			{
+				if ( suiteResult.IsFailure )
+				{
+// TODO: Figure out how to do this
+//					TestSuite suite = suiteResult.Test as TestSuite;
+//					if ( suite.SetUpFailed )
+//					{
+//						InsertTestResultItem( suiteResult );
+//					}
+				}
+			}
+			else
+			{
 				notRunTree.Add( suiteResult );
+			}
 		}
 
 		private void OnTestException(object sender, TestEventArgs args)
@@ -2259,7 +2279,7 @@ the version under which NUnit is currently running, {0}.",
 				e.DrawBackground();
 				TestResultItem item = (TestResultItem) detailList.Items[e.Index];
 				bool selected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected) ? true : false;
-				Brush brush = selected ? Brushes.White : Brushes.Black;
+				Brush brush = selected ? SystemBrushes.HighlightText : SystemBrushes.WindowText;
 				e.Graphics.DrawString(item.GetMessage(),detailList.Font, brush, e.Bounds);
 				
 			}

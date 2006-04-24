@@ -155,21 +155,29 @@ namespace NUnit.ConsoleRunner
 			Console.WriteLine();
 		}
 
-		private static bool MakeTestFromCommandLine(TestRunnerEx testRunner, ConsoleOptions parser)
+		private static TestRunner MakeRunnerFromCommandLine( ConsoleOptions options )
 		{
+            TestRunnerEx testRunner = options.ParameterCount == 1
+                ? (TestRunnerEx)new TestDomain()
+                : (TestRunnerEx)new MultipleTestDomainRunner();
+
+			if ( options.noshadow  ) testRunner.Settings["ShadowCopyFiles"] = false;
+
 			NUnitProject project;
 
-			if ( parser.IsTestProject )
+			if ( options.IsTestProject )
 			{
-				project = NUnitProject.LoadProject( (string)parser.Parameters[0] );
-				string configName = parser.config;
+				project = NUnitProject.LoadProject( (string)options.Parameters[0] );
+				string configName = options.config;
 				if ( configName != null )
 					project.SetActiveConfig( configName );
 			}
 			else
-				project = NUnitProject.FromAssemblies( (string[])parser.Parameters.ToArray( typeof( string ) ) );
+				project = NUnitProject.FromAssemblies( (string[])options.Parameters.ToArray( typeof( string ) ) );
 
-			return testRunner.Load( project, parser.fixture );
+			testRunner.Load( project, options.fixture );
+
+			return testRunner;
 		}
 
 		public ConsoleUi()
@@ -181,25 +189,29 @@ namespace NUnit.ConsoleRunner
 			XmlTextReader transformReader = GetTransformReader(options);
 			if(transformReader == null) return 3;
 
-			TextWriter outWriter = options.isOut
-				? new StreamWriter( options.output )
-				: Console.Out;
-
-			TextWriter errorWriter = options.isErr
-				? new StreamWriter( options.err )
-				: Console.Error;
-
-			TestRunnerEx testRunner = options.ParameterCount == 1 
-				? (TestRunnerEx)new TestDomain()
-				: (TestRunnerEx)new MultipleTestDomainRunner();
-
-			if ( options.noshadow  ) testRunner.Settings["ShadowCopyFiles"] = false;
-			
-			if ( !MakeTestFromCommandLine(testRunner, options) )
+			TextWriter outWriter = Console.Out;
+			if ( options.isOut )
 			{
-				Console.Error.WriteLine("Unable to locate fixture {0}", options.fixture);
-				return 2;
+				StreamWriter outStreamWriter = new StreamWriter( options.output );
+				outStreamWriter.AutoFlush = true;
+				outWriter = outStreamWriter;
 			}
+
+			TextWriter errorWriter = Console.Error;
+			if ( options.isErr )
+			{
+				StreamWriter errorStreamWriter = new StreamWriter( options.err );
+				errorStreamWriter.AutoFlush = true;
+				errorWriter = errorStreamWriter;
+			}
+
+			TestRunner testRunner = MakeRunnerFromCommandLine( options );
+
+            if (testRunner.Test == null)
+            {
+                Console.Error.WriteLine("Unable to locate fixture {0}", options.fixture);
+                return 2;
+            }
 
 			EventListener collector = new EventCollector( options, outWriter, errorWriter );
 
@@ -230,6 +242,9 @@ namespace NUnit.ConsoleRunner
 				}
 				finally
 				{
+					outWriter.Flush();
+					errorWriter.Flush();
+
 					if ( options.isOut )
 						outWriter.Close();
 					if ( options.isErr )
