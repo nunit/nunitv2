@@ -60,7 +60,8 @@ namespace NUnit.Core
 			{
 				try
 				{
-                    AssemblyName assemblyName = new AssemblyName("nunit.core.extensions");
+                    AssemblyName assemblyName = new AssemblyName();
+                    assemblyName.Name = "nunit.core.extensions";
                     assemblyName.CodeBase = extensions;
                     Assembly assembly = Assembly.Load(assemblyName);
 					current.Register( assembly );
