@@ -35,7 +35,13 @@ namespace NUnit.Core
 	using System.Collections;
 	using System.Diagnostics;
 
-	public class AssemblyResolver : MarshalByRefObject, IDisposable
+	/// <summary>
+	/// Class adapted from NUnitAddin for use in handling assemblies that are not
+    /// found in the test AppDomain. We only use certain features of the class,
+    /// so it is not completely covered by our tests. Methods that we do not
+    /// used have been changed to protected for that reason.
+	/// </summary>
+    public class AssemblyResolver : MarshalByRefObject, IDisposable
 	{
 		private class AssemblyCache
 		{
@@ -76,7 +82,8 @@ namespace NUnit.Core
 			AppDomain.CurrentDomain.AssemblyResolve -= new ResolveEventHandler(CurrentDomain_AssemblyResolve);
 		}
 
-		public void AddDirectory(string directory)
+        // Changed from public - Not directly called by NUnit
+		protected void AddDirectory(string directory)
 		{
 			_directories.Add(directory);
 		}
@@ -86,11 +93,15 @@ namespace NUnit.Core
 			AddFile( file, false );
 		}
 
-		public void AddFile( string file, bool ignoreVersion )
+        // Changed from public - Not directly called by NUnit
+		protected void AddFile( string file, bool ignoreVersion )
 		{
 			if ( ignoreVersion )	// Go straight to cache
 			{
-				Assembly assembly = Assembly.LoadFrom( file );
+                AssemblyName assemblyName = new AssemblyName();
+                assemblyName.CodeBase = file;
+                Assembly assembly = Assembly.Load(assemblyName);
+				//Assembly assembly = Assembly.LoadFrom( file );
 				_cache.Add( assembly.GetName().Name, assembly );
 			}
 			else	// Wait till a version is requested
