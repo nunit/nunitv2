@@ -32,7 +32,8 @@ namespace NUnit.Framework
 		{
 			get
 			{
-				FailureMessage.Write( "expected same" );
+				FailureMessage.AddLine( "Object instances should be the same, but are not" );
+				FailureMessage.DisplayExpectedAndActual( this.expected, this.actual );
 				return FailureMessage.ToString();
 			}
 		}

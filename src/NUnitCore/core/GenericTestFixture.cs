@@ -79,13 +79,13 @@ namespace NUnit.Core
 		protected virtual MethodInfo GetFixtureSetUpMethod()
 		{
 			return Reflect.GetMethodWithAttribute( FixtureType, parms.FixtureSetUpType,
-				BindingFlags.Public | BindingFlags.Instance,
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
 				parms.InheritSetUpAndTearDownTypes);
 		}
 		protected virtual MethodInfo GetFixtureTearDownMethod()
 		{
 			return Reflect.GetMethodWithAttribute( FixtureType, parms.FixtureTearDownType,
-				BindingFlags.Public | BindingFlags.Instance,
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
 				parms.InheritSetUpAndTearDownTypes);
 		}
 

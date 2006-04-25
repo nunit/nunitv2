@@ -44,7 +44,7 @@ namespace NUnit.Framework.Tests
 		}
 
 		[Test]
-		[ExpectedException(typeof(AssertionException), "expected same" )]
+		[ExpectedException(typeof(AssertionException))]
 		public void SameFails()
 		{
 			Exception ex1 = new Exception();
