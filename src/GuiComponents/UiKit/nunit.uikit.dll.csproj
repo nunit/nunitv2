@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = "copy $(ProjectDir)Success.jpg $(SolutionDir)GuiRunner\nunit-gui-exe\$(OutDir)&#xd;&#xa;copy $(ProjectDir)Failure.jpg $(SolutionDir)GuiRunner\nunit-gui-exe\$(OutDir)&#xd;&#xa;copy $(ProjectDir)Ignored.jpg $(SolutionDir)GuiRunner\nunit-gui-exe\$(OutDir)&#xd;&#xa;"
+                PostBuildEvent = ""
                 RootNamespace = "NUnit.UiKit"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
