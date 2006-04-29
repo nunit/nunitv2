@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Reflection;
 
 namespace NUnit.Core
@@ -180,6 +181,21 @@ namespace NUnit.Core
 			testDecorators.Clear();
 		}
 
+		public IList GetLoadedExtensions()
+		{
+			ArrayList addins = new ArrayList();
+			
+			foreach( ISuiteBuilder builder in suiteBuilders )
+				addins.Add( builder.GetType().AssemblyQualifiedName );
+
+			foreach( ITestCaseBuilder builder in testBuilders )
+				addins.Add( builder.GetType().AssemblyQualifiedName );
+
+			foreach( ITestDecorator decorator in testDecorators )
+				addins.Add( decorator.GetType().AssemblyQualifiedName );
+
+			return addins;
+		}
 		#endregion
 
         #region Nested SuiteBuilderWrapper Class

@@ -29,6 +29,7 @@
 
 using System;
 using System.IO;
+using System.Collections;
 using System.Reflection;
 using System.Diagnostics;
 
@@ -66,11 +67,15 @@ namespace NUnit.Core
                     Assembly assembly = Assembly.Load(assemblyName);
 					current.Register( assembly );
 				}
-				catch( Exception )
+				catch( Exception ex )
 				{
 					// HACK: Where should this be logged? 
 					// Don't pollute the trace listeners.
-					new DefaultTraceListener().WriteLine( "NUnit extensions not loaded" );
+
+					TraceListener listener = new DefaultTraceListener();
+					listener.WriteLine( "Extension not loaded: nunit.core.extensions"  );
+					listener.WriteLine( ex.ToString() );
+					//throw new ApplicationException( "Extension not loaded: nunit.core.extensions", ex );
 				}
 			}
 
@@ -85,11 +90,14 @@ namespace NUnit.Core
                         Assembly assembly = Assembly.Load(assemblyName);
 						current.Register( assembly );
 					}
-					catch( Exception )
+					catch( Exception ex )
 					{
 						// HACK: Where should this be logged? 
 						// Don't pollute the trace listeners.
-						new DefaultTraceListener().WriteLine( "Addins in " + file.Name + " not loaded" );
+						TraceListener listener = new DefaultTraceListener();
+						listener.WriteLine( "Extension not loaded: " + file.FullName  );
+						listener.WriteLine( ex.ToString() );
+						//throw new ApplicationException( "Extension not loaded: " + file.FullName );
 					}
 		}
 		#endregion
@@ -118,6 +126,11 @@ namespace NUnit.Core
 		public static void Restore()
 		{
 			current = current.PriorState;
+		}
+
+		public static IList GetLoadedExtensions()
+		{
+			return current.GetLoadedExtensions();
 		}
 		#endregion
 

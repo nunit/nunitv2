@@ -82,6 +82,11 @@ namespace NUnit.Core
 			get { return testRunner == null ? null : testRunner.TestFrameworks; }
 		}
 
+		public virtual IList Extensions
+		{
+			get { return testRunner == null ? null : testRunner.Extensions; }
+		}
+
 		public virtual TestNode Test
 		{
 			get { return testRunner == null ? null : testRunner.Test; }

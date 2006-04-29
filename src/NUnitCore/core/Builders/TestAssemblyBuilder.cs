@@ -200,7 +200,7 @@ namespace NUnit.Core.Builders
 			// Change currentDirectory in case assembly references unmanaged dlls
 			using( new DirectorySwapper( Path.GetDirectoryName( assemblyName ) ) )
 			{
-				Assembly assembly = AppDomain.CurrentDomain.Load(Path.GetFileNameWithoutExtension(assemblyName));
+				Assembly assembly = Assembly.Load(Path.GetFileNameWithoutExtension(assemblyName));
 				
 				if ( assembly != null )
 					Addins.Register( assembly );

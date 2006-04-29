@@ -74,6 +74,11 @@ namespace NUnit.Core
 			get { return TestFramework.GetLoadedFrameworks(); }
 		}
 
+		public IList Extensions
+		{
+			get { return Addins.GetLoadedExtensions(); }
+		}
+
 		public TestNode Test
 		{
 			get { return suite == null ? null : new TestNode( suite ); }

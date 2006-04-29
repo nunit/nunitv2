@@ -83,6 +83,22 @@ namespace NUnit.Util
 			}
 		}
 
+		public virtual IList Extensions
+		{
+			get
+			{
+				if ( runners == null )
+					return null;
+
+				ArrayList extensions = new ArrayList();
+
+				foreach( TestRunner runner in runners )
+					extensions.AddRange( runner.Extensions );
+
+				return extensions;
+			}
+		}
+
 		public virtual TestNode Test
 		{
 			get

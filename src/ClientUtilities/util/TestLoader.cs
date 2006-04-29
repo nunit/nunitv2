@@ -242,6 +242,17 @@ namespace NUnit.Util
 			}
 		}
 
+		public IList Extensions
+		{
+			get
+			{
+				if ( testRunner == null )
+					return null;
+
+				return testRunner.Extensions;
+			}
+		}
+
 		public int TestCount
 		{
 			get { return loadedTest == null ? 0 : loadedTest.TestCount; }

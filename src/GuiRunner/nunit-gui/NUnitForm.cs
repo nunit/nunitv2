@@ -149,6 +149,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem defaultFontMenuItem;
 		private System.Windows.Forms.MenuItem decreaseFontMenuItem;
 		private System.Windows.Forms.MenuItem increaseFontMenuItem;
+		private System.Windows.Forms.MenuItem addinInfoMenuItem;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -258,6 +259,7 @@ namespace NUnit.Gui
 			this.optionsMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenuSeparator2 = new System.Windows.Forms.MenuItem();
 			this.frameworkInfoMenuItem = new System.Windows.Forms.MenuItem();
+			this.addinInfoMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpItem = new System.Windows.Forms.MenuItem();
 			this.helpMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpMenuSeparator1 = new System.Windows.Forms.MenuItem();
@@ -770,7 +772,8 @@ namespace NUnit.Gui
 																					  this.toolsMenuSeparator1,
 																					  this.optionsMenuItem,
 																					  this.toolsMenuSeparator2,
-																					  this.frameworkInfoMenuItem});
+																					  this.frameworkInfoMenuItem,
+																					  this.addinInfoMenuItem});
 			this.toolsMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("toolsMenu.Shortcut")));
 			this.toolsMenu.ShowShortcut = ((bool)(resources.GetObject("toolsMenu.ShowShortcut")));
 			this.toolsMenu.Text = resources.GetString("toolsMenu.Text");
@@ -834,6 +837,16 @@ namespace NUnit.Gui
 			this.frameworkInfoMenuItem.Text = resources.GetString("frameworkInfoMenuItem.Text");
 			this.frameworkInfoMenuItem.Visible = ((bool)(resources.GetObject("frameworkInfoMenuItem.Visible")));
 			this.frameworkInfoMenuItem.Click += new System.EventHandler(this.frameworkInfoMenuItem_Click);
+			// 
+			// addinInfoMenuItem
+			// 
+			this.addinInfoMenuItem.Enabled = ((bool)(resources.GetObject("addinInfoMenuItem.Enabled")));
+			this.addinInfoMenuItem.Index = 6;
+			this.addinInfoMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("addinInfoMenuItem.Shortcut")));
+			this.addinInfoMenuItem.ShowShortcut = ((bool)(resources.GetObject("addinInfoMenuItem.ShowShortcut")));
+			this.addinInfoMenuItem.Text = resources.GetString("addinInfoMenuItem.Text");
+			this.addinInfoMenuItem.Visible = ((bool)(resources.GetObject("addinInfoMenuItem.Visible")));
+			this.addinInfoMenuItem.Click += new System.EventHandler(this.addinInfoMenuItem_Click);
 			// 
 			// helpItem
 			// 
@@ -2510,6 +2523,25 @@ the version under which NUnit is currently running, {0}.",
 		private void applyFont( Font font )
 		{
 			this.Font = UserSettings.Form.Font = font;
+		}
+
+		private void addinInfoMenuItem_Click(object sender, System.EventArgs e)
+		{
+			string msg = "No addins are loaded.";
+
+			IList addins = TestLoader.Extensions;
+			if ( addins != null && addins.Count > 0 )
+			{
+				StringBuilder sb = new StringBuilder(
+					"The following addins have been loaded -\r\n\r\n" );
+
+				foreach( string addin in addins )
+					sb.AppendFormat( "  {0}\r\n", addin );
+
+				msg = sb.ToString();
+			}
+
+			MessageBox.Show( this, msg, "Loaded Addins", MessageBoxButtons.OK, MessageBoxIcon.Information );	
 		}
 	}
 }

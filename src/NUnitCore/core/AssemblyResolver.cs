@@ -138,7 +138,10 @@ namespace NUnit.Core
 								"'AssemblyResolver'" );
 							Trace.WriteLine( string.Format( "      as {0}", file ), 
 								"'AssemblyResolver'" );
-							Assembly assembly = Assembly.LoadFrom( file );
+//							AssemblyName assemblyName = new AssemblyName();
+							assemblyName.CodeBase = file;
+							Assembly assembly = Assembly.Load( assemblyName );
+							//Assembly assembly = Assembly.LoadFrom( file );
 							_cache.Add( name, assembly );
 							return assembly;
 						}
