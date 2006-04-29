@@ -6,8 +6,9 @@
   <property name="current.build.output" value="nunit.framework"/>
 
   <target name="build" depends="make-build-dir">
-    <csc target="library" 
+    <csc target="library"
         output="${current.build.dir}/nunit.framework.dll"
+        doc="${current.build.dir}/nunit.framework.xml"
         debug="${build.debug}" 
         define="${build.defines.csc},StronglyNamedAssembly"
         nowarn="618,672">
