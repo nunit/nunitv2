@@ -110,11 +110,6 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "nunit.framework.tests"
-                    Project = "{8C326431-AE57-4645-ACC1-A90A0B425129}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "nunit.core.dll"
                     Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
