@@ -23,6 +23,14 @@
         <include name="nunit.util.dll"/>
       </references>
     </csc>
+
+    <copy todir="${current.build.dir}">
+      <fileset>
+        <include name="Success.jpg"/>
+        <include name="Failure.jpg"/>
+        <include name="Ignored.jpg"/>
+      </fileset>
+    </copy>
   </target>
 
   <target name="package">
