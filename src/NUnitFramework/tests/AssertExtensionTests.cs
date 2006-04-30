@@ -50,16 +50,20 @@ namespace NUnit.Framework.Tests
 			}
 		}
 
-		private class OddAsserter : ConditionAsserter
+		private class OddAsserter : AbstractAsserter
 		{
 			private int num;
 
 			public OddAsserter( int num, string message, params object[] args )
-			   : base( (num & 1) == 1, message, args )
+			   : base( message, args )
 			{
 				this.num = num;
 			}
 
+            public override bool Test()
+            {
+                return (this.num & 1)== 1;
+            }
 			public override string Message
 			{
 				get

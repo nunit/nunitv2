@@ -113,7 +113,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void IsTrue(bool condition, string message, params object[] args) 
 		{
-			DoAssert( new TrueAsserter( condition, message, args ) );
+            DoAssert(new EqualAsserter(true, condition, message, args));
 		}
     
 		/// <summary>
@@ -134,7 +134,7 @@ namespace NUnit.Framework
 		/// <param name="condition">The evaluated condition</param>
 		static public void IsTrue(bool condition) 
 		{
-			Assert.IsTrue(condition, string.Empty, null);
+			Assert.IsTrue(condition, null, null);
 		}
 
 		#endregion
@@ -150,7 +150,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void IsFalse(bool condition, string message, params object[] args) 
 		{
-			DoAssert( new FalseAsserter( condition, message, args ) );
+            DoAssert(new EqualAsserter(false, condition, message, args));
 		}
 		
 		/// <summary>
@@ -188,7 +188,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void IsNotNull(Object anObject, string message, params object[] args) 
 		{
-			DoAssert( new NotNullAsserter( anObject, message, args ) );
+            DoAssert(new NotEqualAsserter(null, anObject, message, args));
 		}
 
 		/// <summary>
@@ -228,7 +228,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void IsNull(Object anObject, string message, params object[] args) 
 		{
-			DoAssert( new NullAsserter( anObject, message, args ) );
+            DoAssert(new EqualAsserter(null, anObject, message, args));
 		}
 
 		/// <summary>
@@ -268,7 +268,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void IsNaN(double aDouble, string message, params object[] args) 
 		{
-			DoAssert( new NaNAsserter( aDouble, message, args ) );
+            DoAssert(new EqualAsserter(double.NaN, aDouble, message, args));
 		}
 
 		/// <summary>
@@ -306,7 +306,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void IsEmpty( string aString, string message, params object[] args )
 		{
-			DoAssert( new EmptyAsserter( aString, message, args ) );
+            DoAssert(new EqualAsserter(string.Empty, aString, message, args));
 		}
 
 		/// <summary>
@@ -336,7 +336,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void IsEmpty( ICollection collection, string message, params object[] args )
 		{
-			DoAssert( new EmptyAsserter( collection, message, args ) );
+			DoAssert( new CollectionEmptyAsserter( collection, message, args ) );
 		}
 
 		/// <summary>
@@ -368,7 +368,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void IsNotEmpty( string aString, string message, params object[] args )
 		{
-			DoAssert( new NotEmptyAsserter( aString, message, args ) );
+            DoAssert(new NotEqualAsserter(string.Empty, aString, message, args));
 		}
 
 		/// <summary>
@@ -398,7 +398,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void IsNotEmpty( ICollection collection, string message, params object[] args )
 		{
-			DoAssert( new NotEmptyAsserter( collection, message, args ) );
+			DoAssert( new CollectionNotEmptyAsserter( collection, message, args ) );
 		}
 
 		/// <summary>

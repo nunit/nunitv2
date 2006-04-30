@@ -512,7 +512,61 @@ namespace NUnit.Framework
 
 	#endregion
 
-	#endregion
+    #region CollectionEmptyAsserter
+    /// <summary>
+    /// Class to Assert that a collection is empty
+    /// </summary>
+    public class CollectionEmptyAsserter : CollectionAsserter
+    {
+        /// <summary>
+        /// Construct an EmptyAsserter for a collection
+        /// </summary>
+        /// <param name="collection">The collection to be tested</param>
+        /// <param name="message">The message to display if the collection is not empty</param>
+        /// <param name="args">Arguements to use in formatting the message</param>
+        public CollectionEmptyAsserter(ICollection collection, string message, params object[] args)
+            : base(collection, message, args) { }
+
+        public override bool Test()
+        {
+            if (set1.Count == 0)
+                return true;
+
+            FailureMessage.AddExpectedLine("An empty collection");
+            FailureMessage.AddActualLine(string.Format("A collection containing {0} items", set1.Count));
+            return false;
+        }
+    }
+    #endregion
+
+    #region CollectionNotEmptyAsserter
+    /// <summary>
+    /// Class to Assert that a collection is empty
+    /// </summary>
+    public class CollectionNotEmptyAsserter : CollectionAsserter
+    {
+        /// <summary>
+        /// Construct an EmptyAsserter for a collection
+        /// </summary>
+        /// <param name="collection">The collection to be tested</param>
+        /// <param name="message">The message to display if the collection is not empty</param>
+        /// <param name="args">Arguements to use in formatting the message</param>
+        public CollectionNotEmptyAsserter(ICollection collection, string message, params object[] args)
+            : base(collection, message, args) { }
+
+        public override bool Test()
+        {
+            if (set1.Count > 0)
+                return true;
+
+            FailureMessage.AddExpectedLine("A non-empty collection");
+            FailureMessage.AddActualLine("An empty collection");
+            return false;
+        }
+    }
+    #endregion
+
+    #endregion
 
 	public class CollectionAssert
 	{
@@ -993,7 +1047,70 @@ namespace NUnit.Framework
 		}
 		#endregion
 
-	}
+        #region IsEmpty
+        /// <summary>
+        /// Assert that an array, list or other collection is empty
+        /// </summary>
+        /// <param name="collection">An array, list or other collection implementing ICollection</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static void IsEmpty(ICollection collection, string message, params object[] args)
+        {
+            Assert.DoAssert(new CollectionEmptyAsserter(collection, message, args));
+        }
+
+        /// <summary>
+        /// Assert that an array, list or other collection is empty
+        /// </summary>
+        /// <param name="collection">An array, list or other collection implementing ICollection</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        public static void IsEmpty(ICollection collection, string message)
+        {
+            IsEmpty(collection, message, null);
+        }
+
+        /// <summary>
+        /// Assert that an array,list or other collection is empty
+        /// </summary>
+        /// <param name="collection">An array, list or other collection implementing ICollection</param>
+        public static void IsEmpty(ICollection collection)
+        {
+            IsEmpty(collection, string.Empty, null);
+        }
+        #endregion
+
+        #region IsNotEmpty
+        /// <summary>
+        /// Assert that an array, list or other collection is empty
+        /// </summary>
+        /// <param name="collection">An array, list or other collection implementing ICollection</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static void IsNotEmpty(ICollection collection, string message, params object[] args)
+        {
+            Assert.DoAssert(new CollectionNotEmptyAsserter(collection, message, args));
+        }
+
+        /// <summary>
+        /// Assert that an array, list or other collection is empty
+        /// </summary>
+        /// <param name="collection">An array, list or other collection implementing ICollection</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        public static void IsNotEmpty(ICollection collection, string message)
+        {
+            IsNotEmpty(collection, message, null);
+        }
+
+        /// <summary>
+        /// Assert that an array,list or other collection is empty
+        /// </summary>
+        /// <param name="collection">An array, list or other collection implementing ICollection</param>
+        public static void IsNotEmpty(ICollection collection)
+        {
+            IsNotEmpty(collection, string.Empty, null);
+        }
+        #endregion
+    }
 }
 
 
