@@ -563,89 +563,171 @@ namespace NUnit.Framework
 
 		#region AreEqual
 
-		#region Ints
+        #region Ints
 
-		/// <summary>
-		/// Verifies that two ints are equal. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void AreEqual(int expected, 
-			int actual, string message, params object[] args) 
-		{
-			DoAssert( new EqualAsserter( expected, actual, message, args ) );
-		}
+        /// <summary>
+        /// Verifies that two ints are equal. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void AreEqual(int expected,
+            int actual, string message, params object[] args)
+        {
+            DoAssert(new EqualAsserter(expected, actual, message, args));
+        }
 
-		/// <summary>
-		/// Verifies that two ints are equal. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void AreEqual(int expected, int actual, string message) 
-		{
-			Assert.AreEqual( expected, actual, message, null );
-		}
+        /// <summary>
+        /// Verifies that two ints are equal. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void AreEqual(int expected, int actual, string message)
+        {
+            Assert.AreEqual(expected, actual, message, null);
+        }
 
-		/// <summary>
-		/// Verifies that two ints are equal. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		static public void AreEqual(int expected, int actual ) 
-		{
-			Assert.AreEqual( expected, actual, string.Empty, null );
-		}
+        /// <summary>
+        /// Verifies that two ints are equal. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        static public void AreEqual(int expected, int actual)
+        {
+            Assert.AreEqual(expected, actual, string.Empty, null);
+        }
 
-		#endregion
+        #endregion
 
-		#region UInts
+        #region Longs
 
-		/// <summary>
-		/// Verifies that two uints are equal. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void AreEqual(uint expected, 
-			uint actual, string message, params object[] args) 
-		{
-			DoAssert( new EqualAsserter( expected, actual, message, args ) );
-		}
+        /// <summary>
+        /// Verifies that two longs are equal. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void AreEqual(long expected,
+            long actual, string message, params object[] args)
+        {
+            DoAssert(new EqualAsserter(expected, actual, message, args));
+        }
 
-		/// <summary>
-		/// Verifies that two uints are equal. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void AreEqual(uint expected, uint actual, string message) 
-		{
-			Assert.AreEqual( expected, actual, message, null );
-		}
+        /// <summary>
+        /// Verifies that two longs are equal. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void AreEqual(long expected, long actual, string message)
+        {
+            Assert.AreEqual(expected, actual, message, null);
+        }
 
-		/// <summary>
-		/// Verifies that two uints are equal. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		static public void AreEqual(uint expected, uint actual ) 
-		{
-			Assert.AreEqual( expected, actual, string.Empty, null );
-		}
+        /// <summary>
+        /// Verifies that two longs are equal. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        static public void AreEqual(long expected, long actual)
+        {
+            Assert.AreEqual(expected, actual, string.Empty, null);
+        }
 
-		#endregion
+        #endregion
 
-		#region Decimals
+        #region UInts
+
+        /// <summary>
+        /// Verifies that two uints are equal. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void AreEqual(uint expected,
+            uint actual, string message, params object[] args)
+        {
+            DoAssert(new EqualAsserter(expected, actual, message, args));
+        }
+
+        /// <summary>
+        /// Verifies that two uints are equal. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void AreEqual(uint expected, uint actual, string message)
+        {
+            Assert.AreEqual(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that two uints are equal. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        static public void AreEqual(uint expected, uint actual)
+        {
+            Assert.AreEqual(expected, actual, string.Empty, null);
+        }
+
+        #endregion
+
+        #region Ulongs
+
+        /// <summary>
+        /// Verifies that two ulongs are equal. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void AreEqual(ulong expected,
+            ulong actual, string message, params object[] args)
+        {
+            DoAssert(new EqualAsserter(expected, actual, message, args));
+        }
+
+        /// <summary>
+        /// Verifies that two ulongs are equal. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void AreEqual(ulong expected, ulong actual, string message)
+        {
+            Assert.AreEqual(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that two ulongs are equal. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        static public void AreEqual(ulong expected, ulong actual)
+        {
+            Assert.AreEqual(expected, actual, string.Empty, null);
+        }
+
+        #endregion
+
+        #region Decimals
 
 		/// <summary>
 		/// Verifies that two decimals are equal. If they are not, then an 
@@ -883,83 +965,159 @@ namespace NUnit.Framework
    
 		#endregion
 
-		#region Ints
-		/// <summary>
-		/// Asserts that two ints are not equal. If they are equal
-		/// an <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The expected object</param>
-		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be displayed when the two objects are the same object.</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void AreNotEqual( int expected, int actual, string message, params object[] args)
-		{
-			DoAssert( new NotEqualAsserter( expected, actual, message, args ) );
-		}
+        #region Ints
+        /// <summary>
+        /// Asserts that two ints are not equal. If they are equal
+        /// an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="actual">The actual object</param>
+        /// <param name="message">The message to be displayed when the two objects are the same object.</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void AreNotEqual(int expected, int actual, string message, params object[] args)
+        {
+            DoAssert(new NotEqualAsserter(expected, actual, message, args));
+        }
 
-		/// <summary>
-		/// Asserts that two ints are not equal. If they are equal
-		/// an <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The expected object</param>
-		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be displayed when the objects are the same</param>
-		static public void AreNotEqual(int expected, int actual, string message) 
-		{
-			Assert.AreNotEqual(expected, actual, message, null);
-		}
-   
-		/// <summary>
-		/// Asserts that two ints are not equal. If they are equal
-		/// an <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The expected object</param>
-		/// <param name="actual">The actual object</param>
-		static public void AreNotEqual(int expected, int actual) 
-		{
-			Assert.AreNotEqual(expected, actual, string.Empty, null);
-		}
-		#endregion
+        /// <summary>
+        /// Asserts that two ints are not equal. If they are equal
+        /// an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="actual">The actual object</param>
+        /// <param name="message">The message to be displayed when the objects are the same</param>
+        static public void AreNotEqual(int expected, int actual, string message)
+        {
+            Assert.AreNotEqual(expected, actual, message, null);
+        }
 
-		#region UInts
-		/// <summary>
-		/// Asserts that two uints are not equal. If they are equal
-		/// an <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The expected object</param>
-		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be displayed when the two objects are the same object.</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void AreNotEqual( uint expected, uint actual, string message, params object[] args)
-		{
-			DoAssert( new NotEqualAsserter( expected, actual, message, args ) );
-		}
+        /// <summary>
+        /// Asserts that two ints are not equal. If they are equal
+        /// an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="actual">The actual object</param>
+        static public void AreNotEqual(int expected, int actual)
+        {
+            Assert.AreNotEqual(expected, actual, string.Empty, null);
+        }
+        #endregion
 
-		/// <summary>
-		/// Asserts that two uints are not equal. If they are equal
-		/// an <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The expected object</param>
-		/// <param name="actual">The actual object</param>
-		/// <param name="message">The message to be displayed when the objects are the same</param>
-		static public void AreNotEqual(uint expected, uint actual, string message) 
-		{
-			Assert.AreNotEqual(expected, actual, message, null);
-		}
-   
-		/// <summary>
-		/// Asserts that two uints are not equal. If they are equal
-		/// an <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The expected object</param>
-		/// <param name="actual">The actual object</param>
-		static public void AreNotEqual(uint expected, uint actual) 
-		{
-			Assert.AreNotEqual(expected, actual, string.Empty, null);
-		}
-		#endregion
+        #region Longs
+        /// <summary>
+        /// Asserts that two longss are not equal. If they are equal
+        /// an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="actual">The actual object</param>
+        /// <param name="message">The message to be displayed when the two objects are the same object.</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void AreNotEqual(long expected, long actual, string message, params object[] args)
+        {
+            DoAssert(new NotEqualAsserter(expected, actual, message, args));
+        }
 
-		#region Decimals
+        /// <summary>
+        /// Asserts that two longs are not equal. If they are equal
+        /// an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="actual">The actual object</param>
+        /// <param name="message">The message to be displayed when the objects are the same</param>
+        static public void AreNotEqual(long expected, long actual, string message)
+        {
+            Assert.AreNotEqual(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that two longs are not equal. If they are equal
+        /// an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="actual">The actual object</param>
+        static public void AreNotEqual(long expected, long actual)
+        {
+            Assert.AreNotEqual(expected, actual, string.Empty, null);
+        }
+        #endregion
+
+        #region UInts
+        /// <summary>
+        /// Asserts that two uints are not equal. If they are equal
+        /// an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="actual">The actual object</param>
+        /// <param name="message">The message to be displayed when the two objects are the same object.</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void AreNotEqual(uint expected, uint actual, string message, params object[] args)
+        {
+            DoAssert(new NotEqualAsserter(expected, actual, message, args));
+        }
+
+        /// <summary>
+        /// Asserts that two uints are not equal. If they are equal
+        /// an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="actual">The actual object</param>
+        /// <param name="message">The message to be displayed when the objects are the same</param>
+        static public void AreNotEqual(uint expected, uint actual, string message)
+        {
+            Assert.AreNotEqual(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that two uints are not equal. If they are equal
+        /// an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="actual">The actual object</param>
+        static public void AreNotEqual(uint expected, uint actual)
+        {
+            Assert.AreNotEqual(expected, actual, string.Empty, null);
+        }
+        #endregion
+
+        #region Ulongs
+        /// <summary>
+        /// Asserts that two ulongs are not equal. If they are equal
+        /// an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="actual">The actual object</param>
+        /// <param name="message">The message to be displayed when the two objects are the same object.</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void AreNotEqual(ulong expected, ulong actual, string message, params object[] args)
+        {
+            DoAssert(new NotEqualAsserter(expected, actual, message, args));
+        }
+
+        /// <summary>
+        /// Asserts that two ulongs are not equal. If they are equal
+        /// an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="actual">The actual object</param>
+        /// <param name="message">The message to be displayed when the objects are the same</param>
+        static public void AreNotEqual(ulong expected, ulong actual, string message)
+        {
+            Assert.AreNotEqual(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that two ulong are not equal. If they are equal
+        /// an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        /// <param name="actual">The actual object</param>
+        static public void AreNotEqual(ulong expected, ulong actual)
+        {
+            Assert.AreNotEqual(expected, actual, string.Empty, null);
+        }
+        #endregion
+
+        #region Decimals
 		/// <summary>
 		/// Asserts that two decimals are not equal. If they are equal
 		/// an <see cref="AssertionException"/> is thrown.
