@@ -31,10 +31,16 @@ namespace NUnit.Framework
 {
 	using System;
 
+	/// <summary>
+	/// Enumeration indicating how the expected message parameter is to be used
+	/// </summary>
 	public enum MessageMatch
 	{
-		Exact,
+		/// Expect an exact match
+		Exact,	
+		/// Expect a message containing the parameter string
 		Contains,
+		/// Match the regular expression provided as a parameter
 		Regex
 	}
 
@@ -81,7 +87,7 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Constructor for a given exception name and expected message text
 		/// </summary>
-		/// <param name="exceptionName">The full name of the expected exception</param>
+		/// <param name="exceptionType">The type of the expected exception</param>
 		/// <param name="expectedMessage">The expected messge text</param>
 		/// <param name="matchType">The matching method to be used: Exact, Contains or Regex</param>
 		public ExpectedExceptionAttribute(Type exceptionType, string expectedMessage, MessageMatch matchType)
@@ -118,6 +124,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="exceptionType">The type of the expected exception</param>
 		/// <param name="expectedMessage">The expected message text</param>
+		/// <param name="userMessage">The user message to display in case of failure</param>
 		public ExpectedExceptionAttribute(Type exceptionType, string expectedMessage, string userMessage)
 		{
 			this.expectedException = exceptionType;
@@ -131,6 +138,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="exceptionName">The full name of the expected exception</param>
 		/// <param name="expectedMessage">The expected messge text</param>
+		/// <param name="userMessage">The user message to display in case of failure</param>
 		public ExpectedExceptionAttribute(string exceptionName, string expectedMessage, string userMessage)
 		{
 			this.expectedExceptionName = exceptionName;
@@ -165,22 +173,22 @@ namespace NUnit.Framework
 			set { expectedMessage = value; }
 		}
 
+		/// <summary>
+		/// The user message displayed in case of failure
+		/// </summary>
 		public string UserMessage
 		{
 			get { return userMessage; }
 			set { userMessage = value; }
 		}
 
+		/// <summary>
+		///  The type of match to be performed on the expected message
+		/// </summary>
 		public MessageMatch MatchType
 		{
 			get { return matchType; }
 			set { matchType = value; }
 		}
-
-//		public string Contains
-//		{
-//			get { return mode == contains ? expectedMessage : null ; }
-//			set { expectedMessage = value; mode = contains; }
-//		}
 	}
 }

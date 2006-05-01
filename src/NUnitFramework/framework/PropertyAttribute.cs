@@ -3,7 +3,7 @@ using System;
 namespace NUnit.Framework
 {
 	/// <summary>
-	/// Summary description for PropertyAttribute.
+	/// PropertyAttribute is used to attach information to a test as a name/value pair..
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method, AllowMultiple=true)]
 	public class PropertyAttribute : Attribute
@@ -14,19 +14,25 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Construct a PropertyAttribute with a name and value
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="value"></param>
+		/// <param name="propertyName">The name of the property</param>
+		/// <param name="propertyValue">The property value</param>
 		public PropertyAttribute( string propertyName, object propertyValue )
 		{
 			this.propertyName = propertyName;
 			this.propertyValue = propertyValue;
 		}
 
+		/// <summary>
+		/// Gets the property name
+		/// </summary>
 		public string Name
 		{
 			get { return propertyName; }
 		}
 
+		/// <summary>
+		/// Gets the property value
+		/// </summary>
 		public object Value
 		{
 			get { return propertyValue; }
