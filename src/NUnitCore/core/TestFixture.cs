@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.IO;
 
 namespace NUnit.Core
 {
@@ -126,6 +127,15 @@ namespace NUnit.Core
                 }
 			}
 		}
+
+        public override TestResult Run(EventListener listener, TestFilter filter)
+        {
+            Uri uri = new Uri( FixtureType.Assembly.CodeBase );
+            using ( new DirectorySwapper( Path.GetDirectoryName( uri.LocalPath ) ) )
+            {
+                return base.Run(listener, filter);
+            }
+        }
 
 		#endregion
 	}

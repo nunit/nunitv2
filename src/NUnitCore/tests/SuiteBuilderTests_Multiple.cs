@@ -62,16 +62,15 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void RootNode()
 		{
-			Assert.IsTrue( loadedSuite is RootTestSuite );
 			Assert.AreEqual( "TestSuite", loadedSuite.Name );
 		}
 
-		[Test]
-		public void AssemblyNodes()
-		{
-			Assert.IsTrue( loadedSuite.Tests[0] is TestAssembly );
-			Assert.IsTrue( loadedSuite.Tests[1] is TestAssembly );
-		}
+        //[Test]
+        //public void AssemblyNodes()
+        //{
+        //    Assert.IsTrue( loadedSuite.Tests[0] is TestAssembly );
+        //    Assert.IsTrue( loadedSuite.Tests[1] is TestAssembly );
+        //}
 
 		[Test]
 		public void TestCaseCount()

@@ -72,7 +72,6 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void RootNode()
 		{
-			//Assert.IsTrue( loadedSuite is RootTestSuite );
 			Assert.AreEqual( name, loadedSuite.Name );
 		}
 

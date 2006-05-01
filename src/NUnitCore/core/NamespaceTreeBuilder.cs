@@ -46,9 +46,7 @@ namespace NUnit.Core
 		Hashtable namespaceSuites  = new Hashtable();
 
 		/// <summary>
-		/// The root of the test suite being created by this builder. This
-		/// may be a simple TestSuite, an AssemblyTestSuite or a RootTestSuite
-		/// encompassing multiple assemblies.
+		/// The root of the test suite being created by this builder.
 		/// </summary>
 		TestSuite rootSuite;
 
@@ -77,8 +75,8 @@ namespace NUnit.Core
 		public void Add( IList fixtures )
 		{
             foreach (TestSuite fixture in fixtures)
-                if (fixture is NamespaceSuite)
-                    Add(fixture as NamespaceSuite);
+                if (fixture is SetUpFixture)
+                    Add(fixture as SetUpFixture);
                 else
                     Add( fixture );
 		}
@@ -93,7 +91,7 @@ namespace NUnit.Core
 			suite.Add( fixture );
 		}
 
-		public void Add( NamespaceSuite fixture )
+		public void Add( SetUpFixture fixture )
 		{
 			string ns = fixture.FullName;
 			int index = ns.LastIndexOf( '.' );
@@ -136,7 +134,7 @@ namespace NUnit.Core
 			//string prefix = string.Format( "[{0}]" );
 			if( index == -1 )
 			{
-				suite = new NamespaceSuite( nameSpace );
+				suite = new TestSuite( nameSpace );
 				if ( rootSuite == null )
 					rootSuite = suite;
 				else
@@ -148,7 +146,7 @@ namespace NUnit.Core
 				string parentNameSpace = nameSpace.Substring( 0,index );
 				TestSuite parent = BuildFromNameSpace( parentNameSpace );
 				string suiteName = nameSpace.Substring( index+1 );
-				suite = new NamespaceSuite( parentNameSpace, suiteName );
+				suite = new TestSuite( parentNameSpace, suiteName );
 				parent.Add( suite );
 				namespaceSuites[nameSpace] = suite;
 			}

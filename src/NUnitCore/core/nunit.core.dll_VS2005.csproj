@@ -113,9 +113,6 @@
     <Compile Include="LegacySuite.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NamespaceSuite.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="NamespaceTreeBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -152,9 +149,6 @@
     <Compile Include="RemoteTestRunner.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="RootTestSuite.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="RuntimeFramework.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -174,9 +168,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Test.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TestAssembly.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TestBuilderAttribute.cs">

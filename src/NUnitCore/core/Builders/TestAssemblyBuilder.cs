@@ -131,9 +131,9 @@ namespace NUnit.Core.Builders
 			return BuildTestAssembly( assemblyName, fixtures );
 		}
 
-		private TestAssembly BuildTestAssembly( string assemblyName, IList fixtures )
+		private TestSuite BuildTestAssembly( string assemblyName, IList fixtures )
 		{
-			TestAssembly testAssembly = CreateTestAssembly( assemblyName );
+			TestSuite testAssembly = new TestSuite( assemblyName );
 
 			if ( autoNamespaceSuites )
 			{
@@ -159,16 +159,6 @@ namespace NUnit.Core.Builders
 			return testAssembly;
 		}
 
-		#endregion
-
-		#region Factory Methods
-		/// <summary>
-		/// Factory method for constructing TestAssembly instance.
-		/// </summary>
-		protected virtual TestAssembly CreateTestAssembly(string assemblyName)
-		{
-			return new TestAssembly(assemblyName);
-		} 
 		#endregion
 
 		#region Nested TypeFilter Class

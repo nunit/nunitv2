@@ -68,7 +68,7 @@ namespace NUnit.Core
 
 		public TestSuite Build( string projectName, string[] assemblies, string testName )
 		{
-			RootTestSuite rootSuite = new RootTestSuite( projectName );
+			TestSuite rootSuite = new TestSuite( projectName );
 			NamespaceTreeBuilder namespaceTree = 
 				new NamespaceTreeBuilder( rootSuite );
 

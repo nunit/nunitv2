@@ -200,11 +200,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "NamespaceSuite.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "NamespaceTreeBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -274,11 +269,6 @@
                     BuildAction = "None"
                 />
                 <File
-                    RelPath = "RootTestSuite.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "RuntimeFramework.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -314,11 +304,6 @@
                 />
                 <File
                     RelPath = "Test.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestAssembly.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

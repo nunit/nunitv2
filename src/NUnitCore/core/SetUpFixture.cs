@@ -33,10 +33,10 @@ using System.Reflection;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// SetUpFixture extends NamespaceSuite and allows a namespace to have
+	/// SetUpFixture extends TestSuiteSuite and supports
 	/// a TestFixtureSetup and TestFixtureTearDown.
 	/// </summary>
-	public class SetUpFixture : NamespaceSuite
+	public class SetUpFixture : TestSuite
 	{
 		public SetUpFixture( Type type ) : base( type )
 		{
