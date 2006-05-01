@@ -200,4 +200,18 @@ namespace NUnit.TestData.FixtureSetUpTearDown
 			teardownCalled = true;
 		}
 	}
+
+    [TestFixture]
+    public class DisposableFixture : IDisposable
+    {
+        public bool disposeCalled = false;
+
+        [Test]
+        public void OneTest() { }
+
+        public void Dispose()
+        {
+            disposeCalled = true;
+        }
+    }
 }

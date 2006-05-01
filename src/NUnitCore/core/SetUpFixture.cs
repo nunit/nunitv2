@@ -47,10 +47,6 @@ namespace NUnit.Core
             if (index > 0)
                 this.TestName.Name = this.TestName.Name.Substring(index + 1);
             
-			// NOTE: Once again, since we are not inheriting from TestFixture,
-			// no automatic construction is performed for us, so we do it here.
-			this.Fixture = Reflect.Construct( type );
-
 			this.fixtureSetUp = Reflect.GetMethodWithAttribute( 
 				type, "NUnit.Framework.TestFixtureSetUpAttribute",
 				BindingFlags.Public | BindingFlags.Instance, true );
@@ -63,7 +59,9 @@ namespace NUnit.Core
 		{
 			base.DoOneTimeSetUp (suiteResult);
 
-			if ( fixtureSetUp != null && suiteResult.IsSuccess )
+            this.Fixture = Reflect.Construct(this.FixtureType);
+
+            if (fixtureSetUp != null && suiteResult.IsSuccess)
 				Reflect.InvokeMethod( fixtureSetUp, this.Fixture );
 		}
 

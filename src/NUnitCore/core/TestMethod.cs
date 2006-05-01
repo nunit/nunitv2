@@ -102,8 +102,7 @@ namespace NUnit.Core
 			{
 				if ( parentSuite != null )
 				{
-					if ( Fixture == null )
-						Fixture = parentSuite.Fixture;
+					Fixture = parentSuite.Fixture;
 					
 					if ( setUpMethod == null )
 						setUpMethod = parentSuite.SetUpMethod;

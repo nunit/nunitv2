@@ -55,11 +55,11 @@ namespace NUnit.Core
 		{
 			try 
 			{
-				if ( Fixture == null )
-				{
+                if ( Fixture == null ) // In case TestFixture was created with fixture object
+                {
 					Fixture = Reflect.Construct( FixtureType );
 					System.Diagnostics.Trace.WriteLine( "Constructed {0}" + FixtureType.Name );
-				}
+                }
 
 				if (this.fixtureSetUp != null)
 					Reflect.InvokeMethod(fixtureSetUp, Fixture);
@@ -117,17 +117,13 @@ namespace NUnit.Core
 				{
 					if ( testFramework != null )
 						suiteResult.AssertCount += testFramework.GetAssertCount();
-				}
 
-// TODO: We would like to shorten the life of user fixture objects. However
-// this code causes one of our tests in TestDomainTests_Multiple to fail on
-// the second run. We need to understand what's happening there before we
-// can enable this cleanup.
-//				System.Diagnostics.Trace.WriteLine( "Destroying " + Fixture.GetType().Name );
-//				IDisposable disposeable = Fixture as IDisposable;
-//				if ( disposeable != null )
-//					disposeable.Dispose();
-//				this.Fixture = null;
+                    System.Diagnostics.Trace.WriteLine("Destroying " + Fixture.GetType().Name);
+                    IDisposable disposeable = Fixture as IDisposable;
+                    if (disposeable != null)
+                        disposeable.Dispose();
+                    this.Fixture = null;
+                }
 			}
 		}
 
