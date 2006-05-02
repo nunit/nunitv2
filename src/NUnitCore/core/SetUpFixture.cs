@@ -54,23 +54,5 @@ namespace NUnit.Core
 				type, "NUnit.Framework.TestFixtureTearDownAttribute",
 				BindingFlags.Public | BindingFlags.Instance, true );
 		}
-
-		protected override void DoOneTimeSetUp(TestResult suiteResult)
-		{
-			base.DoOneTimeSetUp (suiteResult);
-
-            this.Fixture = Reflect.Construct(this.FixtureType);
-
-            if (fixtureSetUp != null && suiteResult.IsSuccess)
-				Reflect.InvokeMethod( fixtureSetUp, this.Fixture );
-		}
-
-		protected override void DoOneTimeTearDown(TestResult suiteResult)
-		{
-			if (fixtureTearDown != null )
-				Reflect.InvokeMethod( fixtureTearDown, this.Fixture );
-
-			base.DoOneTimeTearDown (suiteResult);
-		}
 	}
 }

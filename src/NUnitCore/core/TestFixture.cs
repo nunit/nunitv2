@@ -51,83 +51,6 @@ namespace NUnit.Core
 		#endregion
 
 		#region TestSuite Overrides
-
-		protected override void DoOneTimeSetUp( TestResult suiteResult )
-		{
-			try 
-			{
-                if ( Fixture == null ) // In case TestFixture was created with fixture object
-                {
-					Fixture = Reflect.Construct( FixtureType );
-					System.Diagnostics.Trace.WriteLine( "Constructed {0}" + FixtureType.Name );
-                }
-
-				if (this.fixtureSetUp != null)
-					Reflect.InvokeMethod(fixtureSetUp, Fixture);
-				setUpStatus = SetUpState.SetUpComplete;
-			} 
-			catch (Exception ex) 
-			{
-				//NunitException nex = ex as NunitException;
-				if ( ex is NunitException || ex is System.Reflection.TargetInvocationException )
-					ex = ex.InnerException;
-
-				if ( testFramework.IsIgnoreException( ex ) )
-				{
-					this.RunState = RunState.Ignored;
-					suiteResult.Ignore(ex.Message);
-					suiteResult.StackTrace = ex.StackTrace;
-					this.IgnoreReason = ex.Message;
-				}
-				else
-				{
-					suiteResult.Failure( ex.Message, ex.StackTrace );
-					setUpStatus = SetUpState.SetUpFailed;
-				}
-			}
-			finally
-			{
-				if ( testFramework != null )
-					suiteResult.AssertCount = testFramework.GetAssertCount();
-			}
-		}
-
-		protected override void DoOneTimeTearDown( TestResult suiteResult )
-		{
-			if (this.ShouldRun) 
-			{
-				try 
-				{
-					setUpStatus = SetUpState.SetUpNeeded;
-					if (this.fixtureTearDown != null)
-						Reflect.InvokeMethod(fixtureTearDown, Fixture);
-				} 
-				catch (Exception ex) 
-				{
-					// Error in TestFixtureTearDown causes the
-					// suite to be marked as a failure, even if
-					// all the contained tests passed.
-					NunitException nex = ex as NunitException;
-					if (nex != null)
-						ex = nex.InnerException;
-
-				
-					suiteResult.Failure( ex.Message, ex.StackTrace);
-				}
-				finally
-				{
-					if ( testFramework != null )
-						suiteResult.AssertCount += testFramework.GetAssertCount();
-
-                    System.Diagnostics.Trace.WriteLine("Destroying " + Fixture.GetType().Name);
-                    IDisposable disposeable = Fixture as IDisposable;
-                    if (disposeable != null)
-                        disposeable.Dispose();
-                    this.Fixture = null;
-                }
-			}
-		}
-
         public override TestResult Run(EventListener listener, TestFilter filter)
         {
             Uri uri = new Uri( FixtureType.Assembly.CodeBase );
@@ -136,7 +59,6 @@ namespace NUnit.Core
                 return base.Run(listener, filter);
             }
         }
-
 		#endregion
 	}
 }
