@@ -297,7 +297,7 @@ namespace NUnit.Core
                     if (ex is NunitException || ex is System.Reflection.TargetInvocationException)
                         ex = ex.InnerException;
 
-                    if (testFramework.IsIgnoreException(ex))
+                    if (IsIgnoreException(ex))
                     {
                         this.RunState = RunState.Ignored;
                         suiteResult.Ignore(ex.Message);
@@ -309,11 +309,6 @@ namespace NUnit.Core
                         suiteResult.Failure(ex.Message, ex.StackTrace);
                         setUpStatus = SetUpState.SetUpFailed;
                     }
-                }
-                finally
-                {
-                    if (testFramework != null)
-                        suiteResult.AssertCount = testFramework.GetAssertCount();
                 }
             }
         }
@@ -343,9 +338,6 @@ namespace NUnit.Core
                 }
                 finally
                 {
-                    if (testFramework != null)
-                        suiteResult.AssertCount += testFramework.GetAssertCount();
-
                     System.Diagnostics.Trace.WriteLine("Destroying " + Fixture.GetType().Name);
                     IDisposable disposeable = Fixture as IDisposable;
                     if (disposeable != null)
@@ -393,6 +385,11 @@ namespace NUnit.Core
 				}
 			}
 		}
-		#endregion
+
+        protected virtual bool IsIgnoreException(Exception ex)
+        {
+            return ex.GetType().FullName == "NUnit.Framework.IgnoreException";
+        }
+        #endregion
 	}
 }

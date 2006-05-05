@@ -93,9 +93,6 @@
     <Compile Include="EventQueue.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GenericTestFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="IgnoreDecorator.cs" />
     <Compile Include="InvalidSuiteException.cs">
       <SubType>Code</SubType>
@@ -196,9 +193,6 @@
     <Compile Include="TestFixtureBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestFixtureParameters.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="TestFramework.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -226,12 +220,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Builders\CSUnitTestFixtureBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\GenericTestCaseBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\GenericTestFixtureBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Builders\LegacySuiteBuilder.cs">

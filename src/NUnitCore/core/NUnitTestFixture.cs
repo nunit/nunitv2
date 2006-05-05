@@ -28,35 +28,89 @@
 #endregion
 
 using System;
+using System.Reflection;
 
 namespace NUnit.Core
 {
-	/// <summary>
-	/// Class to implement an NUnit test fixture
-	/// </summary>
-	public class NUnitTestFixture : GenericTestFixture
-	{
-		static public readonly TestFixtureParameters Parameters
-			= new TestFixtureParameters
-			(
-				"NUnit",
-				"NUnit.Framework",
-				"TestFixtureAttribute",
-				"",
-				"TestAttribute",
-				"^(?i:test)",
-				"ExpectedExceptionAttribute",
-				"SetUpAttribute",
-				"TearDownAttribute",
-				"TestFixtureSetUpAttribute",
-				"TestFixtureTearDownAttribute",
-				"IgnoreAttribute",
-				true, false, true
-			);
-		
-		public NUnitTestFixture( Type fixtureType ) 
-			: base( Parameters, fixtureType )
-		{
-		}
-	}
+    /// <summary>
+    /// Class to implement an NUnit test fixture
+    /// </summary>
+    public class NUnitTestFixture : TestFixture
+    {
+        public NUnitTestFixture(Type fixtureType) : base( fixtureType)
+        {
+            this.testFramework = TestFramework.FromType(fixtureType);
+
+            this.testSetUp = GetSetUpMethod();
+            this.testTearDown = GetTearDownMethod();
+            this.fixtureSetUp = GetFixtureSetUpMethod();
+            this.fixtureTearDown = GetFixtureTearDownMethod();
+        }
+
+        #region Helper Methods
+        private MethodInfo GetSetUpMethod()
+        {
+            return Reflect.GetMethodWithAttribute(FixtureType, "NUnit.Framework.SetUpAttribute",
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+                true);
+        }
+        private MethodInfo GetTearDownMethod()
+        {
+            return Reflect.GetMethodWithAttribute(FixtureType, "NUnit.Framework.TearDownAttribute",
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+                true);
+        }
+        private MethodInfo GetFixtureSetUpMethod()
+        {
+            return Reflect.GetMethodWithAttribute(FixtureType, "NUnit.Framework.TestFixtureSetUpAttribute",
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+                true);
+        }
+        private MethodInfo GetFixtureTearDownMethod()
+        {
+            return Reflect.GetMethodWithAttribute(FixtureType, "NUnit.Framework.TestFixtureTearDownAttribute",
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+                true);
+        }
+        #endregion
+
+        protected override void DoOneTimeSetUp(TestResult suiteResult)
+        {
+            base.DoOneTimeSetUp(suiteResult);
+
+            if (testFramework != null)
+                suiteResult.AssertCount = testFramework.GetAssertCount(); ;
+        }
+
+        protected override void DoOneTimeTearDown(TestResult suiteResult)
+        {
+            base.DoOneTimeTearDown(suiteResult);
+
+            if (testFramework != null)
+                suiteResult.AssertCount += testFramework.GetAssertCount();
+        }
+    }
+
+    public class NUnitTestMethod : TestMethod
+    {
+        #region Constructors
+        public NUnitTestMethod(MethodInfo method) : base(method) { }
+
+        public NUnitTestMethod(MethodInfo method,
+            Type expectedException, string expectedMessage, string matchType)
+            : base(method, expectedException, expectedMessage, matchType) { }
+
+        public NUnitTestMethod(MethodInfo method,
+            string expectedExceptionName, string expectedMessage, string matchType)
+            : base(method, expectedExceptionName, expectedMessage, matchType) { }
+        #endregion
+
+        public override void Run(TestCaseResult testResult)
+        {
+            base.Run(testResult);
+
+            if (testFramework != null)
+                testResult.AssertCount = testFramework.GetAssertCount();
+        }
+    }
 }

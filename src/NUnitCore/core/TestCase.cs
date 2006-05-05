@@ -93,9 +93,6 @@ namespace NUnit.Core
                     break;
             }
 
-			if ( testFramework != null )
-				testResult.AssertCount = testFramework.GetAssertCount();
-
 			long stopTime = DateTime.Now.Ticks;
 			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
 			testResult.Time = time;

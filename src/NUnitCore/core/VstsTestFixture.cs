@@ -28,35 +28,66 @@
 #endregion
 
 using System;
+using System.Reflection;
 
 namespace NUnit.Core
 {
 	/// <summary>
 	/// A TestSuite that wraps a Visual Studio Team System test class
 	/// </summary>
-	public class VstsTestFixture : GenericTestFixture
+	public class VstsTestFixture : TestFixture
 	{
-		static public readonly TestFixtureParameters Parameters 
-			= new TestFixtureParameters
-			(
-				"vsts",
-                "Microsoft.VisualStudio.TestTools.UnitTesting",
-				"TestClassAttribute",
-				"",
-				"TestMethodAttribute",
-				"",
-				"ExpectedExceptionAttribute", //?
-				"TestInitializeAttribute",
-				"TestCleanupAttribute",
-				"ClassInitializeAttribute",
-				"ClassCleanupAttribute",
-				"IgnoreAttribute", //?
-				true, false, true
-			);
-
-		public VstsTestFixture( Type fixtureType ) 
-			: base( Parameters, fixtureType )
+		public VstsTestFixture( Type fixtureType ) : base( fixtureType )
 		{
-		}
-	}
+            this.testFramework = TestFramework.FromType(fixtureType);
+
+            this.testSetUp = GetSetUpMethod();
+            this.testTearDown = GetTearDownMethod();
+            this.fixtureSetUp = GetFixtureSetUpMethod();
+            this.fixtureTearDown = GetFixtureTearDownMethod();
+        }
+
+        #region Protected Methods
+
+        protected virtual MethodInfo GetSetUpMethod()
+        {
+            return Reflect.GetMethodWithAttribute(FixtureType, "Microsoft.VisualStudio.TestTools.UnitTesting.TestInitializeAttribute",
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+                true);
+        }
+        protected virtual MethodInfo GetTearDownMethod()
+        {
+            return Reflect.GetMethodWithAttribute(FixtureType, "Microsoft.VisualStudio.TestTools.UnitTesting.TestCleanupAttribute",
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+                true);
+        }
+        protected virtual MethodInfo GetFixtureSetUpMethod()
+        {
+            return Reflect.GetMethodWithAttribute(FixtureType, "Microsoft.VisualStudio.TestTools.UnitTesting.ClassInitializeAttribute",
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+                true);
+        }
+        protected virtual MethodInfo GetFixtureTearDownMethod()
+        {
+            return Reflect.GetMethodWithAttribute(FixtureType, "Microsoft.VisualStudio.TestTools.UnitTesting.ClassCleanupAttribute",
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+                true);
+        }
+        #endregion
+    }
+
+    public class VstsTestMethod : TestMethod
+    {
+        #region Constructors
+        public VstsTestMethod(MethodInfo method) : base(method) { }
+
+        public VstsTestMethod(MethodInfo method,
+            Type expectedException, string expectedMessage, string matchType)
+            : base(method, expectedException, expectedMessage, matchType) { }
+
+        public VstsTestMethod(MethodInfo method,
+            string expectedExceptionName, string expectedMessage, string matchType)
+            : base(method, expectedExceptionName, expectedMessage, matchType) { }
+        #endregion
+    }
 }

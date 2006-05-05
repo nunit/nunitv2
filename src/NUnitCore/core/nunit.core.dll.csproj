@@ -160,11 +160,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "GenericTestFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "IgnoreDecorator.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -358,11 +353,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestFixtureParameters.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestFramework.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -414,16 +404,6 @@
                 />
                 <File
                     RelPath = "Builders\CSUnitTestFixtureBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Builders\GenericTestCaseBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Builders\GenericTestFixtureBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

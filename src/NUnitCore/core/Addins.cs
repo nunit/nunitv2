@@ -51,7 +51,7 @@ namespace NUnit.Core
 		#region Static Constructor
 		static Addins()
 		{	
-			//Figure out the directory from which NUnit is exeuting
+			//Figure out the directory from which NUnit is executing
 			string moduleName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
 			string nunitDirPath = Path.GetDirectoryName( moduleName );
 

@@ -66,8 +66,8 @@ namespace NUnit.Core
 		{
 			// Add builtin SuiteBuilders
 			suiteBuilders.Add( new Builders.NUnitTestFixtureBuilder() );
-			suiteBuilders.Add( new Builders.CSUnitTestFixtureBuilder() );
-			suiteBuilders.Add( new Builders.VstsTestFixtureBuilder() );
+            //suiteBuilders.Add( new Builders.CSUnitTestFixtureBuilder() );
+            //suiteBuilders.Add( new Builders.VstsTestFixtureBuilder() );
 			suiteBuilders.Add( new Builders.SetUpFixtureBuilder() );
 
 			//Add builtin TestCaseBuilders

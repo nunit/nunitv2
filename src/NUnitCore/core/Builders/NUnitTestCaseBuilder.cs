@@ -31,20 +31,14 @@ using System;
 using System.Reflection;
 using System.Collections;
 using System.Collections.Specialized;
+using System.Text.RegularExpressions;
 using System.Configuration;
 using System.Diagnostics;
 
 namespace NUnit.Core.Builders
 {
-	public class NUnitTestCaseBuilder : GenericTestCaseBuilder
+	public class NUnitTestCaseBuilder : AbstractTestCaseBuilder
 	{
-		public NUnitTestCaseBuilder() 
-			: base( NUnitTestFixture.Parameters ) 
-		{
-			if ( !allowOldStyleTests )
-				parms.TestCasePattern = "";
-		}
-
 		static bool allowOldStyleTests;
 
 		static NUnitTestCaseBuilder()
@@ -116,5 +110,119 @@ namespace NUnit.Core.Builders
 
 			return categories;
 		}
-	}
+
+        #region AbstractTestCaseBuilder Overrides
+        public override bool CanBuildFrom(MethodInfo method)
+        {
+            if (Reflect.HasAttribute(method, "NUnit.Framework.TestAttribute", false))
+                return true;
+
+            if (allowOldStyleTests)
+            {
+                Regex regex = new Regex("^(?i:test)");
+                if (regex.Match(method.Name).Success && !IsSpecialMethod(method))
+                    return true;
+            }
+
+            return false;
+        }
+
+
+        protected override TestCase MakeTestCase(MethodInfo method)
+        {
+            Type expectedException = null;
+            string expectedExceptionName = null;
+            string expectedMessage = null;
+            string matchType = null;
+
+            Attribute attribute = Reflect.GetAttribute(method, "NUnit.Framework.ExpectedExceptionAttribute", false);
+            if (attribute != null)
+            {
+                expectedException = Reflect.GetPropertyValue(
+                    attribute, "ExceptionType",
+                    BindingFlags.Public | BindingFlags.Instance) as Type;
+                expectedExceptionName = (string)Reflect.GetPropertyValue(
+                    attribute, "ExceptionName",
+                    BindingFlags.Public | BindingFlags.Instance) as String;
+                expectedMessage = (string)Reflect.GetPropertyValue(
+                    attribute, "ExpectedMessage",
+                    BindingFlags.Public | BindingFlags.Instance) as String;
+                object matchEnum = Reflect.GetPropertyValue(
+                    attribute, "MatchType",
+                    BindingFlags.Public | BindingFlags.Instance);
+                if (matchEnum != null)
+                    matchType = matchEnum.ToString();
+            }
+
+            if (expectedException != null)
+                return new NUnitTestMethod(method, expectedException, expectedMessage, matchType);
+            else if (expectedExceptionName != null)
+                return new NUnitTestMethod(method, expectedExceptionName, expectedMessage, matchType);
+            else
+                return new NUnitTestMethod(method);
+        }
+
+        /// <summary>
+        /// Checks to see if the test is runnable by looking for the ignore 
+        /// attribute specified in the parameters.
+        /// </summary>
+        /// <param name="method">The method to be checked</param>
+        /// <param name="reason">A message indicating why the fixture is not runnable</param>
+        /// <returns>True if runnable, false if not</returns>
+        protected override bool IsRunnable(MethodInfo method, ref string reason)
+        {
+            Attribute ignoreAttribute =
+                Reflect.GetAttribute(method, "NUnit.Framework.IgnoreAttribute", false);
+            if (ignoreAttribute != null)
+            {
+                reason = (string)Reflect.GetPropertyValue(
+                    ignoreAttribute,
+                    "Reason",
+                    BindingFlags.Public | BindingFlags.Instance);
+                return false;
+            }
+            
+            return true;
+        }
+
+        protected override string GetTestCaseDescription(MethodInfo method)
+        {
+            Attribute testAttribute = Reflect.GetAttribute(method, "NUnit.Framework.TestAttribute", false);
+            if (testAttribute != null)
+                return (string)Reflect.GetPropertyValue(
+                    testAttribute,
+                    "Description",
+                    BindingFlags.Public | BindingFlags.Instance);
+
+            return null;
+        }
+        #endregion
+
+        #region Virtual Methods
+        protected virtual bool IsSpecialMethod(MethodInfo method)
+        {
+            return IsSetUpMethod(method)
+                || IsTearDownMethod(method)
+                || IsFixtureSetUpMethod(method)
+                || IsFixtureTearDownMethod(method);
+        }
+
+        protected virtual bool IsSetUpMethod(MethodInfo method)
+        {
+            return Reflect.HasAttribute(method, "NUnit.Framework.SetUpAttribute", false);
+        }
+        protected virtual bool IsTearDownMethod(MethodInfo method)
+        {
+            return Reflect.HasAttribute(method, "NUnit.Framework.TearDownAttribute", false);
+        }
+        protected virtual bool IsFixtureSetUpMethod(MethodInfo method)
+        {
+            return Reflect.HasAttribute(method, "NUnit.Framework.FixtureSetUpAttribute", false);
+        }
+        protected virtual bool IsFixtureTearDownMethod(MethodInfo method)
+        {
+            return Reflect.HasAttribute(method, "NUnit.Framework.FixtureTearDownAttribute", false);
+        }
+        #endregion
+    }
 }

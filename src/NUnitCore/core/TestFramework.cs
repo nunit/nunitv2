@@ -217,8 +217,7 @@ namespace NUnit.Core
 		#endregion
 
 		#region ITestFramework Interface
-
-		public string Name
+        public string Name
 		{
 			get { return this.frameworkInfo.Name; }
 		}
