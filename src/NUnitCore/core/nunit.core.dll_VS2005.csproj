@@ -78,9 +78,6 @@
     <Compile Include="CategoryManager.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CSUnitTestFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DirectorySwapper.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -207,19 +204,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ThreadedTestRunner.cs" />
-    <Compile Include="VstsTestFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Builders\AbstractFixtureBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Builders\AbstractTestCaseBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\CSUnitTestCaseBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\CSUnitTestFixtureBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Builders\LegacySuiteBuilder.cs">
@@ -235,10 +223,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Builders\TestAssemblyBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\VstsTestCaseBuilder.cs" />
-    <Compile Include="Builders\VstsTestFixtureBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
     <Content Include="Results.xsd">

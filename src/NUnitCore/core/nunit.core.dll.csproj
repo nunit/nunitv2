@@ -135,11 +135,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CSUnitTestFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "DirectorySwapper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -383,27 +378,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "VstsTestFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Builders\AbstractFixtureBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Builders\AbstractTestCaseBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Builders\CSUnitTestCaseBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Builders\CSUnitTestFixtureBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -429,16 +409,6 @@
                 />
                 <File
                     RelPath = "Builders\TestAssemblyBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Builders\VstsTestCaseBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Builders\VstsTestFixtureBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
