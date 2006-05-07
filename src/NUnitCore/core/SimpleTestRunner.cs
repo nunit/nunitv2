@@ -76,7 +76,7 @@ namespace NUnit.Core
 
 		public IList Extensions
 		{
-			get { return Addins.GetLoadedExtensions(); }
+			get { return Addins.Names; }
 		}
 
 		public TestNode Test

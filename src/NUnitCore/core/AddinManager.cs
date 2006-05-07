@@ -74,6 +74,58 @@ namespace NUnit.Core
 		{
 			get { return priorState; }
 		}
+
+		public IList Addins
+		{
+			get
+			{
+				ArrayList addins = new ArrayList();
+
+				addins.AddRange( this.suiteBuilders );
+				addins.AddRange( this.testBuilders );
+				addins.AddRange( this.testDecorators );
+
+				return addins;
+			}
+		}
+
+		public IList Names
+		{
+			get
+			{
+				ArrayList names = new ArrayList();
+			
+				foreach( object addin in Addins )
+				{
+					AddinWrapper wrapper = addin as AddinWrapper;
+					if (wrapper != null)
+						names.Add( wrapper.Addin.GetType().Name );
+					else
+						names.Add( addin.GetType().Name );
+				}
+
+				return names;
+			}
+		}
+
+		public IList AssemblyQualifiedNames
+		{
+			get
+			{
+				ArrayList names = new ArrayList();
+			
+				foreach( object addin in Addins )
+				{
+					AddinWrapper wrapper = addin as AddinWrapper;
+					if (wrapper != null)
+						names.Add( wrapper.Addin.GetType().AssemblyQualifiedName );
+					else
+						names.Add( addin.GetType().AssemblyQualifiedName );
+				}
+
+				return names;
+			}
+		}
 		#endregion
 
 		#region ISuiteBuilder Members
@@ -180,41 +232,41 @@ namespace NUnit.Core
 			testBuilders.Clear();
 			testDecorators.Clear();
 		}
-
-		public IList GetLoadedExtensions()
-		{
-			ArrayList addins = new ArrayList();
-			
-			foreach( ISuiteBuilder builder in suiteBuilders )
-				addins.Add( builder.GetType().AssemblyQualifiedName );
-
-			foreach( ITestCaseBuilder builder in testBuilders )
-				addins.Add( builder.GetType().AssemblyQualifiedName );
-
-			foreach( ITestDecorator decorator in testDecorators )
-				addins.Add( decorator.GetType().AssemblyQualifiedName );
-
-			return addins;
-		}
 		#endregion
 
-        #region Nested SuiteBuilderWrapper Class
+        #region Nested Wrapper Classes
 
-        private class SuiteBuilderWrapper : ISuiteBuilder
+		#region AddinWrapper
+        private class AddinWrapper
         {
-            private object builder;
+            protected object addin;
+
+            public AddinWrapper(object addin)
+            {
+                this.addin = addin;
+            }
+
+			public object Addin
+			{
+				get { return addin; }
+			}
+        }
+		#endregion
+
+		#region SuiteBuilderWrapper
+        private class SuiteBuilderWrapper : AddinWrapper, ISuiteBuilder
+        {
             private MethodInfo canBuildFromMethod;
             private MethodInfo buildFromMethod;
 
-            public SuiteBuilderWrapper(object builder)
+            public SuiteBuilderWrapper(object builder) : base( builder )
             {
-                this.builder = builder;
                 this.canBuildFromMethod = Reflect.GetNamedMethod(
                     builder.GetType(),
                     "CanBuildFrom",
                     BindingFlags.Public | BindingFlags.Instance);
                 this.buildFromMethod = Reflect.GetNamedMethod(
-                    builder.GetType(),
+                    addin.GetType(),
                     "BuildFrom",
                     BindingFlags.Public | BindingFlags.Instance);
                 if (buildFromMethod == null || canBuildFromMethod == null)
@@ -226,12 +278,13 @@ namespace NUnit.Core
 
             public bool CanBuildFrom(Type type)
             {
-                return (bool)canBuildFromMethod.Invoke(builder, new object[] { type });
+                return (bool)canBuildFromMethod.Invoke(addin, new object[] { type });
             }
 
             public TestSuite BuildFrom(Type type)
             {
-                return (TestSuite)buildFromMethod.Invoke(builder, new object[] { type });
+				object suiteObject = buildFromMethod.Invoke(addin, new object[] { type });
+				return suiteObject as TestSuite;
             }
 
             #endregion
@@ -240,17 +293,14 @@ namespace NUnit.Core
 
         #endregion
 
-        #region Nested TestCaseBuilderWrapper Class
-
-        private class TestCaseBuilderWrapper : ITestCaseBuilder
+        #region TestCaseBuilderWrapper
+        private class TestCaseBuilderWrapper : AddinWrapper, ITestCaseBuilder
         {
-            private object builder;
             private MethodInfo canBuildFromMethod;
             private MethodInfo buildFromMethod;
 
-            public TestCaseBuilderWrapper(object builder)
+            public TestCaseBuilderWrapper(object builder) : base( builder )
             {
-                this.builder = builder;
                 this.canBuildFromMethod = Reflect.GetNamedMethod(
                     builder.GetType(),
                     "CanBuildFrom",
@@ -268,31 +318,28 @@ namespace NUnit.Core
 
             public bool CanBuildFrom(MethodInfo method)
             {
-                return (bool)canBuildFromMethod.Invoke(builder, new object[] { method });
+                return (bool)canBuildFromMethod.Invoke(addin, new object[] { method });
             }
 
             public TestCase BuildFrom(MethodInfo method)
             {
-                return (TestCase)buildFromMethod.Invoke(builder, new object[] { method });
+                return (TestCase)buildFromMethod.Invoke(addin, new object[] { method });
             }
 
             #endregion
 
         }
-
         #endregion
 
-        #region Nested TestDecoratorWrapper Class
+        #region TestDecoratorWrapper
 
-        private class TestDecoratorWrapper : ITestDecorator
+        private class TestDecoratorWrapper : AddinWrapper, ITestDecorator
         {
-            private object decorator;
             private MethodInfo testCaseDecoratorMethod;
             private MethodInfo testSuiteDecoratorMethod;
 
-            public TestDecoratorWrapper(object decorator)
+            public TestDecoratorWrapper(object decorator) : base( decorator )
             {
-                this.decorator = decorator;
                 this.testCaseDecoratorMethod = Reflect.GetNamedMethod(
                     decorator.GetType(),
                     "Decorate",
@@ -312,12 +359,12 @@ namespace NUnit.Core
 
             public TestCase Decorate(TestCase testCase, MethodInfo method)
             {
-                return (TestCase)testCaseDecoratorMethod.Invoke(decorator, new object[] { testCase, method });
+                return (TestCase)testCaseDecoratorMethod.Invoke(addin, new object[] { testCase, method });
             }
 
             public TestSuite Decorate(TestSuite suite, Type fixtureType)
             {
-                return (TestSuite)testSuiteDecoratorMethod.Invoke(decorator, new object[] { suite, fixtureType });
+                return (TestSuite)testSuiteDecoratorMethod.Invoke(addin, new object[] { suite, fixtureType });
             }
 
             #endregion
@@ -326,5 +373,6 @@ namespace NUnit.Core
 
         #endregion
 
+		#endregion
     }
 }

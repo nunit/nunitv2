@@ -102,6 +102,13 @@ namespace NUnit.Core
 		}
 		#endregion
 
+		#region Static Properties
+		public static IList Names
+		{
+			get { return current.Names; }
+		}
+		#endregion
+
 		#region Static Methods
 		public static void Register( Assembly assembly )
 		{
@@ -126,11 +133,6 @@ namespace NUnit.Core
 		public static void Restore()
 		{
 			current = current.PriorState;
-		}
-
-		public static IList GetLoadedExtensions()
-		{
-			return current.GetLoadedExtensions();
 		}
 		#endregion
 
