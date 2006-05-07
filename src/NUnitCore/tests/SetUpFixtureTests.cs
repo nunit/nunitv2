@@ -1,10 +1,11 @@
 using System;
 using NUnit.Framework;
+using NUnit.Util;
 
-namespace NUnit.Core.Tests.SetupFixture
+namespace NUnit.Core.Tests
 {
     [TestFixture]
-    public class Test
+    public class SetUpFixtureTests
     {
         #region SetUp
         [SetUp]
@@ -68,23 +69,24 @@ namespace NUnit.Core.Tests.SetupFixture
         /// Tests that the TestSuiteBuilder correctly interperets a SetupFixture class with no parent namespace 
         /// as a 'virtual assembly' into which all it's sibling fixtures are inserted.
         /// </summary>
-        //[NUnit.Framework.Test]
+        [NUnit.Framework.Test]
         public void NoNamespaceBuilder()
         {
             TestSuiteBuilder builder = new TestSuiteBuilder();
             TestSuite suite = builder.Build(typeof(NUnit.TestData.SetupFixture.Namespace1.SomeTestFixture).Assembly.FullName);
 
             Assert.IsNotNull(suite);
-
-            Assert.AreEqual(typeof(NUnit.TestData.SetupFixture.Namespace1.SomeTestFixture).Assembly.FullName, suite.Name);
-            Assert.AreEqual(1, suite.Tests.Count);
-            suite = suite.Tests[0] as TestSuite;
-            Assert.AreEqual("[default namespace]", suite.Name);
             Assert.IsInstanceOfType(typeof(SetUpFixture), suite);
 
+            //Assert.AreEqual(typeof(NUnit.TestData.SetupFixture.Namespace1.SomeTestFixture).Assembly.FullName, suite.Name);
+            //Assert.AreEqual(1, suite.Tests.Count);
             //suite = suite.Tests[0] as TestSuite;
-            //Assert.AreEqual("SomeTestFixture", suite.Name);
-            //Assert.AreEqual(1, suite.TestCount);
+            //Assert.AreEqual("[default namespace]", suite.Name);
+            //Assert.IsInstanceOfType(typeof(SetUpFixture), suite);
+
+            suite = suite.Tests[1] as TestSuite;
+            Assert.AreEqual("SomeTestFixture", suite.Name);
+            Assert.AreEqual(1, suite.TestCount);
         }
         #endregion NoNamespaceBuilder
 
@@ -138,13 +140,17 @@ namespace NUnit.Core.Tests.SetupFixture
         #endregion TwoSetUpFixtures
 
         #region NoNamespaceSetupFixture
-        //[NUnit.Framework.Test]
+        [NUnit.Framework.Test]
         public void NoNamespaceSetupFixture()
         {
-            //This line should run only the SomeTestFixture fixture at the root of the namespace hierarchy.
-            //For some reason though, it runs all the tests
-            TestResult result = runTests(null, new Filters.NameFilter(TestName.Parse("SomeTestFixture")));
-            Assert.AreEqual(1, result.Test.TestCount);
+            TestSuiteBuilder builder = new TestSuiteBuilder();
+            TestSuite suite = builder.Build(typeof(NUnit.TestData.SetupFixture.Namespace1.SomeTestFixture).Assembly.FullName);
+            Assert.IsInstanceOfType(typeof(SetUpFixture), suite);
+            Test test = suite.Tests[1] as Test;
+            Assert.AreEqual("SomeTestFixture", test.Name);
+            TestResult result = suite.Run(new NullListener(), new Filters.NameFilter(test.TestName));
+            ResultSummarizer summ = new ResultSummarizer(result);
+            Assert.AreEqual(1, summ.ResultCount);
             Assert.IsTrue(result.IsSuccess);
             TestUtilities.SimpleEventRecorder.Verify("RootNamespaceSetup",
                                     "Test",

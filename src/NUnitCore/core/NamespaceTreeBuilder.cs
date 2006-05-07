@@ -75,50 +75,79 @@ namespace NUnit.Core
 		public void Add( IList fixtures )
 		{
             foreach (TestSuite fixture in fixtures)
-                if (fixture is SetUpFixture)
-                    Add(fixture as SetUpFixture);
-                else
+                //if (fixture is SetUpFixture)
+                //    Add(fixture as SetUpFixture);
+                //else
                     Add( fixture );
 		}
 
-		public void Add( Test fixture )
+		public void Add( TestSuite fixture )
 		{
             
 			string ns = fixture.FullName;
-			int index = ns.LastIndexOf( '.' );
-			ns = index > 0 ? ns.Substring( 0, index ) : string.Empty;
-			TestSuite suite = BuildFromNameSpace( ns );
-			suite.Add( fixture );
-		}
+            int index = ns.LastIndexOf( '.' );
+            ns = index > 0 ? ns.Substring( 0, index ) : string.Empty;
+			TestSuite containingSuite = BuildFromNameSpace( ns );
 
-		public void Add( SetUpFixture fixture )
-		{
-			string ns = fixture.FullName;
-			int index = ns.LastIndexOf( '.' );
-			ns = index > 0 ? ns.Substring( 0, index ) : string.Empty;
-			TestSuite suite = BuildFromNameSpace( ns );
-
-			// Make the parent point to this instead
-			// TODO: Get rid of this or eliminate the cast
-			TestSuite parent = suite.Parent;
-			if ( parent != null )
-			{
-				parent.Tests.Remove( suite );
-				parent.Add( fixture );
-			}
-
-			// Add the old suite's children
-			foreach( TestSuite child in suite.Tests )
-				fixture.Add( child );
-
-            if (parent == null && fixture is SetUpFixture)
+            if (fixture is SetUpFixture)
             {
-                suite.Tests.Clear();
-                suite.Add(fixture);
+                // The SetUpFixture must replace the namespace suite
+                // in which it is "contained". 
+                //
+                // First, add the old suite's children
+                foreach (TestSuite child in containingSuite.Tests)
+                    fixture.Add(child);
+
+                // Make the parent of the containing suite point to this
+                // fixture instead
+                // TODO: Get rid of this somehow?
+                TestSuite parent = containingSuite.Parent;
+                if (parent == null)
+                {
+                    fixture.TestName.Name = rootSuite.Name;
+                    rootSuite = fixture;
+                }
+                else
+                {
+                    parent.Tests.Remove(containingSuite);
+                    parent.Add(fixture);
+                }
+
+                // Update the hashtable
+                namespaceSuites[ns] = fixture;
             }
-			// Update the hashtable
-			namespaceSuites[ns] = fixture;
+            else
+			    containingSuite.Add( fixture );
 		}
+
+        //public void Add( SetUpFixture fixture )
+        //{
+        //    string ns = fixture.FullName;
+        //    int index = ns.LastIndexOf( '.' );
+        //    ns = index > 0 ? ns.Substring( 0, index ) : string.Empty;
+        //    TestSuite suite = BuildFromNameSpace( ns );
+
+        //    // Make the parent point to this instead
+        //    // TODO: Get rid of this somehow?
+        //    TestSuite parent = suite.Parent;
+        //    if ( parent != null )
+        //    {
+        //        parent.Tests.Remove( suite );
+        //        parent.Add( fixture );
+        //    }
+
+        //    // Add the old suite's children
+        //    foreach( TestSuite child in suite.Tests )
+        //        fixture.Add( child );
+
+        //    if (parent == null && fixture is SetUpFixture)
+        //    {
+        //        suite.Tests.Clear();
+        //        suite.Add(fixture);
+        //    }
+        //    // Update the hashtable
+        //    namespaceSuites[ns] = fixture;
+        //}
 
 		#endregion
 

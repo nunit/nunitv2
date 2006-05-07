@@ -81,14 +81,20 @@ namespace NUnit.Core
 
 				if ( testAssembly != null )
 				{
-					if ( !mergeAssemblies )
-						rootSuite.Add( testAssembly );
-					else 
-						foreach( Test test in testAssembly.Tests )
-							if (autoNamespaceSuites )
-								namespaceTree.Add( test );
-							else
-								rootSuite.Add( test );
+                    if (!mergeAssemblies)
+                    {
+                        rootSuite.Add(testAssembly);
+                    }
+                    else if (autoNamespaceSuites)
+                    {
+                        namespaceTree.Add(testAssembly.Tests);
+                        rootSuite = namespaceTree.RootSuite;
+                    }
+                    else
+                    {
+                        foreach (Test test in testAssembly.Tests)
+                            rootSuite.Add(test);
+                    }
 				}
 			}
 
@@ -106,7 +112,7 @@ namespace NUnit.Core
 		public TestSuite Build(string assemblyName, string testName )
 		{
 			TestAssemblyBuilder builder = new TestAssemblyBuilder();
-			builder.AutoNamespaceSuites = this.AutoNamespaceSuites && !this.MergeAssemblies;
+			builder.AutoNamespaceSuites = this.AutoNamespaceSuites; // && !this.MergeAssemblies;
 
 			return builder.Build( assemblyName, testName );
 		}

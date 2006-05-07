@@ -140,6 +140,7 @@ namespace NUnit.Core.Builders
 				NamespaceTreeBuilder treeBuilder = 
 					new NamespaceTreeBuilder( testAssembly );
 				treeBuilder.Add( fixtures );
+                testAssembly = treeBuilder.RootSuite;
 			}
 			else 
 			foreach( TestSuite fixture in fixtures )
