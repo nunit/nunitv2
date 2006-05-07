@@ -54,6 +54,7 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="DynamicMock.cs">
       <SubType>Code</SubType>
     </Compile>
