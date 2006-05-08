@@ -155,7 +155,7 @@
     <value>statusBar</value>
   </data>
   <data name="&gt;&gt;statusBar.Type">
-    <value>NUnit.UiKit.StatusBar, nunit.uikit, Version=2.3.6116.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77</value>
+    <value>NUnit.UiKit.StatusBar, nunit.uikit, Version=2.3.6125.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77</value>
   </data>
   <data name="&gt;&gt;statusBar.Parent">
     <value>$this</value>
@@ -1600,6 +1600,93 @@
   <data name="&gt;&gt;errorPage.ZOrder">
     <value>0</value>
   </data>
+  <data name="enableWordWrapCheckBox.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </data>
+  <data name="enableWordWrapCheckBox.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Private</value>
+  </data>
+  <data name="enableWordWrapCheckBox.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Private</value>
+  </data>
+  <data name="enableWordWrapCheckBox.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </data>
+  <data name="enableWordWrapCheckBox.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </data>
+  <data name="enableWordWrapCheckBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Top, Left</value>
+  </data>
+  <data name="enableWordWrapCheckBox.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Normal</value>
+  </data>
+  <data name="enableWordWrapCheckBox.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </data>
+  <data name="enableWordWrapCheckBox.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="enableWordWrapCheckBox.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Bottom</value>
+  </data>
+  <data name="enableWordWrapCheckBox.Enabled" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </data>
+  <data name="enableWordWrapCheckBox.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Standard</value>
+  </data>
+  <data name="enableWordWrapCheckBox.Font" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </data>
+  <data name="enableWordWrapCheckBox.Image" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value />
+  </data>
+  <data name="enableWordWrapCheckBox.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>MiddleCenter</value>
+  </data>
+  <data name="enableWordWrapCheckBox.ImageIndex" type="System.Int32, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>-1</value>
+  </data>
+  <data name="enableWordWrapCheckBox.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>NoControl</value>
+  </data>
+  <data name="enableWordWrapCheckBox.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>0, 421</value>
+  </data>
+  <data name="enableWordWrapCheckBox.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Inherit</value>
+  </data>
+  <data name="enableWordWrapCheckBox.Size" type="System.Drawing.Size, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>490, 24</value>
+  </data>
+  <data name="enableWordWrapCheckBox.TabIndex" type="System.Int32, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>4</value>
+  </data>
+  <data name="enableWordWrapCheckBox.Text">
+    <value>Word Wrap Text</value>
+  </data>
+  <data name="enableWordWrapCheckBox.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="enableWordWrapCheckBox.ToolTip">
+    <value />
+  </data>
+  <data name="enableWordWrapCheckBox.Visible" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;enableWordWrapCheckBox.Name">
+    <value>enableWordWrapCheckBox</value>
+  </data>
+  <data name="&gt;&gt;enableWordWrapCheckBox.Type">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;enableWordWrapCheckBox.Parent">
+    <value>errorPage</value>
+  </data>
+  <data name="&gt;&gt;enableWordWrapCheckBox.ZOrder">
+    <value>0</value>
+  </data>
   <data name="stackTrace.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
@@ -1679,13 +1766,13 @@
     <value>stackTrace</value>
   </data>
   <data name="&gt;&gt;stackTrace.Type">
-    <value>CP.Windows.Forms.ExpandingTextBox, nunit.uikit, Version=2.3.6116.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77</value>
+    <value>CP.Windows.Forms.ExpandingTextBox, nunit.uikit, Version=2.3.6125.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77</value>
   </data>
   <data name="&gt;&gt;stackTrace.Parent">
     <value>errorPage</value>
   </data>
   <data name="&gt;&gt;stackTrace.ZOrder">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="tabSplitter.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -1754,7 +1841,7 @@
     <value>errorPage</value>
   </data>
   <data name="&gt;&gt;tabSplitter.ZOrder">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="detailList.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Private</value>
@@ -1835,7 +1922,7 @@
     <value>errorPage</value>
   </data>
   <data name="&gt;&gt;detailList.ZOrder">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="testsNotRun.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -1927,11 +2014,11 @@
   <data name="&gt;&gt;testsNotRun.ZOrder">
     <value>1</value>
   </data>
-  <data name="notRunTree.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Public</value>
-  </data>
   <data name="notRunTree.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>Private</value>
+  </data>
+  <data name="notRunTree.Modifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Public</value>
   </data>
   <data name="notRunTree.Locked" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
@@ -1997,7 +2084,7 @@
     <value>notRunTree</value>
   </data>
   <data name="&gt;&gt;notRunTree.Type">
-    <value>NUnit.UiKit.NotRunTree, nunit.uikit, Version=2.3.6116.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77</value>
+    <value>NUnit.UiKit.NotRunTree, nunit.uikit, Version=2.3.6125.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77</value>
   </data>
   <data name="&gt;&gt;notRunTree.Parent">
     <value>testsNotRun</value>
@@ -2738,7 +2825,7 @@
     <value>progressBar</value>
   </data>
   <data name="&gt;&gt;progressBar.Type">
-    <value>NUnit.UiKit.ProgressBar, nunit.uikit, Version=2.3.6116.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77</value>
+    <value>NUnit.UiKit.ProgressBar, nunit.uikit, Version=2.3.6125.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77</value>
   </data>
   <data name="&gt;&gt;progressBar.Parent">
     <value>groupBox1</value>
@@ -2852,7 +2939,7 @@
     <value>testTree</value>
   </data>
   <data name="&gt;&gt;testTree.Type">
-    <value>NUnit.UiKit.TestTree, nunit.uikit, Version=2.3.6116.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77</value>
+    <value>NUnit.UiKit.TestTree, nunit.uikit, Version=2.3.6125.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77</value>
   </data>
   <data name="&gt;&gt;testTree.Parent">
     <value>leftPanel</value>
@@ -2953,11 +3040,11 @@
   <data name="$this.TrayLargeIcon" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>False</value>
   </data>
-  <data name="$this.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>Private</value>
-  </data>
   <data name="$this.Localizable" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </data>
+  <data name="$this.Name">
+    <value>NUnitForm</value>
   </data>
   <data name="$this.GridSize" type="System.Drawing.Size, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>8, 8</value>
@@ -2971,8 +3058,8 @@
   <data name="$this.SnapToGrid" type="System.Boolean, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </data>
-  <data name="$this.Name">
-    <value>NUnitForm</value>
+  <data name="$this.DefaultModifiers" type="System.CodeDom.MemberAttributes, System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>Private</value>
   </data>
   <data name="$this.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value />
@@ -3027,7 +3114,7 @@
 </value>
   </data>
   <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>NoControl</value>
+    <value>Inherit</value>
   </data>
   <data name="$this.Location" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>0, 0</value>

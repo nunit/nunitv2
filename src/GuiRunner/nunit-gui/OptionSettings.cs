@@ -149,6 +149,12 @@ namespace NUnit.Gui
 			set { SaveBooleanSetting( "FailureToolTips", value ); }
 		}
 
+		public bool EnableWordWrapForFailures
+		{
+			get { return LoadBooleanSetting( "EnableWordWrapForFailures", true ); }
+			set { SaveBooleanSetting( "EnableWordWrapForFailures", value ); }
+		}
+
 		public bool VisualStudioSupport
 		{
 			get { return LoadBooleanSetting( "VisualStudioSupport", false ); }

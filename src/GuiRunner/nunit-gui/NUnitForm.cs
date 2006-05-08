@@ -150,6 +150,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem decreaseFontMenuItem;
 		private System.Windows.Forms.MenuItem increaseFontMenuItem;
 		private System.Windows.Forms.MenuItem addinInfoMenuItem;
+		private System.Windows.Forms.CheckBox enableWordWrapCheckBox;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -268,6 +269,7 @@ namespace NUnit.Gui
 			this.rightPanel = new System.Windows.Forms.Panel();
 			this.resultTabs = new System.Windows.Forms.TabControl();
 			this.errorPage = new System.Windows.Forms.TabPage();
+			this.enableWordWrapCheckBox = new System.Windows.Forms.CheckBox();
 			this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
 			this.tabSplitter = new System.Windows.Forms.Splitter();
 			this.detailList = new System.Windows.Forms.ListBox();
@@ -974,6 +976,7 @@ namespace NUnit.Gui
 			this.errorPage.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("errorPage.AutoScrollMargin")));
 			this.errorPage.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("errorPage.AutoScrollMinSize")));
 			this.errorPage.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("errorPage.BackgroundImage")));
+			this.errorPage.Controls.Add(this.enableWordWrapCheckBox);
 			this.errorPage.Controls.Add(this.stackTrace);
 			this.errorPage.Controls.Add(this.tabSplitter);
 			this.errorPage.Controls.Add(this.detailList);
@@ -991,6 +994,34 @@ namespace NUnit.Gui
 			this.toolTip.SetToolTip(this.errorPage, resources.GetString("errorPage.ToolTip"));
 			this.errorPage.ToolTipText = resources.GetString("errorPage.ToolTipText");
 			this.errorPage.Visible = ((bool)(resources.GetObject("errorPage.Visible")));
+			// 
+			// enableWordWrapCheckBox
+			// 
+			this.enableWordWrapCheckBox.AccessibleDescription = resources.GetString("enableWordWrapCheckBox.AccessibleDescription");
+			this.enableWordWrapCheckBox.AccessibleName = resources.GetString("enableWordWrapCheckBox.AccessibleName");
+			this.enableWordWrapCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("enableWordWrapCheckBox.Anchor")));
+			this.enableWordWrapCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("enableWordWrapCheckBox.Appearance")));
+			this.enableWordWrapCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("enableWordWrapCheckBox.BackgroundImage")));
+			this.enableWordWrapCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("enableWordWrapCheckBox.CheckAlign")));
+			this.enableWordWrapCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("enableWordWrapCheckBox.Dock")));
+			this.enableWordWrapCheckBox.Enabled = ((bool)(resources.GetObject("enableWordWrapCheckBox.Enabled")));
+			this.enableWordWrapCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("enableWordWrapCheckBox.FlatStyle")));
+			this.enableWordWrapCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("enableWordWrapCheckBox.Font")));
+			this.enableWordWrapCheckBox.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.enableWordWrapCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("enableWordWrapCheckBox.Image")));
+			this.enableWordWrapCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("enableWordWrapCheckBox.ImageAlign")));
+			this.enableWordWrapCheckBox.ImageIndex = ((int)(resources.GetObject("enableWordWrapCheckBox.ImageIndex")));
+			this.enableWordWrapCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("enableWordWrapCheckBox.ImeMode")));
+			this.enableWordWrapCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("enableWordWrapCheckBox.Location")));
+			this.enableWordWrapCheckBox.Name = "enableWordWrapCheckBox";
+			this.enableWordWrapCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("enableWordWrapCheckBox.RightToLeft")));
+			this.enableWordWrapCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("enableWordWrapCheckBox.Size")));
+			this.enableWordWrapCheckBox.TabIndex = ((int)(resources.GetObject("enableWordWrapCheckBox.TabIndex")));
+			this.enableWordWrapCheckBox.Text = resources.GetString("enableWordWrapCheckBox.Text");
+			this.enableWordWrapCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("enableWordWrapCheckBox.TextAlign")));
+			this.toolTip.SetToolTip(this.enableWordWrapCheckBox, resources.GetString("enableWordWrapCheckBox.ToolTip"));
+			this.enableWordWrapCheckBox.Visible = ((bool)(resources.GetObject("enableWordWrapCheckBox.Visible")));
+			this.enableWordWrapCheckBox.CheckedChanged += new System.EventHandler(this.enableWordWrapCheckBox_CheckedChanged);
 			// 
 			// stackTrace
 			// 
@@ -1118,6 +1149,7 @@ namespace NUnit.Gui
 			this.notRunTree.Text = resources.GetString("notRunTree.Text");
 			this.toolTip.SetToolTip(this.notRunTree, resources.GetString("notRunTree.ToolTip"));
 			this.notRunTree.Visible = ((bool)(resources.GetObject("notRunTree.Visible")));
+			this.notRunTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.notRunTree_AfterSelect);
 			// 
 			// stdout
 			// 
@@ -1414,7 +1446,6 @@ namespace NUnit.Gui
 			// 
 			// NUnitForm
 			// 
-			this.AcceptButton = this.runButton;
 			this.AccessibleDescription = resources.GetString("$this.AccessibleDescription");
 			this.AccessibleName = resources.GetString("$this.AccessibleName");
 			this.AutoScaleBaseSize = ((System.Drawing.Size)(resources.GetObject("$this.AutoScaleBaseSize")));
@@ -1823,6 +1854,7 @@ namespace NUnit.Gui
 
 			// Turn stacktrace tooltips on or off
 			this.stackTrace.AutoExpand = UserSettings.Options.FailureToolTips;
+			this.enableWordWrapCheckBox.Checked = UserSettings.Options.EnableWordWrapForFailures;
 
 			// Update tab menu items and display those that are used
 			errorsTabMenuItem.Checked = UserSettings.Form.DisplayErrorsTab;
@@ -2280,7 +2312,9 @@ the version under which NUnit is currently running, {0}.",
 		{
 			TestResultItem item = (TestResultItem) detailList.Items[e.Index];
 			//string s = item.ToString();
-			SizeF size = e.Graphics.MeasureString(item.GetMessage(), detailList.Font);
+			SizeF size = enableWordWrapCheckBox.Checked
+				? e.Graphics.MeasureString(item.GetMessage(), detailList.Font, detailList.ClientSize.Width )
+				: e.Graphics.MeasureString(item.GetMessage(), detailList.Font );
 			e.ItemHeight = (int)size.Height;
 			e.ItemWidth = (int)size.Width;
 		}
@@ -2290,10 +2324,14 @@ the version under which NUnit is currently running, {0}.",
 			if (e.Index >= 0) 
 			{
 				e.DrawBackground();
+				
 				TestResultItem item = (TestResultItem) detailList.Items[e.Index];
 				bool selected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected) ? true : false;
 				Brush brush = selected ? SystemBrushes.HighlightText : SystemBrushes.WindowText;
-				e.Graphics.DrawString(item.GetMessage(),detailList.Font, brush, e.Bounds);
+				RectangleF layoutRect = e.Bounds;
+				if (enableWordWrapCheckBox.Checked && layoutRect.Width > detailList.ClientSize.Width )
+					layoutRect.Width = detailList.ClientSize.Width;
+				e.Graphics.DrawString(item.GetMessage(),detailList.Font, brush, layoutRect);
 				
 			}
 		}
@@ -2542,6 +2580,22 @@ the version under which NUnit is currently running, {0}.",
 			}
 
 			MessageBox.Show( this, msg, "Loaded Addins", MessageBoxButtons.OK, MessageBoxIcon.Information );	
+		}
+
+		private void enableWordWrapCheckBox_CheckedChanged(object sender, System.EventArgs e)
+		{
+			this.detailList.BeginUpdate();
+			ArrayList copiedItems = new ArrayList( detailList.Items );
+			this.detailList.Items.Clear();
+			foreach( object item in copiedItems )
+				this.detailList.Items.Add( item );
+			this.detailList.EndUpdate();
+			this.stackTrace.WordWrap = this.enableWordWrapCheckBox.Checked;
+		}
+
+		private void notRunTree_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
+		{
+		
 		}
 	}
 }
