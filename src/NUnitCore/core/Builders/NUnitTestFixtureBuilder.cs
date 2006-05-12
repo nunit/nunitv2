@@ -116,8 +116,8 @@ namespace NUnit.Core.Builders
         public override bool CanBuildFrom(Type type)
         {
             // NUnit requires public or protected classes
-            if (!type.IsPublic && !type.IsNestedPublic)
-                return false;
+            //if (!type.IsPublic && !type.IsNestedPublic)
+            //    return false;
 
             return Reflect.HasAttribute(type, "NUnit.Framework.TestFixtureAttribute", true);           
         }
@@ -129,7 +129,7 @@ namespace NUnit.Core.Builders
         /// <param name="fixtureType">The type to be checked</param>
         /// <param name="reason">A message indicating why the fixture is not runnable</param>
         /// <returns>True if runnable, false if not</returns>
-        protected override bool IsRunnable(Type fixtureType, ref string reason)
+        protected override bool ShouldRun(Type fixtureType, ref string reason)
         {
             Attribute ignoreAttribute =
                 Reflect.GetAttribute(fixtureType, "NUnit.Framework.IgnoreAttribute", false);
@@ -158,6 +158,12 @@ namespace NUnit.Core.Builders
         {
             if (!base.IsValidFixtureType(fixtureType, ref reason))
                 return false;
+
+            if (!fixtureType.IsPublic && !fixtureType.IsNestedPublic)
+            {
+                reason = "Fixture class is not public";
+                return false;
+            }
 
             if (!CheckSetUpTearDownMethod(fixtureType, "NUnit.Framework.SetUpAttribute"))
             {

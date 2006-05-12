@@ -49,8 +49,18 @@ namespace NUnit.Core.Builders
 		#endregion
 
 		#region ISuiteBuilder Members
-
-		public abstract bool CanBuildFrom(Type type);
+        /// <summary>
+        /// Examine the type and determine if it is suitable for
+        /// this builder to use in building a TestSuite.
+        /// 
+        /// Note that returning false will cause the type to be ignored 
+        /// in loading the tests. If it is desired to load the suite
+        /// but label it as non-runnable, ignored, etc., then this
+        /// method must return true.
+        /// </summary>
+        /// <param name="type">The type of the fixture to be used</param>
+        /// <returns>True if the type can be used to build a TestSuite</returns>
+        public abstract bool CanBuildFrom(Type type);
 
 		/// <summary>
 		/// Templated implementaton of ISuiteBuilder.BuildFrom. Any
@@ -70,7 +80,7 @@ namespace NUnit.Core.Builders
                 this.suite.RunState = RunState.NotRunnable;
                 this.suite.IgnoreReason = reason;
             }
-            else if (!IsRunnable(type, ref reason))
+            else if (!ShouldRun(type, ref reason))
             {
                 this.suite.RunState = RunState.Ignored;
                 this.suite.IgnoreReason = reason;
@@ -88,11 +98,9 @@ namespace NUnit.Core.Builders
 
 			return this.suite;
 		}
-
 		#endregion
 
 		#region Abstract Methods
-
 		/// <summary>
 		/// This method must be overridden to return an object of a class
 		/// that derives from TestSuite.
@@ -128,14 +136,14 @@ namespace NUnit.Core.Builders
 		}
 
 		/// <summary>
-		/// This method returns true if the fixture is runnable. The default
+		/// This method returns true if the fixture should be run. The default
 		/// implementation simply returns true. Usually, this will be overridden
 		/// to check for the presence of an ignore attribute of some kind.
 		/// </summary>
 		/// <param name="fixtureType">The fixture type to check</param>
 		/// <param name="reason">Set to the reason for not running</param>
 		/// <returns>True if the test is runnable, false if not</returns>
-		protected virtual bool IsRunnable( Type fixtureType, ref string reason )
+		protected virtual bool ShouldRun( Type fixtureType, ref string reason )
 		{
 			return true;
 		}
@@ -181,6 +189,11 @@ namespace NUnit.Core.Builders
 		/// to see if they are test methods. The default returns all methods
 		/// of the fixture: public and private, instance and static, declared
 		/// and inherited.
+        /// 
+        /// While this method may be overridden, it should normally not be.
+        /// If it is overridden to eliminate certain methods, they will be
+        /// silently ignored. Generally, it is better to include them in the
+        /// list and let the TestCaseBuilders decide how to handle them.
 		/// </summary>
 		/// <param name="fixtureType"></param>
 		/// <returns></returns>
