@@ -136,7 +136,6 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem tabsMenu;
 		private System.Windows.Forms.MenuItem viewMenuSeparator1;
 		private System.Windows.Forms.MenuItem toolsMenuSeparator2;
-		private System.Windows.Forms.MenuItem menuItem1;
 		private System.Windows.Forms.MenuItem menuItem2;
 		private System.Windows.Forms.MenuItem menuItem3;
 		private System.Windows.Forms.MenuItem showAllTabsMenuItem;
@@ -216,7 +215,6 @@ namespace NUnit.Gui
 			this.fileMenu = new System.Windows.Forms.MenuItem();
 			this.newMenuItem = new System.Windows.Forms.MenuItem();
 			this.openMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem1 = new System.Windows.Forms.MenuItem();
 			this.closeMenuItem = new System.Windows.Forms.MenuItem();
 			this.fileMenuSeparator1 = new System.Windows.Forms.MenuItem();
 			this.saveMenuItem = new System.Windows.Forms.MenuItem();
@@ -337,7 +335,6 @@ namespace NUnit.Gui
 			this.fileMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					 this.newMenuItem,
 																					 this.openMenuItem,
-																					 this.menuItem1,
 																					 this.closeMenuItem,
 																					 this.fileMenuSeparator1,
 																					 this.saveMenuItem,
@@ -373,19 +370,10 @@ namespace NUnit.Gui
 			this.openMenuItem.Visible = ((bool)(resources.GetObject("openMenuItem.Visible")));
 			this.openMenuItem.Click += new System.EventHandler(this.openMenuItem_Click);
 			// 
-			// menuItem1
-			// 
-			this.menuItem1.Enabled = ((bool)(resources.GetObject("menuItem1.Enabled")));
-			this.menuItem1.Index = 2;
-			this.menuItem1.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem1.Shortcut")));
-			this.menuItem1.ShowShortcut = ((bool)(resources.GetObject("menuItem1.ShowShortcut")));
-			this.menuItem1.Text = resources.GetString("menuItem1.Text");
-			this.menuItem1.Visible = ((bool)(resources.GetObject("menuItem1.Visible")));
-			// 
 			// closeMenuItem
 			// 
 			this.closeMenuItem.Enabled = ((bool)(resources.GetObject("closeMenuItem.Enabled")));
-			this.closeMenuItem.Index = 3;
+			this.closeMenuItem.Index = 2;
 			this.closeMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("closeMenuItem.Shortcut")));
 			this.closeMenuItem.ShowShortcut = ((bool)(resources.GetObject("closeMenuItem.ShowShortcut")));
 			this.closeMenuItem.Text = resources.GetString("closeMenuItem.Text");
@@ -395,7 +383,7 @@ namespace NUnit.Gui
 			// fileMenuSeparator1
 			// 
 			this.fileMenuSeparator1.Enabled = ((bool)(resources.GetObject("fileMenuSeparator1.Enabled")));
-			this.fileMenuSeparator1.Index = 4;
+			this.fileMenuSeparator1.Index = 3;
 			this.fileMenuSeparator1.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("fileMenuSeparator1.Shortcut")));
 			this.fileMenuSeparator1.ShowShortcut = ((bool)(resources.GetObject("fileMenuSeparator1.ShowShortcut")));
 			this.fileMenuSeparator1.Text = resources.GetString("fileMenuSeparator1.Text");
@@ -404,7 +392,7 @@ namespace NUnit.Gui
 			// saveMenuItem
 			// 
 			this.saveMenuItem.Enabled = ((bool)(resources.GetObject("saveMenuItem.Enabled")));
-			this.saveMenuItem.Index = 5;
+			this.saveMenuItem.Index = 4;
 			this.saveMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("saveMenuItem.Shortcut")));
 			this.saveMenuItem.ShowShortcut = ((bool)(resources.GetObject("saveMenuItem.ShowShortcut")));
 			this.saveMenuItem.Text = resources.GetString("saveMenuItem.Text");
@@ -414,7 +402,7 @@ namespace NUnit.Gui
 			// saveAsMenuItem
 			// 
 			this.saveAsMenuItem.Enabled = ((bool)(resources.GetObject("saveAsMenuItem.Enabled")));
-			this.saveAsMenuItem.Index = 6;
+			this.saveAsMenuItem.Index = 5;
 			this.saveAsMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("saveAsMenuItem.Shortcut")));
 			this.saveAsMenuItem.ShowShortcut = ((bool)(resources.GetObject("saveAsMenuItem.ShowShortcut")));
 			this.saveAsMenuItem.Text = resources.GetString("saveAsMenuItem.Text");
@@ -424,7 +412,7 @@ namespace NUnit.Gui
 			// fileMenuSeparator2
 			// 
 			this.fileMenuSeparator2.Enabled = ((bool)(resources.GetObject("fileMenuSeparator2.Enabled")));
-			this.fileMenuSeparator2.Index = 7;
+			this.fileMenuSeparator2.Index = 6;
 			this.fileMenuSeparator2.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("fileMenuSeparator2.Shortcut")));
 			this.fileMenuSeparator2.ShowShortcut = ((bool)(resources.GetObject("fileMenuSeparator2.ShowShortcut")));
 			this.fileMenuSeparator2.Text = resources.GetString("fileMenuSeparator2.Text");
@@ -433,7 +421,7 @@ namespace NUnit.Gui
 			// reloadMenuItem
 			// 
 			this.reloadMenuItem.Enabled = ((bool)(resources.GetObject("reloadMenuItem.Enabled")));
-			this.reloadMenuItem.Index = 8;
+			this.reloadMenuItem.Index = 7;
 			this.reloadMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("reloadMenuItem.Shortcut")));
 			this.reloadMenuItem.ShowShortcut = ((bool)(resources.GetObject("reloadMenuItem.ShowShortcut")));
 			this.reloadMenuItem.Text = resources.GetString("reloadMenuItem.Text");
@@ -443,7 +431,7 @@ namespace NUnit.Gui
 			// recentProjectsMenu
 			// 
 			this.recentProjectsMenu.Enabled = ((bool)(resources.GetObject("recentProjectsMenu.Enabled")));
-			this.recentProjectsMenu.Index = 9;
+			this.recentProjectsMenu.Index = 8;
 			this.recentProjectsMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("recentProjectsMenu.Shortcut")));
 			this.recentProjectsMenu.ShowShortcut = ((bool)(resources.GetObject("recentProjectsMenu.ShowShortcut")));
 			this.recentProjectsMenu.Text = resources.GetString("recentProjectsMenu.Text");
@@ -452,7 +440,7 @@ namespace NUnit.Gui
 			// fileMenuSeparator4
 			// 
 			this.fileMenuSeparator4.Enabled = ((bool)(resources.GetObject("fileMenuSeparator4.Enabled")));
-			this.fileMenuSeparator4.Index = 10;
+			this.fileMenuSeparator4.Index = 9;
 			this.fileMenuSeparator4.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("fileMenuSeparator4.Shortcut")));
 			this.fileMenuSeparator4.ShowShortcut = ((bool)(resources.GetObject("fileMenuSeparator4.ShowShortcut")));
 			this.fileMenuSeparator4.Text = resources.GetString("fileMenuSeparator4.Text");
@@ -461,7 +449,7 @@ namespace NUnit.Gui
 			// exitMenuItem
 			// 
 			this.exitMenuItem.Enabled = ((bool)(resources.GetObject("exitMenuItem.Enabled")));
-			this.exitMenuItem.Index = 11;
+			this.exitMenuItem.Index = 10;
 			this.exitMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("exitMenuItem.Shortcut")));
 			this.exitMenuItem.ShowShortcut = ((bool)(resources.GetObject("exitMenuItem.ShowShortcut")));
 			this.exitMenuItem.Text = resources.GetString("exitMenuItem.Text");
