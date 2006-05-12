@@ -136,6 +136,7 @@
     </Compile>
     <EmbeddedResource Include="AddConfigurationDialog.resx">
       <DependentUpon>AddConfigurationDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AssemblyListBox.resx">
       <DependentUpon>AssemblyListBox.cs</DependentUpon>
@@ -149,6 +150,7 @@
     <EmbeddedResource Include="Ellipsis.gif" />
     <EmbeddedResource Include="ExpandingLabel.resx">
       <DependentUpon>ExpandingLabel.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ExpandingTextBox.resx">
       <DependentUpon>ExpandingTextBox.cs</DependentUpon>

@@ -528,6 +528,10 @@
         <include name="vb/*.vbproj"/>
         <include name="vb/*.vb"/>
         <include name="vb/*.txt"/>
+        <include name="Extensibility/**/*.sln"/>
+        <include name="Extensibility/**/*.csproj"/>
+        <include name="Extensibility/**/*.cs"/>
+        <include name="Extensibility/**/*.txt"/>
       </fileset>
     </copy>
   </target>
