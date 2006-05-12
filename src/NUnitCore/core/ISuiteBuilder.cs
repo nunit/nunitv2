@@ -39,8 +39,13 @@ namespace NUnit.Core
 	{
 		/// <summary>
 		/// Examine the type and determine if it is suitable for
-		/// this builder to use in building a TestSuite
-		/// </summary>
+		/// this builder to use in building a TestSuite.
+        /// 
+        /// Note that returning false will cause the type to be ignored 
+        /// in loading the tests. If it is desired to load the suite
+        /// but label it as non-runnable, ignored, etc., then this
+        /// method must return true.
+        /// </summary>
 		/// <param name="type">The type of the fixture to be used</param>
 		/// <returns>True if the type can be used to build a TestSuite</returns>
 		bool CanBuildFrom( Type type );
