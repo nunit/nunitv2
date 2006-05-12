@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit.util.tests.dll.config" "$(TargetDir)nunit.util.dll.tests.config"&#xd;&#xa;copy "$(SolutionDir)NUnitTestServer\nunit-server-exe\bin\$(ConfigurationName)\nunit-server.exe"  "$(TargetDir)"'
+                PostBuildEvent = 'copy "$(ProjectDir)nunit.util.tests.dll.config" "$(TargetDir)nunit.util.dll.tests.config"&#xd;&#xa;'
                 RootNamespace = "NUnit.Util.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
