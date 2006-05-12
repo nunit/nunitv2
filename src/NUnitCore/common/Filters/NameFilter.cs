@@ -37,7 +37,7 @@ namespace NUnit.Core.Filters
 	/// </summary>
 	/// 
 	[Serializable]
-	public class NameFilter : TestFilter
+	public class NameFilter : RecursiveTestFilter
 	{
 		private ArrayList testNames = new ArrayList();
 
@@ -69,21 +69,21 @@ namespace NUnit.Core.Filters
 		/// </summary>
 		/// <param name="test"></param>
 		/// <returns></returns>
-		public override bool Pass( ITest test )
-        {
-			if ( Match( test ) )
-				return true;
+        //public override bool Pass( ITest test )
+        //{
+        //    if ( Match( test ) )
+        //        return true;
 
-			if ( MatchParent( test ) )
-				return true;
+        //    if ( MatchParent( test ) )
+        //        return true;
 
-			if ( MatchDescendant( test ) )
-				return true;
+        //    if ( MatchDescendant( test ) )
+        //        return true;
 
-			return false;
-        }
+        //    return false;
+        //}
 
-		private bool Match( ITest test )
+		public override bool Match( ITest test )
 		{
 			foreach( TestName testName in testNames )
 				if ( test.TestName == testName )
@@ -92,39 +92,39 @@ namespace NUnit.Core.Filters
 			return false;
 		}
 
-		private bool MatchParent( ITest test )
-		{
-			if ( test.IsExplicit )
-				return false;
+        //private bool MatchParent( ITest test )
+        //{
+        //    if ( test.IsExplicit )
+        //        return false;
 
-			for( ITest parent = test.Parent; parent != null; parent = parent.Parent )
-			{
-				if ( Match( parent ) )
-					return true;
+        //    for( ITest parent = test.Parent; parent != null; parent = parent.Parent )
+        //    {
+        //        if ( Match( parent ) )
+        //            return true;
 
-				// Don't proceed past a parent marked Explicit
-				if ( parent.IsExplicit )
-					return false;
-			}
+        //        // Don't proceed past a parent marked Explicit
+        //        if ( parent.IsExplicit )
+        //            return false;
+        //    }
 
-			return false;
-		}
+        //    return false;
+        //}
 
-		private bool MatchDescendant( ITest test )
-		{
-			if ( !test.IsSuite || test.Tests == null )
-				return false;
+        //private bool MatchDescendant( ITest test )
+        //{
+        //    if ( !test.IsSuite || test.Tests == null )
+        //        return false;
 
-			foreach( ITest child in test.Tests )
-			{
-				if ( Match( child ) )
-					return true;
+        //    foreach( ITest child in test.Tests )
+        //    {
+        //        if ( Match( child ) )
+        //            return true;
 
-				if ( MatchDescendant( child ) )
-					return true;
-			}
+        //        if ( MatchDescendant( child ) )
+        //            return true;
+        //    }
 
-			return false;
-		}
+        //    return false;
+        //}
 	}
 }

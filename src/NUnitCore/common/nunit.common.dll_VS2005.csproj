@@ -44,6 +44,8 @@
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\CommonAssemblyInfo.cs">
@@ -58,6 +60,8 @@
     <Compile Include="Filters\CategoryFilter.cs" />
     <Compile Include="Filters\NameFilter.cs" />
     <Compile Include="Filters\NotFilter.cs" />
+    <Compile Include="Filters\RecursiveTestFilter.cs" />
+    <Compile Include="Filters\SimpleNameFilter.cs" />
     <Compile Include="ITest.cs" />
     <Compile Include="LongLivingMarshalByRefObject.cs" />
     <Compile Include="ResultVisitor.cs" />

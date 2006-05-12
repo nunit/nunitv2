@@ -37,7 +37,7 @@ namespace NUnit.Core.Filters
 	/// </summary>
 	/// 
 	[Serializable]
-	public class CategoryFilter : TestFilter
+	public class CategoryFilter : RecursiveTestFilter
 	{
 		ArrayList categories;
 
@@ -65,26 +65,26 @@ namespace NUnit.Core.Filters
 
 		#region IFilter Members
 
-		public override bool Pass( ITest test )
-		{
-            if ( categories.Count == 0 ) return true;
+        //public override bool Pass( ITest test )
+        //{
+        //    if ( categories.Count == 0 ) return true;
 
-            if ( CheckCategories( test ) ) return true;
+        //    if ( CheckCategories( test ) ) return true;
 
-            bool pass = false;
+        //    bool pass = false;
 
-            if (test.IsSuite)
-                foreach (ITest child in test.Tests)
-                {
-                    if ( Pass( child ) )
-                    {
-                        pass = true;
-                        break;
-                    }
-                }
+        //    if (test.IsSuite)
+        //        foreach (ITest child in test.Tests)
+        //        {
+        //            if ( Pass( child ) )
+        //            {
+        //                pass = true;
+        //                break;
+        //            }
+        //        }
 
-            return pass;
-        }
+        //    return pass;
+        //}
 		#endregion
 
 		/// <summary>
@@ -94,11 +94,16 @@ namespace NUnit.Core.Filters
 		/// exclude filter at this point because only positive
 		/// categories are inherited, not their absence.
 		/// </summary>
-		private bool CheckCategories(ITest test) 
-		{
-			return test.HasCategory( categories )
-				|| test.Parent != null 
-				&& test.Parent.HasCategory( categories );
-		}
+        //private bool CheckCategories(ITest test) 
+        //{
+        //    return test.HasCategory( categories )
+        //        || test.Parent != null 
+        //        && test.Parent.HasCategory( categories );
+        //}
+
+        public override bool Match(ITest test)
+        {
+            return test.HasCategory(categories);
+        }
 	}
 }

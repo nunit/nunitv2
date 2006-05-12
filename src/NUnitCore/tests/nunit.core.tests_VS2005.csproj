@@ -168,6 +168,7 @@
     <Compile Include="SetUpTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SimpleNameFilterTests.cs" />
     <Compile Include="SimpleTestRunnerTests.cs">
       <SubType>Code</SubType>
     </Compile>

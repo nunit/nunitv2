@@ -143,12 +143,13 @@ namespace NUnit.Core.Tests
         [NUnit.Framework.Test]
         public void NoNamespaceSetupFixture()
         {
-            TestSuiteBuilder builder = new TestSuiteBuilder();
-            TestSuite suite = builder.Build(typeof(NUnit.TestData.SetupFixture.Namespace1.SomeTestFixture).Assembly.FullName);
-            Assert.IsInstanceOfType(typeof(SetUpFixture), suite);
-            Test test = suite.Tests[1] as Test;
-            Assert.AreEqual("SomeTestFixture", test.Name);
-            TestResult result = suite.Run(new NullListener(), new Filters.NameFilter(test.TestName));
+            TestResult result = runTests(null, new Filters.SimpleNameFilter("SomeTestFixture"));
+            //TestSuiteBuilder builder = new TestSuiteBuilder();
+            //TestSuite suite = builder.Build(typeof(NUnit.TestData.SetupFixture.Namespace1.SomeTestFixture).Assembly.FullName);
+            //Assert.IsInstanceOfType(typeof(SetUpFixture), suite);
+            //Test test = suite.Tests[1] as Test;
+            //Assert.AreEqual("SomeTestFixture", test.Name);
+            //TestResult result = suite.Run(new NullListener(), new Filters.NameFilter(test.TestName));
             ResultSummarizer summ = new ResultSummarizer(result);
             Assert.AreEqual(1, summ.ResultCount);
             Assert.IsTrue(result.IsSuccess);
