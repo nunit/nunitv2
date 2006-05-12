@@ -7,12 +7,11 @@
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
 <link rel="shortcut icon" href="favicon.ico">
-<style type="text/css"><!--
---></style>
 </head>
 <!-- End Standard Head Part -->
 
 <body>
+
 <!-- Standard Header for NUnit.org -->
 <div id="header">
   <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
@@ -23,7 +22,6 @@
 </div>
 <!-- End of Header -->
 
-<!-- Main Content -->
 <div id="content">
 
 <h2>Options Dialog</h2>
@@ -31,18 +29,19 @@
 <p>The Options Dialog is displayed using the Tools | Options menu item and allows the user to
 control some aspects of NUnit’s operation.</p>
 
+<hr><h3>Display Tab</h3><hr>
+
 <div class="screenshot-right">
    <img src="img/displayTab.jpg"></div>
 
-<h3>Display Tab</h3>
-
-<h4>Recent Files</h4>
+<h3>Recent Files</h3>
 
 <p>The text box allows the user to choose the number of entries to display in the recent files list.
 If <b>Load most recent project at startup</b> is checked, the GUI will load the last file opened unless it
 is run with a specific filename or with the <code>/noload</code> parameter.</p>
 
-<h4>Tree View</h4>
+<h3>Tree View</h3>
+
 <p>The list box allows selecting the degree of expansion of the tree when tests are loaded:</p>
 <blockquote>
 <p><b>Expand</b> – expands all tests</p>
@@ -55,7 +54,7 @@ is run with a specific filename or with the <code>/noload</code> parameter.</p>
 test nodes in the tree (grey display) – if it is not checked, result information for tests that do
 not seem to have changed will be retained.</p>
 
-<h4>Test Output</h4>
+<h3>Test Output</h3>
 
 <p>Check <b>Label Test Cases in Console output</b> to precede text in the output window with the name of the test that produced it.</p>
 
@@ -63,12 +62,35 @@ not seem to have changed will be retained.</p>
 Errors and Failures display and the stack trace. Clear it if you prefer not
 to see the tip window.</p>
 
-<h3>Tests Tab</h3>
+<hr><h3>Tests Tab</h3><hr>
 
 <div class="screenshot-right">
    <img src="img/testsTab.jpg"></div>
 
-<h4>Assembly Reload</h4>
+<h3>Test Structure</h3>
+
+<p>If <b>Automatic Namespace suites</b> is selected, tests will be
+   shown in a hierarchical listing based on namespaces. This is the
+   standard display as used in versions prior to NUnit 2.4.
+
+<p>If <b>Flat list of TestFixtures</b> is selected, tests will be
+   shown as a sequential list of fixtures.
+
+<h3>Multiple Assemblies</h3>
+
+<p>If <b>Load in separate AppDomains</b> is selected, each assembly
+   in a multiple-assembly test run will be loaded in a separate AppDomain.
+
+<p>If <b>Load in a single AppDomain</b> is selected, all assemblies in
+   a multiple-assembly test run will use the same AppDomain. This is
+   the standard behavior of NUnit prior to version 2.4.
+
+<p>If <b>Merge tests across assemblies</b> is checked, the display of tests
+   will not be divided across assemblies. If automatic namespace suites are
+   used, they will be merged across all assemblies. This option is only
+   available when tests are run in the same appdomain.
+
+<h3>Assembly Reload</h3>
 
 <p>If <b>Reload before each test run</b> is checked, a reload will occur whenever the run button is
 pressed whether the assemblies appear to have changed or not.</p>
@@ -76,17 +98,20 @@ pressed whether the assemblies appear to have changed or not.</p>
 <p>If <b>Reload when test assembly changes</b> is checked, assemblies are watched for any change and
 an automatic reload is initiated. This item is disabled on Windows 98 or ME.</p>
 
+<p>If <b>Re-run tests automatically</b> is checked, tests are re-run whenever a Reload
+   takes place.</p>
+   
 <h3>Visual Studio</h3>
 
 <p>If <b>Enable Visual Studio Support</b> is checked, the user will be able to open Visual Studio projects
 and solutions and add Visual Studio projects to existing test projects.</p>
+
 </div>
-<!-- End of Main Content -->
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.2.4</a></li>
+<li><a href="index.html">NUnit 2.4 Alpha Release</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
@@ -109,12 +134,13 @@ and solutions and add Visual Studio projects to existing test projects.</p>
 </ul>
 </div>
 <!-- End of Submenu -->
+
+
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
   Copyright &copy; 2002-2005. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
 
 </body>
 </html>

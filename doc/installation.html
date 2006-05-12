@@ -7,12 +7,11 @@
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
 <link rel="shortcut icon" href="favicon.ico">
-<style type="text/css"><!--
---></style>
 </head>
 <!-- End Standard Head Part -->
 
 <body>
+
 <!-- Standard Header for NUnit.org -->
 <div id="header">
   <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
@@ -23,12 +22,11 @@
 </div>
 <!-- End of Header -->
 
-<!-- Main Content -->
 <div id="content">
 
 <h2>Installation</h2>
 <p>By default the installation program places all of the files into the 
-	C:\Program&nbsp;Files\NUnit&nbsp;2.2.3 directory. In the installation directory 
+	C:\Program&nbsp;Files\NUnit&nbsp;2.3.6135 directory. In the installation directory 
 	there are three sub-directories: bin, doc, and samples. Source code is no
       longer provided with the standard installation package but must be downloaded
       separately if needed.</p>
@@ -60,11 +58,14 @@
 	Samples bring up the folder for the particular sample. The source shortcut 
 	brings up the folder which contains the source for the project.</p>
 <h3>Installation Verification</h3>
-Verify that the installation has worked successfully by running the NUnit gui 
-and loading and running NUnitTests.nunit in the bin directory.
-There are 746 tests and they should all pass.</p> 
+Verify that the installation has worked successfully by running the NUnit gui and
+loading and running NUnitTests.nunit in the bin directory. All tests should pass.
 <div class="screenshot">
     <img src="img/gui-verify.jpg"></div>
+<p><b>Note:</b> Although the NUnit installation has been modified to allow non-admin
+    users to install, there are still a large number of tests which can only run
+	successfully under an administrative id. This is a problem with the code in
+	the tests themselves, not with NUnit.</p>
 <h3>Timing Tests</h3>
 <p>The assembly timing-tests.dll contains several long-running tests that are used 
 	to verify that all remoting timeout problems have been fixed. The test cases 
@@ -82,49 +83,46 @@ There are 746 tests and they should all pass.</p>
 <ol>
 	<p><li>Copy the following files to the target directory:
 			<ul>
-				<li>
-					nunit.framework.dll</li>
-				<li>
-					nunit.extensions.dll</li>
-				<li>
-					nunit.uikit.dll</li>
-				<li>
-					nunit.util.dll</li>
-				<li>
-					nunit-console.exe</li>
-				<li>
-					nunit-console.exe.config (see note 2)</li>
-				<li>
-					nunit-gui.exe</li>
-				<li>
-					nunit-gui.exe.config (see note 2)</li>
+				<li>nunit.framework.dll</li>
+				<li>nunit.framework.extensions.dll</li>
+				<li>nunit.common.dll</li>
+				<li>nunit.core.dll</li>
+				<li>nunit.core.extensions.dll</li>
+				<li>nunit.mocks.dll</li>
+				<li>nunit.uikit.dll</li>
+				<li>nunit.util.dll</li>
+				<li>nunit-console-runner.dll</li>
+				<li>nunit-console.exe</li>
+				<li>nunit-console.exe.config</li>
+				<li>nunit-gui-runner.dll</li>
+				<li>nunit-gui.exe</li>
+				<li>nunit-gui.exe.config</li>
 			</ul>
 		</li>
-		<li>
-			Run gacutil.exe to install nunit.framework.dll into the GAC.</li>
 	<p><li>Create shortcuts as needed.</li>
 	<p><li>If you want to be able to run the nunit tests, copy the following files to the 
-			same location as the others:
+			same location as the others, along with any additional config files
+			for the dlls.
 			<ul>
-				<li>
-					mock-assembly.dll</li>
-				<li>
-					nonamespace-assembly.dll</li>
-				<li>
-					notestfixtures-assembly.dll</li>
-				<li>
-					nunit.tests.dll</li>
-				<li>
-					nunit.tests.dll.config (see note 2)</li>
-				<li>
-					timing-tests.dll</li>
+				<li>mock-assembly.dll</li>
+				<li>nonamespace-assembly.dll</li>
+				<li>notestfixtures-assembly.dll</li>
+				<li>nunit.core.tests.dll</li>
+				<li>nunit.extensions.tests.dll</li>
+				<li>nunit.framework.tests.dll</li>
+				<li>nunit.mocks.tests.dll</li>
+				<li>nunit.uikit.tests.dll</li>
+				<li>nunit.util.tests.dll</li>
+				<li>nunit-console.tests.dll</li>
+				<li>nunit-gui.tests.dll</li>
+				<li>nunit.testutilities.dll</li>
+				<li>test-assembly.dll</li>
+				<li>timing-tests.dll</li>
+				<li>NunitTests.nunit</li>
+				<li>NUnitTests.config</li>
 			</ul>
 		</li>
 </ol>
-<p><b>Note:</b> Some of the nunit tests require access to the source to run successfully. The 
-	source tree should be copied into a directory named src with the same parent as 
-	the directory containing the assemblies so that the solution may be found at 
-	..\src\nunit.sln.</p>
 
 <h4>Installation Under Mono</h4>
 
@@ -133,13 +131,13 @@ There are 746 tests and they should all pass.</p>
 	version of NUnit. Before attempting to install NUnit under Mono, determine whether 
 	an equivalent or newer version is already installed. It may be necessary to remove 
 	the pre-installed version from the GAC in order for the new version to be recognized.</p>
+
 </div>
-<!-- End of Main Content -->
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.2.4</a></li>
+<li><a href="index.html">NUnit 2.4 Alpha Release</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li id="current"><a href="installation.html">Installation</a></li>
@@ -156,12 +154,13 @@ There are 746 tests and they should all pass.</p>
 </ul>
 </div>
 <!-- End of Submenu -->
+
+
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
   Copyright &copy; 2002-2005. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
 
 </body>
 </html>

@@ -7,12 +7,11 @@
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
 <link rel="shortcut icon" href="favicon.ico">
-<style type="text/css"><!--
---></style>
 </head>
 <!-- End Standard Head Part -->
 
 <body>
+
 <!-- Standard Header for NUnit.org -->
 <div id="header">
   <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
@@ -23,7 +22,6 @@
 </div>
 <!-- End of Header -->
 
-<!-- Main Content -->
 <div id="content">
 
 <h2>Configuration Files</h2>
@@ -36,13 +34,14 @@ application and tests should be in a separate configuration file.</p>
 <h3>NUnit Configuration Files</h3>
 
 <p>One main purpose of the nunit-console and nunit-gui config files is to allow 
-NUnit to run with various versions of the .NET framework. NUnit 2.2 is built 
-using version 1.1 of the framework, but can be made to run against version 1.0 
-or 2.0. As delivered, the <startup> section of each config file is commented out,
-causing the applications to run with the .NET 1.1. If you uncomment the <startup>
-section, the entries there control the order in which alternate framework versions
-are selected. The delivered config files use this order: 2.0, 1.1, 1.0. If you
-prefer a different order, you can change the order of the entries.</p>
+NUnit to run with various versions of the .NET framework. NUnit is built using
+versions 1.1 and 2.0 of the framework. The two builds are provided as separate
+downloads and either build can be made to run against other versions of the CLR.</p>
+ 
+<p>As delivered, the <startup> section of each config file is commented out,
+causing NUnit to run with the version of .NET used to build it. If you uncomment 
+the <startup> section, the entries there control the order in which alternate 
+framework versions are selected.</p>
 
 <h3>Test Configuration File</h3>
 
@@ -61,13 +60,13 @@ same rule is followed when loading Visual Studio projects or solutions.</p>
 <p>Generally, you should be able to simply copy your application config file and rename it as
 described above. However, see the next section if you wish to run tests compiled for an earlier
 version of NUnit.</p>
+
 </div>
-<!-- End of Main Content -->
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.2.4</a></li>
+<li><a href="index.html">NUnit 2.4 Alpha Release</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
@@ -88,12 +87,13 @@ version of NUnit.</p>
 </ul>
 </div>
 <!-- End of Submenu -->
+
+
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
   Copyright &copy; 2002-2005. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
 
 </body>
 </html>

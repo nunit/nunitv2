@@ -7,12 +7,11 @@
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
 <link rel="shortcut icon" href="favicon.ico">
-<style type="text/css"><!--
---></style>
 </head>
 <!-- End Standard Head Part -->
 
 <body>
+
 <!-- Standard Header for NUnit.org -->
 <div id="header">
   <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
@@ -23,7 +22,6 @@
 </div>
 <!-- End of Header -->
 
-<!-- Main Content -->
 <div id="content">
 
 <h2>NUnit-Console Command Line Options</h2>
@@ -100,8 +98,11 @@ to be used when running a command.</p>
 <p>
 Multiple categories may be specified on either option, by using commas to 
 separate them.
-<p><b>Note:</b>In the current release, you may choose to either include or exclude 
-	categories in a run, but not both. For a clear understanding of how category 
+<p><b>Note:</b> Beginning with NUnit 2.4, the /include and /exclude> options may
+   be combined on the command line. When both are used, all tests with the included 
+   categories are run except for those with the excluded categories.</p>
+   
+<p>For a clear understanding of how category 
 	selection works, review the documentation for both the 
 	<a href="category.html">Category Attribute</a> and the 
 	<a href="explicit.html">Explicit Attribute</a>.</p>
@@ -153,11 +154,16 @@ separate them.
 	assembly2.dll and assembly3.dll.
 	<pre class="programtext">        nunit-console assembly1.dll assembly2.dll assembly3.dll</pre>
 </p>
-<p><b>Note:</b> You may specify multiple assemblies, but not multiple NUnit or 
+<p><b>Notes:</b> You may specify multiple assemblies, but not multiple NUnit or 
 	Visual Studio projects on the command line. Further, you may not specify an 
-	NUnit or Visual Studio project together with a list of assemblies. The <b>/fixture</b>
-	option may be used with multiple assemblies but it's more efficient to simply 
-	specify the assembly that contains the fixture.</p>
+	NUnit or Visual Studio project together with a list of assemblies.</p>
+<p>Beginning with NUnit 2.4, the console runner loads multiple assemblies 
+   specified in this way into separate AppDomains. You may provide a separate
+   config file for each assembly.
+<p>Beginning with NUnit 2.4, the <b>/fixture</b>
+	option, when used with multiple assemblies, will run tests matching the 
+	fixture name in all the assemblies. In earlier versions, only the first
+	test found was executed.</p>
 <h4>Other Options</h4>
 <p>The <b>/noshadow</b> option disables shadow copying of the assembly in order to 
 	provide improved performance.</p>
@@ -178,13 +184,13 @@ separate them.
 <p>The <b>/nologo</b> option disables display of the copyright information at the 
 	start of the program.</p>
 <p>The <b>/help</b> or <b>/?</b> option displays a brief help message</p>
+
 </div>
-<!-- End of Main Content -->
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.2.4</a></li>
+<li><a href="index.html">NUnit 2.4 Alpha Release</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
@@ -201,12 +207,13 @@ separate them.
 </ul>
 </div>
 <!-- End of Submenu -->
+
+
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
   Copyright &copy; 2002-2005. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
 
 </body>
 </html>

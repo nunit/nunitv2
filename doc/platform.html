@@ -7,12 +7,11 @@
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
 <link rel="shortcut icon" href="favicon.ico">
-<style type="text/css"><!--
---></style>
 </head>
 <!-- End Standard Head Part -->
 
 <body>
+
 <!-- Standard Header for NUnit.org -->
 <div id="header">
   <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
@@ -23,7 +22,6 @@
 </div>
 <!-- End of Header -->
 
-<!-- Main Content -->
 <div id="content">
 
 <script language="JavaScript">
@@ -64,6 +62,15 @@ div.code { width: 34em }
 	Exclude properties respectively. Platforms to be included may alternatively
 	be specified as an argument to the PlatformAttribute constructor. In either
 	case, multiple comma-separated values may be specified.
+
+<p>If a test or fixture with the Platform attribute does not satisfy the specified
+   platform requirements it is skipped. The test does not affect the outcome of 
+   the run at all: it is not considered as ignored and is not even counted in 
+   the total number of tests. In the gui, the tree node for the test remains 
+   gray and the	status bar color is not affected.</p>
+
+<blockquote><i><b>Note:</b> In versions of NUnit prior to 2.4, these tests were
+    shown as ignored.</i></blockquote>
 
 <h4>Test Fixture Syntax</h4>
 
@@ -215,7 +222,8 @@ public class SuccessTests
 </div>
 
 <h3>Platform Specifiers</h3>
-<p>The following values are recognized as platform specifiers...</p>
+<p>The following values are recognized as platform specifiers.
+   They may be expressed in upper, lower or mixed case.</p>
 
 <ul class="across">
 <li>Win</li>
@@ -245,52 +253,12 @@ public class SuccessTests
 <li>Mono</li>
 </ul>
 
-<p>&nbsp;</p>
-<p>They may be expressed in upper, lower or mixed case.</p>
 </div>
-<!-- End of Main Content -->
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="docHome.html">NUnit 2.2.2</a></li>
-<ul>
-<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
-<li><a href="installation.html">Installation</a></li>
-<li><a href="features.html">Features</a></li>
-<ul>
-<li><a href="assertions.html">Assertions</a></li>
-<li><a href="attributes.html">Attributes</a></li>
-<ul>
-<li><a href="testFixture.html">Test&nbsp;Fixture</a></li>
-<li><a href="test.html">Test</a></li>
-<li><a href="setupTeardown.html">Setup/Teardown</a></li>
-<li><a href="exception.html">Expected&nbsp;Exception</a></li>
-<li id="current"><a href="platform.html">Platform</a></li>
-<li><a href="category.html">Category</a></li>
-<li><a href="explicit.html">Explicit</a></li>
-<li><a href="suite.html">Suite</a></li>
-<li><a href="ignore.html">Ignore</a></li>
-</ul>
-<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
-<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
-<li><a href="projects.html">Test&nbsp;Projects</a></li>
-<li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
-</ul>
-<li><a href="nunit-console.html">NUnit-Console</a></li>
-<li><a href="nunit-gui.html">NUnit-Gui</a></li>
-<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
-<li><a href="samples.html">Samples</a></li>
-<li><a href="license.html">License</a></li>
-</ul>
-</ul>
-</div>
-<!-- End of Main Content -->
-
-<!-- Submenu -->
-<div id="subnav">
-<ul>
-<li><a href="index.html">NUnit 2.2.4</a></li>
+<li><a href="index.html">NUnit 2.4 Alpha Release</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
@@ -305,8 +273,10 @@ public class SuccessTests
 <li><a href="teardown.html">Teardown</a></li>
 <li><a href="fixtureSetup.html">Test&nbsp;Fixture&nbsp;SetUp</a></li>
 <li><a href="fixtureTeardown.html">Test&nbsp;Fixture&nbsp;TearDown</a></li>
+<li><a href="setupFixture.html">SetUp&nbsp;Fixture</a></li>
 <li><a href="exception.html">Expected&nbsp;Exception</a></li>
 <li id="current"><a href="platform.html">Platform</a></li>
+<li><a href="property.html">Property</a></li>
 <li><a href="category.html">Category</a></li>
 <li><a href="explicit.html">Explicit</a></li>
 <li><a href="suite.html">Suite</a></li>
@@ -325,12 +295,13 @@ public class SuccessTests
 </ul>
 </div>
 <!-- End of Submenu -->
+
+
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
   Copyright &copy; 2002-2005. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
 
 </body>
 </html>

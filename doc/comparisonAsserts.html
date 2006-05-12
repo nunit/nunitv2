@@ -7,12 +7,11 @@
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
 <link rel="shortcut icon" href="favicon.ico">
-<style type="text/css"><!--
---></style>
 </head>
 <!-- End Standard Head Part -->
 
 <body>
+
 <!-- Standard Header for NUnit.org -->
 <div id="header">
   <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
@@ -23,7 +22,6 @@
 </div>
 <!-- End of Header -->
 
-<!-- Main Content -->
 <div id="content">
 
 <h2>Comparisons (NUnit 2.2.4)</h2>
@@ -37,6 +35,11 @@
 <pre>Assert.Greater( int arg1, int arg2 );
 Assert.Greater( int arg1, int arg2, string message );
 Assert.Greater( int arg1, int arg2, string message, 
+                object[] parms );
+
+Assert.Greater( uint arg1, uint arg2 );
+Assert.Greater( uint arg1, uint arg2, string message );
+Assert.Greater( uint arg1, uint arg2, string message, 
                 object[] parms );
 
 Assert.Greater( decimal arg1, decimal arg2 );
@@ -59,9 +62,9 @@ Assert.Greater( float arg1, float arg2, string message );
 Assert.Greater( float arg1, float arg2, string message, 
                 object[] parms );
 
-Assert.Less( IComparable arg1, IComparable arg2, object actual );
-Assert.Less( IComparable arg1, IComparable arg2, string message );
-Assert.Less( IComparable arg1, IComparable arg2, string message, 
+Assert.Greater( IComparable arg1, IComparable arg2 );
+Assert.Greater( IComparable arg1, IComparable arg2, string message );
+Assert.Greater( IComparable arg1, IComparable arg2, string message, 
                 object[] parms );</pre>
 </div>
 				
@@ -71,38 +74,43 @@ Assert.Less( IComparable arg1, IComparable arg2, string message,
    <b>Assert.Less( x, y )</b> asserts that x is less than y ( x &lt; y ). </p>
    
 <div class="code" style="width: 36em" >
-<pre>Assert.Less( int arg1, int arg2, object actual );
+<pre>Assert.Less( int arg1, int arg2 );
 Assert.Less( int arg1, int arg2, string message );
 Assert.Less( int arg1, int arg2, string message, 
                 object[] parms );
 				
-Assert.Less( decimal arg1, decimal arg2, object actual );
+Assert.Less( uint arg1, uint arg2 );
+Assert.Less( uint arg1, uint arg2, string message );
+Assert.Less( uint arg1, uint arg2, string message, 
+                object[] parms );
+				
+Assert.Less( decimal arg1, decimal arg2 );
 Assert.Less( decimal arg1, decimal arg2, string message );
 Assert.Less( decimal arg1, decimal arg2, string message, 
                 object[] parms );
 				
-Assert.Less( double arg1, double arg2, object actual );
+Assert.Less( double arg1, double arg2 );
 Assert.Less( double arg1, double arg2, string message );
 Assert.Less( double arg1, double arg2, string message, 
                 object[] parms );
 				
-Assert.Less( float arg1, float arg2, object actual );
+Assert.Less( float arg1, float arg2 );
 Assert.Less( float arg1, float arg2, string message );
 Assert.Less( float arg1, float arg2, string message, 
                 object[] parms );
 				
-Assert.Less( IComparable arg1, IComparable arg2, object actual );
+Assert.Less( IComparable arg1, IComparable arg2 );
 Assert.Less( IComparable arg1, IComparable arg2, string message );
 Assert.Less( IComparable arg1, IComparable arg2, string message, 
                 object[] parms );</pre>
 </div>
+
 </div>
-<!-- End of Main Content -->
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.2.4</a></li>
+<li><a href="index.html">NUnit 2.4 Alpha Release</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
@@ -117,6 +125,8 @@ Assert.Less( IComparable arg1, IComparable arg2, string message,
 <li><a href="conditionAsserts.html">Condition&nbsp;Tests</a></li>
 <li><a href="utilityAsserts.html">Utility&nbsp;Methods</a></li>
 <li><a href="stringAssert.html">String&nbsp;Assert</a></li>
+<li><a href="collectionAssert.html">Collection&nbsp;Assert</a></li>
+<li><a href="fileAssert.html">File&nbsp;Assert</a></li>
 </ul>
 <li><a href="attributes.html">Attributes</a></li>
 <li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
@@ -132,12 +142,13 @@ Assert.Less( IComparable arg1, IComparable arg2, string message,
 </ul>
 </div>
 <!-- End of Submenu -->
+
+
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
   Copyright &copy; 2002-2005. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
 
 </body>
 </html>

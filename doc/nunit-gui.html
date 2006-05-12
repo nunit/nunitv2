@@ -7,12 +7,11 @@
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
 <link rel="shortcut icon" href="favicon.ico">
-<style type="text/css"><!--
---></style>
 </head>
 <!-- End Standard Head Part -->
 
 <body>
+
 <!-- Standard Header for NUnit.org -->
 <div id="header">
   <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
@@ -23,7 +22,6 @@
 </div>
 <!-- End of Header -->
 
-<!-- Main Content -->
 <div id="content">
 
 <h2>NUnit-Gui</h2>
@@ -37,16 +35,33 @@
 <div class="screenshot">
      <img src="img/gui-screenshot.jpg"></div>
 
-<p>As you can see, the tests that were not run are marked with a yellow circle, 
-	while those that were run successfully are colored green. If any tests had 
-	failed, they would be marked red.</p>
+<p>This version of NUnit uses symbols in the test tree, which allow those who 
+   are unable to easily distinguish colors to determine the test status.
+   Successful tests are colored green, with a check mark. Tests that are ignored 
+   are marked with a yellow circle, containing a question mark. If any
+   tests had failed, they would be marked red, with an X symbol.</p>
+
+<p>In this example, there were a total of 11 test cases, but one of them was not 
+   counted because it was marked Explicit. Note that it is shown as a gray
+   circle in the tree. Of the remaining 10 tests, 5 were run successfully and
+   5 were ignored.</p>
+   
+<p>The symbols shown in the tree are actually files in the NUnit bin directory.
+   These files are named Success.jpg, Failure.jpg and Ignored.jpg and may be
+   modified or replaced by the user.</p>
+   
+<p>With the release of NUnit 2.4, an alternate "mini-gui" is also available. It 
+   may be selected from the View menu. The following screenshot shows the mini
+   gui displaying the NUnit tests.</p>
+   
+<div class="screenshot">
+     <img src="img/miniGui.jpg"></div>
 </div>
-<!-- End of Main Content -->
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.2.4</a></li>
+<li><a href="index.html">NUnit 2.4 Alpha Release</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
@@ -69,12 +84,13 @@
 </ul>
 </div>
 <!-- End of Submenu -->
+
+
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
   Copyright &copy; 2002-2005. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
 
 </body>
 </html>

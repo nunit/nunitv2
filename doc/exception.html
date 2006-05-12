@@ -7,12 +7,11 @@
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
 <link rel="shortcut icon" href="favicon.ico">
-<style type="text/css"><!--
---></style>
 </head>
 <!-- End Standard Head Part -->
 
 <body>
+
 <!-- Standard Header for NUnit.org -->
 <div id="header">
   <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
@@ -23,7 +22,6 @@
 </div>
 <!-- End of Header -->
 
-<!-- Main Content -->
 <div id="content">
 
 <script language="JavaScript">
@@ -47,17 +45,59 @@
 	}
 </script>
 
-<h3>ExpectedExceptionAttribute (NUnit 2.0 / 2.2.4)</h3>
+<h3>ExpectedExceptionAttribute (NUnit 2.0 plus Updates)</h3>
 
 <p>This is the way to specify that the execution of a test will throw an 
-	exception. This attribute has two constructors. The first (NUnit 2.0) takes a Type 
-	representing the exact type of the expected exception. The second (NUnit 2.2.4) takes 
-	the full name of the expected exception type as a string</p>
+	exception. Because this attribute has a number of different constructors,
+	we will first list them and then describe the different options.</p>
+
+<div class="code">
+<pre>
+ExpectedExceptionAttribute( Type exceptionType )
+ExpectedExceptionAttribute( Type exceptionType,
+        string expectedMessage, MessageMatch matchType )
+ExpectedExceptionAttribute( Type exceptionType,
+        string expectedMessage )
 	
-<p>In either case, the runner will execute the test, which passes only if it 
-    throws the specified exception.	If it throws a different exception then
-	the test will fail. This is true even if the thrown exception inherits from 
-	the expected exception.</p>
+ExpectedExceptionAttribute( string exceptionName )
+ExpectedExceptionAttribute( string exceptionName,
+        string expectedMessage )
+ExpectedExceptionAttribute( string exceptionName,
+        string expectedMessage, MessageMatch matchType )</pre></div>
+			
+<p>The original attribute, introduced with NUnit 2.0, took a single argument
+   giving the exact type of the expected exception. With NUnit 2.1, we added the
+   optional expectedMessage argument, which had to exactly match the Message of the
+   exception that was thrown. With NUnit 2.2.4, we added two additional forms taking 
+   the full name of the expected exception type as a string.</p>
+   
+<p>With NUnit 2.4, an optional third argument may be added, which specifies
+   how the expectedMessage is used. The argument is an enumeration, defined as
+   follows:</p>
+   
+<div class="code">
+<pre>public enum MessageMatch
+{
+    /// Expect an exact match
+    Exact,	
+    /// Expect a message containing the parameter string
+    Contains,
+    /// Match the regular expression provided as a parameter
+    Regex
+}</pre></div>
+
+<p>The default, if the third argument is not specified, continues to be
+   an exact match with the expected message.</p>
+	
+<p>Whichever constructor is used, the runner will execute the test, which passes
+   only if it throws an exception of the specified type. If it does not throw
+   an exception, then the test fails. If it throws a different exception then
+	the test fails. Note that this is true even if the thrown exception inherits
+	from the expected exception.</p>
+	
+<p>If the exception type is correct, then its Message property is compared with
+   the expectedMessage, either as an exact match or using the specified
+   matchType.</p>
 
 <h4>Example:</h4>
 
@@ -140,13 +180,13 @@ namespace NUnitTests {
 </pre>
 
 </div>
+
 </div>
-<!-- End of Main Content -->
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.2.4</a></li>
+<li><a href="index.html">NUnit 2.4 Alpha Release</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
@@ -161,8 +201,10 @@ namespace NUnitTests {
 <li><a href="teardown.html">Teardown</a></li>
 <li><a href="fixtureSetup.html">Test&nbsp;Fixture&nbsp;SetUp</a></li>
 <li><a href="fixtureTeardown.html">Test&nbsp;Fixture&nbsp;TearDown</a></li>
+<li><a href="setupFixture.html">SetUp&nbsp;Fixture</a></li>
 <li id="current"><a href="exception.html">Expected&nbsp;Exception</a></li>
 <li><a href="platform.html">Platform</a></li>
+<li><a href="property.html">Property</a></li>
 <li><a href="category.html">Category</a></li>
 <li><a href="explicit.html">Explicit</a></li>
 <li><a href="suite.html">Suite</a></li>
@@ -181,12 +223,13 @@ namespace NUnitTests {
 </ul>
 </div>
 <!-- End of Submenu -->
+
+
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
   Copyright &copy; 2002-2005. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
 
 </body>
 </html>
