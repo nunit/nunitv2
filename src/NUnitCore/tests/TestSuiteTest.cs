@@ -237,7 +237,7 @@ namespace NUnit.Core.Tests
 			filter.AddCategory("FixtureCategory");
 			RecordingListener listener = new RecordingListener();
 			testSuite.Run(listener, filter);
-			Assert.AreEqual(MockTestFixture.Tests, listener.testStarted.Count);
+            Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.Explicit, listener.testStarted.Count);
 		}
 
 		[Test]
