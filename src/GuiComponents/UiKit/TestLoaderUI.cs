@@ -52,25 +52,25 @@ namespace NUnit.UiKit
 			
 			if ( vsSupport )
 			{
-				dlg.Filter =
-					"Projects & Assemblies(*.nunit,*.csproj,*.vbproj,*.vjsproj, *.vcproj,*.sln,*.dll,*.exe )|*.nunit;*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.sln;*.dll;*.exe|" +
-					"All Project Types (*.nunit,*.csproj,*.vbproj,*.vjsproj,*.vcproj,*.sln)|*.nunit;*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.sln|" +
-					"Test Projects (*.nunit)|*.nunit|" +
-					"Solutions (*.sln)|*.sln|" +
-					"C# Projects (*.csproj)|*.csproj|" +
-					"J# Projects (*.vjsproj)|*.vjsproj|" +
-					"VB Projects (*.vbproj)|*.vbproj|" +
-					"C++ Projects (*.vcproj)|*.vcproj|" +
-					"Assemblies (*.dll,*.exe)|*.dll;*.exe|" +
-					"All Files (*.*)|*.*";
+                dlg.Filter =
+                    "Projects & Assemblies(*.nunit,*.csproj,*.vbproj,*.vjsproj, *.vcproj,*.sln,*.dll,*.exe )|*.nunit;*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.sln;*.dll;*.exe|" +
+                    "All Project Types (*.nunit,*.csproj,*.vbproj,*.vjsproj,*.vcproj,*.sln)|*.nunit;*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.sln|" +
+                    "Test Projects (*.nunit)|*.nunit|" +
+                    "Solutions (*.sln)|*.sln|" +
+                    "C# Projects (*.csproj)|*.csproj|" +
+                    "J# Projects (*.vjsproj)|*.vjsproj|" +
+                    "VB Projects (*.vbproj)|*.vbproj|" +
+                    "C++ Projects (*.vcproj)|*.vcproj|" +
+                    "Assemblies (*.dll,*.exe)|*.dll;*.exe";
+					//"All Files (*.*)|*.*";
 			}
 			else
 			{
-				dlg.Filter =
-					"Projects & Assemblies(*.nunit,*.dll,*.exe)|*.nunit;*.dll;*.exe|" + 
-					"Test Projects (*.nunit)|*.nunit|" + 
-					"Assemblies (*.dll,*.exe)|*.dll;*.exe|" +
-					"All Files (*.*)|*.*";
+                dlg.Filter =
+                    "Projects & Assemblies(*.nunit,*.dll,*.exe)|*.nunit;*.dll;*.exe|" +
+                    "Test Projects (*.nunit)|*.nunit|" +
+                    "Assemblies (*.dll,*.exe)|*.dll;*.exe";
+					//"All Files (*.*)|*.*";
 			}
 
 			dlg.FilterIndex = 1;
@@ -123,10 +123,10 @@ namespace NUnit.UiKit
 			dlg.Title = "Add Assembly";
 			dlg.InitialDirectory = configName == null
 				? loader.TestProject.ActiveConfig.BasePath
-				: loader.TestProject.Configs[configName].BasePath;		
-			dlg.Filter =
-				"Assemblies (*.dll,*.exe)|*.dll;*.exe|" +
-				"All Files (*.*)|*.*";
+				: loader.TestProject.Configs[configName].BasePath;
+            dlg.Filter =
+                "Assemblies (*.dll,*.exe)|*.dll;*.exe";
+				//"All Files (*.*)|*.*";
 			dlg.FilterIndex = 1;
 			dlg.FileName = "";
 
