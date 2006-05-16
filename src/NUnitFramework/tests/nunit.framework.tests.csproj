@@ -80,31 +80,6 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "nonamespace-assembly"
-                    Project = "{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "mock-assembly"
-                    Project = "{2E368281-3BA8-4050-B05E-0E0E43F8F446}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "nunit.util.dll"
-                    Project = "{61CE9CE5-943E-44D4-A381-814DC1406767}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "test-utilities"
-                    Project = "{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "nunit.mocks"
-                    Project = "{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "System.Drawing"
                     AssemblyName = "System.Drawing"
                     HintPath = "C:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
@@ -118,16 +93,6 @@
                     Name = "System.Data"
                     AssemblyName = "System.Data"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
-                />
-                <Reference
-                    Name = "nunit.core.dll"
-                    Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "nunit.common.dll"
-                    Project = "{F9B59130-8C42-4D01-AC25-C819EA18D6C4}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
