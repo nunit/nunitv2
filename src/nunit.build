@@ -10,7 +10,7 @@
 
     NOTE: This file uses features that are not available in 
     NAnt 0.84. It has been tested using the nightly download
-    nant-0.85-nightly-2005-12-03.zip.
+    of NAnt 0.85 for 30 April 2006.
 
     Examples of Use:
 
