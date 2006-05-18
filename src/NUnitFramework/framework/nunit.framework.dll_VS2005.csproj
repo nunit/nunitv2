@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="FileAssert.cs" />
     <Compile Include="GreaterAsserter.cs" />
+    <Compile Include="GreaterEqualAsserter.cs" />
     <Compile Include="IAsserter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -107,6 +108,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LessAsserter.cs" />
+    <Compile Include="LessEqualAsserter.cs" />
     <Compile Include="ListContentsAsserter.cs" />
     <Compile Include="NotEqualAsserter.cs">
       <SubType>Code</SubType>

@@ -79,7 +79,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FileAssertTests.cs" />
+    <Compile Include="GreaterEqualFixture.cs" />
     <Compile Include="GreaterFixture.cs" />
+    <Compile Include="LessEqualFixture.cs" />
     <Compile Include="LessFixture.cs" />
     <Compile Include="ListContentsTests.cs" />
     <Compile Include="NotEqualFixture.cs">
