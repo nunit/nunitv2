@@ -38,6 +38,7 @@ namespace NUnit.Util.Tests
 	/// This fixture tests both AssemblyList and AssemblyListItem
 	/// </summary>
 	[TestFixture]
+	[Platform(Exclude="Linux")]
 	public class AssemblyListTests
 	{
 		ProjectConfig config;

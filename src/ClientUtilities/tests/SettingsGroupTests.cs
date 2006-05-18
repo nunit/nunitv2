@@ -37,6 +37,7 @@ namespace NUnit.Util.Tests
 	/// Summary description for SettingsGroupTests.
 	/// </summary>
 	[TestFixture]
+	[Platform(Exclude="Linux")]
 	public class SettingsGroupTests
 	{
 		private RegistryKey testKey;

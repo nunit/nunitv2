@@ -38,6 +38,7 @@ namespace NUnit.Util.Tests
 	/// Summary description for ProjectConfigTests.
 	/// </summary>
 	[TestFixture]
+	[Platform(Exclude="Linux")]
 	public class ProjectConfigTests
 	{
 		private ProjectConfig config;

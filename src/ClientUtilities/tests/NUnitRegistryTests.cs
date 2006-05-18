@@ -55,7 +55,7 @@ namespace NUnit.Util.Tests
 			using( RegistryKey key = NUnitRegistry.CurrentUser )
 			{
 				Assert.IsNotNull( key );
-				Assert.AreEqual( @"HKEY_CURRENT_USER\Software\nunit.org\Nunit\2.4", key.Name );
+				Assert.AreEqual( @"HKEY_CURRENT_USER\Software\nunit.org\Nunit\2.4".ToLower(), key.Name.ToLower() );
 			}
 		}
 
@@ -66,7 +66,7 @@ namespace NUnit.Util.Tests
 			using( RegistryKey key = NUnitRegistry.LocalMachine )
 			{
 				Assert.IsNotNull( key );
-				StringAssert.EndsWith( @"Software\nunit.org\Nunit\2.4", key.Name );
+				StringAssert.EndsWith( @"Software\nunit.org\Nunit\2.4".ToLower(), key.Name.ToLower() );
 			}
 		}
 
@@ -78,7 +78,7 @@ namespace NUnit.Util.Tests
 			using( RegistryKey key = NUnitRegistry.CurrentUser )
 			{
 				Assert.IsNotNull( key );
-				Assert.AreEqual( @"HKEY_CURRENT_USER\Software\nunit.org\Nunit-Test", key.Name );
+				Assert.AreEqual( @"HKEY_CURRENT_USER\Software\nunit.org\Nunit-Test".ToLower(), key.Name.ToLower() );
 			}
 		}
 
@@ -89,11 +89,12 @@ namespace NUnit.Util.Tests
 			using( RegistryKey key = NUnitRegistry.LocalMachine )
 			{
 				Assert.IsNotNull( key );
-				StringAssert.EndsWith( @"Software\nunit.org\Nunit-Test", key.Name );
+				StringAssert.EndsWith( @"Software\nunit.org\Nunit-Test".ToLower(), key.Name.ToLower() );
 			}
 		}
 
 		[Test]
+		[Platform(Exclude="Linux")]
 		public void TestClearRoutines()
 		{
 			NUnitRegistry.TestMode = true;

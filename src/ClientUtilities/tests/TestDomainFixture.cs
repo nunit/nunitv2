@@ -123,6 +123,7 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
+		[Platform(Exclude="Linux")]
 		public void BinPath()
 		{
 			string[] assemblies = new string[]
@@ -185,6 +186,7 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
+		[Platform(Exclude="Linux")]
 		public void ProjectConfigFileOverrideIsHonored()
 		{
 			NUnitProject project = new NUnitProject( "MyProject.nunit" );

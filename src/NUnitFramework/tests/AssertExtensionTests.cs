@@ -35,11 +35,25 @@ namespace NUnit.Framework.Tests
 		}
 
 		[Test]
-		[ExpectedException( typeof( AssertionException ), 
-			"\texpected: odd number\r\n\tactual:  <28>")]
 		public void OddNumberFails()
 		{
-			MyAssert.IsOdd( 28 );
+			try
+			{
+				MyAssert.IsOdd( 28 );
+				Assert.Fail("An AssertionException was expected but not thrown");
+			}
+			catch(AssertionException ae)
+			{
+				Assert.AreEqual(ae.Message,
+					"\texpected: odd number" 
+					+ System.Environment.NewLine 
+					+ "\tactual:  <28>",
+					"AssertionException thrown with incorrect message");
+			}
+			catch(Exception ex)
+			{
+				Assert.Fail("Expected AssertionException but caught: " + ex.ToString());
+			}
 		}
 
 		private class MyAssert

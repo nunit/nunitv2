@@ -38,6 +38,7 @@ namespace NUnit.Util.Tests
 	/// Summary description for RegistryStorageTests.
 	/// </summary>
 	[TestFixture]
+	[Platform(Exclude="Linux")]
 	public class RegistrySettingsStorageTests
 	{
 		RegistryKey testKey;

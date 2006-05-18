@@ -175,6 +175,7 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
+		[Platform(Exclude="Linux")]
 		public void InvalidXmlFormat()
 		{
 			WriteInvalidFile( "<VisualStudioProject><junk></VisualStudioProject>" );
@@ -182,6 +183,7 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
+		[Platform(Exclude="Linux")]
 		public void InvalidProjectFormat()
 		{
 			WriteInvalidFile( "<VisualStudioProject><junk></junk></VisualStudioProject>" );
@@ -189,6 +191,7 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
+		[Platform(Exclude="Linux")]
 		public void MissingAttributes()
 		{
 			WriteInvalidFile( "<VisualStudioProject><CSharp><Build><Settings></Settings></Build></CSharp></VisualStudioProject>" );
@@ -196,6 +199,7 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
+		[Platform(Exclude="Linux")]
 		public void NoConfigurations()
 		{
 			WriteInvalidFile( "<VisualStudioProject><CSharp><Build><Settings AssemblyName=\"invalid\" OutputType=\"Library\"></Settings></Build></CSharp></VisualStudioProject>" );

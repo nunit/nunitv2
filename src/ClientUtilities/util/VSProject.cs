@@ -212,7 +212,7 @@ namespace NUnit.Util
 							if ( bar >= 0 )
 								dirName = dirName.Substring( 0, bar );
 							string outputPath = configNode.Attributes["OutputDirectory"].Value;
-							outputPath = outputPath.Replace( "$(SolutionDir)", Path.GetFullPath( Path.GetDirectoryName( projectPath ) ) + @"\" );
+							outputPath = outputPath.Replace( "$(SolutionDir)", Path.GetFullPath( Path.GetDirectoryName( projectPath ) ) + Path.DirectorySeparatorChar );
 							outputPath = outputPath.Replace( "$(ConfigurationName)", dirName );
 
 							string outputDirectory = Path.Combine( projectDirectory, outputPath );

@@ -7,6 +7,7 @@ namespace NUnit.Framework.Tests
 	/// Test Library for the NUnit CollectionAssert class.
 	/// </summary>
 	[TestFixture()]
+	[Platform(Exclude="Linux")]
 	public class CollectionAssertTest
 	{
 		const string typeErrorMsg = "\r\n\tAll objects are not of actual type.\r\n\tset1.Count: 3\r\n\tactual: String";

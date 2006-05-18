@@ -85,6 +85,7 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
+		[Platform(Exclude="Linux")]
 		public void TestHasCultureInfo() 
 		{
 			XmlNode cultureInfo = resultDoc.SelectSingleNode("//culture-info");

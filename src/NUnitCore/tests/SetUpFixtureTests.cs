@@ -5,6 +5,7 @@ using NUnit.Util;
 namespace NUnit.Core.Tests
 {
     [TestFixture]
+    [Platform(Exclude="Linux")]
     public class SetUpFixtureTests
     {
         #region SetUp

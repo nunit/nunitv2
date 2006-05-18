@@ -370,12 +370,12 @@ namespace NUnit.Framework.Tests
 
 				string sFirst  = "00000000001111111111222222222233333333334444444444555555555566666666667777777777888888888899999999990000000000111111111122222222223333333333444444444455555555556666";
 				string sSecond = "00000000001111111111222222222233333333334444444444555555555566666666667777777777888888888899999999990000000000111111111122222222223333333333444444444455555555556666++";
-				Assert.AreEqual( @"
-	String lengths differ.  Expected length=164, but was length=166.
-	Strings differ at index 164.
-	expected: <""...23333333333444444444455555555556666"">
-	 but was: <""...23333333333444444444455555555556666++"">
-	--------------------------------------------------^",
+				Assert.AreEqual( System.Environment.NewLine + 
+"	String lengths differ.  Expected length=164, but was length=166." + System.Environment.NewLine +
+"	Strings differ at index 164." + System.Environment.NewLine + 
+"	expected: <\"...23333333333444444444455555555556666\">" + System.Environment.NewLine + 
+"	 but was: <\"...23333333333444444444455555555556666++\">" + System.Environment.NewLine + 
+"	--------------------------------------------------^",
 					GetMsg( sFirst, sSecond, null ) );
 			}
 
@@ -389,12 +389,12 @@ namespace NUnit.Framework.Tests
 			{
 				string sFirst  = "0000000000111111111122";
 				string sSecond = "0000000000111111111122++";
-				Assert.AreEqual( @"
-	String lengths differ.  Expected length=22, but was length=24.
-	Strings differ at index 22.
-	expected: <""0000000000111111111122"">
-	 but was: <""0000000000111111111122++"">
-	----------------------------------^",
+				Assert.AreEqual( @"" + System.Environment.NewLine +
+"	String lengths differ.  Expected length=22, but was length=24." + System.Environment.NewLine +
+"	Strings differ at index 22." + System.Environment.NewLine +
+"	expected: <\"0000000000111111111122\">" + System.Environment.NewLine +
+"	 but was: <\"0000000000111111111122++\">" + System.Environment.NewLine +
+"	----------------------------------^",
 					GetMsg( sFirst, sSecond, null ) );
 			}
 
@@ -425,7 +425,7 @@ namespace NUnit.Framework.Tests
 				{
 					string sFirst  = new string( '=', i );
 					string sSecond = new string( '=', i ) + sExtra;
-					Assert.AreEqual( "\r\n\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + ".\r\n\tStrings differ at index "+ i +".\r\n\texpected: <\""+ sFirst +"\">\r\n\t but was: <\""+ sSecond +"\">\r\n\t" + (new string('-',actualPrefix.Length+i+3)) + "^",
+					Assert.AreEqual( "" + System.Environment.NewLine + "\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + "." + System.Environment.NewLine + "\tStrings differ at index "+ i +"." + System.Environment.NewLine + "\texpected: <\""+ sFirst +"\">" + System.Environment.NewLine + "\t but was: <\""+ sSecond +"\">" + System.Environment.NewLine + "\t" + (new string('-',actualPrefix.Length+i+3)) + "^",
 						GetMsg( sFirst, sSecond, null ),
 						"Failed at index " + i);
 				}
@@ -441,7 +441,7 @@ namespace NUnit.Framework.Tests
 				{
 					string sFirst  = new string( '=', i );
 					string sSecond = new string( '=', i ) + sExtra;
-					Assert.AreEqual( "\r\n\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + ".\r\n\tStrings differ at index "+ i +".\r\n\texpected: <\""+ sExpected +"\">\r\n\t but was: <\""+ sActual +"\">\r\n\t" + (new string('-',actualPrefix.Length+"...".Length+PreClipLength+3)) + "^",
+					Assert.AreEqual( "" + System.Environment.NewLine + "\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + "." + System.Environment.NewLine + "\tStrings differ at index "+ i +"." + System.Environment.NewLine + "\texpected: <\""+ sExpected +"\">" + System.Environment.NewLine + "\t but was: <\""+ sActual +"\">" + System.Environment.NewLine + "\t" + (new string('-',actualPrefix.Length+"...".Length+PreClipLength+3)) + "^",
 						GetMsg( sFirst, sSecond, null ),
 						"Failed at index " + i );
 				}
@@ -454,33 +454,33 @@ namespace NUnit.Framework.Tests
 
 				msg = new AssertionFailureMessage( "message");
 				msg.DisplayListElements( "label:", new object[] { "a", "b", "c" }, 0, 3 );
-				Assert.AreEqual( "message\r\nlabel:<<\"a\">,<\"b\">,<\"c\">>",
+				Assert.AreEqual( "message" + System.Environment.NewLine + "label:<<\"a\">,<\"b\">,<\"c\">>",
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message");
 				msg.DisplayListElements( "label:", new object[] { "a", "b", "c" }, 0, 5 );
-				Assert.AreEqual( "message\r\nlabel:<<\"a\">,<\"b\">,<\"c\">>",
+				Assert.AreEqual( "message" + System.Environment.NewLine + "label:<<\"a\">,<\"b\">,<\"c\">>",
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message");
 				msg.DisplayListElements( "label:", new object[] { "a", "b", "c" }, 1, 1 );
-				Assert.AreEqual( "message\r\nlabel:<<\"b\">,...>",
+				Assert.AreEqual( "message" + System.Environment.NewLine + "label:<<\"b\">,...>",
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message");
 				msg.DisplayListElements( "label:", new object[] { "a", "b", "c" }, 1, 5 );
-				Assert.AreEqual( "message\r\nlabel:<<\"b\">,<\"c\">>",
+				Assert.AreEqual( "message" + System.Environment.NewLine + "label:<<\"b\">,<\"c\">>",
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message");
 				msg.DisplayListElements( "label:", new object[0], 0, 5 );
-				Assert.AreEqual( "message\r\nlabel:<empty>",
+				Assert.AreEqual( "message" + System.Environment.NewLine + "label:<empty>",
 					msg.ToString() );
 
 
 				msg = new AssertionFailureMessage( "message");
 				msg.DisplayListElements( "label:", null, 0, 5 );
-				Assert.AreEqual( "message\r\nlabel:<null>",
+				Assert.AreEqual( "message" + System.Environment.NewLine + "label:<null>",
 					msg.ToString() );
 			}
 

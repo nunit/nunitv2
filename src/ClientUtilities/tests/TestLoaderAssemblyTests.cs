@@ -40,6 +40,7 @@ namespace NUnit.Util.Tests
 	/// 
 	/// </summary>
 	[TestFixture]
+	[Platform(Exclude="Linux")]
 	public class TestLoaderAssemblyTests
 	{
 		private readonly string assembly = "mock-assembly.dll";
