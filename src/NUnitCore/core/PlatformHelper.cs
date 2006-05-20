@@ -43,8 +43,9 @@ namespace NUnit.Core
 		private static readonly string PlatformType = "NUnit.Framework.PlatformAttribute";
 
 		// Defined here and used in tests. We can't use PlatformID.Unix
-		// if we are building on .NET 1.0 or 1.1
-		public static readonly PlatformID UnixPlatformID = (PlatformID) 4;
+		// if we are building on .NET 1.0 or 1.1 and the values are different on Mono
+		public static readonly PlatformID UnixPlatformID_Microsoft = (PlatformID) 4;
+        public static readonly PlatformID UnixPlatformID_Mono = (PlatformID)128;
 
 		/// <summary>
 		/// Comma-delimited list of all supported OS platform constants
@@ -219,7 +220,8 @@ namespace NUnit.Core
 					break;
 				case "UNIX":
 				case "LINUX":
-					nameOK = os.Platform == UnixPlatformID;
+					nameOK = os.Platform == UnixPlatformID_Microsoft
+                          || os.Platform == UnixPlatformID_Mono;
 					break;
 				case "NET":
 					nameOK = rt.Runtime == RuntimeType.Net;

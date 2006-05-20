@@ -133,15 +133,24 @@ namespace NUnit.Core.Tests
 				"Win2003Server,NT5,Win32NT,Win32,Win" );
 		}
 
-		[Test]
-		public void DetectUnix()
-		{
-			CheckOSPlatforms( 
-				new OperatingSystem( PlatformHelper.UnixPlatformID, new Version() ),
-				"UNIX,Linux" );
-		}
+        [Test]
+        public void DetectUnixUnderMicrosoftDotNet()
+        {
+            CheckOSPlatforms(
+                new OperatingSystem(PlatformHelper.UnixPlatformID_Microsoft, new Version()),
+                "UNIX,Linux");
+        }
 
-		[Test]
+        // This throws under Microsoft .Net due to the invlaid enumeration value of 128
+        [Test, Platform(Exclude="Net")]
+        public void DetectUnixUnderMono()
+        {
+            CheckOSPlatforms(
+                new OperatingSystem(PlatformHelper.UnixPlatformID_Mono, new Version()),
+                "UNIX,Linux");
+        }
+
+        [Test]
 		public void DetectNet10()
 		{
 			CheckRuntimePlatforms(
