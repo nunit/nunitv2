@@ -72,7 +72,7 @@
   <!-- Frameworks supported by this build script. The first
          installed framework found is the default for builds. -->
   <property name="supported.frameworks" 
-    value="net-1.1,net-1.0,net-2.0,mono-1.0"/>
+    value="net-1.1,net-1.0,net-2.0,mono-1.0,mono-2.0"/>
 
   <!-- Visual Studio locations -->
   <if test="${platform::is-win32()}">
@@ -124,6 +124,9 @@
     </if>
   </foreach>
 
+  <!-- Test execution options -->
+  <property name="test.options" value="" />
+
   <!-- Targets that set the build configuration -->
 
   <target name="debug" description="Set config to debug for commands that follow">
@@ -152,12 +155,16 @@
     <call target="set-net-2.0-runtime-config"/>
   </target>
       
-  <target name="mono" description="Set runtime to Mono for commands that follow">
+  <target name="mono" description="Set runtime to Mono 1.0 for commands that follow">
     <call target="set-mono-1.0-runtime-config"/>
   </target>
 
-  <target name="mono-1.0" description="Set runtime to Mono for commands that follow">
+  <target name="mono-1.0" description="Set runtime to Mono 1.0 for commands that follow">
     <call target="set-mono-1.0-runtime-config"/>
+  </target>
+  
+  <target name="mono-2.0" description="Set runtime to Mono 2.0 for commands that follow">
+    <call target="set-mono-2.0-runtime-config"/>
   </target>
   
 <!-- Targets that clean directories -->
@@ -217,11 +224,11 @@
     <if test="${build.win32}">
       <call target="build-test-server"/>
       <call target="build-test-server-exe"/>
+    </if>
       <call target="build-uikit"/>
 
       <call target="build-gui-runner"/>
       <call target="build-gui-runner-exe"/>
-    </if>
 
     <!-- Build the Test Utilities and dummy projects -->
     <call target="build-mock-assembly"/>
@@ -464,11 +471,14 @@
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
-      <resources basedir="GuiComponents/UiKit" prefix="NUnit.UiKit">
+      <resources basedir="." prefix="NUnit.UiKit">
         <include name="*.resx"/>
         <include name="*.gif"/>
       </resources>
       <references basedir="${current.build.dir}">
+        <include name="System.Windows.Forms.dll"/>
+        <include name="System.Drawing.dll"/>
+        <include name="System.Data.dll"/>
         <include name="nunit.common.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.util.dll"/>
@@ -498,6 +508,8 @@
         <include name="*.ico"/>
       </resources>
       <references basedir="${current.build.dir}">
+        <include name="System.Windows.Forms.dll"/>
+        <include name="System.Drawing.dll"/>
         <include name="nunit.common.dll"/>
         <include name="nunit.util.dll"/>
         <include name="nunit.uikit.dll"/>
@@ -670,6 +682,7 @@
         <include name="System.Data.dll"/>
       </references>
     </csc>
+    <copy file="NUnitCore/tests/nunit.core.tests.dll.config" todir="${current.build.dir}"/>
   </target>
 
   <target name="build-extension-tests" depends="make-build-dir">
@@ -825,7 +838,17 @@
       workingdir="${current.build.dir}" 
 	  program="nunit-console.exe" 
       useruntimeengine="true"
-	  commandline="NUnitTests.nunit" />
+	  commandline="NUnitTests.nunit ${test.options}"
+	if="${build.win32}" />
+
+    <!-- Mono currently has a SIGSEGV fault if we run in a single AppDomain -->
+         a new build of NUnit which is likely not to be included in the Nant build -->
+    <exec basedir="${current.build.dir}"
+      workingdir="${current.build.dir}" 
+	  program="nunit-console.exe" 
+      useruntimeengine="true"
+	  commandline="nunit.framework.tests.dll nunit.core.tests.dll nunit.extensions.tests.dll nunit.util.tests.dll nunit-console.tests.dll ${test.options}"
+	unless="${build.win32}" />
 
   </target>
 

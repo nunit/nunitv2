@@ -107,6 +107,21 @@
     <property name="msi.runtime.suffix" value="-mono"/>
   </target>
 
+  <target name="set-mono-2.0-runtime-config">
+    <fail unless="${framework::sdk-exists( 'mono-2.0' )}"
+      message="The Mono 2.0 SDK is not configured or not installed"/>
+
+    <property name="runtime.platform" value="mono"/>
+    <property name="runtime.version" value="2.0"/>
+    <property name="runtime.config" value="mono-2.0"/>
+    <property name="build.mono" value="true"/>
+    <property name="build.win32" value="false"/>
+    <property name="nant.settings.currentframework" 
+      value="mono-2.0"/>
+    <property name="zip.runtime.suffix" value="-mono-1.0"/>
+    <property name="msi.runtime.suffix" value="-mono-2.0"/>
+  </target>
+
   <!-- Set up the build directory -->
   <target name="set-build-dir"
     depends="set-build-config,set-runtime-config">
