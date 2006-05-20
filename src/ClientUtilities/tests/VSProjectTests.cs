@@ -191,7 +191,6 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
-		[Platform(Exclude="Linux")]
 		public void MissingAttributes()
 		{
 			WriteInvalidFile( "<VisualStudioProject><CSharp><Build><Settings></Settings></Build></CSharp></VisualStudioProject>" );
@@ -199,7 +198,6 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
-		[Platform(Exclude="Linux")]
 		public void NoConfigurations()
 		{
 			WriteInvalidFile( "<VisualStudioProject><CSharp><Build><Settings AssemblyName=\"invalid\" OutputType=\"Library\"></Settings></Build></CSharp></VisualStudioProject>" );

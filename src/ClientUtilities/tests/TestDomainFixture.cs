@@ -186,7 +186,6 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
-		[Platform(Exclude="Linux")]
 		public void ProjectConfigFileOverrideIsHonored()
 		{
 			NUnitProject project = new NUnitProject( "MyProject.nunit" );
@@ -197,8 +196,8 @@ namespace NUnit.Util.Tests
 
 			testDomain.Load( project );
 
-			Assert.AreEqual( Path.GetFullPath( "Override.config" ), 
-				testDomain.AppDomain.SetupInformation.ConfigurationFile );
+			Assert.AreEqual( "Override.config", 
+				Path.GetFileName( testDomain.AppDomain.SetupInformation.ConfigurationFile ) );
 		}
 
 		[Test]
