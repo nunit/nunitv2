@@ -5,9 +5,10 @@ using NUnit.Util;
 namespace NUnit.Core.Tests
 {
     [TestFixture]
-    [Platform(Exclude="Linux")]
     public class SetUpFixtureTests
     {
+        private static readonly string testAssembly = "test-assembly.dll";
+
         #region SetUp
         [SetUp]
         public void SetUp()
@@ -26,9 +27,9 @@ namespace NUnit.Core.Tests
 
             TestSuite suite;
             if(nameSpace == null)
-                suite = builder.Build(typeof(NUnit.TestData.SetupFixture.Namespace1.SomeTestFixture).Assembly.FullName);
+                suite = builder.Build(testAssembly);
             else
-                suite = builder.Build(typeof(NUnit.TestData.SetupFixture.Namespace1.SomeTestFixture).Assembly.FullName, nameSpace);
+                suite = builder.Build(testAssembly, nameSpace);
             return suite.Run(new NullListener(),filter);
         }
 
@@ -42,11 +43,11 @@ namespace NUnit.Core.Tests
         {
             string nameSpace = "NUnit.TestData.SetupFixture.Namespace1";
             TestSuiteBuilder builder = new TestSuiteBuilder();
-            TestSuite suite = builder.Build(typeof(NUnit.TestData.SetupFixture.Namespace1.SomeTestFixture).Assembly.FullName, nameSpace);
+            TestSuite suite = builder.Build(testAssembly, nameSpace);
 
             Assert.IsNotNull(suite);
 
-            Assert.AreEqual(typeof(NUnit.TestData.SetupFixture.Namespace1.SomeTestFixture).Assembly.FullName, suite.Name);
+            Assert.AreEqual(testAssembly, suite.Name);
             Assert.AreEqual(1, suite.Tests.Count);
 
             string[] nameSpaceBits = nameSpace.Split('.');
@@ -74,16 +75,10 @@ namespace NUnit.Core.Tests
         public void NoNamespaceBuilder()
         {
             TestSuiteBuilder builder = new TestSuiteBuilder();
-            TestSuite suite = builder.Build(typeof(NUnit.TestData.SetupFixture.Namespace1.SomeTestFixture).Assembly.FullName);
+            TestSuite suite = builder.Build(testAssembly);
 
             Assert.IsNotNull(suite);
             Assert.IsInstanceOfType(typeof(SetUpFixture), suite);
-
-            //Assert.AreEqual(typeof(NUnit.TestData.SetupFixture.Namespace1.SomeTestFixture).Assembly.FullName, suite.Name);
-            //Assert.AreEqual(1, suite.Tests.Count);
-            //suite = suite.Tests[0] as TestSuite;
-            //Assert.AreEqual("[default namespace]", suite.Name);
-            //Assert.IsInstanceOfType(typeof(SetUpFixture), suite);
 
             suite = suite.Tests[1] as TestSuite;
             Assert.AreEqual("SomeTestFixture", suite.Name);
@@ -145,12 +140,6 @@ namespace NUnit.Core.Tests
         public void NoNamespaceSetupFixture()
         {
             TestResult result = runTests(null, new Filters.SimpleNameFilter("SomeTestFixture"));
-            //TestSuiteBuilder builder = new TestSuiteBuilder();
-            //TestSuite suite = builder.Build(typeof(NUnit.TestData.SetupFixture.Namespace1.SomeTestFixture).Assembly.FullName);
-            //Assert.IsInstanceOfType(typeof(SetUpFixture), suite);
-            //Test test = suite.Tests[1] as Test;
-            //Assert.AreEqual("SomeTestFixture", test.Name);
-            //TestResult result = suite.Run(new NullListener(), new Filters.NameFilter(test.TestName));
             ResultSummarizer summ = new ResultSummarizer(result);
             Assert.AreEqual(1, summ.ResultCount);
             Assert.IsTrue(result.IsSuccess);
