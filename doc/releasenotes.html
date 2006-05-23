@@ -32,7 +32,7 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
-<h3>NUnit 2.4 Alpha Release - May xx, 2006</h3>
+<h3>NUnit 2.4 Alpha Release (2.3.6140) - May 20, 2006</h3>
 
 <h4>General</h4>
 <ul>
@@ -46,6 +46,18 @@ dt { font-weight: bold }
 
 <li>NUnit may now be installed by non-administrators, subject to any security
     restrictions imposed by the particular site.
+	
+<li>The .Net 2.0 builds of NUnit are now called "NUnit for .Net 2.0"
+
+<li>The NAnt build script has been simplified and now consists only of the
+    <b>nunit.build</b> and <b>nunit.build.include</b> files.
+
+<li>The NAnt build script now has a target for building under the Mono 2.0 profile.
+
+<li>NUnit is now been built and tested using both Microsoft .Net (1.0, 1.1, 2.0) and Mono
+    (1.0 and 2.0 profiles).<br><br>
+	<b>Note:</b> in the Alpha release, a number of tests are skipped
+	when running under Linux or Unix.
 	
 </ul>
 
@@ -84,9 +96,17 @@ dt { font-weight: bold }
        <dt>AreNotEqual( FileInfo, FileInfo )
 	   <dt>AreNotEqual( string, string )
    </dl> 
-   
-<li>Two new overloads have been added to the Assert class:
+
+<li>The following new methods have been added to the Assert Class:
    <dl style="margin-left: 2em">
+       <dt>Assert.GreaterOrEqual()
+	   <dt>Assert.LessOrEqual()
+   </dl>
+   
+<li>The following new overloads have been added to the Assert class:
+   <dl style="margin-left: 2em">
+       <dt>Assert.AreEqual( long, long )
+	   <dt>Assert.AreEqual( ulong, ulong )
        <dt>Assert.AreNotEqual( long, long )
 	   <dt>Assert.AreNotEqual( ulong, ulong )
    </dl>
@@ -166,6 +186,8 @@ dt { font-weight: bold }
 
 <h4>Gui</h4>
 <ul>
+<li>The gui executable is now called "nunit.exe" rather than "nunit-gui.exe"
+
 <li>There is a new option to automatically re-run the test whenever
     a change is detected.
     
@@ -267,8 +289,8 @@ Cumulative notes through NUnit 2.2 are available <a href="docs/2.2.8/releaseNote
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
 <li><a href="features.html">Features</a></li>
-<li><a href="nunit-console.html">NUnit-Console</a></li>
-<li><a href="nunit-gui.html">NUnit-Gui</a></li>
+<li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
+<li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <li id="current"><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>
 <li><a href="license.html">License</a></li>

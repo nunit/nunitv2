@@ -51,21 +51,29 @@
 
 <h3>SetUpFixtureAttribute (NUnit 2.4)</h3>
 
-<h4>Documentation Under Development!</h4>
-<!--
-<p>This is the attribute that marks a class that contains tests and, optionally, 
-	setup or teardown methods.</p>
-<p>There are a few restrictions on a class that is used as a test fixture.
+<p>This is the attribute that marks a class that contains the one-time
+	setup or teardown methods for all the test fixtures under a given
+	namespace. The class may contain at most one method marked with the
+	SetUpAttribute and one method marked with the TearDownAttribute.</p>
+	
+<p>There are a few restrictions on a class that is used as a setup fixture.
 	<ul>
 		<li>
 			It must be a publicly exported type or NUnit will not see it.</li>
 		<li>
 			It must have a default constructor or NUnit will not be able to construct it.</li>
-		<li>
-			The constructor should not have any side effects, since NUnit may construct the 
-			class multiple times in the course of a session.</li>
 	</ul>
 </p>
+
+<p>The SetUp method in a SetUpFixture is executed once before any of the fixtures
+contained in its namespace. The TearDown method is executed once after all the 
+fixtures have completed execution. In the examples below, the method RunBeforeAnyTests()
+is called before any tests or setup methods in the NUnit.Tests namespace. The method
+RunAfterAnyTests() is called after all the tests in the namespace as well as their
+individual or fixture teardowns have completed exection.</p>
+
+<p>Only one SetUpFixture should be created in a given namespace. A SetUpFixture
+outside of any namespace provides SetUp and TearDown for the entire assembly.
 
 <h4>Example:</h4>
 
@@ -86,10 +94,20 @@
   using System;
   using NUnit.Framework;
 
-  [TestFixture]
-  public class SuccessTests
+  [SetUpFixture]
+  public class MySetUpClass
   {
-    // ...
+    [SetUp]
+	RunBeforeAnyTests()
+	{
+	  // ...
+	}
+
+    [TearDown]
+	RunAfterAnyTests()
+	{
+	  // ...
+	}
   }
 }
 </pre>
@@ -99,8 +117,14 @@ Imports Nunit.Framework
 
 Namespace Nunit.Tests
 
-  &lt;TestFixture()&gt; Public Class SuccessTests
-    ' ...
+  &lt;TestFixture()&gt; Public Class MySetUpClass
+    &lt;SetUp()&gt; Public Sub RunBeforeAnyTests()
+	  ' ...
+	End Sub
+	
+	&lt;TearDown()&gt; Public Sub RunAfterAnyTests()
+	  ' ...
+	End Sub
   End Class
 End Namespace
 </pre>
@@ -112,9 +136,10 @@ using namespace NUnit::Framework;
 namespace NUnitTests
 {
   [TestFixture]
-  public __gc class SuccessTests
+  public __gc class MySetUpClass
   {
-    // ...
+    [SetUp] public void RunBeforeAnyTests();
+	[TearDown] public void RunAfterAnyTests();
   };
 }
 
@@ -132,14 +157,19 @@ import NUnit.Framework.TestFixture;
 
 
 /** @attribute NUnit.Framework.TestFixture() */
-public class SuccessTests
+public class MySetUpClass
 {
-  // ...
+  /** @attribute NUnit.Framework.SetUp() */
+  public void RunBeforeAnyTests()
+  { /* ... */ }
+
+  /** @attribute NUnit.Framework.TearDown() */
+  public void RunAfterAnyTests()
+  { /* ... */ }
 }
 </pre>
 
 </div>
--->
 </div>
 
 <!-- Submenu -->
@@ -173,8 +203,8 @@ public class SuccessTests
 <li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
 <li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
 </ul>
-<li><a href="nunit-console.html">NUnit-Console</a></li>
-<li><a href="nunit-gui.html">NUnit-Gui</a></li>
+<li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
+<li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>
 <li><a href="license.html">License</a></li>

@@ -25,19 +25,22 @@
 <div id="content">
 
 <h2>Installation</h2>
-<p>By default the installation program places all of the files into the 
-	C:\Program&nbsp;Files\NUnit&nbsp;2.3.6135 directory. In the installation directory 
+<p>By default the <b>NUnit</b> installation program places all of the files into the 
+	<b>C:\Program&nbsp;Files\NUnit&nbsp;2.4</b> directory. The installation for
+	<b>NUnit for .Net 2.0</b> uses the 
+	<b>C:\Program&nbsp;Files\NUnit&nbsp;2.4&nbsp;for&nbsp;.Net&nbsp;2.0</b> directory. 
+	In the installation directory 
 	there are three sub-directories: bin, doc, and samples. Source code is no
       longer provided with the standard installation package but must be downloaded
       separately if needed.</p>
 <h3>Configuration</h3>
 <p>If multiple versions of the .NET framework are installed, the configuration 
-	files nunit-gui.exe.config and nunit-console.exe.config control which one of 
+	files nunit.exe.config and nunit-console.exe.config control which one of 
 	them is selected when running the gui and console runner respectively. As 
 	originally installed, that order is .NET 1.1, .NET 2.0 and .NET 1.0. To change 
 	which version is used, simply change the order of the
 	<supportedRuntime>
-	elements in the config files. The nunit-gui About Box shows the framework 
+	elements in the config files. The nunit About Box shows the framework 
 	version currently being used.</p>
 <p>Settings that you place in these files are not available to your tests or to the 
 	production code you are testing. A separate config file is used when running 
@@ -53,7 +56,7 @@
 	nunit.tests.dll for an example.</p>
 <h3>Start Menu</h3>
 <p>The installation program places a number of items in the Start menu. There is a 
-	shortcut to the nunit-gui executable. (There is also a shortcut placed directly 
+	shortcut to the nunit executable. (There is also a shortcut placed directly 
 	on the desktop). In addition to the executable file, the menu items under 
 	Samples bring up the folder for the particular sample. The source shortcut 
 	brings up the folder which contains the source for the project.</p>
@@ -95,8 +98,8 @@ loading and running NUnitTests.nunit in the bin directory. All tests should pass
 				<li>nunit-console.exe</li>
 				<li>nunit-console.exe.config</li>
 				<li>nunit-gui-runner.dll</li>
-				<li>nunit-gui.exe</li>
-				<li>nunit-gui.exe.config</li>
+				<li>nunit.exe</li>
+				<li>nunit.exe.config</li>
 			</ul>
 		</li>
 	<p><li>Create shortcuts as needed.</li>
@@ -145,8 +148,8 @@ loading and running NUnitTests.nunit in the bin directory. All tests should pass
 <li><a href="upgrade.html">Upgrading</a></li>
 </ul>
 <li><a href="features.html">Features</a></li>
-<li><a href="nunit-console.html">NUnit-Console</a></li>
-<li><a href="nunit-gui.html">NUnit-Gui</a></li>
+<li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
+<li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>
 <li><a href="license.html">License</a></li>
