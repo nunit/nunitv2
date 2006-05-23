@@ -211,6 +211,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "NotRunTree.resx"
+                    DependentUpon = "NotRunTree.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "pinned.gif"
                     BuildAction = "EmbeddedResource"
                 />
