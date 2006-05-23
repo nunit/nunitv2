@@ -277,6 +277,7 @@
         <include name="tests/*.csproj"/>
         <include name="tests/*.cs"/>
         <include name="tests/*.resx"/>
+        <include name="tests/*.config"/>
         <include name="tests/resources/*"/>
       </fileset>
     </copy>
@@ -327,7 +328,7 @@
     </copy>
     <copy todir="${package.src.dir}/GuiComponents">
       <fileset basedir="GuiComponents">
-        <include name="UiKit*.csproj"/>
+        <include name="UiKit/*.csproj"/>
         <include name="UiKit/*.cs"/>
         <include name="UiKit/*.resx"/>
         <include name="UiKit/*.gif"/>

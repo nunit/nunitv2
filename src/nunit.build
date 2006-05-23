@@ -49,11 +49,15 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit version for packaging -->
-  <property name="package.version" value="2.3.6131"/>
+  <property name="package.version" value="2.3.6142"/>
+
+  <!-- Names of NUnit executables -->
+  <property name="nunit.gui.name" value="nunit.exe"/>
+  <property name="nunit.console.name" value="nunit-console.exe"/>
 
   <!-- Project src dir is nant project base dir -->
   <property name="project.src.dir"
-    value="${nant.project.basedir}"/>
+    value="${project::get-base-directory()}"/>
 
   <!-- Project base dir is the src dir's parent -->
   <property name="project.base.dir"
@@ -189,10 +193,8 @@
   <target name="clean-vs-dirs">
     <delete>
       <fileset>
-        <include name="**/obj/${build.config}/*"/>
-        <include name="**/bin/${build.config}/*"/>
-        <include name="**/obj/${build.config}2005/*"/>
-        <include name="**/bin/${build.config}2005/*"/>
+        <include name="**/obj/*"/>
+        <include name="**/bin/*"/>
       </fileset>
     </delete>
   </target>
@@ -224,11 +226,12 @@
     <if test="${build.win32}">
       <call target="build-test-server"/>
       <call target="build-test-server-exe"/>
-    </if>
+
       <call target="build-uikit"/>
 
       <call target="build-gui-runner"/>
       <call target="build-gui-runner-exe"/>
+    </if>
 
     <!-- Build the Test Utilities and dummy projects -->
     <call target="build-mock-assembly"/>
@@ -304,8 +307,10 @@
         output="${current.build.dir}/nunit.framework.dll"
         doc="${current.build.dir}/nunit.framework.xml"
         debug="${build.debug}" 
-        define="${build.defines.csc},StronglyNamedAssembly"
-        nowarn="618,672">
+        define="${build.defines.csc},StronglyNamedAssembly">
+      <nowarn>
+        <warning number="618,672"/>
+      </nowarn>
       <sources basedir="NUnitFramework/framework">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -419,7 +424,7 @@
 
   <target name="build-console-exe" depends="make-build-dir">
     <csc target="exe" 
-        output="${current.build.dir}/nunit-console.exe"
+        output="${current.build.dir}/${nunit.console.name}"
         debug="${build.debug}" define="${build.defines.csc}">
       <sources basedir="ConsoleRunner/nunit-console-exe">
         <include name="*.cs"/>
@@ -471,7 +476,7 @@
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
-      <resources basedir="." prefix="NUnit.UiKit">
+      <resources basedir="GuiComponents/UiKit" prefix="NUnit.UiKit">
         <include name="*.resx"/>
         <include name="*.gif"/>
       </resources>
@@ -521,7 +526,7 @@
 
   <target name="build-gui-runner-exe" depends="make-build-dir">
     <csc target="winexe" 
-        output="${current.build.dir}/nunit-gui.exe" 
+        output="${current.build.dir}/${nunit.gui.name}" 
         win32icon="GuiRunner/nunit-gui-exe/App.ico" debug="${build.debug}"
         define="${build.defines.csc}">
       <sources basedir="GuiRunner/nunit-gui-exe">
@@ -535,7 +540,7 @@
     </csc>
 
     <copy file="GuiRunner/nunit-gui-exe/App.config"
-      tofile="${current.build.dir}/nunit-gui.exe.config"/>
+      tofile="${current.build.dir}/${nunit.gui.name}.config"/>
   </target>
 
   <target name="build-mock-assembly" depends="make-build-dir">
@@ -639,8 +644,10 @@
     <csc target="library" 
         output="${current.build.dir}/nunit.framework.tests.dll"
         debug="${build.debug}" 
-        define="${build.defines.csc}"
-        nowarn="618,672">
+        define="${build.defines.csc}">
+      <nowarn>
+        <warning number="618,672"/>
+      </nowarn>
       <sources basedir="NUnitFramework/tests">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -660,8 +667,10 @@
     <csc target="library" 
        output="${current.build.dir}/nunit.core.tests.dll"
        debug="${build.debug}" 
-       define="${build.defines.csc}"
-       nowarn="618,672">
+       define="${build.defines.csc}">
+      <nowarn>
+        <warning number="618,672"/>
+      </nowarn>
       <sources basedir="NUnitCore/tests">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -836,7 +845,7 @@
          a new build of NUnit which is likely not to be included in the Nant build -->
     <exec basedir="${current.build.dir}"
       workingdir="${current.build.dir}" 
-	  program="nunit-console.exe" 
+	  program="${nunit.console.name}" 
       useruntimeengine="true"
 	  commandline="NUnitTests.nunit ${test.options}"
 	if="${build.win32}" />
@@ -845,7 +854,7 @@
          a new build of NUnit which is likely not to be included in the Nant build -->
     <exec basedir="${current.build.dir}"
       workingdir="${current.build.dir}" 
-	  program="nunit-console.exe" 
+	  program="${nunit.console.name}" 
       useruntimeengine="true"
 	  commandline="nunit.framework.tests.dll nunit.core.tests.dll nunit.extensions.tests.dll nunit.util.tests.dll nunit-console.tests.dll ${test.options}"
 	unless="${build.win32}" />
@@ -905,7 +914,7 @@
 
     <exec basedir="${current.build.dir}" 
       workingdir="${current.build.dir}" 
-      program="nunit-console.exe" 
+      program="${nunit.console.name}" 
       commandline="timing-tests.dll"/>
 
   </target>
@@ -913,13 +922,9 @@
   <target name="gui-test" depends="build"
     description="Run tests for a build using gui runner">
 
-    <ifnot test="${nant.platform.win32}">
-      <fail message="NUnit-gui is only available on Win32"/>
-    </ifnot>
+    <fail message="NUnit-gui is only available on Win32" unless="${platform::is-win32()}"/>
 
-    <ifnot test="${build.win32}">
-      <fail message="NUnit-gui is only available for Win32"/>
-    </ifnot>
+    <fail message="NUnit-gui is only available for Win32" unless="${platform::is-win32()}"/>
 
     <echo message="*"/>
     <echo message="* Starting ${runtime.config} ${build.config} gui test run"/>
@@ -927,7 +932,7 @@
 
     <exec basedir="${current.build.dir}" 
       workingdir="${current.build.dir}" 
-      program="nunit.exe" 
+      program="${nunit.gui.name}" 
       commandline="NunitTests.nunit"/>
 
   </target>
