@@ -1973,7 +1973,7 @@ namespace NUnit.Framework
 
 		#endregion
 
-        #region GreaterEqual
+        #region GreaterOrEqual
 
         #region Ints
 
@@ -1986,7 +1986,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void GreaterEqual(int arg1,
+        static public void GreaterOrEqual(int arg1,
             int arg2, string message, params object[] args)
         {
             DoAssert(new GreaterEqualAsserter(arg2, arg1, message, args));
@@ -2000,9 +2000,9 @@ namespace NUnit.Framework
         /// <param name="arg1">The first value, expected to be greater</param>
         /// <param name="arg2">The second value, expected to be less</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void GreaterEqual(int arg1, int arg2, string message)
+        static public void GreaterOrEqual(int arg1, int arg2, string message)
         {
-            Assert.GreaterEqual(arg1, arg2, message, null);
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
         }
 
         /// <summary>
@@ -2012,9 +2012,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="arg1">The first value, expected to be greater</param>
         /// <param name="arg2">The second value, expected to be less</param>
-        static public void GreaterEqual(int arg1, int arg2)
+        static public void GreaterOrEqual(int arg1, int arg2)
         {
-            Assert.GreaterEqual(arg1, arg2, string.Empty, null);
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
         }
 
         #endregion
@@ -2030,7 +2030,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void GreaterEqual(uint arg1,
+        static public void GreaterOrEqual(uint arg1,
             uint arg2, string message, params object[] args)
         {
             DoAssert(new GreaterEqualAsserter(arg2, arg1, message, args));
@@ -2044,9 +2044,9 @@ namespace NUnit.Framework
         /// <param name="arg1">The first value, expected to be greater</param>
         /// <param name="arg2">The second value, expected to be less</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void GreaterEqual(uint arg1, uint arg2, string message)
+        static public void GreaterOrEqual(uint arg1, uint arg2, string message)
         {
-            Assert.GreaterEqual(arg1, arg2, message, null);
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
         }
 
         /// <summary>
@@ -2056,9 +2056,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="arg1">The first value, expected to be greater</param>
         /// <param name="arg2">The second value, expected to be less</param>
-        static public void GreaterEqual(uint arg1, uint arg2)
+        static public void GreaterOrEqual(uint arg1, uint arg2)
         {
-            Assert.GreaterEqual(arg1, arg2, string.Empty, null);
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
         }
 
         #endregion
@@ -2074,7 +2074,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void GreaterEqual(decimal arg1,
+        static public void GreaterOrEqual(decimal arg1,
             decimal arg2, string message, params object[] args)
         {
             DoAssert(new GreaterEqualAsserter(arg2, arg1, message, args));
@@ -2088,9 +2088,9 @@ namespace NUnit.Framework
         /// <param name="arg1">The first value, expected to be greater</param>
         /// <param name="arg2">The second value, expected to be less</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void GreaterEqual(decimal arg1, decimal arg2, string message)
+        static public void GreaterOrEqual(decimal arg1, decimal arg2, string message)
         {
-            Assert.GreaterEqual(arg1, arg2, message, null);
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
         }
 
         /// <summary>
@@ -2100,9 +2100,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="arg1">The first value, expected to be greater</param>
         /// <param name="arg2">The second value, expected to be less</param>
-        static public void GreaterEqual(decimal arg1, decimal arg2)
+        static public void GreaterOrEqual(decimal arg1, decimal arg2)
         {
-            Assert.GreaterEqual(arg1, arg2, string.Empty, null);
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
         }
 
         #endregion
@@ -2118,7 +2118,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void GreaterEqual(double arg1,
+        static public void GreaterOrEqual(double arg1,
             double arg2, string message, params object[] args)
         {
             DoAssert(new GreaterEqualAsserter(arg2, arg1, message, args));
@@ -2132,10 +2132,10 @@ namespace NUnit.Framework
         /// <param name="arg1">The first value, expected to be greater</param>
         /// <param name="arg2">The second value, expected to be less</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void GreaterEqual(double arg1,
+        static public void GreaterOrEqual(double arg1,
             double arg2, string message)
         {
-            Assert.GreaterEqual(arg1, arg2, message, null);
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
         }
 
         /// <summary>
@@ -2145,9 +2145,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="arg1">The first value, expected to be greater</param>
         /// <param name="arg2">The second value, expected to be less</param>
-        static public void GreaterEqual(double arg1, double arg2)
+        static public void GreaterOrEqual(double arg1, double arg2)
         {
-            Assert.GreaterEqual(arg1, arg2, string.Empty, null);
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
         }
 
         #endregion
@@ -2163,7 +2163,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void GreaterEqual(float arg1,
+        static public void GreaterOrEqual(float arg1,
             float arg2, string message, params object[] args)
         {
             DoAssert(new GreaterEqualAsserter(arg2, arg1, message, args));
@@ -2177,9 +2177,9 @@ namespace NUnit.Framework
         /// <param name="arg1">The first value, expected to be greater</param>
         /// <param name="arg2">The second value, expected to be less</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void GreaterEqual(float arg1, float arg2, string message)
+        static public void GreaterOrEqual(float arg1, float arg2, string message)
         {
-            Assert.GreaterEqual(arg1, arg2, message, null);
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
         }
 
         /// <summary>
@@ -2189,9 +2189,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="arg1">The first value, expected to be greater</param>
         /// <param name="arg2">The second value, expected to be less</param>
-        static public void GreaterEqual(float arg1, float arg2)
+        static public void GreaterOrEqual(float arg1, float arg2)
         {
-            Assert.GreaterEqual(arg1, arg2, string.Empty, null);
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
         }
 
         #endregion
@@ -2207,7 +2207,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void GreaterEqual(IComparable arg1,
+        static public void GreaterOrEqual(IComparable arg1,
             IComparable arg2, string message, params object[] args)
         {
             DoAssert(new GreaterEqualAsserter(arg2, arg1, message, args));
@@ -2221,9 +2221,9 @@ namespace NUnit.Framework
         /// <param name="arg1">The first value, expected to be greater</param>
         /// <param name="arg2">The second value, expected to be less</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void GreaterEqual(IComparable arg1, IComparable arg2, string message)
+        static public void GreaterOrEqual(IComparable arg1, IComparable arg2, string message)
         {
-            Assert.GreaterEqual(arg1, arg2, message, null);
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
         }
 
         /// <summary>
@@ -2233,17 +2233,16 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="arg1">The first value, expected to be greater</param>
         /// <param name="arg2">The second value, expected to be less</param>
-        static public void GreaterEqual(IComparable arg1, IComparable arg2)
+        static public void GreaterOrEqual(IComparable arg1, IComparable arg2)
         {
-            Assert.GreaterEqual(arg1, arg2, string.Empty, null);
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
         }
 
         #endregion
 
         #endregion
 
-
-        #region LessEqual
+        #region LessOrEqual
 
         #region Ints
 
@@ -2256,7 +2255,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void LessEqual(int arg1, int arg2, string message, params object[] args)
+        static public void LessOrEqual(int arg1, int arg2, string message, params object[] args)
         {
             DoAssert(new LessEqualAsserter(arg2, arg1, message, args));
         }
@@ -2269,9 +2268,9 @@ namespace NUnit.Framework
         /// <param name="arg1">The first value, expected to be less</param>
         /// <param name="arg2">The second value, expected to be greater</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void LessEqual(int arg1, int arg2, string message)
+        static public void LessOrEqual(int arg1, int arg2, string message)
         {
-            Assert.LessEqual(arg1, arg2, message, null);
+            Assert.LessOrEqual(arg1, arg2, message, null);
         }
 
         /// <summary>
@@ -2281,9 +2280,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="arg1">The first value, expected to be less</param>
         /// <param name="arg2">The second value, expected to be greater</param>
-        static public void LessEqual(int arg1, int arg2)
+        static public void LessOrEqual(int arg1, int arg2)
         {
-            Assert.LessEqual(arg1, arg2, string.Empty, null);
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
         }
 
         #endregion
@@ -2299,7 +2298,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void LessEqual(uint arg1, uint arg2, string message, params object[] args)
+        static public void LessOrEqual(uint arg1, uint arg2, string message, params object[] args)
         {
             DoAssert(new LessEqualAsserter(arg2, arg1, message, args));
         }
@@ -2312,9 +2311,9 @@ namespace NUnit.Framework
         /// <param name="arg1">The first value, expected to be less</param>
         /// <param name="arg2">The second value, expected to be greater</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void LessEqual(uint arg1, uint arg2, string message)
+        static public void LessOrEqual(uint arg1, uint arg2, string message)
         {
-            Assert.LessEqual(arg1, arg2, message, null);
+            Assert.LessOrEqual(arg1, arg2, message, null);
         }
 
         /// <summary>
@@ -2324,9 +2323,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="arg1">The first value, expected to be less</param>
         /// <param name="arg2">The second value, expected to be greater</param>
-        static public void LessEqual(uint arg1, uint arg2)
+        static public void LessOrEqual(uint arg1, uint arg2)
         {
-            Assert.LessEqual(arg1, arg2, string.Empty, null);
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
         }
 
         #endregion
@@ -2342,7 +2341,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void LessEqual(decimal arg1, decimal arg2, string message, params object[] args)
+        static public void LessOrEqual(decimal arg1, decimal arg2, string message, params object[] args)
         {
             DoAssert(new LessEqualAsserter(arg2, arg1, message, args));
         }
@@ -2355,9 +2354,9 @@ namespace NUnit.Framework
         /// <param name="arg1">The first value, expected to be less</param>
         /// <param name="arg2">The second value, expected to be greater</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void LessEqual(decimal arg1, decimal arg2, string message)
+        static public void LessOrEqual(decimal arg1, decimal arg2, string message)
         {
-            Assert.LessEqual(arg1, arg2, message, null);
+            Assert.LessOrEqual(arg1, arg2, message, null);
         }
 
         /// <summary>
@@ -2367,9 +2366,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="arg1">The first value, expected to be less</param>
         /// <param name="arg2">The second value, expected to be greater</param>
-        static public void LessEqual(decimal arg1, decimal arg2)
+        static public void LessOrEqual(decimal arg1, decimal arg2)
         {
-            Assert.LessEqual(arg1, arg2, string.Empty, null);
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
         }
 
         #endregion
@@ -2385,7 +2384,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void LessEqual(double arg1, double arg2, string message, params object[] args)
+        static public void LessOrEqual(double arg1, double arg2, string message, params object[] args)
         {
             DoAssert(new LessEqualAsserter(arg2, arg1, message, args));
         }
@@ -2398,9 +2397,9 @@ namespace NUnit.Framework
         /// <param name="arg1">The first value, expected to be less</param>
         /// <param name="arg2">The second value, expected to be greater</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void LessEqual(double arg1, double arg2, string message)
+        static public void LessOrEqual(double arg1, double arg2, string message)
         {
-            Assert.LessEqual(arg1, arg2, message, null);
+            Assert.LessOrEqual(arg1, arg2, message, null);
         }
 
         /// <summary>
@@ -2410,9 +2409,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="arg1">The first value, expected to be less</param>
         /// <param name="arg2">The second value, expected to be greater</param>
-        static public void LessEqual(double arg1, double arg2)
+        static public void LessOrEqual(double arg1, double arg2)
         {
-            Assert.LessEqual(arg1, arg2, string.Empty, null);
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
         }
 
         #endregion
@@ -2428,7 +2427,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void LessEqual(float arg1, float arg2, string message, params object[] args)
+        static public void LessOrEqual(float arg1, float arg2, string message, params object[] args)
         {
             DoAssert(new LessEqualAsserter(arg2, arg1, message, args));
         }
@@ -2441,9 +2440,9 @@ namespace NUnit.Framework
         /// <param name="arg1">The first value, expected to be less</param>
         /// <param name="arg2">The second value, expected to be greater</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void LessEqual(float arg1, float arg2, string message)
+        static public void LessOrEqual(float arg1, float arg2, string message)
         {
-            Assert.LessEqual(arg1, arg2, message, null);
+            Assert.LessOrEqual(arg1, arg2, message, null);
         }
 
         /// <summary>
@@ -2453,9 +2452,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="arg1">The first value, expected to be less</param>
         /// <param name="arg2">The second value, expected to be greater</param>
-        static public void LessEqual(float arg1, float arg2)
+        static public void LessOrEqual(float arg1, float arg2)
         {
-            Assert.LessEqual(arg1, arg2, string.Empty, null);
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
         }
 
         #endregion
@@ -2471,7 +2470,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void LessEqual(IComparable arg1, IComparable arg2, string message, params object[] args)
+        static public void LessOrEqual(IComparable arg1, IComparable arg2, string message, params object[] args)
         {
             DoAssert(new LessEqualAsserter(arg2, arg1, message, args));
         }
@@ -2484,9 +2483,9 @@ namespace NUnit.Framework
         /// <param name="arg1">The first value, expected to be less</param>
         /// <param name="arg2">The second value, expected to be greater</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void LessEqual(IComparable arg1, IComparable arg2, string message)
+        static public void LessOrEqual(IComparable arg1, IComparable arg2, string message)
         {
-            Assert.LessEqual(arg1, arg2, message, null);
+            Assert.LessOrEqual(arg1, arg2, message, null);
         }
 
         /// <summary>
@@ -2496,15 +2495,14 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="arg1">The first value, expected to be less</param>
         /// <param name="arg2">The second value, expected to be greater</param>
-        static public void LessEqual(IComparable arg1, IComparable arg2)
+        static public void LessOrEqual(IComparable arg1, IComparable arg2)
         {
-            Assert.LessEqual(arg1, arg2, string.Empty, null);
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
         }
 
         #endregion
 
         #endregion
-
 
 	}
 }

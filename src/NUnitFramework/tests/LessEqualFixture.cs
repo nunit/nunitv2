@@ -19,53 +19,53 @@ namespace NUnit.Framework.Tests
         private readonly System.Enum e2 = System.Data.CommandType.TableDirect;
 
         [Test]
-        public void LessEqual()
+        public void LessOrEqual()
         {
             // Test equality check for all forms
-            Assert.LessEqual(i1, i1);
-            Assert.LessEqual(i1, i1, "int");
-            Assert.LessEqual(i1, i1, "{0}", "int");
-            Assert.LessEqual(u1, u1);
-            Assert.LessEqual(u1, u1, "uint");
-            Assert.LessEqual(u1, u1, "{0}", "uint");
-            Assert.LessEqual(d1, d1);
-            Assert.LessEqual(d1, d1, "double");
-            Assert.LessEqual(d1, d1, "{0}", "double");
-            Assert.LessEqual(de1, de1);
-            Assert.LessEqual(de1, de1, "decimal");
-            Assert.LessEqual(de1, de1, "{0}", "decimal");
-            Assert.LessEqual(f1, f1);
-            Assert.LessEqual(f1, f1, "float");
-            Assert.LessEqual(f1, f1, "{0}", "float");
+            Assert.LessOrEqual(i1, i1);
+            Assert.LessOrEqual(i1, i1, "int");
+            Assert.LessOrEqual(i1, i1, "{0}", "int");
+            Assert.LessOrEqual(u1, u1);
+            Assert.LessOrEqual(u1, u1, "uint");
+            Assert.LessOrEqual(u1, u1, "{0}", "uint");
+            Assert.LessOrEqual(d1, d1);
+            Assert.LessOrEqual(d1, d1, "double");
+            Assert.LessOrEqual(d1, d1, "{0}", "double");
+            Assert.LessOrEqual(de1, de1);
+            Assert.LessOrEqual(de1, de1, "decimal");
+            Assert.LessOrEqual(de1, de1, "{0}", "decimal");
+            Assert.LessOrEqual(f1, f1);
+            Assert.LessOrEqual(f1, f1, "float");
+            Assert.LessOrEqual(f1, f1, "{0}", "float");
 
             // Testing all forms after seeing some bugs. CFP
-            Assert.LessEqual(i1, i2);
-            Assert.LessEqual(i1, i2, "int");
-            Assert.LessEqual(i1, i2, "{0}", "int");
-            Assert.LessEqual(u1, u2);
-            Assert.LessEqual(u1, u2, "uint");
-            Assert.LessEqual(u1, u2, "{0}", "uint");
-            Assert.LessEqual(d1, d2);
-            Assert.LessEqual(d1, d2, "double");
-            Assert.LessEqual(d1, d2, "{0}", "double");
-            Assert.LessEqual(de1, de2);
-            Assert.LessEqual(de1, de2, "decimal");
-            Assert.LessEqual(de1, de2, "{0}", "decimal");
-            Assert.LessEqual(f1, f2);
-            Assert.LessEqual(f1, f2, "float");
-            Assert.LessEqual(f1, f2, "{0}", "float");
+            Assert.LessOrEqual(i1, i2);
+            Assert.LessOrEqual(i1, i2, "int");
+            Assert.LessOrEqual(i1, i2, "{0}", "int");
+            Assert.LessOrEqual(u1, u2);
+            Assert.LessOrEqual(u1, u2, "uint");
+            Assert.LessOrEqual(u1, u2, "{0}", "uint");
+            Assert.LessOrEqual(d1, d2);
+            Assert.LessOrEqual(d1, d2, "double");
+            Assert.LessOrEqual(d1, d2, "{0}", "double");
+            Assert.LessOrEqual(de1, de2);
+            Assert.LessOrEqual(de1, de2, "decimal");
+            Assert.LessOrEqual(de1, de2, "{0}", "decimal");
+            Assert.LessOrEqual(f1, f2);
+            Assert.LessOrEqual(f1, f2, "float");
+            Assert.LessOrEqual(f1, f2, "{0}", "float");
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
-        public void NotLessEqual()
+        public void NotLessOrEqual()
         {
-            Assert.LessEqual(i2, i1);
+            Assert.LessOrEqual(i2, i1);
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
         public void NotLessEqualIComparable()
         {
-            Assert.LessEqual(e2, e1);
+            Assert.LessOrEqual(e2, e1);
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace NUnit.Framework.Tests
 
             try
             {
-                Assert.LessEqual(9, 4);
+                Assert.LessOrEqual(9, 4);
             }
             catch (AssertionException ex)
             {

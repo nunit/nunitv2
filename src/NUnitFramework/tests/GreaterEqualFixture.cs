@@ -19,32 +19,32 @@ namespace NUnit.Framework.Tests
         private readonly System.Enum e2 = System.Data.CommandType.StoredProcedure;
 
         [Test]
-        public void GreaterEqual()
+        public void GreaterOrEqual()
         {
-            Assert.GreaterEqual(i1, i1);
-            Assert.GreaterEqual(u1, u1);
-            Assert.GreaterEqual(d1, d1, "double");
-            Assert.GreaterEqual(de1, de1, "{0}", "decimal");
-            Assert.GreaterEqual(f1, f1, "float");
+            Assert.GreaterOrEqual(i1, i1);
+            Assert.GreaterOrEqual(u1, u1);
+            Assert.GreaterOrEqual(d1, d1, "double");
+            Assert.GreaterOrEqual(de1, de1, "{0}", "decimal");
+            Assert.GreaterOrEqual(f1, f1, "float");
 
             
-            Assert.GreaterEqual(i1, i2);
-            Assert.GreaterEqual(u1, u2);
-            Assert.GreaterEqual(d1, d2, "double");
-            Assert.GreaterEqual(de1, de2, "{0}", "decimal");
-            Assert.GreaterEqual(f1, f2, "float");
+            Assert.GreaterOrEqual(i1, i2);
+            Assert.GreaterOrEqual(u1, u2);
+            Assert.GreaterOrEqual(d1, d2, "double");
+            Assert.GreaterOrEqual(de1, de2, "{0}", "decimal");
+            Assert.GreaterOrEqual(f1, f2, "float");
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
-        public void NotGreaterEqual()
+        public void NotGreaterOrEqual()
         {
-            Assert.GreaterEqual(i2, i1);
+            Assert.GreaterOrEqual(i2, i1);
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
         public void NotGreaterEqualIComparable()
         {
-            Assert.GreaterEqual(e2, e1);
+            Assert.GreaterOrEqual(e2, e1);
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace NUnit.Framework.Tests
 
             try
             {
-                Assert.GreaterEqual(7, 99);
+                Assert.GreaterOrEqual(7, 99);
             }
             catch (AssertionException ex)
             {
