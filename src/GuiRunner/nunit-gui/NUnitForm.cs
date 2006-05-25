@@ -2519,15 +2519,14 @@ the version under which NUnit is currently running, {0}.",
 			if ( fullDisplay )
 			{
 				this.Controls.Clear();
-				this.Controls.Add( statusBar );
+				leftPanel.Dock = DockStyle.Left;
 				this.Controls.Add( rightPanel );
 				this.Controls.Add( treeSplitter );
 				this.Controls.Add( leftPanel );
-				leftPanel.Dock = DockStyle.Left;
+				this.Controls.Add( statusBar );
 			}
 			else
 			{
-				this.Controls.Remove( statusBar );
 				this.Controls.Remove( rightPanel );
 				this.Controls.Remove( treeSplitter );
 				leftPanel.Dock = DockStyle.Fill;
