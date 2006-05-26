@@ -69,10 +69,15 @@ namespace NUnit.Core.Builders
 					suite.IgnoreReason = helper.Reason;
 				}
 
-				suite.Categories = CategoryManager.GetCategories( type );	
-				suite.IsExplicit = Reflect.HasAttribute( type, "NUnit.Framework.ExplicitAttribute", false );
-				if ( suite.IsExplicit )
-					suite.RunState = RunState.Explicit;
+				suite.Categories = CategoryManager.GetCategories( type );
+
+				Attribute explicitAttribute = Reflect.GetAttribute( type, "NUnit.Framework.ExplicitAttribute", false );
+                if (explicitAttribute != null)
+                {
+                    suite.IsExplicit = true;
+                    suite.RunState = RunState.Explicit;
+                    suite.IgnoreReason = (string)Reflect.GetPropertyValue(explicitAttribute, "Reason", BindingFlags.Public | BindingFlags.Instance); 
+                }
 				
 				System.Attribute[] attributes = 
 					Reflect.GetAttributes( type, "NUnit.Framework.PropertyAttribute", false );

@@ -11,11 +11,31 @@ namespace NUnit.Framework
 	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method, AllowMultiple=false)]
 	public sealed class ExplicitAttribute : Attribute
 	{
-		/// <summary>
-		/// Constructor
+        private string reason;
+
+        /// <summary>
+		/// Default constructor
 		/// </summary>
 		public ExplicitAttribute()
 		{
-		}
-	}
+            this.reason = "";
+        }
+
+        /// <summary>
+        /// Constructor with a reason
+        /// </summary>
+        /// <param name="reason">The reason test is marked explicit</param>
+        public ExplicitAttribute(string reason)
+        {
+            this.reason = reason;
+        }
+
+        /// <summary>
+        /// The reason test is marked explicit
+        /// </summary>
+        public string Reason
+        {
+            get { return reason; }
+        }
+    }
 }
