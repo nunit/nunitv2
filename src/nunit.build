@@ -193,12 +193,12 @@
   <target name="clean-vs-dirs">
     <delete>
       <fileset>
-        <include name="**/obj/*"/>
-        <include name="**/bin/*"/>
+        <include name="*/*/obj/*/*"/>
+        <include name="*/*/bin/*/*"/>
       </fileset>
     </delete>
   </target>
-
+.
   <!-- Targets that perform builds -->
 
   <target name="build" depends="set-build-dir"
