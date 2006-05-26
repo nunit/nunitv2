@@ -2494,7 +2494,7 @@ the version under which NUnit is currently running, {0}.",
 
 		private void defaultFontMenuItem_Click(object sender, System.EventArgs e)
 		{
-			applyFont( new Font( "Microsoft Sans Serif", 7.8f, FontStyle.Regular ) );
+			applyFont( System.Windows.Forms.Form.DefaultFont );
 		}
 
 		private void fullGuiMenuItem_Click(object sender, System.EventArgs e)

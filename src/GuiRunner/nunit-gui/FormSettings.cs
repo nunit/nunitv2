@@ -31,6 +31,7 @@ namespace NUnit.Gui
 {
 	using System;
 	using System.Drawing;
+    using System.ComponentModel;
 	using NUnit.Util;
 
 	/// <summary>
@@ -216,17 +217,17 @@ namespace NUnit.Gui
 		{
 			get
 			{
-				string fontFamily = LoadStringSetting( "font-family", "Microsoft Sans Serif" );
-				string fontSize = LoadStringSetting( "font-size", "7.8" );
-				float emSize = float.Parse( fontSize );
-				FontStyle fontStyle = (FontStyle)LoadIntSetting( "font-style", (int)FontStyle.Regular );
-				return new Font( fontFamily, emSize, fontStyle );
+                string fontDescription = LoadStringSetting("font", "");
+                TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
+                if (fontDescription == "")
+                    return System.Windows.Forms.Form.DefaultFont;
+                else
+                    return (Font)converter.ConvertFrom(fontDescription);
 			}
 			set
 			{
-				SaveStringSetting( "font-family", value.FontFamily.Name );
-				SaveStringSetting( "font-size", value.SizeInPoints.ToString() );
-				SaveIntSetting( "font-style", (int)value.Style );
+                TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
+                SaveStringSetting( "font", converter.ConvertToString( value ) );
 			}
 		}
 	}
