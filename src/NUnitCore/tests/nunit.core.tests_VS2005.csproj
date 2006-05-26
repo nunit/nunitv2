@@ -225,6 +225,7 @@
     <Compile Include="ThreadedTestRunnerTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UnhandledExceptionTests.cs" />
     <Compile Include="XmlTest.cs">
       <SubType>Code</SubType>
       <CustomToolNamespace>NUnit.Core.Tests</CustomToolNamespace>
