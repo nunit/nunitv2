@@ -102,6 +102,11 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "assemblyinfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Class1.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
