@@ -21,6 +21,7 @@
 	<Target Name="Clean">
 		<RemoveDir Directories="$(OutputPath)" />
 		<MSBuild Projects="nunit_VS2005.sln" Targets="Clean" Properties="$(Properties_v1_0)" />
+		<Delete Files="TestResult.xml" />
 	</Target>
 	
 	<Target Name="Build">
