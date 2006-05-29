@@ -1137,7 +1137,6 @@ namespace NUnit.Gui
 			this.notRunTree.Text = resources.GetString("notRunTree.Text");
 			this.toolTip.SetToolTip(this.notRunTree, resources.GetString("notRunTree.ToolTip"));
 			this.notRunTree.Visible = ((bool)(resources.GetObject("notRunTree.Visible")));
-			this.notRunTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.notRunTree_AfterSelect);
 			// 
 			// stdout
 			// 
@@ -1397,7 +1396,7 @@ namespace NUnit.Gui
 			this.testTree.Enabled = ((bool)(resources.GetObject("testTree.Enabled")));
 			this.testTree.Font = ((System.Drawing.Font)(resources.GetObject("testTree.Font")));
 			this.testTree.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("testTree.ImeMode")));
-			this.testTree.InitialDisplay = NUnit.UiKit.TestSuiteTreeView.DisplayStyle.Auto;
+//			this.testTree.InitialDisplay = NUnit.UiKit.TestSuiteTreeView.DisplayStyle.Auto;
 			this.testTree.Location = ((System.Drawing.Point)(resources.GetObject("testTree.Location")));
 			this.testTree.Name = "testTree";
 			this.testTree.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("testTree.RightToLeft")));
@@ -1584,6 +1583,143 @@ namespace NUnit.Gui
 
 		#endregion
 
+		#region View Menu Handlers
+		private void statusBarMenuItem_Click(object sender, System.EventArgs e)
+		{
+			statusBarMenuItem.Checked = !statusBarMenuItem.Checked;
+			statusBar.Visible = statusBarMenuItem.Checked;
+		}
+
+
+		private void showAllTabsMenuItem_Click(object sender, System.EventArgs e)
+		{
+			UserSettings.Form.DisplayErrorsTab = errorsTabMenuItem.Checked = true;
+			UserSettings.Form.DisplayNotRunTab = notRunTabMenuItem.Checked = true;
+			UserSettings.Form.DisplayConsoleOutTab = consoleOutMenuItem.Checked = true;
+			UserSettings.Form.DisplayConsoleErrorTab = consoleErrorMenuItem.Checked = true;
+
+			updateTabPages();
+		}
+
+		private void errorsTabMenuItem_Click(object sender, System.EventArgs e)
+		{
+			UserSettings.Form.DisplayErrorsTab = errorsTabMenuItem.Checked = !errorsTabMenuItem.Checked;
+			updateTabPages();
+		}
+
+		private void notRunTabMenuItem_Click(object sender, System.EventArgs e)
+		{
+			UserSettings.Form.DisplayNotRunTab = notRunTabMenuItem.Checked = !notRunTabMenuItem.Checked;
+			updateTabPages();
+		}
+
+		private void consoleOutMenuItem_Click(object sender, System.EventArgs e)
+		{
+			UserSettings.Form.DisplayConsoleOutTab = consoleOutMenuItem.Checked = !consoleOutMenuItem.Checked;
+			updateTabPages();
+		}
+
+		private void consoleErrorMenuItem_Click(object sender, System.EventArgs e)
+		{
+			UserSettings.Form.DisplayConsoleErrorTab = consoleErrorMenuItem.Checked = !consoleErrorMenuItem.Checked;
+			updateTabPages();
+		}
+
+		private void updateTabPages()
+		{
+			resultTabs.TabPages.Clear();
+
+			if ( errorsTabMenuItem.Checked )
+				resultTabs.TabPages.Add( errorPage );
+			if ( notRunTabMenuItem.Checked )
+				resultTabs.TabPages.Add( testsNotRun );
+			if ( consoleOutMenuItem.Checked )
+				resultTabs.TabPages.Add( stdout );
+			if ( consoleErrorMenuItem.Checked )
+				resultTabs.TabPages.Add( stderr );
+		}
+
+		private void fontChangeMenuItem_Click(object sender, System.EventArgs e)
+		{
+			FontDialog fontDialog = new FontDialog();
+			fontDialog.FontMustExist = true;
+			fontDialog.Font = this.Font;
+			fontDialog.MinSize = 6;
+			fontDialog.MaxSize = 12;
+			fontDialog.AllowVectorFonts = false;
+			fontDialog.ScriptsOnly = true;
+			fontDialog.ShowEffects = false;
+			fontDialog.ShowApply = true;
+			fontDialog.Apply += new EventHandler(fontDialog_Apply);
+			if( fontDialog.ShowDialog() == DialogResult.OK )
+				applyFont( fontDialog.Font );
+		}
+
+		private void fontDialog_Apply(object sender, EventArgs e)
+		{
+			applyFont( ((FontDialog)sender).Font );
+		}
+
+
+		private void defaultFontMenuItem_Click(object sender, System.EventArgs e)
+		{
+			applyFont( System.Windows.Forms.Form.DefaultFont );
+		}
+
+		private void fullGuiMenuItem_Click(object sender, System.EventArgs e)
+		{
+			if ( !fullGuiMenuItem.Checked )
+				switchGuiDisplay();
+		}
+
+		private void miniGuiMenuItem_Click(object sender, System.EventArgs e)
+		{
+			if ( !miniGuiMenuItem.Checked )
+				switchGuiDisplay();
+		}
+
+		private void switchGuiDisplay()
+		{
+			bool fullDisplay = fullGuiMenuItem.Checked = !fullGuiMenuItem.Checked;
+			miniGuiMenuItem.Checked = !fullDisplay;
+
+			UserSettings.Form.FullDisplay = fullDisplay;
+
+			if ( fullDisplay )
+			{
+				this.Controls.Clear();
+				leftPanel.Dock = DockStyle.Left;
+				this.Controls.Add( rightPanel );
+				this.Controls.Add( treeSplitter );
+				this.Controls.Add( leftPanel );
+				this.Controls.Add( statusBar );
+			}
+			else
+			{
+				this.Controls.Remove( rightPanel );
+				this.Controls.Remove( treeSplitter );
+				leftPanel.Dock = DockStyle.Fill;
+			}
+
+			this.Size = UserSettings.Form.Size;
+		}
+
+		private void increaseFontMenuItem_Click(object sender, System.EventArgs e)
+		{
+			applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints * 1.2f, this.Font.Style ) );;
+		}
+
+		private void decreaseFontMenuItem_Click(object sender, System.EventArgs e)
+		{
+			applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints / 1.2f, this.Font.Style ) );;
+		}
+
+		private void applyFont( Font font )
+		{
+			this.Font = UserSettings.Form.Font = font;
+		}
+		#endregion
+
 		#region Project Menu Handlers
 
 		/// <summary>
@@ -1716,6 +1852,25 @@ namespace NUnit.Gui
 			}
 
 			MessageBox.Show( this, msg, "Framework Info", MessageBoxButtons.OK, MessageBoxIcon.Information );
+		}
+
+		private void addinInfoMenuItem_Click(object sender, System.EventArgs e)
+		{
+			string msg = "No addins are loaded.";
+
+			IList addins = TestLoader.Extensions;
+			if ( addins != null && addins.Count > 0 )
+			{
+				StringBuilder sb = new StringBuilder(
+					"The following addins have been loaded -\r\n\r\n" );
+
+				foreach( string addin in addins )
+					sb.AppendFormat( "  {0}\r\n", addin );
+
+				msg = sb.ToString();
+			}
+
+			MessageBox.Show( this, msg, "Loaded Addins", MessageBoxButtons.OK, MessageBoxIcon.Information );	
 		}
 
 		#endregion
@@ -2405,168 +2560,12 @@ the version under which NUnit is currently running, {0}.",
 			}
 		}
 
-		#endregion
-
 		private void stackTrace_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
 		{
 			if ( e.KeyCode == Keys.A && e.Modifiers == Keys.Control )
 			{
 				stackTrace.SelectAll();
 			}
-		}
-
-		private void statusBarMenuItem_Click(object sender, System.EventArgs e)
-		{
-			statusBarMenuItem.Checked = !statusBarMenuItem.Checked;
-			statusBar.Visible = statusBarMenuItem.Checked;
-		}
-
-
-		private void showAllTabsMenuItem_Click(object sender, System.EventArgs e)
-		{
-			errorsTabMenuItem.Checked = true;
-			notRunTabMenuItem.Checked = true;
-			consoleOutMenuItem.Checked = true;
-			consoleErrorMenuItem.Checked = true;
-
-			updateTabPages();
-		}
-
-		private void errorsTabMenuItem_Click(object sender, System.EventArgs e)
-		{
-			UserSettings.Form.DisplayErrorsTab = errorsTabMenuItem.Checked = !errorsTabMenuItem.Checked;
-			updateTabPages();
-		}
-
-		private void notRunTabMenuItem_Click(object sender, System.EventArgs e)
-		{
-			UserSettings.Form.DisplayNotRunTab = notRunTabMenuItem.Checked = !notRunTabMenuItem.Checked;
-			updateTabPages();
-		}
-
-		private void consoleOutMenuItem_Click(object sender, System.EventArgs e)
-		{
-			UserSettings.Form.DisplayConsoleOutTab = consoleOutMenuItem.Checked = !consoleOutMenuItem.Checked;
-			updateTabPages();
-		}
-
-		private void consoleErrorMenuItem_Click(object sender, System.EventArgs e)
-		{
-			UserSettings.Form.DisplayConsoleErrorTab = consoleErrorMenuItem.Checked = !consoleErrorMenuItem.Checked;
-			updateTabPages();
-		}
-
-		private void updateTabPages()
-		{
-			resultTabs.TabPages.Clear();
-
-			if ( errorsTabMenuItem.Checked )
-				resultTabs.TabPages.Add( errorPage );
-			if ( notRunTabMenuItem.Checked )
-				resultTabs.TabPages.Add( testsNotRun );
-			if ( consoleOutMenuItem.Checked )
-				resultTabs.TabPages.Add( stdout );
-			if ( consoleErrorMenuItem.Checked )
-				resultTabs.TabPages.Add( stderr );
-		}
-
-		private void fontChangeMenuItem_Click(object sender, System.EventArgs e)
-		{
-			FontDialog fontDialog = new FontDialog();
-			fontDialog.FontMustExist = true;
-			fontDialog.Font = this.Font;
-			fontDialog.MinSize = 6;
-			fontDialog.MaxSize = 12;
-			fontDialog.AllowVectorFonts = false;
-			fontDialog.ScriptsOnly = true;
-			fontDialog.ShowEffects = false;
-			fontDialog.ShowApply = true;
-			fontDialog.Apply += new EventHandler(fontDialog_Apply);
-			if( fontDialog.ShowDialog() == DialogResult.OK )
-				applyFont( fontDialog.Font );
-		}
-
-		private void fontDialog_Apply(object sender, EventArgs e)
-		{
-			applyFont( ((FontDialog)sender).Font );
-		}
-
-
-		private void defaultFontMenuItem_Click(object sender, System.EventArgs e)
-		{
-			applyFont( System.Windows.Forms.Form.DefaultFont );
-		}
-
-		private void fullGuiMenuItem_Click(object sender, System.EventArgs e)
-		{
-			if ( !fullGuiMenuItem.Checked )
-				switchGuiDisplay();
-		}
-
-		private void miniGuiMenuItem_Click(object sender, System.EventArgs e)
-		{
-			if ( !miniGuiMenuItem.Checked )
-				switchGuiDisplay();
-		}
-
-		private void switchGuiDisplay()
-		{
-			bool fullDisplay = fullGuiMenuItem.Checked = !fullGuiMenuItem.Checked;
-			miniGuiMenuItem.Checked = !fullDisplay;
-
-			UserSettings.Form.FullDisplay = fullDisplay;
-
-			if ( fullDisplay )
-			{
-				this.Controls.Clear();
-				leftPanel.Dock = DockStyle.Left;
-				this.Controls.Add( rightPanel );
-				this.Controls.Add( treeSplitter );
-				this.Controls.Add( leftPanel );
-				this.Controls.Add( statusBar );
-			}
-			else
-			{
-				this.Controls.Remove( rightPanel );
-				this.Controls.Remove( treeSplitter );
-				leftPanel.Dock = DockStyle.Fill;
-			}
-
-			this.Size = UserSettings.Form.Size;
-		}
-
-		private void increaseFontMenuItem_Click(object sender, System.EventArgs e)
-		{
-			applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints * 1.2f, this.Font.Style ) );;
-		}
-
-		private void decreaseFontMenuItem_Click(object sender, System.EventArgs e)
-		{
-			applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints / 1.2f, this.Font.Style ) );;
-		}
-
-		private void applyFont( Font font )
-		{
-			this.Font = UserSettings.Form.Font = font;
-		}
-
-		private void addinInfoMenuItem_Click(object sender, System.EventArgs e)
-		{
-			string msg = "No addins are loaded.";
-
-			IList addins = TestLoader.Extensions;
-			if ( addins != null && addins.Count > 0 )
-			{
-				StringBuilder sb = new StringBuilder(
-					"The following addins have been loaded -\r\n\r\n" );
-
-				foreach( string addin in addins )
-					sb.AppendFormat( "  {0}\r\n", addin );
-
-				msg = sb.ToString();
-			}
-
-			MessageBox.Show( this, msg, "Loaded Addins", MessageBoxButtons.OK, MessageBoxIcon.Information );	
 		}
 
 		private void enableWordWrapCheckBox_CheckedChanged(object sender, System.EventArgs e)
@@ -2580,10 +2579,7 @@ the version under which NUnit is currently running, {0}.",
 			this.stackTrace.WordWrap = this.enableWordWrapCheckBox.Checked;
 		}
 
-		private void notRunTree_AfterSelect(object sender, System.Windows.Forms.TreeViewEventArgs e)
-		{
-		
-		}
+		#endregion
 	}
 }
 
