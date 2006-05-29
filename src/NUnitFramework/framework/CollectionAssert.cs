@@ -195,12 +195,26 @@ namespace NUnit.Framework
 	#region Asserters
 
 	#region ItemsOfTypeAsserter
+	/// <summary>
+	/// Class to assert that all items in a collection are of a specified type
+	/// </summary>
 	public class ItemsOfTypeAsserter : CollectionObjectAsserter
 	{
+		/// <summary>
+		/// Construct an ItemsOfTypeAsserter
+		/// </summary>
+		/// <param name="set1"></param>
+		/// <param name="actual"></param>
+		/// <param name="message"></param>
+		/// <param name="args"></param>
 		public ItemsOfTypeAsserter( ICollection set1, Type actual, string message, params object[] args ) : base(set1, actual, message, args)
 		{
 		}
 
+		/// <summary>
+		/// Test whether all items in the collection are of the specified type
+		/// </summary>
+		/// <returns>True if all items are of the specifed type</returns>
 		public override bool Test()
 		{
 			foreach(object loopObj in set1)
@@ -568,6 +582,9 @@ namespace NUnit.Framework
 
     #endregion
 
+	/// <summary>
+	/// A set of Assert methods operationg on one or more collections
+	/// </summary>
 	public class CollectionAssert
 	{
 
