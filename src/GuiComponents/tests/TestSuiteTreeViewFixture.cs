@@ -46,7 +46,7 @@ namespace NUnit.UiKit.Tests
 	{
 		private string testsDll = "mock-assembly.dll";
 		private TestSuite suite;
-		//private TestSuite fixture;
+		private TestSuiteTreeView treeView;
 
 		[SetUp]
 		public void SetUp() 
@@ -54,13 +54,7 @@ namespace NUnit.UiKit.Tests
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = builder.Build( testsDll );
 
-			//fixture = new NUnitTestFixture ( typeof( MockTestFixture ) );
-		}
-
-		[Test]
-		public void LoadSuite()
-		{
-			Assert.IsNotNull(suite);
+			treeView = new TestSuiteTreeView();
 		}
 
 		private bool AllExpanded( TreeNode node)
@@ -86,7 +80,6 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void BuildTreeView()
 		{
-			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load( new TestNode( suite ) );
 			Assert.IsNotNull( treeView.Nodes[0] );
 			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
@@ -98,7 +91,6 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void BuildFromResult()
 		{
-			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			TestResult result = suite.Run( new NullListener() );
 			treeView.Load( result );
 			Assert.AreEqual( MockAssembly.Nodes - MockAssembly.Explicit, treeView.GetNodeCount( true ) );
@@ -165,7 +157,6 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void ClearTree()
 		{
-			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load( new TestNode( suite ) );
 			
 			treeView.Clear();
@@ -175,7 +166,6 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void SetTestResult()
 		{
-			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load( new TestNode( suite ) );
 			
 			TestSuite fixture = (TestSuite)findTest( "MockTestFixture", suite );		
@@ -209,26 +199,33 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void ReloadTree()
 		{
-			TestSuiteTreeView treeView = new TestSuiteTreeView();
+			// TODO: 
+			// This test is not a true simulation of what happens
+			// when a test is reloaded because the old nodes don't
+			// actually
 			treeView.Load( new TestNode( suite ) );
 
 			Assert.AreEqual( MockAssembly.Tests, suite.TestCount );
 			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
-			CheckThatTreeIsSorted( treeView, "Tree out of order initially" );
+			CheckTree( treeView, suite, "initially" );
 
 			TestSuite nunitNamespaceSuite = suite.Tests[0] as TestSuite;
 			TestSuite testsNamespaceSuite = nunitNamespaceSuite.Tests[0] as TestSuite;
 			TestSuite assembliesNamespaceSuite = testsNamespaceSuite.Tests[0] as TestSuite;
 			testsNamespaceSuite.Tests.RemoveAt( 0 );
+			ReassignTestIDs( suite );
+			
 			treeView.Reload( new TestNode( suite ) );
-			CheckThatTreeIsSorted( treeView, "Tree out of order after remove" );
+			CheckTree( treeView, suite, "after remove" );
 
 			Assert.AreEqual( MockAssembly.Tests - MockTestFixture.Tests, suite.TestCount );
 			Assert.AreEqual( 13, treeView.GetNodeCount( true ) );
 
 			testsNamespaceSuite.Tests.Insert( 0, assembliesNamespaceSuite );
+			ReassignTestIDs( suite );
+
 			treeView.Reload( new TestNode( suite ) );
-			CheckThatTreeIsSorted( treeView, "Tree out of order after insert" );
+			CheckTree( treeView, suite, "after insert" );
 
 			Assert.AreEqual( MockAssembly.Tests, suite.TestCount );
 			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
@@ -238,7 +235,6 @@ namespace NUnit.UiKit.Tests
 		[ExpectedException( typeof(ArgumentException) )]
 		public void ReloadTreeWithWrongTest()
 		{
-			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load( new TestNode( suite ) );
 
 			TestSuite suite2 = new TestSuite( "WrongSuite" );
@@ -248,7 +244,6 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void ProcessChecks()
 		{
-			TestSuiteTreeView treeView = new TestSuiteTreeView();
 			treeView.Load( new TestNode( suite ) );
 
 			Assert.AreEqual(0, treeView.CheckedTests.Length);
@@ -272,7 +267,6 @@ namespace NUnit.UiKit.Tests
 //		[Test]
 //		public void CheckCategory() 
 //		{
-//			TestSuiteTreeView treeView = new TestSuiteTreeView();
 //			treeView.Load(suite);
 //
 //			Assert.AreEqual(0, treeView.CheckedTests.Length);
@@ -286,7 +280,6 @@ namespace NUnit.UiKit.Tests
 //		[Test]
 //		public void UnCheckCategory() 
 //		{
-//			TestSuiteTreeView treeView = new TestSuiteTreeView();
 //			treeView.Load(suite);
 //
 //			Assert.AreEqual(0, treeView.CheckedTests.Length);
@@ -316,23 +309,53 @@ namespace NUnit.UiKit.Tests
 			return result;
 		}
 
-		private void CheckThatTreeIsSorted( TestSuiteTreeView treeView, string msg )
+		// Reload re-assigns the test IDs, so we do that here
+		private void ReassignTestIDs( Test test )
 		{
-			CheckThatNodesAreSorted( treeView.Nodes, msg );
+			test.TestName.TestID = new TestID();
+
+			if ( test.IsSuite )
+				foreach( Test child in test.Tests )
+					ReassignTestIDs( child );
 		}
 
-		private void CheckThatNodesAreSorted( TreeNodeCollection nodes, string msg )
+		private void CheckTree( TestSuiteTreeView treeView, TestSuite suite, string msg )
 		{
-			TreeNode priorNode = null;
-			foreach( TreeNode node in nodes )
-			{
-				if ( priorNode != null && priorNode.Text.CompareTo( node.Text ) > 0 )
-					Assert.Fail( msg + " at node " + node.Text );
-				priorNode = node;
-			}
+			CheckThatTreeMatchesTests( treeView, suite, "Tree out of order " + msg );
+			CheckTreeMap( treeView, suite, "Map incorrect " + msg );
+		}
 
-			foreach( TreeNode node in nodes )
-				CheckThatNodesAreSorted( node.Nodes, msg );
+		private void CheckThatTreeMatchesTests( TestSuiteTreeView treeView, TestSuite suite, string msg )
+		{
+			CheckThatNodeMatchesTest( (TestSuiteTreeNode)treeView.Nodes[0], suite, msg );
+		}
+
+		private void CheckThatNodeMatchesTest( TestSuiteTreeNode node, Test test, string msg )
+		{
+			Assert.AreEqual( test.TestName, node.Test.TestName );
+//			Console.WriteLine( "{0} matches", test.UniqueName );
+
+			if ( test.IsSuite )
+			{
+				Assert.AreEqual( test.Tests.Count, node.Nodes.Count, "{0}: Incorrect count for {1}", msg, test.FullName );
+
+				for( int index = 0; index < test.Tests.Count; index++ )
+				{
+					CheckThatNodeMatchesTest( (TestSuiteTreeNode)node.Nodes[index], (Test)test.Tests[index], msg );
+				}
+			}
+		}
+
+		private void CheckTreeMap( TestSuiteTreeView treeView, Test test, string msg )
+		{
+			TestSuiteTreeNode node = treeView[test.UniqueName];
+			Assert.IsNotNull( node, "{0}: {1} not in map", msg, test.UniqueName );
+			Assert.AreEqual( test.TestName, treeView[test.UniqueName].Test.TestName, msg );
+			//			Console.WriteLine( "Map OK for {0}", test.UniqueName );
+
+			if ( test.IsSuite )
+				foreach( Test child in test.Tests )
+					CheckTreeMap( treeView, child, msg );
 		}
 	}
 }

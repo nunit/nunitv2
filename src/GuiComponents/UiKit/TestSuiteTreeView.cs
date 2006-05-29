@@ -361,6 +361,11 @@ namespace NUnit.UiKit
 		public event SelectedTestChangedHandler SelectedTestChanged;
 		public event CheckedTestChangedHandler CheckedTestChanged;
 
+		public TestSuiteTreeNode this[string uniqueName]
+		{
+			get { return treeMap[uniqueName] as TestSuiteTreeNode; }
+		}
+
 		/// <summary>
 		/// Test node corresponding to a TestInfo interface
 		/// </summary>
@@ -678,6 +683,8 @@ namespace NUnit.UiKit
 		/// <param name="test">Test to be loaded</param>
 		public void Load( TestNode test )
 		{
+			//MessageBox.Show( "Loading " + test.UniqueName );
+
 			using( new CP.Windows.Forms.WaitCursor() )
 			{
 				Clear();
@@ -727,6 +734,8 @@ namespace NUnit.UiKit
 		/// <param name="test">Test suite to be loaded</param>
 		public void Reload( TestNode test )
 		{
+			//MessageBox.Show( "Reloading " + test.UniqueName );
+
 			TestSuiteTreeNode rootNode = (TestSuiteTreeNode) Nodes[0];
 			
 			// Temporary change till framework is updated
@@ -734,6 +743,18 @@ namespace NUnit.UiKit
 			//				throw( new ArgumentException( "Reload called with non-matching test" ) );
 				
 			UpdateNode( rootNode, test );
+
+			//CheckTreeMap( test );
+		}
+
+		private void CheckTreeMap( TestNode test )
+		{
+			if( treeMap[test.UniqueName] == null )
+				MessageBox.Show( "No match for " + test.UniqueName );
+
+			if ( test.IsSuite )
+				foreach( TestNode child in test.Tests )
+					CheckTreeMap( child );
 		}
 
 		/// <summary>
@@ -792,13 +813,14 @@ namespace NUnit.UiKit
 		/// <param name="result">The result of the test</param>
 		public void SetTestResult(TestResult result)
 		{
-			TestSuiteTreeNode node = null;
+			TestSuiteTreeNode node = this[result];	
 			if ( node == null )
-				node = this[result];	
-			if ( node == null )
-				throw new ArgumentException( "Test not found in tree" );
+				throw new ArgumentException( "Test not found in tree: " + result.Test.UniqueName );
 
-			node.SetResult( result );
+			if ( result.Test.FullName != node.Test.FullName )
+				throw( new ArgumentException("Attempting to set Result with a value that refers to a different test") );
+			
+			node.Result = result;
 
 			if ( DisplayTestProgress )
 			{
@@ -967,9 +989,13 @@ namespace NUnit.UiKit
 		/// <returns>True if a child node was added or deleted</returns>
 		private bool UpdateNode( TestSuiteTreeNode node, TestNode test )
 		{
-			// Only called from here. Checks that names are the same
-			// and sets node.Test to test
-			node.UpdateTest( test );
+			if ( node.Test.FullName != test.FullName )
+				throw( new ArgumentException( 
+					string.Format( "Attempting to update {0} with {1}", node.Test.FullName, test.FullName ) ) );
+
+			treeMap.Remove( node.Test.UniqueName );
+			node.Test = test;
+			treeMap.Add( test.UniqueName, node );
 			
 			if ( !test.IsSuite )
 				return false;

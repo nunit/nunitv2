@@ -106,6 +106,7 @@ namespace NUnit.UiKit
 		public TestInfo Test
 		{
 			get { return this.test; }
+			set	{ this.test = value; }
 		}
 
 		/// <summary>
@@ -114,6 +115,11 @@ namespace NUnit.UiKit
 		public TestResult Result
 		{
 			get { return this.result; }
+			set 
+			{ 
+				this.result = value;
+				UpdateImageIndex();
+			}
 		}
 
 		public string TestType
@@ -168,28 +174,6 @@ namespace NUnit.UiKit
 		#endregion
 
 		#region Methods
-
-		public void UpdateTest( TestInfo test )
-		{
-			if ( Test.FullName != test.FullName )
-				throw( new ArgumentException( 
-					string.Format( "Attempting to update {0} with {1}", Test.FullName, test.FullName ) ) );
-
-			this.test = test;
-		}
-
-		/// <summary>
-		/// Set the result field of this node, throwing if the
-		/// result does not match the test we already hold.
-		/// </summary>
-		/// <param name="result">Result of the test</param>
-		public void SetResult( TestResult result )
-		{
-			if ( result.Test.FullName != this.test.FullName )
-				throw( new ArgumentException("Attempting to set Result with a value that refers to a different test") );
-			this.result = result;
-			UpdateImageIndex();
-		}
 
 		/// <summary>
 		/// UPdate the image index based on the result field

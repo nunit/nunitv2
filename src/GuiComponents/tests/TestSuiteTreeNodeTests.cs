@@ -83,38 +83,12 @@ namespace NUnit.UiKit.Tests
 		}
 
 		[Test]
-		public void UpdateTest()
-		{
-			TestSuiteTreeNode node;
-			
-			node = new TestSuiteTreeNode( suiteInfo );
-			TestInfo suiteInfo2 = new TestInfo( new TestSuite( "MyTestSuite" ) );
-
-			node.UpdateTest( suiteInfo2 );
-			Assert.AreEqual( "MyTestSuite", node.Test.FullName );
-			Assert.AreEqual( 0, node.Test.TestCount );
-
-			node.UpdateTest( suiteInfo );
-			Assert.AreEqual( "MyTestSuite", node.Test.FullName );
-			Assert.AreEqual( MockTestFixture.Tests, node.Test.TestCount );
-		}
-
-		[Test]
-		[ExpectedException( typeof(ArgumentException) )]
-		public void UpdateUsingWrongTest()
-		{
-			TestSuiteTreeNode node = new TestSuiteTreeNode( suiteInfo );
-			TestInfo suiteInfo2 = new TestInfo( new TestSuite( "NotMyTestSuite" ) );
-			node.UpdateTest( suiteInfo2 );
-		}
-
-		[Test]
 		public void SetResult_Init()
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
 			TestCaseResult result = new TestCaseResult( testCaseInfo );
 
-			node.SetResult( result );
+			node.Result = result;
 			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", node.Result.Name );
 			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.SelectedImageIndex );
@@ -128,7 +102,7 @@ namespace NUnit.UiKit.Tests
 			TestCaseResult result = new TestCaseResult( testCaseInfo );
 
 			result.Ignore( "reason" );
-			node.SetResult( result );
+			node.Result = result;
 			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", node.Result.Name );
 			Assert.AreEqual( TestSuiteTreeNode.IgnoredIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.IgnoredIndex, node.SelectedImageIndex );
@@ -142,7 +116,7 @@ namespace NUnit.UiKit.Tests
 			TestCaseResult result = new TestCaseResult( testCaseInfo );
 
 			result.Success();
-			node.SetResult( result );
+			node.Result = result;
 			Assert.AreEqual( TestSuiteTreeNode.SuccessIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.SuccessIndex, node.SelectedImageIndex );
 			Assert.AreEqual( "Success", node.StatusText );
@@ -155,7 +129,7 @@ namespace NUnit.UiKit.Tests
 			TestCaseResult result = new TestCaseResult( testCaseInfo );
 
 			result.Failure("message", "stacktrace");
-			node.SetResult( result );
+			node.Result = result;
 			Assert.AreEqual( TestSuiteTreeNode.FailureIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.FailureIndex, node.SelectedImageIndex );
 			Assert.AreEqual( "Failure", node.StatusText );
@@ -168,20 +142,10 @@ namespace NUnit.UiKit.Tests
 			TestCaseResult result = new TestCaseResult( testCaseInfo );
 
 			result.RunState = RunState.Skipped;
-			node.SetResult( result );
+			node.Result = result;
 			Assert.AreEqual( TestSuiteTreeNode.SkippedIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.SkippedIndex, node.SelectedImageIndex );
 			Assert.AreEqual( "Skipped", node.StatusText );
-		}
-
-		[Test]
-		[ExpectedException( typeof(ArgumentException ))]
-		public void SetResultForWrongTest()
-		{
-			TestSuiteTreeNode node = new TestSuiteTreeNode( suiteInfo );
-			TestSuite suite2 = new TestSuite( "suite2" );
-			TestSuiteResult result = new TestSuiteResult( suite2, "xxxxx" );
-			node.SetResult( result );
 		}
 
 		[Test]
