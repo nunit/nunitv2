@@ -62,7 +62,6 @@ namespace NUnit.Mocks.Tests
 		}
 
 		[Test]
-		[Platform(Exclude="Linux")]
 		public void RefParameter()
 		{
 			int x = 7;
