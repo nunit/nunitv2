@@ -326,7 +326,6 @@ namespace NUnit.Util
 		void OnUnhandledException( object sender, UnhandledExceptionEventArgs args )
 		{
             // TODO: If we are terminating, save info somewhere.
-            // TODO: Find out why we terminate with a thread exception in VS2005
             if (Running && !args.IsTerminating && args.ExceptionObject.GetType() != typeof(System.Threading.ThreadAbortException))
             {
                 events.FireTestException((Exception)args.ExceptionObject);
