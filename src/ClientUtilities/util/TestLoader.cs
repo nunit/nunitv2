@@ -326,7 +326,7 @@ namespace NUnit.Util
 		void OnUnhandledException( object sender, UnhandledExceptionEventArgs args )
 		{
             // TODO: If we are terminating, save info somewhere.
-            if (Running && !args.IsTerminating && args.ExceptionObject.GetType() != typeof(System.Threading.ThreadAbortException))
+            if (!args.IsTerminating && args.ExceptionObject.GetType() != typeof(System.Threading.ThreadAbortException))
             {
                 events.FireTestException((Exception)args.ExceptionObject);
             }
