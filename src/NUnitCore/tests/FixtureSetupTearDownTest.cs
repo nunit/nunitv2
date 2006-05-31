@@ -102,7 +102,7 @@ namespace NUnit.Core.Tests
 			TestResult testResult = ((TestResult)result.Results[0]);
 			Assert.IsTrue(testResult.Executed, "Testcase should have executed");
 			Assert.AreEqual("TestFixtureSetUp Failed", testResult.Message, "TestSuite Message");
-			//			Assert.AreEqual("This was thrown from fixture setup", testResult.Message, "TestCase Message" );
+            Assert.AreEqual(FailureSite.Parent, testResult.FailureSite);
 			Assert.AreEqual(testResult.StackTrace, testResult.StackTrace, "TestCase stackTrace should match TestSuite stackTrace" );
 		}
 
@@ -197,6 +197,7 @@ namespace NUnit.Core.Tests
 			TestResult testResult = ((TestResult)result.Results[0]);
 			Assert.IsTrue(testResult.Executed, "Testcase should have executed");
 			Assert.AreEqual("TestFixtureSetUp Failed", testResult.Message, "TestSuite Message");
+            Assert.AreEqual(FailureSite.Parent, testResult.FailureSite);
 			Assert.AreEqual(testResult.StackTrace, testResult.StackTrace, "TestCase stackTrace should match TestSuite stackTrace" );
 		}
 

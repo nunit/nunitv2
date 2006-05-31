@@ -203,7 +203,7 @@ namespace NUnit.Core
 				if ( ex is NunitException )
 					ex = ex.InnerException;
 				// TODO: What about ignore exceptions in teardown?
-				testResult.TearDownError( ex );
+				testResult.Error( ex,FailureSite.TearDown );
 			}
 		}
 

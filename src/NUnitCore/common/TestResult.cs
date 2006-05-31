@@ -39,6 +39,15 @@ namespace NUnit.Core
 		Error,
 	}
 
+    public enum FailureSite
+    {
+        Test,
+        SetUp,
+        TearDown,
+        Parent,
+        Child
+    }
+
 	/// <summary>
 	/// The TestResult abstract class represents
 	/// the result of a test and is used to
@@ -55,6 +64,8 @@ namespace NUnit.Core
 		private RunState runState;
 
 		private ResultState resultState;
+
+        private FailureSite failureSite;
 
 		/// <summary>
 		/// The elapsed time for executing this test
@@ -120,6 +131,11 @@ namespace NUnit.Core
 		{
 			get { return resultState; }
 		}
+
+        public FailureSite FailureSite
+        {
+            get { return failureSite; }
+        }
 
 		public bool Executed 
 		{
@@ -256,34 +272,53 @@ namespace NUnit.Core
 			this.stackTrace = stackTrace;
 		}
 
+        public void Failure(string message, string stackTrace)
+        {
+            Failure(message, stackTrace, FailureSite.Test);
+        }
+
 		/// <summary>
 		/// Mark the test as a failure due to an
 		/// assertion having failed.
 		/// </summary>
 		/// <param name="message">Message to display</param>
 		/// <param name="stackTrace">Stack trace giving the location of the failure</param>
-		public void Failure(string message, string stackTrace )
+		public void Failure(string message, string stackTrace, FailureSite failureSite )
 		{
 			this.runState = RunState.Executed;
 			this.resultState = ResultState.Failure;
+            this.failureSite = failureSite;
 			this.messageString = message;
 			this.stackTrace = stackTrace;
 		}
 
-		public void Error( Exception exception )
-		{
-			this.runState = RunState.Executed;
-			this.resultState = ResultState.Error;
-			this.messageString = BuildMessage( exception );
-			this.stackTrace = BuildStackTrace( exception );
-		}
+        public void Error(Exception exception)
+        {
+            Error(exception, FailureSite.Test);
+        }
 
-		public void TearDownError( Exception exception )
+		public void Error( Exception exception, FailureSite failureSite )
 		{
 			this.runState = RunState.Executed;
 			this.resultState = ResultState.Error;
-			this.messageString += Environment.NewLine + "TearDown : " + BuildMessage( exception );
-			this.stackTrace += Environment.NewLine + "--TearDown" + Environment.NewLine + BuildStackTrace( exception );
+            this.failureSite = failureSite;
+
+            string message = BuildMessage(exception);
+            string stackTrace = BuildStackTrace(exception);
+
+            if (failureSite == FailureSite.TearDown)
+            {
+                message = "TearDown : " + message;
+                stackTrace = "--TearDown" + Environment.NewLine + stackTrace;
+
+                if (this.messageString != null)
+                    message = this.messageString + Environment.NewLine + message;
+                if (this.stackTrace != null)
+                    stackTrace = this.stackTrace + Environment.NewLine + stackTrace;
+            }
+
+            this.messageString = message;
+            this.stackTrace = stackTrace;
 		}
 		#endregion
 

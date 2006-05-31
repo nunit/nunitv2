@@ -57,7 +57,7 @@ namespace NUnit.Core
 
 			if ( result.IsFailure && !this.IsFailure )
 			{
-				this.Failure( "Child test failed", null );
+				this.Failure( "Child test failed", null, FailureSite.Child );
 			}
 		}
 

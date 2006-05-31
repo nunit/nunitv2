@@ -2330,11 +2330,8 @@ the version under which NUnit is currently running, {0}.",
 			TestResult result = args.Result;
 			if(result.Executed)
 			{
-				// Temp fix to avoid showing test case failures due to test fixture setup failure
-				if(result.IsFailure && result.Message != "TestFixtureSetUp Failed" )
-				{
+				if(result.IsFailure && result.FailureSite != FailureSite.Parent )
 					InsertTestResultItem( result );
-				}
 			}
 			else
 			{
@@ -2347,7 +2344,7 @@ the version under which NUnit is currently running, {0}.",
 			TestResult result = args.Result;
 			if(result.Executed)
 			{
-				if ( result.IsFailure && result.Message != "Child test failed" )
+				if ( result.IsFailure && result.FailureSite != FailureSite.Child )
                     InsertTestResultItem(result);
 			}
 			else
