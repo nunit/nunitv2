@@ -2344,41 +2344,36 @@ the version under which NUnit is currently running, {0}.",
 
 		private void OnSuiteFinished(object sender, TestEventArgs args)
 		{
-			TestResult suiteResult = args.Result;
-			if(suiteResult.Executed)
+			TestResult result = args.Result;
+			if(result.Executed)
 			{
-				if ( suiteResult.IsFailure )
-				{
-// TODO: Figure out how to do this
-//					TestSuite suite = suiteResult.Test as TestSuite;
-//					if ( suite.SetUpFailed )
-//					{
-//						InsertTestResultItem( suiteResult );
-//					}
-				}
+				if ( result.IsFailure && result.Message != "Child test failed" )
+                    InsertTestResultItem(result);
 			}
 			else
 			{
-				notRunTree.Add( suiteResult );
+				notRunTree.Add( result );
 			}
 		}
 
 		private void OnTestException(object sender, TestEventArgs args)
 		{
             TestCaseResult result = new TestCaseResult(this.currentTestName);
-
+ 
             // Don't throw inside an exception handler!
 			try
 			{
-                string msg1 = "An unhandled Exception was thrown during execution of this test";
-                result.Error( new ApplicationException( msg1, args.Exception ) );
+                // TODO: The unhandled exception message should be created at a lower level
+                result.Error( new ApplicationException( 
+                    "An unhandled Exception was thrown during execution of this test", 
+                    args.Exception ) );
             }
 			catch( Exception ex )
 			{
-                string msg2 = "An unhandled " + args.Exception.GetType().FullName + 
+                result.Error(new ApplicationException(
+                    "An unhandled " + args.Exception.GetType().FullName +
                     "was thrown during execution of this test" + Environment.NewLine +
-                    "The exception handler threw " + ex.GetType().FullName;
-			    result.Error( new ApplicationException( msg2 ) );
+                    "The exception handler threw " + ex.GetType().FullName));
 			}
 
             InsertTestResultItem(result);
