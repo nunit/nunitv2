@@ -35,7 +35,6 @@ namespace NUnit.TestData
         }
         #endregion ThreadedAndForget
 
-
         #region ThreadedAndWait
         [NUnit.Framework.Test]
         public void ThreadedAndWait()
@@ -45,5 +44,20 @@ namespace NUnit.TestData
             thread.Join();
         }
         #endregion ThreadedAndWait
+
+        #region ThreadedAssert
+        [Test]
+        public void ThreadedAssert()
+        {
+            System.Threading.Thread thread = new System.Threading.Thread(new System.Threading.ThreadStart(ThreadedAssertProc));
+            thread.Start();
+            thread.Join();
+        }
+
+        private void ThreadedAssertProc()
+        {
+            Assert.AreEqual(5, 2 + 2);
+        }
+        #endregion
     }
 }

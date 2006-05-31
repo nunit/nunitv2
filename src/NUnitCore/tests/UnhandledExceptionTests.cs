@@ -56,6 +56,14 @@ namespace NUnit.Core.Tests
             testDummy("ThreadedAndForget", true);
         }
         #endregion ThreadedAndForget
+
+        #region ThreadedAssert
+        [NUnit.Framework.Test]
+        public void ThreadedAssert()
+        {
+            testDummy("ThreadedAssert", true);
+        }
+        #endregion
     }
 
 }
