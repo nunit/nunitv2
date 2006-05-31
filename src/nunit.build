@@ -435,6 +435,9 @@
         <include name="nunit-console-runner.dll"/>
       </references>
     </csc>
+
+    <copy file="ConsoleRunner/nunit-console-exe/App.config"
+      tofile="${current.build.dir}/${nunit.console.name}.config"/>
   </target>
 
   <target name="build-test-server" depends="make-build-dir">
