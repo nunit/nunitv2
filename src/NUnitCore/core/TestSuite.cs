@@ -304,9 +304,13 @@ namespace NUnit.Core
                         suiteResult.StackTrace = ex.StackTrace;
                         this.IgnoreReason = ex.Message;
                     }
-                    else
+                    else 
                     {
-                        suiteResult.Failure(ex.Message, ex.StackTrace);
+                        if (IsAssertException(ex))
+                            suiteResult.Failure(ex.Message, ex.StackTrace);
+                        else
+                            suiteResult.Error(ex);
+                       
                         setUpStatus = SetUpState.SetUpFailed;
                     }
                 }
@@ -385,6 +389,11 @@ namespace NUnit.Core
 				}
 			}
 		}
+
+        protected virtual bool IsAssertException(Exception ex)
+        {
+            return ex.GetType().FullName == "NUnit.Framework.AssertException";
+        }
 
         protected virtual bool IsIgnoreException(Exception ex)
         {
