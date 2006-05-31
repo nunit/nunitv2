@@ -136,7 +136,7 @@ namespace NUnit.Util
 		/// </summary>
 		private bool reloadOnRun = false;
 
-		#endregion
+        #endregion
 
 		#region Constructors
 
@@ -325,10 +325,16 @@ namespace NUnit.Util
 
 		void OnUnhandledException( object sender, UnhandledExceptionEventArgs args )
 		{
-            // TODO: If we are terminating, save info somewhere.
-            if (!args.IsTerminating && args.ExceptionObject.GetType() != typeof(System.Threading.ThreadAbortException))
+            string exceptionType = args.ExceptionObject.GetType().FullName;
+
+            switch( args.ExceptionObject.GetType().FullName )
             {
-                events.FireTestException((Exception)args.ExceptionObject);
+                case "System.Threading.ThreadAbortException":
+                    break;
+                case "NUnit.Framework.AssertionException":
+                default:
+                    events.FireTestException((Exception)args.ExceptionObject);
+                    break;
             }
 		}
 
