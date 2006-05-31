@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace NUnit.Core.Tests
 {
-    [TestFixture]
+    [TestFixture, Explicit("These tests fail by design")]
     public class UnhandledExceptionTests
     {
         #region Normal
