@@ -72,6 +72,7 @@ namespace NUnit.Gui
 		CP.Windows.Forms.TipWindow tipWindow;
 		int hoverIndex = -1;
 		private System.Windows.Forms.Timer hoverTimer;
+        private string currentTestName;
 
 		private TestTree testTree;
 		public System.Windows.Forms.TabPage testsNotRun;
@@ -2311,6 +2312,7 @@ the version under which NUnit is currently running, {0}.",
 			if ( UserSettings.Options.TestLabels )
 			{
 				//outWriter.WriteLine( "***** {0}", args.Test.FullName );
+                this.currentTestName = args.Test.FullName;
 				this.stdOutTab.AppendText( string.Format( "***** {0}\n", args.Test.FullName ) );
 			}
 		}
@@ -2363,24 +2365,24 @@ the version under which NUnit is currently running, {0}.",
 
 		private void OnTestException(object sender, TestEventArgs args)
 		{
-			// Don't throw inside an exception!
+            TestCaseResult result = new TestCaseResult(this.currentTestName);
+
+            // Don't throw inside an exception handler!
 			try
 			{
-				string msg = string.Format(
-					"An unhandled exception was detected. Since it was most likely thrown on a separate thread, it may or may not have been caused by the current test.\r\r{0}",
-					args.Exception.ToString() );
-
-				UserMessage.DisplayFailure( msg, "Unhandled Exception" );
-			}
+                string msg1 = "An unhandled Exception was thrown during execution of this test";
+                result.Error( new ApplicationException( msg1, args.Exception ) );
+            }
 			catch( Exception ex )
 			{
-				UserMessage.DisplayFailure( 
-					"Exception thrown in unhandled exception handler.\r\r" 
-						+ "Original exception was " + args.Exception.GetType().FullName + "\r\r"
-						+ "Exception handler threw " + ex.GetType().FullName,
-					"Unhandled Exception" );
+                string msg2 = "An unhandled " + args.Exception.GetType().FullName + 
+                    "was thrown during execution of this test" + Environment.NewLine +
+                    "The exception handler threw " + ex.GetType().FullName;
+			    result.Error( new ApplicationException( msg2 ) );
 			}
-		}
+
+            InsertTestResultItem(result);
+        }
 
 		private void OnTestOutput(object sender, TestEventArgs args)
 		{

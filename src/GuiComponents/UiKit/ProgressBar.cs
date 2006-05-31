@@ -100,6 +100,7 @@ namespace NUnit.UiKit
 			events.TestUnloaded	+= new TestEventHandler( OnUnloadComplete );
 			events.RunStarting	+= new TestEventHandler( OnRunStarting );
 			events.TestFinished	+= new TestEventHandler( OnTestFinished );
+            events.TestException += new TestEventHandler(OnTestException);
 		}
 
 		[Category("Behavior")]
@@ -255,6 +256,11 @@ namespace NUnit.UiKit
                     break;
             }
 		}
+
+        private void OnTestException(object senderk, TestEventArgs e)
+        {
+            ForeColor = Color.Red;
+        }
 
 		protected override void OnResize(System.EventArgs e)
 		{
