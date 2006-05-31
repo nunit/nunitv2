@@ -30,6 +30,7 @@
 namespace NUnit.ConsoleRunner
 {
 	using System;
+    using System.Collections;
 	using System.Collections.Specialized;
 	using System.IO;
 	using System.Reflection;
@@ -213,7 +214,7 @@ namespace NUnit.ConsoleRunner
                 return 2;
             }
 
-			EventListener collector = new EventCollector( options, outWriter, errorWriter );
+			EventCollector collector = new EventCollector( options, outWriter, errorWriter );
 
 			TestFilter catFilter = null;
 
@@ -283,11 +284,16 @@ namespace NUnit.ConsoleRunner
 				writer.Write(xmlOutput);
 			}
 
-			if ( testRunner != null )
-				testRunner.Unload();
+            //if ( testRunner != null )
+            //    testRunner.Unload();
 
-
-			return result.IsFailure ? 1 : 0;
+			if ( collector.HasExceptions )
+            {
+                collector.WriteExceptions();
+                return 2;
+            }
+            
+            return result.IsFailure ? 1 : 0;
 		}
 
 		private string CreateXmlOutput( TestResult result )
@@ -319,6 +325,8 @@ namespace NUnit.ConsoleRunner
 			private bool progress = false;
 			private string currentTestName;
 
+            private ArrayList unhandledExceptions = new ArrayList();
+
 			public EventCollector( ConsoleOptions options, TextWriter outWriter, TextWriter errorWriter )
 			{
 				debugger = Debugger.IsAttached;
@@ -328,7 +336,24 @@ namespace NUnit.ConsoleRunner
 				this.errorWriter = errorWriter;
 				this.currentTestName = string.Empty;
 				this.progress = !options.xmlConsole && !options.labels;
+
+                AppDomain.CurrentDomain.UnhandledException += 
+                    new UnhandledExceptionEventHandler(OnUnhandledException);
 			}
+
+            public bool HasExceptions
+            {
+                get { return unhandledExceptions.Count > 0; }
+            }
+
+            public void WriteExceptions()
+            {
+                Console.WriteLine();
+                Console.WriteLine("Unhandled exceptions:");
+                int index = 1;
+                foreach( string msg in unhandledExceptions )
+                    Console.WriteLine( "{0}) {1}", index++, msg );
+            }
 
 			public void RunStarted(string name, int testCount)
 			{
@@ -347,7 +372,7 @@ namespace NUnit.ConsoleRunner
 				if(testResult.Executed)
 				{
 					testRunCount++;
-					
+
 					if(testResult.IsFailure)
 					{	
 						failureCount++;
@@ -432,28 +457,38 @@ namespace NUnit.ConsoleRunner
 					}
 
 					Trace.WriteLine( "############################################################################" );
-					Trace.WriteLine( "Executed tests : " + testRunCount );
-					Trace.WriteLine( "Ignored tests  : " + testIgnoreCount );
-					Trace.WriteLine( "Failed tests   : " + failureCount );
-					Trace.WriteLine( "Total time     : " + suiteResult.Time + " seconds" );
+					Trace.WriteLine( "Executed tests       : " + testRunCount );
+					Trace.WriteLine( "Ignored tests        : " + testIgnoreCount );
+					Trace.WriteLine( "Failed tests         : " + failureCount );
+                    Trace.WriteLine( "Unhandled exceptions : " + unhandledExceptions.Count);
+					Trace.WriteLine( "Total time           : " + suiteResult.Time + " seconds" );
 					Trace.WriteLine( "############################################################################");
 				}
 			}
 
+            private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+            {
+                if (e.ExceptionObject.GetType() != typeof(System.Threading.ThreadAbortException))
+                {
+                    this.UnhandledException((Exception)e.ExceptionObject);
+                }
+            }
+
+
 			public void UnhandledException( Exception exception )
 			{
-				string msg = string.Format( "##### Unhandled Exception while running {0}", currentTestName );
+                // If we do labels, we already have a newline
+                unhandledExceptions.Add(currentTestName + " : " + exception.ToString());
+                //if (!options.labels) outWriter.WriteLine();
+                string msg = string.Format("##### Unhandled Exception while running {0}", currentTestName);
+                //outWriter.WriteLine(msg);
+                //outWriter.WriteLine(exception.ToString());
 
-				// If we do labels, we already have a newline
-				if ( !options.labels ) outWriter.WriteLine();
-				outWriter.WriteLine( msg );
-				outWriter.WriteLine( exception.ToString() );
-
-				if ( debugger )
-				{
-					Trace.WriteLine( msg );
-					Trace.WriteLine( exception.ToString() );
-				}
+                if (debugger)
+                {
+                    Trace.WriteLine(msg);
+                    Trace.WriteLine(exception.ToString());
+                }
 			}
 
 			public void TestOutput( TestOutput output)
