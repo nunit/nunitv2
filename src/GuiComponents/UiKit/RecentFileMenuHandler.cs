@@ -61,6 +61,7 @@ namespace NUnit.UiKit
 		public void Load()
 		{
 			IList files = recentFiles.GetFiles();
+            bool onNet2 = Environment.Version.Major > 1;
 
 			if ( files.Count == 0 )
 				Menu.Enabled = false;
@@ -71,9 +72,15 @@ namespace NUnit.UiKit
 				int index = 1;
 				foreach ( string name in files ) 
 				{
-					MenuItem item = new MenuItem(String.Format("{0} {1}", index++, name));
-					item.Click += new System.EventHandler( OnRecentFileClick );
-					Menu.MenuItems.Add( item );
+                    // Rather than show files that don't exist, we skip them. As
+                    // new recent files are opened, they will be pushed down and
+                    // eventually fall off the list.
+                    if (System.IO.File.Exists(name))
+                    {
+                        MenuItem item = new MenuItem(String.Format("{0} {1}", index++, name));
+                        item.Click += new System.EventHandler(OnRecentFileClick);
+                        Menu.MenuItems.Add(item);
+                    }
 				}		
 			}
 		}
