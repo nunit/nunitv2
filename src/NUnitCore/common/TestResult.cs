@@ -342,12 +342,21 @@ namespace NUnit.Core
 		
 		private string BuildStackTrace(Exception exception)
 		{
-			if(exception.InnerException!=null)
-				return GetStackTrace(exception) + Environment.NewLine + 
-					"--" + exception.GetType().Name + Environment.NewLine +
-					BuildStackTrace(exception.InnerException);
-			else
-				return GetStackTrace(exception);
+            StringBuilder sb = new StringBuilder( GetStackTrace( exception ) );
+
+            Exception inner = exception.InnerException;
+            while( inner != null )
+            {
+                sb.Append( Environment.NewLine );
+                sb.Append( "--" );
+                sb.Append( inner.GetType().Name );
+                sb.Append( Environment.NewLine );
+                sb.Append( GetStackTrace( inner ) );
+
+                inner = inner.InnerException;
+            }
+
+            return sb.ToString();
 		}
 
 		private string GetStackTrace(Exception exception)
