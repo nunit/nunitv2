@@ -154,23 +154,27 @@ namespace NUnit.Core
 		{
 			pumping = true;
 			Monitor.Enter( events );
-			try
-			{
-				while( this.events.Count > 0 || !stopping )
-				{
-					while( this.events.Count > 0 )
-					{
-						Event e = this.events.Dequeue();
-						e.Send( this.eventListener );
-						if ( autostop && e is RunFinishedEvent )
-							stopping = true;
-					}
-					// Will be pulsed if there are any events added
-					// or if it's time to stop the pump.
-					if ( !stopping )
-						Monitor.Wait( events );
-				}
-			}
+            try
+            {
+                while (this.events.Count > 0 || !stopping)
+                {
+                    while (this.events.Count > 0)
+                    {
+                        Event e = this.events.Dequeue();
+                        e.Send(this.eventListener);
+                        if (autostop && e is RunFinishedEvent)
+                            stopping = true;
+                    }
+                    // Will be pulsed if there are any events added
+                    // or if it's time to stop the pump.
+                    if (!stopping)
+                        Monitor.Wait(events);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Exception in pump thread", ex);
+            }
 			finally
 			{
 				Monitor.Exit( events );

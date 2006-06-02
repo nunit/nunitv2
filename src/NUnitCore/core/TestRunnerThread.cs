@@ -171,7 +171,14 @@ namespace NUnit.Core
 		/// </summary>
 		private void TestRunnerThreadProc()
 		{
-			results = new TestResult[] { runner.Run( this.listener, this.filter ) };
+            try
+            {
+                results = new TestResult[] { runner.Run(this.listener, this.filter) };
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Exception in TestRunnerThread", ex);
+            }
 		}
 		#endregion
 	}
