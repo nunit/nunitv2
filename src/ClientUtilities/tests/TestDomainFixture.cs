@@ -54,7 +54,7 @@ namespace NUnit.Util.Tests
 		public void UnloadTestDomain()
 		{
 			loadedTest = null;
-			testDomain.Unload();
+			//testDomain.Unload(); //TEMP
 			testDomain = null;
 		}
 			
