@@ -41,12 +41,19 @@ namespace NUnit.UiKit
 	{
 		private MenuItem menu;
 		private RecentFiles recentFiles;
+        private bool showMissingFiles = false;
 
 		public RecentFileMenuHandler( MenuItem menu, RecentFiles recentFiles )
 		{
 			this.menu = menu;
 			this.recentFiles = recentFiles;
 		}
+
+        public bool ShowMissingFiles
+        {
+            get { return showMissingFiles; }
+            set { showMissingFiles = value; }
+        }
 
 		public MenuItem Menu
 		{
@@ -75,7 +82,7 @@ namespace NUnit.UiKit
                     // Rather than show files that don't exist, we skip them. As
                     // new recent files are opened, they will be pushed down and
                     // eventually fall off the list.
-                    if (System.IO.File.Exists(name))
+                    if ( showMissingFiles || System.IO.File.Exists(name))
                     {
                         MenuItem item = new MenuItem(String.Format("{0} {1}", index++, name));
                         item.Click += new System.EventHandler(OnRecentFileClick);
