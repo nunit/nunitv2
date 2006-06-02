@@ -2311,7 +2311,6 @@ the version under which NUnit is currently running, {0}.",
 		{
 			if ( UserSettings.Options.TestLabels )
 			{
-				//outWriter.WriteLine( "***** {0}", args.Test.FullName );
                 this.currentTestName = args.Test.FullName;
 				this.stdOutTab.AppendText( string.Format( "***** {0}\n", args.Test.FullName ) );
 			}
