@@ -38,19 +38,25 @@ namespace NUnit.Util.Tests
 	/// This fixture tests both AssemblyList and AssemblyListItem
 	/// </summary>
 	[TestFixture]
-	[Platform(Exclude="Linux")]
 	public class AssemblyListTests
 	{
 		ProjectConfig config;
 		private AssemblyList assemblies;
 
+        private string path1;
+        private string path2;
+        private string path3;
+
 		[SetUp]
 		public void CreateAssemblyList()
 		{
 			config = new ProjectConfig();
-			config.BasePath = @"C:\tests";
+			config.BasePath = CleanPath( "/tests" );
 			assemblies = new AssemblyList( config );
-		}
+            path1 = CleanPath("/tests/bin/debug/assembly1.dll");
+            path2 = CleanPath("/tests/bin/debug/assembly2.dll");
+            path3 = CleanPath("/tests/bin/debug/assembly3.dll");
+        }
 
 		[Test]
 		public void EmptyList()
@@ -61,44 +67,44 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void CanAddAssemblies()
 		{
-			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
-			assemblies.Add( @"C:\tests\bin\debug\assembly2.dll" );
+			assemblies.Add( path1 );
+			assemblies.Add( path2 );
 
 			Assert.AreEqual( 2, assemblies.Count );
-			Assert.AreEqual( @"C:\tests\bin\debug\assembly1.dll", assemblies[0].FullPath );
-			Assert.AreEqual( @"C:\tests\bin\debug\assembly2.dll", assemblies[1].FullPath );
+			Assert.AreEqual( path1, assemblies[0].FullPath );
+			Assert.AreEqual( path2, assemblies[1].FullPath );
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
 		public void MustAddAbsolutePath()
 		{
-			assemblies.Add( @"bin\debug\assembly1.dll" );
+			assemblies.Add( CleanPath( "bin/debug/assembly1.dll" ) );
 		}
 
 		[Test]
 		public void AddMarksConfigurationDirty()
 		{
-			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
+			assemblies.Add( path1 );
 			Assert.IsTrue( config.IsDirty );
 		}
 
 		[Test]
 		public void CanRemoveAssemblies()
 		{
-			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
-			assemblies.Add( @"C:\tests\bin\debug\assembly2.dll" );
-			assemblies.Add( @"C:\tests\bin\debug\assembly3.dll" );
-			assemblies.Remove( @"C:\tests\bin\debug\assembly2.dll" );
+            assemblies.Add(path1);
+            assemblies.Add(path2);
+            assemblies.Add(path3);
+			assemblies.Remove( path2 );
 
 			Assert.AreEqual( 2, assemblies.Count );
-			Assert.AreEqual( @"C:\tests\bin\debug\assembly1.dll", assemblies[0].FullPath );
-			Assert.AreEqual( @"C:\tests\bin\debug\assembly3.dll", assemblies[1].FullPath );
+			Assert.AreEqual( path1, assemblies[0].FullPath );
+			Assert.AreEqual( path3, assemblies[1].FullPath );
 		}
 
 		[Test]
 		public void RemoveAtMarksConfigurationDirty()
 		{
-			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
+			assemblies.Add( path1 );
 			config.IsDirty = false;
 			assemblies.RemoveAt(0);
 			Assert.IsTrue( config.IsDirty );
@@ -107,28 +113,33 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void RemoveMarksConfigurationDirty()
 		{
-			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
+			assemblies.Add( path1 );
 			config.IsDirty = false;
-			assemblies.Remove( @"C:\tests\bin\debug\assembly1.dll" );
+			assemblies.Remove( path1 );
 			Assert.IsTrue( config.IsDirty );
 		}
 
 		[Test]
 		public void SettingFullPathMarksConfigurationDirty()
 		{
-			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
+			assemblies.Add( path1 );
 			config.IsDirty = false;
-			assemblies[0].FullPath = @"C:\tests\bin\debug\assembly2.dll";
+			assemblies[0].FullPath = path2;
 			Assert.IsTrue( config.IsDirty );
 		}
 		
 		[Test]
 		public void SettingHasTestsMarksConfigurationDirty()
 		{
-			assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
+			assemblies.Add( path1 );
 			config.IsDirty = false;
 			assemblies[0].HasTests = false;
 			Assert.IsTrue( config.IsDirty );
 		}
+
+        private string CleanPath( string path )
+        {
+            return path.Replace( '/', Path.DirectorySeparatorChar );
+        }
 	}
 }
