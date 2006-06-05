@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.IO;
 using NUnit.Framework;
 
 namespace NUnit.Util.Tests
@@ -36,11 +37,10 @@ namespace NUnit.Util.Tests
 	/// Summary description for ProjectConfigCollectionTests.
 	/// </summary>
 	[TestFixture]
-	[Platform(Exclude="Linux")]
 	public class ProjectConfigCollectionTests
 	{
 		private ProjectConfigCollection configs;
-		private NUnitProject project = new NUnitProject( @"C:\tests\myproject.nunit" );
+		private NUnitProject project = new NUnitProject( Path.DirectorySeparatorChar + "tests" + Path.DirectorySeparatorChar + "myproject.nunit" );
 
 		[SetUp]
 		public void SetUp()
@@ -58,8 +58,8 @@ namespace NUnit.Util.Tests
 		public void AddConfig()
 		{
 			configs.Add("Debug");
-			configs["Debug"].Assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
-			configs["Debug"].Assemblies.Add( @"C:\tests\bin\debug\assembly2.dll" );
+			configs["Debug"].Assemblies.Add( Path.DirectorySeparatorChar + "tests" + Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly1.dll" );
+			configs["Debug"].Assemblies.Add( Path.DirectorySeparatorChar + "tests" + Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly2.dll" );
 
 			Assert.AreEqual( 2, configs["Debug"].Assemblies.Count );
 		}
@@ -75,8 +75,8 @@ namespace NUnit.Util.Tests
 		public void BuildConfigAndAdd()
 		{
 			ProjectConfig config = new ProjectConfig("Debug");
-			config.Assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
-			config.Assemblies.Add( @"C:\tests\bin\debug\assembly2.dll" );
+			config.Assemblies.Add( Path.DirectorySeparatorChar + "tests" + Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly1.dll" );
+			config.Assemblies.Add( Path.DirectorySeparatorChar + "tests" + Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly2.dll" );
 
 			configs.Add( config );
 
@@ -88,9 +88,9 @@ namespace NUnit.Util.Tests
 		{
 			configs.Add("Debug");
 			configs.Add("Release");
-			configs["Debug"].Assemblies.Add( @"C:\tests\bin\debug\assembly1.dll" );
-			configs["Debug"].Assemblies.Add( @"C:\tests\bin\debug\assembly2.dll" );
-			configs["Release"].Assemblies.Add( @"C:\tests\bin\release\assembly3.dll" );
+			configs["Debug"].Assemblies.Add( Path.DirectorySeparatorChar + "tests" + Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly1.dll" );
+			configs["Debug"].Assemblies.Add( Path.DirectorySeparatorChar + "tests" + Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly2.dll" );
+			configs["Release"].Assemblies.Add( Path.DirectorySeparatorChar + "tests" + Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar + "release" + Path.DirectorySeparatorChar + "assembly3.dll" );
 
 			Assert.AreEqual( 2, configs.Count );
 			Assert.AreEqual( 2, configs["Debug"].Assemblies.Count );

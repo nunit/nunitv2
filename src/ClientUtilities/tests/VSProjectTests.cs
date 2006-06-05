@@ -175,33 +175,31 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
-		[Platform(Exclude="Linux")]
 		public void InvalidXmlFormat()
 		{
 			WriteInvalidFile( "<VisualStudioProject><junk></VisualStudioProject>" );
-			VSProject project = new VSProject( @".\invalid.csproj" );
+			VSProject project = new VSProject( @"." + System.IO.Path.DirectorySeparatorChar + "invalid.csproj" );
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
-		[Platform(Exclude="Linux")]
 		public void InvalidProjectFormat()
 		{
 			WriteInvalidFile( "<VisualStudioProject><junk></junk></VisualStudioProject>" );
-			VSProject project = new VSProject( @".\invalid.csproj" );
+			VSProject project = new VSProject( @"." + System.IO.Path.DirectorySeparatorChar  + "invalid.csproj" );
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
 		public void MissingAttributes()
 		{
 			WriteInvalidFile( "<VisualStudioProject><CSharp><Build><Settings></Settings></Build></CSharp></VisualStudioProject>" );
-			VSProject project = new VSProject( @".\invalid.csproj" );
+			VSProject project = new VSProject( @"." + System.IO.Path.DirectorySeparatorChar + "invalid.csproj" );
 		}
 
 		[Test]
 		public void NoConfigurations()
 		{
 			WriteInvalidFile( "<VisualStudioProject><CSharp><Build><Settings AssemblyName=\"invalid\" OutputType=\"Library\"></Settings></Build></CSharp></VisualStudioProject>" );
-			VSProject project = new VSProject( @".\invalid.csproj" );
+			VSProject project = new VSProject( @"." + System.IO.Path.DirectorySeparatorChar  + "invalid.csproj" );
 			Assert.AreEqual( 0, project.Configs.Count );
 		}
 	}

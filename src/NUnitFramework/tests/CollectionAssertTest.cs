@@ -7,19 +7,28 @@ namespace NUnit.Framework.Tests
 	/// Test Library for the NUnit CollectionAssert class.
 	/// </summary>
 	[TestFixture()]
-	[Platform(Exclude="Linux")]
+	//[Platform(Exclude="Linux")]
 	public class CollectionAssertTest
 	{
-		const string typeErrorMsg = "\r\n\tAll objects are not of actual type.\r\n\tset1.Count: 3\r\n\tactual: String";
-		const string notnullErrorMsg = "\r\n\tAt least one object is null.\r\n\tset1.Count: 3";
-		const string uniqueErrorMsg = "\r\n\tAt least one object is not unique within set1.\r\n\tset1.Count: 3";
-		const string equalErrorMsg = "\r\n\tset1 and set2 are not equal at index 3";
-		const string equalCountErrorMsg = "\r\n\tset1 and set2 do not have equal Count properties.";
-		const string equivalentOneErrorMsg = "\r\n\tAn item from set1 was not found in set2.";
-		const string equivalentTwoErrorMsg = "\r\n\tAn item from set2 was not found in set1.";
+		static string typeErrorMsg = "" + System.Environment.NewLine + "\tAll objects are not of actual type." + System.Environment.NewLine + "\tset1.Count: 3" + System.Environment.NewLine + "\tactual: String";
+		static string notnullErrorMsg = "" + System.Environment.NewLine + "\tAt least one object is null." + System.Environment.NewLine + "\tset1.Count: 3";
+		static string uniqueErrorMsg = "" + System.Environment.NewLine + "\tAt least one object is not unique within set1." + System.Environment.NewLine + "\tset1.Count: 3";
+		static string equalErrorMsg = "" + System.Environment.NewLine + "\tset1 and set2 are not equal at index 3";
+		static string equalCountErrorMsg = "" + System.Environment.NewLine + "\tset1 and set2 do not have equal Count properties.";
+		static string equivalentOneErrorMsg = "" + System.Environment.NewLine + "\tAn item from set1 was not found in set2.";
+		static string equivalentTwoErrorMsg = "" + System.Environment.NewLine + "\tAn item from set2 was not found in set1.";
 
 		public CollectionAssertTest()
 		{
+		}
+
+		private void CheckException(Exception actual, Type expectedExceptionType, string expectedErrorMsg)
+		{
+			if(actual == null)
+				Assert.Fail("Expected " + expectedExceptionType.ToString() + " but no exception was thrown");
+
+			Assert.AreEqual(expectedExceptionType, actual.GetType(), "Expected Exception not thrown");
+			Assert.AreEqual(expectedErrorMsg, actual.Message);
 		}
 
 		#region AllItemsAreInstancesOfType
@@ -43,34 +52,64 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(System.Data.DataSet),"test {0}","1");
 		}
 
-		[Test(), ExpectedException(typeof(NUnit.Framework.AssertionException),"test" + typeErrorMsg)]
+		[Test()]
 		public void ItemsOfTypeFailMsg()
 		{
+			Exception ex = null;
+			try
+			{
 			ArrayList al = new ArrayList();
 			al.Add("x");
 			al.Add("y");
 			al.Add(new object());
 			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(string),"test");
+			} 
+			catch (Exception caughtException) 
+			{
+				ex = caughtException;
+			}
+
+			CheckException(ex, typeof(NUnit.Framework.AssertionException), "test" + typeErrorMsg);
 		}
 
-		[Test(), ExpectedException(typeof(NUnit.Framework.AssertionException),"test 1" + typeErrorMsg)]
+		[Test()]
 		public void ItemsOfTypeFailMsgParam()
 		{
+			Exception ex = null;
+			try
+			{
 			ArrayList al = new ArrayList();
 			al.Add("x");
 			al.Add("y");
 			al.Add(new object());
 			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(string),"test {0}","1");
+			}
+			catch(Exception actualException)
+			{
+				ex = actualException;
+			}
+			
+			CheckException(ex, typeof(NUnit.Framework.AssertionException), "test 1" + typeErrorMsg);
 		}
 
-		[Test(), ExpectedException(typeof(NUnit.Framework.AssertionException),typeErrorMsg)]
+		[Test()]
 		public void ItemsOfTypeFailNoMsg()
 		{
+			Exception ex = null;
+			try
+			{
 			ArrayList al = new ArrayList();
 			al.Add("x");
 			al.Add("y");
 			al.Add(new object());
 			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(string));
+			}
+			catch(Exception actualException)
+			{
+				ex = actualException;
+			}
+
+			CheckException(ex,typeof(NUnit.Framework.AssertionException),typeErrorMsg);
 		}
 		#endregion
 
@@ -97,37 +136,67 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AllItemsAreNotNull(al,"test {0}","1");
 		}
 
-		[Test, ExpectedException(typeof(AssertionException),notnullErrorMsg)]
+		[Test]
 		public void ItemsNotNullFail()
 		{
+			Exception ex = null;
+			try
+			{
 			ArrayList al = new ArrayList();
 			al.Add("x");
 			al.Add(null);
 			al.Add("z");
 
 			CollectionAssert.AllItemsAreNotNull(al);
+			}
+			catch(Exception actualException)
+			{
+				ex = actualException;
+			}
+
+			CheckException(ex, typeof(AssertionException),notnullErrorMsg);
 		}
 
-		[Test, ExpectedException(typeof(AssertionException),"test 1" + notnullErrorMsg)]
+		[Test]
 		public void ItemsNotNullFailMsgParam()
 		{
+			Exception ex = null;
+			try
+			{
 			ArrayList al = new ArrayList();
 			al.Add("x");
 			al.Add(null);
 			al.Add("z");
 
 			CollectionAssert.AllItemsAreNotNull(al,"test {0}","1");
+			}
+			catch(Exception actualException)
+			{
+				ex = actualException;
+			}
+
+			CheckException(ex, typeof(AssertionException),"test 1" + notnullErrorMsg);
 		}
 
-		[Test, ExpectedException(typeof(AssertionException),"test" + notnullErrorMsg)]
+		[Test]
 		public void ItemsNotNullFailMsg()
 		{
+			Exception ex = null;
+			try
+			{
 			ArrayList al = new ArrayList();
 			al.Add("x");
 			al.Add(null);
 			al.Add("z");
 
 			CollectionAssert.AllItemsAreNotNull(al,"test");
+			}
+			catch(Exception actualException)
+			{
+				ex = actualException;
+			}
+
+			CheckException(ex, typeof(AssertionException),"test" + notnullErrorMsg);
 		}
 		#endregion
 
@@ -155,9 +224,12 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AllItemsAreUnique(al,"test {0}","1");
 		}
 
-		[Test, ExpectedException(typeof(AssertionException),uniqueErrorMsg)]
+		[Test]
 		public void UniqueFail()
 		{
+			Exception ex = null;
+			try
+			{
 			object x = new object();
 			ArrayList al = new ArrayList();
 			al.Add(x);
@@ -165,11 +237,21 @@ namespace NUnit.Framework.Tests
 			al.Add(x);
 
 			CollectionAssert.AllItemsAreUnique(al);
+			}
+			catch(Exception actualException)
+			{
+				ex = actualException;
+			}
+
+			CheckException(ex, typeof(AssertionException),uniqueErrorMsg);
 		}
 
-		[Test, ExpectedException(typeof(AssertionException),"test" + uniqueErrorMsg)]
+		[Test]
 		public void UniqueFailMsg()
 		{
+			Exception ex = null;
+			try
+			{
 			object x = new object();
 			ArrayList al = new ArrayList();
 			al.Add(x);
@@ -177,11 +259,21 @@ namespace NUnit.Framework.Tests
 			al.Add(x);
 
 			CollectionAssert.AllItemsAreUnique(al,"test");
+			}
+			catch(Exception actualException)
+			{
+				ex = actualException;
+			}
+
+			CheckException(ex, typeof(AssertionException),"test" + uniqueErrorMsg);
 		}
 
-		[Test, ExpectedException(typeof(AssertionException),"test 1" + uniqueErrorMsg)]
+		[Test]
 		public void UniqueFailMsgParam()
 		{
+			Exception ex = null;
+			try
+			{
 			object x = new object();
 			ArrayList al = new ArrayList();
 			al.Add(x);
@@ -189,6 +281,13 @@ namespace NUnit.Framework.Tests
 			al.Add(x);
 
 			CollectionAssert.AllItemsAreUnique(al,"test {0}","1");
+			}
+			catch(Exception actualException)
+			{
+				ex = actualException;
+			}
+
+			CheckException(ex, typeof(AssertionException),"test 1" + uniqueErrorMsg);
 		}
 
 		#endregion
@@ -215,9 +314,12 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AreEqual(set1,set2,new TestComparer(),"test {0}","1");
 		}
 
-		[Test, ExpectedException(typeof(AssertionException),"test 1" + equalCountErrorMsg)]
+		[Test]
 		public void AreEqualFailCount()
 		{
+			Exception ex = null;
+			try
+			{
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
 			set1.Add("x");
@@ -229,11 +331,21 @@ namespace NUnit.Framework.Tests
 			set2.Add("a");
 
 			CollectionAssert.AreEqual(set1,set2,new TestComparer(),"test {0}","1");
+			}
+			catch(Exception actualException)
+			{
+				ex = actualException;
+			}
+
+			CheckException(ex, typeof(AssertionException),"test 1" + equalCountErrorMsg);
 		}
 
-		[Test, ExpectedException(typeof(AssertionException),"test 1" + equalErrorMsg)]
+		[Test]
 		public void AreEqualFail()
 		{
+			Exception ex = null;
+			try
+			{
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
 			set1.Add("x");
@@ -244,11 +356,21 @@ namespace NUnit.Framework.Tests
 			set2.Add("a");
 
 			CollectionAssert.AreEqual(set1,set2,new TestComparer(),"test {0}","1");
+			}
+			catch(Exception actualException)
+			{
+				ex = actualException;
+			}
+
+			CheckException(ex, typeof(AssertionException),"test 1" + equalErrorMsg);
 		}
 
-		[Test, ExpectedException(typeof(AssertionException),"test 1" + equalErrorMsg)]
+		[Test]
 		public void AreEqualFailObject()
 		{
+			Exception ex = null;
+			try
+			{
 			System.Data.DataSet x = new System.Data.DataSet();
 			System.Data.DataSet y = new System.Data.DataSet();
 			System.Data.DataSet z = new System.Data.DataSet();
@@ -264,6 +386,13 @@ namespace NUnit.Framework.Tests
 			set2.Add(a);
 
 			CollectionAssert.AreEqual(set1,set2,new TestComparer(),"test {0}","1");
+			}
+			catch(Exception actualException)
+			{
+				ex = actualException;
+			}
+
+			CheckException(ex, typeof(AssertionException),"test 1" + equalErrorMsg);
 		}
 
 		#endregion
@@ -293,9 +422,12 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AreEquivalent(set1,set2,"test {0}","1");
 		}
 
-		[Test, ExpectedException(typeof(AssertionException),"test 1" + equivalentOneErrorMsg)]
+		[Test]
 		public void EquivalentFailOne()
 		{
+			Exception ex = null;
+			try
+			{
 			System.Data.DataSet x = new System.Data.DataSet();
 			System.Data.DataSet y = new System.Data.DataSet();
 			System.Data.DataSet z = new System.Data.DataSet();
@@ -312,11 +444,21 @@ namespace NUnit.Framework.Tests
 			set2.Add(x);
 
 			CollectionAssert.AreEquivalent(set1,set2,"test {0}","1");
+			}
+			catch(Exception actualException)
+			{
+				ex = actualException;
+			}
+
+			CheckException(ex, typeof(AssertionException),"test 1" + equivalentOneErrorMsg);
 		}
 
-		[Test, ExpectedException(typeof(AssertionException),"test 1" + equivalentTwoErrorMsg)]
+		[Test]
 		public void EquivalentFailTwo()
 		{
+			Exception ex = null;
+			try
+			{
 			System.Data.DataSet x = new System.Data.DataSet();
 			System.Data.DataSet y = new System.Data.DataSet();
 			System.Data.DataSet z = new System.Data.DataSet();
@@ -333,6 +475,13 @@ namespace NUnit.Framework.Tests
 			set2.Add(z);
 
 			CollectionAssert.AreEquivalent(set1,set2,"test {0}","1");
+			}
+			catch(Exception actualException)
+			{
+				ex = actualException;
+			}
+
+			CheckException(ex, typeof(AssertionException),"test 1" + equivalentTwoErrorMsg);
 		}
 		#endregion
 
