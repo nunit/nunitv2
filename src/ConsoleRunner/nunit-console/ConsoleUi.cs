@@ -321,7 +321,6 @@ namespace NUnit.ConsoleRunner
 
 			StringCollection messages;
 		
-			private bool debugger = false;
 			private bool progress = false;
 			private string currentTestName;
 
@@ -329,7 +328,6 @@ namespace NUnit.ConsoleRunner
 
 			public EventCollector( ConsoleOptions options, TextWriter outWriter, TextWriter errorWriter )
 			{
-				debugger = Debugger.IsAttached;
 				level = 0;
 				this.options = options;
 				this.outWriter = outWriter;
@@ -380,22 +378,19 @@ namespace NUnit.ConsoleRunner
 						if ( progress )
 							Console.Write("F");
 						
-						if ( debugger )
-						{
-							messages.Add( string.Format( "{0}) {1} :", failureCount, testResult.Test.FullName ) );
-							messages.Add( testResult.Message.Trim( Environment.NewLine.ToCharArray() ) );
+						messages.Add( string.Format( "{0}) {1} :", failureCount, testResult.Test.FullName ) );
+						messages.Add( testResult.Message.Trim( Environment.NewLine.ToCharArray() ) );
 
-							string stackTrace = StackTraceFilter.Filter( testResult.StackTrace );
-							if ( stackTrace != null && stackTrace != string.Empty )
+						string stackTrace = StackTraceFilter.Filter( testResult.StackTrace );
+						if ( stackTrace != null && stackTrace != string.Empty )
+						{
+							string[] trace = stackTrace.Split( System.Environment.NewLine.ToCharArray() );
+							foreach( string s in trace )
 							{
-								string[] trace = stackTrace.Split( System.Environment.NewLine.ToCharArray() );
-								foreach( string s in trace )
+								if ( s != string.Empty )
 								{
-									if ( s != string.Empty )
-									{
-										string link = Regex.Replace( s.Trim(), @".* in (.*):line (.*)", "$1($2)");
-										messages.Add( string.Format( "at\n{0}", link ) );
-									}
+									string link = Regex.Replace( s.Trim(), @".* in (.*):line (.*)", "$1($2)");
+									messages.Add( string.Format( "at\n{0}", link ) );
 								}
 							}
 						}
@@ -425,7 +420,7 @@ namespace NUnit.ConsoleRunner
 
 			public void SuiteStarted(TestInfo suite) 
 			{
-				if ( debugger && level++ == 0 )
+				if ( level++ == 0 )
 				{
 					messages = new StringCollection();
 					testRunCount = 0;
@@ -438,7 +433,7 @@ namespace NUnit.ConsoleRunner
 
 			public void SuiteFinished(TestSuiteResult suiteResult) 
 			{
-				if ( debugger && --level == 0) 
+				if ( --level == 0) 
 				{
 					Trace.WriteLine( "############################################################################" );
 
@@ -484,11 +479,8 @@ namespace NUnit.ConsoleRunner
                 //outWriter.WriteLine(msg);
                 //outWriter.WriteLine(exception.ToString());
 
-                if (debugger)
-                {
-                    Trace.WriteLine(msg);
-                    Trace.WriteLine(exception.ToString());
-                }
+                Trace.WriteLine(msg);
+                Trace.WriteLine(exception.ToString());
 			}
 
 			public void TestOutput( TestOutput output)
