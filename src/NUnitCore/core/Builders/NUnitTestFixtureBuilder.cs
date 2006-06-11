@@ -170,41 +170,22 @@ namespace NUnit.Core.Builders
                 return false;
             }
 
-            if (!CheckSetUpTearDownMethod(fixtureType, "NUnit.Framework.SetUpAttribute"))
-            {
-                reason = "Invalid SetUp method signature";
-                return false;
-            }
-
-            if (!CheckSetUpTearDownMethod(fixtureType, "NUnit.Framework.TearDownAttribute"))
-            {
-                reason = "Invalid TearDown method signature";
-                return false;
-            }
-
-            if (!CheckSetUpTearDownMethod(fixtureType, "NUnit.Framework.TestFixtureSetUpAttribute"))
-            {
-                reason = "Invalid TestFixtureSetUp method signature";
-                return false;
-            }
-
-            if (!CheckSetUpTearDownMethod(fixtureType, "NUnit.Framework.TestFixtureTearDownAttribute"))
-            {
-                reason = "Invalid TestFixtureTearDown method signature";
-                return false;
-            }
-
-            return true;
+            return CheckSetUpTearDownMethod(fixtureType, "SetUp", ref reason)
+                && CheckSetUpTearDownMethod(fixtureType, "TearDown", ref reason)
+                && CheckSetUpTearDownMethod(fixtureType, "TestFixtureSetUp", ref reason)
+                && CheckSetUpTearDownMethod(fixtureType, "TestFixtureTearDown", ref reason);
         }
 
         /// <summary>
         /// Internal helper to check a single setup or teardown method
         /// </summary>
         /// <param name="fixtureType">The type to be checked</param>
-        /// <param name="attributeName">The attribute name to be checked</param>
+        /// <param name="attributeName">The short name of the attribute to be checked</param>
         /// <returns>True if the method is present no more than once and has a valid signature</returns>
-        private bool CheckSetUpTearDownMethod(Type fixtureType, string attributeName)
+        private bool CheckSetUpTearDownMethod(Type fixtureType, string name, ref string reason)
         {
+            string attributeName = string.Format( "NUnit.Framework.{0}Attribute", name );
+
             int count = Reflect.CountMethodsWithAttribute(
                 fixtureType, attributeName,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly,
@@ -212,7 +193,11 @@ namespace NUnit.Core.Builders
 
             if (count == 0) return true;
 
-            if (count > 1) return false;
+            if (count > 1)
+            {
+                reason = string.Format("More than one {0} method", name);
+                return false;
+            }
 
             MethodInfo theMethod = Reflect.GetMethodWithAttribute(
                 fixtureType, attributeName,
@@ -227,6 +212,7 @@ namespace NUnit.Core.Builders
                     theMethod.GetParameters().Length != 0 ||
                     !theMethod.ReturnType.Equals(typeof(void)))
                 {
+                    reason = string.Format("Invalid {0} method signature", name);
                     return false;
                 }
             }
