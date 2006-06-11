@@ -577,9 +577,19 @@ namespace NUnit.UiKit
 		#endregion
 
 
+		public void RunAllTests()
+		{
+			tests.RunAllTests();
+		}
+
 		public void RunTests()
 		{
 			tests.RunTests();
+		}
+
+		public void RunFailedTests()
+		{
+			tests.RunFailedTests();
 		}
 
 		private void addCategory_Click(object sender, System.EventArgs e)

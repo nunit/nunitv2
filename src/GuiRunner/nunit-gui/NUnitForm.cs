@@ -151,6 +151,12 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem increaseFontMenuItem;
 		private System.Windows.Forms.MenuItem addinInfoMenuItem;
 		private System.Windows.Forms.CheckBox enableWordWrapCheckBox;
+		private System.Windows.Forms.MenuItem testMenu;
+		private System.Windows.Forms.MenuItem runAllMenuItem;
+		private System.Windows.Forms.MenuItem runSelectedMenuItem;
+		private System.Windows.Forms.MenuItem runFailedMenuItem;
+		private System.Windows.Forms.MenuItem menuItem1;
+		private System.Windows.Forms.MenuItem stopRunMenuItem;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -288,6 +294,12 @@ namespace NUnit.Gui
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.testTree = new NUnit.UiKit.TestTree();
 			this.leftPanel = new System.Windows.Forms.Panel();
+			this.testMenu = new System.Windows.Forms.MenuItem();
+			this.runAllMenuItem = new System.Windows.Forms.MenuItem();
+			this.runSelectedMenuItem = new System.Windows.Forms.MenuItem();
+			this.runFailedMenuItem = new System.Windows.Forms.MenuItem();
+			this.menuItem1 = new System.Windows.Forms.MenuItem();
+			this.stopRunMenuItem = new System.Windows.Forms.MenuItem();
 			this.rightPanel.SuspendLayout();
 			this.resultTabs.SuspendLayout();
 			this.errorPage.SuspendLayout();
@@ -325,6 +337,7 @@ namespace NUnit.Gui
 																					 this.fileMenu,
 																					 this.viewMenu,
 																					 this.projectMenu,
+																					 this.testMenu,
 																					 this.toolsMenu,
 																					 this.helpItem});
 			this.mainMenu.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("mainMenu.RightToLeft")));
@@ -756,7 +769,7 @@ namespace NUnit.Gui
 			// toolsMenu
 			// 
 			this.toolsMenu.Enabled = ((bool)(resources.GetObject("toolsMenu.Enabled")));
-			this.toolsMenu.Index = 3;
+			this.toolsMenu.Index = 4;
 			this.toolsMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					  this.saveXmlResultsMenuItem,
 																					  this.exceptionDetailsMenuItem,
@@ -842,7 +855,7 @@ namespace NUnit.Gui
 			// helpItem
 			// 
 			this.helpItem.Enabled = ((bool)(resources.GetObject("helpItem.Enabled")));
-			this.helpItem.Index = 4;
+			this.helpItem.Index = 5;
 			this.helpItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					 this.helpMenuItem,
 																					 this.helpMenuSeparator1,
@@ -1397,7 +1410,7 @@ namespace NUnit.Gui
 			this.testTree.Enabled = ((bool)(resources.GetObject("testTree.Enabled")));
 			this.testTree.Font = ((System.Drawing.Font)(resources.GetObject("testTree.Font")));
 			this.testTree.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("testTree.ImeMode")));
-//			this.testTree.InitialDisplay = NUnit.UiKit.TestSuiteTreeView.DisplayStyle.Auto;
+			this.testTree.InitialDisplay = NUnit.UiKit.TestSuiteTreeView.DisplayStyle.Auto;
 			this.testTree.Location = ((System.Drawing.Point)(resources.GetObject("testTree.Location")));
 			this.testTree.Name = "testTree";
 			this.testTree.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("testTree.RightToLeft")));
@@ -1431,6 +1444,70 @@ namespace NUnit.Gui
 			this.leftPanel.Text = resources.GetString("leftPanel.Text");
 			this.toolTip.SetToolTip(this.leftPanel, resources.GetString("leftPanel.ToolTip"));
 			this.leftPanel.Visible = ((bool)(resources.GetObject("leftPanel.Visible")));
+			// 
+			// testMenu
+			// 
+			this.testMenu.Enabled = ((bool)(resources.GetObject("testMenu.Enabled")));
+			this.testMenu.Index = 3;
+			this.testMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					 this.runAllMenuItem,
+																					 this.runSelectedMenuItem,
+																					 this.runFailedMenuItem,
+																					 this.menuItem1,
+																					 this.stopRunMenuItem});
+			this.testMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("testMenu.Shortcut")));
+			this.testMenu.ShowShortcut = ((bool)(resources.GetObject("testMenu.ShowShortcut")));
+			this.testMenu.Text = resources.GetString("testMenu.Text");
+			this.testMenu.Visible = ((bool)(resources.GetObject("testMenu.Visible")));
+			// 
+			// runAllMenuItem
+			// 
+			this.runAllMenuItem.Enabled = ((bool)(resources.GetObject("runAllMenuItem.Enabled")));
+			this.runAllMenuItem.Index = 0;
+			this.runAllMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("runAllMenuItem.Shortcut")));
+			this.runAllMenuItem.ShowShortcut = ((bool)(resources.GetObject("runAllMenuItem.ShowShortcut")));
+			this.runAllMenuItem.Text = resources.GetString("runAllMenuItem.Text");
+			this.runAllMenuItem.Visible = ((bool)(resources.GetObject("runAllMenuItem.Visible")));
+			this.runAllMenuItem.Click += new System.EventHandler(this.runAllMenuItem_Click);
+			// 
+			// runSelectedMenuItem
+			// 
+			this.runSelectedMenuItem.Enabled = ((bool)(resources.GetObject("runSelectedMenuItem.Enabled")));
+			this.runSelectedMenuItem.Index = 1;
+			this.runSelectedMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("runSelectedMenuItem.Shortcut")));
+			this.runSelectedMenuItem.ShowShortcut = ((bool)(resources.GetObject("runSelectedMenuItem.ShowShortcut")));
+			this.runSelectedMenuItem.Text = resources.GetString("runSelectedMenuItem.Text");
+			this.runSelectedMenuItem.Visible = ((bool)(resources.GetObject("runSelectedMenuItem.Visible")));
+			this.runSelectedMenuItem.Click += new System.EventHandler(this.runSelectedMenuItem_Click);
+			// 
+			// runFailedMenuItem
+			// 
+			this.runFailedMenuItem.Enabled = ((bool)(resources.GetObject("runFailedMenuItem.Enabled")));
+			this.runFailedMenuItem.Index = 2;
+			this.runFailedMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("runFailedMenuItem.Shortcut")));
+			this.runFailedMenuItem.ShowShortcut = ((bool)(resources.GetObject("runFailedMenuItem.ShowShortcut")));
+			this.runFailedMenuItem.Text = resources.GetString("runFailedMenuItem.Text");
+			this.runFailedMenuItem.Visible = ((bool)(resources.GetObject("runFailedMenuItem.Visible")));
+			this.runFailedMenuItem.Click += new System.EventHandler(this.runFailedMenuItem_Click);
+			// 
+			// menuItem1
+			// 
+			this.menuItem1.Enabled = ((bool)(resources.GetObject("menuItem1.Enabled")));
+			this.menuItem1.Index = 3;
+			this.menuItem1.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem1.Shortcut")));
+			this.menuItem1.ShowShortcut = ((bool)(resources.GetObject("menuItem1.ShowShortcut")));
+			this.menuItem1.Text = resources.GetString("menuItem1.Text");
+			this.menuItem1.Visible = ((bool)(resources.GetObject("menuItem1.Visible")));
+			// 
+			// stopRunMenuItem
+			// 
+			this.stopRunMenuItem.Enabled = ((bool)(resources.GetObject("stopRunMenuItem.Enabled")));
+			this.stopRunMenuItem.Index = 4;
+			this.stopRunMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("stopRunMenuItem.Shortcut")));
+			this.stopRunMenuItem.ShowShortcut = ((bool)(resources.GetObject("stopRunMenuItem.ShowShortcut")));
+			this.stopRunMenuItem.Text = resources.GetString("stopRunMenuItem.Text");
+			this.stopRunMenuItem.Visible = ((bool)(resources.GetObject("stopRunMenuItem.Visible")));
+			this.stopRunMenuItem.Click += new System.EventHandler(this.stopRunMenuItem_Click);
 			// 
 			// NUnitForm
 			// 
@@ -1931,8 +2008,8 @@ namespace NUnit.Gui
 			stdErrTab.Enabled = true;
 			stdOutTab.Enabled = true;
 
-			runButton.Enabled = false;
-			stopButton.Enabled = false;
+			EnableRunCommand( false );
+			EnableStopCommand( false );
 
 			//outWriter = new TextBoxWriter( stdOutTab );
 			//errWriter = new TextBoxWriter( stdErrTab );
@@ -2135,7 +2212,12 @@ namespace NUnit.Gui
 		/// </summary>
 		private void stopButton_Click(object sender, System.EventArgs e)
 		{
-			stopButton.Enabled = false;
+			CancelRun();
+		}
+
+		private void CancelRun()
+		{
+			EnableStopCommand( false );
 
 			if ( IsTestRunning )
 			{
@@ -2143,7 +2225,7 @@ namespace NUnit.Gui
 					"Do you want to cancel the running test?" );
 
 				if ( dialogResult == DialogResult.No )
-					stopButton.Enabled = true;
+					EnableStopCommand( true );
 				else
 					TestLoader.CancelTestRun();
 			}
@@ -2182,17 +2264,17 @@ namespace NUnit.Gui
 
 		private void OnTestLoadStarting( object sender, TestEventArgs e )
 		{
-			runButton.Enabled = false;
+			EnableRunCommand( false );
 		}
 
 		private void OnTestUnloadStarting( object sender, TestEventArgs e )
 		{
-			runButton.Enabled = false;
+			EnableRunCommand( false );
 		}
 
 		private void OnReloadStarting( object sender, TestEventArgs e )
 		{
-			runButton.Enabled = false;
+			EnableRunCommand( false );
 		}
 
 		/// <summary>
@@ -2201,7 +2283,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void OnTestLoaded( object sender, TestEventArgs e )
 		{
-			runButton.Enabled = true;
+			EnableRunCommand( true );
 			ClearTabs();
 			
 			if ( TestLoader.TestCount == 0 && TestLoader.TestFrameworks.Count == 0 )
@@ -2215,7 +2297,7 @@ namespace NUnit.Gui
 		private void OnTestUnloaded( object sender, TestEventArgs e )
 		{
 			suiteName.Text = null;
-			runButton.Enabled = false;
+			EnableRunCommand( false );
 
 			ClearTabs();
 		}
@@ -2230,7 +2312,7 @@ namespace NUnit.Gui
 			if ( UserSettings.Options.ClearResults )
 				ClearTabs();
 
-			runButton.Enabled = true;
+			EnableRunCommand( true );
 		}
 
 		private void OnProjectLoadFailure( object sender, TestEventArgs e )
@@ -2239,7 +2321,7 @@ namespace NUnit.Gui
 
 			UserSettings.RecentProjects.Remove( e.Name );
 
-			runButton.Enabled = true;
+			EnableRunCommand( true );
 		}
 
 		/// <summary>
@@ -2260,7 +2342,7 @@ the version under which NUnit is currently running, {0}.",
 			if ( !IsTestLoaded )
 				OnTestUnloaded( sender, e );
 			else
-				runButton.Enabled = true;
+				EnableRunCommand( true );
 		}
 
 		#endregion
@@ -2278,8 +2360,8 @@ the version under which NUnit is currently running, {0}.",
 		private void OnRunStarting( object sender, TestEventArgs e )
 		{
 			suiteName.Text = e.Name;
-			runButton.Enabled = false;
-			stopButton.Enabled = true;
+			EnableRunCommand( false );
+			EnableStopCommand( true );
 
 			ClearTabs();
 		}
@@ -2295,8 +2377,8 @@ the version under which NUnit is currently running, {0}.",
 
 		private void OnRunFinished( object sender, TestEventArgs e )
 		{
-			stopButton.Enabled = false;
-			runButton.Enabled = false;
+			EnableStopCommand( false );
+			EnableRunCommand( false );
 
 			if ( e.Exception != null )
 			{
@@ -2304,7 +2386,7 @@ the version under which NUnit is currently running, {0}.",
 					UserMessage.DisplayFailure( e.Exception, "NUnit Test Run Failed" );
 			}
 
-			runButton.Enabled = true;
+			EnableRunCommand( true );
 		}
 
 		private void OnTestStarting(object sender, TestEventArgs args)
@@ -2573,6 +2655,42 @@ the version under which NUnit is currently running, {0}.",
 		}
 
 		#endregion
+
+		private void runAllMenuItem_Click(object sender, System.EventArgs e)
+		{
+			this.testTree.RunAllTests();
+		}
+
+		private void runSelectedMenuItem_Click(object sender, System.EventArgs e)
+		{
+			this.testTree.RunTests();
+		
+		}
+
+		private void runFailedMenuItem_Click(object sender, System.EventArgs e)
+		{
+			this.testTree.RunFailedTests();
+		
+		}
+
+		private void EnableRunCommand( bool enable )
+		{
+			runButton.Enabled = enable;
+			runAllMenuItem.Enabled = enable;
+			runSelectedMenuItem.Enabled = enable;
+			runFailedMenuItem.Enabled = enable;
+		}
+
+		private void EnableStopCommand( bool enable )
+		{
+			stopButton.Enabled = enable;
+			stopRunMenuItem.Enabled = enable;
+		}
+
+		private void stopRunMenuItem_Click(object sender, System.EventArgs e)
+		{
+			CancelRun();
+		}
 	}
 }
 

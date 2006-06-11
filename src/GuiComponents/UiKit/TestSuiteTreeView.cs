@@ -766,9 +766,21 @@ namespace NUnit.UiKit
 			Nodes.Clear();
 		}
 
+		public void RunAllTests()
+		{
+			loader.RunTests();
+		}
+
 		public void RunTests()
 		{
 			loader.RunTests( MakeFilter( SelectedTests ) );			
+		}
+
+		public void RunFailedTests()
+		{
+			FailedTestsFilterVisitor visitor = new FailedTestsFilterVisitor();
+			Accept( visitor );
+			loader.RunTests( visitor.Filter );
 		}
 
 		protected override void OnAfterCollapse(TreeViewEventArgs e)
@@ -1237,6 +1249,24 @@ namespace NUnit.UiKit
 			else
 				node.Checked = false;
 		
+		}
+	}
+
+	internal class FailedTestsFilterVisitor : TestSuiteTreeNodeVisitor
+	{
+		NUnit.Core.Filters.NameFilter filter = new NameFilter();
+
+		public TestFilter Filter
+		{
+			get { return filter; }
+		}
+
+		public override void Visit(TestSuiteTreeNode node)
+		{
+			if (node.Test.IsTestCase && node.Result != null && node.Result.IsFailure)
+			{
+				filter.Add(node.Test.TestName);
+			}
 		}
 	}
 
