@@ -49,7 +49,7 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit version for packaging -->
-  <property name="package.version" value="2.3.6142"/>
+  <property name="package.version" value="2.3.6162"/>
 
   <!-- Names of NUnit executables -->
   <property name="nunit.gui.name" value="nunit.exe"/>

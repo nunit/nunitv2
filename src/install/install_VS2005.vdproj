@@ -292,12 +292,6 @@
         "Entry"
         {
         "MsmKey" = "8:_1B7E59D78A8B109077B013990F7ADA5B"
-        "OwnerKey" = "8:_7A73661FF0885CBDA8BB381D4F18C66B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_1B7E59D78A8B109077B013990F7ADA5B"
         "OwnerKey" = "8:_79C4BED9BCF94BA9B91A34EBB7B75199"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -365,6 +359,12 @@
         {
         "MsmKey" = "8:_1B7E59D78A8B109077B013990F7ADA5B"
         "OwnerKey" = "8:_42F9094CED0740298E94A9ECB97C95D2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1B7E59D78A8B109077B013990F7ADA5B"
+        "OwnerKey" = "8:_7A73661FF0885CBDA8BB381D4F18C66B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -466,12 +466,6 @@
         "Entry"
         {
         "MsmKey" = "8:_23C122FF2141301929EA1704287769F7"
-        "OwnerKey" = "8:_7A73661FF0885CBDA8BB381D4F18C66B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_23C122FF2141301929EA1704287769F7"
         "OwnerKey" = "8:_79C4BED9BCF94BA9B91A34EBB7B75199"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -515,6 +509,12 @@
         {
         "MsmKey" = "8:_23C122FF2141301929EA1704287769F7"
         "OwnerKey" = "8:_42F9094CED0740298E94A9ECB97C95D2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_23C122FF2141301929EA1704287769F7"
+        "OwnerKey" = "8:_7A73661FF0885CBDA8BB381D4F18C66B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -880,13 +880,19 @@
         "Entry"
         {
         "MsmKey" = "8:_7A73661FF0885CBDA8BB381D4F18C66B"
-        "OwnerKey" = "8:_79C4BED9BCF94BA9B91A34EBB7B75199"
+        "OwnerKey" = "8:_38F10B2DF0D746D1BF4E0745269D1847"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_7A73661FF0885CBDA8BB381D4F18C66B"
         "OwnerKey" = "8:_DCC2841AEDF94A20A9008A84478C2E64"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7A73661FF0885CBDA8BB381D4F18C66B"
+        "OwnerKey" = "8:_79C4BED9BCF94BA9B91A34EBB7B75199"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1606,12 +1612,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7A73661FF0885CBDA8BB381D4F18C66B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_60BCD3C7AF9D43EE8EC459108539D1A4"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1726,6 +1726,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7A73661FF0885CBDA8BB381D4F18C66B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_128C433A0D2FD238678F1E45C778DC47"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -1767,7 +1773,7 @@
         "DisplayName" = "8:Debug2005"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug2005\\NUnit-2.3.6142-net-2.0-dbg.msi"
+        "OutputFilename" = "8:Debug2005\\NUnit-2.3.6162-net-2.0-dbg.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -1794,7 +1800,7 @@
         "DisplayName" = "8:Release2005"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Release2005\\NUnit-2.3.6142-net-2.0.msi"
+        "OutputFilename" = "8:Release2005\\NUnit-2.3.6162-net-2.0.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -1909,7 +1915,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.mocks, Version=2.3.6142.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit.mocks, Version=2.3.6162.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_02A33713B8CA447A40A4EB97398D31FA"
@@ -2140,7 +2146,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nonamespace-assembly, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nonamespace-assembly, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_1142BD9ADD90E8A84AF95064E94EDCCC"
@@ -2171,7 +2177,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:test-assembly, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:test-assembly, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_127472A64ACA243939CC42CF3CA7DDE4"
@@ -2202,7 +2208,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit-console-runner, Version=2.3.6142.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit-console-runner, Version=2.3.6162.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_128C433A0D2FD238678F1E45C778DC47"
@@ -2233,7 +2239,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.framework, Version=2.3.6142.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit.framework, Version=2.3.6162.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_17664755C19F7A64F9F46E75F888CA77"
@@ -2264,7 +2270,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.core, Version=2.3.6142.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit.core, Version=2.3.6162.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_1B7E59D78A8B109077B013990F7ADA5B"
@@ -2435,7 +2441,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.common, Version=2.3.6142.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit.common, Version=2.3.6162.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_23C122FF2141301929EA1704287769F7"
@@ -2466,7 +2472,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:mock-assembly, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:mock-assembly, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_24A25B0B1232919F5950BD6DF8900FCA"
@@ -2937,7 +2943,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:mock-assembly, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:mock-assembly, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_54030E081F7184B23416848D06867395"
@@ -3128,7 +3134,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit-gui-runner, Version=2.3.6142.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit-gui-runner, Version=2.3.6162.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_6337A011DA9647719A0ED0D458ABDC23"
@@ -3279,7 +3285,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit-test-server, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit-test-server, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_6E93B8001F1FDF8E94B1A71987C8FC03"
@@ -3350,7 +3356,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.testutilities, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit.testutilities, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_7A057F190FFB43A40DF378A3E582027C"
@@ -3381,7 +3387,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.core.extensions, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit.core.extensions, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_7A73661FF0885CBDA8BB381D4F18C66B"
@@ -3732,7 +3738,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit-server, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit-server, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_99CFF880FDB83533A86E4FA8A1DC4404"
@@ -3863,7 +3869,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nonamespace-assembly, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nonamespace-assembly, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_A12C4D05AC7330B472FE6501AAE40A8E"
@@ -3974,7 +3980,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.uikit, Version=2.3.6142.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit.uikit, Version=2.3.6162.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_ADC0B4F93E9B4B1D5D876F828BC95C29"
@@ -4165,7 +4171,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:test-assembly, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:test-assembly, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_B826C608A6D58C293F66C29EE7EA7660"
@@ -4376,7 +4382,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.framework.extensions, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit.framework.extensions, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_C543C33930F72D53B36BDD911E486AE2"
@@ -4427,7 +4433,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.core.tests, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit.core.tests, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_CC6CE0D2A7F46F62CDFE67A6D93A9D46"
@@ -4498,7 +4504,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.util, Version=2.3.6142.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit.util, Version=2.3.6162.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_D3433A56AC612F17E72FB6D26BF91C22"
@@ -4609,7 +4615,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.testutilities, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit.testutilities, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_D7B9F03CCE6C2D5D14D05081422B566E"
@@ -4740,7 +4746,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:notestfixtures-assembly, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:notestfixtures-assembly, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_E18795F0ED2DAB7AB1523FED9BE8891F"
@@ -4831,7 +4837,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:nunit.framework.extensions, Version=2.3.6142.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:nunit.framework.extensions, Version=2.3.6162.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_ECFBF676CC2AA3BB66E5522817390480"
@@ -5484,7 +5490,7 @@
                 {
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_EBC90882CB524E73B3F1F22403F2E49A"
                     {
-                    "Name" = "8:NUnit 2.4 (Alpha) for .Net 2.0"
+                    "Name" = "8:NUnit 2.4 for .Net 2.0"
                     "AlwaysCreate" = "11:FALSE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
@@ -5520,23 +5526,23 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:NUnit 2.4 (Alpha) for .Net 2.0"
-        "ProductCode" = "8:{4A46495A-C0A6-4AAA-A92C-11C9246DB729}"
-        "PackageCode" = "8:{93078243-86F2-433D-8F5C-534AD4EA4EFA}"
+        "ProductName" = "8:NUnit 2.4 (Beta 1) for .Net 2.0"
+        "ProductCode" = "8:{9660018B-2873-44BD-95E5-A06AC4F7FE62}"
+        "PackageCode" = "8:{D2D8D83C-6D6D-4D6D-9AE6-F6612834BEED}"
         "UpgradeCode" = "8:{1E24D4BA-F403-4C42-9D9F-F55CEBC228F9}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.3.6142"
+        "ProductVersion" = "8:2.3.6162"
         "Manufacturer" = "8:nunit.org"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.nunit.org"
-        "Title" = "8:NUnit 2.4 (Alpha) for .Net 2.0"
+        "Title" = "8:NUnit 2.4 (Beta 1) for .Net 2.0"
         "Subject" = "8:"
         "ARPCONTACT" = "8:James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:NUnit 2.4 (Alpha) for .Net 2.0"
+        "ARPCOMMENTS" = "8:NUnit 2.4 (Beta 1) for .Net 2.0"
         "ARPURLINFOABOUT" = "8:www.nunit.org"
         "ARPPRODUCTICON" = "8:_DCC2841AEDF94A20A9008A84478C2E64"
         "ARPIconIndex" = "3:32512"
@@ -5813,7 +5819,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_910BC241F9494A3A8A10AACED6A74ABC"
             {
-            "Name" = "8:NUnit 2.4 (Alpha) for Net 2.0"
+            "Name" = "8:NUnit 2.4 for Net 2.0"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -5855,7 +5861,7 @@
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E7FFE6EB02144C6BB905AAB78648EFC1"
             {
-            "Name" = "8:NUnit 2.4 (Alpha) for .Net 2.0"
+            "Name" = "8:NUnit 2.4 for .Net 2.0"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
