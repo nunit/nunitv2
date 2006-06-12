@@ -43,7 +43,7 @@ ul.across li { float: left; display: block; width: 9em }
 
 /* Main Content */
 #content { margin: 3em 25% 0 0; padding: 0 5% 1em 5%; }
-#content.wide { margin: 3em 0 0 0; padding: 0 5% 1em 5%; }
+#content.wide { margin: 3em 5% 0 5%; padding: 0 5% 1em 5%; }
 #content p { padding: 0; margin: 0 0 1em 0; 660px; }
 #content blockquote { max-width: 580px }
 #content div.screenshot { text-align: center; margin: 1em 0; }
@@ -52,7 +52,8 @@ ul.across li { float: left; display: block; width: 9em }
               
 /* Page Footer */
 #footer { text-align: center; font-size: .8em; color: #444; clear: both;
-          border-top: 2px solid #999; margin: 0 30% 10px 5%; padding: 5px 0 0 0; }          
+          border-top: 2px solid #999; margin: 0 30% 10px 5%; padding: 5px 0 0 0;
+          page-break-after: always }          
 #sig { text-align: right; font-size: .8em; width: 95%; display: none }
           
 

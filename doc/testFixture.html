@@ -54,15 +54,22 @@
 	setup or teardown methods.</p>
 <p>There are a few restrictions on a class that is used as a test fixture.
 	<ul>
-		<li>
-			It must be a publicly exported type or NUnit will not see it.</li>
-		<li>
-			It must have a default constructor or NUnit will not be able to construct it.</li>
-		<li>
-			The constructor should not have any side effects, since NUnit may construct the 
-			class multiple times in the course of a session.</li>
+		<li>It must be a publicly exported type.</li>
+		<li>It must have not be abstract.</li>
+		<li>It must have a default constructor</li>
+		<li>It must have no more than one of each of the following method
+		    types: SetUp, TearDown, TestFixtureSetUp and TestFixtureTearDown.</li>
 	</ul>
 </p>
+
+<p>If any of these restrictions are violated, the class will be shown as a
+   non-runnable test fixture, and will turn yellow in the Gui if you attempt to run it.</p>
+
+<p>In addition, it is advisable that the constructor not have any side effects, 
+   since NUnit may construct the object multiple times in the course of a session.</li>
+
+
+<p>If you mark a class as a test fixture
 
 <h4>Example:</h4>
 
@@ -142,7 +149,7 @@ public class SuccessTests
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4 Alpha Release</a></li>
+<li><a href="index.html">NUnit 2.4 Beta 1 Release</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>

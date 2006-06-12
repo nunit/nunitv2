@@ -32,7 +32,43 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
-<h3>NUnit 2.4 Alpha Release (2.3.6140) - May 20, 2006</h3>
+<h3>NUnit 2.4 Beta 1 Release (2.3.6162) - June 11, 2006</h3>
+
+<h4>General</h4>
+<ul>
+<li>Additional NUnit tests now pass under Linux. Those that do not have
+    been excluded using the Platform attribute.
+
+</ul>
+<h4>Framework</h4>
+<ul>
+<li>Added a Reason property to ExplicitAttribute, for use in explaining why a test is marked Explicit.
+
+<li>Multiple SetUp or TearDown methods now give a more meaningful error message.
+</ul>
+
+<h4>Console</h4>
+<ul>
+<li>The console now outputs test failures to Trace all the time, not just
+    when running under the debugger. You will see clickable trace output in 
+	Visual Studio even if you use the Start Without Debugging menu item.
+</ul>
+
+<h4>Gui</h4>
+<ul>
+<li>Added Test Menu with entries for running the selected test, all tests or failed tests.
+
+<li>Instead of displaying a dialog box, unhandled exceptions now display in the 
+	Errors &amp; Failures tab, with an indication of the test that was running 
+	when the exception was thrown. The test itself is not shown as a failure,
+	(unless it failed for some other reason, since it may not have caused the
+	exception. The progress bar turns red if any unhandled exceptions are thrown.
+	
+<li>The GUI no longer crashes when reloading assemblies with added or deleted
+    tests.
+</ul>
+
+<h3>NUnit 2.4 Alpha Release (2.3.6142) - May 22, 2006</h3>
 
 <h4>General</h4>
 <ul>
@@ -284,7 +320,7 @@ Cumulative notes through NUnit 2.2 are available <a href="docs/2.2.8/releaseNote
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4 Alpha Release</a></li>
+<li><a href="index.html">NUnit 2.4 Beta 1 Release</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
