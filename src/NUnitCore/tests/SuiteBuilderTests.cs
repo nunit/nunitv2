@@ -35,12 +35,10 @@ using NUnit.TestData.SuiteBuilderTests;
 
 namespace NUnit.Core.Tests
 {
-	/// <summary>
-	/// Summary description for SuiteBuilderTests.
-	/// </summary>
-	/// 
+	// HACK: Start with "_" to ensure fixture is first in suite
+	// for LoadAssemblyWithoutNamespaces test.
 	[TestFixture]
-	public class SuiteBuilderTests
+	public class _SuiteBuilderTests
 	{
 		private string testsDll = "nunit.core.tests.dll";
 		private string testData = "test-assembly.dll";
@@ -74,13 +72,13 @@ namespace NUnit.Core.Tests
 			builder.AutoNamespaceSuites = false;
 			TestSuite suite = builder.Build(testsDll);
 			Assert.IsNotNull(suite, "Unable to build suite" );
-			Assert.AreEqual( "AssemblyTests", ((ITest)suite.Tests[0]).Name );
+			Assert.AreEqual("_SuiteBuilderTests", ((ITest)suite.Tests[0]).Name);
 		}
 
 		[Test]
 		public void LoadFixture()
 		{
-			TestSuite suite = builder.Build( testsDll, "NUnit.Core.Tests.SuiteBuilderTests" );
+			TestSuite suite = builder.Build(testsDll, "NUnit.Core.Tests._SuiteBuilderTests");
 			Assert.IsNotNull(suite, "Unable to build suite");
 		}
 
