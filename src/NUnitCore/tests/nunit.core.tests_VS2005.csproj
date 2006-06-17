@@ -41,6 +41,7 @@
     <BaseAddress>285212672</BaseAddress>
     <DebugType>full</DebugType>
     <NoWarn>1699</NoWarn>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
@@ -103,6 +104,7 @@
     <Compile Include="AllTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AssemblyResolverTests.cs" />
     <Compile Include="AssemblyTests.cs">
       <SubType>Code</SubType>
     </Compile>

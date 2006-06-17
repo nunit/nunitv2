@@ -37,9 +37,7 @@ namespace NUnit.Core
 
 	/// <summary>
 	/// Class adapted from NUnitAddin for use in handling assemblies that are not
-    /// found in the test AppDomain. We only use certain features of the class,
-    /// so it is not completely covered by our tests. Methods that we do not
-    /// used have been changed to protected for that reason.
+    /// found in the test AppDomain.
 	/// </summary>
     public class AssemblyResolver : MarshalByRefObject, IDisposable
 	{
@@ -66,8 +64,6 @@ namespace NUnit.Core
 			}
 		}
 
-		private IList _directories = new ArrayList();
-
 		private IList _files = new ArrayList();
 
 		private AssemblyCache _cache = new AssemblyCache();
@@ -82,30 +78,10 @@ namespace NUnit.Core
 			AppDomain.CurrentDomain.AssemblyResolve -= new ResolveEventHandler(CurrentDomain_AssemblyResolve);
 		}
 
-        // Changed from public - Not directly called by NUnit
-		protected void AddDirectory(string directory)
-		{
-			_directories.Add(directory);
-		}
-
 		public void AddFile( string file )
 		{
-			AddFile( file, false );
-		}
-
-        // Changed from public - Not directly called by NUnit
-		protected void AddFile( string file, bool ignoreVersion )
-		{
-			if ( ignoreVersion )	// Go straight to cache
-			{
-                AssemblyName assemblyName = new AssemblyName();
-                assemblyName.CodeBase = file;
-                Assembly assembly = Assembly.Load(assemblyName);
-				//Assembly assembly = Assembly.LoadFrom( file );
-				_cache.Add( assembly.GetName().Name, assembly );
-			}
-			else	// Wait till a version is requested
-				_files.Add( file );
+			Assembly assembly = Assembly.LoadFrom( file );
+			_cache.Add(assembly.GetName().FullName, assembly);
 		}
 
 		private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
@@ -117,67 +93,13 @@ namespace NUnit.Core
 				return null;
 			}
 
-			string name = fullName.Substring(0, index);
-			if ( _cache.Contains( name ) )
+			if ( _cache.Contains( fullName ) )
 			{
 				Trace.WriteLine( string.Format( "Resolved from Cache: {0}", fullName ), 
 					"'AssemblyResolver'" );
-				return _cache.Resolve( name );
+				return _cache.Resolve(fullName);
 			}
 
-			foreach(string file in _files)
-			{
-				try
-				{
-					if(File.Exists(file))
-					{
-						AssemblyName assemblyName = AssemblyName.GetAssemblyName(file);
-						if(fullName.ToLower() == assemblyName.FullName.ToLower())
-						{
-							Trace.WriteLine( string.Format( "Resolved {0}", fullName ), 
-								"'AssemblyResolver'" );
-							Trace.WriteLine( string.Format( "      as {0}", file ), 
-								"'AssemblyResolver'" );
-//							AssemblyName assemblyName = new AssemblyName();
-							assemblyName.CodeBase = file;
-							Assembly assembly = Assembly.Load( assemblyName );
-							//Assembly assembly = Assembly.LoadFrom( file );
-							_cache.Add( name, assembly );
-							return assembly;
-						}
-					}
-				}
-				catch(Exception e)
-				{
-					Debug.WriteLine(e);
-				}
-			}
-
-			foreach(string directory in _directories)
-			{
-				try
-				{
-					string file = Path.Combine(directory, name + ".dll");
-					if(File.Exists(file))
-					{
-						AssemblyName assemblyName = AssemblyName.GetAssemblyName(file);
-						if(fullName.ToLower() == assemblyName.FullName.ToLower())
-						{
-							Trace.WriteLine( string.Format( "Resolved {0}", fullName ), 
-								"'AssemblyResolver'" );
-							Trace.WriteLine( string.Format( "      as {0}", file ), 
-								"'AssemblyResolver'" );
-							Assembly assembly = Assembly.LoadFrom( file );
-							_cache.Add( name, assembly );
-							return assembly;
-						}
-					}
-				}
-				catch(Exception e)
-				{
-					Debug.WriteLine(e);
-				}
-			}
 			return null;
 		}
 	}
