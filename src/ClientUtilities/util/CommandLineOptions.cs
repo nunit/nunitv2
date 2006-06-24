@@ -266,6 +266,7 @@ namespace Codeblast
 
 			Type t = this.GetType();
 			FieldInfo[] fields = t.GetFields(BindingFlags.Instance|BindingFlags.Public);
+            char optChar = allowForwardSlash ? '/' : '-';
 			foreach (FieldInfo field in fields)
 			{
 				object[] atts = field.GetCustomAttributes(typeof(OptionAttribute), true);
@@ -282,7 +283,7 @@ namespace Codeblast
 							else if (field.FieldType != typeof(bool)) valType = "=X";
 						}
 
-						helpText.AppendFormat("/{0,-20}{1}", field.Name+valType, att.Description);
+						helpText.AppendFormat("{0}{1,-20}{2}", optChar, field.Name+valType, att.Description);
 						if (att.Short != null) 
 							helpText.AppendFormat(" (Short format: /{0}{1})", att.Short, valType);
 						helpText.Append( Environment.NewLine );
