@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Globalization;
 
 namespace NUnit.Util.Tests
 {
@@ -95,13 +96,12 @@ namespace NUnit.Util.Tests
 			String currentCulture = cultureInfo.Attributes["current-culture"].Value;
 			String currentUiCulture = cultureInfo.Attributes["current-uiculture"].Value;
 
-			Regex r = new Regex("^[a-z][a-z]-[A-Z][A-Z]$");
-			Assert.IsTrue(r.IsMatch(currentCulture),
-			              "Expected match to xx-XX, got {0}", 
-						  currentCulture);
-			Assert.IsTrue(r.IsMatch(currentUiCulture),
-			              "Expected match to xx-XX, got {0}", 
-						  currentUiCulture);
+			String currentCultureOnMachine = CultureInfo.CurrentCulture.ToString();
+			String currentUiCultureOnMachine = CultureInfo.CurrentUICulture.ToString();
+			Assert.AreEqual(currentCultureOnMachine, currentCulture,
+				"Current Culture node did not contain the same culture name as the machine");
+			Assert.AreEqual(currentUiCultureOnMachine, currentUiCulture,
+				"Current UI Culture node did not contain the same Culture UI name as the machine");
 		}
 	}
 }
