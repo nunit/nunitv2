@@ -242,7 +242,7 @@ namespace NUnit.UiKit
 			this.loader = loader;
 			loader.Events.TestLoaded += new NUnit.Util.TestEventHandler(events_TestLoaded);
 			loader.Events.TestReloaded += new NUnit.Util.TestEventHandler(events_TestReloaded);
-			loader.Events.TestUnloaded += new NUnit.Util.TestEventHandler(Events_TestUnloaded);
+			loader.Events.TestUnloaded += new NUnit.Util.TestEventHandler(events_TestUnloaded);
 		}
 
 		/// <summary> 
@@ -692,8 +692,13 @@ namespace NUnit.UiKit
 			tests.ExcludeSelectedCategories = excludeCheckbox.Checked;
 		}
 
-		private void Events_TestUnloaded(object sender, NUnit.Util.TestEventArgs args)
+		private void events_TestUnloaded(object sender, NUnit.Util.TestEventArgs args)
 		{
+			availableCategories.Clear();
+			availableList.Items.Clear();
+			selectedList.Items.Clear();
+			excludeCheckbox.Checked = false;
+			excludeCheckbox.Enabled = false;
 			treeMenu.Visible = false;
 		}
 
