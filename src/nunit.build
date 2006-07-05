@@ -226,12 +226,12 @@
     <if test="${build.win32}">
       <call target="build-test-server"/>
       <call target="build-test-server-exe"/>
-
+    </if>
       <call target="build-uikit"/>
 
       <call target="build-gui-runner"/>
       <call target="build-gui-runner-exe"/>
-    </if>
+    <!--</if>-->
 
     <!-- Build the Test Utilities and dummy projects -->
     <call target="build-mock-assembly"/>
@@ -251,9 +251,10 @@
 
     <if test="${build.win32}">
       <call target="build-test-server-tests"/>
+    </if>
       <call target="build-uikit-tests"/>
       <call target="build-gui-runner-tests"/>
-    </if>
+    <!--</if>-->
 
     <!-- Create NUnit and config files for running tests -->
     <copy file="NUnitBinTests.nunit" if="${build.win32}"
@@ -614,9 +615,10 @@
       <sources basedir="tests/test-utilities">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
-        <exclude name="FormTester.cs" if="${build.mono}"/>
+        <!--<exclude name="FormTester.cs" if="${build.mono}"/>-->
       </sources>
       <references basedir="${current.build.dir}">
+        <include name="System.Windows.Forms.dll"/>
         <include name="nunit.framework.dll"/>
         <include name="nunit.common.dll"/>
         <include name="nunit.core.dll"/>
@@ -806,6 +808,8 @@
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
+        <include name="System.Windows.Forms.dll"/>
+	<include name="System.Drawing.dll"/>
         <include name="nunit.framework.dll"/>
         <include name="nunit.common.dll"/>
         <include name="nunit.core.dll"/>
@@ -827,6 +831,8 @@
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
+        <include name="System.Windows.Forms.dll"/>
+	<include name="System.Drawing.dll"/>
         <include name="nunit-gui-runner.dll"/>
         <include name="nunit.util.dll"/>
         <include name="nunit.framework.dll"/>
