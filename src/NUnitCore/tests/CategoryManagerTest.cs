@@ -1,25 +1,73 @@
 using System;
 using NUnit.Framework;
 using NUnit.Core;
+using NUnit.TestUtilities;
+using NUnit.Tests.Assemblies;
 
 namespace NUnit.Core.Tests
 {
 	[TestFixture]
 	public class CategoryManagerTest
 	{
-		[Test]
-		public void NoDuplicates() 
+		private CategoryManager categoryManager;
+
+		[SetUp]
+		public void CreateCategoryManager()
 		{
-			CategoryManager.Clear();
+			categoryManager = new CategoryManager();
+		}
+
+		[Test]
+		public void CanAddStringsWithoutDuplicating() 
+		{
+			categoryManager.Clear();
 			string name1 = "Name1";
 			string name2 = "Name2";
 			string duplicate1 = "Name1";
 
-			CategoryManager.Add(name1);
-			CategoryManager.Add(name2);
-			CategoryManager.Add(duplicate1);
+			categoryManager.Add(name1);
+			categoryManager.Add(name2);
+			categoryManager.Add(duplicate1);
 
-			Assert.AreEqual(2, CategoryManager.Categories.Count);
+			Assert.AreEqual(2, categoryManager.Categories.Count);
+		}
+
+		[Test]
+		public void CanAddStrings()
+		{
+			categoryManager.Add( "one" );
+			categoryManager.Add( "two" );
+			Assert.AreEqual( 2, categoryManager.Categories.Count );
+		}
+
+		[Test]
+		public void CanClearEntries()
+		{
+			categoryManager.Add( "one" );
+			categoryManager.Add( "two" );
+			categoryManager.Clear();
+			Assert.AreEqual( 0, categoryManager.Categories.Count );
+		}
+
+		[Test]
+		public void CanAddTestCategories()
+		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build( "mock-assembly.dll" );
+			
+			Test test = TestFinder.Find( "MockTest3", suite );
+			categoryManager.AddCategories( test );
+			Assert.AreEqual( 2, categoryManager.Categories.Count );
+		}
+
+		[Test]
+		public void CanAddAllAvailableCategoriesInTestTree()
+		{
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			TestSuite suite = builder.Build( "mock-assembly.dll" );
+			
+			categoryManager.AddAllCategories( suite );
+			Assert.AreEqual( MockAssembly.Categories, categoryManager.Categories.Count );
 		}
 	}
 }

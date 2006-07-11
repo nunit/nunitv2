@@ -190,18 +190,6 @@ namespace NUnit.Util
 		}
 		#endregion
 
-		#region GetCategories Method
-		public virtual ICollection GetCategories()
-		{
-			ArrayList categories = new ArrayList();
-
-			foreach( TestRunner runner in runners )
-				categories.AddRange( runner.GetCategories() );
-
-			return categories;
-		}
-		#endregion
-
 		#region Methods for Running Tests
 		public virtual TestResult Run( EventListener listener )
 		{

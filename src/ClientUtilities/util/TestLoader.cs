@@ -701,8 +701,10 @@ namespace NUnit.Util
 
 		public IList GetCategories() 
 		{
-			ArrayList list = new ArrayList();
-			list.AddRange(testRunner.GetCategories());
+			CategoryManager categoryManager = new CategoryManager();
+			categoryManager.AddAllCategories( this.loadedTest );
+			ArrayList list = new ArrayList( categoryManager.Categories );
+			list.Sort();
 			return list;
 		}
 		#endregion

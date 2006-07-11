@@ -48,6 +48,11 @@ namespace NUnit.Tests
 						+ 6;  // assembly, NUnit, Tests, Assemblies, Singletons, TestAssembly 
 				}
 			}
+
+			public static int Categories
+			{
+				get { return MockTestFixture.Categories; }
+			}
 		}
 
 		public class MockSuite
@@ -71,6 +76,7 @@ namespace NUnit.Tests
 			public static readonly int Explicit = 1;
 			public static readonly int NotRun = Ignored + Explicit;
 			public static readonly int Nodes = Tests + 1;
+			public static readonly int Categories = 5;
 
 			[Test(Description="Mock Test #1")]
 			public void MockTest1()

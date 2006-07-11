@@ -35,14 +35,14 @@ namespace NUnit.Core
 {
 	public class CategoryManager
 	{
-		private static Hashtable categories = new Hashtable();
+		private Hashtable categories = new Hashtable();
 
-		public static void Add(string name) 
+		public void Add(string name) 
 		{
 			categories[name] = name;
 		}
 
-		public static void Add(IList list) 
+		public void Add(IList list) 
 		{
 			foreach(string name in list) 
 			{
@@ -50,33 +50,47 @@ namespace NUnit.Core
 			}
 		}
 
-		public static ICollection Categories 
+		public void AddCategories( ITest test )
+		{
+			if ( test.Categories != null )
+				Add( test.Categories );
+		}
+
+		public void AddAllCategories( ITest test )
+		{
+			AddCategories( test );
+			if ( test.IsSuite )
+				foreach( ITest child in test.Tests )
+					AddAllCategories( child );
+		}
+
+		public ICollection Categories 
 		{
 			get { return categories.Values; }
 		}
 
-		public static void Clear() 
+		public void Clear() 
 		{
 			categories = new Hashtable();
 		}
 
-		public static IList GetCategories( MemberInfo member )
-		{
-			System.Attribute[] attributes = 
-				Reflect.GetAttributes( member, "NUnit.Framework.CategoryAttribute", false );
-			IList categories = new ArrayList();
-
-			foreach( Attribute categoryAttribute in attributes ) 
-			{
-				string category = (string)Reflect.GetPropertyValue( 
-					categoryAttribute, 
-					"Name", 
-					BindingFlags.Public | BindingFlags.Instance );
-				categories.Add( category );
-				Add( category );
-			}
-
-			return categories;
-		}
+//		public static IList GetCategories( MemberInfo member )
+//		{
+//			System.Attribute[] attributes = 
+//				Reflect.GetAttributes( member, "NUnit.Framework.CategoryAttribute", false );
+//			IList categories = new ArrayList();
+//
+//			foreach( Attribute categoryAttribute in attributes ) 
+//			{
+//				string category = (string)Reflect.GetPropertyValue( 
+//					categoryAttribute, 
+//					"Name", 
+//					BindingFlags.Public | BindingFlags.Instance );
+//				categories.Add( category );
+//				//Add( category );
+//			}
+//
+//			return categories;
+//		}
 	}
 }

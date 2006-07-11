@@ -170,16 +170,6 @@ namespace NUnit.Core
 		int CountTestCases(TestFilter filter );
 		#endregion
 
-		#region GetCategories Method
-		/// <summary>
-		/// Get the collectiion of categories used by the runner.
-		/// TODO: Should this really be here? Can't the client
-		/// figure it out based on the loaded tests?
-		/// </summary>
-		/// <returns></returns>
-		ICollection GetCategories(); 
-		#endregion
-
 		#region Run Methods
 		/// <summary>
 		/// Run all loaded tests and return a test result. The test is run synchronously,

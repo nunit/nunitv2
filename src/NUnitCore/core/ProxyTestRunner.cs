@@ -161,13 +161,6 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region GetCategories Method
-		public virtual ICollection GetCategories()
-		{
-			return this.testRunner.GetCategories();
-		}
-		#endregion
-
 		#region Methods for Running Tests
 		public virtual TestResult Run(EventListener listener)
 		{
