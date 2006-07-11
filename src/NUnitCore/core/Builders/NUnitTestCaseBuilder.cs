@@ -73,7 +73,8 @@ namespace NUnit.Core.Builders
 					testCase.IgnoreReason = helper.Reason;
 				}
 
-				testCase.Categories = CategoryManager.GetCategories( method );
+				testCase.Categories = GetCategories( method );
+
 				testCase.IsExplicit = Reflect.HasAttribute( method, "NUnit.Framework.ExplicitAttribute", false );
 				if ( testCase.IsExplicit )
 					testCase.RunState = RunState.Explicit;

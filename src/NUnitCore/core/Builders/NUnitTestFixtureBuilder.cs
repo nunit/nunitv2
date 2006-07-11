@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -69,7 +70,7 @@ namespace NUnit.Core.Builders
 					suite.IgnoreReason = helper.Reason;
 				}
 
-				suite.Categories = CategoryManager.GetCategories( type );
+				suite.Categories = GetCategories( type );
 
 				Attribute explicitAttribute = Reflect.GetAttribute( type, "NUnit.Framework.ExplicitAttribute", false );
                 if (explicitAttribute != null)
@@ -239,6 +240,22 @@ namespace NUnit.Core.Builders
 
             return null;
         }
-        #endregion
+
+		protected virtual IList GetCategories( Type type )
+		{
+			System.Attribute[] attributes = 
+				Reflect.GetAttributes( type, "NUnit.Framework.CategoryAttribute", false );
+			IList categories = new ArrayList();
+
+			foreach( Attribute categoryAttribute in attributes ) 
+				categories.Add( 
+					Reflect.GetPropertyValue( 
+					categoryAttribute, 
+					"Name", 
+					BindingFlags.Public | BindingFlags.Instance ) );
+
+			return categories;
+		}
+		#endregion
     }
 }
