@@ -146,6 +146,7 @@
     <Compile Include="TestLoader.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestObserver.cs" />
     <Compile Include="TestResultItem.cs">
       <SubType>Code</SubType>
     </Compile>
