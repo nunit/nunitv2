@@ -123,6 +123,7 @@
     <Compile Include="NunitException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="NUnitFramework.cs" />
     <Compile Include="NUnitTestFixture.cs">
       <SubType>Code</SubType>
     </Compile>

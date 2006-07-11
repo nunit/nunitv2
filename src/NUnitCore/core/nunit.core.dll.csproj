@@ -215,6 +215,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "NUnitFramework.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "NUnitTestFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
