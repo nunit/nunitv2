@@ -67,11 +67,9 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Label testType;
-		private System.Windows.Forms.Label assertCount;
 		private System.Windows.Forms.Label label3;
 		private CP.Windows.Forms.ExpandingLabel stackTrace;
 		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label label10;
 		private CP.Windows.Forms.ExpandingLabel expandingLabel1;
 		private System.Windows.Forms.Label elapsedTime;
@@ -79,6 +77,7 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.Label properties;
+		private System.Windows.Forms.Label assertCount;
 		private System.ComponentModel.IContainer components = null;
 
 		#endregion
@@ -144,16 +143,15 @@ namespace NUnit.UiKit
 			this.label2 = new System.Windows.Forms.Label();
 			this.fullName = new CP.Windows.Forms.ExpandingLabel();
 			this.label1 = new System.Windows.Forms.Label();
-			this.assertCount = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.stackTrace = new CP.Windows.Forms.ExpandingLabel();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
-			this.label9 = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
 			this.expandingLabel1 = new CP.Windows.Forms.ExpandingLabel();
 			this.elapsedTime = new System.Windows.Forms.Label();
 			this.message = new CP.Windows.Forms.ExpandingLabel();
 			this.label12 = new System.Windows.Forms.Label();
+			this.assertCount = new System.Windows.Forms.Label();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
@@ -621,28 +619,6 @@ namespace NUnit.UiKit
 			this.label1.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label1.TextAlign")));
 			this.label1.Visible = ((bool)(resources.GetObject("label1.Visible")));
 			// 
-			// assertCount
-			// 
-			this.assertCount.AccessibleDescription = resources.GetString("assertCount.AccessibleDescription");
-			this.assertCount.AccessibleName = resources.GetString("assertCount.AccessibleName");
-			this.assertCount.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("assertCount.Anchor")));
-			this.assertCount.AutoSize = ((bool)(resources.GetObject("assertCount.AutoSize")));
-			this.assertCount.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("assertCount.Dock")));
-			this.assertCount.Enabled = ((bool)(resources.GetObject("assertCount.Enabled")));
-			this.assertCount.Font = ((System.Drawing.Font)(resources.GetObject("assertCount.Font")));
-			this.assertCount.Image = ((System.Drawing.Image)(resources.GetObject("assertCount.Image")));
-			this.assertCount.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("assertCount.ImageAlign")));
-			this.assertCount.ImageIndex = ((int)(resources.GetObject("assertCount.ImageIndex")));
-			this.assertCount.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("assertCount.ImeMode")));
-			this.assertCount.Location = ((System.Drawing.Point)(resources.GetObject("assertCount.Location")));
-			this.assertCount.Name = "assertCount";
-			this.assertCount.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("assertCount.RightToLeft")));
-			this.assertCount.Size = ((System.Drawing.Size)(resources.GetObject("assertCount.Size")));
-			this.assertCount.TabIndex = ((int)(resources.GetObject("assertCount.TabIndex")));
-			this.assertCount.Text = resources.GetString("assertCount.Text");
-			this.assertCount.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("assertCount.TextAlign")));
-			this.assertCount.Visible = ((bool)(resources.GetObject("assertCount.Visible")));
-			// 
 			// label3
 			// 
 			this.label3.AccessibleDescription = resources.GetString("label3.AccessibleDescription");
@@ -695,7 +671,7 @@ namespace NUnit.UiKit
 			this.groupBox2.AccessibleName = resources.GetString("groupBox2.AccessibleName");
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox2.Anchor")));
 			this.groupBox2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox2.BackgroundImage")));
-			this.groupBox2.Controls.Add(this.label9);
+			this.groupBox2.Controls.Add(this.assertCount);
 			this.groupBox2.Controls.Add(this.label10);
 			this.groupBox2.Controls.Add(this.expandingLabel1);
 			this.groupBox2.Controls.Add(this.elapsedTime);
@@ -713,28 +689,6 @@ namespace NUnit.UiKit
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = resources.GetString("groupBox2.Text");
 			this.groupBox2.Visible = ((bool)(resources.GetObject("groupBox2.Visible")));
-			// 
-			// label9
-			// 
-			this.label9.AccessibleDescription = resources.GetString("label9.AccessibleDescription");
-			this.label9.AccessibleName = resources.GetString("label9.AccessibleName");
-			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label9.Anchor")));
-			this.label9.AutoSize = ((bool)(resources.GetObject("label9.AutoSize")));
-			this.label9.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label9.Dock")));
-			this.label9.Enabled = ((bool)(resources.GetObject("label9.Enabled")));
-			this.label9.Font = ((System.Drawing.Font)(resources.GetObject("label9.Font")));
-			this.label9.Image = ((System.Drawing.Image)(resources.GetObject("label9.Image")));
-			this.label9.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label9.ImageAlign")));
-			this.label9.ImageIndex = ((int)(resources.GetObject("label9.ImageIndex")));
-			this.label9.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label9.ImeMode")));
-			this.label9.Location = ((System.Drawing.Point)(resources.GetObject("label9.Location")));
-			this.label9.Name = "label9";
-			this.label9.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label9.RightToLeft")));
-			this.label9.Size = ((System.Drawing.Size)(resources.GetObject("label9.Size")));
-			this.label9.TabIndex = ((int)(resources.GetObject("label9.TabIndex")));
-			this.label9.Text = resources.GetString("label9.Text");
-			this.label9.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label9.TextAlign")));
-			this.label9.Visible = ((bool)(resources.GetObject("label9.Visible")));
 			// 
 			// label10
 			// 
@@ -849,6 +803,28 @@ namespace NUnit.UiKit
 			this.label12.Text = resources.GetString("label12.Text");
 			this.label12.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label12.TextAlign")));
 			this.label12.Visible = ((bool)(resources.GetObject("label12.Visible")));
+			// 
+			// assertCount
+			// 
+			this.assertCount.AccessibleDescription = resources.GetString("assertCount.AccessibleDescription");
+			this.assertCount.AccessibleName = resources.GetString("assertCount.AccessibleName");
+			this.assertCount.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("assertCount.Anchor")));
+			this.assertCount.AutoSize = ((bool)(resources.GetObject("assertCount.AutoSize")));
+			this.assertCount.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("assertCount.Dock")));
+			this.assertCount.Enabled = ((bool)(resources.GetObject("assertCount.Enabled")));
+			this.assertCount.Font = ((System.Drawing.Font)(resources.GetObject("assertCount.Font")));
+			this.assertCount.Image = ((System.Drawing.Image)(resources.GetObject("assertCount.Image")));
+			this.assertCount.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("assertCount.ImageAlign")));
+			this.assertCount.ImageIndex = ((int)(resources.GetObject("assertCount.ImageIndex")));
+			this.assertCount.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("assertCount.ImeMode")));
+			this.assertCount.Location = ((System.Drawing.Point)(resources.GetObject("assertCount.Location")));
+			this.assertCount.Name = "assertCount";
+			this.assertCount.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("assertCount.RightToLeft")));
+			this.assertCount.Size = ((System.Drawing.Size)(resources.GetObject("assertCount.Size")));
+			this.assertCount.TabIndex = ((int)(resources.GetObject("assertCount.TabIndex")));
+			this.assertCount.Text = resources.GetString("assertCount.Text");
+			this.assertCount.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("assertCount.TextAlign")));
+			this.assertCount.Visible = ((bool)(resources.GetObject("assertCount.Visible")));
 			// 
 			// TestPropertiesDialog
 			// 
