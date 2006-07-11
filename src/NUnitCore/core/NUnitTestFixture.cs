@@ -39,8 +39,6 @@ namespace NUnit.Core
     {
         public NUnitTestFixture(Type fixtureType) : base( fixtureType)
         {
-            this.testFramework = TestFramework.FromType(fixtureType);
-
             this.testSetUp = GetSetUpMethod();
             this.testTearDown = GetTearDownMethod();
             this.fixtureSetUp = GetFixtureSetUpMethod();
@@ -78,16 +76,14 @@ namespace NUnit.Core
         {
             base.DoOneTimeSetUp(suiteResult);
 
-            if (testFramework != null)
-                suiteResult.AssertCount = testFramework.GetAssertCount(); ;
+			suiteResult.AssertCount = NUnitFramework.GetAssertCount(); ;
         }
 
         protected override void DoOneTimeTearDown(TestResult suiteResult)
         {
             base.DoOneTimeTearDown(suiteResult);
 
-            if (testFramework != null)
-                suiteResult.AssertCount += testFramework.GetAssertCount();
+			suiteResult.AssertCount += NUnitFramework.GetAssertCount();
         }
     }
 
@@ -109,8 +105,7 @@ namespace NUnit.Core
         {
             base.Run(testResult);
 
-            if (testFramework != null)
-                testResult.AssertCount = testFramework.GetAssertCount();
+			testResult.AssertCount = NUnitFramework.GetAssertCount();
         }
     }
 }

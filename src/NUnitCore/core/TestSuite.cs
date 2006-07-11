@@ -390,15 +390,15 @@ namespace NUnit.Core
 			}
 		}
 
-        protected virtual bool IsAssertException(Exception ex)
-        {
-            return ex.GetType().FullName == "NUnit.Framework.AssertException";
-        }
+		protected virtual bool IsAssertException(Exception ex)
+		{
+			return NUnitFramework.IsAssertException( ex );
+		}
 
-        protected virtual bool IsIgnoreException(Exception ex)
-        {
-            return ex.GetType().FullName == "NUnit.Framework.IgnoreException";
-        }
-        #endregion
+		protected virtual bool IsIgnoreException(Exception ex)
+		{
+			return NUnitFramework.IsIgnoreException( ex );
+		}
+		#endregion
 	}
 }

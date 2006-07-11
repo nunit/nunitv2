@@ -82,7 +82,6 @@ namespace NUnit.Core
 			? method.Name : method.DeclaringType.Name + "." + method.Name )
 		{
 			this.method = method;
-            //this.testFramework = TestFramework.FromMethod( method );
 			this.fixtureType = method.ReflectedType;
 		}
 
@@ -298,12 +297,12 @@ namespace NUnit.Core
 
         protected virtual bool IsAssertException(Exception ex)
         {
-            return ex.GetType().FullName == "NUnit.Framework.AssertionException";
+            return NUnitFramework.IsAssertException( ex );
         }
 
         protected virtual bool IsIgnoreException(Exception ex)
         {
-            return ex.GetType().FullName == "NUnit.Framework.IgnoreException";
+            return NUnitFramework.IsIgnoreException( ex );
         }
         #endregion
 

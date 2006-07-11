@@ -85,11 +85,6 @@ namespace NUnit.Core
 		/// True if the test is valid and could be run
 		/// </summary>
 		private bool isRunnable;
-
-		/// <summary>
-		/// TestFramework under which this test runs
-		/// </summary>
-		protected ITestFramework testFramework;
 		#endregion
 
 		#region Construction
