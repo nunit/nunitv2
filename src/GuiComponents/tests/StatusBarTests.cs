@@ -91,7 +91,7 @@ namespace NUnit.UiKit.Tests
 		public void TestFinalDisplay()
 		{
 			Assert.AreEqual( false, statusBar.DisplayTestProgress );
-			statusBar.Initialize( mockEvents );
+			statusBar.Subscribe( mockEvents );
 
 			mockEvents.SimulateTestRun();
 			Assert.AreEqual( "Completed", statusBar.Panels[0].Text );
@@ -111,7 +111,7 @@ namespace NUnit.UiKit.Tests
         public void TestProgressDisplay()
 		{
 			statusBar.DisplayTestProgress = true;
-			statusBar.Initialize( mockEvents );
+			statusBar.Subscribe( mockEvents );
 
 			testCount = 0;
 			mockEvents.TestFinished += new TestEventHandler( OnTestFinished );

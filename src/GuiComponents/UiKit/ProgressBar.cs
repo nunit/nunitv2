@@ -41,7 +41,7 @@ namespace NUnit.UiKit
 	/// <summary>
 	/// Summary description for ProgressBar.
 	/// </summary>
-	public class ProgressBar : System.Windows.Forms.Control
+	public class ProgressBar : System.Windows.Forms.Control, TestObserver
 	{
 		#region Instance Variables
 		/// <summary> 
@@ -93,16 +93,6 @@ namespace NUnit.UiKit
 
 		#region Properties
 		
-		public void Initialize( ITestEvents events )
-		{
-			events.TestLoaded	+= new TestEventHandler( OnLoadComplete );
-			events.TestReloaded	+= new TestEventHandler( OnLoadComplete );
-			events.TestUnloaded	+= new TestEventHandler( OnUnloadComplete );
-			events.RunStarting	+= new TestEventHandler( OnRunStarting );
-			events.TestFinished	+= new TestEventHandler( OnTestFinished );
-            events.TestException += new TestEventHandler(OnTestException);
-		}
-
 		[Category("Behavior")]
 		public int Minimum
 		{
@@ -371,5 +361,18 @@ namespace NUnit.UiKit
 		}
 		#endregion
 
+		#region TestObserver Members
+
+		public void Subscribe(ITestEvents events)
+		{
+			events.TestLoaded	+= new TestEventHandler( OnLoadComplete );
+			events.TestReloaded	+= new TestEventHandler( OnLoadComplete );
+			events.TestUnloaded	+= new TestEventHandler( OnUnloadComplete );
+			events.RunStarting	+= new TestEventHandler( OnRunStarting );
+			events.TestFinished	+= new TestEventHandler( OnTestFinished );
+			events.TestException += new TestEventHandler(OnTestException);
+		}
+
+		#endregion
 	}
 }

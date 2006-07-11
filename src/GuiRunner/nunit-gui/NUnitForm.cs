@@ -2126,8 +2126,8 @@ namespace NUnit.Gui
 		{
 			// ToDo: Migrate more ui elements to handle events on their own.
 			this.testTree.Initialize(TestLoader);
-			this.progressBar.Initialize( TestLoader.Events );
-			this.statusBar.Initialize( TestLoader.Events );
+			this.progressBar.Subscribe( TestLoader.Events );
+			this.statusBar.Subscribe( TestLoader.Events );
 
 			// Set controls to match option settings. We do this
 			// here rather than in the controls since there may

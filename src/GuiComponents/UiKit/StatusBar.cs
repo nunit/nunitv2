@@ -39,7 +39,7 @@ namespace NUnit.UiKit
 	/// <summary>
 	/// Summary description for Class1.
 	/// </summary>
-	public class StatusBar : System.Windows.Forms.StatusBar
+	public class StatusBar : System.Windows.Forms.StatusBar, TestObserver
 	{
 		private StatusBarPanel statusPanel = new StatusBarPanel();
 		private StatusBarPanel testCountPanel = new StatusBarPanel();
@@ -105,18 +105,6 @@ namespace NUnit.UiKit
 		{
 			get { return statusPanel.Text; }
 			set { statusPanel.Text = value; }
-		}
-
-		public void Initialize( ITestEvents events )
-		{
-			events.TestLoaded	+= new TestEventHandler( OnTestLoaded );
-			events.TestReloaded	+= new TestEventHandler( OnTestReloaded );
-			events.TestUnloaded	+= new TestEventHandler( OnTestUnloaded );
-
-			events.TestStarting	+= new TestEventHandler( OnTestStarting );
-			events.TestFinished	+= new TestEventHandler( OnTestFinished );
-			events.RunStarting	+= new TestEventHandler( OnRunStarting );
-			events.RunFinished	+= new TestEventHandler( OnRunFinished );
 		}
 
 		public void Initialize( int testCount )
@@ -250,5 +238,21 @@ namespace NUnit.UiKit
 				}
 			}
 		}
+
+		#region TestObserver Members
+
+		public void Subscribe(ITestEvents events)
+		{
+			events.TestLoaded	+= new TestEventHandler( OnTestLoaded );
+			events.TestReloaded	+= new TestEventHandler( OnTestReloaded );
+			events.TestUnloaded	+= new TestEventHandler( OnTestUnloaded );
+
+			events.TestStarting	+= new TestEventHandler( OnTestStarting );
+			events.TestFinished	+= new TestEventHandler( OnTestFinished );
+			events.RunStarting	+= new TestEventHandler( OnRunStarting );
+			events.RunFinished	+= new TestEventHandler( OnRunFinished );
+		}
+
+		#endregion
 	}
 }

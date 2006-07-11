@@ -65,7 +65,7 @@ namespace NUnit.UiKit.Tests
         [Test, Platform(Exclude = "Net-1.0")]
         public void TestProgressDisplay()
 		{
-			progressBar.Initialize( mockEvents );
+			progressBar.Subscribe( mockEvents );
 			mockEvents.TestFinished += new TestEventHandler( OnTestFinished );
 
 			testCount = 0;
