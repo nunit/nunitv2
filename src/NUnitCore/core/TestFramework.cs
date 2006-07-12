@@ -36,47 +36,32 @@ namespace NUnit.Core
 	/// <summary>
 	/// Summary description for TestFramework.
 	/// </summary>
+	[Serializable]
 	public class TestFramework
 	{
-		#region FrameworkInfo struct
-		/// <summary>
-		/// Struct containing information needed to create a TestFramework
-		/// </summary>
-		[Serializable]
-		public struct FrameworkInfo
-		{
-			public string Name;
-			public string AssemblyName;
-
-			public FrameworkInfo( 
-				string frameworkName,
-				string assemblyName )
-			{
-				this.Name = frameworkName;
-				this.AssemblyName = assemblyName;
-			}
-		}
-		#endregion
-
 		#region Static Fields
 		/// <summary>
 		/// List of FrameworkInfo structs for supported frameworks
 		/// </summary>
-		private static IList testFrameworks;
+		private static Hashtable testFrameworks = new Hashtable();
 		#endregion
 
-		#region Static Constructor
-		static TestFramework()
-		{
-			testFrameworks = new ArrayList();
-			testFrameworks.Add( new FrameworkInfo( "NUnit", "nunit.framework" ) );
-		}
+		#region Instance Fields
+		/// <summary>
+		/// The name of the framework
+		/// </summary>
+		public string Name;
+
+		/// <summary>
+		/// The file name of the assembly that defines the framwork
+		/// </summary>
+		public string AssemblyName;
 		#endregion
 
 		#region Static Methods
-		public static void Register( FrameworkInfo info )
+		public static void Register( string frameworkName, string assemblyName )
 		{
-			testFrameworks.Add( info );
+			testFrameworks[frameworkName] = new TestFramework( frameworkName, assemblyName );
 		}
 
 		public static IList GetLoadedFrameworks()
@@ -85,7 +70,7 @@ namespace NUnit.Core
 
 			foreach( Assembly assembly in AppDomain.CurrentDomain.GetAssemblies() )
 			{
-				foreach( FrameworkInfo info in testFrameworks )
+				foreach( TestFramework info in testFrameworks.Values )
 				{
 					if ( assembly.GetName().Name == info.AssemblyName )
 					{
@@ -100,7 +85,11 @@ namespace NUnit.Core
 		#endregion
 
 		#region Private Constructor
-		private TestFramework() { }
+		private TestFramework( string frameworkName, string assemblyName ) 
+		{
+			this.Name = frameworkName;
+			this.AssemblyName = assemblyName;
+		}
 		#endregion
 	}
 }

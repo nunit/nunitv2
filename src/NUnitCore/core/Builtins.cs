@@ -64,6 +64,9 @@ namespace NUnit.Core
 		/// </summary>
 		static Builtins()
 		{
+			// Define NUnit Framework
+			TestFramework.Register( "NUnit", "nunit.framework" );
+
 			// Add builtin SuiteBuilders
 			suiteBuilders.Add( new Builders.NUnitTestFixtureBuilder() );
             //suiteBuilders.Add( new Builders.CSUnitTestFixtureBuilder() );

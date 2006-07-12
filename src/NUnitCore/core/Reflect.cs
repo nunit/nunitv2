@@ -110,7 +110,12 @@ namespace NUnit.Core
 		/// <returns>The attribute or null</returns>
 		public static System.Attribute[] GetAttributes( MemberInfo member, bool inherit )
 		{
-			return (System.Attribute[])member.GetCustomAttributes( inherit );
+			object[] attributes = member.GetCustomAttributes( inherit );
+			System.Attribute[] result = new System.Attribute[attributes.Length];
+			int n = 0;
+			foreach( Attribute attribute in attributes )
+				result[n++] = attribute;
+			return result;
 		}
 
 		#endregion
@@ -231,7 +236,7 @@ namespace NUnit.Core
         /// </summary>
         /// <param name="fixtureType">The type to examine</param>
         /// <param name="methodName">The name of the method</param>
-        /// <param name="argTypes">The full anmes of the argument types to search for</param>
+        /// <param name="argTypes">The full names of the argument types to search for</param>
         /// <param name="bindingFlags">BindingFlags to use in the search</param>
         /// <returns>A MethodInfo or null</returns>
         public static MethodInfo GetNamedMethod(Type fixtureType, string methodName, 
@@ -333,7 +338,7 @@ namespace NUnit.Core
 		/// Invoke a parameterless method on an object.
 		/// </summary>
 		/// <param name="method">A MethodInfo for the method to be invoked</param>
-		/// <param name="fixture">The object on which to invoke the mentod</param>
+		/// <param name="fixture">The object on which to invoke the method</param>
 		public static void InvokeMethod( MethodInfo method, object fixture ) 
 		{
 			if(method != null)
