@@ -8,7 +8,7 @@ namespace NUnit.Core.Filters
 	/// of them in order to pass this filter.
 	/// </summary>
 	[Serializable]
-	public class AndFilter : TestFilter
+	public class AndFilter : RecursiveTestFilter
 	{
 		private ArrayList filters = new ArrayList();
 
@@ -46,7 +46,7 @@ namespace NUnit.Core.Filters
 			this.filters.Add( test );
 		}
 
-		public override bool Pass( ITest test )
+		public override bool Match( ITest test )
 		{
 			foreach( TestFilter filter in filters )
 				if ( !filter.Pass( test ) )

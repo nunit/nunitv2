@@ -63,44 +63,6 @@ namespace NUnit.Core.Filters
 			categories.Add( name );
 		}
 
-		#region IFilter Members
-
-        //public override bool Pass( ITest test )
-        //{
-        //    if ( categories.Count == 0 ) return true;
-
-        //    if ( CheckCategories( test ) ) return true;
-
-        //    bool pass = false;
-
-        //    if (test.IsSuite)
-        //        foreach (ITest child in test.Tests)
-        //        {
-        //            if ( Pass( child ) )
-        //            {
-        //                pass = true;
-        //                break;
-        //            }
-        //        }
-
-        //    return pass;
-        //}
-		#endregion
-
-		/// <summary>
-		/// Method returns true if the test has a particular
-		/// category or if an ancestor test does. We don't
-		/// worry about whether this is an include or an
-		/// exclude filter at this point because only positive
-		/// categories are inherited, not their absence.
-		/// </summary>
-        //private bool CheckCategories(ITest test) 
-        //{
-        //    return test.HasCategory( categories )
-        //        || test.Parent != null 
-        //        && test.Parent.HasCategory( categories );
-        //}
-
         public override bool Match(ITest test)
         {
             return test.HasCategory(categories);

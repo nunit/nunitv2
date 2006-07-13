@@ -6,7 +6,7 @@ namespace NUnit.Core.Filters
 	/// NotFilter negates the operation of another filter
 	/// </summary>
 	[Serializable]
-	public class NotFilter : TestFilter
+	public class NotFilter : RecursiveTestFilter
 	{
 		TestFilter baseFilter;
 
@@ -15,7 +15,7 @@ namespace NUnit.Core.Filters
 			this.baseFilter = baseFilter;
 		}
 
-		public override bool Pass( ITest test )
+		public override bool Match( ITest test )
 		{
 			return !test.IsExplicit && !baseFilter.Pass( test );
 		}

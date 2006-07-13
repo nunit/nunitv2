@@ -50,12 +50,68 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Determine if a particular test passes the filter criteria.
+		/// Determine if a particular test passes the filter criteria. The default 
+		/// implementation simply checks the test itself using Match.
 		/// </summary>
 		/// <param name="test">The test to which the filter is applied</param>
 		/// <returns>True if the test passes the filter, otherwise false</returns>
-		public abstract bool Pass( ITest test );
+		public virtual bool Pass( ITest test )
+		{
+			return Match( test );
+		}
 
+		/// <summary>
+		/// Determine whether the test itself matches the filter criteria.
+		/// </summary>
+		/// <param name="test">The test to which the filter is applied</param>
+		/// <returns>True if the filter matches the any parent of the test</returns>
+		public abstract bool Match(ITest test);
+
+		/// <summary>
+		/// Determine whether any ancestor of the test mateches the filter criteria
+		/// </summary>
+		/// <param name="test">The test to which the filter is applied</param>
+		/// <returns>True if the filter matches the an ancestor of the test</returns>
+		protected bool MatchParent(ITest test)
+		{
+			if (test.IsExplicit)
+				return false;
+
+			for (ITest parent = test.Parent; parent != null; parent = parent.Parent)
+			{
+				if (Match(parent))
+					return true;
+
+				// Don't proceed past a parent marked Explicit
+				if (parent.IsExplicit)
+					return false;
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Determine whether any descendant of the test matches the filter criteria
+		/// </summary>
+		/// <param name="test">The test to be matched</param>
+		/// <returns>True if at least one descendant matches the filter criteria</returns>
+		protected bool MatchDescendant(ITest test)
+		{
+			if (!test.IsSuite || test.Tests == null)
+				return false;
+
+			foreach (ITest child in test.Tests)
+			{
+				if (Match(child))
+					return true;
+
+				if (MatchDescendant(child))
+					return true;
+			}
+
+			return false;
+		}
+		
 		/// <summary>
 		/// Nested class provides an empty filter - one that always
 		/// returns true when called, unless the test is marked explicit.
@@ -63,6 +119,11 @@ namespace NUnit.Core
 		[Serializable]
 		private class EmptyFilter : TestFilter
 		{
+			public override bool Match( ITest test )
+			{
+				return !test.IsExplicit;
+			}
+
 			public override bool Pass( ITest test )
 			{
 				return !test.IsExplicit;

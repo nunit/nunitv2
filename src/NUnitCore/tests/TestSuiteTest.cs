@@ -212,22 +212,37 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.Explicit, testSuite.CountTestCases(filter));
 		}
 
-		[Test]
-		public void RunTestByCategory() 
-		{
-			TestSuite testSuite = new TestSuite("Mock Test Suite");
-			testSuite.Add( mockTestFixture );
+        [Test]
+        public void RunTestByCategory()
+        {
+            TestSuite testSuite = new TestSuite("Mock Test Suite");
+            testSuite.Add(mockTestFixture);
 
-			CategoryFilter filter = new CategoryFilter();
-			filter.AddCategory("MockCategory");
-			RecordingListener listener = new RecordingListener();
-			testSuite.Run(listener, filter);
-			Assert.AreEqual(2, listener.testStarted.Count);
-			Assert.IsTrue(listener.testStarted.Contains("MockTest2"));
-			Assert.IsTrue(listener.testStarted.Contains("MockTest3"));
-		}
+            CategoryFilter filter = new CategoryFilter();
+            filter.AddCategory("MockCategory");
+            RecordingListener listener = new RecordingListener();
+            testSuite.Run(listener, filter);
+			CollectionAssert.AreEquivalent(
+				new string[] { "MockTest2", "MockTest3" },
+				listener.testStarted );
+        }
 
-		[Test]
+        [Test]
+        public void RunTestExcludingCategory()
+        {
+            TestSuite testSuite = new TestSuite("Mock Test Suite");
+            testSuite.Add(mockTestFixture);
+
+            CategoryFilter filter = new CategoryFilter();
+            filter.AddCategory("MockCategory");
+            RecordingListener listener = new RecordingListener();
+            testSuite.Run(listener, new NotFilter( filter ) );
+			CollectionAssert.AreEquivalent( 
+				new string[] { "MockTest1", "MockTest4", "MockTest5" },
+				listener.testStarted );
+        }
+
+        [Test]
 		public void RunSuiteByCategory() 
 		{
 			TestSuite testSuite = new TestSuite("Mock Test Suite");
