@@ -49,7 +49,7 @@ namespace NUnit.Core.Filters
 		public override bool Match( ITest test )
 		{
 			foreach( TestFilter filter in filters )
-				if ( !filter.Pass( test ) )
+				if ( !filter.Match( test ) )
 					return false;
 
 			return true;
