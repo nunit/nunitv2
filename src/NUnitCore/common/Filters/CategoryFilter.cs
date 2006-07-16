@@ -49,13 +49,15 @@ namespace NUnit.Core.Filters
 		public CategoryFilter( string name )
 		{
 			categories = new ArrayList();
-			categories.Add( name );
+			if ( name != null )
+				categories.Add( name );
 		}
 
 		public CategoryFilter( string[] names )
 		{
 			categories = new ArrayList();
-			categories.AddRange( names );
+			if ( names != null )
+				categories.AddRange( names );
 		}
 
 		public void AddCategory(string name) 
