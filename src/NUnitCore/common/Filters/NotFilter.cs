@@ -15,6 +15,11 @@ namespace NUnit.Core.Filters
 			this.baseFilter = baseFilter;
 		}
 
+		public TestFilter BaseFilter
+		{
+			get { return baseFilter; }
+		}
+
 		public override bool Match( ITest test )
 		{
 			return !test.IsExplicit && !baseFilter.Pass( test );
