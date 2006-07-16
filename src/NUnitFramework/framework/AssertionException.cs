@@ -40,7 +40,7 @@ namespace NUnit.Framework
 	public class AssertionException : System.Exception
 	{
 		/// <summary>
-		/// 
+		/// Standard constructor, given a message
 		/// </summary>
 		/// <param name="message"></param>
 		public AssertionException (string message) : base(message) 
