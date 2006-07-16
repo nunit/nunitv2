@@ -22,6 +22,12 @@ namespace NUnit.Framework.Tests
 			public MessageTester( string message, params object[] args )
 				: base( message, args ) { }
 
+			public override bool Test()
+			{
+				return false;
+			}
+
+
 			public void Test( string expected )
 			{
 				NUnit.Framework.Assert.AreEqual( expected, Message );

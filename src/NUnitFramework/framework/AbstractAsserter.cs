@@ -59,10 +59,7 @@ namespace NUnit.Framework
 		/// Default always succeeds.
 		/// </summary>
 		/// <returns>True if the test succeeds</returns>
-		public virtual bool Test()
-		{
-			return true;
-		}
+		public abstract bool Test();
 
 		/// <summary>
 		/// Message related to a failure. If no failure has

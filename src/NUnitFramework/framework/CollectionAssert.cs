@@ -142,7 +142,7 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionsComparerAsserter
-	public class CollectionsComparerAsserter : CollectionCollectionAsserter
+	public abstract class CollectionsComparerAsserter : CollectionCollectionAsserter
 	{
 		protected IComparer comparer;
 
@@ -154,7 +154,7 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionCollectionAsserter
-	public class CollectionCollectionAsserter : CollectionAsserter
+	public abstract class CollectionCollectionAsserter : CollectionAsserter
 	{
 		protected ICollection set2;
 
@@ -166,7 +166,7 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionObjectAsserter
-	public class CollectionObjectAsserter : CollectionAsserter
+	public abstract class CollectionObjectAsserter : CollectionAsserter
 	{
 		protected object actual;
 
@@ -178,7 +178,7 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionAsserter
-	public class CollectionAsserter : AbstractAsserter
+	public abstract class CollectionAsserter : AbstractAsserter
 	{
 		protected ICollection set1;
 		protected string failMsg = "";
