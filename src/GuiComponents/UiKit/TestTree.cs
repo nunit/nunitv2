@@ -402,11 +402,9 @@ namespace NUnit.UiKit
 			this.tests.AllowDrop = true;
 			this.tests.CheckBoxes = true;
 			this.tests.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tests.ExcludeSelectedCategories = false;
 			this.tests.HideSelection = false;
 			this.tests.Location = new System.Drawing.Point(0, 0);
 			this.tests.Name = "tests";
-			this.tests.SelectedCategories = null;
 			this.tests.Size = new System.Drawing.Size(240, 427);
 			this.tests.TabIndex = 0;
 			// 
@@ -582,9 +580,9 @@ namespace NUnit.UiKit
 			tests.RunAllTests();
 		}
 
-		public void RunTests()
+		public void RunSelectedTests()
 		{
-			tests.RunTests();
+			tests.RunSelectedTests();
 		}
 
 		public void RunFailedTests()
@@ -603,7 +601,7 @@ namespace NUnit.UiKit
 					availableList.Items.Remove(category);
 				}
 
-				tests.SelectedCategories = this.SelectedCategories;
+				UpdateCategoryFilter();
 				if (this.SelectedCategories.Length > 0)
 					this.excludeCheckbox.Enabled = true;
 			}
@@ -620,7 +618,7 @@ namespace NUnit.UiKit
 					availableList.Items.Add(category);
 				}
 
-				tests.SelectedCategories = this.SelectedCategories;
+				UpdateCategoryFilter();
 				if (this.SelectedCategories.Length == 0)
 					this.excludeCheckbox.Enabled = false;
 			}
@@ -684,12 +682,12 @@ namespace NUnit.UiKit
 			availableList.ResumeLayout();
 
 			// Tell the tree what is selected
-			tests.SelectedCategories = this.SelectedCategories;
+			UpdateCategoryFilter();
 		}
 
 		private void excludeCheckbox_CheckedChanged(object sender, System.EventArgs e)
 		{
-			tests.ExcludeSelectedCategories = excludeCheckbox.Checked;
+			UpdateCategoryFilter();
 		}
 
 		private void events_TestUnloaded(object sender, NUnit.Util.TestEventArgs args)
@@ -723,6 +721,19 @@ namespace NUnit.UiKit
 			//this.SetInitialExpansion();
 		}
 
+		private void UpdateCategoryFilter()
+		{
+			TestFilter catFilter;
+
+			if ( SelectedCategories == null || SelectedCategories.Length == 0 )
+				catFilter = TestFilter.Empty;
+			else
+				catFilter = new NUnit.Core.Filters.CategoryFilter( SelectedCategories );
+			if ( excludeCheckbox.Checked )
+				catFilter = new NUnit.Core.Filters.NotFilter( catFilter );
+
+			tests.CategoryFilter = catFilter;
+		}
 	}
 
 	public class SelectedTestsChangedEventArgs : EventArgs 

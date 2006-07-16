@@ -122,11 +122,11 @@ namespace NUnit.UiKit
 		/// </summary>
 		private bool runCommandEnabled = false;
 
+		private TestInfo[] runningTests;
+
 		private bool visualStudioSupport = false;
 
-		private string[] selectedCategories;
-
-		private bool excludeSelectedCategories;
+		private TestFilter categoryFilter = TestFilter.Empty;
 
 		private bool suppressEvents = false;
 
@@ -319,6 +319,17 @@ namespace NUnit.UiKit
 			}	
 		}
 
+		[Browsable( false )]
+		public TestInfo[] FailedTests
+		{
+			get
+			{
+				FailedTestsFilterVisitor visitor = new FailedTestsFilterVisitor();
+				Accept(visitor);
+				return visitor.Tests;
+			}
+		}
+
 		/// <summary>
 		/// The currently selected test result or null
 		/// </summary>
@@ -333,27 +344,14 @@ namespace NUnit.UiKit
 		}
 
 		[Browsable(false)]
-		public string[] SelectedCategories
+		public TestFilter CategoryFilter
 		{
-			get { return selectedCategories; }
-			set	
+			get { return categoryFilter; }
+			set 
 			{ 
-				selectedCategories = value; 
-
-				SelectedCategoriesVisitor visitor = new SelectedCategoriesVisitor( selectedCategories, excludeSelectedCategories );
-				this.Accept( visitor );
-			}
-		}
-
-		[Browsable(false)]
-		public bool ExcludeSelectedCategories
-		{
-			get { return excludeSelectedCategories; }
-			set
-			{
-				excludeSelectedCategories = value;
-
-				SelectedCategoriesVisitor visitor = new SelectedCategoriesVisitor( selectedCategories, excludeSelectedCategories );
+				categoryFilter = value;
+ 
+				TestFilterVisitor visitor = new TestFilterVisitor( categoryFilter );
 				this.Accept( visitor );
 			}
 		}
@@ -423,12 +421,17 @@ namespace NUnit.UiKit
 
 		private void OnRunFinished( object sender, TestEventArgs e )
 		{
-			if ( e.Result != null )
-				this[e.Result].Expand();
+//			if ( e.Result != null )
+//				this[e.Result].Expand();
+
+			if ( runningTests != null )
+				foreach( TestInfo test in runningTests )
+					this[test].Expand();
 
 			if ( propertiesDialog != null )
 				propertiesDialog.Invoke( new PropertiesDisplayHandler( propertiesDialog.DisplayProperties ) );
 
+			runningTests = null;
 			runCommandEnabled = true;
 		}
 
@@ -488,7 +491,7 @@ namespace NUnit.UiKit
 					runCommandEnabled = false;
 
 				MenuItem runMenuItem = new MenuItem( "&Run", new EventHandler( runMenuItem_Click ) );
-				runMenuItem.DefaultItem = runMenuItem.Enabled = runCommandEnabled;
+				runMenuItem.DefaultItem = runMenuItem.Enabled = runCommandEnabled & contextNode.Included;
 			
 				this.ContextMenu.MenuItems.Add( runMenuItem );
 			}
@@ -548,7 +551,7 @@ namespace NUnit.UiKit
 			{
 				runCommandEnabled = false;
 
-				loader.RunTests( MakeFilter( contextNode.Test ) );
+				RunTests( new TestInfo[] { contextNode.Test }, false );
 			}
 		}
 
@@ -631,12 +634,13 @@ namespace NUnit.UiKit
 
 		private void TestSuiteTreeView_DoubleClick(object sender, System.EventArgs e)
 		{
-			if ( runCommandSupported && runCommandEnabled && SelectedNode.Nodes.Count == 0 )
+			TestSuiteTreeNode node = SelectedNode as TestSuiteTreeNode;
+			if ( runCommandSupported && runCommandEnabled && node.Nodes.Count == 0 && node.Included )
 			{
 				runCommandEnabled = false;
 				
-				// Since this is a terminal node, don't use a category filter
-				loader.RunTests( new NameFilter( SelectedTest.TestName ) );
+				// TODO: Since this is a terminal node, don't use a category filter
+				RunTests( new TestInfo[] { SelectedTest }, true );
 			}
 		}
 
@@ -766,23 +770,6 @@ namespace NUnit.UiKit
 			Nodes.Clear();
 		}
 
-		public void RunAllTests()
-		{
-			loader.RunTests();
-		}
-
-		public void RunTests()
-		{
-			loader.RunTests( MakeFilter( SelectedTests ) );			
-		}
-
-		public void RunFailedTests()
-		{
-			FailedTestsFilterVisitor visitor = new FailedTestsFilterVisitor();
-			Accept( visitor );
-			loader.RunTests( visitor.Filter );
-		}
-
 		protected override void OnAfterCollapse(TreeViewEventArgs e)
 		{
 			if ( !suppressEvents )
@@ -898,6 +885,67 @@ namespace NUnit.UiKit
 		private void OnPropertiesDialogClosed( object sender, System.EventArgs e )
 		{
 			propertiesDialog = null;
+		}
+
+		#endregion
+
+		#region Running Tests
+
+		public void RunAllTests()
+		{
+			RunTests( new TestInfo[] { ((TestSuiteTreeNode)Nodes[0]).Test }, true );
+		}
+
+		public void RunSelectedTests()
+		{
+			RunTests( SelectedTests, false );
+		}
+
+		public void RunFailedTests()
+		{
+			RunTests( FailedTests, true );
+		}
+
+		private void RunTests( TestInfo[] tests, bool ignoreCategories )
+		{
+			runningTests = tests;
+
+			if ( ignoreCategories )
+				loader.RunTests( MakeNameFilter( tests ) );
+			else
+				loader.RunTests( MakeFilter( tests ) );
+		}
+
+		private TestFilter MakeFilter( TestInfo[] tests )
+		{
+			TestFilter nameFilter = MakeNameFilter( tests );
+
+			if ( nameFilter == TestFilter.Empty )
+				return CategoryFilter;
+
+			if ( tests.Length == 1 )
+			{
+				TestSuiteTreeNode rootNode = (TestSuiteTreeNode)Nodes[0];
+				if ( tests[0] == rootNode.Test )
+					return CategoryFilter;
+			}
+
+			if ( CategoryFilter.IsEmpty )
+				return nameFilter;
+
+			return new AndFilter( nameFilter, CategoryFilter );
+		}
+
+		private TestFilter MakeNameFilter( TestInfo[] tests )
+		{
+			if ( tests == null || tests.Length == 0 )
+				return TestFilter.Empty;
+
+			NameFilter nameFilter = new NameFilter();
+			foreach( TestInfo test in tests )
+				nameFilter.Add( test.TestName );
+
+			return nameFilter;
 		}
 
 		#endregion
@@ -1170,57 +1218,6 @@ namespace NUnit.UiKit
 		private TestSuiteTreeNode FindNode( TestInfo test )
 		{
 			return treeMap[test.UniqueName] as TestSuiteTreeNode;
-		}	
-		
-		private TestFilter MakeFilter( TestInfo test )
-		{
-			return MakeFilter( new TestInfo[] { test } );
-		}
-
-		private TestFilter MakeFilter( TestInfo[] tests )
-		{
-			TestFilter nameFilter = MakeNameFilter( tests );
-			TestFilter catFilter = MakeCategoryFilter();
-
-
-			if ( nameFilter == TestFilter.Empty )
-				return catFilter;
-
-			if ( tests.Length == 1 )
-			{
-				TestSuiteTreeNode rootNode = (TestSuiteTreeNode)Nodes[0];
-				if ( tests[0] == rootNode.Test )
-					return catFilter;
-			}
-
-			if ( catFilter == TestFilter.Empty )
-				return nameFilter;
-
-			return new AndFilter( nameFilter, catFilter );
-		}
-
-		private TestFilter MakeNameFilter( TestInfo[] tests )
-		{
-			if ( tests == null || tests.Length == 0 )
-				return TestFilter.Empty;
-
-			NameFilter nameFilter = new NameFilter();
-			foreach( TestInfo test in tests )
-				nameFilter.Add( test.TestName );
-
-			return nameFilter;
-		}
-
-		private TestFilter MakeCategoryFilter()
-		{
-			if ( SelectedCategories == null || SelectedCategories.Length == 0 )
-				return TestFilter.Empty;
-
-			TestFilter catFilter = new CategoryFilter( SelectedCategories );
-			if ( ExcludeSelectedCategories )
-				catFilter = new NotFilter( catFilter );
-
-			return catFilter;
 		}
 
 		#endregion
@@ -1255,16 +1252,23 @@ namespace NUnit.UiKit
 	internal class FailedTestsFilterVisitor : TestSuiteTreeNodeVisitor
 	{
 		NUnit.Core.Filters.NameFilter filter = new NameFilter();
+		ArrayList tests;
 
 		public TestFilter Filter
 		{
 			get { return filter; }
 		}
 
+		public TestInfo[] Tests
+		{
+			get { return (TestInfo[])tests.ToArray(typeof(TestInfo)); }
+		}
+
 		public override void Visit(TestSuiteTreeNode node)
 		{
 			if (node.Test.IsTestCase && node.Result != null && node.Result.IsFailure)
 			{
+				tests.Add(node.Test);
 				filter.Add(node.Test.TestName);
 			}
 		}
@@ -1280,26 +1284,25 @@ namespace NUnit.UiKit
 		}
 	}
 
-	public class SelectedCategoriesVisitor : TestSuiteTreeNodeVisitor
+	public class TestFilterVisitor : TestSuiteTreeNodeVisitor
 	{
-		private string[] categories;
+		private TestFilter filter;
 		private bool exclude;
 
-		public SelectedCategoriesVisitor( string[] categories ) : this( categories, false ) { }
-	
-		public SelectedCategoriesVisitor( string[] categories, bool exclude )
+		public TestFilterVisitor( TestFilter filter )
 		{
-			this.categories = categories;
-			this.exclude = exclude;
+			this.filter = filter;
+			this.exclude = filter is NotFilter;
+			if ( exclude )
+				this.filter = ((NotFilter)filter).BaseFilter;
 		}
 
 		public override void Visit( TestSuiteTreeNode node )
 		{
 			// If there are no categories selected
-			if ( categories.Length == 0 )
+			if ( filter.IsEmpty )
 			{
-				//node.Checked = false;
-				node.Included = true; //TODO: Look for explicit categories
+				node.Included = true; //TODO: Look for ExplicitAttribute
 			}
 			else
 			{
@@ -1308,15 +1311,8 @@ namespace NUnit.UiKit
 				if ( parent != null )
 					node.Included = parent.Included;
 
-
-				foreach( string category in categories )
-				{
-					if ( node.Test.Categories.Contains( category ) )
-					{
-						node.Included = !exclude;
-						break;
-					}
-				}
+				if ( filter.Match( node.Test ) )
+					node.Included = !exclude;		
 			}
 		}
 	}

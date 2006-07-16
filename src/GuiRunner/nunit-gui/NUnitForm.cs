@@ -2204,7 +2204,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void runButton_Click(object sender, System.EventArgs e)
 		{
-			testTree.RunTests();
+			testTree.RunSelectedTests();
 		}
 
 		/// <summary>
@@ -2663,7 +2663,7 @@ the version under which NUnit is currently running, {0}.",
 
 		private void runSelectedMenuItem_Click(object sender, System.EventArgs e)
 		{
-			this.testTree.RunTests();
+			this.testTree.RunSelectedTests();
 		
 		}
 
@@ -2678,7 +2678,9 @@ the version under which NUnit is currently running, {0}.",
 			runButton.Enabled = enable;
 			runAllMenuItem.Enabled = enable;
 			runSelectedMenuItem.Enabled = enable;
-			runFailedMenuItem.Enabled = enable;
+			runFailedMenuItem.Enabled = enable &&
+				this.TestLoader.TestResult != null &&
+				this.TestLoader.TestResult.IsFailure;
 		}
 
 		private void EnableStopCommand( bool enable )
