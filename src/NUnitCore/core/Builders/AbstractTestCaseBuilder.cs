@@ -34,8 +34,7 @@ namespace NUnit.Core.Builders
 	/// <summary>
 	/// AbstractTestCaseBuilder may serve as a base class for 
 	/// implementing a test case builder. It provides a templated
-	/// implementation of the BuildFrom method as well as a 
-	/// number of useful methods that derived classes may use.
+	/// implementation of the BuildFrom method.
 	/// </summary>
 	public abstract class AbstractTestCaseBuilder : ITestCaseBuilder
 	{
@@ -44,13 +43,47 @@ namespace NUnit.Core.Builders
 		protected TestCase testCase;
 		#endregion
 
-		#region ITestCaseBuilder Members
-
+		#region Abstract Methods
+		/// <summary>
+		/// Examine the method and determine if it is suitable for
+		/// this builder to use in building a TestCase.
+		/// 
+		/// Note that returning false will cause the method to be ignored 
+		/// in loading the tests. If it is desired to load the method
+		/// but label it as non-runnable, ignored, etc., then this
+		/// method must return true.
+		/// 
+		/// Derived classes must override this method.
+		/// </summary>
+		/// <param name="method">The test method to examine</param>
+		/// <returns>True is the builder can use this method</returns>
 		public abstract bool CanBuildFrom(System.Reflection.MethodInfo method);
 
 		/// <summary>
-		/// Templated implementaton of ITestCaseBuilder.BuildFrom. Any
-		/// derived builder may choose to override this method in
+		/// Method that actually creates a new test case object.
+		/// 
+		/// Derived classes must override this method.
+		/// </summary>
+		/// <param name="method">The test method to examine</param>
+		/// <returns>An object derived from TestCase</returns>
+		protected abstract TestCase MakeTestCase( MethodInfo method );
+
+		/// <summary>
+		/// Method that sets properties of the test case based on the
+		/// information in the provided MethodInfo.
+		/// 
+		/// Derived classes must override this method.
+		/// </summary>
+		/// <param name="method">The test method to examine</param>
+		/// <param name="testCase">The test case being constructed</param>
+		protected abstract void SetTestProperties( MethodInfo method, TestCase testCase );
+		#endregion
+
+		#region Virtual Methods
+		/// <summary>
+		/// Templated implementaton of ITestCaseBuilder.BuildFrom. 
+		/// 
+		/// Any derived builder may choose to override this method in
 		/// it's entirety or to let it stand and override some of
 		/// the virtual methods that it calls.
 		/// </summary>
@@ -58,46 +91,22 @@ namespace NUnit.Core.Builders
 		/// <returns>A TestCase or null</returns>
 		public virtual TestCase BuildFrom(System.Reflection.MethodInfo method)
 		{
-			TestCase testCase = null;
+			if ( !HasValidTestCaseSignature( method ) )
+				return new NotRunnableTestCase( method );
 
-			if ( HasValidTestCaseSignature( method ) )
-			{
-				testCase = MakeTestCase( method );
-
-				string reason = null;
-				if ( !IsRunnable( method, ref reason ) )
-				{
-					testCase.RunState = RunState.NotRunnable;
-					testCase.IgnoreReason = reason;
-				}
-
-				testCase.Description = GetTestCaseDescription( method );
-
-				SetTestProperties( method );
-			}
-			else
-			{
-				testCase = new NotRunnableTestCase( method );
-			}
+			TestCase testCase = MakeTestCase( method );
+			if ( testCase != null )
+				SetTestProperties( method , testCase );
 
 			return testCase;
 		}
-
-		#endregion
-
-		#region Abstract Methods
+		
 		/// <summary>
-		/// Derived classes must override this to return a TestCase
-		/// object of the proper class.
-		/// </summary>
-		/// <param name="method"></param>
-		/// <returns></returns>
-		protected abstract TestCase MakeTestCase( MethodInfo method );
-		#endregion
-
-		#region Virtual Methods
-		/// <summary>
-		/// Virtual method that checks the signature of a potential test case.
+		/// Virtual method that checks the signature of a potential test case to
+		/// determine if it is valid. The default implementation requires methods
+		/// to be public, non-abstract instance methods, taking no parameters and
+		/// returning void. Methods not meeting these criteria will be marked by
+		/// NUnit as non-runnable.
 		/// </summary>
 		/// <param name="method">The method to be checked</param>
 		/// <returns>True if the method signature is valid, false if not</returns>
@@ -108,38 +117,6 @@ namespace NUnit.Core.Builders
 				&& method.IsPublic
 				&& method.GetParameters().Length == 0
 				&& method.ReturnType.Equals(typeof(void) );
-		}
-
-		/// <summary>
-		/// This method returns true if the test case is runnable. The default
-		/// implementation simply returns true. Usually, this will be overridden
-		/// to check for the presence of an ignore attribute of some kind.
-		/// </summary>
-		/// <param name="method">The test method type to check</param>
-		/// <param name="reason">Set to the reason for not running</param>
-		/// <returns>True if the test is runnable, false if not</returns>
-		protected virtual bool IsRunnable( MethodInfo method, ref string reason )
-		{
-			return true;
-		}
-
-		/// <summary>
-		/// Method to get any test case description. Default returnes null.
-		/// Override to examine the method and extract the description.
-		/// </summary>
-		/// <param name="method">The test method to examine</param>
-		/// <returns>The description or null</returns>
-		protected virtual string GetTestCaseDescription( MethodInfo method )
-		{
-			return null;
-		}
-
-		/// <summary>
-		/// Override this method to set any additional test case properties
-		/// </summary>
-		/// <param name="method">The test method to examine</param>
-		protected virtual void SetTestProperties( MethodInfo method )
-		{
 		}
 		#endregion
 	}

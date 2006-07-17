@@ -40,8 +40,6 @@ namespace NUnit.Core
 		// Set whenever we fail to support a list of platforms
 		private string reason = string.Empty;
 
-		private static readonly string PlatformType = "NUnit.Framework.PlatformAttribute";
-
 		// Defined here and used in tests. We can't use PlatformID.Unix
 		// if we are building on .NET 1.0 or 1.1 and the values are different on Mono
 		public static readonly PlatformID UnixPlatformID_Microsoft = (PlatformID) 4;
@@ -144,7 +142,7 @@ namespace NUnit.Core
 		public bool IsPlatformSupported( MemberInfo member )
 		{
 			Attribute platformAttribute = 
-				Reflect.GetAttribute( member, PlatformType, false );
+				NUnitFramework.GetPlatformAttribute( member );
 			
 			return platformAttribute == null
 				|| IsPlatformSupported( platformAttribute );

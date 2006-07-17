@@ -39,38 +39,11 @@ namespace NUnit.Core
     {
         public NUnitTestFixture(Type fixtureType) : base( fixtureType)
         {
-            this.testSetUp = GetSetUpMethod();
-            this.testTearDown = GetTearDownMethod();
-            this.fixtureSetUp = GetFixtureSetUpMethod();
-            this.fixtureTearDown = GetFixtureTearDownMethod();
+            this.testSetUp = NUnitFramework.GetSetUpMethod( fixtureType );
+            this.testTearDown = NUnitFramework.GetTearDownMethod( fixtureType );
+            this.fixtureSetUp = NUnitFramework.GetFixtureSetUpMethod( fixtureType );
+            this.fixtureTearDown = NUnitFramework.GetFixtureTearDownMethod( fixtureType );
         }
-
-        #region Helper Methods
-        private MethodInfo GetSetUpMethod()
-        {
-            return Reflect.GetMethodWithAttribute(FixtureType, "NUnit.Framework.SetUpAttribute",
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
-                true);
-        }
-        private MethodInfo GetTearDownMethod()
-        {
-            return Reflect.GetMethodWithAttribute(FixtureType, "NUnit.Framework.TearDownAttribute",
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
-                true);
-        }
-        private MethodInfo GetFixtureSetUpMethod()
-        {
-            return Reflect.GetMethodWithAttribute(FixtureType, "NUnit.Framework.TestFixtureSetUpAttribute",
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
-                true);
-        }
-        private MethodInfo GetFixtureTearDownMethod()
-        {
-            return Reflect.GetMethodWithAttribute(FixtureType, "NUnit.Framework.TestFixtureTearDownAttribute",
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
-                true);
-        }
-        #endregion
 
         protected override void DoOneTimeSetUp(TestResult suiteResult)
         {
@@ -84,28 +57,6 @@ namespace NUnit.Core
             base.DoOneTimeTearDown(suiteResult);
 
 			suiteResult.AssertCount += NUnitFramework.GetAssertCount();
-        }
-    }
-
-    public class NUnitTestMethod : TestMethod
-    {
-        #region Constructors
-        public NUnitTestMethod(MethodInfo method) : base(method) { }
-
-        public NUnitTestMethod(MethodInfo method,
-            Type expectedException, string expectedMessage, string matchType)
-            : base(method, expectedException, expectedMessage, matchType) { }
-
-        public NUnitTestMethod(MethodInfo method,
-            string expectedExceptionName, string expectedMessage, string matchType)
-            : base(method, expectedExceptionName, expectedMessage, matchType) { }
-        #endregion
-
-        public override void Run(TestCaseResult testResult)
-        {
-            base.Run(testResult);
-
-			testResult.AssertCount = NUnitFramework.GetAssertCount();
         }
     }
 }

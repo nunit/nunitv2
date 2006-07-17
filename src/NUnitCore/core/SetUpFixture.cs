@@ -33,7 +33,7 @@ using System.Reflection;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// SetUpFixture extends TestSuiteSuite and supports
+	/// SetUpFixture extends TestSuite and supports
 	/// a TestFixtureSetup and TestFixtureTearDown.
 	/// </summary>
 	public class SetUpFixture : TestSuite
@@ -47,12 +47,8 @@ namespace NUnit.Core
             if (index > 0)
                 this.TestName.Name = this.TestName.Name.Substring(index + 1);
             
-			this.fixtureSetUp = Reflect.GetMethodWithAttribute( 
-				type, "NUnit.Framework.TestFixtureSetUpAttribute",
-				BindingFlags.Public | BindingFlags.Instance, true );
-			this.fixtureTearDown = Reflect.GetMethodWithAttribute( 
-				type, "NUnit.Framework.TestFixtureTearDownAttribute",
-				BindingFlags.Public | BindingFlags.Instance, true );
+			this.fixtureSetUp = NUnitFramework.GetFixtureSetUpMethod( type );
+			this.fixtureTearDown = NUnitFramework.GetFixtureTearDownMethod( type );
 		}
 	}
 }

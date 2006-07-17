@@ -39,191 +39,72 @@ namespace NUnit.Core.Builders
 {
 	public class NUnitTestCaseBuilder : AbstractTestCaseBuilder
 	{
-		static bool allowOldStyleTests;
-
-		static NUnitTestCaseBuilder()
-		{
-			try
-			{
-				NameValueCollection settings = (NameValueCollection)
-					ConfigurationSettings.GetConfig("NUnit/TestCaseBuilder");
-				if (settings != null)
-				{
-					string oldStyle = settings["OldStyleTestCases"];
-					if (oldStyle != null)
-						allowOldStyleTests = Boolean.Parse(oldStyle);
-				}
-			}
-			catch(Exception e)
-			{
-				Debug.WriteLine(e);
-			}
-		}
-
-		public override TestCase BuildFrom( MethodInfo method )
-		{
-			TestCase testCase = base.BuildFrom( method );
-		
-			if ( testCase != null )
-			{
-				PlatformHelper helper = new PlatformHelper();
-				if ( !helper.IsPlatformSupported( method ) )
-				{
-					testCase.RunState = RunState.Skipped;
-					testCase.IgnoreReason = helper.Reason;
-				}
-
-				testCase.Categories = GetCategories( method );
-
-				testCase.IsExplicit = Reflect.HasAttribute( method, "NUnit.Framework.ExplicitAttribute", false );
-				if ( testCase.IsExplicit )
-					testCase.RunState = RunState.Explicit;
-				
-				System.Attribute[] attributes = 
-					Reflect.GetAttributes( method, "NUnit.Framework.PropertyAttribute", false );
-
-				foreach( Attribute propertyAttribute in attributes ) 
-				{
-					string name = (string)Reflect.GetPropertyValue( propertyAttribute, "Name", BindingFlags.Public | BindingFlags.Instance );
-					if ( name != null && name != string.Empty )
-					{
-						object value = Reflect.GetPropertyValue( propertyAttribute, "Value", BindingFlags.Public | BindingFlags.Instance );
-						testCase.Properties[name] = value;
-					}
-				}
-			}
-
-			return testCase;
-		}
-
-		protected virtual IList GetCategories( MethodInfo method )
-		{
-			System.Attribute[] attributes = 
-				Reflect.GetAttributes( method, "NUnit.Framework.CategoryAttribute", false );
-			IList categories = new ArrayList();
-
-			foreach( Attribute categoryAttribute in attributes ) 
-				categories.Add( 
-					Reflect.GetPropertyValue( 
-					categoryAttribute, 
-					"Name", 
-					BindingFlags.Public | BindingFlags.Instance ) );
-
-			return categories;
-		}
+		private bool allowOldStyleTests = NUnitFramework.AllowOldStyleTests;
 
         #region AbstractTestCaseBuilder Overrides
+		/// <summary>
+		/// Determine if the method is an NUnit test method.
+		/// The method must normally be marked with the test
+		/// attribute for this to be true. If the test config
+		/// file sets AllowOldStyleTests to true, then any 
+		/// method beginning "test..." (case-insensitive)
+		/// is treated as a test unless it is also marked
+		/// as a setup or teardown method.
+		/// </summary>
+		/// <param name="method">A MethodInfo for the method being used as a test method</param>
+		/// <returns>True if the builder can create a test case from this method</returns>
         public override bool CanBuildFrom(MethodInfo method)
         {
-            if (Reflect.HasAttribute(method, "NUnit.Framework.TestAttribute", false))
+            if ( NUnitFramework.HasTestAttribute( method ) )
                 return true;
 
             if (allowOldStyleTests)
             {
                 Regex regex = new Regex("^(?i:test)");
-                if (regex.Match(method.Name).Success && !IsSpecialMethod(method))
-                    return true;
+                if ( regex.Match(method.Name).Success 
+					&& !NUnitFramework.IsSetUpMethod( method )
+					&& !NUnitFramework.IsTearDownMethod( method )
+					&& !NUnitFramework.IsFixtureSetUpMethod( method )
+					&& !NUnitFramework.IsFixtureTearDownMethod( method ) )
+						return true;
             }
 
             return false;
         }
 
-
+		/// <summary>
+		/// Create an NUnitTestMethod with arguments determined by 
+		/// examining any ExpectedException attribute.
+		/// TODO: Move the analysis of ExpectedExceptionAttribute
+		/// to SetTestProperties.
+		/// </summary>
+		/// <param name="method">A MethodInfo for the method being used as a test method</param>
+		/// <returns>A new NUnitTestMethod</returns>
         protected override TestCase MakeTestCase(MethodInfo method)
         {
-            Type expectedException = null;
-            string expectedExceptionName = null;
-            string expectedMessage = null;
-            string matchType = null;
-
-            Attribute attribute = Reflect.GetAttribute(method, "NUnit.Framework.ExpectedExceptionAttribute", false);
-            if (attribute != null)
-            {
-                expectedException = Reflect.GetPropertyValue(
-                    attribute, "ExceptionType",
-                    BindingFlags.Public | BindingFlags.Instance) as Type;
-                expectedExceptionName = (string)Reflect.GetPropertyValue(
-                    attribute, "ExceptionName",
-                    BindingFlags.Public | BindingFlags.Instance) as String;
-                expectedMessage = (string)Reflect.GetPropertyValue(
-                    attribute, "ExpectedMessage",
-                    BindingFlags.Public | BindingFlags.Instance) as String;
-                object matchEnum = Reflect.GetPropertyValue(
-                    attribute, "MatchType",
-                    BindingFlags.Public | BindingFlags.Instance);
-                if (matchEnum != null)
-                    matchType = matchEnum.ToString();
-            }
-
-            if (expectedException != null)
-                return new NUnitTestMethod(method, expectedException, expectedMessage, matchType);
-            else if (expectedExceptionName != null)
-                return new NUnitTestMethod(method, expectedExceptionName, expectedMessage, matchType);
-            else
-                return new NUnitTestMethod(method);
+			return new NUnitTestMethod( method );
         }
 
-        /// <summary>
-        /// Checks to see if the test is runnable by looking for the ignore 
-        /// attribute specified in the parameters.
-        /// </summary>
-        /// <param name="method">The method to be checked</param>
-        /// <param name="reason">A message indicating why the fixture is not runnable</param>
-        /// <returns>True if runnable, false if not</returns>
-        protected override bool IsRunnable(MethodInfo method, ref string reason)
-        {
-            Attribute ignoreAttribute =
-                Reflect.GetAttribute(method, "NUnit.Framework.IgnoreAttribute", false);
-            if (ignoreAttribute != null)
-            {
-                reason = (string)Reflect.GetPropertyValue(
-                    ignoreAttribute,
-                    "Reason",
-                    BindingFlags.Public | BindingFlags.Instance);
-                return false;
-            }
-            
-            return true;
-        }
+		/// <summary>
+		/// Set additional properties of the newly created test case based
+		/// on its attributes. As implemented, the method sets the test's
+		/// RunState,  Description, Categories, IsExplicit and Properties 
+		/// properties.
+		/// </summary>
+		/// <param name="method">A MethodInfo for the method being used as a test method</param>
+		/// <param name="testCase">The test case being constructed</param>
+		protected override void SetTestProperties( MethodInfo method, TestCase testCase )
+		{
+			testCase.Description = NUnitFramework.GetTestCaseDescription( method );
+			testCase.Categories = NUnitFramework.GetCategories( method );
+			testCase.Properties = NUnitFramework.GetProperties( method );
 
-        protected override string GetTestCaseDescription(MethodInfo method)
-        {
-            Attribute testAttribute = Reflect.GetAttribute(method, "NUnit.Framework.TestAttribute", false);
-            if (testAttribute != null)
-                return (string)Reflect.GetPropertyValue(
-                    testAttribute,
-                    "Description",
-                    BindingFlags.Public | BindingFlags.Instance);
+			NUnitFramework.ApplyExplicitAttribute( method, testCase );
+			NUnitFramework.ApplyPlatformAttribute( method, testCase );
+			NUnitFramework.ApplyIgnoreAttribute( method, testCase );
 
-            return null;
-        }
-        #endregion
-
-        #region Virtual Methods
-        protected virtual bool IsSpecialMethod(MethodInfo method)
-        {
-            return IsSetUpMethod(method)
-                || IsTearDownMethod(method)
-                || IsFixtureSetUpMethod(method)
-                || IsFixtureTearDownMethod(method);
-        }
-
-        protected virtual bool IsSetUpMethod(MethodInfo method)
-        {
-            return Reflect.HasAttribute(method, "NUnit.Framework.SetUpAttribute", false);
-        }
-        protected virtual bool IsTearDownMethod(MethodInfo method)
-        {
-            return Reflect.HasAttribute(method, "NUnit.Framework.TearDownAttribute", false);
-        }
-        protected virtual bool IsFixtureSetUpMethod(MethodInfo method)
-        {
-            return Reflect.HasAttribute(method, "NUnit.Framework.FixtureSetUpAttribute", false);
-        }
-        protected virtual bool IsFixtureTearDownMethod(MethodInfo method)
-        {
-            return Reflect.HasAttribute(method, "NUnit.Framework.FixtureTearDownAttribute", false);
-        }
-        #endregion
+			NUnitFramework.ApplyExpectedExceptionAttribute( method, (TestMethod)testCase );
+		}
+		#endregion
     }
 }

@@ -35,17 +35,6 @@ namespace NUnit.Core
 {
 	public class AddinManager : ISuiteBuilder, ITestCaseBuilder, ITestDecorator
 	{
-		#region Static Fields
-
-		private static readonly string SuiteBuilderAttributeType = typeof( SuiteBuilderAttribute ).FullName;
-		private static readonly string SuiteBuilderInterfaceType = typeof( ISuiteBuilder ).FullName;
-		private static readonly string TestCaseBuilderAttributeName = typeof( TestCaseBuilderAttribute ).FullName;
-		private static readonly string TestCaseBuilderInterfaceName = typeof( ITestCaseBuilder ).FullName;
-		private static readonly string TestDecoratorAttributeName = typeof( TestDecoratorAttribute ).FullName;
-		private static readonly string TestDecoratorInterfaceName = typeof( ITestDecorator ).FullName;
-		
-		#endregion
-
 		#region Instance Fields
 		private AddinManager priorState = null;
 
@@ -169,8 +158,7 @@ namespace NUnit.Core
 		{
 			foreach( Type type in assembly.GetExportedTypes() )
 			{
-				if ( Reflect.HasAttribute( type, SuiteBuilderAttributeType, false )
-					&& Reflect.HasInterface( type, SuiteBuilderInterfaceType ) )
+				if ( NUnitFramework.IsSuiteBuilder( type ) )
 				{
 					object builderObject = Reflect.Construct( type );
 					ISuiteBuilder builder = builderObject as ISuiteBuilder;
@@ -184,8 +172,7 @@ namespace NUnit.Core
 					// not important now, since we use a different
 					// appdomain for each load, but may be in future.
 				}
-				else if ( Reflect.HasAttribute( type, TestCaseBuilderAttributeName, false )
-					&& Reflect.HasInterface( type, TestCaseBuilderInterfaceName ) )
+				else if ( NUnitFramework.IsTestCaseBuilder( type ) )
 				{
 					object builderObject = Reflect.Construct( type );
 					ITestCaseBuilder builder = builderObject as ITestCaseBuilder;
@@ -196,8 +183,7 @@ namespace NUnit.Core
                     else
                         testBuilders.Add(new TestCaseBuilderWrapper(builderObject));
 				}
-				else if ( Reflect.HasAttribute( type, TestDecoratorAttributeName, false )
-					&& Reflect.HasInterface( type, TestDecoratorInterfaceName ) )
+				else if ( NUnitFramework.IsTestDecorator( type ) )
 				{
 					object decoratorObject = Reflect.Construct( type );
 					ITestDecorator decorator = decoratorObject as ITestDecorator;

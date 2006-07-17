@@ -44,57 +44,29 @@ namespace NUnit.Core.Builders
 		/// Makes an NUnitTestFixture instance
 		/// </summary>
 		/// <param name="type">The type to be used</param>
-		/// <returns>A TestSuite or null</returns>
+		/// <returns>An NUnitTestFixture as a TestSuite</returns>
 		protected override TestSuite MakeSuite( Type type )
 		{
 			return new NUnitTestFixture( type );
 		}
 
 		/// <summary>
-		/// Overrides AbstractFixtureBuilder.BuildFrom to allow
-		/// use of the Category, Explicit and Platform attributes
-		/// on NUnitTestFixtures:
+		/// Method that sets properties of the test suite based on the
+		/// information in the provided Type.
 		/// </summary>
-		/// <param name="type">The type to use in building the fixture</param>
-		/// <returns>A TestSuite or null</returns>
-		public override TestSuite BuildFrom(Type type)
+		/// <param name="type">The type to examine</param>
+		/// <param name="suite">The test suite being constructed</param>
+		protected override void SetTestSuiteProperties( Type type, TestSuite suite )
 		{
-			TestSuite suite = base.BuildFrom (type);
+			base.SetTestSuiteProperties( type, suite );
 
-			if ( suite != null )
-			{
-				PlatformHelper helper = new PlatformHelper();
-				if ( !helper.IsPlatformSupported( type ) )
-				{
-					suite.RunState = RunState.Skipped;
-					suite.IgnoreReason = helper.Reason;
-				}
+			suite.Description = NUnitFramework.GetTestFixtureDescription( type );
+			suite.Categories = NUnitFramework.GetCategories( type );
+			suite.Properties = NUnitFramework.GetProperties( type );
 
-				suite.Categories = GetCategories( type );
-
-				Attribute explicitAttribute = Reflect.GetAttribute( type, "NUnit.Framework.ExplicitAttribute", false );
-                if (explicitAttribute != null)
-                {
-                    suite.IsExplicit = true;
-                    suite.RunState = RunState.Explicit;
-                    suite.IgnoreReason = (string)Reflect.GetPropertyValue(explicitAttribute, "Reason", BindingFlags.Public | BindingFlags.Instance); 
-                }
-				
-				System.Attribute[] attributes = 
-					Reflect.GetAttributes( type, "NUnit.Framework.PropertyAttribute", false );
-
-				foreach( Attribute propertyAttribute in attributes ) 
-				{
-					string name = (string)Reflect.GetPropertyValue( propertyAttribute, "Name", BindingFlags.Public | BindingFlags.Instance );
-					if ( name != null && name != string.Empty )
-					{
-						object value = Reflect.GetPropertyValue( propertyAttribute, "Value", BindingFlags.Public | BindingFlags.Instance );
-						suite.Properties[name] = value;
-					}
-				}
-			}
-
-			return suite;
+			NUnitFramework.ApplyExplicitAttribute( type, suite );
+			NUnitFramework.ApplyPlatformAttribute( type, suite );
+			NUnitFramework.ApplyIgnoreAttribute( type, suite );
 		}
 
 		/// <summary>
@@ -121,34 +93,7 @@ namespace NUnit.Core.Builders
         /// <returns>True if the fixture can be built, false if not</returns>
         public override bool CanBuildFrom(Type type)
         {
-            // NUnit requires public or protected classes
-            //if (!type.IsPublic && !type.IsNestedPublic)
-            //    return false;
-
-            return Reflect.HasAttribute(type, "NUnit.Framework.TestFixtureAttribute", true);           
-        }
-
-        /// <summary>
-        /// Checks to see if the fixture is runnable by looking for the ignore 
-        /// attribute specified in the parameters.
-        /// </summary>
-        /// <param name="fixtureType">The type to be checked</param>
-        /// <param name="reason">A message indicating why the fixture is not runnable</param>
-        /// <returns>True if runnable, false if not</returns>
-        protected override bool ShouldRun(Type fixtureType, ref string reason)
-        {
-            Attribute ignoreAttribute =
-                Reflect.GetAttribute(fixtureType, "NUnit.Framework.IgnoreAttribute", false);
-            if (ignoreAttribute != null)
-            {
-                reason = (string)Reflect.GetPropertyValue(
-                    ignoreAttribute,
-                    "Reason",
-                    BindingFlags.Public | BindingFlags.Instance);
-                return false;
-            }
-
-            return true;
+            return NUnitFramework.HasTestFixtureAttribute( type );
         }
 
         /// <summary>
@@ -171,10 +116,10 @@ namespace NUnit.Core.Builders
                 return false;
             }
 
-            return CheckSetUpTearDownMethod(fixtureType, "SetUp", ref reason)
-                && CheckSetUpTearDownMethod(fixtureType, "TearDown", ref reason)
-                && CheckSetUpTearDownMethod(fixtureType, "TestFixtureSetUp", ref reason)
-                && CheckSetUpTearDownMethod(fixtureType, "TestFixtureTearDown", ref reason);
+            return CheckSetUpTearDownMethod(fixtureType, "SetUp", NUnitFramework.SetUpAttribute, ref reason)
+                && CheckSetUpTearDownMethod(fixtureType, "TearDown", NUnitFramework.TearDownAttribute, ref reason)
+                && CheckSetUpTearDownMethod(fixtureType, "TestFixtureSetUp", NUnitFramework.FixtureSetUpAttribute, ref reason)
+                && CheckSetUpTearDownMethod(fixtureType, "TestFixtureTearDown", NUnitFramework.FixtureTearDownAttribute, ref reason);
         }
 
         /// <summary>
@@ -183,10 +128,8 @@ namespace NUnit.Core.Builders
         /// <param name="fixtureType">The type to be checked</param>
         /// <param name="attributeName">The short name of the attribute to be checked</param>
         /// <returns>True if the method is present no more than once and has a valid signature</returns>
-        private bool CheckSetUpTearDownMethod(Type fixtureType, string name, ref string reason)
+        private bool CheckSetUpTearDownMethod(Type fixtureType, string name, string attributeName, ref string reason)
         {
-            string attributeName = string.Format( "NUnit.Framework.{0}Attribute", name );
-
             int count = Reflect.CountMethodsWithAttribute(
                 fixtureType, attributeName,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly,
@@ -220,42 +163,6 @@ namespace NUnit.Core.Builders
 
             return true;
         }
-
-        /// <summary>
-        /// Method to return the description for a fixture
-        /// </summary>
-        /// <param name="fixtureType">The fixture to check</param>
-        /// <returns>The description, if any, or null</returns>
-        protected override string GetFixtureDescription(Type fixtureType)
-        {
-            Attribute fixtureAttribute =
-                Reflect.GetAttribute(fixtureType, "NUnit.Framework.TestFixtureAttribute", true);
-
-            // Some of our tests create a fixture without the attribute
-            if (fixtureAttribute != null)
-                return (string)Reflect.GetPropertyValue(
-                    fixtureAttribute,
-                    "Description",
-                    BindingFlags.Public | BindingFlags.Instance);
-
-            return null;
-        }
-
-		protected virtual IList GetCategories( Type type )
-		{
-			System.Attribute[] attributes = 
-				Reflect.GetAttributes( type, "NUnit.Framework.CategoryAttribute", false );
-			IList categories = new ArrayList();
-
-			foreach( Attribute categoryAttribute in attributes ) 
-				categories.Add( 
-					Reflect.GetPropertyValue( 
-					categoryAttribute, 
-					"Name", 
-					BindingFlags.Public | BindingFlags.Instance ) );
-
-			return categories;
-		}
 		#endregion
     }
 }

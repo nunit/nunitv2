@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections;
-using System.Reflection;
 
 namespace NUnit.Core
 {
@@ -73,24 +72,5 @@ namespace NUnit.Core
 		{
 			categories = new Hashtable();
 		}
-
-//		public static IList GetCategories( MemberInfo member )
-//		{
-//			System.Attribute[] attributes = 
-//				Reflect.GetAttributes( member, "NUnit.Framework.CategoryAttribute", false );
-//			IList categories = new ArrayList();
-//
-//			foreach( Attribute categoryAttribute in attributes ) 
-//			{
-//				string category = (string)Reflect.GetPropertyValue( 
-//					categoryAttribute, 
-//					"Name", 
-//					BindingFlags.Public | BindingFlags.Instance );
-//				categories.Add( category );
-//				//Add( category );
-//			}
-//
-//			return categories;
-//		}
 	}
 }

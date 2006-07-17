@@ -37,14 +37,6 @@ namespace NUnit.Core
 	/// </summary>
 	public class LegacySuite : TestSuite
 	{
-		#region Attributes recognized by LegacySuite
-
-		private static readonly string SuiteType = "NUnit.Framework.SuiteAttribute";
-		private static readonly string FixtureSetUpType = "NUnit.Framework.TestFixtureSetUpAttribute";
-		private static readonly string FixtureTearDownType = "NUnit.Framework.TestFixtureTearDownAttribute";
-
-		#endregion
-
 		#region Private Fields
 
 		private PropertyInfo suiteProperty;
@@ -60,7 +52,7 @@ namespace NUnit.Core
 
 			PropertyInfo property = Reflect.GetPropertyWithAttribute( 
 				testClass, 
-				SuiteType,
+				NUnitFramework.SuiteAttribute,
 				BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly );
 
 			if ( property == null )
@@ -86,10 +78,8 @@ namespace NUnit.Core
 		{
 			suiteProperty = GetSuiteProperty( fixtureType );
 
-			this.fixtureSetUp = Reflect.GetMethodWithAttribute( fixtureType, FixtureSetUpType,
-				BindingFlags.Public | BindingFlags.Instance, true);
-			this.fixtureTearDown = Reflect.GetMethodWithAttribute( fixtureType, FixtureTearDownType,
-				BindingFlags.Public | BindingFlags.Instance, true );			
+			this.fixtureSetUp = NUnitFramework.GetFixtureSetUpMethod( fixtureType );
+			this.fixtureTearDown = NUnitFramework.GetFixtureTearDownMethod( fixtureType );
 			
 			MethodInfo method = suiteProperty.GetGetMethod(true);
 			

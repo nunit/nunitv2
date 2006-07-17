@@ -74,7 +74,7 @@ namespace NUnit.Core
 		/// A dictionary of properties, used to add information
 		/// to tests without requiring the class to change.
 		/// </summary>
-		private ListDictionary properties;
+		private IDictionary properties;
 
 		/// <summary>
 		/// True if the test had the Explicit attribute
@@ -245,6 +245,10 @@ namespace NUnit.Core
 					properties = new ListDictionary();
 
 				return properties; 
+			}
+			set
+			{
+				properties = value;
 			}
 		}
 		#endregion

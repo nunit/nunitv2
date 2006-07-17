@@ -48,20 +48,31 @@ namespace NUnit.Core.Builders
 		protected TestSuite suite;
 		#endregion
 
-		#region ISuiteBuilder Members
-        /// <summary>
-        /// Examine the type and determine if it is suitable for
-        /// this builder to use in building a TestSuite.
-        /// 
-        /// Note that returning false will cause the type to be ignored 
-        /// in loading the tests. If it is desired to load the suite
-        /// but label it as non-runnable, ignored, etc., then this
-        /// method must return true.
-        /// </summary>
-        /// <param name="type">The type of the fixture to be used</param>
-        /// <returns>True if the type can be used to build a TestSuite</returns>
-        public abstract bool CanBuildFrom(Type type);
+		#region Abstract Methods
+		/// <summary>
+		/// Examine the type and determine if it is suitable for
+		/// this builder to use in building a TestSuite.
+		/// 
+		/// Note that returning false will cause the type to be ignored 
+		/// in loading the tests. If it is desired to load the suite
+		/// but label it as non-runnable, ignored, etc., then this
+		/// method must return true.
+		/// </summary>
+		/// <param name="type">The type of the fixture to be used</param>
+		/// <returns>True if the type can be used to build a TestSuite</returns>
+		public abstract bool CanBuildFrom(Type type);
 
+		/// <summary>
+		/// Method that actually creates a new TestSuite object
+		/// 
+		/// Derived classes must override this method.
+		/// </summary>
+		/// <param name="type">The user fixture type</param>
+		/// <returns></returns>
+		protected abstract TestSuite MakeSuite( Type type );
+		#endregion
+
+		#region Virtual Methods
 		/// <summary>
 		/// Templated implementaton of ISuiteBuilder.BuildFrom. Any
 		/// derived builder may choose to override this method in
@@ -73,20 +84,8 @@ namespace NUnit.Core.Builders
 		public virtual TestSuite BuildFrom(Type type)
 		{
 			this.suite = MakeSuite( type );
-
-			string reason = null;
-            if (!IsValidFixtureType(type, ref reason) )
-            {
-                this.suite.RunState = RunState.NotRunnable;
-                this.suite.IgnoreReason = reason;
-            }
-            else if (!ShouldRun(type, ref reason))
-            {
-                this.suite.RunState = RunState.Ignored;
-                this.suite.IgnoreReason = reason;
-            }
-
-            this.suite.Description = GetFixtureDescription(type);
+	
+			SetTestSuiteProperties( type, suite );
 
 			this.AddTestCases( type );
 
@@ -98,20 +97,25 @@ namespace NUnit.Core.Builders
 
 			return this.suite;
 		}
-		#endregion
 
-		#region Abstract Methods
 		/// <summary>
-		/// This method must be overridden to return an object of a class
-		/// that derives from TestSuite.
+		/// Method that sets properties of the test suite based on the
+		/// information in the provided Type.
+		/// 
+		/// Derived classes normally override this method and should
+		/// call the base method or include equivalent code.
 		/// </summary>
-		/// <param name="type">The user fixture type</param>
-		/// <returns></returns>
-		protected abstract TestSuite MakeSuite( Type type );
-
-		#endregion
-
-		#region Virtual Methods
+		/// <param name="type">The type to examine</param>
+		/// <param name="suite">The test suite being constructed</param>
+		protected virtual void SetTestSuiteProperties( Type type, TestSuite suite )
+		{
+			string reason = null;
+			if (!IsValidFixtureType(type, ref reason) )
+			{
+				this.suite.RunState = RunState.NotRunnable;
+				this.suite.IgnoreReason = reason;
+			}
+		}
 
 		/// <summary>
 		/// Virtual method that returns true if the fixture type is valid
@@ -133,30 +137,6 @@ namespace NUnit.Core.Builders
 			}
 
 			return true;
-		}
-
-		/// <summary>
-		/// This method returns true if the fixture should be run. The default
-		/// implementation simply returns true. Usually, this will be overridden
-		/// to check for the presence of an ignore attribute of some kind.
-		/// </summary>
-		/// <param name="fixtureType">The fixture type to check</param>
-		/// <param name="reason">Set to the reason for not running</param>
-		/// <returns>True if the test is runnable, false if not</returns>
-		protected virtual bool ShouldRun( Type fixtureType, ref string reason )
-		{
-			return true;
-		}
-
-		/// <summary>
-		/// Method to get any fixture description. Default returnes null.
-		/// Override to examine the fixture type and extract the description.
-		/// </summary>
-		/// <param name="fixtureType"></param>
-		/// <returns></returns>
-		protected virtual string GetFixtureDescription( Type fixtureType )
-		{
-			return null;
 		}
 
 		/// <summary>

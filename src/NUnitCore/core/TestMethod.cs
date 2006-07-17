@@ -35,13 +35,16 @@ namespace NUnit.Core
 	using System.Reflection;
 
 	/// <summary>
-	/// The TestMethod class represents
-	/// a TestCase implemented as a method call on
-	/// a fixture object. At the moment, this is the
-	/// only way we implement a TestCase, but others
-	/// are expected in the future.
+	/// The TestMethod class represents a TestCase implemented as a method
+	/// call on a fixture object. At the moment, this is the only way we 
+	/// implement a TestCase, but others are expected in the future.
+	/// 
+	/// Because of how exceptions are handled internally, this class
+	/// must incorporate processing of expected exceptions. A change to
+	/// the TestCase interface might make it easier to process exceptions
+	/// in an object that aggregates a TestMethod in the future.
 	/// </summary>
-	public class TestMethod : TestCase
+	public abstract class TestMethod : TestCase
 	{
 		#region Fields
 		/// <summary>
@@ -69,11 +72,25 @@ namespace NUnit.Core
 		/// </summary>
 		private object fixture;
 
+		/// <summary>
+		/// The type of any expected exception
+		/// </summary>
         internal Type expectedException;
-        internal string expectedExceptionName;
-        internal string expectedMessage;
-        internal string matchType;
-
+        
+		/// <summary>
+		/// The full name of any expected exception type
+		/// </summary>
+		internal string expectedExceptionName;
+        
+		/// <summary>
+		/// The value of any message associated with an expected exception
+		/// </summary>
+		internal string expectedMessage;
+        
+		/// <summary>
+		/// A string indicating how to match the expected message
+		/// </summary>
+		internal string matchType;
         #endregion
 
 		#region Constructors
@@ -83,26 +100,6 @@ namespace NUnit.Core
 		{
 			this.method = method;
 			this.fixtureType = method.ReflectedType;
-		}
-
-		public TestMethod( MethodInfo method,
-			Type expectedException, string expectedMessage, string matchType ) 
-			: this( method )
-		{
-			this.expectedException = expectedException;
-			if ( expectedException != null )
-				this.expectedExceptionName = expectedException.FullName;
-			this.expectedMessage = expectedMessage;
-			this.matchType = matchType;
-		}
-	
-		public TestMethod( MethodInfo method,
-			string expectedExceptionName, string expectedMessage, string matchType ) 
-			: this( method )
-		{
-			this.expectedExceptionName = expectedExceptionName;
-			this.expectedMessage = expectedMessage;
-			this.matchType = matchType;
 		}
 		#endregion
 
@@ -116,6 +113,38 @@ namespace NUnit.Core
 		{
 			get { return fixture; }
 			set { fixture = value; }
+		}
+
+		public Type ExpectedException
+		{
+			get { return expectedException; }
+			set 
+			{ 
+				expectedException = value;
+				expectedExceptionName = expectedException.FullName;
+			}
+		}
+
+		public string ExpectedExceptionName
+		{
+			get { return expectedExceptionName; }
+			set
+			{
+				expectedException = null;
+				expectedExceptionName = value;
+			}
+		}
+
+		public string ExpectedMessage
+		{
+			get { return expectedMessage; }
+			set { expectedMessage = value; }
+		}
+
+		public string MatchType
+		{
+			get { return matchType; }
+			set { matchType = value; }
 		}
 		#endregion
 
@@ -294,17 +323,13 @@ namespace NUnit.Core
             else
                 RecordException(exception, testResult);
 		}
+		#endregion
 
-        protected virtual bool IsAssertException(Exception ex)
-        {
-            return NUnitFramework.IsAssertException( ex );
-        }
+		#region Abstract Methods
+		protected abstract bool IsAssertException(Exception ex);
 
-        protected virtual bool IsIgnoreException(Exception ex)
-        {
-            return NUnitFramework.IsIgnoreException( ex );
-        }
-        #endregion
+		protected abstract bool IsIgnoreException(Exception ex);
+		#endregion
 
         #region Helper Methods
         protected bool ExceptionExpected

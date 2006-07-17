@@ -225,6 +225,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "NUnitTestMethod.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "PlatformHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

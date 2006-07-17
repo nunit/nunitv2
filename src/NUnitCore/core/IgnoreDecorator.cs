@@ -31,15 +31,12 @@ namespace NUnit.Core
 
 		private Test DecorateTest( Test test, MemberInfo member )
 		{
-			Attribute ignoreAttribute = Reflect.GetAttribute( member, ignoreAttributeType, false );
+			Attribute ignoreAttribute = NUnitFramework.GetIgnoreAttribute( member );
 
 			if ( ignoreAttribute != null )
 			{
 				test.RunState = RunState.Ignored;
-				test.IgnoreReason = (string)Reflect.GetPropertyValue(
-					ignoreAttribute, 
-					"Reason",
-					BindingFlags.Public | BindingFlags.Instance );
+				test.IgnoreReason = NUnitFramework.GetIgnoreReason( ignoreAttribute );
 			}
 
 			return test;

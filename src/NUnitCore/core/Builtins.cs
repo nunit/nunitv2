@@ -77,7 +77,7 @@ namespace NUnit.Core
 			testBuilders.Add( new Builders.NUnitTestCaseBuilder() );
 
 			//Add builtin TestDecorators
-			//testDecorators.Add( new IgnoreDecorator( "NUnit.Framework.IgnoreAttribute" ) );
+			//testDecorators.Add( new IgnoreDecorator( NUnitFramework.IgnoreAttribute ) );
 		}
 		#endregion
 
