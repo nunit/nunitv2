@@ -76,6 +76,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.RadioButton autoNamespaceSuites;
 		private System.Windows.Forms.RadioButton flatTestList;
 		private System.Windows.Forms.CheckBox rerunOnChangeCheckBox;
+		private System.Windows.Forms.CheckBox enableWordWrap;
 
 		private UserSettings _userSettings;
 		private UserSettings UserSettings
@@ -138,6 +139,7 @@ namespace NUnit.Gui
 			this.recentFilesCountTextBox = new System.Windows.Forms.TextBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.rerunOnChangeCheckBox = new System.Windows.Forms.CheckBox();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.failureToolTips = new System.Windows.Forms.CheckBox();
@@ -153,7 +155,7 @@ namespace NUnit.Gui
 			this.mergeAssembliesCheckBox = new System.Windows.Forms.CheckBox();
 			this.singleDomainRadioButton = new System.Windows.Forms.RadioButton();
 			this.multiDomainRadioButton = new System.Windows.Forms.RadioButton();
-			this.rerunOnChangeCheckBox = new System.Windows.Forms.CheckBox();
+			this.enableWordWrap = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -567,6 +569,35 @@ namespace NUnit.Gui
 			this.groupBox2.Text = resources.GetString("groupBox2.Text");
 			this.groupBox2.Visible = ((bool)(resources.GetObject("groupBox2.Visible")));
 			// 
+			// rerunOnChangeCheckBox
+			// 
+			this.rerunOnChangeCheckBox.AccessibleDescription = resources.GetString("rerunOnChangeCheckBox.AccessibleDescription");
+			this.rerunOnChangeCheckBox.AccessibleName = resources.GetString("rerunOnChangeCheckBox.AccessibleName");
+			this.rerunOnChangeCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("rerunOnChangeCheckBox.Anchor")));
+			this.rerunOnChangeCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("rerunOnChangeCheckBox.Appearance")));
+			this.rerunOnChangeCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rerunOnChangeCheckBox.BackgroundImage")));
+			this.rerunOnChangeCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("rerunOnChangeCheckBox.CheckAlign")));
+			this.rerunOnChangeCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("rerunOnChangeCheckBox.Dock")));
+			this.rerunOnChangeCheckBox.Enabled = ((bool)(resources.GetObject("rerunOnChangeCheckBox.Enabled")));
+			this.rerunOnChangeCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("rerunOnChangeCheckBox.FlatStyle")));
+			this.rerunOnChangeCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("rerunOnChangeCheckBox.Font")));
+			this.helpProvider1.SetHelpKeyword(this.rerunOnChangeCheckBox, resources.GetString("rerunOnChangeCheckBox.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.rerunOnChangeCheckBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("rerunOnChangeCheckBox.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.rerunOnChangeCheckBox, resources.GetString("rerunOnChangeCheckBox.HelpString"));
+			this.rerunOnChangeCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("rerunOnChangeCheckBox.Image")));
+			this.rerunOnChangeCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("rerunOnChangeCheckBox.ImageAlign")));
+			this.rerunOnChangeCheckBox.ImageIndex = ((int)(resources.GetObject("rerunOnChangeCheckBox.ImageIndex")));
+			this.rerunOnChangeCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("rerunOnChangeCheckBox.ImeMode")));
+			this.rerunOnChangeCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("rerunOnChangeCheckBox.Location")));
+			this.rerunOnChangeCheckBox.Name = "rerunOnChangeCheckBox";
+			this.rerunOnChangeCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("rerunOnChangeCheckBox.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.rerunOnChangeCheckBox, ((bool)(resources.GetObject("rerunOnChangeCheckBox.ShowHelp"))));
+			this.rerunOnChangeCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("rerunOnChangeCheckBox.Size")));
+			this.rerunOnChangeCheckBox.TabIndex = ((int)(resources.GetObject("rerunOnChangeCheckBox.TabIndex")));
+			this.rerunOnChangeCheckBox.Text = resources.GetString("rerunOnChangeCheckBox.Text");
+			this.rerunOnChangeCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("rerunOnChangeCheckBox.TextAlign")));
+			this.rerunOnChangeCheckBox.Visible = ((bool)(resources.GetObject("rerunOnChangeCheckBox.Visible")));
+			// 
 			// groupBox3
 			// 
 			this.groupBox3.AccessibleDescription = resources.GetString("groupBox3.AccessibleDescription");
@@ -597,6 +628,7 @@ namespace NUnit.Gui
 			this.groupBox4.AccessibleName = resources.GetString("groupBox4.AccessibleName");
 			this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox4.Anchor")));
 			this.groupBox4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox4.BackgroundImage")));
+			this.groupBox4.Controls.Add(this.enableWordWrap);
 			this.groupBox4.Controls.Add(this.failureToolTips);
 			this.groupBox4.Controls.Add(this.labelTestOutputCheckBox);
 			this.groupBox4.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("groupBox4.Dock")));
@@ -990,34 +1022,34 @@ namespace NUnit.Gui
 			this.multiDomainRadioButton.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("multiDomainRadioButton.TextAlign")));
 			this.multiDomainRadioButton.Visible = ((bool)(resources.GetObject("multiDomainRadioButton.Visible")));
 			// 
-			// rerunOnChangeCheckBox
+			// enableWordWrap
 			// 
-			this.rerunOnChangeCheckBox.AccessibleDescription = resources.GetString("rerunOnChangeCheckBox.AccessibleDescription");
-			this.rerunOnChangeCheckBox.AccessibleName = resources.GetString("rerunOnChangeCheckBox.AccessibleName");
-			this.rerunOnChangeCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("rerunOnChangeCheckBox.Anchor")));
-			this.rerunOnChangeCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("rerunOnChangeCheckBox.Appearance")));
-			this.rerunOnChangeCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rerunOnChangeCheckBox.BackgroundImage")));
-			this.rerunOnChangeCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("rerunOnChangeCheckBox.CheckAlign")));
-			this.rerunOnChangeCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("rerunOnChangeCheckBox.Dock")));
-			this.rerunOnChangeCheckBox.Enabled = ((bool)(resources.GetObject("rerunOnChangeCheckBox.Enabled")));
-			this.rerunOnChangeCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("rerunOnChangeCheckBox.FlatStyle")));
-			this.rerunOnChangeCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("rerunOnChangeCheckBox.Font")));
-			this.helpProvider1.SetHelpKeyword(this.rerunOnChangeCheckBox, resources.GetString("rerunOnChangeCheckBox.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.rerunOnChangeCheckBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("rerunOnChangeCheckBox.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.rerunOnChangeCheckBox, resources.GetString("rerunOnChangeCheckBox.HelpString"));
-			this.rerunOnChangeCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("rerunOnChangeCheckBox.Image")));
-			this.rerunOnChangeCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("rerunOnChangeCheckBox.ImageAlign")));
-			this.rerunOnChangeCheckBox.ImageIndex = ((int)(resources.GetObject("rerunOnChangeCheckBox.ImageIndex")));
-			this.rerunOnChangeCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("rerunOnChangeCheckBox.ImeMode")));
-			this.rerunOnChangeCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("rerunOnChangeCheckBox.Location")));
-			this.rerunOnChangeCheckBox.Name = "rerunOnChangeCheckBox";
-			this.rerunOnChangeCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("rerunOnChangeCheckBox.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.rerunOnChangeCheckBox, ((bool)(resources.GetObject("rerunOnChangeCheckBox.ShowHelp"))));
-			this.rerunOnChangeCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("rerunOnChangeCheckBox.Size")));
-			this.rerunOnChangeCheckBox.TabIndex = ((int)(resources.GetObject("rerunOnChangeCheckBox.TabIndex")));
-			this.rerunOnChangeCheckBox.Text = resources.GetString("rerunOnChangeCheckBox.Text");
-			this.rerunOnChangeCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("rerunOnChangeCheckBox.TextAlign")));
-			this.rerunOnChangeCheckBox.Visible = ((bool)(resources.GetObject("rerunOnChangeCheckBox.Visible")));
+			this.enableWordWrap.AccessibleDescription = resources.GetString("enableWordWrap.AccessibleDescription");
+			this.enableWordWrap.AccessibleName = resources.GetString("enableWordWrap.AccessibleName");
+			this.enableWordWrap.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("enableWordWrap.Anchor")));
+			this.enableWordWrap.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("enableWordWrap.Appearance")));
+			this.enableWordWrap.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("enableWordWrap.BackgroundImage")));
+			this.enableWordWrap.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("enableWordWrap.CheckAlign")));
+			this.enableWordWrap.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("enableWordWrap.Dock")));
+			this.enableWordWrap.Enabled = ((bool)(resources.GetObject("enableWordWrap.Enabled")));
+			this.enableWordWrap.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("enableWordWrap.FlatStyle")));
+			this.enableWordWrap.Font = ((System.Drawing.Font)(resources.GetObject("enableWordWrap.Font")));
+			this.helpProvider1.SetHelpKeyword(this.enableWordWrap, resources.GetString("enableWordWrap.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.enableWordWrap, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("enableWordWrap.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.enableWordWrap, resources.GetString("enableWordWrap.HelpString"));
+			this.enableWordWrap.Image = ((System.Drawing.Image)(resources.GetObject("enableWordWrap.Image")));
+			this.enableWordWrap.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("enableWordWrap.ImageAlign")));
+			this.enableWordWrap.ImageIndex = ((int)(resources.GetObject("enableWordWrap.ImageIndex")));
+			this.enableWordWrap.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("enableWordWrap.ImeMode")));
+			this.enableWordWrap.Location = ((System.Drawing.Point)(resources.GetObject("enableWordWrap.Location")));
+			this.enableWordWrap.Name = "enableWordWrap";
+			this.enableWordWrap.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("enableWordWrap.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.enableWordWrap, ((bool)(resources.GetObject("enableWordWrap.ShowHelp"))));
+			this.enableWordWrap.Size = ((System.Drawing.Size)(resources.GetObject("enableWordWrap.Size")));
+			this.enableWordWrap.TabIndex = ((int)(resources.GetObject("enableWordWrap.TabIndex")));
+			this.enableWordWrap.Text = resources.GetString("enableWordWrap.Text");
+			this.enableWordWrap.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("enableWordWrap.TextAlign")));
+			this.enableWordWrap.Visible = ((bool)(resources.GetObject("enableWordWrap.Visible")));
 			// 
 			// OptionsDialog
 			// 
@@ -1093,6 +1125,7 @@ namespace NUnit.Gui
 
 			labelTestOutputCheckBox.Checked = options.TestLabels;
 			failureToolTips.Checked = options.FailureToolTips;
+			enableWordWrap.Checked = options.EnableWordWrapForFailures;
 
 			visualStudioSupportCheckBox.Checked = options.VisualStudioSupport;
 		}
@@ -1122,6 +1155,7 @@ namespace NUnit.Gui
 
 			options.TestLabels = labelTestOutputCheckBox.Checked;
 			options.FailureToolTips = failureToolTips.Checked;
+			options.EnableWordWrapForFailures = enableWordWrap.Checked;
 			
 			options.VisualStudioSupport = visualStudioSupportCheckBox.Checked;
 

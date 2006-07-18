@@ -150,7 +150,6 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem decreaseFontMenuItem;
 		private System.Windows.Forms.MenuItem increaseFontMenuItem;
 		private System.Windows.Forms.MenuItem addinInfoMenuItem;
-		private System.Windows.Forms.CheckBox enableWordWrapCheckBox;
 		private System.Windows.Forms.MenuItem testMenu;
 		private System.Windows.Forms.MenuItem runAllMenuItem;
 		private System.Windows.Forms.MenuItem runSelectedMenuItem;
@@ -258,6 +257,12 @@ namespace NUnit.Gui
 			this.addVSProjectMenuItem = new System.Windows.Forms.MenuItem();
 			this.projectMenuSeparator2 = new System.Windows.Forms.MenuItem();
 			this.editProjectMenuItem = new System.Windows.Forms.MenuItem();
+			this.testMenu = new System.Windows.Forms.MenuItem();
+			this.runAllMenuItem = new System.Windows.Forms.MenuItem();
+			this.runSelectedMenuItem = new System.Windows.Forms.MenuItem();
+			this.runFailedMenuItem = new System.Windows.Forms.MenuItem();
+			this.menuItem1 = new System.Windows.Forms.MenuItem();
+			this.stopRunMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenu = new System.Windows.Forms.MenuItem();
 			this.saveXmlResultsMenuItem = new System.Windows.Forms.MenuItem();
 			this.exceptionDetailsMenuItem = new System.Windows.Forms.MenuItem();
@@ -274,7 +279,6 @@ namespace NUnit.Gui
 			this.rightPanel = new System.Windows.Forms.Panel();
 			this.resultTabs = new System.Windows.Forms.TabControl();
 			this.errorPage = new System.Windows.Forms.TabPage();
-			this.enableWordWrapCheckBox = new System.Windows.Forms.CheckBox();
 			this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
 			this.tabSplitter = new System.Windows.Forms.Splitter();
 			this.detailList = new System.Windows.Forms.ListBox();
@@ -294,12 +298,6 @@ namespace NUnit.Gui
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.testTree = new NUnit.UiKit.TestTree();
 			this.leftPanel = new System.Windows.Forms.Panel();
-			this.testMenu = new System.Windows.Forms.MenuItem();
-			this.runAllMenuItem = new System.Windows.Forms.MenuItem();
-			this.runSelectedMenuItem = new System.Windows.Forms.MenuItem();
-			this.runFailedMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem1 = new System.Windows.Forms.MenuItem();
-			this.stopRunMenuItem = new System.Windows.Forms.MenuItem();
 			this.rightPanel.SuspendLayout();
 			this.resultTabs.SuspendLayout();
 			this.errorPage.SuspendLayout();
@@ -766,6 +764,70 @@ namespace NUnit.Gui
 			this.editProjectMenuItem.Visible = ((bool)(resources.GetObject("editProjectMenuItem.Visible")));
 			this.editProjectMenuItem.Click += new System.EventHandler(this.editProjectMenuItem_Click);
 			// 
+			// testMenu
+			// 
+			this.testMenu.Enabled = ((bool)(resources.GetObject("testMenu.Enabled")));
+			this.testMenu.Index = 3;
+			this.testMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					 this.runAllMenuItem,
+																					 this.runSelectedMenuItem,
+																					 this.runFailedMenuItem,
+																					 this.menuItem1,
+																					 this.stopRunMenuItem});
+			this.testMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("testMenu.Shortcut")));
+			this.testMenu.ShowShortcut = ((bool)(resources.GetObject("testMenu.ShowShortcut")));
+			this.testMenu.Text = resources.GetString("testMenu.Text");
+			this.testMenu.Visible = ((bool)(resources.GetObject("testMenu.Visible")));
+			// 
+			// runAllMenuItem
+			// 
+			this.runAllMenuItem.Enabled = ((bool)(resources.GetObject("runAllMenuItem.Enabled")));
+			this.runAllMenuItem.Index = 0;
+			this.runAllMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("runAllMenuItem.Shortcut")));
+			this.runAllMenuItem.ShowShortcut = ((bool)(resources.GetObject("runAllMenuItem.ShowShortcut")));
+			this.runAllMenuItem.Text = resources.GetString("runAllMenuItem.Text");
+			this.runAllMenuItem.Visible = ((bool)(resources.GetObject("runAllMenuItem.Visible")));
+			this.runAllMenuItem.Click += new System.EventHandler(this.runAllMenuItem_Click);
+			// 
+			// runSelectedMenuItem
+			// 
+			this.runSelectedMenuItem.Enabled = ((bool)(resources.GetObject("runSelectedMenuItem.Enabled")));
+			this.runSelectedMenuItem.Index = 1;
+			this.runSelectedMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("runSelectedMenuItem.Shortcut")));
+			this.runSelectedMenuItem.ShowShortcut = ((bool)(resources.GetObject("runSelectedMenuItem.ShowShortcut")));
+			this.runSelectedMenuItem.Text = resources.GetString("runSelectedMenuItem.Text");
+			this.runSelectedMenuItem.Visible = ((bool)(resources.GetObject("runSelectedMenuItem.Visible")));
+			this.runSelectedMenuItem.Click += new System.EventHandler(this.runSelectedMenuItem_Click);
+			// 
+			// runFailedMenuItem
+			// 
+			this.runFailedMenuItem.Enabled = ((bool)(resources.GetObject("runFailedMenuItem.Enabled")));
+			this.runFailedMenuItem.Index = 2;
+			this.runFailedMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("runFailedMenuItem.Shortcut")));
+			this.runFailedMenuItem.ShowShortcut = ((bool)(resources.GetObject("runFailedMenuItem.ShowShortcut")));
+			this.runFailedMenuItem.Text = resources.GetString("runFailedMenuItem.Text");
+			this.runFailedMenuItem.Visible = ((bool)(resources.GetObject("runFailedMenuItem.Visible")));
+			this.runFailedMenuItem.Click += new System.EventHandler(this.runFailedMenuItem_Click);
+			// 
+			// menuItem1
+			// 
+			this.menuItem1.Enabled = ((bool)(resources.GetObject("menuItem1.Enabled")));
+			this.menuItem1.Index = 3;
+			this.menuItem1.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem1.Shortcut")));
+			this.menuItem1.ShowShortcut = ((bool)(resources.GetObject("menuItem1.ShowShortcut")));
+			this.menuItem1.Text = resources.GetString("menuItem1.Text");
+			this.menuItem1.Visible = ((bool)(resources.GetObject("menuItem1.Visible")));
+			// 
+			// stopRunMenuItem
+			// 
+			this.stopRunMenuItem.Enabled = ((bool)(resources.GetObject("stopRunMenuItem.Enabled")));
+			this.stopRunMenuItem.Index = 4;
+			this.stopRunMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("stopRunMenuItem.Shortcut")));
+			this.stopRunMenuItem.ShowShortcut = ((bool)(resources.GetObject("stopRunMenuItem.ShowShortcut")));
+			this.stopRunMenuItem.Text = resources.GetString("stopRunMenuItem.Text");
+			this.stopRunMenuItem.Visible = ((bool)(resources.GetObject("stopRunMenuItem.Visible")));
+			this.stopRunMenuItem.Click += new System.EventHandler(this.stopRunMenuItem_Click);
+			// 
 			// toolsMenu
 			// 
 			this.toolsMenu.Enabled = ((bool)(resources.GetObject("toolsMenu.Enabled")));
@@ -978,7 +1040,6 @@ namespace NUnit.Gui
 			this.errorPage.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("errorPage.AutoScrollMargin")));
 			this.errorPage.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("errorPage.AutoScrollMinSize")));
 			this.errorPage.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("errorPage.BackgroundImage")));
-			this.errorPage.Controls.Add(this.enableWordWrapCheckBox);
 			this.errorPage.Controls.Add(this.stackTrace);
 			this.errorPage.Controls.Add(this.tabSplitter);
 			this.errorPage.Controls.Add(this.detailList);
@@ -996,34 +1057,6 @@ namespace NUnit.Gui
 			this.toolTip.SetToolTip(this.errorPage, resources.GetString("errorPage.ToolTip"));
 			this.errorPage.ToolTipText = resources.GetString("errorPage.ToolTipText");
 			this.errorPage.Visible = ((bool)(resources.GetObject("errorPage.Visible")));
-			// 
-			// enableWordWrapCheckBox
-			// 
-			this.enableWordWrapCheckBox.AccessibleDescription = resources.GetString("enableWordWrapCheckBox.AccessibleDescription");
-			this.enableWordWrapCheckBox.AccessibleName = resources.GetString("enableWordWrapCheckBox.AccessibleName");
-			this.enableWordWrapCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("enableWordWrapCheckBox.Anchor")));
-			this.enableWordWrapCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("enableWordWrapCheckBox.Appearance")));
-			this.enableWordWrapCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("enableWordWrapCheckBox.BackgroundImage")));
-			this.enableWordWrapCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("enableWordWrapCheckBox.CheckAlign")));
-			this.enableWordWrapCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("enableWordWrapCheckBox.Dock")));
-			this.enableWordWrapCheckBox.Enabled = ((bool)(resources.GetObject("enableWordWrapCheckBox.Enabled")));
-			this.enableWordWrapCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("enableWordWrapCheckBox.FlatStyle")));
-			this.enableWordWrapCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("enableWordWrapCheckBox.Font")));
-			this.enableWordWrapCheckBox.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.enableWordWrapCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("enableWordWrapCheckBox.Image")));
-			this.enableWordWrapCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("enableWordWrapCheckBox.ImageAlign")));
-			this.enableWordWrapCheckBox.ImageIndex = ((int)(resources.GetObject("enableWordWrapCheckBox.ImageIndex")));
-			this.enableWordWrapCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("enableWordWrapCheckBox.ImeMode")));
-			this.enableWordWrapCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("enableWordWrapCheckBox.Location")));
-			this.enableWordWrapCheckBox.Name = "enableWordWrapCheckBox";
-			this.enableWordWrapCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("enableWordWrapCheckBox.RightToLeft")));
-			this.enableWordWrapCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("enableWordWrapCheckBox.Size")));
-			this.enableWordWrapCheckBox.TabIndex = ((int)(resources.GetObject("enableWordWrapCheckBox.TabIndex")));
-			this.enableWordWrapCheckBox.Text = resources.GetString("enableWordWrapCheckBox.Text");
-			this.enableWordWrapCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("enableWordWrapCheckBox.TextAlign")));
-			this.toolTip.SetToolTip(this.enableWordWrapCheckBox, resources.GetString("enableWordWrapCheckBox.ToolTip"));
-			this.enableWordWrapCheckBox.Visible = ((bool)(resources.GetObject("enableWordWrapCheckBox.Visible")));
-			this.enableWordWrapCheckBox.CheckedChanged += new System.EventHandler(this.enableWordWrapCheckBox_CheckedChanged);
 			// 
 			// stackTrace
 			// 
@@ -1445,70 +1478,6 @@ namespace NUnit.Gui
 			this.toolTip.SetToolTip(this.leftPanel, resources.GetString("leftPanel.ToolTip"));
 			this.leftPanel.Visible = ((bool)(resources.GetObject("leftPanel.Visible")));
 			// 
-			// testMenu
-			// 
-			this.testMenu.Enabled = ((bool)(resources.GetObject("testMenu.Enabled")));
-			this.testMenu.Index = 3;
-			this.testMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					 this.runAllMenuItem,
-																					 this.runSelectedMenuItem,
-																					 this.runFailedMenuItem,
-																					 this.menuItem1,
-																					 this.stopRunMenuItem});
-			this.testMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("testMenu.Shortcut")));
-			this.testMenu.ShowShortcut = ((bool)(resources.GetObject("testMenu.ShowShortcut")));
-			this.testMenu.Text = resources.GetString("testMenu.Text");
-			this.testMenu.Visible = ((bool)(resources.GetObject("testMenu.Visible")));
-			// 
-			// runAllMenuItem
-			// 
-			this.runAllMenuItem.Enabled = ((bool)(resources.GetObject("runAllMenuItem.Enabled")));
-			this.runAllMenuItem.Index = 0;
-			this.runAllMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("runAllMenuItem.Shortcut")));
-			this.runAllMenuItem.ShowShortcut = ((bool)(resources.GetObject("runAllMenuItem.ShowShortcut")));
-			this.runAllMenuItem.Text = resources.GetString("runAllMenuItem.Text");
-			this.runAllMenuItem.Visible = ((bool)(resources.GetObject("runAllMenuItem.Visible")));
-			this.runAllMenuItem.Click += new System.EventHandler(this.runAllMenuItem_Click);
-			// 
-			// runSelectedMenuItem
-			// 
-			this.runSelectedMenuItem.Enabled = ((bool)(resources.GetObject("runSelectedMenuItem.Enabled")));
-			this.runSelectedMenuItem.Index = 1;
-			this.runSelectedMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("runSelectedMenuItem.Shortcut")));
-			this.runSelectedMenuItem.ShowShortcut = ((bool)(resources.GetObject("runSelectedMenuItem.ShowShortcut")));
-			this.runSelectedMenuItem.Text = resources.GetString("runSelectedMenuItem.Text");
-			this.runSelectedMenuItem.Visible = ((bool)(resources.GetObject("runSelectedMenuItem.Visible")));
-			this.runSelectedMenuItem.Click += new System.EventHandler(this.runSelectedMenuItem_Click);
-			// 
-			// runFailedMenuItem
-			// 
-			this.runFailedMenuItem.Enabled = ((bool)(resources.GetObject("runFailedMenuItem.Enabled")));
-			this.runFailedMenuItem.Index = 2;
-			this.runFailedMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("runFailedMenuItem.Shortcut")));
-			this.runFailedMenuItem.ShowShortcut = ((bool)(resources.GetObject("runFailedMenuItem.ShowShortcut")));
-			this.runFailedMenuItem.Text = resources.GetString("runFailedMenuItem.Text");
-			this.runFailedMenuItem.Visible = ((bool)(resources.GetObject("runFailedMenuItem.Visible")));
-			this.runFailedMenuItem.Click += new System.EventHandler(this.runFailedMenuItem_Click);
-			// 
-			// menuItem1
-			// 
-			this.menuItem1.Enabled = ((bool)(resources.GetObject("menuItem1.Enabled")));
-			this.menuItem1.Index = 3;
-			this.menuItem1.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem1.Shortcut")));
-			this.menuItem1.ShowShortcut = ((bool)(resources.GetObject("menuItem1.ShowShortcut")));
-			this.menuItem1.Text = resources.GetString("menuItem1.Text");
-			this.menuItem1.Visible = ((bool)(resources.GetObject("menuItem1.Visible")));
-			// 
-			// stopRunMenuItem
-			// 
-			this.stopRunMenuItem.Enabled = ((bool)(resources.GetObject("stopRunMenuItem.Enabled")));
-			this.stopRunMenuItem.Index = 4;
-			this.stopRunMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("stopRunMenuItem.Shortcut")));
-			this.stopRunMenuItem.ShowShortcut = ((bool)(resources.GetObject("stopRunMenuItem.ShowShortcut")));
-			this.stopRunMenuItem.Text = resources.GetString("stopRunMenuItem.Text");
-			this.stopRunMenuItem.Visible = ((bool)(resources.GetObject("stopRunMenuItem.Visible")));
-			this.stopRunMenuItem.Click += new System.EventHandler(this.stopRunMenuItem_Click);
-			// 
 			// NUnitForm
 			// 
 			this.AccessibleDescription = resources.GetString("$this.AccessibleDescription");
@@ -1908,8 +1877,23 @@ namespace NUnit.Gui
 				dialog.Font = this.Font;
 				dialog.ShowDialog();
 
-				// for now, reflect changes to stacktrace tooltips here
+				// HACK: For now, reflect changes to stacktrace tooltips and wordwrap here
 				this.stackTrace.AutoExpand = UserSettings.Options.FailureToolTips;
+
+				bool wordWrap = UserSettings.Options.EnableWordWrapForFailures;
+				
+				if ( this.stackTrace.WordWrap != wordWrap )
+				{
+					this.stackTrace.WordWrap = wordWrap;
+
+					this.detailList.BeginUpdate();
+					ArrayList copiedItems = new ArrayList( detailList.Items );
+					this.detailList.Items.Clear();
+					foreach( object item in copiedItems )
+						this.detailList.Items.Add( item );
+					this.detailList.EndUpdate();
+					this.stackTrace.WordWrap = wordWrap;
+				}
 			}
 		}
 
@@ -2075,7 +2059,7 @@ namespace NUnit.Gui
 
 			// Turn stacktrace tooltips on or off
 			this.stackTrace.AutoExpand = UserSettings.Options.FailureToolTips;
-			this.enableWordWrapCheckBox.Checked = UserSettings.Options.EnableWordWrapForFailures;
+			this.stackTrace.WordWrap = UserSettings.Options.EnableWordWrapForFailures;
 
 			// Update tab menu items and display those that are used
 			errorsTabMenuItem.Checked = UserSettings.Form.DisplayErrorsTab;
@@ -2530,7 +2514,7 @@ the version under which NUnit is currently running, {0}.",
 		{
 			TestResultItem item = (TestResultItem) detailList.Items[e.Index];
 			//string s = item.ToString();
-			SizeF size = enableWordWrapCheckBox.Checked
+			SizeF size = UserSettings.Options.EnableWordWrapForFailures
 				? e.Graphics.MeasureString(item.GetMessage(), detailList.Font, detailList.ClientSize.Width )
 				: e.Graphics.MeasureString(item.GetMessage(), detailList.Font );
 			e.ItemHeight = (int)size.Height;
@@ -2547,7 +2531,7 @@ the version under which NUnit is currently running, {0}.",
 				bool selected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected) ? true : false;
 				Brush brush = selected ? SystemBrushes.HighlightText : SystemBrushes.WindowText;
 				RectangleF layoutRect = e.Bounds;
-				if (enableWordWrapCheckBox.Checked && layoutRect.Width > detailList.ClientSize.Width )
+				if (UserSettings.Options.EnableWordWrapForFailures && layoutRect.Width > detailList.ClientSize.Width )
 					layoutRect.Width = detailList.ClientSize.Width;
 				e.Graphics.DrawString(item.GetMessage(),detailList.Font, brush, layoutRect);
 				
@@ -2643,16 +2627,16 @@ the version under which NUnit is currently running, {0}.",
 			}
 		}
 
-		private void enableWordWrapCheckBox_CheckedChanged(object sender, System.EventArgs e)
-		{
-			this.detailList.BeginUpdate();
-			ArrayList copiedItems = new ArrayList( detailList.Items );
-			this.detailList.Items.Clear();
-			foreach( object item in copiedItems )
-				this.detailList.Items.Add( item );
-			this.detailList.EndUpdate();
-			this.stackTrace.WordWrap = this.enableWordWrapCheckBox.Checked;
-		}
+//		private void enableWordWrapCheckBox_CheckedChanged(object sender, System.EventArgs e)
+//		{
+		//			this.detailList.BeginUpdate();
+		//			ArrayList copiedItems = new ArrayList( detailList.Items );
+		//			this.detailList.Items.Clear();
+		//			foreach( object item in copiedItems )
+		//				this.detailList.Items.Add( item );
+		//			this.detailList.EndUpdate();
+		//			this.stackTrace.WordWrap = this.enableWordWrapCheckBox.Checked;
+		//		}
 
 		#endregion
 
