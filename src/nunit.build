@@ -55,7 +55,8 @@
   <property name="nunit.gui.name" value="nunit.exe"/>
   <property name="nunit.console.name" value="nunit-console.exe"/>
   <property name="nunit.project.name" value="NUnitTests.nunit"/>
-  <property name="nunit.test.assemblies" value="nunit.framework.tests.dll nunit.core.tests.dll nunit.extensions.tests.dll nunit.util.tests.dll nunit-console.tests.dll"/>
+  <property name="nunit.base.tests" value="nunit.framework.tests.dll nunit.core.tests.dll nunit.extensions.tests.dll nunit.util.tests.dll nunit.mocks.tests.dll nunit-console.tests.dll"/>
+  <property name="nunit.gui.tests" value="nunit.uikit.tests.dll nunit-gui.tests.dll"/>
   <property name="nunit.options" value=""/>
 
   <!-- NCover executable and arguments -->
@@ -133,6 +134,7 @@
   <property name="build.config" value="debug"/>
   <property name="build.clean" value="false"/>
   <property name="build.dir.set" value="false"/>
+  <property name="build.defines" value=""/>
 
   <!-- Default runtime configuration -->
   <foreach item="String" delim="," 
@@ -184,7 +186,7 @@
   <target name="mono-2.0" description="Set runtime to Mono 2.0 for commands that follow">
     <call target="set-mono-2.0-runtime-config"/>
   </target>
-  
+
 <!-- Targets that clean directories -->
 
   <target name="clean" depends="set-build-dir"
@@ -237,15 +239,17 @@
     <call target="build-console"/>
     <call target="build-console-exe"/>
 
+    <!-- test-server is not yet implemented for mono -->
     <if test="${build.win32}">
       <call target="build-test-server"/>
       <call target="build-test-server-exe"/>
     </if>
-      <call target="build-uikit"/>
 
+    <if test="${build.gui}">
+      <call target="build-uikit"/>
       <call target="build-gui-runner"/>
       <call target="build-gui-runner-exe"/>
-    <!--</if>-->
+    </if>
 
     <!-- Build the Test Utilities and dummy projects -->
     <call target="build-mock-assembly"/>
@@ -263,12 +267,15 @@
     <call target="build-mock-tests"/>
     <call target="build-console-tests"/>
 
+    <!-- test-server not yet implemented for mono -->
     <if test="${build.win32}">
       <call target="build-test-server-tests"/>
     </if>
+
+    <if test="${build.gui}">
       <call target="build-uikit-tests"/>
       <call target="build-gui-runner-tests"/>
-    <!--</if>-->
+    </if>
 
     <!-- Create NUnit and config files for running tests -->
     <copy file="NUnitBinTests.nunit" if="${build.win32}"
@@ -322,7 +329,7 @@
         output="${current.build.dir}/nunit.framework.dll"
         doc="${current.build.dir}/nunit.framework.xml"
         debug="${build.debug}" 
-        define="${build.defines.csc},StronglyNamedAssembly">
+        define="${build.defines}">
       <nowarn>
         <warning number="618,672"/>
       </nowarn>
@@ -336,7 +343,7 @@
   <target name="build-framework-extensions" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/nunit.framework.extensions.dll"
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="NUnitExtensions/framework">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -347,7 +354,7 @@
   <target name="build-mocks" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/nunit.mocks.dll"
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="NUnitMocks/mocks">
         <include name="../../CommonAssemblyInfo.cs"/>
         <include name="*.cs"/>
@@ -362,7 +369,7 @@
     <csc target="library" 
         output="${current.build.dir}/nunit.common.dll"
         debug="${build.debug}" 
-        define="${build.defines.csc},StronglyNamedAssembly">
+        define="${build.defines}">
       <sources basedir="NUnitCore/common">
         <include name="*.cs"/>
 	  <include name="Filters/*.cs"/>
@@ -375,7 +382,7 @@
     <csc target="library" 
         output="${current.build.dir}/nunit.core.dll"
         debug="${build.debug}" 
-        define="${build.defines.csc},StronglyNamedAssembly">
+        define="${build.defines}">
       <sources basedir="NUnitCore/core">
         <include name="*.cs"/>
         <include name="Builders/*.cs"/>
@@ -390,7 +397,7 @@
   <target name="build-core-extensions" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/nunit.core.extensions.dll"
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="NUnitExtensions/core">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -405,7 +412,7 @@
   <target name="build-util" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/nunit.util.dll"
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="ClientUtilities/util">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -424,7 +431,7 @@
   <target name="build-console" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/nunit-console-runner.dll"
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="ConsoleRunner/nunit-console">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -440,7 +447,7 @@
   <target name="build-console-exe" depends="make-build-dir">
     <csc target="exe" 
         output="${current.build.dir}/${nunit.console.name}"
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="ConsoleRunner/nunit-console-exe">
         <include name="*.cs"/>
       </sources>
@@ -458,7 +465,7 @@
   <target name="build-test-server" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/nunit-test-server.dll"
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="NUnitTestServer/nunit-server">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -473,7 +480,7 @@
   <target name="build-test-server-exe" depends="make-build-dir">
     <csc target="exe" 
         output="${current.build.dir}/nunit-server.exe"
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="NUnitTestServer/nunit-server-exe">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -489,7 +496,7 @@
   <target name="build-uikit" depends="make-build-dir">
     <csc target="library" 
     output="${current.build.dir}/nunit.uikit.dll"
-    debug="${build.debug}" define="${build.defines.csc}">
+    debug="${build.debug}" define="${build.defines}">
       <sources basedir="GuiComponents/UiKit">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -521,7 +528,7 @@
     <csc target="library" 
        output="${current.build.dir}/nunit-gui-runner.dll" 
        win32icon="GuiRunner/nunit-gui/Logo.ico" debug="${build.debug}"
-       define="${build.defines.csc}">
+       define="${build.defines}">
       <sources basedir="GuiRunner/nunit-gui">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -546,7 +553,7 @@
     <csc target="winexe" 
         output="${current.build.dir}/${nunit.gui.name}" 
         win32icon="GuiRunner/nunit-gui-exe/App.ico" debug="${build.debug}"
-        define="${build.defines.csc}">
+        define="${build.defines}">
       <sources basedir="GuiRunner/nunit-gui-exe">
         <include name="AssemblyInfo.cs"/>
         <include name="Class1.cs"/>
@@ -564,7 +571,7 @@
   <target name="build-mock-assembly" depends="make-build-dir">
     <csc target="library" 
       output="${current.build.dir}/mock-assembly.dll" 
-      debug="${build.debug}" define="${build.defines.csc}">
+      debug="${build.debug}" define="${build.defines}">
       <sources basedir="tests/mock-assembly">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -581,7 +588,7 @@
   <target name="build-nonamespace-assembly" depends="make-build-dir">
     <csc target="library" 
        output="${current.build.dir}/nonamespace-assembly.dll" 
-       debug="${build.debug}" define="${build.defines.csc}">
+       debug="${build.debug}" define="${build.defines}">
       <sources basedir="tests/nonamespace-assembly">
         <include name="AssemblyInfo.cs"/>
         <include name="NoNamespaceTestFixture.cs"/>
@@ -596,7 +603,7 @@
   <target name="build-notestfixtures-assembly" depends="make-build-dir">
     <csc target="library" 
        output="${current.build.dir}/notestfixtures-assembly.dll"
-       debug="${build.debug}" define="${build.defines.csc}">
+       debug="${build.debug}" define="${build.defines}">
       <sources basedir="tests/notestfixtures-assembly">
         <include name="AssemblyInfo.cs"/>
         <include name="Class1.cs"/>
@@ -608,7 +615,7 @@
   <target name="build-test-assembly" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/test-assembly.dll" 
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="tests/test-assembly">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -625,7 +632,7 @@
   <target name="build-test-utilities" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/test-utilities.dll" 
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="tests/test-utilities">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -663,7 +670,7 @@
     <csc target="library" 
         output="${current.build.dir}/nunit.framework.tests.dll"
         debug="${build.debug}" 
-        define="${build.defines.csc}">
+        define="${build.defines}">
       <nowarn>
         <warning number="618,672"/>
       </nowarn>
@@ -686,7 +693,7 @@
     <csc target="library" 
        output="${current.build.dir}/nunit.core.tests.dll"
        debug="${build.debug}" 
-       define="${build.defines.csc}">
+       define="${build.defines}">
       <nowarn>
         <warning number="618,672"/>
       </nowarn>
@@ -716,7 +723,7 @@
   <target name="build-extension-tests" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/nunit.extensions.tests.dll"
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="NUnitExtensions/tests">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -735,7 +742,7 @@
   <target name="build-mock-tests" depends="make-build-dir">
     <csc target="library"
        output="${current.build.dir}/nunit.mocks.tests.dll" 
-       debug="${build.debug}" define="${build.defines.csc}">
+       debug="${build.debug}" define="${build.defines}">
       <sources basedir="NUnitMocks/tests">
         <include name="AssemblyInfo.cs"/>
         <include name="DynamicMockTests.cs"/>
@@ -752,7 +759,7 @@
   <target name="build-util-tests" depends="make-build-dir">
     <csc target="library" 
        output="${current.build.dir}/nunit.util.tests.dll"
-       debug="${build.debug}" define="${build.defines.csc}">
+       debug="${build.debug}" define="${build.defines}">
       <sources basedir="ClientUtilities/tests">
         <include name="../../CommonAssemblyInfo.cs"/>
         <include name="*.cs"/>
@@ -779,7 +786,7 @@
   <target name="build-console-tests" depends="make-build-dir">
     <csc target="library" 
       output="${current.build.dir}/nunit-console.tests.dll"
-      debug="${build.debug}" define="${build.defines.csc}">
+      debug="${build.debug}" define="${build.defines}">
       <sources basedir="ConsoleRunner/tests">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -798,7 +805,7 @@
   <target name="build-test-server-tests" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/nunit-server.tests.dll"
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="NUnitTestServer/tests">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -816,7 +823,7 @@
   <target name="build-uikit-tests" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/nunit.uikit.tests.dll" 
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="GuiComponents/tests">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -839,7 +846,7 @@
   <target name="build-gui-runner-tests" depends="make-build-dir">
     <csc target="library" 
         output="${current.build.dir}/nunit-gui.tests.dll" 
-        debug="${build.debug}" define="${build.defines.csc}">
+        debug="${build.debug}" define="${build.defines}">
       <sources basedir="GuiRunner/tests">
         <include name="*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
@@ -866,22 +873,34 @@
 
     <!-- We use exec rather than the nunit2 task because we are testing
          a new build of NUnit which is likely not to be included in the Nant build -->
-    <exec basedir="${current.build.dir}"
+<!--    <exec basedir="${current.build.dir}"
       workingdir="${current.build.dir}" 
 	  program="${nunit.console.name}" 
       useruntimeengine="true"
 	  commandline="${nunit.project.name} ${nunit.options}"
-	if="${build.win32}" />
+	if="${build.win32}" />-->
 
     <!-- Mono currently has a SIGSEGV fault if we run in a single AppDomain -->
          a new build of NUnit which is likely not to be included in the Nant build -->
+    <property name="nunit.test.assemblies" 
+      value="${nunit.base.tests} ${nunit.gui.tests}" if="${build.gui}"/>
+    <property name="nunit.test.assemblies" 
+      value="${nunit.base.tests}" unless="${build.gui}"/>
     <exec basedir="${current.build.dir}"
       workingdir="${current.build.dir}" 
 	  program="${nunit.console.name}" 
       useruntimeengine="true"
-	  commandline="${nunit.test.assemblies} ${nunit.options}"
-	unless="${build.win32}" />
+	  commandline="${nunit.test.assemblies} ${nunit.options}"/>
+<!--	unless="${build.win32}" />-->
 
+  </target>
+
+  <target name="test-framework" depends="build-framework">
+    <exec basedir="${current.build.dir}"
+      workingdir="${current.build.dir}"
+      program="${nunit.console.name}"
+      useruntimeengine="true"
+      commandline="nunit.framework.tests.dll" />
   </target>
 
   <target name="test-coverage" depends="build"

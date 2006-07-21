@@ -10,16 +10,8 @@
   <target name="set-debug-build-config">
     <property name="build.config" value="debug"/>
     <property name="build.debug" value="true"/>
-    <property name="build.defines.csc" 
-      value="DEBUG,TRACE" readonly="false" />
-    <property name="build.defines.jsc" 
-      value="DEBUG,TRACE" readonly="false" />
-    <property name="build.defines.vbc" 
-      value="DEBUG=True,TRACE=True" readonly="false" />
-    <property name="build.defines.vjc"
-      value="DEBUG,TRACE" readonly="false" />
-    <property name="build.defines.cl"
-      value="/D _DEBUG" readonly="false" />
+    <property name="build.defines" value="DEBUG,TRACE,${runtime.defines}"
+        dynamic="true"/>
     <property name="zip.build.suffix" value="-dbg"/>
     <property name="msi.build.suffix" value="-dbg"/>
   </target>
@@ -27,16 +19,8 @@
   <target name="set-release-build-config">
     <property name="build.config" value="release"/>
     <property name="build.debug" value="false"/>
-    <property name="build.defines.csc"
-      value="TRACE,STRONG" readonly="false" />
-    <property name="build.defines.jsc"
-      value="TRACE,STRONG" readonly="false" />
-    <property name="build.defines.vbc"
-      value="TRACE=True,STRONG=True" readonly="false" />
-    <property name="build.defines.vjc"
-      value="TRACE,STRONG" readonly="false" />
-    <property name="build.defines.cl"
-      value="/D STRONG" readonly="false" />
+    <property name="build.defines" value="TRACE,${runtime.defines}"
+	dynamic="true"/>
     <property name="zip.build.suffix" value=""/>
     <property name="msi.build.suffix" value=""/>
   </target>
@@ -54,8 +38,10 @@
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="1.0"/>
     <property name="runtime.config" value="net-1.0"/>
+    <property name="runtime.defines" value="NET,NET_1_0"/>
     <property name="build.mono" value="false"/>
     <property name="build.win32" value="true"/>
+    <property name="build.gui" value="false"/>
     <property name="nant.settings.currentframework" 
       value="net-1.0"/>
     <property name="zip.runtime.suffix" value="-net-1.0"/>
@@ -67,10 +53,13 @@
     <fail unless="${framework::sdk-exists( 'net-1.1' )}"
       message="The .NET 1.1 SDK is not configured or not installed"/>
 
+    <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="1.1"/>
     <property name="runtime.config" value="net-1.1"/>
+    <property name="runtime.defines" value="NET,NET_1_1"/>
     <property name="build.mono" value="false"/>
     <property name="build.win32" value="true"/>
+    <property name="build.gui" value="true"/>
     <property name="nant.settings.currentframework" 
       value="net-1.1"/>
     <property name="zip.runtime.suffix" value="-net-1.1"/>
@@ -84,8 +73,10 @@
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="2.0"/>
     <property name="runtime.config" value="net-2.0"/>
+    <property name="runtime.defines" value="NET,NET_2_1"/>
     <property name="build.mono" value="false"/>
     <property name="build.win32" value="true"/>
+    <property name="build.gui" value="true"/>
     <property name="nant.settings.currentframework" 
       value="net-2.0"/>
     <property name="zip.runtime.suffix" value="-net-2.0"/>
@@ -99,8 +90,10 @@
     <property name="runtime.platform" value="mono"/>
     <property name="runtime.version" value="1.0"/>
     <property name="runtime.config" value="mono-1.0"/>
+    <property name="runtime.defines" value="MONO,MONO_1_0"/>
     <property name="build.mono" value="true"/>
     <property name="build.win32" value="false"/>
+    <property name="build.gui" value="false"/>
     <property name="nant.settings.currentframework" 
       value="mono-1.0"/>
     <property name="zip.runtime.suffix" value="-mono"/>
@@ -114,8 +107,10 @@
     <property name="runtime.platform" value="mono"/>
     <property name="runtime.version" value="2.0"/>
     <property name="runtime.config" value="mono-2.0"/>
+    <property name="runtime.defines" value="MONO,MONO_2_0"/>
     <property name="build.mono" value="true"/>
     <property name="build.win32" value="false"/>
+    <property name="build.gui" value="false"/>
     <property name="nant.settings.currentframework" 
       value="mono-2.0"/>
     <property name="zip.runtime.suffix" value="-mono-1.0"/>
@@ -377,6 +372,7 @@
     <echo>Configuration</echo>
     <echo>  Config:       ${build.config}</echo>
     <echo>  Runtime:      ${runtime.config}</echo>
+    <echo>  Defines:      ${build.defines}</echo>
     <echo>  Version:      ${package.version}</echo>
     <echo>  Package name: ${package.name}</echo>
     <echo>  Zip file:     ${zip.file.name}</echo>
