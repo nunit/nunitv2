@@ -99,6 +99,7 @@ namespace NUnit.Gui
 				TestLoader loader = new TestLoader( new GuiTestEventDispatcher() );
 				loader.ReloadOnRun = settings.Options.ReloadOnRun;
 				loader.ReloadOnChange = settings.Options.ReloadOnChange;
+				loader.RerunOnChange = settings.Options.RerunOnChange;
 				loader.MultiDomain = settings.Options.MultiDomain;
 				loader.MergeAssemblies = settings.Options.MergeAssemblies;
 				loader.AutoNamespaceSuites = settings.Options.AutoNamespaceSuites;
