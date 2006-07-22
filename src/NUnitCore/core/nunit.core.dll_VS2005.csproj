@@ -127,6 +127,7 @@
     <Compile Include="NUnitTestFixture.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="NUnitTestMethod.cs" />
     <Compile Include="PlatformHelper.cs">
       <SubType>Code</SubType>
     </Compile>
