@@ -29,7 +29,7 @@ namespace NUnit.Mocks
 //			if ( expectedArgs.Length != 0 )
 			{
 				//Assert.IsTrue( signature.IsCompatibleWith( actualArgs ) );
-				Assert.AreEqual( expectedArgs.Length, actualArgs.Length );
+				Assert.AreEqual( expectedArgs.Length, actualArgs.Length, "Invalid argument count in call to {0}", this.signature.methodName );
 
 				for( int i = 0; i < expectedArgs.Length; i++ )
 					Assert.AreEqual( expectedArgs[i], actualArgs[i] );
