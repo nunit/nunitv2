@@ -44,7 +44,7 @@ namespace NUnit.Gui
 	/// classes in case we should need another recent list
 	/// at some time in the future. The UI component
 	/// RecentFilesMenuHandler can deal with any class
-	/// derived from RecentFileSettings.
+	/// that implements the RecentFiles interface.
 	/// </summary>
 	public class RecentProjectSettings : RecentFileSettings
 	{
