@@ -85,6 +85,7 @@
     <Compile Include="ITestLoader.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MemorySettingsStorage.cs" />
     <Compile Include="MultipleTestDomainRunner.cs" />
     <Compile Include="NUnitProject.cs">
       <SubType>Code</SubType>

@@ -59,9 +59,6 @@ namespace NUnit.Util.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			NUnitRegistry.TestMode = true;
-			NUnitRegistry.ClearTestKeys();
-
 			loader = new TestLoader( );
 			loader.MergeAssemblies = false;
 			loader.AutoNamespaceSuites = true;
@@ -78,8 +75,6 @@ namespace NUnit.Util.Tests
 
 			if ( loader.IsProjectLoaded )
 				loader.UnloadProject();
-
-			NUnitRegistry.TestMode = true;
 		}
 
 		[Test]

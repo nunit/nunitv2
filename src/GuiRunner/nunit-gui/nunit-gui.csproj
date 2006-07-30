@@ -208,11 +208,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "RecentProjectSettings.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "UserSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

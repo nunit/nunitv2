@@ -88,9 +88,6 @@
     <Compile Include="ProjectEditorTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="RecentProjectsFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="UserSettingsTests.cs">
       <SubType>Code</SubType>
     </Compile>

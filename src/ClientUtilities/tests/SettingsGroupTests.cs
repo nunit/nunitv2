@@ -37,37 +37,26 @@ namespace NUnit.Util.Tests
 	/// Summary description for SettingsGroupTests.
 	/// </summary>
 	[TestFixture]
-	[Platform(Exclude="Linux")]
 	public class SettingsGroupTests
 	{
-		private RegistryKey testKey;
-
-		public SettingsGroupTests()
-		{
-		}
+		private SettingsGroup testGroup;
 
 		[SetUp]
 		public void BeforeEachTest()
 		{
-			testKey = Registry.CurrentUser.CreateSubKey( "Software\\NunitTest" );
+			MemorySettingsStorage storage = new MemorySettingsStorage();
+			testGroup = new SettingsGroup( storage );
 		}
 
 		[TearDown]
 		public void AfterEachTest()
 		{
-			testKey.Close();
-			Registry.CurrentUser.DeleteSubKeyTree( "Software\\NunitTest" );
+			testGroup.Dispose();
 		}
 
 		[Test]
 		public void TopLevelSettings()
 		{
-			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
-			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
-			Assert.IsNotNull( testGroup );
-			Assert.AreEqual( "TestGroup", testGroup.Name );
-			Assert.AreEqual( storage, testGroup.Storage );
-			
 			testGroup.SaveSetting( "X", 5 );
 			testGroup.SaveSetting( "NAME", "Charlie" );
 			Assert.AreEqual( 5, testGroup.LoadSetting( "X" ) );
@@ -84,13 +73,9 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void SubGroupSettings()
 		{
-			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
-			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
-			SettingsGroup subGroup = new SettingsGroup( "SubGroup", testGroup );
+			SettingsGroup subGroup = new SettingsGroup( testGroup.Storage );
 			Assert.IsNotNull( subGroup );
-			Assert.AreEqual( "SubGroup", subGroup.Name );
 			Assert.IsNotNull( subGroup.Storage );
-			Assert.AreEqual( storage, subGroup.Storage.ParentStorage );
 
 			subGroup.SaveSetting( "X", 5 );
 			subGroup.SaveSetting( "NAME", "Charlie" );
@@ -108,9 +93,6 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void TypeSafeSettings()
 		{
-			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
-			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
-			
 			testGroup.SaveIntSetting( "X", 5);
 			testGroup.SaveStringSetting( "Y", "17" );
 			testGroup.SaveStringSetting( "NAME", "Charlie");
@@ -130,9 +112,6 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void DefaultSettings()
 		{
-			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
-			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
-			
 			Assert.IsNull( testGroup.LoadSetting( "X" ) );
 			Assert.IsNull( testGroup.LoadSetting( "NAME" ) );
 
@@ -147,20 +126,14 @@ namespace NUnit.Util.Tests
 		[Test, ExpectedException( typeof( FormatException ) )]
 		public void BadSetting1()
 		{
-			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
-			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
 			testGroup.SaveSetting( "X", "1y25" );
-
 			int x = testGroup.LoadIntSetting( "X" );
 		}
 
 		[Test, ExpectedException( typeof( FormatException ) )]
 		public void BadSetting2()
 		{
-			RegistrySettingsStorage storage = new RegistrySettingsStorage( "Test", testKey );
-			SettingsGroup testGroup = new SettingsGroup( "TestGroup", storage );
 			testGroup.SaveSetting( "X", "1y25" );
-
 			int x = testGroup.LoadIntSetting( "X", 12 );
 		}
 	}

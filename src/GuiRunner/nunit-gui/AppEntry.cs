@@ -93,7 +93,8 @@ namespace NUnit.Gui
 				// Todo: Get font from UserSettings
 				c.Services.AddService( typeof( AmbientProperties ), ambient );
 
-				UserSettings settings = new UserSettings();
+				UserSettings settings = new UserSettings( 
+					new RegistrySettingsStorage( NUnitRegistry.CurrentUser ) );
 				c.Services.AddService( typeof( UserSettings ), settings );
 
 				TestLoader loader = new TestLoader( new GuiTestEventDispatcher() );

@@ -107,6 +107,7 @@
     <Compile Include="FileWatcherTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MemorySettingsStorageTests.cs" />
     <Compile Include="MockAssemblyWatcher.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -137,6 +138,7 @@
     <Compile Include="ProjectConfigTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RecentFilesTests.cs" />
     <Compile Include="RegistrySettingsStorageTests.cs">
       <SubType>Code</SubType>
     </Compile>

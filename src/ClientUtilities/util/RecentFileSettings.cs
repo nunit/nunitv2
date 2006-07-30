@@ -35,7 +35,7 @@ namespace NUnit.Util
 	/// <summary>
 	/// Base class for settings that hold lists of recent files
 	/// </summary>
-	public abstract class RecentFileSettings : SettingsGroup, RecentFiles
+	public class RecentFileSettings : SettingsGroup, RecentFiles
 	{
 		// TODO: This class does more loading and
 		// storing than it should but this is the
@@ -52,18 +52,8 @@ namespace NUnit.Util
 
 		#region Constructors
 
-//		public RecentFileSettings( string name ) : base ( name, UserSettings.GetStorageImpl( name ) )
-//		{
-//			LoadFiles();
-//		}
-
-		public RecentFileSettings( string name, SettingsStorage storage ) : base( name, storage ) 
+		public RecentFileSettings( ISettingsStorage storage ) : base( storage ) 
 		{
-			LoadFiles();
-		}
-
-		public RecentFileSettings( string name, SettingsGroup parent ) : base( name, parent ) 
-		{ 
 			LoadFiles();
 		}
 

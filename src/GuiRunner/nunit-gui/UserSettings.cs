@@ -38,18 +38,8 @@ namespace NUnit.Gui
 	/// </summary>
 	public class UserSettings : SettingsGroup
 	{
-		public UserSettings()
-			: base( "UserSettings", GetStorageImpl( )  ) { }
-
-		public static SettingsStorage GetStorageImpl()
-		{
-			return new RegistrySettingsStorage( NUnitRegistry.CurrentUser );
-		}
-
-		public static SettingsStorage GetStorageImpl( string name )
-		{
-			return new RegistrySettingsStorage( name, NUnitRegistry.CurrentUser );
-		}
+		public UserSettings( ISettingsStorage storage )
+			: base( storage ) { }
 
 		private OptionSettings options;
 		public OptionSettings Options
@@ -57,7 +47,7 @@ namespace NUnit.Gui
 			get
 			{
 				if ( options == null )
-					options = new OptionSettings( GetStorageImpl( "Options" ) );
+					options = new OptionSettings( Storage.MakeChildStorage( "Options" ) );
 				return options;
 			}
 		}
@@ -68,55 +58,20 @@ namespace NUnit.Gui
 			get 
 			{ 
 				if ( form == null )
-					form = new FormSettings( GetStorageImpl( "Form" ) ); 
+					form = new FormSettings( Storage.MakeChildStorage( "Form" ) ); 
 				return form;
 			}
 		}
 
-		private RecentProjectSettings recent;
-		public RecentProjectSettings RecentProjects
+		private RecentFileSettings recent;
+		public RecentFileSettings RecentProjects
 		{
 			get 
 			{ 
 				if ( recent == null )
-					recent = new RecentProjectSettings( GetStorageImpl( "Recent-Projects" ) ); 
+					recent = new RecentFileSettings( Storage.MakeChildStorage( "Recent-Projects" ) ); 
 				return recent;
 			}
 		}
 	}
-
-//	/// <summary>
-//	/// UserSettings represents the main group of per-user
-//	/// settings used by NUnit.
-//	/// </summary>
-//	public class UserSettings : SettingsGroup
-//	{
-//		private UserSettings()
-//			: base( "UserSettings", GetStorageImpl( )  ) { }
-//
-//		public static SettingsStorage GetStorageImpl()
-//		{
-//			return new RegistrySettingsStorage( NUnitRegistry.CurrentUser );
-//		}
-//
-//		public static SettingsStorage GetStorageImpl( string name )
-//		{
-//			return new RegistrySettingsStorage( name, NUnitRegistry.CurrentUser );
-//		}
-//
-//		public static OptionSettings Options
-//		{
-//			get { return new OptionSettings( GetStorageImpl( "Options" ) ); }
-//		}
-//
-//		public static FormSettings Form
-//		{
-//			get { return new FormSettings( GetStorageImpl( "Form" ) ); }
-//		}
-//
-//		public static RecentProjectSettings RecentProjects
-//		{
-//			get { return new RecentProjectSettings( GetStorageImpl( "Recent-Projects" ) ); }
-//		}
-//	}
 }

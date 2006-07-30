@@ -37,17 +37,11 @@ namespace NUnit.Gui
 	/// </summary>
 	public class NUnitGuiSettings : SettingsGroup
 	{
-		private static readonly string NAME = "NUnitGui";
-
-		public NUnitGuiSettings( ) : base( NAME, UserSettings.GetStorageImpl( NAME ) ) { }
-
-		public NUnitGuiSettings( SettingsStorage storage ) : base( NAME, storage ) { }
-
-		public NUnitGuiSettings( SettingsGroup parent ) : base( NAME, parent ) { }
+		public NUnitGuiSettings( ISettingsStorage storage ) : base( storage ) { }
 
 		public FormSettings  Form
 		{
-			get { return new FormSettings( this ); }
+			get { return new FormSettings( this.Storage.MakeChildStorage( "Form" ) ); }
 		}
 
 //		public GuiOptionsSettings Options

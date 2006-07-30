@@ -99,9 +99,6 @@
     <Compile Include="ProjectEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RecentProjectSettings.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="UserSettings.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -150,6 +150,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "MemorySettingsStorageTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "MockAssemblyWatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -200,6 +205,11 @@
                 />
                 <File
                     RelPath = "ProjectConfigTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RecentFilesTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

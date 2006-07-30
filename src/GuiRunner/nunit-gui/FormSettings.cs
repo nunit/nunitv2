@@ -39,8 +39,6 @@ namespace NUnit.Gui
 	/// </summary>
 	public class FormSettings : SettingsGroup
 	{
-		private static readonly string NAME = "Form";
-
 		private static readonly string FULL_DISPLAY = "full-display";
 
 		private static readonly string MAXIMIZED = "maximized";
@@ -71,11 +69,7 @@ namespace NUnit.Gui
 		public static readonly int TAB_DEFAULT_POSITION = 119;
 		public static readonly int TAB_MIN_POSITION = 100;
 
-		public FormSettings( ) : base( NAME, UserSettings.GetStorageImpl( NAME ) ) { }
-
-		public FormSettings( SettingsStorage storage ) : base( NAME, storage ) { }
-
-		public FormSettings( SettingsGroup parent ) : base( NAME, parent ) { }
+		public FormSettings( ISettingsStorage storage ) : base( storage ) { }
 
 		private Point location = Point.Empty;
 		private Size size = Size.Empty;

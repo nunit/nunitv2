@@ -37,13 +37,7 @@ namespace NUnit.Gui
 	/// </summary>
 	public class OptionSettings : SettingsGroup
 	{
-		private static readonly string NAME = "Options";
-
-		public OptionSettings( ) : base( NAME, UserSettings.GetStorageImpl( NAME ) ) { }
-
-		public OptionSettings( SettingsStorage storage ) : base( NAME, storage ) { }
-
-		public OptionSettings( SettingsGroup parent ) : base( NAME, parent ) { }
+		public OptionSettings( ISettingsStorage storage ) : base( storage ) { }
 
 		public bool LoadLastProject
 		{

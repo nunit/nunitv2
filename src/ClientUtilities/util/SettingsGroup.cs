@@ -34,52 +34,20 @@ namespace NUnit.Util
 
 	/// <summary>
 	/// SettingsGroup is the base class representing a group
-	/// of user or system settings. A pimpl idiom is used
-	/// to provide implementation-independence.
+	/// of user or system settings. All storge of settings
+	/// is delegated to a SettingsStorage.
 	/// </summary>
 	public class SettingsGroup : IDisposable
 	{
-		#region Instance Variables
-		/// <summary>
-		/// The name of this group of settings
-		/// </summary>
-		private string name;
-
-		/// <summary>
-		/// If not null, the storage implementation holding the group settings.
-		/// </summary>
-		private SettingsStorage storageImpl;
-		
-		/// <summary>
-		/// If not null, the settings group that contains this one.
-		/// </summary>
-		private SettingsGroup parentSettings;
-
-		#endregion
-
 		#region Construction and Disposal
 
 		/// <summary>
-		/// Construct a settings group based on a storage implementation.
+		/// Construct a settings group.
 		/// </summary>
-		/// <param name="name">Name of the group</param>
-		/// <param name="storageImpl">Storage for the group settings</param>
-		public SettingsGroup( string name, SettingsStorage storageImpl )
+		/// <param name="storage">Storage for the group settings</param>
+		public SettingsGroup( ISettingsStorage storage )
 		{
-			this.name = name;
-			this.storageImpl = storageImpl;
-		}
-
-		/// <summary>
-		/// Construct a settings group based on a parent group that contains it.
-		/// </summary>
-		/// <param name="name">Name of the group</param>
-		/// <param name="parentSettings">Containing  group</param>
-		public SettingsGroup( string name, SettingsGroup parentSettings )
-		{
-			this.name = name;
-			this.parentSettings = parentSettings;
-			this.storageImpl = parentSettings.Storage.MakeChildStorage( name );
+			this.storage = storage;
 		}
 
 		/// <summary>
@@ -87,10 +55,10 @@ namespace NUnit.Util
 		/// </summary>
 		public void Dispose()
 		{
-			if ( storageImpl != null )
+			if ( storage != null )
 			{
-				storageImpl.Dispose();
-				storageImpl = null;
+				storage.Dispose();
+				storage = null;
 			}
 		}
 
@@ -98,20 +66,14 @@ namespace NUnit.Util
 
 		#region Properties
 
-		/// <summary>
-		/// The name of the group
-		/// </summary>
-		public string Name
-		{
-			get { return name; }
-		}
+		private ISettingsStorage storage;
 
 		/// <summary>
 		/// The storage used for the group settings
 		/// </summary>
-		public SettingsStorage Storage
+		public ISettingsStorage Storage
 		{
-			get { return storageImpl; }
+			get { return storage; }
 		}
 
 		/// <summary>
@@ -119,7 +81,7 @@ namespace NUnit.Util
 		/// </summary>
 		public int SettingsCount
 		{
-			get { return storageImpl.SettingsCount; }
+			get { return storage.SettingsCount; }
 		}
 
 		#endregion
@@ -131,7 +93,7 @@ namespace NUnit.Util
 		/// </summary>
 		public virtual void Clear()
 		{
-			storageImpl.Clear();
+			storage.Clear();
 		}
 
 		/// <summary>
@@ -141,7 +103,7 @@ namespace NUnit.Util
 		/// <returns>Value of the setting or null</returns>
 		public object LoadSetting( string settingName )
 		{
-			return storageImpl.LoadSetting( settingName );
+			return storage.LoadSetting( settingName );
 		}
 
 		/// <summary>
@@ -152,7 +114,7 @@ namespace NUnit.Util
 		/// <returns>Value of the setting or null</returns>
 		public int LoadIntSetting( string settingName )
 		{
-			return storageImpl.LoadIntSetting( settingName );
+			return storage.LoadIntSetting( settingName );
 		}
 
 		/// <summary>
@@ -174,7 +136,7 @@ namespace NUnit.Util
 		/// <returns>Value of the setting or null</returns>
 		public string LoadStringSetting( string settingName )
 		{
-			return storageImpl.LoadStringSetting( settingName );
+			return storage.LoadStringSetting( settingName );
 		}
 
 		/// <summary>
@@ -185,7 +147,7 @@ namespace NUnit.Util
 		/// <returns>Value of the setting or the default</returns>
 		public object LoadSetting( string settingName, object defaultValue )
 		{
-			return storageImpl.LoadSetting( settingName, defaultValue );
+			return storage.LoadSetting( settingName, defaultValue );
 		}
 
 		/// <summary>
@@ -197,7 +159,7 @@ namespace NUnit.Util
 		/// <returns>Value of the setting or the default</returns>
 		public int LoadIntSetting( string settingName, int defaultValue )
 		{
-			return storageImpl.LoadIntSetting( settingName, defaultValue );
+			return storage.LoadIntSetting( settingName, defaultValue );
 		}
 
 		/// <summary>
@@ -221,7 +183,7 @@ namespace NUnit.Util
 		/// <returns>Value of the setting or the default</returns>
 		public string LoadStringSetting( string settingName, string defaultValue )
 		{
-			return storageImpl.LoadStringSetting( settingName, defaultValue );
+			return storage.LoadStringSetting( settingName, defaultValue );
 		}
 
 		/// <summary>
@@ -230,7 +192,7 @@ namespace NUnit.Util
 		/// <param name="settingName">Name of the setting to remove</param>
 		public void RemoveSetting( string settingName )
 		{
-			storageImpl.RemoveSetting( settingName );
+			storage.RemoveSetting( settingName );
 		}
 
 		/// <summary>
@@ -240,7 +202,7 @@ namespace NUnit.Util
 		/// <param name="settingValue">Value to be saved</param>
 		public void SaveSetting( string settingName, object settingValue )
 		{
-			storageImpl.SaveSetting( settingName, settingValue );
+			storage.SaveSetting( settingName, settingValue );
 		}
 
 		/// <summary>
@@ -251,7 +213,7 @@ namespace NUnit.Util
 		/// <param name="settingValue">Value to be saved</param>
 		public void SaveIntSetting( string settingName, int settingValue )
 		{
-			storageImpl.SaveSetting( settingName, settingValue );
+			storage.SaveSetting( settingName, settingValue );
 		}
 
 		/// <summary>
@@ -262,7 +224,7 @@ namespace NUnit.Util
 		/// <param name="settingValue">Value to be saved</param>
 		public void SaveBooleanSetting( string settingName, bool settingValue )
 		{
-			storageImpl.SaveSetting( settingName, settingValue ? 1 : 0 );
+			storage.SaveSetting( settingName, settingValue ? 1 : 0 );
 		}
 
 		/// <summary>
@@ -273,7 +235,7 @@ namespace NUnit.Util
 		/// <param name="settingValue">Value to be saved</param>
 		public void SaveStringSetting( string settingName, string settingValue )
 		{
-			storageImpl.SaveSetting( settingName, settingValue );
+			storage.SaveSetting( settingName, settingValue );
 		}
 
 		#endregion

@@ -50,28 +50,14 @@ namespace NUnit.Gui.Tests
 		[SetUp]
 		public void Init()
 		{
-			NUnitRegistry.TestMode = true;
-			NUnitRegistry.ClearTestKeys();
-			form = new UserSettings().Form;
+			MemorySettingsStorage storage = new MemorySettingsStorage();
+			form = new UserSettings( storage ).Form;
 		}
 
 		[TearDown]
 		public void Cleanup()
 		{
-			NUnitRegistry.TestMode = false;
-		}
-
-		[Test]
-		public void StorageName()
-		{
-			Assert.AreEqual( @"Form", form.Storage.StorageName );
-		}
-
-		[Test]
-		public void StorageKey()
-		{
-			Assert.AreEqual( @"HKEY_CURRENT_USER\Software\nunit.org\Nunit-Test\Form", 
-				((RegistrySettingsStorage)form.Storage).StorageKey.Name );
+			form.Dispose();
 		}
 
 		[Test]

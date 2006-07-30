@@ -1840,6 +1840,7 @@ namespace NUnit.Gui
 			using ( ProjectEditor editor = new ProjectEditor( TestProject ) )
 			{
 				this.Site.Container.Add( editor );
+				editor.VisualStudioSupport = UserSettings.Options.VisualStudioSupport;
 				editor.ShowDialog( this );
 			}
 		}

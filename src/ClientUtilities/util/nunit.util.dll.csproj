@@ -155,6 +155,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "MemorySettingsStorage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "MultipleTestDomainRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

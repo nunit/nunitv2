@@ -1032,18 +1032,27 @@ namespace NUnit.Gui
 		#endregion
 
 		#region Properties
-		private UserSettings _userSettings;
-		private UserSettings UserSettings
+		private bool visualStudioSupport;
+		public bool VisualStudioSupport
 		{
-			get
-			{
-				if ( _userSettings == null )
-					_userSettings = (UserSettings)GetService( typeof( UserSettings ) );
-				if ( _userSettings == null )
-					_userSettings = new UserSettings();
-				return _userSettings;
-			}
+			get { return visualStudioSupport; }
+			set { visualStudioSupport = value; }
 		}
+
+//		private UserSettings _userSettings;
+//		private UserSettings UserSettings
+//		{
+//			get
+//			{
+//				if ( _userSettings == null )
+//					_userSettings = (UserSettings)GetService( typeof( UserSettings ) );
+//				//TODO: Remove this, or create the service in the test
+//				if ( _userSettings == null )
+//					_userSettings = new UserSettings(
+//						new RegistrySettingsStorage( NUnitRegistry.CurrentUser ) );
+//				return _userSettings;
+//			}
+//		}
 
 		private TestLoaderUI TestLoaderUI
 		{
@@ -1361,7 +1370,7 @@ namespace NUnit.Gui
 
 			projectBaseTextBox.Text = project.BasePath;
 
-			addVSProjectButton.Visible = UserSettings.Options.VisualStudioSupport;
+			addVSProjectButton.Visible = this.VisualStudioSupport;
 
 			configComboBox_Populate();
 		}

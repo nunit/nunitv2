@@ -41,49 +41,36 @@ namespace NUnit.Gui.Tests
 	[TestFixture]
 	public class UserSettingsTests
 	{
+		UserSettings settings;
+
 		[SetUp]
 		public void Init()
 		{
-			NUnitRegistry.TestMode = true;
-			NUnitRegistry.ClearTestKeys();
+			settings = new UserSettings( new MemorySettingsStorage() );
 		}
 
 		[TearDown]
 		public void Cleanup()
 		{
-			NUnitRegistry.TestMode = false;
+			settings.Dispose();
 		}
 		
 		[Test]
-		public void GetStorageImpl()
-		{
-			Assert.AreEqual( @"HKEY_CURRENT_USER\Software\nunit.org\Nunit-Test",
-				UserSettings.GetStorageImpl().StorageName );
-		}
-
-		[Test]
-		public void GetChildStorageImpl()
-		{
-			Assert.AreEqual( "MySettings", 
-				UserSettings.GetStorageImpl( "MySettings" ).StorageName );
-		}
-
-		[Test]
 		public void OptionSettings()
 		{
-			Assert.IsNotNull( new UserSettings().Options );
+			Assert.IsInstanceOfType( typeof( MemorySettingsStorage ), settings.Options.Storage );
 		}
 
 		[Test]
 		public void FormSettings()
 		{
-			Assert.IsNotNull( new UserSettings().Form );
+			Assert.IsInstanceOfType( typeof( MemorySettingsStorage ), settings.Form.Storage );
 		}
 
 		[Test]
 		public void RecentProjects()
 		{
-			Assert.IsNotNull( new UserSettings().RecentProjects );
+			Assert.IsInstanceOfType( typeof( MemorySettingsStorage ), settings.RecentProjects.Storage );
 		}
 	}
 }

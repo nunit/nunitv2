@@ -1182,10 +1182,10 @@ namespace NUnit.Gui
 				{
 					int count = int.Parse( recentFilesCountTextBox.Text );
 
-					if ( count < RecentProjectSettings.MinSize ||
-						count > RecentProjectSettings.MaxSize )
+					if ( count < RecentFileSettings.MinSize ||
+						count > RecentFileSettings.MaxSize )
 					{
-						errmsg = string.Format( "Number of files must be from {0} to {1}", RecentProjectSettings.MinSize, RecentProjectSettings.MaxSize );
+						errmsg = string.Format( "Number of files must be from {0} to {1}", RecentFileSettings.MinSize, RecentFileSettings.MaxSize );
 					}
 				}
 				catch

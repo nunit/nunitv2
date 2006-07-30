@@ -37,7 +37,7 @@ namespace NUnit.Util
 	/// Implementation of SettingsStorage for NUnit user settings,
 	/// based on storage of settings in the registry.
 	/// </summary>
-	public class RegistrySettingsStorage : SettingsStorage, IDisposable
+	public class RegistrySettingsStorage : ISettingsStorage, IDisposable
 	{
 		#region Instance Variables
 
@@ -51,24 +51,12 @@ namespace NUnit.Util
 		#region Construction and Disposal
 
 		/// <summary>
-		/// Construct a storage as a child of another storage
-		/// </summary>
-		/// <param name="storageName">The name to give the storage</param>
-		/// <param name="parentStorage">The parent in which the storage is to be created</param>
-		public RegistrySettingsStorage( string storageName, RegistrySettingsStorage parentStorage ) 
-			: base( storageName, parentStorage ) 
-		{ 
-			this.storageKey = parentStorage.StorageKey.CreateSubKey( storageName );
-		}
-
-		/// <summary>
 		/// Construct a storage using a registry key. This constructor is
 		/// intended for use at the top level of the hierarchy.
 		/// </summary>
 		/// <param name="storageName">The name to give the storage</param>
 		/// <param name="parentKey">The registry Key under which the storage will be created</param>
 		public RegistrySettingsStorage( string storageName, RegistryKey parentKey ) 
-			: base ( storageName, null )
 		{
 			this.storageKey = parentKey.CreateSubKey( storageName );
 		}
@@ -78,7 +66,6 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="storageKey"></param>
 		public RegistrySettingsStorage( RegistryKey storageKey )
-			: base( storageKey.Name, null )
 		{
 			this.storageKey = storageKey;
 		}
@@ -86,7 +73,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Dispose of this object by closing the storage key, if any
 		/// </summary>
-		public override void Dispose()
+		public void Dispose()
 		{
 			if ( storageKey != null )
 				storageKey.Close();
@@ -107,7 +94,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// The count of settings in this storage
 		/// </summary>
-		public override int SettingsCount
+		public int SettingsCount
 		{
 			get { return storageKey.ValueCount; }
 		}
@@ -121,7 +108,7 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="storageName">Name of the child storage</param>
 		/// <returns>True if the child storage exists</returns>
-		public override bool ChildStorageExists( string storageName )
+		public bool ChildStorageExists( string storageName )
 		{
 			using (RegistryKey key = storageKey.OpenSubKey( storageName ) )
 			{
@@ -134,9 +121,9 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="storageName">Name of the child storage to make</param>
 		/// <returns>New storage</returns>
-		public override SettingsStorage MakeChildStorage( string storageName )
+		public ISettingsStorage MakeChildStorage( string storageName )
 		{
-			return new RegistrySettingsStorage( storageName, this );
+			return new RegistrySettingsStorage( storageKey.CreateSubKey( storageName ) );
 		}
 
 		/// <summary>
@@ -144,7 +131,7 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="settingName">Name of the setting to load</param>
 		/// <returns>Value of the setting</returns>
-		public override object LoadSetting( string settingName )
+		public object LoadSetting( string settingName )
 		{
 			return storageKey.GetValue( settingName );
 		}
@@ -158,7 +145,7 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="settingName">Name of the setting to load</param>
 		/// <returns>Value of the setting or zero if missing</returns>
-		public override int LoadIntSetting( string settingName )
+		public int LoadIntSetting( string settingName )
 		{
 			return LoadIntSetting( settingName, 0 );
 		}
@@ -168,7 +155,7 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="settingName">Name of the setting to load</param>
 		/// <returns>Value of the setting</returns>
-		public override string LoadStringSetting( string settingName )
+		public string LoadStringSetting( string settingName )
 		{
 			object resultValue = storageKey.GetValue( settingName );
 			if ( resultValue == null || resultValue is string )
@@ -183,7 +170,7 @@ namespace NUnit.Util
 		/// <param name="settingName">Name of setting to load</param>
 		/// <param name="defaultValue">Value to return if the seeting is not present</param>
 		/// <returns>Value of the setting or the default</returns>
-		public override object LoadSetting( string settingName, object defaultValue )
+		public object LoadSetting( string settingName, object defaultValue )
 		{
 			return storageKey.GetValue( settingName, defaultValue );
 		}
@@ -194,7 +181,7 @@ namespace NUnit.Util
 		/// <param name="settingName">Name of setting to load</param>
 		/// <param name="defaultValue">Value to return if the seeting is not present</param>
 		/// <returns>Value of the setting or the default</returns>
-		public override int LoadIntSetting( string settingName, int defaultValue )
+		public int LoadIntSetting( string settingName, int defaultValue )
 		{
 			object resultValue = storageKey.GetValue( settingName, defaultValue );
 			if ( resultValue is int )
@@ -209,7 +196,7 @@ namespace NUnit.Util
 		/// <param name="settingName">Name of setting to load</param>
 		/// <param name="defaultValue">Value to return if the seeting is not present</param>
 		/// <returns>Value of the setting or the default</returns>
-		public override string LoadStringSetting( string settingName, string defaultValue )
+		public string LoadStringSetting( string settingName, string defaultValue )
 		{
 			object resultValue = storageKey.GetValue( settingName, defaultValue );
 			if ( resultValue is string )
@@ -222,7 +209,7 @@ namespace NUnit.Util
 		/// Remove a setting from the storage
 		/// </summary>
 		/// <param name="settingName">Name of the setting to remove</param>
-		public override void RemoveSetting( string settingName )
+		public void RemoveSetting( string settingName )
 		{
 			storageKey.DeleteValue( settingName, false );
 		}
@@ -232,7 +219,7 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="settingName">Name of the setting to save</param>
 		/// <param name="settingValue">Value to be saved</param>
-		public override void SaveSetting( string settingName, object settingValue )
+		public void SaveSetting( string settingName, object settingValue )
 		{
 			storageKey.SetValue( settingName, settingValue );
 		}
@@ -253,7 +240,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Clear all settings from the storage - empty storage remains
 		/// </summary>
-		public override void Clear()
+		public void Clear()
 		{
 			ClearKey( storageKey );
 		}

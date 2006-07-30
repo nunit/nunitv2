@@ -27,14 +27,13 @@
 '***********************************************************************************/
 #endregion
 
-namespace NUnit.Gui.Tests
+namespace NUnit.Util.Tests
 {
 	using System;
 	using System.Collections;
 	using Microsoft.Win32;
 
 	using NUnit.Framework;
-	using NUnit.Util;
 	
 	/// <summary>
 	/// This fixture is used to test both RecentProjects and
@@ -42,22 +41,23 @@ namespace NUnit.Gui.Tests
 	/// classes, the tests should be refactored.
 	/// </summary>
 	[TestFixture]
-	public class RecentProjectsFixture
+	public class RecentFilesTests
 	{
-		RecentProjectSettings projects;
+		static readonly int MAX = RecentFileSettings.MaxSize;
+		static readonly int MIN = RecentFileSettings.MinSize;
+
+		RecentFileSettings recentFiles;
 
 		[SetUp]
 		public void SetUp()
 		{
-			NUnitRegistry.TestMode = true;
-			NUnitRegistry.ClearTestKeys();
-			projects = new UserSettings().RecentProjects;
+			recentFiles = new RecentFileSettings( new MemorySettingsStorage() );
 		}
 
 		[TearDown]
 		public void TearDown()
 		{
-			NUnitRegistry.TestMode = false;
+			recentFiles.Dispose();
 		}
 
 		// Set RecentFiles to a list of known values up
@@ -66,13 +66,13 @@ namespace NUnit.Gui.Tests
 		private void SetMockValues( int count )
 		{
 			for( int num = count; num > 0; --num )
-				projects.RecentFile = num.ToString();			
+				recentFiles.RecentFile = num.ToString();			
 		}
 
 		// Check that the list is set right: 1, 2, ...
 		private void CheckMockValues( int count )
 		{
-			IList files = projects.GetFiles();
+			IList files = recentFiles.GetFiles();
 			Assert.AreEqual( count, files.Count, "Count" );
 			
 			for( int index = 0; index < count; index++ )
@@ -83,19 +83,16 @@ namespace NUnit.Gui.Tests
 		private void CheckAddItems( int count )
 		{
 			SetMockValues( count );
-			Assert.AreEqual( "1", projects.RecentFile, "RecentFile" );
+			Assert.AreEqual( "1", recentFiles.RecentFile, "RecentFile" );
 
-			if ( count > new UserSettings().RecentProjects.MaxFiles )
-				count = new UserSettings().RecentProjects.MaxFiles;
-
-			CheckMockValues( count );
+			CheckMockValues( Math.Min( count, recentFiles.MaxFiles ) );
 		}
 
 		// Check that the list contains a set of entries
 		// in the order given and nothing else.
 		private void CheckListContains( params int[] item )
 		{
-			IList files = projects.GetFiles();
+			IList files = recentFiles.GetFiles();
 			Assert.AreEqual( item.Length, files.Count, "Count" );
 
 			for( int index = 0; index < files.Count; index++ )
@@ -105,69 +102,56 @@ namespace NUnit.Gui.Tests
 		[Test]
 		public void RetrieveSubKey()
 		{
-			Assert.IsNotNull(projects);
-		}
-
-		[Test]
-		public void StorageName()
-		{
-			Assert.AreEqual( @"Recent-Projects", projects.Storage.StorageName );
-		}
-
-		[Test]
-		public void StorageKey()
-		{
-			Assert.AreEqual( @"HKEY_CURRENT_USER\Software\nunit.org\Nunit-Test\Recent-Projects", 
-				((RegistrySettingsStorage)projects.Storage).StorageKey.Name );
+			Assert.IsNotNull(recentFiles);
 		}
 
 		[Test]
 		public void DefaultRecentFilesCount()
 		{
-			Assert.AreEqual( RecentProjectSettings.DefaultSize, projects.MaxFiles );
+			Assert.AreEqual( RecentFileSettings.DefaultSize, recentFiles.MaxFiles );
 		}
 
 		[Test]
 		public void RecentFilesCount()
 		{
-			projects.MaxFiles = 12;
-			Assert.AreEqual( 12, projects.MaxFiles );
+			recentFiles.MaxFiles = 12;
+			Assert.AreEqual( 12, recentFiles.MaxFiles );
 		}
 
 		[Test]
 		public void RecentFilesCountOverMax()
 		{
-			projects.MaxFiles = RecentProjectSettings.MaxSize + 1;
-			Assert.AreEqual( RecentProjectSettings.MaxSize, projects.MaxFiles );
+			recentFiles.MaxFiles = MAX + 1;
+			Assert.AreEqual( MAX, recentFiles.MaxFiles );
 		}
 
 		[Test]
 		public void RecentFilesCountUnderMin()
 		{
-			projects.MaxFiles = RecentProjectSettings.MinSize - 1;
-			Assert.AreEqual( RecentProjectSettings.MinSize, projects.MaxFiles );
+			recentFiles.MaxFiles = MIN - 1;
+			Assert.AreEqual( MIN, recentFiles.MaxFiles );
 		}
 
 		[Test]
 		public void RecentFilesCountAtMax()
 		{
-			projects.MaxFiles = RecentProjectSettings.MaxSize;
-			Assert.AreEqual( RecentProjectSettings.MaxSize, projects.MaxFiles );
+			recentFiles.MaxFiles = MAX;
+			Assert.AreEqual( MAX, recentFiles.MaxFiles );
 		}
 
 		[Test]
 		public void RecentFilesCountAtMin()
 		{
-			projects.MaxFiles = RecentProjectSettings.MinSize;
-			Assert.AreEqual( RecentProjectSettings.MinSize, projects.MaxFiles );
+			recentFiles.MaxFiles = MIN;
+			Assert.AreEqual( MIN, recentFiles.MaxFiles );
 		}
 
 		[Test]
 		public void EmptyList()
 		{
-			Assert.IsNotNull(  projects.GetFiles(), "GetFiles() returned null" );
-			Assert.AreEqual( 0, projects.GetFiles().Count );
-			Assert.IsNull( projects.RecentFile, "No RecentFile should return null" );
+			Assert.IsNotNull(  recentFiles.GetFiles(), "GetFiles() returned null" );
+			Assert.AreEqual( 0, recentFiles.GetFiles().Count );
+			Assert.IsNull( recentFiles.RecentFile, "No RecentFile should return null" );
 		}
 
 		[Test]
@@ -191,14 +175,14 @@ namespace NUnit.Gui.Tests
 		[Test]
 		public void IncreaseSize()
 		{
-			projects.MaxFiles = 10;
+			recentFiles.MaxFiles = 10;
 			CheckAddItems( 10 );
 		}
 
 		[Test]
 		public void ReduceSize()
 		{
-			projects.MaxFiles = 3;
+			recentFiles.MaxFiles = 3;
 			CheckAddItems( 10 );
 		}
 
@@ -206,10 +190,10 @@ namespace NUnit.Gui.Tests
 		public void IncreaseSizeAfterAdd()
 		{
 			SetMockValues(5);
-			projects.MaxFiles = 7;
-			projects.RecentFile = "30";
-			projects.RecentFile = "20";
-			projects.RecentFile = "10";
+			recentFiles.MaxFiles = 7;
+			recentFiles.RecentFile = "30";
+			recentFiles.RecentFile = "20";
+			recentFiles.RecentFile = "10";
 			CheckListContains( 10, 20, 30, 1, 2, 3, 4 );
 		}
 
@@ -217,43 +201,15 @@ namespace NUnit.Gui.Tests
 		public void ReduceSizeAfterAdd()
 		{
 			SetMockValues( 5 );
-			projects.MaxFiles = 3;
+			recentFiles.MaxFiles = 3;
 			CheckMockValues( 3 );
-		}
-
-		[Test]
-		public void ReduceSizeUpdatesRegistry()
-		{
-			SetMockValues(4);
-			projects.MaxFiles = 2;
-
-			using( RegistryKey key = NUnitRegistry.CurrentUser.OpenSubKey( "Recent-Projects" ) )
-			{
-				Assert.AreEqual( 3, key.ValueCount );
-				Assert.AreEqual( 2, key.GetValue( "MaxFiles" ) );
-				Assert.AreEqual( "1", key.GetValue( "File1" ) );
-				Assert.AreEqual( "2", key.GetValue( "File2" ) );
-			}
-		}
-
-		[Test]
-		public void AddUpdatesRegistry()
-		{		
-			SetMockValues( 2 );
-
-			using( RegistryKey key = NUnitRegistry.CurrentUser.OpenSubKey( "Recent-Projects" ) )
-			{
-				Assert.AreEqual( 2, key.ValueCount );
-				Assert.AreEqual( "1", key.GetValue( "File1" ) );
-				Assert.AreEqual( "2", key.GetValue( "File2" ) );
-			}
 		}
 
 		[Test]
 		public void ReorderLastProject()
 		{
 			SetMockValues( 5 );
-			projects.RecentFile = "5";
+			recentFiles.RecentFile = "5";
 			CheckListContains( 5, 1, 2, 3, 4 );
 		}
 
@@ -261,7 +217,7 @@ namespace NUnit.Gui.Tests
 		public void ReorderSingleProject()
 		{
 			SetMockValues( 5 );
-			projects.RecentFile = "3";
+			recentFiles.RecentFile = "3";
 			CheckListContains( 3, 1, 2, 4, 5 );
 		}
 
@@ -269,9 +225,9 @@ namespace NUnit.Gui.Tests
 		public void ReorderMultipleProjects()
 		{
 			SetMockValues( 5 );
-			projects.RecentFile = "3";
-			projects.RecentFile = "5";
-			projects.RecentFile = "2";
+			recentFiles.RecentFile = "3";
+			recentFiles.RecentFile = "5";
+			recentFiles.RecentFile = "2";
 			CheckListContains( 2, 5, 3, 1, 4 );
 		}
 
@@ -279,7 +235,7 @@ namespace NUnit.Gui.Tests
 		public void ReorderSameProject()
 		{
 			SetMockValues( 5 );
-			projects.RecentFile = "1";
+			recentFiles.RecentFile = "1";
 			CheckListContains( 1, 2, 3, 4, 5 );
 		}
 
@@ -287,7 +243,7 @@ namespace NUnit.Gui.Tests
 		public void ReorderWithListNotFull()
 		{
 			SetMockValues( 3 );
-			projects.RecentFile = "3";
+			recentFiles.RecentFile = "3";
 			CheckListContains( 3, 1, 2 );
 		}
 
@@ -295,7 +251,7 @@ namespace NUnit.Gui.Tests
 		public void RemoveFirstProject()
 		{
 			SetMockValues( 3 );
-			projects.Remove("1");
+			recentFiles.Remove("1");
 			CheckListContains( 2, 3 );
 		}
 
@@ -303,7 +259,7 @@ namespace NUnit.Gui.Tests
 		public void RemoveOneProject()
 		{
 			SetMockValues( 4 );
-			projects.Remove("2");
+			recentFiles.Remove("2");
 			CheckListContains( 1, 3, 4 );
 		}
 
@@ -311,9 +267,9 @@ namespace NUnit.Gui.Tests
 		public void RemoveMultipleProjects()
 		{
 			SetMockValues( 5 );
-			projects.Remove( "3" );
-			projects.Remove( "1" );
-			projects.Remove( "4" );
+			recentFiles.Remove( "3" );
+			recentFiles.Remove( "1" );
+			recentFiles.Remove( "4" );
 			CheckListContains( 2, 5 );
 		}
 		
@@ -321,7 +277,7 @@ namespace NUnit.Gui.Tests
 		public void RemoveLastProject()
 		{
 			SetMockValues( 5 );
-			projects.Remove("5");
+			recentFiles.Remove("5");
 			CheckListContains( 1, 2, 3, 4 );
 		}
 	}

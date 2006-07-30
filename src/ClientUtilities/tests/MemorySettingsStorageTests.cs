@@ -1,70 +1,29 @@
-#region Copyright (c) 2003, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
-/************************************************************************************
-'
-' Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright  2000-2002 Philip A. Craig
-'
-' This software is provided 'as-is', without any express or implied warranty. In no 
-' event will the authors be held liable for any damages arising from the use of this 
-' software.
-' 
-' Permission is granted to anyone to use this software for any purpose, including 
-' commercial applications, and to alter it and redistribute it freely, subject to the 
-' following restrictions:
-'
-' 1. The origin of this software must not be misrepresented; you must not claim that 
-' you wrote the original software. If you use this software in a product, an 
-' acknowledgment (see the following) in the product documentation is required.
-'
-' Portions Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright  2000-2002 Philip A. Craig
-'
-' 2. Altered source versions must be plainly marked as such, and must not be 
-' misrepresented as being the original software.
-'
-' 3. This notice may not be removed or altered from any source distribution.
-'
-'***********************************************************************************/
-#endregion
-
 using System;
-using Microsoft.Win32;
+using NUnit.Framework;
 
 namespace NUnit.Util.Tests
 {
-	using NUnit.Framework;
-
-	/// <summary>
-	/// Summary description for RegistryStorageTests.
-	/// </summary>
 	[TestFixture]
-	[Platform(Exclude="Linux")]
-	public class RegistrySettingsStorageTests
+	public class MemorySettingsStorageTests
 	{
-		private static readonly string testKeyName = "Software\\NUnitTest";
-
-		RegistryKey testKey;
-		RegistrySettingsStorage storage;
+		MemorySettingsStorage storage;
 
 		[SetUp]
-		public void BeforeEachTest()
+		public void Init()
 		{
-			testKey = Registry.CurrentUser.CreateSubKey( testKeyName );
-			storage = new RegistrySettingsStorage( testKey );
+			storage = new MemorySettingsStorage();
 		}
 
 		[TearDown]
-		public void AfterEachTest()
+		public void Cleanup()
 		{
 			storage.Dispose();
-			testKey.Close();
-			Registry.CurrentUser.DeleteSubKeyTree( testKeyName );
 		}
 
 		[Test]
-		public void StorageHasCorrectKey()
+		public void MakeStorage()
 		{
-			Assert.AreEqual( "HKEY_CURRENT_USER\\" + testKeyName, storage.StorageKey.Name );
+			Assert.IsNotNull( storage );
 		}
 
 		[Test]
@@ -78,9 +37,6 @@ namespace NUnit.Util.Tests
 
 			Assert.AreEqual( 5, storage.LoadSetting("X") );
 			Assert.AreEqual( "Charlie", storage.LoadSetting("NAME") );
-
-			Assert.AreEqual( 5, testKey.GetValue( "X" ) );
-			Assert.AreEqual( "Charlie", testKey.GetValue( "NAME" ) );
 		}
 
 		[Test]
@@ -100,14 +56,11 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void MakeSubStorages()
 		{
-			RegistrySettingsStorage sub1 = (RegistrySettingsStorage)storage.MakeChildStorage( "Sub1" );
-			RegistrySettingsStorage sub2 = (RegistrySettingsStorage)storage.MakeChildStorage( "Sub2" );
+			ISettingsStorage sub1 = storage.MakeChildStorage( "Sub1" );
+			ISettingsStorage sub2 = storage.MakeChildStorage( "Sub2" );
 
 			Assert.IsNotNull( sub1, "Sub1 is null" );
 			Assert.IsNotNull( sub2, "Sub2 is null" );
-
-			Assert.AreEqual( "HKEY_CURRENT_USER\\" + testKeyName + "\\Sub1", sub1.StorageKey.Name);
-			Assert.AreEqual( "HKEY_CURRENT_USER\\" + testKeyName + "\\Sub2", sub2.StorageKey.Name );
 		}
 
 		[Test]

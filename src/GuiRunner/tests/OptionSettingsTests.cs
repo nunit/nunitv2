@@ -44,15 +44,13 @@ namespace NUnit.Gui.Tests
 		[SetUp]
 		public void Init()
 		{
-			NUnitRegistry.TestMode = true;
-			NUnitRegistry.ClearTestKeys();
-			opts = new UserSettings().Options;
+			opts = new UserSettings( new MemorySettingsStorage() ).Options;
 		}
 
 		[TearDown]
 		public void Cleanup()
 		{
-			NUnitRegistry.TestMode = false;
+			opts.Dispose();
 		}
 
 		[Test]
