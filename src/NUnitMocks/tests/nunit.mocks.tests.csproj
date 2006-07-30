@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit.mocks.tests.dll.config" "$(TargetDir)nunit.mocks.dll.tests.config"'
+                PostBuildEvent = 'copy "$(ProjectDir)nunit.mocks.tests.dll.config" "$(TargetDir)nunit.mocks.tests.dll.config"'
                 RootNamespace = "NUnit.Mocks.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""

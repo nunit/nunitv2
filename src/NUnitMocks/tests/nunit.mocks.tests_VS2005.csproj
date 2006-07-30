@@ -76,6 +76,6 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)nunit.mocks.tests.dll.config" "$(TargetDir)nunit.mocks.dll.tests.config"</PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)nunit.mocks.tests.dll.config" "$(TargetDir)nunit.mocks.tests.dll.config"</PostBuildEvent>
   </PropertyGroup>
 </Project>
