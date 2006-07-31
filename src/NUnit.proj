@@ -44,7 +44,7 @@
 	
 	<Target Name="Package" DependsOnTargets="Build">
 		<Exec Command='..\tools\wix\candle "@(Wxs)" -dProductVersion=$(Version) -out "$(OutputPath)%(Wxs.Filename).wixobj"' />	
-		<Exec Command="..\tools\wix\light @(Wxs->'$(OutputPath)%(Filename).wixobj', ' ') -b install -out $(Msi)" />
+		<Exec Command="..\tools\wix\light @(Wxs->'$(OutputPath)%(Filename).wixobj', ' ') -b install -out $(Msi) ..\tools\WiX\wixui.wixlib -loc ..\tools\WiX\WixUI_en-us.wxl" />
 		<Copy Condition=" '$(CCNetArtifactDirectory)'!='' " SourceFiles="$(Msi)" DestinationFolder="$(CCNetArtifactDirectory)" />
 	</Target>
 	
