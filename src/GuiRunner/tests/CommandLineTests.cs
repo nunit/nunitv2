@@ -92,6 +92,16 @@ namespace NUnit.Gui.Tests
 			GuiOptions parser = new GuiOptions(new String[]{"TestFixture", "Tests.dll"});
 			Assert.IsFalse(parser.Validate());
 		}
+
+		[Test]
+		public void HelpTextUsesCorrectDelimiterForPlatform()
+		{
+			string helpText = new GuiOptions(new String[] {"Tests.dll"} ).GetHelpText();
+			char delim = System.IO.Path.DirectorySeparatorChar == '/' ? '-' : '/';
+
+			string expected = string.Format( "{0}config=", delim );
+			StringAssert.Contains( expected, helpText );
+		}
 	}
 }
 

@@ -255,5 +255,18 @@ namespace NUnit.ConsoleRunner.Tests
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml:" );
 			Assert.IsFalse(options.IsXml);			
 		}
+
+		[Test]
+		public void HelpTextUsesCorrectDelimiterForPlatform()
+		{
+			string helpText = new ConsoleOptions().GetHelpText();
+			char delim = System.IO.Path.DirectorySeparatorChar == '/' ? '-' : '/';
+
+			string expected = string.Format( "{0}output=", delim );
+			StringAssert.Contains( expected, helpText );
+			
+			expected = string.Format( "{0}out=", delim );
+			StringAssert.Contains( expected, helpText );
+		}
 	}
 }
