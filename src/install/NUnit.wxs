@@ -1,13 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
-  <Product UpgradeCode="2E280DED-3E0E-4783-94A9-BE102C854C39" Name="NUnit" Id="1AA69CCD-1078-473A-BD6E-11CE30A81C58" Version="$(var.ProductVersion)" Manufacturer="NUnit" Language="1033">
+  <Product UpgradeCode="2E280DED-3E0E-4783-94A9-BE102C854C39" Name="NUnit $(var.ProductVersion)" Id="1AA69CCD-1078-473A-BD6E-11CE30A81C58" Version="$(var.ProductVersion)" Manufacturer="NUnit" Language="1033">
   
     <Package Id="????????-????-????-????-????????????" Comments="NUnit $(var.ProductVersion)" Manufacturer="James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Jamie Cansdale" InstallerVersion="200" Platforms="Intel" Languages="1033" Compressed="yes" SummaryCodepage="1252" />
     <Directory Id="TARGETDIR" Name="SourceDir">
     
-		<Component Id="C__TargetDir" Guid="36AE84ED-5510-40eb-A3B1-D821AC06259C">
-			<Registry Id="R__TargetDir" Root="HKCU" Key="Software\NUnit\$(var.ProductVersion)" Name="TargetDir" Type="string" KeyPath="yes" Value="[TARGETDIR]" />
-		</Component>
+		<Directory Id='ProgramFilesFolder' Name='PFiles'>
+			<Directory Id='INSTALLDIR' Name='NUnit' LongName="NUnit $(var.ProductVersion)"> 
+				<Component Id="C__NUnit_Registry" Guid="36AE84ED-5510-40eb-A3B1-D821AC06259C">
+					<Registry Id="R__INSTALLDIR" Root="HKCU" Key="Software\NUnit" Name="InstallDir" Type="string" Value="[INSTALLDIR]" />
+					<Registry Id="R__ProductVersion" Root="HKMU" Key="Software\NUnit" Name="ProductVersion" Type="string" Value="[ProductVersion]" />
+				</Component>
+				
+				<Directory Id='D__AssemblyFolders' Name='AF' LongName='AssemblyFolders'> 
+					<Component Id="C__AssemblyFolders" Guid="F9B1325D-286F-6638-4AD2-AC8F3509BC4F" DiskId="1">
+						<Registry Id="R__AssemblyFolders" Root="HKLM" Key="Software\Microsoft\.NETFramework\AssemblyFolders\NUnit.Framework" Type="string" KeyPath="yes" Value="[D__AssemblyFolders]" />
+						<File Id="F__AssemblyFolders_nunit_framework_dll" Name="NUNITF.DLL" LongName="nunit.framework.dll" src="nunit.framework.dll" />
+					</Component>
+				</Directory>			
+			</Directory>
+		</Directory>
 
       <Component Id="C__LOGO" Guid="99080421-75CC-4DFC-0987-AA16B7E68659">
         <File Id="_LOGO" Name="LOGO.ICO" src="..\GuiRunner\nunit-gui\Logo.ico" LongName="Logo.ico" Vital="yes" KeyPath="yes" DiskId="1" />
@@ -20,185 +32,32 @@
       <Directory Id="DesktopFolder" Name="." SourceName="USER'S~1" LongSource="User's Desktop" />
       
       <Directory Id="ProgramMenuFolder" Name="." SourceName="USER'S~2" LongSource="User's Programs Menu">
-        <Directory Id="D__nunit_menu" Name="NUnit">
-		  <Component Id="C__nunit_menu" Guid="6C2C91AB-BA76-4bbb-8E7E-BAAFECBEC89F" KeyPath="yes">
-			<RemoveFolder Directory="D__nunit_menu" On="uninstall" Id="RF__nunit_menu" />
-		  </Component>
-        
-          <Directory Id="D__samples" Name="SAMPLES" LongName="Samples">
-			  <Component Id="C__samples" Guid="CA124E10-7897-488c-A9C0-D4EB29232CB4" KeyPath="yes">
-				<RemoveFolder Directory="D__samples" On="uninstall" Id="RF__samples" />
-			  </Component>
-          </Directory>
-        </Directory>
+        <Directory Id="D__nunit_menu" Name="NUnit" />
       </Directory>
       
     </Directory>
     
-    <Feature Id="DefaultFeature" Level="1" ConfigurableDirectory="TARGETDIR">
-      <ComponentRef Id="C__TargetDir" />
+    <Feature Id="DefaultFeature" Level="1" ConfigurableDirectory="INSTALLDIR"
+		Title='NUnit $(var.ProductVersion)' Description='NUnit $(var.ProductVersion)' Display='expand'>
+      <ComponentRef Id="C__NUnit_Registry" />
       <ComponentRef Id="C__LICENSE" />
       <ComponentRef Id="C__LOGO" />
-      <ComponentRef Id="C__samples" />
+      
+		<FeatureRef Id="BinFeature" />    
+		<FeatureRef Id="TestsFeature" />
+		<FeatureRef Id="DocFeature" />
+		
+		<Feature Id="AssemblyFoldersFeature" Level="1"
+				Title='AssemblyFolders' Description="Make default 'nunit.framework' assembly" Display='expand'>
+			<ComponentRef Id="C__AssemblyFolders" />
+		</Feature>
+      
     </Feature>
-    
-    <Feature Id="MenuFeature" Level="1">
-      <ComponentRef Id="C__nunit_menu" />
-    </Feature>
-
-    <FeatureRef Id="BinFeature" />    
-    <FeatureRef Id="TestsFeature" />
-    <FeatureRef Id="DocFeature" />    
-
-    <Upgrade Id="2E280DED-3E0E-4783-94A9-BE102C854C39">
-      <UpgradeVersion Minimum="2.3.0" Property="NEWERPRODUCTFOUND" OnlyDetect="yes" IncludeMinimum="yes" />
-    </Upgrade>
     
     <Media Id="1" EmbedCab="yes" Cabinet="nunit.cab" />
-    
-    <CustomAction Id="DIRCA_TARGETDIR" Property="TARGETDIR" Value="[ProgramFilesFolder]\[ProductName] [ProductVersion]" Execute="firstSequence" />
-    <CustomAction Id="DIRCA_CheckFX" BinaryKey="MSVBDPCADLL" DllEntry="CheckFX" />
-<!--     <CustomAction Id="VSDCA_VsdLaunchConditions" BinaryKey="MSVBDPCADLL" DllEntry="VsdLaunchConditions" />  -->
-    <CustomAction Id="ERRCA_CANCELNEWERVERSION" Error="[VSDVERSIONMSG]" />
-    <CustomAction Id="ERRCA_UIANDADVERTISED" Error="[VSDUIANDADVERTISED]" />
-    
-    <UI>
-      <AdminUISequence>
-        <Show Dialog="AdminFatalErrorForm" OnExit="error" />
-        <Show Dialog="AdminUserExitForm" OnExit="cancel" />
-        <Show Dialog="AdminFinishedForm" OnExit="success" />
-        <Custom Action="DIRCA_TARGETDIR" Before="CostInitialize"><![CDATA[TARGETDIR=""]]></Custom>
-        <Show Dialog="AdminResumeForm" After="FileCost"><![CDATA[Installed="" AND RESUME]]></Show>
-        <Show Dialog="AdminMaintenanceForm" After="AdminResumeForm"><![CDATA[Installed<>""]]></Show>
-        <Show Dialog="AdminWelcomeForm" After="CostFinalize"><![CDATA[Installed="" AND NOT RESUME]]></Show>
-        <Show Dialog="AdminProgressForm" After="AdminWelcomeForm" />
-      </AdminUISequence>
-      <InstallUISequence>
-        <Show Dialog="FatalErrorForm" OnExit="error"><![CDATA[NOT HideFatalErrorForm]]></Show>
-        <Show Dialog="UserExitForm" OnExit="cancel" />
-        <Show Dialog="FinishedForm" OnExit="success" />
-        <Custom Action="DIRCA_CheckFX" Before="ERRCA_UIANDADVERTISED"><![CDATA[]]></Custom>
-        <Custom Action="ERRCA_UIANDADVERTISED" Before="AppSearch"><![CDATA[ProductState=1]]></Custom>
-<!--        <Custom Action="VSDCA_VsdLaunchConditions" After="AppSearch"><![CDATA[NOT Installed]]></Custom>  -->
-        <Custom Action="DIRCA_TARGETDIR" After="ValidateProductID"><![CDATA[TARGETDIR=""]]></Custom>
-        <Show Dialog="ResumeForm" After="IsolateComponents"><![CDATA[Installed="" AND RESUME]]></Show>
-        <Show Dialog="MaintenanceForm" After="ResumeForm"><![CDATA[Installed<>""]]></Show>
-        <Show Dialog="WelcomeForm" After="CostFinalize"><![CDATA[Installed="" AND NOT RESUME]]></Show>
-        <Show Dialog="ProgressForm" After="WelcomeForm" />
-      </InstallUISequence>
-    </UI>
-    
-    <Property Id="AdminFolderForm_PrevArgs"><![CDATA[AdminWelcomeForm]]></Property>
-    <Property Id="EulaForm_Property"><![CDATA[No]]></Property>
-    <Property Id="AdminEulaForm_Property"><![CDATA[No]]></Property>
-    <Property Id="VSDIISMSG"><![CDATA[This setup requires Internet Information Server 4.0 or higher and Windows NT 4.0, Windows 2000, or Windows XP.  This setup cannot be installed on Windows 95, Windows 98, or Windows Me.  Please install Internet Information Server and run this setup again.]]></Property>
-    <Property Id="ARPHELPLINK"><![CDATA[http://www.nunit.org]]></Property>
-    <Property Id="FolderForm_AllUsers"><![CDATA[ME]]></Property>
-    <Property Id="ARPCONTACT"><![CDATA[James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole]]></Property>
-    <Property Id="AdminEulaForm_PrevArgs"><![CDATA[AdminFolderForm]]></Property>
-    <Property Id="AdminWelcomeForm_NextArgs"><![CDATA[AdminFolderForm]]></Property>
-    <Property Id="WelcomeForm_NextArgs"><![CDATA[FolderForm]]></Property>
-    <Property Id="AdminEulaForm_NextArgs"><![CDATA[AdminConfirmInstallForm]]></Property>
-    <Property Id="VSDNETURLMSG"><![CDATA[This setup requires the .NET Framework version [1].  Please install the .NET Framework and run this setup again.  The .NET Framework can be obtained from the web.  Would you like to do this now?]]></Property>
-    <Property Id="AdminMaintenanceForm_Action"><![CDATA[Repair]]></Property>
-    <Property Id="VSDVERSIONMSG"><![CDATA[Unable to install because a newer version of this product is already installed.]]></Property>
-    <Property Id="FolderForm_PrevArgs"><![CDATA[WelcomeForm]]></Property>
-    <Property Id="FolderForm_NextArgs"><![CDATA[EulaForm]]></Property>
-    <Property Id="VSDUIANDADVERTISED"><![CDATA[This advertised application will not be installed because it might be unsafe. Contact your administrator to change the installation user interface option of the package to basic.]]></Property>
-    <Property Id="SFF_UpFldrBtn"><![CDATA[UpFldrBtn]]></Property>
-<!--   <Property Id="VSDSupportedRuntimes"><![CDATA[2.0.40607;1.1.4322;1.0.3705]]></Property> -->
-    <Property Id="ARPCOMMENTS">[ProductName] [ProductVersion]</Property>
-    <Property Id="AdminConfirmInstallForm_PrevArgs"><![CDATA[AdminEulaForm]]></Property>
-    <Property Id="ConfirmInstallForm_PrevArgs"><![CDATA[EulaForm]]></Property>
-    <Property Id="MaintenanceForm_Action"><![CDATA[Repair]]></Property>
-    <Property Id="SFF_NewFldrBtn"><![CDATA[NewFldrBtn]]></Property>
-    <Property Id="EulaForm_NextArgs"><![CDATA[ConfirmInstallForm]]></Property>
-    <Property Id="VSDNETMSG"><![CDATA[This setup requires the .NET Framework version [1].  Please install the .NET Framework and run this setup again.]]></Property>
-    <Property Id="EulaForm_PrevArgs"><![CDATA[FolderForm]]></Property>
-    <Property Id="AdminFolderForm_NextArgs"><![CDATA[AdminEulaForm]]></Property>
-    <Property Id="ARPURLINFOABOUT"><![CDATA[www.nunit.org]]></Property>
-    <Property Id="VSDINVALIDURLMSG"><![CDATA[The specified path '[2]' is unavailable. The Internet Information Server might not be running or the path exists and is redirected to another machine. Please check the status of this virtual directory in the Internet Services Manager.]]></Property>
-    <Property Id="NEWERPRODUCTFOUND" Secure="yes" />
-    
-    <AdminExecuteSequence>
-      <Custom Action="DIRCA_TARGETDIR" Before="CostInitialize"><![CDATA[TARGETDIR=""]]></Custom>
-    </AdminExecuteSequence>
-    <InstallExecuteSequence>
-      <Custom Action="DIRCA_CheckFX" Before="AppSearch"><![CDATA[]]></Custom>
-      <Custom Action="ERRCA_CANCELNEWERVERSION" After="FindRelatedProducts"><![CDATA[NEWERPRODUCTFOUND AND NOT Installed]]></Custom>
-  <!--    <Custom Action="VSDCA_VsdLaunchConditions" After="ERRCA_CANCELNEWERVERSION"><![CDATA[NOT Installed]]></Custom>  -->
-      <Custom Action="DIRCA_TARGETDIR" After="ValidateProductID"><![CDATA[TARGETDIR=""]]></Custom>
-      <RemoveExistingProducts After="InstallInitialize" />
-    </InstallExecuteSequence>
-    
-    <Binary Id="MSVBDPCADLL" src="Binary\MSVBDPCADLL.ibd" />
-    <Binary Id="UpFldrBtn" src="Binary\UpFldrBtn.ibd" />
-    <Binary Id="NewFldrBtn" src="Binary\NewFldrBtn.ibd" />
-<!--    
-    <Icon Id="_f3e99.exe" src="Icon\_f3e99.exe.ibd" />
-    <Icon Id="_124305e.exe" src="Icon\_124305e.exe.ibd" />
-    <Icon Id="_440d491c.exe" src="Icon\_440d491c.exe.ibd" />
-    <Icon Id="_4d064db7.exe" src="Icon\_4d064db7.exe.ibd" />
-    <Icon Id="_154754de.exe" src="Icon\_154754de.exe.ibd" />
-    <Icon Id="_39b32d12.exe" src="Icon\_39b32d12.exe.ibd" />
-    <Icon Id="_74d4dc8.exe" src="Icon\_74d4dc8.exe.ibd" />
-    <Icon Id="_428b26a6.exe" src="Icon\_428b26a6.exe.ibd" />
-    <Icon Id="_701f5d03.exe" src="Icon\_701f5d03.exe.ibd" />
-    <Icon Id="_7a5a767d.exe" src="Icon\_7a5a767d.exe.ibd" />
--->    
-    <CustomTable Id="ProgId">
-      <Column Id="ProgId" Type="string" Width="255" PrimaryKey="yes" />
-      <Column Id="ProgId_Parent" Nullable="yes" Type="string" Width="255" />
-      <Column Id="Class_" Nullable="yes" Type="string" Width="38" />
-      <Column Id="Description" Nullable="yes" Localizable="yes" Type="string" Width="255" />
-      <Column Id="Icon_" Nullable="yes" Type="string" Width="72" />
-      <Column Id="IconIndex" Nullable="yes" Type="int" Width="2" />
-      <Row>
-        <Data Column="ProgId"><![CDATA[NUnitTestProject]]></Data>
-        <Data Column="ProgId_Parent" />
-        <Data Column="Class_" />
-        <Data Column="Description"><![CDATA[NUnit Test Project]]></Data>
-        <Data Column="Icon_"><![CDATA[_f3e99.exe]]></Data>
-        <Data Column="IconIndex"><![CDATA[0]]></Data>
-      </Row>
-    </CustomTable>
-    <CustomTable Id="Extension">
-      <Column Id="Extension" Type="string" Width="255" PrimaryKey="yes" />
-      <Column Id="Component_" Type="string" Width="72" PrimaryKey="yes" />
-      <Column Id="ProgId_" Nullable="yes" Type="string" Width="255" />
-      <Column Id="MIME_" Nullable="yes" Type="string" Width="64" />
-      <Column Id="Feature_" Type="string" Width="38" />
-      <Row>
-        <Data Column="Extension"><![CDATA[nunit]]></Data>
-        <Data Column="Component_"><![CDATA[C__243FEAF8F6D78D23A4A811915AEB23F8]]></Data>
-        <Data Column="ProgId_"><![CDATA[NUnitTestProject]]></Data>
-        <Data Column="MIME_" />
-        <Data Column="Feature_"><![CDATA[DefaultFeature]]></Data>
-      </Row>
-    </CustomTable>
-    <CustomTable Id="Verb">
-      <Column Id="Extension_" Type="string" Width="255" PrimaryKey="yes" />
-      <Column Id="Verb" Type="string" Width="32" PrimaryKey="yes" />
-      <Column Id="Sequence" Nullable="yes" Type="int" Width="2" />
-      <Column Id="Command" Nullable="yes" Localizable="yes" Type="string" Width="255" />
-      <Column Id="Argument" Nullable="yes" Localizable="yes" Type="string" Width="255" />
-      <Row>
-        <Data Column="Extension_"><![CDATA[nunit]]></Data>
-        <Data Column="Verb"><![CDATA[open]]></Data>
-        <Data Column="Sequence"><![CDATA[0]]></Data>
-        <Data Column="Command"><![CDATA[&Open]]></Data>
-        <Data Column="Argument"><![CDATA["%1"]]></Data>
-      </Row>
-    </CustomTable>
-    <CustomTable Id="_VsdLaunchCondition">
-      <Column Id="Condition" Type="string" Width="255" PrimaryKey="yes" />
-      <Column Id="Description" Localizable="yes" Type="string" Width="255" />
-      <Column Id="Url" Type="string" Width="0" />
-      <Row>
-        <Data Column="Condition"><![CDATA[VSDFXAvailable]]></Data>
-        <Data Column="Description"><![CDATA[[VSDNETURLMSG]]]></Data>
-        <Data Column="Url"><![CDATA[http://go.microsoft.com/fwlink/?LinkId=9832]]></Data>
-      </Row>
-    </CustomTable>
+
+    <UIRef Id="WixUI_Mondo" />
+    <UIRef Id="WixUI_ErrorProgressText" />   
+  
   </Product>
 </Wix>
