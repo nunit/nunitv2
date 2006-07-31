@@ -2,11 +2,12 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
   
-    <Feature Id="TestsFeature" Level="1" ConfigurableDirectory="TARGETDIR">
+    <Feature Id="TestsFeature" Level="1"
+		Title='Unit Tests' Description='Unit tests for NUnit' Display='expand'>
 		<ComponentRef Id="component_tests" />
     </Feature>
     
-	<DirectoryRef Id="TARGETDIR">
+	<DirectoryRef Id="INSTALLDIR">
       <Directory Id="D__tests" Name="BIN" LongName="bin">
       
         <Component Id="component_tests" DiskId="1" Guid="85DD0370-9E05-4e9a-8AB4-02A6C24986AB">
@@ -14,14 +15,24 @@
 			LongName="nunit.testutilities.dll" src="nunit.testutilities.dll" />
           <File Id="F__test2" Name="tests_2.DLL"
 			LongName="nunit.util.tests.dll" src="nunit.util.tests.dll" />
+          <File Id="F__nunit_util_tests_dll_config" Name="NUUTDLL.CFG"
+			LongName="nunit.util.tests.dll.config" src="nunit.util.tests.dll.config" />
           <File Id="F__test3" Name="tests_3.DLL"
 			LongName="nunit.framework.tests.dll" src="nunit.framework.tests.dll" />
+          <File Id="F__nunit_framework_tests_dll_config" Name="NUFTDLL.CFG"
+			LongName="nunit.framework.tests.dll.config" src="nunit.framework.tests.dll.config" />
           <File Id="F__test4" Name="tests_4.DLL"
 			LongName="nunit.mocks.tests.dll" src="nunit.mocks.tests.dll" />
+          <File Id="F__nunit_mocks_tests_dll_config" Name="NUMTDLL.CFG"
+			LongName="nunit.mocks.tests.dll.config" src="nunit.mocks.tests.dll.config" />
           <File Id="F__test5" Name="tests_5.DLL"
 			LongName="nunit.uikit.tests.dll" src="nunit.uikit.tests.dll" />
+          <File Id="F__nunit_uikit_tests_dll_config" Name="NUUTDLL.CFG"
+			LongName="nunit.uikit.tests.dll.config" src="nunit.uikit.tests.dll.config" />
           <File Id="F__test6" Name="tests_6.DLL"
 			LongName="nunit-console.tests.dll" src="nunit-console.tests.dll" />
+          <File Id="F__nunit_console_tests_dll_config" Name="NUCTDLL.CFG"
+			LongName="nunit-console.tests.dll.config" src="nunit-console.tests.dll.config" />
           <File Id="F__test7" Name="tests_7.DLL"
 			LongName="timing-tests.dll" src="timing-tests.dll" />
           <File Id="F__test8" Name="config_8.DLL"
@@ -34,6 +45,10 @@
 			LongName="nunit.extensions.tests.dll" src="nunit.extensions.tests.dll" />
           <File Id="F__test12" Name="tests_12.DLL"
 			LongName="nunit.core.tests.dll" src="nunit.core.tests.dll" />
+          <File Id="F__test_assembly_dll" Name="TASS.DLL"
+			LongName="test-assembly.dll" src="test-assembly.dll" />
+          <File Id="F__nunit_server_tests_dll" Name="NUST.DLL"
+			LongName="nunit-server.tests.dll" src="nunit-server.tests.dll" />
         </Component>
 
       </Directory>
