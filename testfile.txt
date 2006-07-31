@@ -1,3 +1,1 @@
 This file only exists for the purpose of testing our loginfo script
-
-New line
