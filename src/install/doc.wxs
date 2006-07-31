@@ -1,138 +1,120 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
-
-    <Feature Id="DocFeature" Level="1" ConfigurableDirectory="TARGETDIR">
-<!--
-      <ComponentRef Id="C__index" />
-      <ComponentRef Id="C__doc0" />
-      <ComponentRef Id="C__doc1" />
-      <ComponentRef Id="C__doc4" />
-      <ComponentRef Id="C__doc6" />
--->
+  
+    <Feature Id="DocFeature" Level="1"
+		Title='Documentation' Description='Documentation for NUnit' Display='expand'>
+      <ComponentRef Id="C__doc" />
+      <ComponentRef Id="C__doc_files" />
+      <ComponentRef Id="C__doc_img" />
     </Feature>
-<!--  
-    <DirectoryRef Id="TARGETDIR">
-      <Directory Id="D__doc0" Name="doc">
       
-        <Component Id="C__index" Guid="AF699551-B460-EDF7-CA96-B9EEE0433CF4">
-          <File Id="_index" Name="INDEX~1.HTM" src="..\..\doc\index.html" LongName="index.html" Vital="yes" KeyPath="yes" DiskId="1" />
-          <Shortcut Id="S__index" Directory="D__nunit_menu" Name="DOCUME~1" LongName="Documentation" Target="DocFeature" Icon="doc_icon.exe"
-			IconIndex="0" Show="normal" WorkingDirectory="D__doc0" />
+    <DirectoryRef Id="INSTALLDIR">
+      <Directory Id="D__doc" Name="doc">
+         <Component Id="C__doc" DiskId="1" Guid="6d9faf90-1ff2-11db-a98b-0800200c9a66">
+          <File Id="F__doc_file0" Name="ASSERT_1.HTM" LongName="assertions.html" src="..\..\doc\assertions.html" />
+          <File Id="F__doc_file1" Name="ATTRIB_1.HTM" LongName="attributes.html" src="..\..\doc\attributes.html" />
+          <File Id="F__doc_file2" Name="BOOKS_1.HTM" LongName="books.html" src="..\..\doc\books.html" />
+          <File Id="F__doc_file3" Name="CATEGO_1.HTM" LongName="category.html" src="..\..\doc\category.html" />
+          <File Id="F__doc_file4" Name="CHANGE_1.TXT" LongName="ChangeLog.txt" src="..\..\doc\ChangeLog.txt" />
+          <File Id="F__doc_file5" Name="COLLEC_1.HTM" LongName="collectionAssert.html" src="..\..\doc\collectionAssert.html" />
+          <File Id="F__doc_file6" Name="COMMAN_1.HTM" LongName="commandLine.html" src="..\..\doc\commandLine.html" />
+          <File Id="F__doc_file7" Name="COMMUN_1.HTM" LongName="community.html" src="..\..\doc\community.html" />
+          <File Id="F__doc_file8" Name="COMPAR_1.HTM" LongName="comparisonAsserts.html" src="..\..\doc\comparisonAsserts.html" />
+          <File Id="F__doc_file9" Name="CONDIT_1.HTM" LongName="conditionAsserts.html" src="..\..\doc\conditionAsserts.html" />
+          <File Id="F__doc_file10" Name="CONFIG_1.HTM" LongName="configEditor.html" src="..\..\doc\configEditor.html" />
+          <File Id="F__doc_file11" Name="CONFIG_2.HTM" LongName="configFiles.html" src="..\..\doc\configFiles.html" />
+          <File Id="F__doc_file12" Name="CONSOL_1.HTM" LongName="consoleCommandLine.html" src="..\..\doc\consoleCommandLine.html" />
+          <File Id="F__doc_file13" Name="CONTAC_1.HTM" LongName="contactUs.html" src="..\..\doc\contactUs.html" />
+          <File Id="F__doc_file14" Name="CONTEX_1.HTM" LongName="contextMenu.html" src="..\..\doc\contextMenu.html" />
+          <File Id="F__doc_file15" Name="DOCHOM_1.HTM" LongName="docHome.html" src="..\..\doc\docHome.html" />
+          <File Id="F__doc_file16" Name="DOCUME_1.HTM" LongName="documentation.html" src="..\..\doc\documentation.html" />
+          <File Id="F__doc_file17" Name="DOWNLO_1.HTM" LongName="download.html" src="..\..\doc\download.html" />
+          <File Id="F__doc_file18" Name="EQUALI_1.HTM" LongName="equalityAsserts.html" src="..\..\doc\equalityAsserts.html" />
+          <File Id="F__doc_file19" Name="EXCEPT_1.HTM" LongName="exception.html" src="..\..\doc\exception.html" />
+          <File Id="F__doc_file20" Name="EXPLIC_1.HTM" LongName="explicit.html" src="..\..\doc\explicit.html" />
+          <File Id="F__doc_file21" Name="EXTENS_1.TXT" LongName="Extensibility.txt" src="..\..\doc\Extensibility.txt" />
+          <File Id="F__doc_file22" Name="FEATUR_1.HTM" LongName="features.html" src="..\..\doc\features.html" />
+          <File Id="F__doc_file23" Name="FILEAS_1.HTM" LongName="fileAssert.html" src="..\..\doc\fileAssert.html" />
+          <File Id="F__doc_file24" Name="FIXTUR_1.HTM" LongName="fixtureSetup.html" src="..\..\doc\fixtureSetup.html" />
+          <File Id="F__doc_file25" Name="FIXTUR_2.HTM" LongName="fixtureTeardown.html" src="..\..\doc\fixtureTeardown.html" />
+          <File Id="F__doc_file26" Name="GETSTA_1.HTM" LongName="getStarted.html" src="..\..\doc\getStarted.html" />
+          <File Id="F__doc_file27" Name="GUICOM_1.HTM" LongName="guiCommandLine.html" src="..\..\doc\guiCommandLine.html" />
+          <File Id="F__doc_file28" Name="IDENTI_1.HTM" LongName="identityAsserts.html" src="..\..\doc\identityAsserts.html" />
+          <File Id="F__doc_file29" Name="IGNORE_1.HTM" LongName="ignore.html" src="..\..\doc\ignore.html" />
+          <File Id="F__doc_file30" Name="INDEX_1.HTM" LongName="index.html" src="..\..\doc\index.html" />
+          <File Id="F__doc_file31" Name="INSTAL_1.HTM" LongName="installation.html" src="..\..\doc\installation.html" />
+          <File Id="F__doc_file32" Name="INSTAL_1.TXT" LongName="Installation.txt" src="..\..\doc\Installation.txt" />
+          <File Id="F__doc_file33" Name="LICENS_1.HTM" LongName="license.html" src="..\..\doc\license.html" />
+          <File Id="F__doc_file34" Name="MAINME_1.HTM" LongName="mainMenu.html" src="..\..\doc\mainMenu.html" />
+          <File Id="F__doc_file35" Name="MULTIA_1.HTM" LongName="multiAssembly.html" src="..\..\doc\multiAssembly.html" />
+          <File Id="F__doc_file36" Name="NUNIT-_1.HTM" LongName="nunit-console.html" src="..\..\doc\nunit-console.html" />
+          <File Id="F__doc_file37" Name="NUNIT-_2.HTM" LongName="nunit-gui.html" src="..\..\doc\nunit-gui.html" />
+          <File Id="F__doc_file38" Name="nunit.css" src="..\..\doc\nunit.css" />
+          <File Id="F__doc_file39" Name="OPTION_1.HTM" LongName="optionsDialog.html" src="..\..\doc\optionsDialog.html" />
+          <File Id="F__doc_file40" Name="PLATFO_1.HTM" LongName="platform.html" src="..\..\doc\platform.html" />
+          <File Id="F__doc_file41" Name="PROJEC_1.HTM" LongName="projectEditor.html" src="..\..\doc\projectEditor.html" />
+          <File Id="F__doc_file42" Name="PROJEC_2.HTM" LongName="projects.html" src="..\..\doc\projects.html" />
+          <File Id="F__doc_file43" Name="PROPER_1.HTM" LongName="property.html" src="..\..\doc\property.html" />
+          <File Id="F__doc_file44" Name="QUICKS_1.HTM" LongName="quickStart.html" src="..\..\doc\quickStart.html" />
+          <File Id="F__doc_file45" Name="RELEAS_1.HTM" LongName="releasenotes.html" src="..\..\doc\releasenotes.html" />
+          <File Id="F__doc_file46" Name="RELEAS_1.TXT" LongName="ReleaseNotes.txt" src="..\..\doc\ReleaseNotes.txt" />
+          <File Id="F__doc_file47" Name="RESOUR_1.HTM" LongName="resources.html" src="..\..\doc\resources.html" />
+          <File Id="F__doc_file48" Name="SAMPLE_1.HTM" LongName="samples.html" src="..\..\doc\samples.html" />
+          <File Id="F__doc_file49" Name="SETUP_1.HTM" LongName="setup.html" src="..\..\doc\setup.html" />
+          <File Id="F__doc_file50" Name="SETUPF_1.HTM" LongName="setupFixture.html" src="..\..\doc\setupFixture.html" />
+          <File Id="F__doc_file51" Name="SETUPT_1.HTM" LongName="setupTeardown.html" src="..\..\doc\setupTeardown.html" />
+          <File Id="F__doc_file52" Name="STRING_1.HTM" LongName="stringAssert.html" src="..\..\doc\stringAssert.html" />
+          <File Id="F__doc_file53" Name="SUITE_1.HTM" LongName="suite.html" src="..\..\doc\suite.html" />
+          <File Id="F__doc_file54" Name="TDD-BO_1.HTM" LongName="tdd-book.html" src="..\..\doc\tdd-book.html" />
+          <File Id="F__doc_file55" Name="TEARDO_1.HTM" LongName="teardown.html" src="..\..\doc\teardown.html" />
+          <File Id="F__doc_file56" Name="TEST_1.HTM" LongName="test.html" src="..\..\doc\test.html" />
+          <File Id="F__doc_file57" Name="TESTCO_1.TXT" LongName="TestConfig.txt" src="..\..\doc\TestConfig.txt" />
+          <File Id="F__doc_file58" Name="TESTFI_1.HTM" LongName="testFixture.html" src="..\..\doc\testFixture.html" />
+          <File Id="F__doc_file59" Name="TESTPR_1.HTM" LongName="testProperties.html" src="..\..\doc\testProperties.html" />
+          <File Id="F__doc_file60" Name="TYPEAS_1.HTM" LongName="typeAsserts.html" src="..\..\doc\typeAsserts.html" />
+          <File Id="F__doc_file61" Name="UPGRAD_1.HTM" LongName="upgrade.html" src="..\..\doc\upgrade.html" />
+          <File Id="F__doc_file62" Name="UTILIT_1.HTM" LongName="utilityAsserts.html" src="..\..\doc\utilityAsserts.html" />
+          <File Id="F__doc_file63" Name="VSSUPP_1.HTM" LongName="vsSupport.html" src="..\..\doc\vsSupport.html" />
         </Component>
-      
-        <Component Id="C__doc0" DiskId="1">
-          <File Id="F__doc0" Name="ASSERT~1.HTM" LongName="assertions.html" src="..\..\doc\assertions.html" />
-          <File Id="F__doc1" Name="ATTRIB~1.HTM" LongName="attributes.html" src="..\..\doc\attributes.html" />
-          <File Id="F__doc2" Name="BOOKS~1.HTM" LongName="books.html" src="..\..\doc\books.html" />
-          <File Id="F__doc3" Name="CATEGO~1.HTM" LongName="category.html" src="..\..\doc\category.html" />
-          <File Id="F__doc4" Name="CHANGE~1.TXT" LongName="ChangeLog.txt" src="..\..\doc\ChangeLog.txt" />
-          <File Id="F__doc5" Name="COMMAN~1.HTM" LongName="commandLine.html" src="..\..\doc\commandLine.html" />
-          <File Id="F__doc6" Name="COMMUN~1.HTM" LongName="community.html" src="..\..\doc\community.html" />
-          <File Id="F__doc7" Name="CONTAC~1.HTM" LongName="contactUs.html" src="..\..\doc\contactUs.html" />
-          <File Id="F__doc8" Name="DOCTEM~1.HTM" LongName="docTemplate.html" src="..\..\doc\docTemplate.html" />
-          <File Id="F__doc9" Name="DOCUME~1.HTM" LongName="documentation.html" src="..\..\doc\documentation.html" />
-          <File Id="F__doc10" Name="DOWNLO~1.HTM" LongName="download.html" src="..\..\doc\download.html" />
-          <File Id="F__doc11" Name="EXCEPT~1.HTM" LongName="exception.html" src="..\..\doc\exception.html" />
-          <File Id="F__doc12" Name="EXPLIC~1.HTM" LongName="explicit.html" src="..\..\doc\explicit.html" />
-          <File Id="F__doc13" Name="GETSTA~1.HTM" LongName="getStarted.html" src="..\..\doc\getStarted.html" />
-          <File Id="F__doc14" Name="IGNORE~1.HTM" LongName="ignore.html" src="..\..\doc\ignore.html" />
-          <File Id="F__doc16" Name="INSTAL~1.HTM" LongName="installation.html" src="..\..\doc\installation.html" />
-          <File Id="F__doc17" Name="LICENS~1.HTM" LongName="license.html" src="..\..\doc\license.html" />
-          <File Id="F__doc18" Name="RELEAS~1.TXT" LongName="ReleaseNotes.txt" src="..\..\doc\ReleaseNotes.txt" />
-          <File Id="F__doc19" Name="RESOUR~1.HTM" LongName="resources.html" src="..\..\doc\resources.html" />
-          <File Id="F__doc20" Name="SAMPLE~1.HTM" LongName="samples.html" src="..\..\doc\samples.html" />
-          <File Id="F__doc21" Name="SETUPT~1.HTM" LongName="setupTeardown.html" src="..\..\doc\setupTeardown.html" />
-          <File Id="F__doc22" Name="SUITE~1.HTM" LongName="suite.html" src="..\..\doc\suite.html" />
-          <File Id="F__doc23" Name="TDD-BO~1.HTM" LongName="tdd-book.html" src="..\..\doc\tdd-book.html" />
-          <File Id="F__doc24" Name="TEST~1.HTM" LongName="test.html" src="..\..\doc\test.html" />
-          <File Id="F__doc25" Name="TESTFI~1.HTM" LongName="testFixture.html" src="..\..\doc\testFixture.html" />
-          <File Id="F__doc26" Name="UPGRAD~1.HTM" LongName="upgrade.html" src="..\..\doc\upgrade.html" />
-        </Component>
-        <Directory Id="D__doc1" Name="css">
-          <Component Id="C__doc1" DiskId="1">
-            <File Id="F__doc27" Name="STYLEG~1.CSS" LongName="styleGuide.css" src="..\..\doc\css\styleGuide.css" />
-            <File Id="F__doc28" Name="STYLEG~2.CSS" LongName="styleGuideIE.css" src="..\..\doc\css\styleGuideIE.css" />
-            <File Id="F__doc29" Name="STYLEG~3.CSS" LongName="styleGuideNN.css" src="..\..\doc\css\styleGuideNN.css" />
+        <Directory Id="D__doc_files" Name="files">
+          <Component Id="C__doc_files" DiskId="1" Guid="757c2ae0-1ff2-11db-a98b-0800200c9a66">
+            <File Id="F__doc_file70" Name="QUICKS_2.DOC" LongName="QuickStart.doc" src="..\..\doc\files\QuickStart.doc" />
+            <File Id="F__doc_file71" Name="QUICKS_1.DOC" LongName="QuickStart.Spanish.doc" src="..\..\doc\files\QuickStart.Spanish.doc" />
+            <File Id="F__doc_file72" Name="Results.xsd" src="..\..\doc\files\Results.xsd" />
+            <File Id="F__doc_file73" Name="SUMMAR_1.XSL" LongName="Summary.xslt" src="..\..\doc\files\Summary.xslt" />
+            <File Id="F__doc_file74" Name="SUPPLE_1.PDF" LongName="Supplement.pdf" src="..\..\doc\files\Supplement.pdf" />
+            <File Id="F__doc_file75" Name="TESTRE_1.XML" LongName="TestResult.xml" src="..\..\doc\files\TestResult.xml" />
           </Component>
         </Directory>
-        <Directory Id="D__doc4" Name="files">
-          <Component Id="C__doc4" DiskId="1">
-            <File Id="F__doc42" Name="QUICKS~2.DOC" LongName="QuickStart.doc" src="..\..\doc\files\QuickStart.doc" />
-            <File Id="F__doc43" Name="QUICKS~1.DOC" LongName="QuickStart.Spanish.doc" src="..\..\doc\files\QuickStart.Spanish.doc" />
-            <File Id="F__doc44" Name="Results.xsd" src="..\..\doc\files\Results.xsd" />
-            <File Id="F__doc45" Name="SUMMAR~1.XSL" LongName="Summary.xslt" src="..\..\doc\files\Summary.xslt" />
-            <File Id="F__doc46" Name="SUPPLE~1.PDF" LongName="Supplement.pdf" src="..\..\doc\files\Supplement.pdf" />
-            <File Id="F__doc47" Name="TESTRE~1.XML" LongName="TestResult.xml" src="..\..\doc\files\TestResult.xml" />
-          </Component>
-        </Directory>
-        <Directory Id="D__doc6" Name="img">
-          <Component Id="C__doc6" DiskId="1">
-            <File Id="F__doc54" Name="2_MSDN~1.GIF" LongName="2_msdnmag_lg.gif" src="..\..\doc\img\2_msdnmag_lg.gif" />
-            <File Id="F__doc55" Name="articles.gif" src="..\..\doc\img\articles.gif" />
-            <File Id="F__doc56" Name="ASSERT~1.GIF" LongName="assertions.gif" src="..\..\doc\img\assertions.gif" />
-            <File Id="F__doc57" Name="ATTRIB~1.GIF" LongName="attribute.gif" src="..\..\doc\img\attribute.gif" />
-            <File Id="F__doc58" Name="BLANKP~1.GIF" LongName="blankPixel.gif" src="..\..\doc\img\blankPixel.gif" />
-            <File Id="F__doc59" Name="books.gif" src="..\..\doc\img\books.gif" />
-            <File Id="F__doc60" Name="BULLET~1.GIF" LongName="bulletOff.gif" src="..\..\doc\img\bulletOff.gif" />
-            <File Id="F__doc61" Name="bulletOn.gif" src="..\..\doc\img\bulletOn.gif" />
-            <File Id="F__doc62" Name="CATEGO~1.GIF" LongName="categoryOff.GIF" src="..\..\doc\img\categoryOff.GIF" />
-            <File Id="F__doc63" Name="CATEGO~2.GIF" LongName="categoryOn.GIF" src="..\..\doc\img\categoryOn.GIF" />
-            <File Id="F__doc64" Name="COMMAN~1.GIF" LongName="commandLine.gif" src="..\..\doc\img\commandLine.gif" />
-            <File Id="F__doc65" Name="COMMUN~1.GIF" LongName="communityOff.gif" src="..\..\doc\img\communityOff.gif" />
-            <File Id="F__doc66" Name="COMMUN~2.GIF" LongName="communityOn.gif" src="..\..\doc\img\communityOn.gif" />
-            <File Id="F__doc67" Name="CONSOL~1.GIF" LongName="console-mock.gif" src="..\..\doc\img\console-mock.gif" />
-            <File Id="F__doc68" Name="CONTAC~1.GIF" LongName="contactUsOff.gif" src="..\..\doc\img\contactUsOff.gif" />
-            <File Id="F__doc69" Name="CONTAC~2.GIF" LongName="contactUsOn.gif" src="..\..\doc\img\contactUsOn.gif" />
-            <File Id="F__doc70" Name="CORNER~1.GIF" LongName="cornerPixel.gif" src="..\..\doc\img\cornerPixel.gif" />
-            <File Id="F__doc71" Name="divider.gif" src="..\..\doc\img\divider.gif" />
-            <File Id="F__doc72" Name="DOCUME~1.GIF" LongName="documentationOff.gif" src="..\..\doc\img\documentationOff.gif" />
-            <File Id="F__doc73" Name="DOCUME~2.GIF" LongName="documentationOn.gif" src="..\..\doc\img\documentationOn.gif" />
-            <File Id="F__doc74" Name="DOWNLO~1.GIF" LongName="downloadOff.gif" src="..\..\doc\img\downloadOff.gif" />
-            <File Id="F__doc75" Name="DOWNLO~2.GIF" LongName="downloadOn.gif" src="..\..\doc\img\downloadOn.gif" />
-            <File Id="F__doc76" Name="EXPECT~1.GIF" LongName="expectedExceptionOff.gif" src="..\..\doc\img\expectedExceptionOff.gif" />
-            <File Id="F__doc77" Name="EXPECT~2.GIF" LongName="expectedExceptionOn.gif" src="..\..\doc\img\expectedExceptionOn.gif" />
-            <File Id="F__doc78" Name="EXPLIC~1.GIF" LongName="explicitOff.GIF" src="..\..\doc\img\explicitOff.GIF" />
-            <File Id="F__doc79" Name="EXPLIC~2.GIF" LongName="explicitOn.GIF" src="..\..\doc\img\explicitOn.GIF" />
-            <File Id="F__doc80" Name="GETSTA~1.GIF" LongName="getStarted.gif" src="..\..\doc\img\getStarted.gif" />
-            <File Id="F__doc81" Name="GUI-SC~1.GIF" LongName="gui-screenshot.GIF" src="..\..\doc\img\gui-screenshot.GIF" />
-            <File Id="F__doc82" Name="GUI-VE~1.GIF" LongName="gui-verify.gif" src="..\..\doc\img\gui-verify.gif" />
-            <File Id="F__doc83" Name="homeOff.gif" src="..\..\doc\img\homeOff.gif" />
-            <File Id="F__doc84" Name="homeOn.gif" src="..\..\doc\img\homeOn.gif" />
-            <File Id="F__doc85" Name="IGNORE~1.GIF" LongName="ignoreOff.gif" src="..\..\doc\img\ignoreOff.gif" />
-            <File Id="F__doc86" Name="ignoreOn.gif" src="..\..\doc\img\ignoreOn.gif" />
-            <File Id="F__doc87" Name="INSTAL~1.GIF" LongName="installation.gif" src="..\..\doc\img\installation.gif" />
-            <File Id="F__doc88" Name="JEFFRI~1.GIF" LongName="jeffries-book-cover.gif" src="..\..\doc\img\jeffries-book-cover.gif" />
-            <File Id="F__doc89" Name="LANGFI~1.GIF" LongName="langFilter.gif" src="..\..\doc\img\langFilter.gif" />
-            <File Id="F__doc90" Name="license.gif" src="..\..\doc\img\license.gif" />
-            <File Id="F__doc91" Name="logo.gif" src="..\..\doc\img\logo.gif" />
-            <File Id="F__doc92" Name="LOGOBO~1.GIF" LongName="logobottom.gif" src="..\..\doc\img\logobottom.gif" />
-            <File Id="F__doc93" Name="navDiv.gif" src="..\..\doc\img\navDiv.gif" />
-            <File Id="F__doc94" Name="news.gif" src="..\..\doc\img\news.gif" />
-            <File Id="F__doc95" Name="PP-BOO~1.GIF" LongName="pp-book-cover.gif" src="..\..\doc\img\pp-book-cover.gif" />
-            <File Id="F__doc96" Name="quote.gif" src="..\..\doc\img\quote.gif" />
-            <File Id="F__doc97" Name="RESOUR~1.GIF" LongName="resourcesOff.gif" src="..\..\doc\img\resourcesOff.gif" />
-            <File Id="F__doc98" Name="RESOUR~2.GIF" LongName="resourcesOn.gif" src="..\..\doc\img\resourcesOn.gif" />
-            <File Id="F__doc99" Name="samples.gif" src="..\..\doc\img\samples.gif" />
-            <File Id="F__doc100" Name="SETUPT~1.GIF" LongName="setupTeardownOff.gif" src="..\..\doc\img\setupTeardownOff.gif" />
-            <File Id="F__doc101" Name="SETUPT~2.GIF" LongName="setupTeardownOn.gif" src="..\..\doc\img\setupTeardownOn.gif" />
-            <File Id="F__doc102" Name="SIDEDI~1.GIF" LongName="sideDivider.gif" src="..\..\doc\img\sideDivider.gif" />
-            <File Id="F__doc103" Name="SMALLQ~1.GIF" LongName="smallQuote.gif" src="..\..\doc\img\smallQuote.gif" />
-            <File Id="F__doc104" Name="suiteOff.gif" src="..\..\doc\img\suiteOff.gif" />
-            <File Id="F__doc105" Name="suiteOn.gif" src="..\..\doc\img\suiteOn.gif" />
-            <File Id="F__doc106" Name="TDD-BO~1.GIF" LongName="tdd-book-cover.gif" src="..\..\doc\img\tdd-book-cover.gif" />
-            <File Id="F__doc107" Name="TDD-TH~1.JPG" LongName="tdd-thumb.jpg" src="..\..\doc\img\tdd-thumb.jpg" />
-            <File Id="F__doc108" Name="TESTD-~1.GIF" LongName="testd-logo.gif" src="..\..\doc\img\testd-logo.gif" />
-            <File Id="F__doc109" Name="TESTFI~1.GIF" LongName="testFixtureOff.gif" src="..\..\doc\img\testFixtureOff.gif" />
-            <File Id="F__doc110" Name="TESTFI~2.GIF" LongName="testFixtureOn.gif" src="..\..\doc\img\testFixtureOn.gif" />
-            <File Id="F__doc111" Name="testOff.gif" src="..\..\doc\img\testOff.gif" />
-            <File Id="F__doc112" Name="testOn.gif" src="..\..\doc\img\testOn.gif" />
-            <File Id="F__doc113" Name="upgrade.gif" src="..\..\doc\img\upgrade.gif" />
+        <Directory Id="D__doc_img" Name="img">
+          <Component Id="C__doc_img" DiskId="1" Guid="7bb6dd10-1ff2-11db-a98b-0800200c9a66">
+            <File Id="F__doc_file82" Name="2_MSDN_1.GIF" LongName="2_msdnmag_lg.gif" src="..\..\doc\img\2_msdnmag_lg.gif" />
+            <File Id="F__doc_file83" Name="ASSEMB_1.JPG" LongName="assembliesTab.jpg" src="..\..\doc\img\assembliesTab.jpg" />
+            <File Id="F__doc_file84" Name="BULLET_1.GIF" LongName="bulletOff.gif" src="..\..\doc\img\bulletOff.gif" />
+            <File Id="F__doc_file85" Name="bulletOn.gif" src="..\..\doc\img\bulletOn.gif" />
+            <File Id="F__doc_file86" Name="CONFIG_1.JPG" LongName="configEditor.jpg" src="..\..\doc\img\configEditor.jpg" />
+            <File Id="F__doc_file87" Name="CONSOL_1.JPG" LongName="console-mock.jpg" src="..\..\doc\img\console-mock.jpg" />
+            <File Id="F__doc_file88" Name="DISPLA_1.JPG" LongName="displayTab.jpg" src="..\..\doc\img\displayTab.jpg" />
+            <File Id="F__doc_file89" Name="GENERA_1.JPG" LongName="generalTab.jpg" src="..\..\doc\img\generalTab.jpg" />
+            <File Id="F__doc_file90" Name="GUI-SC_1.JPG" LongName="gui-screenshot.jpg" src="..\..\doc\img\gui-screenshot.jpg" />
+            <File Id="F__doc_file91" Name="GUI-VE_1.JPG" LongName="gui-verify.jpg" src="..\..\doc\img\gui-verify.jpg" />
+            <File Id="F__doc_file92" Name="JEFFRI_1.GIF" LongName="jeffries-book-cover.gif" src="..\..\doc\img\jeffries-book-cover.gif" />
+            <File Id="F__doc_file93" Name="LANGFI_1.GIF" LongName="langFilter.gif" src="..\..\doc\img\langFilter.gif" />
+            <File Id="F__doc_file94" Name="logo.gif" src="..\..\doc\img\logo.gif" />
+            <File Id="F__doc_file95" Name="LOGOBO_1.GIF" LongName="logobottom.gif" src="..\..\doc\img\logobottom.gif" />
+            <File Id="F__doc_file96" Name="miniGui.jpg" src="..\..\doc\img\miniGui.jpg" />
+            <File Id="F__doc_file97" Name="OPTION_1.JPG" LongName="optionsDialog.jpg" src="..\..\doc\img\optionsDialog.jpg" />
+            <File Id="F__doc_file98" Name="PP-BOO_1.GIF" LongName="pp-book-cover.gif" src="..\..\doc\img\pp-book-cover.gif" />
+            <File Id="F__doc_file99" Name="RESULT_1.JPG" LongName="resultTab.jpg" src="..\..\doc\img\resultTab.jpg" />
+            <File Id="F__doc_file100" Name="TDD-BO_1.GIF" LongName="tdd-book-cover.gif" src="..\..\doc\img\tdd-book-cover.gif" />
+            <File Id="F__doc_file101" Name="TDD-TH_1.JPG" LongName="tdd-thumb.jpg" src="..\..\doc\img\tdd-thumb.jpg" />
+            <File Id="F__doc_file102" Name="TESTD-_1.GIF" LongName="testd-logo.gif" src="..\..\doc\img\testd-logo.gif" />
+            <File Id="F__doc_file103" Name="TESTPR_1.JPG" LongName="testProperties.jpg" src="..\..\doc\img\testProperties.jpg" />
+            <File Id="F__doc_file104" Name="testsTab.JPG" src="..\..\doc\img\testsTab.JPG" />
+            <File Id="F__doc_file105" Name="testTab.jpg" src="..\..\doc\img\testTab.jpg" />
           </Component>
         </Directory>
       </Directory>
     </DirectoryRef>
-    
-    <Icon Id="doc_icon.exe" src="Icon\doc_icon.exe.ibd" />
--->    
   </Fragment>
 </Wix>
