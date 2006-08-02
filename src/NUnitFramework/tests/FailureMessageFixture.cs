@@ -196,84 +196,84 @@ namespace NUnit.Framework.Tests
 			[Test]
 			public void TestFormatMessageForFailNotEquals()
 			{
-				Assert.AreEqual( @"
-	expected: <(null)>
-	 but was: <(null)>", 
+				Assert.AreEqual( 
+					Environment.NewLine + "	expected: <(null)>" +
+					Environment.NewLine + "	 but was: <(null)>", 
 					GetMsg( null, null, null ) );
 
-				Assert.AreEqual( @"
-	expected: <(null)>
-	 but was: <(null)>", 
+				Assert.AreEqual( 
+					Environment.NewLine + "	expected: <(null)>" +
+					Environment.NewLine + "	 but was: <(null)>", 
 					GetMsg(null, null,  "") );
 
-				Assert.AreEqual( @"message
-	expected: <(null)>
-	 but was: <(null)>", 
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	expected: <(null)>" +
+					Environment.NewLine + "	 but was: <(null)>", 
 					GetMsg(null, null, "message" ) );
 
-				Assert.AreEqual( @"message
-	expected: <1>
-	 but was: <2>", 
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	expected: <1>" +
+					Environment.NewLine + "	 but was: <2>", 
 					GetMsg( 1, 2, "message" ) );
 
-				Assert.AreEqual( @"message
-	expected: <"""">
-	 but was: <(null)>", 
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	expected: <\"\">" +
+					Environment.NewLine + "	 but was: <(null)>", 
 					GetMsg( "", null, "message" ) );
 
-				Assert.AreEqual( @"message
-	expected: <1>
-	 but was: <""1"">",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	expected: <1>" +
+					Environment.NewLine + "	 but was: <\"1\">",
 					GetMsg( 1, "1", "message" ) );
 
-				Assert.AreEqual( @"message 5
-	expected: <1>
-	 but was: <""1"">",
+				Assert.AreEqual( "message 5" +
+					Environment.NewLine + "	expected: <1>" +
+					Environment.NewLine + "	 but was: <\"1\">",
 					GetMsg( 1, "1", "message {0}", 5 ) );
 			
-				Assert.AreEqual( @"message
-	String lengths differ.  Expected length=1, but was length=2.
-	Strings differ at index 1.
-	expected: <""a"">
-	 but was: <""aa"">
-	-------------^",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	String lengths differ.  Expected length=1, but was length=2." +
+					Environment.NewLine + "	Strings differ at index 1." +
+					Environment.NewLine + "	expected: <\"a\">" +
+					Environment.NewLine + "	 but was: <\"aa\">" +
+					Environment.NewLine + "	-------------^",
 					GetMsg( "a", "aa", "message" ) );
 
-				Assert.AreEqual( @"message
-	String lengths are both 2.
-	Strings differ at index 1.
-	expected: <""aa"">
-	 but was: <""ab"">
-	-------------^",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	String lengths are both 2." +
+					Environment.NewLine + "	Strings differ at index 1." +
+					Environment.NewLine + "	expected: <\"aa\">" +
+					Environment.NewLine + "	 but was: <\"ab\">" +
+					Environment.NewLine + "	-------------^",
 					GetMsg( "aa", "ab", "message" ) );
 
-				Assert.AreEqual( @"message
-	String lengths differ.  Expected length=1, but was length=3.
-	Strings differ at index 1.
-	expected: <""a"">
-	 but was: <""abc"">
-	-------------^",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	String lengths differ.  Expected length=1, but was length=3." +
+					Environment.NewLine + "	Strings differ at index 1." +
+					Environment.NewLine + "	expected: <\"a\">" +
+					Environment.NewLine + "	 but was: <\"abc\">" +
+					Environment.NewLine + "	-------------^",
 					GetMsg( "a", "abc", "message" ) );
 
-				Assert.AreEqual( @"message
-	String lengths are both 3.
-	Strings differ at index 1.
-	expected: <""123"">
-	 but was: <""1x3"">
-	-------------^",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	String lengths are both 3." +
+					Environment.NewLine + "	Strings differ at index 1." +
+					Environment.NewLine + "	expected: <\"123\">" +
+					Environment.NewLine + "	 but was: <\"1x3\">" +
+					Environment.NewLine + "	-------------^",
 					GetMsg( "123", "1x3", "message" ) );
 
-				Assert.AreEqual( @"message
-	String lengths differ.  Expected length=5, but was length=3.
-	Strings differ at index 3.
-	expected: <""12345"">
-	 but was: <""123"">
-	---------------^",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	String lengths differ.  Expected length=5, but was length=3." +
+					Environment.NewLine + "	Strings differ at index 3." +
+					Environment.NewLine + "	expected: <\"12345\">" +
+					Environment.NewLine + "	 but was: <\"123\">" +
+					Environment.NewLine + "	---------------^",
 					GetMsg( "12345", "123", "message" ) );
 
-				Assert.AreEqual( @"message
-	expected: <" + new DateTime(2005, 6, 1, 0, 0, 0) + @">
-	 but was: <" + new DateTime(2005, 6, 7, 0, 0, 0) + ">",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	expected: <" + new DateTime(2005, 6, 1, 0, 0, 0) + ">" +
+					Environment.NewLine + "	 but was: <" + new DateTime(2005, 6, 7, 0, 0, 0) + ">",
 					GetMsg( new DateTime( 2005, 6, 1 ), new DateTime( 2005, 6, 7 ), "message" ) );
 			}
 
@@ -283,12 +283,12 @@ namespace NUnit.Framework.Tests
 				AssertionFailureMessage msg = new AssertionFailureMessage( "message" );
 				msg.DisplayDifferences( "Name", "NAMES", true );
 
-				Assert.AreEqual( @"message
-	String lengths differ.  Expected length=4, but was length=5.
-	Strings differ at index 4.
-	expected: <""Name"">
-	 but was: <""NAMES"">
-	----------------^",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	String lengths differ.  Expected length=4, but was length=5." +
+					Environment.NewLine + "	Strings differ at index 4." +
+					Environment.NewLine + "	expected: <\"Name\">" +
+					Environment.NewLine + "	 but was: <\"NAMES\">" +
+					Environment.NewLine + "	----------------^",
 					msg.ToString() );
 			}
 
@@ -310,30 +310,30 @@ namespace NUnit.Framework.Tests
 			/// where the differences actually are.
 			/// </summary>
 			[Test]
-			public void TestFormatMessageForFailNotEqualsNewlines()
+			public void TestFormatMessageForFailNotEqualsNewlines2()
 			{
-				Assert.AreEqual( @"message
-	String lengths differ.  Expected length=2, but was length=3.
-	Strings differ at index 1.
-	expected: <""a\r"">
-	 but was: <""aa\r"">
-	-------------^",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	String lengths differ.  Expected length=2, but was length=3." +
+					Environment.NewLine + "	Strings differ at index 1." +
+					Environment.NewLine + "	expected: <\"a\\r\">" +
+					Environment.NewLine + "	 but was: <\"aa\\r\">" +
+					Environment.NewLine + "	-------------^",
 					GetMsg( "a\r", "aa\r", "message" ) );
 
-				Assert.AreEqual( @"message
-	String lengths differ.  Expected length=2, but was length=3.
-	Strings differ at index 1.
-	expected: <""a\n"">
-	 but was: <""aa\n"">
-	-------------^",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	String lengths differ.  Expected length=2, but was length=3." +
+					Environment.NewLine + "	Strings differ at index 1." +
+					Environment.NewLine + "	expected: <\"a\\n\">" +
+					Environment.NewLine + "	 but was: <\"aa\\n\">" +
+					Environment.NewLine + "	-------------^",
 					GetMsg( "a\n", "aa\n", "message" ) );
 
-				Assert.AreEqual( @"message
-	String lengths are both 6.
-	Strings differ at index 5.
-	expected: <""aa\r\naa"">
-	 but was: <""aa\r\nab"">
-	-------------------^",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "	String lengths are both 6." +
+					Environment.NewLine + "	Strings differ at index 5." +
+					Environment.NewLine + "	expected: <\"aa\\r\\naa\">" +
+					Environment.NewLine + "	 but was: <\"aa\\r\\nab\">" +
+					Environment.NewLine + "	-------------------^",
 					GetMsg( "aa\r\naa", "aa\r\nab", "message" ) );
 			}
 
@@ -389,12 +389,12 @@ namespace NUnit.Framework.Tests
 			{
 				string sFirst  = "0000000000111111111122";
 				string sSecond = "0000000000111111111122++";
-				Assert.AreEqual( @"" + System.Environment.NewLine +
-"	String lengths differ.  Expected length=22, but was length=24." + System.Environment.NewLine +
-"	Strings differ at index 22." + System.Environment.NewLine +
-"	expected: <\"0000000000111111111122\">" + System.Environment.NewLine +
-"	 but was: <\"0000000000111111111122++\">" + System.Environment.NewLine +
-"	----------------------------------^",
+				Assert.AreEqual( 
+					Environment.NewLine + "	String lengths differ.  Expected length=22, but was length=24." + 
+					Environment.NewLine + "	Strings differ at index 22." + 
+					Environment.NewLine + "	expected: <\"0000000000111111111122\">" + 
+					Environment.NewLine + "	 but was: <\"0000000000111111111122++\">" + 
+					Environment.NewLine + "	----------------------------------^",
 					GetMsg( sFirst, sSecond, null ) );
 			}
 
@@ -495,10 +495,10 @@ namespace NUnit.Framework.Tests
 					new object[] { "one", "two", "three", "four", "five" },
 					3 );
 
-				Assert.AreEqual( @"message
-Array lengths differ.  Expected length=3, but was length=5.
-Arrays differ at index 3.
-   extra:<<""four"">,<""five"">>",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "Array lengths differ.  Expected length=3, but was length=5." +
+					Environment.NewLine + "Arrays differ at index 3." +
+					Environment.NewLine + "   extra:<<\"four\">,<\"five\">>",
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message" );
@@ -507,10 +507,10 @@ Arrays differ at index 3.
 					new object[] { "one", "two", "three" },
 					3 );
 
-				Assert.AreEqual( @"message
-Array lengths differ.  Expected length=5, but was length=3.
-Arrays differ at index 3.
- missing:<<""four"">,<""five"">>",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "Array lengths differ.  Expected length=5, but was length=3." +
+					Environment.NewLine + "Arrays differ at index 3." +
+					Environment.NewLine + " missing:<<\"four\">,<\"five\">>",
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message" );
@@ -519,14 +519,14 @@ Arrays differ at index 3.
 					new object[] { "one", "two", "ten" },
 					2 );
 
-				Assert.AreEqual( @"message
-Array lengths are both 3.
-Arrays differ at index 2.
-	String lengths differ.  Expected length=5, but was length=3.
-	Strings differ at index 1.
-	expected: <""three"">
-	 but was: <""ten"">
-	-------------^",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "Array lengths are both 3." +
+					Environment.NewLine + "Arrays differ at index 2." +
+					Environment.NewLine + "	String lengths differ.  Expected length=5, but was length=3." +
+					Environment.NewLine + "	Strings differ at index 1." +
+					Environment.NewLine + "	expected: <\"three\">" +
+					Environment.NewLine + "	 but was: <\"ten\">" +
+					Environment.NewLine + "	-------------^",
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message" );
@@ -535,11 +535,11 @@ Arrays differ at index 2.
 					new object[] { 1, 2, 10 },
 					2 );
 
-				Assert.AreEqual( @"message
-Array lengths are both 3.
-Arrays differ at index 2.
-	expected: <3>
-	 but was: <10>",
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "Array lengths are both 3." +
+					Environment.NewLine + "Arrays differ at index 2." +
+					Environment.NewLine + "	expected: <3>" +
+					Environment.NewLine + "	 but was: <10>",
 					msg.ToString() );
 
 			}
