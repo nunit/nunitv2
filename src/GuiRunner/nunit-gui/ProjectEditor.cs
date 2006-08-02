@@ -1039,21 +1039,6 @@ namespace NUnit.Gui
 			set { visualStudioSupport = value; }
 		}
 
-//		private UserSettings _userSettings;
-//		private UserSettings UserSettings
-//		{
-//			get
-//			{
-//				if ( _userSettings == null )
-//					_userSettings = (UserSettings)GetService( typeof( UserSettings ) );
-//				//TODO: Remove this, or create the service in the test
-//				if ( _userSettings == null )
-//					_userSettings = new UserSettings(
-//						new RegistrySettingsStorage( NUnitRegistry.CurrentUser ) );
-//				return _userSettings;
-//			}
-//		}
-
 		private TestLoaderUI TestLoaderUI
 		{
 			get
