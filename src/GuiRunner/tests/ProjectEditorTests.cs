@@ -53,7 +53,7 @@ namespace NUnit.Gui.Tests
 			Assert.AreEqual( Environment.CurrentDirectory, GetText( "projectBaseTextBox" ) );
 		}
 
-		[Test, Platform( "Net-2.0" )]
+		[Test]
 		public void SetProjectBase()
 		{
 			editor.Show();
