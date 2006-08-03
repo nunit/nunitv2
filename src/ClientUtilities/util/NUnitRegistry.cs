@@ -105,15 +105,15 @@ namespace NUnit.Util
 		public static void ClearTestKeys()
 		{
 			ClearSubKey( Registry.CurrentUser, testKey );
-			ClearSubKey( Registry.LocalMachine, testKey );	
+			//ClearSubKey( Registry.LocalMachine, testKey );	
 		}
 
 		/// <summary>
-		/// Static function that clears out the contents of a subkey
+		/// Static helper method that clears out the contents of a subkey
 		/// </summary>
 		/// <param name="baseKey">Base key for the subkey</param>
 		/// <param name="subKey">Name of the subkey</param>
-		public static void ClearSubKey( RegistryKey baseKey, string subKey )
+		private static void ClearSubKey( RegistryKey baseKey, string subKey )
 		{
 			using( RegistryKey key = baseKey.OpenSubKey( subKey, true ) )
 			{
@@ -130,8 +130,17 @@ namespace NUnit.Util
 			foreach( string name in key.GetValueNames() )
 				key.DeleteValue( name );
 
-			foreach( string name in key.GetSubKeyNames() )
-				key.DeleteSubKeyTree( name );
+			// TODO: This throws under Mono - Restore when bug is fixed
+			//foreach( string name in key.GetSubKeyNames() )
+			//    key.DeleteSubKeyTree( name );
+
+			foreach (string name in key.GetSubKeyNames())
+			{
+				ClearSubKey(key, name);
+				// TODO: Remove this test when Mono bug is fixed
+				if ( NUnit.Core.RuntimeFramework.CurrentFramework.Runtime == NUnit.Core.RuntimeType.Net ) 
+					key.DeleteSubKey( name );
+			}
 		}
 
 		/// <summary>
