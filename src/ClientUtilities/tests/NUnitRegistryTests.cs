@@ -99,7 +99,7 @@ namespace NUnit.Util.Tests
 		{
 			NUnitRegistry.TestMode = true;
 
-			using( RegistryKey key = NUnitRegistry.LocalMachine )
+			using( RegistryKey key = NUnitRegistry.CurrentUser )
 			using( RegistryKey foo = key.CreateSubKey( "foo" ) )
 			using( RegistryKey bar = key.CreateSubKey( "bar" ) )
 			using( RegistryKey footoo = foo.CreateSubKey( "foo" ) )
