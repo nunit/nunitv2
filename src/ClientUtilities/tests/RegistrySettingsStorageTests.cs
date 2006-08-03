@@ -38,7 +38,6 @@ namespace NUnit.Util.Tests
 	/// Summary description for RegistryStorageTests.
 	/// </summary>
 	[TestFixture]
-	[Platform(Exclude="Linux")]
 	public class RegistrySettingsStorageTests
 	{
 		private static readonly string testKeyName = "Software\\NUnitTest";
@@ -56,15 +55,14 @@ namespace NUnit.Util.Tests
 		[TearDown]
 		public void AfterEachTest()
 		{
+			storage.Clear();
 			storage.Dispose();
-			testKey.Close();
-			Registry.CurrentUser.DeleteSubKeyTree( testKeyName );
 		}
 
 		[Test]
 		public void StorageHasCorrectKey()
 		{
-			Assert.AreEqual( "HKEY_CURRENT_USER\\" + testKeyName, storage.StorageKey.Name );
+			StringAssert.AreEqualIgnoringCase( "HKEY_CURRENT_USER\\" + testKeyName, storage.StorageKey.Name );
 		}
 
 		[Test]
@@ -106,8 +104,8 @@ namespace NUnit.Util.Tests
 			Assert.IsNotNull( sub1, "Sub1 is null" );
 			Assert.IsNotNull( sub2, "Sub2 is null" );
 
-			Assert.AreEqual( "HKEY_CURRENT_USER\\" + testKeyName + "\\Sub1", sub1.StorageKey.Name);
-			Assert.AreEqual( "HKEY_CURRENT_USER\\" + testKeyName + "\\Sub2", sub2.StorageKey.Name );
+			StringAssert.AreEqualIgnoringCase( "HKEY_CURRENT_USER\\" + testKeyName + "\\Sub1", sub1.StorageKey.Name);
+			StringAssert.AreEqualIgnoringCase( "HKEY_CURRENT_USER\\" + testKeyName + "\\Sub2", sub2.StorageKey.Name );
 		}
 
 		[Test]

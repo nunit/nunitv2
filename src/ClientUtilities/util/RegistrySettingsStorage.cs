@@ -225,24 +225,11 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
-		/// Static function that clears out the contents of a key
-		/// </summary>
-		/// <param name="key">Key to be cleared</param>
-		public static void ClearKey( RegistryKey key )
-		{
-			foreach( string name in key.GetValueNames() )
-				key.DeleteValue( name );
-
-			foreach( string name in key.GetSubKeyNames() )
-				key.DeleteSubKeyTree( name );
-		}
-
-		/// <summary>
 		/// Clear all settings from the storage - empty storage remains
 		/// </summary>
 		public void Clear()
 		{
-			ClearKey( storageKey );
+			NUnitRegistry.ClearKey( storageKey );
 		}
 
 		#endregion
