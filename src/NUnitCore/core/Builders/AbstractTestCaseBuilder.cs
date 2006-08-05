@@ -110,7 +110,7 @@ namespace NUnit.Core.Builders
 		/// </summary>
 		/// <param name="method">The method to be checked</param>
 		/// <returns>True if the method signature is valid, false if not</returns>
-		protected bool HasValidTestCaseSignature( MethodInfo method )
+		protected virtual bool HasValidTestCaseSignature( MethodInfo method )
 		{
 			return !method.IsStatic
 				&& !method.IsAbstract
