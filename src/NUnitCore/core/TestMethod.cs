@@ -75,7 +75,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// The type of any expected exception
 		/// </summary>
-        internal Type expectedException;
+		internal Type expectedException;
         
 		/// <summary>
 		/// The full name of any expected exception type
@@ -91,7 +91,7 @@ namespace NUnit.Core
 		/// A string indicating how to match the expected message
 		/// </summary>
 		internal string matchType;
-        #endregion
+		#endregion
 
 		#region Constructors
 		public TestMethod( MethodInfo method ) : base( method.ReflectedType.FullName, 
@@ -113,6 +113,11 @@ namespace NUnit.Core
 		{
 			get { return fixture; }
 			set { fixture = value; }
+		}
+
+		public MethodInfo Method
+		{
+			get { return method; }
 		}
 
 		public Type ExpectedException
