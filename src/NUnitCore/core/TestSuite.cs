@@ -281,10 +281,7 @@ namespace NUnit.Core
                 try
                 {
                     if (Fixture == null) // In case TestFixture was created with fixture object
-                    {
-                        Fixture = Reflect.Construct(FixtureType);
-                        System.Diagnostics.Trace.WriteLine("Constructed {0}" + FixtureType.Name);
-                    }
+						CreateUserFixture();
 
                     if (this.fixtureSetUp != null)
                         Reflect.InvokeMethod(fixtureSetUp, Fixture);
@@ -316,6 +313,12 @@ namespace NUnit.Core
                 }
             }
         }
+
+		protected virtual void CreateUserFixture()
+		{
+			Fixture = Reflect.Construct(FixtureType);
+			System.Diagnostics.Trace.WriteLine("Constructed {0}" + FixtureType.Name);
+		}
 
         protected virtual void DoOneTimeTearDown(TestResult suiteResult)
         {
