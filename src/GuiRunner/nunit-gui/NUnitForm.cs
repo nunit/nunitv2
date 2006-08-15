@@ -2011,9 +2011,9 @@ namespace NUnit.Gui
 				TestLoaderUI.OpenProject( this, commandLineOptions.testFileName, commandLineOptions.configName, commandLineOptions.testName );
 			else if( UserSettings.Options.LoadLastProject && !commandLineOptions.noload )
 			{
-				string recentProjectName = UserSettings.RecentProjects.RecentFile;
-				if ( recentProjectName != null )
-					TestLoaderUI.OpenProject( this, recentProjectName, commandLineOptions.configName, commandLineOptions.testName );
+				RecentFileEntry entry = UserSettings.RecentProjects.Entries[0];
+				if ( entry != null )
+					TestLoaderUI.OpenProject( this, entry.Path, commandLineOptions.configName, commandLineOptions.testName );
 			}
 
 			// Run loaded test automatically if called for
@@ -2238,7 +2238,7 @@ namespace NUnit.Gui
 		private void OnTestProjectUnloading( object sender, TestEventArgs e )
 		{
 			if ( e.Name != null && File.Exists( e.Name ) )
-				UserSettings.RecentProjects.RecentFile = e.Name;
+				UserSettings.RecentProjects.SetMostRecent( new RecentFileEntry( e.Name, Environment.Version ) );
 		}
 
 		private void OnTestProjectUnloaded( object sender, TestEventArgs e )

@@ -61,16 +61,16 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void EnableOnLoadWhenNotEmpty()
 		{
-			files.RecentFile = "Test";
+			files.SetMostRecent( "Test" );
 			handler.Load();
 			Assert.IsTrue( menu.Enabled );
 		}
 		[Test]
 		public void LoadMenuItems()
 		{
-			files.RecentFile = "Third";
-			files.RecentFile = "Second";
-			files.RecentFile = "First";
+			files.SetMostRecent( "Third" );
+			files.SetMostRecent( "Second" );
+			files.SetMostRecent( "First" );
 			handler.Load();
 			Assert.AreEqual( 3, menu.MenuItems.Count );
 			Assert.AreEqual( "1 First", menu.MenuItems[0].Text );
@@ -78,8 +78,13 @@ namespace NUnit.UiKit.Tests
 
 		private class FakeRecentFiles : RecentFiles
 		{
-			private ArrayList files = new ArrayList();
+			private RecentFilesCollection files = new RecentFilesCollection();
 			private int maxFiles = 24;
+
+			public int Count
+			{
+				get { return files.Count; }
+			}
 
 			public int MaxFiles
 			{
@@ -87,15 +92,19 @@ namespace NUnit.UiKit.Tests
 				set { maxFiles = value; }
 			}
 
-			public string RecentFile
+			public void SetMostRecent( string fileName )
 			{
-				get { return (string)files[files.Count-1]; }
-				set { files.Insert( 0, value ); }
+				SetMostRecent( new RecentFileEntry( fileName ) );
 			}
 
-			public IList GetFiles()
+			public void SetMostRecent( RecentFileEntry entry )
 			{
-				return files;
+				files.Insert( 0, entry );
+			}
+
+			public RecentFilesCollection Entries
+			{
+				get { return files; }
 			}
 
 			public void Clear()

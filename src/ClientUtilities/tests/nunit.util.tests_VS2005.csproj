@@ -138,6 +138,7 @@
     <Compile Include="ProjectConfigTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RecentFileEntryTests.cs" />
     <Compile Include="RecentFilesTests.cs" />
     <Compile Include="RegistrySettingsStorageTests.cs">
       <SubType>Code</SubType>

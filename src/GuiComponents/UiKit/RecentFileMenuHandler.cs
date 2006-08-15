@@ -42,6 +42,7 @@ namespace NUnit.UiKit
 		private MenuItem menu;
 		private RecentFiles recentFiles;
         private bool showMissingFiles = false;
+		private bool showNonRunnableFiles = false;
 
 		public RecentFileMenuHandler( MenuItem menu, RecentFiles recentFiles )
 		{
@@ -49,11 +50,17 @@ namespace NUnit.UiKit
 			this.recentFiles = recentFiles;
 		}
 
-        public bool ShowMissingFiles
-        {
-            get { return showMissingFiles; }
-            set { showMissingFiles = value; }
-        }
+		public bool ShowMissingFiles
+		{
+			get { return showMissingFiles; }
+			set { showMissingFiles = value; }
+		}
+
+		public bool ShowNonRunnableFiles
+		{
+			get { return showNonRunnableFiles; }
+			set { showNonRunnableFiles = value; }
+		}
 
 		public MenuItem Menu
 		{
@@ -67,26 +74,28 @@ namespace NUnit.UiKit
 
 		public void Load()
 		{
-			IList files = recentFiles.GetFiles();
-            bool onNet2 = Environment.Version.Major > 1;
+            Version currentVersion = Environment.Version;
 
-			if ( files.Count == 0 )
+			if ( recentFiles.Count == 0 )
 				Menu.Enabled = false;
 			else 
 			{
 				Menu.Enabled = true;
 				Menu.MenuItems.Clear();
 				int index = 1;
-				foreach ( string name in files ) 
+				foreach ( RecentFileEntry entry in recentFiles.Entries ) 
 				{
                     // Rather than show files that don't exist, we skip them. As
                     // new recent files are opened, they will be pushed down and
                     // eventually fall off the list.
-                    if ( showMissingFiles || System.IO.File.Exists(name))
+                    if ( showMissingFiles || System.IO.File.Exists(entry.Path) )
                     {
-                        MenuItem item = new MenuItem(String.Format("{0} {1}", index++, name));
-                        item.Click += new System.EventHandler(OnRecentFileClick);
-                        Menu.MenuItems.Add(item);
+						if ( showNonRunnableFiles || entry.CLRVersion.Major <= currentVersion.Major )
+						{
+							MenuItem item = new MenuItem(String.Format("{0} {1}", index++, entry.Path));
+							item.Click += new System.EventHandler(OnRecentFileClick);
+							Menu.MenuItems.Add(item);
+						}
                     }
 				}		
 			}

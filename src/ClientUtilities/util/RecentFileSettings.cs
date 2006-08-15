@@ -42,7 +42,7 @@ namespace NUnit.Util
 		// current simplest solution to having
 		// multiple recentfiles objects around.
 		// We can fix this by using a singleton.
-		private IList fileEntries;
+		private RecentFilesCollection fileEntries = new RecentFilesCollection();
 
 		public static readonly int MinSize = 1;
 
@@ -54,12 +54,17 @@ namespace NUnit.Util
 
 		public RecentFileSettings( ISettingsStorage storage ) : base( storage ) 
 		{
-			LoadFiles();
+			LoadEntries();
 		}
 
 		#endregion
 
 		#region Properties
+
+		public int Count
+		{
+			get { return fileEntries.Count; }
+		}
 
 		public int MaxFiles
 		{
@@ -81,79 +86,83 @@ namespace NUnit.Util
 				if ( newSize > MaxSize ) newSize = MaxSize;
 
 				SaveIntSetting( "MaxFiles", newSize );
-				if ( newSize < oldSize ) SaveSettings();
+				if ( newSize < oldSize ) SaveEntries();
 			}
 		}
 
-		public string RecentFile
+//		public string RecentFileName
+//		{
+//			set
+//			{
+//				RecentFileEntry = new RecentFileEntry( value );
+//			}
+//		}
+
+		public void SetMostRecent( string fileName )
 		{
-			get 
-			{ 
-				LoadFiles();
-				if( fileEntries.Count > 0 )
-					return (string)fileEntries[0];
+			SetMostRecent( new RecentFileEntry( fileName ) );
+		}
 
-				return null;
-			}
-			set
-			{
-				LoadFiles();
+		public void SetMostRecent( RecentFileEntry entry )
+		{
+			LoadEntries();
 
-				int index = fileEntries.IndexOf(value);
+			int index = fileEntries.IndexOf(entry.Path);
 
-				if(index == 0) return;
+			if(index == 0) return;
 
-				if(index != -1)
-				{
-					fileEntries.RemoveAt(index);
-				}
+			if(index != -1)
+				fileEntries.RemoveAt(index);
 
-				fileEntries.Insert( 0, value );
-				if( fileEntries.Count > MaxFiles )
-					fileEntries.RemoveAt( MaxFiles );
+			fileEntries.Insert( 0, entry );
+			if( fileEntries.Count > MaxFiles )
+				fileEntries.RemoveAt( MaxFiles );
 
-				SaveSettings();			
-			}
+			SaveEntries();			
 		}
 
 		#endregion
 
 		#region Public Methods
 
-		public IList GetFiles()
+		public RecentFilesCollection Entries
 		{
-			LoadFiles();
-			return fileEntries;
-		}
-		
-		#endregion
-
-
-		protected void LoadFiles()
-		{
-			fileEntries = new ArrayList();
-			for ( int index = 1; index <= MaxFiles; index++ )
+			get
 			{
-				string fileName = LoadStringSetting( ValueName( index ) );
-				if ( fileName != null )
-					fileEntries.Add( fileName );
+				LoadEntries();
+				return fileEntries;
 			}
 		}
-
+		
 		public override void Clear()
 		{
 			base.Clear();
-			fileEntries = new ArrayList();
+			fileEntries.Clear();
 		}
 
 		public void Remove( string fileName )
 		{
-			LoadFiles();
+			LoadEntries();
 			fileEntries.Remove( fileName );
-			SaveSettings();
+			SaveEntries();
 		}
 
-		private void SaveSettings()
+		#endregion
+
+		#region Helper Methods for saving and restoring the settings
+
+		private void LoadEntries()
+		{
+			fileEntries.Clear();
+			for ( int index = 1; index <= MaxFiles; index++ )
+			{
+				string fileSpec = LoadStringSetting( ValueName( index ) );
+				if ( fileSpec != null )
+					fileEntries.Add( NUnit.Util.RecentFileEntry.Parse( fileSpec ) );
+			}
+		}
+
+		private void SaveEntries()
 		{
 			while( fileEntries.Count > MaxFiles )
 				fileEntries.RemoveAt( fileEntries.Count - 1 );
@@ -162,7 +171,7 @@ namespace NUnit.Util
 			{
 				string valueName = ValueName( index + 1 );
 				if ( index < fileEntries.Count )
-					SaveSetting( valueName, fileEntries[index] );
+					SaveSetting( valueName, fileEntries[index].ToString() );
 				else
 					RemoveSetting( valueName );
 			}
@@ -172,5 +181,7 @@ namespace NUnit.Util
 		{
 			return string.Format( "File{0}", index );
 		}
+
+		#endregion
 	}
 }

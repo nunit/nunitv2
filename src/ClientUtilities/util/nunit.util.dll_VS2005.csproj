@@ -108,9 +108,11 @@
     <Compile Include="ProjectFormatException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RecentFileEntry.cs" />
     <Compile Include="RecentFiles.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="RecentFilesCollection.cs" />
     <Compile Include="RecentFileSettings.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -60,30 +60,31 @@ namespace NUnit.Util.Tests
 			recentFiles.Dispose();
 		}
 
+		#region Helper Methods
 		// Set RecentFiles to a list of known values up
 		// to a maximum. Most recent will be "1", next 
 		// "2", and so on...
 		private void SetMockValues( int count )
 		{
 			for( int num = count; num > 0; --num )
-				recentFiles.RecentFile = num.ToString();			
+				recentFiles.SetMostRecent( num.ToString() );			
 		}
 
 		// Check that the list is set right: 1, 2, ...
 		private void CheckMockValues( int count )
 		{
-			IList files = recentFiles.GetFiles();
+			RecentFilesCollection files = recentFiles.Entries;
 			Assert.AreEqual( count, files.Count, "Count" );
 			
 			for( int index = 0; index < count; index++ )
-				Assert.AreEqual( (index + 1).ToString(), files[index], "Item" ); 
+				Assert.AreEqual( (index + 1).ToString(), files[index].Path, "Item" ); 
 		}
 
 		// Check that we can add count items correctly
 		private void CheckAddItems( int count )
 		{
 			SetMockValues( count );
-			Assert.AreEqual( "1", recentFiles.RecentFile, "RecentFile" );
+			Assert.AreEqual( "1", recentFiles.Entries[0].Path, "RecentFile" );
 
 			CheckMockValues( Math.Min( count, recentFiles.MaxFiles ) );
 		}
@@ -92,55 +93,43 @@ namespace NUnit.Util.Tests
 		// in the order given and nothing else.
 		private void CheckListContains( params int[] item )
 		{
-			IList files = recentFiles.GetFiles();
+			RecentFilesCollection files = recentFiles.Entries;
 			Assert.AreEqual( item.Length, files.Count, "Count" );
 
 			for( int index = 0; index < files.Count; index++ )
-				Assert.AreEqual( item[index].ToString(), files[index], "Item" );
+				Assert.AreEqual( item[index].ToString(), files[index].Path, "Item" );
 		}
+		#endregion
 
 		[Test]
-		public void RetrieveSubKey()
-		{
-			Assert.IsNotNull(recentFiles);
-		}
-
-		[Test]
-		public void DefaultRecentFilesCount()
+		public void CountDefault()
 		{
 			Assert.AreEqual( RecentFileSettings.DefaultSize, recentFiles.MaxFiles );
 		}
 
 		[Test]
-		public void RecentFilesCount()
-		{
-			recentFiles.MaxFiles = 12;
-			Assert.AreEqual( 12, recentFiles.MaxFiles );
-		}
-
-		[Test]
-		public void RecentFilesCountOverMax()
+		public void CountOverMax()
 		{
 			recentFiles.MaxFiles = MAX + 1;
 			Assert.AreEqual( MAX, recentFiles.MaxFiles );
 		}
 
 		[Test]
-		public void RecentFilesCountUnderMin()
+		public void CountUnderMin()
 		{
 			recentFiles.MaxFiles = MIN - 1;
 			Assert.AreEqual( MIN, recentFiles.MaxFiles );
 		}
 
 		[Test]
-		public void RecentFilesCountAtMax()
+		public void CountAtMax()
 		{
 			recentFiles.MaxFiles = MAX;
 			Assert.AreEqual( MAX, recentFiles.MaxFiles );
 		}
 
 		[Test]
-		public void RecentFilesCountAtMin()
+		public void CountAtMin()
 		{
 			recentFiles.MaxFiles = MIN;
 			Assert.AreEqual( MIN, recentFiles.MaxFiles );
@@ -149,9 +138,9 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void EmptyList()
 		{
-			Assert.IsNotNull(  recentFiles.GetFiles(), "GetFiles() returned null" );
-			Assert.AreEqual( 0, recentFiles.GetFiles().Count );
-			Assert.IsNull( recentFiles.RecentFile, "No RecentFile should return null" );
+			Assert.IsNotNull(  recentFiles.Entries, "Entries should never be null" );
+			Assert.AreEqual( 0, recentFiles.Count );
+			Assert.AreEqual( 0, recentFiles.Entries.Count );
 		}
 
 		[Test]
@@ -191,9 +180,9 @@ namespace NUnit.Util.Tests
 		{
 			SetMockValues(5);
 			recentFiles.MaxFiles = 7;
-			recentFiles.RecentFile = "30";
-			recentFiles.RecentFile = "20";
-			recentFiles.RecentFile = "10";
+			recentFiles.SetMostRecent( "30" );
+			recentFiles.SetMostRecent( "20" );
+			recentFiles.SetMostRecent( "10" );
 			CheckListContains( 10, 20, 30, 1, 2, 3, 4 );
 		}
 
@@ -209,7 +198,7 @@ namespace NUnit.Util.Tests
 		public void ReorderLastProject()
 		{
 			SetMockValues( 5 );
-			recentFiles.RecentFile = "5";
+			recentFiles.SetMostRecent( "5" );
 			CheckListContains( 5, 1, 2, 3, 4 );
 		}
 
@@ -217,7 +206,7 @@ namespace NUnit.Util.Tests
 		public void ReorderSingleProject()
 		{
 			SetMockValues( 5 );
-			recentFiles.RecentFile = "3";
+			recentFiles.SetMostRecent( "3" );
 			CheckListContains( 3, 1, 2, 4, 5 );
 		}
 
@@ -225,9 +214,9 @@ namespace NUnit.Util.Tests
 		public void ReorderMultipleProjects()
 		{
 			SetMockValues( 5 );
-			recentFiles.RecentFile = "3";
-			recentFiles.RecentFile = "5";
-			recentFiles.RecentFile = "2";
+			recentFiles.SetMostRecent( "3" );
+			recentFiles.SetMostRecent( "5" );
+			recentFiles.SetMostRecent( "2" );
 			CheckListContains( 2, 5, 3, 1, 4 );
 		}
 
@@ -235,7 +224,7 @@ namespace NUnit.Util.Tests
 		public void ReorderSameProject()
 		{
 			SetMockValues( 5 );
-			recentFiles.RecentFile = "1";
+			recentFiles.SetMostRecent( "1" );
 			CheckListContains( 1, 2, 3, 4, 5 );
 		}
 
@@ -243,7 +232,7 @@ namespace NUnit.Util.Tests
 		public void ReorderWithListNotFull()
 		{
 			SetMockValues( 3 );
-			recentFiles.RecentFile = "3";
+			recentFiles.SetMostRecent( "3" );
 			CheckListContains( 3, 1, 2 );
 		}
 
