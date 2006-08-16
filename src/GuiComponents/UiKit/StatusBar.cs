@@ -35,10 +35,6 @@ using NUnit.Util;
 
 namespace NUnit.UiKit
 {
-
-	/// <summary>
-	/// Summary description for Class1.
-	/// </summary>
 	public class StatusBar : System.Windows.Forms.StatusBar, TestObserver
 	{
 		private StatusBarPanel statusPanel = new StatusBarPanel();
@@ -51,8 +47,6 @@ namespace NUnit.UiKit
 		private int testsRun = 0;
 		private int failures = 0;
 		private int time = 0;
-		private System.ComponentModel.IContainer components;
-		private System.Windows.Forms.ToolTip toolTip;
 
 		private bool displayProgress = false;
 
@@ -216,13 +210,6 @@ namespace NUnit.UiKit
 					? shortText : e.Test.Name;
 				statusPanel.ToolTipText = e.Test.FullName;
 			}
-		}
-
-		private void InitializeComponent()
-		{
-			this.components = new System.ComponentModel.Container();
-			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-
 		}
 
 		private void OnTestFinished( object sender, TestEventArgs e )

@@ -110,7 +110,7 @@ namespace NUnit.Mocks.Tests
 		public void CreateMockForNonMBRClassFails()
 		{
 			DynamicMock classMock = new DynamicMock( typeof( NonMBRClass ) );
-			NonMBRClass classInstance = (NonMBRClass)classMock.MockInstance;
+			instance = classMock.MockInstance as IStuff;
 		}
 
 		[Test]

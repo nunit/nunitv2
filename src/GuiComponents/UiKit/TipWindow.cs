@@ -36,9 +36,6 @@ using System.Runtime.InteropServices;
 
 namespace CP.Windows.Forms
 {
-	/// <summary>
-	/// Summary description for TipWindow.
-	/// </summary>
 	public class TipWindow : Form
 	{
 		/// <summary>
@@ -62,17 +59,6 @@ namespace CP.Windows.Forms
 		/// The control for which we are showing expanded text
 		/// </summary>
 		private Control control;
-
-		/// <summary>
-		/// The ListBox for which we are showing expanded text.
-		/// Null if the control is not a ListBox
-		/// </summary>
-		private ListBox listbox;
-
-		/// <summary>
-		/// The ListBox item index for which we are showing expanded text.
-		/// </summary>
-		private int itemIndex = -1;
 
 		/// <summary>
 		/// Rectangle representing bounds to overlay. For a listbox, this
@@ -147,8 +133,6 @@ namespace CP.Windows.Forms
 			InitializeComponent();
 			InitControl( listbox );
 
-			this.listbox = listbox;
-			this.itemIndex = index;
 			this.itemBounds = listbox.GetItemRectangle( index );
 			this.tipText = listbox.Items[ index ].ToString();
 		}
@@ -292,11 +276,6 @@ namespace CP.Windows.Forms
 		{
 			get { return wantClicks; }
 			set { wantClicks = value; }
-		}
-
-		private void CopyToClipboard( object sender, EventArgs e )
-		{
-			Clipboard.SetDataObject( this.Text );
 		}
 
 		#endregion

@@ -333,8 +333,6 @@ namespace NUnit.UiKit
 
 		private void removeButton_Click(object sender, System.EventArgs e)
 		{	
-			string name = project.Configs[selectedIndex].Name;
-			
 			if ( project.Configs.Count == 1 )
 			{
 				string msg = "Removing the last configuration will make the project unloadable until you add another configuration.\r\rAre you sure you want to remove the configuration?";

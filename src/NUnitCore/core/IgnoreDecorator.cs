@@ -10,11 +10,8 @@ namespace NUnit.Core
 	/// </summary>
 	public class IgnoreDecorator : ITestDecorator
 	{
-		private string ignoreAttributeType;
-
 		public IgnoreDecorator( string ignoreAttributeType )
 		{
-			this.ignoreAttributeType = ignoreAttributeType;
 		}
 
 		#region ITestDecorator Members

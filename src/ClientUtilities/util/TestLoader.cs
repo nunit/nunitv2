@@ -35,7 +35,7 @@ namespace NUnit.Util
 	using System.Threading;
 	using System.Configuration;
 	using NUnit.Core;
-    using NUnit.Core.Filters;
+	using NUnit.Core.Filters;
 
 
 	/// <summary>
@@ -315,7 +315,7 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
-		/// Trigger event when an unhandled exception occurs during a test
+		/// Trigger event when an unhandled exception (other than ThreadAbordException) occurs during a test
 		/// </summary>
 		/// <param name="exception">The unhandled exception</param>
 		void EventListener.UnhandledException(Exception exception)
@@ -325,17 +325,15 @@ namespace NUnit.Util
 
 		void OnUnhandledException( object sender, UnhandledExceptionEventArgs args )
 		{
-            string exceptionType = args.ExceptionObject.GetType().FullName;
-
-            switch( args.ExceptionObject.GetType().FullName )
-            {
-                case "System.Threading.ThreadAbortException":
-                    break;
-                case "NUnit.Framework.AssertionException":
-                default:
-                    events.FireTestException((Exception)args.ExceptionObject);
-                    break;
-            }
+			switch( args.ExceptionObject.GetType().FullName )
+		 	{
+				case "System.Threading.ThreadAbortException":
+					break;
+				case "NUnit.Framework.AssertionException":
+				default:
+					events.FireTestException((Exception)args.ExceptionObject);
+				    	break;
+			}
 		}
 
 		/// <summary>

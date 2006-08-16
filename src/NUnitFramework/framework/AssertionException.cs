@@ -39,16 +39,11 @@ namespace NUnit.Framework
 	[Serializable]
 	public class AssertionException : System.Exception
 	{
-		/// <summary>
-		/// Standard constructor, given a message
-		/// </summary>
-		/// <param name="message"></param>
+		/// <param name="message">The error message that explains 
+		/// the reason for the exception</param>
 		public AssertionException (string message) : base(message) 
 		{}
 
-		/// <summary>
-		/// Standard constructor
-		/// </summary>
 		/// <param name="message">The error message that explains 
 		/// the reason for the exception</param>
 		/// <param name="inner">The exception that caused the 

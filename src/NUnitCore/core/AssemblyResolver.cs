@@ -64,8 +64,6 @@ namespace NUnit.Core
 			}
 		}
 
-		private IList _files = new ArrayList();
-
 		private AssemblyCache _cache = new AssemblyCache();
 
 		public AssemblyResolver()

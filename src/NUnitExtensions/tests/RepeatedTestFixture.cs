@@ -87,7 +87,7 @@ namespace NUnit.Core.Extensions.Tests
 		public void IgnoreWorksWithRepeatedTest()
 		{
 			RepeatedTestWithIgnore fixture = new RepeatedTestWithIgnore();
-			TestResult result = RunTestOnFixture( fixture );
+			RunTestOnFixture( fixture );
 
 			Assert.AreEqual( 0, fixture.SetupCount );
 			Assert.AreEqual( 0, fixture.TeardownCount );

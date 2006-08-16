@@ -166,13 +166,11 @@ namespace NUnit.TestUtilities
 		#region Enumerator used by all collections
 		public class ControlEnumerator : IEnumerator
 		{
-			Control.ControlCollection source;
 			IEnumerator sourceEnum;
 			System.Type typeFilter;
 
 			public ControlEnumerator( Control.ControlCollection source, System.Type typeFilter )
 			{
-				this.source = source;
 				this.sourceEnum = source.GetEnumerator();
 				this.typeFilter = typeFilter;
 			}

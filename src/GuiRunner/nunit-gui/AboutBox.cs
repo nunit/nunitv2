@@ -36,9 +36,6 @@ using System.Reflection;
 
 namespace NUnit.Gui
 {
-	/// <summary>
-	/// Summary description for AboutBox.
-	/// </summary>
 	public class AboutBox : System.Windows.Forms.Form
 	{
 		private System.Windows.Forms.Button OkButton;
@@ -73,7 +70,6 @@ namespace NUnit.Gui
 			Version version = executingAssembly.GetName().Version;
 
 			object[] objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-			AssemblyProductAttribute productAttr = (AssemblyProductAttribute)objectAttrs[0];
 
 			objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
 			AssemblyCopyrightAttribute copyrightAttr = (AssemblyCopyrightAttribute)objectAttrs[0];

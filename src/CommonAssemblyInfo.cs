@@ -39,7 +39,7 @@ using System.Reflection;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NUnit.org")]
 [assembly: AssemblyProduct("NUnit")]
-[assembly: AssemblyCopyright("Copyright (C) 2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole.\r\nCopyright (C) 2000-2003 Philip Craig.\r\nAll Rights Reserved.")]
+[assembly: AssemblyCopyright("Copyright (C) 2002-2006 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole.\r\nCopyright (C) 2000-2006 Philip Craig.\r\nAll Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 

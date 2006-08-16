@@ -35,20 +35,13 @@ namespace NUnit.Framework
 	/// <summary>
 	/// Thrown when an assertion failed.
 	/// </summary>
-	/// 
 	[Serializable]
 	public class IgnoreException : System.Exception
 	{
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="message"></param>
 		public IgnoreException (string message) : base(message) 
 		{}
 
-		/// <summary>
-		/// Standard constructor
-		/// </summary>
 		/// <param name="message">The error message that explains 
 		/// the reason for the exception</param>
 		/// <param name="inner">The exception that caused the 

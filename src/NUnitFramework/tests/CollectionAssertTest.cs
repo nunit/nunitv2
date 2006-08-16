@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Data;
 
 namespace NUnit.Framework.Tests
 {
@@ -10,13 +11,13 @@ namespace NUnit.Framework.Tests
 	//[Platform(Exclude="Linux")]
 	public class CollectionAssertTest
 	{
-		static string typeErrorMsg = "" + System.Environment.NewLine + "\tAll objects are not of actual type." + System.Environment.NewLine + "\tset1.Count: 3" + System.Environment.NewLine + "\tactual: String";
-		static string notnullErrorMsg = "" + System.Environment.NewLine + "\tAt least one object is null." + System.Environment.NewLine + "\tset1.Count: 3";
-		static string uniqueErrorMsg = "" + System.Environment.NewLine + "\tAt least one object is not unique within set1." + System.Environment.NewLine + "\tset1.Count: 3";
-		static string equalErrorMsg = "" + System.Environment.NewLine + "\tset1 and set2 are not equal at index 3";
-		static string equalCountErrorMsg = "" + System.Environment.NewLine + "\tset1 and set2 do not have equal Count properties.";
-		static string equivalentOneErrorMsg = "" + System.Environment.NewLine + "\tAn item from set1 was not found in set2.";
-		static string equivalentTwoErrorMsg = "" + System.Environment.NewLine + "\tAn item from set2 was not found in set1.";
+		static string typeErrorMsg = "" + Environment.NewLine + "\tAll objects are not of actual type." + Environment.NewLine + "\tset1.Count: 3" + Environment.NewLine + "\tactual: String";
+		static string notnullErrorMsg = "" + Environment.NewLine + "\tAt least one object is null." + Environment.NewLine + "\tset1.Count: 3";
+		static string uniqueErrorMsg = "" + Environment.NewLine + "\tAt least one object is not unique within set1." + Environment.NewLine + "\tset1.Count: 3";
+		static string equalErrorMsg = "" + Environment.NewLine + "\tset1 and set2 are not equal at index 3";
+		static string equalCountErrorMsg = "" + Environment.NewLine + "\tset1 and set2 do not have equal Count properties.";
+		static string equivalentOneErrorMsg = "" + Environment.NewLine + "\tAn item from set1 was not found in set2.";
+		static string equivalentTwoErrorMsg = "" + Environment.NewLine + "\tAn item from set2 was not found in set1.";
 
 		public CollectionAssertTest()
 		{
@@ -44,12 +45,12 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(string),"test {0}","1");
 
 			al = new ArrayList();
-			al.Add(new System.Data.DataSet());
-			al.Add(new System.Data.DataSet());
-			al.Add(new System.Data.DataSet());
-			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(System.Data.DataSet));
-			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(System.Data.DataSet),"test");
-			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(System.Data.DataSet),"test {0}","1");
+			al.Add(new DataSet());
+			al.Add(new DataSet());
+			al.Add(new DataSet());
+			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(DataSet));
+			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(DataSet),"test");
+			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(DataSet),"test {0}","1");
 		}
 
 		[Test()]
@@ -127,9 +128,9 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AllItemsAreNotNull(al,"test {0}","1");
 
 			al = new ArrayList();
-			al.Add(new System.Data.DataSet());
-			al.Add(new System.Data.DataSet());
-			al.Add(new System.Data.DataSet());
+			al.Add(new DataSet());
+			al.Add(new DataSet());
+			al.Add(new DataSet());
 
 			CollectionAssert.AllItemsAreNotNull(al);
 			CollectionAssert.AllItemsAreNotNull(al,"test");
@@ -371,10 +372,10 @@ namespace NUnit.Framework.Tests
 			Exception ex = null;
 			try
 			{
-			System.Data.DataSet x = new System.Data.DataSet();
-			System.Data.DataSet y = new System.Data.DataSet();
-			System.Data.DataSet z = new System.Data.DataSet();
-			System.Data.DataSet a = new System.Data.DataSet();
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
+			DataSet a = new DataSet();
 
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
@@ -402,9 +403,9 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void Equivalent()
 		{
-			System.Data.DataSet x = new System.Data.DataSet();
-			System.Data.DataSet y = new System.Data.DataSet();
-			System.Data.DataSet z = new System.Data.DataSet();
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
 
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
@@ -428,9 +429,9 @@ namespace NUnit.Framework.Tests
 			Exception ex = null;
 			try
 			{
-			System.Data.DataSet x = new System.Data.DataSet();
-			System.Data.DataSet y = new System.Data.DataSet();
-			System.Data.DataSet z = new System.Data.DataSet();
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
 
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
@@ -459,9 +460,9 @@ namespace NUnit.Framework.Tests
 			Exception ex = null;
 			try
 			{
-			System.Data.DataSet x = new System.Data.DataSet();
-			System.Data.DataSet y = new System.Data.DataSet();
-			System.Data.DataSet z = new System.Data.DataSet();
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
 
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
@@ -514,9 +515,9 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void NotEquivalent()
 		{
-			System.Data.DataSet x = new System.Data.DataSet();
-			System.Data.DataSet y = new System.Data.DataSet();
-			System.Data.DataSet z = new System.Data.DataSet();
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
 
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
@@ -540,10 +541,9 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void Contains()
 		{
-			System.Data.DataSet x = new System.Data.DataSet();
-			System.Data.DataSet y = new System.Data.DataSet();
-			System.Data.DataSet z = new System.Data.DataSet();
-			System.Data.DataSet a = new System.Data.DataSet();
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
 
 			ArrayList al = new ArrayList();
 			al.Add(x);
@@ -560,10 +560,10 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void DoesNotContain()
 		{
-			System.Data.DataSet x = new System.Data.DataSet();
-			System.Data.DataSet y = new System.Data.DataSet();
-			System.Data.DataSet z = new System.Data.DataSet();
-			System.Data.DataSet a = new System.Data.DataSet();
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
+			DataSet a = new DataSet();
 
 			ArrayList al = new ArrayList();
 			al.Add(x);
@@ -580,10 +580,9 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void IsSubsetOf()
 		{
-			System.Data.DataSet x = new System.Data.DataSet();
-			System.Data.DataSet y = new System.Data.DataSet();
-			System.Data.DataSet z = new System.Data.DataSet();
-			System.Data.DataSet a = new System.Data.DataSet();
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
 
 			ArrayList set1 = new ArrayList();
 			set1.Add(x);
@@ -604,10 +603,10 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void IsNotSubsetOf()
 		{
-			System.Data.DataSet x = new System.Data.DataSet();
-			System.Data.DataSet y = new System.Data.DataSet();
-			System.Data.DataSet z = new System.Data.DataSet();
-			System.Data.DataSet a = new System.Data.DataSet();
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
+			DataSet a = new DataSet();
 
 			ArrayList set1 = new ArrayList();
 			set1.Add(x);

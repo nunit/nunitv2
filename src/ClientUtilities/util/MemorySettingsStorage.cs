@@ -3,20 +3,9 @@ using System.Collections;
 
 namespace NUnit.Util
 {
-	/// <summary>
-	/// Summary description for MemorySettingsStorage.
-	/// </summary>
 	public class MemorySettingsStorage : ISettingsStorage
 	{
 		private Hashtable settings = new Hashtable();
-		private Hashtable subStorages = new Hashtable();
-
-		public MemorySettingsStorage()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
 
 		#region SettingsStorage Members
 
@@ -41,6 +30,7 @@ namespace NUnit.Util
 		public void Clear()
 		{
 			// TODO:  Add MemorySettingsStorage.Clear implementation
+			throw new NotImplementedException();
 		}
 
 		public object LoadSetting(string settingName)

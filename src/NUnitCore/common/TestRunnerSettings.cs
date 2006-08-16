@@ -14,8 +14,6 @@ namespace NUnit.Core
 	{
 		private ListDictionary dictionary = new ListDictionary();
 
-		private TestRunner runner;
-
 		/// <summary>
 		/// Handler for changes in the settings, normally implemented by the runner
 		/// </summary>
@@ -28,7 +26,6 @@ namespace NUnit.Core
 
 		public TestRunnerSettings( TestRunner runner )
 		{
-			this.runner = runner;
 		}
 
 		public ICollection Keys

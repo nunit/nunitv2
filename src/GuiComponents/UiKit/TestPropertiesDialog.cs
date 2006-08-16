@@ -1020,11 +1020,6 @@ namespace NUnit.UiKit
 		{
 		
 		}
-
-		private void label5_Click(object sender, System.EventArgs e)
-		{
-		
-		}
 	}
 
 	#endregion

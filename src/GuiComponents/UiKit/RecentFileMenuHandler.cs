@@ -34,9 +34,6 @@ using NUnit.Util;
 
 namespace NUnit.UiKit
 {
-	/// <summary>
-	/// Summary description for RecentFileMenu.
-	/// </summary>
 	public class RecentFileMenuHandler
 	{
 		private MenuItem menu;

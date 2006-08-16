@@ -38,9 +38,6 @@ using NUnit.Util;
 
 namespace NUnit.UiKit
 {
-	/// <summary>
-	/// Summary description for ProgressBar.
-	/// </summary>
 	public class ProgressBar : System.Windows.Forms.Control, TestObserver
 	{
 		#region Instance Variables
@@ -53,7 +50,6 @@ namespace NUnit.UiKit
 		private int fmin = 0;
 		private int fmax = 100;
 		private int fStep = 1;
-		private Color fBarColor = SystemColors.ControlText;
 		
 		private float FMaxSegmentCount=0;
 		private int fSegmentWidth=0;

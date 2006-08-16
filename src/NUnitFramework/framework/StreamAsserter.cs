@@ -55,10 +55,6 @@ namespace NUnit.Framework
 
 			if (expected.Length != actual.Length) return false;
 
-			int readByteExpected = 0;
-			int readByteActual = 0;
-			long readByte = 0;
-
 			byte[] bufferExpected = new byte[bufferSize];
 			byte[] bufferActual = new byte[bufferSize];
 
@@ -68,10 +64,10 @@ namespace NUnit.Framework
 			binaryReaderExpected.BaseStream.Seek(0, SeekOrigin.Begin);
 			binaryReaderActual.BaseStream.Seek(0, SeekOrigin.Begin);
 
-			for( readByte = 0; readByte < expected.Length; readByte += bufferSize )
+			for(long readByte = 0; readByte < expected.Length; readByte += bufferSize )
 			{
-				readByteExpected = binaryReaderExpected.Read(bufferExpected, 0, bufferSize);
-				readByteActual = binaryReaderActual.Read(bufferActual, 0, bufferSize);
+				binaryReaderExpected.Read(bufferExpected, 0, bufferSize);
+				binaryReaderActual.Read(bufferActual, 0, bufferSize);
 
 				for (int count=0; count < bufferSize; ++count) 
 				{

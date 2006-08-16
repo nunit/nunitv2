@@ -40,9 +40,6 @@ using CP.Windows.Shell;
 
 namespace NUnit.Gui
 {
-	/// <summary>
-	/// Summary description for ProjectEditor.
-	/// </summary>
 	public class ProjectEditor : System.Windows.Forms.Form
 	{
 		#region Instance Variables
@@ -1163,7 +1160,7 @@ namespace NUnit.Gui
 				try
 				{
 					projectBase = projectBaseTextBox.Text;
-					DirectoryInfo info = new DirectoryInfo( projectBase );
+					Directory.Exists( projectBase );
 				}
 				catch( Exception ex )
 				{
@@ -1212,7 +1209,7 @@ namespace NUnit.Gui
 				try
 				{
 					applicationBase = Path.Combine( project.BasePath, applicationBaseTextBox.Text );
-					DirectoryInfo info = new DirectoryInfo( applicationBase );
+					Directory.Exists( applicationBase );
 				}
 				catch( Exception exception )
 				{
@@ -1283,7 +1280,7 @@ namespace NUnit.Gui
 			{
 				try
 				{
-					FileInfo info = new FileInfo( configFile );
+					File.Open( configFile, FileMode.Open );
 				}
 				catch( System.Exception exception )
 				{
@@ -1321,7 +1318,7 @@ namespace NUnit.Gui
 				{
 					try
 					{
-						DirectoryInfo info = new DirectoryInfo( element );
+						Directory.Exists( element );
 					}
 					catch(System.Exception exception)
 					{

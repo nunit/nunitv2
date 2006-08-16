@@ -31,12 +31,6 @@ namespace NUnit.Core
 		private TestSuite suite;
 
 		/// <summary>
-		/// Saved paths of the assemblies we loaded - used to set 
-		/// current directory when we are running the tests.
-		/// </summary>
-		private string[] assemblies;
-
-		/// <summary>
 		/// Results from the last test run
 		/// </summary>
 		private TestResult testResult;
@@ -123,7 +117,6 @@ namespace NUnit.Core
 		/// <returns>True on success, false on failure</returns>
 		public bool Load( string assemblyName, string testName )
 		{
-			this.assemblies = new string[] { assemblyName };
 			TestSuiteBuilder builder = CreateBuilder();
 			this.suite = builder.Build( assemblyName, testName );
 
@@ -153,7 +146,6 @@ namespace NUnit.Core
 		/// <returns>True on success, false on failure</returns>
 		public bool Load( string projectName, string[] assemblies, string testName )
 		{
-			this.assemblies = (string[])assemblies.Clone();
 			TestSuiteBuilder builder = CreateBuilder();
 			this.suite = builder.Build( projectName, assemblies, testName );
 

@@ -57,10 +57,6 @@ namespace NUnit.Framework.Tests
 			decimal d2 = Decimal.Parse("012.300", System.Globalization.CultureInfo.InvariantCulture);
 			decimal d3 = 12.30M;
 
-			Console.WriteLine(d1);
-			Console.WriteLine(d2);
-			Console.WriteLine(d3);
-
 			Assert.AreEqual(d1, d2, "1");
 			Assert.AreEqual(d1, d3, "2");
 			Assert.AreEqual(d2, d3, "3");

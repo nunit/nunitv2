@@ -71,7 +71,7 @@ namespace NUnit.Core.Tests
 		public void LoadAssemblyNotFound()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build("XXXX");
+			builder.Build("XXXX");
 		}
 
 		[Test]

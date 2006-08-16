@@ -46,7 +46,8 @@ namespace NUnit.Core.Tests
 		public void ILogicalThreadAffinativeTestConsole()
 		{	
 			CallContext.SetData( CONTEXT_DATA, new EmptyCallContextData() );
-			Console.WriteLine("ILogicalThreadAffinativeTest");
+			// TODO: make this Assertable
+			//Console.WriteLine("ILogicalThreadAffinativeTest");
 			Console.Out.Flush();
 		}
 

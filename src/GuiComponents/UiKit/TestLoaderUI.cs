@@ -43,8 +43,6 @@ namespace NUnit.UiKit
 	{
 		public static void OpenProject( Form owner, bool vsSupport )
 		{
-			TestLoader loader = GetTestLoader( owner );
-
 			OpenFileDialog dlg = new OpenFileDialog();
 			System.ComponentModel.ISite site = owner == null ? null : owner.Site;
 			if ( site != null ) dlg.Site = site;
