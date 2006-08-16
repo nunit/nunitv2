@@ -100,7 +100,7 @@ namespace NUnit.Gui
 		public System.Windows.Forms.GroupBox groupBox1;
 		public System.Windows.Forms.Button runButton;
 		public System.Windows.Forms.Label suiteName;
-		public NUnit.UiKit.ProgressBar progressBar;
+		public NUnit.UiKit.TestProgressBar progressBar;
 		private System.Windows.Forms.Button stopButton;
 		private System.Windows.Forms.MenuItem toolsMenu;
 		private System.Windows.Forms.MenuItem optionsMenuItem;
@@ -296,7 +296,7 @@ namespace NUnit.Gui
 			this.stopButton = new System.Windows.Forms.Button();
 			this.runButton = new System.Windows.Forms.Button();
 			this.suiteName = new System.Windows.Forms.Label();
-			this.progressBar = new NUnit.UiKit.ProgressBar();
+			this.progressBar = new NUnit.UiKit.TestProgressBar();
 			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
 			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
@@ -1431,6 +1431,7 @@ namespace NUnit.Gui
 			this.progressBar.AccessibleDescription = resources.GetString("progressBar.AccessibleDescription");
 			this.progressBar.AccessibleName = resources.GetString("progressBar.AccessibleName");
 			this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("progressBar.Anchor")));
+			this.progressBar.BackColor = System.Drawing.SystemColors.Control;
 			this.progressBar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("progressBar.BackgroundImage")));
 			this.progressBar.CausesValidation = false;
 			this.progressBar.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("progressBar.Dock")));
@@ -1443,6 +1444,7 @@ namespace NUnit.Gui
 			this.progressBar.Minimum = 0;
 			this.progressBar.Name = "progressBar";
 			this.progressBar.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("progressBar.RightToLeft")));
+			this.progressBar.Segmented = true;
 			this.progressBar.Size = ((System.Drawing.Size)(resources.GetObject("progressBar.Size")));
 			this.progressBar.Step = 1;
 			this.progressBar.TabIndex = ((int)(resources.GetObject("progressBar.TabIndex")));
@@ -2395,6 +2397,14 @@ the version under which NUnit is currently running, {0}.",
 
 		#region Handlers for Test Running Events
 
+		/// <summary>
+		/// A test run is starting, so prepare the UI
+		/// </summary>
+		//		private void InvokeRunStarting( object sender, TestEventArgs e )
+		//		{
+		//			Invoke( new TestEventHandler( OnRunStarting ), new object[] { e } );
+		//		}
+
 		private void OnRunStarting( object sender, TestEventArgs e )
 		{
 			suiteName.Text = e.Name;
@@ -2402,6 +2412,15 @@ the version under which NUnit is currently running, {0}.",
 			EnableStopCommand( true );
 
 			ClearTabs();
+		}
+
+		/// <summary>
+		/// A test run has finished, so display the results
+		/// and re-enable the run button.
+		/// </summary>
+		private void InvokeRunFinished( object sender, TestEventArgs e )
+		{
+			Invoke( new TestEventHandler( OnRunFinished ), new object[] { e } );
 		}
 
 		private void OnRunFinished( object sender, TestEventArgs e )

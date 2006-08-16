@@ -43,7 +43,7 @@ namespace NUnit.UiKit.Tests
 	[TestFixture]
 	public class ProgressBarTests
 	{
-		private ProgressBar progressBar;
+		private TestProgressBar progressBar;
 		private MockTestEventSource mockEvents;
 		private string testsDll = "mock-assembly.dll";
 		private TestNode suite;
@@ -52,7 +52,7 @@ namespace NUnit.UiKit.Tests
 		[SetUp]
 		public void Setup()
 		{
-			progressBar = new ProgressBar();
+			progressBar = new TestProgressBar();
 
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			suite = new TestNode( builder.Build( testsDll ) );

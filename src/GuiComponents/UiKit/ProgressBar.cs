@@ -38,7 +38,14 @@ using NUnit.Util;
 
 namespace NUnit.UiKit
 {
-	public class ProgressBar : System.Windows.Forms.Control, TestObserver
+	/// <summary>
+	/// ColorProgressBar provides a custom progress bar with the
+	/// ability to control the color of the bar and to render itself
+	/// in either solid or segmented style. The bar can be updated
+	/// on the fly and has code to avoid repainting the entire bar
+	/// when that occurs.
+	/// </summary>
+	public class ColorProgressBar : System.Windows.Forms.Control
 	{
 		#region Instance Variables
 		/// <summary> 
@@ -46,28 +53,61 @@ namespace NUnit.UiKit
 		/// </summary>
 		private System.ComponentModel.Container components = null;
 
-		private int fValue = 0;
-		private int fmin = 0;
-		private int fmax = 100;
-		private int fStep = 1;
-		
-		private float FMaxSegmentCount=0;
-		private int fSegmentWidth=0;
-		private int fLastSegmentCount=0;
+		/// <summary>
+		/// The current progress value
+		/// </summary>
+		private int val = 0;
 
-		private Brush BarBrush = null;
-		private Brush NotBarBrush = null;
+		/// <summary>
+		/// The minimum value allowed
+		/// </summary>
+		private int min = 0;
+
+		/// <summary>
+		/// The maximum value allowed
+		/// </summary>
+		private int max = 100;
+
+		/// <summary>
+		/// Amount to advance for each step
+		/// </summary>
+		private int step = 1;
+
+		/// <summary>
+		/// The current color of the bar
+		/// </summary>
+		private Color barColor = SystemColors.Highlight;
+		
+		/// <summary>
+		/// Last segment displayed when displaying asynchronously rather 
+		/// than through OnPaint calls.
+		/// </summary>
+		private int lastSegmentCount=0;
+
+		/// <summary>
+		/// The brush to use in painting the progress bar
+		/// </summary>
+		private Brush foreBrush = null;
+
+		/// <summary>
+		/// The brush to use in painting the background of the bar
+		/// </summary>
+		private Brush backBrush = null;
+
+		/// <summary>
+		/// Indicates whether to draw the bar in segments or not
+		/// </summary>
+		private bool segmented = false;
 
 		#endregion
 
 		#region Constructors & Disposer
-		public ProgressBar()
+		public ColorProgressBar()
 		{
 			// This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
 
 			SetStyle(ControlStyles.ResizeRedraw, true);
-			Initialize( 100 );
 		}
 
 		/// <summary> 
@@ -81,7 +121,7 @@ namespace NUnit.UiKit
 				{
 					components.Dispose();
 				}
-				this.ReleaseDrawers();
+				this.ReleaseBrushes();
 			}
 			base.Dispose( disposing );
 		}
@@ -92,14 +132,14 @@ namespace NUnit.UiKit
 		[Category("Behavior")]
 		public int Minimum
 		{
-			get { return this.fmin; }
+			get { return this.min; }
 			set
 			{
 				if (value <= Maximum) 
 				{
-					if (this.fmin != value) 
+					if (this.min != value) 
 					{
-						this.fmin = value;
+						this.min = value;
 						this.PaintBar();
 					}
 				}
@@ -114,14 +154,14 @@ namespace NUnit.UiKit
 		[Category("Behavior")]
 		public int Maximum 
 		{
-			get	{ return this.fmax; }
+			get	{ return this.max; }
 			set
 			{
 				if (value >= Minimum) 
 				{
-					if (this.fmax != value) 
+					if (this.max != value) 
 					{
-						this.fmax = value;
+						this.max = value;
 						this.PaintBar();
 					}
 				}
@@ -136,12 +176,12 @@ namespace NUnit.UiKit
 		[Category("Behavior")]
 		public int Step
 		{
-			get	{ return this.fStep; }
+			get	{ return this.step; }
 			set
 			{
 				if (value <= Maximum && value >= Minimum) 
 				{
-					this.fStep = value;
+					this.step = value;
 				}
 				else
 				{
@@ -157,7 +197,7 @@ namespace NUnit.UiKit
 			get
             {
                 if (0 != Maximum - Minimum) // NRG 05/28/03: Prevent divide by zero
-                    return((float)this.fValue / ((float)Maximum - (float)Minimum));
+                    return((float)this.val / ((float)Maximum - (float)Minimum));
                 else
                     return(0);
             }
@@ -166,14 +206,14 @@ namespace NUnit.UiKit
 		[Category("Behavior")]
 		public int Value 
 		{
-			get { return this.fValue; }
+			get { return this.val; }
 			set 
 			{
-				if(value == this.fValue)
+				if(value == this.val)
 					return;
 				else if(value <= Maximum && value >= Minimum)
 				{
-					this.fValue = value;
+					this.val = value;
 					this.PaintBar();
 				}
 				else
@@ -184,16 +224,16 @@ namespace NUnit.UiKit
 			}
 		}
 
+		[Category("Appearance")]
+		public bool Segmented
+		{
+			get { return segmented; }
+			set { segmented = value; }
+		}
+
 		#endregion
 
 		#region Methods
-
-		private void Initialize( int testCount )
-		{
-			ForeColor = Color.Lime;
-			Value = 0;
-			Maximum = testCount;
-		}
 
 		protected override void OnCreateControl()
 		{
@@ -207,53 +247,6 @@ namespace NUnit.UiKit
 				newValue = Maximum;
 
 			Value = newValue;
-		}
-
-		private void OnRunStarting( object Sender, TestEventArgs e )
-		{
-			Initialize( e.TestCount );
-		}
-
-		private void OnLoadComplete( object sender, TestEventArgs e )
-		{
-			Initialize( e.TestCount );
-		}
-
-		private void OnUnloadComplete( object sender, TestEventArgs e )
-		{
-			Initialize( 100 );
-		}
-
-		private void OnTestFinished( object sender, TestEventArgs e )
-		{
-			PerformStep();
-
-            switch (e.Result.RunState)
-            {
-                case RunState.Executed:
-                    if (e.Result.IsFailure)
-                        ForeColor = Color.Red;
-                    break;
-                case RunState.Ignored:
-                    if (ForeColor == Color.Lime)
-                        ForeColor = Color.Yellow;
-                    break;
-                default:
-                    break;
-            }
-		}
-
-        private void OnTestException(object senderk, TestEventArgs e)
-        {
-            ForeColor = Color.Red;
-        }
-
-		protected override void OnResize(System.EventArgs e)
-		{
-			base.OnResize(e);
-			this.fSegmentWidth = (int)((float)ClientRectangle.Height*.66f);
-			this.FMaxSegmentCount = ((float)(ClientRectangle.Width - 5))
-				/((float)fSegmentWidth);
 		}
 
 		protected override void OnBackColorChanged(System.EventArgs e)
@@ -270,8 +263,8 @@ namespace NUnit.UiKit
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			base.OnPaint(e);
-			this.fLastSegmentCount=0;
-			this.ReleaseDrawers();
+			this.lastSegmentCount=0;
+			this.ReleaseBrushes();
 			PaintBar(e.Graphics);
 			ControlPaint.DrawBorder3D(
 				e.Graphics
@@ -280,23 +273,23 @@ namespace NUnit.UiKit
 			//e.Graphics.Flush();
 		}
 
-		private void ReleaseDrawers()
+		private void ReleaseBrushes()
 		{
-			if(BarBrush != null)
+			if(foreBrush != null)
 			{
-				BarBrush.Dispose();
-				NotBarBrush.Dispose();
-				BarBrush=null;
-				NotBarBrush=null;
+				foreBrush.Dispose();
+				backBrush.Dispose();
+				foreBrush=null;
+				backBrush=null;
 			}
 		}
 
-		private void AcquireDrawers()
+		private void AcquireBrushes()
 		{
-			if(BarBrush == null)
+			if(foreBrush == null)
 			{
-				BarBrush = new SolidBrush(this.ForeColor);
-				NotBarBrush = new SolidBrush(this.BackColor);
+				foreBrush = new SolidBrush(this.ForeColor);
+				backBrush = new SolidBrush(this.BackColor);
 			}
 		}
 
@@ -310,31 +303,45 @@ namespace NUnit.UiKit
 		
 		private void PaintBar(Graphics g)
 		{
-			Rectangle Bar = Rectangle.Inflate(ClientRectangle, -2, -2);
-			int maxRight = Bar.Right-1;
-			//int maxRight = Bar.Right;
-			int newSegmentCount = (int)System.Math.Ceiling(PercentValue*FMaxSegmentCount);
-			this.AcquireDrawers();
-			if(newSegmentCount > fLastSegmentCount)
+			Rectangle theBar = Rectangle.Inflate(ClientRectangle, -2, -2);
+			int maxRight = theBar.Right-1;
+			this.AcquireBrushes();
+
+			if ( segmented )
 			{
-				Bar.X += fLastSegmentCount*fSegmentWidth;
-				while (fLastSegmentCount < newSegmentCount )
+				int segmentWidth = (int)((float)ClientRectangle.Height * 0.66f);
+				int maxSegmentCount = ( theBar.Width + segmentWidth ) / segmentWidth;
+
+				//int maxRight = Bar.Right;
+				int newSegmentCount = (int)System.Math.Ceiling(PercentValue*maxSegmentCount);
+				if(newSegmentCount > lastSegmentCount)
 				{
-					Bar.Width = System.Math.Min(maxRight-Bar.X,fSegmentWidth-2);
-					g.FillRectangle(BarBrush, Bar);
-					Bar.X+=fSegmentWidth;
-					fLastSegmentCount++;
+					theBar.X += lastSegmentCount*segmentWidth;
+					while (lastSegmentCount < newSegmentCount )
+					{
+						theBar.Width = System.Math.Min( maxRight - theBar.X, segmentWidth - 2 );
+						g.FillRectangle( foreBrush, theBar );
+						theBar.X += segmentWidth;
+						lastSegmentCount++;
+					}
+				}
+				else if(newSegmentCount < lastSegmentCount)
+				{
+					theBar.X += newSegmentCount * segmentWidth;
+					theBar.Width = maxRight - theBar.X;
+					g.FillRectangle(backBrush, theBar);
+					lastSegmentCount = newSegmentCount;
 				}
 			}
-			else if(newSegmentCount < fLastSegmentCount)
+			else
 			{
-				Bar.X += newSegmentCount*fSegmentWidth;
-				Bar.Width = maxRight-Bar.X;
-				g.FillRectangle(NotBarBrush, Bar);
-				fLastSegmentCount = newSegmentCount;
+				//g.FillRectangle( backBrush, theBar );
+				theBar.Width = theBar.Width * val / max;
+				g.FillRectangle( foreBrush, theBar );
 			}
+
 			if(Value == Minimum || Value == Maximum)
-				this.ReleaseDrawers();
+				this.ReleaseBrushes();
 		}
 
 		#endregion
@@ -356,6 +363,64 @@ namespace NUnit.UiKit
 			this.Size = new System.Drawing.Size(432, 24);
 		}
 		#endregion
+	}
+
+	public class TestProgressBar : ColorProgressBar, TestObserver
+	{
+		private static Color SuccessColor = Color.Lime;
+		private static Color FailureColor = Color.Red;
+		private static Color IgnoredColor = Color.Yellow;
+
+		public TestProgressBar()
+		{
+			Initialize( 100 );
+		}
+
+		private void Initialize( int testCount )
+		{
+			ForeColor = SuccessColor;
+			Value = 0;
+			Maximum = testCount;
+		}
+
+		private void OnRunStarting( object Sender, TestEventArgs e )
+		{
+			Initialize( e.TestCount );
+		}
+
+		private void OnLoadComplete( object sender, TestEventArgs e )
+		{
+			Initialize( e.TestCount );
+		}
+
+		private void OnUnloadComplete( object sender, TestEventArgs e )
+		{
+			Initialize( 100 );
+		}
+
+		private void OnTestFinished( object sender, TestEventArgs e )
+		{
+			PerformStep();
+
+			switch (e.Result.RunState)
+			{
+				case RunState.Executed:
+					if (e.Result.IsFailure)
+						ForeColor = FailureColor;
+					break;
+				case RunState.Ignored:
+					if (ForeColor == SuccessColor)
+						ForeColor = IgnoredColor;
+					break;
+				default:
+					break;
+			}
+		}
+
+		private void OnTestException(object senderk, TestEventArgs e)
+		{
+			ForeColor = FailureColor;
+		}
 
 		#region TestObserver Members
 
