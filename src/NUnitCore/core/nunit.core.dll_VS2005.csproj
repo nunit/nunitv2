@@ -193,9 +193,6 @@
     <Compile Include="TestFixtureBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestFramework.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="TestMethod.cs" />
     <Compile Include="TestRunnerThread.cs">
       <SubType>Code</SubType>

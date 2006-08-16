@@ -59,28 +59,39 @@ namespace NUnit.Core
 		#endregion
 
 		#region Static Methods
+		/// <summary>
+		/// Register a framework. NUnit registers itself using this method. Add-ins that
+		/// work with or emulate a different framework may register themselves as well.
+		/// </summary>
+		/// <param name="frameworkName">The name of the framework</param>
+		/// <param name="assemblyName">The name of the assembly that framework users reference</param>
 		public static void Register( string frameworkName, string assemblyName )
 		{
 			testFrameworks[frameworkName] = new TestFramework( frameworkName, assemblyName );
 		}
 
-		public static IList GetLoadedFrameworks()
+		/// <summary>
+		/// Get a list of known frameworks referenced by an assembly
+		/// </summary>
+		/// <param name="assembly">The assembly to be examined</param>
+		/// <returns>A list of AssemblyNames</returns>
+		public static IList GetReferencedFrameworks( Assembly assembly )
 		{
-			ArrayList loadedAssemblies = new ArrayList();
+			ArrayList referencedAssemblies = new ArrayList();
 
-			foreach( Assembly assembly in AppDomain.CurrentDomain.GetAssemblies() )
+			foreach( AssemblyName assemblyRef in assembly.GetReferencedAssemblies() )
 			{
 				foreach( TestFramework info in testFrameworks.Values )
 				{
-					if ( assembly.GetName().Name == info.AssemblyName )
+					if ( assemblyRef.Name == info.AssemblyName )
 					{
-						loadedAssemblies.Add( assembly.GetName() );
+						referencedAssemblies.Add( assemblyRef );
 						break;
 					}
 				}
 			}
 
-			return loadedAssemblies;
+			return referencedAssemblies;
 		}
 		#endregion
 

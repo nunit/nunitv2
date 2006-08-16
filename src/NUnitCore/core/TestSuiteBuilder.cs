@@ -30,6 +30,8 @@
 namespace NUnit.Core
 {
 	using NUnit.Core.Builders;
+	using System.Collections;
+	using System.Reflection;
 
 	/// <summary>
 	/// This is the master suite builder for NUnit. It builds a test suite from
@@ -46,9 +48,22 @@ namespace NUnit.Core
 
 		private bool mergeAssemblies = false;
 
+		private ArrayList builders = new ArrayList();
+
 		#endregion
 
 		#region Properties
+
+		public IList Assemblies
+		{
+			get 
+			{
+				ArrayList assemblies = new ArrayList();
+				foreach( TestAssemblyBuilder builder in builders )
+					assemblies.Add( builder.Assembly );
+				return assemblies; 
+			}
+		}
 
 		public bool AutoNamespaceSuites
 		{
@@ -72,10 +87,12 @@ namespace NUnit.Core
 			NamespaceTreeBuilder namespaceTree = 
 				new NamespaceTreeBuilder( rootSuite );
 
+			builders.Clear();
 			foreach(string assemblyName in assemblies)
 			{
 				TestAssemblyBuilder builder = new TestAssemblyBuilder();
 				builder.AutoNamespaceSuites = this.AutoNamespaceSuites && !this.MergeAssemblies;
+				builders.Add( builder );
 
 				TestSuite testAssembly =  builder.Build( assemblyName, testName );
 
@@ -113,6 +130,8 @@ namespace NUnit.Core
 		{
 			TestAssemblyBuilder builder = new TestAssemblyBuilder();
 			builder.AutoNamespaceSuites = this.AutoNamespaceSuites; // && !this.MergeAssemblies;
+			builders.Clear();
+			builders.Add( builder );
 
 			return builder.Build( assemblyName, testName );
 		}

@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Collections;
 using NUnit.Core.Filters;
+using System.Reflection;
 
 namespace NUnit.Core
 {
@@ -31,6 +32,14 @@ namespace NUnit.Core
 		private TestSuite suite;
 
 		/// <summary>
+		/// Saved paths of the assemblies we loaded - used to set 
+		/// current directory when we are running the tests.
+		/// </summary>
+		//private string[] assemblies;
+
+		private TestSuiteBuilder builder;
+
+		/// <summary>
 		/// Results from the last test run
 		/// </summary>
 		private TestResult testResult;
@@ -45,6 +54,7 @@ namespace NUnit.Core
 		/// The settings for this runner
 		/// </summary>
 		private TestRunnerSettings settings;
+
 		#endregion
 
 		#region Constructor
@@ -61,11 +71,6 @@ namespace NUnit.Core
 		public virtual int ID
 		{
 			get { return runnerID; }
-		}
-
-		public IList TestFrameworks
-		{
-			get { return TestFramework.GetLoadedFrameworks(); }
 		}
 
 		public IList Extensions
@@ -95,6 +100,15 @@ namespace NUnit.Core
 		{
 			get { return settings; }
 		}
+
+		public IList GetAssemblyInfo()
+		{
+			ArrayList info = new ArrayList();
+			foreach( Assembly assembly in builder.Assemblies )
+				info.Add( new TestAssemblyInfo( assembly ) );
+
+			return info;
+		}
 		#endregion
 
 		#region Methods for Loading Tests
@@ -118,8 +132,8 @@ namespace NUnit.Core
 		public bool Load( string assemblyName, string testName )
 		{
 			TestSuiteBuilder builder = CreateBuilder();
-			this.suite = builder.Build( assemblyName, testName );
 
+            this.suite = builder.Build( assemblyName, testName );
 			if ( suite == null ) return false;
 
 			suite.SetRunnerID( this.runnerID, true );
@@ -147,8 +161,8 @@ namespace NUnit.Core
 		public bool Load( string projectName, string[] assemblies, string testName )
 		{
 			TestSuiteBuilder builder = CreateBuilder();
-			this.suite = builder.Build( projectName, assemblies, testName );
 
+            this.suite = builder.Build( projectName, assemblies, testName );
 			if ( suite == null ) return false;
 
 			suite.SetRunnerID( this.runnerID, true );
@@ -258,7 +272,7 @@ namespace NUnit.Core
 		#region Helper Routines
 		private TestSuiteBuilder CreateBuilder()
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
+			builder = new TestSuiteBuilder();
 
 			if ( settings.Contains( "AutoNamespaceSuites" ) )
 				builder.AutoNamespaceSuites = (bool)settings["AutoNamespaceSuites"];

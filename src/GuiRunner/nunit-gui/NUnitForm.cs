@@ -123,7 +123,6 @@ namespace NUnit.Gui
 		private System.Windows.Forms.ContextMenu detailListContextMenu;
 		private System.Windows.Forms.MenuItem copyDetailMenuItem;
 		private System.Windows.Forms.MenuItem exceptionDetailsMenuItem;
-		private System.Windows.Forms.MenuItem frameworkInfoMenuItem;
 		private System.Windows.Forms.MenuItem viewMenu;
 		private System.Windows.Forms.MenuItem statusBarMenuItem;
 		public System.Windows.Forms.Panel rightPanel;
@@ -149,13 +148,16 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem defaultFontMenuItem;
 		private System.Windows.Forms.MenuItem decreaseFontMenuItem;
 		private System.Windows.Forms.MenuItem increaseFontMenuItem;
-		private System.Windows.Forms.MenuItem addinInfoMenuItem;
 		private System.Windows.Forms.MenuItem testMenu;
 		private System.Windows.Forms.MenuItem runAllMenuItem;
 		private System.Windows.Forms.MenuItem runSelectedMenuItem;
 		private System.Windows.Forms.MenuItem runFailedMenuItem;
 		private System.Windows.Forms.MenuItem menuItem1;
 		private System.Windows.Forms.MenuItem stopRunMenuItem;
+		private System.Windows.Forms.MenuItem menuItem4;
+		private System.Windows.Forms.MenuItem assemblyDetailsMenuItem;
+		private System.Windows.Forms.MenuItem addinInfoMenuItem;
+		private System.Windows.Forms.Label runCount;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -248,6 +250,8 @@ namespace NUnit.Gui
 			this.menuItem7 = new System.Windows.Forms.MenuItem();
 			this.fontChangeMenuItem = new System.Windows.Forms.MenuItem();
 			this.defaultFontMenuItem = new System.Windows.Forms.MenuItem();
+			this.menuItem4 = new System.Windows.Forms.MenuItem();
+			this.assemblyDetailsMenuItem = new System.Windows.Forms.MenuItem();
 			this.menuItem2 = new System.Windows.Forms.MenuItem();
 			this.statusBarMenuItem = new System.Windows.Forms.MenuItem();
 			this.projectMenu = new System.Windows.Forms.MenuItem();
@@ -269,7 +273,6 @@ namespace NUnit.Gui
 			this.toolsMenuSeparator1 = new System.Windows.Forms.MenuItem();
 			this.optionsMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenuSeparator2 = new System.Windows.Forms.MenuItem();
-			this.frameworkInfoMenuItem = new System.Windows.Forms.MenuItem();
 			this.addinInfoMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpItem = new System.Windows.Forms.MenuItem();
 			this.helpMenuItem = new System.Windows.Forms.MenuItem();
@@ -289,6 +292,7 @@ namespace NUnit.Gui
 			this.stderr = new System.Windows.Forms.TabPage();
 			this.stdErrTab = new System.Windows.Forms.RichTextBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.runCount = new System.Windows.Forms.Label();
 			this.stopButton = new System.Windows.Forms.Button();
 			this.runButton = new System.Windows.Forms.Button();
 			this.suiteName = new System.Windows.Forms.Label();
@@ -479,6 +483,8 @@ namespace NUnit.Gui
 																					 this.tabsMenu,
 																					 this.viewMenuSeparator1,
 																					 this.fontMenuItem,
+																					 this.menuItem4,
+																					 this.assemblyDetailsMenuItem,
 																					 this.menuItem2,
 																					 this.statusBarMenuItem});
 			this.viewMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("viewMenu.Shortcut")));
@@ -670,10 +676,29 @@ namespace NUnit.Gui
 			this.defaultFontMenuItem.Visible = ((bool)(resources.GetObject("defaultFontMenuItem.Visible")));
 			this.defaultFontMenuItem.Click += new System.EventHandler(this.defaultFontMenuItem_Click);
 			// 
+			// menuItem4
+			// 
+			this.menuItem4.Enabled = ((bool)(resources.GetObject("menuItem4.Enabled")));
+			this.menuItem4.Index = 6;
+			this.menuItem4.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem4.Shortcut")));
+			this.menuItem4.ShowShortcut = ((bool)(resources.GetObject("menuItem4.ShowShortcut")));
+			this.menuItem4.Text = resources.GetString("menuItem4.Text");
+			this.menuItem4.Visible = ((bool)(resources.GetObject("menuItem4.Visible")));
+			// 
+			// assemblyDetailsMenuItem
+			// 
+			this.assemblyDetailsMenuItem.Enabled = ((bool)(resources.GetObject("assemblyDetailsMenuItem.Enabled")));
+			this.assemblyDetailsMenuItem.Index = 7;
+			this.assemblyDetailsMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("assemblyDetailsMenuItem.Shortcut")));
+			this.assemblyDetailsMenuItem.ShowShortcut = ((bool)(resources.GetObject("assemblyDetailsMenuItem.ShowShortcut")));
+			this.assemblyDetailsMenuItem.Text = resources.GetString("assemblyDetailsMenuItem.Text");
+			this.assemblyDetailsMenuItem.Visible = ((bool)(resources.GetObject("assemblyDetailsMenuItem.Visible")));
+			this.assemblyDetailsMenuItem.Click += new System.EventHandler(this.assemblyDetailsMenuItem_Click);
+			// 
 			// menuItem2
 			// 
 			this.menuItem2.Enabled = ((bool)(resources.GetObject("menuItem2.Enabled")));
-			this.menuItem2.Index = 6;
+			this.menuItem2.Index = 8;
 			this.menuItem2.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem2.Shortcut")));
 			this.menuItem2.ShowShortcut = ((bool)(resources.GetObject("menuItem2.ShowShortcut")));
 			this.menuItem2.Text = resources.GetString("menuItem2.Text");
@@ -683,7 +708,7 @@ namespace NUnit.Gui
 			// 
 			this.statusBarMenuItem.Checked = true;
 			this.statusBarMenuItem.Enabled = ((bool)(resources.GetObject("statusBarMenuItem.Enabled")));
-			this.statusBarMenuItem.Index = 7;
+			this.statusBarMenuItem.Index = 9;
 			this.statusBarMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("statusBarMenuItem.Shortcut")));
 			this.statusBarMenuItem.ShowShortcut = ((bool)(resources.GetObject("statusBarMenuItem.ShowShortcut")));
 			this.statusBarMenuItem.Text = resources.GetString("statusBarMenuItem.Text");
@@ -838,7 +863,6 @@ namespace NUnit.Gui
 																					  this.toolsMenuSeparator1,
 																					  this.optionsMenuItem,
 																					  this.toolsMenuSeparator2,
-																					  this.frameworkInfoMenuItem,
 																					  this.addinInfoMenuItem});
 			this.toolsMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("toolsMenu.Shortcut")));
 			this.toolsMenu.ShowShortcut = ((bool)(resources.GetObject("toolsMenu.ShowShortcut")));
@@ -894,20 +918,10 @@ namespace NUnit.Gui
 			this.toolsMenuSeparator2.Text = resources.GetString("toolsMenuSeparator2.Text");
 			this.toolsMenuSeparator2.Visible = ((bool)(resources.GetObject("toolsMenuSeparator2.Visible")));
 			// 
-			// frameworkInfoMenuItem
-			// 
-			this.frameworkInfoMenuItem.Enabled = ((bool)(resources.GetObject("frameworkInfoMenuItem.Enabled")));
-			this.frameworkInfoMenuItem.Index = 5;
-			this.frameworkInfoMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("frameworkInfoMenuItem.Shortcut")));
-			this.frameworkInfoMenuItem.ShowShortcut = ((bool)(resources.GetObject("frameworkInfoMenuItem.ShowShortcut")));
-			this.frameworkInfoMenuItem.Text = resources.GetString("frameworkInfoMenuItem.Text");
-			this.frameworkInfoMenuItem.Visible = ((bool)(resources.GetObject("frameworkInfoMenuItem.Visible")));
-			this.frameworkInfoMenuItem.Click += new System.EventHandler(this.frameworkInfoMenuItem_Click);
-			// 
 			// addinInfoMenuItem
 			// 
 			this.addinInfoMenuItem.Enabled = ((bool)(resources.GetObject("addinInfoMenuItem.Enabled")));
-			this.addinInfoMenuItem.Index = 6;
+			this.addinInfoMenuItem.Index = 5;
 			this.addinInfoMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("addinInfoMenuItem.Shortcut")));
 			this.addinInfoMenuItem.ShowShortcut = ((bool)(resources.GetObject("addinInfoMenuItem.ShowShortcut")));
 			this.addinInfoMenuItem.Text = resources.GetString("addinInfoMenuItem.Text");
@@ -1297,6 +1311,7 @@ namespace NUnit.Gui
 			this.groupBox1.AccessibleName = resources.GetString("groupBox1.AccessibleName");
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox1.Anchor")));
 			this.groupBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox1.BackgroundImage")));
+			this.groupBox1.Controls.Add(this.runCount);
 			this.groupBox1.Controls.Add(this.stopButton);
 			this.groupBox1.Controls.Add(this.runButton);
 			this.groupBox1.Controls.Add(this.suiteName);
@@ -1314,6 +1329,29 @@ namespace NUnit.Gui
 			this.groupBox1.Text = resources.GetString("groupBox1.Text");
 			this.toolTip.SetToolTip(this.groupBox1, resources.GetString("groupBox1.ToolTip"));
 			this.groupBox1.Visible = ((bool)(resources.GetObject("groupBox1.Visible")));
+			// 
+			// runCount
+			// 
+			this.runCount.AccessibleDescription = resources.GetString("runCount.AccessibleDescription");
+			this.runCount.AccessibleName = resources.GetString("runCount.AccessibleName");
+			this.runCount.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("runCount.Anchor")));
+			this.runCount.AutoSize = ((bool)(resources.GetObject("runCount.AutoSize")));
+			this.runCount.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("runCount.Dock")));
+			this.runCount.Enabled = ((bool)(resources.GetObject("runCount.Enabled")));
+			this.runCount.Font = ((System.Drawing.Font)(resources.GetObject("runCount.Font")));
+			this.runCount.Image = ((System.Drawing.Image)(resources.GetObject("runCount.Image")));
+			this.runCount.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("runCount.ImageAlign")));
+			this.runCount.ImageIndex = ((int)(resources.GetObject("runCount.ImageIndex")));
+			this.runCount.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("runCount.ImeMode")));
+			this.runCount.Location = ((System.Drawing.Point)(resources.GetObject("runCount.Location")));
+			this.runCount.Name = "runCount";
+			this.runCount.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("runCount.RightToLeft")));
+			this.runCount.Size = ((System.Drawing.Size)(resources.GetObject("runCount.Size")));
+			this.runCount.TabIndex = ((int)(resources.GetObject("runCount.TabIndex")));
+			this.runCount.Text = resources.GetString("runCount.Text");
+			this.runCount.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("runCount.TextAlign")));
+			this.toolTip.SetToolTip(this.runCount, resources.GetString("runCount.ToolTip"));
+			this.runCount.Visible = ((bool)(resources.GetObject("runCount.Visible")));
 			// 
 			// stopButton
 			// 
@@ -1853,7 +1891,6 @@ namespace NUnit.Gui
 		{		
 			saveXmlResultsMenuItem.Enabled = IsTestLoaded && TestLoader.TestResult != null;
 			exceptionDetailsMenuItem.Enabled = TestLoader.LastException != null;
-			frameworkInfoMenuItem.Enabled = IsTestLoaded;
 		}
 
 		private void saveXmlResultsMenuItem_Click(object sender, System.EventArgs e)
@@ -1898,23 +1935,35 @@ namespace NUnit.Gui
 			}
 		}
 
-		private void frameworkInfoMenuItem_Click(object sender, System.EventArgs e)
+		private void assemblyDetailsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			IList frameworks = TestLoader.TestFrameworks;
-			string msg = "No test frameworks are loaded.";
+			IList infoList = TestLoader.GetAssemblyInfo();
+			string msg = "No assemblies are loaded.";
 
-			if ( frameworks != null && frameworks.Count > 0 )
+			if ( infoList != null && infoList.Count > 0 )
 			{
-				StringBuilder sb = new StringBuilder(
-					"The following test frameworks have been loaded -\r\n\r\n" );
+				StringBuilder sb = new StringBuilder( "Test Assemblies - \r\n\r\n" );
 
-				foreach( AssemblyName assemblyName in TestLoader.TestFrameworks )
-					sb.AppendFormat( "  {0}\r\n", assemblyName.ToString() );
+				foreach( TestAssemblyInfo info in infoList )
+				{
+					sb.AppendFormat( "{0}\r\n", info.Name );
+					sb.AppendFormat( "Runtime Version:   {0}\r\n", info.RuntimeVersion.ToString() );
+					if ( info.TestFrameworks != null )
+					{
+						string prefix = "Uses: ";
+						foreach( AssemblyName framework in info.TestFrameworks )
+						{
+							sb.AppendFormat( "{0}{1}\r\n", prefix, framework.FullName );
+							prefix = "      ";
+						}
+					}
+					sb.Append("\r\n" );
+				}
 
 				msg = sb.ToString();
 			}
 
-			MessageBox.Show( this, msg, "Framework Info", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			MessageBox.Show( this, msg, "Test Assembly Info", MessageBoxButtons.OK, MessageBoxIcon.Information );
 		}
 
 		private void addinInfoMenuItem_Click(object sender, System.EventArgs e)
@@ -2238,7 +2287,14 @@ namespace NUnit.Gui
 		private void OnTestProjectUnloading( object sender, TestEventArgs e )
 		{
 			if ( e.Name != null && File.Exists( e.Name ) )
-				UserSettings.RecentProjects.SetMostRecent( new RecentFileEntry( e.Name, Environment.Version ) );
+			{
+				Version version = Environment.Version;
+				foreach( TestAssemblyInfo info in TestLoader.GetAssemblyInfo() )
+					if ( info.RuntimeVersion < version )
+						version = info.RuntimeVersion;
+			
+				UserSettings.RecentProjects.SetMostRecent( new RecentFileEntry( e.Name, version ) );
+			}
 		}
 
 		private void OnTestProjectUnloaded( object sender, TestEventArgs e )
@@ -2271,8 +2327,13 @@ namespace NUnit.Gui
 			EnableRunCommand( true );
 			ClearTabs();
 			
-			if ( TestLoader.TestCount == 0 && TestLoader.TestFrameworks.Count == 0 )
+			if ( TestLoader.TestCount == 0 )
+			{
+				foreach( TestAssemblyInfo info in TestLoader.GetAssemblyInfo() )
+					if ( info.TestFrameworks.Count > 0 ) return;
+
 				UserMessage.Display( "This assembly was not built with any known testing framework.", "Not a Test Assembly");
+			}
 		}
 
 		/// <summary>

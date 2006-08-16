@@ -69,22 +69,6 @@ namespace NUnit.Util
 			}
 		}
 
-		public virtual IList TestFrameworks
-		{
-			get
-			{
-				if ( runners == null )
-					return null;
-
-				ArrayList frameworks = new ArrayList();
-
-				foreach( TestRunner runner in runners )
-					frameworks.AddRange( runner.TestFrameworks );
-				
-				return frameworks;
-			}
-		}
-
 		public virtual IList Extensions
 		{
 			get
@@ -177,6 +161,14 @@ namespace NUnit.Util
 			foreach( TestRunner runner in runners )
 				runner.Unload();
 			loadedTest = null;
+		}
+
+		public virtual IList GetAssemblyInfo()
+		{
+			ArrayList info = new ArrayList();
+			foreach( TestRunner runner in runners )
+				info.AddRange( runner.GetAssemblyInfo() );
+			return info;
 		}
 		#endregion
 

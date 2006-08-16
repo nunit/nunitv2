@@ -84,16 +84,6 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Returns the collection of test frameworks referenced by the running
-		/// tests. Currently in the interface for diagnostic purposes only.
-		/// Should be removed at some point.
-		/// </summary>
-		IList TestFrameworks
-		{
-			get;
-		}
-
-		/// <summary>
 		/// Returns a list of the AssemblyQualifiedName of each loaded extension.
 		/// </summary>
 		IList Extensions
@@ -159,6 +149,11 @@ namespace NUnit.Core
 		/// Unload all tests previously loaded
 		/// </summary>
 		void Unload();
+
+		/// <summary>
+		/// Returns information about loaded assemblies
+		/// </summary>
+		IList GetAssemblyInfo();
 		#endregion
 
 		#region CountTestCases Methods

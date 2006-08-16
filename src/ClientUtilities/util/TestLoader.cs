@@ -231,17 +231,6 @@ namespace NUnit.Util
 			set { autoNamespaceSuites = value; }
 		}
 
-		public IList TestFrameworks
-		{
-			get 
-			{ 
-				if ( testRunner == null )
-					return null;
-				
-				return testRunner.TestFrameworks; 
-			}
-		}
-
 		public IList Extensions
 		{
 			get
@@ -658,6 +647,11 @@ namespace NUnit.Util
 			{
 				testRunner.BeginRun( this );
 			}
+		}
+
+		public IList GetAssemblyInfo()
+		{
+			return testRunner.GetAssemblyInfo();
 		}
 
 		#endregion

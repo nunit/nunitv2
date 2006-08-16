@@ -11,9 +11,9 @@ namespace NUnit.Core.Tests
 	public class TestFrameworkTests
 	{
 		[Test]
-		public void NUnitFrameworkIsReportedAsLoaded()
+		public void NUnitFrameworkIsKnownAndReferenced()
 		{
-			foreach( AssemblyName assemblyName in TestFramework.GetLoadedFrameworks() )
+			foreach( AssemblyName assemblyName in TestFramework.GetReferencedFrameworks( Assembly.GetExecutingAssembly() ) )
 				if ( assemblyName.Name == "nunit.framework" ) return;
 			Assert.Fail("Cannot find nunit.framework");
 		}

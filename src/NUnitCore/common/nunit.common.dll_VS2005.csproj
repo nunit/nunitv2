@@ -67,8 +67,10 @@
     <Compile Include="ITest.cs" />
     <Compile Include="LongLivingMarshalByRefObject.cs" />
     <Compile Include="ResultVisitor.cs" />
+    <Compile Include="TestAssemblyInfo.cs" />
     <Compile Include="TestCaseResult.cs" />
     <Compile Include="TestFilter.cs" />
+    <Compile Include="TestFramework.cs" />
     <Compile Include="TestID.cs" />
     <Compile Include="TestInfo.cs" />
     <Compile Include="TestName.cs" />

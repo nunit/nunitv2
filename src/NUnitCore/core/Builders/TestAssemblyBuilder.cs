@@ -67,6 +67,11 @@ namespace NUnit.Core.Builders
 			set { autoNamespaceSuites = value; }
 		}
 
+		public Assembly Assembly
+		{
+			get { return assembly; }
+		}
+
 		#endregion
 
 		#region Constructor
