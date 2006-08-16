@@ -17,7 +17,8 @@ namespace NUnit.Core
 		public TestAssemblyInfo( Assembly assembly )
 		{
 			this.assemblyName = assembly.FullName;
-			this.runtimeVersion = new Version( assembly.ImageRuntimeVersion.Substring(1) );
+			//this.runtimeVersion = new Version( assembly.ImageRuntimeVersion.Substring(1) );
+            this.runtimeVersion = Environment.Version;
 			this.testFrameworks = TestFramework.GetReferencedFrameworks( assembly );
 		}
 
