@@ -1252,7 +1252,7 @@ namespace NUnit.UiKit
 	internal class FailedTestsFilterVisitor : TestSuiteTreeNodeVisitor
 	{
 		NUnit.Core.Filters.NameFilter filter = new NameFilter();
-		ArrayList tests;
+		ArrayList tests = null;
 
 		public TestFilter Filter
 		{
