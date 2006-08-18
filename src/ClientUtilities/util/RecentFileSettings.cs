@@ -50,17 +50,14 @@ namespace NUnit.Util
 
 		public static readonly int DefaultSize = 5;
 
-		#region Constructors
-
+		#region Constructor
 		public RecentFileSettings( ISettingsStorage storage ) : base( storage ) 
 		{
 			LoadEntries();
 		}
-
 		#endregion
 
 		#region Properties
-
 		public int Count
 		{
 			get { return fileEntries.Count; }
@@ -89,42 +86,9 @@ namespace NUnit.Util
 				if ( newSize < oldSize ) SaveEntries();
 			}
 		}
-
-//		public string RecentFileName
-//		{
-//			set
-//			{
-//				RecentFileEntry = new RecentFileEntry( value );
-//			}
-//		}
-
-		public void SetMostRecent( string fileName )
-		{
-			SetMostRecent( new RecentFileEntry( fileName ) );
-		}
-
-		public void SetMostRecent( RecentFileEntry entry )
-		{
-			LoadEntries();
-
-			int index = fileEntries.IndexOf(entry.Path);
-
-			if(index == 0) return;
-
-			if(index != -1)
-				fileEntries.RemoveAt(index);
-
-			fileEntries.Insert( 0, entry );
-			if( fileEntries.Count > MaxFiles )
-				fileEntries.RemoveAt( MaxFiles );
-
-			SaveEntries();			
-		}
-
 		#endregion
 
 		#region Public Methods
-
 		public RecentFilesCollection Entries
 		{
 			get
@@ -147,10 +111,29 @@ namespace NUnit.Util
 			SaveEntries();
 		}
 
+		public void SetMostRecent( string fileName )
+		{
+			SetMostRecent( new RecentFileEntry( fileName ) );
+		}
+
+		public void SetMostRecent( RecentFileEntry entry )
+		{
+			LoadEntries();
+
+			int index = fileEntries.IndexOf(entry.Path);
+
+			if(index != -1)
+				fileEntries.RemoveAt(index);
+
+			fileEntries.Insert( 0, entry );
+			if( fileEntries.Count > MaxFiles )
+				fileEntries.RemoveAt( MaxFiles );
+
+			SaveEntries();			
+		}
 		#endregion
 
 		#region Helper Methods for saving and restoring the settings
-
 		private void LoadEntries()
 		{
 			fileEntries.Clear();
@@ -181,7 +164,6 @@ namespace NUnit.Util
 		{
 			return string.Format( "File{0}", index );
 		}
-
 		#endregion
 	}
 }
