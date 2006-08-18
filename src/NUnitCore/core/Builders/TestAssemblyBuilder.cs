@@ -57,6 +57,8 @@ namespace NUnit.Core.Builders
 		/// </summary>
 		bool autoNamespaceSuites = true;
 
+		private TestAssemblyInfo assemblyInfo = null;
+
 		#endregion
 
 		#region Properties
@@ -70,6 +72,23 @@ namespace NUnit.Core.Builders
 		public Assembly Assembly
 		{
 			get { return assembly; }
+		}
+
+		public TestAssemblyInfo AssemblyInfo
+		{
+			get 
+			{ 
+				if ( assemblyInfo == null && assembly != null )
+				{
+					string path = new Uri( assembly.GetName().CodeBase ).LocalPath;
+					AssemblyReader rdr = new AssemblyReader( path );
+					Version runtimeVersion = new Version( rdr.ImageRuntimeVersion.Substring( 1 ) );
+					IList frameworks = TestFramework.GetReferencedFrameworks( assembly );
+					assemblyInfo = new TestAssemblyInfo( path, runtimeVersion, frameworks );
+				}
+
+				return assemblyInfo;
+			}
 		}
 
 		#endregion

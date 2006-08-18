@@ -104,6 +104,7 @@
     <Compile Include="AllTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AssemblyReaderTests.cs" />
     <Compile Include="AssemblyResolverTests.cs" />
     <Compile Include="AssemblyTests.cs">
       <SubType>Code</SubType>
@@ -249,7 +250,6 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)nunit.core.tests.dll.config" "$(TargetDir)nunit.core.tests.dll.config"</PostBuildEvent>
   </PropertyGroup>
 </Project>

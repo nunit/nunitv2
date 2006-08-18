@@ -53,7 +53,6 @@ namespace NUnit.Core
 		#endregion
 
 		#region Properties
-
 		public IList Assemblies
 		{
 			get 
@@ -62,6 +61,18 @@ namespace NUnit.Core
 				foreach( TestAssemblyBuilder builder in builders )
 					assemblies.Add( builder.Assembly );
 				return assemblies; 
+			}
+		}
+
+		public IList AssemblyInfo
+		{
+			get
+			{
+				ArrayList info = new ArrayList();
+				foreach( TestAssemblyBuilder builder in this.builders )
+					info.Add( builder.AssemblyInfo );
+
+				return info;
 			}
 		}
 
@@ -76,7 +87,6 @@ namespace NUnit.Core
 			get { return mergeAssemblies; } 
 			set { mergeAssemblies = value; }
 		}
-
 		#endregion
 
 		#region Public Methods

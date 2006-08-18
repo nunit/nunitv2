@@ -32,11 +32,8 @@ namespace NUnit.Core
 		private TestSuite suite;
 
 		/// <summary>
-		/// Saved paths of the assemblies we loaded - used to set 
-		/// current directory when we are running the tests.
+		/// The builder we use to load tests, created for each load
 		/// </summary>
-		//private string[] assemblies;
-
 		private TestSuiteBuilder builder;
 
 		/// <summary>
@@ -78,6 +75,11 @@ namespace NUnit.Core
 			get { return Addins.Names; }
 		}
 
+		public IList AssemblyInfo
+		{
+			get { return builder.AssemblyInfo; }
+		}
+		
 		public TestNode Test
 		{
 			get { return suite == null ? null : new TestNode( suite ); }
@@ -99,15 +101,6 @@ namespace NUnit.Core
 		public TestRunnerSettings Settings
 		{
 			get { return settings; }
-		}
-
-		public IList GetAssemblyInfo()
-		{
-			ArrayList info = new ArrayList();
-			foreach( Assembly assembly in builder.Assemblies )
-				info.Add( new TestAssemblyInfo( assembly ) );
-
-			return info;
 		}
 		#endregion
 

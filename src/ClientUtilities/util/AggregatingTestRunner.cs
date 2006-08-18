@@ -69,6 +69,17 @@ namespace NUnit.Util
 			}
 		}
 
+		public virtual IList AssemblyInfo
+		{
+			get
+			{
+				ArrayList info = new ArrayList();
+				foreach( TestRunner runner in runners )
+					info.AddRange( runner.AssemblyInfo );
+				return info;
+			}
+		}
+
 		public virtual IList Extensions
 		{
 			get
@@ -161,14 +172,6 @@ namespace NUnit.Util
 			foreach( TestRunner runner in runners )
 				runner.Unload();
 			loadedTest = null;
-		}
-
-		public virtual IList GetAssemblyInfo()
-		{
-			ArrayList info = new ArrayList();
-			foreach( TestRunner runner in runners )
-				info.AddRange( runner.GetAssemblyInfo() );
-			return info;
 		}
 		#endregion
 

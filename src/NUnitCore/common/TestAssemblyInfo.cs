@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Reflection;
+using System.IO;
+using System.Text;
 
 namespace NUnit.Core
 {
@@ -14,12 +16,11 @@ namespace NUnit.Core
 		private Version runtimeVersion;
 		private IList testFrameworks;
 
-		public TestAssemblyInfo( Assembly assembly )
+		public TestAssemblyInfo( string assemblyName, Version runtimeVersion, IList testFrameworks )
 		{
-			this.assemblyName = assembly.FullName;
-			//this.runtimeVersion = new Version( assembly.ImageRuntimeVersion.Substring(1) );
-            this.runtimeVersion = Environment.Version;
-			this.testFrameworks = TestFramework.GetReferencedFrameworks( assembly );
+			this.assemblyName = assemblyName;
+			this.runtimeVersion = runtimeVersion;
+			this.testFrameworks = testFrameworks;
 		}
 
 		public string Name
@@ -36,5 +37,5 @@ namespace NUnit.Core
 		{
 			get { return testFrameworks; }
 		}
-	}
+    }
 }

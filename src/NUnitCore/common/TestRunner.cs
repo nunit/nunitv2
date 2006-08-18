@@ -84,6 +84,14 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
+		/// Returns information about loaded assemblies
+		/// </summary>
+		IList AssemblyInfo
+		{
+			get;
+		}
+
+		/// <summary>
 		/// Returns a list of the AssemblyQualifiedName of each loaded extension.
 		/// </summary>
 		IList Extensions
@@ -149,11 +157,6 @@ namespace NUnit.Core
 		/// Unload all tests previously loaded
 		/// </summary>
 		void Unload();
-
-		/// <summary>
-		/// Returns information about loaded assemblies
-		/// </summary>
-		IList GetAssemblyInfo();
 		#endregion
 
 		#region CountTestCases Methods

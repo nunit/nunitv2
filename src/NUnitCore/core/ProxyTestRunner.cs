@@ -77,6 +77,11 @@ namespace NUnit.Core
 			get { return testRunner != null && testRunner.Running; }
 		}
 
+		public virtual IList AssemblyInfo
+		{
+			get { return this.testRunner.AssemblyInfo; }
+		}
+
 		public virtual IList Extensions
 		{
 			get { return testRunner == null ? null : testRunner.Extensions; }
@@ -146,11 +151,6 @@ namespace NUnit.Core
 		public virtual void Unload()
 		{
 			this.testRunner.Unload();
-		}
-
-		public virtual IList GetAssemblyInfo()
-		{
-			return this.testRunner.GetAssemblyInfo();
 		}
 		#endregion
 

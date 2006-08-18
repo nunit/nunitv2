@@ -153,7 +153,6 @@ namespace NUnit.Util
 		#endregion
 
 		#region Properties
-
 		public bool IsProjectLoaded
 		{
 			get { return testProject != null; }
@@ -229,6 +228,11 @@ namespace NUnit.Util
 		{
 			get { return autoNamespaceSuites; }
 			set { autoNamespaceSuites = value; }
+		}
+
+		public IList AssemblyInfo
+		{
+			get { return testRunner.AssemblyInfo; }
 		}
 
 		public IList Extensions
@@ -648,12 +652,6 @@ namespace NUnit.Util
 				testRunner.BeginRun( this );
 			}
 		}
-
-		public IList GetAssemblyInfo()
-		{
-			return testRunner.GetAssemblyInfo();
-		}
-
 		#endregion
 
 		#region Methods for Running Tests

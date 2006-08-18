@@ -1939,7 +1939,7 @@ namespace NUnit.Gui
 
 		private void assemblyDetailsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			IList infoList = TestLoader.GetAssemblyInfo();
+			IList infoList = TestLoader.AssemblyInfo;
 			string msg = "No assemblies are loaded.";
 
 			if ( infoList != null && infoList.Count > 0 )
@@ -2291,7 +2291,7 @@ namespace NUnit.Gui
 			if ( e.Name != null && File.Exists( e.Name ) )
 			{
 				Version version = Environment.Version;
-				foreach( TestAssemblyInfo info in TestLoader.GetAssemblyInfo() )
+				foreach( TestAssemblyInfo info in TestLoader.AssemblyInfo )
 					if ( info.RuntimeVersion < version )
 						version = info.RuntimeVersion;
 			
@@ -2331,7 +2331,7 @@ namespace NUnit.Gui
 			
 			if ( TestLoader.TestCount == 0 )
 			{
-				foreach( TestAssemblyInfo info in TestLoader.GetAssemblyInfo() )
+				foreach( TestAssemblyInfo info in TestLoader.AssemblyInfo )
 					if ( info.TestFrameworks.Count > 0 ) return;
 
 				UserMessage.Display( "This assembly was not built with any known testing framework.", "Not a Test Assembly");
