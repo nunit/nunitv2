@@ -33,14 +33,14 @@
     <DefineConstants>TRACE;VS2005</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <Optimize>true</Optimize>
-    <NoWarn>1699</NoWarn>
+    <NoWarn>618,1699</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug2005|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug2005\</OutputPath>
     <DefineConstants>TRACE;DEBUG;VS2005</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
-    <NoWarn>1699</NoWarn>
+    <NoWarn>618,1699</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System">
