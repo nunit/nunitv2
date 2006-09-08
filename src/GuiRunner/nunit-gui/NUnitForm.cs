@@ -2397,14 +2397,6 @@ the version under which NUnit is currently running, {0}.",
 
 		#region Handlers for Test Running Events
 
-		/// <summary>
-		/// A test run is starting, so prepare the UI
-		/// </summary>
-		//		private void InvokeRunStarting( object sender, TestEventArgs e )
-		//		{
-		//			Invoke( new TestEventHandler( OnRunStarting ), new object[] { e } );
-		//		}
-
 		private void OnRunStarting( object sender, TestEventArgs e )
 		{
 			suiteName.Text = e.Name;
@@ -2412,15 +2404,6 @@ the version under which NUnit is currently running, {0}.",
 			EnableStopCommand( true );
 
 			ClearTabs();
-		}
-
-		/// <summary>
-		/// A test run has finished, so display the results
-		/// and re-enable the run button.
-		/// </summary>
-		private void InvokeRunFinished( object sender, TestEventArgs e )
-		{
-			Invoke( new TestEventHandler( OnRunFinished ), new object[] { e } );
 		}
 
 		private void OnRunFinished( object sender, TestEventArgs e )

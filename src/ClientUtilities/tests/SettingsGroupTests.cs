@@ -33,9 +33,6 @@ using Microsoft.Win32;
 
 namespace NUnit.Util.Tests
 {
-	/// <summary>
-	/// Summary description for SettingsGroupTests.
-	/// </summary>
 	[TestFixture]
 	public class SettingsGroupTests
 	{
@@ -127,14 +124,14 @@ namespace NUnit.Util.Tests
 		public void BadSetting1()
 		{
 			testGroup.SaveSetting( "X", "1y25" );
-			int x = testGroup.LoadIntSetting( "X" );
+			testGroup.LoadIntSetting( "X" );
 		}
 
 		[Test, ExpectedException( typeof( FormatException ) )]
 		public void BadSetting2()
 		{
 			testGroup.SaveSetting( "X", "1y25" );
-			int x = testGroup.LoadIntSetting( "X", 12 );
+			testGroup.LoadIntSetting( "X", 12 );
 		}
 	}
 }

@@ -36,26 +36,10 @@ using NUnit.TestData.TestFixtureBuilderTests;
 
 namespace NUnit.Core.Tests
 {
-	/// <summary>
-	/// Summary description for AttributeTests.
-	/// </summary>
-	/// 
 	[TestFixture]
 	public class TestFixtureBuilderTests
 	{
 		TestSuiteBuilder builder = new TestSuiteBuilder();
-
-		#region Helper Methods
-
-		private void InvalidSignatureTest(string methodName, string reason)
-		{
-			TestSuite fixture = loadFixture( typeof( SignatureTestFixture ) );
-			Test foundTest = TestFinder.Find( methodName, fixture );
-			Assert.IsNotNull(foundTest);
-			Assert.IsFalse(foundTest.ShouldRun);
-			string expected = String.Format("Method {0}'s signature is not correct: {1}.", methodName, reason);
-			Assert.AreEqual(expected, foundTest.IgnoreReason);
-		}
 
 		private TestSuite loadFixture( Type type )
 		{
@@ -64,7 +48,6 @@ namespace NUnit.Core.Tests
 
 			return suite;
 		}
-		#endregion
 
 		[Test]
 		public void GoodSignature()

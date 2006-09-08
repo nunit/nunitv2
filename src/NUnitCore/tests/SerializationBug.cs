@@ -35,10 +35,6 @@ using NUnit.Framework;
 
 namespace NUnit.Core.Tests
 {
-	/// <summary>
-	/// Summary description for SerializationBug.
-	/// </summary>
-	/// 
 	[TestFixture]
 	public class SerializationBug
 	{
@@ -53,12 +49,6 @@ namespace NUnit.Core.Tests
 			{ 
 				i = ii; 
 				j = jj; 
-			} 
-
-			void SuppressWarning() 
-			{ 
-				j = i; 
-				i = j; 
 			} 
 
 			public void Serialize(string filename) 

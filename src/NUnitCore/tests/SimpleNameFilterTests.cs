@@ -58,7 +58,6 @@ namespace NUnit.Core.Tests
         [Test]
         public void TestDoesNotMatch()
         {
-            NUnit.Core.TestCase mock1 = (NUnit.Core.TestCase)TestFinder.Find("MockTest1", testSuite);
             SimpleNameFilter filter = new SimpleNameFilter("NUnit.Tests.Assemblies.MockTestFixture.MockTest1");
             Assert.IsFalse(filter.Pass(mock3), "Name Filter did pass test case");
             Assert.IsTrue(filter.Pass(testSuite), "Name Filter did not pass test suite");

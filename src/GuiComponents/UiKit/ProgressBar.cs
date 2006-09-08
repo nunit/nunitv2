@@ -74,11 +74,6 @@ namespace NUnit.UiKit
 		private int step = 1;
 
 		/// <summary>
-		/// The current color of the bar
-		/// </summary>
-		private Color barColor = SystemColors.Highlight;
-		
-		/// <summary>
 		/// Last segment displayed when displaying asynchronously rather 
 		/// than through OnPaint calls.
 		/// </summary>

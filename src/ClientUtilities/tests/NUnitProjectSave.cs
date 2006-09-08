@@ -41,15 +41,11 @@ namespace NUnit.Util.Tests
 		static readonly string xmlfile = "test.nunit";
 
 		private NUnitProject project;
-		private StringBuilder sb;
-		private XmlTextWriter writer;
 
 		[SetUp]
 		public void SetUp()
 		{
 			project = NUnitProject.EmptyProject();
-			sb = new StringBuilder( 1024 );
-			writer = new XmlTextWriter( new StringWriter( sb ) );
 		}
 
 		[TearDown]

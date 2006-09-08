@@ -117,12 +117,12 @@ namespace NUnit.Core.Tests
 		[ExpectedException(typeof(FileNotFoundException))]
 		public void FileNotFound()
 		{
-			TestSuite suite = builder.Build( "xxxx" );
+			builder.Build( "xxxx" );
 		}
 
-		// Doesn't work under .NET 2.0 Beta 2
-		//[Test]
-		//[ExpectedException(typeof(BadImageFormatException))]
+		[Test]
+		[ExpectedException(typeof(BadImageFormatException))]
+		[Ignore("Doesn't work under .NET 2.0 Beta 2")]
 		public void InvalidAssembly()
 		{
 			FileInfo file = new FileInfo( tempFile );
@@ -134,7 +134,7 @@ namespace NUnit.Core.Tests
 			sw.Flush();
 			sw.Close();
 
-			TestSuite suite = builder.Build( tempFile );
+			builder.Build( tempFile );
 		}
 
 		[Test]

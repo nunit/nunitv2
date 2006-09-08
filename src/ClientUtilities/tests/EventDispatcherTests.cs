@@ -34,9 +34,6 @@ using NUnit.Framework;
 
 namespace NUnit.Util.Tests
 {
-	/// <summary>
-	/// Summary description for EventDispatcherTests.
-	/// </summary>
 	[TestFixture]
 	public class EventDispatcherTests
 	{
@@ -169,10 +166,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void RunStarting()
 		{
-			TestInfo[] tests = new TestInfo[] { test };
-
 			dispatcher.FireRunStarting( test.FullName, test.TestCount );
-
 			CheckEvent( TestAction.RunStarting, test.FullName, test.TestCount );
 		}
 

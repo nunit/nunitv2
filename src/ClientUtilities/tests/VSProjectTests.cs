@@ -34,9 +34,6 @@ using NUnit.TestUtilities;
 
 namespace NUnit.Util.Tests
 {
-	/// <summary>
-	/// Summary description for VSProjectTests.
-	/// </summary>
 	[TestFixture]
 	public class VSProjectTests
 	{
@@ -165,34 +162,34 @@ namespace NUnit.Util.Tests
 		[Test, ExpectedException( typeof ( ArgumentException ) ) ]
 		public void LoadInvalidFileType()
 		{
-			VSProject project = new VSProject( @"\test.junk" );
+			new VSProject( @"\test.junk" );
 		}
 
 		[Test, ExpectedException( typeof ( FileNotFoundException ) ) ]
 		public void FileNotFoundError()
 		{
-			VSProject project = new VSProject( @"\junk.csproj" );
+			new VSProject( @"\junk.csproj" );
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
 		public void InvalidXmlFormat()
 		{
 			WriteInvalidFile( "<VisualStudioProject><junk></VisualStudioProject>" );
-			VSProject project = new VSProject( @"." + System.IO.Path.DirectorySeparatorChar + "invalid.csproj" );
+			new VSProject( @"." + System.IO.Path.DirectorySeparatorChar + "invalid.csproj" );
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
 		public void InvalidProjectFormat()
 		{
 			WriteInvalidFile( "<VisualStudioProject><junk></junk></VisualStudioProject>" );
-			VSProject project = new VSProject( @"." + System.IO.Path.DirectorySeparatorChar  + "invalid.csproj" );
+			new VSProject( @"." + System.IO.Path.DirectorySeparatorChar  + "invalid.csproj" );
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
 		public void MissingAttributes()
 		{
 			WriteInvalidFile( "<VisualStudioProject><CSharp><Build><Settings></Settings></Build></CSharp></VisualStudioProject>" );
-			VSProject project = new VSProject( @"." + System.IO.Path.DirectorySeparatorChar + "invalid.csproj" );
+			new VSProject( @"." + System.IO.Path.DirectorySeparatorChar + "invalid.csproj" );
 		}
 
 		[Test]

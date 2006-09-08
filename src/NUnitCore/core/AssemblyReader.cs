@@ -16,7 +16,6 @@ namespace NUnit.Core
 
 		UInt16 dos_magic = 0xffff;
 		uint pe_signature = 0xffffffff;
-		UInt16 machine;
 		UInt16 numDataSections;
 		UInt16 optionalHeaderSize;
 
@@ -24,7 +23,6 @@ namespace NUnit.Core
 		private uint fileHeader = 0;
 		private uint optionalHeader = 0;
 		private uint dataDirectory = 0;
-		private uint dotNetDirectoryEntry = 0;
 		private uint dataSections = 0;
 
 		private struct Section
@@ -61,11 +59,11 @@ namespace NUnit.Core
 				fileHeader = peHeader + 4;
 				optionalHeader = fileHeader + 20;
 				dataDirectory = optionalHeader + 96;
-				dotNetDirectoryEntry = dataDirectory + 14 * 8;
+				// dotNetDirectoryEntry = dataDirectory + 14 * 8;
 
 				fs.Position = peHeader;
 				pe_signature = rdr.ReadUInt32();
-				machine = rdr.ReadUInt16();
+				rdr.ReadUInt16(); // machine
 				numDataSections = rdr.ReadUInt16();
 				fs.Position += 12;
 				optionalHeaderSize = rdr.ReadUInt16();

@@ -120,16 +120,14 @@ namespace NUnit.Util.Tests
 		public void BadSetting1()
 		{
 			storage.SaveSetting( "X", "1y25" );
-
-			int x = storage.LoadIntSetting( "X" );
+			storage.LoadIntSetting( "X" );
 		}
 
 		[Test, ExpectedException( typeof( FormatException ) )]
 		public void BadSetting2()
 		{
 			storage.SaveSetting( "X", "1y25" );
-
-			int x = storage.LoadIntSetting( "X", 12 );
+			storage.LoadIntSetting( "X", 12 );
 		}
 	}
 }

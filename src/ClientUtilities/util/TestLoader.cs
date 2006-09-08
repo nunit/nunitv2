@@ -628,9 +628,10 @@ namespace NUnit.Util
 					// handlers get a chance to compare the trees.
 					TestRunnerEx newRunner = CreateRunner( );
 
-					bool loaded = TestProject.IsAssemblyWrapper
-						? newRunner.Load(testProject.ActiveConfig.Assemblies[0].FullPath)
-						: newRunner.Load(testProject, loadedTestName);
+					if (TestProject.IsAssemblyWrapper)
+						newRunner.Load(testProject.ActiveConfig.Assemblies[0].FullPath);
+					else
+						newRunner.Load(testProject, loadedTestName);
 
 					testRunner.Unload();
 

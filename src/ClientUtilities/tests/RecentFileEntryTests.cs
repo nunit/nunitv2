@@ -16,7 +16,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void CanCreateFromSimpleFileName()
 		{
-			RecentFileEntry entry = new RecentFileEntry( entryPath );
+			entry = new RecentFileEntry( entryPath );
 			Assert.AreEqual( entryPath, entry.Path );
 			Assert.AreEqual( currentVersion, entry.CLRVersion );
 		}
@@ -24,7 +24,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void CanCreateFromFileNameAndVersion()
 		{
-			RecentFileEntry entry = new RecentFileEntry( entryPath, entryVersion );
+			entry = new RecentFileEntry( entryPath, entryVersion );
 			Assert.AreEqual( entryPath, entry.Path );
 			Assert.AreEqual( entryVersion, entry.CLRVersion );
 		}
@@ -32,7 +32,7 @@ namespace NUnit.Util.Tests
         [Test]
         public void EntryCanDisplayItself()
         {
-			RecentFileEntry entry = new RecentFileEntry( entryPath, entryVersion );
+			entry = new RecentFileEntry( entryPath, entryVersion );
 			Assert.AreEqual(
                 entryPath + RecentFileEntry.Separator + entryVersion.ToString(),
                 entry.ToString());
@@ -41,7 +41,7 @@ namespace NUnit.Util.Tests
         [Test]
         public void CanParseSimpleFileName()
         {
-            RecentFileEntry entry = RecentFileEntry.Parse(entryPath);
+            entry = RecentFileEntry.Parse(entryPath);
             Assert.AreEqual(entryPath, entry.Path);
             Assert.AreEqual(currentVersion, entry.CLRVersion);
         }
@@ -50,9 +50,9 @@ namespace NUnit.Util.Tests
         public void CanParseFileNamePlusVersionString()
         {
             string text = entryPath + RecentFileEntry.Separator + entryVersion.ToString();
-            RecentFileEntry newEntry = RecentFileEntry.Parse(text);
-            Assert.AreEqual(entryPath, newEntry.Path);
-            Assert.AreEqual(entryVersion, newEntry.CLRVersion);
+            entry = RecentFileEntry.Parse(text);
+            Assert.AreEqual(entryPath, entry.Path);
+            Assert.AreEqual(entryVersion, entry.CLRVersion);
         }
     }
 }

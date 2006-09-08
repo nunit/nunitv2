@@ -6,9 +6,6 @@ using NUnit.Framework;
 
 namespace NUnit.Core.Tests
 {
-	/// <summary>
-	/// Summary description for CallContextTests.
-	/// </summary>
 	// TODO: Make this work for .NET 2.0
 	[TestFixture]
 	public class CallContextTests
@@ -101,16 +98,8 @@ namespace NUnit.Core.Tests
 	[Serializable]
 	public class PrincipalCallContextData : ILogicalThreadAffinative
 	{
-		IPrincipal principal;
-
 		public PrincipalCallContextData( IPrincipal principal )
 		{
-			this.principal = principal;
-		}
-
-		IPrincipal Principal
-		{
-			get { return principal; }
 		}
 	}
 

@@ -39,21 +39,15 @@ using NUnit.TestData;
 
 namespace NUnit.Core.Tests
 {
-	/// <summary>
-	/// Summary description for TestSuiteTest.
-	/// </summary>
-	/// 
 	[TestFixture]
 	public class TestSuiteTest
 	{
-		TestSuite oneTestFixture;
 		TestSuite mockTestFixture;
 		TestSuite noTestSuite;
 
 		[SetUp]
 		public void SetUp()
 		{
-			oneTestFixture = TestBuilder.MakeFixture( typeof( OneTestCase ) );
 			mockTestFixture = TestBuilder.MakeFixture( typeof( MockTestFixture ) );
 			TestSuite noTestFixture = TestBuilder.MakeFixture( typeof( EmptyFixture ) );
 

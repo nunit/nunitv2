@@ -36,10 +36,6 @@ using NUnit.Tests.Assemblies;
 
 namespace NUnit.Core.Tests
 {
-	/// <summary>
-	/// Summary description for NamespaceAssemblyTests.
-	/// </summary>
-	/// 
 	[TestFixture]
 	public class NamespaceAssemblyTests
 	{
@@ -88,7 +84,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual("Singletons", singletonSuite.Name);
 			Assert.AreEqual(1, singletonSuite.Tests.Count);
 
-			MockTestFixture mockTestFixture = new MockTestFixture();			
+//			MockTestFixture mockTestFixture = new MockTestFixture();			
 			Assert.IsTrue(tests[0] is TestSuite, "TestSuite:assemblies - is invalid");
 			TestSuite mockSuite = (TestSuite)tests[0];
 			Assert.AreEqual("Assemblies", mockSuite.Name);

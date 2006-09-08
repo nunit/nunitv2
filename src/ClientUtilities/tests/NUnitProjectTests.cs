@@ -31,14 +31,10 @@ using System;
 using System.IO;
 using System.Xml;
 using System.Text;
+using NUnit.Framework;
 
 namespace NUnit.Util.Tests
 {
-	using NUnit.Framework;
-
-	/// <summary>
-	/// Summary description for NUnitProjectTests.
-	/// </summary>
 	[TestFixture]
 	public class NUnitProjectTests
 	{
@@ -167,7 +163,6 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void CanSetAppBase()
 		{
-			DirectoryInfo dir = new DirectoryInfo( Environment.CurrentDirectory );
 			project.BasePath = "..";
 			Assert.AreEqual( Path.GetDirectoryName( Environment.CurrentDirectory ), project.BasePath  );
 		}
