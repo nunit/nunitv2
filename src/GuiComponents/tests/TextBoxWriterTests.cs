@@ -38,14 +38,14 @@ namespace NUnit.UiKit.Tests
 			WriteTestLines( count, 1 );
 		}
 
-		[Test]
+		[Test, Platform(Exclude="Mono")]
 		public void WriteLines()
 		{
 			WriteTestLines( 5 );
 			Assert.AreEqual( "This is line 3", textBox.Lines[2] );
 		}
 
-		[Test]
+		[Test, Platform(Exclude="Mono")]
 		public void Write()
 		{
 			textBoxWriter.Write( "I wrote this" );
@@ -55,7 +55,7 @@ namespace NUnit.UiKit.Tests
 			Assert.AreEqual( "I wrote this in three parts!", textBox.Lines[0] );
 		}
 
-		[Test]
+		[Test, Platform(Exclude="Mono")]
 		public void MixedWrites()
 		{
 			WriteTestLines( 5 );

@@ -61,7 +61,7 @@ namespace NUnit.Mocks.Tests
 			mock.Verify();
 		}
 
-		[Test, Platform(Exclude="Linux")]
+		[Test, Platform(Exclude="Mono")]
 		public void RefParameter()
 		{
 			int x = 7;

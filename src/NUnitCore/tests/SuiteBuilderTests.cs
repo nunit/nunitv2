@@ -120,9 +120,9 @@ namespace NUnit.Core.Tests
 			builder.Build( "xxxx" );
 		}
 
-		[Test]
+		// Gives FileNotFoundException on Mono
+		[Test, Platform(Exclude="Mono")]
 		[ExpectedException(typeof(BadImageFormatException))]
-		[Ignore("Doesn't work under .NET 2.0 Beta 2")]
 		public void InvalidAssembly()
 		{
 			FileInfo file = new FileInfo( tempFile );
