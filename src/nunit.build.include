@@ -93,7 +93,7 @@
     <property name="runtime.defines" value="MONO,MONO_1_0"/>
     <property name="build.mono" value="true"/>
     <property name="build.win32" value="false"/>
-    <property name="build.gui" value="false"/>
+    <property name="build.gui" value="true"/>
     <property name="nant.settings.currentframework" 
       value="mono-1.0"/>
     <property name="zip.runtime.suffix" value="-mono"/>
@@ -110,7 +110,7 @@
     <property name="runtime.defines" value="MONO,MONO_2_0"/>
     <property name="build.mono" value="true"/>
     <property name="build.win32" value="false"/>
-    <property name="build.gui" value="false"/>
+    <property name="build.gui" value="true"/>
     <property name="nant.settings.currentframework" 
       value="mono-2.0"/>
     <property name="zip.runtime.suffix" value="-mono-1.0"/>
