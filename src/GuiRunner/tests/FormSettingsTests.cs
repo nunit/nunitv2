@@ -45,19 +45,19 @@ namespace NUnit.Gui.Tests
 		static int TREE_MIN_POSITION = FormSettings.TREE_MIN_POSITION;
 		static int TAB_MIN_POSITION = FormSettings.TAB_MIN_POSITION;
 		
-		FormSettings form;
+		FormSettings formSettings;
 
 		[SetUp]
 		public void Init()
 		{
 			MemorySettingsStorage storage = new MemorySettingsStorage();
-			form = new UserSettings( storage ).Form;
+			formSettings = new UserSettings( storage ).Form;
 		}
 
 		[TearDown]
 		public void Cleanup()
 		{
-			form.Dispose();
+			formSettings.Dispose();
 		}
 
 		[Test]
@@ -66,11 +66,11 @@ namespace NUnit.Gui.Tests
 			Point pt = new Point( 100, 200 );
 			Size sz = new Size( 300, 200 );
 			
-			form.Location = pt;
-			form.Size = sz;
+			formSettings.Location = pt;
+			formSettings.Size = sz;
 
-			Assert.AreEqual( pt, form.Location );
-			Assert.AreEqual( sz, form.Size );
+			Assert.AreEqual( pt, formSettings.Location );
+			Assert.AreEqual( sz, formSettings.Size );
 		}
 
 		[Test]
@@ -78,18 +78,18 @@ namespace NUnit.Gui.Tests
 		{
 			int position = 383;
 
-			form.TreeSplitterPosition = position; 
-			Assert.AreEqual(position, form.TreeSplitterPosition);
+			formSettings.TreeSplitterPosition = position; 
+			Assert.AreEqual(position, formSettings.TreeSplitterPosition);
 
-			form.TabSplitterPosition = position;
-			Assert.AreEqual(position, form.TabSplitterPosition);
+			formSettings.TabSplitterPosition = position;
+			Assert.AreEqual(position, formSettings.TabSplitterPosition);
 		}
 
 		[Test]
 		public void FormPositionDefaults()
 		{	
-			Point pt = form.Location;
-			Size sz = form.Size;
+			Point pt = formSettings.Location;
+			Size sz = formSettings.Size;
 
 			Assert.AreEqual( DEFAULT_LOCATION, pt );
 			Assert.AreEqual( DEFAULT_SIZE, sz );
@@ -101,14 +101,14 @@ namespace NUnit.Gui.Tests
 			Point pt = new Point( 100, 200 );
 			Size sz = new Size( 20, 25 );
 			
-			form.Location = pt;
-			form.Size = sz;
+			formSettings.Location = pt;
+			formSettings.Size = sz;
 
-			Assert.AreEqual( pt, form.Location );
-			Assert.AreEqual( MIN_SIZE, form.Size );
+			Assert.AreEqual( pt, formSettings.Location );
+			Assert.AreEqual( MIN_SIZE, formSettings.Size );
 		}
 
-		[Test]
+		[Test, Platform(Exclude="Mono")]
 		public void PositionOutOfBounds()
 		{
 			int minX = 0;
@@ -119,30 +119,30 @@ namespace NUnit.Gui.Tests
 			Point pt = new Point( minX-1000, 200 );
 			Size sz = new Size( 300, 200 );
 
-			form.Location = pt;
-			form.Size = sz;
+			formSettings.Location = pt;
+			formSettings.Size = sz;
 
-			Assert.AreEqual( DEFAULT_LOCATION, form.Location );
-			Assert.AreEqual( sz, form.Size );
+			Assert.AreEqual( DEFAULT_LOCATION, formSettings.Location );
+			Assert.AreEqual( sz, formSettings.Size );
 		}
 
 		[Test]
 		public void BadTreeSplitterPosition()
 		{
-			form.TreeSplitterPosition = 5;
-			Assert.AreEqual( TREE_MIN_POSITION, form.TreeSplitterPosition );
-			form.TreeSplitterPosition = 5000; 
-			Assert.AreEqual( TREE_MIN_POSITION, form.TreeSplitterPosition );
+			formSettings.TreeSplitterPosition = 5;
+			Assert.AreEqual( TREE_MIN_POSITION, formSettings.TreeSplitterPosition );
+			formSettings.TreeSplitterPosition = 5000; 
+			Assert.AreEqual( TREE_MIN_POSITION, formSettings.TreeSplitterPosition );
 		}
 	
 		[Test]
 		public void BadTabSplitterPosition()
 		{
-			form.TabSplitterPosition = 5;
-			Assert.AreEqual( TAB_MIN_POSITION, form.TabSplitterPosition );
+			formSettings.TabSplitterPosition = 5;
+			Assert.AreEqual( TAB_MIN_POSITION, formSettings.TabSplitterPosition );
 
-			form.TabSplitterPosition = 5000;
-			Assert.AreEqual( TAB_MIN_POSITION, form.TabSplitterPosition );
+			formSettings.TabSplitterPosition = 5000;
+			Assert.AreEqual( TAB_MIN_POSITION, formSettings.TabSplitterPosition );
 		}
 	}
 }
