@@ -128,7 +128,7 @@ namespace NUnit.UiKit
 			dlg.FilterIndex = 1;
 			dlg.FileName = "";
 
-			if ( dlg.ShowDialog( owner ) == DialogResult.OK ) 
+			if ( dlg.ShowDialog( owner ) == DialogResult.OK )
 			{
 				loader.TestProject.Configs[configName].Assemblies.Add( dlg.FileName );
 			}
@@ -141,8 +141,7 @@ namespace NUnit.UiKit
 			dlg.Title = "Add Visual Studio Project";
 
 			dlg.Filter =
-				"All Project Types (*.csproj,*.vjsproj,*.vbproj,*.vcproj,*.sln)|*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.sln|" +
-				"Solutions (*.sln)|*.sln|" +
+				"All Project Types (*.csproj,*.vjsproj,*.vbproj,*.vcproj)|*.csproj;*.vjsproj;*.vbproj;*.vcproj|" +
 				"C# Projects (*.csproj)|*.csproj|" +
 				"J# Projects (*.vjsproj)|*.vjsproj|" +
 				"VB Projects (*.vbproj)|*.vbproj|" +
