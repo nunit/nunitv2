@@ -39,10 +39,6 @@
        specify the use of .NET 1.1. This will be fixed in a
        follow-up release.
 
-    2. In order to build cpp-sample for either version of .NET,
-       the correct version of cl.exe must be found on the path.
-       This is a limitation of the NAnt <cl> task.
-
   -->
 
   <!-- Set Project name -->
@@ -83,8 +79,12 @@
     value="${path::combine(project.base.dir,'samples')}"/>
   <property name="project.tools.dir"
     value="${path::combine(project.base.dir,'tools')}"/>
+  <property name="project.install.dir"
+    value="${path::combine(project.src.dir, 'install')}"/>
 
-  <!-- NCover is installed under tools -->
+  <!-- Individual Tool Directories -->
+  <property name="wix.dir" 
+    value="${path::combine(project.tools.dir,'WiX')}"/>
   <property name="ncover.dir" 
     value="${path::combine(project.tools.dir,'ncover')}"/>
 
@@ -92,25 +92,6 @@
          installed framework found is the default for builds. -->
   <property name="supported.frameworks" 
     value="net-1.1,net-1.0,net-2.0,mono-1.0,mono-2.0"/>
-
-  <!-- Visual Studio locations -->
-  <if test="${platform::is-win32()}">
-    <readregistry property="vs.2002.path" 
-      key="Software\Microsoft\VisualStudio\7.0\InstallDir" 
-      hive="LocalMachine" failonerror="false"/>
-    <echo message="VS 2002 targets are unavailable"
-      unless="${property::exists( 'vs.2002.path' )}"/>
-    <readregistry property="vs.2003.path" 
-      key="Software\Microsoft\VisualStudio\7.1\InstallDir" 
-      hive="LocalMachine" failonerror="false"/>
-    <echo message="VS 2003 targets are unavailable"
-      unless="${property::exists( 'vs.2003.path' )}"/>
-    <readregistry property="vs.2005.path" 
-      key="Software\Microsoft\VisualStudio\8.0\InstallDir" 
-      hive="LocalMachine" failonerror="false"/>
-    <echo message="VS 2005 targets are unavailable"
-      unless="${property::exists( 'vs.2005.path' )}"/>
-  </if>
 
   <!-- Root of the package file name -->
   <property name="package.name" 
@@ -129,6 +110,8 @@
     value="${path::combine(package.working.dir,'src')}"/>
   <property name="package.resource.dir"
     value="${path::combine(package.working.dir, 'resources')}"/>
+  <property name="wix.work.dir"
+    value="${path::combine(project.package.dir, 'wixobj')}"/>
 
   <!-- Default build configuration -->
   <property name="build.config" value="debug"/>
@@ -206,7 +189,7 @@
             if="${directory::exists( package.working.dir )}"/>
   </target>
 
-  <target name="clean-vs-dirs">
+  <target name="clean-source-dirs">
     <delete>
       <fileset>
         <include name="*/*/obj/*/*"/>
@@ -649,7 +632,7 @@
   </target>
 
   <target name="build-timing-tests" depends="make-build-dir">
-    <csc target="library" if="${build.win32}"
+    <csc target="library"
        output="${current.build.dir}/timing-tests.dll">
       <sources basedir="tests/timing-tests">
         <include name="AssemblyInfo.cs"/>
@@ -687,6 +670,9 @@
         <include name="System.Data.dll"/>
       </references>
     </csc>
+
+    <copy file="NUnitFramework/tests/nunit.framework.tests.dll.config"
+      todir="${current.build.dir}"/>
   </target>
 
   <target name="build-core-tests" depends="make-build-dir">
@@ -717,7 +703,9 @@
         <include name="System.Data.dll"/>
       </references>
     </csc>
-    <copy file="NUnitCore/tests/nunit.core.tests.dll.config" todir="${current.build.dir}"/>
+
+    <copy file="NUnitCore/tests/nunit.core.tests.dll.config"
+      todir="${current.build.dir}"/>
   </target>
 
   <target name="build-extension-tests" depends="make-build-dir">
@@ -737,6 +725,8 @@
         <include name="test-assembly.dll"/>
       </references>
     </csc>
+    <copy file="NUnitExtensions/tests/nunit.extensions.tests.dll.config"
+      todir="${current.build.dir}"/>
   </target>
 
   <target name="build-mock-tests" depends="make-build-dir">
@@ -754,6 +744,8 @@
         <include name="nunit.mocks.dll"/>
       </references>
     </csc>
+    <copy file="NUnitMocks/tests/nunit.mocks.tests.dll.config"
+      todir="${current.build.dir}"/>
   </target>
 
   <target name="build-util-tests" depends="make-build-dir">
@@ -781,6 +773,8 @@
         <include name="notestfixtures-assembly.dll"/>
       </references>
     </csc>
+    <copy file="ClientUtilities/tests/nunit.util.tests.dll.config"
+      todir="${current.build.dir}"/>
   </target>
 
   <target name="build-console-tests" depends="make-build-dir">
@@ -800,6 +794,8 @@
         <include name="test-assembly.dll"/>
       </references>
     </csc>
+    <copy file="ConsoleRunner/tests/nunit-console.tests.dll.config"
+      todir="${current.build.dir}"/>
   </target>
 
   <target name="build-test-server-tests" depends="make-build-dir">
@@ -818,6 +814,8 @@
         <include name="nunit-test-server.dll"/>
       </references>
     </csc>
+    <copy file="NUnitTestServer/tests/nunit-server.tests.dll.config"
+      todir="${current.build.dir}"/>
   </target>
 
   <target name="build-uikit-tests" depends="make-build-dir">
@@ -841,6 +839,8 @@
         <include name="notestfixtures-assembly.dll"/>
       </references>
     </csc>
+    <copy file="GuiComponents/tests/nunit.uikit.tests.dll.config"
+      todir="${current.build.dir}"/>
   </target>
 
   <target name="build-gui-runner-tests" depends="make-build-dir">
@@ -860,6 +860,8 @@
         <include name="test-utilities.dll"/>
       </references>
     </csc>
+    <copy file="GuiRunner/tests/nunit-gui.tests.dll.config"
+      todir="${current.build.dir}"/>
   </target>
 
   <!-- Targets for running tests -->
@@ -1027,7 +1029,7 @@
   </target>
 
   
-  <!-- Package current config as a zip -->cd 
+  <!-- Package current config as a zip --> 
   <target name="package-zip" depends="clean-package-dir" description="Create distribution package">
 
     <call target="copy-bins"/>
@@ -1116,10 +1118,10 @@
     </zip>
 
   </target>
-   
-  <target name="package-msi" depends="set-build-dir,set-package-config"
-    description="Build msi file and deploy it to the package dir">
 
+  <target name="package-msi" depends="build,set-package-config"
+    description="Build msi file and deploy it to the package dir">
+  
     <fail message="MSI can only be built on the Win32 platform" unless="${platform::is-win32()}"/>
     <fail message="MSI can only be built for a Win32 runtime" unless="${build.win32}"/>
 
@@ -1127,46 +1129,53 @@
     <echo message="* Building msi for ${runtime.config}  ${build.config}"/>
     <echo message="*"/>
 
-    <delete file="msi.txt" if="${file::exists( 'msi.txt' )}"/>
-        
-    <call target="build-${runtime.config}-msi"/>
+<!--    <call target="copy-bins" />
+    <call target="copy-docs" />-->
+    <call target="copy-samples" />
+<!--    <mkdir dir="${wix.work.dir}"/> -->
+    <property name="wix.work.dir"
+      value="${current.build.dir}"/>
 
-    <echo message="* Build complete - output saved as msi.txt"/>
+    <candle out="${wix.work.dir}/" exedir="${wix.dir}">
+      <defines>
+        <define name="ProductVersion" value="${package.version}" />
+      </defines>
+      <sources>
+        <include name="install/bin.wxs" />
+        <include name="install/doc.wxs" />
+        <include name="install/tests.wxs" />
+        <include name="install/samples.wxs" />
+        <include name="install/NUnit.wxs" />
+      </sources>
+    </candle>
 
-  </target>
+    <!--<exec basedir="${wix.dir}" program="candle.exe"
+      commandline="install/bin.wxs -dProductVersion=${package.version} -out ${wix.work.dir}/bin.wixobj"/>
 
-<!-- Use Visual Studio to build msi files for now -->
+    <exec basedir="${wix.dir}" program="candle.exe"
+      commandline="install/doc.wxs -dProductVersion=${package.version} -out ${wix.work.dir}/doc.wixobj"/>
 
-  <target name="build-net-1.0-msi">
+    <exec basedir="${wix.dir}" program="candle.exe"
+      commandline="install/NUnit.wxs -dProductVersion=${package.version} -out ${wix.work.dir}/NUnit.wixobj"/>
 
-    <fail message="Property vs.2002.path not set" unless="${property::exists( 'vs.2002.path' )}"/>
+    <exec basedir="${wix.dir}" program="candle.exe"
+      commandline="install/tests.wxs -ProductVersion=${package.version} -out ${wix.work.dir}/tests.wixobj"/>
 
-    <exec program="${vs.2002.path}/devenv.exe"
-      commandline="nunit.sln /build ${build.config} /project install /out msi.txt"/>
+    <exec basedir="${wix.dir}" program="candle.exe"
+      commandline="install/samples.wxs -ProductVersion=${package.version} -out ${wix.work.dir}/samples.wixobj"/>-->
 
-    <copy file="install/${build.config}/${msi.file.name}" tofile="${project.package.dir}/${msi.file.name}"/>        
+    <!--<light exedir="${wix.dir}"
+      out="${project.package.dir}/${msi.file.name}" 
+      locfile="${wix.dir}/WixUI_en-us.wxl">
+      <sources>
+        <include name="${wix.work.dir}/*.wixobj" />
+        <include name="${wix.dir}/wixui.wixlib" />
+      </sources>
+    </light>-->
 
-  </target>
-    
-  <target name="build-net-1.1-msi">
-
-    <fail message="Property vs.2003.path not set" unless="${property::exists( 'vs.2003.path' )}"/>
-
-    <exec program="${vs.2003.path}/devenv.exe"
-      commandline="nunit.sln /build ${build.config} /project install /out msi.txt"/>
-
-    <copy file="install/${build.config}/${msi.file.name}" tofile="${project.package.dir}/${msi.file.name}"/>        
-
-  </target>
-
-  <target name="build-net-2.0-msi">
-
-    <fail message="Property vs.2005.path not set" unless="${property::exists( 'vs.2005.path' )}"/>
-
-    <exec program="${vs.2005.path}/devenv.exe"
-      commandline="nunit_vs2005.sln /build ${build.config}2005 /project install /out msi.txt"/>
-
-    <copy file="install/${build.config}2005/${msi.file.name}" tofile="${project.package.dir}/${msi.file.name}"/>        
+    <exec 
+      basedir="${wix.dir}" program="light.exe"
+      commandline="${wix.work.dir}/bin.wixobj ${wix.work.dir}/doc.wixobj ${wix.work.dir}/NUnit.wixobj ${wix.work.dir}/tests.wixobj ${wix.work.dir}/samples.wixobj -b install -out ${project.package.dir}/${msi.file.name} ${wix.dir}/wixui.wixlib -loc ${wix.dir}/WixUI_en-us.wxl"/>
 
   </target>
 

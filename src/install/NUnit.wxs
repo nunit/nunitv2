@@ -1,63 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
-  <Product UpgradeCode="2E280DED-3E0E-4783-94A9-BE102C854C39" Name="NUnit $(var.ProductVersion)" Id="1AA69CCD-1078-473A-BD6E-11CE30A81C58" Version="$(var.ProductVersion)" Manufacturer="NUnit" Language="1033">
+  <Product UpgradeCode="2E280DED-3E0E-4783-94A9-BE102C854C39" Name="NUnit 2.4 (Beta 2)" 
+  		   Id="1AA69CCD-1078-473A-BD6E-11CE30A81C58" Version="$(var.ProductVersion)" 
+		   Manufacturer="nunit.org" Language="1033">
   
-    <Package Id="????????-????-????-????-????????????" Comments="NUnit $(var.ProductVersion)" Manufacturer="James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Jamie Cansdale" InstallerVersion="200" Platforms="Intel" Languages="1033" Compressed="yes" SummaryCodepage="1252" />
-    <Directory Id="TARGETDIR" Name="SourceDir">
-    
-		<Directory Id='ProgramFilesFolder' Name='PFiles'>
-			<Directory Id='INSTALLDIR' Name='NUnit' LongName="NUnit $(var.ProductVersion)"> 
-				<Component Id="C__NUnit_Registry" Guid="36AE84ED-5510-40eb-A3B1-D821AC06259C">
-					<Registry Id="R__INSTALLDIR" Root="HKCU" Key="Software\NUnit" Name="InstallDir" Type="string" Value="[INSTALLDIR]" />
-					<Registry Id="R__ProductVersion" Root="HKMU" Key="Software\NUnit" Name="ProductVersion" Type="string" Value="[ProductVersion]" />
-				</Component>
-				
-				<Directory Id='D__AssemblyFolders' Name='AF' LongName='AssemblyFolders'> 
-					<Component Id="C__AssemblyFolders" Guid="F9B1325D-286F-6638-4AD2-AC8F3509BC4F" DiskId="1">
-						<Registry Id="R__AssemblyFolders" Root="HKLM" Key="Software\Microsoft\.NETFramework\AssemblyFolders\NUnit.Framework" Type="string" KeyPath="yes" Value="[D__AssemblyFolders]" />
-						<File Id="F__AssemblyFolders_nunit_framework_dll" Name="NUNITF.DLL" LongName="nunit.framework.dll" src="nunit.framework.dll" />
-					</Component>
-				</Directory>			
-			</Directory>
+    <Package Id="????????-????-????-????-????????????" Comments="NUnit $(var.ProductVersion)" 
+			 Manufacturer="nunit.org" InstallerVersion="200" Platforms="Intel" 
+			 Languages="1033" Compressed="yes" SummaryCodepage="1252" />
+			 
+    <!-- Define all directories used in the install -->
+	<Directory Id="TARGETDIR" Name="SourceDir">
+	  <Directory Id='ProgramFilesFolder' Name='PFiles'>
+		
+		<!-- Target location for NUnit Files -->
+		<Directory Id='INSTALLDIR' Name='NUnit' LongName="NUnit $(var.ProductVersion)"> 
+		  <Directory Id='Assemblies' Name='AF' LongName='Assemblies' /> 
+		  <Directory Id='bin' Name='bin' />
+		  <Directory Id='doc' Name='doc' >
+		    <Directory Id='files' />
+			<Directory Id='img' />
+		  </Directory>
+		  <Directory Id='samples' Name='samples' >
+			<Directory Id='csharp' Name='csharp' />
+			<Directory Id='jsharp' Name='jsharp' />
+			<Directory Id='vb' />
+			<Directory Id='cpp' Name='cpp' />
+			<Directory Id='extensibility' Name='EXTENSIB' LongName='Extensibility' />
+		  </Directory>		
 		</Directory>
+		
+	  </Directory>
 
+      <!-- Desktop Folder Directory for our Desktop Shortcut -->
+	  <Directory Id="DesktopFolder" Name="." SourceName="DESKTOP" LongSource="User's Desktop" />
+      
+      <!-- Program Menu Folder and our subfolders for Shortcuts -->
+	  <Directory Id="ProgramMenuFolder" Name="." SourceName="PROGRAMS" LongSource="User's Program Menu">
+        <Directory Id="NUnitMenu" Name="NUnit" LongName="NUnit $(var.ProductVersion)" >
+		  <Directory Id="SamplesMenu" Name="Samples" />
+		</Directory>
+      </Directory>
+      
+    </Directory>
+    
+	
+	<!-- Top Level File Components -->
+	<DirectoryRef Id="INSTALLDIR">
+	
       <Component Id="C__LOGO" Guid="99080421-75CC-4DFC-0987-AA16B7E68659">
         <File Id="_LOGO" Name="LOGO.ICO" src="..\GuiRunner\nunit-gui\Logo.ico" LongName="Logo.ico" Vital="yes" KeyPath="yes" DiskId="1" />
       </Component>
       
       <Component Id="C__LICENSE" Guid="7D03AE6B-15A7-16E0-0D21-D65708B2FA79">
-        <File Id="_LICENSE" Name="LICENSE.RTF" src="..\LICENSE.RTF" LongName="license.rtf" Vital="yes" KeyPath="yes" DiskId="1" />
+        <File Id="_LICENSE" Name="LICENSE.RTF" src="..\LICENSE.RTF" 
+			  LongName="license.rtf" Vital="yes" KeyPath="yes" DiskId="1" />
       </Component>
+	  
+	</DirectoryRef>
       
-      <Directory Id="DesktopFolder" Name="." SourceName="USER'S~1" LongSource="User's Desktop" />
+	<!-- A copy of the assemblies referenced by tests are installed in a
+		 separate folder that is made known to Visual Studio so that
+		 references may be added more easily -->
+	<DirectoryRef Id="Assemblies">
+	
+		<Component Id="C__AssemblyFolders" DiskId="1" Guid="F9B1325D-286F-6638-4AD2-AC8F3509BC4F">
+		    <File Id="nunit.framework.copy" Name="FRAMEWRK.CPY" LongName="nunit.framework.dll" src="nunit.framework.dll" />
+			<File Id="nunit.framework.extensions.copy" Name="FRAME_EX.CPY" LongName="nunit.framework.extensions.dll" src="nunit.framework.extensions.dll" />
+		</Component>
+			
+	</DirectoryRef>
+	
+    <!-- Define the NUnit base feature it's contents and reference 
+		 sub-features defined in other files -->
+	<Feature Id="BaseFeature" Level="1" ConfigurableDirectory="INSTALLDIR"
+		Title='NUnit 2.4' Display='expand'
+		Description="Base NUnit assemblies required to write and run tests using the NUnit-Console runner.">
       
-      <Directory Id="ProgramMenuFolder" Name="." SourceName="USER'S~2" LongSource="User's Programs Menu">
-        <Directory Id="D__nunit_menu" Name="NUnit" />
-      </Directory>
-      
-    </Directory>
-    
-    <Feature Id="DefaultFeature" Level="1" ConfigurableDirectory="INSTALLDIR"
-		Title='NUnit $(var.ProductVersion)' Description='NUnit $(var.ProductVersion)' Display='expand'>
-      <ComponentRef Id="C__NUnit_Registry" />
-      <ComponentRef Id="C__LICENSE" />
-      <ComponentRef Id="C__LOGO" />
-      
-		<FeatureRef Id="BinFeature" />    
-		<FeatureRef Id="TestsFeature" />
+        <!-- Defined above -->
+		<ComponentRef Id="C__LICENSE" />
+        <ComponentRef Id="C__LOGO" />
+		<ComponentRef Id="C__AssemblyFolders" />
+
+		<!-- Defined in bin.wxs -->
+		<ComponentRef Id="C__NUnitBase" />
+		<ComponentRef Id="C__NUnitRegistry" />
+		<FeatureRef Id="GuiFeature" />
+		
+		<!-- Defined in doc.wxs -->
 		<FeatureRef Id="DocFeature" />
 		
-		<Feature Id="AssemblyFoldersFeature" Level="1"
-				Title='AssemblyFolders' Description="Make default 'nunit.framework' assembly" Display='expand'>
-			<ComponentRef Id="C__AssemblyFolders" />
-		</Feature>
-      
+		<!-- Defined in samples.wxs -->
+		<FeatureRef Id="SamplesFeature" />
+		
+		<!-- Defined in tests.wxs -->
+		<FeatureRef Id="TestsFeature" />
+		     
     </Feature>
-    
-    <Media Id="1" EmbedCab="yes" Cabinet="nunit.cab" />
+   
+	<!-- The NUnit files are all in a single cab file that is embedded in the MSI -->
+	<Media Id="1" EmbedCab="yes" Cabinet="nunit.cab" />
 
-    <UIRef Id="WixUI_Mondo" />
-    <UIRef Id="WixUI_ErrorProgressText" />   
-  
+	<!-- Define our GUI using the standard WiX UI FeatureTree set-->
+	<UIRef Id="WixUI_FeatureTree" />
+    <UIRef Id="WixUI_ErrorProgressText" /> 
+	
   </Product>
 </Wix>

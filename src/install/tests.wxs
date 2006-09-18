@@ -2,56 +2,81 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
   
-    <Feature Id="TestsFeature" Level="1"
+    <!-- Feature to install the NUnit tests -->
+	<Feature Id="TestsFeature" Level="1"
 		Title='Unit Tests' Description='Unit tests for NUnit' Display='expand'>
 		<ComponentRef Id="component_tests" />
     </Feature>
     
-	<DirectoryRef Id="INSTALLDIR">
-      <Directory Id="D__tests" Name="BIN" LongName="bin">
+	<DirectoryRef Id="bin">
       
         <Component Id="component_tests" DiskId="1" Guid="85DD0370-9E05-4e9a-8AB4-02A6C24986AB">
-          <File Id="F__test1" Name="tests_1.DLL"
-			LongName="nunit.testutilities.dll" src="nunit.testutilities.dll" />
-          <File Id="F__test2" Name="tests_2.DLL"
-			LongName="nunit.util.tests.dll" src="nunit.util.tests.dll" />
-          <File Id="F__nunit_util_tests_dll_config" Name="NUUTDLL.CFG"
-			LongName="nunit.util.tests.dll.config" src="nunit.util.tests.dll.config" />
-          <File Id="F__test3" Name="tests_3.DLL"
-			LongName="nunit.framework.tests.dll" src="nunit.framework.tests.dll" />
-          <File Id="F__nunit_framework_tests_dll_config" Name="NUFTDLL.CFG"
-			LongName="nunit.framework.tests.dll.config" src="nunit.framework.tests.dll.config" />
-          <File Id="F__test4" Name="tests_4.DLL"
-			LongName="nunit.mocks.tests.dll" src="nunit.mocks.tests.dll" />
-          <File Id="F__nunit_mocks_tests_dll_config" Name="NUMTDLL.CFG"
-			LongName="nunit.mocks.tests.dll.config" src="nunit.mocks.tests.dll.config" />
-          <File Id="F__test5" Name="tests_5.DLL"
-			LongName="nunit.uikit.tests.dll" src="nunit.uikit.tests.dll" />
-          <File Id="F__nunit_uikit_tests_dll_config" Name="NUUTDLL.CFG"
-			LongName="nunit.uikit.tests.dll.config" src="nunit.uikit.tests.dll.config" />
-          <File Id="F__test6" Name="tests_6.DLL"
-			LongName="nunit-console.tests.dll" src="nunit-console.tests.dll" />
-          <File Id="F__nunit_console_tests_dll_config" Name="NUCTDLL.CFG"
-			LongName="nunit-console.tests.dll.config" src="nunit-console.tests.dll.config" />
-          <File Id="F__test7" Name="tests_7.DLL"
-			LongName="timing-tests.dll" src="timing-tests.dll" />
-          <File Id="F__test8" Name="config_8.DLL"
-			LongName="NUnitBinTests.config" src="..\NUnitBinTests.config" />
-          <File Id="F__test9" Name="nunit_9.DLL"
-			LongName="NUnitBinTests.nunit" src="..\NUnitBinTests.nunit" />
-          <File Id="F__test10" Name="tests_10.DLL"
-			LongName="nunit-gui.tests.dll" src="nunit-gui.tests.dll" />
-          <File Id="F__test11" Name="tests_11.DLL"
-			LongName="nunit.extensions.tests.dll" src="nunit.extensions.tests.dll" />
-          <File Id="F__test12" Name="tests_12.DLL"
-			LongName="nunit.core.tests.dll" src="nunit.core.tests.dll" />
-          <File Id="F__test_assembly_dll" Name="TASS.DLL"
+          <File Id="testutilities" Name="TESTUTIL.DLL"
+			LongName="test-utilities.dll" src="test-utilities.dll" />
+		  <File Id="testassembly" Name="TESTDATA.DLL"
 			LongName="test-assembly.dll" src="test-assembly.dll" />
-          <File Id="F__nunit_server_tests_dll" Name="NUST.DLL"
-			LongName="nunit-server.tests.dll" src="nunit-server.tests.dll" />
+			
+          <File Id="mockassembly" Name="MOCKASM.DLL" 
+		    LongName="mock-assembly.dll" src="mock-assembly.dll" />
+          <File Id="mockassembly.config" Name="MOCKASM.CFG" 
+		    LongName="mock-assembly.dll.config" src="mock-assembly.dll.config" />
+          <File Id="nonamespaceassembly" Name="NONAMESP.DLL" 
+		    LongName="nonamespace-assembly.dll" src="nonamespace-assembly.dll" />
+          <File Id="notestfixturesassembly" Name="NOTESTS.DLL" 
+		    LongName="notestfixtures-assembly.dll" src="notestfixtures-assembly.dll" />
+          
+		  <File Id="timingtests" Name="TIMING.DLL"
+			LongName="timing-tests.dll" src="timing-tests.dll" />
+          
+		  <File Id="nunit.util.tests" Name="TESTUTIL.DLL"
+			LongName="nunit.util.tests.dll" src="nunit.util.tests.dll" />
+          <File Id="nunit.util.tests.config" Name="TESTUTIL.CFG"
+			LongName="nunit.util.tests.dll.config" src="nunit.util.tests.dll.config" />
+          
+		  <File Id="nunit.framework.tests" Name="TESTFRAM.DLL"
+			LongName="nunit.framework.tests.dll" src="nunit.framework.tests.dll" />
+          <File Id="nunit.framework.tests.config" Name="TESTFRAM.CFG"
+			LongName="nunit.framework.tests.dll.config" src="nunit.framework.tests.dll.config" />
+          
+		  <File Id="nunit.mocks.tests" Name="TESTMOCK.DLL"
+			LongName="nunit.mocks.tests.dll" src="nunit.mocks.tests.dll" />
+          <File Id="nunit.mocks.tests.config" Name="TESTMOCK.CFG"
+			LongName="nunit.mocks.tests.dll.config" src="nunit.mocks.tests.dll.config" />
+          
+		  <File Id="nunit.uikit.tests" Name="TESTUIKI.DLL"
+			LongName="nunit.uikit.tests.dll" src="nunit.uikit.tests.dll" />
+          <File Id="nunit.uikit.tests.config" Name="TESTUIKI.CFG"
+			LongName="nunit.uikit.tests.dll.config" src="nunit.uikit.tests.dll.config" />
+          
+		  <File Id="console.tests" Name="TESTCONS.DLL"
+			LongName="nunit-console.tests.dll" src="nunit-console.tests.dll" />
+          <File Id="console.tests.config" Name="TESTCONS.CFG"
+			LongName="nunit-console.tests.dll.config" src="nunit-console.tests.dll.config" />
+          
+		  <File Id="NUnitTests.config" Name="ALLTESTS.CFG"
+			LongName="NUnitTests.config" src="..\NUnitBinTests.config" />
+          <File Id="NUnitTests.nunit" Name="ALLTESTS.NUN"
+			LongName="NUnitTests.nunit" src="..\NUnitBinTests.nunit" />
+          
+		  <File Id="gui.tests" Name="GUITESTS.DLL"
+			LongName="nunit-gui.tests.dll" src="nunit-gui.tests.dll" />
+		  <File Id="gui.tests.config" Name="GUITESTS.CFG"
+			LongName="nunit-gui.tests.dll.config" src="nunit-gui.tests.dll.config" />
+			
+          <File Id="nunit.extensions.tests" Name="TESTEXTN.DLL"
+			LongName="nunit.extensions.tests.dll" src="nunit.extensions.tests.dll" />
+          <File Id="nunit.extensions.tests.config" Name="TESTEXTN.CFG"
+			LongName="nunit.extensions.tests.dll.config" src="nunit.extensions.tests.dll.config" />
+          
+		  <File Id="nunit.core.tests" Name="TESTCORE.DLL"
+			LongName="nunit.core.tests.dll" src="nunit.core.tests.dll" />
+		  <File Id="nunit.core.tests.config" Name="TESTCORE.CFG"
+			LongName="nunit.core.tests.dll.config" src="nunit.core.tests.dll.config" />
+          
+          <!-- <File Id="F__nunit_server_tests_dll" Name="NUST.DLL"
+			LongName="nunit-server.tests.dll" src="nunit-server.tests.dll" /> -->
         </Component>
 
-      </Directory>
 	</DirectoryRef>
 	
   </Fragment>

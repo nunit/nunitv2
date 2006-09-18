@@ -2,15 +2,15 @@
   <Fragment>
   
     <Feature Id="DocFeature" Level="1"
-		Title='Documentation' Description='Documentation for NUnit' Display='expand'>
+		Title='Documentation' Display='expand'
+		Description="HTML documentation for NUNit">
       <ComponentRef Id="C__doc" />
       <ComponentRef Id="C__doc_files" />
       <ComponentRef Id="C__doc_img" />
     </Feature>
       
-    <DirectoryRef Id="INSTALLDIR">
-      <Directory Id="D__doc" Name="doc">
-         <Component Id="C__doc" DiskId="1" Guid="6d9faf90-1ff2-11db-a98b-0800200c9a66">
+    <DirectoryRef Id="doc">
+        <Component Id="C__doc" DiskId="1" Guid="6d9faf90-1ff2-11db-a98b-0800200c9a66">
           <File Id="F__doc_file0" Name="ASSERT_1.HTM" LongName="assertions.html" src="..\..\doc\assertions.html" />
           <File Id="F__doc_file1" Name="ATTRIB_1.HTM" LongName="attributes.html" src="..\..\doc\attributes.html" />
           <File Id="F__doc_file2" Name="BOOKS_1.HTM" LongName="books.html" src="..\..\doc\books.html" />
@@ -41,7 +41,9 @@
           <File Id="F__doc_file27" Name="GUICOM_1.HTM" LongName="guiCommandLine.html" src="..\..\doc\guiCommandLine.html" />
           <File Id="F__doc_file28" Name="IDENTI_1.HTM" LongName="identityAsserts.html" src="..\..\doc\identityAsserts.html" />
           <File Id="F__doc_file29" Name="IGNORE_1.HTM" LongName="ignore.html" src="..\..\doc\ignore.html" />
-          <File Id="F__doc_file30" Name="INDEX_1.HTM" LongName="index.html" src="..\..\doc\index.html" />
+          <File Id="F__doc_file30" Name="INDEX_1.HTM" LongName="index.html" src="..\..\doc\index.html" >
+			  <Shortcut Id="S__docs" Directory="NUnitMenu" Name="SDOCS" LongName="Documentation" Show="normal" WorkingDirectory="D__doc" />
+		  </File>
           <File Id="F__doc_file31" Name="INSTAL_1.HTM" LongName="installation.html" src="..\..\doc\installation.html" />
           <File Id="F__doc_file32" Name="INSTAL_1.TXT" LongName="Installation.txt" src="..\..\doc\Installation.txt" />
           <File Id="F__doc_file33" Name="LICENS_1.HTM" LongName="license.html" src="..\..\doc\license.html" />
@@ -76,18 +78,21 @@
           <File Id="F__doc_file62" Name="UTILIT_1.HTM" LongName="utilityAsserts.html" src="..\..\doc\utilityAsserts.html" />
           <File Id="F__doc_file63" Name="VSSUPP_1.HTM" LongName="vsSupport.html" src="..\..\doc\vsSupport.html" />
         </Component>
-        <Directory Id="D__doc_files" Name="files">
-          <Component Id="C__doc_files" DiskId="1" Guid="757c2ae0-1ff2-11db-a98b-0800200c9a66">
+	</DirectoryRef>
+		
+    <DirectoryRef Id="files">
+        <Component Id="C__doc_files" DiskId="1" Guid="757c2ae0-1ff2-11db-a98b-0800200c9a66">
             <File Id="F__doc_file70" Name="QUICKS_2.DOC" LongName="QuickStart.doc" src="..\..\doc\files\QuickStart.doc" />
             <File Id="F__doc_file71" Name="QUICKS_1.DOC" LongName="QuickStart.Spanish.doc" src="..\..\doc\files\QuickStart.Spanish.doc" />
             <File Id="F__doc_file72" Name="Results.xsd" src="..\..\doc\files\Results.xsd" />
             <File Id="F__doc_file73" Name="SUMMAR_1.XSL" LongName="Summary.xslt" src="..\..\doc\files\Summary.xslt" />
             <File Id="F__doc_file74" Name="SUPPLE_1.PDF" LongName="Supplement.pdf" src="..\..\doc\files\Supplement.pdf" />
             <File Id="F__doc_file75" Name="TESTRE_1.XML" LongName="TestResult.xml" src="..\..\doc\files\TestResult.xml" />
-          </Component>
-        </Directory>
-        <Directory Id="D__doc_img" Name="img">
-          <Component Id="C__doc_img" DiskId="1" Guid="7bb6dd10-1ff2-11db-a98b-0800200c9a66">
+        </Component>
+    </DirectoryRef>
+		
+    <DirectoryRef Id="img">
+        <Component Id="C__doc_img" DiskId="1" Guid="7bb6dd10-1ff2-11db-a98b-0800200c9a66">
             <File Id="F__doc_file82" Name="2_MSDN_1.GIF" LongName="2_msdnmag_lg.gif" src="..\..\doc\img\2_msdnmag_lg.gif" />
             <File Id="F__doc_file83" Name="ASSEMB_1.JPG" LongName="assembliesTab.jpg" src="..\..\doc\img\assembliesTab.jpg" />
             <File Id="F__doc_file84" Name="BULLET_1.GIF" LongName="bulletOff.gif" src="..\..\doc\img\bulletOff.gif" />
@@ -112,9 +117,8 @@
             <File Id="F__doc_file103" Name="TESTPR_1.JPG" LongName="testProperties.jpg" src="..\..\doc\img\testProperties.jpg" />
             <File Id="F__doc_file104" Name="testsTab.JPG" src="..\..\doc\img\testsTab.JPG" />
             <File Id="F__doc_file105" Name="testTab.jpg" src="..\..\doc\img\testTab.jpg" />
-          </Component>
-        </Directory>
-      </Directory>
+        </Component>
     </DirectoryRef>
+	
   </Fragment>
 </Wix>

@@ -2,56 +2,92 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
   
-    <Feature Id="BinFeature" Level="1"
-		Title='Binaries' Description='NUnit GUI and Console' Display='expand'>
-		<!-- nunit files -->
-		<ComponentRef Id="component_nunit" />
-		
-		<!-- nunit-gui.exe -->
-		<ComponentRef Id="C__243FEAF8F6D78D23A4A811915AEB23F8" />
+    <Feature Id="GuiFeature" Level="1"
+		Title='NUnit Gui' Display='expand'
+		Description="Windows GUI runner for NUnit tests">
+		<ComponentRef Id="C__NUnitGui" />
     </Feature>
     
-	<DirectoryRef Id="INSTALLDIR">
-  
-      <Directory Id="D__bin" Name="BIN" LongName="bin">
+    <DirectoryRef Id="bin">
          
-        <Component Id="component_nunit" DiskId="1" Guid="15222234-C43E-4f31-B2C3-E83995627A68">
-          <File Id="file0" Name="MOCK-A~1.DLL" LongName="mock-assembly.dll" src="mock-assembly.dll" />
-          <File Id="file1" Name="MOCK-A~1.CON" LongName="mock-assembly.dll.config" src="mock-assembly.dll.config" />
-          <File Id="file3" Name="NONAME~1.DLL" LongName="nonamespace-assembly.dll" src="nonamespace-assembly.dll" />
-          <File Id="file5" Name="NOTEST~1.DLL" LongName="notestfixtures-assembly.dll" src="notestfixtures-assembly.dll" />
-          <File Id="file7" Name="NUNIT-~1.EXE" LongName="nunit-console.exe" src="nunit-console.exe" />
-          <File Id="file8" Name="NUNIT-~1.CON" LongName="nunit-console.exe.config" src="nunit-console.exe.config" />
-          <File Id="F__nunit_exe" Name="nunit.exe" src="nunit.exe" />
-          <File Id="file11" Name="NUNIT-~2.CON" LongName="nunit.exe.config" src="nunit.exe.config" />
-          <File Id="file13" Name="NUNITC~1.DLL" LongName="nunit.core.dll" src="nunit.core.dll" />
-          <File Id="file14" Name="NUNITCO.DLL" LongName="nunit.common.dll" src="nunit.common.dll" />
-          <File Id="file17" Name="NUNITF~1.DLL" LongName="nunit.framework.dll" src="nunit.framework.dll" />
-          <File Id="file19" Name="NUNITF~1.XML" LongName="nunit.framework.xml" src="nunit.framework.xml" />
-          <File Id="file20" Name="NUNITM~1.DLL" LongName="nunit.mocks.dll" src="nunit.mocks.dll" />
-          <File Id="file25" Name="NUNITU~2.DLL" LongName="nunit.uikit.dll" src="nunit.uikit.dll" />
-          <File Id="file27" Name="NUNITU~1.DLL" LongName="nunit.util.dll" src="nunit.util.dll" />
-          <File Id="file29" Name="TIMING~1.DLL" LongName="timing-tests.dll" src="timing-tests.dll" />
-          <File Id="file31" Name="NUNCR~1.EXE" LongName="nunit-console-runner.dll" src="nunit-console-runner.dll" />
-          <File Id="file32" Name="NUNGR~2.EXE" LongName="nunit-gui-runner.dll" src="nunit-gui-runner.dll" />
-          <File Id="file33" Name="NCE33.DLL" LongName="nunit.core.extensions.dll" src="nunit.core.extensions.dll" />
-          <File Id="file34" Name="NUFE.DLL" LongName="nunit.framework.extensions.dll" src="nunit.framework.extensions.dll" />
-          <File Id="F__nunit_server_exe" Name="NUS.EXE" LongName="nunit-server.exe" src="nunit-server.exe" />
-          <File Id="F__nunit_test_server_dll" Name="NUNTS.DLL" LongName="nunit-test-server.dll" src="nunit-test-server.dll" />
+        <Component Id="C__NUnitBase" DiskId="1" Guid="15222234-C43E-4f31-B2C3-E83995627A68">
+          <File Id="console.exe" Name="CONSOLE.EXE" LongName="nunit-console.exe" src="nunit-console.exe" />
+          <File Id="console.config" Name="CONSOLE.CFG" LongName="nunit-console.exe.config" src="nunit-console.exe.config" />
+          <File Id="console.dll" Name="CONSOLE.DLL" LongName="nunit-console-runner.dll" src="nunit-console-runner.dll" />
+          <File Id="nunit.core" Name="CORE.DLL" LongName="nunit.core.dll" src="nunit.core.dll" />
+          <File Id="nunit.common" Name="COMMON.DLL" LongName="nunit.common.dll" src="nunit.common.dll" />
+          <File Id="nunit.framework" Name="FRAMEWRK.DLL" LongName="nunit.framework.dll" src="nunit.framework.dll" />
+          <File Id="nunit.framework.xml" Name="FRAMEWRK.XML" LongName="nunit.framework.xml" src="nunit.framework.xml" />
+          <File Id="nunit.mocks" Name="MOCKS.DLL" LongName="nunit.mocks.dll" src="nunit.mocks.dll" />
+          <File Id="nunit.util" Name="UTIL.DLL" LongName="nunit.util.dll" src="nunit.util.dll" />
+          <File Id="nunit.core.extensions" Name="CORE_EX.DLL" LongName="nunit.core.extensions.dll" src="nunit.core.extensions.dll" />
+          <File Id="nunit.framework.extensions" Name="FRAME_EX.DLL" LongName="nunit.framework.extensions.dll" src="nunit.framework.extensions.dll" />
         </Component>
         
-        <Component Id="C__243FEAF8F6D78D23A4A811915AEB23F8" Guid="0E428D48-6EC3-91C3-C230-09C34647D786">
-          <File Id="F__clr_bat" Name="clr.bat" src="clr.bat" Vital="yes" KeyPath="yes" DiskId="1">
-			  <Shortcut Id="S__nunit_gui_1_0" Arguments="1.0 nunit.exe" Directory="D__nunit_menu" Name="SNUNIT10" LongName="NUnit GUI (.NET 1.0)" Icon="nunit_icon.exe" IconIndex="0" Show="minimized" WorkingDirectory="D__bin" />
-			  <Shortcut Id="S__nunit_gui_1_1" Arguments="1.1 nunit.exe"  Directory="D__nunit_menu" Name="SNUNIT11" LongName="NUnit GUI (.NET 1.1)" Icon="nunit_icon.exe" IconIndex="0" Show="minimized" WorkingDirectory="D__bin" />
-			  <Shortcut Id="S__nunit_gui_2_0" Arguments="2.0 nunit.exe"  Directory="D__nunit_menu" Name="SNUNIT20" LongName="NUnit GUI (.NET 2.0)" Icon="nunit_icon.exe" IconIndex="0" Show="minimized" WorkingDirectory="D__bin" />
-          </File>
-        </Component>
-       
-      </Directory>
+		<!--<Component Id="NUnitServer" DiskId="1" Guid="Need Guid">
+          <File Id="F__nunit_server_exe" Name="NUS.EXE" LongName="nunit-server.exe" src="nunit-server.exe" />
+          <File Id="F__nunit_test_server_dll" Name="NUNTS.DLL" LongName="nunit-test-server.dll" src="nunit-test-server.dll" /> 
+		</Component>-->
+		
+        <Component Id="C__NUnitGui" DiskId="1" Guid="8F677B87-1379-4721-B527-6EC53A3613F4">
+		  <File Id="nunit.exe" Name="NUNIT.EXE" LongName="nunit.exe" src="nunit.exe">
+		      <Shortcut Id="DesktopShortcut" Directory="DesktopFolder" 
+			    Name="SNUNITDT" LongName="NUnit $(var.ProductVersion)" 
+				Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
+				Advertise="no" WorkingDirectory="bin" />
+		  </File>
+          <File Id="clr.bat" Name="clr.bat" src="clr.bat" KeyPath="yes" DiskId="1">
+			  <Shortcut Id="Shortcut_1.0" Arguments="1.0 nunit.exe" Directory="NUnitMenu" 
+			    Name="SNUNIT10" LongName="NUnit GUI (.NET 1.0)"  Advertise="no"
+				Icon="nunit_icon.exe" IconIndex="0" Show="minimized" 
+				WorkingDirectory="bin" />
+			  <Shortcut Id="Shortcut_1.1" Arguments="1.1 nunit.exe" Advertise="no"
+			    Directory="NUnitMenu" Name="SNUNIT11" LongName="NUnit GUI (.NET 1.1)" 
+				Icon="nunit_icon.exe" IconIndex="0" Show="minimized" 
+				WorkingDirectory="bin" />
+			  <Shortcut Id="Shortcut_2.0" Arguments="2.0 nunit.exe"  Advertise="no"
+			    Directory="NUnitMenu" Name="SNUNIT20" LongName="NUnit GUI (.NET 2.0)" 
+				Icon="nunit_icon.exe" IconIndex="0" Show="minimized" 
+				WorkingDirectory="bin" />
+		  </File>
+          <File Id="nunit.config" Name="NUNIT.CFG" LongName="nunit.exe.config" src="nunit.exe.config" />
+          <File Id="nunit.gui.dll" Name="GUI.DLL" LongName="nunit-gui-runner.dll" src="nunit-gui-runner.dll" />
+          <File Id="nunit.uikit" Name="UIKIT.DLL" LongName="nunit.uikit.dll" src="nunit.uikit.dll" />
+		  <File Id="success.jpg" Name="SUCCESS.JPG" LongName="success.jpg" src="success.jpg" />
+		  <File Id="failure.jpg" Name="FAILURE.JPG" LongName="failure.jpg" src="failure.jpg" />
+		  <File Id="ignored.jpg" Name="IGNORED.JPG" LongName="ignored.jpg" src="ignored.jpg" />
+		  <RemoveFile Id="thumbs.db" On="uninstall" Name="THUMBS.DB" LongName="thumbs.db" />
+		</Component>
+		  
+	  
+	  	<Component Id="C__NUnitRegistry" Guid="36AE84ED-5510-40eb-A3B1-D821AC06259C">
+			<Registry Id="R__INSTALLDIR" Root="HKMU" Key="Software\[Manufacturer]\NUnit [ProductVersion]" Name="InstallDir" 
+				Action="write" Type="string" Value="[INSTALLDIR]" />
+			<Registry Id="R__ProductVersion" Root="HKMU" Key="Software\[Manufacturer]\NUnit [ProductVersion]" Name="ProductVersion" 
+				Action="write" Type="string" Value="[ProductVersion]" />
+			<Registry Id="R__Assemblies" Root="HKMU"
+				Key="Software\Microsoft\.NETFramework\AssemblyFolders\NUnit [ProductVersion]" 
+				Action="write" Type="string" Value="[Assemblies]" />
+			<Registry Id="R__OpenDllWith" Root="HKCR" Key=".dll\OpenWithList\nunit.exe"/>
+			<Registry Id="R__OpenDll_1" Root="HKCR" Key="dllfile\shell\OpenWithNUnit"
+				Action="write" Type="string" Value="Run &amp;Tests" />
+			<Registry Id="R__OpenDll_2" Root="HKCR" Key="dllfile\shell\OpenWithNUnit\command"
+				Action="write" Type="string" Value='"[!nunit.exe]" "%1"' />
+			<Registry Id="R__OpenNUnit_1" Root="HKCR" Key=".nunit"
+				Action="write" Type="string" Value="NUnitTestProject" />
+			<Registry Id="R__OpenNUnit_2" Root="HKCR" Key="NUnitTestProject"
+				Action="write" Type="string" Value="NUnit Test Project" />
+			<Registry Id="R__OpenNUnit_3" Root="HKCR" Key="NUnitTestProject\DefaultIcon"
+				Action="write" Type="string" Value="[INSTALLDIR]\bin\nunit.exe,0" />
+			<Registry Id="R__OpenNUnit_4" Root="HKCR" Key="NUnitTestProject\shell\Open"
+				Action="write" Type="string" Value="&amp;Open" />
+			<Registry Id="R__OpenNUnit_5" Root="HKCR" Key="NUnitTestProject\shell\Open\command"
+				Action="write" Type="string" Value='"[INSTALLDIR]\bin\nunit.exe" "%1"' />
+	  </Component>
+				
 	</DirectoryRef>
 	
-    <Icon Id="nunit_icon.exe" src="Icon\nunit_icon.exe.ibd" />
+    <Icon Id="nunit_icon.exe" SourceFile="nunit.exe" />
 	
   </Fragment>
 </Wix>

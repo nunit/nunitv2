@@ -156,6 +156,9 @@
     <copy todir="${package.bin.dir}">
       <fileset basedir="${current.build.dir}">
         <include name="*"/>
+        <exclude name="*.wixobj"/>
+        <exclude name="nunit-server.*"/>
+        <exclude name="nunit-test-server.*"/>
       </fileset>
     </copy>
   </target>
@@ -174,6 +177,7 @@
 	<include name="files/*"/>
 	<exclude name="files/Supplement.doc"/>
 	<include name="img/*"/>
+        <exclude name="img/thumbs.db"/>
       </fileset>
     </copy>
   </target>
@@ -369,40 +373,39 @@
   
   <!-- Dump configuration settings for debugging -->
   <target name="dump-settings" depends="set-build-dir,set-package-config">
-    <echo>Configuration</echo>
-    <echo>  Config:       ${build.config}</echo>
-    <echo>  Runtime:      ${runtime.config}</echo>
-    <echo>  Defines:      ${build.defines}</echo>
-    <echo>  Version:      ${package.version}</echo>
-    <echo>  Package name: ${package.name}</echo>
-    <echo>  Zip file:     ${zip.file.name}</echo>
-    <echo>  Msi file:     ${msi.file.name}</echo>
-    <echo>  Source zip:   ${zipped.src.file.name}</echo>
-    <echo></echo>
     <echo>Project Directories</echo>
-    <echo>  Base:         ${project.base.dir}</echo>
-    <echo>  Doc:          ${project.doc.dir}</echo>
-    <echo>  Samples:      ${project.samples.dir}</echo>
-    <echo>  Source:       ${project.src.dir}</echo>
-    <echo>  Build:        ${project.build.dir}</echo>
-    <echo>  Package:      ${project.package.dir}</echo>
+    <echo>  Base:      ${project.base.dir}</echo>
+    <echo>   Doc:      ${project.doc.dir}</echo>
+    <echo>   Samples:  ${project.samples.dir}</echo>
+    <echo>   Source:   ${project.src.dir}</echo>
+    <echo>    Install: ${project.install.dir}</echo>
+    <echo>   Build:    ${project.build.dir}</echo>
+    <echo>   Package:  ${project.package.dir}</echo>
+    <echo>   Tools:    ${project.tools.dir}</echo>
+    <echo>    WiX:     ${wix.dir}</echo>
+    <echo>    nCover:  ${ncover.dir}</echo>
     <echo></echo>
-    <echo>Current Build Directories</echo>
-    <echo>  Build:        ${current.build.dir}</echo>
+    <echo>Current Configuration</echo>
+    <echo>  Config:    ${build.config}</echo>
+    <echo>  Runtime:   ${runtime.config}</echo>
+    <echo>  Defines:   ${build.defines}</echo>
+    <echo>  Version:   ${package.version}</echo>
+    <echo>  Package:   ${package.name}</echo>
+    <echo>  Zip file:  ${zip.file.name}</echo>
+    <echo>  Msi file:  ${msi.file.name}</echo>
+    <echo>  Source:    ${zipped.src.file.name}</echo>
     <echo></echo>
-    <echo>Package Directories</echo>
-    <echo>  Working:      ${package.working.dir}</echo>
-    <echo>  Bin:          ${package.bin.dir}</echo>
-    <echo>  Doc:          ${package.doc.dir}</echo>
-    <echo>  Samples:      ${package.samples.dir}</echo>
-    <echo>  Source:       ${package.src.dir}</echo>
+    <echo>Current Working Directories</echo>
+    <echo>  Build:     ${current.build.dir}</echo>
+    <echo>  Package:   ${package.working.dir}</echo>
+    <echo>   Bin:      ${package.bin.dir}</echo>
+    <echo>   Doc:      ${package.doc.dir}</echo>
+    <echo>   Samples:  ${package.samples.dir}</echo>
+    <echo>   Source:   ${package.src.dir}</echo>
     <echo></echo>
-    <echo>System Directories</echo>
-    <echo>  Framework:    ${nant.settings.currentframework.frameworkdirectory}</echo>
-    <echo>  SDK:          ${nant.settings.currentframework.sdkdirectory}</echo>
-    <echo>  VS 2002:      ${vs.2002.path}</echo>
-    <echo>  VS 2003:      ${vs.2003.path}</echo>
-    <echo>  VS 2005:      ${vs.2005.path}</echo>
+    <echo>Current Framework and SDK Directories</echo>
+    <echo>  ${framework::get-framework-directory(framework::get-target-framework())}</echo>
+    <echo>  ${framework::get-sdk-directory(framework::get-target-framework())}</echo>
   </target>
 
 </project>
