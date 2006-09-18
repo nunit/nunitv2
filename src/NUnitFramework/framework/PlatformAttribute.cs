@@ -11,6 +11,7 @@ namespace NUnit.Framework
 	{
 		private string include;
 		private string exclude;
+		private string reason;
 
 		/// <summary>
 		/// Constructor with no platforms specified, for use
@@ -46,6 +47,15 @@ namespace NUnit.Framework
 		{
 			get { return this.exclude; }
 			set { this.exclude = value; }
+		}
+
+		/// <summary>
+		/// The reason for including or excluding the test
+		/// </summary>
+		public string Reason
+		{
+			get { return reason; }
+			set { reason = value; }
 		}
 	}
 }
