@@ -94,6 +94,9 @@
       <Name>nunit-server_VS2005</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="nunit-server.tests.dll.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
