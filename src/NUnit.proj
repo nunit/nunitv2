@@ -1,23 +1,19 @@
-<Project DefaultTargets="Clean;Build;Package;Test" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Clean;Build;Test" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+	<!--
 	<PropertyGroup>
 		<Version Condition="'$(CCNetLabel)' != ''">2.3.0.$(CCNetLabel)</Version>
 		<Version Condition="'$(CCNetLabel)' == ''">2.3.0</Version>
 	</PropertyGroup>
+	-->
 
 	<PropertyGroup>
 		<MSBuildExtensionsPath>$(MSBuildProjectDirectory)\..\tools\MSBuildExtensions</MSBuildExtensionsPath>
 		<OutputPath>$(MSBuildProjectDirectory)\..\build\net\1.0\Debug\</OutputPath>
 		<Properties_v1_0>OutputPath=$(OutputPath);NoWarn=;TargetFrameworkVersion=v1.0;MSBuildExtensionsPath=$(MSBuildExtensionsPath);CustomAfterMicrosoftCommonTargets=$(MSBuildExtensionsPath)\CrossCompile.CSharp.targets</Properties_v1_0>
-		<PackageId>{1AA69CCD-1078-473A-BD6E-11CE30A81C58}</PackageId>
-		<Msi>NUnit-$(Version)-net-1.0.msi</Msi>
 		<NUnitConsole>$(OutputPath)nunit-console.exe</NUnitConsole>
 	</PropertyGroup>
 	
-	<ItemGroup>
-		<Wxs Include="install\*.wxs" />
-	</ItemGroup>
-  	
 	<Target Name="Clean">
 		<RemoveDir Directories="$(OutputPath)" />
 		<MSBuild Projects="nunit_VS2005.sln" Targets="Clean" Properties="$(Properties_v1_0)" />
@@ -41,23 +37,4 @@
 "$(NUnitConsole)" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
 
 	</Target>
-	
-	<Target Name="Package" DependsOnTargets="Build">
-		<Exec Command='..\tools\wix\candle "@(Wxs)" -dProductVersion=$(Version) -out "$(OutputPath)%(Wxs.Filename).wixobj"' />	
-		<Exec Command="..\tools\wix\light @(Wxs->'$(OutputPath)%(Filename).wixobj', ' ') -b install -out $(Msi) ..\tools\WiX\wixui.wixlib -loc ..\tools\WiX\WixUI_en-us.wxl" />
-		<Copy Condition=" '$(CCNetArtifactDirectory)'!='' " SourceFiles="$(Msi)" DestinationFolder="$(CCNetArtifactDirectory)" />
-	</Target>
-	
-	<Target Name="Install" DependsOnTargets="Uninstall;Package">
-		<Exec Command="start /wait msiexec /q /i $(Msi) /l* install.log" />
-	</Target>
-
-	<Target Name="Uninstall" Condition="Exists('$(ProgramFiles)\NUnit $(Version)\bin\nunit-gui.exe')">
-		<Exec Command="start /wait msiexec /q /x $(PackageId) /l* uninstall.log" />
-	</Target>
-	
-	<Target Name="TestInstall" DependsOnTargets="Install">
-		<Exec Command='"$(NUnitConsole)" "$(ProgramFiles)\NUnit $(Version)\bin\NUnitBinTests.nunit" "/xml=$(MSBuildProjectDirectory)\NUnitTests-results.xml"' />
-	</Target>
-	
 </Project>
