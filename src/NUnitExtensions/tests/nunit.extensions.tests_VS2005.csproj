@@ -91,7 +91,6 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)nunit.extensions.tests.dll.config" "$(TargetDir)nunit.extensions.tests.dll.config"</PostBuildEvent>
   </PropertyGroup>
 </Project>

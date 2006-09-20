@@ -101,6 +101,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)..\nunit-server-exe\obj\$(ConfigurationName)\nunit-server.exe" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)..\nunit-server-exe\obj\$(ConfigurationName)\nunit-server.exe" "$(TargetDir)"
+copy "$(ProjectDir)nunit-server.tests.dll.config" "$(TargetDir)nunit-server.tests.dll.config"</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -245,6 +245,7 @@
       <Link>Results.xsx</Link>
       <DependentUpon>Results.xsd</DependentUpon>
     </None>
+    <None Include="nunit.core.tests.dll.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
