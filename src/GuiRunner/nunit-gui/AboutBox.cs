@@ -49,8 +49,8 @@ namespace NUnit.Gui
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label copyright;
-		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Label dotNetVersionLabel;
+		private System.Windows.Forms.Label clrTypeLabel;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -74,6 +74,8 @@ namespace NUnit.Gui
 			objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
 			AssemblyCopyrightAttribute copyrightAttr = (AssemblyCopyrightAttribute)objectAttrs[0];
 			versionLabel.Text = version.ToString(3);
+			clrTypeLabel.Text = Type.GetType( "Mono.Runtime", false ) != null 
+				? "Mono Version:" : ".NET Version:";
 			dotNetVersionLabel.Text = Environment.Version.ToString();
 
 			copyright.Text = copyrightAttr.Copyright;
@@ -113,7 +115,7 @@ namespace NUnit.Gui
 			this.label6 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.copyright = new System.Windows.Forms.Label();
-			this.label8 = new System.Windows.Forms.Label();
+			this.clrTypeLabel = new System.Windows.Forms.Label();
 			this.dotNetVersionLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
@@ -365,27 +367,27 @@ namespace NUnit.Gui
 			this.copyright.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("copyright.TextAlign")));
 			this.copyright.Visible = ((bool)(resources.GetObject("copyright.Visible")));
 			// 
-			// label8
+			// clrTypeLabel
 			// 
-			this.label8.AccessibleDescription = resources.GetString("label8.AccessibleDescription");
-			this.label8.AccessibleName = resources.GetString("label8.AccessibleName");
-			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("label8.Anchor")));
-			this.label8.AutoSize = ((bool)(resources.GetObject("label8.AutoSize")));
-			this.label8.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("label8.Dock")));
-			this.label8.Enabled = ((bool)(resources.GetObject("label8.Enabled")));
-			this.label8.Font = ((System.Drawing.Font)(resources.GetObject("label8.Font")));
-			this.label8.Image = ((System.Drawing.Image)(resources.GetObject("label8.Image")));
-			this.label8.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label8.ImageAlign")));
-			this.label8.ImageIndex = ((int)(resources.GetObject("label8.ImageIndex")));
-			this.label8.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("label8.ImeMode")));
-			this.label8.Location = ((System.Drawing.Point)(resources.GetObject("label8.Location")));
-			this.label8.Name = "label8";
-			this.label8.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("label8.RightToLeft")));
-			this.label8.Size = ((System.Drawing.Size)(resources.GetObject("label8.Size")));
-			this.label8.TabIndex = ((int)(resources.GetObject("label8.TabIndex")));
-			this.label8.Text = resources.GetString("label8.Text");
-			this.label8.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label8.TextAlign")));
-			this.label8.Visible = ((bool)(resources.GetObject("label8.Visible")));
+			this.clrTypeLabel.AccessibleDescription = resources.GetString("clrTypeLabel.AccessibleDescription");
+			this.clrTypeLabel.AccessibleName = resources.GetString("clrTypeLabel.AccessibleName");
+			this.clrTypeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("clrTypeLabel.Anchor")));
+			this.clrTypeLabel.AutoSize = ((bool)(resources.GetObject("clrTypeLabel.AutoSize")));
+			this.clrTypeLabel.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("clrTypeLabel.Dock")));
+			this.clrTypeLabel.Enabled = ((bool)(resources.GetObject("clrTypeLabel.Enabled")));
+			this.clrTypeLabel.Font = ((System.Drawing.Font)(resources.GetObject("clrTypeLabel.Font")));
+			this.clrTypeLabel.Image = ((System.Drawing.Image)(resources.GetObject("clrTypeLabel.Image")));
+			this.clrTypeLabel.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("clrTypeLabel.ImageAlign")));
+			this.clrTypeLabel.ImageIndex = ((int)(resources.GetObject("clrTypeLabel.ImageIndex")));
+			this.clrTypeLabel.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("clrTypeLabel.ImeMode")));
+			this.clrTypeLabel.Location = ((System.Drawing.Point)(resources.GetObject("clrTypeLabel.Location")));
+			this.clrTypeLabel.Name = "clrTypeLabel";
+			this.clrTypeLabel.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("clrTypeLabel.RightToLeft")));
+			this.clrTypeLabel.Size = ((System.Drawing.Size)(resources.GetObject("clrTypeLabel.Size")));
+			this.clrTypeLabel.TabIndex = ((int)(resources.GetObject("clrTypeLabel.TabIndex")));
+			this.clrTypeLabel.Text = resources.GetString("clrTypeLabel.Text");
+			this.clrTypeLabel.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("clrTypeLabel.TextAlign")));
+			this.clrTypeLabel.Visible = ((bool)(resources.GetObject("clrTypeLabel.Visible")));
 			// 
 			// dotNetVersionLabel
 			// 
@@ -422,7 +424,7 @@ namespace NUnit.Gui
 			this.CancelButton = this.OkButton;
 			this.ClientSize = ((System.Drawing.Size)(resources.GetObject("$this.ClientSize")));
 			this.Controls.Add(this.dotNetVersionLabel);
-			this.Controls.Add(this.label8);
+			this.Controls.Add(this.clrTypeLabel);
 			this.Controls.Add(this.copyright);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.label6);
