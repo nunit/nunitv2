@@ -13,43 +13,26 @@
         Root='HKLM' Key='Software\Microsoft\.NETFramework\policy\v1.0' Name='3705' />
     </Property>
 
-  <!--  <Condition Message=".NET Framework 1.0 is not present on the computer.">
-      FRAMEWORK10 = "3321-3705"
-    </Condition>
-
     <Property Id="FRAMEWORK11">
       <RegistrySearch Id='Framework11Registry' Type='raw'
         Root='HKLM' Key='Software\Microsoft\.NETFramework\policy\v1.1' Name='4322' />
     </Property>
 
-    <Condition Message="No .NET Framework is not present on the computer.">
-      FRAMEWORK10 = "3221-3705" OR FRAMEWORK11 = "3706-432x"
-    </Condition> -->
+    <Property Id="FRAMEWORK20">
+      <RegistrySearch Id='Framework20Registry' Type='raw'
+        Root='HKLM' Key='Software\Microsoft\.NETFramework\policy\v2.0' Name='50727' />
+    </Property>
 	
-	<Property Id="DOTNETINSTALLROOT">
-	  <RegistrySearch Id="DotNetInstallRootRegistry" Type="raw"
-	    Root='HKLM' Key='Software\Microsoft\.NETFramework' Name='InstallRoot' />
+	<Property Id="MONODEFAULTCLR">
+	  <RegistrySearch Id="MonoDefaultClr" Type='raw'
+	    Root='HKLM' Key='Software\Novell\Mono' Name='DefaultCLR' />
 	</Property>
 	
-	<Condition Message="Microsoft .Net is required to install NUnit">
-	  DOTNETINSTALLROOT
-	</Condition>
-			 
-	<Property Id="DOTNET10INSTALLROOT">
-	  <DirectorySearch Id="DotNet10DirectorySearch"
-	    Path="[DOTNETINSTALLROOT]\v1.0.3705" />
+	<Property Id="MONODIRECTORY">
+	  <RegistrySearch Id="MonoDirectory" Type='directory'
+	    Root='HKLM' Key='Software\Novell\Mono\[MONODEFAULTCLR]' Name='SDKInstallRoot' />
 	</Property>
 
-	<Property Id="DOTNET11INSTALLROOT">
-	  <DirectorySearch Id="DotNet11DirectorySearch"
-	    Path="[DOTNETINSTALLROOT]\v1.1.4322" />
-	</Property>
-
-	<Property Id="DOTNET20INSTALLROOT">
-	  <DirectorySearch Id="DotNet20DirectorySearch"
-	    Path="[DOTNETINSTALLROOT]\v2.0.50727" />
-	</Property>
-	
     <!-- Define all directories used in the install -->
 	<Directory Id="TARGETDIR" Name="SourceDir">
 	  <Directory Id='ProgramFilesFolder' Name='PFiles'>

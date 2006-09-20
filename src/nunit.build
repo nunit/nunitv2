@@ -84,7 +84,8 @@
 
   <!-- Individual Tool Directories -->
   <property name="wix.dir" 
-    value="${path::combine(project.tools.dir,'WiX')}"/>
+    value="D:\WiX\2.0.4415\binaries" />
+    <!--value="${path::combine(project.tools.dir,'WiX')}"/>-->
   <property name="ncover.dir" 
     value="${path::combine(project.tools.dir,'ncover')}"/>
 
@@ -1146,6 +1147,7 @@
       </defines>
       <sources basedir="${project.install.dir}">
         <include name="bin.wxs" />
+        <include name="nunit-gui.wxs" />
         <include name="doc.wxs" />
         <include name="tests.wxs" />
         <include name="samples.wxs" />
@@ -1153,35 +1155,19 @@
       </sources>
     </candle>
 
-    <!--<exec basedir="${wix.dir}" program="candle.exe"
-      commandline="install/bin.wxs -dProductVersion=${package.version} -out ${wix.work.dir}/bin.wixobj"/>
-
-    <exec basedir="${wix.dir}" program="candle.exe"
-      commandline="install/doc.wxs -dProductVersion=${package.version} -out ${wix.work.dir}/doc.wixobj"/>
-
-    <exec basedir="${wix.dir}" program="candle.exe"
-      commandline="install/NUnit.wxs -dProductVersion=${package.version} -out ${wix.work.dir}/NUnit.wixobj"/>
-
-    <exec basedir="${wix.dir}" program="candle.exe"
-      commandline="install/tests.wxs -ProductVersion=${package.version} -out ${wix.work.dir}/tests.wixobj"/>
-
-    <exec basedir="${wix.dir}" program="candle.exe"
-      commandline="install/samples.wxs -ProductVersion=${package.version} -out ${wix.work.dir}/samples.wixobj"/>-->
-
     <light exedir="${wix.dir}"
       out="${project.package.dir}/${msi.file.name}" 
       locfile="${wix.dir}/WixUI_en-us.wxl">
       <sources>
-        <include name="${wix.work.dir}/*.wixobj" />
+        <include name="${wix.work.dir}/NUnit.wixobj" />
+        <include name="${wix.work.dir}/bin.wixobj" />
+        <include name="${wix.work.dir}/nunit-gui.wixobj" />
+        <include name="${wix.work.dir}/doc.wixobj" />
+        <include name="${wix.work.dir}/samples.wixobj" />
+        <include name="${wix.work.dir}/tests.wixobj" />
         <include name="${wix.dir}/wixui.wixlib" />
       </sources>
     </light>
-
-    <!--<exec 
-      program="light.exe"
-      basedir="${wix.dir}" 
-      workingdir="${package.working.dir}"
-      commandline="bin.wixobj doc.wixobj NUnit.wixobj tests.wixobj samples.wixobj -out ${project.package.dir}/${msi.file.name} ${wix.dir}/wixui.wixlib -loc ${wix.dir}/WixUI_en-us.wxl"/>-->
 
   </target>
 

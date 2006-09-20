@@ -2,12 +2,6 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
   
-    <Feature Id="GuiFeature" Level="1"
-		Title='NUnit Gui' Display='expand'
-		Description="Windows GUI runner for NUnit tests">
-		<ComponentRef Id="C__NUnitGui" />
-    </Feature>
-    
     <DirectoryRef Id="bin" FileSource="bin">
          
         <Component Id="C__NUnitBase" DiskId="1" Guid="15222234-C43E-4f31-B2C3-E83995627A68">
@@ -28,37 +22,6 @@
           <File Id="F__nunit_server_exe" Name="NUS.EXE" LongName="nunit-server.exe" Source="nunit-server.exe" />
           <File Id="F__nunit_test_server_dll" Name="NUNTS.DLL" LongName="nunit-test-server.dll" Source="nunit-test-server.dll" /> 
 		</Component>-->
-		
-        <Component Id="C__NUnitGui" DiskId="1" Guid="8F677B87-1379-4721-B527-6EC53A3613F4">
-		  <File Id="nunit.exe" Name="NUNIT.EXE" LongName="nunit.exe">
-		      <Shortcut Id="DesktopShortcut" Directory="DesktopFolder" 
-			    Name="SNUNITDT" LongName="NUnit $(var.ProductVersion)" 
-				Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
-				Advertise="no" WorkingDirectory="bin" />
-		  </File>
-          <File Id="clr.bat" Name="clr.bat" KeyPath="yes" DiskId="1">
-			  <Shortcut Id="Shortcut_1.0" Arguments="1.0 nunit.exe" Directory="NUnitMenu" 
-			    Name="SNUNIT10" LongName="NUnit GUI (.NET 1.0)"  Advertise="no"
-				Icon="nunit_icon.exe" IconIndex="0" Show="minimized" 
-				WorkingDirectory="bin" />
-			  <Shortcut Id="Shortcut_1.1" Arguments="1.1 nunit.exe" Advertise="no"
-			    Directory="NUnitMenu" Name="SNUNIT11" LongName="NUnit GUI (.NET 1.1)" 
-				Icon="nunit_icon.exe" IconIndex="0" Show="minimized" 
-				WorkingDirectory="bin" />
-			  <Shortcut Id="Shortcut_2.0" Arguments="2.0 nunit.exe"  Advertise="no"
-			    Directory="NUnitMenu" Name="SNUNIT20" LongName="NUnit GUI (.NET 2.0)" 
-				Icon="nunit_icon.exe" IconIndex="0" Show="minimized" 
-				WorkingDirectory="bin" />
-		  </File>
-          <File Id="nunit.config" Name="NUNIT.CFG" LongName="nunit.exe.config" />
-          <File Id="nunit.gui.dll" Name="GUI.DLL" LongName="nunit-gui-runner.dll" />
-          <File Id="nunit.uikit" Name="UIKIT.DLL" LongName="nunit.uikit.dll" />
-		  <File Id="success.jpg" Name="SUCCESS.JPG" LongName="success.jpg" />
-		  <File Id="failure.jpg" Name="FAILURE.JPG" LongName="failure.jpg" />
-		  <File Id="ignored.jpg" Name="IGNORED.JPG" LongName="ignored.jpg" />
-		  <RemoveFile Id="thumbs.db" On="uninstall" Name="THUMBS.DB" LongName="thumbs.db" />
-		</Component>
-		  
 	  
 	  	<Component Id="C__NUnitRegistry" Guid="36AE84ED-5510-40eb-A3B1-D821AC06259C">
 			<Registry Id="R__INSTALLDIR" Root="HKMU" Key="Software\[Manufacturer]\NUnit [ProductVersion]" Name="InstallDir" 
@@ -86,8 +49,6 @@
 	  </Component>
 				
 	</DirectoryRef>
-	
-    <Icon Id="nunit_icon.exe" SourceFile="bin\nunit.exe" />
 	
   </Fragment>
 </Wix>
