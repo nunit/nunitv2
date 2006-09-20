@@ -1119,7 +1119,7 @@
 
   </target>
 
-  <target name="package-msi" depends="build,set-package-config"
+  <target name="package-msi" depends="clean-package-dir"
     description="Build msi file and deploy it to the package dir">
   
     <fail message="MSI can only be built on the Win32 platform" unless="${platform::is-win32()}"/>
@@ -1129,23 +1129,27 @@
     <echo message="* Building msi for ${runtime.config}  ${build.config}"/>
     <echo message="*"/>
 
-<!--    <call target="copy-bins" />
-    <call target="copy-docs" />-->
+    <!-- First create a directory image as for zip installs -->
+    <call target="copy-bins" />
+    <call target="copy-docs" />
     <call target="copy-samples" />
-<!--    <mkdir dir="${wix.work.dir}"/> -->
+
+    <copy file="license.rtf" todir="${package.working.dir}" />
+    <copy file="GuiRunner/nunit-gui/Logo.ico" todir="${package.working.dir}" />
+
     <property name="wix.work.dir"
-      value="${current.build.dir}"/>
+      value="${package.working.dir}"/>
 
     <candle out="${wix.work.dir}/" exedir="${wix.dir}">
       <defines>
         <define name="ProductVersion" value="${package.version}" />
       </defines>
-      <sources>
-        <include name="install/bin.wxs" />
-        <include name="install/doc.wxs" />
-        <include name="install/tests.wxs" />
-        <include name="install/samples.wxs" />
-        <include name="install/NUnit.wxs" />
+      <sources basedir="${project.install.dir}">
+        <include name="bin.wxs" />
+        <include name="doc.wxs" />
+        <include name="tests.wxs" />
+        <include name="samples.wxs" />
+        <include name="NUnit.wxs" />
       </sources>
     </candle>
 
@@ -1164,18 +1168,20 @@
     <exec basedir="${wix.dir}" program="candle.exe"
       commandline="install/samples.wxs -ProductVersion=${package.version} -out ${wix.work.dir}/samples.wixobj"/>-->
 
-    <!--<light exedir="${wix.dir}"
+    <light exedir="${wix.dir}"
       out="${project.package.dir}/${msi.file.name}" 
       locfile="${wix.dir}/WixUI_en-us.wxl">
       <sources>
         <include name="${wix.work.dir}/*.wixobj" />
         <include name="${wix.dir}/wixui.wixlib" />
       </sources>
-    </light>-->
+    </light>
 
-    <exec 
-      basedir="${wix.dir}" program="light.exe"
-      commandline="${wix.work.dir}/bin.wixobj ${wix.work.dir}/doc.wixobj ${wix.work.dir}/NUnit.wixobj ${wix.work.dir}/tests.wixobj ${wix.work.dir}/samples.wixobj -b install -out ${project.package.dir}/${msi.file.name} ${wix.dir}/wixui.wixlib -loc ${wix.dir}/WixUI_en-us.wxl"/>
+    <!--<exec 
+      program="light.exe"
+      basedir="${wix.dir}" 
+      workingdir="${package.working.dir}"
+      commandline="bin.wixobj doc.wixobj NUnit.wixobj tests.wixobj samples.wixobj -out ${project.package.dir}/${msi.file.name} ${wix.dir}/wixui.wixlib -loc ${wix.dir}/WixUI_en-us.wxl"/>-->
 
   </target>
 

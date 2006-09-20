@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Product UpgradeCode="2E280DED-3E0E-4783-94A9-BE102C854C39" Name="NUnit 2.4 (Beta 2)" 
   		   Id="1AA69CCD-1078-473A-BD6E-11CE30A81C58" Version="$(var.ProductVersion)" 
@@ -8,19 +8,61 @@
 			 Manufacturer="nunit.org" InstallerVersion="200" Platforms="Intel" 
 			 Languages="1033" Compressed="yes" SummaryCodepage="1252" />
 			 
+    <Property Id="FRAMEWORK10">
+      <RegistrySearch Id='Framework10Registry' Type='raw'
+        Root='HKLM' Key='Software\Microsoft\.NETFramework\policy\v1.0' Name='3705' />
+    </Property>
+
+  <!--  <Condition Message=".NET Framework 1.0 is not present on the computer.">
+      FRAMEWORK10 = "3321-3705"
+    </Condition>
+
+    <Property Id="FRAMEWORK11">
+      <RegistrySearch Id='Framework11Registry' Type='raw'
+        Root='HKLM' Key='Software\Microsoft\.NETFramework\policy\v1.1' Name='4322' />
+    </Property>
+
+    <Condition Message="No .NET Framework is not present on the computer.">
+      FRAMEWORK10 = "3221-3705" OR FRAMEWORK11 = "3706-432x"
+    </Condition> -->
+	
+	<Property Id="DOTNETINSTALLROOT">
+	  <RegistrySearch Id="DotNetInstallRootRegistry" Type="raw"
+	    Root='HKLM' Key='Software\Microsoft\.NETFramework' Name='InstallRoot' />
+	</Property>
+	
+	<Condition Message="Microsoft .Net is required to install NUnit">
+	  DOTNETINSTALLROOT
+	</Condition>
+			 
+	<Property Id="DOTNET10INSTALLROOT">
+	  <DirectorySearch Id="DotNet10DirectorySearch"
+	    Path="[DOTNETINSTALLROOT]\v1.0.3705" />
+	</Property>
+
+	<Property Id="DOTNET11INSTALLROOT">
+	  <DirectorySearch Id="DotNet11DirectorySearch"
+	    Path="[DOTNETINSTALLROOT]\v1.1.4322" />
+	</Property>
+
+	<Property Id="DOTNET20INSTALLROOT">
+	  <DirectorySearch Id="DotNet20DirectorySearch"
+	    Path="[DOTNETINSTALLROOT]\v2.0.50727" />
+	</Property>
+	
     <!-- Define all directories used in the install -->
 	<Directory Id="TARGETDIR" Name="SourceDir">
 	  <Directory Id='ProgramFilesFolder' Name='PFiles'>
 		
-		<!-- Target location for NUnit Files -->
+		<!-- Target locations for NUnit Files -->
 		<Directory Id='INSTALLDIR' Name='NUnit' LongName="NUnit $(var.ProductVersion)"> 
 		  <Directory Id='Assemblies' Name='AF' LongName='Assemblies' /> 
 		  <Directory Id='bin' Name='bin' />
-		  <Directory Id='doc' Name='doc' >
+		  <Directory Id='doc' Name='doc'>
 		    <Directory Id='files' />
 			<Directory Id='img' />
 		  </Directory>
-		  <Directory Id='samples' Name='samples' >
+		  <Directory Id='samples' Name='samples'>
 			<Directory Id='csharp' Name='csharp' />
 			<Directory Id='jsharp' Name='jsharp' />
 			<Directory Id='vb' />
@@ -48,12 +90,12 @@
 	<DirectoryRef Id="INSTALLDIR">
 	
       <Component Id="C__LOGO" Guid="99080421-75CC-4DFC-0987-AA16B7E68659">
-        <File Id="_LOGO" Name="LOGO.ICO" src="..\GuiRunner\nunit-gui\Logo.ico" LongName="Logo.ico" Vital="yes" KeyPath="yes" DiskId="1" />
+        <File Id="_LOGO" Name="Logo.ico" Source="Logo.ico" Vital="yes" KeyPath="yes" DiskId="1" />
       </Component>
       
       <Component Id="C__LICENSE" Guid="7D03AE6B-15A7-16E0-0D21-D65708B2FA79">
-        <File Id="_LICENSE" Name="LICENSE.RTF" src="..\LICENSE.RTF" 
-			  LongName="license.rtf" Vital="yes" KeyPath="yes" DiskId="1" />
+        <File Id="_LICENSE" Name="license.rtf" Source="license.rtf" 
+			  Vital="yes" KeyPath="yes" DiskId="1" />
       </Component>
 	  
 	</DirectoryRef>
@@ -61,11 +103,12 @@
 	<!-- A copy of the assemblies referenced by tests are installed in a
 		 separate folder that is made known to Visual Studio so that
 		 references may be added more easily -->
-	<DirectoryRef Id="Assemblies">
+	<DirectoryRef Id="Assemblies" FileSource="bin">
 	
 		<Component Id="C__AssemblyFolders" DiskId="1" Guid="F9B1325D-286F-6638-4AD2-AC8F3509BC4F">
-		    <File Id="nunit.framework.copy" Name="FRAMEWRK.CPY" LongName="nunit.framework.dll" src="nunit.framework.dll" />
-			<File Id="nunit.framework.extensions.copy" Name="FRAME_EX.CPY" LongName="nunit.framework.extensions.dll" src="nunit.framework.extensions.dll" />
+		    <File Id="nunit.framework.copy" Name="FRAMEWRK.CPY" LongName="nunit.framework.dll" />
+			<File Id="nunit.framework.extensions.copy" Name="FRAME_EX.CPY" 
+			   LongName="nunit.framework.extensions.dll" />
 		</Component>
 			
 	</DirectoryRef>
