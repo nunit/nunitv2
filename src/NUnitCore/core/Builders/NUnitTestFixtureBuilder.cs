@@ -60,13 +60,11 @@ namespace NUnit.Core.Builders
 		{
 			base.SetTestSuiteProperties( type, suite );
 
-			suite.Description = NUnitFramework.GetTestFixtureDescription( type );
+			suite.Description = NUnitFramework.GetDescription( type );
 			suite.Categories = NUnitFramework.GetCategories( type );
 			suite.Properties = NUnitFramework.GetProperties( type );
 
-			NUnitFramework.ApplyExplicitAttribute( type, suite );
-			NUnitFramework.ApplyPlatformAttribute( type, suite );
-			NUnitFramework.ApplyIgnoreAttribute( type, suite );
+            NUnitFramework.ApplyCommonAttributes( type, suite );
 		}
 
 		/// <summary>
@@ -93,7 +91,7 @@ namespace NUnit.Core.Builders
         /// <returns>True if the fixture can be built, false if not</returns>
         public override bool CanBuildFrom(Type type)
         {
-            return NUnitFramework.HasTestFixtureAttribute( type );
+            return Reflect.HasAttribute( type, NUnitFramework.TestFixtureAttribute, true );
         }
 
         /// <summary>

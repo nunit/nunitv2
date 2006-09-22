@@ -51,7 +51,7 @@ namespace NUnit.Core.Builders
 
 		public bool CanBuildFrom(Type type)
 		{
-			return NUnitFramework.HasSetUpFixtureAttribute( type );
+			return Reflect.HasAttribute( type, NUnitFramework.SetUpFixtureAttribute, false );
 		}
 		#endregion
 	}

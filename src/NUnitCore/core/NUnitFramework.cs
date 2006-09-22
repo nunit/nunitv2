@@ -16,111 +16,91 @@ namespace NUnit.Core
 	public class NUnitFramework
 	{
 		private static Type assertType;
-		//private static Hashtable frameworkByAssembly = new Hashtable();
+        //private static Hashtable frameworkByAssembly = new Hashtable();
 
-		#region TestFixtureAttribute
-		public static readonly string TestFixtureAttribute = "NUnit.Framework.TestFixtureAttribute";
-		
-		public static bool HasTestFixtureAttribute( Type type )
-		{
-			return Reflect.HasAttribute(type, TestFixtureAttribute, true);           
-		}
+        #region Constants
 
-		public static Attribute GetTestFixtureAttribute( Type type )
-		{
-			return Reflect.GetAttribute(type, TestFixtureAttribute, true);
-		}
-		
-		/// <summary>
-		/// Method to return the description for a fixture
-		/// </summary>
-		/// <param name="fixtureType">The fixture to check</param>
-		/// <returns>The description, if any, or null</returns>
-		public static string GetTestFixtureDescription(Type type)
-		{
-			Attribute fixtureAttribute = NUnitFramework.GetTestFixtureAttribute( type );
+        #region Attribute Names
+        // Attributes that apply to Assemblies, Classes and Methods
+        public const string IgnoreAttribute = "NUnit.Framework.IgnoreAttribute";
+        public const string PlatformAttribute = "NUnit.Framework.PlatformAttribute";
+        public const string ExplicitAttribute = "NUnit.Framework.ExplicitAttribute";
 
-			if (fixtureAttribute != null)
-				return NUnitFramework.GetDescription( fixtureAttribute );
+        // Attributes that apply to Classes and Methods
+        public static readonly string CategoryAttribute = "NUnit.Framework.CategoryAttribute";
+        public static readonly string PropertyAttribute = "NUnit.Framework.PropertyAttribute";
 
-			return null;
-		}
-		#endregion
+        // Attributes that apply only to Classes
+        public static readonly string TestFixtureAttribute = "NUnit.Framework.TestFixtureAttribute";
+        public static readonly string SetUpFixtureAttribute = "NUnit.Framework.SetUpFixtureAttribute";
 
-		#region TestAttribute
-		public static readonly string TestAttribute = "NUnit.Framework.TestAttribute";
+        // Attributes that apply only to Methods
+        public static readonly string TestAttribute = "NUnit.Framework.TestAttribute";
+        public static readonly string SetUpAttribute = "NUnit.Framework.SetUpAttribute";
+        public static readonly string TearDownAttribute = "NUnit.Framework.TearDownAttribute";
+        public static readonly string FixtureSetUpAttribute = "NUnit.Framework.TestFixtureSetUpAttribute";
+        public static readonly string FixtureTearDownAttribute = "NUnit.Framework.TestFixtureTearDownAttribute";
+        public static readonly string ExpectedExceptionAttribute = "NUnit.Framework.ExpectedExceptionAttribute";
 
-		public static bool HasTestAttribute( MethodInfo method )
-		{
-			return Reflect.HasAttribute(method, TestAttribute, false);           
-		}
+        // Attributes that apply only to Properties
+        public static readonly string SuiteAttribute = "NUnit.Framework.SuiteAttribute";
+        #endregion
 
-		public static Attribute GetTestAttribute( MethodInfo method )
-		{
-			return Reflect.GetAttribute(method, TestAttribute, false);
-		}
+        #region Other Framework Types
+        public static readonly string AssertException = "NUnit.Framework.AssertionException";
+        public static readonly string IgnoreException = "NUnit.Framework.IgnoreException";
+        public static readonly string AssertType = "NUnit.Framework.Assert";
+        #endregion
 
-		public static string GetTestCaseDescription( MethodInfo method )
-		{
-			Attribute testAttribute = GetTestAttribute( method );
-			if (testAttribute != null)
-				return GetDescription( testAttribute );
+        #region Core Types
+        public static readonly string SuiteBuilderAttribute = typeof(SuiteBuilderAttribute).FullName;
+        public static readonly string SuiteBuilderInterface = typeof(ISuiteBuilder).FullName;
 
-			return null;
-		}
-		#endregion
+        public static readonly string TestCaseBuilderAttributeName = typeof(TestCaseBuilderAttribute).FullName;
+        public static readonly string TestCaseBuilderInterfaceName = typeof(ITestCaseBuilder).FullName;
 
-		#region SetUpFixture
-		public static readonly string SetUpFixtureAttribute = "NUnit.Framework.SetUpFixtureAttribute";
+        public static readonly string TestDecoratorAttributeName = typeof(TestDecoratorAttribute).FullName;
+        public static readonly string TestDecoratorInterfaceName = typeof(ITestDecorator).FullName;
+        #endregion
 
-		public static bool HasSetUpFixtureAttribute(Type type)
-		{
-			return Reflect.HasAttribute( type, SetUpFixtureAttribute, false );
-		}
-		#endregion
+        #endregion
 
-		#region Suite
-		public static readonly string SuiteAttribute = "NUnit.Framework.SuiteAttribute";
-		#endregion
+        #region Identify SetUp and TearDown Methods
+        public static bool IsSetUpMethod(MethodInfo method)
+        {
+            return Reflect.HasAttribute(method, NUnitFramework.SetUpAttribute, false);
+        }
 
-		#region SetUp
-		public static readonly string SetUpAttribute = "NUnit.Framework.SetUpAttribute";
+        public static bool IsTearDownMethod(MethodInfo method)
+        {
+            return Reflect.HasAttribute(method, NUnitFramework.TearDownAttribute, false);
+        }
 
-		public static bool IsSetUpMethod(MethodInfo method)
-		{
-			return Reflect.HasAttribute(method, NUnitFramework.SetUpAttribute, false);
-		}
+        public static bool IsFixtureSetUpMethod(MethodInfo method)
+        {
+            return Reflect.HasAttribute(method, NUnitFramework.FixtureSetUpAttribute, false);
+        }
 
-		public static MethodInfo GetSetUpMethod(Type fixtureType)
+        public static bool IsFixtureTearDownMethod(MethodInfo method)
+        {
+            return Reflect.HasAttribute(method, NUnitFramework.FixtureTearDownAttribute, false);
+        }
+
+        #endregion
+
+        #region Locate SetUp and TearDown Methods
+        public static MethodInfo GetSetUpMethod(Type fixtureType)
 		{
 			return Reflect.GetMethodWithAttribute(fixtureType, SetUpAttribute,
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
 				true);
 		}
-		#endregion
 
-		#region TearDown
-		public static readonly string TearDownAttribute = "NUnit.Framework.TearDownAttribute";
-
-		public static bool IsTearDownMethod(MethodInfo method)
-		{
-			return Reflect.HasAttribute(method, NUnitFramework.TearDownAttribute, false);
-		}
-
-		public static MethodInfo GetTearDownMethod(Type fixtureType)
+        public static MethodInfo GetTearDownMethod(Type fixtureType)
 		{
 			return Reflect.GetMethodWithAttribute(fixtureType, TearDownAttribute,
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
 				true);
-		}
-		#endregion
-
-		#region TestFixtureSetUp
-		public static readonly string FixtureSetUpAttribute = "NUnit.Framework.TestFixtureSetUpAttribute";
-
-		public static bool IsFixtureSetUpMethod(MethodInfo method)
-		{
-			return Reflect.HasAttribute(method, NUnitFramework.FixtureSetUpAttribute, false);
 		}
 
 		public static MethodInfo GetFixtureSetUpMethod(Type fixtureType)
@@ -129,17 +109,8 @@ namespace NUnit.Core
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
 				true);
 		}
-		#endregion
 
-		#region TestFixtureTearDown
-		public static readonly string FixtureTearDownAttribute = "NUnit.Framework.TestFixtureTearDownAttribute";
-		
-		public static bool IsFixtureTearDownMethod(MethodInfo method)
-		{
-			return Reflect.HasAttribute(method, NUnitFramework.FixtureTearDownAttribute, false);
-		}
-
-		public static MethodInfo GetFixtureTearDownMethod(Type fixtureType)
+        public static MethodInfo GetFixtureTearDownMethod(Type fixtureType)
 		{
 			return Reflect.GetMethodWithAttribute(fixtureType, FixtureTearDownAttribute,
 				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
@@ -147,36 +118,11 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region Ignore
-		public static readonly string IgnoreAttribute = "NUnit.Framework.IgnoreAttribute";
-
-		public static Attribute GetIgnoreAttribute( MemberInfo member )
-		{
-			return Reflect.GetAttribute( member, NUnitFramework.IgnoreAttribute, false );
-		}
-		
-		public static void ApplyIgnoreAttribute( MemberInfo member, Test test )
-		{
-			Attribute ignoreAttribute = GetIgnoreAttribute( member );
-			if (ignoreAttribute != null)
-			{
-				test.RunState = RunState.Ignored;
-				test.IgnoreReason = GetIgnoreReason( ignoreAttribute );
-			}
-		}
-		#endregion
-
-		#region Categories
-		public static readonly string CategoryAttribute = "NUnit.Framework.CategoryAttribute";
-
-		public static Attribute[] GetCategoryAttributes( MemberInfo member )
-		{
-			return Reflect.GetAttributes( member, CategoryAttribute, false );
-		}
-		
+		#region GetCategories
 		public static IList GetCategories( MemberInfo member )
 		{
-			System.Attribute[] attributes = NUnitFramework.GetCategoryAttributes( member );
+			System.Attribute[] attributes = 
+                Reflect.GetAttributes( member, NUnitFramework.CategoryAttribute, false );
 			IList categories = new ArrayList();
 
 			foreach( Attribute categoryAttribute in attributes ) 
@@ -190,58 +136,74 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region Platform
-		public static readonly string PlatformAttribute = "NUnit.Framework.PlatformAttribute";
+		#region ApplyCommonAttributes
+        /// <summary>
+        /// Modify a newly constructed test by applying any of NUnit's common
+        /// attributes, specified for the type or method.
+        /// </summary>
+        /// <param name="member">The type or method from which the test was constructed</param>
+        /// <param name="test">The test to which the attributes apply</param>
+        public static void ApplyCommonAttributes(MemberInfo member, Test test)
+        {
+            ApplyCommonAttributes( Reflect.GetAttributes( member, false ), test );
+        }
 
-		public static Attribute GetPlatformAttribute( MemberInfo member )
-		{
-			return Reflect.GetAttribute( member, NUnitFramework.PlatformAttribute, false );
-		}
+        /// <summary>
+        /// Modify a newly constructed test by applying any of NUnit's common
+        /// attributes, specified for an assembly.
+        /// </summary>
+        /// <param name="assembly">The assembly from which the test was constructed</param>
+        /// <param name="test">The test to which the attributes apply</param>
+        public static void ApplyCommonAttributes(Assembly assembly, Test test)
+        {
+            ApplyCommonAttributes( Reflect.GetAttributes( assembly, false ), test );
+        }
 
-		public static void ApplyPlatformAttribute( MemberInfo member, Test test )
-		{
-			PlatformHelper helper = new PlatformHelper();
-			if ( !helper.IsPlatformSupported( member ) )
-			{
-				test.RunState = RunState.Skipped;
-				test.IgnoreReason = helper.Reason;
-			}
-		}
+        /// <summary>
+        /// Modify a newly constructed test by applying any of NUnit's common
+        /// attributes, based on an input array of attributes. This method checks
+        /// for all attributes, relying on the fact that specific attributes can only
+        /// occur on those constructs on which they are allowed.
+        /// </summary>
+        /// <param name="attributes">An array of attributes possibly including NUnit attributes
+        /// <param name="test">The test to which the attributes apply</param>
+        public static void ApplyCommonAttributes(Attribute[] attributes, Test test)
+        {
+            foreach (Attribute attribute in attributes)
+            {
+                switch (attribute.GetType().FullName)
+                {
+                    case ExplicitAttribute:
+                        test.IsExplicit = true;
+                        test.RunState = RunState.Explicit;
+                        test.IgnoreReason = GetIgnoreReason(attribute);
+                        break;
+                    case IgnoreAttribute:
+                        test.RunState = RunState.Ignored;
+                        test.IgnoreReason = GetIgnoreReason(attribute);
+                        break;
+                    case PlatformAttribute:
+                        PlatformHelper helper = new PlatformHelper();
+                        if (!helper.IsPlatformSupported(attribute))
+                        {
+                            test.RunState = RunState.Skipped;
+                            test.IgnoreReason = GetIgnoreReason(attribute);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
 		#endregion
 
-		#region Explicit
-		public static readonly string ExplicitAttribute = "NUnit.Framework.ExplicitAttribute";
-		
-		public static Attribute GetExplicitAttribute( MemberInfo member )
-		{
-			return Reflect.GetAttribute( member, ExplicitAttribute, false );
-		}
-
-		public static void ApplyExplicitAttribute( MemberInfo member, Test test )
-		{
-			Attribute explicitAttribute = NUnitFramework.GetExplicitAttribute( member );
-			if (explicitAttribute != null)
-			{
-				test.IsExplicit = true;
-				test.RunState = RunState.Explicit;
-				test.IgnoreReason = NUnitFramework.GetIgnoreReason( explicitAttribute );
-			}
-		}
-		#endregion
-
-		#region Properties
-		public static readonly string PropertyAttribute = "NUnit.Framework.PropertyAttribute";
-		
-		public static Attribute[] GetPropertyAttributes( MemberInfo member )
-		{
-			return Reflect.GetAttributes( member, PropertyAttribute, false );
-		}
-
+		#region GetProperties
 		public static IDictionary GetProperties( MemberInfo member )
 		{
 			ListDictionary properties = new ListDictionary();
 
-			foreach( Attribute propertyAttribute in NUnitFramework.GetPropertyAttributes( member ) ) 
+			foreach( Attribute propertyAttribute in 
+                Reflect.GetAttributes( member, NUnitFramework.PropertyAttribute, false ) ) 
 			{
 				string name = (string)Reflect.GetPropertyValue( propertyAttribute, "Name", BindingFlags.Public | BindingFlags.Instance );
 				if ( name != null && name != string.Empty )
@@ -255,14 +217,7 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region ExpectedException
-		public static readonly string ExpectedExceptionAttribute = "NUnit.Framework.ExpectedExceptionAttribute";
-		
-		public static Attribute GetExpectedExceptionAttribute( MethodInfo method )
-		{
-			return Reflect.GetAttribute( method, ExpectedExceptionAttribute, false );
-		}
-
+		#region ApplyExpectedExceptionAttribute
 		// TODO: Handle this with a separate ExceptionProcessor object
 		public static void ApplyExpectedExceptionAttribute(MethodInfo method, TestMethod testMethod)
 		{
@@ -271,7 +226,9 @@ namespace NUnit.Core
 			string expectedMessage = null;
 			string matchType = null;
 
-			Attribute attribute = NUnitFramework.GetExpectedExceptionAttribute( method );
+			Attribute attribute = Reflect.GetAttribute(
+                method, NUnitFramework.ExpectedExceptionAttribute, false );
+
 			if (attribute != null)
 			{
 				expectedException = Reflect.GetPropertyValue(
@@ -300,27 +257,7 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region AssertException
-		public static readonly string AssertException = "NUnit.Framework.AssertionException";
-
-		public static bool IsAssertException(Exception ex)
-		{
-			return ex.GetType().FullName == AssertException;
-		}
-		#endregion
-
-		#region IgnoreException
-		public static readonly string IgnoreException = "NUnit.Framework.IgnoreException";
-
-		public static bool IsIgnoreException(Exception ex)
-		{
-			return ex.GetType().FullName == IgnoreException;
-		}
-		#endregion
-
-		#region Assertion Count
-		public static readonly string AssertType = "NUnit.Framework.Assert";
-
+		#region GetAssertCount
 		public static int GetAssertCount()
 		{
 			if ( assertType == null )
@@ -346,10 +283,7 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region SuiteBuilder
-		public static readonly string SuiteBuilderAttribute = typeof( SuiteBuilderAttribute ).FullName;
-		public static readonly string SuiteBuilderInterface = typeof( ISuiteBuilder ).FullName;
-		
+		#region IsSuiteBuilder
 		public static bool IsSuiteBuilder( Type type )
 		{
 			return Reflect.HasAttribute( type, SuiteBuilderAttribute, false )
@@ -357,10 +291,7 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region TestCaseBuilder
-		public static readonly string TestCaseBuilderAttributeName = typeof( TestCaseBuilderAttribute ).FullName;
-		public static readonly string TestCaseBuilderInterfaceName = typeof( ITestCaseBuilder ).FullName;
-		
+		#region IsTestCaseBuilder
 		public static bool IsTestCaseBuilder( Type type )
 		{
 			return Reflect.HasAttribute( type, TestCaseBuilderAttributeName, false )
@@ -368,10 +299,7 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region TestDecorator
-		public static readonly string TestDecoratorAttributeName = typeof( TestDecoratorAttribute ).FullName;
-		public static readonly string TestDecoratorInterfaceName = typeof( ITestDecorator ).FullName;
-
+		#region IsTestDecorator
 		public static bool IsTestDecorator( Type type )
 		{
 			return Reflect.HasAttribute( type, TestDecoratorAttributeName, false )
@@ -379,7 +307,7 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region Helpers for Attribute Properties
+		#region GetIgnoreReason
 		public static string GetIgnoreReason( System.Attribute attribute )
 		{
 			return (string)Reflect.GetPropertyValue(
@@ -387,7 +315,45 @@ namespace NUnit.Core
 				"Reason",
 				BindingFlags.Public | BindingFlags.Instance);
 		}
-		public static string GetDescription( System.Attribute attribute )
+        #endregion
+
+        #region GetDescription
+        /// <summary>
+        /// Method to return the description for a fixture
+        /// </summary>
+        /// <param name="fixtureType">The fixture to check</param>
+        /// <returns>The description, if any, or null</returns>
+        public static string GetDescription(Type type)
+        {
+            Attribute fixtureAttribute = Reflect.GetAttribute(type, TestFixtureAttribute, true);
+
+            if (fixtureAttribute != null)
+                return NUnitFramework.GetDescription(fixtureAttribute);
+
+            return null;
+        }
+
+        /// <summary>
+        /// Method to return the description for a method
+        /// </summary>
+        /// <param name="method">The method to check</param>
+        /// <returns>The description, if any, or null</returns>
+        public static string GetDescription(MethodInfo method)
+        {
+            Attribute testAttribute = Reflect.GetAttribute(method, TestAttribute, true);
+
+            if (testAttribute != null)
+                return GetDescription(testAttribute);
+
+            return null;
+        }
+
+        /// <summary>
+        /// Method to return the description from an attribute
+        /// </summary>
+        /// <param name="attribute">The attribute to check</param>
+        /// <returns>The description, if any, or null</returns>
+        public static string GetDescription(System.Attribute attribute)
 		{
 			return (string)Reflect.GetPropertyValue(
 				attribute,
@@ -396,7 +362,7 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region NUnit Configuration Settings
+		#region AllowOldStyleTests
 		public static bool AllowOldStyleTests
 		{
 			get

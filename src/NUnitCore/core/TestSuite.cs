@@ -395,12 +395,12 @@ namespace NUnit.Core
 
 		protected virtual bool IsAssertException(Exception ex)
 		{
-			return NUnitFramework.IsAssertException( ex );
+            return ex.GetType().FullName == NUnitFramework.AssertException;
 		}
 
 		protected virtual bool IsIgnoreException(Exception ex)
 		{
-			return NUnitFramework.IsIgnoreException( ex );
+            return ex.GetType().FullName == NUnitFramework.IgnoreException;
 		}
 		#endregion
 	}

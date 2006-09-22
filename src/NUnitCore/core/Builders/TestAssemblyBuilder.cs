@@ -181,6 +181,8 @@ namespace NUnit.Core.Builders
 			// TODO: Make this an option? Add Option to sort assemblies as well?
 			testAssembly.Sort();
 
+            NUnitFramework.ApplyCommonAttributes( assembly, testAssembly );
+
 			return testAssembly;
 		}
 

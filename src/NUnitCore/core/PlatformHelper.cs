@@ -134,21 +134,6 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Tests whether a particular member is supported on the
-		/// current platform.
-		/// </summary>
-		/// <param name="member"></param>
-		/// <returns></returns>
-		public bool IsPlatformSupported( MemberInfo member )
-		{
-			Attribute platformAttribute = 
-				NUnitFramework.GetPlatformAttribute( member );
-			
-			return platformAttribute == null
-				|| IsPlatformSupported( platformAttribute );
-		}
-
-		/// <summary>
 		/// Test to determine if the a particular platform or comma-
 		/// delimited set of platforms is in use.
 		/// </summary>

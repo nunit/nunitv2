@@ -55,7 +55,7 @@ namespace NUnit.Core.Builders
 		/// <returns>True if the builder can create a test case from this method</returns>
         public override bool CanBuildFrom(MethodInfo method)
         {
-            if ( NUnitFramework.HasTestAttribute( method ) )
+            if ( Reflect.HasAttribute( method, NUnitFramework.TestAttribute, false ) )
                 return true;
 
             if (allowOldStyleTests)
@@ -95,13 +95,11 @@ namespace NUnit.Core.Builders
 		/// <param name="testCase">The test case being constructed</param>
 		protected override void SetTestProperties( MethodInfo method, TestCase testCase )
 		{
-			testCase.Description = NUnitFramework.GetTestCaseDescription( method );
+			testCase.Description = NUnitFramework.GetDescription( method );
 			testCase.Categories = NUnitFramework.GetCategories( method );
 			testCase.Properties = NUnitFramework.GetProperties( method );
 
-			NUnitFramework.ApplyExplicitAttribute( method, testCase );
-			NUnitFramework.ApplyPlatformAttribute( method, testCase );
-			NUnitFramework.ApplyIgnoreAttribute( method, testCase );
+            NUnitFramework.ApplyCommonAttributes( method, testCase );
 
 			NUnitFramework.ApplyExpectedExceptionAttribute( method, (TestMethod)testCase );
 		}

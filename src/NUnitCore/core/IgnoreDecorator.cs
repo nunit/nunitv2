@@ -28,7 +28,7 @@ namespace NUnit.Core
 
 		private Test DecorateTest( Test test, MemberInfo member )
 		{
-			Attribute ignoreAttribute = NUnitFramework.GetIgnoreAttribute( member );
+			Attribute ignoreAttribute = Reflect.GetAttribute( member, NUnitFramework.IgnoreAttribute, false );
 
 			if ( ignoreAttribute != null )
 			{

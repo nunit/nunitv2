@@ -31,7 +31,7 @@ namespace NUnit.Framework
 {
 	using System;
 
-	[AttributeUsage(AttributeTargets.Method|AttributeTargets.Class, AllowMultiple=false)]
+	[AttributeUsage(AttributeTargets.Method|AttributeTargets.Class|AttributeTargets.Assembly, AllowMultiple=false)]
 	public sealed class IgnoreAttribute : Attribute
 	{
 		private string reason;

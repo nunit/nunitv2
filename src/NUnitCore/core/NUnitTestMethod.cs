@@ -32,7 +32,7 @@ namespace NUnit.Core
 		/// <returns>True if it's an NUnit AssertionException</returns>
 		protected override bool IsAssertException(Exception ex)
 		{
-			return NUnitFramework.IsAssertException( ex );
+            return ex.GetType().FullName == NUnitFramework.AssertException;
 		}
 
 		/// <summary>
@@ -42,7 +42,7 @@ namespace NUnit.Core
 		/// <returns>True if it's an NUnit IgnoreException</returns>
 		protected override bool IsIgnoreException(Exception ex)
 		{
-			return NUnitFramework.IsIgnoreException( ex );
+            return ex.GetType().FullName == NUnitFramework.IgnoreException;
 		}
 		#endregion
 	}
