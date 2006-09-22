@@ -84,6 +84,7 @@
     <Compile Include="ComparisonAsserter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DescriptionAttribute.cs" />
     <Compile Include="EqualAsserter.cs">
       <SubType>Code</SubType>
     </Compile>

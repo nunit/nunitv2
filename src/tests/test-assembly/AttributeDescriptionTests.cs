@@ -13,5 +13,10 @@ namespace NUnit.TestData.AttributeDescriptionFixture
 		[Test]
 		public void NoDescriptionMethod()
 		{}
+
+        [Test]
+        [Description("Separate Description")]
+        public void SeparateDescriptionMethod()
+        { }
 	}
 }

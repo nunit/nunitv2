@@ -21,21 +21,22 @@ namespace NUnit.Core
         #region Constants
 
         #region Attribute Names
+		// NOTE: Attributes used in switch statements must be const
+
         // Attributes that apply to Assemblies, Classes and Methods
         public const string IgnoreAttribute = "NUnit.Framework.IgnoreAttribute";
         public const string PlatformAttribute = "NUnit.Framework.PlatformAttribute";
         public const string ExplicitAttribute = "NUnit.Framework.ExplicitAttribute";
-
-        // Attributes that apply to Classes and Methods
-        public static readonly string CategoryAttribute = "NUnit.Framework.CategoryAttribute";
-        public static readonly string PropertyAttribute = "NUnit.Framework.PropertyAttribute";
+        public const string CategoryAttribute = "NUnit.Framework.CategoryAttribute";
+        public const string PropertyAttribute = "NUnit.Framework.PropertyAttribute";
+		public const string DescriptionAttribute = "NUnit.Framework.DescriptionAttribute";
 
         // Attributes that apply only to Classes
-        public static readonly string TestFixtureAttribute = "NUnit.Framework.TestFixtureAttribute";
-        public static readonly string SetUpFixtureAttribute = "NUnit.Framework.SetUpFixtureAttribute";
+        public const string TestFixtureAttribute = "NUnit.Framework.TestFixtureAttribute";
+        public const string SetUpFixtureAttribute = "NUnit.Framework.SetUpFixtureAttribute";
 
         // Attributes that apply only to Methods
-        public static readonly string TestAttribute = "NUnit.Framework.TestAttribute";
+        public const string TestAttribute = "NUnit.Framework.TestAttribute";
         public static readonly string SetUpAttribute = "NUnit.Framework.SetUpAttribute";
         public static readonly string TearDownAttribute = "NUnit.Framework.TearDownAttribute";
         public static readonly string FixtureSetUpAttribute = "NUnit.Framework.TestFixtureSetUpAttribute";
@@ -118,28 +119,10 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region GetCategories
-		public static IList GetCategories( MemberInfo member )
-		{
-			System.Attribute[] attributes = 
-                Reflect.GetAttributes( member, NUnitFramework.CategoryAttribute, false );
-			IList categories = new ArrayList();
-
-			foreach( Attribute categoryAttribute in attributes ) 
-				categories.Add( 
-					Reflect.GetPropertyValue( 
-					categoryAttribute, 
-					"Name", 
-					BindingFlags.Public | BindingFlags.Instance ) );
-
-			return categories;
-		}
-		#endregion
-
 		#region ApplyCommonAttributes
         /// <summary>
-        /// Modify a newly constructed test by applying any of NUnit's common
-        /// attributes, specified for the type or method.
+        /// Modify a newly constructed test based on a type or method by 
+        /// applying any of NUnit's common attributes.
         /// </summary>
         /// <param name="member">The type or method from which the test was constructed</param>
         /// <param name="test">The test to which the attributes apply</param>
@@ -149,8 +132,8 @@ namespace NUnit.Core
         }
 
         /// <summary>
-        /// Modify a newly constructed test by applying any of NUnit's common
-        /// attributes, specified for an assembly.
+        /// Modify a newly constructed test based on an assembly by applying 
+        /// any of NUnit's common attributes.
         /// </summary>
         /// <param name="assembly">The assembly from which the test was constructed</param>
         /// <param name="test">The test to which the attributes apply</param>
@@ -169,10 +152,18 @@ namespace NUnit.Core
         /// <param name="test">The test to which the attributes apply</param>
         public static void ApplyCommonAttributes(Attribute[] attributes, Test test)
         {
+			IList categories = new ArrayList();
+			ListDictionary properties = new ListDictionary();
+
             foreach (Attribute attribute in attributes)
             {
                 switch (attribute.GetType().FullName)
                 {
+					case TestFixtureAttribute:
+					case TestAttribute:
+					case DescriptionAttribute:
+						test.Description = GetDescription(attribute);
+						break;
                     case ExplicitAttribute:
                         test.IsExplicit = true;
                         test.RunState = RunState.Explicit;
@@ -190,31 +181,29 @@ namespace NUnit.Core
                             test.IgnoreReason = GetIgnoreReason(attribute);
                         }
                         break;
+					case CategoryAttribute:
+						categories.Add( 
+							Reflect.GetPropertyValue( 
+							attribute, 
+							"Name", 
+							BindingFlags.Public | BindingFlags.Instance ) );
+						break;
+					case PropertyAttribute:
+						string name = (string)Reflect.GetPropertyValue( attribute, "Name", BindingFlags.Public | BindingFlags.Instance );
+						if ( name != null && name != string.Empty )
+						{
+							object val = Reflect.GetPropertyValue( attribute, "Value", BindingFlags.Public | BindingFlags.Instance );
+							properties[name] = val;
+						}
+						break;
                     default:
                         break;
                 }
             }
+
+			test.Categories = categories;
+			test.Properties = properties;
         }
-		#endregion
-
-		#region GetProperties
-		public static IDictionary GetProperties( MemberInfo member )
-		{
-			ListDictionary properties = new ListDictionary();
-
-			foreach( Attribute propertyAttribute in 
-                Reflect.GetAttributes( member, NUnitFramework.PropertyAttribute, false ) ) 
-			{
-				string name = (string)Reflect.GetPropertyValue( propertyAttribute, "Name", BindingFlags.Public | BindingFlags.Instance );
-				if ( name != null && name != string.Empty )
-				{
-					object val = Reflect.GetPropertyValue( propertyAttribute, "Value", BindingFlags.Public | BindingFlags.Instance );
-					properties[name] = val;
-				}
-			}
-
-			return properties;
-		}
 		#endregion
 
 		#region ApplyExpectedExceptionAttribute
@@ -318,36 +307,6 @@ namespace NUnit.Core
         #endregion
 
         #region GetDescription
-        /// <summary>
-        /// Method to return the description for a fixture
-        /// </summary>
-        /// <param name="fixtureType">The fixture to check</param>
-        /// <returns>The description, if any, or null</returns>
-        public static string GetDescription(Type type)
-        {
-            Attribute fixtureAttribute = Reflect.GetAttribute(type, TestFixtureAttribute, true);
-
-            if (fixtureAttribute != null)
-                return NUnitFramework.GetDescription(fixtureAttribute);
-
-            return null;
-        }
-
-        /// <summary>
-        /// Method to return the description for a method
-        /// </summary>
-        /// <param name="method">The method to check</param>
-        /// <returns>The description, if any, or null</returns>
-        public static string GetDescription(MethodInfo method)
-        {
-            Attribute testAttribute = Reflect.GetAttribute(method, TestAttribute, true);
-
-            if (testAttribute != null)
-                return GetDescription(testAttribute);
-
-            return null;
-        }
-
         /// <summary>
         /// Method to return the description from an attribute
         /// </summary>

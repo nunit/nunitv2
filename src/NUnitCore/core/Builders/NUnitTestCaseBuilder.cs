@@ -95,12 +95,7 @@ namespace NUnit.Core.Builders
 		/// <param name="testCase">The test case being constructed</param>
 		protected override void SetTestProperties( MethodInfo method, TestCase testCase )
 		{
-			testCase.Description = NUnitFramework.GetDescription( method );
-			testCase.Categories = NUnitFramework.GetCategories( method );
-			testCase.Properties = NUnitFramework.GetProperties( method );
-
             NUnitFramework.ApplyCommonAttributes( method, testCase );
-
 			NUnitFramework.ApplyExpectedExceptionAttribute( method, (TestMethod)testCase );
 		}
 		#endregion

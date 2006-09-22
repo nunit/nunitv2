@@ -60,10 +60,6 @@ namespace NUnit.Core.Builders
 		{
 			base.SetTestSuiteProperties( type, suite );
 
-			suite.Description = NUnitFramework.GetDescription( type );
-			suite.Categories = NUnitFramework.GetCategories( type );
-			suite.Properties = NUnitFramework.GetProperties( type );
-
             NUnitFramework.ApplyCommonAttributes( type, suite );
 		}
 

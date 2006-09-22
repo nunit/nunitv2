@@ -35,6 +35,11 @@ namespace NUnit.Core.Builders
 	/// AbstractTestCaseBuilder may serve as a base class for 
 	/// implementing a test case builder. It provides a templated
 	/// implementation of the BuildFrom method.
+	/// 
+	/// Developers of extended test cases may choose to inherit
+	/// from this class, although NUnitTestCaseBuilder will 
+	/// probably be more useful if the extension is intended
+	/// to work like an NUnit test case. 
 	/// </summary>
 	public abstract class AbstractTestCaseBuilder : ITestCaseBuilder
 	{

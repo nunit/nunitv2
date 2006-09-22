@@ -31,7 +31,7 @@ using System;
 
 namespace NUnit.Framework
 {
-	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method, AllowMultiple=true)]
+	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=true)]
 	public sealed class CategoryAttribute : Attribute
 	{
 		private string name;

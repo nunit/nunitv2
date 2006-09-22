@@ -53,29 +53,29 @@ namespace NUnit.Core.Tests
 			Assert.IsTrue(testCase.ShouldRun);
 		}
 
-		[Test]
-		public void Description()
-		{
-			TestCase testCase = TestCaseBuilder.Make( FixtureType, "Method" );
-			Assert.AreEqual("Test Description", testCase.Description);
-		}
+        [Test]
+        public void Description()
+        {
+            TestCase testCase = TestCaseBuilder.Make(FixtureType, "Method");
+            Assert.AreEqual("Test Description", testCase.Description);
+        }
 
-		[Test]
-		public void DescriptionInResult()
-		{
-			TestSuite suite = new TestSuite("Mock Fixture");
-			suite.Add( TestBuilder.MakeFixture( typeof( MockFixture ) ) );
-			TestResult result = suite.Run(NullListener.NULL);
+        [Test]
+        public void DescriptionInResult()
+        {
+            TestSuite suite = new TestSuite("Mock Fixture");
+            suite.Add(TestBuilder.MakeFixture(typeof(MockFixture)));
+            TestResult result = suite.Run(NullListener.NULL);
 
-			DescriptionVisitor visitor = new DescriptionVisitor("NUnit.Tests.Attributes.MockFixture.Method", "Test Description");
-			result.Accept(visitor);
+            DescriptionVisitor visitor = new DescriptionVisitor("NUnit.Tests.Attributes.MockFixture.Method", "Test Description");
+            result.Accept(visitor);
 
-			visitor = 
-				new DescriptionVisitor("NUnit.Tests.Attributes.MockFixture.NoDescriptionMethod", null);
-			result.Accept(visitor);
-		}
+            visitor =
+                new DescriptionVisitor("NUnit.Tests.Attributes.MockFixture.NoDescriptionMethod", null);
+            result.Accept(visitor);
+        }
 
-		[Test]
+        [Test]
 		public void NoDescription()
 		{
 			TestCase testCase = TestCaseBuilder.Make( FixtureType, "NoDescriptionMethod" );
@@ -104,5 +104,24 @@ namespace NUnit.Core.Tests
 			DescriptionVisitor visitor = new DescriptionVisitor("MockFixture", "Fixture Description");
 			result.Accept(visitor);
 		}
-	}
+
+        [Test]
+        public void SeparateDescriptionAttribute()
+        {
+            TestCase testCase = TestCaseBuilder.Make(FixtureType, "SeparateDescriptionMethod");
+            Assert.AreEqual("Separate Description", testCase.Description);
+        }
+
+        [Test]
+        public void SeparateDescriptionInResult()
+        {
+            TestSuite suite = new TestSuite("Mock Fixture");
+            suite.Add(TestBuilder.MakeFixture(typeof(MockFixture)));
+            TestResult result = suite.Run(NullListener.NULL);
+
+            DescriptionVisitor visitor = new DescriptionVisitor("NUnit.Tests.Attributes.MockFixture.SeparateDescriptionMethod", "Separate Description");
+            result.Accept(visitor);
+        }
+
+    }
 }
