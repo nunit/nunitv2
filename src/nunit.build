@@ -262,9 +262,7 @@
     </if>
 
     <!-- Create NUnit and config files for running tests -->
-    <copy file="NUnitBinTests.nunit" if="${build.win32}"
-      tofile="${current.build.dir}/NUnitTests.nunit"/>
-    <copy file="NUnitMonoTests.nunit" if="${build.mono}"
+    <copy file="NUnitBinTests.nunit"
       tofile="${current.build.dir}/NUnitTests.nunit"/>
 
     <copy file="NUnitBinTests.config"
@@ -876,15 +874,8 @@
 
     <!-- We use exec rather than the nunit2 task because we are testing
          a new build of NUnit which is likely not to be included in the Nant build -->
-<!--    <exec basedir="${current.build.dir}"
-      workingdir="${current.build.dir}" 
-	  program="${nunit.console.name}" 
-      useruntimeengine="true"
-	  commandline="${nunit.project.name} ${nunit.options}"
-	if="${build.win32}" />-->
-
     <!-- Mono currently has a SIGSEGV fault if we run in a single AppDomain -->
-         a new build of NUnit which is likely not to be included in the Nant build -->
+
     <property name="nunit.test.assemblies" 
       value="${nunit.base.tests} ${nunit.gui.tests}" if="${build.gui}"/>
     <property name="nunit.test.assemblies" 
@@ -894,7 +885,6 @@
 	  program="${nunit.console.name}" 
       useruntimeengine="true"
 	  commandline="${nunit.test.assemblies} ${nunit.options}"/>
-<!--	unless="${build.win32}" />-->
 
   </target>
 

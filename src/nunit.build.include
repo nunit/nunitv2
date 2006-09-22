@@ -233,7 +233,6 @@
         <include name="NUnitBinTests.nunit"/>
         <include name="NUnitDevTests.config"/>
         <include name="NUnitDevTests.nunit"/>
-        <include name="NUnitMonoTests.nunit"/>
         <include name="CommonAssemblyInfo.cs"/>
         <include name="clr.bat"/>
         <include name="install/*.vdproj"/>
