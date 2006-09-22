@@ -28,6 +28,7 @@
 #endregion
 
 using System;
+using System.Reflection;
 
 namespace NUnit.Core
 {
@@ -96,6 +97,20 @@ namespace NUnit.Core
 		public Version Version
 		{
 			get { return version; }
+		}
+
+		public string GetDisplayName()
+		{
+			if ( runtime == RuntimeType.Mono )
+			{
+				Type monoRuntimeType = Type.GetType( "Mono.Runtime", false );
+				MethodInfo getDisplayNameMethod = monoRuntimeType.GetMethod(
+					"GetDisplayName", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.ExactBinding );
+				if ( getDisplayNameMethod != null )
+					return (string)getDisplayNameMethod.Invoke( null, new object[0] );
+			}
+
+			return runtime.ToString() + " " + Version.ToString();
 		}
 	}
 }

@@ -150,9 +150,12 @@ namespace NUnit.ConsoleRunner
 			Console.WriteLine(copyrightAttr.Copyright);
 			Console.WriteLine();
 
-			string clrPlatform = Type.GetType("Mono.Runtime", false) == null ? ".NET" : "Mono";
-			Console.WriteLine( string.Format("OS Version: {0}    {1} Version: {2}",
-				Environment.OSVersion, clrPlatform, Environment.Version ) );
+			Console.WriteLine( "Runtime Environment - " );
+			RuntimeFramework framework = RuntimeFramework.CurrentFramework;
+			Console.WriteLine( string.Format("   OS Version: {0}", Environment.OSVersion ) );
+			Console.WriteLine( string.Format("  CLR Version: {0} ( {1} )",
+				Environment.Version,  framework.GetDisplayName() ) );
+
 			Console.WriteLine();
 		}
 

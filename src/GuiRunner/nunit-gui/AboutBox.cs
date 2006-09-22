@@ -74,9 +74,8 @@ namespace NUnit.Gui
 			objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
 			AssemblyCopyrightAttribute copyrightAttr = (AssemblyCopyrightAttribute)objectAttrs[0];
 			versionLabel.Text = version.ToString(3);
-			clrTypeLabel.Text = Type.GetType( "Mono.Runtime", false ) != null 
-				? "Mono Version:" : ".NET Version:";
-			dotNetVersionLabel.Text = Environment.Version.ToString();
+			dotNetVersionLabel.Text = string.Format( "{0} ( {1} )", Environment.Version, 
+				NUnit.Core.RuntimeFramework.CurrentFramework.GetDisplayName() );
 
 			copyright.Text = copyrightAttr.Copyright;
 		}
