@@ -82,7 +82,8 @@
                 <Reference
                     Name = "nunit.framework"
                     AssemblyName = "nunit.framework"
-                    HintPath = "C:\Program Files\NUnit 2.2\bin\nunit.framework.dll"
+                    HintPath = "C:\Program Files\NUnit 2.3.6265\Assemblies\nunit.framework.dll"
+                    AssemblyFolderKey = "hkcu\dn\nunit 2.3.6265"
                 />
             </References>
         </Build>
@@ -116,10 +117,6 @@
                     RelPath = "MoneyTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ReadMe.txt"
-                    BuildAction = "Content"
                 />
             </Include>
         </Files>

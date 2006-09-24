@@ -73,8 +73,8 @@
                 <Reference
                     Name = "nunit.framework"
                     AssemblyName = "nunit.framework"
-                    HintPath = "C:\Program Files\NUnit 2.2.3\bin\nunit.framework.dll"
-                    AssemblyFolderKey = "hklm\dn\nunit.framework"
+                    HintPath = "C:\Program Files\NUnit 2.3.6265\Assemblies\nunit.framework.dll"
+                    AssemblyFolderKey = "hkcu\dn\nunit 2.3.6265"
                 />
             </References>
         </Build>
@@ -89,10 +89,6 @@
                     RelPath = "JSharpTest.jsl"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ReadMe.txt"
-                    BuildAction = "Content"
                 />
             </Include>
         </Files>

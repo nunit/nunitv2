@@ -76,7 +76,7 @@
                 />
                 <Reference
                     Name = "System.XML"
-                    AssemblyName = "System.XML"
+                    AssemblyName = "System.Xml"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
@@ -87,7 +87,8 @@
                 <Reference
                     Name = "nunit.framework"
                     AssemblyName = "nunit.framework"
-                    HintPath = "..\..\..\..\..\src\NUnitFramework\framework\bin\Debug\nunit.framework.dll"
+                    HintPath = "C:\Program Files\NUnit 2.3.6265\Assemblies\nunit.framework.dll"
+                    AssemblyFolderKey = "hkcu\dn\nunit 2.3.6265"
                 />
             </References>
         </Build>
