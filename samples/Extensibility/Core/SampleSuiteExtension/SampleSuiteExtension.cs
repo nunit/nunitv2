@@ -26,7 +26,7 @@ namespace NUnit.Core.Extensions
 				BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly ) )
 			{
 				if ( method.Name.StartsWith( "SampleTest" ) )
-					this.Add( new TestMethod( method ) );
+					this.Add( new NUnitTestMethod( method ) );
 			}
 		}
 	}
