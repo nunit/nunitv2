@@ -1,4 +1,4 @@
-/************************************************************************************
+'************************************************************************************
 '
 ' Copyright © 2002 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov
 ' Copyright © 2000-2002 Philip A. Craig
@@ -25,25 +25,34 @@
 '
 '***********************************************************************************/
 
-#pragma once
+Namespace NUnit.Samples
 
-using namespace System;
-using namespace NUnit::Framework;
+    'The common interface for simple Monies and MoneyBags.
+    Public Interface IMoney
 
-namespace NUnitSamples
-{
-	[TestFixture]
-	public __gc class SimpleCPPSample
-	{
-		int fValue1;
-		int fValue2;
-	public:
-		[SetUp] void Init();
+        'Adds a money to this money
+        Function Add(ByVal m As IMoney) As IMoney
 
-		[Test] void Add();
-		[Test] void DivideByZero();
-		[Test] void Equals();
-		[Test] [Ignore("ignored test")] void IgnoredTest();
-		[Test] [ExpectedException(__typeof(InvalidOperationException))] void ExpectAnException();
-	};
-}
+        'Adds a simple Money to this money. This is a helper method for
+        'implementing double dispatch.
+        Function AddMoney(ByVal m As Money) As IMoney
+
+        'Adds a MoneyBag to this money. This is a helper method for
+        'implementing double dispatch.
+        Function AddMoneyBag(ByVal s As MoneyBag) As IMoney
+
+        'True if this money is zero.
+        ReadOnly Property IsZero() As Boolean
+
+        'Multiplies a money by the given factor.
+        Function Multiply(ByVal factor As Int32) As IMoney
+
+        'Negates this money.
+        Function Negate() As IMoney
+
+        'Subtracts a money from this money.
+        Function Subtract(ByVal m As IMoney) As IMoney
+
+    End Interface
+
+End Namespace
