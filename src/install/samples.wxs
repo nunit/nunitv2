@@ -5,115 +5,155 @@
 	<Feature Id="SamplesFeature" Level="1"
 		Title='Samples' Description='Sample code showing the use of NUnit' Display='expand'>
 		
+	  <ComponentRef Id="C__SamplesReadme" />
+	  <ComponentRef Id="C__SampleShortcuts" />
+
 	  <!-- C# Samples -->
-	  <ComponentRef Id="C__CSharpSample_Simple" />
-	  <ComponentRef Id="C__CSharpSample_Money" />
-	  <ComponentRef Id="C__CSharpSample_Money_Port" />
+	  <ComponentRef Id="C__CSharp_Failures" />
+	  <ComponentRef Id="C__CSharp_Money" />
+	  <ComponentRef Id="C__CSharp_Money_Port" />
 		
       <!-- J# Sample -->
-	  <ComponentRef Id="C__JSharpSample" />
+	  <ComponentRef Id="C__JSharp_Failures" />
 
-      <!-- C++ Sample -->
-	  <ComponentRef Id="C__CppSample" />
+      <!-- C++ Samples -->
+	  <ComponentRef Id="C__CPP_Managed_Failures" />
+	  <ComponentRef Id="C__CPP_CLI_Failures" />
 
       <!-- VB Sample -->
-	  <ComponentRef Id="C__VbSample" />
+	  <ComponentRef Id="C__VB_Failures" />
+	  <ComponentRef Id="C__VB_Money" />
 			
 	  <!-- Extensibility Samples -->
 	  <ComponentRef Id="C__SampleSuiteExtension" />
 	  <ComponentRef Id="C__SampleSuiteExtension_Tests" />
 	  <ComponentRef Id="C__SampleFixtureExtension" />
 	  <ComponentRef Id="C__SampleFixtureExtension_Tests" />
-	  <ComponentRef Id="C__SampleShortcuts" />
 
     </Feature>
 	
 	<!-- Menu Shortcuts to samples -->
-	<DirectoryRef Id="samples">
+	<DirectoryRef Id="samples" FileSource="samples">
         <Component Id="C__SampleShortcuts" DiskId="1" Guid="CCDAEC65-EED0-4794-89D0-363EB1AC3CC9">
           <Shortcut Id="S__csharp" Target="[csharp]" Directory="SamplesMenu" Name="SCSHARP" LongName="C#" Show="normal" />
           <Shortcut Id="S__jsharp" Target="[jsharp]" Directory="SamplesMenu" Name="SJSHARP" LongName="J#" Show="normal" />
-          <Shortcut Id="S__cpp" Target="[cpp_sample]" Directory="SamplesMenu" Name="SCPP" LongName="C++" Show="normal" />
+          <Shortcut Id="S__cpp" Target="[cpp]" Directory="SamplesMenu" Name="SCPP" LongName="C++" Show="normal" />
           <Shortcut Id="S__vb" Target="[vb]" Directory="SamplesMenu" Name="SVB" LongName="VB" Show="normal" />
           <Shortcut Id="S__extensibility" Target="[extensibility]" Directory="SamplesMenu" Name="SEXTENSI" LongName="Extensibility" Show="normal" />
 	    </Component>
+		<Component Id="C__SamplesReadme" DiskId="1" Guid="9FBE1436-920F-450b-9E7E-D85473E727B4">
+		  <File Id="ReadMe.txt" Name="ReadMe.txt" />
+		</Component>
 	</DirectoryRef>
 
 	<!-- C# Samples -->	
     <DirectoryRef Id="csharp" FileSource="samples\csharp">
 	
-        <Directory Id="directory9" Name="money">
-            <Component Id="C__CSharpSample_Money" DiskId="1" Guid="F7B5ED7B-7478-43d3-B376-06FE70EADF1B">
-              <File Id="F__samples_file23" Name="ReadMe.txt" />
+		<Directory Id="csharp_failures" Name="failures">
+            <Component Id="C__CSharp_Failures" DiskId="1" Guid="5613D9D2-7F4B-4d49-A0C3-AEF43CF08C5B">
+              <File Id="CS_Failures.sln" Name="CS-FAIL.SLN" LongName="cs-failures.sln" />
+              <File Id="CS_Failures.csproj" Name="CS-FAIL.CSP" LongName="cs-failures.csproj" />
+              <File Id="CSharpTest.cs" Name="CS-FAIL.CS" LongName="CSharpTest.cs" />
+              <File Id="CS_Failures_AssemblyInfo.cs" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
+            </Component>
+        </Directory>
+        
+        <Directory Id="csharp_money" Name="money">
+            <Component Id="C__CSharp_Money" DiskId="1" Guid="F7B5ED7B-7478-43d3-B376-06FE70EADF1B">
               <File Id="F__samples_file24" Name="Money.cs" />
-              <File Id="F__samples_file25" Name="MONEYT_1.CS" LongName="MoneyTest.cs" />
+              <File Id="F__samples_file25" Name="MONEYTST.CS" LongName="MoneyTest.cs" />
               <File Id="F__samples_file26" Name="MoneyBag.cs" />
               <File Id="F__samples_file27" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
-              <File Id="F__samples_file28" Name="MONEY__1.CSP" LongName="money_VS2005.csproj" />
-              <File Id="F__samples_file29" Name="MONEY_1.CSP" LongName="money.csproj" />
+              <File Id="F__samples_file28" Name="MONEY.SLN" LongName="cs-money.sln" />
+              <File Id="F__samples_file29" Name="MONEY.CSP" LongName="cs-money.csproj" />
               <File Id="F__samples_file30" Name="IMoney.cs" />
             </Component>
         </Directory>
         
-		<Directory Id="simple" Name="simple">
-            <Component Id="C__CSharpSample_Simple" DiskId="1" Guid="5613D9D2-7F4B-4d49-A0C3-AEF43CF08C5B">
-              <File Id="F__samples_file31" Name="CSHARP_1.CS" LongName="CSharpTest.cs" />
-              <File Id="F__samples_file32" Name="ReadMe.txt" />
-              <File Id="F__samples_file33" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
-              <File Id="F__samples_file34" Name="CSHARP_1.CSP" LongName="csharp-sample_VS2005.csproj" />
-              <File Id="F__samples_file35" Name="CSHARP_2.CSP" LongName="csharp-sample.csproj" />
-            </Component>
-        </Directory>
-        
-		<Directory Id="money_port" Name="MONEY-_1" LongName="money-port">
-            <Component Id="C__CSharpSample_Money_Port" DiskId="1" Guid="CE86795C-1A55-4d82-BBA7-8B73668B94D1">
+		<Directory Id="csharp_money_port" Name="MONEY-_1" LongName="money-port">
+            <Component Id="C__CSharp_Money_Port" DiskId="1" Guid="CE86795C-1A55-4d82-BBA7-8B73668B94D1">
               <File Id="F__samples_file36" Name="MoneyBag.cs" />
               <File Id="F__samples_file37" Name="Money.cs" />
               <File Id="F__samples_file38" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
-              <File Id="F__samples_file39" Name="ReadMe.txt" />
-              <File Id="F__samples_file40" Name="MONEY-_1.CSP" LongName="money-port_VS2005.csproj" />
-              <File Id="F__samples_file41" Name="MONEY-_1.CON" LongName="money-port.config" />
+              <File Id="F__samples_file41" Name="MONEY-_1.CON" LongName="cs-money-port.config" />
               <File Id="F__samples_file42" Name="IMoney.cs" />
-              <File Id="F__samples_file43" Name="MONEYT_1.CS" LongName="MoneyTest.cs" />
-              <File Id="F__samples_file44" Name="MONEY-_2.CSP" LongName="money-port.csproj" />
+              <File Id="F__samples_file43" Name="MONEYTST.CS" LongName="MoneyTest.cs" />
+              <File Id="F__samples_file40" Name="MONYPORT.SLN" LongName="cs-money-port.sln" />
+              <File Id="F__samples_file44" Name="MONYPORT.CSP" LongName="cs-money-port.csproj" />
             </Component>
         </Directory>
+		
     </DirectoryRef>
 		
     <!-- J# Sample -->
 	<DirectoryRef Id="jsharp" FileSource="samples\jsharp" >
-        <Component Id="C__JSharpSample" DiskId="1" Guid="500ED4A5-E644-473d-904E-CD43D423531B">
-            <File Id="F__samples_file0" Name="ReadMe.txt" />
-            <File Id="F__samples_file1" Name="JSHARP_1.VJS" LongName="jsharp_VS2005.vjsproj" />
-            <File Id="F__samples_file2" Name="JSHARP_2.VJS" LongName="jsharp.vjsproj" />
-            <File Id="F__samples_file3" Name="JSHARP_1.JSL" LongName="JSharpTest.jsl" />
+	    <Directory Id="jsharp_failures" Name="failures">
+          <Component Id="C__JSharp_Failures" DiskId="1" Guid="500ED4A5-E644-473d-904E-CD43D423531B">
+            <File Id="F__samples_file1" Name="JS-FAIL.SLN" LongName="jsharp-failures.sln" />
+            <File Id="F__samples_file2" Name="JS-FAIL.VJS" LongName="jsharp-failures.vjsproj" />
+            <File Id="F__samples_file3" Name="JS-FAIL.JSL" LongName="JSharpTest.jsl" />
             <File Id="F__samples_file4" Name="ASSEMB_1.JSL" LongName="AssemblyInfo.jsl" />
-        </Component>
+          </Component>
+		</Directory>
     </DirectoryRef>
 		
-    <!-- C++ Sample -->
-	<DirectoryRef Id="cpp" FileSource="samples\cpp-sample" >
-        <Component Id="C__CppSample" DiskId="1" Guid="A32EB24D-F996-4fc6-9614-D6CD17D0EAC6">
+    <!-- C++ Samples -->
+	<DirectoryRef Id="cpp" FileSource="samples\cpp" >
+	
+	  <Directory Id="cpp_managed" Name="managed">
+	    <Directory Id="cpp_managed_failures" Name="failures">
+          <Component Id="C__CPP_Managed_Failures" DiskId="1" Guid="A32EB24D-F996-4fc6-9614-D6CD17D0EAC6">
             <File Id="F__samples_file45" Name="Stdafx.cpp" />
-            <File Id="F__samples_file46" Name="CPPSAM_1.H" LongName="cppsample.h" />
-            <File Id="F__samples_file47" Name="CPPSAM_1.CPP" LongName="cppsample.cpp" />
-            <File Id="F__samples_file48" Name="CPP-SA_1.VCP" LongName="cpp-sample.vcproj" />
-            <File Id="F__samples_file49" Name="ReadMe.txt" />
+            <File Id="F__samples_file46" Name="CPP-FAIL.H" LongName="cppsample.h" />
+            <File Id="F__samples_file47" Name="CPP-FAIL.CPP" LongName="cppsample.cpp" />
+            <File Id="CPP_Failures.sln" Name="CPP-FAIL.SLN" LongName="cpp-failures.sln" />
+            <File Id="CPP_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-failures.vcproj" />
             <File Id="F__samples_file50" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
-            <File Id="F__samples_file51" Name="CPP-SA_2.VCP" LongName="cpp-sample_VS2005.vcproj" />
             <File Id="F__samples_file52" Name="Stdafx.h" />
-        </Component>
+          </Component>
+	    </Directory>
+	  </Directory>
+	  
+	  <Directory Id="cpp_cli" Name="cpp-cli">
+	    <Directory Id="cpp_cli_failures" Name="failures">
+          <Component Id="C__CPP_CLI_Failures" DiskId="1" Guid="30A34CDA-7A71-48dd-8DC9-6D18EAECB49C">
+            <File Id="CPP_CLI_Failures_Stdafx.cpp" Name="Stdafx.cpp" />
+            <File Id="CPP_CLI_Failures.h" Name="CPP-FAIL.H" LongName="cppsample.h" />
+            <File Id="CPP_CLI_Failures.cpp" Name="CPP-FAIL.CPP" LongName="cppsample.cpp" />
+            <File Id="CPP_CLI_Failures.sln" Name="CPP-FAIL.SLN" LongName="cpp-failures.sln" />
+            <File Id="CPP_CLI_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-failures.vcproj" />
+            <File Id="CPP_CLI_Failures_AssemblyInfo" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
+            <File Id="CPP_CLI_Failures_Stdafx.h" Name="Stdafx.h" />
+          </Component>
+	    </Directory>
+	  </Directory>
+	  
     </DirectoryRef>
 		
     <!-- VB Sample -->
 	<DirectoryRef Id="vb" FileSource="samples\vb" >
-        <Component Id="C__VbSample" DiskId="1" Guid="05434C61-C0AC-47cb-8189-B1232CA3B5FB">
-            <File Id="F__samples_file53" Name="SIMPLE_1.VB" LongName="SimpleVBTest.vb" />
-            <File Id="F__samples_file54" Name="VB-SAM_1.VBP" LongName="vb-sample.vbproj" />
-            <File Id="F__samples_file55" Name="ReadMe.txt" />
-            <File Id="F__samples_file56" Name="ASSEMB_1.VB" LongName="AssemblyInfo.vb" />
-            <File Id="F__samples_file57" Name="VB-SAM_2.VBP" LongName="vb-sample_VS2005.vbproj" />
+	
+	  <Directory Id="vb_failures" Name="failures">
+        <Component Id="C__VB_Failures" DiskId="1" Guid="05434C61-C0AC-47cb-8189-B1232CA3B5FB">
+		    <File Id="vb_failures.sln" Name="VB-FAIL.SLN" LongName="vb-failures.sln" />
+            <File Id="vb_failures.vbproj" Name="VB-FAIL.VBP" LongName="vb-failures.vbproj" />
+            <File Id="vb_failures.vb" Name="VB-FAIL.VB" LongName="SimpleVBTest.vb" />
+            <File Id="vb_failures_assemblyinfo.vb" Name="ASSEMB_1.VB" LongName="AssemblyInfo.vb" />
         </Component>
+	  </Directory>
+	  
+        <Directory Id="vb_money" Name="money">
+            <Component Id="C__VB_Money" DiskId="1" Guid="AB0D542C-670D-473c-9034-1D277466E60A">
+			  <File Id="vb_money.sln" Name="vb-money.sln" />
+              <File Id="Money.vbproj" Name="MONEY.VBP" LongName="vb-money.vbproj" />
+              <File Id="Money.vb" Name="Money.vb" />
+              <File Id="MoneyTest.vb" Name="MONEYTST.VB" LongName="MoneyTest.vb" />
+              <File Id="MoneyBag.vb" Name="MoneyBag.vb" />
+              <File Id="Money_AssemblyInfo.vb" Name="ASSEMB_1.VB" LongName="AssemblyInfo.vb" />
+              <File Id="IMoney.vb" Name="IMoney.vb" />
+            </Component>
+        </Directory>
+        
     </DirectoryRef>
 	
     <!-- Extensibility Samples -->
@@ -122,11 +162,11 @@
             <Directory Id="samplesuiteextension" Name="SAMPLE_1" LongName="SampleSuiteExtension">
               <Component Id="C__SampleSuiteExtension" DiskId="1" Guid="2EDC393E-B725-406f-A9BC-824E3B72EE84">
                 <File Id="F__samples_file5" Name="SAMPLE_1.CS" LongName="SampleSuiteExtensionBuilder.cs" />
+                <File Id="SampleSuiteExtension.sln" Name="SAMPLE_1.SLN" LongName="SampleSuiteExtension.sln" />
                 <File Id="F__samples_file6" Name="SAMPLE_1.CSP" LongName="SampleSuiteExtension.csproj" />
                 <File Id="F__samples_file7" Name="SAMPLE_2.CS" LongName="SampleSuiteExtensionAttribute.cs" />
                 <File Id="F__samples_file8" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
                 <File Id="F__samples_file9" Name="SAMPLE_3.CS" LongName="SampleSuiteExtension.cs" />
-                <File Id="F__samples_file10" Name="SAMPLE_1.SLN" LongName="SampleSuiteExtension.sln" />
               </Component>
               <Directory Id="samplesuiteextention_tests" Name="Tests">
                 <Component Id="C__SampleSuiteExtension_Tests" DiskId="1" Guid="0E72B102-06A7-448d-938E-3EDD83BA496C">
@@ -140,9 +180,9 @@
               <Component Id="C__SampleFixtureExtension" DiskId="1" Guid="4C209669-C278-4fc7-8D61-3E36E263AADF">
                 <File Id="F__samples_file14" Name="SAMPLE_1.CS" LongName="SampleFixtureExtensionBuilder.cs" />
                 <File Id="F__samples_file15" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
-                <File Id="F__samples_file16" Name="SAMPLE_1.SLN" LongName="SampleFixtureExtension.sln" />
                 <File Id="F__samples_file17" Name="SAMPLE_2.CS" LongName="SampleFixtureExtension.cs" />
                 <File Id="F__samples_file18" Name="SAMPLE_3.CS" LongName="SampleFixtureExtensionAttribute.cs" />
+                <File Id="SampleFixtureExtension.sln" Name="SAMPLE_1.SLN" LongName="SampleFixtureExtension.sln" />
                 <File Id="F__samples_file19" Name="SAMPLE_1.CSP" LongName="SampleFixtureExtension.csproj" />
               </Component>
               <Directory Id="directory7" Name="Tests">

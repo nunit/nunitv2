@@ -77,6 +77,7 @@
           <File Id="F__doc_file61" Name="UPGRAD_1.HTM" LongName="upgrade.html" />
           <File Id="F__doc_file62" Name="UTILIT_1.HTM" LongName="utilityAsserts.html" />
           <File Id="F__doc_file63" Name="VSSUPP_1.HTM" LongName="vsSupport.html" />
+		  <RemoveFile Id="RF_doc_thumbs.db" Name="thumbs.db" On="uninstall" />
         </Component>
 	</DirectoryRef>
 		
@@ -88,6 +89,7 @@
             <File Id="F__doc_file73" Name="SUMMAR_1.XSL" LongName="Summary.xslt" />
             <File Id="F__doc_file74" Name="SUPPLE_1.PDF" LongName="Supplement.pdf" />
             <File Id="F__doc_file75" Name="TESTRE_1.XML" LongName="TestResult.xml" />
+			<RemoveFile Id="RF_doc_files_thumbs.db" Name="thumbs.db" On="uninstall" />
         </Component>
     </DirectoryRef>
 		
@@ -117,6 +119,7 @@
             <File Id="F__doc_file103" Name="TESTPR_1.JPG" LongName="testProperties.jpg" />
             <File Id="F__doc_file104" Name="testsTab.JPG" />
             <File Id="F__doc_file105" Name="testTab.jpg" />
+			<RemoveFile Id="RF_doc_img_thumbs.db" Name="thumbs.db" On="uninstall" />
         </Component>
     </DirectoryRef>
 	

@@ -30,6 +30,20 @@
     <call target="set-${runtime.config}-runtime-config"/>
     <property name="build.dir.set" value="false"/>
   </target>
+  
+  <target name="set-default-dot-net-runtime-config">
+    <fail unless="${property::exists( 'default.net.runtime' )}"
+      message="No versions of the .NET SDK were found"/>
+
+    <call target="set-${default.net.runtime}-runtime-config" />
+  </target>
+
+  <target name="set-default-mono-runtime-config">
+    <fail unless="${property::exists( 'default.mono.runtime' )}"
+      message="No versions of the Mono runtime were found"/>
+
+    <call target="set-${default.mono.runtime}-runtime-config" />
+  </target>
 
   <target name="set-net-1.0-runtime-config">
     <fail unless="${framework::sdk-exists( 'net-1.0' )}"
@@ -184,40 +198,61 @@
 
   <target name="copy-samples">
     <mkdir dir="${package.samples.dir}"/>
+
     <copy todir="${package.samples.dir}" includeemptydirs="false">
       <fileset basedir="${project.samples.dir}">
-        <include name="cpp-sample/*.vcproj"/>
-        <include name="cpp-sample/*.cpp"/>
-        <include name="cpp-sample/*.h"/>
-        <include name="cpp-sample/*.txt"/>
-        <include name="csharp/simple/*.csproj"/>
-        <include name="csharp/simple/*.cs"/>
-        <include name="csharp/simple/*.txt"/>
-        <include name="csharp/money/*.csproj"/>
-        <include name="csharp/money/*.cs"/>
-        <include name="csharp/money/*.txt"/>
-        <include name="csharp/money-port/*.csproj"/>
-        <include name="csharp/money-port/*.cs"/>
-        <include name="csharp/money-port/*.txt"/>
-        <include name="csharp/money-port/*.config"/>
-        <include name="jsharp/*.vjsproj"/>
-        <include name="jsharp/*.jsl"/>
-        <include name="jsharp/*.txt"/>
-        <include name="vb/*.vbproj"/>
-        <include name="vb/*.vb"/>
-        <include name="vb/*.txt"/>
-        <include name="Extensibility/**/*.sln"/>
-        <include name="Extensibility/**/*.csproj"/>
-        <include name="Extensibility/**/*.cs"/>
-        <include name="Extensibility/**/*.txt"/>
+        <include name="ReadMe.txt" />
+        <include name="cpp/**/*" />
+        <include name="csharp/**/*" />
+        <include name="jsharp/**/*" />
+        <include name="vb/**/*" />
+        <include name="Extensibility/**/*" />
+        <exclude name="**/CVS/**" />
+        <exclude name="**/bin/**" />
+        <exclude name="**/obj/**" />
+        <exclude name="**/temp/**" />
+        <exclude name="**/Debug/**" />
+        <exclude name="**/Release/**" />
+        <exclude name="**/*.ncb" />
+        <exclude name="**/*.suo" />
+        <exclude name="**/*.user" />
+        <exclude name="**/~*" />
+        <exclude name="**/thumbs.db" />
       </fileset>
     </copy>
   </target>
 
+  <fileset id="source-files" >
+        <include name="**/*.sln" />
+        <include name="**/*.csproj" />
+        <include name="**/*.build" />
+        <include name="**/*.build.include" />
+        <include name="**/*.snk" />
+        <include name="**/*.cs" />
+        <include name="**/*.config" />
+        <include name="**/*.xsd" />
+        <include name="**/*.xslt" />
+        <include name="**/*.resx" />
+        <include name="**/*.jpg" />
+        <include name="**/*.gif" />
+        <include name="**/*.ico" />
+        <exclude name="**/CVS/**" />
+        <exclude name="**/bin/**" />
+        <exclude name="**/obj/**" />
+        <exclude name="**/Debug/**" />
+        <exclude name="**/Release/**" />
+        <exclude name="**/*.ncb" />
+        <exclude name="**/*.suo" />
+        <exclude name="**/*.user" />
+        <exclude name="**/~*" />
+        <exclude name="**/thumbs.db" />
+  </fileset>
+
   <target name="copy-src">
+    <delete dir="${package.src.dir}" />
     <mkdir dir="${package.src.dir}"/>
 
-    <!-- Copy top level src files and install project -->
+    <!-- Copy top level src files -->
     <copy todir="${package.src.dir}">
       <fileset basedir=".">
         <include name="license.rtf"/>
@@ -235,141 +270,38 @@
         <include name="NUnitDevTests.nunit"/>
         <include name="CommonAssemblyInfo.cs"/>
         <include name="clr.bat"/>
-        <include name="install/*.vdproj"/>
       </fileset>
     </copy>
 
     <!-- Copy individual projects -->
-    <copy todir="${package.src.dir}/NUnitFramework">
-      <fileset basedir="NUnitFramework">
-        <include name="framework/*.csproj"/>
-        <include name="framework/*.snk"/>
-        <include name="framework/*.cs"/>
-        <include name="tests/*.csproj"/>
-        <include name="tests/*.config"/>
-        <include name="tests/*.cs"/>
-	      <include name="tests/*.jpg"/>
-  	    <include name="tests/*.txt"/>
-      </fileset>
-    </copy>
-    <copy todir="${package.src.dir}/NUnitCore">
-      <fileset basedir="NUnitCore">
-        <include name="common/*.csproj"/>
-        <include name="common/*.cs"/>
-        <include name="common/Filters/*.cs"/>
-        <include name="core/*.csproj"/>
-        <include name="core/*.cs"/>
-        <include name="core/Builders/*.cs"/>
-        <include name="core/Results.xsd"/>
-        <include name="core/Summary.xslt"/>
-        <include name="tests/*.csproj"/>
-        <include name="tests/*.config"/>
-        <include name="tests/*.cs"/>
-      </fileset>
-    </copy>
-    <copy todir="${package.src.dir}/ClientUtilities">
-      <fileset basedir="ClientUtilities">
-        <include name="util/*.csproj"/>
-        <include name="util/*.cs"/>
-        <include name="util/*.resx"/>
-        <include name="tests/*.csproj"/>
-        <include name="tests/*.cs"/>
-        <include name="tests/*.resx"/>
-        <include name="tests/*.config"/>
-        <include name="tests/resources/*"/>
-      </fileset>
-    </copy>
-    <copy todir="${package.src.dir}/ConsoleRunner">
-      <fileset basedir="ConsoleRunner">
-        <include name="nunit-console/*.csproj"/>
-        <include name="nunit-console/App.ico"/>
-        <include name="nunit-console/*.cs"/>
-        <include name="nunit-console-exe/*.csproj"/>
-        <include name="nunit-console-exe/App.config"/>
-        <include name="nunit-console-exe/App.ico"/>
-        <include name="nunit-console-exe/*.cs"/>
-        <include name="tests/*.csproj"/>
-        <include name="tests/*.cs"/>
-        <include name="tests/*.config"/>
-      </fileset>
-    </copy>
-    <copy todir="${package.src.dir}/NUnitTestServer">
-      <fileset basedir="NUnitTestServer">
-        <include name="nunit-server/*.csproj"/>
-        <include name="nunit-server/*.cs"/>
-        <include name="nunit-server-exe/*.csproj"/>
-        <include name="nunit-server-exe/App.config"/>
-        <include name="nunit-server-exe/App.ico"/>
-        <include name="nunit-server-exe/*.cs"/>
-        <include name="tests/*.csproj"/>
-        <include name="tests/*.cs"/>
-      </fileset>
-    </copy>
-    <copy todir="${package.src.dir}/NUnitMocks">
-      <fileset basedir="NUnitMocks">
-        <include name="mocks/*.csproj"/>
-        <include name="mocks/*.cs"/>
-        <include name="tests/*.csproj"/>
-        <include name="tests/*.config"/>
-        <include name="tests/*.cs"/>
-      </fileset>
-    </copy>
-    <copy todir="${package.src.dir}/NUnitExtensions">
-      <fileset basedir="NUnitExtensions">
-        <include name="framework/*.csproj"/>
-        <include name="framework/*.cs"/>
-        <include name="core/*.csproj"/>
-        <include name="core/*.cs"/>
-        <include name="tests/*.csproj"/>
-        <include name="tests/*.cs"/>
-      </fileset>
-    </copy>
-    <copy todir="${package.src.dir}/GuiComponents">
-      <fileset basedir="GuiComponents">
-        <include name="UiKit/*.csproj"/>
-        <include name="UiKit/*.cs"/>
-        <include name="UiKit/*.resx"/>
-        <include name="UiKit/*.gif"/>
-        <include name="UiKit/*.jpg"/>
-        <include name="tests/*.csproj"/>
-        <include name="tests/*.config"/>
-        <include name="tests/*.cs"/>
-      </fileset>
-    </copy>
-    <copy todir="${package.src.dir}/GuiRunner">
-      <fileset basedir="GuiRunner">
-        <include name="nunit-gui/*.csproj"/>
-        <include name="nunit-gui/*.cs"/>
-        <include name="nunit-gui/*.resx"/>
-        <include name="nunit-gui/*.ico"/>
-        <include name="nunit-gui-exe/*.csproj"/>
-        <include name="nunit-gui-exe/*.config"/>
-        <include name="nunit-gui-exe/*.cs"/>
-        <include name="nunit-gui-exe/*.ico"/>
-        <include name="tests/*.csproj"/>
-        <include name="tests/*.cs"/>
-        <include name="tests/*.config"/>
-      </fileset>
-    </copy>
-    <copy todir="${package.src.dir}/tests">
-      <fileset basedir="tests">
-        <include name="mock-assembly/*.csproj"/>
-        <include name="mock-assembly/*.config"/>
-        <include name="mock-assembly/*.cs"/>
-        <include name="nonamespace-assembly/*.csproj"/>
-        <include name="nonamespace-assembly/*.cs"/>
-        <include name="notestfixtures-assembly/*.csproj"/>
-        <include name="notestfixtures-assembly/*.cs"/>
-        <include name="test-assembly/*.csproj"/>
-        <include name="test-assembly/*.cs"/>
-        <include name="test-utilities/*.csproj"/>
-        <include name="test-utilities/*.cs"/>
-        <include name="timing-tests/*.csproj"/>
-        <include name="timing-tests/*.cs"/>
-      </fileset>
-    </copy>
+    <property name="project.path.list"     value="NUnitFramework/framework,NUnitFramework/tests,NUnitCore,ClientUtilities,ConsoleRunner,NUnitTestServer,NUnitMocks,NUnitExtensions,GuiComponents,GuiRunner,tests" />
+
+    <foreach property="project.path" item="String" delim="," in="${project.path.list}" >
+      <copy todir="${package.src.dir}/${project.path}">
+        <fileset basedir="${project.path}">
+          <include name="**/*.csproj"/>
+          <include name="**/*.config"/>
+          <include name="**/*.cs"/>
+          <include name="**/*.resx"/>
+          <include name="**/*.ico"/>
+          <include name="**/*.gif"/>
+          <include name="**/*.jpg"/>
+          <include name="**/*.xsd" />
+          <include name="**/*.xslt" />
+          <include name="**/*.txt" />
+          <include name="**/*.sln" />
+          <include name="**/*.csproj" />
+          <include name="**/*.vcproj" />
+          <include name="**/*.vjsproj" />
+          <include name="**/*.vbproj" />
+          <exclude name="**/bin/**" />
+          <exclude name="**/obj/**" />
+        </fileset>
+      </copy>
+    </foreach>
+
   </target>
-  
+
   <!-- Dump configuration settings for debugging -->
   <target name="dump-settings" depends="set-build-dir,set-package-config">
     <echo>Project Directories</echo>
@@ -383,6 +315,13 @@
     <echo>   Tools:    ${project.tools.dir}</echo>
     <echo>    WiX:     ${wix.dir}</echo>
     <echo>    nCover:  ${ncover.dir}</echo>
+    <echo></echo>
+    <echo>Runtime Versions</echo>
+    <echo>  Supported: ${supported.frameworks}</echo>
+    <echo>  Instaled:  ${installed.frameworks}</echo>
+    <echo>  Default:   ${default.runtime}</echo>
+    <echo>    .Net:    ${default.net.runtime}</echo>
+    <echo>    Mono:    ${default.mono.runtime}</echo>
     <echo></echo>
     <echo>Current Configuration</echo>
     <echo>  Config:    ${build.config}</echo>

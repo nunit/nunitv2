@@ -22,7 +22,7 @@
         <Component Id="C__NUnitExe" DiskId="1" Guid="8F677B87-1379-4721-B527-6EC53A3613F4">
 		  <File Id="nunit.exe" Name="nunit.exe">
 		      <Shortcut Id="DesktopShortcut" Directory="DesktopFolder" 
-			    Name="SNUNITDT" LongName="NUnit $(var.ProductVersion)" 
+			    Name="SNUNITDT" LongName="NUnit $(var.NominalVersion)" 
 				Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
 				Advertise="no" WorkingDirectory="bin" />
 		  </File>
@@ -32,7 +32,7 @@
           <File Id="clr.bat" Name="clr.bat" KeyPath="yes" DiskId="1" />
 		</Component>
         <Component Id="C__Shortcut_1.0" DiskId="1" Guid="2B9915B2-3C65-45fa-B6DB-7CB47F19EEA0">
-		  <Shortcut Id="Shortcut_1.0" Target="[!clr.bat]" Arguments="1.0 nunit.exe" Directory="NUnitMenu" 
+		  <Shortcut Id="Shortcut_1.0" Target="[!clr.bat]" Arguments="1.0 start nunit.exe" Directory="NUnitMenu" 
 		    Name="SNUNIT10" LongName="NUnit GUI (.NET 1.0)"  Advertise="no"
 			Icon="nunit_icon.exe" IconIndex="0" Show="minimized" 
 			WorkingDirectory="bin" />
@@ -41,7 +41,7 @@
 			</Condition>
 		</Component>
         <Component Id="C__Shortcut_1.1" DiskId="1" Guid="BC64C9F2-8CA8-4cc1-BD86-1B036DDC1E26">
-		  <Shortcut Id="Shortcut_1.1" Target="[!clr.bat]" Arguments="1.1 nunit.exe" Advertise="no"
+		  <Shortcut Id="Shortcut_1.1" Target="[!clr.bat]" Arguments="1.1 start nunit.exe" Advertise="no"
 		    Directory="NUnitMenu" Name="SNUNIT11" LongName="NUnit GUI (.NET 1.1)" 
 			Icon="nunit_icon.exe" IconIndex="0" Show="minimized" 
 			WorkingDirectory="bin" />
@@ -50,7 +50,7 @@
 			</Condition>
 		</Component>
         <Component Id="C__Shortcut_2.0" DiskId="1" Guid="A771FB75-2488-4f2c-BA22-1F4C85D64AC7">
-		  <Shortcut Id="Shortcut_2.0" Target="[!clr.bat]" Arguments="2.0 nunit.exe"  Advertise="no"
+		  <Shortcut Id="Shortcut_2.0" Target="[!clr.bat]" Arguments="2.0 start nunit.exe"  Advertise="no"
 		    Directory="NUnitMenu" Name="SNUNIT20" LongName="NUnit GUI (.NET 2.0)" 
 			Icon="nunit_icon.exe" IconIndex="0" Show="minimized" 
 			WorkingDirectory="bin" />

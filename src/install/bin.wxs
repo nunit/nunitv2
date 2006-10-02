@@ -24,9 +24,9 @@
 		</Component>-->
 	  
 	  	<Component Id="C__NUnitRegistry" Guid="36AE84ED-5510-40eb-A3B1-D821AC06259C">
-			<Registry Id="R__INSTALLDIR" Root="HKMU" Key="Software\[Manufacturer]\NUnit [ProductVersion]" Name="InstallDir" 
+			<Registry Id="R__INSTALLDIR" Root="HKMU" Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)" Name="InstallDir" 
 				Action="write" Type="string" Value="[INSTALLDIR]" />
-			<Registry Id="R__ProductVersion" Root="HKMU" Key="Software\[Manufacturer]\NUnit [ProductVersion]" Name="ProductVersion" 
+			<Registry Id="R__ProductVersion" Root="HKMU" Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)" Name="ProductVersion" 
 				Action="write" Type="string" Value="[ProductVersion]" />
 			<Registry Id="R__Assemblies" Root="HKMU"
 				Key="Software\Microsoft\.NETFramework\AssemblyFolders\NUnit [ProductVersion]" 

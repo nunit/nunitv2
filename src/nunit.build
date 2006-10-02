@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <project name="NUnit" default="build" basedir=".">
 
-    <!-- Common properties and build routines -->
     <include buildfile="nunit.build.include"/>
 
 <!--
@@ -45,7 +44,13 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit version for packaging -->
-  <property name="package.version" value="2.3.6162"/>
+  <property name="package.version" value="2.3.6265"/>
+
+  <!-- Nominal version used for install directory and program
+       files menu. Normally the major and minor portions
+       of the package.version, but may differ when we are
+       in alpha or beta. -->
+  <property name="nominal.version" value="2.4" />
 
   <!-- NUnit executables and arguments -->
   <property name="nunit.gui.name" value="nunit.exe"/>
@@ -90,13 +95,26 @@
     value="${path::combine(project.tools.dir,'ncover')}"/>
 
   <!-- Frameworks supported by this build script. The first
-         installed framework found is the default for builds. -->
+         installed framework found is the default for builds. 
+         The first .NET and Mono frameworks found are the
+         respective net and mono defaults. -->
   <property name="supported.frameworks" 
-    value="net-1.1,net-1.0,net-2.0,mono-1.0,mono-2.0"/>
+    value="net-1.1,net-2.0,net-1.0,mono-1.0,mono-2.0"/>
 
   <!-- Root of the package file name -->
   <property name="package.name" 
     value="${project.name}-${package.version}"/>
+
+  <fileset id="project.base.buildfiles">
+    <include name="NUnitFramework/framework/nunit.framework.build" />
+    <include name="NUnitFramework/tests/nunit.framework.tests.build" />
+    <include name="NUnitCore/common/nunit.common.build" />
+    <include name="NUnitCore/core/nunit.core.build" />
+    <include name="NUnitCore/tests/nunit.core.tests.build" />
+  </fileset>
+
+  <fileset id="project.gui.buildfiles">
+  </fileset>
 
   <!-- Package directories -->
   <property name="package.working.dir" 
@@ -124,9 +142,21 @@
   <foreach item="String" delim="," 
       property="framework" in="${supported.frameworks}">
     <if test="${framework::sdk-exists( framework )}">
-      <call target="set-${framework}-runtime-config" unless="${property::exists('runtime.config')}"/>
+      <property name="installed.frameworks" value="${installed.frameworks},${framework}"
+        if="${property::exists('installed.frameworks')}"/>
+      <property name="installed.frameworks" value="${framework}"
+        unless="${property::exists('installed.frameworks')}"/>
+      <property name="default.runtime" value="${framework}"
+        unless="${property::exists('default.runtime')}"/>
+      <property name="default.net.runtime" value="${framework}"
+        if="${string::starts-with(framework,'net')}"
+        unless="${property::exists('default.net.runtime')}"/>
+      <property name="default.mono.runtime" value="${framework}"
+        if="${string::starts-with(framework,'mono')}"
+        unless="${property::exists('default.mono.runtime')}"/>
     </if>
   </foreach>
+  <call target="set-${default.runtime}-runtime-config" />
 
   <!-- Test execution options -->
   <property name="test.options" value="" />
@@ -144,7 +174,7 @@
 <!-- Targets that set the runtime configuration -->
 
   <target name="net" description="Set runtime to .NET 1.1 for commands that follow">
-    <call target="set-net-1.1-runtime-config"/>
+    <call target="set-default-dot-net-runtime-config"/>
   </target>
 
   <target name="net-1.0" description="Set runtime to .NET 1.0 for commands that follow">
@@ -160,7 +190,7 @@
   </target>
       
   <target name="mono" description="Set runtime to Mono 1.0 for commands that follow">
-    <call target="set-mono-1.0-runtime-config"/>
+    <call target="set-default-mono-runtime-config"/>
   </target>
 
   <target name="mono-1.0" description="Set runtime to Mono 1.0 for commands that follow">
@@ -201,7 +231,7 @@
 .
   <!-- Targets that perform builds -->
 
-  <target name="build" depends="set-build-dir"
+  <target name="build" depends="make-build-dir"
     description="Build NUnit for a single runtime version and config">
 
     <echo message="*"/>
@@ -212,22 +242,17 @@
     <copy file="nunit.snk" todir="${project.base.dir}"/>
 
     <!-- Build NUnit components assemblies -->
-    <call target="build-framework"/>
-    <call target="build-framework-extensions"/>
-    <call target="build-mocks"/>
-    <call target="build-common"/>
-    <call target="build-core"/>
-    <call target="build-core-extensions"/>
-    <call target="build-util"/>
-
-    <call target="build-console"/>
-    <call target="build-console-exe"/>
-
-    <!-- test-server is not yet implemented for mono -->
-    <if test="${build.win32}">
-      <call target="build-test-server"/>
-      <call target="build-test-server-exe"/>
-    </if>
+    <call target="build-framework" />
+    <call target="build-common" />
+    <call target="build-core" />
+    <call target="build-framework-extensions" />
+    <call target="build-core-extensions" />
+    <call target="build-mocks" />
+    <call target="build-util" />
+    <call target="build-console" />
+    <call target="build-console-exe" />
+    <call target="build-test-server" if="${build.win32}" />
+    <call target="build-test-server-exe" if="${build.win32}" />
 
     <if test="${build.gui}">
       <call target="build-uikit"/>
@@ -999,6 +1024,14 @@
 
   </target>
 
+<!-- Targets to build the NUnit samples - not part of normal build -->
+  <target name="build-samples" depends="build">
+    <nant target="build">
+      <buildfiles basedir="..\samples">
+        <include name="**/*.build" />
+      </buildfiles>
+    </nant>
+  </target>
 <!-- Targets for packaging the NUnit distribution -->
 
   <!-- Produce all the standard packages for a release -->
@@ -1134,6 +1167,7 @@
     <candle out="${wix.work.dir}/" exedir="${wix.dir}">
       <defines>
         <define name="ProductVersion" value="${package.version}" />
+        <define name="NominalVersion" value="${nominal.version}" />
       </defines>
       <sources basedir="${project.install.dir}">
         <include name="bin.wxs" />

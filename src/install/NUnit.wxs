@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
-  <Product UpgradeCode="2E280DED-3E0E-4783-94A9-BE102C854C39" Name="NUnit 2.4 (Beta 2)" 
+  <Product UpgradeCode="2E280DED-3E0E-4783-94A9-BE102C854C39" Name="NUnit $(var.NominalVersion)" 
   		   Id="1AA69CCD-1078-473A-BD6E-11CE30A81C58" Version="$(var.ProductVersion)" 
 		   Manufacturer="nunit.org" Language="1033">
   
@@ -38,7 +38,7 @@
 	  <Directory Id='ProgramFilesFolder' Name='PFiles'>
 		
 		<!-- Target locations for NUnit Files -->
-		<Directory Id='INSTALLDIR' Name='NUnit' LongName="NUnit $(var.ProductVersion)"> 
+		<Directory Id='INSTALLDIR' Name='NUnit' LongName="NUnit $(var.NominalVersion)"> 
 		  <Directory Id='Assemblies' Name='AF' LongName='Assemblies' /> 
 		  <Directory Id='bin' Name='bin' />
 		  <Directory Id='doc' Name='doc'>
@@ -48,7 +48,7 @@
 		  <Directory Id='samples' Name='samples'>
 			<Directory Id='csharp' Name='csharp' />
 			<Directory Id='jsharp' Name='jsharp' />
-			<Directory Id='vb' />
+			<Directory Id='vb' Name='vb' />
 			<Directory Id='cpp' Name='cpp' />
 			<Directory Id='extensibility' Name='EXTENSIB' LongName='Extensibility' />
 		  </Directory>		
@@ -61,19 +61,19 @@
       
       <!-- Program Menu Folder and our subfolders for Shortcuts -->
 	  <Directory Id="ProgramMenuFolder" Name="." SourceName="PROGRAMS" LongSource="User's Program Menu">
-        <Directory Id="NUnitMenu" Name="NUnit" LongName="NUnit $(var.ProductVersion)" >
+        <Directory Id="NUnitMenu" Name="NUnit" LongName="NUnit $(var.NominalVersion)" >
 		  <Directory Id="SamplesMenu" Name="Samples" />
 		</Directory>
       </Directory>
       
     </Directory>
     
-	
 	<!-- Top Level File Components -->
 	<DirectoryRef Id="INSTALLDIR">
 	
       <Component Id="C__LOGO" Guid="99080421-75CC-4DFC-0987-AA16B7E68659">
         <File Id="_LOGO" Name="Logo.ico" Source="Logo.ico" Vital="yes" KeyPath="yes" DiskId="1" />
+		<RemoveFile Id="RF_thumbs.db" Name="thumbs.db" On="uninstall" />
       </Component>
       
       <Component Id="C__LICENSE" Guid="7D03AE6B-15A7-16E0-0D21-D65708B2FA79">
