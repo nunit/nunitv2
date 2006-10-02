@@ -152,7 +152,7 @@ namespace NUnit.Framework
 
 		public void DisplayExpectedValue( double expected, double tolerance )
 		{
-			AddExpectedLine( FormatObjectForDisplay( expected ) + " +/- " + tolerance.ToString( "G17" ) );
+			AddExpectedLine( FormatObjectForDisplay( expected ) + " +/- " + tolerance.ToString() );
 		}
 
 		/// <summary>
@@ -306,11 +306,54 @@ namespace NUnit.Framework
 			AddLine( arraysDifferAtIndexFmt, index );
 				
 			if ( index < expected.Length && index < actual.Length )
-				DisplayDifferences( expected.GetValue( index ), actual.GetValue( index ), false );
+			{
+				DisplayDifferences( GetValueFromCollection(expected, index ), GetValueFromCollection(actual, index), false );
+			}
 			else if( expected.Length < actual.Length )
 				DisplayListElements( "   extra:", actual, index, 3 );
 			else
 				DisplayListElements( " missing:", expected, index, 3 );
+		}
+
+		private static object GetValueFromCollection(ICollection collection, int index)
+		{
+			Array array = collection as Array;
+
+			if (array != null && array.Rank > 1)
+				return array.GetValue(GetArrayIndicesFromCollectionIndex(array, index));
+
+			if (collection is IList)
+				return ((IList)collection)[index];
+
+			foreach (object obj in collection)
+				if (--index < 0)
+					return obj;
+
+			return null;
+		}
+
+		/// <summary>
+		/// Get an array of indices representing the point in a collection or
+		/// array corresponding to a single int index into the collection.
+		/// </summary>
+		/// <param name="collection">The collection to which the indices apply</param>
+		/// <param name="index">Index in the collection</param>
+		/// <returns>Array of indices</returns>
+		private static int[] GetArrayIndicesFromCollectionIndex(ICollection collection, int index)
+		{
+			Array array = collection as Array;
+			int rank = array == null ? 1 : array.Rank;
+			int[] result = new int[rank];
+
+			for (int r = array.Rank; --r > 0; )
+			{
+				int l = array.GetLength(r);
+				result[r] = index % l;
+				index /= l;
+			}
+
+			result[0] = index;
+			return result;
 		}
 
 		/// <summary>

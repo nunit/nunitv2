@@ -226,14 +226,14 @@ namespace NUnit.Framework.Tests
 		{
 			decimal expected = 100m;
 			decimal actual = 100.0m;
-            int integer = 100;
+			int integer = 100;
 
 			Assert.IsTrue( expected == actual );
 			Assert.AreEqual(expected, actual);
-            Assert.IsTrue(expected == integer);
-            Assert.AreEqual(expected, integer);
-            Assert.IsTrue(actual == integer);
-            Assert.AreEqual(actual, integer);
+			Assert.IsTrue(expected == integer);
+			Assert.AreEqual(expected, integer);
+			Assert.IsTrue(actual == integer);
+			Assert.AreEqual(actual, integer);
 		}
 
 
@@ -342,12 +342,14 @@ namespace NUnit.Framework.Tests
 				double d1 = 36.1;
 				double d2 = 36.099999999999994;
 				Assert.AreEqual( d1, d2 );
-				Assert.Fail( "Should have thrown an AssertionException" );
 			}
 			catch(AssertionException ex)
 			{
 				message = ex.Message;
 			}
+
+			if ( message == "" )
+				Assert.Fail( "Should have thrown an AssertionException" );
 
 			int i = message.IndexOf( "<" );
 			int j = message.IndexOf( ">", i );
@@ -384,6 +386,52 @@ namespace NUnit.Framework.Tests
 			j = message.IndexOf( ">", i );
 			string actual = message.Substring( i + 1, j - i - 1 );
 			Assert.AreNotEqual( expected, actual );
+		}
+
+		[Test]
+		public void DoubleNotEqualMessageDisplaysTolerance()
+		{
+			string message = "";
+
+			try
+			{
+				double d1 = 0.15;
+				double d2 = 0.12;
+				double tol = 0.005;
+				Assert.AreEqual( d1, d2, tol );
+			}
+			catch( AssertionException ex )
+			{
+				message = ex.Message;
+			}
+
+			if ( message == "" )
+				Assert.Fail( "Should have thrown an AssertionException" );
+
+			StringAssert.Contains( "+/- 0.005", message );
+		}
+
+		[Test]
+		public void FloatNotEqualMessageDisplaysTolerance()
+		{
+			string message = "";
+
+			try
+			{
+				float f1 = 0.15F;
+				float f2 = 0.12F;
+				float tol = 0.001F;
+				Assert.AreEqual( f1, f2, tol );
+			}
+			catch( AssertionException ex )
+			{
+				message = ex.Message;
+			}
+
+			if ( message == "" )
+				Assert.Fail( "Should have thrown an AssertionException" );
+
+			StringAssert.Contains( "+/- 0.001", message );
 		}
 	}
 }

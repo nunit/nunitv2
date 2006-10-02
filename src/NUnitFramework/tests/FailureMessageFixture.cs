@@ -542,6 +542,19 @@ namespace NUnit.Framework.Tests
 					Environment.NewLine + "	 but was: <10>",
 					msg.ToString() );
 
+				msg = new AssertionFailureMessage( "message" );
+				msg.DisplayArrayDifferences( 
+					new object[,] { { 1, 2, 3 }, { 4, 5, 6 } },
+					new object[,] { { 1, 2, 9 }, { 4, 5, 6 } },
+					2 );
+
+				Assert.AreEqual( "message" +
+					Environment.NewLine + "Array lengths are both 6." +
+					Environment.NewLine + "Arrays differ at index 2." +
+					Environment.NewLine + "	expected: <3>" +
+					Environment.NewLine + "	 but was: <9>",
+					msg.ToString() );
+
 			}
 		}
     }

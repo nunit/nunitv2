@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 namespace NUnit.Framework
 {
@@ -8,6 +9,7 @@ namespace NUnit.Framework
 	public abstract class EqualityAsserter : ComparisonAsserter
 	{
 		protected double delta;
+		protected int failurePoint = -1; // Point of failure in array
 
 		/// <summary>
 		/// Constructor taking expected and actual values and a user message with arguments.
@@ -49,8 +51,14 @@ namespace NUnit.Framework
 			if ( expected == null && actual == null ) return true;
 			if ( expected == null || actual == null ) return false;
 
-			//if ( expected.GetType().IsArray && actual.GetType().IsArray )
-			//	return ArraysEqual( (System.Array)expected, (System.Array)actual );
+			Type expectedType = expected.GetType();
+			Type actualType = actual.GetType();
+
+			if ( expectedType.IsArray && actualType.IsArray )
+				return ArraysEqual( (System.Array)expected, (System.Array)actual );
+
+			if ( expected is ICollection && actual is ICollection )
+				return CollectionsEqual( (ICollection)expected, (ICollection)actual );
 
 			if ( expected is double && actual is double )
 			{
@@ -132,21 +140,35 @@ namespace NUnit.Framework
 		/// </summary>
 		protected virtual bool ArraysEqual( Array expected, Array actual )
 		{
-			if ( expected.Rank != actual.Rank )
+			int rank = expected.Rank;
+
+			if ( rank != actual.Rank )
 				return false;
 
-			if ( expected.Rank != 1 )
-				throw new ArgumentException( "Multi-dimension array comparison is not supported" );
-
-			int iLength = Math.Min( expected.Length, actual.Length );
-			for( int i = 0; i < iLength; i++ )
-				if ( !ObjectsEqual( expected.GetValue( i ), actual.GetValue( i ) ) )
+			for (int r = 1; r < rank; r++)
+				if (expected.GetLength(r) != actual.GetLength(r))
 					return false;
-	
-			if ( expected.Length != actual.Length )
-				return false;
 
-			return true;
+			return CollectionsEqual( (ICollection)expected, (ICollection)actual );
+		}
+
+		private bool CollectionsEqual(ICollection expected, ICollection actual)
+		{
+			IEnumerator expectedEnum = expected.GetEnumerator();
+			IEnumerator actualEnum = actual.GetEnumerator();
+
+			int count;
+			for (count = 0; expectedEnum.MoveNext() && actualEnum.MoveNext(); count++)
+			{
+				if (!ObjectsEqual(expectedEnum.Current, actualEnum.Current))
+					break;
+			}
+
+			if (count == expected.Count && count == actual.Count)
+				return true;
+
+			failurePoint = count;;
+			return false;
 		}
 	}
 }

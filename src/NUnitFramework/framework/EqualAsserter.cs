@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Collections;
 
 namespace NUnit.Framework
 {
@@ -36,50 +37,13 @@ namespace NUnit.Framework
 		/// <returns>True if the objects are equal</returns>
 		public override bool Test()
 		{
-			if ( expected == null && actual == null ) return true;
-			if ( expected == null || actual == null )
+			if ( !ObjectsEqual( expected, actual ) )
 			{
-				DisplayDifferences();
+				if ( failurePoint >= 0 )
+					DisplayArrayDifferences( failurePoint );
+				else
+					DisplayDifferences();
 				return false;
-			}
-
-			// For now, dynamically call array assertion if necessary. Try to move
-			// this into the ObjectsEqual method later on.
-			if ( expected.GetType().IsArray && actual.GetType().IsArray )
-			{
-				Array expectedArray = expected as Array;
-				Array actualArray = actual as Array;
-
-				if ( expectedArray.Rank != actualArray.Rank )
-				{
-					DisplayDifferences();
-					return false;
-				}
-				
-				if ( expectedArray.Rank != 1 )
-					throw new ArgumentException( "Multi-dimension array comparison is not supported" );
-
-				int iLength = Math.Min( expectedArray.Length, actualArray.Length );
-				for( int i = 0; i < iLength; i++ )
-					if ( !ObjectsEqual( expectedArray.GetValue( i ), actualArray.GetValue( i ) ) )
-					{
-						DisplayArrayDifferences( i );
-						return false;
-					}
-	
-				if ( expectedArray.Length != actualArray.Length )
-				{
-					DisplayArrayDifferences( iLength );
-					return false;
-				}
-			}
-			else 
-			{
-				if ( !ObjectsEqual( expected, actual ) )
-				{
-					DisplayDifferences();
-					return false;
-				}
 			}
 
 			return true;

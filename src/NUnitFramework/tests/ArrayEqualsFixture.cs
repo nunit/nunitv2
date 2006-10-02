@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 namespace NUnit.Framework.Tests
 {
@@ -116,11 +117,19 @@ namespace NUnit.Framework.Tests
 				eq.Message );
 		}
 
-		[Test, ExpectedException( typeof( ArgumentException ), "Multi-dimension array comparison is not supported" )]
-		public void MultiDimensionedArraysNotSupported()
+		[Test]
+		public void MultiDimensionedArrays()
 		{
 			int[,] a = new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
 			int[,] b = new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+			Assert.AreEqual( a, b );
+		}
+
+		[Test]
+		public void ArraysOfArrays()
+		{
+			int[][] a = new int[][] { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, new int[] { 7, 8, 9 } };
+			int[][] b = new int[][] { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, new int[] { 7, 8, 9 } };
 			Assert.AreEqual( a, b );
 		}
 
@@ -129,6 +138,15 @@ namespace NUnit.Framework.Tests
 		{
 			object a = new int[] { 1, 2, 3 };
 			object b = new double[] { 1.0, 2.0, 3.0 };
+			Assert.AreEqual( a, b );
+			Assert.AreEqual( b, a );
+		}
+
+		[Test]
+		public void ArrayAndCollection()
+		{
+			int[] a = new int[] { 1, 2, 3 };
+			ICollection b = new ArrayList( a );
 			Assert.AreEqual( a, b );
 			Assert.AreEqual( b, a );
 		}
