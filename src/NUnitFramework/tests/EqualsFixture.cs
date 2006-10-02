@@ -226,9 +226,14 @@ namespace NUnit.Framework.Tests
 		{
 			decimal expected = 100m;
 			decimal actual = 100.0m;
+            int integer = 100;
 
 			Assert.IsTrue( expected == actual );
 			Assert.AreEqual(expected, actual);
+            Assert.IsTrue(expected == integer);
+            Assert.AreEqual(expected, integer);
+            Assert.IsTrue(actual == integer);
+            Assert.AreEqual(actual, integer);
 		}
 
 
