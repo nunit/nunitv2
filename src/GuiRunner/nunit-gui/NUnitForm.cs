@@ -1984,7 +1984,7 @@ namespace NUnit.Gui
 				msg = sb.ToString();
 			}
 
-			MessageBox.Show( this, msg, "Loaded Addins", MessageBoxButtons.OK, MessageBoxIcon.Information );	
+			MessageBox.Show( this, msg, "Loaded Addins", MessageBoxButtons.OK );	
 		}
 
 		#endregion
