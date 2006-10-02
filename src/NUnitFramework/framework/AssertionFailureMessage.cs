@@ -150,6 +150,11 @@ namespace NUnit.Framework
 			AddExpectedLine( FormatObjectForDisplay( expected ) );
 		}
 
+		public void DisplayExpectedValue( double expected, double tolerance )
+		{
+			AddExpectedLine( FormatObjectForDisplay( expected ) + " +/- " + tolerance.ToString( "G17" ) );
+		}
+
 		/// <summary>
 		/// Add an actual value limne to the message containing
 		/// a string representation of the object provided.
@@ -168,6 +173,12 @@ namespace NUnit.Framework
 		public void DisplayExpectedAndActual( Object expected, Object actual )
 		{
 			DisplayExpectedValue( expected );
+			DisplayActualValue( actual );
+		}
+
+		public void DisplayExpectedAndActual( double expected, double actual, double tolerance )
+		{
+			DisplayExpectedValue( expected, tolerance );
 			DisplayActualValue( actual );
 		}
 
@@ -220,6 +231,11 @@ namespace NUnit.Framework
 			{
 				DisplayExpectedAndActual( expected, actual );
 			}
+		}
+
+		public void DisplayDifferencesWithTolerance( double expected, double actual, double tolerance )
+		{
+			DisplayExpectedAndActual( expected, actual, tolerance );
 		}
 
 		/// <summary>

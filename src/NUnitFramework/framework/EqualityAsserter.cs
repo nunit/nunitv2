@@ -7,7 +7,7 @@ namespace NUnit.Framework
 	/// </summary>
 	public abstract class EqualityAsserter : ComparisonAsserter
 	{
-		private double delta;
+		protected double delta;
 
 		/// <summary>
 		/// Constructor taking expected and actual values and a user message with arguments.

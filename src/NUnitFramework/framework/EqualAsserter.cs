@@ -87,7 +87,10 @@ namespace NUnit.Framework
 
 		private void DisplayDifferences()
 		{
-			FailureMessage.DisplayDifferences( expected, actual, false );
+			if ( expected is double && actual is double )
+				FailureMessage.DisplayDifferencesWithTolerance( (double)expected, (double)actual, delta );
+			else
+				FailureMessage.DisplayDifferences( expected, actual, false );
 		}
 
 
