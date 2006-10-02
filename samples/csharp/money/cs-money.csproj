@@ -3,13 +3,13 @@
         ProjectType = "Local"
         ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
-        ProjectGuid = "{15D66EEE-A852-4A52-89C2-83E74ECF3770}"
+        ProjectGuid = "{11EDF872-A04D-4F75-A1BF-71168DC86AF3}"
     >
         <Build>
             <Settings
                 ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
-                AssemblyName = "csharp-sample"
+                AssemblyName = "cs-money"
                 AssemblyOriginatorKeyFile = ""
                 DefaultClientScript = "JScript"
                 DefaultHTMLPageLayout = "Grid"
@@ -18,7 +18,7 @@
                 OutputType = "Library"
                 PreBuildEvent = ""
                 PostBuildEvent = ""
-                RootNamespace = "csharp_sample"
+                RootNamespace = "money"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
             >
@@ -95,7 +95,22 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CSharpTest.cs"
+                    RelPath = "IMoney.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Money.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MoneyBag.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MoneyTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

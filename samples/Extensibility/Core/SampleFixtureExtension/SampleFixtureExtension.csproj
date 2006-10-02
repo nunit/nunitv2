@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = ""
+                PostBuildEvent = "call ..\..\install.bat $(TargetFileName)"
                 RootNamespace = "SampleFixtureExtension"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -83,11 +83,13 @@
                     Name = "nunit.common"
                     AssemblyName = "nunit.common"
                     HintPath = "C:\Program Files\NUnit 2.3.6265\bin\nunit.common.dll"
+                    Private = "False"
                 />
                 <Reference
                     Name = "nunit.core"
                     AssemblyName = "nunit.core"
                     HintPath = "C:\Program Files\NUnit 2.3.6265\bin\nunit.core.dll"
+                    Private = "False"
                 />
             </References>
         </Build>

@@ -87,8 +87,7 @@
                 <Reference
                     Name = "nunit.framework"
                     AssemblyName = "nunit.framework"
-                    HintPath = "C:\Program Files\NUnit 2.3.6265\Assemblies\nunit.framework.dll"
-                    AssemblyFolderKey = "hkcu\dn\nunit 2.3.6265"
+                    HintPath = "..\..\..\..\..\src\NUnitFramework\framework\bin\Debug\nunit.framework.dll"
                 />
             </References>
         </Build>

@@ -3,13 +3,13 @@
         ProjectType = "Local"
         ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
-        ProjectGuid = "{11EDF872-A04D-4F75-A1BF-71168DC86AF3}"
+        ProjectGuid = "{15D66EEE-A852-4A52-89C2-83E74ECF3770}"
     >
         <Build>
             <Settings
                 ApplicationIcon = ""
                 AssemblyKeyContainerName = ""
-                AssemblyName = "money"
+                AssemblyName = "cs-failures"
                 AssemblyOriginatorKeyFile = ""
                 DefaultClientScript = "JScript"
                 DefaultHTMLPageLayout = "Grid"
@@ -18,7 +18,7 @@
                 OutputType = "Library"
                 PreBuildEvent = ""
                 PostBuildEvent = ""
-                RootNamespace = "money"
+                RootNamespace = "csharp_sample"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
             >
@@ -95,22 +95,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "IMoney.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Money.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MoneyBag.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MoneyTest.cs"
+                    RelPath = "CSharpTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
