@@ -129,6 +129,11 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "AddinManagerTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AllTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
