@@ -30,6 +30,7 @@
 using System;
 using System.Collections;
 using System.Reflection;
+//using NUnit.Core.Interfaces;
 
 namespace NUnit.Core
 {
@@ -41,6 +42,7 @@ namespace NUnit.Core
 		private SuiteBuilderCollection suiteBuilders = new SuiteBuilderCollection();
 		private TestCaseBuilderCollection testBuilders = new TestCaseBuilderCollection();
 		private TestDecoratorCollection testDecorators = new TestDecoratorCollection();
+		private ArrayList addins = new ArrayList();
 
 		#endregion
 
@@ -54,6 +56,7 @@ namespace NUnit.Core
 			this.suiteBuilders = new SuiteBuilderCollection( priorState.suiteBuilders );
 			this.testBuilders = new TestCaseBuilderCollection( priorState.testBuilders );
 			this.testDecorators = new TestDecoratorCollection( priorState.testDecorators );
+			this.addins = new ArrayList( priorState.Addins );
 		}
 
 		#endregion
@@ -68,12 +71,6 @@ namespace NUnit.Core
 		{
 			get
 			{
-				ArrayList addins = new ArrayList();
-
-				addins.AddRange( this.suiteBuilders );
-				addins.AddRange( this.testBuilders );
-				addins.AddRange( this.testDecorators );
-
 				return addins;
 			}
 		}
@@ -83,14 +80,13 @@ namespace NUnit.Core
 			get
 			{
 				ArrayList names = new ArrayList();
+
+//				foreach( IPlugin plugin in addins )
+//					names.Add( plugin.Name );
 			
 				foreach( object addin in Addins )
 				{
-					AddinWrapper wrapper = addin as AddinWrapper;
-					if (wrapper != null)
-						names.Add( wrapper.Addin.GetType().Name );
-					else
-						names.Add( addin.GetType().Name );
+					names.Add( addin.GetType().Name );
 				}
 
 				return names;
@@ -105,11 +101,7 @@ namespace NUnit.Core
 			
 				foreach( object addin in Addins )
 				{
-					AddinWrapper wrapper = addin as AddinWrapper;
-					if (wrapper != null)
-						names.Add( wrapper.Addin.GetType().AssemblyQualifiedName );
-					else
-						names.Add( addin.GetType().AssemblyQualifiedName );
+					names.Add( addin.GetType().AssemblyQualifiedName );
 				}
 
 				return names;
@@ -158,16 +150,21 @@ namespace NUnit.Core
 		{
 			foreach( Type type in assembly.GetExportedTypes() )
 			{
+//				if ( Reflect.HasInterface( type, "NUnit.Core.Interfaces.IPlugin" ) )
+//				{
+//					IPlugin plugin = Reflect.Construct( type ) as IPlugin;
+//					if  ( plugin != null )
+//						addins.Add( plugin );
+//				}
+
 				if ( NUnitFramework.IsSuiteBuilder( type ) )
 				{
 					object builderObject = Reflect.Construct( type );
 					ISuiteBuilder builder = builderObject as ISuiteBuilder;
-                    // May not be able to cast, if the builder uses an earlier
+					// May not be able to cast, if the builder uses an earlier
                     // version of the interface, so we use reflection.
                     if (builder != null)
 						suiteBuilders.Add( builder );
-					else 
-						suiteBuilders.Add( new SuiteBuilderWrapper( builderObject ) );
 					// TODO: Figure out when to unload - this is
 					// not important now, since we use a different
 					// appdomain for each load, but may be in future.
@@ -180,8 +177,6 @@ namespace NUnit.Core
                     // version of the interface, so we use reflection.
                     if (builder != null)
                         testBuilders.Add(builder);
-                    else
-                        testBuilders.Add(new TestCaseBuilderWrapper(builderObject));
 				}
 				else if ( NUnitFramework.IsTestDecorator( type ) )
 				{
@@ -191,24 +186,25 @@ namespace NUnit.Core
                     // version of the interface, so we use reflection.
                     if (decorator != null)
                         testDecorators.Add(decorator);
-                    //else
-                    //    testDecorators.Add(new TestDecoratorWrapper(decoratorObject));
 				}
 			}
 		}
 
 		public void Register( ISuiteBuilder builder )
 		{
+			addins.Add( builder );
 			suiteBuilders.Add( builder );
 		}
 
 		public void Register( ITestCaseBuilder builder )
 		{
+			addins.Add( builder );
 			testBuilders.Add( builder );
 		}
 
 		public void Register( ITestDecorator decorator )
 		{
+			addins.Add( decorator );
 			testDecorators.Add( decorator );
 		}
 
@@ -218,147 +214,6 @@ namespace NUnit.Core
 			testBuilders.Clear();
 			testDecorators.Clear();
 		}
-		#endregion
-
-        #region Nested Wrapper Classes
-
-		#region AddinWrapper
-        private class AddinWrapper
-        {
-            protected object addin;
-
-            public AddinWrapper(object addin)
-            {
-                this.addin = addin;
-            }
-
-			public object Addin
-			{
-				get { return addin; }
-			}
-        }
-		#endregion
-
-		#region SuiteBuilderWrapper
-        private class SuiteBuilderWrapper : AddinWrapper, ISuiteBuilder
-        {
-            private MethodInfo canBuildFromMethod;
-            private MethodInfo buildFromMethod;
-
-            public SuiteBuilderWrapper(object builder) : base( builder )
-            {
-                this.canBuildFromMethod = Reflect.GetNamedMethod(
-                    builder.GetType(),
-                    "CanBuildFrom",
-                    BindingFlags.Public | BindingFlags.Instance);
-                this.buildFromMethod = Reflect.GetNamedMethod(
-                    addin.GetType(),
-                    "BuildFrom",
-                    BindingFlags.Public | BindingFlags.Instance);
-                if (buildFromMethod == null || canBuildFromMethod == null)
-                    throw new ArgumentException("Invalid suite builder");
-                // TODO: Check for proper signature - put in Reflect?
-            }
-
-            #region ISuiteBuilder Members
-
-            public bool CanBuildFrom(Type type)
-            {
-                return (bool)canBuildFromMethod.Invoke(addin, new object[] { type });
-            }
-
-            public TestSuite BuildFrom(Type type)
-            {
-				object suiteObject = buildFromMethod.Invoke(addin, new object[] { type });
-				return suiteObject as TestSuite;
-            }
-
-            #endregion
-
-        }
-
-        #endregion
-
-        #region TestCaseBuilderWrapper
-        private class TestCaseBuilderWrapper : AddinWrapper, ITestCaseBuilder
-        {
-            private MethodInfo canBuildFromMethod;
-            private MethodInfo buildFromMethod;
-
-            public TestCaseBuilderWrapper(object builder) : base( builder )
-            {
-                this.canBuildFromMethod = Reflect.GetNamedMethod(
-                    builder.GetType(),
-                    "CanBuildFrom",
-                    BindingFlags.Public | BindingFlags.Instance);
-                this.buildFromMethod = Reflect.GetNamedMethod(
-                    builder.GetType(),
-                    "BuildFrom",
-                    BindingFlags.Public | BindingFlags.Instance);
-                if (buildFromMethod == null || canBuildFromMethod == null)
-                    throw new ArgumentException("Invalid suite builder");
-                // TODO: Check for proper signature - put in Reflect?
-            }
-
-            #region ITestCaseBuilder Members
-
-            public bool CanBuildFrom(MethodInfo method)
-            {
-                return (bool)canBuildFromMethod.Invoke(addin, new object[] { method });
-            }
-
-            public TestCase BuildFrom(MethodInfo method)
-            {
-                return (TestCase)buildFromMethod.Invoke(addin, new object[] { method });
-            }
-
-            #endregion
-
-        }
-        #endregion
-
-        #region TestDecoratorWrapper
-
-        private class TestDecoratorWrapper : AddinWrapper, ITestDecorator
-        {
-            private MethodInfo testCaseDecoratorMethod;
-            private MethodInfo testSuiteDecoratorMethod;
-
-            public TestDecoratorWrapper(object decorator) : base( decorator )
-            {
-                this.testCaseDecoratorMethod = Reflect.GetNamedMethod(
-                    decorator.GetType(),
-                    "Decorate",
-                    new string[] { "NUnit.Core.TestCase", "System.Reflection.MethodInfo" },
-                    BindingFlags.Public | BindingFlags.Instance);
-                this.testSuiteDecoratorMethod = Reflect.GetNamedMethod(
-                    decorator.GetType(),
-                    "Decorate",
-                    new string[] { "NUnit.Core.TestSuite", "System.Type" },
-                    BindingFlags.Public | BindingFlags.Instance);
-                if (testCaseDecoratorMethod == null || testSuiteDecoratorMethod == null)
-                    throw new ArgumentException("Invalid suite builder");
-                // TODO: Check for proper signature - put in Reflect?
-            }
-
-            #region ITestDecorator Members
-
-            public TestCase Decorate(TestCase testCase, MethodInfo method)
-            {
-                return (TestCase)testCaseDecoratorMethod.Invoke(addin, new object[] { testCase, method });
-            }
-
-            public TestSuite Decorate(TestSuite suite, Type fixtureType)
-            {
-                return (TestSuite)testSuiteDecoratorMethod.Invoke(addin, new object[] { suite, fixtureType });
-            }
-
-            #endregion
-
-        }
-
-        #endregion
-
 		#endregion
     }
 }
