@@ -43,17 +43,6 @@ namespace NUnit.Core
 	{
 		public TestCase( string path, string name ) : base( path, name ) { }
 
-		public override int TestCount 
-		{
-			get { return 1; }
-		}
-
-		public override int CountTestCases()
-		{
-			return CountTestCases( TestFilter.Empty );
-		}
-
-
 		public override int CountTestCases( TestFilter filter ) 
 		{
 			if (Filter(filter))
@@ -119,11 +108,6 @@ namespace NUnit.Core
 		public override IList Tests
 		{
 			get { return null; }
-		}
-
-		public override bool Filter(TestFilter filter) 
-		{
-			return filter.Pass(this);
 		}
 
 		public abstract void Run(TestCaseResult result);

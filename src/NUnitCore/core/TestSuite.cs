@@ -206,11 +206,6 @@ namespace NUnit.Core
 		#endregion
 
 		#region Test Overrides
-		public override int CountTestCases()
-		{
-			return CountTestCases( TestFilter.Empty );
-		}
-
 		public override int CountTestCases(TestFilter filter)
 		{
 			int count = 0;
@@ -225,11 +220,6 @@ namespace NUnit.Core
 			return count;
 		}
 
-		public override TestResult Run(EventListener listener)
-		{
-			return Run( listener, TestFilter.Empty);
-		}
-			
 		public override TestResult Run(EventListener listener, TestFilter filter)
 		{
 			TestSuiteResult suiteResult = new TestSuiteResult( this, FullName);
@@ -265,11 +255,6 @@ namespace NUnit.Core
 
 			listener.SuiteFinished(suiteResult);
 			return suiteResult;
-		}
-
-		public override bool Filter(TestFilter filter) 
-		{
-			return filter.Pass(this);
 		}
 		#endregion
 

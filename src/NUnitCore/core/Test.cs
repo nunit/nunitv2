@@ -253,24 +253,37 @@ namespace NUnit.Core
 		}
 		#endregion
 
+		#region Virtual Methods and Properties
+		public virtual int TestCount 
+		{ 
+			get { return 1; } 
+		}
+
+		public virtual int CountTestCases()
+		{
+			return CountTestCases( TestFilter.Empty );
+		}
+
+		public virtual bool Filter(TestFilter filter)
+		{
+			return filter.Pass( this );
+		}
+
+		public virtual TestResult Run( EventListener listener )
+		{
+			return Run( listener, TestFilter.Empty );
+		}
+		#endregion
+
 		#region Abstract Methods and Properties
-		/// <summary>
-		/// Count of the test cases ( 1 if this is a test case )
-		/// </summary>
-		public abstract int CountTestCases();
 		public abstract int CountTestCases(TestFilter filter);
 		
-		public abstract int TestCount { get; }
-
 		public abstract bool IsSuite { get; }
 		public abstract bool IsFixture{ get; }
 		public abstract bool IsTestCase{ get; }
 
 		public abstract IList Tests { get; }
 
-		public abstract bool Filter(TestFilter filter);
-
-		public abstract TestResult Run( EventListener listener );
 		public abstract TestResult Run(EventListener listener, TestFilter filter);
 		#endregion
 
