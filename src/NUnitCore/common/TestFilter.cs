@@ -44,6 +44,9 @@ namespace NUnit.Core
 		/// </summary>
 		public static TestFilter Empty = new EmptyFilter();
 
+		/// <summary>
+		/// Indicates whether this is the EmptyFilter
+		/// </summary>
 		public bool IsEmpty
 		{
 			get { return this is TestFilter.EmptyFilter; }
@@ -74,7 +77,7 @@ namespace NUnit.Core
 		/// <returns>True if the filter matches the an ancestor of the test</returns>
 		protected bool MatchParent(ITest test)
 		{
-			if (test.IsExplicit)
+			if (test.RunState == RunState.Explicit )
 				return false;
 
 			for (ITest parent = test.Parent; parent != null; parent = parent.Parent)
@@ -83,7 +86,7 @@ namespace NUnit.Core
 					return true;
 
 				// Don't proceed past a parent marked Explicit
-				if (parent.IsExplicit)
+				if (parent.RunState == RunState.Explicit)
 					return false;
 			}
 
@@ -121,12 +124,12 @@ namespace NUnit.Core
 		{
 			public override bool Match( ITest test )
 			{
-				return !test.IsExplicit;
+				return test.RunState != RunState.Explicit;
 			}
 
 			public override bool Pass( ITest test )
 			{
-				return !test.IsExplicit;
+				return test.RunState != RunState.Explicit;
 			}
 		}
 	}

@@ -275,9 +275,9 @@ namespace NUnit.Util
 		/// Trigger event when each test starts
 		/// </summary>
 		/// <param name="testCase">TestCase that is starting</param>
-		void EventListener.TestStarted(TestInfo testCase)
+		void EventListener.TestStarted(TestName testName)
 		{
-			events.FireTestStarting( testCase );
+			events.FireTestStarting( testName );
 		}
 
 		/// <summary>
@@ -293,9 +293,9 @@ namespace NUnit.Util
 		/// Trigger event when each suite starts
 		/// </summary>
 		/// <param name="suite">Suite that is starting</param>
-		void EventListener.SuiteStarted(TestInfo suite)
+		void EventListener.SuiteStarted(TestName suiteName)
 		{
-			events.FireSuiteStarting( suite );
+			events.FireSuiteStarting( suiteName );
 		}
 
 		/// <summary>
@@ -576,7 +576,7 @@ namespace NUnit.Util
 
 				try
 				{
-					events.FireTestUnloading( TestFileName, this.loadedTest );
+					events.FireTestUnloading( fileName );
 
 					RemoveWatcher();
 
@@ -589,7 +589,7 @@ namespace NUnit.Util
 					testResult = null;
 					reloadPending = false;
 
-					events.FireTestUnloaded( fileName, this.loadedTest );
+					events.FireTestUnloaded( fileName );
 				}
 				catch( Exception exception )
 				{
@@ -622,7 +622,7 @@ namespace NUnit.Util
 			{
 				try
 				{
-					events.FireTestReloading( testFileName, this.loadedTest );
+					events.FireTestReloading( testFileName );
 
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.

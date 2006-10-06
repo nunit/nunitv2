@@ -102,7 +102,7 @@ namespace NUnit.Core
 			: base( fixtureType.FullName )
 		{
 			if ( fixtureType.Namespace != null )
-				this.TestName.Name = FullName.Substring( FullName.LastIndexOf( '.' ) + 1 );
+				this.TestName.Name = TestName.FullName.Substring( TestName.FullName.LastIndexOf( '.' ) + 1 );
 			this.fixtureType = fixtureType;
 		}
 		#endregion
@@ -122,7 +122,7 @@ namespace NUnit.Core
 
 		public void Add( Test test ) 
 		{
-			if(test.ShouldRun)
+			if( test.RunState == RunState.Runnable )
 			{
 				test.RunState = this.RunState;
 				test.IgnoreReason = this.IgnoreReason;
@@ -163,11 +163,6 @@ namespace NUnit.Core
 		public override bool IsSuite
 		{
 			get { return true; }
-		}
-
-		public override bool IsTestCase
-		{
-			get { return false; }
 		}
 
 		/// <summary>
@@ -222,9 +217,9 @@ namespace NUnit.Core
 
 		public override TestResult Run(EventListener listener, TestFilter filter)
 		{
-			TestSuiteResult suiteResult = new TestSuiteResult( this, FullName);
+			TestSuiteResult suiteResult = new TestSuiteResult( this, TestName.FullName);
 
-			listener.SuiteStarted( new TestInfo( this ) );
+			listener.SuiteStarted( this.TestName );
 			long startTime = DateTime.Now.Ticks;
 
             switch (this.RunState)
@@ -246,7 +241,7 @@ namespace NUnit.Core
 
 			RunAllTests( suiteResult, listener, filter );
 
-			if ( ShouldRun && !SetUpFailed )
+			if ( RunState == RunState.Runnable && !SetUpFailed )
 				DoOneTimeTearDown( suiteResult );
 
 			long stopTime = DateTime.Now.Ticks;
@@ -309,7 +304,7 @@ namespace NUnit.Core
         {
             setUpStatus = SetUpState.SetUpNeeded;
             
-            if (this.ShouldRun && this.Fixture != null)
+            if ( this.RunState == RunState.Runnable && this.Fixture != null)
             {
                 try
                 {
@@ -346,7 +341,7 @@ namespace NUnit.Core
 			{
 				RunState saveRunState = test.RunState;
 
-				if ( test.ShouldRun && !this.ShouldRun )
+				if ( test.RunState == RunState.Runnable && this.RunState != RunState.Runnable )
 				{
 					test.RunState = this.RunState;
 					test.IgnoreReason = this.IgnoreReason;
@@ -354,19 +349,8 @@ namespace NUnit.Core
 
 				if ( test.Filter( filter ) )
 				{
-//					bool skip = test.IsExplicit 
-//						&& ( filter == null || filter is NotFilter || filter.IsEmpty );
-//
-//					if ( skip )
-//					{
-//						test.RunState = RunState.Skipped;
-//						test.IgnoreReason = EXPLICIT_SELECTION_REQUIRED;
-//					}
-
 					TestResult result = test.Run( listener, filter );
 
-//					if ( skip ) 
-//						result.RunState = RunState.Skipped;
 					suiteResult.AddResult( result );
 				}
 				

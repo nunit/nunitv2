@@ -177,7 +177,7 @@ namespace NUnit.UiKit.Tests
 
 		private void CheckTestDisplay( string expected, TestEventArgs e, int testsRun )
 		{
-			Assert.AreEqual( expected, e.Result.Test.FullName );
+			Assert.AreEqual( expected, e.Result.Test.TestName.FullName );
 			int index = expected.LastIndexOf( '.' ) + 1;
 			StringAssert.EndsWith( expected.Substring( index ), statusBar.Panels[0].Text );
 			if ( testsRun > 0 )

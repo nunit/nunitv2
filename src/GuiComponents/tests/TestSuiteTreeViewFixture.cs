@@ -175,13 +175,13 @@ namespace NUnit.UiKit.Tests
 			TestSuiteTreeNode fixtureNode = FixtureNode( treeView );
 			Assert.IsNotNull(fixtureNode.Result,  "Result not set" );
 			Assert.AreEqual( "My test result", fixtureNode.Result.Name );
-			Assert.AreEqual( fixtureNode.Test.FullName, fixtureNode.Result.Test.FullName );
+			Assert.AreEqual( fixtureNode.Test.TestName.FullName, fixtureNode.Result.Test.TestName.FullName );
 		}
 
 		private Test findTest(string name, Test test) 
 		{
 			Test result = null;
-			if (test.Name == name)
+			if (test.TestName.Name == name)
 				result = test;
 			else if (test.Tests != null)
 			{
@@ -333,11 +333,10 @@ namespace NUnit.UiKit.Tests
 		private void CheckThatNodeMatchesTest( TestSuiteTreeNode node, Test test, string msg )
 		{
 			Assert.AreEqual( test.TestName, node.Test.TestName );
-//			Console.WriteLine( "{0} matches", test.UniqueName );
 
 			if ( test.IsSuite )
 			{
-				Assert.AreEqual( test.Tests.Count, node.Nodes.Count, "{0}: Incorrect count for {1}", msg, test.FullName );
+				Assert.AreEqual( test.Tests.Count, node.Nodes.Count, "{0}: Incorrect count for {1}", msg, test.TestName.FullName );
 
 				for( int index = 0; index < test.Tests.Count; index++ )
 				{
@@ -348,10 +347,9 @@ namespace NUnit.UiKit.Tests
 
 		private void CheckTreeMap( TestSuiteTreeView treeView, Test test, string msg )
 		{
-			TestSuiteTreeNode node = treeView[test.UniqueName];
-			Assert.IsNotNull( node, "{0}: {1} not in map", msg, test.UniqueName );
-			Assert.AreEqual( test.TestName, treeView[test.UniqueName].Test.TestName, msg );
-			//			Console.WriteLine( "Map OK for {0}", test.UniqueName );
+			TestSuiteTreeNode node = treeView[test.TestName.UniqueName];
+			Assert.IsNotNull( node, "{0}: {1} not in map", msg, test.TestName.UniqueName );
+			Assert.AreEqual( test.TestName, treeView[test.TestName.UniqueName].Test.TestName, msg );
 
 			if ( test.IsSuite )
 				foreach( Test child in test.Tests )

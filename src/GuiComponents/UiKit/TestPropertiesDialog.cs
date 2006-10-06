@@ -880,7 +880,7 @@ namespace NUnit.UiKit
 
 		private void SetTitleBarText()
 		{
-			string name = test.Name;
+			string name = test.TestName.Name;
 			int index = name.LastIndexOfAny( new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar } );
 			if ( index >= 0 )
 				name = name.Substring( index + 1 );
@@ -933,11 +933,22 @@ namespace NUnit.UiKit
 			}
 
 			testResult.Text = node.StatusText;
-			testName.Text = test.Name;
+			testName.Text = test.TestName.Name;
 
 			testType.Text = node.TestType;
-			fullName.Text = test.FullName;
-			shouldRun.Text = test.IsExplicit ? "Explicit" : test.ShouldRun ? "Yes" : "No";
+			fullName.Text = test.TestName.FullName;
+			switch( test.RunState )
+			{
+				case RunState.Explicit:
+					shouldRun.Text = "Explicit";
+					break;
+				case RunState.Runnable:
+					shouldRun.Text = "Yes";
+					break;
+				default:
+					shouldRun.Text = "No";
+					break;
+			}
 			description.Text = test.Description;
 			categories.Text = catText;
 			ignoreReason.Text = test.IgnoreReason;

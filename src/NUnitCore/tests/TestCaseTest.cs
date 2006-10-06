@@ -49,7 +49,7 @@ namespace NUnit.Core.Tests
 			Type fixtureType = typeof(MockTestFixture);
 			TestCase testCase = TestCaseBuilder.Make( fixtureType, "MockTest4" );
 			Assert.AreEqual(1, testCase.TestCount);
-			Assert.AreEqual(false, testCase.ShouldRun);
+			Assert.AreEqual( RunState.Ignored, testCase.RunState );
 			Assert.AreEqual("ignoring this test method for now", testCase.IgnoreReason);
 		}
 

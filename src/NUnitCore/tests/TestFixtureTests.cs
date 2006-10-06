@@ -16,44 +16,44 @@ namespace NUnit.Core.Tests
 		public void ConstructFromType()
 		{
 			TestSuite fixture = TestBuilder.MakeFixture( typeof( NUnit.Tests.Assemblies.MockTestFixture ) );
-			Assert.AreEqual( "MockTestFixture", fixture.Name );
-			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture", fixture.FullName );
+			Assert.AreEqual( "MockTestFixture", fixture.TestName.Name );
+			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture", fixture.TestName.FullName );
 		}
 
 		[Test]
 		public void ConstructFromTypeWithoutNamespace()
 		{
 			TestSuite fixture = TestBuilder.MakeFixture( typeof( NoNamespaceTestFixture ) );
-			Assert.AreEqual( "NoNamespaceTestFixture", fixture.Name );
-			Assert.AreEqual( "NoNamespaceTestFixture", fixture.FullName );
+			Assert.AreEqual( "NoNamespaceTestFixture", fixture.TestName.Name );
+			Assert.AreEqual( "NoNamespaceTestFixture", fixture.TestName.FullName );
 		}
 
 		[Test]
 		public void ConstructFromNestedType()
 		{
 			TestSuite fixture = TestBuilder.MakeFixture( typeof( OuterClass.NestedTestFixture ) );
-			Assert.AreEqual( "OuterClass+NestedTestFixture", fixture.Name );
-			Assert.AreEqual( "NUnit.TestData.TestFixtureTests.OuterClass+NestedTestFixture", fixture.FullName );
+			Assert.AreEqual( "OuterClass+NestedTestFixture", fixture.TestName.Name );
+			Assert.AreEqual( "NUnit.TestData.TestFixtureTests.OuterClass+NestedTestFixture", fixture.TestName.FullName );
 		}
 
 		[Test]
 		public void ConstructFromDoublyNestedType()
 		{
 			TestSuite fixture = TestBuilder.MakeFixture( typeof( OuterClass.NestedTestFixture.DoublyNestedTestFixture ) );
-			Assert.AreEqual( "OuterClass+NestedTestFixture+DoublyNestedTestFixture", fixture.Name );
-			Assert.AreEqual( "NUnit.TestData.TestFixtureTests.OuterClass+NestedTestFixture+DoublyNestedTestFixture", fixture.FullName );
+			Assert.AreEqual( "OuterClass+NestedTestFixture+DoublyNestedTestFixture", fixture.TestName.Name );
+			Assert.AreEqual( "NUnit.TestData.TestFixtureTests.OuterClass+NestedTestFixture+DoublyNestedTestFixture", fixture.TestName.FullName );
 		}
 
 		private void AssertNotRunnable( Type type )
 		{
 			TestSuite suite = TestBuilder.MakeFixture( type );
-			Assert.IsFalse( suite.ShouldRun );
+			Assert.AreEqual( RunState.NotRunnable, suite.RunState );
 		}
 
 		private void AssertNotRunnable( Type type, string reason )
 		{
 			TestSuite suite = TestBuilder.MakeFixture( type );
-			Assert.IsFalse( suite.ShouldRun );
+			Assert.AreEqual( RunState.NotRunnable, suite.RunState );
 			Assert.AreEqual( reason, suite.IgnoreReason );
 		}
 
@@ -84,7 +84,9 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void CannotRunIgnoredFixture()
 		{
-			AssertNotRunnable( typeof( IgnoredFixture ), "testing ignore a suite" );
+			TestSuite suite = TestBuilder.MakeFixture( typeof( IgnoredFixture ) );
+			Assert.AreEqual( RunState.Ignored, suite.RunState );
+			Assert.AreEqual( "testing ignore a suite", suite.IgnoreReason );
 		}
 
 //		[Test]
@@ -124,7 +126,7 @@ namespace NUnit.Core.Tests
 //			TestSuite fixture = LoadFixture("NUnit.Core.Tests.TestFixtureBuilderTests+SignatureTestFixture");
 //			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
 //			Assert.IsNotNull(foundTest);
-//			Assert.IsTrue(foundTest.ShouldRun);
+//			Assert.AreEqual( RunState.Runnable, foundTest.RunState);
 //		}
 
 		[Test]

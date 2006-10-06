@@ -26,10 +26,10 @@ namespace NUnit.Core.Tests
         public void SingleNameMatch()
         {
             string fullName = "NUnit.Tests.Assemblies.MockTestFixture.MockTest3";
-            Assert.AreEqual(fullName, mock3.FullName);
+            Assert.AreEqual(fullName, mock3.TestName.FullName);
             SimpleNameFilter filter = new SimpleNameFilter(fullName);
             Assert.IsTrue(filter.Pass(mock3), "Name Filter did not pass test case");
-            Assert.AreEqual("NUnit.Tests.Assemblies.MockTestFixture", ((TestSuite)testSuite.Tests[0]).FullName);
+            Assert.AreEqual("NUnit.Tests.Assemblies.MockTestFixture", ((TestSuite)testSuite.Tests[0]).TestName.FullName);
             Assert.IsTrue(filter.Pass((TestSuite)testSuite.Tests[0]), "Name Filter did not pass test suite");
         }
 
@@ -94,7 +94,7 @@ namespace NUnit.Core.Tests
         public void ExplicitTestSuiteDoesNotMatchWhenNotSelectedDirectly()
         {
             NUnit.Core.TestSuite mockTest = (NUnit.Core.TestSuite)TestFinder.Find("MockTestFixture", testSuite);
-            mockTest.IsExplicit = true;
+			mockTest.RunState = RunState.Explicit;
             SimpleNameFilter filter = new SimpleNameFilter("Mock Test Suite");
             Assert.AreEqual(false, filter.Pass(mock3), "descendant of explicit suite should not match");
             Assert.AreEqual(false, filter.Pass(mockTest), "explicit suite should not match");
@@ -104,7 +104,7 @@ namespace NUnit.Core.Tests
         public void ExplicitTestSuiteMatchesWhenSelectedDirectly()
         {
             NUnit.Core.TestSuite mockTest = (NUnit.Core.TestSuite)TestFinder.Find("MockTestFixture", testSuite);
-            mockTest.IsExplicit = true;
+			mockTest.RunState = RunState.Explicit;
             SimpleNameFilter filter = new SimpleNameFilter("NUnit.Tests.Assemblies.MockTestFixture");
             Assert.AreEqual(true, filter.Pass(mock3), "test case");
             Assert.AreEqual(true, filter.Pass(mockTest), "middle suite");

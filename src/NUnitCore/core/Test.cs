@@ -76,15 +76,6 @@ namespace NUnit.Core
 		/// </summary>
 		private IDictionary properties;
 
-		/// <summary>
-		/// True if the test had the Explicit attribute
-		/// </summary>
-		private bool isExplicit;
-
-		/// <summary>
-		/// True if the test is valid and could be run
-		/// </summary>
-		private bool isRunnable;
 		#endregion
 
 		#region Construction
@@ -96,7 +87,6 @@ namespace NUnit.Core
 			this.testName.Name = name;
 			this.testName.TestID = new TestID();
 
-			this.isRunnable = true;
             this.runState = RunState.Runnable;
 		}
 
@@ -108,7 +98,6 @@ namespace NUnit.Core
 			this.testName.Name = name;
 			this.testName.TestID = new TestID();
 
-			this.isRunnable = true;
             this.runState = RunState.Runnable;
 		}
 	
@@ -129,47 +118,9 @@ namespace NUnit.Core
 			get { return testName; }
 		}
 
-		public string Name
-		{
-			get { return testName.Name; }
-		}
-
-		public string FullName 
-		{
-			get { return testName.FullName; }
-		}
-
-		/// <summary>
-		/// Key used to locate a test. Although the
-		/// ID alone would be sufficient, we combine it with the
-		/// FullName for ease in debugging and for use in messages.
-		/// </summary>
-		public string UniqueName
-		{
-			get { return testName.UniqueName; }
-		}
-
-		/// <summary>
-		/// The TestID is a quasi-unique identifier for tests. It supports
-		/// over four billion test nodes in a single runner tree.
-		/// </summary>
-		/// <summary>
-		/// ID of the runner that loaded or created this test.
-		/// </summary>
-		public int RunnerID
-		{
-			get { return testName.RunnerID; }
-			set { testName.RunnerID = value; }
-		}
-
 		/// <summary>
 		/// Whether or not the test should be run
 		/// </summary>
-		public virtual bool ShouldRun
-		{
-            get { return runState == RunState.Runnable; }
-		}
-
         public RunState RunState
         {
             get { return runState; }
@@ -202,39 +153,10 @@ namespace NUnit.Core
 			set { categories = value; }
 		}
 
-		public bool HasCategory( string name )
-		{
-			return categories != null && categories.Contains( name );
-		}
-
-		public bool HasCategory( IList names )
-		{
-			if ( categories == null )
-				return false;
-
-			foreach( string name in names )
-				if ( categories.Contains( name ) )
-					return true;
-			
-			return false;
-		}
-
 		public String Description
 		{
 			get { return description; }
 			set { description = value; }
-		}
-
-		public bool IsExplicit
-		{
-			get { return isExplicit; }
-			set { isExplicit = value; }
-		}
-
-		public bool IsRunnable
-		{
-			get { return isRunnable; }
-			set { isRunnable = value; }
 		}
 
 		public IDictionary Properties
@@ -280,7 +202,6 @@ namespace NUnit.Core
 		
 		public abstract bool IsSuite { get; }
 		public abstract bool IsFixture{ get; }
-		public abstract bool IsTestCase{ get; }
 
 		public abstract IList Tests { get; }
 
@@ -295,7 +216,7 @@ namespace NUnit.Core
 			if ( other == null )
 				return -1;
 
-			return this.FullName.CompareTo( other.FullName );
+			return this.TestName.FullName.CompareTo( other.TestName.FullName );
 		}
 		#endregion
 	}

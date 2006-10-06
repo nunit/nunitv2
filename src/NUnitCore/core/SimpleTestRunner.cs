@@ -193,7 +193,7 @@ namespace NUnit.Core
 				// Take note of the fact that we are running
 				this.runThread = Thread.CurrentThread;
 
-				listener.RunStarted( this.Test.FullName, suite.CountTestCases( filter ) );
+				listener.RunStarted( this.Test.TestName.FullName, suite.CountTestCases( filter ) );
 				
 				testResult = suite.Run( listener, filter );
 

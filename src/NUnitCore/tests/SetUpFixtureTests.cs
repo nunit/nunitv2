@@ -47,21 +47,21 @@ namespace NUnit.Core.Tests
 
             Assert.IsNotNull(suite);
 
-            Assert.AreEqual(testAssembly, suite.Name);
+            Assert.AreEqual(testAssembly, suite.TestName.Name);
             Assert.AreEqual(1, suite.Tests.Count);
 
             string[] nameSpaceBits = nameSpace.Split('.');
             for (int i = 0; i < nameSpaceBits.Length; i++)
             {
                 suite = suite.Tests[0] as TestSuite;
-                Assert.AreEqual(nameSpaceBits[i], suite.Name);
+                Assert.AreEqual(nameSpaceBits[i], suite.TestName.Name);
                 Assert.AreEqual(1, suite.Tests.Count);
             }
 
             Assert.IsInstanceOfType(typeof(SetUpFixture), suite);
 
             suite = suite.Tests[0] as TestSuite;
-            Assert.AreEqual("SomeTestFixture", suite.Name);
+            Assert.AreEqual("SomeTestFixture", suite.TestName.Name);
             Assert.AreEqual(1, suite.Tests.Count);
         }
         #endregion Builder
@@ -81,7 +81,7 @@ namespace NUnit.Core.Tests
             Assert.IsInstanceOfType(typeof(SetUpFixture), suite);
 
             suite = suite.Tests[1] as TestSuite;
-            Assert.AreEqual("SomeTestFixture", suite.Name);
+            Assert.AreEqual("SomeTestFixture", suite.TestName.Name);
             Assert.AreEqual(1, suite.TestCount);
         }
         #endregion NoNamespaceBuilder

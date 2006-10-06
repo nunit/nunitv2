@@ -60,7 +60,7 @@ namespace NUnit.Core
 		{
 			TestCaseResult testResult = new TestCaseResult( this );
 
-			listener.TestStarted( new TestInfo( this ) );
+			listener.TestStarted( this.TestName );
 			long startTime = DateTime.Now.Ticks;
 
             switch (this.RunState)
@@ -98,11 +98,6 @@ namespace NUnit.Core
 		public override bool IsFixture
 		{
 			get { return false; }
-		}
-
-		public override bool IsTestCase
-		{
-			get { return true; }
 		}
 
 		public override IList Tests

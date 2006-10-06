@@ -165,7 +165,6 @@ namespace NUnit.Core
 						test.Description = GetDescription(attribute);
 						break;
                     case ExplicitAttribute:
-                        test.IsExplicit = true;
                         test.RunState = RunState.Explicit;
                         test.IgnoreReason = GetIgnoreReason(attribute);
                         break;

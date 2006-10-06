@@ -62,7 +62,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void RootNode()
 		{
-			Assert.AreEqual( "TestSuite", loadedSuite.Name );
+			Assert.AreEqual( "TestSuite", loadedSuite.TestName.Name );
 		}
 
         //[Test]

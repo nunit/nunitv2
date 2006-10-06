@@ -753,8 +753,8 @@ namespace NUnit.UiKit
 
 		private void CheckTreeMap( TestNode test )
 		{
-			if( treeMap[test.UniqueName] == null )
-				MessageBox.Show( "No match for " + test.UniqueName );
+			if( treeMap[test.TestName.UniqueName] == null )
+				MessageBox.Show( "No match for " + test.TestName.UniqueName );
 
 			if ( test.IsSuite )
 				foreach( TestNode child in test.Tests )
@@ -814,9 +814,9 @@ namespace NUnit.UiKit
 		{
 			TestSuiteTreeNode node = this[result];	
 			if ( node == null )
-				throw new ArgumentException( "Test not found in tree: " + result.Test.UniqueName );
+				throw new ArgumentException( "Test not found in tree: " + result.Test.TestName.UniqueName );
 
-			if ( result.Test.FullName != node.Test.FullName )
+			if ( result.Test.TestName.FullName != node.Test.TestName.FullName )
 				throw( new ArgumentException("Attempting to set Result with a value that refers to a different test") );
 			
 			node.Result = result;
@@ -997,14 +997,16 @@ namespace NUnit.UiKit
 
 		private void AddToMap( TestSuiteTreeNode node )
 		{
-			if ( treeMap.ContainsKey( node.Test.UniqueName ) )
-				Trace.WriteLine( "Duplicate entry: " + node.Test.UniqueName );
+			string key = node.Test.TestName.UniqueName;
+
+			if ( treeMap.ContainsKey( key ) )
+				Trace.WriteLine( "Duplicate entry: " + key );
 				//				UserMessage.Display( string.Format( 
 				//					"The test {0} is duplicated\r\rResults will not be displayed correctly in the tree.", node.Test.FullName ), "Duplicate Test" );
 			else
 			{
 				//Trace.WriteLine( "Added to map: " + node.Test.UniqueName );
-				treeMap.Add( node.Test.UniqueName, node );
+				treeMap.Add( key, node );
 			}
 		}
 
@@ -1012,7 +1014,7 @@ namespace NUnit.UiKit
 		{
 			foreach( TestSuiteTreeNode child in node.Nodes )
 				RemoveFromMap( child );
-			treeMap.Remove( node.Test.UniqueName );
+			treeMap.Remove( node.Test.TestName.UniqueName );
 		}
 
 		/// <summary>
@@ -1035,7 +1037,7 @@ namespace NUnit.UiKit
 		/// <returns>True if the test has the same name</returns>
 		private bool Match( TestSuiteTreeNode node, TestNode test )
 		{
-			return node.Test.FullName == test.FullName;
+			return node.Test.TestName.FullName == test.TestName.FullName;
 		}
 
 		/// <summary>
@@ -1049,13 +1051,13 @@ namespace NUnit.UiKit
 		/// <returns>True if a child node was added or deleted</returns>
 		private bool UpdateNode( TestSuiteTreeNode node, TestNode test )
 		{
-			if ( node.Test.FullName != test.FullName )
+			if ( node.Test.TestName.FullName != test.TestName.FullName )
 				throw( new ArgumentException( 
-					string.Format( "Attempting to update {0} with {1}", node.Test.FullName, test.FullName ) ) );
+					string.Format( "Attempting to update {0} with {1}", node.Test.TestName.FullName, test.TestName.FullName ) ) );
 
-			treeMap.Remove( node.Test.UniqueName );
+			treeMap.Remove( node.Test.TestName.UniqueName );
 			node.Test = test;
-			treeMap.Add( test.UniqueName, node );
+			treeMap.Add( test.TestName.UniqueName, node );
 			
 			if ( !test.IsSuite )
 				return false;
@@ -1103,7 +1105,7 @@ namespace NUnit.UiKit
 			{
 				TestSuiteTreeNode node = index < nodes.Count ? (TestSuiteTreeNode)nodes[index] : null;
 
-				if ( node != null && node.Test.FullName == test.FullName )
+				if ( node != null && node.Test.TestName.FullName == test.TestName.FullName )
 					UpdateNode( node, test );
 				else
 				{
@@ -1217,7 +1219,7 @@ namespace NUnit.UiKit
 
 		private TestSuiteTreeNode FindNode( TestInfo test )
 		{
-			return treeMap[test.UniqueName] as TestSuiteTreeNode;
+			return treeMap[test.TestName.UniqueName] as TestSuiteTreeNode;
 		}
 
 		#endregion
@@ -1238,7 +1240,7 @@ namespace NUnit.UiKit
 	{
 		public override void Visit(TestSuiteTreeNode node)
 		{
-			if (node.Test.IsTestCase && node.Result != null && node.Result.IsFailure)
+			if (!node.Test.IsSuite && node.Result != null && node.Result.IsFailure)
 			{
 				node.Checked = true;
 				node.EnsureVisible();
@@ -1266,7 +1268,7 @@ namespace NUnit.UiKit
 
 		public override void Visit(TestSuiteTreeNode node)
 		{
-			if (node.Test.IsTestCase && node.Result != null && node.Result.IsFailure)
+			if (!node.Test.IsSuite && node.Result != null && node.Result.IsFailure)
 			{
 				tests.Add(node.Test);
 				filter.Add(node.Test.TestName);
@@ -1363,7 +1365,7 @@ namespace NUnit.UiKit
 				return true;
 			else if ( !info.TopLevel && (flags & SelectionFlags.Sub) != 0 )
 				return true;
-			else if ( info.Test.IsExplicit && (flags & SelectionFlags.Explicit) != 0 )
+			else if ( info.Test.RunState == RunState.Explicit && (flags & SelectionFlags.Explicit) != 0 )
 				return true;
 			else
 				return false;

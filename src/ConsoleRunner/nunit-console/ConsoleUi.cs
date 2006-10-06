@@ -381,7 +381,7 @@ namespace NUnit.ConsoleRunner
 						if ( progress )
 							Console.Write("F");
 						
-						messages.Add( string.Format( "{0}) {1} :", failureCount, testResult.Test.FullName ) );
+						messages.Add( string.Format( "{0}) {1} :", failureCount, testResult.Test.TestName.FullName ) );
 						messages.Add( testResult.Message.Trim( Environment.NewLine.ToCharArray() ) );
 
 						string stackTrace = StackTraceFilter.Filter( testResult.StackTrace );
@@ -410,18 +410,18 @@ namespace NUnit.ConsoleRunner
 				currentTestName = string.Empty;
 			}
 
-			public void TestStarted(TestInfo testCase)
+			public void TestStarted(TestName testName)
 			{
-				currentTestName = testCase.FullName;
+				currentTestName = testName.FullName;
 
 				if ( options.labels )
-					outWriter.WriteLine("***** {0}", testCase.FullName );
+					outWriter.WriteLine("***** {0}", currentTestName );
 				
 				if ( progress )
 					Console.Write(".");
 			}
 
-			public void SuiteStarted(TestInfo suite) 
+			public void SuiteStarted(TestName testName)
 			{
 				if ( level++ == 0 )
 				{
@@ -430,7 +430,7 @@ namespace NUnit.ConsoleRunner
 					testIgnoreCount = 0;
 					failureCount = 0;
 					Trace.WriteLine( "################################ UNIT TESTS ################################" );
-					Trace.WriteLine( "Running tests in '" + suite.FullName + "'..." );
+					Trace.WriteLine( "Running tests in '" + testName.FullName + "'..." );
 				}
 			}
 

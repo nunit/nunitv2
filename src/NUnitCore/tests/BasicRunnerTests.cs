@@ -46,7 +46,7 @@ namespace NUnit.Core.Tests
 			ITest test = runner.Test;
 			Assert.IsNotNull( test );
 			Assert.AreEqual( 4, test.Tests.Count );
-			Assert.AreEqual( "MockTestFixture", ((ITest)test.Tests[0]).Name );
+			Assert.AreEqual( "MockTestFixture", ((ITest)test.Tests[0]).TestName.Name );
 		}
 
 		[Test]

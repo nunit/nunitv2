@@ -55,8 +55,8 @@ namespace NUnit.Core.Tests
 			string methodName = "TestVoid";
 			TestSuite fixture = loadFixture( typeof( SignatureTestFixture ) );
 			Test foundTest = TestFinder.Find( methodName, fixture );
-			Assert.IsNotNull(foundTest);
-			Assert.IsTrue(foundTest.ShouldRun);
+			Assert.IsNotNull( foundTest );
+			Assert.AreEqual( RunState.Runnable, foundTest.RunState );
 		}
 
 		[Test]

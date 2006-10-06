@@ -28,12 +28,9 @@ namespace NUnit.Core.Tests
 		private void CheckConstructionFromTest( ITest expected )
 		{
 			TestInfo actual = new TestInfo( expected );
-			Assert.AreEqual( expected.Name, actual.Name );
-			Assert.AreEqual( expected.FullName, actual.FullName );
-			Assert.AreEqual( expected.UniqueName, actual.UniqueName );
-			Assert.AreEqual( expected.ShouldRun, actual.ShouldRun, "ShouldRun" );
+			Assert.AreEqual( expected.TestName, actual.TestName );
+			Assert.AreEqual( expected.RunState, actual.RunState );
 			Assert.AreEqual( expected.IsSuite, actual.IsSuite, "IsSuite" );
-			Assert.AreEqual( expected.IsTestCase, actual.IsTestCase, "IsTestCase" );
 			Assert.AreEqual( expected.IsFixture, actual.IsFixture, "IsFixture" );
 			Assert.AreEqual( expected.TestCount, actual.TestCount, "TestCount" );
 

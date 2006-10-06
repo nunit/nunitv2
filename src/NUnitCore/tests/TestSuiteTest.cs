@@ -77,7 +77,7 @@ namespace NUnit.Core.Tests
 		{
 			Test test = TestFinder.Find( "ExplicitlyRunTest", mockTestFixture );
 			Assert.IsNotNull( test, "Cannot find ExplicitlyRunTest" );
-			Assert.IsTrue( test.IsExplicit, "Test not marked Explicit" );
+			Assert.AreEqual( RunState.Explicit, test.RunState );
 			TestResult result = test.Run( NullListener.NULL );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
 			Assert.AreEqual( 1, summarizer.ResultCount );
@@ -88,7 +88,7 @@ namespace NUnit.Core.Tests
 		{
 			Test test = TestFinder.Find( "ExplicitlyRunTest", mockTestFixture );
 			Assert.IsNotNull( test, "Cannot find ExplicitlyRunTest" );
-			Assert.IsTrue( test.IsExplicit, "Test not marked Explicit" );
+			Assert.AreEqual( RunState.Explicit, test.RunState );
 
 			NameFilter filter = new NameFilter( test.TestName );
 			TestResult result = mockTestFixture.Run( NullListener.NULL, filter );
@@ -124,7 +124,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void SuiteRunInitialized()
 		{
-			Assert.IsTrue(mockTestFixture.ShouldRun, "default state is to run TestSuite");
+			Assert.AreEqual( RunState.Runnable, mockTestFixture.RunState );
 		}
 
 		[Test]
@@ -134,9 +134,8 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(1, tests.Count);
 			TestSuite testSuite = (TestSuite)tests[0];
 
-			Assert.IsFalse(testSuite.ShouldRun,
-				"ShouldRun should be false because there are no tests");
-			Assert.AreEqual(testSuite.Name + " does not have any tests", testSuite.IgnoreReason);
+			Assert.AreEqual( RunState.NotRunnable, testSuite.RunState );
+			Assert.AreEqual(testSuite.TestName.Name + " does not have any tests", testSuite.IgnoreReason);
 		}
 
 		[Test]
@@ -282,9 +281,9 @@ namespace NUnit.Core.Tests
 		{
 		}
 
-		public void TestStarted(TestInfo testCase) 
+		public void TestStarted(TestName testName) 
 		{
-			testStarted.Add(testCase.Name);
+			testStarted.Add(testName.Name);
 		}
 			
 		public void TestFinished(TestCaseResult result)
@@ -293,9 +292,9 @@ namespace NUnit.Core.Tests
 			lastResult = result;
 		}
 
-		public void SuiteStarted(TestInfo suite)
+		public void SuiteStarted(TestName suiteName)
 		{
-			suiteStarted.Add(suite.Name);
+			suiteStarted.Add(suiteName.Name);
 		}
 
 		public void SuiteFinished(TestSuiteResult result)

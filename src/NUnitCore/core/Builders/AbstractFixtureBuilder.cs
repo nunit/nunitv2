@@ -92,7 +92,7 @@ namespace NUnit.Core.Builders
 			if( this.suite.TestCount == 0 )
 			{
 				this.suite.RunState = RunState.NotRunnable;
-				this.suite.IgnoreReason = suite.Name + " does not have any tests";
+				this.suite.IgnoreReason = suite.TestName.Name + " does not have any tests";
 			}
 
 			return this.suite;

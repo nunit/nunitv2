@@ -61,16 +61,16 @@ namespace NUnit.Core
 
 	public class TestStartedEvent : Event
 	{
-		TestInfo testCase;
+		TestName testName;
 
-		public TestStartedEvent( TestInfo testCase )
+		public TestStartedEvent( TestName testName )
 		{
-			this.testCase = testCase;
+			this.testName = testName;
 		}
 
 		public override void Send( EventListener listener )
 		{
-			listener.TestStarted( this.testCase );
+			listener.TestStarted( this.testName );
 		}
 	}
 			
@@ -91,16 +91,16 @@ namespace NUnit.Core
 
 	public class SuiteStartedEvent : Event
 	{
-		TestInfo suite;
+		TestName suiteName;
 
-		public SuiteStartedEvent( TestInfo suite )
+		public SuiteStartedEvent( TestName suiteName )
 		{
-			this.suite = suite;
+			this.suiteName = suiteName;
 		}
 
 		public override void Send( EventListener listener )
 		{
-			listener.SuiteStarted( this.suite );
+			listener.SuiteStarted( this.suiteName );
 		}
 	}
 

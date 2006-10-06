@@ -80,7 +80,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// Construct a TestNode given a test
 		/// </summary>
-		public TestSuiteTreeNode( TestInfo test ) : base(test.Name)
+		public TestSuiteTreeNode( TestInfo test ) : base(test.TestName.Name)
 		{
 			this.test = test;
 			UpdateImageIndex();
@@ -89,7 +89,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// Construct a TestNode given a TestResult
 		/// </summary>
-		public TestSuiteTreeNode( TestResult result ) : base( result.Test.Name )
+		public TestSuiteTreeNode( TestResult result ) : base( result.Test.TestName.Name )
 		{
 			this.test = result.Test;
 			this.result = result;
@@ -126,12 +126,12 @@ namespace NUnit.UiKit
 		{
 			get
 			{
-				if ( test.IsTestCase )
-					return "Test Case";
-				else if ( test.IsFixture )
+				if ( test.IsFixture )
 					return "Test Fixture";
-				else
+				else if ( test.IsSuite )
 					return "Test Suite";
+				else
+					return "Test Case";
 			}
 		}
 

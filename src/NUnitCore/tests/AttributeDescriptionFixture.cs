@@ -50,7 +50,7 @@ namespace NUnit.Core.Tests
 		public void ReflectionTest()
 		{
 			TestCase testCase = TestCaseBuilder.Make( FixtureType, "Method" );
-			Assert.IsTrue(testCase.ShouldRun);
+			Assert.AreEqual( RunState.Runnable, testCase.RunState );
 		}
 
         [Test]

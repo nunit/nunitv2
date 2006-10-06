@@ -62,7 +62,7 @@ namespace NUnit.Core.Tests
 			TestSuite suite = builder.Build(testsDll);
 			Assert.IsNotNull(suite, "Unable to build suite" );
 			Assert.AreEqual( 1, suite.Tests.Count );
-			Assert.AreEqual( "NUnit", ((ITest)suite.Tests[0]).Name );
+			Assert.AreEqual( "NUnit", ((ITest)suite.Tests[0]).TestName.Name );
 		}
 
 		[Test]
@@ -95,8 +95,8 @@ namespace NUnit.Core.Tests
 		{
 			TestSuite suite= builder.Build( testsDll, "NUnit.Core.Tests" );
 			Assert.IsNotNull( suite );
-			Assert.AreEqual( testsDll, suite.Name );
-			Assert.AreEqual( "NUnit", ((Test)suite.Tests[0]).Name );
+			Assert.AreEqual( testsDll, suite.TestName.Name );
+			Assert.AreEqual( "NUnit", ((Test)suite.Tests[0]).TestName.Name );
 		}
 
 		[Test]

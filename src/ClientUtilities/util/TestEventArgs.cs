@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using NUnit.Core;
 
 namespace NUnit.Util
@@ -6,7 +7,7 @@ namespace NUnit.Util
 	#region TestEventHandler delegate
 
 	/// <summary>
-	/// The delegate for all events related to running tests
+	/// The delegates for all events related to running tests
 	/// </summary>
 	public delegate void TestEventHandler ( object sender, TestEventArgs args );
 
@@ -62,8 +63,10 @@ namespace NUnit.Util
 		// The name of the test or other item
 		private string name;
 		
-		// The tests we are running
+		// The name of the test we are running
 		private TestInfo test;
+
+		private TestName testName;
 
 		// The results from our tests
 		private TestResult testResult;
@@ -81,10 +84,14 @@ namespace NUnit.Util
 
 		#region Constructors
 
-		// TestLoaded, TestUnloaded, TestReloading, TestReloaded
+		// TestLoaded, TestReloaded
 		public TestEventArgs( TestAction action, 
 			string name, TestInfo test )
 		{
+			Debug.Assert( 
+				action == TestAction.TestLoaded || action == TestAction.TestReloaded,
+				"Invalid TestAction argument to TestEventArgs constructor" );
+
 			this.action = action;
 			this.name = name;
 			this.test = test;
@@ -92,15 +99,26 @@ namespace NUnit.Util
 				this.testCount = test.TestCount;
 		}
 
-		// ProjectLoading, ProjectLoaded, ProjectUnloading, ProjectUnloaded, TestLoading, TestUnloading
+		// ProjectLoading, ProjectLoaded, ProjectUnloading, ProjectUnloaded,
+		// TestLoading, TestUnloading, TestUnloaded, TestReloading
 		public TestEventArgs( TestAction action, string name )
 		{
+			Debug.Assert( 
+				action == TestAction.ProjectLoading || action == TestAction.ProjectLoaded ||
+				action == TestAction.ProjectUnloading || action == TestAction.ProjectUnloaded ||
+				action == TestAction.TestLoading || action == TestAction.TestUnloading ||
+				action == TestAction.TestUnloaded || action == TestAction.TestReloading,
+				"Invalid TestAction argument to TestEventArgs constructor" );
+
 			this.action = action;
 			this.name = name;
 		}
 
 		public TestEventArgs( TestAction action, string name, int testCount )
 		{
+			Debug.Assert( action == TestAction.RunStarting,
+				"Invalid TestAction argument to TestEventArgs constructor" );
+
 			this.action = action;
 			this.name = name;
 			this.testCount = testCount;
@@ -110,35 +128,44 @@ namespace NUnit.Util
 		public TestEventArgs( TestAction action,
 			string name, Exception exception )
 		{
+			Debug.Assert(
+				action == TestAction.ProjectLoadFailed || action == TestAction.ProjectUnloadFailed ||
+				action == TestAction.TestLoadFailed || action == TestAction.TestUnloadFailed ||
+				action == TestAction.TestReloadFailed, 
+				"Invalid TestAction argument to TestEventArgs constructor" );
+
 			this.action = action;
 			this.name = name;
 			this.exception = exception;
 		}
 
-		// TestStarting, SuiteStarting, 
-		public TestEventArgs( TestAction action, TestInfo test )
+		// TestStarting, SuiteStarting
+		public TestEventArgs( TestAction action, TestName testName )
 		{
+			Debug.Assert( action == TestAction.TestStarting || action == TestAction.SuiteStarting,
+				"Invalid TestAction argument to TestEventArgs constructor" );
+
 			this.action = action;
-			this.test = test;
+			this.testName = testName;
 		}
 
 		// TestFinished, SuiteFinished, RunFinished
 		public TestEventArgs( TestAction action, TestResult testResult )
 		{
+			Debug.Assert( action == TestAction.TestFinished || action == TestAction.SuiteFinished ||
+				action == TestAction.RunFinished,
+				"Invalid TestAction argument to TestEventArgs constructor" );
+
 			this.action = action;
 			this.testResult = testResult;
 		}
 
-		// RunFinished
-//		public TestEventArgs( TestAction action, TestResult[] results )
-//		{
-//			this.action = action;
-//			this.results = results;
-//		}
-
 		// RunFinished, TestException
 		public TestEventArgs( TestAction action, Exception exception )
 		{
+			Debug.Assert( action == TestAction.RunFinished || action == TestAction.TestException,
+				"Invalid TestAction argument to TestEventArgs constructor" );
+
 			this.action = action;
 			this.exception = exception;
 		}
@@ -146,16 +173,12 @@ namespace NUnit.Util
 		// TestOutput
 		public TestEventArgs( TestAction action, TestOutput testOutput )
 		{
+			Debug.Assert( action == TestAction.TestOutput,
+				"Invalid TestAction argument to TestEventArgs constructor" );
+
 			this.action = action;
 			this.testOutput = testOutput;
 		}
-
-		// RunStarting
-//		public TestEventArgs( TestAction action, TestInfo[] tests ) 
-//		{
-//			this.action = action;
-//			this.tests = tests;
-//		}
 
 		#endregion
 
@@ -174,6 +197,11 @@ namespace NUnit.Util
 		public TestInfo Test
 		{
 			get { return test; }
+		}
+
+		public TestName TestName
+		{
+			get { return testName; }
 		}
 
 		public int TestCount 

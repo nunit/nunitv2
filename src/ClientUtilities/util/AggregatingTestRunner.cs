@@ -117,7 +117,7 @@ namespace NUnit.Util
 
 					// Return master node containing all the tests
 					loadedTest = new TestNode( projectName, tests );
-					loadedTest.RunnerID = this.runnerID;
+					loadedTest.TestName.RunnerID = this.runnerID;
 				}
 
 				return loadedTest;
@@ -131,7 +131,7 @@ namespace NUnit.Util
 				if ( runners == null )
 					return null;
 				
-				TestSuiteResult suiteResult = new TestSuiteResult( Test, Test.FullName );
+				TestSuiteResult suiteResult = new TestSuiteResult( Test, Test.TestName.FullName );
 
 				foreach( TestRunner runner in runners )
 					if ( runner.TestResult != null )
@@ -200,7 +200,7 @@ namespace NUnit.Util
 			for( int index = 0; index < runners.Length; index++ )
 				tests[index] = runners[index].Test;
 
-			this.listener.RunStarted( this.Test.Name, this.CountTestCases( filter ) );
+			this.listener.RunStarted( this.Test.TestName.Name, this.CountTestCases( filter ) );
 
 			TestSuiteResult result = new TestSuiteResult( new TestInfo( projectName, tests ), projectName );
 			foreach( TestRunner runner in runners )
@@ -237,7 +237,7 @@ namespace NUnit.Util
 
 		public virtual TestResult EndRun()
 		{
-			TestSuiteResult suiteResult = new TestSuiteResult( Test, Test.FullName );
+			TestSuiteResult suiteResult = new TestSuiteResult( Test, Test.TestName.FullName );
 			foreach( TestRunner runner in runners )
 				suiteResult.Results.Add( runner.EndRun() );
 
@@ -258,9 +258,9 @@ namespace NUnit.Util
 		#endregion
 
 		#region EventListener Members
-		public void TestStarted(TestInfo testCase)
+		public void TestStarted(TestName testName)
 		{
-			this.listener.TestStarted( testCase );
+			this.listener.TestStarted( testName );
 		}
 
 		public void RunStarted(string name, int testCount)
@@ -299,9 +299,9 @@ namespace NUnit.Util
 			this.listener.TestOutput( testOutput );
 		}
 
-		public void SuiteStarted(TestInfo suite)
+		public void SuiteStarted(TestName suiteName)
 		{
-			this.listener.SuiteStarted( suite );
+			this.listener.SuiteStarted( suiteName );
 		}
 		#endregion
 

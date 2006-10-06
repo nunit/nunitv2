@@ -11,12 +11,11 @@ namespace NUnit.Core
 		protected TestCase testCase;
 
 		public AbstractTestCaseDecoration( TestCase testCase )
-			: base( testCase.FullName, testCase.Name )
+			: base( testCase.TestName.FullName, testCase.TestName.Name )
 		{
 			this.testCase = testCase;
 			this.RunState = testCase.RunState;
 			this.IgnoreReason = testCase.IgnoreReason;
-			this.IsRunnable = testCase.IsRunnable;
 		}
 
 		public override int CountTestCases()

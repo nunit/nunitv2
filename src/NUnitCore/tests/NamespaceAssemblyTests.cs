@@ -55,7 +55,7 @@ namespace NUnit.Core.Tests
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestSuite suite = builder.Build(testsDll);
-			Assert.AreEqual(testsDll, suite.Name);
+			Assert.AreEqual(testsDll, suite.TestName.Name);
 		}
 
 		[Test]
@@ -68,26 +68,25 @@ namespace NUnit.Core.Tests
 
 			Assert.IsTrue(tests[0] is TestSuite, "TestSuite:NUnit - is not correct");
 			TestSuite testSuite = (TestSuite)tests[0];
-			Assert.AreEqual("NUnit", testSuite.Name);
+			Assert.AreEqual("NUnit", testSuite.TestName.Name);
 
 			tests = testSuite.Tests;
 			Assert.IsTrue(tests[0] is TestSuite, "TestSuite:Tests - is invalid");
 			testSuite = (TestSuite)tests[0];
 			Assert.AreEqual(1, tests.Count);
-			Assert.AreEqual("Tests", testSuite.Name);
+			Assert.AreEqual("Tests", testSuite.TestName.Name);
 
 			tests = testSuite.Tests;
 			Assert.AreEqual(4, tests.Count);
 
 			Assert.IsTrue(tests[2] is TestSuite, "TestSuite:singletons - is invalid");
 			TestSuite singletonSuite = (TestSuite)tests[2];
-			Assert.AreEqual("Singletons", singletonSuite.Name);
+			Assert.AreEqual("Singletons", singletonSuite.TestName.Name);
 			Assert.AreEqual(1, singletonSuite.Tests.Count);
 
-//			MockTestFixture mockTestFixture = new MockTestFixture();			
 			Assert.IsTrue(tests[0] is TestSuite, "TestSuite:assemblies - is invalid");
 			TestSuite mockSuite = (TestSuite)tests[0];
-			Assert.AreEqual("Assemblies", mockSuite.Name);
+			Assert.AreEqual("Assemblies", mockSuite.TestName.Name);
 
 			TestSuite mockFixtureSuite = (TestSuite)mockSuite.Tests[0];
 			Assert.AreEqual(MockTestFixture.Tests, mockFixtureSuite.Tests.Count);
@@ -109,8 +108,8 @@ namespace NUnit.Core.Tests
 
 			suite = (TestSuite)suite.Tests[0];
 			Assert.IsNotNull(suite);
-			Assert.AreEqual( "NoNamespaceTestFixture", suite.Name );
-			Assert.AreEqual( "NoNamespaceTestFixture", suite.FullName );
+			Assert.AreEqual( "NoNamespaceTestFixture", suite.TestName.Name );
+			Assert.AreEqual( "NoNamespaceTestFixture", suite.TestName.FullName );
 		}
 	}
 }

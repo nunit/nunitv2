@@ -22,7 +22,7 @@ namespace NUnit.Core.Filters
 
 		public override bool Match( ITest test )
 		{
-			return !test.IsExplicit && !baseFilter.Pass( test );
+			return test.RunState != RunState.Explicit && !baseFilter.Pass( test );
 		}
  	}
 }

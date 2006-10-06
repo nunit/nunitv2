@@ -44,11 +44,11 @@ namespace NUnit.Core
 
 		public void RunFinished( Exception exception ) { }
 
-		public void TestStarted(TestInfo testCase){}
+		public void TestStarted(TestName testName){}
 			
 		public void TestFinished(TestCaseResult result){}
 
-		public void SuiteStarted(TestInfo suite){}
+		public void SuiteStarted(TestName testName){}
 
 		public void SuiteFinished(TestSuiteResult result){}
 

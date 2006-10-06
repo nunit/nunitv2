@@ -193,8 +193,8 @@ namespace NUnit.UiKit
 
 		public void OnTestStarting( object sender, TestEventArgs e )
 		{
-			string fullText = "Running : " + e.Test.FullName;
-			string shortText = "Running : " + e.Test.Name;
+			string fullText = "Running : " + e.TestName.FullName;
+			string shortText = "Running : " + e.TestName.Name;
 
 			Graphics g = Graphics.FromHwnd( Handle );
 			SizeF sizeNeeded = g.MeasureString( fullText, Font );
@@ -207,8 +207,8 @@ namespace NUnit.UiKit
 			{
 				sizeNeeded = g.MeasureString( shortText, Font );
 				statusPanel.Text = statusPanel.Width >= (int)sizeNeeded.Width
-					? shortText : e.Test.Name;
-				statusPanel.ToolTipText = e.Test.FullName;
+					? shortText : e.TestName.Name;
+				statusPanel.ToolTipText = e.TestName.FullName;
 			}
 		}
 

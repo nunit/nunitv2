@@ -39,11 +39,11 @@ namespace NUnit.Util
 	{
 		private static bool AreNodesTheSame(Test testOne, Test testTwo)
 		{
-			if(testOne==null && testTwo!=null) return false;
-			if(testTwo==null && testOne!=null) return false;
-			if(testOne.GetType().FullName != testTwo.GetType().FullName) return false;
-			if(testOne.ShouldRun ^ testTwo.ShouldRun) return false;
-			return testOne.FullName.Equals(testTwo.FullName);
+			if( testOne==null && testTwo!=null ) return false;
+			if( testTwo==null && testOne!=null ) return false;
+			if( testOne.GetType().FullName != testTwo.GetType().FullName ) return false;
+			if( testOne.RunState != testTwo.RunState ) return false;
+			return testOne.TestName.FullName.Equals( testTwo.TestName.FullName );
 		}
 
 		public static bool CompareTree(Test rootTestOriginal, Test rootTestNew)
@@ -72,9 +72,9 @@ namespace NUnit.Util
 			if( testOne == null && testTwo != null ) return false;
 			if( testTwo == null && testOne != null ) return false;
 			if( testOne.IsSuite != testTwo.IsSuite ) return false;
-			if( testOne.ShouldRun != testTwo.ShouldRun ) return false;
+			if( testOne.RunState != testTwo.RunState ) return false;
 
-			return testOne.FullName.Equals(testTwo.FullName);
+			return testOne.TestName.FullName.Equals(testTwo.TestName.FullName);
 		}
 
 		public static bool CompareTree( TestNode rootTestOriginal, TestNode rootTestNew )

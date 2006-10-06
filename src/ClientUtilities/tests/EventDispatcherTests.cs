@@ -124,15 +124,15 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void TestUnloading()
 		{
-			dispatcher.FireTestUnloading( FILENAME, test );
+			dispatcher.FireTestUnloading( FILENAME );
 			CheckEvent( TestAction.TestUnloading, FILENAME );
 		}
 
 		[Test]
 		public void TestUnloaded()
 		{
-			dispatcher.FireTestUnloaded( FILENAME, test );
-			CheckEvent( TestAction.TestUnloaded, FILENAME, test );
+			dispatcher.FireTestUnloaded( FILENAME );
+			CheckEvent( TestAction.TestUnloaded, FILENAME );
 		}
 
 		[Test]
@@ -145,7 +145,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void TestReloading()
 		{
-			dispatcher.FireTestReloading( FILENAME, test );
+			dispatcher.FireTestReloading( FILENAME );
 			CheckEvent( TestAction.TestReloading, FILENAME );
 		}
 
@@ -166,8 +166,8 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void RunStarting()
 		{
-			dispatcher.FireRunStarting( test.FullName, test.TestCount );
-			CheckEvent( TestAction.RunStarting, test.FullName, test.TestCount );
+			dispatcher.FireRunStarting( test.TestName.FullName, test.TestCount );
+			CheckEvent( TestAction.RunStarting, test.TestName.FullName, test.TestCount );
 		}
 
 		[Test]
@@ -187,8 +187,8 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void SuiteStarting()
 		{
-			dispatcher.FireSuiteStarting( test );
-			CheckEvent( TestAction.SuiteStarting, test );
+			dispatcher.FireSuiteStarting( test.TestName );
+			CheckEvent( TestAction.SuiteStarting, test.TestName );
 		}
 
 		[Test]
@@ -201,8 +201,8 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void TestStarting()
 		{
-			dispatcher.FireTestStarting( test );
-			CheckEvent( TestAction.TestStarting, test );
+			dispatcher.FireTestStarting( test.TestName );
+			CheckEvent( TestAction.TestStarting, test.TestName );
 		}
 
 		[Test]
@@ -233,7 +233,7 @@ namespace NUnit.Util.Tests
 		private void CheckEvent( TestAction action, string fileName, TestInfo test )
 		{
 			CheckEvent( action, fileName );
-			Assert.AreEqual( TESTNAME, ((TestEventArgs)catcher.Events[0]).Test.Name );
+			Assert.AreEqual( TESTNAME, ((TestEventArgs)catcher.Events[0]).Test.TestName.Name );
 		}
 
 		private void CheckEvent( TestAction action, string fileName, Exception exception )
@@ -242,10 +242,10 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual( MESSAGE, ((TestEventArgs)catcher.Events[0]).Exception.Message );
 		}
 
-		private void CheckEvent( TestAction action, TestInfo test )
+		private void CheckEvent( TestAction action, TestName testName )
 		{
 			CheckEvent( action );
-			Assert.AreEqual( TESTNAME, ((TestEventArgs)catcher.Events[0]).Test.Name );
+			Assert.AreEqual( TESTNAME, ((TestEventArgs)catcher.Events[0]).TestName.Name );
 		}
 
 		private void CheckEvent( TestAction action, TestResult result )

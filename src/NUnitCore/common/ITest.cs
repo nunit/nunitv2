@@ -51,40 +51,15 @@ namespace NUnit.Core
 	{
 		/// <summary>
 		/// Gets the completely specified name of the test
-		/// encapsulated in a TestName object. ITest exposes
-		/// getters for retrieving components of the name
-		/// directly, but this property must be used to set
-		/// any of them.
+		/// encapsulated in a TestName object.
 		/// </summary>
 		TestName TestName { get; }
 
-		/// <summary>
-		/// Name of the test
-		/// </summary>
-		string Name	{ get; }
-		
-		/// <summary>
-		/// Full Name of the test
-		/// </summary>
-		string FullName { get; }
-
-		/// <summary>
-		/// Gets or sets the ID of the runner that holds the test.
-		/// </summary>
-		int RunnerID { get; set; }
-
-		/// <summary>
-		/// Gets the string representation of the TestName, 
-		/// which uniquely identifies a test.
-		/// </summary>
-		string UniqueName { get; }
-
-		/// <summary>
-		/// Whether or not the test should be run
-		/// </summary>
-		bool ShouldRun { get; }
-
-        RunState RunState { get; set; }
+        /// <summary>
+        /// Indicates whether the test can be run using
+        /// the RunState enum.
+        /// </summary>
+		RunState RunState { get; set; }
 
 		/// <summary>
 		/// Reason for not running the test, if applicable
@@ -112,10 +87,6 @@ namespace NUnit.Core
 		/// </summary>
 		IList Categories { get; }
 
-		bool HasCategory( string name );
-
-		bool HasCategory( IList names );
-
 		/// <summary>
 		/// True if this is a suite
 		/// </summary>
@@ -127,25 +98,9 @@ namespace NUnit.Core
 		bool IsFixture { get; }
 
 		/// <summary>
-		/// True if this is a TestCase
-		/// </summary>
-		bool IsTestCase { get; }
-
-		/// <summary>
 		/// Return the description field. 
 		/// </summary>
 		string Description { get; set; }
-
-		/// <summary>
-		/// True if this should only be run explicitly - that is
-		/// if it was marked with the ExplicitAttribute.
-		/// </summary>
-		bool IsExplicit { get; set; }
-
-		/// <summary>
-		/// True if this is a valid, runnable test.
-		/// </summary>
-		bool IsRunnable { get; set; }
 
 		IDictionary Properties { get; }
 	}

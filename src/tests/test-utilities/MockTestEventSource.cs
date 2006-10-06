@@ -50,7 +50,7 @@ namespace NUnit.TestUtilities
 
 		public void SimulateTestRun()
 		{
-			FireRunStarting( test.FullName, test.TestCount );
+			FireRunStarting( test.TestName.FullName, test.TestCount );
 
 			TestResult result = SimulateTest( test );
 
@@ -61,9 +61,9 @@ namespace NUnit.TestUtilities
 		{
 			if ( test.IsSuite )
 			{
-				FireSuiteStarting( test );
+				FireSuiteStarting( test.TestName );
 
-				TestSuiteResult result = new TestSuiteResult( test, test.Name );
+				TestSuiteResult result = new TestSuiteResult( test, test.TestName.Name );
 
 				foreach( TestNode childTest in test.Tests )
 					result.AddResult( SimulateTest( childTest ) );
@@ -74,10 +74,10 @@ namespace NUnit.TestUtilities
 			}
 			else
 			{
-				FireTestStarting( test );
+				FireTestStarting( test.TestName );
 				
 				TestCaseResult result = new TestCaseResult( test );
-				if ( test.ShouldRun && !test.IsExplicit )
+				if ( test.RunState == RunState.Runnable )
 					result.RunState = RunState.Executed;
 				else
 					result.RunState = RunState.Ignored;

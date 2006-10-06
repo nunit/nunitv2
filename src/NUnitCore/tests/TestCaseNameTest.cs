@@ -45,8 +45,8 @@ namespace NUnit.Core.Tests
 		{
 			TestSuite suite = TestBuilder.MakeFixture( typeof( OneTestCase ) );
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
-			Assert.AreEqual("NUnit.TestData.OneTestCase.TestCase", testCase.FullName);
-			Assert.AreEqual("TestCase", testCase.Name);
+			Assert.AreEqual("NUnit.TestData.OneTestCase.TestCase", testCase.TestName.FullName);
+			Assert.AreEqual("TestCase", testCase.TestName.Name);
 		}
 
 		[Test]
@@ -54,7 +54,7 @@ namespace NUnit.Core.Tests
 		{
 			TestSuite suite = TestBuilder.MakeFixture( typeof( ExpectExceptionTest ) );
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
-			Assert.AreEqual("NUnit.Core.Tests.ExpectExceptionTest.CanSpecifyExceptionType", testCase.FullName);
+			Assert.AreEqual("NUnit.Core.Tests.ExpectExceptionTest.CanSpecifyExceptionType", testCase.TestName.FullName);
 		}
 	}
 }

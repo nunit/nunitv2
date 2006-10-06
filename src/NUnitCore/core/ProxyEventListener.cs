@@ -26,9 +26,9 @@ namespace NUnit.Core
 			this.eventListener.RunFinished(exception);
 		}
 
-		public virtual void TestStarted(TestInfo testCase)
+		public virtual void TestStarted(TestName testName)
 		{
-			this.eventListener.TestStarted(testCase);
+			this.eventListener.TestStarted(testName);
 		}
 
 		public virtual void TestFinished(TestCaseResult result)
@@ -36,9 +36,9 @@ namespace NUnit.Core
 			this.eventListener.TestFinished(result);
 		}
 
-		public virtual void SuiteStarted(TestInfo suite)
+		public virtual void SuiteStarted(TestName testName)
 		{
-			this.eventListener.SuiteStarted(suite);
+			this.eventListener.SuiteStarted(testName);
 		}
 
 		public virtual void SuiteFinished(TestSuiteResult result)

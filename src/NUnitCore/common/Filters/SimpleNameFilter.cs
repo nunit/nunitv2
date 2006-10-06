@@ -35,7 +35,7 @@ namespace NUnit.Core.Filters
 		public override bool Match( ITest test )
 		{
 			foreach( string name in names )
-				if ( test.FullName == name )
+				if ( test.TestName.FullName == name )
 					return true;
 
 			return false;

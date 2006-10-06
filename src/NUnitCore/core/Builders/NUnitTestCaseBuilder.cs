@@ -88,8 +88,7 @@ namespace NUnit.Core.Builders
 		/// <summary>
 		/// Set additional properties of the newly created test case based
 		/// on its attributes. As implemented, the method sets the test's
-		/// RunState,  Description, Categories, IsExplicit and Properties 
-		/// properties.
+		/// RunState,  Description, Categories and Properties.
 		/// </summary>
 		/// <param name="method">A MethodInfo for the method being used as a test method</param>
 		/// <param name="testCase">The test case being constructed</param>

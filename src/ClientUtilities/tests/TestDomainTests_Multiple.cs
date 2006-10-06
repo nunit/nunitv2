@@ -72,7 +72,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void RootNode()
 		{
-			Assert.AreEqual( name, loadedSuite.Name );
+			Assert.AreEqual( name, loadedSuite.TestName.Name );
 		}
 
 		[Test]
@@ -82,8 +82,8 @@ namespace NUnit.Util.Tests
 			//Assert.IsTrue( loadedSuite.Tests[1] is TestAssembly );
 			TestNode test0 = (TestNode)loadedSuite.Tests[0];
 			TestNode test1 = (TestNode)loadedSuite.Tests[1];
-			Assert.AreEqual( assemblies[0], test0.Name );
-			Assert.AreEqual( assemblies[1], test1.Name );
+			Assert.AreEqual( assemblies[0], test0.TestName.Name );
+			Assert.AreEqual( assemblies[1], test1.TestName.Name );
 		}
 
 		[Test]

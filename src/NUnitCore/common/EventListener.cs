@@ -61,19 +61,19 @@ namespace NUnit.Core
 		/// A single test case is starting
 		/// </summary>
 		/// <param name="testCase">The test case</param>
-		void TestStarted(TestInfo testCase);
+		void TestStarted(TestName testName);
 			
 		/// <summary>
-		/// A test case finished
+		/// A test case started
 		/// </summary>
-		/// <param name="result">Result of the test case</param>
+		/// <param name="testName">The name of the test that is starting</param>
 		void TestFinished(TestCaseResult result);
 
 		/// <summary>
 		/// A suite is starting
 		/// </summary>
-		/// <param name="suite">The suite that is starting</param>
-		void SuiteStarted(TestInfo suite);
+		/// <param name="testName">The name of the suite that is starting</param>
+		void SuiteStarted(TestName testName);
 
 		/// <summary>
 		/// A suite finished

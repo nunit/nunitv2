@@ -195,6 +195,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "LongLivingMarshalByRefObject.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "NamespaceTreeBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

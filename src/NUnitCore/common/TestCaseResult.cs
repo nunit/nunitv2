@@ -40,7 +40,7 @@ namespace NUnit.Core
 	public class TestCaseResult : TestResult
 	{
 		public TestCaseResult(TestInfo testCase)
-			: base(testCase, testCase.FullName) { }
+			: base(testCase, testCase.TestName.FullName) { }
 
 		public TestCaseResult(ITest testCase)
 			: this( new TestInfo( testCase ) ){ }

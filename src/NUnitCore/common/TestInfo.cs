@@ -27,12 +27,7 @@ namespace NUnit.Core
 		/// </summary>
 		private TestName testName;
 
-		private ITest parent;
-
-		/// <summary>
-		/// True if the test should be run
-		/// </summary>
-		//private bool shouldRun;
+//		private ITest parent;
 
         private RunState runState;
 
@@ -72,21 +67,6 @@ namespace NUnit.Core
 		/// </summary>
 		private ListDictionary properties = new ListDictionary();
 
-		/// <summary>
-		/// True if the test is marked as Explicit
-		/// </summary>
-		private bool isExplicit;
-		
-		/// <summary>
-		/// True if the test is valid and could be run
-		/// </summary>
-		private bool isRunnable;
-
-		/// <summary>
-		/// Unique Test identifier 
-		/// </summary>
-//		private TestID testID;
-
 		#endregion
 
 		#region Constructors
@@ -98,12 +78,9 @@ namespace NUnit.Core
 		{
 			this.testName = (TestName)test.TestName.Clone();
 
-			//this.shouldRun = test.ShouldRun;
             this.runState = test.RunState;
 			this.ignoreReason = test.IgnoreReason;
 			this.description = test.Description;
-			this.isExplicit = test.IsExplicit;
-			this.isRunnable = test.IsRunnable;
 			this.isSuite = test.IsSuite;
 			this.isFixture = test.IsFixture;
 
@@ -131,12 +108,9 @@ namespace NUnit.Core
 			this.testName.Name = name;
 			this.testName.TestID = new TestID();
 
-			//this.shouldRun = true;
             this.runState = RunState.Runnable;
 			this.ignoreReason = null;
 			this.description = null;
-			this.isExplicit = false;
-			this.isRunnable = true;
 			this.isSuite = true;
 			this.isFixture = false;
 
@@ -161,54 +135,12 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Name of the test
-		/// </summary>
-		public string Name
-		{
-			get { return testName.Name; }
-		}
-
-		/// <summary>
-		/// Full name of the test
-		/// </summary>
-		public string FullName 
-		{
-			get { return testName.FullName; }
-		}
-
-		/// <summary>
-		/// Gets or sets the ID of the runner that holds the test.
-		/// </summary>
-		public int RunnerID
-		{
-			get { return testName.RunnerID; }
-			set { testName.RunnerID = value; }
-		}
-
-		/// <summary>
-		/// Gets the string representation of the TestName, 
-		/// which uniquely identifies a test.
-		/// </summary>
-		public string UniqueName
-		{
-			get { return testName.UniqueName; }
-		}
-
-		/// <summary>
 		/// The test description 
 		/// </summary>
 		public string Description
 		{
 			get { return description; }
 			set { description = value; }
-		}
-
-		/// <summary>
-		/// True if the test should be run
-		/// </summary>
-		public bool ShouldRun
-		{
-            get { return runState == RunState.Runnable; }
 		}
 
         public RunState RunState
@@ -239,42 +171,13 @@ namespace NUnit.Core
 		/// </summary>
 		public ITest Parent
 		{
-			get { return parent; }
-			set { parent = value; }
-		}
-
-		public bool IsExplicit
-		{
-			get { return isExplicit; }
-			set { isExplicit = value; }
-		}
-
-		public bool IsRunnable
-		{
-			get { return isRunnable; }
-			set { isRunnable = value; }
+			get { return null; }
+//			set { parent = value; }
 		}
 
 		public IList Categories 
 		{
 			get { return categories; }
-		}
-
-		public bool HasCategory( string name )
-		{
-			return categories != null && categories.Contains( name );
-		}
-
-		public bool HasCategory( IList names )
-		{
-			if ( categories == null )
-				return false;
-
-			foreach( string name in names )
-				if ( categories.Contains( name ) )
-					return true;
-
-			return false;
 		}
 
 		public virtual IList Tests
@@ -288,14 +191,6 @@ namespace NUnit.Core
 		public bool IsSuite
 		{
 			get { return isSuite; }
-		}
-
-		/// <summary>
-		/// True if this is a test case, false if a suite
-		/// </summary>
-		public bool IsTestCase
-		{
-			get { return !isSuite; }
 		}
 
 		/// <summary>

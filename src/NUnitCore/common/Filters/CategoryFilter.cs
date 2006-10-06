@@ -67,7 +67,14 @@ namespace NUnit.Core.Filters
 
         public override bool Match(ITest test)
         {
-            return test.HasCategory(categories);
+			if ( test.Categories == null )
+				return false;
+
+			foreach( string cat in categories )
+				if ( test.Categories.Contains( cat ) )
+					return true;
+
+			return false;
         }
 	}
 }

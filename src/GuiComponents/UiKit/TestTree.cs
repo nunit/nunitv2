@@ -638,7 +638,7 @@ namespace NUnit.UiKit
 		{
 			if (SelectedTestsChanged != null) 
 			{
-				SelectedTestsChangedEventArgs args = new SelectedTestsChangedEventArgs(test.Name, test.TestCount);
+				SelectedTestsChangedEventArgs args = new SelectedTestsChangedEventArgs(test.TestName.Name, test.TestCount);
 				SelectedTestsChanged(tests, args);
 			}
 		}

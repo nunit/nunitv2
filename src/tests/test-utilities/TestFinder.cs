@@ -11,7 +11,7 @@ namespace NUnit.TestUtilities
 		public static Test Find(string name, Test test)
 		{
 			Test result = null;
-			if (test.Name == name)
+			if (test.TestName.Name == name)
 				result = test;
 			else if (test.Tests != null)
 			{
@@ -28,7 +28,7 @@ namespace NUnit.TestUtilities
 		
 		public static TestResult Find(string name, TestResult result) 
 		{
-			if (result.Test.Name == name)
+			if (result.Test.TestName.Name == name)
 				return result;
 
 			TestSuiteResult suiteResult = result as TestSuiteResult;

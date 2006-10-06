@@ -147,18 +147,18 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestLoadFailed, fileName, exception ) );
 		}
 
-		public void FireTestUnloading( string fileName, TestInfo test )
+		public void FireTestUnloading( string fileName )
 		{
 			Fire(
 				TestUnloading,
-				new TestEventArgs( TestAction.TestUnloading, fileName, test ) );
+				new TestEventArgs( TestAction.TestUnloading, fileName ) );
 		}
 
-		public void FireTestUnloaded( string fileName, TestInfo test )
+		public void FireTestUnloaded( string fileName )
 		{
 			Fire(
 				TestUnloaded,
-				new TestEventArgs( TestAction.TestUnloaded, fileName, test ) );
+				new TestEventArgs( TestAction.TestUnloaded, fileName ) );
 		}
 
 		public void FireTestUnloadFailed( string fileName, Exception exception )
@@ -168,11 +168,11 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestUnloadFailed, fileName, exception ) );
 		}
 
-		public void FireTestReloading( string fileName, TestInfo test )
+		public void FireTestReloading( string fileName )
 		{
 			Fire(
 				TestReloading,
-				new TestEventArgs( TestAction.TestReloading, fileName, test ) );
+				new TestEventArgs( TestAction.TestReloading, fileName ) );
 		}
 
 		public void FireTestReloaded( string fileName, TestInfo test )
@@ -210,11 +210,11 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.RunFinished, exception ) );
 		}
 
-		public void FireTestStarting( TestInfo test )
+		public void FireTestStarting( TestName testName )
 		{
 			Fire(
 				TestStarting,
-				new TestEventArgs( TestAction.TestStarting, test ) );
+				new TestEventArgs( TestAction.TestStarting, testName ) );
 		}
 
 		public void FireTestFinished( TestResult result )
@@ -224,11 +224,11 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestFinished, result ) );
 		}
 
-		public void FireSuiteStarting( TestInfo test )
+		public void FireSuiteStarting( TestName testName )
 		{
 			Fire(
 				SuiteStarting,
-				new TestEventArgs( TestAction.SuiteStarting, test ) );
+				new TestEventArgs( TestAction.SuiteStarting, testName ) );
 		}
 
 		public void FireSuiteFinished( TestResult result )

@@ -84,7 +84,7 @@ namespace NUnit.Core
 		public void Add( TestSuite fixture )
 		{
             
-			string ns = fixture.FullName;
+			string ns = fixture.TestName.FullName;
             int index = ns.LastIndexOf( '.' );
             ns = index > 0 ? ns.Substring( 0, index ) : string.Empty;
 			TestSuite containingSuite = BuildFromNameSpace( ns );
@@ -104,7 +104,7 @@ namespace NUnit.Core
                 TestSuite parent = containingSuite.Parent;
                 if (parent == null)
                 {
-                    fixture.TestName.Name = rootSuite.Name;
+                    fixture.TestName.Name = rootSuite.TestName.Name;
                     rootSuite = fixture;
                 }
                 else

@@ -79,11 +79,11 @@ namespace NUnit.Core.Tests
 		{
 			string fileName = "notestfixtures-assembly.dll";
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build(fileName);
-			Assert.IsNotNull(suite,"Should not be null");
-			Assert.IsFalse(suite.ShouldRun, "Should not run");
-			Assert.AreEqual(suite.IgnoreReason, "Has no TestFixtures");
-			Assert.AreEqual(0, suite.Tests.Count);
+			TestSuite suite = builder.Build( fileName );
+			Assert.IsNotNull( suite,"Should not be null" );
+			Assert.AreEqual( RunState.NotRunnable, suite.RunState );
+			Assert.AreEqual( suite.IgnoreReason, "Has no TestFixtures" );
+			Assert.AreEqual( 0, suite.Tests.Count );
 		}
 
 		[Test]

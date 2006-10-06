@@ -50,9 +50,9 @@ namespace NUnit.Core
 		/// A single test case is starting
 		/// </summary>
 		/// <param name="testCase">The test case</param>
-		public void TestStarted(TestInfo testCase)
+		public void TestStarted(TestName testName)
 		{
-			events.Enqueue( new TestStartedEvent( testCase ) );
+			events.Enqueue( new TestStartedEvent( testName ) );
 		}
 
 		/// <summary>
@@ -68,9 +68,9 @@ namespace NUnit.Core
 		/// A suite is starting
 		/// </summary>
 		/// <param name="suite">The suite that is starting</param>
-		public void SuiteStarted(TestInfo suite)
+		public void SuiteStarted(TestName testName)
 		{
-			events.Enqueue( new SuiteStartedEvent( suite ) );
+			events.Enqueue( new SuiteStartedEvent( testName ) );
 		}
 
 		/// <summary>

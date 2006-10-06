@@ -79,7 +79,7 @@ namespace NUnit.Core.Tests
 				runFinished++;
 			}
 
-			public void TestStarted(TestInfo testCase)
+			public void TestStarted(TestName testName)
 			{
 				testCaseStart++;
 			}
@@ -89,7 +89,7 @@ namespace NUnit.Core.Tests
 				testCaseFinished++;
 			}
 
-			public void SuiteStarted(TestInfo suite)
+			public void SuiteStarted(TestName suiteName)
 			{
 				suiteStarted++;
 			}

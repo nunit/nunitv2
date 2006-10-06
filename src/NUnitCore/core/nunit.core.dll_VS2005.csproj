@@ -109,6 +109,7 @@
     <Compile Include="LegacySuite.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="LongLivingMarshalByRefObject.cs" />
     <Compile Include="NamespaceTreeBuilder.cs">
       <SubType>Code</SubType>
     </Compile>

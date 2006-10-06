@@ -66,7 +66,7 @@ namespace NUnit.Core.Tests
 
 		private int CountTests( TestNode node )
 		{
-			if ( node.IsTestCase )
+			if ( !node.IsSuite )
 				return 1;
 
 			int count = 0;
@@ -92,14 +92,14 @@ namespace NUnit.Core.Tests
 				tests[index] = (ITest)testFixture.Tests[index];
 
 			TestNode test = new TestNode( "Combined", tests );
-			Assert.AreEqual( "Combined", test.Name );
-			Assert.AreEqual( "Combined", test.FullName );
-			Assert.IsTrue( test.ShouldRun, "ShouldRun" );
+			Assert.AreEqual( "Combined", test.TestName.Name );
+			Assert.AreEqual( "Combined", test.TestName.FullName );
+			Assert.AreEqual( RunState.Runnable, test.RunState );
 			Assert.IsTrue( test.IsSuite, "IsSuite" );
 			Assert.AreEqual( tests.Length, test.Tests.Count );
 			Assert.AreEqual( MockTestFixture.Tests, test.TestCount );
 			Assert.AreEqual( 0, test.Categories.Count, "Categories");
-			Assert.AreNotEqual( testFixture.Name, test.TestName, "TestName" );
+			Assert.AreNotEqual( testFixture.TestName.Name, test.TestName.Name, "TestName" );
 		}
 	}
 }
