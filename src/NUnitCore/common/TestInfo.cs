@@ -124,10 +124,7 @@ namespace NUnit.Core
 		#region Properties
 		/// <summary>
 		/// Gets the completely specified name of the test
-		/// encapsulated in a TestName object. TestInfo exposes
-		/// getters for retrieving components of the name
-		/// directly, but this property must be used to set
-		/// any of them.
+		/// encapsulated in a TestName object.
 		/// </summary>
 		public TestName TestName
 		{
@@ -169,10 +166,9 @@ namespace NUnit.Core
 		/// <summary>
 		///  Gets the parent test of this test
 		/// </summary>
-		public ITest Parent
+		public virtual ITest Parent
 		{
 			get { return null; }
-//			set { parent = value; }
 		}
 
 		public IList Categories 

@@ -20,6 +20,8 @@ namespace NUnit.Core
 	public class TestNode : TestInfo
 	{
 		#region Instance Variables
+		private ITest parent;
+
 		/// <summary>
 		/// For a test suite, the child tests or suites
 		/// Null if this is not a test suite
@@ -42,6 +44,7 @@ namespace NUnit.Core
 				{
 					TestNode node = new TestNode( child );
 					this.Tests.Add( node );
+					node.parent = this;
 				}
 			}
 		}
@@ -54,6 +57,11 @@ namespace NUnit.Core
 		#endregion
 
 		#region Properties
+		public override ITest Parent
+		{
+			get { return parent; }
+		}
+
 		/// <summary>
 		/// Array of child tests, null if this is a test case.
 		/// </summary>

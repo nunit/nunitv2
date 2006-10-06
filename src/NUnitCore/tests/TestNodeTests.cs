@@ -62,6 +62,7 @@ namespace NUnit.Core.Tests
 			TestNode test = new TestNode( testSuite );
 			Assert.IsNotNull( test.Tests );
 			Assert.AreEqual( test.TestCount, CountTests( test ) );
+			Assert.AreSame( test, ((TestNode)test.Tests[0]).Parent );
 		}
 
 		private int CountTests( TestNode node )
