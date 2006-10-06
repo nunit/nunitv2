@@ -72,7 +72,7 @@ namespace NUnit.Core
 
 		public IList Extensions
 		{
-			get { return Addins.Names; }
+			get { return AddinManager.CurrentManager.Names; }
 		}
 
 		public IList AssemblyInfo
@@ -186,7 +186,7 @@ namespace NUnit.Core
 
 		public virtual TestResult Run( EventListener listener, TestFilter filter )
 		{
-			Addins.Save();
+			AddinManager.Save();
 
 			try
 			{
@@ -213,7 +213,7 @@ namespace NUnit.Core
 			finally
 			{
 				runThread = null;
-				Addins.Restore();
+				AddinManager.Restore();
 			}
 		}
 

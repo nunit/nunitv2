@@ -99,11 +99,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Addins.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "AddinState.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

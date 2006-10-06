@@ -45,7 +45,7 @@ namespace NUnit.Core
 		/// <returns>A TestSuite if the fixture can be built, null if not</returns>
 		public static TestSuite Make( Type type )
 		{
-			TestSuite suite = Addins.BuildFrom( type );
+			TestSuite suite = AddinManager.CurrentManager.BuildFrom( type );
 
 			if ( suite == null )
 				suite = Builtins.BuildFrom( type );
@@ -53,7 +53,7 @@ namespace NUnit.Core
 			if ( suite != null )
 			{
 				suite = Builtins.Decorate( suite, type );
-				suite = Addins.Decorate( suite, type );
+				suite = AddinManager.CurrentManager.Decorate( suite, type );
 			}
 
 			return suite;

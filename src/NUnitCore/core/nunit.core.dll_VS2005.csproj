@@ -61,9 +61,6 @@
     <Compile Include="AddinManager.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Addins.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="AddinState.cs">
       <SubType>Code</SubType>
     </Compile>

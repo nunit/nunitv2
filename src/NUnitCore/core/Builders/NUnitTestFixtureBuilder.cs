@@ -73,7 +73,7 @@ namespace NUnit.Core.Builders
 		{
 			using( new AddinState() )
 			{
-				Addins.Register( new NUnitTestCaseBuilder() );
+				AddinManager.CurrentManager.Register( new NUnitTestCaseBuilder() );
 				base.AddTestCases (fixtureType);
 			}
 		}

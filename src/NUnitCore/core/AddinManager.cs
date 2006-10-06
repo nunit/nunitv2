@@ -28,6 +28,8 @@
 #endregion
 
 using System;
+using System.IO;
+using System.Diagnostics;
 using System.Collections;
 using System.Reflection;
 //using NUnit.Core.Interfaces;
@@ -36,6 +38,10 @@ namespace NUnit.Core
 {
 	public class AddinManager : ISuiteBuilder, ITestCaseBuilder, ITestDecorator
 	{
+		#region Static Fields
+		private static AddinManager current = new AddinManager();
+		#endregion
+
 		#region Instance Fields
 		private AddinManager priorState = null;
 
@@ -61,7 +67,80 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Properties
+		#region Static Constructor
+		static AddinManager()
+		{	
+			//Figure out the directory from which NUnit is executing
+			string moduleName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+			string nunitDirPath = Path.GetDirectoryName( moduleName );
+
+			// Load nunit.core.extensions if available
+			string extensions = Path.Combine( nunitDirPath, "nunit.core.extensions.dll" );
+			if ( File.Exists( extensions ) )
+			{
+				try
+				{
+					AssemblyName assemblyName = new AssemblyName();
+					assemblyName.Name = "nunit.core.extensions";
+					assemblyName.CodeBase = extensions;
+					Assembly assembly = Assembly.Load(assemblyName);
+					CurrentManager.Register( assembly );
+				}
+				catch( Exception ex )
+				{
+					// HACK: Where should this be logged? 
+					// Don't pollute the trace listeners.
+
+					TraceListener listener = new DefaultTraceListener();
+					listener.WriteLine( "Extension not loaded: nunit.core.extensions"  );
+					listener.WriteLine( ex.ToString() );
+					//throw new ApplicationException( "Extension not loaded: nunit.core.extensions", ex );
+				}
+			}
+
+			// Load any extensions in the addins directory
+			DirectoryInfo dir = new DirectoryInfo( Path.Combine( nunitDirPath, "addins" ) );
+			if ( dir.Exists )
+				foreach( FileInfo file in dir.GetFiles( "*.dll" ) )
+					try
+					{
+						AssemblyName assemblyName = new AssemblyName();
+						assemblyName.CodeBase = file.FullName;
+						Assembly assembly = Assembly.Load(assemblyName);
+						CurrentManager.Register( assembly );
+					}
+					catch( Exception ex )
+					{
+						// HACK: Where should this be logged? 
+						// Don't pollute the trace listeners.
+						TraceListener listener = new DefaultTraceListener();
+						listener.WriteLine( "Extension not loaded: " + file.FullName  );
+						listener.WriteLine( ex.ToString() );
+						//throw new ApplicationException( "Extension not loaded: " + file.FullName );
+					}
+		}
+		#endregion
+
+		#region Static Properties
+		public static AddinManager CurrentManager
+		{
+			get { return current; }
+		}
+		#endregion
+
+		#region Static Methods
+		public static void Save()
+		{
+			current = new AddinManager( current );
+		}
+
+		public static void Restore()
+		{
+			current = current.PriorState;
+		}
+		#endregion
+
+		#region Instance Properties
 		public AddinManager PriorState
 		{
 			get { return priorState; }

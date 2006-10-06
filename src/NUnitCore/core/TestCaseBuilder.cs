@@ -45,7 +45,7 @@ namespace NUnit.Core
 		public static TestCase Make( MethodInfo method )
 		{
 			// First see if any addins are able to make the test case
-			TestCase testCase = Addins.BuildFrom( method );
+			TestCase testCase = AddinManager.CurrentManager.BuildFrom( method );
 
 			// If not, try any builtin test case builders
 			if ( testCase == null )
@@ -54,7 +54,7 @@ namespace NUnit.Core
 			if ( testCase != null )
 			{
 				testCase = Builtins.Decorate( testCase, method );
-				testCase = Addins.Decorate( testCase, method );
+				testCase = AddinManager.CurrentManager.Decorate( testCase, method );
 			}
 
 			return testCase;

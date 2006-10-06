@@ -108,13 +108,13 @@ namespace NUnit.Core.Builders
 
 		public bool CanBuildFrom(Type type)
 		{
-			return Addins.CanBuildFrom( type ) 
+			return AddinManager.CurrentManager.CanBuildFrom( type ) 
 				|| Builtins.CanBuildFrom( type );
 		}
 
 		public TestSuite BuildFrom(Type type)
 		{
-			TestSuite suite = Addins.BuildFrom( type );
+			TestSuite suite = AddinManager.CurrentManager.BuildFrom( type );
 			if ( suite == null )
 				suite = Builtins.BuildFrom( type );
 
@@ -220,7 +220,7 @@ namespace NUnit.Core.Builders
 				Assembly assembly = Assembly.Load(Path.GetFileNameWithoutExtension(assemblyName));
 				
 				if ( assembly != null )
-					Addins.Register( assembly );
+					AddinManager.CurrentManager.Register( assembly );
 
 				return assembly;
 			}
