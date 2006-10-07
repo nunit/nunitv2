@@ -165,15 +165,6 @@ namespace NUnit.Core
 			get { return true; }
 		}
 
-		/// <summary>
-		/// True if this is a fixture.
-		/// TODO: An easier way to tell this?
-		/// </summary>
-		public override bool IsFixture
-		{
-			get	{ return false;	}
-		}
-
 		public override int TestCount
 		{
 			get
@@ -201,6 +192,11 @@ namespace NUnit.Core
 		#endregion
 
 		#region Test Overrides
+		public override string TestType
+		{
+			get	{ return "Test Suite"; }
+		}
+
 		public override int CountTestCases(TestFilter filter)
 		{
 			int count = 0;

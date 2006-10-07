@@ -44,9 +44,9 @@ namespace NUnit.Core
 		#endregion
 
 		#region Properties
-		public override bool IsFixture
+		public override string TestType
 		{
-			get { return true; }
+			get	{ return "Test Fixture"; }
 		}
 		#endregion
 

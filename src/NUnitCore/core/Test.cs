@@ -45,6 +45,8 @@ namespace NUnit.Core
 		/// </summary>
 		private TestName testName;
 
+		private string testType;
+
 		/// <summary>
 		/// Indicates whether the test should be executed
 		/// </summary>
@@ -198,10 +200,11 @@ namespace NUnit.Core
 		#endregion
 
 		#region Abstract Methods and Properties
+		public abstract string TestType { get; }
+
 		public abstract int CountTestCases(TestFilter filter);
 		
 		public abstract bool IsSuite { get; }
-		public abstract bool IsFixture{ get; }
 
 		public abstract IList Tests { get; }
 

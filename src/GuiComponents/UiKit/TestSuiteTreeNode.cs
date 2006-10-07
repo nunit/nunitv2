@@ -124,15 +124,7 @@ namespace NUnit.UiKit
 
 		public string TestType
 		{
-			get
-			{
-				if ( test.IsFixture )
-					return "Test Fixture";
-				else if ( test.IsSuite )
-					return "Test Suite";
-				else
-					return "Test Case";
-			}
+			get { return test.TestType; }
 		}
 
 		public string StatusText

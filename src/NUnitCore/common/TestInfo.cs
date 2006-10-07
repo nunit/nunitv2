@@ -27,7 +27,7 @@ namespace NUnit.Core
 		/// </summary>
 		private TestName testName;
 
-//		private ITest parent;
+		private string testType;
 
         private RunState runState;
 
@@ -45,11 +45,6 @@ namespace NUnit.Core
 		/// True if this is a suite
 		/// </summary>
 		private bool isSuite;
-
-		/// <summary>
-		/// True if this is a fixture
-		/// </summary>
-		private bool isFixture;
 
 		/// <summary>
 		/// The test description
@@ -77,12 +72,12 @@ namespace NUnit.Core
 		public TestInfo( ITest test )
 		{
 			this.testName = (TestName)test.TestName.Clone();
+			this.testType = test.TestType;
 
             this.runState = test.RunState;
 			this.ignoreReason = test.IgnoreReason;
 			this.description = test.Description;
 			this.isSuite = test.IsSuite;
-			this.isFixture = test.IsFixture;
 
 			if (test.Categories != null) 
 				this.categories.AddRange(test.Categories);
@@ -104,6 +99,8 @@ namespace NUnit.Core
 		public TestInfo( string name, ITest[] tests )
 		{
 			this.testName = new TestName();
+			this.testType = "Test Project";
+
 			this.testName.FullName = name;
 			this.testName.Name = name;
 			this.testName.TestID = new TestID();
@@ -112,7 +109,6 @@ namespace NUnit.Core
 			this.ignoreReason = null;
 			this.description = null;
 			this.isSuite = true;
-			this.isFixture = false;
 
 			foreach( ITest test in tests )
 			{
@@ -129,6 +125,11 @@ namespace NUnit.Core
 		public TestName TestName
 		{
 			get { return testName; }
+		}
+
+		public string TestType
+		{
+			get { return testType; }
 		}
 
 		/// <summary>
@@ -187,14 +188,6 @@ namespace NUnit.Core
 		public bool IsSuite
 		{
 			get { return isSuite; }
-		}
-
-		/// <summary>
-		/// True if this is a fixture.
-		/// </summary>
-		public bool IsFixture
-		{
-			get { return isFixture; }
 		}
 
 		public IDictionary Properties

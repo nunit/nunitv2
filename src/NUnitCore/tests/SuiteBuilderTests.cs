@@ -72,7 +72,7 @@ namespace NUnit.Core.Tests
 			TestSuite suite = builder.Build(testsDll);
 			Assert.IsNotNull(suite, "Unable to build suite" );
 			Assert.Greater( suite.Tests.Count, 1 );
-			Assert.IsTrue(((ITest)suite.Tests[0]).IsFixture, "Should be a fixture" );
+			Assert.AreEqual( "Test Fixture", ((ITest)suite.Tests[0]).TestType );
 		}
 
 		[Test]

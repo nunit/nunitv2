@@ -90,12 +90,12 @@ namespace NUnit.Core
 			return testResult;
 		}
 
-		public override bool IsSuite
+		public override string TestType
 		{
-			get { return false; }
+			get { return "Test Case"; }
 		}
 
-		public override bool IsFixture
+		public override bool IsSuite
 		{
 			get { return false; }
 		}

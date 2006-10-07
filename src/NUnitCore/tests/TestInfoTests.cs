@@ -29,9 +29,9 @@ namespace NUnit.Core.Tests
 		{
 			TestInfo actual = new TestInfo( expected );
 			Assert.AreEqual( expected.TestName, actual.TestName );
+			Assert.AreEqual( expected.TestType, actual.TestType );
 			Assert.AreEqual( expected.RunState, actual.RunState );
 			Assert.AreEqual( expected.IsSuite, actual.IsSuite, "IsSuite" );
-			Assert.AreEqual( expected.IsFixture, actual.IsFixture, "IsFixture" );
 			Assert.AreEqual( expected.TestCount, actual.TestCount, "TestCount" );
 
 			if ( expected.Categories == null )

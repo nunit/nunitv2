@@ -55,6 +55,11 @@ namespace NUnit.Core
 		/// </summary>
 		TestName TestName { get; }
 
+		/// <summary>
+		/// Gets a string representing the type of test, e.g.: "Test Case"
+		/// </summary>
+		string TestType { get; }
+
         /// <summary>
         /// Indicates whether the test can be run using
         /// the RunState enum.
@@ -91,11 +96,6 @@ namespace NUnit.Core
 		/// True if this is a suite
 		/// </summary>
 		bool IsSuite { get; }
-
-		/// <summary>
-		/// True if this is a TestFixture
-		/// </summary>
-		bool IsFixture { get; }
 
 		/// <summary>
 		/// Return the description field. 
