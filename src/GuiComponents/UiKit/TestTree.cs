@@ -50,10 +50,8 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.MenuItem treeMenuSeparatorItem2;
 		private System.Windows.Forms.MenuItem expandAllMenuItem;
 		private System.Windows.Forms.MenuItem collapseAllMenuItem;
+		private System.Windows.Forms.MenuItem hideTestsMenuItem;
 		private System.Windows.Forms.MenuItem treeMenuSeparatorItem3;
-		private System.Windows.Forms.MenuItem expandFixturesMenuItem;
-		private System.Windows.Forms.MenuItem collapseFixturesMenuItem;
-		private System.Windows.Forms.MenuItem treeMenuSeparatorItem4;
 		private System.Windows.Forms.MenuItem propertiesMenuItem;
 		private System.Windows.Forms.CheckBox excludeCheckbox;
 
@@ -130,10 +128,8 @@ namespace NUnit.UiKit
 			this.treeMenuSeparatorItem2 = new System.Windows.Forms.MenuItem();
 			this.expandAllMenuItem = new System.Windows.Forms.MenuItem();
 			this.collapseAllMenuItem = new System.Windows.Forms.MenuItem();
+			this.hideTestsMenuItem = new System.Windows.Forms.MenuItem();
 			this.treeMenuSeparatorItem3 = new System.Windows.Forms.MenuItem();
-			this.expandFixturesMenuItem = new System.Windows.Forms.MenuItem();
-			this.collapseFixturesMenuItem = new System.Windows.Forms.MenuItem();
-			this.treeMenuSeparatorItem4 = new System.Windows.Forms.MenuItem();
 			this.propertiesMenuItem = new System.Windows.Forms.MenuItem();
 
 			// 
@@ -151,10 +147,8 @@ namespace NUnit.UiKit
 					this.treeMenuSeparatorItem2,
 					this.expandAllMenuItem,
 					this.collapseAllMenuItem,
+					this.hideTestsMenuItem,
 					this.treeMenuSeparatorItem3,
-					this.expandFixturesMenuItem,
-					this.collapseFixturesMenuItem,
-					this.treeMenuSeparatorItem4,
 					this.propertiesMenuItem 
 				} );
 			this.treeMenu.Text = "&Tree";
@@ -201,31 +195,20 @@ namespace NUnit.UiKit
 			this.collapseAllMenuItem.Text = "Collapse All";
 			this.collapseAllMenuItem.Click += new System.EventHandler(this.collapseAllMenuItem_Click);
 			// 
+			// hideTestsMenuItem
+			// 
+			this.hideTestsMenuItem.Index = 7;
+			this.hideTestsMenuItem.Text = "Hide Tests";
+			this.hideTestsMenuItem.Click += new System.EventHandler(this.hideTestsMenuItem_Click);
+			// 
 			// treeMenuSeparatorItem3
 			// 
-			this.treeMenuSeparatorItem3.Index = 7;
+			this.treeMenuSeparatorItem3.Index = 8;
 			this.treeMenuSeparatorItem3.Text = "-";
-			// 
-			// expandFixturesMenuItem
-			// 
-			this.expandFixturesMenuItem.Index = 8;
-			this.expandFixturesMenuItem.Text = "Expand Fixtures";
-			this.expandFixturesMenuItem.Click += new System.EventHandler(this.expandFixturesMenuItem_Click);
-			// 
-			// collapseFixturesMenuItem
-			// 
-			this.collapseFixturesMenuItem.Index = 9;
-			this.collapseFixturesMenuItem.Text = "Collapse Fixtures";
-			this.collapseFixturesMenuItem.Click += new System.EventHandler(this.collapseFixturesMenuItem_Click);
-			// 
-			// treeMenuSeparatorItem4
-			// 
-			this.treeMenuSeparatorItem4.Index = 10;
-			this.treeMenuSeparatorItem4.Text = "-";
 			// 
 			// propertiesMenuItem
 			// 
-			this.propertiesMenuItem.Index = 11;
+			this.propertiesMenuItem.Index = 9;
 			this.propertiesMenuItem.Text = "&Properties";
 			this.propertiesMenuItem.Click += new System.EventHandler(this.propertiesMenuItem_Click);
 
@@ -291,26 +274,25 @@ namespace NUnit.UiKit
 
 		private void collapseAllMenuItem_Click(object sender, System.EventArgs e)
 		{
+			tests.BeginUpdate();
 			tests.CollapseAll();
+			tests.EndUpdate();
 
 			// Compensate for a bug in the underlying control
 			if ( tests.Nodes.Count > 0 )
 				tests.SelectedNode = tests.Nodes[0];	
 		}
 
+		private void hideTestsMenuItem_Click(object sender, System.EventArgs e)
+		{
+			tests.HideTests();
+		}
+
 		private void expandAllMenuItem_Click(object sender, System.EventArgs e)
 		{
+			tests.BeginUpdate();
 			tests.ExpandAll();
-		}
-
-		private void collapseFixturesMenuItem_Click(object sender, System.EventArgs e)
-		{
-			tests.CollapseFixtures();		
-		}
-
-		private void expandFixturesMenuItem_Click(object sender, System.EventArgs e)
-		{
-			tests.ExpandFixtures();		
+			tests.EndUpdate();
 		}
 
 		private void propertiesMenuItem_Click(object sender, System.EventArgs e)

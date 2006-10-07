@@ -828,22 +828,12 @@ namespace NUnit.UiKit
 			}
 		}
 
-		/// <summary>
-		/// Collapse all fixtures in the tree
-		/// </summary>
-		public void CollapseFixtures()
+		public void HideTests()
 		{
+			this.BeginUpdate();
 			foreach( TestSuiteTreeNode node in Nodes )
-				CollapseFixturesUnderNode( node );
-		}
-
-		/// <summary>
-		/// Expand all fixtures in the tree
-		/// </summary>
-		public void ExpandFixtures()
-		{
-			foreach( TestSuiteTreeNode node in Nodes )
-				ExpandFixturesUnderNode( node );
+				HideTestsUnderNode( node );
+			this.EndUpdate();
 		}
 
 		public void ShowPropertiesDialog( TestInfo test )
@@ -1157,26 +1147,20 @@ namespace NUnit.UiKit
 		/// Helper collapses all fixtures under a node
 		/// </summary>
 		/// <param name="node">Node under which to collapse fixtures</param>
-		private void CollapseFixturesUnderNode( TestSuiteTreeNode node )
+		private void HideTestsUnderNode( TestSuiteTreeNode node )
 		{
-			if ( node.Test.IsFixture )
-				node.Collapse();
-			else 
-				foreach( TestSuiteTreeNode child in node.Nodes )
-					CollapseFixturesUnderNode( child );		
-		}
+			bool expand = false;
+			foreach( TestSuiteTreeNode child in node.Nodes )
+				if ( child.Test.IsSuite )
+				{
+					expand = true;
+					HideTestsUnderNode( child );
+				}
 
-		/// <summary>
-		/// Helper expands all fixtures under a node
-		/// </summary>
-		/// <param name="node">Node under which to expand fixtures</param>
-		private void ExpandFixturesUnderNode( TestSuiteTreeNode node )
-		{
-			if ( node.Test.IsFixture )
+			if ( expand )
 				node.Expand();
-			else 
-				foreach( TestSuiteTreeNode child in node.Nodes )
-					ExpandFixturesUnderNode( child );		
+			else
+				node.Collapse();
 		}
 
 		/// <summary>
@@ -1205,8 +1189,7 @@ namespace NUnit.UiKit
 					ExpandAll();
 					break;
 				case DisplayStyle.HideTests:
-					ExpandAll();
-					CollapseFixtures();
+					HideTests();
 					break;
 				case DisplayStyle.Collapse:
 				default:
