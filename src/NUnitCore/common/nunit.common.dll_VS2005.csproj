@@ -64,9 +64,12 @@
     <Compile Include="Filters\NotFilter.cs" />
     <Compile Include="Filters\RecursiveTestFilter.cs" />
     <Compile Include="Filters\SimpleNameFilter.cs" />
+    <Compile Include="IAddin.cs" />
     <Compile Include="ITest.cs" />
     <Compile Include="ITestFilter.cs" />
+    <Compile Include="ResultState.cs" />
     <Compile Include="ResultVisitor.cs" />
+    <Compile Include="RunState.cs" />
     <Compile Include="TestAssemblyInfo.cs" />
     <Compile Include="TestCaseResult.cs" />
     <Compile Include="TestFilter.cs" />

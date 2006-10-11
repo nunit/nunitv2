@@ -31,16 +31,6 @@ using System.Collections;
 
 namespace NUnit.Core
 {
-	public enum RunState
-	{
-		NotRunnable,
-		Runnable,
-		Explicit,
-		Skipped,
-		Ignored,
-		Executed
-	}
-
 	/// <summary>
 	/// Common interface supported by all representations
 	/// of a test. Only includes informational fields.
@@ -77,6 +67,26 @@ namespace NUnit.Core
 		int TestCount { get; }
 
 		/// <summary>
+		/// Categories available for this test
+		/// </summary>
+		IList Categories { get; }
+
+		/// <summary>
+		/// Return the description field. 
+		/// </summary>
+		string Description { get; set; }
+
+		/// <summary>
+		/// Return additional properties of the test
+		/// </summary>
+		IDictionary Properties { get; }
+
+		/// <summary>
+		/// True if this is a suite
+		/// </summary>
+		bool IsSuite { get; }
+
+		/// <summary>
 		///  Gets the parent test of this test
 		/// </summary>
 		ITest Parent { get; }
@@ -87,22 +97,6 @@ namespace NUnit.Core
 		/// </summary>
 		IList Tests { get; }
 
-		/// <summary>
-		/// Categories available for this test
-		/// </summary>
-		IList Categories { get; }
-
-		/// <summary>
-		/// True if this is a suite
-		/// </summary>
-		bool IsSuite { get; }
-
-		/// <summary>
-		/// Return the description field. 
-		/// </summary>
-		string Description { get; set; }
-
-		IDictionary Properties { get; }
 	}
 }
 

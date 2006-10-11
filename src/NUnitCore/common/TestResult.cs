@@ -32,13 +32,6 @@ namespace NUnit.Core
 	using System;
 	using System.Text;
 
-	public enum ResultState
-	{
-		Success,
-		Failure,
-		Error,
-	}
-
     public enum FailureSite
     {
         Test,

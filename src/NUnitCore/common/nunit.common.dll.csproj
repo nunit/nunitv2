@@ -100,6 +100,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "IAddin.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ITest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -110,7 +115,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ResultState.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ResultVisitor.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RunState.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

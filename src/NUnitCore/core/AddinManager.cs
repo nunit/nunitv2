@@ -36,7 +36,7 @@ using System.Reflection;
 
 namespace NUnit.Core
 {
-	public class AddinManager : ISuiteBuilder, ITestCaseBuilder, ITestDecorator
+	public class AddinManager
 	{
 		#region Static Fields
 		private static AddinManager current = new AddinManager();
@@ -69,55 +69,9 @@ namespace NUnit.Core
 
 		#region Static Constructor
 		static AddinManager()
-		{	
-			//Figure out the directory from which NUnit is executing
-			string moduleName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-			string nunitDirPath = Path.GetDirectoryName( moduleName );
-
-			// Load nunit.core.extensions if available
-			string extensions = Path.Combine( nunitDirPath, "nunit.core.extensions.dll" );
-			if ( File.Exists( extensions ) )
-			{
-				try
-				{
-					AssemblyName assemblyName = new AssemblyName();
-					assemblyName.Name = "nunit.core.extensions";
-					assemblyName.CodeBase = extensions;
-					Assembly assembly = Assembly.Load(assemblyName);
-					CurrentManager.Register( assembly );
-				}
-				catch( Exception ex )
-				{
-					// HACK: Where should this be logged? 
-					// Don't pollute the trace listeners.
-
-					TraceListener listener = new DefaultTraceListener();
-					listener.WriteLine( "Extension not loaded: nunit.core.extensions"  );
-					listener.WriteLine( ex.ToString() );
-					//throw new ApplicationException( "Extension not loaded: nunit.core.extensions", ex );
-				}
-			}
-
-			// Load any extensions in the addins directory
-			DirectoryInfo dir = new DirectoryInfo( Path.Combine( nunitDirPath, "addins" ) );
-			if ( dir.Exists )
-				foreach( FileInfo file in dir.GetFiles( "*.dll" ) )
-					try
-					{
-						AssemblyName assemblyName = new AssemblyName();
-						assemblyName.CodeBase = file.FullName;
-						Assembly assembly = Assembly.Load(assemblyName);
-						CurrentManager.Register( assembly );
-					}
-					catch( Exception ex )
-					{
-						// HACK: Where should this be logged? 
-						// Don't pollute the trace listeners.
-						TraceListener listener = new DefaultTraceListener();
-						listener.WriteLine( "Extension not loaded: " + file.FullName  );
-						listener.WriteLine( ex.ToString() );
-						//throw new ApplicationException( "Extension not loaded: " + file.FullName );
-					}
+		{
+			current.RegisterBuiltins();
+			current.RegisterAddins();
 		}
 		#endregion
 
@@ -146,6 +100,21 @@ namespace NUnit.Core
 			get { return priorState; }
 		}
 
+		public ISuiteBuilder SuiteBuilders
+		{
+			get { return suiteBuilders; }
+		}
+
+		public ITestCaseBuilder TestBuilders
+		{
+			get { return testBuilders; }
+		}
+
+		public ITestDecorator TestDecorators
+		{
+			get { return testDecorators; }
+		}
+
 		public IList Addins
 		{
 			get
@@ -159,14 +128,9 @@ namespace NUnit.Core
 			get
 			{
 				ArrayList names = new ArrayList();
-
-//				foreach( IPlugin plugin in addins )
-//					names.Add( plugin.Name );
-			
-				foreach( object addin in Addins )
-				{
-					names.Add( addin.GetType().Name );
-				}
+		
+				foreach( IAddin addin in Addins )
+					names.Add( addin.Name );
 
 				return names;
 			}
@@ -188,110 +152,91 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region ISuiteBuilder Members
-		public bool CanBuildFrom(Type type)
-		{
-			return suiteBuilders.CanBuildFrom( type );
-		}
-
-		public TestSuite BuildFrom(Type type)
-		{
-			return suiteBuilders.BuildFrom( type );
-		}
-		#endregion
-
-		#region ITestCaseBuilder Members
-		public bool CanBuildFrom(MethodInfo method)
-		{
-			return testBuilders.CanBuildFrom( method );
-		}
-
-		public TestCase BuildFrom(MethodInfo method)
-		{
-			return testBuilders.BuildFrom( method );
-		}
-		#endregion
-
-		#region ITestDecorator Members
-		public TestCase Decorate(TestCase testCase, MethodInfo method)
-		{
-			return testDecorators.Decorate( testCase, method );
-		}
-
-		public TestSuite Decorate(TestSuite suite, Type fixtureType)
-		{
-			return testDecorators.Decorate( suite, fixtureType );
-		}
-		#endregion
-
 		#region Addin Registration
-		public void Register( Assembly assembly ) 
+		public void RegisterBuiltins()
+		{
+			// Define NUnit Framework
+			TestFramework.Register( "NUnit", "nunit.framework" );
+
+			// Register builtin SuiteBuilders
+			Register( new Builders.NUnitTestFixtureBuilder() );
+			Register( new Builders.SetUpFixtureBuilder() );
+
+			//Add builtin TestCaseBuilders
+//			testBuilders.Add( new Builders.NUnitTestCaseBuilder() );
+		}
+
+		public void RegisterAddins()
+		{
+			//Figure out the directory from which NUnit is executing
+			string moduleName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+			string nunitDirPath = Path.GetDirectoryName( moduleName );
+			string coreExtensions = Path.Combine( nunitDirPath, "nunit.core.extensions.dll" );
+			string addinsDirPath = Path.Combine( nunitDirPath, "addins" );
+
+			// Load nunit.core.extensions if available
+			if ( File.Exists( coreExtensions ) )
+				Register( coreExtensions );
+
+			// Load any extensions in the addins directory
+			DirectoryInfo dir = new DirectoryInfo( addinsDirPath );
+			if ( dir.Exists )
+				foreach( FileInfo file in dir.GetFiles( "*.dll" ) )
+					Register( file.FullName );
+		}
+
+		public void Register( string path )
+		{
+			try
+			{
+				AssemblyName assemblyName = new AssemblyName();
+				assemblyName.Name = Path.GetFileNameWithoutExtension(path);
+				assemblyName.CodeBase = path;
+				Assembly assembly = Assembly.Load(assemblyName);
+				RegisterAddins( assembly );
+			}
+			catch( Exception ex )
+			{
+				// HACK: Where should this be logged? 
+				// Don't pollute the trace listeners.
+				TraceListener listener = new DefaultTraceListener();
+				listener.WriteLine( "Extension not loaded: " + path  );
+				listener.WriteLine( ex.ToString() );
+				//throw new ApplicationException( "Extension not loaded: " + file.FullName );
+			}
+		}
+
+		public void RegisterAddins( Assembly assembly ) 
 		{
 			foreach( Type type in assembly.GetExportedTypes() )
 			{
-//				if ( Reflect.HasInterface( type, "NUnit.Core.Interfaces.IPlugin" ) )
-//				{
-//					IPlugin plugin = Reflect.Construct( type ) as IPlugin;
-//					if  ( plugin != null )
-//						addins.Add( plugin );
-//				}
-
-				if ( NUnitFramework.IsSuiteBuilder( type ) )
+				if ( NUnitFramework.IsNUnitAddin( type ) )
 				{
-					object builderObject = Reflect.Construct( type );
-					ISuiteBuilder builder = builderObject as ISuiteBuilder;
-					// May not be able to cast, if the builder uses an earlier
-                    // version of the interface, so we use reflection.
-                    if (builder != null)
-						suiteBuilders.Add( builder );
-					// TODO: Figure out when to unload - this is
-					// not important now, since we use a different
-					// appdomain for each load, but may be in future.
-				}
-				else if ( NUnitFramework.IsTestCaseBuilder( type ) )
-				{
-					object builderObject = Reflect.Construct( type );
-					ITestCaseBuilder builder = builderObject as ITestCaseBuilder;
-                    // May not be able to cast, if the builder uses an earlier
-                    // version of the interface, so we use reflection.
-                    if (builder != null)
-                        testBuilders.Add(builder);
-				}
-				else if ( NUnitFramework.IsTestDecorator( type ) )
-				{
-					object decoratorObject = Reflect.Construct( type );
-					ITestDecorator decorator = decoratorObject as ITestDecorator;
-                    // May not be able to cast, if the decorator uses an earlier
-                    // version of the interface, so we use reflection.
-                    if (decorator != null)
-                        testDecorators.Add(decorator);
+					IAddin addin = (IAddin)Reflect.Construct( type );
+					RegisterAddin( addin );
 				}
 			}
 		}
 
+		public void RegisterAddin( IAddin addin )
+		{
+			addins.Add( addin );
+			addin.Initialize();
+		}
+
 		public void Register( ISuiteBuilder builder )
 		{
-			addins.Add( builder );
 			suiteBuilders.Add( builder );
 		}
 
 		public void Register( ITestCaseBuilder builder )
 		{
-			addins.Add( builder );
 			testBuilders.Add( builder );
 		}
 
 		public void Register( ITestDecorator decorator )
 		{
-			addins.Add( decorator );
 			testDecorators.Add( decorator );
-		}
-
-		public void Clear()
-		{
-			suiteBuilders.Clear();
-			testBuilders.Clear();
-			testDecorators.Clear();
 		}
 		#endregion
     }
