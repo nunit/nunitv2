@@ -71,9 +71,6 @@
     <Compile Include="AssemblyResolver.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Builtins.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="CategoryManager.cs">
       <SubType>Code</SubType>
     </Compile>
