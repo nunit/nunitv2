@@ -10,21 +10,21 @@ namespace NUnit.Core
 	public interface ITestDecorator
 	{
 		/// <summary>
-		/// Examine the a TestCase and either return it as is, modify it
+		/// Examine the a Test and either return it as is, modify it
 		/// or return a different TestCase.
 		/// </summary>
-		/// <param name="test">The TestCase to be decorated</param>
-		/// <param name="method">The MethodInfo used to construct the case</param>
-		/// <returns>The resulting TestCase</returns>
-		TestCase Decorate( TestCase testCase, MethodInfo method );
+		/// <param name="test">The Test to be decorated</param>
+		/// <param name="method">The MethodInfo used to construct the test</param>
+		/// <returns>The resulting Test</returns>
+		Test Decorate( Test test, MemberInfo member );
 
 		/// <summary>
-		/// Examine the a TestSuite and either return it as is, modify it
+		/// Examine the a Test and either return it as is, modify it
 		/// or return a different TestSuite.
 		/// </summary>
-		/// <param name="suite">The TestSuite to be decorated</param>
-		/// <param name="fixtureType">The Type used to construct the suite</param>
-		/// <returns>The resulting TestSuite</returns>
-		TestSuite Decorate( TestSuite suite, Type fixtureType );
+		/// <param name="suite">The Test to be decorated</param>
+		/// <param name="fixtureType">The Type used to construct the test</param>
+		/// <returns>The resulting Test</returns>
+//		Test Decorate( Test test, Type fixtureType );
 	}
 }

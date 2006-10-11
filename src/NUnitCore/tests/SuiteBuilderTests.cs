@@ -59,7 +59,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void LoadAssembly() 
 		{
-			TestSuite suite = builder.Build(testsDll);
+			Test suite = builder.Build(testsDll);
 			Assert.IsNotNull(suite, "Unable to build suite" );
 			Assert.AreEqual( 1, suite.Tests.Count );
 			Assert.AreEqual( "NUnit", ((ITest)suite.Tests[0]).TestName.Name );
@@ -69,7 +69,7 @@ namespace NUnit.Core.Tests
 		public void LoadAssemblyWithoutNamespaces()
 		{
 			builder.AutoNamespaceSuites = false;
-			TestSuite suite = builder.Build(testsDll);
+			Test suite = builder.Build(testsDll);
 			Assert.IsNotNull(suite, "Unable to build suite" );
 			Assert.Greater( suite.Tests.Count, 1 );
 			Assert.AreEqual( "Test Fixture", ((ITest)suite.Tests[0]).TestType );
@@ -78,14 +78,14 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void LoadFixture()
 		{
-			TestSuite suite = builder.Build(testsDll, "NUnit.Core.Tests.SuiteBuilderTests");
+			Test suite = builder.Build(testsDll, "NUnit.Core.Tests.SuiteBuilderTests");
 			Assert.IsNotNull(suite, "Unable to build suite");
 		}
 
 		[Test]
 		public void LoadSuite()
 		{
-			TestSuite suite = builder.Build( testsDll, "NUnit.Core.Tests.AllTests" );
+			Test suite = builder.Build( testsDll, "NUnit.Core.Tests.AllTests" );
 			Assert.IsNotNull(suite, "Unable to build suite");
 			Assert.AreEqual( 3, suite.Tests.Count );
 		}
@@ -93,7 +93,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void LoadNamespaceAsSuite()
 		{
-			TestSuite suite= builder.Build( testsDll, "NUnit.Core.Tests" );
+			Test suite= builder.Build( testsDll, "NUnit.Core.Tests" );
 			Assert.IsNotNull( suite );
 			Assert.AreEqual( testsDll, suite.TestName.Name );
 			Assert.AreEqual( "NUnit", ((Test)suite.Tests[0]).TestName.Name );
@@ -102,14 +102,14 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void DiscoverSuite()
 		{
-			TestSuite suite = builder.Build( testData, "NUnit.TestData.SuiteBuilderTests.Suite" );
+			Test suite = builder.Build( testData, "NUnit.TestData.SuiteBuilderTests.Suite" );
 			Assert.IsNotNull(suite, "Could not discover suite attribute");
 		}
 
 		[Test]
 		public void WrongReturnTypeSuite()
 		{
-			TestSuite suite = builder.Build( testData, "NUnit.TestData.SuiteBuilderTests.NonConformingSuite" );
+			Test suite = builder.Build( testData, "NUnit.TestData.SuiteBuilderTests.NonConformingSuite" );
 			Assert.IsNull(suite, "Suite property returns wrong type");
 		}
 
@@ -140,8 +140,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void FixtureNotFound()
 		{
-			TestSuite suite = builder.Build(testsDll, "NUnit.Tests.Junk" );
-			Assert.IsNull( suite );
+			Assert.IsNull( builder.Build(testsDll, "NUnit.Tests.Junk" ) );
 		}
 	}
 }

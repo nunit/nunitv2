@@ -16,17 +16,17 @@ namespace NUnit.Core
 
 		#region ITestDecorator Members
 
-		public TestCase Decorate(TestCase testCase, MethodInfo method)
-		{
-			return (TestCase)DecorateTest( testCase, method );
-		}
+//		public Test Decorate(Test test, MethodInfo method)
+//		{
+//			return DecorateTest( test, method );
+//		}
+//
+//		public Test Decorate(Test test, Type fixtureType)
+//		{
+//			return DecorateTest( test, fixtureType );
+//		}
 
-		public TestSuite Decorate(TestSuite suite, Type fixtureType)
-		{
-			return (TestSuite)DecorateTest( suite, fixtureType );
-		}
-
-		private Test DecorateTest( Test test, MemberInfo member )
+		public Test Decorate( Test test, MemberInfo member )
 		{
 			Attribute ignoreAttribute = Reflect.GetAttribute( member, NUnitFramework.IgnoreAttribute, false );
 

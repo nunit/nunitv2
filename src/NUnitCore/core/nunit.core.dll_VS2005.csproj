@@ -119,6 +119,7 @@
     <Compile Include="NullListener.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="NUnitAddinAttribute.cs" />
     <Compile Include="NunitException.cs">
       <SubType>Code</SubType>
     </Compile>

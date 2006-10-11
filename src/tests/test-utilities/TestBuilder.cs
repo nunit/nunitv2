@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using NUnit.Core;
 using NUnit.Core.Builders;
 
@@ -10,22 +11,26 @@ namespace NUnit.TestUtilities
 	public class TestBuilder
 	{
 		private static NUnitTestFixtureBuilder suiteBuilder = new NUnitTestFixtureBuilder();
+		private static NUnitTestCaseBuilder testBuilder = new NUnitTestCaseBuilder();
 
-		public static TestSuite MakeFixture( Type type )
+		public static NUnitTestFixture MakeFixture( Type type )
 		{
-			return suiteBuilder.BuildFrom( type );
+			return (NUnitTestFixture)suiteBuilder.BuildFrom( type );
 		}
 
-		public static TestSuite MakeFixture( object fixture )
+		public static NUnitTestFixture MakeFixture( object fixture )
 		{
-			TestSuite suite = suiteBuilder.BuildFrom( fixture.GetType() );
+			NUnitTestFixture suite = (NUnitTestFixture)suiteBuilder.BuildFrom( fixture.GetType() );
 			suite.Fixture = fixture;
 			return suite;
 		}
 
-		public static TestCase MakeTestCase( Type type, string methodName )
+		public static NUnitTestMethod MakeTestCase( Type type, string methodName )
 		{
-			return TestCaseBuilder.Make( type, methodName );
+			return (NUnitTestMethod)testBuilder.BuildFrom( Reflect.GetNamedMethod( 
+				type,
+				methodName,
+				BindingFlags.Public | BindingFlags.Instance ) );
 		}
 
 		public static TestResult RunTestFixture( Type type )

@@ -42,50 +42,14 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="method">MethodInfo for the particular method</param>
 		/// <returns>A test case or null</returns>
-		public static TestCase Make( MethodInfo method )
+		public static Test BuildFrom( MethodInfo method )
 		{
-			// First see if any addins are able to make the test case
-			TestCase testCase = AddinManager.CurrentManager.BuildFrom( method );
+			Test test = AddinManager.CurrentManager.TestBuilders.BuildFrom( method );
 
-			// If not, try any builtin test case builders
-			if ( testCase == null )
-				testCase = Builtins.BuildFrom( method );
+			if ( test != null )
+				test = AddinManager.CurrentManager.TestDecorators.Decorate( test, method );
 
-			if ( testCase != null )
-			{
-				testCase = Builtins.Decorate( testCase, method );
-				testCase = AddinManager.CurrentManager.Decorate( testCase, method );
-			}
-
-			return testCase;
-		}
-
-		/// <summary>
-		/// Old method, still used by tests. We may need to revisit
-		/// this approach if the fixtureType for a test case is 
-		/// ever different from the method's ReflectedType.
-		/// </summary>
-		/// <param name="fixtureType">The fixture type</param>
-		/// <param name="method">MethodInfo for the particular method</param>
-		/// <returns>A test case or null</returns>
-		public static TestCase Make(Type fixtureType, MethodInfo method)
-		{
-			return Make( method );
-		}
-
-		/// <summary>
-		/// Another method provided for test purposes only. Builds
-		/// a test case from a fixture type and the name of a method.
-		/// </summary>
-		/// <param name="fixtureType">The fixture type</param>
-		/// <param name="methodName">the method name to use for the test</param>
-		/// <returns>A test case or null</returns>
-		public static TestCase Make( Type fixtureType, string methodName )
-		{
-			return Make( Reflect.GetNamedMethod( 
-					fixtureType,
-					methodName,
-					BindingFlags.Public | BindingFlags.Instance ) );
+			return test;
 		}
 
 		/// <summary>

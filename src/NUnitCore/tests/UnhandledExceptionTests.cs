@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Text;
 using NUnit.Framework;
+using NUnit.TestUtilities;
 
 namespace NUnit.Core.Tests
 {
@@ -18,7 +19,7 @@ namespace NUnit.Core.Tests
         private static void testDummy(string dummyName, bool shouldPass)
         {
             Type fixtureType = typeof(NUnit.TestData.UnhandledExceptions);
-            Test test = TestCaseBuilder.Make(fixtureType, dummyName);
+            Test test = TestBuilder.MakeTestCase(fixtureType, dummyName);
             TestResult result = test.Run(NullListener.NULL);
             if (shouldPass)
                 Assert.IsTrue(result.IsSuccess, "{0} test should have passed", dummyName);

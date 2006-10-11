@@ -50,7 +50,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// The Type of the fixture implementing this TestMethod
 		/// </summary>
-		private Type fixtureType;
+//		private Type fixtureType;
 
 		/// <summary>
 		/// The test method
@@ -70,7 +70,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// The fixture object constructed for this test
 		/// </summary>
-		private object fixture;
+//		private object fixture;
 
 		/// <summary>
 		/// The type of any expected exception
@@ -94,27 +94,14 @@ namespace NUnit.Core
 		#endregion
 
 		#region Constructors
-		public TestMethod( MethodInfo method ) : base( method.ReflectedType.FullName, 
-			method.DeclaringType == method.ReflectedType 
-			? method.Name : method.DeclaringType.Name + "." + method.Name )
+		public TestMethod( MethodInfo method ) 
+			: base( method ) 
 		{
 			this.method = method;
-			this.fixtureType = method.ReflectedType;
 		}
 		#endregion
 
 		#region Properties
-		public Type FixtureType
-		{
-			get { return fixtureType; }
-		}
-
-		public object Fixture
-		{
-			get { return fixture; }
-			set { fixture = value; }
-		}
-
 		public MethodInfo Method
 		{
 			get { return method; }

@@ -45,7 +45,7 @@ namespace NUnit.UiKit.Tests
 	public class TestSuiteTreeViewFixture
 	{
 		private string testsDll = "mock-assembly.dll";
-		private TestSuite suite;
+		private Test suite;
 		private TestSuiteTreeView treeView;
 
 		[SetUp]
@@ -319,13 +319,13 @@ namespace NUnit.UiKit.Tests
 					ReassignTestIDs( child );
 		}
 
-		private void CheckTree( TestSuiteTreeView treeView, TestSuite suite, string msg )
+		private void CheckTree( TestSuiteTreeView treeView, Test suite, string msg )
 		{
 			CheckThatTreeMatchesTests( treeView, suite, "Tree out of order " + msg );
 			CheckTreeMap( treeView, suite, "Map incorrect " + msg );
 		}
 
-		private void CheckThatTreeMatchesTests( TestSuiteTreeView treeView, TestSuite suite, string msg )
+		private void CheckThatTreeMatchesTests( TestSuiteTreeView treeView, Test suite, string msg )
 		{
 			CheckThatNodeMatchesTest( (TestSuiteTreeNode)treeView.Nodes[0], suite, msg );
 		}

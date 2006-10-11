@@ -94,7 +94,7 @@ namespace NUnit.Core.Builders
 		/// </summary>
 		/// <param name="method">The method for which a test case is to be built</param>
 		/// <returns>A TestCase or null</returns>
-		public virtual TestCase BuildFrom(System.Reflection.MethodInfo method)
+		public virtual Test BuildFrom(System.Reflection.MethodInfo method)
 		{
 			if ( !HasValidTestCaseSignature( method ) )
 				return new NotRunnableTestCase( method );

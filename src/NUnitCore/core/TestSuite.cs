@@ -55,16 +55,6 @@ namespace NUnit.Core
 		private ArrayList tests = new ArrayList();
 
 		/// <summary>
-		/// The System.Type of the fixture for this test suite, if there is one
-		/// </summary>
-        private Type fixtureType;
-
-		/// <summary>
-		/// The fixture object, if it has been created
-		/// </summary>
-        private object fixture;
-
-		/// <summary>
 		/// The test setup method for this suite
 		/// </summary>
 		protected MethodInfo testSetUp;
@@ -99,12 +89,15 @@ namespace NUnit.Core
 			: base( parentSuiteName, name ) { }
 
 		public TestSuite( Type fixtureType )
-			: base( fixtureType.FullName )
-		{
-			if ( fixtureType.Namespace != null )
-				this.TestName.Name = TestName.FullName.Substring( TestName.FullName.LastIndexOf( '.' ) + 1 );
-			this.fixtureType = fixtureType;
-		}
+			: base( fixtureType ) { }
+
+//		public TestSuite( Type fixtureType )
+//			: base( fixtureType.FullName )
+//		{
+//			if ( fixtureType.Namespace != null )
+//				this.TestName.Name = TestName.FullName.Substring( TestName.FullName.LastIndexOf( '.' ) + 1 );
+//			this.fixtureType = fixtureType;
+//		}
 		#endregion
 
 		#region Public Methods
@@ -133,7 +126,7 @@ namespace NUnit.Core
 
 		public void Add( object fixture )
 		{
-			Test test = TestFixtureBuilder.Make( fixture );
+			Test test = TestFixtureBuilder.BuildFrom( fixture );
 			if ( test != null )
 				Add( test );
 		}
@@ -177,17 +170,6 @@ namespace NUnit.Core
 				}
 				return count;
 			}
-		}
-
-		public Type FixtureType
-		{
-			get { return fixtureType; }
-		}
-
-		public  object Fixture
-		{
-			get { return fixture; }
-			set { fixture = value; }
 		}
 		#endregion
 

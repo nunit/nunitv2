@@ -104,28 +104,9 @@ namespace NUnit.Core.Builders
 
 		#endregion
 
-		#region ISuiteBuilder Members
-
-		public bool CanBuildFrom(Type type)
-		{
-			return AddinManager.CurrentManager.CanBuildFrom( type ) 
-				|| Builtins.CanBuildFrom( type );
-		}
-
-		public TestSuite BuildFrom(Type type)
-		{
-			TestSuite suite = AddinManager.CurrentManager.BuildFrom( type );
-			if ( suite == null )
-				suite = Builtins.BuildFrom( type );
-
-			return suite;
-		}
-
-		#endregion
-
 		#region Other Public Methods
 
-		public TestSuite Build( string assemblyName, string testName )
+		public Test Build( string assemblyName, string testName )
 		{
 			if ( testName == null || testName == string.Empty )
 				return Build( assemblyName );
@@ -220,7 +201,7 @@ namespace NUnit.Core.Builders
 				Assembly assembly = Assembly.Load(Path.GetFileNameWithoutExtension(assemblyName));
 				
 				if ( assembly != null )
-					AddinManager.CurrentManager.Register( assembly );
+					AddinManager.CurrentManager.RegisterAddins( assembly );
 
 				return assembly;
 			}
@@ -233,20 +214,20 @@ namespace NUnit.Core.Builders
 			IList testTypes = GetCandidateFixtureTypes( assembly, ns );
 			foreach(Type testType in testTypes)
 			{
-				if( CanBuildFrom( testType ) )
-					fixtures.Add( BuildFrom( testType ) );
+				if( TestFixtureBuilder.CanBuildFrom( testType ) )
+					fixtures.Add( TestFixtureBuilder.BuildFrom( testType ) );
 			}
 
 			return fixtures;
 		}
 
-		private TestSuite BuildSingleFixture( Type testType )
+		private Test BuildSingleFixture( Type testType )
 		{
 			// The only place we currently allow legacy suites
 			if ( legacySuiteBuilder.CanBuildFrom( testType ) )
 				return legacySuiteBuilder.BuildFrom( testType );
 
-			return BuildFrom( testType );
+			return TestFixtureBuilder.BuildFrom( testType );
 		}
 		
 		private IList GetCandidateFixtureTypes( Assembly assembly, string ns )

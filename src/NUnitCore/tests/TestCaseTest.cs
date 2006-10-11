@@ -32,6 +32,7 @@ using System.Reflection;
 using NUnit.Framework;
 using NUnit.Tests.Assemblies;
 using NUnit.Util;
+using NUnit.TestUtilities;
 using NUnit.TestData.TestCaseTest;
 
 namespace NUnit.Core.Tests
@@ -47,7 +48,7 @@ namespace NUnit.Core.Tests
 		public void CreateIgnoredTestCase()
 		{
 			Type fixtureType = typeof(MockTestFixture);
-			TestCase testCase = TestCaseBuilder.Make( fixtureType, "MockTest4" );
+			TestCase testCase = TestBuilder.MakeTestCase( fixtureType, "MockTest4" );
 			Assert.AreEqual(1, testCase.TestCount);
 			Assert.AreEqual( RunState.Ignored, testCase.RunState );
 			Assert.AreEqual("ignoring this test method for now", testCase.IgnoreReason);
@@ -57,7 +58,7 @@ namespace NUnit.Core.Tests
 		public void RunIgnoredTestCase()
 		{
 			Type fixtureType = typeof(MockTestFixture);
-			TestCase testCase = TestCaseBuilder.Make( fixtureType, "MockTest4" );
+			TestCase testCase = TestBuilder.MakeTestCase( fixtureType, "MockTest4" );
 			Assert.AreEqual(1, testCase.TestCount);
 			
 			TestResult result = testCase.Run(NullListener.NULL);
@@ -70,7 +71,7 @@ namespace NUnit.Core.Tests
 		public void LoadMethodCategories() 
 		{
 			Type fixtureType = typeof(HasCategories);
-			TestCase testCase = TestCaseBuilder.Make( fixtureType, "ATest" );
+			TestCase testCase = TestBuilder.MakeTestCase( fixtureType, "ATest" );
 			Assert.IsNotNull(testCase);
 			Assert.IsNotNull(testCase.Categories);
 			Assert.AreEqual(2, testCase.Categories.Count);

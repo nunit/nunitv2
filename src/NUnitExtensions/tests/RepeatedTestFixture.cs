@@ -25,7 +25,7 @@ namespace NUnit.Core.Extensions.Tests
 
 		private TestResult RunTestOnFixture( object fixture )
 		{
-			TestSuite suite = TestFixtureBuilder.Make( fixture );
+			Test suite = TestFixtureBuilder.BuildFrom( fixture );
 			Assert.AreEqual( 1, suite.Tests.Count, "Test case count" );
 			Assert.AreEqual( "NUnit.Core.Extensions.RepeatedTestCase", suite.Tests[0].GetType().FullName );
 			return suite.Run( NullListener.NULL );
@@ -34,7 +34,7 @@ namespace NUnit.Core.Extensions.Tests
 		[Test]
 		public void RepeatedTestIsBuiltCorrectly()
 		{
-			TestSuite suite = TestFixtureBuilder.Make( typeof( RepeatSuccessFixture ) );
+			Test suite = TestFixtureBuilder.BuildFrom( typeof( RepeatSuccessFixture ) );
 			Assert.IsNotNull( suite, "Unable to build suite" );
 			Assert.AreEqual( 1, suite.Tests.Count );
 			Assert.AreEqual( "RepeatedTestCase", suite.Tests[0].GetType().Name );

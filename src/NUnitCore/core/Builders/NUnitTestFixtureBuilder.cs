@@ -158,5 +158,5 @@ namespace NUnit.Core.Builders
             return true;
         }
 		#endregion
-    }
+	}
 }

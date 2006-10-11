@@ -43,7 +43,7 @@ namespace NUnit.UiKit.Tests
 	public class TestSuiteTreeNodeTests
 	{
 		TestSuite testSuite;
-		TestSuite testFixture;
+		Test testFixture;
 		NUnit.Core.TestCase testCase;
 
 		TestInfo suiteInfo;
@@ -54,7 +54,7 @@ namespace NUnit.UiKit.Tests
 		public void SetUp()
 		{
 			testSuite = new TestSuite("MyTestSuite");
-			testFixture = TestFixtureBuilder.Make( typeof( MockTestFixture ) );
+			testFixture = TestFixtureBuilder.BuildFrom( typeof( MockTestFixture ) );
 			testSuite.Add( testFixture );
 
 			suiteInfo = new TestInfo( testSuite );

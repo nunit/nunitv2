@@ -17,25 +17,25 @@ namespace NUnit.Core
 		}
 
 		#region ITestDecorator Members
-		public TestCase Decorate(TestCase testCase, MethodInfo method)
+		public Test Decorate(Test test, MemberInfo member)
 		{
-			TestCase decoratedTestCase = testCase;
+			Test decoratedTest = test;
 
 			foreach( ITestDecorator decorator in List )
-				decoratedTestCase = decorator.Decorate( decoratedTestCase, method );
+				decoratedTest = decorator.Decorate( decoratedTest, member );
 
-			return decoratedTestCase;
+			return decoratedTest;
 		}
 
-		public TestSuite Decorate(TestSuite suite, Type fixtureType)
-		{
-			TestSuite decoratedTestSuite = suite;
-
-			foreach( ITestDecorator decorator in List )
-				decoratedTestSuite = decorator.Decorate( decoratedTestSuite, fixtureType );
-
-			return decoratedTestSuite;
-		}
+//		public Test Decorate(Test test, Type fixtureType)
+//		{
+//			Test decoratedTest = test;
+//
+//			foreach( ITestDecorator decorator in List )
+//				decoratedTest = decorator.Decorate( decoratedTest, fixtureType );
+//
+//			return decoratedTest;
+//		}
 		#endregion
 
 		public void Add( ITestDecorator decorator )

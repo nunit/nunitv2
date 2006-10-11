@@ -44,7 +44,7 @@ namespace NUnit.Core.Tests
 		private TestSuiteBuilder builder;
 		private static string[] assemblies = new string[]
 			{ "nonamespace-assembly.dll", "mock-assembly.dll" };
-		private TestSuite loadedSuite;
+		private Test loadedSuite;
 
 		[SetUp]
 		public void LoadSuite()
@@ -81,7 +81,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void LoadFixture()
 		{
-			TestSuite suite = builder.Build( 
+			Test suite = builder.Build( 
 				"MultipleAssemblies", assemblies, 
 				"NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.IsNotNull( suite );

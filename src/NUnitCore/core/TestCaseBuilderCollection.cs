@@ -48,7 +48,7 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="method">The method to be used</param>
 		/// <returns>A TestCase or null</returns>
-		public TestCase BuildFrom( MethodInfo method )
+		public Test BuildFrom( MethodInfo method )
 		{
 			foreach( ITestCaseBuilder builder in this )
 			{

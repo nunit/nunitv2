@@ -49,14 +49,14 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void ReflectionTest()
 		{
-			TestCase testCase = TestCaseBuilder.Make( FixtureType, "Method" );
+			TestCase testCase = TestBuilder.MakeTestCase( FixtureType, "Method" );
 			Assert.AreEqual( RunState.Runnable, testCase.RunState );
 		}
 
         [Test]
         public void Description()
         {
-            TestCase testCase = TestCaseBuilder.Make(FixtureType, "Method");
+            TestCase testCase = TestBuilder.MakeTestCase(FixtureType, "Method");
             Assert.AreEqual("Test Description", testCase.Description);
         }
 
@@ -78,7 +78,7 @@ namespace NUnit.Core.Tests
         [Test]
 		public void NoDescription()
 		{
-			TestCase testCase = TestCaseBuilder.Make( FixtureType, "NoDescriptionMethod" );
+			TestCase testCase = TestBuilder.MakeTestCase( FixtureType, "NoDescriptionMethod" );
 			Assert.IsNull(testCase.Description);
 		}
 
@@ -108,7 +108,7 @@ namespace NUnit.Core.Tests
         [Test]
         public void SeparateDescriptionAttribute()
         {
-            TestCase testCase = TestCaseBuilder.Make(FixtureType, "SeparateDescriptionMethod");
+            TestCase testCase = TestBuilder.MakeTestCase(FixtureType, "SeparateDescriptionMethod");
             Assert.AreEqual("Separate Description", testCase.Description);
         }
 

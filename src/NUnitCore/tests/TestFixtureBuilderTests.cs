@@ -41,9 +41,9 @@ namespace NUnit.Core.Tests
 	{
 		TestSuiteBuilder builder = new TestSuiteBuilder();
 
-		private TestSuite loadFixture( Type type )
+		private Test loadFixture( Type type )
 		{
-			TestSuite suite = builder.Build( type.Module.Name, type.FullName );
+			Test suite = builder.Build( type.Module.Name, type.FullName );
 			Assert.IsNotNull(suite);
 
 			return suite;
@@ -53,7 +53,7 @@ namespace NUnit.Core.Tests
 		public void GoodSignature()
 		{
 			string methodName = "TestVoid";
-			TestSuite fixture = loadFixture( typeof( SignatureTestFixture ) );
+			Test fixture = loadFixture( typeof( SignatureTestFixture ) );
 			Test foundTest = TestFinder.Find( methodName, fixture );
 			Assert.IsNotNull( foundTest );
 			Assert.AreEqual( RunState.Runnable, foundTest.RunState );
@@ -62,7 +62,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void LoadCategories() 
 		{
-			TestSuite fixture = loadFixture( typeof( HasCategories ) );
+			Test fixture = loadFixture( typeof( HasCategories ) );
 			Assert.IsNotNull(fixture);
 			Assert.AreEqual(2, fixture.Categories.Count);
 		}

@@ -17,7 +17,7 @@ namespace NUnit.Core.Tests
 			Assert.AreSame( b, c.PriorState );
 		}
 
-		[Test]
+		[Test, Ignore("In Process")]
 		public void ConstructorCopiesEntries()
 		{
 			AddinManager a = new AddinManager();
@@ -36,13 +36,13 @@ namespace NUnit.Core.Tests
 		{
 			#region ITestDecorator Members
 
-			public TestSuite Decorate(TestSuite suite, Type fixtureType)
-			{
-				// TODO:  Add Decorator.Decorate implementation
-				return null;
-			}
+//			public Test Decorate(Test test, Type fixtureType)
+//			{
+//				// TODO:  Add Decorator.Decorate implementation
+//				return null;
+//			}
 
-			TestCase NUnit.Core.ITestDecorator.Decorate(TestCase testCase, System.Reflection.MethodInfo method)
+			public Test Decorate(Test test, System.Reflection.MemberInfo member)
 			{
 				// TODO:  Add Decorator.NUnit.Core.ITestDecorator.Decorate implementation
 				return null;
@@ -55,7 +55,7 @@ namespace NUnit.Core.Tests
 		{
 			#region ISuiteBuilder Members
 
-			public TestSuite BuildFrom(Type type)
+			public Test BuildFrom(Type type)
 			{
 				// TODO:  Add SuiteBuilder.BuildFrom implementation
 				return null;
@@ -74,7 +74,7 @@ namespace NUnit.Core.Tests
 		{
 			#region ITestCaseBuilder Members
 
-			public TestCase BuildFrom(System.Reflection.MethodInfo method)
+			public Test BuildFrom(System.Reflection.MethodInfo method)
 			{
 				// TODO:  Add TestCaseBuilder.BuildFrom implementation
 				return null;

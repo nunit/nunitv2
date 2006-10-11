@@ -29,7 +29,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// The loaded test suite
 		/// </summary>
-		private TestSuite suite;
+		private Test test;
 
 		/// <summary>
 		/// The builder we use to load tests, created for each load
@@ -82,7 +82,7 @@ namespace NUnit.Core
 		
 		public TestNode Test
 		{
-			get { return suite == null ? null : new TestNode( suite ); }
+			get { return test == null ? null : new TestNode( test ); }
 		}
 
 		/// <summary>
@@ -126,10 +126,10 @@ namespace NUnit.Core
 		{
 			TestSuiteBuilder builder = CreateBuilder();
 
-            this.suite = builder.Build( assemblyName, testName );
-			if ( suite == null ) return false;
+            this.test = builder.Build( assemblyName, testName );
+			if ( test == null ) return false;
 
-			suite.SetRunnerID( this.runnerID, true );
+			test.SetRunnerID( this.runnerID, true );
 			return true;
 		}
 
@@ -155,10 +155,10 @@ namespace NUnit.Core
 		{
 			TestSuiteBuilder builder = CreateBuilder();
 
-            this.suite = builder.Build( projectName, assemblies, testName );
-			if ( suite == null ) return false;
+            this.test = builder.Build( projectName, assemblies, testName );
+			if ( test == null ) return false;
 
-			suite.SetRunnerID( this.runnerID, true );
+			test.SetRunnerID( this.runnerID, true );
 			return true;
 		}
 
@@ -167,14 +167,14 @@ namespace NUnit.Core
 		/// </summary>
 		public void Unload()
 		{
-			this.suite = null; // All for now
+			this.test = null; // All for now
 		}
 		#endregion
 
 		#region CountTestCases
 		public int CountTestCases( TestFilter filter )
 		{
-			return suite.CountTestCases( filter );
+			return test.CountTestCases( filter );
 		}
 		#endregion
 
@@ -193,9 +193,9 @@ namespace NUnit.Core
 				// Take note of the fact that we are running
 				this.runThread = Thread.CurrentThread;
 
-				listener.RunStarted( this.Test.TestName.FullName, suite.CountTestCases( filter ) );
+				listener.RunStarted( this.Test.TestName.FullName, test.CountTestCases( filter ) );
 				
-				testResult = suite.Run( listener, filter );
+				testResult = test.Run( listener, filter );
 
 				// Signal that we are done
 				listener.RunFinished( testResult );

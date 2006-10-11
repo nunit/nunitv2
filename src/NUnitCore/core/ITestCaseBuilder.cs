@@ -57,6 +57,6 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="method">The method to be used as a test case</param>
 		/// <returns>A TestCase or null</returns>
-		TestCase BuildFrom( MethodInfo method );
+		Test BuildFrom( MethodInfo method );
 	}
 }

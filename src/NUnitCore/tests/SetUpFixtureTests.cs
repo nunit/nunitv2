@@ -25,7 +25,7 @@ namespace NUnit.Core.Tests
         {
             TestSuiteBuilder builder = new TestSuiteBuilder();
 
-            TestSuite suite;
+            Test suite;
             if(nameSpace == null)
                 suite = builder.Build(testAssembly);
             else
@@ -43,7 +43,7 @@ namespace NUnit.Core.Tests
         {
             string nameSpace = "NUnit.TestData.SetupFixture.Namespace1";
             TestSuiteBuilder builder = new TestSuiteBuilder();
-            TestSuite suite = builder.Build(testAssembly, nameSpace);
+            Test suite = builder.Build(testAssembly, nameSpace);
 
             Assert.IsNotNull(suite);
 
@@ -75,7 +75,7 @@ namespace NUnit.Core.Tests
         public void NoNamespaceBuilder()
         {
             TestSuiteBuilder builder = new TestSuiteBuilder();
-            TestSuite suite = builder.Build(testAssembly);
+            Test suite = builder.Build(testAssembly);
 
             Assert.IsNotNull(suite);
             Assert.IsInstanceOfType(typeof(SetUpFixture), suite);

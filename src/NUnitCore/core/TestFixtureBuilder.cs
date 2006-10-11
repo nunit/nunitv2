@@ -38,23 +38,22 @@ namespace NUnit.Core
 	/// </summary>
 	public class TestFixtureBuilder
 	{
+		public static bool CanBuildFrom( Type type )
+		{
+			return AddinManager.CurrentManager.SuiteBuilders.CanBuildFrom( type );
+		}
+
 		/// <summary>
 		/// Build a test fixture from a given type.
 		/// </summary>
 		/// <param name="type">The type to be used for the fixture</param>
 		/// <returns>A TestSuite if the fixture can be built, null if not</returns>
-		public static TestSuite Make( Type type )
+		public static Test BuildFrom( Type type )
 		{
-			TestSuite suite = AddinManager.CurrentManager.BuildFrom( type );
-
-			if ( suite == null )
-				suite = Builtins.BuildFrom( type );
+			Test suite = AddinManager.CurrentManager.SuiteBuilders.BuildFrom( type );
 
 			if ( suite != null )
-			{
-				suite = Builtins.Decorate( suite, type );
-				suite = AddinManager.CurrentManager.Decorate( suite, type );
-			}
+				suite = AddinManager.CurrentManager.TestDecorators.Decorate( suite, type );
 
 			return suite;
 		}
@@ -64,9 +63,9 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="fixture">The object to be used for the fixture</param>
 		/// <returns>A TestSuite if fixture type can be built, null if not</returns>
-		public static TestSuite Make( object fixture )
+		public static Test BuildFrom( object fixture )
 		{
-			TestSuite suite = Make( fixture.GetType() );
+			Test suite = BuildFrom( fixture.GetType() );
 			suite.Fixture = fixture;
 			return suite;
 		}

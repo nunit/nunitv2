@@ -81,7 +81,7 @@ namespace NUnit.Core.Builders
 		/// </summary>
 		/// <param name="type"></param>
 		/// <returns></returns>
-		public virtual TestSuite BuildFrom(Type type)
+		public virtual Test BuildFrom(Type type)
 		{
 			this.suite = MakeSuite( type );
 	
@@ -155,11 +155,11 @@ namespace NUnit.Core.Builders
 			IList methods = GetCandidateTestMethods( fixtureType );
 			foreach(MethodInfo method in methods)
 			{
-				TestCase testCase = TestCaseBuilder.Make( method );
+				Test test = TestCaseBuilder.BuildFrom( method );
 
-				if(testCase != null)
+				if(test != null)
 				{
-					this.suite.Add( testCase );
+					this.suite.Add( test );
 				}
 			}
 		}

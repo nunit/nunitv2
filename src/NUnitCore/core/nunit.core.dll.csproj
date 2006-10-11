@@ -119,11 +119,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Builtins.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "CategoryManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -211,6 +206,11 @@
                 />
                 <File
                     RelPath = "NullListener.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NUnitAddinAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

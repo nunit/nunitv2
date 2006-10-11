@@ -42,11 +42,11 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class TestFixtureExtension
 	{
-		private TestSuite suite;
+		private Test suite;
 
 		private void RunTestOnFixture( object fixture )
 		{
-			TestSuite suite = TestBuilder.MakeFixture( fixture );
+			Test suite = TestBuilder.MakeFixture( fixture );
 			suite.Run( NullListener.NULL );
 		}
 

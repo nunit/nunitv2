@@ -54,6 +54,9 @@ namespace NUnit.Core
         #endregion
 
         #region Core Types
+		public static readonly string NUnitAddinAttribute = typeof(NUnitAddinAttribute).FullName;
+		public static readonly string NUnitAddinInterface = typeof(IAddin).FullName;
+
         public static readonly string SuiteBuilderAttribute = typeof(SuiteBuilderAttribute).FullName;
         public static readonly string SuiteBuilderInterface = typeof(ISuiteBuilder).FullName;
 
@@ -268,6 +271,14 @@ namespace NUnit.Core
 				return 0;
 		
 			return (int)property.GetValue( null, new object[0] );
+		}
+		#endregion
+
+		#region IsNUnitAddin
+		public static bool IsNUnitAddin( Type type )
+		{
+			return Reflect.HasAttribute( type, NUnitAddinAttribute, false )
+				&& Reflect.HasInterface( type, NUnitAddinInterface );
 		}
 		#endregion
 

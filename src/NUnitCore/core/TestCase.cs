@@ -43,6 +43,8 @@ namespace NUnit.Core
 	{
 		public TestCase( string path, string name ) : base( path, name ) { }
 
+		public TestCase( MethodInfo method ) : base ( method ) { }
+
 		public override int CountTestCases( TestFilter filter ) 
 		{
 			if (Filter(filter))

@@ -20,7 +20,7 @@ namespace NUnit.Util.Tests
 		{
 			string testsDll = "mock-assembly.dll";
 			TestSuiteBuilder suiteBuilder = new TestSuiteBuilder();
-			TestSuite suite = suiteBuilder.Build(testsDll);
+			Test suite = suiteBuilder.Build(testsDll);
 
 			TestResult result = suite.Run(NullListener.NULL);
 			StringBuilder builder = new StringBuilder();

@@ -45,8 +45,6 @@ namespace NUnit.Core
 		/// </summary>
 		private TestName testName;
 
-		private string testType;
-
 		/// <summary>
 		/// Indicates whether the test should be executed
 		/// </summary>
@@ -78,6 +76,16 @@ namespace NUnit.Core
 		/// </summary>
 		private IDictionary properties;
 
+		/// <summary>
+		/// The System.Type of the fixture for this test suite, if there is one
+		/// </summary>
+		private Type fixtureType;
+
+		/// <summary>
+		/// The fixture object, if it has been created
+		/// </summary>
+		private object fixture;
+
 		#endregion
 
 		#region Construction
@@ -102,6 +110,41 @@ namespace NUnit.Core
 
             this.runState = RunState.Runnable;
 		}
+
+		public Test( Type fixtureType )
+			: this( fixtureType.FullName )
+		{
+			if ( fixtureType.Namespace != null )
+			this.TestName.Name = TestName.FullName.Substring( TestName.FullName.LastIndexOf( '.' ) + 1 );
+			this.fixtureType = fixtureType;
+		}
+
+		public Test( MethodInfo method )
+			: this( method.ReflectedType )
+		{
+			this.testName.Name = method.DeclaringType == method.ReflectedType 
+				? method.Name : method.DeclaringType.Name + "." + method.Name;
+			this.testName.FullName = method.ReflectedType.FullName + "." + method.Name;
+		}
+
+//		public TestMethod( MethodInfo method ) : base( method.ReflectedType.FullName, 
+//		method.DeclaringType == method.ReflectedType 
+//									? method.Name : method.DeclaringType.Name + "." + method.Name )
+//	{
+//		this.method = method;
+//		this.fixtureType = method.ReflectedType;
+//	}
+
+//		protected Test( Type fixtureType )
+//		{
+//			this.testName = new TestName();
+//			string name = fixtureType.FullName;
+//			this.testName.FullName = name;
+//			this.TestName.Name = fixtureType.Namespace != null 
+//				? name.Substring( name.LastIndexOf( '.' ) + 1 )
+//				: name;
+//			this.fixtureType = fixtureType;
+//		}
 	
 		internal void SetRunnerID( int runnerID, bool recursive )
 		{
@@ -114,11 +157,13 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Properties
+		#region ITest Members
 		public TestName TestName
 		{
 			get { return testName; }
 		}
+
+		public abstract string TestType { get; }
 
 		/// <summary>
 		/// Whether or not the test should be run
@@ -138,15 +183,9 @@ namespace NUnit.Core
 			set { ignoreReason = value; }
 		}
 
-		ITest ITest.Parent 
-		{
-			get { return parent; }
-		}
-
-		public TestSuite Parent
-		{
-			get { return parent; }
-			set { parent = value; }
+		public virtual int TestCount 
+		{ 
+			get { return 1; } 
 		}
 
 		public IList Categories 
@@ -175,14 +214,35 @@ namespace NUnit.Core
 				properties = value;
 			}
 		}
+
+		public abstract bool IsSuite { get; }
+
+		ITest ITest.Parent 
+		{
+			get { return parent; }
+		}
+
+		public TestSuite Parent
+		{
+			get { return parent; }
+			set { parent = value; }
+		}
+
+		public abstract IList Tests { get; }
+
+		public Type FixtureType
+		{
+			get { return fixtureType; }
+		}
+
+		public  object Fixture
+		{
+			get { return fixture; }
+			set { fixture = value; }
+		}
 		#endregion
 
 		#region Virtual Methods and Properties
-		public virtual int TestCount 
-		{ 
-			get { return 1; } 
-		}
-
 		public virtual int CountTestCases()
 		{
 			return CountTestCases( TestFilter.Empty );
@@ -200,14 +260,8 @@ namespace NUnit.Core
 		#endregion
 
 		#region Abstract Methods and Properties
-		public abstract string TestType { get; }
-
 		public abstract int CountTestCases(TestFilter filter);
 		
-		public abstract bool IsSuite { get; }
-
-		public abstract IList Tests { get; }
-
 		public abstract TestResult Run(EventListener listener, TestFilter filter);
 		#endregion
 
@@ -222,5 +276,6 @@ namespace NUnit.Core
 			return this.TestName.FullName.CompareTo( other.TestName.FullName );
 		}
 		#endregion
+
 	}
 }

@@ -42,7 +42,7 @@ namespace NUnit.Core.Tests
 	{
 		private string testsDll = "mock-assembly.dll";
 
-		private static int SuiteCount(TestSuite suite)
+		private static int SuiteCount(Test suite)
 		{
 			int suites = 1;
 
@@ -112,7 +112,7 @@ namespace NUnit.Core.Tests
 		public void CheckEventListening()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite testSuite = builder.Build(testsDll);
+			Test testSuite = builder.Build(testsDll);
 			
 			EventCounter counter = new EventCounter();
 			testSuite.Run(counter);

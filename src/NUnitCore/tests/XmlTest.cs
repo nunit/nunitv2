@@ -130,7 +130,7 @@ namespace NUnit.Core.Tests
 			{
 				string testsDll = "mock-assembly.dll";
 				TestSuiteBuilder builder = new TestSuiteBuilder();
-				TestSuite suite = builder.Build(testsDll);
+				Test suite = builder.Build(testsDll);
 
 				TestResult result = suite.Run(NullListener.NULL);
 
@@ -160,7 +160,7 @@ namespace NUnit.Core.Tests
 			{
 				string testsDll = "mock-assembly.dll";
 				TestSuiteBuilder builder = new TestSuiteBuilder();
-				TestSuite suite = builder.Build(testsDll);
+				Test suite = builder.Build(testsDll);
 
 				TestResult result = suite.Run(NullListener.NULL);
 

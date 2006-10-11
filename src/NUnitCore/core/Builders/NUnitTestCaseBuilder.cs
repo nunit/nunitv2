@@ -73,10 +73,7 @@ namespace NUnit.Core.Builders
         }
 
 		/// <summary>
-		/// Create an NUnitTestMethod with arguments determined by 
-		/// examining any ExpectedException attribute.
-		/// TODO: Move the analysis of ExpectedExceptionAttribute
-		/// to SetTestProperties.
+		/// Create an NUnitTestMethod
 		/// </summary>
 		/// <param name="method">A MethodInfo for the method being used as a test method</param>
 		/// <returns>A new NUnitTestMethod</returns>

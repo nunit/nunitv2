@@ -6,36 +6,57 @@ namespace NUnit.Core.Extensions
 	/// <summary>
 	/// Summary description for RepeatedTestDecorator.
 	/// </summary>
-	[TestDecorator]
-	public class RepeatedTestDecorator : ITestDecorator
+	[TestDecorator, NUnitAddin]
+	public class RepeatedTestDecorator : ITestDecorator, IAddin
 	{
 		private static readonly string RepeatAttributeType = "NUnit.Framework.Extensions.RepeatAttribute";
 
-		#region ITestDecorator Members
-		public TestCase Decorate(TestCase testCase, MethodInfo method)
+		#region IAddin Members
+		public string Name
 		{
-			if ( method == null )
-				return testCase;
+			get { return "RepeatedTestDecorator"; }
+		}
 
-			Attribute repeatAttr = Reflect.GetAttribute( method, RepeatAttributeType, true );
+		public string Description
+		{
+			get { return "Allows running a test multiple times"; }
+		}
+
+		public void Initialize()
+		{
+			AddinManager.CurrentManager.Register( this as ITestDecorator );
+		}
+		#endregion
+
+		#region ITestDecorator Members
+		public Test Decorate(Test test, MemberInfo member)
+		{
+			if ( member == null )
+				return test;
+
+			TestCase testCase = test as TestCase;
+			if ( testCase == null )
+				return test;
+
+			Attribute repeatAttr = Reflect.GetAttribute( member, RepeatAttributeType, true );
 			if ( repeatAttr == null )
-				return testCase;		
+				return test;		
 
 			object propVal = Reflect.GetPropertyValue( repeatAttr, "Count", 
 				BindingFlags.Public | BindingFlags.Instance );
 
 			if ( propVal == null )
-				return testCase;
+				return test;
 
 			int count = (int)propVal;
 
 			return new RepeatedTestCase( testCase, count );
 		}
 
-		public TestSuite Decorate( TestSuite suite, Type fixtureType )
-		{
-			return suite;
-		}
+//		public Test Decorate( Test test, Type fixtureType )
+//		{
+//			return test;
+//		}
 		#endregion
 	}
 }

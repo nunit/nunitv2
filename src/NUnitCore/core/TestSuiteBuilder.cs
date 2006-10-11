@@ -104,7 +104,7 @@ namespace NUnit.Core
 				builder.AutoNamespaceSuites = this.AutoNamespaceSuites && !this.MergeAssemblies;
 				builders.Add( builder );
 
-				TestSuite testAssembly =  builder.Build( assemblyName, testName );
+				Test testAssembly =  builder.Build( assemblyName, testName );
 
 				if ( testAssembly != null )
 				{
@@ -133,10 +133,10 @@ namespace NUnit.Core
 
 		public TestSuite Build( string assemblyName )
 		{
-			return Build( assemblyName, string.Empty );
+			return (TestSuite)Build( assemblyName, string.Empty );
 		}
 
-		public TestSuite Build(string assemblyName, string testName )
+		public Test Build(string assemblyName, string testName )
 		{
 			TestAssemblyBuilder builder = new TestAssemblyBuilder();
 			builder.AutoNamespaceSuites = this.AutoNamespaceSuites; // && !this.MergeAssemblies;

@@ -53,7 +53,7 @@ namespace NUnit.Core.Tests
 		public void CanAddTestCategories()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build( "mock-assembly.dll" );
+			Test suite = builder.Build( "mock-assembly.dll" );
 			
 			Test test = TestFinder.Find( "MockTest3", suite );
 			categoryManager.AddCategories( test );
@@ -64,7 +64,7 @@ namespace NUnit.Core.Tests
 		public void CanAddAllAvailableCategoriesInTestTree()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			TestSuite suite = builder.Build( "mock-assembly.dll" );
+			Test suite = builder.Build( "mock-assembly.dll" );
 			
 			categoryManager.AddAllCategories( suite );
 			Assert.AreEqual( MockAssembly.Categories, categoryManager.Categories.Count );

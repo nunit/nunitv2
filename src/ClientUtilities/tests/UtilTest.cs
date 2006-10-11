@@ -43,12 +43,12 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class UtilTest
 	{
-		TestSuite testFixture;
+		Test testFixture;
 
 		[SetUp]
 		public void SetUp()
 		{
-			testFixture = TestFixtureBuilder.Make( typeof ( OneTestCase ) );
+			testFixture = TestFixtureBuilder.BuildFrom( typeof ( OneTestCase ) );
 		}
 
 		[Test]

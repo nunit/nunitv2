@@ -44,7 +44,7 @@ namespace NUnit.Core.Builders
 
 		#region ISuiteBuilder Members
 
-		public TestSuite BuildFrom(Type type)
+		public Test BuildFrom(Type type)
 		{
 			return new SetUpFixture( type );
 		}
