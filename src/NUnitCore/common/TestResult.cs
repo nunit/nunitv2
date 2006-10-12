@@ -32,15 +32,6 @@ namespace NUnit.Core
 	using System;
 	using System.Text;
 
-    public enum FailureSite
-    {
-        Test,
-        SetUp,
-        TearDown,
-        Parent,
-        Child
-    }
-
 	/// <summary>
 	/// The TestResult abstract class represents
 	/// the result of a test and is used to

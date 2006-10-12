@@ -11,4 +11,14 @@ namespace NUnit.Core
 		Failure,
 		Error,
 	}
+
+    public enum FailureSite
+    {
+        Test,
+        SetUp,
+        TearDown,
+        Parent,
+        Child
+    }
+
 }
