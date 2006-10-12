@@ -201,7 +201,7 @@ namespace NUnit.Core.Builders
 				Assembly assembly = Assembly.Load(Path.GetFileNameWithoutExtension(assemblyName));
 				
 				if ( assembly != null )
-					AddinManager.CurrentManager.RegisterAddins( assembly );
+					AddinManager.CurrentManager.Register( assembly );
 
 				return assembly;
 			}

@@ -83,19 +83,23 @@ namespace NUnit.Core.Builders
 		/// <returns></returns>
 		public virtual Test BuildFrom(Type type)
 		{
-			this.suite = MakeSuite( type );
-	
-			SetTestSuiteProperties( type, suite );
+            using (new AddinState())
+            {
+                this.suite = MakeSuite(type);
 
-			this.AddTestCases( type );
+                SetTestSuiteProperties(type, suite);
 
-			if( this.suite.TestCount == 0 )
-			{
-				this.suite.RunState = RunState.NotRunnable;
-				this.suite.IgnoreReason = suite.TestName.Name + " does not have any tests";
-			}
+                InstallTestCaseBuilders(type);
+                AddTestCases(type);
 
-			return this.suite;
+                if (this.suite.TestCount == 0)
+                {
+                    this.suite.RunState = RunState.NotRunnable;
+                    this.suite.IgnoreReason = suite.TestName.Name + " does not have any tests";
+                }
+
+                return this.suite;
+            }
 		}
 
 		/// <summary>
@@ -116,6 +120,17 @@ namespace NUnit.Core.Builders
 				this.suite.IgnoreReason = reason;
 			}
 		}
+
+        /// <summary>
+        /// Method that may be overridden in order to install any
+        /// TestCaseBuilders that should only be available for
+        /// the type of fixture being built. The override may
+        /// use the Type argument to decide what to install.
+        /// </summary>
+        /// <param name="type"></param>
+        protected virtual void InstallTestCaseBuilders(Type type)
+        {
+        }
 
 		/// <summary>
 		/// Virtual method that returns true if the fixture type is valid

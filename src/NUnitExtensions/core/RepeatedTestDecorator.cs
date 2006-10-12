@@ -24,7 +24,7 @@ namespace NUnit.Core.Extensions
 
 		public void Initialize()
 		{
-			AddinManager.CurrentManager.Register( this as ITestDecorator );
+			AddinManager.CurrentManager.Install( this as ITestDecorator );
 		}
 		#endregion
 

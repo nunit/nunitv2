@@ -37,7 +37,7 @@ namespace NUnit.Core
 	/// <summary>
 	///		Test Class.
 	/// </summary>
-	public abstract class Test : LongLivingMarshalByRefObject, ITest, IComparable
+	public abstract class Test : MarshalByRefObject, ITest, IComparable
 	{
 		#region Fields
 		/// <summary>
@@ -63,7 +63,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// Test suite containing this test, or null
 		/// </summary>
-		private TestSuite parent;
+		private Test parent;
 		
 		/// <summary>
 		/// List of categories applying to this test
@@ -146,7 +146,7 @@ namespace NUnit.Core
 //			this.fixtureType = fixtureType;
 //		}
 	
-		internal void SetRunnerID( int runnerID, bool recursive )
+		public void SetRunnerID( int runnerID, bool recursive )
 		{
 			this.testName.RunnerID = runnerID;
 
@@ -222,7 +222,7 @@ namespace NUnit.Core
 			get { return parent; }
 		}
 
-		public TestSuite Parent
+		public Test Parent
 		{
 			get { return parent; }
 			set { parent = value; }
@@ -277,5 +277,11 @@ namespace NUnit.Core
 		}
 		#endregion
 
-	}
+        #region MarshalByRefObject Overrides
+        public override object InitializeLifetimeService()
+        {
+            return null;
+        }
+        #endregion
+    }
 }

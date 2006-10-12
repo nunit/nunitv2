@@ -101,7 +101,7 @@ namespace NUnit.Core
                 // Make the parent of the containing suite point to this
                 // fixture instead
                 // TODO: Get rid of this somehow?
-                TestSuite parent = containingSuite.Parent;
+                TestSuite parent = (TestSuite)containingSuite.Parent;
                 if (parent == null)
                 {
                     fixture.TestName.Name = rootSuite.TestName.Name;

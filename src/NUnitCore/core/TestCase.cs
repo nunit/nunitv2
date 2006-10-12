@@ -69,10 +69,7 @@ namespace NUnit.Core
             {
                 case RunState.Runnable:
 				case RunState.Explicit:
-                    if (this.Parent != null && this.Parent.SetUpFailed)
-                        testResult.Failure("TestFixtureSetUp Failed", null, FailureSite.Parent);
-                    else
-                        Run(testResult);
+                    Run(testResult);
                     break;
                 case RunState.Skipped:
                     testResult.Skip(IgnoreReason);

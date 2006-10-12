@@ -98,6 +98,8 @@ namespace NUnit.Core
 			: base( method ) 
 		{
 			this.method = method;
+            this.setUpMethod = NUnitFramework.GetSetUpMethod(this.FixtureType);
+            this.tearDownMethod = NUnitFramework.GetTearDownMethod(this.FixtureType);
 		}
 		#endregion
 
@@ -142,20 +144,10 @@ namespace NUnit.Core
 
 		public override void Run(TestCaseResult testResult)
 		{ 
-			TestSuite parentSuite = this.Parent;
-
             try
             {
-                if (parentSuite != null)
-                {
-                    Fixture = parentSuite.Fixture;
-
-                    if (setUpMethod == null)
-                        setUpMethod = parentSuite.SetUpMethod;
-
-                    if (tearDownMethod == null)
-                        tearDownMethod = parentSuite.TearDownMethod;
-                }
+                if ( this.Parent != null)
+                    Fixture = this.Parent.Fixture;
 
                 if (!testResult.IsFailure)
                 {

@@ -39,8 +39,6 @@ namespace NUnit.Core
     {
         public NUnitTestFixture(Type fixtureType) : base( fixtureType)
         {
-            this.testSetUp = NUnitFramework.GetSetUpMethod( fixtureType );
-            this.testTearDown = NUnitFramework.GetTearDownMethod( fixtureType );
             this.fixtureSetUp = NUnitFramework.GetFixtureSetUpMethod( fixtureType );
             this.fixtureTearDown = NUnitFramework.GetFixtureTearDownMethod( fixtureType );
         }

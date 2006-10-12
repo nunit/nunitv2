@@ -41,28 +41,11 @@ namespace NUnit.Core
 	[Serializable]
 	public class TestSuite : Test
 	{
-		protected enum SetUpState
-		{
-			SetUpNeeded,
-			SetUpComplete,
-			SetUpFailed
-		}
-
 		#region Fields
 		/// <summary>
 		/// Our collection of child tests
 		/// </summary>
 		private ArrayList tests = new ArrayList();
-
-		/// <summary>
-		/// The test setup method for this suite
-		/// </summary>
-		protected MethodInfo testSetUp;
-
-		/// <summary>
-		/// The test teardown method for this suite
-		/// </summary>
-		protected MethodInfo testTearDown;
 
 		/// <summary>
 		/// The fixture setup method for this suite
@@ -73,11 +56,6 @@ namespace NUnit.Core
 		/// The fixture teardown method for this suite
 		/// </summary>
 		protected MethodInfo fixtureTearDown;
-
-		/// <summary>
-		/// Indicates the status of any one-time setup needed
-		/// </summary>
-		protected SetUpState setUpStatus = SetUpState.SetUpNeeded;
 
 		#endregion
 
@@ -90,14 +68,6 @@ namespace NUnit.Core
 
 		public TestSuite( Type fixtureType )
 			: base( fixtureType ) { }
-
-//		public TestSuite( Type fixtureType )
-//			: base( fixtureType.FullName )
-//		{
-//			if ( fixtureType.Namespace != null )
-//				this.TestName.Name = TestName.FullName.Substring( TestName.FullName.LastIndexOf( '.' ) + 1 );
-//			this.fixtureType = fixtureType;
-//		}
 		#endregion
 
 		#region Public Methods
@@ -136,21 +106,6 @@ namespace NUnit.Core
 		public override IList Tests 
 		{
 			get { return tests; }
-		}
-
-		public bool SetUpFailed
-		{
-			get { return setUpStatus == SetUpState.SetUpFailed; }
-		}
-
-		public MethodInfo SetUpMethod
-		{
-			get { return testSetUp; }
-		}
-
-		public MethodInfo TearDownMethod
-		{
-			get { return testTearDown; }
 		}
 
 		public override bool IsSuite
@@ -206,21 +161,27 @@ namespace NUnit.Core
 				case RunState.Explicit:
                     suiteResult.RunState = RunState.Executed;
                     DoOneTimeSetUp(suiteResult);
+                    if ( suiteResult.IsFailure )
+                        MarkTestsFailed(Tests, suiteResult, listener, filter);
+                    else
+                    {
+                        RunAllTests(suiteResult, listener, filter);
+                        DoOneTimeTearDown(suiteResult);
+                    }
                     break;
+
                 case RunState.Skipped:
                     suiteResult.Skip(this.IgnoreReason);
+                    MarkTestsNotRun(Tests, RunState.Skipped, IgnoreReason, suiteResult, listener, filter);
                     break;
+
                 default:
                 case RunState.Ignored:
                 case RunState.NotRunnable:
                     suiteResult.Ignore(this.IgnoreReason);
+                    MarkTestsNotRun(Tests, RunState.Ignored, IgnoreReason, suiteResult, listener, filter);
                     break;
             }
-
-			RunAllTests( suiteResult, listener, filter );
-
-			if ( RunState == RunState.Runnable && !SetUpFailed )
-				DoOneTimeTearDown( suiteResult );
 
 			long stopTime = DateTime.Now.Ticks;
 			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
@@ -244,7 +205,8 @@ namespace NUnit.Core
                     if (this.fixtureSetUp != null)
                         Reflect.InvokeMethod(fixtureSetUp, Fixture);
 
-                    setUpStatus = SetUpState.SetUpComplete;
+                    //setUpStatus = SetUpState.SetUpComplete;
+                    //setUpFailed = false;
                 }
                 catch (Exception ex)
                 {
@@ -266,7 +228,8 @@ namespace NUnit.Core
                         else
                             suiteResult.Error(ex);
                        
-                        setUpStatus = SetUpState.SetUpFailed;
+                        //setUpStatus = SetUpState.SetUpFailed;
+                        //setUpFailed = true;
                     }
                 }
             }
@@ -280,7 +243,8 @@ namespace NUnit.Core
 
         protected virtual void DoOneTimeTearDown(TestResult suiteResult)
         {
-            setUpStatus = SetUpState.SetUpNeeded;
+            //setUpStatus = SetUpState.SetUpNeeded;
+            //setUpFailed = false;
             
             if ( this.RunState == RunState.Runnable && this.Fixture != null)
             {
@@ -312,35 +276,97 @@ namespace NUnit.Core
             }
         }
         
-        protected virtual void RunAllTests(
+        private void RunAllTests(
 			TestSuiteResult suiteResult, EventListener listener, TestFilter filter )
 		{
-			foreach(Test test in ArrayList.Synchronized(Tests))
-			{
-				RunState saveRunState = test.RunState;
+            foreach (Test test in ArrayList.Synchronized(Tests))
+            {
+                if (test.Filter(filter))
+                {
+                    RunState saveRunState = test.RunState;
 
-				if ( test.RunState == RunState.Runnable && this.RunState != RunState.Runnable )
-				{
-					test.RunState = this.RunState;
-					test.IgnoreReason = this.IgnoreReason;
-				}
+                    if (test.RunState == RunState.Runnable && this.RunState != RunState.Runnable)
+                    {
+                        test.RunState = this.RunState;
+                        test.IgnoreReason = this.IgnoreReason;
+                    }
 
-				if ( test.Filter( filter ) )
-				{
-					TestResult result = test.Run( listener, filter );
+                    TestResult result = test.Run(listener, filter);
 
-					suiteResult.AddResult( result );
-				}
-				
-				if ( saveRunState != test.RunState ) 
-				{
-					test.RunState = saveRunState;
-					test.IgnoreReason = null;
-				}
-			}
+                    suiteResult.AddResult(result);
+
+                    if (saveRunState != test.RunState)
+                    {
+                        test.RunState = saveRunState;
+                        test.IgnoreReason = null;
+                    }
+                }
+            }
 		}
 
-		protected virtual bool IsAssertException(Exception ex)
+        private void MarkTestsNotRun(
+            IList tests, RunState runState, string ignoreReason, TestSuiteResult suiteResult, EventListener listener, TestFilter filter)
+        {
+            foreach (Test test in ArrayList.Synchronized(tests))
+            {
+                if (test.Filter(filter))
+                    MarkTestNotRun(test, runState, ignoreReason, suiteResult, listener, filter);
+            }
+        }
+
+        private void MarkTestNotRun(
+            Test test, RunState runState, string ignoreReason, TestSuiteResult suiteResult, EventListener listener, TestFilter filter)
+        {
+            if (test is TestSuite)
+            {
+                listener.SuiteStarted(test.TestName);
+                TestSuiteResult result = new TestSuiteResult((TestSuite)test, test.TestName.FullName);
+                result.Ignore(ignoreReason);
+                MarkTestsNotRun(test.Tests, runState, ignoreReason, suiteResult, listener, filter);
+                suiteResult.AddResult(result);
+                listener.SuiteFinished(result);
+            }
+            else
+            {
+                listener.TestStarted(test.TestName);
+                TestCaseResult result = new TestCaseResult((TestCase)test);
+                result.Ignore(ignoreReason);
+                suiteResult.AddResult(result);
+                listener.TestFinished(result);
+            }
+        }
+
+        private void MarkTestsFailed(
+            IList tests, TestSuiteResult suiteResult, EventListener listener, TestFilter filter)
+        {
+            foreach (Test test in ArrayList.Synchronized(tests))
+                if (test.Filter(filter))
+                    MarkTestFailed(test, suiteResult, listener, filter);
+        }
+
+        private void MarkTestFailed(
+            Test test, TestSuiteResult suiteResult, EventListener listener, TestFilter filter)
+        {
+            if (test is TestSuite)
+            {
+                listener.SuiteStarted(test.TestName);
+                TestSuiteResult result = new TestSuiteResult((TestSuite)test, test.TestName.FullName);
+                result.Failure("Parent SetUp Failed", null, FailureSite.Parent);
+                MarkTestsFailed(test.Tests, suiteResult, listener, filter);
+                suiteResult.AddResult(result);
+                listener.SuiteFinished(result);
+            }
+            else
+            {
+                listener.TestStarted(test.TestName);
+                TestCaseResult result = new TestCaseResult((TestCase)test);
+                result.Failure("TestFixtureSetUp Failed", null, FailureSite.Parent);
+                suiteResult.AddResult(result);
+                listener.TestFinished(result);
+            }
+        }
+
+        protected virtual bool IsAssertException(Exception ex)
 		{
             return ex.GetType().FullName == NUnitFramework.AssertException;
 		}

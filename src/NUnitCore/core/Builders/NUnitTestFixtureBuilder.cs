@@ -63,21 +63,17 @@ namespace NUnit.Core.Builders
             NUnitFramework.ApplyCommonAttributes( type, suite );
 		}
 
-		/// <summary>
-		/// Adds test cases to the fixture. Overrides the base class 
-		/// to install an NUnitTestCaseBuilder while the tests are
-		/// being added.
-		/// </summary>
-		/// <param name="fixtureType">The type of the fixture</param>
-		protected override void AddTestCases(Type fixtureType)
-		{
-			using( new AddinState() )
-			{
-				AddinManager.CurrentManager.Register( new NUnitTestCaseBuilder() );
-				base.AddTestCases (fixtureType);
-			}
-		}
-
+        /// <summary>
+        /// Method that may be overridden in order to install any
+        /// TestCaseBuilders that should only be available for
+        /// the type of fixture being built. We override it to
+        /// install NUnitTestCaseBuilder.
+        /// </summary>
+        /// <param name="type"></param>
+        protected override void InstallTestCaseBuilders(Type type)
+        {
+			AddinManager.CurrentManager.Install( new NUnitTestCaseBuilder() );
+        }
         /// <summary>
         /// Checks to see if the fixture type has the test fixture
         /// attribute type specified in the parameters. Override
