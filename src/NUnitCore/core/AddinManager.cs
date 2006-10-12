@@ -158,12 +158,12 @@ namespace NUnit.Core
 			// Define NUnit Framework
 			TestFramework.Register( "NUnit", "nunit.framework" );
 
-			// Register builtin SuiteBuilders
-			Register( new Builders.NUnitTestFixtureBuilder() );
-			Register( new Builders.SetUpFixtureBuilder() );
-
-			//Add builtin TestCaseBuilders
-//			testBuilders.Add( new Builders.NUnitTestCaseBuilder() );
+			// Install builtin SuiteBuilders - Note that the
+            // NUnitTestCaseBuilder is installed whenever
+            // an NUnitTestFixture is being populated and
+            // removed afterward.
+			Install( new Builders.NUnitTestFixtureBuilder() );
+			Install( new Builders.SetUpFixtureBuilder() );
 		}
 
 		public void RegisterAddins()
@@ -193,7 +193,7 @@ namespace NUnit.Core
 				assemblyName.Name = Path.GetFileNameWithoutExtension(path);
 				assemblyName.CodeBase = path;
 				Assembly assembly = Assembly.Load(assemblyName);
-				RegisterAddins( assembly );
+				Register( assembly );
 			}
 			catch( Exception ex )
 			{
@@ -206,35 +206,35 @@ namespace NUnit.Core
 			}
 		}
 
-		public void RegisterAddins( Assembly assembly ) 
+		public void Register( Assembly assembly ) 
 		{
 			foreach( Type type in assembly.GetExportedTypes() )
 			{
 				if ( NUnitFramework.IsNUnitAddin( type ) )
 				{
 					IAddin addin = (IAddin)Reflect.Construct( type );
-					RegisterAddin( addin );
+					Register( addin );
 				}
 			}
 		}
 
-		public void RegisterAddin( IAddin addin )
+		public void Register( IAddin addin )
 		{
 			addins.Add( addin );
 			addin.Initialize();
 		}
 
-		public void Register( ISuiteBuilder builder )
+		public void Install( ISuiteBuilder builder )
 		{
 			suiteBuilders.Add( builder );
 		}
 
-		public void Register( ITestCaseBuilder builder )
+		public void Install( ITestCaseBuilder builder )
 		{
 			testBuilders.Add( builder );
 		}
 
-		public void Register( ITestDecorator decorator )
+		public void Install( ITestDecorator decorator )
 		{
 			testDecorators.Add( decorator );
 		}

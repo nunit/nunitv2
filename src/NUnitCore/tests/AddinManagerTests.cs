@@ -24,9 +24,9 @@ namespace NUnit.Core.Tests
 			Decorator decorator = new Decorator();
 			SuiteBuilder suiteBuilder = new SuiteBuilder();
 			TestCaseBuilder testCaseBuilder = new TestCaseBuilder();
-			a.Register( decorator );
-			a.Register( suiteBuilder );
-			a.Register( testCaseBuilder );
+			a.Install( decorator );
+			a.Install( suiteBuilder );
+			a.Install( testCaseBuilder );
 			CollectionAssert.AreEquivalent( new string[] { "Decorator", "SuiteBuilder", "TestCaseBuilder" }, a.Names );
 			AddinManager b = new AddinManager(a);
 			CollectionAssert.AreEquivalent( new string[] { "Decorator", "SuiteBuilder", "TestCaseBuilder" }, b.Names );
