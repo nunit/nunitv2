@@ -101,6 +101,7 @@
     <Compile Include="AssemblyListTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CategoryManagerTest.cs" />
     <Compile Include="EventDispatcherTests.cs">
       <SubType>Code</SubType>
     </Compile>

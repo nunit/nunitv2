@@ -80,11 +80,6 @@
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
                 />
                 <Reference
-                    Name = "nunit.core.dll"
-                    Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "System.Runtime.Remoting"
                     AssemblyName = "System.Runtime.Remoting"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Runtime.Remoting.dll"
@@ -97,6 +92,11 @@
                 <Reference
                     Name = "nunit.common.dll"
                     Project = "{F9B59130-8C42-4D01-AC25-C819EA18D6C4}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.core.dll"
+                    Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
@@ -125,6 +125,11 @@
                 />
                 <File
                     RelPath = "AssemblyWatcher.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CategoryManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -122,9 +122,6 @@
     <Compile Include="CallContextTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CategoryManagerTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DirectorySwapperTests.cs">
       <SubType>Code</SubType>
     </Compile>

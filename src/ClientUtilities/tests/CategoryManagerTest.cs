@@ -4,7 +4,7 @@ using NUnit.Core;
 using NUnit.TestUtilities;
 using NUnit.Tests.Assemblies;
 
-namespace NUnit.Core.Tests
+namespace NUnit.Util.Tests
 {
 	[TestFixture]
 	public class CategoryManagerTest
