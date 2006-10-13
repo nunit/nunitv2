@@ -119,11 +119,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CategoryManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "CommonAssemblyInfo.cs"
                     Link = "..\..\CommonAssemblyInfo.cs"
                     SubType = "Code"
@@ -165,21 +160,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ISuiteBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ITestCaseBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ITestDecorator.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "LegacySuite.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -210,11 +190,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "NUnitAddinAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "NunitException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -241,11 +216,6 @@
                 />
                 <File
                     RelPath = "ProxyEventListener.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ProxyTestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -306,11 +276,6 @@
                 <File
                     RelPath = "Summary.xslt"
                     BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Test.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "TestBuilderAttribute.cs"

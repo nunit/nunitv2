@@ -20,7 +20,7 @@ namespace NUnit.Core
 	/// must explicitly implement TestRunner in order to 
 	/// redefine the selected methods.
 	/// </summary>
-	public abstract class ProxyTestRunner : LongLivingMarshalByRefObject, TestRunner
+	public abstract class ProxyTestRunner : MarshalByRefObject, TestRunner
 	{
 		#region Instance Variables
 
@@ -213,5 +213,13 @@ namespace NUnit.Core
 				testRunner.Settings[name] = value;
 		}
 		#endregion
+
+		#region InitializeLifetimeService Override
+		public override object InitializeLifetimeService()
+		{
+			return null;
+		}
+		#endregion
+
 	}
 }
