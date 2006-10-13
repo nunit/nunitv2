@@ -52,7 +52,7 @@ namespace NUnit.Util
 	/// of the large number of events it supports. However, it has
 	/// no dependencies on ui components and can be used independently.
 	/// </summary>
-	public class TestLoader : LongLivingMarshalByRefObject, NUnit.Core.EventListener, ITestLoader
+	public class TestLoader : MarshalByRefObject, NUnit.Core.EventListener, ITestLoader
 	{
 		#region Instance Variables
 
@@ -739,6 +739,13 @@ namespace NUnit.Util
 			return runner;
 		}
 
+		#endregion
+
+		#region InitializeLifetimeService Override
+		public override object InitializeLifetimeService()
+		{
+			return null;
+		}
 		#endregion
 	}
 }
