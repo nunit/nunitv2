@@ -71,9 +71,6 @@
     <Compile Include="AssemblyResolver.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DirectorySwapper.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="EventListenerTextWriter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -93,7 +90,6 @@
     <Compile Include="LegacySuite.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LongLivingMarshalByRefObject.cs" />
     <Compile Include="NamespaceTreeBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -127,9 +123,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RemoteTestRunner.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="RuntimeFramework.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SetUpFixture.cs">

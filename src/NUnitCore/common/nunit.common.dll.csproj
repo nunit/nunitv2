@@ -100,6 +100,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DirectorySwapper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "EventListener.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -161,6 +166,11 @@
                 />
                 <File
                     RelPath = "RunState.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RuntimeFramework.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

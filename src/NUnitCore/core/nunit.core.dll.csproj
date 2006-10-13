@@ -125,11 +125,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DirectorySwapper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "EventListenerTextWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -161,11 +156,6 @@
                 />
                 <File
                     RelPath = "LegacySuite.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "LongLivingMarshalByRefObject.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -242,11 +232,6 @@
                     RelPath = "Results.xsx"
                     DependentUpon = "Results.xsd"
                     BuildAction = "None"
-                />
-                <File
-                    RelPath = "RuntimeFramework.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "SetUpFixture.cs"
