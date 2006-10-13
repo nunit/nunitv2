@@ -54,6 +54,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Addin.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -65,11 +66,18 @@
     <Compile Include="Filters\RecursiveTestFilter.cs" />
     <Compile Include="Filters\SimpleNameFilter.cs" />
     <Compile Include="IAddin.cs" />
+    <Compile Include="IAddinHost.cs" />
+    <Compile Include="ISuiteBuilder.cs" />
     <Compile Include="ITest.cs" />
+    <Compile Include="ITestCaseBuilder.cs" />
+    <Compile Include="ITestDecorator.cs" />
     <Compile Include="ITestFilter.cs" />
+    <Compile Include="NUnitAddinAttribute.cs" />
+    <Compile Include="ProxyTestRunner.cs" />
     <Compile Include="ResultState.cs" />
     <Compile Include="ResultVisitor.cs" />
     <Compile Include="RunState.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="TestAssemblyInfo.cs" />
     <Compile Include="TestCaseResult.cs" />
     <Compile Include="TestFilter.cs" />

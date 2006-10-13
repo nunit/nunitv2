@@ -3,12 +3,11 @@ using System;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Summary description for IPlugin.
+	/// The IAddin interface must be implemented by all
+	/// NUnit add-ins.
 	/// </summary>
 	public interface IAddin
 	{
-		string Name { get; }
-		string Description { get; }
-		void Initialize();
+		void Initialize( IAddinHost host );
 	}
 }

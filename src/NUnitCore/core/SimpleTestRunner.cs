@@ -14,7 +14,7 @@ namespace NUnit.Core
 	/// Run and BeginRun are actually synchronous, although the client
 	/// can usually ignore this. BeginRun + EndRun operates as expected.
 	/// </summary>
-	public class SimpleTestRunner : LongLivingMarshalByRefObject, TestRunner
+	public class SimpleTestRunner : MarshalByRefObject, TestRunner
 	{
 		#region Instance Variables
 
@@ -275,5 +275,12 @@ namespace NUnit.Core
 			return builder;
 		}
 		#endregion
+
+        #region InitializeLifetimeService Override
+        public override object InitializeLifetimeService()
+        {
+            return null;
+        }
+	#endregion
 	}
 }

@@ -6,25 +6,15 @@ namespace NUnit.Core.Extensions
 	/// <summary>
 	/// Summary description for RepeatedTestDecorator.
 	/// </summary>
-	[TestDecorator, NUnitAddin]
+	[NUnitAddin]
 	public class RepeatedTestDecorator : ITestDecorator, IAddin
 	{
 		private static readonly string RepeatAttributeType = "NUnit.Framework.Extensions.RepeatAttribute";
 
 		#region IAddin Members
-		public string Name
+		public void Initialize(IAddinHost host)
 		{
-			get { return "RepeatedTestDecorator"; }
-		}
-
-		public string Description
-		{
-			get { return "Allows running a test multiple times"; }
-		}
-
-		public void Initialize()
-		{
-			AddinManager.CurrentManager.Install( this as ITestDecorator );
+			host.Install( this );
 		}
 		#endregion
 

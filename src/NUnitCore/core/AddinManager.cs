@@ -32,28 +32,33 @@ using System.IO;
 using System.Diagnostics;
 using System.Collections;
 using System.Reflection;
-//using NUnit.Core.Interfaces;
+using NUnit.Core.Extensibility;
 
 namespace NUnit.Core
 {
-	public class AddinManager
+	public class AddinManager : IAddinHost
 	{
-		#region Static Fields
-		private static AddinManager current = new AddinManager();
-		#endregion
+		#region CurrentAddinManager Singleton
+		private static AddinManager current;
 
-		#region Instance Fields
-		private AddinManager priorState = null;
+		public static AddinManager CurrentManager
+		{
+			get 
+			{ 
+				if ( current == null )
+				{
+					current = new AddinManager();
+					current.InstallBuiltins();
+					current.RegisterAddins();
+					current.InstallAddins();
+				}
 
-		private SuiteBuilderCollection suiteBuilders = new SuiteBuilderCollection();
-		private TestCaseBuilderCollection testBuilders = new TestCaseBuilderCollection();
-		private TestDecoratorCollection testDecorators = new TestDecoratorCollection();
-		private ArrayList addins = new ArrayList();
-
+				return current;
+			}
+		}
 		#endregion
 
 		#region Constructors
-
 		public AddinManager() { }
 
 		public AddinManager( AddinManager priorState )
@@ -64,22 +69,16 @@ namespace NUnit.Core
 			this.testDecorators = new TestDecoratorCollection( priorState.testDecorators );
 			this.addins = new ArrayList( priorState.Addins );
 		}
-
 		#endregion
 
-		#region Static Constructor
-		static AddinManager()
-		{
-			current.RegisterBuiltins();
-			current.RegisterAddins();
-		}
-		#endregion
+		#region Instance Fields
+		private AddinManager priorState = null;
 
-		#region Static Properties
-		public static AddinManager CurrentManager
-		{
-			get { return current; }
-		}
+		private SuiteBuilderCollection suiteBuilders = new SuiteBuilderCollection();
+		private TestCaseBuilderCollection testBuilders = new TestCaseBuilderCollection();
+		private TestDecoratorCollection testDecorators = new TestDecoratorCollection();
+		private ArrayList addins = new ArrayList();
+
 		#endregion
 
 		#region Static Methods
@@ -129,7 +128,7 @@ namespace NUnit.Core
 			{
 				ArrayList names = new ArrayList();
 		
-				foreach( IAddin addin in Addins )
+				foreach( Addin addin in Addins )
 					names.Add( addin.Name );
 
 				return names;
@@ -153,19 +152,6 @@ namespace NUnit.Core
 		#endregion
 
 		#region Addin Registration
-		public void RegisterBuiltins()
-		{
-			// Define NUnit Framework
-			TestFramework.Register( "NUnit", "nunit.framework" );
-
-			// Install builtin SuiteBuilders - Note that the
-            // NUnitTestCaseBuilder is installed whenever
-            // an NUnitTestFixture is being populated and
-            // removed afterward.
-			Install( new Builders.NUnitTestFixtureBuilder() );
-			Install( new Builders.SetUpFixtureBuilder() );
-		}
-
 		public void RegisterAddins()
 		{
 			//Figure out the directory from which NUnit is executing
@@ -212,8 +198,8 @@ namespace NUnit.Core
 			{
 				if ( NUnitFramework.IsNUnitAddin( type ) )
 				{
-					IAddin addin = (IAddin)Reflect.Construct( type );
-					Register( addin );
+					Addin addin = new Addin( type );
+					addins.Add( addin );
 				}
 			}
 		}
@@ -221,9 +207,34 @@ namespace NUnit.Core
 		public void Register( IAddin addin )
 		{
 			addins.Add( addin );
-			addin.Initialize();
+			addin.Initialize(this);
+		}
+		#endregion
+
+		#region Addin Installation
+		public void InstallBuiltins()
+		{
+			// Define NUnit Framework
+			TestFramework.Register( "NUnit", "nunit.framework" );
+
+			// Install builtin SuiteBuilders - Note that the
+			// NUnitTestCaseBuilder is installed whenever
+			// an NUnitTestFixture is being populated and
+			// removed afterward.
+			Install( new Builders.NUnitTestFixtureBuilder() );
+			Install( new Builders.SetUpFixtureBuilder() );
 		}
 
+		public void InstallAddins()
+		{
+			foreach( Addin addin in addins )
+			{
+				addin.Initialize( this );
+			}
+		}
+		#endregion
+
+		#region IAddinHost Members
 		public void Install( ISuiteBuilder builder )
 		{
 			suiteBuilders.Add( builder );
@@ -239,5 +250,5 @@ namespace NUnit.Core
 			testDecorators.Add( decorator );
 		}
 		#endregion
-    }
+	}
 }
