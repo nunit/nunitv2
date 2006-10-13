@@ -37,7 +37,7 @@ namespace NUnit.Core
 	/// loaded, since this is the only time an ITest exists.
 	/// </summary>
 	[Serializable]
-	public abstract class TestFilter
+	public abstract class TestFilter : ITestFilter
 	{
 		/// <summary>
 		/// Unique Empty filter.

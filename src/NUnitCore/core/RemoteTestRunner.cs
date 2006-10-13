@@ -24,7 +24,7 @@ namespace NUnit.Core
 			return Run( listener, TestFilter.Empty );
 		}
 
-		public override TestResult Run( EventListener listener, TestFilter filter )
+		public override TestResult Run( EventListener listener, ITestFilter filter )
 		{
 			QueuingEventListener queue = new QueuingEventListener();
 
@@ -43,7 +43,7 @@ namespace NUnit.Core
 			BeginRun( listener, TestFilter.Empty );
 		}
 
-		public override void BeginRun( EventListener listener, TestFilter filter )
+		public override void BeginRun( EventListener listener, ITestFilter filter )
 		{
 			QueuingEventListener queue = new QueuingEventListener();
 

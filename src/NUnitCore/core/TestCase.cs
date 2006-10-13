@@ -45,7 +45,7 @@ namespace NUnit.Core
 
 		public TestCase( MethodInfo method ) : base ( method ) { }
 
-		public override int CountTestCases( TestFilter filter ) 
+		public override int CountTestCases( ITestFilter filter ) 
 		{
 			if (Filter(filter))
 				return 1;
@@ -53,7 +53,7 @@ namespace NUnit.Core
 			return 0;
 		}
 
-		public override TestResult Run(EventListener listener, TestFilter filter)
+		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
 			return Run( listener ); // Ignore filter for now
 		}

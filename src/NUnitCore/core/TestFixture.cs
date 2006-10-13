@@ -51,7 +51,7 @@ namespace NUnit.Core
 		#endregion
 
 		#region TestSuite Overrides
-        public override TestResult Run(EventListener listener, TestFilter filter)
+        public override TestResult Run(EventListener listener, ITestFilter filter)
         {
             Uri uri = new Uri( FixtureType.Assembly.CodeBase );
             using ( new DirectorySwapper( Path.GetDirectoryName( uri.LocalPath ) ) )

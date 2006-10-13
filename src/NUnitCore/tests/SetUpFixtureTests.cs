@@ -21,7 +21,7 @@ namespace NUnit.Core.Tests
         {
             return runTests(nameSpace, TestFilter.Empty);
         }
-        private TestResult runTests(string nameSpace,TestFilter filter)
+        private TestResult runTests(string nameSpace, TestFilter filter)
         {
             TestSuiteBuilder builder = new TestSuiteBuilder();
 

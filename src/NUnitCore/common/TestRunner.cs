@@ -165,7 +165,7 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="testName">The filter to apply</param>
 		/// <returns>The number of test cases found</returns>
-		int CountTestCases(TestFilter filter );
+		int CountTestCases(ITestFilter filter );
 		#endregion
 
 		#region Run Methods
@@ -181,7 +181,7 @@ namespace NUnit.Core
 		/// and the listener interface is notified as it progresses.
 		/// </summary>
 		/// <param name="listener">Interface to receive EventListener notifications.</param>
-		TestResult Run(NUnit.Core.EventListener listener, TestFilter filter);
+		TestResult Run(NUnit.Core.EventListener listener, ITestFilter filter);
 		
 		/// <summary>
 		/// Start a run of all loaded tests. The tests are run aynchronously and the 
@@ -195,7 +195,7 @@ namespace NUnit.Core
 		/// listener interface is notified as it progresses.
 		/// </summary>
 		/// <param name="listener">Interface to receive EventListener notifications.</param>
-		void BeginRun(NUnit.Core.EventListener listener, TestFilter filter);
+		void BeginRun(NUnit.Core.EventListener listener, ITestFilter filter);
 		
 		/// <summary>
 		/// Wait for an asynchronous run to complete and return the result.

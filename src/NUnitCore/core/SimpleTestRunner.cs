@@ -172,7 +172,7 @@ namespace NUnit.Core
 		#endregion
 
 		#region CountTestCases
-		public int CountTestCases( TestFilter filter )
+		public int CountTestCases( ITestFilter filter )
 		{
 			return test.CountTestCases( filter );
 		}
@@ -184,7 +184,7 @@ namespace NUnit.Core
 			return Run( listener, TestFilter.Empty );
 		}
 
-		public virtual TestResult Run( EventListener listener, TestFilter filter )
+		public virtual TestResult Run( EventListener listener, ITestFilter filter )
 		{
 			AddinManager.Save();
 
@@ -222,7 +222,7 @@ namespace NUnit.Core
 			testResult = this.Run( listener );
 		}
 
-		public void BeginRun( EventListener listener, TestFilter filter )
+		public void BeginRun( EventListener listener, ITestFilter filter )
 		{
 			testResult = this.Run( listener, filter );
 		}

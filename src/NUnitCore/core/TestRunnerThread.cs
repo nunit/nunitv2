@@ -67,7 +67,7 @@ namespace NUnit.Core
 		/// Array of test names for ues by the thread proc
 		/// </summary>
 		//private string[] testNames;
-		private TestFilter filter;
+		private ITestFilter filter;
 			
 		/// <summary>
 		/// Array of returned results
@@ -155,7 +155,7 @@ namespace NUnit.Core
 			StartRun( listener, TestFilter.Empty );
 		}
 
-		public void StartRun( EventListener listener, TestFilter filter )
+		public void StartRun( EventListener listener, ITestFilter filter )
 		{
 			this.listener = listener;
 			this.filter = filter;

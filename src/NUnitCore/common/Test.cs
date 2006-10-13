@@ -248,7 +248,7 @@ namespace NUnit.Core
 			return CountTestCases( TestFilter.Empty );
 		}
 
-		public virtual bool Filter(TestFilter filter)
+		public virtual bool Filter(ITestFilter filter)
 		{
 			return filter.Pass( this );
 		}
@@ -260,9 +260,9 @@ namespace NUnit.Core
 		#endregion
 
 		#region Abstract Methods and Properties
-		public abstract int CountTestCases(TestFilter filter);
+		public abstract int CountTestCases(ITestFilter filter);
 		
-		public abstract TestResult Run(EventListener listener, TestFilter filter);
+		public abstract TestResult Run(EventListener listener, ITestFilter filter);
 		#endregion
 
 		#region IComparable Members

@@ -134,7 +134,7 @@ namespace NUnit.Core
 			get	{ return "Test Suite"; }
 		}
 
-		public override int CountTestCases(TestFilter filter)
+		public override int CountTestCases(ITestFilter filter)
 		{
 			int count = 0;
 
@@ -148,7 +148,7 @@ namespace NUnit.Core
 			return count;
 		}
 
-		public override TestResult Run(EventListener listener, TestFilter filter)
+		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
 			TestSuiteResult suiteResult = new TestSuiteResult( this, TestName.FullName);
 
@@ -277,7 +277,7 @@ namespace NUnit.Core
         }
         
         private void RunAllTests(
-			TestSuiteResult suiteResult, EventListener listener, TestFilter filter )
+			TestSuiteResult suiteResult, EventListener listener, ITestFilter filter )
 		{
             foreach (Test test in ArrayList.Synchronized(Tests))
             {
@@ -305,7 +305,7 @@ namespace NUnit.Core
 		}
 
         private void MarkTestsNotRun(
-            IList tests, RunState runState, string ignoreReason, TestSuiteResult suiteResult, EventListener listener, TestFilter filter)
+            IList tests, RunState runState, string ignoreReason, TestSuiteResult suiteResult, EventListener listener, ITestFilter filter)
         {
             foreach (Test test in ArrayList.Synchronized(tests))
             {
@@ -315,7 +315,7 @@ namespace NUnit.Core
         }
 
         private void MarkTestNotRun(
-            Test test, RunState runState, string ignoreReason, TestSuiteResult suiteResult, EventListener listener, TestFilter filter)
+            Test test, RunState runState, string ignoreReason, TestSuiteResult suiteResult, EventListener listener, ITestFilter filter)
         {
             if (test is TestSuite)
             {
@@ -337,7 +337,7 @@ namespace NUnit.Core
         }
 
         private void MarkTestsFailed(
-            IList tests, TestSuiteResult suiteResult, EventListener listener, TestFilter filter)
+            IList tests, TestSuiteResult suiteResult, EventListener listener, ITestFilter filter)
         {
             foreach (Test test in ArrayList.Synchronized(tests))
                 if (test.Filter(filter))
@@ -345,7 +345,7 @@ namespace NUnit.Core
         }
 
         private void MarkTestFailed(
-            Test test, TestSuiteResult suiteResult, EventListener listener, TestFilter filter)
+            Test test, TestSuiteResult suiteResult, EventListener listener, ITestFilter filter)
         {
             if (test is TestSuite)
             {

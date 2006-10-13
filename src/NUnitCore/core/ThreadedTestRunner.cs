@@ -25,7 +25,7 @@ namespace NUnit.Core
 			return EndRun();
 		}
 
-		public override TestResult Run( EventListener listener, TestFilter filter )
+		public override TestResult Run( EventListener listener, ITestFilter filter )
 		{
 			BeginRun( listener, filter );
 			return EndRun();
@@ -38,7 +38,7 @@ namespace NUnit.Core
 			testRunnerThread.StartRun( listener );
 		}
 
-		public override void BeginRun( EventListener listener, TestFilter filter )
+		public override void BeginRun( EventListener listener, ITestFilter filter )
 		{
 			testRunnerThread = new TestRunnerThread( this.TestRunner );
 
