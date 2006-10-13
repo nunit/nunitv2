@@ -44,7 +44,7 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit version for packaging -->
-  <property name="package.version" value="2.3.6265"/>
+  <property name="package.version" value="2.3.6285"/>
 
   <!-- Nominal version used for install directory and program
        files menu. Normally the major and minor portions
