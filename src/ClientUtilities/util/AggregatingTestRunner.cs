@@ -11,7 +11,7 @@ namespace NUnit.Util
 	/// AggregatingTestRunner allows running multiple TestRunners
 	/// and combining the results.
 	/// </summary>
-	public abstract class AggregatingTestRunner : LongLivingMarshalByRefObject, TestRunnerEx, EventListener
+	public abstract class AggregatingTestRunner : MarshalByRefObject, TestRunnerEx, EventListener
 	{
 		#region Instance Variables
 
@@ -312,6 +312,13 @@ namespace NUnit.Util
 				foreach( TestRunner runner in runners )
 					if ( runner != null )
 						runner.Settings[name] = value;
+		}
+		#endregion
+
+		#region InitializeLifetimeService Override
+		public override object InitializeLifetimeService()
+		{
+			return null;
 		}
 		#endregion
 	}

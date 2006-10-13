@@ -311,7 +311,7 @@ namespace NUnit.ConsoleRunner
 
 		#region Nested Class to Handle Events
 
-		private class EventCollector : LongLivingMarshalByRefObject, EventListener
+		private class EventCollector : MarshalByRefObject, EventListener
 		{
 			private int testRunCount;
 			private int testIgnoreCount;
@@ -498,6 +498,12 @@ namespace NUnit.ConsoleRunner
 						break;
 				}
 			}
+
+
+            public override object InitializeLifetimeService()
+            {
+                return null;
+            }
 		}
 
 		#endregion
