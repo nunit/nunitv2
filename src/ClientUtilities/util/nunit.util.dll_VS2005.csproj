@@ -155,9 +155,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TestRunnerEx.cs" />
-    <Compile Include="UIHelper.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="VSProject.cs">
       <SubType>Code</SubType>
     </Compile>
