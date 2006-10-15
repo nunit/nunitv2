@@ -41,8 +41,8 @@ using NUnit.Util;
 namespace NUnit.UiKit
 {
 
-	public delegate void SelectedTestChangedHandler( TestInfo test );
-	public delegate void CheckedTestChangedHandler( TestInfo[] tests );
+	public delegate void SelectedTestChangedHandler( ITest test );
+	public delegate void CheckedTestChangedHandler( ITest[] tests );
 
 	/// <summary>
 	/// TestSuiteTreeView is a tree view control
@@ -122,7 +122,7 @@ namespace NUnit.UiKit
 		/// </summary>
 		private bool runCommandEnabled = false;
 
-		private TestInfo[] runningTests;
+		private ITest[] runningTests;
 
 		private bool visualStudioSupport = false;
 
@@ -286,7 +286,7 @@ namespace NUnit.UiKit
 		/// The currently selected test.
 		/// </summary>
 		[Browsable( false )]
-		public TestInfo SelectedTest
+		public ITest SelectedTest
 		{
 			get 
 			{ 
@@ -296,7 +296,7 @@ namespace NUnit.UiKit
 		}
 
 		[Browsable( false )]
-		public TestInfo[] CheckedTests 
+		public ITest[] CheckedTests 
 		{
 			get 
 			{
@@ -306,21 +306,21 @@ namespace NUnit.UiKit
 		}
 
 		[Browsable( false )]
-		public TestInfo[] SelectedTests
+		public ITest[] SelectedTests
 		{
 			get
 			{
 				CheckedTestFinder finder = new CheckedTestFinder( this );
-				TestInfo[] result = finder.GetCheckedTests( 
+				ITest[] result = finder.GetCheckedTests( 
 					CheckedTestFinder.SelectionFlags.Top | CheckedTestFinder.SelectionFlags.Explicit );
 				if ( result.Length == 0 )
-					result = new TestInfo[] { this.SelectedTest };
+					result = new ITest[] { this.SelectedTest };
 				return result;
 			}	
 		}
 
 		[Browsable( false )]
-		public TestInfo[] FailedTests
+		public ITest[] FailedTests
 		{
 			get
 			{
@@ -365,9 +365,9 @@ namespace NUnit.UiKit
 		}
 
 		/// <summary>
-		/// Test node corresponding to a TestInfo interface
+		/// Test node corresponding to an ITest interface
 		/// </summary>
-		private TestSuiteTreeNode this[TestInfo test]
+		private TestSuiteTreeNode this[ITest test]
 		{
 			get { return FindNode( test ); }
 		}
@@ -425,7 +425,7 @@ namespace NUnit.UiKit
 //				this[e.Result].Expand();
 
 			if ( runningTests != null )
-				foreach( TestInfo test in runningTests )
+				foreach( ITest test in runningTests )
 					this[test].Expand();
 
 			if ( propertiesDialog != null )
@@ -551,7 +551,7 @@ namespace NUnit.UiKit
 			{
 				runCommandEnabled = false;
 
-				RunTests( new TestInfo[] { contextNode.Test }, false );
+				RunTests( new ITest[] { contextNode.Test }, false );
 			}
 		}
 
@@ -640,7 +640,7 @@ namespace NUnit.UiKit
 				runCommandEnabled = false;
 				
 				// TODO: Since this is a terminal node, don't use a category filter
-				RunTests( new TestInfo[] { SelectedTest }, true );
+				RunTests( new ITest[] { SelectedTest }, true );
 			}
 		}
 
@@ -836,7 +836,7 @@ namespace NUnit.UiKit
 			this.EndUpdate();
 		}
 
-		public void ShowPropertiesDialog( TestInfo test )
+		public void ShowPropertiesDialog( ITest test )
 		{
 			ShowPropertiesDialog( this[ test ] );
 		}
@@ -883,7 +883,7 @@ namespace NUnit.UiKit
 
 		public void RunAllTests()
 		{
-			RunTests( new TestInfo[] { ((TestSuiteTreeNode)Nodes[0]).Test }, true );
+			RunTests( new ITest[] { ((TestSuiteTreeNode)Nodes[0]).Test }, true );
 		}
 
 		public void RunSelectedTests()
@@ -896,7 +896,7 @@ namespace NUnit.UiKit
 			RunTests( FailedTests, true );
 		}
 
-		private void RunTests( TestInfo[] tests, bool ignoreCategories )
+		private void RunTests( ITest[] tests, bool ignoreCategories )
 		{
 			runningTests = tests;
 
@@ -906,7 +906,7 @@ namespace NUnit.UiKit
 				loader.RunTests( MakeFilter( tests ) );
 		}
 
-		private TestFilter MakeFilter( TestInfo[] tests )
+		private TestFilter MakeFilter( ITest[] tests )
 		{
 			TestFilter nameFilter = MakeNameFilter( tests );
 
@@ -926,13 +926,13 @@ namespace NUnit.UiKit
 			return new AndFilter( nameFilter, CategoryFilter );
 		}
 
-		private TestFilter MakeNameFilter( TestInfo[] tests )
+		private TestFilter MakeNameFilter( ITest[] tests )
 		{
 			if ( tests == null || tests.Length == 0 )
 				return TestFilter.Empty;
 
 			NameFilter nameFilter = new NameFilter();
-			foreach( TestInfo test in tests )
+			foreach( ITest test in tests )
 				nameFilter.Add( test.TestName );
 
 			return nameFilter;
@@ -1200,7 +1200,7 @@ namespace NUnit.UiKit
 			SelectedNode.EnsureVisible();
 		}
 
-		private TestSuiteTreeNode FindNode( TestInfo test )
+		private TestSuiteTreeNode FindNode( ITest test )
 		{
 			return treeMap[test.TestName.UniqueName] as TestSuiteTreeNode;
 		}
@@ -1244,9 +1244,9 @@ namespace NUnit.UiKit
 			get { return filter; }
 		}
 
-		public TestInfo[] Tests
+		public ITest[] Tests
 		{
-			get { return (TestInfo[])tests.ToArray(typeof(TestInfo)); }
+			get { return (ITest[])tests.ToArray(typeof(ITest)); }
 		}
 
 		public override void Visit(TestSuiteTreeNode node)
@@ -1316,23 +1316,23 @@ namespace NUnit.UiKit
 		private ArrayList checkedTests = new ArrayList();
 		private struct CheckedTestInfo
 		{
-			public TestInfo Test;
+			public ITest Test;
 			public bool TopLevel;
 
-			public CheckedTestInfo( TestInfo test, bool topLevel )
+			public CheckedTestInfo( ITest test, bool topLevel )
 			{
 				this.Test = test;
 				this.TopLevel = topLevel;
 			}
 		}
 
-		public TestInfo[] GetCheckedTests( SelectionFlags flags )
+		public ITest[] GetCheckedTests( SelectionFlags flags )
 		{
 			int count = 0;
 			foreach( CheckedTestInfo info in checkedTests )
 				if ( isSelected( info, flags ) ) count++;
 	
-			TestInfo[] result = new TestInfo[count];
+			ITest[] result = new ITest[count];
 			
 			int index = 0;
 			foreach( CheckedTestInfo info in checkedTests )

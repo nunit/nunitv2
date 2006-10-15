@@ -82,7 +82,7 @@ namespace NUnit.Core
 			get { return this.testRunner.AssemblyInfo; }
 		}
 
-		public virtual TestNode Test
+		public virtual ITest Test
 		{
 			get { return testRunner == null ? null : testRunner.Test; }
 		}

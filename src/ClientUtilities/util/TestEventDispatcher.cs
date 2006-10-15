@@ -133,7 +133,7 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestLoading, fileName ) );
 		}
 
-		public void FireTestLoaded( string fileName, TestInfo test )
+		public void FireTestLoaded( string fileName, ITest test )
 		{
 			Fire( 
 				TestLoaded,
@@ -175,7 +175,7 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.TestReloading, fileName ) );
 		}
 
-		public void FireTestReloaded( string fileName, TestInfo test )
+		public void FireTestReloaded( string fileName, ITest test )
 		{
 			Fire(
 				TestReloaded,

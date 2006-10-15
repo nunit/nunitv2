@@ -64,7 +64,7 @@ namespace NUnit.Util
 		private string name;
 		
 		// The name of the test we are running
-		private TestInfo test;
+		private ITest test;
 
 		private TestName testName;
 
@@ -86,7 +86,7 @@ namespace NUnit.Util
 
 		// TestLoaded, TestReloaded
 		public TestEventArgs( TestAction action, 
-			string name, TestInfo test )
+			string name, ITest test )
 		{
 			Debug.Assert( 
 				action == TestAction.TestLoaded || action == TestAction.TestReloaded,
@@ -194,7 +194,7 @@ namespace NUnit.Util
 			get { return name; }
 		}
 
-		public TestInfo Test
+		public ITest Test
 		{
 			get { return test; }
 		}
@@ -209,7 +209,7 @@ namespace NUnit.Util
 			get 
 			{
 //				int count = 0;
-//				foreach( TestInfo test in tests )
+//				foreach( ITest test in tests )
 //					count += test.TestCount;
 //				return count; 
 

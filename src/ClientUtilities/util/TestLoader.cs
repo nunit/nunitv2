@@ -90,7 +90,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// The currently loaded test, returned by the testrunner
 		/// </summary>
-		private TestNode loadedTest = null;
+		private ITest loadedTest = null;
 
 		/// <summary>
 		/// The test name that was specified when loading

@@ -55,7 +55,8 @@ namespace NUnit.Core
 		{
 			results.Add(result);
 
-			if ( result.IsFailure && !this.IsFailure )
+			if( this.ResultState == ResultState.Success &&
+				result.ResultState != ResultState.Success )
 			{
 				this.Failure( "Child test failed", null, FailureSite.Child );
 			}

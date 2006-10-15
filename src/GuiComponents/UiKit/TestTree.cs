@@ -616,7 +616,7 @@ namespace NUnit.UiKit
 			tests.CheckFailedNodes();
 		}
 
-		private void tests_SelectedTestChanged(TestInfo test)
+		private void tests_SelectedTestChanged(ITest test)
 		{
 			if (SelectedTestsChanged != null) 
 			{
@@ -682,7 +682,7 @@ namespace NUnit.UiKit
 			treeMenu.Visible = false;
 		}
 
-		private void tests_CheckedTestChanged(TestInfo[] tests)
+		private void tests_CheckedTestChanged(ITest[] tests)
 		{
 			if (SelectedTestsChanged != null) 
 			{

@@ -95,7 +95,7 @@ namespace NUnit.Core
 		/// The loaded test, converted to a tree of TestNodes so they can be
 		/// serialized and marshalled to a remote client.
 		/// </summary>
-		TestNode Test
+		ITest Test
 		{
 			get;
 		}

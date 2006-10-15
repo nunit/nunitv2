@@ -46,7 +46,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// The testcase or testsuite represented by this node
 		/// </summary>
-		private TestInfo test;
+		private ITest test;
 
 		/// <summary>
 		/// The result from the last run of the test
@@ -103,7 +103,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// Test represented by this node
 		/// </summary>
-		public TestInfo Test
+		public ITest Test
 		{
 			get { return this.test; }
 			set	{ this.test = value; }

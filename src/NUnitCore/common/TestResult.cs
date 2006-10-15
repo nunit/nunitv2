@@ -47,8 +47,14 @@ namespace NUnit.Core
 		/// </summary>
 		private RunState runState;
 
+		/// <summary>
+		/// Indicates the result of the test
+		/// </summary>
 		private ResultState resultState;
 
+		/// <summary>
+		/// Indicates the location of a failure
+		/// </summary>
         private FailureSite failureSite;
 
 		/// <summary>
@@ -131,7 +137,7 @@ namespace NUnit.Core
 			get{ return name;}
 		}
 
-		public TestInfo Test
+		public ITest Test
 		{
 			get{ return test;}
 		}

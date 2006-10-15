@@ -40,7 +40,7 @@ namespace NUnit.Util.Tests
 	public class TestDomainFixture
 	{
 		private static TestDomain testDomain; 
-		private static TestNode loadedTest;
+		private static ITest loadedTest;
 
 		[TestFixtureSetUp]
 		public void MakeAppDomain()

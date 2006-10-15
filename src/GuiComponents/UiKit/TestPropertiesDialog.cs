@@ -45,8 +45,9 @@ namespace NUnit.UiKit
 		#region Instance Variables;
 
 		private TestSuiteTreeNode node;
-		private TestInfo test;
+		private ITest test;
 		private TestResult result;
+
 		private Image pinnedImage;
 		private Image unpinnedImage;
 		private System.Windows.Forms.CheckBox pinButton;

@@ -42,7 +42,7 @@ namespace NUnit.Util.Tests
 	{
 		private string[] assemblies;
 		private TestDomain domain; 
-		private TestNode loadedSuite;
+		private ITest loadedSuite;
 
 		private string name = "Multiple Assemblies Test";
 

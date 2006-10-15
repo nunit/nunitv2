@@ -76,7 +76,7 @@ namespace NUnit.Core
 			get { return builder.AssemblyInfo; }
 		}
 		
-		public TestNode Test
+		public ITest Test
 		{
 			get { return test == null ? null : new TestNode( test ); }
 		}

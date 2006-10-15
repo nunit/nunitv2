@@ -80,7 +80,7 @@ namespace NUnit.Util
 			}
 		}
 
-		public virtual TestNode Test
+		public virtual ITest Test
 		{
 			get
 			{
