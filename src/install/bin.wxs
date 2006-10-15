@@ -9,6 +9,7 @@
           <File Id="console.config" Name="CONSOLE.CFG" LongName="nunit-console.exe.config" />
           <File Id="console.dll" Name="CONSOLE.DLL" LongName="nunit-console-runner.dll" />
           <File Id="nunit.core" Name="CORE.DLL" LongName="nunit.core.dll" />
+          <File Id="nunit.core.interfaces" Name="IFACES.DLL" LongName="nunit.core.interfaces.dll" />
           <File Id="nunit.common" Name="COMMON.DLL" LongName="nunit.common.dll" />
           <File Id="nunit.framework" Name="FRAMEWRK.DLL" LongName="nunit.framework.dll" />
           <File Id="nunit.framework.xml" Name="FRAMEWRK.XML" LongName="nunit.framework.xml" />
