@@ -57,6 +57,10 @@
       <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
       <Name>nunit.core.dll_VS2005</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\NUnitCore\interfaces\nunit.core.interfaces.dll_VS2005.csproj">
+      <Project>{DCC88998-255A-4247-B658-71DD932E9873}</Project>
+      <Name>nunit.core.interfaces.dll_VS2005</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NUnitCore\tests\nunit.core.tests_VS2005.csproj">
       <Project>{DD758D21-E5D5-4D40-9450-5F65A32F359C}</Project>
       <Name>nunit.core.tests_VS2005</Name>

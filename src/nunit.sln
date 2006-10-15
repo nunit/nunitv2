@@ -126,6 +126,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.extensions.
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.interfaces.dll", "NUnitCore\interfaces\nunit.core.interfaces.dll.csproj", "{435428F8-5995-4CE4-8022-93D595A8CC0F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -248,6 +252,10 @@ Global
 		{486C498D-B9F8-477F-ACA7-CED9245BBFCF}.Debug.Build.0 = Debug|.NET
 		{486C498D-B9F8-477F-ACA7-CED9245BBFCF}.Release.ActiveCfg = Release|.NET
 		{486C498D-B9F8-477F-ACA7-CED9245BBFCF}.Release.Build.0 = Release|.NET
+		{435428F8-5995-4CE4-8022-93D595A8CC0F}.Debug.ActiveCfg = Debug|.NET
+		{435428F8-5995-4CE4-8022-93D595A8CC0F}.Debug.Build.0 = Debug|.NET
+		{435428F8-5995-4CE4-8022-93D595A8CC0F}.Release.ActiveCfg = Release|.NET
+		{435428F8-5995-4CE4-8022-93D595A8CC0F}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		clr.bat = clr.bat
