@@ -5,8 +5,8 @@ namespace NUnit.Core.Extensions
 	/// <summary>
 	/// SampleSuiteExtensionBuilder knows how to build a SampleSuiteExtension
 	/// </summary>
-	[SuiteBuilder]
-	public class SampleSuiteExtensionBuilder : ISuiteBuilder
+	[NUnitAddin]
+	public class SampleSuiteExtensionBuilder : ISuiteBuilder, IAddin
 	{	
 		#region ISuiteBuilder Members
 
@@ -14,7 +14,7 @@ namespace NUnit.Core.Extensions
 		// extension suite. Many builders will need to do more work, 
 		// looking for other attributes, setting properties on the 
 		// suite and locating methods for tests, setup and teardown.
-		public TestSuite BuildFrom(Type type)
+		public Test BuildFrom(Type type)
 		{
 			if ( CanBuildFrom( type ) )
 				return new SampleSuiteExtension( type );
@@ -30,6 +30,15 @@ namespace NUnit.Core.Extensions
 			return Reflect.HasAttribute( type, "NUnit.Core.Extensions.SampleSuiteExtensionAttribute", false );
 		}
 
+		#endregion
+
+		#region IAddin Members
+		public void Install(object host)
+		{
+			IAddinHost addinHost = host as IAddinHost;
+			if ( addinHost != null )
+				addinHost.Install( this );
+		}
 		#endregion
 	}
 }

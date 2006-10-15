@@ -7,8 +7,8 @@ namespace NUnit.Core.Extensions
 	/// MockFixtureExtensionBuilder knows how to build 
 	/// a MockFixtureExtension.
 	/// </summary>
-	[SuiteBuilder]
-	public class SampleFixtureExtensionBuilder : NUnitTestFixtureBuilder
+	[NUnitAddin]
+	public class SampleFixtureExtensionBuilder : NUnitTestFixtureBuilder, IAddin
 	{	
 		#region ISuiteBuilder Members
 
@@ -16,7 +16,7 @@ namespace NUnit.Core.Extensions
 		// extension suite. Many builders will need to do more work, 
 		// looking for other attributes, setting properties on the 
 		// suite and locating methods for tests, setup and teardown.
-		public override TestSuite BuildFrom(Type type)
+		public override Test BuildFrom(Type type)
 		{
 			if ( CanBuildFrom( type ) )
 				return base.BuildFrom( type );
@@ -30,6 +30,15 @@ namespace NUnit.Core.Extensions
 		public override bool CanBuildFrom(Type type)
 		{
 			return Reflect.HasAttribute( type, "NUnit.Core.Extensions.SampleFixtureExtensionAttribute", false );
+		}
+		#endregion
+
+		#region IAddin Members
+		public void Install(object host)
+		{
+			IAddinHost addinHost = host as IAddinHost;
+			if ( addinHost != null )
+				addinHost.Install( this );
 		}
 		#endregion
 	}
