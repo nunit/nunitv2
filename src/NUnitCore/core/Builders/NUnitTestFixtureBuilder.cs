@@ -72,7 +72,7 @@ namespace NUnit.Core.Builders
         /// <param name="type"></param>
         protected override void InstallTestCaseBuilders(Type type)
         {
-			AddinManager.CurrentManager.Install( new NUnitTestCaseBuilder() );
+			CoreExtensions.Current.TestBuilders.Install( new NUnitTestCaseBuilder() );
         }
         /// <summary>
         /// Checks to see if the fixture type has the test fixture

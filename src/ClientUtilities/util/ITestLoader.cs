@@ -96,7 +96,7 @@ namespace NUnit.Util
 		void RunTests();
 
 		// Run specific tests
-		void RunTests( TestFilter filter );
+		void RunTests( ITestFilter filter );
 
 		// Cancel the running test
 		void CancelTestRun();

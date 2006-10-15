@@ -55,6 +55,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Addin.cs" />
+    <Compile Include="AddinManager.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -66,33 +67,32 @@
     <Compile Include="Filters\NotFilter.cs" />
     <Compile Include="Filters\RecursiveTestFilter.cs" />
     <Compile Include="Filters\SimpleNameFilter.cs" />
-    <Compile Include="IAddin.cs" />
-    <Compile Include="IAddinHost.cs" />
     <Compile Include="ISuiteBuilder.cs" />
-    <Compile Include="ITest.cs" />
     <Compile Include="ITestCaseBuilder.cs" />
     <Compile Include="ITestDecorator.cs" />
-    <Compile Include="ITestFilter.cs" />
     <Compile Include="NUnitAddinAttribute.cs" />
     <Compile Include="ProxyTestRunner.cs" />
     <Compile Include="ResultState.cs" />
     <Compile Include="ResultVisitor.cs" />
-    <Compile Include="RunState.cs" />
     <Compile Include="RuntimeFramework.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="TestAssemblyInfo.cs" />
     <Compile Include="TestCaseResult.cs" />
     <Compile Include="TestFilter.cs" />
     <Compile Include="TestFramework.cs" />
-    <Compile Include="TestID.cs" />
     <Compile Include="TestInfo.cs" />
-    <Compile Include="TestName.cs" />
     <Compile Include="TestNode.cs" />
     <Compile Include="TestOutput.cs" />
     <Compile Include="TestResult.cs" />
     <Compile Include="TestRunner.cs" />
     <Compile Include="TestRunnerSettings.cs" />
     <Compile Include="TestSuiteResult.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\interfaces\nunit.core.interfaces.dll_VS2005.csproj">
+      <Project>{DCC88998-255A-4247-B658-71DD932E9873}</Project>
+      <Name>nunit.core.interfaces.dll_VS2005</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

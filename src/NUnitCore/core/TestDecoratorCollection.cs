@@ -5,42 +5,55 @@ using System.Reflection;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Summary description for TestDecoratorCollection.
+	/// TestDecoratorCollection is an ExtensionPoint for TestDecorators and
+	/// implements the ITestDecorator interface itself, passing calls 
+	/// on to the individual decorators.
 	/// </summary>
-	public class TestDecoratorCollection : CollectionBase, ITestDecorator
+	public class TestDecoratorCollection : ITestDecorator, IExtensionPoint
 	{
+		private ArrayList decorators = new ArrayList();
+
+		#region Constructors
 		public TestDecoratorCollection() { }
 
 		public TestDecoratorCollection( TestDecoratorCollection other )
 		{
-			this.InnerList.AddRange( other );
+			decorators.AddRange( other.decorators );
 		}
+		#endregion
 
 		#region ITestDecorator Members
 		public Test Decorate(Test test, MemberInfo member)
 		{
 			Test decoratedTest = test;
 
-			foreach( ITestDecorator decorator in List )
+			foreach( ITestDecorator decorator in decorators )
 				decoratedTest = decorator.Decorate( decoratedTest, member );
 
 			return decoratedTest;
 		}
-
-//		public Test Decorate(Test test, Type fixtureType)
-//		{
-//			Test decoratedTest = test;
-//
-//			foreach( ITestDecorator decorator in List )
-//				decoratedTest = decorator.Decorate( decoratedTest, fixtureType );
-//
-//			return decoratedTest;
-//		}
 		#endregion
 
-		public void Add( ITestDecorator decorator )
+		#region IExtensionPoint Members
+		public string Name
 		{
-			List.Add( decorator );
+			get { return "TestDecorators"; }
 		}
+
+		public void Install(object extension)
+		{
+			ITestDecorator decorator = extension as ITestDecorator;
+			if ( decorator == null )
+				throw new ArgumentException( 
+					extension.GetType().FullName + " is not an ITestDecorator", "exception" );
+
+			decorators.Add( extension );
+		}
+
+		public void Remove( object extension )
+		{
+			decorators.Remove( extension );
+		}
+		#endregion
 	}
 }

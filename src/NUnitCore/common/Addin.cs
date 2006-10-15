@@ -1,17 +1,19 @@
 using System;
 using System.Reflection;
 
-namespace NUnit.Core.Extensibility
+namespace NUnit.Core
 {
 	/// <summary>
 	/// Summary description for Addin.
 	/// </summary>
+	[Serializable]
 	public class Addin : IAddin
 	{
 		private Type type;
 		private string name;
 		private string description;
 
+		[NonSerialized]
 		private IAddin theAddin;
 
 		public Addin( Type type )
@@ -44,9 +46,9 @@ namespace NUnit.Core.Extensibility
 		}
 
 		#region IAddin Members
-		public void Initialize(IAddinHost host)
+		public bool Install(IExtensionHost host)
 		{
-			theAddin.Initialize(host);
+			return theAddin.Install(host);
 		}
 		#endregion
 	}

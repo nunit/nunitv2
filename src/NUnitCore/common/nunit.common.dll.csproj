@@ -79,12 +79,22 @@
                     AssemblyName = "System.Xml"
                     HintPath = "E:\WINNT\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
+                <Reference
+                    Name = "nunit.core.interfaces.dll"
+                    Project = "{435428F8-5995-4CE4-8022-93D595A8CC0F}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
             <Include>
                 <File
                     RelPath = "Addin.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AddinManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -110,22 +120,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "IAddin.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "IAddinHost.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ISuiteBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ITest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -136,11 +131,6 @@
                 />
                 <File
                     RelPath = "ITestDecorator.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ITestFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -161,11 +151,6 @@
                 />
                 <File
                     RelPath = "ResultVisitor.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RunState.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -200,17 +185,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestID.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestName.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

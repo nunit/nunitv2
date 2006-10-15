@@ -96,12 +96,16 @@
       <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\interfaces\nunit.core.interfaces.dll_VS2005.csproj">
+      <Project>{DCC88998-255A-4247-B658-71DD932E9873}</Project>
+      <Name>nunit.core.interfaces.dll_VS2005</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AddinManagerTests.cs" />
+    <Compile Include="CoreExtensionsTests.cs" />
     <Compile Include="AllTests.cs">
       <SubType>Code</SubType>
     </Compile>

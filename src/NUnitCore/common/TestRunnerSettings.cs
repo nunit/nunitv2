@@ -10,30 +10,28 @@ namespace NUnit.Core
 	/// is given a string as its name and may be set to any 
 	/// serializable value. 
 	/// </summary>
-	public class TestRunnerSettings : MarshalByRefObject
+	public class TestRunnerSettings : MarshalByRefObject, IDictionary
 	{
 		private ListDictionary dictionary = new ListDictionary();
 
 		/// <summary>
 		/// Handler for changes in the settings, normally implemented by the runner
 		/// </summary>
-		public delegate void SettingsChangedHandler( string name, object value );
+		public delegate void SettingsChangedHandler( object key, object value );
 
 		/// <summary>
 		/// Changed event used by runners to propogate changes to child runners.
 		/// </summary>
 		public event SettingsChangedHandler Changed;
 
-		public TestRunnerSettings( TestRunner runner )
-		{
-		}
+		#region IDictionary Members
 
 		public ICollection Keys
 		{
 			get { return dictionary.Keys; }
 		}
 
-		public object this[string key]
+		public object this[object key]
 		{
 			get { return dictionary[key]; }
 			set 
@@ -45,9 +43,79 @@ namespace NUnit.Core
 			}
 		}
 
-		public bool Contains( string key )
+		public IDictionaryEnumerator GetEnumerator()
+		{
+			return dictionary.GetEnumerator();
+		}
+
+		public bool Contains( object key )
 		{
 			return dictionary.Contains( key );
 		}
+
+		public bool IsReadOnly
+		{
+			get { return dictionary.IsReadOnly; }
+		}
+
+		public void Remove(object key)
+		{
+			dictionary.Remove( key );
+		}
+
+		public void Clear()
+		{
+			dictionary.Clear();
+		}
+
+		public ICollection Values
+		{
+			get { return dictionary.Values; }
+		}
+
+		public void Add(object key, object value)
+		{
+			dictionary.Add( key, value );
+		}
+
+		public bool IsFixedSize
+		{
+			get { return dictionary.IsFixedSize; }
+		}
+
+		#endregion
+
+		#region ICollection Members
+
+		public bool IsSynchronized
+		{
+			get { return dictionary.IsSynchronized; }
+		}
+
+		public int Count
+		{
+			get { return dictionary.Count; }
+		}
+
+		public void CopyTo(Array array, int index)
+		{
+			dictionary.CopyTo( array, index );
+		}
+
+		public object SyncRoot
+		{
+			get { return dictionary.SyncRoot; }
+		}
+
+		#endregion
+
+		#region IEnumerable Members
+
+		IEnumerator System.Collections.IEnumerable.GetEnumerator()
+		{
+			return dictionary.GetEnumerator();
+		}
+
+		#endregion
 	}
 }

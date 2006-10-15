@@ -235,17 +235,6 @@ namespace NUnit.Util
 			get { return testRunner.AssemblyInfo; }
 		}
 
-		public IList Extensions
-		{
-			get
-			{
-				if ( testRunner == null )
-					return null;
-
-				return testRunner.Extensions;
-			}
-		}
-
 		public int TestCount
 		{
 			get { return loadedTest == null ? 0 : loadedTest.TestCount; }
@@ -668,7 +657,7 @@ namespace NUnit.Util
 		/// Run selected tests using a filter
 		/// </summary>
 		/// <param name="filter">The filter to be used</param>
-		public void RunTests( TestFilter filter )
+		public void RunTests( ITestFilter filter )
 		{
 			if ( !Running )
 			{

@@ -33,16 +33,17 @@ using System.Collections;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// SuiteBuilderCollection maintains a list of SuiteBuilders and
+	/// SuiteBuilderCollection is an ExtensionPoint for SuiteBuilders and
 	/// implements the ISuiteBuilder interface itself, passing calls 
 	/// on to the individual builders.
 	/// 
-	/// The collection is actually a stack, so SuiteBuilders added to
-	/// the collection take precedence over those added earlier, 
-	/// allowing a user to temporarily replace a builder.
+	/// The builders are added to the collection by inserting them at
+	/// the start, as to take precedence over those added earlier. 
 	/// </summary>
-	public class SuiteBuilderCollection : Stack, ISuiteBuilder
+	public class SuiteBuilderCollection : ISuiteBuilder, IExtensionPoint
 	{
+		private ArrayList builders = new ArrayList();
+
 		#region Constructors
 		/// <summary>
 		/// Default constructor
@@ -53,7 +54,10 @@ namespace NUnit.Core
 		/// Construct from another SuiteBuilderCollection, copying its contents.
 		/// </summary>
 		/// <param name="other">The SuiteBuilderCollection to copy</param>
-		public SuiteBuilderCollection( SuiteBuilderCollection other ) : base( other ) { }
+		public SuiteBuilderCollection( SuiteBuilderCollection other ) 
+		{
+			builders.AddRange( other.builders );
+		}
 		#endregion
 
 		#region ISuiteBuilder Members
@@ -66,7 +70,7 @@ namespace NUnit.Core
 		/// <returns>True if the type can be used to build a TestSuite</returns>
 		public bool CanBuildFrom(Type type)
 		{
-			foreach( ISuiteBuilder builder in this )
+			foreach( ISuiteBuilder builder in builders )
 				if ( builder.CanBuildFrom( type ) )
 					return true;
 			return false;
@@ -79,7 +83,7 @@ namespace NUnit.Core
 		/// <returns>A TestSuite or null</returns>
 		public Test BuildFrom(Type type)
 		{
-			foreach( ISuiteBuilder builder in this )
+			foreach( ISuiteBuilder builder in builders )
 				if ( builder.CanBuildFrom( type ) )
 					return builder.BuildFrom( type );
 			return null;
@@ -87,15 +91,25 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Other Public Methods
-		/// <summary>
-		/// Add a SuiteBuilder to the collection - provided
-		/// as a synonym for Push.
-		/// </summary>
-		/// <param name="builder">The builder to add</param>
-		public void Add( ISuiteBuilder builder )
+		#region IExtensionPoint Members
+		public string Name
 		{
-			Push( builder );
+			get { return "SuiteBuilders"; }
+		}
+
+		public void Install(object extension)
+		{
+			ISuiteBuilder builder = extension as ISuiteBuilder;
+			if ( builder == null )
+				throw new ArgumentException( 
+					extension.GetType().FullName + " is not an ITestCaseBuilder", "exception" );
+
+			builders.Insert( 0, builder );
+		}
+
+		public void Remove( object extension )
+		{
+			builders.Remove( extension );
 		}
 		#endregion
 	}

@@ -45,7 +45,7 @@ namespace NUnit.Util
 		public AggregatingTestRunner( int runnerID )
 		{
 			this.runnerID = runnerID;
-			this.settings = new TestRunnerSettings( this );
+			this.settings = new TestRunnerSettings();
 			this.settings.Changed += new TestRunnerSettings.SettingsChangedHandler(settings_Changed);
 		}
 		#endregion
@@ -77,22 +77,6 @@ namespace NUnit.Util
 				foreach( TestRunner runner in runners )
 					info.AddRange( runner.AssemblyInfo );
 				return info;
-			}
-		}
-
-		public virtual IList Extensions
-		{
-			get
-			{
-				if ( runners == null )
-					return null;
-
-				ArrayList extensions = new ArrayList();
-
-				foreach( TestRunner runner in runners )
-					extensions.AddRange( runner.Extensions );
-
-				return extensions;
 			}
 		}
 
@@ -141,10 +125,9 @@ namespace NUnit.Util
 			}
 		}
 
-		public TestRunnerSettings Settings
+		public IDictionary Settings
 		{
 			get { return settings; }
-			set { settings = value; }
 		}
 		#endregion
 
@@ -176,7 +159,7 @@ namespace NUnit.Util
 		#endregion
 
 		#region CountTestCases
-		public virtual int CountTestCases( TestFilter filter )
+		public virtual int CountTestCases( ITestFilter filter )
 		{
 			int count = 0;
 			foreach( TestRunner runner in runners )
@@ -191,7 +174,7 @@ namespace NUnit.Util
 			return Run( listener, TestFilter.Empty );
 		}
 
-		public virtual TestResult Run(EventListener listener, TestFilter filter )
+		public virtual TestResult Run(EventListener listener, ITestFilter filter )
 		{
 			// Save active listener for derived classes
 			this.listener = listener;
@@ -216,7 +199,7 @@ namespace NUnit.Util
 			BeginRun( listener, TestFilter.Empty );
 		}
 
-		public virtual void BeginRun( EventListener listener, TestFilter filter )
+		public virtual void BeginRun( EventListener listener, ITestFilter filter )
 		{
 			// Save active listener for derived classes
 			this.listener = listener;
@@ -306,12 +289,12 @@ namespace NUnit.Util
 		#endregion
 
 		#region Handler for Settings Changed Event
-		private void settings_Changed(string name, object value)
+		private void settings_Changed(object key, object value)
 		{
 			if ( runners != null )
 				foreach( TestRunner runner in runners )
 					if ( runner != null )
-						runner.Settings[name] = value;
+						runner.Settings[key] = value;
 		}
 		#endregion
 

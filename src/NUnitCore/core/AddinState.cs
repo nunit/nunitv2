@@ -41,12 +41,12 @@ namespace NUnit.Core
 	{
 		public AddinState()
 		{
-			AddinManager.Save();
+			CoreExtensions.Current.SaveState();
 		}
 
 		public void Dispose()
 		{
-			AddinManager.Restore();
+			CoreExtensions.Current.RestoreState();
 		}
 	}
 }

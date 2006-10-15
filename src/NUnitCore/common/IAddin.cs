@@ -8,6 +8,6 @@ namespace NUnit.Core
 	/// </summary>
 	public interface IAddin
 	{
-		void Initialize( IAddinHost host );
+		void Install( object host );
 	}
 }

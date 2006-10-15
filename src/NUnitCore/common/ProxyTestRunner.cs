@@ -51,7 +51,7 @@ namespace NUnit.Core
 		{
 			this.testRunner = testRunner;
 			this.runnerID = testRunner.ID;
-			this.settings = new TestRunnerSettings( this );
+			this.settings = new TestRunnerSettings();
 			this.settings.Changed += new TestRunnerSettings.SettingsChangedHandler(settings_Changed);
 		}
 
@@ -62,7 +62,7 @@ namespace NUnit.Core
 		protected ProxyTestRunner( int runnerID )
 		{
 			this.runnerID = runnerID;
-			this.settings = new TestRunnerSettings( this );
+			this.settings = new TestRunnerSettings();
 		}
 		#endregion
 
@@ -82,11 +82,6 @@ namespace NUnit.Core
 			get { return this.testRunner.AssemblyInfo; }
 		}
 
-		public virtual IList Extensions
-		{
-			get { return testRunner == null ? null : testRunner.Extensions; }
-		}
-
 		public virtual TestNode Test
 		{
 			get { return testRunner == null ? null : testRunner.Test; }
@@ -97,15 +92,9 @@ namespace NUnit.Core
 			get { return testRunner == null ? null : testRunner.TestResult; }
 		}
 
-		public virtual TestRunnerSettings Settings
+		public virtual IDictionary Settings
 		{
-			get 
-			{ 
-				// If testrunner creation is delayed, the derived class must
-				// copy any settings to to the test runner at that point.
-				//return testRunner != null ? testRunner.Settings : this.settings;
-				return settings;
-			}
+			get { return settings; }
 		}
 
 		/// <summary>
@@ -207,10 +196,10 @@ namespace NUnit.Core
 		#endregion
 
 		#region Settings Changed Handler
-		private void settings_Changed(string name, object value)
+		private void settings_Changed(object key, object value)
 		{
 			if ( this.testRunner != null )
-				testRunner.Settings[name] = value;
+				testRunner.Settings[key] = value;
 		}
 		#endregion
 

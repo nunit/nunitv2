@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Collections;
+using System.Collections.Specialized;
 using NUnit.Core.Filters;
 using System.Reflection;
 
@@ -50,7 +51,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// The settings for this runner
 		/// </summary>
-		private TestRunnerSettings settings;
+		private IDictionary settings;
 
 		#endregion
 
@@ -60,7 +61,7 @@ namespace NUnit.Core
 		public SimpleTestRunner( int runnerID )
 		{
 			this.runnerID = runnerID;
-			this.settings = new TestRunnerSettings( this );
+			this.settings = new ListDictionary();
 		}
 		#endregion
 
@@ -68,11 +69,6 @@ namespace NUnit.Core
 		public virtual int ID
 		{
 			get { return runnerID; }
-		}
-
-		public IList Extensions
-		{
-			get { return AddinManager.CurrentManager.Names; }
 		}
 
 		public IList AssemblyInfo
@@ -98,7 +94,7 @@ namespace NUnit.Core
 			get { return runThread != null && runThread.IsAlive; }
 		}
 
-		public TestRunnerSettings Settings
+		public IDictionary Settings
 		{
 			get { return settings; }
 		}
@@ -186,7 +182,7 @@ namespace NUnit.Core
 
 		public virtual TestResult Run( EventListener listener, ITestFilter filter )
 		{
-			AddinManager.Save();
+			CoreExtensions.Current.SaveState();
 
 			try
 			{
@@ -213,7 +209,7 @@ namespace NUnit.Core
 			finally
 			{
 				runThread = null;
-				AddinManager.Restore();
+				CoreExtensions.Current.RestoreState();
 			}
 		}
 

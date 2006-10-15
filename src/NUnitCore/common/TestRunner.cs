@@ -92,14 +92,6 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Returns a list of the AssemblyQualifiedName of each loaded extension.
-		/// </summary>
-		IList Extensions
-		{
-			get;
-		}
-
-		/// <summary>
 		/// The loaded test, converted to a tree of TestNodes so they can be
 		/// serialized and marshalled to a remote client.
 		/// </summary>
@@ -116,7 +108,7 @@ namespace NUnit.Core
 			get;
 		}
 
-		TestRunnerSettings Settings
+		IDictionary Settings
 		{
 			get;
 		}

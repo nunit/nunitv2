@@ -7,10 +7,6 @@ namespace NUnit.Core
 	/// </summary>
 	public interface IAddinHost
 	{
-		void Install( ISuiteBuilder builder );
-
-		void Install( ITestCaseBuilder builder );
-
-		void Install( ITestDecorator decorator );
+		void Install( object extension );
 	}
 }
