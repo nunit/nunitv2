@@ -1970,21 +1970,8 @@ namespace NUnit.Gui
 
 		private void addinInfoMenuItem_Click(object sender, System.EventArgs e)
 		{
-			string msg = "No addins are loaded.";
-
-			IList addins = TestLoader.Extensions;
-			if ( addins != null && addins.Count > 0 )
-			{
-				StringBuilder sb = new StringBuilder(
-					"The following addins have been loaded -\r\n\r\n" );
-
-				foreach( string addin in addins )
-					sb.AppendFormat( "  {0}\r\n", addin );
-
-				msg = sb.ToString();
-			}
-
-			MessageBox.Show( this, msg, "Loaded Addins", MessageBoxButtons.OK );	
+			AddinDialog dlg = new AddinDialog( AddinManager.CurrentManager.Addins );
+			dlg.ShowDialog();
 		}
 
 		#endregion
