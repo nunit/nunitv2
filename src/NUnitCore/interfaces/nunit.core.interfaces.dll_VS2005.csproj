@@ -40,6 +40,7 @@
     <Compile Include="IExtensionPoint.cs" />
     <Compile Include="ITest.cs" />
     <Compile Include="ITestFilter.cs" />
+    <Compile Include="ResultState.cs" />
     <Compile Include="RunState.cs" />
     <Compile Include="TestID.cs" />
     <Compile Include="TestName.cs" />

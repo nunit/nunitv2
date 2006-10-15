@@ -72,7 +72,6 @@
     <Compile Include="ITestDecorator.cs" />
     <Compile Include="NUnitAddinAttribute.cs" />
     <Compile Include="ProxyTestRunner.cs" />
-    <Compile Include="ResultState.cs" />
     <Compile Include="ResultVisitor.cs" />
     <Compile Include="RuntimeFramework.cs" />
     <Compile Include="Test.cs" />

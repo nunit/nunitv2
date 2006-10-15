@@ -110,6 +110,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ResultState.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "RunState.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
