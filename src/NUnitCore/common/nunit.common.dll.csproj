@@ -89,11 +89,6 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "Addin.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "AddinManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -116,26 +111,6 @@
                 />
                 <File
                     RelPath = "EventListener.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ISuiteBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ITestCaseBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ITestDecorator.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "NUnitAddinAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -211,6 +186,11 @@
                 />
                 <File
                     RelPath = "TestSuiteResult.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\Addin.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

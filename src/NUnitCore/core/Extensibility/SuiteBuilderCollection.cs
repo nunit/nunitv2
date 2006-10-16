@@ -30,7 +30,7 @@
 using System;
 using System.Collections;
 
-namespace NUnit.Core
+namespace NUnit.Core.Extensibility
 {
 	/// <summary>
 	/// SuiteBuilderCollection is an ExtensionPoint for SuiteBuilders and

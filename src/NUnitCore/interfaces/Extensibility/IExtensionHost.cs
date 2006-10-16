@@ -1,6 +1,6 @@
 using System;
 
-namespace NUnit.Core
+namespace NUnit.Core.Extensibility
 {
 	/// <summary>
 	/// The IExtensionHost interface is implemented by each

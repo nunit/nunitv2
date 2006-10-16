@@ -1,6 +1,6 @@
 using System;
 
-namespace NUnit.Core
+namespace NUnit.Core.Extensibility
 {
 	/// <summary>
 	/// Represents a single point of extension for NUnit. Some extension

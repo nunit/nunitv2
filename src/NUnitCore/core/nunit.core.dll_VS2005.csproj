@@ -78,6 +78,9 @@
     <Compile Include="EventQueue.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Extensibility\SuiteBuilderCollection.cs" />
+    <Compile Include="Extensibility\TestCaseBuilderCollection.cs" />
+    <Compile Include="Extensibility\TestDecoratorCollection.cs" />
     <Compile Include="IgnoreDecorator.cs" />
     <Compile Include="InvalidSuiteException.cs">
       <SubType>Code</SubType>
@@ -85,6 +88,9 @@
     <Compile Include="InvalidTestFixtureException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ISuiteBuilder.cs" />
+    <Compile Include="ITestCaseBuilder.cs" />
+    <Compile Include="ITestDecorator.cs" />
     <Compile Include="LegacySuite.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -135,9 +141,6 @@
     <Compile Include="SuiteBuilderAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SuiteBuilderCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="TestBuilderAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -150,14 +153,10 @@
     <Compile Include="TestCaseBuilderAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestCaseBuilderCollection.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="TestContext.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TestDecoratorAttribute.cs" />
-    <Compile Include="TestDecoratorCollection.cs" />
     <Compile Include="TestFixture.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 
-namespace NUnit.Core
+namespace NUnit.Core.Extensibility
 {
 	/// <summary>
 	/// TestCaseBuilderCollection is an ExtensionPoint for TestCaseBuilders 

@@ -160,6 +160,21 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ISuiteBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ITestCaseBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ITestDecorator.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "LegacySuite.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -259,11 +274,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SuiteBuilderCollection.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Summary.xslt"
                     BuildAction = "Content"
                 />
@@ -288,22 +298,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestCaseBuilderCollection.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestContext.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "TestDecoratorAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestDecoratorCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -374,6 +374,21 @@
                 />
                 <File
                     RelPath = "Builders\TestAssemblyBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\SuiteBuilderCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\TestCaseBuilderCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\TestDecoratorCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

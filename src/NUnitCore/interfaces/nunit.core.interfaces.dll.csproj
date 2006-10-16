@@ -85,21 +85,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "IAddin.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "IExtensionHost.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "IExtensionPoint.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ITest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -126,6 +111,26 @@
                 />
                 <File
                     RelPath = "TestName.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\IAddin.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\IExtensionHost.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\IExtensionPoint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\NUnitAddinAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

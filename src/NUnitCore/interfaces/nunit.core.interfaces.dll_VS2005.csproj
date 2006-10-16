@@ -35,12 +35,12 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="IAddin.cs" />
-    <Compile Include="IExtensionHost.cs" />
-    <Compile Include="IExtensionPoint.cs" />
+    <Compile Include="Extensibility\IAddin.cs" />
+    <Compile Include="Extensibility\IExtensionHost.cs" />
+    <Compile Include="Extensibility\IExtensionPoint.cs" />
+    <Compile Include="Extensibility\NUnitAddinAttribute.cs" />
     <Compile Include="ITest.cs" />
     <Compile Include="ITestFilter.cs" />
-    <Compile Include="ResultState.cs" />
     <Compile Include="RunState.cs" />
     <Compile Include="TestID.cs" />
     <Compile Include="TestName.cs" />

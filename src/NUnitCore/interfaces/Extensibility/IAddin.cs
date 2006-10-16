@@ -1,6 +1,6 @@
 using System;
 
-namespace NUnit.Core
+namespace NUnit.Core.Extensibility
 {
 	/// <summary>
 	/// Add-ins are used to extend NUnti. All add-ins must

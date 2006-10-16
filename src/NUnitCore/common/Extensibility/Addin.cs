@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace NUnit.Core
+namespace NUnit.Core.Extensibility
 {
 	/// <summary>
 	/// Summary description for Addin.
