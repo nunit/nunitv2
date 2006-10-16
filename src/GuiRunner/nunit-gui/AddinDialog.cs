@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
-using NUnit.Core;
+using NUnit.Core.Extensibility;
 
 namespace NUnit.Gui
 {

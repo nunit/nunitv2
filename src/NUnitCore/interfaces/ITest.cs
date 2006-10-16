@@ -38,8 +38,9 @@ namespace NUnit.Core
 	/// for data-only representations of a test.
 	/// </summary>
 	public interface ITest
-	{
-		/// <summary>
+    {
+        #region Properties
+        /// <summary>
 		/// Gets the completely specified name of the test
 		/// encapsulated in a TestName object.
 		/// </summary>
@@ -96,7 +97,11 @@ namespace NUnit.Core
 		/// Null if this is not a test suite
 		/// </summary>
 		IList Tests { get; }
+        #endregion
 
-	}
+        #region Methods
+        int CountTestCases(ITestFilter filter);
+        #endregion
+    }
 }
 

@@ -18,11 +18,6 @@ namespace NUnit.Core
 			this.IgnoreReason = testCase.IgnoreReason;
 		}
 
-		public override int CountTestCases()
-		{
-			return testCase.CountTestCases();
-		}
-
 		public override int TestCount
 		{
 			get { return testCase.TestCount; }

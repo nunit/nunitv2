@@ -32,6 +32,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Collections;
 using System.Reflection;
+using NUnit.Core.Extensibility;
 
 namespace NUnit.Core
 {

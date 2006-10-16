@@ -116,8 +116,8 @@ namespace NUnit.Core.Tests
 			
 			EventCounter counter = new EventCounter();
 			testSuite.Run(counter);
-			Assert.AreEqual(testSuite.CountTestCases(), counter.testCaseStart);
-			Assert.AreEqual(testSuite.CountTestCases(), counter.testCaseFinished);
+			Assert.AreEqual(testSuite.CountTestCases(TestFilter.Empty), counter.testCaseStart);
+			Assert.AreEqual(testSuite.CountTestCases(TestFilter.Empty), counter.testCaseFinished);
 
 			int suites = SuiteCount(testSuite);
 			Assert.AreEqual(suites, counter.suiteStarted);

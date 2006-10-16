@@ -138,7 +138,7 @@ namespace NUnit.Core
 		{
 			int count = 0;
 
-			if(this.Filter(filter)) 
+			if(filter.Pass(this)) 
 			{
 				foreach(Test test in Tests)
 				{
@@ -281,7 +281,7 @@ namespace NUnit.Core
 		{
             foreach (Test test in ArrayList.Synchronized(Tests))
             {
-                if (test.Filter(filter))
+                if (filter.Pass(test))
                 {
                     RunState saveRunState = test.RunState;
 
@@ -309,7 +309,7 @@ namespace NUnit.Core
         {
             foreach (Test test in ArrayList.Synchronized(tests))
             {
-                if (test.Filter(filter))
+                if (filter.Pass(test))
                     MarkTestNotRun(test, runState, ignoreReason, suiteResult, listener, filter);
             }
         }
@@ -340,7 +340,7 @@ namespace NUnit.Core
             IList tests, TestSuiteResult suiteResult, EventListener listener, ITestFilter filter)
         {
             foreach (Test test in ArrayList.Synchronized(tests))
-                if (test.Filter(filter))
+                if (filter.Pass(test))
                     MarkTestFailed(test, suiteResult, listener, filter);
         }
 

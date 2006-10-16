@@ -201,5 +201,26 @@ namespace NUnit.Core
 			}
 		}
 		#endregion
-	}
+
+        #region Methods
+        public virtual int CountTestCases(ITestFilter filter)
+        {
+            if (filter.IsEmpty)
+                return TestCount;
+
+            if (!isSuite)
+                return filter.Pass(this) ? 1 : 0;
+
+            int count = 0;
+            if (filter.Pass(this))
+            {
+                foreach (ITest test in Tests)
+                {
+                    count += test.CountTestCases(filter);
+                }
+            }
+            return count;
+        }
+        #endregion
+    }
 }

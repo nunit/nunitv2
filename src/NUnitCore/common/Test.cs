@@ -158,7 +158,9 @@ namespace NUnit.Core
 		#endregion
 
 		#region ITest Members
-		public TestName TestName
+
+        #region Properties
+        public TestName TestName
 		{
 			get { return testName; }
 		}
@@ -239,31 +241,14 @@ namespace NUnit.Core
 		{
 			get { return fixture; }
 			set { fixture = value; }
-		}
-		#endregion
+        }
+        #endregion
 
-		#region Virtual Methods and Properties
-		public virtual int CountTestCases()
-		{
-			return CountTestCases( TestFilter.Empty );
-		}
+        #region Methods
+        public abstract int CountTestCases(ITestFilter filter);
+        #endregion
 
-		public virtual bool Filter(ITestFilter filter)
-		{
-			return filter.Pass( this );
-		}
-
-		public virtual TestResult Run( EventListener listener )
-		{
-			return Run( listener, TestFilter.Empty );
-		}
-		#endregion
-
-		#region Abstract Methods and Properties
-		public abstract int CountTestCases(ITestFilter filter);
-		
-		public abstract TestResult Run(EventListener listener, ITestFilter filter);
-		#endregion
+        #endregion
 
 		#region IComparable Members
 		public int CompareTo(object obj)
@@ -276,6 +261,16 @@ namespace NUnit.Core
 			return this.TestName.FullName.CompareTo( other.TestName.FullName );
 		}
 		#endregion
+
+        #region Other Methods
+        public virtual TestResult Run(EventListener listener)
+        {
+            return Run(listener, TestFilter.Empty);
+        }
+
+        public abstract TestResult Run(EventListener listener, ITestFilter filter);
+
+        #endregion
 
         #region MarshalByRefObject Overrides
         public override object InitializeLifetimeService()

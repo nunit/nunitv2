@@ -31,6 +31,7 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Reflection;
+using NUnit.Core.Extensibility;
 
 namespace NUnit.Core.Builders
 {

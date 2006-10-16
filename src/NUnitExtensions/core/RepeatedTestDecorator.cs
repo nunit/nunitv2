@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using NUnit.Core.Extensibility;
 
 namespace NUnit.Core.Extensions
 {
