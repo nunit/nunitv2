@@ -39,8 +39,9 @@
 		
 		<!-- Target locations for NUnit Files -->
 		<Directory Id='INSTALLDIR' Name='NUnit' LongName="NUnit $(var.NominalVersion)"> 
-		  <Directory Id='Assemblies' Name='AF' LongName='Assemblies' /> 
+		  <!-- <Directory Id='Assemblies' Name='AF' LongName='Assemblies' /> -->
 		  <Directory Id='bin' Name='bin' />
+		    <Directory Id='addins' Name='addins' />
 		  <Directory Id='doc' Name='doc'>
 		    <Directory Id='files' />
 			<Directory Id='img' />
@@ -86,6 +87,7 @@
 	<!-- A copy of the assemblies referenced by tests are installed in a
 		 separate folder that is made known to Visual Studio so that
 		 references may be added more easily -->
+	<!--
 	<DirectoryRef Id="Assemblies" FileSource="bin">
 	
 		<Component Id="C__AssemblyFolders" DiskId="1" Guid="F9B1325D-286F-6638-4AD2-AC8F3509BC4F">
@@ -95,6 +97,7 @@
 		</Component>
 			
 	</DirectoryRef>
+	-->
 	
     <!-- Define the NUnit base feature it's contents and reference 
 		 sub-features defined in other files -->
@@ -105,7 +108,7 @@
         <!-- Defined above -->
 		<ComponentRef Id="C__LICENSE" />
         <ComponentRef Id="C__LOGO" />
-		<ComponentRef Id="C__AssemblyFolders" />
+		<!--<ComponentRef Id="C__AssemblyFolders" />-->
 
 		<!-- Defined in bin.wxs -->
 		<ComponentRef Id="C__NUnitBase" />

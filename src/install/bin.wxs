@@ -17,6 +17,8 @@
           <File Id="nunit.util" Name="UTIL.DLL" LongName="nunit.util.dll" />
           <File Id="nunit.core.extensions" Name="CORE_EX.DLL" LongName="nunit.core.extensions.dll" />
           <File Id="nunit.framework.extensions" Name="FRAME_EX.DLL" LongName="nunit.framework.extensions.dll" />
+		  
+		  <RemoveFile Id="RemoveAddins" Directory="addins" Name="*" On="uninstall" />
         </Component>
         
 		<!--<Component Id="NUnitServer" DiskId="1" Guid="Need Guid">
@@ -31,7 +33,7 @@
 				Action="write" Type="string" Value="[ProductVersion]" />
 			<Registry Id="R__Assemblies" Root="HKMU"
 				Key="Software\Microsoft\.NETFramework\AssemblyFolders\NUnit [ProductVersion]" 
-				Action="write" Type="string" Value="[Assemblies]" />
+				Action="write" Type="string" Value="[bin]" />
 			<Registry Id="R__OpenDllWith" Root="HKCR" Key=".dll\OpenWithList\nunit.exe"/>
 			<Registry Id="R__OpenDll_1" Root="HKCR" Key="dllfile\shell\OpenWithNUnit"
 				Action="write" Type="string" Value="Run &amp;Tests" />
