@@ -44,7 +44,7 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit version for packaging -->
-  <property name="package.version" value="2.3.6285"/>
+  <property name="package.version" value="2.3.6290"/>
 
   <!-- Nominal version used for install directory and program
        files menu. Normally the major and minor portions
@@ -380,6 +380,7 @@
         define="${build.defines}">
       <sources basedir="NUnitCore/interfaces">
         <include name="*.cs"/>
+        <include name="Extensibility/*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
     </csc>
@@ -392,7 +393,8 @@
         define="${build.defines}">
       <sources basedir="NUnitCore/common">
         <include name="*.cs"/>
-	  <include name="Filters/*.cs"/>
+        <include name="Filters/*.cs"/>
+        <include name="Extensibility/*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
@@ -409,6 +411,7 @@
       <sources basedir="NUnitCore/core">
         <include name="*.cs"/>
         <include name="Builders/*.cs"/>
+        <include name="Extensibility/*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
@@ -498,6 +501,7 @@
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
+        <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.common.dll"/>
         <include name="nunit.core.dll"/>
       </references>
@@ -513,6 +517,7 @@
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
+        <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.common.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit-test-server.dll"/>
