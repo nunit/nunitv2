@@ -95,11 +95,6 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "AssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "SampleSuiteExtensionTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

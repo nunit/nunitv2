@@ -12,14 +12,15 @@ namespace NUnit.Core.Extensions
 		public SampleFixtureExtension( Type fixtureType ) 
 			: base( fixtureType )
 		{
-			// NOTE: Since we are inheriting from TestFixture we don't 
-			// have to do anything if we don't want to. Our tests will 
-			// be recognized in the normal way by TestFixture, based
-			// on the presence of the Test attribute.
+			// NOTE: Since we are inheriting from NUnitTestFixture we don't 
+			// have to do anything if we don't want to. All the attributes
+			// that are normally used with an NUnitTestFixture will be
+			// recognized.
 			//
 			// Just to have something to do, we override DoOneTimeSetUp and 
 			// DoOneTimeTearDown below to do some special processing before 
 			// and after the normal TestFixtureSetUp and TestFixtureTearDown.
+			// In this example, we simply display a message.
 		}
 
 		protected override void DoOneTimeSetUp(TestResult suiteResult)

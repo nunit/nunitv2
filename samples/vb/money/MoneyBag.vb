@@ -140,7 +140,7 @@ Namespace NUnit.Samples
         Public Overrides Function GetHashCode() As Int32
             Dim hash As Int32 = 0
             For Each m As Money In fmonies
-                hash ^= m.GetHashCode()
+                hash += m.GetHashCode()
             Next
             Return hash
         End Function

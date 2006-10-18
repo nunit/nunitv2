@@ -1,12 +1,12 @@
 using System;
+using NUnit.Core.Extensibility;
 
 namespace NUnit.Core.Extensions
 {
 	/// <summary>
 	/// SampleSuiteExtensionBuilder knows how to build a SampleSuiteExtension
 	/// </summary>
-	[NUnitAddin]
-	public class SampleSuiteExtensionBuilder : ISuiteBuilder, IAddin
+	public class SampleSuiteExtensionBuilder : ISuiteBuilder
 	{	
 		#region ISuiteBuilder Members
 
@@ -30,15 +30,6 @@ namespace NUnit.Core.Extensions
 			return Reflect.HasAttribute( type, "NUnit.Core.Extensions.SampleSuiteExtensionAttribute", false );
 		}
 
-		#endregion
-
-		#region IAddin Members
-		public void Install(object host)
-		{
-			IAddinHost addinHost = host as IAddinHost;
-			if ( addinHost != null )
-				addinHost.Install( this );
-		}
 		#endregion
 	}
 }

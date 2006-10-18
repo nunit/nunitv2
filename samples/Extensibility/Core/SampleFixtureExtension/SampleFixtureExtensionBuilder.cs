@@ -1,13 +1,14 @@
 using System;
 using NUnit.Core.Builders;
+using NUnit.Core.Extensibility;
 
 namespace NUnit.Core.Extensions
 {
 	/// <summary>
-	/// MockFixtureExtensionBuilder knows how to build 
+	/// MockFixtureExtensionBuilder knows how to build
 	/// a MockFixtureExtension.
 	/// </summary>
-	[NUnitAddin]
+	[NUnitAddin(Description="Wraps an NUnitTestFixture with an additional level of SetUp and TearDown")]
 	public class SampleFixtureExtensionBuilder : NUnitTestFixtureBuilder, IAddin
 	{	
 		#region ISuiteBuilder Members
@@ -34,11 +35,14 @@ namespace NUnit.Core.Extensions
 		#endregion
 
 		#region IAddin Members
-		public void Install(object host)
+		public bool Install(IExtensionHost host)
 		{
-			IAddinHost addinHost = host as IAddinHost;
-			if ( addinHost != null )
-				addinHost.Install( this );
+			IExtensionPoint suiteBuilders = host.GetExtensionPoint( "SuiteBuilders" );
+			if ( suiteBuilders == null )
+				return false;
+
+			suiteBuilders.Install( this );
+			return true;
 		}
 		#endregion
 	}
