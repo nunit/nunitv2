@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
+using NUnit.Core;
 using NUnit.Core.Extensibility;
 
 namespace NUnit.Gui
@@ -12,19 +13,19 @@ namespace NUnit.Gui
 	/// </summary>
 	public class AddinDialog : System.Windows.Forms.Form
 	{
-		private IList addins;
+		private Addin[] addins;
 
 		private System.Windows.Forms.TextBox descriptionTextBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.ListView addinListView;
-		private System.Windows.Forms.ColumnHeader AddinNameColumn;
+		private System.Windows.Forms.ColumnHeader addinNameColumn;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
 		private System.ComponentModel.Container components = null;
 
-		public AddinDialog(IList addins)
+		public AddinDialog()
 		{
 			//
 			// Required for Windows Form Designer support
@@ -34,7 +35,6 @@ namespace NUnit.Gui
 			//
 			// TODO: Add any constructor code after InitializeComponent call
 			//
-			this.addins = addins;
 		}
 
 		/// <summary>
@@ -60,7 +60,7 @@ namespace NUnit.Gui
 		private void InitializeComponent()
 		{
 			this.addinListView = new System.Windows.Forms.ListView();
-			this.AddinNameColumn = new System.Windows.Forms.ColumnHeader();
+			this.addinNameColumn = new System.Windows.Forms.ColumnHeader();
 			this.descriptionTextBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
@@ -72,37 +72,37 @@ namespace NUnit.Gui
 				| System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.addinListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-																							this.AddinNameColumn});
+																							this.addinNameColumn});
 			this.addinListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
 			this.addinListView.Location = new System.Drawing.Point(8, 8);
 			this.addinListView.MultiSelect = false;
 			this.addinListView.Name = "addinListView";
-			this.addinListView.Size = new System.Drawing.Size(336, 184);
+			this.addinListView.Size = new System.Drawing.Size(448, 208);
 			this.addinListView.TabIndex = 0;
 			this.addinListView.View = System.Windows.Forms.View.Details;
 			this.addinListView.Resize += new System.EventHandler(this.addinListView_Resize);
 			this.addinListView.SelectedIndexChanged += new System.EventHandler(this.addinListView_SelectedIndexChanged);
 			// 
-			// AddinNameColumn
+			// addinNameColumn
 			// 
-			this.AddinNameColumn.Text = "Add-ins";
-			this.AddinNameColumn.Width = 200;
+			this.addinNameColumn.Text = "Addin";
+			this.addinNameColumn.Width = 200;
 			// 
 			// descriptionTextBox
 			// 
 			this.descriptionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
-			this.descriptionTextBox.Location = new System.Drawing.Point(8, 216);
+			this.descriptionTextBox.Location = new System.Drawing.Point(8, 240);
 			this.descriptionTextBox.Multiline = true;
 			this.descriptionTextBox.Name = "descriptionTextBox";
-			this.descriptionTextBox.Size = new System.Drawing.Size(336, 72);
+			this.descriptionTextBox.Size = new System.Drawing.Size(448, 72);
 			this.descriptionTextBox.TabIndex = 1;
 			this.descriptionTextBox.Text = "";
 			// 
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(8, 200);
+			this.label1.Location = new System.Drawing.Point(8, 224);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(304, 16);
 			this.label1.TabIndex = 2;
@@ -111,7 +111,7 @@ namespace NUnit.Gui
 			// button1
 			// 
 			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.Location = new System.Drawing.Point(256, 296);
+			this.button1.Location = new System.Drawing.Point(368, 320);
 			this.button1.Name = "button1";
 			this.button1.TabIndex = 3;
 			this.button1.Text = "Close";
@@ -120,13 +120,13 @@ namespace NUnit.Gui
 			// AddinDialog
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
-			this.ClientSize = new System.Drawing.Size(352, 328);
+			this.ClientSize = new System.Drawing.Size(464, 352);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.descriptionTextBox);
 			this.Controls.Add(this.addinListView);
 			this.Name = "AddinDialog";
-			this.Text = "NUnit - Installed Add-ins";
+			this.Text = "Registered Addins";
 			this.Load += new System.EventHandler(this.AddinDialog_Load);
 			this.ResumeLayout(false);
 
@@ -135,6 +135,8 @@ namespace NUnit.Gui
 
 		private void AddinDialog_Load(object sender, System.EventArgs e)
 		{
+			this.addins = AddinManager.CurrentManager.Addins;
+
 			foreach( Addin addin in addins )
 			{
 				ListViewItem item = new ListViewItem( addin.Name );
@@ -143,6 +145,8 @@ namespace NUnit.Gui
 
 			if ( addinListView.Items.Count > 0 )
 				addinListView.Items[0].Selected = true;
+
+			AutoSizeFirstColumnOfListView();
 		}
 
 		private void button1_Click(object sender, System.EventArgs e)
@@ -152,13 +156,24 @@ namespace NUnit.Gui
 
 		private void addinListView_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
-			int index = addinListView.SelectedIndices[0];
-			this.descriptionTextBox.Text = ((Addin)addins[index]).Description;
+			if ( addinListView.SelectedIndices.Count > 0 )
+			{
+				int index = addinListView.SelectedIndices[0];
+				this.descriptionTextBox.Text = addins[index].Description;
+			}
 		}
 
 		private void addinListView_Resize(object sender, System.EventArgs e)
 		{
-			addinListView.Columns[0].Width = -2;
+			AutoSizeFirstColumnOfListView();
+		}
+
+		private void AutoSizeFirstColumnOfListView()
+		{
+			int width = addinListView.ClientSize.Width;
+			for( int i = 1; i < addinListView.Columns.Count; i++ )
+				width -= addinListView.Columns[i].Width;
+			addinListView.Columns[0].Width = width;
 		}
 	}
 }

@@ -109,91 +109,91 @@ namespace NUnit.Core
         }
 		#endregion
 
-		#region Properties
+        #region Properties
 
-		public RunState RunState
-		{
-			get { return runState; }
-			set { runState = value; }
-		}
+        public RunState RunState
+        {
+            get { return runState; }
+            set { runState = value; }
+        }
 
-		public ResultState ResultState
-		{
-			get { return resultState; }
-		}
+        public ResultState ResultState
+        {
+            get { return resultState; }
+        }
 
         public FailureSite FailureSite
         {
             get { return failureSite; }
         }
 
-		public bool Executed 
-		{
-			get { return runState == RunState.Executed; }
-		}
+        public bool Executed
+        {
+            get { return runState == RunState.Executed; }
+        }
 
-		public virtual string Name
-		{
-			get{ return name;}
-		}
+        public virtual string Name
+        {
+            get { return name; }
+        }
 
-		public ITest Test
-		{
-			get{ return test;}
-		}
+        public ITest Test
+        {
+            get { return test; }
+        }
 
-		public virtual bool IsSuccess
-		{
-			// TODO: Redefine this more precisely
-			get { return !IsFailure; }
-			//get { return resultState == ResultState.Success; }
-		}
-		
-		// TODO: Distinguish errors from failures
-		public virtual bool IsFailure
-		{
-			get { return resultState == ResultState.Failure || resultState == ResultState.Error; }
-		}
+        public virtual bool IsSuccess
+        {
+            // TODO: Redefine this more precisely
+            get { return !IsFailure; }
+            //get { return resultState == ResultState.Success; }
+        }
 
-		public virtual string Description
-		{
-			get { return description; }
-			set { description = value; }
-		}
+        // TODO: Distinguish errors from failures
+        public virtual bool IsFailure
+        {
+            get { return resultState == ResultState.Failure || resultState == ResultState.Error; }
+        }
 
-		public double Time 
-		{
-			get{ return time; }
-			set{ time = value; }
-		}
+        public virtual string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
 
-		public string Message
-		{
-			get { return messageString; }
-		}
+        public double Time
+        {
+            get { return time; }
+            set { time = value; }
+        }
 
-		public virtual string StackTrace
-		{
-			get 
-			{ 
-				return stackTrace;
-			}
-			set 
-			{
-				stackTrace = value;
-			}
-		}
+        public string Message
+        {
+            get { return messageString; }
+        }
 
-		public int AssertCount
-		{
-			get { return assertCount; }
-			set { assertCount = value; }
-		}
+        public virtual string StackTrace
+        {
+            get
+            {
+                return stackTrace;
+            }
+            set
+            {
+                stackTrace = value;
+            }
+        }
 
-		#endregion
+        public int AssertCount
+        {
+            get { return assertCount; }
+            set { assertCount = value; }
+        }
 
-		#region Public Methods
-		/// <summary>
+        #endregion
+
+        #region Public Methods
+        /// <summary>
 		/// Mark the test as succeeding
 		/// </summary>
 		public void Success() 

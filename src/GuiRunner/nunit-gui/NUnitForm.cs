@@ -1970,7 +1970,7 @@ namespace NUnit.Gui
 
 		private void addinInfoMenuItem_Click(object sender, System.EventArgs e)
 		{
-			AddinDialog dlg = new AddinDialog( AddinManager.CurrentManager.Addins );
+			AddinDialog dlg = new AddinDialog();
 			dlg.ShowDialog();
 		}
 

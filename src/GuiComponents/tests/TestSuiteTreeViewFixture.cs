@@ -169,7 +169,7 @@ namespace NUnit.UiKit.Tests
 			treeView.Load( new TestNode( suite ) );
 			
 			TestSuite fixture = (TestSuite)findTest( "MockTestFixture", suite );		
-			TestSuiteResult result = new TestSuiteResult( fixture, "My test result" );
+			TestSuiteResult result = new TestSuiteResult( new TestInfo( fixture ), "My test result" );
 			treeView.SetTestResult( result );
 
 			TestSuiteTreeNode fixtureNode = FixtureNode( treeView );

@@ -238,22 +238,23 @@ namespace NUnit.ConsoleRunner
 			}
 
 			TestResult result = null;
-			using( new DirectorySwapper() )
-			{
-				try
-				{
-					result = testRunner.Run( collector, catFilter );
-				}
-				finally
-				{
-					outWriter.Flush();
-					errorWriter.Flush();
+			string savedDirectory = Environment.CurrentDirectory;
 
-					if ( options.isOut )
-						outWriter.Close();
-					if ( options.isErr )
-						errorWriter.Close();
-				}
+			try
+			{
+				result = testRunner.Run( collector, catFilter );
+			}
+			finally
+			{
+				outWriter.Flush();
+				errorWriter.Flush();
+
+				if ( options.isOut )
+					outWriter.Close();
+				if ( options.isErr )
+					errorWriter.Close();
+
+				Environment.CurrentDirectory = savedDirectory;
 			}
 
 			Console.WriteLine();

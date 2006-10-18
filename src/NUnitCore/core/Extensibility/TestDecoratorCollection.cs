@@ -40,6 +40,11 @@ namespace NUnit.Core.Extensibility
 			get { return "TestDecorators"; }
 		}
 
+        public IExtensionHost Host
+        {
+            get { return CoreExtensions.Current; }
+        }
+
 		public void Install(object extension)
 		{
 			ITestDecorator decorator = extension as ITestDecorator;

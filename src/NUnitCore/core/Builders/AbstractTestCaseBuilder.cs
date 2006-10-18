@@ -41,7 +41,7 @@ namespace NUnit.Core.Builders
 	/// probably be more useful if the extension is intended
 	/// to work like an NUnit test case. 
 	/// </summary>
-	public abstract class AbstractTestCaseBuilder : ITestCaseBuilder
+	public abstract class AbstractTestCaseBuilder : Extensibility.ITestCaseBuilder
 	{
 		#region Instance Fields
 		protected int runnerID;

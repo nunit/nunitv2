@@ -8,7 +8,7 @@ namespace NUnit.Core
 	/// be ignored. It is currently not used, since the test builders
 	/// take care of the ignore attribute.
 	/// </summary>
-	public class IgnoreDecorator : ITestDecorator
+	public class IgnoreDecorator : Extensibility.ITestDecorator
 	{
 		public IgnoreDecorator( string ignoreAttributeType )
 		{

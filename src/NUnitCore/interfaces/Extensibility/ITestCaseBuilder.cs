@@ -27,41 +27,36 @@
 '***********************************************************************************/
 #endregion
 
-using System;
+using System.Reflection;
 
-namespace NUnit.Core
+namespace NUnit.Core.Extensibility
 {
 	/// <summary>
-	/// Utility class that allows changing the current directory 
-	/// for the duration of some lexical scope and guaranteeing
-	/// that it will be restored upon exit.
-	/// 
-	/// Use it as follows:
-	///    using( new DirectorySwapper( @"X:\New\Path" )
-	///    {
-	///        // Code that operates in the new current directory
-	///    }
-	///    
-	/// Instantiating DirectorySwapper without a path merely
-	/// saves the current directory, but does not change it.
+	/// The ITestCaseBuilder interface is exposed by a class that knows how to
+	/// build a test case from certain methods. 
 	/// </summary>
-	public class DirectorySwapper : IDisposable
+	public interface ITestCaseBuilder
 	{
-		private string savedDirectoryName;
+		/// <summary>
+		/// Examine the method and determine if it is suitable for
+		/// this builder to use in building a TestCase.
+		/// 
+		/// Note that returning false will cause the method to be ignored 
+		/// in loading the tests. If it is desired to load the method
+		/// but label it as non-runnable, ignored, etc., then this
+		/// method must return true.
+		/// 
+		/// Derived classes must override this method.
+		/// </summary>
+		/// <param name="method">The test method to examine</param>
+		/// <returns>True is the builder can use this method</returns>
+		bool CanBuildFrom( MethodInfo method );
 
-		public DirectorySwapper() : this( null ) { }
-
-		public DirectorySwapper( string directoryName )
-		{
-			savedDirectoryName = Environment.CurrentDirectory;
-			
-			if ( directoryName != null && directoryName != string.Empty )
-				Environment.CurrentDirectory = directoryName;
-		}
-
-		public void Dispose()
-		{
-			Environment.CurrentDirectory = savedDirectoryName;
-		}
+		/// <summary>
+		/// Build a TestCase from the provided MethodInfo.
+		/// </summary>
+		/// <param name="method">The method to be used as a test case</param>
+		/// <returns>A TestCase or null</returns>
+		Test BuildFrom( MethodInfo method );
 	}
 }

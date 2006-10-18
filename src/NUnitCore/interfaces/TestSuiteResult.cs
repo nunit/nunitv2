@@ -27,32 +27,46 @@
 '***********************************************************************************/
 #endregion
 
-using System;
-
 namespace NUnit.Core
 {
+	using System;
+	using System.Collections;
+
 	/// <summary>
-	/// All objects which are marshalled by reference
-	/// and whose lifetime is manually controlled by
-	/// the app, should derive from this class rather
-	/// than MarshalByRefObject.
-	/// 
-	/// This includes the remote test domain objects
-	/// which are accessed by the client and those
-	/// client objects which are called back by the
-	/// remote test domain.
-	/// 
-	/// Objects in this category that already inherit
-	/// from some other class (e.g. from TextWriter)
-	/// which in turn inherits from MarshalByRef object 
-	/// should override InitializeLifetimeService to 
-	/// return null to obtain the same effect.
+	///		TestSuiteResult
 	/// </summary>
-	public class LongLivingMarshalByRefObject : MarshalByRefObject
+	/// 
+	[Serializable]
+	public class TestSuiteResult : TestResult
 	{
-		public override Object InitializeLifetimeService()
+		private ArrayList results = new ArrayList();
+		
+		public TestSuiteResult(TestInfo test, string name) 
+			: base(test, name) { }
+
+		// For tests
+		public TestSuiteResult(string testSuiteString) 
+			: base(null, testSuiteString) { }
+
+		public void AddResult(TestResult result) 
 		{
-			return null;
+			results.Add(result);
+
+			if( this.ResultState == ResultState.Success &&
+				result.ResultState != ResultState.Success )
+			{
+				this.Failure( "Child test failed", null, FailureSite.Child );
+			}
+		}
+
+		public IList Results
+		{
+			get { return results; }
+		}
+
+		public override void Accept(ResultVisitor visitor) 
+		{
+			visitor.Visit(this);
 		}
 	}
 }

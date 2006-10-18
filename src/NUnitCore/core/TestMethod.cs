@@ -48,11 +48,6 @@ namespace NUnit.Core
 	{
 		#region Fields
 		/// <summary>
-		/// The Type of the fixture implementing this TestMethod
-		/// </summary>
-//		private Type fixtureType;
-
-		/// <summary>
 		/// The test method
 		/// </summary>
 		private MethodInfo method;
@@ -60,17 +55,12 @@ namespace NUnit.Core
 		/// <summary>
 		/// The SetUp method.
 		/// </summary>
-		private MethodInfo setUpMethod;
+		protected MethodInfo setUpMethod;
 
 		/// <summary>
 		/// The teardown method
 		/// </summary>
-		private MethodInfo tearDownMethod;
-
-		/// <summary>
-		/// The fixture object constructed for this test
-		/// </summary>
-//		private object fixture;
+		protected MethodInfo tearDownMethod;
 
 		/// <summary>
 		/// The type of any expected exception
@@ -98,8 +88,6 @@ namespace NUnit.Core
 			: base( method ) 
 		{
 			this.method = method;
-            this.setUpMethod = NUnitFramework.GetSetUpMethod(this.FixtureType);
-            this.tearDownMethod = NUnitFramework.GetTearDownMethod(this.FixtureType);
 		}
 		#endregion
 

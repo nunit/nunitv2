@@ -365,7 +365,7 @@ namespace NUnit.UiKit
 		}
 
 		/// <summary>
-		/// Test node corresponding to an ITest interface
+		/// Test node corresponding to a test
 		/// </summary>
 		private TestSuiteTreeNode this[ITest test]
 		{

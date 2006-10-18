@@ -14,6 +14,11 @@ namespace NUnit.Core.Extensibility
 		/// </summary>
 		string Name { get; }
 
+        /// <summary>
+        /// Get the host that provides this extension point
+        /// </summary>
+        IExtensionHost Host { get; }
+
 		/// <summary>
 		/// Install an extension at this extension point. If the
 		/// extension object does not meet the requirements for

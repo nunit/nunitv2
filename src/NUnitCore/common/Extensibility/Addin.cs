@@ -31,8 +31,8 @@ namespace NUnit.Core.Extensibility
 			if ( this.name == null )
 				this.name = type.Name;
 
-            ConstructorInfo ctor = type.GetConstructor(Type.EmptyTypes);
-            theAddin = (IAddin)ctor.Invoke(new object[0]);
+//            ConstructorInfo ctor = type.GetConstructor(Type.EmptyTypes);
+//            theAddin = (IAddin)ctor.Invoke(new object[0]);
         }
 
 		public string Name
@@ -48,6 +48,9 @@ namespace NUnit.Core.Extensibility
 		#region IAddin Members
 		public bool Install(IExtensionHost host)
 		{
+			ConstructorInfo ctor = type.GetConstructor(Type.EmptyTypes);
+			theAddin = (IAddin)ctor.Invoke(new object[0]);
+
 			return theAddin.Install(host);
 		}
 		#endregion

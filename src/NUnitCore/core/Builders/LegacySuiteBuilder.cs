@@ -34,7 +34,7 @@ namespace NUnit.Core.Builders
 	/// <summary>
 	/// Built-in SuiteBuilder for LegacySuite
 	/// </summary>
-	public class LegacySuiteBuilder : ISuiteBuilder
+	public class LegacySuiteBuilder : Extensibility.ISuiteBuilder
 	{
 		public bool CanBuildFrom( Type type )
 		{

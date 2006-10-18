@@ -27,31 +27,34 @@
 '***********************************************************************************/
 #endregion
 
-namespace NUnit.Core
+using System;
+
+namespace NUnit.Core.Extensibility
 {
-	using System;
-	using System.Text;
-
 	/// <summary>
-	/// 
+	/// The ISuiteBuilder interface is exposed by a class that knows how to
+	/// build a suite from one or more Types. 
 	/// </summary>
-	//
-	[Serializable]
-	public class TestCaseResult : TestResult
+	public interface ISuiteBuilder
 	{
-		public TestCaseResult(TestInfo testCase)
-			: base(testCase, testCase.TestName.FullName) { }
+		/// <summary>
+		/// Examine the type and determine if it is suitable for
+		/// this builder to use in building a TestSuite.
+        /// 
+        /// Note that returning false will cause the type to be ignored 
+        /// in loading the tests. If it is desired to load the suite
+        /// but label it as non-runnable, ignored, etc., then this
+        /// method must return true.
+        /// </summary>
+		/// <param name="type">The type of the fixture to be used</param>
+		/// <returns>True if the type can be used to build a TestSuite</returns>
+		bool CanBuildFrom( Type type );
 
-		public TestCaseResult(ITest testCase)
-			: this( new TestInfo( testCase ) ){ }
-
-		// For tests
-		public TestCaseResult(string testCaseString) 
-			: base(null, testCaseString) { }
-
-		public override void Accept(ResultVisitor visitor) 
-		{
-			visitor.Visit(this);
-		}
+		/// <summary>
+		/// Build a TestSuite from type provided.
+		/// </summary>
+		/// <param name="type">The type of the fixture to be used</param>
+		/// <returns>A TestSuite</returns>
+		Test BuildFrom( Type type );
 	}
 }

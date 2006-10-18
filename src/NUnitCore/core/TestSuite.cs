@@ -148,9 +148,14 @@ namespace NUnit.Core
 			return count;
 		}
 
+		public override TestResult Run(EventListener listener)
+		{
+			return Run( listener, TestFilter.Empty );
+		}
+
 		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
-			TestSuiteResult suiteResult = new TestSuiteResult( this, TestName.FullName);
+			TestSuiteResult suiteResult = new TestSuiteResult( new TestInfo(this), TestName.FullName);
 
 			listener.SuiteStarted( this.TestName );
 			long startTime = DateTime.Now.Ticks;
@@ -320,7 +325,7 @@ namespace NUnit.Core
             if (test is TestSuite)
             {
                 listener.SuiteStarted(test.TestName);
-                TestSuiteResult result = new TestSuiteResult((TestSuite)test, test.TestName.FullName);
+                TestSuiteResult result = new TestSuiteResult( new TestInfo(test), test.TestName.FullName);
                 result.Ignore(ignoreReason);
                 MarkTestsNotRun(test.Tests, runState, ignoreReason, suiteResult, listener, filter);
                 suiteResult.AddResult(result);
@@ -329,7 +334,7 @@ namespace NUnit.Core
             else
             {
                 listener.TestStarted(test.TestName);
-                TestCaseResult result = new TestCaseResult((TestCase)test);
+                TestCaseResult result = new TestCaseResult( new TestInfo(test) );
                 result.Ignore(ignoreReason);
                 suiteResult.AddResult(result);
                 listener.TestFinished(result);
@@ -350,7 +355,7 @@ namespace NUnit.Core
             if (test is TestSuite)
             {
                 listener.SuiteStarted(test.TestName);
-                TestSuiteResult result = new TestSuiteResult((TestSuite)test, test.TestName.FullName);
+                TestSuiteResult result = new TestSuiteResult( new TestInfo(test), test.TestName.FullName);
                 result.Failure("Parent SetUp Failed", null, FailureSite.Parent);
                 MarkTestsFailed(test.Tests, suiteResult, listener, filter);
                 suiteResult.AddResult(result);
@@ -359,7 +364,7 @@ namespace NUnit.Core
             else
             {
                 listener.TestStarted(test.TestName);
-                TestCaseResult result = new TestCaseResult((TestCase)test);
+                TestCaseResult result = new TestCaseResult( new TestInfo(test) );
                 result.Failure("TestFixtureSetUp Failed", null, FailureSite.Parent);
                 suiteResult.AddResult(result);
                 listener.TestFinished(result);

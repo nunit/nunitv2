@@ -28,8 +28,6 @@
 #endregion
 
 using System;
-using System.Reflection;
-using System.Collections;
 
 namespace NUnit.Core
 {
@@ -39,13 +37,6 @@ namespace NUnit.Core
 	[Serializable]
 	public class TestFramework
 	{
-		#region Static Fields
-		/// <summary>
-		/// List of FrameworkInfo structs for supported frameworks
-		/// </summary>
-		private static Hashtable testFrameworks = new Hashtable();
-		#endregion
-
 		#region Instance Fields
 		/// <summary>
 		/// The name of the framework
@@ -58,45 +49,8 @@ namespace NUnit.Core
 		public string AssemblyName;
 		#endregion
 
-		#region Static Methods
-		/// <summary>
-		/// Register a framework. NUnit registers itself using this method. Add-ins that
-		/// work with or emulate a different framework may register themselves as well.
-		/// </summary>
-		/// <param name="frameworkName">The name of the framework</param>
-		/// <param name="assemblyName">The name of the assembly that framework users reference</param>
-		public static void Register( string frameworkName, string assemblyName )
-		{
-			testFrameworks[frameworkName] = new TestFramework( frameworkName, assemblyName );
-		}
-
-		/// <summary>
-		/// Get a list of known frameworks referenced by an assembly
-		/// </summary>
-		/// <param name="assembly">The assembly to be examined</param>
-		/// <returns>A list of AssemblyNames</returns>
-		public static IList GetReferencedFrameworks( Assembly assembly )
-		{
-			ArrayList referencedAssemblies = new ArrayList();
-
-			foreach( AssemblyName assemblyRef in assembly.GetReferencedAssemblies() )
-			{
-				foreach( TestFramework info in testFrameworks.Values )
-				{
-					if ( assemblyRef.Name == info.AssemblyName )
-					{
-						referencedAssemblies.Add( assemblyRef );
-						break;
-					}
-				}
-			}
-
-			return referencedAssemblies;
-		}
-		#endregion
-
-		#region Private Constructor
-		private TestFramework( string frameworkName, string assemblyName ) 
+		#region Constructor
+		public TestFramework( string frameworkName, string assemblyName ) 
 		{
 			this.Name = frameworkName;
 			this.AssemblyName = assemblyName;

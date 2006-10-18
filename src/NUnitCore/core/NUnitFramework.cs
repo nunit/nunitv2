@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Diagnostics;
+using NUnit.Core.Extensibility;
 
 namespace NUnit.Core
 {

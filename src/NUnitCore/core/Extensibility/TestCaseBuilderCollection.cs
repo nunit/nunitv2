@@ -71,6 +71,11 @@ namespace NUnit.Core.Extensibility
 			get { return "TestCaseBuilders"; }
 		}
 
+        public IExtensionHost Host
+        {
+            get { return CoreExtensions.Current; }
+        }
+
 		public void Install(object extension)
 		{
 			ITestCaseBuilder builder = extension as ITestCaseBuilder;

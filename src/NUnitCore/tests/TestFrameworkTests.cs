@@ -13,7 +13,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void NUnitFrameworkIsKnownAndReferenced()
 		{
-			foreach( AssemblyName assemblyName in TestFramework.GetReferencedFrameworks( Assembly.GetExecutingAssembly() ) )
+			foreach( AssemblyName assemblyName in CoreExtensions.Current.TestFrameworks.GetReferencedFrameworks( Assembly.GetExecutingAssembly() ) )
 				if ( assemblyName.Name == "nunit.framework" ) return;
 			Assert.Fail("Cannot find nunit.framework");
 		}

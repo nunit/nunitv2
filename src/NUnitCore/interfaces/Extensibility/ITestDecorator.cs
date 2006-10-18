@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace NUnit.Core
+namespace NUnit.Core.Extensibility
 {
 	/// <summary>
 	/// The ITestDecorator interface is exposed by a class that knows how to

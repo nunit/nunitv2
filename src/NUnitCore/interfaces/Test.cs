@@ -37,7 +37,7 @@ namespace NUnit.Core
 	/// <summary>
 	///		Test Class.
 	/// </summary>
-	public abstract class Test : MarshalByRefObject, ITest, IComparable
+	public abstract class Test : ITest, IComparable
 	{
 		#region Fields
 		/// <summary>
@@ -127,25 +127,6 @@ namespace NUnit.Core
 			this.testName.FullName = method.ReflectedType.FullName + "." + method.Name;
 		}
 
-//		public TestMethod( MethodInfo method ) : base( method.ReflectedType.FullName, 
-//		method.DeclaringType == method.ReflectedType 
-//									? method.Name : method.DeclaringType.Name + "." + method.Name )
-//	{
-//		this.method = method;
-//		this.fixtureType = method.ReflectedType;
-//	}
-
-//		protected Test( Type fixtureType )
-//		{
-//			this.testName = new TestName();
-//			string name = fixtureType.FullName;
-//			this.testName.FullName = name;
-//			this.TestName.Name = fixtureType.Namespace != null 
-//				? name.Substring( name.LastIndexOf( '.' ) + 1 )
-//				: name;
-//			this.fixtureType = fixtureType;
-//		}
-	
 		public void SetRunnerID( int runnerID, bool recursive )
 		{
 			this.testName.RunnerID = runnerID;
@@ -250,6 +231,12 @@ namespace NUnit.Core
 
         #endregion
 
+		#region Abstract Run Methods
+		public abstract TestResult Run(EventListener listener);
+
+        public abstract TestResult Run(EventListener listener, ITestFilter filter);
+		#endregion
+		
 		#region IComparable Members
 		public int CompareTo(object obj)
 		{
@@ -261,22 +248,5 @@ namespace NUnit.Core
 			return this.TestName.FullName.CompareTo( other.TestName.FullName );
 		}
 		#endregion
-
-        #region Other Methods
-        public virtual TestResult Run(EventListener listener)
-        {
-            return Run(listener, TestFilter.Empty);
-        }
-
-        public abstract TestResult Run(EventListener listener, ITestFilter filter);
-
-        #endregion
-
-        #region MarshalByRefObject Overrides
-        public override object InitializeLifetimeService()
-        {
-            return null;
-        }
-        #endregion
-    }
+	}
 }

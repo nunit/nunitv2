@@ -100,6 +100,13 @@ namespace NUnit.Core
         #endregion
 
         #region Methods
+		/// <summary>
+		/// Count the test cases that pass a filter. The
+		/// result should match those that would execute
+		/// when passing the same filter to Run.
+		/// </summary>
+		/// <param name="filter">The filter to apply</param>
+		/// <returns>The count of test cases</returns>
         int CountTestCases(ITestFilter filter);
         #endregion
     }

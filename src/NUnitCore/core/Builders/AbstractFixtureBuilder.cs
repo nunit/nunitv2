@@ -39,7 +39,7 @@ namespace NUnit.Core.Builders
 	/// implementation of the BuildFrom method as well as a 
 	/// number of useful methods that derived classes may use.
 	/// </summary>
-	public abstract class AbstractFixtureBuilder : ISuiteBuilder
+	public abstract class AbstractFixtureBuilder : Extensibility.ISuiteBuilder
 	{
 		#region Instance Fields
 		/// <summary>

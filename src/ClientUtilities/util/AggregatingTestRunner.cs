@@ -115,7 +115,7 @@ namespace NUnit.Util
 				if ( runners == null )
 					return null;
 				
-				TestSuiteResult suiteResult = new TestSuiteResult( Test, Test.TestName.FullName );
+				TestSuiteResult suiteResult = new TestSuiteResult( loadedTest, Test.TestName.FullName );
 
 				foreach( TestRunner runner in runners )
 					if ( runner.TestResult != null )
@@ -220,7 +220,7 @@ namespace NUnit.Util
 
 		public virtual TestResult EndRun()
 		{
-			TestSuiteResult suiteResult = new TestSuiteResult( Test, Test.TestName.FullName );
+			TestSuiteResult suiteResult = new TestSuiteResult( loadedTest, Test.TestName.FullName );
 			foreach( TestRunner runner in runners )
 				suiteResult.Results.Add( runner.EndRun() );
 

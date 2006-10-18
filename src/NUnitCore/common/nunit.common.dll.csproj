@@ -105,22 +105,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DirectorySwapper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "EventListener.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ProxyTestRunner.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ResultVisitor.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -130,17 +115,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Test.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestAssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestCaseResult.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -150,32 +125,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestFramework.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestNode.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestOutput.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestResult.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -185,12 +135,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestSuiteResult.cs"
+                    RelPath = "Extensibility\Addin.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Extensibility\Addin.cs"
+                    RelPath = "Extensibility\TestFramework.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

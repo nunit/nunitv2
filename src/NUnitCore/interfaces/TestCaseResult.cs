@@ -30,42 +30,21 @@
 namespace NUnit.Core
 {
 	using System;
-	using System.Collections;
+	using System.Text;
 
 	/// <summary>
-	///		TestSuiteResult
-	/// </summary>
 	/// 
+	/// </summary>
+	//
 	[Serializable]
-	public class TestSuiteResult : TestResult
+	public class TestCaseResult : TestResult
 	{
-		private ArrayList results = new ArrayList();
-		
-		public TestSuiteResult(TestInfo test, string name) 
-			: base(test, name) { }
-
-		public TestSuiteResult(ITest suite, string name)
-			: this(new TestInfo(suite), name) { }
+		public TestCaseResult(TestInfo testCase)
+			: base(testCase, testCase.TestName.FullName) { }
 
 		// For tests
-		public TestSuiteResult(string testSuiteString) 
-			: base(null, testSuiteString) { }
-
-		public void AddResult(TestResult result) 
-		{
-			results.Add(result);
-
-			if( this.ResultState == ResultState.Success &&
-				result.ResultState != ResultState.Success )
-			{
-				this.Failure( "Child test failed", null, FailureSite.Child );
-			}
-		}
-
-		public IList Results
-		{
-			get { return results; }
-		}
+		public TestCaseResult(string testCaseString) 
+			: base(null, testCaseString) { }
 
 		public override void Accept(ResultVisitor visitor) 
 		{

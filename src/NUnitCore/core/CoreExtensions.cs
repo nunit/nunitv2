@@ -38,18 +38,41 @@ namespace NUnit.Core
 {
 	public abstract class ExtensionHost : IExtensionHost
 	{
-		protected IExtensionPoint[] extensionPoints;
+		protected FrameworkRegistry frameworks;
 
-		#region IExtendable Interface
+		protected IExtensionPoint[] extensionPts;
+
+		public ExtensionHost()
+		{
+			frameworks = new FrameworkRegistry();
+		}
+
+		#region IExtensionHost Interface
+        public Addin[] Addins
+        {
+            get { return AddinManager.CurrentManager.Addins; }
+        }
+
+        public IExtensionPoint[] ExtensionPoints
+        {
+            get { return extensionPts; }
+        }
+
+		public IFrameworkRegistry FrameworkRegistry
+		{
+			get { return frameworks; }
+		}
+
 		public IExtensionPoint GetExtensionPoint( string name )
 		{
-			foreach ( IExtensionPoint extensionPoint in extensionPoints )
+			foreach ( IExtensionPoint extensionPoint in extensionPts )
 				if ( extensionPoint.Name == name )
 					return extensionPoint;
 
 			return null;
 		}
 		#endregion
+
 	}
 
 	/// <summary>
@@ -87,12 +110,12 @@ namespace NUnit.Core
 
 		#region Constructors
 		public CoreExtensions() 
-		{ 
+		{
 			suiteBuilders = new SuiteBuilderCollection();
 			testBuilders = new TestCaseBuilderCollection();
 			testDecorators = new TestDecoratorCollection();
 
-			extensionPoints = new IExtensionPoint[]
+			extensionPts = new IExtensionPoint[]
 				{ suiteBuilders, testBuilders, testDecorators };
 		}
 
@@ -104,7 +127,7 @@ namespace NUnit.Core
 			this.testBuilders = new TestCaseBuilderCollection( other.testBuilders );
 			this.testDecorators = new TestDecoratorCollection( other.testDecorators );
 
-			extensionPoints = new IExtensionPoint[]
+			extensionPts = new IExtensionPoint[]
 				{ suiteBuilders, testBuilders, testDecorators };
 		}
 		#endregion
@@ -129,6 +152,11 @@ namespace NUnit.Core
 		{
 			get { return testDecorators; }
 		}
+
+		public FrameworkRegistry TestFrameworks
+		{
+			get { return frameworks; }
+		}
 		#endregion
 
 		#region Methods
@@ -149,7 +177,7 @@ namespace NUnit.Core
 		public void InstallBuiltins()
 		{
 			// Define NUnit Framework
-			TestFramework.Register( "NUnit", "nunit.framework" );
+			FrameworkRegistry.Register( "NUnit", "nunit.framework" );
 
 			// Install builtin SuiteBuilders - Note that the
 			// NUnitTestCaseBuilder is installed whenever

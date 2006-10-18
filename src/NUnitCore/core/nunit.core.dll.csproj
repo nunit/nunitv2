@@ -130,6 +130,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DirectorySwapper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "EventListenerTextWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -156,21 +161,6 @@
                 />
                 <File
                     RelPath = "InvalidTestFixtureException.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ISuiteBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ITestCaseBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ITestDecorator.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -374,6 +364,11 @@
                 />
                 <File
                     RelPath = "Builders\TestAssemblyBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\FrameworkRegistry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

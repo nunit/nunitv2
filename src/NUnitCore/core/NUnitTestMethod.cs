@@ -9,7 +9,11 @@ namespace NUnit.Core
 	public class NUnitTestMethod : TestMethod
 	{
 		#region Constructor
-		public NUnitTestMethod(MethodInfo method) : base(method) { }
+		public NUnitTestMethod(MethodInfo method) : base(method) 
+        {
+            this.setUpMethod = NUnitFramework.GetSetUpMethod(this.FixtureType);
+            this.tearDownMethod = NUnitFramework.GetTearDownMethod(this.FixtureType);
+        }
 		#endregion
 
 		#region TestMethod Overrides

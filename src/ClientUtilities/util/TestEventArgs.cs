@@ -206,26 +206,13 @@ namespace NUnit.Util
 
 		public int TestCount 
 		{
-			get 
-			{
-//				int count = 0;
-//				foreach( ITest test in tests )
-//					count += test.TestCount;
-//				return count; 
-
-				return testCount;
-			}
+			get	{ return testCount;	}
 		}
 
 		public TestResult Result
 		{
 			get { return testResult; }
 		}
-
-//		public TestResult[] Results
-//		{
-//			get { return results; }
-//		}
 
 		public Exception Exception
 		{

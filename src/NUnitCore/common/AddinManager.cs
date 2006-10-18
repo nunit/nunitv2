@@ -36,7 +36,20 @@ using NUnit.Core.Extensibility;
 
 namespace NUnit.Core
 {
-	public class AddinManager
+	public interface IAddinManager
+	{
+		Addin[] Addins
+		{
+			get;
+		}
+
+		TestFramework[] Frameworks
+		{
+			get;
+		}
+	}
+
+	public class AddinManager : IAddinManager
 	{
 		#region CurrentAddinManager Singleton
 		private static AddinManager current;
@@ -61,40 +74,14 @@ namespace NUnit.Core
 		#endregion
 
 		#region Instance Properties
-		public IList Addins
+		public Addin[] Addins
 		{
-			get
-			{
-				return addins;
-			}
+			get	{ return (Addin[])addins.ToArray( typeof(Addin) ); }
 		}
 
-		public IList Names
+		public TestFramework[] Frameworks
 		{
-			get
-			{
-				ArrayList names = new ArrayList();
-		
-				foreach( Addin addin in Addins )
-					names.Add( addin.Name );
-
-				return names;
-			}
-		}
-
-		public IList AssemblyQualifiedNames
-		{
-			get
-			{
-				ArrayList names = new ArrayList();
-			
-				foreach( object addin in Addins )
-				{
-					names.Add( addin.GetType().AssemblyQualifiedName );
-				}
-
-				return names;
-			}
+			get { return null; }
 		}
 		#endregion
 
@@ -135,7 +122,7 @@ namespace NUnit.Core
 				TraceListener listener = new DefaultTraceListener();
 				listener.WriteLine( "Extension not loaded: " + path  );
 				listener.WriteLine( ex.ToString() );
-				//throw new ApplicationException( "Extension not loaded: " + file.FullName );
+				//throw new ApplicationException( "Extension not loaded: " + path );
 			}
 		}
 

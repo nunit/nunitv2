@@ -58,9 +58,9 @@ namespace NUnit.Core
 			return Run( listener ); // Ignore filter for now
 		}
 
-		public TestResult Run( EventListener listener )
+		public override TestResult Run( EventListener listener )
 		{
-			TestCaseResult testResult = new TestCaseResult( this );
+			TestCaseResult testResult = new TestCaseResult( new TestInfo(this) );
 
 			listener.TestStarted( this.TestName );
 			long startTime = DateTime.Now.Ticks;

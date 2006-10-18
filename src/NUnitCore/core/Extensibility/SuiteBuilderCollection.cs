@@ -97,6 +97,11 @@ namespace NUnit.Core.Extensibility
 			get { return "SuiteBuilders"; }
 		}
 
+        public IExtensionHost Host
+        {
+            get { return CoreExtensions.Current; }
+        }
+
 		public void Install(object extension)
 		{
 			ISuiteBuilder builder = extension as ISuiteBuilder;

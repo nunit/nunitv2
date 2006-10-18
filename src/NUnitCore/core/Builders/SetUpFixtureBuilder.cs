@@ -34,7 +34,7 @@ namespace NUnit.Core.Builders
 	/// <summary>
 	/// SetUpFixtureBuilder knows how to build a SetUpFixture.
 	/// </summary>
-	public class SetUpFixtureBuilder : ISuiteBuilder
+	public class SetUpFixtureBuilder : Extensibility.ISuiteBuilder
 	{	
 		public SetUpFixtureBuilder()
 		{
