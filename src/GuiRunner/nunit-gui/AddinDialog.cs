@@ -20,6 +20,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.ListView addinListView;
 		private System.Windows.Forms.ColumnHeader addinNameColumn;
+		private System.Windows.Forms.ColumnHeader extensionTypeColumn;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -64,6 +65,7 @@ namespace NUnit.Gui
 			this.descriptionTextBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
+			this.extensionTypeColumn = new System.Windows.Forms.ColumnHeader();
 			this.SuspendLayout();
 			// 
 			// addinListView
@@ -72,8 +74,9 @@ namespace NUnit.Gui
 				| System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.addinListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-																							this.addinNameColumn});
-			this.addinListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+																							this.addinNameColumn,
+																							this.extensionTypeColumn});
+			this.addinListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.addinListView.Location = new System.Drawing.Point(8, 8);
 			this.addinListView.MultiSelect = false;
 			this.addinListView.Name = "addinListView";
@@ -117,6 +120,11 @@ namespace NUnit.Gui
 			this.button1.Text = "Close";
 			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
+			// extensionTypeColumn
+			// 
+			this.extensionTypeColumn.Text = "Type";
+			this.extensionTypeColumn.Width = 100;
+			// 
 			// AddinDialog
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
@@ -139,7 +147,7 @@ namespace NUnit.Gui
 
 			foreach( Addin addin in addins )
 			{
-				ListViewItem item = new ListViewItem( addin.Name );
+				ListViewItem item = new ListViewItem( new string[] { addin.Name, addin.ExtensionType.ToString() } );
 				addinListView.Items.Add( item );
 			}
 

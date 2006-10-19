@@ -56,7 +56,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// Private field used for inclusion by category
 		/// </summary>
-		private bool included;
+		private bool included = true;
 
 		/// <summary>
 		/// Image indices for various test states - the values 

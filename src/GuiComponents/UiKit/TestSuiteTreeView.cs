@@ -444,6 +444,7 @@ namespace NUnit.UiKit
 		#region Context Menu
 		/// <summary>
 		/// Handles right mouse button down by
+		/// 
 		/// remembering the proper context item
 		/// and implements multiple select with the left button.
 		/// </summary>
@@ -454,8 +455,7 @@ namespace NUnit.UiKit
 			{
 				CheckPropertiesDialog();
 				TreeNode theNode = GetNodeAt( e.X, e.Y );
-				if ( theNode != null )
-					contextNode = theNode as TestSuiteTreeNode;
+				contextNode = theNode as TestSuiteTreeNode;
 			}
 			//			else if (e.Button == MouseButtons.Left )
 			//			{
@@ -481,9 +481,10 @@ namespace NUnit.UiKit
 		{
 			this.ContextMenu.MenuItems.Clear();
 
-			if ( contextNode == null )
+			TestSuiteTreeNode targetNode = contextNode != null ? contextNode : (TestSuiteTreeNode)SelectedNode;
+			if ( targetNode == null )
 				return;
-
+	
 			if ( RunCommandSupported )
 			{
 				// TODO: handle in Starting event
@@ -491,14 +492,31 @@ namespace NUnit.UiKit
 					runCommandEnabled = false;
 
 				MenuItem runMenuItem = new MenuItem( "&Run", new EventHandler( runMenuItem_Click ) );
-				runMenuItem.DefaultItem = runMenuItem.Enabled = runCommandEnabled & contextNode.Included;
-			
+				runMenuItem.DefaultItem = runMenuItem.Enabled = runCommandEnabled & targetNode.Included;
+		
 				this.ContextMenu.MenuItems.Add( runMenuItem );
+
+				MenuItem runAllMenuItem = new MenuItem( "Run &All", new EventHandler( runAllMenuItem_Click ) );
+				runAllMenuItem.Enabled = runCommandEnabled;
+
+				this.ContextMenu.MenuItems.Add( runAllMenuItem );
+
+				MenuItem runFailedMenuItem = new MenuItem( "Run &Failed", new EventHandler( runFailedMenuItem_Click ) );
+				runFailedMenuItem.Enabled = runCommandEnabled && loader.TestResult != null && loader.TestResult.IsFailure;
+
+				this.ContextMenu.MenuItems.Add( runFailedMenuItem );
+
+				this.ContextMenu.MenuItems.Add( "-" );
 			}
 
-			if ( contextNode.Nodes.Count > 0 )
+			MenuItem showCheckBoxesMenuItem = new MenuItem( "Show CheckBoxes", new EventHandler( showCheckBoxesMenuItem_Click ) );
+			showCheckBoxesMenuItem.Checked = this.CheckBoxes;
+			this.ContextMenu.MenuItems.Add( showCheckBoxesMenuItem );
+			this.ContextMenu.MenuItems.Add( "-" );
+
+			if ( targetNode.Nodes.Count > 0 )
 			{
-				if ( contextNode.IsExpanded )
+				if ( targetNode.IsExpanded )
 				{
 					MenuItem collapseMenuItem = new MenuItem( 
 						"&Collapse", new EventHandler( collapseMenuItem_Click ) );
@@ -515,13 +533,19 @@ namespace NUnit.UiKit
 				}
 			}
 
-			if ( this.ContextMenu.MenuItems.Count > 0 )
-				this.ContextMenu.MenuItems.Add( "-" );
+			this.ContextMenu.MenuItems.Add( "Expand All", new EventHandler( expandAllMenuItem_Click ) );
+			this.ContextMenu.MenuItems.Add( "Collapse All", new EventHandler( collapseAllMenuItem_Click ) );
+			this.ContextMenu.MenuItems.Add( "-" );
 
 			MenuItem propertiesMenuItem = new MenuItem(
 				"&Properties", new EventHandler( propertiesMenuItem_Click ) );
-			
+		
 			this.ContextMenu.MenuItems.Add( propertiesMenuItem );
+		}
+
+		private void showCheckBoxesMenuItem_Click( object sender, System.EventArgs e)
+		{
+			this.CheckBoxes = !this.CheckBoxes;
 		}
 
 		/// <summary>
@@ -529,7 +553,9 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void expandMenuItem_Click(object sender, System.EventArgs e)
 		{
-			contextNode.Expand();
+			TestSuiteTreeNode targetNode = contextNode != null ? contextNode : (TestSuiteTreeNode)SelectedNode;
+			if ( targetNode != null )
+				targetNode.Expand();
 		}
 
 		/// <summary>
@@ -537,7 +563,27 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void collapseMenuItem_Click(object sender, System.EventArgs e)
 		{
-			contextNode.Collapse();
+			TestSuiteTreeNode targetNode = contextNode != null ? contextNode : (TestSuiteTreeNode)SelectedNode;
+			if ( targetNode != null )
+				targetNode.Collapse();
+		}
+
+		private void expandAllMenuItem_Click(object sender, System.EventArgs e)
+		{
+			this.BeginUpdate();
+			this.ExpandAll();
+			this.EndUpdate();
+		}
+
+		private void collapseAllMenuItem_Click(object sender, System.EventArgs e)
+		{
+			this.BeginUpdate();
+			this.CollapseAll();
+			this.EndUpdate();
+
+			// Compensate for a bug in the underlying control
+			if ( this.Nodes.Count > 0 )
+				this.SelectedNode = this.Nodes[0];	
 		}
 
 		/// <summary>
@@ -551,14 +597,36 @@ namespace NUnit.UiKit
 			{
 				runCommandEnabled = false;
 
-				RunTests( new ITest[] { contextNode.Test }, false );
+				if ( contextNode != null )
+					RunTests( new ITest[] { contextNode.Test }, false );
+				else
+					RunSelectedTests();
+			}
+		}
+
+		private void runAllMenuItem_Click(object sender, System.EventArgs e)
+		{
+			if ( runCommandEnabled )
+			{
+				runCommandEnabled = false;
+				RunAllTests();
+			}
+		}
+
+		private void runFailedMenuItem_Click(object sender, System.EventArgs e)
+		{
+			if ( runCommandEnabled )
+			{
+				runCommandEnabled = false;
+				RunFailedTests();
 			}
 		}
 
 		private void propertiesMenuItem_Click( object sender, System.EventArgs e)
 		{
-			if ( contextNode != null )
-				ShowPropertiesDialog( contextNode );
+			TestSuiteTreeNode targetNode = contextNode != null ? contextNode : (TestSuiteTreeNode)SelectedNode;
+			if ( targetNode != null )
+				ShowPropertiesDialog( targetNode );
 		}
 		#endregion
 
@@ -883,16 +951,19 @@ namespace NUnit.UiKit
 
 		public void RunAllTests()
 		{
+			runCommandEnabled = false;
 			RunTests( new ITest[] { ((TestSuiteTreeNode)Nodes[0]).Test }, true );
 		}
 
 		public void RunSelectedTests()
 		{
+			runCommandEnabled = false;
 			RunTests( SelectedTests, false );
 		}
 
 		public void RunFailedTests()
 		{
+			runCommandEnabled = false;
 			RunTests( FailedTests, true );
 		}
 
@@ -1237,7 +1308,7 @@ namespace NUnit.UiKit
 	internal class FailedTestsFilterVisitor : TestSuiteTreeNodeVisitor
 	{
 		NUnit.Core.Filters.NameFilter filter = new NameFilter();
-		ArrayList tests = null;
+		ArrayList tests = new ArrayList();
 
 		public TestFilter Filter
 		{
