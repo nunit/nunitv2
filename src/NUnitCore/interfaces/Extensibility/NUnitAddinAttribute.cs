@@ -11,5 +11,11 @@ namespace NUnit.Core.Extensibility
 	{
 		public string Name;
 		public string Description;
+		public ExtensionType Type;
+
+		public NUnitAddinAttribute()
+		{
+			this.Type = ExtensionType.Core;
+		}
 	}
 }

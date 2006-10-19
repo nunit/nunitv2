@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="EventListener.cs" />
+    <Compile Include="Extensibility\ExtensionType.cs" />
     <Compile Include="Extensibility\IAddin.cs" />
     <Compile Include="Extensibility\IExtensionHost.cs" />
     <Compile Include="Extensibility\IExtensionPoint.cs" />

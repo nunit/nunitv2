@@ -12,6 +12,7 @@ namespace NUnit.Core.Extensibility
 		private Type type;
 		private string name;
 		private string description;
+		private ExtensionType extensionType;
 
 		[NonSerialized]
 		private IAddin theAddin;
@@ -26,13 +27,14 @@ namespace NUnit.Core.Extensibility
 				NUnitAddinAttribute attr = (NUnitAddinAttribute)attrs[0];
 				this.name = attr.Name;
 				this.description = attr.Description;
+				this.extensionType = attr.Type;
 			}
 
 			if ( this.name == null )
 				this.name = type.Name;
 
-//            ConstructorInfo ctor = type.GetConstructor(Type.EmptyTypes);
-//            theAddin = (IAddin)ctor.Invoke(new object[0]);
+			if ( this.extensionType == 0 )
+				this.extensionType = ExtensionType.Core;
         }
 
 		public string Name
@@ -43,6 +45,11 @@ namespace NUnit.Core.Extensibility
 		public string Description
 		{
 			get { return description; }
+		}
+
+		public ExtensionType ExtensionType
+		{
+			get { return extensionType; }
 		}
 
 		#region IAddin Members

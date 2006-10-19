@@ -36,48 +36,11 @@ using NUnit.Core.Extensibility;
 
 namespace NUnit.Core
 {
-	public abstract class ExtensionHost : IExtensionHost
-	{
-		protected FrameworkRegistry frameworks;
-
-		protected IExtensionPoint[] extensionPts;
-
-		public ExtensionHost()
-		{
-			frameworks = new FrameworkRegistry();
-		}
-
-		#region IExtensionHost Interface
-        public Addin[] Addins
-        {
-            get { return AddinManager.CurrentManager.Addins; }
-        }
-
-        public IExtensionPoint[] ExtensionPoints
-        {
-            get { return extensionPts; }
-        }
-
-		public IFrameworkRegistry FrameworkRegistry
-		{
-			get { return frameworks; }
-		}
-
-		public IExtensionPoint GetExtensionPoint( string name )
-		{
-			foreach ( IExtensionPoint extensionPoint in extensionPts )
-				if ( extensionPoint.Name == name )
-					return extensionPoint;
-
-			return null;
-		}
-		#endregion
-
-	}
-
 	/// <summary>
-	/// The Addins class groups together all addin test suite and
-	/// test case builders for access using the Singleton pattern.
+	/// CoreExtensions is a singleton class that groups together all 
+	/// the extension points that are supported in the test domain.
+	/// It also provides access to the test builders and decorators
+	/// by other parts of the NUnit core.
 	/// </summary>
 	public class CoreExtensions : ExtensionHost
 	{
@@ -106,6 +69,7 @@ namespace NUnit.Core
 		private SuiteBuilderCollection suiteBuilders;
 		private TestCaseBuilderCollection testBuilders;
 		private TestDecoratorCollection testDecorators;
+		private EventListenerCollection listeners;
 		#endregion
 
 		#region Constructors
@@ -115,7 +79,7 @@ namespace NUnit.Core
 			testBuilders = new TestCaseBuilderCollection();
 			testDecorators = new TestDecoratorCollection();
 
-			extensionPts = new IExtensionPoint[]
+			extensions = new IExtensionPoint[]
 				{ suiteBuilders, testBuilders, testDecorators };
 		}
 
@@ -127,7 +91,7 @@ namespace NUnit.Core
 			this.testBuilders = new TestCaseBuilderCollection( other.testBuilders );
 			this.testDecorators = new TestDecoratorCollection( other.testDecorators );
 
-			extensionPts = new IExtensionPoint[]
+			extensions = new IExtensionPoint[]
 				{ suiteBuilders, testBuilders, testDecorators };
 		}
 		#endregion
@@ -191,7 +155,8 @@ namespace NUnit.Core
 		{
 			foreach( Addin addin in AddinManager.CurrentManager.Addins )
 			{
-				addin.Install( this );
+				if ( (addin.ExtensionType & ExtensionType.Core) != 0 )
+					addin.Install( this );
 			}
 		}
 		#endregion
