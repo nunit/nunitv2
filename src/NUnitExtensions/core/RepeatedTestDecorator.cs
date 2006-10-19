@@ -7,7 +7,7 @@ namespace NUnit.Core.Extensions
 	/// <summary>
 	/// Summary description for RepeatedTestDecorator.
 	/// </summary>
-	[NUnitAddin(Description="Recognizes the Repeat attribute and causes the test case to which it is applied to be executed multiple times")]
+	[NUnitAddin(Description="Runs a test case multiple times")]
 	public class RepeatedTestDecorator : ITestDecorator, IAddin
 	{
 		private static readonly string RepeatAttributeType = "NUnit.Framework.Extensions.RepeatAttribute";
