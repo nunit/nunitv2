@@ -70,6 +70,7 @@
     </Compile>
     <Compile Include="CoreExtensions.cs" />
     <Compile Include="DirectorySwapper.cs" />
+    <Compile Include="EventListenerCollection.cs" />
     <Compile Include="EventListenerTextWriter.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -83,6 +84,7 @@
     <Compile Include="Extensibility\SuiteBuilderCollection.cs" />
     <Compile Include="Extensibility\TestCaseBuilderCollection.cs" />
     <Compile Include="Extensibility\TestDecoratorCollection.cs" />
+    <Compile Include="ExtensionHost.cs" />
     <Compile Include="IgnoreDecorator.cs" />
     <Compile Include="InvalidSuiteException.cs">
       <SubType>Code</SubType>

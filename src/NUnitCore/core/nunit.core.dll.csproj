@@ -135,6 +135,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "EventListenerCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "EventListenerTextWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -146,6 +151,11 @@
                 />
                 <File
                     RelPath = "EventQueue.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExtensionHost.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -211,11 +221,6 @@
                 />
                 <File
                     RelPath = "PlatformHelper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ProxyEventListener.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
