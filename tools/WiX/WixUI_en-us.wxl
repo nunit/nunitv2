@@ -1,4 +1,15 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Copyright (c) Microsoft Corporation.  All rights reserved.
+
+    The use and distribution terms for this software are covered by the
+    Common Public License 1.0 (http://opensource.org/licenses/cpl.php)
+    which can be found in the file CPL.TXT at the root of this distribution.
+    By using this software in any fashion, you are agreeing to be bound by
+    the terms of this license.
+
+    You must not remove this notice, or any other, from this software.
+-->
 <WixLocalization>
   <String Id="WixUIBack">&amp;Back</String>
   <String Id="WixUINext">&amp;Next</String>
@@ -67,7 +78,7 @@
   <String Id="FilesInUse_Title">[ProductName] Setup</String>
   <String Id="FilesInUseExit">E&amp;xit</String>
   <String Id="FilesInUseBannerBitmap">WixUI_Bmp_Banner</String>
-  <String Id="FilesInUseText">The following applications are using files that need to be updated by this setup. Close these applications and then click &amp;Retry to continue the installation or Cancel to exit it.</String>
+  <String Id="FilesInUseText">The following applications are using files that need to be updated by this setup. Close these applications and then click &amp;Retry to continue the installation or Exit to exit it.</String>
   <String Id="FilesInUseDescription">Some files that need to be updated are currently in use.</String>
   <String Id="FilesInUseTitle">{\WixUI_Font_Title}Files in Use</String>
 

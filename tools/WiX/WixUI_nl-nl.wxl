@@ -20,7 +20,7 @@
   <String Id="WixUIYes">&amp;Ja</String>
   <String Id="WixUINo">&amp;Nee</String>
   <String Id="WixUIOK">OK</String>
-  <String Id="WixUIPrint">&amp;Skriv ut</String>
+  <String Id="WixUIPrint">&amp;Afdrukken</String>
   
   <String Id="BrowseDlg_Title">[ProductName] Setup</String>
   <String Id="BrowseDlgComboLabel">&amp;Map:</String>
@@ -85,7 +85,7 @@
   <String Id="InstallDirDlg_Title">[ProductName] Setup</String>
   <String Id="InstallDirDlgChange">&amp;Wijzigen...</String>
   <String Id="InstallDirDlgTitle">{\WixUI_Font_Title}Doelmap</String>
-  <String Id="InstallDirDlgDescription">Klik op Volgende om [ProductName] in de standaardmap te installeren of klik op Vorige om een andere map te selecteren.</String>
+  <String Id="InstallDirDlgDescription">Klik op Volgende om [ProductName] in de standaardmap te installeren of klik op Wijzigen om een andere map te selecteren.</String>
   <String Id="InstallDirDlgBannerBitmap">WixUI_Bmp_Banner</String>
   <String Id="InstallDirDlgFolderLabel">[ProductName] in de volgende map installeren:</String>
   
