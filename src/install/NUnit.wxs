@@ -40,11 +40,12 @@
 		<!-- Target locations for NUnit Files -->
 		<Directory Id='INSTALLDIR' Name='NUnit' LongName="NUnit $(var.NominalVersion)"> 
 		  <!-- <Directory Id='Assemblies' Name='AF' LongName='Assemblies' /> -->
-		  <Directory Id='bin' Name='bin' />
+		  <Directory Id='bin' Name='bin'>
 		    <Directory Id='addins' Name='addins' />
+		  </Directory>
 		  <Directory Id='doc' Name='doc'>
-		    <Directory Id='files' />
-			<Directory Id='img' />
+		    <Directory Id='files' Name='files' />
+			<Directory Id='img' Name='img' />
 		  </Directory>
 		  <Directory Id='samples' Name='samples'>
 			<Directory Id='csharp' Name='csharp' />
@@ -74,7 +75,7 @@
 	
       <Component Id="C__LOGO" Guid="99080421-75CC-4DFC-0987-AA16B7E68659">
         <File Id="_LOGO" Name="Logo.ico" Source="Logo.ico" Vital="yes" KeyPath="yes" DiskId="1" />
-		<RemoveFile Id="RF_thumbs.db" Name="thumbs.db" On="uninstall" />
+		<RemoveFile Id="RF_thumbs.db" Name="Thumbs.db" On="uninstall" />
       </Component>
       
       <Component Id="C__LICENSE" Guid="7D03AE6B-15A7-16E0-0D21-D65708B2FA79">
@@ -84,21 +85,6 @@
 	  
 	</DirectoryRef>
       
-	<!-- A copy of the assemblies referenced by tests are installed in a
-		 separate folder that is made known to Visual Studio so that
-		 references may be added more easily -->
-	<!--
-	<DirectoryRef Id="Assemblies" FileSource="bin">
-	
-		<Component Id="C__AssemblyFolders" DiskId="1" Guid="F9B1325D-286F-6638-4AD2-AC8F3509BC4F">
-		    <File Id="nunit.framework.copy" Name="FRAMEWRK.CPY" LongName="nunit.framework.dll" />
-			<File Id="nunit.framework.extensions.copy" Name="FRAME_EX.CPY" 
-			   LongName="nunit.framework.extensions.dll" />
-		</Component>
-			
-	</DirectoryRef>
-	-->
-	
     <!-- Define the NUnit base feature it's contents and reference 
 		 sub-features defined in other files -->
 	<Feature Id="BaseFeature" Level="1" ConfigurableDirectory="INSTALLDIR"
@@ -108,11 +94,13 @@
         <!-- Defined above -->
 		<ComponentRef Id="C__LICENSE" />
         <ComponentRef Id="C__LOGO" />
-		<!--<ComponentRef Id="C__AssemblyFolders" />-->
 
 		<!-- Defined in bin.wxs -->
 		<ComponentRef Id="C__NUnitBase" />
 		<ComponentRef Id="C__NUnitRegistry" />
+		<ComponentRef Id="C__Addins" />
+		
+		<!-- Defined in nunit-gui.wxs -->
 		<FeatureRef Id="GuiFeature" />
 		
 		<!-- Defined in doc.wxs -->

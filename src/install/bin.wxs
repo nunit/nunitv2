@@ -17,8 +17,6 @@
           <File Id="nunit.util" Name="UTIL.DLL" LongName="nunit.util.dll" />
           <File Id="nunit.core.extensions" Name="CORE_EX.DLL" LongName="nunit.core.extensions.dll" />
           <File Id="nunit.framework.extensions" Name="FRAME_EX.DLL" LongName="nunit.framework.extensions.dll" />
-		  
-		  <RemoveFile Id="RemoveAddins" Directory="addins" Name="*" On="uninstall" />
         </Component>
         
 		<!--<Component Id="NUnitServer" DiskId="1" Guid="Need Guid">
@@ -51,6 +49,15 @@
 				Action="write" Type="string" Value='"[INSTALLDIR]\bin\nunit.exe" "%1"' />
 	  </Component>
 				
+	</DirectoryRef>
+	
+	<DirectoryRef Id="addins">
+	
+        <Component Id="C__Addins" DiskId="1" Guid="5DBAEF2B-DF1A-4582-9036-1261B3421EE8">
+		  <CreateFolder />
+		  <RemoveFile Id="RemoveOldAddins" Name="*.*" On="uninstall" />
+		</Component>
+		
 	</DirectoryRef>
 	
   </Fragment>
