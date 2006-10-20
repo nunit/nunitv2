@@ -44,7 +44,7 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit version for packaging -->
-  <property name="package.version" value="2.3.6290"/>
+  <property name="package.version" value="2.3.6293"/>
 
   <!-- Nominal version used for install directory and program
        files menu. Normally the major and minor portions
@@ -89,8 +89,7 @@
 
   <!-- Individual Tool Directories -->
   <property name="wix.dir" 
-    value="D:\WiX\2.0.4415\binaries" />
-    <!--value="${path::combine(project.tools.dir,'WiX')}"/>-->
+    value="${path::combine(project.tools.dir,'WiX')}"/>
   <property name="ncover.dir" 
     value="${path::combine(project.tools.dir,'ncover')}"/>
 
