@@ -118,9 +118,6 @@
     <Compile Include="PlatformHelper.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ProxyEventListener.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="QueuingEventListener.cs">
       <SubType>Code</SubType>
     </Compile>
