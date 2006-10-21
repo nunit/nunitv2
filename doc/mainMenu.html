@@ -32,7 +32,7 @@
 <p>Closes any open project, prompting the user to save it if it has been changed and then opens a
 FileSave dialog to allow selecting the name and location of the new project.</p>
 
-<h4>Open…</h4>
+<h4>Open Project…</h4>
 <p>Closes any open project, prompting the user to save it if it has been changed and then opens a
 FileOpen dialog to allow selecting the name and location of an assembly, a test project or (if
 Visual Studio support is enabled) a Visual Studio project.</p>
@@ -102,11 +102,8 @@ is given the opportunity to save it.</p>
 <h5>Collapse All</h5>
 <p>Collapses all nodes in the tree to the root.</p>
 
-<h5>Expand Fixtures</h5>
-<p>Expands all the tree nodes representing fixtures.</p>
-
-<h5>Collapse Fixtures</h5>
-<p>Collapses all the tree nodes representing fixtures.</p>
+<h5>Hide Tests</h5>
+<p>Collapses all fixture nodes, hiding the test cases.</p>
 
 <h5>Properties…</h5>
 <p>Displays the Properties Dialog for the currently selected test.</p>
@@ -128,6 +125,9 @@ is given the opportunity to save it.</p>
 <h5>Restore</h5>
 <p>Restores the default font.</p>
 </blockquote>
+
+<h4>Assembly Details...</h4>
+<p>Displays information about loaded test assemblies.</p>
 
 <h4>Status Bar</h4>
 <p>Displays or hides the status bar.</p>
@@ -165,21 +165,17 @@ project if necessary.</p>
 <hr><h3>Test Menu</h3><hr>
 
 <h4>Run Selected</h4>
-
 <p>Runs the test or tests that are selected in the tree. If checkboxes are visible,
 any checked tests are run by preference. This is the same function provided by
 the Run button.</p>
 
 <h4>Run All</h4>
-
 <p>Runs all the tests.</p>
 
 <h4>Run Failed</h4>
-
 <p>Runs only the tests that failed on the previous run.</p>
 
 <h4>Stop Run</h4>
-
 <p>Stops the test run. This is the same function provided by the Stop button.</p>
 
 <hr><h3>Tools Menu</h3><hr>
@@ -193,11 +189,8 @@ the Run button.</p>
 <h4>Options...</h4>
 <p>Displays the <a href="optionsDialog.html">Options Dialog</a>.</p>
 
-<h4>Loaded Test Frameworks...</h4>
-<p>Shows a list of the test frameworks that are currently in use by tests.</p>
-
-<h4>Loaded Addins...</h4>
-<p>Shows a list of loaded core extensions.</p>
+<h4>Addins...</h4>
+<p>Displays the <a href="addinsDialog.html">Addins Dialog</a>.</p>
 
 <hr><h3>Help Menu</h3><hr>
 
@@ -212,11 +205,11 @@ the Run button.</p>
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4 Beta 1 Release</a></li>
+<li><a href="index.html">NUnit 2.4 Beta 2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
-<li><a href="features.html">Features</a></li>
+<li><a href="features.html">Core&nbsp;Features</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <ul>
@@ -224,6 +217,7 @@ the Run button.</p>
 <li id="current"><a href="mainMenu.html">Main&nbsp;Menu</a></li>
 <li><a href="contextMenu.html">Context&nbsp;Menu</a></li>
 <li><a href="optionsDialog.html">Options&nbsp;Dialog</a></li>
+<li><a href="addinsDialog.html">Addins&nbsp;Dialog</a></li>
 <li><a href="testProperties.html">Test&nbsp;Properties</a></li>
 <li><a href="configEditor.html">Configuration&nbsp;Editor</a></li>
 <li><a href="projectEditor.html">Project&nbsp;Editor</a></li>
@@ -239,7 +233,7 @@ the Run button.</p>
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2002-2005. All Rights Reserved.
+  Copyright &copy; 2006 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

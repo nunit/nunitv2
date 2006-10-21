@@ -26,22 +26,23 @@
 
 <h2>Installation</h2>
 <p>By default the <b>NUnit</b> installation program places all of the files into the 
-	<b>C:\Program&nbsp;Files\NUnit&nbsp;2.4</b> directory. The installation for
-	<b>NUnit for .Net 2.0</b> uses the 
-	<b>C:\Program&nbsp;Files\NUnit&nbsp;2.4&nbsp;for&nbsp;.Net&nbsp;2.0</b> directory. 
-	In the installation directory 
+	<b>C:\Program&nbsp;Files\NUnit&nbsp;2.4</b> directory. In the installation directory 
 	there are three sub-directories: bin, doc, and samples. Source code is no
-      longer provided with the standard installation package but must be downloaded
-      separately if needed.</p>
+      longer provided with the binary installation package. Download the source
+	  package if source is needed.
+<h3>Running NUnit</h3>
+<p>The installation program places a number of items in the Start menu. There are
+	a number of shortcuts, which run the NUnit GUI under various versions of .NET
+	or under Mono, depending on the versions available on your system at the time
+	of installation.</p>
 <h3>Configuration</h3>
-<p>If multiple versions of the .NET framework are installed, the configuration 
-	files nunit.exe.config and nunit-console.exe.config control which one of 
-	them is selected when running the gui and console runner respectively. As 
-	originally installed, that order is .NET 1.1, .NET 2.0 and .NET 1.0. To change 
-	which version is used, simply change the order of the
-	<supportedRuntime>
-	elements in the config files. The nunit About Box shows the framework 
-	version currently being used.</p>
+<p>When running NUnit from the command line or through the desktop shortcut, the
+	configuration files files nunit.exe.config and nunit-console.exe.config control 
+	which version of the CLR is used. As installed, the <startup> section of the
+	config file is commented out and may be left that way unless problems arise.
+	If uncommented, the order of precedence is .NET 2.0, .NET 1.1 and .NET 1.0. 
+	To change which version is used, simply change the order of the elements
+	in the config files. The nunit About Box shows the version currently being used.</p>
 <p>Settings that you place in these files are not available to your tests or to the 
 	production code you are testing. A separate config file is used when running 
 	tests. If you are running tests from the test.dll assembly, the config file 
@@ -54,12 +55,6 @@
 	allows you to control the apartment state and priority of the thread that NUnit 
 	uses to run your tests. Other settings may be added in the future. See the file 
 	nunit.tests.dll for an example.</p>
-<h3>Start Menu</h3>
-<p>The installation program places a number of items in the Start menu. There is a 
-	shortcut to the nunit executable. (There is also a shortcut placed directly 
-	on the desktop). In addition to the executable file, the menu items under 
-	Samples bring up the folder for the particular sample. The source shortcut 
-	brings up the folder which contains the source for the project.</p>
 <h3>Installation Verification</h3>
 Verify that the installation has worked successfully by running the NUnit gui and
 loading and running NUnitTests.nunit in the bin directory. All tests should pass.
@@ -90,6 +85,7 @@ loading and running NUnitTests.nunit in the bin directory. All tests should pass
 				<li>nunit.framework.extensions.dll</li>
 				<li>nunit.common.dll</li>
 				<li>nunit.core.dll</li>
+				<li>nunit.core.interfaces.dll</li>
 				<li>nunit.core.extensions.dll</li>
 				<li>nunit.mocks.dll</li>
 				<li>nunit.uikit.dll</li>
@@ -140,14 +136,14 @@ loading and running NUnitTests.nunit in the bin directory. All tests should pass
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4 Beta 1 Release</a></li>
+<li><a href="index.html">NUnit 2.4 Beta 2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li id="current"><a href="installation.html">Installation</a></li>
 <ul>
 <li><a href="upgrade.html">Upgrading</a></li>
 </ul>
-<li><a href="features.html">Features</a></li>
+<li><a href="features.html">Core&nbsp;Features</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
@@ -161,7 +157,7 @@ loading and running NUnitTests.nunit in the bin directory. All tests should pass
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2002-2005. All Rights Reserved.
+  Copyright &copy; 2006 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

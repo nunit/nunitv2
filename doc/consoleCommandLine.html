@@ -32,8 +32,10 @@
 	directory.</p>
 <p><b>Note:</b> By default the nunit-console program is not added to your path. You 
 	must do this manually if this is the desired behavior.</p>
-<p><b>Note:</b> Options that take values may use an equal sign, a colon or a space 
-	to separate the option from its value.</p>
+<p><b>Note:</b> Under the Windows operating system, options may be prefixed by either
+    a forward slash or a hyphen. Under Linux, a hyphen must be used. Options that
+	take values may use an equal sign, a colon or a space to separate the option 
+	from its value.</p>
 <h4>Specifying an Assembly</h4>
 The console program must always have an assembly or project specified. To run 
 the tests contained in the nunit.tests.dll use the following command:
@@ -98,7 +100,7 @@ to be used when running a command.</p>
 <p>
 Multiple categories may be specified on either option, by using commas to 
 separate them.
-<p><b>Note:</b> Beginning with NUnit 2.4, the /include and /exclude> options may
+<p><b>Note:</b> Beginning with NUnit 2.4, the /include and /exclude options may
    be combined on the command line. When both are used, all tests with the included 
    categories are run except for those with the excluded categories.</p>
    
@@ -190,11 +192,11 @@ separate them.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4 Beta 1 Release</a></li>
+<li><a href="index.html">NUnit 2.4 Beta 2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
-<li><a href="features.html">Features</a></li>
+<li><a href="features.html">Core&nbsp;Features</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <ul>
 <li id="current"><a href="consoleCommandLine.html">Command-Line</a></li>
@@ -211,7 +213,7 @@ separate them.
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2002-2005. All Rights Reserved.
+  Copyright &copy; 2006 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

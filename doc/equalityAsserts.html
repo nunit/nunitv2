@@ -126,26 +126,25 @@ as equal. Special values are handled so that the following Asserts succeed:</p>
       because the new behavior seems to be more useful in tests. To avoid confusion,
       we suggest using the new Assert.IsNaN method where appropriate.</i></blockquote>
 
-<h4>Comparing Arrays</h4>
+<h4>Comparing Arrays and Collections</h4>
 
-<p>Starting with version 2.2, special provision has been made for comparing single-dimensioned
-	arrays. Two arrays will be treated as equal by Assert.AreEqual if they are the same 
-	length and each of the corresponding elements is equal.</p>
+<p>Since version 2.2, NUnit has been able to compare two single-dimensioned arrays.
+    Beginning with version 2.4, multi-dimensioned arrays, nested arrays (arrays of arrays)
+	and collections may be compared. Two arrays or collections will be treated as equal 
+	by Assert.AreEqual if they have the same dimensions and if each of the corresponding 
+	elements is equal.</p>
 	
-<blockquote><i><b>Note:</b> Multi-dimensioned arrays, nested arrays (arrays of arrays) 
-	and other collection types such as ArrayList are not currently supported.</i></blockquote>
-
 </div>
 </div>
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4 Beta 1 Release</a></li>
+<li><a href="index.html">NUnit 2.4 Beta 2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
-<li><a href="features.html">Features</a></li>
+<li><a href="features.html">Core&nbsp;Features</a></li>
 <ul>
 <li><a href="assertions.html">Assertions</a></li>
 <ul>
@@ -163,6 +162,7 @@ as equal. Special values are handled so that the following Asserts succeed:</p>
 <li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
 <li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
 <li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
+<li><a href="extensibility.html">Extensibility</a></li>
 </ul>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
@@ -177,7 +177,7 @@ as equal. Special values are handled so that the following Asserts succeed:</p>
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2002-2005. All Rights Reserved.
+  Copyright &copy; 2006 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

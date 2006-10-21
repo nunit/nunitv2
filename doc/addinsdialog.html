@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - Nunit-gui</title>
+<title>NUnit - AddinsDialog</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -24,38 +24,14 @@
 
 <div id="content">
 
-<h2>NUnit Gui Runner</h2>
-<p>The nunit.exe program is a graphical runner. It shows the tests in an 
-	explorer-like browser window and provides a visual indication of the success or 
-	failure of the tests. It allows you to selectively run single tests or suites 
-	and reloads automatically as you modify and re-compile your code. The following 
-	is a screenshot of NUnit running the same mock-assembly.dll shown in the 
-	previous example.</p>
+<h2>Addins Dialog</h2>
+
+<p>The Addins Dialog is displayed using the Tools | Addins menu item on the main
+menu. It lists all addins that have been found and loaded by NUnit.</p>
 
 <div class="screenshot">
-     <img src="img/gui-screenshot.jpg"></div>
+   <img src="img/addinsDialog.jpg"></div>
 
-<p>This version of NUnit uses symbols in the test tree, which allow those who 
-   are unable to easily distinguish colors to determine the test status.
-   Successful tests are colored green, with a check mark. Tests that are ignored 
-   are marked with a yellow circle, containing a question mark. If any
-   tests had failed, they would be marked red, with an X symbol.</p>
-
-<p>In this example, there were a total of 11 test cases, but one of them was not 
-   counted because it was marked Explicit. Note that it is shown as a gray
-   circle in the tree. Of the remaining 10 tests, 5 were run successfully and
-   5 were ignored.</p>
-   
-<p>The symbols shown in the tree are actually files in the NUnit bin directory.
-   These files are named Success.jpg, Failure.jpg and Ignored.jpg and may be
-   modified or replaced by the user.</p>
-   
-<p>With the release of NUnit 2.4, an alternate "mini-gui" is also available. It 
-   may be selected from the View menu. The following screenshot shows the mini
-   gui displaying the NUnit tests.</p>
-   
-<div class="screenshot">
-     <img src="img/miniGui.jpg"></div>
 </div>
 
 <!-- Submenu -->
@@ -67,13 +43,13 @@
 <li><a href="installation.html">Installation</a></li>
 <li><a href="features.html">Core&nbsp;Features</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
-<li id="current"><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
+<li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <ul>
 <li><a href="guiCommandLine.html">Command-Line</a></li>
 <li><a href="mainMenu.html">Main&nbsp;Menu</a></li>
 <li><a href="contextMenu.html">Context&nbsp;Menu</a></li>
 <li><a href="optionsDialog.html">Options&nbsp;Dialog</a></li>
-<li><a href="addinsDialog.html">Addins&nbsp;Dialog</a></li>
+<li id="current"><a href="addinsDialog.html">Addins&nbsp;Dialog</a></li>
 <li><a href="testProperties.html">Test&nbsp;Properties</a></li>
 <li><a href="configEditor.html">Configuration&nbsp;Editor</a></li>
 <li><a href="projectEditor.html">Project&nbsp;Editor</a></li>

@@ -31,14 +31,14 @@ control some aspects of NUnit’s operation.</p>
 
 <hr><h3>Display Tab</h3><hr>
 
-<div class="screenshot-right">
-   <img src="img/displayTab.jpg"></div>
-
 <h3>Recent Files</h3>
 
 <p>The text box allows the user to choose the number of entries to display in the recent files list.
 If <b>Load most recent project at startup</b> is checked, the GUI will load the last file opened unless it
 is run with a specific filename or with the <code>/noload</code> parameter.</p>
+
+<div class="screenshot-right">
+   <img src="img/displayTab.jpg"></div>
 
 <h3>Tree View</h3>
 
@@ -62,10 +62,12 @@ not seem to have changed will be retained.</p>
 Errors and Failures display and the stack trace. Clear it if you prefer not
 to see the tip window.</p>
 
-<hr><h3>Tests Tab</h3><hr>
+<p>Check <b>Enable Word Wrap in Error Display</b> to turn on word wrapping
+in the Errors and Failures display. While you can select this item and the
+preceding one at the same time, they do not interact well, so you will 
+normally choose one or the other.</p>
 
-<div class="screenshot-right">
-   <img src="img/testsTab.jpg"></div>
+<hr><h3>Tests Tab</h3><hr>
 
 <h3>Test Structure</h3>
 
@@ -75,6 +77,9 @@ to see the tip window.</p>
 
 <p>If <b>Flat list of TestFixtures</b> is selected, tests will be
    shown as a sequential list of fixtures.
+
+<div class="screenshot-right">
+   <img src="img/testsTab.jpg"></div>
 
 <h3>Multiple Assemblies</h3>
 
@@ -111,11 +116,11 @@ and solutions and add Visual Studio projects to existing test projects.</p>
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4 Beta 1 Release</a></li>
+<li><a href="index.html">NUnit 2.4 Beta 2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
-<li><a href="features.html">Features</a></li>
+<li><a href="features.html">Core&nbsp;Features</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <ul>
@@ -123,6 +128,7 @@ and solutions and add Visual Studio projects to existing test projects.</p>
 <li><a href="mainMenu.html">Main&nbsp;Menu</a></li>
 <li><a href="contextMenu.html">Context&nbsp;Menu</a></li>
 <li id="current"><a href="optionsDialog.html">Options&nbsp;Dialog</a></li>
+<li><a href="addinsDialog.html">Addins&nbsp;Dialog</a></li>
 <li><a href="testProperties.html">Test&nbsp;Properties</a></li>
 <li><a href="configEditor.html">Configuration&nbsp;Editor</a></li>
 <li><a href="projectEditor.html">Project&nbsp;Editor</a></li>
@@ -138,7 +144,7 @@ and solutions and add Visual Studio projects to existing test projects.</p>
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2002-2005. All Rights Reserved.
+  Copyright &copy; 2006 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

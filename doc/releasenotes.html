@@ -32,6 +32,90 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
+<h3>NUnit 2.4 Beta 2 Release (2.3.6293) - October 20, 2006</h3>
+
+<h4>General</h4>
+<ul>
+<li>A new assembly, <b>nunit.core.interfaces</b>, is being introduced in this release.
+This assembly holds interfaces, enumerations and data types that are intended 
+for external use - for example, by client code that executes NUnit tests. Our
+intent is to hold the version number of this assembly constant through all 
+NUnit 2.4 maintenance releases and to avoid any breaking changes in this code.
+
+<li>The Windows installer is now built using WiX. With the removal of
+the Visual Studio deployment project from the VS2005 solution, it is
+now possible to build NUnit completely using C# Express.
+</ul>
+
+<h4>Framework</h4>
+<ul>
+<li>The AreEqual and AreNotEqual asserts have been enhanced to work with
+multi-dimensional arrays and jagged arrays.
+
+<li>The error message for AreEqual with doubles and floats now includes
+the tolerance that was used in the comparison.
+
+<li>The handling of categories was not being done correctly. This is now fixed.
+   
+</ul>
+
+<h4>Console</h4>
+<ul>
+<li>The '/' character is no longer accepted for command-line options under Linux.
+    Any argument beginning with '/' is taken as a path.
+	
+<li>Fixed bug causing the /include and /exclude parameters to be ignored.
+</ul>
+
+<h4>Gui</h4>
+<ul>
+<li>Added a dialog to the Tools menu for displaying installed NUnit add-ins.
+
+<li>Modified the Tree submenu of the View menu to simplify choices for 
+expanding and collapsing the tree.
+
+<li>Added an entry to the View menu for displaying info about loaded test assemblies.
+
+<li>Added Run All, Run Failed, Show CheckBoxes, Expand All and Collapse All
+items to the tree context menu.
+
+<li>When right-clicking in the tree below the lowest node, the context menu commands 
+now relate to the currently selected node or nodes rather than the last node the 
+user right-clicked on.
+
+<li>The '/' character is no longer accepted for command-line options under Linux.
+    Any argument beginning with '/' is taken as a path.
+	
+<li>The category list is now cleared when a project is closed.
+
+<li>The "Word Wrap" checkbox has been removed. The setting is now available on
+    the Options Dialog.
+	
+<li>Automatic rerun of tests on change now works correctly.
+</ul>
+
+<h4>Extensibility</h4>
+<ul>
+<li>The extensibility mechanism has been generalized to allow a wider range
+of future extension points. The following new attributes and interfaces
+are used:
+	<dl style="margin-left: 2em">
+		<dt>NUnitAddinAttribute
+		<dd>Used to mark all addins and optionally specify Type, Name and Description
+		<dt>ExtensionType
+		<dd>Indicates whether the addin provides Core, Client or Gui extensions.
+		<dt>IAddin
+		<dd>Interface implemented by all addins, which allows the addin to install itself.
+		<dt>IExtensionHost
+		<dd>Interface supported by each NUnit extension host. Each host provides a number of extension points.
+		This release provides only the Core extension host. Future releases will provide Client and Gui hosts.
+		<dt>IExtensionPoint
+		<dd>Interface supported by an extension point, allowing an addin to install and remove the extensions it provides.
+		<dt>IFrameworkRegistry
+		<dd>Interface allowing addins that support external test frameworks to register them with NUnit.
+	</dl>
+</ul>
+
 <h3>NUnit 2.4 Beta 1 Release (2.3.6162) - June 11, 2006</h3>
 
 <h4>General</h4>
@@ -320,11 +404,11 @@ Cumulative notes through NUnit 2.2 are available <a href="docs/2.2.8/releaseNote
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4 Beta 1 Release</a></li>
+<li><a href="index.html">NUnit 2.4 Beta 2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
-<li><a href="features.html">Features</a></li>
+<li><a href="features.html">Core&nbsp;Features</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <li id="current"><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
@@ -338,7 +422,7 @@ Cumulative notes through NUnit 2.2 are available <a href="docs/2.2.8/releaseNote
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2002-2005. All Rights Reserved.
+  Copyright &copy; 2006 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

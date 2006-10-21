@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - Features</title>
+<title>NUnit - Extensibility</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -24,23 +24,21 @@
 
 <div id="content">
 
-<h2>NUnit Core Features</h2>
+<h2>NUnit Extensibility</h2>
 
-<p>In order to test an application under NUnit, you write test code that is
-specially annotated using custom <a href="attributes.html">Attributes</a>.
-Your test code contains <a href="assertions.html">Assertions</a>, which
-demonstrate the correct working of the application.</p>
+<p>NUnit is designed to be extended in a number of ways.</p>
 
-<p>If your application stores settings in <a href="configFiles.html">Configuration Files</a>,
-NUnit provides you with the ability to have settings for your test, which are different
-from those uesed in production.</p>
+<p>Extensions to the NUnit framework - the part of NUnit that is referenced
+by tests - usually take the form of 
+<a href="customAsserts.html">Custom Asserts</a>, written by users to 
+encapsulate tests that pertain to their specific projects.</p>
 
-<p>In addition to running tests in a single assembly, NUnit provides support for tests
-organized as <a href="multiAssembly.html">Multiple Assemblies</a> and for
-creating and running tests as <a href="multiAssembly.html">NUnit Test Projects</a>.
-
-<p>For those using NUnit on a Windows system with Visual Studio installed, 
-<a href="vsSupport.html">Visual Studio Support</a> is available.
+<p>Extending the features found within NUnit itself depends on the use of
+<a href="nunitAddins.html">NUnit Addins</a>. 
+Currently, The Addin mechanism only supports extensions to the NUnit core -
+the part of NUnit that builds and executes test suites. However, the API that
+is used provides for the future ability to extend the client side of NUnit, 
+including the GUI.</p>
 
 </div>
 
@@ -51,14 +49,18 @@ creating and running tests as <a href="multiAssembly.html">NUnit Test Projects</
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>
-<li id="current"><a href="features.html">Core&nbsp;Features</a></li>
+<li><a href="features.html">Core&nbsp;Features</a></li>
 <ul>
 <li><a href="assertions.html">Assertions</a></li>
 <li><a href="attributes.html">Attributes</a></li>
 <li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
 <li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
 <li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
-<li><a href="extensibility.html">Extensibility</a></li>
+<li id="current"><a href="extensibility.html">Extensibility</a></li>
+<ul>
+<li><a href="customAsserts.html">Custom&nbsp;Asserts</a></li>
+<li><a href="nunitAddins.html">NUnit&nbsp;Addins</a></li>
+</ul>
 </ul>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
