@@ -181,15 +181,9 @@
     <mkdir dir="${package.doc.dir}"/>
     <copy todir="${package.doc.dir}">
       <fileset basedir="${project.doc.dir}">
-        <include name="ReleaseNotes.txt"/>
-        <include name="ChangeLog.txt"/>
-        <include name="Installation.txt"/>
-        <include name="TestConfig.txt"/>
-        <include name="Extensibility.txt"/>
         <include name="*.html"/>
 	<include name="nunit.css"/>
 	<include name="files/*"/>
-	<exclude name="files/Supplement.doc"/>
 	<include name="img/*"/>
         <exclude name="img/thumbs.db"/>
       </fileset>
