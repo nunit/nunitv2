@@ -296,7 +296,7 @@ namespace NUnit.Framework
 		#region IsEmpty
 
 		/// <summary>
-		/// Assert that a string is empty - that is equal to string.Emtpy
+		/// Assert that a string is empty - that is equal to string.Empty
 		/// </summary>
 		/// <param name="aString">The string to be tested</param>
 		/// <param name="message">The message to be displayed on failure</param>
@@ -358,7 +358,7 @@ namespace NUnit.Framework
 
 		#region IsNotEmpty
 		/// <summary>
-		/// Assert that a string is empty - that is equal to string.Emtpy
+		/// Assert that a string is not empty - that is not equal to string.Empty
 		/// </summary>
 		/// <param name="aString">The string to be tested</param>
 		/// <param name="message">The message to be displayed on failure</param>
