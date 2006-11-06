@@ -162,10 +162,13 @@ namespace NUnit.Core
                 {
 					case TestFixtureAttribute:
 					case TestAttribute:
-					case DescriptionAttribute:
-						test.Description = GetDescription(attribute);
+						if ( test.Description == null )
+							test.Description = GetDescription( attribute );
 						break;
-                    case ExplicitAttribute:
+					case DescriptionAttribute:
+						test.Description = GetDescription( attribute );
+						break;
+					case ExplicitAttribute:
                         test.RunState = RunState.Explicit;
                         test.IgnoreReason = GetIgnoreReason(attribute);
                         break;
