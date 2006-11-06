@@ -269,7 +269,8 @@ namespace NUnit.Util
 			}
 
 			setup.ApplicationBase = appBase;
-			setup.ConfigurationFile =  configFile;
+			// Note: Mono needs full path to config file...
+			setup.ConfigurationFile =  Path.Combine( appBase, configFile );
 			setup.PrivateBinPath = binPath;
 
 			AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
