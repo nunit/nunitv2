@@ -11,17 +11,15 @@ namespace NUnit.Core.Extensions
 	[NUnitAddin(Description="Wraps an NUnitTestFixture with an additional level of SetUp and TearDown")]
 	public class SampleFixtureExtensionBuilder : NUnitTestFixtureBuilder, IAddin
 	{	
-		#region ISuiteBuilder Members
-
-		// This builder delegates all the work to the constructor of the  
-		// extension suite. Many builders will need to do more work, 
-		// looking for other attributes, setting properties on the 
-		// suite and locating methods for tests, setup and teardown.
-		public override Test BuildFrom(Type type)
+		#region NUnitTestFixtureBuilder Overrides
+		/// <summary>
+		/// Makes a SampleFixtureExtension instance
+		/// </summary>
+		/// <param name="type">The type to be used</param>
+		/// <returns>A SampleFixtueExtension as a TestSuite</returns>
+		protected override TestSuite MakeSuite(Type type)
 		{
-			if ( CanBuildFrom( type ) )
-				return base.BuildFrom( type );
-			return null;
+			return new SampleFixtureExtension( type );
 		}
 
 		// The builder recognizes the types that it can use by the presense
