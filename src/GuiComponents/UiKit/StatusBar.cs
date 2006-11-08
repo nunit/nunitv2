@@ -67,13 +67,15 @@ namespace NUnit.UiKit
 			statusPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring;
 			statusPanel.Text = "Status";
 
-			testCountPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
+			// Temporarily remove AutoSize due to Mono 1.2 rc problems
+			//
+			//testCountPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
 			testCountPanel.MinWidth = 120;
-			testsRunPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
+			//testsRunPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
 			testsRunPanel.MinWidth = 120;
-			failuresPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
+			//failuresPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
 			failuresPanel.MinWidth = 104;
-			timePanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
+			//timePanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
 			timePanel.MinWidth = 120;
 
 			ShowPanels = true;
