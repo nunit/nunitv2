@@ -2049,9 +2049,13 @@ namespace NUnit.Gui
 				TestLoaderUI.OpenProject( this, commandLineOptions.testFileName, commandLineOptions.configName, commandLineOptions.testName );
 			else if( UserSettings.Options.LoadLastProject && !commandLineOptions.noload )
 			{
-				RecentFileEntry entry = UserSettings.RecentProjects.Entries[0];
-				if ( entry != null )
-					TestLoaderUI.OpenProject( this, entry.Path, commandLineOptions.configName, commandLineOptions.testName );
+				RecentFilesCollection entries = UserSettings.RecentProjects.Entries;
+				if ( entries.Count > 0 )
+				{
+					RecentFileEntry entry = UserSettings.RecentProjects.Entries[0];
+					if ( entry != null )
+						TestLoaderUI.OpenProject( this, entry.Path, commandLineOptions.configName, commandLineOptions.testName );
+				}
 			}
 
 			// Run loaded test automatically if called for
