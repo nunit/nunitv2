@@ -11,16 +11,16 @@
         <culture-info_XmlElement left="46887" top="4106" width="5292" height="2805" selected="0" zOrder="17" index="1" expanded="0" />
         <test-suite_XmlElement left="55776" top="4106" width="5292" height="2963" selected="0" zOrder="2" index="2" expanded="1">
             <categories_XmlElement left="52813" top="7577" width="5292" height="2963" selected="0" zOrder="19" index="0" expanded="0" />
-            <results_XmlElement left="58739" top="7577" width="5292" height="2805" selected="0" zOrder="4" index="1" expanded="0" />
+            <results_XmlElement left="58739" top="7577" width="5292" height="2625" selected="0" zOrder="4" index="1" expanded="0" />
         </test-suite_XmlElement>
     </test-results_XmlElement>
     <categoriesType_XmlComplexType left="95148" top="1000" width="5292" height="2963" selected="0" zOrder="21" index="6" expanded="1">
         <category_XmlElement left="95148" top="4471" width="5292" height="2963" selected="0" zOrder="22" index="0" expanded="0" />
     </categoriesType_XmlComplexType>
     <categoryType_XmlComplexType left="101074" top="1000" width="5292" height="2963" selected="0" zOrder="24" index="7" expanded="1" />
-    <environmentType_XmlComplexType left="107000" top="1000" width="5292" height="2805" selected="0" zOrder="26" index="8" expanded="1" />
-    <culture-infoType_XmlComplexType left="112926" top="1000" width="5292" height="2805" selected="0" zOrder="27" index="9" expanded="1" />
-    <resultType_XmlComplexType left="62974" top="635" width="5292" height="2805" selected="0" zOrder="6" index="10" expanded="0" />
-    <test-caseType_XmlComplexType left="76098" top="635" width="5292" height="2805" selected="0" zOrder="8" index="11" expanded="0" />
-    <test-suiteType_XmlComplexType left="89222" top="635" width="5292" height="2963" selected="0" zOrder="25" index="12" expanded="0" />
+    <environmentType_XmlComplexType left="107000" top="1000" width="5292" height="2805" selected="0" zOrder="25" index="8" expanded="1" />
+    <culture-infoType_XmlComplexType left="112926" top="1000" width="5292" height="2805" selected="0" zOrder="26" index="9" expanded="1" />
+    <resultType_XmlComplexType left="62974" top="635" width="5292" height="3006" selected="0" zOrder="6" index="10" expanded="0" />
+    <test-caseType_XmlComplexType left="76098" top="635" width="5292" height="3006" selected="0" zOrder="8" index="11" expanded="0" />
+    <test-suiteType_XmlComplexType left="89222" top="635" width="5292" height="2963" selected="0" zOrder="27" index="12" expanded="0" />
 </XSDDesignerLayout>

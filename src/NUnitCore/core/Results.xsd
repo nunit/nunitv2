@@ -28,6 +28,15 @@
 	<xs:complexType name="categoryType">
 		<xs:attribute name="name" type="xs:string" use="required"/>
 	</xs:complexType>
+	<xs:complexType name="propertiesType">
+		<xs:sequence>
+			<xs:element name="property" type="propertyType" maxOccurs="unbounded" minOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="propertyType">
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="value" type="xs:string" use="required"/>
+	</xs:complexType>
     <xs:complexType name="environmentType">
       <xs:attribute name="nunit-version" type="xs:string" use="required" />
       <xs:attribute name="clr-version" type="xs:string" use="required" />
@@ -58,6 +67,7 @@
 	<xs:complexType name="test-caseType">
 		<xs:sequence>
 			<xs:element name="categories" type="categoriesType" minOccurs="0" maxOccurs="1" />
+			<xs:element name="properties" type="propertiesType" minOccurs="0" maxOccurs="1" />
 			<xs:choice>
 				<xs:element name="failure" type="failureType" minOccurs="0" />
 				<xs:element name="reason" type="reasonType" minOccurs="0" />
@@ -74,6 +84,7 @@
 	<xs:complexType name="test-suiteType">
 		<xs:sequence>
 			<xs:element name="categories" type="categoriesType" minOccurs="0" maxOccurs="1" />
+			<xs:element name="properties" type="propertiesType" minOccurs="0" maxOccurs="1" />
 			<xs:element name="results" type="resultsType" />
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required" />

@@ -145,6 +145,7 @@ namespace Colors
 	class RedAttribute : Attribute { }
 	class GreenAttribute : Attribute { }
 	class BlueAttribute : Attribute { }
+	class BrightRedAttribute : RedAttribute { }
 
 	interface MyInterface
 	{

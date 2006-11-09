@@ -111,7 +111,7 @@ namespace NUnit.Core.Tests
 			TestFilter filter = new NotFilter( new CategoryFilter( "MockCategory" ) );
 			TestResult result = mockTestFixture.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
-			Assert.AreEqual( 1, summarizer.ResultCount );
+			Assert.AreEqual( 2, summarizer.ResultCount );
 		}
 
 		[Test]
@@ -231,7 +231,7 @@ namespace NUnit.Core.Tests
             RecordingListener listener = new RecordingListener();
             testSuite.Run(listener, new NotFilter( filter ) );
 			CollectionAssert.AreEquivalent( 
-				new string[] { "MockTest1", "MockTest4", "MockTest5" },
+				new string[] { "MockTest1", "MockTest4", "MockTest5", "TestWithManyProperties" },
 				listener.testStarted );
         }
 

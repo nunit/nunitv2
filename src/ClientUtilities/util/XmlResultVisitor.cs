@@ -128,6 +128,7 @@ namespace NUnit.Util
 
 				xmlWriter.WriteAttributeString("asserts", caseResult.AssertCount.ToString() );
 				WriteCategories(caseResult);
+				WriteProperties(caseResult);
 				if(caseResult.IsFailure)
 				{
 					if(caseResult.IsFailure)
@@ -151,6 +152,7 @@ namespace NUnit.Util
 			else
 			{
 				WriteCategories(caseResult);
+//				WriteProperties(caseResult);
 				xmlWriter.WriteStartElement("reason");
 				xmlWriter.WriteStartElement("message");
 				xmlWriter.WriteCData(caseResult.Message);
@@ -214,6 +216,22 @@ namespace NUnit.Util
 			}
 		}
 
+		public void WriteProperties(TestResult result)
+		{
+			if (result.Test.Properties != null && result.Test.Properties.Count > 0)
+			{
+				xmlWriter.WriteStartElement("properties");
+				foreach (string key in result.Test.Properties.Keys)
+				{
+					xmlWriter.WriteStartElement("property");
+					xmlWriter.WriteAttributeString("name", key);
+					xmlWriter.WriteAttributeString("value", result.Test.Properties[key].ToString() );
+					xmlWriter.WriteEndElement();
+				}
+				xmlWriter.WriteEndElement();
+			}
+		}
+
 		public void Visit(TestSuiteResult suiteResult) 
 		{
 			xmlWriter.WriteStartElement("test-suite");
@@ -226,6 +244,7 @@ namespace NUnit.Util
 			xmlWriter.WriteAttributeString("asserts", suiteResult.AssertCount.ToString() );
          
 			WriteCategories(suiteResult);
+//			WriteProperties(suiteResult);
 			xmlWriter.WriteStartElement("results");                  
 			foreach (TestResult result in suiteResult.Results)
 			{

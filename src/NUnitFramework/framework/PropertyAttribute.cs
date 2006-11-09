@@ -8,8 +8,8 @@ namespace NUnit.Framework
 	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=true)]
 	public class PropertyAttribute : Attribute
 	{
-		private string propertyName;
-		private object propertyValue;
+		protected string propertyName;
+		protected object propertyValue;
 
 		/// <summary>
 		/// Construct a PropertyAttribute with a name and value
@@ -19,6 +19,18 @@ namespace NUnit.Framework
 		public PropertyAttribute( string propertyName, object propertyValue )
 		{
 			this.propertyName = propertyName;
+			this.propertyValue = propertyValue;
+		}
+
+		/// <summary>
+		/// Constructor for use by inherited classes that use the
+		/// name of the type as the property name.
+		/// </summary>
+		protected PropertyAttribute( object propertyValue )
+		{
+			this.propertyName = this.GetType().Name;
+			if ( propertyName.EndsWith( "Attribute" ) )
+				propertyName = propertyName.Substring( 0, propertyName.Length - 9 );
 			this.propertyValue = propertyValue;
 		}
 

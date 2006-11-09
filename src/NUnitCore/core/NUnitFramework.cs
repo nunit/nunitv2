@@ -158,7 +158,10 @@ namespace NUnit.Core
 
             foreach (Attribute attribute in attributes)
             {
-                switch (attribute.GetType().FullName)
+				Type attributeType = attribute.GetType();
+				string attributeName = attributeType.FullName;
+
+                switch (attributeName)
                 {
 					case TestFixtureAttribute:
 					case TestAttribute:
@@ -184,23 +187,25 @@ namespace NUnit.Core
                             test.IgnoreReason = GetIgnoreReason(attribute);
                         }
                         break;
-					case CategoryAttribute:
-						categories.Add( 
-							Reflect.GetPropertyValue( 
-							attribute, 
-							"Name", 
-							BindingFlags.Public | BindingFlags.Instance ) );
-						break;
-					case PropertyAttribute:
-						string name = (string)Reflect.GetPropertyValue( attribute, "Name", BindingFlags.Public | BindingFlags.Instance );
-						if ( name != null && name != string.Empty )
+					default:
+						if ( Reflect.IsOrInheritsFrom( attributeType, CategoryAttribute ) )
+						{	
+							categories.Add( 
+								Reflect.GetPropertyValue( 
+									attribute, 
+									"Name", 
+									BindingFlags.Public | BindingFlags.Instance ) );
+						}
+						else if ( Reflect.IsOrInheritsFrom( attributeType, PropertyAttribute ) )
 						{
-							object val = Reflect.GetPropertyValue( attribute, "Value", BindingFlags.Public | BindingFlags.Instance );
-							properties[name] = val;
+							string name = (string)Reflect.GetPropertyValue( attribute, "Name", BindingFlags.Public | BindingFlags.Instance );
+							if ( name != null && name != string.Empty )
+							{
+								object val = Reflect.GetPropertyValue( attribute, "Value", BindingFlags.Public | BindingFlags.Instance );
+								properties[name] = val;
+							}
 						}
 						break;
-                    default:
-                        break;
                 }
             }
 

@@ -190,6 +190,11 @@ namespace NUnit.Core
 
 			return false;
 		}
+
+		public static bool IsOrInheritsFrom( Type type, string parentType )
+		{
+			return type.FullName == parentType || InheritsFrom( type, parentType );
+		}
 		#endregion
 
 		#region Get Methods of a type

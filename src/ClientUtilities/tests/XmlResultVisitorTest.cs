@@ -55,6 +55,16 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
+		public void HasSingleProperty()
+		{
+			XmlNodeList properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest2\"]/properties/property");
+			Assert.IsNotNull(properties);
+			Assert.AreEqual(1, properties.Count);
+			Assert.AreEqual("Severity",properties[0].Attributes["name"].Value);
+			Assert.AreEqual("Critical",properties[0].Attributes["value"].Value);
+		}
+
+		[Test]
 		public void HasMultipleCategories()
 		{
 			XmlNodeList categories = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest3\"]/categories/category");
@@ -65,6 +75,21 @@ namespace NUnit.Util.Tests
 			names.Add( categories [1].Attributes["name"].Value);
 			Assert.IsTrue( names.Contains( "AnotherCategory" ), "AnotherCategory" );
 			Assert.IsTrue( names.Contains( "MockCategory" ), "MockCategory" );
+		}
+
+		[Test]
+		public void HasMultipleProperties()
+		{
+			XmlNodeList properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.TestWithManyProperties\"]/properties/property");
+			Assert.IsNotNull(properties);
+			Assert.AreEqual(3, properties.Count);
+			Hashtable hash = new Hashtable();
+			foreach( XmlNode property in properties )
+				hash.Add( property.Attributes["name"].Value, property.Attributes["value"].Value );
+
+			Assert.AreEqual( "SomeClassName", hash["TargetMethod"] );
+			Assert.AreEqual( "5", hash["Size"] );
+			Assert.AreEqual( "System.Threading.Thread", hash["TargetType"] );
 		}
 
 		[Test]

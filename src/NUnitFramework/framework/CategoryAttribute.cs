@@ -32,9 +32,9 @@ using System;
 namespace NUnit.Framework
 {
 	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=true)]
-	public sealed class CategoryAttribute : Attribute
+	public class CategoryAttribute : Attribute
 	{
-		private string name;
+		protected string name;
 
 		/// <summary>
 		/// Construct attribute for a given category
@@ -43,6 +43,17 @@ namespace NUnit.Framework
 		public CategoryAttribute(string name)
 		{
 			this.name = name;
+		}
+
+		/// <summary>
+		/// Protected constructor uses the Type name as the name
+		/// of the category.
+		/// </summary>
+		protected CategoryAttribute()
+		{
+			this.name = this.GetType().Name;
+			if ( name.EndsWith( "Attribute" ) )
+				name = name.Substring( 0, name.Length - 9 );
 		}
 
 		/// <summary>

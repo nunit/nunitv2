@@ -36,5 +36,12 @@ namespace NUnit.Core.Tests
 		{
 			Assert.AreEqual( "SomeClass", fixture.Properties["ClassUnderTest"] );
 		}
+
+		[Test]
+		public void CanDeriveFromPropertyAttribute()
+		{
+			TestCase test3 = (TestCase)fixture.Tests[2];
+			Assert.AreEqual( 5, test3.Properties["Priority"] );
+		}
 	}
 }

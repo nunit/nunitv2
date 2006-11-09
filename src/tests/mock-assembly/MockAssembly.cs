@@ -71,7 +71,7 @@ namespace NUnit.Tests
 		[Category("FixtureCategory")]
 		public class MockTestFixture
 		{
-			public static readonly int Tests = 6;
+			public static readonly int Tests = 7;
 			public static readonly int Ignored = 2;
 			public static readonly int Explicit = 1;
 			public static readonly int NotRun = Ignored + Explicit;
@@ -84,6 +84,7 @@ namespace NUnit.Tests
 
 			[Test]
 			[Category("MockCategory")]
+			[Property("Severity","Critical")]
 			public void MockTest2()
 			{}
 
@@ -93,8 +94,12 @@ namespace NUnit.Tests
 			public void MockTest3()
 			{}
 
-			[Test, Property("TargetMethod", "SomeClassName"), Property("Size", 5), Property("TargetType", typeof( System.Threading.Thread ))]
+			[Test]
 			protected void MockTest5()
+			{}
+
+			[Test, Property("TargetMethod", "SomeClassName"), Property("Size", 5), Property("TargetType", typeof( System.Threading.Thread ))]
+			public void TestWithManyProperties()
 			{}
 
 			[Test]

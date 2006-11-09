@@ -54,7 +54,6 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.Label testResult;
 		private System.Windows.Forms.Label testName;
 		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.Label categories;
 		private System.Windows.Forms.Label label7;
 		private CP.Windows.Forms.ExpandingLabel description;
 		private System.Windows.Forms.Label label6;
@@ -77,8 +76,9 @@ namespace NUnit.UiKit
 		private CP.Windows.Forms.ExpandingLabel message;
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.Label properties;
 		private System.Windows.Forms.Label assertCount;
+		private System.Windows.Forms.ListBox properties;
+		private System.Windows.Forms.ListBox categories;
 		private System.ComponentModel.IContainer components = null;
 
 		#endregion
@@ -128,13 +128,12 @@ namespace NUnit.UiKit
 			this.testResult = new System.Windows.Forms.Label();
 			this.testName = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.properties = new System.Windows.Forms.Label();
+			this.properties = new System.Windows.Forms.ListBox();
 			this.label11 = new System.Windows.Forms.Label();
 			this.ignoreReason = new CP.Windows.Forms.ExpandingLabel();
 			this.label5 = new System.Windows.Forms.Label();
 			this.testType = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
-			this.categories = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
 			this.description = new CP.Windows.Forms.ExpandingLabel();
 			this.label6 = new System.Windows.Forms.Label();
@@ -147,12 +146,13 @@ namespace NUnit.UiKit
 			this.label3 = new System.Windows.Forms.Label();
 			this.stackTrace = new CP.Windows.Forms.ExpandingLabel();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.assertCount = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
 			this.expandingLabel1 = new CP.Windows.Forms.ExpandingLabel();
 			this.elapsedTime = new System.Windows.Forms.Label();
 			this.message = new CP.Windows.Forms.ExpandingLabel();
 			this.label12 = new System.Windows.Forms.Label();
-			this.assertCount = new System.Windows.Forms.Label();
+			this.categories = new System.Windows.Forms.ListBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.SuspendLayout();
@@ -234,13 +234,13 @@ namespace NUnit.UiKit
 			this.groupBox1.AccessibleName = resources.GetString("groupBox1.AccessibleName");
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox1.Anchor")));
 			this.groupBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox1.BackgroundImage")));
+			this.groupBox1.Controls.Add(this.categories);
 			this.groupBox1.Controls.Add(this.properties);
 			this.groupBox1.Controls.Add(this.label11);
 			this.groupBox1.Controls.Add(this.ignoreReason);
 			this.groupBox1.Controls.Add(this.label5);
 			this.groupBox1.Controls.Add(this.testType);
 			this.groupBox1.Controls.Add(this.label8);
-			this.groupBox1.Controls.Add(this.categories);
 			this.groupBox1.Controls.Add(this.label7);
 			this.groupBox1.Controls.Add(this.description);
 			this.groupBox1.Controls.Add(this.label6);
@@ -268,21 +268,22 @@ namespace NUnit.UiKit
 			this.properties.AccessibleDescription = resources.GetString("properties.AccessibleDescription");
 			this.properties.AccessibleName = resources.GetString("properties.AccessibleName");
 			this.properties.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("properties.Anchor")));
-			this.properties.AutoSize = ((bool)(resources.GetObject("properties.AutoSize")));
+			this.properties.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("properties.BackgroundImage")));
+			this.properties.ColumnWidth = ((int)(resources.GetObject("properties.ColumnWidth")));
 			this.properties.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("properties.Dock")));
 			this.properties.Enabled = ((bool)(resources.GetObject("properties.Enabled")));
 			this.properties.Font = ((System.Drawing.Font)(resources.GetObject("properties.Font")));
-			this.properties.Image = ((System.Drawing.Image)(resources.GetObject("properties.Image")));
-			this.properties.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("properties.ImageAlign")));
-			this.properties.ImageIndex = ((int)(resources.GetObject("properties.ImageIndex")));
+			this.properties.HorizontalExtent = ((int)(resources.GetObject("properties.HorizontalExtent")));
+			this.properties.HorizontalScrollbar = ((bool)(resources.GetObject("properties.HorizontalScrollbar")));
 			this.properties.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("properties.ImeMode")));
+			this.properties.IntegralHeight = ((bool)(resources.GetObject("properties.IntegralHeight")));
+			this.properties.ItemHeight = ((int)(resources.GetObject("properties.ItemHeight")));
 			this.properties.Location = ((System.Drawing.Point)(resources.GetObject("properties.Location")));
 			this.properties.Name = "properties";
 			this.properties.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("properties.RightToLeft")));
+			this.properties.ScrollAlwaysVisible = ((bool)(resources.GetObject("properties.ScrollAlwaysVisible")));
 			this.properties.Size = ((System.Drawing.Size)(resources.GetObject("properties.Size")));
 			this.properties.TabIndex = ((int)(resources.GetObject("properties.TabIndex")));
-			this.properties.Text = resources.GetString("properties.Text");
-			this.properties.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("properties.TextAlign")));
 			this.properties.Visible = ((bool)(resources.GetObject("properties.Visible")));
 			// 
 			// label11
@@ -396,28 +397,6 @@ namespace NUnit.UiKit
 			this.label8.Text = resources.GetString("label8.Text");
 			this.label8.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label8.TextAlign")));
 			this.label8.Visible = ((bool)(resources.GetObject("label8.Visible")));
-			// 
-			// categories
-			// 
-			this.categories.AccessibleDescription = resources.GetString("categories.AccessibleDescription");
-			this.categories.AccessibleName = resources.GetString("categories.AccessibleName");
-			this.categories.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("categories.Anchor")));
-			this.categories.AutoSize = ((bool)(resources.GetObject("categories.AutoSize")));
-			this.categories.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("categories.Dock")));
-			this.categories.Enabled = ((bool)(resources.GetObject("categories.Enabled")));
-			this.categories.Font = ((System.Drawing.Font)(resources.GetObject("categories.Font")));
-			this.categories.Image = ((System.Drawing.Image)(resources.GetObject("categories.Image")));
-			this.categories.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("categories.ImageAlign")));
-			this.categories.ImageIndex = ((int)(resources.GetObject("categories.ImageIndex")));
-			this.categories.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("categories.ImeMode")));
-			this.categories.Location = ((System.Drawing.Point)(resources.GetObject("categories.Location")));
-			this.categories.Name = "categories";
-			this.categories.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("categories.RightToLeft")));
-			this.categories.Size = ((System.Drawing.Size)(resources.GetObject("categories.Size")));
-			this.categories.TabIndex = ((int)(resources.GetObject("categories.TabIndex")));
-			this.categories.Text = resources.GetString("categories.Text");
-			this.categories.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("categories.TextAlign")));
-			this.categories.Visible = ((bool)(resources.GetObject("categories.Visible")));
 			// 
 			// label7
 			// 
@@ -691,6 +670,28 @@ namespace NUnit.UiKit
 			this.groupBox2.Text = resources.GetString("groupBox2.Text");
 			this.groupBox2.Visible = ((bool)(resources.GetObject("groupBox2.Visible")));
 			// 
+			// assertCount
+			// 
+			this.assertCount.AccessibleDescription = resources.GetString("assertCount.AccessibleDescription");
+			this.assertCount.AccessibleName = resources.GetString("assertCount.AccessibleName");
+			this.assertCount.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("assertCount.Anchor")));
+			this.assertCount.AutoSize = ((bool)(resources.GetObject("assertCount.AutoSize")));
+			this.assertCount.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("assertCount.Dock")));
+			this.assertCount.Enabled = ((bool)(resources.GetObject("assertCount.Enabled")));
+			this.assertCount.Font = ((System.Drawing.Font)(resources.GetObject("assertCount.Font")));
+			this.assertCount.Image = ((System.Drawing.Image)(resources.GetObject("assertCount.Image")));
+			this.assertCount.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("assertCount.ImageAlign")));
+			this.assertCount.ImageIndex = ((int)(resources.GetObject("assertCount.ImageIndex")));
+			this.assertCount.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("assertCount.ImeMode")));
+			this.assertCount.Location = ((System.Drawing.Point)(resources.GetObject("assertCount.Location")));
+			this.assertCount.Name = "assertCount";
+			this.assertCount.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("assertCount.RightToLeft")));
+			this.assertCount.Size = ((System.Drawing.Size)(resources.GetObject("assertCount.Size")));
+			this.assertCount.TabIndex = ((int)(resources.GetObject("assertCount.TabIndex")));
+			this.assertCount.Text = resources.GetString("assertCount.Text");
+			this.assertCount.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("assertCount.TextAlign")));
+			this.assertCount.Visible = ((bool)(resources.GetObject("assertCount.Visible")));
+			// 
 			// label10
 			// 
 			this.label10.AccessibleDescription = resources.GetString("label10.AccessibleDescription");
@@ -805,27 +806,28 @@ namespace NUnit.UiKit
 			this.label12.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("label12.TextAlign")));
 			this.label12.Visible = ((bool)(resources.GetObject("label12.Visible")));
 			// 
-			// assertCount
+			// categories
 			// 
-			this.assertCount.AccessibleDescription = resources.GetString("assertCount.AccessibleDescription");
-			this.assertCount.AccessibleName = resources.GetString("assertCount.AccessibleName");
-			this.assertCount.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("assertCount.Anchor")));
-			this.assertCount.AutoSize = ((bool)(resources.GetObject("assertCount.AutoSize")));
-			this.assertCount.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("assertCount.Dock")));
-			this.assertCount.Enabled = ((bool)(resources.GetObject("assertCount.Enabled")));
-			this.assertCount.Font = ((System.Drawing.Font)(resources.GetObject("assertCount.Font")));
-			this.assertCount.Image = ((System.Drawing.Image)(resources.GetObject("assertCount.Image")));
-			this.assertCount.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("assertCount.ImageAlign")));
-			this.assertCount.ImageIndex = ((int)(resources.GetObject("assertCount.ImageIndex")));
-			this.assertCount.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("assertCount.ImeMode")));
-			this.assertCount.Location = ((System.Drawing.Point)(resources.GetObject("assertCount.Location")));
-			this.assertCount.Name = "assertCount";
-			this.assertCount.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("assertCount.RightToLeft")));
-			this.assertCount.Size = ((System.Drawing.Size)(resources.GetObject("assertCount.Size")));
-			this.assertCount.TabIndex = ((int)(resources.GetObject("assertCount.TabIndex")));
-			this.assertCount.Text = resources.GetString("assertCount.Text");
-			this.assertCount.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("assertCount.TextAlign")));
-			this.assertCount.Visible = ((bool)(resources.GetObject("assertCount.Visible")));
+			this.categories.AccessibleDescription = resources.GetString("categories.AccessibleDescription");
+			this.categories.AccessibleName = resources.GetString("categories.AccessibleName");
+			this.categories.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("categories.Anchor")));
+			this.categories.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("categories.BackgroundImage")));
+			this.categories.ColumnWidth = ((int)(resources.GetObject("categories.ColumnWidth")));
+			this.categories.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("categories.Dock")));
+			this.categories.Enabled = ((bool)(resources.GetObject("categories.Enabled")));
+			this.categories.Font = ((System.Drawing.Font)(resources.GetObject("categories.Font")));
+			this.categories.HorizontalExtent = ((int)(resources.GetObject("categories.HorizontalExtent")));
+			this.categories.HorizontalScrollbar = ((bool)(resources.GetObject("categories.HorizontalScrollbar")));
+			this.categories.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("categories.ImeMode")));
+			this.categories.IntegralHeight = ((bool)(resources.GetObject("categories.IntegralHeight")));
+			this.categories.ItemHeight = ((int)(resources.GetObject("categories.ItemHeight")));
+			this.categories.Location = ((System.Drawing.Point)(resources.GetObject("categories.Location")));
+			this.categories.Name = "categories";
+			this.categories.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("categories.RightToLeft")));
+			this.categories.ScrollAlwaysVisible = ((bool)(resources.GetObject("categories.ScrollAlwaysVisible")));
+			this.categories.Size = ((System.Drawing.Size)(resources.GetObject("categories.Size")));
+			this.categories.TabIndex = ((int)(resources.GetObject("categories.TabIndex")));
+			this.categories.Visible = ((bool)(resources.GetObject("categories.Visible")));
 			// 
 			// TestPropertiesDialog
 			// 
@@ -925,13 +927,9 @@ namespace NUnit.UiKit
 
 			SetTitleBarText();
 
-			string catText = "";
+			categories.Items.Clear();
 			foreach( string cat in test.Categories )
-			{
-				if ( catText != "" )
-					catText += ',';
-				catText += cat;
-			}
+				categories.Items.Add( cat );
 
 			testResult.Text = node.StatusText;
 			testName.Text = test.TestName.Name;
@@ -951,18 +949,11 @@ namespace NUnit.UiKit
 					break;
 			}
 			description.Text = test.Description;
-			categories.Text = catText;
 			ignoreReason.Text = test.IgnoreReason;
 			testCaseCount.Text = test.TestCount.ToString();
-			if ( test.Properties.Count == 0 )
-				properties.Text = "";
-			else
-			{
-				StringBuilder sb = new StringBuilder();
-				foreach( DictionaryEntry entry in test.Properties )
-					sb.AppendFormat( "{0}={1} ", entry.Key, entry.Value.ToString() );
-				properties.Text = sb.ToString();
-			}
+			properties.Items.Clear();
+			foreach( DictionaryEntry entry in test.Properties )
+				properties.Items.Add( entry.Key + "=" + entry.Value.ToString() );
 
 			message.Text = "";
 			elapsedTime.Text = "Execution Time:";
