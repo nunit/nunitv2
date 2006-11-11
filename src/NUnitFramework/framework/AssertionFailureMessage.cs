@@ -90,7 +90,13 @@ namespace NUnit.Framework
 		/// <param name="message"></param>
 		/// <param name="args"></param>
 		public AssertionFailureMessage( string message, params object[] args )
-			: base( CreateStringBuilder( message, args ) ) { }
+		{
+			if (message != null )
+				if ( args != null )
+					Write( message, args );
+				else
+					Write( message );
+		}
 
 		/// <summary>
 		/// Construct an empty AssertionFailureMessage
@@ -419,26 +425,6 @@ namespace NUnit.Framework
 		{
 			return expected != null && actual != null && 
 				expected is string && actual is string;
-		}
-
-		/// <summary>
-		/// Used to create a StringBuilder that is used for constructing
-		/// the output message when text is different.  Handles initialization
-		/// when a message is provided.  If message is null, an empty
-		/// StringBuilder is returned.
-		/// </summary>
-		/// <param name="message"></param>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		static protected StringBuilder CreateStringBuilder( string message, params object[] args )
-		{
-			if (message != null) 
-				if ( args != null && args.Length > 0 )
-					return new StringBuilder( string.Format( message, args ) );
-				else
-					return new StringBuilder( message );
-			else
-				return new StringBuilder();
 		}
 
 		/// <summary>

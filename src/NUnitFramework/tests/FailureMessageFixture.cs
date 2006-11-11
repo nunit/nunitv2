@@ -71,21 +71,6 @@ namespace NUnit.Framework.Tests
 			}
 
 			/// <summary>
-			/// 
-			/// </summary>
-			/// 
-			[Test]
-			public void TestCreateStringBuilder()
-			{
-				Assert.AreEqual( "",        CreateStringBuilder( null ).ToString() );
-				Assert.AreEqual( "",        CreateStringBuilder( "" ).ToString() );
-				Assert.AreEqual( "a",       CreateStringBuilder( "a" ).ToString() );
-				Assert.AreEqual( "message", CreateStringBuilder( "message" ).ToString() );
-				Assert.AreEqual( "message 5 from me", 
-					CreateStringBuilder( "message {0} from {1}", 5, "me" ).ToString() );
-			}
-
-			/// <summary>
 			/// Tests the string-clipping method to see if it clips at the
 			/// expected positions.
 			/// </summary>
