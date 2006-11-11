@@ -96,14 +96,10 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="tests"></param>
-		public TestInfo( string name, ITest[] tests )
+		public TestInfo( TestName testName, ITest[] tests )
 		{
-			this.testName = new TestName();
+			this.testName = testName;
 			this.testType = "Test Project";
-
-			this.testName.FullName = name;
-			this.testName.Name = name;
-			this.testName.TestID = new TestID();
 
             this.runState = RunState.Runnable;
 			this.ignoreReason = null;

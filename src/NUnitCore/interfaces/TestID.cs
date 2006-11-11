@@ -39,10 +39,13 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Construct a TestID with a given value
+		/// Construct a TestID with a given value.
+		/// Used in parsing test names and in order
+		/// to construct an artificial test node for
+		/// aggregating multiple test runners.
 		/// </summary>
 		/// <param name="id"></param>
-		private TestID( int id )
+		public TestID( int id )
 		{
 			this.id = id;
 		}

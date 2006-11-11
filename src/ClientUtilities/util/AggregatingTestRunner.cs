@@ -13,6 +13,8 @@ namespace NUnit.Util
 	/// </summary>
 	public abstract class AggregatingTestRunner : MarshalByRefObject, TestRunnerEx, EventListener
 	{
+		static int AggregateTestID = 1000;
+
 		#region Instance Variables
 
 		/// <summary>
@@ -28,7 +30,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// The loaded test suite
 		/// </summary>
-		protected TestNode loadedTest;
+		protected TestNode aggregateTest;
 
 		/// <summary>
 		/// The event listener for the currently running test
@@ -36,6 +38,8 @@ namespace NUnit.Util
 		protected EventListener listener;
 
 		protected string projectName;
+
+		protected TestName testName;
 
 		private TestRunnerSettings settings;
 		#endregion
@@ -45,6 +49,11 @@ namespace NUnit.Util
 		public AggregatingTestRunner( int runnerID )
 		{
 			this.runnerID = runnerID;
+			this.testName = new TestName();
+			testName.TestID = new TestID( AggregateTestID );
+			testName.RunnerID = this.runnerID;
+			testName.FullName = testName.Name = "Not Loaded";
+
 			this.settings = new TestRunnerSettings();
 			this.settings.Changed += new TestRunnerSettings.SettingsChangedHandler(settings_Changed);
 		}
@@ -84,7 +93,7 @@ namespace NUnit.Util
 		{
 			get
 			{
-				if ( loadedTest == null && runners != null )
+				if ( aggregateTest == null && runners != null )
 				{
 					// Count non-null tests, in case we specified a fixture
 					int count = 0;
@@ -100,11 +109,10 @@ namespace NUnit.Util
 							tests[index++] = runner.Test;
 
 					// Return master node containing all the tests
-					loadedTest = new TestNode( projectName, tests );
-					loadedTest.TestName.RunnerID = this.runnerID;
+					aggregateTest = new TestNode( testName, tests );
 				}
 
-				return loadedTest;
+				return aggregateTest;
 			}
 		}
 
@@ -115,7 +123,7 @@ namespace NUnit.Util
 				if ( runners == null )
 					return null;
 				
-				TestSuiteResult suiteResult = new TestSuiteResult( loadedTest, Test.TestName.FullName );
+				TestSuiteResult suiteResult = new TestSuiteResult( aggregateTest, Test.TestName.FullName );
 
 				foreach( TestRunner runner in runners )
 					if ( runner.TestResult != null )
@@ -154,7 +162,7 @@ namespace NUnit.Util
 		{
 			foreach( TestRunner runner in runners )
 				runner.Unload();
-			loadedTest = null;
+			aggregateTest = null;
 		}
 		#endregion
 
@@ -185,9 +193,19 @@ namespace NUnit.Util
 
 			this.listener.RunStarted( this.Test.TestName.Name, this.CountTestCases( filter ) );
 
-			TestSuiteResult result = new TestSuiteResult( new TestInfo( projectName, tests ), projectName );
+			this.listener.SuiteStarted( this.Test.TestName );
+			long startTime = DateTime.Now.Ticks;
+
+			TestSuiteResult result = new TestSuiteResult( new TestInfo( testName, tests ), projectName );
+			result.RunState = RunState.Executed;
 			foreach( TestRunner runner in runners )
 				result.Results.Add( runner.Run( this, filter ) );
+			
+			long stopTime = DateTime.Now.Ticks;
+			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+			result.Time = time;
+
+			this.listener.SuiteFinished( result );
 
 			this.listener.RunFinished( this.TestResult );
 
@@ -220,7 +238,7 @@ namespace NUnit.Util
 
 		public virtual TestResult EndRun()
 		{
-			TestSuiteResult suiteResult = new TestSuiteResult( loadedTest, Test.TestName.FullName );
+			TestSuiteResult suiteResult = new TestSuiteResult( aggregateTest, Test.TestName.FullName );
 			foreach( TestRunner runner in runners )
 				suiteResult.Results.Add( runner.EndRun() );
 

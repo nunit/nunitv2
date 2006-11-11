@@ -92,7 +92,10 @@ namespace NUnit.Core.Tests
 			for( int index = 0; index < tests.Length; index++ )
 				tests[index] = (ITest)testFixture.Tests[index];
 
-			TestNode test = new TestNode( "Combined", tests );
+			TestName testName = new TestName();
+			testName.FullName = testName.Name = "Combined";
+			testName.TestID = new TestID( 1000 );
+			TestNode test = new TestNode( testName, tests );
 			Assert.AreEqual( "Combined", test.TestName.Name );
 			Assert.AreEqual( "Combined", test.TestName.FullName );
 			Assert.AreEqual( RunState.Runnable, test.RunState );

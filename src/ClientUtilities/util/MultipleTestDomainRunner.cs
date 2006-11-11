@@ -29,6 +29,7 @@ namespace NUnit.Util
 		public override bool Load( string projectName, string[] assemblies )
 		{
 			this.projectName = projectName;
+			this.testName.FullName = this.testName.Name = projectName;
 			CreateRunners( assemblies.Length );
 
 			bool result = true;
@@ -42,6 +43,7 @@ namespace NUnit.Util
 		public override bool Load( string projectName, string[] assemblies, string testName )
 		{
 			this.projectName = projectName;
+			this.testName.FullName = this.testName.Name = projectName;
 			CreateRunners( assemblies.Length );
 
 			//TODO: Loading a namespace or fixture needs work
