@@ -652,7 +652,8 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void AreEqual(uint expected,
+		[CLSCompliant(false)]
+		static public void AreEqual(uint expected,
             uint actual, string message, params object[] args)
         {
             DoAssert(new EqualAsserter(expected, actual, message, args));
@@ -665,7 +666,8 @@ namespace NUnit.Framework
         /// <param name="expected">The expected value</param>
         /// <param name="actual">The actual value</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void AreEqual(uint expected, uint actual, string message)
+		[CLSCompliant(false)]
+		static public void AreEqual(uint expected, uint actual, string message)
         {
             Assert.AreEqual(expected, actual, message, null);
         }
@@ -676,7 +678,8 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="actual">The actual value</param>
-        static public void AreEqual(uint expected, uint actual)
+		[CLSCompliant(false)]
+		static public void AreEqual(uint expected, uint actual)
         {
             Assert.AreEqual(expected, actual, string.Empty, null);
         }
@@ -693,7 +696,8 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void AreEqual(ulong expected,
+		[CLSCompliant(false)]
+		static public void AreEqual(ulong expected,
             ulong actual, string message, params object[] args)
         {
             DoAssert(new EqualAsserter(expected, actual, message, args));
@@ -706,7 +710,8 @@ namespace NUnit.Framework
         /// <param name="expected">The expected value</param>
         /// <param name="actual">The actual value</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void AreEqual(ulong expected, ulong actual, string message)
+		[CLSCompliant(false)]
+		static public void AreEqual(ulong expected, ulong actual, string message)
         {
             Assert.AreEqual(expected, actual, message, null);
         }
@@ -717,7 +722,8 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="actual">The actual value</param>
-        static public void AreEqual(ulong expected, ulong actual)
+		[CLSCompliant(false)]
+		static public void AreEqual(ulong expected, ulong actual)
         {
             Assert.AreEqual(expected, actual, string.Empty, null);
         }
@@ -1047,7 +1053,8 @@ namespace NUnit.Framework
         /// <param name="actual">The actual object</param>
         /// <param name="message">The message to be displayed when the two objects are the same object.</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void AreNotEqual(uint expected, uint actual, string message, params object[] args)
+		[CLSCompliant(false)]
+		static public void AreNotEqual(uint expected, uint actual, string message, params object[] args)
         {
             DoAssert(new NotEqualAsserter(expected, actual, message, args));
         }
@@ -1059,7 +1066,8 @@ namespace NUnit.Framework
         /// <param name="expected">The expected object</param>
         /// <param name="actual">The actual object</param>
         /// <param name="message">The message to be displayed when the objects are the same</param>
-        static public void AreNotEqual(uint expected, uint actual, string message)
+		[CLSCompliant(false)]
+		static public void AreNotEqual(uint expected, uint actual, string message)
         {
             Assert.AreNotEqual(expected, actual, message, null);
         }
@@ -1070,7 +1078,8 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="expected">The expected object</param>
         /// <param name="actual">The actual object</param>
-        static public void AreNotEqual(uint expected, uint actual)
+		[CLSCompliant(false)]
+		static public void AreNotEqual(uint expected, uint actual)
         {
             Assert.AreNotEqual(expected, actual, string.Empty, null);
         }
@@ -1085,7 +1094,8 @@ namespace NUnit.Framework
         /// <param name="actual">The actual object</param>
         /// <param name="message">The message to be displayed when the two objects are the same object.</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void AreNotEqual(ulong expected, ulong actual, string message, params object[] args)
+		[CLSCompliant(false)]
+		static public void AreNotEqual(ulong expected, ulong actual, string message, params object[] args)
         {
             DoAssert(new NotEqualAsserter(expected, actual, message, args));
         }
@@ -1097,7 +1107,8 @@ namespace NUnit.Framework
         /// <param name="expected">The expected object</param>
         /// <param name="actual">The actual object</param>
         /// <param name="message">The message to be displayed when the objects are the same</param>
-        static public void AreNotEqual(ulong expected, ulong actual, string message)
+		[CLSCompliant(false)]
+		static public void AreNotEqual(ulong expected, ulong actual, string message)
         {
             Assert.AreNotEqual(expected, actual, message, null);
         }
@@ -1108,7 +1119,8 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="expected">The expected object</param>
         /// <param name="actual">The actual object</param>
-        static public void AreNotEqual(ulong expected, ulong actual)
+		[CLSCompliant(false)]
+		static public void AreNotEqual(ulong expected, ulong actual)
         {
             Assert.AreNotEqual(expected, actual, string.Empty, null);
         }
@@ -1367,6 +1379,7 @@ namespace NUnit.Framework
 		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
+		[CLSCompliant(false)]
 		static public void Greater(uint arg1, 
 			uint arg2, string message, params object[] args) 
 		{
@@ -1381,6 +1394,7 @@ namespace NUnit.Framework
 		/// <param name="arg1">The first value, expected to be greater</param>
 		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
+		[CLSCompliant(false)]
 		static public void Greater(uint arg1, uint arg2, string message) 
 		{
 			Assert.Greater( arg1, arg2, message, null );
@@ -1393,6 +1407,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="arg1">The first value, expected to be greater</param>
 		/// <param name="arg2">The second value, expected to be less</param>
+		[CLSCompliant(false)]
 		static public void Greater(uint arg1, uint arg2 ) 
 		{
 			Assert.Greater( arg1, arg2, string.Empty, null );
@@ -1635,6 +1650,7 @@ namespace NUnit.Framework
 		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
+		[CLSCompliant(false)]
 		static public void Less(uint arg1, uint arg2, string message, params object[] args) 
 		{
 			DoAssert( new LessAsserter( arg2, arg1, message, args ) );
@@ -1648,6 +1664,7 @@ namespace NUnit.Framework
 		/// <param name="arg1">The first value, expected to be less</param>
 		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
+		[CLSCompliant(false)]
 		static public void Less(uint arg1, uint arg2, string message) 
 		{
 			Assert.Less(arg1, arg2, message, null);
@@ -1660,6 +1677,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="arg1">The first value, expected to be less</param>
 		/// <param name="arg2">The second value, expected to be greater</param>
+		[CLSCompliant(false)]
 		static public void Less(uint arg1, uint arg2) 
 		{
 			Assert.Less( arg1, arg2, string.Empty, null);
@@ -2027,6 +2045,7 @@ namespace NUnit.Framework
 		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
+		[CLSCompliant(false)]
 		static public void GreaterOrEqual(uint arg1,
 		    uint arg2, string message, params object[] args)
 		{
@@ -2041,6 +2060,7 @@ namespace NUnit.Framework
 		/// <param name="arg1">The first value, expected to be greater</param>
 		/// <param name="arg2">The second value, expected to be less</param>
 		/// <param name="message">The message that will be displayed on failure</param>
+		[CLSCompliant(false)]
 		static public void GreaterOrEqual(uint arg1, uint arg2, string message)
 		{
 		    Assert.GreaterOrEqual(arg1, arg2, message, null);
@@ -2053,6 +2073,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="arg1">The first value, expected to be greater</param>
 		/// <param name="arg2">The second value, expected to be less</param>
+		[CLSCompliant(false)]
 		static public void GreaterOrEqual(uint arg1, uint arg2)
 		{
 		    Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
@@ -2295,6 +2316,7 @@ namespace NUnit.Framework
 		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
+		[CLSCompliant(false)]
 		static public void LessOrEqual(uint arg1, uint arg2, string message, params object[] args)
 		{
 		    DoAssert(new LessEqualAsserter(arg2, arg1, message, args));
@@ -2308,6 +2330,7 @@ namespace NUnit.Framework
 		/// <param name="arg1">The first value, expected to be less</param>
 		/// <param name="arg2">The second value, expected to be greater</param>
 		/// <param name="message">The message that will be displayed on failure</param>
+		[CLSCompliant(false)]
 		static public void LessOrEqual(uint arg1, uint arg2, string message)
 		{
 		    Assert.LessOrEqual(arg1, arg2, message, null);
@@ -2320,6 +2343,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="arg1">The first value, expected to be less</param>
 		/// <param name="arg2">The second value, expected to be greater</param>
+		[CLSCompliant(false)]
 		static public void LessOrEqual(uint arg1, uint arg2)
 		{
 		    Assert.LessOrEqual(arg1, arg2, string.Empty, null);
@@ -2500,6 +2524,5 @@ namespace NUnit.Framework
 		#endregion
 
         #endregion
-
 	}
 }

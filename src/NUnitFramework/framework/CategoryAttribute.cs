@@ -34,7 +34,7 @@ namespace NUnit.Framework
 	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=true)]
 	public class CategoryAttribute : Attribute
 	{
-		protected string name;
+		protected string categoryName;
 
 		/// <summary>
 		/// Construct attribute for a given category
@@ -42,7 +42,7 @@ namespace NUnit.Framework
 		/// <param name="name">The name of the category</param>
 		public CategoryAttribute(string name)
 		{
-			this.name = name;
+			this.categoryName = name;
 		}
 
 		/// <summary>
@@ -51,9 +51,9 @@ namespace NUnit.Framework
 		/// </summary>
 		protected CategoryAttribute()
 		{
-			this.name = this.GetType().Name;
-			if ( name.EndsWith( "Attribute" ) )
-				name = name.Substring( 0, name.Length - 9 );
+			this.categoryName = this.GetType().Name;
+			if ( categoryName.EndsWith( "Attribute" ) )
+				categoryName = categoryName.Substring( 0, categoryName.Length - 9 );
 		}
 
 		/// <summary>
@@ -61,7 +61,7 @@ namespace NUnit.Framework
 		/// </summary>
 		public string Name 
 		{
-			get { return name; }
+			get { return categoryName; }
 		}
 	}
 }
