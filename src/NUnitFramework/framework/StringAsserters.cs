@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 
 namespace NUnit.Framework
 {
@@ -198,6 +199,41 @@ namespace NUnit.Framework
 				FailureMessage.DisplayDifferences( expected, actual, true );
 				return FailureMessage.ToString();
 			}
+		}
+	}
+	#endregion
+
+	#region RegExAsserter
+	/// <summary>
+	/// Summary description for RegExAsserter.
+	/// </summary>
+	public class RegexAsserter : StringAsserter
+	{
+		/// <summary>
+		/// Constructs a RegExAsserter for two strings
+		/// </summary>
+		/// <param name="expected">The expected pattern</param>
+		/// <param name="actual">The actual string to be examined</param>
+		/// <param name="message">The message to issue on failure</param>
+		/// <param name="args">Arguments to apply in formatting the message</param>
+		public RegexAsserter( string expected, string actual, string message, params object[] args )
+			: base( expected, actual, message, args ) { }
+
+		/// <summary>
+		/// Test the assertion.
+		/// </summary>
+		/// <returns>True if the test succeeds</returns>
+		public override bool Test()
+		{
+			return Regex.IsMatch( actual, expected );
+		}
+
+		/// <summary>
+		/// String value that represents what the asserter expected
+		/// </summary>
+		protected override string Expectation
+		{
+			get { return string.Format( "String matching \"{0}\"", expected ); }
 		}
 	}
 	#endregion

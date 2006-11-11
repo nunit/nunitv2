@@ -181,5 +181,40 @@ namespace NUnit.Framework
 		}
 
 		#endregion
+
+		#region IsMatch
+		/// <summary>
+		/// Asserts that a string matches an expected regular expression pattern.
+		/// </summary>
+		/// <param name="expected">The expected expression</param>
+		/// <param name="actual">The actual string</param>
+		/// <param name="message">The message to display in case of failure</param>
+		/// <param name="args">Arguments used in formatting the message</param>
+		static public void IsMatch( string expected, string actual, string message, params object[] args )
+		{
+			Assert.DoAssert( new RegexAsserter( expected, actual, message, args ) );
+		}
+
+		/// <summary>
+		/// Asserts that a string matches an expected regular expression pattern.
+		/// </summary>
+		/// <param name="expected">The expected expression</param>
+		/// <param name="actual">The actual string</param>
+		/// <param name="message">The message to display in case of failure</param>
+		static public void IsMatch( string expected, string actual, string message )
+		{
+			IsMatch( expected, actual, message, null );
+		}
+
+		/// <summary>
+		/// Asserts that a string matches an expected regular expression pattern.
+		/// </summary>
+		/// <param name="expected">The expected expression</param>
+		/// <param name="actual">The actual string</param>
+		static public void IsMatch( string expected, string actual )
+		{
+			IsMatch( expected, actual, string.Empty, null );
+		}
+		#endregion
 	}
 }

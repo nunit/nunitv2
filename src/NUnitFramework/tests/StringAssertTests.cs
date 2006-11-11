@@ -81,5 +81,23 @@ namespace NUnit.Framework.Tests
 	+ "\t----------------^",
 				asserter.Message );
 		}
+
+		[Test]		
+		public void IsMatch()
+		{
+			StringAssert.IsMatch( "a?bc", "12a3bc45" );
+		}
+
+		[Test]
+		public void IsMatchFails()
+		{
+			RegexAsserter asserter =
+				new RegexAsserter( "a?b*c", "12ab456", null, null );
+			Assert.IsFalse( asserter.Test() );
+			Assert.AreEqual( System.Environment.NewLine
+				+ "\t" + @"expected: String matching ""a?b*c""" + System.Environment.NewLine
+				+ "\t" + @" but was: <""12ab456"">",
+				asserter.Message );
+		}
 	}
 }
