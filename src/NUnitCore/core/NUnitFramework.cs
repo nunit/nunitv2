@@ -185,6 +185,8 @@ namespace NUnit.Core
                         {
                             test.RunState = RunState.Skipped;
                             test.IgnoreReason = GetIgnoreReason(attribute);
+							if ( test.IgnoreReason == null )
+								test.IgnoreReason = helper.Reason;
                         }
                         break;
 					default:
