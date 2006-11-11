@@ -53,7 +53,7 @@ namespace NUnit.Gui.Tests
 			Assert.AreEqual( Environment.CurrentDirectory, GetText( "projectBaseTextBox" ) );
 		}
 
-		[Test, Platform(Exclude="Mono")]
+		[Test, Platform(Exclude="Mono", Reason="Mono does not call the validating delegate")]
 		public void SetProjectBase()
 		{
 			editor.Show();
