@@ -76,7 +76,7 @@ namespace NUnit.Util
 
 			DateTime now = DateTime.Now;
 			xmlWriter.WriteAttributeString("date", XmlConvert.ToString( now, "yyyy-MM-dd" ) );
-			xmlWriter.WriteAttributeString("time", XmlConvert.ToString( now, "hh:mm:ss" ));
+			xmlWriter.WriteAttributeString("time", XmlConvert.ToString( now, "HH:mm:ss" ));
 			WriteEnvironment();
 			WriteCultureInfo();
 		}
