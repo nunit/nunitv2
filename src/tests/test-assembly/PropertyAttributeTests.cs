@@ -16,7 +16,7 @@ namespace NUnit.TestData.PropertyAttributeTests
 		public void Test3() { }
 	}
 
-	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=true)]
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple=false)]
 	public class PriorityAttribute : PropertyAttribute
 	{
 		public PriorityAttribute( int level ) : base( level ) { }
