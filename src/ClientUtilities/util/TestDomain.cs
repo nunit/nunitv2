@@ -116,7 +116,7 @@ namespace NUnit.Util
 			{
 				CreateDomain( 
 					project.ProjectPath,
-					project.BasePath,
+					project.ActiveConfig.BasePath,
 					project.ActiveConfig.ConfigurationFile,
 					project.ActiveConfig.PrivateBinPath );
 

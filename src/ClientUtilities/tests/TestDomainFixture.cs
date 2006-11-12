@@ -201,6 +201,36 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
+		public void ProjectBasePathOverrideIsHonored()
+		{
+			NUnitProject project = new NUnitProject( "MyProject.nunit" );
+			ProjectConfig config = new ProjectConfig( "default" );
+			config.Assemblies.Add( Path.GetFullPath( "mock-assembly.dll" ) );
+			project.Configs.Add( config );
+
+			project.BasePath = Path.GetDirectoryName( Environment.CurrentDirectory );
+
+			testDomain.Load( project );
+
+			Assert.AreEqual(  project.BasePath, testDomain.AppDomain.BaseDirectory );
+		}
+
+		[Test]
+		public void ProjectConfigBasePathOverrideIsHonored()
+		{
+			NUnitProject project = new NUnitProject( "MyProject.nunit" );
+			ProjectConfig config = new ProjectConfig( "default" );
+			config.Assemblies.Add( Path.GetFullPath( "mock-assembly.dll" ) );
+			project.Configs.Add( config );
+
+			project.ActiveConfig.BasePath = Path.GetDirectoryName( Environment.CurrentDirectory );
+
+			testDomain.Load( project );
+
+			Assert.AreEqual(  project.ActiveConfig.BasePath, testDomain.AppDomain.BaseDirectory );
+		}
+
+		[Test]
 		public void ProjectBinPathOverrideIsHonored()
 		{
 			NUnitProject project = new NUnitProject( "MyProject.nunit" );
