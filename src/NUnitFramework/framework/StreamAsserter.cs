@@ -73,7 +73,7 @@ namespace NUnit.Framework
 				{
 					if (bufferExpected[count] != bufferActual[count]) 
 					{
-						FailureMessage.AddLine("\tIndex : {0}", readByte + count);
+						FailureMessage.WriteLine("\tIndex : {0}", readByte + count);
 						return false;
 					}
 				}
@@ -89,9 +89,9 @@ namespace NUnit.Framework
 			: base( expected, actual, message, args ) 
 		{
 			//FailureMessage.GetStringBuilder().Length = 0;
-			FailureMessage.AddLine("expected and actual are equal.");
-			if (expected != null) FailureMessage.AddExpectedLine("Length : " + expected.Length.ToString());
-			if (actual != null) FailureMessage.AddActualLine("Length : " + actual.Length.ToString());
+			FailureMessage.WriteLine("expected and actual are equal.");
+			if (expected != null) FailureMessage.WriteExpectedLine("Length : " + expected.Length.ToString());
+			if (actual != null) FailureMessage.WriteActualLine("Length : " + actual.Length.ToString());
 		}
 	
 	public override bool Test()
@@ -115,9 +115,9 @@ namespace NUnit.Framework
 		public StreamEqualAsserter( Stream expected, Stream actual, string message, params object[] args )
 			: base( expected, actual, message, args ) 
 		{
-			FailureMessage.AddLine("expected and actual are not equal.");
-			if (expected != null) FailureMessage.AddExpectedLine("Length : " + expected.Length.ToString());
-			if (actual != null) FailureMessage.AddActualLine("Length : " + actual.Length.ToString());
+			FailureMessage.WriteLine("expected and actual are not equal.");
+			if (expected != null) FailureMessage.WriteExpectedLine("Length : " + expected.Length.ToString());
+			if (actual != null) FailureMessage.WriteActualLine("Length : " + actual.Length.ToString());
 		}
 
 		/// <summary>

@@ -17,9 +17,9 @@ namespace NUnit.Framework.Tests
 			ContainsAsserter asserter = 
 				new ContainsAsserter( "abc", "abxcdxbc", null, null );
 			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( System.Environment.NewLine
-	+ "\t" + @"expected: String containing ""abc""" + System.Environment.NewLine
-	+ "\t" + @" but was: <""abxcdxbc"">",
+			Assert.AreEqual(
+				"\t" + @"expected: String containing ""abc""" + System.Environment.NewLine +
+				"\t" + @" but was: <""abxcdxbc"">" + System.Environment.NewLine,
 				asserter.Message );
 		}
 
@@ -36,9 +36,9 @@ namespace NUnit.Framework.Tests
 			StartsWithAsserter asserter = 
 				new StartsWithAsserter( "xyz", "abcxyz", null, null );
 			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( System.Environment.NewLine
-	+ "\t" + @"expected: String starting with ""xyz""" + System.Environment.NewLine
-	+ "\t" + @" but was: <""abcxyz"">",
+			Assert.AreEqual(
+				"\t" + @"expected: String starting with ""xyz""" + System.Environment.NewLine +
+				"\t" + @" but was: <""abcxyz"">" + System.Environment.NewLine,
 				asserter.Message );
 		}
 	
@@ -55,9 +55,9 @@ namespace NUnit.Framework.Tests
 			EndsWithAsserter asserter =
 				new EndsWithAsserter( "xyz", "abcdef", null, null );
 			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( System.Environment.NewLine
-	+ "\t" + @"expected: String ending with ""xyz""" + System.Environment.NewLine
-	+ "\t" + @" but was: <""abcdef"">",
+			Assert.AreEqual(
+				"\t" + @"expected: String ending with ""xyz""" + System.Environment.NewLine +
+				"\t" + @" but was: <""abcdef"">" + System.Environment.NewLine,
 				asserter.Message );
 		}
 
@@ -73,12 +73,12 @@ namespace NUnit.Framework.Tests
 			EqualIgnoringCaseAsserter asserter =
 				new EqualIgnoringCaseAsserter( "Name", "NAMES", null, null );
 			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( System.Environment.NewLine
-	+ "\tString lengths differ.  Expected length=4, but was length=5." + System.Environment.NewLine
+			Assert.AreEqual(
+	"\tString lengths differ.  Expected length=4, but was length=5." + System.Environment.NewLine
 	+ "\tStrings differ at index 4." + System.Environment.NewLine
 	+ "\t" + @"expected: <""Name"">" + System.Environment.NewLine
 	+ "\t" + @" but was: <""NAMES"">" + System.Environment.NewLine
-	+ "\t----------------^",
+	+ "\t----------------^" + System.Environment.NewLine,
 				asserter.Message );
 		}
 
@@ -94,9 +94,9 @@ namespace NUnit.Framework.Tests
 			RegexAsserter asserter =
 				new RegexAsserter( "a?b*c", "12ab456", null, null );
 			Assert.IsFalse( asserter.Test() );
-			Assert.AreEqual( System.Environment.NewLine
-				+ "\t" + @"expected: String matching ""a?b*c""" + System.Environment.NewLine
-				+ "\t" + @" but was: <""12ab456"">",
+			Assert.AreEqual(
+				"\t" + @"expected: String matching ""a?b*c""" + System.Environment.NewLine
+				+ "\t" + @" but was: <""12ab456"">"  + System.Environment.NewLine,
 				asserter.Message );
 		}
 	}

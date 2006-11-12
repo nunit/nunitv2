@@ -11,10 +11,10 @@ namespace NUnit.Framework.Tests
 		{
 			new MessageTester( null, null ).Test( string.Empty );
 			new MessageTester( string.Empty, null ).Test( string.Empty );
-			new MessageTester( "xyz", null ).Test( "xyz" );
-			new MessageTester( "xyz", new object[0] ).Test( "xyz" );
-			new MessageTester( "one: {0} two: {1}", new object[] {1,2} ).Test( "one: 1 two: 2" );
-			new MessageTester( "xyz", new object[] {1,2} ).Test( "xyz" );
+			new MessageTester( "xyz", null ).Test( "xyz" + Environment.NewLine );
+			new MessageTester( "xyz", new object[0] ).Test( "xyz" + Environment.NewLine );
+			new MessageTester( "one: {0} two: {1}", new object[] {1,2} ).Test( "one: 1 two: 2" + Environment.NewLine );
+			new MessageTester( "xyz", new object[] {1,2} ).Test( "xyz" + Environment.NewLine );
 		}
 
 		private class MessageTester : AbstractAsserter

@@ -181,39 +181,38 @@ namespace NUnit.Framework.Tests
 			[Test]
 			public void TestFormatMessageForFailNotEquals()
 			{
-				Assert.AreEqual( 
-					Environment.NewLine + "	expected: <(null)>" +
-					Environment.NewLine + "	 but was: <(null)>", 
+				Assert.AreEqual( "	expected: <(null)>" + Environment.NewLine + 
+					"	 but was: <(null)>" + Environment.NewLine, 
 					GetMsg( null, null, null ) );
 
 				Assert.AreEqual( 
-					Environment.NewLine + "	expected: <(null)>" +
-					Environment.NewLine + "	 but was: <(null)>", 
+					"	expected: <(null)>" + Environment.NewLine + 
+					"	 but was: <(null)>" + Environment.NewLine, 
 					GetMsg(null, null,  "") );
 
 				Assert.AreEqual( "message" +
 					Environment.NewLine + "	expected: <(null)>" +
-					Environment.NewLine + "	 but was: <(null)>", 
+					Environment.NewLine + "	 but was: <(null)>" + Environment.NewLine, 
 					GetMsg(null, null, "message" ) );
 
 				Assert.AreEqual( "message" +
 					Environment.NewLine + "	expected: <1>" +
-					Environment.NewLine + "	 but was: <2>", 
+					Environment.NewLine + "	 but was: <2>" + Environment.NewLine, 
 					GetMsg( 1, 2, "message" ) );
 
 				Assert.AreEqual( "message" +
 					Environment.NewLine + "	expected: <\"\">" +
-					Environment.NewLine + "	 but was: <(null)>", 
+					Environment.NewLine + "	 but was: <(null)>" + Environment.NewLine, 
 					GetMsg( "", null, "message" ) );
 
 				Assert.AreEqual( "message" +
 					Environment.NewLine + "	expected: <1>" +
-					Environment.NewLine + "	 but was: <\"1\">",
+					Environment.NewLine + "	 but was: <\"1\">" + Environment.NewLine,
 					GetMsg( 1, "1", "message" ) );
 
 				Assert.AreEqual( "message 5" +
 					Environment.NewLine + "	expected: <1>" +
-					Environment.NewLine + "	 but was: <\"1\">",
+					Environment.NewLine + "	 but was: <\"1\">" + Environment.NewLine,
 					GetMsg( 1, "1", "message {0}", 5 ) );
 			
 				Assert.AreEqual( "message" +
@@ -221,7 +220,7 @@ namespace NUnit.Framework.Tests
 					Environment.NewLine + "	Strings differ at index 1." +
 					Environment.NewLine + "	expected: <\"a\">" +
 					Environment.NewLine + "	 but was: <\"aa\">" +
-					Environment.NewLine + "	-------------^",
+					Environment.NewLine + "	-------------^" + Environment.NewLine,
 					GetMsg( "a", "aa", "message" ) );
 
 				Assert.AreEqual( "message" +
@@ -229,7 +228,7 @@ namespace NUnit.Framework.Tests
 					Environment.NewLine + "	Strings differ at index 1." +
 					Environment.NewLine + "	expected: <\"aa\">" +
 					Environment.NewLine + "	 but was: <\"ab\">" +
-					Environment.NewLine + "	-------------^",
+					Environment.NewLine + "	-------------^" + Environment.NewLine,
 					GetMsg( "aa", "ab", "message" ) );
 
 				Assert.AreEqual( "message" +
@@ -237,7 +236,7 @@ namespace NUnit.Framework.Tests
 					Environment.NewLine + "	Strings differ at index 1." +
 					Environment.NewLine + "	expected: <\"a\">" +
 					Environment.NewLine + "	 but was: <\"abc\">" +
-					Environment.NewLine + "	-------------^",
+					Environment.NewLine + "	-------------^" + Environment.NewLine,
 					GetMsg( "a", "abc", "message" ) );
 
 				Assert.AreEqual( "message" +
@@ -245,7 +244,7 @@ namespace NUnit.Framework.Tests
 					Environment.NewLine + "	Strings differ at index 1." +
 					Environment.NewLine + "	expected: <\"123\">" +
 					Environment.NewLine + "	 but was: <\"1x3\">" +
-					Environment.NewLine + "	-------------^",
+					Environment.NewLine + "	-------------^" + Environment.NewLine,
 					GetMsg( "123", "1x3", "message" ) );
 
 				Assert.AreEqual( "message" +
@@ -253,12 +252,12 @@ namespace NUnit.Framework.Tests
 					Environment.NewLine + "	Strings differ at index 3." +
 					Environment.NewLine + "	expected: <\"12345\">" +
 					Environment.NewLine + "	 but was: <\"123\">" +
-					Environment.NewLine + "	---------------^",
+					Environment.NewLine + "	---------------^" + Environment.NewLine,
 					GetMsg( "12345", "123", "message" ) );
 
 				Assert.AreEqual( "message" +
 					Environment.NewLine + "	expected: <" + new DateTime(2005, 6, 1, 0, 0, 0) + ">" +
-					Environment.NewLine + "	 but was: <" + new DateTime(2005, 6, 7, 0, 0, 0) + ">",
+					Environment.NewLine + "	 but was: <" + new DateTime(2005, 6, 7, 0, 0, 0) + ">" + Environment.NewLine,
 					GetMsg( new DateTime( 2005, 6, 1 ), new DateTime( 2005, 6, 7 ), "message" ) );
 			}
 
@@ -273,7 +272,7 @@ namespace NUnit.Framework.Tests
 					Environment.NewLine + "	Strings differ at index 4." +
 					Environment.NewLine + "	expected: <\"Name\">" +
 					Environment.NewLine + "	 but was: <\"NAMES\">" +
-					Environment.NewLine + "	----------------^",
+					Environment.NewLine + "	----------------^" + Environment.NewLine,
 					msg.ToString() );
 			}
 
@@ -302,7 +301,7 @@ namespace NUnit.Framework.Tests
 					Environment.NewLine + "	Strings differ at index 1." +
 					Environment.NewLine + "	expected: <\"a\\r\">" +
 					Environment.NewLine + "	 but was: <\"aa\\r\">" +
-					Environment.NewLine + "	-------------^",
+					Environment.NewLine + "	-------------^" + Environment.NewLine,
 					GetMsg( "a\r", "aa\r", "message" ) );
 
 				Assert.AreEqual( "message" +
@@ -310,7 +309,7 @@ namespace NUnit.Framework.Tests
 					Environment.NewLine + "	Strings differ at index 1." +
 					Environment.NewLine + "	expected: <\"a\\n\">" +
 					Environment.NewLine + "	 but was: <\"aa\\n\">" +
-					Environment.NewLine + "	-------------^",
+					Environment.NewLine + "	-------------^" + Environment.NewLine,
 					GetMsg( "a\n", "aa\n", "message" ) );
 
 				Assert.AreEqual( "message" +
@@ -318,7 +317,7 @@ namespace NUnit.Framework.Tests
 					Environment.NewLine + "	Strings differ at index 5." +
 					Environment.NewLine + "	expected: <\"aa\\r\\naa\">" +
 					Environment.NewLine + "	 but was: <\"aa\\r\\nab\">" +
-					Environment.NewLine + "	-------------------^",
+					Environment.NewLine + "	-------------------^" + Environment.NewLine,
 					GetMsg( "aa\r\naa", "aa\r\nab", "message" ) );
 			}
 
@@ -355,12 +354,12 @@ namespace NUnit.Framework.Tests
 
 				string sFirst  = "00000000001111111111222222222233333333334444444444555555555566666666667777777777888888888899999999990000000000111111111122222222223333333333444444444455555555556666";
 				string sSecond = "00000000001111111111222222222233333333334444444444555555555566666666667777777777888888888899999999990000000000111111111122222222223333333333444444444455555555556666++";
-				Assert.AreEqual( System.Environment.NewLine + 
+				Assert.AreEqual(
 "	String lengths differ.  Expected length=164, but was length=166." + System.Environment.NewLine +
 "	Strings differ at index 164." + System.Environment.NewLine + 
 "	expected: <\"...23333333333444444444455555555556666\">" + System.Environment.NewLine + 
 "	 but was: <\"...23333333333444444444455555555556666++\">" + System.Environment.NewLine + 
-"	--------------------------------------------------^",
+"	--------------------------------------------------^" + Environment.NewLine,
 					GetMsg( sFirst, sSecond, null ) );
 			}
 
@@ -375,11 +374,11 @@ namespace NUnit.Framework.Tests
 				string sFirst  = "0000000000111111111122";
 				string sSecond = "0000000000111111111122++";
 				Assert.AreEqual( 
-					Environment.NewLine + "	String lengths differ.  Expected length=22, but was length=24." + 
+					"	String lengths differ.  Expected length=22, but was length=24." + 
 					Environment.NewLine + "	Strings differ at index 22." + 
 					Environment.NewLine + "	expected: <\"0000000000111111111122\">" + 
 					Environment.NewLine + "	 but was: <\"0000000000111111111122++\">" + 
-					Environment.NewLine + "	----------------------------------^",
+					Environment.NewLine + "	----------------------------------^" + Environment.NewLine,
 					GetMsg( sFirst, sSecond, null ) );
 			}
 
@@ -410,7 +409,12 @@ namespace NUnit.Framework.Tests
 				{
 					string sFirst  = new string( '=', i );
 					string sSecond = new string( '=', i ) + sExtra;
-					Assert.AreEqual( "" + System.Environment.NewLine + "\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + "." + System.Environment.NewLine + "\tStrings differ at index "+ i +"." + System.Environment.NewLine + "\texpected: <\""+ sFirst +"\">" + System.Environment.NewLine + "\t but was: <\""+ sSecond +"\">" + System.Environment.NewLine + "\t" + (new string('-',actualPrefix.Length+i+3)) + "^",
+					Assert.AreEqual( 
+						"\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + "." + System.Environment.NewLine + 
+						"\tStrings differ at index "+ i +"." + System.Environment.NewLine + 
+						"\texpected: <\""+ sFirst +"\">" + System.Environment.NewLine + 
+						"\t but was: <\""+ sSecond +"\">" + System.Environment.NewLine + 
+						"\t" + (new string('-',actualPrefix.Length+i+3)) + "^" + Environment.NewLine,
 						GetMsg( sFirst, sSecond, null ),
 						"Failed at index " + i);
 				}
@@ -426,7 +430,12 @@ namespace NUnit.Framework.Tests
 				{
 					string sFirst  = new string( '=', i );
 					string sSecond = new string( '=', i ) + sExtra;
-					Assert.AreEqual( "" + System.Environment.NewLine + "\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + "." + System.Environment.NewLine + "\tStrings differ at index "+ i +"." + System.Environment.NewLine + "\texpected: <\""+ sExpected +"\">" + System.Environment.NewLine + "\t but was: <\""+ sActual +"\">" + System.Environment.NewLine + "\t" + (new string('-',actualPrefix.Length+"...".Length+PreClipLength+3)) + "^",
+					Assert.AreEqual( 
+						"\tString lengths differ.  Expected length=" + i + ", but was length=" + (i+sExtra.Length) + "." + System.Environment.NewLine + 
+						"\tStrings differ at index "+ i +"." + System.Environment.NewLine + 
+						"\texpected: <\""+ sExpected +"\">" + System.Environment.NewLine + 
+						"\t but was: <\""+ sActual +"\">" + System.Environment.NewLine + 
+						"\t" + (new string('-',actualPrefix.Length+"...".Length+PreClipLength+3)) + "^" + Environment.NewLine,
 						GetMsg( sFirst, sSecond, null ),
 						"Failed at index " + i );
 				}
@@ -439,33 +448,45 @@ namespace NUnit.Framework.Tests
 
 				msg = new AssertionFailureMessage( "message");
 				msg.DisplayListElements( "label:", new object[] { "a", "b", "c" }, 0, 3 );
-				Assert.AreEqual( "message" + System.Environment.NewLine + "label:<<\"a\">,<\"b\">,<\"c\">>",
+				Assert.AreEqual( 
+					"message" + System.Environment.NewLine + 
+					"label:<<\"a\">,<\"b\">,<\"c\">>" + Environment.NewLine,
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message");
 				msg.DisplayListElements( "label:", new object[] { "a", "b", "c" }, 0, 5 );
-				Assert.AreEqual( "message" + System.Environment.NewLine + "label:<<\"a\">,<\"b\">,<\"c\">>",
+				Assert.AreEqual( 
+					"message" + System.Environment.NewLine + 
+					"label:<<\"a\">,<\"b\">,<\"c\">>" + Environment.NewLine,
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message");
 				msg.DisplayListElements( "label:", new object[] { "a", "b", "c" }, 1, 1 );
-				Assert.AreEqual( "message" + System.Environment.NewLine + "label:<<\"b\">,...>",
+				Assert.AreEqual( 
+					"message" + System.Environment.NewLine + 
+					"label:<<\"b\">,...>" + Environment.NewLine,
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message");
 				msg.DisplayListElements( "label:", new object[] { "a", "b", "c" }, 1, 5 );
-				Assert.AreEqual( "message" + System.Environment.NewLine + "label:<<\"b\">,<\"c\">>",
+				Assert.AreEqual( 
+					"message" + System.Environment.NewLine + 
+					"label:<<\"b\">,<\"c\">>" + Environment.NewLine,
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message");
 				msg.DisplayListElements( "label:", new object[0], 0, 5 );
-				Assert.AreEqual( "message" + System.Environment.NewLine + "label:<empty>",
+				Assert.AreEqual( 
+					"message" + System.Environment.NewLine + 
+					"label:<empty>" + Environment.NewLine,
 					msg.ToString() );
 
 
 				msg = new AssertionFailureMessage( "message");
 				msg.DisplayListElements( "label:", null, 0, 5 );
-				Assert.AreEqual( "message" + System.Environment.NewLine + "label:<null>",
+				Assert.AreEqual( 
+					"message" + System.Environment.NewLine + 
+					"label:<null>" + Environment.NewLine,
 					msg.ToString() );
 			}
 
@@ -483,7 +504,7 @@ namespace NUnit.Framework.Tests
 				Assert.AreEqual( "message" +
 					Environment.NewLine + "Array lengths differ.  Expected length=3, but was length=5." +
 					Environment.NewLine + "Arrays differ at index 3." +
-					Environment.NewLine + "   extra:<<\"four\">,<\"five\">>",
+					Environment.NewLine + "   extra:<<\"four\">,<\"five\">>" + Environment.NewLine,
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message" );
@@ -495,7 +516,7 @@ namespace NUnit.Framework.Tests
 				Assert.AreEqual( "message" +
 					Environment.NewLine + "Array lengths differ.  Expected length=5, but was length=3." +
 					Environment.NewLine + "Arrays differ at index 3." +
-					Environment.NewLine + " missing:<<\"four\">,<\"five\">>",
+					Environment.NewLine + " missing:<<\"four\">,<\"five\">>" + Environment.NewLine,
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message" );
@@ -511,7 +532,7 @@ namespace NUnit.Framework.Tests
 					Environment.NewLine + "	Strings differ at index 1." +
 					Environment.NewLine + "	expected: <\"three\">" +
 					Environment.NewLine + "	 but was: <\"ten\">" +
-					Environment.NewLine + "	-------------^",
+					Environment.NewLine + "	-------------^" + Environment.NewLine,
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message" );
@@ -524,7 +545,7 @@ namespace NUnit.Framework.Tests
 					Environment.NewLine + "Array lengths are both 3." +
 					Environment.NewLine + "Arrays differ at index 2." +
 					Environment.NewLine + "	expected: <3>" +
-					Environment.NewLine + "	 but was: <10>",
+					Environment.NewLine + "	 but was: <10>" + Environment.NewLine,
 					msg.ToString() );
 
 				msg = new AssertionFailureMessage( "message" );
@@ -537,7 +558,7 @@ namespace NUnit.Framework.Tests
 					Environment.NewLine + "Array lengths are both 6." +
 					Environment.NewLine + "Arrays differ at index 2." +
 					Environment.NewLine + "	expected: <3>" +
-					Environment.NewLine + "	 but was: <9>",
+					Environment.NewLine + "	 but was: <9>" + Environment.NewLine,
 					msg.ToString() );
 
 			}

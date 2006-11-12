@@ -27,8 +27,8 @@ namespace NUnit.Framework.Tests
 				new ListContentsAsserter( "def", testArray, null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual( 
-				Environment.NewLine + "	expected: <\"def\">" + 
-				Environment.NewLine + "	 but was: <<\"abc\">,<123>,<\"xyz\">>",	
+				"	expected: <\"def\">" + Environment.NewLine + 
+				"	 but was: <<\"abc\">,<123>,<\"xyz\">>" + Environment.NewLine,	
 				asserter.Message );
 		}
 
@@ -39,8 +39,8 @@ namespace NUnit.Framework.Tests
 				new ListContentsAsserter( "def", new object[0], null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual( 
-				Environment.NewLine + "	expected: <\"def\">" +
-				Environment.NewLine + "	 but was: <empty>",
+				"	expected: <\"def\">" + Environment.NewLine + 
+				"	 but was: <empty>" + Environment.NewLine,
 				asserter.Message );
 		}
 
@@ -51,8 +51,8 @@ namespace NUnit.Framework.Tests
 				new ListContentsAsserter( "def", null, null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual( 
-				Environment.NewLine + "	expected: <\"def\">" +
-				Environment.NewLine + "	 but was: <null>",
+				"	expected: <\"def\">" + Environment.NewLine + 
+				"	 but was: <null>" + Environment.NewLine,
 				asserter.Message );
 		}
 
@@ -73,8 +73,8 @@ namespace NUnit.Framework.Tests
 				new ListContentsAsserter( "def", new ArrayList(testArray), null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual( 
-				Environment.NewLine + "	expected: <\"def\">" +
-				Environment.NewLine + "	 but was: <<\"abc\">,<123>,<\"xyz\">>",
+				"	expected: <\"def\">" + Environment.NewLine + 
+				"	 but was: <<\"abc\">,<123>,<\"xyz\">>" + Environment.NewLine,
 				asserter.Message );
 		}
 
@@ -85,8 +85,8 @@ namespace NUnit.Framework.Tests
 				new ListContentsAsserter( 123.0, new ArrayList(testArray), null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual( 
-				Environment.NewLine + "	expected: <123>" +
-				Environment.NewLine + "	 but was: <<\"abc\">,<123>,<\"xyz\">>",
+				"	expected: <123>" + Environment.NewLine + 
+				"	 but was: <<\"abc\">,<123>,<\"xyz\">>" + Environment.NewLine,
 				asserter.Message );
 			// TODO: Better message for this case
 		}

@@ -107,7 +107,7 @@ namespace NUnit.Framework.Tests
 						{
 							StreamAsserter asserter = new StreamEqualAsserter( expected, actual, "message {0}", 42 );
 							Assert.IsFalse( asserter.Test() );
-							Assert.AreEqual( "message 42" + System.Environment.NewLine + "expected and actual are not equal." + System.Environment.NewLine + "\texpected: Length : 3304" + System.Environment.NewLine + "\t but was: Length : 3464", asserter.Message );
+							Assert.AreEqual( "message 42" + System.Environment.NewLine + "expected and actual are not equal." + System.Environment.NewLine + "\texpected: Length : 3304" + System.Environment.NewLine + "\t but was: Length : 3464" + Environment.NewLine, asserter.Message );
 						}
 					}
 				}
@@ -394,7 +394,7 @@ namespace NUnit.Framework.Tests
 						{
 							StreamAsserter asserter = new StreamNotEqualAsserter( expected, actual, "message {0}", 42 );
 							Assert.IsFalse( asserter.Test() );
-							Assert.AreEqual( "message 42" + System.Environment.NewLine + "expected and actual are equal." + System.Environment.NewLine + "\texpected: Length : 3304" + System.Environment.NewLine + "\t but was: Length : 3304", asserter.Message );
+							Assert.AreEqual( "message 42" + System.Environment.NewLine + "expected and actual are equal." + System.Environment.NewLine + "\texpected: Length : 3304" + System.Environment.NewLine + "\t but was: Length : 3304" + Environment.NewLine, asserter.Message );
 						}
 					}
 				}

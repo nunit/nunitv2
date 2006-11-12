@@ -17,7 +17,8 @@ namespace NUnit.Framework.Tests
 				typeof(System.Int32), "abc123", null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual(
-				System.Environment.NewLine + "\texpected: Object to be instance of System.Int32" + System.Environment.NewLine + "\t but was: System.String",
+				"\texpected: Object to be instance of System.Int32" + System.Environment.NewLine + 
+				"\t but was: System.String" + System.Environment.NewLine,
 				asserter.Message );
 		}
 
@@ -34,7 +35,8 @@ namespace NUnit.Framework.Tests
 				typeof(System.Exception), new System.ApplicationException(), null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual(
-				System.Environment.NewLine + "\texpected: Object not an instance of System.Exception" + System.Environment.NewLine + "\t but was: System.ApplicationException",
+				"\texpected: Object not an instance of System.Exception" + System.Environment.NewLine + 
+				"\t but was: System.ApplicationException" + System.Environment.NewLine,
 				asserter.Message );
 		}
 
@@ -59,7 +61,8 @@ namespace NUnit.Framework.Tests
 				array2.GetType(), array10, null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual( 
-				System.Environment.NewLine + "\texpected: Type assignable from System.Int32[,]" + System.Environment.NewLine + "\t but was: System.Int32[]", 
+				"\texpected: Type assignable from System.Int32[,]" + System.Environment.NewLine + 
+				"\t but was: System.Int32[]" + System.Environment.NewLine, 
 				asserter.Message );
 		}
 
@@ -84,7 +87,8 @@ namespace NUnit.Framework.Tests
 				array2.GetType(), array10, null, null );
 			Assert.AreEqual( false, asserter.Test() );
 			Assert.AreEqual( 
-				System.Environment.NewLine + "\texpected: Type not assignable from System.Int32[]" + System.Environment.NewLine + "\t but was: System.Int32[]", 
+				"\texpected: Type not assignable from System.Int32[]" + System.Environment.NewLine + 
+				"\t but was: System.Int32[]" + System.Environment.NewLine, 
 				asserter.Message );
 		}
 	}

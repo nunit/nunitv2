@@ -11,13 +11,13 @@ namespace NUnit.Framework.Tests
 	//[Platform(Exclude="Linux")]
 	public class CollectionAssertTest
 	{
-		static string typeErrorMsg = "" + Environment.NewLine + "\tAll objects are not of actual type." + Environment.NewLine + "\tset1.Count: 3" + Environment.NewLine + "\tactual: String";
-		static string notnullErrorMsg = "" + Environment.NewLine + "\tAt least one object is null." + Environment.NewLine + "\tset1.Count: 3";
-		static string uniqueErrorMsg = "" + Environment.NewLine + "\tAt least one object is not unique within set1." + Environment.NewLine + "\tset1.Count: 3";
-		static string equalErrorMsg = "" + Environment.NewLine + "\tset1 and set2 are not equal at index 3";
-		static string equalCountErrorMsg = "" + Environment.NewLine + "\tset1 and set2 do not have equal Count properties.";
-		static string equivalentOneErrorMsg = "" + Environment.NewLine + "\tAn item from set1 was not found in set2.";
-		static string equivalentTwoErrorMsg = "" + Environment.NewLine + "\tAn item from set2 was not found in set1.";
+		static string typeErrorMsg = "\tAll objects are not of actual type." + Environment.NewLine + "\tset1.Count: 3" + Environment.NewLine + "\tactual: String" + Environment.NewLine;
+		static string notnullErrorMsg = "\tAt least one object is null." + Environment.NewLine + "\tset1.Count: 3" + Environment.NewLine;
+		static string uniqueErrorMsg = "\tAt least one object is not unique within set1." + Environment.NewLine + "\tset1.Count: 3" + Environment.NewLine;
+		static string equalErrorMsg = "" + Environment.NewLine + "\tset1 and set2 are not equal at index 3" + Environment.NewLine;
+		static string equalCountErrorMsg = "" + Environment.NewLine + "\tset1 and set2 do not have equal Count properties." + Environment.NewLine;
+		static string equivalentOneErrorMsg = "" + Environment.NewLine + "\tAn item from set1 was not found in set2." + Environment.NewLine;
+		static string equivalentTwoErrorMsg = "" + Environment.NewLine + "\tAn item from set2 was not found in set1." + Environment.NewLine;
 
 		public CollectionAssertTest()
 		{
@@ -70,7 +70,7 @@ namespace NUnit.Framework.Tests
 				ex = caughtException;
 			}
 
-			CheckException(ex, typeof(NUnit.Framework.AssertionException), "test" + typeErrorMsg);
+			CheckException(ex, typeof(NUnit.Framework.AssertionException), "test" + Environment.NewLine + typeErrorMsg);
 		}
 
 		[Test()]
@@ -90,7 +90,7 @@ namespace NUnit.Framework.Tests
 				ex = actualException;
 			}
 			
-			CheckException(ex, typeof(NUnit.Framework.AssertionException), "test 1" + typeErrorMsg);
+			CheckException(ex, typeof(NUnit.Framework.AssertionException), "test 1" + Environment.NewLine + typeErrorMsg);
 		}
 
 		[Test()]
@@ -155,7 +155,7 @@ namespace NUnit.Framework.Tests
 				ex = actualException;
 			}
 
-			CheckException(ex, typeof(AssertionException),notnullErrorMsg);
+			CheckException(ex, typeof(AssertionException), notnullErrorMsg);
 		}
 
 		[Test]
@@ -176,7 +176,7 @@ namespace NUnit.Framework.Tests
 				ex = actualException;
 			}
 
-			CheckException(ex, typeof(AssertionException),"test 1" + notnullErrorMsg);
+			CheckException(ex, typeof(AssertionException),"test 1" + Environment.NewLine + notnullErrorMsg);
 		}
 
 		[Test]
@@ -197,7 +197,7 @@ namespace NUnit.Framework.Tests
 				ex = actualException;
 			}
 
-			CheckException(ex, typeof(AssertionException),"test" + notnullErrorMsg);
+			CheckException(ex, typeof(AssertionException),"test" + Environment.NewLine + notnullErrorMsg);
 		}
 		#endregion
 
@@ -266,7 +266,7 @@ namespace NUnit.Framework.Tests
 				ex = actualException;
 			}
 
-			CheckException(ex, typeof(AssertionException),"test" + uniqueErrorMsg);
+			CheckException(ex, typeof(AssertionException),"test" + Environment.NewLine + uniqueErrorMsg);
 		}
 
 		[Test]
@@ -288,7 +288,7 @@ namespace NUnit.Framework.Tests
 				ex = actualException;
 			}
 
-			CheckException(ex, typeof(AssertionException),"test 1" + uniqueErrorMsg);
+			CheckException(ex, typeof(AssertionException),"test 1" + Environment.NewLine + uniqueErrorMsg);
 		}
 
 		#endregion

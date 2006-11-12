@@ -40,8 +40,8 @@ namespace NUnit.Framework
 		{
 			get
 			{
-				FailureMessage.AddExpectedLine( Expectation );
-				FailureMessage.AddActualLine( actual.GetType().ToString() );
+				FailureMessage.WriteExpectedLine( Expectation );
+				FailureMessage.WriteActualLine( actual.GetType().ToString() );
 				return FailureMessage.ToString();
 			}
 		}

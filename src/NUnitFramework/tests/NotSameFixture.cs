@@ -24,7 +24,10 @@ namespace NUnit.Framework.Tests
 			{
 				Assert.AreNotSame( s1, s1 );
 			} catch(AssertionException ae) {
-				Assert.AreEqual(System.Environment.NewLine + "Objects should be different" + System.Environment.NewLine + "\tboth are: <\"S1\">", ae.Message);
+				Assert.AreEqual(
+					"Objects should be different" + System.Environment.NewLine + 
+					"\tboth are: <\"S1\">" + Environment.NewLine, 
+					ae.Message );
 				return;
 			}
 			Assert.Fail("Expected AssertionException to be thrown");

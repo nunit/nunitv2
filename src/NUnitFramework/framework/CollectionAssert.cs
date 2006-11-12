@@ -62,7 +62,7 @@ namespace NUnit.Framework
 				}
 				if (!found)
 				{
-					FailureMessage.AddLine("\tAn item from set1 was not found in set2.");
+					FailureMessage.WriteLine("\tAn item from set1 was not found in set2.");
 					return false;
 				}
 			}
@@ -80,7 +80,7 @@ namespace NUnit.Framework
 				}
 				if (!found)
 				{
-					FailureMessage.AddLine("\tAn item from set2 was not found in set1.");
+					FailureMessage.WriteLine("\tAn item from set2 was not found in set1.");
 					return false;
 				}
 			}
@@ -106,7 +106,7 @@ namespace NUnit.Framework
 
 			if (set1.Count != set2.Count)
 			{
-				FailureMessage.AddLine("\tset1 and set2 do not have equal Count properties.");
+				FailureMessage.WriteLine("\tset1 and set2 do not have equal Count properties.");
 				return false;
 			}
 
@@ -129,7 +129,7 @@ namespace NUnit.Framework
 
 						if (!isObjectsSame)
 						{
-							FailureMessage.AddLine("\tset1 and set2 are not equal at index {0}",set1iteration);
+							FailureMessage.WriteLine("\tset1 and set2 are not equal at index {0}",set1iteration);
 							return false;
 						}
 						break;
@@ -230,9 +230,9 @@ namespace NUnit.Framework
 		}
 		protected void CreateMessage()
 		{
-			FailureMessage.AddLine("\tAll objects are not of actual type.");
-			FailureMessage.AddLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
-			FailureMessage.AddLine("\t{0} {1}","actual:",((Type)this.actual).Name);
+			FailureMessage.WriteLine("\tAll objects are not of actual type.");
+			FailureMessage.WriteLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
+			FailureMessage.WriteLine("\t{0} {1}","actual:",((Type)this.actual).Name);
 		}
 	}
 
@@ -259,8 +259,8 @@ namespace NUnit.Framework
 		}
 		protected void CreateMessage()
 		{
-			FailureMessage.AddLine("\tAt least one object is null.");
-			FailureMessage.AddLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
+			FailureMessage.WriteLine("\tAt least one object is null.");
+			FailureMessage.WriteLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
 		}
 	}
 
@@ -298,8 +298,8 @@ namespace NUnit.Framework
 		}
 		protected void CreateMessage()
 		{
-			FailureMessage.AddLine("\tAt least one object is not unique within set1.");
-			FailureMessage.AddLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
+			FailureMessage.WriteLine("\tAt least one object is not unique within set1.");
+			FailureMessage.WriteLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
 		}
 	}
 
@@ -326,9 +326,9 @@ namespace NUnit.Framework
 		}
 		protected void CreateMessage()
 		{
-			FailureMessage.AddLine("\tThe actual object was not found in set1.");
-			FailureMessage.AddLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
-			FailureMessage.AddActualLine(actual.ToString());
+			FailureMessage.WriteLine("\tThe actual object was not found in set1.");
+			FailureMessage.WriteLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
+			FailureMessage.WriteActualLine(actual.ToString());
 		}
 	}
 
@@ -355,9 +355,9 @@ namespace NUnit.Framework
 		}
 		protected void CreateMessage()
 		{
-			FailureMessage.AddLine("\tThe actual object was found in set1.");
-			FailureMessage.AddLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
-			FailureMessage.AddActualLine(actual.ToString());
+			FailureMessage.WriteLine("\tThe actual object was found in set1.");
+			FailureMessage.WriteLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
+			FailureMessage.WriteActualLine(actual.ToString());
 		}
 	}
 
@@ -547,8 +547,8 @@ namespace NUnit.Framework
             if (set1.Count == 0)
                 return true;
 
-            FailureMessage.AddExpectedLine("An empty collection");
-            FailureMessage.AddActualLine(string.Format("A collection containing {0} items", set1.Count));
+            FailureMessage.WriteExpectedLine("An empty collection");
+            FailureMessage.WriteActualLine(string.Format("A collection containing {0} items", set1.Count));
             return false;
         }
     }
@@ -574,8 +574,8 @@ namespace NUnit.Framework
             if (set1.Count > 0)
                 return true;
 
-            FailureMessage.AddExpectedLine("A non-empty collection");
-            FailureMessage.AddActualLine("An empty collection");
+            FailureMessage.WriteExpectedLine("A non-empty collection");
+            FailureMessage.WriteActualLine("An empty collection");
             return false;
         }
     }

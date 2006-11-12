@@ -42,7 +42,7 @@ namespace NUnit.Framework
 		{
 			get
 			{
-				FailureMessage.AddExpectedLine( Expectation );
+				FailureMessage.WriteExpectedLine( Expectation );
 				FailureMessage.DisplayActualValue( actual );
 				return FailureMessage.ToString();
 			}

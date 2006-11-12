@@ -32,8 +32,8 @@ namespace NUnit.Framework
 
 		private void DisplayDifferences()
 		{
-			FailureMessage.AddExpectedLine( string.Format( "Value less than {0}", expected ) );
-			FailureMessage.AddActualLine(actual.ToString());
+			FailureMessage.WriteExpectedLine( string.Format( "Value less than {0}", expected ) );
+			FailureMessage.WriteActualLine(actual.ToString());
 		}
 	}
 }
