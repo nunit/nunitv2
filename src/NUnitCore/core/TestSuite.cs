@@ -85,6 +85,11 @@ namespace NUnit.Core
 
 		public void Add( Test test ) 
 		{
+//			if( test.RunState == RunState.Runnable )
+//			{
+//				test.RunState = this.RunState;
+//				test.IgnoreReason = this.IgnoreReason;
+//			}
 			test.Parent = this;
 			tests.Add(test);
 		}
@@ -150,7 +155,7 @@ namespace NUnit.Core
 
 		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
-			TestSuiteResult suiteResult = new TestSuiteResult( new TestInfo(this), TestName.FullName);
+			TestSuiteResult suiteResult = new TestSuiteResult( new TestInfo(this), TestName.Name);
 
 			listener.SuiteStarted( this.TestName );
 			long startTime = DateTime.Now.Ticks;

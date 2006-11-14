@@ -44,7 +44,7 @@ namespace NUnit.Util
 
 		public TestResultItem(TestResult result )
 		{
-			testName = result.Name;
+			testName = result.Test.TestName.FullName;
 			message = result.Message;
 			stackTrace = result.StackTrace;
 
