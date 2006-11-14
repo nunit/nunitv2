@@ -172,6 +172,8 @@ namespace NUnit.Framework.Tests
                 
 				Assert.AreEqual( "\\t", ConvertWhitespace( "\t" ) );
 				Assert.AreEqual( "\\t\\n", ConvertWhitespace( "\t\n" ) );
+
+				Assert.AreEqual( "\\\\r\\\\n", ConvertWhitespace( "\\r\\n" ) );
 			}
 
 			/// <summary>

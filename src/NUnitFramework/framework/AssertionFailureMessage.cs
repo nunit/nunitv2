@@ -495,6 +495,7 @@ namespace NUnit.Framework
 		{
 			if( null != sInput )
 			{
+				sInput = sInput.Replace( "\\", "\\\\" );
 				sInput = sInput.Replace( "\r", "\\r" );
 				sInput = sInput.Replace( "\n", "\\n" );
 				sInput = sInput.Replace( "\t", "\\t" );
