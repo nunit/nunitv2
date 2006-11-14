@@ -52,13 +52,16 @@ namespace NUnit.TestUtilities
 		{
 			FireRunStarting( test.TestName.FullName, test.TestCount );
 
-			TestResult result = SimulateTest( test );
+			TestResult result = SimulateTest( test, false );
 
 			FireRunFinished( result );
 		}
 
-		private TestResult SimulateTest( TestNode test )
+		private TestResult SimulateTest( TestNode test, bool ignore )
 		{
+			if ( test.RunState != RunState.Runnable )
+				ignore = true;
+
 			if ( test.IsSuite )
 			{
 				FireSuiteStarting( test.TestName );
@@ -66,7 +69,7 @@ namespace NUnit.TestUtilities
 				TestSuiteResult result = new TestSuiteResult( test, test.TestName.Name );
 
 				foreach( TestNode childTest in test.Tests )
-					result.AddResult( SimulateTest( childTest ) );
+					result.AddResult( SimulateTest( childTest, ignore ) );
 
 				FireSuiteFinished( result );
 
@@ -77,10 +80,8 @@ namespace NUnit.TestUtilities
 				FireTestStarting( test.TestName );
 				
 				TestCaseResult result = new TestCaseResult( test );
-				if ( test.RunState == RunState.Runnable )
-					result.RunState = RunState.Executed;
-				else
-					result.RunState = RunState.Ignored;
+
+				result.RunState = ignore ? RunState.Ignored : RunState.Executed;
 				
 				FireTestFinished( result );
 

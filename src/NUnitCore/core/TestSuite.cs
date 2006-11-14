@@ -85,11 +85,6 @@ namespace NUnit.Core
 
 		public void Add( Test test ) 
 		{
-			if( test.RunState == RunState.Runnable )
-			{
-				test.RunState = this.RunState;
-				test.IgnoreReason = this.IgnoreReason;
-			}
 			test.Parent = this;
 			tests.Add(test);
 		}
@@ -290,7 +285,7 @@ namespace NUnit.Core
                 {
                     RunState saveRunState = test.RunState;
 
-                    if (test.RunState == RunState.Runnable && this.RunState != RunState.Runnable)
+                    if (test.RunState == RunState.Runnable && this.RunState != RunState.Runnable && this.RunState != RunState.Explicit )
                     {
                         test.RunState = this.RunState;
                         test.IgnoreReason = this.IgnoreReason;
