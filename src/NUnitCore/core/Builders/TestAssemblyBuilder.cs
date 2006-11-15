@@ -199,9 +199,12 @@ namespace NUnit.Core.Builders
 			// Change currentDirectory in case assembly references unmanaged dlls
 			using( new DirectorySwapper( Path.GetDirectoryName( path ) ) )
 			{
-                // Under .Net 2.0, throw if this isn't a managed assembly
+                // Throws if this isn't a managed assembly or if it was built
+				// with a later version of the same assembly. 
 				AssemblyName.GetAssemblyName( path );
-
+				
+				// TODO: Figure out why we can't load using the assembly name
+				// in all cases. Might be a problem with the tests themselves.
                 Assembly assembly = Assembly.Load(Path.GetFileNameWithoutExtension(path));
 				
 				if ( assembly != null )
