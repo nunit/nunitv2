@@ -194,12 +194,15 @@ namespace NUnit.Core.Builders
 
 		#region Helper Methods
 
-		private Assembly Load(string assemblyName)
+		private Assembly Load(string path)
 		{
 			// Change currentDirectory in case assembly references unmanaged dlls
-			using( new DirectorySwapper( Path.GetDirectoryName( assemblyName ) ) )
+			using( new DirectorySwapper( Path.GetDirectoryName( path ) ) )
 			{
-				Assembly assembly = Assembly.Load(Path.GetFileNameWithoutExtension(assemblyName));
+                // Under .Net 2.0, throw if this isn't a managed assembly
+				AssemblyName.GetAssemblyName( path );
+
+                Assembly assembly = Assembly.Load(Path.GetFileNameWithoutExtension(path));
 				
 				if ( assembly != null )
 					AddinManager.CurrentManager.Register( assembly );

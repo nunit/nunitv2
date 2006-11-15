@@ -219,7 +219,10 @@ namespace NUnit.Util
 							XmlNode toolNode = configNode.SelectSingleNode( "Tool[@Name='VCLinkerTool']" );
 							if ( toolNode != null )
 							{
-								assemblyName = Path.GetFileName( toolNode.Attributes["OutputFile"].Value );
+                                XmlAttribute outputFileAttribute = toolNode.Attributes["OutputFile"];
+								assemblyName = outputFileAttribute != null
+                                    ? Path.GetFileName( outputFileAttribute.Value )
+                                    : Path.GetFileNameWithoutExtension(projectPath) + ".exe";
 							}
 							else
 							{

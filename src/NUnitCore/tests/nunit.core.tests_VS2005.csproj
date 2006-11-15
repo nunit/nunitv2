@@ -78,6 +78,10 @@
       <Project>{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\..\tests\notestfixtures-assembly\notestfixtures-assembly_VS2005.csproj">
+      <Project>{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}</Project>
+      <Name>notestfixtures-assembly_VS2005</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\tests\test-assembly\test-assembly_VS2005.csproj">
       <Project>{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}</Project>
       <Name>test-assembly_VS2005</Name>
@@ -105,6 +109,7 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="CategoryAttributeTests.cs" />
     <Compile Include="CoreExtensionsTests.cs" />
     <Compile Include="AllTests.cs">
       <SubType>Code</SubType>
