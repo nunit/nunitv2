@@ -153,9 +153,16 @@ namespace NUnit.UiKit
 
 			if ( dlg.ShowDialog( owner ) == DialogResult.OK ) 
 			{
-				VSProject vsProject = new VSProject( dlg.FileName );
-				loader.TestProject.Add( vsProject );
-				loader.LoadTest();
+				try
+				{
+					VSProject vsProject = new VSProject( dlg.FileName );
+					loader.TestProject.Add( vsProject );
+					loader.LoadTest();
+				}
+				catch( Exception ex )
+				{
+					UserMessage.DisplayFailure( ex.Message, "Invalid VS Project" );
+				}
 			}
 		}
 
