@@ -200,18 +200,18 @@ namespace NUnit.Util
 						this.projectType = VSProjectType.CPlusPlus;
 
 						XmlNode topNode = doc.SelectSingleNode( "/VisualStudioProject" );
-						string keyWord = topNode.Attributes["Keyword"].Value;
-						this.isManaged = keyWord == "ManagedCProj";
+						XmlNode keyWordAttr = topNode.Attributes["Keyword"];
+						this.isManaged = keyWordAttr != null && keyWordAttr.Value == "ManagedCProj";
 
 						// TODO: This is all very hacked up... replace it.
 						foreach ( XmlNode configNode in doc.SelectNodes( "/VisualStudioProject/Configurations/Configuration" ) )
 						{
-							string name = configNode.Attributes["Name"].Value;
+							string name = RequiredAttributeValue( configNode, "Name" );
 							string dirName = name;
 							int bar = dirName.IndexOf( '|' );
 							if ( bar >= 0 )
 								dirName = dirName.Substring( 0, bar );
-							string outputPath = configNode.Attributes["OutputDirectory"].Value;
+							string outputPath = RequiredAttributeValue( configNode, "OutputDirectory" );
 							outputPath = outputPath.Replace( "$(SolutionDir)", Path.GetFullPath( Path.GetDirectoryName( projectPath ) ) + Path.DirectorySeparatorChar );
 							outputPath = outputPath.Replace( "$(ConfigurationName)", dirName );
 
@@ -219,16 +219,17 @@ namespace NUnit.Util
 							XmlNode toolNode = configNode.SelectSingleNode( "Tool[@Name='VCLinkerTool']" );
 							if ( toolNode != null )
 							{
-                                XmlAttribute outputFileAttribute = toolNode.Attributes["OutputFile"];
-								assemblyName = outputFileAttribute != null
-                                    ? Path.GetFileName( outputFileAttribute.Value )
-                                    : Path.GetFileNameWithoutExtension(projectPath) + ".exe";
+								assemblyName = SafeAttributeValue( toolNode, "OutputFile" );
+								if ( assemblyName != null )
+									assemblyName = Path.GetFileName( assemblyName );
+								else
+									assemblyName = Path.GetFileNameWithoutExtension(projectPath) + ".exe";
 							}
 							else
 							{
 								toolNode = configNode.SelectSingleNode( "Tool[@Name='VCNMakeTool']" );
 								if ( toolNode != null )
-									assemblyName = Path.GetFileName( toolNode.Attributes["Output"].Value );
+									assemblyName = Path.GetFileName( RequiredAttributeValue( toolNode, "Output" ) );
 							}
 
 							assemblyName = assemblyName.Replace( "$(OutDir)", outputPath );
@@ -296,8 +297,8 @@ namespace NUnit.Util
 			if (settingsNode == null)
 				return false;
 
-			string assemblyName = settingsNode.Attributes["AssemblyName"].Value;
-			string outputType = settingsNode.Attributes["OutputType"].Value;
+			string assemblyName = RequiredAttributeValue( settingsNode, "AssemblyName" );
+			string outputType = RequiredAttributeValue( settingsNode, "OutputType" );
 
 			if (outputType == "Exe" || outputType == "WinExe")
 				assemblyName = assemblyName + ".exe";
@@ -308,8 +309,8 @@ namespace NUnit.Util
 			if (nodes != null)
 				foreach (XmlNode configNode in nodes)
 				{
-					string name = configNode.Attributes["Name"].Value;
-					string outputPath = configNode.Attributes["OutputPath"].Value;
+					string name = RequiredAttributeValue( configNode, "Name" );
+					string outputPath = RequiredAttributeValue( configNode, "OutputPath" );
 					string outputDirectory = Path.Combine(projectDirectory, outputPath);
 					string assemblyPath = Path.Combine(outputDirectory, assemblyName);
 
@@ -383,6 +384,20 @@ namespace NUnit.Util
 								Path.GetFileName( projectPath ) ), e );
 		}
 
+		private string SafeAttributeValue( XmlNode node, string attrName )
+		{
+			XmlNode attrNode = node.Attributes[attrName];
+			return attrNode == null ? null : attrNode.Value;
+		}
+
+		private string RequiredAttributeValue( XmlNode node, string name )
+		{
+			string result = SafeAttributeValue( node, name );
+			if ( result != null )
+				return result;
+
+			throw new ApplicationException( "Missing required attribute " + name );
+		}
 		#endregion
 	}
 }
