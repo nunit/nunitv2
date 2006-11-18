@@ -334,7 +334,7 @@ namespace NUnit.UiKit
 				ProjectConfig copyConfig = project.Configs[copyConfigurationName];
 				if ( copyConfig != null )
 					foreach( AssemblyListItem item in copyConfig.Assemblies )
-						newConfig.Assemblies.Add( item.FullPath, item.HasTests );
+						newConfig.Assemblies.Add( item.FullPath );
 			}
 
 			project.Configs.Add( newConfig );

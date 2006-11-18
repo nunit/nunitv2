@@ -9,7 +9,7 @@ namespace NUnit.UiKit
 	/// <summary>
 	/// Summary description for AssemblyListBox.
 	/// </summary>
-	public class AssemblyListBox : CheckedListBox
+	public class AssemblyListBox : ListBox
 	{
 		#region Instance Variables
 
@@ -106,8 +106,8 @@ namespace NUnit.UiKit
 				Graphics g = Graphics.FromHwnd( Handle );
 
 				Rectangle itemRect = GetItemRectangle( hoverIndex );
-				itemRect.Offset( 17, 0 );
-				itemRect.Width -= 17;
+//				itemRect.Offset( 17, 0 );
+//				itemRect.Width -= 17;
 
 				string text = Items[hoverIndex] as string;
 

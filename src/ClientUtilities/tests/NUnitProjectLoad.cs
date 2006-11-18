@@ -239,10 +239,6 @@ namespace NUnit.Util.Tests
 				Assert.AreEqual( 1, project.Configs["Release"].Assemblies.Count );
 				Assert.AreEqual( 1, project.Configs["Debug|Win32"].Assemblies.Count );
 				Assert.AreEqual( 1, project.Configs["Release|Win32"].Assemblies.Count );
-				Assert.IsTrue( project.Configs["Debug"].Assemblies[0].HasTests );
-				Assert.IsTrue( project.Configs["Release"].Assemblies[0].HasTests );
-				Assert.IsFalse( project.Configs["Debug|Win32"].Assemblies[0].HasTests );
-				Assert.IsFalse( project.Configs["Release|Win32"].Assemblies[0].HasTests );
 			}
 		}
 
@@ -254,9 +250,7 @@ namespace NUnit.Util.Tests
 				NUnitProject project = NUnitProject.FromVSProject( file.Path );
 				Assert.AreEqual( 2, project.Configs.Count );
 				Assert.AreEqual( 1, project.Configs["Debug|Win32"].Assemblies.Count );
-				Assert.IsFalse( project.Configs["Debug|Win32"].Assemblies[0].HasTests );
 				Assert.AreEqual( 1, project.Configs["Release|Win32"].Assemblies.Count );
-				Assert.IsFalse( project.Configs["Release|Win32"].Assemblies[0].HasTests );
 			}
 		}
 	}

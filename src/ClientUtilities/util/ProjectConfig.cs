@@ -303,23 +303,6 @@ namespace NUnit.Util
 				return (string[])paths.ToArray( typeof(string) );
 			}
 		}
-
-		/// <summary>
-		/// Return a string array with the absolute paths of all
-		/// assemblies that have tests
-		/// </summary>
-		public string[] TestAssemblies
-		{
-			get
-			{
-				ArrayList paths = new ArrayList();
-				foreach( AssemblyListItem assembly in Assemblies )
-					if ( assembly.HasTests )
-						paths.Add( assembly.FullPath );
-				return (string[])paths.ToArray( typeof(string) );
-			}
-		}
-
 		#endregion
 
 		#region Methods

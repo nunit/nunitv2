@@ -128,15 +128,6 @@ namespace NUnit.Util.Tests
 			Assert.IsTrue( config.IsDirty );
 		}
 		
-		[Test]
-		public void SettingHasTestsMarksConfigurationDirty()
-		{
-			assemblies.Add( path1 );
-			config.IsDirty = false;
-			assemblies[0].HasTests = false;
-			Assert.IsTrue( config.IsDirty );
-		}
-
         private string CleanPath( string path )
         {
             return path.Replace( '/', Path.DirectorySeparatorChar );

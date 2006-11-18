@@ -39,17 +39,15 @@ namespace NUnit.Util
 	public class AssemblyListItem
 	{
 		private string path;
-		private bool hasTests;
 		private ProjectConfig config;
 
-		public AssemblyListItem( ProjectConfig config, string path, bool hasTests )
+		public AssemblyListItem( ProjectConfig config, string path )
 		{
 			if ( !Path.IsPathRooted( path ) )
 				throw new ArgumentException( "Assembly path must be absolute" );
 
 			this.config = config;
 			this.path = path;
-			this.hasTests = hasTests;
 		}
 
 		public string FullPath
@@ -58,16 +56,6 @@ namespace NUnit.Util
 			set 
 			{ 
 				path = value;
-				config.IsDirty = true;
-			}
-		}
-
-		public bool HasTests
-		{
-			get { return hasTests; }
-			set 
-			{
-				hasTests = value; 
 				config.IsDirty = true;
 			}
 		}

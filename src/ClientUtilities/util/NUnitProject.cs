@@ -497,7 +497,7 @@ namespace NUnit.Util
 				ProjectConfig config = this.Configs[name];
 
 				foreach ( string assembly in vsConfig.Assemblies )
-					config.Assemblies.Add( assembly, hasTests );
+					config.Assemblies.Add( assembly );
 			}
 		}
 
@@ -577,8 +577,7 @@ namespace NUnit.Util
 									string test = reader.GetAttribute( "test" );
 									bool hasTests = test == null ? true : bool.Parse( test );
 									currentConfig.Assemblies.Add( 
-										Path.Combine( currentConfig.BasePath, path ),
-										hasTests );
+										Path.Combine( currentConfig.BasePath, path ) );
 								}
 								break;
 
@@ -653,8 +652,6 @@ namespace NUnit.Util
 				{
 					writer.WriteStartElement( "assembly" );
 					writer.WriteAttributeString( "path", config.RelativePathTo( assembly.FullPath ) );
-					if ( !assembly.HasTests )
-						writer.WriteAttributeString( "test", "false" );
 					writer.WriteEndElement();
 				}
 

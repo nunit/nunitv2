@@ -68,14 +68,9 @@ namespace NUnit.Util
 
 		#region Methods
 
-		public void Add( string assemblyPath, bool hasTests )
-		{
-			List.Add( new AssemblyListItem( this.config, assemblyPath, hasTests ) );
-		}
-
 		public void Add( string assemblyPath )
 		{
-			Add( assemblyPath, true );
+			List.Add( new AssemblyListItem( this.config, assemblyPath ) );
 		}
 
 		public void Remove( string assemblyPath )
@@ -97,11 +92,6 @@ namespace NUnit.Util
 			config.IsDirty = true;
 		}
 		
-		protected override void OnSetComplete(int index, object oldValue, object newValue )
-		{
-			config.IsDirty = true;
-		}
-
 		#endregion
 	}
 }

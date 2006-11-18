@@ -114,22 +114,6 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
-        public void GetTestAssemblies()
-		{
-            string path1 = TestPath("/test/assembly1.dll");
-            string path2 = TestPath("/test/assembly2.dll");
-            string path3 = TestPath("/test/assembly3.dll");
-            config.Assemblies.Add( path1 );
-			config.Assemblies.Add( path2, false );
-			config.Assemblies.Add( path3, true );
-
-			string[] files = config.TestAssemblies;
-			Assert.AreEqual( 2, files.Length );
-			Assert.AreEqual( path1, files[0] );
-			Assert.AreEqual( path3, files[1] );
-		}
-
-		[Test]
 		public void AddMarksProjectDirty()
 		{
 			config.Assemblies.Add( TestPath( "/test/bin/debug/assembly1.dll" ) );

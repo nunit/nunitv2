@@ -680,10 +680,8 @@ namespace NUnit.Gui
 			this.helpProvider1.SetShowHelp(this.assemblyListBox, ((bool)(resources.GetObject("assemblyListBox.ShowHelp"))));
 			this.assemblyListBox.Size = ((System.Drawing.Size)(resources.GetObject("assemblyListBox.Size")));
 			this.assemblyListBox.TabIndex = ((int)(resources.GetObject("assemblyListBox.TabIndex")));
-			this.assemblyListBox.ThreeDCheckBoxes = true;
 			this.assemblyListBox.Visible = ((bool)(resources.GetObject("assemblyListBox.Visible")));
 			this.assemblyListBox.SelectedIndexChanged += new System.EventHandler(this.assemblyListBox_SelectedIndexChanged);
-			this.assemblyListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.assemblyListBox_ItemCheck);
 			// 
 			// addVSProjectButton
 			// 
@@ -1115,8 +1113,7 @@ namespace NUnit.Gui
 			foreach( AssemblyListItem assembly in selectedConfig.Assemblies )
 			{
 				int index = assemblyListBox.Items.Add( 
-					assembly.FullPath, 
-					assembly.HasTests ? CheckState.Checked : CheckState.Unchecked );
+					assembly.FullPath );
 
 				if ( assembly.FullPath == selectedAssembly )
 					selectedIndex = index;
@@ -1426,15 +1423,6 @@ namespace NUnit.Gui
 			string appbase = browser.BrowseForFolder();
 			if ( appbase != null && appbase != selectedConfig.BasePath )
 				UpdateApplicationBase( appbase );
-		}
-
-		private void assemblyListBox_ItemCheck(object sender, System.Windows.Forms.ItemCheckEventArgs e)
-		{
-			bool hasTests = (e.NewValue == CheckState.Checked);
-			if ( hasTests != selectedConfig.Assemblies[e.Index].HasTests )
-			{
-				selectedConfig.Assemblies[e.Index].HasTests = hasTests;
-			}
 		}
 
 		private void autoBinPathRadioButton_CheckedChanged(object sender, System.EventArgs e)
