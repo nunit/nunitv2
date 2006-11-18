@@ -889,7 +889,7 @@ namespace NUnit.UiKit
 			
 			node.Result = result;
 
-			if ( DisplayTestProgress )
+			if ( DisplayTestProgress && node.IsVisible )
 			{
 				Invalidate( node.Bounds );
 				Update();
