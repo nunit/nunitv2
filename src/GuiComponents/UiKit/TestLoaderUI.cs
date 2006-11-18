@@ -60,7 +60,6 @@ namespace NUnit.UiKit
                     "VB Projects (*.vbproj)|*.vbproj|" +
                     "C++ Projects (*.vcproj)|*.vcproj|" +
                     "Assemblies (*.dll,*.exe)|*.dll;*.exe";
-					//"All Files (*.*)|*.*";
 			}
 			else
 			{
@@ -68,7 +67,6 @@ namespace NUnit.UiKit
                     "Projects & Assemblies(*.nunit,*.dll,*.exe)|*.nunit;*.dll;*.exe|" +
                     "Test Projects (*.nunit)|*.nunit|" +
                     "Assemblies (*.dll,*.exe)|*.dll;*.exe";
-					//"All Files (*.*)|*.*";
 			}
 
 			dlg.FilterIndex = 1;
@@ -124,7 +122,6 @@ namespace NUnit.UiKit
 				: loader.TestProject.Configs[configName].BasePath;
             dlg.Filter =
                 "Assemblies (*.dll,*.exe)|*.dll;*.exe";
-				//"All Files (*.*)|*.*";
 			dlg.FilterIndex = 1;
 			dlg.FileName = "";
 
