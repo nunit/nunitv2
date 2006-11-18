@@ -4,7 +4,9 @@ using NUnit.Core;
 namespace NUnit.Util
 {
 	/// <summary>
-	/// Summary description for TestRunnerEx.
+	/// TestRunnerEx is a temporary interface, used on the 
+	/// client side until we can move the loading of NUnit 
+	/// project files to the core.
 	/// </summary>
 	public interface TestRunnerEx :TestRunner
 	{
