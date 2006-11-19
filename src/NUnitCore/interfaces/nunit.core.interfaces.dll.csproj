@@ -125,12 +125,27 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "RuntimeFramework.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Test.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestAssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestCaseResult.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -150,6 +165,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestNode.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestOutput.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -161,6 +181,11 @@
                 />
                 <File
                     RelPath = "TestRunner.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestRunnerSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -211,6 +236,41 @@
                 />
                 <File
                     RelPath = "Extensibility\NUnitAddinAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\TestFramework.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filters\AndFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filters\CategoryFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filters\NameFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filters\NotFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filters\RecursiveTestFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filters\SimpleNameFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

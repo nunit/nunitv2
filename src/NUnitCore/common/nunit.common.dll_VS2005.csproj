@@ -59,19 +59,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensibility\Addin.cs" />
-    <Compile Include="Extensibility\TestFramework.cs" />
-    <Compile Include="Filters\AndFilter.cs" />
-    <Compile Include="Filters\CategoryFilter.cs" />
-    <Compile Include="Filters\NameFilter.cs" />
-    <Compile Include="Filters\NotFilter.cs" />
-    <Compile Include="Filters\RecursiveTestFilter.cs" />
-    <Compile Include="Filters\SimpleNameFilter.cs" />
     <Compile Include="ProxyTestRunner.cs" />
-    <Compile Include="RuntimeFramework.cs" />
-    <Compile Include="TestAssemblyInfo.cs" />
-    <Compile Include="TestFilter.cs" />
-    <Compile Include="TestNode.cs" />
-    <Compile Include="TestRunnerSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\interfaces\nunit.core.interfaces.dll_VS2005.csproj">
