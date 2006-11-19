@@ -221,9 +221,9 @@ namespace NUnit.Util
 						StringBuilder sb = new StringBuilder(200);
 						ArrayList dirList = new ArrayList();
 
-						foreach( AssemblyListItem assembly in Assemblies )
+						foreach( string assembly in Assemblies )
 						{
-							string dir = PathUtils.RelativePath( BasePath, Path.GetDirectoryName( assembly.FullPath ) );
+							string dir = PathUtils.RelativePath( BasePath, Path.GetDirectoryName( assembly ) );
 							if ( dir != null && dir != "." && !dirList.Contains( dir ) )
 							{
 								dirList.Add( dir );
@@ -283,8 +283,8 @@ namespace NUnit.Util
 			get
 			{
 				ArrayList paths = new ArrayList();
-				foreach( AssemblyListItem assembly in assemblies )
-					paths.Add( assembly.FullPath );
+				foreach( string assembly in assemblies )
+					paths.Add( assembly );
 				return (string[])paths.ToArray( typeof(string) );
 			}
 		}
@@ -298,8 +298,8 @@ namespace NUnit.Util
 			get
 			{
 				ArrayList paths = new ArrayList();
-				foreach( AssemblyListItem assembly in Assemblies )
-					paths.Add( PathUtils.RelativePath( BasePath, assembly.FullPath ) );
+				foreach( string assembly in Assemblies )
+					paths.Add( PathUtils.RelativePath( BasePath, assembly ) );
 				return (string[])paths.ToArray( typeof(string) );
 			}
 		}

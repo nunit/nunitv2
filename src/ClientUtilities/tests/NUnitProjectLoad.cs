@@ -91,13 +91,13 @@ namespace NUnit.Util.Tests
 
 			ProjectConfig config1 = project.Configs["Debug"];
 			Assert.AreEqual( 2, config1.Assemblies.Count );
-			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly1.dll" ), config1.Assemblies[0].FullPath );
-			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly2.dll" ), config1.Assemblies[1].FullPath );
+			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly1.dll" ), config1.Assemblies[0] );
+			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly2.dll" ), config1.Assemblies[1] );
 
 			ProjectConfig config2 = project.Configs["Release"];
 			Assert.AreEqual( 2, config2.Assemblies.Count );
-			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "release" + Path.DirectorySeparatorChar + "assembly1.dll" ), config2.Assemblies[0].FullPath );
-			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "release" + Path.DirectorySeparatorChar + "assembly2.dll" ), config2.Assemblies[1].FullPath );
+			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "release" + Path.DirectorySeparatorChar + "assembly1.dll" ), config2.Assemblies[0] );
+			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "release" + Path.DirectorySeparatorChar + "assembly2.dll" ), config2.Assemblies[1] );
 		}
 
 		[Test]
@@ -114,7 +114,7 @@ namespace NUnit.Util.Tests
 		{
 			NUnitProject project = NUnitProject.FromAssembly( "nunit.util.tests.dll" );
 			Assert.AreEqual( "Default", project.ActiveConfigName );
-			Assert.AreEqual( Path.GetFullPath( "nunit.util.tests.dll" ), project.ActiveConfig.Assemblies[0].FullPath );
+			Assert.AreEqual( Path.GetFullPath( "nunit.util.tests.dll" ), project.ActiveConfig.Assemblies[0] );
 			Assert.IsTrue( project.IsLoadable, "Not loadable" );
 			Assert.IsTrue( project.IsAssemblyWrapper, "Not wrapper" );
 			Assert.IsFalse( project.IsDirty, "Not dirty" );
@@ -137,7 +137,7 @@ namespace NUnit.Util.Tests
 				NUnitProject project = NUnitProject.FromVSProject( file.Path );
 				Assert.AreEqual( fileName, project.Name );
 				Assert.AreEqual( project.Configs[0].Name, project.ActiveConfigName );
-				Assert.AreEqual( fileName.ToLower(), Path.GetFileNameWithoutExtension( project.Configs[0].Assemblies[0].FullPath.ToLower() ) );
+				Assert.AreEqual( fileName.ToLower(), Path.GetFileNameWithoutExtension( project.Configs[0].Assemblies[0].ToLower() ) );
 				Assert.IsTrue( project.IsLoadable, "Not loadable" );
 				Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
 			}

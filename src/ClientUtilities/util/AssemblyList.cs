@@ -55,29 +55,32 @@ namespace NUnit.Util
 			get { return config; }
 		}
 
-		/// <summary>
-		/// Our indexer
-		/// </summary>
-		public AssemblyListItem this[int index]
+		public string this[int index]
 		{
-			get { return (AssemblyListItem)List[index]; }
-//			set { List[index] = value; }
+			get { return (string)List[index]; }
+			set 
+			{ 
+				if ( !Path.IsPathRooted( value ) )
+					throw new ArgumentException( "Assembly path must be absolute" );
+				List[index] = value; 
+			}
 		}
-
 		#endregion
 
 		#region Methods
 
 		public void Add( string assemblyPath )
 		{
-			List.Add( new AssemblyListItem( this.config, assemblyPath ) );
+			if ( !Path.IsPathRooted( assemblyPath ) )
+				throw new ArgumentException( "Assembly path must be absolute" );
+			List.Add( assemblyPath );
 		}
 
 		public void Remove( string assemblyPath )
 		{
 			for( int index = 0; index < this.Count; index++ )
 			{
-				if ( this[index].FullPath == assemblyPath )
+				if ( this[index] == assemblyPath )
 					RemoveAt( index );
 			}
 		}
@@ -91,6 +94,12 @@ namespace NUnit.Util
 		{
 			config.IsDirty = true;
 		}
+
+		protected override void OnSetComplete(int index, object oldValue, object newValue)
+		{
+			config.IsDirty = true;
+		}
+
 		
 		#endregion
 	}

@@ -482,11 +482,6 @@ namespace NUnit.Util
 
 		public void Add( VSProject vsProject )
 		{
-			Add( vsProject, vsProject.IsManaged );
-		}
-
-		public void Add( VSProject vsProject, bool hasTests )
-		{
 			foreach( VSProjectConfig vsConfig in vsProject.Configs )
 			{
 				string name = vsConfig.Name;
@@ -574,8 +569,6 @@ namespace NUnit.Util
 								if ( reader.NodeType == XmlNodeType.Element && currentConfig != null )
 								{
 									string path = reader.GetAttribute( "path" );
-									string test = reader.GetAttribute( "test" );
-									bool hasTests = test == null ? true : bool.Parse( test );
 									currentConfig.Assemblies.Add( 
 										Path.Combine( currentConfig.BasePath, path ) );
 								}
@@ -648,10 +641,12 @@ namespace NUnit.Util
 				else
 					writer.WriteAttributeString( "binpathtype", config.BinPathType.ToString() );
 
-				foreach( AssemblyListItem assembly in config.Assemblies )
+				//foreach( AssemblyListItem assembly in config.Assemblies )
+				foreach( string assembly in config.Assemblies )
 				{
 					writer.WriteStartElement( "assembly" );
-					writer.WriteAttributeString( "path", config.RelativePathTo( assembly.FullPath ) );
+					//writer.WriteAttributeString( "path", config.RelativePathTo( assembly.FullPath ) );
+					writer.WriteAttributeString( "path", config.RelativePathTo( assembly ) );
 					writer.WriteEndElement();
 				}
 

@@ -511,7 +511,7 @@ namespace NUnit.Util
 				testRunner = CreateRunner();
 
 				bool loaded = TestProject.IsAssemblyWrapper
-					? testRunner.Load( TestProject.ActiveConfig.Assemblies[0].FullPath, testName )
+					? testRunner.Load( TestProject.ActiveConfig.Assemblies[0], testName )
 					: testRunner.Load( TestProject, testName );
 
 				loadedTest = testRunner.Test;
@@ -618,7 +618,7 @@ namespace NUnit.Util
 					TestRunnerEx newRunner = CreateRunner( );
 
 					if (TestProject.IsAssemblyWrapper)
-						newRunner.Load(testProject.ActiveConfig.Assemblies[0].FullPath);
+						newRunner.Load(testProject.ActiveConfig.Assemblies[0]);
 					else
 						newRunner.Load(testProject, loadedTestName);
 

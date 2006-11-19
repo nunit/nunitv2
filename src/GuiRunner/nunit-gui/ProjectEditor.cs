@@ -1110,12 +1110,12 @@ namespace NUnit.Gui
 			assemblyListBox.Items.Clear();
 			int selectedIndex = -1;
 
-			foreach( AssemblyListItem assembly in selectedConfig.Assemblies )
+			foreach( string assembly in selectedConfig.Assemblies )
 			{
 				int index = assemblyListBox.Items.Add( 
-					assembly.FullPath );
+					assembly );
 
-				if ( assembly.FullPath == selectedAssembly )
+				if ( assembly == selectedAssembly )
 					selectedIndex = index;
 			}
 
@@ -1379,12 +1379,12 @@ namespace NUnit.Gui
 		private void editAssemblyButton_Click(object sender, System.EventArgs e)
 		{
 			using( AssemblyPathDialog dlg = new AssemblyPathDialog( 
-					   (string)selectedConfig.Assemblies[assemblyListBox.SelectedIndex].FullPath ) )
+					   (string)selectedConfig.Assemblies[assemblyListBox.SelectedIndex] ) )
 			{
 				this.Site.Container.Add( dlg );
 				if ( dlg.ShowDialog() == DialogResult.OK )
 				{
-					selectedConfig.Assemblies[assemblyListBox.SelectedIndex].FullPath = dlg.Path;
+					selectedConfig.Assemblies[assemblyListBox.SelectedIndex] = dlg.Path;
 					assemblyListBox_Populate();
 				}
 			}

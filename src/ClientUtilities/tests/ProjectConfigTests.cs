@@ -83,8 +83,8 @@ namespace NUnit.Util.Tests
             config.Assemblies.Add(path1);
 			config.Assemblies.Add( path2 );
 			Assert.AreEqual( 2, config.Assemblies.Count );
-			Assert.AreEqual( path1, config.Assemblies[0].FullPath );
-			Assert.AreEqual( path2, config.Assemblies[1].FullPath );
+			Assert.AreEqual( path1, config.Assemblies[0] );
+			Assert.AreEqual( path2, config.Assemblies[1] );
 		}
 
 		[Test]
@@ -150,7 +150,7 @@ namespace NUnit.Util.Tests
             config.BasePath = TestPath("/junk");
             string path1 = TestPath( "/junk/bin/debug/assembly1.dll" );
 			config.Assemblies.Add( path1 );
-			Assert.AreEqual( path1, config.Assemblies[0].FullPath );
+			Assert.AreEqual( path1, config.Assemblies[0] );
 			Assert.AreEqual( TestPath( "bin/debug/assembly1.dll" ), config.RelativePaths[0] );
 		}
 
@@ -160,7 +160,7 @@ namespace NUnit.Util.Tests
 			config.BasePath = @"junk";
             string path1 = TestPath("/test/junk/bin/debug/assembly1.dll");
             config.Assemblies.Add( path1 );
-			Assert.AreEqual( path1, config.Assemblies[0].FullPath );
+			Assert.AreEqual( path1, config.Assemblies[0] );
 			Assert.AreEqual( TestPath( "bin/debug/assembly1.dll" ), config.RelativePaths[0] );
 		}
 
@@ -169,7 +169,7 @@ namespace NUnit.Util.Tests
 		{
             string path1 = TestPath( "/test/bin/debug/assembly1.dll" );
 			config.Assemblies.Add( path1 );
-			Assert.AreEqual( path1, config.Assemblies[0].FullPath );
+			Assert.AreEqual( path1, config.Assemblies[0] );
 			Assert.AreEqual( TestPath ("bin/debug/assembly1.dll"), config.RelativePaths[0] );
 		}
 

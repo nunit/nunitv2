@@ -67,9 +67,6 @@
     <Compile Include="AssemblyList.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AssemblyListItem.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="AssemblyWatcher.cs">
       <SubType>Code</SubType>
     </Compile>

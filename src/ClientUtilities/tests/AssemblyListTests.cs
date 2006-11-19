@@ -71,8 +71,8 @@ namespace NUnit.Util.Tests
 			assemblies.Add( path2 );
 
 			Assert.AreEqual( 2, assemblies.Count );
-			Assert.AreEqual( path1, assemblies[0].FullPath );
-			Assert.AreEqual( path2, assemblies[1].FullPath );
+			Assert.AreEqual( path1, assemblies[0] );
+			Assert.AreEqual( path2, assemblies[1] );
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
@@ -97,8 +97,8 @@ namespace NUnit.Util.Tests
 			assemblies.Remove( path2 );
 
 			Assert.AreEqual( 2, assemblies.Count );
-			Assert.AreEqual( path1, assemblies[0].FullPath );
-			Assert.AreEqual( path3, assemblies[1].FullPath );
+			Assert.AreEqual( path1, assemblies[0] );
+			Assert.AreEqual( path3, assemblies[1] );
 		}
 
 		[Test]
@@ -124,7 +124,7 @@ namespace NUnit.Util.Tests
 		{
 			assemblies.Add( path1 );
 			config.IsDirty = false;
-			assemblies[0].FullPath = path2;
+			assemblies[0] = path2;
 			Assert.IsTrue( config.IsDirty );
 		}
 		
