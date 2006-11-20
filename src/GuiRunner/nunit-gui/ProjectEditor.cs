@@ -1053,8 +1053,9 @@ namespace NUnit.Gui
 				selectedConfig = project.ActiveConfig;
 
 			int selectedIndex = -1; 
-			foreach( string name in project.Configs.Names )
+			foreach( ProjectConfig config in project.Configs )
 			{
+				string name = config.Name;
 				int index = configComboBox.Items.Add( name );
 				if ( name == selectedConfig.Name )
 					selectedIndex = index;

@@ -534,7 +534,7 @@ namespace NUnit.Util
 			{
 				lastException = exception;
 
-				foreach( string assembly in TestProject.ActiveConfig.AbsolutePaths )
+				foreach( string assembly in TestProject.ActiveConfig.Assemblies )
 				{
 					if ( Path.GetFileNameWithoutExtension( assembly ) == exception.FileName &&
 						!PathUtils.SamePathOrUnder( testProject.ActiveConfig.BasePath, assembly ) )
@@ -699,7 +699,7 @@ namespace NUnit.Util
 		{
 			if(watcher!=null) watcher.Stop();
 
-			watcher = new AssemblyWatcher( 1000, TestProject.ActiveConfig.AbsolutePaths );
+			watcher = new AssemblyWatcher( 1000, TestProject.ActiveConfig.Assemblies.ToArray() );
 			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( OnTestChanged );
 			watcher.Start();
 		}

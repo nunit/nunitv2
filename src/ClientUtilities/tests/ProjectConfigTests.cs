@@ -88,29 +88,16 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
-		public void GetAbsolutePaths()
+		public void ToArray()
 		{
             string path1 = TestPath("/test/assembly1.dll");
             string path2 = TestPath("/test/assembly2.dll");
             config.Assemblies.Add( path1 );
 			config.Assemblies.Add( path2 );
 
-			string[] files = config.AbsolutePaths;
+			string[] files = config.Assemblies.ToArray();
 			Assert.AreEqual( path1, files[0] );
 			Assert.AreEqual( path2, files[1] );
-		}
-
-		[Test]
-		public void GetRelativePaths()
-		{
-            string path1 = TestPath("/test/bin/debug/assembly1.dll");
-            string path2 = TestPath("/test/bin/debug/assembly2.dll");
-            config.Assemblies.Add( path1 );
-			config.Assemblies.Add( path2 );
-
-			string[] files = config.RelativePaths;
-			Assert.AreEqual( TestPath( "bin/debug/assembly1.dll" ), files[0] );
-			Assert.AreEqual( TestPath( "bin/debug/assembly2.dll" ), files[1] );
 		}
 
 		[Test]
@@ -151,7 +138,6 @@ namespace NUnit.Util.Tests
             string path1 = TestPath( "/junk/bin/debug/assembly1.dll" );
 			config.Assemblies.Add( path1 );
 			Assert.AreEqual( path1, config.Assemblies[0] );
-			Assert.AreEqual( TestPath( "bin/debug/assembly1.dll" ), config.RelativePaths[0] );
 		}
 
 		[Test]
@@ -161,7 +147,6 @@ namespace NUnit.Util.Tests
             string path1 = TestPath("/test/junk/bin/debug/assembly1.dll");
             config.Assemblies.Add( path1 );
 			Assert.AreEqual( path1, config.Assemblies[0] );
-			Assert.AreEqual( TestPath( "bin/debug/assembly1.dll" ), config.RelativePaths[0] );
 		}
 
 		[Test]
@@ -170,7 +155,6 @@ namespace NUnit.Util.Tests
             string path1 = TestPath( "/test/bin/debug/assembly1.dll" );
 			config.Assemblies.Add( path1 );
 			Assert.AreEqual( path1, config.Assemblies[0] );
-			Assert.AreEqual( TestPath ("bin/debug/assembly1.dll"), config.RelativePaths[0] );
 		}
 
 		[Test]

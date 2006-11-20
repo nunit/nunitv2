@@ -57,11 +57,6 @@ namespace NUnit.Util
 		protected NUnitProject project = null;
 
 		/// <summary>
-		/// Mark this config as changed
-		/// </summary>
-		private bool isDirty = false;
-
-		/// <summary>
 		/// List of the names of the assemblies
 		/// </summary>
 		private AssemblyList assemblies;
@@ -88,39 +83,23 @@ namespace NUnit.Util
 
 		#endregion
 
-		#region Construction
-
-		public ProjectConfig()
-		{
-			this.assemblies = new AssemblyList( this );
-		}
-
+		#region Constructor
 		public ProjectConfig( string name )
 		{
 			this.name = name;
-			this.assemblies = new AssemblyList( this );
+			this.assemblies = new AssemblyList();
+			assemblies.Changed += new EventHandler( assemblies_Changed );
 		}
-
 		#endregion
 
 		#region Properties and Events
 
+		public event EventHandler Changed;
+
 		public NUnitProject Project
 		{
-			get { return project; }
+//			get { return project; }
 			set { project = value; }
-		}
-
-		public bool IsDirty
-		{
-			get { return isDirty; }
-			set 
-			{ 
-				isDirty = value;
-
-				if ( isDirty && project != null )
-					project.OnProjectChange( ProjectChangeType.UpdateConfig, name );
-			}
 		}
 
 		public string Name
@@ -131,7 +110,7 @@ namespace NUnit.Util
 				if ( name != value )
 				{
 					name = value; 
-					IsDirty = true;
+					FireChangedEvent();
 				}
 			}
 		}
@@ -157,7 +136,7 @@ namespace NUnit.Util
 				if ( BasePath != value )
 				{
 					basePath = value;
-					IsDirty = true;
+					FireChangedEvent();
 				}
 			}
 		}
@@ -189,7 +168,7 @@ namespace NUnit.Util
 				if ( ConfigurationFile != value )
 				{
 					configFile = value;
-					IsDirty = true;
+					FireChangedEvent();
 				}
 			}
 		}
@@ -246,7 +225,7 @@ namespace NUnit.Util
 				{
 					binPath = value;
 					binPathType = binPath == null ? BinPathType.Auto : BinPathType.Manual;
-					IsDirty = true;
+					FireChangedEvent();
 				}
 			}
 		}
@@ -262,7 +241,7 @@ namespace NUnit.Util
 				if ( binPathType != value )
 				{
 					binPathType = value;
-					IsDirty = true;
+					FireChangedEvent();
 				}
 			}
 		}
@@ -274,44 +253,17 @@ namespace NUnit.Util
 		{
 			get { return assemblies; }
 		}
-
-		/// <summary>
-		/// Return a string array with the absolute paths of all assemblies
-		/// </summary>
-		public string[] AbsolutePaths
-		{
-			get
-			{
-				ArrayList paths = new ArrayList();
-				foreach( string assembly in assemblies )
-					paths.Add( assembly );
-				return (string[])paths.ToArray( typeof(string) );
-			}
-		}
-
-		/// <summary>
-		/// Return a string array with the relative paths of all
-		/// assemblies from the configuration BasePath.
-		/// </summary>
-		public string[] RelativePaths
-		{
-			get
-			{
-				ArrayList paths = new ArrayList();
-				foreach( string assembly in Assemblies )
-					paths.Add( PathUtils.RelativePath( BasePath, assembly ) );
-				return (string[])paths.ToArray( typeof(string) );
-			}
-		}
 		#endregion
 
-		#region Methods
-
-		public string RelativePathTo( string path )
+		private void assemblies_Changed( object sender, EventArgs e )
 		{
-			return PathUtils.RelativePath( BasePath, path );
+			FireChangedEvent();
 		}
 
-		#endregion
+		private void FireChangedEvent()
+		{
+			if ( Changed != null )
+				Changed( this, EventArgs.Empty );
+		}
 	}
 }

@@ -40,23 +40,32 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class AssemblyListTests
 	{
-		ProjectConfig config;
 		private AssemblyList assemblies;
 
         private string path1;
         private string path2;
         private string path3;
 
+		private int events = 0;
+
 		[SetUp]
 		public void CreateAssemblyList()
 		{
-			config = new ProjectConfig();
-			config.BasePath = CleanPath( "/tests" );
-			assemblies = new AssemblyList( config );
+			assemblies = new AssemblyList();
+
             path1 = CleanPath("/tests/bin/debug/assembly1.dll");
             path2 = CleanPath("/tests/bin/debug/assembly2.dll");
             path3 = CleanPath("/tests/bin/debug/assembly3.dll");
+
+			events = 0;
+
+			assemblies.Changed += new EventHandler( assemblies_Changed );
         }
+
+		private void assemblies_Changed( object sender, EventArgs e )
+		{
+			++events;
+		}
 
 		[Test]
 		public void EmptyList()
@@ -82,10 +91,10 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
-		public void AddMarksConfigurationDirty()
+		public void AddFiresChangedEvent()
 		{
 			assemblies.Add( path1 );
-			Assert.IsTrue( config.IsDirty );
+			Assert.AreEqual( 1, events );
 		}
 
 		[Test]
@@ -102,30 +111,27 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
-		public void RemoveAtMarksConfigurationDirty()
+		public void RemoveAtFiresChangedEvent()
 		{
 			assemblies.Add( path1 );
-			config.IsDirty = false;
 			assemblies.RemoveAt(0);
-			Assert.IsTrue( config.IsDirty );
+			Assert.AreEqual( 2, events );
 		}
 
 		[Test]
-		public void RemoveMarksConfigurationDirty()
+		public void RemoveFiresChangedEvent()
 		{
 			assemblies.Add( path1 );
-			config.IsDirty = false;
 			assemblies.Remove( path1 );
-			Assert.IsTrue( config.IsDirty );
+			Assert.AreEqual( 2, events );
 		}
 
 		[Test]
-		public void SettingFullPathMarksConfigurationDirty()
+		public void SettingFullPathFiresChangedEvent()
 		{
 			assemblies.Add( path1 );
-			config.IsDirty = false;
 			assemblies[0] = path2;
-			Assert.IsTrue( config.IsDirty );
+			Assert.AreEqual( 2, events );
 		}
 		
         private string CleanPath( string path )

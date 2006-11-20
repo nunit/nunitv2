@@ -132,7 +132,6 @@ namespace NUnit.Util
 		#endregion
 
 		#region Static Methods
-
 		// True if it's one of our project types
 		public static bool IsProjectFile( string path )
 		{
@@ -457,6 +456,15 @@ namespace NUnit.Util
 			}
 		}
 
+//		public int IndexOf( string name )
+//		{
+//			for( int index = 0; index < configs.Count; index++ )
+//				if( configs[index].Name == name )
+//					return index;
+//
+//			return -1;
+//		}
+
 		public void OnProjectChange( ProjectChangeType type, string configName )
 		{
 			isDirty = true;
@@ -486,8 +494,8 @@ namespace NUnit.Util
 			{
 				string name = vsConfig.Name;
 
-				if ( !this.Configs.Contains( name ) )
-					this.Configs.Add( name );
+				if ( !configs.Contains( name ) )
+					configs.Add( name );
 
 				ProjectConfig config = this.Configs[name];
 
@@ -641,12 +649,10 @@ namespace NUnit.Util
 				else
 					writer.WriteAttributeString( "binpathtype", config.BinPathType.ToString() );
 
-				//foreach( AssemblyListItem assembly in config.Assemblies )
 				foreach( string assembly in config.Assemblies )
 				{
 					writer.WriteStartElement( "assembly" );
-					//writer.WriteAttributeString( "path", config.RelativePathTo( assembly.FullPath ) );
-					writer.WriteAttributeString( "path", config.RelativePathTo( assembly ) );
+					writer.WriteAttributeString( "path", PathUtils.RelativePath( config.BasePath, assembly ) );
 					writer.WriteEndElement();
 				}
 

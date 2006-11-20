@@ -111,24 +111,19 @@ namespace NUnit.UiKit
 		public static void AddAssembly( Form owner, string configName )
 		{
 			TestLoader loader = GetTestLoader( owner );
-
-			if ( configName == null )
-				configName = loader.TestProject.ActiveConfigName;
+			ProjectConfig config = configName == null
+				? loader.TestProject.ActiveConfig
+				: loader.TestProject.Configs[configName];
 
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Title = "Add Assembly";
-			dlg.InitialDirectory = configName == null
-				? loader.TestProject.ActiveConfig.BasePath
-				: loader.TestProject.Configs[configName].BasePath;
-            dlg.Filter =
-                "Assemblies (*.dll,*.exe)|*.dll;*.exe";
+			dlg.InitialDirectory = config.BasePath;
+            dlg.Filter = "Assemblies (*.dll,*.exe)|*.dll;*.exe";
 			dlg.FilterIndex = 1;
 			dlg.FileName = "";
 
 			if ( dlg.ShowDialog( owner ) == DialogResult.OK )
-			{
-				loader.TestProject.Configs[configName].Assemblies.Add( dlg.FileName );
-			}
+				config.Assemblies.Add( dlg.FileName );
 		}
 
 		public static void AddVSProject( Form owner )

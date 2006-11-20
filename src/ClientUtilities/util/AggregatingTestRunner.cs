@@ -150,12 +150,12 @@ namespace NUnit.Util
 
 		public bool Load( NUnitProject project )
 		{
-			return Load( project.ProjectPath, project.ActiveConfig.AbsolutePaths );
+			return Load( project.ProjectPath, project.ActiveConfig.Assemblies.ToArray() );
 		}
 
 		public bool Load( NUnitProject project, string testName )
 		{
-			return Load( project.ProjectPath, project.ActiveConfig.AbsolutePaths, testName );
+			return Load( project.ProjectPath, project.ActiveConfig.Assemblies.ToArray(), testName );
 		}
 
 		public virtual void Unload()

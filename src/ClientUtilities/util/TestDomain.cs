@@ -122,7 +122,7 @@ namespace NUnit.Util
 
 				this.TestRunner = MakeRemoteTestRunner( domain );
 
-				return TestRunner.Load( project.ProjectPath, project.ActiveConfig.AbsolutePaths, testName );
+				return TestRunner.Load( project.ProjectPath, project.ActiveConfig.Assemblies.ToArray(), testName );
 			}
 			catch
 			{

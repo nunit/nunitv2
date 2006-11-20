@@ -35,26 +35,12 @@ namespace NUnit.Util
 {
 	/// <summary>
 	/// Represents a list of assemblies. It stores paths 
-	/// that are added and marks it's ProjectContainer
-	/// as dirty whenever it changes. All paths must
-	/// be added as absolute paths.
+	/// that are added and fires an event whenevever it
+	/// changes. All paths must be added as absolute paths.
 	/// </summary>
 	public class AssemblyList : CollectionBase
 	{
-		private ProjectConfig config;
-
-		public AssemblyList( ProjectConfig config )
-		{
-			this.config = config;
-		}
-
-		#region Properties
-
-		public ProjectConfig Config
-		{
-			get { return config; }
-		}
-
+		#region Properties and Events
 		public string this[int index]
 		{
 			get { return (string)List[index]; }
@@ -65,9 +51,15 @@ namespace NUnit.Util
 				List[index] = value; 
 			}
 		}
+
+		public event EventHandler Changed;
 		#endregion
 
 		#region Methods
+		public string[] ToArray()
+		{
+			return (string[])InnerList.ToArray( typeof( string ) );
+		}
 
 		public void Add( string assemblyPath )
 		{
@@ -87,20 +79,24 @@ namespace NUnit.Util
 
 		protected override void OnRemoveComplete(int index, object value)
 		{
-			config.IsDirty = true;
+			FireChangedEvent();
 		}
 
 		protected override void OnInsertComplete(int index, object value)
 		{
-			config.IsDirty = true;
+			FireChangedEvent();
 		}
 
 		protected override void OnSetComplete(int index, object oldValue, object newValue)
 		{
-			config.IsDirty = true;
+			FireChangedEvent();
 		}
 
-		
+		private void FireChangedEvent()
+		{
+			if ( Changed != null )
+				Changed( this, EventArgs.Empty );
+		}
 		#endregion
 	}
 }

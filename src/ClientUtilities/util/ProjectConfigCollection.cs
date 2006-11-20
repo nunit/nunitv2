@@ -45,25 +45,6 @@ namespace NUnit.Util
 		}
 
 		#region Properties
-
-		public NUnitProject Project
-		{
-			get { return project; }
-		}
-
-		public ArrayList Names
-		{
-			get
-			{
-				ArrayList names = new ArrayList();
-				
-				foreach( ProjectConfig config in InnerList )
-					names.Add( config.Name );
-
-				return names;
-			}
-		}
-
 		public ProjectConfig this[int index]
 		{
 			get { return (ProjectConfig)InnerList[index]; }
@@ -80,21 +61,16 @@ namespace NUnit.Util
 		#endregion
 
 		#region Methods
-
 		public void Add( ProjectConfig config )
 		{
 			List.Add( config );
-			config.Project = this.Project;
+			config.Project = this.project;
+			config.Changed += new EventHandler(config_Changed);
 		}
 
 		public void Add( string name )
 		{
 			Add( new ProjectConfig( name ) );
-		}
-
-		public void Remove( ProjectConfig config )
-		{
-			List.Remove( config );
 		}
 
 		public void Remove( string name )
@@ -106,12 +82,7 @@ namespace NUnit.Util
 			}
 		}
 
-		public int IndexOf( ProjectConfig config )
-		{
-			return InnerList.IndexOf( config );
-		}
-
-		public int IndexOf( string name )
+		private int IndexOf( string name )
 		{
 			for( int index = 0; index < InnerList.Count; index++ )
 			{
@@ -136,7 +107,7 @@ namespace NUnit.Util
 		protected override void OnRemoveComplete( int index, object obj )
 		{
 			ProjectConfig config = obj as ProjectConfig;
-			this.Project.OnProjectChange( ProjectChangeType.RemoveConfig, config.Name );
+			this.project.OnProjectChange( ProjectChangeType.RemoveConfig, config.Name );
 		}
 
 		protected override void OnInsertComplete( int index, object obj )
@@ -145,12 +116,11 @@ namespace NUnit.Util
 			project.OnProjectChange( ProjectChangeType.AddConfig, config.Name );
 		}
 
-		protected override void OnSetComplete( int index, object oldValue, object newValue )
+		private void config_Changed(object sender, EventArgs e)
 		{
-			ProjectConfig newConfig = newValue as ProjectConfig;
-			project.OnProjectChange( ProjectChangeType.UpdateConfig, newConfig.Name );
+			ProjectConfig config = sender as ProjectConfig;
+			project.OnProjectChange( ProjectChangeType.UpdateConfig, config.Name );
 		}
-
 		#endregion
 	}
 }
