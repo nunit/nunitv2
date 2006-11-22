@@ -80,7 +80,7 @@ namespace NUnit.Util
 		/// Loads and executes tests. Non-null when
 		/// we have loaded a test.
 		/// </summary>
-		private TestRunnerEx testRunner = null;
+		private TestRunner testRunner = null;
 
 		/// <summary>
 		/// Our current test project, if we have one.
@@ -136,7 +136,7 @@ namespace NUnit.Util
 		/// </summary>
 		private bool reloadOnRun = false;
 
-        #endregion
+		#endregion
 
 		#region Constructors
 
@@ -308,13 +308,13 @@ namespace NUnit.Util
 		void OnUnhandledException( object sender, UnhandledExceptionEventArgs args )
 		{
 			switch( args.ExceptionObject.GetType().FullName )
-		 	{
+			{
 				case "System.Threading.ThreadAbortException":
 					break;
 				case "NUnit.Framework.AssertionException":
 				default:
 					events.FireTestException((Exception)args.ExceptionObject);
-				    	break;
+					break;
 			}
 		}
 
@@ -512,7 +512,7 @@ namespace NUnit.Util
 
 				bool loaded = TestProject.IsAssemblyWrapper
 					? testRunner.Load( TestProject.ActiveConfig.Assemblies[0], testName )
-					: testRunner.Load( TestProject, testName );
+					: testRunner.Load( TestProject.MakeTestPackage(), testName );
 
 				loadedTest = testRunner.Test;
 				loadedTestName = testName;
@@ -615,12 +615,12 @@ namespace NUnit.Util
 
 					// Don't unload the old domain till after the event
 					// handlers get a chance to compare the trees.
-					TestRunnerEx newRunner = CreateRunner( );
+					TestRunner newRunner = CreateRunner( );
 
 					if (TestProject.IsAssemblyWrapper)
 						newRunner.Load(testProject.ActiveConfig.Assemblies[0]);
 					else
-						newRunner.Load(testProject, loadedTestName);
+						newRunner.Load( testProject.MakeTestPackage(), loadedTestName);
 
 					testRunner.Unload();
 
@@ -716,18 +716,17 @@ namespace NUnit.Util
 			}
 		}
 
-		private TestRunnerEx CreateRunner()
+		private TestRunner CreateRunner()
 		{
-			TestRunnerEx runner = multiDomain
-				? (TestRunnerEx)new MultipleTestDomainRunner()
-				: (TestRunnerEx)new TestDomain();
+			TestRunner runner = multiDomain
+				? (TestRunner)new MultipleTestDomainRunner()
+				: (TestRunner)new TestDomain();
 				
 			runner.Settings["MergeAssemblies"] = mergeAssemblies;
 			runner.Settings["AutoNamespaceSuites"] = autoNamespaceSuites;
 
 			return runner;
 		}
-
 		#endregion
 
 		#region InitializeLifetimeService Override

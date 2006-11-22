@@ -52,7 +52,7 @@ namespace NUnit.Util.Tests
 			domain = new TestDomain();
 			assemblies = new string[]
 				{ Path.GetFullPath( "nonamespace-assembly.dll" ), Path.GetFullPath( "mock-assembly.dll" ) };
-			domain.Load( name, assemblies );
+			domain.Load( new TestPackage( name, assemblies ) );
 			loadedSuite = domain.Test;
 		}
 
@@ -78,8 +78,6 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void AssemblyNodes()
 		{
-			//Assert.IsTrue( loadedSuite.Tests[0] is TestAssembly );
-			//Assert.IsTrue( loadedSuite.Tests[1] is TestAssembly );
 			TestNode test0 = (TestNode)loadedSuite.Tests[0];
 			TestNode test1 = (TestNode)loadedSuite.Tests[1];
 			Assert.AreEqual( assemblies[0], test0.TestName.Name );
@@ -115,7 +113,7 @@ namespace NUnit.Util.Tests
 				{ Path.GetFullPath( "nonamespace-assembly.dll" ), Path.GetFullPath( "mock-assembly.dll" ) };
 
 			TestDomain domain = new TestDomain();
-			domain.Load( name, assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
+			domain.Load( new TestPackage( name, assemblies ), "NUnit.Tests.Assemblies.MockTestFixture" );
 			Assert.AreEqual( MockTestFixture.Tests, domain.Test.TestCount );
 		}
 	}

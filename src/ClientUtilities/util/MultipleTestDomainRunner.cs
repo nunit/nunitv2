@@ -26,30 +26,32 @@ namespace NUnit.Util
 			return runners[0].Load(assemblyName, testName);
 		}
 
-		public override bool Load( string projectName, string[] assemblies )
+		public override bool Load(TestPackage package)
 		{
-			this.projectName = projectName;
+			this.projectName = package.ProjectPath;
 			this.testName.FullName = this.testName.Name = projectName;
-			CreateRunners( assemblies.Length );
+			CreateRunners( package.Count );
 
 			bool result = true;
-			for( int index = 0; index < assemblies.Length; index++ )
-				if ( !runners[index].Load( assemblies[index] ) )
+			int index = 0;
+			foreach( string assembly in package )
+				if ( !runners[index++].Load( assembly ) )
 					result = false;
 
 			return result;
 		}
 
-		public override bool Load( string projectName, string[] assemblies, string testName )
+		public override bool Load( TestPackage package, string testName )
 		{
-			this.projectName = projectName;
+			this.projectName = package.ProjectPath;
 			this.testName.FullName = this.testName.Name = projectName;
-			CreateRunners( assemblies.Length );
+			CreateRunners( package.Count );
 
 			//TODO: Loading a namespace or fixture needs work
 			bool result = false;
-			for( int index = 0; index < assemblies.Length; index++ )
-				if ( runners[index].Load( assemblies[index], testName ) )
+			int index = 0;
+			foreach( string assembly in package )
+				if ( runners[index++].Load( assembly, testName ) )
 					result = true;
 
 			return result;

@@ -127,14 +127,14 @@ namespace NUnit.Core
 			return this.testRunner.Load(assemblyName, testName);
 		}
 
-		public virtual bool Load( string projectName, string[] assemblies )
+		public virtual bool Load( TestPackage package )
 		{
-			return this.testRunner.Load( projectName, assemblies );
+			return this.testRunner.Load( package );
 		}
 
-		public virtual bool Load( string projectName, string[] assemblies, string testName )
+		public virtual bool Load( TestPackage package, string testName )
 		{
-			return this.testRunner.Load( projectName, assemblies, testName );
+			return this.testRunner.Load( package, testName );
 		}
 
 		public virtual void Unload()

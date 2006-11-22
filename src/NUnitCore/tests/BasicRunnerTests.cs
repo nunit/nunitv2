@@ -72,28 +72,28 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void LoadMultipleAssemblies()
 		{
-			runner.Load( "TestSuite", assemblies );
+			runner.Load( new TestPackage( "TestSuite", assemblies ) );
 			Assert.IsNotNull( runner.Test, "Unable to load assemblies" );
 		}
 
 		[Test]
 		public void LoadMultipleAssembliesWithFixture()
 		{
-			runner.Load( "TestSuite", assemblies, "NUnit.Tests.Assemblies.MockTestFixture"  );
+			runner.Load( new TestPackage( "TestSuite", assemblies ), "NUnit.Tests.Assemblies.MockTestFixture"  );
 			Assert.IsNotNull(runner.Test, "Unable to build suite");
 		}
 
 		[Test]
 		public void LoadMultipleAssembliesWithSuite()
 		{
-			runner.Load( "TestSuite", assemblies, "NUnit.Tests.Assemblies.MockSuite" );
+			runner.Load( new TestPackage( "TestSuite", assemblies ), "NUnit.Tests.Assemblies.MockSuite" );
 			Assert.IsNotNull(runner.Test, "Unable to build suite");
 		}
 
 		[Test]
 		public void CountTestCasesAcrossMultipleAssemblies()
 		{
-			runner.Load( "TestSuite", assemblies );
+			runner.Load( new TestPackage( "TestSuite", assemblies ) );
 			Assert.AreEqual( NoNamespaceTestFixture.Tests + MockAssembly.Tests, 
 				runner.Test.TestCount );			
 		}
@@ -121,7 +121,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void RunMultipleAssemblies()
 		{
-			runner.Load( "TestSuite", assemblies );
+			runner.Load( new TestPackage( "TestSuite", assemblies ) );
 			TestResult result = runner.Run( NullListener.NULL );
 			ResultSummarizer summary = new ResultSummarizer(result);
 			Assert.AreEqual( 
@@ -132,7 +132,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void RunMultipleAssembliesUsingBeginAndEndRun()
 		{
-			runner.Load( "TestSuite", assemblies );
+			runner.Load( new TestPackage( "TestSuite", assemblies ) );
 			runner.BeginRun( NullListener.NULL );
 			TestResult result = runner.EndRun();
 			Assert.IsNotNull( result );

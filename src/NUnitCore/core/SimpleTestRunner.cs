@@ -130,28 +130,26 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Load the assemblies in a test project
+		/// Load the assemblies in a test package
 		/// </summary>
-		/// <param name="projectName">The name of the test project being loaded</param>
-		/// <param name="assemblies">The assemblies comprising the project</param>
+		/// <param name="package">The package to be loaded</param>
 		/// <returns>True on success, false on failure</returns>
-		public bool Load( string projectName, string[] assemblies )
+		public bool Load( TestPackage package )
 		{
-			return Load( projectName, assemblies, string.Empty );
+			return Load( package, string.Empty );
 		}
 
 		/// <summary>
 		/// Load a particular test in a TestProject.
 		/// </summary>
-		/// <param name="projectName">The name of the test project being loaded</param>
-		/// <param name="assemblies">The assemblies comprising the project</param>
+		/// <param name="package">The package to be loaded</param>
 		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
 		/// <returns>True on success, false on failure</returns>
-		public bool Load( string projectName, string[] assemblies, string testName )
+		public bool Load( TestPackage package, string testName )
 		{
 			TestSuiteBuilder builder = CreateBuilder();
 
-            this.test = builder.Build( projectName, assemblies, testName );
+			this.test = builder.Build( package, testName );
 			if ( test == null ) return false;
 
 			test.SetRunnerID( this.runnerID, true );

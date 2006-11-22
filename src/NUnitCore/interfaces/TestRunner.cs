@@ -119,6 +119,7 @@ namespace NUnit.Core
 		/// Load all tests from an assembly
 		/// </summary>
 		/// <param name="assemblyName">The assembly from which tests are to be loaded</param>
+		/// <returns>True if the tests were loaded successfully, otherwise false</returns>
 		bool Load( string assemblyName );
 
 		/// <summary>
@@ -126,24 +127,23 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="assemblyName">The assembly from which tests are to be loaded</param>
 		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
+		/// <returns>True if the tests were loaded successfully, otherwise false</returns>
 		bool Load( string assemblyName, string testName );
 
 		/// <summary>
-		/// Load the assemblies in a test project
+		/// Load the assemblies in a test package
 		/// </summary>
-		/// <param name="projectName">The name of the test project being loaded</param>
-		/// <param name="assemblies">The assemblies comprising the project</param>
-		/// <returns>The loaded test</returns>
-		bool Load( string projectName, string[] assemblies );
+		/// <param name="package">The test package to be loaded</param>
+		/// <returns>True if the tests were loaded successfully, otherwise false</returns>
+		bool Load( TestPackage package );
 
 		/// <summary>
 		/// Load a particular test in a TestProject.
 		/// </summary>
-		/// <param name="projectName">The name of the test project being loaded</param>
-		/// <param name="assemblies">The assemblies comprising the project</param>
+		/// <param name="package">The test package to be loaded</param>
 		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
-		/// <returns>The loaded test</returns>
-		bool Load( string projectName, string[] assemblies, string testName );
+		/// <returns>True if the tests were loaded successfully, otherwise false</returns>
+		bool Load( TestPackage package, string testName );
 
 		/// <summary>
 		/// Unload all tests previously loaded
@@ -211,3 +211,4 @@ namespace NUnit.Core
 		#endregion
 	}
 }
+

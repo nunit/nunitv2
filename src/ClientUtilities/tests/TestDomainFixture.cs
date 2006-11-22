@@ -54,7 +54,6 @@ namespace NUnit.Util.Tests
 		public void UnloadTestDomain()
 		{
 			loadedTest = null;
-			//testDomain.Unload(); //TEMP
 			testDomain = null;
 		}
 			
@@ -188,58 +187,44 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void ProjectConfigFileOverrideIsHonored()
 		{
-			NUnitProject project = new NUnitProject( "MyProject.nunit" );
-			ProjectConfig config = new ProjectConfig( "default" );
-			config.Assemblies.Add( Path.GetFullPath( "mock-assembly.dll" ) );
-			project.Configs.Add( config );
-			project.ActiveConfig.ConfigurationFile = "Override.config";
+			TestPackage package = new TestPackage( "MyProject.nunit", new string[] { "mock-assembly.dll" } );
+			package.ConfigurationFile = "override.config";
 
-			testDomain.Load( project );
+			testDomain.Load( package );
 
-			Assert.AreEqual( "Override.config", 
+			Assert.AreEqual( "override.config", 
 				Path.GetFileName( testDomain.AppDomain.SetupInformation.ConfigurationFile ) );
 		}
 
 		[Test]
 		public void ProjectBasePathOverrideIsHonored()
 		{
-			NUnitProject project = new NUnitProject( "MyProject.nunit" );
-			ProjectConfig config = new ProjectConfig( "default" );
-			config.Assemblies.Add( Path.GetFullPath( "mock-assembly.dll" ) );
-			project.Configs.Add( config );
+			TestPackage package = new TestPackage( "MyProject.nunit", new string[] { "mock-assembly.dll" } );
+			package.BasePath = Path.GetDirectoryName( Environment.CurrentDirectory );
 
-			project.BasePath = Path.GetDirectoryName( Environment.CurrentDirectory );
+			testDomain.Load( package );
 
-			testDomain.Load( project );
-
-			Assert.AreEqual(  project.BasePath, testDomain.AppDomain.BaseDirectory );
+			Assert.AreEqual(  package.BasePath, testDomain.AppDomain.BaseDirectory );
 		}
 
 		[Test]
 		public void ProjectConfigBasePathOverrideIsHonored()
 		{
-			NUnitProject project = new NUnitProject( "MyProject.nunit" );
-			ProjectConfig config = new ProjectConfig( "default" );
-			config.Assemblies.Add( Path.GetFullPath( "mock-assembly.dll" ) );
-			project.Configs.Add( config );
+			TestPackage package = new TestPackage( "MyProject.nunit", new string[] { "mock-assembly.dll" } );
+			package.BasePath = Path.GetDirectoryName( Environment.CurrentDirectory );
 
-			project.ActiveConfig.BasePath = Path.GetDirectoryName( Environment.CurrentDirectory );
+			testDomain.Load( package );
 
-			testDomain.Load( project );
-
-			Assert.AreEqual(  project.ActiveConfig.BasePath, testDomain.AppDomain.BaseDirectory );
+			Assert.AreEqual(  package.BasePath, testDomain.AppDomain.BaseDirectory );
 		}
 
 		[Test]
 		public void ProjectBinPathOverrideIsHonored()
 		{
-			NUnitProject project = new NUnitProject( "MyProject.nunit" );
-			ProjectConfig config = new ProjectConfig( "default" );
-			config.Assemblies.Add( Path.GetFullPath( "mock-assembly.dll" ) );
-			project.Configs.Add( config );
-			project.ActiveConfig.PrivateBinPath = "dummy;junk";
+			TestPackage package = new TestPackage( "MyProject.nunit", new string[] { "mock-assembly.dll" } );
+			package.PrivateBinPath = "dummy;junk";
 
-			testDomain.Load( project );
+			testDomain.Load( package );
 
 			Assert.AreEqual( "dummy;junk", 
 				testDomain.AppDomain.SetupInformation.PrivateBinPath );

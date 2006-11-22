@@ -91,14 +91,14 @@ namespace NUnit.Core
 
 		#region Public Methods
 
-		public TestSuite Build( string projectName, string[] assemblies, string testName )
+		public TestSuite Build( TestPackage package, string testName )
 		{
-			TestSuite rootSuite = new TestSuite( projectName );
+			TestSuite rootSuite = new TestSuite( package.ProjectPath );
 			NamespaceTreeBuilder namespaceTree = 
 				new NamespaceTreeBuilder( rootSuite );
 
 			builders.Clear();
-			foreach(string assemblyName in assemblies)
+			foreach(string assemblyName in package)
 			{
 				TestAssemblyBuilder builder = new TestAssemblyBuilder();
 				builder.AutoNamespaceSuites = this.AutoNamespaceSuites && !this.MergeAssemblies;
@@ -146,9 +146,9 @@ namespace NUnit.Core
 			return builder.Build( assemblyName, testName );
 		}
 
-		public TestSuite Build( string projectName, string[] assemblies )
+		public TestSuite Build( TestPackage package )
 		{
-			return Build( projectName, assemblies, null );
+			return Build( package, null );
 		}
 
 		#endregion

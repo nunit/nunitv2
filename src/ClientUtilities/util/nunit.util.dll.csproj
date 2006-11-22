@@ -290,11 +290,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestRunnerEx.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Transform.resx"
                     BuildAction = "EmbeddedResource"
                 />

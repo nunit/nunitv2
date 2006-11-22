@@ -151,7 +151,6 @@
     <Compile Include="TestResultItem.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestRunnerEx.cs" />
     <Compile Include="VSProject.cs">
       <SubType>Code</SubType>
     </Compile>

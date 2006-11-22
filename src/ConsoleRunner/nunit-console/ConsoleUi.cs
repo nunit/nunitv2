@@ -161,25 +161,24 @@ namespace NUnit.ConsoleRunner
 
 		private static TestRunner MakeRunnerFromCommandLine( ConsoleOptions options )
 		{
-            TestRunnerEx testRunner = options.ParameterCount == 1
-                ? (TestRunnerEx)new TestDomain()
-                : (TestRunnerEx)new MultipleTestDomainRunner();
+            TestRunner testRunner = options.ParameterCount == 1
+                ? (TestRunner)new TestDomain()
+                : (TestRunner)new MultipleTestDomainRunner();
 
 			if ( options.noshadow  ) testRunner.Settings["ShadowCopyFiles"] = false;
 
-			NUnitProject project;
-
 			if ( options.IsTestProject )
 			{
-				project = NUnitProject.LoadProject( (string)options.Parameters[0] );
+				NUnitProject project = NUnitProject.LoadProject( (string)options.Parameters[0] );
 				string configName = options.config;
 				if ( configName != null )
 					project.SetActiveConfig( configName );
+
+				testRunner.Load( project.MakeTestPackage(), options.fixture );
 			}
 			else
-				project = NUnitProject.FromAssemblies( (string[])options.Parameters.ToArray( typeof( string ) ) );
+				testRunner.Load( new TestPackage( options.Parameters ), options.fixture );
 
-			testRunner.Load( project, options.fixture );
 
 			return testRunner;
 		}

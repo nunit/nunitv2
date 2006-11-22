@@ -40,7 +40,7 @@ namespace NUnit.Util
 
 	using NUnit.Core;
 
-	public class TestDomain : ProxyTestRunner, TestRunnerEx
+	public class TestDomain : ProxyTestRunner, TestRunner
 	{
 		#region Instance Variables
 
@@ -103,50 +103,22 @@ namespace NUnit.Util
 			}
 		}
 
-		public bool Load( NUnitProject project )
+		public override bool Load( TestPackage package )
 		{
-			return Load( project, null );
+			return Load( package, string.Empty );
 		}
 
-		public bool Load( NUnitProject project, string testName )
+		public override bool Load(TestPackage package, string testName)
 		{
 			Unload();
 
 			try
 			{
-				CreateDomain( 
-					project.ProjectPath,
-					project.ActiveConfig.BasePath,
-					project.ActiveConfig.ConfigurationFile,
-					project.ActiveConfig.PrivateBinPath );
+				CreateDomain( package );
 
 				this.TestRunner = MakeRemoteTestRunner( domain );
 
-				return TestRunner.Load( project.ProjectPath, project.ActiveConfig.Assemblies.ToArray(), testName );
-			}
-			catch
-			{
-				Unload();
-				throw;
-			}
-		}
-
-		public override bool Load( string projectName, string[] assemblies )
-		{
-			return Load( projectName, assemblies, string.Empty );
-		}
-
-		public override bool Load( string projectName, string[] assemblies, string testName )
-		{
-			Unload();
-
-			try
-			{
-				CreateDomain( projectName );
-
-				this.TestRunner = MakeRemoteTestRunner( domain );
-
-				return TestRunner.Load( projectName, assemblies, testName );
+				return TestRunner.Load( package, testName );
 			}
 			catch
 			{
@@ -228,9 +200,23 @@ namespace NUnit.Util
 		/// <param name="appBase">The application base path</param>
 		/// <param name="configFile">The configuration file to use</param>
 		/// <param name="binPath">The private bin path</param>
-		private void CreateDomain( string testFileName, string appBase, string configFile, string binPath)
+		private void CreateDomain( TestPackage package )
 		{
-			domain = MakeAppDomain( testFileName, appBase, configFile, binPath );
+			FileInfo testFile = new FileInfo( package.ProjectPath );
+
+			string appBase = package.BasePath;
+			if ( appBase == null || appBase == string.Empty )
+				appBase = testFile.DirectoryName;
+
+			string configFile = package.ConfigurationFile;
+			if ( configFile == null || configFile == string.Empty )
+				configFile = testFile.Name + ".config";
+
+			string binPath = package.PrivateBinPath;
+			if ( binPath == null || binPath == string.Empty )
+				binPath = testFile.DirectoryName;
+
+			domain = MakeAppDomain( package.ProjectPath, appBase, configFile, binPath );
 		}
 
 		/// <summary>

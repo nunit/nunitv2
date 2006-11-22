@@ -675,6 +675,16 @@ namespace NUnit.Util
 			Save();
 		}
 
+		public TestPackage MakeTestPackage()
+		{
+			TestPackage package = new TestPackage( this.ProjectPath, this.ActiveConfig.Assemblies );
+
+			package.BasePath = this.ActiveConfig.BasePath;
+			package.ConfigurationFile = this.ActiveConfig.ConfigurationFile;
+			package.PrivateBinPath = this.ActiveConfig.PrivateBinPath;
+
+			return package;
+		}
 		#endregion
 	}
 }

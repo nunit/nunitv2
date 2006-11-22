@@ -11,7 +11,7 @@ namespace NUnit.Util
 	/// AggregatingTestRunner allows running multiple TestRunners
 	/// and combining the results.
 	/// </summary>
-	public abstract class AggregatingTestRunner : MarshalByRefObject, TestRunnerEx, EventListener
+	public abstract class AggregatingTestRunner : MarshalByRefObject, TestRunner, EventListener
 	{
 		static int AggregateTestID = 1000;
 
@@ -144,18 +144,18 @@ namespace NUnit.Util
 
         public abstract bool Load(string assemblyName, string testName);
         
-        public abstract bool Load(string projectName, string[] assemblies);
+		public abstract bool Load(TestPackage package);
 
-        public abstract bool Load(string projectName, string[] assemblies, string testName);
+		public abstract bool Load(TestPackage package, string testName);
 
 		public bool Load( NUnitProject project )
 		{
-			return Load( project.ProjectPath, project.ActiveConfig.Assemblies.ToArray() );
+			return Load( new TestPackage( project.ProjectPath, project.ActiveConfig.Assemblies.ToArray() ) );
 		}
 
 		public bool Load( NUnitProject project, string testName )
 		{
-			return Load( project.ProjectPath, project.ActiveConfig.Assemblies.ToArray(), testName );
+			return Load( new TestPackage( project.ProjectPath, project.ActiveConfig.Assemblies.ToArray() ), testName );
 		}
 
 		public virtual void Unload()
