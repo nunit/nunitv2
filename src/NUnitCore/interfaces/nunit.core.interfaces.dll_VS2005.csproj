@@ -91,6 +91,7 @@
     <Compile Include="TestName.cs" />
     <Compile Include="TestNode.cs" />
     <Compile Include="TestOutput.cs" />
+    <Compile Include="TestPackage.cs" />
     <Compile Include="TestResult.cs" />
     <Compile Include="TestRunner.cs" />
     <Compile Include="TestRunnerSettings.cs" />
