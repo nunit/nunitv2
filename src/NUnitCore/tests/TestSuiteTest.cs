@@ -67,9 +67,9 @@ namespace NUnit.Core.Tests
 			Assert.IsNull( result, "ExplicitlyRunTest should not be in results" );
 
 			// TODO: Decide if we want to include Explicitly run tests
-//			Assert.IsNotNull( result, "Cannot find ExplicitlyRunTest result" );
-//			Assert.IsFalse( result.Executed, "ExplicitlyRunTest should not be executed" );
-//			Assert.AreEqual( "Explicit selection required", result.Message );
+			//			Assert.IsNotNull( result, "Cannot find ExplicitlyRunTest result" );
+			//			Assert.IsFalse( result.Executed, "ExplicitlyRunTest should not be executed" );
+			//			Assert.AreEqual( "Explicit selection required", result.Message );
 		}
 
 		[Test]
@@ -205,37 +205,37 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.Explicit, testSuite.CountTestCases(filter));
 		}
 
-        [Test]
-        public void RunTestByCategory()
-        {
-            TestSuite testSuite = new TestSuite("Mock Test Suite");
-            testSuite.Add(mockTestFixture);
+		[Test]
+		public void RunTestByCategory()
+		{
+			TestSuite testSuite = new TestSuite("Mock Test Suite");
+			testSuite.Add(mockTestFixture);
 
-            CategoryFilter filter = new CategoryFilter();
-            filter.AddCategory("MockCategory");
-            RecordingListener listener = new RecordingListener();
-            testSuite.Run(listener, filter);
+			CategoryFilter filter = new CategoryFilter();
+			filter.AddCategory("MockCategory");
+			RecordingListener listener = new RecordingListener();
+			testSuite.Run(listener, filter);
 			CollectionAssert.AreEquivalent(
 				new string[] { "MockTest2", "MockTest3" },
 				listener.testStarted );
-        }
+		}
 
-        [Test]
-        public void RunTestExcludingCategory()
-        {
-            TestSuite testSuite = new TestSuite("Mock Test Suite");
-            testSuite.Add(mockTestFixture);
+		[Test]
+		public void RunTestExcludingCategory()
+		{
+			TestSuite testSuite = new TestSuite("Mock Test Suite");
+			testSuite.Add(mockTestFixture);
 
-            CategoryFilter filter = new CategoryFilter();
-            filter.AddCategory("MockCategory");
-            RecordingListener listener = new RecordingListener();
-            testSuite.Run(listener, new NotFilter( filter ) );
+			CategoryFilter filter = new CategoryFilter();
+			filter.AddCategory("MockCategory");
+			RecordingListener listener = new RecordingListener();
+			testSuite.Run(listener, new NotFilter( filter ) );
 			CollectionAssert.AreEquivalent( 
 				new string[] { "MockTest1", "MockTest4", "MockTest5", "TestWithManyProperties" },
 				listener.testStarted );
-        }
+		}
 
-        [Test]
+		[Test]
 		public void RunSuiteByCategory() 
 		{
 			TestSuite testSuite = new TestSuite("Mock Test Suite");
@@ -245,7 +245,7 @@ namespace NUnit.Core.Tests
 			filter.AddCategory("FixtureCategory");
 			RecordingListener listener = new RecordingListener();
 			testSuite.Run(listener, filter);
-            Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.Explicit, listener.testStarted.Count);
+			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.Explicit, listener.testStarted.Count);
 		}
 
 		[Test]
@@ -257,6 +257,31 @@ namespace NUnit.Core.Tests
 			test.Run(listener, null);
 			Assert.IsFalse(listener.lastResult.IsFailure);
 		}
+
+		[Test]
+		public void DefaultSortIsByName()
+		{
+			mockTestFixture.Sort();
+			Assert.AreEqual( "ExplicitlyRunTest", ((Test)mockTestFixture.Tests[0]).TestName.Name );
+		}
+
+		[Test]
+		public void CanSortUsingExternalComparer()
+		{
+			IComparer comparer = new ReverseSortComparer();
+			mockTestFixture.Sort(comparer);
+			Assert.AreEqual( "TestWithManyProperties", ((Test)mockTestFixture.Tests[0]).TestName.Name );
+		}
+
+		private class ReverseSortComparer : IComparer
+		{
+			public int Compare(object t1, object t2)
+			{
+				int result = Comparer.Default.Compare( t1, t2 );
+				return -result;
+			}
+		}
+
 	}
 
 	[Serializable]

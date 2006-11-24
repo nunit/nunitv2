@@ -83,6 +83,18 @@ namespace NUnit.Core
 			}		
 		}
 
+		public void Sort(IComparer comparer)
+		{
+			this.tests.Sort(comparer);
+
+			foreach( Test test in Tests )
+			{
+				TestSuite suite = test as TestSuite;
+				if ( suite != null )
+					suite.Sort(comparer);
+			}
+		}
+
 		public void Add( Test test ) 
 		{
 //			if( test.RunState == RunState.Runnable )
