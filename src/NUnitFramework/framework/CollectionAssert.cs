@@ -308,22 +308,21 @@ namespace NUnit.Framework
 	#region CollectionContains
 	public class CollectionContains : CollectionObjectAsserter
 	{
-		public CollectionContains( ICollection set1, object actual, string message, params object[] args ) : base(set1, actual, message, args)
-		{
-		}
+		public CollectionContains( ICollection set1, object actual, string message, params object[] args ) 
+			: base(set1, actual, message, args) { }
 
 		public override bool Test()
 		{
 			foreach(object loopObj in set1)
 			{
-				if (!loopObj.Equals(actual))
-				{
+				if (loopObj.Equals(actual))
 					return true;
-				}
 			}
+
 			CreateMessage();
-			return true;
+			return false;
 		}
+
 		protected void CreateMessage()
 		{
 			FailureMessage.WriteLine("\tThe actual object was not found in set1.");

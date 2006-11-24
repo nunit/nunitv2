@@ -554,6 +554,32 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.Contains(al,x,"test");
 			CollectionAssert.Contains(al,x,"test {0}","1");
 		}
+
+		[Test, ExpectedException(typeof(AssertionException))]
+		public void ContainsFails()
+		{
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
+			DataSet a = new DataSet();
+
+			ArrayList al = new ArrayList();
+			al.Add(x);
+			al.Add(y);
+			al.Add(z);
+
+			CollectionAssert.Contains(al,a);
+		}
+
+		[Test, ExpectedException(typeof(AssertionException))]
+		public void ContainsFails_Empty()
+		{
+			DataSet x = new DataSet();
+
+			ArrayList al = new ArrayList();
+
+			CollectionAssert.Contains(al,x);
+		}
 		#endregion
 
 		#region DoesNotContain
@@ -573,6 +599,16 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.DoesNotContain(al,a);
 			CollectionAssert.DoesNotContain(al,a,"test");
 			CollectionAssert.DoesNotContain(al,a,"test {0}","1");
+		}
+
+		[Test]
+		public void DoesNotContain_Empty()
+		{
+			DataSet x = new DataSet();
+
+			ArrayList al = new ArrayList();
+
+			CollectionAssert.DoesNotContain(al,x);
 		}
 		#endregion
 
