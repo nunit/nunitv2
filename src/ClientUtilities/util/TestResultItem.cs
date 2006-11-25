@@ -55,12 +55,15 @@ namespace NUnit.Util
 
 		public override string ToString()
 		{
-			return String.Format("{0} : {1}", testName, message);
+			if ( message.Length > 64000 )
+				return string.Format( "{0} : {1}", testName, message.Substring( 0, 64000 ) );
+
+			return GetMessage();
 		}
 
 		public string GetMessage()
 		{
-			return ToString();
+			return String.Format("{0} : {1}", testName, message);
 		}
 
         public string GetToolTipMessage()   //NRG 05/28/03 - Substitute spaces for tab characters

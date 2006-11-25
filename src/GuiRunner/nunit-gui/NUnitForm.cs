@@ -2553,8 +2553,8 @@ the version under which NUnit is currently running, {0}.",
 			TestResultItem item = (TestResultItem) detailList.Items[e.Index];
 			//string s = item.ToString();
 			SizeF size = UserSettings.Options.EnableWordWrapForFailures
-				? e.Graphics.MeasureString(item.GetMessage(), detailList.Font, detailList.ClientSize.Width )
-				: e.Graphics.MeasureString(item.GetMessage(), detailList.Font );
+				? e.Graphics.MeasureString(item.ToString(), detailList.Font, detailList.ClientSize.Width )
+				: e.Graphics.MeasureString(item.ToString(), detailList.Font );
 			e.ItemHeight = (int)size.Height;
 			e.ItemWidth = (int)size.Width;
 		}
@@ -2564,14 +2564,13 @@ the version under which NUnit is currently running, {0}.",
 			if (e.Index >= 0) 
 			{
 				e.DrawBackground();
-				
 				TestResultItem item = (TestResultItem) detailList.Items[e.Index];
 				bool selected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected) ? true : false;
 				Brush brush = selected ? SystemBrushes.HighlightText : SystemBrushes.WindowText;
 				RectangleF layoutRect = e.Bounds;
 				if (UserSettings.Options.EnableWordWrapForFailures && layoutRect.Width > detailList.ClientSize.Width )
 					layoutRect.Width = detailList.ClientSize.Width;
-				e.Graphics.DrawString(item.GetMessage(),detailList.Font, brush, layoutRect);
+				e.Graphics.DrawString(item.ToString(),detailList.Font, brush, layoutRect);
 				
 			}
 		}

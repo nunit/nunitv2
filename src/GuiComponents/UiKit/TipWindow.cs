@@ -99,11 +99,6 @@ namespace CP.Windows.Forms
 		private System.Windows.Forms.Timer mouseLeaveTimer;
 
 		/// <summary>
-		/// Rectangle used to draw border
-		/// </summary>
-		private Rectangle outlineRect;
-			
-		/// <summary>
 		/// Rectangle used to display text
 		/// </summary>
 		private Rectangle textRect;
@@ -159,9 +154,15 @@ namespace CP.Windows.Forms
 			// TipWindow
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
+			this.BackColor = System.Drawing.Color.LightYellow;
 			this.ClientSize = new System.Drawing.Size(292, 268);
+			this.ControlBox = false;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "TipWindow";
 			this.ShowInTaskbar = false;
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 
 		}
 
@@ -176,22 +177,16 @@ namespace CP.Windows.Forms
 
 			Graphics g = Graphics.FromHwnd( Handle );
 			Screen screen = Screen.FromControl( control );
-			SizeF layoutArea = new SizeF( screen.WorkingArea.Width, screen.WorkingArea.Height );
+			SizeF layoutArea = new SizeF( screen.WorkingArea.Width - 40, screen.WorkingArea.Height - 40 );
 			if ( expansion == ExpansionStyle.Vertical )
 				layoutArea.Width = itemBounds.Width;
 			else if ( expansion == ExpansionStyle.Horizontal )
 				layoutArea.Height = itemBounds.Height;
-			Size sizeNeeded;
-			//			if ( expansion == ExpansionStyle.Vertical )
-			//				sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font, itemBounds.Width ) );
-			//			else // Both or Horizontal
-			sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font, layoutArea ) );
 
-			//			if ( expansion == ExpansionStyle.Horizontal )
-			//				sizeNeeded.Height = itemBounds.Height;
+			Size sizeNeeded = Size.Ceiling( g.MeasureString( tipText, Font, layoutArea ) );
 
-			this.ClientSize = sizeNeeded + new Size( 2, 2 );
-			this.outlineRect = new Rectangle( 0, 0, sizeNeeded.Width + 1, sizeNeeded.Height + 1 );
+			this.ClientSize = sizeNeeded;
+			this.Size = sizeNeeded + new Size( 2, 2 );
 			this.textRect = new Rectangle( 1, 1, sizeNeeded.Width, sizeNeeded.Height );
 
 			// Catch mouse leaving the control
@@ -203,24 +198,20 @@ namespace CP.Windows.Forms
 			if ( this.Right > screen.WorkingArea.Right )
 			{
 				this.Left = Math.Max( 
-					screen.WorkingArea.Right - this.Width, 
-					screen.WorkingArea.Left );
-
-				if ( this.Right > screen.WorkingArea.Right )
-				{
-					this.Width = screen.WorkingArea.Width;
-					sizeNeeded = Size.Ceiling( 
-						g.MeasureString( tipText, Font, screen.WorkingArea.Width ) );
-					this.Height = sizeNeeded.Height;
-				}
+					screen.WorkingArea.Right - this.Width - 20, 
+					screen.WorkingArea.Left + 20);
 			}
 
-			if ( this.Bottom > screen.WorkingArea.Bottom )
+			if ( this.Bottom > screen.WorkingArea.Bottom - 20 )
 			{
 				if ( overlay )
-					this.Top = screen.WorkingArea.Bottom - this.Height;
-				else if ( control.Top > this.Height )
-					this.Top = origin.Y - control.Height - this.Height;
+					this.Top = Math.Max(
+						screen.WorkingArea.Bottom - this.Height - 20,
+						screen.WorkingArea.Top + 20 );
+
+				if ( this.Bottom > screen.WorkingArea.Bottom - 20 )
+					this.Height = screen.WorkingArea.Bottom - 20 - this.Top;
+
 			}
 
 			if ( autoCloseDelay > 0 )
@@ -287,6 +278,8 @@ namespace CP.Windows.Forms
 			base.OnPaint( e );
 				
 			Graphics g = e.Graphics;
+			Rectangle outlineRect = this.ClientRectangle;
+			outlineRect.Inflate( -1, -1 );
 			g.DrawRectangle( Pens.Black, outlineRect );
 			g.DrawString( tipText, Font, Brushes.Black, textRect );
 		}
