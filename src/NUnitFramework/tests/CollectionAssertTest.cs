@@ -508,6 +508,21 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AreNotEqual(set1,set2,new TestComparer(),"test {0}","1");
 		}
 
+		[Test, ExpectedException(typeof(AssertionException))]
+		public void AreNotEqual_Fails()
+		{
+			ArrayList set1 = new ArrayList();
+			ArrayList set2 = new ArrayList();
+			set1.Add("x");
+			set1.Add("y");
+			set1.Add("z");
+			set2.Add("x");
+			set2.Add("y");
+			set2.Add("z");
+
+			CollectionAssert.AreNotEqual(set1,set2);
+		}
+
 		#endregion
 
 		#region AreNotEquivalent
@@ -533,6 +548,27 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AreNotEquivalent(set1,set2);
 			CollectionAssert.AreNotEquivalent(set1,set2,"test");
 			CollectionAssert.AreNotEquivalent(set1,set2,"test {0}","1");
+		}
+
+		[Test, ExpectedException(typeof(AssertionException))]
+		public void NotEquivalent_Fails()
+		{
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
+
+			ArrayList set1 = new ArrayList();
+			ArrayList set2 = new ArrayList();
+			
+			set1.Add(x);
+			set1.Add(y);
+			set1.Add(z);
+
+			set2.Add(x);
+			set2.Add(z);
+			set2.Add(y);
+
+			CollectionAssert.AreNotEquivalent(set1,set2);
 		}
 
 		#endregion
@@ -610,6 +646,21 @@ namespace NUnit.Framework.Tests
 
 			CollectionAssert.DoesNotContain(al,x);
 		}
+
+		[Test, ExpectedException(typeof(AssertionException))]
+		public void DoesNotContain_Fails()
+		{
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
+
+			ArrayList al = new ArrayList();
+			al.Add(x);
+			al.Add(y);
+			al.Add(z);
+
+			CollectionAssert.DoesNotContain(al,y);
+		}
 		#endregion
 
 		#region IsSubsetOf
@@ -632,6 +683,27 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.IsSubsetOf(set1,set2);
 			CollectionAssert.IsSubsetOf(set1,set2,"test");
 			CollectionAssert.IsSubsetOf(set1,set2,"test {0}","1");
+		}
+
+		[Test,ExpectedException(typeof(AssertionException))]
+		public void IsSubsetOf_Fails()
+		{
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
+			DataSet a = new DataSet();
+
+			ArrayList set1 = new ArrayList();
+			set1.Add(x);
+			set1.Add(y);
+			set1.Add(z);
+
+			ArrayList set2 = new ArrayList();
+			set2.Add(y);
+			set2.Add(z);
+			set2.Add(a);
+
+			CollectionAssert.IsSubsetOf(set1,set2);
 		}
 		#endregion
 
@@ -657,6 +729,25 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.IsNotSubsetOf(set1,set2);
 			CollectionAssert.IsNotSubsetOf(set1,set2,"test");
 			CollectionAssert.IsNotSubsetOf(set1,set2,"test {0}","1");
+		}
+
+		[Test, ExpectedException(typeof(AssertionException))]
+		public void IsNotSubsetOf_Fails()
+		{
+			DataSet x = new DataSet();
+			DataSet y = new DataSet();
+			DataSet z = new DataSet();
+
+			ArrayList set1 = new ArrayList();
+			set1.Add(x);
+			set1.Add(y);
+			set1.Add(z);
+
+			ArrayList set2 = new ArrayList();
+			set1.Add(y);
+			set1.Add(z);
+
+			CollectionAssert.IsNotSubsetOf(set1,set2);
 		}
 		#endregion
 	}
