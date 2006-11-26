@@ -61,10 +61,6 @@ namespace NUnit.Gui
 			public bool autorun;
 		}
 
-		// Our TextBoxWriters for stdErr and stdOut
-		//TextBoxWriter outWriter;
-		//TextBoxWriter errWriter;
-
 		// Our current run command line options
 		private CommandLineOptions commandLineOptions;
 
@@ -180,9 +176,6 @@ namespace NUnit.Gui
 			//
 			//			runButton.Enabled = false;
 			//			stopButton.Enabled = false;
-			//
-			//			outWriter = new TextBoxWriter( stdOutTab );
-			//			errWriter = new TextBoxWriter( stdErrTab );
 			//
 			//			TestLoader loader = new TestLoader( new GuiTestEventDispatcher() );
 			//			loader.ReloadOnRun = UserSettings.Options.ReloadOnRun;
@@ -2033,9 +2026,6 @@ namespace NUnit.Gui
 
 			EnableRunCommand( false );
 			EnableStopCommand( false );
-
-			//outWriter = new TextBoxWriter( stdOutTab );
-			//errWriter = new TextBoxWriter( stdErrTab );
 
 			recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, UserSettings.RecentProjects );
 

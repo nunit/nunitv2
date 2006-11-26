@@ -78,9 +78,6 @@
     <Compile Include="TestSuiteTreeViewFixture.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TextBoxWriterTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <None Include="nunit.uikit.tests.dll.config" />
   </ItemGroup>
   <ItemGroup>
