@@ -338,7 +338,7 @@ namespace NUnit.Core
             {
                 listener.SuiteStarted(test.TestName);
                 TestSuiteResult result = new TestSuiteResult( new TestInfo(test), test.TestName.FullName);
-                result.Ignore(ignoreReason);
+				result.NotRun( runState, ignoreReason, null );
                 MarkTestsNotRun(test.Tests, runState, ignoreReason, suiteResult, listener, filter);
                 suiteResult.AddResult(result);
                 listener.SuiteFinished(result);
@@ -347,7 +347,7 @@ namespace NUnit.Core
             {
                 listener.TestStarted(test.TestName);
                 TestCaseResult result = new TestCaseResult( new TestInfo(test) );
-                result.Ignore(ignoreReason);
+                result.NotRun( runState, ignoreReason, null );
                 suiteResult.AddResult(result);
                 listener.TestFinished(result);
             }
