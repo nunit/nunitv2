@@ -227,9 +227,7 @@ namespace NUnit.Core
 		/// <param name="stackTrace">Stack trace giving the location of the command</param>
 		public void Ignore(string reason, string stackTrace)
 		{
-			this.runState = RunState.Ignored;
-			this.messageString = reason;
-			this.stackTrace = stackTrace;
+			NotRun( RunState.Ignored, reason, stackTrace );
 		}
 
 		/// <summary>
@@ -257,12 +255,23 @@ namespace NUnit.Core
 		/// <param name="stackTrace">Stack trace giving the location of the command</param>
 		public void Skip(string reason, string stackTrace)
 		{
-			this.runState = RunState.Skipped;
+			NotRun( RunState.Skipped, reason, stackTrace );
+		}
+
+		/// <summary>
+		/// Mark the test as Not Run - either skipped or ignored
+		/// </summary>
+		/// <param name="runState">The RunState to use in the result</param>
+		/// <param name="reason">The reason the test was not run</param>
+		/// <param name="stackTrace">Stack trace giving the location of the command</param>
+		public void NotRun(RunState runState, string reason, string stackTrace)
+		{
+			this.runState = runState;
 			this.messageString = reason;
 			this.stackTrace = stackTrace;
 		}
 
-        public void Failure(string message, string stackTrace)
+		public void Failure(string message, string stackTrace)
         {
             Failure(message, stackTrace, FailureSite.Test);
         }
