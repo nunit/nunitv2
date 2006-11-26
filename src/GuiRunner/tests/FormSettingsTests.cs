@@ -108,7 +108,7 @@ namespace NUnit.Gui.Tests
 			Assert.AreEqual( MIN_SIZE, formSettings.Size );
 		}
 
-		[Test, Platform(Exclude="Mono")]
+		[Test]
 		public void PositionOutOfBounds()
 		{
 			int minX = 0;

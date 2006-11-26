@@ -121,8 +121,7 @@ namespace NUnit.Core.Tests
 		}
 
 		// Gives FileNotFoundException on Mono
-		[Test, Platform(Exclude="Mono")]
-		[ExpectedException(typeof(BadImageFormatException))]
+		[Test, ExpectedException(typeof(BadImageFormatException))]
 		public void InvalidAssembly()
 		{
 			FileInfo file = new FileInfo( tempFile );
