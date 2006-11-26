@@ -379,11 +379,21 @@ namespace NUnit.Core
 		/// <param name="fixture">The object on which to invoke the method</param>
 		public static void InvokeMethod( MethodInfo method, object fixture ) 
 		{
+			InvokeMethod( method, fixture, null );
+		}
+
+		/// <summary>
+		/// Invoke a parameterless method on an object.
+		/// </summary>
+		/// <param name="method">A MethodInfo for the method to be invoked</param>
+		/// <param name="fixture">The object on which to invoke the method</param>
+		public static void InvokeMethod( MethodInfo method, object fixture, params object[] args ) 
+		{
 			if(method != null)
 			{
 				try
 				{
-					method.Invoke( fixture, null );
+					method.Invoke( fixture, args );
 				}
 				catch(TargetInvocationException e)
 				{
