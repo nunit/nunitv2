@@ -94,7 +94,7 @@ namespace NUnit.Util.Tests
 		}
 
 		// Not sure why this fails on Mono under windows, but it does
-		[Test, Platform(Exclude="Mono")]
+		[Test, Platform(Exclude="Mono", Reason="Subkeys are not deleted on Mono")]
 		public void TestClearRoutines()
 		{
 			NUnitRegistry.TestMode = true;
