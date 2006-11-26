@@ -61,7 +61,7 @@ namespace NUnit.Mocks.Tests
 			mock.Verify();
 		}
 
-		[Test, Platform(Exclude="Mono")]
+		[Test]
 		public void RefParameter()
 		{
 			int x = 7;
