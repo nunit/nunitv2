@@ -33,6 +33,13 @@ namespace NUnit.TestUtilities
 				BindingFlags.Public | BindingFlags.Instance ) );
 		}
 
+		public static NUnitTestMethod MakeTestCase( object fixture, string methodName )
+		{
+			NUnitTestMethod test = MakeTestCase( fixture.GetType(), methodName );
+			test.Fixture = fixture;
+			return test;
+		}
+
 		public static TestResult RunTestFixture( Type type )
 		{
 			return MakeFixture( type ).Run( NullListener.NULL );
