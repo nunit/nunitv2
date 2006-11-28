@@ -340,6 +340,17 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
+		/// Get the value of a named property on an object using binding flags of Public and Instance
+		/// </summary>
+		/// <param name="obj">The object for which the property value is needed</param>
+		/// <param name="name">The name of a non-indexed property of the object</param>
+		/// <returns></returns>
+		public static object GetPropertyValue( object obj, string name )
+		{
+			return GetPropertyValue( obj, name, BindingFlags.Public | BindingFlags.Instance );
+		}
+
+		/// <summary>
 		/// Get the value of a named property on an object
 		/// </summary>
 		/// <param name="obj">The object for which the property value is needed</param>
