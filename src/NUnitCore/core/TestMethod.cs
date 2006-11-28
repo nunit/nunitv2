@@ -63,9 +63,19 @@ namespace NUnit.Core
 		protected MethodInfo tearDownMethod;
 
 		/// <summary>
+		/// The exception handler method
+		/// </summary>
+		internal MethodInfo exceptionHandler;
+
+		/// <summary>
+		/// True if an exception is expected
+		/// </summary>
+		internal bool exceptionExpected;
+
+		/// <summary>
 		/// The type of any expected exception
 		/// </summary>
-		internal Type expectedException;
+		internal Type expectedExceptionType;
         
 		/// <summary>
 		/// The full name of any expected exception type
@@ -97,13 +107,25 @@ namespace NUnit.Core
 			get { return method; }
 		}
 
-		public Type ExpectedException
+		public bool ExceptionExpected
 		{
-			get { return expectedException; }
+			get { return exceptionExpected; }
+			set { exceptionExpected = value; }
+		}
+
+		public MethodInfo ExceptionHandler
+		{
+			get { return exceptionHandler; }
+			set { exceptionHandler = value; }
+		}
+
+		public Type ExpectedExceptionType
+		{
+			get { return expectedExceptionType; }
 			set 
 			{ 
-				expectedException = value;
-				expectedExceptionName = expectedException.FullName;
+				expectedExceptionType = value;
+				expectedExceptionName = expectedExceptionType.FullName;
 			}
 		}
 
@@ -112,7 +134,7 @@ namespace NUnit.Core
 			get { return expectedExceptionName; }
 			set
 			{
-				expectedException = null;
+				expectedExceptionType = null;
 				expectedExceptionName = value;
 			}
 		}
@@ -130,6 +152,7 @@ namespace NUnit.Core
 		}
 		#endregion
 
+		#region Run Methods
 		public override void Run(TestCaseResult testResult)
 		{ 
             try
@@ -188,6 +211,7 @@ namespace NUnit.Core
 				testResult.Time = (double)span.Ticks / (double)TimeSpan.TicksPerSecond;
 			}
 		}
+		#endregion
 
 		#region Invoke Methods by Reflection, Recording Errors
 
@@ -259,7 +283,7 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Virtual Methods
+		#region Exception Processing
 		protected internal virtual void ProcessNoException(TestCaseResult testResult)
 		{
             if ( ExceptionExpected )
@@ -270,30 +294,34 @@ namespace NUnit.Core
 		
 		protected internal virtual void ProcessException(Exception exception, TestCaseResult testResult)
 		{
-            if (ExceptionExpected)
-            {
-                if (IsExpectedExceptionType(exception))
-                {
-                    if (IsExpectedMessageMatch(exception))
-                    {
-                        testResult.Success();
-                    }
-                    else
-                    {
-                        testResult.Failure(WrongTextMessage(exception), GetStackTrace(exception));
-                    }
-                }
-                else if (IsAssertException(exception))
-                {
-                    testResult.Failure(exception.Message, exception.StackTrace);
-                }
-                else
-                {
-                    testResult.Failure(WrongTypeMessage(exception), GetStackTrace(exception));
-                }
-            }
-            else
-                RecordException(exception, testResult);
+			if (!ExceptionExpected)
+			{
+				RecordException(exception, testResult); 
+				return;
+			}
+
+			if (IsExpectedExceptionType(exception))
+			{
+				if (IsExpectedMessageMatch(exception))
+				{
+					if ( exceptionHandler != null )
+						Reflect.InvokeMethod( exceptionHandler, this.Fixture, exception );
+
+					testResult.Success();
+				}
+				else
+				{
+					testResult.Failure(WrongTextMessage(exception), GetStackTrace(exception));
+				}
+			}
+			else if (IsAssertException(exception))
+			{
+				testResult.Failure(exception.Message, exception.StackTrace);
+			}
+			else
+			{
+				testResult.Failure(WrongTypeMessage(exception), GetStackTrace(exception));
+			}
 		}
 		#endregion
 
@@ -304,14 +332,9 @@ namespace NUnit.Core
 		#endregion
 
         #region Helper Methods
-        protected bool ExceptionExpected
-        {
-            get { return expectedExceptionName != null; }
-        }
-
         protected bool IsExpectedExceptionType(Exception exception)
         {
-            return expectedExceptionName.Equals(exception.GetType().FullName);
+            return expectedExceptionName == null || expectedExceptionName.Equals(exception.GetType().FullName);
         }
 
         protected bool IsExpectedMessageMatch(Exception exception)
@@ -333,29 +356,37 @@ namespace NUnit.Core
 
         protected string NoExceptionMessage()
         {
-            return expectedExceptionName + " was expected";
+			string expectedType = expectedExceptionName == null ? "An Exception" : expectedExceptionName;
+			return expectedType + " was expected";
         }
 
         protected string WrongTypeMessage(Exception exception)
         {
-            return "Expected: " + expectedExceptionName + " but was " + exception.GetType().FullName;
+            return "An unexpected exception type was thrown" + Environment.NewLine +
+				"Expected: " + expectedExceptionName + Environment.NewLine +
+				" but was: " + exception.GetType().FullName;
         }
 
         protected string WrongTextMessage(Exception exception)
         {
+			string expectedText;
             switch (matchType)
             {
                 default:
                 case "Exact":
-                    return string.Format("Expected exception message: \"{0}\" but received message \"{1}\"",
-                        expectedMessage, exception.Message);
+					expectedText = "Expected: ";
+					break;
                 case "Contains":
-                    return string.Format("Expected exception message containing: \"{0}\" but received message \"{1}\"",
-                        expectedMessage, exception.Message);
+					expectedText = "Expected message containing: ";
+					break;
                 case "Regex":
-                    return string.Format("Expected exception message matching: \"{0}\" but received message \"{1}\"",
-                        expectedMessage, exception.Message);
+					expectedText = "Expected message matching: ";
+					break;
             }
+
+			return "The exception message text was incorrect" + Environment.NewLine +
+				expectedText + expectedMessage + Environment.NewLine +
+				" but was: " + exception.Message;
         }
         #endregion
     }

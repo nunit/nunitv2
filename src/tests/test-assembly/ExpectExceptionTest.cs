@@ -15,6 +15,17 @@ namespace NUnit.TestData.ExpectExceptionTest
 	}
 
 	[TestFixture]
+	public class DerivedException
+	{
+		[Test]
+		[ExpectedException(typeof(Exception))]
+		public void DerivedExceptionTest()
+		{
+			throw new ArgumentException();
+		}
+	}
+
+	[TestFixture]
 	public class MismatchedException
 	{
 		[Test]
@@ -82,6 +93,11 @@ namespace NUnit.TestData.ExpectExceptionTest
 		}
 		[Test, ExpectedException( typeof( System.ArgumentException ) )]
 		public void TestDoesNotThrowExceptionType()
+		{
+		}
+
+		[Test, ExpectedException]
+		public void TestDoesNotThrowUnspecifiedException()
 		{
 		}
 	}

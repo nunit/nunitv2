@@ -180,6 +180,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "IExpectException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "IgnoreAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

@@ -42,85 +42,108 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class ExpectExceptionTest 
 	{
+		[Test, ExpectedException]
+		public void CanExpectUnspecifiedException()
+		{
+			throw new ArgumentException();
+		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentException))]
-		public void CanSpecifyExceptionType()
+		public void TestSucceedsWithSpecifiedExceptionType()
 		{
 			throw new ArgumentException("argument exception");
 		}
 
 		[Test]
 		[ExpectedException("System.ArgumentException")]
-		public void CanSpecifyExceptionName()
+		public void TestSucceedsWithSpecifiedExceptionName()
 		{
 			throw new ArgumentException("argument exception");
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentException),"argument exception")]
-		public void CanSpecifyExceptionTypeAndMessage()
+		public void TestSucceedsWithSpecifiedExceptionTypeAndMessage()
 		{
 			throw new ArgumentException("argument exception");
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentException),"argument exception", MessageMatch.Exact)]
-		public void CanSpecifyExceptionTypeAndExactMatch()
+		public void TestSucceedsWithSpecifiedExceptionTypeAndExactMatch()
 		{
 			throw new ArgumentException("argument exception");
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentException),"invalid", MessageMatch.Contains)]
-		public void CanSpecifyExceptionTypeAndContainsMatch()
+		public void TestSucceedsWithSpecifiedExceptionTypeAndContainsMatch()
 		{
 			throw new ArgumentException("argument invalid exception");
 		}
 
 		[Test]
 		[ExpectedException(typeof(ArgumentException),"exception$", MessageMatch.Regex)]
-		public void CanSpecifyExceptionTypeAndRegexMatch()
+		public void TestSucceedsWithSpecifiedExceptionTypeAndRegexMatch()
 		{
 			throw new ArgumentException("argument invalid exception");
 		}
 
 		[Test]
 		[ExpectedException("System.ArgumentException","argument exception")]
-		public void CanSpecifyExceptionNameAndMessage()
+		public void TestSucceedsWithSpecifiedExceptionNameAndMessage()
 		{
 			throw new ArgumentException("argument exception");
 		}
 
 		[Test]
 		[ExpectedException("System.ArgumentException","argument exception",MessageMatch.Exact)]
-		public void CanSpecifyExceptionNameAndExactMatch()
+		public void TestSucceedsWithSpecifiedExceptionNameAndExactMatch()
 		{
 			throw new ArgumentException("argument exception");
 		}
 
 		[Test]
 		[ExpectedException("System.ArgumentException","invalid", MessageMatch.Contains)]
-		public void CanSpecifyExceptionNameAndContainsMatch()
+		public void TestSucceedsWhenSpecifiedExceptionNameAndContainsMatch()
 		{
 			throw new ArgumentException("argument invalid exception");
 		}
 
 		[Test]
 		[ExpectedException("System.ArgumentException","exception$", MessageMatch.Regex)]
-		public void CanSpecifyExceptionNameAndRegexMatch()
+		public void TestSucceedsWhenSpecifiedExceptionNameAndRegexMatch()
 		{
 			throw new ArgumentException("argument invalid exception");
 		}
 
 		[Test]
-		public void TestBaseException()
+		public void TestFailsWhenBaseExceptionIsThrown()
 		{
 			Type fixtureType = typeof(BaseException);
 			Test test = TestBuilder.MakeTestCase( fixtureType, "BaseExceptionTest" );
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "BaseExceptionTest should have failed");
-			Assert.AreEqual("Expected: System.ArgumentException but was System.Exception", result.Message);
+			Assert.AreEqual(
+				"An unexpected exception type was thrown" + Environment.NewLine +
+				"Expected: System.ArgumentException" + Environment.NewLine +
+				" but was: System.Exception",
+				result.Message);
+		}
+
+		[Test]
+		public void TestFailsWhenDerivedExceptionIsThrown()
+		{
+			Type fixtureType = typeof(DerivedException);
+			Test test = TestBuilder.MakeTestCase( fixtureType, "DerivedExceptionTest" );
+			TestResult result = test.Run(NullListener.NULL);
+			Assert.IsTrue(result.IsFailure, "DerivedExceptionTest should have failed");
+			Assert.AreEqual(
+				"An unexpected exception type was thrown" + Environment.NewLine +
+				"Expected: System.Exception" + Environment.NewLine +
+				" but was: System.ArgumentException",
+				result.Message);
 		}
 
 		[Test]
@@ -130,7 +153,11 @@ namespace NUnit.Core.Tests
 			Test test = TestBuilder.MakeTestCase( fixtureType, "MismatchedExceptionType" );
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "MismatchedExceptionType should have failed");
-			Assert.AreEqual("Expected: System.ArgumentException but was System.ArgumentOutOfRangeException", result.Message);
+			Assert.AreEqual(
+				"An unexpected exception type was thrown" + Environment.NewLine +
+				"Expected: System.ArgumentException" + Environment.NewLine +
+				" but was: System.ArgumentOutOfRangeException", 
+				result.Message);
 		}
 
 		[Test]
@@ -140,17 +167,45 @@ namespace NUnit.Core.Tests
 			Test test = TestBuilder.MakeTestCase( fixtureType, "MismatchedExceptionName" );
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "MismatchedExceptionName should have failed");
-			Assert.AreEqual("Expected: System.ArgumentException but was System.ArgumentOutOfRangeException", result.Message);
+			Assert.AreEqual(
+				"An unexpected exception type was thrown" + Environment.NewLine +
+				"Expected: System.ArgumentException" + Environment.NewLine +
+				" but was: System.ArgumentOutOfRangeException", 
+				result.Message);
 		}
 
 		[Test]
-		public void TestExceptionTypeNotThrown()
+		public void TestMismatchedExceptionMessage()
+		{
+			Type fixtureType = typeof(TestThrowsExceptionWithWrongMessage);
+			Test test = TestBuilder.MakeTestCase( fixtureType, "TestThrow" );
+			TestResult result = test.Run(NullListener.NULL);
+			Assert.IsTrue(result.IsFailure, "TestThrow should have failed");
+			Assert.AreEqual(
+				"The exception message text was incorrect" + Environment.NewLine +
+				"Expected: not the message" + Environment.NewLine +
+				" but was: the message", 
+				result.Message);
+		}
+
+		[Test]
+		public void TestUnspecifiedExceptionNotThrown()
 		{
 			Type fixtureType = typeof(TestDoesNotThrowExceptionFixture);
 			Test test = TestBuilder.MakeTestCase( fixtureType, "TestDoesNotThrowExceptionType" );
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "MismatchedExceptionType should have failed");
 			Assert.AreEqual("System.ArgumentException was expected", result.Message);
+		}
+
+		[Test]
+		public void TestExceptionTypeNotThrown()
+		{
+			Type fixtureType = typeof(TestDoesNotThrowExceptionFixture);
+			Test test = TestBuilder.MakeTestCase( fixtureType, "TestDoesNotThrowUnspecifiedException" );
+			TestResult result = test.Run(NullListener.NULL);
+			Assert.IsTrue(result.IsFailure, "MismatchedExceptionType should have failed");
+			Assert.AreEqual("An Exception was expected", result.Message);
 		}
 
 		[Test]
@@ -247,6 +302,103 @@ namespace NUnit.Core.Tests
 		public void ThrowNunitException()
 		{
 			throw new NunitException("Nunit exception");
+		}
+
+		[Test]
+		public void ExceptionHandlerIsCalledWhenExceptionMatches_AlternateHandler()
+		{
+			ExceptionHandlerCalledClass fixture = new ExceptionHandlerCalledClass();
+			Test test = TestBuilder.MakeTestCase( fixture, "ThrowsArgumentException_AlternateHandler" );
+			test.Run( NullListener.NULL );
+			Assert.IsFalse(fixture.HandlerCalled, "Base Handler should not be called" );
+			Assert.IsTrue(fixture.AlternateHandlerCalled, "Alternate Handler should be called" );
+		}
+	
+		[Test]
+		public void ExceptionHandlerIsCalledWhenExceptionMatches()
+		{
+			ExceptionHandlerCalledClass fixture = new ExceptionHandlerCalledClass();
+			Test test = TestBuilder.MakeTestCase( fixture, "ThrowsArgumentException" );
+			test.Run(NullListener.NULL);
+			Assert.IsTrue(fixture.HandlerCalled, "Base Handler should be called");
+			Assert.IsFalse(fixture.AlternateHandlerCalled, "Alternate Handler should not be called");
+		}
+	
+		[Test]
+		public void ExceptionHandlerIsNotCalledWhenExceptionDoesNotMatch()
+		{
+			ExceptionHandlerCalledClass fixture = new ExceptionHandlerCalledClass();
+			Test test = TestBuilder.MakeTestCase( fixture, "ThrowsApplicationException" );
+			test.Run( NullListener.NULL );
+			Assert.IsFalse( fixture.HandlerCalled, "Base Handler should not be called" );
+			Assert.IsFalse( fixture.AlternateHandlerCalled, "Alternate Handler should not be called" );
+		}
+
+		[Test]
+		public void ExceptionHandlerIsNotCalledWhenExceptionDoesNotMatch_AlternateHandler()
+		{
+			ExceptionHandlerCalledClass fixture = new ExceptionHandlerCalledClass();
+			Test test = TestBuilder.MakeTestCase( fixture, "ThrowsApplicationException_AlternateHandler" );
+			test.Run( NullListener.NULL );
+			Assert.IsFalse(fixture.HandlerCalled, "Base Handler should not be called");
+			Assert.IsFalse(fixture.AlternateHandlerCalled, "Alternate Handler should not be called");
+		}
+
+		[Test]
+		public void TestIsNotRunnableWhenAlternateHandlerIsNotFound()
+		{
+			ExceptionHandlerCalledClass fixture = new ExceptionHandlerCalledClass();
+			Test test = TestBuilder.MakeTestCase( fixture, "MethodWithBadHandler" );
+			Assert.AreEqual( RunState.NotRunnable, test.RunState );
+			Assert.AreEqual(
+				"The specified exception handler DeliberatelyMissingHandler was not found",
+				test.IgnoreReason );
+		}
+	}
+
+	class ExceptionHandlerCalledClass : IExpectException
+	{
+		public bool HandlerCalled = false;
+		public bool AlternateHandlerCalled = false;
+
+		[Test, ExpectedException(typeof(ArgumentException))]
+		public void ThrowsArgumentException()
+		{
+			throw new ArgumentException();
+		}
+
+		[Test, ExpectedException(typeof(ArgumentException), Handler = "AlternateExceptionHandler")]
+		public void ThrowsArgumentException_AlternateHandler()
+		{
+			throw new ArgumentException();
+		}
+
+		[Test, ExpectedException(typeof(ArgumentException))]
+		public void ThrowsApplicationException()
+		{
+			throw new ApplicationException();
+		}
+
+		[Test, ExpectedException(typeof(ArgumentException), Handler = "AlternateExceptionHandler")]
+		public void ThrowsApplicationException_AlternateHandler()
+		{
+			throw new ApplicationException();
+		}
+
+		[Test, ExpectedException(typeof(ArgumentException), Handler = "DeliberatelyMissingHandler")]
+		public void MethodWithBadHandler()
+		{
+			throw new ArgumentException();
+		}
+
+		public void HandleException(Exception ex)
+		{
+			HandlerCalled = true;
+		}
+
+		public void AlternateExceptionHandler(Exception ex)
+		{
+			AlternateHandlerCalled = true;
 		}
 	}
 }

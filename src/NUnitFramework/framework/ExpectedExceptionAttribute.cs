@@ -56,6 +56,14 @@ namespace NUnit.Framework
 		private string expectedMessage;
 		private MessageMatch matchType;
 		private string userMessage;
+		private string handler;
+
+		/// <summary>
+		/// Constructor for a non-specific exception
+		/// </summary>
+		public ExpectedExceptionAttribute()
+		{
+		}
 
 		/// <summary>
 		/// Constructor for a given type of exception
@@ -189,6 +197,12 @@ namespace NUnit.Framework
 		{
 			get { return matchType; }
 			set { matchType = value; }
+		}
+
+		public string Handler
+		{
+			get { return handler; }
+			set { handler = value; }
 		}
 	}
 }

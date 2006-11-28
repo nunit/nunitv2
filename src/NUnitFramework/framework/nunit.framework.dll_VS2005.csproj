@@ -103,6 +103,7 @@
     <Compile Include="IAsserter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IExpectException.cs" />
     <Compile Include="IgnoreAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
