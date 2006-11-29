@@ -52,6 +52,12 @@ namespace NUnit.Gui
 		[Option(Description = "Fixture to test")]
 		public string fixture;
 
+		[Option(Description = "List of categories to include")]
+		public string include;
+
+		[Option(Description = "List of categories to exclude")]
+		public string exclude;
+
 		[Option(Description = ".NET Framework version to execute with (eg 'v1.0.3705')")]
 		public string framework;
 
@@ -80,9 +86,29 @@ namespace NUnit.Gui
 			}
 		}
 
+		public bool HasInclude 
+		{
+			get 
+			{
+				return include != null && include.Length != 0;
+			}
+		}
+
+		public bool HasExclude 
+		{
+			get 
+			{
+				return exclude != null && exclude.Length != 0;
+			}
+		}
+
 		public bool Validate()
 		{
-			return (NoArgs || ParameterCount <= 1) && !isInvalid;
+			if ( isInvalid ) return false;
+
+			if ( HasInclude && HasExclude ) return false;
+
+			return NoArgs || ParameterCount <= 1;
 		}
 
 		public override string GetHelpText()

@@ -228,6 +228,24 @@ namespace NUnit.UiKit
 			loader.Events.TestUnloaded += new NUnit.Util.TestEventHandler(events_TestUnloaded);
 		}
 
+		public void SelectCategories( string[] categories, bool exclude )
+		{
+			foreach( string category in categories )
+			{
+				if ( availableCategories.Contains( category ) )
+				{
+					selectedList.Items.Add( category );
+					availableList.Items.Remove( category );
+				}
+
+				this.excludeCheckbox.Checked = exclude;
+			}
+
+			UpdateCategoryFilter();
+			if (this.SelectedCategories.Length > 0)
+				this.excludeCheckbox.Enabled = true;
+		}
+
 		/// <summary> 
 		/// Clean up any resources being used.
 		/// </summary>

@@ -57,6 +57,8 @@ namespace NUnit.Gui
 			public string testFileName;
 			public string configName;
 			public string testName;
+			public string categories;
+			public bool exclude;
 			public bool noload;
 			public bool autorun;
 		}
@@ -2046,6 +2048,13 @@ namespace NUnit.Gui
 					if ( entry != null )
 						TestLoaderUI.OpenProject( this, entry.Path, commandLineOptions.configName, commandLineOptions.testName );
 				}
+			}
+
+			if ( commandLineOptions.categories != null )
+			{
+				string[] categories = commandLineOptions.categories.Split( ',' );
+				if ( categories.Length > 0 )
+					this.testTree.SelectCategories( commandLineOptions.categories.Split( ',' ), commandLineOptions.exclude );
 			}
 
 			// Run loaded test automatically if called for

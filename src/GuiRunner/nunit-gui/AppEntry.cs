@@ -68,6 +68,17 @@ namespace NUnit.Gui
 					if (parser.lang != null)
 						Thread.CurrentThread.CurrentUICulture =
 							new CultureInfo( parser.lang );
+
+					if ( parser.HasInclude )
+					{
+						command.categories = parser.include;
+						command.exclude = false;
+					}
+					else if ( parser.HasExclude )
+					{
+						command.categories = parser.exclude;
+						command.exclude = true;
+					}
 				}
 
 				if(command.testFileName != null)
