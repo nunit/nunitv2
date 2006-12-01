@@ -31,6 +31,10 @@ namespace NUnit.Framework
 {
 	using System;
 
+	/// <summary>
+	/// Attribute used to identify a method that is 
+	/// called before any tests in a fixture are run.
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple=false)]
 	public class TestFixtureSetUpAttribute : Attribute
 	{

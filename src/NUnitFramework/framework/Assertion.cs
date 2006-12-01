@@ -31,6 +31,10 @@ namespace NUnit.Framework
 {
 	using System;
 
+	/// <summary>
+	/// The Assertion class is obsolete and has been
+	/// replaced by the Assert class.
+	/// </summary>
 	[Obsolete("Use Assert class instead")]
 	public class Assertion
 	{

@@ -179,6 +179,9 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionAsserter
+	/// <summary>
+	/// Abstract base class for all CollectionAsserters
+	/// </summary>
 	public abstract class CollectionAsserter : AbstractAsserter
 	{
 		protected ICollection set1;

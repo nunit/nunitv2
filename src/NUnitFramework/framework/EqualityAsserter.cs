@@ -8,16 +8,24 @@ namespace NUnit.Framework
 	/// </summary>
 	public abstract class EqualityAsserter : ComparisonAsserter
 	{
+		/// <summary>
+		/// The tolerance used in making a float or double comparison
+		/// </summary>
 		protected double delta;
+
+		/// <summary>
+		/// Index into a list of failure points - used when compound
+		/// arrays, collections or strings are compared.
+		/// </summary>
 		protected int failurePoint = -1; // Point of failure in array
 
 		/// <summary>
 		/// Constructor taking expected and actual values and a user message with arguments.
 		/// </summary>
-		/// <param name="expected"></param>
-		/// <param name="actual"></param>
-		/// <param name="message"></param>
-		/// <param name="args"></param>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value</param>
+		/// <param name="message">Message issued in case of failure</param>
+		/// <param name="args">Arguments used in formatting the message</param>
 		public EqualityAsserter( object expected, object actual, string message, params object[] args )
 			: base( expected, actual, message, args ) { }
 

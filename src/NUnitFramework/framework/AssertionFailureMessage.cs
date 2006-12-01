@@ -35,6 +35,10 @@ using System.Collections;
 
 namespace NUnit.Framework
 {
+	/// <summary>
+	/// AssertionFailureMessage encapsulates a failure message
+	/// issued as a result of an Assert failure.
+	/// </summary>
 	public class AssertionFailureMessage : StringWriter
 	{
 		#region Static Constants
@@ -135,13 +139,19 @@ namespace NUnit.Framework
 			WriteExpectedLine( FormatObjectForDisplay( expected ) );
 		}
 
+		/// <summary>
+		/// Add an expected value line to the message containing a double
+		/// and the tolerance used in making the comparison.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="tolerance">The tolerance specified in the Assert</param>
 		public void DisplayExpectedValue( double expected, double tolerance )
 		{
 			WriteExpectedLine( FormatObjectForDisplay( expected ) + " +/- " + tolerance.ToString() );
 		}
 
 		/// <summary>
-		/// Add an actual value limne to the message containing
+		/// Add an actual value line to the message containing
 		/// a string representation of the object provided.
 		/// </summary>
 		/// <param name="actual">An object representing what was actually found</param>
@@ -161,6 +171,13 @@ namespace NUnit.Framework
 			DisplayActualValue( actual );
 		}
 
+		/// <summary>
+		/// Display two lines that communicate the expected value, the actual value and
+		/// the tolerance used in comparing two doubles.
+		/// </summary>
+		/// <param name="expected">The expected value</param>
+		/// <param name="actual">The actual value found</param>
+		/// <param name="tolerance">The tolerance specified in the Assert</param>
 		public void DisplayExpectedAndActual( double expected, double actual, double tolerance )
 		{
 			DisplayExpectedValue( expected, tolerance );
@@ -218,6 +235,10 @@ namespace NUnit.Framework
 			}
 		}
 
+		/// <summary>
+		/// Called to create additional message lines when two doubles have been 
+		/// found to be unequal, within the specified tolerance.
+		/// </summary>
 		public void DisplayDifferencesWithTolerance( double expected, double actual, double tolerance )
 		{
 			DisplayExpectedAndActual( expected, actual, tolerance );
