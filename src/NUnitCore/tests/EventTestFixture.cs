@@ -112,7 +112,7 @@ namespace NUnit.Core.Tests
 		public void CheckEventListening()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			Test testSuite = builder.Build(testsDll);
+			Test testSuite = builder.Build( new TestPackage( testsDll ) );
 			
 			EventCounter counter = new EventCounter();
 			testSuite.Run(counter);

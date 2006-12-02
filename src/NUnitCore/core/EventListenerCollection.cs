@@ -7,19 +7,9 @@ namespace NUnit.Core.Extensibility
 	/// EventListenerCollection holds multiple event listeners
 	/// and relays all event calls to each of them.
 	/// </summary>
-	public class EventListenerCollection : EventListener
+	public class EventListenerCollection : EventListener, IExtensionPoint
 	{
 		private ArrayList listeners = new ArrayList();
-
-		public void Add( EventListener listener )
-		{
-			listeners.Add( listener );
-		}
-
-		public void Remove( EventListener listener )
-		{
-			listeners.Remove( listener );
-		}
 
 		#region EventListener Members
 		public void RunStarted(string name, int testCount)
@@ -74,6 +64,35 @@ namespace NUnit.Core.Extensibility
 		{
 			foreach( EventListener listener in listeners )
 				listener.TestOutput( testOutput );
+		}
+
+		#endregion
+
+		#region IExtensionPoint Members
+
+		public string Name
+		{
+			get { return "EventListeners"; }
+		}
+
+		public IExtensionHost Host
+		{
+			get { return CoreExtensions.Current; }
+		}
+
+		public void Install(object extension)
+		{
+			EventListener listener = extension as EventListener;
+			if ( listener == null )
+				throw new ArgumentException( 
+					extension.GetType().FullName + " is not an EventListener", "exception" );
+
+			listeners.Add( listener );
+		}
+
+		void NUnit.Core.Extensibility.IExtensionPoint.Remove(object extension)
+		{
+			listeners.Remove( extension );
 		}
 
 		#endregion

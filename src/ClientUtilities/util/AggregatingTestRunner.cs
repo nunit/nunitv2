@@ -139,24 +139,8 @@ namespace NUnit.Util
 		}
 		#endregion
 
-		#region Load and Unload Methods
-        public abstract bool Load(string assemblyName);
-
-        public abstract bool Load(string assemblyName, string testName);
-        
+		#region Load and Unload Methods       
 		public abstract bool Load(TestPackage package);
-
-		public abstract bool Load(TestPackage package, string testName);
-
-		public bool Load( NUnitProject project )
-		{
-			return Load( new TestPackage( project.ProjectPath, project.ActiveConfig.Assemblies.ToArray() ) );
-		}
-
-		public bool Load( NUnitProject project, string testName )
-		{
-			return Load( new TestPackage( project.ProjectPath, project.ActiveConfig.Assemblies.ToArray() ), testName );
-		}
 
 		public virtual void Unload()
 		{

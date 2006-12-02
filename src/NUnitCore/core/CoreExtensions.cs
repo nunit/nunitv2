@@ -176,6 +176,11 @@ namespace NUnit.Core
 		{
 			testDecorators.Install( decorator );
 		}
+
+		internal void Install( EventListener listener )
+		{
+			listeners.Install( listener );
+		}
 		#endregion
 	}
 }

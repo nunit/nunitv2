@@ -117,24 +117,9 @@ namespace NUnit.Core
 		#endregion
 
 		#region Load and Unload Methods
-		public virtual bool Load(string assemblyName)
-		{
-			return this.testRunner.Load(assemblyName);
-		}
-
-		public virtual bool Load(string assemblyName, string testName)
-		{
-			return this.testRunner.Load(assemblyName, testName);
-		}
-
 		public virtual bool Load( TestPackage package )
 		{
 			return this.testRunner.Load( package );
-		}
-
-		public virtual bool Load( TestPackage package, string testName )
-		{
-			return this.testRunner.Load( package, testName );
 		}
 
 		public virtual void Unload()

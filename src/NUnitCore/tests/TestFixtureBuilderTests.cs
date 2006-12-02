@@ -43,7 +43,9 @@ namespace NUnit.Core.Tests
 
 		private Test loadFixture( Type type )
 		{
-			Test suite = builder.Build( type.Module.Name, type.FullName );
+			TestPackage package = new TestPackage( type.Module.Name );
+			package.TestName = type.FullName;
+			Test suite= builder.Build( package );
 			Assert.IsNotNull(suite);
 
 			return suite;

@@ -75,40 +75,7 @@ namespace NUnit.Util
 		#endregion
 
 		#region Loading and Unloading Tests
-
-		public override bool Load( string assemblyFileName )
-		{
-			return Load( assemblyFileName, string.Empty );
-		}
-
-		public override bool Load(string assemblyFileName, string testFixture)
-		{
-			Unload();
-
-			try
-			{
-				CreateDomain( assemblyFileName );
-				string assemblyPath = Path.GetFullPath( assemblyFileName );
-
-				this.TestRunner = MakeRemoteTestRunner( domain );
-				if ( testFixture != null && testFixture != string.Empty )
-					return TestRunner.Load( assemblyPath, testFixture );
-				else
-					return TestRunner.Load( assemblyPath );
-			}
-			catch
-			{
-				Unload();
-				throw;
-			}
-		}
-
 		public override bool Load( TestPackage package )
-		{
-			return Load( package, string.Empty );
-		}
-
-		public override bool Load(TestPackage package, string testName)
 		{
 			Unload();
 
@@ -118,7 +85,7 @@ namespace NUnit.Util
 
 				this.TestRunner = MakeRemoteTestRunner( domain );
 
-				return TestRunner.Load( package, testName );
+				return TestRunner.Load( package );
 			}
 			catch
 			{
@@ -175,7 +142,6 @@ namespace NUnit.Util
 
 			return binPath;
 		}
-
 		#endregion
 
 		#region Helpers Used in AppDomain Creation and Removal
@@ -202,7 +168,7 @@ namespace NUnit.Util
 		/// <param name="binPath">The private bin path</param>
 		private void CreateDomain( TestPackage package )
 		{
-			FileInfo testFile = new FileInfo( package.ProjectPath );
+			FileInfo testFile = new FileInfo( package.FullName );
 
 			string appBase = package.BasePath;
 			if ( appBase == null || appBase == string.Empty )
@@ -216,7 +182,7 @@ namespace NUnit.Util
 			if ( binPath == null || binPath == string.Empty )
 				binPath = testFile.DirectoryName;
 
-			domain = MakeAppDomain( package.ProjectPath, appBase, configFile, binPath );
+			domain = MakeAppDomain( "domain-" + package.Name, appBase, configFile, binPath );
 		}
 
 		/// <summary>

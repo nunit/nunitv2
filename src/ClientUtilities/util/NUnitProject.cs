@@ -677,7 +677,11 @@ namespace NUnit.Util
 
 		public TestPackage MakeTestPackage()
 		{
-			TestPackage package = new TestPackage( this.ProjectPath, this.ActiveConfig.Assemblies );
+			TestPackage package = new TestPackage( this.ProjectPath );
+
+			if ( !this.IsAssemblyWrapper )
+				foreach ( string assembly in this.ActiveConfig.Assemblies )
+					package.Assemblies.Add( assembly );
 
 			package.BasePath = this.ActiveConfig.BasePath;
 			package.ConfigurationFile = this.ActiveConfig.ConfigurationFile;

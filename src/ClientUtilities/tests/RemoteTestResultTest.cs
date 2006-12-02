@@ -40,7 +40,7 @@ namespace NUnit.Util.Tests
 		public void ResultStillValidAfterDomainUnload() 
 		{
 			TestDomain domain = new TestDomain();
-			Assert.IsTrue( domain.Load("mock-assembly.dll") );
+			Assert.IsTrue( domain.Load( new TestPackage( "mock-assembly.dll" ) ) );
 			TestResult result = domain.Run( new NullListener() );
 			TestSuiteResult suite = result as TestSuiteResult;
 			Assert.IsNotNull(suite);
@@ -56,7 +56,7 @@ namespace NUnit.Util.Tests
         public void AppDomainUnloadedBug()
         {
             TestDomain domain = new TestDomain();
-            domain.Load("mock-assembly.dll");
+            domain.Load( new TestPackage( "mock-assembly.dll" ) );
             domain.Run(new NullListener());
             domain.Unload();
         }

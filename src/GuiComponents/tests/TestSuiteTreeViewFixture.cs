@@ -52,7 +52,7 @@ namespace NUnit.UiKit.Tests
 		public void SetUp() 
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			suite = builder.Build( testsDll );
+			suite = builder.Build( new TestPackage( testsDll ) );
 
 			treeView = new TestSuiteTreeView();
 		}

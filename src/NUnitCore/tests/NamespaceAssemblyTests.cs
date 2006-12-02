@@ -46,7 +46,9 @@ namespace NUnit.Core.Tests
 		public void LoadTestFixtureFromAssembly()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			Test suite = builder.Build( testsDll, "NUnit.Tests.Assemblies.MockTestFixture" );
+			TestPackage package = new TestPackage( testsDll );
+			package.TestName = "NUnit.Tests.Assemblies.MockTestFixture";
+			Test suite= builder.Build( package );
 			Assert.IsNotNull(suite);
 		}
 
@@ -54,7 +56,7 @@ namespace NUnit.Core.Tests
 		public void TestRoot()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			Test suite = builder.Build(testsDll);
+			Test suite = builder.Build( new TestPackage( testsDll ) );
 			Assert.AreEqual(testsDll, suite.TestName.Name);
 		}
 
@@ -62,7 +64,7 @@ namespace NUnit.Core.Tests
 		public void Hierarchy()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			Test suite = builder.Build(testsDll);
+			Test suite = builder.Build( new TestPackage( testsDll ) );
 			IList tests = suite.Tests;
 			Assert.AreEqual(1, tests.Count);
 
@@ -102,7 +104,7 @@ namespace NUnit.Core.Tests
 		public void NoNamespaceInAssembly()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			Test suite = builder.Build( nonamespaceDLL );
+			Test suite = builder.Build( new TestPackage( nonamespaceDLL ) );
 			Assert.IsNotNull(suite);
 			Assert.AreEqual( NoNamespaceTestFixture.Tests, suite.TestCount );
 

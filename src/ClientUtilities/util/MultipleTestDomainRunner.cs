@@ -15,46 +15,26 @@ namespace NUnit.Util
 		#endregion
 
 		#region Load Method Overrides
-		public override bool Load( string assemblyName)
-		{
-			return Load(assemblyName, string.Empty);
-		}
-
-		public override bool Load(string assemblyName, string testName)
-		{
-			CreateRunners( 1 );
-			return runners[0].Load(assemblyName, testName);
-		}
-
 		public override bool Load(TestPackage package)
 		{
-			this.projectName = package.ProjectPath;
+			this.projectName = package.FullName;
 			this.testName.FullName = this.testName.Name = projectName;
-			CreateRunners( package.Count );
+			CreateRunners( package.Assemblies.Count );
 
-			bool result = true;
+			int nfound = 0;
 			int index = 0;
-			foreach( string assembly in package )
-				if ( !runners[index++].Load( assembly ) )
-					result = false;
+			foreach( string assembly in package.Assemblies )
+			{
+				TestPackage p = new TestPackage( assembly );
+				p.TestName = package.TestName;
+				if ( runners[index++].Load( p ) )
+					nfound++;
+			}
 
-			return result;
-		}
-
-		public override bool Load( TestPackage package, string testName )
-		{
-			this.projectName = package.ProjectPath;
-			this.testName.FullName = this.testName.Name = projectName;
-			CreateRunners( package.Count );
-
-			//TODO: Loading a namespace or fixture needs work
-			bool result = false;
-			int index = 0;
-			foreach( string assembly in package )
-				if ( runners[index++].Load( assembly, testName ) )
-					result = true;
-
-			return result;
+			if ( package.TestName == null )
+				return nfound == package.Assemblies.Count;
+			else
+				return nfound > 0;
 		}
 
 		private void CreateRunners( int count )

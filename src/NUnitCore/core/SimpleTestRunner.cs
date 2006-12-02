@@ -101,55 +101,16 @@ namespace NUnit.Core
 		#endregion
 
 		#region Methods for Loading Tests
-
 		/// <summary>
-		/// Load an assembly
-		/// </summary>
-		/// <param name="assemblyName">The name of the assembly to load</param>
-		/// <returns>True on success, false on failure</returns>
-		public bool Load( string assemblyName )
-		{
-			return Load( assemblyName, string.Empty );
-		}
-
-		/// <summary>
-		/// Load a particular test in an assembly
-		/// </summary>
-		/// <param name="assemblyName">The name of the assembly to load</param>
-		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
-		/// <returns>True on success, false on failure</returns>
-		public bool Load( string assemblyName, string testName )
-		{
-			TestSuiteBuilder builder = CreateBuilder();
-
-            this.test = builder.Build( assemblyName, testName );
-			if ( test == null ) return false;
-
-			test.SetRunnerID( this.runnerID, true );
-			return true;
-		}
-
-		/// <summary>
-		/// Load the assemblies in a test package
+		/// Load a TestPackage
 		/// </summary>
 		/// <param name="package">The package to be loaded</param>
 		/// <returns>True on success, false on failure</returns>
 		public bool Load( TestPackage package )
 		{
-			return Load( package, string.Empty );
-		}
-
-		/// <summary>
-		/// Load a particular test in a TestProject.
-		/// </summary>
-		/// <param name="package">The package to be loaded</param>
-		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
-		/// <returns>True on success, false on failure</returns>
-		public bool Load( TestPackage package, string testName )
-		{
 			TestSuiteBuilder builder = CreateBuilder();
 
-			this.test = builder.Build( package, testName );
+			this.test = builder.Build( package );
 			if ( test == null ) return false;
 
 			test.SetRunnerID( this.runnerID, true );

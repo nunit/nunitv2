@@ -54,7 +54,7 @@ namespace NUnit.UiKit.Tests
 			statusBar = new StatusBar();
 
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			suite = new TestNode( builder.Build( testsDll ) );
+			suite = new TestNode( builder.Build( new TestPackage( testsDll ) ) );
 
 			mockEvents = new MockTestEventSource( suite );
 		}

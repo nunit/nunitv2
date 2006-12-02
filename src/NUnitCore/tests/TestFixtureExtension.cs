@@ -54,7 +54,9 @@ namespace NUnit.Core.Tests
 		{
 			string testsDll = "test-assembly.dll";
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			suite = builder.Build( testsDll, "NUnit.TestData.TestFixtureExtension.DerivedTestFixture" );
+			TestPackage package = new TestPackage( testsDll );
+			package.TestName = "NUnit.TestData.TestFixtureExtension.DerivedTestFixture";
+			suite= builder.Build( package );
 		}
 
 		[Test] 

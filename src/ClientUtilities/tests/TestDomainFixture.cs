@@ -46,7 +46,7 @@ namespace NUnit.Util.Tests
 		public void MakeAppDomain()
 		{
 			testDomain = new TestDomain();
-			testDomain.Load( "mock-assembly.dll" );
+			testDomain.Load( new TestPackage( "mock-assembly.dll" ) );
 			loadedTest = testDomain.Test;
 		}
 
@@ -136,13 +136,15 @@ namespace NUnit.Util.Tests
 		[ExpectedException(typeof(FileNotFoundException))]
 		public void FileNotFound()
 		{
-			testDomain.Load("xxxx");
+			testDomain.Load( new TestPackage( "xxxx.dll" ) );
 		}
 
 		[Test]
 		public void InvalidTestFixture()
 		{
-			Assert.IsFalse( testDomain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.Bogus" ) );
+			TestPackage package = new TestPackage( "mock-assembly.dll" );
+			package.TestName = "NUnit.Tests.Assemblies.Bogus";
+			Assert.IsFalse( testDomain.Load( package ) );
 		}
 
 		// Doesn't work under .NET 2.0 Beta 2
@@ -161,7 +163,7 @@ namespace NUnit.Util.Tests
 				sw.WriteLine("This is yet another line to add...");
 				sw.Flush();
 				sw.Close();
-				testDomain.Load( badfile );
+				testDomain.Load( new TestPackage( badfile ) );
 			}
 			finally
 			{
@@ -174,7 +176,9 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void SpecificTestFixture()
 		{
-			testDomain.Load( "mock-assembly.dll", "NUnit.Tests.Assemblies.MockTestFixture" );
+			TestPackage package = new TestPackage( "mock-assembly.dll" );
+			package.TestName = "NUnit.Tests.Assemblies.MockTestFixture";
+			testDomain.Load( package );
 
 			TestResult result = testDomain.Run( NullListener.NULL );
 			Assert.AreEqual(true, result.IsSuccess);
@@ -187,7 +191,8 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void ProjectConfigFileOverrideIsHonored()
 		{
-			TestPackage package = new TestPackage( "MyProject.nunit", new string[] { "mock-assembly.dll" } );
+			TestPackage package = new TestPackage( "MyProject.nunit" );
+			package.Assemblies.Add( "mock-assembly.dll" );
 			package.ConfigurationFile = "override.config";
 
 			testDomain.Load( package );
@@ -199,7 +204,8 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void ProjectBasePathOverrideIsHonored()
 		{
-			TestPackage package = new TestPackage( "MyProject.nunit", new string[] { "mock-assembly.dll" } );
+			TestPackage package = new TestPackage( "MyProject.nunit" );
+			package.Assemblies.Add( "mock-assembly.dll" );
 			package.BasePath = Path.GetDirectoryName( Environment.CurrentDirectory );
 
 			testDomain.Load( package );
@@ -210,7 +216,8 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void ProjectConfigBasePathOverrideIsHonored()
 		{
-			TestPackage package = new TestPackage( "MyProject.nunit", new string[] { "mock-assembly.dll" } );
+			TestPackage package = new TestPackage( "MyProject.nunit" );
+			package.Assemblies.Add( "mock-assembly.dll" );
 			package.BasePath = Path.GetDirectoryName( Environment.CurrentDirectory );
 
 			testDomain.Load( package );
@@ -221,7 +228,8 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void ProjectBinPathOverrideIsHonored()
 		{
-			TestPackage package = new TestPackage( "MyProject.nunit", new string[] { "mock-assembly.dll" } );
+			TestPackage package = new TestPackage( "MyProject.nunit" );
+			package.Assemblies.Add( "mock-assembly.dll" );
 			package.PrivateBinPath = "dummy;junk";
 
 			testDomain.Load( package );
@@ -237,7 +245,7 @@ namespace NUnit.Util.Tests
 		public void TurnOffShadowCopy()
 		{
 			testDomain.Settings["ShadowCopyFiles"] = false;
-			testDomain.Load( "mock-assembly.dll" );
+			testDomain.Load( new TestPackage( "mock-assembly.dll" ) );
 			Assert.IsFalse( testDomain.AppDomain.ShadowCopyFiles );
 					
 //			// Prove that shadow copy is really off

@@ -167,6 +167,7 @@ namespace NUnit.ConsoleRunner
 
 			if ( options.noshadow  ) testRunner.Settings["ShadowCopyFiles"] = false;
 
+			TestPackage package;
 			if ( options.IsTestProject )
 			{
 				NUnitProject project = NUnitProject.LoadProject( (string)options.Parameters[0] );
@@ -174,11 +175,23 @@ namespace NUnit.ConsoleRunner
 				if ( configName != null )
 					project.SetActiveConfig( configName );
 
-				testRunner.Load( project.MakeTestPackage(), options.fixture );
+				package = project.MakeTestPackage();
+				if ( options.IsFixture )
+					package.TestName = options.fixture;
+				testRunner.Load( package );
+			}
+			else if ( options.Parameters.Count == 1 )
+			{
+				package = new TestPackage( (string)options.Parameters[0] );
 			}
 			else
-				testRunner.Load( new TestPackage( options.Parameters ), options.fixture );
+			{
+				package = new TestPackage( "UNNAMED", options.Parameters );
+			}
 
+			if ( options.IsFixture )
+				package.TestName = options.fixture;
+			testRunner.Load( package );
 
 			return testRunner;
 		}

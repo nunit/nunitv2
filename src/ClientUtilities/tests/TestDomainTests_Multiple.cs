@@ -40,9 +40,11 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class TestDomainTests_Multiple
 	{
-		private string[] assemblies;
 		private TestDomain domain; 
 		private ITest loadedSuite;
+
+		private static string path1 = Path.GetFullPath( "nonamespace-assembly.dll" );
+		private static string path2 = Path.GetFullPath( "mock-assembly.dll" );
 
 		private string name = "Multiple Assemblies Test";
 
@@ -50,9 +52,10 @@ namespace NUnit.Util.Tests
 		public void Init()
 		{
 			domain = new TestDomain();
-			assemblies = new string[]
-				{ Path.GetFullPath( "nonamespace-assembly.dll" ), Path.GetFullPath( "mock-assembly.dll" ) };
-			domain.Load( new TestPackage( name, assemblies ) );
+			TestPackage package = new TestPackage( name );
+			package.Assemblies.Add( path1 );
+			package.Assemblies.Add( path2 );
+			domain.Load( package );
 			loadedSuite = domain.Test;
 		}
 
@@ -80,8 +83,8 @@ namespace NUnit.Util.Tests
 		{
 			TestNode test0 = (TestNode)loadedSuite.Tests[0];
 			TestNode test1 = (TestNode)loadedSuite.Tests[1];
-			Assert.AreEqual( assemblies[0], test0.TestName.Name );
-			Assert.AreEqual( assemblies[1], test1.TestName.Name );
+			Assert.AreEqual( path1, test0.TestName.Name );
+			Assert.AreEqual( path2, test1.TestName.Name );
 		}
 
 		[Test]
@@ -108,12 +111,12 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void LoadFixture()
 		{
-			string name = "Multiple Assemblies Test";
-			string[] assemblies = new string[]
-				{ Path.GetFullPath( "nonamespace-assembly.dll" ), Path.GetFullPath( "mock-assembly.dll" ) };
-
 			TestDomain domain = new TestDomain();
-			domain.Load( new TestPackage( name, assemblies ), "NUnit.Tests.Assemblies.MockTestFixture" );
+			TestPackage package = new TestPackage( "Multiple Assemblies Test" );
+			package.Assemblies.Add( Path.GetFullPath( "nonamespace-assembly.dll" ) );
+			package.Assemblies.Add( Path.GetFullPath( "mock-assembly.dll" ) );
+			package.TestName = "NUnit.Tests.Assemblies.MockTestFixture";
+			domain.Load( package );
 			Assert.AreEqual( MockTestFixture.Tests, domain.Test.TestCount );
 		}
 	}

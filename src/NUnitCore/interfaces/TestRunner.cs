@@ -39,7 +39,7 @@ namespace NUnit.Core
 	/// supported for running tests and is implemented by the RemoteTestRunner class in
 	/// the NUnit core as well as by other classes running on the client side.
 	/// 
-	/// The Load family of methods is used to load a suite of tests from one or more 
+	/// The Load method is used to load a suite of tests from one or more 
 	/// assemblies, returning a tree of TestNodes to the caller.
 	/// 
 	/// The CountTestCases family of methods returns the number of test cases in the
@@ -116,34 +116,11 @@ namespace NUnit.Core
 
 		#region Load and Unload Methods
 		/// <summary>
-		/// Load all tests from an assembly
-		/// </summary>
-		/// <param name="assemblyName">The assembly from which tests are to be loaded</param>
-		/// <returns>True if the tests were loaded successfully, otherwise false</returns>
-		bool Load( string assemblyName );
-
-		/// <summary>
-		/// Load a particular test in an assembly
-		/// </summary>
-		/// <param name="assemblyName">The assembly from which tests are to be loaded</param>
-		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
-		/// <returns>True if the tests were loaded successfully, otherwise false</returns>
-		bool Load( string assemblyName, string testName );
-
-		/// <summary>
 		/// Load the assemblies in a test package
 		/// </summary>
 		/// <param name="package">The test package to be loaded</param>
 		/// <returns>True if the tests were loaded successfully, otherwise false</returns>
 		bool Load( TestPackage package );
-
-		/// <summary>
-		/// Load a particular test in a TestProject.
-		/// </summary>
-		/// <param name="package">The test package to be loaded</param>
-		/// <param name="testName">The name of the test fixture or suite to be loaded</param>
-		/// <returns>True if the tests were loaded successfully, otherwise false</returns>
-		bool Load( TestPackage package, string testName );
 
 		/// <summary>
 		/// Unload all tests previously loaded

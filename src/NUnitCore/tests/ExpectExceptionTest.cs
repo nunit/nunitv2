@@ -63,56 +63,56 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentException),"argument exception")]
+		[ExpectedException(typeof(ArgumentException),ExpectedMessage="argument exception")]
 		public void TestSucceedsWithSpecifiedExceptionTypeAndMessage()
 		{
 			throw new ArgumentException("argument exception");
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentException),"argument exception", MessageMatch.Exact)]
+		[ExpectedException(typeof(ArgumentException), ExpectedMessage="argument exception", MatchType=MessageMatch.Exact)]
 		public void TestSucceedsWithSpecifiedExceptionTypeAndExactMatch()
 		{
 			throw new ArgumentException("argument exception");
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentException),"invalid", MessageMatch.Contains)]
+		[ExpectedException(typeof(ArgumentException),ExpectedMessage="invalid", MatchType=MessageMatch.Contains)]
 		public void TestSucceedsWithSpecifiedExceptionTypeAndContainsMatch()
 		{
 			throw new ArgumentException("argument invalid exception");
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentException),"exception$", MessageMatch.Regex)]
+		[ExpectedException(typeof(ArgumentException),ExpectedMessage="exception$", MatchType=MessageMatch.Regex)]
 		public void TestSucceedsWithSpecifiedExceptionTypeAndRegexMatch()
 		{
 			throw new ArgumentException("argument invalid exception");
 		}
 
 		[Test]
-		[ExpectedException("System.ArgumentException","argument exception")]
+		[ExpectedException("System.ArgumentException",ExpectedMessage="argument exception")]
 		public void TestSucceedsWithSpecifiedExceptionNameAndMessage()
 		{
 			throw new ArgumentException("argument exception");
 		}
 
 		[Test]
-		[ExpectedException("System.ArgumentException","argument exception",MessageMatch.Exact)]
+		[ExpectedException("System.ArgumentException",ExpectedMessage="argument exception",MatchType=MessageMatch.Exact)]
 		public void TestSucceedsWithSpecifiedExceptionNameAndExactMatch()
 		{
 			throw new ArgumentException("argument exception");
 		}
 
 		[Test]
-		[ExpectedException("System.ArgumentException","invalid", MessageMatch.Contains)]
+		[ExpectedException("System.ArgumentException",ExpectedMessage="invalid", MatchType=MessageMatch.Contains)]
 		public void TestSucceedsWhenSpecifiedExceptionNameAndContainsMatch()
 		{
 			throw new ArgumentException("argument invalid exception");
 		}
 
 		[Test]
-		[ExpectedException("System.ArgumentException","exception$", MessageMatch.Regex)]
+		[ExpectedException("System.ArgumentException",ExpectedMessage="exception$", MatchType=MessageMatch.Regex)]
 		public void TestSucceedsWhenSpecifiedExceptionNameAndRegexMatch()
 		{
 			throw new ArgumentException("argument invalid exception");
@@ -291,7 +291,7 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
-		[ExpectedException(typeof(MyAppException), "my app")] 
+		[ExpectedException(typeof(MyAppException), ExpectedMessage="my app")] 
 		public void ThrowingMyAppExceptionWithMessage() 
 		{ 
 			throw new MyAppException("my app");

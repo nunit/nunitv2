@@ -89,22 +89,29 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region Public Methods
-
-		public TestSuite Build( TestPackage package, string testName )
+		#region Build Methods
+		/// <summary>
+		/// Build a suite based on a TestPackage
+		/// </summary>
+		/// <param name="package">The TestPackage</param>
+		/// <returns>A TestSuite</returns>
+		public TestSuite Build( TestPackage package )
 		{
-			TestSuite rootSuite = new TestSuite( package.ProjectPath );
+			if ( package.IsSingleAssembly )
+				return BuildSingleAssembly( package );
+
+			TestSuite rootSuite = new TestSuite( package.FullName );
 			NamespaceTreeBuilder namespaceTree = 
 				new NamespaceTreeBuilder( rootSuite );
 
 			builders.Clear();
-			foreach(string assemblyName in package)
+			foreach(string assemblyName in package.Assemblies)
 			{
 				TestAssemblyBuilder builder = new TestAssemblyBuilder();
 				builder.AutoNamespaceSuites = this.AutoNamespaceSuites && !this.MergeAssemblies;
 				builders.Add( builder );
 
-				Test testAssembly =  builder.Build( assemblyName, testName );
+				Test testAssembly =  builder.Build( assemblyName, package.TestName );
 
 				if ( testAssembly != null )
 				{
@@ -131,26 +138,15 @@ namespace NUnit.Core
 			return rootSuite;
 		}
 
-		public TestSuite Build( string assemblyName )
-		{
-			return (TestSuite)Build( assemblyName, string.Empty );
-		}
-
-		public Test Build(string assemblyName, string testName )
+		private TestSuite BuildSingleAssembly( TestPackage package )
 		{
 			TestAssemblyBuilder builder = new TestAssemblyBuilder();
 			builder.AutoNamespaceSuites = this.AutoNamespaceSuites; // && !this.MergeAssemblies;
 			builders.Clear();
 			builders.Add( builder );
 
-			return builder.Build( assemblyName, testName );
+			return (TestSuite)builder.Build( package.FullName, package.TestName );
 		}
-
-		public TestSuite Build( TestPackage package )
-		{
-			return Build( package, null );
-		}
-
 		#endregion
 	}
 }

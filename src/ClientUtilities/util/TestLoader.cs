@@ -510,9 +510,9 @@ namespace NUnit.Util
 
 				testRunner = CreateRunner();
 
-				bool loaded = TestProject.IsAssemblyWrapper
-					? testRunner.Load( TestProject.ActiveConfig.Assemblies[0], testName )
-					: testRunner.Load( TestProject.MakeTestPackage(), testName );
+				TestPackage package = TestProject.MakeTestPackage();
+				package.TestName = testName;
+				bool loaded = testRunner.Load( package );
 
 				loadedTest = testRunner.Test;
 				loadedTestName = testName;
@@ -617,10 +617,9 @@ namespace NUnit.Util
 					// handlers get a chance to compare the trees.
 					TestRunner newRunner = CreateRunner( );
 
-					if (TestProject.IsAssemblyWrapper)
-						newRunner.Load(testProject.ActiveConfig.Assemblies[0]);
-					else
-						newRunner.Load( testProject.MakeTestPackage(), loadedTestName);
+					TestPackage package = testProject.MakeTestPackage();
+					package.TestName = loadedTestName;
+					newRunner.Load( package );
 
 					testRunner.Unload();
 

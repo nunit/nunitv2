@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 using NUnit.Framework;
 using NUnit.Core;
@@ -35,14 +36,14 @@ namespace NUnit.Core.Tests
         [Test]
 		public void LoadAssembly() 
 		{
-			Assert.IsTrue(runner.Load(mockDll), "Unable to load assembly" );
+			Assert.IsTrue(runner.Load( new TestPackage( mockDll ) ), "Unable to load assembly" );
 		}
 
 		[Test]
 		public void LoadAssemblyWithoutNamespaces()
 		{
 			runner.Settings["AutoNamespaceSuites"] = false;
-			Assert.IsTrue(runner.Load(mockDll), "Unable to load assembly" );
+			Assert.IsTrue(runner.Load( new TestPackage( mockDll ) ), "Unable to load assembly" );
 			ITest test = runner.Test;
 			Assert.IsNotNull( test );
 			Assert.AreEqual( 4, test.Tests.Count );
@@ -52,20 +53,24 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void LoadAssemblyWithFixture()
 		{
-			Assert.IsTrue( runner.Load( mockDll, "NUnit.Tests.Assemblies.MockTestFixture" ) );
+			TestPackage package = new TestPackage( mockDll );
+			package.TestName = "NUnit.Tests.Assemblies.MockTestFixture";
+			Assert.IsTrue( runner.Load( package ) );
 		}
 
 		[Test]
 		public void LoadAssemblyWithSuite()
 		{
-			runner.Load( mockDll, "NUnit.Tests.Assemblies.MockSuite" );
+			TestPackage package = new TestPackage( mockDll );
+			package.TestName = "NUnit.Tests.Assemblies.MockSuite";
+			runner.Load( package );
 			Assert.IsNotNull(runner.Test, "Unable to build suite");
 		}
 
 		[Test]
 		public void CountTestCases()
 		{
-			runner.Load( mockDll );
+			runner.Load( new TestPackage( mockDll ) );
 			Assert.AreEqual( MockAssembly.Tests, runner.Test.TestCount );
 		}
 
@@ -79,14 +84,16 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void LoadMultipleAssembliesWithFixture()
 		{
-			runner.Load( new TestPackage( "TestSuite", assemblies ), "NUnit.Tests.Assemblies.MockTestFixture"  );
+			TestPackage package = MakePackage( "TestSuite", assemblies, "NUnit.Tests.Assemblies.MockTestFixture" );
+			runner.Load( package );
 			Assert.IsNotNull(runner.Test, "Unable to build suite");
 		}
 
 		[Test]
 		public void LoadMultipleAssembliesWithSuite()
 		{
-			runner.Load( new TestPackage( "TestSuite", assemblies ), "NUnit.Tests.Assemblies.MockSuite" );
+			TestPackage package = MakePackage( "TestSuite", assemblies, "NUnit.Tests.Assemblies.MockSuite" );
+			runner.Load( package );
 			Assert.IsNotNull(runner.Test, "Unable to build suite");
 		}
 
@@ -101,7 +108,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void RunAssembly()
 		{
-			runner.Load(mockDll);
+			runner.Load( new TestPackage( mockDll ) );
 			TestResult result = runner.Run( NullListener.NULL );
 			ResultSummarizer summary = new ResultSummarizer(result);
 			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun, summary.ResultCount );
@@ -110,7 +117,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void RunAssemblyUsingBeginAndEndRun()
 		{
-			runner.Load(mockDll);
+			runner.Load( new TestPackage( mockDll ) );
 			runner.BeginRun( NullListener.NULL );
 			TestResult result = runner.EndRun();
 			Assert.IsNotNull( result );
@@ -140,6 +147,14 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( 
 				NoNamespaceTestFixture.Tests + MockAssembly.Tests - MockAssembly.NotRun, 
 				summary.ResultCount);
+		}
+
+		private TestPackage MakePackage( string name, IList assemblies, string testName )
+		{
+			TestPackage package = new TestPackage( name, assemblies );
+			package.TestName = testName;
+
+			return package;
 		}
 	}
 }

@@ -60,7 +60,7 @@ namespace NUnit.Core.Tests
 		public void LoadAssembly()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			Test suite = builder.Build( thisDll );
+			Test suite = builder.Build( new TestPackage( thisDll ) );
 			Assert.IsNotNull( suite );
 			//Assert.IsNotNull(testAssembly, "should be able to load assembly");
 			Assert.IsTrue( File.Exists( thisDll ), "Load does not set current Directory" );
@@ -71,7 +71,7 @@ namespace NUnit.Core.Tests
 		public void LoadAssemblyNotFound()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			builder.Build("XXXX");
+			builder.Build( new TestPackage( "XXXX.dll" ) );
 		}
 
 		[Test]
@@ -79,7 +79,7 @@ namespace NUnit.Core.Tests
 		{
 			string fileName = "notestfixtures-assembly.dll";
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			Test suite = builder.Build( fileName );
+			Test suite = builder.Build( new TestPackage( fileName ) );
 			Assert.IsNotNull( suite,"Should not be null" );
 			Assert.AreEqual( RunState.NotRunnable, suite.RunState );
 			Assert.AreEqual( suite.IgnoreReason, "Has no TestFixtures" );
@@ -90,7 +90,9 @@ namespace NUnit.Core.Tests
 		public void LoadTestFixtureFromAssembly()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			Test suite = builder.Build( thisDll, this.GetType().FullName );
+			TestPackage package = new TestPackage( thisDll );
+			package.TestName = this.GetType().FullName;
+			Test suite= builder.Build( package );
 			Assert.IsNotNull(suite, "Should not be Null");
 		}
 

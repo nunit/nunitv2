@@ -65,13 +65,6 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( "TestSuite", loadedSuite.TestName.Name );
 		}
 
-        //[Test]
-        //public void AssemblyNodes()
-        //{
-        //    Assert.IsTrue( loadedSuite.Tests[0] is TestAssembly );
-        //    Assert.IsTrue( loadedSuite.Tests[1] is TestAssembly );
-        //}
-
 		[Test]
 		public void TestCaseCount()
 		{
@@ -81,9 +74,9 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void LoadFixture()
 		{
-			Test suite = builder.Build(
-				new TestPackage( "MultipleAssemblies", assemblies ), 
-				"NUnit.Tests.Assemblies.MockTestFixture" );
+			TestPackage package = new TestPackage( "Multiple Assemblies", assemblies );
+			package.TestName = "NUnit.Tests.Assemblies.MockTestFixture";
+			TestSuite suite = builder.Build( package );
 			Assert.IsNotNull( suite );
 			Assert.AreEqual( MockTestFixture.Tests, suite.TestCount );
 		}
