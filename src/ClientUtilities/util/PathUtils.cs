@@ -52,7 +52,7 @@ namespace NUnit.Util
 
 		public static bool IsAssemblyFileType( string path )
 		{
-			string extension = Path.GetExtension( path );
+			string extension = Path.GetExtension( path ).ToLower();
 			return extension == ".dll" || extension == ".exe";
 		}
 
