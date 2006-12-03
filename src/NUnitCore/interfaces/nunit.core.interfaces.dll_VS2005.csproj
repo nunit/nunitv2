@@ -26,6 +26,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\nunit.core.interfaces.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug2005|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +38,7 @@
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>bin\Debug2005\nunit.core.interfaces.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release2005|AnyCPU' ">
     <OutputPath>bin\Release2005\</OutputPath>
@@ -94,7 +96,6 @@
     <Compile Include="TestPackage.cs" />
     <Compile Include="TestResult.cs" />
     <Compile Include="TestRunner.cs" />
-    <Compile Include="TestRunnerSettings.cs" />
     <Compile Include="TestSuiteResult.cs" />
   </ItemGroup>
   <ItemGroup>

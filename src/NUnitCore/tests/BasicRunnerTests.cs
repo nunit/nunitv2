@@ -42,8 +42,9 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void LoadAssemblyWithoutNamespaces()
 		{
-			runner.Settings["AutoNamespaceSuites"] = false;
-			Assert.IsTrue(runner.Load( new TestPackage( mockDll ) ), "Unable to load assembly" );
+			TestPackage package = new TestPackage( mockDll );
+			package.Settings["AutoNamespaceSuites"] = false;
+			Assert.IsTrue(runner.Load( package ), "Unable to load assembly" );
 			ITest test = runner.Test;
 			Assert.IsNotNull( test );
 			Assert.AreEqual( 4, test.Tests.Count );

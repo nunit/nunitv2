@@ -39,11 +39,6 @@ namespace NUnit.Core
 		/// </summary>
 		protected EventListener listener;
 
-		/// <summary>
-		/// Our dictionary of settings, used to hold any settings
-		/// if the downstream TestRunner has not been set.
-		/// </summary>
-		private TestRunnerSettings settings;
 		#endregion
 
 		#region Construction
@@ -51,8 +46,6 @@ namespace NUnit.Core
 		{
 			this.testRunner = testRunner;
 			this.runnerID = testRunner.ID;
-			this.settings = new TestRunnerSettings();
-			this.settings.Changed += new TestRunnerSettings.SettingsChangedHandler(settings_Changed);
 		}
 
 		/// <summary>
@@ -62,7 +55,6 @@ namespace NUnit.Core
 		protected ProxyTestRunner( int runnerID )
 		{
 			this.runnerID = runnerID;
-			this.settings = new TestRunnerSettings();
 		}
 		#endregion
 
@@ -92,11 +84,6 @@ namespace NUnit.Core
 			get { return testRunner == null ? null : testRunner.TestResult; }
 		}
 
-		public virtual IDictionary Settings
-		{
-			get { return settings; }
-		}
-
 		/// <summary>
 		/// Protected property copies any settings to the downstream test runner
 		/// when it is set. Derived runners overriding this should call the base
@@ -105,14 +92,7 @@ namespace NUnit.Core
 		protected virtual TestRunner TestRunner
 		{
 			get { return testRunner; }
-			set 
-			{ 
-				testRunner = value; 
-
-				if ( testRunner != null )
-					foreach( string key in settings.Keys )
-						testRunner.Settings[key] = settings[key];
-			}
+			set { testRunner = value; }
 		}
 		#endregion
 
@@ -177,14 +157,6 @@ namespace NUnit.Core
 		public virtual void Wait()
 		{
 			this.testRunner.Wait();
-		}
-		#endregion
-
-		#region Settings Changed Handler
-		private void settings_Changed(object key, object value)
-		{
-			if ( this.testRunner != null )
-				testRunner.Settings[key] = value;
 		}
 		#endregion
 

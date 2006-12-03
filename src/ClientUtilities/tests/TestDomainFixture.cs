@@ -244,8 +244,9 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void TurnOffShadowCopy()
 		{
-			testDomain.Settings["ShadowCopyFiles"] = false;
-			testDomain.Load( new TestPackage( "mock-assembly.dll" ) );
+			TestPackage package = new TestPackage( "mock-assembly.dll" );
+			package.Settings["ShadowCopyFiles"] = false;
+			testDomain.Load( package );
 			Assert.IsFalse( testDomain.AppDomain.ShadowCopyFiles );
 					
 //			// Prove that shadow copy is really off

@@ -190,11 +190,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestRunnerSettings.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestSuiteResult.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

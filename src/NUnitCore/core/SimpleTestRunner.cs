@@ -48,11 +48,6 @@ namespace NUnit.Core
 		/// </summary>
 		private Thread runThread;
 
-		/// <summary>
-		/// The settings for this runner
-		/// </summary>
-		private IDictionary settings;
-
 		#endregion
 
 		#region Constructor
@@ -61,7 +56,6 @@ namespace NUnit.Core
 		public SimpleTestRunner( int runnerID )
 		{
 			this.runnerID = runnerID;
-			this.settings = new ListDictionary();
 		}
 		#endregion
 
@@ -93,11 +87,6 @@ namespace NUnit.Core
 		{
 			get { return runThread != null && runThread.IsAlive; }
 		}
-
-		public IDictionary Settings
-		{
-			get { return settings; }
-		}
 		#endregion
 
 		#region Methods for Loading Tests
@@ -108,7 +97,7 @@ namespace NUnit.Core
 		/// <returns>True on success, false on failure</returns>
 		public bool Load( TestPackage package )
 		{
-			TestSuiteBuilder builder = CreateBuilder();
+			TestSuiteBuilder builder = new TestSuiteBuilder();
 
 			this.test = builder.Build( package );
 			if ( test == null ) return false;
@@ -214,20 +203,6 @@ namespace NUnit.Core
 				if ( (cancelThread.ThreadState & ThreadState.WaitSleepJoin ) != 0 )
 					cancelThread.Interrupt();
 			}
-		}
-		#endregion
-
-		#region Helper Routines
-		private TestSuiteBuilder CreateBuilder()
-		{
-			builder = new TestSuiteBuilder();
-
-			if ( settings.Contains( "AutoNamespaceSuites" ) )
-				builder.AutoNamespaceSuites = (bool)settings["AutoNamespaceSuites"];
-			if ( settings.Contains( "MergeAssemblies" ) )
-				builder.MergeAssemblies = (bool)settings["MergeAssemblies"];
-
-			return builder;
 		}
 		#endregion
 

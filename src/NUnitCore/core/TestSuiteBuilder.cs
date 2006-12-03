@@ -44,10 +44,6 @@ namespace NUnit.Core
 	{
 		#region Instance Variables
 
-		private bool autoNamespaceSuites = true;
-
-		private bool mergeAssemblies = false;
-
 		private ArrayList builders = new ArrayList();
 
 		#endregion
@@ -75,18 +71,6 @@ namespace NUnit.Core
 				return info;
 			}
 		}
-
-		public bool AutoNamespaceSuites
-		{
-			get { return autoNamespaceSuites; }
-			set { autoNamespaceSuites = value; }
-		}
-
-		public bool MergeAssemblies
-		{
-			get { return mergeAssemblies; } 
-			set { mergeAssemblies = value; }
-		}
 		#endregion
 
 		#region Build Methods
@@ -97,6 +81,14 @@ namespace NUnit.Core
 		/// <returns>A TestSuite</returns>
 		public TestSuite Build( TestPackage package )
 		{
+			bool autoNamespaceSuites = true;
+			bool mergeAssemblies = false;
+
+			if ( package.Settings.Contains( "AutoNamespaceSuites" ) )
+				autoNamespaceSuites = (bool)package.Settings[ "AutoNamespaceSuites" ];
+			if ( package.Settings.Contains( "MergeAssemblies" ) )
+				mergeAssemblies = (bool)package.Settings[ "MergeAssemblies" ];
+
 			if ( package.IsSingleAssembly )
 				return BuildSingleAssembly( package );
 
@@ -108,10 +100,9 @@ namespace NUnit.Core
 			foreach(string assemblyName in package.Assemblies)
 			{
 				TestAssemblyBuilder builder = new TestAssemblyBuilder();
-				builder.AutoNamespaceSuites = this.AutoNamespaceSuites && !this.MergeAssemblies;
 				builders.Add( builder );
 
-				Test testAssembly =  builder.Build( assemblyName, package.TestName );
+				Test testAssembly =  builder.Build( assemblyName, package.TestName, autoNamespaceSuites && !mergeAssemblies );
 
 				if ( testAssembly != null )
 				{
@@ -141,11 +132,15 @@ namespace NUnit.Core
 		private TestSuite BuildSingleAssembly( TestPackage package )
 		{
 			TestAssemblyBuilder builder = new TestAssemblyBuilder();
-			builder.AutoNamespaceSuites = this.AutoNamespaceSuites; // && !this.MergeAssemblies;
+
+			bool autoNamespaceSuites = true;
+			if ( package.Settings.Contains( "AutoNamespaceSuites" ) )
+				autoNamespaceSuites = (bool)package.Settings[ "AutoNamespaceSuites" ];
+			
 			builders.Clear();
 			builders.Add( builder );
 
-			return (TestSuite)builder.Build( package.FullName, package.TestName );
+			return (TestSuite)builder.Build( package.FullName, package.TestName, autoNamespaceSuites );
 		}
 		#endregion
 	}

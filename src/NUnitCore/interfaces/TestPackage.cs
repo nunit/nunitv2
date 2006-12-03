@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections;
+using System.Collections.Specialized;
 
 namespace NUnit.Core
 {
@@ -15,6 +16,8 @@ namespace NUnit.Core
 	{
 		private string name;
 		private string fullName;
+
+		private ListDictionary settings = new ListDictionary();
 
 		private string basePath;
 		private string configFile;
@@ -129,6 +132,11 @@ namespace NUnit.Core
 		{
 			get { return testName; }
 			set { testName = value; }
+		}
+
+		public IDictionary Settings
+		{
+			get { return settings; }
 		}
 	}
 }

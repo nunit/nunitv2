@@ -170,6 +170,9 @@ namespace NUnit.Util
 		{
 			FileInfo testFile = new FileInfo( package.FullName );
 
+			if ( package.Settings.Contains("ShadowCopyFiles") )
+				this.shadowCopyFiles = (bool)package.Settings["ShadowCopyFiles"];
+
 			string appBase = package.BasePath;
 			if ( appBase == null || appBase == string.Empty )
 				appBase = testFile.DirectoryName;
@@ -205,9 +208,6 @@ namespace NUnit.Util
 			// Note that we do NOT
 			// set ShadowCopyDirectories because we  rely on the default
 			// setting of ApplicationBase plus PrivateBinPath
-
-			if ( this.Settings.Contains("ShadowCopyFiles") )
-				this.shadowCopyFiles = (bool)this.Settings["ShadowCopyFiles"];
 
 			if ( this.shadowCopyFiles )
 			{

@@ -107,11 +107,6 @@ namespace NUnit.Core
 		{
 			get;
 		}
-
-		IDictionary Settings
-		{
-			get;
-		}
 		#endregion
 
 		#region Load and Unload Methods

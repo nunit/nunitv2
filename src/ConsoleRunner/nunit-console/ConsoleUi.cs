@@ -165,8 +165,6 @@ namespace NUnit.ConsoleRunner
                 ? (TestRunner)new TestDomain()
                 : (TestRunner)new MultipleTestDomainRunner();
 
-			if ( options.noshadow  ) testRunner.Settings["ShadowCopyFiles"] = false;
-
 			TestPackage package;
 			if ( options.IsTestProject )
 			{
@@ -191,6 +189,8 @@ namespace NUnit.ConsoleRunner
 
 			if ( options.IsFixture )
 				package.TestName = options.fixture;
+			if ( options.noshadow )
+				package.Settings["ShadowCopyFiles"] = false;
 			testRunner.Load( package );
 
 			return testRunner;

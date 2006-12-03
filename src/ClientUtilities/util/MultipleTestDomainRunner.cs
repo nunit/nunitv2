@@ -27,6 +27,8 @@ namespace NUnit.Util
 			{
 				TestPackage p = new TestPackage( assembly );
 				p.TestName = package.TestName;
+				foreach( object key in package.Settings )
+					p.Settings[key] = package.Settings[key];
 				if ( runners[index++].Load( p ) )
 					nfound++;
 			}
@@ -43,8 +45,6 @@ namespace NUnit.Util
 			for( int index = 0; index < count; index++ )
 			{
 				TestDomain runner = new TestDomain( this.runnerID * 100 + index + 1 );
-				foreach( string key in this.Settings.Keys )
-					runner.Settings[key] = this.Settings[key];
 				runners[index] = runner;
 			}
 		}

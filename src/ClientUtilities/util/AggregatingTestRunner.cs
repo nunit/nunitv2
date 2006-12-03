@@ -41,7 +41,6 @@ namespace NUnit.Util
 
 		protected TestName testName;
 
-		private TestRunnerSettings settings;
 		#endregion
 
 		#region Constructors
@@ -53,9 +52,6 @@ namespace NUnit.Util
 			testName.TestID = new TestID( AggregateTestID );
 			testName.RunnerID = this.runnerID;
 			testName.FullName = testName.Name = "Not Loaded";
-
-			this.settings = new TestRunnerSettings();
-			this.settings.Changed += new TestRunnerSettings.SettingsChangedHandler(settings_Changed);
 		}
 		#endregion
 
@@ -131,11 +127,6 @@ namespace NUnit.Util
 
 				return suiteResult;
 			}
-		}
-
-		public IDictionary Settings
-		{
-			get { return settings; }
 		}
 		#endregion
 
@@ -287,16 +278,6 @@ namespace NUnit.Util
 		public void SuiteStarted(TestName suiteName)
 		{
 			this.listener.SuiteStarted( suiteName );
-		}
-		#endregion
-
-		#region Handler for Settings Changed Event
-		private void settings_Changed(object key, object value)
-		{
-			if ( runners != null )
-				foreach( TestRunner runner in runners )
-					if ( runner != null )
-						runner.Settings[key] = value;
 		}
 		#endregion
 

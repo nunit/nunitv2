@@ -36,7 +36,7 @@ using NUnit.Core.Extensibility;
 namespace NUnit.Core.Builders
 {
 	/// <summary>
-	/// Class that builds a TestAssembly suite from an assembly
+	/// Class that builds a TestSuite from an assembly
 	/// </summary>
 	public class TestAssemblyBuilder
 	{
@@ -52,24 +52,11 @@ namespace NUnit.Core.Builders
 		/// </summary>
 		ISuiteBuilder legacySuiteBuilder;
 
-		/// <summary>
-		/// Set to true to build automatic namespace suites,
-		/// false to build a single suite with the fixtures.
-		/// </summary>
-		bool autoNamespaceSuites = true;
-
 		private TestAssemblyInfo assemblyInfo = null;
 
 		#endregion
 
 		#region Properties
-
-		public bool AutoNamespaceSuites
-		{
-			get { return autoNamespaceSuites; }
-			set { autoNamespaceSuites = value; }
-		}
-
 		public Assembly Assembly
 		{
 			get { return assembly; }
@@ -91,7 +78,6 @@ namespace NUnit.Core.Builders
 				return assemblyInfo;
 			}
 		}
-
 		#endregion
 
 		#region Constructor
@@ -105,12 +91,11 @@ namespace NUnit.Core.Builders
 
 		#endregion
 
-		#region Other Public Methods
-
-		public Test Build( string assemblyName, string testName )
+		#region Build Methods
+		public Test Build( string assemblyName, string testName, bool autoSuites )
 		{
 			if ( testName == null || testName == string.Empty )
-				return Build( assemblyName );
+				return Build( assemblyName, autoSuites );
 
 			this.assembly = Load( assemblyName );
 			if ( assembly == null ) return null;
@@ -124,24 +109,24 @@ namespace NUnit.Core.Builders
 			// Assume that testName is a namespace and get all fixtures in it
 			IList fixtures = GetFixtures( assembly, testName );
 			if ( fixtures.Count > 0 ) 
-				return BuildTestAssembly( assemblyName, fixtures );
+				return BuildTestAssembly( assemblyName, fixtures, autoSuites );
 			return null;
 		}
 
-		public TestSuite Build( string assemblyName )
+		public TestSuite Build( string assemblyName, bool autoSuites )
 		{
 			this.assembly = Load( assemblyName );
 			if ( this.assembly == null ) return null;
 
 			IList fixtures = GetFixtures( assembly, null );
-			return BuildTestAssembly( assemblyName, fixtures );
+			return BuildTestAssembly( assemblyName, fixtures, autoSuites );
 		}
 
-		private TestSuite BuildTestAssembly( string assemblyName, IList fixtures )
+		private TestSuite BuildTestAssembly( string assemblyName, IList fixtures, bool autoSuites )
 		{
 			TestSuite testAssembly = new TestSuite( assemblyName );
 
-			if ( autoNamespaceSuites )
+			if ( autoSuites )
 			{
 				NamespaceTreeBuilder treeBuilder = 
 					new NamespaceTreeBuilder( testAssembly );
@@ -167,28 +152,6 @@ namespace NUnit.Core.Builders
 
 			return testAssembly;
 		}
-
-		#endregion
-
-		#region Nested TypeFilter Class
-
-//		private class TypeFilter
-//		{
-//			private string rootNamespace;
-//
-//			TypeFilter( string rootNamespace ) 
-//			{
-//				this.rootNamespace = rootNamespace;
-//			}
-//
-//			public bool Include( Type type )
-//			{
-//				if ( type.Namespace == rootNamespace )
-//					return true;
-//
-//				return type.Namespace.StartsWith( rootNamespace + '.' );
-//			}
-//		}
 
 		#endregion
 

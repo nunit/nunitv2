@@ -510,9 +510,7 @@ namespace NUnit.Util
 
 				testRunner = CreateRunner();
 
-				TestPackage package = TestProject.MakeTestPackage();
-				package.TestName = testName;
-				bool loaded = testRunner.Load( package );
+				bool loaded = testRunner.Load( MakeTestPackage( testName ) );
 
 				loadedTest = testRunner.Test;
 				loadedTestName = testName;
@@ -617,9 +615,7 @@ namespace NUnit.Util
 					// handlers get a chance to compare the trees.
 					TestRunner newRunner = CreateRunner( );
 
-					TestPackage package = testProject.MakeTestPackage();
-					package.TestName = loadedTestName;
-					newRunner.Load( package );
+					newRunner.Load( MakeTestPackage( loadedTestName ) );
 
 					testRunner.Unload();
 
@@ -721,10 +717,16 @@ namespace NUnit.Util
 				? (TestRunner)new MultipleTestDomainRunner()
 				: (TestRunner)new TestDomain();
 				
-			runner.Settings["MergeAssemblies"] = mergeAssemblies;
-			runner.Settings["AutoNamespaceSuites"] = autoNamespaceSuites;
-
 			return runner;
+		}
+
+		private TestPackage MakeTestPackage( string testName )
+		{
+			TestPackage package = TestProject.MakeTestPackage();
+			package.TestName = testName;
+			package.Settings["MergeAssemblies"] = mergeAssemblies;
+			package.Settings["AutoNamespaceSuites"] = autoNamespaceSuites;
+			return package;
 		}
 		#endregion
 
