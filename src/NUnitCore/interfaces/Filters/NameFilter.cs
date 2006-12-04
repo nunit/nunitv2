@@ -64,6 +64,11 @@ namespace NUnit.Core.Filters
 			testNames.Add( testName );
 		}
 
+		/// <summary>
+		/// Check if a test matches the filter
+		/// </summary>
+		/// <param name="test">The test to match</param>
+		/// <returns>True if it matches, false if not</returns>
 		public override bool Match( ITest test )
 		{
 			foreach( TestName testName in testNames )

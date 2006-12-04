@@ -95,6 +95,12 @@ namespace NUnit.Core
 		#endregion
 
 		#region Protected Constructor
+		/// <summary>
+		/// Protected constructor constructs a test result given
+		/// a test and a name.
+		/// </summary>
+		/// <param name="test">The test to be used</param>
+		/// <param name="name">Name for this result</param>
 		protected TestResult(TestInfo test, string name)
 		{
 			this.name = name;
@@ -111,37 +117,61 @@ namespace NUnit.Core
 
         #region Properties
 
+		/// <summary>
+		/// Gets the RunState of the result, which indicates
+		/// whether or not it has executed and why.
+		/// </summary>
         public RunState RunState
         {
             get { return runState; }
             set { runState = value; }
         }
 
+		/// <summary>
+		/// Gets the ResultState of the test result, which 
+		/// indicates the success or failure of the test.
+		/// </summary>
         public ResultState ResultState
         {
             get { return resultState; }
         }
 
+		/// <summary>
+		/// Gets the stage of the test in which a failure
+		/// or error occured.
+		/// </summary>
         public FailureSite FailureSite
         {
             get { return failureSite; }
         }
 
+		/// <summary>
+		/// Indicates whether the test executed
+		/// </summary>
         public bool Executed
         {
             get { return runState == RunState.Executed; }
         }
 
+		/// <summary>
+		/// Gets the name of the test result
+		/// </summary>
         public virtual string Name
         {
             get { return name; }
         }
 
+		/// <summary>
+		/// Gets the test associated with this result
+		/// </summary>
         public ITest Test
         {
             get { return test; }
         }
 
+		/// <summary>
+		/// Indicates whether the test ran successfully
+		/// </summary>
         public virtual bool IsSuccess
         {
             // TODO: Redefine this more precisely
@@ -149,29 +179,46 @@ namespace NUnit.Core
             //get { return resultState == ResultState.Success; }
         }
 
-        // TODO: Distinguish errors from failures
+        /// <summary>
+        /// Indicates whether the test failed
+        /// </summary>
+		// TODO: Distinguish errors from failures
         public virtual bool IsFailure
         {
             get { return resultState == ResultState.Failure || resultState == ResultState.Error; }
         }
 
+		/// <summary>
+		/// Gets a description associated with the test
+		/// </summary>
         public virtual string Description
         {
             get { return description; }
             set { description = value; }
         }
 
+		/// <summary>
+		/// Gets the elapsed time for running the test
+		/// </summary>
         public double Time
         {
             get { return time; }
             set { time = value; }
         }
 
+		/// <summary>
+		/// Gets the message associated with a test
+		/// failure or with not running the test
+		/// </summary>
         public string Message
         {
             get { return messageString; }
         }
 
+		/// <summary>
+		/// Gets any stacktrace associated with an
+		/// error or failure.
+		/// </summary>
         public virtual string StackTrace
         {
             get
@@ -184,6 +231,10 @@ namespace NUnit.Core
             }
         }
 
+		/// <summary>
+		/// Gets or sets the count of asserts executed
+		/// when running the test.
+		/// </summary>
         public int AssertCount
         {
             get { return assertCount; }
@@ -271,6 +322,13 @@ namespace NUnit.Core
 			this.stackTrace = stackTrace;
 		}
 
+
+		/// <summary>
+		/// Mark the test as a failure due to an
+		/// assertion having failed.
+		/// </summary>
+		/// <param name="message">Message to display</param>
+		/// <param name="stackTrace">Stack trace giving the location of the failure</param>
 		public void Failure(string message, string stackTrace)
         {
             Failure(message, stackTrace, FailureSite.Test);
@@ -282,6 +340,7 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="message">Message to display</param>
 		/// <param name="stackTrace">Stack trace giving the location of the failure</param>
+		/// <param name="failureSite">The site of the failure</param>
 		public void Failure(string message, string stackTrace, FailureSite failureSite )
 		{
 			this.runState = RunState.Executed;
@@ -291,11 +350,22 @@ namespace NUnit.Core
 			this.stackTrace = stackTrace;
 		}
 
+		/// <summary>
+		/// Marks the result as an error due to an exception thrown
+		/// by the test.
+		/// </summary>
+		/// <param name="exception">The exception that was caught</param>
         public void Error(Exception exception)
         {
             Error(exception, FailureSite.Test);
         }
 
+		/// <summary>
+		/// Marks the result as an error due to an exception thrown
+		/// from the indicated FailureSite.
+		/// </summary>
+		/// <param name="exception">The exception that was caught</param>
+		/// <param name="failureSite">The site from which it was thrown</param>
 		public void Error( Exception exception, FailureSite failureSite )
 		{
 			this.runState = RunState.Executed;
@@ -372,6 +442,10 @@ namespace NUnit.Core
 
 		#endregion
 
+		/// <summary>
+		/// Abstract method that accepts a ResultVisitor
+		/// </summary>
+		/// <param name="visitor">The visitor</param>
 		public abstract void Accept(ResultVisitor visitor);
 	}
 }

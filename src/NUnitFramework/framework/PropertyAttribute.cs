@@ -8,7 +8,14 @@ namespace NUnit.Framework
 	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=true)]
 	public class PropertyAttribute : Attribute
 	{
+		/// <summary>
+		/// The property name
+		/// </summary>
 		protected string propertyName;
+
+		/// <summary>
+		/// The property value
+		/// </summary>
 		protected object propertyValue;
 
 		/// <summary>

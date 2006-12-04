@@ -16,6 +16,10 @@ namespace NUnit.Framework
     /// </summary>
 	public interface IExpectException
     {
+		/// <summary>
+		/// Method to handle an expected exception
+		/// </summary>
+		/// <param name="ex">The exception to be handled</param>
         void HandleException(Exception ex);
     }
 }

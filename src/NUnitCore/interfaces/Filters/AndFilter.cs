@@ -12,40 +12,25 @@ namespace NUnit.Core.Filters
 	{
 		private ArrayList filters = new ArrayList();
 
+		/// <summary>
+		/// Constructs an empty AndFilter
+		/// </summary>
 		public AndFilter() { }
 
+		/// <summary>
+		/// Constructs an AndFilter from an array of filters
+		/// </summary>
+		/// <param name="filters"></param>
 		public AndFilter( params TestFilter[] filters )
 		{
 			this.filters.AddRange( filters );
 		}
 
-		// NOTE: Not all languages support use of params
-		public AndFilter( TestFilter f1, TestFilter f2 )
-		{
-			this.filters.Add( f1 );
-			this.filters.Add( f2 );
-		}
-
-		public AndFilter( TestFilter f1, TestFilter f2, TestFilter f3 )
-		{
-			this.filters.Add( f1 );
-			this.filters.Add( f2 );
-			this.filters.Add( f3 );
-		}
-
-		public AndFilter( TestFilter f1, TestFilter f2, TestFilter f3, TestFilter f4 )
-		{
-			this.filters.Add( f1 );
-			this.filters.Add( f2 );
-			this.filters.Add( f3 );
-			this.filters.Add( f4 );
-		}
-
-		public void Add( ITest test )
-		{
-			this.filters.Add( test );
-		}
-
+		/// <summary>
+		/// Checks whether the AndFilter is matched by a test
+		/// </summary>
+		/// <param name="test">The test to be matched</param>
+		/// <returns>True if all the component filters match, otherwise false</returns>
 		public override bool Match( ITest test )
 		{
 			foreach( TestFilter filter in filters )

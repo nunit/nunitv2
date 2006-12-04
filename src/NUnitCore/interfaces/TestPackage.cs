@@ -134,6 +134,9 @@ namespace NUnit.Core
 			set { testName = value; }
 		}
 
+		/// <summary>
+		/// Gets the dictionary of settings for this TestPackage
+		/// </summary>
 		public IDictionary Settings
 		{
 			get { return settings; }

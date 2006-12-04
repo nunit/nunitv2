@@ -3,10 +3,16 @@ using System;
 namespace NUnit.Core.Extensibility
 {
 	/// <summary>
-	/// Summary description for IFrameworkRegistry.
+	/// The IFrameworkRegistry allows extensions to register new
+	/// frameworks or emulations of other frameworks.
 	/// </summary>
 	public interface IFrameworkRegistry
 	{
+		/// <summary>
+		/// Register a framework
+		/// </summary>
+		/// <param name="frameworkName">The name of the framework</param>
+		/// <param name="assemblyName">The name of the assembly that the tests reference</param>
 		void Register( string frameworkName, string assemblyName );
 	}
 }

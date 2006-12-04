@@ -17,6 +17,9 @@ namespace NUnit.Core.Extensibility
             get;
         }
 
+		/// <summary>
+		/// Get an interface to the framework registry
+		/// </summary>
 		IFrameworkRegistry FrameworkRegistry
 		{
 			get;

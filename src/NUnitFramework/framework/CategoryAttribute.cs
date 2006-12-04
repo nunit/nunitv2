@@ -31,9 +31,15 @@ using System;
 
 namespace NUnit.Framework
 {
+	/// <summary>
+	/// Attribute used to apply a category to a test
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=true)]
 	public class CategoryAttribute : Attribute
 	{
+		/// <summary>
+		/// The name of the category
+		/// </summary>
 		protected string categoryName;
 
 		/// <summary>

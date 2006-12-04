@@ -33,7 +33,9 @@ namespace NUnit.Core
 	using System.Collections;
 
 	/// <summary>
-	///		TestSuiteResult
+	/// TestSuiteResult represents the result of running a 
+	/// TestSuite. It adds a set of child results to the
+	/// base TestResult class.
 	/// </summary>
 	/// 
 	[Serializable]
@@ -41,13 +43,27 @@ namespace NUnit.Core
 	{
 		private ArrayList results = new ArrayList();
 		
+		/// <summary>
+		/// Construct a TestSuiteResult from a test and a name
+		/// </summary>
+		/// <param name="test"></param>
+		/// <param name="name"></param>
 		public TestSuiteResult(TestInfo test, string name) 
 			: base(test, name) { }
 
-		// For tests
+		/// <summary>
+		/// Construct a TestSuite result from a string
+		/// 
+		/// This overload is used for testing
+		/// </summary>
+		/// <param name="testSuiteString"></param>
 		public TestSuiteResult(string testSuiteString) 
 			: base(null, testSuiteString) { }
 
+		/// <summary>
+		/// Add a child result to a TestSuiteResult
+		/// </summary>
+		/// <param name="result">The child result to be added</param>
 		public void AddResult(TestResult result) 
 		{
 			results.Add(result);
@@ -59,11 +75,18 @@ namespace NUnit.Core
 			}
 		}
 
+		/// <summary>
+		/// Gets a list of the child results of this TestSUiteResult
+		/// </summary>
 		public IList Results
 		{
 			get { return results; }
 		}
 
+		/// <summary>
+		/// Accepts a ResultVisitor
+		/// </summary>
+		/// <param name="visitor">The visitor</param>
 		public override void Accept(ResultVisitor visitor) 
 		{
 			visitor.Visit(this);

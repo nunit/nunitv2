@@ -33,7 +33,8 @@ using System.Collections;
 namespace NUnit.Core.Filters
 {
 	/// <summary>
-	/// Summary description for CategoryFilter.
+	/// CategoryFilter is able to select or exclude tests
+	/// based on their categories.
 	/// </summary>
 	/// 
 	[Serializable]
@@ -41,11 +42,18 @@ namespace NUnit.Core.Filters
 	{
 		ArrayList categories;
 
+		/// <summary>
+		/// Construct an empty CategoryFilter
+		/// </summary>
 		public CategoryFilter()
 		{
 			categories = new ArrayList();
 		}
 
+		/// <summary>
+		/// Construct a CategoryFilter using a single category name
+		/// </summary>
+		/// <param name="name">A category name</param>
 		public CategoryFilter( string name )
 		{
 			categories = new ArrayList();
@@ -53,6 +61,10 @@ namespace NUnit.Core.Filters
 				categories.Add( name );
 		}
 
+		/// <summary>
+		/// Construct a CategoryFilter using an array of category names
+		/// </summary>
+		/// <param name="names">An array of category names</param>
 		public CategoryFilter( string[] names )
 		{
 			categories = new ArrayList();
@@ -60,11 +72,20 @@ namespace NUnit.Core.Filters
 				categories.AddRange( names );
 		}
 
+		/// <summary>
+		/// Add a category name to the filter
+		/// </summary>
+		/// <param name="name">A category name</param>
 		public void AddCategory(string name) 
 		{
 			categories.Add( name );
 		}
 
+		/// <summary>
+		/// Check whether the filter matches a test
+		/// </summary>
+		/// <param name="test">The test to be matched</param>
+		/// <returns></returns>
         public override bool Match(ITest test)
         {
 			if ( test.Categories == null )

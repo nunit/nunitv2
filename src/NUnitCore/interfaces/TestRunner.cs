@@ -127,7 +127,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// Count Test Cases using a filter
 		/// </summary>
-		/// <param name="testName">The filter to apply</param>
+		/// <param name="filter">The filter to apply</param>
 		/// <returns>The number of test cases found</returns>
 		int CountTestCases(ITestFilter filter );
 		#endregion
@@ -145,6 +145,7 @@ namespace NUnit.Core
 		/// and the listener interface is notified as it progresses.
 		/// </summary>
 		/// <param name="listener">Interface to receive EventListener notifications.</param>
+		/// <param name="filter">The filter to apply when running the tests</param>
 		TestResult Run(NUnit.Core.EventListener listener, ITestFilter filter);
 		
 		/// <summary>
@@ -159,6 +160,7 @@ namespace NUnit.Core
 		/// listener interface is notified as it progresses.
 		/// </summary>
 		/// <param name="listener">Interface to receive EventListener notifications.</param>
+		/// <param name="filter">The filter to apply when running the tests</param>
 		void BeginRun(NUnit.Core.EventListener listener, ITestFilter filter);
 		
 		/// <summary>

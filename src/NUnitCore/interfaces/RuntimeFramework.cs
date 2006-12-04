@@ -99,6 +99,10 @@ namespace NUnit.Core
 			get { return version; }
 		}
 
+		/// <summary>
+		/// Gets a display string for the particular framework version
+		/// </summary>
+		/// <returns>A string used to display the framework in use</returns>
 		public string GetDisplayName()
 		{
 			if ( runtime == RuntimeType.Mono )

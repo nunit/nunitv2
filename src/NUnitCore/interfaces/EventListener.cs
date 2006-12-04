@@ -40,56 +40,57 @@ namespace NUnit.Core
 	public interface EventListener
 	{
 		/// <summary>
-		/// Run is starting
+		/// Called when a test run is starting
 		/// </summary>
-		/// <param name="tests">Array of tests to be run</param>
+		/// <param name="name">The name of the test being started</param>
+		/// <param name="testCount">The number of test cases under this test</param>
 		void RunStarted( string name, int testCount );
 
 		/// <summary>
-		/// Run finished successfully
+		/// Called when a run finishes normally
 		/// </summary>
-		/// <param name="results">Array of test results</param>
+		/// <param name="result">The result of the test</param>
 		void RunFinished( TestResult result );
 
 		/// <summary>
-		/// Run was terminated due to an exception
+		/// Called when a run is terminated due to an exception
 		/// </summary>
 		/// <param name="exception">Exception that was thrown</param>
 		void RunFinished( Exception exception );
 
 		/// <summary>
-		/// A single test case is starting
+		/// Called when a test case is starting
 		/// </summary>
-		/// <param name="testCase">The test case</param>
+		/// <param name="testName">The name of the test case</param>
 		void TestStarted(TestName testName);
 			
 		/// <summary>
-		/// A test case started
+		/// Called when a test case has finished
 		/// </summary>
-		/// <param name="testName">The name of the test that is starting</param>
+		/// <param name="result">The result of the test</param>
 		void TestFinished(TestCaseResult result);
 
 		/// <summary>
-		/// A suite is starting
+		/// Called when a suite is starting
 		/// </summary>
-		/// <param name="testName">The name of the suite that is starting</param>
+		/// <param name="testName">The name of the suite</param>
 		void SuiteStarted(TestName testName);
 
 		/// <summary>
-		/// A suite finished
+		/// Called when a suite has finished
 		/// </summary>
-		/// <param name="result">Result of the suite</param>
+		/// <param name="result">The result of the suite</param>
 		void SuiteFinished(TestSuiteResult result);
 
 		/// <summary>
-		/// An unhandled exception occured while running a test,
-		/// but the test was not terminated.
+		/// Called when an unhandled exception is detected during
+		/// the execution of a test run.
 		/// </summary>
-		/// <param name="exception"></param>
+		/// <param name="exception">The exception thta was detected</param>
 		void UnhandledException( Exception exception );
 
 		/// <summary>
-		/// A message has been sent to the console.
+		/// Called when the test direts output to the console.
 		/// </summary>
 		/// <param name="testOutput">A console message</param>
 		void TestOutput(TestOutput testOutput);

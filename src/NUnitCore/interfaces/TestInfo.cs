@@ -94,8 +94,8 @@ namespace NUnit.Core
 		/// <summary>
 		/// Construct as a parent to multiple tests.
 		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="tests"></param>
+		/// <param name="testName">The name to use for the new test</param>
+		/// <param name="tests">An array of child tests</param>
 		public TestInfo( TestName testName, ITest[] tests )
 		{
 			this.testName = testName;
@@ -123,6 +123,10 @@ namespace NUnit.Core
 			get { return testName; }
 		}
 
+		/// <summary>
+		/// Gets a string representing the kind of test this
+		/// object represents for display purposes.
+		/// </summary>
 		public string TestType
 		{
 			get { return testType; }
@@ -137,6 +141,9 @@ namespace NUnit.Core
 			set { description = value; }
 		}
 
+		/// <summary>
+		/// Gets the RunState for this test
+		/// </summary>
         public RunState RunState
         {
             get { return runState; }
@@ -168,11 +175,17 @@ namespace NUnit.Core
 			get { return null; }
 		}
 
+		/// <summary>
+		/// Gets a list of the categories applied to this test
+		/// </summary>
 		public IList Categories 
 		{
 			get { return categories; }
 		}
 
+		/// <summary>
+		/// Gets a list of any child tests
+		/// </summary>
 		public virtual IList Tests
 		{
 			get { return null; }
@@ -186,6 +199,9 @@ namespace NUnit.Core
 			get { return isSuite; }
 		}
 
+		/// <summary>
+		/// Gets the Properties dictionary for this test
+		/// </summary>
 		public IDictionary Properties
 		{
 			get 
@@ -199,6 +215,12 @@ namespace NUnit.Core
 		#endregion
 
         #region Methods
+		/// <summary>
+		/// Counts the test cases that would be run if this
+		/// test were executed using the provided filter.
+		/// </summary>
+		/// <param name="filter">The filter to apply</param>
+		/// <returns>A count of test cases</returns>
         public virtual int CountTestCases(ITestFilter filter)
         {
             if (filter.IsEmpty)

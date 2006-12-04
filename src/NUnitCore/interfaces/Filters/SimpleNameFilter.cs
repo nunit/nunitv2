@@ -4,6 +4,9 @@ using System.Text;
 
 namespace NUnit.Core.Filters
 {
+	/// <summary>
+	/// SimpleName filter selects tests based on their name
+	/// </summary>
     [Serializable]
     public class SimpleNameFilter : RecursiveTestFilter
     {
@@ -17,7 +20,7 @@ namespace NUnit.Core.Filters
         /// <summary>
         /// Construct a SimpleNameFilter for a single name
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">The name the filter will recognize</param>
 		public SimpleNameFilter( string name )
         {
             this.names.Add( name );
@@ -26,12 +29,17 @@ namespace NUnit.Core.Filters
 		/// <summary>
 		/// Add a name to a SimpleNameFilter
 		/// </summary>
-		/// <param name="testName"></param>
+		/// <param name="name">The name to be added</param>
 		public void Add( string name )
 		{
 			names.Add( name );
 		}
 
+		/// <summary>
+		/// Check whether the filter matches a test
+		/// </summary>
+		/// <param name="test">The test to be matched</param>
+		/// <returns>True if it matches, otherwise false</returns>
 		public override bool Match( ITest test )
 		{
 			foreach( string name in names )

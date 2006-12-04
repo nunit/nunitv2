@@ -14,7 +14,7 @@ namespace NUnit.Core.Extensibility
 		/// or return a different TestCase.
 		/// </summary>
 		/// <param name="test">The Test to be decorated</param>
-		/// <param name="method">The MethodInfo used to construct the test</param>
+		/// <param name="member">The MethodInfo used to construct the test</param>
 		/// <returns>The resulting Test</returns>
 		Test Decorate( Test test, MemberInfo member );
 	}

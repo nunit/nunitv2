@@ -50,6 +50,11 @@ namespace NUnit.Core.Extensibility
 		#endregion
 
 		#region Constructor
+		/// <summary>
+		/// Constructs a TestFramwork object given its name and assembly name.
+		/// </summary>
+		/// <param name="frameworkName"></param>
+		/// <param name="assemblyName"></param>
 		public TestFramework( string frameworkName, string assemblyName ) 
 		{
 			this.Name = frameworkName;
