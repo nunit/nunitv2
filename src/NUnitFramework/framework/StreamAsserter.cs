@@ -27,13 +27,13 @@ namespace NUnit.Framework
 		protected Stream actual;
 
 		/// <summary>
-		/// Construct a TypeAsserter
+		/// Construct a StreamAsserter
 		/// </summary>
-		/// <param name="expected">The expected Stream</param>
-		/// <param name="actual">The actual Stream</param>
-		/// <param name="message">A message to display on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		public StreamAsserter( Stream expected, Stream actual, string message, params object[] args )
+        /// <param name="expected">The expected Stream</param>
+        /// <param name="actual">The actual Stream</param>
+        /// <param name="message">A message to display on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public StreamAsserter(Stream expected, Stream actual, string message, params object[] args)
 			: base( message, args ) 
 		{
 			this.expected = expected;
@@ -83,9 +83,19 @@ namespace NUnit.Framework
 	}
 	#endregion
 
+    /// <summary>
+    /// Asserter used to verify that two streams are not equal
+    /// </summary>
 	public class StreamNotEqualAsserter : StreamAsserter
 	{
-		public StreamNotEqualAsserter( Stream expected, Stream actual, string message, params object[] args )
+        /// <summary>
+        /// Construct a StreamNotEqualAsserter
+        /// </summary>
+        /// <param name="expected">The expected Stream</param>
+        /// <param name="actual">The actual Stream</param>
+        /// <param name="message">A message to display on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public StreamNotEqualAsserter(Stream expected, Stream actual, string message, params object[] args)
 			: base( expected, actual, message, args ) 
 		{
 			//FailureMessage.GetStringBuilder().Length = 0;
@@ -94,7 +104,11 @@ namespace NUnit.Framework
 			if (actual != null) FailureMessage.WriteActualLine("Length : " + actual.Length.ToString());
 		}
 	
-	public override bool Test()
+        /// <summary>
+        /// Determine whether the assertion is satisfied
+        /// </summary>
+        /// <returns>True if the streams are unequal, false otherwise</returns>
+	    public override bool Test()
 		{
 			return !AreStreamsEqual();
 		}
@@ -105,14 +119,14 @@ namespace NUnit.Framework
 	/// </summary>
 	public class StreamEqualAsserter : StreamAsserter
 	{
-		/// <summary>
-		/// Construct an AssignableFromAsserter
-		/// </summary>
-		/// <param name="expected">The expected Type</param>
-		/// <param name="actual">The object being examined</param>
-		/// <param name="message">A message to display in case of failure</param>
-		/// <param name="args">Arguments for use in formatting the message</param>
-		public StreamEqualAsserter( Stream expected, Stream actual, string message, params object[] args )
+        /// <summary>
+        /// Construct a StreamEqualAsserter
+        /// </summary>
+        /// <param name="expected">The expected Stream</param>
+        /// <param name="actual">The actual Stream</param>
+        /// <param name="message">A message to display on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public StreamEqualAsserter(Stream expected, Stream actual, string message, params object[] args)
 			: base( expected, actual, message, args ) 
 		{
 			FailureMessage.WriteLine("expected and actual are not equal.");
