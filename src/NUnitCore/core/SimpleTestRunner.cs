@@ -97,7 +97,7 @@ namespace NUnit.Core
 		/// <returns>True on success, false on failure</returns>
 		public bool Load( TestPackage package )
 		{
-			TestSuiteBuilder builder = new TestSuiteBuilder();
+			this.builder = new TestSuiteBuilder();
 
 			this.test = builder.Build( package );
 			if ( test == null ) return false;
