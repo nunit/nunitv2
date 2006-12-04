@@ -486,6 +486,7 @@ namespace NUnit.Gui
 			this.viewMenu.ShowShortcut = ((bool)(resources.GetObject("viewMenu.ShowShortcut")));
 			this.viewMenu.Text = resources.GetString("viewMenu.Text");
 			this.viewMenu.Visible = ((bool)(resources.GetObject("viewMenu.Visible")));
+			this.viewMenu.Popup += new System.EventHandler(this.viewMenu_Popup);
 			// 
 			// fullGuiMenuItem
 			// 
@@ -2712,6 +2713,11 @@ the version under which NUnit is currently running, {0}.",
 		private void stopRunMenuItem_Click(object sender, System.EventArgs e)
 		{
 			CancelRun();
+		}
+
+		private void viewMenu_Popup(object sender, System.EventArgs e)
+		{
+			assemblyDetailsMenuItem.Enabled = this.TestLoader.IsTestLoaded;
 		}
 	}
 }
