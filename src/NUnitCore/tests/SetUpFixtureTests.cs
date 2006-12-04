@@ -36,7 +36,7 @@ namespace NUnit.Core.Tests
         /// all it's sibling classes are inserted.
         /// </summary>
         [NUnit.Framework.Test]
-        public void Builder()
+        public void NamespaceSetUpFixtureReplacesNamespaceNodeInTree()
         {
             string nameSpace = "NUnit.TestData.SetupFixture.Namespace1";
             TestSuiteBuilder builder = new TestSuiteBuilder();
@@ -71,7 +71,7 @@ namespace NUnit.Core.Tests
         /// as a 'virtual assembly' into which all it's sibling fixtures are inserted.
         /// </summary>
         [NUnit.Framework.Test]
-        public void NoNamespaceBuilder()
+        public void AssemblySetUpFixtureReplacesAssemblyNodeInTree()
         {
             TestSuiteBuilder builder = new TestSuiteBuilder();
             Test suite = builder.Build( new TestPackage( testAssembly ) );
@@ -88,7 +88,7 @@ namespace NUnit.Core.Tests
 
         #region Simple
         [NUnit.Framework.Test]
-        public void Simple()
+        public void NamespaceSetUpFixtureWrapsExecutionOfSingleTest()
         {
             Assert.IsTrue(runTests("NUnit.TestData.SetupFixture.Namespace1").IsSuccess);
             TestUtilities.SimpleEventRecorder.Verify("NamespaceSetup",
@@ -99,7 +99,7 @@ namespace NUnit.Core.Tests
 
         #region TwoTestFixtures
         [NUnit.Framework.Test]
-        public void TwoTestFixtures()
+        public void NamespaceSetUpFixtureWrapsExecutionOfTwoTests()
         {
             Assert.IsTrue(runTests("NUnit.TestData.SetupFixture.Namespace2").IsSuccess);
             TestUtilities.SimpleEventRecorder.Verify("NamespaceSetup",
@@ -111,7 +111,7 @@ namespace NUnit.Core.Tests
 
         #region SubNamespace
         [NUnit.Framework.Test]
-        public void SubNamespace()
+        public void NamespaceSetUpFixtureWrapsNestedNamespaceSetUpFixture()
         {
             Assert.IsTrue(runTests("NUnit.TestData.SetupFixture.Namespace3").IsSuccess);
             TestUtilities.SimpleEventRecorder.Verify("NamespaceSetup",
@@ -125,7 +125,7 @@ namespace NUnit.Core.Tests
 
         #region TwoSetUpFixtures
         [NUnit.Framework.Test]
-        public void TwoSetUpFixtures()
+        public void WithTwoSetUpFixtuesOnlyOneIsUsed()
         {
             Assert.IsTrue(runTests("NUnit.TestData.SetupFixture.Namespace4").IsSuccess);
             TestUtilities.SimpleEventRecorder.Verify("NamespaceSetup2",
@@ -136,7 +136,7 @@ namespace NUnit.Core.Tests
 
         #region NoNamespaceSetupFixture
         [NUnit.Framework.Test]
-        public void NoNamespaceSetupFixture()
+        public void AssemblySetupFixtureWrapsExecutionOfTest()
         {
             TestResult result = runTests(null, new Filters.SimpleNameFilter("SomeTestFixture"));
             ResultSummarizer summ = new ResultSummarizer(result);

@@ -47,8 +47,8 @@ namespace NUnit.Core
             if (index > 0)
                 this.TestName.Name = this.TestName.Name.Substring(index + 1);
             
-			this.fixtureSetUp = NUnitFramework.GetFixtureSetUpMethod( type );
-			this.fixtureTearDown = NUnitFramework.GetFixtureTearDownMethod( type );
+			this.fixtureSetUp = NUnitFramework.GetSetUpMethod( type );
+			this.fixtureTearDown = NUnitFramework.GetTearDownMethod( type );
 		}
 	}
 }
