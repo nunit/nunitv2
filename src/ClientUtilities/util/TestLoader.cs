@@ -232,7 +232,7 @@ namespace NUnit.Util
 
 		public IList AssemblyInfo
 		{
-			get { return testRunner.AssemblyInfo; }
+			get { return testRunner == null ? null : testRunner.AssemblyInfo; }
 		}
 
 		public int TestCount
