@@ -128,7 +128,7 @@ namespace NUnit.TestData.ExpectExceptionTest
 	public class TestThrowsExceptionWithWrongMessage
 	{
 		[Test]
-		[ExpectedException(typeof(Exception), "not the message")]
+		[ExpectedException(typeof(Exception), ExpectedMessage="not the message")]
 		public void TestThrow()
 		{
 			throw new Exception("the message");

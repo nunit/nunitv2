@@ -89,73 +89,29 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="exceptionType">The type of the expected exception</param>
 		/// <param name="expectedMessage">The expected message text</param>
-		public ExpectedExceptionAttribute(Type exceptionType, string expectedMessage)
-			: this( exceptionType, expectedMessage, MessageMatch.Exact ) { }
-
-		/// <summary>
-		/// Constructor for a given exception name and expected message text
-		/// </summary>
-		/// <param name="exceptionType">The type of the expected exception</param>
-		/// <param name="expectedMessage">The expected messge text</param>
-		/// <param name="matchType">The matching method to be used: Exact, Contains or Regex</param>
-		public ExpectedExceptionAttribute(Type exceptionType, string expectedMessage, MessageMatch matchType)
-		{
-			this.expectedException = exceptionType;
-			this.expectedMessage = expectedMessage;
-			this.matchType = matchType;
-		}
+        [Obsolete("Use named parameter format 'ExpectedMessage=...'", false)]
+        public ExpectedExceptionAttribute(Type exceptionType, string expectedMessage)
+            : this(exceptionType)
+        {
+            this.expectedMessage = expectedMessage;
+            this.matchType = MessageMatch.Exact;
+        }
 
 		/// <summary>
 		/// Constructor for a given exception name and expected message text
 		/// </summary>
 		/// <param name="exceptionName">The full name of the expected exception</param>
 		/// <param name="expectedMessage">The expected messge text</param>
-		public ExpectedExceptionAttribute(string exceptionName, string expectedMessage)
-			: this( exceptionName, expectedMessage, MessageMatch.Exact ) { }
+        [Obsolete("Use named parameter format 'ExpectedMessage=...'", false)]
+        public ExpectedExceptionAttribute(string exceptionName, string expectedMessage)
+            : this(exceptionName)
+        {
+            this.expectedMessage = expectedMessage;
+            this.matchType = MessageMatch.Exact;
+        }
 
 		/// <summary>
-		/// Constructor for a given exception name and expected message text
-		/// </summary>
-		/// <param name="exceptionName">The full name of the expected exception</param>
-		/// <param name="expectedMessage">The expected messge text</param>
-		/// <param name="matchType">The matching method to be used: Exact, Contains or Regex</param>
-		public ExpectedExceptionAttribute(string exceptionName, string expectedMessage, MessageMatch matchType)
-		{
-			this.expectedExceptionName = exceptionName;
-			this.expectedMessage = expectedMessage;
-			this.matchType = matchType;
-		}
-
-		/// <summary>
-		/// Constructor for a given type of exception, expected message text and
-		/// user failure message.
-		/// </summary>
-		/// <param name="exceptionType">The type of the expected exception</param>
-		/// <param name="expectedMessage">The expected message text</param>
-		/// <param name="userMessage">The user message to display in case of failure</param>
-		public ExpectedExceptionAttribute(Type exceptionType, string expectedMessage, string userMessage)
-		{
-			this.expectedException = exceptionType;
-			this.expectedMessage = expectedMessage;
-			this.userMessage = userMessage;
-		}
-
-		/// <summary>
-		/// Constructor for a given exception name, expected message text and
-		/// user failure message.
-		/// </summary>
-		/// <param name="exceptionName">The full name of the expected exception</param>
-		/// <param name="expectedMessage">The expected messge text</param>
-		/// <param name="userMessage">The user message to display in case of failure</param>
-		public ExpectedExceptionAttribute(string exceptionName, string expectedMessage, string userMessage)
-		{
-			this.expectedExceptionName = exceptionName;
-			this.expectedMessage = expectedMessage;
-			this.userMessage = userMessage;
-		}
-
-		/// <summary>
-		/// The expected exception type
+		/// Gets or sets the expected exception type
 		/// </summary>
 		public Type ExceptionType 
 		{
@@ -164,7 +120,7 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// The full Type name of the expected exception
+		/// Gets or sets the full Type name of the expected exception
 		/// </summary>
 		public string ExceptionName
 		{
@@ -173,7 +129,7 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// The expected message
+		/// Gets or sets the expected message text
 		/// </summary>
 		public string ExpectedMessage 
 		{
@@ -182,7 +138,7 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// The user message displayed in case of failure
+		/// Gets or sets the user message displayed in case of failure
 		/// </summary>
 		public string UserMessage
 		{
@@ -191,7 +147,7 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		///  The type of match to be performed on the expected message
+		///  Gets or sets the type of match to be performed on the expected message
 		/// </summary>
 		public MessageMatch MatchType
 		{
@@ -199,6 +155,9 @@ namespace NUnit.Framework
 			set { matchType = value; }
 		}
 
+		/// <summary>
+		///  Gets the name of a method to be used as an exception handler
+		/// </summary>
 		public string Handler
 		{
 			get { return handler; }

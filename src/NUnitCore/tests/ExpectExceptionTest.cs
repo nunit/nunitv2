@@ -90,14 +90,21 @@ namespace NUnit.Core.Tests
 			throw new ArgumentException("argument invalid exception");
 		}
 
-		[Test]
-		[ExpectedException("System.ArgumentException",ExpectedMessage="argument exception")]
-		public void TestSucceedsWithSpecifiedExceptionNameAndMessage()
-		{
-			throw new ArgumentException("argument exception");
-		}
+        [Test]
+        [ExpectedException("System.ArgumentException", "argument exception")]
+        public void TestSucceedsWithSpecifiedExceptionNameAndMessage_OldFormat()
+        {
+            throw new ArgumentException("argument exception");
+        }
 
-		[Test]
+        [Test]
+        [ExpectedException("System.ArgumentException", ExpectedMessage = "argument exception")]
+        public void TestSucceedsWithSpecifiedExceptionNameAndMessage_NewFormat()
+        {
+            throw new ArgumentException("argument exception");
+        }
+
+        [Test]
 		[ExpectedException("System.ArgumentException",ExpectedMessage="argument exception",MatchType=MessageMatch.Exact)]
 		public void TestSucceedsWithSpecifiedExceptionNameAndExactMatch()
 		{
