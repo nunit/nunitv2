@@ -78,6 +78,7 @@ namespace NUnit.Core
 			suiteBuilders = new SuiteBuilderCollection();
 			testBuilders = new TestCaseBuilderCollection();
 			testDecorators = new TestDecoratorCollection();
+			listeners = new EventListenerCollection();
 
 			extensions = new IExtensionPoint[]
 				{ suiteBuilders, testBuilders, testDecorators };
