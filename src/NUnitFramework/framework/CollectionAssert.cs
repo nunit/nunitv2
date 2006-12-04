@@ -4,215 +4,220 @@ using System.ComponentModel;
 
 namespace NUnit.Framework
 {
-	#region "Asserter Base Types"
+    #region Asserters
 
-	#region BaseSubsetAsserter
-	public class BaseSubsetAsserter : CollectionCollectionAsserter
-	{
-		public BaseSubsetAsserter( ICollection set1, ICollection set2, string message, params object[] args ) : base(set1, set2, message, args)
-		{
-		}
-
-		public override bool Test()
-		{
-			foreach(object set2Obj in set2)
-			{
-				bool found = false;
-
-				foreach(object set1Obj in set1)
-				{
-					if (set2Obj.Equals(set1Obj))
-					{
-						found = true;
-					}
-				}
-
-				if (!found)
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-
-	}
-	#endregion
-
-	#region BaseCollectionEquivalentAsserter
-	public class BaseCollectionEquivalentAsserter : CollectionCollectionAsserter
-	{
-		public BaseCollectionEquivalentAsserter( ICollection set1, ICollection set2, string message, params object[] args ) : base(set1, set2, message, args)
-		{
-		}
-
-		public override bool Test()
-		{
-			bool found = false;
-
-			foreach(object set1Obj in set1)
-			{
-				found = false;
-				foreach(object set2Obj in set2)
-				{
-					if (set1Obj.Equals(set2Obj))
-					{
-						found = true;
-						break;
-					}
-				}
-				if (!found)
-				{
-					FailureMessage.WriteLine("\tAn item from set1 was not found in set2.");
-					return false;
-				}
-			}
-
-			foreach(object set2Obj in set2)
-			{
-				found = false;
-				foreach(object set1Obj in set1)
-				{
-					if (set1Obj.Equals(set2Obj))
-					{
-						found = true;
-						break;
-					}
-				}
-				if (!found)
-				{
-					FailureMessage.WriteLine("\tAn item from set2 was not found in set1.");
-					return false;
-				}
-			}
-
-			return true;
-		}
-	}
-
-	#endregion
-
-	#region BaseCollectionEqualAsserter
-	public class BaseCollectionEqualAsserter : CollectionsComparerAsserter
-	{
-		public BaseCollectionEqualAsserter( ICollection set1, ICollection set2, IComparer comparer, string message, params object[] args ) : base(set1, set2, comparer, message, args)
-		{
-		}
-
-		public override bool Test()
-		{
-			int set1iteration = 0;
-			int set2iteration = 0;
-			bool isObjectsSame = false;
-
-			if (set1.Count != set2.Count)
-			{
-				FailureMessage.WriteLine("\tset1 and set2 do not have equal Count properties.");
-				return false;
-			}
-
-			foreach(object set1Obj in set1)
-			{
-				set2iteration = 0;
-				set1iteration += 1;
-
-				foreach(object set2Obj in set2)
-				{
-					set2iteration += 1;
-
-					if (set2iteration > set1iteration) break;
-					if (set2iteration == set1iteration)
-					{
-						if (comparer == null)
-							isObjectsSame = set1Obj.Equals(set2Obj);
-						else
-							isObjectsSame = comparer.Compare(set1Obj, set2Obj).Equals(0);
-
-						if (!isObjectsSame)
-						{
-							FailureMessage.WriteLine("\tset1 and set2 are not equal at index {0}",set1iteration);
-							return false;
-						}
-						break;
-					}
-				}
-			}
-			return true;
-		}
-
-	}
-	#endregion
-
-	#region CollectionsComparerAsserter
-	public abstract class CollectionsComparerAsserter : CollectionCollectionAsserter
-	{
-		protected IComparer comparer;
-
-		public CollectionsComparerAsserter( ICollection set1, ICollection set2, IComparer comparer, string message, params object[] args ) : base( set1, set2, message, args ) 
-		{
-			this.comparer = comparer;
-		}
-	}
-	#endregion
-
-	#region CollectionCollectionAsserter
-	public abstract class CollectionCollectionAsserter : CollectionAsserter
-	{
-		protected ICollection set2;
-
-		public CollectionCollectionAsserter( ICollection set1, ICollection set2, string message, params object[] args ) : base( set1, message, args ) 
-		{
-			this.set2 = set2;
-		}
-	}
-	#endregion
-
-	#region CollectionObjectAsserter
-	public abstract class CollectionObjectAsserter : CollectionAsserter
-	{
-		protected object actual;
-
-		public CollectionObjectAsserter( ICollection set1, object actual, string message, params object[] args ) : base( set1, message, args ) 
-		{
-			this.actual = actual;
-		}
-	}
-	#endregion
-
-	#region CollectionAsserter
-	/// <summary>
+    #region CollectionAsserter
+    /// <summary>
 	/// Abstract base class for all CollectionAsserters
 	/// </summary>
 	public abstract class CollectionAsserter : AbstractAsserter
 	{
-		protected ICollection set1;
-		protected string failMsg = "";
+        /// <summary>
+        /// The first collection to be tested
+        /// </summary>
+		protected ICollection collection1;
 
-		public CollectionAsserter( ICollection set1, string message, params object[] args ) : base( message, args ) 
+        /// <summary>
+        /// The second collection to be tested, or null
+        /// </summary>
+        protected ICollection collection2;
+
+        /// <summary>
+        /// An IComparer for use in testing equality, or null
+        /// </summary>
+        protected IComparer comparer;
+
+        /// <summary>
+        /// Construct a CollectionAsserter supplying a single set
+        /// </summary>
+        /// <param name="collection1">The set to be tested</param>
+        /// <param name="message">A message to issue in case of failure</param>
+        /// <param name="args">Parameters used in formatting the message</param>
+        public CollectionAsserter(ICollection collection1, string message, params object[] args)
+            : base(message, args)
+        {
+            this.collection1 = collection1;
+        }
+
+        /// <summary>
+        /// Construct a CollectionAsserter supplying two sets
+        /// </summary>
+        /// <param name="collection1">The first set to be tested</param>
+        /// <param name="collection2">The second set to be tested</param>
+        /// <param name="message">A message to issue in case of failure</param>
+        /// <param name="args">Parameters used in formatting the message</param>
+        public CollectionAsserter(ICollection collection1, ICollection collection2, string message, params object[] args)
+            : base(message, args)
+        {
+            this.collection1 = collection1;
+            this.collection2 = collection2;
+        }
+
+        /// <summary>
+        /// Construct a CollectionAsserter supplying two sets and a comparer
+        /// </summary>
+        /// <param name="collection1">The first set to be tested</param>
+        /// <param name="collection2">The second set to be tested</param>
+        /// <param name="comparer">An IComparer object used in testing for equality</param>
+        /// <param name="message">A message to issue in case of failure</param>
+        /// <param name="args">Parameters used in formatting the message</param>
+        public CollectionAsserter(ICollection collection1, ICollection collection2, IComparer comparer, string message, params object[] args) 
+            : base(message, args)
 		{
-			this.set1 = set1;
+            this.collection1 = collection1;
+            this.collection2 = collection2;
+            this.comparer = comparer;
 		}
-	}
-	#endregion
 
-	#endregion
+        #region Utility Methods Used by Derived Classes
+        /// <summary>
+        /// Test whether two collections are equal, that is, whether
+        /// they contain the same elements in the same order.
+        /// </summary>
+        /// <param name="collection1">The first collection</param>
+        /// <param name="collection2">The second collection</param>
+        /// <returns>True if the collection are equal, otherwise false</returns>
+        protected bool CollectionsEqual(ICollection collection1, ICollection collection2)
+        {
+            int collection1iteration = 0;
+            int collection2iteration = 0;
+            bool isObjectsSame = false;
 
-	#region Asserters
+            if (collection1.Count != collection2.Count)
+            {
+                FailureMessage.WriteLine("\tcollection1 and collection2 do not have equal Count properties.");
+                return false;
+            }
+
+            foreach (object collection1Obj in collection1)
+            {
+                collection2iteration = 0;
+                collection1iteration += 1;
+
+                foreach (object collection2Obj in collection2)
+                {
+                    collection2iteration += 1;
+
+                    if (collection2iteration > collection1iteration) break;
+                    if (collection2iteration == collection1iteration)
+                    {
+                        if (comparer == null)
+                            isObjectsSame = collection1Obj.Equals(collection2Obj);
+                        else
+                            isObjectsSame = comparer.Compare(collection1Obj, collection2Obj).Equals(0);
+
+                        if (!isObjectsSame)
+                        {
+                            FailureMessage.WriteLine("\tcollection1 and collection2 are not equal at index {0}", collection1iteration);
+                            return false;
+                        }
+                        break;
+                    }
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Test whether two collections are equivalent sets - that is,
+        /// whether they contain the same elements in any order.
+        /// </summary>
+        /// <param name="collection1">The first set</param>
+        /// <param name="collection2">The second set</param>
+        /// <returns>True if they are equivalent, otherwise false</returns>
+        protected bool CollectionsEquivalent(ICollection collection1, ICollection collection2)
+        {
+            bool found = false;
+
+            foreach (object collection1Obj in collection1)
+            {
+                found = false;
+                foreach (object collection2Obj in collection2)
+                {
+                    if (collection1Obj.Equals(collection2Obj))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    FailureMessage.WriteLine("\tAn item from collection1 was not found in collection2.");
+                    return false;
+                }
+            }
+
+            foreach (object collection2Obj in collection2)
+            {
+                found = false;
+                foreach (object collection1Obj in collection1)
+                {
+                    if (collection1Obj.Equals(collection2Obj))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    FailureMessage.WriteLine("\tAn item from collection2 was not found in collection1.");
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Test whether one collection is a subset of another
+        /// </summary>
+        /// <param name="collection1">The first collection</param>
+        /// <param name="collection2">The second collection</param>
+        /// <returns>True if the second collection is a subset of the first, otherwise false</returns>
+        protected bool IsSubsetOf(ICollection collection1, ICollection collection2)
+        {
+            foreach (object collection2Obj in collection2)
+            {
+                bool found = false;
+
+                foreach (object collection1Obj in collection1)
+                {
+                    if (collection2Obj.Equals(collection1Obj))
+                    {
+                        found = true;
+                    }
+                }
+
+                if (!found)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        #endregion
+    }
+	#endregion
 
 	#region ItemsOfTypeAsserter
 	/// <summary>
 	/// Class to assert that all items in a collection are of a specified type
 	/// </summary>
-	public class ItemsOfTypeAsserter : CollectionObjectAsserter
+	public class ItemsOfTypeAsserter : CollectionAsserter
 	{
+        private Type expectedType;
+
 		/// <summary>
 		/// Construct an ItemsOfTypeAsserter
 		/// </summary>
-		/// <param name="set1"></param>
-		/// <param name="actual"></param>
+		/// <param name="collection1">The collection to be examined</param>
+		/// <param name="expectedType"></param>
 		/// <param name="message"></param>
 		/// <param name="args"></param>
-		public ItemsOfTypeAsserter( ICollection set1, Type actual, string message, params object[] args ) : base(set1, actual, message, args)
+		public ItemsOfTypeAsserter( ICollection collection1, Type expectedType, string message, params object[] args ) 
+            : base(collection1, message, args)
 		{
+            this.expectedType = expectedType;
 		}
 
 		/// <summary>
@@ -221,9 +226,9 @@ namespace NUnit.Framework
 		/// <returns>True if all items are of the specifed type</returns>
 		public override bool Test()
 		{
-			foreach(object loopObj in set1)
+			foreach(object loopObj in collection1)
 			{
-				if (!loopObj.GetType().Equals(actual))
+				if (!loopObj.GetType().Equals(expectedType))
 				{
 					CreateMessage();
 					return false;
@@ -234,8 +239,8 @@ namespace NUnit.Framework
 		protected void CreateMessage()
 		{
 			FailureMessage.WriteLine("\tAll objects are not of actual type.");
-			FailureMessage.WriteLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
-			FailureMessage.WriteLine("\t{0} {1}","actual:",((Type)this.actual).Name);
+			FailureMessage.WriteLine("\t{0} {1}","collection1.Count:",collection1.Count.ToString());
+			FailureMessage.WriteLine("\t{0} {1}","actual:",this.expectedType.Name);
 		}
 	}
 
@@ -244,13 +249,13 @@ namespace NUnit.Framework
 	#region ItemsNotNullAsserter
 	public class ItemsNotNullAsserter : CollectionAsserter
 	{
-		public ItemsNotNullAsserter( ICollection set1, string message, params object[] args ) : base(set1, message, args)
+		public ItemsNotNullAsserter( ICollection collection1, string message, params object[] args ) : base(collection1, message, args)
 		{
 		}
 
 		public override bool Test()
 		{
-			foreach(object loopObj in set1)
+			foreach(object loopObj in collection1)
 			{
 				if (loopObj == null)
 				{
@@ -263,7 +268,7 @@ namespace NUnit.Framework
 		protected void CreateMessage()
 		{
 			FailureMessage.WriteLine("\tAt least one object is null.");
-			FailureMessage.WriteLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
+			FailureMessage.WriteLine("\t{0} {1}","collection1.Count:",collection1.Count.ToString());
 		}
 	}
 
@@ -272,16 +277,16 @@ namespace NUnit.Framework
 	#region ItemsUniqueAsserter
 	public class ItemsUniqueAsserter : CollectionAsserter
 	{
-		public ItemsUniqueAsserter( ICollection set1, string message, params object[] args ) : base(set1, message, args)
+		public ItemsUniqueAsserter( ICollection collection1, string message, params object[] args ) : base(collection1, message, args)
 		{
 		}
 
 		public override bool Test()
 		{
-			foreach(object loopObj in set1)
+			foreach(object loopObj in collection1)
 			{
 				bool foundOnce = false;
-				foreach(object innerObj in set1)
+				foreach(object innerObj in collection1)
 				{
 					if (loopObj.Equals(innerObj))
 					{
@@ -301,22 +306,27 @@ namespace NUnit.Framework
 		}
 		protected void CreateMessage()
 		{
-			FailureMessage.WriteLine("\tAt least one object is not unique within set1.");
-			FailureMessage.WriteLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
+			FailureMessage.WriteLine("\tAt least one object is not unique within collection1.");
+			FailureMessage.WriteLine("\t{0} {1}","collection1.Count:",collection1.Count.ToString());
 		}
 	}
 
 	#endregion
 
 	#region CollectionContains
-	public class CollectionContains : CollectionObjectAsserter
+	public class CollectionContains : CollectionAsserter
 	{
-		public CollectionContains( ICollection set1, object actual, string message, params object[] args ) 
-			: base(set1, actual, message, args) { }
+        private object actual;
+
+		public CollectionContains( ICollection collection1, object actual, string message, params object[] args ) 
+			: base(collection1, message, args) 
+        {
+            this.actual = actual;
+        }
 
 		public override bool Test()
 		{
-			foreach(object loopObj in set1)
+			foreach(object loopObj in collection1)
 			{
 				if (loopObj.Equals(actual))
 					return true;
@@ -328,8 +338,8 @@ namespace NUnit.Framework
 
 		protected void CreateMessage()
 		{
-			FailureMessage.WriteLine("\tThe actual object was not found in set1.");
-			FailureMessage.WriteLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
+			FailureMessage.WriteLine("\tThe actual object was not found in collection1.");
+			FailureMessage.WriteLine("\t{0} {1}","collection1.Count:",collection1.Count.ToString());
 			FailureMessage.WriteActualLine(actual.ToString());
 		}
 	}
@@ -337,15 +347,19 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionNotContains
-	public class CollectionNotContains : CollectionObjectAsserter
+	public class CollectionNotContains : CollectionAsserter
 	{
-		public CollectionNotContains( ICollection set1, object actual, string message, params object[] args ) : base(set1, actual, message, args)
+        private object actual;
+
+		public CollectionNotContains( ICollection collection1, object actual, string message, params object[] args ) 
+            : base(collection1, message, args)
 		{
+            this.actual = actual;
 		}
 
 		public override bool Test()
 		{
-			foreach(object loopObj in set1)
+			foreach(object loopObj in collection1)
 			{
 				if (loopObj.Equals(actual))
 				{
@@ -357,8 +371,8 @@ namespace NUnit.Framework
 		}
 		protected void CreateMessage()
 		{
-			FailureMessage.WriteLine("\tThe actual object was found in set1.");
-			FailureMessage.WriteLine("\t{0} {1}","set1.Count:",set1.Count.ToString());
+			FailureMessage.WriteLine("\tThe actual object was found in collection1.");
+			FailureMessage.WriteLine("\t{0} {1}","collection1.Count:",collection1.Count.ToString());
 			FailureMessage.WriteActualLine(actual.ToString());
 		}
 	}
@@ -366,15 +380,15 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionEqualAsserter
-	public class CollectionEqualAsserter : BaseCollectionEqualAsserter
+	public class CollectionEqualAsserter : CollectionAsserter
 	{
-		public CollectionEqualAsserter( ICollection set1, ICollection set2, IComparer comparer, string message, params object[] args ) : base(set1, set2, comparer, message, args)
+		public CollectionEqualAsserter( ICollection collection1, ICollection collection2, IComparer comparer, string message, params object[] args ) : base(collection1, collection2, comparer, message, args)
 		{
 		}
 
 		public override bool Test()
 		{
-			if (base.Test())
+			if ( CollectionsEqual( collection1, collection2 ) )
 			{
 				return true;
 			}
@@ -394,15 +408,15 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionNotEqualAsserter
-	public class CollectionNotEqualAsserter : BaseCollectionEqualAsserter
+	public class CollectionNotEqualAsserter : CollectionAsserter
 	{
-		public CollectionNotEqualAsserter( ICollection set1, ICollection set2, IComparer comparer, string message, params object[] args ) : base(set1, set2, comparer, message, args)
+		public CollectionNotEqualAsserter( ICollection collection1, ICollection collection2, IComparer comparer, string message, params object[] args ) : base(collection1, collection2, comparer, message, args)
 		{
 		}
 
 		public override bool Test()
 		{
-			if (base.Test())
+			if ( CollectionsEqual( collection1, collection2 ) )
 			{
 				CreateMessage();
 				return false;
@@ -422,15 +436,15 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionEquivalentAsserter
-	public class CollectionEquivalentAsserter : BaseCollectionEquivalentAsserter
+	public class CollectionEquivalentAsserter : CollectionAsserter
 	{
-		public CollectionEquivalentAsserter( ICollection set1, ICollection set2, string message, params object[] args ) : base(set1, set2, message, args)
+		public CollectionEquivalentAsserter( ICollection collection1, ICollection collection2, string message, params object[] args ) : base(collection1, collection2, message, args)
 		{
 		}
 
 		public override bool Test()
 		{
-			if (base.Test())
+			if ( CollectionsEquivalent( collection1, collection2 ) )
 			{
 				return true;
 			}
@@ -449,15 +463,15 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionNotEquivalentAsserter
-	public class CollectionNotEquivalentAsserter : BaseCollectionEquivalentAsserter
+	public class CollectionNotEquivalentAsserter : CollectionAsserter
 	{
-		public CollectionNotEquivalentAsserter( ICollection set1, ICollection set2, string message, params object[] args ) : base(set1, set2, message, args)
+		public CollectionNotEquivalentAsserter( ICollection collection1, ICollection collection2, string message, params object[] args ) : base(collection1, collection2, message, args)
 		{
 		}
 
 		public override bool Test()
 		{
-			if (!base.Test())
+			if ( !CollectionsEquivalent( collection1, collection2 ) )
 			{
 				return true;
 			}
@@ -476,15 +490,15 @@ namespace NUnit.Framework
 	#endregion
 
 	#region SubsetAsserter
-	public class SubsetAsserter : BaseSubsetAsserter
+	public class SubsetAsserter : CollectionAsserter
 	{
-		public SubsetAsserter( ICollection set1, ICollection set2, string message, params object[] args ) : base(set1, set2, message, args)
+		public SubsetAsserter( ICollection collection1, ICollection collection2, string message, params object[] args ) : base(collection1, collection2, message, args)
 		{
 		}
 
 		public override bool Test()
 		{
-			if (base.Test())
+			if ( IsSubsetOf( collection1, collection2 ) )
 			{
 				return true;
 			}
@@ -503,15 +517,15 @@ namespace NUnit.Framework
 	#endregion
 
 	#region NotSubsetAsserter
-	public class NotSubsetAsserter : BaseSubsetAsserter
+	public class NotSubsetAsserter : CollectionAsserter
 	{
-		public NotSubsetAsserter( ICollection set1, ICollection set2, string message, params object[] args ) : base(set1, set2, message, args)
+		public NotSubsetAsserter( ICollection collection1, ICollection collection2, string message, params object[] args ) : base(collection1, collection2, message, args)
 		{
 		}
 
 		public override bool Test()
 		{
-			if (!base.Test())
+			if (!IsSubsetOf( collection1, collection2 ) )
 			{
 				return true;
 			}
@@ -546,11 +560,11 @@ namespace NUnit.Framework
 
         public override bool Test()
         {
-            if (set1.Count == 0)
+            if (collection1.Count == 0)
                 return true;
 
             FailureMessage.WriteExpectedLine("An empty collection");
-            FailureMessage.WriteActualLine(string.Format("A collection containing {0} items", set1.Count));
+            FailureMessage.WriteActualLine(string.Format("A collection containing {0} items", collection1.Count));
             return false;
         }
     }
@@ -573,7 +587,7 @@ namespace NUnit.Framework
 
         public override bool Test()
         {
-            if (set1.Count > 0)
+            if (collection1.Count > 0)
                 return true;
 
             FailureMessage.WriteExpectedLine("A non-empty collection");
