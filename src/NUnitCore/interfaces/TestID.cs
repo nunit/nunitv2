@@ -99,6 +99,12 @@ namespace NUnit.Core
 		#endregion
 
 		#region Operator Overrides
+        /// <summary>
+        /// Operator == override
+        /// </summary>
+        /// <param name="id1"></param>
+        /// <param name="id2"></param>
+        /// <returns></returns>
 		public static bool operator ==( TestID id1, TestID id2 )
 		{
 			if ( Object.Equals( id1, null ) )
@@ -107,6 +113,12 @@ namespace NUnit.Core
 			return id1.Equals( id2 );
 		}
 
+        /// <summary>
+        /// Operator != override
+        /// </summary>
+        /// <param name="id1"></param>
+        /// <param name="id2"></param>
+        /// <returns></returns>
 		public static bool operator !=( TestID id1, TestID id2 )
 		{
 			return id1 == id2 ? false : true;
@@ -114,6 +126,10 @@ namespace NUnit.Core
 		#endregion
 
 		#region ICloneable Implementation
+        /// <summary>
+        /// Clone this TestID
+        /// </summary>
+        /// <returns>An identical TestID</returns>
 		public object Clone()
 		{
 			return this.MemberwiseClone();

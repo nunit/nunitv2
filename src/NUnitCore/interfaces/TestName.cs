@@ -87,6 +87,12 @@ namespace NUnit.Core
 		#endregion
 
 		#region Static Methods
+        /// <summary>
+        /// Parse a string representation of a TestName,
+        /// returning a TestName.
+        /// </summary>
+        /// <param name="s">The string to parse</param>
+        /// <returns>A TestName</returns>
 		public static TestName Parse( string s )
 		{
 			if ( s == null ) throw new ArgumentNullException( "s", "Cannot parse a null string" );
@@ -153,6 +159,12 @@ namespace NUnit.Core
 		#endregion
 
 		#region Operator Overrides
+        /// <summary>
+        /// Override the == operator
+        /// </summary>
+        /// <param name="name1"></param>
+        /// <param name="name2"></param>
+        /// <returns></returns>
 		public static bool operator ==( TestName name1, TestName name2 )
 		{
 			if ( Object.Equals( name1, null ) )
@@ -161,6 +173,12 @@ namespace NUnit.Core
 			return name1.Equals( name2 );
 		}
 
+        /// <summary>
+        /// Override the != operator
+        /// </summary>
+        /// <param name="name1"></param>
+        /// <param name="name2"></param>
+        /// <returns></returns>
 		public static bool operator !=( TestName name1, TestName name2 )
 		{
 			return name1 == name2 ? false : true;

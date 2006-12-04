@@ -49,7 +49,13 @@ namespace NUnit.Core
 			}
 		}
 
-		public TestNode ( TestName testName, ITest[] tests ) : base( testName, tests )
+        /// <summary>
+        /// Construct a TestNode given a TestName and an
+        /// array of child tests.
+        /// </summary>
+        /// <param name="testName">The TestName of the new test</param>
+        /// <param name="tests">An array of tests to be added as children of the new test</param>
+	    public TestNode ( TestName testName, ITest[] tests ) : base( testName, tests )
 		{
 			this.tests = new ArrayList();
 			this.tests.AddRange( tests );
@@ -57,6 +63,9 @@ namespace NUnit.Core
 		#endregion
 
 		#region Properties
+        /// <summary>
+        /// Gets the parent test of the current test
+        /// </summary>
 		public override ITest Parent
 		{
 			get { return parent; }

@@ -3,21 +3,55 @@ using System;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Summary description for ResultState.
+	/// The ResultState enum indicates the result of running a test
 	/// </summary>
 	public enum ResultState
 	{
+        /// <summary>
+        /// The test succeeded
+        /// </summary>
 		Success,
+
+        /// <summary>
+        /// The test failed
+        /// </summary>
 		Failure,
-		Error,
+
+        /// <summary>
+        /// The test encountered an unexpected exception
+        /// </summary>
+		Error
 	}
 
+    /// <summary>
+    /// The FailureSite enum indicates the stage of a test
+    /// in which an error or failure occured.
+    /// </summary>
     public enum FailureSite
     {
+        /// <summary>
+        /// Failure in the test itself
+        /// </summary>
         Test,
+
+        /// <summary>
+        /// Failure in the SetUp method
+        /// </summary>
         SetUp,
+
+        /// <summary>
+        /// Failure in the TearDown method
+        /// </summary>
         TearDown,
+
+        /// <summary>
+        /// Failure of a parent test
+        /// </summary>
         Parent,
+
+        /// <summary>
+        /// Failure of a child test
+        /// </summary>
         Child
     }
 

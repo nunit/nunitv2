@@ -7,7 +7,7 @@ using System.Text;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// Summary description for TestAssemblyInfo.
+	/// TestAssemblyInfo holds information about a loaded test assembly
 	/// </summary>
 	[Serializable]
 	public class TestAssemblyInfo
@@ -16,6 +16,12 @@ namespace NUnit.Core
 		private Version runtimeVersion;
 		private IList testFrameworks;
 
+        /// <summary>
+        /// Constructs a TestAssemblyInfo
+        /// </summary>
+        /// <param name="assemblyName">The name of the assembly</param>
+        /// <param name="runtimeVersion">The version of the runtime for which the assembly was built</param>
+        /// <param name="testFrameworks">A list of test framework useds by the assembly</param>
 		public TestAssemblyInfo( string assemblyName, Version runtimeVersion, IList testFrameworks )
 		{
 			this.assemblyName = assemblyName;
@@ -23,16 +29,25 @@ namespace NUnit.Core
 			this.testFrameworks = testFrameworks;
 		}
 
+        /// <summary>
+        /// Gets the name of the assembly
+        /// </summary>
 		public string Name
 		{
 			get { return assemblyName; }
 		}
 
+        /// <summary>
+        /// Gets the runtime version for which the assembly was built
+        /// </summary>
 		public Version RuntimeVersion
 		{
 			get { return runtimeVersion; }
 		}
 
+        /// <summary>
+        /// Gets a list of testframeworks referenced by the assembly
+        /// </summary>
 		public IList TestFrameworks
 		{
 			get { return testFrameworks; }

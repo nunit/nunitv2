@@ -9,10 +9,24 @@ namespace NUnit.Core.Extensibility
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple=false, Inherited=false)]
 	public sealed class NUnitAddinAttribute : Attribute
 	{
+        /// <summary>
+        /// The name of this addin
+        /// </summary>
 		public string Name;
+
+        /// <summary>
+        /// A description for the addin
+        /// </summary>
 		public string Description;
+
+        /// <summary>
+        /// The type of extension provided
+        /// </summary>
 		public ExtensionType Type;
 
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
 		public NUnitAddinAttribute()
 		{
 			this.Type = ExtensionType.Core;
