@@ -11,13 +11,13 @@ namespace NUnit.Framework.Tests
 	//[Platform(Exclude="Linux")]
 	public class CollectionAssertTest
 	{
-		static string typeErrorMsg = "\tAll objects are not of actual type." + Environment.NewLine + "\tset1.Count: 3" + Environment.NewLine + "\tactual: String" + Environment.NewLine;
-		static string notnullErrorMsg = "\tAt least one object is null." + Environment.NewLine + "\tset1.Count: 3" + Environment.NewLine;
-		static string uniqueErrorMsg = "\tAt least one object is not unique within set1." + Environment.NewLine + "\tset1.Count: 3" + Environment.NewLine;
-		static string equalErrorMsg = "" + Environment.NewLine + "\tset1 and set2 are not equal at index 3" + Environment.NewLine;
-		static string equalCountErrorMsg = "" + Environment.NewLine + "\tset1 and set2 do not have equal Count properties." + Environment.NewLine;
-		static string equivalentOneErrorMsg = "" + Environment.NewLine + "\tAn item from set1 was not found in set2." + Environment.NewLine;
-		static string equivalentTwoErrorMsg = "" + Environment.NewLine + "\tAn item from set2 was not found in set1." + Environment.NewLine;
+		static string typeErrorMsg = "\tAll objects are not of actual type." + Environment.NewLine + "\tcollection1.Count: 3" + Environment.NewLine + "\tactual: String" + Environment.NewLine;
+		static string notnullErrorMsg = "\tAt least one object is null." + Environment.NewLine + "\tcollection1.Count: 3" + Environment.NewLine;
+		static string uniqueErrorMsg = "\tAt least one object is not unique within collection1." + Environment.NewLine + "\tcollection1.Count: 3" + Environment.NewLine;
+		static string equalErrorMsg = "" + Environment.NewLine + "\tcollection1 and collection2 are not equal at index 3" + Environment.NewLine;
+		static string equalCountErrorMsg = "" + Environment.NewLine + "\tcollection1 and collection2 do not have equal Count properties." + Environment.NewLine;
+		static string equivalentOneErrorMsg = "" + Environment.NewLine + "\tAn item from collection1 was not found in collection2." + Environment.NewLine;
+		static string equivalentTwoErrorMsg = "" + Environment.NewLine + "\tAn item from collection2 was not found in collection1." + Environment.NewLine;
 
 		public CollectionAssertTest()
 		{
