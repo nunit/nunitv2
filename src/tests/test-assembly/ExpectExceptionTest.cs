@@ -36,8 +36,22 @@ namespace NUnit.TestData.ExpectExceptionTest
 		}
 
 		[Test]
+		[ExpectedException(typeof(ArgumentException), UserMessage="custom message")]
+		public void MismatchedExceptionTypeWithUserMessage()
+		{
+			throw new ArgumentOutOfRangeException();
+		}
+
+		[Test]
 		[ExpectedException("System.ArgumentException")]
 		public void MismatchedExceptionName()
+		{
+			throw new ArgumentOutOfRangeException();
+		}
+
+		[Test]
+		[ExpectedException("System.ArgumentException", UserMessage="custom message")]
+		public void MismatchedExceptionNameWithUserMessage()
 		{
 			throw new ArgumentOutOfRangeException();
 		}
@@ -91,13 +105,29 @@ namespace NUnit.TestData.ExpectExceptionTest
 		public void TestDoesNotThrowExceptionName()
 		{
 		}
+
+		[Test, ExpectedException("System.ArgumentException", UserMessage="custom message")]
+		public void TestDoesNotThrowExceptionNameWithUserMessage()
+		{
+		}
+
 		[Test, ExpectedException( typeof( System.ArgumentException ) )]
 		public void TestDoesNotThrowExceptionType()
 		{
 		}
 
+		[Test, ExpectedException( typeof( System.ArgumentException ), UserMessage="custom message" )]
+		public void TestDoesNotThrowExceptionTypeWithUserMessage()
+		{
+		}
+
 		[Test, ExpectedException]
 		public void TestDoesNotThrowUnspecifiedException()
+		{
+		}
+
+		[Test, ExpectedException( UserMessage="custom message" )]
+		public void TestDoesNotThrowUnspecifiedExceptionWithUserMessage()
 		{
 		}
 	}
@@ -130,6 +160,13 @@ namespace NUnit.TestData.ExpectExceptionTest
 		[Test]
 		[ExpectedException(typeof(Exception), ExpectedMessage="not the message")]
 		public void TestThrow()
+		{
+			throw new Exception("the message");
+		}
+
+		[Test]
+		[ExpectedException( typeof(Exception), ExpectedMessage="not the message", UserMessage="custom message" )]
+		public void TestThrowWithUserMessage()
 		{
 			throw new Exception("the message");
 		}

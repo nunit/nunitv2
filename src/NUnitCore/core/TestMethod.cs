@@ -91,6 +91,12 @@ namespace NUnit.Core
 		/// A string indicating how to match the expected message
 		/// </summary>
 		internal string matchType;
+
+		/// <summary>
+		/// A string containing any user message specified for the expected exception
+		/// </summary>
+		internal string userMessage;
+
 		#endregion
 
 		#region Constructors
@@ -150,32 +156,38 @@ namespace NUnit.Core
 			get { return matchType; }
 			set { matchType = value; }
 		}
+
+		public string UserMessage
+		{
+			get { return userMessage; }
+			set { userMessage = value; }
+		}
 		#endregion
 
 		#region Run Methods
 		public override void Run(TestCaseResult testResult)
 		{ 
-            try
-            {
-                if ( this.Parent != null)
-                    Fixture = this.Parent.Fixture;
+			try
+			{
+				if ( this.Parent != null)
+					Fixture = this.Parent.Fixture;
 
-                if (!testResult.IsFailure)
-                {
-                    // Temporary... to allow for tests that directly execute a test case
-                    if (Fixture == null)
-                        Fixture = Reflect.Construct(this.FixtureType);
+				if (!testResult.IsFailure)
+				{
+					// Temporary... to allow for tests that directly execute a test case
+					if (Fixture == null)
+						Fixture = Reflect.Construct(this.FixtureType);
 
-                    doRun(testResult);
-                }
-            }
-            catch (Exception ex)
-            {
-                if (ex is NunitException)
-                    ex = ex.InnerException;
+					doRun(testResult);
+				}
+			}
+			catch (Exception ex)
+			{
+				if (ex is NunitException)
+					ex = ex.InnerException;
 
-                RecordException(ex, testResult);
-            }
+				RecordException(ex, testResult);
+			}
 		}
 
 		/// <summary>
@@ -220,7 +232,7 @@ namespace NUnit.Core
 			try
 			{
 				if ( tearDownMethod != null )
-			 		tearDownMethod.Invoke( this.Fixture, new object[0] );
+					tearDownMethod.Invoke( this.Fixture, new object[0] );
 			}
 			catch(Exception ex)
 			{
@@ -286,10 +298,10 @@ namespace NUnit.Core
 		#region Exception Processing
 		protected internal virtual void ProcessNoException(TestCaseResult testResult)
 		{
-            if ( ExceptionExpected )
-                testResult.Failure(NoExceptionMessage(), null);
-            else
-			    testResult.Success();
+			if ( ExceptionExpected )
+				testResult.Failure(NoExceptionMessage(), null);
+			else
+				testResult.Success();
 		}
 		
 		protected internal virtual void ProcessException(Exception exception, TestCaseResult testResult)
@@ -331,63 +343,72 @@ namespace NUnit.Core
 		protected abstract bool IsIgnoreException(Exception ex);
 		#endregion
 
-        #region Helper Methods
-        protected bool IsExpectedExceptionType(Exception exception)
-        {
-            return expectedExceptionName == null || expectedExceptionName.Equals(exception.GetType().FullName);
-        }
+		#region Helper Methods
+		protected bool IsExpectedExceptionType(Exception exception)
+		{
+			return expectedExceptionName == null || expectedExceptionName.Equals(exception.GetType().FullName);
+		}
 
-        protected bool IsExpectedMessageMatch(Exception exception)
-        {
-            if (expectedMessage == null)
-                return true;
+		protected bool IsExpectedMessageMatch(Exception exception)
+		{
+			if (expectedMessage == null)
+				return true;
 
-            switch (matchType)
-            {
-                case "Exact":
-                default:
-                    return expectedMessage.Equals(exception.Message);
-                case "Contains":
-                    return exception.Message.IndexOf(expectedMessage) >= 0;
-                case "Regex":
-                    return Regex.IsMatch(exception.Message, expectedMessage);
-            }
-        }
+			switch (matchType)
+			{
+				case "Exact":
+				default:
+					return expectedMessage.Equals(exception.Message);
+				case "Contains":
+					return exception.Message.IndexOf(expectedMessage) >= 0;
+				case "Regex":
+					return Regex.IsMatch(exception.Message, expectedMessage);
+			}
+		}
 
-        protected string NoExceptionMessage()
-        {
+		protected string NoExceptionMessage()
+		{
 			string expectedType = expectedExceptionName == null ? "An Exception" : expectedExceptionName;
-			return expectedType + " was expected";
-        }
+			return CombineWithUserMessage( expectedType + " was expected" );
+		}
 
-        protected string WrongTypeMessage(Exception exception)
-        {
-            return "An unexpected exception type was thrown" + Environment.NewLine +
+		protected string WrongTypeMessage(Exception exception)
+		{
+			return CombineWithUserMessage(
+				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: " + expectedExceptionName + Environment.NewLine +
-				" but was: " + exception.GetType().FullName;
-        }
+				" but was: " + exception.GetType().FullName );
+		}
 
-        protected string WrongTextMessage(Exception exception)
-        {
+		protected string WrongTextMessage(Exception exception)
+		{
 			string expectedText;
-            switch (matchType)
-            {
-                default:
-                case "Exact":
+			switch (matchType)
+			{
+				default:
+				case "Exact":
 					expectedText = "Expected: ";
 					break;
-                case "Contains":
+				case "Contains":
 					expectedText = "Expected message containing: ";
 					break;
-                case "Regex":
+				case "Regex":
 					expectedText = "Expected message matching: ";
 					break;
-            }
+			}
 
-			return "The exception message text was incorrect" + Environment.NewLine +
+			return CombineWithUserMessage(
+				"The exception message text was incorrect" + Environment.NewLine +
 				expectedText + expectedMessage + Environment.NewLine +
-				" but was: " + exception.Message;
-        }
+				" but was: " + exception.Message );
+		}
+
+		private string CombineWithUserMessage( string message )
+		{
+			if ( userMessage == null )
+				return message;
+			return userMessage + Environment.NewLine + message;
+		}
         #endregion
     }
 }

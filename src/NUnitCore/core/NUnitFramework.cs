@@ -186,6 +186,11 @@ namespace NUnit.Core
 			object matchEnum = Reflect.GetPropertyValue( attribute, "MatchType" );
 			return matchEnum != null ? matchEnum.ToString() : null;
 		}
+
+		public static string GetUserMessage(System.Attribute attribute)
+		{
+			return Reflect.GetPropertyValue( attribute, "UserMessage" ) as string;
+		}
 		#endregion
 
 		#endregion
@@ -302,6 +307,7 @@ namespace NUnit.Core
 				
 				testMethod.ExpectedMessage = GetExpectedMessage( attribute );
 				testMethod.MatchType = GetMatchType( attribute );
+				testMethod.UserMessage = GetUserMessage( attribute );
 
 				string handlerName = GetHandler( attribute );
 				if ( handlerName == null )

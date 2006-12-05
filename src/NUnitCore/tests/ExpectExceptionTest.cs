@@ -168,6 +168,21 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
+		public void TestMismatchedExceptionTypeWithUserMessage()
+		{
+			Type fixtureType = typeof(MismatchedException);
+			Test test = TestBuilder.MakeTestCase( fixtureType, "MismatchedExceptionTypeWithUserMessage" );
+			TestResult result = test.Run(NullListener.NULL);
+			Assert.IsTrue(result.IsFailure, "Test method should have failed");
+			Assert.AreEqual(
+				"custom message" + Environment.NewLine +
+				"An unexpected exception type was thrown" + Environment.NewLine +
+				"Expected: System.ArgumentException" + Environment.NewLine +
+				" but was: System.ArgumentOutOfRangeException", 
+				result.Message);
+		}
+
+		[Test]
 		public void TestMismatchedExceptionName()
 		{
 			Type fixtureType = typeof(MismatchedException);
@@ -175,6 +190,21 @@ namespace NUnit.Core.Tests
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "MismatchedExceptionName should have failed");
 			Assert.AreEqual(
+				"An unexpected exception type was thrown" + Environment.NewLine +
+				"Expected: System.ArgumentException" + Environment.NewLine +
+				" but was: System.ArgumentOutOfRangeException", 
+				result.Message);
+		}
+
+		[Test]
+		public void TestMismatchedExceptionNameWithUserMessage()
+		{
+			Type fixtureType = typeof(MismatchedException);
+			Test test = TestBuilder.MakeTestCase( fixtureType, "MismatchedExceptionNameWithUserMessage" );
+			TestResult result = test.Run(NullListener.NULL);
+			Assert.IsTrue(result.IsFailure, "Test method should have failed");
+			Assert.AreEqual(
+				"custom message" + Environment.NewLine +
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: System.ArgumentException" + Environment.NewLine +
 				" but was: System.ArgumentOutOfRangeException", 
@@ -196,23 +226,58 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
+		public void TestMismatchedExceptionMessageWithUserMessage()
+		{
+			Type fixtureType = typeof(TestThrowsExceptionWithWrongMessage);
+			Test test = TestBuilder.MakeTestCase( fixtureType, "TestThrowWithUserMessage" );
+			TestResult result = test.Run(NullListener.NULL);
+			Assert.IsTrue(result.IsFailure, "TestThrow should have failed");
+			Assert.AreEqual(
+				"custom message" + Environment.NewLine +
+				"The exception message text was incorrect" + Environment.NewLine +
+				"Expected: not the message" + Environment.NewLine +
+				" but was: the message", 
+				result.Message);
+		}
+
+		[Test]
 		public void TestUnspecifiedExceptionNotThrown()
 		{
 			Type fixtureType = typeof(TestDoesNotThrowExceptionFixture);
-			Test test = TestBuilder.MakeTestCase( fixtureType, "TestDoesNotThrowExceptionType" );
+			Test test = TestBuilder.MakeTestCase( fixtureType, "TestDoesNotThrowUnspecifiedException" );
 			TestResult result = test.Run(NullListener.NULL);
-			Assert.IsTrue(result.IsFailure, "MismatchedExceptionType should have failed");
-			Assert.AreEqual("System.ArgumentException was expected", result.Message);
+			Assert.IsTrue(result.IsFailure, "Test method should have failed");
+			Assert.AreEqual("An Exception was expected", result.Message);
+		}
+
+		[Test]
+		public void TestUnspecifiedExceptionNotThrownWithUserMessage()
+		{
+			Type fixtureType = typeof(TestDoesNotThrowExceptionFixture);
+			Test test = TestBuilder.MakeTestCase( fixtureType, "TestDoesNotThrowUnspecifiedExceptionWithUserMessage" );
+			TestResult result = test.Run(NullListener.NULL);
+			Assert.IsTrue(result.IsFailure, "Test method should have failed");
+			Assert.AreEqual("custom message" + Environment.NewLine + "An Exception was expected", result.Message);
 		}
 
 		[Test]
 		public void TestExceptionTypeNotThrown()
 		{
 			Type fixtureType = typeof(TestDoesNotThrowExceptionFixture);
-			Test test = TestBuilder.MakeTestCase( fixtureType, "TestDoesNotThrowUnspecifiedException" );
+			Test test = TestBuilder.MakeTestCase( fixtureType, "TestDoesNotThrowExceptionType" );
 			TestResult result = test.Run(NullListener.NULL);
-			Assert.IsTrue(result.IsFailure, "MismatchedExceptionType should have failed");
-			Assert.AreEqual("An Exception was expected", result.Message);
+			Assert.IsTrue(result.IsFailure, "Test method should have failed");
+			Assert.AreEqual("System.ArgumentException was expected", result.Message);
+		}
+
+		[Test]
+		public void TestExceptionTypeNotThrownWithUserMessage()
+		{
+			Type fixtureType = typeof(TestDoesNotThrowExceptionFixture);
+			Test test = TestBuilder.MakeTestCase( fixtureType, "TestDoesNotThrowExceptionTypeWithUserMessage" );
+			TestResult result = test.Run(NullListener.NULL);
+			Assert.IsTrue(result.IsFailure, "Test method should have failed");
+			Assert.AreEqual("custom message" + Environment.NewLine + "System.ArgumentException was expected", result.Message);
 		}
 
 		[Test]
@@ -221,8 +286,18 @@ namespace NUnit.Core.Tests
 			Type fixtureType = typeof(TestDoesNotThrowExceptionFixture);
 			Test test = TestBuilder.MakeTestCase( fixtureType, "TestDoesNotThrowExceptionName" );
 			TestResult result = test.Run(NullListener.NULL);
-			Assert.IsTrue(result.IsFailure, "MismatchedExceptionName should have failed");
+			Assert.IsTrue(result.IsFailure, "Test method should have failed");
 			Assert.AreEqual("System.ArgumentException was expected", result.Message);
+		}
+
+		[Test]
+		public void TestExceptionNameNotThrownWithUserMessage()
+		{
+			Type fixtureType = typeof(TestDoesNotThrowExceptionFixture);
+			Test test = TestBuilder.MakeTestCase( fixtureType, "TestDoesNotThrowExceptionNameWithUserMessage" );
+			TestResult result = test.Run(NullListener.NULL);
+			Assert.IsTrue(result.IsFailure, "Test method should have failed");
+			Assert.AreEqual("custom message" + Environment.NewLine + "System.ArgumentException was expected", result.Message);
 		}
 
 		[Test] 
