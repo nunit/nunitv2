@@ -36,19 +36,6 @@ using NUnit.Core.Extensibility;
 
 namespace NUnit.Core
 {
-	public interface IAddinManager
-	{
-		Addin[] Addins
-		{
-			get;
-		}
-
-		TestFramework[] Frameworks
-		{
-			get;
-		}
-	}
-
 	public class AddinManager : IAddinManager
 	{
 		#region CurrentAddinManager Singleton

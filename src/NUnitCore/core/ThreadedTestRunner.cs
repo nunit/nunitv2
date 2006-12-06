@@ -8,7 +8,7 @@ namespace NUnit.Core
 	/// ThreadedTestRunner overrides the Run and BeginRun methods 
 	/// so that they are always run on a separate thread. The actual
 	/// </summary>
-	public class ThreadedTestRunner : ProxyTestRunner
+	public class ThreadedTestRunner : DelegatingTestRunner
 	{
 		#region Instance Variables
 		private TestRunnerThread testRunnerThread;

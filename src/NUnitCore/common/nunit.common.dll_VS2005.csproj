@@ -54,18 +54,18 @@
       <Link>CommonAssemblyInfo.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AddinManager.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensibility\Addin.cs" />
-    <Compile Include="ProxyTestRunner.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\interfaces\nunit.core.interfaces.dll_VS2005.csproj">
       <Project>{DCC88998-255A-4247-B658-71DD932E9873}</Project>
       <Name>nunit.core.interfaces.dll_VS2005</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensibility\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

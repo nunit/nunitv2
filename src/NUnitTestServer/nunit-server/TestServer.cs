@@ -12,7 +12,7 @@ namespace NUnit.TestServer
 	/// <summary>
 	/// Summary description for Class1.
 	/// </summary>
-	public class TestServer : ProxyTestRunner, IDisposable, ITrackingHandler
+	public class TestServer : DelegatingTestRunner, IDisposable, ITrackingHandler
 	{
 		private string uri;
 

@@ -84,6 +84,11 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "AddinManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -195,12 +200,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Extensibility\Addin.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Extensibility\ExtensionType.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Extensibility\IAddin.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\IAddinManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

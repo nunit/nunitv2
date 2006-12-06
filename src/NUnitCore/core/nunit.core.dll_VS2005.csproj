@@ -69,6 +69,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CoreExtensions.cs" />
+    <Compile Include="DelegatingTestRunner.cs" />
     <Compile Include="DirectorySwapper.cs" />
     <Compile Include="EventListenerCollection.cs" />
     <Compile Include="EventListenerTextWriter.cs">
@@ -202,10 +203,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\common\nunit.common.dll_VS2005.csproj">
-      <Project>{F9B59130-8C42-4D01-AC25-C819EA18D6C4}</Project>
-      <Name>nunit.common.dll_VS2005</Name>
-    </ProjectReference>
     <ProjectReference Include="..\interfaces\nunit.core.interfaces.dll_VS2005.csproj">
       <Project>{DCC88998-255A-4247-B658-71DD932E9873}</Project>
       <Name>nunit.core.interfaces.dll_VS2005</Name>

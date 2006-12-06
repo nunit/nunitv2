@@ -5,13 +5,10 @@ namespace NUnit.Core
 	using System.IO;
 
 	/// <summary>
-	/// ProxyTestRunner is the abstract base for all TestRunner
+	/// DelegatingTestRUnner is the abstract base for core TestRunner
 	/// implementations that operate by controlling a downstream
 	/// TestRunner. All calls are simply passed on to the
 	/// TestRunner that is provided to the constructor.
-	/// 
-	/// In spite of its name, the class is part of core and is
-	/// used in the test domain as well as the client domain.
 	/// 
 	/// Although the class is abstract, it has no abstract 
 	/// methods specified because each implementation will
@@ -20,7 +17,7 @@ namespace NUnit.Core
 	/// must explicitly implement TestRunner in order to 
 	/// redefine the selected methods.
 	/// </summary>
-	public abstract class ProxyTestRunner : MarshalByRefObject, TestRunner
+	public abstract class DelegatingTestRunner : MarshalByRefObject, TestRunner
 	{
 		#region Instance Variables
 
@@ -42,7 +39,7 @@ namespace NUnit.Core
 		#endregion
 
 		#region Construction
-		public ProxyTestRunner(TestRunner testRunner)
+		public DelegatingTestRunner(TestRunner testRunner)
 		{
 			this.testRunner = testRunner;
 			this.runnerID = testRunner.ID;
@@ -52,7 +49,7 @@ namespace NUnit.Core
 		/// Protected constructor for runners that create their own
 		/// specialized downstream runner.
 		/// </summary>
-		protected ProxyTestRunner( int runnerID )
+		protected DelegatingTestRunner( int runnerID )
 		{
 			this.runnerID = runnerID;
 		}
