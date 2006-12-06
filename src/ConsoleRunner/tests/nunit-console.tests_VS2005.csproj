@@ -70,10 +70,6 @@
       <Project>{61CE9CE5-943E-44D4-A381-814DC1406767}</Project>
       <Name>nunit.util.dll_VS2005</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NUnitCore\common\nunit.common.dll_VS2005.csproj">
-      <Project>{F9B59130-8C42-4D01-AC25-C819EA18D6C4}</Project>
-      <Name>nunit.common.dll_VS2005</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\NUnitCore\tests\nunit.core.tests_VS2005.csproj">
       <Project>{DD758D21-E5D5-4D40-9450-5F65A32F359C}</Project>
       <Name>nunit.core.tests_VS2005</Name>

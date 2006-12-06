@@ -95,11 +95,6 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "nunit.common.dll"
-                    Project = "{F9B59130-8C42-4D01-AC25-C819EA18D6C4}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "test-assembly"
                     Project = "{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
