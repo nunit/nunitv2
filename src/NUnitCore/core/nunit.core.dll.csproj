@@ -94,11 +94,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AddinState.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -131,11 +126,6 @@
                 />
                 <File
                     RelPath = "DirectorySwapper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "EventListenerCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -369,6 +359,16 @@
                 />
                 <File
                     RelPath = "Builders\TestAssemblyBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\AddinManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\EventListenerCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

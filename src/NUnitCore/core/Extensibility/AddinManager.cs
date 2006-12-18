@@ -32,9 +32,8 @@ using System.IO;
 using System.Diagnostics;
 using System.Collections;
 using System.Reflection;
-using NUnit.Core.Extensibility;
 
-namespace NUnit.Core
+namespace NUnit.Core.Extensibility
 {
 	public class AddinManager : IAddinManager
 	{
