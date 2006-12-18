@@ -32,5 +32,10 @@ namespace NUnit.Core.Extensibility
 		/// <returns>The extension point, if found, otherwise null</returns>
 		IExtensionPoint GetExtensionPoint( string name );
 
+        /// <summary>
+        /// Gets the ExtensionTypes supported by this host
+        /// </summary>
+        /// <returns>An enum indicating the ExtensionTypes supported</returns>
+        ExtensionType ExtensionTypes { get; }
 	}
 }

@@ -16,17 +16,14 @@ namespace NUnit.Core
 
 		protected IExtensionPoint[] extensions;
 
+		protected ExtensionType supportedTypes;
+
 		public ExtensionHost()
 		{
 			frameworks = new FrameworkRegistry();
 		}
 
 		#region IExtensionHost Interface
-		public Addin[] Addins
-		{
-			get { return AddinManager.CurrentManager.Addins; }
-		}
-
 		public IExtensionPoint[] ExtensionPoints
 		{
 			get { return extensions; }
@@ -44,6 +41,11 @@ namespace NUnit.Core
 					return extensionPoint;
 
 			return null;
+		}
+
+		public ExtensionType ExtensionTypes
+		{
+			get { return supportedTypes; }
 		}
 		#endregion
 	}
