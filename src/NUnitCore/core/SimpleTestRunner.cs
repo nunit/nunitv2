@@ -130,8 +130,6 @@ namespace NUnit.Core
 
 		public virtual TestResult Run( EventListener listener, ITestFilter filter )
 		{
-			CoreExtensions.Current.SaveState();
-
 			try
 			{
 				// Take note of the fact that we are running
@@ -157,7 +155,6 @@ namespace NUnit.Core
 			finally
 			{
 				runThread = null;
-				CoreExtensions.Current.RestoreState();
 			}
 		}
 

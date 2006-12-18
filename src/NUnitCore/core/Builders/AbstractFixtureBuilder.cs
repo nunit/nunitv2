@@ -83,23 +83,20 @@ namespace NUnit.Core.Builders
 		/// <returns></returns>
 		public virtual Test BuildFrom(Type type)
 		{
-            using (new AddinState())
+            this.suite = MakeSuite(type);
+
+            SetTestSuiteProperties(type, suite);
+
+            InstallTestCaseBuilders(type);
+            AddTestCases(type);
+
+            if (this.suite.TestCount == 0)
             {
-                this.suite = MakeSuite(type);
-
-                SetTestSuiteProperties(type, suite);
-
-                InstallTestCaseBuilders(type);
-                AddTestCases(type);
-
-                if (this.suite.TestCount == 0)
-                {
-                    this.suite.RunState = RunState.NotRunnable;
-                    this.suite.IgnoreReason = suite.TestName.Name + " does not have any tests";
-                }
-
-                return this.suite;
+                this.suite.RunState = RunState.NotRunnable;
+                this.suite.IgnoreReason = suite.TestName.Name + " does not have any tests";
             }
+
+            return this.suite;
 		}
 
 		/// <summary>

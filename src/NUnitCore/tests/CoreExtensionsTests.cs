@@ -16,16 +16,6 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
-		public void CanSaveAndRestoreState()
-		{
-			Assert.IsNull( host.PriorState, "before save");
-			host.SaveState();
-			Assert.IsNotNull( host.PriorState, "after save" );
-			host.RestoreState();
-			Assert.IsNull( host.PriorState, "after restore" );
-		}
-
-		[Test]
 		public void HasSuiteBuildersExtensionPoint()
 		{
 			IExtensionPoint ep = host.GetExtensionPoint( "SuiteBuilders" );

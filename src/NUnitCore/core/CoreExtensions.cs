@@ -64,8 +64,6 @@ namespace NUnit.Core
 		#endregion
 
 		#region Instance Fields
-		private CoreExtensions priorState = null;
-
 		private SuiteBuilderCollection suiteBuilders;
 		private TestCaseBuilderCollection testBuilders;
 		private TestDecoratorCollection testDecorators;
@@ -75,34 +73,18 @@ namespace NUnit.Core
 		#region Constructors
 		public CoreExtensions() 
 		{
-			suiteBuilders = new SuiteBuilderCollection();
-			testBuilders = new TestCaseBuilderCollection();
-			testDecorators = new TestDecoratorCollection();
-			listeners = new EventListenerCollection();
+			this.suiteBuilders = new SuiteBuilderCollection();
+			this.testBuilders = new TestCaseBuilderCollection();
+			this.testDecorators = new TestDecoratorCollection();
+			this.listeners = new EventListenerCollection();
 
-			extensions = new IExtensionPoint[]
+			this.extensions = new IExtensionPoint[]
 				{ suiteBuilders, testBuilders, testDecorators };
-		}
-
-		private CoreExtensions( CoreExtensions other )
-		{
-			this.priorState = other.priorState;
-
-			this.suiteBuilders = new SuiteBuilderCollection( other.suiteBuilders );
-			this.testBuilders = new TestCaseBuilderCollection( other.testBuilders );
-			this.testDecorators = new TestDecoratorCollection( other.testDecorators );
-
-			extensions = new IExtensionPoint[]
-				{ suiteBuilders, testBuilders, testDecorators };
+			this.supportedTypes = ExtensionType.Core;
 		}
 		#endregion
 
 		#region Properties
-		public CoreExtensions PriorState
-		{
-			get { return priorState; }
-		}
-
 		public ISuiteBuilder SuiteBuilders
 		{
 			get { return suiteBuilders; }
@@ -125,20 +107,6 @@ namespace NUnit.Core
 		#endregion
 
 		#region Methods
-		public void SaveState()
-		{
-			priorState = new CoreExtensions( this );
-		}
-
-		public void RestoreState()
-		{
-			this.suiteBuilders = priorState.suiteBuilders;
-			this.testBuilders = priorState.testBuilders;
-			this.testDecorators = priorState.testDecorators;
-
-			this.priorState = priorState.priorState;
-		}
-		
 		public void InstallBuiltins()
 		{
 			// Define NUnit Framework
