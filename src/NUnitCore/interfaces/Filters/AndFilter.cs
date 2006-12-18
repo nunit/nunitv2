@@ -21,7 +21,7 @@ namespace NUnit.Core.Filters
 		/// Constructs an AndFilter from an array of filters
 		/// </summary>
 		/// <param name="filters"></param>
-		public AndFilter( params TestFilter[] filters )
+		public AndFilter( params ITestFilter[] filters )
 		{
 			this.filters.AddRange( filters );
 		}
@@ -33,7 +33,7 @@ namespace NUnit.Core.Filters
 		/// <returns>True if all the component filters match, otherwise false</returns>
 		public override bool Match( ITest test )
 		{
-			foreach( TestFilter filter in filters )
+			foreach( ITestFilter filter in filters )
 				if ( !filter.Match( test ) )
 					return false;
 

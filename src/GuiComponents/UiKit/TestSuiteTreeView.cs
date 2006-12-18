@@ -1342,10 +1342,10 @@ namespace NUnit.UiKit
 
 	public class TestFilterVisitor : TestSuiteTreeNodeVisitor
 	{
-		private TestFilter filter;
+		private ITestFilter filter;
 		private bool exclude;
 
-		public TestFilterVisitor( TestFilter filter )
+		public TestFilterVisitor( ITestFilter filter )
 		{
 			this.filter = filter;
 			this.exclude = filter is NotFilter;

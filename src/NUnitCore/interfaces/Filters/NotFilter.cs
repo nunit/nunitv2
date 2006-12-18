@@ -8,13 +8,13 @@ namespace NUnit.Core.Filters
 	[Serializable]
 	public class NotFilter : RecursiveTestFilter
 	{
-		TestFilter baseFilter;
+		ITestFilter baseFilter;
 
 		/// <summary>
 		/// Construct a not filter on another filter
 		/// </summary>
 		/// <param name="baseFilter">The filter to be negated</param>
-		public NotFilter( TestFilter baseFilter)
+		public NotFilter( ITestFilter baseFilter)
 		{
 			this.baseFilter = baseFilter;
 		}
@@ -22,7 +22,7 @@ namespace NUnit.Core.Filters
 		/// <summary>
 		/// Gets the base filter
 		/// </summary>
-		public TestFilter BaseFilter
+		public ITestFilter BaseFilter
 		{
 			get { return baseFilter; }
 		}
