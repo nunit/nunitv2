@@ -100,11 +100,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "PathAssert.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "RepeatAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
