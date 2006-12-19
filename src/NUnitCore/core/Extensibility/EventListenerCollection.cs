@@ -77,7 +77,7 @@ namespace NUnit.Core.Extensibility
 
 		public IExtensionHost Host
 		{
-			get { return CoreExtensions.Current; }
+			get { return Services.CoreExtensions; }
 		}
 
 		public void Install(object extension)

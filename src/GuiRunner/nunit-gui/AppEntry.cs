@@ -117,6 +117,8 @@ namespace NUnit.Gui
 				loader.AutoNamespaceSuites = settings.Options.AutoNamespaceSuites;
 				c.Services.AddService( typeof( TestLoader ), loader );
 
+				NUnit.Core.Services.AddinManager.RegisterAddins();
+
 				// Create top-level form
 				NUnitForm form = new NUnitForm( command );
 				c.Add( form );

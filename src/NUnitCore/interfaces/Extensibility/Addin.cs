@@ -7,19 +7,17 @@ namespace NUnit.Core.Extensibility
 	/// Summary description for Addin.
 	/// </summary>
 	[Serializable]
-	public class Addin : IAddin
+	public class Addin
 	{
-		private Type type;
+		private string typeName;
 		private string name;
 		private string description;
 		private ExtensionType extensionType;
-
-		[NonSerialized]
-		private IAddin theAddin;
+		private AddinStatus status;
 
 		public Addin( Type type )
 		{
-			this.type = type;
+			this.typeName = type.AssemblyQualifiedName;
 
 			object[] attrs = type.GetCustomAttributes( typeof(NUnitAddinAttribute), false );
 			if ( attrs.Length == 1 )
@@ -35,6 +33,8 @@ namespace NUnit.Core.Extensibility
 
 			if ( this.extensionType == 0 )
 				this.extensionType = ExtensionType.Core;
+
+			this.status = AddinStatus.Enabled;
         }
 
 		public string Name
@@ -52,14 +52,15 @@ namespace NUnit.Core.Extensibility
 			get { return extensionType; }
 		}
 
-		#region IAddin Members
-		public bool Install(IExtensionHost host)
+		public string TypeName
 		{
-			ConstructorInfo ctor = type.GetConstructor(Type.EmptyTypes);
-			theAddin = (IAddin)ctor.Invoke(new object[0]);
-
-			return theAddin.Install(host);
+			get { return typeName; }
 		}
-		#endregion
+
+		public AddinStatus Status
+		{
+			get { return status; }
+			set { status = value; }
+		}
 	}
 }

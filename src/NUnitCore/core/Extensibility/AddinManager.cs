@@ -35,39 +35,16 @@ using System.Reflection;
 
 namespace NUnit.Core.Extensibility
 {
-	public class AddinManager : IAddinManager
+	public class AddinManager
 	{
-		#region CurrentAddinManager Singleton
-		private static AddinManager current;
-
-		public static AddinManager CurrentManager
-		{
-			get 
-			{ 
-				if ( current == null )
-				{
-					current = new AddinManager();
-					current.RegisterAddins();
-				}
-
-				return current;
-			}
-		}
-		#endregion
-
 		#region Instance Fields
-		private ArrayList addins = new ArrayList();
+		IAddinRegistry addinRegistry;
 		#endregion
 
-		#region Instance Properties
-		public Addin[] Addins
+		#region Constructor
+		public AddinManager()
 		{
-			get	{ return (Addin[])addins.ToArray( typeof(Addin) ); }
-		}
-
-		public TestFramework[] Frameworks
-		{
-			get { return null; }
+			addinRegistry = Services.AddinRegistry;
 		}
 		#endregion
 
@@ -112,17 +89,35 @@ namespace NUnit.Core.Extensibility
 			}
 		}
 
-		public void Register( Assembly assembly ) 
+		public void Register( Assembly assembly )
 		{
-			foreach( Type type in assembly.GetExportedTypes() )
+			foreach ( Type type in assembly.GetExportedTypes() )
 			{
-				if ( type.GetCustomAttributes( typeof( NUnitAddinAttribute ), false ).Length == 1 )
+				if ( type.GetCustomAttributes(typeof(NUnitAddinAttribute), false).Length == 1 )
 				{
 					Addin addin = new Addin( type );
-					addins.Add( addin );
+					addinRegistry.Register( addin );
 				}
 			}
 		}
 		#endregion
+
+        #region Addin Installation
+        public void InstallAddins(IExtensionHost host)
+        {
+            foreach (Addin addin in addinRegistry.Addins)
+            {
+                if ((host.ExtensionTypes & addin.ExtensionType) != 0)
+                {
+                    Type type = Type.GetType(addin.TypeName);
+                    ConstructorInfo ctor = type.GetConstructor(Type.EmptyTypes);
+                    IAddin theAddin = (IAddin)ctor.Invoke(new object[0]);
+
+                    if ( theAddin.Install(host) )
+                        addinRegistry.SetStatus( addin.Name, AddinStatus.Loaded );
+                }
+            }
+        }
+        #endregion
 	}
 }

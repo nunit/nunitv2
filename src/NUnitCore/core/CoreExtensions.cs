@@ -44,25 +44,6 @@ namespace NUnit.Core
 	/// </summary>
 	public class CoreExtensions : ExtensionHost
 	{
-		#region CoreExtensions Singleton
-		private static CoreExtensions current;
-
-		public static CoreExtensions Current
-		{
-			get 
-			{ 
-				if ( current == null )
-				{
-					current = new CoreExtensions();
-					current.InstallBuiltins();
-					current.InstallAddins();
-				}
-
-				return current;
-			}
-		}
-		#endregion
-
 		#region Instance Fields
 		private SuiteBuilderCollection suiteBuilders;
 		private TestCaseBuilderCollection testBuilders;
@@ -106,7 +87,7 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region Methods
+		#region Methods	
 		public void InstallBuiltins()
 		{
 			// Define NUnit Framework
@@ -122,11 +103,7 @@ namespace NUnit.Core
 
 		public void InstallAddins()
 		{
-			foreach( Addin addin in AddinManager.CurrentManager.Addins )
-			{
-				if ( (addin.ExtensionType & ExtensionType.Core) != 0 )
-					addin.Install( this );
-			}
+			Services.AddinManager.InstallAddins(this);
 		}
 		#endregion
 

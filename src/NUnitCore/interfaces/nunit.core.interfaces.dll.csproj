@@ -200,6 +200,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Extensibility\AddinStatus.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Extensibility\ExtensionType.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -210,7 +215,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Extensibility\IAddinManager.cs"
+                    RelPath = "Extensibility\IAddinRegistry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

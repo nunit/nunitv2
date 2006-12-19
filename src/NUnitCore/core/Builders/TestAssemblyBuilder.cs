@@ -71,7 +71,7 @@ namespace NUnit.Core.Builders
 					string path = new Uri( assembly.GetName().CodeBase ).LocalPath;
 					AssemblyReader rdr = new AssemblyReader( path );
 					Version runtimeVersion = new Version( rdr.ImageRuntimeVersion.Substring( 1 ) );
-					IList frameworks = CoreExtensions.Current.TestFrameworks.GetReferencedFrameworks( assembly );
+					IList frameworks = Services.CoreExtensions.TestFrameworks.GetReferencedFrameworks( assembly );
 					assemblyInfo = new TestAssemblyInfo( path, runtimeVersion, frameworks );
 				}
 
@@ -170,8 +170,8 @@ namespace NUnit.Core.Builders
 				// in all cases. Might be a problem with the tests themselves.
                 Assembly assembly = Assembly.Load(Path.GetFileNameWithoutExtension(path));
 				
-				if ( assembly != null )
-					AddinManager.CurrentManager.Register( assembly );
+                if ( assembly != null )
+                    Services.AddinManager.Register( assembly );
 
 				return assembly;
 			}

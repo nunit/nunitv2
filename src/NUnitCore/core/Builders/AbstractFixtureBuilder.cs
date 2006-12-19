@@ -83,20 +83,20 @@ namespace NUnit.Core.Builders
 		/// <returns></returns>
 		public virtual Test BuildFrom(Type type)
 		{
-            this.suite = MakeSuite(type);
+			this.suite = MakeSuite(type);
 
-            SetTestSuiteProperties(type, suite);
+			SetTestSuiteProperties(type, suite);
 
-            InstallTestCaseBuilders(type);
-            AddTestCases(type);
+			InstallTestCaseBuilders(type);
+			AddTestCases(type);
 
-            if (this.suite.TestCount == 0)
-            {
-                this.suite.RunState = RunState.NotRunnable;
-                this.suite.IgnoreReason = suite.TestName.Name + " does not have any tests";
-            }
+			if (this.suite.TestCount == 0)
+			{
+				this.suite.RunState = RunState.NotRunnable;
+				this.suite.IgnoreReason = suite.TestName.Name + " does not have any tests";
+			}
 
-            return this.suite;
+			return this.suite;
 		}
 
 		/// <summary>
@@ -158,8 +158,8 @@ namespace NUnit.Core.Builders
 		/// for any fixture that only requires the builtin types of
 		/// test cases. A derived builder that supports additional
 		/// types will generally override this method in order to
-		/// wrap it with code that registers its own test case 
-		/// builders as addins and removes them afterward.
+		/// wrap it with code that installs its own test case 
+		/// builders or decorators and removes them afterward.
 		/// </summary>
 		/// <param name="fixtureType"></param>
 		protected virtual void AddTestCases( Type fixtureType )

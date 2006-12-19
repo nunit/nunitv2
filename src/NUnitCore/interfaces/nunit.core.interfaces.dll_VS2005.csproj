@@ -64,13 +64,13 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AddinManager.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="EventListener.cs" />
     <Compile Include="Extensibility\Addin.cs" />
+    <Compile Include="Extensibility\AddinStatus.cs" />
     <Compile Include="Extensibility\ExtensionType.cs" />
     <Compile Include="Extensibility\IAddin.cs" />
-    <Compile Include="Extensibility\IAddinManager.cs" />
+    <Compile Include="Extensibility\IAddinRegistry.cs" />
     <Compile Include="Extensibility\IExtensionHost.cs" />
     <Compile Include="Extensibility\IExtensionPoint.cs" />
     <Compile Include="Extensibility\IFrameworkRegistry.cs" />

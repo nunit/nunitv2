@@ -227,6 +227,11 @@ namespace NUnit.Util
 
 			AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
 			
+			// HACK: Only pass down our AddinRegistry one level so that tests of NUnit
+			// itself start without any addins defined.
+			if ( !IsTestDomain( AppDomain.CurrentDomain ) )
+				runnerDomain.SetData( "AddinRegistry", Services.AddinRegistry );
+
 			return runnerDomain;
 		}
 
@@ -315,7 +320,7 @@ namespace NUnit.Util
 				typeof(AssemblyResolver).Assembly.CodeBase,
 				typeof(AssemblyResolver).FullName);
 
-			// Tell resolver to use our core assembly in the test domain
+			// Tell resolver to use our core assemblies in the test domain
 			assemblyResolver.AddFile( typeof( NUnit.Core.RemoteTestRunner ).Assembly.Location );
 			assemblyResolver.AddFile( typeof( NUnit.Core.ITest ).Assembly.Location );
 
@@ -330,22 +335,10 @@ namespace NUnit.Util
 			return runner;
 		}
 
-//		private Type GetRunnerType ()
-//		{
-//			Type runnerType = null;
-//	
-//			if (threaded)
-//			{
-//				//runnerType = typeof(ThreadedRemoteRunner);
-//				runnerType = typeof(RemoteTestRunner);
-//			}
-//			else
-//			{
-//				runnerType = typeof(RemoteTestRunner);
-//			}
-//			return runnerType;
-//		}
-
+		private static bool IsTestDomain(AppDomain domain)
+		{
+			return domain.FriendlyName.StartsWith( "domain-" );
+		}
 		#endregion
 	}
 }
