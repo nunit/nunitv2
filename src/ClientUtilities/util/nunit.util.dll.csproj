@@ -145,6 +145,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DomainManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ITestEvents.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -231,6 +236,11 @@
                 />
                 <File
                     RelPath = "ResultSummarizer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Services.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

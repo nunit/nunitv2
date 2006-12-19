@@ -82,12 +82,21 @@ namespace NUnit.Core
 			_cache.Add(assembly.GetName().FullName, assembly);
 		}
 
+		public void AddFiles( string directory, string pattern )
+		{
+			if ( Directory.Exists( directory ) )
+				foreach( string file in Directory.GetFiles( directory, pattern ) )
+					AddFile( file );
+		}
+
 		private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
 		{
 			string fullName = args.Name;
 			int index = fullName.IndexOf(',');
 			if(index == -1)							// Only resolve using full name.
 			{
+				Trace.WriteLine( string.Format("Not a strong name: {0}", fullName ),
+					"'AssemblyResolver'" );
 				return null;
 			}
 
@@ -97,8 +106,12 @@ namespace NUnit.Core
 					"'AssemblyResolver'" );
 				return _cache.Resolve(fullName);
 			}
-
-			return null;
+			else
+			{
+				Trace.WriteLine( string.Format( "Not in Cache: {0}", fullName), 
+					"'AssemblyResolver'");
+				return null;
+			}
 		}
 	}
 }

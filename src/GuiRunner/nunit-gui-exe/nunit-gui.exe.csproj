@@ -83,6 +83,7 @@
                     Name = "nunit-gui"
                     Project = "{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    Private = "True"
                 />
                 <Reference
                     Name = "nunit.core.extensions.dll"

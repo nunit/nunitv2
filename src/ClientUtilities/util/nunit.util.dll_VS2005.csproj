@@ -77,6 +77,7 @@
     <Compile Include="ConsoleWriter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DomainManager.cs" />
     <Compile Include="ITestEvents.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -121,6 +122,7 @@
     <Compile Include="ResultSummarizer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Services.cs" />
     <Compile Include="SettingsGroup.cs">
       <SubType>Code</SubType>
     </Compile>
