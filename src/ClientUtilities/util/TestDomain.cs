@@ -99,25 +99,6 @@ namespace NUnit.Util
 		#region MakeRemoteTestRunner Helper
 		private TestRunner MakeRemoteTestRunner( AppDomain runnerDomain )
 		{
-			// Inject assembly resolver into remote domain to help locate our assemblies
-			AssemblyResolver assemblyResolver = (AssemblyResolver)runnerDomain.CreateInstanceFromAndUnwrap(
-				typeof(AssemblyResolver).Assembly.CodeBase,
-				typeof(AssemblyResolver).FullName);
-
-			// Tell resolver to use our core assemblies in the test domain
-			assemblyResolver.AddFile( typeof( NUnit.Core.RemoteTestRunner ).Assembly.Location );
-			assemblyResolver.AddFile( typeof( NUnit.Core.ITest ).Assembly.Location );
-
-            // No reference to extensions, so we do it a different way
-//            string moduleName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-//            string nunitDirPath = Path.GetDirectoryName(moduleName);
-//            string coreExtensions = Path.Combine(nunitDirPath, "nunit.core.extensions.dll");
-//			assemblyResolver.AddFile( coreExtensions );
-//            //assemblyResolver.AddFiles( nunitDirPath, "*.dll" );
-//
-//            string addinsDirPath = Path.Combine(nunitDirPath, "addins");
-//            assemblyResolver.AddFiles(addinsDirPath, "*.dll");
-
 			Type runnerType = typeof( RemoteTestRunner );
 			object obj = runnerDomain.CreateInstanceAndUnwrap(
 				runnerType.Assembly.FullName, 
