@@ -69,6 +69,12 @@ namespace NUnit.Gui
 		public static readonly int TAB_DEFAULT_POSITION = 119;
 		public static readonly int TAB_MIN_POSITION = 100;
 
+		public static readonly string ERRORS_TAB = "errors-tab";
+		public static readonly string NOTRUN_TAB = "notrun-tab";
+		public static readonly string STDOUT_TAB = "stdout-tab";
+		public static readonly string STDERR_TAB = "stderr-tab";
+		public static readonly string TRACE_TAB = "trace-tab";
+
 		public FormSettings( ISettingsStorage storage ) : base( storage ) { }
 
 		private Point location = Point.Empty;
@@ -78,22 +84,22 @@ namespace NUnit.Gui
 
 		public bool FullDisplay
 		{
-			get	{ return LoadBooleanSetting( FULL_DISPLAY, true ) ;	}
-			set { SaveBooleanSetting( FULL_DISPLAY, value ); }
+			get	{ return GetSetting( FULL_DISPLAY, true ) ;	}
+			set { SaveSetting( FULL_DISPLAY, value ); }
 		}
 
 		public bool IsMaximized
 		{
-			get { return LoadBooleanSetting( MAXIMIZED, false ); }
-			set	{ SaveBooleanSetting( MAXIMIZED, value ); }
+			get { return GetSetting( MAXIMIZED, false ); }
+			set	{ SaveSetting( MAXIMIZED, value ); }
 		}
 
 		public Point Location
 		{
 			get 
 			{
-				int x = LoadIntSetting( XLOCATION, DEFAULT_XLOCATION );
-				int y = LoadIntSetting( YLOCATION, DEFAULT_YLOCATION );
+				int x = GetSetting( XLOCATION, DEFAULT_XLOCATION );
+				int y = GetSetting( YLOCATION, DEFAULT_YLOCATION );
 
 				location = new Point(x, y);
 
@@ -126,12 +132,12 @@ namespace NUnit.Gui
 			get 
 			{ 
 				int width = FullDisplay
-					? LoadIntSetting( WIDTH, DEFAULT_WIDTH )
-					: LoadIntSetting( MINI_WIDTH, DEFAULT_MINI_WIDTH );
+					? GetSetting( WIDTH, DEFAULT_WIDTH )
+					: GetSetting( MINI_WIDTH, DEFAULT_MINI_WIDTH );
 				if ( width < MIN_WIDTH ) width = MIN_WIDTH;
 				int height = FullDisplay
-					? LoadIntSetting( HEIGHT, DEFAULT_HEIGHT )
-					: LoadIntSetting( MINI_HEIGHT, DEFAULT_HEIGHT );
+					? GetSetting( HEIGHT, DEFAULT_HEIGHT )
+					: GetSetting( MINI_HEIGHT, DEFAULT_HEIGHT );
 				if ( height < MIN_HEIGHT ) height = MIN_HEIGHT;
 
 				size = new Size(width, height);
@@ -140,8 +146,8 @@ namespace NUnit.Gui
 			set
 			{ 
 				size = value;
-				SaveIntSetting( FullDisplay ? WIDTH : MINI_WIDTH, size.Width );
-				SaveIntSetting( FullDisplay ? HEIGHT : MINI_HEIGHT, size.Height );
+				SaveSetting( FullDisplay ? WIDTH : MINI_WIDTH, size.Width );
+				SaveSetting( FullDisplay ? HEIGHT : MINI_HEIGHT, size.Height );
 			}
 		}
 
@@ -150,7 +156,7 @@ namespace NUnit.Gui
 			get 
 			{
 				treeSplitterPosition = 
-					LoadIntSetting( TREE_SPLITTER_POSITION, TREE_DEFAULT_POSITION );
+					GetSetting( TREE_SPLITTER_POSITION, TREE_DEFAULT_POSITION );
 				
 				if ( treeSplitterPosition < TREE_MIN_POSITION  || treeSplitterPosition > this.Size.Width )
 					treeSplitterPosition = TREE_MIN_POSITION;
@@ -169,7 +175,7 @@ namespace NUnit.Gui
 			get 
 			{
 				tabSplitterPosition = 
-					LoadIntSetting( TAB_SPLITTER_POSITION, TAB_DEFAULT_POSITION );
+					GetSetting( TAB_SPLITTER_POSITION, TAB_DEFAULT_POSITION );
 					
 				if ( tabSplitterPosition < TAB_MIN_POSITION || tabSplitterPosition > this.Size.Height )
 					tabSplitterPosition = TAB_MIN_POSITION;
@@ -185,33 +191,63 @@ namespace NUnit.Gui
 
 		public bool DisplayErrorsTab
 		{
-			get { return LoadBooleanSetting( "errors-tab", true ); }
-			set { SaveBooleanSetting( "errors-tab", value ); }
+			get { return GetSetting( ERRORS_TAB, true ); }
+			set { SaveSetting( ERRORS_TAB, value ); }
 		}
 
 		public bool DisplayNotRunTab
 		{
-			get { return LoadBooleanSetting( "notrun-tab", true ); }
-			set { SaveBooleanSetting( "notrun-tab", value ); }
+			get { return GetSetting( NOTRUN_TAB, true ); }
+			set { SaveSetting( NOTRUN_TAB, value ); }
 		}
 
 		public bool DisplayConsoleOutTab
 		{
-			get { return LoadBooleanSetting( "stdout-tab", true ); }
-			set { SaveBooleanSetting( "stdout-tab", value ); }
+			get { return GetSetting( STDOUT_TAB, true ); }
+			set { SaveSetting( STDOUT_TAB, value ); }
 		}
 
 		public bool DisplayConsoleErrorTab
 		{
-			get { return LoadBooleanSetting( "stderr-tab", true ); }
-			set { SaveBooleanSetting( "stderr-tab", value ); }
+			get { return GetSetting( STDERR_TAB, true ); }
+			set { SaveSetting( STDERR_TAB, value ); }
+		}
+
+		public bool DisplayTraceTab
+		{
+			get { return GetSetting( TRACE_TAB, true ); }
+			set { SaveSetting( TRACE_TAB, value ); }
+		}
+
+		public bool DisplayInternalTraceTab
+		{
+			get { return GetSetting( "internal-trace-tab", true ); }
+			set { SaveSetting( "internal-trace-tab", value ); }
+		}
+
+		public string SelectedTab
+		{
+			get { return GetSetting( "selected-tab", "errorTab" ); }
+			set { SaveSetting( "selected-tab", value ); }
+		}
+
+		public bool MergeConsoleErrorOutput
+		{
+			get { return GetSetting( "merge-error-output", false ); }
+			set { SaveSetting( "merge-error-output", value ); }
+		}
+
+		public bool MergeTraceOutput
+		{
+			get { return GetSetting( "merge-trace-output", false ); }
+			set { SaveSetting( "merge-trace-output", value ); }
 		}
 
 		public Font Font
 		{
 			get
 			{
-                string fontDescription = LoadStringSetting("font", "");
+                string fontDescription = GetSetting("font", "");
                 TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
                 if (fontDescription == "")
                     return System.Windows.Forms.Form.DefaultFont;
@@ -221,7 +257,7 @@ namespace NUnit.Gui
 			set
 			{
                 TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
-                SaveStringSetting( "font", converter.ConvertToString( value ) );
+                SaveSetting( "font", converter.ConvertToString( value ) );
 			}
 		}
 	}
