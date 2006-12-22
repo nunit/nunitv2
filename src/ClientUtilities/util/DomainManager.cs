@@ -61,8 +61,8 @@ namespace NUnit.Util
 			setup.ConfigurationFile =  Path.Combine( appBase, configFile );
 
 			string binPath = package.PrivateBinPath;
-//			if ( binPath == null || binPath == string.Empty )
-//				binPath = testFile.DirectoryName; //GetPrivateBinPath( appBase, package.Assemblies );
+			if ( package.AutoBinPath )
+				binPath = GetPrivateBinPath( appBase, package.Assemblies );
 			setup.PrivateBinPath = binPath;
 
 			bool shadowCopyFiles = true;
@@ -87,6 +87,25 @@ namespace NUnit.Util
 			Evidence baseEvidence = AppDomain.CurrentDomain.Evidence;
 			Evidence evidence = new Evidence(baseEvidence);
 			AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
+
+			// Inject assembly resolver into remote domain to help locate our assemblies
+			AssemblyResolver assemblyResolver = (AssemblyResolver)runnerDomain.CreateInstanceFromAndUnwrap(
+				typeof(AssemblyResolver).Assembly.CodeBase,
+				typeof(AssemblyResolver).FullName);
+
+			// Tell resolver to use our core assemblies in the test domain
+			assemblyResolver.AddFile( typeof( NUnit.Core.RemoteTestRunner ).Assembly.Location );
+			assemblyResolver.AddFile( typeof( NUnit.Core.ITest ).Assembly.Location );
+
+// No reference to extensions, so we do it a different way
+//            string moduleName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+//            string nunitDirPath = Path.GetDirectoryName(moduleName);
+//            string coreExtensions = Path.Combine(nunitDirPath, "nunit.core.extensions.dll");
+//			assemblyResolver.AddFile( coreExtensions );
+//            //assemblyResolver.AddFiles( nunitDirPath, "*.dll" );
+//
+//            string addinsDirPath = Path.Combine(nunitDirPath, "addins");
+//            assemblyResolver.AddFiles(addinsDirPath, "*.dll");
 
 			// HACK: Only pass down our AddinRegistry one level so that tests of NUnit
 			// itself start without any addins defined.
@@ -200,7 +219,7 @@ namespace NUnit.Util
 			return domain.FriendlyName.StartsWith( "domain-" );
 		}
 
-		public string GetPrivateBinPath( string basePath, IList assemblies )
+		public static string GetPrivateBinPath( string basePath, IList assemblies )
 		{
 			StringBuilder sb = new StringBuilder(200);
 			ArrayList dirList = new ArrayList();
