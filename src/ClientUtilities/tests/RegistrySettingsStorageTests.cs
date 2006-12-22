@@ -51,7 +51,7 @@ namespace NUnit.Util.Tests
 		[TearDown]
 		public void AfterEachTest()
 		{
-			storage.Clear();
+			NUnitRegistry.ClearKey( testKey );
 			storage.Dispose();
 		}
 
@@ -64,14 +64,14 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void SaveAndLoadSettings()
 		{
-			Assert.IsNull( storage.LoadSetting( "X" ), "X is not null" );
-			Assert.IsNull( storage.LoadSetting( "NAME" ), "NAME is not null" );
+			Assert.IsNull( storage.GetSetting( "X" ), "X is not null" );
+			Assert.IsNull( storage.GetSetting( "NAME" ), "NAME is not null" );
 
 			storage.SaveSetting("X", 5);
 			storage.SaveSetting("NAME", "Charlie");
 
-			Assert.AreEqual( 5, storage.LoadSetting("X") );
-			Assert.AreEqual( "Charlie", storage.LoadSetting("NAME") );
+			Assert.AreEqual( 5, storage.GetSetting("X") );
+			Assert.AreEqual( "Charlie", storage.GetSetting("NAME") );
 
 			Assert.AreEqual( 5, testKey.GetValue( "X" ) );
 			Assert.AreEqual( "Charlie", testKey.GetValue( "NAME" ) );
@@ -84,11 +84,11 @@ namespace NUnit.Util.Tests
 			storage.SaveSetting("NAME", "Charlie");
 
 			storage.RemoveSetting( "X" );
-			Assert.IsNull( storage.LoadSetting( "X" ), "X not removed" );
-			Assert.AreEqual( "Charlie", storage.LoadSetting( "NAME" ) );
+			Assert.IsNull( storage.GetSetting( "X" ), "X not removed" );
+			Assert.AreEqual( "Charlie", storage.GetSetting( "NAME" ) );
 
 			storage.RemoveSetting( "NAME" );
-			Assert.IsNull( storage.LoadSetting( "NAME" ), "NAME not removed" );
+			Assert.IsNull( storage.GetSetting( "NAME" ), "NAME not removed" );
 		}
 
 		[Test]
@@ -112,16 +112,16 @@ namespace NUnit.Util.Tests
 			sub.SaveSetting( "X", 5 );
 			sub.SaveSetting( "NAME", "Charlie" );
 
-			Assert.AreEqual( 5, sub.LoadSetting( "X" ) );
-			Assert.AreEqual( "Charlie", sub.LoadSetting( "NAME" ) );
+			Assert.AreEqual( 5, sub.GetSetting( "X" ) );
+			Assert.AreEqual( "Charlie", sub.GetSetting( "NAME" ) );
 
 			sub.RemoveSetting( "X" );
-			Assert.IsNull( sub.LoadSetting( "X" ), "X not removed" );
+			Assert.IsNull( sub.GetSetting( "X" ), "X not removed" );
 			
-			Assert.AreEqual( "Charlie", sub.LoadSetting( "NAME" ) );
+			Assert.AreEqual( "Charlie", sub.GetSetting( "NAME" ) );
 
 			sub.RemoveSetting( "NAME" );
-			Assert.IsNull( sub.LoadSetting( "NAME" ), "NAME not removed" );
+			Assert.IsNull( sub.GetSetting( "NAME" ), "NAME not removed" );
 		}
 
 		[Test]
@@ -131,44 +131,30 @@ namespace NUnit.Util.Tests
 			storage.SaveSetting( "Y", "17" );
 			storage.SaveSetting( "NAME", "Charlie");
 
-			Assert.AreEqual( 5, storage.LoadSetting("X") );
-			Assert.AreEqual( 5, storage.LoadIntSetting( "X" ) );
-			Assert.AreEqual( "5", storage.LoadStringSetting( "X" ) );
-
-			Assert.AreEqual( "17", storage.LoadSetting( "Y" ) );
-			Assert.AreEqual( 17, storage.LoadIntSetting( "Y" ) );
-			Assert.AreEqual( "17", storage.LoadStringSetting( "Y" ) );
-
-			Assert.AreEqual( "Charlie", storage.LoadSetting( "NAME" ) );
-			Assert.AreEqual( "Charlie", storage.LoadStringSetting( "NAME" ) );
+			Assert.AreEqual( 5, storage.GetSetting("X") );
+			Assert.AreEqual( "17", storage.GetSetting( "Y" ) );
+			Assert.AreEqual( "Charlie", storage.GetSetting( "NAME" ) );
 		}
 
 		[Test]
 		public void DefaultSettings()
 		{
-			Assert.IsNull( storage.LoadSetting( "X" ) );
-			Assert.IsNull( storage.LoadSetting( "NAME" ) );
+			Assert.IsNull( storage.GetSetting( "X" ) );
+			Assert.IsNull( storage.GetSetting( "NAME" ) );
 
-			Assert.AreEqual( 5, storage.LoadSetting( "X", 5 ) );
-			Assert.AreEqual( 6, storage.LoadIntSetting( "X", 6 ) );
-			Assert.AreEqual( "7", storage.LoadStringSetting( "X", "7" ) );
+			Assert.AreEqual( 5, storage.GetSetting( "X", 5 ) );
+			Assert.AreEqual( 6, storage.GetSetting( "X", 6 ) );
+			Assert.AreEqual( "7", storage.GetSetting( "X", "7" ) );
 			
-			Assert.AreEqual( "Charlie", storage.LoadSetting( "NAME", "Charlie" ) );
-			Assert.AreEqual( "Fred", storage.LoadStringSetting( "NAME", "Fred" ) );
+			Assert.AreEqual( "Charlie", storage.GetSetting( "NAME", "Charlie" ) );
+			Assert.AreEqual( "Fred", storage.GetSetting( "NAME", "Fred" ) );
 		}
 
 		[Test, ExpectedException( typeof( FormatException ) )]
-		public void BadSetting1()
+		public void BadSetting()
 		{
 			storage.SaveSetting( "X", "1y25" );
-			storage.LoadIntSetting( "X" );
-		}
-
-		[Test, ExpectedException( typeof( FormatException ) )]
-		public void BadSetting2()
-		{
-			storage.SaveSetting( "X", "1y25" );
-			storage.LoadIntSetting( "X", 12 );
+			storage.GetSetting( "X", 12 );
 		}
 	}
 }

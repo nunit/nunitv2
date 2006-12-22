@@ -38,11 +38,6 @@ namespace NUnit.Util
 		void SetMostRecent( string fileName );
 
 		/// <summary>
-		/// Clear the list of files
-		/// </summary>
-		void Clear();
-
-		/// <summary>
 		/// Remove a file from the list
 		/// </summary>
 		/// <param name="fileName">The name of the file to remove</param>

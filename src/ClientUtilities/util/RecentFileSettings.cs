@@ -67,7 +67,7 @@ namespace NUnit.Util
 		{
 			get 
 			{ 
-				int size = LoadIntSetting( "MaxFiles", DefaultSize );
+				int size = GetSetting( "MaxFiles", DefaultSize );
 				
 				if ( size < MinSize ) size = MinSize;
 				if ( size > MaxSize ) size = MaxSize;
@@ -82,7 +82,7 @@ namespace NUnit.Util
 				if ( newSize < MinSize ) newSize = MinSize;
 				if ( newSize > MaxSize ) newSize = MaxSize;
 
-				SaveIntSetting( "MaxFiles", newSize );
+				SaveSetting( "MaxFiles", newSize );
 				if ( newSize < oldSize ) SaveEntries();
 			}
 		}
@@ -98,12 +98,6 @@ namespace NUnit.Util
 			}
 		}
 		
-		public override void Clear()
-		{
-			base.Clear();
-			fileEntries.Clear();
-		}
-
 		public void Remove( string fileName )
 		{
 			LoadEntries();
@@ -139,7 +133,7 @@ namespace NUnit.Util
 			fileEntries.Clear();
 			for ( int index = 1; index <= MaxFiles; index++ )
 			{
-				string fileSpec = LoadStringSetting( ValueName( index ) );
+				string fileSpec = GetSetting( ValueName( index ) ) as string;
 				if ( fileSpec != null )
 					fileEntries.Add( NUnit.Util.RecentFileEntry.Parse( fileSpec ) );
 			}

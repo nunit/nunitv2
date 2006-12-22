@@ -37,7 +37,7 @@ namespace NUnit.Util
 	/// Implementation of SettingsStorage for NUnit user settings,
 	/// based on storage of settings in the registry.
 	/// </summary>
-	public class RegistrySettingsStorage : ISettingsStorage, IDisposable
+	public class RegistrySettingsStorage : AbstractSettingsStorage
 	{
 		#region Instance Variables
 
@@ -70,15 +70,6 @@ namespace NUnit.Util
 			this.storageKey = storageKey;
 		}
 
-		/// <summary>
-		/// Dispose of this object by closing the storage key, if any
-		/// </summary>
-		public void Dispose()
-		{
-			if ( storageKey != null )
-				storageKey.Close();
-		}
-
 		#endregion
 
 		#region Properties
@@ -91,125 +82,25 @@ namespace NUnit.Util
 			get { return storageKey; }
 		}
 
-		/// <summary>
-		/// The count of settings in this storage
-		/// </summary>
-		public int SettingsCount
-		{
-			get { return storageKey.ValueCount; }
-		}
-
 		#endregion
 
-		#region Methods
-
-		/// <summary>
-		/// Find out if a child storage exists
-		/// </summary>
-		/// <param name="storageName">Name of the child storage</param>
-		/// <returns>True if the child storage exists</returns>
-		public bool ChildStorageExists( string storageName )
-		{
-			using (RegistryKey key = storageKey.OpenSubKey( storageName ) )
-			{
-				return key != null;
-			}
-		}
-
-		/// <summary>
-		/// Make a new child storage under this one
-		/// </summary>
-		/// <param name="storageName">Name of the child storage to make</param>
-		/// <returns>New storage</returns>
-		public ISettingsStorage MakeChildStorage( string storageName )
-		{
-			return new RegistrySettingsStorage( storageKey.CreateSubKey( storageName ) );
-		}
+		#region ISettings Members
 
 		/// <summary>
 		/// Load a setting from this storage
 		/// </summary>
 		/// <param name="settingName">Name of the setting to load</param>
 		/// <returns>Value of the setting</returns>
-		public object LoadSetting( string settingName )
+		public override object GetSetting( string settingName )
 		{
 			return storageKey.GetValue( settingName );
-		}
-
-		/// <summary>
-		/// Load an int setting from this storage. Since int is a
-		/// value type, we can't return null so zero is used to
-		/// indicate that nothing was found - or the found value
-		/// was zero. If you need to distinguish, use your own 
-		/// default value or call LoadSetting and check for null.
-		/// </summary>
-		/// <param name="settingName">Name of the setting to load</param>
-		/// <returns>Value of the setting or zero if missing</returns>
-		public int LoadIntSetting( string settingName )
-		{
-			return LoadIntSetting( settingName, 0 );
-		}
-
-		/// <summary>
-		/// Load a string setting from this storage
-		/// </summary>
-		/// <param name="settingName">Name of the setting to load</param>
-		/// <returns>Value of the setting</returns>
-		public string LoadStringSetting( string settingName )
-		{
-			object resultValue = storageKey.GetValue( settingName );
-			if ( resultValue == null || resultValue is string )
-				return (string) resultValue;
-
-			return resultValue.ToString();
-		}
-
-		/// <summary>
-		/// Load a setting from this storage or return a default value
-		/// </summary>
-		/// <param name="settingName">Name of setting to load</param>
-		/// <param name="defaultValue">Value to return if the seeting is not present</param>
-		/// <returns>Value of the setting or the default</returns>
-		public object LoadSetting( string settingName, object defaultValue )
-		{
-			return storageKey.GetValue( settingName, defaultValue );
-		}
-
-		/// <summary>
-		/// Load an integer setting from this storage or return a default value
-		/// </summary>
-		/// <param name="settingName">Name of setting to load</param>
-		/// <param name="defaultValue">Value to return if the seeting is not present</param>
-		/// <returns>Value of the setting or the default</returns>
-		public int LoadIntSetting( string settingName, int defaultValue )
-		{
-			object resultValue = storageKey.GetValue( settingName, defaultValue );
-			if ( resultValue is int )
-				return (int)resultValue;
-			
-			return int.Parse( (string)resultValue );
-		}
-
-		/// <summary>
-		/// Load a string setting from this storage or return a default value
-		/// </summary>
-		/// <param name="settingName">Name of setting to load</param>
-		/// <param name="defaultValue">Value to return if the seeting is not present</param>
-		/// <returns>Value of the setting or the default</returns>
-		public string LoadStringSetting( string settingName, string defaultValue )
-		{
-			object resultValue = storageKey.GetValue( settingName, defaultValue );
-			if ( resultValue is string )
-				return (string) resultValue;
-
-			return resultValue.ToString();
 		}
 
 		/// <summary>
 		/// Remove a setting from the storage
 		/// </summary>
 		/// <param name="settingName">Name of the setting to remove</param>
-		public void RemoveSetting( string settingName )
+		public override void RemoveSetting( string settingName )
 		{
 			storageKey.DeleteValue( settingName, false );
 		}
@@ -219,17 +110,33 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="settingName">Name of the setting to save</param>
 		/// <param name="settingValue">Value to be saved</param>
-		public void SaveSetting( string settingName, object settingValue )
+		public override void SaveSetting( string settingName, object settingValue )
 		{
 			storageKey.SetValue( settingName, settingValue );
 		}
 
+		#endregion
+
+		#region ISettingsStorage Members
 		/// <summary>
-		/// Clear all settings from the storage - empty storage remains
+		/// Make a new child storage under this one
 		/// </summary>
-		public void Clear()
+		/// <param name="storageName">Name of the child storage to make</param>
+		/// <returns>New storage</returns>
+		public override ISettingsStorage MakeChildStorage( string storageName )
 		{
-			NUnitRegistry.ClearKey( storageKey );
+			return new RegistrySettingsStorage( storageKey.CreateSubKey( storageName ) );
+		}
+		#endregion
+
+		#region IDisposable Members
+		/// <summary>
+		/// Dispose of this object by closing the storage key, if any
+		/// </summary>
+		public override void Dispose()
+		{
+			if ( storageKey != null )
+				storageKey.Close();
 		}
 
 		#endregion

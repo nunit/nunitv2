@@ -104,6 +104,11 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "AbstractSettingsStorage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AggregatingTestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

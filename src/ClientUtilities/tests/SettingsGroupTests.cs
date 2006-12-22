@@ -56,15 +56,15 @@ namespace NUnit.Util.Tests
 		{
 			testGroup.SaveSetting( "X", 5 );
 			testGroup.SaveSetting( "NAME", "Charlie" );
-			Assert.AreEqual( 5, testGroup.LoadSetting( "X" ) );
-			Assert.AreEqual( "Charlie", testGroup.LoadSetting( "NAME" ) );
+			Assert.AreEqual( 5, testGroup.GetSetting( "X" ) );
+			Assert.AreEqual( "Charlie", testGroup.GetSetting( "NAME" ) );
 
 			testGroup.RemoveSetting( "X" );
-			Assert.IsNull( testGroup.LoadSetting( "X" ), "X not removed" );
-			Assert.AreEqual( "Charlie", testGroup.LoadSetting( "NAME" ) );
+			Assert.IsNull( testGroup.GetSetting( "X" ), "X not removed" );
+			Assert.AreEqual( "Charlie", testGroup.GetSetting( "NAME" ) );
 
 			testGroup.RemoveSetting( "NAME" );
-			Assert.IsNull( testGroup.LoadSetting( "NAME" ), "NAME not removed" );
+			Assert.IsNull( testGroup.GetSetting( "NAME" ), "NAME not removed" );
 		}
 
 		[Test]
@@ -76,62 +76,48 @@ namespace NUnit.Util.Tests
 
 			subGroup.SaveSetting( "X", 5 );
 			subGroup.SaveSetting( "NAME", "Charlie" );
-			Assert.AreEqual( 5, subGroup.LoadSetting( "X" ) );
-			Assert.AreEqual( "Charlie", subGroup.LoadSetting( "NAME" ) );
+			Assert.AreEqual( 5, subGroup.GetSetting( "X" ) );
+			Assert.AreEqual( "Charlie", subGroup.GetSetting( "NAME" ) );
 
 			subGroup.RemoveSetting( "X" );
-			Assert.IsNull( subGroup.LoadSetting( "X" ), "X not removed" );
-			Assert.AreEqual( "Charlie", subGroup.LoadSetting( "NAME" ) );
+			Assert.IsNull( subGroup.GetSetting( "X" ), "X not removed" );
+			Assert.AreEqual( "Charlie", subGroup.GetSetting( "NAME" ) );
 
 			subGroup.RemoveSetting( "NAME" );
-			Assert.IsNull( subGroup.LoadSetting( "NAME" ), "NAME not removed" );
+			Assert.IsNull( subGroup.GetSetting( "NAME" ), "NAME not removed" );
 		}
 
 		[Test]
 		public void TypeSafeSettings()
 		{
-			testGroup.SaveIntSetting( "X", 5);
-			testGroup.SaveStringSetting( "Y", "17" );
-			testGroup.SaveStringSetting( "NAME", "Charlie");
+			testGroup.SaveSetting( "X", 5);
+			testGroup.SaveSetting( "Y", "17" );
+			testGroup.SaveSetting( "NAME", "Charlie");
 
-			Assert.AreEqual( 5, testGroup.LoadSetting("X") );
-			Assert.AreEqual( 5, testGroup.LoadIntSetting( "X" ) );
-			Assert.AreEqual( "5", testGroup.LoadStringSetting( "X" ) );
-
-			Assert.AreEqual( "17", testGroup.LoadSetting( "Y" ) );
-			Assert.AreEqual( 17, testGroup.LoadIntSetting( "Y" ) );
-			Assert.AreEqual( "17", testGroup.LoadStringSetting( "Y" ) );
-
-			Assert.AreEqual( "Charlie", testGroup.LoadSetting( "NAME" ) );
-			Assert.AreEqual( "Charlie", testGroup.LoadStringSetting( "NAME" ) );
+			Assert.AreEqual( 5, testGroup.GetSetting("X") );
+			Assert.AreEqual( "17", testGroup.GetSetting( "Y" ) );
+			Assert.AreEqual( "Charlie", testGroup.GetSetting( "NAME" ) );
 		}
 
 		[Test]
 		public void DefaultSettings()
 		{
-			Assert.IsNull( testGroup.LoadSetting( "X" ) );
-			Assert.IsNull( testGroup.LoadSetting( "NAME" ) );
+			Assert.IsNull( testGroup.GetSetting( "X" ) );
+			Assert.IsNull( testGroup.GetSetting( "NAME" ) );
 
-			Assert.AreEqual( 5, testGroup.LoadSetting( "X", 5 ) );
-			Assert.AreEqual( 6, testGroup.LoadIntSetting( "X", 6 ) );
-			Assert.AreEqual( "7", testGroup.LoadStringSetting( "X", "7" ) );
+			Assert.AreEqual( 5, testGroup.GetSetting( "X", 5 ) );
+			Assert.AreEqual( 6, testGroup.GetSetting( "X", 6 ) );
+			Assert.AreEqual( "7", testGroup.GetSetting( "X", "7" ) );
 
-			Assert.AreEqual( "Charlie", testGroup.LoadSetting( "NAME", "Charlie" ) );
-			Assert.AreEqual( "Fred", testGroup.LoadStringSetting( "NAME", "Fred" ) );
+			Assert.AreEqual( "Charlie", testGroup.GetSetting( "NAME", "Charlie" ) );
+			Assert.AreEqual( "Fred", testGroup.GetSetting( "NAME", "Fred" ) );
 		}
 
 		[Test, ExpectedException( typeof( FormatException ) )]
-		public void BadSetting1()
+		public void BadSetting()
 		{
 			testGroup.SaveSetting( "X", "1y25" );
-			testGroup.LoadIntSetting( "X" );
-		}
-
-		[Test, ExpectedException( typeof( FormatException ) )]
-		public void BadSetting2()
-		{
-			testGroup.SaveSetting( "X", "1y25" );
-			testGroup.LoadIntSetting( "X", 12 );
+			testGroup.GetSetting( "X", 12 );
 		}
 	}
 }
