@@ -189,36 +189,7 @@ namespace NUnit.Util
 		/// </summary>
 		public string PrivateBinPath
 		{
-			get
-			{
-				switch( binPathType )
-				{
-					case BinPathType.Manual:
-						return binPath;
-
-					case BinPathType.Auto:
-						StringBuilder sb = new StringBuilder(200);
-						ArrayList dirList = new ArrayList();
-
-						foreach( string assembly in Assemblies )
-						{
-							string dir = PathUtils.RelativePath( BasePath, Path.GetDirectoryName( assembly ) );
-							if ( dir != null && dir != "." && !dirList.Contains( dir ) )
-							{
-								dirList.Add( dir );
-								if ( sb.Length > 0 )
-									sb.Append( Path.PathSeparator );
-								sb.Append( dir );
-							}
-						}
-
-						return sb.Length == 0 ? null : sb.ToString();
-
-					default:
-						return null;
-				}
-			}
-
+			get	{ return binPath; }
 			set
 			{
 				if ( binPath != value )

@@ -22,6 +22,7 @@ namespace NUnit.Core
 		private string basePath;
 		private string configFile;
 		private string binPath;
+		private bool autoBinPath;
 
 		private ArrayList assemblies;
 		private string testName;
@@ -39,13 +40,11 @@ namespace NUnit.Core
 		{
 			this.fullName = name;
 			this.name = Path.GetFileName( name );
-			string ext = Path.GetExtension( name ).ToLower();
-			if ( ext == ".dll" || ext == ".exe" )
-				this.isSingleAssembly = true;
-			else
+			this.assemblies = new ArrayList();
+			if ( IsAssemblyFileType( name ) )
 			{
-				this.isSingleAssembly = false;
-				this.assemblies = new ArrayList();
+				this.isSingleAssembly = true;
+				this.assemblies.Add( name );
 			}
 		}
 
@@ -108,6 +107,16 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
+		/// Indicates whether the probing path should be generated
+		/// automatically based on the list of assemblies.
+		/// </summary>
+		public bool AutoBinPath
+		{
+			get { return autoBinPath; }
+			set { autoBinPath = value; }
+		}
+
+		/// <summary>
 		/// Assemblies to be loaded. At least one must be specified.
 		/// </summary>
 		public IList Assemblies
@@ -140,6 +149,12 @@ namespace NUnit.Core
 		public IDictionary Settings
 		{
 			get { return settings; }
+		}
+
+		private static bool IsAssemblyFileType( string path )
+		{
+			string extension = Path.GetExtension( path ).ToLower();
+			return extension == ".dll" || extension == ".exe";
 		}
 	}
 }

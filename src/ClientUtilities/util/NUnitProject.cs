@@ -686,6 +686,7 @@ namespace NUnit.Util
 			package.BasePath = this.ActiveConfig.BasePath;
 			package.ConfigurationFile = this.ActiveConfig.ConfigurationFile;
 			package.PrivateBinPath = this.ActiveConfig.PrivateBinPath;
+			package.AutoBinPath = this.ActiveConfig.BinPathType == BinPathType.Auto;
 
 			return package;
 		}
