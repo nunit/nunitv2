@@ -68,6 +68,11 @@ namespace NUnit.Core
         /// <summary>
         /// Send output to stdErr
         /// </summary>
-        Error
+        Error,
+
+		/// <summary>
+		/// Send output to Trace
+		/// </summary>
+		Trace
 	}
 }
