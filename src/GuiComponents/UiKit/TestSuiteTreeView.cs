@@ -755,8 +755,6 @@ namespace NUnit.UiKit
 		/// <param name="test">Test to be loaded</param>
 		public void Load( TestNode test )
 		{
-			//MessageBox.Show( "Loading " + test.UniqueName );
-
 			using( new CP.Windows.Forms.WaitCursor() )
 			{
 				Clear();
@@ -806,27 +804,7 @@ namespace NUnit.UiKit
 		/// <param name="test">Test suite to be loaded</param>
 		public void Reload( TestNode test )
 		{
-			//MessageBox.Show( "Reloading " + test.UniqueName );
-
-			TestSuiteTreeNode rootNode = (TestSuiteTreeNode) Nodes[0];
-			
-			// Temporary change till framework is updated
-			//			if ( !Match( rootNode, test ) )
-			//				throw( new ArgumentException( "Reload called with non-matching test" ) );
-				
-			UpdateNode( rootNode, test );
-
-			//CheckTreeMap( test );
-		}
-
-		private void CheckTreeMap( TestNode test )
-		{
-			if( treeMap[test.TestName.UniqueName] == null )
-				MessageBox.Show( "No match for " + test.TestName.UniqueName );
-
-			if ( test.IsSuite )
-				foreach( TestNode child in test.Tests )
-					CheckTreeMap( child );
+			UpdateNode( (TestSuiteTreeNode) Nodes[0], test );
 		}
 
 		/// <summary>

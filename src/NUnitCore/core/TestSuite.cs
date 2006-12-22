@@ -255,7 +255,6 @@ namespace NUnit.Core
 		protected virtual void CreateUserFixture()
 		{
 			Fixture = Reflect.Construct(FixtureType);
-			System.Diagnostics.Trace.WriteLine("Constructed {0}" + FixtureType.Name);
 		}
 
         protected virtual void DoOneTimeTearDown(TestResult suiteResult)
@@ -284,7 +283,6 @@ namespace NUnit.Core
                 }
                 finally
                 {
-                    System.Diagnostics.Trace.WriteLine("Destroying " + Fixture.GetType().Name);
                     IDisposable disposeable = Fixture as IDisposable;
                     if (disposeable != null)
                         disposeable.Dispose();
