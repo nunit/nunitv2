@@ -200,18 +200,19 @@ namespace NUnit.Util.Tests
 			Assert.IsTrue( project.IsDirty );
 		}
 
-		[Test]
-		public void GetPrivateBinPath()
-		{
-            string path1 = TestPath("/test/bin/debug/test1.dll");
-            string path2 = TestPath("/test/bin/debug/test2.dll");
-            string path3 = TestPath("/test/utils/test3.dll");
-            config.Assemblies.Add( path1 );
-            config.Assemblies.Add(path2);
-            config.Assemblies.Add(path3);
-
-			Assert.AreEqual( TestPath( "bin/debug" ) + Path.PathSeparator + TestPath( "utils" ), config.PrivateBinPath ); 
-		}
+// TODO: Move to DomainManagerTests
+//		[Test]
+//		public void GetPrivateBinPath()
+//		{
+//            string path1 = TestPath("/test/bin/debug/test1.dll");
+//            string path2 = TestPath("/test/bin/debug/test2.dll");
+//            string path3 = TestPath("/test/utils/test3.dll");
+//            config.Assemblies.Add( path1 );
+//            config.Assemblies.Add(path2);
+//            config.Assemblies.Add(path3);
+//
+//			Assert.AreEqual( TestPath( "bin/debug" ) + Path.PathSeparator + TestPath( "utils" ), config.PrivateBinPath ); 
+//		}
 
 		[Test]
 		public void NoPrivateBinPath()
@@ -232,13 +233,14 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual( TestPath( "/test" ), config.PrivateBinPath );
 		}
 
-		[Test]
-		public void AutoPrivateBinPath()
-		{
-			config.Assemblies.Add( TestPath( "/test/bin/assembly1.dll" ) );
-			config.Assemblies.Add( TestPath( "/test/bin/assembly2.dll" ) );
-			config.BinPathType = BinPathType.Auto;
-			Assert.AreEqual( "bin", config.PrivateBinPath );
-		}
+// TODO: Move to DomainManagerTests
+//		[Test]
+//		public void AutoPrivateBinPath()
+//		{
+//			config.Assemblies.Add( TestPath( "/test/bin/assembly1.dll" ) );
+//			config.Assemblies.Add( TestPath( "/test/bin/assembly2.dll" ) );
+//			config.BinPathType = BinPathType.Auto;
+//			Assert.AreEqual( "bin", config.PrivateBinPath );
+//		}
 	}
 }
