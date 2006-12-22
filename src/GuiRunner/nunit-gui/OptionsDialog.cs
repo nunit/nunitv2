@@ -43,6 +43,7 @@ namespace NUnit.Gui
 	public class OptionsDialog : System.Windows.Forms.Form
 	{
 		private OptionSettings options;
+		private FormSettings formSettings;
 
 		private System.Windows.Forms.Button okButton;
 		private System.Windows.Forms.Button cancelButton;
@@ -52,22 +53,17 @@ namespace NUnit.Gui
 		private System.Windows.Forms.ComboBox initialDisplayComboBox;
 		private System.Windows.Forms.CheckBox reloadOnChangeCheckBox;
 		private System.Windows.Forms.CheckBox reloadOnRunCheckBox;
-		private System.Windows.Forms.CheckBox visualStudioSupportCheckBox;
 		private System.Windows.Forms.CheckBox loadLastProjectCheckBox;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.TextBox recentFilesCountTextBox;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.GroupBox groupBox4;
-		private System.Windows.Forms.CheckBox labelTestOutputCheckBox;
 		private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.GroupBox groupBox5;
-		private System.Windows.Forms.CheckBox failureToolTips;
 		private System.Windows.Forms.GroupBox groupBox6;
 		private System.Windows.Forms.RadioButton multiDomainRadioButton;
 		private System.Windows.Forms.RadioButton singleDomainRadioButton;
@@ -76,7 +72,25 @@ namespace NUnit.Gui
 		private System.Windows.Forms.RadioButton autoNamespaceSuites;
 		private System.Windows.Forms.RadioButton flatTestList;
 		private System.Windows.Forms.CheckBox rerunOnChangeCheckBox;
+		private System.Windows.Forms.TabPage tabPage3;
+		private System.Windows.Forms.GroupBox groupBox8;
+		private System.Windows.Forms.GroupBox groupBox4;
+		private System.Windows.Forms.CheckBox visualStudioSupportCheckBox;
+		private System.Windows.Forms.CheckBox labelTestOutputCheckBox;
 		private System.Windows.Forms.CheckBox enableWordWrap;
+		private System.Windows.Forms.CheckBox failureToolTips;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.CheckBox errorsTabCheckBox;
+		private System.Windows.Forms.CheckBox notRunTabCheckBox;
+		private System.Windows.Forms.CheckBox consoleOutputCheckBox;
+		private System.Windows.Forms.CheckBox traceOutputCheckBox;
+		private System.Windows.Forms.CheckBox consoleErrrorCheckBox;
+		private System.Windows.Forms.RadioButton separateErrors;
+		private System.Windows.Forms.RadioButton mergeErrors;
+		private System.Windows.Forms.RadioButton mergeTrace;
+		private System.Windows.Forms.RadioButton separateTrace;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Panel panel2;
 
 		private UserSettings _userSettings;
 		private UserSettings UserSettings
@@ -133,19 +147,16 @@ namespace NUnit.Gui
 			this.label1 = new System.Windows.Forms.Label();
 			this.initialDisplayComboBox = new System.Windows.Forms.ComboBox();
 			this.reloadOnRunCheckBox = new System.Windows.Forms.CheckBox();
-			this.visualStudioSupportCheckBox = new System.Windows.Forms.CheckBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.recentFilesCountTextBox = new System.Windows.Forms.TextBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.rerunOnChangeCheckBox = new System.Windows.Forms.CheckBox();
-			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.groupBox4 = new System.Windows.Forms.GroupBox();
-			this.failureToolTips = new System.Windows.Forms.CheckBox();
-			this.labelTestOutputCheckBox = new System.Windows.Forms.CheckBox();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.visualStudioSupportCheckBox = new System.Windows.Forms.CheckBox();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.groupBox7 = new System.Windows.Forms.GroupBox();
@@ -155,17 +166,37 @@ namespace NUnit.Gui
 			this.mergeAssembliesCheckBox = new System.Windows.Forms.CheckBox();
 			this.singleDomainRadioButton = new System.Windows.Forms.RadioButton();
 			this.multiDomainRadioButton = new System.Windows.Forms.RadioButton();
+			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.errorsTabCheckBox = new System.Windows.Forms.CheckBox();
+			this.failureToolTips = new System.Windows.Forms.CheckBox();
 			this.enableWordWrap = new System.Windows.Forms.CheckBox();
+			this.notRunTabCheckBox = new System.Windows.Forms.CheckBox();
+			this.groupBox8 = new System.Windows.Forms.GroupBox();
+			this.consoleOutputCheckBox = new System.Windows.Forms.CheckBox();
+			this.labelTestOutputCheckBox = new System.Windows.Forms.CheckBox();
+			this.traceOutputCheckBox = new System.Windows.Forms.CheckBox();
+			this.consoleErrrorCheckBox = new System.Windows.Forms.CheckBox();
+			this.separateErrors = new System.Windows.Forms.RadioButton();
+			this.mergeErrors = new System.Windows.Forms.RadioButton();
+			this.mergeTrace = new System.Windows.Forms.RadioButton();
+			this.separateTrace = new System.Windows.Forms.RadioButton();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.panel2 = new System.Windows.Forms.Panel();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
-			this.groupBox3.SuspendLayout();
-			this.groupBox4.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
+			this.groupBox4.SuspendLayout();
 			this.groupBox5.SuspendLayout();
 			this.tabPage2.SuspendLayout();
 			this.groupBox7.SuspendLayout();
 			this.groupBox6.SuspendLayout();
+			this.tabPage3.SuspendLayout();
+			this.groupBox3.SuspendLayout();
+			this.groupBox8.SuspendLayout();
+			this.panel1.SuspendLayout();
+			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// okButton
@@ -404,35 +435,6 @@ namespace NUnit.Gui
 			this.reloadOnRunCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("reloadOnRunCheckBox.TextAlign")));
 			this.reloadOnRunCheckBox.Visible = ((bool)(resources.GetObject("reloadOnRunCheckBox.Visible")));
 			// 
-			// visualStudioSupportCheckBox
-			// 
-			this.visualStudioSupportCheckBox.AccessibleDescription = resources.GetString("visualStudioSupportCheckBox.AccessibleDescription");
-			this.visualStudioSupportCheckBox.AccessibleName = resources.GetString("visualStudioSupportCheckBox.AccessibleName");
-			this.visualStudioSupportCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("visualStudioSupportCheckBox.Anchor")));
-			this.visualStudioSupportCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("visualStudioSupportCheckBox.Appearance")));
-			this.visualStudioSupportCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("visualStudioSupportCheckBox.BackgroundImage")));
-			this.visualStudioSupportCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("visualStudioSupportCheckBox.CheckAlign")));
-			this.visualStudioSupportCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("visualStudioSupportCheckBox.Dock")));
-			this.visualStudioSupportCheckBox.Enabled = ((bool)(resources.GetObject("visualStudioSupportCheckBox.Enabled")));
-			this.visualStudioSupportCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("visualStudioSupportCheckBox.FlatStyle")));
-			this.visualStudioSupportCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("visualStudioSupportCheckBox.Font")));
-			this.helpProvider1.SetHelpKeyword(this.visualStudioSupportCheckBox, resources.GetString("visualStudioSupportCheckBox.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.visualStudioSupportCheckBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("visualStudioSupportCheckBox.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.visualStudioSupportCheckBox, resources.GetString("visualStudioSupportCheckBox.HelpString"));
-			this.visualStudioSupportCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("visualStudioSupportCheckBox.Image")));
-			this.visualStudioSupportCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("visualStudioSupportCheckBox.ImageAlign")));
-			this.visualStudioSupportCheckBox.ImageIndex = ((int)(resources.GetObject("visualStudioSupportCheckBox.ImageIndex")));
-			this.visualStudioSupportCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("visualStudioSupportCheckBox.ImeMode")));
-			this.visualStudioSupportCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("visualStudioSupportCheckBox.Location")));
-			this.visualStudioSupportCheckBox.Name = "visualStudioSupportCheckBox";
-			this.visualStudioSupportCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("visualStudioSupportCheckBox.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.visualStudioSupportCheckBox, ((bool)(resources.GetObject("visualStudioSupportCheckBox.ShowHelp"))));
-			this.visualStudioSupportCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("visualStudioSupportCheckBox.Size")));
-			this.visualStudioSupportCheckBox.TabIndex = ((int)(resources.GetObject("visualStudioSupportCheckBox.TabIndex")));
-			this.visualStudioSupportCheckBox.Text = resources.GetString("visualStudioSupportCheckBox.Text");
-			this.visualStudioSupportCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("visualStudioSupportCheckBox.TextAlign")));
-			this.visualStudioSupportCheckBox.Visible = ((bool)(resources.GetObject("visualStudioSupportCheckBox.Visible")));
-			// 
 			// label2
 			// 
 			this.label2.AccessibleDescription = resources.GetString("label2.AccessibleDescription");
@@ -598,114 +600,6 @@ namespace NUnit.Gui
 			this.rerunOnChangeCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("rerunOnChangeCheckBox.TextAlign")));
 			this.rerunOnChangeCheckBox.Visible = ((bool)(resources.GetObject("rerunOnChangeCheckBox.Visible")));
 			// 
-			// groupBox3
-			// 
-			this.groupBox3.AccessibleDescription = resources.GetString("groupBox3.AccessibleDescription");
-			this.groupBox3.AccessibleName = resources.GetString("groupBox3.AccessibleName");
-			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox3.Anchor")));
-			this.groupBox3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox3.BackgroundImage")));
-			this.groupBox3.Controls.Add(this.visualStudioSupportCheckBox);
-			this.groupBox3.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("groupBox3.Dock")));
-			this.groupBox3.Enabled = ((bool)(resources.GetObject("groupBox3.Enabled")));
-			this.groupBox3.Font = ((System.Drawing.Font)(resources.GetObject("groupBox3.Font")));
-			this.helpProvider1.SetHelpKeyword(this.groupBox3, resources.GetString("groupBox3.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.groupBox3, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("groupBox3.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.groupBox3, resources.GetString("groupBox3.HelpString"));
-			this.groupBox3.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("groupBox3.ImeMode")));
-			this.groupBox3.Location = ((System.Drawing.Point)(resources.GetObject("groupBox3.Location")));
-			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("groupBox3.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.groupBox3, ((bool)(resources.GetObject("groupBox3.ShowHelp"))));
-			this.groupBox3.Size = ((System.Drawing.Size)(resources.GetObject("groupBox3.Size")));
-			this.groupBox3.TabIndex = ((int)(resources.GetObject("groupBox3.TabIndex")));
-			this.groupBox3.TabStop = false;
-			this.groupBox3.Text = resources.GetString("groupBox3.Text");
-			this.groupBox3.Visible = ((bool)(resources.GetObject("groupBox3.Visible")));
-			// 
-			// groupBox4
-			// 
-			this.groupBox4.AccessibleDescription = resources.GetString("groupBox4.AccessibleDescription");
-			this.groupBox4.AccessibleName = resources.GetString("groupBox4.AccessibleName");
-			this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox4.Anchor")));
-			this.groupBox4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox4.BackgroundImage")));
-			this.groupBox4.Controls.Add(this.enableWordWrap);
-			this.groupBox4.Controls.Add(this.failureToolTips);
-			this.groupBox4.Controls.Add(this.labelTestOutputCheckBox);
-			this.groupBox4.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("groupBox4.Dock")));
-			this.groupBox4.Enabled = ((bool)(resources.GetObject("groupBox4.Enabled")));
-			this.groupBox4.Font = ((System.Drawing.Font)(resources.GetObject("groupBox4.Font")));
-			this.helpProvider1.SetHelpKeyword(this.groupBox4, resources.GetString("groupBox4.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.groupBox4, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("groupBox4.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.groupBox4, resources.GetString("groupBox4.HelpString"));
-			this.groupBox4.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("groupBox4.ImeMode")));
-			this.groupBox4.Location = ((System.Drawing.Point)(resources.GetObject("groupBox4.Location")));
-			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("groupBox4.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.groupBox4, ((bool)(resources.GetObject("groupBox4.ShowHelp"))));
-			this.groupBox4.Size = ((System.Drawing.Size)(resources.GetObject("groupBox4.Size")));
-			this.groupBox4.TabIndex = ((int)(resources.GetObject("groupBox4.TabIndex")));
-			this.groupBox4.TabStop = false;
-			this.groupBox4.Text = resources.GetString("groupBox4.Text");
-			this.groupBox4.Visible = ((bool)(resources.GetObject("groupBox4.Visible")));
-			// 
-			// failureToolTips
-			// 
-			this.failureToolTips.AccessibleDescription = resources.GetString("failureToolTips.AccessibleDescription");
-			this.failureToolTips.AccessibleName = resources.GetString("failureToolTips.AccessibleName");
-			this.failureToolTips.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("failureToolTips.Anchor")));
-			this.failureToolTips.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("failureToolTips.Appearance")));
-			this.failureToolTips.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("failureToolTips.BackgroundImage")));
-			this.failureToolTips.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("failureToolTips.CheckAlign")));
-			this.failureToolTips.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("failureToolTips.Dock")));
-			this.failureToolTips.Enabled = ((bool)(resources.GetObject("failureToolTips.Enabled")));
-			this.failureToolTips.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("failureToolTips.FlatStyle")));
-			this.failureToolTips.Font = ((System.Drawing.Font)(resources.GetObject("failureToolTips.Font")));
-			this.helpProvider1.SetHelpKeyword(this.failureToolTips, resources.GetString("failureToolTips.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.failureToolTips, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("failureToolTips.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.failureToolTips, resources.GetString("failureToolTips.HelpString"));
-			this.failureToolTips.Image = ((System.Drawing.Image)(resources.GetObject("failureToolTips.Image")));
-			this.failureToolTips.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("failureToolTips.ImageAlign")));
-			this.failureToolTips.ImageIndex = ((int)(resources.GetObject("failureToolTips.ImageIndex")));
-			this.failureToolTips.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("failureToolTips.ImeMode")));
-			this.failureToolTips.Location = ((System.Drawing.Point)(resources.GetObject("failureToolTips.Location")));
-			this.failureToolTips.Name = "failureToolTips";
-			this.failureToolTips.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("failureToolTips.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.failureToolTips, ((bool)(resources.GetObject("failureToolTips.ShowHelp"))));
-			this.failureToolTips.Size = ((System.Drawing.Size)(resources.GetObject("failureToolTips.Size")));
-			this.failureToolTips.TabIndex = ((int)(resources.GetObject("failureToolTips.TabIndex")));
-			this.failureToolTips.Text = resources.GetString("failureToolTips.Text");
-			this.failureToolTips.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("failureToolTips.TextAlign")));
-			this.failureToolTips.Visible = ((bool)(resources.GetObject("failureToolTips.Visible")));
-			// 
-			// labelTestOutputCheckBox
-			// 
-			this.labelTestOutputCheckBox.AccessibleDescription = resources.GetString("labelTestOutputCheckBox.AccessibleDescription");
-			this.labelTestOutputCheckBox.AccessibleName = resources.GetString("labelTestOutputCheckBox.AccessibleName");
-			this.labelTestOutputCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("labelTestOutputCheckBox.Anchor")));
-			this.labelTestOutputCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("labelTestOutputCheckBox.Appearance")));
-			this.labelTestOutputCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("labelTestOutputCheckBox.BackgroundImage")));
-			this.labelTestOutputCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelTestOutputCheckBox.CheckAlign")));
-			this.labelTestOutputCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("labelTestOutputCheckBox.Dock")));
-			this.labelTestOutputCheckBox.Enabled = ((bool)(resources.GetObject("labelTestOutputCheckBox.Enabled")));
-			this.labelTestOutputCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("labelTestOutputCheckBox.FlatStyle")));
-			this.labelTestOutputCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("labelTestOutputCheckBox.Font")));
-			this.helpProvider1.SetHelpKeyword(this.labelTestOutputCheckBox, resources.GetString("labelTestOutputCheckBox.HelpKeyword"));
-			this.helpProvider1.SetHelpNavigator(this.labelTestOutputCheckBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("labelTestOutputCheckBox.HelpNavigator"))));
-			this.helpProvider1.SetHelpString(this.labelTestOutputCheckBox, resources.GetString("labelTestOutputCheckBox.HelpString"));
-			this.labelTestOutputCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("labelTestOutputCheckBox.Image")));
-			this.labelTestOutputCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelTestOutputCheckBox.ImageAlign")));
-			this.labelTestOutputCheckBox.ImageIndex = ((int)(resources.GetObject("labelTestOutputCheckBox.ImageIndex")));
-			this.labelTestOutputCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("labelTestOutputCheckBox.ImeMode")));
-			this.labelTestOutputCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("labelTestOutputCheckBox.Location")));
-			this.labelTestOutputCheckBox.Name = "labelTestOutputCheckBox";
-			this.labelTestOutputCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("labelTestOutputCheckBox.RightToLeft")));
-			this.helpProvider1.SetShowHelp(this.labelTestOutputCheckBox, ((bool)(resources.GetObject("labelTestOutputCheckBox.ShowHelp"))));
-			this.labelTestOutputCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("labelTestOutputCheckBox.Size")));
-			this.labelTestOutputCheckBox.TabIndex = ((int)(resources.GetObject("labelTestOutputCheckBox.TabIndex")));
-			this.labelTestOutputCheckBox.Text = resources.GetString("labelTestOutputCheckBox.Text");
-			this.labelTestOutputCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelTestOutputCheckBox.TextAlign")));
-			this.labelTestOutputCheckBox.Visible = ((bool)(resources.GetObject("labelTestOutputCheckBox.Visible")));
-			// 
 			// tabControl1
 			// 
 			this.tabControl1.AccessibleDescription = resources.GetString("tabControl1.AccessibleDescription");
@@ -716,6 +610,7 @@ namespace NUnit.Gui
 			this.tabControl1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabControl1.BackgroundImage")));
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Controls.Add(this.tabPage3);
 			this.tabControl1.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("tabControl1.Dock")));
 			this.tabControl1.Enabled = ((bool)(resources.GetObject("tabControl1.Enabled")));
 			this.tabControl1.Font = ((System.Drawing.Font)(resources.GetObject("tabControl1.Font")));
@@ -745,9 +640,9 @@ namespace NUnit.Gui
 			this.tabPage1.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("tabPage1.AutoScrollMargin")));
 			this.tabPage1.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("tabPage1.AutoScrollMinSize")));
 			this.tabPage1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabPage1.BackgroundImage")));
+			this.tabPage1.Controls.Add(this.groupBox4);
 			this.tabPage1.Controls.Add(this.groupBox5);
 			this.tabPage1.Controls.Add(this.groupBox1);
-			this.tabPage1.Controls.Add(this.groupBox4);
 			this.tabPage1.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("tabPage1.Dock")));
 			this.tabPage1.Enabled = ((bool)(resources.GetObject("tabPage1.Enabled")));
 			this.tabPage1.Font = ((System.Drawing.Font)(resources.GetObject("tabPage1.Font")));
@@ -765,6 +660,59 @@ namespace NUnit.Gui
 			this.tabPage1.Text = resources.GetString("tabPage1.Text");
 			this.tabPage1.ToolTipText = resources.GetString("tabPage1.ToolTipText");
 			this.tabPage1.Visible = ((bool)(resources.GetObject("tabPage1.Visible")));
+			// 
+			// groupBox4
+			// 
+			this.groupBox4.AccessibleDescription = resources.GetString("groupBox4.AccessibleDescription");
+			this.groupBox4.AccessibleName = resources.GetString("groupBox4.AccessibleName");
+			this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox4.Anchor")));
+			this.groupBox4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox4.BackgroundImage")));
+			this.groupBox4.Controls.Add(this.visualStudioSupportCheckBox);
+			this.groupBox4.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("groupBox4.Dock")));
+			this.groupBox4.Enabled = ((bool)(resources.GetObject("groupBox4.Enabled")));
+			this.groupBox4.Font = ((System.Drawing.Font)(resources.GetObject("groupBox4.Font")));
+			this.helpProvider1.SetHelpKeyword(this.groupBox4, resources.GetString("groupBox4.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.groupBox4, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("groupBox4.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.groupBox4, resources.GetString("groupBox4.HelpString"));
+			this.groupBox4.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("groupBox4.ImeMode")));
+			this.groupBox4.Location = ((System.Drawing.Point)(resources.GetObject("groupBox4.Location")));
+			this.groupBox4.Name = "groupBox4";
+			this.groupBox4.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("groupBox4.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.groupBox4, ((bool)(resources.GetObject("groupBox4.ShowHelp"))));
+			this.groupBox4.Size = ((System.Drawing.Size)(resources.GetObject("groupBox4.Size")));
+			this.groupBox4.TabIndex = ((int)(resources.GetObject("groupBox4.TabIndex")));
+			this.groupBox4.TabStop = false;
+			this.groupBox4.Text = resources.GetString("groupBox4.Text");
+			this.groupBox4.Visible = ((bool)(resources.GetObject("groupBox4.Visible")));
+			// 
+			// visualStudioSupportCheckBox
+			// 
+			this.visualStudioSupportCheckBox.AccessibleDescription = resources.GetString("visualStudioSupportCheckBox.AccessibleDescription");
+			this.visualStudioSupportCheckBox.AccessibleName = resources.GetString("visualStudioSupportCheckBox.AccessibleName");
+			this.visualStudioSupportCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("visualStudioSupportCheckBox.Anchor")));
+			this.visualStudioSupportCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("visualStudioSupportCheckBox.Appearance")));
+			this.visualStudioSupportCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("visualStudioSupportCheckBox.BackgroundImage")));
+			this.visualStudioSupportCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("visualStudioSupportCheckBox.CheckAlign")));
+			this.visualStudioSupportCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("visualStudioSupportCheckBox.Dock")));
+			this.visualStudioSupportCheckBox.Enabled = ((bool)(resources.GetObject("visualStudioSupportCheckBox.Enabled")));
+			this.visualStudioSupportCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("visualStudioSupportCheckBox.FlatStyle")));
+			this.visualStudioSupportCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("visualStudioSupportCheckBox.Font")));
+			this.helpProvider1.SetHelpKeyword(this.visualStudioSupportCheckBox, resources.GetString("visualStudioSupportCheckBox.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.visualStudioSupportCheckBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("visualStudioSupportCheckBox.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.visualStudioSupportCheckBox, resources.GetString("visualStudioSupportCheckBox.HelpString"));
+			this.visualStudioSupportCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("visualStudioSupportCheckBox.Image")));
+			this.visualStudioSupportCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("visualStudioSupportCheckBox.ImageAlign")));
+			this.visualStudioSupportCheckBox.ImageIndex = ((int)(resources.GetObject("visualStudioSupportCheckBox.ImageIndex")));
+			this.visualStudioSupportCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("visualStudioSupportCheckBox.ImeMode")));
+			this.visualStudioSupportCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("visualStudioSupportCheckBox.Location")));
+			this.visualStudioSupportCheckBox.Name = "visualStudioSupportCheckBox";
+			this.visualStudioSupportCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("visualStudioSupportCheckBox.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.visualStudioSupportCheckBox, ((bool)(resources.GetObject("visualStudioSupportCheckBox.ShowHelp"))));
+			this.visualStudioSupportCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("visualStudioSupportCheckBox.Size")));
+			this.visualStudioSupportCheckBox.TabIndex = ((int)(resources.GetObject("visualStudioSupportCheckBox.TabIndex")));
+			this.visualStudioSupportCheckBox.Text = resources.GetString("visualStudioSupportCheckBox.Text");
+			this.visualStudioSupportCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("visualStudioSupportCheckBox.TextAlign")));
+			this.visualStudioSupportCheckBox.Visible = ((bool)(resources.GetObject("visualStudioSupportCheckBox.Visible")));
 			// 
 			// groupBox5
 			// 
@@ -804,7 +752,6 @@ namespace NUnit.Gui
 			this.tabPage2.Controls.Add(this.groupBox7);
 			this.tabPage2.Controls.Add(this.groupBox6);
 			this.tabPage2.Controls.Add(this.groupBox2);
-			this.tabPage2.Controls.Add(this.groupBox3);
 			this.tabPage2.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("tabPage2.Dock")));
 			this.tabPage2.Enabled = ((bool)(resources.GetObject("tabPage2.Enabled")));
 			this.tabPage2.Font = ((System.Drawing.Font)(resources.GetObject("tabPage2.Font")));
@@ -1022,6 +969,124 @@ namespace NUnit.Gui
 			this.multiDomainRadioButton.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("multiDomainRadioButton.TextAlign")));
 			this.multiDomainRadioButton.Visible = ((bool)(resources.GetObject("multiDomainRadioButton.Visible")));
 			// 
+			// tabPage3
+			// 
+			this.tabPage3.AccessibleDescription = resources.GetString("tabPage3.AccessibleDescription");
+			this.tabPage3.AccessibleName = resources.GetString("tabPage3.AccessibleName");
+			this.tabPage3.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("tabPage3.Anchor")));
+			this.tabPage3.AutoScroll = ((bool)(resources.GetObject("tabPage3.AutoScroll")));
+			this.tabPage3.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("tabPage3.AutoScrollMargin")));
+			this.tabPage3.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("tabPage3.AutoScrollMinSize")));
+			this.tabPage3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabPage3.BackgroundImage")));
+			this.tabPage3.Controls.Add(this.panel2);
+			this.tabPage3.Controls.Add(this.groupBox3);
+			this.tabPage3.Controls.Add(this.groupBox8);
+			this.tabPage3.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("tabPage3.Dock")));
+			this.tabPage3.Enabled = ((bool)(resources.GetObject("tabPage3.Enabled")));
+			this.tabPage3.Font = ((System.Drawing.Font)(resources.GetObject("tabPage3.Font")));
+			this.helpProvider1.SetHelpKeyword(this.tabPage3, resources.GetString("tabPage3.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.tabPage3, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("tabPage3.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.tabPage3, resources.GetString("tabPage3.HelpString"));
+			this.tabPage3.ImageIndex = ((int)(resources.GetObject("tabPage3.ImageIndex")));
+			this.tabPage3.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("tabPage3.ImeMode")));
+			this.tabPage3.Location = ((System.Drawing.Point)(resources.GetObject("tabPage3.Location")));
+			this.tabPage3.Name = "tabPage3";
+			this.tabPage3.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("tabPage3.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.tabPage3, ((bool)(resources.GetObject("tabPage3.ShowHelp"))));
+			this.tabPage3.Size = ((System.Drawing.Size)(resources.GetObject("tabPage3.Size")));
+			this.tabPage3.TabIndex = ((int)(resources.GetObject("tabPage3.TabIndex")));
+			this.tabPage3.Text = resources.GetString("tabPage3.Text");
+			this.tabPage3.ToolTipText = resources.GetString("tabPage3.ToolTipText");
+			this.tabPage3.Visible = ((bool)(resources.GetObject("tabPage3.Visible")));
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.AccessibleDescription = resources.GetString("groupBox3.AccessibleDescription");
+			this.groupBox3.AccessibleName = resources.GetString("groupBox3.AccessibleName");
+			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox3.Anchor")));
+			this.groupBox3.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox3.BackgroundImage")));
+			this.groupBox3.Controls.Add(this.errorsTabCheckBox);
+			this.groupBox3.Controls.Add(this.failureToolTips);
+			this.groupBox3.Controls.Add(this.enableWordWrap);
+			this.groupBox3.Controls.Add(this.notRunTabCheckBox);
+			this.groupBox3.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("groupBox3.Dock")));
+			this.groupBox3.Enabled = ((bool)(resources.GetObject("groupBox3.Enabled")));
+			this.groupBox3.Font = ((System.Drawing.Font)(resources.GetObject("groupBox3.Font")));
+			this.helpProvider1.SetHelpKeyword(this.groupBox3, resources.GetString("groupBox3.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.groupBox3, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("groupBox3.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.groupBox3, resources.GetString("groupBox3.HelpString"));
+			this.groupBox3.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("groupBox3.ImeMode")));
+			this.groupBox3.Location = ((System.Drawing.Point)(resources.GetObject("groupBox3.Location")));
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("groupBox3.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.groupBox3, ((bool)(resources.GetObject("groupBox3.ShowHelp"))));
+			this.groupBox3.Size = ((System.Drawing.Size)(resources.GetObject("groupBox3.Size")));
+			this.groupBox3.TabIndex = ((int)(resources.GetObject("groupBox3.TabIndex")));
+			this.groupBox3.TabStop = false;
+			this.groupBox3.Text = resources.GetString("groupBox3.Text");
+			this.groupBox3.Visible = ((bool)(resources.GetObject("groupBox3.Visible")));
+			// 
+			// errorsTabCheckBox
+			// 
+			this.errorsTabCheckBox.AccessibleDescription = resources.GetString("errorsTabCheckBox.AccessibleDescription");
+			this.errorsTabCheckBox.AccessibleName = resources.GetString("errorsTabCheckBox.AccessibleName");
+			this.errorsTabCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("errorsTabCheckBox.Anchor")));
+			this.errorsTabCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("errorsTabCheckBox.Appearance")));
+			this.errorsTabCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("errorsTabCheckBox.BackgroundImage")));
+			this.errorsTabCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("errorsTabCheckBox.CheckAlign")));
+			this.errorsTabCheckBox.Checked = true;
+			this.errorsTabCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.errorsTabCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("errorsTabCheckBox.Dock")));
+			this.errorsTabCheckBox.Enabled = ((bool)(resources.GetObject("errorsTabCheckBox.Enabled")));
+			this.errorsTabCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("errorsTabCheckBox.FlatStyle")));
+			this.errorsTabCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("errorsTabCheckBox.Font")));
+			this.helpProvider1.SetHelpKeyword(this.errorsTabCheckBox, resources.GetString("errorsTabCheckBox.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.errorsTabCheckBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("errorsTabCheckBox.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.errorsTabCheckBox, resources.GetString("errorsTabCheckBox.HelpString"));
+			this.errorsTabCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("errorsTabCheckBox.Image")));
+			this.errorsTabCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("errorsTabCheckBox.ImageAlign")));
+			this.errorsTabCheckBox.ImageIndex = ((int)(resources.GetObject("errorsTabCheckBox.ImageIndex")));
+			this.errorsTabCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("errorsTabCheckBox.ImeMode")));
+			this.errorsTabCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("errorsTabCheckBox.Location")));
+			this.errorsTabCheckBox.Name = "errorsTabCheckBox";
+			this.errorsTabCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("errorsTabCheckBox.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.errorsTabCheckBox, ((bool)(resources.GetObject("errorsTabCheckBox.ShowHelp"))));
+			this.errorsTabCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("errorsTabCheckBox.Size")));
+			this.errorsTabCheckBox.TabIndex = ((int)(resources.GetObject("errorsTabCheckBox.TabIndex")));
+			this.errorsTabCheckBox.Text = resources.GetString("errorsTabCheckBox.Text");
+			this.errorsTabCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("errorsTabCheckBox.TextAlign")));
+			this.errorsTabCheckBox.Visible = ((bool)(resources.GetObject("errorsTabCheckBox.Visible")));
+			this.errorsTabCheckBox.CheckedChanged += new System.EventHandler(this.errorsTabCheckBox_CheckedChanged);
+			// 
+			// failureToolTips
+			// 
+			this.failureToolTips.AccessibleDescription = resources.GetString("failureToolTips.AccessibleDescription");
+			this.failureToolTips.AccessibleName = resources.GetString("failureToolTips.AccessibleName");
+			this.failureToolTips.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("failureToolTips.Anchor")));
+			this.failureToolTips.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("failureToolTips.Appearance")));
+			this.failureToolTips.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("failureToolTips.BackgroundImage")));
+			this.failureToolTips.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("failureToolTips.CheckAlign")));
+			this.failureToolTips.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("failureToolTips.Dock")));
+			this.failureToolTips.Enabled = ((bool)(resources.GetObject("failureToolTips.Enabled")));
+			this.failureToolTips.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("failureToolTips.FlatStyle")));
+			this.failureToolTips.Font = ((System.Drawing.Font)(resources.GetObject("failureToolTips.Font")));
+			this.helpProvider1.SetHelpKeyword(this.failureToolTips, resources.GetString("failureToolTips.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.failureToolTips, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("failureToolTips.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.failureToolTips, resources.GetString("failureToolTips.HelpString"));
+			this.failureToolTips.Image = ((System.Drawing.Image)(resources.GetObject("failureToolTips.Image")));
+			this.failureToolTips.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("failureToolTips.ImageAlign")));
+			this.failureToolTips.ImageIndex = ((int)(resources.GetObject("failureToolTips.ImageIndex")));
+			this.failureToolTips.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("failureToolTips.ImeMode")));
+			this.failureToolTips.Location = ((System.Drawing.Point)(resources.GetObject("failureToolTips.Location")));
+			this.failureToolTips.Name = "failureToolTips";
+			this.failureToolTips.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("failureToolTips.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.failureToolTips, ((bool)(resources.GetObject("failureToolTips.ShowHelp"))));
+			this.failureToolTips.Size = ((System.Drawing.Size)(resources.GetObject("failureToolTips.Size")));
+			this.failureToolTips.TabIndex = ((int)(resources.GetObject("failureToolTips.TabIndex")));
+			this.failureToolTips.Text = resources.GetString("failureToolTips.Text");
+			this.failureToolTips.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("failureToolTips.TextAlign")));
+			this.failureToolTips.Visible = ((bool)(resources.GetObject("failureToolTips.Visible")));
+			// 
 			// enableWordWrap
 			// 
 			this.enableWordWrap.AccessibleDescription = resources.GetString("enableWordWrap.AccessibleDescription");
@@ -1050,6 +1115,363 @@ namespace NUnit.Gui
 			this.enableWordWrap.Text = resources.GetString("enableWordWrap.Text");
 			this.enableWordWrap.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("enableWordWrap.TextAlign")));
 			this.enableWordWrap.Visible = ((bool)(resources.GetObject("enableWordWrap.Visible")));
+			// 
+			// notRunTabCheckBox
+			// 
+			this.notRunTabCheckBox.AccessibleDescription = resources.GetString("notRunTabCheckBox.AccessibleDescription");
+			this.notRunTabCheckBox.AccessibleName = resources.GetString("notRunTabCheckBox.AccessibleName");
+			this.notRunTabCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("notRunTabCheckBox.Anchor")));
+			this.notRunTabCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("notRunTabCheckBox.Appearance")));
+			this.notRunTabCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("notRunTabCheckBox.BackgroundImage")));
+			this.notRunTabCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("notRunTabCheckBox.CheckAlign")));
+			this.notRunTabCheckBox.Checked = true;
+			this.notRunTabCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.notRunTabCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("notRunTabCheckBox.Dock")));
+			this.notRunTabCheckBox.Enabled = ((bool)(resources.GetObject("notRunTabCheckBox.Enabled")));
+			this.notRunTabCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("notRunTabCheckBox.FlatStyle")));
+			this.notRunTabCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("notRunTabCheckBox.Font")));
+			this.helpProvider1.SetHelpKeyword(this.notRunTabCheckBox, resources.GetString("notRunTabCheckBox.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.notRunTabCheckBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("notRunTabCheckBox.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.notRunTabCheckBox, resources.GetString("notRunTabCheckBox.HelpString"));
+			this.notRunTabCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("notRunTabCheckBox.Image")));
+			this.notRunTabCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("notRunTabCheckBox.ImageAlign")));
+			this.notRunTabCheckBox.ImageIndex = ((int)(resources.GetObject("notRunTabCheckBox.ImageIndex")));
+			this.notRunTabCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("notRunTabCheckBox.ImeMode")));
+			this.notRunTabCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("notRunTabCheckBox.Location")));
+			this.notRunTabCheckBox.Name = "notRunTabCheckBox";
+			this.notRunTabCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("notRunTabCheckBox.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.notRunTabCheckBox, ((bool)(resources.GetObject("notRunTabCheckBox.ShowHelp"))));
+			this.notRunTabCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("notRunTabCheckBox.Size")));
+			this.notRunTabCheckBox.TabIndex = ((int)(resources.GetObject("notRunTabCheckBox.TabIndex")));
+			this.notRunTabCheckBox.Text = resources.GetString("notRunTabCheckBox.Text");
+			this.notRunTabCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("notRunTabCheckBox.TextAlign")));
+			this.notRunTabCheckBox.Visible = ((bool)(resources.GetObject("notRunTabCheckBox.Visible")));
+			// 
+			// groupBox8
+			// 
+			this.groupBox8.AccessibleDescription = resources.GetString("groupBox8.AccessibleDescription");
+			this.groupBox8.AccessibleName = resources.GetString("groupBox8.AccessibleName");
+			this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox8.Anchor")));
+			this.groupBox8.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox8.BackgroundImage")));
+			this.groupBox8.Controls.Add(this.consoleOutputCheckBox);
+			this.groupBox8.Controls.Add(this.labelTestOutputCheckBox);
+			this.groupBox8.Controls.Add(this.panel1);
+			this.groupBox8.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("groupBox8.Dock")));
+			this.groupBox8.Enabled = ((bool)(resources.GetObject("groupBox8.Enabled")));
+			this.groupBox8.Font = ((System.Drawing.Font)(resources.GetObject("groupBox8.Font")));
+			this.helpProvider1.SetHelpKeyword(this.groupBox8, resources.GetString("groupBox8.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.groupBox8, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("groupBox8.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.groupBox8, resources.GetString("groupBox8.HelpString"));
+			this.groupBox8.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("groupBox8.ImeMode")));
+			this.groupBox8.Location = ((System.Drawing.Point)(resources.GetObject("groupBox8.Location")));
+			this.groupBox8.Name = "groupBox8";
+			this.groupBox8.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("groupBox8.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.groupBox8, ((bool)(resources.GetObject("groupBox8.ShowHelp"))));
+			this.groupBox8.Size = ((System.Drawing.Size)(resources.GetObject("groupBox8.Size")));
+			this.groupBox8.TabIndex = ((int)(resources.GetObject("groupBox8.TabIndex")));
+			this.groupBox8.TabStop = false;
+			this.groupBox8.Text = resources.GetString("groupBox8.Text");
+			this.groupBox8.Visible = ((bool)(resources.GetObject("groupBox8.Visible")));
+			// 
+			// consoleOutputCheckBox
+			// 
+			this.consoleOutputCheckBox.AccessibleDescription = resources.GetString("consoleOutputCheckBox.AccessibleDescription");
+			this.consoleOutputCheckBox.AccessibleName = resources.GetString("consoleOutputCheckBox.AccessibleName");
+			this.consoleOutputCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("consoleOutputCheckBox.Anchor")));
+			this.consoleOutputCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("consoleOutputCheckBox.Appearance")));
+			this.consoleOutputCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("consoleOutputCheckBox.BackgroundImage")));
+			this.consoleOutputCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("consoleOutputCheckBox.CheckAlign")));
+			this.consoleOutputCheckBox.Checked = true;
+			this.consoleOutputCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.consoleOutputCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("consoleOutputCheckBox.Dock")));
+			this.consoleOutputCheckBox.Enabled = ((bool)(resources.GetObject("consoleOutputCheckBox.Enabled")));
+			this.consoleOutputCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("consoleOutputCheckBox.FlatStyle")));
+			this.consoleOutputCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("consoleOutputCheckBox.Font")));
+			this.helpProvider1.SetHelpKeyword(this.consoleOutputCheckBox, resources.GetString("consoleOutputCheckBox.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.consoleOutputCheckBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("consoleOutputCheckBox.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.consoleOutputCheckBox, resources.GetString("consoleOutputCheckBox.HelpString"));
+			this.consoleOutputCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("consoleOutputCheckBox.Image")));
+			this.consoleOutputCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("consoleOutputCheckBox.ImageAlign")));
+			this.consoleOutputCheckBox.ImageIndex = ((int)(resources.GetObject("consoleOutputCheckBox.ImageIndex")));
+			this.consoleOutputCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("consoleOutputCheckBox.ImeMode")));
+			this.consoleOutputCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("consoleOutputCheckBox.Location")));
+			this.consoleOutputCheckBox.Name = "consoleOutputCheckBox";
+			this.consoleOutputCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("consoleOutputCheckBox.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.consoleOutputCheckBox, ((bool)(resources.GetObject("consoleOutputCheckBox.ShowHelp"))));
+			this.consoleOutputCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("consoleOutputCheckBox.Size")));
+			this.consoleOutputCheckBox.TabIndex = ((int)(resources.GetObject("consoleOutputCheckBox.TabIndex")));
+			this.consoleOutputCheckBox.Text = resources.GetString("consoleOutputCheckBox.Text");
+			this.consoleOutputCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("consoleOutputCheckBox.TextAlign")));
+			this.consoleOutputCheckBox.Visible = ((bool)(resources.GetObject("consoleOutputCheckBox.Visible")));
+			this.consoleOutputCheckBox.CheckedChanged += new System.EventHandler(this.consoleOutputCheckBox_CheckedChanged);
+			// 
+			// labelTestOutputCheckBox
+			// 
+			this.labelTestOutputCheckBox.AccessibleDescription = resources.GetString("labelTestOutputCheckBox.AccessibleDescription");
+			this.labelTestOutputCheckBox.AccessibleName = resources.GetString("labelTestOutputCheckBox.AccessibleName");
+			this.labelTestOutputCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("labelTestOutputCheckBox.Anchor")));
+			this.labelTestOutputCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("labelTestOutputCheckBox.Appearance")));
+			this.labelTestOutputCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("labelTestOutputCheckBox.BackgroundImage")));
+			this.labelTestOutputCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelTestOutputCheckBox.CheckAlign")));
+			this.labelTestOutputCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("labelTestOutputCheckBox.Dock")));
+			this.labelTestOutputCheckBox.Enabled = ((bool)(resources.GetObject("labelTestOutputCheckBox.Enabled")));
+			this.labelTestOutputCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("labelTestOutputCheckBox.FlatStyle")));
+			this.labelTestOutputCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("labelTestOutputCheckBox.Font")));
+			this.helpProvider1.SetHelpKeyword(this.labelTestOutputCheckBox, resources.GetString("labelTestOutputCheckBox.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.labelTestOutputCheckBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("labelTestOutputCheckBox.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.labelTestOutputCheckBox, resources.GetString("labelTestOutputCheckBox.HelpString"));
+			this.labelTestOutputCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("labelTestOutputCheckBox.Image")));
+			this.labelTestOutputCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelTestOutputCheckBox.ImageAlign")));
+			this.labelTestOutputCheckBox.ImageIndex = ((int)(resources.GetObject("labelTestOutputCheckBox.ImageIndex")));
+			this.labelTestOutputCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("labelTestOutputCheckBox.ImeMode")));
+			this.labelTestOutputCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("labelTestOutputCheckBox.Location")));
+			this.labelTestOutputCheckBox.Name = "labelTestOutputCheckBox";
+			this.labelTestOutputCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("labelTestOutputCheckBox.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.labelTestOutputCheckBox, ((bool)(resources.GetObject("labelTestOutputCheckBox.ShowHelp"))));
+			this.labelTestOutputCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("labelTestOutputCheckBox.Size")));
+			this.labelTestOutputCheckBox.TabIndex = ((int)(resources.GetObject("labelTestOutputCheckBox.TabIndex")));
+			this.labelTestOutputCheckBox.Text = resources.GetString("labelTestOutputCheckBox.Text");
+			this.labelTestOutputCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("labelTestOutputCheckBox.TextAlign")));
+			this.labelTestOutputCheckBox.Visible = ((bool)(resources.GetObject("labelTestOutputCheckBox.Visible")));
+			// 
+			// traceOutputCheckBox
+			// 
+			this.traceOutputCheckBox.AccessibleDescription = resources.GetString("traceOutputCheckBox.AccessibleDescription");
+			this.traceOutputCheckBox.AccessibleName = resources.GetString("traceOutputCheckBox.AccessibleName");
+			this.traceOutputCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("traceOutputCheckBox.Anchor")));
+			this.traceOutputCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("traceOutputCheckBox.Appearance")));
+			this.traceOutputCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("traceOutputCheckBox.BackgroundImage")));
+			this.traceOutputCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("traceOutputCheckBox.CheckAlign")));
+			this.traceOutputCheckBox.Checked = true;
+			this.traceOutputCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.traceOutputCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("traceOutputCheckBox.Dock")));
+			this.traceOutputCheckBox.Enabled = ((bool)(resources.GetObject("traceOutputCheckBox.Enabled")));
+			this.traceOutputCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("traceOutputCheckBox.FlatStyle")));
+			this.traceOutputCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("traceOutputCheckBox.Font")));
+			this.helpProvider1.SetHelpKeyword(this.traceOutputCheckBox, resources.GetString("traceOutputCheckBox.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.traceOutputCheckBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("traceOutputCheckBox.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.traceOutputCheckBox, resources.GetString("traceOutputCheckBox.HelpString"));
+			this.traceOutputCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("traceOutputCheckBox.Image")));
+			this.traceOutputCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("traceOutputCheckBox.ImageAlign")));
+			this.traceOutputCheckBox.ImageIndex = ((int)(resources.GetObject("traceOutputCheckBox.ImageIndex")));
+			this.traceOutputCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("traceOutputCheckBox.ImeMode")));
+			this.traceOutputCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("traceOutputCheckBox.Location")));
+			this.traceOutputCheckBox.Name = "traceOutputCheckBox";
+			this.traceOutputCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("traceOutputCheckBox.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.traceOutputCheckBox, ((bool)(resources.GetObject("traceOutputCheckBox.ShowHelp"))));
+			this.traceOutputCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("traceOutputCheckBox.Size")));
+			this.traceOutputCheckBox.TabIndex = ((int)(resources.GetObject("traceOutputCheckBox.TabIndex")));
+			this.traceOutputCheckBox.Text = resources.GetString("traceOutputCheckBox.Text");
+			this.traceOutputCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("traceOutputCheckBox.TextAlign")));
+			this.traceOutputCheckBox.Visible = ((bool)(resources.GetObject("traceOutputCheckBox.Visible")));
+			this.traceOutputCheckBox.CheckedChanged += new System.EventHandler(this.traceOutputCheckBox_CheckedChanged);
+			// 
+			// consoleErrrorCheckBox
+			// 
+			this.consoleErrrorCheckBox.AccessibleDescription = resources.GetString("consoleErrrorCheckBox.AccessibleDescription");
+			this.consoleErrrorCheckBox.AccessibleName = resources.GetString("consoleErrrorCheckBox.AccessibleName");
+			this.consoleErrrorCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("consoleErrrorCheckBox.Anchor")));
+			this.consoleErrrorCheckBox.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("consoleErrrorCheckBox.Appearance")));
+			this.consoleErrrorCheckBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("consoleErrrorCheckBox.BackgroundImage")));
+			this.consoleErrrorCheckBox.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("consoleErrrorCheckBox.CheckAlign")));
+			this.consoleErrrorCheckBox.Checked = true;
+			this.consoleErrrorCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.consoleErrrorCheckBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("consoleErrrorCheckBox.Dock")));
+			this.consoleErrrorCheckBox.Enabled = ((bool)(resources.GetObject("consoleErrrorCheckBox.Enabled")));
+			this.consoleErrrorCheckBox.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("consoleErrrorCheckBox.FlatStyle")));
+			this.consoleErrrorCheckBox.Font = ((System.Drawing.Font)(resources.GetObject("consoleErrrorCheckBox.Font")));
+			this.helpProvider1.SetHelpKeyword(this.consoleErrrorCheckBox, resources.GetString("consoleErrrorCheckBox.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.consoleErrrorCheckBox, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("consoleErrrorCheckBox.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.consoleErrrorCheckBox, resources.GetString("consoleErrrorCheckBox.HelpString"));
+			this.consoleErrrorCheckBox.Image = ((System.Drawing.Image)(resources.GetObject("consoleErrrorCheckBox.Image")));
+			this.consoleErrrorCheckBox.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("consoleErrrorCheckBox.ImageAlign")));
+			this.consoleErrrorCheckBox.ImageIndex = ((int)(resources.GetObject("consoleErrrorCheckBox.ImageIndex")));
+			this.consoleErrrorCheckBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("consoleErrrorCheckBox.ImeMode")));
+			this.consoleErrrorCheckBox.Location = ((System.Drawing.Point)(resources.GetObject("consoleErrrorCheckBox.Location")));
+			this.consoleErrrorCheckBox.Name = "consoleErrrorCheckBox";
+			this.consoleErrrorCheckBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("consoleErrrorCheckBox.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.consoleErrrorCheckBox, ((bool)(resources.GetObject("consoleErrrorCheckBox.ShowHelp"))));
+			this.consoleErrrorCheckBox.Size = ((System.Drawing.Size)(resources.GetObject("consoleErrrorCheckBox.Size")));
+			this.consoleErrrorCheckBox.TabIndex = ((int)(resources.GetObject("consoleErrrorCheckBox.TabIndex")));
+			this.consoleErrrorCheckBox.Text = resources.GetString("consoleErrrorCheckBox.Text");
+			this.consoleErrrorCheckBox.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("consoleErrrorCheckBox.TextAlign")));
+			this.consoleErrrorCheckBox.Visible = ((bool)(resources.GetObject("consoleErrrorCheckBox.Visible")));
+			this.consoleErrrorCheckBox.CheckedChanged += new System.EventHandler(this.consoleErrrorCheckBox_CheckedChanged);
+			// 
+			// separateErrors
+			// 
+			this.separateErrors.AccessibleDescription = resources.GetString("separateErrors.AccessibleDescription");
+			this.separateErrors.AccessibleName = resources.GetString("separateErrors.AccessibleName");
+			this.separateErrors.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("separateErrors.Anchor")));
+			this.separateErrors.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("separateErrors.Appearance")));
+			this.separateErrors.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("separateErrors.BackgroundImage")));
+			this.separateErrors.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("separateErrors.CheckAlign")));
+			this.separateErrors.Checked = true;
+			this.separateErrors.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("separateErrors.Dock")));
+			this.separateErrors.Enabled = ((bool)(resources.GetObject("separateErrors.Enabled")));
+			this.separateErrors.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("separateErrors.FlatStyle")));
+			this.separateErrors.Font = ((System.Drawing.Font)(resources.GetObject("separateErrors.Font")));
+			this.helpProvider1.SetHelpKeyword(this.separateErrors, resources.GetString("separateErrors.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.separateErrors, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("separateErrors.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.separateErrors, resources.GetString("separateErrors.HelpString"));
+			this.separateErrors.Image = ((System.Drawing.Image)(resources.GetObject("separateErrors.Image")));
+			this.separateErrors.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("separateErrors.ImageAlign")));
+			this.separateErrors.ImageIndex = ((int)(resources.GetObject("separateErrors.ImageIndex")));
+			this.separateErrors.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("separateErrors.ImeMode")));
+			this.separateErrors.Location = ((System.Drawing.Point)(resources.GetObject("separateErrors.Location")));
+			this.separateErrors.Name = "separateErrors";
+			this.separateErrors.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("separateErrors.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.separateErrors, ((bool)(resources.GetObject("separateErrors.ShowHelp"))));
+			this.separateErrors.Size = ((System.Drawing.Size)(resources.GetObject("separateErrors.Size")));
+			this.separateErrors.TabIndex = ((int)(resources.GetObject("separateErrors.TabIndex")));
+			this.separateErrors.Text = resources.GetString("separateErrors.Text");
+			this.separateErrors.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("separateErrors.TextAlign")));
+			this.separateErrors.Visible = ((bool)(resources.GetObject("separateErrors.Visible")));
+			// 
+			// mergeErrors
+			// 
+			this.mergeErrors.AccessibleDescription = resources.GetString("mergeErrors.AccessibleDescription");
+			this.mergeErrors.AccessibleName = resources.GetString("mergeErrors.AccessibleName");
+			this.mergeErrors.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("mergeErrors.Anchor")));
+			this.mergeErrors.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("mergeErrors.Appearance")));
+			this.mergeErrors.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mergeErrors.BackgroundImage")));
+			this.mergeErrors.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("mergeErrors.CheckAlign")));
+			this.mergeErrors.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("mergeErrors.Dock")));
+			this.mergeErrors.Enabled = ((bool)(resources.GetObject("mergeErrors.Enabled")));
+			this.mergeErrors.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("mergeErrors.FlatStyle")));
+			this.mergeErrors.Font = ((System.Drawing.Font)(resources.GetObject("mergeErrors.Font")));
+			this.helpProvider1.SetHelpKeyword(this.mergeErrors, resources.GetString("mergeErrors.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.mergeErrors, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("mergeErrors.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.mergeErrors, resources.GetString("mergeErrors.HelpString"));
+			this.mergeErrors.Image = ((System.Drawing.Image)(resources.GetObject("mergeErrors.Image")));
+			this.mergeErrors.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("mergeErrors.ImageAlign")));
+			this.mergeErrors.ImageIndex = ((int)(resources.GetObject("mergeErrors.ImageIndex")));
+			this.mergeErrors.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("mergeErrors.ImeMode")));
+			this.mergeErrors.Location = ((System.Drawing.Point)(resources.GetObject("mergeErrors.Location")));
+			this.mergeErrors.Name = "mergeErrors";
+			this.mergeErrors.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("mergeErrors.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.mergeErrors, ((bool)(resources.GetObject("mergeErrors.ShowHelp"))));
+			this.mergeErrors.Size = ((System.Drawing.Size)(resources.GetObject("mergeErrors.Size")));
+			this.mergeErrors.TabIndex = ((int)(resources.GetObject("mergeErrors.TabIndex")));
+			this.mergeErrors.Text = resources.GetString("mergeErrors.Text");
+			this.mergeErrors.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("mergeErrors.TextAlign")));
+			this.mergeErrors.Visible = ((bool)(resources.GetObject("mergeErrors.Visible")));
+			// 
+			// mergeTrace
+			// 
+			this.mergeTrace.AccessibleDescription = resources.GetString("mergeTrace.AccessibleDescription");
+			this.mergeTrace.AccessibleName = resources.GetString("mergeTrace.AccessibleName");
+			this.mergeTrace.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("mergeTrace.Anchor")));
+			this.mergeTrace.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("mergeTrace.Appearance")));
+			this.mergeTrace.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mergeTrace.BackgroundImage")));
+			this.mergeTrace.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("mergeTrace.CheckAlign")));
+			this.mergeTrace.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("mergeTrace.Dock")));
+			this.mergeTrace.Enabled = ((bool)(resources.GetObject("mergeTrace.Enabled")));
+			this.mergeTrace.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("mergeTrace.FlatStyle")));
+			this.mergeTrace.Font = ((System.Drawing.Font)(resources.GetObject("mergeTrace.Font")));
+			this.helpProvider1.SetHelpKeyword(this.mergeTrace, resources.GetString("mergeTrace.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.mergeTrace, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("mergeTrace.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.mergeTrace, resources.GetString("mergeTrace.HelpString"));
+			this.mergeTrace.Image = ((System.Drawing.Image)(resources.GetObject("mergeTrace.Image")));
+			this.mergeTrace.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("mergeTrace.ImageAlign")));
+			this.mergeTrace.ImageIndex = ((int)(resources.GetObject("mergeTrace.ImageIndex")));
+			this.mergeTrace.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("mergeTrace.ImeMode")));
+			this.mergeTrace.Location = ((System.Drawing.Point)(resources.GetObject("mergeTrace.Location")));
+			this.mergeTrace.Name = "mergeTrace";
+			this.mergeTrace.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("mergeTrace.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.mergeTrace, ((bool)(resources.GetObject("mergeTrace.ShowHelp"))));
+			this.mergeTrace.Size = ((System.Drawing.Size)(resources.GetObject("mergeTrace.Size")));
+			this.mergeTrace.TabIndex = ((int)(resources.GetObject("mergeTrace.TabIndex")));
+			this.mergeTrace.Text = resources.GetString("mergeTrace.Text");
+			this.mergeTrace.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("mergeTrace.TextAlign")));
+			this.mergeTrace.Visible = ((bool)(resources.GetObject("mergeTrace.Visible")));
+			// 
+			// separateTrace
+			// 
+			this.separateTrace.AccessibleDescription = resources.GetString("separateTrace.AccessibleDescription");
+			this.separateTrace.AccessibleName = resources.GetString("separateTrace.AccessibleName");
+			this.separateTrace.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("separateTrace.Anchor")));
+			this.separateTrace.Appearance = ((System.Windows.Forms.Appearance)(resources.GetObject("separateTrace.Appearance")));
+			this.separateTrace.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("separateTrace.BackgroundImage")));
+			this.separateTrace.CheckAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("separateTrace.CheckAlign")));
+			this.separateTrace.Checked = true;
+			this.separateTrace.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("separateTrace.Dock")));
+			this.separateTrace.Enabled = ((bool)(resources.GetObject("separateTrace.Enabled")));
+			this.separateTrace.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("separateTrace.FlatStyle")));
+			this.separateTrace.Font = ((System.Drawing.Font)(resources.GetObject("separateTrace.Font")));
+			this.helpProvider1.SetHelpKeyword(this.separateTrace, resources.GetString("separateTrace.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.separateTrace, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("separateTrace.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.separateTrace, resources.GetString("separateTrace.HelpString"));
+			this.separateTrace.Image = ((System.Drawing.Image)(resources.GetObject("separateTrace.Image")));
+			this.separateTrace.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("separateTrace.ImageAlign")));
+			this.separateTrace.ImageIndex = ((int)(resources.GetObject("separateTrace.ImageIndex")));
+			this.separateTrace.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("separateTrace.ImeMode")));
+			this.separateTrace.Location = ((System.Drawing.Point)(resources.GetObject("separateTrace.Location")));
+			this.separateTrace.Name = "separateTrace";
+			this.separateTrace.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("separateTrace.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.separateTrace, ((bool)(resources.GetObject("separateTrace.ShowHelp"))));
+			this.separateTrace.Size = ((System.Drawing.Size)(resources.GetObject("separateTrace.Size")));
+			this.separateTrace.TabIndex = ((int)(resources.GetObject("separateTrace.TabIndex")));
+			this.separateTrace.TabStop = true;
+			this.separateTrace.Text = resources.GetString("separateTrace.Text");
+			this.separateTrace.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("separateTrace.TextAlign")));
+			this.separateTrace.Visible = ((bool)(resources.GetObject("separateTrace.Visible")));
+			// 
+			// panel1
+			// 
+			this.panel1.AccessibleDescription = resources.GetString("panel1.AccessibleDescription");
+			this.panel1.AccessibleName = resources.GetString("panel1.AccessibleName");
+			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panel1.Anchor")));
+			this.panel1.AutoScroll = ((bool)(resources.GetObject("panel1.AutoScroll")));
+			this.panel1.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panel1.AutoScrollMargin")));
+			this.panel1.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panel1.AutoScrollMinSize")));
+			this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
+			this.panel1.Controls.Add(this.consoleErrrorCheckBox);
+			this.panel1.Controls.Add(this.mergeErrors);
+			this.panel1.Controls.Add(this.separateErrors);
+			this.panel1.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panel1.Dock")));
+			this.panel1.Enabled = ((bool)(resources.GetObject("panel1.Enabled")));
+			this.panel1.Font = ((System.Drawing.Font)(resources.GetObject("panel1.Font")));
+			this.helpProvider1.SetHelpKeyword(this.panel1, resources.GetString("panel1.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.panel1, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("panel1.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.panel1, resources.GetString("panel1.HelpString"));
+			this.panel1.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panel1.ImeMode")));
+			this.panel1.Location = ((System.Drawing.Point)(resources.GetObject("panel1.Location")));
+			this.panel1.Name = "panel1";
+			this.panel1.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panel1.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.panel1, ((bool)(resources.GetObject("panel1.ShowHelp"))));
+			this.panel1.Size = ((System.Drawing.Size)(resources.GetObject("panel1.Size")));
+			this.panel1.TabIndex = ((int)(resources.GetObject("panel1.TabIndex")));
+			this.panel1.Text = resources.GetString("panel1.Text");
+			this.panel1.Visible = ((bool)(resources.GetObject("panel1.Visible")));
+			// 
+			// panel2
+			// 
+			this.panel2.AccessibleDescription = resources.GetString("panel2.AccessibleDescription");
+			this.panel2.AccessibleName = resources.GetString("panel2.AccessibleName");
+			this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("panel2.Anchor")));
+			this.panel2.AutoScroll = ((bool)(resources.GetObject("panel2.AutoScroll")));
+			this.panel2.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("panel2.AutoScrollMargin")));
+			this.panel2.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("panel2.AutoScrollMinSize")));
+			this.panel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel2.BackgroundImage")));
+			this.panel2.Controls.Add(this.separateTrace);
+			this.panel2.Controls.Add(this.traceOutputCheckBox);
+			this.panel2.Controls.Add(this.mergeTrace);
+			this.panel2.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("panel2.Dock")));
+			this.panel2.Enabled = ((bool)(resources.GetObject("panel2.Enabled")));
+			this.panel2.Font = ((System.Drawing.Font)(resources.GetObject("panel2.Font")));
+			this.helpProvider1.SetHelpKeyword(this.panel2, resources.GetString("panel2.HelpKeyword"));
+			this.helpProvider1.SetHelpNavigator(this.panel2, ((System.Windows.Forms.HelpNavigator)(resources.GetObject("panel2.HelpNavigator"))));
+			this.helpProvider1.SetHelpString(this.panel2, resources.GetString("panel2.HelpString"));
+			this.panel2.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("panel2.ImeMode")));
+			this.panel2.Location = ((System.Drawing.Point)(resources.GetObject("panel2.Location")));
+			this.panel2.Name = "panel2";
+			this.panel2.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("panel2.RightToLeft")));
+			this.helpProvider1.SetShowHelp(this.panel2, ((bool)(resources.GetObject("panel2.ShowHelp"))));
+			this.panel2.Size = ((System.Drawing.Size)(resources.GetObject("panel2.Size")));
+			this.panel2.TabIndex = ((int)(resources.GetObject("panel2.TabIndex")));
+			this.panel2.Text = resources.GetString("panel2.Text");
+			this.panel2.Visible = ((bool)(resources.GetObject("panel2.Visible")));
 			// 
 			// OptionsDialog
 			// 
@@ -1088,14 +1510,18 @@ namespace NUnit.Gui
 			this.Load += new System.EventHandler(this.OptionsDialog_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
-			this.groupBox3.ResumeLayout(false);
-			this.groupBox4.ResumeLayout(false);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
+			this.groupBox4.ResumeLayout(false);
 			this.groupBox5.ResumeLayout(false);
 			this.tabPage2.ResumeLayout(false);
 			this.groupBox7.ResumeLayout(false);
 			this.groupBox6.ResumeLayout(false);
+			this.tabPage3.ResumeLayout(false);
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox8.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
+			this.panel2.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -1106,8 +1532,12 @@ namespace NUnit.Gui
 			recentFilesCountTextBox.Text = UserSettings.RecentProjects.MaxFiles.ToString();
 
 			this.options = UserSettings.Options;
+			this.formSettings = UserSettings.Form;
+
 			loadLastProjectCheckBox.Checked = options.LoadLastProject;
 			initialDisplayComboBox.SelectedIndex = options.InitialTreeDisplay;
+
+			visualStudioSupportCheckBox.Checked = options.VisualStudioSupport;
 
 			reloadOnChangeCheckBox.Enabled = Environment.OSVersion.Platform == System.PlatformID.Win32NT;
 			reloadOnChangeCheckBox.Checked = options.ReloadOnChange;
@@ -1123,11 +1553,20 @@ namespace NUnit.Gui
 			autoNamespaceSuites.Checked = options.AutoNamespaceSuites;
 			flatTestList.Checked = !options.AutoNamespaceSuites;
 
+			errorsTabCheckBox.Checked = formSettings.DisplayErrorsTab;
+			notRunTabCheckBox.Checked = formSettings.DisplayNotRunTab;
+			consoleOutputCheckBox.Checked = formSettings.DisplayConsoleOutTab;
+			consoleErrrorCheckBox.Checked = formSettings.DisplayConsoleErrorTab|| formSettings.MergeConsoleErrorOutput;
+			traceOutputCheckBox.Checked = formSettings.DisplayTraceTab || formSettings.MergeTraceOutput;
+
 			labelTestOutputCheckBox.Checked = options.TestLabels;
 			failureToolTips.Checked = options.FailureToolTips;
 			enableWordWrap.Checked = options.EnableWordWrapForFailures;
 
-			visualStudioSupportCheckBox.Checked = options.VisualStudioSupport;
+			mergeErrors.Checked = formSettings.MergeConsoleErrorOutput;
+			mergeTrace.Checked = formSettings.MergeTraceOutput;
+			
+
 		}
 
 		private void okButton_Click(object sender, System.EventArgs e)
@@ -1160,6 +1599,15 @@ namespace NUnit.Gui
 			options.VisualStudioSupport = visualStudioSupportCheckBox.Checked;
 
 			options.InitialTreeDisplay = initialDisplayComboBox.SelectedIndex;
+
+			formSettings.DisplayErrorsTab = errorsTabCheckBox.Checked;
+			formSettings.DisplayNotRunTab = notRunTabCheckBox.Checked;
+			formSettings.DisplayConsoleOutTab = consoleOutputCheckBox.Checked;
+			formSettings.DisplayConsoleErrorTab = consoleErrrorCheckBox.Checked && separateErrors.Checked;
+			formSettings.DisplayTraceTab = traceOutputCheckBox.Checked && separateTrace.Checked;
+
+			formSettings.MergeConsoleErrorOutput = mergeErrors.Checked;
+			formSettings.MergeTraceOutput = mergeTrace.Checked;
 
 			DialogResult = DialogResult.OK;
 
@@ -1222,6 +1670,26 @@ namespace NUnit.Gui
 		{
 			rerunOnChangeCheckBox.Enabled = reloadOnChangeCheckBox.Checked;
 			rerunOnChangeCheckBox.Checked = false;
+		}
+
+		private void errorsTabCheckBox_CheckedChanged(object sender, System.EventArgs e)
+		{
+			this.failureToolTips.Enabled = this.enableWordWrap.Enabled = this.errorsTabCheckBox.Checked;
+		}
+
+		private void consoleOutputCheckBox_CheckedChanged(object sender, System.EventArgs e)
+		{
+			this.labelTestOutputCheckBox.Enabled = this.consoleOutputCheckBox.Checked;
+		}
+
+		private void consoleErrrorCheckBox_CheckedChanged(object sender, System.EventArgs e)
+		{
+			this.separateErrors.Enabled = this.mergeErrors.Enabled = this.consoleErrrorCheckBox.Checked;
+		}
+
+		private void traceOutputCheckBox_CheckedChanged(object sender, System.EventArgs e)
+		{
+			this.separateTrace.Enabled = this.mergeTrace.Enabled = this.traceOutputCheckBox.Checked;
 		}
 	}
 }

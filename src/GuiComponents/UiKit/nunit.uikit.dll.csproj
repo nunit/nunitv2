@@ -245,6 +245,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "RichEditTabPage.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RichEditTabPage.resx"
+                    DependentUpon = "RichEditTabPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "StatusBar.cs"
                     SubType = "Component"
                     BuildAction = "Compile"

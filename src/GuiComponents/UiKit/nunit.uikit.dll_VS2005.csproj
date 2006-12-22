@@ -105,6 +105,9 @@
     <Compile Include="RenameConfigurationDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="RichEditTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="StatusBar.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -162,6 +165,10 @@
     <EmbeddedResource Include="Red.jpg" />
     <EmbeddedResource Include="RenameConfigurationDialog.resx">
       <DependentUpon>RenameConfigurationDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RichEditTabPage.resx">
+      <DependentUpon>RichEditTabPage.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="StatusBar.resx">
       <DependentUpon>StatusBar.cs</DependentUpon>

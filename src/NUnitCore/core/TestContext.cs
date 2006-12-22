@@ -55,6 +55,15 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
+		/// Controls where Trace output is directed
+		/// </summary>
+		public static TextWriter TraceWriter
+		{
+			get { return current.TraceWriter; }
+			set { current.TraceWriter = value; }
+		}
+
+		/// <summary>
 		/// The current directory setting
 		/// </summary>
 		public static string CurrentDirectory
@@ -120,6 +129,11 @@ namespace NUnit.Core
 			private TextWriter errorWriter;
 
 			/// <summary>
+			/// Destination for Trace output
+			/// </summary>
+			private TextWriter traceWriter;
+
+			/// <summary>
 			/// The current working directory
 			/// </summary>
 			private string currentDirectory;
@@ -135,6 +149,7 @@ namespace NUnit.Core
 				this.tracing = false;
 				this.outWriter = Console.Out;
 				this.errorWriter = Console.Error;
+				this.traceWriter = null;
 				this.currentDirectory = Environment.CurrentDirectory;
 			}
 
@@ -144,6 +159,7 @@ namespace NUnit.Core
 				this.tracing = other.tracing;
 				this.outWriter = other.outWriter;
 				this.errorWriter = other.errorWriter;
+				this.traceWriter = other.traceWriter;
 				this.currentDirectory = other.currentDirectory;
 			}
 
@@ -170,14 +186,16 @@ namespace NUnit.Core
 			{
 				get { return tracing; }
 				set 
-				{ 
+				{
 					if ( tracing != value )
 					{
-						tracing = value;
-						if ( tracing )
-							Trace.Listeners.Add( new TextWriterTraceListener( Console.Out, "NUnit" ) );
-						else
-							Trace.Listeners.Remove( "NUnit" );
+						if ( traceWriter != null && tracing )
+							StopTracing();
+
+						tracing = value; 
+
+						if ( traceWriter != null && tracing )
+							StartTracing();
 					}
 				}
 			}
@@ -214,6 +232,35 @@ namespace NUnit.Core
 						Console.SetError( errorWriter );
 					}
 				}
+			}
+
+			public TextWriter TraceWriter
+			{
+				get { return traceWriter; }
+				set
+				{
+					if ( traceWriter != value )
+					{
+						if ( traceWriter != null  && tracing )
+							StopTracing();
+
+						traceWriter = value;
+
+						if ( traceWriter != null && tracing )
+							StartTracing();
+					}
+				}
+			}
+
+			private void StopTracing()
+			{
+				traceWriter.Close();
+				System.Diagnostics.Trace.Listeners.Remove( "NUnit" );
+			}
+
+			private void StartTracing()
+			{
+				System.Diagnostics.Trace.Listeners.Add( new TextWriterTraceListener( traceWriter, "NUnit" ) );
 			}
 
 			public string CurrentDirectory

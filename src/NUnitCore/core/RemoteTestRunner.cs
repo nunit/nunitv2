@@ -28,8 +28,7 @@ namespace NUnit.Core
 		{
 			QueuingEventListener queue = new QueuingEventListener();
 
-			TestContext.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
-			TestContext.Error = new EventListenerTextWriter( queue, TestOutputType.Error );
+			DirectOutputToListener( queue );
 
 			using( EventPump pump = new EventPump( listener, queue.Events, true ) )
 			{
@@ -47,8 +46,7 @@ namespace NUnit.Core
 		{
 			QueuingEventListener queue = new QueuingEventListener();
 
-			TestContext.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
-			TestContext.Error = new EventListenerTextWriter( queue, TestOutputType.Error );
+			DirectOutputToListener( queue );
 
 			EventPump pump = new EventPump( listener, queue.Events, true);
 			pump.Start(); // Will run till RunFinished is received
@@ -57,6 +55,13 @@ namespace NUnit.Core
 			base.BeginRun( queue, filter );
 		}
 
+		private void DirectOutputToListener( EventListener queue )
+		{
+			TestContext.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
+			TestContext.Error = new EventListenerTextWriter( queue, TestOutputType.Error );
+			TestContext.TraceWriter = new EventListenerTextWriter( queue, TestOutputType.Trace );
+			TestContext.Tracing = true;
+		}
 		#endregion
 	}
 }

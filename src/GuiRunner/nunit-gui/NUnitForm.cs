@@ -73,7 +73,6 @@ namespace NUnit.Gui
         private string currentTestName;
 
 		private TestTree testTree;
-		public System.Windows.Forms.TabPage testsNotRun;
 		public System.Windows.Forms.MenuItem exitMenuItem;
 		public System.Windows.Forms.MenuItem helpMenuItem;
 		public System.Windows.Forms.MenuItem aboutMenuItem;
@@ -82,11 +81,6 @@ namespace NUnit.Gui
 		public CP.Windows.Forms.ExpandingTextBox stackTrace;
 		public NUnit.UiKit.StatusBar statusBar;
 		public System.Windows.Forms.TabControl resultTabs;
-		public System.Windows.Forms.TabPage errorPage;
-		public System.Windows.Forms.TabPage stderr;
-		public System.Windows.Forms.TabPage stdout;
-		public System.Windows.Forms.RichTextBox stdErrTab;
-		public System.Windows.Forms.RichTextBox stdOutTab;
 		public NUnit.UiKit.NotRunTree notRunTree;
 		private System.ComponentModel.IContainer components;
 		public System.Windows.Forms.ToolTip toolTip;
@@ -135,8 +129,6 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem viewMenuSeparator1;
 		private System.Windows.Forms.MenuItem toolsMenuSeparator2;
 		private System.Windows.Forms.MenuItem menuItem2;
-		private System.Windows.Forms.MenuItem menuItem3;
-		private System.Windows.Forms.MenuItem showAllTabsMenuItem;
 		private System.Windows.Forms.MenuItem menuItem6;
 		private System.Windows.Forms.MenuItem miniGuiMenuItem;
 		private System.Windows.Forms.MenuItem fullGuiMenuItem;
@@ -156,6 +148,15 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem assemblyDetailsMenuItem;
 		private System.Windows.Forms.MenuItem addinInfoMenuItem;
 		private System.Windows.Forms.Label runCount;
+		private NUnit.UiKit.RichEditTabPage traceTab;
+		private System.Windows.Forms.MenuItem traceTabMenuItem;
+		public System.Windows.Forms.TabPage errorTab;
+		public System.Windows.Forms.TabPage notRunTab;
+		public NUnit.UiKit.RichEditTabPage stdoutTab;
+		public NUnit.UiKit.RichEditTabPage stderrTab;
+		private System.Windows.Forms.TabPage internalTraceTab;
+		private System.Windows.Forms.MenuItem internalTraceTabMenuItem;
+		private System.Windows.Forms.MenuItem menuItem5;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -166,28 +167,7 @@ namespace NUnit.Gui
 		{
 			InitializeComponent();
 
-			//			this.testTree.ShowCheckBoxes = UserSettings.Options.ShowCheckBoxes;
-			//			this.testTree.VisualStudioSupport = UserSettings.Options.VisualStudioSupport;
-			//			this.testTree.InitialDisplay = 
-			//				(TestSuiteTreeView.DisplayStyle)UserSettings.Options.InitialTreeDisplay;
-			//			this.mainMenu.MenuItems.Add(1, testTree.TreeMenu);
 			this.commandLineOptions = commandLineOptions;
-			//
-			//			stdErrTab.Enabled = true;
-			//			stdOutTab.Enabled = true;
-			//
-			//			runButton.Enabled = false;
-			//			stopButton.Enabled = false;
-			//
-			//			TestLoader loader = new TestLoader( new GuiTestEventDispatcher() );
-			//			loader.ReloadOnRun = UserSettings.Options.ReloadOnRun;
-			//			loader.ReloadOnChange = UserSettings.Options.ReloadOnChange;
-			//
-			//			bool vsSupport = UserSettings.Options.VisualStudioSupport;
-			//
-			//			AppUI.Init(	this, outWriter, errWriter, loader, vsSupport );
-			//
-			//			recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, UserSettings.RecentProjects );
 		}
 
 		protected override void Dispose( bool disposing )
@@ -236,8 +216,9 @@ namespace NUnit.Gui
 			this.notRunTabMenuItem = new System.Windows.Forms.MenuItem();
 			this.consoleOutMenuItem = new System.Windows.Forms.MenuItem();
 			this.consoleErrorMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem3 = new System.Windows.Forms.MenuItem();
-			this.showAllTabsMenuItem = new System.Windows.Forms.MenuItem();
+			this.traceTabMenuItem = new System.Windows.Forms.MenuItem();
+			this.menuItem5 = new System.Windows.Forms.MenuItem();
+			this.internalTraceTabMenuItem = new System.Windows.Forms.MenuItem();
 			this.viewMenuSeparator1 = new System.Windows.Forms.MenuItem();
 			this.fontMenuItem = new System.Windows.Forms.MenuItem();
 			this.increaseFontMenuItem = new System.Windows.Forms.MenuItem();
@@ -276,16 +257,16 @@ namespace NUnit.Gui
 			this.treeSplitter = new System.Windows.Forms.Splitter();
 			this.rightPanel = new System.Windows.Forms.Panel();
 			this.resultTabs = new System.Windows.Forms.TabControl();
-			this.errorPage = new System.Windows.Forms.TabPage();
+			this.errorTab = new System.Windows.Forms.TabPage();
 			this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
 			this.tabSplitter = new System.Windows.Forms.Splitter();
 			this.detailList = new System.Windows.Forms.ListBox();
-			this.testsNotRun = new System.Windows.Forms.TabPage();
+			this.stdoutTab = new NUnit.UiKit.RichEditTabPage();
+			this.traceTab = new NUnit.UiKit.RichEditTabPage();
+			this.internalTraceTab = new System.Windows.Forms.TabPage();
+			this.stderrTab = new NUnit.UiKit.RichEditTabPage();
+			this.notRunTab = new System.Windows.Forms.TabPage();
 			this.notRunTree = new NUnit.UiKit.NotRunTree();
-			this.stdout = new System.Windows.Forms.TabPage();
-			this.stdOutTab = new System.Windows.Forms.RichTextBox();
-			this.stderr = new System.Windows.Forms.TabPage();
-			this.stdErrTab = new System.Windows.Forms.RichTextBox();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.runCount = new System.Windows.Forms.Label();
 			this.stopButton = new System.Windows.Forms.Button();
@@ -299,10 +280,10 @@ namespace NUnit.Gui
 			this.leftPanel = new System.Windows.Forms.Panel();
 			this.rightPanel.SuspendLayout();
 			this.resultTabs.SuspendLayout();
-			this.errorPage.SuspendLayout();
-			this.testsNotRun.SuspendLayout();
-			this.stdout.SuspendLayout();
-			this.stderr.SuspendLayout();
+			this.errorTab.SuspendLayout();
+			this.stdoutTab.SuspendLayout();
+			this.stderrTab.SuspendLayout();
+			this.notRunTab.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.leftPanel.SuspendLayout();
 			this.SuspendLayout();
@@ -529,8 +510,9 @@ namespace NUnit.Gui
 																					 this.notRunTabMenuItem,
 																					 this.consoleOutMenuItem,
 																					 this.consoleErrorMenuItem,
-																					 this.menuItem3,
-																					 this.showAllTabsMenuItem});
+																					 this.traceTabMenuItem,
+																					 this.menuItem5,
+																					 this.internalTraceTabMenuItem});
 			this.tabsMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("tabsMenu.Shortcut")));
 			this.tabsMenu.ShowShortcut = ((bool)(resources.GetObject("tabsMenu.ShowShortcut")));
 			this.tabsMenu.Text = resources.GetString("tabsMenu.Text");
@@ -580,24 +562,35 @@ namespace NUnit.Gui
 			this.consoleErrorMenuItem.Visible = ((bool)(resources.GetObject("consoleErrorMenuItem.Visible")));
 			this.consoleErrorMenuItem.Click += new System.EventHandler(this.consoleErrorMenuItem_Click);
 			// 
-			// menuItem3
+			// traceTabMenuItem
 			// 
-			this.menuItem3.Enabled = ((bool)(resources.GetObject("menuItem3.Enabled")));
-			this.menuItem3.Index = 4;
-			this.menuItem3.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem3.Shortcut")));
-			this.menuItem3.ShowShortcut = ((bool)(resources.GetObject("menuItem3.ShowShortcut")));
-			this.menuItem3.Text = resources.GetString("menuItem3.Text");
-			this.menuItem3.Visible = ((bool)(resources.GetObject("menuItem3.Visible")));
+			this.traceTabMenuItem.Checked = true;
+			this.traceTabMenuItem.Enabled = ((bool)(resources.GetObject("traceTabMenuItem.Enabled")));
+			this.traceTabMenuItem.Index = 4;
+			this.traceTabMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("traceTabMenuItem.Shortcut")));
+			this.traceTabMenuItem.ShowShortcut = ((bool)(resources.GetObject("traceTabMenuItem.ShowShortcut")));
+			this.traceTabMenuItem.Text = resources.GetString("traceTabMenuItem.Text");
+			this.traceTabMenuItem.Visible = ((bool)(resources.GetObject("traceTabMenuItem.Visible")));
+			this.traceTabMenuItem.Click += new System.EventHandler(this.traceTabMenuItem_Click);
 			// 
-			// showAllTabsMenuItem
+			// menuItem5
 			// 
-			this.showAllTabsMenuItem.Enabled = ((bool)(resources.GetObject("showAllTabsMenuItem.Enabled")));
-			this.showAllTabsMenuItem.Index = 5;
-			this.showAllTabsMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("showAllTabsMenuItem.Shortcut")));
-			this.showAllTabsMenuItem.ShowShortcut = ((bool)(resources.GetObject("showAllTabsMenuItem.ShowShortcut")));
-			this.showAllTabsMenuItem.Text = resources.GetString("showAllTabsMenuItem.Text");
-			this.showAllTabsMenuItem.Visible = ((bool)(resources.GetObject("showAllTabsMenuItem.Visible")));
-			this.showAllTabsMenuItem.Click += new System.EventHandler(this.showAllTabsMenuItem_Click);
+			this.menuItem5.Enabled = ((bool)(resources.GetObject("menuItem5.Enabled")));
+			this.menuItem5.Index = 5;
+			this.menuItem5.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem5.Shortcut")));
+			this.menuItem5.ShowShortcut = ((bool)(resources.GetObject("menuItem5.ShowShortcut")));
+			this.menuItem5.Text = resources.GetString("menuItem5.Text");
+			this.menuItem5.Visible = ((bool)(resources.GetObject("menuItem5.Visible")));
+			// 
+			// internalTraceTabMenuItem
+			// 
+			this.internalTraceTabMenuItem.Enabled = ((bool)(resources.GetObject("internalTraceTabMenuItem.Enabled")));
+			this.internalTraceTabMenuItem.Index = 6;
+			this.internalTraceTabMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("internalTraceTabMenuItem.Shortcut")));
+			this.internalTraceTabMenuItem.ShowShortcut = ((bool)(resources.GetObject("internalTraceTabMenuItem.ShowShortcut")));
+			this.internalTraceTabMenuItem.Text = resources.GetString("internalTraceTabMenuItem.Text");
+			this.internalTraceTabMenuItem.Visible = ((bool)(resources.GetObject("internalTraceTabMenuItem.Visible")));
+			this.internalTraceTabMenuItem.Click += new System.EventHandler(this.internalTraceTabMenuItem_Click);
 			// 
 			// viewMenuSeparator1
 			// 
@@ -1019,10 +1012,12 @@ namespace NUnit.Gui
 			this.resultTabs.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("resultTabs.Anchor")));
 			this.resultTabs.Appearance = ((System.Windows.Forms.TabAppearance)(resources.GetObject("resultTabs.Appearance")));
 			this.resultTabs.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("resultTabs.BackgroundImage")));
-			this.resultTabs.Controls.Add(this.errorPage);
-			this.resultTabs.Controls.Add(this.testsNotRun);
-			this.resultTabs.Controls.Add(this.stdout);
-			this.resultTabs.Controls.Add(this.stderr);
+			this.resultTabs.Controls.Add(this.errorTab);
+			this.resultTabs.Controls.Add(this.stdoutTab);
+			this.resultTabs.Controls.Add(this.traceTab);
+			this.resultTabs.Controls.Add(this.internalTraceTab);
+			this.resultTabs.Controls.Add(this.stderrTab);
+			this.resultTabs.Controls.Add(this.notRunTab);
 			this.resultTabs.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("resultTabs.Dock")));
 			this.resultTabs.Enabled = ((bool)(resources.GetObject("resultTabs.Enabled")));
 			this.resultTabs.Font = ((System.Drawing.Font)(resources.GetObject("resultTabs.Font")));
@@ -1040,33 +1035,34 @@ namespace NUnit.Gui
 			this.resultTabs.Text = resources.GetString("resultTabs.Text");
 			this.toolTip.SetToolTip(this.resultTabs, resources.GetString("resultTabs.ToolTip"));
 			this.resultTabs.Visible = ((bool)(resources.GetObject("resultTabs.Visible")));
+			this.resultTabs.SelectedIndexChanged += new System.EventHandler(this.resultTabs_SelectedIndexChanged);
 			// 
-			// errorPage
+			// errorTab
 			// 
-			this.errorPage.AccessibleDescription = resources.GetString("errorPage.AccessibleDescription");
-			this.errorPage.AccessibleName = resources.GetString("errorPage.AccessibleName");
-			this.errorPage.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("errorPage.Anchor")));
-			this.errorPage.AutoScroll = ((bool)(resources.GetObject("errorPage.AutoScroll")));
-			this.errorPage.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("errorPage.AutoScrollMargin")));
-			this.errorPage.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("errorPage.AutoScrollMinSize")));
-			this.errorPage.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("errorPage.BackgroundImage")));
-			this.errorPage.Controls.Add(this.stackTrace);
-			this.errorPage.Controls.Add(this.tabSplitter);
-			this.errorPage.Controls.Add(this.detailList);
-			this.errorPage.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("errorPage.Dock")));
-			this.errorPage.Enabled = ((bool)(resources.GetObject("errorPage.Enabled")));
-			this.errorPage.Font = ((System.Drawing.Font)(resources.GetObject("errorPage.Font")));
-			this.errorPage.ImageIndex = ((int)(resources.GetObject("errorPage.ImageIndex")));
-			this.errorPage.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("errorPage.ImeMode")));
-			this.errorPage.Location = ((System.Drawing.Point)(resources.GetObject("errorPage.Location")));
-			this.errorPage.Name = "errorPage";
-			this.errorPage.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("errorPage.RightToLeft")));
-			this.errorPage.Size = ((System.Drawing.Size)(resources.GetObject("errorPage.Size")));
-			this.errorPage.TabIndex = ((int)(resources.GetObject("errorPage.TabIndex")));
-			this.errorPage.Text = resources.GetString("errorPage.Text");
-			this.toolTip.SetToolTip(this.errorPage, resources.GetString("errorPage.ToolTip"));
-			this.errorPage.ToolTipText = resources.GetString("errorPage.ToolTipText");
-			this.errorPage.Visible = ((bool)(resources.GetObject("errorPage.Visible")));
+			this.errorTab.AccessibleDescription = resources.GetString("errorTab.AccessibleDescription");
+			this.errorTab.AccessibleName = resources.GetString("errorTab.AccessibleName");
+			this.errorTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("errorTab.Anchor")));
+			this.errorTab.AutoScroll = ((bool)(resources.GetObject("errorTab.AutoScroll")));
+			this.errorTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("errorTab.AutoScrollMargin")));
+			this.errorTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("errorTab.AutoScrollMinSize")));
+			this.errorTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("errorTab.BackgroundImage")));
+			this.errorTab.Controls.Add(this.stackTrace);
+			this.errorTab.Controls.Add(this.tabSplitter);
+			this.errorTab.Controls.Add(this.detailList);
+			this.errorTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("errorTab.Dock")));
+			this.errorTab.Enabled = ((bool)(resources.GetObject("errorTab.Enabled")));
+			this.errorTab.Font = ((System.Drawing.Font)(resources.GetObject("errorTab.Font")));
+			this.errorTab.ImageIndex = ((int)(resources.GetObject("errorTab.ImageIndex")));
+			this.errorTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("errorTab.ImeMode")));
+			this.errorTab.Location = ((System.Drawing.Point)(resources.GetObject("errorTab.Location")));
+			this.errorTab.Name = "errorTab";
+			this.errorTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("errorTab.RightToLeft")));
+			this.errorTab.Size = ((System.Drawing.Size)(resources.GetObject("errorTab.Size")));
+			this.errorTab.TabIndex = ((int)(resources.GetObject("errorTab.TabIndex")));
+			this.errorTab.Text = resources.GetString("errorTab.Text");
+			this.toolTip.SetToolTip(this.errorTab, resources.GetString("errorTab.ToolTip"));
+			this.errorTab.ToolTipText = resources.GetString("errorTab.ToolTipText");
+			this.errorTab.Visible = ((bool)(resources.GetObject("errorTab.Visible")));
 			// 
 			// stackTrace
 			// 
@@ -1147,30 +1143,126 @@ namespace NUnit.Gui
 			this.detailList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.detailList_DrawItem);
 			this.detailList.SelectedIndexChanged += new System.EventHandler(this.detailList_SelectedIndexChanged);
 			// 
-			// testsNotRun
+			// stdoutTab
 			// 
-			this.testsNotRun.AccessibleDescription = resources.GetString("testsNotRun.AccessibleDescription");
-			this.testsNotRun.AccessibleName = resources.GetString("testsNotRun.AccessibleName");
-			this.testsNotRun.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("testsNotRun.Anchor")));
-			this.testsNotRun.AutoScroll = ((bool)(resources.GetObject("testsNotRun.AutoScroll")));
-			this.testsNotRun.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("testsNotRun.AutoScrollMargin")));
-			this.testsNotRun.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("testsNotRun.AutoScrollMinSize")));
-			this.testsNotRun.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("testsNotRun.BackgroundImage")));
-			this.testsNotRun.Controls.Add(this.notRunTree);
-			this.testsNotRun.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("testsNotRun.Dock")));
-			this.testsNotRun.Enabled = ((bool)(resources.GetObject("testsNotRun.Enabled")));
-			this.testsNotRun.Font = ((System.Drawing.Font)(resources.GetObject("testsNotRun.Font")));
-			this.testsNotRun.ImageIndex = ((int)(resources.GetObject("testsNotRun.ImageIndex")));
-			this.testsNotRun.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("testsNotRun.ImeMode")));
-			this.testsNotRun.Location = ((System.Drawing.Point)(resources.GetObject("testsNotRun.Location")));
-			this.testsNotRun.Name = "testsNotRun";
-			this.testsNotRun.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("testsNotRun.RightToLeft")));
-			this.testsNotRun.Size = ((System.Drawing.Size)(resources.GetObject("testsNotRun.Size")));
-			this.testsNotRun.TabIndex = ((int)(resources.GetObject("testsNotRun.TabIndex")));
-			this.testsNotRun.Text = resources.GetString("testsNotRun.Text");
-			this.toolTip.SetToolTip(this.testsNotRun, resources.GetString("testsNotRun.ToolTip"));
-			this.testsNotRun.ToolTipText = resources.GetString("testsNotRun.ToolTipText");
-			this.testsNotRun.Visible = ((bool)(resources.GetObject("testsNotRun.Visible")));
+			this.stdoutTab.AccessibleDescription = resources.GetString("stdoutTab.AccessibleDescription");
+			this.stdoutTab.AccessibleName = resources.GetString("stdoutTab.AccessibleName");
+			this.stdoutTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stdoutTab.Anchor")));
+			this.stdoutTab.AutoScroll = ((bool)(resources.GetObject("stdoutTab.AutoScroll")));
+			this.stdoutTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("stdoutTab.AutoScrollMargin")));
+			this.stdoutTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("stdoutTab.AutoScrollMinSize")));
+			this.stdoutTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stdoutTab.BackgroundImage")));
+			this.stdoutTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stdoutTab.Dock")));
+			this.stdoutTab.Enabled = ((bool)(resources.GetObject("stdoutTab.Enabled")));
+			this.stdoutTab.Font = ((System.Drawing.Font)(resources.GetObject("stdoutTab.Font")));
+			this.stdoutTab.ImageIndex = ((int)(resources.GetObject("stdoutTab.ImageIndex")));
+			this.stdoutTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stdoutTab.ImeMode")));
+			this.stdoutTab.Location = ((System.Drawing.Point)(resources.GetObject("stdoutTab.Location")));
+			this.stdoutTab.Name = "stdoutTab";
+			this.stdoutTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stdoutTab.RightToLeft")));
+			this.stdoutTab.Size = ((System.Drawing.Size)(resources.GetObject("stdoutTab.Size")));
+			this.stdoutTab.TabIndex = ((int)(resources.GetObject("stdoutTab.TabIndex")));
+			this.stdoutTab.Text = resources.GetString("stdoutTab.Text");
+			this.toolTip.SetToolTip(this.stdoutTab, resources.GetString("stdoutTab.ToolTip"));
+			this.stdoutTab.ToolTipText = resources.GetString("stdoutTab.ToolTipText");
+			this.stdoutTab.Visible = ((bool)(resources.GetObject("stdoutTab.Visible")));
+			// 
+			// traceTab
+			// 
+			this.traceTab.AccessibleDescription = resources.GetString("traceTab.AccessibleDescription");
+			this.traceTab.AccessibleName = resources.GetString("traceTab.AccessibleName");
+			this.traceTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("traceTab.Anchor")));
+			this.traceTab.AutoScroll = ((bool)(resources.GetObject("traceTab.AutoScroll")));
+			this.traceTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("traceTab.AutoScrollMargin")));
+			this.traceTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("traceTab.AutoScrollMinSize")));
+			this.traceTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("traceTab.BackgroundImage")));
+			this.traceTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("traceTab.Dock")));
+			this.traceTab.Enabled = ((bool)(resources.GetObject("traceTab.Enabled")));
+			this.traceTab.Font = ((System.Drawing.Font)(resources.GetObject("traceTab.Font")));
+			this.traceTab.ImageIndex = ((int)(resources.GetObject("traceTab.ImageIndex")));
+			this.traceTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("traceTab.ImeMode")));
+			this.traceTab.Location = ((System.Drawing.Point)(resources.GetObject("traceTab.Location")));
+			this.traceTab.Name = "traceTab";
+			this.traceTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("traceTab.RightToLeft")));
+			this.traceTab.Size = ((System.Drawing.Size)(resources.GetObject("traceTab.Size")));
+			this.traceTab.TabIndex = ((int)(resources.GetObject("traceTab.TabIndex")));
+			this.traceTab.Text = resources.GetString("traceTab.Text");
+			this.toolTip.SetToolTip(this.traceTab, resources.GetString("traceTab.ToolTip"));
+			this.traceTab.ToolTipText = resources.GetString("traceTab.ToolTipText");
+			this.traceTab.Visible = ((bool)(resources.GetObject("traceTab.Visible")));
+			// 
+			// internalTraceTab
+			// 
+			this.internalTraceTab.AccessibleDescription = resources.GetString("internalTraceTab.AccessibleDescription");
+			this.internalTraceTab.AccessibleName = resources.GetString("internalTraceTab.AccessibleName");
+			this.internalTraceTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("internalTraceTab.Anchor")));
+			this.internalTraceTab.AutoScroll = ((bool)(resources.GetObject("internalTraceTab.AutoScroll")));
+			this.internalTraceTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("internalTraceTab.AutoScrollMargin")));
+			this.internalTraceTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("internalTraceTab.AutoScrollMinSize")));
+			this.internalTraceTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("internalTraceTab.BackgroundImage")));
+			this.internalTraceTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("internalTraceTab.Dock")));
+			this.internalTraceTab.Enabled = ((bool)(resources.GetObject("internalTraceTab.Enabled")));
+			this.internalTraceTab.Font = ((System.Drawing.Font)(resources.GetObject("internalTraceTab.Font")));
+			this.internalTraceTab.ImageIndex = ((int)(resources.GetObject("internalTraceTab.ImageIndex")));
+			this.internalTraceTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("internalTraceTab.ImeMode")));
+			this.internalTraceTab.Location = ((System.Drawing.Point)(resources.GetObject("internalTraceTab.Location")));
+			this.internalTraceTab.Name = "internalTraceTab";
+			this.internalTraceTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("internalTraceTab.RightToLeft")));
+			this.internalTraceTab.Size = ((System.Drawing.Size)(resources.GetObject("internalTraceTab.Size")));
+			this.internalTraceTab.TabIndex = ((int)(resources.GetObject("internalTraceTab.TabIndex")));
+			this.internalTraceTab.Text = resources.GetString("internalTraceTab.Text");
+			this.toolTip.SetToolTip(this.internalTraceTab, resources.GetString("internalTraceTab.ToolTip"));
+			this.internalTraceTab.ToolTipText = resources.GetString("internalTraceTab.ToolTipText");
+			this.internalTraceTab.Visible = ((bool)(resources.GetObject("internalTraceTab.Visible")));
+			// 
+			// stderrTab
+			// 
+			this.stderrTab.AccessibleDescription = resources.GetString("stderrTab.AccessibleDescription");
+			this.stderrTab.AccessibleName = resources.GetString("stderrTab.AccessibleName");
+			this.stderrTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stderrTab.Anchor")));
+			this.stderrTab.AutoScroll = ((bool)(resources.GetObject("stderrTab.AutoScroll")));
+			this.stderrTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("stderrTab.AutoScrollMargin")));
+			this.stderrTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("stderrTab.AutoScrollMinSize")));
+			this.stderrTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stderrTab.BackgroundImage")));
+			this.stderrTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stderrTab.Dock")));
+			this.stderrTab.Enabled = ((bool)(resources.GetObject("stderrTab.Enabled")));
+			this.stderrTab.Font = ((System.Drawing.Font)(resources.GetObject("stderrTab.Font")));
+			this.stderrTab.ImageIndex = ((int)(resources.GetObject("stderrTab.ImageIndex")));
+			this.stderrTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stderrTab.ImeMode")));
+			this.stderrTab.Location = ((System.Drawing.Point)(resources.GetObject("stderrTab.Location")));
+			this.stderrTab.Name = "stderrTab";
+			this.stderrTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stderrTab.RightToLeft")));
+			this.stderrTab.Size = ((System.Drawing.Size)(resources.GetObject("stderrTab.Size")));
+			this.stderrTab.TabIndex = ((int)(resources.GetObject("stderrTab.TabIndex")));
+			this.stderrTab.Text = resources.GetString("stderrTab.Text");
+			this.toolTip.SetToolTip(this.stderrTab, resources.GetString("stderrTab.ToolTip"));
+			this.stderrTab.ToolTipText = resources.GetString("stderrTab.ToolTipText");
+			this.stderrTab.Visible = ((bool)(resources.GetObject("stderrTab.Visible")));
+			// 
+			// notRunTab
+			// 
+			this.notRunTab.AccessibleDescription = resources.GetString("notRunTab.AccessibleDescription");
+			this.notRunTab.AccessibleName = resources.GetString("notRunTab.AccessibleName");
+			this.notRunTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("notRunTab.Anchor")));
+			this.notRunTab.AutoScroll = ((bool)(resources.GetObject("notRunTab.AutoScroll")));
+			this.notRunTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("notRunTab.AutoScrollMargin")));
+			this.notRunTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("notRunTab.AutoScrollMinSize")));
+			this.notRunTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("notRunTab.BackgroundImage")));
+			this.notRunTab.Controls.Add(this.notRunTree);
+			this.notRunTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("notRunTab.Dock")));
+			this.notRunTab.Enabled = ((bool)(resources.GetObject("notRunTab.Enabled")));
+			this.notRunTab.Font = ((System.Drawing.Font)(resources.GetObject("notRunTab.Font")));
+			this.notRunTab.ImageIndex = ((int)(resources.GetObject("notRunTab.ImageIndex")));
+			this.notRunTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("notRunTab.ImeMode")));
+			this.notRunTab.Location = ((System.Drawing.Point)(resources.GetObject("notRunTab.Location")));
+			this.notRunTab.Name = "notRunTab";
+			this.notRunTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("notRunTab.RightToLeft")));
+			this.notRunTab.Size = ((System.Drawing.Size)(resources.GetObject("notRunTab.Size")));
+			this.notRunTab.TabIndex = ((int)(resources.GetObject("notRunTab.TabIndex")));
+			this.notRunTab.Text = resources.GetString("notRunTab.Text");
+			this.toolTip.SetToolTip(this.notRunTab, resources.GetString("notRunTab.ToolTip"));
+			this.notRunTab.ToolTipText = resources.GetString("notRunTab.ToolTipText");
+			this.notRunTab.Visible = ((bool)(resources.GetObject("notRunTab.Visible")));
 			// 
 			// notRunTree
 			// 
@@ -1194,112 +1286,6 @@ namespace NUnit.Gui
 			this.notRunTree.Text = resources.GetString("notRunTree.Text");
 			this.toolTip.SetToolTip(this.notRunTree, resources.GetString("notRunTree.ToolTip"));
 			this.notRunTree.Visible = ((bool)(resources.GetObject("notRunTree.Visible")));
-			// 
-			// stdout
-			// 
-			this.stdout.AccessibleDescription = resources.GetString("stdout.AccessibleDescription");
-			this.stdout.AccessibleName = resources.GetString("stdout.AccessibleName");
-			this.stdout.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stdout.Anchor")));
-			this.stdout.AutoScroll = ((bool)(resources.GetObject("stdout.AutoScroll")));
-			this.stdout.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("stdout.AutoScrollMargin")));
-			this.stdout.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("stdout.AutoScrollMinSize")));
-			this.stdout.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stdout.BackgroundImage")));
-			this.stdout.Controls.Add(this.stdOutTab);
-			this.stdout.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stdout.Dock")));
-			this.stdout.Enabled = ((bool)(resources.GetObject("stdout.Enabled")));
-			this.stdout.Font = ((System.Drawing.Font)(resources.GetObject("stdout.Font")));
-			this.stdout.ImageIndex = ((int)(resources.GetObject("stdout.ImageIndex")));
-			this.stdout.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stdout.ImeMode")));
-			this.stdout.Location = ((System.Drawing.Point)(resources.GetObject("stdout.Location")));
-			this.stdout.Name = "stdout";
-			this.stdout.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stdout.RightToLeft")));
-			this.stdout.Size = ((System.Drawing.Size)(resources.GetObject("stdout.Size")));
-			this.stdout.TabIndex = ((int)(resources.GetObject("stdout.TabIndex")));
-			this.stdout.Text = resources.GetString("stdout.Text");
-			this.toolTip.SetToolTip(this.stdout, resources.GetString("stdout.ToolTip"));
-			this.stdout.ToolTipText = resources.GetString("stdout.ToolTipText");
-			this.stdout.Visible = ((bool)(resources.GetObject("stdout.Visible")));
-			// 
-			// stdOutTab
-			// 
-			this.stdOutTab.AccessibleDescription = resources.GetString("stdOutTab.AccessibleDescription");
-			this.stdOutTab.AccessibleName = resources.GetString("stdOutTab.AccessibleName");
-			this.stdOutTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stdOutTab.Anchor")));
-			this.stdOutTab.AutoSize = ((bool)(resources.GetObject("stdOutTab.AutoSize")));
-			this.stdOutTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stdOutTab.BackgroundImage")));
-			this.stdOutTab.BulletIndent = ((int)(resources.GetObject("stdOutTab.BulletIndent")));
-			this.stdOutTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stdOutTab.Dock")));
-			this.stdOutTab.Enabled = ((bool)(resources.GetObject("stdOutTab.Enabled")));
-			this.stdOutTab.Font = ((System.Drawing.Font)(resources.GetObject("stdOutTab.Font")));
-			this.stdOutTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stdOutTab.ImeMode")));
-			this.stdOutTab.Location = ((System.Drawing.Point)(resources.GetObject("stdOutTab.Location")));
-			this.stdOutTab.MaxLength = ((int)(resources.GetObject("stdOutTab.MaxLength")));
-			this.stdOutTab.Multiline = ((bool)(resources.GetObject("stdOutTab.Multiline")));
-			this.stdOutTab.Name = "stdOutTab";
-			this.stdOutTab.ReadOnly = true;
-			this.stdOutTab.RightMargin = ((int)(resources.GetObject("stdOutTab.RightMargin")));
-			this.stdOutTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stdOutTab.RightToLeft")));
-			this.stdOutTab.ScrollBars = ((System.Windows.Forms.RichTextBoxScrollBars)(resources.GetObject("stdOutTab.ScrollBars")));
-			this.stdOutTab.Size = ((System.Drawing.Size)(resources.GetObject("stdOutTab.Size")));
-			this.stdOutTab.TabIndex = ((int)(resources.GetObject("stdOutTab.TabIndex")));
-			this.stdOutTab.Text = resources.GetString("stdOutTab.Text");
-			this.toolTip.SetToolTip(this.stdOutTab, resources.GetString("stdOutTab.ToolTip"));
-			this.stdOutTab.Visible = ((bool)(resources.GetObject("stdOutTab.Visible")));
-			this.stdOutTab.WordWrap = ((bool)(resources.GetObject("stdOutTab.WordWrap")));
-			this.stdOutTab.ZoomFactor = ((System.Single)(resources.GetObject("stdOutTab.ZoomFactor")));
-			// 
-			// stderr
-			// 
-			this.stderr.AccessibleDescription = resources.GetString("stderr.AccessibleDescription");
-			this.stderr.AccessibleName = resources.GetString("stderr.AccessibleName");
-			this.stderr.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stderr.Anchor")));
-			this.stderr.AutoScroll = ((bool)(resources.GetObject("stderr.AutoScroll")));
-			this.stderr.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("stderr.AutoScrollMargin")));
-			this.stderr.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("stderr.AutoScrollMinSize")));
-			this.stderr.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stderr.BackgroundImage")));
-			this.stderr.Controls.Add(this.stdErrTab);
-			this.stderr.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stderr.Dock")));
-			this.stderr.Enabled = ((bool)(resources.GetObject("stderr.Enabled")));
-			this.stderr.Font = ((System.Drawing.Font)(resources.GetObject("stderr.Font")));
-			this.stderr.ImageIndex = ((int)(resources.GetObject("stderr.ImageIndex")));
-			this.stderr.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stderr.ImeMode")));
-			this.stderr.Location = ((System.Drawing.Point)(resources.GetObject("stderr.Location")));
-			this.stderr.Name = "stderr";
-			this.stderr.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stderr.RightToLeft")));
-			this.stderr.Size = ((System.Drawing.Size)(resources.GetObject("stderr.Size")));
-			this.stderr.TabIndex = ((int)(resources.GetObject("stderr.TabIndex")));
-			this.stderr.Text = resources.GetString("stderr.Text");
-			this.toolTip.SetToolTip(this.stderr, resources.GetString("stderr.ToolTip"));
-			this.stderr.ToolTipText = resources.GetString("stderr.ToolTipText");
-			this.stderr.Visible = ((bool)(resources.GetObject("stderr.Visible")));
-			// 
-			// stdErrTab
-			// 
-			this.stdErrTab.AccessibleDescription = resources.GetString("stdErrTab.AccessibleDescription");
-			this.stdErrTab.AccessibleName = resources.GetString("stdErrTab.AccessibleName");
-			this.stdErrTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stdErrTab.Anchor")));
-			this.stdErrTab.AutoSize = ((bool)(resources.GetObject("stdErrTab.AutoSize")));
-			this.stdErrTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stdErrTab.BackgroundImage")));
-			this.stdErrTab.BulletIndent = ((int)(resources.GetObject("stdErrTab.BulletIndent")));
-			this.stdErrTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stdErrTab.Dock")));
-			this.stdErrTab.Enabled = ((bool)(resources.GetObject("stdErrTab.Enabled")));
-			this.stdErrTab.Font = ((System.Drawing.Font)(resources.GetObject("stdErrTab.Font")));
-			this.stdErrTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stdErrTab.ImeMode")));
-			this.stdErrTab.Location = ((System.Drawing.Point)(resources.GetObject("stdErrTab.Location")));
-			this.stdErrTab.MaxLength = ((int)(resources.GetObject("stdErrTab.MaxLength")));
-			this.stdErrTab.Multiline = ((bool)(resources.GetObject("stdErrTab.Multiline")));
-			this.stdErrTab.Name = "stdErrTab";
-			this.stdErrTab.ReadOnly = true;
-			this.stdErrTab.RightMargin = ((int)(resources.GetObject("stdErrTab.RightMargin")));
-			this.stdErrTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stdErrTab.RightToLeft")));
-			this.stdErrTab.ScrollBars = ((System.Windows.Forms.RichTextBoxScrollBars)(resources.GetObject("stdErrTab.ScrollBars")));
-			this.stdErrTab.Size = ((System.Drawing.Size)(resources.GetObject("stdErrTab.Size")));
-			this.stdErrTab.TabIndex = ((int)(resources.GetObject("stdErrTab.TabIndex")));
-			this.stdErrTab.Text = resources.GetString("stdErrTab.Text");
-			this.toolTip.SetToolTip(this.stdErrTab, resources.GetString("stdErrTab.ToolTip"));
-			this.stdErrTab.Visible = ((bool)(resources.GetObject("stdErrTab.Visible")));
-			this.stdErrTab.WordWrap = ((bool)(resources.GetObject("stdErrTab.WordWrap")));
-			this.stdErrTab.ZoomFactor = ((System.Single)(resources.GetObject("stdErrTab.ZoomFactor")));
 			// 
 			// groupBox1
 			// 
@@ -1545,10 +1531,10 @@ namespace NUnit.Gui
 			this.Load += new System.EventHandler(this.NUnitForm_Load);
 			this.rightPanel.ResumeLayout(false);
 			this.resultTabs.ResumeLayout(false);
-			this.errorPage.ResumeLayout(false);
-			this.testsNotRun.ResumeLayout(false);
-			this.stdout.ResumeLayout(false);
-			this.stderr.ResumeLayout(false);
+			this.errorTab.ResumeLayout(false);
+			this.stdoutTab.ResumeLayout(false);
+			this.stderrTab.ResumeLayout(false);
+			this.notRunTab.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
 			this.leftPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -1674,16 +1660,6 @@ namespace NUnit.Gui
 		}
 
 
-		private void showAllTabsMenuItem_Click(object sender, System.EventArgs e)
-		{
-			UserSettings.Form.DisplayErrorsTab = errorsTabMenuItem.Checked = true;
-			UserSettings.Form.DisplayNotRunTab = notRunTabMenuItem.Checked = true;
-			UserSettings.Form.DisplayConsoleOutTab = consoleOutMenuItem.Checked = true;
-			UserSettings.Form.DisplayConsoleErrorTab = consoleErrorMenuItem.Checked = true;
-
-			updateTabPages();
-		}
-
 		private void errorsTabMenuItem_Click(object sender, System.EventArgs e)
 		{
 			UserSettings.Form.DisplayErrorsTab = errorsTabMenuItem.Checked = !errorsTabMenuItem.Checked;
@@ -1708,18 +1684,52 @@ namespace NUnit.Gui
 			updateTabPages();
 		}
 
+		private void traceTabMenuItem_Click(object sender, System.EventArgs e)
+		{
+			UserSettings.Form.DisplayTraceTab = traceTabMenuItem.Checked = !traceTabMenuItem.Checked;
+			updateTabPages();
+		}
+
+		private void internalTraceTabMenuItem_Click(object sender, System.EventArgs e)
+		{
+			UserSettings.Form.DisplayInternalTraceTab = internalTraceTabMenuItem.Checked = !internalTraceTabMenuItem.Checked;
+			updateTabPages();
+		}
+
+		private void loadSettingsAndUpdateTabPages()
+		{
+			errorsTabMenuItem.Checked = UserSettings.Form.DisplayErrorsTab;
+			notRunTabMenuItem.Checked = UserSettings.Form.DisplayNotRunTab;
+			consoleOutMenuItem.Checked = UserSettings.Form.DisplayConsoleOutTab;
+			consoleErrorMenuItem.Checked = UserSettings.Form.DisplayConsoleErrorTab;
+			traceTabMenuItem.Checked = UserSettings.Form.DisplayTraceTab;
+			internalTraceTabMenuItem.Checked = UserSettings.Form.DisplayInternalTraceTab;
+			updateTabPages();
+		}
+
 		private void updateTabPages()
 		{
 			resultTabs.TabPages.Clear();
+			string selectedTab = UserSettings.Form.SelectedTab;
+			int index = 0;
 
 			if ( errorsTabMenuItem.Checked )
-				resultTabs.TabPages.Add( errorPage );
+			{
+				resultTabs.TabPages.Add( errorTab );
+				if ( selectedTab == errorTab.Name )
+					index = resultTabs.TabPages.Count - 1;
+			}
+
 			if ( notRunTabMenuItem.Checked )
-				resultTabs.TabPages.Add( testsNotRun );
+				resultTabs.TabPages.Add( notRunTab );
 			if ( consoleOutMenuItem.Checked )
-				resultTabs.TabPages.Add( stdout );
+				resultTabs.TabPages.Add( stdoutTab );
 			if ( consoleErrorMenuItem.Checked )
-				resultTabs.TabPages.Add( stderr );
+				resultTabs.TabPages.Add( stderrTab );
+			if ( traceTabMenuItem.Checked )
+				resultTabs.TabPages.Add( traceTab );
+			if ( internalTraceTabMenuItem.Checked )
+				resultTabs.TabPages.Add( internalTraceTab );
 		}
 
 		private void fontChangeMenuItem_Click(object sender, System.EventArgs e)
@@ -1913,6 +1923,8 @@ namespace NUnit.Gui
 				dialog.Font = this.Font;
 				dialog.ShowDialog();
 
+				loadSettingsAndUpdateTabPages();
+
 				// HACK: For now, reflect changes to stacktrace tooltips and wordwrap here
 				this.stackTrace.AutoExpand = UserSettings.Options.FailureToolTips;
 
@@ -1930,6 +1942,7 @@ namespace NUnit.Gui
 					this.detailList.EndUpdate();
 					this.stackTrace.WordWrap = wordWrap;
 				}
+
 			}
 		}
 
@@ -1961,7 +1974,7 @@ namespace NUnit.Gui
 				msg = sb.ToString();
 			}
 
-			MessageBox.Show( this, msg, "Test Assembly Info", MessageBoxButtons.OK, MessageBoxIcon.Information );
+			UserMessage.Display( msg, "Test Assembly Info" );
 		}
 
 		private void addinInfoMenuItem_Click(object sender, System.EventArgs e)
@@ -2023,9 +2036,6 @@ namespace NUnit.Gui
 				(TestSuiteTreeView.DisplayStyle)UserSettings.Options.InitialTreeDisplay;
 			this.viewMenu.MenuItems.Add(4, testTree.TreeMenu);
 			//			this.commandLineOptions = commandLineOptions;
-
-			stdErrTab.Enabled = true;
-			stdOutTab.Enabled = true;
 
 			EnableRunCommand( false );
 			EnableStopCommand( false );
@@ -2105,11 +2115,7 @@ namespace NUnit.Gui
 			this.stackTrace.WordWrap = UserSettings.Options.EnableWordWrapForFailures;
 
 			// Update tab menu items and display those that are used
-			errorsTabMenuItem.Checked = UserSettings.Form.DisplayErrorsTab;
-			notRunTabMenuItem.Checked = UserSettings.Form.DisplayNotRunTab;
-			consoleOutMenuItem.Checked = UserSettings.Form.DisplayConsoleOutTab;
-			consoleErrorMenuItem.Checked = UserSettings.Form.DisplayConsoleErrorTab;
-			updateTabPages();
+			loadSettingsAndUpdateTabPages();
 
 			// Update gui menu items and set to mini display if necessary
 			bool fullDisplay = UserSettings.Form.FullDisplay;
@@ -2416,7 +2422,7 @@ the version under which NUnit is currently running, {0}.",
 			if ( UserSettings.Options.TestLabels )
 			{
                 this.currentTestName = args.TestName.FullName;
-				this.stdOutTab.AppendText( string.Format( "***** {0}\n", args.TestName.FullName ) );
+				this.stdoutTab.AppendText( string.Format( "***** {0}\n", args.TestName.FullName ) );
 			}
 		}
 
@@ -2485,12 +2491,19 @@ the version under which NUnit is currently running, {0}.",
 			switch(output.Type)
 			{
 				case TestOutputType.Out:
-					//this.outWriter.Write(output.Text);
-					this.stdOutTab.AppendText( output.Text );
+					this.stdoutTab.AppendText( output.Text );
 					break;
 				case TestOutputType.Error:
-					//this.errWriter.Write(output.Text);
-					this.stdErrTab.AppendText( output.Text );
+					if ( UserSettings.Form.MergeConsoleErrorOutput )
+						this.stdoutTab.AppendText( output.Text );
+					else
+						this.stderrTab.AppendText( output.Text );
+					break;
+				case TestOutputType.Trace:
+					if ( UserSettings.Form.MergeTraceOutput )
+						this.stdoutTab.AppendText( output.Text );
+					else
+						this.traceTab.AppendText( output.Text );
 					break;
 			}
 		}
@@ -2509,10 +2522,9 @@ the version under which NUnit is currently running, {0}.",
 			toolTip.SetToolTip( detailList, null );
 			notRunTree.Nodes.Clear();
 
-			//errWriter.Clear();
-			//outWriter.Clear();
-			stdOutTab.Clear();
-			stdErrTab.Clear();
+			stdoutTab.Clear();
+			stderrTab.Clear();
+			traceTab.Clear();
 			
 			stackTrace.Text = "";
 		}
@@ -2718,6 +2730,12 @@ the version under which NUnit is currently running, {0}.",
 		private void viewMenu_Popup(object sender, System.EventArgs e)
 		{
 			assemblyDetailsMenuItem.Enabled = this.TestLoader.IsTestLoaded;
+		}
+
+		private void resultTabs_SelectedIndexChanged(object sender, System.EventArgs e)
+		{
+			if ( resultTabs.SelectedTab != null )
+				UserSettings.Form.SelectedTab = resultTabs.SelectedTab.Name;
 		}
 	}
 }
