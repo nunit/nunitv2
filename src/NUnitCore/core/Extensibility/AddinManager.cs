@@ -35,7 +35,7 @@ using System.Reflection;
 
 namespace NUnit.Core.Extensibility
 {
-	public class AddinManager
+	public class AddinManager : IService
 	{
 		#region Instance Fields
 		IAddinRegistry addinRegistry;
@@ -110,14 +110,32 @@ namespace NUnit.Core.Extensibility
                 if ((host.ExtensionTypes & addin.ExtensionType) != 0)
                 {
                     Type type = Type.GetType(addin.TypeName);
-                    ConstructorInfo ctor = type.GetConstructor(Type.EmptyTypes);
-                    IAddin theAddin = (IAddin)ctor.Invoke(new object[0]);
+					if ( type != null )
+					{
+						ConstructorInfo ctor = type.GetConstructor(Type.EmptyTypes);
+						IAddin theAddin = (IAddin)ctor.Invoke(new object[0]);
 
-                    if ( theAddin.Install(host) )
-                        addinRegistry.SetStatus( addin.Name, AddinStatus.Loaded );
+						if ( theAddin.Install(host) )
+							addinRegistry.SetStatus( addin.Name, AddinStatus.Loaded );
+					}
+					else
+						addinRegistry.SetStatus( addin.Name, AddinStatus.Error );
                 }
             }
         }
         #endregion
+
+		#region IService Members
+
+		public void InitializeService()
+		{
+			RegisterAddins();
+		}
+
+		public void UnloadService()
+		{
+		}
+
+		#endregion
 	}
 }
