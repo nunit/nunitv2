@@ -103,7 +103,6 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(RenameConfigurationDialog));
 			this.configurationNameTextBox = new System.Windows.Forms.TextBox();
 			this.okButton = new System.Windows.Forms.Button();
 			this.cancelButton = new System.Windows.Forms.Button();
@@ -111,106 +110,48 @@ namespace NUnit.UiKit
 			// 
 			// configurationNameTextBox
 			// 
-			this.configurationNameTextBox.AccessibleDescription = resources.GetString("configurationNameTextBox.AccessibleDescription");
-			this.configurationNameTextBox.AccessibleName = resources.GetString("configurationNameTextBox.AccessibleName");
-			this.configurationNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("configurationNameTextBox.Anchor")));
-			this.configurationNameTextBox.AutoSize = ((bool)(resources.GetObject("configurationNameTextBox.AutoSize")));
-			this.configurationNameTextBox.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("configurationNameTextBox.BackgroundImage")));
-			this.configurationNameTextBox.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("configurationNameTextBox.Dock")));
-			this.configurationNameTextBox.Enabled = ((bool)(resources.GetObject("configurationNameTextBox.Enabled")));
-			this.configurationNameTextBox.Font = ((System.Drawing.Font)(resources.GetObject("configurationNameTextBox.Font")));
-			this.configurationNameTextBox.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("configurationNameTextBox.ImeMode")));
-			this.configurationNameTextBox.Location = ((System.Drawing.Point)(resources.GetObject("configurationNameTextBox.Location")));
-			this.configurationNameTextBox.MaxLength = ((int)(resources.GetObject("configurationNameTextBox.MaxLength")));
-			this.configurationNameTextBox.Multiline = ((bool)(resources.GetObject("configurationNameTextBox.Multiline")));
+			this.configurationNameTextBox.Location = new System.Drawing.Point(16, 16);
 			this.configurationNameTextBox.Name = "configurationNameTextBox";
-			this.configurationNameTextBox.PasswordChar = ((char)(resources.GetObject("configurationNameTextBox.PasswordChar")));
-			this.configurationNameTextBox.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("configurationNameTextBox.RightToLeft")));
-			this.configurationNameTextBox.ScrollBars = ((System.Windows.Forms.ScrollBars)(resources.GetObject("configurationNameTextBox.ScrollBars")));
-			this.configurationNameTextBox.Size = ((System.Drawing.Size)(resources.GetObject("configurationNameTextBox.Size")));
-			this.configurationNameTextBox.TabIndex = ((int)(resources.GetObject("configurationNameTextBox.TabIndex")));
-			this.configurationNameTextBox.Text = resources.GetString("configurationNameTextBox.Text");
-			this.configurationNameTextBox.TextAlign = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("configurationNameTextBox.TextAlign")));
-			this.configurationNameTextBox.Visible = ((bool)(resources.GetObject("configurationNameTextBox.Visible")));
-			this.configurationNameTextBox.WordWrap = ((bool)(resources.GetObject("configurationNameTextBox.WordWrap")));
+			this.configurationNameTextBox.Size = new System.Drawing.Size(264, 22);
+			this.configurationNameTextBox.TabIndex = 0;
+			this.configurationNameTextBox.Text = "";
 			this.configurationNameTextBox.TextChanged += new System.EventHandler(this.configurationNameTextBox_TextChanged);
 			// 
 			// okButton
 			// 
-			this.okButton.AccessibleDescription = resources.GetString("okButton.AccessibleDescription");
-			this.okButton.AccessibleName = resources.GetString("okButton.AccessibleName");
-			this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("okButton.Anchor")));
-			this.okButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("okButton.BackgroundImage")));
-			this.okButton.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("okButton.Dock")));
-			this.okButton.Enabled = ((bool)(resources.GetObject("okButton.Enabled")));
-			this.okButton.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("okButton.FlatStyle")));
-			this.okButton.Font = ((System.Drawing.Font)(resources.GetObject("okButton.Font")));
-			this.okButton.Image = ((System.Drawing.Image)(resources.GetObject("okButton.Image")));
-			this.okButton.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("okButton.ImageAlign")));
-			this.okButton.ImageIndex = ((int)(resources.GetObject("okButton.ImageIndex")));
-			this.okButton.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("okButton.ImeMode")));
-			this.okButton.Location = ((System.Drawing.Point)(resources.GetObject("okButton.Location")));
+			this.okButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.okButton.Location = new System.Drawing.Point(56, 48);
 			this.okButton.Name = "okButton";
-			this.okButton.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("okButton.RightToLeft")));
-			this.okButton.Size = ((System.Drawing.Size)(resources.GetObject("okButton.Size")));
-			this.okButton.TabIndex = ((int)(resources.GetObject("okButton.TabIndex")));
-			this.okButton.Text = resources.GetString("okButton.Text");
-			this.okButton.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("okButton.TextAlign")));
-			this.okButton.Visible = ((bool)(resources.GetObject("okButton.Visible")));
+			this.okButton.Size = new System.Drawing.Size(75, 24);
+			this.okButton.TabIndex = 1;
+			this.okButton.Text = "OK";
 			this.okButton.Click += new System.EventHandler(this.okButton_Click);
 			// 
 			// cancelButton
 			// 
-			this.cancelButton.AccessibleDescription = resources.GetString("cancelButton.AccessibleDescription");
-			this.cancelButton.AccessibleName = resources.GetString("cancelButton.AccessibleName");
-			this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("cancelButton.Anchor")));
-			this.cancelButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cancelButton.BackgroundImage")));
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("cancelButton.Dock")));
-			this.cancelButton.Enabled = ((bool)(resources.GetObject("cancelButton.Enabled")));
-			this.cancelButton.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("cancelButton.FlatStyle")));
-			this.cancelButton.Font = ((System.Drawing.Font)(resources.GetObject("cancelButton.Font")));
-			this.cancelButton.Image = ((System.Drawing.Image)(resources.GetObject("cancelButton.Image")));
-			this.cancelButton.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("cancelButton.ImageAlign")));
-			this.cancelButton.ImageIndex = ((int)(resources.GetObject("cancelButton.ImageIndex")));
-			this.cancelButton.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("cancelButton.ImeMode")));
-			this.cancelButton.Location = ((System.Drawing.Point)(resources.GetObject("cancelButton.Location")));
+			this.cancelButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.cancelButton.Location = new System.Drawing.Point(160, 48);
 			this.cancelButton.Name = "cancelButton";
-			this.cancelButton.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("cancelButton.RightToLeft")));
-			this.cancelButton.Size = ((System.Drawing.Size)(resources.GetObject("cancelButton.Size")));
-			this.cancelButton.TabIndex = ((int)(resources.GetObject("cancelButton.TabIndex")));
-			this.cancelButton.Text = resources.GetString("cancelButton.Text");
-			this.cancelButton.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("cancelButton.TextAlign")));
-			this.cancelButton.Visible = ((bool)(resources.GetObject("cancelButton.Visible")));
+			this.cancelButton.Size = new System.Drawing.Size(75, 24);
+			this.cancelButton.TabIndex = 2;
+			this.cancelButton.Text = "Cancel";
 			// 
 			// RenameConfigurationDialog
 			// 
 			this.AcceptButton = this.okButton;
-			this.AccessibleDescription = resources.GetString("$this.AccessibleDescription");
-			this.AccessibleName = resources.GetString("$this.AccessibleName");
-			this.AutoScaleBaseSize = ((System.Drawing.Size)(resources.GetObject("$this.AutoScaleBaseSize")));
-			this.AutoScroll = ((bool)(resources.GetObject("$this.AutoScroll")));
-			this.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("$this.AutoScrollMargin")));
-			this.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("$this.AutoScrollMinSize")));
-			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.CancelButton = this.cancelButton;
-			this.ClientSize = ((System.Drawing.Size)(resources.GetObject("$this.ClientSize")));
+			this.ClientSize = new System.Drawing.Size(291, 79);
 			this.Controls.Add(this.cancelButton);
 			this.Controls.Add(this.okButton);
 			this.Controls.Add(this.configurationNameTextBox);
-			this.Enabled = ((bool)(resources.GetObject("$this.Enabled")));
-			this.Font = ((System.Drawing.Font)(resources.GetObject("$this.Font")));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("$this.ImeMode")));
-			this.Location = ((System.Drawing.Point)(resources.GetObject("$this.Location")));
-			this.MaximumSize = ((System.Drawing.Size)(resources.GetObject("$this.MaximumSize")));
-			this.MinimumSize = ((System.Drawing.Size)(resources.GetObject("$this.MinimumSize")));
+			this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.Name = "RenameConfigurationDialog";
-			this.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("$this.RightToLeft")));
 			this.ShowInTaskbar = false;
-			this.StartPosition = ((System.Windows.Forms.FormStartPosition)(resources.GetObject("$this.StartPosition")));
-			this.Text = resources.GetString("$this.Text");
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			this.Text = "Rename Configuration";
 			this.Load += new System.EventHandler(this.ConfigurationNameDialog_Load);
 			this.ResumeLayout(false);
 
