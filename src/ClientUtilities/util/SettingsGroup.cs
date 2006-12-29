@@ -30,7 +30,6 @@
 namespace NUnit.Util
 {
 	using System;
-	using System.Collections;
 
 	/// <summary>
 	/// SettingsGroup is the base class representing a group
@@ -39,7 +38,11 @@ namespace NUnit.Util
 	/// </summary>
 	public class SettingsGroup : ISettings, IDisposable
 	{
-		#region Constructor
+		#region Instance Fields
+		protected ISettingsStorage storage;
+		#endregion
+
+		#region Constructors
 
 		/// <summary>
 		/// Construct a settings group.
@@ -50,11 +53,16 @@ namespace NUnit.Util
 			this.storage = storage;
 		}
 
+		/// <summary>
+		/// Protected constructor for use by derived classes that
+		/// set the storage themselves or don't use a storage.
+		/// </summary>
+		protected SettingsGroup()
+		{
+		}
 		#endregion
 
 		#region Properties
-
-		private ISettingsStorage storage;
 
 		/// <summary>
 		/// The storage used for the group settings
@@ -86,7 +94,12 @@ namespace NUnit.Util
 		/// <returns>Value of the setting or the default</returns>
 		public object GetSetting( string settingName, object defaultValue )
 		{
-			return storage.GetSetting( settingName, defaultValue );
+			object result = GetSetting(settingName );
+
+			if ( result == null )
+				result = defaultValue;
+
+			return result;
 		}
 
 		/// <summary>
@@ -98,7 +111,15 @@ namespace NUnit.Util
 		/// <returns>Value of the setting or the default</returns>
 		public int GetSetting( string settingName, int defaultValue )
 		{
-			return storage.GetSetting( settingName, defaultValue );
+			object result = GetSetting(settingName );
+
+			if ( result == null )
+				return defaultValue;
+
+			if ( result is int )
+				return (int)result;
+
+			return Int32.Parse( result.ToString() );
 		}
 
 		/// <summary>
@@ -110,7 +131,25 @@ namespace NUnit.Util
 		/// <returns>Value of the setting</returns>
 		public bool GetSetting( string settingName, bool defaultValue )
 		{
-			return storage.GetSetting( settingName, defaultValue );
+			object result = GetSetting(settingName );
+
+			if ( result == null )
+				return defaultValue;
+
+			if ( result is bool )
+				return (bool)result;
+
+			// Handle legacy formats
+//			if ( result is int )
+//				return (int)result == 1;
+//
+//			if ( result is string )
+//			{
+//				if ( (string)result == "1" ) return true;
+//				if ( (string)result == "0" ) return false;
+//			}
+
+			return Boolean.Parse( result.ToString() );
 		}
 
 		/// <summary>
@@ -118,11 +157,39 @@ namespace NUnit.Util
 		/// in a type-safe manner or return a default value
 		/// </summary>
 		/// <param name="settingName">Name of setting to load</param>
-		/// <param name="defaultValue">Value to return if the seeting is not present</param>
+		/// <param name="defaultValue">Value to return if the setting is not present</param>
 		/// <returns>Value of the setting or the default</returns>
 		public string GetSetting( string settingName, string defaultValue )
 		{
-			return storage.GetSetting( settingName, defaultValue );
+			object result = GetSetting(settingName );
+
+			if ( result == null )
+				return defaultValue;
+
+			if ( result is string )
+				return (string)result;
+
+			return result.ToString();
+		}
+
+		/// <summary>
+		/// Load the value of one of the group's enum settings
+		/// in a type-safe manner or return a default value
+		/// </summary>
+		/// <param name="settingName">Name of setting to load</param>
+		/// <param name="defaultValue">Value to return if the setting is not present</param>
+		/// <returns>Value of the setting or the default</returns>
+		public System.Enum GetSetting( string settingName, System.Enum defaultValue )
+		{
+			object result = GetSetting(settingName );
+
+			if ( result == null )
+				return defaultValue;
+
+			if ( result is System.Enum )
+				return (System.Enum)result;
+
+			return (System.Enum)Enum.Parse( defaultValue.GetType(), result.ToString(), true );
 		}
 
 		/// <summary>
@@ -143,18 +210,6 @@ namespace NUnit.Util
 		{
 			storage.SaveSetting( settingName, settingValue );
 		}
-
-		/// <summary>
-		/// Save the value of one of the group's boolean settings
-		/// in a type-safe manner.
-		/// </summary>
-		/// <param name="settingName">Name of the setting to save</param>
-		/// <param name="settingValue">Value to be saved</param>
-		public void SaveSetting( string settingName, bool settingValue )
-		{
-			storage.SaveSetting( settingName, settingValue );
-		}
-
 		#endregion
 
 		#region IDisposable Members

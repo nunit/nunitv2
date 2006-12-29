@@ -36,8 +36,14 @@ namespace NUnit.Util
 	/// <summary>
 	/// Implementation of SettingsStorage for NUnit user settings,
 	/// based on storage of settings in the registry.
+	/// 
+	/// Setting names containing a dot are interpreted as a 
+	/// reference to a subkey. Only the first dot is used
+	/// in this way, since the feature is only intended
+	/// to support legacy registry settings, which are not
+	/// nested any deeper.
 	/// </summary>
-	public class RegistrySettingsStorage : AbstractSettingsStorage
+	public class RegistrySettingsStorage : ISettingsStorage
 	{
 		#region Instance Variables
 
@@ -51,18 +57,7 @@ namespace NUnit.Util
 		#region Construction and Disposal
 
 		/// <summary>
-		/// Construct a storage using a registry key. This constructor is
-		/// intended for use at the top level of the hierarchy.
-		/// </summary>
-		/// <param name="storageName">The name to give the storage</param>
-		/// <param name="parentKey">The registry Key under which the storage will be created</param>
-		public RegistrySettingsStorage( string storageName, RegistryKey parentKey ) 
-		{
-			this.storageKey = parentKey.CreateSubKey( storageName );
-		}
-
-		/// <summary>
-		/// Construct a storage on top of a given key, using the key's name
+		/// Construct a storage on top of a pre-created registry key
 		/// </summary>
 		/// <param name="storageKey"></param>
 		public RegistrySettingsStorage( RegistryKey storageKey )
@@ -84,25 +79,45 @@ namespace NUnit.Util
 
 		#endregion
 
-		#region ISettings Members
+		#region ISettingsStorage Members
 
 		/// <summary>
 		/// Load a setting from this storage
 		/// </summary>
 		/// <param name="settingName">Name of the setting to load</param>
 		/// <returns>Value of the setting</returns>
-		public override object GetSetting( string settingName )
+		public object GetSetting( string settingName )
 		{
-			return storageKey.GetValue( settingName );
+			int dot = settingName.IndexOf( '.' );
+			if ( dot < 0 )
+				return storageKey.GetValue( settingName );
+
+			using( RegistryKey subKey = storageKey.OpenSubKey( settingName.Substring( 0, dot ) ) )
+			{
+				if ( subKey != null )
+					return subKey.GetValue( settingName.Substring( dot + 1 ) );
+			}
+
+			return null;
 		}
 
 		/// <summary>
 		/// Remove a setting from the storage
 		/// </summary>
 		/// <param name="settingName">Name of the setting to remove</param>
-		public override void RemoveSetting( string settingName )
+		public void RemoveSetting( string settingName )
 		{
-			storageKey.DeleteValue( settingName, false );
+			int dot = settingName.IndexOf( '.' );
+			if ( dot < 0 )
+				storageKey.DeleteValue( settingName, false );
+			else
+			{
+				using( RegistryKey subKey = storageKey.OpenSubKey( settingName.Substring( 0, dot ), true ) )
+				{
+					if ( subKey != null )
+						subKey.DeleteValue( settingName.Substring( dot + 1 ) );
+				}
+			}
 		}
 
 		/// <summary>
@@ -110,22 +125,48 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="settingName">Name of the setting to save</param>
 		/// <param name="settingValue">Value to be saved</param>
-		public override void SaveSetting( string settingName, object settingValue )
+		public void SaveSetting( string settingName, object settingValue )
 		{
-			storageKey.SetValue( settingName, settingValue );
+			object val = settingValue;
+			if ( val is bool )
+				val = ((bool)val) ? 1 : 0;
+
+			int dot = settingName.IndexOf( '.' );
+			if ( dot < 0 )
+				storageKey.SetValue( settingName, val );
+			else
+			{
+				using(  RegistryKey subKey = storageKey.CreateSubKey( settingName.Substring( 0, dot ) ) )
+				{
+					subKey.SetValue( settingName.Substring( dot + 1 ), val );
+				}
+			}
 		}
 
-		#endregion
-
-		#region ISettingsStorage Members
 		/// <summary>
 		/// Make a new child storage under this one
 		/// </summary>
 		/// <param name="storageName">Name of the child storage to make</param>
 		/// <returns>New storage</returns>
-		public override ISettingsStorage MakeChildStorage( string storageName )
+		public ISettingsStorage MakeChildStorage( string storageName )
 		{
 			return new RegistrySettingsStorage( storageKey.CreateSubKey( storageName ) );
+		}
+
+		/// <summary>
+		/// LoadSettings does nothing in this implementation, since the
+		/// registry is accessed directly.
+		/// </summary>
+		public void LoadSettings()
+		{
+		}
+
+		/// <summary>
+		/// SaveSettings does nothing in this implementation, since the
+		/// registry is accessed directly.
+		/// </summary>
+		public void SaveSettings()
+		{
 		}
 		#endregion
 
@@ -133,7 +174,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Dispose of this object by closing the storage key, if any
 		/// </summary>
-		public override void Dispose()
+		public void Dispose()
 		{
 			if ( storageKey != null )
 				storageKey.Close();

@@ -60,7 +60,6 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="AbstractSettingsStorage.cs" />
     <Compile Include="AggregatingTestRunner.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -78,7 +77,6 @@
     <Compile Include="ConsoleWriter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DomainManager.cs" />
     <Compile Include="ITestEvents.cs">
       <SubType>Code</SubType>
     </Compile>

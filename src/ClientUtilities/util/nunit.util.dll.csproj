@@ -99,15 +99,15 @@
                     Project = "{435428F8-5995-4CE4-8022-93D595A8CC0F}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
+                />
             </References>
         </Build>
         <Files>
             <Include>
-                <File
-                    RelPath = "AbstractSettingsStorage.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
                 <File
                     RelPath = "AggregatingTestRunner.cs"
                     SubType = "Code"
@@ -150,7 +150,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DomainManager.cs"
+                    RelPath = "ISettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -226,11 +226,6 @@
                 />
                 <File
                     RelPath = "RecentFilesCollection.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RecentFileSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -330,6 +325,26 @@
                 />
                 <File
                     RelPath = "XmlResultVisitor.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "XmlSettingsStorage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Services\DomainManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Services\RecentFilesService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Services\SettingsService.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

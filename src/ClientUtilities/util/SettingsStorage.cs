@@ -30,50 +30,19 @@
 namespace NUnit.Util
 {
 	using System;
-	using System.IO;
 
-	public interface ISettings
+	/// <summary>
+	/// The ISettingsStorage interface is implemented by all
+	/// types of backing storage for settings.
+	/// </summary>
+	public interface ISettingsStorage : IDisposable
 	{
-		#region Methods
-
 		/// <summary>
 		/// Load a setting from the storage.
 		/// </summary>
 		/// <param name="settingName">Name of the setting to load</param>
 		/// <returns>Value of the setting or null</returns>
 		object GetSetting( string settingName );
-
-		/// <summary>
-		/// Load a setting from the storage or return a default value
-		/// </summary>
-		/// <param name="settingName">Name of the setting to load</param>
-		/// <param name="settingName">Value to return if the setting is missing</param>
-		/// <returns>Value of the setting or the default value</returns>
-		object GetSetting( string settingName, object defaultValue );
-
-		/// <summary>
-		/// Load an integer setting from the storage or return a default value
-		/// </summary>
-		/// <param name="settingName">Name of the setting to load</param>
-		/// <param name="defaultValue">Value to return if the setting is missing</param>
-		/// <returns>Value of the setting or the default value</returns>
-		int GetSetting( string settingName, int defaultValue );
-
-		/// <summary>
-		/// Load a boolean setting or return a default value
-		/// </summary>
-		/// <param name="settingName">Name of setting to load</param>
-		/// <param name="defaultValue">Value to return if the setting is missing</param>
-		/// <returns>Value of the setting or the default value</returns>
-		bool GetSetting( string settingName, bool defaultValue );
-
-		/// <summary>
-		/// Load a string setting from the storage or return a default value
-		/// </summary>
-		/// <param name="settingName">Name of the setting to load</param>
-		/// <param name="settingName">Value to return if the setting is missing</param>
-		/// <returns>Value of the setting or the default value</returns>
-		string GetSetting( string settingName, string defaultValue );
 
 		/// <summary>
 		/// Remove a setting from the storage
@@ -89,30 +58,22 @@ namespace NUnit.Util
 		void SaveSetting( string settingName, object settingValue );
 
 		/// <summary>
-		/// Save the value of one of the group's integer settings
-		/// in a type-safe manner.
-		/// </summary>
-		/// <param name="settingName">Name of the setting to save</param>
-		/// <param name="settingValue">Value to be saved</param>
-		void SaveSetting( string settingName, bool settingValue );
-
-		#endregion
-	}
-
-	/// <summary>
-	/// Interface to be implemented by any type of settings storage
-	/// </summary>
-	public interface ISettingsStorage : ISettings, IDisposable
-	{
-		#region Methods
-
-		/// <summary>
 		/// Create a child storage of the same type
 		/// </summary>
 		/// <param name="name">Name of the child storage</param>
 		/// <returns>New child storage</returns>
 		ISettingsStorage MakeChildStorage( string name );
 
-		#endregion
+		/// <summary>
+		/// Load settings from external storage if required
+		/// by the implementation.
+		/// </summary>
+		void LoadSettings();
+
+		/// <summary>
+		/// Save settings to external storage if required
+		/// by the implementation.
+		/// </summary>
+		void SaveSettings();
 	}
 }

@@ -1,41 +1,11 @@
-#region Copyright (c) 2002-2003, James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole, Philip A. Craig
-/************************************************************************************
-'
-' Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' Copyright  2000-2002 Philip A. Craig
-'
-' This software is provided 'as-is', without any express or implied warranty. In no 
-' event will the authors be held liable for any damages arising from the use of this 
-' software.
-' 
-' Permission is granted to anyone to use this software for any purpose, including 
-' commercial applications, and to alter it and redistribute it freely, subject to the 
-' following restrictions:
-'
-' 1. The origin of this software must not be misrepresented; you must not claim that 
-' you wrote the original software. If you use this software in a product, an 
-' acknowledgment (see the following) in the product documentation is required.
-'
-' Portions Copyright  2002-2003 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole
-' or Copyright  2000-2002 Philip A. Craig
-'
-' 2. Altered source versions must be plainly marked as such, and must not be 
-' misrepresented as being the original software.
-'
-' 3. This notice may not be removed or altered from any source distribution.
-'
-'***********************************************************************************/
-#endregion
-
 using System;
-using System.Collections;
 
 namespace NUnit.Util
 {
 	/// <summary>
-	/// Base class for settings that hold lists of recent files
+	/// Summary description for RecentFilesService.
 	/// </summary>
-	public class RecentFileSettings : SettingsGroup, RecentFiles
+	public class RecentFilesService : RecentFiles, NUnit.Core.IService
 	{
 		// TODO: This class does more loading and
 		// storing than it should but this is the
@@ -44,6 +14,8 @@ namespace NUnit.Util
 		// We can fix this by using a singleton.
 		private RecentFilesCollection fileEntries = new RecentFilesCollection();
 
+		private ISettings settings;
+
 		public static readonly int MinSize = 1;
 
 		public static readonly int MaxSize = 24;
@@ -51,8 +23,12 @@ namespace NUnit.Util
 		public static readonly int DefaultSize = 5;
 
 		#region Constructor
-		public RecentFileSettings( ISettingsStorage storage ) : base( storage ) 
+		public RecentFilesService()
+			: this( Services.UserSettings ) { }
+
+		public RecentFilesService( ISettings settings ) 
 		{
+			this.settings = settings;
 			LoadEntries();
 		}
 		#endregion
@@ -67,7 +43,7 @@ namespace NUnit.Util
 		{
 			get 
 			{ 
-				int size = GetSetting( "MaxFiles", DefaultSize );
+				int size = settings.GetSetting( "RecentProjects.MaxFiles", DefaultSize );
 				
 				if ( size < MinSize ) size = MinSize;
 				if ( size > MaxSize ) size = MaxSize;
@@ -82,7 +58,7 @@ namespace NUnit.Util
 				if ( newSize < MinSize ) newSize = MinSize;
 				if ( newSize > MaxSize ) newSize = MaxSize;
 
-				SaveSetting( "MaxFiles", newSize );
+				settings.SaveSetting( "RecentProjects.MaxFiles", newSize );
 				if ( newSize < oldSize ) SaveEntries();
 			}
 		}
@@ -133,7 +109,7 @@ namespace NUnit.Util
 			fileEntries.Clear();
 			for ( int index = 1; index <= MaxFiles; index++ )
 			{
-				string fileSpec = GetSetting( ValueName( index ) ) as string;
+				string fileSpec = settings.GetSetting( ValueName( index ) ) as string;
 				if ( fileSpec != null )
 					fileEntries.Add( NUnit.Util.RecentFileEntry.Parse( fileSpec ) );
 			}
@@ -148,16 +124,30 @@ namespace NUnit.Util
 			{
 				string valueName = ValueName( index + 1 );
 				if ( index < fileEntries.Count )
-					SaveSetting( valueName, fileEntries[index].ToString() );
+					settings.SaveSetting( valueName, fileEntries[index].ToString() );
 				else
-					RemoveSetting( valueName );
+					settings.RemoveSetting( valueName );
 			}
 		}
 
 		private string ValueName( int index )
 		{
-			return string.Format( "File{0}", index );
+			return string.Format( "RecentProjects.File{0}", index );
 		}
+		#endregion
+
+		#region IService Members
+
+		public void UnloadService()
+		{
+			// TODO:  Add RecentFilesService.UnloadService implementation
+		}
+
+		public void InitializeService()
+		{
+			// TODO:  Add RecentFilesService.InitializeService implementation
+		}
+
 		#endregion
 	}
 }

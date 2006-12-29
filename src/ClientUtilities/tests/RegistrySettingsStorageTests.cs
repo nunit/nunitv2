@@ -135,26 +135,5 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual( "17", storage.GetSetting( "Y" ) );
 			Assert.AreEqual( "Charlie", storage.GetSetting( "NAME" ) );
 		}
-
-		[Test]
-		public void DefaultSettings()
-		{
-			Assert.IsNull( storage.GetSetting( "X" ) );
-			Assert.IsNull( storage.GetSetting( "NAME" ) );
-
-			Assert.AreEqual( 5, storage.GetSetting( "X", 5 ) );
-			Assert.AreEqual( 6, storage.GetSetting( "X", 6 ) );
-			Assert.AreEqual( "7", storage.GetSetting( "X", "7" ) );
-			
-			Assert.AreEqual( "Charlie", storage.GetSetting( "NAME", "Charlie" ) );
-			Assert.AreEqual( "Fred", storage.GetSetting( "NAME", "Fred" ) );
-		}
-
-		[Test, ExpectedException( typeof( FormatException ) )]
-		public void BadSetting()
-		{
-			storage.SaveSetting( "X", "1y25" );
-			storage.GetSetting( "X", 12 );
-		}
 	}
 }

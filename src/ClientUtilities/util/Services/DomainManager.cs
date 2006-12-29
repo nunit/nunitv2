@@ -13,7 +13,7 @@ namespace NUnit.Util
 	/// The DomainManager class handles the creation and unloading
 	/// of domains as needed and keeps track of all existing domains.
 	/// </summary>
-	public class DomainManager
+	public class DomainManager : IService
 	{
 		#region Properties
 		private string shadowCopyPath;
@@ -238,6 +238,20 @@ namespace NUnit.Util
 
 			return sb.Length == 0 ? null : sb.ToString();
 		}
+		#endregion
+
+		#region IService Members
+
+		public void UnloadService()
+		{
+			// TODO:  Add DomainManager.UnloadService implementation
+		}
+
+		public void InitializeService()
+		{
+			// TODO:  Add DomainManager.InitializeService implementation
+		}
+
 		#endregion
 	}
 }

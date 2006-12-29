@@ -43,21 +43,15 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class RecentFilesTests
 	{
-		static readonly int MAX = RecentFileSettings.MaxSize;
-		static readonly int MIN = RecentFileSettings.MinSize;
+		static readonly int MAX = RecentFilesService.MaxSize;
+		static readonly int MIN = RecentFilesService.MinSize;
 
-		RecentFileSettings recentFiles;
+		RecentFilesService recentFiles;
 
 		[SetUp]
 		public void SetUp()
 		{
-			recentFiles = new RecentFileSettings( new MemorySettingsStorage() );
-		}
-
-		[TearDown]
-		public void TearDown()
-		{
-			recentFiles.Dispose();
+			recentFiles = new RecentFilesService( new SettingsGroup( new MemorySettingsStorage() ) );
 		}
 
 		#region Helper Methods
@@ -104,7 +98,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void CountDefault()
 		{
-			Assert.AreEqual( RecentFileSettings.DefaultSize, recentFiles.MaxFiles );
+			Assert.AreEqual( RecentFilesService.DefaultSize, recentFiles.MaxFiles );
 		}
 
 		[Test]

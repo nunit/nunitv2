@@ -3,41 +3,51 @@ using System.Collections;
 
 namespace NUnit.Util
 {
-	public class MemorySettingsStorage : AbstractSettingsStorage
+	/// <summary>
+	///  MemorySettingsStorage is used to hold settings for
+	///  the NUnit tests and also serves as the base class
+	///  for XmlSettingsStorage.
+	/// </summary>
+	public class MemorySettingsStorage : ISettingsStorage
 	{
-		private Hashtable settings = new Hashtable();
+		protected Hashtable settings = new Hashtable();
 
-		#region SettingsStorage Members
+		#region ISettingsStorage Members
 
-		public override ISettingsStorage MakeChildStorage(string name)
-		{
-			return new MemorySettingsStorage();
-		}
-
-		#endregion
-
-		#region ISettings Members
-
-		public override object GetSetting(string settingName)
+		public object GetSetting(string settingName)
 		{
 			return settings[settingName];
 		}
 
-		public override void RemoveSetting(string settingName)
+		public void RemoveSetting(string settingName)
 		{
 			settings.Remove( settingName );
 		}
 
-		public override void SaveSetting(string settingName, object settingValue)
+		public void SaveSetting(string settingName, object settingValue)
 		{
 			settings[settingName] = settingValue;
 		}
 
+		public ISettingsStorage MakeChildStorage(string name)
+		{
+			return new MemorySettingsStorage();
+		}
+
+		public virtual void LoadSettings()
+		{
+			// No action required
+		}
+
+		public virtual void SaveSettings()
+		{
+			// No action required
+		}
 		#endregion
 
 		#region IDisposable Members
 
-		public override void Dispose()
+		public void Dispose()
 		{
 			// TODO:  Add MemorySettingsStorage.Dispose implementation
 		}
