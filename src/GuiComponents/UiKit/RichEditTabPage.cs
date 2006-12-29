@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Windows.Forms;
 
 namespace NUnit.UiKit
@@ -10,7 +6,7 @@ namespace NUnit.UiKit
 	/// <summary>
 	/// Summary description for RichEditTabPage.
 	/// </summary>
-	public class RichEditTabPage : System.Windows.Forms.TabPage
+	public class RichEditTabPage : TabPage
 	{
 		private RichTextBox textBox;
 
