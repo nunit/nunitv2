@@ -125,26 +125,11 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "FormSettingsTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "nunit-gui.tests.dll.config"
                     BuildAction = "None"
                 />
                 <File
-                    RelPath = "OptionSettingsTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ProjectEditorTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "UserSettingsTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

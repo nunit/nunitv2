@@ -79,16 +79,7 @@
     <Compile Include="CommandLineTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FormSettingsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="OptionSettingsTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ProjectEditorTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="UserSettingsTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <None Include="nunit-gui.tests.dll.config" />
