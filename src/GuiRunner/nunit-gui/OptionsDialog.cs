@@ -42,9 +42,6 @@ namespace NUnit.Gui
 	/// </summary>
 	public class OptionsDialog : System.Windows.Forms.Form
 	{
-		private OptionSettings options;
-		private FormSettings formSettings;
-
 		private System.Windows.Forms.Button okButton;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.HelpProvider helpProvider1;
@@ -92,16 +89,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel panel2;
 
-		private UserSettings _userSettings;
-		private UserSettings UserSettings
-		{
-			get
-			{
-				if ( _userSettings == null )
-					_userSettings = (UserSettings)GetService( typeof( UserSettings ) );
-				return _userSettings;
-			}
-		}
+		private ISettings settings;
 
 		public OptionsDialog()
 		{
@@ -1529,49 +1517,50 @@ namespace NUnit.Gui
 
 		private void OptionsDialog_Load(object sender, System.EventArgs e)
 		{
-			recentFilesCountTextBox.Text = UserSettings.RecentProjects.MaxFiles.ToString();
+			this.settings = Services.UserSettings;
 
-			this.options = UserSettings.Options;
-			this.formSettings = UserSettings.Form;
+			recentFilesCountTextBox.Text = Services.RecentFiles.MaxFiles.ToString();
 
-			loadLastProjectCheckBox.Checked = options.LoadLastProject;
-			initialDisplayComboBox.SelectedIndex = options.InitialTreeDisplay;
+			loadLastProjectCheckBox.Checked = settings.GetSetting( "Options.LoadLastProject", true );
+			initialDisplayComboBox.SelectedIndex = (int)(TestSuiteTreeView.DisplayStyle)settings.GetSetting( "Gui.TestTree.InitialTreeDisplay", TestSuiteTreeView.DisplayStyle.Auto );
 
-			visualStudioSupportCheckBox.Checked = options.VisualStudioSupport;
+			visualStudioSupportCheckBox.Checked = settings.GetSetting( "Options.TestLoader.VisualStudioSupport", false );
 
 			reloadOnChangeCheckBox.Enabled = Environment.OSVersion.Platform == System.PlatformID.Win32NT;
-			reloadOnChangeCheckBox.Checked = options.ReloadOnChange;
-			rerunOnChangeCheckBox.Checked = options.RerunOnChange;
-			reloadOnRunCheckBox.Checked = options.ReloadOnRun;
-			clearResultsCheckBox.Checked = options.ClearResults;
+			reloadOnChangeCheckBox.Checked = settings.GetSetting( "Options.TestLoader.ReloadOnChange", true );
+			rerunOnChangeCheckBox.Checked = settings.GetSetting( "Options.TestLoader.RerunOnChange", false );
+			reloadOnRunCheckBox.Checked = settings.GetSetting( "Options.TestLoader.ReloadOnRun", true );
+			clearResultsCheckBox.Checked = settings.GetSetting( "Options.TestLoader.ClearResultsOnReload", true );
 
-			bool multiDomain = options.MultiDomain;
+			bool multiDomain = settings.GetSetting( "Options.TestLoader.MultiDomain", false );
 			multiDomainRadioButton.Checked = multiDomain;
 			singleDomainRadioButton.Checked = !multiDomain;
 			mergeAssembliesCheckBox.Enabled = !multiDomain;
-			mergeAssembliesCheckBox.Checked = options.MergeAssemblies;
-			autoNamespaceSuites.Checked = options.AutoNamespaceSuites;
-			flatTestList.Checked = !options.AutoNamespaceSuites;
+			mergeAssembliesCheckBox.Checked = settings.GetSetting( "Options.TestLoader.MergeAssemblies", false );
+			autoNamespaceSuites.Checked = settings.GetSetting( "Options.TestLoader.AutoNamespaceSuites", true );
+			flatTestList.Checked = !autoNamespaceSuites.Checked;
 
-			errorsTabCheckBox.Checked = formSettings.DisplayErrorsTab;
-			notRunTabCheckBox.Checked = formSettings.DisplayNotRunTab;
-			consoleOutputCheckBox.Checked = formSettings.DisplayConsoleOutTab;
-			consoleErrrorCheckBox.Checked = formSettings.DisplayConsoleErrorTab|| formSettings.MergeConsoleErrorOutput;
-			traceOutputCheckBox.Checked = formSettings.DisplayTraceTab || formSettings.MergeTraceOutput;
+			errorsTabCheckBox.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayErrorsTab", true );
+			notRunTabCheckBox.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayNotRunTab", true );
+			consoleOutputCheckBox.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayConsoleOutputTab", true );
+			consoleErrrorCheckBox.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayConsoleErrorTab", true )
+				|| settings.GetSetting( "Gui.ResultTabs.MergeErrorOutput", false );
+			traceOutputCheckBox.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayTraceTab", true )
+				|| settings.GetSetting( "Gui.ResultTabs.MergeTraceOutput", false );
 
-			labelTestOutputCheckBox.Checked = options.TestLabels;
-			failureToolTips.Checked = options.FailureToolTips;
-			enableWordWrap.Checked = options.EnableWordWrapForFailures;
+			labelTestOutputCheckBox.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayTestLabels", false );
+			failureToolTips.Checked = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
+			enableWordWrap.Checked = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
 
-			mergeErrors.Checked = formSettings.MergeConsoleErrorOutput;
-			mergeTrace.Checked = formSettings.MergeTraceOutput;
+			mergeErrors.Checked = settings.GetSetting( "Gui.ResultTabs.MergeErrorOutput", false );
+			mergeTrace.Checked = settings.GetSetting( "Gui.ResultTabs.MergeTraceOutput", false );
 			
 
 		}
 
 		private void okButton_Click(object sender, System.EventArgs e)
 		{
-			if ( options.ReloadOnChange != reloadOnChangeCheckBox.Checked )
+			if ( settings.GetSetting( "Options.TestLoader.ReloadOnChange", true ) != reloadOnChangeCheckBox.Checked )
 			{
 				string msg = String.Format(
 					"Watching for file changes will be {0} the next time you load an assembly.",
@@ -1580,34 +1569,34 @@ namespace NUnit.Gui
 				UserMessage.DisplayInfo( msg, "NUnit Options" );
 			}
 
-			options.LoadLastProject = loadLastProjectCheckBox.Checked;
+			settings.SaveSetting( "Options.LoadLastProject", loadLastProjectCheckBox.Checked );
 			
 			TestLoader loader = GetService( typeof( TestLoader ) ) as TestLoader;
-			loader.ReloadOnChange = options.ReloadOnChange = reloadOnChangeCheckBox.Checked;
-			loader.RerunOnChange = options.RerunOnChange = rerunOnChangeCheckBox.Checked;
-			loader.ReloadOnRun = options.ReloadOnRun = reloadOnRunCheckBox.Checked;
-			options.ClearResults = clearResultsCheckBox.Checked;
+			settings.SaveSetting( "Options.TestLoader.ReloadOnChange", loader.ReloadOnChange = reloadOnChangeCheckBox.Checked );
+			settings.SaveSetting( "Options.TestLoader.RerunOnChange", loader.RerunOnChange = rerunOnChangeCheckBox.Checked );
+			settings.SaveSetting( "Options.TestLoader.ReloadOnRun", loader.ReloadOnRun = reloadOnRunCheckBox.Checked );
+			settings.SaveSetting( "Options.TestLoader.ClearResultsOnReload", clearResultsCheckBox.Checked );
 
-			loader.MultiDomain = options.MultiDomain = multiDomainRadioButton.Checked;
-			loader.MergeAssemblies = options.MergeAssemblies = mergeAssembliesCheckBox.Checked;
-			loader.AutoNamespaceSuites = options.AutoNamespaceSuites = autoNamespaceSuites.Checked;
+			settings.SaveSetting( "Options.TestLoader.MultiDomain", loader.MultiDomain = multiDomainRadioButton.Checked );
+			settings.SaveSetting( "Options.TestLoader.MergeAssemblies", loader.MergeAssemblies = mergeAssembliesCheckBox.Checked );
+			settings.SaveSetting( "Options.TestLoader.AutoNamespaceSuites", loader.AutoNamespaceSuites = autoNamespaceSuites.Checked );
 
-			options.TestLabels = labelTestOutputCheckBox.Checked;
-			options.FailureToolTips = failureToolTips.Checked;
-			options.EnableWordWrapForFailures = enableWordWrap.Checked;
+			settings.SaveSetting( "Gui.ResultTabs.DisplayTestLabels", labelTestOutputCheckBox.Checked );
+			settings.SaveSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", failureToolTips.Checked );
+			settings.SaveSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", enableWordWrap.Checked );
 			
-			options.VisualStudioSupport = visualStudioSupportCheckBox.Checked;
+			settings.SaveSetting( "Options.TestLoader.VisualStudioSupport", visualStudioSupportCheckBox.Checked );
 
-			options.InitialTreeDisplay = initialDisplayComboBox.SelectedIndex;
+			settings.SaveSetting( "Gui.TestTree.InitialTreeDisplay", (TestSuiteTreeView.DisplayStyle)initialDisplayComboBox.SelectedIndex );
 
-			formSettings.DisplayErrorsTab = errorsTabCheckBox.Checked;
-			formSettings.DisplayNotRunTab = notRunTabCheckBox.Checked;
-			formSettings.DisplayConsoleOutTab = consoleOutputCheckBox.Checked;
-			formSettings.DisplayConsoleErrorTab = consoleErrrorCheckBox.Checked && separateErrors.Checked;
-			formSettings.DisplayTraceTab = traceOutputCheckBox.Checked && separateTrace.Checked;
+			settings.SaveSetting( "Gui.ResultTabs.DisplayErrorsTab", errorsTabCheckBox.Checked );
+			settings.SaveSetting( "Gui.ResultTabs.DisplayNotRunTab", notRunTabCheckBox.Checked );
+			settings.SaveSetting( "Gui.ResultTabs.DisplayConsoleOutputTab", consoleOutputCheckBox.Checked );
+			settings.SaveSetting( "Gui.ResultTabs.DisplayConsoleErrorTab", consoleErrrorCheckBox.Checked && separateErrors.Checked );
+			settings.SaveSetting( "Gui.ResultTabs.DisplayTraceTab", traceOutputCheckBox.Checked && separateTrace.Checked );
 
-			formSettings.MergeConsoleErrorOutput = mergeErrors.Checked;
-			formSettings.MergeTraceOutput = mergeTrace.Checked;
+			settings.SaveSetting( "Gui.ResultTabs.MergeErrorOutput", mergeErrors.Checked );
+			settings.SaveSetting( "Gui.ResultTabs.MergeTraceOutput", mergeTrace.Checked );
 
 			DialogResult = DialogResult.OK;
 
@@ -1618,7 +1607,7 @@ namespace NUnit.Gui
 		{
 			if ( recentFilesCountTextBox.Text.Length == 0 )
 			{
-				recentFilesCountTextBox.Text = UserSettings.RecentProjects.MaxFiles.ToString();
+				recentFilesCountTextBox.Text = Services.RecentFiles.MaxFiles.ToString();
 				recentFilesCountTextBox.SelectAll();
 				e.Cancel = true;
 			}
@@ -1630,10 +1619,11 @@ namespace NUnit.Gui
 				{
 					int count = int.Parse( recentFilesCountTextBox.Text );
 
-					if ( count < RecentFileSettings.MinSize ||
-						count > RecentFileSettings.MaxSize )
+					if ( count < RecentFilesService.MinSize ||
+						count > RecentFilesService.MaxSize )
 					{
-						errmsg = string.Format( "Number of files must be from {0} to {1}", RecentFileSettings.MinSize, RecentFileSettings.MaxSize );
+						errmsg = string.Format( "Number of files must be from {0} to {1}", 
+							RecentFilesService.MinSize, RecentFilesService.MaxSize );
 					}
 				}
 				catch
@@ -1653,7 +1643,7 @@ namespace NUnit.Gui
 		private void recentFilesCountTextBox_Validated(object sender, System.EventArgs e)
 		{
 			int count = int.Parse( recentFilesCountTextBox.Text );
-			UserSettings.RecentProjects.MaxFiles = count;
+			Services.RecentFiles.MaxFiles = count;
 		}
 
 		private void OptionsDialog_Closing(object sender, System.ComponentModel.CancelEventArgs e)

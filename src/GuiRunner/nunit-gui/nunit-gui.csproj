@@ -169,11 +169,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "FormSettings.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "GuiOptions.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -193,11 +188,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "NUnitGuiSettings.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "OptionsDialog.cs"
                     SubType = "Form"
                     BuildAction = "Compile"
@@ -206,11 +196,6 @@
                     RelPath = "OptionsDialog.resx"
                     DependentUpon = "OptionsDialog.cs"
                     BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "OptionSettings.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "ProjectEditor.cs"

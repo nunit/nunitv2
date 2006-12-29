@@ -96,25 +96,27 @@ namespace NUnit.Gui
 					}
 				}
 
+				// Add Standard Services to ServiceManager
+				NUnit.Core.ServiceManager.Services.AddService( new SettingsService() );
+				NUnit.Core.ServiceManager.Services.AddService( new DomainManager() );
+				NUnit.Core.ServiceManager.Services.AddService( new RecentFilesService() );
+
 				// Create container for top-level forms
 				AppContainer c = new AppContainer();
 
 				// Add standard services to the container's ServiceContainer
 				AmbientProperties ambient = new AmbientProperties();
-				// Todo: Get font from UserSettings
 				c.Services.AddService( typeof( AmbientProperties ), ambient );
 
-				UserSettings settings = new UserSettings( 
-					new RegistrySettingsStorage( NUnitRegistry.CurrentUser ) );
-				c.Services.AddService( typeof( UserSettings ), settings );
+				ISettings settings = Services.UserSettings;
 
 				TestLoader loader = new TestLoader( new GuiTestEventDispatcher() );
-				loader.ReloadOnRun = settings.Options.ReloadOnRun;
-				loader.ReloadOnChange = settings.Options.ReloadOnChange;
-				loader.RerunOnChange = settings.Options.RerunOnChange;
-				loader.MultiDomain = settings.Options.MultiDomain;
-				loader.MergeAssemblies = settings.Options.MergeAssemblies;
-				loader.AutoNamespaceSuites = settings.Options.AutoNamespaceSuites;
+				loader.ReloadOnRun = settings.GetSetting( "Options.TestLoader.ReloadOnRun", true );
+				loader.ReloadOnChange = settings.GetSetting( "Options.TestLoader.ReloadOnChange", true );
+				loader.RerunOnChange = settings.GetSetting( "Options.TestLoader.RerunOnChange", false );
+				loader.MultiDomain = settings.GetSetting( "Options.TestLoader.MultiDomain", false );
+				loader.MergeAssemblies = settings.GetSetting( "Options.TestLoader.MergeAssemblies", false );
+				loader.AutoNamespaceSuites = settings.GetSetting( "Options.TestLoader.AutoNamespaceSuites", true );
 				c.Services.AddService( typeof( TestLoader ), loader );
 
 				Services.AddinManager.RegisterAddins();
@@ -123,6 +125,8 @@ namespace NUnit.Gui
 				NUnitForm form = new NUnitForm( command );
 				c.Add( form );
 				Application.Run( form );
+
+				NUnit.Core.ServiceManager.Services.StopAllServices();
 			}
 			else
 			{

@@ -31,6 +31,7 @@ using System;
 using System.Drawing;
 using System.Collections;
 using System.Configuration;
+using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Windows.Forms;
 using System.IO;
@@ -51,6 +52,11 @@ namespace NUnit.Gui
 		// Handlers for our recentFiles and recentProjects
 		private RecentFileMenuHandler recentProjectsMenuHandler;
 
+		private RecentFiles recentFilesService;
+		private ISettings userSettings;
+
+		private string displayFormat = "Full";
+
 		// Structure used for command line options
 		public struct CommandLineOptions
 		{
@@ -66,40 +72,33 @@ namespace NUnit.Gui
 		// Our current run command line options
 		private CommandLineOptions commandLineOptions;
 
-		// TipWindow for the detail list
-		CP.Windows.Forms.TipWindow tipWindow;
-		int hoverIndex = -1;
-		private System.Windows.Forms.Timer hoverTimer;
+		// The currently executing test, used in reporting exceptions
         private string currentTestName;
 
-		private TestTree testTree;
-		public System.Windows.Forms.MenuItem exitMenuItem;
-		public System.Windows.Forms.MenuItem helpMenuItem;
-		public System.Windows.Forms.MenuItem aboutMenuItem;
-		public System.Windows.Forms.MainMenu mainMenu;
-		private System.Windows.Forms.ListBox detailList;
-		public CP.Windows.Forms.ExpandingTextBox stackTrace;
-		public NUnit.UiKit.StatusBar statusBar;
-		public System.Windows.Forms.TabControl resultTabs;
-		public NUnit.UiKit.NotRunTree notRunTree;
 		private System.ComponentModel.IContainer components;
-		public System.Windows.Forms.ToolTip toolTip;
-		private System.Windows.Forms.MenuItem closeMenuItem;
-		public System.Windows.Forms.MenuItem fileMenu;
-		public System.Windows.Forms.MenuItem helpItem;
-		public System.Windows.Forms.MenuItem helpMenuSeparator1;
-		private System.Windows.Forms.MenuItem reloadMenuItem;
+
+		private System.Windows.Forms.Panel leftPanel;
+		public System.Windows.Forms.Splitter treeSplitter;
+		public System.Windows.Forms.Panel rightPanel;
+
+		private TestTree testTree;
+
 		public System.Windows.Forms.GroupBox groupBox1;
 		public System.Windows.Forms.Button runButton;
+		private System.Windows.Forms.Button stopButton;
 		public System.Windows.Forms.Label suiteName;
 		public NUnit.UiKit.TestProgressBar progressBar;
-		private System.Windows.Forms.Button stopButton;
-		private System.Windows.Forms.MenuItem toolsMenu;
-		private System.Windows.Forms.MenuItem optionsMenuItem;
-		private System.Windows.Forms.MenuItem saveXmlResultsMenuItem;
-		private System.Windows.Forms.MenuItem projectMenu;
-		private System.Windows.Forms.MenuItem editProjectMenuItem;
-		private System.Windows.Forms.MenuItem configMenuItem;
+		private System.Windows.Forms.Label runCount;
+
+		public NUnit.UiKit.ResultTabs resultTabs;
+
+		public NUnit.UiKit.StatusBar statusBar;
+
+		public System.Windows.Forms.ToolTip toolTip;
+
+		public System.Windows.Forms.MainMenu mainMenu;
+		
+		public System.Windows.Forms.MenuItem fileMenu;
 		private System.Windows.Forms.MenuItem saveMenuItem;
 		private System.Windows.Forms.MenuItem saveAsMenuItem;
 		private System.Windows.Forms.MenuItem newMenuItem;
@@ -108,32 +107,34 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem fileMenuSeparator1;
 		private System.Windows.Forms.MenuItem fileMenuSeparator2;
 		public System.Windows.Forms.MenuItem fileMenuSeparator4;
+		private System.Windows.Forms.MenuItem closeMenuItem;
+		private System.Windows.Forms.MenuItem reloadMenuItem;
+		public System.Windows.Forms.MenuItem exitMenuItem;
+
+		private System.Windows.Forms.MenuItem projectMenu;
+		private System.Windows.Forms.MenuItem editProjectMenuItem;
+		private System.Windows.Forms.MenuItem configMenuItem;
 		private System.Windows.Forms.MenuItem projectMenuSeparator1;
 		private System.Windows.Forms.MenuItem projectMenuSeparator2;
+
+		private System.Windows.Forms.MenuItem toolsMenu;
+		private System.Windows.Forms.MenuItem optionsMenuItem;
+		private System.Windows.Forms.MenuItem saveXmlResultsMenuItem;
 		private System.Windows.Forms.MenuItem toolsMenuSeparator1;
+
+		public System.Windows.Forms.MenuItem helpMenuItem;
+		public System.Windows.Forms.MenuItem helpItem;
+		public System.Windows.Forms.MenuItem helpMenuSeparator1;
+		public System.Windows.Forms.MenuItem aboutMenuItem;
+
 		private System.Windows.Forms.MenuItem addVSProjectMenuItem;
-		private System.Windows.Forms.ContextMenu detailListContextMenu;
-		private System.Windows.Forms.MenuItem copyDetailMenuItem;
 		private System.Windows.Forms.MenuItem exceptionDetailsMenuItem;
 		private System.Windows.Forms.MenuItem viewMenu;
 		private System.Windows.Forms.MenuItem statusBarMenuItem;
-		public System.Windows.Forms.Panel rightPanel;
-		private System.Windows.Forms.Panel leftPanel;
-		public System.Windows.Forms.Splitter treeSplitter;
-		public System.Windows.Forms.Splitter tabSplitter;
-		private System.Windows.Forms.MenuItem errorsTabMenuItem;
-		private System.Windows.Forms.MenuItem notRunTabMenuItem;
-		private System.Windows.Forms.MenuItem consoleOutMenuItem;
-		private System.Windows.Forms.MenuItem consoleErrorMenuItem;
-		private System.Windows.Forms.MenuItem tabsMenu;
-		private System.Windows.Forms.MenuItem viewMenuSeparator1;
 		private System.Windows.Forms.MenuItem toolsMenuSeparator2;
-		private System.Windows.Forms.MenuItem menuItem2;
-		private System.Windows.Forms.MenuItem menuItem6;
 		private System.Windows.Forms.MenuItem miniGuiMenuItem;
 		private System.Windows.Forms.MenuItem fullGuiMenuItem;
 		private System.Windows.Forms.MenuItem fontMenuItem;
-		private System.Windows.Forms.MenuItem menuItem7;
 		private System.Windows.Forms.MenuItem fontChangeMenuItem;
 		private System.Windows.Forms.MenuItem defaultFontMenuItem;
 		private System.Windows.Forms.MenuItem decreaseFontMenuItem;
@@ -142,21 +143,15 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem runAllMenuItem;
 		private System.Windows.Forms.MenuItem runSelectedMenuItem;
 		private System.Windows.Forms.MenuItem runFailedMenuItem;
-		private System.Windows.Forms.MenuItem menuItem1;
 		private System.Windows.Forms.MenuItem stopRunMenuItem;
-		private System.Windows.Forms.MenuItem menuItem4;
 		private System.Windows.Forms.MenuItem assemblyDetailsMenuItem;
 		private System.Windows.Forms.MenuItem addinInfoMenuItem;
-		private System.Windows.Forms.Label runCount;
-		private NUnit.UiKit.RichEditTabPage traceTab;
-		private System.Windows.Forms.MenuItem traceTabMenuItem;
-		public System.Windows.Forms.TabPage errorTab;
-		public System.Windows.Forms.TabPage notRunTab;
-		public NUnit.UiKit.RichEditTabPage stdoutTab;
-		public NUnit.UiKit.RichEditTabPage stderrTab;
-		private System.Windows.Forms.TabPage internalTraceTab;
-		private System.Windows.Forms.MenuItem internalTraceTabMenuItem;
-		private System.Windows.Forms.MenuItem menuItem5;
+		private System.Windows.Forms.MenuItem viewMenuSeparator1;
+		private System.Windows.Forms.MenuItem viewMenuSeparator2;
+		private System.Windows.Forms.MenuItem viewMenuSeparator3;
+		private System.Windows.Forms.MenuItem viewMenuSeparator4;
+		private System.Windows.Forms.MenuItem fontMenuSeparator;
+		private System.Windows.Forms.MenuItem testMenuSeparator;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -168,6 +163,8 @@ namespace NUnit.Gui
 			InitializeComponent();
 
 			this.commandLineOptions = commandLineOptions;
+			this.recentFilesService = NUnit.Util.Services.RecentFiles;
+			this.userSettings = NUnit.Util.Services.UserSettings;
 		}
 
 		protected override void Dispose( bool disposing )
@@ -210,25 +207,17 @@ namespace NUnit.Gui
 			this.viewMenu = new System.Windows.Forms.MenuItem();
 			this.fullGuiMenuItem = new System.Windows.Forms.MenuItem();
 			this.miniGuiMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem6 = new System.Windows.Forms.MenuItem();
-			this.tabsMenu = new System.Windows.Forms.MenuItem();
-			this.errorsTabMenuItem = new System.Windows.Forms.MenuItem();
-			this.notRunTabMenuItem = new System.Windows.Forms.MenuItem();
-			this.consoleOutMenuItem = new System.Windows.Forms.MenuItem();
-			this.consoleErrorMenuItem = new System.Windows.Forms.MenuItem();
-			this.traceTabMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem5 = new System.Windows.Forms.MenuItem();
-			this.internalTraceTabMenuItem = new System.Windows.Forms.MenuItem();
 			this.viewMenuSeparator1 = new System.Windows.Forms.MenuItem();
+			this.viewMenuSeparator2 = new System.Windows.Forms.MenuItem();
 			this.fontMenuItem = new System.Windows.Forms.MenuItem();
 			this.increaseFontMenuItem = new System.Windows.Forms.MenuItem();
 			this.decreaseFontMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem7 = new System.Windows.Forms.MenuItem();
+			this.fontMenuSeparator = new System.Windows.Forms.MenuItem();
 			this.fontChangeMenuItem = new System.Windows.Forms.MenuItem();
 			this.defaultFontMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem4 = new System.Windows.Forms.MenuItem();
+			this.viewMenuSeparator3 = new System.Windows.Forms.MenuItem();
 			this.assemblyDetailsMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem2 = new System.Windows.Forms.MenuItem();
+			this.viewMenuSeparator4 = new System.Windows.Forms.MenuItem();
 			this.statusBarMenuItem = new System.Windows.Forms.MenuItem();
 			this.projectMenu = new System.Windows.Forms.MenuItem();
 			this.configMenuItem = new System.Windows.Forms.MenuItem();
@@ -241,7 +230,7 @@ namespace NUnit.Gui
 			this.runAllMenuItem = new System.Windows.Forms.MenuItem();
 			this.runSelectedMenuItem = new System.Windows.Forms.MenuItem();
 			this.runFailedMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem1 = new System.Windows.Forms.MenuItem();
+			this.testMenuSeparator = new System.Windows.Forms.MenuItem();
 			this.stopRunMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenu = new System.Windows.Forms.MenuItem();
 			this.saveXmlResultsMenuItem = new System.Windows.Forms.MenuItem();
@@ -256,34 +245,17 @@ namespace NUnit.Gui
 			this.aboutMenuItem = new System.Windows.Forms.MenuItem();
 			this.treeSplitter = new System.Windows.Forms.Splitter();
 			this.rightPanel = new System.Windows.Forms.Panel();
-			this.resultTabs = new System.Windows.Forms.TabControl();
-			this.errorTab = new System.Windows.Forms.TabPage();
-			this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
-			this.tabSplitter = new System.Windows.Forms.Splitter();
-			this.detailList = new System.Windows.Forms.ListBox();
-			this.stdoutTab = new NUnit.UiKit.RichEditTabPage();
-			this.traceTab = new NUnit.UiKit.RichEditTabPage();
-			this.internalTraceTab = new System.Windows.Forms.TabPage();
-			this.stderrTab = new NUnit.UiKit.RichEditTabPage();
-			this.notRunTab = new System.Windows.Forms.TabPage();
-			this.notRunTree = new NUnit.UiKit.NotRunTree();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.runCount = new System.Windows.Forms.Label();
 			this.stopButton = new System.Windows.Forms.Button();
 			this.runButton = new System.Windows.Forms.Button();
 			this.suiteName = new System.Windows.Forms.Label();
 			this.progressBar = new NUnit.UiKit.TestProgressBar();
-			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
-			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
+			this.resultTabs = new NUnit.UiKit.ResultTabs();
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.testTree = new NUnit.UiKit.TestTree();
 			this.leftPanel = new System.Windows.Forms.Panel();
 			this.rightPanel.SuspendLayout();
-			this.resultTabs.SuspendLayout();
-			this.errorTab.SuspendLayout();
-			this.stdoutTab.SuspendLayout();
-			this.stderrTab.SuspendLayout();
-			this.notRunTab.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.leftPanel.SuspendLayout();
 			this.SuspendLayout();
@@ -455,13 +427,12 @@ namespace NUnit.Gui
 			this.viewMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					 this.fullGuiMenuItem,
 																					 this.miniGuiMenuItem,
-																					 this.menuItem6,
-																					 this.tabsMenu,
 																					 this.viewMenuSeparator1,
+																					 this.viewMenuSeparator2,
 																					 this.fontMenuItem,
-																					 this.menuItem4,
+																					 this.viewMenuSeparator3,
 																					 this.assemblyDetailsMenuItem,
-																					 this.menuItem2,
+																					 this.viewMenuSeparator4,
 																					 this.statusBarMenuItem});
 			this.viewMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("viewMenu.Shortcut")));
 			this.viewMenu.ShowShortcut = ((bool)(resources.GetObject("viewMenu.ShowShortcut")));
@@ -492,123 +463,32 @@ namespace NUnit.Gui
 			this.miniGuiMenuItem.Visible = ((bool)(resources.GetObject("miniGuiMenuItem.Visible")));
 			this.miniGuiMenuItem.Click += new System.EventHandler(this.miniGuiMenuItem_Click);
 			// 
-			// menuItem6
-			// 
-			this.menuItem6.Enabled = ((bool)(resources.GetObject("menuItem6.Enabled")));
-			this.menuItem6.Index = 2;
-			this.menuItem6.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem6.Shortcut")));
-			this.menuItem6.ShowShortcut = ((bool)(resources.GetObject("menuItem6.ShowShortcut")));
-			this.menuItem6.Text = resources.GetString("menuItem6.Text");
-			this.menuItem6.Visible = ((bool)(resources.GetObject("menuItem6.Visible")));
-			// 
-			// tabsMenu
-			// 
-			this.tabsMenu.Enabled = ((bool)(resources.GetObject("tabsMenu.Enabled")));
-			this.tabsMenu.Index = 3;
-			this.tabsMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					 this.errorsTabMenuItem,
-																					 this.notRunTabMenuItem,
-																					 this.consoleOutMenuItem,
-																					 this.consoleErrorMenuItem,
-																					 this.traceTabMenuItem,
-																					 this.menuItem5,
-																					 this.internalTraceTabMenuItem});
-			this.tabsMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("tabsMenu.Shortcut")));
-			this.tabsMenu.ShowShortcut = ((bool)(resources.GetObject("tabsMenu.ShowShortcut")));
-			this.tabsMenu.Text = resources.GetString("tabsMenu.Text");
-			this.tabsMenu.Visible = ((bool)(resources.GetObject("tabsMenu.Visible")));
-			// 
-			// errorsTabMenuItem
-			// 
-			this.errorsTabMenuItem.Checked = true;
-			this.errorsTabMenuItem.Enabled = ((bool)(resources.GetObject("errorsTabMenuItem.Enabled")));
-			this.errorsTabMenuItem.Index = 0;
-			this.errorsTabMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("errorsTabMenuItem.Shortcut")));
-			this.errorsTabMenuItem.ShowShortcut = ((bool)(resources.GetObject("errorsTabMenuItem.ShowShortcut")));
-			this.errorsTabMenuItem.Text = resources.GetString("errorsTabMenuItem.Text");
-			this.errorsTabMenuItem.Visible = ((bool)(resources.GetObject("errorsTabMenuItem.Visible")));
-			this.errorsTabMenuItem.Click += new System.EventHandler(this.errorsTabMenuItem_Click);
-			// 
-			// notRunTabMenuItem
-			// 
-			this.notRunTabMenuItem.Checked = true;
-			this.notRunTabMenuItem.Enabled = ((bool)(resources.GetObject("notRunTabMenuItem.Enabled")));
-			this.notRunTabMenuItem.Index = 1;
-			this.notRunTabMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("notRunTabMenuItem.Shortcut")));
-			this.notRunTabMenuItem.ShowShortcut = ((bool)(resources.GetObject("notRunTabMenuItem.ShowShortcut")));
-			this.notRunTabMenuItem.Text = resources.GetString("notRunTabMenuItem.Text");
-			this.notRunTabMenuItem.Visible = ((bool)(resources.GetObject("notRunTabMenuItem.Visible")));
-			this.notRunTabMenuItem.Click += new System.EventHandler(this.notRunTabMenuItem_Click);
-			// 
-			// consoleOutMenuItem
-			// 
-			this.consoleOutMenuItem.Checked = true;
-			this.consoleOutMenuItem.Enabled = ((bool)(resources.GetObject("consoleOutMenuItem.Enabled")));
-			this.consoleOutMenuItem.Index = 2;
-			this.consoleOutMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("consoleOutMenuItem.Shortcut")));
-			this.consoleOutMenuItem.ShowShortcut = ((bool)(resources.GetObject("consoleOutMenuItem.ShowShortcut")));
-			this.consoleOutMenuItem.Text = resources.GetString("consoleOutMenuItem.Text");
-			this.consoleOutMenuItem.Visible = ((bool)(resources.GetObject("consoleOutMenuItem.Visible")));
-			this.consoleOutMenuItem.Click += new System.EventHandler(this.consoleOutMenuItem_Click);
-			// 
-			// consoleErrorMenuItem
-			// 
-			this.consoleErrorMenuItem.Checked = true;
-			this.consoleErrorMenuItem.Enabled = ((bool)(resources.GetObject("consoleErrorMenuItem.Enabled")));
-			this.consoleErrorMenuItem.Index = 3;
-			this.consoleErrorMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("consoleErrorMenuItem.Shortcut")));
-			this.consoleErrorMenuItem.ShowShortcut = ((bool)(resources.GetObject("consoleErrorMenuItem.ShowShortcut")));
-			this.consoleErrorMenuItem.Text = resources.GetString("consoleErrorMenuItem.Text");
-			this.consoleErrorMenuItem.Visible = ((bool)(resources.GetObject("consoleErrorMenuItem.Visible")));
-			this.consoleErrorMenuItem.Click += new System.EventHandler(this.consoleErrorMenuItem_Click);
-			// 
-			// traceTabMenuItem
-			// 
-			this.traceTabMenuItem.Checked = true;
-			this.traceTabMenuItem.Enabled = ((bool)(resources.GetObject("traceTabMenuItem.Enabled")));
-			this.traceTabMenuItem.Index = 4;
-			this.traceTabMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("traceTabMenuItem.Shortcut")));
-			this.traceTabMenuItem.ShowShortcut = ((bool)(resources.GetObject("traceTabMenuItem.ShowShortcut")));
-			this.traceTabMenuItem.Text = resources.GetString("traceTabMenuItem.Text");
-			this.traceTabMenuItem.Visible = ((bool)(resources.GetObject("traceTabMenuItem.Visible")));
-			this.traceTabMenuItem.Click += new System.EventHandler(this.traceTabMenuItem_Click);
-			// 
-			// menuItem5
-			// 
-			this.menuItem5.Enabled = ((bool)(resources.GetObject("menuItem5.Enabled")));
-			this.menuItem5.Index = 5;
-			this.menuItem5.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem5.Shortcut")));
-			this.menuItem5.ShowShortcut = ((bool)(resources.GetObject("menuItem5.ShowShortcut")));
-			this.menuItem5.Text = resources.GetString("menuItem5.Text");
-			this.menuItem5.Visible = ((bool)(resources.GetObject("menuItem5.Visible")));
-			// 
-			// internalTraceTabMenuItem
-			// 
-			this.internalTraceTabMenuItem.Enabled = ((bool)(resources.GetObject("internalTraceTabMenuItem.Enabled")));
-			this.internalTraceTabMenuItem.Index = 6;
-			this.internalTraceTabMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("internalTraceTabMenuItem.Shortcut")));
-			this.internalTraceTabMenuItem.ShowShortcut = ((bool)(resources.GetObject("internalTraceTabMenuItem.ShowShortcut")));
-			this.internalTraceTabMenuItem.Text = resources.GetString("internalTraceTabMenuItem.Text");
-			this.internalTraceTabMenuItem.Visible = ((bool)(resources.GetObject("internalTraceTabMenuItem.Visible")));
-			this.internalTraceTabMenuItem.Click += new System.EventHandler(this.internalTraceTabMenuItem_Click);
-			// 
 			// viewMenuSeparator1
 			// 
 			this.viewMenuSeparator1.Enabled = ((bool)(resources.GetObject("viewMenuSeparator1.Enabled")));
-			this.viewMenuSeparator1.Index = 4;
+			this.viewMenuSeparator1.Index = 2;
 			this.viewMenuSeparator1.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("viewMenuSeparator1.Shortcut")));
 			this.viewMenuSeparator1.ShowShortcut = ((bool)(resources.GetObject("viewMenuSeparator1.ShowShortcut")));
 			this.viewMenuSeparator1.Text = resources.GetString("viewMenuSeparator1.Text");
 			this.viewMenuSeparator1.Visible = ((bool)(resources.GetObject("viewMenuSeparator1.Visible")));
 			// 
+			// viewMenuSeparator2
+			// 
+			this.viewMenuSeparator2.Enabled = ((bool)(resources.GetObject("viewMenuSeparator2.Enabled")));
+			this.viewMenuSeparator2.Index = 3;
+			this.viewMenuSeparator2.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("viewMenuSeparator2.Shortcut")));
+			this.viewMenuSeparator2.ShowShortcut = ((bool)(resources.GetObject("viewMenuSeparator2.ShowShortcut")));
+			this.viewMenuSeparator2.Text = resources.GetString("viewMenuSeparator2.Text");
+			this.viewMenuSeparator2.Visible = ((bool)(resources.GetObject("viewMenuSeparator2.Visible")));
+			// 
 			// fontMenuItem
 			// 
 			this.fontMenuItem.Enabled = ((bool)(resources.GetObject("fontMenuItem.Enabled")));
-			this.fontMenuItem.Index = 5;
+			this.fontMenuItem.Index = 4;
 			this.fontMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																						 this.increaseFontMenuItem,
 																						 this.decreaseFontMenuItem,
-																						 this.menuItem7,
+																						 this.fontMenuSeparator,
 																						 this.fontChangeMenuItem,
 																						 this.defaultFontMenuItem});
 			this.fontMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("fontMenuItem.Shortcut")));
@@ -636,14 +516,14 @@ namespace NUnit.Gui
 			this.decreaseFontMenuItem.Visible = ((bool)(resources.GetObject("decreaseFontMenuItem.Visible")));
 			this.decreaseFontMenuItem.Click += new System.EventHandler(this.decreaseFontMenuItem_Click);
 			// 
-			// menuItem7
+			// fontMenuSeparator
 			// 
-			this.menuItem7.Enabled = ((bool)(resources.GetObject("menuItem7.Enabled")));
-			this.menuItem7.Index = 2;
-			this.menuItem7.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem7.Shortcut")));
-			this.menuItem7.ShowShortcut = ((bool)(resources.GetObject("menuItem7.ShowShortcut")));
-			this.menuItem7.Text = resources.GetString("menuItem7.Text");
-			this.menuItem7.Visible = ((bool)(resources.GetObject("menuItem7.Visible")));
+			this.fontMenuSeparator.Enabled = ((bool)(resources.GetObject("fontMenuSeparator.Enabled")));
+			this.fontMenuSeparator.Index = 2;
+			this.fontMenuSeparator.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("fontMenuSeparator.Shortcut")));
+			this.fontMenuSeparator.ShowShortcut = ((bool)(resources.GetObject("fontMenuSeparator.ShowShortcut")));
+			this.fontMenuSeparator.Text = resources.GetString("fontMenuSeparator.Text");
+			this.fontMenuSeparator.Visible = ((bool)(resources.GetObject("fontMenuSeparator.Visible")));
 			// 
 			// fontChangeMenuItem
 			// 
@@ -665,39 +545,39 @@ namespace NUnit.Gui
 			this.defaultFontMenuItem.Visible = ((bool)(resources.GetObject("defaultFontMenuItem.Visible")));
 			this.defaultFontMenuItem.Click += new System.EventHandler(this.defaultFontMenuItem_Click);
 			// 
-			// menuItem4
+			// viewMenuSeparator3
 			// 
-			this.menuItem4.Enabled = ((bool)(resources.GetObject("menuItem4.Enabled")));
-			this.menuItem4.Index = 6;
-			this.menuItem4.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem4.Shortcut")));
-			this.menuItem4.ShowShortcut = ((bool)(resources.GetObject("menuItem4.ShowShortcut")));
-			this.menuItem4.Text = resources.GetString("menuItem4.Text");
-			this.menuItem4.Visible = ((bool)(resources.GetObject("menuItem4.Visible")));
+			this.viewMenuSeparator3.Enabled = ((bool)(resources.GetObject("viewMenuSeparator3.Enabled")));
+			this.viewMenuSeparator3.Index = 5;
+			this.viewMenuSeparator3.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("viewMenuSeparator3.Shortcut")));
+			this.viewMenuSeparator3.ShowShortcut = ((bool)(resources.GetObject("viewMenuSeparator3.ShowShortcut")));
+			this.viewMenuSeparator3.Text = resources.GetString("viewMenuSeparator3.Text");
+			this.viewMenuSeparator3.Visible = ((bool)(resources.GetObject("viewMenuSeparator3.Visible")));
 			// 
 			// assemblyDetailsMenuItem
 			// 
 			this.assemblyDetailsMenuItem.Enabled = ((bool)(resources.GetObject("assemblyDetailsMenuItem.Enabled")));
-			this.assemblyDetailsMenuItem.Index = 7;
+			this.assemblyDetailsMenuItem.Index = 6;
 			this.assemblyDetailsMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("assemblyDetailsMenuItem.Shortcut")));
 			this.assemblyDetailsMenuItem.ShowShortcut = ((bool)(resources.GetObject("assemblyDetailsMenuItem.ShowShortcut")));
 			this.assemblyDetailsMenuItem.Text = resources.GetString("assemblyDetailsMenuItem.Text");
 			this.assemblyDetailsMenuItem.Visible = ((bool)(resources.GetObject("assemblyDetailsMenuItem.Visible")));
 			this.assemblyDetailsMenuItem.Click += new System.EventHandler(this.assemblyDetailsMenuItem_Click);
 			// 
-			// menuItem2
+			// viewMenuSeparator4
 			// 
-			this.menuItem2.Enabled = ((bool)(resources.GetObject("menuItem2.Enabled")));
-			this.menuItem2.Index = 8;
-			this.menuItem2.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem2.Shortcut")));
-			this.menuItem2.ShowShortcut = ((bool)(resources.GetObject("menuItem2.ShowShortcut")));
-			this.menuItem2.Text = resources.GetString("menuItem2.Text");
-			this.menuItem2.Visible = ((bool)(resources.GetObject("menuItem2.Visible")));
+			this.viewMenuSeparator4.Enabled = ((bool)(resources.GetObject("viewMenuSeparator4.Enabled")));
+			this.viewMenuSeparator4.Index = 7;
+			this.viewMenuSeparator4.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("viewMenuSeparator4.Shortcut")));
+			this.viewMenuSeparator4.ShowShortcut = ((bool)(resources.GetObject("viewMenuSeparator4.ShowShortcut")));
+			this.viewMenuSeparator4.Text = resources.GetString("viewMenuSeparator4.Text");
+			this.viewMenuSeparator4.Visible = ((bool)(resources.GetObject("viewMenuSeparator4.Visible")));
 			// 
 			// statusBarMenuItem
 			// 
 			this.statusBarMenuItem.Checked = true;
 			this.statusBarMenuItem.Enabled = ((bool)(resources.GetObject("statusBarMenuItem.Enabled")));
-			this.statusBarMenuItem.Index = 9;
+			this.statusBarMenuItem.Index = 8;
 			this.statusBarMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("statusBarMenuItem.Shortcut")));
 			this.statusBarMenuItem.ShowShortcut = ((bool)(resources.GetObject("statusBarMenuItem.ShowShortcut")));
 			this.statusBarMenuItem.Text = resources.GetString("statusBarMenuItem.Text");
@@ -786,7 +666,7 @@ namespace NUnit.Gui
 																					 this.runAllMenuItem,
 																					 this.runSelectedMenuItem,
 																					 this.runFailedMenuItem,
-																					 this.menuItem1,
+																					 this.testMenuSeparator,
 																					 this.stopRunMenuItem});
 			this.testMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("testMenu.Shortcut")));
 			this.testMenu.ShowShortcut = ((bool)(resources.GetObject("testMenu.ShowShortcut")));
@@ -823,14 +703,14 @@ namespace NUnit.Gui
 			this.runFailedMenuItem.Visible = ((bool)(resources.GetObject("runFailedMenuItem.Visible")));
 			this.runFailedMenuItem.Click += new System.EventHandler(this.runFailedMenuItem_Click);
 			// 
-			// menuItem1
+			// testMenuSeparator
 			// 
-			this.menuItem1.Enabled = ((bool)(resources.GetObject("menuItem1.Enabled")));
-			this.menuItem1.Index = 3;
-			this.menuItem1.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("menuItem1.Shortcut")));
-			this.menuItem1.ShowShortcut = ((bool)(resources.GetObject("menuItem1.ShowShortcut")));
-			this.menuItem1.Text = resources.GetString("menuItem1.Text");
-			this.menuItem1.Visible = ((bool)(resources.GetObject("menuItem1.Visible")));
+			this.testMenuSeparator.Enabled = ((bool)(resources.GetObject("testMenuSeparator.Enabled")));
+			this.testMenuSeparator.Index = 3;
+			this.testMenuSeparator.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("testMenuSeparator.Shortcut")));
+			this.testMenuSeparator.ShowShortcut = ((bool)(resources.GetObject("testMenuSeparator.ShowShortcut")));
+			this.testMenuSeparator.Text = resources.GetString("testMenuSeparator.Text");
+			this.testMenuSeparator.Visible = ((bool)(resources.GetObject("testMenuSeparator.Visible")));
 			// 
 			// stopRunMenuItem
 			// 
@@ -989,8 +869,8 @@ namespace NUnit.Gui
 			this.rightPanel.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("rightPanel.AutoScrollMargin")));
 			this.rightPanel.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("rightPanel.AutoScrollMinSize")));
 			this.rightPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rightPanel.BackgroundImage")));
-			this.rightPanel.Controls.Add(this.resultTabs);
 			this.rightPanel.Controls.Add(this.groupBox1);
+			this.rightPanel.Controls.Add(this.resultTabs);
 			this.rightPanel.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("rightPanel.Dock")));
 			this.rightPanel.Enabled = ((bool)(resources.GetObject("rightPanel.Enabled")));
 			this.rightPanel.Font = ((System.Drawing.Font)(resources.GetObject("rightPanel.Font")));
@@ -1003,289 +883,6 @@ namespace NUnit.Gui
 			this.rightPanel.Text = resources.GetString("rightPanel.Text");
 			this.toolTip.SetToolTip(this.rightPanel, resources.GetString("rightPanel.ToolTip"));
 			this.rightPanel.Visible = ((bool)(resources.GetObject("rightPanel.Visible")));
-			// 
-			// resultTabs
-			// 
-			this.resultTabs.AccessibleDescription = resources.GetString("resultTabs.AccessibleDescription");
-			this.resultTabs.AccessibleName = resources.GetString("resultTabs.AccessibleName");
-			this.resultTabs.Alignment = ((System.Windows.Forms.TabAlignment)(resources.GetObject("resultTabs.Alignment")));
-			this.resultTabs.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("resultTabs.Anchor")));
-			this.resultTabs.Appearance = ((System.Windows.Forms.TabAppearance)(resources.GetObject("resultTabs.Appearance")));
-			this.resultTabs.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("resultTabs.BackgroundImage")));
-			this.resultTabs.Controls.Add(this.errorTab);
-			this.resultTabs.Controls.Add(this.stdoutTab);
-			this.resultTabs.Controls.Add(this.traceTab);
-			this.resultTabs.Controls.Add(this.internalTraceTab);
-			this.resultTabs.Controls.Add(this.stderrTab);
-			this.resultTabs.Controls.Add(this.notRunTab);
-			this.resultTabs.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("resultTabs.Dock")));
-			this.resultTabs.Enabled = ((bool)(resources.GetObject("resultTabs.Enabled")));
-			this.resultTabs.Font = ((System.Drawing.Font)(resources.GetObject("resultTabs.Font")));
-			this.resultTabs.ForeColor = System.Drawing.Color.Red;
-			this.resultTabs.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("resultTabs.ImeMode")));
-			this.resultTabs.ItemSize = ((System.Drawing.Size)(resources.GetObject("resultTabs.ItemSize")));
-			this.resultTabs.Location = ((System.Drawing.Point)(resources.GetObject("resultTabs.Location")));
-			this.resultTabs.Name = "resultTabs";
-			this.resultTabs.Padding = ((System.Drawing.Point)(resources.GetObject("resultTabs.Padding")));
-			this.resultTabs.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("resultTabs.RightToLeft")));
-			this.resultTabs.SelectedIndex = 0;
-			this.resultTabs.ShowToolTips = ((bool)(resources.GetObject("resultTabs.ShowToolTips")));
-			this.resultTabs.Size = ((System.Drawing.Size)(resources.GetObject("resultTabs.Size")));
-			this.resultTabs.TabIndex = ((int)(resources.GetObject("resultTabs.TabIndex")));
-			this.resultTabs.Text = resources.GetString("resultTabs.Text");
-			this.toolTip.SetToolTip(this.resultTabs, resources.GetString("resultTabs.ToolTip"));
-			this.resultTabs.Visible = ((bool)(resources.GetObject("resultTabs.Visible")));
-			this.resultTabs.SelectedIndexChanged += new System.EventHandler(this.resultTabs_SelectedIndexChanged);
-			// 
-			// errorTab
-			// 
-			this.errorTab.AccessibleDescription = resources.GetString("errorTab.AccessibleDescription");
-			this.errorTab.AccessibleName = resources.GetString("errorTab.AccessibleName");
-			this.errorTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("errorTab.Anchor")));
-			this.errorTab.AutoScroll = ((bool)(resources.GetObject("errorTab.AutoScroll")));
-			this.errorTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("errorTab.AutoScrollMargin")));
-			this.errorTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("errorTab.AutoScrollMinSize")));
-			this.errorTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("errorTab.BackgroundImage")));
-			this.errorTab.Controls.Add(this.stackTrace);
-			this.errorTab.Controls.Add(this.tabSplitter);
-			this.errorTab.Controls.Add(this.detailList);
-			this.errorTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("errorTab.Dock")));
-			this.errorTab.Enabled = ((bool)(resources.GetObject("errorTab.Enabled")));
-			this.errorTab.Font = ((System.Drawing.Font)(resources.GetObject("errorTab.Font")));
-			this.errorTab.ImageIndex = ((int)(resources.GetObject("errorTab.ImageIndex")));
-			this.errorTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("errorTab.ImeMode")));
-			this.errorTab.Location = ((System.Drawing.Point)(resources.GetObject("errorTab.Location")));
-			this.errorTab.Name = "errorTab";
-			this.errorTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("errorTab.RightToLeft")));
-			this.errorTab.Size = ((System.Drawing.Size)(resources.GetObject("errorTab.Size")));
-			this.errorTab.TabIndex = ((int)(resources.GetObject("errorTab.TabIndex")));
-			this.errorTab.Text = resources.GetString("errorTab.Text");
-			this.toolTip.SetToolTip(this.errorTab, resources.GetString("errorTab.ToolTip"));
-			this.errorTab.ToolTipText = resources.GetString("errorTab.ToolTipText");
-			this.errorTab.Visible = ((bool)(resources.GetObject("errorTab.Visible")));
-			// 
-			// stackTrace
-			// 
-			this.stackTrace.AccessibleDescription = resources.GetString("stackTrace.AccessibleDescription");
-			this.stackTrace.AccessibleName = resources.GetString("stackTrace.AccessibleName");
-			this.stackTrace.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stackTrace.Anchor")));
-			this.stackTrace.AutoSize = ((bool)(resources.GetObject("stackTrace.AutoSize")));
-			this.stackTrace.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stackTrace.BackgroundImage")));
-			this.stackTrace.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stackTrace.Dock")));
-			this.stackTrace.Enabled = ((bool)(resources.GetObject("stackTrace.Enabled")));
-			this.stackTrace.Font = ((System.Drawing.Font)(resources.GetObject("stackTrace.Font")));
-			this.stackTrace.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stackTrace.ImeMode")));
-			this.stackTrace.Location = ((System.Drawing.Point)(resources.GetObject("stackTrace.Location")));
-			this.stackTrace.MaxLength = ((int)(resources.GetObject("stackTrace.MaxLength")));
-			this.stackTrace.Multiline = ((bool)(resources.GetObject("stackTrace.Multiline")));
-			this.stackTrace.Name = "stackTrace";
-			this.stackTrace.PasswordChar = ((char)(resources.GetObject("stackTrace.PasswordChar")));
-			this.stackTrace.ReadOnly = true;
-			this.stackTrace.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stackTrace.RightToLeft")));
-			this.stackTrace.ScrollBars = ((System.Windows.Forms.ScrollBars)(resources.GetObject("stackTrace.ScrollBars")));
-			this.stackTrace.Size = ((System.Drawing.Size)(resources.GetObject("stackTrace.Size")));
-			this.stackTrace.TabIndex = ((int)(resources.GetObject("stackTrace.TabIndex")));
-			this.stackTrace.Text = resources.GetString("stackTrace.Text");
-			this.stackTrace.TextAlign = ((System.Windows.Forms.HorizontalAlignment)(resources.GetObject("stackTrace.TextAlign")));
-			this.toolTip.SetToolTip(this.stackTrace, resources.GetString("stackTrace.ToolTip"));
-			this.stackTrace.Visible = ((bool)(resources.GetObject("stackTrace.Visible")));
-			this.stackTrace.WordWrap = ((bool)(resources.GetObject("stackTrace.WordWrap")));
-			this.stackTrace.KeyUp += new System.Windows.Forms.KeyEventHandler(this.stackTrace_KeyUp);
-			// 
-			// tabSplitter
-			// 
-			this.tabSplitter.AccessibleDescription = resources.GetString("tabSplitter.AccessibleDescription");
-			this.tabSplitter.AccessibleName = resources.GetString("tabSplitter.AccessibleName");
-			this.tabSplitter.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("tabSplitter.Anchor")));
-			this.tabSplitter.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("tabSplitter.BackgroundImage")));
-			this.tabSplitter.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("tabSplitter.Dock")));
-			this.tabSplitter.Enabled = ((bool)(resources.GetObject("tabSplitter.Enabled")));
-			this.tabSplitter.Font = ((System.Drawing.Font)(resources.GetObject("tabSplitter.Font")));
-			this.tabSplitter.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("tabSplitter.ImeMode")));
-			this.tabSplitter.Location = ((System.Drawing.Point)(resources.GetObject("tabSplitter.Location")));
-			this.tabSplitter.MinExtra = ((int)(resources.GetObject("tabSplitter.MinExtra")));
-			this.tabSplitter.MinSize = ((int)(resources.GetObject("tabSplitter.MinSize")));
-			this.tabSplitter.Name = "tabSplitter";
-			this.tabSplitter.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("tabSplitter.RightToLeft")));
-			this.tabSplitter.Size = ((System.Drawing.Size)(resources.GetObject("tabSplitter.Size")));
-			this.tabSplitter.TabIndex = ((int)(resources.GetObject("tabSplitter.TabIndex")));
-			this.tabSplitter.TabStop = false;
-			this.toolTip.SetToolTip(this.tabSplitter, resources.GetString("tabSplitter.ToolTip"));
-			this.tabSplitter.Visible = ((bool)(resources.GetObject("tabSplitter.Visible")));
-			// 
-			// detailList
-			// 
-			this.detailList.AccessibleDescription = resources.GetString("detailList.AccessibleDescription");
-			this.detailList.AccessibleName = resources.GetString("detailList.AccessibleName");
-			this.detailList.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("detailList.Anchor")));
-			this.detailList.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("detailList.BackgroundImage")));
-			this.detailList.ColumnWidth = ((int)(resources.GetObject("detailList.ColumnWidth")));
-			this.detailList.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("detailList.Dock")));
-			this.detailList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-			this.detailList.Enabled = ((bool)(resources.GetObject("detailList.Enabled")));
-			this.detailList.Font = ((System.Drawing.Font)(resources.GetObject("detailList.Font")));
-			this.detailList.HorizontalExtent = ((int)(resources.GetObject("detailList.HorizontalExtent")));
-			this.detailList.HorizontalScrollbar = ((bool)(resources.GetObject("detailList.HorizontalScrollbar")));
-			this.detailList.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("detailList.ImeMode")));
-			this.detailList.IntegralHeight = ((bool)(resources.GetObject("detailList.IntegralHeight")));
-			this.detailList.ItemHeight = ((int)(resources.GetObject("detailList.ItemHeight")));
-			this.detailList.Location = ((System.Drawing.Point)(resources.GetObject("detailList.Location")));
-			this.detailList.Name = "detailList";
-			this.detailList.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("detailList.RightToLeft")));
-			this.detailList.ScrollAlwaysVisible = ((bool)(resources.GetObject("detailList.ScrollAlwaysVisible")));
-			this.detailList.Size = ((System.Drawing.Size)(resources.GetObject("detailList.Size")));
-			this.detailList.TabIndex = ((int)(resources.GetObject("detailList.TabIndex")));
-			this.toolTip.SetToolTip(this.detailList, resources.GetString("detailList.ToolTip"));
-			this.detailList.Visible = ((bool)(resources.GetObject("detailList.Visible")));
-			this.detailList.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.detailList_MeasureItem);
-			this.detailList.MouseMove += new System.Windows.Forms.MouseEventHandler(this.detailList_MouseMove);
-			this.detailList.MouseLeave += new System.EventHandler(this.detailList_MouseLeave);
-			this.detailList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.detailList_DrawItem);
-			this.detailList.SelectedIndexChanged += new System.EventHandler(this.detailList_SelectedIndexChanged);
-			// 
-			// stdoutTab
-			// 
-			this.stdoutTab.AccessibleDescription = resources.GetString("stdoutTab.AccessibleDescription");
-			this.stdoutTab.AccessibleName = resources.GetString("stdoutTab.AccessibleName");
-			this.stdoutTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stdoutTab.Anchor")));
-			this.stdoutTab.AutoScroll = ((bool)(resources.GetObject("stdoutTab.AutoScroll")));
-			this.stdoutTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("stdoutTab.AutoScrollMargin")));
-			this.stdoutTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("stdoutTab.AutoScrollMinSize")));
-			this.stdoutTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stdoutTab.BackgroundImage")));
-			this.stdoutTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stdoutTab.Dock")));
-			this.stdoutTab.Enabled = ((bool)(resources.GetObject("stdoutTab.Enabled")));
-			this.stdoutTab.Font = ((System.Drawing.Font)(resources.GetObject("stdoutTab.Font")));
-			this.stdoutTab.ImageIndex = ((int)(resources.GetObject("stdoutTab.ImageIndex")));
-			this.stdoutTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stdoutTab.ImeMode")));
-			this.stdoutTab.Location = ((System.Drawing.Point)(resources.GetObject("stdoutTab.Location")));
-			this.stdoutTab.Name = "stdoutTab";
-			this.stdoutTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stdoutTab.RightToLeft")));
-			this.stdoutTab.Size = ((System.Drawing.Size)(resources.GetObject("stdoutTab.Size")));
-			this.stdoutTab.TabIndex = ((int)(resources.GetObject("stdoutTab.TabIndex")));
-			this.stdoutTab.Text = resources.GetString("stdoutTab.Text");
-			this.toolTip.SetToolTip(this.stdoutTab, resources.GetString("stdoutTab.ToolTip"));
-			this.stdoutTab.ToolTipText = resources.GetString("stdoutTab.ToolTipText");
-			this.stdoutTab.Visible = ((bool)(resources.GetObject("stdoutTab.Visible")));
-			// 
-			// traceTab
-			// 
-			this.traceTab.AccessibleDescription = resources.GetString("traceTab.AccessibleDescription");
-			this.traceTab.AccessibleName = resources.GetString("traceTab.AccessibleName");
-			this.traceTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("traceTab.Anchor")));
-			this.traceTab.AutoScroll = ((bool)(resources.GetObject("traceTab.AutoScroll")));
-			this.traceTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("traceTab.AutoScrollMargin")));
-			this.traceTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("traceTab.AutoScrollMinSize")));
-			this.traceTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("traceTab.BackgroundImage")));
-			this.traceTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("traceTab.Dock")));
-			this.traceTab.Enabled = ((bool)(resources.GetObject("traceTab.Enabled")));
-			this.traceTab.Font = ((System.Drawing.Font)(resources.GetObject("traceTab.Font")));
-			this.traceTab.ImageIndex = ((int)(resources.GetObject("traceTab.ImageIndex")));
-			this.traceTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("traceTab.ImeMode")));
-			this.traceTab.Location = ((System.Drawing.Point)(resources.GetObject("traceTab.Location")));
-			this.traceTab.Name = "traceTab";
-			this.traceTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("traceTab.RightToLeft")));
-			this.traceTab.Size = ((System.Drawing.Size)(resources.GetObject("traceTab.Size")));
-			this.traceTab.TabIndex = ((int)(resources.GetObject("traceTab.TabIndex")));
-			this.traceTab.Text = resources.GetString("traceTab.Text");
-			this.toolTip.SetToolTip(this.traceTab, resources.GetString("traceTab.ToolTip"));
-			this.traceTab.ToolTipText = resources.GetString("traceTab.ToolTipText");
-			this.traceTab.Visible = ((bool)(resources.GetObject("traceTab.Visible")));
-			// 
-			// internalTraceTab
-			// 
-			this.internalTraceTab.AccessibleDescription = resources.GetString("internalTraceTab.AccessibleDescription");
-			this.internalTraceTab.AccessibleName = resources.GetString("internalTraceTab.AccessibleName");
-			this.internalTraceTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("internalTraceTab.Anchor")));
-			this.internalTraceTab.AutoScroll = ((bool)(resources.GetObject("internalTraceTab.AutoScroll")));
-			this.internalTraceTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("internalTraceTab.AutoScrollMargin")));
-			this.internalTraceTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("internalTraceTab.AutoScrollMinSize")));
-			this.internalTraceTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("internalTraceTab.BackgroundImage")));
-			this.internalTraceTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("internalTraceTab.Dock")));
-			this.internalTraceTab.Enabled = ((bool)(resources.GetObject("internalTraceTab.Enabled")));
-			this.internalTraceTab.Font = ((System.Drawing.Font)(resources.GetObject("internalTraceTab.Font")));
-			this.internalTraceTab.ImageIndex = ((int)(resources.GetObject("internalTraceTab.ImageIndex")));
-			this.internalTraceTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("internalTraceTab.ImeMode")));
-			this.internalTraceTab.Location = ((System.Drawing.Point)(resources.GetObject("internalTraceTab.Location")));
-			this.internalTraceTab.Name = "internalTraceTab";
-			this.internalTraceTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("internalTraceTab.RightToLeft")));
-			this.internalTraceTab.Size = ((System.Drawing.Size)(resources.GetObject("internalTraceTab.Size")));
-			this.internalTraceTab.TabIndex = ((int)(resources.GetObject("internalTraceTab.TabIndex")));
-			this.internalTraceTab.Text = resources.GetString("internalTraceTab.Text");
-			this.toolTip.SetToolTip(this.internalTraceTab, resources.GetString("internalTraceTab.ToolTip"));
-			this.internalTraceTab.ToolTipText = resources.GetString("internalTraceTab.ToolTipText");
-			this.internalTraceTab.Visible = ((bool)(resources.GetObject("internalTraceTab.Visible")));
-			// 
-			// stderrTab
-			// 
-			this.stderrTab.AccessibleDescription = resources.GetString("stderrTab.AccessibleDescription");
-			this.stderrTab.AccessibleName = resources.GetString("stderrTab.AccessibleName");
-			this.stderrTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stderrTab.Anchor")));
-			this.stderrTab.AutoScroll = ((bool)(resources.GetObject("stderrTab.AutoScroll")));
-			this.stderrTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("stderrTab.AutoScrollMargin")));
-			this.stderrTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("stderrTab.AutoScrollMinSize")));
-			this.stderrTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stderrTab.BackgroundImage")));
-			this.stderrTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stderrTab.Dock")));
-			this.stderrTab.Enabled = ((bool)(resources.GetObject("stderrTab.Enabled")));
-			this.stderrTab.Font = ((System.Drawing.Font)(resources.GetObject("stderrTab.Font")));
-			this.stderrTab.ImageIndex = ((int)(resources.GetObject("stderrTab.ImageIndex")));
-			this.stderrTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stderrTab.ImeMode")));
-			this.stderrTab.Location = ((System.Drawing.Point)(resources.GetObject("stderrTab.Location")));
-			this.stderrTab.Name = "stderrTab";
-			this.stderrTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stderrTab.RightToLeft")));
-			this.stderrTab.Size = ((System.Drawing.Size)(resources.GetObject("stderrTab.Size")));
-			this.stderrTab.TabIndex = ((int)(resources.GetObject("stderrTab.TabIndex")));
-			this.stderrTab.Text = resources.GetString("stderrTab.Text");
-			this.toolTip.SetToolTip(this.stderrTab, resources.GetString("stderrTab.ToolTip"));
-			this.stderrTab.ToolTipText = resources.GetString("stderrTab.ToolTipText");
-			this.stderrTab.Visible = ((bool)(resources.GetObject("stderrTab.Visible")));
-			// 
-			// notRunTab
-			// 
-			this.notRunTab.AccessibleDescription = resources.GetString("notRunTab.AccessibleDescription");
-			this.notRunTab.AccessibleName = resources.GetString("notRunTab.AccessibleName");
-			this.notRunTab.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("notRunTab.Anchor")));
-			this.notRunTab.AutoScroll = ((bool)(resources.GetObject("notRunTab.AutoScroll")));
-			this.notRunTab.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("notRunTab.AutoScrollMargin")));
-			this.notRunTab.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("notRunTab.AutoScrollMinSize")));
-			this.notRunTab.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("notRunTab.BackgroundImage")));
-			this.notRunTab.Controls.Add(this.notRunTree);
-			this.notRunTab.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("notRunTab.Dock")));
-			this.notRunTab.Enabled = ((bool)(resources.GetObject("notRunTab.Enabled")));
-			this.notRunTab.Font = ((System.Drawing.Font)(resources.GetObject("notRunTab.Font")));
-			this.notRunTab.ImageIndex = ((int)(resources.GetObject("notRunTab.ImageIndex")));
-			this.notRunTab.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("notRunTab.ImeMode")));
-			this.notRunTab.Location = ((System.Drawing.Point)(resources.GetObject("notRunTab.Location")));
-			this.notRunTab.Name = "notRunTab";
-			this.notRunTab.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("notRunTab.RightToLeft")));
-			this.notRunTab.Size = ((System.Drawing.Size)(resources.GetObject("notRunTab.Size")));
-			this.notRunTab.TabIndex = ((int)(resources.GetObject("notRunTab.TabIndex")));
-			this.notRunTab.Text = resources.GetString("notRunTab.Text");
-			this.toolTip.SetToolTip(this.notRunTab, resources.GetString("notRunTab.ToolTip"));
-			this.notRunTab.ToolTipText = resources.GetString("notRunTab.ToolTipText");
-			this.notRunTab.Visible = ((bool)(resources.GetObject("notRunTab.Visible")));
-			// 
-			// notRunTree
-			// 
-			this.notRunTree.AccessibleDescription = resources.GetString("notRunTree.AccessibleDescription");
-			this.notRunTree.AccessibleName = resources.GetString("notRunTree.AccessibleName");
-			this.notRunTree.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("notRunTree.Anchor")));
-			this.notRunTree.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("notRunTree.BackgroundImage")));
-			this.notRunTree.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("notRunTree.Dock")));
-			this.notRunTree.Enabled = ((bool)(resources.GetObject("notRunTree.Enabled")));
-			this.notRunTree.Font = ((System.Drawing.Font)(resources.GetObject("notRunTree.Font")));
-			this.notRunTree.ImageIndex = ((int)(resources.GetObject("notRunTree.ImageIndex")));
-			this.notRunTree.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("notRunTree.ImeMode")));
-			this.notRunTree.Indent = ((int)(resources.GetObject("notRunTree.Indent")));
-			this.notRunTree.ItemHeight = ((int)(resources.GetObject("notRunTree.ItemHeight")));
-			this.notRunTree.Location = ((System.Drawing.Point)(resources.GetObject("notRunTree.Location")));
-			this.notRunTree.Name = "notRunTree";
-			this.notRunTree.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("notRunTree.RightToLeft")));
-			this.notRunTree.SelectedImageIndex = ((int)(resources.GetObject("notRunTree.SelectedImageIndex")));
-			this.notRunTree.Size = ((System.Drawing.Size)(resources.GetObject("notRunTree.Size")));
-			this.notRunTree.TabIndex = ((int)(resources.GetObject("notRunTree.TabIndex")));
-			this.notRunTree.Text = resources.GetString("notRunTree.Text");
-			this.toolTip.SetToolTip(this.notRunTree, resources.GetString("notRunTree.ToolTip"));
-			this.notRunTree.Visible = ((bool)(resources.GetObject("notRunTree.Visible")));
 			// 
 			// groupBox1
 			// 
@@ -1435,21 +1032,29 @@ namespace NUnit.Gui
 			this.progressBar.Value = 0;
 			this.progressBar.Visible = ((bool)(resources.GetObject("progressBar.Visible")));
 			// 
-			// detailListContextMenu
+			// resultTabs
 			// 
-			this.detailListContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																								  this.copyDetailMenuItem});
-			this.detailListContextMenu.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("detailListContextMenu.RightToLeft")));
-			// 
-			// copyDetailMenuItem
-			// 
-			this.copyDetailMenuItem.Enabled = ((bool)(resources.GetObject("copyDetailMenuItem.Enabled")));
-			this.copyDetailMenuItem.Index = 0;
-			this.copyDetailMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("copyDetailMenuItem.Shortcut")));
-			this.copyDetailMenuItem.ShowShortcut = ((bool)(resources.GetObject("copyDetailMenuItem.ShowShortcut")));
-			this.copyDetailMenuItem.Text = resources.GetString("copyDetailMenuItem.Text");
-			this.copyDetailMenuItem.Visible = ((bool)(resources.GetObject("copyDetailMenuItem.Visible")));
-			this.copyDetailMenuItem.Click += new System.EventHandler(this.copyDetailMenuItem_Click);
+			this.resultTabs.AccessibleDescription = resources.GetString("resultTabs.AccessibleDescription");
+			this.resultTabs.AccessibleName = resources.GetString("resultTabs.AccessibleName");
+			this.resultTabs.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("resultTabs.Anchor")));
+			this.resultTabs.AutoExpand = true;
+			this.resultTabs.AutoScroll = ((bool)(resources.GetObject("resultTabs.AutoScroll")));
+			this.resultTabs.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("resultTabs.AutoScrollMargin")));
+			this.resultTabs.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("resultTabs.AutoScrollMinSize")));
+			this.resultTabs.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("resultTabs.BackgroundImage")));
+			this.resultTabs.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("resultTabs.Dock")));
+			this.resultTabs.Enabled = ((bool)(resources.GetObject("resultTabs.Enabled")));
+			this.resultTabs.Font = ((System.Drawing.Font)(resources.GetObject("resultTabs.Font")));
+			this.resultTabs.ForeColor = System.Drawing.Color.Red;
+			this.resultTabs.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("resultTabs.ImeMode")));
+			this.resultTabs.Location = ((System.Drawing.Point)(resources.GetObject("resultTabs.Location")));
+			this.resultTabs.Name = "resultTabs";
+			this.resultTabs.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("resultTabs.RightToLeft")));
+			this.resultTabs.Size = ((System.Drawing.Size)(resources.GetObject("resultTabs.Size")));
+			this.resultTabs.TabIndex = ((int)(resources.GetObject("resultTabs.TabIndex")));
+			this.toolTip.SetToolTip(this.resultTabs, resources.GetString("resultTabs.ToolTip"));
+			this.resultTabs.Visible = ((bool)(resources.GetObject("resultTabs.Visible")));
+			this.resultTabs.WordWrap = false;
 			// 
 			// testTree
 			// 
@@ -1460,21 +1065,18 @@ namespace NUnit.Gui
 			this.testTree.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("testTree.AutoScrollMargin")));
 			this.testTree.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("testTree.AutoScrollMinSize")));
 			this.testTree.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("testTree.BackgroundImage")));
-			this.testTree.ClearResultsOnChange = true;
 			this.testTree.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("testTree.Dock")));
 			this.testTree.Enabled = ((bool)(resources.GetObject("testTree.Enabled")));
 			this.testTree.Font = ((System.Drawing.Font)(resources.GetObject("testTree.Font")));
 			this.testTree.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("testTree.ImeMode")));
-			this.testTree.InitialDisplay = NUnit.UiKit.TestSuiteTreeView.DisplayStyle.Auto;
 			this.testTree.Location = ((System.Drawing.Point)(resources.GetObject("testTree.Location")));
 			this.testTree.Name = "testTree";
 			this.testTree.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("testTree.RightToLeft")));
-			this.testTree.ShowCheckBoxes = true;
+			this.testTree.ShowCheckBoxes = false;
 			this.testTree.Size = ((System.Drawing.Size)(resources.GetObject("testTree.Size")));
 			this.testTree.TabIndex = ((int)(resources.GetObject("testTree.TabIndex")));
 			this.toolTip.SetToolTip(this.testTree, resources.GetString("testTree.ToolTip"));
 			this.testTree.Visible = ((bool)(resources.GetObject("testTree.Visible")));
-			this.testTree.VisualStudioSupport = false;
 			this.testTree.SelectedTestsChanged += new NUnit.UiKit.SelectedTestsChangedEventHandler(this.testTree_SelectedTestsChanged);
 			// 
 			// leftPanel
@@ -1530,11 +1132,6 @@ namespace NUnit.Gui
 			this.Closing += new System.ComponentModel.CancelEventHandler(this.NUnitForm_Closing);
 			this.Load += new System.EventHandler(this.NUnitForm_Load);
 			this.rightPanel.ResumeLayout(false);
-			this.resultTabs.ResumeLayout(false);
-			this.errorTab.ResumeLayout(false);
-			this.stdoutTab.ResumeLayout(false);
-			this.stderrTab.ResumeLayout(false);
-			this.notRunTab.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
 			this.leftPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
@@ -1576,16 +1173,16 @@ namespace NUnit.Gui
 			get { return TestLoader.Running; }
 		}
 
-		private UserSettings _userSettings;
-		private UserSettings UserSettings
-		{
-			get
-			{
-				if ( _userSettings == null )
-					_userSettings = (UserSettings)GetService( typeof( UserSettings ) );
-				return _userSettings;
-			}
-		}
+//		private ISettings _userSettings;
+//		private ISettings UserSettings
+//		{
+//			get
+//			{
+//				if ( _userSettings == null )
+//					_userSettings = NUnit.Util.Services.UserSettings;
+//				return _userSettings;
+//			}
+//		}
 		#endregion
 
 		#region File Menu Handlers
@@ -1619,7 +1216,7 @@ namespace NUnit.Gui
 
 		private void openMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.OpenProject( this, UserSettings.Options.VisualStudioSupport );
+			TestLoaderUI.OpenProject( this, userSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false ) );
 		}
 
 		private void closeMenuItem_Click(object sender, System.EventArgs e)
@@ -1660,78 +1257,6 @@ namespace NUnit.Gui
 		}
 
 
-		private void errorsTabMenuItem_Click(object sender, System.EventArgs e)
-		{
-			UserSettings.Form.DisplayErrorsTab = errorsTabMenuItem.Checked = !errorsTabMenuItem.Checked;
-			updateTabPages();
-		}
-
-		private void notRunTabMenuItem_Click(object sender, System.EventArgs e)
-		{
-			UserSettings.Form.DisplayNotRunTab = notRunTabMenuItem.Checked = !notRunTabMenuItem.Checked;
-			updateTabPages();
-		}
-
-		private void consoleOutMenuItem_Click(object sender, System.EventArgs e)
-		{
-			UserSettings.Form.DisplayConsoleOutTab = consoleOutMenuItem.Checked = !consoleOutMenuItem.Checked;
-			updateTabPages();
-		}
-
-		private void consoleErrorMenuItem_Click(object sender, System.EventArgs e)
-		{
-			UserSettings.Form.DisplayConsoleErrorTab = consoleErrorMenuItem.Checked = !consoleErrorMenuItem.Checked;
-			updateTabPages();
-		}
-
-		private void traceTabMenuItem_Click(object sender, System.EventArgs e)
-		{
-			UserSettings.Form.DisplayTraceTab = traceTabMenuItem.Checked = !traceTabMenuItem.Checked;
-			updateTabPages();
-		}
-
-		private void internalTraceTabMenuItem_Click(object sender, System.EventArgs e)
-		{
-			UserSettings.Form.DisplayInternalTraceTab = internalTraceTabMenuItem.Checked = !internalTraceTabMenuItem.Checked;
-			updateTabPages();
-		}
-
-		private void loadSettingsAndUpdateTabPages()
-		{
-			errorsTabMenuItem.Checked = UserSettings.Form.DisplayErrorsTab;
-			notRunTabMenuItem.Checked = UserSettings.Form.DisplayNotRunTab;
-			consoleOutMenuItem.Checked = UserSettings.Form.DisplayConsoleOutTab;
-			consoleErrorMenuItem.Checked = UserSettings.Form.DisplayConsoleErrorTab;
-			traceTabMenuItem.Checked = UserSettings.Form.DisplayTraceTab;
-			internalTraceTabMenuItem.Checked = UserSettings.Form.DisplayInternalTraceTab;
-			updateTabPages();
-		}
-
-		private void updateTabPages()
-		{
-			resultTabs.TabPages.Clear();
-			string selectedTab = UserSettings.Form.SelectedTab;
-			int index = 0;
-
-			if ( errorsTabMenuItem.Checked )
-			{
-				resultTabs.TabPages.Add( errorTab );
-				if ( selectedTab == errorTab.Name )
-					index = resultTabs.TabPages.Count - 1;
-			}
-
-			if ( notRunTabMenuItem.Checked )
-				resultTabs.TabPages.Add( notRunTab );
-			if ( consoleOutMenuItem.Checked )
-				resultTabs.TabPages.Add( stdoutTab );
-			if ( consoleErrorMenuItem.Checked )
-				resultTabs.TabPages.Add( stderrTab );
-			if ( traceTabMenuItem.Checked )
-				resultTabs.TabPages.Add( traceTab );
-			if ( internalTraceTabMenuItem.Checked )
-				resultTabs.TabPages.Add( internalTraceTab );
-		}
-
 		private void fontChangeMenuItem_Click(object sender, System.EventArgs e)
 		{
 			FontDialog fontDialog = new FontDialog();
@@ -1762,39 +1287,88 @@ namespace NUnit.Gui
 		private void fullGuiMenuItem_Click(object sender, System.EventArgs e)
 		{
 			if ( !fullGuiMenuItem.Checked )
-				switchGuiDisplay();
+			{
+				fullGuiMenuItem.Checked = true;
+				miniGuiMenuItem.Checked = false;
+				displayFullGui();
+			}
 		}
 
 		private void miniGuiMenuItem_Click(object sender, System.EventArgs e)
 		{
 			if ( !miniGuiMenuItem.Checked )
-				switchGuiDisplay();
+			{
+				miniGuiMenuItem.Checked = true;
+				fullGuiMenuItem.Checked = false;
+				displayMiniGui();
+			}
 		}
 
-		private void switchGuiDisplay()
+		private void displayFullGui()
 		{
-			bool fullDisplay = fullGuiMenuItem.Checked = !fullGuiMenuItem.Checked;
-			miniGuiMenuItem.Checked = !fullDisplay;
+			this.displayFormat = "Full";
+			userSettings.SaveSetting( "Gui.DisplayFormat", "Full" );
 
-			UserSettings.Form.FullDisplay = fullDisplay;
+			this.Controls.Clear();
+			leftPanel.Dock = DockStyle.Left;
+			this.Controls.Add( rightPanel );
+			this.Controls.Add( treeSplitter );
+			this.Controls.Add( leftPanel );
+			this.Controls.Add( statusBar );
 
-			if ( fullDisplay )
+			int x = userSettings.GetSetting( "Gui.MainForm.Left", 10 );
+			int y = userSettings.GetSetting( "Gui.MainForm.Top", 10 );
+			Point location = new Point( x, y );
+
+			if ( !IsValidLocation( location ) )
+				location = new Point( 10, 10 );
+			this.Location = location;
+
+			int width = userSettings.GetSetting( "Gui.MainForm.Width", this.Size.Width );
+			int height = userSettings.GetSetting( "Gui.MainForm.Height", this.Size.Height );
+			if ( width < 160 ) width = 160;
+			if ( height < 32 ) height = 32;
+			this.Size = new Size( width, height );
+
+			// Set the font to use
+			string fontDescription = userSettings.GetSetting( "Gui.MainForm.Font", "" );
+			if ( fontDescription != "" )
 			{
-				this.Controls.Clear();
-				leftPanel.Dock = DockStyle.Left;
-				this.Controls.Add( rightPanel );
-				this.Controls.Add( treeSplitter );
-				this.Controls.Add( leftPanel );
-				this.Controls.Add( statusBar );
+				TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
+				this.Font = (Font)converter.ConvertFrom(fontDescription);
 			}
-			else
-			{
-				this.Controls.Remove( rightPanel );
-				this.Controls.Remove( treeSplitter );
-				leftPanel.Dock = DockStyle.Fill;
-			}
+		}
 
-			this.Size = UserSettings.Form.Size;
+		private void displayMiniGui()
+		{
+			this.displayFormat = "Mini";
+			userSettings.SaveSetting( "Gui.DisplayFormat", "Mini" );
+
+			this.Controls.Remove( rightPanel );
+			this.Controls.Remove( treeSplitter );
+			leftPanel.Dock = DockStyle.Fill;
+
+			int x = userSettings.GetSetting( "Gui.MiniForm.Left", 10 );
+			int y = userSettings.GetSetting( "Gui.MiniForm.Top", 10 );
+			Point location = new Point( x, y );
+
+			if ( !IsValidLocation( location ) )
+				location = new Point( 10, 10 );
+			this.Location = location;
+
+			int width = userSettings.GetSetting( "Gui.MiniForm.Width", 300 );
+			int height = userSettings.GetSetting( "Gui.MiniForm.Height", this.Size.Height );
+			if ( width < 160 ) width = 160;
+			if ( height < 32 ) height = 32;
+			this.Size = new Size( width, height );
+
+			// Set the font to use
+			string fontDescription = userSettings.GetSetting( "Gui.MiniForm.Font", "" );
+			if ( fontDescription != "" )
+			{
+				TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
+				this.Font = (Font)converter.ConvertFrom(fontDescription);
+			}
 		}
 
 		private void increaseFontMenuItem_Click(object sender, System.EventArgs e)
@@ -1809,7 +1383,11 @@ namespace NUnit.Gui
 
 		private void applyFont( Font font )
 		{
-			this.Font = UserSettings.Form.Font = font;
+			this.Font = font;
+			TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
+			userSettings.SaveSetting( 
+				displayFormat == "Mini" ? "Gui.MiniForm.Font" : "Gui.MainForm.Font", 
+				converter.ConvertToString( font ) );
 		}
 		#endregion
 
@@ -1842,7 +1420,7 @@ namespace NUnit.Gui
 			configMenuItem.MenuItems.Add( "&Edit...", 
 				new System.EventHandler( editConfigurationsMenuItem_Click ) );
 
-			addVSProjectMenuItem.Visible = UserSettings.Options.VisualStudioSupport;
+			addVSProjectMenuItem.Visible = userSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false );
 			addAssemblyMenuItem.Enabled = TestProject.Configs.Count > 0;
 		}
 
@@ -1886,7 +1464,7 @@ namespace NUnit.Gui
 			using ( ProjectEditor editor = new ProjectEditor( TestProject ) )
 			{
 				this.Site.Container.Add( editor );
-				editor.VisualStudioSupport = UserSettings.Options.VisualStudioSupport;
+				editor.VisualStudioSupport = userSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false );
 				editor.ShowDialog( this );
 			}
 		}
@@ -1923,26 +1501,7 @@ namespace NUnit.Gui
 				dialog.Font = this.Font;
 				dialog.ShowDialog();
 
-				loadSettingsAndUpdateTabPages();
-
-				// HACK: For now, reflect changes to stacktrace tooltips and wordwrap here
-				this.stackTrace.AutoExpand = UserSettings.Options.FailureToolTips;
-
-				bool wordWrap = UserSettings.Options.EnableWordWrapForFailures;
-				
-				if ( this.stackTrace.WordWrap != wordWrap )
-				{
-					this.stackTrace.WordWrap = wordWrap;
-
-					this.detailList.BeginUpdate();
-					ArrayList copiedItems = new ArrayList( detailList.Items );
-					this.detailList.Items.Clear();
-					foreach( object item in copiedItems )
-						this.detailList.Items.Add( item );
-					this.detailList.EndUpdate();
-					this.stackTrace.WordWrap = wordWrap;
-				}
-
+				resultTabs.OnOptionsChanged();	
 			}
 		}
 
@@ -2030,17 +1589,13 @@ namespace NUnit.Gui
 		/// </summary>
 		private void NUnitForm_Load(object sender, System.EventArgs e)
 		{
-			this.testTree.ShowCheckBoxes = UserSettings.Options.ShowCheckBoxes;
-			this.testTree.VisualStudioSupport = UserSettings.Options.VisualStudioSupport;
-			this.testTree.InitialDisplay = 
-				(TestSuiteTreeView.DisplayStyle)UserSettings.Options.InitialTreeDisplay;
+			this.viewMenu.MenuItems.Add(3, resultTabs.TabsMenu);
 			this.viewMenu.MenuItems.Add(4, testTree.TreeMenu);
-			//			this.commandLineOptions = commandLineOptions;
 
 			EnableRunCommand( false );
 			EnableStopCommand( false );
 
-			recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, UserSettings.RecentProjects );
+			recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, recentFilesService );
 
 			LoadFormSettings();
 			SubscribeToTestEvents();
@@ -2050,12 +1605,12 @@ namespace NUnit.Gui
 			// the most recent one if options call for it
 			if ( commandLineOptions.testFileName != null )
 				TestLoaderUI.OpenProject( this, commandLineOptions.testFileName, commandLineOptions.configName, commandLineOptions.testName );
-			else if( UserSettings.Options.LoadLastProject && !commandLineOptions.noload )
+			else if( userSettings.GetSetting( "Options.LoadLastProject", true ) && !commandLineOptions.noload )
 			{
-				RecentFilesCollection entries = UserSettings.RecentProjects.Entries;
+				RecentFilesCollection entries = recentFilesService.Entries;
 				if ( entries.Count > 0 )
 				{
-					RecentFileEntry entry = UserSettings.RecentProjects.Entries[0];
+					RecentFileEntry entry = recentFilesService.Entries[0];
 					if ( entry != null )
 						TestLoaderUI.OpenProject( this, entry.Path, commandLineOptions.configName, commandLineOptions.testName );
 				}
@@ -2090,42 +1645,87 @@ namespace NUnit.Gui
 		
 		private void LoadFormSettings()
 		{
-			// Set position of the form
-			this.Location = UserSettings.Form.Location;
-			this.Size = UserSettings.Form.Size;
+			this.displayFormat = userSettings.GetSetting( "Gui.DisplayFormat", "Full" );
 
-			// Maximize window if that was it's last state
-			if ( UserSettings.Form.IsMaximized )
-				this.WindowState = FormWindowState.Maximized;
+			int x, y, width, height;
+			Point location;
+
+			switch( displayFormat )
+			{
+				case "Full":
+					x = userSettings.GetSetting( "Gui.MainForm.Left", 10 );
+					y = userSettings.GetSetting( "Gui.MainForm.Top", 10 );
+					location = new Point( x, y );
+
+					if ( !IsValidLocation( location ) )
+						location = new Point( 10, 10 );
+					this.Location = location;
+
+					width = userSettings.GetSetting( "Gui.MainForm.Width", this.Width );
+					height = userSettings.GetSetting( "Gui.MainForm.Height", this.Height );
+					this.Size = new Size( width, height );
+
+					if ( userSettings.GetSetting( "Gui.MainForm.Maximized", false ) )
+						this.WindowState = FormWindowState.Maximized;
+					
+					fullGuiMenuItem.Checked = true;
+					miniGuiMenuItem.Checked = false;
+
+					displayFullGui();
+
+					break;
+				case "Mini":
+					x = userSettings.GetSetting( "Gui.MiniForm.Left", 10 );
+					y = userSettings.GetSetting( "Gui.MiniForm.Top", 10 );
+					location = new Point( x, y );
+
+					if ( !IsValidLocation( location ) )
+						location = new Point( 10, 10 );
+					this.Location = location;
+
+					width = userSettings.GetSetting( "Gui.MiniForm.Width", this.Width );
+					height = userSettings.GetSetting( "Gui.MiniForm.Height", this.Height );
+					this.Size = new Size( width, height );
+
+					fullGuiMenuItem.Checked = false;
+					miniGuiMenuItem.Checked = true;
+
+					displayMiniGui();
+
+					break;
+				default:
+					throw new ApplicationException( "Invalid Setting" );
+			}
 
 			// Handle changes to form position
 			this.Move += new System.EventHandler(this.NUnitForm_Move);
 			this.Resize += new System.EventHandler(this.NUnitForm_Resize);
 
-			// Set the splitter positions
-			this.treeSplitter.SplitPosition = UserSettings.Form.TreeSplitterPosition;
-			this.tabSplitter.SplitPosition = UserSettings.Form.TabSplitterPosition;
+			// Set the splitter position
+			int splitPosition = userSettings.GetSetting( "Gui.MainForm.SplitPosition", treeSplitter.SplitPosition );
+			if ( splitPosition >= treeSplitter.MinSize && splitPosition < this.ClientSize.Width )
+				this.treeSplitter.SplitPosition = splitPosition;
 
 			// Handle changes in splitter positions
 			this.treeSplitter.SplitterMoved += new SplitterEventHandler( treeSplitter_SplitterMoved );
-			this.tabSplitter.SplitterMoved += new SplitterEventHandler( tabSplitter_SplitterMoved );
 
 			// Turn stacktrace tooltips on or off
-			this.stackTrace.AutoExpand = UserSettings.Options.FailureToolTips;
-			this.stackTrace.WordWrap = UserSettings.Options.EnableWordWrapForFailures;
+			this.resultTabs.AutoExpand = userSettings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
+			this.resultTabs.WordWrap = userSettings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
 
 			// Update tab menu items and display those that are used
-			loadSettingsAndUpdateTabPages();
+			resultTabs.LoadSettingsAndUpdateTabPages();
+		}
 
-			// Update gui menu items and set to mini display if necessary
-			bool fullDisplay = UserSettings.Form.FullDisplay;
-			fullGuiMenuItem.Checked = fullDisplay;
-			miniGuiMenuItem.Checked = !fullDisplay;
-			if ( !fullDisplay )
-				switchGuiDisplay();
-
-			// Set the font to use
-			this.Font = UserSettings.Form.Font;
+		private bool IsValidLocation( Point location )
+		{
+			Rectangle myArea = new Rectangle( location, this.Size );
+			bool intersect = false;
+			foreach (System.Windows.Forms.Screen screen in System.Windows.Forms.Screen.AllScreens)
+			{
+				intersect |= myArea.IntersectsWith(screen.WorkingArea);
+			}
+			return intersect;
 		}
 
 		private void SubscribeToTestEvents()
@@ -2149,10 +1749,7 @@ namespace NUnit.Gui
 			events.TestReloaded		+= new TestEventHandler( OnTestChanged );
 			events.TestReloadFailed	+= new TestEventHandler( OnTestLoadFailure );
 			events.TestStarting		+= new TestEventHandler( OnTestStarting );
-			events.TestFinished		+= new TestEventHandler( OnTestFinished );
-			events.SuiteFinished	+= new TestEventHandler( OnSuiteFinished );
 			events.TestException	+= new TestEventHandler( OnTestException );
-			events.TestOutput		+= new TestEventHandler( OnTestOutput );
 		}
 
 		private void InitializeControls()
@@ -2161,45 +1758,72 @@ namespace NUnit.Gui
 			this.testTree.Initialize(TestLoader);
 			this.progressBar.Subscribe( TestLoader.Events );
 			this.statusBar.Subscribe( TestLoader.Events );
-
-			// Set controls to match option settings. We do this
-			// here rather than in the controls since there may
-			// be more than one app that uses the same controls.
-			testTree.ClearResultsOnChange = 
-				UserSettings.Options.ClearResults;
+			this.resultTabs.Subscribe( TestLoader.Events );
 		}
 
+		// Save settings changed by moving the form
 		private void NUnitForm_Move(object sender, System.EventArgs e)
 		{
-			if ( this.WindowState == FormWindowState.Normal )
+			switch( this.displayFormat )
 			{
-				UserSettings.Form.Location = this.Location;
-				UserSettings.Form.IsMaximized = false;
+				case "Full":
+				default:
+					if ( this.WindowState == FormWindowState.Normal )
+					{
+						userSettings.SaveSetting( "Gui.MainForm.Left", this.Location.X );
+						userSettings.SaveSetting( "Gui.MainForm.Top", this.Location.Y );
+						userSettings.SaveSetting( "Gui.MainForm.Maximized", false );
 
-				this.statusBar.SizingGrip = true;
-			}
-			else if ( this.WindowState == FormWindowState.Maximized )
-			{
-				UserSettings.Form.IsMaximized = true;
+						this.statusBar.SizingGrip = true;
+					}
+					else if ( this.WindowState == FormWindowState.Maximized )
+					{
+						userSettings.SaveSetting( "Gui.MainForm.Maximized", true );
 
-				this.statusBar.SizingGrip = false;
+						this.statusBar.SizingGrip = false;
+					}
+					break;
+				case "Mini":
+					if ( this.WindowState == FormWindowState.Normal )
+					{
+						userSettings.SaveSetting( "Gui.MiniForm.Left", this.Location.X );
+						userSettings.SaveSetting( "Gui.MiniForm.Top", this.Location.Y );
+						userSettings.SaveSetting( "Gui.MiniForm.Maximized", false );
+
+						this.statusBar.SizingGrip = true;
+					}
+					else if ( this.WindowState == FormWindowState.Maximized )
+					{
+						userSettings.SaveSetting( "Gui.MiniForm.Maximized", true );
+
+						this.statusBar.SizingGrip = false;
+					}
+					break;
 			}
 		}
 
-		private void NUnitForm_Resize(object sender, System.EventArgs e)
+		// Save settings that change when window is resized
+		private void NUnitForm_Resize(object sender,System.EventArgs e)
 		{
 			if ( this.WindowState == FormWindowState.Normal )
-				UserSettings.Form.Size = this.Size;
+			{
+				if ( this.displayFormat == "Full" )
+				{
+					userSettings.SaveSetting( "Gui.MainForm.Width", this.Size.Width );
+					userSettings.SaveSetting( "Gui.MainForm.Height", this.Size.Height );
+				}
+				else
+				{
+					userSettings.SaveSetting( "Gui.MiniForm.Width", this.Size.Width );
+					userSettings.SaveSetting( "Gui.MiniForm.Height", this.Size.Height );
+				}
+			}
 		}
 
+		// Splitter moved so save it's position
 		private void treeSplitter_SplitterMoved( object sender, SplitterEventArgs e )
 		{
-			UserSettings.Form.TreeSplitterPosition = treeSplitter.SplitPosition;
-		}
-
-		private void tabSplitter_SplitterMoved( object sender, SplitterEventArgs e )
-		{
-			UserSettings.Form.TabSplitterPosition = tabSplitter.SplitPosition;
+			userSettings.SaveSetting( "Gui.MainForm.SplitPosition", treeSplitter.SplitPosition );
 		}
 
 		/// <summary>
@@ -2224,8 +1848,6 @@ namespace NUnit.Gui
 			if ( !e.Cancel && IsProjectLoaded && 
 				TestLoaderUI.CloseProject( this ) == DialogResult.Cancel )
 				e.Cancel = true;
-
-			UserSettings.Options.ShowCheckBoxes = testTree.ShowCheckBoxes;
 		}
 
 		#endregion
@@ -2292,7 +1914,7 @@ namespace NUnit.Gui
 					if ( info.RuntimeVersion < version )
 						version = info.RuntimeVersion;
 			
-				UserSettings.RecentProjects.SetMostRecent( new RecentFileEntry( e.Name, version ) );
+				recentFilesService.SetMostRecent( new RecentFileEntry( e.Name, version ) );
 			}
 		}
 
@@ -2354,9 +1976,6 @@ namespace NUnit.Gui
 		/// </summary>
 		private void OnTestChanged( object sender, TestEventArgs e )
 		{
-			if ( UserSettings.Options.ClearResults )
-				ClearTabs();
-
 			EnableRunCommand( true );
 		}
 
@@ -2364,7 +1983,7 @@ namespace NUnit.Gui
 		{
 			UserMessage.DisplayFailure( e.Exception, "Project Not Loaded" );
 
-			UserSettings.RecentProjects.Remove( e.Name );
+			recentFilesService.Remove( e.Name );
 
 			EnableRunCommand( true );
 		}
@@ -2419,47 +2038,7 @@ the version under which NUnit is currently running, {0}.",
 
 		private void OnTestStarting(object sender, TestEventArgs args)
 		{
-			if ( UserSettings.Options.TestLabels )
-			{
-                this.currentTestName = args.TestName.FullName;
-				this.stdoutTab.AppendText( string.Format( "***** {0}\n", args.TestName.FullName ) );
-			}
-		}
-
-		private void InsertTestResultItem( TestResult result )
-		{
-			TestResultItem item = new TestResultItem(result);
-			detailList.BeginUpdate();
-			detailList.Items.Insert(detailList.Items.Count, item);
-			detailList.EndUpdate();
-		}
-
-		private void OnTestFinished(object sender, TestEventArgs args)
-		{
-			TestResult result = args.Result;
-			if(result.Executed)
-			{
-				if(result.IsFailure && result.FailureSite != FailureSite.Parent )
-					InsertTestResultItem( result );
-			}
-			else
-			{
-				notRunTree.Add( result );
-			}
-		}
-
-		private void OnSuiteFinished(object sender, TestEventArgs args)
-		{
-			TestResult result = args.Result;
-			if(result.Executed)
-			{
-				if ( result.IsFailure && result.FailureSite != FailureSite.Child )
-                    InsertTestResultItem(result);
-			}
-			else
-			{
-				notRunTree.Add( result );
-			}
+			this.currentTestName = args.TestName.FullName;
 		}
 
 		private void OnTestException(object sender, TestEventArgs args)
@@ -2482,31 +2061,8 @@ the version under which NUnit is currently running, {0}.",
                     "The exception handler threw " + ex.GetType().FullName));
 			}
 
-            InsertTestResultItem(result);
+            resultTabs.InsertTestResultItem(result);
         }
-
-		private void OnTestOutput(object sender, TestEventArgs args)
-		{
-			TestOutput output = args.TestOutput;
-			switch(output.Type)
-			{
-				case TestOutputType.Out:
-					this.stdoutTab.AppendText( output.Text );
-					break;
-				case TestOutputType.Error:
-					if ( UserSettings.Form.MergeConsoleErrorOutput )
-						this.stdoutTab.AppendText( output.Text );
-					else
-						this.stderrTab.AppendText( output.Text );
-					break;
-				case TestOutputType.Trace:
-					if ( UserSettings.Form.MergeTraceOutput )
-						this.stdoutTab.AppendText( output.Text );
-					else
-						this.traceTab.AppendText( output.Text );
-					break;
-			}
-		}
 
 		#endregion
 
@@ -2517,16 +2073,7 @@ the version under which NUnit is currently running, {0}.",
 		/// </summary>
 		private void ClearTabs()
 		{
-			detailList.Items.Clear();
-			detailList.ContextMenu = null;
-			toolTip.SetToolTip( detailList, null );
-			notRunTree.Nodes.Clear();
-
-			stdoutTab.Clear();
-			stderrTab.Clear();
-			traceTab.Clear();
-			
-			stackTrace.Text = "";
+			resultTabs.Clear();
 		}
 
 		/// <summary>
@@ -2541,153 +2088,6 @@ the version under which NUnit is currently running, {0}.",
 		}
 
 		#endregion	
-
-		#region DetailList Events
-
-		// Note: These items should all be moved to a separate user control
-
-		/// <summary>
-		/// When one of the detail failure items is selected, display
-		/// the stack trace and set up the tool tip for that item.
-		/// </summary>
-		private void detailList_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			TestResultItem resultItem = (TestResultItem)detailList.SelectedItem;
-			//string stackTrace = resultItem.StackTrace;
-			stackTrace.Text = resultItem.StackTrace;
-
-			//			toolTip.SetToolTip(detailList,resultItem.GetToolTipMessage());
-			detailList.ContextMenu = detailListContextMenu;
-		}
-
-		private void detailList_MeasureItem(object sender, System.Windows.Forms.MeasureItemEventArgs e)
-		{
-			TestResultItem item = (TestResultItem) detailList.Items[e.Index];
-			//string s = item.ToString();
-			SizeF size = UserSettings.Options.EnableWordWrapForFailures
-				? e.Graphics.MeasureString(item.ToString(), detailList.Font, detailList.ClientSize.Width )
-				: e.Graphics.MeasureString(item.ToString(), detailList.Font );
-			e.ItemHeight = (int)size.Height;
-			e.ItemWidth = (int)size.Width;
-		}
-
-		private void detailList_DrawItem(object sender, System.Windows.Forms.DrawItemEventArgs e)
-		{
-			if (e.Index >= 0) 
-			{
-				e.DrawBackground();
-				TestResultItem item = (TestResultItem) detailList.Items[e.Index];
-				bool selected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected) ? true : false;
-				Brush brush = selected ? SystemBrushes.HighlightText : SystemBrushes.WindowText;
-				RectangleF layoutRect = e.Bounds;
-				if (UserSettings.Options.EnableWordWrapForFailures && layoutRect.Width > detailList.ClientSize.Width )
-					layoutRect.Width = detailList.ClientSize.Width;
-				e.Graphics.DrawString(item.ToString(),detailList.Font, brush, layoutRect);
-				
-			}
-		}
-
-		private void copyDetailMenuItem_Click(object sender, System.EventArgs e)
-		{
-			if ( detailList.SelectedItem != null )
-				Clipboard.SetDataObject( detailList.SelectedItem.ToString() );
-		}
-
-		private void OnMouseHover(object sender, System.EventArgs e)
-		{
-			if ( tipWindow != null ) tipWindow.Close();
-
-			if ( UserSettings.Options.FailureToolTips && hoverIndex >= 0 && hoverIndex < detailList.Items.Count )
-			{
-				Graphics g = Graphics.FromHwnd( detailList.Handle );
-
-				Rectangle itemRect = detailList.GetItemRectangle( hoverIndex );
-				string text = detailList.Items[hoverIndex].ToString();
-
-				SizeF sizeNeeded = g.MeasureString( text, detailList.Font );
-				bool expansionNeeded = 
-					itemRect.Width < (int)sizeNeeded.Width ||
-					itemRect.Height < (int)sizeNeeded.Height;
-
-				if ( expansionNeeded )
-				{
-					tipWindow = new TipWindow( detailList, hoverIndex );
-					tipWindow.ItemBounds = itemRect;
-					tipWindow.TipText = text;
-					tipWindow.Expansion = TipWindow.ExpansionStyle.Both;
-					tipWindow.Overlay = true;
-					tipWindow.WantClicks = true;
-					tipWindow.Closed += new EventHandler( tipWindow_Closed );
-					tipWindow.Show();
-				}
-			}		
-		}
-
-		private void tipWindow_Closed( object sender, System.EventArgs e )
-		{
-			tipWindow = null;
-			hoverIndex = -1;
-			ClearTimer();
-		}
-
-		private void detailList_MouseLeave(object sender, System.EventArgs e)
-		{
-			hoverIndex = -1;
-			ClearTimer();
-		}
-
-		private void detailList_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			ClearTimer();
-
-			hoverIndex = detailList.IndexFromPoint( e.X, e.Y );	
-
-			if ( hoverIndex >= 0 && hoverIndex < detailList.Items.Count )
-			{
-				// Workaround problem of IndexFromPoint returning an
-				// index when mouse is over bottom part of list.
-				Rectangle r = detailList.GetItemRectangle( hoverIndex );
-				if ( e.Y > r.Bottom )
-					hoverIndex = -1;
-				else
-				{
-					hoverTimer = new System.Windows.Forms.Timer();
-					hoverTimer.Interval = 800;
-					hoverTimer.Tick += new EventHandler( OnMouseHover );
-					hoverTimer.Start();
-				}
-			}
-		}
-
-		private void ClearTimer()
-		{
-			if ( hoverTimer != null )
-			{
-				hoverTimer.Stop();
-				hoverTimer.Dispose();
-			}
-		}
-
-		private void stackTrace_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
-		{
-			if ( e.KeyCode == Keys.A && e.Modifiers == Keys.Control )
-			{
-				stackTrace.SelectAll();
-			}
-		}
-
-//		private void enableWordWrapCheckBox_CheckedChanged(object sender, System.EventArgs e)
-//		{
-		//			this.detailList.BeginUpdate();
-		//			ArrayList copiedItems = new ArrayList( detailList.Items );
-		//			this.detailList.Items.Clear();
-		//			foreach( object item in copiedItems )
-		//				this.detailList.Items.Add( item );
-		//			this.detailList.EndUpdate();
-		//			this.stackTrace.WordWrap = this.enableWordWrapCheckBox.Checked;
-		//		}
-
-		#endregion
 
 		private void runAllMenuItem_Click(object sender, System.EventArgs e)
 		{
@@ -2730,12 +2130,6 @@ the version under which NUnit is currently running, {0}.",
 		private void viewMenu_Popup(object sender, System.EventArgs e)
 		{
 			assemblyDetailsMenuItem.Enabled = this.TestLoader.IsTestLoaded;
-		}
-
-		private void resultTabs_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			if ( resultTabs.SelectedTab != null )
-				UserSettings.Form.SelectedTab = resultTabs.SelectedTab.Name;
 		}
 	}
 }
