@@ -40,14 +40,14 @@ namespace NUnit.Util
 	/// </summary>
 	public class NUnitRegistry
 	{
-		private static readonly string KEY = 
+		public static readonly string KEY = 
 			@"Software\nunit.org\Nunit\2.4";
 
-		private static readonly string LEGACY_KEY = 
+		public static readonly string LEGACY_KEY = 
 			@"Software\Nascent Software\Nunit\";
 
 		private static bool testMode = false;
-		private static string testKey = 
+		public static readonly string TEST_KEY = 
 			@"Software\nunit.org\Nunit-Test";
 
 
@@ -62,12 +62,6 @@ namespace NUnit.Util
 			set { testMode = value; }
 		}
 
-		public static string TestKey
-		{
-			get { return testKey; }
-			set { testKey = value; }
-		}
-
 		/// <summary>
 		/// Registry subkey for the current user
 		/// </summary>
@@ -76,7 +70,7 @@ namespace NUnit.Util
 			get 
 			{
 				if ( testMode )
-					return Registry.CurrentUser.CreateSubKey( testKey );
+					return Registry.CurrentUser.CreateSubKey( TEST_KEY );
 				
 				RegistryKey newKey = Registry.CurrentUser.OpenSubKey( KEY, true );
 				if (newKey == null)
@@ -94,18 +88,26 @@ namespace NUnit.Util
 			}
 		}
 
+		public static bool KeyExists( string subkey )
+		{
+			using ( RegistryKey key = Registry.CurrentUser.OpenSubKey( subkey, true ) )
+			{
+				return key != null;
+			} 
+		}
+
 		/// <summary>
 		/// Registry subkey for the local machine
 		/// </summary>
 		public static RegistryKey LocalMachine
 		{
-			get { return Registry.LocalMachine.CreateSubKey( testMode ? testKey : KEY ); }
+			get { return Registry.LocalMachine.CreateSubKey( testMode ? TEST_KEY : KEY ); }
 		}
 
 		public static void ClearTestKeys()
 		{
-			ClearSubKey( Registry.CurrentUser, testKey );
-			//ClearSubKey( Registry.LocalMachine, testKey );	
+			ClearSubKey( Registry.CurrentUser, TEST_KEY );
+			//ClearSubKey( Registry.LocalMachine, TEST_KEY );	
 		}
 
 		/// <summary>
