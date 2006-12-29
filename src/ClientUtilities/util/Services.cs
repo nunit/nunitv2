@@ -18,6 +18,11 @@ namespace NUnit.Util
 				if ( domainManager == null )
 					domainManager = (DomainManager)ServiceManager.Services.GetService( typeof( DomainManager ) );
 
+				// Temporary fix needed to run TestDomain tests in test AppDomain
+				// TODO: Figure out how to set up the test domain correctly
+				if ( domainManager == null )
+					domainManager = new DomainManager();
+
 				return domainManager;
 			}
 		}
@@ -31,6 +36,11 @@ namespace NUnit.Util
 			{ 
 				if ( userSettings == null )
 					userSettings = (SettingsService)ServiceManager.Services.GetService( typeof( SettingsService ) );
+
+				// Temporary fix needed to run TestDomain tests in test AppDomain
+				// TODO: Figure out how to set up the test domain correctly
+				if ( userSettings == null )
+					userSettings = new SettingsService();
 
 				return userSettings; 
 			}
