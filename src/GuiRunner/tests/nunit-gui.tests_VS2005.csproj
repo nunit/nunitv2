@@ -79,6 +79,7 @@
     <Compile Include="CommandLineTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ExceptionDetailsFormTests.cs" />
     <Compile Include="ProjectEditorTests.cs">
       <SubType>Code</SubType>
     </Compile>

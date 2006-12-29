@@ -152,6 +152,20 @@ namespace NUnit.TestUtilities
 			else
 				Assert.Fail( "Form {0} does not contain {1} control", form.Name, name );
 		}
+
+		public void AssertControlsAreStackedVertically( params string[] names )
+		{
+			string prior = null;
+			foreach( string current in names )
+			{
+				if ( prior != null )
+				{
+					if ( Controls[prior].Bottom > Controls[current].Top )
+						Assert.Fail( "The {0} control should be above the {1} control", prior, current );
+				}
+				prior = current;
+			}
+		}
 		#endregion
 
 		#region Other public methods
