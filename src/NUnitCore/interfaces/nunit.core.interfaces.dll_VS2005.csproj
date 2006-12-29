@@ -83,6 +83,7 @@
     <Compile Include="Filters\NotFilter.cs" />
     <Compile Include="Filters\RecursiveTestFilter.cs" />
     <Compile Include="Filters\SimpleNameFilter.cs" />
+    <Compile Include="IService.cs" />
     <Compile Include="ITest.cs" />
     <Compile Include="Extensibility\ITestCaseBuilder.cs" />
     <Compile Include="Extensibility\ITestDecorator.cs" />
