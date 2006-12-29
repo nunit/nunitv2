@@ -167,45 +167,48 @@ namespace NUnit.Core
 
 		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
-			TestSuiteResult suiteResult = new TestSuiteResult( new TestInfo(this), TestName.Name);
+			using( new TestContext() )
+			{
+				TestSuiteResult suiteResult = new TestSuiteResult( new TestInfo(this), TestName.Name);
 
-			listener.SuiteStarted( this.TestName );
-			long startTime = DateTime.Now.Ticks;
+				listener.SuiteStarted( this.TestName );
+				long startTime = DateTime.Now.Ticks;
 
-            switch (this.RunState)
-            {
-                case RunState.Runnable:
-				case RunState.Explicit:
-                    suiteResult.RunState = RunState.Executed;
-                    DoOneTimeSetUp(suiteResult);
-                    if ( suiteResult.IsFailure )
-                        MarkTestsFailed(Tests, suiteResult, listener, filter);
-                    else
-                    {
-                        RunAllTests(suiteResult, listener, filter);
-                        DoOneTimeTearDown(suiteResult);
-                    }
-                    break;
+				switch (this.RunState)
+				{
+					case RunState.Runnable:
+					case RunState.Explicit:
+						suiteResult.RunState = RunState.Executed;
+						DoOneTimeSetUp(suiteResult);
+						if ( suiteResult.IsFailure )
+							MarkTestsFailed(Tests, suiteResult, listener, filter);
+						else
+						{
+							RunAllTests(suiteResult, listener, filter);
+							DoOneTimeTearDown(suiteResult);
+						}
+						break;
 
-                case RunState.Skipped:
-                    suiteResult.Skip(this.IgnoreReason);
-                    MarkTestsNotRun(Tests, RunState.Skipped, IgnoreReason, suiteResult, listener, filter);
-                    break;
+					case RunState.Skipped:
+						suiteResult.Skip(this.IgnoreReason);
+						MarkTestsNotRun(Tests, RunState.Skipped, IgnoreReason, suiteResult, listener, filter);
+						break;
 
-                default:
-                case RunState.Ignored:
-                case RunState.NotRunnable:
-                    suiteResult.Ignore(this.IgnoreReason);
-                    MarkTestsNotRun(Tests, RunState.Ignored, IgnoreReason, suiteResult, listener, filter);
-                    break;
-            }
+					default:
+					case RunState.Ignored:
+					case RunState.NotRunnable:
+						suiteResult.Ignore(this.IgnoreReason);
+						MarkTestsNotRun(Tests, RunState.Ignored, IgnoreReason, suiteResult, listener, filter);
+						break;
+				}
 
-			long stopTime = DateTime.Now.Ticks;
-			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-			suiteResult.Time = time;
+				long stopTime = DateTime.Now.Ticks;
+				double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+				suiteResult.Time = time;
 
-			listener.SuiteFinished(suiteResult);
-			return suiteResult;
+				listener.SuiteFinished(suiteResult);
+				return suiteResult;
+			}
 		}
 		#endregion
 
