@@ -14,6 +14,9 @@ namespace NUnit.Util
 		/// </summary>
 		int MaxFiles { get; set; }
 
+		/// <summary>
+		/// The current number of saved files
+		/// </summary>
 		int Count { get; }
 
 		/// <summary>
