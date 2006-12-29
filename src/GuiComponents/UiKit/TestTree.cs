@@ -81,6 +81,7 @@ namespace NUnit.UiKit
 			}
 		}
 
+		[Browsable(false)]
 		public bool ShowCheckBoxes
 		{
 			get { return tests.CheckBoxes; }
@@ -93,25 +94,6 @@ namespace NUnit.UiKit
 				checkBoxesMenuItem.Checked = value;
 			}
 		}
-
-		public bool VisualStudioSupport
-		{
-			get { return tests.VisualStudioSupport; }
-			set { tests.VisualStudioSupport = value; }
-		}
-
-		public TestSuiteTreeView.DisplayStyle InitialDisplay
-		{
-			get { return tests.InitialDisplay; }
-			set { tests.InitialDisplay = value; }
-		}
-
-		public bool ClearResultsOnChange
-		{
-			get { return tests.ClearResultsOnChange; }
-			set { tests.ClearResultsOnChange = value; }
-		}
-
 		#endregion
 
 		#region Construction and Initialization
@@ -217,6 +199,10 @@ namespace NUnit.UiKit
 			tests.CheckedTestChanged += new CheckedTestChangedHandler(tests_CheckedTestChanged);
 
 			this.excludeCheckbox.Enabled = false;
+
+			if ( !this.DesignMode )
+				this.ShowCheckBoxes = 
+					NUnit.Util.Services.UserSettings.GetSetting( "Options.ShowCheckBoxes", false );
 		}
 
 		public void Initialize(TestLoader loader) 
@@ -400,7 +386,6 @@ namespace NUnit.UiKit
 			// tests
 			// 
 			this.tests.AllowDrop = true;
-			this.tests.CheckBoxes = true;
 			this.tests.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tests.HideSelection = false;
 			this.tests.Location = new System.Drawing.Point(0, 0);

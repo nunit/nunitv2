@@ -94,14 +94,9 @@ namespace NUnit.UiKit
 		private bool displayProgress = true;
 
 		/// <summary>
-		/// How the tree is displayed immediately after loading
-		/// </summary>
-		private DisplayStyle initialDisplay = DisplayStyle.Auto;
-
-		/// <summary>
 		/// Whether to clear test results when tests change
 		/// </summary>
-		private bool clearResultsOnChange = true;
+		private bool clearResultsOnChange;
 
 		/// <summary>
 		/// The properties dialog if displayed
@@ -123,8 +118,6 @@ namespace NUnit.UiKit
 		private bool runCommandEnabled = false;
 
 		private ITest[] runningTests;
-
-		private bool visualStudioSupport = false;
 
 		private TestFilter categoryFilter = TestFilter.Empty;
 
@@ -156,6 +149,10 @@ namespace NUnit.UiKit
 			string ignoredFile = Path.Combine( imageDir, "Ignored.jpg" );
 			if ( File.Exists( ignoredFile ) )
 				treeImages.Images[TestSuiteTreeNode.IgnoredIndex] = Image.FromFile( ignoredFile );
+
+			if ( !this.DesignMode )
+				this.clearResultsOnChange = 
+					NUnit.Util.Services.UserSettings.GetSetting( "Options.TestLoader.ClearResultsOnReload", false );
 		}
 
 		private void InitializeComponent()
@@ -213,18 +210,6 @@ namespace NUnit.UiKit
 		}
 
 		/// <summary>
-		/// Property determining whether Visual Studio
-		/// projects are supported.
-		/// </summary>
-		[Category( "Behavior" ), DefaultValue( false )]
-		[Description("Indicates whether VisualStudio projects are supported")]
-		public bool VisualStudioSupport
-		{
-			get { return visualStudioSupport; }
-			set { visualStudioSupport = value; }
-		}
-
-		/// <summary>
 		/// Property determining whether tree should redraw nodes
 		/// as tests are complete in order to show progress.
 		/// </summary>
@@ -234,22 +219,6 @@ namespace NUnit.UiKit
 		{
 			get { return displayProgress; }
 			set { displayProgress = value; }
-		}
-
-		[Category( "Behavior" ), DefaultValue( true )]
-		[Description("Indicates whether test results should be cleared when the tests change in background")]
-		public bool ClearResultsOnChange
-		{
-			get { return clearResultsOnChange; }
-			set { clearResultsOnChange = value; }
-		}
-
-		[Category( "Behavior" ), DefaultValue( DisplayStyle.Auto )]
-		[Description("Indicates the level of expansion when the tree is first displayed")]
-		public DisplayStyle InitialDisplay
-		{
-			get { return initialDisplay; }
-			set { initialDisplay = value; }
 		}
 
 		[Category( "Appearance" ), DefaultValue( false )]
@@ -398,7 +367,7 @@ namespace NUnit.UiKit
 			if ( test != null )
 			{
 				Invoke( new LoadHandler( Reload ), new object[]{ test } );
-				if ( ClearResultsOnChange )
+				if ( clearResultsOnChange )
 					ClearResults();
 			}
 		}
@@ -654,7 +623,7 @@ namespace NUnit.UiKit
 			if ( fileNames.Length == 1 )
 			{
 				string fileName = fileNames[0];
-				bool isProject = visualStudioSupport 
+				bool isProject = NUnit.Util.Services.UserSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false ) 
 					? NUnitProject.CanLoadAsProject( fileName )
 					: NUnitProject.IsProjectFile( fileName );
 
@@ -1219,6 +1188,9 @@ namespace NUnit.UiKit
 		/// <returns>DisplayStyle to be used</returns>
 		private DisplayStyle GetDisplayStyle()
 		{
+			DisplayStyle initialDisplay = (TestSuiteTreeView.DisplayStyle)
+				NUnit.Util.Services.UserSettings.GetSetting( "Gui.TestTree.InitialTreeDisplay", DisplayStyle.Auto );
+
 			if ( initialDisplay != DisplayStyle.Auto )
 				return initialDisplay;
 
