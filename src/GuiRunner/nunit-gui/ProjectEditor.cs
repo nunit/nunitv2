@@ -565,14 +565,6 @@ namespace NUnit.Gui
 			get { return visualStudioSupport; }
 			set { visualStudioSupport = value; }
 		}
-
-		private TestLoaderUI TestLoaderUI
-		{
-			get
-			{
-				return (TestLoaderUI)GetService( typeof( TestLoaderUI ) );
-			}
-		}
 		#endregion
 
 		#region Config ComboBox Methods and Events

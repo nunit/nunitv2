@@ -809,7 +809,7 @@ namespace NUnit.Gui
 
 			settings.SaveSetting( "Options.LoadLastProject", loadLastProjectCheckBox.Checked );
 			
-			TestLoader loader = GetService( typeof( TestLoader ) ) as TestLoader;
+			TestLoader loader = Services.TestLoader;
 			settings.SaveSetting( "Options.TestLoader.ReloadOnChange", loader.ReloadOnChange = reloadOnChangeCheckBox.Checked );
 			settings.SaveSetting( "Options.TestLoader.RerunOnChange", loader.RerunOnChange = rerunOnChangeCheckBox.Checked );
 			settings.SaveSetting( "Options.TestLoader.ReloadOnRun", loader.ReloadOnRun = reloadOnRunCheckBox.Checked );

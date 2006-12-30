@@ -61,5 +61,19 @@ namespace NUnit.Util
 			}
 		}
 		#endregion
+
+		#region TestLoader
+		private static TestLoader loader;
+		public static TestLoader TestLoader
+		{
+			get
+			{
+				if ( loader == null )
+					loader = (TestLoader)ServiceManager.Services.GetService( typeof( TestLoader ) );
+
+				return loader;
+			}
+		}
+		#endregion
 	}
 }

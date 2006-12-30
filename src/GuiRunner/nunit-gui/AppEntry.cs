@@ -100,33 +100,27 @@ namespace NUnit.Gui
 				NUnit.Core.ServiceManager.Services.AddService( new SettingsService() );
 				NUnit.Core.ServiceManager.Services.AddService( new DomainManager() );
 				NUnit.Core.ServiceManager.Services.AddService( new RecentFilesService() );
+				NUnit.Core.ServiceManager.Services.AddService( new TestLoader( new GuiTestEventDispatcher() ) );
 
-				// Create container for top-level forms
-				AppContainer c = new AppContainer();
-
-				// Add standard services to the container's ServiceContainer
-				AmbientProperties ambient = new AmbientProperties();
-				c.Services.AddService( typeof( AmbientProperties ), ambient );
-
-				ISettings settings = Services.UserSettings;
-
-				TestLoader loader = new TestLoader( new GuiTestEventDispatcher() );
-				loader.ReloadOnRun = settings.GetSetting( "Options.TestLoader.ReloadOnRun", true );
-				loader.ReloadOnChange = settings.GetSetting( "Options.TestLoader.ReloadOnChange", true );
-				loader.RerunOnChange = settings.GetSetting( "Options.TestLoader.RerunOnChange", false );
-				loader.MultiDomain = settings.GetSetting( "Options.TestLoader.MultiDomain", false );
-				loader.MergeAssemblies = settings.GetSetting( "Options.TestLoader.MergeAssemblies", false );
-				loader.AutoNamespaceSuites = settings.GetSetting( "Options.TestLoader.AutoNamespaceSuites", true );
-				c.Services.AddService( typeof( TestLoader ), loader );
-
+				// AddinManager is not yet a service.
 				Services.AddinManager.RegisterAddins();
 
-				// Create top-level form
+				// Create container in order to allow ambient properties
+				// to be shared across all top-level forms.
+				AppContainer c = new AppContainer();
+				AmbientProperties ambient = new AmbientProperties();
+				c.Services.AddService( typeof( AmbientProperties ), ambient );
 				NUnitForm form = new NUnitForm( command );
 				c.Add( form );
-				Application.Run( form );
 
-				NUnit.Core.ServiceManager.Services.StopAllServices();
+				try
+				{
+					Application.Run( form );
+				}
+				finally
+				{
+					NUnit.Core.ServiceManager.Services.StopAllServices();
+				}
 			}
 			else
 			{

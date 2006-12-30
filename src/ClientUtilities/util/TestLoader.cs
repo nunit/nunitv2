@@ -52,7 +52,7 @@ namespace NUnit.Util
 	/// of the large number of events it supports. However, it has
 	/// no dependencies on ui components and can be used independently.
 	/// </summary>
-	public class TestLoader : MarshalByRefObject, NUnit.Core.EventListener, ITestLoader
+	public class TestLoader : MarshalByRefObject, NUnit.Core.EventListener, ITestLoader, IService
 	{
 		#region Instance Variables
 
@@ -146,6 +146,14 @@ namespace NUnit.Util
 		public TestLoader(TestEventDispatcher eventDispatcher )
 		{
 			this.events = eventDispatcher;
+
+			ISettings settings = Services.UserSettings;
+			this.ReloadOnRun = settings.GetSetting( "Options.TestLoader.ReloadOnRun", true );
+			this.ReloadOnChange = settings.GetSetting( "Options.TestLoader.ReloadOnChange", true );
+			this.RerunOnChange = settings.GetSetting( "Options.TestLoader.RerunOnChange", false );
+			this.MultiDomain = settings.GetSetting( "Options.TestLoader.MultiDomain", false );
+			this.MergeAssemblies = settings.GetSetting( "Options.TestLoader.MergeAssemblies", false );
+			this.AutoNamespaceSuites = settings.GetSetting( "Options.TestLoader.AutoNamespaceSuites", true );
 
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler( OnUnhandledException );
 		}
@@ -735,6 +743,20 @@ namespace NUnit.Util
 		{
 			return null;
 		}
+		#endregion
+
+		#region IService Members
+
+		public void UnloadService()
+		{
+			// TODO:  Add TestLoader.UnloadService implementation
+		}
+
+		public void InitializeService()
+		{
+			// TODO:  Add TestLoader.InitializeService implementation
+		}
+
 		#endregion
 	}
 }

@@ -78,7 +78,7 @@ namespace NUnit.UiKit
 
 		public static void OpenProject( Form owner, string testFileName, string configName, string testName )
 		{
-			TestLoader loader = GetTestLoader( owner );
+			TestLoader loader = NUnit.Util.Services.TestLoader;
 
 			if ( loader.IsProjectLoaded && SaveProjectIfDirty( owner ) == DialogResult.Cancel )
 				return;
@@ -110,7 +110,7 @@ namespace NUnit.UiKit
 
 		public static void AddAssembly( Form owner, string configName )
 		{
-			TestLoader loader = GetTestLoader( owner );
+			TestLoader loader = NUnit.Util.Services.TestLoader;
 			ProjectConfig config = configName == null
 				? loader.TestProject.ActiveConfig
 				: loader.TestProject.Configs[configName];
@@ -128,7 +128,7 @@ namespace NUnit.UiKit
 
 		public static void AddVSProject( Form owner )
 		{
-			TestLoader loader = GetTestLoader( owner );
+			TestLoader loader = NUnit.Util.Services.TestLoader;
 			OpenFileDialog dlg = new OpenFileDialog();
 			dlg.Title = "Add Visual Studio Project";
 
@@ -166,7 +166,7 @@ namespace NUnit.UiKit
 
 		public static void SaveProject( Form owner )
 		{
-			TestLoader loader = GetTestLoader( owner );
+			TestLoader loader = NUnit.Util.Services.TestLoader;
 
 			if ( Path.IsPathRooted( loader.TestProject.ProjectPath ) &&
 				 NUnitProject.IsProjectFile( loader.TestProject.ProjectPath ) &&
@@ -178,7 +178,7 @@ namespace NUnit.UiKit
 
 		public static void SaveProjectAs( Form owner )
 		{
-			TestLoader loader = GetTestLoader( owner );
+			TestLoader loader = NUnit.Util.Services.TestLoader;
 
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.Title = "Save Test Project";
@@ -204,7 +204,7 @@ namespace NUnit.UiKit
 
 		public static void NewProject( Form owner )
 		{
-			TestLoader loader = GetTestLoader( owner );
+			TestLoader loader = NUnit.Util.Services.TestLoader;
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.Title = "New Test Project";
 			dlg.Filter = "NUnit Test Project (*.nunit)|*.nunit|All Files (*.*)|*.*";
@@ -222,7 +222,7 @@ namespace NUnit.UiKit
 			DialogResult result = SaveProjectIfDirty( owner );
 
 			if( result != DialogResult.Cancel )
-				GetTestLoader( owner ).UnloadProject();
+				NUnit.Util.Services.TestLoader.UnloadProject();
 
 			return result;
 		}
@@ -230,7 +230,7 @@ namespace NUnit.UiKit
 		private static DialogResult SaveProjectIfDirty( Form owner )
 		{
 			DialogResult result = DialogResult.OK;
-			TestLoader loader = GetTestLoader( owner );
+			TestLoader loader = NUnit.Util.Services.TestLoader;
 
 			if( loader.TestProject.IsDirty )
 			{
@@ -247,7 +247,7 @@ namespace NUnit.UiKit
 		public static void SaveLastResult( Form owner )
 		{
 			//TODO: Save all results
-			TestLoader loader = GetTestLoader( owner );
+			TestLoader loader = NUnit.Util.Services.TestLoader;
 			TestResult result = loader.TestResult;
 			
 			SaveFileDialog dlg = new SaveFileDialog();
@@ -278,11 +278,6 @@ namespace NUnit.UiKit
 					UserMessage.DisplayFailure( exception, "Unable to Save Results" );
 				}
 			}
-		}
-
-		private static TestLoader GetTestLoader( Form owner )
-		{
-			return (TestLoader)owner.Site.GetService( typeof( TestLoader ) );
 		}
 	}
 }
