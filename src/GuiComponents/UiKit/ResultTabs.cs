@@ -16,9 +16,7 @@ namespace NUnit.UiKit
 	public class ResultTabs : System.Windows.Forms.UserControl, TestObserver
 	{
 		private ISettings settings;
-		int hoverIndex = -1;
-		private System.Windows.Forms.Timer hoverTimer;
-		CP.Windows.Forms.TipWindow tipWindow;
+
 		private MenuItem tabsMenu;
 		private MenuItem errorsTabMenuItem;
 		private MenuItem notRunTabMenuItem;
@@ -29,9 +27,7 @@ namespace NUnit.UiKit
 		private MenuItem internalTraceTabMenuItem;
 
 		public System.Windows.Forms.TabPage errorTab;
-		public CP.Windows.Forms.ExpandingTextBox stackTrace;
-		public System.Windows.Forms.Splitter tabSplitter;
-		private System.Windows.Forms.ListBox detailList;
+		private NUnit.UiKit.ErrorDisplay errorDisplay;
 		public NUnit.UiKit.RichEditTabPage stdoutTab;
 		private NUnit.UiKit.RichEditTabPage traceTab;
 		private NUnit.UiKit.RichEditTabPage internalTraceTab;
@@ -39,10 +35,7 @@ namespace NUnit.UiKit
 		public System.Windows.Forms.TabPage notRunTab;
 		public NUnit.UiKit.NotRunTree notRunTree;
 		public System.Windows.Forms.TabControl tabControl;
-		private System.Windows.Forms.ContextMenu detailListContextMenu;
-		private System.Windows.Forms.MenuItem menuItem1;
 		private System.Windows.Forms.MenuItem copyDetailMenuItem;
-		private System.Windows.Forms.PrintDialog printDialog1;
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>
@@ -53,14 +46,7 @@ namespace NUnit.UiKit
 			// This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
 
-			if ( !this.DesignMode )
-			{
-				settings = NUnit.Util.Services.UserSettings;
-
-				int splitPosition = settings.GetSetting( "Gui.ResultTabs.ErrorsTabSplitterPosition", tabSplitter.SplitPosition );
-				if ( splitPosition >= tabSplitter.MinSize && splitPosition < this.ClientSize.Height )
-					this.tabSplitter.SplitPosition = splitPosition;
-			}
+			settings = NUnit.Util.Services.UserSettings;
 
 			this.tabsMenu = new MenuItem();
 			this.errorsTabMenuItem = new System.Windows.Forms.MenuItem();
@@ -139,19 +125,14 @@ namespace NUnit.UiKit
 		{
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.errorTab = new System.Windows.Forms.TabPage();
-			this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
-			this.tabSplitter = new System.Windows.Forms.Splitter();
-			this.detailList = new System.Windows.Forms.ListBox();
+			this.errorDisplay = new NUnit.UiKit.ErrorDisplay();
 			this.notRunTab = new System.Windows.Forms.TabPage();
 			this.notRunTree = new NUnit.UiKit.NotRunTree();
 			this.stdoutTab = new NUnit.UiKit.RichEditTabPage();
 			this.stderrTab = new NUnit.UiKit.RichEditTabPage();
 			this.traceTab = new NUnit.UiKit.RichEditTabPage();
 			this.internalTraceTab = new NUnit.UiKit.RichEditTabPage();
-			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
-			this.menuItem1 = new System.Windows.Forms.MenuItem();
 			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
-			this.printDialog1 = new System.Windows.Forms.PrintDialog();
 			this.tabControl.SuspendLayout();
 			this.errorTab.SuspendLayout();
 			this.notRunTab.SuspendLayout();
@@ -176,60 +157,21 @@ namespace NUnit.UiKit
 			// 
 			// errorTab
 			// 
-			this.errorTab.Controls.Add(this.stackTrace);
-			this.errorTab.Controls.Add(this.tabSplitter);
-			this.errorTab.Controls.Add(this.detailList);
+			this.errorTab.Controls.Add(this.errorDisplay);
 			this.errorTab.Location = new System.Drawing.Point(4, 22);
 			this.errorTab.Name = "errorTab";
 			this.errorTab.Size = new System.Drawing.Size(480, 278);
 			this.errorTab.TabIndex = 0;
 			this.errorTab.Text = "Errors and Failures";
 			// 
-			// stackTrace
+			// errorDisplay
 			// 
-			this.stackTrace.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.stackTrace.Font = new System.Drawing.Font("Courier New", 9.75F);
-			this.stackTrace.Location = new System.Drawing.Point(0, 137);
-			this.stackTrace.Multiline = true;
-			this.stackTrace.Name = "stackTrace";
-			this.stackTrace.ReadOnly = true;
-			this.stackTrace.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stackTrace.Size = new System.Drawing.Size(480, 141);
-			this.stackTrace.TabIndex = 2;
-			this.stackTrace.Text = "";
-			this.stackTrace.WordWrap = false;
-			// 
-			// tabSplitter
-			// 
-			this.tabSplitter.Dock = System.Windows.Forms.DockStyle.Top;
-			this.tabSplitter.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.tabSplitter.Location = new System.Drawing.Point(0, 128);
-			this.tabSplitter.MinSize = 100;
-			this.tabSplitter.Name = "tabSplitter";
-			this.tabSplitter.Size = new System.Drawing.Size(480, 9);
-			this.tabSplitter.TabIndex = 1;
-			this.tabSplitter.TabStop = false;
-			this.tabSplitter.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.tabSplitter_SplitterMoved);
-			// 
-			// detailList
-			// 
-			this.detailList.Dock = System.Windows.Forms.DockStyle.Top;
-			this.detailList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-			this.detailList.Font = new System.Drawing.Font("Courier New", 8.25F);
-			this.detailList.HorizontalExtent = 2000;
-			this.detailList.HorizontalScrollbar = true;
-			this.detailList.ItemHeight = 16;
-			this.detailList.Location = new System.Drawing.Point(0, 0);
-			this.detailList.Name = "detailList";
-			this.detailList.ScrollAlwaysVisible = true;
-			this.detailList.Size = new System.Drawing.Size(480, 128);
-			this.detailList.TabIndex = 0;
-			this.detailList.MouseHover += new System.EventHandler(this.OnMouseHover);
-			this.detailList.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.detailList_MeasureItem);
-			this.detailList.MouseMove += new System.Windows.Forms.MouseEventHandler(this.detailList_MouseMove);
-			this.detailList.MouseLeave += new System.EventHandler(this.detailList_MouseLeave);
-			this.detailList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.detailList_DrawItem);
-			this.detailList.SelectedIndexChanged += new System.EventHandler(this.detailList_SelectedIndexChanged);
+			this.errorDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.errorDisplay.FailureToolTips = true;
+			this.errorDisplay.Location = new System.Drawing.Point(0, 0);
+			this.errorDisplay.Name = "errorDisplay";
+			this.errorDisplay.Size = new System.Drawing.Size(480, 278);
+			this.errorDisplay.TabIndex = 0;
 			// 
 			// notRunTab
 			// 
@@ -289,23 +231,10 @@ namespace NUnit.UiKit
 			this.internalTraceTab.Text = "Internal Trace";
 			this.internalTraceTab.Visible = false;
 			// 
-			// detailListContextMenu
-			// 
-			this.detailListContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																								  this.menuItem1});
-			// 
-			// menuItem1
-			// 
-			this.menuItem1.Index = 0;
-			this.menuItem1.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																					  this.copyDetailMenuItem});
-			this.menuItem1.Text = "";
-			// 
 			// copyDetailMenuItem
 			// 
 			this.copyDetailMenuItem.Index = 0;
 			this.copyDetailMenuItem.Text = "Copy";
-			this.copyDetailMenuItem.Click += new System.EventHandler(this.copyDetailMenuItem_Click);
 			// 
 			// ResultTabs
 			// 
@@ -322,33 +251,17 @@ namespace NUnit.UiKit
 	
 		public void Clear()
 		{
-			detailList.Items.Clear();
-			detailList.ContextMenu = null;
-//			toolTip.SetToolTip( detailList, null );
+			errorDisplay.Clear();
 			notRunTree.Nodes.Clear();
 
 			stdoutTab.Clear();
 			stderrTab.Clear();
 			traceTab.Clear();
-			
-			stackTrace.Text = "";
 		}
 
 		public MenuItem TabsMenu
 		{
 			get { return tabsMenu; }
-		}
-
-		public bool AutoExpand
-		{
-			get { return stackTrace.AutoExpand; }
-			set { stackTrace.AutoExpand = value; }
-		}
-
-		public bool WordWrap
-		{
-			get { return stackTrace.WordWrap; }
-			set { stackTrace.WordWrap = value; }
 		}
 
 		public void LoadSettingsAndUpdateTabPages()
@@ -384,179 +297,12 @@ namespace NUnit.UiKit
 		public void OnOptionsChanged()
 		{
 			LoadSettingsAndUpdateTabPages();
-
-			this.stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled ", false );
-			bool wordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
-		
-			if ( this.stackTrace.WordWrap != wordWrap )
-			{
-				this.stackTrace.WordWrap = wordWrap;
-
-				this.detailList.BeginUpdate();
-				ArrayList copiedItems = new ArrayList( detailList.Items );
-				this.detailList.Items.Clear();
-				foreach( object item in copiedItems )
-					this.detailList.Items.Add( item );
-				this.detailList.EndUpdate();
-				this.stackTrace.WordWrap = wordWrap;
-			}
+			errorDisplay.OnOptionsChanged();
 		}
 
 		public void InsertTestResultItem( TestResult result )
 		{
-			TestResultItem item = new TestResultItem(result);
-			detailList.BeginUpdate();
-			detailList.Items.Insert(detailList.Items.Count, item);
-			detailList.EndUpdate();
-		}
-
-		#region DetailList Events
-		/// <summary>
-		/// When one of the detail failure items is selected, display
-		/// the stack trace and set up the tool tip for that item.
-		/// </summary>
-		private void detailList_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-			TestResultItem resultItem = (TestResultItem)detailList.SelectedItem;
-			//string stackTrace = resultItem.StackTrace;
-			stackTrace.Text = resultItem.StackTrace;
-
-			//			toolTip.SetToolTip(detailList,resultItem.GetToolTipMessage());
-			detailList.ContextMenu = detailListContextMenu;
-		}
-
-		private void detailList_MeasureItem(object sender, System.Windows.Forms.MeasureItemEventArgs e)
-		{
-			TestResultItem item = (TestResultItem) detailList.Items[e.Index];
-			//string s = item.ToString();
-			SizeF size = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", false )
-				? e.Graphics.MeasureString(item.ToString(), detailList.Font, detailList.ClientSize.Width )
-				: e.Graphics.MeasureString(item.ToString(), detailList.Font );
-			e.ItemHeight = (int)size.Height;
-			e.ItemWidth = (int)size.Width;
-		}
-
-		private void detailList_DrawItem(object sender, System.Windows.Forms.DrawItemEventArgs e)
-		{
-			if (e.Index >= 0) 
-			{
-				e.DrawBackground();
-				TestResultItem item = (TestResultItem) detailList.Items[e.Index];
-				bool selected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected) ? true : false;
-				Brush brush = selected ? SystemBrushes.HighlightText : SystemBrushes.WindowText;
-				RectangleF layoutRect = e.Bounds;
-				if (settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true ) && layoutRect.Width > detailList.ClientSize.Width )
-					layoutRect.Width = detailList.ClientSize.Width;
-				e.Graphics.DrawString(item.ToString(),detailList.Font, brush, layoutRect);
-				
-			}
-		}
-
-		private void copyDetailMenuItem_Click(object sender, System.EventArgs e)
-		{
-			if ( detailList.SelectedItem != null )
-				Clipboard.SetDataObject( detailList.SelectedItem.ToString() );
-		}
-
-		private void OnMouseHover(object sender, System.EventArgs e)
-		{
-			if ( tipWindow != null ) tipWindow.Close();
-
-			if ( settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", false ) && hoverIndex >= 0 && hoverIndex < detailList.Items.Count )
-			{
-				Graphics g = Graphics.FromHwnd( detailList.Handle );
-
-				Rectangle itemRect = detailList.GetItemRectangle( hoverIndex );
-				string text = detailList.Items[hoverIndex].ToString();
-
-				SizeF sizeNeeded = g.MeasureString( text, detailList.Font );
-				bool expansionNeeded = 
-					itemRect.Width < (int)sizeNeeded.Width ||
-					itemRect.Height < (int)sizeNeeded.Height;
-
-				if ( expansionNeeded )
-				{
-					tipWindow = new TipWindow( detailList, hoverIndex );
-					tipWindow.ItemBounds = itemRect;
-					tipWindow.TipText = text;
-					tipWindow.Expansion = TipWindow.ExpansionStyle.Both;
-					tipWindow.Overlay = true;
-					tipWindow.WantClicks = true;
-					tipWindow.Closed += new EventHandler( tipWindow_Closed );
-					tipWindow.Show();
-				}
-			}		
-		}
-
-		private void tipWindow_Closed( object sender, System.EventArgs e )
-		{
-			tipWindow = null;
-			hoverIndex = -1;
-			ClearTimer();
-		}
-
-		private void detailList_MouseLeave(object sender, System.EventArgs e)
-		{
-			hoverIndex = -1;
-			ClearTimer();
-		}
-
-		private void detailList_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-		{
-			ClearTimer();
-
-			hoverIndex = detailList.IndexFromPoint( e.X, e.Y );	
-
-			if ( hoverIndex >= 0 && hoverIndex < detailList.Items.Count )
-			{
-				// Workaround problem of IndexFromPoint returning an
-				// index when mouse is over bottom part of list.
-				Rectangle r = detailList.GetItemRectangle( hoverIndex );
-				if ( e.Y > r.Bottom )
-					hoverIndex = -1;
-				else
-				{
-					hoverTimer = new System.Windows.Forms.Timer();
-					hoverTimer.Interval = 800;
-					hoverTimer.Tick += new EventHandler( OnMouseHover );
-					hoverTimer.Start();
-				}
-			}
-		}
-
-		private void ClearTimer()
-		{
-			if ( hoverTimer != null )
-			{
-				hoverTimer.Stop();
-				hoverTimer.Dispose();
-			}
-		}
-
-		private void stackTrace_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
-		{
-			if ( e.KeyCode == Keys.A && e.Modifiers == Keys.Control )
-			{
-				stackTrace.SelectAll();
-			}
-		}
-
-		//		private void enableWordWrapCheckBox_CheckedChanged(object sender, System.EventArgs e)
-		//		{
-		//			this.detailList.BeginUpdate();
-		//			ArrayList copiedItems = new ArrayList( detailList.Items );
-		//			this.detailList.Items.Clear();
-		//			foreach( object item in copiedItems )
-		//				this.detailList.Items.Add( item );
-		//			this.detailList.EndUpdate();
-		//			this.stackTrace.WordWrap = this.enableWordWrapCheckBox.Checked;
-		//		}
-
-		#endregion
-
-		private void tabSplitter_SplitterMoved( object sender, SplitterEventArgs e )
-		{
-			settings.SaveSetting( "Gui.ResultTabs.ErrorsTabSplitterPosition", tabSplitter.SplitPosition );
+			errorDisplay.InsertTestResultItem( result );
 		}
 
 		private void errorsTabMenuItem_Click(object sender, System.EventArgs e)
@@ -599,11 +345,19 @@ namespace NUnit.UiKit
 
 		public void Subscribe(ITestEvents events)
 		{
+			events.TestLoaded += new TestEventHandler(OnTestLoaded);
+			events.TestUnloaded += new TestEventHandler(OnTestUnloaded);
+			events.TestReloaded += new TestEventHandler(OnTestReloaded);
+			events.RunStarting += new TestEventHandler(OnRunStarting);
 			events.TestStarting += new TestEventHandler(OnTestStarting);
 			events.TestFinished += new TestEventHandler(OnTestFinished);
 			events.SuiteFinished += new TestEventHandler(OnSuiteFinished);
 			events.TestOutput += new TestEventHandler(OnTestOutput);
-			events.TestReloaded += new TestEventHandler(OnTestReloaded);
+		}
+
+		private void OnRunStarting(object sender, TestEventArgs args)
+		{
+			this.Clear();
 		}
 
 		private void OnTestStarting(object sender, TestEventArgs args)
@@ -642,6 +396,15 @@ namespace NUnit.UiKit
 			}
 		}
 
+		private void OnTestLoaded(object sender, TestEventArgs args)
+		{
+			this.Clear();
+		}
+
+		private void OnTestUnloaded(object sender, TestEventArgs args)
+		{
+			this.Clear();
+		}
 		private void OnTestReloaded(object sender, TestEventArgs args)
 		{
 			if ( settings.GetSetting( "Options.TestLoader.ClearResultsOnReload", false ) )
@@ -671,5 +434,6 @@ namespace NUnit.UiKit
 			}
 		}
 		#endregion
+
 	}
 }

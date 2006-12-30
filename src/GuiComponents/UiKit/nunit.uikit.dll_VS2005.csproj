@@ -81,6 +81,9 @@
     <Compile Include="ConfigurationEditor.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ErrorDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="ExpandingLabel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -152,6 +155,10 @@
       <DependentUpon>ConfigurationEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ellipsis.gif" />
+    <EmbeddedResource Include="ErrorDisplay.resx">
+      <DependentUpon>ErrorDisplay.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ExpandingLabel.resx">
       <DependentUpon>ExpandingLabel.cs</DependentUpon>
       <SubType>Designer</SubType>
