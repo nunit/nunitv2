@@ -29,7 +29,7 @@ namespace NUnit.Gui.Tests
 		}
 
 		[Test]
-		public void ControlsPositionedCorrectly()
+		public void ControlsArePositionedCorrectly()
 		{
 			AssertControlsAreStackedVertically( "message", "stackTrace", "okButton" );
 		}
