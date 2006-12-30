@@ -33,8 +33,8 @@ namespace NUnit.Core
 {
 	/// <summary>
 	/// TestFixtureBuilder contains static methods for building
-	/// TestFixtures from types. It uses the AddinManager and
-	/// any installed ISuiteBuilder extensions to do it.
+	/// TestFixtures from types. It uses builtin SuiteBuilders
+	/// and any installed extensions to do it.
 	/// </summary>
 	public class TestFixtureBuilder
 	{

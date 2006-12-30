@@ -9,6 +9,20 @@ namespace NUnit.Util
 	/// </summary>
 	public class Services : NUnit.Core.Services
 	{
+		#region AddinManager
+		private static AddinManager addinManager;
+		public static AddinManager AddinManager
+		{
+			get 
+			{
+				if (addinManager == null )
+					addinManager = (AddinManager)ServiceManager.Services.GetService( typeof( AddinManager ) );
+
+				return addinManager; 
+			}
+		}
+		#endregion
+
 		#region DomainManager
 		private static DomainManager domainManager;
 		public static DomainManager DomainManager

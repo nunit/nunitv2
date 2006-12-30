@@ -103,7 +103,36 @@ namespace NUnit.Core
 
 		public void InstallAddins()
 		{
-			Services.AddinManager.InstallAddins(this);
+			IAddinRegistry addinRegistry = Services.AddinRegistry;
+
+			foreach (Addin addin in addinRegistry.Addins)
+			{
+				if ((this.ExtensionTypes & addin.ExtensionType) != 0)
+				{
+					Type type = Type.GetType(addin.TypeName);
+					if ( type != null && InstallAddin( type ) )
+						addinRegistry.SetStatus( addin.Name, AddinStatus.Loaded );
+					else
+						addinRegistry.SetStatus( addin.Name, AddinStatus.Error );
+				}
+			}
+		}
+
+		public void InstallAdhocExtensions( Assembly assembly )
+		{
+			foreach ( Type type in assembly.GetExportedTypes() )
+			{
+				if ( type.GetCustomAttributes(typeof(NUnitAddinAttribute), false).Length == 1 )
+					InstallAddin( type );
+			}
+		}
+
+		private bool InstallAddin( Type type )
+		{
+			ConstructorInfo ctor = type.GetConstructor(Type.EmptyTypes);
+			IAddin theAddin = (IAddin)ctor.Invoke(new object[0]);
+
+			return theAddin.Install(this);
 		}
 		#endregion
 

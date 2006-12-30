@@ -37,6 +37,7 @@ using System.Threading;
 using System.Windows.Forms;
 using NUnit.UiKit;
 using NUnit.Util;
+using NUnit.Core;
 
 namespace NUnit.Gui
 {
@@ -97,13 +98,14 @@ namespace NUnit.Gui
 				}
 
 				// Add Standard Services to ServiceManager
-				NUnit.Core.ServiceManager.Services.AddService( new SettingsService() );
-				NUnit.Core.ServiceManager.Services.AddService( new DomainManager() );
-				NUnit.Core.ServiceManager.Services.AddService( new RecentFilesService() );
-				NUnit.Core.ServiceManager.Services.AddService( new TestLoader( new GuiTestEventDispatcher() ) );
+				ServiceManager.Services.AddService( new SettingsService() );
+				ServiceManager.Services.AddService( new DomainManager() );
+				ServiceManager.Services.AddService( new RecentFilesService() );
+				ServiceManager.Services.AddService( new TestLoader( new GuiTestEventDispatcher() ) );
+				ServiceManager.Services.AddService( new AddinManager() );
 
-				// AddinManager is not yet a service.
-				Services.AddinManager.RegisterAddins();
+				// Initialize Services
+				ServiceManager.Services.InitializeServices();
 
 				// Create container in order to allow ambient properties
 				// to be shared across all top-level forms.

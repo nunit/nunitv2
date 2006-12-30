@@ -32,8 +32,10 @@ using System.IO;
 using System.Diagnostics;
 using System.Collections;
 using System.Reflection;
+using NUnit.Core;
+using NUnit.Core.Extensibility;
 
-namespace NUnit.Core.Extensibility
+namespace NUnit.Util
 {
 	public class AddinManager : IService
 	{

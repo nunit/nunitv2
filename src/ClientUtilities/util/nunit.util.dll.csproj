@@ -334,6 +334,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Services\AddinManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Services\DomainManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

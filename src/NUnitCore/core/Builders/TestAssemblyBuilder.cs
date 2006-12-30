@@ -171,7 +171,7 @@ namespace NUnit.Core.Builders
                 Assembly assembly = Assembly.Load(Path.GetFileNameWithoutExtension(path));
 				
                 if ( assembly != null )
-                    Services.AddinManager.Register( assembly );
+                    Services.CoreExtensions.InstallAdhocExtensions( assembly );
 
 				return assembly;
 			}

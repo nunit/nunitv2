@@ -368,11 +368,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Extensibility\AddinManager.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Extensibility\AddinRegistry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
