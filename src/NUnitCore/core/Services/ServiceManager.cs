@@ -42,6 +42,12 @@ namespace NUnit.Core
 			return null;
 		}
 
+		public void InitializeServices()
+		{
+			foreach( IService service in services )
+				service.InitializeService();
+		}
+
 		public void StopAllServices()
 		{
 			foreach( IService service in services )
