@@ -262,24 +262,13 @@ namespace NUnit.Gui
 			// 
 			// statusBar
 			// 
-			this.statusBar.AccessibleDescription = resources.GetString("statusBar.AccessibleDescription");
-			this.statusBar.AccessibleName = resources.GetString("statusBar.AccessibleName");
-			this.statusBar.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("statusBar.Anchor")));
-			this.statusBar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("statusBar.BackgroundImage")));
 			this.statusBar.DisplayTestProgress = true;
-			this.statusBar.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("statusBar.Dock")));
-			this.statusBar.Enabled = ((bool)(resources.GetObject("statusBar.Enabled")));
-			this.statusBar.Font = ((System.Drawing.Font)(resources.GetObject("statusBar.Font")));
-			this.statusBar.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("statusBar.ImeMode")));
-			this.statusBar.Location = ((System.Drawing.Point)(resources.GetObject("statusBar.Location")));
+			this.statusBar.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.statusBar.Location = new System.Drawing.Point(0, 425);
 			this.statusBar.Name = "statusBar";
-			this.statusBar.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("statusBar.RightToLeft")));
 			this.statusBar.ShowPanels = true;
-			this.statusBar.Size = ((System.Drawing.Size)(resources.GetObject("statusBar.Size")));
-			this.statusBar.TabIndex = ((int)(resources.GetObject("statusBar.TabIndex")));
-			this.statusBar.Text = resources.GetString("statusBar.Text");
-			this.toolTip.SetToolTip(this.statusBar, resources.GetString("statusBar.ToolTip"));
-			this.statusBar.Visible = ((bool)(resources.GetObject("statusBar.Visible")));
+			this.statusBar.Size = new System.Drawing.Size(744, 37);
+			this.statusBar.TabIndex = 0;
 			// 
 			// mainMenu
 			// 
@@ -290,11 +279,9 @@ namespace NUnit.Gui
 																					 this.testMenu,
 																					 this.toolsMenu,
 																					 this.helpItem});
-			this.mainMenu.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("mainMenu.RightToLeft")));
 			// 
 			// fileMenu
 			// 
-			this.fileMenu.Enabled = ((bool)(resources.GetObject("fileMenu.Enabled")));
 			this.fileMenu.Index = 0;
 			this.fileMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					 this.newMenuItem,
@@ -308,121 +295,77 @@ namespace NUnit.Gui
 																					 this.recentProjectsMenu,
 																					 this.fileMenuSeparator4,
 																					 this.exitMenuItem});
-			this.fileMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("fileMenu.Shortcut")));
-			this.fileMenu.ShowShortcut = ((bool)(resources.GetObject("fileMenu.ShowShortcut")));
-			this.fileMenu.Text = resources.GetString("fileMenu.Text");
-			this.fileMenu.Visible = ((bool)(resources.GetObject("fileMenu.Visible")));
+			this.fileMenu.Text = "&File";
 			this.fileMenu.Popup += new System.EventHandler(this.fileMenu_Popup);
 			// 
 			// newMenuItem
 			// 
-			this.newMenuItem.Enabled = ((bool)(resources.GetObject("newMenuItem.Enabled")));
 			this.newMenuItem.Index = 0;
-			this.newMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("newMenuItem.Shortcut")));
-			this.newMenuItem.ShowShortcut = ((bool)(resources.GetObject("newMenuItem.ShowShortcut")));
-			this.newMenuItem.Text = resources.GetString("newMenuItem.Text");
-			this.newMenuItem.Visible = ((bool)(resources.GetObject("newMenuItem.Visible")));
+			this.newMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlN;
+			this.newMenuItem.Text = "&New Project...";
 			this.newMenuItem.Click += new System.EventHandler(this.newMenuItem_Click);
 			// 
 			// openMenuItem
 			// 
-			this.openMenuItem.Enabled = ((bool)(resources.GetObject("openMenuItem.Enabled")));
 			this.openMenuItem.Index = 1;
-			this.openMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("openMenuItem.Shortcut")));
-			this.openMenuItem.ShowShortcut = ((bool)(resources.GetObject("openMenuItem.ShowShortcut")));
-			this.openMenuItem.Text = resources.GetString("openMenuItem.Text");
-			this.openMenuItem.Visible = ((bool)(resources.GetObject("openMenuItem.Visible")));
+			this.openMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlO;
+			this.openMenuItem.Text = "&Open Project...";
 			this.openMenuItem.Click += new System.EventHandler(this.openMenuItem_Click);
 			// 
 			// closeMenuItem
 			// 
-			this.closeMenuItem.Enabled = ((bool)(resources.GetObject("closeMenuItem.Enabled")));
 			this.closeMenuItem.Index = 2;
-			this.closeMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("closeMenuItem.Shortcut")));
-			this.closeMenuItem.ShowShortcut = ((bool)(resources.GetObject("closeMenuItem.ShowShortcut")));
-			this.closeMenuItem.Text = resources.GetString("closeMenuItem.Text");
-			this.closeMenuItem.Visible = ((bool)(resources.GetObject("closeMenuItem.Visible")));
+			this.closeMenuItem.Text = "&Close";
 			this.closeMenuItem.Click += new System.EventHandler(this.closeMenuItem_Click);
 			// 
 			// fileMenuSeparator1
 			// 
-			this.fileMenuSeparator1.Enabled = ((bool)(resources.GetObject("fileMenuSeparator1.Enabled")));
 			this.fileMenuSeparator1.Index = 3;
-			this.fileMenuSeparator1.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("fileMenuSeparator1.Shortcut")));
-			this.fileMenuSeparator1.ShowShortcut = ((bool)(resources.GetObject("fileMenuSeparator1.ShowShortcut")));
-			this.fileMenuSeparator1.Text = resources.GetString("fileMenuSeparator1.Text");
-			this.fileMenuSeparator1.Visible = ((bool)(resources.GetObject("fileMenuSeparator1.Visible")));
+			this.fileMenuSeparator1.Text = "-";
 			// 
 			// saveMenuItem
 			// 
-			this.saveMenuItem.Enabled = ((bool)(resources.GetObject("saveMenuItem.Enabled")));
 			this.saveMenuItem.Index = 4;
-			this.saveMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("saveMenuItem.Shortcut")));
-			this.saveMenuItem.ShowShortcut = ((bool)(resources.GetObject("saveMenuItem.ShowShortcut")));
-			this.saveMenuItem.Text = resources.GetString("saveMenuItem.Text");
-			this.saveMenuItem.Visible = ((bool)(resources.GetObject("saveMenuItem.Visible")));
+			this.saveMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlS;
+			this.saveMenuItem.Text = "&Save";
 			this.saveMenuItem.Click += new System.EventHandler(this.saveMenuItem_Click);
 			// 
 			// saveAsMenuItem
 			// 
-			this.saveAsMenuItem.Enabled = ((bool)(resources.GetObject("saveAsMenuItem.Enabled")));
 			this.saveAsMenuItem.Index = 5;
-			this.saveAsMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("saveAsMenuItem.Shortcut")));
-			this.saveAsMenuItem.ShowShortcut = ((bool)(resources.GetObject("saveAsMenuItem.ShowShortcut")));
-			this.saveAsMenuItem.Text = resources.GetString("saveAsMenuItem.Text");
-			this.saveAsMenuItem.Visible = ((bool)(resources.GetObject("saveAsMenuItem.Visible")));
+			this.saveAsMenuItem.Text = "Save &As...";
 			this.saveAsMenuItem.Click += new System.EventHandler(this.saveAsMenuItem_Click);
 			// 
 			// fileMenuSeparator2
 			// 
-			this.fileMenuSeparator2.Enabled = ((bool)(resources.GetObject("fileMenuSeparator2.Enabled")));
 			this.fileMenuSeparator2.Index = 6;
-			this.fileMenuSeparator2.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("fileMenuSeparator2.Shortcut")));
-			this.fileMenuSeparator2.ShowShortcut = ((bool)(resources.GetObject("fileMenuSeparator2.ShowShortcut")));
-			this.fileMenuSeparator2.Text = resources.GetString("fileMenuSeparator2.Text");
-			this.fileMenuSeparator2.Visible = ((bool)(resources.GetObject("fileMenuSeparator2.Visible")));
+			this.fileMenuSeparator2.Text = "-";
 			// 
 			// reloadMenuItem
 			// 
-			this.reloadMenuItem.Enabled = ((bool)(resources.GetObject("reloadMenuItem.Enabled")));
 			this.reloadMenuItem.Index = 7;
-			this.reloadMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("reloadMenuItem.Shortcut")));
-			this.reloadMenuItem.ShowShortcut = ((bool)(resources.GetObject("reloadMenuItem.ShowShortcut")));
-			this.reloadMenuItem.Text = resources.GetString("reloadMenuItem.Text");
-			this.reloadMenuItem.Visible = ((bool)(resources.GetObject("reloadMenuItem.Visible")));
+			this.reloadMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlR;
+			this.reloadMenuItem.Text = "&Reload";
 			this.reloadMenuItem.Click += new System.EventHandler(this.reloadMenuItem_Click);
 			// 
 			// recentProjectsMenu
 			// 
-			this.recentProjectsMenu.Enabled = ((bool)(resources.GetObject("recentProjectsMenu.Enabled")));
 			this.recentProjectsMenu.Index = 8;
-			this.recentProjectsMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("recentProjectsMenu.Shortcut")));
-			this.recentProjectsMenu.ShowShortcut = ((bool)(resources.GetObject("recentProjectsMenu.ShowShortcut")));
-			this.recentProjectsMenu.Text = resources.GetString("recentProjectsMenu.Text");
-			this.recentProjectsMenu.Visible = ((bool)(resources.GetObject("recentProjectsMenu.Visible")));
+			this.recentProjectsMenu.Text = "Recent &Files";
 			// 
 			// fileMenuSeparator4
 			// 
-			this.fileMenuSeparator4.Enabled = ((bool)(resources.GetObject("fileMenuSeparator4.Enabled")));
 			this.fileMenuSeparator4.Index = 9;
-			this.fileMenuSeparator4.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("fileMenuSeparator4.Shortcut")));
-			this.fileMenuSeparator4.ShowShortcut = ((bool)(resources.GetObject("fileMenuSeparator4.ShowShortcut")));
-			this.fileMenuSeparator4.Text = resources.GetString("fileMenuSeparator4.Text");
-			this.fileMenuSeparator4.Visible = ((bool)(resources.GetObject("fileMenuSeparator4.Visible")));
+			this.fileMenuSeparator4.Text = "-";
 			// 
 			// exitMenuItem
 			// 
-			this.exitMenuItem.Enabled = ((bool)(resources.GetObject("exitMenuItem.Enabled")));
 			this.exitMenuItem.Index = 10;
-			this.exitMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("exitMenuItem.Shortcut")));
-			this.exitMenuItem.ShowShortcut = ((bool)(resources.GetObject("exitMenuItem.ShowShortcut")));
-			this.exitMenuItem.Text = resources.GetString("exitMenuItem.Text");
-			this.exitMenuItem.Visible = ((bool)(resources.GetObject("exitMenuItem.Visible")));
+			this.exitMenuItem.Text = "E&xit";
 			this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
 			// 
 			// viewMenu
 			// 
-			this.viewMenu.Enabled = ((bool)(resources.GetObject("viewMenu.Enabled")));
 			this.viewMenu.Index = 1;
 			this.viewMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					 this.fullGuiMenuItem,
@@ -434,56 +377,36 @@ namespace NUnit.Gui
 																					 this.assemblyDetailsMenuItem,
 																					 this.viewMenuSeparator4,
 																					 this.statusBarMenuItem});
-			this.viewMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("viewMenu.Shortcut")));
-			this.viewMenu.ShowShortcut = ((bool)(resources.GetObject("viewMenu.ShowShortcut")));
-			this.viewMenu.Text = resources.GetString("viewMenu.Text");
-			this.viewMenu.Visible = ((bool)(resources.GetObject("viewMenu.Visible")));
+			this.viewMenu.Text = "&View";
 			this.viewMenu.Popup += new System.EventHandler(this.viewMenu_Popup);
 			// 
 			// fullGuiMenuItem
 			// 
 			this.fullGuiMenuItem.Checked = true;
-			this.fullGuiMenuItem.Enabled = ((bool)(resources.GetObject("fullGuiMenuItem.Enabled")));
 			this.fullGuiMenuItem.Index = 0;
 			this.fullGuiMenuItem.RadioCheck = true;
-			this.fullGuiMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("fullGuiMenuItem.Shortcut")));
-			this.fullGuiMenuItem.ShowShortcut = ((bool)(resources.GetObject("fullGuiMenuItem.ShowShortcut")));
-			this.fullGuiMenuItem.Text = resources.GetString("fullGuiMenuItem.Text");
-			this.fullGuiMenuItem.Visible = ((bool)(resources.GetObject("fullGuiMenuItem.Visible")));
+			this.fullGuiMenuItem.Text = "&Full GUI";
 			this.fullGuiMenuItem.Click += new System.EventHandler(this.fullGuiMenuItem_Click);
 			// 
 			// miniGuiMenuItem
 			// 
-			this.miniGuiMenuItem.Enabled = ((bool)(resources.GetObject("miniGuiMenuItem.Enabled")));
 			this.miniGuiMenuItem.Index = 1;
 			this.miniGuiMenuItem.RadioCheck = true;
-			this.miniGuiMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("miniGuiMenuItem.Shortcut")));
-			this.miniGuiMenuItem.ShowShortcut = ((bool)(resources.GetObject("miniGuiMenuItem.ShowShortcut")));
-			this.miniGuiMenuItem.Text = resources.GetString("miniGuiMenuItem.Text");
-			this.miniGuiMenuItem.Visible = ((bool)(resources.GetObject("miniGuiMenuItem.Visible")));
+			this.miniGuiMenuItem.Text = "&Mini GUI";
 			this.miniGuiMenuItem.Click += new System.EventHandler(this.miniGuiMenuItem_Click);
 			// 
 			// viewMenuSeparator1
 			// 
-			this.viewMenuSeparator1.Enabled = ((bool)(resources.GetObject("viewMenuSeparator1.Enabled")));
 			this.viewMenuSeparator1.Index = 2;
-			this.viewMenuSeparator1.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("viewMenuSeparator1.Shortcut")));
-			this.viewMenuSeparator1.ShowShortcut = ((bool)(resources.GetObject("viewMenuSeparator1.ShowShortcut")));
-			this.viewMenuSeparator1.Text = resources.GetString("viewMenuSeparator1.Text");
-			this.viewMenuSeparator1.Visible = ((bool)(resources.GetObject("viewMenuSeparator1.Visible")));
+			this.viewMenuSeparator1.Text = "-";
 			// 
 			// viewMenuSeparator2
 			// 
-			this.viewMenuSeparator2.Enabled = ((bool)(resources.GetObject("viewMenuSeparator2.Enabled")));
 			this.viewMenuSeparator2.Index = 3;
-			this.viewMenuSeparator2.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("viewMenuSeparator2.Shortcut")));
-			this.viewMenuSeparator2.ShowShortcut = ((bool)(resources.GetObject("viewMenuSeparator2.ShowShortcut")));
-			this.viewMenuSeparator2.Text = resources.GetString("viewMenuSeparator2.Text");
-			this.viewMenuSeparator2.Visible = ((bool)(resources.GetObject("viewMenuSeparator2.Visible")));
+			this.viewMenuSeparator2.Text = "-";
 			// 
 			// fontMenuItem
 			// 
-			this.fontMenuItem.Enabled = ((bool)(resources.GetObject("fontMenuItem.Enabled")));
 			this.fontMenuItem.Index = 4;
 			this.fontMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																						 this.increaseFontMenuItem,
@@ -491,102 +414,62 @@ namespace NUnit.Gui
 																						 this.fontMenuSeparator,
 																						 this.fontChangeMenuItem,
 																						 this.defaultFontMenuItem});
-			this.fontMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("fontMenuItem.Shortcut")));
-			this.fontMenuItem.ShowShortcut = ((bool)(resources.GetObject("fontMenuItem.ShowShortcut")));
-			this.fontMenuItem.Text = resources.GetString("fontMenuItem.Text");
-			this.fontMenuItem.Visible = ((bool)(resources.GetObject("fontMenuItem.Visible")));
+			this.fontMenuItem.Text = "Fo&nt";
 			// 
 			// increaseFontMenuItem
 			// 
-			this.increaseFontMenuItem.Enabled = ((bool)(resources.GetObject("increaseFontMenuItem.Enabled")));
 			this.increaseFontMenuItem.Index = 0;
-			this.increaseFontMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("increaseFontMenuItem.Shortcut")));
-			this.increaseFontMenuItem.ShowShortcut = ((bool)(resources.GetObject("increaseFontMenuItem.ShowShortcut")));
-			this.increaseFontMenuItem.Text = resources.GetString("increaseFontMenuItem.Text");
-			this.increaseFontMenuItem.Visible = ((bool)(resources.GetObject("increaseFontMenuItem.Visible")));
+			this.increaseFontMenuItem.Text = "&Increase";
 			this.increaseFontMenuItem.Click += new System.EventHandler(this.increaseFontMenuItem_Click);
 			// 
 			// decreaseFontMenuItem
 			// 
-			this.decreaseFontMenuItem.Enabled = ((bool)(resources.GetObject("decreaseFontMenuItem.Enabled")));
 			this.decreaseFontMenuItem.Index = 1;
-			this.decreaseFontMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("decreaseFontMenuItem.Shortcut")));
-			this.decreaseFontMenuItem.ShowShortcut = ((bool)(resources.GetObject("decreaseFontMenuItem.ShowShortcut")));
-			this.decreaseFontMenuItem.Text = resources.GetString("decreaseFontMenuItem.Text");
-			this.decreaseFontMenuItem.Visible = ((bool)(resources.GetObject("decreaseFontMenuItem.Visible")));
+			this.decreaseFontMenuItem.Text = "&Decrease";
 			this.decreaseFontMenuItem.Click += new System.EventHandler(this.decreaseFontMenuItem_Click);
 			// 
 			// fontMenuSeparator
 			// 
-			this.fontMenuSeparator.Enabled = ((bool)(resources.GetObject("fontMenuSeparator.Enabled")));
 			this.fontMenuSeparator.Index = 2;
-			this.fontMenuSeparator.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("fontMenuSeparator.Shortcut")));
-			this.fontMenuSeparator.ShowShortcut = ((bool)(resources.GetObject("fontMenuSeparator.ShowShortcut")));
-			this.fontMenuSeparator.Text = resources.GetString("fontMenuSeparator.Text");
-			this.fontMenuSeparator.Visible = ((bool)(resources.GetObject("fontMenuSeparator.Visible")));
+			this.fontMenuSeparator.Text = "-";
 			// 
 			// fontChangeMenuItem
 			// 
-			this.fontChangeMenuItem.Enabled = ((bool)(resources.GetObject("fontChangeMenuItem.Enabled")));
 			this.fontChangeMenuItem.Index = 3;
-			this.fontChangeMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("fontChangeMenuItem.Shortcut")));
-			this.fontChangeMenuItem.ShowShortcut = ((bool)(resources.GetObject("fontChangeMenuItem.ShowShortcut")));
-			this.fontChangeMenuItem.Text = resources.GetString("fontChangeMenuItem.Text");
-			this.fontChangeMenuItem.Visible = ((bool)(resources.GetObject("fontChangeMenuItem.Visible")));
+			this.fontChangeMenuItem.Text = "&Change...";
 			this.fontChangeMenuItem.Click += new System.EventHandler(this.fontChangeMenuItem_Click);
 			// 
 			// defaultFontMenuItem
 			// 
-			this.defaultFontMenuItem.Enabled = ((bool)(resources.GetObject("defaultFontMenuItem.Enabled")));
 			this.defaultFontMenuItem.Index = 4;
-			this.defaultFontMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("defaultFontMenuItem.Shortcut")));
-			this.defaultFontMenuItem.ShowShortcut = ((bool)(resources.GetObject("defaultFontMenuItem.ShowShortcut")));
-			this.defaultFontMenuItem.Text = resources.GetString("defaultFontMenuItem.Text");
-			this.defaultFontMenuItem.Visible = ((bool)(resources.GetObject("defaultFontMenuItem.Visible")));
+			this.defaultFontMenuItem.Text = "&Restore";
 			this.defaultFontMenuItem.Click += new System.EventHandler(this.defaultFontMenuItem_Click);
 			// 
 			// viewMenuSeparator3
 			// 
-			this.viewMenuSeparator3.Enabled = ((bool)(resources.GetObject("viewMenuSeparator3.Enabled")));
 			this.viewMenuSeparator3.Index = 5;
-			this.viewMenuSeparator3.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("viewMenuSeparator3.Shortcut")));
-			this.viewMenuSeparator3.ShowShortcut = ((bool)(resources.GetObject("viewMenuSeparator3.ShowShortcut")));
-			this.viewMenuSeparator3.Text = resources.GetString("viewMenuSeparator3.Text");
-			this.viewMenuSeparator3.Visible = ((bool)(resources.GetObject("viewMenuSeparator3.Visible")));
+			this.viewMenuSeparator3.Text = "-";
 			// 
 			// assemblyDetailsMenuItem
 			// 
-			this.assemblyDetailsMenuItem.Enabled = ((bool)(resources.GetObject("assemblyDetailsMenuItem.Enabled")));
 			this.assemblyDetailsMenuItem.Index = 6;
-			this.assemblyDetailsMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("assemblyDetailsMenuItem.Shortcut")));
-			this.assemblyDetailsMenuItem.ShowShortcut = ((bool)(resources.GetObject("assemblyDetailsMenuItem.ShowShortcut")));
-			this.assemblyDetailsMenuItem.Text = resources.GetString("assemblyDetailsMenuItem.Text");
-			this.assemblyDetailsMenuItem.Visible = ((bool)(resources.GetObject("assemblyDetailsMenuItem.Visible")));
+			this.assemblyDetailsMenuItem.Text = "&Assembly Details...";
 			this.assemblyDetailsMenuItem.Click += new System.EventHandler(this.assemblyDetailsMenuItem_Click);
 			// 
 			// viewMenuSeparator4
 			// 
-			this.viewMenuSeparator4.Enabled = ((bool)(resources.GetObject("viewMenuSeparator4.Enabled")));
 			this.viewMenuSeparator4.Index = 7;
-			this.viewMenuSeparator4.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("viewMenuSeparator4.Shortcut")));
-			this.viewMenuSeparator4.ShowShortcut = ((bool)(resources.GetObject("viewMenuSeparator4.ShowShortcut")));
-			this.viewMenuSeparator4.Text = resources.GetString("viewMenuSeparator4.Text");
-			this.viewMenuSeparator4.Visible = ((bool)(resources.GetObject("viewMenuSeparator4.Visible")));
+			this.viewMenuSeparator4.Text = "-";
 			// 
 			// statusBarMenuItem
 			// 
 			this.statusBarMenuItem.Checked = true;
-			this.statusBarMenuItem.Enabled = ((bool)(resources.GetObject("statusBarMenuItem.Enabled")));
 			this.statusBarMenuItem.Index = 8;
-			this.statusBarMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("statusBarMenuItem.Shortcut")));
-			this.statusBarMenuItem.ShowShortcut = ((bool)(resources.GetObject("statusBarMenuItem.ShowShortcut")));
-			this.statusBarMenuItem.Text = resources.GetString("statusBarMenuItem.Text");
-			this.statusBarMenuItem.Visible = ((bool)(resources.GetObject("statusBarMenuItem.Visible")));
+			this.statusBarMenuItem.Text = "&Status Bar";
 			this.statusBarMenuItem.Click += new System.EventHandler(this.statusBarMenuItem_Click);
 			// 
 			// projectMenu
 			// 
-			this.projectMenu.Enabled = ((bool)(resources.GetObject("projectMenu.Enabled")));
 			this.projectMenu.Index = 2;
 			this.projectMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																						this.configMenuItem,
@@ -595,72 +478,45 @@ namespace NUnit.Gui
 																						this.addVSProjectMenuItem,
 																						this.projectMenuSeparator2,
 																						this.editProjectMenuItem});
-			this.projectMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("projectMenu.Shortcut")));
-			this.projectMenu.ShowShortcut = ((bool)(resources.GetObject("projectMenu.ShowShortcut")));
-			this.projectMenu.Text = resources.GetString("projectMenu.Text");
-			this.projectMenu.Visible = ((bool)(resources.GetObject("projectMenu.Visible")));
+			this.projectMenu.Text = "&Project";
+			this.projectMenu.Visible = false;
 			this.projectMenu.Popup += new System.EventHandler(this.projectMenu_Popup);
 			// 
 			// configMenuItem
 			// 
-			this.configMenuItem.Enabled = ((bool)(resources.GetObject("configMenuItem.Enabled")));
 			this.configMenuItem.Index = 0;
-			this.configMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("configMenuItem.Shortcut")));
-			this.configMenuItem.ShowShortcut = ((bool)(resources.GetObject("configMenuItem.ShowShortcut")));
-			this.configMenuItem.Text = resources.GetString("configMenuItem.Text");
-			this.configMenuItem.Visible = ((bool)(resources.GetObject("configMenuItem.Visible")));
+			this.configMenuItem.Text = "&Configurations";
 			// 
 			// projectMenuSeparator1
 			// 
-			this.projectMenuSeparator1.Enabled = ((bool)(resources.GetObject("projectMenuSeparator1.Enabled")));
 			this.projectMenuSeparator1.Index = 1;
-			this.projectMenuSeparator1.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("projectMenuSeparator1.Shortcut")));
-			this.projectMenuSeparator1.ShowShortcut = ((bool)(resources.GetObject("projectMenuSeparator1.ShowShortcut")));
-			this.projectMenuSeparator1.Text = resources.GetString("projectMenuSeparator1.Text");
-			this.projectMenuSeparator1.Visible = ((bool)(resources.GetObject("projectMenuSeparator1.Visible")));
+			this.projectMenuSeparator1.Text = "-";
 			// 
 			// addAssemblyMenuItem
 			// 
-			this.addAssemblyMenuItem.Enabled = ((bool)(resources.GetObject("addAssemblyMenuItem.Enabled")));
 			this.addAssemblyMenuItem.Index = 2;
-			this.addAssemblyMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("addAssemblyMenuItem.Shortcut")));
-			this.addAssemblyMenuItem.ShowShortcut = ((bool)(resources.GetObject("addAssemblyMenuItem.ShowShortcut")));
-			this.addAssemblyMenuItem.Text = resources.GetString("addAssemblyMenuItem.Text");
-			this.addAssemblyMenuItem.Visible = ((bool)(resources.GetObject("addAssemblyMenuItem.Visible")));
+			this.addAssemblyMenuItem.Text = "Add Assembly...";
 			this.addAssemblyMenuItem.Click += new System.EventHandler(this.addAssemblyMenuItem_Click);
 			// 
 			// addVSProjectMenuItem
 			// 
-			this.addVSProjectMenuItem.Enabled = ((bool)(resources.GetObject("addVSProjectMenuItem.Enabled")));
 			this.addVSProjectMenuItem.Index = 3;
-			this.addVSProjectMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("addVSProjectMenuItem.Shortcut")));
-			this.addVSProjectMenuItem.ShowShortcut = ((bool)(resources.GetObject("addVSProjectMenuItem.ShowShortcut")));
-			this.addVSProjectMenuItem.Text = resources.GetString("addVSProjectMenuItem.Text");
-			this.addVSProjectMenuItem.Visible = ((bool)(resources.GetObject("addVSProjectMenuItem.Visible")));
+			this.addVSProjectMenuItem.Text = "Add VS Project...";
 			this.addVSProjectMenuItem.Click += new System.EventHandler(this.addVSProjectMenuItem_Click);
 			// 
 			// projectMenuSeparator2
 			// 
-			this.projectMenuSeparator2.Enabled = ((bool)(resources.GetObject("projectMenuSeparator2.Enabled")));
 			this.projectMenuSeparator2.Index = 4;
-			this.projectMenuSeparator2.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("projectMenuSeparator2.Shortcut")));
-			this.projectMenuSeparator2.ShowShortcut = ((bool)(resources.GetObject("projectMenuSeparator2.ShowShortcut")));
-			this.projectMenuSeparator2.Text = resources.GetString("projectMenuSeparator2.Text");
-			this.projectMenuSeparator2.Visible = ((bool)(resources.GetObject("projectMenuSeparator2.Visible")));
+			this.projectMenuSeparator2.Text = "-";
 			// 
 			// editProjectMenuItem
 			// 
-			this.editProjectMenuItem.Enabled = ((bool)(resources.GetObject("editProjectMenuItem.Enabled")));
 			this.editProjectMenuItem.Index = 5;
-			this.editProjectMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("editProjectMenuItem.Shortcut")));
-			this.editProjectMenuItem.ShowShortcut = ((bool)(resources.GetObject("editProjectMenuItem.ShowShortcut")));
-			this.editProjectMenuItem.Text = resources.GetString("editProjectMenuItem.Text");
-			this.editProjectMenuItem.Visible = ((bool)(resources.GetObject("editProjectMenuItem.Visible")));
+			this.editProjectMenuItem.Text = "Edit...";
 			this.editProjectMenuItem.Click += new System.EventHandler(this.editProjectMenuItem_Click);
 			// 
 			// testMenu
 			// 
-			this.testMenu.Enabled = ((bool)(resources.GetObject("testMenu.Enabled")));
 			this.testMenu.Index = 3;
 			this.testMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					 this.runAllMenuItem,
@@ -668,63 +524,43 @@ namespace NUnit.Gui
 																					 this.runFailedMenuItem,
 																					 this.testMenuSeparator,
 																					 this.stopRunMenuItem});
-			this.testMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("testMenu.Shortcut")));
-			this.testMenu.ShowShortcut = ((bool)(resources.GetObject("testMenu.ShowShortcut")));
-			this.testMenu.Text = resources.GetString("testMenu.Text");
-			this.testMenu.Visible = ((bool)(resources.GetObject("testMenu.Visible")));
+			this.testMenu.Text = "&Test";
 			// 
 			// runAllMenuItem
 			// 
-			this.runAllMenuItem.Enabled = ((bool)(resources.GetObject("runAllMenuItem.Enabled")));
 			this.runAllMenuItem.Index = 0;
-			this.runAllMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("runAllMenuItem.Shortcut")));
-			this.runAllMenuItem.ShowShortcut = ((bool)(resources.GetObject("runAllMenuItem.ShowShortcut")));
-			this.runAllMenuItem.Text = resources.GetString("runAllMenuItem.Text");
-			this.runAllMenuItem.Visible = ((bool)(resources.GetObject("runAllMenuItem.Visible")));
+			this.runAllMenuItem.Shortcut = System.Windows.Forms.Shortcut.F5;
+			this.runAllMenuItem.Text = "&Run All";
 			this.runAllMenuItem.Click += new System.EventHandler(this.runAllMenuItem_Click);
 			// 
 			// runSelectedMenuItem
 			// 
-			this.runSelectedMenuItem.Enabled = ((bool)(resources.GetObject("runSelectedMenuItem.Enabled")));
 			this.runSelectedMenuItem.Index = 1;
-			this.runSelectedMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("runSelectedMenuItem.Shortcut")));
-			this.runSelectedMenuItem.ShowShortcut = ((bool)(resources.GetObject("runSelectedMenuItem.ShowShortcut")));
-			this.runSelectedMenuItem.Text = resources.GetString("runSelectedMenuItem.Text");
-			this.runSelectedMenuItem.Visible = ((bool)(resources.GetObject("runSelectedMenuItem.Visible")));
+			this.runSelectedMenuItem.Shortcut = System.Windows.Forms.Shortcut.F6;
+			this.runSelectedMenuItem.Text = "Run &Selected";
 			this.runSelectedMenuItem.Click += new System.EventHandler(this.runSelectedMenuItem_Click);
 			// 
 			// runFailedMenuItem
 			// 
-			this.runFailedMenuItem.Enabled = ((bool)(resources.GetObject("runFailedMenuItem.Enabled")));
+			this.runFailedMenuItem.Enabled = false;
 			this.runFailedMenuItem.Index = 2;
-			this.runFailedMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("runFailedMenuItem.Shortcut")));
-			this.runFailedMenuItem.ShowShortcut = ((bool)(resources.GetObject("runFailedMenuItem.ShowShortcut")));
-			this.runFailedMenuItem.Text = resources.GetString("runFailedMenuItem.Text");
-			this.runFailedMenuItem.Visible = ((bool)(resources.GetObject("runFailedMenuItem.Visible")));
+			this.runFailedMenuItem.Shortcut = System.Windows.Forms.Shortcut.F7;
+			this.runFailedMenuItem.Text = "Run &Failed";
 			this.runFailedMenuItem.Click += new System.EventHandler(this.runFailedMenuItem_Click);
 			// 
 			// testMenuSeparator
 			// 
-			this.testMenuSeparator.Enabled = ((bool)(resources.GetObject("testMenuSeparator.Enabled")));
 			this.testMenuSeparator.Index = 3;
-			this.testMenuSeparator.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("testMenuSeparator.Shortcut")));
-			this.testMenuSeparator.ShowShortcut = ((bool)(resources.GetObject("testMenuSeparator.ShowShortcut")));
-			this.testMenuSeparator.Text = resources.GetString("testMenuSeparator.Text");
-			this.testMenuSeparator.Visible = ((bool)(resources.GetObject("testMenuSeparator.Visible")));
+			this.testMenuSeparator.Text = "-";
 			// 
 			// stopRunMenuItem
 			// 
-			this.stopRunMenuItem.Enabled = ((bool)(resources.GetObject("stopRunMenuItem.Enabled")));
 			this.stopRunMenuItem.Index = 4;
-			this.stopRunMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("stopRunMenuItem.Shortcut")));
-			this.stopRunMenuItem.ShowShortcut = ((bool)(resources.GetObject("stopRunMenuItem.ShowShortcut")));
-			this.stopRunMenuItem.Text = resources.GetString("stopRunMenuItem.Text");
-			this.stopRunMenuItem.Visible = ((bool)(resources.GetObject("stopRunMenuItem.Visible")));
+			this.stopRunMenuItem.Text = "S&top Run";
 			this.stopRunMenuItem.Click += new System.EventHandler(this.stopRunMenuItem_Click);
 			// 
 			// toolsMenu
 			// 
-			this.toolsMenu.Enabled = ((bool)(resources.GetObject("toolsMenu.Enabled")));
 			this.toolsMenu.Index = 4;
 			this.toolsMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					  this.saveXmlResultsMenuItem,
@@ -733,402 +569,209 @@ namespace NUnit.Gui
 																					  this.optionsMenuItem,
 																					  this.toolsMenuSeparator2,
 																					  this.addinInfoMenuItem});
-			this.toolsMenu.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("toolsMenu.Shortcut")));
-			this.toolsMenu.ShowShortcut = ((bool)(resources.GetObject("toolsMenu.ShowShortcut")));
-			this.toolsMenu.Text = resources.GetString("toolsMenu.Text");
-			this.toolsMenu.Visible = ((bool)(resources.GetObject("toolsMenu.Visible")));
+			this.toolsMenu.Text = "T&ools";
 			this.toolsMenu.Popup += new System.EventHandler(this.toolsMenu_Popup);
 			// 
 			// saveXmlResultsMenuItem
 			// 
-			this.saveXmlResultsMenuItem.Enabled = ((bool)(resources.GetObject("saveXmlResultsMenuItem.Enabled")));
 			this.saveXmlResultsMenuItem.Index = 0;
-			this.saveXmlResultsMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("saveXmlResultsMenuItem.Shortcut")));
-			this.saveXmlResultsMenuItem.ShowShortcut = ((bool)(resources.GetObject("saveXmlResultsMenuItem.ShowShortcut")));
-			this.saveXmlResultsMenuItem.Text = resources.GetString("saveXmlResultsMenuItem.Text");
-			this.saveXmlResultsMenuItem.Visible = ((bool)(resources.GetObject("saveXmlResultsMenuItem.Visible")));
+			this.saveXmlResultsMenuItem.Text = "&Save Results as XML...";
 			this.saveXmlResultsMenuItem.Click += new System.EventHandler(this.saveXmlResultsMenuItem_Click);
 			// 
 			// exceptionDetailsMenuItem
 			// 
-			this.exceptionDetailsMenuItem.Enabled = ((bool)(resources.GetObject("exceptionDetailsMenuItem.Enabled")));
 			this.exceptionDetailsMenuItem.Index = 1;
-			this.exceptionDetailsMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("exceptionDetailsMenuItem.Shortcut")));
-			this.exceptionDetailsMenuItem.ShowShortcut = ((bool)(resources.GetObject("exceptionDetailsMenuItem.ShowShortcut")));
-			this.exceptionDetailsMenuItem.Text = resources.GetString("exceptionDetailsMenuItem.Text");
-			this.exceptionDetailsMenuItem.Visible = ((bool)(resources.GetObject("exceptionDetailsMenuItem.Visible")));
+			this.exceptionDetailsMenuItem.Text = "&Exception Details...";
 			this.exceptionDetailsMenuItem.Click += new System.EventHandler(this.exceptionDetailsMenuItem_Click);
 			// 
 			// toolsMenuSeparator1
 			// 
-			this.toolsMenuSeparator1.Enabled = ((bool)(resources.GetObject("toolsMenuSeparator1.Enabled")));
 			this.toolsMenuSeparator1.Index = 2;
-			this.toolsMenuSeparator1.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("toolsMenuSeparator1.Shortcut")));
-			this.toolsMenuSeparator1.ShowShortcut = ((bool)(resources.GetObject("toolsMenuSeparator1.ShowShortcut")));
-			this.toolsMenuSeparator1.Text = resources.GetString("toolsMenuSeparator1.Text");
-			this.toolsMenuSeparator1.Visible = ((bool)(resources.GetObject("toolsMenuSeparator1.Visible")));
+			this.toolsMenuSeparator1.Text = "-";
 			// 
 			// optionsMenuItem
 			// 
-			this.optionsMenuItem.Enabled = ((bool)(resources.GetObject("optionsMenuItem.Enabled")));
 			this.optionsMenuItem.Index = 3;
-			this.optionsMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("optionsMenuItem.Shortcut")));
-			this.optionsMenuItem.ShowShortcut = ((bool)(resources.GetObject("optionsMenuItem.ShowShortcut")));
-			this.optionsMenuItem.Text = resources.GetString("optionsMenuItem.Text");
-			this.optionsMenuItem.Visible = ((bool)(resources.GetObject("optionsMenuItem.Visible")));
+			this.optionsMenuItem.Text = "&Options...";
 			this.optionsMenuItem.Click += new System.EventHandler(this.optionsMenuItem_Click);
 			// 
 			// toolsMenuSeparator2
 			// 
-			this.toolsMenuSeparator2.Enabled = ((bool)(resources.GetObject("toolsMenuSeparator2.Enabled")));
 			this.toolsMenuSeparator2.Index = 4;
-			this.toolsMenuSeparator2.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("toolsMenuSeparator2.Shortcut")));
-			this.toolsMenuSeparator2.ShowShortcut = ((bool)(resources.GetObject("toolsMenuSeparator2.ShowShortcut")));
-			this.toolsMenuSeparator2.Text = resources.GetString("toolsMenuSeparator2.Text");
-			this.toolsMenuSeparator2.Visible = ((bool)(resources.GetObject("toolsMenuSeparator2.Visible")));
+			this.toolsMenuSeparator2.Text = "-";
 			// 
 			// addinInfoMenuItem
 			// 
-			this.addinInfoMenuItem.Enabled = ((bool)(resources.GetObject("addinInfoMenuItem.Enabled")));
 			this.addinInfoMenuItem.Index = 5;
-			this.addinInfoMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("addinInfoMenuItem.Shortcut")));
-			this.addinInfoMenuItem.ShowShortcut = ((bool)(resources.GetObject("addinInfoMenuItem.ShowShortcut")));
-			this.addinInfoMenuItem.Text = resources.GetString("addinInfoMenuItem.Text");
-			this.addinInfoMenuItem.Visible = ((bool)(resources.GetObject("addinInfoMenuItem.Visible")));
+			this.addinInfoMenuItem.Text = "Addins...";
 			this.addinInfoMenuItem.Click += new System.EventHandler(this.addinInfoMenuItem_Click);
 			// 
 			// helpItem
 			// 
-			this.helpItem.Enabled = ((bool)(resources.GetObject("helpItem.Enabled")));
 			this.helpItem.Index = 5;
 			this.helpItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																					 this.helpMenuItem,
 																					 this.helpMenuSeparator1,
 																					 this.aboutMenuItem});
-			this.helpItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("helpItem.Shortcut")));
-			this.helpItem.ShowShortcut = ((bool)(resources.GetObject("helpItem.ShowShortcut")));
-			this.helpItem.Text = resources.GetString("helpItem.Text");
-			this.helpItem.Visible = ((bool)(resources.GetObject("helpItem.Visible")));
+			this.helpItem.Text = "&Help";
 			// 
 			// helpMenuItem
 			// 
-			this.helpMenuItem.Enabled = ((bool)(resources.GetObject("helpMenuItem.Enabled")));
 			this.helpMenuItem.Index = 0;
-			this.helpMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("helpMenuItem.Shortcut")));
-			this.helpMenuItem.ShowShortcut = ((bool)(resources.GetObject("helpMenuItem.ShowShortcut")));
-			this.helpMenuItem.Text = resources.GetString("helpMenuItem.Text");
-			this.helpMenuItem.Visible = ((bool)(resources.GetObject("helpMenuItem.Visible")));
+			this.helpMenuItem.Shortcut = System.Windows.Forms.Shortcut.F1;
+			this.helpMenuItem.Text = "NUnit &Help...";
 			this.helpMenuItem.Click += new System.EventHandler(this.helpMenuItem_Click);
 			// 
 			// helpMenuSeparator1
 			// 
-			this.helpMenuSeparator1.Enabled = ((bool)(resources.GetObject("helpMenuSeparator1.Enabled")));
 			this.helpMenuSeparator1.Index = 1;
-			this.helpMenuSeparator1.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("helpMenuSeparator1.Shortcut")));
-			this.helpMenuSeparator1.ShowShortcut = ((bool)(resources.GetObject("helpMenuSeparator1.ShowShortcut")));
-			this.helpMenuSeparator1.Text = resources.GetString("helpMenuSeparator1.Text");
-			this.helpMenuSeparator1.Visible = ((bool)(resources.GetObject("helpMenuSeparator1.Visible")));
+			this.helpMenuSeparator1.Text = "-";
 			// 
 			// aboutMenuItem
 			// 
-			this.aboutMenuItem.Enabled = ((bool)(resources.GetObject("aboutMenuItem.Enabled")));
 			this.aboutMenuItem.Index = 2;
-			this.aboutMenuItem.Shortcut = ((System.Windows.Forms.Shortcut)(resources.GetObject("aboutMenuItem.Shortcut")));
-			this.aboutMenuItem.ShowShortcut = ((bool)(resources.GetObject("aboutMenuItem.ShowShortcut")));
-			this.aboutMenuItem.Text = resources.GetString("aboutMenuItem.Text");
-			this.aboutMenuItem.Visible = ((bool)(resources.GetObject("aboutMenuItem.Visible")));
+			this.aboutMenuItem.Text = "&About NUnit...";
 			this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
 			// 
 			// treeSplitter
 			// 
-			this.treeSplitter.AccessibleDescription = resources.GetString("treeSplitter.AccessibleDescription");
-			this.treeSplitter.AccessibleName = resources.GetString("treeSplitter.AccessibleName");
-			this.treeSplitter.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("treeSplitter.Anchor")));
-			this.treeSplitter.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("treeSplitter.BackgroundImage")));
-			this.treeSplitter.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("treeSplitter.Dock")));
-			this.treeSplitter.Enabled = ((bool)(resources.GetObject("treeSplitter.Enabled")));
-			this.treeSplitter.Font = ((System.Drawing.Font)(resources.GetObject("treeSplitter.Font")));
-			this.treeSplitter.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("treeSplitter.ImeMode")));
-			this.treeSplitter.Location = ((System.Drawing.Point)(resources.GetObject("treeSplitter.Location")));
-			this.treeSplitter.MinExtra = ((int)(resources.GetObject("treeSplitter.MinExtra")));
-			this.treeSplitter.MinSize = ((int)(resources.GetObject("treeSplitter.MinSize")));
+			this.treeSplitter.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.treeSplitter.Location = new System.Drawing.Point(240, 0);
+			this.treeSplitter.MinSize = 240;
 			this.treeSplitter.Name = "treeSplitter";
-			this.treeSplitter.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("treeSplitter.RightToLeft")));
-			this.treeSplitter.Size = ((System.Drawing.Size)(resources.GetObject("treeSplitter.Size")));
-			this.treeSplitter.TabIndex = ((int)(resources.GetObject("treeSplitter.TabIndex")));
+			this.treeSplitter.Size = new System.Drawing.Size(6, 425);
+			this.treeSplitter.TabIndex = 2;
 			this.treeSplitter.TabStop = false;
-			this.toolTip.SetToolTip(this.treeSplitter, resources.GetString("treeSplitter.ToolTip"));
-			this.treeSplitter.Visible = ((bool)(resources.GetObject("treeSplitter.Visible")));
 			// 
 			// rightPanel
 			// 
-			this.rightPanel.AccessibleDescription = resources.GetString("rightPanel.AccessibleDescription");
-			this.rightPanel.AccessibleName = resources.GetString("rightPanel.AccessibleName");
-			this.rightPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("rightPanel.Anchor")));
-			this.rightPanel.AutoScroll = ((bool)(resources.GetObject("rightPanel.AutoScroll")));
-			this.rightPanel.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("rightPanel.AutoScrollMargin")));
-			this.rightPanel.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("rightPanel.AutoScrollMinSize")));
-			this.rightPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("rightPanel.BackgroundImage")));
 			this.rightPanel.Controls.Add(this.groupBox1);
 			this.rightPanel.Controls.Add(this.resultTabs);
-			this.rightPanel.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("rightPanel.Dock")));
-			this.rightPanel.Enabled = ((bool)(resources.GetObject("rightPanel.Enabled")));
-			this.rightPanel.Font = ((System.Drawing.Font)(resources.GetObject("rightPanel.Font")));
-			this.rightPanel.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("rightPanel.ImeMode")));
-			this.rightPanel.Location = ((System.Drawing.Point)(resources.GetObject("rightPanel.Location")));
+			this.rightPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.rightPanel.Location = new System.Drawing.Point(246, 0);
 			this.rightPanel.Name = "rightPanel";
-			this.rightPanel.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("rightPanel.RightToLeft")));
-			this.rightPanel.Size = ((System.Drawing.Size)(resources.GetObject("rightPanel.Size")));
-			this.rightPanel.TabIndex = ((int)(resources.GetObject("rightPanel.TabIndex")));
-			this.rightPanel.Text = resources.GetString("rightPanel.Text");
-			this.toolTip.SetToolTip(this.rightPanel, resources.GetString("rightPanel.ToolTip"));
-			this.rightPanel.Visible = ((bool)(resources.GetObject("rightPanel.Visible")));
+			this.rightPanel.Size = new System.Drawing.Size(498, 425);
+			this.rightPanel.TabIndex = 3;
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.AccessibleDescription = resources.GetString("groupBox1.AccessibleDescription");
-			this.groupBox1.AccessibleName = resources.GetString("groupBox1.AccessibleName");
-			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("groupBox1.Anchor")));
-			this.groupBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("groupBox1.BackgroundImage")));
 			this.groupBox1.Controls.Add(this.runCount);
 			this.groupBox1.Controls.Add(this.stopButton);
 			this.groupBox1.Controls.Add(this.runButton);
 			this.groupBox1.Controls.Add(this.suiteName);
 			this.groupBox1.Controls.Add(this.progressBar);
-			this.groupBox1.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("groupBox1.Dock")));
-			this.groupBox1.Enabled = ((bool)(resources.GetObject("groupBox1.Enabled")));
-			this.groupBox1.Font = ((System.Drawing.Font)(resources.GetObject("groupBox1.Font")));
-			this.groupBox1.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("groupBox1.ImeMode")));
-			this.groupBox1.Location = ((System.Drawing.Point)(resources.GetObject("groupBox1.Location")));
+			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.groupBox1.Location = new System.Drawing.Point(0, 0);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("groupBox1.RightToLeft")));
-			this.groupBox1.Size = ((System.Drawing.Size)(resources.GetObject("groupBox1.Size")));
-			this.groupBox1.TabIndex = ((int)(resources.GetObject("groupBox1.TabIndex")));
+			this.groupBox1.Size = new System.Drawing.Size(498, 120);
+			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = resources.GetString("groupBox1.Text");
-			this.toolTip.SetToolTip(this.groupBox1, resources.GetString("groupBox1.ToolTip"));
-			this.groupBox1.Visible = ((bool)(resources.GetObject("groupBox1.Visible")));
 			// 
 			// runCount
 			// 
-			this.runCount.AccessibleDescription = resources.GetString("runCount.AccessibleDescription");
-			this.runCount.AccessibleName = resources.GetString("runCount.AccessibleName");
-			this.runCount.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("runCount.Anchor")));
-			this.runCount.AutoSize = ((bool)(resources.GetObject("runCount.AutoSize")));
-			this.runCount.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("runCount.Dock")));
-			this.runCount.Enabled = ((bool)(resources.GetObject("runCount.Enabled")));
-			this.runCount.Font = ((System.Drawing.Font)(resources.GetObject("runCount.Font")));
-			this.runCount.Image = ((System.Drawing.Image)(resources.GetObject("runCount.Image")));
-			this.runCount.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("runCount.ImageAlign")));
-			this.runCount.ImageIndex = ((int)(resources.GetObject("runCount.ImageIndex")));
-			this.runCount.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("runCount.ImeMode")));
-			this.runCount.Location = ((System.Drawing.Point)(resources.GetObject("runCount.Location")));
+			this.runCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.runCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
+			this.runCount.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.runCount.Location = new System.Drawing.Point(8, 96);
 			this.runCount.Name = "runCount";
-			this.runCount.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("runCount.RightToLeft")));
-			this.runCount.Size = ((System.Drawing.Size)(resources.GetObject("runCount.Size")));
-			this.runCount.TabIndex = ((int)(resources.GetObject("runCount.TabIndex")));
-			this.runCount.Text = resources.GetString("runCount.Text");
-			this.runCount.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("runCount.TextAlign")));
-			this.toolTip.SetToolTip(this.runCount, resources.GetString("runCount.ToolTip"));
-			this.runCount.Visible = ((bool)(resources.GetObject("runCount.Visible")));
+			this.runCount.Size = new System.Drawing.Size(480, 16);
+			this.runCount.TabIndex = 5;
+			this.runCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
 			// stopButton
 			// 
-			this.stopButton.AccessibleDescription = resources.GetString("stopButton.AccessibleDescription");
-			this.stopButton.AccessibleName = resources.GetString("stopButton.AccessibleName");
-			this.stopButton.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("stopButton.Anchor")));
-			this.stopButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("stopButton.BackgroundImage")));
-			this.stopButton.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("stopButton.Dock")));
-			this.stopButton.Enabled = ((bool)(resources.GetObject("stopButton.Enabled")));
-			this.stopButton.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("stopButton.FlatStyle")));
-			this.stopButton.Font = ((System.Drawing.Font)(resources.GetObject("stopButton.Font")));
-			this.stopButton.Image = ((System.Drawing.Image)(resources.GetObject("stopButton.Image")));
-			this.stopButton.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("stopButton.ImageAlign")));
-			this.stopButton.ImageIndex = ((int)(resources.GetObject("stopButton.ImageIndex")));
-			this.stopButton.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("stopButton.ImeMode")));
-			this.stopButton.Location = ((System.Drawing.Point)(resources.GetObject("stopButton.Location")));
+			this.stopButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.stopButton.Location = new System.Drawing.Point(96, 18);
 			this.stopButton.Name = "stopButton";
-			this.stopButton.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("stopButton.RightToLeft")));
-			this.stopButton.Size = ((System.Drawing.Size)(resources.GetObject("stopButton.Size")));
-			this.stopButton.TabIndex = ((int)(resources.GetObject("stopButton.TabIndex")));
-			this.stopButton.Text = resources.GetString("stopButton.Text");
-			this.stopButton.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("stopButton.TextAlign")));
-			this.toolTip.SetToolTip(this.stopButton, resources.GetString("stopButton.ToolTip"));
-			this.stopButton.Visible = ((bool)(resources.GetObject("stopButton.Visible")));
+			this.stopButton.Size = new System.Drawing.Size(96, 38);
+			this.stopButton.TabIndex = 4;
+			this.stopButton.Text = "&Stop";
 			this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
 			// 
 			// runButton
 			// 
-			this.runButton.AccessibleDescription = resources.GetString("runButton.AccessibleDescription");
-			this.runButton.AccessibleName = resources.GetString("runButton.AccessibleName");
-			this.runButton.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("runButton.Anchor")));
-			this.runButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("runButton.BackgroundImage")));
-			this.runButton.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("runButton.Dock")));
-			this.runButton.Enabled = ((bool)(resources.GetObject("runButton.Enabled")));
-			this.runButton.FlatStyle = ((System.Windows.Forms.FlatStyle)(resources.GetObject("runButton.FlatStyle")));
-			this.runButton.Font = ((System.Drawing.Font)(resources.GetObject("runButton.Font")));
-			this.runButton.Image = ((System.Drawing.Image)(resources.GetObject("runButton.Image")));
-			this.runButton.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("runButton.ImageAlign")));
-			this.runButton.ImageIndex = ((int)(resources.GetObject("runButton.ImageIndex")));
-			this.runButton.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("runButton.ImeMode")));
-			this.runButton.Location = ((System.Drawing.Point)(resources.GetObject("runButton.Location")));
+			this.runButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.runButton.Location = new System.Drawing.Point(8, 18);
 			this.runButton.Name = "runButton";
-			this.runButton.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("runButton.RightToLeft")));
-			this.runButton.Size = ((System.Drawing.Size)(resources.GetObject("runButton.Size")));
-			this.runButton.TabIndex = ((int)(resources.GetObject("runButton.TabIndex")));
-			this.runButton.Text = resources.GetString("runButton.Text");
-			this.runButton.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("runButton.TextAlign")));
-			this.toolTip.SetToolTip(this.runButton, resources.GetString("runButton.ToolTip"));
-			this.runButton.Visible = ((bool)(resources.GetObject("runButton.Visible")));
+			this.runButton.Size = new System.Drawing.Size(88, 38);
+			this.runButton.TabIndex = 3;
+			this.runButton.Text = "&Run";
 			this.runButton.Click += new System.EventHandler(this.runButton_Click);
 			// 
 			// suiteName
 			// 
-			this.suiteName.AccessibleDescription = resources.GetString("suiteName.AccessibleDescription");
-			this.suiteName.AccessibleName = resources.GetString("suiteName.AccessibleName");
-			this.suiteName.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("suiteName.Anchor")));
-			this.suiteName.AutoSize = ((bool)(resources.GetObject("suiteName.AutoSize")));
-			this.suiteName.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("suiteName.Dock")));
-			this.suiteName.Enabled = ((bool)(resources.GetObject("suiteName.Enabled")));
-			this.suiteName.Font = ((System.Drawing.Font)(resources.GetObject("suiteName.Font")));
-			this.suiteName.Image = ((System.Drawing.Image)(resources.GetObject("suiteName.Image")));
-			this.suiteName.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("suiteName.ImageAlign")));
-			this.suiteName.ImageIndex = ((int)(resources.GetObject("suiteName.ImageIndex")));
-			this.suiteName.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("suiteName.ImeMode")));
-			this.suiteName.Location = ((System.Drawing.Point)(resources.GetObject("suiteName.Location")));
+			this.suiteName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.suiteName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.suiteName.Location = new System.Drawing.Point(215, 23);
 			this.suiteName.Name = "suiteName";
-			this.suiteName.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("suiteName.RightToLeft")));
-			this.suiteName.Size = ((System.Drawing.Size)(resources.GetObject("suiteName.Size")));
-			this.suiteName.TabIndex = ((int)(resources.GetObject("suiteName.TabIndex")));
-			this.suiteName.Text = resources.GetString("suiteName.Text");
-			this.suiteName.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("suiteName.TextAlign")));
-			this.toolTip.SetToolTip(this.suiteName, resources.GetString("suiteName.ToolTip"));
-			this.suiteName.Visible = ((bool)(resources.GetObject("suiteName.Visible")));
+			this.suiteName.Size = new System.Drawing.Size(273, 29);
+			this.suiteName.TabIndex = 2;
 			// 
 			// progressBar
 			// 
-			this.progressBar.AccessibleDescription = resources.GetString("progressBar.AccessibleDescription");
-			this.progressBar.AccessibleName = resources.GetString("progressBar.AccessibleName");
-			this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("progressBar.Anchor")));
+			this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this.progressBar.BackColor = System.Drawing.SystemColors.Control;
-			this.progressBar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("progressBar.BackgroundImage")));
 			this.progressBar.CausesValidation = false;
-			this.progressBar.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("progressBar.Dock")));
-			this.progressBar.Enabled = ((bool)(resources.GetObject("progressBar.Enabled")));
-			this.progressBar.Font = ((System.Drawing.Font)(resources.GetObject("progressBar.Font")));
+			this.progressBar.Enabled = false;
 			this.progressBar.ForeColor = System.Drawing.SystemColors.Highlight;
-			this.progressBar.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("progressBar.ImeMode")));
-			this.progressBar.Location = ((System.Drawing.Point)(resources.GetObject("progressBar.Location")));
+			this.progressBar.Location = new System.Drawing.Point(8, 60);
 			this.progressBar.Maximum = 100;
 			this.progressBar.Minimum = 0;
 			this.progressBar.Name = "progressBar";
-			this.progressBar.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("progressBar.RightToLeft")));
 			this.progressBar.Segmented = true;
-			this.progressBar.Size = ((System.Drawing.Size)(resources.GetObject("progressBar.Size")));
+			this.progressBar.Size = new System.Drawing.Size(480, 28);
 			this.progressBar.Step = 1;
-			this.progressBar.TabIndex = ((int)(resources.GetObject("progressBar.TabIndex")));
-			this.progressBar.Text = resources.GetString("progressBar.Text");
-			this.toolTip.SetToolTip(this.progressBar, resources.GetString("progressBar.ToolTip"));
+			this.progressBar.TabIndex = 0;
 			this.progressBar.Value = 0;
-			this.progressBar.Visible = ((bool)(resources.GetObject("progressBar.Visible")));
 			// 
 			// resultTabs
 			// 
-			this.resultTabs.AccessibleDescription = resources.GetString("resultTabs.AccessibleDescription");
-			this.resultTabs.AccessibleName = resources.GetString("resultTabs.AccessibleName");
-			this.resultTabs.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("resultTabs.Anchor")));
-			this.resultTabs.AutoExpand = true;
-			this.resultTabs.AutoScroll = ((bool)(resources.GetObject("resultTabs.AutoScroll")));
-			this.resultTabs.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("resultTabs.AutoScrollMargin")));
-			this.resultTabs.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("resultTabs.AutoScrollMinSize")));
-			this.resultTabs.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("resultTabs.BackgroundImage")));
-			this.resultTabs.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("resultTabs.Dock")));
-			this.resultTabs.Enabled = ((bool)(resources.GetObject("resultTabs.Enabled")));
-			this.resultTabs.Font = ((System.Drawing.Font)(resources.GetObject("resultTabs.Font")));
+			this.resultTabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+				| System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this.resultTabs.ForeColor = System.Drawing.Color.Red;
-			this.resultTabs.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("resultTabs.ImeMode")));
-			this.resultTabs.Location = ((System.Drawing.Point)(resources.GetObject("resultTabs.Location")));
+			this.resultTabs.Location = new System.Drawing.Point(0, 120);
 			this.resultTabs.Name = "resultTabs";
-			this.resultTabs.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("resultTabs.RightToLeft")));
-			this.resultTabs.Size = ((System.Drawing.Size)(resources.GetObject("resultTabs.Size")));
-			this.resultTabs.TabIndex = ((int)(resources.GetObject("resultTabs.TabIndex")));
-			this.toolTip.SetToolTip(this.resultTabs, resources.GetString("resultTabs.ToolTip"));
-			this.resultTabs.Visible = ((bool)(resources.GetObject("resultTabs.Visible")));
-			this.resultTabs.WordWrap = false;
+			this.resultTabs.Size = new System.Drawing.Size(498, 305);
+			this.resultTabs.TabIndex = 2;
 			// 
 			// testTree
 			// 
-			this.testTree.AccessibleDescription = resources.GetString("testTree.AccessibleDescription");
-			this.testTree.AccessibleName = resources.GetString("testTree.AccessibleName");
-			this.testTree.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("testTree.Anchor")));
-			this.testTree.AutoScroll = ((bool)(resources.GetObject("testTree.AutoScroll")));
-			this.testTree.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("testTree.AutoScrollMargin")));
-			this.testTree.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("testTree.AutoScrollMinSize")));
-			this.testTree.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("testTree.BackgroundImage")));
-			this.testTree.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("testTree.Dock")));
-			this.testTree.Enabled = ((bool)(resources.GetObject("testTree.Enabled")));
-			this.testTree.Font = ((System.Drawing.Font)(resources.GetObject("testTree.Font")));
-			this.testTree.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("testTree.ImeMode")));
-			this.testTree.Location = ((System.Drawing.Point)(resources.GetObject("testTree.Location")));
+			this.testTree.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.testTree.Location = new System.Drawing.Point(0, 0);
 			this.testTree.Name = "testTree";
-			this.testTree.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("testTree.RightToLeft")));
 			this.testTree.ShowCheckBoxes = false;
-			this.testTree.Size = ((System.Drawing.Size)(resources.GetObject("testTree.Size")));
-			this.testTree.TabIndex = ((int)(resources.GetObject("testTree.TabIndex")));
-			this.toolTip.SetToolTip(this.testTree, resources.GetString("testTree.ToolTip"));
-			this.testTree.Visible = ((bool)(resources.GetObject("testTree.Visible")));
+			this.testTree.Size = new System.Drawing.Size(240, 425);
+			this.testTree.TabIndex = 0;
 			this.testTree.SelectedTestsChanged += new NUnit.UiKit.SelectedTestsChangedEventHandler(this.testTree_SelectedTestsChanged);
 			// 
 			// leftPanel
 			// 
-			this.leftPanel.AccessibleDescription = resources.GetString("leftPanel.AccessibleDescription");
-			this.leftPanel.AccessibleName = resources.GetString("leftPanel.AccessibleName");
-			this.leftPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("leftPanel.Anchor")));
-			this.leftPanel.AutoScroll = ((bool)(resources.GetObject("leftPanel.AutoScroll")));
-			this.leftPanel.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("leftPanel.AutoScrollMargin")));
-			this.leftPanel.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("leftPanel.AutoScrollMinSize")));
-			this.leftPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("leftPanel.BackgroundImage")));
 			this.leftPanel.Controls.Add(this.testTree);
-			this.leftPanel.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("leftPanel.Dock")));
-			this.leftPanel.Enabled = ((bool)(resources.GetObject("leftPanel.Enabled")));
-			this.leftPanel.Font = ((System.Drawing.Font)(resources.GetObject("leftPanel.Font")));
-			this.leftPanel.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("leftPanel.ImeMode")));
-			this.leftPanel.Location = ((System.Drawing.Point)(resources.GetObject("leftPanel.Location")));
+			this.leftPanel.Dock = System.Windows.Forms.DockStyle.Left;
+			this.leftPanel.Location = new System.Drawing.Point(0, 0);
 			this.leftPanel.Name = "leftPanel";
-			this.leftPanel.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("leftPanel.RightToLeft")));
-			this.leftPanel.Size = ((System.Drawing.Size)(resources.GetObject("leftPanel.Size")));
-			this.leftPanel.TabIndex = ((int)(resources.GetObject("leftPanel.TabIndex")));
-			this.leftPanel.Text = resources.GetString("leftPanel.Text");
-			this.toolTip.SetToolTip(this.leftPanel, resources.GetString("leftPanel.ToolTip"));
-			this.leftPanel.Visible = ((bool)(resources.GetObject("leftPanel.Visible")));
+			this.leftPanel.Size = new System.Drawing.Size(240, 425);
+			this.leftPanel.TabIndex = 4;
 			// 
 			// NUnitForm
 			// 
-			this.AccessibleDescription = resources.GetString("$this.AccessibleDescription");
-			this.AccessibleName = resources.GetString("$this.AccessibleName");
-			this.AutoScaleBaseSize = ((System.Drawing.Size)(resources.GetObject("$this.AutoScaleBaseSize")));
-			this.AutoScroll = ((bool)(resources.GetObject("$this.AutoScroll")));
-			this.AutoScrollMargin = ((System.Drawing.Size)(resources.GetObject("$this.AutoScrollMargin")));
-			this.AutoScrollMinSize = ((System.Drawing.Size)(resources.GetObject("$this.AutoScrollMinSize")));
-			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-			this.ClientSize = ((System.Drawing.Size)(resources.GetObject("$this.ClientSize")));
+			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
+			this.ClientSize = new System.Drawing.Size(744, 462);
 			this.Controls.Add(this.rightPanel);
 			this.Controls.Add(this.treeSplitter);
 			this.Controls.Add(this.leftPanel);
 			this.Controls.Add(this.statusBar);
-			this.Enabled = ((bool)(resources.GetObject("$this.Enabled")));
-			this.Font = ((System.Drawing.Font)(resources.GetObject("$this.Font")));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("$this.ImeMode")));
-			this.Location = ((System.Drawing.Point)(resources.GetObject("$this.Location")));
-			this.MaximumSize = ((System.Drawing.Size)(resources.GetObject("$this.MaximumSize")));
+			this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.Menu = this.mainMenu;
-			this.MinimumSize = ((System.Drawing.Size)(resources.GetObject("$this.MinimumSize")));
+			this.MinimumSize = new System.Drawing.Size(160, 32);
 			this.Name = "NUnitForm";
-			this.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("$this.RightToLeft")));
-			this.StartPosition = ((System.Windows.Forms.FormStartPosition)(resources.GetObject("$this.StartPosition")));
-			this.Text = resources.GetString("$this.Text");
-			this.toolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+			this.Text = "NUnit";
 			this.Closing += new System.ComponentModel.CancelEventHandler(this.NUnitForm_Closing);
 			this.Load += new System.EventHandler(this.NUnitForm_Load);
 			this.rightPanel.ResumeLayout(false);
@@ -1148,7 +791,7 @@ namespace NUnit.Gui
 			get
 			{ 
 				if ( _testLoader == null )
-					_testLoader = (TestLoader)GetService( typeof( TestLoader ) );
+					_testLoader = NUnit.Util.Services.TestLoader;
 				return _testLoader;
 			}
 		}
@@ -1501,6 +1144,8 @@ namespace NUnit.Gui
 				dialog.Font = this.Font;
 				dialog.ShowDialog();
 
+				// We need to tell the results tab about this because we
+				// don't yet have an options changed event.
 				resultTabs.OnOptionsChanged();	
 			}
 		}
@@ -1708,10 +1353,6 @@ namespace NUnit.Gui
 
 			// Handle changes in splitter positions
 			this.treeSplitter.SplitterMoved += new SplitterEventHandler( treeSplitter_SplitterMoved );
-
-			// Turn stacktrace tooltips on or off
-			this.resultTabs.AutoExpand = userSettings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
-			this.resultTabs.WordWrap = userSettings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
 
 			// Update tab menu items and display those that are used
 			resultTabs.LoadSettingsAndUpdateTabPages();
@@ -1946,7 +1587,6 @@ namespace NUnit.Gui
 		private void OnTestLoaded( object sender, TestEventArgs e )
 		{
 			EnableRunCommand( true );
-			ClearTabs();
 			
 			if ( TestLoader.TestCount == 0 )
 			{
@@ -1965,8 +1605,6 @@ namespace NUnit.Gui
 		{
 			suiteName.Text = null;
 			EnableRunCommand( false );
-
-			ClearTabs();
 		}
 
 		/// <summary>
@@ -2018,8 +1656,6 @@ the version under which NUnit is currently running, {0}.",
 			suiteName.Text = e.Name;
 			EnableRunCommand( false );
 			EnableStopCommand( true );
-
-			ClearTabs();
 		}
 
 		private void OnRunFinished( object sender, TestEventArgs e )
@@ -2061,20 +1697,14 @@ the version under which NUnit is currently running, {0}.",
                     "The exception handler threw " + ex.GetType().FullName));
 			}
 
+			// We pass this result into the ResultTabs rather than letting it handle
+			// the event, since we wouldn't otherwise have access to the current test name.
             resultTabs.InsertTestResultItem(result);
         }
 
 		#endregion
 
 		#region Helper methods for modifying the UI display
-
-		/// <summary>
-		/// Clear info out of our four tabs and stack trace
-		/// </summary>
-		private void ClearTabs()
-		{
-			resultTabs.Clear();
-		}
 
 		/// <summary>
 		/// Set the title bar based on the loaded file or project
