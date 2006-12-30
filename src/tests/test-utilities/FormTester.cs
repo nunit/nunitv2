@@ -6,47 +6,51 @@ using NUnit.Framework;
 namespace NUnit.TestUtilities
 {
 	/// <summary>
-	/// Test fixtures inherit from this class in order to test
-	/// Windows forms. 
+	/// TestFixtures that test Forms inherit from this class.
 	/// </summary>
-	public class FormTester
+	public class FormTester : ControlTester
+	{
+		public Form Form
+		{
+			get { return Control as Form; }
+			set { Control = value; }
+		}
+	}
+
+	/// <summary>
+	/// TestFixtures that test Controls inherit from this class.
+	/// </summary>
+	public class ControlTester
 	{
 		// TODO: Rewrite using generics when we move to .NET 2.0
 
-		// The form we are testing
-		private Form form;
+		// The control we are testing
+		private Control control;
 
-		// Various ways of looking at the form's controls
+		// Various ways of looking at this control's controls
 		private ControlCollection controls;
 		private ButtonCollection buttons;
 		private LabelCollection labels;
 		private TextBoxCollection textboxes;
 		private ComboBoxCollection combos;
 
-		#region Constructor
-		/// <summary>
-		/// Default Constructor
-		/// </summary>
-		public FormTester() { }
-		#endregion
-
 		#region Properties
 		/// <summary>
-		/// Get and set the form to be tested
+		/// Get and set the control to be tested
 		/// </summary>
-		public Form Form
+		public Control Control
 		{
-			get { return form; }
+			get { return control; }
 			set
 			{ 
-				form = value;
+				control = value;
 				InitCollections();
 			}
 		}
 
 		private void InitCollections()
 		{
-			controls = new ControlCollection( form.Controls );
+			controls = new ControlCollection( control.Controls );
 			
 			// These will be initialized as needed
 			buttons = null;
@@ -56,7 +60,7 @@ namespace NUnit.TestUtilities
 		}
 
 		/// <summary>
-		/// Get our collection of all the controls on the form.
+		/// Get our collection of all the controls on this control.
 		/// </summary>
 		public ControlCollection Controls
 		{
@@ -64,42 +68,42 @@ namespace NUnit.TestUtilities
 		}
 
 		/// <summary>
-		/// Get our collection of all the buttons on the form.
+		/// Get our collection of all the buttons on this control.
 		/// </summary>
 		public ButtonCollection Buttons
 		{
 			get 
 			{ 
 				if ( buttons == null )
-					buttons = new ButtonCollection( form.Controls );
+					buttons = new ButtonCollection( control.Controls );
 
 				return buttons;
 			}
 		}
 
 		/// <summary>
-		/// Get our collection of all the labels on the form.
+		/// Get our collection of all the labels on this control.
 		/// </summary>
 		public LabelCollection Labels
 		{
 			get 
 			{
 				if (labels == null )
-					labels = new LabelCollection( form.Controls );
+					labels = new LabelCollection( control.Controls );
 
 				return labels;
 			}
 		}
 
 		/// <summary>
-		/// Get our collection of all the TextBoxes on the form.
+		/// Get our collection of all the TextBoxes on this control.
 		/// </summary>
 		public TextBoxCollection TextBoxes
 		{
 			get 
 			{
 				if ( textboxes == null )
-					textboxes = new TextBoxCollection( form.Controls );
+					textboxes = new TextBoxCollection( control.Controls );
 
 				return textboxes;
 			}
@@ -113,7 +117,7 @@ namespace NUnit.TestUtilities
 			get
 			{
 				if ( combos == null )
-					combos = new ComboBoxCollection( form.Controls );
+					combos = new ComboBoxCollection( control.Controls );
 
 				return combos;
 			}
@@ -122,7 +126,7 @@ namespace NUnit.TestUtilities
 
 		#region Assertions
 		/// <summary>
-		/// Assert that a control with a given name exists on the form.
+		/// Assert that a control with a given name exists on this control.
 		/// </summary>
 		/// <param name="name">The name of the control.</param>
 		public void AssertControlExists( string name )
@@ -134,14 +138,14 @@ namespace NUnit.TestUtilities
 		{
 			bool gotName = false;
 			System.Type gotType = null;
-			foreach( Control control in form.Controls ) 
+			foreach( Control ctl in control.Controls ) 
 			{
-				if ( control.Name == name )
+				if ( ctl.Name == name )
 				{
 					gotName = true;
 					if ( type == null )
 						return;
-					gotType = control.GetType();
+					gotType = ctl.GetType();
 					if ( type.IsAssignableFrom( gotType ) )
 						return;
 				}
@@ -150,7 +154,7 @@ namespace NUnit.TestUtilities
 			if ( gotName )
 				Assert.Fail( "Expected control {0} to be a {1} but was {2}", name, type.Name, gotType.Name );
 			else
-				Assert.Fail( "Form {0} does not contain {1} control", form.Name, name );
+				Assert.Fail( "Form {0} does not contain {1} control", control.Name, name );
 		}
 
 		public void AssertControlsAreStackedVertically( params string[] names )
