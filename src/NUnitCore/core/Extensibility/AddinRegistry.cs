@@ -7,7 +7,7 @@ namespace NUnit.Core.Extensibility
 	/// <summary>
 	/// Summary description for AddinRegistry.
 	/// </summary>
-	public class AddinRegistry : MarshalByRefObject, IAddinRegistry
+	public class AddinRegistry : MarshalByRefObject, IAddinRegistry, IService
     {
         #region Instance Fields
         private ArrayList addins = new ArrayList();

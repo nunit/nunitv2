@@ -77,7 +77,6 @@
     <Compile Include="EventQueue.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensibility\AddinRegistry.cs" />
     <Compile Include="Extensibility\EventListenerCollection.cs" />
     <Compile Include="Extensibility\FrameworkRegistry.cs" />
     <Compile Include="Extensibility\SuiteBuilderCollection.cs" />

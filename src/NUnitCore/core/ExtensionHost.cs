@@ -48,19 +48,5 @@ namespace NUnit.Core
 			get { return supportedTypes; }
 		}
 		#endregion
-
-		#region IService Members
-
-		public void UnloadService()
-		{
-			// TODO:  Add ExtensionHost.UnloadService implementation
-		}
-
-		public void InitializeService()
-		{
-			// TODO:  Add ExtensionHost.InitializeService implementation
-		}
-
-		#endregion
 	}
 }

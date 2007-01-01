@@ -38,6 +38,7 @@ using System.Windows.Forms;
 using NUnit.UiKit;
 using NUnit.Util;
 using NUnit.Core;
+using NUnit.Core.Extensibility;
 
 namespace NUnit.Gui
 {
@@ -102,6 +103,7 @@ namespace NUnit.Gui
 				ServiceManager.Services.AddService( new DomainManager() );
 				ServiceManager.Services.AddService( new RecentFilesService() );
 				ServiceManager.Services.AddService( new TestLoader( new GuiTestEventDispatcher() ) );
+				ServiceManager.Services.AddService( new AddinRegistry() );
 				ServiceManager.Services.AddService( new AddinManager() );
 
 				// Initialize Services

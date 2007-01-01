@@ -151,7 +151,7 @@ namespace NUnit.Gui
 
 		private void AddinDialog_Load(object sender, System.EventArgs e)
 		{
-			this.addins = Services.AddinRegistry.Addins;
+			this.addins = NUnit.Util.Services.AddinRegistry.Addins;
 
 			foreach( Addin addin in addins )
 			{

@@ -23,6 +23,20 @@ namespace NUnit.Util
 		}
 		#endregion
 
+		#region AddinRegistry
+		private static IAddinRegistry addinRegistry;
+		public static IAddinRegistry AddinRegistry
+		{
+			get 
+			{
+				if (addinRegistry == null)
+					addinRegistry = (IAddinRegistry)ServiceManager.Services.GetService( typeof( IAddinRegistry ) );
+                
+				return addinRegistry;
+			}
+		}
+		#endregion
+
 		#region DomainManager
 		private static DomainManager domainManager;
 		public static DomainManager DomainManager

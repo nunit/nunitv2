@@ -77,6 +77,18 @@ namespace NUnit.ConsoleRunner
 				return 2;
 			}
 
+
+			// Add Standard Services to ServiceManager
+			ServiceManager.Services.AddService( new SettingsService() );
+			ServiceManager.Services.AddService( new DomainManager() );
+			//ServiceManager.Services.AddService( new RecentFilesService() );
+			//ServiceManager.Services.AddService( new TestLoader() );
+			ServiceManager.Services.AddService( new AddinRegistry() );
+			ServiceManager.Services.AddService( new AddinManager() );
+
+			// Initialize Services
+			ServiceManager.Services.InitializeServices();
+
 			try
 			{
 				ConsoleUi consoleUi = new ConsoleUi();

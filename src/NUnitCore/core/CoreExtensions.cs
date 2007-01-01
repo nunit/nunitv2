@@ -42,7 +42,7 @@ namespace NUnit.Core
 	/// It also provides access to the test builders and decorators
 	/// by other parts of the NUnit core.
 	/// </summary>
-	public class CoreExtensions : ExtensionHost
+	public class CoreExtensions : ExtensionHost, IService
 	{
 		#region Instance Fields
 		private SuiteBuilderCollection suiteBuilders;
@@ -103,17 +103,20 @@ namespace NUnit.Core
 
 		public void InstallAddins()
 		{
-			IAddinRegistry addinRegistry = Services.AddinRegistry;
+			IAddinRegistry addinRegistry = GetAddinRegistry();
 
-			foreach (Addin addin in addinRegistry.Addins)
+			if( addinRegistry != null )
 			{
-				if ((this.ExtensionTypes & addin.ExtensionType) != 0)
+				foreach (Addin addin in addinRegistry.Addins)
 				{
-					Type type = Type.GetType(addin.TypeName);
-					if ( type != null && InstallAddin( type ) )
-						addinRegistry.SetStatus( addin.Name, AddinStatus.Loaded );
-					else
-						addinRegistry.SetStatus( addin.Name, AddinStatus.Error );
+					if ((this.ExtensionTypes & addin.ExtensionType) != 0)
+					{
+						Type type = Type.GetType(addin.TypeName);
+						if ( type != null && InstallAddin( type ) )
+							addinRegistry.SetStatus( addin.Name, AddinStatus.Loaded );
+						else
+							addinRegistry.SetStatus( addin.Name, AddinStatus.Error );
+					}
 				}
 			}
 		}
@@ -133,6 +136,12 @@ namespace NUnit.Core
 			IAddin theAddin = (IAddin)ctor.Invoke(new object[0]);
 
 			return theAddin.Install(this);
+		}
+
+		private IAddinRegistry GetAddinRegistry()
+		{
+			object regObject = AppDomain.CurrentDomain.GetData( "AddinRegistry" ) as IAddinRegistry;
+			return regObject as IAddinRegistry;
 		}
 		#endregion
 
@@ -156,6 +165,21 @@ namespace NUnit.Core
 		{
 			listeners.Install( listener );
 		}
+		#endregion
+
+		#region IService Members
+
+		public void UnloadService()
+		{
+			// TODO:  Add CoreExtensions.UnloadService implementation
+		}
+
+		public void InitializeService()
+		{
+			InstallBuiltins();
+			InstallAddins();
+		}
+
 		#endregion
 	}
 }
