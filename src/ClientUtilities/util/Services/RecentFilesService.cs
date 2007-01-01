@@ -7,11 +7,6 @@ namespace NUnit.Util
 	/// </summary>
 	public class RecentFilesService : RecentFiles, NUnit.Core.IService
 	{
-		// TODO: This class does more loading and
-		// storing than it should but this is the
-		// current simplest solution to having
-		// multiple recentfiles objects around.
-		// We can fix this by using a singleton.
 		private RecentFilesCollection fileEntries = new RecentFilesCollection();
 
 		private ISettings settings;
