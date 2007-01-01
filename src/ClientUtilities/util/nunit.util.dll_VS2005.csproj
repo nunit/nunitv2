@@ -124,6 +124,7 @@
     <Compile Include="Services\AddinRegistry.cs" />
     <Compile Include="Services\DomainManager.cs" />
     <Compile Include="Services\RecentFilesService.cs" />
+    <Compile Include="Services\ServiceManager.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="SettingsGroup.cs">
       <SubType>Code</SubType>

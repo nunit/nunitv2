@@ -46,7 +46,7 @@ namespace NUnit.UiKit
 			// This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
 
-			settings = NUnit.Util.Services.UserSettings;
+			settings = Services.UserSettings;
 
 			this.tabsMenu = new MenuItem();
 			this.errorsTabMenuItem = new System.Windows.Forms.MenuItem();

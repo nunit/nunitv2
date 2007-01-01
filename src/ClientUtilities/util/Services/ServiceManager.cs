@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
+using NUnit.Core;
 
-namespace NUnit.Core
+namespace NUnit.Util
 {
 	/// <summary>
 	/// Summary description for ServiceManger.

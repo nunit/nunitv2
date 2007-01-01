@@ -125,7 +125,6 @@
     <Compile Include="RemoteTestRunner.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Services\ServiceManager.cs" />
     <Compile Include="SetUpFixture.cs">
       <SubType>Code</SubType>
     </Compile>

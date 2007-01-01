@@ -202,7 +202,7 @@ namespace NUnit.UiKit
 
 			if ( !this.DesignMode )
 				this.ShowCheckBoxes = 
-					NUnit.Util.Services.UserSettings.GetSetting( "Options.ShowCheckBoxes", false );
+					Services.UserSettings.GetSetting( "Options.ShowCheckBoxes", false );
 		}
 
 		public void Initialize(TestLoader loader) 

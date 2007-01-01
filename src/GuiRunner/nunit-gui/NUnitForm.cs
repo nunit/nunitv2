@@ -163,8 +163,8 @@ namespace NUnit.Gui
 			InitializeComponent();
 
 			this.commandLineOptions = commandLineOptions;
-			this.recentFilesService = NUnit.Util.Services.RecentFiles;
-			this.userSettings = NUnit.Util.Services.UserSettings;
+			this.recentFilesService = Services.RecentFiles;
+			this.userSettings = Services.UserSettings;
 		}
 
 		protected override void Dispose( bool disposing )
@@ -791,7 +791,7 @@ namespace NUnit.Gui
 			get
 			{ 
 				if ( _testLoader == null )
-					_testLoader = NUnit.Util.Services.TestLoader;
+					_testLoader = Services.TestLoader;
 				return _testLoader;
 			}
 		}
@@ -815,17 +815,6 @@ namespace NUnit.Gui
 		{
 			get { return TestLoader.Running; }
 		}
-
-//		private ISettings _userSettings;
-//		private ISettings UserSettings
-//		{
-//			get
-//			{
-//				if ( _userSettings == null )
-//					_userSettings = NUnit.Util.Services.UserSettings;
-//				return _userSettings;
-//			}
-//		}
 		#endregion
 
 		#region File Menu Handlers

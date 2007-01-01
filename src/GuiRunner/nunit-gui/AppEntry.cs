@@ -123,7 +123,7 @@ namespace NUnit.Gui
 				}
 				finally
 				{
-					NUnit.Core.ServiceManager.Services.StopAllServices();
+					ServiceManager.Services.StopAllServices();
 				}
 			}
 			else

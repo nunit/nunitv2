@@ -37,7 +37,7 @@ namespace NUnit.UiKit
 
 			if ( !this.DesignMode )
 			{
-				settings = NUnit.Util.Services.UserSettings;
+				settings = Services.UserSettings;
 
 				int splitPosition = settings.GetSetting( "Gui.ResultTabs.ErrorsTabSplitterPosition", tabSplitter.SplitPosition );
 				if ( splitPosition >= tabSplitter.MinSize && splitPosition < this.ClientSize.Height )

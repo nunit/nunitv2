@@ -152,7 +152,7 @@ namespace NUnit.UiKit
 
 			if ( !this.DesignMode )
 				this.clearResultsOnChange = 
-					NUnit.Util.Services.UserSettings.GetSetting( "Options.TestLoader.ClearResultsOnReload", false );
+					Services.UserSettings.GetSetting( "Options.TestLoader.ClearResultsOnReload", false );
 		}
 
 		private void InitializeComponent()
@@ -623,7 +623,7 @@ namespace NUnit.UiKit
 			if ( fileNames.Length == 1 )
 			{
 				string fileName = fileNames[0];
-				bool isProject = NUnit.Util.Services.UserSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false ) 
+				bool isProject = Services.UserSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false ) 
 					? NUnitProject.CanLoadAsProject( fileName )
 					: NUnitProject.IsProjectFile( fileName );
 
@@ -1189,7 +1189,7 @@ namespace NUnit.UiKit
 		private DisplayStyle GetDisplayStyle()
 		{
 			DisplayStyle initialDisplay = (TestSuiteTreeView.DisplayStyle)
-				NUnit.Util.Services.UserSettings.GetSetting( "Gui.TestTree.InitialTreeDisplay", DisplayStyle.Auto );
+				Services.UserSettings.GetSetting( "Gui.TestTree.InitialTreeDisplay", DisplayStyle.Auto );
 
 			if ( initialDisplay != DisplayStyle.Auto )
 				return initialDisplay;
