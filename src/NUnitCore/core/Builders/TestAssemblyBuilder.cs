@@ -71,7 +71,7 @@ namespace NUnit.Core.Builders
 					string path = new Uri( assembly.GetName().CodeBase ).LocalPath;
 					AssemblyReader rdr = new AssemblyReader( path );
 					Version runtimeVersion = new Version( rdr.ImageRuntimeVersion.Substring( 1 ) );
-					IList frameworks = Services.CoreExtensions.TestFrameworks.GetReferencedFrameworks( assembly );
+					IList frameworks = CoreExtensions.Host.TestFrameworks.GetReferencedFrameworks( assembly );
 					assemblyInfo = new TestAssemblyInfo( path, runtimeVersion, frameworks );
 				}
 
@@ -171,7 +171,7 @@ namespace NUnit.Core.Builders
                 Assembly assembly = Assembly.Load(Path.GetFileNameWithoutExtension(path));
 				
                 if ( assembly != null )
-                    Services.CoreExtensions.InstallAdhocExtensions( assembly );
+                    CoreExtensions.Host.InstallAdhocExtensions( assembly );
 
 				return assembly;
 			}

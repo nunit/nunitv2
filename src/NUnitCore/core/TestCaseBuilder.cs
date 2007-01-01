@@ -44,10 +44,10 @@ namespace NUnit.Core
 		/// <returns>A test case or null</returns>
 		public static Test BuildFrom( MethodInfo method )
 		{
-			Test test = Services.CoreExtensions.TestBuilders.BuildFrom( method );
+			Test test = CoreExtensions.Host.TestBuilders.BuildFrom( method );
 
 			if ( test != null )
-				test = Services.CoreExtensions.TestDecorators.Decorate( test, method );
+				test = CoreExtensions.Host.TestDecorators.Decorate( test, method );
 
 			return test;
 		}

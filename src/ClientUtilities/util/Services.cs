@@ -7,7 +7,7 @@ namespace NUnit.Util
 	/// <summary>
 	/// Summary description for Services
 	/// </summary>
-	public class Services : NUnit.Core.Services
+	public class Services
 	{
 		#region AddinManager
 		private static AddinManager addinManager;

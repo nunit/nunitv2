@@ -40,7 +40,7 @@ namespace NUnit.Core
 	{
 		public static bool CanBuildFrom( Type type )
 		{
-			return Services.CoreExtensions.SuiteBuilders.CanBuildFrom( type );
+			return CoreExtensions.Host.SuiteBuilders.CanBuildFrom( type );
 		}
 
 		/// <summary>
@@ -50,10 +50,10 @@ namespace NUnit.Core
 		/// <returns>A TestSuite if the fixture can be built, null if not</returns>
 		public static Test BuildFrom( Type type )
 		{
-			Test suite = Services.CoreExtensions.SuiteBuilders.BuildFrom( type );
+			Test suite = CoreExtensions.Host.SuiteBuilders.BuildFrom( type );
 
 			if ( suite != null )
-				suite = Services.CoreExtensions.TestDecorators.Decorate( suite, type );
+				suite = CoreExtensions.Host.TestDecorators.Decorate( suite, type );
 
 			return suite;
 		}

@@ -51,6 +51,24 @@ namespace NUnit.Core
 		private EventListenerCollection listeners;
 		#endregion
 
+		#region CoreExtensions Singleton
+		private static CoreExtensions host;
+		public static CoreExtensions Host
+		{
+			get
+			{
+				if (host == null)
+				{
+					host = new CoreExtensions();
+					host.InstallBuiltins();
+					host.InstallAddins();
+				}
+
+				return host;
+			}
+		}
+		#endregion
+
 		#region Constructors
 		public CoreExtensions() 
 		{

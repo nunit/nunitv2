@@ -239,11 +239,6 @@
                     BuildAction = "None"
                 />
                 <File
-                    RelPath = "Services.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "SetUpFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

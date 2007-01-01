@@ -72,7 +72,7 @@ namespace NUnit.Core.Builders
         /// <param name="type"></param>
         protected override void InstallTestCaseBuilders(Type type)
         {
-			Services.CoreExtensions.TestBuilders.Install( new NUnitTestCaseBuilder() );
+			CoreExtensions.Host.TestBuilders.Install( new NUnitTestCaseBuilder() );
         }
 
         /// <summary>
