@@ -17,16 +17,16 @@ namespace NUnit.Util
 
 		public SettingsService()
 		{
-#if UseRegistry
-			this.storage = new RegistrySettingsStorage( NUnitRegistry.CurrentUser );
-#else
-			this.storage = new XmlSettingsStorage( applicationDirectory + settingsFileName );
+			string settingsFile = System.Configuration.ConfigurationSettings.AppSettings["settingsFile"];
+			if ( settingsFile == null )
+				settingsFile = applicationDirectory + settingsFileName;
 
-			if ( File.Exists( applicationDirectory + settingsFileName ) )
+			this.storage = new XmlSettingsStorage( settingsFile );
+
+			if ( File.Exists( settingsFile ) )
 				storage.LoadSettings();
 			else
 				ConvertLegacySettings();
-#endif
 		}
 
 		#region IService Implementation
