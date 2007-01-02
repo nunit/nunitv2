@@ -202,11 +202,6 @@
                     DependentUpon = "ProjectEditor.cs"
                     BuildAction = "EmbeddedResource"
                 />
-                <File
-                    RelPath = "UserSettings.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
             </Include>
         </Files>
     </CSHARP>

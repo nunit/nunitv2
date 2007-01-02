@@ -387,7 +387,6 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
-                <Folder RelPath = "Services\" />
             </Include>
         </Files>
     </CSHARP>
