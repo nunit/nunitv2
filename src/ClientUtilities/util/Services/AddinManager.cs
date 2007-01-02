@@ -78,7 +78,15 @@ namespace NUnit.Util
 				assemblyName.Name = Path.GetFileNameWithoutExtension(path);
 				assemblyName.CodeBase = path;
 				Assembly assembly = Assembly.Load(assemblyName);
-				Register( assembly );
+
+				foreach ( Type type in assembly.GetExportedTypes() )
+				{
+					if ( type.GetCustomAttributes(typeof(NUnitAddinAttribute), false).Length == 1 )
+					{
+						Addin addin = new Addin( type );
+						addinRegistry.Register( addin );
+					}
+				}
 			}
 			catch( Exception ex )
 			{
@@ -90,42 +98,8 @@ namespace NUnit.Util
 				//throw new ApplicationException( "Extension not loaded: " + path );
 			}
 		}
-
-		public void Register( Assembly assembly )
-		{
-			foreach ( Type type in assembly.GetExportedTypes() )
-			{
-				if ( type.GetCustomAttributes(typeof(NUnitAddinAttribute), false).Length == 1 )
-				{
-					Addin addin = new Addin( type );
-					addinRegistry.Register( addin );
-				}
-			}
-		}
 		#endregion
 
-        #region Addin Installation
-        public void InstallAddins(IExtensionHost host)
-        {
-            foreach (Addin addin in addinRegistry.Addins)
-            {
-                if ((host.ExtensionTypes & addin.ExtensionType) != 0)
-                {
-                    Type type = Type.GetType(addin.TypeName);
-					if ( type != null )
-					{
-						ConstructorInfo ctor = type.GetConstructor(Type.EmptyTypes);
-						IAddin theAddin = (IAddin)ctor.Invoke(new object[0]);
-
-						if ( theAddin.Install(host) )
-							addinRegistry.SetStatus( addin.Name, AddinStatus.Loaded );
-					}
-					else
-						addinRegistry.SetStatus( addin.Name, AddinStatus.Error );
-                }
-            }
-        }
-        #endregion
 
 		#region IService Members
 

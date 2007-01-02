@@ -11,8 +11,6 @@ namespace NUnit.Core.Extensibility
 
 		void Register( Addin addin );
 
-        void Register(System.Reflection.Assembly assembly);
-
 		void SetStatus( string name, AddinStatus status );
 	}
 }

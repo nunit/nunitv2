@@ -17,27 +17,10 @@ namespace NUnit.Util
 
 		#region IAddinRegistry Members
 
-        //public void Register(Type type)
-        //{
-        //    addins.Add( new Addin( type ) );
-        //}
-
 		public void Register(Addin addin)
 		{
 			addins.Add( addin );
 		}
-
-        public void Register(Assembly assembly)
-        {
-            foreach (Type type in assembly.GetExportedTypes())
-            {
-                if (type.GetCustomAttributes(typeof(NUnitAddinAttribute), false).Length == 1)
-                {
-                    Addin addin = new Addin(type);
-                    Register(addin);
-                }
-            }
-        }
 
 		public  IList Addins
 		{
