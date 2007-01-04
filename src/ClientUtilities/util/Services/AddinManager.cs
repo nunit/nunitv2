@@ -90,16 +90,13 @@ namespace NUnit.Util
 			}
 			catch( Exception ex )
 			{
-				// HACK: Where should this be logged? 
-				// Don't pollute the trace listeners.
-				TraceListener listener = new DefaultTraceListener();
-				listener.WriteLine( "Extension not loaded: " + path  );
-				listener.WriteLine( ex.ToString() );
-				//throw new ApplicationException( "Extension not loaded: " + path );
+				// NOTE: Since the gui isn't loaded at this point, 
+				// the trace output will only show up in Visual Studio
+				Trace.WriteLine( "Extension not loaded: " + path  );
+				Trace.WriteLine( ex.ToString() );
 			}
 		}
 		#endregion
-
 
 		#region IService Members
 
