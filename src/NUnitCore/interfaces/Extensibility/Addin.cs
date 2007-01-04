@@ -9,12 +9,16 @@ namespace NUnit.Core.Extensibility
 	[Serializable]
 	public class Addin
 	{
+		#region Private Fields
 		private string typeName;
 		private string name;
 		private string description;
 		private ExtensionType extensionType;
 		private AddinStatus status;
+		private string message;
+		#endregion
 
+		#region Constructor
 		public Addin( Type type )
 		{
 			this.typeName = type.AssemblyQualifiedName;
@@ -36,31 +40,62 @@ namespace NUnit.Core.Extensibility
 
 			this.status = AddinStatus.Enabled;
         }
+		#endregion
 
+		#region Properties
+		/// <summary>
+		/// The name of the Addin
+		/// </summary>
 		public string Name
 		{
 			get { return name; }
 		}
 
+		/// <summary>
+		/// Brief description of what the Addin does
+		/// </summary>
 		public string Description
 		{
 			get { return description; }
 		}
 
+		/// <summary>
+		/// The type or types of extension provided, using 
+		/// one or more members of the ExtensionType enumeration.
+		/// </summary>
 		public ExtensionType ExtensionType
 		{
 			get { return extensionType; }
 		}
 
+		/// <summary>
+		/// The AssemblyQualifiedName of the type that implements
+		/// the addin.
+		/// </summary>
 		public string TypeName
 		{
 			get { return typeName; }
 		}
 
+		/// <summary>
+		/// The status of the addin
+		/// </summary>
 		public AddinStatus Status
 		{
 			get { return status; }
 			set { status = value; }
 		}
+
+		/// <summary>
+		/// Any message that clarifies the status of the Addin,
+		/// such as an error message or an explanation of why
+		/// the addin is disabled.
+		/// </summary>
+		public string Message
+		{
+			get { return message; }
+			set { message = value; }
+		}
+		#endregion
 	}
 }
