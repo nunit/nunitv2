@@ -227,7 +227,7 @@ namespace NUnit.Util.Tests
 			testDomain.Load( package );
 			Assert.IsFalse( testDomain.AppDomain.ShadowCopyFiles );
 					
-//			// Prove that shadow copy is really off
+			// Prove that shadow copy is really off
 //			string location = "NOT_FOUND";
 //			foreach( Assembly assembly in testDomain.AppDomain.GetAssemblies() )
 //			{
@@ -238,8 +238,7 @@ namespace NUnit.Util.Tests
 //				}
 //			}
 //		
-//			//TODO: Find a non-platform-dependent way to do this
-//			Assert.AreEqual( Environment.CurrentDirectory.ToLower(), location.ToLower() );
+//			StringAssert.StartsWith( AppDomain.CurrentDomain.BaseDirectory.ToLower(), location.ToLower() );
 		}
 	}
 }

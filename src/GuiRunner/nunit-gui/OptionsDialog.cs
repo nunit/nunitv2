@@ -88,6 +88,8 @@ namespace NUnit.Gui
 		private System.Windows.Forms.RadioButton separateTrace;
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.GroupBox groupBox9;
+		private System.Windows.Forms.CheckBox shadowCopyCheckBox;
 
 		private ISettings settings;
 
@@ -171,6 +173,8 @@ namespace NUnit.Gui
 			this.consoleErrrorCheckBox = new System.Windows.Forms.CheckBox();
 			this.mergeErrors = new System.Windows.Forms.RadioButton();
 			this.separateErrors = new System.Windows.Forms.RadioButton();
+			this.groupBox9 = new System.Windows.Forms.GroupBox();
+			this.shadowCopyCheckBox = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -185,6 +189,7 @@ namespace NUnit.Gui
 			this.groupBox3.SuspendLayout();
 			this.groupBox8.SuspendLayout();
 			this.panel1.SuspendLayout();
+			this.groupBox9.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// okButton
@@ -242,7 +247,7 @@ namespace NUnit.Gui
 			this.reloadOnChangeCheckBox.Location = new System.Drawing.Point(19, 55);
 			this.reloadOnChangeCheckBox.Name = "reloadOnChangeCheckBox";
 			this.helpProvider1.SetShowHelp(this.reloadOnChangeCheckBox, true);
-			this.reloadOnChangeCheckBox.Size = new System.Drawing.Size(256, 25);
+			this.reloadOnChangeCheckBox.Size = new System.Drawing.Size(245, 25);
 			this.reloadOnChangeCheckBox.TabIndex = 9;
 			this.reloadOnChangeCheckBox.Text = "Reload when test assembly changes";
 			this.reloadOnChangeCheckBox.CheckedChanged += new System.EventHandler(this.reloadOnChangeCheckBox_CheckedChanged);
@@ -281,7 +286,7 @@ namespace NUnit.Gui
 			this.reloadOnRunCheckBox.Location = new System.Drawing.Point(19, 28);
 			this.reloadOnRunCheckBox.Name = "reloadOnRunCheckBox";
 			this.helpProvider1.SetShowHelp(this.reloadOnRunCheckBox, true);
-			this.reloadOnRunCheckBox.Size = new System.Drawing.Size(264, 23);
+			this.reloadOnRunCheckBox.Size = new System.Drawing.Size(237, 23);
 			this.reloadOnRunCheckBox.TabIndex = 8;
 			this.reloadOnRunCheckBox.Text = "Reload before each test run";
 			// 
@@ -376,6 +381,7 @@ namespace NUnit.Gui
 			// 
 			// tabPage1
 			// 
+			this.tabPage1.Controls.Add(this.groupBox9);
 			this.tabPage1.Controls.Add(this.groupBox4);
 			this.tabPage1.Controls.Add(this.groupBox5);
 			this.tabPage1.Controls.Add(this.groupBox1);
@@ -715,6 +721,24 @@ namespace NUnit.Gui
 			this.separateErrors.TabStop = true;
 			this.separateErrors.Text = "In Separate Tab";
 			// 
+			// groupBox9
+			// 
+			this.groupBox9.Controls.Add(this.shadowCopyCheckBox);
+			this.groupBox9.Location = new System.Drawing.Point(8, 296);
+			this.groupBox9.Name = "groupBox9";
+			this.groupBox9.Size = new System.Drawing.Size(280, 48);
+			this.groupBox9.TabIndex = 15;
+			this.groupBox9.TabStop = false;
+			this.groupBox9.Text = "Shadow Copy";
+			// 
+			// shadowCopyCheckBox
+			// 
+			this.shadowCopyCheckBox.Location = new System.Drawing.Point(19, 18);
+			this.shadowCopyCheckBox.Name = "shadowCopyCheckBox";
+			this.shadowCopyCheckBox.Size = new System.Drawing.Size(240, 22);
+			this.shadowCopyCheckBox.TabIndex = 0;
+			this.shadowCopyCheckBox.Text = "Enable Shadow Copy";
+			// 
 			// OptionsDialog
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
@@ -748,6 +772,7 @@ namespace NUnit.Gui
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox8.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
+			this.groupBox9.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -763,6 +788,8 @@ namespace NUnit.Gui
 			initialDisplayComboBox.SelectedIndex = (int)(TestSuiteTreeView.DisplayStyle)settings.GetSetting( "Gui.TestTree.InitialTreeDisplay", TestSuiteTreeView.DisplayStyle.Auto );
 
 			visualStudioSupportCheckBox.Checked = settings.GetSetting( "Options.TestLoader.VisualStudioSupport", false );
+
+			shadowCopyCheckBox.Checked = settings.GetSetting( "Options.TestLoader.ShadowCopyFiles", true );
 
 			reloadOnChangeCheckBox.Enabled = Environment.OSVersion.Platform == System.PlatformID.Win32NT;
 			reloadOnChangeCheckBox.Checked = settings.GetSetting( "Options.TestLoader.ReloadOnChange", true );
@@ -824,6 +851,8 @@ namespace NUnit.Gui
 			settings.SaveSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", enableWordWrap.Checked );
 			
 			settings.SaveSetting( "Options.TestLoader.VisualStudioSupport", visualStudioSupportCheckBox.Checked );
+
+			settings.SaveSetting( "Options.TestLoader.ShadowCopyFiles", loader.ShadowCopyFiles = shadowCopyCheckBox.Checked );
 
 			settings.SaveSetting( "Gui.TestTree.InitialTreeDisplay", (TestSuiteTreeView.DisplayStyle)initialDisplayComboBox.SelectedIndex );
 

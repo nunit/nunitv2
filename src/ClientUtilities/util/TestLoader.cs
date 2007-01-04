@@ -76,6 +76,8 @@ namespace NUnit.Util
 		/// </summary>
 		private bool autoNamespaceSuites;
 
+		private bool shadowCopyFiles;
+
 		/// <summary>
 		/// Loads and executes tests. Non-null when
 		/// we have loaded a test.
@@ -154,6 +156,7 @@ namespace NUnit.Util
 			this.MultiDomain = settings.GetSetting( "Options.TestLoader.MultiDomain", false );
 			this.MergeAssemblies = settings.GetSetting( "Options.TestLoader.MergeAssemblies", false );
 			this.AutoNamespaceSuites = settings.GetSetting( "Options.TestLoader.AutoNamespaceSuites", true );
+			this.ShadowCopyFiles = settings.GetSetting( "Options.TestLoader.ShadowCopyFiles", true );
 
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler( OnUnhandledException );
 		}
@@ -236,6 +239,12 @@ namespace NUnit.Util
 		{
 			get { return autoNamespaceSuites; }
 			set { autoNamespaceSuites = value; }
+		}
+
+		public bool ShadowCopyFiles
+		{
+			get { return shadowCopyFiles; }
+			set { shadowCopyFiles = value; }
 		}
 
 		public IList AssemblyInfo
@@ -734,6 +743,7 @@ namespace NUnit.Util
 			package.TestName = testName;
 			package.Settings["MergeAssemblies"] = mergeAssemblies;
 			package.Settings["AutoNamespaceSuites"] = autoNamespaceSuites;
+			package.Settings["ShadowCopyFiles"] = shadowCopyFiles;
 			return package;
 		}
 		#endregion
