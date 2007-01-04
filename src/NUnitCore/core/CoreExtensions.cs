@@ -105,9 +105,10 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region Methods	
+		#region Public Methods	
 		public void InstallBuiltins()
 		{
+			Trace.WriteLine( "Installing Builtins" );
 			// Define NUnit Framework
 			FrameworkRegistry.Register( "NUnit", "nunit.framework" );
 
@@ -121,19 +122,30 @@ namespace NUnit.Core
 
 		public void InstallAddins()
 		{
+			Trace.WriteLine( "Installing Addins" );
+
 			IAddinRegistry addinRegistry = GetAddinRegistry();
 
 			if( addinRegistry != null )
 			{
 				foreach (Addin addin in addinRegistry.Addins)
 				{
-					if ((this.ExtensionTypes & addin.ExtensionType) != 0)
+					if ( (this.ExtensionTypes & addin.ExtensionType) != 0 )
 					{
-						Type type = Type.GetType(addin.TypeName);
-						if ( type != null && InstallAddin( type ) )
-							addinRegistry.SetStatus( addin.Name, AddinStatus.Loaded );
-						else
-							addinRegistry.SetStatus( addin.Name, AddinStatus.Error );
+						try
+						{
+							Type type = Type.GetType(addin.TypeName);
+							if ( type == null )
+								addinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Could not locate type" );
+							else if ( !InstallAddin( type ) )
+								addinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Install returned false" );
+							else
+								addinRegistry.SetStatus( addin.Name, AddinStatus.Loaded, null );
+						}
+						catch( Exception ex )
+						{
+							addinRegistry.SetStatus( addin.Name, AddinStatus.Error, ex.Message );
+						}
 					}
 				}
 			}
@@ -147,11 +159,14 @@ namespace NUnit.Core
 					InstallAddin( type );
 			}
 		}
+		#endregion
 
+		#region Helper Methods
 		private bool InstallAddin( Type type )
 		{
 			ConstructorInfo ctor = type.GetConstructor(Type.EmptyTypes);
-			IAddin theAddin = (IAddin)ctor.Invoke(new object[0]);
+			object obj = ctor.Invoke( new object[0] );
+			IAddin theAddin = (IAddin)obj;
 
 			return theAddin.Install(this);
 		}

@@ -30,11 +30,14 @@ namespace NUnit.Util
 			}
 		}
 
-		public void SetStatus( string name, AddinStatus status )
+		public void SetStatus( string name, AddinStatus status, string message )
 		{
 			foreach( Addin addin in addins )
 				if ( addin.Name == name )
+				{
 					addin.Status = status;
+					addin.Message = message;
+				}
 		}
 		#endregion
 
