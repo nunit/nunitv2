@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using NUnit.Util;
 using NUnit.Core;
 using CP.Windows.Forms;
+using System.Diagnostics;
 
 namespace NUnit.UiKit
 {
@@ -16,6 +17,7 @@ namespace NUnit.UiKit
 	public class ResultTabs : System.Windows.Forms.UserControl, TestObserver
 	{
 		private ISettings settings;
+		private TraceListener traceListener;
 
 		private MenuItem tabsMenu;
 		private MenuItem errorsTabMenuItem;
@@ -99,6 +101,9 @@ namespace NUnit.UiKit
 			this.internalTraceTabMenuItem.Index = 6;
 			this.internalTraceTabMenuItem.Text = "&Internal Trace";
 			this.internalTraceTabMenuItem.Click += new System.EventHandler(this.internalTraceTabMenuItem_Click);
+
+			this.traceListener = new TextWriterTraceListener( this.internalTraceTab.Writer, "Internal" );
+			System.Diagnostics.Trace.Listeners.Add( this.traceListener );
 		}
 
 		/// <summary> 
@@ -364,7 +369,8 @@ namespace NUnit.UiKit
 		{
 			if ( settings.GetSetting( "Gui.ResultTabs.DisplayTestLabels", false ) )
 			{
-				this.stdoutTab.AppendText( string.Format( "***** {0}\n", args.TestName.FullName ) );
+				//this.stdoutTab.AppendText( string.Format( "***** {0}\n", args.TestName.FullName ) );
+				this.stdoutTab.Writer.WriteLine( "***** {0}", args.TestName.FullName );
 			}
 		}
 
@@ -417,19 +423,19 @@ namespace NUnit.UiKit
 			switch(output.Type)
 			{
 				case TestOutputType.Out:
-					this.stdoutTab.AppendText( output.Text );
+					this.stdoutTab.Writer.Write( output.Text );
 					break;
 				case TestOutputType.Error:
 					if ( settings.GetSetting( "Gui.ResultTabs.MergeErrorOutput", false ) )
-						this.stdoutTab.AppendText( output.Text );
+						this.stdoutTab.Writer.Write( output.Text );
 					else
-						this.stderrTab.AppendText( output.Text );
+						this.stderrTab.Writer.Write( output.Text );
 					break;
 				case TestOutputType.Trace:
 					if ( settings.GetSetting( "Gui.ResultTabs.MergeTraceOutput", false ) )
-						this.stdoutTab.AppendText( output.Text );
+						this.stdoutTab.Writer.Write( output.Text );
 					else
-						this.traceTab.AppendText( output.Text );
+						this.traceTab.Writer.Write( output.Text );
 					break;
 			}
 		}

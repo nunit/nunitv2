@@ -132,6 +132,7 @@
     <Compile Include="TestTree.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="TextBoxWriter.cs" />
     <Compile Include="TipWindow.cs">
       <SubType>Form</SubType>
     </Compile>

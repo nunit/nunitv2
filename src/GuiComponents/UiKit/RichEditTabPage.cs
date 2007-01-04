@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace NUnit.UiKit
@@ -9,6 +10,7 @@ namespace NUnit.UiKit
 	public class RichEditTabPage : TabPage
 	{
 		private RichTextBox textBox;
+		private TextBoxWriter writer;
 
 		public RichEditTabPage()
 		{
@@ -16,11 +18,13 @@ namespace NUnit.UiKit
 			this.textBox.Dock = DockStyle.Fill;
 
 			this.Controls.Add( textBox );
+
+			this.writer = new TextBoxWriter( textBox );
 		}
 
-		public void AppendText( string text )
+		public TextWriter Writer
 		{
-			this.textBox.AppendText( text );
+			get { return writer; }
 		}
 
 		public void Clear()
