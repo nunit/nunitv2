@@ -74,14 +74,6 @@ namespace NUnit.Util
 				setup.ShadowCopyDirectories = appBase;
 				setup.CachePath = GetCachePath();
 			}
-			else
-			{
-				setup.ShadowCopyFiles = "false";
-			}
-
-			// Note that we do NOT
-			// set ShadowCopyDirectories because we  rely on the default
-			// setting of ApplicationBase plus PrivateBinPath
 
 			string domainName = "domain-" + package.Name;
 			Evidence baseEvidence = AppDomain.CurrentDomain.Evidence;
@@ -98,14 +90,14 @@ namespace NUnit.Util
 			assemblyResolver.AddFile( typeof( NUnit.Core.ITest ).Assembly.Location );
 
 // No reference to extensions, so we do it a different way
-//            string moduleName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-//            string nunitDirPath = Path.GetDirectoryName(moduleName);
+            string moduleName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
+            string nunitDirPath = Path.GetDirectoryName(moduleName);
 //            string coreExtensions = Path.Combine(nunitDirPath, "nunit.core.extensions.dll");
 //			assemblyResolver.AddFile( coreExtensions );
-//            //assemblyResolver.AddFiles( nunitDirPath, "*.dll" );
-//
-//            string addinsDirPath = Path.Combine(nunitDirPath, "addins");
-//            assemblyResolver.AddFiles(addinsDirPath, "*.dll");
+            //assemblyResolver.AddFiles( nunitDirPath, "*.dll" );
+
+            string addinsDirPath = Path.Combine(nunitDirPath, "addins");
+            assemblyResolver.AddDirectory( addinsDirPath );
 
 			// HACK: Only pass down our AddinRegistry one level so that tests of NUnit
 			// itself start without any addins defined.
@@ -191,7 +183,6 @@ namespace NUnit.Util
 					try 
 					{
 						fileInfo.Delete();
-						Debug.WriteLine( "Deleted " + fileInfo.Name );
 					}
 					catch( Exception ex )
 					{
