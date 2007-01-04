@@ -66,6 +66,8 @@ namespace NUnit.Core
 
 		private AssemblyCache _cache = new AssemblyCache();
 
+		private ArrayList _dirs = new ArrayList();
+
 		public AssemblyResolver()
 		{
 			AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
@@ -89,6 +91,12 @@ namespace NUnit.Core
 					AddFile( file );
 		}
 
+		public void AddDirectory( string directory )
+		{
+			if ( Directory.Exists( directory ) )
+				_dirs.Add( directory );
+		}
+
 		private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
 		{
 			string fullName = args.Name;
@@ -106,12 +114,25 @@ namespace NUnit.Core
 					"'AssemblyResolver'" );
 				return _cache.Resolve(fullName);
 			}
-			else
+
+			foreach( string dir in _dirs )
 			{
-				Trace.WriteLine( string.Format( "Not in Cache: {0}", fullName), 
-					"'AssemblyResolver'");
-				return null;
+				foreach( string file in Directory.GetFiles( dir ) )
+				{
+					string fullFile = Path.Combine( dir, file );
+					if ( AssemblyName.GetAssemblyName( fullFile ).FullName == fullName )
+					{
+						Trace.WriteLine( string.Format( "Added to Cache: {0}", fullFile ), 
+							"'AssemblyResolver'" );
+						AddFile( fullFile );
+						return _cache.Resolve( fullName );
+					}
+				}
 			}
+
+			Trace.WriteLine( string.Format( "Not in Cache: {0}", fullName), 
+				"'AssemblyResolver'");
+			return null;
 		}
 	}
 }
