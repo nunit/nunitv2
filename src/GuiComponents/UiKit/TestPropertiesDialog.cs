@@ -569,10 +569,14 @@ namespace NUnit.UiKit
 			{
 				// message may have a leading blank line
 				// TODO: take care of this in label?
-				if ( result.Message.Length > 64000 )
-					message.Text = TrimLeadingBlankLines( result.Message.Substring(0,64000) );
-				else
-					message.Text = TrimLeadingBlankLines( result.Message );
+                if (result.Message != null)
+                {
+                    if (result.Message.Length > 64000)
+                        message.Text = TrimLeadingBlankLines(result.Message.Substring(0, 64000));
+                    else
+                        message.Text = TrimLeadingBlankLines(result.Message);
+                }
+
 				elapsedTime.Text = string.Format( "Execution Time: {0}", result.Time );
 				assertCount.Text = string.Format( "Assert Count: {0}", result.AssertCount );
 				stackTrace.Text = result.StackTrace;
