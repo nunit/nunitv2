@@ -143,11 +143,7 @@
     <property name="build.dir.set" value="true"/>
   </target>
   
-  <target name="set-build-dir-if-needed">
-    <call target="set-build-dir" unless="${build.dir.set}"/>
-  </target>
-
-  <target name="make-build-dir" depends="set-build-dir-if-needed">
+  <target name="make-build-dir" depends="set-build-dir">
     <mkdir dir="${current.build.dir}"
       unless="${directory::exists(current.build.dir)}"/>
   </target>
