@@ -35,17 +35,17 @@ namespace NUnit.UiKit
 			// This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
 
-			if ( !this.DesignMode )
-			{
-				settings = Services.UserSettings;
-
-				int splitPosition = settings.GetSetting( "Gui.ResultTabs.ErrorsTabSplitterPosition", tabSplitter.SplitPosition );
-				if ( splitPosition >= tabSplitter.MinSize && splitPosition < this.ClientSize.Height )
-					this.tabSplitter.SplitPosition = splitPosition;
-
-				stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
-				stackTrace.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
-			}
+//			if ( !this.DesignMode )
+//			{
+//				settings = Services.UserSettings;
+//
+//				int splitPosition = settings.GetSetting( "Gui.ResultTabs.ErrorsTabSplitterPosition", tabSplitter.SplitPosition );
+//				if ( splitPosition >= tabSplitter.MinSize && splitPosition < this.ClientSize.Height )
+//					this.tabSplitter.SplitPosition = splitPosition;
+//
+//				stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
+//				stackTrace.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
+//			}
 		}
 
 		/// <summary> 
@@ -146,24 +146,36 @@ namespace NUnit.UiKit
 		}
 		#endregion
 
-		public bool FailureToolTips
+		#region Form Level Events
+		protected override void OnLoad(EventArgs e)
 		{
-			get { return this.stackTrace.AutoExpand; }
-			set { this.stackTrace.AutoExpand = value; }
-		}
+			Subscribe( Services.TestLoader.Events );
+	
+			this.settings = Services.UserSettings;
+			settings.Changed += new SettingsEventHandler(UserSettings_Changed);
 
-		public void Initialize()
-		{
-		}
+			int splitPosition = settings.GetSetting( "Gui.ResultTabs.ErrorsTabSplitterPosition", tabSplitter.SplitPosition );
+			if ( splitPosition >= tabSplitter.MinSize && splitPosition < this.ClientSize.Height )
+				this.tabSplitter.SplitPosition = splitPosition;
 
+			stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
+			stackTrace.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
+
+			base.OnLoad (e);
+		}
+		#endregion
+
+		#region Public Methods
 		public void Clear()
 		{
 			detailList.Items.Clear();
 			detailList.ContextMenu = null;
 			stackTrace.Text = "";
 		}
+		#endregion
 
-		public void OnOptionsChanged()
+		#region UserSettings Events
+		private void UserSettings_Changed( object sender, SettingsEventArgs args )
 		{
 			this.stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled ", false );
 			bool wordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
@@ -181,14 +193,7 @@ namespace NUnit.UiKit
 				this.stackTrace.WordWrap = wordWrap;
 			}
 		}
-
-		public void InsertTestResultItem( TestResult result )
-		{
-			TestResultItem item = new TestResultItem(result);
-			detailList.BeginUpdate();
-			detailList.Items.Insert(detailList.Items.Count, item);
-			detailList.EndUpdate();
-		}
+		#endregion
 
 		#region DetailList Events
 		/// <summary>
@@ -321,6 +326,11 @@ namespace NUnit.UiKit
 			}
 		}
 
+		private void tabSplitter_SplitterMoved( object sender, SplitterEventArgs e )
+		{
+			settings.SaveSetting( "Gui.ResultTabs.ErrorsTabSplitterPosition", tabSplitter.SplitPosition );
+		}
+
 		//		private void enableWordWrapCheckBox_CheckedChanged(object sender, System.EventArgs e)
 		//		{
 		//			this.detailList.BeginUpdate();
@@ -334,14 +344,55 @@ namespace NUnit.UiKit
 
 		#endregion
 
-		private void tabSplitter_SplitterMoved( object sender, SplitterEventArgs e )
-		{
-			settings.SaveSetting( "Gui.ResultTabs.ErrorsTabSplitterPosition", tabSplitter.SplitPosition );
-		}
-
-		#region TestObserver Members
+		#region TestObserver Interface
 		public void Subscribe(ITestEvents events)
 		{
+			events.TestFinished += new TestEventHandler(OnTestFinished);
+			events.SuiteFinished += new TestEventHandler(OnTestFinished);
+			events.TestException += new TestEventHandler(OnTestException);
+		}
+		#endregion
+
+		#region Test Event Handlers
+		private void OnTestFinished(object sender, TestEventArgs args)
+		{
+			TestResult result = args.Result;
+			if(result.Executed && result.IsFailure && result.FailureSite != FailureSite.Parent )
+				InsertTestResultItem( result );
+		}
+		
+		private void OnTestException(object sender, TestEventArgs args)
+		{
+			// TODO: Create an item without creating a result first
+			TestCaseResult result = new TestCaseResult( args.Name );
+ 
+			// Don't throw inside an exception handler!
+			try
+			{
+				// TODO: The unhandled exception message should be created at a lower level
+				result.Error( new ApplicationException( 
+					"An unhandled Exception was thrown during execution of this test", 
+					args.Exception ) );
+			}
+			catch( Exception ex )
+			{
+				result.Error(new ApplicationException(
+					"An unhandled " + args.Exception.GetType().FullName +
+					"was thrown during execution of this test" + Environment.NewLine +
+					"The exception handler threw " + ex.GetType().FullName));
+			}
+
+			// We pass this result into the ResultTabs rather than letting it handle
+			// the event, since we wouldn't otherwise have access to the current test name.
+			InsertTestResultItem(result);
+		}
+
+		private void InsertTestResultItem( TestResult result )
+		{
+			TestResultItem item = new TestResultItem(result);
+			detailList.BeginUpdate();
+			detailList.Items.Insert(detailList.Items.Count, item);
+			detailList.EndUpdate();
 		}
 		#endregion
 	}

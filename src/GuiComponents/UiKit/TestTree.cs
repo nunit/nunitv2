@@ -205,6 +205,13 @@ namespace NUnit.UiKit
 					Services.UserSettings.GetSetting( "Options.ShowCheckBoxes", false );
 		}
 
+		protected override void OnLoad(EventArgs e)
+		{
+			Initialize( Services.TestLoader );
+
+			base.OnLoad (e);
+		}
+
 		public void Initialize(TestLoader loader) 
 		{
 			this.tests.Initialize(loader, loader.Events);

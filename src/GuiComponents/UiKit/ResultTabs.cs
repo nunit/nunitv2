@@ -172,7 +172,6 @@ namespace NUnit.UiKit
 			// errorDisplay
 			// 
 			this.errorDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.errorDisplay.FailureToolTips = true;
 			this.errorDisplay.Location = new System.Drawing.Point(0, 0);
 			this.errorDisplay.Name = "errorDisplay";
 			this.errorDisplay.Size = new System.Drawing.Size(480, 278);
@@ -269,7 +268,18 @@ namespace NUnit.UiKit
 			get { return tabsMenu; }
 		}
 
-		public void LoadSettingsAndUpdateTabPages()
+		protected override void OnLoad(EventArgs e)
+		{
+			LoadSettingsAndUpdateTabPages();
+			Subscribe( Services.TestLoader.Events );
+			Services.UserSettings.Changed += new SettingsEventHandler(UserSettings_Changed);
+
+			notRunTree.Subscribe( Services.TestLoader.Events );
+
+			base.OnLoad (e);
+		}
+
+		private void LoadSettingsAndUpdateTabPages()
 		{
 			errorsTabMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayErrorsTab", true );
 			notRunTabMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayNotRunTab", true );
@@ -280,7 +290,7 @@ namespace NUnit.UiKit
 			UpdateTabPages();
 		}
 
-		public void UpdateTabPages()
+		private void UpdateTabPages()
 		{
 			tabControl.TabPages.Clear();
 			string selectedTab = settings.GetSetting( "Gui.ResultTabs.SelectedTab", "" );
@@ -299,15 +309,10 @@ namespace NUnit.UiKit
 				tabControl.TabPages.Add( internalTraceTab );
 		}
 
-		public void OnOptionsChanged()
+		private void UserSettings_Changed( object sender, SettingsEventArgs e )
 		{
-			LoadSettingsAndUpdateTabPages();
-			errorDisplay.OnOptionsChanged();
-		}
-
-		public void InsertTestResultItem( TestResult result )
-		{
-			errorDisplay.InsertTestResultItem( result );
+			if( e.SettingName.StartsWith( "Gui.ResultTabs" ) )
+				LoadSettingsAndUpdateTabPages();
 		}
 
 		private void errorsTabMenuItem_Click(object sender, System.EventArgs e)
@@ -355,8 +360,6 @@ namespace NUnit.UiKit
 			events.TestReloaded += new TestEventHandler(OnTestReloaded);
 			events.RunStarting += new TestEventHandler(OnRunStarting);
 			events.TestStarting += new TestEventHandler(OnTestStarting);
-			events.TestFinished += new TestEventHandler(OnTestFinished);
-			events.SuiteFinished += new TestEventHandler(OnSuiteFinished);
 			events.TestOutput += new TestEventHandler(OnTestOutput);
 		}
 
@@ -371,34 +374,6 @@ namespace NUnit.UiKit
 			{
 				//this.stdoutTab.AppendText( string.Format( "***** {0}\n", args.TestName.FullName ) );
 				this.stdoutTab.Writer.WriteLine( "***** {0}", args.TestName.FullName );
-			}
-		}
-
-		private void OnTestFinished(object sender, TestEventArgs args)
-		{
-			TestResult result = args.Result;
-			if(result.Executed)
-			{
-				if(result.IsFailure && result.FailureSite != FailureSite.Parent )
-					InsertTestResultItem( result );
-			}
-			else
-			{
-				notRunTree.Add( result );
-			}
-		}
-
-		private void OnSuiteFinished(object sender, TestEventArgs args)
-		{
-			TestResult result = args.Result;
-			if(result.Executed)
-			{
-				if ( result.IsFailure && result.FailureSite != FailureSite.Child )
-					InsertTestResultItem(result);
-			}
-			else
-			{
-				notRunTree.Add( result );
 			}
 		}
 
@@ -440,6 +415,5 @@ namespace NUnit.UiKit
 			}
 		}
 		#endregion
-
 	}
 }

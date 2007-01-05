@@ -72,9 +72,6 @@ namespace NUnit.Gui
 		// Our current run command line options
 		private CommandLineOptions commandLineOptions;
 
-		// The currently executing test, used in reporting exceptions
-        private string currentTestName;
-
 		private System.ComponentModel.IContainer components;
 
 		private System.Windows.Forms.Panel leftPanel;
@@ -1132,10 +1129,6 @@ namespace NUnit.Gui
 				this.Site.Container.Add( dialog );
 				dialog.Font = this.Font;
 				dialog.ShowDialog();
-
-				// We need to tell the results tab about this because we
-				// don't yet have an options changed event.
-				resultTabs.OnOptionsChanged();	
 			}
 		}
 
@@ -1223,6 +1216,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void NUnitForm_Load(object sender, System.EventArgs e)
 		{
+			// TODO: Can these controls add their menus themselves?
 			this.viewMenu.MenuItems.Add(3, resultTabs.TabsMenu);
 			this.viewMenu.MenuItems.Add(4, testTree.TreeMenu);
 
@@ -1342,9 +1336,6 @@ namespace NUnit.Gui
 
 			// Handle changes in splitter positions
 			this.treeSplitter.SplitterMoved += new SplitterEventHandler( treeSplitter_SplitterMoved );
-
-			// Update tab menu items and display those that are used
-			resultTabs.LoadSettingsAndUpdateTabPages();
 		}
 
 		private bool IsValidLocation( Point location )
@@ -1378,17 +1369,13 @@ namespace NUnit.Gui
 			events.TestReloading	+= new TestEventHandler( OnReloadStarting );
 			events.TestReloaded		+= new TestEventHandler( OnTestChanged );
 			events.TestReloadFailed	+= new TestEventHandler( OnTestLoadFailure );
-			events.TestStarting		+= new TestEventHandler( OnTestStarting );
-			events.TestException	+= new TestEventHandler( OnTestException );
 		}
 
 		private void InitializeControls()
 		{
 			// ToDo: Migrate more ui elements to handle events on their own.
-			this.testTree.Initialize(TestLoader);
 			this.progressBar.Subscribe( TestLoader.Events );
 			this.statusBar.Subscribe( TestLoader.Events );
-			this.resultTabs.Subscribe( TestLoader.Events );
 		}
 
 		// Save settings changed by moving the form
@@ -1660,36 +1647,6 @@ the version under which NUnit is currently running, {0}.",
 
 			EnableRunCommand( true );
 		}
-
-		private void OnTestStarting(object sender, TestEventArgs args)
-		{
-			this.currentTestName = args.TestName.FullName;
-		}
-
-		private void OnTestException(object sender, TestEventArgs args)
-		{
-            TestCaseResult result = new TestCaseResult(this.currentTestName);
- 
-            // Don't throw inside an exception handler!
-			try
-			{
-                // TODO: The unhandled exception message should be created at a lower level
-                result.Error( new ApplicationException( 
-                    "An unhandled Exception was thrown during execution of this test", 
-                    args.Exception ) );
-            }
-			catch( Exception ex )
-			{
-                result.Error(new ApplicationException(
-                    "An unhandled " + args.Exception.GetType().FullName +
-                    "was thrown during execution of this test" + Environment.NewLine +
-                    "The exception handler threw " + ex.GetType().FullName));
-			}
-
-			// We pass this result into the ResultTabs rather than letting it handle
-			// the event, since we wouldn't otherwise have access to the current test name.
-            resultTabs.InsertTestResultItem(result);
-        }
 
 		#endregion
 

@@ -1,27 +1,51 @@
 using System;
 using System.Windows.Forms;
 using NUnit.Core;
+using NUnit.Util;
 
 namespace NUnit.UiKit
 {
 	/// <summary>
 	/// Summary description for NotRunTree.
 	/// </summary>
-	public class NotRunTree : TreeView
+	public class NotRunTree : TreeView, TestObserver
 	{
-		public NotRunTree()
+//		public void Add( TestResult result )
+//		{
+//			Invoke( new AddNodeHandler( AddNode ), new object[] { result } );
+//		}
+
+//		private delegate void AddNodeHandler( TestResult result );
+
+		#region TestObserver Members and TestEventHandlers
+
+		public void Subscribe(ITestEvents events)
 		{
-			//
-			// TODO: Add constructor logic here
-			//
+			events.TestLoaded += new TestEventHandler(ClearTreeNodes);
+			events.TestUnloaded += new TestEventHandler(ClearTreeNodes);
+			events.TestReloaded += new TestEventHandler(OnTestReloaded);
+			events.RunStarting += new TestEventHandler(ClearTreeNodes);
+			events.TestFinished += new TestEventHandler(OnTestFinished);
+			events.SuiteFinished += new TestEventHandler(OnTestFinished);
 		}
 
-		public void Add( TestResult result )
+		private void OnTestFinished( object sender, TestEventArgs args )
 		{
-			Invoke( new AddNodeHandler( AddNode ), new object[] { result } );
+			TestResult result = args.Result;
+			if ( !result.Executed )
+				this.AddNode( args.Result );
 		}
 
-		private delegate void AddNodeHandler( TestResult result );
+		private void ClearTreeNodes(object sender, TestEventArgs args)
+		{
+			this.Nodes.Clear();
+		}
+
+		private void OnTestReloaded(object sender, TestEventArgs args)
+		{
+			if ( Services.UserSettings.GetSetting( "Options.TestLoader.ClearResultsOnReload", false ) )
+				this.Nodes.Clear();
+		}
 
 		private void AddNode( TestResult result )
 		{
@@ -31,5 +55,6 @@ namespace NUnit.UiKit
 
 			Nodes.Add( node );
 		}
+		#endregion
 	}
 }
