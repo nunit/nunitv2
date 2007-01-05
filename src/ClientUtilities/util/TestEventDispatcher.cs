@@ -238,11 +238,11 @@ namespace NUnit.Util
 				new TestEventArgs( TestAction.SuiteFinished, result ) );
 		}
 
-		public void FireTestException( Exception exception )
+		public void FireTestException( string name, Exception exception )
 		{
 			Fire(
 				TestException,
-				new TestEventArgs( TestAction.TestException, exception ) );
+				new TestEventArgs( TestAction.TestException, name, exception ) );
 		}
 
 		public void FireTestOutput( TestOutput testOutput )

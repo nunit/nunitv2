@@ -100,6 +100,11 @@ namespace NUnit.Util
 		private string loadedTestName = null;
 
 		/// <summary>
+		/// The currently executing test
+		/// </summary>
+		private string currentTestName;
+
+		/// <summary>
 		/// Result of the last test run
 		/// </summary>
 		private TestResult testResult = null;
@@ -283,6 +288,7 @@ namespace NUnit.Util
 		/// <param name="testCase">TestCase that is starting</param>
 		void EventListener.TestStarted(TestName testName)
 		{
+			this.currentTestName = testName.FullName;
 			events.FireTestStarting( testName );
 		}
 
@@ -319,7 +325,7 @@ namespace NUnit.Util
 		/// <param name="exception">The unhandled exception</param>
 		void EventListener.UnhandledException(Exception exception)
 		{
-			events.FireTestException( exception );
+			events.FireTestException( this.currentTestName, exception );
 		}
 
 		void OnUnhandledException( object sender, UnhandledExceptionEventArgs args )
@@ -330,7 +336,7 @@ namespace NUnit.Util
 					break;
 				case "NUnit.Framework.AssertionException":
 				default:
-					events.FireTestException((Exception)args.ExceptionObject);
+					events.FireTestException( this.currentTestName, (Exception)args.ExceptionObject );
 					break;
 			}
 		}

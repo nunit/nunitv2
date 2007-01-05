@@ -124,14 +124,14 @@ namespace NUnit.Util
 			this.testCount = testCount;
 		}
 
-		// ProjectLoadFailed, ProjectUnloadFailed, TestLoadFailed, TestUnloadFailed, TestReloadFailed
+		// ProjectLoadFailed, ProjectUnloadFailed, TestLoadFailed, TestUnloadFailed, TestReloadFailed, TestException
 		public TestEventArgs( TestAction action,
 			string name, Exception exception )
 		{
 			Debug.Assert(
 				action == TestAction.ProjectLoadFailed || action == TestAction.ProjectUnloadFailed ||
 				action == TestAction.TestLoadFailed || action == TestAction.TestUnloadFailed ||
-				action == TestAction.TestReloadFailed, 
+				action == TestAction.TestReloadFailed || action == TestAction.TestException, 
 				"Invalid TestAction argument to TestEventArgs constructor" );
 
 			this.action = action;
@@ -160,10 +160,10 @@ namespace NUnit.Util
 			this.testResult = testResult;
 		}
 
-		// RunFinished, TestException
+		// RunFinished
 		public TestEventArgs( TestAction action, Exception exception )
 		{
-			Debug.Assert( action == TestAction.RunFinished || action == TestAction.TestException,
+			Debug.Assert( action == TestAction.RunFinished,
 				"Invalid TestAction argument to TestEventArgs constructor" );
 
 			this.action = action;
@@ -179,7 +179,6 @@ namespace NUnit.Util
 			this.action = action;
 			this.testOutput = testOutput;
 		}
-
 		#endregion
 
 		#region Properties
