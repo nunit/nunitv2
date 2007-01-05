@@ -2,12 +2,31 @@ using System;
 
 namespace NUnit.Util
 {
+	public delegate void SettingsEventHandler( object sender, SettingsEventArgs args );
+
+	public class SettingsEventArgs : EventArgs
+	{
+		private string settingName;
+
+		public SettingsEventArgs( string settingName )
+		{
+			this.settingName = settingName;
+		}
+
+		public string SettingName
+		{
+			get { return settingName; }
+		}
+	}
+
 	/// <summary>
 	/// The ISettings interface is used to access all user
 	/// settings and options.
 	/// </summary>
 	public interface ISettings
 	{
+		event SettingsEventHandler Changed;
+
 		/// <summary>
 		/// Load a setting from the storage.
 		/// </summary>

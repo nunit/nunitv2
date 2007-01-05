@@ -64,6 +64,8 @@ namespace NUnit.Util
 
 		#region Properties
 
+		public event SettingsEventHandler Changed;
+
 		/// <summary>
 		/// The storage used for the group settings
 		/// </summary>
@@ -199,6 +201,9 @@ namespace NUnit.Util
 		public void RemoveSetting( string settingName )
 		{
 			storage.RemoveSetting( settingName );
+
+			if ( Changed != null )
+				Changed( this, new SettingsEventArgs( settingName ) );
 		}
 
 		/// <summary>
@@ -208,7 +213,15 @@ namespace NUnit.Util
 		/// <param name="settingValue">Value to be saved</param>
 		public void SaveSetting( string settingName, object settingValue )
 		{
-			storage.SaveSetting( settingName, settingValue );
+			object oldValue = storage.GetSetting( settingName );
+
+			if ( oldValue != settingValue )
+			{
+				storage.SaveSetting( settingName, settingValue );
+
+				if ( Changed != null )
+					Changed( this, new SettingsEventArgs( settingName ) );
+			}
 		}
 		#endregion
 
