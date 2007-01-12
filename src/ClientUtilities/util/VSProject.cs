@@ -185,6 +185,7 @@ namespace NUnit.Util
 
 			string projectDirectory = Path.GetFullPath( Path.GetDirectoryName( projectPath ) );
 			StreamReader rdr = new StreamReader( projectPath, System.Text.Encoding.UTF8 );
+			string[] extensions = {"", ".exe", ".dll", ".lib", "" };
 			
 			try
 			{
@@ -207,6 +208,7 @@ namespace NUnit.Util
 						foreach ( XmlNode configNode in doc.SelectNodes( "/VisualStudioProject/Configurations/Configuration" ) )
 						{
 							string name = RequiredAttributeValue( configNode, "Name" );
+							int config_type = System.Convert.ToInt32(RequiredAttributeValue(configNode, "ConfigurationType" ) );
 							string dirName = name;
 							int bar = dirName.IndexOf( '|' );
 							if ( bar >= 0 )
@@ -223,7 +225,7 @@ namespace NUnit.Util
 								if ( assemblyName != null )
 									assemblyName = Path.GetFileName( assemblyName );
 								else
-									assemblyName = Path.GetFileNameWithoutExtension(projectPath) + ".exe";
+									assemblyName = Path.GetFileNameWithoutExtension(projectPath) + extensions[config_type];
 							}
 							else
 							{

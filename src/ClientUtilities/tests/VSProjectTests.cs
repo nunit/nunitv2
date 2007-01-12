@@ -159,6 +159,21 @@ namespace NUnit.Util.Tests
 			}
 		}
 
+        [Test]
+        public void GenerateCorrectExtensionsFromVCProjectVS2005()     
+		{
+            using (TempResourceFile file = new TempResourceFile(this.GetType(), "resources.cpp-default-library_VS2005.vcproj", "cpp-default-library_VS2005.vcproj"))           
+			{
+                VSProject project = new VSProject(file.Path);
+                Assert.AreEqual("cpp-default-library_VS2005", project.Name);
+                Assert.AreEqual(Path.GetFullPath(file.Path), project.ProjectPath);
+                Assert.AreEqual(Path.GetFullPath(@"debug\cpp-default-library_VS2005.dll").ToLower(),
+                    project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower());
+                Assert.AreEqual(Path.GetFullPath(@"release\cpp-default-library_VS2005.dll").ToLower(),
+                    project.Configs["Release|Win32"].Assemblies[0].ToString().ToLower());
+            }
+        }
+
 		[Test, ExpectedException( typeof ( ArgumentException ) ) ]
 		public void LoadInvalidFileType()
 		{

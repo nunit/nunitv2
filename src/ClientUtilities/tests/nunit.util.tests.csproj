@@ -283,6 +283,10 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "resources\cpp-default-library_VS2005.vcproj"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "resources\CPPLibrary.vcproj"
                     BuildAction = "EmbeddedResource"
                 />
