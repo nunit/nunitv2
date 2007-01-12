@@ -4,7 +4,7 @@ using System.Reflection;
 namespace NUnit.Core.Extensibility
 {
 	/// <summary>
-	/// Summary description for Addin.
+	/// The Addin class holds information about an addin.
 	/// </summary>
 	[Serializable]
 	public class Addin
@@ -19,6 +19,10 @@ namespace NUnit.Core.Extensibility
 		#endregion
 
 		#region Constructor
+		/// <summary>
+		/// Construct an Addin for a type.
+		/// </summary>
+		/// <param name="type">The type to be used</param>
 		public Addin( Type type )
 		{
 			this.typeName = type.AssemblyQualifiedName;
