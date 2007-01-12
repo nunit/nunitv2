@@ -81,7 +81,6 @@ namespace NUnit.Framework
         {
             int collection1iteration = 0;
             int collection2iteration = 0;
-            bool isObjectsSame = false;
 
             if (collection1.Count != collection2.Count)
             {
@@ -101,12 +100,7 @@ namespace NUnit.Framework
                     if (collection2iteration > collection1iteration) break;
                     if (collection2iteration == collection1iteration)
                     {
-                        if (comparer == null)
-                            isObjectsSame = collection1Obj.Equals(collection2Obj);
-                        else
-                            isObjectsSame = comparer.Compare(collection1Obj, collection2Obj).Equals(0);
-
-                        if (!isObjectsSame)
+                        if (!MembersEqual( collection1Obj, collection2Obj ) )
                         {
                             FailureMessage.WriteLine("\tcollection1 and collection2 are not equal at index {0}", collection1iteration);
                             return false;
@@ -134,7 +128,7 @@ namespace NUnit.Framework
                 found = false;
                 foreach (object collection2Obj in collection2)
                 {
-                    if (collection1Obj.Equals(collection2Obj))
+                    if (MembersEqual( collection1Obj, collection2Obj ) )
                     {
                         found = true;
                         break;
@@ -152,7 +146,7 @@ namespace NUnit.Framework
                 found = false;
                 foreach (object collection1Obj in collection1)
                 {
-                    if (collection1Obj.Equals(collection2Obj))
+                    if ( MembersEqual( collection1Obj, collection2Obj ) )
                     {
                         found = true;
                         break;
@@ -182,7 +176,7 @@ namespace NUnit.Framework
 
                 foreach (object collection1Obj in collection1)
                 {
-                    if (collection2Obj.Equals(collection1Obj))
+                    if ( MembersEqual( collection1Obj, collection2Obj) )
                     {
                         found = true;
                     }
@@ -195,7 +189,27 @@ namespace NUnit.Framework
             }
             return true;
         }
-        #endregion
+
+		/// <summary>
+		/// Helper method to safely compare members
+		/// </summary>
+		/// <param name="expected"></param>
+		/// <param name="actual"></param>
+		/// <returns></returns>
+		private bool MembersEqual( object expected, object actual )
+		{
+			if ( comparer != null )
+				return comparer.Compare(expected, actual).Equals(0);
+
+			if ( expected == null && actual == null )
+				return true;
+
+			if ( expected == null || actual == null )
+				return false;
+
+			return expected.Equals(actual);
+		}
+		#endregion
     }
 	#endregion
 
@@ -862,7 +876,8 @@ namespace NUnit.Framework
 		/// <param name="actual">The second ICollection of objects to be considered</param>
 		public static void AreNotEqual (ICollection expected, ICollection actual)
 		{
-			AreNotEqual(expected, actual, null, string.Empty, null);
+			//AreNotEqual(expected, actual, null, string.Empty, null);
+			Assert.AreNotEqual( expected, actual );
 		}
 
 		/// <summary>
@@ -885,7 +900,8 @@ namespace NUnit.Framework
 		/// <param name="message">The message that will be displayed on failure</param>
 		public static void AreNotEqual (ICollection expected, ICollection actual, string message)
 		{
-			AreNotEqual(expected, actual, null, message, null);
+			//AreNotEqual(expected, actual, null, message, null);
+			Assert.AreNotEqual( expected, actual, message );
 		}
 
 		/// <summary>
@@ -910,7 +926,8 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void AreNotEqual (ICollection expected, ICollection actual, string message, params object[] args) 
 		{
-			AreNotEqual(expected, actual, null, message, args);
+			//AreNotEqual(expected, actual, null, message, args);
+			Assert.AreNotEqual( expected, actual, message, args );
 		}
 
 		/// <summary>

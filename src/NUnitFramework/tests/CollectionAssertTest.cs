@@ -313,6 +313,13 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AreEqual(set1,set2,new TestComparer(),"test");
 			CollectionAssert.AreEqual(set1,set2,"test {0}","1");
 			CollectionAssert.AreEqual(set1,set2,new TestComparer(),"test {0}","1");
+
+			Assert.AreEqual(set1,set2);
+			//Assert.AreEqual(set1,set2,new TestComparer());
+			Assert.AreEqual(set1,set2,"test");
+			//Assert.AreEqual(set1,set2,new TestComparer(),"test");
+			Assert.AreEqual(set1,set2,"test {0}","1");
+			//Assert.AreEqual(set1,set2,new TestComparer(),"test {0}","1");
 		}
 
 		[Test]
@@ -394,6 +401,16 @@ namespace NUnit.Framework.Tests
 			}
 
 			CheckException(ex, typeof(AssertionException),"test 1" + equalErrorMsg);
+		}
+
+		[Test]
+		public void AreEqual_HandlesNull()
+		{
+			object[] set1 = new object[3];
+			object[] set2 = new object[3];
+
+			CollectionAssert.AreEqual(set1,set2);
+			CollectionAssert.AreEqual(set1,set2,new TestComparer());
 		}
 
 		#endregion
@@ -484,6 +501,26 @@ namespace NUnit.Framework.Tests
 
 			CheckException(ex, typeof(AssertionException),"test 1" + equivalentTwoErrorMsg);
 		}
+
+		[Test]
+		public void AreEquivalentHandlesNull()
+		{
+			DataSet x = new DataSet();
+			DataSet z = new DataSet();
+
+			ArrayList set1 = new ArrayList();
+			ArrayList set2 = new ArrayList();
+			
+			set1.Add(x);
+			set1.Add(null);
+			set1.Add(z);
+
+			set2.Add(z);
+			set2.Add(null);
+			set2.Add(x);
+
+			CollectionAssert.AreEquivalent(set1,set2);
+		}
 		#endregion
 
 		#region AreNotEqual
@@ -521,6 +558,19 @@ namespace NUnit.Framework.Tests
 			set2.Add("z");
 
 			CollectionAssert.AreNotEqual(set1,set2);
+		}
+
+		[Test]
+		public void AreNotEqual_HandlesNull()
+		{
+			object[] set1 = new object[3];
+			ArrayList set2 = new ArrayList();
+			set2.Add("x");
+			set2.Add("y");
+			set2.Add("z");
+
+			CollectionAssert.AreNotEqual(set1,set2);
+			//CollectionAssert.AreNotEqual(set1,set2,new TestComparer());
 		}
 
 		#endregion
@@ -571,6 +621,25 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AreNotEquivalent(set1,set2);
 		}
 
+		[Test]
+		public void NotEquivalentHandlesNull()
+		{
+			DataSet x = new DataSet();
+			DataSet z = new DataSet();
+
+			ArrayList set1 = new ArrayList();
+			ArrayList set2 = new ArrayList();
+			
+			set1.Add(x);
+			set1.Add(null);
+			set1.Add(z);
+
+			set2.Add(x);
+			set2.Add(null);
+			set2.Add(x);
+
+			CollectionAssert.AreNotEquivalent(set1,set2);
+		}
 		#endregion
 
 		#region Contains
@@ -705,6 +774,25 @@ namespace NUnit.Framework.Tests
 
 			CollectionAssert.IsSubsetOf(set1,set2);
 		}
+
+		[Test]
+		public void IsSubsetOfHandlesNull()
+		{
+			DataSet x = new DataSet();
+			DataSet y = null;
+			DataSet z = new DataSet();
+
+			ArrayList set1 = new ArrayList();
+			set1.Add(x);
+			set1.Add(y);
+			set1.Add(z);
+
+			ArrayList set2 = new ArrayList();
+			set2.Add(y);
+			set2.Add(z);
+
+			CollectionAssert.IsSubsetOf(set1,set2);
+		}
 		#endregion
 
 		#region IsNotSubsetOf
@@ -749,6 +837,27 @@ namespace NUnit.Framework.Tests
 
 			CollectionAssert.IsNotSubsetOf(set1,set2);
 		}
+		
+		[Test]
+		public void IsNotSubsetOfHandlesNull()
+		{
+			DataSet x = new DataSet();
+			DataSet y = null;
+			DataSet z = new DataSet();
+			DataSet a = new DataSet();
+
+			ArrayList set1 = new ArrayList();
+			set1.Add(x);
+			set1.Add(y);
+			set1.Add(z);
+
+			ArrayList set2 = new ArrayList();
+			set1.Add(y);
+			set1.Add(z);
+			set2.Add(a);
+
+			CollectionAssert.IsNotSubsetOf(set1,set2);
+		}
 		#endregion
 	}
 
@@ -758,14 +867,16 @@ namespace NUnit.Framework.Tests
 
 		public int Compare(object x, object y)
 		{
-			if (x.Equals(y))
-			{
+			if ( x == null && y == null )
 				return 0;
-			}
-			else
-			{
+
+			if ( x == null || y == null )
 				return -1;
-			}
+
+			if (x.Equals(y))
+				return 0;
+
+			return -1;
 		}
 
 		#endregion
