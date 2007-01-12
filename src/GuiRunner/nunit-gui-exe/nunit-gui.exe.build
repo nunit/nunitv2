@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project name="NUnitGuiExe" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="winexe" 
+        output="${current.build.dir}/${nunit.gui.name}" 
+        win32icon="App.ico" debug="${build.debug}"
+        define="${build.defines}">
+      <sources>
+        <include name="AssemblyInfo.cs"/>
+        <include name="Class1.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit-gui-runner.dll"/>
+      </references>
+    </csc>
+
+    <copy file="App.config"
+      tofile="${current.build.dir}/${nunit.gui.name}.config"/>
+  </target>
+
+</project>

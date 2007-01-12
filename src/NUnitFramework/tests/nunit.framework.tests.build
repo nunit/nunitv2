@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<project name="NUnitFrameworkTests" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library" 
+        output="${current.build.dir}/nunit.framework.tests.dll"
+        debug="${build.debug}" 
+        define="${build.defines}">
+      <nowarn>
+        <warning number="618,672"/>
+      </nowarn>
+      <sources>
+        <include name="ArrayEqualsFixture.cs"/>
+        <include name="AssertExtensionTests.cs"/>
+        <include name="AssertionTest.cs"/>
+        <include name="CollectionAssertTest.cs"/>
+        <include name="ConditionAssertTests.cs"/>
+        <include name="EqualsFixture.cs"/>
+        <include name="FailureMessageFixture.cs"/>
+        <include name="FileAssertTests.cs"/>
+        <include name="GreaterEqualFixture.cs"/>
+        <include name="GreaterFixture.cs"/>
+        <include name="LessEqualFixture.cs"/>
+        <include name="LessFixture.cs"/>
+        <include name="ListContentsTests.cs"/>
+        <include name="NotEqualFixture.cs"/>
+        <include name="NotSameFixture.cs"/>
+        <include name="SameFixture.cs"/>
+        <include name="StringAssertTests.cs"/>
+        <include name="TypeAssertTest.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <resources prefix="NUnit.Framework.Tests">
+        <include name="TestImage1.jpg"/>
+        <include name="TestImage2.jpg"/>
+        <include name="TestText1.txt"/>
+        <include name="TestText2.txt"/>
+      </resources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="System.Data.dll"/>
+      </references>
+    </csc>
+
+    <copy file="nunit.framework.tests.dll.config"
+      todir="${current.build.dir}"/>
+  </target>
+
+</project>

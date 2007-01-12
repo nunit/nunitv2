@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<project name="NoNamespaceAssembly" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library" 
+       output="${current.build.dir}/nonamespace-assembly.dll" 
+       debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <include name="NoNamespaceTestFixture.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <references>
+        <include name="${current.build.dir}/nunit.framework.dll"/>
+      </references>
+    </csc>
+  </target>
+
+</project>

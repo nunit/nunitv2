@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<project name="MockAssembly" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library" 
+      output="${current.build.dir}/mock-assembly.dll" 
+      debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <include name="MockAssembly.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.core.interfaces.dll"/>
+        <include name="nunit.core.dll"/>
+      </references>
+    </csc>
+    <copy file="mock-assembly.dll.config" todir="${current.build.dir}"/>
+  </target>
+
+</project>

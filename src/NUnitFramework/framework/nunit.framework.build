@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<project name="NUnitFramework" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library"
+        output="${current.build.dir}/nunit.framework.dll"
+        doc="${current.build.dir}/nunit.framework.xml"
+        debug="${build.debug}" 
+        define="${build.defines}">
+      <nowarn>
+        <warning number="618,672"/>
+      </nowarn>
+      <sources basedir=".">
+        <include name="AbstractAsserter.cs"/>
+        <include name="AssemblyInfo.cs"/>
+        <include name="Assert.cs"/>
+        <include name="Assertion.cs"/>
+        <include name="AssertionException.cs"/>
+        <include name="AssertionFailureMessage.cs"/>
+        <include name="CategoryAttribute.cs"/>
+        <include name="CollectionAssert.cs"/>
+        <include name="ComparisonAsserter.cs"/>
+        <include name="DescriptionAttribute.cs"/>
+        <include name="EqualAsserter.cs"/>
+        <include name="EqualityAsserter.cs"/>
+        <include name="ExpectedExceptionAttribute.cs"/>
+        <include name="ExplicitAttribute.cs"/>
+        <include name="FileAssert.cs"/>
+        <include name="GreaterAsserter.cs"/>
+        <include name="GreaterEqualAsserter.cs"/>
+        <include name="IAsserter.cs"/>
+        <include name="IExpectException.cs"/>
+        <include name="IgnoreAttribute.cs"/>
+        <include name="IgnoreException.cs"/>
+        <include name="LessAsserter.cs"/>
+        <include name="LessEqualAsserter.cs"/>
+        <include name="ListContentsAsserter.cs"/>
+        <include name="NotEqualAsserter.cs"/>
+        <include name="NotSameAsserter.cs"/>
+        <include name="OldTestCase.cs"/>
+        <include name="PlatformAttribute.cs"/>
+        <include name="PropertyAttribute.cs"/>
+        <include name="SameAsserter.cs"/>
+        <include name="SetUpAttribute.cs"/>
+        <include name="SetUpFixtureAttribute.cs"/>
+        <include name="StreamAsserter.cs"/>
+        <include name="StringAssert.cs"/>
+        <include name="StringAsserters.cs"/>
+        <include name="SuiteAttribute.cs"/>
+        <include name="TearDownAttribute.cs"/>
+        <include name="TestAttribute.cs"/>
+        <include name="TestFixtureAttribute.cs"/>
+        <include name="TestFixtureSetUpAttribute.cs"/>
+        <include name="TestFixtureTearDownAttribute.cs"/>
+        <include name="TypeAsserters.cs"/>
+        <include name="../../CommonAssemblyInfo.cs" />
+      </sources>
+    </csc>
+  </target>
+
+</project>

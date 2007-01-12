@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<project name="NUnit.Mocks.Tests" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library"
+       output="${current.build.dir}/nunit.mocks.tests.dll" 
+       debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <include name="AssemblyInfo.cs"/>
+        <include name="DynamicMockTests.cs"/>
+        <include name="MockTests.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.mocks.dll"/>
+      </references>
+    </csc>
+    <copy file="nunit.mocks.tests.dll.config"
+      todir="${current.build.dir}"/>
+  </target>
+
+</project>

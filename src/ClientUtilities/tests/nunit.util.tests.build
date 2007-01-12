@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<project name="NUnit.Util.Tests" default="build">
+
+  <target name="build">
+    <csc target="library" 
+       output="${current.build.dir}/nunit.util.tests.dll"
+       debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <include name="AssemblyListTests.cs"/>
+        <include name="CategoryManagerTest.cs"/>
+        <include name="EventDispatcherTests.cs"/>
+        <include name="FileWatcherTest.cs"/>
+        <include name="MemorySettingsStorageTests.cs"/>
+        <include name="MockAssemblyWatcher.cs"/>
+        <include name="NUnitProjectLoad.cs"/>
+        <include name="NUnitProjectSave.cs"/>
+        <include name="NUnitProjectTests.cs"/>
+        <include name="NUnitProjectXml.cs"/>
+        <include name="NUnitRegistryTests.cs"/>
+        <include name="PathUtilTests.cs"/>
+        <include name="ProcessRunnerTests.cs"/>
+        <include name="ProjectConfigCollectionTests.cs"/>
+        <include name="ProjectConfigTests.cs"/>
+        <include name="RecentFileEntryTests.cs"/>
+        <include name="RecentFilesTests.cs"/>
+        <include name="RegistrySettingsStorageTests.cs"/>
+        <include name="RemoteTestResultTest.cs"/>
+        <include name="SettingsGroupTests.cs"/>
+        <include name="SummaryResultFixture.cs"/>
+        <include name="TestDomainFixture.cs"/>
+        <include name="TestDomainTests_Multiple.cs"/>
+        <include name="TestEventCatcher.cs"/>
+        <include name="TestLoaderAssemblyTests.cs"/>
+        <include name="VSProjectTests.cs"/>
+        <include name="XmlResultVisitorTest.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <resources prefix="NUnit.Util.Tests.resources">
+        <include name="resources/*"/>
+      </resources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.core.interfaces.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.util.dll"/>
+        <include name="nunit.mocks.dll"/>
+        <include name="nunit-server.dll"/>
+        <include name="nunit.core.tests.dll"/>
+        <include name="test-utilities.dll"/>
+        <include name="mock-assembly.dll"/>
+        <include name="nonamespace-assembly.dll"/>
+        <include name="notestfixtures-assembly.dll"/>
+      </references>
+    </csc>
+    <copy file="nunit.util.tests.dll.config"
+      todir="${current.build.dir}"/>
+  </target>
+
+</project>

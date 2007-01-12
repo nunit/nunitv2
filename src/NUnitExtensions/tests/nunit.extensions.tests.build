@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project name="NUnitExtensionsTests" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library" 
+        output="${current.build.dir}/nunit.extensions.tests.dll"
+        debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <include name="RepeatedTestFixture.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.core.interfaces.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.core.extensions.dll"/>
+        <include name="nunit.core.tests.dll"/>
+        <include name="test-assembly.dll"/>
+      </references>
+    </csc>
+    <copy file="nunit.extensions.tests.dll.config"
+      todir="${current.build.dir}"/>
+  </target>
+
+</project>

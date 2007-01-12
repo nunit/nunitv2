@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<project name="NUnitServer" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library" 
+        output="${current.build.dir}/nunit-test-server.dll"
+        debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <include name="ServerUtilities.cs"/>
+        <include name="TestServer.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.core.interfaces.dll"/>
+        <include name="nunit.core.dll"/>
+      </references>
+    </csc>
+  </target>
+
+</project>

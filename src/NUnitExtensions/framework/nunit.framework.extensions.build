@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<project name="NUnitFrameworkExtensions" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library" 
+        output="${current.build.dir}/nunit.framework.extensions.dll"
+        debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <include name="AssemblyInfo.cs"/>
+        <include name="RepeatAttribute.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+      </references>
+    </csc>
+  </target>
+
+</project>

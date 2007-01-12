@@ -7,9 +7,7 @@
     This build file will build NUnit for any of the supported
     runtimes which are actually installed.
 
-    NOTE: This file uses features that are not available in 
-    NAnt 0.84. It has been tested using the nightly download
-    of NAnt 0.85 for 30 April 2006.
+    NOTE: This file has been tested using NAnt 0.85 RC 3
 
     Examples of Use:
 
@@ -99,21 +97,11 @@
          The first .NET and Mono frameworks found are the
          respective net and mono defaults. -->
   <property name="supported.frameworks" 
-    value="net-2.0,net-1.1,net-1.0,mono-1.0,mono-2.0"/>
+    value="net-1.1,net-2.0,net-1.0,mono-1.0,mono-2.0"/>
 
   <!-- Root of the package file name -->
   <property name="package.name" 
     value="${project.name}-${package.version}"/>
-
-  <fileset id="project.base.buildfiles">
-    <include name="NUnitFramework/framework/nunit.framework.build" />
-    <include name="NUnitFramework/tests/nunit.framework.tests.build" />
-    <include name="NUnitCore/core/nunit.core.build" />
-    <include name="NUnitCore/tests/nunit.core.tests.build" />
-  </fileset>
-
-  <fileset id="project.gui.buildfiles">
-  </fileset>
 
   <!-- Package directories -->
   <property name="package.working.dir" 
@@ -160,7 +148,7 @@
   <!-- Test execution options -->
   <property name="test.options" value="" />
 
-  <!-- Targets that set the build configuration -->
+<!-- Targets that set the build configuration -->
 
   <target name="debug" description="Set config to debug for commands that follow">
     <call target="set-debug-build-config" />
@@ -228,6 +216,50 @@
     </delete>
   </target>
 .
+  <!-- Buildfiles for various components of NUnit -->
+  <fileset id="project.buildfiles">
+
+    <!-- NUnit Base -->
+    <include name="NUnitFramework/framework/nunit.framework.build" />
+    <include name="NUnitCore/interfaces/nunit.core.interfaces.build" />
+    <include name="NUnitCore/core/nunit.core.build" />
+    <include name="NUnitExtensions/framework/nunit.framework.extensions.build" />
+    <include name="NUnitExtensions/core/nunit.core.extensions.build" />
+    <include name="NUnitMocks/mocks/nunit.mocks.build" />
+    <include name="ClientUtilities/util/nunit.util.build" />
+
+    <!-- Console Runner -->
+    <include name="ConsoleRunner/nunit-console/nunit-console.build" />
+    <include name="ConsoleRunner/nunit-console-exe/nunit-console.exe.build" />
+
+    <!-- Gui Runner -->
+    <include name="GuiComponents/UiKit/nunit.uikit.build" if="${build.gui}" />
+    <include name="GuiRunner/nunit-gui/nunit-gui.build" if="${build.gui}" />
+    <include name="GuiRunner/nunit-gui-exe/nunit-gui.exe.build" if="${build.gui}" />
+
+    <!-- Test Utilities and Dummy Projects -->
+    <include name="tests/mock-assembly/mock-assembly.build" />
+    <include name="tests/nonamespace-assembly/nonamespace-assembly.build" />
+    <include name="tests/notestfixtures-assembly/notestfixtures-assembly.build" />
+    <include name="tests/test-assembly/test-assembly.build" />
+    <include name="tests/test-utilities/test-utilities.build" />
+    <include name="tests/timing-tests/timing-tests.build" />
+
+    <!-- NUnit Base Tests -->
+    <include name="NUnitFramework/tests/nunit.framework.tests.build" />
+    <include name="NUnitCore/tests/nunit.core.tests.build" />
+    <include name="NUnitExtensions/tests/nunit.extensions.tests.build" />
+    <include name="NUnitMocks/tests/nunit.mocks.tests.build" />
+    <include name="ClientUtilities/tests/nunit.util.tests.build" />
+
+    <!-- Console Runner Tests -->
+    <include name="ConsoleRunner/tests/nunit-console.tests.build" />
+
+    <!-- GUI Tests -->
+    <include name="GuiComponents/tests/nunit.uikit.tests.build" if="${build.gui}" />
+    <include name="GuiRunner/tests/nunit-gui.tests.build" if="${build.gui}" />
+  </fileset>
+
   <!-- Targets that perform builds -->
 
   <target name="build" depends="make-build-dir"
@@ -240,51 +272,10 @@
     <!-- Copy key file to base directory, so build can access it -->
     <copy file="nunit.snk" todir="${project.base.dir}"/>
 
-    <!-- Build NUnit components assemblies -->
-    <!--<call target="build-framework" />-->
-    <nant target="build" buildfile="NUnitFramework/framework/nunit.framework.build" />
-    <call target="build-core-interfaces" />
-    <call target="build-core" />
-    <call target="build-framework-extensions" />
-    <call target="build-core-extensions" />
-    <call target="build-mocks" />
-    <call target="build-util" />
-    <call target="build-console" />
-    <call target="build-console-exe" />
-    <call target="build-test-server" if="${build.win32}" />
-    <call target="build-test-server-exe" if="${build.win32}" />
-
-    <if test="${build.gui}">
-      <call target="build-uikit"/>
-      <call target="build-gui-runner"/>
-      <call target="build-gui-runner-exe"/>
-    </if>
-
-    <!-- Build the Test Utilities and dummy projects -->
-    <call target="build-mock-assembly"/>
-    <call target="build-nonamespace-assembly"/>
-    <call target="build-notestfixtures-assembly"/>
-    <call target="build-test-assembly"/>
-    <call target="build-test-utilities"/>
-    <call target="build-timing-tests"/>
-
-    <!-- Build the NUnit tests -->
-    <call target="build-framework-tests"/>
-    <call target="build-core-tests"/>
-    <call target="build-util-tests"/>
-    <call target="build-extension-tests"/>
-    <call target="build-mock-tests"/>
-    <call target="build-console-tests"/>
-
-    <!-- test-server not yet implemented for mono -->
-    <if test="${build.win32}">
-      <call target="build-test-server-tests"/>
-    </if>
-
-    <if test="${build.gui}">
-      <call target="build-uikit-tests"/>
-      <call target="build-gui-runner-tests"/>
-    </if>
+    <!-- Build NUnit components and tests -->
+    <nant target="build">
+      <buildfiles refid="project.buildfiles" />
+    </nant>
 
     <!-- Create NUnit and config files for running tests -->
     <copy file="NUnitBinTests.nunit"
@@ -328,961 +319,21 @@
     </foreach>
   </target>
 
-<!-- Targets that build individual projects. These may be run separately, but
-     it's up to the user to honor any dependencies. -->
+<!-- Test Server is experimental and not yet part of NUNit. -->
 
-  <target name="build-framework" depends="make-build-dir">
-    <csc target="library"
-        output="${current.build.dir}/nunit.framework.dll"
-        doc="${current.build.dir}/nunit.framework.xml"
-        debug="${build.debug}" 
-        define="${build.defines}">
-      <nowarn>
-        <warning number="618,672"/>
-      </nowarn>
-      <sources basedir="NUnitFramework/framework">
-        <include name="AbstractAsserter.cs"/>
-        <include name="AssemblyInfo.cs"/>
-        <include name="Assert.cs"/>
-        <include name="Assertion.cs"/>
-        <include name="AssertionException.cs"/>
-        <include name="AssertionFailureMessage.cs"/>
-        <include name="CategoryAttribute.cs"/>
-        <include name="CollectionAssert.cs"/>
-        <include name="ComparisonAsserter.cs"/>
-        <include name="DescriptionAttribute.cs"/>
-        <include name="EqualAsserter.cs"/>
-        <include name="EqualityAsserter.cs"/>
-        <include name="ExpectedExceptionAttribute.cs"/>
-        <include name="ExplicitAttribute.cs"/>
-        <include name="FileAssert.cs"/>
-        <include name="GreaterAsserter.cs"/>
-        <include name="GreaterEqualAsserter.cs"/>
-        <include name="IAsserter.cs"/>
-        <include name="IExpectException.cs"/>
-        <include name="IgnoreAttribute.cs"/>
-        <include name="IgnoreException.cs"/>
-        <include name="LessAsserter.cs"/>
-        <include name="LessEqualAsserter.cs"/>
-        <include name="ListContentsAsserter.cs"/>
-        <include name="NotEqualAsserter.cs"/>
-        <include name="NotSameAsserter.cs"/>
-        <include name="OldTestCase.cs"/>
-        <include name="PlatformAttribute.cs"/>
-        <include name="PropertyAttribute.cs"/>
-        <include name="SameAsserter.cs"/>
-        <include name="SetUpAttribute.cs"/>
-        <include name="SetUpFixtureAttribute.cs"/>
-        <include name="StreamAsserter.cs"/>
-        <include name="StringAssert.cs"/>
-        <include name="StringAsserters.cs"/>
-        <include name="SuiteAttribute.cs"/>
-        <include name="TearDownAttribute.cs"/>
-        <include name="TestAttribute.cs"/>
-        <include name="TestFixtureAttribute.cs"/>
-        <include name="TestFixtureSetUpAttribute.cs"/>
-        <include name="TestFixtureTearDownAttribute.cs"/>
-        <include name="TypeAsserters.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-    </csc>
-  </target>
-
-  <fileset id="framework-extensions-sources" basedir="NUnitExtensions/framework">
-     <include name="AssemblyInfo.cs"/>
-     <include name="RepeatAttribute.cs"/>
-     <include name="../../CommonAssemblyInfo.cs"/>
+  <fileset id="nunit.server.buildfiles">
+    <include name="NUnitTestServer/nunit-server/nunit-server.build" />
+    <include name="NUnitTestServer/nunit-server-exe/nunit-server.exe.build" />
+    <include name="NUnitTestServer/tests/nunit-server.tests.build" />
   </fileset>
 
-  <target name="build-framework-extensions" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/nunit.framework.extensions.dll"
-        debug="${build.debug}" define="${build.defines}">
-      <sources refid="framework-extensions-sources"/>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-      </references>
-    </csc>
-  </target>
-
-  <target name="build-mocks" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/nunit.mocks.dll"
-        debug="${build.debug}" define="${build.defines}">
-      <sources basedir="NUnitMocks/mocks">
-        <include name="AssemblyInfo.cs"/>
-        <include name="DynamicMock.cs"/>
-        <include name="ICall.cs"/>
-        <include name="ICallHandler.cs"/>
-        <include name="IMethod.cs"/>
-        <include name="IMock.cs"/>
-        <include name="IVerify.cs"/>
-        <include name="MethodSignature.cs"/>
-        <include name="Mock.cs"/>
-        <include name="MockCall.cs"/>
-        <include name="MockInterfaceHandler.cs"/>
-        <include name="MockMethod.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-      </references>
-    </csc>
-  </target>
-
-  <target name="build-core-interfaces" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/nunit.core.interfaces.dll"
-        debug="${build.debug}" 
-        define="${build.defines}">
-      <sources basedir="NUnitCore/interfaces">
-        <include name="AssemblyInfo.cs"/>
-        <include name="EventListener.cs"/>
-        <include name="IService.cs"/>
-        <include name="ITest.cs"/>
-        <include name="ITestFilter.cs"/>
-        <include name="ResultState.cs"/>
-        <include name="ResultVisitor.cs"/>
-        <include name="RunState.cs"/>
-        <include name="RuntimeFramework.cs"/>
-        <include name="Test.cs"/>
-        <include name="TestAssemblyInfo.cs"/>
-        <include name="TestCaseResult.cs"/>
-        <include name="TestFilter.cs"/>
-        <include name="TestID.cs"/>
-        <include name="TestInfo.cs"/>
-        <include name="TestName.cs"/>
-        <include name="TestNode.cs"/>
-        <include name="TestOutput.cs"/>
-        <include name="TestPackage.cs"/>
-        <include name="TestResult.cs"/>
-        <include name="TestRunner.cs"/>
-        <include name="TestSuiteResult.cs"/>
-        <include name="Extensibility/Addin.cs"/>
-        <include name="Extensibility/AddinStatus.cs"/>
-        <include name="Extensibility/ExtensionType.cs"/>
-        <include name="Extensibility/IAddin.cs"/>
-        <include name="Extensibility/IAddinRegistry.cs"/>
-        <include name="Extensibility/IExtensionHost.cs"/>
-        <include name="Extensibility/IExtensionPoint.cs"/>
-        <include name="Extensibility/IFrameworkRegistry.cs"/>
-        <include name="Extensibility/ISuiteBuilder.cs"/>
-        <include name="Extensibility/ITestCaseBuilder.cs"/>
-        <include name="Extensibility/ITestDecorator.cs"/>
-        <include name="Extensibility/NUnitAddinAttribute.cs"/>
-        <include name="Extensibility/TestFramework.cs"/>
-        <include name="Filters/AndFilter.cs"/>
-        <include name="Filters/CategoryFilter.cs"/>
-        <include name="Filters/NameFilter.cs"/>
-        <include name="Filters/NotFilter.cs"/>
-        <include name="Filters/RecursiveTestFilter.cs"/>
-        <include name="Filters/SimpleNameFilter.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-    </csc>
-  </target>
-
-  <target name="build-core" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/nunit.core.dll"
-        debug="${build.debug}" 
-        define="${build.defines}">
-      <sources basedir="NUnitCore/core">
-        <include name="AbstractTestCaseDecoration.cs"/>
-        <include name="AssemblyInfo.cs"/>
-        <include name="AssemblyReader.cs"/>
-        <include name="AssemblyResolver.cs"/>
-        <include name="CoreExtensions.cs"/>
-        <include name="DelegatingTestRunner.cs"/>
-        <include name="DirectorySwapper.cs"/>
-        <include name="EventListenerTextWriter.cs"/>
-        <include name="EventPump.cs"/>
-        <include name="EventQueue.cs"/>
-        <include name="ExtensionHost.cs"/>
-        <include name="IgnoreDecorator.cs"/>
-        <include name="InvalidSuiteException.cs"/>
-        <include name="InvalidTestFixtureException.cs"/>
-        <include name="LegacySuite.cs"/>
-        <include name="NamespaceTreeBUilder.cs"/>
-        <include name="NoTestFixturesException.cs"/>
-        <include name="NotRunnableTestCase.cs"/>
-        <include name="NullListener.cs"/>
-        <include name="NUnitException.cs"/>
-        <include name="NUnitFramework.cs"/>
-        <include name="NUnitTestFixture.cs"/>
-        <include name="NUnitTestMethod.cs"/>
-        <include name="PlatformHelper.cs"/>
-        <include name="QueuingEventListener.cs"/>
-        <include name="Reflect.cs"/>
-        <include name="RemoteTestRunner.cs"/>
-        <include name="SetupFixture.cs"/>
-        <include name="SimpleTestRunner.cs"/>
-        <include name="StringTextWriter.cs"/>
-        <include name="SuiteBuilderAttribute.cs"/>
-        <include name="TestBuilderAttribute.cs"/>
-        <include name="TestCase.cs"/>
-        <include name="TestCaseBuilder.cs"/>
-        <include name="TestCaseBuilderAttribute.cs"/>
-        <include name="TestContext.cs"/>
-        <include name="TestDecoratorAttribute.cs"/>
-        <include name="TestFixture.cs"/>
-        <include name="TestFixtureBuilder.cs"/>
-        <include name="TestMethod.cs"/>
-        <include name="TestRunnerThread.cs"/>
-        <include name="TestSuite.cs"/>
-        <include name="TestSuiteBuilder.cs"/>
-        <include name="ThreadedTestRunner.cs"/>
-        <include name="Builders/AbstractFixtureBuilder.cs"/>
-        <include name="Builders/AbstractTestCaseBuilder.cs"/>
-        <include name="Builders/LegacySuiteBuilder.cs"/>
-        <include name="Builders/NUnitTestCaseBuilder.cs"/>
-        <include name="Builders/NUnitTestFixtureBuilder.cs"/>
-        <include name="Builders/SetUpFixtureBuilder.cs"/>
-        <include name="Builders/TestAssemblyBuilder.cs"/>
-        <include name="Extensibility/EventListenerCollection.cs"/>
-        <include name="Extensibility/FrameworkRegistry.cs"/>
-        <include name="Extensibility/SuiteBuilderCollection.cs"/>
-        <include name="Extensibility/TestCaseBuilderCollection.cs"/>
-        <include name="Extensibility/TestDecoratorCollection.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.core.interfaces.dll"/>
-      </references>
-    </csc>
-  </target>
-
-  <target name="build-core-extensions" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/nunit.core.extensions.dll"
-        debug="${build.debug}" define="${build.defines}">
-      <sources basedir="NUnitExtensions/core">
-        <include name="AssemblyInfo.cs"/>
-        <include name="RepeatedTestCase.cs"/>
-        <include name="RepeatedTestDecorator.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-      </references>
-    </csc>
-  </target>
-
-  <target name="build-util" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/nunit.util.dll"
-        debug="${build.debug}" define="${build.defines}">
-      <sources basedir="ClientUtilities/util">
-        <include name="AggregatingTestRunner.cs"/>
-        <include name="AssemblyInfo.cs"/>
-        <include name="AssemblyList.cs"/>
-        <include name="AssemblyWatcher.cs"/>
-        <include name="CategoryManager.cs"/>
-        <include name="CommandLineOptions.cs"/>
-        <include name="ConsoleWriter.cs"/>
-        <include name="ISettings.cs"/>
-        <include name="ITestEvents.cs"/>
-        <include name="ITestLoader.cs"/>
-        <include name="MemorySettingsStorage.cs"/>
-        <include name="MultipleTestDomainRunner.cs"/>
-        <include name="NUnitProject.cs"/>
-        <include name="NUnitRegistry.cs"/>
-        <include name="PathUtils.cs"/>
-        <include name="ProcessRunner.cs"/>
-        <include name="ProjectConfig.cs"/>
-        <include name="ProjectConfigCollection.cs"/>
-        <include name="ProjectFormatException.cs"/>
-        <include name="ProxyTestRunner.cs"/>
-        <include name="RecentFileEntry.cs"/>
-        <include name="RecentFiles.cs"/>
-        <include name="RecentFilesCollection.cs"/>
-        <include name="RegistrySettingsStorage.cs"/>
-        <include name="ResultSummarizer.cs"/>
-        <include name="Services.cs"/>
-        <include name="SettingsGroup.cs"/>
-        <include name="SettingsStorage.cs"/>
-        <include name="StackTraceFilter.cs"/>
-        <include name="SummaryVisitor.cs"/>
-        <include name="TestDomain.cs"/>
-        <include name="TestEventArgs.cs"/>
-        <include name="TestEventDispatcher.cs"/>
-        <include name="TestExceptionHandler.cs"/>
-        <include name="TestLoader.cs"/>
-        <include name="TestObserver.cs"/>
-        <include name="TestResultItem.cs"/>
-        <include name="VSProject.cs"/>
-        <include name="VSProjectConfig.cs"/>
-        <include name="VSProjectConfigCollection.cs"/>
-        <include name="XmlResultTransform.cs"/>
-        <include name="XmlResultVisitor.cs"/>
-        <include name="XmlSettingsStorage.cs"/>
-        <include name="Services/AddinManager.cs"/>
-        <include name="Services/AddinRegistry.cs"/>
-        <include name="Services/DomainManager.cs"/>
-        <include name="Services/RecentFilesService.cs"/>
-        <include name="Services/ServiceManager.cs"/>
-        <include name="Services/SettingsService.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <resources basedir="ClientUtilities/util" prefix="NUnit.Util">
-        <include name="Transform.resx"/>
-      </resources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.framework.dll"/>
-      </references>
-    </csc>
-  </target>
-
-  <target name="build-console" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/nunit-console-runner.dll"
-        debug="${build.debug}" define="${build.defines}">
-      <sources basedir="ConsoleRunner/nunit-console">
-        <include name="AssemblyInfo.cs"/>
-        <include name="ConsoleOptions.cs"/>
-        <include name="ConsoleUi.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.util.dll"/>
-      </references>
-    </csc>
-  </target>
-
-  <target name="build-console-exe" depends="make-build-dir">
-    <csc target="exe" 
-        output="${current.build.dir}/${nunit.console.name}"
-        debug="${build.debug}" define="${build.defines}">
-      <sources basedir="ConsoleRunner/nunit-console-exe">
-        <include name="AssemblyInfo.cs"/>
-        <include name="Class1.cs"/>
-	<include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.core.dll"/>
-        <include name="nunit.util.dll"/>
-        <include name="nunit-console-runner.dll"/>
-      </references>
-    </csc>
-
-    <copy file="ConsoleRunner/nunit-console-exe/App.config"
-      tofile="${current.build.dir}/${nunit.console.name}.config"/>
-  </target>
-
   <target name="build-test-server" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/nunit-test-server.dll"
-        debug="${build.debug}" define="${build.defines}">
-      <sources basedir="NUnitTestServer/nunit-server">
-        <include name="ServerUtilities.cs"/>
-        <include name="TestServer.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-      </references>
-    </csc>
+    <nant target="build">
+      <buildfiles refid="nunit.server.buildfiles" />
+    </nant>
   </target>
 
-  <target name="build-test-server-exe" depends="make-build-dir">
-    <csc target="exe" 
-        output="${current.build.dir}/nunit-server.exe"
-        debug="${build.debug}" define="${build.defines}">
-      <sources basedir="NUnitTestServer/nunit-server-exe">
-        <include name="TestServerConsoleApp.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit-test-server.dll"/>
-      </references>
-    </csc>
-  </target>
-
-  <target name="build-uikit" depends="make-build-dir">
-    <csc target="library" 
-    output="${current.build.dir}/nunit.uikit.dll"
-    debug="${build.debug}" define="${build.defines}">
-      <sources basedir="GuiComponents/UiKit">
-        <include name="AddConfigurationDialog.cs"/>
-        <include name="AppContainer.cs"/>
-        <include name="AssemblyInfo.cs"/>
-        <include name="AssemblyListBox.cs"/>
-        <include name="AssemblyPathDialog.cs"/>
-        <include name="CommonAssemblyInfo.cs"/>
-        <include name="ConfigurationEditor.cs"/>
-        <include name="ErrorDisplay.cs"/>
-        <include name="ExpandingLabel.cs"/>
-        <include name="ExpandingTextBox.cs"/>
-        <include name="FolderBrowser.cs"/>
-        <include name="GuiTestEventDispatcher.cs"/>
-        <include name="NotRunTree.cs"/>
-        <include name="ProgressBar.cs"/>
-        <include name="RecentFileMenuHandler.cs"/>
-        <include name="RenameConfigurationDialog.cs"/>
-        <include name="ResultTabs.cs"/>
-        <include name="RichEditTabPage.cs"/>
-        <include name="StatusBar.cs"/>
-        <include name="TestLoaderUI.cs"/>
-        <include name="TestPropertiesDialog.cs"/>
-        <include name="TestSuiteTreeNode.cs"/>
-        <include name="TestSuiteTreeView.cs"/>
-        <include name="TestTree.cs"/>
-        <include name="TextBoxWriter.cs"/>
-        <include name="TipWindow.cs"/>
-        <include name="UserMessage.cs"/>
-        <include name="WaitCursor.cs"/>
-        <include name="WritableTextDisplay.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <resources basedir="GuiComponents/UiKit" prefix="NUnit.UiKit">
-        <include name="AddConfigurationDialog.resx"/>
-        <include name="AssemblyListBox.resx"/>
-        <include name="AssemblyPathDialog.resx"/>
-        <include name="ConfigurationEditor.resx"/>
-        <include name="ErrorDisplay.resx"/>
-        <include name="ExpandingLabel.resx"/>
-        <include name="ExpandingTextBox.resx"/>
-        <include name="NotRunTree.resx"/>
-        <include name="ProgressBar.resx"/>
-        <include name="RenameConfigurationDialog.resx"/>
-        <include name="ResultTabs.resx"/>
-        <include name="RichEditTabPage.resx"/>
-        <include name="StatusBar.resx"/>
-        <include name="TestPropertiesDialog.resx"/>
-        <include name="TestSuiteTreeView.resx"/>
-        <include name="TestTree.resx"/>
-        <include name="TipWindow.resx"/>
-        <include name="UserMessage.resx"/>
-        <include name="WritableTextDisplay.resx"/>
-        <include name="Ellipsis.gif"/>
-        <include name="pinned.gif"/>
-        <include name="unpinned.gif"/>
-      </resources>
-      <references basedir="${current.build.dir}">
-        <include name="System.Windows.Forms.dll"/>
-        <include name="System.Drawing.dll"/>
-        <include name="System.Data.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.util.dll"/>
-      </references>
-    </csc>
-
-    <copy todir="${current.build.dir}">
-      <fileset basedir="GuiComponents/UiKit">
-        <include name="Success.jpg"/>
-        <include name="Failure.jpg"/>
-        <include name="Ignored.jpg"/>
-      </fileset>
-    </copy>
-  </target>
-
-  <target name="build-gui-runner" depends="make-build-dir">
-    <csc target="library" 
-       output="${current.build.dir}/nunit-gui-runner.dll" 
-       win32icon="GuiRunner/nunit-gui/Logo.ico" debug="${build.debug}"
-       define="${build.defines}">
-      <sources basedir="GuiRunner/nunit-gui">
-        <include name="AboutBox.cs"/>
-        <include name="AddinDialog.cs"/>
-        <include name="AppEntry.cs"/>
-        <include name="AssemblyInfo.cs"/>
-        <include name="DetailResults.cs"/>
-        <include name="ExceptionDetailsForm.cs"/>
-        <include name="GuiOptions.cs"/>
-        <include name="NUnitForm.cs"/>
-        <include name="OptionsDialog.cs"/>
-        <include name="ProjectEditor.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <resources basedir="GuiRunner/nunit-gui">
-        <include name="AboutBox.resx"/>
-        <include name="AddinDialog.resx"/>
-        <include name="ExceptionDetailsForm.resx"/>
-        <include name="NUnitForm.resx"/>
-        <include name="OptionsDialog.resx"/>
-        <include name="ProjectEditor.resx"/>
-        <include name="App.ico"/>
-        <include name="Logo.ico"/>
-      </resources>
-      <references basedir="${current.build.dir}">
-        <include name="System.Windows.Forms.dll"/>
-        <include name="System.Drawing.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.util.dll"/>
-        <include name="nunit.uikit.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.framework.dll"/>
-      </references>
-    </csc>
-  </target>
-
-  <target name="build-gui-runner-exe" depends="make-build-dir">
-    <csc target="winexe" 
-        output="${current.build.dir}/${nunit.gui.name}" 
-        win32icon="GuiRunner/nunit-gui-exe/App.ico" debug="${build.debug}"
-        define="${build.defines}">
-      <sources basedir="GuiRunner/nunit-gui-exe">
-        <include name="AssemblyInfo.cs"/>
-        <include name="Class1.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit-gui-runner.dll"/>
-      </references>
-    </csc>
-
-    <copy file="GuiRunner/nunit-gui-exe/App.config"
-      tofile="${current.build.dir}/${nunit.gui.name}.config"/>
-  </target>
-
-  <target name="build-mock-assembly" depends="make-build-dir">
-    <csc target="library" 
-      output="${current.build.dir}/mock-assembly.dll" 
-      debug="${build.debug}" define="${build.defines}">
-      <sources basedir="tests/mock-assembly">
-        <include name="MockAssembly.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-      </references>
-    </csc>
-    <copy file="tests/mock-assembly/mock-assembly.dll.config" todir="${current.build.dir}"/>
-  </target>
-
-  <target name="build-nonamespace-assembly" depends="make-build-dir">
-    <csc target="library" 
-       output="${current.build.dir}/nonamespace-assembly.dll" 
-       debug="${build.debug}" define="${build.defines}">
-      <sources basedir="tests/nonamespace-assembly">
-        <include name="NoNamespaceTestFixture.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references>
-        <include name="${current.build.dir}/nunit.framework.dll"/>
-      </references>
-    </csc>
-  </target>
-
-  <target name="build-notestfixtures-assembly" depends="make-build-dir">
-    <csc target="library" 
-       output="${current.build.dir}/notestfixtures-assembly.dll"
-       debug="${build.debug}" define="${build.defines}">
-      <sources basedir="tests/notestfixtures-assembly">
-        <include name="Class1.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-    </csc>
-  </target>
-
-  <target name="build-test-assembly" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/test-assembly.dll" 
-        debug="${build.debug}" define="${build.defines}">
-      <sources basedir="tests/test-assembly">
-        <include name="AttributeDescriptionTests.cs"/>
-        <include name="CategoryAttributeTests.cs"/>
-        <include name="ConsoleRunnerTest.cs"/>
-        <include name="ExpectExceptionTest.cs"/>
-        <include name="FailFixtureTests.cs"/>
-        <include name="FixtureSetUpTearDownTests.cs"/>
-        <include name="IgnoreFixtureTests.cs"/>
-        <include name="PropertyAttributeTests.cs"/>
-        <include name="RepeatedTestFixtureTests.cs"/>
-        <include name="SetupFixtureTests.cs"/>
-        <include name="SetUpTest.cs"/>
-        <include name="SuiteBuilderTests.cs"/>
-        <include name="TestCaseTest.cs"/>
-        <include name="TestData.cs"/>
-        <include name="TestFixtureBuilderTests.cs"/>
-        <include name="TestFixtureExtensionTests.cs"/>
-        <include name="TestFixtureTests.cs"/>
-        <include name="UnhandledExceptions.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.framework.extensions.dll"/>
-      </references>
-    </csc>
-  </target>
-
-  <target name="build-test-utilities" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/test-utilities.dll" 
-        debug="${build.debug}" define="${build.defines}">
-      <sources basedir="tests/test-utilities">
-        <include name="FormTester.cs"/>
-        <include name="MockTestEventSource.cs"/>
-        <include name="TempResourceFile.cs"/>
-        <include name="TestBuilder.cs"/>
-        <include name="TestFinder.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="System.Windows.Forms.dll"/>
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.util.dll"/>
-      </references>
-    </csc>
-  </target>
-
-  <target name="build-timing-tests" depends="make-build-dir">
-    <csc target="library"
-       output="${current.build.dir}/timing-tests.dll">
-      <sources basedir="tests/timing-tests">
-        <include name="AssemblyInfo.cs"/>
-        <include name="ClientTimeoutFixture.cs"/>
-        <include name="ServerTimeoutFixture.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.util.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.framework.dll"/>
-        <include name="mock-assembly.dll"/>
-      </references>
-    </csc>
-  </target>
-
-  <target name="build-framework-tests" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/nunit.framework.tests.dll"
-        debug="${build.debug}" 
-        define="${build.defines}">
-      <nowarn>
-        <warning number="618,672"/>
-      </nowarn>
-      <sources basedir="NUnitFramework/tests">
-        <include name="ArrayEqualsFixture.cs"/>
-        <include name="AssertExtensionTests.cs"/>
-        <include name="AssertionTest.cs"/>
-        <include name="CollectionAssertTest.cs"/>
-        <include name="ConditionAssertTests.cs"/>
-        <include name="EqualsFixture.cs"/>
-        <include name="FailureMessageFixture.cs"/>
-        <include name="FileAssertTests.cs"/>
-        <include name="GreaterEqualFixture.cs"/>
-        <include name="GreaterFixture.cs"/>
-        <include name="LessEqualFixture.cs"/>
-        <include name="LessFixture.cs"/>
-        <include name="ListContentsTests.cs"/>
-        <include name="NotEqualFixture.cs"/>
-        <include name="NotSameFixture.cs"/>
-        <include name="SameFixture.cs"/>
-        <include name="StringAssertTests.cs"/>
-        <include name="TypeAssertTests.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <resources basedir="NUnitFramework/tests" prefix="NUnit.Framework.Tests">
-        <include name="TestImage1.jpg"/>
-        <include name="TestImage2.jpg"/>
-        <include name="TestText1.txt"/>
-        <include name="TestText2.txt"/>
-      </resources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-        <include name="System.Data.dll"/>
-      </references>
-    </csc>
-
-    <copy file="NUnitFramework/tests/nunit.framework.tests.dll.config"
-      todir="${current.build.dir}"/>
-  </target>
-
-  <target name="build-core-tests" depends="make-build-dir">
-    <csc target="library" 
-       output="${current.build.dir}/nunit.core.tests.dll"
-       debug="${build.debug}" 
-       define="${build.defines}">
-      <nowarn>
-        <warning number="618,672"/>
-      </nowarn>
-      <sources basedir="NUnitCore/tests">
-        <include name="AllTests.cs"/>
-        <include name="AssemblyReaderTests.cs"/>
-        <include name="AssemblyResolverTests.cs"/>
-        <include name="AssemblyTests.cs"/>
-        <include name="AssemblyVersionFixture.cs"/>
-        <include name="AttributeDescriptionFixture.cs"/>
-        <include name="BasicRunnerTests.cs"/>
-        <include name="CallContextTests.cs"/>
-        <include name="CategoryAttributeTests.cs"/>
-        <include name="CoreExtensionsTests.cs"/>
-        <include name="DirectorySwapperTests.cs"/>
-        <include name="EventQueueTests.cs"/>
-        <include name="EventTestFixture.cs"/>
-        <include name="ExpectExceptionTest.cs"/>
-        <include name="FailFixture.cs"/>
-        <include name="FixtureSetUpTearDownTest.cs"/>
-        <include name="IgnoreFixture.cs"/>
-        <include name="LegacySuiteTests.cs"/>
-        <include name="MockTestRunner.cs"/>
-        <include name="NameFilterTest.cs"/>
-        <include name="NamespaceAssemblyTests.cs"/>
-        <include name="PlatformDetectionTests.cs"/>
-        <include name="PropertyAttributeTests.cs"/>
-        <include name="ReflectTests.cs"/>
-        <include name="RemoteRunnerTests.cs"/>
-        <include name="SerializationBug.cs"/>
-        <include name="SetUpFixtureTests.cs"/>
-        <include name="SetUpTest.cs"/>
-        <include name="SimpleNameFilterTests.cs"/>
-        <include name="SimpleTestRunnerTests.cs"/>
-        <include name="StackOverflowTestFixture.cs"/>
-        <include name="SuiteBuilderTests.cs"/>
-        <include name="SuiteBuilderTests_Multiple.cs"/>
-        <include name="TestCaseResultFixture.cs"/>
-        <include name="TestCaseTest.cs"/>
-        <include name="TestConsole.cs"/>
-        <include name="TestDelegateFixture.cs"/>
-        <include name="TestFixtureBuilderTests.cs"/>
-        <include name="TestFixtureExtension.cs"/>
-        <include name="TestFixtureTests.cs"/>
-        <include name="TestFrameworkTests.cs"/>
-        <include name="TestIdTests.cs"/>
-        <include name="TestInfoTests.cs"/>
-        <include name="TestNameTests.cs"/>
-        <include name="TestNodeTests.cs"/>
-        <include name="TestRunnerThreadTests.cs"/>
-        <include name="TestSuiteResultFixture.cs"/>
-        <include name="TestSuiteTest.cs"/>
-        <include name="ThreadedTestRunnerTests.cs"/>
-        <include name="UnhandledExceptionTests.cs"/>
-        <include name="XmlTest.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <resources basedir="NUnitCore/tests" prefix="NUnit.Core.Tests">
-        <include name="../core/Results.xsd"/>
-      </resources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.util.dll"/>
-        <include name="nunit.mocks.dll"/>
-        <include name="test-assembly.dll"/>
-        <include name="test-utilities.dll"/>
-        <include name="mock-assembly.dll"/>
-        <include name="nonamespace-assembly.dll"/>
-        <include name="System.Data.dll"/>
-      </references>
-    </csc>
-
-    <copy file="NUnitCore/tests/nunit.core.tests.dll.config"
-      todir="${current.build.dir}"/>
-  </target>
-
-  <target name="build-extension-tests" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/nunit.extensions.tests.dll"
-        debug="${build.debug}" define="${build.defines}">
-      <sources basedir="NUnitExtensions/tests">
-        <include name="RepeatedTestFixture.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.core.extensions.dll"/>
-        <include name="nunit.core.tests.dll"/>
-        <include name="test-assembly.dll"/>
-      </references>
-    </csc>
-    <copy file="NUnitExtensions/tests/nunit.extensions.tests.dll.config"
-      todir="${current.build.dir}"/>
-  </target>
-
-  <target name="build-mock-tests" depends="make-build-dir">
-    <csc target="library"
-       output="${current.build.dir}/nunit.mocks.tests.dll" 
-       debug="${build.debug}" define="${build.defines}">
-      <sources basedir="NUnitMocks/tests">
-        <include name="AssemblyInfo.cs"/>
-        <include name="DynamicMockTests.cs"/>
-        <include name="MockTests.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.mocks.dll"/>
-      </references>
-    </csc>
-    <copy file="NUnitMocks/tests/nunit.mocks.tests.dll.config"
-      todir="${current.build.dir}"/>
-  </target>
-
-  <target name="build-util-tests" depends="make-build-dir">
-    <csc target="library" 
-       output="${current.build.dir}/nunit.util.tests.dll"
-       debug="${build.debug}" define="${build.defines}">
-      <sources basedir="ClientUtilities/tests">
-        <include name="AssemblyListTests.cs"/>
-        <include name="CategoryManagerTests.cs"/>
-        <include name="EventDispatcherTests.cs"/>
-        <include name="FileWatcherTest.cs"/>
-        <include name="MemorySettingsStorageTests.cs"/>
-        <include name="MockAssemblyWatcher.cs"/>
-        <include name="NUnitProjectLoad.cs"/>
-        <include name="NUnitProjectSave.cs"/>
-        <include name="NUnitProjectTests.cs"/>
-        <include name="NUnitProjectXml.cs"/>
-        <include name="NUnitRegistryTests.cs"/>
-        <include name="PathUtilTests.cs"/>
-        <include name="ProcessRunnerTests.cs"/>
-        <include name="ProjectConfigCollectionTests.cs"/>
-        <include name="ProjectConfigTests.cs"/>
-        <include name="RecentFileEntryTests.cs"/>
-        <include name="RecentFilesTests.cs"/>
-        <include name="RegistrySettingsStorageTests.cs"/>
-        <include name="RemoteTestResultTest.cs"/>
-        <include name="SettingsGroupTests.cs"/>
-        <include name="SummaryResultFixture.cs"/>
-        <include name="TestDomainFixture.cs"/>
-        <include name="TestDomainTests_Multiple.cs"/>
-        <include name="TestEventCatcher.cs"/>
-        <include name="TestLoaderAssemblyTests.cs"/>
-        <include name="VSProjectTests.cs"/>
-        <include name="XmlResultVisitorTest.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <resources basedir="ClientUtilities/tests" prefix="NUnit.Util.Tests.resources">
-        <include name="resources/*"/>
-      </resources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.util.dll"/>
-        <include name="nunit.mocks.dll"/>
-        <include name="nunit-server.dll"/>
-        <include name="nunit.core.tests.dll"/>
-        <include name="test-utilities.dll"/>
-        <include name="mock-assembly.dll"/>
-        <include name="nonamespace-assembly.dll"/>
-        <include name="notestfixtures-assembly.dll"/>
-      </references>
-    </csc>
-    <copy file="ClientUtilities/tests/nunit.util.tests.dll.config"
-      todir="${current.build.dir}"/>
-  </target>
-
-  <target name="build-console-tests" depends="make-build-dir">
-    <csc target="library" 
-      output="${current.build.dir}/nunit-console.tests.dll"
-      debug="${build.debug}" define="${build.defines}">
-      <sources basedir="ConsoleRunner/tests">
-        <include name="CommandLineTests.cs"/>
-        <include name="CommandLineTests_MultipleAssemblies.cs"/>
-        <include name="ConsoleRunnerTest.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.framework.tests.dll"/>
-        <include name="nunit.util.dll"/>
-        <include name="nunit-console-runner.dll"/>
-        <include name="test-assembly.dll"/>
-      </references>
-    </csc>
-    <copy file="ConsoleRunner/tests/nunit-console.tests.dll.config"
-      todir="${current.build.dir}"/>
-  </target>
-
-  <target name="build-test-server-tests" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/nunit-server.tests.dll"
-        debug="${build.debug}" define="${build.defines}">
-      <sources basedir="NUnitTestServer/tests">
-        <include name="TestServerTests.cs"/>
-        <include name="UtilityTests.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.util.dll"/>
-        <include name="nunit-test-server.dll"/>
-      </references>
-    </csc>
-    <copy file="NUnitTestServer/tests/nunit-server.tests.dll.config"
-      todir="${current.build.dir}"/>
-  </target>
-
-  <target name="build-uikit-tests" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/nunit.uikit.tests.dll" 
-        debug="${build.debug}" define="${build.defines}">
-      <sources basedir="GuiComponents/tests">
-        <include name="AddConfigurationDialogTests.cs"/>
-        <include name="ErrorDisplayTests.cs"/>
-        <include name="ProgressBarTests.cs"/>
-        <include name="RecentFileMenuHandlerTests.cs"/>
-        <include name="StatusBarTests.cs"/>
-        <include name="TestSuiteTreeNodeTests.cs"/>
-        <include name="TestSuiteTreeViewFixture.cs"/>
-        <include name="TextBoxWriterTests.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="System.Windows.Forms.dll"/>
-	<include name="System.Drawing.dll"/>
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.util.dll"/>
-        <include name="nunit.uikit.dll"/>
-        <include name="test-utilities.dll"/>
-        <include name="mock-assembly.dll"/>
-        <include name="notestfixtures-assembly.dll"/>
-      </references>
-    </csc>
-    <copy file="GuiComponents/tests/nunit.uikit.tests.dll.config"
-      todir="${current.build.dir}"/>
-  </target>
-
-  <target name="build-gui-runner-tests" depends="make-build-dir">
-    <csc target="library" 
-        output="${current.build.dir}/nunit-gui.tests.dll" 
-        debug="${build.debug}" define="${build.defines}">
-      <sources basedir="GuiRunner/tests">
-        <include name="CommandLineTests.cs"/>
-        <include name="ExceptionDetailsFormTests.cs"/>
-        <include name="ProjectEditorTests.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="System.Windows.Forms.dll"/>
-	<include name="System.Drawing.dll"/>
-        <include name="nunit-gui-runner.dll"/>
-        <include name="nunit.util.dll"/>
-        <include name="nunit.framework.dll"/>
-        <include name="test-utilities.dll"/>
-      </references>
-    </csc>
-    <copy file="GuiRunner/tests/nunit-gui.tests.dll.config"
-      todir="${current.build.dir}"/>
-  </target>
-
-  <!-- Targets for running tests -->
+<!-- Targets for running tests -->
 
   <target name="test" depends="build"
     description="Run tests for a build using console runner">
@@ -1305,14 +356,6 @@
       useruntimeengine="true"
 	  commandline="${nunit.test.assemblies} ${nunit.options}"/>
 
-  </target>
-
-  <target name="test-framework" depends="build-framework">
-    <exec basedir="${current.build.dir}"
-      workingdir="${current.build.dir}"
-      program="${nunit.console.name}"
-      useruntimeengine="true"
-      commandline="nunit.framework.tests.dll" />
   </target>
 
   <target name="test-coverage" depends="build"

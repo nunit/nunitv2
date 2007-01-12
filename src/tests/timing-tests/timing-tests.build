@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="TimingTests" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library"
+       output="${current.build.dir}/timing-tests.dll">
+      <sources>
+        <include name="AssemblyInfo.cs"/>
+        <include name="ClientTimeoutFixture.cs"/>
+        <include name="ServerTimeoutFixture.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.util.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.framework.dll"/>
+        <include name="mock-assembly.dll"/>
+      </references>
+    </csc>
+  </target>
+
+</project>

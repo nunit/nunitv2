@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<project name="NUnitGuiTests" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library" 
+        output="${current.build.dir}/nunit-gui.tests.dll" 
+        debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <include name="CommandLineTests.cs"/>
+        <include name="ExceptionDetailsFormTests.cs"/>
+        <include name="ProjectEditorTests.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="System.Windows.Forms.dll"/>
+	<include name="System.Drawing.dll"/>
+        <include name="nunit-gui-runner.dll"/>
+        <include name="nunit.util.dll"/>
+        <include name="nunit.framework.dll"/>
+        <include name="test-utilities.dll"/>
+      </references>
+    </csc>
+    <copy file="nunit-gui.tests.dll.config"
+      todir="${current.build.dir}"/>
+  </target>
+
+</project>

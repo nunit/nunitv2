@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<project name="NUnitUiKit" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library" 
+    output="${current.build.dir}/nunit.uikit.dll"
+    debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <include name="AddConfigurationDialog.cs"/>
+        <include name="AppContainer.cs"/>
+        <include name="AssemblyInfo.cs"/>
+        <include name="AssemblyListBox.cs"/>
+        <include name="AssemblyPathDialog.cs"/>
+        <include name="CommonAssemblyInfo.cs"/>
+        <include name="ConfigurationEditor.cs"/>
+        <include name="ErrorDisplay.cs"/>
+        <include name="ExpandingLabel.cs"/>
+        <include name="ExpandingTextBox.cs"/>
+        <include name="FolderBrowser.cs"/>
+        <include name="GuiTestEventDispatcher.cs"/>
+        <include name="NotRunTree.cs"/>
+        <include name="ProgressBar.cs"/>
+        <include name="RecentFileMenuHandler.cs"/>
+        <include name="RenameConfigurationDialog.cs"/>
+        <include name="ResultTabs.cs"/>
+        <include name="RichEditTabPage.cs"/>
+        <include name="StatusBar.cs"/>
+        <include name="TestLoaderUI.cs"/>
+        <include name="TestPropertiesDialog.cs"/>
+        <include name="TestSuiteTreeNode.cs"/>
+        <include name="TestSuiteTreeView.cs"/>
+        <include name="TestTree.cs"/>
+        <include name="TextBoxWriter.cs"/>
+        <include name="TipWindow.cs"/>
+        <include name="UserMessage.cs"/>
+        <include name="WaitCursor.cs"/>
+        <include name="WritableTextDisplay.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <resources prefix="NUnit.UiKit">
+        <include name="AddConfigurationDialog.resx"/>
+        <include name="AssemblyListBox.resx"/>
+        <include name="AssemblyPathDialog.resx"/>
+        <include name="ConfigurationEditor.resx"/>
+        <include name="ErrorDisplay.resx"/>
+        <include name="ExpandingLabel.resx"/>
+        <include name="ExpandingTextBox.resx"/>
+        <include name="NotRunTree.resx"/>
+        <include name="ProgressBar.resx"/>
+        <include name="RenameConfigurationDialog.resx"/>
+        <include name="ResultTabs.resx"/>
+        <include name="RichEditTabPage.resx"/>
+        <include name="StatusBar.resx"/>
+        <include name="TestPropertiesDialog.resx"/>
+        <include name="TestSuiteTreeView.resx"/>
+        <include name="TestTree.resx"/>
+        <include name="TipWindow.resx"/>
+        <include name="UserMessage.resx"/>
+        <include name="WritableTextDisplay.resx"/>
+        <include name="Ellipsis.gif"/>
+        <include name="pinned.gif"/>
+        <include name="unpinned.gif"/>
+      </resources>
+      <references basedir="${current.build.dir}">
+        <include name="System.Windows.Forms.dll"/>
+        <include name="System.Drawing.dll"/>
+        <include name="System.Data.dll"/>
+        <include name="nunit.core.interfaces.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.util.dll"/>
+      </references>
+    </csc>
+
+    <copy todir="${current.build.dir}">
+      <fileset>
+        <include name="Success.jpg"/>
+        <include name="Failure.jpg"/>
+        <include name="Ignored.jpg"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>

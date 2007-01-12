@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<project name="NUnitGuiRunner" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library" 
+       output="${current.build.dir}/nunit-gui-runner.dll" 
+       win32icon="Logo.ico" debug="${build.debug}"
+       define="${build.defines}">
+      <sources>
+        <include name="AboutBox.cs"/>
+        <include name="AddinDialog.cs"/>
+        <include name="AppEntry.cs"/>
+        <include name="AssemblyInfo.cs"/>
+        <include name="DetailResults.cs"/>
+        <include name="ExceptionDetailsForm.cs"/>
+        <include name="GuiOptions.cs"/>
+        <include name="NUnitForm.cs"/>
+        <include name="OptionsDialog.cs"/>
+        <include name="ProjectEditor.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <resources>
+        <include name="AboutBox.resx"/>
+        <include name="AddinDialog.resx"/>
+        <include name="ExceptionDetailsForm.resx"/>
+        <include name="NUnitForm.resx"/>
+        <include name="OptionsDialog.resx"/>
+        <include name="ProjectEditor.resx"/>
+        <include name="App.ico"/>
+        <include name="Logo.ico"/>
+      </resources>
+      <references basedir="${current.build.dir}">
+        <include name="System.Windows.Forms.dll"/>
+        <include name="System.Drawing.dll"/>
+        <include name="nunit.core.interfaces.dll"/>
+        <include name="nunit.util.dll"/>
+        <include name="nunit.uikit.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.framework.dll"/>
+      </references>
+    </csc>
+  </target>
+
+</project>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<project name="NUnit.UiKit.Tests" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library" 
+        output="${current.build.dir}/nunit.uikit.tests.dll" 
+        debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <include name="AddConfigurationDialogTests.cs"/>
+        <include name="ErrorDisplayTests.cs"/>
+        <include name="ProgressBarTests.cs"/>
+        <include name="RecentFileMenuHandlerTests.cs"/>
+        <include name="StatusBarTests.cs"/>
+        <include name="TestSuiteTreeNodeTests.cs"/>
+        <include name="TestSuiteTreeViewFixture.cs"/>
+        <include name="TextBoxWriterTests.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="System.Windows.Forms.dll"/>
+	<include name="System.Drawing.dll"/>
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.core.interfaces.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.util.dll"/>
+        <include name="nunit.uikit.dll"/>
+        <include name="test-utilities.dll"/>
+        <include name="mock-assembly.dll"/>
+        <include name="notestfixtures-assembly.dll"/>
+      </references>
+    </csc>
+    <copy file="nunit.uikit.tests.dll.config"
+      todir="${current.build.dir}"/>
+  </target>
+
+</project>

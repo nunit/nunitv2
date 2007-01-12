@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<project name="NUnit.Console.Tests" default="build">
+
+  <target name="build">
+    <csc target="library" 
+      output="${current.build.dir}/nunit-console.tests.dll"
+      debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <include name="CommandLineTests.cs"/>
+        <include name="CommandLineTests_MultipleAssemblies.cs"/>
+        <include name="ConsoleRunnerTest.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.framework.tests.dll"/>
+        <include name="nunit.util.dll"/>
+        <include name="nunit-console-runner.dll"/>
+        <include name="test-assembly.dll"/>
+      </references>
+    </csc>
+    <copy file="nunit-console.tests.dll.config" todir="${current.build.dir}"/>
+  </target>
+
+</project>

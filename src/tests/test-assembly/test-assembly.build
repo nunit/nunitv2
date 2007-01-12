@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project name="TestAssembly" default="build" basedir=".">
+
+  <target name="build">
+    <csc target="library" 
+        output="${current.build.dir}/test-assembly.dll" 
+        debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <include name="AttributeDescriptionTests.cs"/>
+        <include name="CategoryAttributeTests.cs"/>
+        <include name="ConsoleRunnerTest.cs"/>
+        <include name="ExpectExceptionTest.cs"/>
+        <include name="FailFixtureTests.cs"/>
+        <include name="FixtureSetUpTearDownTests.cs"/>
+        <include name="IgnoreFixtureTests.cs"/>
+        <include name="PropertyAttributeTests.cs"/>
+        <include name="RepeatedTestFixtureTests.cs"/>
+        <include name="SetupFixtureTests.cs"/>
+        <include name="SetUpTest.cs"/>
+        <include name="SuiteBuilderTests.cs"/>
+        <include name="TestCaseTest.cs"/>
+        <include name="TestData.cs"/>
+        <include name="TestFixtureBuilderTests.cs"/>
+        <include name="TestFixtureExtensionTests.cs"/>
+        <include name="TestFixtureTests.cs"/>
+        <include name="UnhandledExceptions.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.core.interfaces.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.framework.extensions.dll"/>
+      </references>
+    </csc>
+  </target>
+
+</project>
