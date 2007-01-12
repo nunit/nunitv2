@@ -139,6 +139,7 @@ namespace NUnit.Core
 					stopping = true;
 					Monitor.Pulse( events ); // In case thread is waiting
 				}
+				this.pumpThread.Join();
 			}
 		}
 		#endregion
@@ -180,7 +181,7 @@ namespace NUnit.Core
 				Monitor.Exit( events );
 				pumping = false;
 				stopping = false;
-				pumpThread = null;
+				//pumpThread = null;
 			}
 		}
 		#endregion
