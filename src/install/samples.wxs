@@ -25,11 +25,14 @@
 	  <ComponentRef Id="C__VB_Money" />
 			
 	  <!-- Extensibility Samples -->
+          <ComponentRef Id="C__CoreExtensibility" />
 	  <ComponentRef Id="C__MinimalAddin" />
 	  <ComponentRef Id="C__SampleSuiteExtension" />
 	  <ComponentRef Id="C__SampleSuiteExtension_Tests" />
 	  <ComponentRef Id="C__SampleFixtureExtension" />
 	  <ComponentRef Id="C__SampleFixtureExtension_Tests" />
+          <ComponentRef Id="C__MaxTimeDecorator" />
+          <ComponentRef Id="C__MaxTimeDecoratorTests" />
 
     </Feature>
 	
@@ -160,49 +163,65 @@
     <!-- Extensibility Samples -->
 	<DirectoryRef Id="extensibility" FileSource="samples\Extensibility" >
         <Directory Id="core_extensibility" Name="Core">
-		    <Directory Id="Minimal" Name="Minimal">
-			  <Component Id="C__MinimalAddin" DiskId="1" Guid="7C9C8B34-5318-450b-8DCC-6D256C1259A1">
-			    <File Id="Minimal.sln" Name="Minimal.sln" />
-				<File Id="Minimal.csproj" Name="MINIMAL.CSP" LongName="Minimal.csproj" />
-				<File Id="Minimal.cs" Name="Minimal.cs" />
-				<File Id="Minimal_Install.bat" Name="Install.bat" />
+	      <Component Id="C__CoreExtensibility" DiskId="1" Guid="523B3117-5694-4dc2-9D8E-32CD1B843793">
+		  	<File Id="Minimal_Install.bat" Name="Install.bat" />
+	      </Component>
+	      <Directory Id="Minimal" Name="Minimal">
+	        <Component Id="C__MinimalAddin" DiskId="1" Guid="7C9C8B34-5318-450b-8DCC-6D256C1259A1">
+		      <File Id="Minimal.sln" Name="Minimal.sln" />
+			  <File Id="Minimal.csproj" Name="MINIMAL.CSP" LongName="Minimal.csproj" />
+			  <File Id="Minimal.cs" Name="Minimal.cs" />
+	      	</Component>
+	      </Directory>
+          <Directory Id="samplesuiteextension" Name="SAMPLE_1" LongName="SampleSuiteExtension">
+            <Component Id="C__SampleSuiteExtension" DiskId="1" Guid="2EDC393E-B725-406f-A9BC-824E3B72EE84">
+			  <File Id="SSX_Addin.cs" Name="Addin.cs" />
+              <File Id="SampleSuiteExtensionBuilder.cs" Name="SSX.CS" LongName="SampleSuiteExtensionBuilder.cs" />
+              <File Id="SampleSuiteExtension.sln" Name="SSX.SLN" LongName="SampleSuiteExtension.sln" />
+              <File Id="SampleSuiteExtension.csproj" Name="SSX.CSP" LongName="SampleSuiteExtension.csproj" />
+              <File Id="SampleSuiteExtensionAttribute.cs" Name="SSX_ATTR.CS" LongName="SampleSuiteExtensionAttribute.cs" />
+              <File Id="SSX_AssemblyInfo.cs" Name="ASSEMBLY.CS" LongName="AssemblyInfo.cs" />
+              <File Id="SampleSuiteExtension.cs" Name="SSX.CS" LongName="SampleSuiteExtension.cs" />
+            </Component>
+            <Directory Id="samplesuiteextention_tests" Name="Tests">
+              <Component Id="C__SampleSuiteExtension_Tests" DiskId="1" Guid="0E72B102-06A7-448d-938E-3EDD83BA496C">
+                <File Id="SampleSuiteExtensionTests.csproj" Name="SSXTESTS.CSP" LongName="SampleSuiteExtensionTests.csproj" />
+                <File Id="SampleSuiteExtensionTests.cs" Name="SSXTESTS.CS" LongName="SampleSuiteExtensionTests.cs" />
+              </Component>
+            </Directory>
+          </Directory>
+          <Directory Id="samplefixtureextension" Name="SAMPLE_2" LongName="SampleFixtureExtension">
+            <Component Id="C__SampleFixtureExtension" DiskId="1" Guid="4C209669-C278-4fc7-8D61-3E36E263AADF">
+              <File Id="SampleFixtureExtensionBuilder.cs" Name="SFXBLDR.CS" LongName="SampleFixtureExtensionBuilder.cs" />
+              <File Id="SampleFixtureExtension.cs" Name="SFX.CS" LongName="SampleFixtureExtension.cs" />
+              <File Id="SampleFixtureExtensionAttribute.cs" Name="SFXATTR.CS" LongName="SampleFixtureExtensionAttribute.cs" />
+              <File Id="SampleFixtureExtension.sln" Name="SFX.SLN" LongName="SampleFixtureExtension.sln" />
+              <File Id="SampleFixtureExtension.csproj" Name="SFX.CSP" LongName="SampleFixtureExtension.csproj" />
+			  <File Id="SFX_AssemblyInfo.cs" Name="ASSEMBLY.CS" LongName="AssemblyInfo.cs" />
+            </Component>
+            <Directory Id="SFX_Tests" Name="Tests">
+              <Component Id="C__SampleFixtureExtension_Tests" DiskId="1" Guid="7A8AF9BF-EE33-462f-AE7F-2CEF2084866F">
+                <File Id="SampleFixtureExtensionTests.cs" Name="SFXTESTS.CS" LongName="SampleFixtureExtensionTests.cs" />
+                <File Id="SampleFixtureExtensionTests.csproj" Name="SFXTESTS.CSP" LongName="SampleFixtureExtensionTests.csproj" />
+              </Component>
+            </Directory>
+          </Directory>
+		  <Directory Id="maxtimedecorator" Name="MAXTIME" LongName="MaxTimeDecorator">
+		    <Component Id="C__MaxTimeDecorator" DiskId="1" Guid="D291A2AB-CC2D-4f67-BE2E-30ACBF5EA18F">
+			  <File Id="MTD_AssemblyInfo.cs" Name="ASSEMBLY.CS" LongName="AssemblyInfo.cs" />
+			  <File Id="MaxTimeAttribute.cs" Name="MTATTR.cs" LongName="MaxTimeAttribute.cs" />
+			  <File Id="MaxTimeDecorator.cs" Name="MTD.CS" LongName="MaxTimeDecorator.cs" />
+			  <File Id="MaxTimeTestCase.cs" Name="MTTC.CS" LongName="MaxTimeTestCase.cs" />
+			  <File Id="MaxTimeDecorator.csproj" Name="MTD.CSP" LongName="MaxTimeDecorator.csproj" />
+			  <File Id="MaxTimeDecorator.sln" Name="MTD.SLN" LongName="MaxTimeDecorator.sln" />
+			</Component>
+			<Directory Id="MTD_Tests" Name="Tests">
+			  <Component Id="C__MaxTimeDecoratorTests" DiskId="1" Guid="D50F4831-CC6C-4624-A419-307637F0BE9A">
+			    <File Id="MaxTimeDecoratorTests.cs" Name="MTDTESTS.CS" LongName="MaxTimeDecoratorTests.cs" />
+			    <File Id="MaxTimeDecoratorTests.csproj" Name="MTDTESTS.CSP" LongName="MaxTimeDecoratorTests.csproj" />
 			  </Component>
 			</Directory>
-            <Directory Id="samplesuiteextension" Name="SAMPLE_1" LongName="SampleSuiteExtension">
-              <Component Id="C__SampleSuiteExtension" DiskId="1" Guid="2EDC393E-B725-406f-A9BC-824E3B72EE84">
-			    <File Id="SSX_Addin.cs" Name="Addin.cs" />
-                <File Id="SampleSuiteExtensionBuilder.cs" Name="SSX.CS" LongName="SampleSuiteExtensionBuilder.cs" />
-                <File Id="SampleSuiteExtension.sln" Name="SSX.SLN" LongName="SampleSuiteExtension.sln" />
-                <File Id="SampleSuiteExtension.csproj" Name="SSX.CSP" LongName="SampleSuiteExtension.csproj" />
-                <File Id="SampleSuiteExtensionAttribute.cs" Name="SSX_ATTR.CS" LongName="SampleSuiteExtensionAttribute.cs" />
-                <File Id="SSX_AssemblyInfo.cs" Name="ASSEMBLY.CS" LongName="AssemblyInfo.cs" />
-                <File Id="SampleSuiteExtension.cs" Name="SSX.CS" LongName="SampleSuiteExtension.cs" />
-				<File Id="SSX_Install.bat" Name="Install.bat" />
-              </Component>
-              <Directory Id="samplesuiteextention_tests" Name="Tests">
-                <Component Id="C__SampleSuiteExtension_Tests" DiskId="1" Guid="0E72B102-06A7-448d-938E-3EDD83BA496C">
-                  <File Id="F__samples_file12" Name="TESTS_1.CSP" LongName="Tests.csproj" />
-                  <File Id="F__samples_file13" Name="SAMPLE_1.CS" LongName="SampleSuiteExtensionTests.cs" />
-                </Component>
-              </Directory>
-            </Directory>
-            <Directory Id="directory6" Name="SAMPLE_2" LongName="SampleFixtureExtension">
-              <Component Id="C__SampleFixtureExtension" DiskId="1" Guid="4C209669-C278-4fc7-8D61-3E36E263AADF">
-                <File Id="F__samples_file14" Name="SAMPLE_1.CS" LongName="SampleFixtureExtensionBuilder.cs" />
-                <File Id="F__samples_file17" Name="SAMPLE_2.CS" LongName="SampleFixtureExtension.cs" />
-                <File Id="F__samples_file18" Name="SAMPLE_3.CS" LongName="SampleFixtureExtensionAttribute.cs" />
-                <File Id="SampleFixtureExtension.sln" Name="SAMPLE_1.SLN" LongName="SampleFixtureExtension.sln" />
-                <File Id="F__samples_file19" Name="SAMPLE_1.CSP" LongName="SampleFixtureExtension.csproj" />
-				<File Id="SFX_AssemblyInfo.cs" Name="ASSEMBLY.CS" LongName="AssemblyInfo.cs" />
-				<File Id="SFX_Install.bat" Name="Install.bat" />
-              </Component>
-              <Directory Id="directory7" Name="Tests">
-                <Component Id="C__SampleFixtureExtension_Tests" DiskId="1" Guid="7A8AF9BF-EE33-462f-AE7F-2CEF2084866F">
-                  <File Id="F__samples_file20" Name="SAMPLE_1.CS" LongName="SampleFixtureExtensionTests.cs" />
-                  <File Id="F__samples_file21" Name="TESTS_1.CSP" LongName="Tests.csproj" />
-                </Component>
-              </Directory>
-            </Directory>
+		  </Directory>
         </Directory>
     </DirectoryRef>
 		
