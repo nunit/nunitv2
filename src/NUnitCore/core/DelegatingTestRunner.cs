@@ -46,8 +46,8 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Protected constructor for runners that create their own
-		/// specialized downstream runner.
+		/// Protected constructor for runners that delay creation
+		/// of their downstream runner.
 		/// </summary>
 		protected DelegatingTestRunner( int runnerID )
 		{
