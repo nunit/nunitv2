@@ -119,7 +119,7 @@ namespace NUnit.ConsoleRunner.Tests
 				"-nologo" );
 
 			Assert.AreEqual(0, resultCode);
-			Assert.IsTrue(output.ToString().Trim().IndexOf( @"<?xml version=""1.0""" ) >= 0,
+			StringAssert.Contains( @"<?xml version=""1.0""", output.ToString(),
 				"Only XML should be displayed in xmlconsole mode");
 		}
 
@@ -135,6 +135,48 @@ namespace NUnit.ConsoleRunner.Tests
 		{
 			int resultCode = runFixture( typeof( Bug1311644Fixture ) );
 			Assert.AreEqual( 1, resultCode );
+		}
+
+		[Test]
+		public void CanRunWithoutTestDomain()
+		{
+			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "/domain:None" ) );
+			StringAssert.Contains( "Failures: 0", output.ToString() );
+		}
+
+		[Test]
+		public void CanRunWithSingleTestDomain()
+		{
+			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "/domain:Single" ) );
+			StringAssert.Contains( "Failures: 0", output.ToString() );
+		}
+
+		[Test]
+		public void CanRunWithMultipleTestDomains()
+		{
+			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "nonamespace-assembly.dll", "/domain:Multiple" ) );
+			StringAssert.Contains( "Failures: 0", output.ToString() );
+		}
+
+		[Test]
+		public void CanRunWithoutTestDomain_NoThread()
+		{
+			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "/domain:None", "/nothread" ) );
+			StringAssert.Contains( "Failures: 0", output.ToString() );
+		}
+
+		[Test]
+		public void CanRunWithSingleTestDomain_NoThread()
+		{
+			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "/domain:Single", "/nothread" ) );
+			StringAssert.Contains( "Failures: 0", output.ToString() );
+		}
+
+		[Test]
+		public void CanRunWithMultipleTestDomains_NoThread()
+		{
+			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "nonamespace-assembly.dll", "/domain:Multiple", "/nothread" ) );
+			StringAssert.Contains( "Failures: 0", output.ToString() );
 		}
 
 		private int runFixture( Type type )
@@ -154,7 +196,7 @@ namespace NUnit.ConsoleRunner.Tests
 			return executeConsole( args ); 
 		}
 
-		private int executeConsole( string[] arguments )
+		private int executeConsole( params string[] arguments )
 		{
 			return NUnit.ConsoleRunner.ConsoleUi.Main( arguments );
 		}

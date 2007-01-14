@@ -173,10 +173,30 @@ namespace NUnit.ConsoleRunner
 
 		private static TestRunner MakeRunnerFromCommandLine( ConsoleOptions options )
 		{
-            TestRunner testRunner = options.ParameterCount == 1
-                ? (TestRunner)new TestDomain()
-                : (TestRunner)new MultipleTestDomainRunner();
+			ConsoleOptions.DomainUsage domainUsage = options.domain;
+			if ( domainUsage == ConsoleOptions.DomainUsage.Default )
+				domainUsage = options.ParameterCount == 1
+					? ConsoleOptions.DomainUsage.Single
+					: ConsoleOptions.DomainUsage.Multiple;
 
+            TestRunner testRunner = null;
+				
+			switch( domainUsage )
+			{
+				case ConsoleOptions.DomainUsage.None:
+					testRunner = new NUnit.Core.RemoteTestRunner();
+					break;
+
+				case ConsoleOptions.DomainUsage.Single:
+					testRunner = new TestDomain();
+					break;
+
+				case ConsoleOptions.DomainUsage.Multiple:
+					testRunner = new MultipleTestDomainRunner();
+					break;
+			}
+
+			Console.WriteLine( "NUnit-console using " + testRunner.GetType().Name );
 			TestPackage package;
 			if ( options.IsTestProject )
 			{
@@ -188,7 +208,6 @@ namespace NUnit.ConsoleRunner
 				package = project.MakeTestPackage();
 				if ( options.IsFixture )
 					package.TestName = options.fixture;
-				testRunner.Load( package );
 			}
 			else if ( options.Parameters.Count == 1 )
 			{
@@ -201,8 +220,8 @@ namespace NUnit.ConsoleRunner
 
 			if ( options.IsFixture )
 				package.TestName = options.fixture;
-			if ( options.noshadow )
-				package.Settings["ShadowCopyFiles"] = false;
+			package.Settings["ShadowCopyFiles"] = !options.noshadow;
+			package.Settings["UseThreadedRunner"] = !options.nothread;
 			testRunner.Load( package );
 
 			return testRunner;
@@ -263,6 +282,8 @@ namespace NUnit.ConsoleRunner
 
 			TestResult result = null;
 			string savedDirectory = Environment.CurrentDirectory;
+			TextWriter savedOut = Console.Out;
+			TextWriter savedError = Console.Error;
 
 			try
 			{
@@ -279,6 +300,8 @@ namespace NUnit.ConsoleRunner
 					errorWriter.Close();
 
 				Environment.CurrentDirectory = savedDirectory;
+				Console.SetOut( savedOut );
+				Console.SetError( savedError );
 			}
 
 			Console.WriteLine();

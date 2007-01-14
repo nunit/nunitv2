@@ -35,6 +35,14 @@ namespace NUnit.ConsoleRunner
 
 	public class ConsoleOptions : CommandLineOptions
 	{
+		public enum DomainUsage
+		{
+			Default,
+			None,
+			Single,
+			Multiple
+		}
+
 		[Option(Description = "Fixture to test")]
 		public string fixture;
 
@@ -71,15 +79,15 @@ namespace NUnit.ConsoleRunner
 //		[Option(Description = "Run in a separate process")]
 //		public bool process;
 
-//		[Option(Description = "Run in a separate AppDomain")]
-//		public bool nodomain;
+		[Option(Description = "AppDomain Usage for Tests")]
+		public DomainUsage domain;
 
-//		[Option(Description = "Disable shadow copy when running in separate domain")]
-		[Option(Description = "Disable shadow copy")]
+
+		[Option(Description = "Disable shadow copy when running in separate domain")]
 		public bool noshadow;
 
-		[Option (Description = "Run tests on a separate thread")]
-		public bool thread;
+		[Option (Description = "Disable use of a separate thread for tests")]
+		public bool nothread;
 
 		[Option(Description = "Wait for input before closing console window")]
 		public bool wait = false;
@@ -91,8 +99,6 @@ namespace NUnit.ConsoleRunner
 		public bool help = false;
 
 		private bool isInvalid = false; 
-
-		//public ConsoleOptions(String[] args) : base(args) {}
 
 		public ConsoleOptions( params string[] args ) : base( args ) {}
 

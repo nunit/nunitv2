@@ -93,6 +93,13 @@ namespace NUnit.ConsoleRunner.Tests
 			Assert.AreEqual( "text", (string)field.GetValue( options ), "Didn't recognize /" + option );
 		}
 
+		private void TestEnumOption( string fieldName )
+		{
+			FieldInfo field = typeof(ConsoleOptions).GetField( fieldName );
+			Assert.IsNotNull( field, "Field {0} not found", fieldName );
+			Assert.IsTrue( field.FieldType.IsEnum, "Field {0} is not an enum", fieldName );
+		}
+
 		[Test]
 		public void OptionsAreRecognized()
 		{
@@ -103,7 +110,7 @@ namespace NUnit.ConsoleRunner.Tests
 			TestBooleanOption( "xmlConsole" );
 			TestBooleanOption( "labels" );
 			TestBooleanOption( "noshadow" );
-			TestBooleanOption( "thread" );
+			TestBooleanOption( "nothread" );
 			TestStringOption( "fixture" );
 			TestStringOption( "config" );
 			TestStringOption( "xml" );
@@ -113,6 +120,7 @@ namespace NUnit.ConsoleRunner.Tests
 			TestStringOption( "err" );
 			TestStringOption( "include" );
 			TestStringOption( "exclude" );
+			TestEnumOption( "domain" );
 		}
 
 		[Test]
