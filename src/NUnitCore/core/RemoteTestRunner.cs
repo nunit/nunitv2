@@ -11,14 +11,30 @@ namespace NUnit.Core
 	/// </summary>
 	public class RemoteTestRunner : DelegatingTestRunner
 	{
-		#region Constructor
-		public RemoteTestRunner() : this( 0 ) { }
+		private bool useThreadedRunner = true;
 
-		public RemoteTestRunner( int runnerID ) 
-			: base( new ThreadedTestRunner( new SimpleTestRunner( runnerID ) ) ) { }
+		#region Constructor
+		public RemoteTestRunner() : base( 0 ) { }
+
+		public RemoteTestRunner( int runnerID ) : base( runnerID ) { }
 		#endregion
 
 		#region Method Overrides
+		public override bool Load(TestPackage package)
+		{
+			// Delayed creation of downstream runner allows us to
+			// use a different runner type based on the package
+			bool useThreadedRunner = package.GetSetting( "UseThreadedRunner", true );
+			
+			TestRunner runner = new SimpleTestRunner( this.runnerID );
+			if ( useThreadedRunner )
+				runner = new ThreadedTestRunner( runner );
+
+			this.TestRunner = runner;
+
+			return base.Load (package);
+		}
+
 		public override TestResult Run( EventListener listener )
 		{
 			return Run( listener, TestFilter.Empty );
@@ -26,14 +42,22 @@ namespace NUnit.Core
 
 		public override TestResult Run( EventListener listener, ITestFilter filter )
 		{
-			QueuingEventListener queue = new QueuingEventListener();
-
-			DirectOutputToListener( queue );
-
-			using( EventPump pump = new EventPump( listener, queue.Events, true ) )
+			if ( useThreadedRunner )
 			{
-				pump.Start();
-				return base.Run( queue, filter );
+				QueuingEventListener queue = new QueuingEventListener();
+
+				DirectOutputToListener( queue );
+
+				using( EventPump pump = new EventPump( listener, queue.Events, true ) )
+				{
+					pump.Start();
+					return base.Run( queue, filter );
+				}
+			}
+			else
+			{
+				DirectOutputToListener( listener );
+				return base.Run( listener, filter );
 			}
 		}
 
@@ -44,15 +68,23 @@ namespace NUnit.Core
 
 		public override void BeginRun( EventListener listener, ITestFilter filter )
 		{
-			QueuingEventListener queue = new QueuingEventListener();
+			if ( useThreadedRunner )
+			{
+				QueuingEventListener queue = new QueuingEventListener();
 
-			DirectOutputToListener( queue );
+				DirectOutputToListener( queue );
 
-			EventPump pump = new EventPump( listener, queue.Events, true);
-			pump.Start(); // Will run till RunFinished is received
-			// TODO: Make sure the thread is cleaned up if we abort the run
+				EventPump pump = new EventPump( listener, queue.Events, true);
+				pump.Start(); // Will run till RunFinished is received
+				// TODO: Make sure the thread is cleaned up if we abort the run
 			
-			base.BeginRun( queue, filter );
+				base.BeginRun( queue, filter );
+			}
+			else
+			{
+				DirectOutputToListener( listener );
+				base.BeginRun( listener, filter );
+			}
 		}
 
 		private void DirectOutputToListener( EventListener queue )
