@@ -81,13 +81,8 @@ namespace NUnit.Core
 		/// <returns>A TestSuite</returns>
 		public TestSuite Build( TestPackage package )
 		{
-			bool autoNamespaceSuites = true;
-			bool mergeAssemblies = false;
-
-			if ( package.Settings.Contains( "AutoNamespaceSuites" ) )
-				autoNamespaceSuites = (bool)package.Settings[ "AutoNamespaceSuites" ];
-			if ( package.Settings.Contains( "MergeAssemblies" ) )
-				mergeAssemblies = (bool)package.Settings[ "MergeAssemblies" ];
+			bool autoNamespaceSuites = package.GetSetting( "AutoNamespaceSuites", true );
+			bool mergeAssemblies = package.GetSetting( "MergeAssemblies", false );
 
 			if ( package.IsSingleAssembly )
 				return BuildSingleAssembly( package );
@@ -132,15 +127,12 @@ namespace NUnit.Core
 		private TestSuite BuildSingleAssembly( TestPackage package )
 		{
 			TestAssemblyBuilder builder = new TestAssemblyBuilder();
-
-			bool autoNamespaceSuites = true;
-			if ( package.Settings.Contains( "AutoNamespaceSuites" ) )
-				autoNamespaceSuites = (bool)package.Settings[ "AutoNamespaceSuites" ];
-			
 			builders.Clear();
 			builders.Add( builder );
 
-			return (TestSuite)builder.Build( package.FullName, package.TestName, autoNamespaceSuites );
+			return (TestSuite)builder.Build( 
+				package.FullName, 
+				package.TestName, package.GetSetting( "AutoNamespaceSuites", true ) );
 		}
 		#endregion
 	}

@@ -151,6 +151,19 @@ namespace NUnit.Core
 			get { return settings; }
 		}
 
+		/// <summary>
+		/// Return the value of a bool setting or a default.
+		/// </summary>
+		/// <param name="name">The name of the setting</param>
+		/// <param name="defaultSetting">The default value</param>
+		/// <returns></returns>
+		public bool GetSetting( string name, bool defaultSetting )
+		{
+			object setting = settings[name];
+			
+			return setting == null ? defaultSetting : (bool)setting;
+		}
+
 		private static bool IsAssemblyFileType( string path )
 		{
 			string extension = Path.GetExtension( path ).ToLower();
