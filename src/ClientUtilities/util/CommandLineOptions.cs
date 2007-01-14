@@ -208,6 +208,8 @@ namespace Codeblast
 							if(stringValue == null || stringValue.Length == 0) return false; 
 							return true;
 						}
+						else if(field.FieldType.IsEnum)
+							value = Enum.Parse( field.FieldType, (string)cmdLineVal, true );
 						else
 							value = cmdLineVal != null ? cmdLineVal : args[++index];
 					}
