@@ -65,10 +65,7 @@ namespace NUnit.Util
 				binPath = GetPrivateBinPath( appBase, package.Assemblies );
 			setup.PrivateBinPath = binPath;
 
-			bool shadowCopyFiles = true;
-			if ( package.Settings.Contains("ShadowCopyFiles") )
-				shadowCopyFiles = (bool)package.Settings["ShadowCopyFiles"];
-			if ( shadowCopyFiles )
+			if ( package.GetSetting( "ShadowCopyFiles", true ) )
 			{
 				setup.ShadowCopyFiles = "true";
 				setup.ShadowCopyDirectories = appBase;
