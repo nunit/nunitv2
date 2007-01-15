@@ -185,6 +185,8 @@ namespace NUnit.ConsoleRunner
 			{
 				case ConsoleOptions.DomainUsage.None:
 					testRunner = new NUnit.Core.RemoteTestRunner();
+					// Make sure that addins are available
+					CoreExtensions.Host.AddinRegistry = Services.AddinRegistry;
 					break;
 
 				case ConsoleOptions.DomainUsage.Single:
@@ -196,7 +198,6 @@ namespace NUnit.ConsoleRunner
 					break;
 			}
 
-			Console.WriteLine( "NUnit-console using " + testRunner.GetType().Name );
 			TestPackage package;
 			if ( options.IsTestProject )
 			{
@@ -384,7 +385,7 @@ namespace NUnit.ConsoleRunner
 				this.outWriter = outWriter;
 				this.errorWriter = errorWriter;
 				this.currentTestName = string.Empty;
-				this.progress = !options.xmlConsole && !options.labels;
+				this.progress = !options.xmlConsole && !options.labels && !options.nodots;
 
                 AppDomain.CurrentDomain.UnhandledException += 
                     new UnhandledExceptionEventHandler(OnUnhandledException);
