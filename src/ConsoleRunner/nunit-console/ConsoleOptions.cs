@@ -82,8 +82,11 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "AppDomain Usage for Tests")]
 		public DomainUsage domain;
 
+//		[Option(Description = "Disable use of a separate AppDomain for tests")]
+//		public bool nodomain;
 
 		[Option(Description = "Disable shadow copy when running in separate domain")]
+//		[Option(Description = "Disable shadow copy")]
 		public bool noshadow;
 
 		[Option (Description = "Disable use of a separate thread for tests")]
@@ -95,10 +98,15 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "Do not display the logo")]
 		public bool nologo = false;
 
+		[Option(Description = "Do not display progress" )]
+		public bool nodots = false;
+
 		[Option(Short="?", Description = "Display help")]
 		public bool help = false;
 
 		private bool isInvalid = false; 
+
+		//public ConsoleOptions(String[] args) : base(args) {}
 
 		public ConsoleOptions( params string[] args ) : base( args ) {}
 
