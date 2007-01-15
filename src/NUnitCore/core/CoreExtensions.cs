@@ -45,6 +45,9 @@ namespace NUnit.Core
 	public class CoreExtensions : ExtensionHost, IService
 	{
 		#region Instance Fields
+		private IAddinRegistry addinRegistry;
+		private bool initialized;
+
 		private SuiteBuilderCollection suiteBuilders;
 		private TestCaseBuilderCollection testBuilders;
 		private TestDecoratorCollection testDecorators;
@@ -60,8 +63,7 @@ namespace NUnit.Core
 				if (host == null)
 				{
 					host = new CoreExtensions();
-					host.InstallBuiltins();
-					host.InstallAddins();
+//					host.InitializeService();
 				}
 
 				return host;
@@ -83,7 +85,28 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region Properties
+		#region 
+
+		public bool Initialized
+		{
+			get { return initialized; }
+		}
+
+		/// <summary>
+		/// Our AddinRegistry may be set from outside or passed into the domain
+		/// </summary>
+		public IAddinRegistry AddinRegistry
+		{
+			get 
+			{
+				if ( addinRegistry == null )
+					addinRegistry = AppDomain.CurrentDomain.GetData( "AddinRegistry" ) as IAddinRegistry;
+
+				return addinRegistry; 
+			}
+			set { addinRegistry = value; }
+		}
+
 		public ISuiteBuilder SuiteBuilders
 		{
 			get { return suiteBuilders; }
@@ -124,11 +147,9 @@ namespace NUnit.Core
 		{
 			Trace.WriteLine( "Installing Addins" );
 
-			IAddinRegistry addinRegistry = GetAddinRegistry();
-
-			if( addinRegistry != null )
+			if( AddinRegistry != null )
 			{
-				foreach (Addin addin in addinRegistry.Addins)
+				foreach (Addin addin in AddinRegistry.Addins)
 				{
 					if ( (this.ExtensionTypes & addin.ExtensionType) != 0 )
 					{
@@ -136,15 +157,15 @@ namespace NUnit.Core
 						{
 							Type type = Type.GetType(addin.TypeName);
 							if ( type == null )
-								addinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Could not locate type" );
+								AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Could not locate type" );
 							else if ( !InstallAddin( type ) )
-								addinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Install returned false" );
+								AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Install returned false" );
 							else
-								addinRegistry.SetStatus( addin.Name, AddinStatus.Loaded, null );
+								AddinRegistry.SetStatus( addin.Name, AddinStatus.Loaded, null );
 						}
 						catch( Exception ex )
 						{
-							addinRegistry.SetStatus( addin.Name, AddinStatus.Error, ex.Message );
+							AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, ex.Message );
 						}
 					}
 				}
@@ -169,12 +190,6 @@ namespace NUnit.Core
 			IAddin theAddin = (IAddin)obj;
 
 			return theAddin.Install(this);
-		}
-
-		private IAddinRegistry GetAddinRegistry()
-		{
-			object regObject = AppDomain.CurrentDomain.GetData( "AddinRegistry" ) as IAddinRegistry;
-			return regObject as IAddinRegistry;
 		}
 		#endregion
 
@@ -211,6 +226,8 @@ namespace NUnit.Core
 		{
 			InstallBuiltins();
 			InstallAddins();
+
+			initialized = true;
 		}
 
 		#endregion
