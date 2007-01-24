@@ -23,4 +23,10 @@
     </csc>
   </target>
 
+  <target name="package">
+    <copy todir="${package.src.dir}/tests/test-utilities">
+      <fileset refid="source-files" />
+    </copy>
+  </target>
+
 </project>

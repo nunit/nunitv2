@@ -46,4 +46,10 @@
       todir="${current.build.dir}"/>
   </target>
 
+  <target name="package">
+    <copy todir="${package.src.dir}/NUnitFramework/tests">
+      <fileset refid="source-files" />
+    </copy>
+  </target>
+
 </project>

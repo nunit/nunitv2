@@ -17,4 +17,10 @@
     </csc>
   </target>
 
+  <target name="package">
+    <copy todir="${package.src.dir}/NUnitTestServer/nunit-server">
+      <fileset refid="source-files" />
+    </copy>
+  </target>
+
 </project>

@@ -18,4 +18,10 @@
     <copy file="mock-assembly.dll.config" todir="${current.build.dir}"/>
   </target>
 
+  <target name="package">
+    <copy todir="${package.src.dir}/tests/mock-assembly">
+      <fileset refid="source-files" />
+    </copy>
+  </target>
+
 </project>

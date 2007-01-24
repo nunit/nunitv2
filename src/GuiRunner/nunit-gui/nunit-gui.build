@@ -41,4 +41,10 @@
     </csc>
   </target>
 
+  <target name="package">
+    <copy todir="${package.src.dir}/GuiRunner/nunit-gui">
+      <fileset refid="source-files" />
+    </copy>
+  </target>
+
 </project>

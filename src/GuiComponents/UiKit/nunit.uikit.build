@@ -80,4 +80,10 @@
     </copy>
   </target>
 
+  <target name="package">
+    <copy todir="${package.src.dir}/GuiComponents/UiKit">
+      <fileset refid="source-files" />
+    </copy>
+  </target>
+
 </project>

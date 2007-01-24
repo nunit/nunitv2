@@ -19,4 +19,10 @@
     </csc>
   </target>
 
+  <target name="package">
+    <copy todir="${package.src.dir}/tests/timing-tests">
+      <fileset refid="source-files" />
+    </copy>
+  </target>
+
 </project>

@@ -21,4 +21,10 @@
       tofile="${current.build.dir}/${nunit.console.name}.config"/>
   </target>
 
+  <target name="package">
+    <copy todir="${package.src.dir}/ConsoleRunner/nunit-console-exe">
+      <fileset refid="source-files" />
+    </copy>
+  </target>
+
 </project>

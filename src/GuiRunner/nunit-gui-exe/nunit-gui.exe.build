@@ -20,4 +20,10 @@
       tofile="${current.build.dir}/${nunit.gui.name}.config"/>
   </target>
 
+  <target name="package">
+    <copy todir="${package.src.dir}/GuiRunner/nunit-gui-exe">
+      <fileset refid="source-files" />
+    </copy>
+  </target>
+
 </project>

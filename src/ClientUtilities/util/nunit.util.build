@@ -68,4 +68,10 @@
     </csc>
   </target>
   
+  <target name="package">
+    <copy todir="${package.src.dir}/ClientUtilities/util">
+      <fileset refid="source-files" />
+    </copy>
+  </target>
+
 </project>

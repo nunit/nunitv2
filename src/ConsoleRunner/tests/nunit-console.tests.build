@@ -23,4 +23,10 @@
     <copy file="nunit-console.tests.dll.config" todir="${current.build.dir}"/>
   </target>
 
+  <target name="package">
+    <copy todir="${package.src.dir}/ConsoleRunner/tests">
+      <fileset refid="source-files" />
+    </copy>
+  </target>
+
 </project>

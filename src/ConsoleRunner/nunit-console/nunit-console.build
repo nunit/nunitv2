@@ -19,4 +19,10 @@
     </csc>
   </target>
 
+  <target name="package">
+    <copy todir="${package.src.dir}/ConsoleRunner/nunit-console">
+      <fileset refid="source-files" />
+    </copy>
+  </target>
+
 </project>

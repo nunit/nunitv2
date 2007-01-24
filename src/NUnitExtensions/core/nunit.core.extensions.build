@@ -18,4 +18,10 @@
     </csc>
   </target>
 
+  <target name="package">
+    <copy todir="${package.src.dir}/NUnitExtensions/core">
+      <fileset refid="source-files" />
+    </copy>
+  </target>
+
 </project>
