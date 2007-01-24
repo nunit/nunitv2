@@ -15,6 +15,7 @@ namespace NUnit.UiKit
 		public RichEditTabPage()
 		{
 			this.textBox = new RichTextBox();
+			this.textBox.Multiline = true;
 			this.textBox.Dock = DockStyle.Fill;
 
 			this.Controls.Add( textBox );
