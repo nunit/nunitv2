@@ -45,7 +45,7 @@ namespace NUnit.UiKit
 					Console.WriteLine( "Exception:" );
 					Console.WriteLine( ex );
 					//throw new TestEventInvocationException( ex );
-					throw;
+					//throw;
 				}
 			}
 		}
