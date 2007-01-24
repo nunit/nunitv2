@@ -74,12 +74,12 @@
             </Component>
         </Directory>
         
-		<Directory Id="csharp_money_port" Name="MONEY-_1" LongName="money-port">
+	<Directory Id="csharp_money_port" Name="MONEY-_1" LongName="money-port">
             <Component Id="C__CSharp_Money_Port" DiskId="1" Guid="CE86795C-1A55-4d82-BBA7-8B73668B94D1">
               <File Id="F__samples_file36" Name="MoneyBag.cs" />
               <File Id="F__samples_file37" Name="Money.cs" />
               <File Id="F__samples_file38" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
-              <File Id="F__samples_file41" Name="MONEY-_1.CON" LongName="cs-money-port.config" />
+              <File Id="F__samples_file41" Name="MONEY-_1.CON" LongName="cs-money-port.dll.config" />
               <File Id="F__samples_file42" Name="IMoney.cs" />
               <File Id="F__samples_file43" Name="MONEYTST.CS" LongName="MoneyTest.cs" />
               <File Id="F__samples_file40" Name="MONYPORT.SLN" LongName="cs-money-port.sln" />
