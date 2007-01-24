@@ -14,15 +14,20 @@ namespace NUnit.UiKit.Tests
 		public void Init()
 		{
 			textBox = new RichTextBox();
+			textBox.Multiline = true;
 			textBoxWriter = new TextBoxWriter( textBox );
 			textBox.CreateControl();
+		}
+
+		public void CleanUp()
+		{
+			textBox.Dispose();
 		}
 
 		[Test]
 		public void CreateWriter()
 		{
 			Assert.IsNotNull( textBoxWriter );
-			Assert.AreEqual( 0, textBox.Lines.Length );
 			Assert.AreEqual( "", textBox.Text );
 			Assert.AreEqual( 0, textBox.Lines.Length );
 		}
@@ -38,25 +43,24 @@ namespace NUnit.UiKit.Tests
 			WriteTestLines( count, 1 );
 		}
 
-		[Test]//, Platform(Exclude="Mono")]
+		[Test]
 		public void WriteLines()
 		{
 			WriteTestLines( 5 );
-			Assert.AreEqual( "This is line 1\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\n", textBox.Text );
 			Assert.AreEqual( "This is line 3", textBox.Lines[2] );
 		}
 
-		[Test]//, Platform(Exclude="Mono")]
+		[Test]
 		public void Write()
 		{
 			textBoxWriter.Write( "I wrote this" );
 			textBoxWriter.Write( " in three parts" );
 			textBoxWriter.Write( '!' );
-
-			Assert.AreEqual( "I wrote this in three parts!", textBox.Lines[0] );
+			
+			Assert.AreEqual( "I wrote this in three parts!", textBox.Text );
 		}
 
-		[Test]//, Platform(Exclude="Mono")]
+		[Test, Platform(Exclude="Mono", Reason="Mono 1.2.2 mixes up lines")]
 		public void MixedWrites()
 		{
 			WriteTestLines( 5 );
