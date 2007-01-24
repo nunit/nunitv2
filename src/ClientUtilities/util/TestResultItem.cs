@@ -48,9 +48,15 @@ namespace NUnit.Util
 			message = result.Message;
 			stackTrace = result.StackTrace;
 
-// TODO: Figure out how to recognize a setup failure
-//			if ( result.Test.IsSuite && result.SetUpFailed )
-//				testName += " (TestFixtureSetUp)";
+			if ( result.Test.IsSuite && result.FailureSite == FailureSite.SetUp )
+				testName += " (TestFixtureSetUp)";
+		}
+
+		public TestResultItem( string testName, string message, string stackTrace )
+		{
+			this.testName = testName;
+			this.message = message;
+			this.stackTrace = stackTrace;
 		}
 
 		public override string ToString()

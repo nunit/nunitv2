@@ -348,7 +348,7 @@ namespace NUnit.UiKit
 		public void Subscribe(ITestEvents events)
 		{
 			events.TestFinished += new TestEventHandler(OnTestFinished);
-			events.SuiteFinished += new TestEventHandler(OnTestFinished);
+			events.SuiteFinished += new TestEventHandler(OnSuiteFinished);
 			events.TestException += new TestEventHandler(OnTestException);
 		}
 		#endregion
@@ -357,39 +357,59 @@ namespace NUnit.UiKit
 		private void OnTestFinished(object sender, TestEventArgs args)
 		{
 			TestResult result = args.Result;
-			if(result.Executed && result.IsFailure && result.FailureSite != FailureSite.Parent )
+			if( result.Executed && result.IsFailure && result.FailureSite != FailureSite.Parent )
+				InsertTestResultItem( result );
+		}
+		
+		private void OnSuiteFinished(object sender, TestEventArgs args)
+		{
+			TestResult result = args.Result;
+			if( result.Executed && result.IsFailure && 
+				result.FailureSite != FailureSite.Child )
 				InsertTestResultItem( result );
 		}
 		
 		private void OnTestException(object sender, TestEventArgs args)
 		{
 			// TODO: Create an item without creating a result first
-			TestCaseResult result = new TestCaseResult( args.Name );
- 
-			// Don't throw inside an exception handler!
-			try
-			{
-				// TODO: The unhandled exception message should be created at a lower level
-				result.Error( new ApplicationException( 
-					"An unhandled Exception was thrown during execution of this test", 
-					args.Exception ) );
-			}
-			catch( Exception ex )
-			{
-				result.Error(new ApplicationException(
-					"An unhandled " + args.Exception.GetType().FullName +
-					"was thrown during execution of this test" + Environment.NewLine +
-					"The exception handler threw " + ex.GetType().FullName));
-			}
+//			TestCaseResult result = new TestCaseResult( args.Name );
+// 
+//			// Don't throw inside an exception handler!
+//			try
+//			{
+//				// TODO: The unhandled exception message should be created at a lower level
+//				result.Error( new ApplicationException( 
+//					"An unhandled Exception was thrown during execution of this test", 
+//					args.Exception ), FailureSite.Unknown );
+//			}
+//			catch( Exception ex )
+//			{
+//				result.Error(new ApplicationException(
+//					"An unhandled " + args.Exception.GetType().FullName +
+//					"was thrown during execution of this test" + Environment.NewLine +
+//					"The exception handler threw " + ex.GetType().FullName ),
+//					FailureSite.Unknown );
+//			}
+//
+//			// We pass this result into the ResultTabs rather than letting it handle
+//			// the event, since we wouldn't otherwise have access to the current test name.
+//			InsertTestResultItem(result);
 
-			// We pass this result into the ResultTabs rather than letting it handle
-			// the event, since we wouldn't otherwise have access to the current test name.
-			InsertTestResultItem(result);
+			string msg = string.Format( "An unhandled {0} was thrown while executing this test : {1}",
+				args.Exception.GetType().FullName, args.Exception.Message );
+			TestResultItem item = new TestResultItem( args.Name, msg, args.Exception.StackTrace );
+				
+			InsertTestResultItem( item );
 		}
 
 		private void InsertTestResultItem( TestResult result )
 		{
 			TestResultItem item = new TestResultItem(result);
+			InsertTestResultItem( item );
+		}
+
+		private void InsertTestResultItem( TestResultItem item )
+		{
 			detailList.BeginUpdate();
 			detailList.Items.Insert(detailList.Items.Count, item);
 			detailList.EndUpdate();
