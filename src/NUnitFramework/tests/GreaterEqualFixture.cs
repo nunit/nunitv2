@@ -18,24 +18,42 @@ namespace NUnit.Framework.Tests
         private readonly System.Enum e1 = System.Data.CommandType.TableDirect;
         private readonly System.Enum e2 = System.Data.CommandType.StoredProcedure;
 
-        [Test]
-        public void GreaterOrEqual()
-        {
-            Assert.GreaterOrEqual(i1, i1);
-            Assert.GreaterOrEqual(u1, u1);
-            Assert.GreaterOrEqual(d1, d1, "double");
-            Assert.GreaterOrEqual(de1, de1, "{0}", "decimal");
-            Assert.GreaterOrEqual(f1, f1, "float");
+		[Test]
+		public void GreaterOrEqual_Int32()
+		{
+			Assert.GreaterOrEqual(i1, i1);           
+			Assert.GreaterOrEqual(i1, i2);
+		}
 
-            
-            Assert.GreaterOrEqual(i1, i2);
-            Assert.GreaterOrEqual(u1, u2);
-            Assert.GreaterOrEqual(d1, d2, "double");
-            Assert.GreaterOrEqual(de1, de2, "{0}", "decimal");
-            Assert.GreaterOrEqual(f1, f2, "float");
-        }
+		[Test]
+		public void GreaterOrEqual_UInt32()
+		{
+			Assert.GreaterOrEqual(u1, u1);
+			Assert.GreaterOrEqual(u1, u2);
+		}
 
-        [Test, ExpectedException(typeof(AssertionException))]
+		[Test]
+		public void GreaterOrEqual_Double()
+		{
+			Assert.GreaterOrEqual(d1, d1, "double");
+			Assert.GreaterOrEqual(d1, d2, "double");
+		}
+
+		[Test]
+		public void GreaterOrEqual_Decimal()
+		{
+			Assert.GreaterOrEqual(de1, de1, "{0}", "decimal");
+			Assert.GreaterOrEqual(de1, de2, "{0}", "decimal");
+		}
+
+		[Test]
+		public void GreaterOrEqual_Float()
+		{
+			Assert.GreaterOrEqual(f1, f1, "float");
+			Assert.GreaterOrEqual(f1, f2, "float");
+		}
+
+		[Test, ExpectedException(typeof(AssertionException))]
         public void NotGreaterOrEqual()
         {
             Assert.GreaterOrEqual(i2, i1);
