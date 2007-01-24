@@ -137,7 +137,7 @@ namespace NUnit.ConsoleRunner.Tests
 			Assert.AreEqual( 1, resultCode );
 		}
 
-		[Test]
+		[Test, Platform(Exclude="Mono", Reason="Hangs on Mono")]
 		public void CanRunWithoutTestDomain()
 		{
 			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "/domain:None" ) );
@@ -158,7 +158,7 @@ namespace NUnit.ConsoleRunner.Tests
 			StringAssert.Contains( "Failures: 0", output.ToString() );
 		}
 
-		[Test]
+		[Test, Platform(Exclude="Mono", Reason="Hangs on Mono")]
 		public void CanRunWithoutTestDomain_NoThread()
 		{
 			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "/domain:None", "/nothread" ) );
