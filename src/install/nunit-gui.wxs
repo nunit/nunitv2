@@ -10,8 +10,10 @@
 		<ComponentRef Id="C__ClrBat" />
 		<ComponentRef Id="C__GuiRunner" />
 		<ComponentRef Id="C__GuiComponents" />
+<?if $(var.RuntimeVersion) != 2.0 ?>
 		<ComponentRef Id="C__Shortcut_1.0" />
 		<ComponentRef Id="C__Shortcut_1.1" />
+<?endif?>
 		<ComponentRef Id="C__Shortcut_2.0" />
 		<ComponentRef Id="C__Shortcut_Mono" />
 		
@@ -31,6 +33,7 @@
         <Component Id="C__ClrBat" DiskId="1" Guid="EEA6FC05-A7D3-45d4-B7F1-71627BAFC6F6">
           <File Id="clr.bat" Name="clr.bat" KeyPath="yes" DiskId="1" />
 		</Component>
+<?if $(var.RuntimeVersion) != 2.0 ?>
         <Component Id="C__Shortcut_1.0" DiskId="1" Guid="2B9915B2-3C65-45fa-B6DB-7CB47F19EEA0">
 		  <Shortcut Id="Shortcut_1.0" Target="[!clr.bat]" Arguments="1.0 start nunit.exe" Directory="NUnitMenu" 
 		    Name="SNUNIT10" LongName="NUnit GUI (.NET 1.0)"  Advertise="no"
@@ -49,6 +52,7 @@
       		  FRAMEWORK11 = "3706-4322"
 			</Condition>
 		</Component>
+<?endif?>
         <Component Id="C__Shortcut_2.0" DiskId="1" Guid="A771FB75-2488-4f2c-BA22-1F4C85D64AC7">
 		  <Shortcut Id="Shortcut_2.0" Target="[!clr.bat]" Arguments="2.0 start nunit.exe"  Advertise="no"
 		    Directory="NUnitMenu" Name="SNUNIT20" LongName="NUnit GUI (.NET 2.0)" 
@@ -59,8 +63,14 @@
 			</Condition>
 		</Component>
         <Component Id="C__Shortcut_Mono" DiskId="1" Guid="CDCB0BAA-0C50-4e41-A2B8-5C15027843DF">
-		  <Shortcut Id="Shortcut_Mono" Target="[MONODIRECTORY]bin\mono.exe" Arguments="nunit.exe"  Advertise="no"
-		    Directory="NUnitMenu" Name="SNUNITMO" LongName="NUnit GUI (Mono)" 
+<?if $(var.RuntimeVersion) != 2.0 ?>
+		  <Shortcut Id="Shortcut_Mono_1_0" Target="[MONODIRECTORY]bin\mono.exe" Arguments="nunit.exe"  Advertise="no"
+		    Directory="NUnitMenu" Name="SNUNITMO" LongName="NUnit GUI (Mono 1.0 Profile)" 
+			Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
+			WorkingDirectory="bin" />
+<?endif?>
+		  <Shortcut Id="Shortcut_Mono_20" Target="[MONODIRECTORY]bin\mono.exe" Arguments="--runtime=v2.0.50727 nunit.exe"  Advertise="no"
+		    Directory="NUnitMenu" Name="SNUNITMO" LongName="NUnit GUI (Mono 2.0 Profile)" 
 			Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
 			WorkingDirectory="bin" />
     		<Condition>
