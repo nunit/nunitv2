@@ -412,7 +412,7 @@ namespace NUnit.UiKit
 			}
 		}
 
-		private void OnTestException(object senderk, TestEventArgs e)
+		private void OnTestException(object sender, TestEventArgs e)
 		{
 			ForeColor = FailureColor;
 		}
