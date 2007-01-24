@@ -224,9 +224,6 @@ namespace NUnit.Core
 
                     if (this.fixtureSetUp != null)
                         Reflect.InvokeMethod(fixtureSetUp, Fixture);
-
-                    //setUpStatus = SetUpState.SetUpComplete;
-                    //setUpFailed = false;
                 }
                 catch (Exception ex)
                 {
@@ -244,12 +241,9 @@ namespace NUnit.Core
                     else 
                     {
                         if (IsAssertException(ex))
-                            suiteResult.Failure(ex.Message, ex.StackTrace);
+                            suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.SetUp);
                         else
-                            suiteResult.Error(ex);
-                       
-                        //setUpStatus = SetUpState.SetUpFailed;
-                        //setUpFailed = true;
+                            suiteResult.Error(ex, FailureSite.SetUp);
                     }
                 }
             }
@@ -262,9 +256,6 @@ namespace NUnit.Core
 
         protected virtual void DoOneTimeTearDown(TestResult suiteResult)
         {
-            //setUpStatus = SetUpState.SetUpNeeded;
-            //setUpFailed = false;
-            
             if ( this.RunState == RunState.Runnable && this.Fixture != null)
             {
                 try
@@ -282,7 +273,7 @@ namespace NUnit.Core
                         ex = nex.InnerException;
 
 
-                    suiteResult.Failure(ex.Message, ex.StackTrace);
+                    suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.TearDown);
                 }
                 finally
                 {
