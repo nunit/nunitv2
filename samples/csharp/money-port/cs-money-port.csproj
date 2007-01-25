@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)money-port.config" "$(TargetDir)money-port.dll.config"'
+                PostBuildEvent = 'copy "$(ProjectDir)cs-money-port.config" "$(TargetDir)cs-money-port.dll.config"'
                 RootNamespace = "money_port"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
