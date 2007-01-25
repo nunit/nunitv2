@@ -23,7 +23,7 @@ namespace NUnit.Samples.Extensibility
 		public bool Install(IExtensionHost host)
 		{
 			// TODO:  Add Minimal.Install implementation
-			return false;
+			return true;
 		}
 		#endregion
 	}
