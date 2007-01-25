@@ -27,6 +27,7 @@
 
 Option Explicit On 
 
+Imports System
 Imports NUnit.Framework
 
 Namespace NUnit.Samples
