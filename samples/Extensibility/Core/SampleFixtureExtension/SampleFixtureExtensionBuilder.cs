@@ -16,7 +16,7 @@ namespace NUnit.Core.Extensions
 		/// Makes a SampleFixtureExtension instance
 		/// </summary>
 		/// <param name="type">The type to be used</param>
-		/// <returns>A SampleFixtueExtension as a TestSuite</returns>
+		/// <returns>A SampleFixtureExtension as a TestSuite</returns>
 		protected override TestSuite MakeSuite(Type type)
 		{
 			return new SampleFixtureExtension( type );
