@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project name="MinimalAddin" default="build">
+
+  <property name="output.dir" value="../../../bin" />
+  <property name="output.dll" value="../../../bin/SampleSuiteExtension.dll"/>
+  <property name="test.dll" value="../../../bin/SampleSuiteExtensionTests.dll"/>
+
+  <target name="clean">
+    <delete file="${output.dll}" />
+    <delete file="${test.dll}" />
+  </target>
+
+  <target name="build">
+    <mkdir dir="${output.dir}" unless="${directory::exists(output.dir)}" />
+    <copy file="../../../../bin/nunit.framework.dll" todir="${output.dir}" 
+      if="${file::exists('../../../../bin/nunit.framework.dll')}" />
+    <copy file="../../../../bin/nunit.core.interfaces.dll" todir="${output.dir}" 
+      if="${file::exists('../../../../bin/nunit.core.interfaces.dll')}" />
+    <copy file="../../../../bin/nunit.core.interfaces.dll" todir="${output.dir}" 
+      if="${file::exists('../../../../bin/nunit.core.dll')}" />
+
+    <csc target="library" output="${output.dll}">
+      <sources>
+        <include name="*.cs"/>
+      </sources>
+      <references basedir="${output.dir}">
+        <include name="nunit.core.interfaces.dll" />
+        <include name="nunit.core.dll" />
+      </references>
+    </csc>
+
+    <csc target="library" output="${test.dll}">
+      <sources>
+        <include name="Tests/*.cs"/>
+      </sources>
+      <references basedir="${output.dir}">
+        <include name="nunit.framework.dll" />
+        <include name="SampleSuiteExtension.dll"/>
+      </references>
+    </csc>
+  </target>
+
+  <target name="rebuild" depends="clean,build" />
+
+</project>

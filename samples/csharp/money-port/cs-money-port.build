@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<project name="CSharpMoneyPort" default="build">
+
+  <property name="output.dir" value="../../bin" />
+  <property name="output.dll" value="../../bin/cs-money-port.dll" />
+
+  <target name="clean">
+    <delete file="${output.dll}" />
+  </target>
+
+  <target name="build">
+    <mkdir dir="${output.dir}" unless="${directory::exists(output.dir)}" />
+    <copy file="../../../bin/nunit.framework.dll" todir="${output.dir}" 
+      if="${file::exists('../../../bin/nunit.framework.dll')}" />
+
+    <csc target="library" output="${output.dll}">
+      <sources>
+        <include name="*.cs"/>
+      </sources>
+      <nowarn>
+        <warning number="618"/>
+        <warning number="672"/>
+      </nowarn>
+      <references basedir="${output.dir}">
+        <include name="nunit.framework.dll" />
+      </references>
+    </csc>
+  </target>
+
+  <target name="rebuild" depends="clean,build" />
+
+</project>
