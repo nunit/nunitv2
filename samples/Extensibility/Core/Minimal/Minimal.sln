@@ -14,9 +14,6 @@ Global
 		{EF428E5B-B3E7-4C2F-B005-98DE7D6E7CDB}.Release.ActiveCfg = Release|.NET
 		{EF428E5B-B3E7-4C2F-B005-98DE7D6E7CDB}.Release.Build.0 = Release|.NET
 	EndGlobalSection
-	GlobalSection(SolutionItems) = postSolution
-		Install.bat = Install.bat
-	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
 	GlobalSection(ExtensibilityAddIns) = postSolution

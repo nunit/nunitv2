@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = "call ..\..\Install.bat $(TargetFileName)"
+                PostBuildEvent = "call ..\..\..\Install.bat $(TargetFileName)"
                 RootNamespace = "NUnit.Samples.Extensibility"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -84,6 +84,7 @@
                     AssemblyName = "nunit.core.interfaces"
                     HintPath = "C:\Program Files\NUnit 2.4\bin\nunit.core.interfaces.dll"
                     AssemblyFolderKey = "hkcu\dn\nunit 2.3.6285"
+                    Private = "False"
                 />
             </References>
         </Build>

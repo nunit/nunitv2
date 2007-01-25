@@ -3,7 +3,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleSuiteExtension", "Sam
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{9F609A0D-FF7E-4F0C-B2DF-417EBC557CFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleSuiteExtensionTests", "Tests\SampleSuiteExtensionTests.csproj", "{9F609A0D-FF7E-4F0C-B2DF-417EBC557CFF}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -23,7 +23,6 @@ Global
 		{9F609A0D-FF7E-4F0C-B2DF-417EBC557CFF}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
-		Install.bat = Install.bat
 		ReadMe.txt = ReadMe.txt
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
