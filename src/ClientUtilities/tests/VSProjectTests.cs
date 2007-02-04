@@ -57,24 +57,24 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void SolutionExtension()
 		{
-			Assert.IsTrue( VSProject.IsSolutionFile( @"\x\y\project.sln" ) );
-			Assert.IsFalse( VSProject.IsSolutionFile( @"\x\y\project.sol" ) );
+			Assert.IsTrue( VSProject.IsSolutionFile( TestPath( @"/x/y/project.sln" ) ) );
+			Assert.IsFalse( VSProject.IsSolutionFile( TestPath( @"/x/y/project.sol" ) ) );
 		}
 
 		[Test]
 		public void ProjectExtensions()
 		{
-			Assert.IsTrue( VSProject.IsProjectFile( @"\x\y\project.csproj" ) );
-			Assert.IsTrue( VSProject.IsProjectFile( @"\x\y\project.vbproj" ) );
-			Assert.IsTrue( VSProject.IsProjectFile( @"\x\y\project.vcproj" ) );
-			Assert.IsFalse( VSProject.IsProjectFile( @"\x\y\project.xyproj" ) );
+			Assert.IsTrue( VSProject.IsProjectFile( TestPath( @"/x/y/project.csproj" ) ) );
+			Assert.IsTrue( VSProject.IsProjectFile( TestPath( @"/x/y/project.vbproj" ) ) );
+			Assert.IsTrue( VSProject.IsProjectFile( TestPath( @"/x/y/project.vcproj" ) ) );
+			Assert.IsFalse( VSProject.IsProjectFile( TestPath( @"/x/y/project.xyproj" ) ) );
 		}
 
 		[Test]
 		public void NotWebProject()
 		{
 			Assert.IsFalse(VSProject.IsProjectFile( @"http://localhost/web.csproj") );
-			Assert.IsFalse(VSProject.IsProjectFile( @"C:\MyProject\http://localhost/web.csproj") );
+			Assert.IsFalse(VSProject.IsProjectFile( @"\MyProject\http://localhost/web.csproj") );
 		}
 
 		private void AssertCanLoadProject( string resourceName )
@@ -167,9 +167,9 @@ namespace NUnit.Util.Tests
                 VSProject project = new VSProject(file.Path);
                 Assert.AreEqual("cpp-default-library_VS2005", project.Name);
                 Assert.AreEqual(Path.GetFullPath(file.Path), project.ProjectPath);
-                Assert.AreEqual(Path.GetFullPath(@"debug\cpp-default-library_VS2005.dll").ToLower(),
+                Assert.AreEqual(Path.GetFullPath( TestPath( @"debug/cpp-default-library_VS2005.dll" ) ).ToLower(),
                     project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower());
-                Assert.AreEqual(Path.GetFullPath(@"release\cpp-default-library_VS2005.dll").ToLower(),
+                Assert.AreEqual(Path.GetFullPath( TestPath( @"release/cpp-default-library_VS2005.dll" ) ).ToLower(),
                     project.Configs["Release|Win32"].Assemblies[0].ToString().ToLower());
             }
         }
@@ -177,13 +177,13 @@ namespace NUnit.Util.Tests
 		[Test, ExpectedException( typeof ( ArgumentException ) ) ]
 		public void LoadInvalidFileType()
 		{
-			new VSProject( @"\test.junk" );
+			new VSProject( @"/test.junk" );
 		}
 
 		[Test, ExpectedException( typeof ( FileNotFoundException ) ) ]
 		public void FileNotFoundError()
 		{
-			new VSProject( @"\junk.csproj" );
+			new VSProject( @"/junk.csproj" );
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
@@ -213,6 +213,23 @@ namespace NUnit.Util.Tests
 			WriteInvalidFile( "<VisualStudioProject><CSharp><Build><Settings AssemblyName=\"invalid\" OutputType=\"Library\"></Settings></Build></CSharp></VisualStudioProject>" );
 			VSProject project = new VSProject( @"." + System.IO.Path.DirectorySeparatorChar  + "invalid.csproj" );
 			Assert.AreEqual( 0, project.Configs.Count );
+		}
+
+		/// <summary>
+		/// Take a valid Linux path and make a valid windows path out of it
+		/// if we are on Windows. Change slashes to backslashes and, if the
+		/// path starts with a slash, add C: in front of it.
+		/// </summary>
+		private string TestPath(string path)
+		{
+			if (Path.DirectorySeparatorChar != '/')
+			{
+				path = path.Replace('/', Path.DirectorySeparatorChar);
+				if (path[0] == Path.DirectorySeparatorChar)
+					path = "C:" + path;
+			}
+
+			return path;
 		}
 	}
 }
