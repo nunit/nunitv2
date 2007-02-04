@@ -53,7 +53,7 @@ namespace NUnit.Gui.Tests
 			Assert.AreEqual( Environment.CurrentDirectory, GetText( "projectBaseTextBox" ) );
 		}
 
-		[Test]
+		[Test, Platform(Exclude="Linux", Reason="Validate on focus change doesn't work on Mono")]
 		public void SetProjectBase()
 		{
 			editor.Show();
