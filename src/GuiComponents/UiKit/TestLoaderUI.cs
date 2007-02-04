@@ -248,7 +248,6 @@ namespace NUnit.UiKit
 		{
 			//TODO: Save all results
 			TestLoader loader = Services.TestLoader;
-			TestResult result = loader.TestResult;
 			
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.Title = "Save Test Results as XML";
@@ -265,10 +264,7 @@ namespace NUnit.UiKit
 				{
 					string fileName = dlg.FileName;
 
-					XmlResultVisitor resultVisitor 
-						= new XmlResultVisitor( fileName, result);
-					result.Accept(resultVisitor);
-					resultVisitor.Write();
+					loader.SaveLastResult( fileName );
 
 					string msg = String.Format( "Results saved as {0}", fileName );
 					UserMessage.DisplayInfo( msg, "Save Results as XML" );

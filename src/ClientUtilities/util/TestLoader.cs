@@ -273,6 +273,9 @@ namespace NUnit.Util
 		void EventListener.RunFinished(NUnit.Core.TestResult testResult)
 		{
 			this.testResult = testResult;
+			this.SaveLastResult( 
+				Path.Combine( Path.GetDirectoryName( this.TestFileName ), "TestTesult.xml" ) );
+
 			events.FireRunFinished( testResult );
 		}
 
@@ -706,6 +709,14 @@ namespace NUnit.Util
 			return list;
 		}
 		#endregion
+
+		public void SaveLastResult( string fileName )
+		{
+			XmlResultVisitor resultVisitor 
+				= new XmlResultVisitor( fileName, this.testResult );
+			this.testResult.Accept(resultVisitor);
+			resultVisitor.Write();
+		}
 
 		#region Helper Methods
 
