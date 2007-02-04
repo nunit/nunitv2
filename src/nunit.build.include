@@ -18,6 +18,10 @@
   <property name="ncover.options" 
     value="//a nunit.framework;nunit.core;nunit.extensions;nunit.util;nunit.console;nunit.uikit;nunit-gui-runner"/>
 
+  <!-- Fit Executable and DLL-->
+  <property name="fit.executable" value="runFile.exe" />
+  <property name="fit.dll" value="fit.dll" />
+
   <!-- Project src dir is nant project base dir -->
   <property name="project.src.dir"
     value="${project::get-base-directory()}"/>
@@ -37,6 +41,8 @@
     value="${path::combine(project.base.dir,'samples')}"/>
   <property name="project.tools.dir"
     value="${path::combine(project.base.dir,'tools')}"/>
+  <property name="fit.tests.dir"
+    value="${path::combine(project.src.dir,'FitTests')}"/>
   <property name="project.install.dir"
     value="${path::combine(project.src.dir, 'install')}"/>
   <property name="samples.bin.dir"
@@ -51,6 +57,10 @@
     value="${path::combine(project.tools.dir,'ncover')}"/>
   <property name="ncover.installed"
     value="${file::exists(path::combine(ncover.dir,ncover.console.name))}"/>
+  <property name="fit.dir"
+    value="${path::combine(project.tools.dir,'fit')}"/>
+  <property name="fit.installed"
+    value="${file::exists(path::combine(fit.dir,fit.dll))}"/>
 
   <!-- Visual Studio locations -->
   <if test="${platform::is-win32()}">
@@ -80,6 +90,8 @@
     value="${path::combine(package.working.dir,'samples')}"/>
   <property name="package.src.dir" 
     value="${path::combine(package.working.dir,'src')}"/>
+  <property name="package.tools.dir"
+    value="${path::combine(package.working.dir,'tools')}"/>
   <property name="package.resource.dir"
     value="${path::combine(package.working.dir, 'resources')}"/>
   <property name="wix.work.dir"
@@ -156,6 +168,9 @@
     <!-- GUI Tests -->
     <include name="GuiComponents/tests/nunit.uikit.tests.build" if="${build.gui}" />
     <include name="GuiRunner/tests/nunit-gui.tests.build" if="${build.gui}" />
+
+    <!-- FIT Tests -->
+    <include name="FitTests/fixtures/nunit.fixtures.build" />
   </fileset>
 
   <!-- BuildFiles for TestServer, which is not yet part of NUnit -->
@@ -334,8 +349,8 @@
     <property name="build.gui" value="true"/>
     <property name="nant.settings.currentframework" 
       value="mono-1.0"/>
-    <property name="zip.runtime.suffix" value="-mono"/>
-    <property name="msi.runtime.suffix" value="-mono"/>
+    <property name="zip.runtime.suffix" value="-mono-1.0"/>
+    <property name="msi.runtime.suffix" value="-mono-1.0"/>
   </target>
 
   <target name="set-mono-2.0-runtime-config">
@@ -351,7 +366,7 @@
     <property name="build.gui" value="true"/>
     <property name="nant.settings.currentframework" 
       value="mono-2.0"/>
-    <property name="zip.runtime.suffix" value="-mono-1.0"/>
+    <property name="zip.runtime.suffix" value="-mono-2.0"/>
     <property name="msi.runtime.suffix" value="-mono-2.0"/>
   </target>
 
@@ -388,6 +403,17 @@
       value="${package.name}-resources.zip"/>
   </target>
 
+  <target name="build-install-image" depends="clean-package-dir">
+
+    <call target="copy-bins" />
+    <call target="copy-docs" />
+    <call target="copy-samples" />
+
+    <copy file="license.rtf" todir="${package.working.dir}" />
+    <copy file="GuiRunner/nunit-gui/Logo.ico" todir="${package.working.dir}" />
+
+  </target>
+
   <target name="copy-bins" depends="build">
     <mkdir dir="${package.bin.dir}"/>
     <copy todir="${package.bin.dir}">
@@ -414,107 +440,22 @@
   </target>
 
   <target name="copy-samples">
+
     <mkdir dir="${package.samples.dir}"/>
 
-    <copy todir="${package.samples.dir}" includeemptydirs="false">
+    <!-- Copy files that are not part of a project -->
+    <copy todir="${package.samples.dir}">
       <fileset basedir="${project.samples.dir}">
         <include name="ReadMe.txt" />
-        <include name="cpp/managed/failures/cpp-failures.sln" />
-        <include name="cpp/managed/failures/cpp-failures.vcproj" />
-        <include name="cpp/managed/failures/AssemblyInfo.cpp" />
-        <include name="cpp/managed/failures/cppsample.cpp" />
-        <include name="cpp/managed/failures/stdafx.cpp" />
-        <include name="cpp/managed/failures/cppsample.h" />
-        <include name="cpp/managed/failures/stdafx.h" />
-        <include name="cpp/cpp-cli/failures/cpp-failures.sln" />
-        <include name="cpp/cpp-cli/failures/cpp-failures.vcproj" />
-        <include name="cpp/cpp-cli/failures/AssemblyInfo.cpp" />
-        <include name="cpp/cpp-cli/failures/cppsample.cpp" />
-        <include name="cpp/cpp-cli/failures/stdafx.cpp" />
-        <include name="cpp/cpp-cli/failures/cppsample.h" />
-        <include name="cpp/cpp-cli/failures/stdafx.h" />
-        <include name="csharp/failures/cs-failures.sln" />
-        <include name="csharp/failures/cs-failures.csproj" />
-        <include name="csharp/failures/cs-failures.build" />
-        <include name="csharp/failures/AssemblyInfo.cs" />
-        <include name="csharp/failures/CSharpTest.cs" />
-        <include name="csharp/money/cs-money.sln" />
-        <include name="csharp/money/cs-money.csproj" />
-        <include name="csharp/money/cs-money.build" />
-        <include name="csharp/money/AssemblyInfo.cs" />
-        <include name="csharp/money/IMoney.cs" />
-        <include name="csharp/money/Money.cs" />
-        <include name="csharp/money/MoneyBag.cs" />
-        <include name="csharp/money/MoneyTest.cs" />
-        <include name="csharp/money-port/cs-money-port.sln" />
-        <include name="csharp/money-port/cs-money-port.csproj" />
-        <include name="csharp/money-port/cs-money-port.build" />
-        <include name="csharp/money-port/cs-money-port.dll.config" />
-        <include name="csharp/money-port/AssemblyInfo.cs" />
-        <include name="csharp/money-port/IMoney.cs" />
-        <include name="csharp/money-port/Money.cs" />
-        <include name="csharp/money-port/MoneyBag.cs" />
-        <include name="csharp/money-port/MoneyTest.cs" />
-        <include name="jsharp/failures/jsharp-failures.sln" />
-        <include name="jsharp/failures/jsharp-failures.vjsproj" />
-        <include name="jsharp/failures/jsharp-failures.build" />
-        <include name="jsharp/failures/AssemblyInfo.jsl" />
-        <include name="jsharp/failures/JSharpTest.jsl" />
-        <include name="vb/failures/vb-failures.sln" />
-        <include name="vb/failures/vb-failures.vbproj" />
-        <include name="vb/failures/vb-failures.build" />
-        <include name="vb/failures/AssemblyInfo.vb" />
-        <include name="vb/failures/SimpleVBTest.vb" />
-        <include name="vb/money/vb-money.sln" />
-        <include name="vb/money/vb-money.vbproj" />
-        <include name="vb/money/vb-money.build" />
-        <include name="vb/money/AssemblyInfo.vb" />
-        <include name="vb/money/IMoney.vb" />
-        <include name="vb/money/Money.vb" />
-        <include name="vb/money/MoneyBag.vb" />
-        <include name="vb/money/MoneyTest.vb" />
         <include name="Extensibility/Core/Install.bat" />
-        <include name="Extensibility/Core/Minimal/Minimal.sln" />
-        <include name="Extensibility/Core/Minimal/Minimal.csproj" />
-        <include name="Extensibility/Core/Minimal/Minimal.build" />
-        <include name="Extensibility/Core/Minimal/Minimal.cs" />
-        <include name="Extensibility/Core/Minimal/ReadMe.txt" />
-        <include name="Extensibility/Core/SampleFixtureExtension/SampleFixtureExtension.sln" />
-        <include name="Extensibility/Core/SampleFixtureExtension/SampleFixtureExtension.csproj" />
-        <include name="Extensibility/Core/SampleFixtureExtension/SampleFixtureExtension.build" />
-        <include name="Extensibility/Core/SampleFixtureExtension/AssemblyInfo.cs" />
-        <include name="Extensibility/Core/SampleFixtureExtension/SampleFixtureExtension.cs" />
-        <include name="Extensibility/Core/SampleFixtureExtension/SampleFixtureExtensionAttribute.cs" />
-        <include name="Extensibility/Core/SampleFixtureExtension/SampleFixtureExtensionBuilder.cs" />
-        <include name="Extensibility/Core/SampleFixtureExtension/ReadMe.txt" />
-        <include name="Extensibility/Core/SampleFixtureExtension/Tests/SampleFixtureExtensionTests.csproj" />
-        <include name="Extensibility/Core/SampleFixtureExtension/Tests/AssemblyInfo.cs" />
-        <include name="Extensibility/Core/SampleFixtureExtension/Tests/SampleFixtureExtensionTests.cs" />
-        <include name="Extensibility/Core/SampleSuiteExtension/SampleSuiteExtension.sln" />
-        <include name="Extensibility/Core/SampleSuiteExtension/SampleSuiteExtension.csproj" />
-        <include name="Extensibility/Core/SampleSuiteExtension/SampleSuiteExtension.build" />
-        <include name="Extensibility/Core/SampleSuiteExtension/Addin.cs" />
-        <include name="Extensibility/Core/SampleSuiteExtension/AssemblyInfo.cs" />
-        <include name="Extensibility/Core/SampleSuiteExtension/SampleSuiteExtension.cs" />
-        <include name="Extensibility/Core/SampleSuiteExtension/SampleSuiteExtensionAttribute.cs" />
-        <include name="Extensibility/Core/SampleSuiteExtension/SampleSuiteExtensionBuilder.cs" />
-        <include name="Extensibility/Core/SampleSuiteExtension/ReadMe.txt" />
-        <include name="Extensibility/Core/SampleSuiteExtension/Tests/SampleSuiteExtensionTests.csproj" />
-        <include name="Extensibility/Core/SampleSuiteExtension/Tests/AssemblyInfo.cs" />
-        <include name="Extensibility/Core/SampleSuiteExtension/Tests/SampleSuiteExtensionTests.cs" />
-        <include name="Extensibility/Core/MaxTimeDecorator/MaxTimeDecorator.sln" />
-        <include name="Extensibility/Core/MaxTimeDecorator/MaxTimeDecorator.csproj" />
-        <include name="Extensibility/Core/MaxTimeDecorator/MaxTimeDecorator.build" />
-        <include name="Extensibility/Core/MaxTimeDecorator/AssemblyInfo.cs" />
-        <include name="Extensibility/Core/MaxTimeDecorator/ExpectFailureAttribute.cs" />
-        <include name="Extensibility/Core/MaxTimeDecorator/MaxTimeAttribute.cs" />
-        <include name="Extensibility/Core/MaxTimeDecorator/MaxTimeDecorator.cs" />
-        <include name="Extensibility/Core/MaxTimeDecorator/MaxTimeTestCase.cs" />
-        <include name="Extensibility/Core/MaxTimeDecorator/Tests/MaxTimeDecoratorTests.csproj" />
-        <include name="Extensibility/Core/MaxTimeDecorator/Tests/AssemblyInfo.cs" />
-        <include name="Extensibility/Core/MaxTimeDecorator/Tests/MaxTimeDecoratorTEsts.cs" />
       </fileset>
     </copy>
+
+    <!-- Copy each project's files -->
+    <nant target="package">
+      <buildfiles refid="sample.buildfiles" />
+    </nant>
+
   </target>
 
   <target name="copy-src">
@@ -550,6 +491,18 @@
     <nant target="package" inheritrefs="true">
       <buildfiles refid="testserver.buildfiles" />
     </nant>
+
+  </target>
+
+  <target name="copy-tools">
+
+    <mkdir dir="${package.tools.dir}" />
+
+    <copy todir="${package.tools.dir}">
+      <fileset basedir="${project.tools.dir}">
+        <include name="fit/*.*"/>
+      </fileset>
+    </copy>
 
   </target>
 

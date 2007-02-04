@@ -58,7 +58,7 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit version for packaging -->
-  <property name="package.version" value="2.3.7015"/>
+  <property name="package.version" value="2.3.7024"/>
 
   <!-- Nominal version used for install directory and program
        files menu. Normally the major and minor portions
@@ -72,6 +72,10 @@
          respective net and mono defaults. -->
   <property name="supported.frameworks" 
     value="net-1.1,net-2.0,net-1.0,mono-1.0,mono-2.0"/>
+
+  <!-- Framework versions for which packages are normally created -->
+  <property name="standard.packages"
+    value="net-1.1,net-2.0,mono-1.0,mono-2.0" />
 
   <!-- Additional internal properties are set in the include file -->
   <include buildfile="nunit.build.include"/>
@@ -94,21 +98,23 @@
 <!-- ***     These must come before actions like build or test     *** -->
 <!-- ***************************************************************** -->
 
-  <target name="net" description="Set runtime to .NET 1.1 for commands that follow">
+  <target name="net" 
+      description="Set runtime to .NET 1.1 for commands that follow">
     <call target="set-default-dot-net-runtime-config"/>
   </target>
 
-  <target name="net-1.0" description="Set runtime to .NET 1.0 for commands that follow">
+  <target name="net-1.0" 
+    description="Set runtime to .NET 1.0 for commands that follow">
     <call target="set-net-1.0-runtime-config"/>
   </target>
 
-  <target name="net-1.1" description="Set runtime to .NET 1.1 for commands that follow">
-    <call target="set-net-1.1-runtime-config"/>
-  </target>
+  <target name="net-1.1" 
+    description="Set runtime to .NET 1.1 for commands that follow"
+    depends="set-net-1.1-runtime-config"/>
       
-  <target name="net-2.0" description="Set runtime to .NET 2.0 for commands that follow">
-    <call target="set-net-2.0-runtime-config"/>
-  </target>
+  <target name="net-2.0" 
+    description="Set runtime to .NET 2.0 for commands that follow"
+    depends="set-net-2.0-runtime-config"/>
       
   <target name="mono" description="Set runtime to Mono 1.0 for commands that follow">
     <call target="set-default-mono-runtime-config"/>
@@ -158,10 +164,10 @@
 
 
   <target name="rebuild" depends="clean,build"
-    description="Rebuild NUnit for a single runtime version and config"/>
+    description="Rebuild NUnit for default runtime version and config"/>
 
   <target name="build" depends="make-build-dir"
-    description="Build NUnit for a single runtime version and config">
+    description="Build NUnit for default runtime version and config">
 
     <echo message="*"/>
     <echo message="* Starting ${runtime.config} ${build.config} build"/>
@@ -291,7 +297,7 @@
     <call target="test-all-runtimes"/>
   </target>
 
-  <target name="test-all-configs" 
+  <target name="test-all-configs"
       description="Test debug and release for selected runtime">
     <call target="set-debug-build-config"/>
     <call target="set-runtime-config"/>
@@ -344,10 +350,6 @@
   <target name="gui-test" depends="build"
     description="Run tests for a build using gui runner">
 
-    <fail message="NUnit-gui is only available on Win32" unless="${platform::is-win32()}"/>
-
-    <fail message="NUnit-gui is only available for Win32" unless="${platform::is-win32()}"/>
-
     <echo message="*"/>
     <echo message="* Starting ${runtime.config} ${build.config} gui test run"/>
     <echo message="*"/>
@@ -356,9 +358,25 @@
       workingdir="${current.build.dir}" 
       program="${nunit.gui.name}" 
       useruntimeengine="true"
-      commandline="NunitTests.nunit"/>
+      commandline="NUnitTests.nunit -run"/>
 
   </target>
+
+  <target name="fit-tests" depends="build"
+    desctiption="Run Fit Acceptance tests on the build">
+
+    <echo message="*"/>
+    <echo message="* Starting ${runtime.config} ${build.config} Fit Tests"/>
+    <echo message="*"/>
+
+    <exec basedir="${current.build.dir}" 
+      workingdir="${current.build.dir}" 
+      program="${fit.executable}" 
+      useruntimeengine="true"
+      commandline="${fit.tests.dir}/LoadTests.html FitResults.html ." />
+
+  </target>
+
 
 <!-- ***************************************************************** -->
 <!-- *       Build the NUnit samples - not part of normal build    *** -->
@@ -392,49 +410,45 @@
 <!-- ***************************************************************** -->
 
   <!-- Produce all the standard packages for a release -->
-  <target name="package-release" depends="build"
+  <target name="package-release"
       description="Create standard packages for distribution">
       
     <call target="package-src"/>
 
-    <echo unless="${platform::is-win32()}"
-      message="Only the source package can be created on this platform"/>
+    <call target="set-release-build-config"/>
 
-    <if test="${platform::is-win32()}">
+    <foreach item="String" delim="," 
+        property="framework" in="${standard.packages}">
 
-      <call target="set-release-build-config"/>
+      <if test="${framework::sdk-exists( framework )}">
+        <call target="set-${framework}-runtime-config"/>
+        <call target="package"/>
+      </if>
 
-      <call target="set-net-1.1-runtime-config"/>
-      <call target="package-zip"/>
-      <call target="package-msi" if="${wix.installed}"/>
-
-      <call target="set-net-2.0-runtime-config"/>
-      <call target="package-zip"/>
-      <call target="package-msi" if="${wix.installed}"/>
-
-      <echo unless="${wix.installed}"
-        message="MSIs were not built - WiX is not installed"/>
-
-    </if>
+    </foreach>
 
   </target>
 
+  <!-- Package the current build -->
+  <target name="package" depends="build-install-image"
+      description="Create distribution packages for current build" >
+
+    <call target="create-zip" />
+
+    <if test="${platform::is-win32() and build.win32}" >
+      <call target="create-msi" 
+        if="${wix.installed}" />
+      <echo message="MSI was not built - WiX is not installed"
+        unless="${wix.installed}" />
+    </if>
+
+  </target>
   
   <!-- Package current config as a zip --> 
-  <target name="package-zip" depends="clean-package-dir" description="Create distribution package">
+  <target name="package-zip" depends="build-install-image,create-zip"
+    description="Create zip binary distribution package" />
 
-    <call target="copy-bins"/>
-    <call target="copy-docs"/>
-    <call target="copy-samples"/>
-
-	<!-- Remove any temporary output files produced by tests
-		from the build directory - temporary fix -->
-    <delete>
-      <fileset>
-        <include name="temp*.xml"/>
-      </fileset>
-    </delete>
-
+  <target name="create-zip" description="Create zip from existing image">
     <!-- Create the zip file -->
     <zip zipfile="${project.package.dir}/${zip.file.name}" ziplevel="9">
       <fileset basedir="${package.working.dir}">
@@ -449,6 +463,7 @@
     <call target="copy-docs"/>
     <call target="copy-samples"/>
     <call target="copy-src"/>
+    <call target="copy-tools" />
 
     <!-- Create the zip file -->
     <zip zipfile="${project.package.dir}/${zipped.src.file.name}" ziplevel="9">
@@ -510,24 +525,14 @@
 
   </target>
 
-  <target name="package-msi" depends="clean-package-dir"
-    description="Build msi file and deploy it to the package dir">
+  <target name="package-msi" depends="build-install-image,create-msi"
+    description="Build msi file and deploy it to the package dir" />
+
+  <target name="create-msi" description="Create msi from existing install image">
   
     <fail message="MSI can only be built on the Win32 platform" unless="${platform::is-win32()}"/>
     <fail message="MSI can only be built for a Win32 runtime" unless="${build.win32}"/>
     <fail message="MSI can not be built - WiX is not installed" unless="${wix.installed}"/>
-
-    <echo message="*"/>
-    <echo message="* Building msi for ${runtime.config}  ${build.config}"/>
-    <echo message="*"/>
-
-    <!-- First create a directory image as for zip installs -->
-    <call target="copy-bins" />
-    <call target="copy-docs" />
-    <call target="copy-samples" />
-
-    <copy file="license.rtf" todir="${package.working.dir}" />
-    <copy file="GuiRunner/nunit-gui/Logo.ico" todir="${package.working.dir}" />
 
     <property name="wix.work.dir"
       value="${package.working.dir}"/>
@@ -561,6 +566,15 @@
         <include name="${wix.dir}/wixui.wixlib" />
       </sources>
     </light>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***        Targets for installing the NUnit distribution      *** -->
+<!-- ***************************************************************** -->
+
+  <target name="install" depends="build-install-image"
+      description="Install NUnit directly from the build">
 
   </target>
 

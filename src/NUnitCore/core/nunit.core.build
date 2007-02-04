@@ -22,7 +22,7 @@
         <include name="InvalidSuiteException.cs"/>
         <include name="InvalidTestFixtureException.cs"/>
         <include name="LegacySuite.cs"/>
-        <include name="NamespaceTreeBUilder.cs"/>
+        <include name="NamespaceTreeBuilder.cs"/>
         <include name="NoTestFixturesException.cs"/>
         <include name="NotRunnableTestCase.cs"/>
         <include name="NullListener.cs"/>
@@ -34,7 +34,7 @@
         <include name="QueuingEventListener.cs"/>
         <include name="Reflect.cs"/>
         <include name="RemoteTestRunner.cs"/>
-        <include name="SetupFixture.cs"/>
+        <include name="SetUpFixture.cs"/>
         <include name="SimpleTestRunner.cs"/>
         <include name="StringTextWriter.cs"/>
         <include name="SuiteBuilderAttribute.cs"/>

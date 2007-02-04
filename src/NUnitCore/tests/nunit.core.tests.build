@@ -51,7 +51,7 @@
         <include name="TestFixtureExtension.cs"/>
         <include name="TestFixtureTests.cs"/>
         <include name="TestFrameworkTests.cs"/>
-        <include name="TestIdTests.cs"/>
+        <include name="TestIDTests.cs"/>
         <include name="TestInfoTests.cs"/>
         <include name="TestNameTests.cs"/>
         <include name="TestNodeTests.cs"/>
