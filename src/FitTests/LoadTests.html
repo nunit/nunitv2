@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<!--  Created with the CoffeeCup HTML Editor 2006  -->
+<!--           http://www.coffeecup.com/           -->
+<!--        Brewed on 9/29/2006 3:50:58 PM         -->
+<head>
+  <title></title>
+</head>
+
+<body>
+<h1>Test Loading Tests</h1>
+
+<p>These tests create a test assembly from a snippet of code and 
+then load and run the tests that it contains. For this demo,
+a compilation error has been introduced in order to show the
+error reporting.</p>
+
+<table BORDER cellspacing=0 cellpadding=5>
+<tr><td colspan=6>NUnit.Fixtures.TestLoadFixture</td></tr>
+<tr>
+  <td>Code</td>
+  <td>Tree()</td>
+  <td>Run()</td>
+  <td>Skipped()</td>
+  <td>Ignored()</td>
+  <td>Failures()</td>
+</tr>
+<tr><td><pre>public class TestClass
+{
+}</pre></td>
+<td>EMPTY</td>
+<td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td><pre>using NUnit.Framework;
+
+[TestFixture]
+public class TestClass
+{
+}</pre></td>
+<td>TestClass</td>
+<td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td><pre>using NUnit.Framework;
+
+[TestFixture]
+public class TestClass
+{
+    [Test]
+    public void T1() { }
+    [Test]
+    public void T2() { }
+    [Test]
+    public void T3() { }
+}</pre></td>
+<td><pre>TestClass
+>T1
+>T2
+>T3</pre></td>
+<td>3</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td><pre>using NUnit.Framework;
+
+[TestFixture]
+public class TestClass1
+{
+    [Test]
+    public void T1() { }
+}
+
+[TestFixture]
+public class TestClass2
+{
+    [Test]
+    public void T2() { }
+    [Test]
+    public void T3() { }
+}</pre></td>
+<td><pre>TestClass1
+>T1
+TestClass2
+>T2
+>T3</pre></td>
+<td>3</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td><pre>using NUnit.Framework;
+
+[TestFixture]
+public class TestClass
+{
+    [Test]
+    public void T1() { }
+    [Test, Ignore]
+    public void T2() { }
+    [Test]
+    public void T3() { }
+}</pre></td>
+<td><pre>TestClass
+>T1
+>T2
+>T3</pre></td>
+<td>2</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td><pre>using NUnit.Framework;
+
+[TestFixture]
+public class TestClass
+{
+    [Test]
+    public void T1() { }
+    [Test, Explicit]
+    public void T2() { }
+    [Test]
+    public void T3() { }
+}</pre></td>
+<td><pre>TestClass
+>T1
+>T2
+>T3</pre></td>
+<td>2</td><td>1</td><td>0</td><td>0</td></tr>
+</table>
+</body>
+</html>
+
