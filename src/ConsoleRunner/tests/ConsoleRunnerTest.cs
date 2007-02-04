@@ -140,42 +140,42 @@ namespace NUnit.ConsoleRunner.Tests
 		[Test, Platform(Exclude="Mono", Reason="Hangs on Mono")]
 		public void CanRunWithoutTestDomain()
 		{
-			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "/domain:None" ) );
+			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "-domain:None" ) );
 			StringAssert.Contains( "Failures: 0", output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithSingleTestDomain()
 		{
-			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "/domain:Single" ) );
+			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "-domain:Single" ) );
 			StringAssert.Contains( "Failures: 0", output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithMultipleTestDomains()
 		{
-			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "nonamespace-assembly.dll", "/domain:Multiple" ) );
+			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "nonamespace-assembly.dll", "-domain:Multiple" ) );
 			StringAssert.Contains( "Failures: 0", output.ToString() );
 		}
 
 		[Test, Platform(Exclude="Mono", Reason="Hangs on Mono")]
 		public void CanRunWithoutTestDomain_NoThread()
 		{
-			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "/domain:None", "/nothread" ) );
+			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "-domain:None", "-nothread" ) );
 			StringAssert.Contains( "Failures: 0", output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithSingleTestDomain_NoThread()
 		{
-			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "/domain:Single", "/nothread" ) );
+			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "-domain:Single", "-nothread" ) );
 			StringAssert.Contains( "Failures: 0", output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithMultipleTestDomains_NoThread()
 		{
-			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "nonamespace-assembly.dll", "/domain:Multiple", "/nothread" ) );
+			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "nonamespace-assembly.dll", "-domain:Multiple", "-nothread" ) );
 			StringAssert.Contains( "Failures: 0", output.ToString() );
 		}
 
