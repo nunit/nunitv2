@@ -42,4 +42,37 @@
 
   <target name="rebuild" depends="clean,build" />
 
+  <target name="package">
+    <copy todir="${package.samples.dir}/Extensibility/Core/SampleFixtureExtension">
+      <fileset basedir=".">
+        <include name="SampleFixtureExtension.sln" />
+        <include name="SampleFixtureExtension.csproj" />
+        <include name="SampleFixtureExtension.build" />
+        <include name="AssemblyInfo.cs" />
+        <include name="SampleFixtureExtension.cs" />
+        <include name="SampleFixtureExtensionAttribute.cs" />
+        <include name="SampleFixtureExtensionBuilder.cs" />
+        <include name="ReadMe.txt" />
+        <include name="Tests/SampleFixtureExtensionTests.csproj" />
+        <include name="Tests/AssemblyInfo.cs" />
+        <include name="Tests/SampleFixtureExtensionTests.cs" />
+      </fileset>
+    </copy>
+
+    <xmlpoke 
+      file="${package.samples.dir}/Extensibility/Core/SampleFixtureExtension/SampleFixtureExtension.csproj"
+      xpath="/VisualStudioProject/CSHARP/Build/References/Reference[@Name='nunit.core']/@HintPath"
+      value="..\..\..\bin\nunit.core.dll" />
+
+    <xmlpoke 
+      file="${package.samples.dir}/Extensibility/Core/SampleFixtureExtension/SampleFixtureExtension.csproj"
+      xpath="/VisualStudioProject/CSHARP/Build/References/Reference[@Name='nunit.core.interfaces']/@HintPath"
+      value="..\..\..\bin\nunit.core.interfaces.dll" />
+
+    <xmlpoke 
+      file="${package.samples.dir}/Extensibility/Core/SampleFixtureExtension/Tests/SampleFixtureExtensionTests.csproj"
+      xpath="/VisualStudioProject/CSHARP/Build/References/Reference[@Name='nunit.framework']/@HintPath"
+      value="..\..\..\bin\nunit.framework.dll" />
+  </target>
+
 </project>

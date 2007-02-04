@@ -29,4 +29,25 @@
 
   <target name="rebuild" depends="clean,build" />
 
+  <target name="package">
+    <copy todir="${package.samples.dir}/csharp/money-port">
+      <fileset basedir=".">
+        <include name="cs-money-port.sln" />
+        <include name="cs-money-port.csproj" />
+        <include name="cs-money-port.build" />
+        <include name="cs-money-port.dll.config" />
+        <include name="AssemblyInfo.cs" />
+        <include name="IMoney.cs" />
+        <include name="Money.cs" />
+        <include name="MoneyBag.cs" />
+        <include name="MoneyTest.cs" />
+      </fileset>
+    </copy>
+
+    <xmlpoke 
+      file="${package.samples.dir}/csharp/money-port/cs-money-port.csproj"
+      xpath="/VisualStudioProject/CSHARP/Build/References/Reference[@Name='nunit.framework']/@HintPath"
+      value="..\..\..\bin\nunit.framework.dll" />
+  </target>
+
 </project>

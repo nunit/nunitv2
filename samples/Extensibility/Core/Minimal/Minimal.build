@@ -28,4 +28,21 @@
 
   <target name="rebuild" depends="clean,build" />
 
+  <target name="package">
+    <copy todir="${package.samples.dir}/Extensibility/Core/Minimal">
+      <fileset basedir=".">
+        <include name="Minimal.sln" />
+        <include name="Minimal.csproj" />
+        <include name="Minimal.build" />
+        <include name="Minimal.cs" />
+        <include name="ReadMe.txt" />
+      </fileset>
+    </copy>
+
+    <xmlpoke 
+      file="${package.samples.dir}/Extensibility/Core/Minimal/Minimal.csproj"
+      xpath="/VisualStudioProject/CSHARP/Build/References/Reference[@Name='nunit.core.interfaces']/@HintPath"
+      value="..\..\..\bin\nunit.core.interfaces.dll" />
+  </target>
+
 </project>

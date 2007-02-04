@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)cs-money-port.config" "$(TargetDir)cs-money-port.dll.config"'
+                PostBuildEvent = "copy $(ProjectDir)cs-money-port.dll.config $(TargetDir)"
                 RootNamespace = "money_port"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -70,20 +70,10 @@
                     HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
                 />
                 <Reference
-                    Name = "System.Data"
-                    AssemblyName = "System.Data"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
-                />
-                <Reference
-                    Name = "System.XML"
-                    AssemblyName = "System.Xml"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
-                />
-                <Reference
                     Name = "nunit.framework"
                     AssemblyName = "nunit.framework"
-                    HintPath = "C:\Program Files\NUnit 2.3.6265\Assemblies\nunit.framework.dll"
-                    AssemblyFolderKey = "hkcu\dn\nunit 2.3.6265"
+                    HintPath = "C:\Program Files\NUnit 2.4\bin\nunit.framework.dll"
+                    AssemblyFolderKey = "hkcu\dn\nunit 2.3.7024"
                 />
             </References>
         </Build>
@@ -95,7 +85,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "cs-money-port.config"
+                    RelPath = "cs-money-port.dll.config"
                     BuildAction = "None"
                 />
                 <File

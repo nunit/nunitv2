@@ -31,4 +31,21 @@
 
   <target name="rebuild" depends="clean,build" />
 
+  <target name="package">
+    <copy todir="${package.samples.dir}/vb/failures">
+      <fileset basedir=".">
+        <include name="vb-failures.sln" />
+        <include name="vb-failures.vbproj" />
+        <include name="vb-failures.build" />
+        <include name="AssemblyInfo.vb" />
+        <include name="SimpleVBTest.vb" />
+      </fileset>
+    </copy>
+
+    <xmlpoke 
+      file="${package.samples.dir}/vb/failures/vb-failures.vbproj"
+      xpath="/VisualStudioProject/VisualBasic/Build/References/Reference[@Name='nunit.framework']/@HintPath"
+      value="..\..\..\bin\nunit.framework.dll" />
+  </target>
+
 </project>

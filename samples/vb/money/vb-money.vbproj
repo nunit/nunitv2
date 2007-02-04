@@ -64,15 +64,14 @@
                 <Reference
                     Name = "nunit.framework"
                     AssemblyName = "nunit.framework"
-                    HintPath = "C:\Program Files\NUnit 2.3.6265\Assemblies\nunit.framework.dll"
-                    AssemblyFolderKey = "hkcu\dn\nunit 2.3.6265"
+                    HintPath = "C:\Program Files\NUnit 2.4\bin\nunit.framework.dll"
+                    AssemblyFolderKey = "hkcu\dn\nunit 2.3.7024"
                 />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
                 <Import Namespace = "System" />
                 <Import Namespace = "System.Collections" />
-                <Import Namespace = "System.Diagnostics" />
             </Imports>
         </Build>
         <Files>

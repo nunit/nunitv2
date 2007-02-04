@@ -70,25 +70,17 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
                 />
                 <Reference
-                    Name = "System.Data"
-                    AssemblyName = "System.Data"
-                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
-                />
-                <Reference
-                    Name = "System.XML"
-                    AssemblyName = "System.Xml"
-                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                    Name = "nunit.core"
+                    AssemblyName = "nunit.core"
+                    HintPath = "C:\Program Files\NUnit 2.4\bin\nunit.core.dll"
+                    AssemblyFolderKey = "hkcu\dn\nunit 2.3.7024"
+                    Private = "False"
                 />
                 <Reference
                     Name = "nunit.core.interfaces"
                     AssemblyName = "nunit.core.interfaces"
-                    HintPath = "..\..\..\..\src\GuiRunner\nunit-gui\bin\Debug\nunit.core.interfaces.dll"
-                    Private = "False"
-                />
-                <Reference
-                    Name = "nunit.core"
-                    AssemblyName = "nunit.core"
-                    HintPath = "..\..\..\..\src\GuiRunner\nunit-gui\bin\Debug\nunit.core.dll"
+                    HintPath = "C:\Program Files\NUnit 2.4\bin\nunit.core.interfaces.dll"
+                    AssemblyFolderKey = "hkcu\dn\nunit 2.3.7024"
                     Private = "False"
                 />
             </References>

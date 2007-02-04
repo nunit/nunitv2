@@ -33,4 +33,19 @@
 
   <target name="rebuild" depends="clean,build" />
 
+  <target name="package">
+    <copy todir="${package.samples.dir}/cpp/cpp-cli/failures">
+      <fileset basedir=".">
+        <include name="cpp-cli-failures.sln" />
+        <include name="cpp-cli-failures.vcproj" />
+        <include name="cpp-cli-failures.build" />
+        <include name="AssemblyInfo.cpp" />
+        <include name="cppsample.cpp" />
+        <include name="stdafx.cpp" />
+        <include name="cppsample.h" />
+        <include name="stdafx.h" />
+      </fileset>
+    </copy>
+  </target>
+
 </project>

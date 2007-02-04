@@ -27,4 +27,21 @@
 
   <target name="rebuild" depends="clean,build" />
 
+  <target name="package">
+    <copy todir="${package.samples.dir}/jsharp/failures">
+      <fileset basedir=".">
+        <include name="jsharp-failures.sln" />
+        <include name="jsharp-failures.vjsproj" />
+        <include name="jsharp-failures.build" />
+        <include name="AssemblyInfo.jsl" />
+        <include name="JSharpTest.jsl" />
+      </fileset>
+    </copy>
+
+    <xmlpoke 
+      file="${package.samples.dir}/jsharp/failures/jsharp-failures.vjsproj"
+      xpath="/VisualStudioProject/VISUALJSHARP/Build/References/Reference[@Name='nunit.framework']/@HintPath"
+      value="..\..\..\bin\nunit.framework.dll" />
+  </target>
+
 </project>
