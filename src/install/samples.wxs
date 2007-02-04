@@ -57,6 +57,7 @@
             <Component Id="C__CSharp_Failures" DiskId="1" Guid="5613D9D2-7F4B-4d49-A0C3-AEF43CF08C5B">
               <File Id="CS_Failures.sln" Name="CS-FAIL.SLN" LongName="cs-failures.sln" />
               <File Id="CS_Failures.csproj" Name="CS-FAIL.CSP" LongName="cs-failures.csproj" />
+              <File Id="CS_Failures.build" Name="CS-FAIL.BLD" LongName="cs-failures.build" />
               <File Id="CSharpTest.cs" Name="CS-FAIL.CS" LongName="CSharpTest.cs" />
               <File Id="CS_Failures_AssemblyInfo.cs" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
             </Component>
@@ -64,26 +65,28 @@
         
         <Directory Id="csharp_money" Name="money">
             <Component Id="C__CSharp_Money" DiskId="1" Guid="F7B5ED7B-7478-43d3-B376-06FE70EADF1B">
-              <File Id="F__samples_file24" Name="Money.cs" />
-              <File Id="F__samples_file25" Name="MONEYTST.CS" LongName="MoneyTest.cs" />
-              <File Id="F__samples_file26" Name="MoneyBag.cs" />
-              <File Id="F__samples_file27" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
-              <File Id="F__samples_file28" Name="MONEY.SLN" LongName="cs-money.sln" />
-              <File Id="F__samples_file29" Name="MONEY.CSP" LongName="cs-money.csproj" />
-              <File Id="F__samples_file30" Name="IMoney.cs" />
+              <File Id="CS_Money.cs" Name="Money.cs" />
+              <File Id="CS_MoneyTest.cs" Name="MONEYTST.CS" LongName="MoneyTest.cs" />
+              <File Id="CS_MoneyBag.cs" Name="MoneyBag.cs" />
+              <File Id="CS_Money_AssemblyInfo.cs" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
+              <File Id="CS_Money.sln" Name="MONEY.SLN" LongName="cs-money.sln" />
+              <File Id="CS_Money.csproj" Name="MONEY.CSP" LongName="cs-money.csproj" />
+              <File Id="CS_Money.build" Name="MONEY.BLD" LongName="cs-money.build" />
+              <File Id="CS_IMoney.cs" Name="IMoney.cs" />
             </Component>
         </Directory>
         
 	<Directory Id="csharp_money_port" Name="MONEY-_1" LongName="money-port">
             <Component Id="C__CSharp_Money_Port" DiskId="1" Guid="CE86795C-1A55-4d82-BBA7-8B73668B94D1">
-              <File Id="F__samples_file36" Name="MoneyBag.cs" />
-              <File Id="F__samples_file37" Name="Money.cs" />
-              <File Id="F__samples_file38" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
-              <File Id="F__samples_file41" Name="MONEY-_1.CON" LongName="cs-money-port.dll.config" />
-              <File Id="F__samples_file42" Name="IMoney.cs" />
-              <File Id="F__samples_file43" Name="MONEYTST.CS" LongName="MoneyTest.cs" />
-              <File Id="F__samples_file40" Name="MONYPORT.SLN" LongName="cs-money-port.sln" />
-              <File Id="F__samples_file44" Name="MONYPORT.CSP" LongName="cs-money-port.csproj" />
+              <File Id="CS_Money_Port_MoneyBag.cs" Name="MoneyBag.cs" />
+              <File Id="CS_Money_Port_Money.cs" Name="Money.cs" />
+              <File Id="CS_Money_Port_AssemblyInfo.cs" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
+              <File Id="CS_Money_Port.dll.config" Name="MONEY-_1.CON" LongName="cs-money-port.dll.config" />
+              <File Id="CS_Money_Port_IMoney.cs" Name="IMoney.cs" />
+              <File Id="CS_Money_Port_MoneyTest.cs" Name="MONEYTST.CS" LongName="MoneyTest.cs" />
+              <File Id="CS_Money_Port.sln" Name="MONYPORT.SLN" LongName="cs-money-port.sln" />
+              <File Id="CS_Money_Port.csproj" Name="MONYPORT.CSP" LongName="cs-money-port.csproj" />
+              <File Id="CS_Money_Port.build" Name="MONYPORT.BLD" LongName="cs-money-port.build" />
             </Component>
         </Directory>
 		
@@ -93,10 +96,11 @@
 	<DirectoryRef Id="jsharp" FileSource="samples\jsharp" >
 	    <Directory Id="jsharp_failures" Name="failures">
           <Component Id="C__JSharp_Failures" DiskId="1" Guid="500ED4A5-E644-473d-904E-CD43D423531B">
-            <File Id="F__samples_file1" Name="JS-FAIL.SLN" LongName="jsharp-failures.sln" />
-            <File Id="F__samples_file2" Name="JS-FAIL.VJS" LongName="jsharp-failures.vjsproj" />
-            <File Id="F__samples_file3" Name="JS-FAIL.JSL" LongName="JSharpTest.jsl" />
-            <File Id="F__samples_file4" Name="ASSEMB_1.JSL" LongName="AssemblyInfo.jsl" />
+            <File Id="JS_Failures.sln" Name="JS-FAIL.SLN" LongName="jsharp-failures.sln" />
+            <File Id="JS_Failures.vjsproj" Name="JS-FAIL.VJS" LongName="jsharp-failures.vjsproj" />
+            <File Id="JS_Failures.build" Name="JS-FAIL.BLD" LongName="jsharp-failures.build" />
+            <File Id="JS_JSharpTest.jsl" Name="JS-FAIL.JSL" LongName="JSharpTest.jsl" />
+            <File Id="JS_Failures_AssemblyInfo.jsl" Name="ASSEMB_1.JSL" LongName="AssemblyInfo.jsl" />
           </Component>
 		</Directory>
     </DirectoryRef>
@@ -110,8 +114,9 @@
             <File Id="F__samples_file45" Name="Stdafx.cpp" />
             <File Id="F__samples_file46" Name="CPP-FAIL.H" LongName="cppsample.h" />
             <File Id="F__samples_file47" Name="CPP-FAIL.CPP" LongName="cppsample.cpp" />
-            <File Id="CPP_Failures.sln" Name="CPP-FAIL.SLN" LongName="cpp-failures.sln" />
-            <File Id="CPP_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-failures.vcproj" />
+            <File Id="CPP_Failures.sln" Name="CPP-FAIL.SLN" LongName="cpp-managed-failures.sln" />
+            <File Id="CPP_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-managed-failures.vcproj" />
+            <File Id="CPP_Failures.build" Name="CPP-FAIL.BLD" LongName="cpp-managed-failures.build" />
             <File Id="F__samples_file50" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
             <File Id="F__samples_file52" Name="Stdafx.h" />
           </Component>
@@ -124,8 +129,9 @@
             <File Id="CPP_CLI_Failures_Stdafx.cpp" Name="Stdafx.cpp" />
             <File Id="CPP_CLI_Failures.h" Name="CPP-FAIL.H" LongName="cppsample.h" />
             <File Id="CPP_CLI_Failures.cpp" Name="CPP-FAIL.CPP" LongName="cppsample.cpp" />
-            <File Id="CPP_CLI_Failures.sln" Name="CPP-FAIL.SLN" LongName="cpp-failures.sln" />
-            <File Id="CPP_CLI_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-failures.vcproj" />
+            <File Id="CPP_CLI_Failures.sln" Name="CPP-FAIL.SLN" LongName="cpp-cli-failures.sln" />
+            <File Id="CPP_CLI_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-cli-failures.vcproj" />
+            <File Id="CPP_CLI_Failures.build" Name="CPP-FAIL.BLD" LongName="cpp-cli-failures.build" />
             <File Id="CPP_CLI_Failures_AssemblyInfo" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
             <File Id="CPP_CLI_Failures_Stdafx.h" Name="Stdafx.h" />
           </Component>
@@ -141,6 +147,7 @@
         <Component Id="C__VB_Failures" DiskId="1" Guid="05434C61-C0AC-47cb-8189-B1232CA3B5FB">
 		    <File Id="vb_failures.sln" Name="VB-FAIL.SLN" LongName="vb-failures.sln" />
             <File Id="vb_failures.vbproj" Name="VB-FAIL.VBP" LongName="vb-failures.vbproj" />
+            <File Id="vb_failures.build" Name="VB-FAIL.BLD" LongName="vb-failures.build" />
             <File Id="vb_failures.vb" Name="VB-FAIL.VB" LongName="SimpleVBTest.vb" />
             <File Id="vb_failures_assemblyinfo.vb" Name="ASSEMB_1.VB" LongName="AssemblyInfo.vb" />
         </Component>
@@ -150,6 +157,7 @@
             <Component Id="C__VB_Money" DiskId="1" Guid="AB0D542C-670D-473c-9034-1D277466E60A">
 			  <File Id="vb_money.sln" Name="vb-money.sln" />
               <File Id="Money.vbproj" Name="MONEY.VBP" LongName="vb-money.vbproj" />
+              <File Id="VB_Money.build" Name="MONEY.VBP" LongName="vb-money.build" />
               <File Id="Money.vb" Name="Money.vb" />
               <File Id="MoneyTest.vb" Name="MONEYTST.VB" LongName="MoneyTest.vb" />
               <File Id="MoneyBag.vb" Name="MoneyBag.vb" />
@@ -170,6 +178,7 @@
 	        <Component Id="C__MinimalAddin" DiskId="1" Guid="7C9C8B34-5318-450b-8DCC-6D256C1259A1">
 		      <File Id="Minimal.sln" Name="Minimal.sln" />
 			  <File Id="Minimal.csproj" Name="MINIMAL.CSP" LongName="Minimal.csproj" />
+			  <File Id="Minimal.build" Name="MINIMAL.BLD" LongName="Minimal.build" />
 			  <File Id="Minimal.cs" Name="Minimal.cs" />
 	      	</Component>
 	      </Directory>
@@ -179,6 +188,7 @@
               <File Id="SampleSuiteExtensionBuilder.cs" Name="SSX.CS" LongName="SampleSuiteExtensionBuilder.cs" />
               <File Id="SampleSuiteExtension.sln" Name="SSX.SLN" LongName="SampleSuiteExtension.sln" />
               <File Id="SampleSuiteExtension.csproj" Name="SSX.CSP" LongName="SampleSuiteExtension.csproj" />
+              <File Id="SampleSuiteExtension.build" Name="SSX.BLD" LongName="SampleSuiteExtension.build" />
               <File Id="SampleSuiteExtensionAttribute.cs" Name="SSX_ATTR.CS" LongName="SampleSuiteExtensionAttribute.cs" />
               <File Id="SSX_AssemblyInfo.cs" Name="ASSEMBLY.CS" LongName="AssemblyInfo.cs" />
               <File Id="SampleSuiteExtension.cs" Name="SSX.CS" LongName="SampleSuiteExtension.cs" />
@@ -197,6 +207,7 @@
               <File Id="SampleFixtureExtensionAttribute.cs" Name="SFXATTR.CS" LongName="SampleFixtureExtensionAttribute.cs" />
               <File Id="SampleFixtureExtension.sln" Name="SFX.SLN" LongName="SampleFixtureExtension.sln" />
               <File Id="SampleFixtureExtension.csproj" Name="SFX.CSP" LongName="SampleFixtureExtension.csproj" />
+              <File Id="SampleFixtureExtension.build" Name="SFX.BLD" LongName="SampleFixtureExtension.build" />
 			  <File Id="SFX_AssemblyInfo.cs" Name="ASSEMBLY.CS" LongName="AssemblyInfo.cs" />
             </Component>
             <Directory Id="SFX_Tests" Name="Tests">
@@ -209,15 +220,17 @@
 		  <Directory Id="maxtimedecorator" Name="MAXTIME" LongName="MaxTimeDecorator">
 		    <Component Id="C__MaxTimeDecorator" DiskId="1" Guid="D291A2AB-CC2D-4f67-BE2E-30ACBF5EA18F">
 			  <File Id="MTD_AssemblyInfo.cs" Name="ASSEMBLY.CS" LongName="AssemblyInfo.cs" />
+			  <File Id="ExpectFailureAttribute.cs" Name="XPCTFAIL.CS" LongName="ExpectFailureAttribute.cs" />
 			  <File Id="MaxTimeAttribute.cs" Name="MTATTR.cs" LongName="MaxTimeAttribute.cs" />
 			  <File Id="MaxTimeDecorator.cs" Name="MTD.CS" LongName="MaxTimeDecorator.cs" />
 			  <File Id="MaxTimeTestCase.cs" Name="MTTC.CS" LongName="MaxTimeTestCase.cs" />
 			  <File Id="MaxTimeDecorator.csproj" Name="MTD.CSP" LongName="MaxTimeDecorator.csproj" />
+			  <File Id="MaxTimeDecorator.build" Name="MTD.BLD" LongName="MaxTimeDecorator.build" />
 			  <File Id="MaxTimeDecorator.sln" Name="MTD.SLN" LongName="MaxTimeDecorator.sln" />
 			</Component>
 			<Directory Id="MTD_Tests" Name="Tests">
 			  <Component Id="C__MaxTimeDecoratorTests" DiskId="1" Guid="D50F4831-CC6C-4624-A419-307637F0BE9A">
-			    <File Id="MaxTimeDecoratorTests.cs" Name="MTDTESTS.CS" LongName="MaxTimeDecoratorTests.cs" />
+			    <File Id="MTD_Tests_AssemblyInfo.cs" Name="ASSMINFO.CS" LongName="AssemblyInfo.cs" />			    <File Id="MaxTimeDecoratorTests.cs" Name="MTDTESTS.CS" LongName="MaxTimeDecoratorTests.cs" />
 			    <File Id="MaxTimeDecoratorTests.csproj" Name="MTDTESTS.CSP" LongName="MaxTimeDecoratorTests.csproj" />
 			  </Component>
 			</Directory>
