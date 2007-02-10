@@ -49,8 +49,10 @@ namespace NUnit.Core.Tests
 			Console.WriteLine();
 			Console.Write(new TestMarshalByRefObject());
 			Console.WriteLine();
+			System.Diagnostics.Trace.WriteLine( "Output from Trace", "NUnit" );
 			Console.Write(new TestNonRemotableObject());
 			Console.WriteLine();
+			Console.Error.WriteLine( "This is from Console.Error" );
 		}
 
 		[Test]
