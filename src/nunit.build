@@ -58,7 +58,7 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit version for packaging -->
-  <property name="package.version" value="2.3.7024"/>
+  <property name="package.version" value="2.4.0"/>
 
   <!-- Nominal version used for install directory and program
        files menu. Normally the major and minor portions
@@ -188,9 +188,11 @@
     <copy file="NUnitBinTests.config"
       tofile="${current.build.dir}/NUnitTests.config"/>
 
+
+    <copy file="NUnitFitTests.html" todir="${current.build.dir}"/>
+
     <!-- Copy clr.bat file for running under alternative frameworks -->
-    <copy file="clr.bat"
-      tofile="${current.build.dir}/clr.bat"/>
+    <copy file="clr.bat" todir="${current.build.dir}"/>
 
   </target>
 
@@ -373,7 +375,7 @@
       workingdir="${current.build.dir}" 
       program="${fit.executable}" 
       useruntimeengine="true"
-      commandline="${fit.tests.dir}/LoadTests.html FitResults.html ." />
+      commandline="NUnitFitTests.html TestResults.html ." />
 
   </target>
 
