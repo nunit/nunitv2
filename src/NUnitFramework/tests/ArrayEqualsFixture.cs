@@ -159,5 +159,15 @@ namespace NUnit.Framework.Tests
 			Assert.AreEqual( a, b );
 			Assert.AreEqual( b, a );
 		}
+
+		[Test, ExpectedException( typeof(AssertionException) )]
+		public void ArrayAndCollection_Failure()
+		{
+			int[] a = new int[] { 1, 2, 3 };
+			ArrayList b = new ArrayList();
+			b.Add( 1 );
+			b.Add( 3 );
+			Assert.AreEqual( a, b );
+		}
 	}
 }
