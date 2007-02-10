@@ -26,6 +26,9 @@
         <include name="UnhandledExceptions.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
+      <nowarn>
+        <warning number="618,672"/>
+      </nowarn>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
         <include name="nunit.core.interfaces.dll"/>

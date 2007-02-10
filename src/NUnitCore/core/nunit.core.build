@@ -65,6 +65,9 @@
         <include name="Extensibility/TestDecoratorCollection.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
+      <nowarn>
+        <warning number="618,1699" if="${runtime.version=='2.0'}"/>
+      </nowarn>
       <references basedir="${current.build.dir}">
         <include name="nunit.core.interfaces.dll"/>
       </references>
