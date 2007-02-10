@@ -41,8 +41,6 @@
     value="${path::combine(project.base.dir,'samples')}"/>
   <property name="project.tools.dir"
     value="${path::combine(project.base.dir,'tools')}"/>
-  <property name="fit.tests.dir"
-    value="${path::combine(project.src.dir,'FitTests')}"/>
   <property name="project.install.dir"
     value="${path::combine(project.src.dir, 'install')}"/>
   <property name="samples.bin.dir"
@@ -92,6 +90,8 @@
     value="${path::combine(package.working.dir,'src')}"/>
   <property name="package.tools.dir"
     value="${path::combine(package.working.dir,'tools')}"/>
+  <property name="package.fit.dir"
+    value="${path::combine(package.working.dir,'fit')}"/>
   <property name="package.resource.dir"
     value="${path::combine(package.working.dir, 'resources')}"/>
   <property name="wix.work.dir"
@@ -170,7 +170,8 @@
     <include name="GuiRunner/tests/nunit-gui.tests.build" if="${build.gui}" />
 
     <!-- FIT Tests -->
-    <include name="FitTests/fixtures/nunit.fixtures.build" />
+    <include name="NUnitFixtures/fixtures/nunit.fixtures.build" />
+    <include name="NUnitFixtures/tests/nunit.fixtures.tests.build" />
   </fileset>
 
   <!-- BuildFiles for TestServer, which is not yet part of NUnit -->
@@ -411,6 +412,7 @@
 
     <copy file="license.rtf" todir="${package.working.dir}" />
     <copy file="GuiRunner/nunit-gui/Logo.ico" todir="${package.working.dir}" />
+    <copy file="NUnitFitTests.html" todir="${package.bin.dir}" />
 
   </target>
 
@@ -478,6 +480,7 @@
         <include name="NUnitBinTests.nunit"/>
         <include name="NUnitDevTests.config"/>
         <include name="NUnitDevTests.nunit"/>
+        <include name="NUnitFitTests.html"/>
         <include name="CommonAssemblyInfo.cs"/>
         <include name="clr.bat"/>
       </fileset>
