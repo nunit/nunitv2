@@ -57,6 +57,10 @@
         <include name="Services/SettingsService.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
+      <nowarn>
+        <warning number="618"/>
+        <warning number="1699" if="${runtime.version=='2.0'}"/>
+      </nowarn>
       <resources prefix="NUnit.Util">
         <include name="Transform.resx"/>
       </resources>

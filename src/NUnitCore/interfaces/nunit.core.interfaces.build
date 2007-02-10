@@ -50,6 +50,9 @@
         <include name="Filters/SimpleNameFilter.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
+      <nowarn>
+        <warning number="1699" if="${runtime.version=='2.0'}"/>
+      </nowarn>
     </csc>
   </target>
 

@@ -37,6 +37,9 @@
         <include name="WritableTextDisplay.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
+      <nowarn>
+        <warning number="1699" if="${runtime.version=='2.0'}"/>
+      </nowarn>
       <resources prefix="NUnit.UiKit">
         <include name="AddConfigurationDialog.resx"/>
         <include name="AssemblyListBox.resx"/>

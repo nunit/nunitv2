@@ -32,6 +32,7 @@
     <DefineConstants>TRACE;VS2005</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <Optimize>true</Optimize>
+    <NoWarn>618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug2005|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
