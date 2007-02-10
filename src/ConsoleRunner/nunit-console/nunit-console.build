@@ -11,6 +11,9 @@
         <include name="ConsoleUi.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
+      <nowarn>
+        <warning number="1699" if="${runtime.version=='2.0'}"/>
+      </nowarn>
       <references basedir="${current.build.dir}">
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>

@@ -19,6 +19,9 @@
         <include name="ProjectEditor.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
+      <nowarn>
+        <warning number="618,1699" if="${runtime.version=='2.0'}"/>
+      </nowarn>
       <resources>
         <include name="AboutBox.resx"/>
         <include name="AddinDialog.resx"/>
