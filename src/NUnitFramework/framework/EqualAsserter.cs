@@ -40,27 +40,24 @@ namespace NUnit.Framework
 			if ( !ObjectsEqual( expected, actual ) )
 			{
 				if ( failurePoint >= 0 )
-					DisplayArrayDifferences( failurePoint );
+				{
+					if ( expected.GetType().IsArray && actual.GetType().IsArray )
+						FailureMessage.DisplayArrayDifferences( (Array)expected, (Array)actual, failurePoint );
+					else
+						FailureMessage.DisplayCollectionDifferences( (ICollection)expected, (ICollection)actual, failurePoint );
+				}
 				else
-					DisplayDifferences();
+				{
+					if ( expected is double && actual is double )
+						FailureMessage.DisplayDifferencesWithTolerance( (double)expected, (double)actual, delta );
+					else
+						FailureMessage.DisplayDifferences( expected, actual, false );
+				}
+
 				return false;
 			}
 
 			return true;
-		}
-
-		private void DisplayDifferences()
-		{
-			if ( expected is double && actual is double )
-				FailureMessage.DisplayDifferencesWithTolerance( (double)expected, (double)actual, delta );
-			else
-				FailureMessage.DisplayDifferences( expected, actual, false );
-		}
-
-
-		private void DisplayArrayDifferences( int index )
-		{
-			FailureMessage.DisplayArrayDifferences( (Array)expected, (Array)actual, index );
 		}
 	}
 }

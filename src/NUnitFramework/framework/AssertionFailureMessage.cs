@@ -321,6 +321,34 @@ namespace NUnit.Framework
 				DisplayListElements( " missing:", expected, index, 3 );
 		}
 
+		/// <summary>
+		/// Display a standard message showing the differences found between 
+		/// two collections that were expected to be equal.
+		/// </summary>
+		/// <param name="expected">The expected collection value</param>
+		/// <param name="actual">The actual collection value</param>
+		/// <param name="index">The index at which a difference was found</param>
+		// NOTE: This is a temporary method for use until the code from NUnitLite
+		// is integrated into NUnit.
+		public void DisplayCollectionDifferences( ICollection expected, ICollection actual, int index )
+		{
+			if( expected.Count != actual.Count )
+				WriteLine( diffArrayLengthsFmt, expected.Count, actual.Count );
+			else
+				WriteLine( sameArrayLengthsFmt, expected.Count );
+			
+			WriteLine( arraysDifferAtIndexFmt, index );
+				
+			if ( index < expected.Count && index < actual.Count )
+			{
+				DisplayDifferences( GetValueFromCollection(expected, index ), GetValueFromCollection(actual, index), false );
+			}
+//			else if( expected.Count < actual.Count )
+//				DisplayListElements( "   extra:", actual, index, 3 );
+//			else
+//				DisplayListElements( " missing:", expected, index, 3 );
+		}
+
 		private static object GetValueFromCollection(ICollection collection, int index)
 		{
 			Array array = collection as Array;
