@@ -5,12 +5,14 @@
     <!-- Feature to install the NUnit tests -->
 	<Feature Id="TestsFeature" Level="1"
 		Title='Unit Tests' Description='Unit tests for NUnit' Display='expand'>
-		<ComponentRef Id="component_tests" />
+		<ComponentRef Id="base_tests" />
+		<ComponentRef Id="gui_tests" />
+                <ComponentRef Id="fit_tests" />
     </Feature>
     
 	<DirectoryRef Id="bin" FileSource="bin">
       
-        <Component Id="component_tests" DiskId="1" Guid="85DD0370-9E05-4e9a-8AB4-02A6C24986AB">
+        <Component Id="base_tests" DiskId="1" Guid="85DD0370-9E05-4e9a-8AB4-02A6C24986AB">
           <File Id="testutilities" Name="TESTUTIL.DLL" LongName="test-utilities.dll" />
 		  <File Id="testassembly" Name="TESTDATA.DLL" LongName="test-assembly.dll" />
 			
@@ -30,17 +32,11 @@
 		  <File Id="nunit.mocks.tests" Name="TESTMOCK.DLL" LongName="nunit.mocks.tests.dll" />
           <File Id="nunit.mocks.tests.config" Name="TESTMOCK.CFG" LongName="nunit.mocks.tests.dll.config" />
           
-		  <File Id="nunit.uikit.tests" Name="TESTUIKI.DLL" LongName="nunit.uikit.tests.dll" />
-          <File Id="nunit.uikit.tests.config" Name="TESTUIKI.CFG" LongName="nunit.uikit.tests.dll.config" />
-          
 		  <File Id="console.tests" Name="TESTCONS.DLL" LongName="nunit-console.tests.dll" />
           <File Id="console.tests.config" Name="TESTCONS.CFG" LongName="nunit-console.tests.dll.config" />
           
 		  <File Id="NUnitTests.config" Name="ALLTESTS.CFG" LongName="NUnitTests.config" />
           <File Id="NUnitTests.nunit" Name="ALLTESTS.NUN" LongName="NUnitTests.nunit" />
-          
-		  <File Id="gui.tests" Name="GUITESTS.DLL" LongName="nunit-gui.tests.dll" />
-		  <File Id="gui.tests.config" Name="GUITESTS.CFG" LongName="nunit-gui.tests.dll.config" />
 			
           <File Id="nunit.extensions.tests" Name="TESTEXTN.DLL"	LongName="nunit.extensions.tests.dll" />
           <File Id="nunit.extensions.tests.config" Name="TESTEXTN.CFG" LongName="nunit.extensions.tests.dll.config" />
@@ -49,6 +45,23 @@
 		  <File Id="nunit.core.tests.config" Name="TESTCORE.CFG" LongName="nunit.core.tests.dll.config" />
           
           <!-- <File Id="F__nunit_server_tests_dll" Name="NUST.DLL" LongName="nunit-server.tests.dll" /> -->
+        </Component>
+          
+        <Component Id="gui_tests" DiskId="1" Guid="C7E0B8E5-DE60-455a-B247-B204A4C28677">
+		  <File Id="nunit.uikit.tests" Name="TESTUIKI.DLL" LongName="nunit.uikit.tests.dll" />
+          <File Id="nunit.uikit.tests.config" Name="TESTUIKI.CFG" LongName="nunit.uikit.tests.dll.config" />
+          
+		  <File Id="gui.tests" Name="GUITESTS.DLL" LongName="nunit-gui.tests.dll" />
+		  <File Id="gui.tests.config" Name="GUITESTS.CFG" LongName="nunit-gui.tests.dll.config" />
+        </Component>
+
+        <Component Id="fit_tests" DiskId="1" Guid="33E1C9B4-254D-4aaa-8BF5-FB18DAE3220E" >
+          <File Id="nunit.fixtures.dll" Name="FIXTURES.DLL" LongName="nunit.fixtures.dll" />
+          <File Id="nunit.fixtures.tests.dll" Name="FIXTESTS.DLL" LongName="nunit.fixtures.tests.dll" />
+          <File Id="NUnitFitTests.html" Name="FITTESTS.HTM" LongName="NUnitFitTests.html" />
+          <File Id="fit.dll" Name="fit.dll"/>
+          <File Id="runFile.exe" Name="runFile.exe"/>
+          <File Id="runFile.exe.config" Name="runFile.cfg" LongName="runFile.exe.config" />
         </Component>
 
 	</DirectoryRef>
