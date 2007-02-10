@@ -250,7 +250,8 @@ namespace NUnit.Framework
 			}
 			return true;
 		}
-		protected void CreateMessage()
+
+		private void CreateMessage()
 		{
 			FailureMessage.WriteLine("\tAll objects are not of actual type.");
 			FailureMessage.WriteLine("\t{0} {1}","collection1.Count:",collection1.Count.ToString());
@@ -261,12 +262,25 @@ namespace NUnit.Framework
 	#endregion
 
 	#region ItemsNotNullAsserter
+    /// <summary>
+    /// The ItemsNotNullAsserter class tests a collection to determine that it has no null items.
+    /// </summary>
 	public class ItemsNotNullAsserter : CollectionAsserter
 	{
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:ItemsNotNullAsserter"/> class.
+        /// </summary>
+        /// <param name="collection1">The set to be tested</param>
+        /// <param name="message">A message to issue in case of failure</param>
+        /// <param name="args">Parameters used in formatting the message</param>
 		public ItemsNotNullAsserter( ICollection collection1, string message, params object[] args ) : base(collection1, message, args)
 		{
 		}
 
+        /// <summary>
+        /// Test that the collection contains no null items
+        /// </summary>
+        /// <returns>True if the test succeeds</returns>
 		public override bool Test()
 		{
 			foreach(object loopObj in collection1)
@@ -279,7 +293,8 @@ namespace NUnit.Framework
 			}
 			return true;
 		}
-		protected void CreateMessage()
+
+		private void CreateMessage()
 		{
 			FailureMessage.WriteLine("\tAt least one object is null.");
 			FailureMessage.WriteLine("\t{0} {1}","collection1.Count:",collection1.Count.ToString());
@@ -289,12 +304,25 @@ namespace NUnit.Framework
 	#endregion
 
 	#region ItemsUniqueAsserter
+    /// <summary>
+    /// The ItemsUniqueAsserter tests a collection to verify that all items are unique
+    /// </summary>
 	public class ItemsUniqueAsserter : CollectionAsserter
 	{
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:ItemsUniqueAsserter"/> class.
+        /// </summary>
+        /// <param name="collection1">The set to be tested</param>
+        /// <param name="message">A message to issue in case of failure</param>
+        /// <param name="args">Parameters used in formatting the message</param>
 		public ItemsUniqueAsserter( ICollection collection1, string message, params object[] args ) : base(collection1, message, args)
 		{
 		}
 
+        /// <summary>
+        /// Tests the collection to determine whether all contained items are unique.
+        /// </summary>
+        /// <returns>True if the test succeeds</returns>
 		public override bool Test()
 		{
 			foreach(object loopObj in collection1)
@@ -318,7 +346,7 @@ namespace NUnit.Framework
 			}
 			return true;
 		}
-		protected void CreateMessage()
+		private void CreateMessage()
 		{
 			FailureMessage.WriteLine("\tAt least one object is not unique within collection1.");
 			FailureMessage.WriteLine("\t{0} {1}","collection1.Count:",collection1.Count.ToString());
@@ -328,16 +356,31 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionContains
+	/// <summary>
+	/// The CollectionContains Asserter is used to test whether a collection
+	/// contains a given object.
+	/// </summary>
 	public class CollectionContains : CollectionAsserter
 	{
         private object actual;
 
+		/// <summary>
+		/// Construct a CollectionContains object
+		/// </summary>
+		/// <param name="collection1">The collection</param>
+		/// <param name="actual">The object that is being examined</param>
+		/// <param name="message">Error message to display in case of failure</param>
+		/// <param name="args">Arguments used in formatting the message</param>
 		public CollectionContains( ICollection collection1, object actual, string message, params object[] args ) 
 			: base(collection1, message, args) 
         {
             this.actual = actual;
         }
 
+		/// <summary>
+		/// Test whether the object is contained in the collection
+		/// </summary>
+		/// <returns>True on success, false otherwise</returns>
 		public override bool Test()
 		{
 			foreach(object loopObj in collection1)
@@ -350,7 +393,7 @@ namespace NUnit.Framework
 			return false;
 		}
 
-		protected void CreateMessage()
+		private void CreateMessage()
 		{
 			FailureMessage.WriteLine("\tThe actual object was not found in collection1.");
 			FailureMessage.WriteLine("\t{0} {1}","collection1.Count:",collection1.Count.ToString());
@@ -361,16 +404,30 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionNotContains
+    /// <summary>
+    /// The CollectionNotContains asserter is used to verify the absence of an object from a collection.
+    /// </summary>
 	public class CollectionNotContains : CollectionAsserter
 	{
         private object actual;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:CollectionNotContains"/> class.
+        /// </summary>
+        /// <param name="collection1">The collection1.</param>
+        /// <param name="actual">The actual.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="args">The args.</param>
 		public CollectionNotContains( ICollection collection1, object actual, string message, params object[] args ) 
             : base(collection1, message, args)
 		{
             this.actual = actual;
 		}
 
+        /// <summary>
+        /// Tests that the collection does not contain the specified object.
+        /// </summary>
+        /// <returns>True if the test succeeds</returns>
 		public override bool Test()
 		{
 			foreach(object loopObj in collection1)
@@ -383,7 +440,7 @@ namespace NUnit.Framework
 			}
 			return true;
 		}
-		protected void CreateMessage()
+		private void CreateMessage()
 		{
 			FailureMessage.WriteLine("\tThe actual object was found in collection1.");
 			FailureMessage.WriteLine("\t{0} {1}","collection1.Count:",collection1.Count.ToString());
@@ -394,12 +451,27 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionEqualAsserter
+    /// <summary>
+    /// CollectionsEqualAsserter verifies that two collections are identical
+    /// </summary>
 	public class CollectionEqualAsserter : CollectionAsserter
 	{
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:CollectionEqualAsserter"/> class.
+        /// </summary>
+        /// <param name="collection1">The collection1.</param>
+        /// <param name="collection2">The collection2.</param>
+        /// <param name="comparer">The comparer.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="args">The args.</param>
 		public CollectionEqualAsserter( ICollection collection1, ICollection collection2, IComparer comparer, string message, params object[] args ) : base(collection1, collection2, comparer, message, args)
 		{
 		}
 
+        /// <summary>
+        /// Tests that the two collections are equal.
+        /// </summary>
+        /// <returns>True if the test succeeds</returns>
 		public override bool Test()
 		{
 			if ( CollectionsEqual( collection1, collection2 ) )
@@ -422,12 +494,27 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionNotEqualAsserter
+    /// <summary>
+    /// CollectionNotEqualAsserter tests that two collections are not equal
+    /// </summary>
 	public class CollectionNotEqualAsserter : CollectionAsserter
 	{
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:CollectionNotEqualAsserter"/> class.
+        /// </summary>
+        /// <param name="collection1">The collection1.</param>
+        /// <param name="collection2">The collection2.</param>
+        /// <param name="comparer">The comparer.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="args">The args.</param>
 		public CollectionNotEqualAsserter( ICollection collection1, ICollection collection2, IComparer comparer, string message, params object[] args ) : base(collection1, collection2, comparer, message, args)
 		{
 		}
 
+        /// <summary>
+        /// Tests that the two collections are not equal
+        /// </summary>
+        /// <returns>True if the test succeeds</returns>
 		public override bool Test()
 		{
 			if ( CollectionsEqual( collection1, collection2 ) )
@@ -450,12 +537,27 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionEquivalentAsserter
+    /// <summary>
+    /// CollectionEquivalentAsserter tests whether one collection contains the same
+    /// members as another, without respect to ordering.
+    /// </summary>
 	public class CollectionEquivalentAsserter : CollectionAsserter
 	{
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:CollectionEquivalentAsserter"/> class.
+        /// </summary>
+        /// <param name="collection1">The collection1.</param>
+        /// <param name="collection2">The collection2.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="args">The args.</param>
 		public CollectionEquivalentAsserter( ICollection collection1, ICollection collection2, string message, params object[] args ) : base(collection1, collection2, message, args)
 		{
 		}
 
+        /// <summary>
+        /// Test whether the collections are equivalent
+        /// </summary>
+        /// <returns>True if the test succeeds</returns>
 		public override bool Test()
 		{
 			if ( CollectionsEquivalent( collection1, collection2 ) )
@@ -477,12 +579,26 @@ namespace NUnit.Framework
 	#endregion
 
 	#region CollectionNotEquivalentAsserter
+    /// <summary>
+    /// CollectionNotEquivalentAsserter tests whether two collections are not equivalent.
+    /// </summary>
 	public class CollectionNotEquivalentAsserter : CollectionAsserter
 	{
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:CollectionNotEquivalentAsserter"/> class.
+        /// </summary>
+        /// <param name="collection1">The collection1.</param>
+        /// <param name="collection2">The collection2.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="args">The args.</param>
 		public CollectionNotEquivalentAsserter( ICollection collection1, ICollection collection2, string message, params object[] args ) : base(collection1, collection2, message, args)
 		{
 		}
 
+        /// <summary>
+        /// Test whether the collections are non-equivalent.
+        /// </summary>
+        /// <returns>True if the test succeeds</returns>
 		public override bool Test()
 		{
 			if ( !CollectionsEquivalent( collection1, collection2 ) )
@@ -504,12 +620,26 @@ namespace NUnit.Framework
 	#endregion
 
 	#region SubsetAsserter
+    /// <summary>
+    /// SubsetAaserter tests whether one collection is a subset of another
+    /// </summary>
 	public class SubsetAsserter : CollectionAsserter
 	{
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:SubsetAsserter"/> class.
+        /// </summary>
+        /// <param name="collection1">The collection1.</param>
+        /// <param name="collection2">The collection2.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="args">The args.</param>
 		public SubsetAsserter( ICollection collection1, ICollection collection2, string message, params object[] args ) : base(collection1, collection2, message, args)
 		{
 		}
 
+        /// <summary>
+        /// Test whether one collection is a subset of another
+        /// </summary>
+        /// <returns>True if the test succeeds</returns>
 		public override bool Test()
 		{
 			if ( IsSubsetOf( collection1, collection2 ) )
@@ -531,12 +661,26 @@ namespace NUnit.Framework
 	#endregion
 
 	#region NotSubsetAsserter
+    /// <summary>
+    /// NotSubsetAsserter tests whether one collection is not a suset of another.
+    /// </summary>
 	public class NotSubsetAsserter : CollectionAsserter
 	{
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:NotSubsetAsserter"/> class.
+        /// </summary>
+        /// <param name="collection1">The collection1.</param>
+        /// <param name="collection2">The collection2.</param>
+        /// <param name="message">The message.</param>
+        /// <param name="args">The args.</param>
 		public NotSubsetAsserter( ICollection collection1, ICollection collection2, string message, params object[] args ) : base(collection1, collection2, message, args)
 		{
 		}
 
+        /// <summary>
+        /// Test that one collection is not a subset of another
+        /// </summary>
+        /// <returns>True if the test succeeds</returns>
 		public override bool Test()
 		{
 			if (!IsSubsetOf( collection1, collection2 ) )
@@ -572,6 +716,10 @@ namespace NUnit.Framework
         public CollectionEmptyAsserter(ICollection collection, string message, params object[] args)
             : base(collection, message, args) { }
 
+        /// <summary>
+        /// Test whether the collection is empty.
+        /// </summary>
+        /// <returns>True if the test succeeds</returns>
         public override bool Test()
         {
             if (collection1.Count == 0)
@@ -599,6 +747,10 @@ namespace NUnit.Framework
         public CollectionNotEmptyAsserter(ICollection collection, string message, params object[] args)
             : base(collection, message, args) { }
 
+        /// <summary>
+        /// Test whether the collections are non-equivalent
+        /// </summary>
+        /// <returns>True if the test succeeds</returns>
         public override bool Test()
         {
             if (collection1.Count > 0)
