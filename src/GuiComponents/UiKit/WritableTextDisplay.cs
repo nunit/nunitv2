@@ -24,7 +24,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// StringBuilder to hold text until the control is actually  created
 		/// </summary>
-		private StringBuilder sb;
+		//private StringBuilder sb;
 
 		public WritableTextDisplay()
 		{
@@ -86,7 +86,7 @@ namespace NUnit.UiKit
 		public void Clear()
 		{
 			textBox.Clear();
-			sb = null;
+//			sb = null;
 		}
 
 		#endregion
