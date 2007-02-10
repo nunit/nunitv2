@@ -5,12 +5,18 @@
     <csc target="library" 
         output="${current.build.dir}/nunit.fixtures.dll"
         debug="${build.debug}" define="${build.defines}">
-      <sources>
-        <include name="CodeSnippetFixture.cs"/>
-        <include name="TestLoadFixture.cs"/>
-        <include name="TestTree.cs"/>
+      <sources >
+        <include name="AssemblyRunner.cs" asis="true"/>
+        <include name="PlatformInfo.cs" asis="true"/>
+        <include name="SnippetRunner.cs" asis="true"/>
+        <include name="TestLoadFixture.cs" asis="true"/>
+        <include name="TestCompiler.cs" asis="true"/>
+        <include name="TestTree.cs" asis="true"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
+      <nowarn>
+        <warning number="618" if="${runtime.version=='2.0'}"/>
+      </nowarn>
       <references basedir="${current.build.dir}">
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>
@@ -29,13 +35,8 @@
   </target>
 
   <target name="package">
-    <copy todir="${package.src.dir}/FitTests/fixtures">
+    <copy todir="${package.src.dir}/NUnitFixtures/fixtures">
       <fileset refid="source-files" />
-    </copy>
-    <copy todir="${package.src.dir}/FitTests">
-      <fileset basedir="..">
-        <include name="*.html"/>
-      </fileset>
     </copy>
   </target>
 

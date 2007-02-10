@@ -11,6 +11,7 @@
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
+    <NoWarn>618</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -122,9 +123,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeSnippetFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="AssemblyRunner.cs" />
+    <Compile Include="PlatformInfo.cs" />
+    <Compile Include="SnippetRunner.cs" />
+    <Compile Include="TestCompiler.cs" />
     <Compile Include="TestLoadFixture.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -136,6 +138,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy $(TargetPath) ..\..\..</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -3,7 +3,9 @@ using System;
 namespace NUnit.Fixtures
 {
 	/// <summary>
-	/// Summary description for Tree.
+	/// TestTree provides a simple, character-based representation of
+	/// a loaded tree of tests and is used for comparing actual and
+	/// expected tree values.
 	/// </summary>
 	public class TestTree
 	{
