@@ -93,6 +93,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.interfaces.dll_V
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.fixtures_VS2005", "NUnitFixtures\fixtures\nunit.fixtures_VS2005.csproj", "{67D6949E-F4D2-4821-B02B-4AAFC3F18B52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.fixtures.tests_VS2005", "NUnitFixtures\tests\nunit.fixtures.tests_VS2005.csproj", "{55F2D231-743C-48DD-B79A-00E5A7236CBE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -335,12 +337,20 @@ Global
 		{DCC88998-255A-4247-B658-71DD932E9873}.Release2005|Any CPU.Build.0 = Release2005|Any CPU
 		{67D6949E-F4D2-4821-B02B-4AAFC3F18B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{67D6949E-F4D2-4821-B02B-4AAFC3F18B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67D6949E-F4D2-4821-B02B-4AAFC3F18B52}.Debug2005|Any CPU.ActiveCfg = Debug|Any CPU
-		{67D6949E-F4D2-4821-B02B-4AAFC3F18B52}.Debug2005|Any CPU.Build.0 = Debug|Any CPU
-		{67D6949E-F4D2-4821-B02B-4AAFC3F18B52}.Release|Any CPU.ActiveCfg = Debug2005|Any CPU
-		{67D6949E-F4D2-4821-B02B-4AAFC3F18B52}.Release|Any CPU.Build.0 = Debug2005|Any CPU
+		{67D6949E-F4D2-4821-B02B-4AAFC3F18B52}.Debug2005|Any CPU.ActiveCfg = Debug2005|Any CPU
+		{67D6949E-F4D2-4821-B02B-4AAFC3F18B52}.Debug2005|Any CPU.Build.0 = Debug2005|Any CPU
+		{67D6949E-F4D2-4821-B02B-4AAFC3F18B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67D6949E-F4D2-4821-B02B-4AAFC3F18B52}.Release|Any CPU.Build.0 = Release|Any CPU
 		{67D6949E-F4D2-4821-B02B-4AAFC3F18B52}.Release2005|Any CPU.ActiveCfg = Release2005|Any CPU
 		{67D6949E-F4D2-4821-B02B-4AAFC3F18B52}.Release2005|Any CPU.Build.0 = Release2005|Any CPU
+		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Debug2005|Any CPU.ActiveCfg = Debug2005|Any CPU
+		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Debug2005|Any CPU.Build.0 = Debug2005|Any CPU
+		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Release2005|Any CPU.ActiveCfg = Release2005|Any CPU
+		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Release2005|Any CPU.Build.0 = Release2005|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

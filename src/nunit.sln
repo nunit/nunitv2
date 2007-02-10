@@ -116,6 +116,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-console", "ConsoleRun
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.fixtures", "NUnitFixtures\fixtures\nunit.fixtures.csproj", "{A8D36198-BE2F-44E5-AC4F-4E052AFCCF78}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.fixtures.tests", "NUnitFixtures\tests\nunit.fixtures.tests.csproj", "{55F2D231-743C-48DD-B79A-00E5A7236CBE}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -238,6 +246,14 @@ Global
 		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Debug.Build.0 = Debug|.NET
 		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Release.ActiveCfg = Release|.NET
 		{9367EC89-6A38-42BA-9607-0DC288E4BC3A}.Release.Build.0 = Release|.NET
+		{A8D36198-BE2F-44E5-AC4F-4E052AFCCF78}.Debug.ActiveCfg = Debug|.NET
+		{A8D36198-BE2F-44E5-AC4F-4E052AFCCF78}.Debug.Build.0 = Debug|.NET
+		{A8D36198-BE2F-44E5-AC4F-4E052AFCCF78}.Release.ActiveCfg = Release|.NET
+		{A8D36198-BE2F-44E5-AC4F-4E052AFCCF78}.Release.Build.0 = Release|.NET
+		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Debug.ActiveCfg = Debug|.NET
+		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Debug.Build.0 = Debug|.NET
+		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Release.ActiveCfg = Release|.NET
+		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		clr.bat = clr.bat

@@ -8,5 +8,6 @@
     <assembly path="nunit-console.tests.dll" />
     <assembly path="nunit.uikit.tests.dll" />
     <assembly path="nunit-gui.tests.dll" />
+    <assembly path="nunit.fixtures.tests.dll" />
   </Config>
 </NUnitProject>

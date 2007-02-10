@@ -9,6 +9,7 @@
     <assembly path="ConsoleRunner\tests\bin\Debug\nunit-console.tests.dll" />
     <assembly path="GuiComponents\tests\bin\Debug\nunit.uikit.tests.dll" />
     <assembly path="GuiRunner\tests\bin\Debug\nunit-gui.tests.dll" />
+    <assembly path="NUnitFixtures\tests\bin\Debug\nunit.fixtures.tests.dll" />
   </Config>
   <Config name="Debug2005" binpathtype="Auto">
     <assembly path="NUnitFramework\tests\bin\Debug2005\nunit.framework.tests.dll" />
@@ -19,6 +20,7 @@
     <assembly path="ConsoleRunner\tests\bin\Debug2005\nunit-console.tests.dll" />
     <assembly path="GuiComponents\tests\bin\Debug2005\nunit.uikit.tests.dll" />
     <assembly path="GuiRunner\tests\bin\Debug2005\nunit-gui.tests.dll" />
+    <assembly path="NUnitFixtures\tests\bin\Debug2005\nunit.fixtures.tests.dll" />
   </Config>
   <Config name="Release" binpathtype="Auto">
     <assembly path="NUnitFramework\tests\bin\Release\nunit.framework.tests.dll" />
@@ -29,7 +31,8 @@
     <assembly path="ConsoleRunner\tests\bin\Release\nunit-console.tests.dll" />
     <assembly path="GuiComponents\tests\bin\Release\nunit.uikit.tests.dll" />
     <assembly path="GuiRunner\tests\bin\Release\nunit-gui.tests.dll" />
-  </Config>
+    <assembly path="NUnitFixtures\tests\bin\Release\nunit.fixtures.tests.dll" />
+</Config>
   <Config name="Release2005" binpathtype="Auto">
     <assembly path="NUnitFramework\tests\bin\Release2005\nunit.framework.tests.dll" />
     <assembly path="NUnitCore\tests\bin\Release2005\nunit.core.tests.dll" />
@@ -39,5 +42,6 @@
     <assembly path="ConsoleRunner\tests\bin\Release2005\nunit-console.tests.dll" />
     <assembly path="GuiComponents\tests\bin\Release2005\nunit.uikit.tests.dll" />
     <assembly path="GuiRunner\tests\bin\Release2005\nunit-gui.tests.dll" />
+    <assembly path="NUnitFixtures\tests\bin\Release2005\nunit.fixtures.tests.dll" />
   </Config>
 </NUnitProject>
