@@ -33,13 +33,20 @@ namespace NUnit.Util
 	using NUnit.Core;
 
 	/// <summary>
-	/// Summary description for SiummaryVisitor.
+	/// SummaryVisitor examines a set of results and calculates 
+	/// summary statistics for the run. Note that a test run
+	/// will only produce results for tests that were selected
+	/// to be run. Curently, tests excluded by the Explicit 
+	/// attribute produce a result, while those excluded by
+	/// the Platform attribute do not. This anomaly will be
+	/// corrected in a later version.
 	/// </summary>
 	public class SummaryVisitor : ResultVisitor
 	{
-		private int totalCount;
+		private int resultCount;
 		private int failureCount;
-		private int testsNotRun;
+		private int skipCount;
+		private int ignoreCount;
 		private int suitesNotRun;
 		
 		private double time;
@@ -48,7 +55,7 @@ namespace NUnit.Util
 
 		public SummaryVisitor()
 		{
-			totalCount = 0;
+			resultCount = 0;
 			initialized = false;
 		}
 
@@ -56,14 +63,24 @@ namespace NUnit.Util
 		{
 			SetNameandTime(caseResult.Name, caseResult.Time);
 
-			if(caseResult.Executed)
+			switch( caseResult.RunState )
 			{
-				totalCount++;
-				if(caseResult.IsFailure)
-					failureCount++;
+				case RunState.Executed:
+					resultCount++;
+					if(caseResult.IsFailure)
+						failureCount++;
+					break;
+				case RunState.Ignored:
+					ignoreCount++;
+					break;
+				case RunState.Explicit:
+				case RunState.NotRunnable:
+				case RunState.Runnable:
+				case RunState.Skipped:
+				default:
+					skipCount++;
+					break;
 			}
-			else
-				testsNotRun++;
 		}
 
 		public void Visit(TestSuiteResult suiteResult) 
@@ -101,19 +118,29 @@ namespace NUnit.Util
 			get { return (failureCount == 0); }
 		}
 
-		public int Count
+		public int ResultCount
 		{
-			get { return totalCount; }
+			get { return resultCount; }
 		}
 
-		public int Failures
+		public int FailureCount
 		{
 			get { return failureCount; }
 		}
 
+		public int SkipCount
+		{
+			get { return skipCount; }
+		}
+
+		public int IgnoreCount
+		{
+			get { return ignoreCount; }
+		}
+
 		public int TestsNotRun
 		{
-			get { return testsNotRun; }
+			get { return skipCount + ignoreCount; }
 		}
 
 		public int SuitesNotRun

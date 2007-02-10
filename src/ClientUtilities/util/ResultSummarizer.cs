@@ -62,7 +62,7 @@ namespace NUnit.Util
 
 		public int ResultCount
 		{
-			get { return visitor.Count; }
+			get { return visitor.ResultCount; }
 		}
 
 //		public int Errors
@@ -70,9 +70,19 @@ namespace NUnit.Util
 //			get { return visitor.Errors; }
 //		}
 
-		public int Failures 
+		public int FailureCount 
 		{
-			get { return visitor.Failures; }
+			get { return visitor.FailureCount; }
+		}
+
+		public int SkipCount
+		{
+			get { return visitor.SkipCount; }
+		}
+
+		public int IgnoreCount
+		{
+			get { return visitor.IgnoreCount; }
 		}
 
 		public double Time
