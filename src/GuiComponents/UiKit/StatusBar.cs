@@ -152,7 +152,7 @@ namespace NUnit.UiKit
 		{
 			ResultSummarizer summarizer = new ResultSummarizer(result);
 
-			int failureCount = summarizer.Failures;
+			int failureCount = summarizer.FailureCount;
 
 			failuresPanel.Text = "Failures : " + failureCount.ToString();
 			testsRunPanel.Text = "Tests Run : " + summarizer.ResultCount.ToString();

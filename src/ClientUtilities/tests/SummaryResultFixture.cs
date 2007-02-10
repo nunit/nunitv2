@@ -102,7 +102,7 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual(suiteName, summary.Name);
 			Assert.IsTrue(summary.Success);
 			Assert.AreEqual(2, summary.ResultCount);
-			Assert.AreEqual(0, summary.Failures);
+			Assert.AreEqual(0, summary.FailureCount);
 			Assert.AreEqual(1, summary.TestsNotRun);
 		}
 
@@ -113,7 +113,7 @@ namespace NUnit.Util.Tests
 
 			Assert.IsFalse(summary.Success);
 			Assert.AreEqual(2, summary.ResultCount);
-			Assert.AreEqual(1, summary.Failures);
+			Assert.AreEqual(1, summary.FailureCount);
 			Assert.AreEqual(1, summary.TestsNotRun);
 		}
 
