@@ -8,7 +8,7 @@ namespace NUnit.Framework.Tests
 	/// Summary description for ListContentsTests.
 	/// </summary>
 	[TestFixture]
-	public class ListContentsTests
+	public class ListContentsTests : MessageChecker
 	{
 		private static readonly object[] testArray = { "abc", 123, "xyz" };
 
@@ -20,40 +20,31 @@ namespace NUnit.Framework.Tests
 			Assert.Contains( "xyz", testArray );
 		}
 
-		[Test]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void ArrayFails()
 		{
-			ListContentsAsserter asserter =
-				new ListContentsAsserter( "def", testArray, null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( 
-				"	expected: <\"def\">" + Environment.NewLine + 
-				"	 but was: <<\"abc\">,<123>,<\"xyz\">>" + Environment.NewLine,	
-				asserter.Message );
+			expectedMessage =
+				"  Expected: collection containing \"def\"" + Environment.NewLine + 
+				"  But was:  < \"abc\", 123, \"xyz\" >" + Environment.NewLine;	
+			Assert.Contains("def", testArray);
 		}
 
-		[Test]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void EmptyArrayFails()
 		{
-			ListContentsAsserter asserter =
-				new ListContentsAsserter( "def", new object[0], null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( 
-				"	expected: <\"def\">" + Environment.NewLine + 
-				"	 but was: <empty>" + Environment.NewLine,
-				asserter.Message );
+			expectedMessage =
+				"  Expected: collection containing \"def\"" + Environment.NewLine + 
+				"  But was:  <empty>" + Environment.NewLine;	
+			Assert.Contains( "def", new object[0] );
 		}
 
-		[Test]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void NullArrayFails()
 		{
-			ListContentsAsserter asserter =
-				new ListContentsAsserter( "def", null, null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( 
-				"	expected: <\"def\">" + Environment.NewLine + 
-				"	 but was: <null>" + Environment.NewLine,
-				asserter.Message );
+			expectedMessage =
+				"  Expected: collection containing \"def\"" + Environment.NewLine + 
+				"  But was:  null" + Environment.NewLine;	
+			Assert.Contains( "def", null );
 		}
 
 		[Test]
@@ -66,30 +57,23 @@ namespace NUnit.Framework.Tests
 			Assert.Contains( "xyz", list );
 		}
 
-		[Test]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void ArrayListFails()
 		{
-			ListContentsAsserter asserter =
-				new ListContentsAsserter( "def", new ArrayList(testArray), null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( 
-				"	expected: <\"def\">" + Environment.NewLine + 
-				"	 but was: <<\"abc\">,<123>,<\"xyz\">>" + Environment.NewLine,
-				asserter.Message );
+			expectedMessage =
+				"  Expected: collection containing \"def\"" + Environment.NewLine + 
+				"  But was:  < \"abc\", 123, \"xyz\" >" + Environment.NewLine;
+			Assert.Contains( "def", new ArrayList( testArray ) );
 		}
 
-		[Test]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void DifferentTypesFail()
 		{
-			ListContentsAsserter asserter =
-				new ListContentsAsserter( 123.0, new ArrayList(testArray), null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( 
-				"	expected: <123>" + Environment.NewLine + 
-				"	 but was: <<\"abc\">,<123>,<\"xyz\">>" + Environment.NewLine,
-				asserter.Message );
 			// TODO: Better message for this case
+			expectedMessage =
+				"  Expected: collection containing 123.0d" + Environment.NewLine + 
+				"  But was:  < \"abc\", 123, \"xyz\" >" + Environment.NewLine;
+			Assert.Contains( 123.0, new ArrayList( testArray ) );
 		}
-
 	}
 }

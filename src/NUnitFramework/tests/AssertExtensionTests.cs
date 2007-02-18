@@ -7,34 +7,6 @@ namespace NUnit.Framework.Tests
 	public class AssertExtensionTests
 	{
 		[Test]
-		public void FormattedMessageTests()
-		{
-			new MessageTester( null, null ).Test( string.Empty );
-			new MessageTester( string.Empty, null ).Test( string.Empty );
-			new MessageTester( "xyz", null ).Test( "xyz" + Environment.NewLine );
-			new MessageTester( "xyz", new object[0] ).Test( "xyz" + Environment.NewLine );
-			new MessageTester( "one: {0} two: {1}", new object[] {1,2} ).Test( "one: 1 two: 2" + Environment.NewLine );
-			new MessageTester( "xyz", new object[] {1,2} ).Test( "xyz" + Environment.NewLine );
-		}
-
-		private class MessageTester : AbstractAsserter
-		{
-			public MessageTester( string message, params object[] args )
-				: base( message, args ) { }
-
-			public override bool Test()
-			{
-				return false;
-			}
-
-
-			public void Test( string expected )
-			{
-				NUnit.Framework.Assert.AreEqual( expected, Message );
-			}
-		}
-
-		[Test]
 		public void OddNumber()
 		{
 			MyAssert.IsOdd( 27 );
@@ -62,6 +34,7 @@ namespace NUnit.Framework.Tests
 			}
 		}
 
+		[Obsolete]
 		private class MyAssert
 		{
 			static public void IsOdd( int num )
@@ -70,6 +43,7 @@ namespace NUnit.Framework.Tests
 			}
 		}
 
+		[Obsolete]
 		private class OddAsserter : AbstractAsserter
 		{
 			private int num;

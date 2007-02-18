@@ -2,42 +2,52 @@ using System;
 namespace NUnit.Framework.Tests
 {
 	[TestFixture()]
-	public class TypeAssertTests
+	public class TypeAssertTests : MessageChecker
 	{
+		[Test]
+		public void ExactType()
+		{
+			Assert.That( "Hello", Is.Type( typeof(System.String) ) );
+		}
+
+		[Test,ExpectedException(typeof(AssertionException))]
+		public void ExactTypeFails()
+		{
+			expectedMessage =
+				"  Expected: <System.Int32>" + Environment.NewLine +
+				"  But was:  <System.String>" + Environment.NewLine;
+			Assert.That( "Hello", Is.Type( typeof(System.Int32) ) );
+		}
+
 		[Test]
 		public void IsInstanceOfType()
 		{
 			Assert.IsInstanceOfType(typeof(System.Exception), new ApplicationException() );
 		}
 
-		[Test]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void IsInstanceOfTypeFails()
 		{
-			InstanceOfTypeAsserter asserter = new InstanceOfTypeAsserter(
-				typeof(System.Int32), "abc123", null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual(
-				"\texpected: Object to be instance of System.Int32" + System.Environment.NewLine + 
-				"\t but was: System.String" + System.Environment.NewLine,
-				asserter.Message );
+			expectedMessage =
+				"  Expected: instance of <System.Int32>" + System.Environment.NewLine + 
+				"  But was:  <System.String>" + System.Environment.NewLine;
+			Assert.That( "abc123", Is.InstanceOfType( typeof(System.Int32) ) );
 		}
 
 		[Test]
 		public void IsNotInstanceOfType()
 		{
 			Assert.IsNotInstanceOfType(typeof(System.Int32), "abc123" );
+			Assert.That( "abc123", Is.Not.InstanceOfType(typeof(System.Int32)) );
 		}
 
-		[Test]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void IsNotInstanceOfTypeFails()
 		{
-			NotInstanceOfTypeAsserter asserter = new NotInstanceOfTypeAsserter(
-				typeof(System.Exception), new System.ApplicationException(), null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual(
-				"\texpected: Object not an instance of System.Exception" + System.Environment.NewLine + 
-				"\t but was: System.ApplicationException" + System.Environment.NewLine,
-				asserter.Message );
+			expectedMessage =
+				"  Expected: not instance of <System.Exception>" + System.Environment.NewLine + 
+				"  But was:  <System.ApplicationException>" + System.Environment.NewLine;
+			Assert.IsNotInstanceOfType( typeof(System.Exception), new ApplicationException() );
 		}
 
 		[Test()]
@@ -49,21 +59,19 @@ namespace NUnit.Framework.Tests
 			Assert.IsAssignableFrom(array2.GetType(),array10);
 			Assert.IsAssignableFrom(array2.GetType(),array10,"Type Failure Message");
 			Assert.IsAssignableFrom(array2.GetType(),array10,"Type Failure Message",null);
+			Assert.That( array10, Is.AssignableFrom( array2.GetType() ) );
 		}
 
-		[Test]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void IsAssignableFromFails()
 		{
 			int [] array10 = new int [10];
 			int [,] array2 = new int[2,2];
 
-			AssignableFromAsserter asserter = new AssignableFromAsserter(
-				array2.GetType(), array10, null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( 
-				"\texpected: Type assignable from System.Int32[,]" + System.Environment.NewLine + 
-				"\t but was: System.Int32[]" + System.Environment.NewLine, 
-				asserter.Message );
+			expectedMessage =
+				"  Expected: Type assignable from <System.Int32[,]>" + System.Environment.NewLine + 
+				"  But was:  <System.Int32[]>" + System.Environment.NewLine;
+			Assert.That( array10, Is.AssignableFrom( array2.GetType() ) );
 		}
 
 		[Test()]
@@ -75,21 +83,19 @@ namespace NUnit.Framework.Tests
 			Assert.IsNotAssignableFrom(array2.GetType(),array10);
 			Assert.IsNotAssignableFrom(array2.GetType(),array10,"Type Failure Message");
 			Assert.IsNotAssignableFrom(array2.GetType(),array10,"Type Failure Message",null);
+			Assert.That( array10, Is.Not.AssignableFrom( array2.GetType() ) );
 		}
 
-		[Test]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void IsNotAssignableFromFails()
 		{
 			int [] array10 = new int [10];
 			int [] array2 = new int[2];
 
-			NotAssignableFromAsserter asserter = new NotAssignableFromAsserter(
-				array2.GetType(), array10, null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual( 
-				"\texpected: Type not assignable from System.Int32[]" + System.Environment.NewLine + 
-				"\t but was: System.Int32[]" + System.Environment.NewLine, 
-				asserter.Message );
+			expectedMessage =
+				"  Expected: not Type assignable from <System.Int32[]>" + System.Environment.NewLine + 
+				"  But was:  <System.Int32[]>" + System.Environment.NewLine;
+			Assert.That( array10, Is.Not.AssignableFrom( array2.GetType() ) );
 		}
 	}
 }

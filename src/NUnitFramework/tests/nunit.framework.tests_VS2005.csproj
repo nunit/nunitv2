@@ -48,6 +48,7 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
@@ -61,9 +62,11 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ArrayEqualsFailureMessageFixture.cs" />
     <Compile Include="ArrayEqualsFixture.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ArrayNotEqualFixture.cs" />
     <Compile Include="AssertExtensionTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -72,6 +75,18 @@
     </Compile>
     <Compile Include="CollectionAssertTest.cs" />
     <Compile Include="ConditionAssertTests.cs" />
+    <Compile Include="Constraints\AndTest.cs" />
+    <Compile Include="Constraints\CollectionConstraintTests.cs" />
+    <Compile Include="Constraints\ComparisonConstraintTests.cs" />
+    <Compile Include="Constraints\ConstraintTestBase.cs" />
+    <Compile Include="Constraints\EmptyTest.cs" />
+    <Compile Include="Constraints\EqualTest.cs" />
+    <Compile Include="Constraints\NotTest.cs" />
+    <Compile Include="Constraints\OrTest.cs" />
+    <Compile Include="Constraints\SameAsTest.cs" />
+    <Compile Include="Constraints\StringConstraintTests.cs" />
+    <Compile Include="AssertSyntaxTests.cs" />
+    <Compile Include="Constraints\TypeConstraintTests.cs" />
     <Compile Include="EqualsFixture.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -84,6 +99,8 @@
     <Compile Include="LessEqualFixture.cs" />
     <Compile Include="LessFixture.cs" />
     <Compile Include="ListContentsTests.cs" />
+    <Compile Include="MessageChecker.cs" />
+    <Compile Include="MessageWriterTests.cs" />
     <Compile Include="NotEqualFixture.cs">
       <SubType>Code</SubType>
     </Compile>

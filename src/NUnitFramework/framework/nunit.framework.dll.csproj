@@ -130,22 +130,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ComparisonAsserter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "DescriptionAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "EqualAsserter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "EqualityAsserter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -165,17 +150,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "GreaterAsserter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "GreaterEqualAsserter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "IAsserter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IConstraint.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -195,27 +175,17 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "LessAsserter.cs"
+                    RelPath = "MessageWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "LessEqualAsserter.cs"
+                    RelPath = "Msgs.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ListContentsAsserter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "NotEqualAsserter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "NotSameAsserter.cs"
+                    RelPath = "MsgUtils.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -235,11 +205,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SameAsserter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "SetUpAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -250,22 +215,17 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "StreamAsserter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "StringAssert.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "StringAsserters.cs"
+                    RelPath = "SuiteAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SuiteAttribute.cs"
+                    RelPath = "SyntaxHelpers.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -295,7 +255,62 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TypeAsserters.cs"
+                    RelPath = "TextMessageWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\BinaryOperations.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\CollectionConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\ComparisonConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\Constraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\ConstraintBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\EmptyConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\EqualConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\NotConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\SameAsConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\StringConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\TypeConstraints.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

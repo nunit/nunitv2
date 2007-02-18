@@ -3,6 +3,10 @@ using System;
 namespace NUnit.Framework
 {
 	/// <summary>
+	/// NOTE: The use of asserters for extending NUnit has
+	/// now been replaced by the use of constraints. This
+	/// class is marked obsolete.
+	/// 
 	/// AbstractAsserter is the base class for all asserters.
 	/// Asserters encapsulate a condition test and generation 
 	/// of an AssertionException with a tailored message. They
@@ -12,6 +16,7 @@ namespace NUnit.Framework
 	/// Assert.DoAssert method in order to implement 
 	/// extended asserts.
 	/// </summary>
+	[Obsolete("Use Constraints rather than Asserters for new work")]
 	public abstract class AbstractAsserter : IAsserter
 	{
 		/// <summary>

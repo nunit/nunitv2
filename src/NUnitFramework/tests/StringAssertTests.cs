@@ -1,7 +1,7 @@
 namespace NUnit.Framework.Tests
 {
 	[TestFixture]
-	public class StringAssertTests
+	public class StringAssertTests : MessageChecker
 	{
 		[Test]
 		public void Contains()
@@ -11,16 +11,13 @@ namespace NUnit.Framework.Tests
 			StringAssert.Contains( "abc", "**abc**" );
 		}
 
-		[Test]
+        [Test, ExpectedException(typeof(AssertionException))]
 		public void ContainsFails()
 		{
-			ContainsAsserter asserter = 
-				new ContainsAsserter( "abc", "abxcdxbc", null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual(
-				"\t" + @"expected: String containing ""abc""" + System.Environment.NewLine +
-				"\t" + @" but was: <""abxcdxbc"">" + System.Environment.NewLine,
-				asserter.Message );
+            expectedMessage =
+                Msgs.Pfx_Expected + "String containing \"abc\"" + System.Environment.NewLine +
+                Msgs.Pfx_Actual + "\"abxcdxbc\"" + System.Environment.NewLine;
+            StringAssert.Contains("abc", "abxcdxbc");
 		}
 
 		[Test]
@@ -30,16 +27,13 @@ namespace NUnit.Framework.Tests
 			StringAssert.StartsWith( "abc", "abc" );
 		}
 
-		[Test]
+        [Test, ExpectedException(typeof(AssertionException))]
 		public void StartsWithFails()
 		{
-			StartsWithAsserter asserter = 
-				new StartsWithAsserter( "xyz", "abcxyz", null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual(
-				"\t" + @"expected: String starting with ""xyz""" + System.Environment.NewLine +
-				"\t" + @" but was: <""abcxyz"">" + System.Environment.NewLine,
-				asserter.Message );
+            expectedMessage =
+                Msgs.Pfx_Expected + "String starting with \"xyz\"" + System.Environment.NewLine +
+                Msgs.Pfx_Actual + "\"abcxyz\"" + System.Environment.NewLine;
+            StringAssert.StartsWith("xyz", "abcxyz");
 		}
 	
 		[Test]
@@ -49,16 +43,13 @@ namespace NUnit.Framework.Tests
 			StringAssert.EndsWith( "abc", "123abc" );
 		}
 
-		[Test]
+        [Test, ExpectedException(typeof(AssertionException))]
 		public void EndsWithFails()
 		{
-			EndsWithAsserter asserter =
-				new EndsWithAsserter( "xyz", "abcdef", null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual(
-				"\t" + @"expected: String ending with ""xyz""" + System.Environment.NewLine +
-				"\t" + @" but was: <""abcdef"">" + System.Environment.NewLine,
-				asserter.Message );
+            expectedMessage =
+                Msgs.Pfx_Expected + "String ending with \"xyz\"" + System.Environment.NewLine +
+                Msgs.Pfx_Actual + "\"abcdef\"" + System.Environment.NewLine;
+            StringAssert.EndsWith( "xyz", "abcdef" );
 		}
 
 		[Test]
@@ -67,19 +58,15 @@ namespace NUnit.Framework.Tests
 			StringAssert.AreEqualIgnoringCase( "name", "NAME" );
 		}
 
-		[Test]
+        [Test, ExpectedException(typeof(AssertionException))]
 		public void CaseInsensitiveCompareFails()
 		{
-			EqualIgnoringCaseAsserter asserter =
-				new EqualIgnoringCaseAsserter( "Name", "NAMES", null, null );
-			Assert.AreEqual( false, asserter.Test() );
-			Assert.AreEqual(
-	"\tString lengths differ.  Expected length=4, but was length=5." + System.Environment.NewLine
-	+ "\tStrings differ at index 4." + System.Environment.NewLine
-	+ "\t" + @"expected: <""Name"">" + System.Environment.NewLine
-	+ "\t" + @" but was: <""NAMES"">" + System.Environment.NewLine
-	+ "\t----------------^" + System.Environment.NewLine,
-				asserter.Message );
+            expectedMessage =
+                "  Expected string length 4 but was 5. Strings differ at index 4." + System.Environment.NewLine
+                + Msgs.Pfx_Expected + "\"Name\"" + System.Environment.NewLine
+                + Msgs.Pfx_Actual   + "\"NAMES\"" + System.Environment.NewLine
+                + "  ---------------^" + System.Environment.NewLine;
+            StringAssert.AreEqualIgnoringCase("Name", "NAMES");
 		}
 
 		[Test]		
@@ -88,16 +75,13 @@ namespace NUnit.Framework.Tests
 			StringAssert.IsMatch( "a?bc", "12a3bc45" );
 		}
 
-		[Test]
+        [Test, ExpectedException(typeof(AssertionException))]
 		public void IsMatchFails()
 		{
-			RegexAsserter asserter =
-				new RegexAsserter( "a?b*c", "12ab456", null, null );
-			Assert.IsFalse( asserter.Test() );
-			Assert.AreEqual(
-				"\t" + @"expected: String matching ""a?b*c""" + System.Environment.NewLine
-				+ "\t" + @" but was: <""12ab456"">"  + System.Environment.NewLine,
-				asserter.Message );
+            expectedMessage =
+                Msgs.Pfx_Expected + "String matching \"a?b*c\"" + System.Environment.NewLine +
+                Msgs.Pfx_Actual + "\"12ab456\"" + System.Environment.NewLine;
+            StringAssert.IsMatch("a?b*c", "12ab456");
 		}
 	}
 }

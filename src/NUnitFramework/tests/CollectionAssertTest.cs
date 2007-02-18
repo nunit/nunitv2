@@ -8,30 +8,8 @@ namespace NUnit.Framework.Tests
 	/// Test Library for the NUnit CollectionAssert class.
 	/// </summary>
 	[TestFixture()]
-	//[Platform(Exclude="Linux")]
-	public class CollectionAssertTest
+	public class CollectionAssertTest : MessageChecker
 	{
-		static string typeErrorMsg = "\tAll objects are not of actual type." + Environment.NewLine + "\tcollection1.Count: 3" + Environment.NewLine + "\tactual: String" + Environment.NewLine;
-		static string notnullErrorMsg = "\tAt least one object is null." + Environment.NewLine + "\tcollection1.Count: 3" + Environment.NewLine;
-		static string uniqueErrorMsg = "\tAt least one object is not unique within collection1." + Environment.NewLine + "\tcollection1.Count: 3" + Environment.NewLine;
-		static string equalErrorMsg = "" + Environment.NewLine + "\tcollection1 and collection2 are not equal at index 3" + Environment.NewLine;
-		static string equalCountErrorMsg = "" + Environment.NewLine + "\tcollection1 and collection2 do not have equal Count properties." + Environment.NewLine;
-		static string equivalentOneErrorMsg = "" + Environment.NewLine + "\tAn item from collection1 was not found in collection2." + Environment.NewLine;
-		static string equivalentTwoErrorMsg = "" + Environment.NewLine + "\tAn item from collection2 was not found in collection1." + Environment.NewLine;
-
-		public CollectionAssertTest()
-		{
-		}
-
-		private void CheckException(Exception actual, Type expectedExceptionType, string expectedErrorMsg)
-		{
-			if(actual == null)
-				Assert.Fail("Expected " + expectedExceptionType.ToString() + " but no exception was thrown");
-
-			Assert.AreEqual(expectedExceptionType, actual.GetType(), "Expected Exception not thrown");
-			Assert.AreEqual(expectedErrorMsg, actual.Message);
-		}
-
 		#region AllItemsAreInstancesOfType
 		[Test()]
 		public void ItemsOfType()
@@ -41,76 +19,20 @@ namespace NUnit.Framework.Tests
 			al.Add("y");
 			al.Add("z");
 			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(string));
-			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(string),"test");
-			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(string),"test {0}","1");
+        }
 
-			al = new ArrayList();
-			al.Add(new DataSet());
-			al.Add(new DataSet());
-			al.Add(new DataSet());
-			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(DataSet));
-			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(DataSet),"test");
-			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(DataSet),"test {0}","1");
-		}
-
-		[Test()]
-		public void ItemsOfTypeFailMsg()
+		[Test,ExpectedException(typeof(AssertionException))]
+		public void ItemsOfTypeFailure()
 		{
-			Exception ex = null;
-			try
-			{
 			ArrayList al = new ArrayList();
 			al.Add("x");
 			al.Add("y");
 			al.Add(new object());
-			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(string),"test");
-			} 
-			catch (Exception caughtException) 
-			{
-				ex = caughtException;
-			}
 
-			CheckException(ex, typeof(NUnit.Framework.AssertionException), "test" + Environment.NewLine + typeErrorMsg);
-		}
-
-		[Test()]
-		public void ItemsOfTypeFailMsgParam()
-		{
-			Exception ex = null;
-			try
-			{
-			ArrayList al = new ArrayList();
-			al.Add("x");
-			al.Add("y");
-			al.Add(new object());
-			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(string),"test {0}","1");
-			}
-			catch(Exception actualException)
-			{
-				ex = actualException;
-			}
-			
-			CheckException(ex, typeof(NUnit.Framework.AssertionException), "test 1" + Environment.NewLine + typeErrorMsg);
-		}
-
-		[Test()]
-		public void ItemsOfTypeFailNoMsg()
-		{
-			Exception ex = null;
-			try
-			{
-			ArrayList al = new ArrayList();
-			al.Add("x");
-			al.Add("y");
-			al.Add(new object());
+			expectedMessage =
+				"  Expected: all items instance of <System.String>" + Environment.NewLine +
+				"  But was:  < \"x\", \"y\", <System.Object> >" + Environment.NewLine;
 			CollectionAssert.AllItemsAreInstancesOfType(al,typeof(string));
-			}
-			catch(Exception actualException)
-			{
-				ex = actualException;
-			}
-
-			CheckException(ex,typeof(NUnit.Framework.AssertionException),typeErrorMsg);
 		}
 		#endregion
 
@@ -124,80 +46,20 @@ namespace NUnit.Framework.Tests
 			al.Add("z");
 
 			CollectionAssert.AllItemsAreNotNull(al);
-			CollectionAssert.AllItemsAreNotNull(al,"test");
-			CollectionAssert.AllItemsAreNotNull(al,"test {0}","1");
+		}
 
-			al = new ArrayList();
-			al.Add(new DataSet());
-			al.Add(new DataSet());
-			al.Add(new DataSet());
+		[Test, ExpectedException(typeof(AssertionException))]
+		public void ItemsNotNullFailure()
+		{
+			ArrayList al = new ArrayList();
+			al.Add("x");
+			al.Add(null);
+			al.Add("z");
 
+			expectedMessage =
+                "  Expected: all items not null" + Environment.NewLine +
+                "  But was:  < \"x\", null, \"z\" >" + Environment.NewLine;
 			CollectionAssert.AllItemsAreNotNull(al);
-			CollectionAssert.AllItemsAreNotNull(al,"test");
-			CollectionAssert.AllItemsAreNotNull(al,"test {0}","1");
-		}
-
-		[Test]
-		public void ItemsNotNullFail()
-		{
-			Exception ex = null;
-			try
-			{
-			ArrayList al = new ArrayList();
-			al.Add("x");
-			al.Add(null);
-			al.Add("z");
-
-			CollectionAssert.AllItemsAreNotNull(al);
-			}
-			catch(Exception actualException)
-			{
-				ex = actualException;
-			}
-
-			CheckException(ex, typeof(AssertionException), notnullErrorMsg);
-		}
-
-		[Test]
-		public void ItemsNotNullFailMsgParam()
-		{
-			Exception ex = null;
-			try
-			{
-			ArrayList al = new ArrayList();
-			al.Add("x");
-			al.Add(null);
-			al.Add("z");
-
-			CollectionAssert.AllItemsAreNotNull(al,"test {0}","1");
-			}
-			catch(Exception actualException)
-			{
-				ex = actualException;
-			}
-
-			CheckException(ex, typeof(AssertionException),"test 1" + Environment.NewLine + notnullErrorMsg);
-		}
-
-		[Test]
-		public void ItemsNotNullFailMsg()
-		{
-			Exception ex = null;
-			try
-			{
-			ArrayList al = new ArrayList();
-			al.Add("x");
-			al.Add(null);
-			al.Add("z");
-
-			CollectionAssert.AllItemsAreNotNull(al,"test");
-			}
-			catch(Exception actualException)
-			{
-				ex = actualException;
-			}
-
-			CheckException(ex, typeof(AssertionException),"test" + Environment.NewLine + notnullErrorMsg);
 		}
 		#endregion
 
@@ -212,8 +74,6 @@ namespace NUnit.Framework.Tests
 			al.Add(new object());
 
 			CollectionAssert.AllItemsAreUnique(al);
-			CollectionAssert.AllItemsAreUnique(al,"test");
-			CollectionAssert.AllItemsAreUnique(al,"test {0}","1");
 
 			al = new ArrayList();
 			al.Add("x");
@@ -221,76 +81,21 @@ namespace NUnit.Framework.Tests
 			al.Add("z");
 
 			CollectionAssert.AllItemsAreUnique(al);
-			CollectionAssert.AllItemsAreUnique(al,"test");
-			CollectionAssert.AllItemsAreUnique(al,"test {0}","1");
 		}
 
-		[Test]
-		public void UniqueFail()
+		[Test,ExpectedException(typeof(AssertionException))]
+		public void UniqueFailure()
 		{
-			Exception ex = null;
-			try
-			{
-			object x = new object();
 			ArrayList al = new ArrayList();
-			al.Add(x);
-			al.Add(new object());
-			al.Add(x);
+			al.Add("x");
+			al.Add("y");
+			al.Add("x");
 
+			expectedMessage =
+                "  Expected: all items unique" + Environment.NewLine +
+                "  But was:  < \"x\", \"y\", \"x\" >" + Environment.NewLine;
 			CollectionAssert.AllItemsAreUnique(al);
-			}
-			catch(Exception actualException)
-			{
-				ex = actualException;
-			}
-
-			CheckException(ex, typeof(AssertionException),uniqueErrorMsg);
 		}
-
-		[Test]
-		public void UniqueFailMsg()
-		{
-			Exception ex = null;
-			try
-			{
-			object x = new object();
-			ArrayList al = new ArrayList();
-			al.Add(x);
-			al.Add(new object());
-			al.Add(x);
-
-			CollectionAssert.AllItemsAreUnique(al,"test");
-			}
-			catch(Exception actualException)
-			{
-				ex = actualException;
-			}
-
-			CheckException(ex, typeof(AssertionException),"test" + Environment.NewLine + uniqueErrorMsg);
-		}
-
-		[Test]
-		public void UniqueFailMsgParam()
-		{
-			Exception ex = null;
-			try
-			{
-			object x = new object();
-			ArrayList al = new ArrayList();
-			al.Add(x);
-			al.Add(new object());
-			al.Add(x);
-
-			CollectionAssert.AllItemsAreUnique(al,"test {0}","1");
-			}
-			catch(Exception actualException)
-			{
-				ex = actualException;
-			}
-
-			CheckException(ex, typeof(AssertionException),"test 1" + Environment.NewLine + uniqueErrorMsg);
-		}
-
 		#endregion
 
 		#region AreEqual
@@ -309,25 +114,13 @@ namespace NUnit.Framework.Tests
 
 			CollectionAssert.AreEqual(set1,set2);
 			CollectionAssert.AreEqual(set1,set2,new TestComparer());
-			CollectionAssert.AreEqual(set1,set2,"test");
-			CollectionAssert.AreEqual(set1,set2,new TestComparer(),"test");
-			CollectionAssert.AreEqual(set1,set2,"test {0}","1");
-			CollectionAssert.AreEqual(set1,set2,new TestComparer(),"test {0}","1");
 
 			Assert.AreEqual(set1,set2);
-			//Assert.AreEqual(set1,set2,new TestComparer());
-			Assert.AreEqual(set1,set2,"test");
-			//Assert.AreEqual(set1,set2,new TestComparer(),"test");
-			Assert.AreEqual(set1,set2,"test {0}","1");
-			//Assert.AreEqual(set1,set2,new TestComparer(),"test {0}","1");
 		}
 
-		[Test]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void AreEqualFailCount()
 		{
-			Exception ex = null;
-			try
-			{
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
 			set1.Add("x");
@@ -338,22 +131,16 @@ namespace NUnit.Framework.Tests
 			set2.Add("z");
 			set2.Add("a");
 
-			CollectionAssert.AreEqual(set1,set2,new TestComparer(),"test {0}","1");
-			}
-			catch(Exception actualException)
-			{
-				ex = actualException;
-			}
-
-			CheckException(ex, typeof(AssertionException),"test 1" + equalCountErrorMsg);
+			expectedMessage =
+                "  Expected and actual are both <System.Collections.ArrayList> with 3 elements" + Environment.NewLine +
+                "  Values differ at index [3]" + Environment.NewLine +
+                "  Extra:    < \"a\" >";
+			CollectionAssert.AreEqual(set1,set2,new TestComparer());
 		}
 
-		[Test]
+        [Test, ExpectedException(typeof(AssertionException))]
 		public void AreEqualFail()
 		{
-			Exception ex = null;
-			try
-			{
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
 			set1.Add("x");
@@ -363,44 +150,14 @@ namespace NUnit.Framework.Tests
 			set2.Add("y");
 			set2.Add("a");
 
-			CollectionAssert.AreEqual(set1,set2,new TestComparer(),"test {0}","1");
-			}
-			catch(Exception actualException)
-			{
-				ex = actualException;
-			}
-
-			CheckException(ex, typeof(AssertionException),"test 1" + equalErrorMsg);
-		}
-
-		[Test]
-		public void AreEqualFailObject()
-		{
-			Exception ex = null;
-			try
-			{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-			DataSet a = new DataSet();
-
-			ArrayList set1 = new ArrayList();
-			ArrayList set2 = new ArrayList();
-			set1.Add(x);
-			set1.Add(y);
-			set1.Add(z);
-			set2.Add(x);
-			set2.Add(y);
-			set2.Add(a);
-
-			CollectionAssert.AreEqual(set1,set2,new TestComparer(),"test {0}","1");
-			}
-			catch(Exception actualException)
-			{
-				ex = actualException;
-			}
-
-			CheckException(ex, typeof(AssertionException),"test 1" + equalErrorMsg);
+			expectedMessage =
+                "  Expected and actual are both <System.Collections.ArrayList> with 3 elements" + Environment.NewLine +
+                "  Values differ at index [2]" + Environment.NewLine +
+                "  String lengths are both 1. Strings differ at index 0." + Environment.NewLine +
+                "  Expected: \"z\"" + Environment.NewLine +
+                "  But was:  \"a\"" + Environment.NewLine +
+                "  -----------^" + Environment.NewLine;
+			CollectionAssert.AreEqual(set1,set2,new TestComparer());
 		}
 
 		[Test]
@@ -420,104 +177,73 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void Equivalent()
 		{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
 			
-			set1.Add(x);
-			set1.Add(y);
-			set1.Add(z);
+			set1.Add("x");
+			set1.Add("y");
+			set1.Add("z");
 
-			set2.Add(z);
-			set2.Add(y);
-			set2.Add(x);
+			set2.Add("z");
+			set2.Add("y");
+			set2.Add("x");
 
 			CollectionAssert.AreEquivalent(set1,set2);
-			CollectionAssert.AreEquivalent(set1,set2,"test");
-			CollectionAssert.AreEquivalent(set1,set2,"test {0}","1");
 		}
 
-		[Test]
-		public void EquivalentFailOne()
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void EquivalentFailOne()
 		{
-			Exception ex = null;
-			try
-			{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
 			
-			set1.Add(x);
-			set1.Add(y);
-			set1.Add(z);
+			set1.Add("x");
+			set1.Add("y");
+			set1.Add("z");
 
-			set2.Add(x);
-			set2.Add(y);
-			set2.Add(x);
+			set2.Add("x");
+			set2.Add("y");
+			set2.Add("x");
 
-			CollectionAssert.AreEquivalent(set1,set2,"test {0}","1");
-			}
-			catch(Exception actualException)
-			{
-				ex = actualException;
-			}
-
-			CheckException(ex, typeof(AssertionException),"test 1" + equivalentOneErrorMsg);
+			expectedMessage =
+                "  Expected: equivalent to < \"x\", \"y\", \"z\" >" + Environment.NewLine +
+                "  But was:  < \"x\", \"y\", \"x\" >" + Environment.NewLine;
+			CollectionAssert.AreEquivalent(set1,set2);
 		}
 
-		[Test]
-		public void EquivalentFailTwo()
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void EquivalentFailTwo()
 		{
-			Exception ex = null;
-			try
-			{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
 			
-			set1.Add(x);
-			set1.Add(y);
-			set1.Add(x);
+			set1.Add("x");
+			set1.Add("y");
+			set1.Add("x");
 
-			set2.Add(x);
-			set2.Add(y);
-			set2.Add(z);
+			set2.Add("x");
+			set2.Add("y");
+			set2.Add("z");
 
-			CollectionAssert.AreEquivalent(set1,set2,"test {0}","1");
-			}
-			catch(Exception actualException)
-			{
-				ex = actualException;
-			}
-
-			CheckException(ex, typeof(AssertionException),"test 1" + equivalentTwoErrorMsg);
+			expectedMessage =
+                "  Expected: equivalent to < \"x\", \"y\", \"x\" >" + Environment.NewLine +
+                "  But was:  < \"x\", \"y\", \"z\" >" + Environment.NewLine;
+			CollectionAssert.AreEquivalent(set1,set2);
 		}
 
-		[Test]
+        [Test]
 		public void AreEquivalentHandlesNull()
 		{
-			DataSet x = new DataSet();
-			DataSet z = new DataSet();
-
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
 			
-			set1.Add(x);
+			set1.Add("x");
 			set1.Add(null);
-			set1.Add(z);
+			set1.Add("z");
 
-			set2.Add(z);
+			set2.Add("z");
 			set2.Add(null);
-			set2.Add(x);
+			set2.Add("x");
 
 			CollectionAssert.AreEquivalent(set1,set2);
 		}
@@ -557,6 +283,9 @@ namespace NUnit.Framework.Tests
 			set2.Add("y");
 			set2.Add("z");
 
+			expectedMessage = 
+				"  Expected: not < \"x\", \"y\", \"z\" >" + Environment.NewLine +
+				"  But was:  < \"x\", \"y\", \"z\" >" + Environment.NewLine;
 			CollectionAssert.AreNotEqual(set1,set2);
 		}
 
@@ -570,7 +299,7 @@ namespace NUnit.Framework.Tests
 			set2.Add("z");
 
 			CollectionAssert.AreNotEqual(set1,set2);
-			//CollectionAssert.AreNotEqual(set1,set2,new TestComparer());
+			CollectionAssert.AreNotEqual(set1,set2,new TestComparer());
 		}
 
 		#endregion
@@ -580,63 +309,53 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void NotEquivalent()
 		{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
 			
-			set1.Add(x);
-			set1.Add(y);
-			set1.Add(z);
+			set1.Add("x");
+			set1.Add("y");
+			set1.Add("z");
 
-			set2.Add(x);
-			set2.Add(y);
-			set2.Add(x);
+			set2.Add("x");
+			set2.Add("y");
+			set2.Add("x");
 
 			CollectionAssert.AreNotEquivalent(set1,set2);
-			CollectionAssert.AreNotEquivalent(set1,set2,"test");
-			CollectionAssert.AreNotEquivalent(set1,set2,"test {0}","1");
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void NotEquivalent_Fails()
 		{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
 			
-			set1.Add(x);
-			set1.Add(y);
-			set1.Add(z);
+			set1.Add("x");
+			set1.Add("y");
+			set1.Add("z");
 
-			set2.Add(x);
-			set2.Add(z);
-			set2.Add(y);
+			set2.Add("x");
+			set2.Add("z");
+			set2.Add("y");
 
+			expectedMessage =
+				"  Expected: not equivalent to < \"x\", \"y\", \"z\" >" + Environment.NewLine +
+				"  But was:  < \"x\", \"z\", \"y\" >" + Environment.NewLine;
 			CollectionAssert.AreNotEquivalent(set1,set2);
 		}
 
 		[Test]
 		public void NotEquivalentHandlesNull()
 		{
-			DataSet x = new DataSet();
-			DataSet z = new DataSet();
-
 			ArrayList set1 = new ArrayList();
 			ArrayList set2 = new ArrayList();
 			
-			set1.Add(x);
+			set1.Add("x");
 			set1.Add(null);
-			set1.Add(z);
+			set1.Add("z");
 
-			set2.Add(x);
+			set2.Add("x");
 			set2.Add(null);
-			set2.Add(x);
+			set2.Add("x");
 
 			CollectionAssert.AreNotEquivalent(set1,set2);
 		}
@@ -646,44 +365,37 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void Contains()
 		{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-
 			ArrayList al = new ArrayList();
-			al.Add(x);
-			al.Add(y);
-			al.Add(z);
+			al.Add("x");
+			al.Add("y");
+			al.Add("z");
 
-			CollectionAssert.Contains(al,x);
-			CollectionAssert.Contains(al,x,"test");
-			CollectionAssert.Contains(al,x,"test {0}","1");
+			CollectionAssert.Contains(al,"x");
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void ContainsFails()
 		{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-			DataSet a = new DataSet();
-
 			ArrayList al = new ArrayList();
-			al.Add(x);
-			al.Add(y);
-			al.Add(z);
+			al.Add("x");
+			al.Add("y");
+			al.Add("z");
 
-			CollectionAssert.Contains(al,a);
+			expectedMessage =
+				"  Expected: collection containing \"a\"" + Environment.NewLine +
+				"  But was:  < \"x\", \"y\", \"z\" >" + Environment.NewLine;
+			CollectionAssert.Contains(al,"a");
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void ContainsFails_Empty()
 		{
-			DataSet x = new DataSet();
-
 			ArrayList al = new ArrayList();
 
-			CollectionAssert.Contains(al,x);
+			expectedMessage =
+				"  Expected: collection containing \"x\"" + Environment.NewLine +
+				"  But was:  <empty>" + Environment.NewLine;
+			CollectionAssert.Contains(al,"x");
 		}
 		#endregion
 
@@ -691,44 +403,34 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void DoesNotContain()
 		{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-			DataSet a = new DataSet();
-
 			ArrayList al = new ArrayList();
-			al.Add(x);
-			al.Add(y);
-			al.Add(z);
+			al.Add("x");
+			al.Add("y");
+			al.Add("z");
 
-			CollectionAssert.DoesNotContain(al,a);
-			CollectionAssert.DoesNotContain(al,a,"test");
-			CollectionAssert.DoesNotContain(al,a,"test {0}","1");
+			CollectionAssert.DoesNotContain(al,"a");
 		}
 
 		[Test]
 		public void DoesNotContain_Empty()
 		{
-			DataSet x = new DataSet();
-
 			ArrayList al = new ArrayList();
 
-			CollectionAssert.DoesNotContain(al,x);
+			CollectionAssert.DoesNotContain(al,"x");
 		}
 
-		[Test, ExpectedException(typeof(AssertionException))]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void DoesNotContain_Fails()
 		{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-
 			ArrayList al = new ArrayList();
-			al.Add(x);
-			al.Add(y);
-			al.Add(z);
+			al.Add("x");
+			al.Add("y");
+			al.Add("z");
 
-			CollectionAssert.DoesNotContain(al,y);
+			expectedMessage = 
+				"  Expected: not collection containing \"y\"" + Environment.NewLine +
+				"  But was:  < \"x\", \"y\", \"z\" >" + Environment.NewLine;
+			CollectionAssert.DoesNotContain(al,"y");
 		}
 		#endregion
 
@@ -736,62 +438,52 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void IsSubsetOf()
 		{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-
 			ArrayList set1 = new ArrayList();
-			set1.Add(x);
-			set1.Add(y);
-			set1.Add(z);
+			set1.Add("x");
+			set1.Add("y");
+			set1.Add("z");
 
 			ArrayList set2 = new ArrayList();
-			set2.Add(y);
-			set2.Add(z);
+			set2.Add("y");
+			set2.Add("z");
 
-			CollectionAssert.IsSubsetOf(set1,set2);
-			CollectionAssert.IsSubsetOf(set1,set2,"test");
-			CollectionAssert.IsSubsetOf(set1,set2,"test {0}","1");
+			CollectionAssert.IsSubsetOf(set2,set1);
+            Assert.That(set2, Is.SubsetOf(set1));
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
 		public void IsSubsetOf_Fails()
 		{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-			DataSet a = new DataSet();
-
 			ArrayList set1 = new ArrayList();
-			set1.Add(x);
-			set1.Add(y);
-			set1.Add(z);
+			set1.Add("x");
+			set1.Add("y");
+			set1.Add("z");
 
 			ArrayList set2 = new ArrayList();
-			set2.Add(y);
-			set2.Add(z);
-			set2.Add(a);
+			set2.Add("y");
+			set2.Add("z");
+			set2.Add("a");
 
+			expectedMessage =
+				"  Expected: subset of < \"y\", \"z\", \"a\" >" + Environment.NewLine +
+				"  But was:  < \"x\", \"y\", \"z\" >" + Environment.NewLine;
 			CollectionAssert.IsSubsetOf(set1,set2);
 		}
 
 		[Test]
 		public void IsSubsetOfHandlesNull()
 		{
-			DataSet x = new DataSet();
-			DataSet y = null;
-			DataSet z = new DataSet();
-
 			ArrayList set1 = new ArrayList();
-			set1.Add(x);
-			set1.Add(y);
-			set1.Add(z);
+			set1.Add("x");
+			set1.Add(null);
+			set1.Add("z");
 
 			ArrayList set2 = new ArrayList();
-			set2.Add(y);
-			set2.Add(z);
+			set2.Add(null);
+			set2.Add("z");
 
-			CollectionAssert.IsSubsetOf(set1,set2);
+			CollectionAssert.IsSubsetOf(set2,set1);
+            Assert.That(set2, Is.SubsetOf(set1));
 		}
 		#endregion
 
@@ -799,62 +491,50 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void IsNotSubsetOf()
 		{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-			DataSet a = new DataSet();
-
 			ArrayList set1 = new ArrayList();
-			set1.Add(x);
-			set1.Add(y);
-			set1.Add(z);
+			set1.Add("x");
+			set1.Add("y");
+			set1.Add("z");
 
 			ArrayList set2 = new ArrayList();
-			set1.Add(y);
-			set1.Add(z);
-			set2.Add(a);
+			set1.Add("y");
+			set1.Add("z");
+			set2.Add("a");
 
 			CollectionAssert.IsNotSubsetOf(set1,set2);
-			CollectionAssert.IsNotSubsetOf(set1,set2,"test");
-			CollectionAssert.IsNotSubsetOf(set1,set2,"test {0}","1");
+            Assert.That(set1, Is.Not.SubsetOf(set2));
 		}
 
-		[Test, ExpectedException(typeof(AssertionException))]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void IsNotSubsetOf_Fails()
 		{
-			DataSet x = new DataSet();
-			DataSet y = new DataSet();
-			DataSet z = new DataSet();
-
 			ArrayList set1 = new ArrayList();
-			set1.Add(x);
-			set1.Add(y);
-			set1.Add(z);
+			set1.Add("x");
+			set1.Add("y");
+			set1.Add("z");
 
 			ArrayList set2 = new ArrayList();
-			set1.Add(y);
-			set1.Add(z);
+			set2.Add("y");
+			set2.Add("z");
 
-			CollectionAssert.IsNotSubsetOf(set1,set2);
+			expectedMessage =
+				"  Expected: not subset of < \"x\", \"y\", \"z\" >" + Environment.NewLine +
+				"  But was:  < \"y\", \"z\" >" + Environment.NewLine;
+			CollectionAssert.IsNotSubsetOf(set2,set1);
 		}
 		
 		[Test]
 		public void IsNotSubsetOfHandlesNull()
 		{
-			DataSet x = new DataSet();
-			DataSet y = null;
-			DataSet z = new DataSet();
-			DataSet a = new DataSet();
-
 			ArrayList set1 = new ArrayList();
-			set1.Add(x);
-			set1.Add(y);
-			set1.Add(z);
+			set1.Add("x");
+			set1.Add(null);
+			set1.Add("z");
 
 			ArrayList set2 = new ArrayList();
-			set1.Add(y);
-			set1.Add(z);
-			set2.Add(a);
+			set1.Add(null);
+			set1.Add("z");
+			set2.Add("a");
 
 			CollectionAssert.IsNotSubsetOf(set1,set2);
 		}

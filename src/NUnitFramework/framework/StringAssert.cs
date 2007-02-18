@@ -46,7 +46,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments used in formatting the message</param>
 		static public void Contains( string expected, string actual, string message, params object[] args )
 		{
-			Assert.DoAssert( new ContainsAsserter( expected, actual, message, args ) );
+            Assert.That(actual, Is.StringContaining(expected), message, args);
 		}
 
 		/// <summary>
@@ -83,7 +83,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments used in formatting the message</param>
 		static public void StartsWith( string expected, string actual, string message, params object[] args )
 		{
-			Assert.DoAssert( new StartsWithAsserter( expected, actual, message, args ) );
+            Assert.That(actual, Is.StringStarting(expected), message, args);
 		}
 
 		/// <summary>
@@ -120,7 +120,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments used in formatting the message</param>
 		static public void EndsWith( string expected, string actual, string message, params object[] args )
 		{
-			Assert.DoAssert( new EndsWithAsserter( expected, actual, message, args ) );
+            Assert.That(actual, Is.StringEnding(expected), message, args);
 		}
 
 		/// <summary>
@@ -156,7 +156,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments used in formatting the message</param>
 		static public void AreEqualIgnoringCase( string expected, string actual, string message, params object[] args )
 		{
-			Assert.DoAssert( new EqualIgnoringCaseAsserter( expected, actual, message, args ) );
+            Assert.That(actual, Is.EqualTo(expected).IgnoreCase, message, args);
 		}
 
 		/// <summary>
@@ -192,7 +192,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments used in formatting the message</param>
 		static public void IsMatch( string expected, string actual, string message, params object[] args )
 		{
-			Assert.DoAssert( new RegexAsserter( expected, actual, message, args ) );
+            Assert.That(actual, Is.StringMatching(expected), message, args);
 		}
 
 		/// <summary>

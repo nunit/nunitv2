@@ -63,7 +63,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void AreEqual(Stream expected, Stream actual, string message, params object[] args)
 		{
-			Assert.DoAssert( new StreamEqualAsserter(expected, actual, message, args) );
+			Assert.That( actual, Is.EqualTo( expected ), message, args );
 		}
 
 		/// <summary>
@@ -204,7 +204,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		static public void AreNotEqual( Stream expected, Stream actual, string message, params object[] args)
 		{
-			Assert.DoAssert( new StreamNotEqualAsserter( expected, actual, message, args ) );
+			Assert.That( actual, Is.Not.EqualTo( expected ), message, args );
 		}
 
 		/// <summary>

@@ -3,7 +3,7 @@ using System;
 namespace NUnit.Framework.Tests
 {
 	[TestFixture]
-	public class GreaterFixture
+	public class GreaterFixture : MessageChecker
 	{
 		private readonly int i1 = 5;
 		private readonly int i2 = 4;
@@ -31,37 +31,37 @@ namespace NUnit.Framework.Tests
 		[Test, ExpectedException( typeof( AssertionException ))]
 		public void NotGreaterWhenEqual()
 		{
+			expectedMessage =
+				"  Expected: greater than 5" + Environment.NewLine +
+				"  But was:  5" + Environment.NewLine;
 			Assert.Greater(i1,i1);
 		}
 
 		[Test, ExpectedException( typeof( AssertionException ))]
 		public void NotGreater()
 		{
+			expectedMessage =
+				"  Expected: greater than 5" + Environment.NewLine +
+				"  But was:  4" + Environment.NewLine;
 			Assert.Greater(i2,i1);
 		}
 
 		[Test, ExpectedException( typeof( AssertionException ))]
 		public void NotGreaterIComparable()
 		{
+			expectedMessage =
+				"  Expected: greater than TableDirect" + Environment.NewLine +
+				"  But was:  StoredProcedure" + Environment.NewLine;
 			Assert.Greater(e2,e1);
 		}
 
-		[Test]
+		[Test,ExpectedException( typeof(AssertionException))]
 		public void FailureMessage()
 		{
-			string msg = null;
-
-			try
-			{
-				Assert.Greater( 7, 99 );
-			}
-			catch( AssertionException ex )
-			{
-				msg = ex.Message;
-			}
-
-			StringAssert.Contains( "expected: Value greater than 99", msg );
-			StringAssert.Contains( "but was: 7", msg );
+			expectedMessage =
+				"  Expected: greater than 99" + Environment.NewLine +
+				"  But was:  7" + Environment.NewLine;
+			Assert.Greater( 7, 99 );
 		}
 	}
 }

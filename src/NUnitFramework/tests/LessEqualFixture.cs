@@ -3,7 +3,7 @@ using System;
 namespace NUnit.Framework.Tests
 {
     [TestFixture]
-    public class LessEqualFixture
+    public class LessEqualFixture : MessageChecker
     {
         private readonly int i1 = 5;
         private readonly int i2 = 8;
@@ -59,31 +59,28 @@ namespace NUnit.Framework.Tests
         [Test, ExpectedException(typeof(AssertionException))]
         public void NotLessOrEqual()
         {
-            Assert.LessOrEqual(i2, i1);
+			expectedMessage =
+				"  Expected: less than or equal to 5" + Environment.NewLine +
+				"  But was:  8" + Environment.NewLine;
+			Assert.LessOrEqual(i2, i1);
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
         public void NotLessEqualIComparable()
         {
-            Assert.LessOrEqual(e2, e1);
+			expectedMessage =
+				"  Expected: less than or equal to StoredProcedure" + Environment.NewLine +
+				"  But was:  TableDirect" + Environment.NewLine;
+			Assert.LessOrEqual(e2, e1);
         }
 
-        [Test]
+        [Test,ExpectedException(typeof(AssertionException))]
         public void FailureMessage()
         {
-            string msg = null;
-
-            try
-            {
-                Assert.LessOrEqual(9, 4);
-            }
-            catch (AssertionException ex)
-            {
-                msg = ex.Message;
-            }
-
-            StringAssert.Contains("expected: Value less than or equal to 4", msg);
-            StringAssert.Contains("but was: 9", msg);
+			expectedMessage =
+				"  Expected: less than or equal to 4" + Environment.NewLine +
+				"  But was:  9" + Environment.NewLine;
+            Assert.LessOrEqual(9, 4);
         }
     }
 }

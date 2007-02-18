@@ -33,7 +33,7 @@ using System.Text.RegularExpressions;
 namespace NUnit.Framework.Tests
 {
 	[TestFixture]
-	public class EqualsFixture
+	public class EqualsFixture : MessageChecker
 	{
 		[Test]
 		public void Equals()
@@ -68,28 +68,33 @@ namespace NUnit.Framework.Tests
 		}
 
 		[Test]
-		public void IntergerEquals()
+		public void IntegerEquals()
 		{
 			int val = 42;
 			Assert.AreEqual(val, 42);
 		}
 
 		
-		[Test]
-		[ExpectedException(typeof(AssertionException))]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void EqualsFail()
 		{
 			string junitString = "Goodbye JUnit";
 			string expected = "Hello NUnit";
 
-			Assert.IsFalse(expected.Equals(junitString));
+			expectedMessage =
+				"  Expected string length 11 but was 13. Strings differ at index 0." + Environment.NewLine +
+				"  Expected: \"Hello NUnit\"" + Environment.NewLine +
+				"  But was:  \"Goodbye JUnit\"" + Environment.NewLine +
+				"  -----------^" + Environment.NewLine;
 			Assert.AreEqual(expected, junitString);
 		}
 		
-		[Test]
-		[ExpectedException(typeof(AssertionException))]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void EqualsNaNFails() 
 		{
+			expectedMessage =
+				"  Expected: 1.234d" + Environment.NewLine +
+				"  But was:  NaN" + Environment.NewLine;
 			Assert.AreEqual(1.234, Double.NaN, 0.0);
 		}    
 
@@ -98,6 +103,9 @@ namespace NUnit.Framework.Tests
 		[ExpectedException(typeof(AssertionException))]
 		public void NanEqualsFails() 
 		{
+			expectedMessage =
+				"  Expected: NaN" + Environment.NewLine +
+				"  But was:  1.234d" + Environment.NewLine;
 			Assert.AreEqual(Double.NaN, 1.234, 0.0);
 		}     
 		
@@ -119,37 +127,41 @@ namespace NUnit.Framework.Tests
 			Assert.AreEqual(Double.PositiveInfinity, Double.PositiveInfinity, 0.0);
 		}
 		
-		[Test]
-		[ExpectedException(typeof(AssertionException))]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void PosInfinityNotEquals() 
 		{
+			expectedMessage =
+				"  Expected: Infinity" + Environment.NewLine +
+				"  But was:  1.23d" + Environment.NewLine;
 			Assert.AreEqual(Double.PositiveInfinity, 1.23, 0.0);
 		}
 
-		[Test]
-		[ExpectedException(typeof(AssertionException))]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void PosInfinityNotEqualsNegInfinity() 
 		{
+			expectedMessage =
+				"  Expected: Infinity" + Environment.NewLine +
+				"  But was:  -Infinity" + Environment.NewLine;
 			Assert.AreEqual(Double.PositiveInfinity, Double.NegativeInfinity, 0.0);
 		}
 
-		[Test]
-		[ExpectedException(typeof(AssertionException))]	
+		[Test,ExpectedException(typeof(AssertionException))]	
 		public void SinglePosInfinityNotEqualsNegInfinity() 
 		{
+			expectedMessage =
+				"  Expected: Infinity" + Environment.NewLine +
+				"  But was:  -Infinity" + Environment.NewLine;
 			Assert.AreEqual(float.PositiveInfinity, float.NegativeInfinity, (float)0.0);
 		}
 
-		[Test]
-		[ExpectedException(typeof(AssertionException))]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void EqualsThrowsException()
 		{
 			object o = new object();
 			Assert.Equals(o, o);
 		}
 
-		[Test]
-		[ExpectedException(typeof(AssertionException))]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void ReferenceEqualsThrowsException()
 		{
 			object o = new object();
@@ -308,6 +320,9 @@ namespace NUnit.Framework.Tests
 		public void EnumsNotEqual()
 		{
 			MyEnum actual = MyEnum.a;
+			expectedMessage =
+				"  Expected: c" + Environment.NewLine +
+				"  But was:  a" + Environment.NewLine;
 			Assert.AreEqual( MyEnum.c, actual );
 		}
 
@@ -324,6 +339,9 @@ namespace NUnit.Framework.Tests
 		{
 			DateTime dt1 = new DateTime( 2005, 6, 1, 7, 0, 0 );
 			DateTime dt2 = new DateTime( 2005, 6, 1, 0, 0, 0 );
+			expectedMessage = 
+				"  Expected: 6/1/2005 7:00:00 AM" + Environment.NewLine +
+				"  But was:  6/1/2005 12:00:00 AM" + Environment.NewLine;
 			Assert.AreEqual( dt1, dt2 );
 		}
 
@@ -351,12 +369,12 @@ namespace NUnit.Framework.Tests
 			if ( message == "" )
 				Assert.Fail( "Should have thrown an AssertionException" );
 
-			int i = message.IndexOf( "<" );
-			int j = message.IndexOf( ">", i );
-			string expected = message.Substring( i + 1, j - i - 1 );
-			i = message.IndexOf( "<", j );
-			j = message.IndexOf( ">", i );
-			string actual = message.Substring( i + 1, j - i - 1 );
+            int i = message.IndexOf('3');
+			int j = message.IndexOf( 'd', i );
+			string expected = message.Substring( i, j - i + 1 );
+			i = message.IndexOf( '3', j );
+			j = message.IndexOf( 'd', i );
+			string actual = message.Substring( i , j - i + 1 );
 			Assert.AreNotEqual( expected, actual );
 		}
 
@@ -379,12 +397,12 @@ namespace NUnit.Framework.Tests
 			if ( message == "" )
 				Assert.Fail( "Should have thrown an AssertionException" );
 
-			int i = message.IndexOf( "<" );
-			int j = message.IndexOf( ">", i );
-			string expected = message.Substring( i + 1, j - i - 1 );
-			i = message.IndexOf( "<", j );
-			j = message.IndexOf( ">", i );
-			string actual = message.Substring( i + 1, j - i - 1 );
+			int i = message.IndexOf( '3' );
+			int j = message.IndexOf( 'f', i );
+			string expected = message.Substring( i, j - i + 1 );
+			i = message.IndexOf( '3', j );
+			j = message.IndexOf( 'f', i );
+			string actual = message.Substring( i, j - i + 1 );
 			Assert.AreNotEqual( expected, actual );
 		}
 

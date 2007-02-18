@@ -99,7 +99,17 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "ArrayEqualsFailureMessageFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ArrayEqualsFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ArrayNotEqualFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -110,6 +120,11 @@
                 />
                 <File
                     RelPath = "AssertionTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AssertSyntaxTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -170,6 +185,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "MessageChecker.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MessageWriterTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "NotEqualFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -211,6 +236,61 @@
                 />
                 <File
                     RelPath = "TypeAssertTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\AndTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\CollectionConstraintTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\ComparisonConstraintTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\ConstraintTestBase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\EmptyTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\EqualTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\NotTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\OrTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\SameAsTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\StringConstraintTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\TypeConstraintTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

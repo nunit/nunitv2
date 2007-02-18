@@ -10,9 +10,23 @@
         <warning number="618,672"/>
       </nowarn>
       <sources>
+        <include name="Constraints/AndTest.cs"/>
+        <include name="Constraints/CollectionConstraintTests.cs"/>
+        <include name="Constraints/ComparisonConstraintTests.cs"/>
+        <include name="Constraints/ConstraintTestBase.cs"/>
+        <include name="Constraints/EmptyTest.cs"/>
+        <include name="Constraints/EqualTest.cs"/>
+        <include name="Constraints/NotTest.cs"/>
+        <include name="Constraints/OrTest.cs"/>
+        <include name="Constraints/SameAsTest.cs"/>
+        <include name="Constraints/StringConstraintTests.cs"/>
+        <include name="Constraints/TypeConstraintTests.cs"/>
+        <include name="ArrayEqualsFailureMessageFixture.cs"/>
         <include name="ArrayEqualsFixture.cs"/>
+        <include name="ArrayNotEqualFixture.cs"/>
         <include name="AssertExtensionTests.cs"/>
         <include name="AssertionTest.cs"/>
+        <include name="AssertSyntaxTests.cs"/>
         <include name="CollectionAssertTest.cs"/>
         <include name="ConditionAssertTests.cs"/>
         <include name="EqualsFixture.cs"/>
@@ -23,6 +37,8 @@
         <include name="LessEqualFixture.cs"/>
         <include name="LessFixture.cs"/>
         <include name="ListContentsTests.cs"/>
+        <include name="MessageChecker.cs"/>
+        <include name="MessageWriterTests.cs"/>
         <include name="NotEqualFixture.cs"/>
         <include name="NotSameFixture.cs"/>
         <include name="SameFixture.cs"/>
@@ -39,6 +55,7 @@
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
         <include name="System.Data.dll"/>
+        <include name="System.Drawing.dll"/>
       </references>
     </csc>
 

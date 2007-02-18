@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace NUnit.Framework.Tests
 {
 	[TestFixture]
-	public class ConditionAssertTests
+	public class ConditionAssertTests : MessageChecker
 	{
 		[Test]
 		public void IsTrue()
@@ -13,10 +13,12 @@ namespace NUnit.Framework.Tests
 			Assert.IsTrue(true);
 		}
 
-		[Test]
-		[ExpectedException(typeof(AssertionException))]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void IsTrueFails()
 		{
+			expectedMessage =
+				"  Expected: True" + Environment.NewLine +
+				"  But was:  False" + Environment.NewLine;
 			Assert.IsTrue(false);
 		}
 
@@ -30,6 +32,9 @@ namespace NUnit.Framework.Tests
 		[ExpectedException(typeof(AssertionException))]
 		public void IsFalseFails()
 		{
+			expectedMessage =
+				"  Expected: False" + Environment.NewLine +
+				"  But was:  True" + Environment.NewLine;
 			Assert.IsFalse(true);
 		}
 	
@@ -44,6 +49,9 @@ namespace NUnit.Framework.Tests
 		public void IsNullFails()
 		{
 			String s1 = "S1";
+			expectedMessage =
+				"  Expected: null" + Environment.NewLine +
+				"  But was:  \"S1\"" + Environment.NewLine;
 			Assert.IsNull(s1);
 		}
 	
@@ -58,6 +66,9 @@ namespace NUnit.Framework.Tests
 		[ExpectedException(typeof(AssertionException))]
 		public void IsNotNullFails()
 		{
+			expectedMessage =
+				"  Expected: not null" + Environment.NewLine +
+				"  But was:  null" + Environment.NewLine;
 			Assert.IsNotNull(null);
 		}
 	
@@ -71,6 +82,9 @@ namespace NUnit.Framework.Tests
 		[ExpectedException(typeof(AssertionException))]
 		public void IsNaNFails()
 		{
+			expectedMessage =
+				"  Expected: NaN" + Environment.NewLine +
+				"  But was:  10.0d" + Environment.NewLine;
 			Assert.IsNaN(10.0);
 		}
 
@@ -86,18 +100,27 @@ namespace NUnit.Framework.Tests
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void IsEmptyFailsOnString()
 		{
+			expectedMessage =
+				"  Expected: <empty>" + Environment.NewLine +
+				"  But was:  \"Hi!\"" + Environment.NewLine;
 			Assert.IsEmpty( "Hi!" );
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void IsEmptyFailsOnNullString()
 		{
+			expectedMessage =
+				"  Expected: <empty>" + Environment.NewLine +
+				"  But was:  null" + Environment.NewLine;
 			Assert.IsEmpty( (string)null );
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void IsEmptyFailsOnNonEmptyArray()
 		{
+			expectedMessage =
+				"  Expected: <empty>" + Environment.NewLine +
+				"  But was:  < 1, 2, 3 >" + Environment.NewLine;
 			Assert.IsEmpty( new int[] { 1, 2, 3 } );
 		}
 
@@ -118,24 +141,36 @@ namespace NUnit.Framework.Tests
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void IsNotEmptyFailsOnEmptyString()
 		{
+			expectedMessage =
+				"  Expected: not <empty>" + Environment.NewLine +
+				"  But was:  <string.Empty>" + Environment.NewLine;
 			Assert.IsNotEmpty( "" );
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void IsNotEmptyFailsOnEmptyArray()
 		{
+			expectedMessage =
+				"  Expected: not <empty>" + Environment.NewLine +
+				"  But was:  <empty>" + Environment.NewLine;
 			Assert.IsNotEmpty( new int[0] );
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void IsNotEmptyFailsOnEmptyArrayList()
 		{
+			expectedMessage =
+				"  Expected: not <empty>" + Environment.NewLine +
+				"  But was:  <empty>" + Environment.NewLine;
 			Assert.IsNotEmpty( new ArrayList() );
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void IsNotEmptyFailsOnEmptyHashTable()
 		{
+			expectedMessage =
+				"  Expected: not <empty>" + Environment.NewLine +
+				"  But was:  <empty>" + Environment.NewLine;
 			Assert.IsNotEmpty( new Hashtable() );
 		}
 	}

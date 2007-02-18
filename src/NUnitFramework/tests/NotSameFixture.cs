@@ -3,7 +3,7 @@ using System;
 namespace NUnit.Framework.Tests
 {
 	[TestFixture]
-	public class NotSameFixture
+	public class NotSameFixture : MessageChecker
 	{
 		private readonly string s1 = "S1";
 		private readonly string s2 = "S2";
@@ -14,23 +14,13 @@ namespace NUnit.Framework.Tests
 			Assert.AreNotSame(s1, s2);
 		}
 
-		//CCF 3/11/06
-		//Modified to try/catch the exception since .NET won't let us use
-		//System.Environment.NewLines in Custom Properties
-		[Test]
+		[Test,ExpectedException(typeof(AssertionException))]
 		public void NotSameFails()
 		{
-			try
-			{
-				Assert.AreNotSame( s1, s1 );
-			} catch(AssertionException ae) {
-				Assert.AreEqual(
-					"Objects should be different" + System.Environment.NewLine + 
-					"\tboth are: <\"S1\">" + Environment.NewLine, 
-					ae.Message );
-				return;
-			}
-			Assert.Fail("Expected AssertionException to be thrown");
+			expectedMessage =
+				"  Expected: not same as \"S1\"" + Environment.NewLine +
+				"  But was:  \"S1\"" + Environment.NewLine;
+			Assert.AreNotSame( s1, s1 );
 		}
 	}
 }

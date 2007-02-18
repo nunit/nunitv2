@@ -3,7 +3,7 @@ using System;
 namespace NUnit.Framework.Tests
 {
     [TestFixture]
-    public class GreaterEqualFixture
+    public class GreaterEqualFixture : MessageChecker
     {
         private readonly int i1 = 5;
         private readonly int i2 = 4;
@@ -56,13 +56,19 @@ namespace NUnit.Framework.Tests
 		[Test, ExpectedException(typeof(AssertionException))]
         public void NotGreaterOrEqual()
         {
-            Assert.GreaterOrEqual(i2, i1);
+			expectedMessage =
+				"  Expected: greater than or equal to 5" + Environment.NewLine +
+				"  But was:  4" + Environment.NewLine;
+			Assert.GreaterOrEqual(i2, i1);
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
         public void NotGreaterEqualIComparable()
         {
-            Assert.GreaterOrEqual(e2, e1);
+			expectedMessage =
+				"  Expected: greater than or equal to TableDirect" + Environment.NewLine +
+				"  But was:  StoredProcedure" + Environment.NewLine;
+			Assert.GreaterOrEqual(e2, e1);
         }
 
         [Test]
@@ -79,10 +85,8 @@ namespace NUnit.Framework.Tests
                 msg = ex.Message;
             }
 
-            StringAssert.Contains("expected: Value greater than or equal to 99", msg);
-            StringAssert.Contains("but was: 7", msg);
-        }
-    }
+            StringAssert.Contains( Msgs.Pfx_Expected + "greater than or equal to 99", msg);
+            StringAssert.Contains( Msgs.Pfx_Actual + "7", msg);
+		}
+	}
 }
-
-

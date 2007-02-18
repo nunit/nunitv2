@@ -3,7 +3,7 @@ using System;
 namespace NUnit.Framework.Tests
 {
 	[TestFixture]
-	public class LessFixture
+	public class LessFixture : MessageChecker
 	{
 		private readonly int i1 = 5;
 		private readonly int i2 = 8;
@@ -41,18 +41,27 @@ namespace NUnit.Framework.Tests
 		[Test, ExpectedException( typeof( AssertionException ))]
 		public void NotLessWhenEqual()
 		{
+			expectedMessage =
+				"  Expected: less than 5" + Environment.NewLine +
+				"  But was:  5" + Environment.NewLine;
 			Assert.Less(i1,i1);
 		}
 
 		[Test, ExpectedException( typeof( AssertionException ))]
 		public void NotLess()
 		{
+			expectedMessage =
+				"  Expected: less than 5" + Environment.NewLine +
+				"  But was:  8" + Environment.NewLine;
 			Assert.Less(i2,i1);
 		}
 
 		[Test, ExpectedException( typeof( AssertionException ))]
 		public void NotLessIComparable()
 		{
+			expectedMessage =
+				"  Expected: less than StoredProcedure" + Environment.NewLine +
+				"  But was:  TableDirect" + Environment.NewLine;
 			Assert.Less(e2,e1);
 		}
 
@@ -70,8 +79,8 @@ namespace NUnit.Framework.Tests
 				msg = ex.Message;
 			}
 
-			StringAssert.Contains( "expected: Value less than 4", msg );
-			StringAssert.Contains( "but was: 9", msg );
+			StringAssert.Contains( Msgs.Pfx_Expected + "less than 4", msg );
+			StringAssert.Contains( Msgs.Pfx_Actual + "9", msg );
 		}
 	}
 }

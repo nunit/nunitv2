@@ -10,128 +10,122 @@ namespace NUnit.Framework.Tests
 	public class ArrayEqualsFixture
 	{
 		[Test]
-		public void SameArraysAreEqual()
+		public void ArrayIsEqualToItself()
 		{
 			string[] array = { "one", "two", "three" };
 			Assert.AreSame( array, array );
 			Assert.AreEqual( array, array );
+            Assert.That(array, Is.EqualTo(array));
 		}
 
 		[Test]
-		public void DifferentArraysAreEqual()
+		public void ArraysOfString()
 		{
 			string[] array1 = { "one", "two", "three" };
 			string[] array2 = { "one", "two", "three" };
 			Assert.IsFalse( array1 == array2 );
-			Assert.AreEqual( array1, array2 );
-		}
+            Assert.AreEqual(array1, array2);
+            Assert.That(array1, Is.EqualTo(array2));
+            Assert.AreEqual(array2, array1);
+            Assert.That(array2, Is.EqualTo(array1));
+        }
 
-		[Test]
-		public void DifferentLengthArrays()
-		{
-			string[] array1 = { "one", "two", "three" };
-			string[] array2 = { "one", "two", "three", "four", "five" };
-
-			EqualAsserter eq = new EqualAsserter( array1, array2, null, null );
-			Assert.AreEqual( false, eq.Test() );
-		}
-
-		[Test]
-		public void SameLengthDifferentContent()
-		{
-			string[] array1 = { "one", "two", "three" };
-			string[] array2 = { "one", "two", "ten" };
-			EqualAsserter eq = new EqualAsserter( array1, array2, null, null );
-			Assert.AreEqual( false, eq.Test() );
-		}
-
-		[Test]
-		public void DifferentArrayTypesButEqual()
-		{
-			string[] array1 = { "one", "two", "three" };
-			object[] array2 = { "one", "two", "three" };
-			Assert.AreEqual( array1, array2, "String[] not equal to Object[]" );
-			Assert.AreEqual( array2, array1, "Object[] not equal to String[]" );	
-		}
-
-		[Test]
-		public void MixedTypesAreEqual()
-		{
-			object[] array1 = { "one", 2, 3.0 };
-			object[] array2 = { "one", 2.0, 3 };
-			Assert.AreEqual( array1, array2 );
-		}
-
-		[Test]
-		public void DifferentArrayTypesNotEqual()
-		{
-			string[] array1 = { "one", "two", "three" };
-			object[] array2 = { "one", "three", "two" };
-			EqualAsserter eq = new EqualAsserter( array1, array2, null, null );
-			Assert.AreEqual( false, eq.Test() );
-			Assert.AreEqual( 
-				"Array lengths are both 3." + System.Environment.NewLine + 
-				"Arrays differ at index 1." + System.Environment.NewLine + 
-				"\tString lengths differ.  Expected length=3, but was length=5." + System.Environment.NewLine + 
-				"\tStrings differ at index 1." + System.Environment.NewLine + 
-				"\texpected: <\"two\">" + System.Environment.NewLine + 
-				"\t but was: <\"three\">" + System.Environment.NewLine + 
-				"\t-------------^" + System.Environment.NewLine,
-				eq.Message );
-		}
-
-		[Test]
+        [Test]
 		public void ArraysOfInt()
 		{
 			int[] a = new int[] { 1, 2, 3 };
 			int[] b = new int[] { 1, 2, 3 };
-			Assert.AreEqual( a, b );
-		}
+            Assert.AreEqual(a, b);
+            Assert.AreEqual(b, a);
+            Assert.That(a, Is.EqualTo(b));
+            Assert.That(b, Is.EqualTo(a));
+        }
 
 		[Test]
 		public void ArraysOfDouble()
 		{
 			double[] a = new double[] { 1.0, 2.0, 3.0 };
 			double[] b = new double[] { 1.0, 2.0, 3.0 };
-			Assert.AreEqual( a, b );
-		}
+            Assert.AreEqual(a, b);
+            Assert.AreEqual(b, a);
+            Assert.That(a, Is.EqualTo(b));
+            Assert.That(b, Is.EqualTo(a));
+        }
 
 		[Test]
 		public void ArraysOfDecimal()
 		{
 			decimal[] a = new decimal[] { 1.0m, 2.0m, 3.0m };
 			decimal[] b = new decimal[] { 1.0m, 2.0m, 3.0m };
-			Assert.AreEqual( a, b );
-		}
+            Assert.AreEqual(a, b);
+            Assert.AreEqual(b, a);
+            Assert.That(a, Is.EqualTo(b));
+            Assert.That(b, Is.EqualTo(a));
+        }
 
 		[Test]
-		public void ArrayOfIntVersusArrayOfDouble()
+		public void ArrayOfIntAndArrayOfDouble()
 		{
 			int[] a = new int[] { 1, 2, 3 };
 			double[] b = new double[] { 1.0, 2.0, 3.0 };
-			Assert.AreEqual( a, b );
-			Assert.AreEqual( b, a );
-		}
+            Assert.AreEqual(a, b);
+            Assert.AreEqual(b, a);
+            Assert.That(a, Is.EqualTo(b));
+            Assert.That(b, Is.EqualTo(a));
+        }
 
 		[Test]
-		public void RanksOfArraysMustMatch()
+		public void ArraysDeclaredAsDifferentTypes()
 		{
-			int[,] a = new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-			int[] b = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-			EqualAsserter eq = new EqualAsserter( a , b, null, null );
-			Assert.AreEqual( false, eq.Test() );
-			Assert.AreEqual( 
-				"\texpected: <System.Int32[,]>" + System.Environment.NewLine + 
-				"\t but was: <System.Int32[]>" + System.Environment.NewLine,
-				eq.Message );
+			string[] array1 = { "one", "two", "three" };
+			object[] array2 = { "one", "two", "three" };
+			Assert.AreEqual( array1, array2, "String[] not equal to Object[]" );
+			Assert.AreEqual( array2, array1, "Object[] not equal to String[]" );
+			Assert.That(array1, Is.EqualTo(array2), "String[] not equal to Object[]");
+			Assert.That(array2, Is.EqualTo(array1), "Object[] not equal to String[]");
 		}
 
 		[Test]
-		public void MultiDimensionedArrays()
+		public void ArraysOfMixedTypes()
+		{
+			DateTime now = DateTime.Now;
+			object[] array1 = new object[] { 1, 2.0f, 3.5d, 7.000m, "Hello", now };
+			object[] array2 = new object[] { 1.0d, 2, 3.5, 7, "Hello", now };
+			Assert.AreEqual( array1, array2 );
+			Assert.AreEqual(array2, array1);
+			Assert.That(array1, Is.EqualTo(array2));
+			Assert.That(array2, Is.EqualTo(array1));
+		}
+
+		[Test]
+		public void DoubleDimensionedArrays()
 		{
 			int[,] a = new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
 			int[,] b = new int[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-			Assert.AreEqual( a, b );
+            Assert.AreEqual(a, b);
+            Assert.AreEqual(b, a);
+            Assert.That(a, Is.EqualTo(b));
+            Assert.That(b, Is.EqualTo(a));
+        }
+
+		[Test]
+		public void TripleDimensionedArrays()
+		{
+			int[, ,] expected = new int[,,] { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } };
+			int[,,] actual = new int[,,] { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } };
+
+			Assert.AreEqual(expected, actual);
+			Assert.That(actual, Is.EqualTo(expected));
+		}
+
+		[Test]
+		public void FiveDimensionedArrays()
+		{
+			int[, , , ,] expected = new int[2, 2, 2, 2, 2] { { { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } }, { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } } }, { { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } }, { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } } } };
+			int[, , , ,] actual = new int[2, 2, 2, 2, 2] { { { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } }, { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } } }, { { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } }, { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } } } };
+
+			Assert.AreEqual(expected, actual);
+			Assert.That(actual, Is.EqualTo(expected));
 		}
 
 		[Test]
@@ -139,7 +133,20 @@ namespace NUnit.Framework.Tests
 		{
 			int[][] a = new int[][] { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, new int[] { 7, 8, 9 } };
 			int[][] b = new int[][] { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, new int[] { 7, 8, 9 } };
-			Assert.AreEqual( a, b );
+            Assert.AreEqual(a, b);
+            Assert.AreEqual(b, a);
+            Assert.That(a, Is.EqualTo(b));
+            Assert.That(b, Is.EqualTo(a));
+        }
+
+		[Test]
+		public void JaggedArrays()
+		{
+			int[][] expected = new int[][] { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6, 7 }, new int[] { 8, 9 } };
+			int[][] actual = new int[][] { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6, 7 }, new int[] { 8, 9 } };
+
+			Assert.AreEqual(expected, actual);
+			Assert.That(actual, Is.EqualTo(expected));
 		}
 
 		[Test]
@@ -147,27 +154,43 @@ namespace NUnit.Framework.Tests
 		{
 			object a = new int[] { 1, 2, 3 };
 			object b = new double[] { 1.0, 2.0, 3.0 };
-			Assert.AreEqual( a, b );
-			Assert.AreEqual( b, a );
-		}
+            Assert.AreEqual(a, b);
+            Assert.AreEqual(b, a);
+            Assert.That(a, Is.EqualTo(b));
+            Assert.That(b, Is.EqualTo(a));
+        }
 
 		[Test]
 		public void ArrayAndCollection()
 		{
 			int[] a = new int[] { 1, 2, 3 };
 			ICollection b = new ArrayList( a );
-			Assert.AreEqual( a, b );
-			Assert.AreEqual( b, a );
+            Assert.AreEqual(a, b);
+            Assert.AreEqual(b, a);
+            Assert.That(a, Is.EqualTo(b));
+            Assert.That(b, Is.EqualTo(a));
+        }
+
+		[Test]
+		public void ArraysWithDifferentRanksComparedAsCollection()
+		{
+			int[] expected = new int[] { 1, 2, 3, 4 };
+			int[,] actual = new int[,] { { 1, 2 }, { 3, 4 } };
+
+			Assert.AreNotEqual(expected, actual);
+			Assert.That(actual, Is.Not.EqualTo(expected));
+			Assert.That(actual, Is.EqualTo(expected).AsCollection);
 		}
 
-		[Test, ExpectedException( typeof(AssertionException) )]
-		public void ArrayAndCollection_Failure()
+		[Test]
+		public void ArraysWithDifferentDimensionsMatchedAsCollection()
 		{
-			int[] a = new int[] { 1, 2, 3 };
-			ArrayList b = new ArrayList();
-			b.Add( 1 );
-			b.Add( 3 );
-			Assert.AreEqual( a, b );
+			int[,] expected = new int[,] { { 1, 2, 3 }, { 4, 5, 6 } };
+			int[,] actual = new int[,] { { 1, 2 }, { 3, 4 }, { 5, 6 } };
+
+			Assert.AreNotEqual(expected, actual);
+			Assert.That(actual, Is.Not.EqualTo(expected));
+			Assert.That(actual, Is.EqualTo(expected).AsCollection);
 		}
-	}
+    }
 }

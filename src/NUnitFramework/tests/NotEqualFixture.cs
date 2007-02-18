@@ -3,7 +3,7 @@ using System;
 namespace NUnit.Framework.Tests
 {
 	[TestFixture]
-	public class NotEqualFixture
+	public class NotEqualFixture : MessageChecker
 	{
 		[Test]
 		public void NotEqual()
@@ -14,6 +14,9 @@ namespace NUnit.Framework.Tests
 		[Test, ExpectedException( typeof( AssertionException ) )]
 		public void NotEqualFails()
 		{
+			expectedMessage =
+				"  Expected: not 5" + Environment.NewLine +
+				"  But was:  5" + Environment.NewLine;
 			Assert.AreNotEqual( 5, 5 );
 		}
 
@@ -26,6 +29,9 @@ namespace NUnit.Framework.Tests
 		[Test, ExpectedException( typeof( AssertionException ) )]
 		public void NullEqualsNull()
 		{
+			expectedMessage =
+				"  Expected: not null" + Environment.NewLine +
+				"  But was:  null" + Environment.NewLine;
 			Assert.AreNotEqual( null, null );
 		}
 
@@ -38,6 +44,9 @@ namespace NUnit.Framework.Tests
 		[Test, ExpectedException( typeof( AssertionException ) )]
 		public void ArraysNotEqualFails()
 		{
+			expectedMessage =
+				"  Expected: not < 1, 2, 3 >" + Environment.NewLine +
+				"  But was:  < 1, 2, 3 >" + Environment.NewLine;
 			Assert.AreNotEqual( new object[] { 1, 2, 3 }, new object[] { 1, 2, 3 } );
 		}
 

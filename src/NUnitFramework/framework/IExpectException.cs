@@ -1,7 +1,6 @@
 // *****************************************************
-// Copyright 2006, Charlie Poole
-//
-// Licensed under the Open Software License version 3.0
+// Copyright 2007, Charlie Poole
+// Licensed under the NUnit License, see license.txt
 // *****************************************************
 
 using System;
