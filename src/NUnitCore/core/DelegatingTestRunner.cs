@@ -68,7 +68,7 @@ namespace NUnit.Core
 
 		public virtual IList AssemblyInfo
 		{
-			get { return this.testRunner.AssemblyInfo; }
+			get { return testRunner == null ? null : testRunner.AssemblyInfo; }
 		}
 
 		public virtual ITest Test
