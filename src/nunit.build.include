@@ -9,7 +9,7 @@
   <property name="nunit.gui.name" value="nunit.exe"/>
   <property name="nunit.console.name" value="nunit-console.exe"/>
   <property name="nunit.project.name" value="NUnitTests.nunit"/>
-  <property name="nunit.base.tests" value="nunit.framework.tests.dll nunit.core.tests.dll nunit.extensions.tests.dll nunit.util.tests.dll nunit.mocks.tests.dll nunit-console.tests.dll"/>
+  <property name="nunit.base.tests" value="nunit.framework.tests.dll nunit.core.tests.dll nunit.extensions.tests.dll nunit.util.tests.dll nunit.mocks.tests.dll nunit-console.tests.dll nunit.fixtures.tests.dll"/>
   <property name="nunit.gui.tests" value="nunit.uikit.tests.dll nunit-gui.tests.dll"/>
   <property name="nunit.options" value=""/>
 
