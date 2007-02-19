@@ -39,6 +39,7 @@ namespace NUnit.Framework
 	/// AssertionFailureMessage encapsulates a failure message
 	/// issued as a result of an Assert failure.
 	/// </summary>
+	[Obsolete( "Use MessageWriter for new work" )]
 	public class AssertionFailureMessage : StringWriter
 	{
 		#region Static Constants
