@@ -318,7 +318,7 @@ namespace NUnit.Framework.Constraints
 			else
 				writer.WriteMessageLine(StringsDiffer_2, expected.Length, actual.Length, mismatch);
 
-            writer.DisplayStringDifferences(expected, actual, mismatch);
+            writer.DisplayStringDifferences(expected, actual, mismatch, caseInsensitive);
         }
         #endregion
 
@@ -352,16 +352,22 @@ namespace NUnit.Framework.Constraints
             if (failurePoint >= 0)
             {
                 DisplayFailurePoint(writer, expected, actual, failurePoint, depth);
-                if (failurePoint < expected.Count && failurePoint < actual.Count)
-                    DisplayDifferences(
-                        writer,
-                        GetValueFromCollection(expected, failurePoint),
-                        GetValueFromCollection(actual, failurePoint),
-                        ++depth);
-                else if (expected.Count < actual.Count)
-                    DisplayExtraElements(writer, actual, failurePoint, 3);
-                else
-                    DisplayMissingElements(writer, expected, failurePoint, 3);
+				if (failurePoint < expected.Count && failurePoint < actual.Count)
+					DisplayDifferences(
+						writer,
+						GetValueFromCollection(expected, failurePoint),
+						GetValueFromCollection(actual, failurePoint),
+						++depth);
+				else if (expected.Count < actual.Count)
+				{
+					writer.Write( "  Extra:    " );
+					writer.WriteCollectionElements( actual, failurePoint, 3 );
+				}
+				else
+				{
+					writer.Write( "  Missing:  " );
+					writer.WriteCollectionElements( expected, failurePoint, 3 );
+				}
             }
         }
 
@@ -426,48 +432,6 @@ namespace NUnit.Framework.Constraints
                 writer.WriteMessageLine(indent, ValuesDiffer_2,
                     MsgUtils.GetArrayIndicesAsString(expectedIndices), MsgUtils.GetArrayIndicesAsString(actualIndices));
             }
-        }
-
-        private void DisplayMissingElements(MessageWriter writer, ICollection expected, int failurePoint, int max)
-        {
-            DisplayElements(writer, Msgs.Pfx_Missing, expected, failurePoint, max);
-        }
-
-        private void DisplayExtraElements(MessageWriter writer, ICollection actual, int failurePoint, int max)
-        {
-            DisplayElements(writer, Msgs.Pfx_Extra, actual, failurePoint, max);
-        }
-
-        /// <summary>
-        /// Displays elements from a collection on a line
-        /// </summary>
-		/// <param name="writer">The MessageWriter on which to display</param>
-		/// <param name="prefix">Text to prefix the line with</param>
-        /// <param name="collection">The list of items to display</param>
-        /// <param name="index">The index in the collection of the first element to display</param>
-        /// <param name="max">The maximum number of elements to display</param>
-        private void DisplayElements(MessageWriter writer, string prefix, ICollection collection, int index, int max)
-        {
-            writer.Write(prefix + "< ");
-
-            if (collection == null)
-                writer.Write("null");
-            else if (collection.Count == 0)
-                writer.Write("empty");
-            else
-            {
-                for (int i = 0; i < max && index < collection.Count; i++)
-                {
-                    if (i > 0) writer.Write(", ");
-
-                    writer.WriteValue(GetValueFromCollection(collection, index++));
-                }
-
-                if (index < collection.Count)
-                    writer.Write("...");
-            }
-
-            writer.Write(" >");
         }
 
         private static object GetValueFromCollection(ICollection collection, int index)

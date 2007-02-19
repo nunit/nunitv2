@@ -180,11 +180,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Msgs.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "MsgUtils.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

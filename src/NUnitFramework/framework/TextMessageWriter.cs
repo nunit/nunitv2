@@ -21,7 +21,23 @@ namespace NUnit.Framework
         #region Message Formats and Constants
         private static readonly int MAX_LINE_LENGTH = 78;
 
-        private static readonly string Fmt_Connector = " {0} ";
+		// Prefixes used in all failure messages. All must be the same
+		// length, which is held in the PrefixLength field. Should not
+		// contain any tabs or newline characters.
+		/// <summary>
+		/// Prefix used for the expected value line of a message
+		/// </summary>
+		public static readonly string Pfx_Expected = "  Expected: ";
+		/// <summary>
+		/// Prefix used for the actual value line of a message
+		/// </summary>
+		public static readonly string Pfx_Actual = "  But was:  ";
+		/// <summary>
+		/// Length of a message prefix
+		/// </summary>
+		public static readonly int PrefixLength = Pfx_Expected.Length;
+		
+		private static readonly string Fmt_Connector = " {0} ";
         private static readonly string Fmt_Predicate = "{0} ";
         //private static readonly string Fmt_Label = "{0}";
 
@@ -134,15 +150,18 @@ namespace NUnit.Framework
         /// <param name="expected">The expected string value</param>
         /// <param name="actual">The actual string value</param>
         /// <param name="mismatch">The point at which the strings don't match or -1</param>
-        public override void DisplayStringDifferences(string expected, string actual, int mismatch)
+        public override void DisplayStringDifferences(string expected, string actual, int mismatch, bool ignoreCase)
         {
             // Maximum string we can display without truncating
             int maxStringLength = MAX_LINE_LENGTH
-                - Msgs.PrefixLength   // Allow for prefix
+                - PrefixLength   // Allow for prefix
                 - 2;                    // 2 quotation marks
 
-            mismatch = MsgUtils.ClipExpectedAndActual(
-                ref expected, ref actual, maxStringLength, mismatch, true );
+			expected = MsgUtils.ConvertWhitespace(MsgUtils.ClipString( expected, maxStringLength, mismatch ));
+			actual = MsgUtils.ConvertWhitespace(MsgUtils.ClipString( actual, maxStringLength, mismatch ));
+
+			// The mismatch position may have changed due to clipping or white space conversion
+			mismatch = MsgUtils.FindMismatchPosition( expected, actual, 0, ignoreCase );
 
             DisplayDifferences(expected, actual);
             if (mismatch >= 0)
@@ -203,7 +222,7 @@ namespace NUnit.Framework
             else if (val.GetType().IsArray)
                 WriteArray((Array)val);
             else if (val is ICollection)
-                WriteCollection((ICollection)val);
+                WriteCollectionElements((ICollection)val, 0, 10);
             else if (val is string)
                 WriteString((string)val);
             else if (val is char)
@@ -220,7 +239,37 @@ namespace NUnit.Framework
                 Write(Fmt_Default, val);
         }
 
-        private void WriteArray(Array array)
+		public override void WriteCollectionElements(ICollection collection, int start, int max)
+		{
+			if ( collection.Count == 0 )
+			{
+				Write(Fmt_EmptyCollection);
+				return;
+			}
+
+			int count = 0;
+			int index = 0;
+			Write("< ");
+
+			foreach (object obj in collection)
+			{
+				if ( index++ >= start )
+				{
+					if (count > 0)
+						Write(", ");
+					WriteValue(obj);
+					if ( ++count >= max )
+						break;
+				}
+			}
+
+			if ( index < collection.Count )
+				Write("...");
+
+			Write(" >");
+		}
+
+		private void WriteArray(Array array)
         {
 			if ( array.Length == 0 )
 			{
@@ -258,26 +307,6 @@ namespace NUnit.Framework
                     if (nextSegment) Write(" >");
                 }
             }
-        }
-
-        private void WriteCollection(ICollection collection)
-        {
-			if ( collection.Count == 0 )
-			{
-				Write(Fmt_EmptyCollection);
-				return;
-			}
-
-            int count = 0;
-            Write("< ");
-            foreach (object obj in collection)
-            {
-                if (count > 0)
-                    Write(", ");
-                WriteValue(obj);
-                ++count;
-            }
-            Write(" >");
         }
 
         private void WriteString(string s)
@@ -337,7 +366,7 @@ namespace NUnit.Framework
         /// <param name="constraint">The constraint that failed</param>
         private void WriteExpectedLine(IConstraint constraint)
         {
-            Write(Msgs.Pfx_Expected);
+            Write(Pfx_Expected);
             constraint.WriteDescriptionTo(this);
             WriteLine();
         }
@@ -348,7 +377,7 @@ namespace NUnit.Framework
 		/// <param name="expected">The expected value</param>
 		private void WriteExpectedLine(object expected)
 		{
-			Write(Msgs.Pfx_Expected);
+			Write(Pfx_Expected);
 			WriteExpectedValue(expected);
 			WriteLine();
 		}
@@ -361,7 +390,7 @@ namespace NUnit.Framework
 		/// <param name="tolerance">The tolerance within which the test was made</param>
 		private void WriteExpectedLine(object expected, object tolerance)
 		{
-			Write(Msgs.Pfx_Expected);
+			Write(Pfx_Expected);
 			WriteExpectedValue(expected);
 			WriteConnector( "+/-" );
 			WriteExpectedValue(tolerance);
@@ -374,7 +403,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value causing a failure</param>
 		private void WriteActualLine(IConstraint constraint)
 		{
-			Write(Msgs.Pfx_Actual);
+			Write(Pfx_Actual);
 			constraint.WriteActualValueTo(this);
 			WriteLine();
 		}
@@ -385,7 +414,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value causing a failure</param>
 		private void WriteActualLine(object actual)
 		{
-			Write(Msgs.Pfx_Actual);
+			Write(Pfx_Actual);
 			WriteActualValue(actual);
 			WriteLine();
 		}
@@ -393,7 +422,7 @@ namespace NUnit.Framework
 		private void WriteCaretLine(int mismatch)
         {
             // We subtract 2 for the initial 2 blanks and add back 1 for the initial quote
-            WriteLine("  {0}^", new string('-', Msgs.PrefixLength + mismatch - 2 + 1));
+            WriteLine("  {0}^", new string('-', PrefixLength + mismatch - 2 + 1));
         }
         #endregion
     }

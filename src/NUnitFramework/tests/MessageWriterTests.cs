@@ -72,12 +72,15 @@ namespace NUnit.Framework.Tests
                 Assert.That(writer.ToString(), Is.EqualTo("\"Hello\""));
             }
 
-            //[Test]
-            //public void ControlCharactersInStringsAreEscaped()
-            //{
-            //    WriteValue("Best Wishes,\r\n\tCharlie\r\n");
-            //    Assert.That(writer.ToString(), Is.EqualTo("\"Best Wishes,\\r\\n\\tCharlie\\r\\n\""));
-            //}
+			// This test currently fails because control character replacement is
+			// done at a higher level...
+			// TODO: See if we should do it at a lower level
+//            [Test]
+//            public void ControlCharactersInStringsAreEscaped()
+//            {
+//                WriteValue("Best Wishes,\r\n\tCharlie\r\n");
+//                Assert.That(writer.ToString(), Is.EqualTo("\"Best Wishes,\\r\\n\\tCharlie\\r\\n\""));
+//            }
 
             [Test]
             public void FloatIsWrittenWithTrailingF()

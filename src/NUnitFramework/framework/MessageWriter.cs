@@ -80,7 +80,8 @@ namespace NUnit.Framework
         /// <param name="expected">The expected string value</param>
         /// <param name="actual">The actual string value</param>
         /// <param name="mismatch">The point at which the strings don't match or -1</param>
-        public abstract void DisplayStringDifferences(string expected, string actual, int mismatch);
+        /// <param name="ignoreCase">If true, case is ignored in locating the point where the strings differ</param>
+        public abstract void DisplayStringDifferences(string expected, string actual, int mismatch, bool ignoreCase);
 
         /// <summary>
         /// Writes the text for a connector.
@@ -111,5 +112,12 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="val">The value.</param>
 		public abstract void WriteValue(object val);
-    }
+    
+		/// <summary>
+		/// Writes the text for a collection value,
+		/// starting at a particular point, to a max length
+		/// </summary>
+		/// <param name="expected">The expected value.</param>
+		public abstract void WriteCollectionElements(ICollection expected, int start, int max);
+	}
 }

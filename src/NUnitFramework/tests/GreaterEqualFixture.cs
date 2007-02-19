@@ -85,8 +85,8 @@ namespace NUnit.Framework.Tests
                 msg = ex.Message;
             }
 
-            StringAssert.Contains( Msgs.Pfx_Expected + "greater than or equal to 99", msg);
-            StringAssert.Contains( Msgs.Pfx_Actual + "7", msg);
+            StringAssert.Contains( TextMessageWriter.Pfx_Expected + "greater than or equal to 99", msg);
+            StringAssert.Contains( TextMessageWriter.Pfx_Actual + "7", msg);
 		}
 	}
 }

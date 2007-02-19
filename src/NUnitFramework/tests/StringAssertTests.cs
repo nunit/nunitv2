@@ -15,8 +15,8 @@ namespace NUnit.Framework.Tests
 		public void ContainsFails()
 		{
             expectedMessage =
-                Msgs.Pfx_Expected + "String containing \"abc\"" + System.Environment.NewLine +
-                Msgs.Pfx_Actual + "\"abxcdxbc\"" + System.Environment.NewLine;
+                TextMessageWriter.Pfx_Expected + "String containing \"abc\"" + System.Environment.NewLine +
+                TextMessageWriter.Pfx_Actual + "\"abxcdxbc\"" + System.Environment.NewLine;
             StringAssert.Contains("abc", "abxcdxbc");
 		}
 
@@ -31,8 +31,8 @@ namespace NUnit.Framework.Tests
 		public void StartsWithFails()
 		{
             expectedMessage =
-                Msgs.Pfx_Expected + "String starting with \"xyz\"" + System.Environment.NewLine +
-                Msgs.Pfx_Actual + "\"abcxyz\"" + System.Environment.NewLine;
+                TextMessageWriter.Pfx_Expected + "String starting with \"xyz\"" + System.Environment.NewLine +
+                TextMessageWriter.Pfx_Actual + "\"abcxyz\"" + System.Environment.NewLine;
             StringAssert.StartsWith("xyz", "abcxyz");
 		}
 	
@@ -47,8 +47,8 @@ namespace NUnit.Framework.Tests
 		public void EndsWithFails()
 		{
             expectedMessage =
-                Msgs.Pfx_Expected + "String ending with \"xyz\"" + System.Environment.NewLine +
-                Msgs.Pfx_Actual + "\"abcdef\"" + System.Environment.NewLine;
+                TextMessageWriter.Pfx_Expected + "String ending with \"xyz\"" + System.Environment.NewLine +
+                TextMessageWriter.Pfx_Actual + "\"abcdef\"" + System.Environment.NewLine;
             StringAssert.EndsWith( "xyz", "abcdef" );
 		}
 
@@ -63,8 +63,8 @@ namespace NUnit.Framework.Tests
 		{
             expectedMessage =
                 "  Expected string length 4 but was 5. Strings differ at index 4." + System.Environment.NewLine
-                + Msgs.Pfx_Expected + "\"Name\"" + System.Environment.NewLine
-                + Msgs.Pfx_Actual   + "\"NAMES\"" + System.Environment.NewLine
+                + TextMessageWriter.Pfx_Expected + "\"Name\"" + System.Environment.NewLine
+                + TextMessageWriter.Pfx_Actual   + "\"NAMES\"" + System.Environment.NewLine
                 + "  ---------------^" + System.Environment.NewLine;
             StringAssert.AreEqualIgnoringCase("Name", "NAMES");
 		}
@@ -79,8 +79,8 @@ namespace NUnit.Framework.Tests
 		public void IsMatchFails()
 		{
             expectedMessage =
-                Msgs.Pfx_Expected + "String matching \"a?b*c\"" + System.Environment.NewLine +
-                Msgs.Pfx_Actual + "\"12ab456\"" + System.Environment.NewLine;
+                TextMessageWriter.Pfx_Expected + "String matching \"a?b*c\"" + System.Environment.NewLine +
+                TextMessageWriter.Pfx_Actual + "\"12ab456\"" + System.Environment.NewLine;
             StringAssert.IsMatch("a?b*c", "12ab456");
 		}
 	}

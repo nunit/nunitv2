@@ -112,7 +112,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MessageWriter.cs" />
-    <Compile Include="Msgs.cs" />
     <Compile Include="MsgUtils.cs" />
     <Compile Include="OldTestCase.cs">
       <SubType>Code</SubType>

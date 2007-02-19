@@ -22,8 +22,9 @@ namespace NUnit.Framework.Constraints.Tests
         public void AllItemsAreNotNullFails()
         {
             object[] c = new object[] { 1, "hello", null, 3 };
-            expectedMessage = Msgs.Pfx_Expected + "all items not null" + Environment.NewLine +
-                Msgs.Pfx_Actual + "< 1, \"hello\", null, 3 >" + Environment.NewLine;
+            expectedMessage = 
+				TextMessageWriter.Pfx_Expected + "all items not null" + Environment.NewLine +
+                TextMessageWriter.Pfx_Actual + "< 1, \"hello\", null, 3 >" + Environment.NewLine;
             Assert.That(c, new AllItemsConstraint(Is.Not.Null));
         }
 
@@ -39,8 +40,8 @@ namespace NUnit.Framework.Constraints.Tests
         {
             int[] c = new int[] { 12, 27, 19, 32, 107, 99, 26 };
             expectedMessage = 
-                Msgs.Pfx_Expected + "all items greater than 10 and less than 100" + Environment.NewLine +
-                Msgs.Pfx_Actual   + "< 12, 27, 19, 32, 107, 99, 26 >" + Environment.NewLine;
+                TextMessageWriter.Pfx_Expected + "all items greater than 10 and less than 100" + Environment.NewLine +
+                TextMessageWriter.Pfx_Actual   + "< 12, 27, 19, 32, 107, 99, 26 >" + Environment.NewLine;
             Assert.That(c, new AllItemsConstraint(Is.GreaterThan(10) & Is.LessThan(100)));
         }
 
@@ -56,8 +57,8 @@ namespace NUnit.Framework.Constraints.Tests
         {
             object[] c = new object[] { 'a', "b", 'c' };
             expectedMessage = 
-                Msgs.Pfx_Expected + "all items instance of <System.Char>" + Environment.NewLine +
-                Msgs.Pfx_Actual   + "< 'a', \"b\", 'c' >" + Environment.NewLine;
+                TextMessageWriter.Pfx_Expected + "all items instance of <System.Char>" + Environment.NewLine +
+                TextMessageWriter.Pfx_Actual   + "< 'a', \"b\", 'c' >" + Environment.NewLine;
             Assert.That(c, new AllItemsConstraint(Is.InstanceOfType(typeof(char))));
         }
     }

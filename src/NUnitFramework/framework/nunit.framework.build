@@ -41,7 +41,6 @@
         <include name="IgnoreAttribute.cs"/>
         <include name="IgnoreException.cs"/>
         <include name="MessageWriter.cs"/>
-        <include name="Msgs.cs"/>
         <include name="MsgUtils.cs"/>
         <include name="OldTestCase.cs"/>
         <include name="PlatformAttribute.cs"/>

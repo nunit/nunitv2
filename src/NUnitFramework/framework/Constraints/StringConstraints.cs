@@ -84,8 +84,7 @@ namespace NUnit.Framework.Constraints
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.WritePredicate("String starting with");
-            MsgUtils.ClipString(ref expected, writer.MaxLineLength - 40, 0);
-            writer.WriteExpectedValue( expected ); 
+            writer.WriteExpectedValue( MsgUtils.ClipString(expected, writer.MaxLineLength - 40, 0) );
         }
     }
 

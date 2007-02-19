@@ -12,7 +12,7 @@ namespace NUnit.Framework
     /// <summary>
     /// Static methods used in creating messages
     /// </summary>
-    class MsgUtils
+    public class MsgUtils
     {
         private static readonly string ELLIPSIS = "...";
 
@@ -52,9 +52,16 @@ namespace NUnit.Framework
             return string.Format( "<{0}>", sb.ToString() );
         }
 
-        public static string ConvertWhiteSpace(string s)
+        public static string ConvertWhitespace(string s)
         {
-            return s.Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t");
+			if( s != null )
+			{
+				s = s.Replace( "\\", "\\\\" );
+				s = s.Replace( "\r", "\\r" );
+				s = s.Replace( "\n", "\\n" );
+				s = s.Replace( "\t", "\\t" );
+			}
+			return s;
         }
 
         /// <summary>
@@ -101,75 +108,25 @@ namespace NUnit.Framework
             return result;
         }
 
-        public static int ClipExpectedAndActual(ref string expected, ref string actual,
-            int maxStringLength, int mismatch, bool convertWhiteSpace)
-        {
-            if (expected.Length > maxStringLength || actual.Length > maxStringLength)
-            {
-                // We'll clip at least one end of the string
-                int clipLength = maxStringLength - ELLIPSIS.Length;
-
-                if (mismatch >= clipLength)
-                {
-                    // Need to clip both strings at start
-                    int clipStart = mismatch - clipLength / 2;
-                    mismatch = mismatch - clipStart + ELLIPSIS.Length;
-
-                    // Clip the expected value at start and at end if needed
-                    if (expected.Length - clipStart > maxStringLength)
-                        expected = ELLIPSIS + expected.Substring(
-                            clipStart, clipLength - ELLIPSIS.Length) + ELLIPSIS;
-                    else
-                        expected = ELLIPSIS + expected.Substring(clipStart);
-
-                    // Clip the actual value at start and at end if needed
-                    if (actual.Length - clipStart > maxStringLength)
-                        actual = ELLIPSIS + actual.Substring(
-                            clipStart, clipLength - ELLIPSIS.Length) + ELLIPSIS;
-                    else
-                        actual = ELLIPSIS + actual.Substring(clipStart) + ELLIPSIS;
-                }
-                else
-                {
-                    if (expected.Length > maxStringLength)
-                        expected = expected.Substring(0, clipLength) + ELLIPSIS;
-
-                    if (actual.Length > maxStringLength)
-                        actual = actual.Substring(0, clipLength) + ELLIPSIS;
-                }
-            }
-
-            if (convertWhiteSpace)
-            {
-                expected = ConvertWhiteSpace(expected);
-                actual = ConvertWhiteSpace(actual);
-                if (mismatch >= 0)
-                    mismatch = FindMismatchPosition(expected, actual, mismatch, true);
-            }
-
-            return mismatch;
-        }
-
-        public static int ClipString(ref string s, int maxStringLength, int mismatch)
+        public static string ClipString(string s, int maxStringLength, int mismatch)
         {
             int clipLength = maxStringLength - ELLIPSIS.Length;
 
-            if (mismatch > clipLength)
+            if (mismatch >= clipLength)
             {
                 int clipStart = mismatch - clipLength / 2;
                 mismatch = mismatch - clipStart + ELLIPSIS.Length;
 
                 // Clip the expected value at start and at end if needed
                 if (s.Length - clipStart > maxStringLength)
-                    s = ELLIPSIS + s.Substring(
+                    return ELLIPSIS + s.Substring(
                         clipStart, clipLength - ELLIPSIS.Length) + ELLIPSIS;
                 else
-                    s = ELLIPSIS + s.Substring(clipStart);
+                    return ELLIPSIS + s.Substring(clipStart);
             }
             else if( s.Length > maxStringLength )
-                s = s.Substring(0, clipLength) + ELLIPSIS;
-
-            return mismatch;
+                return s.Substring(0, clipLength) + ELLIPSIS;
+			else return s;
         }
 
         /// <summary>

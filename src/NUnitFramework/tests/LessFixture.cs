@@ -79,8 +79,8 @@ namespace NUnit.Framework.Tests
 				msg = ex.Message;
 			}
 
-			StringAssert.Contains( Msgs.Pfx_Expected + "less than 4", msg );
-			StringAssert.Contains( Msgs.Pfx_Actual + "9", msg );
+			StringAssert.Contains( TextMessageWriter.Pfx_Expected + "less than 4", msg );
+			StringAssert.Contains( TextMessageWriter.Pfx_Actual + "9", msg );
 		}
 	}
 }
