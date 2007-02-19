@@ -1,32 +1,8 @@
-#region Copyright (c) 2002-2003 Charlie Poole
-/************************************************************************************
-'
-' Copyright (c) 2002-2003 Charlie Poole
-'
-' Later versions may be available at http://charliepoole.org.
-'
-' This software is provided 'as-is', without any express or implied warranty. In no 
-' event will the author be held liable for any damages arising from the use of this 
-' software.
-' 
-' Permission is granted to anyone to use this software for any purpose, including 
-' commercial applications, and to alter it and redistribute it freely, subject to the 
-' following restrictions:
-'
-' 1. The origin of this software must not be misrepresented; you must not claim that
-' you wrote the original software. If you use this software in a product, you must
-' include the following notice in the product documentation and/or other materials
-' provided with the distribution.
-'
-' Portions Copyright (c) 2002-2003 Charlie Poole
-'
-' 2. Altered source versions must be plainly marked as such, and must not be 
-' misrepresented as being the original software.
-'
-' 3. This notice may not be removed from or altered in any source distribution.
-'
-'***********************************************************************************/
-#endregion
+// ****************************************************************
+// Copyright 2002-2003, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org/?p=license&r=2.4
+// ****************************************************************
 
 using System;
 using System.Windows.Forms;
