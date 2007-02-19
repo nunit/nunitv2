@@ -411,6 +411,7 @@
     <call target="copy-samples" />
 
     <copy file="license.rtf" todir="${package.working.dir}" />
+    <copy file="license.txt" todir="${package.working.dir}" />
     <copy file="GuiRunner/nunit-gui/Logo.ico" todir="${package.working.dir}" />
     <copy file="NUnitFitTests.html" todir="${package.bin.dir}" />
 
@@ -468,6 +469,7 @@
     <copy todir="${package.src.dir}">
       <fileset basedir=".">
         <include name="license.rtf"/>
+        <include name="license.txt"/>
         <include name="nunit.build"/>
         <include name="nunit.build.include"/>
         <include name="nunit.sln"/>
