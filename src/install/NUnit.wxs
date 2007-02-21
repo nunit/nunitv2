@@ -79,7 +79,12 @@
       </Component>
       
       <Component Id="C__LICENSE" Guid="7D03AE6B-15A7-16E0-0D21-D65708B2FA79">
-        <File Id="_LICENSE" Name="license.rtf" Source="license.rtf" 
+        <File Id="_LICENSE" Name="license.txt" Source="license.txt" 
+			  Vital="yes" KeyPath="yes" DiskId="1" />
+      </Component>
+	  
+      <Component Id="C__FIT_LICENSE" Guid="6C47563D-CDCD-4a65-BD89-A37F3A3C681D">
+        <File Id="fit_license.txt" Name="FITLICNS.TXT" LongName="fit-license.txt" Source="fit-license.txt" 
 			  Vital="yes" KeyPath="yes" DiskId="1" />
       </Component>
 	  
@@ -93,7 +98,8 @@
       
         <!-- Defined above -->
 		<ComponentRef Id="C__LICENSE" />
-        <ComponentRef Id="C__LOGO" />
+		<ComponentRef Id="C__FIT_LICENSE" />
+		<ComponentRef Id="C__LOGO" />
 
 		<!-- Defined in bin.wxs -->
 		<ComponentRef Id="C__NUnitBase" />

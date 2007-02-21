@@ -467,6 +467,8 @@
     <call target="copy-src"/>
     <call target="copy-tools" />
 
+    <copy file="../license.txt" todir="${package.working.dir}" />
+
     <!-- Create the zip file -->
     <zip zipfile="${project.package.dir}/${zipped.src.file.name}" ziplevel="9">
       <fileset basedir="${package.working.dir}">

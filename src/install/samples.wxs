@@ -9,22 +9,29 @@
 	  <ComponentRef Id="C__SampleShortcuts" />
 
 	  <!-- C# Samples -->
+          <ComponentRef Id="C__CSharp_Samples" />
 	  <ComponentRef Id="C__CSharp_Failures" />
 	  <ComponentRef Id="C__CSharp_Money" />
 	  <ComponentRef Id="C__CSharp_Money_Port" />
 		
       <!-- J# Sample -->
+          <ComponentRef Id="C__JSharp_Samples" />
 	  <ComponentRef Id="C__JSharp_Failures" />
 
-      <!-- C++ Samples -->
+      <!-- Managed C++ Samples -->
+	  <ComponentRef Id="C__CPP_Managed_Samples" />
 	  <ComponentRef Id="C__CPP_Managed_Failures" />
+
+      <!-- C++/CLI Samples -->
+	  <ComponentRef Id="C__CPP_CLI_Samples" />
 	  <ComponentRef Id="C__CPP_CLI_Failures" />
 
       <!-- VB Sample -->
+	  <ComponentRef Id="C__VB_Samples" />
 	  <ComponentRef Id="C__VB_Failures" />
 	  <ComponentRef Id="C__VB_Money" />
 			
-	  <!-- Extensibility Samples -->
+      <!-- Core Extensibility Samples -->
           <ComponentRef Id="C__CoreExtensibility" />
 	  <ComponentRef Id="C__MinimalAddin" />
 	  <ComponentRef Id="C__SampleSuiteExtension" />
@@ -50,12 +57,15 @@
 		</Component>
 	</DirectoryRef>
 
-	<!-- C# Samples -->	
+    <!-- C# Samples -->	
     <DirectoryRef Id="csharp" FileSource="samples\csharp">
+
+        <Component Id="C__CSharp_Samples" DiskId="1" Guid="16E59CB4-B8E0-46ac-9FE0-D08581D349EA">
+          <File Id="CSharp.sln" Name="CSharp.sln" />
+        </Component>
 	
-		<Directory Id="csharp_failures" Name="failures">
+        <Directory Id="csharp_failures" Name="failures">
             <Component Id="C__CSharp_Failures" DiskId="1" Guid="5613D9D2-7F4B-4d49-A0C3-AEF43CF08C5B">
-              <File Id="CS_Failures.sln" Name="CS-FAIL.SLN" LongName="cs-failures.sln" />
               <File Id="CS_Failures.csproj" Name="CS-FAIL.CSP" LongName="cs-failures.csproj" />
               <File Id="CS_Failures.build" Name="CS-FAIL.BLD" LongName="cs-failures.build" />
               <File Id="CSharpTest.cs" Name="CS-FAIL.CS" LongName="CSharpTest.cs" />
@@ -69,7 +79,6 @@
               <File Id="CS_MoneyTest.cs" Name="MONEYTST.CS" LongName="MoneyTest.cs" />
               <File Id="CS_MoneyBag.cs" Name="MoneyBag.cs" />
               <File Id="CS_Money_AssemblyInfo.cs" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
-              <File Id="CS_Money.sln" Name="MONEY.SLN" LongName="cs-money.sln" />
               <File Id="CS_Money.csproj" Name="MONEY.CSP" LongName="cs-money.csproj" />
               <File Id="CS_Money.build" Name="MONEY.BLD" LongName="cs-money.build" />
               <File Id="CS_IMoney.cs" Name="IMoney.cs" />
@@ -84,7 +93,6 @@
               <File Id="CS_Money_Port.dll.config" Name="MONEY-_1.CON" LongName="cs-money-port.dll.config" />
               <File Id="CS_Money_Port_IMoney.cs" Name="IMoney.cs" />
               <File Id="CS_Money_Port_MoneyTest.cs" Name="MONEYTST.CS" LongName="MoneyTest.cs" />
-              <File Id="CS_Money_Port.sln" Name="MONYPORT.SLN" LongName="cs-money-port.sln" />
               <File Id="CS_Money_Port.csproj" Name="MONYPORT.CSP" LongName="cs-money-port.csproj" />
               <File Id="CS_Money_Port.build" Name="MONYPORT.BLD" LongName="cs-money-port.build" />
             </Component>
@@ -93,69 +101,88 @@
     </DirectoryRef>
 		
     <!-- J# Sample -->
-	<DirectoryRef Id="jsharp" FileSource="samples\jsharp" >
-	    <Directory Id="jsharp_failures" Name="failures">
+    <DirectoryRef Id="jsharp" FileSource="samples\jsharp" >
+
+        <Component Id="C__JSharp_Samples" DiskId="1" Guid="14ECAA49-AFA8-4198-A093-B1A893445CF2">
+            <File Id="jsharp.sln" Name="jsharp.sln" />
+        </Component>
+
+        <Directory Id="jsharp_failures" Name="failures">
           <Component Id="C__JSharp_Failures" DiskId="1" Guid="500ED4A5-E644-473d-904E-CD43D423531B">
-            <File Id="JS_Failures.sln" Name="JS-FAIL.SLN" LongName="jsharp-failures.sln" />
             <File Id="JS_Failures.vjsproj" Name="JS-FAIL.VJS" LongName="jsharp-failures.vjsproj" />
             <File Id="JS_Failures.build" Name="JS-FAIL.BLD" LongName="jsharp-failures.build" />
             <File Id="JS_JSharpTest.jsl" Name="JS-FAIL.JSL" LongName="JSharpTest.jsl" />
             <File Id="JS_Failures_AssemblyInfo.jsl" Name="ASSEMB_1.JSL" LongName="AssemblyInfo.jsl" />
           </Component>
-		</Directory>
+        </Directory>
+
     </DirectoryRef>
 		
     <!-- C++ Samples -->
-	<DirectoryRef Id="cpp" FileSource="samples\cpp" >
-	
-	  <Directory Id="cpp_managed" Name="managed">
-	    <Directory Id="cpp_managed_failures" Name="failures">
+    <DirectoryRef Id="cpp" FileSource="samples\cpp" >
+
+    <!-- Managed C++ -->
+    <Directory Id="cpp_managed" Name="managed">
+
+        <Component Id="C__CPP_Managed_Samples" DiskId="1" Guid ="FBD98E2B-FBF4-487a-850F-E133CA863706">
+            <File Id="managed_cpp.sln" Name="MNGDCPP.SLN" LongName="managed-cpp.sln" />
+        </Component>
+
+        <Directory Id="cpp_managed_failures" Name="failures">
           <Component Id="C__CPP_Managed_Failures" DiskId="1" Guid="A32EB24D-F996-4fc6-9614-D6CD17D0EAC6">
             <File Id="F__samples_file45" Name="Stdafx.cpp" />
             <File Id="F__samples_file46" Name="CPP-FAIL.H" LongName="cppsample.h" />
             <File Id="F__samples_file47" Name="CPP-FAIL.CPP" LongName="cppsample.cpp" />
-            <File Id="CPP_Failures.sln" Name="CPP-FAIL.SLN" LongName="cpp-managed-failures.sln" />
             <File Id="CPP_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-managed-failures.vcproj" />
             <File Id="CPP_Failures.build" Name="CPP-FAIL.BLD" LongName="cpp-managed-failures.build" />
             <File Id="F__samples_file50" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
             <File Id="F__samples_file52" Name="Stdafx.h" />
           </Component>
-	    </Directory>
-	  </Directory>
-	  
-	  <Directory Id="cpp_cli" Name="cpp-cli">
-	    <Directory Id="cpp_cli_failures" Name="failures">
+        </Directory>
+
+    </Directory>
+
+    <!-- C++/CLI -->  
+    <Directory Id="cpp_cli" Name="cpp-cli">
+
+        <Component Id="C__CPP_CLI_Samples" DiskId="1" Guid="AF5FDFF2-594C-45cd-9913-3EC14D243A1A">
+            <File Id="CPP_CLI.sln" Name="cpp-cli.sln" />
+        </Component>
+
+        <Directory Id="cpp_cli_failures" Name="failures">
           <Component Id="C__CPP_CLI_Failures" DiskId="1" Guid="30A34CDA-7A71-48dd-8DC9-6D18EAECB49C">
             <File Id="CPP_CLI_Failures_Stdafx.cpp" Name="Stdafx.cpp" />
             <File Id="CPP_CLI_Failures.h" Name="CPP-FAIL.H" LongName="cppsample.h" />
             <File Id="CPP_CLI_Failures.cpp" Name="CPP-FAIL.CPP" LongName="cppsample.cpp" />
-            <File Id="CPP_CLI_Failures.sln" Name="CPP-FAIL.SLN" LongName="cpp-cli-failures.sln" />
             <File Id="CPP_CLI_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-cli-failures.vcproj" />
             <File Id="CPP_CLI_Failures.build" Name="CPP-FAIL.BLD" LongName="cpp-cli-failures.build" />
             <File Id="CPP_CLI_Failures_AssemblyInfo" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
             <File Id="CPP_CLI_Failures_Stdafx.h" Name="Stdafx.h" />
           </Component>
-	    </Directory>
-	  </Directory>
+        </Directory>
+
+    </Directory>
 	  
     </DirectoryRef>
 		
-    <!-- VB Sample -->
-	<DirectoryRef Id="vb" FileSource="samples\vb" >
+    <!-- VB Samples -->
+    <DirectoryRef Id="vb" FileSource="samples\vb" >
+
+        <Component Id="C__VB_Samples" DiskId="1" Guid="D89C7A16-556C-4ff8-8FF3-E00DB2C4A45E">
+            <File Id="vb_samples.sln" Name="VB-SAMP.SLN" LongName="vb-samples.sln" />
+        </Component>
 	
-	  <Directory Id="vb_failures" Name="failures">
-        <Component Id="C__VB_Failures" DiskId="1" Guid="05434C61-C0AC-47cb-8189-B1232CA3B5FB">
-		    <File Id="vb_failures.sln" Name="VB-FAIL.SLN" LongName="vb-failures.sln" />
+        <Directory Id="vb_failures" Name="failures">
+          <Component Id="C__VB_Failures" DiskId="1" Guid="05434C61-C0AC-47cb-8189-B1232CA3B5FB">
             <File Id="vb_failures.vbproj" Name="VB-FAIL.VBP" LongName="vb-failures.vbproj" />
             <File Id="vb_failures.build" Name="VB-FAIL.BLD" LongName="vb-failures.build" />
             <File Id="vb_failures.vb" Name="VB-FAIL.VB" LongName="SimpleVBTest.vb" />
             <File Id="vb_failures_assemblyinfo.vb" Name="ASSEMB_1.VB" LongName="AssemblyInfo.vb" />
-        </Component>
-	  </Directory>
+          </Component>
+        </Directory>
 	  
         <Directory Id="vb_money" Name="money">
             <Component Id="C__VB_Money" DiskId="1" Guid="AB0D542C-670D-473c-9034-1D277466E60A">
-			  <File Id="vb_money.sln" Name="vb-money.sln" />
               <File Id="Money.vbproj" Name="MONEY.VBP" LongName="vb-money.vbproj" />
               <File Id="VB_Money.build" Name="MONEY.VBP" LongName="vb-money.build" />
               <File Id="Money.vb" Name="Money.vb" />
@@ -169,43 +196,46 @@
     </DirectoryRef>
 	
     <!-- Extensibility Samples -->
-	<DirectoryRef Id="extensibility" FileSource="samples\Extensibility" >
+    <DirectoryRef Id="extensibility" FileSource="samples\Extensibility" >
+
         <Directory Id="core_extensibility" Name="Core">
-	      <Component Id="C__CoreExtensibility" DiskId="1" Guid="523B3117-5694-4dc2-9D8E-32CD1B843793">
-		  	<File Id="Minimal_Install.bat" Name="Install.bat" />
-	      </Component>
-	      <Directory Id="Minimal" Name="Minimal">
-	        <Component Id="C__MinimalAddin" DiskId="1" Guid="7C9C8B34-5318-450b-8DCC-6D256C1259A1">
-		      <File Id="Minimal.sln" Name="Minimal.sln" />
-			  <File Id="Minimal.csproj" Name="MINIMAL.CSP" LongName="Minimal.csproj" />
-			  <File Id="Minimal.build" Name="MINIMAL.BLD" LongName="Minimal.build" />
-			  <File Id="Minimal.cs" Name="Minimal.cs" />
-	      	</Component>
-	      </Directory>
-          <Directory Id="samplesuiteextension" Name="SAMPLE_1" LongName="SampleSuiteExtension">
-            <Component Id="C__SampleSuiteExtension" DiskId="1" Guid="2EDC393E-B725-406f-A9BC-824E3B72EE84">
-			  <File Id="SSX_Addin.cs" Name="Addin.cs" />
+
+            <Component Id="C__CoreExtensibility" DiskId="1" Guid="523B3117-5694-4dc2-9D8E-32CD1B843793">
+	        <File Id="Install.bat" Name="Install.bat" />
+                <File Id="CoreExtensibility.sln" Name="COREXTNS.SLN" LongName="CoreExtensibility.sln" />
+	    </Component>
+
+        <Directory Id="Minimal" Name="Minimal">
+          <Component Id="C__MinimalAddin" DiskId="1" Guid="7C9C8B34-5318-450b-8DCC-6D256C1259A1">
+            <File Id="Minimal.csproj" Name="MINIMAL.CSP" LongName="Minimal.csproj" />
+            <File Id="Minimal.build" Name="MINIMAL.BLD" LongName="Minimal.build" />
+            <File Id="Minimal.cs" Name="Minimal.cs" />
+          </Component>
+        </Directory>
+
+        <Directory Id="samplesuiteextension" Name="SAMPLE_1" LongName="SampleSuiteExtension">
+          <Component Id="C__SampleSuiteExtension" DiskId="1" Guid="2EDC393E-B725-406f-A9BC-824E3B72EE84">
+            <File Id="SSX_Addin.cs" Name="Addin.cs" />
               <File Id="SampleSuiteExtensionBuilder.cs" Name="SSX.CS" LongName="SampleSuiteExtensionBuilder.cs" />
-              <File Id="SampleSuiteExtension.sln" Name="SSX.SLN" LongName="SampleSuiteExtension.sln" />
               <File Id="SampleSuiteExtension.csproj" Name="SSX.CSP" LongName="SampleSuiteExtension.csproj" />
               <File Id="SampleSuiteExtension.build" Name="SSX.BLD" LongName="SampleSuiteExtension.build" />
               <File Id="SampleSuiteExtensionAttribute.cs" Name="SSX_ATTR.CS" LongName="SampleSuiteExtensionAttribute.cs" />
               <File Id="SSX_AssemblyInfo.cs" Name="ASSEMBLY.CS" LongName="AssemblyInfo.cs" />
               <File Id="SampleSuiteExtension.cs" Name="SSX.CS" LongName="SampleSuiteExtension.cs" />
-            </Component>
-            <Directory Id="samplesuiteextention_tests" Name="Tests">
+          </Component>
+          <Directory Id="samplesuiteextention_tests" Name="Tests">
               <Component Id="C__SampleSuiteExtension_Tests" DiskId="1" Guid="0E72B102-06A7-448d-938E-3EDD83BA496C">
                 <File Id="SampleSuiteExtensionTests.csproj" Name="SSXTESTS.CSP" LongName="SampleSuiteExtensionTests.csproj" />
                 <File Id="SampleSuiteExtensionTests.cs" Name="SSXTESTS.CS" LongName="SampleSuiteExtensionTests.cs" />
               </Component>
             </Directory>
           </Directory>
+
           <Directory Id="samplefixtureextension" Name="SAMPLE_2" LongName="SampleFixtureExtension">
             <Component Id="C__SampleFixtureExtension" DiskId="1" Guid="4C209669-C278-4fc7-8D61-3E36E263AADF">
               <File Id="SampleFixtureExtensionBuilder.cs" Name="SFXBLDR.CS" LongName="SampleFixtureExtensionBuilder.cs" />
               <File Id="SampleFixtureExtension.cs" Name="SFX.CS" LongName="SampleFixtureExtension.cs" />
               <File Id="SampleFixtureExtensionAttribute.cs" Name="SFXATTR.CS" LongName="SampleFixtureExtensionAttribute.cs" />
-              <File Id="SampleFixtureExtension.sln" Name="SFX.SLN" LongName="SampleFixtureExtension.sln" />
               <File Id="SampleFixtureExtension.csproj" Name="SFX.CSP" LongName="SampleFixtureExtension.csproj" />
               <File Id="SampleFixtureExtension.build" Name="SFX.BLD" LongName="SampleFixtureExtension.build" />
 			  <File Id="SFX_AssemblyInfo.cs" Name="ASSEMBLY.CS" LongName="AssemblyInfo.cs" />
@@ -226,7 +256,6 @@
 			  <File Id="MaxTimeTestCase.cs" Name="MTTC.CS" LongName="MaxTimeTestCase.cs" />
 			  <File Id="MaxTimeDecorator.csproj" Name="MTD.CSP" LongName="MaxTimeDecorator.csproj" />
 			  <File Id="MaxTimeDecorator.build" Name="MTD.BLD" LongName="MaxTimeDecorator.build" />
-			  <File Id="MaxTimeDecorator.sln" Name="MTD.SLN" LongName="MaxTimeDecorator.sln" />
 			</Component>
 			<Directory Id="MTD_Tests" Name="Tests">
 			  <Component Id="C__MaxTimeDecoratorTests" DiskId="1" Guid="D50F4831-CC6C-4624-A419-307637F0BE9A">
