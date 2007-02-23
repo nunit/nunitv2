@@ -386,7 +386,7 @@ namespace NUnit.Core
 				catch(TargetInvocationException e)
 				{
 					Exception inner = e.InnerException;
-					throw new NunitException("Rethrown",inner);
+					throw new NUnitException("Rethrown",inner);
 				}
 			}
 		}

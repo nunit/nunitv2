@@ -160,7 +160,7 @@ namespace NUnit.Core
 			}
 			catch (Exception ex)
 			{
-				if (ex is NunitException)
+				if (ex is NUnitException)
 					ex = ex.InnerException;
 
 				RecordException(ex, testResult);
@@ -186,7 +186,7 @@ namespace NUnit.Core
 			}
 			catch(Exception ex)
 			{
-				if ( ex is NunitException )
+				if ( ex is NUnitException )
 					ex = ex.InnerException;
 
 				RecordException( ex, testResult );
@@ -213,7 +213,7 @@ namespace NUnit.Core
 			}
 			catch(Exception ex)
 			{
-				if ( ex is NunitException )
+				if ( ex is NUnitException )
 					ex = ex.InnerException;
 				// TODO: What about ignore exceptions in teardown?
 				testResult.Error( ex,FailureSite.TearDown );
@@ -229,7 +229,7 @@ namespace NUnit.Core
 			}
 			catch( Exception ex )
 			{
-				if ( ex is NunitException )
+				if ( ex is NUnitException )
 					ex = ex.InnerException;
 
 				if ( IsIgnoreException( ex ) )

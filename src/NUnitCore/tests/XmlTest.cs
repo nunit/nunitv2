@@ -63,7 +63,7 @@ namespace NUnit.Core.Tests
 				}
 				catch (Exception e)
 				{
-					throw new NunitException(e.Message, e);
+					throw new NUnitException(e.Message, e);
 				}
 				finally
 				{

@@ -357,10 +357,10 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
-		[ExpectedException(typeof(NunitException))]
-		public void ThrowNunitException()
+		[ExpectedException(typeof(NUnitException))]
+		public void ThrowNUnitException()
 		{
-			throw new NunitException("Nunit exception");
+			throw new NUnitException("Nunit exception");
 		}
 
 		[Test]

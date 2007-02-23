@@ -190,7 +190,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "NunitException.cs"
+                    RelPath = "NUnitException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

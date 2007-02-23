@@ -204,8 +204,7 @@ namespace NUnit.Core
                 }
                 catch (Exception ex)
                 {
-                    //NunitException nex = ex as NunitException;
-                    if (ex is NunitException || ex is System.Reflection.TargetInvocationException)
+                    if (ex is NUnitException || ex is System.Reflection.TargetInvocationException)
                         ex = ex.InnerException;
 
                     if (IsIgnoreException(ex))
@@ -245,7 +244,7 @@ namespace NUnit.Core
                     // Error in TestFixtureTearDown causes the
                     // suite to be marked as a failure, even if
                     // all the contained tests passed.
-                    NunitException nex = ex as NunitException;
+                    NUnitException nex = ex as NUnitException;
                     if (nex != null)
                         ex = nex.InnerException;
 

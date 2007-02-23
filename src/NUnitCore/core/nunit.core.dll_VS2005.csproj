@@ -105,7 +105,7 @@
     <Compile Include="NullListener.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NunitException.cs">
+    <Compile Include="NUnitException.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NUnitFramework.cs" />

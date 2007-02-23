@@ -15,9 +15,9 @@ namespace NUnit.Core
 	/// </summary>
 	/// 
 	[Serializable]
-	public class NunitException : ApplicationException 
+	public class NUnitException : ApplicationException 
 	{
-		public NunitException () : base() 
+		public NUnitException () : base() 
 		{} 
 
 		/// <summary>
@@ -25,7 +25,7 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="message">The error message that explains 
 		/// the reason for the exception</param>
-		public NunitException(string message) : base (message)
+		public NUnitException(string message) : base (message)
 		{}
 
 		/// <summary>
@@ -35,14 +35,14 @@ namespace NUnit.Core
 		/// the reason for the exception</param>
 		/// <param name="inner">The exception that caused the 
 		/// current exception</param>
-		public NunitException(string message, Exception inner) :
+		public NUnitException(string message, Exception inner) :
 			base(message, inner) 
 		{}
 
 		/// <summary>
 		/// Serialization Constructor
 		/// </summary>
-		protected NunitException(SerializationInfo info, 
+		protected NUnitException(SerializationInfo info, 
 			StreamingContext context) : base(info,context){}
 
 
