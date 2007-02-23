@@ -34,18 +34,6 @@ namespace NUnit.UiKit
 		{
 			// This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
-
-//			if ( !this.DesignMode )
-//			{
-//				settings = Services.UserSettings;
-//
-//				int splitPosition = settings.GetSetting( "Gui.ResultTabs.ErrorsTabSplitterPosition", tabSplitter.SplitPosition );
-//				if ( splitPosition >= tabSplitter.MinSize && splitPosition < this.ClientSize.Height )
-//					this.tabSplitter.SplitPosition = splitPosition;
-//
-//				stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
-//				stackTrace.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
-//			}
 		}
 
 		/// <summary> 
@@ -122,6 +110,7 @@ namespace NUnit.UiKit
 			this.stackTrace.TabIndex = 2;
 			this.stackTrace.Text = "";
 			this.stackTrace.WordWrap = false;
+			this.stackTrace.KeyUp += new System.Windows.Forms.KeyEventHandler(this.stackTrace_KeyUp);
 			// 
 			// detailListContextMenu
 			// 
@@ -331,17 +320,6 @@ namespace NUnit.UiKit
 			settings.SaveSetting( "Gui.ResultTabs.ErrorsTabSplitterPosition", tabSplitter.SplitPosition );
 		}
 
-		//		private void enableWordWrapCheckBox_CheckedChanged(object sender, System.EventArgs e)
-		//		{
-		//			this.detailList.BeginUpdate();
-		//			ArrayList copiedItems = new ArrayList( detailList.Items );
-		//			this.detailList.Items.Clear();
-		//			foreach( object item in copiedItems )
-		//				this.detailList.Items.Add( item );
-		//			this.detailList.EndUpdate();
-		//			this.stackTrace.WordWrap = this.enableWordWrapCheckBox.Checked;
-		//		}
-
 		#endregion
 
 		#region TestObserver Interface
@@ -371,30 +349,6 @@ namespace NUnit.UiKit
 		
 		private void OnTestException(object sender, TestEventArgs args)
 		{
-			// TODO: Create an item without creating a result first
-//			TestCaseResult result = new TestCaseResult( args.Name );
-// 
-//			// Don't throw inside an exception handler!
-//			try
-//			{
-//				// TODO: The unhandled exception message should be created at a lower level
-//				result.Error( new ApplicationException( 
-//					"An unhandled Exception was thrown during execution of this test", 
-//					args.Exception ), FailureSite.Unknown );
-//			}
-//			catch( Exception ex )
-//			{
-//				result.Error(new ApplicationException(
-//					"An unhandled " + args.Exception.GetType().FullName +
-//					"was thrown during execution of this test" + Environment.NewLine +
-//					"The exception handler threw " + ex.GetType().FullName ),
-//					FailureSite.Unknown );
-//			}
-//
-//			// We pass this result into the ResultTabs rather than letting it handle
-//			// the event, since we wouldn't otherwise have access to the current test name.
-//			InsertTestResultItem(result);
-
 			string msg = string.Format( "An unhandled {0} was thrown while executing this test : {1}",
 				args.Exception.GetType().FullName, args.Exception.Message );
 			TestResultItem item = new TestResultItem( args.Name, msg, args.Exception.StackTrace );
