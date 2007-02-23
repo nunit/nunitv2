@@ -98,7 +98,6 @@ namespace NUnit.Util
 
 			// HACK: Only pass down our AddinRegistry one level so that tests of NUnit
 			// itself start without any addins defined.
-			AppDomain thisDomain = AppDomain.CurrentDomain;
 			if ( !IsTestDomain( AppDomain.CurrentDomain ) )
 				runnerDomain.SetData("AddinRegistry", Services.AddinRegistry);
 

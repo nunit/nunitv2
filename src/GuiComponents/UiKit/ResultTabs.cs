@@ -293,7 +293,6 @@ namespace NUnit.UiKit
 		private void UpdateTabPages()
 		{
 			tabControl.TabPages.Clear();
-			string selectedTab = settings.GetSetting( "Gui.ResultTabs.SelectedTab", "" );
 
 			if ( errorsTabMenuItem.Checked )
 				tabControl.TabPages.Add( errorTab );
