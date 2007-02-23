@@ -16,7 +16,8 @@
 			IntermediateDirectory="Debug"
 			ConfigurationType="2"
 			CharacterSet="2"
-			ManagedExtensions="TRUE">
+			ManagedExtensions="TRUE"
+			ReferencesPath="&quot;C:\Program Files\NUnit 2.4\bin&quot;;$(NOINHERIT)">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
