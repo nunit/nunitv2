@@ -45,7 +45,6 @@
   <target name="package">
     <copy todir="${package.samples.dir}/Extensibility/Core/MaxTimeDecorator">
       <fileset basedir=".">
-        <include name="MaxTimeDecorator.sln" />
         <include name="MaxTimeDecorator.csproj" />
         <include name="MaxTimeDecorator.build" />
         <include name="AssemblyInfo.cs" />

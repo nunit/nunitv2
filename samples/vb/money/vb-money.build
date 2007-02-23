@@ -34,7 +34,6 @@
   <target name="package">
     <copy todir="${package.samples.dir}/vb/money">
       <fileset basedir=".">
-        <include name="vb-money.sln" />
         <include name="vb-money.vbproj" />
         <include name="vb-money.build" />
         <include name="AssemblyInfo.vb" />

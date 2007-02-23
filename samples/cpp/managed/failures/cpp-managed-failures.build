@@ -35,7 +35,6 @@
   <target name="package">
     <copy todir="${package.samples.dir}/cpp/managed/failures">
       <fileset basedir=".">
-        <include name="cpp-managed-failures.sln" />
         <include name="cpp-managed-failures.vcproj" />
         <include name="cpp-managed-failures.build" />
         <include name="AssemblyInfo.cpp" />

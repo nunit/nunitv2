@@ -29,7 +29,6 @@
 
     <copy todir="${package.samples.dir}/csharp/money">
       <fileset basedir=".">
-        <include name="cs-money.sln" />
         <include name="cs-money.csproj" />
         <include name="cs-money.build" />
         <include name="AssemblyInfo.cs" />

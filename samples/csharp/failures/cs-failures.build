@@ -28,7 +28,6 @@
   <target name="package">
     <copy todir="${package.samples.dir}/csharp/failures" includeemptydirs="false">
       <fileset basedir=".">
-        <include name="cs-failures.sln" />
         <include name="cs-failures.csproj" />
         <include name="cs-failures.build" />
         <include name="AssemblyInfo.cs" />

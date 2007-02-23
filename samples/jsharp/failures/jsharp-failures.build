@@ -30,7 +30,6 @@
   <target name="package">
     <copy todir="${package.samples.dir}/jsharp/failures">
       <fileset basedir=".">
-        <include name="jsharp-failures.sln" />
         <include name="jsharp-failures.vjsproj" />
         <include name="jsharp-failures.build" />
         <include name="AssemblyInfo.jsl" />

@@ -45,7 +45,6 @@
   <target name="package">
     <copy todir="${package.samples.dir}/Extensibility/Core/SampleFixtureExtension">
       <fileset basedir=".">
-        <include name="SampleFixtureExtension.sln" />
         <include name="SampleFixtureExtension.csproj" />
         <include name="SampleFixtureExtension.build" />
         <include name="AssemblyInfo.cs" />

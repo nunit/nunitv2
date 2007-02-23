@@ -32,7 +32,6 @@
   <target name="package">
     <copy todir="${package.samples.dir}/csharp/money-port">
       <fileset basedir=".">
-        <include name="cs-money-port.sln" />
         <include name="cs-money-port.csproj" />
         <include name="cs-money-port.build" />
         <include name="cs-money-port.dll.config" />

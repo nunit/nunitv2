@@ -45,7 +45,6 @@
   <target name="package">
     <copy todir="${package.samples.dir}/Extensibility/Core/SampleSuiteExtension">
       <fileset>
-        <include name="SampleSuiteExtension.sln" />
         <include name="SampleSuiteExtension.csproj" />
         <include name="SampleSuiteExtension.build" />
         <include name="Addin.cs" />

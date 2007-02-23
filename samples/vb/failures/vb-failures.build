@@ -34,7 +34,6 @@
   <target name="package">
     <copy todir="${package.samples.dir}/vb/failures">
       <fileset basedir=".">
-        <include name="vb-failures.sln" />
         <include name="vb-failures.vbproj" />
         <include name="vb-failures.build" />
         <include name="AssemblyInfo.vb" />
