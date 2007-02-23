@@ -1,10 +1,16 @@
+// ****************************************************************
+// Copyright 2007, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org/?p=license&r=2.4
+// ****************************************************************
+
 using System;
 using System.Reflection;
 
 namespace NUnit.Core.Extensions
 {
 	/// <summary>
-	/// Summary description for MaxTimeTestCase.
+	/// Summary description for MaxTimeTestCase.D:\Dev\NUnit\nunit-2.4\samples\Extensibility\Core\SampleFixtureExtension\Tests\SampleFixtureExtensionTests.cs
 	/// </summary>
 	public class MaxTimeTestCase : TestCase
 	{
