@@ -12,6 +12,10 @@ using System.Reflection;
 
 namespace NUnit.Framework.Constraints
 {
+    /// <summary>
+    /// EqualConstraint is able to compare an actual value with the
+    /// expected value provided in its constructor.
+    /// </summary>
     public class EqualConstraint : Constraint
     {
         private static IDictionary constraintHelpers = new Hashtable();
@@ -45,14 +49,11 @@ namespace NUnit.Framework.Constraints
 
 		private static readonly int BUFFER_SIZE = 4096;
 		
-		#region Static Method to Add Equality Helpers - Experimental
-        public static void SetConstraintForType(Type argumentType, Type constraintType)
-        {
-            constraintHelpers[argumentType] = constraintType;
-        }
-        #endregion
-
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:EqualConstraint"/> class.
+        /// </summary>
+        /// <param name="expected">The expected value.</param>
         public EqualConstraint(object expected)
         {
             this.expected = expected;
@@ -60,6 +61,11 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Public Methods
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given value
+        /// </summary>
+        /// <param name="actual">The value to be tested</param>
+        /// <returns>True for success, false for failure</returns>
         public override bool Matches(object actual)
         {
             this.actual = actual;
@@ -93,12 +99,6 @@ namespace NUnit.Framework.Constraints
 				writer.WriteExpectedValue(tolerance);
 			}
         }
-
-		public override void WriteActualValueTo(MessageWriter writer)
-		{
-			base.WriteActualValueTo (writer);
-		}
-
 
         private void DisplayDifferences(MessageWriter writer, object expected, object actual, int depth)
         {
@@ -189,17 +189,6 @@ namespace NUnit.Framework.Constraints
             {
                 return string.Compare((string)expected, (string)actual, caseInsensitive) == 0;
             }
-
-//            foreach (Type type in constraintHelpers.Keys)
-//            {
-//                if (type.IsInstanceOfType(expected) && type.IsInstanceOfType(actual))
-//                {
-//                    Type constraintType = (Type)constraintHelpers[type];
-//					ConstructorInfo ctor = constraintType.GetCustomAttribute()
-//                    Constraint constraint = (Constraint)Reflect.Construct(constraintType, expected);
-//                    return constraint.Matches(actual);
-//                }
-//            }
 
             return expected.Equals(actual);
         }

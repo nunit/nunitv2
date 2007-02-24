@@ -93,18 +93,23 @@ namespace NUnit.Framework.Constraints
 			}
 		}
 
-		/// <summary>
-		/// Flag the constraint to use a tolerance when determining equality.
-		/// Currently only used for doubles and floats.
-		/// </summary>
-		/// <param name="tolerance"></param>
-		/// <returns></returns>
-		public Constraint Within(object tolerance)
+        /// <summary>
+        /// Flag the constraint to use a tolerance when determining equality.
+        /// Currently only used for doubles and floats.
+        /// </summary>
+        /// <param name="tolerance">Tolerance to be used</param>
+        /// <returns>Self.</returns>
+        public Constraint Within(object tolerance)
 		{
 			this.tolerance = tolerance;
 			return this;
 		}
 
+        /// <summary>
+        /// Flag the constraint to use the supplied IComparer object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
         public Constraint Comparer(IComparer comparer)
         {
             this.compareWith = comparer;

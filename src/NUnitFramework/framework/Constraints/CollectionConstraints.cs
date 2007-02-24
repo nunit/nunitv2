@@ -37,8 +37,8 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Determine whether one collection is a subset of another
         /// </summary>
-        /// <param name="expected"></param>
-        /// <param name="actual"></param>
+        /// <param name="subset"></param>
+        /// <param name="superset"></param>
         /// <returns></returns>
         protected bool IsSubsetOf(ICollection subset, ICollection superset)
         {
@@ -245,7 +245,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Construct a CollectionSubsetConstraint
         /// </summary>
-        /// <param name="expected"></param>
+        /// <param name="superset">The collection that the actual value is expected to be a subset of</param>
         public CollectionSubsetConstraint(ICollection superset)
         {
             this.expected = superset;

@@ -8,15 +8,28 @@ using System;
 
 namespace NUnit.Framework.Constraints
 {
+    /// <summary>
+    /// SameAsConstraint tests whether an object is identical to
+    /// the object passed to its constructor
+    /// </summary>
     public class SameAsConstraint : Constraint
     {
-        protected object expected;
+        private object expected;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:SameAsConstraint"/> class.
+        /// </summary>
+        /// <param name="expected">The expected object.</param>
         public SameAsConstraint(object expected)
         {
             this.expected = expected;
         }
 
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given value
+        /// </summary>
+        /// <param name="actual">The value to be tested</param>
+        /// <returns>True for success, false for failure</returns>
         public override bool Matches(object actual)
         {
             this.actual = actual;
@@ -24,6 +37,10 @@ namespace NUnit.Framework.Constraints
             return Object.ReferenceEquals(expected,actual);
         }
 
+        /// <summary>
+        /// Write the constraint description to a MessageWriter
+        /// </summary>
+        /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.WritePredicate("same as");

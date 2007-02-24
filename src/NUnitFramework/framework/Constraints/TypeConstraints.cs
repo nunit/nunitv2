@@ -27,7 +27,13 @@ namespace NUnit.Framework.Constraints
         {
             this.expectedType = type;
         }
-    
+
+        /// <summary>
+        /// Write the actual value for a failing constraint test to a
+        /// MessageWriter. TypeCOnstraints override this method to write
+        /// the name of the type.
+        /// </summary>
+        /// <param name="writer">The writer on which the actual value is displayed</param>
 		public override void WriteActualValueTo(MessageWriter writer)
 		{
 			writer.WriteActualValue( actual == null ? null : actual.GetType() ); 
