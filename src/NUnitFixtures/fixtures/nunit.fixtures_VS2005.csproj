@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release2005|AnyCPU' ">
     <OutputPath>bin\Release2005\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -102,7 +102,7 @@
   <ItemGroup>
     <Reference Include="fit">
       <Name>fit</Name>
-      <HintPath>..\fit.dll</HintPath>
+      <HintPath>..\..\..\tools\fit\fit.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
