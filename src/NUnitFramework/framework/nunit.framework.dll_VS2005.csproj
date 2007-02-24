@@ -126,7 +126,6 @@
     <Compile Include="SetUpFixtureAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="StreamAsserter.cs" />
     <Compile Include="StringAssert.cs" />
     <Compile Include="SuiteAttribute.cs">
       <SubType>Code</SubType>
