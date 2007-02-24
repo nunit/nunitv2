@@ -51,7 +51,6 @@ namespace NUnit.Framework
         /// WriteMessageTo and provides the generic two-line display. 
         /// </summary>
         /// <param name="constraint">The constraint that failed</param>
-        /// <param name="actual">The actual value causing the failure</param>
         public abstract void DisplayDifferences(IConstraint constraint);
 
 		/// <summary>
@@ -118,7 +117,9 @@ namespace NUnit.Framework
 		/// Writes the text for a collection value,
 		/// starting at a particular point, to a max length
 		/// </summary>
-		/// <param name="expected">The expected value.</param>
-		public abstract void WriteCollectionElements(ICollection expected, int start, int max);
+		/// <param name="collection">The collection containing elements to write.</param>
+        /// <param name="start">The starting point of the elements to write</param>
+        /// <param name="max">The maximum number of elements to write</param>
+		public abstract void WriteCollectionElements(ICollection collection, int start, int max);
 	}
 }
