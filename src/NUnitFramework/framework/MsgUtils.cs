@@ -52,7 +52,12 @@ namespace NUnit.Framework
 
             return string.Format( "<{0}>", sb.ToString() );
         }
-
+        /// <summary>
+        /// Converts any control characters in a string 
+        /// to their escaped representation.
+        /// </summary>
+        /// <param name="s">The string to be converted</param>
+        /// <returns>The converted string</returns>
         public static string ConvertWhitespace(string s)
         {
 			if( s != null )
@@ -109,6 +114,14 @@ namespace NUnit.Framework
             return result;
         }
 
+        /// <summary>
+        /// Clip a string around a particular point, returning the clipped
+        /// string with ellipses representing the removed parts
+        /// </summary>
+        /// <param name="s">The string to be clipped</param>
+        /// <param name="maxStringLength">The maximum permitted length of the result string</param>
+        /// <param name="mismatch">The point around which clipping is to occur</param>
+        /// <returns>The clipped string</returns>
         public static string ClipString(string s, int maxStringLength, int mismatch)
         {
             int clipLength = maxStringLength - ELLIPSIS.Length;
