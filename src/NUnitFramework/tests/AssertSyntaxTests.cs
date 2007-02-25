@@ -259,9 +259,11 @@ namespace NUnit.Framework.Tests
             // Classic syntax
             CollectionAssert.AllItemsAreNotNull(c);
             CollectionAssert.AllItemsAreInstancesOfType(c, typeof(int));
+            CollectionAssert.AllItemsAreUnique(c);
             // New syntax
             Assert.That(c, Is.All.Not.Null);
             Assert.That(c, Is.All.InstanceOfType(typeof(int)));
+            Assert.That(c, Is.Unique);
             // Only available using new syntax
             Assert.That(c, Is.All.GreaterThan(0));                 
         }
@@ -276,9 +278,11 @@ namespace NUnit.Framework.Tests
             Assert.Contains("b", sarray);
             CollectionAssert.Contains(iarray, 3);
             CollectionAssert.Contains(sarray, "b");
+            CollectionAssert.DoesNotContain(sarray, "x");
             // New syntax
             Assert.That(iarray, Is.CollectionContaining(3));
             Assert.That(sarray, Is.CollectionContaining("b"));
+            Assert.That(sarray, Is.Not.CollectionContaining("x"));
         }
 
         [Test]
