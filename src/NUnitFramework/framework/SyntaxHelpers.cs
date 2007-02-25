@@ -47,12 +47,12 @@ namespace NUnit.Framework
         #region Constraints with an expected value
 
         #region Equality and Identity
-		/// <summary>
-		/// Is.EqualTo returns a constraint that tests whether the
-		/// actual value equals the supplied argument
-		/// </summary>
-		/// <param name="expected"></param>
-		/// <returns></returns>
+        /// <summary>
+        /// Is.EqualTo returns a constraint that tests whether the
+        /// actual value equals the supplied argument
+        /// </summary>
+        /// <param name="expected"></param>
+        /// <returns></returns>
         public static EqualConstraint EqualTo(object expected)
         {
             return new EqualConstraint(expected);
@@ -160,7 +160,7 @@ namespace NUnit.Framework
 		/// Is.StringContaining returns a constraint that tests whether
 		/// the actual value contains the substring supplied as an arument
 		/// </summary>
-		public static StringConstraint StringContaining(string substring)
+		public static Constraint StringContaining(string substring)
         {
             return new SubstringConstraint(substring);
         }
@@ -169,7 +169,7 @@ namespace NUnit.Framework
 		/// Is.StringStarting returns a constraint that tests whether
 		/// the actual value starts with the substring supplied as an arument
 		/// </summary>
-		public static StringConstraint StringStarting(string substring)
+		public static Constraint StringStarting(string substring)
         {
             return new StartsWithConstraint(substring);
         }
@@ -178,7 +178,7 @@ namespace NUnit.Framework
 		/// Is.StringEnding returns a constraint that tests whether
 		/// the actual value ends with the substring supplied as an arument
 		/// </summary>
-		public static StringConstraint StringEnding(string substring)
+		public static Constraint StringEnding(string substring)
         {
             return new EndsWithConstraint(substring);
         }
@@ -189,7 +189,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="pattern"></param>
         /// <returns></returns>
-        public static StringConstraint StringMatching(string pattern)
+        public static Constraint StringMatching(string pattern)
         {
             return new RegexConstraint(pattern);
         }
