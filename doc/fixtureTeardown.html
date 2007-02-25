@@ -24,30 +24,7 @@
 
 <div id="content">
 
-<script language="JavaScript">
-	function Show( id ) {
-		document.getElementById(id).style.display = "";
-	}
-	function Hide( id ) {
-		document.getElementById(id).style.display = "none";
-	}
-    function ShowCS()
-	{
-	    Show('CS1'); Hide('VB1'); Hide('MC1'); Hide('JS1');
-	}
-    function ShowVB()
-	{
-	    Hide('CS1'); Show('VB1'); Hide('MC1'); Hide('JS1');
-	}
-    function ShowMC()
-	{
-	    Hide('CS1'); Hide('VB1'); Show('MC1'); Hide('JS1');
-	}
-    function ShowJS()
-	{
-	    Hide('CS1'); Hide('VB1'); Hide('MC1'); Show('JS1');
-	}
-</script>
+<script language="JavaScript" src="codeFuncs.js" />
 
 <h3>TestFixtureTearDownAttribute (NUnit 2.1)</h3>
 
@@ -56,6 +33,10 @@
 	A TestFixture can have only one TestFixtureTearDown method. If more than 
 	one is defined the TestFixture will compile successfully but its tests will 
 	not run.</p>
+
+<p>So long as any TestFixtureSetUp method runs without error, the TestFixtureTearDown method is 
+   guaranteed to run. It will not run if a TestFixtureSetUp method fails or throws an 
+   exception.</p>
 
 <h4>Example:</h4>
 
@@ -71,7 +52,7 @@
 	</div>
 </div>
 
-<pre id="CS1" style="display:">namespace NUnit.Tests
+<pre class="cs">namespace NUnit.Tests
 {
   using System;
   using NUnit.Framework;
@@ -91,7 +72,7 @@
 }
 </pre>
 
-<pre id="VB1" style="display:none">Imports System
+<pre class="vb">Imports System
 Imports Nunit.Framework
 
 Namespace Nunit.Tests
@@ -112,7 +93,7 @@ Namespace Nunit.Tests
 End Namespace
 </pre>
 
-<pre id="MC1" style="display:none">#using &lt;Nunit.Framework.dll&gt;
+<pre class="mc">#using &lt;Nunit.Framework.dll&gt;
 using namespace System;
 using namespace NUnit::Framework;
 
@@ -135,7 +116,7 @@ namespace NUnitTests {
 }
 </pre>
 
-<pre id="JS1" style="display:none">package NUnit.Tests;
+<pre class="js">package NUnit.Tests;
 
 import System.*;
 import NUnit.Framework.TestFixture;
@@ -160,34 +141,44 @@ public class SuccessTests
 
 </div>
 
+<h4>Inheritance</h4>
+
+<p>The TestFixtureTearDown attribute is inherited from any base class. Therefore, if a base 
+	class has defined a TestFixtureTearDown method, that method will be called 
+	after each test method in the derived class. If you wish to add more 
+	functionality in a derived class you need to mark the method 
+	with the appropriate attribute and then call the base class method.</p>
+
 </div>
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4 Beta 2</a></li>
+<li><a href="index.html">NUnit 2.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="platformSupport.html">Platform&nbsp;Support</a></li>
 <li><a href="installation.html">Installation</a></li>
 <li><a href="features.html">Core&nbsp;Features</a></li>
 <ul>
 <li><a href="assertions.html">Assertions</a></li>
 <li><a href="attributes.html">Attributes</a></li>
 <ul>
-<li><a href="testFixture.html">Test&nbsp;Fixture</a></li>
-<li><a href="test.html">Test</a></li>
-<li><a href="setup.html">Setup</a></li>
-<li><a href="teardown.html">Teardown</a></li>
-<li><a href="fixtureSetup.html">Test&nbsp;Fixture&nbsp;SetUp</a></li>
-<li id="current"><a href="fixtureTeardown.html">Test&nbsp;Fixture&nbsp;TearDown</a></li>
-<li><a href="setupFixture.html">SetUp&nbsp;Fixture</a></li>
+<li><a href="category.html">Category</a></li>
+<li><a href="description.html">Description</a></li>
 <li><a href="exception.html">Expected&nbsp;Exception</a></li>
+<li><a href="explicit.html">Explicit</a></li>
+<li><a href="ignore.html">Ignore</a></li>
 <li><a href="platform.html">Platform</a></li>
 <li><a href="property.html">Property</a></li>
-<li><a href="category.html">Category</a></li>
-<li><a href="explicit.html">Explicit</a></li>
+<li><a href="setup.html">Setup</a></li>
+<li><a href="setupFixture.html">SetUp&nbsp;Fixture</a></li>
 <li><a href="suite.html">Suite</a></li>
-<li><a href="ignore.html">Ignore</a></li>
+<li><a href="teardown.html">Teardown</a></li>
+<li><a href="test.html">Test</a></li>
+<li><a href="testFixture.html">Test&nbsp;Fixture</a></li>
+<li><a href="fixtureSetup.html">Test&nbsp;Fixture&nbsp;SetUp</a></li>
+<li id="current"><a href="fixtureTeardown.html">Test&nbsp;Fixture&nbsp;TearDown</a></li>
 </ul>
 <li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
 <li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>

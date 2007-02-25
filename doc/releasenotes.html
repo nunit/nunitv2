@@ -32,9 +32,181 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
+<h3>NUnit 2.4 Release Candidate (2.4.0) - February 9, 2007</h3>
+
+<h4>General</h4>
+
+<ul>
+<li>Two packages, built under the 1.1 and 2.0 runtimes, are provided
+as before, but they are now mutually exclusive - only one may be installed.
+By downloading the source, you can rebuild NUnit under other runtimes. See
+the <a href="platformSupport.html">Platform Support</a> page for 
+details about the runtimes under which each each package may be run.
+
+<li>If you build NUnit from source, you will notice that the full text
+of the license is no longer included in every file. For easier maintenance, we
+now put a short notice in the source files, which refers to the license.
+
+<li>Fit tests are now provided. The tests supplied are fairly rudimentary,
+but it's a start! The Fit assemblies required to run the tests are included
+with the NUnit distribution. You can get a complete Fit download, including 
+source code, at the <a href="fit.c2.com">Fit website</a>.
+
+<li>Samples are now organized by language and additional samples
+have been provided. C++ samples are provided using both the VS2003 
+managed C++ syntax and the new C++/CLI syntax for VS2005. Solution files
+group samples by language, with an additional solution for extensibility samples.
+
+<li>The nunit.common assembly, added in the Alpha release, has been eliminated.
+</ul>
+
+<h4>Framework</h4>
+
+<ul>
+<li>A new syntax and internal architecture for Asserts is being introduced in 
+this release, based on the notion of <b>constraints</b> found in JMock and NMock.
+  <ul>
+  <li>The <b>Assert.That</b> method is used to make an assertion based on a 
+  constraint
+    <dl style="margin-left: 2em">
+      <dt>Assert.That( actual, constraint, message, args );
+      <dt>Assert.That( actual, constraint, message );
+      <dt>Assert.That( actual, constraint );
+    </dl>
+  <li>The <b>constraint</b> argument may be specified directly using one of the 
+  built-in constraint classes or a user-defined class.
+  <li>It may also be specified using one of the syntax helpers provided as 
+  static methods of the <b>Is</b> class, such as
+    <dl style="margin-left: 2em">
+	  <dt>Is.Null
+	  <dt>Is.Empty
+	  <dt>Is.EqualTo( object )
+	  <dt>Is.CollectionContaining( object )
+	  <dt>Is.SubsetOf( collection )
+	</dl>
+	See the docs for complete information.
+  <li>Internally, all the "classic" Assert methods, like AreEqual, have been
+  re-implemented using the underlying constraint architecture.
+  <li>The old approach to extending Asserts by creating <b>Asserter</b> classes
+  is now deprecated and the classes and interfaces are marked Obsolete.
+  </ul>
+
+<li>A number of changes have been made to the <b>ExpectedException</b> attribute
+<ul>
+<li>Several constructors for <b>ExpectedExceptionAttribute</b> have
+been removed and two are now marked obsolete. All functionality
+continues to be available through the use of named parameters. See
+the  documentation for details.
+
+<li>User-defined <b>ExceptionHandlers</b> are now supported:
+  <ul>
+  <li>A handler takes a <b>System.Exception</b> as an argument and returns void.
+  Normal Assert statements are used to validate the exception.
+  <li>A default handler may be specified for the fixture by implementing
+  the <b>IExpectException</b> interface.
+  <li>Individual test case handlers may be specified by use of the
+  <b>Handler</b> named parameter.
+  <li>The <b>ExpectedException</b> attribute may be used without 
+  an exception type, leaving all validation to the <b>ExceptionHandler</b>.
+  </ul>
+
+<li>A custom error message may be displayed by use of the <b>UserMessage</b>
+named parameter.  
+</ul>
+
+<li>The <b>StringAssert</b> class has a new <b>IsMatch</b> method
+that does regular expression matching.
+
+<li>The setup and teardown methods in a <b>SetUpFixture</b> are now
+marked by the <b>SetUpAttribute</b> and <b>TearDownAttribute</b> rather
+than the corresponding "Fixture" attributes used in earlier betas.
+
+<li>NUnit now recognizes user-defined attributes derived from CategoryAttribute
+and PropertyAttribute. Protected constructors are provided for use by derived classes:
+<dl style="margin-left: 2em">
+	<dt>protected CategoryAttribute()
+	<dd>Creates a category with the same name as the derived class.
+	<dt>protected PropertyAttribute(object attributeValue)
+	<dd>Creates a property with the same name as the derived class.
+</dl><br>
+<b>Note:</b> Other attributes remain sealed, as in prior releases. 
+
+</ul>
+
+<h4>Core</h4>
+
+<ul>
+
+<li>User settings are now stored in an XML file rather than the registry.
+Any existing settings from NUnit 2.2 or from earlier betas are migrated on first use.
+
+<li>Properties assigned to tests are now included in the XML output file.
+
+<li>Internally, many classes which were previously defined as singletons are 
+now treated as services, managed by a ServiceManager.
+
+</ul>
+
+<h4>Console</h4>
+<ul>
+<li>The new <b>/domain</b> option controls of the creation of AppDomains for running tests.
+    The following values are recognized:
+	<dl style="margin-left: 2em">
+	<dt>None
+	<dd>No domain is created - the tests are run in the primary domain. This normally
+	requires copying the <b>NUnit</b> assemblies into the same directory as your tests.
+	<dt>Single
+	<dd>A test domain is created - this is how NUnit worked prior to version 2.4
+	<dt>Multiple
+	<dd>A separate test domain is created for each assembly
+	</dl>
+	The default is to use multiple domains if multiple assemlies are listed on 
+	the command line. Otherwise a single domain is used.<br><br>
+	
+<li>The obsolete <b>/thread</b> option has been replaced by <b>/nothread</b>.
+    Since tests have been run on a separate thread by default for some time,
+	the old option had no effect.<br><br>
+
+	<b>Note:</b> Default use of a separate test thread is intended to isolate 
+	NUnit from changes made to the thread context. Tests that change the context 
+	and don't restore it should not be run using this option.
+</ul>
+
+<h4>Gui</h4>
+
+<ul>
+<li>The GUI command line now supports /include and /exclude options for
+categories. Only one of the two may be used at a time. These options effect
+the initial category selection in the GUI.
+
+<li>The XML test results are now saved automatically in file <b>TestResult.xml</b>
+at the end of each run.
+
+<li>An option is provided to suppress shadow-copying of assemblies.
+
+<li>The Test Properties dialog now displays properties assigned to a test.
+The text fields for categories and properties have been replaced with listboxes.
+
+<li>Trace output from tests is displayed in a tab in the GUI. Optionally,
+trace and stderr output may be redirected to the Console output tab
+
+<li>The position, size and font of the mini-Gui window are now saved separately
+from the full-size window.
+
+<li>Internally, the gui display has been refactored so so that the tab
+display is provided by a separate control.
+
+<li>The Windows install packages set up individual shortcuts for running under
+each of the supported runtimes installed on your system. If additional supported
+runtimes are installed, you can create similar shortcuts yourself or reinstall
+NUnit to have them created automatically.
+
+</ul>
+
 <h3>NUnit 2.4 Beta 2 Release (2.3.6293) - October 20, 2006</h3>
 
 <h4>General</h4>
+
 <ul>
 <li>A new assembly, <b>nunit.core.interfaces</b>, is being introduced in this release.
 This assembly holds interfaces, enumerations and data types that are intended 
@@ -302,6 +474,7 @@ are used:
 <li>The <b>/include</b> and <b>/exclude></b> options may now be combined on 
     the command line. When both are used, all tests with the included categories 
 	are run except for those with the excluded categories.
+	
 </ul>
 
 <h4>Gui</h4>
@@ -396,7 +569,7 @@ are used:
 
 <h3>Earlier Releases</h3>
 
-Cumulative notes through NUnit 2.2 are available <a href="docs/2.2.8/releaseNotes.html">here</a></h3>
+Cumulative notes through NUnit 2.2.9 are available <a href="docs/2.2.9/releaseNotes.html">here</a></h3>
 
 
 </div>
@@ -404,9 +577,10 @@ Cumulative notes through NUnit 2.2 are available <a href="docs/2.2.8/releaseNote
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4 Beta 2</a></li>
+<li><a href="index.html">NUnit 2.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="platformSupport.html">Platform&nbsp;Support</a></li>
 <li><a href="installation.html">Installation</a></li>
 <li><a href="features.html">Core&nbsp;Features</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>

@@ -75,15 +75,15 @@ loading and running NUnitTests.nunit in the bin directory. All tests should pass
 	as data by the verification tests themselves. Failures or not run conditions in 
 	these tests are intentional.</p>
 <h3>Manual Installation</h3>
-<p>Those building NUnit from source code may either build the install project 
-	and run the msi that is created or perform a manual installation by following 
-	these steps:</p>
+<p>If you are building NUnit from source, it is recommended that you use the
+    NAnt script for your final build, since it puts all the required files
+	into one directory, from which you can easily copy them. Perform a manual
+	installation by following these steps:</p>
 <ol>
 	<p><li>Copy the following files to the target directory:
 			<ul>
 				<li>nunit.framework.dll</li>
 				<li>nunit.framework.extensions.dll</li>
-				<li>nunit.common.dll</li>
 				<li>nunit.core.dll</li>
 				<li>nunit.core.interfaces.dll</li>
 				<li>nunit.core.extensions.dll</li>
@@ -136,9 +136,10 @@ loading and running NUnitTests.nunit in the bin directory. All tests should pass
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4 Beta 2</a></li>
+<li><a href="index.html">NUnit 2.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="platformSupport.html">Platform&nbsp;Support</a></li>
 <li id="current"><a href="installation.html">Installation</a></li>
 <ul>
 <li><a href="upgrade.html">Upgrading</a></li>

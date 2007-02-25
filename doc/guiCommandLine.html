@@ -65,6 +65,23 @@
 	namespace are loaded. This option may be used with Visual Studio or NUnit 
 	projects as well.</p>
 
+<h4>Specifying Test Categories to Include or Exclude</h4>
+<p>NUnit provides CategoryAttribute for use in marking tests as belonging to 
+	one or more categories. Categories may be included or excluded in a test run 
+	using the <b>/include</b> or <b>/exclude</b> options. The following command 
+	starts the gui with only the tests in the BaseLine category selected:
+	<pre class="programtext">        nunit myassembly.dll /include:BaseLine</pre>
+</p>
+<p>The following command selects all tests <b>except</b> those in the Database 
+	category:
+	<pre class="programtext">        nunit myassembly.dll /exclude:Database</pre>
+</p>
+<p>
+Multiple categories may be specified on either option, by using commas to 
+separate them.
+<p><b>Note:</b> At this time, the /include and /exclude options may not be
+combined on the command line.</p>
+   
 <h4>Specifying the Version of the CLR</h4>
 
 <p>Most applications are written to run under a specific version of the CLR.
@@ -120,9 +137,10 @@ option:
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4 Beta 2</a></li>
+<li><a href="index.html">NUnit 2.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="platformSupport.html">Platform&nbsp;Support</a></li>
 <li><a href="installation.html">Installation</a></li>
 <li><a href="features.html">Core&nbsp;Features</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
