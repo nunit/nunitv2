@@ -109,7 +109,6 @@ namespace NUnit.Framework
         /// WriteMessageTo and provides the generic two-line display. 
         /// </summary>
         /// <param name="constraint">The constraint that failed</param>
-        /// <param name="actual">The actual value causing the failure</param>
         public override void DisplayDifferences(IConstraint constraint)
         {
             WriteExpectedLine(constraint);
@@ -151,6 +150,7 @@ namespace NUnit.Framework
         /// <param name="expected">The expected string value</param>
         /// <param name="actual">The actual string value</param>
         /// <param name="mismatch">The point at which the strings don't match or -1</param>
+        /// <param name="ignoreCase">If true, case is ignored in string comparisons</param>
         public override void DisplayStringDifferences(string expected, string actual, int mismatch, bool ignoreCase)
         {
             // Maximum string we can display without truncating
@@ -240,6 +240,13 @@ namespace NUnit.Framework
                 Write(Fmt_Default, val);
         }
 
+        /// <summary>
+        /// Writes the text for a collection value,
+        /// starting at a particular point, to a max length
+        /// </summary>
+        /// <param name="collection">The collection containing elements to write.</param>
+        /// <param name="start">The starting point of the elements to write</param>
+        /// <param name="max">The maximum number of elements to write</param>
 		public override void WriteCollectionElements(ICollection collection, int start, int max)
 		{
 			if ( collection.Count == 0 )
@@ -401,7 +408,7 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Write the generic 'Actual' line for a constraint
 		/// </summary>
-		/// <param name="actual">The actual value causing a failure</param>
+		/// <param name="constraint">The constraint for which the actual value is to be written</param>
 		private void WriteActualLine(IConstraint constraint)
 		{
 			Write(Pfx_Actual);
