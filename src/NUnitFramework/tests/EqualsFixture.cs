@@ -316,10 +316,10 @@ namespace NUnit.Framework.Tests
 		{
 			DateTime dt1 = new DateTime( 2005, 6, 1, 7, 0, 0 );
 			DateTime dt2 = new DateTime( 2005, 6, 1, 0, 0, 0 );
-			expectedMessage = 
-				"  Expected: 6/1/2005 7:00:00 AM" + Environment.NewLine +
-				"  But was:  6/1/2005 12:00:00 AM" + Environment.NewLine;
-			Assert.AreEqual( dt1, dt2 );
+			expectedMessage = string.Format(
+				"  Expected: {0}" + Environment.NewLine +
+				"  But was:  {1}" + Environment.NewLine, dt1, dt2);
+			Assert.AreEqual(dt1, dt2);
 		}
 
 		private enum MyEnum
