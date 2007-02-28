@@ -21,12 +21,14 @@ namespace NUnit.Framework.Tests
 			{
 				if (s == null) throw new Exception("Manifest Resource Stream " + _resourceName + " was not found.");
 
-				using (StreamReader sr = new StreamReader(s))
+				byte[] buffer = new byte[1024];
+				using (FileStream fs = File.Create(_fileName))
 				{
-					using (StreamWriter sw = File.CreateText(_fileName))
+					while(true)
 					{
-						sw.Write(sr.ReadToEnd());
-						sw.Flush();
+						int count = s.Read(buffer, 0, buffer.Length);
+						if(count == 0) break;
+						fs.Write(buffer, 0, count);
 					}
 				}
 			}
@@ -157,16 +159,19 @@ namespace NUnit.Framework.Tests
 		[Test,ExpectedException(typeof(AssertionException))]
 		public void AreEqualFailsWithStreams()
 		{
-			using(TestFile tf1 = new TestFile("Test1.jpg","NUnit.Framework.Tests.TestImage1.jpg"))
+			string expectedFile = "Test1.jpg";
+			string actualFile = "Test2.jpg";
+			using(TestFile tf1 = new TestFile(expectedFile,"NUnit.Framework.Tests.TestImage1.jpg"))
 			{
-				using(TestFile tf2 = new TestFile("Test2.jpg","NUnit.Framework.Tests.TestImage2.jpg"))
+				using(TestFile tf2 = new TestFile(actualFile,"NUnit.Framework.Tests.TestImage2.jpg"))
 				{
-					using(FileStream expected = File.OpenRead("Test1.jpg"))
+					using(FileStream expected = File.OpenRead(expectedFile))
 					{
-						using(FileStream actual = File.OpenRead("Test2.jpg"))
+						using(FileStream actual = File.OpenRead(actualFile))
 						{
 							expectedMessage =
-								"  Expected Stream length 3304 but was 3464." + Environment.NewLine;
+								string.Format("  Expected Stream length {0} but was {1}." + Environment.NewLine,
+									new FileInfo(expectedFile).Length, new FileInfo(actualFile).Length);
 							FileAssert.AreEqual( expected, actual);
 						}
 					}
@@ -184,7 +189,8 @@ namespace NUnit.Framework.Tests
 					FileInfo expected = new FileInfo( "Test1.jpg" );
 					FileInfo actual = new FileInfo( "Test2.jpg" );
 					expectedMessage =
-						"  Expected Stream length 3304 but was 3464." + Environment.NewLine;
+						string.Format("  Expected Stream length {0} but was {1}." + Environment.NewLine,
+							expected.Length, actual.Length);
 					FileAssert.AreEqual( expected, actual );
 				}
 			}
@@ -194,13 +200,16 @@ namespace NUnit.Framework.Tests
 		[Test,ExpectedException(typeof(AssertionException))]
 		public void AreEqualFailsWithFiles()
 		{
-			using(TestFile tf1 = new TestFile("Test1.jpg","NUnit.Framework.Tests.TestImage1.jpg"))
+			string expected = "Test1.jpg";
+			string actual = "Test2.jpg";
+			using(TestFile tf1 = new TestFile(expected,"NUnit.Framework.Tests.TestImage1.jpg"))
 			{
-				using(TestFile tf2 = new TestFile("Test2.jpg","NUnit.Framework.Tests.TestImage2.jpg"))
+				using(TestFile tf2 = new TestFile(actual,"NUnit.Framework.Tests.TestImage2.jpg"))
 				{
 					expectedMessage =
-						"  Expected Stream length 3304 but was 3464." + Environment.NewLine;
-					FileAssert.AreEqual( "Test1.jpg", "Test2.jpg" );
+						string.Format("  Expected Stream length {0} but was {1}." + Environment.NewLine,
+							new FileInfo(expected).Length, new FileInfo(actual).Length);
+					FileAssert.AreEqual( expected, actual );
 				}
 			}
 		}
