@@ -108,7 +108,8 @@ namespace NUnit.Core
 		#region Public Methods	
 		public void InstallBuiltins()
 		{
-			Trace.WriteLine( "Installing Builtins" );
+			//Trace.WriteLine( "Installing Builtins" );
+
 			// Define NUnit Framework
 			FrameworkRegistry.Register( "NUnit", "nunit.framework" );
 
@@ -122,7 +123,7 @@ namespace NUnit.Core
 
 		public void InstallAddins()
 		{
-			Trace.WriteLine( "Installing Addins" );
+			//Trace.WriteLine( "Installing Addins" );
 
 			if( AddinRegistry != null )
 			{
