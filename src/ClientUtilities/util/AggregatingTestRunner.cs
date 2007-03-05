@@ -33,6 +33,11 @@ namespace NUnit.Util
 		protected TestNode aggregateTest;
 
 		/// <summary>
+		/// The result of the last run
+		/// </summary>
+		private TestResult testResult;
+
+		/// <summary>
 		/// The event listener for the currently running test
 		/// </summary>
 		protected EventListener listener;
@@ -114,19 +119,7 @@ namespace NUnit.Util
 
 		public virtual TestResult TestResult
 		{
-			get 
-			{ 
-				if ( runners == null )
-					return null;
-				
-				TestSuiteResult suiteResult = new TestSuiteResult( aggregateTest, Test.TestName.FullName );
-
-				foreach( TestRunner runner in runners )
-					if ( runner.TestResult != null )
-						suiteResult.Results.Add( runner.TestResult );
-
-				return suiteResult;
-			}
+			get { return testResult; }
 		}
 		#endregion
 
@@ -182,7 +175,9 @@ namespace NUnit.Util
 
 			this.listener.SuiteFinished( result );
 
-			this.listener.RunFinished( this.TestResult );
+			this.listener.RunFinished( result );
+
+			this.testResult = result;
 
 			return result;
 		}
