@@ -190,6 +190,7 @@
     <Compile Include="SuiteBuilderTests_Multiple.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestAssemblyBuilderTests.cs" />
     <Compile Include="TestCaseResultFixture.cs">
       <SubType>Code</SubType>
     </Compile>
