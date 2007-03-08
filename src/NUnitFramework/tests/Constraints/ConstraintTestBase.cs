@@ -27,7 +27,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             foreach (object value in BadValues)
             {
-                Assert.That(Matcher.Matches(value), Is.False, "Test should fail with value {0}", value);
+                Assert.That(Matcher.Matches(value), new EqualConstraint(false), "Test should fail with value {0}", value);
             }
         }
 
@@ -36,7 +36,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             TextMessageWriter writer = new TextMessageWriter();
             Matcher.WriteDescriptionTo(writer);
-            Assert.That(writer.ToString(), Is.EqualTo(Description), null);
+            Assert.That(writer.ToString(), new EqualConstraint(Description), null);
         }
 
 		[Test]
@@ -48,9 +48,9 @@ namespace NUnit.Framework.Constraints.Tests
 			TextMessageWriter writer = new TextMessageWriter();
             Matcher.Matches(badValue);
             Matcher.WriteMessageTo(writer);
-            Assert.That(writer.ToString(), Is.StringContaining(Description));
-			Assert.That(writer.ToString(), Is.StringContaining(badString));
-            Assert.That(writer.ToString(), Is.Not.StringContaining("<UNSET>"));
+            Assert.That(writer.ToString(), new SubstringConstraint(Description));
+			Assert.That(writer.ToString(), new SubstringConstraint(badString));
+            Assert.That(writer.ToString(), new NotConstraint(new SubstringConstraint("<UNSET>")));
         }
     }
 }

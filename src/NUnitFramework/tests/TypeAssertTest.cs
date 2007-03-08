@@ -1,4 +1,6 @@
 using System;
+//using NUnit.Framework.Syntax;
+
 namespace NUnit.Framework.Tests
 {
 	[TestFixture()]
@@ -7,7 +9,7 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void ExactType()
 		{
-			Assert.That( "Hello", Is.Type( typeof(System.String) ) );
+			Expect( "Hello", TypeOf( typeof(System.String) ) );
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
@@ -16,7 +18,7 @@ namespace NUnit.Framework.Tests
 			expectedMessage =
 				"  Expected: <System.Int32>" + Environment.NewLine +
 				"  But was:  <System.String>" + Environment.NewLine;
-			Assert.That( "Hello", Is.Type( typeof(System.Int32) ) );
+			Expect( "Hello", TypeOf( typeof(System.Int32) ) );
 		}
 
 		[Test]
@@ -31,14 +33,14 @@ namespace NUnit.Framework.Tests
 			expectedMessage =
 				"  Expected: instance of <System.Int32>" + System.Environment.NewLine + 
 				"  But was:  <System.String>" + System.Environment.NewLine;
-			Assert.That( "abc123", Is.InstanceOfType( typeof(System.Int32) ) );
+			Expect( "abc123", InstanceOfType( typeof(System.Int32) ) );
 		}
 
 		[Test]
 		public void IsNotInstanceOfType()
 		{
 			Assert.IsNotInstanceOfType(typeof(System.Int32), "abc123" );
-			Assert.That( "abc123", Is.Not.InstanceOfType(typeof(System.Int32)) );
+			Expect( "abc123", Not.InstanceOfType(typeof(System.Int32)) );
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
@@ -59,7 +61,7 @@ namespace NUnit.Framework.Tests
 			Assert.IsAssignableFrom(array2.GetType(),array10);
 			Assert.IsAssignableFrom(array2.GetType(),array10,"Type Failure Message");
 			Assert.IsAssignableFrom(array2.GetType(),array10,"Type Failure Message",null);
-			Assert.That( array10, Is.AssignableFrom( array2.GetType() ) );
+			Expect( array10, AssignableFrom( array2.GetType() ) );
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
@@ -71,7 +73,7 @@ namespace NUnit.Framework.Tests
 			expectedMessage =
 				"  Expected: Type assignable from <System.Int32[,]>" + System.Environment.NewLine + 
 				"  But was:  <System.Int32[]>" + System.Environment.NewLine;
-			Assert.That( array10, Is.AssignableFrom( array2.GetType() ) );
+			Expect( array10, AssignableFrom( array2.GetType() ) );
 		}
 
 		[Test()]
@@ -83,7 +85,7 @@ namespace NUnit.Framework.Tests
 			Assert.IsNotAssignableFrom(array2.GetType(),array10);
 			Assert.IsNotAssignableFrom(array2.GetType(),array10,"Type Failure Message");
 			Assert.IsNotAssignableFrom(array2.GetType(),array10,"Type Failure Message",null);
-			Assert.That( array10, Is.Not.AssignableFrom( array2.GetType() ) );
+			Expect( array10, Not.AssignableFrom( array2.GetType() ) );
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
@@ -95,7 +97,7 @@ namespace NUnit.Framework.Tests
 			expectedMessage =
 				"  Expected: not Type assignable from <System.Int32[]>" + System.Environment.NewLine + 
 				"  But was:  <System.Int32[]>" + System.Environment.NewLine;
-			Assert.That( array10, Is.Not.AssignableFrom( array2.GetType() ) );
+			Expect( array10, Not.AssignableFrom( array2.GetType() ) );
 		}
 	}
 }

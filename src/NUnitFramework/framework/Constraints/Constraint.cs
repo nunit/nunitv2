@@ -71,7 +71,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
 		/// Flag the constraint to ignore case and return self.
 		/// </summary>
-		public Constraint IgnoreCase
+		public virtual Constraint IgnoreCase
 		{
 			get
 			{

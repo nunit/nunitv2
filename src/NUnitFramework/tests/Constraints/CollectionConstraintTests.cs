@@ -16,7 +16,7 @@ namespace NUnit.Framework.Constraints.Tests
         public void AllItemsAreNotNull()
         {
             object[] c = new object[] { 1, "hello", 3, Environment.OSVersion };
-            Assert.That(c, new AllItemsConstraint(Is.Not.Null));
+            Assert.That(c, new AllItemsConstraint(new NotConstraint( new EqualConstraint(null))));
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
@@ -26,14 +26,14 @@ namespace NUnit.Framework.Constraints.Tests
             expectedMessage = 
 				TextMessageWriter.Pfx_Expected + "all items not null" + Environment.NewLine +
                 TextMessageWriter.Pfx_Actual + "< 1, \"hello\", null, 3 >" + Environment.NewLine;
-            Assert.That(c, new AllItemsConstraint(Is.Not.Null));
+            Assert.That(c, new AllItemsConstraint(new NotConstraint( new EqualConstraint(null))));
         }
 
         [Test]
         public void AllItemsAreInRange()
         {
             int[] c = new int[] { 12, 27, 19, 32, 45, 99, 26 };
-            Assert.That(c, new AllItemsConstraint(Is.GreaterThan(10) & Is.LessThan(100)));
+            Assert.That(c, new AllItemsConstraint(new GreaterThanConstraint(10) & new LessThanConstraint(100)));
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
@@ -43,14 +43,14 @@ namespace NUnit.Framework.Constraints.Tests
             expectedMessage = 
                 TextMessageWriter.Pfx_Expected + "all items greater than 10 and less than 100" + Environment.NewLine +
                 TextMessageWriter.Pfx_Actual   + "< 12, 27, 19, 32, 107, 99, 26 >" + Environment.NewLine;
-            Assert.That(c, new AllItemsConstraint(Is.GreaterThan(10) & Is.LessThan(100)));
+            Assert.That(c, new AllItemsConstraint(new GreaterThanConstraint(10) & new LessThanConstraint(100)));
         }
 
         [Test]
         public void AllItemsAreInstancesOfType()
         {
             object[] c = new object[] { 'a', 'b', 'c' };
-            Assert.That(c, Is.All.InstanceOfType(typeof(char)));
+            Assert.That(c, new AllItemsConstraint(new InstanceOfTypeConstraint(typeof(char))));
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
@@ -60,7 +60,7 @@ namespace NUnit.Framework.Constraints.Tests
             expectedMessage = 
                 TextMessageWriter.Pfx_Expected + "all items instance of <System.Char>" + Environment.NewLine +
                 TextMessageWriter.Pfx_Actual   + "< 'a', \"b\", 'c' >" + Environment.NewLine;
-            Assert.That(c, new AllItemsConstraint(Is.InstanceOfType(typeof(char))));
+            Assert.That(c, new AllItemsConstraint(new InstanceOfTypeConstraint(typeof(char))));
         }
     }
 

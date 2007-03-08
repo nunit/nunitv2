@@ -448,7 +448,7 @@ namespace NUnit.Framework.Tests
 			set2.Add("z");
 
 			CollectionAssert.IsSubsetOf(set2,set1);
-            Assert.That(set2, Is.SubsetOf(set1));
+            Expect(set2, SubsetOf(set1));
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
@@ -483,7 +483,7 @@ namespace NUnit.Framework.Tests
 			set2.Add("z");
 
 			CollectionAssert.IsSubsetOf(set2,set1);
-            Assert.That(set2, Is.SubsetOf(set1));
+            Expect(set2, SubsetOf(set1));
 		}
 		#endregion
 
@@ -502,7 +502,7 @@ namespace NUnit.Framework.Tests
 			set2.Add("a");
 
 			CollectionAssert.IsNotSubsetOf(set1,set2);
-            Assert.That(set1, Is.Not.SubsetOf(set2));
+            Expect(set1, Not.SubsetOf(set2));
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]

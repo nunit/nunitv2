@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
+using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework
 {
@@ -68,7 +69,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void AllItemsAreInstancesOfType (ICollection collection, Type expectedType, string message, params object[] args)
 		{
-            Assert.That(collection, Is.All.InstanceOfType(expectedType), message, args);
+            Assert.That(collection, new AllItemsConstraint(new InstanceOfTypeConstraint(expectedType)), message, args);
 		}
 		#endregion
 
@@ -101,7 +102,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void AllItemsAreNotNull (ICollection collection, string message, params object[] args) 
 		{
-            Assert.That(collection, Is.All.Not.Null, message, args);
+            Assert.That(collection, new AllItemsConstraint(new NotConstraint(new EqualConstraint(null))), message, args);
 		}
 		#endregion
 
@@ -137,7 +138,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void AllItemsAreUnique (ICollection collection, string message, params object[] args) 
 		{
-            Assert.That(collection, Is.Unique, message, args);
+            Assert.That(collection, new UniqueItemsConstraint(), message, args);
 		}
 		#endregion
 
@@ -152,7 +153,7 @@ namespace NUnit.Framework
 		public static void AreEqual (ICollection expected, ICollection actual) 
 		{
 			//AreEqual(expected, actual, null, string.Empty, null);
-            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(actual, new EqualConstraint(expected));
 		}
 
 		/// <summary>
@@ -178,7 +179,7 @@ namespace NUnit.Framework
 		public static void AreEqual (ICollection expected, ICollection actual, string message) 
 		{
 			//AreEqual(expected, actual, null, message, null);
-            Assert.That(actual, Is.EqualTo(expected), message);
+            Assert.That(actual, new EqualConstraint(expected), message);
 		}
 
 		/// <summary>
@@ -206,7 +207,7 @@ namespace NUnit.Framework
 		public static void AreEqual (ICollection expected, ICollection actual, string message, params object[] args) 
 		{
 			//AreEqual(expected, actual, null, message, args);
-            Assert.That(actual, Is.EqualTo(expected), message, args);
+            Assert.That(actual, new EqualConstraint(expected), message, args);
 		}
 
 		/// <summary>
@@ -221,7 +222,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void AreEqual (ICollection expected, ICollection actual, IComparer comparer, string message, params object[] args) 
 		{
-            Assert.That(actual, Is.EqualTo(expected).Comparer(comparer), message, args);
+            Assert.That(actual, new EqualConstraint(expected).Comparer(comparer), message, args);
 		}
 		#endregion
 
@@ -257,7 +258,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void AreEquivalent (ICollection expected, ICollection actual, string message, params object[] args) 
 		{
-            Assert.That(actual, Is.EquivalentTo(expected), message, args);
+            Assert.That(actual, new CollectionEquivalentConstraint(expected), message, args);
 		}
 		#endregion
 
@@ -270,9 +271,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The second ICollection of objects to be considered</param>
 		public static void AreNotEqual (ICollection expected, ICollection actual)
 		{
-			//AreNotEqual(expected, actual, null, string.Empty, null);
-			//Assert.AreNotEqual( expected, actual );
-            Assert.That(actual, Is.Not.EqualTo(expected));
+            Assert.That(actual, new NotConstraint(new EqualConstraint(expected)));
 		}
 
 		/// <summary>
@@ -297,7 +296,7 @@ namespace NUnit.Framework
 		{
 			//AreNotEqual(expected, actual, null, message, null);
 			//Assert.AreNotEqual( expected, actual, message );
-            Assert.That(actual, Is.Not.EqualTo(expected), message);
+            Assert.That(actual, new NotConstraint(new EqualConstraint(expected)), message);
 		}
 
 		/// <summary>
@@ -324,7 +323,7 @@ namespace NUnit.Framework
 		{
 			//AreNotEqual(expected, actual, null, message, args);
 			//Assert.AreNotEqual( expected, actual, message, args );
-            Assert.That(actual, Is.Not.EqualTo(expected), message, args);
+            Assert.That(actual, new NotConstraint(new EqualConstraint(expected)), message, args);
 		}
 
 		/// <summary>
@@ -338,7 +337,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void AreNotEqual (ICollection expected, ICollection actual, IComparer comparer, string message, params object[] args)
 		{
-            Assert.That(actual, Is.Not.EqualTo(expected).Comparer(comparer), message, args);
+			Assert.That(actual, new NotConstraint(new EqualConstraint(expected).Comparer(comparer)), message, args);
 		}
 		#endregion
 
@@ -374,7 +373,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void AreNotEquivalent (ICollection expected, ICollection actual, string message, params object[] args)
 		{
-            Assert.That(actual, Is.Not.EquivalentTo(expected), message, args);
+            Assert.That(actual, new NotConstraint(new CollectionEquivalentConstraint(expected)), message, args);
 		}
 		#endregion
 
@@ -411,7 +410,7 @@ namespace NUnit.Framework
 		public static void Contains (ICollection collection, Object actual, string message, params object[] args)
 		{
 			//Assert.DoAssert(new CollectionContains(collection, actual, message, args));
-            Assert.That(collection, Is.CollectionContaining(actual), message, args);
+            Assert.That(collection, new CollectionContainsConstraint(actual), message, args);
 		}
 		#endregion
 
@@ -448,7 +447,7 @@ namespace NUnit.Framework
 		public static void DoesNotContain (ICollection collection, Object actual, string message, params object[] args)
 		{
 			//Assert.DoAssert(new CollectionNotContains(collection, actual, message, args));
-            Assert.That(collection, Is.Not.CollectionContaining(actual), message, args);
+            Assert.That(collection, new NotConstraint(new CollectionContainsConstraint(actual)), message, args);
 		}
 		#endregion
 
@@ -484,7 +483,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void IsNotSubsetOf (ICollection subset, ICollection superset, string message, params object[] args)
 		{
-            Assert.That(subset, Is.Not.SubsetOf(superset), message, args);
+            Assert.That(subset, new NotConstraint(new CollectionSubsetConstraint(superset)), message, args);
 		}
 		#endregion
 
@@ -520,7 +519,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void IsSubsetOf (ICollection subset, ICollection superset, string message, params object[] args)
 		{
-            Assert.That(subset, Is.SubsetOf(superset), message, args);
+            Assert.That(subset, new CollectionSubsetConstraint(superset), message, args);
 		}
 		#endregion
 
@@ -533,7 +532,7 @@ namespace NUnit.Framework
         /// <param name="args">Arguments to be used in formatting the message</param>
         public static void IsEmpty(ICollection collection, string message, params object[] args)
         {
-            Assert.That(collection, Is.Empty, message, args);
+            Assert.That(collection, new EmptyConstraint(), message, args);
         }
 
         /// <summary>
@@ -565,7 +564,7 @@ namespace NUnit.Framework
         /// <param name="args">Arguments to be used in formatting the message</param>
         public static void IsNotEmpty(ICollection collection, string message, params object[] args)
         {
-            Assert.That(collection, Is.Not.Empty, message, args);
+            Assert.That(collection, new NotConstraint(new EmptyConstraint()), message, args);
         }
 
         /// <summary>

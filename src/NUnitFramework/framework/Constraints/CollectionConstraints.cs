@@ -81,6 +81,8 @@ namespace NUnit.Framework.Constraints
             if ( actual == null || !(actual is ICollection) )
                 return false;
 
+			if ( this.caseInsensitive )
+				itemConstraint = itemConstraint.IgnoreCase;
             foreach(object item in (ICollection)actual)
                 if (!itemConstraint.Matches(item))
                     return false;

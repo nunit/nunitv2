@@ -52,7 +52,9 @@ namespace NUnit.Framework.Constraints
         {
             writer.WritePredicate("String containing");
             writer.WriteExpectedValue(expected);
-        }
+			if ( this.caseInsensitive )
+				writer.WriteModifier( "ignoring case" );
+		}
     }
 
 	/// <summary>
@@ -100,7 +102,9 @@ namespace NUnit.Framework.Constraints
         {
             writer.WritePredicate("String starting with");
             writer.WriteExpectedValue( MsgUtils.ClipString(expected, writer.MaxLineLength - 40, 0) );
-        }
+			if ( this.caseInsensitive )
+				writer.WriteModifier( "ignoring case" );
+		}
     }
 
     /// <summary>
@@ -147,7 +151,9 @@ namespace NUnit.Framework.Constraints
         {
             writer.WritePredicate("String ending with");
             writer.WriteExpectedValue(expected);
-        }
+			if ( this.caseInsensitive )
+				writer.WriteModifier( "ignoring case" );
+		}
     }
 
     /// <summary>
@@ -191,6 +197,8 @@ namespace NUnit.Framework.Constraints
         {
             writer.WritePredicate("String matching");
             writer.WriteExpectedValue(this.pattern);
-        }
+			if ( this.caseInsensitive )
+				writer.WriteModifier( "ignoring case" );
+		}
     }
 }

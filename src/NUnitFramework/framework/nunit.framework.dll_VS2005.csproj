@@ -77,6 +77,7 @@
     <Compile Include="AssertionFailureMessage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AssertionHelper.cs" />
     <Compile Include="CategoryAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -86,6 +87,7 @@
     <Compile Include="Constraints\ComparisonConstraints.cs" />
     <Compile Include="Constraints\Constraint.cs" />
     <Compile Include="Constraints\ConstraintBuilder.cs" />
+    <Compile Include="Constraints\ContainsConstraint.cs" />
     <Compile Include="Constraints\EmptyConstraint.cs" />
     <Compile Include="Constraints\EqualConstraint.cs" />
     <Compile Include="Constraints\NotConstraint.cs" />
@@ -130,7 +132,9 @@
     <Compile Include="SuiteAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SyntaxHelpers.cs" />
+    <Compile Include="SyntaxHelpers\Is.cs" />
+    <Compile Include="SyntaxHelpers\SyntaxHelper.cs" />
+    <Compile Include="SyntaxHelpers\Text.cs" />
     <Compile Include="TearDownAttribute.cs">
       <SubType>Code</SubType>
     </Compile>

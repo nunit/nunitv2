@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework
 {
@@ -46,7 +47,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments used in formatting the message</param>
 		static public void Contains( string expected, string actual, string message, params object[] args )
 		{
-            Assert.That(actual, Is.StringContaining(expected), message, args);
+            Assert.That(actual, new SubstringConstraint(expected), message, args);
 		}
 
 		/// <summary>
@@ -83,7 +84,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments used in formatting the message</param>
 		static public void StartsWith( string expected, string actual, string message, params object[] args )
 		{
-            Assert.That(actual, Is.StringStarting(expected), message, args);
+            Assert.That(actual, new StartsWithConstraint(expected), message, args);
 		}
 
 		/// <summary>
@@ -120,7 +121,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments used in formatting the message</param>
 		static public void EndsWith( string expected, string actual, string message, params object[] args )
 		{
-            Assert.That(actual, Is.StringEnding(expected), message, args);
+            Assert.That(actual, new EndsWithConstraint(expected), message, args);
 		}
 
 		/// <summary>
@@ -156,7 +157,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments used in formatting the message</param>
 		static public void AreEqualIgnoringCase( string expected, string actual, string message, params object[] args )
 		{
-            Assert.That(actual, Is.EqualTo(expected).IgnoreCase, message, args);
+            Assert.That(actual, new EqualConstraint(expected).IgnoreCase, message, args);
 		}
 
 		/// <summary>
@@ -192,7 +193,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments used in formatting the message</param>
 		static public void IsMatch( string expected, string actual, string message, params object[] args )
 		{
-            Assert.That(actual, Is.StringMatching(expected), message, args);
+            Assert.That(actual, new RegexConstraint(expected), message, args);
 		}
 
 		/// <summary>

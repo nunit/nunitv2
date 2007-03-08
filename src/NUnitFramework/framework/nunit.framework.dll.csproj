@@ -114,6 +114,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssertionHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "CategoryAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -220,11 +225,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SyntaxHelpers.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TearDownAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -280,6 +280,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\ContainsConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\EmptyConstraint.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -306,6 +311,21 @@
                 />
                 <File
                     RelPath = "Constraints\TypeConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SyntaxHelpers\Is.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SyntaxHelpers\SyntaxHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SyntaxHelpers\Text.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

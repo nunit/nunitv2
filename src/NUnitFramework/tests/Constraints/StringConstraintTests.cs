@@ -22,7 +22,7 @@ namespace NUnit.Framework.Constraints.Tests
 
         public void HandleException(Exception ex)
         {
-            Assert.That(ex.Message, Is.EqualTo(
+            Assert.That(ex.Message, new EqualConstraint(
                 TextMessageWriter.Pfx_Expected + "String containing \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...\"" + Environment.NewLine +
                 TextMessageWriter.Pfx_Actual   + "\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...\"" + Environment.NewLine));
         }
@@ -37,7 +37,7 @@ namespace NUnit.Framework.Constraints.Tests
             Matcher = new SubstringConstraint("hello").IgnoreCase;
             GoodValues = new object[] { "Hello", "HellO there", "I said HELLO", "say hello to fred" };
             BadValues = new object[] { "goodbye", "What the hell?", string.Empty, null };
-            Description = "String containing \"hello\"";
+            Description = "String containing \"hello\", ignoring case";
         }
     }
 
@@ -63,7 +63,7 @@ namespace NUnit.Framework.Constraints.Tests
             Matcher = new StartsWithConstraint("hello").IgnoreCase;
             GoodValues = new object[] { "Hello", "HELLO there" };
             BadValues = new object[] { "goodbye", "What the hell?", "I said hello", "say Hello to fred", string.Empty, null };
-            Description = "String starting with \"hello\"";
+            Description = "String starting with \"hello\", ignoring case";
         }
     }
 
@@ -89,7 +89,7 @@ namespace NUnit.Framework.Constraints.Tests
             Matcher = new EndsWithConstraint("hello").IgnoreCase;
             GoodValues = new object[] { "HELLO", "I said Hello" };
             BadValues = new object[] { "goodbye", "What the hell?", "hello there", "say hello to fred", string.Empty, null };
-            Description = "String ending with \"hello\"";
+            Description = "String ending with \"hello\", ignoring case";
         }
     }
 

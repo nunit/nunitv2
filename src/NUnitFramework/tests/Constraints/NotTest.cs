@@ -14,7 +14,7 @@ namespace NUnit.Framework.Constraints.Tests
 		[SetUp]
         public void SetUp()
         {
-            Matcher = new NotConstraint( Is.Null );
+            Matcher = new NotConstraint( new EqualConstraint(null) );
             GoodValues = new object[] { 42, "Hello" };
             BadValues = new object [] { null };
             Description = "not null";

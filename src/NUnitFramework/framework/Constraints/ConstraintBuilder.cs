@@ -9,12 +9,6 @@ using System.Collections;
 
 namespace NUnit.Framework.Constraints
 {
-    enum Op
-    {
-        Not,
-        All
-    }
-
     /// <summary>
     /// ConstraintBuilder is used to resolve the Not and All properties,
     /// which serve as prefix operators for constraints. With the addition
@@ -24,34 +18,40 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class ConstraintBuilder
     {
-        Stack ops = new Stack();
+		private enum Op
+		{
+			Not,
+			All
+		}
+
+		Stack ops = new Stack();
 
         #region Constraints Without Arguments
         /// <summary>
         /// Resolves the chain of constraints using
-        /// Is.Null as base.
+        /// EqualConstraint(null) as base.
         /// </summary>
         public Constraint Null
         {
-            get { return Resolve(Is.Null); }
+            get { return Resolve(new EqualConstraint(null)); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using
-        /// Is.True as base.
+        /// EqualConstraint(true) as base.
         /// </summary>
         public Constraint True
         {
-            get { return Resolve(Is.True); }
+            get { return Resolve(new EqualConstraint(true)); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using
-        /// Is.False as base.
+        /// EqualConstraint(false) as base.
         /// </summary>
         public Constraint False
         {
-            get { return Resolve(Is.False); }
+            get { return Resolve(new EqualConstraint(false)); }
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint NaN
         {
-            get { return Resolve(Is.NaN); }
+            get { return Resolve(new EqualConstraint(double.NaN)); }
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint Empty
         {
-            get { return Resolve(Is.Empty); }
+            get { return Resolve(new EmptyConstraint()); }
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint Unique
         {
-            get { return Resolve(Is.Unique); }
+            get { return Resolve(new UniqueItemsConstraint()); }
         }
         #endregion
 
@@ -91,7 +91,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint EqualTo(object expected)
         {
-            return Resolve(Is.EqualTo(expected));
+            return Resolve(new EqualConstraint(expected));
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint SameAs(object expected)
         {
-            return Resolve(Is.SameAs(expected));
+            return Resolve(new SameAsConstraint(expected));
         }
         #endregion
 
@@ -111,7 +111,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint LessThan(IComparable expected)
         {
-            return Resolve(Is.LessThan(expected));
+            return Resolve(new LessThanConstraint(expected));
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint GreaterThan(IComparable expected)
         {
-            return Resolve(Is.GreaterThan(expected));
+            return Resolve(new GreaterThanConstraint(expected));
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint LessThanOrEqualTo(IComparable expected)
         {
-            return Resolve(Is.AtMost(expected));
+            return Resolve(new LessThanOrEqualConstraint(expected));
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint AtMost(IComparable expected)
         {
-            return Resolve(Is.AtMost(expected));
+            return Resolve(new LessThanOrEqualConstraint(expected));
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint GreaterThanOrEqualTo(IComparable expected)
         {
-            return Resolve(Is.AtLeast(expected));
+            return Resolve(new GreaterThanOrEqualConstraint(expected));
         }
         /// <summary>
         /// Resolves the chain of constraints using a
@@ -155,7 +155,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint AtLeast(IComparable expected)
         {
-            return Resolve(Is.AtLeast(expected));
+            return Resolve(new GreaterThanOrEqualConstraint(expected));
         }
         #endregion
 
@@ -164,9 +164,9 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using an
         /// ExactTypeConstraint as base.
         /// </summary>
-        public Constraint Type(Type expectedType)
+        public Constraint TypeOf(Type expectedType)
         {
-            return Resolve(Is.Type(expectedType));
+            return Resolve(new ExactTypeConstraint(expectedType));
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint InstanceOfType(Type expectedType)
         {
-            return Resolve(Is.InstanceOfType(expectedType));
+            return Resolve(new InstanceOfTypeConstraint(expectedType));
         }
 
         /// <summary>
@@ -184,25 +184,30 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint AssignableFrom(Type expectedType)
         {
-            return Resolve(Is.AssignableFrom(expectedType));
+            return Resolve(new AssignableFromConstraint(expectedType));
         }
         #endregion
 
-        #region String Constraints
-        /// <summary>
-        /// Resolves the chain of constraints using a
-        /// StringContainingConstraint as base.
-        /// </summary>
-        public Constraint StringContaining(string substring)
-        {
-            return Resolve( new SubstringConstraint(substring) );
-        }
+		#region Containing Constraint
+		/// <summary>
+		/// Resolves the chain of constraints using a
+		/// ContainsConstraint as base. This constraint
+		/// will, in turn, make use of the appropriate
+		/// second-level constraint, depending on the
+		/// type of the actual argument.
+		/// </summary>
+		public Constraint Containing(object expected)
+		{
+			return Resolve( new ContainsConstraint(expected) );
+		}
+		#endregion
 
-        /// <summary>
-        /// Resolves the chain of constraints using a
-        /// StartsWithConstraint as base.
-        /// </summary>
-        public Constraint StringStarting(string substring)
+		#region String Constraints
+		/// <summary>
+		/// Resolves the chain of constraints using a
+		/// StartsWithConstraint as base.
+		/// </summary>
+		public Constraint Starting(string substring)
         {
             return Resolve( new StartsWithConstraint(substring) );
         }
@@ -211,7 +216,7 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a
         /// StringEndingConstraint as base.
         /// </summary>
-        public Constraint StringEnding(string substring)
+        public Constraint Ending(string substring)
         {
             return Resolve( new EndsWithConstraint(substring) );
         }
@@ -220,7 +225,7 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a
         /// StringMatchingConstraint as base.
         /// </summary>
-        public Constraint StringMatching(string pattern)
+        public Constraint Matching(string pattern)
         {
             return Resolve(new RegexConstraint(pattern));
         }

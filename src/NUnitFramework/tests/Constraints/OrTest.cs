@@ -14,7 +14,7 @@ namespace NUnit.Framework.Constraints.Tests
 		[SetUp]
         public void SetUp()
         {
-            Matcher = new OrConstraint(Is.EqualTo(42), Is.EqualTo(99));
+            Matcher = new OrConstraint(new EqualConstraint(42), new EqualConstraint(99));
             GoodValues = new object[] { 99, 42 };
             BadValues = new object[] { 37 };
             Description = "42 or 99";
@@ -23,7 +23,7 @@ namespace NUnit.Framework.Constraints.Tests
         [Test]
         public void CanCombineTestsWithOrOperator()
         {
-            Assert.That(99, Is.EqualTo(42) | Is.EqualTo(99) );
+            Assert.That(99, new EqualConstraint(42) | new EqualConstraint(99) );
         }
     }
 }

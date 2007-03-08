@@ -8,7 +8,7 @@ using System;
 
 namespace NUnit.Framework.Tests
 {
-    public class MessageWriterTests
+    public class MessageWriterTests : AssertionHelper
     {
         protected TextMessageWriter writer;
 
@@ -26,14 +26,14 @@ namespace NUnit.Framework.Tests
         public void ConnectorIsWrittenWithSurroundingSpaces()
         {
             writer.WriteConnector("and");
-            Assert.That(writer.ToString(), Is.EqualTo(" and "));
+            Expect(writer.ToString(), EqualTo(" and "));
         }
 
         [Test]
         public void PredicateIsWrittenWithTrailingSpace()
         {
             writer.WritePredicate("contains");
-            Assert.That(writer.ToString(), Is.EqualTo("contains "));
+            Expect(writer.ToString(), EqualTo("contains "));
         }
 
         [TestFixture]
@@ -62,14 +62,14 @@ namespace NUnit.Framework.Tests
             public void IntegerIsWrittenAsIs()
             {
                 WriteValue(42);
-                Assert.That(writer.ToString(), Is.EqualTo("42"));
+                Expect(writer.ToString(), EqualTo("42"));
             }
 
             [Test]
             public void StringIsWrittenWithQuotes()
             {
                 WriteValue("Hello");
-                Assert.That(writer.ToString(), Is.EqualTo("\"Hello\""));
+                Expect(writer.ToString(), EqualTo("\"Hello\""));
             }
 
 			// This test currently fails because control character replacement is
@@ -86,7 +86,7 @@ namespace NUnit.Framework.Tests
             public void FloatIsWrittenWithTrailingF()
             {
                 WriteValue(0.5f);
-                Assert.That(writer.ToString(), Is.EqualTo("0.5f"));
+                Expect(writer.ToString(), EqualTo("0.5f"));
             }
 
             [Test]
@@ -94,36 +94,36 @@ namespace NUnit.Framework.Tests
             {
                 WriteValue(0.33333333333333f);
                 int digits = writer.ToString().Length - 3;   // 0.dddddddddf
-                Assert.That(digits, Is.EqualTo(9));
+                Expect(digits, EqualTo(9));
+				Expect(writer.ToString().Length, EqualTo(12));
             }
 
             [Test]
             public void DoubleIsWrittenWithTrailingD()
             {
                 WriteValue(0.5d);
-                Assert.That(writer.ToString(), Is.EqualTo("0.5d"));
+                Expect(writer.ToString(), EqualTo("0.5d"));
             }
 
             [Test]
             public void DoubleIsWrittenToSeventeenDigits()
             {
                 WriteValue(0.33333333333333333333333333333333333333333333d);
-                int digits = writer.ToString().Length - 3;
-                Assert.That(digits, Is.EqualTo(17));
+                Expect(writer.ToString().Length, EqualTo(20)); // add 3 for leading 0, decimal and trailing d
             }
 
             [Test]
             public void DecimalIsWrittenWithTrailingM()
             {
                 WriteValue(0.5m);
-                Assert.That(writer.ToString(), Is.EqualTo("0.5m"));
+                Expect(writer.ToString(), EqualTo("0.5m"));
             }
 
             [Test]
             public void DecimalIsWrittenToTwentyNineDigits()
             {
                 WriteValue(12345678901234567890123456789m);
-                Assert.That(writer.ToString(), Is.EqualTo("12345678901234567890123456789m"));
+                Expect(writer.ToString(), EqualTo("12345678901234567890123456789m"));
             }
         }
     }

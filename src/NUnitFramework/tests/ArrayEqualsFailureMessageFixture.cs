@@ -23,7 +23,7 @@ namespace NUnit.Framework.Tests
 
 			expectedMessage =
 				"  Expected is <System.Int32[4]>, actual is <System.Int32[2,2]>" + Environment.NewLine;
-			Assert.That(actual, Is.EqualTo(expected));
+			Expect(actual, EqualTo(expected));
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
@@ -36,7 +36,7 @@ namespace NUnit.Framework.Tests
 				"  Expected is <System.Int32[5]>, actual is <System.Int32[3]>" + Environment.NewLine +
 				"  Values differ at index [3]" + Environment.NewLine +
 				"  Missing:  < 4, 5 >";
-			Assert.That(actual, Is.EqualTo(expected));
+			Expect(actual, EqualTo(expected));
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
@@ -49,7 +49,7 @@ namespace NUnit.Framework.Tests
 				"  Expected is <System.Int32[3]>, actual is <System.Int32[7]>" + Environment.NewLine +
 				"  Values differ at index [3]" + Environment.NewLine +
 				"  Extra:    < 4, 5, 6... >";
-			Assert.That(actual, Is.EqualTo(expected));
+			Expect(actual, EqualTo(expected));
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
@@ -63,7 +63,7 @@ namespace NUnit.Framework.Tests
 				"  Values differ at index [1]" + Environment.NewLine +
 				TextMessageWriter.Pfx_Expected + "2" + Environment.NewLine +
 				TextMessageWriter.Pfx_Actual   + "5" + Environment.NewLine;
-			Assert.That(actual, Is.EqualTo(expected));
+			Expect(actual, EqualTo(expected));
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
@@ -77,7 +77,7 @@ namespace NUnit.Framework.Tests
 				"  Values differ at index [0,1]" + Environment.NewLine +
 				TextMessageWriter.Pfx_Expected + "2" + Environment.NewLine +
 				TextMessageWriter.Pfx_Actual   + "3" + Environment.NewLine;
-			Assert.That(actual, Is.EqualTo(expected));
+			Expect(actual, EqualTo(expected));
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
@@ -91,7 +91,7 @@ namespace NUnit.Framework.Tests
 				"  Values differ at index [1,0,0]" + Environment.NewLine +
 				TextMessageWriter.Pfx_Expected + "5" + Environment.NewLine +
 				TextMessageWriter.Pfx_Actual   + "0" + Environment.NewLine;
-			Assert.That(actual, Is.EqualTo(expected));
+			Expect(actual, EqualTo(expected));
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
@@ -105,7 +105,7 @@ namespace NUnit.Framework.Tests
 				"  Values differ at index [0,0,0,1,0]" + Environment.NewLine +
 				TextMessageWriter.Pfx_Expected + "3" + Environment.NewLine +
 				TextMessageWriter.Pfx_Actual   + "4" + Environment.NewLine;
-			Assert.That(actual, Is.EqualTo(expected));
+			Expect(actual, EqualTo(expected));
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
@@ -121,7 +121,7 @@ namespace NUnit.Framework.Tests
 				"    Values differ at index [2]" + Environment.NewLine +
 				TextMessageWriter.Pfx_Expected + "6" + Environment.NewLine +
 				TextMessageWriter.Pfx_Actual   + "0" + Environment.NewLine;
-			Assert.That(actual, Is.EqualTo(expected));
+			Expect(actual, EqualTo(expected));
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
@@ -135,7 +135,7 @@ namespace NUnit.Framework.Tests
 				"  Values differ at index [0]" + Environment.NewLine +
 				TextMessageWriter.Pfx_Expected + "1" + Environment.NewLine +
 				TextMessageWriter.Pfx_Actual   + "< 1, 2, 3 >" + Environment.NewLine;
-			Assert.That(actual, Is.EqualTo(expected));
+			Expect(actual, EqualTo(expected));
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
@@ -149,7 +149,7 @@ namespace NUnit.Framework.Tests
 				"  Values differ at expected index [1], actual index [0,1]" + Environment.NewLine +
 				TextMessageWriter.Pfx_Expected + "2" + Environment.NewLine +
 				TextMessageWriter.Pfx_Actual   + "0" + Environment.NewLine;
-			Assert.That(actual, Is.EqualTo(expected).AsCollection);
+			Expect(actual, EqualTo(expected).AsCollection);
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
@@ -163,7 +163,7 @@ namespace NUnit.Framework.Tests
 				"  Values differ at expected index [1,0], actual index [1,1]" + Environment.NewLine +
 				TextMessageWriter.Pfx_Expected + "4" + Environment.NewLine +
 				TextMessageWriter.Pfx_Actual   + "0" + Environment.NewLine;
-			Assert.That(actual, Is.EqualTo(expected).AsCollection);
+			Expect(actual, EqualTo(expected).AsCollection);
 		}
 
 //		[Test,ExpectedException(typeof(AssertionException))]
@@ -176,7 +176,7 @@ namespace NUnit.Framework.Tests
 //				"  Expected is <System.String[5]>, actual is <System.String[3]>" + Environment.NewLine +
 //				"  Values differ at index [3]" + Environment.NewLine +
 //				"  Missing:  < \"four\", \"five\" >";
-//			Assert.That(array1, Is.EqualTo(array2));
+//			Expect(array1, EqualTo(array2));
 //		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
@@ -192,7 +192,7 @@ namespace NUnit.Framework.Tests
 				"  Expected: \"ten\"" + Environment.NewLine +
 				"  But was:  \"three\"" + Environment.NewLine +
 				"  ------------^" + Environment.NewLine;
-			Assert.That(array1, Is.EqualTo(array2));
+			Expect(array1, EqualTo(array2));
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
@@ -208,7 +208,7 @@ namespace NUnit.Framework.Tests
 				"  Expected: \"three\"" + Environment.NewLine +
 				"  But was:  \"two\"" + Environment.NewLine +
 				"  ------------^" + Environment.NewLine;
-			Assert.That(array1, Is.EqualTo(array2));
+			Expect(array1, EqualTo(array2));
 		}
 
 		[Test, ExpectedException( typeof(AssertionException) )]

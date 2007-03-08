@@ -25,7 +25,7 @@ namespace NUnit.Framework.Constraints.Tests
         [Test, ExpectedException(typeof(AssertionException))]
         public void FailedStringMatchShowsFailurePosition()
         {
-            Assert.That( "abcdgfe", Is.EqualTo( "abcdefg" ) );
+            Assert.That( "abcdgfe", new EqualConstraint( "abcdefg" ) );
         }
 
         static string testString = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -36,7 +36,7 @@ namespace NUnit.Framework.Constraints.Tests
             string expected = testString;
             string actual = testString.Replace('k', 'X');
 
-            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(actual, new EqualConstraint(expected));
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
@@ -45,7 +45,7 @@ namespace NUnit.Framework.Constraints.Tests
             string expected = testString;
             string actual = testString.Replace('Z', '?');
 
-            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(actual, new EqualConstraint(expected));
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
@@ -54,13 +54,13 @@ namespace NUnit.Framework.Constraints.Tests
             string expected = testString;
             string actual = testString  + "+++++";
 
-            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(actual, new EqualConstraint(expected));
         }
 
         [Test]
         public void NANsCompareAsEqual()
         {
-            Assert.That(double.NaN, Is.EqualTo(double.NaN));
+            Assert.That(double.NaN, new EqualConstraint(double.NaN));
         }
 
 //        [Test]
@@ -82,7 +82,7 @@ namespace NUnit.Framework.Constraints.Tests
             if (actual != null && actual.Length > 11)
                 actual = actual.Substring(11);
             string line = rdr.ReadLine();
-            Assert.That(line, Is.Not.Null, "No caret line displayed");
+            Assert.That(line, new NotConstraint(new EqualConstraint(null)), "No caret line displayed");
             int caret = line.Substring(11).IndexOf('^');
 
             int minLength = Math.Min(expected.Length, actual.Length);

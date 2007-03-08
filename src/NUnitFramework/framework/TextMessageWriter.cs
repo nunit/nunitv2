@@ -41,6 +41,7 @@ namespace NUnit.Framework
 		private static readonly string Fmt_Connector = " {0} ";
         private static readonly string Fmt_Predicate = "{0} ";
         //private static readonly string Fmt_Label = "{0}";
+		private static readonly string Fmt_Modifier = ", {0}";
 
         private static readonly string Fmt_Null = "null";
         private static readonly string Fmt_EmptyString = "<string.Empty>";
@@ -193,6 +194,16 @@ namespace NUnit.Framework
         //{
         //    Write(Fmt_Label, label);
         //}
+
+        /// <summary>
+        /// Write the text for a modifier.
+        /// </summary>
+        /// <param name="modifier">The modifier.</param>
+		public override void WriteModifier(string modifier)
+		{
+			Write(Fmt_Modifier, modifier);
+		}
+
 
 		/// <summary>
 		/// Writes the text for an expected value.

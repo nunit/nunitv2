@@ -32,6 +32,9 @@ namespace NUnit.Framework.Constraints
         public override bool Matches(object actual)
         {
             this.actual = actual;
+			if ( this.caseInsensitive )
+				baseConstraint = baseConstraint.IgnoreCase;
+
             return !baseConstraint.Matches(actual);
         }
 
@@ -53,6 +56,5 @@ namespace NUnit.Framework.Constraints
 		{
 			baseConstraint.WriteActualValueTo (writer);
 		}
-
     }
 }

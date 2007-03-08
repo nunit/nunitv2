@@ -7,6 +7,7 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace NUnit.Framework
 {
@@ -1976,7 +1977,7 @@ namespace NUnit.Framework
 
 		#region That
 		/// <summary>
-		/// Apply a constraint to an actual value, succeedingt if the constraint
+		/// Apply a constraint to an actual value, succeeding if the constraint
 		/// is satisfied and throwing an assertion exception on failure.
 		/// </summary>
 		/// <param name="constraint">An IConstraint to be applied</param>

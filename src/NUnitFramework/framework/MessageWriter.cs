@@ -102,6 +102,12 @@ namespace NUnit.Framework
 		public abstract void WriteExpectedValue(object expected);
 
 		/// <summary>
+		/// Writes the text for a modifier
+		/// </summary>
+		/// <param name="modifier">The modifier.</param>
+		public abstract void WriteModifier(string modifier);
+
+		/// <summary>
 		/// Writes the text for an actual value.
 		/// </summary>
 		/// <param name="actual">The actual value.</param>

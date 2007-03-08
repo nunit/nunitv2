@@ -8,14 +8,13 @@ using System;
 using System.Collections;
 using NUnit.Framework.Constraints;
 
-namespace NUnit.Framework
+namespace NUnit.Framework.SyntaxHelpers
 {
-    #region Is Helper Class
-    /// <summary>
-    /// The Is class is a helper class with properties and methods
-    /// that supply a number of constraints used in Asserts.
-    /// </summary>
-    public class Is
+	/// <summary>
+	/// The Is class is a helper class with properties and methods
+	/// that supply a number of constraints used in Asserts.
+	/// </summary>
+	public class Is : SyntaxHelper
     {
         #region Constraints Without Arguments
 		/// <summary>
@@ -122,12 +121,12 @@ namespace NUnit.Framework
         }
         #endregion
 
-        #region Type Constraints
+		#region Type Constraints
 		/// <summary>
-		/// Is.Type returns a constraint that tests whether the actual
+		/// Is.TypeOf returns a constraint that tests whether the actual
 		/// value is of the exact type supplied as an argument.
 		/// </summary>
-		public static Constraint Type(Type expectedType)
+		public static Constraint TypeOf(Type expectedType)
         {
             return new ExactTypeConstraint(expectedType);
         }
@@ -155,47 +154,7 @@ namespace NUnit.Framework
         }
         #endregion
 
-        #region String Constraints
-		/// <summary>
-		/// Is.StringContaining returns a constraint that tests whether
-		/// the actual value contains the substring supplied as an arument
-		/// </summary>
-		public static Constraint StringContaining(string substring)
-        {
-            return new SubstringConstraint(substring);
-        }
-
-		/// <summary>
-		/// Is.StringStarting returns a constraint that tests whether
-		/// the actual value starts with the substring supplied as an arument
-		/// </summary>
-		public static Constraint StringStarting(string substring)
-        {
-            return new StartsWithConstraint(substring);
-        }
-
-		/// <summary>
-		/// Is.StringEnding returns a constraint that tests whether
-		/// the actual value ends with the substring supplied as an arument
-		/// </summary>
-		public static Constraint StringEnding(string substring)
-        {
-            return new EndsWithConstraint(substring);
-        }
-
-        /// <summary>
-        /// Is.StringMatching returns a constraint that tests whether the
-        /// actual value matches the pattern supplied as an argument.
-        /// </summary>
-        /// <param name="pattern"></param>
-        /// <returns></returns>
-        public static Constraint StringMatching(string pattern)
-        {
-            return new RegexConstraint(pattern);
-        }
-        #endregion
-
-        #region Collection Constraints
+		#region Collection Constraints
 		/// <summary>
 		/// Is.EquivalentTo returns a constraint that tests whether
 		/// the actual value is a collection containing the same
@@ -230,26 +189,5 @@ namespace NUnit.Framework
         #endregion
 
         #endregion
-
-        #region Prefix Operators
-		/// <summary>
-		/// Is.Not returns a ConstraintBuilder, which will negate
-		/// the constraint that follows it.
-		/// </summary>
-        public static ConstraintBuilder Not
-        {
-            get { return new ConstraintBuilder().Not; }
-        }
-
-		/// <summary>
-		/// Is.All returns a ConstraintBuilder, which will apply
-		/// the following constraint to all members of a collection.
-		/// </summary>
-        public static ConstraintBuilder All
-        {
-            get { return new ConstraintBuilder().All; }
-        }
-        #endregion
     }
-    #endregion
 }
