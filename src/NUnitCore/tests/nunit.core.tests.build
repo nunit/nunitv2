@@ -43,6 +43,7 @@
         <include name="StackOverflowTestFixture.cs"/>
         <include name="SuiteBuilderTests.cs"/>
         <include name="SuiteBuilderTests_Multiple.cs"/>
+        <include name="TestAssemblyBuilderTests.cs"/>
         <include name="TestCaseResultFixture.cs"/>
         <include name="TestCaseTest.cs"/>
         <include name="TestConsole.cs"/>
