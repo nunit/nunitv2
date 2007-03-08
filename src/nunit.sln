@@ -265,6 +265,7 @@ Global
 		NUnitBinTests.nunit = NUnitBinTests.nunit
 		NUnitDevTests.config = NUnitDevTests.config
 		NUnitDevTests.nunit = NUnitDevTests.nunit
+		NUnitFitTests.html = NUnitFitTests.html
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
