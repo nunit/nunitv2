@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - Explicit</title>
+<title>NUnit - Description</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -26,32 +26,15 @@
 
 <script language="JavaScript" src="codeFuncs.js" ></script> <!-- Do it this way for IE -->
 
-<h3>ExplicitAttribute (NUnit 2.2)</h3>
+<h3>Description (NUnit 2.4)</h3>
 
-<p>The Explicit attribute causes a test or test fixture to be ignored unless it is 
-	explicitly selected for running. The test or fixture will be run if it is 
-	selected in the gui, if its name is specified on the console runner command 
-	line as the fixture to run or if it is included by use of a Category filter.</p>
+<p>The Description attribute is used to apply descriptive text to a Test,
+TestFixture or Assembly. The text appears in the XML output file and is 
+shown in the Test Properties dialog.</p>
 
-<p>An optional string argument may be used to give the reason for marking
-   the test Explicit.</p>
+<h4>Example:</h4>
 
-<p>If a test or fixture with the Explicit attribute is encountered in the course of 
-	running tests, it is skipped unless it has been specifically selected by one
-	of the above means. The test does not affect the outcome of the run at all:
-	it is not considered as ignored and is not even counted in the total number
-	of tests. In the gui, the tree node for the test remains gray and the
-	status bar color is not affected.</p>
-	
-<blockquote><i><b>Note:</b> In versions of NUnit prior to 2.4, these tests were
-    shown as ignored.</i></blockquote>
-
-<h4>Test Fixture Syntax</h4>
-
-<div id="trace">
-</div>
-
-<div class="code cs">
+<div class="code">
 
 <div class="langFilter">
 	<a href="javascript:Show('DD1')" onmouseover="Show('DD1')"><img src="img/langFilter.gif" width="14" height="14" alt="Language Filter"></a>
@@ -63,147 +46,86 @@
 	</div>
 </div>
 
-<pre class="cs">namespace NUnit.Tests
+<pre class="cs">[assembly: Description("Assembly description here")]
+
+namespace NUnit.Tests
 {
   using System;
   using NUnit.Framework;
 
-  [TestFixture, Explicit]
-  public class ExplicitTests
+  [TestFixture, Description("Fixture description here")]
+  public class SomeTests
   {
-    // ...
+    [Test, Description("Test description here")] 
+    public void OneTest()
+    { /* ... */ }
   }
 }
 </pre>
+<pre class="vb">&lt;assembly: Description("Assembly description here")&gt;
 
-<pre class="vb">Imports System
+Imports System
 Imports Nunit.Framework
 
 Namespace Nunit.Tests
 
-  &lt;TestFixture(), Explicit()&gt;
-  Public Class ExplicitTests
-    &#39; ...
-  End Class
-End Namespace
-</pre>
-
-<pre class="mc">#using &lt;Nunit.Framework.dll&gt;
-using namespace System;
-using namespace NUnit::Framework;
-
-namespace NUnitTests
-{
-  [TestFixture]
-  [Explicit]
-  public __gc class ExplicitTests
-  {
-    // ...
-  };
-}
-
-#include &quot;cppsample.h&quot;
-
-namespace NUnitTests {
-  // ...
-}
-</pre>
-
-<pre class="js">package NUnit.Tests;
-
-import System.*;
-import NUnit.Framework.TestFixture;
-
-
-/** @attribute NUnit.Framework.TestFixture() */
-/** @attribute NUnit.Framework.Explicit() */
-public class ExplicitTests
-{
-  // ...
-}
-</pre>
-
-</div>
-
-<h4>Test Syntax</h4>
-
-<div class="code">
-
-<div class="langFilter">
-	<a href="javascript:Show('DD2')" onmouseover="Show('DD2')"><img src="img/langFilter.gif" width="14" height="14" alt="Language Filter"></a>
-	<div id="DD2" class="dropdown" style="display: none;" onclick="Hide('DD2')">
-		<a href="javascript:ShowCS()">C#</a><br>
-		<a href="javascript:ShowVB()">VB</a><br>
-		<a href="javascript:ShowMC()">C++</a><br>
-		<a href="javascript:ShowJS()">J#</a><br>
-	</div>
-</div>
-
-<pre class="cs">namespace NUnit.Tests
-{
-  using System;
-  using NUnit.Framework;
-
-  [TestFixture]
-  public class SuccessTests
-  {
-    [Test, Explicit]
-    public void ExplicitTest()
-    { /* ... */ }
-}
-</pre>
-
-<pre class="vb">Imports System
-Imports Nunit.Framework
-
-Namespace Nunit.Tests
-
-  &lt;TestFixture()&gt;
-  Public Class SuccessTests
-    &lt;Test(), Explicit()&gt; Public Sub ExplicitTest()
-      &#39; ...
+  &lt;TestFixture(), Description("Fixture description here")&gt;_
+  Public Class SomeTests
+    &lt;Test(), Description("Test description here")&gt;_
+    Public Sub OneTest()
+    ' ...
     End Sub
   End Class
 End Namespace
 </pre>
+<pre class="mc">[assembly:Description("Assembly description here")]
 
-<pre class="mc">#using &lt;Nunit.Framework.dll&gt;
+#using &lt;Nunit.Framework.dll&gt;
 using namespace System;
 using namespace NUnit::Framework;
 
 namespace NUnitTests
 {
-  [TestFixture]
-  public __gc class SuccessTests
+  [TestFixture, Description("Fixture description here")]
+  public __gc class SomeTests
   {
-    [Test][Explicit] void ExplicitTest();
+    [Test, Description("Test description here")]
+    void OneTest();
   };
 }
 
-#include &quot;cppsample.h&quot;
+#include "cppsample.h"
 
 namespace NUnitTests {
   // ...
 }
 </pre>
 
-<pre class="js">package NUnit.Tests;
+<pre class="js">/** @assembly NUnit.Framework.Description("Assembly description here") */
+
+package NUnit.Tests;
 
 import System.*;
 import NUnit.Framework.TestFixture;
 
 
 /** @attribute NUnit.Framework.TestFixture() */
-public class SuccessTests
+/** @attribute NUnit.Framework.Description("Fixture description here") */
+public class SomeTests
 {
   /** @attribute NUnit.Framework.Test() */
-  /** @attribute NUnit.Framework.Explicit() */
-  public void ExplicitTest()
+  /** @attribute NUnit.Framework.Description("Test description here") */
+  public void OneTest()
   { /* ... */ }
 }
 </pre>
-
 </div>
+
+<p><b>Note:</b> The Test and TestFixture attributes continue to support an 
+optional Description property. The Description attribute should be used for 
+new applciations. If both are used, the Description attribute takes precedence.</p>
+	
+
 
 </div>
 
@@ -221,9 +143,9 @@ public class SuccessTests
 <li><a href="attributes.html">Attributes</a></li>
 <ul>
 <li><a href="category.html">Category</a></li>
-<li><a href="description.html">Description</a></li>
+<li id="current"><a href="description.html">Description</a></li>
 <li><a href="exception.html">Expected&nbsp;Exception</a></li>
-<li id="current"><a href="explicit.html">Explicit</a></li>
+<li><a href="explicit.html">Explicit</a></li>
 <li><a href="ignore.html">Ignore</a></li>
 <li><a href="platform.html">Platform</a></li>
 <li><a href="property.html">Property</a></li>

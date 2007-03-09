@@ -42,7 +42,7 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Apply a constraint to an actual value, succeeding if the constraint
 		/// is satisfied and throwing an assertion exception on failure. Works
-		/// identically to <see cref="NUnit.Framework.Assert.That(object, IConstraint, string, object[]"/>
+		/// identically to <see cref="NUnit.Framework.Assert.That(object, IConstraint, string, object[])"/>
 		/// </summary>
 		/// <param name="constraint">An IConstraint to be applied</param>
 		/// <param name="actual">The actual value to test</param>
@@ -55,7 +55,8 @@ namespace NUnit.Framework
 
 		/// <summary>
 		/// Asserts that a condition is true. If the condition is false the method throws
-		/// an <see cref="AssertionException"/>. Works Identically to <see cref="Assert.That"/>.
+		/// an <see cref="AssertionException"/>. Works Identically to 
+        /// <see cref="Assert.That(bool, string, object[])"/>.
 		/// </summary> 
 		/// <param name="condition">The evaluated condition</param>
 		/// <param name="message">The message to display if the condition is false</param>
@@ -67,7 +68,8 @@ namespace NUnit.Framework
 
 		/// <summary>
 		/// Asserts that a condition is true. If the condition is false the method throws
-		/// an <see cref="AssertionException"/>. Works Identically to <see cref="Assert.That"/>.
+		/// an <see cref="AssertionException"/>. Works Identically to 
+        /// <see cref="Assert.That(bool, string)"/>.
 		/// </summary>
 		/// <param name="condition">The evaluated condition</param>
 		/// <param name="message">The message to display if the condition is false</param>
@@ -78,7 +80,7 @@ namespace NUnit.Framework
 
 		/// <summary>
 		/// Asserts that a condition is true. If the condition is false the method throws
-		/// an <see cref="AssertionException"/>. Works Identically to <see cref="Assert.That"/>.
+		/// an <see cref="AssertionException"/>. Works Identically to <see cref="Assert.That(bool)"/>.
 		/// </summary>
 		/// <param name="condition">The evaluated condition</param>
 		static public void Expect(bool condition)
@@ -88,7 +90,10 @@ namespace NUnit.Framework
 		#endregion
 
 		#region ContainingConstraint
-		public Constraint Containing(object expected)
+        /// <summary>
+        /// Contains returns a ContainsConstraint
+        /// </summary>
+		public Constraint Contains(object expected)
 		{
 			return new ContainsConstraint( expected );
 		}
@@ -96,9 +101,9 @@ namespace NUnit.Framework
 
 		#region String Constraints
 		/// <summary>
-		/// Starting is a synonym for Is.StringStarting
+		/// StartsWith is a synonym for Text.StartsWith
 		/// </summary>
-		public Constraint Starting(string expected)
+		public Constraint StartsWith(string expected)
 		{
 			return Text.StartsWith( expected );
 		}
@@ -106,7 +111,7 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Ending is a synonym for Is.StringEnding
 		/// </summary>
-		public Constraint Ending(string expected)
+		public Constraint EndsWith(string expected)
 		{
 			return Text.EndsWith( expected );
 		}
@@ -114,9 +119,29 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Matches is a synonym for Text.Matches
 		/// </summary>
-		public Constraint Matching(string pattern)
+		public Constraint Matches(string pattern)
 		{
 			return Text.Matches(pattern);
+		}
+		#endregion
+
+		#region PropertyConstraint
+        /// <summary>
+        /// Property is a synonym for Has.Property
+        /// </summary>
+		public static Constraint Property( string name, object expected )
+		{
+			return new PropertyConstraint( name, expected );
+		}
+
+        /// <summary>
+        /// Length is a synonym for Has.Length
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
+		public static Constraint Length( int length )
+		{
+			return Property( "Length", length );
 		}
 		#endregion
 	}

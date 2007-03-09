@@ -185,7 +185,7 @@ namespace NUnit.Framework.Tests
 		public void SubstringTests()
 		{
 			string phrase = "Hello World!";
-			string[] array = new string[] { "Hello", "World", "!" };
+			string[] array = new string[] { "abc", "bad", "dba" };
 			
 			// Classic Syntax
 			StringAssert.Contains("World", phrase);
@@ -195,19 +195,24 @@ namespace NUnit.Framework.Tests
 			// Only available using new syntax
 			Assert.That(phrase, Text.DoesNotContain("goodbye"));
 			Assert.That(phrase, Text.Contains("WORLD").IgnoreCase);
+			Assert.That(phrase, Text.DoesNotContain("BYE").IgnoreCase);
+			Assert.That(array, Text.All.Contains( "b" ) );
 
 			// Inherited syntax
-			Expect(phrase, Containing("World"));
+			Expect(phrase, Contains("World"));
 			// Only available using new syntax
-			Expect(phrase, Not.Containing("goodbye"));
-			Expect(phrase, Containing("WORLD").IgnoreCase);
-			Expect(phrase, Not.Containing("BYE").IgnoreCase);
+			Expect(phrase, Not.Contains("goodbye"));
+			Expect(phrase, Contains("WORLD").IgnoreCase);
+			Expect(phrase, Not.Contains("BYE").IgnoreCase);
+			Expect(array, All.Contains("b"));
 		}
 
 		[Test]
 		public void StartsWithTests()
 		{
 			string phrase = "Hello World!";
+			string[] greetings = new string[] { "Hello!", "Hi!", "Hola!" };
+
 			// Classic syntax
 			StringAssert.StartsWith("Hello", phrase);
 
@@ -217,19 +222,22 @@ namespace NUnit.Framework.Tests
 			Assert.That(phrase, Text.DoesNotStartWith("Hi!"));
 			Assert.That(phrase, Text.StartsWith("HeLLo").IgnoreCase);
 			Assert.That(phrase, Text.DoesNotStartWith("HI").IgnoreCase);
+			Assert.That(greetings, Text.All.StartsWith("h").IgnoreCase);
 
 			// Inherited syntax
-			Expect(phrase, Starting("Hello"));
+			Expect(phrase, StartsWith("Hello"));
 			// Only available using new syntax
-			Expect(phrase, Not.Starting("Hi!"));
-			Expect(phrase, Starting("HeLLo").IgnoreCase);
-			Expect(phrase, Not.Starting("HI").IgnoreCase);
+			Expect(phrase, Not.StartsWith("Hi!"));
+			Expect(phrase, StartsWith("HeLLo").IgnoreCase);
+			Expect(phrase, Not.StartsWith("HI").IgnoreCase);
+			Expect(greetings, All.StartsWith("h").IgnoreCase);
 		}
 
 		[Test]
 		public void EndsWithTests()
 		{
 			string phrase = "Hello World!";
+			string[] greetings = new string[] { "Hello!", "Hi!", "Hola!" };
 
 			// Classic Syntax
 			StringAssert.EndsWith("!", phrase);
@@ -239,12 +247,14 @@ namespace NUnit.Framework.Tests
 			// Only available using new syntax
 			Assert.That(phrase, Text.DoesNotEndWith("?"));
 			Assert.That(phrase, Text.EndsWith("WORLD!").IgnoreCase);
+			Assert.That(greetings, Text.All.EndsWith("!"));
 		
 			// Inherited syntax
-			Expect(phrase, Ending("!"));
+			Expect(phrase, EndsWith("!"));
 			// Only available using new syntax
-			Expect(phrase, Not.Ending("?"));
-			Expect(phrase, Ending("WORLD!").IgnoreCase);
+			Expect(phrase, Not.EndsWith("?"));
+			Expect(phrase, EndsWith("WORLD!").IgnoreCase);
+			Expect(greetings, All.EndsWith("!") );
 		}
 
 		[Test]
@@ -261,6 +271,8 @@ namespace NUnit.Framework.Tests
 			Assert.That(phrase, Is.Not.EqualTo("goodbye world!").IgnoreCase);
 			Assert.That(new string[] { "Hello", "World" }, 
 				Is.EqualTo(new object[] { "HELLO", "WORLD" }).IgnoreCase);
+			Assert.That(new string[] {"HELLO", "Hello", "hello" },
+				Is.All.EqualTo( "hello" ).IgnoreCase);
 		            
 			// Inherited syntax
 			Expect(phrase, EqualTo("hello world!").IgnoreCase);
@@ -268,12 +280,15 @@ namespace NUnit.Framework.Tests
 			Expect(phrase, Not.EqualTo("goodbye world!").IgnoreCase);
 			Expect(new string[] { "Hello", "World" }, 
 				EqualTo(new object[] { "HELLO", "WORLD" }).IgnoreCase);
+			Expect(new string[] {"HELLO", "Hello", "hello" },
+				All.EqualTo( "hello" ).IgnoreCase);
 		}
 
 		[Test]
 		public void RegularExpressionTests()
 		{
 			string phrase = "Now is the time for all good men to come to the aid of their country.";
+			string[] quotes = new string[] { "Never say never", "It's never too late", "Nevermore!" };
 
 			// Classic syntax
 			StringAssert.IsMatch( "all good men", phrase );
@@ -285,13 +300,15 @@ namespace NUnit.Framework.Tests
 			// Only available using new syntax
 			Assert.That(phrase, Text.DoesNotMatch("all.*men.*good"));
 			Assert.That(phrase, Text.Matches("ALL").IgnoreCase);
+			Assert.That(quotes, Text.All.Matches("never").IgnoreCase);
 		
 			// Inherited syntax
-			Expect( phrase, Matching( "all good men" ) );
-			Expect( phrase, Matching( "Now.*come" ) );
+			Expect( phrase, Matches( "all good men" ) );
+			Expect( phrase, Matches( "Now.*come" ) );
 			// Only available using new syntax
-			Expect(phrase, Not.Matching("all.*men.*good"));
-			Expect(phrase, Matching("ALL").IgnoreCase);
+			Expect(phrase, Not.Matches("all.*men.*good"));
+			Expect(phrase, Matches("ALL").IgnoreCase);
+			Expect(quotes, All.Matches("never").IgnoreCase);
 		}
 
 		[Test]
@@ -384,7 +401,7 @@ namespace NUnit.Framework.Tests
 		public void AllItemsTests()
 		{
 			object[] ints = new object[] { 1, 2, 3, 4 };
-			object[] strings = new object[] { "a", "b", "c", "b", "d" };
+			object[] strings = new object[] { "abc", "bad", "cab", "bad", "dad" };
 
 			// Classic syntax
 			CollectionAssert.AllItemsAreNotNull(ints);
@@ -399,7 +416,8 @@ namespace NUnit.Framework.Tests
 			Assert.That(ints, Is.Unique);
 			// Only available using new syntax
 			Assert.That(strings, Is.Not.Unique);
-			Assert.That(ints, Is.All.GreaterThan(0));  
+			Assert.That(ints, Is.All.GreaterThan(0));
+			Assert.That(strings, Text.All.Contains( "a" ) );
 		
 			// Inherited syntax
 			Expect(ints, All.Not.Null);
@@ -425,14 +443,14 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.DoesNotContain(sarray, "x");
 
 			// Helper syntax
-			Assert.That(iarray, Is.CollectionContaining(3));
-			Assert.That(sarray, Is.CollectionContaining("b"));
-			Assert.That(sarray, Is.Not.CollectionContaining("x"));
+			Assert.That(iarray, List.Contains(3));
+			Assert.That(sarray, List.Contains("b"));
+			Assert.That(sarray, List.Not.Contains("x"));
 		
 			// Inherited syntax
-			Expect(iarray, Containing(3));
-			Expect(sarray, Containing("b"));
-			Expect(sarray, Not.Containing("x"));
+			Expect(iarray, Contains(3));
+			Expect(sarray, Contains("b"));
+			Expect(sarray, Not.Contains("x"));
 		}
 
 		[Test]
@@ -478,6 +496,24 @@ namespace NUnit.Framework.Tests
 			Expect(new int[] { 1, 3, 5 }, SubsetOf(ints1to5));
 			Expect(new int[] { 1, 2, 3, 4, 5 }, SubsetOf(ints1to5));
 			Expect(new int[] { 2, 4, 6 }, Not.SubsetOf(ints1to5));
+		}
+
+		[Test]
+		public void PropertyTests()
+		{
+			string[] array = new string[] { "abc", "bca", "xyz" };
+
+			// Helper syntax
+			Assert.That( "Hello", Has.Property("Length", 5) );
+			Assert.That( "Hello", Has.Length( 5 ) );
+			Assert.That( array , Has.All.Property( "Length", 3 ) );
+			Assert.That( array, Has.All.Length( 3 ) );
+
+			// Inherited syntax
+			Expect( "Hello", Property("Length", 5) );
+			Expect( "Hello", Length( 5 ) );
+			Expect( array, All.Property("Length", 3 ) );
+			Expect( array, All.Length( 3 ) );
 		}
 
 		[Test]

@@ -300,6 +300,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\PropertyConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\SameAsConstraint.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -315,7 +320,17 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "SyntaxHelpers\Has.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SyntaxHelpers\Is.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SyntaxHelpers\List.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

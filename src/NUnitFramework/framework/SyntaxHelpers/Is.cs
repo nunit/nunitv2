@@ -174,18 +174,6 @@ namespace NUnit.Framework.SyntaxHelpers
         {
             return new CollectionSubsetConstraint(expected);
         }
-
-		/// <summary>
-		/// Is.CollectionContaining returns a constraint that tests
-		/// whethner the actual value is a collection containing
-		/// the expected value.
-		/// </summary>
-		/// <param name="expected"></param>
-		/// <returns></returns>
-		public static Constraint CollectionContaining( object expected )
-		{
-			return new CollectionContainsConstraint( expected );
-		}
         #endregion
 
         #endregion

@@ -15,6 +15,26 @@ namespace NUnit.Framework.Constraints
 		object expected;
 		Constraint realConstraint;
 
+		private Constraint RealConstraint
+		{
+			get 
+			{
+				if ( realConstraint == null )
+				{
+					if ( actual is string )
+						this.realConstraint = new SubstringConstraint( (string)expected );
+					else
+						this.realConstraint = new CollectionContainsConstraint( expected );
+				}
+
+				return realConstraint;
+			}
+			set 
+			{ 
+				realConstraint = value; 
+			}
+		}
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:ContainsConstraint"/> class.
         /// </summary>
@@ -32,15 +52,11 @@ namespace NUnit.Framework.Constraints
 		public override bool Matches(object actual)
 		{
 			this.actual = actual;
-			if ( actual is string )
-				this.realConstraint = new SubstringConstraint( (string)expected );
-			else
-				this.realConstraint = new CollectionContainsConstraint( expected );
 
 			if ( this.caseInsensitive )
-				this.realConstraint = this.realConstraint.IgnoreCase;
+				this.RealConstraint = RealConstraint.IgnoreCase;
 
-			return this.realConstraint.Matches( actual );
+			return this.RealConstraint.Matches( actual );
 		}
 
         /// <summary>
@@ -49,7 +65,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer">The writer on which the description is displayed</param>
 		public override void WriteDescriptionTo(MessageWriter writer)
 		{
-			this.realConstraint.WriteDescriptionTo(writer);
+			this.RealConstraint.WriteDescriptionTo(writer);
 		}
 	}
 }

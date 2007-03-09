@@ -91,6 +91,7 @@
     <Compile Include="Constraints\EmptyConstraint.cs" />
     <Compile Include="Constraints\EqualConstraint.cs" />
     <Compile Include="Constraints\NotConstraint.cs" />
+    <Compile Include="Constraints\PropertyConstraint.cs" />
     <Compile Include="Constraints\SameAsConstraint.cs" />
     <Compile Include="Constraints\StringConstraints.cs" />
     <Compile Include="Constraints\TypeConstraints.cs" />
@@ -132,6 +133,8 @@
     <Compile Include="SuiteAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SyntaxHelpers\List.cs" />
+    <Compile Include="SyntaxHelpers\Has.cs" />
     <Compile Include="SyntaxHelpers\Is.cs" />
     <Compile Include="SyntaxHelpers\SyntaxHelper.cs" />
     <Compile Include="SyntaxHelpers\Text.cs" />

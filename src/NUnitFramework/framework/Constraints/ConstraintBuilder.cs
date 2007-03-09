@@ -196,7 +196,7 @@ namespace NUnit.Framework.Constraints
 		/// second-level constraint, depending on the
 		/// type of the actual argument.
 		/// </summary>
-		public Constraint Containing(object expected)
+		public Constraint Contains(object expected)
 		{
 			return Resolve( new ContainsConstraint(expected) );
 		}
@@ -207,7 +207,7 @@ namespace NUnit.Framework.Constraints
 		/// Resolves the chain of constraints using a
 		/// StartsWithConstraint as base.
 		/// </summary>
-		public Constraint Starting(string substring)
+		public Constraint StartsWith(string substring)
         {
             return Resolve( new StartsWithConstraint(substring) );
         }
@@ -216,7 +216,7 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a
         /// StringEndingConstraint as base.
         /// </summary>
-        public Constraint Ending(string substring)
+        public Constraint EndsWith(string substring)
         {
             return Resolve( new EndsWithConstraint(substring) );
         }
@@ -225,7 +225,7 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a
         /// StringMatchingConstraint as base.
         /// </summary>
-        public Constraint Matching(string pattern)
+        public Constraint Matches(string pattern)
         {
             return Resolve(new RegexConstraint(pattern));
         }
@@ -259,6 +259,28 @@ namespace NUnit.Framework.Constraints
             return Resolve(new CollectionSubsetConstraint(expected));
         }
         #endregion
+
+		#region Property Constraints
+        /// <summary>
+        /// Resolves the chain of constraints using a 
+        /// PropertyConstraint as base
+        /// </summary>
+		public Constraint Property( string name, object expected )
+		{
+			return Resolve( new PropertyConstraint( name, expected ) );
+		}
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// PropertyCOnstraint on Length as base
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
+		public Constraint Length( int length )
+		{
+			return Property( "Length", length );
+		}
+		#endregion
 
         #endregion
 
