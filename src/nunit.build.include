@@ -75,7 +75,7 @@
 
   <!-- Root of the package file name -->
   <property name="package.name" 
-    value="${project.name}-${package.version}"/>
+    value="${project.name}-${package.version}${package.suffix}"/>
 
   <!-- Package directories -->
   <property name="package.working.dir" 

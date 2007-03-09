@@ -60,6 +60,9 @@
   <!-- NUnit version for packaging -->
   <property name="package.version" value="2.4.0"/>
 
+  <!-- Additional suffix used to distinguish files with the same version -->
+  <property name="package.suffix" value="-r1"/>
+
   <!-- Nominal version used for install directory and program
        files menu. Normally the major and minor portions
        of the package.version, but may differ when we are
