@@ -9,7 +9,6 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// </summary>
 	public class Text : SyntaxHelper
 	{
-		#region String Constraints
 		/// <summary>
 		/// Contains returns a constraint that succeeds if the actual
 		/// value contains the substring supplied as an argument.
@@ -85,6 +84,5 @@ namespace NUnit.Framework.SyntaxHelpers
 		{
 			return new NotConstraint( Matches(pattern) );
 		}
-		#endregion
 	}
 }
