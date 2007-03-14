@@ -73,6 +73,7 @@
     <Compile Include="AssertionTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CollectionAdapter.cs" />
     <Compile Include="CollectionAssertTest.cs" />
     <Compile Include="ConditionAssertTests.cs" />
     <Compile Include="Constraints\AndTest.cs" />
