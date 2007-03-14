@@ -199,16 +199,16 @@ namespace NUnit.UiKit
 			tests.CheckedTestChanged += new CheckedTestChangedHandler(tests_CheckedTestChanged);
 
 			this.excludeCheckbox.Enabled = false;
-
-			if ( !this.DesignMode )
-				this.ShowCheckBoxes = 
-					Services.UserSettings.GetSetting( "Options.ShowCheckBoxes", false );
 		}
 
 		protected override void OnLoad(EventArgs e)
 		{
 			if ( !this.DesignMode )
+			{
+				this.ShowCheckBoxes = 
+					Services.UserSettings.GetSetting( "Options.ShowCheckBoxes", false );
 				Initialize( Services.TestLoader );
+			}
 
 			base.OnLoad (e);
 		}
@@ -708,7 +708,8 @@ namespace NUnit.UiKit
 
 		private void checkBoxesMenuItem_Click(object sender, System.EventArgs e)
 		{
-			ShowCheckBoxes = !checkBoxesMenuItem.Checked;
+			Services.UserSettings.SaveSetting( "Options.ShowCheckBoxes", 
+				ShowCheckBoxes = !checkBoxesMenuItem.Checked );
 			
 			// Temporary till we can save tree state and restore
 			//this.SetInitialExpansion();
