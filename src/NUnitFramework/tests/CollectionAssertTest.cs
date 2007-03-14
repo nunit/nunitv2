@@ -363,7 +363,7 @@ namespace NUnit.Framework.Tests
 
 		#region Contains
 		[Test]
-		public void Contains()
+		public void Contains_IList()
 		{
 			ArrayList al = new ArrayList();
 			al.Add("x");
@@ -373,8 +373,16 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.Contains(al,"x");
 		}
 
+		[Test]
+		public void Contains_ICollection()
+		{
+			CollectionAdapter ca = new CollectionAdapter( new string[] { "x", "y", "z" } );
+
+			CollectionAssert.Contains(ca,"x");
+		}
+
 		[Test, ExpectedException(typeof(AssertionException))]
-		public void ContainsFails()
+		public void ContainsFails_ILIst()
 		{
 			ArrayList al = new ArrayList();
 			al.Add("x");
@@ -388,7 +396,18 @@ namespace NUnit.Framework.Tests
 		}
 
 		[Test, ExpectedException(typeof(AssertionException))]
-		public void ContainsFails_Empty()
+		public void ContainsFails_ICollection()
+		{
+			CollectionAdapter ca = new CollectionAdapter( new string[] { "x", "y", "z" } );
+
+			expectedMessage =
+				"  Expected: collection containing \"a\"" + Environment.NewLine +
+				"  But was:  < \"x\", \"y\", \"z\" >" + Environment.NewLine;
+			CollectionAssert.Contains(ca,"a");
+		}
+
+		[Test, ExpectedException(typeof(AssertionException))]
+		public void ContainsFails_EmptyIList()
 		{
 			ArrayList al = new ArrayList();
 
@@ -396,6 +415,31 @@ namespace NUnit.Framework.Tests
 				"  Expected: collection containing \"x\"" + Environment.NewLine +
 				"  But was:  <empty>" + Environment.NewLine;
 			CollectionAssert.Contains(al,"x");
+		}
+
+		[Test, ExpectedException(typeof(AssertionException))]
+		public void ContainsFails_EmptyICollection()
+		{
+			CollectionAdapter ca = new CollectionAdapter( new object[0] );
+
+			expectedMessage =
+				"  Expected: collection containing \"x\"" + Environment.NewLine +
+				"  But was:  <empty>" + Environment.NewLine;
+			CollectionAssert.Contains(ca,"x");
+		}
+
+		[Test]
+		public void ContainsNull_IList()
+		{
+			Object[] oa = new object[] { 1, 2, 3, null, 4, 5 };
+			CollectionAssert.Contains( oa, null );
+		}
+
+		[Test]
+		public void ContainsNull_ICollection()
+		{
+			CollectionAdapter ca = new CollectionAdapter( new object[] { 1, 2, 3, null, 4, 5 } );
+			CollectionAssert.Contains( ca, null );
 		}
 		#endregion
 

@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections;
+using NUnit.Framework.Tests;
 
 namespace NUnit.Framework.Constraints.Tests
 {
@@ -94,5 +95,12 @@ namespace NUnit.Framework.Constraints.Tests
             Assert.That(list.Values, new CollectionContainsConstraint(item));
             Assert.That(list.Keys, new CollectionContainsConstraint("b"));
         }
+
+		[Test]
+		public void CanTestContentsOfCollectionNotImplementingIList()
+		{
+			CollectionAdapter ints = new CollectionAdapter(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});           
+			Assert.That(ints, new CollectionContainsConstraint( 9 ));
+		}
     }
 }

@@ -418,6 +418,7 @@ namespace NUnit.Framework.Tests
 			Assert.That(strings, Is.Not.Unique);
 			Assert.That(ints, Is.All.GreaterThan(0));
 			Assert.That(strings, Text.All.Contains( "a" ) );
+			Assert.That(strings, List.Some.StartsWith( "ba" ) );
 		
 			// Inherited syntax
 			Expect(ints, All.Not.Null);
@@ -426,7 +427,55 @@ namespace NUnit.Framework.Tests
 			Expect(ints, Unique);
 			// Only available using new syntax
 			Expect(strings, Not.Unique);
-			Expect(ints, All.GreaterThan(0));                 
+			Expect(ints, All.GreaterThan(0));
+			Expect(strings, All.Contains( "a" ) );
+			Expect(strings, Some.StartsWith( "ba" ) );
+		}
+
+		[Test]
+		public void SomeItemsTests()
+		{
+			object[] mixed = new object[] { 1, 2, "3", null, "four", 100 };
+			object[] strings = new object[] { "abc", "bad", "cab", "bad", "dad" };
+
+			// Not available using the classic syntax
+
+			// Helper syntax
+			Assert.That(mixed, Has.Some.Null);
+			Assert.That(mixed, Has.Some.InstanceOfType(typeof(int)));
+			Assert.That(mixed, Has.Some.InstanceOfType(typeof(string)));
+			Assert.That(mixed, Has.Some.GreaterThan(99));
+			Assert.That(strings, Has.Some.StartsWith( "ba" ) );
+			Assert.That(strings, Has.Some.Not.StartsWith( "ba" ) );
+		
+			// Inherited syntax
+			Expect(mixed, Some.Null);
+			Expect(mixed, Some.InstanceOfType(typeof(int)));
+			Expect(mixed, Some.InstanceOfType(typeof(string)));
+			Expect(mixed, Some.GreaterThan(99));
+			Expect(strings, Some.StartsWith( "ba" ) );
+			Expect(strings, Some.Not.StartsWith( "ba" ) );
+		}
+
+		[Test]
+		public void NoItemsTests()
+		{
+			object[] ints = new object[] { 1, 2, 3, 4, 5 };
+			object[] strings = new object[] { "abc", "bad", "cab", "bad", "dad" };
+
+			// Not available using the classic syntax
+
+			// Helper syntax
+			Assert.That(ints, Has.None.Null);
+			Assert.That(ints, Has.None.InstanceOfType(typeof(string)));
+			Assert.That(ints, Has.None.GreaterThan(99));
+			Assert.That(strings, Has.None.StartsWith( "qu" ) );
+		
+			// Inherited syntax
+			Expect(ints, None.Null);
+			Expect(ints, None.InstanceOfType(typeof(string)));
+			Expect(ints, None.GreaterThan(99));
+			Expect(strings, None.StartsWith( "qu" ) );
 		}
 
 		[Test]
@@ -519,7 +568,7 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void NotTests()
 		{
-			// Not available usin the classic syntax
+			// Not available using the classic syntax
 
 			// Helper syntax
 			Assert.That(42, Is.Not.Null);

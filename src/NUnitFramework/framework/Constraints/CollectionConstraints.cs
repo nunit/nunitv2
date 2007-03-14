@@ -24,11 +24,8 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         protected bool IsItemInCollection(object expected, ICollection collection)
         {
-            if (collection is IList)
-                return ((IList)collection).Contains(expected);
-
             foreach (object obj in collection)
-                if (obj == expected)
+                if ( Object.Equals( obj, expected ) )
                     return true;
 
             return false;
@@ -51,58 +48,109 @@ namespace NUnit.Framework.Constraints
     }
     #endregion
 
-    #region AllItemsConstraint
-    /// <summary>
-    /// AllItemsConstraint applies another constraint to each
-    /// item in a collection.
-    /// </summary>
-    public class AllItemsConstraint : Constraint
-    {
-        private Constraint itemConstraint;
+	#region AllItemsConstraint
+	/// <summary>
+	/// AllItemsConstraint applies another constraint to each
+	/// item in a collection, succeeding if they all succeed.
+	/// </summary>
+	public class AllItemsConstraint : Constraint
+	{
+		private Constraint itemConstraint;
 
-        /// <summary>
-        /// Construct an AllItemsConstraint on top of an existing constraint
-        /// </summary>
-        /// <param name="itemConstraint"></param>
-        public AllItemsConstraint(Constraint itemConstraint)
-        {
-            this.itemConstraint = itemConstraint;
-        }
+		/// <summary>
+		/// Construct an AllItemsConstraint on top of an existing constraint
+		/// </summary>
+		/// <param name="itemConstraint"></param>
+		public AllItemsConstraint(Constraint itemConstraint)
+		{
+			this.itemConstraint = itemConstraint;
+		}
 
-        /// <summary>
-        /// Apply the item constraint to each item in the collection,
-        /// failing if any item fails.
-        /// </summary>
-        /// <param name="actual"></param>
-        /// <returns></returns>
-        public override bool Matches(object actual)
-        {
-            this.actual = actual;
-            if ( actual == null || !(actual is ICollection) )
-                return false;
+		/// <summary>
+		/// Apply the item constraint to each item in the collection,
+		/// failing if any item fails.
+		/// </summary>
+		/// <param name="actual"></param>
+		/// <returns></returns>
+		public override bool Matches(object actual)
+		{
+			this.actual = actual;
+			if ( actual == null || !(actual is ICollection) )
+				return false;
 
 			if ( this.caseInsensitive )
 				itemConstraint = itemConstraint.IgnoreCase;
-            foreach(object item in (ICollection)actual)
-                if (!itemConstraint.Matches(item))
-                    return false;
+			foreach(object item in (ICollection)actual)
+				if (!itemConstraint.Matches(item))
+					return false;
 
-            return true;
-        }
+			return true;
+		}
 
-        /// <summary>
-        /// Write a description of this constraint to a MessageWriter
-        /// </summary>
-        /// <param name="writer"></param>
-        public override void WriteDescriptionTo(MessageWriter writer)
-        {
-            writer.WritePredicate("all items");
-            itemConstraint.WriteDescriptionTo(writer);
-        }
-    }
-    #endregion
+		/// <summary>
+		/// Write a description of this constraint to a MessageWriter
+		/// </summary>
+		/// <param name="writer"></param>
+		public override void WriteDescriptionTo(MessageWriter writer)
+		{
+			writer.WritePredicate("all items");
+			itemConstraint.WriteDescriptionTo(writer);
+		}
+	}
+	#endregion
 
-    #region UniqueItemsConstraint
+	#region SomeItemsConstraint
+	/// <summary>
+	/// SomeItemsConstraint applies another constraint to each
+	/// item in a collection, succeeding if any of them succeeds.
+	/// </summary>
+	public class SomeItemsConstraint : Constraint
+	{
+		private Constraint itemConstraint;
+
+		/// <summary>
+		/// Construct a SomeItemsConstraint on top of an existing constraint
+		/// </summary>
+		/// <param name="itemConstraint"></param>
+		public SomeItemsConstraint(Constraint itemConstraint)
+		{
+			this.itemConstraint = itemConstraint;
+		}
+
+		/// <summary>
+		/// Apply the item constraint to each item in the collection,
+		/// failing if any item fails.
+		/// </summary>
+		/// <param name="actual"></param>
+		/// <returns></returns>
+		public override bool Matches(object actual)
+		{
+			this.actual = actual;
+			if ( actual == null || !(actual is ICollection) )
+				return false;
+
+			if ( this.caseInsensitive )
+				itemConstraint = itemConstraint.IgnoreCase;
+			foreach(object item in (ICollection)actual)
+				if (itemConstraint.Matches(item))
+					return true;
+
+			return false;
+		}
+
+		/// <summary>
+		/// Write a description of this constraint to a MessageWriter
+		/// </summary>
+		/// <param name="writer"></param>
+		public override void WriteDescriptionTo(MessageWriter writer)
+		{
+			writer.WritePredicate("some item");
+			itemConstraint.WriteDescriptionTo(writer);
+		}
+	}
+	#endregion
+
+	#region UniqueItemsConstraint
     /// <summary>
     /// UniqueItemsConstraint tests whether all the items in a 
     /// collection are unique.

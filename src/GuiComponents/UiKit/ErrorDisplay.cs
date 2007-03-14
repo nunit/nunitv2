@@ -138,17 +138,20 @@ namespace NUnit.UiKit
 		#region Form Level Events
 		protected override void OnLoad(EventArgs e)
 		{
-			Subscribe( Services.TestLoader.Events );
+			if ( !this.DesignMode )
+			{
+				Subscribe( Services.TestLoader.Events );
 	
-			this.settings = Services.UserSettings;
-			settings.Changed += new SettingsEventHandler(UserSettings_Changed);
+				this.settings = Services.UserSettings;
+				settings.Changed += new SettingsEventHandler(UserSettings_Changed);
 
-			int splitPosition = settings.GetSetting( "Gui.ResultTabs.ErrorsTabSplitterPosition", tabSplitter.SplitPosition );
-			if ( splitPosition >= tabSplitter.MinSize && splitPosition < this.ClientSize.Height )
-				this.tabSplitter.SplitPosition = splitPosition;
+				int splitPosition = settings.GetSetting( "Gui.ResultTabs.ErrorsTabSplitterPosition", tabSplitter.SplitPosition );
+				if ( splitPosition >= tabSplitter.MinSize && splitPosition < this.ClientSize.Height )
+					this.tabSplitter.SplitPosition = splitPosition;
 
-			stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
-			stackTrace.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
+				stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
+				stackTrace.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
+			}
 
 			base.OnLoad (e);
 		}

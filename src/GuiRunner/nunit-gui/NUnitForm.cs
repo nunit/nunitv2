@@ -238,11 +238,12 @@ namespace NUnit.Gui
 			// 
 			this.statusBar.DisplayTestProgress = true;
 			this.statusBar.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.statusBar.Location = new System.Drawing.Point(0, 425);
+			this.statusBar.Location = new System.Drawing.Point(0, 545);
 			this.statusBar.Name = "statusBar";
 			this.statusBar.ShowPanels = true;
 			this.statusBar.Size = new System.Drawing.Size(744, 37);
 			this.statusBar.TabIndex = 0;
+			this.statusBar.Text = "Status";
 			// 
 			// mainMenu
 			// 
@@ -613,7 +614,7 @@ namespace NUnit.Gui
 			this.treeSplitter.Location = new System.Drawing.Point(240, 0);
 			this.treeSplitter.MinSize = 240;
 			this.treeSplitter.Name = "treeSplitter";
-			this.treeSplitter.Size = new System.Drawing.Size(6, 425);
+			this.treeSplitter.Size = new System.Drawing.Size(6, 545);
 			this.treeSplitter.TabIndex = 2;
 			this.treeSplitter.TabStop = false;
 			// 
@@ -624,7 +625,7 @@ namespace NUnit.Gui
 			this.rightPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.rightPanel.Location = new System.Drawing.Point(246, 0);
 			this.rightPanel.Name = "rightPanel";
-			this.rightPanel.Size = new System.Drawing.Size(498, 425);
+			this.rightPanel.Size = new System.Drawing.Size(498, 545);
 			this.rightPanel.TabIndex = 3;
 			// 
 			// groupBox1
@@ -706,10 +707,9 @@ namespace NUnit.Gui
 			this.resultTabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 				| System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
-			this.resultTabs.ForeColor = System.Drawing.Color.Red;
 			this.resultTabs.Location = new System.Drawing.Point(0, 120);
 			this.resultTabs.Name = "resultTabs";
-			this.resultTabs.Size = new System.Drawing.Size(498, 305);
+			this.resultTabs.Size = new System.Drawing.Size(498, 425);
 			this.resultTabs.TabIndex = 2;
 			// 
 			// testTree
@@ -718,7 +718,7 @@ namespace NUnit.Gui
 			this.testTree.Location = new System.Drawing.Point(0, 0);
 			this.testTree.Name = "testTree";
 			this.testTree.ShowCheckBoxes = false;
-			this.testTree.Size = new System.Drawing.Size(240, 425);
+			this.testTree.Size = new System.Drawing.Size(240, 545);
 			this.testTree.TabIndex = 0;
 			this.testTree.SelectedTestsChanged += new NUnit.UiKit.SelectedTestsChangedEventHandler(this.testTree_SelectedTestsChanged);
 			// 
@@ -728,19 +728,18 @@ namespace NUnit.Gui
 			this.leftPanel.Dock = System.Windows.Forms.DockStyle.Left;
 			this.leftPanel.Location = new System.Drawing.Point(0, 0);
 			this.leftPanel.Name = "leftPanel";
-			this.leftPanel.Size = new System.Drawing.Size(240, 425);
+			this.leftPanel.Size = new System.Drawing.Size(240, 545);
 			this.leftPanel.TabIndex = 4;
 			// 
 			// NUnitForm
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
-			this.ClientSize = new System.Drawing.Size(744, 462);
+			this.ClientSize = new System.Drawing.Size(744, 582);
 			this.Controls.Add(this.rightPanel);
 			this.Controls.Add(this.treeSplitter);
 			this.Controls.Add(this.leftPanel);
 			this.Controls.Add(this.statusBar);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.Menu = this.mainMenu;
 			this.MinimumSize = new System.Drawing.Size(160, 32);
 			this.Name = "NUnitForm";
@@ -1193,57 +1192,60 @@ namespace NUnit.Gui
 		/// </summary>
 		private void NUnitForm_Load(object sender, System.EventArgs e)
 		{
-			// TODO: Can these controls add their menus themselves?
-			this.viewMenu.MenuItems.Add(3, resultTabs.TabsMenu);
-			this.viewMenu.MenuItems.Add(4, testTree.TreeMenu);
-
-			EnableRunCommand( false );
-			EnableStopCommand( false );
-
-			recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, recentFilesService );
-
-			LoadFormSettings();
-			SubscribeToTestEvents();
-			InitializeControls();
-
-			// Load test specified on command line or
-			// the most recent one if options call for it
-			if ( commandLineOptions.testFileName != null )
-				TestLoaderUI.OpenProject( this, commandLineOptions.testFileName, commandLineOptions.configName, commandLineOptions.testName );
-			else if( userSettings.GetSetting( "Options.LoadLastProject", true ) && !commandLineOptions.noload )
+			if ( !this.DesignMode )
 			{
-				RecentFilesCollection entries = recentFilesService.Entries;
-				if ( entries.Count > 0 )
+				// TODO: Can these controls add their menus themselves?
+				this.viewMenu.MenuItems.Add(3, resultTabs.TabsMenu);
+				this.viewMenu.MenuItems.Add(4, testTree.TreeMenu);
+
+				EnableRunCommand( false );
+				EnableStopCommand( false );
+
+				recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, recentFilesService );
+
+				LoadFormSettings();
+				SubscribeToTestEvents();
+				InitializeControls();
+
+				// Load test specified on command line or
+				// the most recent one if options call for it
+				if ( commandLineOptions.testFileName != null )
+					TestLoaderUI.OpenProject( this, commandLineOptions.testFileName, commandLineOptions.configName, commandLineOptions.testName );
+				else if( userSettings.GetSetting( "Options.LoadLastProject", true ) && !commandLineOptions.noload )
 				{
-					RecentFileEntry entry = recentFilesService.Entries[0];
-					if ( entry != null )
-						TestLoaderUI.OpenProject( this, entry.Path, commandLineOptions.configName, commandLineOptions.testName );
+					RecentFilesCollection entries = recentFilesService.Entries;
+					if ( entries.Count > 0 )
+					{
+						RecentFileEntry entry = recentFilesService.Entries[0];
+						if ( entry != null )
+							TestLoaderUI.OpenProject( this, entry.Path, commandLineOptions.configName, commandLineOptions.testName );
+					}
 				}
-			}
 
-			if ( commandLineOptions.categories != null )
-			{
-				string[] categories = commandLineOptions.categories.Split( ',' );
-				if ( categories.Length > 0 )
-					this.testTree.SelectCategories( commandLineOptions.categories.Split( ',' ), commandLineOptions.exclude );
-			}
+				if ( commandLineOptions.categories != null )
+				{
+					string[] categories = commandLineOptions.categories.Split( ',' );
+					if ( categories.Length > 0 )
+						this.testTree.SelectCategories( commandLineOptions.categories.Split( ',' ), commandLineOptions.exclude );
+				}
 
-			// Run loaded test automatically if called for
-			if ( commandLineOptions.autorun && TestLoader.IsTestLoaded )
-			{
-				// TODO: Temporary fix to avoid problem when /run is used 
-				// with ReloadOnRun turned on. Refactor TestLoader so
-				// we can just do a run without reload.
-				bool reload = TestLoader.ReloadOnRun;
+				// Run loaded test automatically if called for
+				if ( commandLineOptions.autorun && TestLoader.IsTestLoaded )
+				{
+					// TODO: Temporary fix to avoid problem when /run is used 
+					// with ReloadOnRun turned on. Refactor TestLoader so
+					// we can just do a run without reload.
+					bool reload = TestLoader.ReloadOnRun;
 				
-				try
-				{
-					TestLoader.ReloadOnRun = false;
-					TestLoader.RunTests();
-				}
-				finally
-				{
-					TestLoader.ReloadOnRun = reload;
+					try
+					{
+						TestLoader.ReloadOnRun = false;
+						TestLoader.RunTests();
+					}
+					finally
+					{
+						TestLoader.ReloadOnRun = reload;
+					}
 				}
 			}
 		}

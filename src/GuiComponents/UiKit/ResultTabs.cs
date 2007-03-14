@@ -48,8 +48,6 @@ namespace NUnit.UiKit
 			// This call is required by the Windows.Forms Form Designer.
 			InitializeComponent();
 
-			settings = Services.UserSettings;
-
 			this.tabsMenu = new MenuItem();
 			this.errorsTabMenuItem = new System.Windows.Forms.MenuItem();
 			this.notRunTabMenuItem = new System.Windows.Forms.MenuItem();
@@ -157,7 +155,7 @@ namespace NUnit.UiKit
 			this.tabControl.Location = new System.Drawing.Point(0, 0);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
-			this.tabControl.Size = new System.Drawing.Size(488, 304);
+			this.tabControl.Size = new System.Drawing.Size(488, 280);
 			this.tabControl.TabIndex = 3;
 			// 
 			// errorTab
@@ -165,7 +163,7 @@ namespace NUnit.UiKit
 			this.errorTab.Controls.Add(this.errorDisplay);
 			this.errorTab.Location = new System.Drawing.Point(4, 22);
 			this.errorTab.Name = "errorTab";
-			this.errorTab.Size = new System.Drawing.Size(480, 278);
+			this.errorTab.Size = new System.Drawing.Size(480, 254);
 			this.errorTab.TabIndex = 0;
 			this.errorTab.Text = "Errors and Failures";
 			// 
@@ -174,7 +172,7 @@ namespace NUnit.UiKit
 			this.errorDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.errorDisplay.Location = new System.Drawing.Point(0, 0);
 			this.errorDisplay.Name = "errorDisplay";
-			this.errorDisplay.Size = new System.Drawing.Size(480, 278);
+			this.errorDisplay.Size = new System.Drawing.Size(480, 254);
 			this.errorDisplay.TabIndex = 0;
 			// 
 			// notRunTab
@@ -237,19 +235,18 @@ namespace NUnit.UiKit
 			// 
 			// copyDetailMenuItem
 			// 
-			this.copyDetailMenuItem.Index = 0;
+			this.copyDetailMenuItem.Index = -1;
 			this.copyDetailMenuItem.Text = "Copy";
 			// 
 			// ResultTabs
 			// 
 			this.Controls.Add(this.tabControl);
 			this.Name = "ResultTabs";
-			this.Size = new System.Drawing.Size(488, 304);
+			this.Size = new System.Drawing.Size(488, 280);
 			this.tabControl.ResumeLayout(false);
 			this.errorTab.ResumeLayout(false);
 			this.notRunTab.ResumeLayout(false);
 			this.ResumeLayout(false);
-
 		}
 		#endregion
 	
@@ -270,11 +267,16 @@ namespace NUnit.UiKit
 
 		protected override void OnLoad(EventArgs e)
 		{
-			LoadSettingsAndUpdateTabPages();
-			Subscribe( Services.TestLoader.Events );
-			Services.UserSettings.Changed += new SettingsEventHandler(UserSettings_Changed);
+			if ( !this.DesignMode )
+			{
+				this.settings = Services.UserSettings;
 
-			notRunTree.Subscribe( Services.TestLoader.Events );
+				LoadSettingsAndUpdateTabPages();
+				Subscribe( Services.TestLoader.Events );
+				Services.UserSettings.Changed += new SettingsEventHandler(UserSettings_Changed);
+
+				notRunTree.Subscribe( Services.TestLoader.Events );
+			}
 
 			base.OnLoad (e);
 		}

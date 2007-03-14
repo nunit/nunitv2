@@ -21,7 +21,8 @@ namespace NUnit.Framework.Constraints
 		private enum Op
 		{
 			Not,
-			All
+			All,
+			Some
 		}
 
 		Stack ops = new Stack();
@@ -298,7 +299,7 @@ namespace NUnit.Framework.Constraints
         }
 
         /// <summary>
-        /// Modifies the ConstraintBuilder by pushing an All oeprator on the stack.
+        /// Modifies the ConstraintBuilder by pushing an All operator on the stack.
         /// </summary>
         public ConstraintBuilder All
         {
@@ -308,6 +309,28 @@ namespace NUnit.Framework.Constraints
                 return this;
             }
         }
+
+		/// <summary>
+		/// Modifies the ConstraintBuilder by pushing a Some operator on the stack.
+		/// </summary>
+		public ConstraintBuilder Some
+		{
+			get
+			{
+				ops.Push(Op.Some);
+				return this;
+			}
+		}
+
+		public ConstraintBuilder None
+		{
+			get
+			{
+				ops.Push(Op.All);
+				ops.Push(Op.Not);
+				return this;
+			}
+		}
         #endregion
 
         #region Helper Methods
@@ -328,6 +351,9 @@ namespace NUnit.Framework.Constraints
                     case Op.All:
                         constraint = new AllItemsConstraint(constraint);
                         break;
+					case Op.Some:
+						constraint = new SomeItemsConstraint(constraint);
+						break;
                 }
 
             return constraint;

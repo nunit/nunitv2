@@ -54,6 +54,9 @@ namespace NUnit.UiKit
 
 		public static DialogResult DisplayFailure( Exception exception, string caption )
 		{
+//			if ( exception is NUnitException )
+//				return DisplayFailure( exception.InnerException, exception.Message, caption );
+//			else
 			return DisplayFailure( exception, null, caption );
 		}
 

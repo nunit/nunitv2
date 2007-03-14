@@ -49,7 +49,7 @@ namespace NUnit.Util
 			try
 			{
 				this.domain = Services.DomainManager.CreateDomain( package );
-                
+            
 				this.TestRunner = MakeRemoteTestRunner( domain );
 
 				return TestRunner.Load( package );

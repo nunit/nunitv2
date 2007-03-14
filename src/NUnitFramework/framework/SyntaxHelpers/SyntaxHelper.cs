@@ -11,7 +11,7 @@ namespace NUnit.Framework.SyntaxHelpers
 	{
 		#region Prefix Operators
 		/// <summary>
-		/// Is.Not returns a ConstraintBuilder, which will negate
+		/// Not returns a ConstraintBuilder that negates
 		/// the constraint that follows it.
 		/// </summary>
 		public static ConstraintBuilder Not
@@ -20,12 +20,33 @@ namespace NUnit.Framework.SyntaxHelpers
 		}
 
 		/// <summary>
-		/// Is.All returns a ConstraintBuilder, which will apply
-		/// the following constraint to all members of a collection.
+		/// All returns a ConstraintBuilder, which will apply
+		/// the following constraint to all members of a collection,
+		/// succeeding if all of them succeed.
 		/// </summary>
 		public static ConstraintBuilder All
 		{
 			get { return new ConstraintBuilder().All; }
+		}
+
+		/// <summary>
+		/// Some returns a ConstraintBuilder, which will apply
+		/// the following constraint to all members of a collection,
+		/// succeeding if any of them succeed.
+		/// </summary>
+		public static ConstraintBuilder Some
+		{
+			get { return new ConstraintBuilder().Some; }
+		}
+
+		/// <summary>
+		/// None returns a ConstraintBuilder, which will apply
+		/// the following constraint to all members of a collection,
+		/// succeeding only if none of them succeed.
+		/// </summary>
+		public static ConstraintBuilder None
+		{
+			get { return new ConstraintBuilder().None; }
 		}
 		#endregion
 	}

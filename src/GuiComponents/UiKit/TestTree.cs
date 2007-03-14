@@ -207,7 +207,8 @@ namespace NUnit.UiKit
 
 		protected override void OnLoad(EventArgs e)
 		{
-			Initialize( Services.TestLoader );
+			if ( !this.DesignMode )
+				Initialize( Services.TestLoader );
 
 			base.OnLoad (e);
 		}
