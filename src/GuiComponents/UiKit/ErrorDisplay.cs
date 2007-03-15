@@ -15,7 +15,7 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class ErrorDisplay : System.Windows.Forms.UserControl, TestObserver
 	{
-		private ISettings settings;
+		private ISettings settings = null;
 		int hoverIndex = -1;
 		private System.Windows.Forms.Timer hoverTimer;
 		TipWindow tipWindow;
@@ -138,10 +138,15 @@ namespace NUnit.UiKit
 		#region Form Level Events
 		protected override void OnLoad(EventArgs e)
 		{
+			// NOTE: DesignMode is not true when display is nested in another
+			// user control and the containing form is displayed in the designer.
+			// This is a problem with VS.Net.
+			//
+			// Consequently, we rely on the fact that Services.UserSettings
+			// returns a dummy Service, if the ServiceManager has not been
+			// initialized.
 			if ( !this.DesignMode )
 			{
-				Subscribe( Services.TestLoader.Events );
-	
 				this.settings = Services.UserSettings;
 				settings.Changed += new SettingsEventHandler(UserSettings_Changed);
 

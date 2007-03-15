@@ -28,15 +28,15 @@ namespace NUnit.UiKit
 		private MenuItem menuSeparator;
 		private MenuItem internalTraceTabMenuItem;
 
-		public System.Windows.Forms.TabPage errorTab;
+		private System.Windows.Forms.TabPage errorTab;
 		private NUnit.UiKit.ErrorDisplay errorDisplay;
-		public NUnit.UiKit.RichEditTabPage stdoutTab;
+		private NUnit.UiKit.RichEditTabPage stdoutTab;
 		private NUnit.UiKit.RichEditTabPage traceTab;
 		private NUnit.UiKit.RichEditTabPage internalTraceTab;
-		public NUnit.UiKit.RichEditTabPage stderrTab;
-		public System.Windows.Forms.TabPage notRunTab;
-		public NUnit.UiKit.NotRunTree notRunTree;
-		public System.Windows.Forms.TabControl tabControl;
+		private NUnit.UiKit.RichEditTabPage stderrTab;
+		private System.Windows.Forms.TabPage notRunTab;
+		private NUnit.UiKit.NotRunTree notRunTree;
+		private System.Windows.Forms.TabControl tabControl;
 		private System.Windows.Forms.MenuItem copyDetailMenuItem;
 		/// <summary> 
 		/// Required designer variable.
@@ -275,6 +275,7 @@ namespace NUnit.UiKit
 				Subscribe( Services.TestLoader.Events );
 				Services.UserSettings.Changed += new SettingsEventHandler(UserSettings_Changed);
 
+				errorDisplay.Subscribe( Services.TestLoader.Events );
 				notRunTree.Subscribe( Services.TestLoader.Events );
 			}
 
