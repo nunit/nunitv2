@@ -13,7 +13,7 @@ namespace NUnit.Core.Tests
 	/// <summary>
 	/// Summary description for StackOverflowTestFixture.
 	/// </summary>
-	[TestFixture, Platform(Exclude="Net-2.0,Mono")]
+	[TestFixture, Platform(Exclude="Net-2.0,Mono",Reason="Cannot handle StackOverflowException in managed code")]
 	public class StackOverflowTestFixture
 	{
 		private void FunctionCallsSelf()
@@ -22,14 +22,10 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test, ExpectedException( typeof( StackOverflowException ) )]
+		[Platform(Exclude="Net-2.0,Mono",Reason="Cannot handle StackOverflowException in managed code")]
 		public void SimpleOverflow()
 		{
-			if (RuntimeEnvironment.GetSystemVersion().StartsWith("v2.0."))
-			{
-				Assert.Fail("Platform .NET 2.0 should not execute this test.");
-			}
-
-                        FunctionCallsSelf();
-                }
+            FunctionCallsSelf();
+        }
 	}
 }
