@@ -36,6 +36,13 @@ namespace NUnit.Gui
 			GuiOptions parser = new GuiOptions(args);
 			if(parser.Validate() && !parser.help) 
 			{
+				if ( parser.cleanup )
+				{
+					DomainManager dm = new DomainManager();
+					Directory.Delete( dm.ShadowCopyPath, true );
+					return 0;
+				}
+
 				if(!parser.NoArgs)
 				{
 					if (parser.IsAssembly)

@@ -41,6 +41,9 @@ namespace NUnit.Gui
 		[Option(Description = "Language to use for the NUnit GUI")]
 		public string lang;
 
+		[Option(Description = "Erase any leftover cache files and exit")]
+		public bool cleanup;
+
 		public GuiOptions(String[] args) : base(args) 
 		{}
 
