@@ -25,6 +25,13 @@ namespace NUnit.Core.Tests
 			runner = CreateRunner( 123 );
 		}
 
+        [TearDown]
+        public void TearDownRunner()
+        {
+            if (runner != null)
+                runner.Unload();
+        }
+
 		protected abstract TestRunner CreateRunner( int runnerID );
 
         [Test]

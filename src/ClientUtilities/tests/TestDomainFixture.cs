@@ -30,6 +30,8 @@ namespace NUnit.Util.Tests
 		[TestFixtureTearDown]
 		public void UnloadTestDomain()
 		{
+            if ( testDomain != null )
+                testDomain.Unload();
 			loadedTest = null;
 			testDomain = null;
 		}

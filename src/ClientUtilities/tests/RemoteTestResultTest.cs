@@ -13,12 +13,25 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class RemoteTestResultTest
 	{
+        private TestDomain domain;
+
+        [SetUp]
+        public void CreateRunner()
+        {
+            domain = new TestDomain();
+        }
+
+        [TearDown]
+        public void UnloadRunner()
+        {
+            if ( domain != null )
+                domain.Unload();
+        }
+
 		[Test]
 		public void ResultStillValidAfterDomainUnload() 
 		{
-			TestDomain domain = new TestDomain();
 			TestPackage package = new TestPackage( "mock-assembly.dll" );
-			//package.BasePath = AppDomain.CurrentDomain.BaseDirectory;
 			Assert.IsTrue( domain.Load( package ) );
 			TestResult result = domain.Run( new NullListener() );
 			TestSuiteResult suite = result as TestSuiteResult;
@@ -26,7 +39,6 @@ namespace NUnit.Util.Tests
 			TestCaseResult caseResult = findCaseResult(suite);
 			Assert.IsNotNull(caseResult);
 			TestResultItem item = new TestResultItem(caseResult);
-			//domain.Unload(); // TODO: Figure out where unhandled exception comes from
 			string message = item.GetMessage();
 			Assert.IsNotNull(message);
 		}

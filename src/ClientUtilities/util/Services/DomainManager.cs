@@ -110,21 +110,23 @@ namespace NUnit.Util
 			string cachePath = domain.SetupInformation.CachePath;
 			string domainName = domain.FriendlyName;
 
-			try
-			{
-				AppDomain.Unload( domain );
-
-				if ( shadowCopy )
-					DeleteCacheDir( new DirectoryInfo( cachePath ) );
-			}
-			catch( Exception ex)
-			{
-				// We assume that the tests did something bad and just leave
-				// the orphaned AppDomain "out there". 
-				// TODO: Something useful.
-				Trace.WriteLine( "Unable to unload AppDomain {0}", domainName );
-				Trace.WriteLine( ex.ToString() );
-			}
+            try
+            {
+                AppDomain.Unload(domain);
+            }
+            catch (Exception ex)
+            {
+                // We assume that the tests did something bad and just leave
+                // the orphaned AppDomain "out there". 
+                // TODO: Something useful.
+                Trace.WriteLine("Unable to unload AppDomain {0}", domainName);
+                Trace.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                if (shadowCopy)
+                    DeleteCacheDir(new DirectoryInfo(cachePath));
+            }
 		}
 		#endregion
 
@@ -134,8 +136,9 @@ namespace NUnit.Util
 		/// </summary>
 		private string GetCachePath()
 		{
-				
-			string cachePath = Path.Combine( ShadowCopyPath, DateTime.Now.Ticks.ToString() ); 
+            int processId = Process.GetCurrentProcess().Id;
+            long ticks = DateTime.Now.Ticks;
+			string cachePath = Path.Combine( ShadowCopyPath, processId.ToString() + "_" + ticks.ToString() ); 
 				
 			try 
 			{

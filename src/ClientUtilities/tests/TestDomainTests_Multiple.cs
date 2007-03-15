@@ -93,8 +93,15 @@ namespace NUnit.Util.Tests
 			package.Assemblies.Add( Path.GetFullPath( "nonamespace-assembly.dll" ) );
 			package.Assemblies.Add( Path.GetFullPath( "mock-assembly.dll" ) );
 			package.TestName = "NUnit.Tests.Assemblies.MockTestFixture";
-			domain.Load( package );
-			Assert.AreEqual( MockTestFixture.Tests, domain.Test.TestCount );
+            try
+            {
+                domain.Load(package);
+                Assert.AreEqual(MockTestFixture.Tests, domain.Test.TestCount);
+            }
+            finally
+            {
+                domain.Unload();
+            }
 		}
 	}
 }

@@ -234,6 +234,7 @@ namespace NUnit.ConsoleRunner
 
             if (testRunner.Test == null)
             {
+                testRunner.Unload();
                 Console.Error.WriteLine("Unable to locate fixture {0}", options.fixture);
                 return 2;
             }
@@ -280,6 +281,8 @@ namespace NUnit.ConsoleRunner
 				Environment.CurrentDirectory = savedDirectory;
 				Console.SetOut( savedOut );
 				Console.SetError( savedError );
+
+                testRunner.Unload();
 			}
 
 			Console.WriteLine();

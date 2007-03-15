@@ -101,7 +101,8 @@ namespace NUnit.Core
 
 		public virtual void Unload()
 		{
-			this.testRunner.Unload();
+            if ( this.testRunner != null )
+			    this.testRunner.Unload();
 		}
 		#endregion
 
