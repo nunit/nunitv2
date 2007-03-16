@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NUnit.org")]
 [assembly: AssemblyProduct("NUnit")]
-[assembly: AssemblyCopyright("Copyright (C) 2002-2006 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Charlie Poole.\r\nCopyright (C) 2000-2006 Philip Craig.\r\nAll Rights Reserved.")]
+[assembly: AssemblyCopyright("Copyright (C) 2002-2007 Charlie Poole.\r\nCopyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.\r\nCopyright (C) 2000-2002 Philip Craig.\r\nAll Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
@@ -31,4 +31,4 @@ using System.Reflection;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 
-[assembly: AssemblyVersion("2.4.0.1")]
+[assembly: AssemblyVersion("2.4.0.2")]

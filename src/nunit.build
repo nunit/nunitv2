@@ -61,7 +61,7 @@
   <property name="package.version" value="2.4.0"/>
 
   <!-- Additional suffix used to distinguish files with the same version -->
-  <property name="package.suffix" value="-r1"/>
+  <property name="package.suffix" value="-r2"/>
 
   <!-- Nominal version used for install directory and program
        files menu. Normally the major and minor portions
