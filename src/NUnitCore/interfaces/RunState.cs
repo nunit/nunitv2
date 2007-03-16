@@ -9,7 +9,7 @@ namespace NUnit.Core
 	public enum RunState
 	{
         /// <summary>
-        /// The test is not runable
+        /// The test is not runnable
         /// </summary>
 		NotRunnable,
 
