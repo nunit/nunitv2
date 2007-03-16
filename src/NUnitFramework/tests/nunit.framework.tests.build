@@ -28,6 +28,7 @@
         <include name="AssertionTest.cs"/>
         <include name="AssertSyntaxTests.cs"/>
         <include name="CollectionAssertTest.cs"/>
+        <include name="CollectionAdapter.cs"/>
         <include name="ConditionAssertTests.cs"/>
         <include name="EqualsFixture.cs"/>
         <include name="FailureMessageFixture.cs"/>
