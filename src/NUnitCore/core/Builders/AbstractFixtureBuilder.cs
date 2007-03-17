@@ -67,7 +67,7 @@ namespace NUnit.Core.Builders
 			InstallTestCaseBuilders(type);
 			AddTestCases(type);
 
-			if (this.suite.TestCount == 0)
+			if ( this.suite.RunState != RunState.NotRunnable && this.suite.TestCount == 0)
 			{
 				this.suite.RunState = RunState.NotRunnable;
 				this.suite.IgnoreReason = suite.TestName.Name + " does not have any tests";
@@ -119,7 +119,13 @@ namespace NUnit.Core.Builders
 		/// <returns>True if the fixture type is valid, false if not</returns>
 		protected virtual bool IsValidFixtureType( Type fixtureType, ref string reason )
 		{
-			if ( Reflect.GetConstructor( fixtureType ) == null )
+            if (fixtureType.IsAbstract)
+            {
+                reason = string.Format("{0} is an abstract class", fixtureType.FullName);
+                return false;
+            }
+
+            if (Reflect.GetConstructor(fixtureType) == null)
 			{
 				reason = string.Format( "{0} does not have a valid constructor", fixtureType.FullName );
 				return false;

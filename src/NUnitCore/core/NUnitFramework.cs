@@ -240,6 +240,7 @@ namespace NUnit.Core
             {
 				Type attributeType = attribute.GetType();
 				string attributeName = attributeType.FullName;
+                bool isValid = test.RunState != RunState.NotRunnable;
 
                 switch (attributeName)
                 {
@@ -252,16 +253,22 @@ namespace NUnit.Core
 						test.Description = GetDescription( attribute );
 						break;
 					case ExplicitAttribute:
-                        test.RunState = RunState.Explicit;
-                        test.IgnoreReason = GetIgnoreReason(attribute);
+                        if (isValid)
+                        {
+                            test.RunState = RunState.Explicit;
+                            test.IgnoreReason = GetIgnoreReason(attribute);
+                        }
                         break;
                     case IgnoreAttribute:
-                        test.RunState = RunState.Ignored;
-                        test.IgnoreReason = GetIgnoreReason(attribute);
+                        if (isValid)
+                        {
+                            test.RunState = RunState.Ignored;
+                            test.IgnoreReason = GetIgnoreReason(attribute);
+                        }
                         break;
                     case PlatformAttribute:
                         PlatformHelper helper = new PlatformHelper();
-                        if (!helper.IsPlatformSupported(attribute))
+                        if (isValid && !helper.IsPlatformSupported(attribute))
                         {
                             test.RunState = RunState.Skipped;
                             test.IgnoreReason = GetIgnoreReason(attribute);
