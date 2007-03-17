@@ -32,7 +32,67 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
-<h3>NUnit 2.4 Release Candidate (2.4.0) - February 25, 2007</h3>
+<h3>NUnit 2.4 Final Release (2.4.0.2) - March 16, 2007</h3>
+
+<h4>Gui</h4>
+
+<ul>
+<li>A new /cleanup commandline option deletes NUnit's shadow copy
+cache and then exits.
+
+<li>When NUnit is run under .Net 1.1, assemblies built with .Net 2.0
+are not displayed in the recent files list. NUnit automatically loads
+the last assembly that was opened under .Net 1.1.
+<br><br>
+<b>Note:</b> When a program built with .Net 1.1 is run under .Net 2.0,
+it will not appear in the Recent Files list the next time NUnit is run
+under .Net 1.1. This issue will be fixed in a future release.
+
+<li>When the NUnit documentation is not installed, the Help menu item
+now displays the NUnit web site.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>The user interface (NUnitForm.cs) was not properly displayed at
+design time due to a problem with detecting DesignMode in nested
+User Controls.
+
+<li>CollectionConstraint was failing to find contained items in
+a collection implementing ICollection only - that is not implementing
+IList. This is now fixed and all collections use the same code path
+to avoid future problems.
+
+<li>The Tree setting "Show Checkboxes" was not being saved properly.
+
+<li>Many of NUnit's own tests were leaving files in the shadow
+copy cache due to not closing the test domain.
+
+<li>NUnit was attempting to instantiate an abstract class, derived
+from another abstract class marked with TestFixtureAttribute. NUnit
+will now mark all abstract classes with this attribute, or inheriting
+from classes with this attribute as non-runnable.
+</ul>
+
+<h3>NUnit 2.4 RC2 (2.4.0.1) - March 9, 2007</h3>
+
+<h4>Framework</h4>
+
+<ul>
+<li>The Is class has been moved to the SyntaxHelpers namespace in order
+to eliminate conflicts with mock object frameworks. Additional helper
+classes <b>List</b>, <b>Has</b> and <b>Text</b> have been added.
+<li>The <b>AssertionHelper</b> class has been added as an optional
+base class for user fixtures. Use of this class as a base makes methods
+available for creating constraints needing to use one of the helper
+classes.
+
+<li>A PropertyConstraint has been added, which allows testing the
+value of one of an object's properties.
+</ul>
+
+<h3>NUnit 2.4 RC1 (2.4.0) - February 25, 2007</h3>
 
 <h4>General</h4>
 
@@ -596,7 +656,7 @@ Cumulative notes through NUnit 2.2.9 are available <a href="docs/2.2.9/releaseNo
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2006 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2007 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

@@ -29,7 +29,7 @@
 <p>The Options Dialog is displayed using the Tools | Options menu item and allows the user to
 control some aspects of NUnit’s operation.</p>
 
-<hr><h3>Display Tab</h3><hr>
+<hr><h3>General Options</h3><hr>
 
 <h3>Recent Files</h3>
 
@@ -38,7 +38,7 @@ If <b>Load most recent project at startup</b> is checked, the GUI will load the 
 is run with a specific filename or with the <code>/noload</code> parameter.</p>
 
 <div class="screenshot-right">
-   <img src="img/displayTab.jpg"></div>
+   <img src="img/generalOptions.jpg"></div>
 
 <h3>Tree View</h3>
 
@@ -54,20 +54,23 @@ is run with a specific filename or with the <code>/noload</code> parameter.</p>
 test nodes in the tree (grey display) – if it is not checked, result information for tests that do
 not seem to have changed will be retained.</p>
 
-<h3>Test Output</h3>
+<h3>Visual Studio</h3>
 
-<p>Check <b>Label Test Cases in Console output</b> to precede text in the output window with the name of the test that produced it.</p>
+<p>If <b>Enable Visual Studio Support</b> is checked, the user will be able to open Visual Studio projects
+and solutions and add Visual Studio projects to existing test projects.</p>
 
-<p>Check <b>Display Failure ToolTips</b> to display the tip window over the
-Errors and Failures display and the stack trace. Clear it if you prefer not
-to see the tip window.</p>
+<h3>Shadow Copy</h3>
 
-<p>Check <b>Enable Word Wrap in Error Display</b> to turn on word wrapping
-in the Errors and Failures display. While you can select this item and the
-preceding one at the same time, they do not interact well, so you will 
-normally choose one or the other.</p>
+<p>NUnit normally uses .Net shadow-copying in order to allow you to edit
+and recompile assemblies while it is running. Uncheck this box to disable
+shadow-copy only if you have a particular problem that requires it.</p>
 
-<hr><h3>Tests Tab</h3><hr>
+<p><b>Note:</b> If you are tempted to disable shadow copy in order to access
+files in the same directory as your assembly, you should be aware that there
+are alternatives. Consider using the Assembly.Codebase property rather than
+Assembly.Location.
+
+<hr><h3>Test Load Options</h3><hr>
 
 <h3>Test Structure</h3>
 
@@ -79,7 +82,7 @@ normally choose one or the other.</p>
    shown as a sequential list of fixtures.
 
 <div class="screenshot-right">
-   <img src="img/testsTab.jpg"></div>
+   <img src="img/testLoadOptions.jpg"></div>
 
 <h3>Multiple Assemblies</h3>
 
@@ -106,10 +109,51 @@ an automatic reload is initiated. This item is disabled on Windows 98 or ME.</p>
 <p>If <b>Re-run tests automatically</b> is checked, tests are re-run whenever a Reload
    takes place.</p>
    
-<h3>Visual Studio</h3>
+<hr><h3>Test Output Options</h3><hr>
 
-<p>If <b>Enable Visual Studio Support</b> is checked, the user will be able to open Visual Studio projects
-and solutions and add Visual Studio projects to existing test projects.</p>
+<h3>Test Results</h3>
+
+<p>Check <b>Display Errors and Failures</b> to display the 
+<b>Errors and Failures</b> tab, which shows information about failing tests.
+
+<p>Check <b>Display Failure ToolTips</b> to display the tip window over the
+Errors and Failures display and the stack trace. Clear it if you prefer not
+to see the tip window.</p>
+
+<div class="screenshot-right">
+   <img src="img/testOutputOptions.jpg"></div>
+
+<p>Check <b>Enable Word Wrap in Error Display</b> to turn on word wrapping
+in the Errors and Failures display. While you can select this item and the
+preceding one at the same time, they do not interact well, so you will 
+normally choose one or the other.</p>
+
+<p>Check <b>Display Tests Not Run</b> to display the 
+<b>Tests Not Run</b> tab, which shows information about tests that were
+skipped or ignored.
+
+<h3>Test Output</h3>
+
+<p>Check <b>Display Console Standard Output</b> to display the 
+<b>Console.Out</b> tab, which shows text written to the Console by your tests.
+
+<p>Check <b>Label Test Cases</b> to precede text in the output window with the 
+name of the test that produced it.</p>
+
+<p>Check <b>Display Console Error Output</b> to display text written to
+Console.Error by your tests.
+
+<p>Select <b>In Separate Tab</b> to show error output in the <b>Console.Error</b> tab.
+<p>Select <b>Merge with Console Output</b> to hide the <b>Console.Error</b> tab
+and display error output in the <b>Console.Out</b> tab.
+
+<p>Check <b>Display Trace Output</b> to display trace output written by your tests.
+ 
+<p>Select <b>In Separate Tab</b> to show trace output in the <b>Trace Output</b> tab.
+<p>Select <b>Merge with Console Output</b> to hide the <b>Trace Output</b> tab
+and display trace output in the <b>Console.Out</b> tab.
+
+
 
 </div>
 
@@ -145,7 +189,7 @@ and solutions and add Visual Studio projects to existing test projects.</p>
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2006 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2007 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 
