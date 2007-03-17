@@ -1162,11 +1162,17 @@ namespace NUnit.Gui
 
 			if ( helpUrl == null )
 			{
-				UriBuilder uri = new UriBuilder();
-				uri.Scheme = "file";
-				uri.Host = "localhost";
-				uri.Path = Path.Combine( dir.FullName, @"doc/index.html" );
-				helpUrl = uri.ToString();
+                string localPath = Path.Combine(dir.FullName, @"doc/index.html");
+                if (File.Exists(localPath))
+                {
+                    UriBuilder uri = new UriBuilder();
+                    uri.Scheme = "file";
+                    uri.Host = "localhost";
+                    uri.Path = localPath;
+                    helpUrl = uri.ToString();
+                }
+                else
+                    helpUrl = "http://nunit.org";
 			}
 
 			System.Diagnostics.Process.Start( helpUrl );
@@ -1213,12 +1219,13 @@ namespace NUnit.Gui
 					TestLoaderUI.OpenProject( this, commandLineOptions.testFileName, commandLineOptions.configName, commandLineOptions.testName );
 				else if( userSettings.GetSetting( "Options.LoadLastProject", true ) && !commandLineOptions.noload )
 				{
-					RecentFilesCollection entries = recentFilesService.Entries;
-					if ( entries.Count > 0 )
+					foreach( RecentFileEntry entry in recentFilesService.Entries )
 					{
-						RecentFileEntry entry = recentFilesService.Entries[0];
-						if ( entry != null )
+						if ( entry != null && entry.Exists && entry.IsCompatibleCLRVersion )
+						{
 							TestLoaderUI.OpenProject( this, entry.Path, commandLineOptions.configName, commandLineOptions.testName );
+							break;
+						}
 					}
 				}
 
