@@ -38,6 +38,16 @@ namespace NUnit.Util
 			get { return clrVersion; }
 		}
 
+		public bool Exists
+		{
+			get { return path != null && System.IO.File.Exists( path ); }
+		}
+
+		public bool IsCompatibleCLRVersion
+		{
+			get { return clrVersion.Major <= Environment.Version.Major; }
+		}
+
 		public override string ToString()
 		{
 			return Path + Separator + CLRVersion.ToString();

@@ -48,8 +48,6 @@ namespace NUnit.UiKit
 
 		public void Load()
 		{
-            Version currentVersion = Environment.Version;
-
 			if ( recentFiles.Count == 0 )
 				Menu.Enabled = false;
 			else 
@@ -62,9 +60,9 @@ namespace NUnit.UiKit
                     // Rather than show files that don't exist, we skip them. As
                     // new recent files are opened, they will be pushed down and
                     // eventually fall off the list.
-                    if ( showMissingFiles || System.IO.File.Exists(entry.Path) )
+                    if ( showMissingFiles || entry.Exists )
                     {
-						if ( showNonRunnableFiles || entry.CLRVersion.Major <= currentVersion.Major )
+						if ( showNonRunnableFiles || entry.IsCompatibleCLRVersion )
 						{
 							MenuItem item = new MenuItem(String.Format("{0} {1}", index++, entry.Path));
 							item.Click += new System.EventHandler(OnRecentFileClick);
