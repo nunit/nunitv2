@@ -104,7 +104,6 @@ LongName="customConstraints.html" />
         <File Id="F__doc_file85" Name="bulletOn.gif" />
         <File Id="F__doc_file86" Name="CONFIG_1.JPG" LongName="configEditor.jpg" />
         <File Id="F__doc_file87" Name="CONSOL_1.JPG" LongName="console-mock.jpg" />
-        <File Id="F__doc_file88" Name="DISPLA_1.JPG" LongName="displayTab.jpg" />
         <File Id="F__doc_file89" Name="GENERA_1.JPG" LongName="generalTab.jpg" />
         <File Id="F__doc_file90" Name="GUI-SC_1.JPG" LongName="gui-screenshot.jpg" />
         <File Id="F__doc_file91" Name="GUI-VE_1.JPG" LongName="gui-verify.jpg" />
@@ -112,10 +111,10 @@ LongName="customConstraints.html" />
         <File Id="F__doc_file94" Name="logo.gif" />
         <File Id="F__doc_file96" Name="miniGui.jpg" />
         <File Id="F__doc_file97" Name="OPTION_1.JPG" LongName="optionsDialog.jpg" />
-        <File Id="F__doc_file99" Name="RESULT_1.JPG" LongName="resultTab.jpg" />
         <File Id="F__doc_file103" Name="TESTPR_1.JPG" LongName="testProperties.jpg" />
-        <File Id="F__doc_file104" Name="testsTab.JPG" />
-        <File Id="F__doc_file105" Name="testTab.jpg" />
+        <File Id="generalOptions.jpg" Name="GENOPTS.JPG" LongName="generalOptions.jpg" />
+        <File Id="testOutputOptions.jpg" Name="OUTOPTS.JPG" LongName="testOutputOptions.jpg" />
+        <File Id="testLoadOptions.jpg" Name="LOADOPTS.JPG" LongName="testLoadOptions.jpg" />
         <RemoveFile Id="RF_doc_img_thumbs.db" Name="thumbs.db" On="uninstall" />
       </Component>
     </DirectoryRef>
