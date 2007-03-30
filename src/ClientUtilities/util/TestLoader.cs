@@ -251,7 +251,7 @@ namespace NUnit.Util
 		{
 			this.testResult = testResult;
 			this.SaveLastResult( 
-				Path.Combine( Path.GetDirectoryName( this.TestFileName ), "TestTesult.xml" ) );
+				Path.Combine( Path.GetDirectoryName( this.TestFileName ), "TestResult.xml" ) );
 
 			events.FireRunFinished( testResult );
 		}

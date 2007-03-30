@@ -175,7 +175,7 @@ namespace NUnit.Framework.Constraints
                 bool foundOnce = false;
                 foreach (object innerObj in collection)
                 {
-                    if (loopObj.Equals(innerObj))
+                    if ( Object.Equals(loopObj,innerObj))
                     {
                         if (foundOnce)
                             return false;

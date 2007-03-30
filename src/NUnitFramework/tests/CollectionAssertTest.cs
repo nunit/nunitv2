@@ -72,7 +72,7 @@ namespace NUnit.Framework.Tests
 		#region AllItemsAreUnique
 
 		[Test]
-		public void Unique()
+		public void Unique_IList()
 		{
 			ArrayList al = new ArrayList();
 			al.Add(new object());
@@ -89,6 +89,20 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AllItemsAreUnique(al);
 		}
 
+		[Test]
+		public void Unique_ICollection()
+		{
+			CollectionAdapter ca = new CollectionAdapter( new string[] { "x", "y", "z" } );
+			CollectionAssert.AllItemsAreUnique(ca);
+		}
+
+		[Test]
+		public void Unique_WithNull()
+		{
+			CollectionAdapter ca = new CollectionAdapter( new string[] { "x", "y", null, "z" } );
+			CollectionAssert.AllItemsAreUnique(ca);
+		}
+
 		[Test,ExpectedException(typeof(AssertionException))]
 		public void UniqueFailure()
 		{
@@ -102,6 +116,14 @@ namespace NUnit.Framework.Tests
                 "  But was:  < \"x\", \"y\", \"x\" >" + Environment.NewLine;
 			CollectionAssert.AllItemsAreUnique(al);
 		}
+
+		[Test,ExpectedException(typeof(AssertionException))]
+		public void UniqueFailure_WithTwoNulls()
+		{
+			CollectionAdapter ca = new CollectionAdapter( new string[] { "x", null, "y", null, "z" } );
+			CollectionAssert.AllItemsAreUnique(ca);
+		}
+
 		#endregion
 
 		#region AreEqual
