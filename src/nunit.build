@@ -58,10 +58,10 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit version for packaging -->
-  <property name="package.version" value="2.4.0"/>
+  <property name="package.version" value="2.4.1"/>
 
   <!-- Additional suffix used to distinguish files with the same version -->
-  <property name="package.suffix" value="-r2"/>
+  <property name="package.suffix" value=""/>
 
   <!-- Nominal version used for install directory and program
        files menu. Normally the major and minor portions
