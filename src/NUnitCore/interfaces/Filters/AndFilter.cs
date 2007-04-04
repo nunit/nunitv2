@@ -13,7 +13,7 @@ namespace NUnit.Core.Filters
 	/// of them in order to pass this filter.
 	/// </summary>
 	[Serializable]
-	public class AndFilter : RecursiveTestFilter
+	public class AndFilter : TestFilter
 	{
 		private ArrayList filters = new ArrayList();
 

@@ -11,7 +11,7 @@ namespace NUnit.Core.Filters
 	/// NotFilter negates the operation of another filter
 	/// </summary>
 	[Serializable]
-	public class NotFilter : RecursiveTestFilter
+	public class NotFilter : TestFilter
 	{
 		ITestFilter baseFilter;
 
@@ -41,5 +41,24 @@ namespace NUnit.Core.Filters
 		{
 			return test.RunState != RunState.Explicit && !baseFilter.Pass( test );
 		}
- 	}
+
+		/// <summary>
+		/// Determine whether any descendant of the test matches the filter criteria.
+		/// </summary>
+		/// <param name="test">The test to be matched</param>
+		/// <returns>True if at least one descendant matches the filter criteria</returns>
+		protected override bool MatchDescendant(ITest test)
+		{
+			if (!test.IsSuite || test.Tests == null || test.RunState == RunState.Explicit)
+				return false;
+
+			foreach (ITest child in test.Tests)
+			{
+				if (Match(child) || MatchDescendant(child))
+					return true;
+			}
+
+			return false;
+		}	
+	}
 }

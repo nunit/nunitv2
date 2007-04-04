@@ -285,11 +285,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Filters\RecursiveTestFilter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Filters\SimpleNameFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

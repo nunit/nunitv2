@@ -14,7 +14,7 @@ namespace NUnit.Core.Filters
 	/// </summary>
 	/// 
 	[Serializable]
-	public class NameFilter : RecursiveTestFilter
+	public class NameFilter : TestFilter
 	{
 		private ArrayList testNames = new ArrayList();
 

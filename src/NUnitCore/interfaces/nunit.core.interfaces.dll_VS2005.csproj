@@ -81,7 +81,6 @@
     <Compile Include="Filters\CategoryFilter.cs" />
     <Compile Include="Filters\NameFilter.cs" />
     <Compile Include="Filters\NotFilter.cs" />
-    <Compile Include="Filters\RecursiveTestFilter.cs" />
     <Compile Include="Filters\SimpleNameFilter.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="ITest.cs" />

@@ -16,6 +16,14 @@ namespace NUnit.Tests
 		/// </summary>
 		public class MockAssembly
 		{
+			public static int Fixtures = 5; 
+
+			public static int NamespaceSuites = 6; // assembly, NUnit, Tests, Assemblies, Singletons, TestAssembly
+
+			public static int Suites = Fixtures + NamespaceSuites;
+
+			public static int ExplicitFixtures = 1;
+
 			public static int Tests
 			{
 				get 
@@ -23,7 +31,8 @@ namespace NUnit.Tests
 					return MockTestFixture.Tests 
 						+ Singletons.OneTestCase.Tests 
 						+ TestAssembly.MockTestFixture.Tests 
-						+ IgnoredFixture.Tests;
+						+ IgnoredFixture.Tests
+						+ ExplicitFixture.Tests;
 				}
 			}
 
@@ -34,7 +43,7 @@ namespace NUnit.Tests
 
 			public static int Explicit
 			{
-				get { return MockTestFixture.Explicit; }
+				get { return MockTestFixture.Explicit + ExplicitFixture.Tests; }
 			}
 
 			public static int NotRun
@@ -50,6 +59,7 @@ namespace NUnit.Tests
 						+ Singletons.OneTestCase.Nodes
 						+ TestAssembly.MockTestFixture.Nodes 
 						+ IgnoredFixture.Nodes
+						+ ExplicitFixture.Nodes
 						+ 6;  // assembly, NUnit, Tests, Assemblies, Singletons, TestAssembly 
 				}
 			}
@@ -163,5 +173,18 @@ namespace NUnit.Tests
 		
 		[Test]
 		public void Test3() { }
+	}
+
+	[TestFixture,Explicit]
+	public class ExplicitFixture
+	{
+		public static int Tests = 2;
+		public static int Nodes = Tests + 1;
+
+		[Test]
+		public void Test1() { }
+
+		[Test]
+		public void Test2() { }
 	}
 }

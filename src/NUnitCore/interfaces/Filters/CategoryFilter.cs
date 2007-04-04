@@ -15,7 +15,7 @@ namespace NUnit.Core.Filters
 	/// </summary>
 	/// 
 	[Serializable]
-	public class CategoryFilter : RecursiveTestFilter
+	public class CategoryFilter : TestFilter
 	{
 		ArrayList categories;
 

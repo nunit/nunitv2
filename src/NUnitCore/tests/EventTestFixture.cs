@@ -6,7 +6,7 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Core;
+using NUnit.Tests.Assemblies;
 
 namespace NUnit.Core.Tests
 {
@@ -18,19 +18,6 @@ namespace NUnit.Core.Tests
 	public class EventTestFixture
 	{
 		private string testsDll = "mock-assembly.dll";
-
-		private static int SuiteCount(Test suite)
-		{
-			int suites = 1;
-
-			foreach(Test test in suite.Tests)
-			{
-				if(test is TestSuite)
-					suites += SuiteCount((TestSuite)test);
-			}
-
-			return suites;
-		}
 
 		internal class EventCounter : EventListener
 		{
@@ -96,9 +83,8 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(testSuite.CountTestCases(TestFilter.Empty), counter.testCaseStart);
 			Assert.AreEqual(testSuite.CountTestCases(TestFilter.Empty), counter.testCaseFinished);
 
-			int suites = SuiteCount(testSuite);
-			Assert.AreEqual(suites, counter.suiteStarted);
-			Assert.AreEqual(suites, counter.suiteFinished);
+			Assert.AreEqual(MockAssembly.Suites - MockAssembly.ExplicitFixtures, counter.suiteStarted);
+			Assert.AreEqual(MockAssembly.Suites - MockAssembly.ExplicitFixtures, counter.suiteFinished);
 		}
 	}
 }

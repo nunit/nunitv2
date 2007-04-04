@@ -31,17 +31,21 @@ namespace NUnit.Core
 
 		/// <summary>
 		/// Determine if a particular test passes the filter criteria. The default 
-		/// implementation simply checks the test itself using Match.
+		/// implementation checks the test itself, its parents and any descendants.
+		/// 
+		/// Derived classes may override this method or any of the Match methods
+		/// to change the behavior of the filter.
 		/// </summary>
 		/// <param name="test">The test to which the filter is applied</param>
 		/// <returns>True if the test passes the filter, otherwise false</returns>
 		public virtual bool Pass( ITest test )
 		{
-			return Match( test );
+			return Match(test) || MatchParent(test) || MatchDescendant(test);
 		}
 
 		/// <summary>
-		/// Determine whether the test itself matches the filter criteria.
+		/// Determine whether the test itself matches the filter criteria, without
+		/// examining either parents or descendants.
 		/// </summary>
 		/// <param name="test">The test to which the filter is applied</param>
 		/// <returns>True if the filter matches the any parent of the test</returns>
@@ -52,40 +56,40 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="test">The test to which the filter is applied</param>
 		/// <returns>True if the filter matches the an ancestor of the test</returns>
-		protected bool MatchParent(ITest test)
+		protected virtual bool MatchParent(ITest test)
 		{
-			if (test.RunState == RunState.Explicit )
-				return false;
+//			if (test.RunState == RunState.Explicit )
+//				return false;
 
-			for (ITest parent = test.Parent; parent != null; parent = parent.Parent)
-			{
-				if (Match(parent))
-					return true;
+			return (test.RunState != RunState.Explicit && test.Parent != null && 
+				( Match(test.Parent) || MatchParent(test.Parent)) );
 
-				// Don't proceed past a parent marked Explicit
-				if (parent.RunState == RunState.Explicit)
-					return false;
-			}
-
-			return false;
+//			for (ITest parent = test.Parent; parent != null; parent = parent.Parent)
+//			{
+//				if (Match(parent))
+//					return true;
+//
+//				// Don't proceed past a parent marked Explicit
+//				if (parent.RunState == RunState.Explicit)
+//					return false;
+//			}
+//
+//			return false;
 		}
 
 		/// <summary>
-		/// Determine whether any descendant of the test matches the filter criteria
+		/// Determine whether any descendant of the test matches the filter criteria.
 		/// </summary>
 		/// <param name="test">The test to be matched</param>
 		/// <returns>True if at least one descendant matches the filter criteria</returns>
-		protected bool MatchDescendant(ITest test)
+		protected virtual bool MatchDescendant(ITest test)
 		{
 			if (!test.IsSuite || test.Tests == null)
 				return false;
 
 			foreach (ITest child in test.Tests)
 			{
-				if (Match(child))
-					return true;
-
-				if (MatchDescendant(child))
+				if (Match(child) || MatchDescendant(child))
 					return true;
 			}
 

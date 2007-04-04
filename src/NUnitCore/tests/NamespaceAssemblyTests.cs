@@ -56,10 +56,11 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual("Tests", testSuite.TestName.Name);
 
 			tests = testSuite.Tests;
-			Assert.AreEqual(4, tests.Count);
+			// TODO: Get rid of constants in this test
+			Assert.AreEqual(MockAssembly.Fixtures, tests.Count);
 
-			Assert.IsTrue(tests[2] is TestSuite, "TestSuite:singletons - is invalid");
-			TestSuite singletonSuite = (TestSuite)tests[2];
+			Assert.IsTrue(tests[3] is TestSuite, "TestSuite:singletons - is invalid");
+			TestSuite singletonSuite = (TestSuite)tests[3];
 			Assert.AreEqual("Singletons", singletonSuite.TestName.Name);
 			Assert.AreEqual(1, singletonSuite.Tests.Count);
 

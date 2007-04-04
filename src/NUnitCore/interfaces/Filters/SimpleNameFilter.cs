@@ -13,7 +13,7 @@ namespace NUnit.Core.Filters
 	/// SimpleName filter selects tests based on their name
 	/// </summary>
     [Serializable]
-    public class SimpleNameFilter : RecursiveTestFilter
+    public class SimpleNameFilter : TestFilter
     {
         private ArrayList names = new ArrayList();
 

@@ -83,12 +83,27 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
-		public void ExcludingCategoryDoesNotRunExplicitTests()
+		public void ExcludingCategoryDoesNotRunExplicitTestCases()
 		{
 			TestFilter filter = new NotFilter( new CategoryFilter( "MockCategory" ) );
 			TestResult result = mockTestFixture.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
 			Assert.AreEqual( 2, summarizer.ResultCount );
+		}
+
+		[Test]
+		public void ExcludingCategoryDoesNotRunExplicitTestFixtures()
+		{
+			TestFilter filter = new NotFilter( new CategoryFilter( "MockCategory" ) );
+			TestAssemblyBuilder builder = new TestAssemblyBuilder();
+			TestSuite suite = builder.Build( "mock-assembly.dll", true );
+			TestResult result = suite.Run( NullListener.NULL, filter );
+			ResultSummarizer summarizer = new ResultSummarizer( result );
+			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun - 2, summarizer.ResultCount );
+			Console.WriteLine( "{0} ignored, {1} explicit, {2} not run",
+				MockAssembly.Ignored, MockAssembly.Explicit, MockAssembly.NotRun );
+			Console.WriteLine( "{0} tests were run out of {1}", 
+				MockAssembly.Tests - MockAssembly.NotRun - 2, MockAssembly.Tests );
 		}
 
 		[Test]

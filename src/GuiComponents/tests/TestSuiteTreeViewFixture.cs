@@ -70,7 +70,8 @@ namespace NUnit.UiKit.Tests
 		{
 			TestResult result = suite.Run( new NullListener() );
 			treeView.Load( result );
-			Assert.AreEqual( MockAssembly.Nodes - MockAssembly.Explicit, treeView.GetNodeCount( true ) );
+			Assert.AreEqual( MockAssembly.Nodes - MockAssembly.Explicit - MockAssembly.ExplicitFixtures, 
+				treeView.GetNodeCount( true ) );
 			
 			TestSuiteTreeNode node = treeView.Nodes[0] as TestSuiteTreeNode;
 			Assert.AreEqual( "mock-assembly.dll", node.Text );
@@ -196,7 +197,7 @@ namespace NUnit.UiKit.Tests
 			CheckTree( treeView, suite, "after remove" );
 
 			Assert.AreEqual( MockAssembly.Tests - MockTestFixture.Tests, suite.TestCount );
-			Assert.AreEqual( 13, treeView.GetNodeCount( true ) );
+			Assert.AreEqual( MockAssembly.Nodes - MockTestFixture.Nodes - 1, treeView.GetNodeCount( true ) );
 
 			testsNamespaceSuite.Tests.Insert( 0, assembliesNamespaceSuite );
 			ReassignTestIDs( suite );

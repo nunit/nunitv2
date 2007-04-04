@@ -138,18 +138,24 @@ namespace NUnit.UiKit.Tests
 					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.TestWithManyProperties", e, 4 );
 					break;
 				case 8:
-					CheckTestDisplay( "NUnit.Tests.IgnoredFixture.Test1", e, 4 );
+					CheckTestDisplay( "NUnit.Tests.ExplicitFixture.Test1", e, 4 );
 					break;
 				case 9:
-					CheckTestDisplay( "NUnit.Tests.IgnoredFixture.Test2", e, 4 );
+					CheckTestDisplay( "NUnit.Tests.ExplicitFixture.Test2", e, 4 );
 					break;
 				case 10:
-					CheckTestDisplay( "NUnit.Tests.IgnoredFixture.Test3", e, 4 );
+					CheckTestDisplay( "NUnit.Tests.IgnoredFixture.Test1", e, 4 );
 					break;
 				case 11:
+					CheckTestDisplay( "NUnit.Tests.IgnoredFixture.Test2", e, 4 );
+					break;
+				case 12:
+					CheckTestDisplay( "NUnit.Tests.IgnoredFixture.Test3", e, 4 );
+					break;
+				case 13:
 					CheckTestDisplay( "NUnit.Tests.Singletons.OneTestCase.TestCase", e, 5 );
 					break;
-				case 12:			
+				case 14:			
 					CheckTestDisplay( "NUnit.Tests.TestAssembly.MockTestFixture.MyTest", e, 6 );
 					break;
 			}
