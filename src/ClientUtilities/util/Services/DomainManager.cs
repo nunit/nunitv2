@@ -22,8 +22,8 @@ namespace NUnit.Util
 	public class DomainManager : IService
 	{
 		#region Properties
-		private string shadowCopyPath;
-		public string ShadowCopyPath
+		private static string shadowCopyPath;
+		public static string ShadowCopyPath
 		{
 			get
 			{
@@ -233,6 +233,12 @@ namespace NUnit.Util
 			}
 
 			return sb.Length == 0 ? null : sb.ToString();
+		}
+
+		public static void DeleteShadowCopyPath()
+		{
+			if ( Directory.Exists( ShadowCopyPath ) )
+				Directory.Delete( ShadowCopyPath, true );
 		}
 		#endregion
 

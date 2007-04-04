@@ -38,8 +38,7 @@ namespace NUnit.Gui
 			{
 				if ( parser.cleanup )
 				{
-					DomainManager dm = new DomainManager();
-					Directory.Delete( dm.ShadowCopyPath, true );
+					DomainManager.DeleteShadowCopyPath();
 					return 0;
 				}
 
