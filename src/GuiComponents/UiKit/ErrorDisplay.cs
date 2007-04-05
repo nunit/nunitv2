@@ -25,6 +25,7 @@ namespace NUnit.UiKit
 		int hoverIndex = -1;
 		private System.Windows.Forms.Timer hoverTimer;
 		TipWindow tipWindow;
+		private bool wordWrap = false;
 
 		private System.Windows.Forms.ListBox detailList;
 		public CP.Windows.Forms.ExpandingTextBox stackTrace;
@@ -57,6 +58,22 @@ namespace NUnit.UiKit
 			base.Dispose( disposing );
 		}
 
+		#region Properties
+		private bool WordWrap
+		{
+			get { return wordWrap; }
+			set 
+			{ 
+				if ( value != this.wordWrap )
+				{
+					this.wordWrap = value; 
+					this.stackTrace.WordWrap = value;
+					RefillDetailList();
+				}
+			}
+		}
+		#endregion
+
 		#region Component Designer generated code
 		/// <summary> 
 		/// Required method for Designer support - do not modify 
@@ -84,6 +101,7 @@ namespace NUnit.UiKit
 			this.detailList.ScrollAlwaysVisible = true;
 			this.detailList.Size = new System.Drawing.Size(496, 128);
 			this.detailList.TabIndex = 1;
+			this.detailList.Resize += new System.EventHandler(this.detailList_Resize);
 			this.detailList.MouseHover += new System.EventHandler(this.OnMouseHover);
 			this.detailList.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.detailList_MeasureItem);
 			this.detailList.MouseMove += new System.Windows.Forms.MouseEventHandler(this.detailList_MouseMove);
@@ -161,7 +179,7 @@ namespace NUnit.UiKit
 					this.tabSplitter.SplitPosition = splitPosition;
 
 				stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
-				stackTrace.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
+				this.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
 			}
 
 			base.OnLoad (e);
@@ -181,20 +199,7 @@ namespace NUnit.UiKit
 		private void UserSettings_Changed( object sender, SettingsEventArgs args )
 		{
 			this.stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled ", false );
-			bool wordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
-		
-			if ( this.stackTrace.WordWrap != wordWrap )
-			{
-				this.stackTrace.WordWrap = wordWrap;
-
-				this.detailList.BeginUpdate();
-				ArrayList copiedItems = new ArrayList( detailList.Items );
-				this.detailList.Items.Clear();
-				foreach( object item in copiedItems )
-					this.detailList.Items.Add( item );
-				this.detailList.EndUpdate();
-				this.stackTrace.WordWrap = wordWrap;
-			}
+			this.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
 		}
 		#endregion
 
@@ -217,7 +222,7 @@ namespace NUnit.UiKit
 		{
 			TestResultItem item = (TestResultItem) detailList.Items[e.Index];
 			//string s = item.ToString();
-			SizeF size = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", false )
+			SizeF size = this.WordWrap
 				? e.Graphics.MeasureString(item.ToString(), detailList.Font, detailList.ClientSize.Width )
 				: e.Graphics.MeasureString(item.ToString(), detailList.Font );
 			e.ItemHeight = (int)size.Height;
@@ -233,10 +238,28 @@ namespace NUnit.UiKit
 				bool selected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected) ? true : false;
 				Brush brush = selected ? SystemBrushes.HighlightText : SystemBrushes.WindowText;
 				RectangleF layoutRect = e.Bounds;
-				if (settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true ) && layoutRect.Width > detailList.ClientSize.Width )
+				if ( this.WordWrap && layoutRect.Width > detailList.ClientSize.Width )
 					layoutRect.Width = detailList.ClientSize.Width;
 				e.Graphics.DrawString(item.ToString(),detailList.Font, brush, layoutRect);
 				
+			}
+		}
+
+		private void detailList_Resize(object sender, System.EventArgs e)
+		{
+			if ( this.WordWrap ) RefillDetailList();
+		}
+
+		private void RefillDetailList()
+		{
+			if ( this.detailList.Items.Count > 0 )
+			{
+				this.detailList.BeginUpdate();
+				ArrayList copiedItems = new ArrayList( detailList.Items );
+				this.detailList.Items.Clear();
+				foreach( object item in copiedItems )
+					this.detailList.Items.Add( item );
+				this.detailList.EndUpdate();
 			}
 		}
 
