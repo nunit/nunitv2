@@ -122,6 +122,8 @@ namespace NUnit.Gui
 			this.rerunOnChangeCheckBox = new System.Windows.Forms.CheckBox();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.groupBox9 = new System.Windows.Forms.GroupBox();
+			this.shadowCopyCheckBox = new System.Windows.Forms.CheckBox();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.visualStudioSupportCheckBox = new System.Windows.Forms.CheckBox();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -150,12 +152,11 @@ namespace NUnit.Gui
 			this.consoleErrrorCheckBox = new System.Windows.Forms.CheckBox();
 			this.mergeErrors = new System.Windows.Forms.RadioButton();
 			this.separateErrors = new System.Windows.Forms.RadioButton();
-			this.groupBox9 = new System.Windows.Forms.GroupBox();
-			this.shadowCopyCheckBox = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
+			this.groupBox9.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			this.groupBox5.SuspendLayout();
 			this.tabPage2.SuspendLayout();
@@ -166,7 +167,6 @@ namespace NUnit.Gui
 			this.groupBox3.SuspendLayout();
 			this.groupBox8.SuspendLayout();
 			this.panel1.SuspendLayout();
-			this.groupBox9.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// okButton
@@ -333,12 +333,12 @@ namespace NUnit.Gui
 			// 
 			this.rerunOnChangeCheckBox.Enabled = false;
 			this.rerunOnChangeCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.rerunOnChangeCheckBox.Location = new System.Drawing.Point(40, 88);
+			this.rerunOnChangeCheckBox.Location = new System.Drawing.Point(40, 80);
 			this.rerunOnChangeCheckBox.Name = "rerunOnChangeCheckBox";
 			this.helpProvider1.SetShowHelp(this.rerunOnChangeCheckBox, false);
-			this.rerunOnChangeCheckBox.Size = new System.Drawing.Size(216, 16);
+			this.rerunOnChangeCheckBox.Size = new System.Drawing.Size(200, 24);
 			this.rerunOnChangeCheckBox.TabIndex = 10;
-			this.rerunOnChangeCheckBox.Text = "Re-run tests automatically";
+			this.rerunOnChangeCheckBox.Text = "Re-run last tests run";
 			// 
 			// tabControl1
 			// 
@@ -368,6 +368,24 @@ namespace NUnit.Gui
 			this.tabPage1.Size = new System.Drawing.Size(302, 394);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "General";
+			// 
+			// groupBox9
+			// 
+			this.groupBox9.Controls.Add(this.shadowCopyCheckBox);
+			this.groupBox9.Location = new System.Drawing.Point(8, 296);
+			this.groupBox9.Name = "groupBox9";
+			this.groupBox9.Size = new System.Drawing.Size(280, 48);
+			this.groupBox9.TabIndex = 15;
+			this.groupBox9.TabStop = false;
+			this.groupBox9.Text = "Shadow Copy";
+			// 
+			// shadowCopyCheckBox
+			// 
+			this.shadowCopyCheckBox.Location = new System.Drawing.Point(19, 18);
+			this.shadowCopyCheckBox.Name = "shadowCopyCheckBox";
+			this.shadowCopyCheckBox.Size = new System.Drawing.Size(240, 22);
+			this.shadowCopyCheckBox.TabIndex = 0;
+			this.shadowCopyCheckBox.Text = "Enable Shadow Copy";
 			// 
 			// groupBox4
 			// 
@@ -698,24 +716,6 @@ namespace NUnit.Gui
 			this.separateErrors.TabStop = true;
 			this.separateErrors.Text = "In Separate Tab";
 			// 
-			// groupBox9
-			// 
-			this.groupBox9.Controls.Add(this.shadowCopyCheckBox);
-			this.groupBox9.Location = new System.Drawing.Point(8, 296);
-			this.groupBox9.Name = "groupBox9";
-			this.groupBox9.Size = new System.Drawing.Size(280, 48);
-			this.groupBox9.TabIndex = 15;
-			this.groupBox9.TabStop = false;
-			this.groupBox9.Text = "Shadow Copy";
-			// 
-			// shadowCopyCheckBox
-			// 
-			this.shadowCopyCheckBox.Location = new System.Drawing.Point(19, 18);
-			this.shadowCopyCheckBox.Name = "shadowCopyCheckBox";
-			this.shadowCopyCheckBox.Size = new System.Drawing.Size(240, 22);
-			this.shadowCopyCheckBox.TabIndex = 0;
-			this.shadowCopyCheckBox.Text = "Enable Shadow Copy";
-			// 
 			// OptionsDialog
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
@@ -739,6 +739,7 @@ namespace NUnit.Gui
 			this.groupBox2.ResumeLayout(false);
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
+			this.groupBox9.ResumeLayout(false);
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox5.ResumeLayout(false);
 			this.tabPage2.ResumeLayout(false);
@@ -749,7 +750,6 @@ namespace NUnit.Gui
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox8.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
-			this.groupBox9.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}

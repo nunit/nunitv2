@@ -115,6 +115,12 @@ namespace NUnit.Util
 		private bool rerunOnChange = false;
 
 		/// <summary>
+		/// The last filter used for a run - used to 
+		/// rerun tests when a change occurs
+		/// </summary>
+		private ITestFilter lastFilter;
+
+		/// <summary>
 		/// Indicates whether to reload the tests
 		/// before each run.
 		/// </summary>
@@ -635,10 +641,8 @@ namespace NUnit.Util
 				}
 			}
 
-			if ( rerunOnChange )
-			{
-				testRunner.BeginRun( this );
-			}
+			if ( rerunOnChange && lastFilter != null )
+				testRunner.BeginRun( this, lastFilter );
 		}
 		#endregion
 
@@ -662,6 +666,7 @@ namespace NUnit.Util
 				if ( reloadPending || ReloadOnRun )
 					ReloadTest();
 
+				this.lastFilter = filter;
 				testRunner.BeginRun( this, filter );
 			}
 		}
