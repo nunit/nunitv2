@@ -39,9 +39,7 @@
         <include name="cpp-managed-failures.build" />
         <include name="AssemblyInfo.cpp" />
         <include name="cppsample.cpp" />
-        <include name="stdafx.cpp" />
         <include name="cppsample.h" />
-        <include name="stdafx.h" />
       </fileset>
     </copy>
   </target>

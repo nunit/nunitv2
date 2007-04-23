@@ -4,8 +4,6 @@
 // copyright ownership at http://nunit.org/?p=license&r=2.4.
 // ****************************************************************
 
-#include "stdafx.h"
-
 #include "cppsample.h"
 
 namespace NUnitSamples {
