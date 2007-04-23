@@ -5,16 +5,18 @@
 // ****************************************************************
 
 using System;
+using System.IO;
 using System.Reflection;
 
 namespace NUnit.Core
 {
 	/// <summary>
 	/// SetUpFixture extends TestSuite and supports
-	/// a TestFixtureSetup and TestFixtureTearDown.
+	/// Setup and TearDown methods.
 	/// </summary>
 	public class SetUpFixture : TestSuite
 	{
+		#region Constructor
 		public SetUpFixture( Type type ) : base( type )
 		{
             this.TestName.Name = type.Namespace;
@@ -27,5 +29,17 @@ namespace NUnit.Core
 			this.fixtureSetUp = NUnitFramework.GetSetUpMethod( type );
 			this.fixtureTearDown = NUnitFramework.GetTearDownMethod( type );
 		}
+		#endregion
+
+		#region TestSuite Overrides
+		public override TestResult Run(EventListener listener, ITestFilter filter)
+		{
+			Uri uri = new Uri( FixtureType.Assembly.CodeBase );
+			using ( new DirectorySwapper( Path.GetDirectoryName( uri.LocalPath ) ) )
+			{
+				return base.Run(listener, filter);
+			}
+		}
+		#endregion
 	}
 }
