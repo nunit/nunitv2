@@ -45,11 +45,8 @@ namespace NUnit.TestUtilities
         {
             foreach (string expected in expectedEvents)
             {
-                if (_events.Count == 0)
-                    throw new AssertionException(string.Format("Not enough events occurred.\n\tThe next expected event was: \"{0}\"", expected));
-                string actual = _events.Dequeue() as string;
-                if (expected != actual)
-                    throw new AssertionException(string.Format("Actual event doesn't match expected event.\n\texpected:{0}\n\tactual:{1}", expected, actual));
+                string actual = _events.Count > 0 ? _events.Dequeue() as string : null;
+				Assert.AreEqual( expected, actual );
             }
         }
 
@@ -403,6 +400,32 @@ namespace NUnit.TestData.SetupFixture
             }
         }
     }
+
+	namespace Namespace5
+	{
+		[SetUpFixture]
+		public class CurrentDirectoryRecordingSetUpFixture
+		{
+			[SetUp]
+			public void DoSetUp()
+			{
+				TestUtilities.SimpleEventRecorder.RegisterEvent("SetUp:" + Environment.CurrentDirectory);
+			}
+
+			[TearDown]
+			public void DoTearDown()
+			{
+				TestUtilities.SimpleEventRecorder.RegisterEvent("TearDown:" + Environment.CurrentDirectory);
+			}
+		}
+
+		[TestFixture]
+		public class SomeFixture
+		{
+			[Test]
+			public void SomeMethod() { }				
+		}
+	}
 }
 #region NoNamespaceSetupFixture
 [SetUpFixture]
