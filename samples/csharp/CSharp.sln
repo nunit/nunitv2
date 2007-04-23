@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cs-money-port", "money-port
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cs-syntax", "cs-syntax\cs-syntax.csproj", "{06F46FA2-687B-4B46-A912-C1B0B4CC1B20}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cs-syntax", "syntax\cs-syntax.csproj", "{06F46FA2-687B-4B46-A912-C1B0B4CC1B20}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
