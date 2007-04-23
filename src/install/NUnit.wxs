@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
-  <Product UpgradeCode="009074FF-2CEC-4b0c-9951-B07186F9ED3A" Name="NUnit $(var.NominalVersion)" 
-  		   Id="1AA69CCD-1078-473A-BD6E-11CE30A81C58" Version="$(var.ProductVersion)" 
-		   Manufacturer="nunit.org" Language="1033">
+  <Product UpgradeCode="009074FF-2CEC-4b0c-9951-B07186F9ED3A" 
+      Name="NUnit $(var.NominalVersion)" 
+      Id="BEDAAD7A-005F-4d65-9085-FDCA378C22E7" 
+      Version="$(var.ProductVersion)"
+      Manufacturer="nunit.org" 
+      Language="1033">
   
-    <Package Id="????????-????-????-????-????????????" Comments="NUnit $(var.ProductVersion)" 
-			 Manufacturer="nunit.org" InstallerVersion="200" Platforms="Intel" 
-			 Languages="1033" Compressed="yes" SummaryCodepage="1252" />
+    <Package Id="????????-????-????-????-????????????" 
+        Comments="NUnit $(var.ProductVersion)" 
+	Manufacturer="nunit.org" 
+        InstallerVersion="200" 
+        Platforms="Intel" 
+	Languages="1033" 
+        Compressed="yes" 
+        SummaryCodepage="1252" />
 			 
     <Property Id="FRAMEWORK10">
       <RegistrySearch Id='Framework10Registry' Type='raw'
@@ -93,7 +101,7 @@
     <!-- Define the NUnit base feature it's contents and reference 
 		 sub-features defined in other files -->
 	<Feature Id="BaseFeature" Level="1" ConfigurableDirectory="INSTALLDIR"
-		Title='NUnit 2.4' Display='expand'
+		Title="NUnit $(var.NominalVersion)" Display='expand'
 		Description="Base NUnit assemblies required to write and run tests using the NUnit-Console runner.">
       
         <!-- Defined above -->
