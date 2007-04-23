@@ -13,6 +13,7 @@
 	  <ComponentRef Id="C__CSharp_Failures" />
 	  <ComponentRef Id="C__CSharp_Money" />
 	  <ComponentRef Id="C__CSharp_Money_Port" />
+	  <ComponentRef Id="C__CSharp_Syntax" />
 		
       <!-- J# Sample -->
           <ComponentRef Id="C__JSharp_Samples" />
@@ -25,6 +26,7 @@
       <!-- C++/CLI Samples -->
 	  <ComponentRef Id="C__CPP_CLI_Samples" />
 	  <ComponentRef Id="C__CPP_CLI_Failures" />
+	  <ComponentRef Id="C__CPP_CLI_Syntax" />
 
       <!-- VB Sample -->
 	  <ComponentRef Id="C__VB_Samples" />
@@ -98,6 +100,15 @@
             </Component>
         </Directory>
 		
+        <Directory Id="csharp_syntax" Name="syntax">
+            <Component Id="C__CSharp_Syntax" DiskId="1" Guid="5613D9D2-7F4B-4d49-A0C3-AEF43CF08C5B">
+              <File Id="CS_Syntax.csproj" Name="CS-SYNT.CSP" LongName="cs-syntax.csproj" />
+              <File Id="CS_Syntax.build" Name="CS-SYNT.BLD" LongName="cs-syntax.build" />
+              <File Id="CS_AssertSyntaxTests.cs" Name="CS-SYNT.CS" LongName="AssertSyntaxTests.cs" />
+              <File Id="CS_Syntax_AssemblyInfo.cs" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
+            </Component>
+        </Directory>
+        
     </DirectoryRef>
 		
     <!-- J# Sample -->
@@ -130,13 +141,11 @@
 
         <Directory Id="cpp_managed_failures" Name="failures">
           <Component Id="C__CPP_Managed_Failures" DiskId="1" Guid="A32EB24D-F996-4fc6-9614-D6CD17D0EAC6">
-            <File Id="F__samples_file45" Name="Stdafx.cpp" />
             <File Id="F__samples_file46" Name="CPP-FAIL.H" LongName="cppsample.h" />
             <File Id="F__samples_file47" Name="CPP-FAIL.CPP" LongName="cppsample.cpp" />
             <File Id="CPP_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-managed-failures.vcproj" />
             <File Id="CPP_Failures.build" Name="CPP-FAIL.BLD" LongName="cpp-managed-failures.build" />
             <File Id="F__samples_file50" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
-            <File Id="F__samples_file52" Name="Stdafx.h" />
           </Component>
         </Directory>
 
@@ -151,13 +160,20 @@
 
         <Directory Id="cpp_cli_failures" Name="failures">
           <Component Id="C__CPP_CLI_Failures" DiskId="1" Guid="30A34CDA-7A71-48dd-8DC9-6D18EAECB49C">
-            <File Id="CPP_CLI_Failures_Stdafx.cpp" Name="Stdafx.cpp" />
             <File Id="CPP_CLI_Failures.h" Name="CPP-FAIL.H" LongName="cppsample.h" />
             <File Id="CPP_CLI_Failures.cpp" Name="CPP-FAIL.CPP" LongName="cppsample.cpp" />
             <File Id="CPP_CLI_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-cli-failures.vcproj" />
             <File Id="CPP_CLI_Failures.build" Name="CPP-FAIL.BLD" LongName="cpp-cli-failures.build" />
             <File Id="CPP_CLI_Failures_AssemblyInfo" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
-            <File Id="CPP_CLI_Failures_Stdafx.h" Name="Stdafx.h" />
+          </Component>
+        </Directory>
+
+        <Directory Id="cpp_cli_syntax" Name="syntax">
+          <Component Id="C__CPP_CLI_Syntax" DiskId="1" Guid="30A34CDA-7A71-48dd-8DC9-6D18EAECB49C">
+            <File Id="CPP_CLI_Syntax.cpp" Name="CPP-SYN.CPP" LongName="cpp-cli-syntax.cpp" />
+            <File Id="CPP_CLI_Syntax.vcproj" Name="CPP-SYN.VCP" LongName="cpp-cli-syntax.vcproj" />
+            <File Id="CPP_CLI_Syntax.build" Name="CPP-SYN.BLD" LongName="cpp-cli-syntax.build" />
+            <File Id="CPP_CLI_Syntax_AssemblyInfo" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
           </Component>
         </Directory>
 

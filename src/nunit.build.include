@@ -188,6 +188,7 @@
     <include name="csharp/failures/cs-failures.build" />
     <include name="csharp/money/cs-money.build" />
     <include name="csharp/money-port/cs-money-port.build" />
+    <include name="csharp/syntax/cs-syntax.build" />
 
     <!-- JSharp Samples -->
     <include name="jsharp/failures/jsharp-failures.build"
@@ -205,6 +206,8 @@
 
     <!-- C++/CLI Samples -->
     <include name="cpp/cpp-cli/failures/cpp-cli-failures.build"
+      if="${property::exists('vs.2005.path')}" />
+    <include name="cpp/cpp-cli/syntax/cpp-cli-syntax.build"
       if="${property::exists('vs.2005.path')}" />
 
     <!-- Extensibility Samples -->
