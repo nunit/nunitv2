@@ -7,6 +7,10 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "vb-money", "money\vb-money.
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "vb-syntax", "syntax\vb-syntax.vbproj", "{6BEF566A-2691-4EE8-91AF-0390CCCDDAF1}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -21,6 +25,10 @@ Global
 		{95394B96-A794-48EA-9879-0E4EC79C5724}.Debug.Build.0 = Debug|.NET
 		{95394B96-A794-48EA-9879-0E4EC79C5724}.Release.ActiveCfg = Release|.NET
 		{95394B96-A794-48EA-9879-0E4EC79C5724}.Release.Build.0 = Release|.NET
+		{6BEF566A-2691-4EE8-91AF-0390CCCDDAF1}.Debug.ActiveCfg = Debug|.NET
+		{6BEF566A-2691-4EE8-91AF-0390CCCDDAF1}.Debug.Build.0 = Debug|.NET
+		{6BEF566A-2691-4EE8-91AF-0390CCCDDAF1}.Release.ActiveCfg = Release|.NET
+		{6BEF566A-2691-4EE8-91AF-0390CCCDDAF1}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

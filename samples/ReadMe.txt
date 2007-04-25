@@ -34,6 +34,8 @@ This directory contains sample applications demonstrating the use of NUnit and o
 
     Money: This is a VB.NET version of the money example found in most xUnit implementations. Thanks to Kent Beck.
 
+    Syntax: Illustrates most Assert methods using both the classic and constraint-based syntax.
+
   Extensibility: Examples of extending NUnit
 
     Framework:
