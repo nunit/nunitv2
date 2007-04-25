@@ -1365,8 +1365,8 @@ namespace NUnit.Framework
 		static public void Greater(uint arg1, 
 			uint arg2, string message, params object[] args) 
 		{
-            Assert.That(arg1, Is.GreaterThan(arg2), message, args);
-        }
+			Assert.That(arg1, Is.GreaterThan(arg2), message, args);
+		}
 
 		/// <summary>
 		/// Verifies that the first value is greater than the second
@@ -1391,6 +1391,97 @@ namespace NUnit.Framework
 		/// <param name="arg2">The second value, expected to be less</param>
 		[CLSCompliant(false)]
 		static public void Greater(uint arg1, uint arg2 ) 
+		{
+			Assert.Greater( arg1, arg2, string.Empty, null );
+		}
+
+		#endregion
+
+		#region Longs
+
+		/// <summary>
+		/// Verifies that the first value is greater than the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Greater(long arg1, 
+			long arg2, string message, params object[] args) 
+		{
+			Assert.That(arg1, Is.GreaterThan(arg2), message, args);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is greater than the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Greater(long arg1, long arg2, string message) 
+		{
+			Assert.Greater( arg1, arg2, message, null );
+		}
+
+		/// <summary>
+		/// Verifies that the first value is greater than the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		static public void Greater(long arg1, long arg2 ) 
+		{
+			Assert.Greater( arg1, arg2, string.Empty, null );
+		}
+
+		#endregion
+
+		#region ULongs
+
+		/// <summary>
+		/// Verifies that the first value is greater than the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		[CLSCompliant(false)]
+		static public void Greater(ulong arg1, 
+			ulong arg2, string message, params object[] args) 
+		{
+			Assert.That(arg1, Is.GreaterThan(arg2), message, args);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is greater than the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		[CLSCompliant(false)]
+		static public void Greater(ulong arg1, ulong arg2, string message) 
+		{
+			Assert.Greater( arg1, arg2, message, null );
+		}
+
+		/// <summary>
+		/// Verifies that the first value is greater than the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		[CLSCompliant(false)]
+		static public void Greater(ulong arg1, ulong arg2 ) 
 		{
 			Assert.Greater( arg1, arg2, string.Empty, null );
 		}
@@ -1635,8 +1726,8 @@ namespace NUnit.Framework
 		[CLSCompliant(false)]
 		static public void Less(uint arg1, uint arg2, string message, params object[] args) 
 		{
-            Assert.That(arg1, Is.LessThan(arg2), message, args);
-        }
+			Assert.That(arg1, Is.LessThan(arg2), message, args);
+		}
 
 		/// <summary>
 		/// Verifies that the first value is less than the second
@@ -1661,6 +1752,95 @@ namespace NUnit.Framework
 		/// <param name="arg2">The second value, expected to be greater</param>
 		[CLSCompliant(false)]
 		static public void Less(uint arg1, uint arg2) 
+		{
+			Assert.Less( arg1, arg2, string.Empty, null);
+		}
+
+		#endregion
+
+		#region Longs
+
+		/// <summary>
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void Less(long arg1, long arg2, string message, params object[] args) 
+		{
+			Assert.That(arg1, Is.LessThan(arg2), message, args);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void Less(long arg1, long arg2, string message) 
+		{
+			Assert.Less(arg1, arg2, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		static public void Less(long arg1, long arg2) 
+		{
+			Assert.Less( arg1, arg2, string.Empty, null);
+		}
+
+		#endregion
+
+		#region ULongs
+
+		/// <summary>
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		[CLSCompliant(false)]
+		static public void Less(ulong arg1, ulong arg2, string message, params object[] args) 
+		{
+			Assert.That(arg1, Is.LessThan(arg2), message, args);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		[CLSCompliant(false)]
+		static public void Less(ulong arg1, ulong arg2, string message) 
+		{
+			Assert.Less(arg1, arg2, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is less than the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		[CLSCompliant(false)]
+		static public void Less(ulong arg1, ulong arg2) 
 		{
 			Assert.Less( arg1, arg2, string.Empty, null);
 		}
@@ -2111,10 +2291,10 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		[CLSCompliant(false)]
 		static public void GreaterOrEqual(uint arg1,
-		    uint arg2, string message, params object[] args)
+			uint arg2, string message, params object[] args)
 		{
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
-        }
+			Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
+		}
 
 		/// <summary>
 		/// Verifies that the first value is greater than or equal to the second
@@ -2127,7 +2307,7 @@ namespace NUnit.Framework
 		[CLSCompliant(false)]
 		static public void GreaterOrEqual(uint arg1, uint arg2, string message)
 		{
-		    Assert.GreaterOrEqual(arg1, arg2, message, null);
+			Assert.GreaterOrEqual(arg1, arg2, message, null);
 		}
 
 		/// <summary>
@@ -2140,7 +2320,98 @@ namespace NUnit.Framework
 		[CLSCompliant(false)]
 		static public void GreaterOrEqual(uint arg1, uint arg2)
 		{
-		    Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
+			Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
+		}
+
+		#endregion
+
+		#region Longs
+
+		/// <summary>
+		/// Verifies that the first value is greater than or equal to the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void GreaterOrEqual(long arg1,
+			long arg2, string message, params object[] args)
+		{
+			Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is greater than or equal to the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void GreaterOrEqual(long arg1, long arg2, string message)
+		{
+			Assert.GreaterOrEqual(arg1, arg2, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is greater or equal to than the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		static public void GreaterOrEqual(long arg1, long arg2)
+		{
+			Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
+		}
+
+		#endregion
+
+		#region ULongs
+
+		/// <summary>
+		/// Verifies that the first value is greater than or equal to the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		[CLSCompliant(false)]
+		static public void GreaterOrEqual(ulong arg1,
+			ulong arg2, string message, params object[] args)
+		{
+			Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is greater than or equal to the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		[CLSCompliant(false)]
+		static public void GreaterOrEqual(ulong arg1, ulong arg2, string message)
+		{
+			Assert.GreaterOrEqual(arg1, arg2, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is greater or equal to than the second
+		/// value. If they are not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be greater</param>
+		/// <param name="arg2">The second value, expected to be less</param>
+		[CLSCompliant(false)]
+		static public void GreaterOrEqual(ulong arg1, ulong arg2)
+		{
+			Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
 		}
 
 		#endregion
@@ -2383,8 +2654,8 @@ namespace NUnit.Framework
 		[CLSCompliant(false)]
 		static public void LessOrEqual(uint arg1, uint arg2, string message, params object[] args)
 		{
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
-        }
+			Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
+		}
 
 		/// <summary>
 		/// Verifies that the first value is less than or equal to the second
@@ -2397,7 +2668,7 @@ namespace NUnit.Framework
 		[CLSCompliant(false)]
 		static public void LessOrEqual(uint arg1, uint arg2, string message)
 		{
-		    Assert.LessOrEqual(arg1, arg2, message, null);
+			Assert.LessOrEqual(arg1, arg2, message, null);
 		}
 
 		/// <summary>
@@ -2410,7 +2681,96 @@ namespace NUnit.Framework
 		[CLSCompliant(false)]
 		static public void LessOrEqual(uint arg1, uint arg2)
 		{
-		    Assert.LessOrEqual(arg1, arg2, string.Empty, null);
+			Assert.LessOrEqual(arg1, arg2, string.Empty, null);
+		}
+
+		#endregion
+
+		#region Longs
+
+		/// <summary>
+		/// Verifies that the first value is less than or equal to the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		static public void LessOrEqual(long arg1, long arg2, string message, params object[] args)
+		{
+			Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is less than or equal to the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		static public void LessOrEqual(long arg1, long arg2, string message)
+		{
+			Assert.LessOrEqual(arg1, arg2, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is less than or equal to the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		static public void LessOrEqual(long arg1, long arg2)
+		{
+			Assert.LessOrEqual(arg1, arg2, string.Empty, null);
+		}
+
+		#endregion
+
+		#region ULongs
+
+		/// <summary>
+		/// Verifies that the first value is less than or equal to the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		/// <param name="args">Arguments to be used in formatting the message</param>
+		[CLSCompliant(false)]
+		static public void LessOrEqual(ulong arg1, ulong arg2, string message, params object[] args)
+		{
+			Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is less than or equal to the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		/// <param name="message">The message that will be displayed on failure</param>
+		[CLSCompliant(false)]
+		static public void LessOrEqual(ulong arg1, ulong arg2, string message)
+		{
+			Assert.LessOrEqual(arg1, arg2, message, null);
+		}
+
+		/// <summary>
+		/// Verifies that the first value is less than or equal to the second
+		/// value. If it is not, then an 
+		/// <see cref="AssertionException"/> is thrown.
+		/// </summary>
+		/// <param name="arg1">The first value, expected to be less</param>
+		/// <param name="arg2">The second value, expected to be greater</param>
+		[CLSCompliant(false)]
+		static public void LessOrEqual(ulong arg1, ulong arg2)
+		{
+			Assert.LessOrEqual(arg1, arg2, string.Empty, null);
 		}
 
 		#endregion

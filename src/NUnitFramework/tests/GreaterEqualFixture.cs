@@ -13,9 +13,13 @@ namespace NUnit.Framework.Tests
     {
         private readonly int i1 = 5;
         private readonly int i2 = 4;
-        private readonly uint u1 = 12345879;
-        private readonly uint u2 = 12345678;
-        private readonly float f1 = 3.543F;
+		private readonly uint u1 = 12345879;
+		private readonly uint u2 = 12345678;
+		private readonly long l1 = 12345879;
+		private readonly long l2 = 12345678;
+		private readonly ulong ul1 = 12345879;
+		private readonly ulong ul2 = 12345678;
+		private readonly float f1 = 3.543F;
         private readonly float f2 = 2.543F;
         private readonly decimal de1 = 53.4M;
         private readonly decimal de2 = 33.4M;
@@ -36,6 +40,20 @@ namespace NUnit.Framework.Tests
 		{
 			Assert.GreaterOrEqual(u1, u1);
 			Assert.GreaterOrEqual(u1, u2);
+		}
+
+		[Test]
+		public void GreaterOrEqual_Long()
+		{
+			Assert.GreaterOrEqual(l1, l1);
+			Assert.GreaterOrEqual(l1, l2);
+		}
+
+		[Test]
+		public void GreaterOrEqual_ULong()
+		{
+			Assert.GreaterOrEqual(ul1, ul1);
+			Assert.GreaterOrEqual(ul1, ul2);
 		}
 
 		[Test]
