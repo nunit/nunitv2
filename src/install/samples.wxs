@@ -32,6 +32,7 @@
 	  <ComponentRef Id="C__VB_Samples" />
 	  <ComponentRef Id="C__VB_Failures" />
 	  <ComponentRef Id="C__VB_Money" />
+          <ComponentRef Id="C__VB_Syntax" />
 			
       <!-- Core Extensibility Samples -->
           <ComponentRef Id="C__CoreExtensibility" />
@@ -206,6 +207,15 @@
               <File Id="MoneyBag.vb" Name="MoneyBag.vb" />
               <File Id="Money_AssemblyInfo.vb" Name="ASSEMB_1.VB" LongName="AssemblyInfo.vb" />
               <File Id="IMoney.vb" Name="IMoney.vb" />
+            </Component>
+        </Directory>
+
+        <Directory Id="vb_syntax" Name="syntax">
+            <Component Id="C__VB_Syntax" DiskId="1" Guid="036CD103-788B-40c4-8AA3-467F9975E0E0">
+              <File Id="VB_Syntax.vbproj" Name="VB-SYNT.CSP" LongName="vb-syntax.vbproj" />
+              <File Id="VB_Syntax.build" Name="VB-SYNT.BLD" LongName="vb-syntax.build" />
+              <File Id="VB_AssertSyntaxTests.vb" Name="VB-SYNT.CS" LongName="AssertSyntaxTests.vb" />
+              <File Id="VB_Syntax_AssemblyInfo.vb" Name="ASSEMB_1.VB" LongName="AssemblyInfo.vb" />
             </Component>
         </Directory>
         
