@@ -113,6 +113,12 @@ namespace NUnit.Core.Builders
 			else 
 			foreach( TestSuite fixture in fixtures )
 			{
+				if ( fixture is SetUpFixture )
+				{
+					fixture.RunState = RunState.NotRunnable;
+					fixture.IgnoreReason = "SetUpFixture cannot be used when loading tests as a flat list of fixtures";
+				}
+
 				testAssembly.Add( fixture );
 			}
 
