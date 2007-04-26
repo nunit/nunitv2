@@ -199,6 +199,8 @@
       if="${task::exists('vbc')}" />
     <include name="vb/money/vb-money.build"
       if="${task::exists('vbc')}" />
+    <include name="vb/syntax/vb-syntax.build"
+      if="${task::exists('vbc')}" />
 
     <!-- Managed C++ Samples -->
     <include name="cpp/managed/failures/cpp-managed-failures.build"
