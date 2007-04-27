@@ -33,7 +33,7 @@ namespace NUnit.Util
 			{
 				TestPackage p = new TestPackage( assembly );
 				p.TestName = package.TestName;
-				foreach( object key in package.Settings )
+				foreach( object key in package.Settings.Keys )
 					p.Settings[key] = package.Settings[key];
 				if ( runners[index++].Load( p ) )
 					nfound++;
