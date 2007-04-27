@@ -58,23 +58,8 @@ namespace NUnit.Core
 		/// <returns>True if the filter matches the an ancestor of the test</returns>
 		protected virtual bool MatchParent(ITest test)
 		{
-//			if (test.RunState == RunState.Explicit )
-//				return false;
-
 			return (test.RunState != RunState.Explicit && test.Parent != null && 
 				( Match(test.Parent) || MatchParent(test.Parent)) );
-
-//			for (ITest parent = test.Parent; parent != null; parent = parent.Parent)
-//			{
-//				if (Match(parent))
-//					return true;
-//
-//				// Don't proceed past a parent marked Explicit
-//				if (parent.RunState == RunState.Explicit)
-//					return false;
-//			}
-//
-//			return false;
 		}
 
 		/// <summary>
