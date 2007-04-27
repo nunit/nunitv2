@@ -1270,33 +1270,15 @@ namespace NUnit.UiKit
 	public class TestFilterVisitor : TestSuiteTreeNodeVisitor
 	{
 		private ITestFilter filter;
-		private bool exclude;
 
 		public TestFilterVisitor( ITestFilter filter )
 		{
 			this.filter = filter;
-			this.exclude = filter is NotFilter;
-			if ( exclude )
-				this.filter = ((NotFilter)filter).BaseFilter;
 		}
 
 		public override void Visit( TestSuiteTreeNode node )
 		{
-			// If there are no categories selected
-			if ( filter.IsEmpty )
-			{
-				node.Included = true; //TODO: Look for ExplicitAttribute
-			}
-			else
-			{
-				node.Included = exclude;
-				TestSuiteTreeNode parent = node.Parent as TestSuiteTreeNode;
-				if ( parent != null )
-					node.Included = parent.Included;
-
-				if ( filter.Match( node.Test ) )
-					node.Included = !exclude;		
-			}
+			node.Included = filter.Pass( node.Test );
 		}
 	}
 
