@@ -35,6 +35,20 @@ namespace NUnit.Core.Filters
 		/// Checks whether the AndFilter is matched by a test
 		/// </summary>
 		/// <param name="test">The test to be matched</param>
+		/// <returns>True if all the component filters pass, otherwise false</returns>
+		public override bool Pass( ITest test )
+		{
+			foreach( ITestFilter filter in filters )
+				if ( !filter.Pass( test ) )
+					return false;
+
+			return true;
+		}
+
+		/// <summary>
+		/// Checks whether the AndFilter is matched by a test
+		/// </summary>
+		/// <param name="test">The test to be matched</param>
 		/// <returns>True if all the component filters match, otherwise false</returns>
 		public override bool Match( ITest test )
 		{
