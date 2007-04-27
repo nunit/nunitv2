@@ -841,7 +841,7 @@ namespace NUnit.Gui
 
 		private void reloadMenuItem_Click(object sender, System.EventArgs e)
 		{
-			using ( new CP.Windows.Forms.WaitCursor() )
+			using ( new LongRunningOperationDisplay( this, "Reloading..." ) )
 			{
 				TestLoader.ReloadTest();
 			}
@@ -1212,6 +1212,12 @@ namespace NUnit.Gui
 				LoadFormSettings();
 				SubscribeToTestEvents();
 				InitializeControls();
+
+				// Force display  so that any "Loading..." or error 
+				// message overlays the main form.
+				this.Show();
+				this.Invalidate();
+				this.Update();
 
 				// Load test specified on command line or
 				// the most recent one if options call for it

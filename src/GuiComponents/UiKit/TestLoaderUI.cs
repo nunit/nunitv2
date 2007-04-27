@@ -71,7 +71,12 @@ namespace NUnit.UiKit
 				else if ( testProject.ActiveConfig.Assemblies.Count == 0 )
 					UserMessage.DisplayInfo( "Active configuration contains no assemblies" );
 				else
-					loader.LoadTest( testName );
+				{
+					using( new LongRunningOperationDisplay( owner, "Loading..." ) )
+					{
+						loader.LoadTest( testName );
+					}
+				}
 			}
 		}
 

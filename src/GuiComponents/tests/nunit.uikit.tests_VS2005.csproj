@@ -64,6 +64,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ErrorDisplayTests.cs" />
+    <Compile Include="LongRunningOperationDisplayTests.cs" />
     <Compile Include="ProgressBarTests.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -18,6 +18,7 @@
         <include name="ExpandingTextBox.cs"/>
         <include name="FolderBrowser.cs"/>
         <include name="GuiTestEventDispatcher.cs"/>
+        <include name="LongRunningOperationDisplay.cs"/>
         <include name="NotRunTree.cs"/>
         <include name="ProgressBar.cs"/>
         <include name="RecentFileMenuHandler.cs"/>

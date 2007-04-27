@@ -145,6 +145,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "LongRunningOperationDisplayTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "nunit.uikit.tests.dll.config"
                     BuildAction = "None"
                 />

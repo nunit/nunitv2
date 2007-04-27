@@ -66,21 +66,6 @@ namespace NUnit.Gui
 					}
 				}
 
-				if(command.testFileName != null)
-				{
-					FileInfo fileInfo = new FileInfo(command.testFileName);
-					if(!fileInfo.Exists)
-					{
-						string message = String.Format("{0} does not exist", fileInfo.FullName);
-						UserMessage.DisplayFailure( message,"Specified test file does not exist" );
-						return 1;
-					}
-					else
-					{
-						command.testFileName = fileInfo.FullName;
-					}
-				}
-
 				// Add Standard Services to ServiceManager
 				ServiceManager.Services.AddService( new SettingsService() );
 				ServiceManager.Services.AddService( new DomainManager() );

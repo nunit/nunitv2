@@ -216,6 +216,16 @@
                     BuildAction = "Content"
                 />
                 <File
+                    RelPath = "LongRunningOperationDisplay.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LongRunningOperationDisplay.resx"
+                    DependentUpon = "LongRunningOperationDisplay.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "NotRunTree.cs"
                     SubType = "Component"
                     BuildAction = "Compile"

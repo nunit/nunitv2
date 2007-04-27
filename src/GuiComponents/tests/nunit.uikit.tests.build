@@ -8,6 +8,7 @@
       <sources>
         <include name="AddConfigurationDialogTests.cs"/>
         <include name="ErrorDisplayTests.cs"/>
+        <include name="LongRunningOperationDisplayTests.cs"/>
         <include name="ProgressBarTests.cs"/>
         <include name="RecentFileMenuHandlerTests.cs"/>
         <include name="StatusBarTests.cs"/>
