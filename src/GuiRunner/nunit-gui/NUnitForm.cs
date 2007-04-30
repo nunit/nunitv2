@@ -34,6 +34,8 @@ namespace NUnit.Gui
 
 		private string displayFormat = "Full";
 
+		private System.Drawing.Font fixedFont;
+
 		// Structure used for command line options
 		public struct CommandLineOptions
 		{
@@ -108,7 +110,6 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem toolsMenuSeparator2;
 		private System.Windows.Forms.MenuItem miniGuiMenuItem;
 		private System.Windows.Forms.MenuItem fullGuiMenuItem;
-		private System.Windows.Forms.MenuItem fontMenuItem;
 		private System.Windows.Forms.MenuItem fontChangeMenuItem;
 		private System.Windows.Forms.MenuItem defaultFontMenuItem;
 		private System.Windows.Forms.MenuItem decreaseFontMenuItem;
@@ -126,6 +127,12 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem viewMenuSeparator4;
 		private System.Windows.Forms.MenuItem fontMenuSeparator;
 		private System.Windows.Forms.MenuItem testMenuSeparator;
+		private System.Windows.Forms.MenuItem guiFontMenuItem;
+		private System.Windows.Forms.MenuItem fixedFontMenuItem;
+		private System.Windows.Forms.MenuItem increaseFixedFontMenuItem;
+		private System.Windows.Forms.MenuItem decreaseFixedFontMenuItem;
+		private System.Windows.Forms.MenuItem menuItem1;
+		private System.Windows.Forms.MenuItem restoreFixedFontMenuItem;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -183,7 +190,7 @@ namespace NUnit.Gui
 			this.miniGuiMenuItem = new System.Windows.Forms.MenuItem();
 			this.viewMenuSeparator1 = new System.Windows.Forms.MenuItem();
 			this.viewMenuSeparator2 = new System.Windows.Forms.MenuItem();
-			this.fontMenuItem = new System.Windows.Forms.MenuItem();
+			this.guiFontMenuItem = new System.Windows.Forms.MenuItem();
 			this.increaseFontMenuItem = new System.Windows.Forms.MenuItem();
 			this.decreaseFontMenuItem = new System.Windows.Forms.MenuItem();
 			this.fontMenuSeparator = new System.Windows.Forms.MenuItem();
@@ -229,6 +236,11 @@ namespace NUnit.Gui
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.testTree = new NUnit.UiKit.TestTree();
 			this.leftPanel = new System.Windows.Forms.Panel();
+			this.fixedFontMenuItem = new System.Windows.Forms.MenuItem();
+			this.increaseFixedFontMenuItem = new System.Windows.Forms.MenuItem();
+			this.decreaseFixedFontMenuItem = new System.Windows.Forms.MenuItem();
+			this.menuItem1 = new System.Windows.Forms.MenuItem();
+			this.restoreFixedFontMenuItem = new System.Windows.Forms.MenuItem();
 			this.rightPanel.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.leftPanel.SuspendLayout();
@@ -347,7 +359,8 @@ namespace NUnit.Gui
 																					 this.miniGuiMenuItem,
 																					 this.viewMenuSeparator1,
 																					 this.viewMenuSeparator2,
-																					 this.fontMenuItem,
+																					 this.guiFontMenuItem,
+																					 this.fixedFontMenuItem,
 																					 this.viewMenuSeparator3,
 																					 this.assemblyDetailsMenuItem,
 																					 this.viewMenuSeparator4,
@@ -380,16 +393,16 @@ namespace NUnit.Gui
 			this.viewMenuSeparator2.Index = 3;
 			this.viewMenuSeparator2.Text = "-";
 			// 
-			// fontMenuItem
+			// guiFontMenuItem
 			// 
-			this.fontMenuItem.Index = 4;
-			this.fontMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																						 this.increaseFontMenuItem,
-																						 this.decreaseFontMenuItem,
-																						 this.fontMenuSeparator,
-																						 this.fontChangeMenuItem,
-																						 this.defaultFontMenuItem});
-			this.fontMenuItem.Text = "Fo&nt";
+			this.guiFontMenuItem.Index = 4;
+			this.guiFontMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																							this.increaseFontMenuItem,
+																							this.decreaseFontMenuItem,
+																							this.fontMenuSeparator,
+																							this.fontChangeMenuItem,
+																							this.defaultFontMenuItem});
+			this.guiFontMenuItem.Text = "GUI Fo&nt";
 			// 
 			// increaseFontMenuItem
 			// 
@@ -422,24 +435,24 @@ namespace NUnit.Gui
 			// 
 			// viewMenuSeparator3
 			// 
-			this.viewMenuSeparator3.Index = 5;
+			this.viewMenuSeparator3.Index = 6;
 			this.viewMenuSeparator3.Text = "-";
 			// 
 			// assemblyDetailsMenuItem
 			// 
-			this.assemblyDetailsMenuItem.Index = 6;
+			this.assemblyDetailsMenuItem.Index = 7;
 			this.assemblyDetailsMenuItem.Text = "&Assembly Details...";
 			this.assemblyDetailsMenuItem.Click += new System.EventHandler(this.assemblyDetailsMenuItem_Click);
 			// 
 			// viewMenuSeparator4
 			// 
-			this.viewMenuSeparator4.Index = 7;
+			this.viewMenuSeparator4.Index = 8;
 			this.viewMenuSeparator4.Text = "-";
 			// 
 			// statusBarMenuItem
 			// 
 			this.statusBarMenuItem.Checked = true;
-			this.statusBarMenuItem.Index = 8;
+			this.statusBarMenuItem.Index = 9;
 			this.statusBarMenuItem.Text = "&Status Bar";
 			this.statusBarMenuItem.Click += new System.EventHandler(this.statusBarMenuItem_Click);
 			// 
@@ -731,6 +744,39 @@ namespace NUnit.Gui
 			this.leftPanel.Size = new System.Drawing.Size(240, 545);
 			this.leftPanel.TabIndex = 4;
 			// 
+			// fixedFontMenuItem
+			// 
+			this.fixedFontMenuItem.Index = 5;
+			this.fixedFontMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																							  this.increaseFixedFontMenuItem,
+																							  this.decreaseFixedFontMenuItem,
+																							  this.menuItem1,
+																							  this.restoreFixedFontMenuItem});
+			this.fixedFontMenuItem.Text = "Fi&xed Font";
+			// 
+			// increaseFixedFontMenuItem
+			// 
+			this.increaseFixedFontMenuItem.Index = 0;
+			this.increaseFixedFontMenuItem.Text = "&Increase";
+			this.increaseFixedFontMenuItem.Click += new System.EventHandler(this.increaseFixedFontMenuItem_Click);
+			// 
+			// decreaseFixedFontMenuItem
+			// 
+			this.decreaseFixedFontMenuItem.Index = 1;
+			this.decreaseFixedFontMenuItem.Text = "&Decrease";
+			this.decreaseFixedFontMenuItem.Click += new System.EventHandler(this.decreaseFixedFontMenuItem_Click);
+			// 
+			// menuItem1
+			// 
+			this.menuItem1.Index = 2;
+			this.menuItem1.Text = "-";
+			// 
+			// restoreFixedFontMenuItem
+			// 
+			this.restoreFixedFontMenuItem.Index = 3;
+			this.restoreFixedFontMenuItem.Text = "&Restore";
+			this.restoreFixedFontMenuItem.Click += new System.EventHandler(this.restoreFixedFontMenuItem_Click);
+			// 
 			// NUnitForm
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
@@ -978,12 +1024,12 @@ namespace NUnit.Gui
 
 		private void increaseFontMenuItem_Click(object sender, System.EventArgs e)
 		{
-			applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints * 1.2f, this.Font.Style ) );;
+			applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints * 1.2f, this.Font.Style ) );
 		}
 
 		private void decreaseFontMenuItem_Click(object sender, System.EventArgs e)
 		{
-			applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints / 1.2f, this.Font.Style ) );;
+			applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints / 1.2f, this.Font.Style ) );
 		}
 
 		private void applyFont( Font font )
@@ -993,6 +1039,28 @@ namespace NUnit.Gui
 			userSettings.SaveSetting( 
 				displayFormat == "Mini" ? "Gui.MiniForm.Font" : "Gui.MainForm.Font", 
 				converter.ConvertToString( font ) );
+		}
+
+		private void increaseFixedFontMenuItem_Click(object sender, System.EventArgs e)
+		{
+			applyFixedFont( new Font( fixedFont.FontFamily, fixedFont.SizeInPoints * 1.2f, fixedFont.Style ) );		
+		}
+
+		private void decreaseFixedFontMenuItem_Click(object sender, System.EventArgs e)
+		{
+			applyFixedFont( new Font( fixedFont.FontFamily, fixedFont.SizeInPoints / 1.2f, fixedFont.Style ) );		
+		}
+
+		private void restoreFixedFontMenuItem_Click(object sender, System.EventArgs e)
+		{
+			applyFixedFont( new Font( "Courier New", 8.0f ) );
+		}
+
+		private void applyFixedFont( Font font )
+		{
+			this.fixedFont = font;
+			TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
+			userSettings.SaveSetting( "Gui.FixedFont", converter.ConvertToString( font ) );
 		}
 		#endregion
 
@@ -1328,6 +1396,16 @@ namespace NUnit.Gui
 
 			// Handle changes in splitter positions
 			this.treeSplitter.SplitterMoved += new SplitterEventHandler( treeSplitter_SplitterMoved );
+
+			// Get the fixed font used by result tabs
+			string fontDescription = userSettings.GetSetting( "Gui.FixedFont", "" );
+			if ( fontDescription == "" )
+				this.fixedFont = new Font( "Courier New", 8.0f );
+			else
+			{
+				TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
+				this.fixedFont = (Font)converter.ConvertFrom(fontDescription);
+			}
 		}
 
 		private bool IsValidLocation( Point location )

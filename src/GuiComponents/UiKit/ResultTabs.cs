@@ -150,9 +150,9 @@ namespace NUnit.UiKit
 			// tabControl
 			// 
 			this.tabControl.Controls.Add(this.errorTab);
-			this.tabControl.Controls.Add(this.notRunTab);
 			this.tabControl.Controls.Add(this.stdoutTab);
 			this.tabControl.Controls.Add(this.stderrTab);
+			this.tabControl.Controls.Add(this.notRunTab);
 			this.tabControl.Controls.Add(this.traceTab);
 			this.tabControl.Controls.Add(this.internalTraceTab);
 			this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -186,7 +186,7 @@ namespace NUnit.UiKit
 			this.notRunTab.Controls.Add(this.notRunTree);
 			this.notRunTab.Location = new System.Drawing.Point(4, 22);
 			this.notRunTab.Name = "notRunTab";
-			this.notRunTab.Size = new System.Drawing.Size(480, 278);
+			this.notRunTab.Size = new System.Drawing.Size(480, 254);
 			this.notRunTab.TabIndex = 1;
 			this.notRunTab.Text = "Tests Not Run";
 			this.notRunTab.Visible = false;
@@ -200,41 +200,46 @@ namespace NUnit.UiKit
 			this.notRunTree.Location = new System.Drawing.Point(0, 0);
 			this.notRunTree.Name = "notRunTree";
 			this.notRunTree.SelectedImageIndex = -1;
-			this.notRunTree.Size = new System.Drawing.Size(480, 278);
+			this.notRunTree.Size = new System.Drawing.Size(480, 254);
 			this.notRunTree.TabIndex = 0;
 			// 
 			// stdoutTab
 			// 
+			this.stdoutTab.Font = new System.Drawing.Font("Courier New", 8F);
+			this.stdoutTab.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.stdoutTab.Location = new System.Drawing.Point(4, 22);
 			this.stdoutTab.Name = "stdoutTab";
-			this.stdoutTab.Size = new System.Drawing.Size(480, 278);
+			this.stdoutTab.Size = new System.Drawing.Size(480, 254);
 			this.stdoutTab.TabIndex = 3;
 			this.stdoutTab.Text = "Console.Out";
 			this.stdoutTab.Visible = false;
 			// 
 			// stderrTab
 			// 
+			this.stderrTab.Font = new System.Drawing.Font("Courier New", 8F);
 			this.stderrTab.Location = new System.Drawing.Point(4, 22);
 			this.stderrTab.Name = "stderrTab";
-			this.stderrTab.Size = new System.Drawing.Size(480, 278);
+			this.stderrTab.Size = new System.Drawing.Size(480, 254);
 			this.stderrTab.TabIndex = 2;
 			this.stderrTab.Text = "Console.Error";
 			this.stderrTab.Visible = false;
 			// 
 			// traceTab
 			// 
+			this.traceTab.Font = new System.Drawing.Font("Courier New", 8F);
 			this.traceTab.Location = new System.Drawing.Point(4, 22);
 			this.traceTab.Name = "traceTab";
-			this.traceTab.Size = new System.Drawing.Size(480, 278);
+			this.traceTab.Size = new System.Drawing.Size(480, 254);
 			this.traceTab.TabIndex = 4;
 			this.traceTab.Text = "Trace Output";
 			this.traceTab.Visible = false;
 			// 
 			// internalTraceTab
 			// 
+			this.internalTraceTab.Font = new System.Drawing.Font("Courier New", 8F);
 			this.internalTraceTab.Location = new System.Drawing.Point(4, 22);
 			this.internalTraceTab.Name = "internalTraceTab";
-			this.internalTraceTab.Size = new System.Drawing.Size(480, 278);
+			this.internalTraceTab.Size = new System.Drawing.Size(480, 254);
 			this.internalTraceTab.TabIndex = 5;
 			this.internalTraceTab.Text = "Internal Trace";
 			this.internalTraceTab.Visible = false;
@@ -253,6 +258,7 @@ namespace NUnit.UiKit
 			this.errorTab.ResumeLayout(false);
 			this.notRunTab.ResumeLayout(false);
 			this.ResumeLayout(false);
+
 		}
 		#endregion
 	
@@ -278,6 +284,7 @@ namespace NUnit.UiKit
 				this.settings = Services.UserSettings;
 
 				LoadSettingsAndUpdateTabPages();
+				UpdateFixedFont();
 				Subscribe( Services.TestLoader.Events );
 				Services.UserSettings.Changed += new SettingsEventHandler(UserSettings_Changed);
 
@@ -296,7 +303,25 @@ namespace NUnit.UiKit
 			consoleErrorMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayConsoleErrorTab", true );
 			traceTabMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayTraceTab", true );
 			internalTraceTabMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayInternalTraceTab", true );
+
 			UpdateTabPages();
+		}
+
+		private void UpdateFixedFont()
+		{
+			Font fixedFont = null;
+			string fontDescription = settings.GetSetting( "Gui.FixedFont", "" );
+			if ( fontDescription == "" )
+			{
+				fixedFont = new Font( "Courier New", 8.0f );
+			}
+			else
+			{
+				TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
+				fixedFont = (Font)converter.ConvertFrom(fontDescription);
+			}
+
+			stdoutTab.Font = stderrTab.Font = traceTab.Font = internalTraceTab.Font = fixedFont;
 		}
 
 		private void UpdateTabPages()
@@ -321,6 +346,8 @@ namespace NUnit.UiKit
 		{
 			if( e.SettingName.StartsWith( "Gui.ResultTabs" ) )
 				LoadSettingsAndUpdateTabPages();
+			else if ( e.SettingName == "Gui.FixedFont" )
+				UpdateFixedFont();
 		}
 
 		private void errorsTabMenuItem_Click(object sender, System.EventArgs e)
