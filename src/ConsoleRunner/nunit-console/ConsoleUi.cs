@@ -232,100 +232,105 @@ namespace NUnit.ConsoleRunner
 
 			TestRunner testRunner = MakeRunnerFromCommandLine( options );
 
-            if (testRunner.Test == null)
-            {
-                testRunner.Unload();
-                Console.Error.WriteLine("Unable to locate fixture {0}", options.fixture);
-                return 2;
-            }
-
-			EventCollector collector = new EventCollector( options, outWriter, errorWriter );
-
-			TestFilter catFilter = TestFilter.Empty;
-
-			if (options.HasInclude)
-			{
-				Console.WriteLine( "Included categories: " + options.include );
-				catFilter = new CategoryFilter( options.IncludedCategories );
-			}
-			
-			if ( options.HasExclude )
-			{
-				Console.WriteLine( "Excluded categories: " + options.exclude );
-				TestFilter excludeFilter = new NotFilter( new CategoryFilter( options.ExcludedCategories ) );
-				if ( catFilter.IsEmpty )
-					catFilter = excludeFilter;
-				else
-					catFilter = new AndFilter( catFilter, excludeFilter );
-			}
-
-			TestResult result = null;
-			string savedDirectory = Environment.CurrentDirectory;
-			TextWriter savedOut = Console.Out;
-			TextWriter savedError = Console.Error;
-
 			try
 			{
-				result = testRunner.Run( collector, catFilter );
+				if (testRunner.Test == null)
+				{
+					testRunner.Unload();
+					Console.Error.WriteLine("Unable to locate fixture {0}", options.fixture);
+					return 2;
+				}
+
+				EventCollector collector = new EventCollector( options, outWriter, errorWriter );
+
+				TestFilter catFilter = TestFilter.Empty;
+
+				if (options.HasInclude)
+				{
+					Console.WriteLine( "Included categories: " + options.include );
+					catFilter = new CategoryFilter( options.IncludedCategories );
+				}
+			
+				if ( options.HasExclude )
+				{
+					Console.WriteLine( "Excluded categories: " + options.exclude );
+					TestFilter excludeFilter = new NotFilter( new CategoryFilter( options.ExcludedCategories ) );
+					if ( catFilter.IsEmpty )
+						catFilter = excludeFilter;
+					else
+						catFilter = new AndFilter( catFilter, excludeFilter );
+				}
+
+				TestResult result = null;
+				string savedDirectory = Environment.CurrentDirectory;
+				TextWriter savedOut = Console.Out;
+				TextWriter savedError = Console.Error;
+
+				try
+				{
+					result = testRunner.Run( collector, catFilter );
+				}
+				finally
+				{
+					outWriter.Flush();
+					errorWriter.Flush();
+
+					if ( options.isOut )
+						outWriter.Close();
+					if ( options.isErr )
+						errorWriter.Close();
+
+					Environment.CurrentDirectory = savedDirectory;
+					Console.SetOut( savedOut );
+					Console.SetError( savedError );
+				}
+
+				Console.WriteLine();
+
+				string xmlOutput = CreateXmlOutput( result );
+			
+				if (options.xmlConsole)
+				{
+					Console.WriteLine(xmlOutput);
+				}
+				else
+				{
+					try
+					{
+						//CreateSummaryDocument(xmlOutput, transformReader );
+						XmlResultTransform xform = new XmlResultTransform( transformReader );
+						xform.Transform( new StringReader( xmlOutput ), Console.Out );
+					}
+					catch( Exception ex )
+					{
+						Console.WriteLine( "Error: {0}", ex.Message );
+						return 3;
+					}
+				}
+
+				// Write xml output here
+				string xmlResultFile = options.IsXml ? options.xml : "TestResult.xml";
+
+				using ( StreamWriter writer = new StreamWriter( xmlResultFile ) ) 
+				{
+					writer.Write(xmlOutput);
+				}
+
+				//if ( testRunner != null )
+				//    testRunner.Unload();
+
+				if ( collector.HasExceptions )
+				{
+					collector.WriteExceptions();
+					return 2;
+				}
+            
+				return result.IsFailure ? 1 : 0;
 			}
 			finally
 			{
-				outWriter.Flush();
-				errorWriter.Flush();
-
-				if ( options.isOut )
-					outWriter.Close();
-				if ( options.isErr )
-					errorWriter.Close();
-
-				Environment.CurrentDirectory = savedDirectory;
-				Console.SetOut( savedOut );
-				Console.SetError( savedError );
-
-                testRunner.Unload();
+				testRunner.Unload();
 			}
-
-			Console.WriteLine();
-
-			string xmlOutput = CreateXmlOutput( result );
-			
-			if (options.xmlConsole)
-			{
-				Console.WriteLine(xmlOutput);
-			}
-			else
-			{
-				try
-				{
-					//CreateSummaryDocument(xmlOutput, transformReader );
-					XmlResultTransform xform = new XmlResultTransform( transformReader );
-					xform.Transform( new StringReader( xmlOutput ), Console.Out );
-				}
-				catch( Exception ex )
-				{
-					Console.WriteLine( "Error: {0}", ex.Message );
-					return 3;
-				}
-			}
-
-			// Write xml output here
-			string xmlResultFile = options.IsXml ? options.xml : "TestResult.xml";
-
-			using ( StreamWriter writer = new StreamWriter( xmlResultFile ) ) 
-			{
-				writer.Write(xmlOutput);
-			}
-
-            //if ( testRunner != null )
-            //    testRunner.Unload();
-
-			if ( collector.HasExceptions )
-            {
-                collector.WriteExceptions();
-                return 2;
-            }
-            
-            return result.IsFailure ? 1 : 0;
 		}
 
 		private string CreateXmlOutput( TestResult result )
