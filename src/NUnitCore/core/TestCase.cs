@@ -22,6 +22,8 @@ namespace NUnit.Core
 
 		public TestCase( MethodInfo method ) : base ( method ) { }
 
+		public TestCase( TestName testName ) : base ( testName ) { }
+
 		public override int CountTestCases( ITestFilter filter ) 
 		{
 			if (filter.Pass(this))

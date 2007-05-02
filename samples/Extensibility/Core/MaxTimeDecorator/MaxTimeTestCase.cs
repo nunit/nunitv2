@@ -18,8 +18,12 @@ namespace NUnit.Core.Extensions
 		private int maxTime = 0;
 
 		public MaxTimeTestCase( TestCase testCase, int maxTime )
-			: base( testCase.TestName.FullName, testCase.TestName.Name )
+			: base( (TestName)testCase.TestName.Clone() )
 		{
+			// We give it a different test id to avoid confusion
+			// when debugging - even though it's not strictly
+			// necessary in this case.
+			this.TestName.TestID = new TestID();
 			this.testCase = testCase;
 			this.maxTime = maxTime;
 		}

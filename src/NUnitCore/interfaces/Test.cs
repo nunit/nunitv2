@@ -99,22 +99,38 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
+		/// Constructs a test given a TestName object
+		/// </summary>
+		/// <param name="testName">The TestName for this test</param>
+		protected Test( TestName testName )
+		{
+			this.testName = testName;
+			
+			this.runState = RunState.Runnable;
+		}
+
+		/// <summary>
 		/// Constructs a test given a fixture type
 		/// </summary>
 		/// <param name="fixtureType">The type to use in constructiong the test</param>
-		public Test( Type fixtureType )
-			: this( fixtureType.FullName )
+		protected Test( Type fixtureType )
 		{
-			if ( fixtureType.Namespace != null )
-			this.TestName.Name = TestName.FullName.Substring( TestName.FullName.LastIndexOf( '.' ) + 1 );
+			this.testName = new TestName();
+			this.testName.FullName = fixtureType.FullName;
+			this.testName.Name = fixtureType.Namespace != null
+				? TestName.FullName.Substring( TestName.FullName.LastIndexOf( '.' ) + 1 )
+				: fixtureType.FullName;
+			this.testName.TestID = new TestID();
+
 			this.fixtureType = fixtureType;
+			this.RunState = RunState.Runnable;
 		}
 
 		/// <summary>
 		/// Construct a test given a MethodInfo
 		/// </summary>
 		/// <param name="method">The method to be used</param>
-		public Test( MethodInfo method )
+		protected Test( MethodInfo method )
 			: this( method.ReflectedType )
 		{
 			this.testName.Name = method.DeclaringType == method.ReflectedType 
