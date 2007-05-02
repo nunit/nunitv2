@@ -32,6 +32,11 @@ namespace NUnit.Core
 			return 0;
 		}
 
+		protected virtual TestCaseResult MakeTestCaseResult()
+		{
+			return new TestCaseResult( new TestInfo(this) );
+		}
+
 		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
 			return Run( listener ); // Ignore filter for now
@@ -41,7 +46,7 @@ namespace NUnit.Core
 		{
 			using( new TestContext() )
 			{
-				TestCaseResult testResult = new TestCaseResult( new TestInfo(this) );
+				TestCaseResult testResult = MakeTestCaseResult();
 
 				listener.TestStarted( this.TestName );
 				long startTime = DateTime.Now.Ticks;
