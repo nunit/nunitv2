@@ -41,7 +41,7 @@
     <xmlpoke 
       file="${package.samples.dir}/Extensibility/Core/Minimal/Minimal.csproj"
       xpath="/VisualStudioProject/CSHARP/Build/References/Reference[@Name='nunit.core.interfaces']/@HintPath"
-      value="..\..\..\bin\nunit.core.interfaces.dll" />
+      value="..\..\..\..\bin\nunit.core.interfaces.dll" />
   </target>
 
 </project>
