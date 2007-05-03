@@ -159,13 +159,28 @@ separate them.
 <p><b>Notes:</b> You may specify multiple assemblies, but not multiple NUnit or 
 	Visual Studio projects on the command line. Further, you may not specify an 
 	NUnit or Visual Studio project together with a list of assemblies.</p>
-<p>Beginning with NUnit 2.4, the console runner loads multiple assemblies 
-   specified in this way into separate AppDomains. You may provide a separate
-   config file for each assembly.
+<p>Beginning with NUnit 2.4, the console loads multiple assemblies specified
+   in this way into separate AppDomains by default. You may provide a separate
+   config file for each assembly. You may override the default by use of the
+   <b>/domain</b> option.
 <p>Beginning with NUnit 2.4, the <b>/fixture</b>
 	option, when used with multiple assemblies, will run tests matching the 
 	fixture name in all the assemblies. In earlier versions, only the first
 	test found was executed.</p>
+<h4>Controlling the Use of AppDomains</h4>
+<p>The <b>/domain</b> option controls of the creation of AppDomains for running tests.
+    The following values are recognized:</p>
+	<dl style="margin-left: 2em">
+	<dt><b>None</b>
+	<dd>No domain is created - the tests are run in the primary domain. This normally
+	requires copying the <b>NUnit</b> assemblies into the same directory as your tests.
+	<dt><b>Single</b>
+	<dd>A test domain is created - this is how NUnit worked prior to version 2.4
+	<dt><b>Multiple</b>
+	<dd>A separate test domain is created for each assembly
+	</dl>
+<p>The default is to use multiple domains if multiple assemblies are listed on 
+	the command line. Otherwise a single domain is used.</p>
 <h4>Other Options</h4>
 <p>The <b>/noshadow</b> option disables shadow copying of the assembly in order to 
 	provide improved performance.</p>
@@ -192,7 +207,7 @@ separate them.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4</a></li>
+<li><a href="index.html">NUnit 2.4.1</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="platformSupport.html">Platform&nbsp;Support</a></li>

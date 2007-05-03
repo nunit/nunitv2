@@ -32,6 +32,93 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
+<h3>NUnit 2.4.1 - May 3, 2007</h3>
+
+<h4>General</h4>
+
+<ul>
+<li>When the NUnit help is not installed, the Help menu item now displays the
+documentation from the NUnit web site.
+</ul>
+
+<h4>Framework</h4>
+
+<ul>
+<li>The following Assert overloads have been added
+   <dl style="margin-left: 2em">
+     <dt>Assert.Greater(long, long)
+     <dt>Assert.Greater(ulong, ulong)
+	 <dt>Assert.GreaterOrEqual(long, long)
+	 <dt>Assert.GreaterOrEqual(ulong, ulong)
+	 <dt>Assert.Less(long, long)
+	 <dt>Assert.Less(ulong, ulong)
+	 <dt>Assert.LessOrEqual(long, long)
+	 <dt>Assert.LessOrEqual(ulong, ulong)
+   </dl>
+</ul>
+
+<h4>Gui</h4>
+
+<ul>
+<li>When a load or reload is in progress, an indicator message is now
+displayed, centered on top of the form. The form is now displayed 
+earlier in the startup sequence so that error messages do not appear
+in isolation.
+
+<li>When a non-existent assembly is specified on the command line, the
+gui no longer closes after the error message is dismissed.
+
+<li>When the option to re-run tests when assembly changes is selected,
+the last set of tests run is now re-run, rather than running all tests.
+
+<li>The failure message for tests failing due to a problem with the
+TestFixtureSetUp now indicate the name of the failing fixture.
+</ul>
+
+<h4>Extensibility</h4>
+<ul>
+<li>The TestCase class has a new virtual method <b>MakeTestCaseResult()</b>,
+allowing extensions to use a derived TestCaseResult if desired. Because
+NUnit makes no use of additional properties or methods added to the 
+TestCaseResult, some sort of custom processing is required for this
+feature to be useful. Extenders should be aware that inheriting from
+TestCase currently makes the extension dependent on a particular version 
+of NUnit.
+
+<li>A brief list of "Tips for Writing Extensions" has been added to the documentation.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>CollectionAsserts no longer fail on collections containig null values.
+
+<li>The obsolete file, <b>nunit-gui.exe</b>, has been removed from the zip distribution.
+
+<li>The errors and failures display now recalculates the space available and 
+enables or disables the scrollbar whenever it is resized.
+
+<li>The xml file automatically saved by the Gui when a test is run is now
+correctly named as TestResult.xml rather than TestTesult.xml.
+
+<li>The <b>Explicit</b> attribute now works correctly when specified on
+a test fixture.
+
+<li>The /cleanup option no longer throws an exception when the shadow copy
+cache directory is not present.
+
+<li>The current directory is now set correctly when running a <b>SetUpFixture</b>.
+
+<li>Non-default test load options are no longer ignored when loading tests in
+multiple AppDomains.
+
+<li>The Errors and Failures display is now re-drawn with the scroll bars
+enabled/disabled as needed whenever it is resized.
+
+<li>The MaxTimeDecorator example no longer shows the name of a test
+case repeated twice in the full name of the test.
+</ul>
+
 <h3>NUnit 2.4 Final Release (2.4.0.2) - March 16, 2007</h3>
 
 <h4>Gui</h4>
@@ -220,7 +307,7 @@ now treated as services, managed by a ServiceManager.
 	<dt>Multiple
 	<dd>A separate test domain is created for each assembly
 	</dl>
-	The default is to use multiple domains if multiple assemlies are listed on 
+	The default is to use multiple domains if multiple assemblies are listed on 
 	the command line. Otherwise a single domain is used.<br><br>
 	
 <li>The obsolete <b>/thread</b> option has been replaced by <b>/nothread</b>.
@@ -277,6 +364,9 @@ NUnit 2.4 maintenance releases and to avoid any breaking changes in this code.
 <li>The Windows installer is now built using WiX. With the removal of
 the Visual Studio deployment project from the VS2005 solution, it is
 now possible to build NUnit completely using C# Express.
+
+<li>The nunit.framework assembly is no longer installed in the GAC.
+
 </ul>
 
 <h4>Framework</h4>
@@ -629,7 +719,7 @@ are used:
 
 <h3>Earlier Releases</h3>
 
-Cumulative notes through NUnit 2.2.9 are available <a href="docs/2.2.9/releaseNotes.html">here</a></h3>
+Cumulative notes through NUnit 2.2.9 are available <a href="docs/2.2.10/releaseNotes.html">here</a></h3>
 
 
 </div>
@@ -637,7 +727,7 @@ Cumulative notes through NUnit 2.2.9 are available <a href="docs/2.2.9/releaseNo
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4</a></li>
+<li><a href="index.html">NUnit 2.4.1</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="platformSupport.html">Platform&nbsp;Support</a></li>
