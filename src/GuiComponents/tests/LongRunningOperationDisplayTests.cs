@@ -7,8 +7,13 @@ namespace NUnit.UiKit.Tests
 	[TestFixture]
 	public class LongRunningOperationDisplayTests : AssertionHelper
 	{
-		[Test]
-		public void CreateDisplay()
+        // This test was intermittently throwing the following exception under .NET 1.0.
+        // System.Runtime.InteropServices.ExternalException: A generic error occurred in GDI+.
+        //  at System.Drawing.Graphics.DrawRectangle(Pen pen, Int32 x, Int32 y, Int32 width, Int32 height)
+        //  at System.Drawing.Graphics.DrawRectangle(Pen pen, Rectangle rect)
+        //  at NUnit.UiKit.LongRunningOperationDisplay.OnPaint(PaintEventArgs e) in .\src\GuiComponents\UiKit\LongRunningOperationDisplay.cs:line 117
+        [Test, Platform(Exclude = "NET-1.0")]
+        public void CreateDisplay()
 		{
 			Form form = new Form();
 			LongRunningOperationDisplay display = new LongRunningOperationDisplay( form, "Loading..." );
