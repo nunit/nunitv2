@@ -58,15 +58,15 @@ namespace NUnit.Gui
 		private System.Windows.Forms.CheckBox notRunTabCheckBox;
 		private System.Windows.Forms.CheckBox consoleOutputCheckBox;
 		private System.Windows.Forms.CheckBox traceOutputCheckBox;
-		private System.Windows.Forms.CheckBox consoleErrrorCheckBox;
-		private System.Windows.Forms.RadioButton separateErrors;
-		private System.Windows.Forms.RadioButton mergeErrors;
 		private System.Windows.Forms.RadioButton mergeTrace;
 		private System.Windows.Forms.RadioButton separateTrace;
-		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel panel2;
 		private System.Windows.Forms.GroupBox groupBox9;
 		private System.Windows.Forms.CheckBox shadowCopyCheckBox;
+		private System.Windows.Forms.CheckBox consoleErrrorCheckBox;
+		private System.Windows.Forms.RadioButton mergeErrors;
+		private System.Windows.Forms.RadioButton separateErrors;
+		private System.Windows.Forms.Panel panel1;
 
 		private ISettings settings;
 
@@ -148,10 +148,10 @@ namespace NUnit.Gui
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.consoleOutputCheckBox = new System.Windows.Forms.CheckBox();
 			this.labelTestOutputCheckBox = new System.Windows.Forms.CheckBox();
-			this.panel1 = new System.Windows.Forms.Panel();
 			this.consoleErrrorCheckBox = new System.Windows.Forms.CheckBox();
 			this.mergeErrors = new System.Windows.Forms.RadioButton();
 			this.separateErrors = new System.Windows.Forms.RadioButton();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -325,7 +325,7 @@ namespace NUnit.Gui
 			this.groupBox2.Name = "groupBox2";
 			this.helpProvider1.SetShowHelp(this.groupBox2, false);
 			this.groupBox2.Size = new System.Drawing.Size(283, 120);
-			this.groupBox2.TabIndex = 7;
+			this.groupBox2.TabIndex = 2;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Assembly Reload";
 			// 
@@ -447,7 +447,7 @@ namespace NUnit.Gui
 			this.groupBox7.Name = "groupBox7";
 			this.helpProvider1.SetShowHelp(this.groupBox7, false);
 			this.groupBox7.Size = new System.Drawing.Size(288, 80);
-			this.groupBox7.TabIndex = 16;
+			this.groupBox7.TabIndex = 0;
 			this.groupBox7.TabStop = false;
 			this.groupBox7.Text = "Test Structure";
 			// 
@@ -480,7 +480,7 @@ namespace NUnit.Gui
 			this.groupBox6.Name = "groupBox6";
 			this.helpProvider1.SetShowHelp(this.groupBox6, false);
 			this.groupBox6.Size = new System.Drawing.Size(288, 104);
-			this.groupBox6.TabIndex = 14;
+			this.groupBox6.TabIndex = 1;
 			this.groupBox6.TabStop = false;
 			this.groupBox6.Text = "Multiple Assemblies";
 			// 
@@ -519,7 +519,6 @@ namespace NUnit.Gui
 			// 
 			// tabPage3
 			// 
-			this.tabPage3.Controls.Add(this.panel2);
 			this.tabPage3.Controls.Add(this.groupBox3);
 			this.tabPage3.Controls.Add(this.groupBox8);
 			this.tabPage3.Location = new System.Drawing.Point(4, 22);
@@ -534,11 +533,11 @@ namespace NUnit.Gui
 			this.panel2.Controls.Add(this.separateTrace);
 			this.panel2.Controls.Add(this.traceOutputCheckBox);
 			this.panel2.Controls.Add(this.mergeTrace);
-			this.panel2.Location = new System.Drawing.Point(8, 296);
+			this.panel2.Location = new System.Drawing.Point(8, 144);
 			this.panel2.Name = "panel2";
 			this.helpProvider1.SetShowHelp(this.panel2, false);
-			this.panel2.Size = new System.Drawing.Size(248, 80);
-			this.panel2.TabIndex = 14;
+			this.panel2.Size = new System.Drawing.Size(256, 80);
+			this.panel2.TabIndex = 3;
 			// 
 			// separateTrace
 			// 
@@ -548,7 +547,7 @@ namespace NUnit.Gui
 			this.separateTrace.Name = "separateTrace";
 			this.helpProvider1.SetShowHelp(this.separateTrace, false);
 			this.separateTrace.Size = new System.Drawing.Size(224, 16);
-			this.separateTrace.TabIndex = 18;
+			this.separateTrace.TabIndex = 1;
 			this.separateTrace.TabStop = true;
 			this.separateTrace.Text = "In Separate Tab";
 			// 
@@ -561,7 +560,7 @@ namespace NUnit.Gui
 			this.traceOutputCheckBox.Name = "traceOutputCheckBox";
 			this.helpProvider1.SetShowHelp(this.traceOutputCheckBox, false);
 			this.traceOutputCheckBox.Size = new System.Drawing.Size(208, 16);
-			this.traceOutputCheckBox.TabIndex = 14;
+			this.traceOutputCheckBox.TabIndex = 0;
 			this.traceOutputCheckBox.Text = "Display Trace Output";
 			this.traceOutputCheckBox.CheckedChanged += new System.EventHandler(this.traceOutputCheckBox_CheckedChanged);
 			// 
@@ -572,7 +571,7 @@ namespace NUnit.Gui
 			this.mergeTrace.Name = "mergeTrace";
 			this.helpProvider1.SetShowHelp(this.mergeTrace, false);
 			this.mergeTrace.Size = new System.Drawing.Size(192, 16);
-			this.mergeTrace.TabIndex = 19;
+			this.mergeTrace.TabIndex = 2;
 			this.mergeTrace.Text = "Merge with Console Output";
 			// 
 			// groupBox3
@@ -585,7 +584,7 @@ namespace NUnit.Gui
 			this.groupBox3.Name = "groupBox3";
 			this.helpProvider1.SetShowHelp(this.groupBox3, false);
 			this.groupBox3.Size = new System.Drawing.Size(296, 128);
-			this.groupBox3.TabIndex = 13;
+			this.groupBox3.TabIndex = 0;
 			this.groupBox3.TabStop = false;
 			this.groupBox3.Text = "Test Results";
 			// 
@@ -598,7 +597,7 @@ namespace NUnit.Gui
 			this.errorsTabCheckBox.Name = "errorsTabCheckBox";
 			this.helpProvider1.SetShowHelp(this.errorsTabCheckBox, false);
 			this.errorsTabCheckBox.Size = new System.Drawing.Size(248, 24);
-			this.errorsTabCheckBox.TabIndex = 15;
+			this.errorsTabCheckBox.TabIndex = 0;
 			this.errorsTabCheckBox.Text = "Display Errors and Failures";
 			this.errorsTabCheckBox.CheckedChanged += new System.EventHandler(this.errorsTabCheckBox_CheckedChanged);
 			// 
@@ -609,7 +608,7 @@ namespace NUnit.Gui
 			this.failureToolTips.Name = "failureToolTips";
 			this.helpProvider1.SetShowHelp(this.failureToolTips, false);
 			this.failureToolTips.Size = new System.Drawing.Size(202, 19);
-			this.failureToolTips.TabIndex = 13;
+			this.failureToolTips.TabIndex = 1;
 			this.failureToolTips.Text = "Display Failure ToolTips";
 			// 
 			// enableWordWrap
@@ -619,7 +618,7 @@ namespace NUnit.Gui
 			this.enableWordWrap.Name = "enableWordWrap";
 			this.helpProvider1.SetShowHelp(this.enableWordWrap, false);
 			this.enableWordWrap.Size = new System.Drawing.Size(248, 19);
-			this.enableWordWrap.TabIndex = 14;
+			this.enableWordWrap.TabIndex = 2;
 			this.enableWordWrap.Text = "Enable Word Wrap";
 			// 
 			// notRunTabCheckBox
@@ -631,7 +630,7 @@ namespace NUnit.Gui
 			this.notRunTabCheckBox.Name = "notRunTabCheckBox";
 			this.helpProvider1.SetShowHelp(this.notRunTabCheckBox, false);
 			this.notRunTabCheckBox.Size = new System.Drawing.Size(264, 16);
-			this.notRunTabCheckBox.TabIndex = 0;
+			this.notRunTabCheckBox.TabIndex = 3;
 			this.notRunTabCheckBox.Text = "Display Tests Not Run";
 			// 
 			// groupBox8
@@ -639,11 +638,12 @@ namespace NUnit.Gui
 			this.groupBox8.Controls.Add(this.consoleOutputCheckBox);
 			this.groupBox8.Controls.Add(this.labelTestOutputCheckBox);
 			this.groupBox8.Controls.Add(this.panel1);
+			this.groupBox8.Controls.Add(this.panel2);
 			this.groupBox8.Location = new System.Drawing.Point(0, 152);
 			this.groupBox8.Name = "groupBox8";
 			this.helpProvider1.SetShowHelp(this.groupBox8, false);
 			this.groupBox8.Size = new System.Drawing.Size(298, 232);
-			this.groupBox8.TabIndex = 12;
+			this.groupBox8.TabIndex = 2;
 			this.groupBox8.TabStop = false;
 			this.groupBox8.Text = "Text Output";
 			// 
@@ -656,7 +656,7 @@ namespace NUnit.Gui
 			this.consoleOutputCheckBox.Name = "consoleOutputCheckBox";
 			this.helpProvider1.SetShowHelp(this.consoleOutputCheckBox, false);
 			this.consoleOutputCheckBox.Size = new System.Drawing.Size(240, 16);
-			this.consoleOutputCheckBox.TabIndex = 13;
+			this.consoleOutputCheckBox.TabIndex = 0;
 			this.consoleOutputCheckBox.Text = "Display Console Standard Output";
 			this.consoleOutputCheckBox.CheckedChanged += new System.EventHandler(this.consoleOutputCheckBox_CheckedChanged);
 			// 
@@ -667,19 +667,8 @@ namespace NUnit.Gui
 			this.labelTestOutputCheckBox.Name = "labelTestOutputCheckBox";
 			this.helpProvider1.SetShowHelp(this.labelTestOutputCheckBox, false);
 			this.labelTestOutputCheckBox.Size = new System.Drawing.Size(237, 19);
-			this.labelTestOutputCheckBox.TabIndex = 12;
+			this.labelTestOutputCheckBox.TabIndex = 1;
 			this.labelTestOutputCheckBox.Text = "Label Test Cases";
-			// 
-			// panel1
-			// 
-			this.panel1.Controls.Add(this.consoleErrrorCheckBox);
-			this.panel1.Controls.Add(this.mergeErrors);
-			this.panel1.Controls.Add(this.separateErrors);
-			this.panel1.Location = new System.Drawing.Point(8, 64);
-			this.panel1.Name = "panel1";
-			this.helpProvider1.SetShowHelp(this.panel1, false);
-			this.panel1.Size = new System.Drawing.Size(248, 80);
-			this.panel1.TabIndex = 14;
 			// 
 			// consoleErrrorCheckBox
 			// 
@@ -690,7 +679,7 @@ namespace NUnit.Gui
 			this.consoleErrrorCheckBox.Name = "consoleErrrorCheckBox";
 			this.helpProvider1.SetShowHelp(this.consoleErrrorCheckBox, false);
 			this.consoleErrrorCheckBox.Size = new System.Drawing.Size(232, 24);
-			this.consoleErrrorCheckBox.TabIndex = 15;
+			this.consoleErrrorCheckBox.TabIndex = 0;
 			this.consoleErrrorCheckBox.Text = "Display Console Error Output";
 			this.consoleErrrorCheckBox.CheckedChanged += new System.EventHandler(this.consoleErrrorCheckBox_CheckedChanged);
 			// 
@@ -701,7 +690,7 @@ namespace NUnit.Gui
 			this.mergeErrors.Name = "mergeErrors";
 			this.helpProvider1.SetShowHelp(this.mergeErrors, false);
 			this.mergeErrors.Size = new System.Drawing.Size(192, 16);
-			this.mergeErrors.TabIndex = 17;
+			this.mergeErrors.TabIndex = 2;
 			this.mergeErrors.Text = "Merge with Console Output";
 			// 
 			// separateErrors
@@ -712,9 +701,20 @@ namespace NUnit.Gui
 			this.separateErrors.Name = "separateErrors";
 			this.helpProvider1.SetShowHelp(this.separateErrors, false);
 			this.separateErrors.Size = new System.Drawing.Size(224, 16);
-			this.separateErrors.TabIndex = 16;
+			this.separateErrors.TabIndex = 1;
 			this.separateErrors.TabStop = true;
 			this.separateErrors.Text = "In Separate Tab";
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.consoleErrrorCheckBox);
+			this.panel1.Controls.Add(this.mergeErrors);
+			this.panel1.Controls.Add(this.separateErrors);
+			this.panel1.Location = new System.Drawing.Point(8, 64);
+			this.panel1.Name = "panel1";
+			this.helpProvider1.SetShowHelp(this.panel1, false);
+			this.panel1.Size = new System.Drawing.Size(256, 80);
+			this.panel1.TabIndex = 2;
 			// 
 			// OptionsDialog
 			// 
