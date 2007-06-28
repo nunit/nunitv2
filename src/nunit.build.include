@@ -496,6 +496,12 @@
         <include name="NUnitFitTests.html"/>
         <include name="CommonAssemblyInfo.cs"/>
         <include name="clr.bat"/>
+        <include name="install/bin.wxs" />
+        <include name="install/nunit-gui.wxs" />
+        <include name="install/doc.wxs" />
+        <include name="install/tests.wxs" />
+        <include name="install/samples.wxs" />
+        <include name="install/NUnit.wxs"/>
       </fileset>
     </copy>
 
