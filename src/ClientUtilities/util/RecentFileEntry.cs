@@ -10,7 +10,8 @@ namespace NUnit.Util
 {
 	public class RecentFileEntry
 	{
-		public static readonly char Separator = ',';
+		public static readonly char LegacySeparator = ',';
+		public static readonly char Separator = System.IO.Path.PathSeparator;
 
 		private string path;
 		
@@ -55,12 +56,22 @@ namespace NUnit.Util
 
 		public static RecentFileEntry Parse( string text )
 		{
-			int sepIndex = text.IndexOf( Separator );
+			int sepIndex = text.IndexOf( System.IO.Path.PathSeparator );
 			if ( sepIndex < 0 )
-				return new RecentFileEntry( text );
-			else
-				return new RecentFileEntry( text.Substring( 0, sepIndex ), 
-					new Version( text.Substring( sepIndex + 1 ) ) );
+				sepIndex = text.LastIndexOf( LegacySeparator );
+
+			if ( sepIndex > 0 )
+				try
+				{
+					return new RecentFileEntry( text.Substring( 0, sepIndex ), 
+						new Version( text.Substring( sepIndex + 1 ) ) );
+				}
+				catch
+				{
+					//The last part was not a version, so fall through and return the whole text
+				}
+			
+			return new RecentFileEntry( text );
 		}
 	}
 }

@@ -10,6 +10,7 @@ namespace NUnit.Util.Tests
     {
         private RecentFileEntry entry;
         private static readonly string entryPath = "a/b/c";
+		private static readonly string entryPathWithComma = @"D:\test\test, and further research\program1\program1.exe";
 		private static Version entryVersion = new Version("1.2");
 		private static Version currentVersion = Environment.Version;
 
@@ -38,21 +39,56 @@ namespace NUnit.Util.Tests
                 entry.ToString());
         }
 
-        [Test]
-        public void CanParseSimpleFileName()
-        {
-            entry = RecentFileEntry.Parse(entryPath);
-            Assert.AreEqual(entryPath, entry.Path);
-            Assert.AreEqual(currentVersion, entry.CLRVersion);
-        }
+		[Test]
+		public void CanParseSimpleFileName()
+		{
+			entry = RecentFileEntry.Parse(entryPath);
+			Assert.AreEqual(entryPath, entry.Path);
+			Assert.AreEqual(currentVersion, entry.CLRVersion);
+		}
 
-        [Test]
-        public void CanParseFileNamePlusVersionString()
-        {
-            string text = entryPath + RecentFileEntry.Separator + entryVersion.ToString();
-            entry = RecentFileEntry.Parse(text);
-            Assert.AreEqual(entryPath, entry.Path);
-            Assert.AreEqual(entryVersion, entry.CLRVersion);
-        }
-    }
+		[Test]
+		public void CanParseSimpleFileNameWithComma()
+		{
+			entry = RecentFileEntry.Parse(entryPathWithComma);
+			Assert.AreEqual(entryPathWithComma, entry.Path);
+			Assert.AreEqual(currentVersion, entry.CLRVersion);
+		}
+
+		[Test]
+		public void CanParseFileNamePlusVersionString()
+		{
+			string text = entryPath + System.IO.Path.PathSeparator + entryVersion.ToString();
+			entry = RecentFileEntry.Parse(text);
+			Assert.AreEqual(entryPath, entry.Path);
+			Assert.AreEqual(entryVersion, entry.CLRVersion);
+		}
+
+		[Test]
+		public void CanParseFileNamePlusVersionStringInLegacyFormat()
+		{
+			string text = entryPath + "," + entryVersion.ToString();
+			entry = RecentFileEntry.Parse(text);
+			Assert.AreEqual(entryPath, entry.Path);
+			Assert.AreEqual(entryVersion, entry.CLRVersion);
+		}
+	
+		[Test]
+		public void CanParseFileNameWithCommaPlusVersionString()
+		{
+			string text = entryPathWithComma + System.IO.Path.PathSeparator + entryVersion.ToString();
+			entry = RecentFileEntry.Parse(text);
+			Assert.AreEqual(entryPathWithComma, entry.Path);
+			Assert.AreEqual(entryVersion, entry.CLRVersion);
+		}
+	
+		[Test]
+		public void CanParseFileNameWithCommaPlusVersionStringInLegacyFormat()
+		{
+			string text = entryPathWithComma + "," + entryVersion.ToString();
+			entry = RecentFileEntry.Parse(text);
+			Assert.AreEqual(entryPathWithComma, entry.Path);
+			Assert.AreEqual(entryVersion, entry.CLRVersion);
+		}
+	}
 }
