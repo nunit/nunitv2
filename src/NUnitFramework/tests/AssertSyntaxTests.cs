@@ -349,10 +349,58 @@ namespace NUnit.Framework.Tests
 			// Helper syntax
 			Assert.That(4.99d, Is.EqualTo(5.0d).Within(0.05d));
 			Assert.That(4.99f, Is.EqualTo(5.0f).Within(0.05f));
+			Assert.That(4.99m, Is.EqualTo(5.0m).Within(0.05m));
+			Assert.That(3999999999u, Is.EqualTo(4000000000u).Within(5u));
+			Assert.That(499, Is.EqualTo(500).Within(5));
+			Assert.That(4999999999L, Is.EqualTo(5000000000L).Within(5L));
+			Assert.That(5999999999ul, Is.EqualTo(6000000000ul).Within(5ul));
 		
 			// Inherited syntax
 			Expect(4.99d, EqualTo(5.0d).Within(0.05d));
 			Expect(4.99f, EqualTo(5.0f).Within(0.05f));
+			Expect(4.99m, EqualTo(5.0m).Within(0.05m));
+			Expect(499u, EqualTo(500u).Within(5u));
+			Expect(499, EqualTo(500).Within(5));
+			Expect(4999999999L, EqualTo(5000000000L).Within(5L));
+			Expect(5999999999ul, EqualTo(6000000000ul).Within(5ul));
+		}
+
+		[Test]
+		public void EqualityTestsWithTolerance_MixedFloatAndDouble()
+		{
+			// Bug Fix 1743844
+			Assert.That(2.20492d, Is.EqualTo(2.2d).Within(0.01f),
+				"Double actual, Double expected, Single tolerance");
+			Assert.That(2.20492d, Is.EqualTo(2.2f).Within(0.01d),
+				"Double actual, Single expected, Double tolerance" );
+			Assert.That(2.20492d, Is.EqualTo(2.2f).Within(0.01f),
+				"Double actual, Single expected, Single tolerance" );
+			Assert.That(2.20492f, Is.EqualTo(2.2f).Within(0.01d),
+				"Single actual, Single expected, Double tolerance");
+			Assert.That(2.20492f, Is.EqualTo(2.2d).Within(0.01d),
+				"Single actual, Double expected, Double tolerance");
+			Assert.That(2.20492f, Is.EqualTo(2.2d).Within(0.01f),
+				"Single actual, Double expected, Single tolerance");
+		}
+
+		[Test]
+			public void EqualityTestsWithTolerance_MixingTypesGenerally()
+		{
+			// Extending tolerance to all numeric types
+			Assert.That(202d, Is.EqualTo(200d).Within(2),
+				"Double actual, Double expected, int tolerance");
+			Assert.That( 4.87m, Is.EqualTo(5).Within(.25),
+				"Decimal actual, int expected, Double tolerance" );
+			Assert.That( 4.87m, Is.EqualTo(5ul).Within(1),
+				"Decimal actual, ulong expected, int tolerance" );
+			Assert.That( 487, Is.EqualTo(500).Within(25),
+				"int actual, int expected, int tolerance" );
+			Assert.That( 487u, Is.EqualTo(500).Within(25),
+				"uint actual, int expected, int tolerance" );
+			Assert.That( 487L, Is.EqualTo(500).Within(25),
+				"long actual, int expected, int tolerance" );
+			Assert.That( 487ul, Is.EqualTo(500).Within(25),
+				"ulong actual, int expected, int tolerance" );
 		}
 
 		[Test]

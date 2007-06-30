@@ -139,54 +139,8 @@ namespace NUnit.Framework.Constraints
 			if (expected is Stream && actual is Stream)
 				return StreamsEqual((Stream)expected, (Stream)actual);
 
-            if (expected is double && actual is double)
-            {
-                if (double.IsNaN((double)expected) && double.IsNaN((double)actual))
-                    return true;
-                // handle infinity specially since subtracting two infinite values gives 
-                // NaN and the following test fails. mono also needs NaN to be handled
-                // specially although ms.net could use either method.
-                if (double.IsInfinity((double)expected) || double.IsNaN((double)expected) || double.IsNaN((double)actual))
-                    return expected.Equals(actual);
-
-				// If a tolerance was specified, use that
-				if ( tolerance != null && tolerance is double)
-				{
-					displayTolerance = true;
-					return Math.Abs((double)expected - (double)actual) <= (double)tolerance;
-				}
-			}
-
-            if (expected is float && actual is float)
-            {
-                if (float.IsNaN((float)expected) && float.IsNaN((float)actual))
-                    return true;
-                // handle infinity specially since subtracting two infinite values gives 
-                // NaN and the following test fails. mono also needs NaN to be handled
-                // specially although ms.net could use either method.
-                if (float.IsInfinity((float)expected) || float.IsNaN((float)expected) || float.IsNaN((float)actual))
-                    return expected.Equals(actual);
-
-				// If a tolerance was specified, use that
-				if ( tolerance != null && tolerance is float)
-				{
-					displayTolerance = true;
-					return Math.Abs((float)expected - (float)actual) <= (float)tolerance;
-				}
-            }
-
-            if ( expectedType != actualType && 
-                IsNumericType(expected) && IsNumericType(actual))
-            {
-                //
-                // Convert to strings and compare result to avoid
-                // issues with different types that have the same
-                // expected
-                //
-                string sExpected = expected is decimal ? ((decimal)expected).ToString("G29") : expected.ToString();
-                string sActual = actual is decimal ? ((decimal)actual).ToString("G29") : actual.ToString();
-                return sExpected.Equals(sActual);
-            }
+			if ( IsNumericType(expected) && IsNumericType(actual) )
+				return NumericsEqual( expected, actual, tolerance );
 
             if (expected is string && actual is string)
             {
@@ -264,42 +218,163 @@ namespace NUnit.Framework.Constraints
 			return true;
 		}
 
-        /// <summary>
-        /// Checks the type of the object, returning true if
-        /// the object is a numeric type.
-        /// </summary>
-        /// <param name="obj">The object to check</param>
-        /// <returns>true if the object is a numeric type</returns>
-        private bool IsNumericType(Object obj)
-        {
-            if (null != obj)
-            {
-                if (obj is byte) return true;
-                if (obj is sbyte) return true;
-                if (obj is decimal) return true;
-                if (obj is double) return true;
-                if (obj is float) return true;
-                if (obj is int) return true;
-                if (obj is uint) return true;
-                if (obj is long) return true;
-                if (obj is short) return true;
-                if (obj is ushort) return true;
+		private bool NumericsEqual( object expected, object actual, object tolerance )
+		{
+			if ( IsFloatingPointNumeric(expected) || IsFloatingPointNumeric(actual) )
+				return NumericsEqual( Convert.ToDouble(expected), Convert.ToDouble(actual), Convert.ToDouble(tolerance) );
 
-                if (obj is System.Byte) return true;
-                if (obj is System.SByte) return true;
-                if (obj is System.Decimal) return true;
-                if (obj is System.Double) return true;
-                if (obj is System.Single) return true;
-                if (obj is System.Int32) return true;
-                if (obj is System.UInt32) return true;
-                if (obj is System.Int64) return true;
-                if (obj is System.UInt64) return true;
-                if (obj is System.Int16) return true;
-                if (obj is System.UInt16) return true;
-            }
-            return false;
-        }
-        #endregion
+			if ( expected is decimal || actual is decimal )
+				return NumericsEqual( Convert.ToDecimal(expected), Convert.ToDecimal(actual), Convert.ToDecimal(tolerance) );
+			
+			if ( expected is ulong || actual is ulong )
+				return NumericsEqual( Convert.ToUInt64(expected), Convert.ToUInt64(actual), Convert.ToUInt64(tolerance) );
+		
+			if ( expected is long || actual is long )
+				return NumericsEqual( Convert.ToInt64(expected), Convert.ToInt64(actual), Convert.ToInt64(tolerance) );
+			
+			if ( expected is uint || actual is uint )
+				return NumericsEqual( Convert.ToUInt32(expected), Convert.ToUInt32(actual), Convert.ToUInt32(tolerance) );
+
+			return NumericsEqual( Convert.ToInt32(expected), Convert.ToInt32(actual), Convert.ToInt32(tolerance) );
+		}
+
+		private bool NumericsEqual( double expected, double actual, double tolerance )
+		{
+			if (double.IsNaN(expected) && double.IsNaN(actual))
+				return true;
+			// handle infinity specially since subtracting two infinite values gives 
+			// NaN and the following test fails. mono also needs NaN to be handled
+			// specially although ms.net could use either method.
+			if (double.IsInfinity(expected) || double.IsNaN(expected) || double.IsNaN(actual))
+				return expected.Equals(actual);
+
+			if ( tolerance > 0.0d )
+			{
+				displayTolerance = true;
+				return Math.Abs(expected - actual) <= tolerance;
+			}
+				
+			return expected.Equals( actual );
+		}
+
+		private bool NumericsEqual( decimal expected, decimal actual, decimal tolerance )
+		{
+			if ( tolerance > 0m )
+			{
+				displayTolerance = true;
+				return Math.Abs(expected - actual) <= tolerance;
+			}
+				
+			return expected.Equals( actual );
+		}
+
+		private bool NumericsEqual( ulong expected, ulong actual, ulong tolerance )
+		{
+			if ( tolerance > 0ul )
+			{
+				displayTolerance = true;
+				ulong diff = expected >= actual ? expected - actual : actual - expected;
+				return diff <= tolerance;
+			}
+
+			return expected.Equals( actual );
+		}
+
+		private bool NumericsEqual( long expected, long actual, long tolerance )
+		{
+			if ( tolerance > 0L )
+			{
+				displayTolerance = true;
+				return Math.Abs(expected - actual) <= tolerance;
+			}
+
+			return expected.Equals( actual );
+		}
+
+		private bool NumericsEqual( uint expected, uint actual, uint tolerance )
+		{
+			if ( tolerance > 0 )
+			{
+				displayTolerance = true;
+				uint diff = expected >= actual ? expected - actual : actual - expected;
+				return diff <= tolerance;
+			}
+				
+			return expected.Equals( actual );
+		}
+
+		private bool NumericsEqual( int expected, int actual, int tolerance )
+		{
+			if ( tolerance > 0 )
+			{
+				displayTolerance = true;
+				return Math.Abs(expected - actual) <= tolerance;
+			}
+				
+			return expected.Equals( actual );
+		}
+
+		/// <summary>
+		/// Checks the type of the object, returning true if
+		/// the object is a numeric type.
+		/// </summary>
+		/// <param name="obj">The object to check</param>
+		/// <returns>true if the object is a numeric type</returns>
+		private bool IsNumericType(Object obj)
+		{
+			return IsFloatingPointNumeric( obj ) || IsFixedPointNumeric( obj );
+		}
+
+		/// <summary>
+		/// Checks the type of the object, returning true if
+		/// the object is a floating point numeric type.
+		/// </summary>
+		/// <param name="obj">The object to check</param>
+		/// <returns>true if the object is a floating point numeric type</returns>
+		private bool IsFloatingPointNumeric(Object obj)
+		{
+			if (null != obj)
+			{
+				if (obj is double) return true;
+				if (obj is float) return true;
+
+				if (obj is System.Double) return true;
+				if (obj is System.Single) return true;
+			}
+			return false;
+		}
+		/// <summary>
+		/// Checks the type of the object, returning true if
+		/// the object is a fixed point numeric type.
+		/// </summary>
+		/// <param name="obj">The object to check</param>
+		/// <returns>true if the object is a fixed point numeric type</returns>
+		private bool IsFixedPointNumeric(Object obj)
+		{
+			if (null != obj)
+			{
+				if (obj is byte) return true;
+				if (obj is sbyte) return true;
+				if (obj is decimal) return true;
+				if (obj is int) return true;
+				if (obj is uint) return true;
+				if (obj is long) return true;
+				if (obj is short) return true;
+				if (obj is ushort) return true;
+
+				if (obj is System.Byte) return true;
+				if (obj is System.SByte) return true;
+				if (obj is System.Decimal) return true;
+				if (obj is System.Int32) return true;
+				if (obj is System.UInt32) return true;
+				if (obj is System.Int64) return true;
+				if (obj is System.UInt64) return true;
+				if (obj is System.Int16) return true;
+				if (obj is System.UInt16) return true;
+			}
+			return false;
+		}
+		#endregion
 
         #region DisplayStringDifferences
         private void DisplayStringDifferences(MessageWriter writer, string expected, string actual)
