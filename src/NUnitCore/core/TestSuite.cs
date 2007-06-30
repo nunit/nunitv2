@@ -232,7 +232,7 @@ namespace NUnit.Core
 
         protected virtual void DoOneTimeTearDown(TestResult suiteResult)
         {
-            if ( this.RunState == RunState.Runnable && this.Fixture != null)
+            if ( this.Fixture != null)
             {
                 try
                 {

@@ -29,8 +29,18 @@ namespace NUnit.Core.Tests
 			SetUpAndTearDownFixture fixture = new SetUpAndTearDownFixture();
 			RunTestOnFixture( fixture );
 
-			Assert.AreEqual(1, fixture.setUpCount);
-			Assert.AreEqual(1, fixture.tearDownCount);
+			Assert.AreEqual(1, fixture.setUpCount, "SetUp");
+			Assert.AreEqual(1, fixture.tearDownCount, "TearDown");
+		}
+
+		[Test]
+		public void MakeSureSetUpAndTearDownAreCalledOnExplicitFixture()
+		{
+			ExplicitSetUpAndTearDownFixture fixture = new ExplicitSetUpAndTearDownFixture();
+			RunTestOnFixture( fixture );
+
+			Assert.AreEqual(1, fixture.setUpCount, "SetUp");
+			Assert.AreEqual(1, fixture.tearDownCount, "TearDown");
 		}
 
 		[Test]
