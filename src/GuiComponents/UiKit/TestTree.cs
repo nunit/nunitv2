@@ -619,7 +619,10 @@ namespace NUnit.UiKit
 
 				UpdateCategoryFilter();
 				if (this.SelectedCategories.Length == 0)
+				{
+					this.excludeCheckbox.Checked = false;
 					this.excludeCheckbox.Enabled = false;
+				}
 			}
 		}
 
