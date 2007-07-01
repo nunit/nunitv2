@@ -349,11 +349,12 @@ namespace NUnit.Framework
             else
             {
                 string s = d.ToString("G17");
+				string sep = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
 
-                if (s.IndexOf('.') > 0)
+                if (s.IndexOf(sep) > 0)
                     Write(s + "d");
                 else
-                    Write(s + ".0d");
+                    Write(s + sep + "0d");
             }
         }
 
@@ -364,11 +365,12 @@ namespace NUnit.Framework
             else
             {
                 string s = f.ToString("G9");
+				string sep = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
 
-                if (s.IndexOf('.') > 0)
+                if (s.IndexOf(sep) > 0)
                     Write(s + "f");
                 else
-                    Write(s + ".0f");
+                    Write(s + sep + "0f");
             }
         }
 
