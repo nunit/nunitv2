@@ -6,12 +6,29 @@
 
 using System;
 using System.Text.RegularExpressions;
+using System.Globalization;
+using System.Threading;
 
 namespace NUnit.Framework.Tests
 {
 	[TestFixture]
 	public class EqualsFixture : MessageChecker
 	{
+		private CultureInfo priorCulture;
+
+		[TestFixtureSetUp]
+		public void SetCulture()
+		{
+			priorCulture = Thread.CurrentThread.CurrentCulture;
+			Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+		}
+
+		[TestFixtureTearDown]
+		public void RestoreCulture()
+		{
+			Thread.CurrentThread.CurrentCulture = priorCulture;
+		}
+
 		[Test]
 		public void Equals()
 		{

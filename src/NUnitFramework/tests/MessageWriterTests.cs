@@ -5,12 +5,29 @@
 // ****************************************************************
 
 using System;
+using System.Threading;
+using System.Globalization;
 
 namespace NUnit.Framework.Tests
 {
     public class MessageWriterTests : AssertionHelper
     {
         protected TextMessageWriter writer;
+
+		private CultureInfo priorCulture;
+
+		[TestFixtureSetUp]
+		public void SetCulture()
+		{
+			priorCulture = Thread.CurrentThread.CurrentCulture;
+			Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+		}
+
+		[TestFixtureTearDown]
+		public void RestoreCulture()
+		{
+			Thread.CurrentThread.CurrentCulture = priorCulture;
+		}
 
 		[SetUp]
 		public void SetUp()
