@@ -58,34 +58,16 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void CanParseFileNamePlusVersionString()
 		{
-			string text = entryPath + System.IO.Path.PathSeparator + entryVersion.ToString();
+			string text = entryPath + RecentFileEntry.Separator + entryVersion.ToString();
 			entry = RecentFileEntry.Parse(text);
 			Assert.AreEqual(entryPath, entry.Path);
 			Assert.AreEqual(entryVersion, entry.CLRVersion);
 		}
 
 		[Test]
-		public void CanParseFileNamePlusVersionStringInLegacyFormat()
-		{
-			string text = entryPath + "," + entryVersion.ToString();
-			entry = RecentFileEntry.Parse(text);
-			Assert.AreEqual(entryPath, entry.Path);
-			Assert.AreEqual(entryVersion, entry.CLRVersion);
-		}
-	
-		[Test]
 		public void CanParseFileNameWithCommaPlusVersionString()
 		{
-			string text = entryPathWithComma + System.IO.Path.PathSeparator + entryVersion.ToString();
-			entry = RecentFileEntry.Parse(text);
-			Assert.AreEqual(entryPathWithComma, entry.Path);
-			Assert.AreEqual(entryVersion, entry.CLRVersion);
-		}
-	
-		[Test]
-		public void CanParseFileNameWithCommaPlusVersionStringInLegacyFormat()
-		{
-			string text = entryPathWithComma + "," + entryVersion.ToString();
+			string text = entryPathWithComma + RecentFileEntry.Separator + entryVersion.ToString();
 			entry = RecentFileEntry.Parse(text);
 			Assert.AreEqual(entryPathWithComma, entry.Path);
 			Assert.AreEqual(entryVersion, entry.CLRVersion);

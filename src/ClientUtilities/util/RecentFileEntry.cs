@@ -10,8 +10,7 @@ namespace NUnit.Util
 {
 	public class RecentFileEntry
 	{
-		public static readonly char LegacySeparator = ',';
-		public static readonly char Separator = System.IO.Path.PathSeparator;
+		public static readonly char Separator = ',';
 
 		private string path;
 		
@@ -56,9 +55,7 @@ namespace NUnit.Util
 
 		public static RecentFileEntry Parse( string text )
 		{
-			int sepIndex = text.IndexOf( System.IO.Path.PathSeparator );
-			if ( sepIndex < 0 )
-				sepIndex = text.LastIndexOf( LegacySeparator );
+			int sepIndex = text.LastIndexOf( Separator );
 
 			if ( sepIndex > 0 )
 				try
