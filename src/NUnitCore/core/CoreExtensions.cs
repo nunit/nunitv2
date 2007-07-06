@@ -62,7 +62,7 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region 
+		#region Properties
 
 		public bool Initialized
 		{
