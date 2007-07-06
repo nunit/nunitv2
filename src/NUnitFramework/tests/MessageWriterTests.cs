@@ -14,21 +14,6 @@ namespace NUnit.Framework.Tests
     {
         protected TextMessageWriter writer;
 
-		private CultureInfo priorCulture;
-
-		[TestFixtureSetUp]
-		public void SetCulture()
-		{
-			priorCulture = Thread.CurrentThread.CurrentCulture;
-			Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-		}
-
-		[TestFixtureTearDown]
-		public void RestoreCulture()
-		{
-			Thread.CurrentThread.CurrentCulture = priorCulture;
-		}
-
 		[SetUp]
 		public void SetUp()
         {

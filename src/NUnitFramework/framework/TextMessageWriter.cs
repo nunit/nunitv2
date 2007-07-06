@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections;
+using System.Globalization;
 
 namespace NUnit.Framework
 {
@@ -348,13 +349,12 @@ namespace NUnit.Framework
                 Write(d);
             else
             {
-                string s = d.ToString("G17");
-				string sep = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+                string s = d.ToString("G17", CultureInfo.InvariantCulture);
 
-                if (s.IndexOf(sep) > 0)
+                if (s.IndexOf('.') > 0)
                     Write(s + "d");
                 else
-                    Write(s + sep + "0d");
+                    Write(s + ".0d");
             }
         }
 
@@ -364,19 +364,18 @@ namespace NUnit.Framework
                 Write(f);
             else
             {
-                string s = f.ToString("G9");
-				string sep = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+                string s = f.ToString("G9", CultureInfo.InvariantCulture);
 
-                if (s.IndexOf(sep) > 0)
+                if (s.IndexOf('.') > 0)
                     Write(s + "f");
                 else
-                    Write(s + sep + "0f");
+                    Write(s + ".0f");
             }
         }
 
         private void WriteDecimal(Decimal d)
         {
-            Write(d.ToString("G29") + "m");
+            Write(d.ToString("G29", CultureInfo.InvariantCulture) + "m");
         }
         #endregion
 

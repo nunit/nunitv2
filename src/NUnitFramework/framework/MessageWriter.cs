@@ -19,6 +19,9 @@ namespace NUnit.Framework
 	/// </summary>
     public abstract class MessageWriter : StringWriter
     {
+
+		public MessageWriter() : base( System.Globalization.CultureInfo.InvariantCulture ) { }
+
         /// <summary>
         /// Abstract method to get the max line length
         /// </summary>
