@@ -318,9 +318,9 @@ namespace NUnit.Framework.Tests
 		{
 			DateTime dt1 = new DateTime( 2005, 6, 1, 7, 0, 0 );
 			DateTime dt2 = new DateTime( 2005, 6, 1, 0, 0, 0 );
-			expectedMessage = string.Format(
-				"  Expected: {0}" + Environment.NewLine +
-				"  But was:  {1}" + Environment.NewLine, dt1, dt2);
+			expectedMessage =
+				"  Expected: 2005-06-01 07:00:00.000" + Environment.NewLine +
+				"  But was:  2005-06-01 00:00:00.000" + Environment.NewLine;
 			Assert.AreEqual(dt1, dt2);
 		}
 

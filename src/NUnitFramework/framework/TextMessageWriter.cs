@@ -50,6 +50,7 @@ namespace NUnit.Framework
 
         private static readonly string Fmt_String = "\"{0}\"";
         private static readonly string Fmt_Char = "'{0}'";
+		private static readonly string Fmt_DateTime = "yyyy-MM-dd HH:mm:ss.fff";
         private static readonly string Fmt_ValueType = "{0}";
         private static readonly string Fmt_Default = "<{0}>";
         #endregion
@@ -246,6 +247,8 @@ namespace NUnit.Framework
                 WriteFloat((float)val);
             else if (val is decimal)
                 WriteDecimal((decimal)val);
+			else if (val is DateTime)
+				WriteDateTime((DateTime)val);
             else if (val.GetType().IsValueType)
                 Write(Fmt_ValueType, val);
             else
@@ -377,6 +380,11 @@ namespace NUnit.Framework
         {
             Write(d.ToString("G29", CultureInfo.InvariantCulture) + "m");
         }
+
+		private void WriteDateTime(DateTime dt)
+		{
+			Write(dt.ToString(Fmt_DateTime, CultureInfo.InvariantCulture));
+		}
         #endregion
 
         #region Helper Methods

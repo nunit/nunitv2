@@ -127,6 +127,13 @@ namespace NUnit.Framework.Tests
                 WriteValue(12345678901234567890123456789m);
                 Expect(writer.ToString(), EqualTo("12345678901234567890123456789m"));
             }
+
+			[Test]
+			public void DateTimeTest()
+			{
+				WriteValue(new DateTime(2007, 7, 4, 9, 15, 30, 123));
+				Expect(writer.ToString(), EqualTo("2007-07-04 09:15:30.123"));
+			}
         }
     }
 }
