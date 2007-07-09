@@ -513,6 +513,8 @@ namespace NUnit.Util
 		
 		public void LoadTest( string testName )
 		{
+            long startTime = DateTime.Now.Ticks;
+
 			try
 			{
 				events.FireTestLoading( TestFileName );
@@ -558,6 +560,9 @@ namespace NUnit.Util
 				lastException = exception;
 				events.FireTestLoadFailed( TestFileName, exception );
 			}
+
+            double loadTime = (double)(DateTime.Now.Ticks - startTime) / (double)TimeSpan.TicksPerSecond;
+            System.Diagnostics.Trace.WriteLine(string.Format("TestLoader: Loaded in {0} seconds", loadTime)); 
 		}
 
 		/// <summary>
