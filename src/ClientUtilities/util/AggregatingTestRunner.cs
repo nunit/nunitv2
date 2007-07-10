@@ -173,7 +173,7 @@ namespace NUnit.Util
 			TestSuiteResult result = new TestSuiteResult( new TestInfo( testName, tests ), projectName );
 			result.RunState = RunState.Executed;
 			foreach( TestRunner runner in runners )
-				result.Results.Add( runner.Run( this, filter ) );
+				result.AddResult( runner.Run( this, filter ) );
 			
 			long stopTime = DateTime.Now.Ticks;
 			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
