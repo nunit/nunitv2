@@ -452,15 +452,6 @@
   <target name="package-zip" depends="build-install-image,create-zip"
     description="Create zip binary distribution package" />
 
-  <target name="create-zip" description="Create zip from existing image">
-    <!-- Create the zip file -->
-    <zip zipfile="${project.package.dir}/${zip.file.name}" ziplevel="9">
-      <fileset basedir="${package.working.dir}">
-        <include name="**"/>
-      </fileset>
-    </zip>
-  </target>
-
   <target name="package-src" depends="clean-package-dir"
     description="Create full source package for developer use">
 
@@ -533,47 +524,6 @@
 
   <target name="package-msi" depends="build-install-image,create-msi"
     description="Build msi file and deploy it to the package dir" />
-
-  <target name="create-msi" description="Create msi from existing install image">
-  
-    <fail message="MSI can only be built on the Win32 platform" unless="${platform::is-win32()}"/>
-    <fail message="MSI can only be built for a Win32 runtime" unless="${build.win32}"/>
-    <fail message="MSI can not be built - WiX is not installed" unless="${wix.installed}"/>
-
-    <property name="wix.work.dir"
-      value="${package.working.dir}"/>
-
-    <candle out="${wix.work.dir}/" exedir="${wix.dir}">
-      <defines>
-        <define name="ProductVersion" value="${package.version}" />
-        <define name="NominalVersion" value="${nominal.version}" />
-        <define name="RuntimeVersion" value="${runtime.version}" />
-      </defines>
-      <sources basedir="${project.install.dir}">
-        <include name="bin.wxs" />
-        <include name="nunit-gui.wxs" />
-        <include name="doc.wxs" />
-        <include name="tests.wxs" />
-        <include name="samples.wxs" />
-        <include name="NUnit.wxs" />
-      </sources>
-    </candle>
-
-    <light exedir="${wix.dir}"
-      out="${project.package.dir}/${msi.file.name}" 
-      locfile="${wix.dir}/WixUI_en-us.wxl">
-      <sources>
-        <include name="${wix.work.dir}/NUnit.wixobj" />
-        <include name="${wix.work.dir}/bin.wixobj" />
-        <include name="${wix.work.dir}/nunit-gui.wixobj" />
-        <include name="${wix.work.dir}/doc.wixobj" />
-        <include name="${wix.work.dir}/samples.wixobj" />
-        <include name="${wix.work.dir}/tests.wixobj" />
-        <include name="${wix.dir}/wixui.wixlib" />
-      </sources>
-    </light>
-
-  </target>
 
 <!-- ***************************************************************** -->
 <!-- ***        Targets for installing the NUnit distribution      *** -->
