@@ -99,7 +99,7 @@ namespace CP.Windows.Forms
 			this.tipText = control.Text;
 		}
 
-		public TipWindow( ListBox listbox, int index ) : this ( listbox )
+		public TipWindow( ListBox listbox, int index )
 		{
 			InitializeComponent();
 			InitControl( listbox );
