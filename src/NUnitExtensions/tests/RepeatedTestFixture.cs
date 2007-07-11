@@ -47,7 +47,7 @@ namespace NUnit.Core.Extensions.Tests
 			TestCase repeatedTestCase = suite.Tests[0] as TestCase;
 			Assert.IsNotNull( repeatedTestCase, "Test case is not a RepeatedTestCase" );
 			Assert.AreSame( suite, repeatedTestCase.Parent );
-//			Assert.AreEqual( "NUnit.TestData.RepeatedTestFixture.RepeatSuccessFixture", repeatedTestCase.FixtureType.FullName );
+			Assert.AreEqual( "NUnit.TestData.RepeatedTestFixture.RepeatSuccessFixture.RepeatSuccess", repeatedTestCase.TestName.FullName );
 		}
 
 		[Test]

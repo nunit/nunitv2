@@ -16,7 +16,7 @@ namespace NUnit.Core
 		protected TestCase testCase;
 
 		public AbstractTestCaseDecoration( TestCase testCase )
-			: base( testCase.TestName.FullName, testCase.TestName.Name )
+			: base( (TestName)testCase.TestName.Clone() )
 		{
 			this.testCase = testCase;
 			this.RunState = testCase.RunState;
