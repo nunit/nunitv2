@@ -1075,30 +1075,33 @@ namespace NUnit.UiKit
 			bool showChanges = false;
 
 			// Pass1: delete nodes as needed
-			foreach( TestSuiteTreeNode node in nodes )
+			int nodeIndex = nodes.Count;
+			while( --nodeIndex >= 0 )
+			{
+				TestSuiteTreeNode node = (TestSuiteTreeNode)nodes[nodeIndex];
 				if ( NodeWasDeleted( node, tests ) )
 				{
+					Trace.WriteLine( "Deleting " + node.Test.TestName.Name );
 					RemoveNode( node );
 					showChanges = true;
 				}
+			}
 
 			// Pass2: All nodes in the node list are also
 			// in the tests, so we can merge in changes
 			// and add any new nodes.
-			int index = 0;
+			nodeIndex = 0;
 			foreach( TestNode test in tests )
 			{
-				TestSuiteTreeNode node = index < nodes.Count ? (TestSuiteTreeNode)nodes[index] : null;
+				TestSuiteTreeNode node = nodeIndex < nodes.Count ? (TestSuiteTreeNode)nodes[nodeIndex] : null;
 
 				if ( node != null && node.Test.TestName.FullName == test.TestName.FullName )
 					UpdateNode( node, test );
 				else
 				{
 					TestSuiteTreeNode newNode = new TestSuiteTreeNode( test );
-					//			if ( highlight ) node.ForeColor = Color.Blue;
 					AddToMap( newNode );
-
-					nodes.Insert( index, newNode );
+					nodes.Insert( nodeIndex, newNode );
 			
 					if ( test.IsSuite )
 					{
@@ -1109,7 +1112,7 @@ namespace NUnit.UiKit
 					showChanges = true;
 				}
 
-				index++;
+				nodeIndex++;
 			}
 
 			return showChanges;
