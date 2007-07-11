@@ -256,10 +256,18 @@ namespace NUnit.Util
 		void EventListener.RunFinished(NUnit.Core.TestResult testResult)
 		{
 			this.testResult = testResult;
-			this.SaveLastResult( 
-				Path.Combine( Path.GetDirectoryName( this.TestFileName ), "TestResult.xml" ) );
 
-			events.FireRunFinished( testResult );
+			try
+			{
+				this.SaveLastResult( 
+					Path.Combine( Path.GetDirectoryName( this.TestFileName ), "TestResult.xml" ) );
+				events.FireRunFinished( testResult );
+			}
+			catch( Exception ex )
+			{
+				this.lastException = ex;
+				events.FireRunFinished( ex );
+			}
 		}
 
 		void EventListener.RunFinished(Exception exception)
