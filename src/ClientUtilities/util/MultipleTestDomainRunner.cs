@@ -32,6 +32,10 @@ namespace NUnit.Util
 			foreach( string assembly in package.Assemblies )
 			{
 				TestPackage p = new TestPackage( assembly );
+				p.AutoBinPath = package.AutoBinPath;
+				p.ConfigurationFile = package.ConfigurationFile;
+				p.BasePath = package.BasePath;
+				p.PrivateBinPath = package.PrivateBinPath;
 				p.TestName = package.TestName;
 				foreach( object key in package.Settings.Keys )
 					p.Settings[key] = package.Settings[key];

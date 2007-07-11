@@ -743,7 +743,7 @@ namespace NUnit.Util
 
 		private TestPackage MakeTestPackage( string testName )
 		{
-			TestPackage package = TestProject.MakeTestPackage();
+			TestPackage package = TestProject.ActiveConfig.MakeTestPackage();
 			package.TestName = testName;
 			package.Settings["MergeAssemblies"] = mergeAssemblies;
 			package.Settings["AutoNamespaceSuites"] = autoNamespaceSuites;

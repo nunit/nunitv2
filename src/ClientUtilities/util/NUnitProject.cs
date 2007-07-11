@@ -308,6 +308,17 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
+		/// Indicates whether a base path was specified for the project
+		/// </summary>
+		public bool BasePathSpecified
+		{
+			get
+			{
+				return basePath != null && basePath != string.Empty;
+			}
+		}
+
+		/// <summary>
 		/// The base path for the project. Constructor sets
 		/// it to the directory part of the project path.
 		/// </summary>
@@ -315,7 +326,7 @@ namespace NUnit.Util
 		{
 			get 
 			{ 
-				if ( basePath == null || basePath == string.Empty )
+				if ( !BasePathSpecified )
 					return DefaultBasePath; 
 				return basePath;
 			}
@@ -652,21 +663,21 @@ namespace NUnit.Util
 			Save();
 		}
 
-		public TestPackage MakeTestPackage()
-		{
-			TestPackage package = new TestPackage( this.ProjectPath );
-
-			if ( !this.IsAssemblyWrapper )
-				foreach ( string assembly in this.ActiveConfig.Assemblies )
-					package.Assemblies.Add( assembly );
-
-			package.BasePath = this.ActiveConfig.BasePath;
-			package.ConfigurationFile = this.ActiveConfig.ConfigurationFile;
-			package.PrivateBinPath = this.ActiveConfig.PrivateBinPath;
-			package.AutoBinPath = this.ActiveConfig.BinPathType == BinPathType.Auto;
-
-			return package;
-		}
+//		public TestPackage MakeTestPackage()
+//		{
+//			TestPackage package = new TestPackage( this.ProjectPath );
+//
+//			if ( !this.IsAssemblyWrapper )
+//				foreach ( string assembly in this.ActiveConfig.Assemblies )
+//					package.Assemblies.Add( assembly );
+//
+//			package.BasePath = this.ActiveConfig.BasePath;
+//			package.ConfigurationFile = this.ActiveConfig.ConfigurationFile;
+//			package.PrivateBinPath = this.ActiveConfig.PrivateBinPath;
+//			package.AutoBinPath = this.ActiveConfig.BinPathType == BinPathType.Auto;
+//
+//			return package;
+//		}
 		#endregion
 	}
 }

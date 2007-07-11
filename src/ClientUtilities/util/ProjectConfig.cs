@@ -92,6 +92,14 @@ namespace NUnit.Util
 			}
 		}
 
+		private bool BasePathSpecified
+		{
+			get 
+			{
+				return project.BasePathSpecified || this.basePath != null && this.basePath != "";
+			}
+		}
+
 		/// <summary>
 		/// The base directory for this config - used
 		/// as the application base for loading tests.
@@ -132,6 +140,11 @@ namespace NUnit.Util
 			}
 		}
 
+		private bool ConfigurationFileSpecified
+		{
+			get { return configFile != null; }
+		}
+
 		public string ConfigurationFile
 		{
 			get 
@@ -158,6 +171,11 @@ namespace NUnit.Util
 					? Path.Combine( BasePath, ConfigurationFile )
 					: ConfigurationFile;
 			}
+		}
+
+		private bool PrivateBinPathSpecified
+		{
+			get { return binPath != null; }
 		}
 
 		/// <summary>
@@ -202,6 +220,28 @@ namespace NUnit.Util
 			get { return assemblies; }
 		}
 		#endregion
+
+		public TestPackage MakeTestPackage()
+		{
+			TestPackage package = new TestPackage( project.ProjectPath );
+
+			if ( !project.IsAssemblyWrapper )
+				foreach ( string assembly in this.Assemblies )
+					package.Assemblies.Add( assembly );
+
+			if ( this.BasePathSpecified || this.PrivateBinPathSpecified )
+			{
+				package.BasePath = this.BasePath;
+				package.PrivateBinPath = this.PrivateBinPath;
+			}
+
+			if ( this.ConfigurationFileSpecified )
+				package.ConfigurationFile = this.ConfigurationFile;
+			
+			package.AutoBinPath = this.BinPathType == BinPathType.Auto;
+
+			return package;
+		}
 
 		private void assemblies_Changed( object sender, EventArgs e )
 		{

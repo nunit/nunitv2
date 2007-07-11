@@ -183,7 +183,7 @@ namespace NUnit.ConsoleRunner
 				if ( configName != null )
 					project.SetActiveConfig( configName );
 
-				package = project.MakeTestPackage();
+				package = project.ActiveConfig.MakeTestPackage();
 				if ( options.IsFixture )
 					package.TestName = options.fixture;
 			}
