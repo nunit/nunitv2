@@ -142,6 +142,8 @@ namespace NUnit.Core.Builders
 
 		private Assembly Load(string path)
 		{
+			Assembly assembly = null;
+
 			// Change currentDirectory in case assembly references unmanaged dlls
 			using( new DirectorySwapper( Path.GetDirectoryName( path ) ) )
 			{
@@ -151,7 +153,7 @@ namespace NUnit.Core.Builders
 				
 				// TODO: Figure out why we can't load using the assembly name
 				// in all cases. Might be a problem with the tests themselves.
-                Assembly assembly = Assembly.Load(Path.GetFileNameWithoutExtension(path));
+                assembly = Assembly.Load(Path.GetFileNameWithoutExtension(path));
 				
                 if ( assembly != null )
                     CoreExtensions.Host.InstallAdhocExtensions( assembly );
