@@ -127,7 +127,7 @@
     <Compile Include="CallContextTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CultureDetectionTests.cs" />
+    <Compile Include="CultureSettingAndDetectionTests.cs" />
     <Compile Include="DirectorySwapperTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -201,6 +201,7 @@
     <Compile Include="TestConsole.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestContextTests.cs" />
     <Compile Include="TestDelegateFixture.cs">
       <SubType>Code</SubType>
     </Compile>

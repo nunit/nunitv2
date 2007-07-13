@@ -205,6 +205,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "SetCultureAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SetUpAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

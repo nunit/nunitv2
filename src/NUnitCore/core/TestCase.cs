@@ -55,6 +55,18 @@ namespace NUnit.Core
 				{
 					case RunState.Runnable:
 					case RunState.Explicit:
+						if ( this.Properties["SetCulture"] != null )
+						{
+							try
+							{
+								TestContext.CurrentCulture = 
+									new System.Globalization.CultureInfo( (string)Properties["SetCulture"] );
+							}
+							catch( Exception ex )
+							{
+								testResult.Error( ex );
+							}
+						}
 						Run(testResult);
 						break;
 					case RunState.Skipped:

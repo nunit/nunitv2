@@ -95,62 +95,33 @@ namespace NUnit.Core.Tests
 			}
 		}
 
-		private void runSchemaValidatorTest(string reportFileName, CultureInfo testCulture)
+		private void runSchemaValidatorTest(string reportFileName)
 		{
-			// Preserve current culture
-			CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
+			string testsDll = "mock-assembly.dll";
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			Test suite = builder.Build( new TestPackage( testsDll ) );
 
-			// Enable test culture
-			Thread.CurrentThread.CurrentCulture = testCulture;
+			TestResult result = suite.Run(NullListener.NULL);
 
-			try
-			{
-				string testsDll = "mock-assembly.dll";
-				TestSuiteBuilder builder = new TestSuiteBuilder();
-				Test suite = builder.Build( new TestPackage( testsDll ) );
+			XmlResultVisitor visitor = new XmlResultVisitor(reportFileName, result);
+			result.Accept(visitor);
+			visitor.Write();
 
-				TestResult result = suite.Run(NullListener.NULL);
-
-			  XmlResultVisitor visitor = new XmlResultVisitor(reportFileName, result);
-				result.Accept(visitor);
-				visitor.Write();
-
-				SchemaValidator validator = new SchemaValidator(reportFileName, schemaFile.Path);
-				Assert.IsTrue(validator.Validate(), "validate failed");
-			}
-			finally
-			{
-				// Restore previous culture
-				Thread.CurrentThread.CurrentCulture = previousCulture;
-			}
+			SchemaValidator validator = new SchemaValidator(reportFileName, schemaFile.Path);
+			Assert.IsTrue(validator.Validate(), "validate failed");
 		}
 
-		private void runSchemaValidatorTest(TextWriter writer, CultureInfo testCulture)
+		private void runSchemaValidatorTest(TextWriter writer)
 		{
-			// Preserve current culture
-			CultureInfo previousCulture = Thread.CurrentThread.CurrentCulture;
+			string testsDll = "mock-assembly.dll";
+			TestSuiteBuilder builder = new TestSuiteBuilder();
+			Test suite = builder.Build( new TestPackage( testsDll ) );
 
-			// Enable test culture
-			Thread.CurrentThread.CurrentCulture = testCulture;
-
-			try
-			{
-				string testsDll = "mock-assembly.dll";
-				TestSuiteBuilder builder = new TestSuiteBuilder();
-				Test suite = builder.Build( new TestPackage( testsDll ) );
-
-				TestResult result = suite.Run(NullListener.NULL);
-
-			  XmlResultVisitor visitor = new XmlResultVisitor(writer, result);
-				result.Accept(visitor);
-				visitor.Write();
-
-			}
-			finally
-			{
-				// Restore previous culture
-				Thread.CurrentThread.CurrentCulture = previousCulture;
-			}
+			TestResult result = suite.Run(NullListener.NULL);
+	
+			XmlResultVisitor visitor = new XmlResultVisitor(writer, result);
+			result.Accept(visitor);
+			visitor.Write();
 		}
 
 		private string tempFile;
@@ -172,27 +143,25 @@ namespace NUnit.Core.Tests
 			if(info.Exists) info.Delete();
 		}
 
-		[Test]
+		[Test,SetCulture("")]
 		public void TestSchemaValidatorInvariantCulture()
 		{
-			runSchemaValidatorTest(tempFile, CultureInfo.InvariantCulture);
+			runSchemaValidatorTest(tempFile);
 		}
 
-		[Test]
+		[Test,SetCulture("en-US")]
 		public void TestSchemaValidatorUnitedStatesCulture()
 		{
-			CultureInfo unitedStatesCulture = new CultureInfo("en-US", false);
-			runSchemaValidatorTest(tempFile,unitedStatesCulture);
+			runSchemaValidatorTest(tempFile);
 		}
 
-		[Test]
+		[Test,SetCulture("en-US")]
 		public void TestStream()
 		{
-			CultureInfo unitedStatesCulture = new CultureInfo("en-US", false);
-			runSchemaValidatorTest(tempFile,unitedStatesCulture);
+			runSchemaValidatorTest(tempFile);
 			StringBuilder builder = new StringBuilder();
 			StringWriter writer = new StringWriter(builder);
-			runSchemaValidatorTest(writer,unitedStatesCulture);
+			runSchemaValidatorTest(writer);
 			string second = builder.ToString();
 			StreamReader reader = new StreamReader(tempFile);
 			string first = reader.ReadToEnd();
@@ -200,11 +169,10 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(removeTimeAndAssertAttributes(first), removeTimeAndAssertAttributes(second));
 		}
 
-		[Test]
+		[Test,SetCulture("fr-FR")]
 		public void TestSchemaValidatorFrenchCulture()
 		{
-			CultureInfo frenchCulture = new CultureInfo("fr-FR", false);
-			runSchemaValidatorTest(tempFile, frenchCulture);
+			runSchemaValidatorTest(tempFile);
 		}
 
 		[Test]

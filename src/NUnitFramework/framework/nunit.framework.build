@@ -53,6 +53,7 @@
         <include name="MsgUtils.cs"/>
         <include name="OldTestCase.cs"/>
         <include name="PropertyAttribute.cs"/>
+        <include name="SetCultureAttribute.cs"/>
         <include name="SetUpAttribute.cs"/>
         <include name="SetUpFixtureAttribute.cs"/>
         <include name="StringAssert.cs"/>

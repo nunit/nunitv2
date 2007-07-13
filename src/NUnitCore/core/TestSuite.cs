@@ -156,7 +156,20 @@ namespace NUnit.Core
 					case RunState.Runnable:
 					case RunState.Explicit:
 						suiteResult.RunState = RunState.Executed;
-						DoOneTimeSetUp(suiteResult);
+						if ( this.Properties["SetCulture"] != null )
+						{
+							try
+							{
+								TestContext.CurrentCulture = 
+									new System.Globalization.CultureInfo( (string)Properties["SetCulture"] );
+							}
+							catch( Exception ex )
+							{
+								suiteResult.Error( ex );
+							}
+						}
+						if( !suiteResult.IsFailure )
+							DoOneTimeSetUp(suiteResult);
 						if ( suiteResult.IsFailure )
 							MarkTestsFailed(Tests, suiteResult, listener, filter);
 						else

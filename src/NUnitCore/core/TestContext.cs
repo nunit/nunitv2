@@ -6,6 +6,8 @@
 using System;
 using System.IO;
 using System.Diagnostics;
+using System.Globalization;
+using System.Threading;
 
 namespace NUnit.Core
 {
@@ -76,6 +78,12 @@ namespace NUnit.Core
 			get { return current.CurrentDirectory; }
 			set { current.CurrentDirectory = value; }
 		}
+
+		public static CultureInfo CurrentCulture
+		{
+			get { return current.CurrentCulture; }
+			set { current.CurrentCulture = value; }
+		}
 		
 		/// <summary>
 		/// Saves the old context and makes a fresh one 
@@ -144,6 +152,11 @@ namespace NUnit.Core
 			private string currentDirectory;
 
 			/// <summary>
+			/// The current culture
+			/// </summary>
+			private CultureInfo currentCulture;
+
+			/// <summary>
 			/// Link to a prior saved context
 			/// </summary>
 			public ContextHolder prior;
@@ -155,7 +168,9 @@ namespace NUnit.Core
 				this.outWriter = Console.Out;
 				this.errorWriter = Console.Error;
 				this.traceWriter = null;
+
 				this.currentDirectory = Environment.CurrentDirectory;
+				this.currentCulture = CultureInfo.CurrentCulture;
 			}
 
 			public ContextHolder( ContextHolder other )
@@ -165,7 +180,9 @@ namespace NUnit.Core
 				this.outWriter = other.outWriter;
 				this.errorWriter = other.errorWriter;
 				this.traceWriter = other.traceWriter;
-				this.currentDirectory = other.currentDirectory;
+
+				this.currentDirectory = Environment.CurrentDirectory;
+				this.currentCulture = CultureInfo.CurrentCulture;
 			}
 
 			/// <summary>
@@ -181,6 +198,7 @@ namespace NUnit.Core
 				this.Out = prior.Out;
 				this.Error = prior.Error;
 				this.CurrentDirectory = prior.CurrentDirectory;
+				this.CurrentCulture = prior.CurrentCulture;
 			}
 
 			/// <summary>
@@ -273,11 +291,18 @@ namespace NUnit.Core
 				get { return currentDirectory; }
 				set
 				{
-					if ( currentDirectory != value )
-					{
-						currentDirectory = value;
-						Environment.CurrentDirectory = currentDirectory;
-					}
+					currentDirectory = value;
+					Environment.CurrentDirectory = currentDirectory;
+				}
+			}
+
+			public CultureInfo CurrentCulture
+			{
+				get { return currentCulture; }
+				set
+				{
+					currentCulture = value;
+					Thread.CurrentThread.CurrentCulture = currentCulture;
 				}
 			}
 		}

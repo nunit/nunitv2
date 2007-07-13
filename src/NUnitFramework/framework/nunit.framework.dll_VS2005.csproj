@@ -121,6 +121,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PropertyAttribute.cs" />
+    <Compile Include="SetCultureAttribute.cs" />
     <Compile Include="SetUpAttribute.cs">
       <SubType>Code</SubType>
     </Compile>

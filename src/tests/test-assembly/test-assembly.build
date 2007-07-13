@@ -9,6 +9,7 @@
         <include name="AttributeDescriptionTests.cs"/>
         <include name="CategoryAttributeTests.cs"/>
         <include name="ConsoleRunnerTest.cs"/>
+        <include name="CultureAttributeTests.cs"/>
         <include name="ExpectExceptionTest.cs"/>
         <include name="FailFixtureTests.cs"/>
         <include name="FixtureSetUpTearDownTests.cs"/>

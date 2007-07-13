@@ -20,6 +20,7 @@
         <include name="CallContextTests.cs"/>
         <include name="CategoryAttributeTests.cs"/>
         <include name="CoreExtensionsTests.cs"/>
+        <include name="CultureSettingAndDetectionTests.cs"/>
         <include name="DirectorySwapperTests.cs"/>
         <include name="EventQueueTests.cs"/>
         <include name="EventTestFixture.cs"/>
@@ -47,6 +48,7 @@
         <include name="TestCaseResultFixture.cs"/>
         <include name="TestCaseTest.cs"/>
         <include name="TestConsole.cs"/>
+        <include name="TestContextTests.cs"/>
         <include name="TestDelegateFixture.cs"/>
         <include name="TestFixtureBuilderTests.cs"/>
         <include name="TestFixtureExtension.cs"/>

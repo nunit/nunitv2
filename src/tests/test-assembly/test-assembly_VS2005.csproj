@@ -107,6 +107,7 @@
     <Compile Include="ConsoleRunnerTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CultureAttributeTests.cs" />
     <Compile Include="ExpectExceptionTest.cs">
       <SubType>Code</SubType>
     </Compile>

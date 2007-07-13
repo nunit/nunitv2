@@ -190,7 +190,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CultureDetectionTests.cs"
+                    RelPath = "CultureSettingAndDetectionTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -337,6 +337,11 @@
                 />
                 <File
                     RelPath = "TestConsole.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestContextTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
