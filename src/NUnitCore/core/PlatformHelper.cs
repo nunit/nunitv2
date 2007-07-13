@@ -203,27 +203,22 @@ namespace NUnit.Core
 					throw new ArgumentException( "Invalid platform name", platform.ToString() );
 			}
 
-			if ( !nameOK ) 
-				return false;
+			if ( nameOK ) 
+			{
+				if ( versionSpecification == null )
+					return true;
 
-			if ( versionSpecification == null )
-				return true;
+				Version version = new Version( versionSpecification );
 
-			Version version = new Version( versionSpecification );
+				if ( rt.Version.Major == version.Major &&
+					 rt.Version.Minor == version.Minor &&
+				   ( version.Build == -1 || rt.Version.Build == version.Build ) &&
+				   ( version.Revision == -1 || rt.Version.Revision == version.Revision ) )
+						return true;
+			}
 
-			if ( rt.Version.Major != version.Major )
-				return false;
-			
-			if ( rt.Version.Minor != version.Minor )
-				return false;
-
-			if ( version.Build != -1 && rt.Version.Build != version.Build )
-				return false;
-
-			if ( version.Revision != -1 && rt.Version.Revision != version.Revision )
-				return false;
-
-			return true;
+			this.reason = "Only supported on " + platform;
+			return false;
 		}
 
 		/// <summary>
