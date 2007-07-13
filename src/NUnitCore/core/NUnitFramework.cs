@@ -31,8 +31,9 @@ namespace NUnit.Core
 
         // Attributes that apply to Assemblies, Classes and Methods
         public const string IgnoreAttribute = "NUnit.Framework.IgnoreAttribute";
-        public const string PlatformAttribute = "NUnit.Framework.PlatformAttribute";
-        public const string ExplicitAttribute = "NUnit.Framework.ExplicitAttribute";
+		public const string PlatformAttribute = "NUnit.Framework.PlatformAttribute";
+		public const string CultureAttribute = "NUnit.Framework.CultureAttribute";
+		public const string ExplicitAttribute = "NUnit.Framework.ExplicitAttribute";
         public const string CategoryAttribute = "NUnit.Framework.CategoryAttribute";
         public const string PropertyAttribute = "NUnit.Framework.PropertyAttribute";
 		public const string DescriptionAttribute = "NUnit.Framework.DescriptionAttribute";
@@ -267,15 +268,23 @@ namespace NUnit.Core
                         }
                         break;
                     case PlatformAttribute:
-                        PlatformHelper helper = new PlatformHelper();
-                        if (isValid && !helper.IsPlatformSupported(attribute))
+                        PlatformHelper pHelper = new PlatformHelper();
+                        if (isValid && !pHelper.IsPlatformSupported(attribute))
                         {
                             test.RunState = RunState.Skipped;
                             test.IgnoreReason = GetIgnoreReason(attribute);
 							if ( test.IgnoreReason == null )
-								test.IgnoreReason = helper.Reason;
+								test.IgnoreReason = pHelper.Reason;
                         }
                         break;
+					case CultureAttribute:
+						CultureDetector cultureDetector = new CultureDetector();
+						if (isValid && !cultureDetector.IsCultureSupported(attribute))
+						{
+							test.RunState = RunState.Skipped;
+							test.IgnoreReason = cultureDetector.Reason;
+						}
+						break;
 					default:
 						if ( Reflect.IsOrInheritsFrom( attributeType, CategoryAttribute ) )
 						{	

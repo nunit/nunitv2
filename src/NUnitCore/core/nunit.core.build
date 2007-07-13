@@ -12,6 +12,7 @@
         <include name="AssemblyReader.cs"/>
         <include name="AssemblyResolver.cs"/>
         <include name="CoreExtensions.cs"/>
+        <include name="CultureDetector.cs"/>
         <include name="DelegatingTestRunner.cs"/>
         <include name="DirectorySwapper.cs"/>
         <include name="EventListenerTextWriter.cs"/>

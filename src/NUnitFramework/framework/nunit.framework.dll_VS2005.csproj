@@ -114,12 +114,10 @@
     <Compile Include="IgnoreException.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IncludeExcludeAttributes.cs" />
     <Compile Include="MessageWriter.cs" />
     <Compile Include="MsgUtils.cs" />
     <Compile Include="OldTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="PlatformAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PropertyAttribute.cs" />

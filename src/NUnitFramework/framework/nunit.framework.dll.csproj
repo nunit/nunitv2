@@ -180,6 +180,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "IncludeExcludeAttributes.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "MessageWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -191,11 +196,6 @@
                 />
                 <File
                     RelPath = "OldTestCase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "PlatformAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

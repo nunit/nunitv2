@@ -48,10 +48,10 @@
         <include name="IConstraint.cs"/>
         <include name="IgnoreAttribute.cs"/>
         <include name="IgnoreException.cs"/>
+        <include name="IncludeExcludeAttributes.cs"/>
         <include name="MessageWriter.cs"/>
         <include name="MsgUtils.cs"/>
         <include name="OldTestCase.cs"/>
-        <include name="PlatformAttribute.cs"/>
         <include name="PropertyAttribute.cs"/>
         <include name="SetUpAttribute.cs"/>
         <include name="SetUpFixtureAttribute.cs"/>

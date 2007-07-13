@@ -62,6 +62,8 @@ namespace NUnit.Core.Tests
 					Assert.Fail( "Failed to detect {0}", testPlatform );
 				else if ( didPass && !shouldPass )
 					Assert.Fail( "False positive on {0}", testPlatform );
+				else if ( !shouldPass && !didPass )
+					Assert.AreEqual( "Only supported on " + testPlatform, helper.Reason );
 			}
 		}
 
