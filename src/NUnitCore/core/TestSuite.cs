@@ -156,20 +156,7 @@ namespace NUnit.Core
 					case RunState.Runnable:
 					case RunState.Explicit:
 						suiteResult.RunState = RunState.Executed;
-						if ( this.Properties["SetCulture"] != null )
-						{
-							try
-							{
-								TestContext.CurrentCulture = 
-									new System.Globalization.CultureInfo( (string)Properties["SetCulture"] );
-							}
-							catch( Exception ex )
-							{
-								suiteResult.Error( ex );
-							}
-						}
-						if( !suiteResult.IsFailure )
-							DoOneTimeSetUp(suiteResult);
+						DoOneTimeSetUp(suiteResult);
 						if ( suiteResult.IsFailure )
 							MarkTestsFailed(Tests, suiteResult, listener, filter);
 						else
@@ -211,6 +198,10 @@ namespace NUnit.Core
                 {
                     if (Fixture == null) // In case TestFixture was created with fixture object
 						CreateUserFixture();
+
+                    if (this.Properties["_SETCULTURE"] != null)
+                        TestContext.CurrentCulture =
+                            new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
 
                     if (this.fixtureSetUp != null)
                         Reflect.InvokeMethod(fixtureSetUp, Fixture);

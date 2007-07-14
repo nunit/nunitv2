@@ -12,6 +12,6 @@ namespace NUnit.Framework
 		/// Construct given the name of a culture
 		/// </summary>
 		/// <param name="culture"></param>
-		public SetCultureAttribute( string culture ) : base( culture ) { }
+		public SetCultureAttribute( string culture ) : base( "_SETCULTURE", culture ) { }
 	}
 }

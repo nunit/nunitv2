@@ -155,7 +155,11 @@ namespace NUnit.Core
 					if (Fixture == null)
 						Fixture = Reflect.Construct(this.FixtureType);
 
-					doRun(testResult);
+                    if (this.Properties["_SETCULTURE"] != null)
+                        TestContext.CurrentCulture =
+                            new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
+                    
+                    doRun(testResult);
 				}
 			}
 			catch (Exception ex)
