@@ -34,6 +34,8 @@ namespace NUnit.Gui
 
 		private string displayFormat = "Full";
 
+		private LongRunningOperationDisplay longOpDisplay;
+
 		private System.Drawing.Font fixedFont;
 
 		// Structure used for command line options
@@ -887,10 +889,7 @@ namespace NUnit.Gui
 
 		private void reloadMenuItem_Click(object sender, System.EventArgs e)
 		{
-			using ( new LongRunningOperationDisplay( this, "Reloading..." ) )
-			{
-				TestLoader.ReloadTest();
-			}
+			TestLoader.ReloadTest();
 		}
 
 		private void exitMenuItem_Click(object sender, System.EventArgs e)
@@ -1614,6 +1613,7 @@ namespace NUnit.Gui
 		private void OnTestLoadStarting( object sender, TestEventArgs e )
 		{
 			EnableRunCommand( false );
+			longOpDisplay = new LongRunningOperationDisplay( this, "Loading..." );
 		}
 
 		private void OnTestUnloadStarting( object sender, TestEventArgs e )
@@ -1624,6 +1624,7 @@ namespace NUnit.Gui
 		private void OnReloadStarting( object sender, TestEventArgs e )
 		{
 			EnableRunCommand( false );
+			longOpDisplay = new LongRunningOperationDisplay( this, "Reloading..." );
 		}
 
 		/// <summary>
@@ -1632,6 +1633,11 @@ namespace NUnit.Gui
 		/// </summary>
 		private void OnTestLoaded( object sender, TestEventArgs e )
 		{
+			if ( longOpDisplay != null )
+			{
+				longOpDisplay.Dispose();
+				longOpDisplay = null;
+			}
 			EnableRunCommand( true );
 			
 			if ( TestLoader.TestCount == 0 )
@@ -1660,6 +1666,11 @@ namespace NUnit.Gui
 		/// </summary>
 		private void OnTestChanged( object sender, TestEventArgs e )
 		{
+			if ( longOpDisplay != null )
+			{
+				longOpDisplay.Dispose();
+				longOpDisplay = null;
+			}
 			EnableRunCommand( true );
 		}
 
@@ -1678,6 +1689,12 @@ namespace NUnit.Gui
 		/// </summary>
 		private void OnTestLoadFailure( object sender, TestEventArgs e )
 		{
+			if ( longOpDisplay != null )
+			{
+				longOpDisplay.Dispose();
+				longOpDisplay = null;
+			}
+			
 			string message = null;
 			if ( e.Exception is BadImageFormatException )
 				message = string.Format(
