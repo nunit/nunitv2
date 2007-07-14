@@ -17,22 +17,6 @@
       </references>
     </csc>
 
-    <csc target="exe" 
-        output="${current.build.dir}/nunit-console-x86.exe"
-        debug="${build.debug}" define="${build.defines}"
-        platform="x86">
-      <sources>
-        <include name="AssemblyInfo.cs"/>
-        <include name="Class1.cs"/>
-	<include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.core.dll"/>
-        <include name="nunit.util.dll"/>
-        <include name="nunit-console-runner.dll"/>
-      </references>
-    </csc>
-
     <copy file="App.config"
       tofile="${current.build.dir}/${nunit.console.name}.config"/>
   </target>
