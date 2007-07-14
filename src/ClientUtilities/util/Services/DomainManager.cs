@@ -62,7 +62,9 @@ namespace NUnit.Util
 
 			string configFile = package.ConfigurationFile;
 			if ( configFile == null || configFile == string.Empty )
-				configFile = testFile.Name + ".config";
+				configFile = NUnitProject.IsProjectFile(testFile.Name) 
+					? Path.GetFileNameWithoutExtension( testFile.Name ) + ".config"
+					: testFile.Name + ".config";
 			// Note: Mono needs full path to config file...
 			setup.ConfigurationFile =  Path.Combine( appBase, configFile );
 
