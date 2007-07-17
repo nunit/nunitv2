@@ -34,6 +34,7 @@
         <include name="TextBoxWriter.cs"/>
         <include name="TipWindow.cs"/>
         <include name="UserMessage.cs"/>
+        <include name="VisualState.cs"/>
         <include name="WaitCursor.cs"/>
         <include name="WritableTextDisplay.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>

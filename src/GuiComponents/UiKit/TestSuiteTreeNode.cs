@@ -45,11 +45,6 @@ namespace NUnit.UiKit
 		public static readonly int SuccessIndex = 2;
 		public static readonly int IgnoredIndex = 3;
 
-		// Save info about expansion and check state to be used
-		// when the handle is recreated
-		private bool wasExpanded;
-		private bool wasChecked;
-
 		#endregion
 
 		#region Constructors
@@ -75,8 +70,7 @@ namespace NUnit.UiKit
 
 		#endregion
 
-		#region Properties
-		
+		#region Properties	
 		/// <summary>
 		/// Test represented by this node
 		/// </summary>
@@ -127,19 +121,6 @@ namespace NUnit.UiKit
 				this.ForeColor = included ? SystemColors.WindowText : Color.LightBlue;
 			}
 		}
-
-		public bool WasExpanded
-		{
-			get { return wasExpanded; }
-			set { wasExpanded = value; }
-		}
-		
-		public bool WasChecked
-		{
-			get { return wasChecked; }
-			set { wasChecked = value; }
-		}
-		
 		#endregion
 
 		#region Methods

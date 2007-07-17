@@ -15,6 +15,7 @@
         <include name="TestSuiteTreeNodeTests.cs"/>
         <include name="TestSuiteTreeViewFixture.cs"/>
         <include name="TextBoxWriterTests.cs"/>
+        <include name="VisualStateTests.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">

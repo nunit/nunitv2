@@ -11,6 +11,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Reflection;
 using NUnit.Core;
 using NUnit.Core.Filters;
 using NUnit.Util;
@@ -207,20 +208,22 @@ namespace NUnit.UiKit
 			{ 
 				if ( base.CheckBoxes != value )
 				{
-					TreeNode savedTopNode = this.TopNode;
+                    VisualState visualState = !value && this.TopNode != null
+                        ? new VisualState(this)
+                        : null;
+
 					base.CheckBoxes = value;
 
-					// Only need this when we turn off checkboxes
-					if ( savedTopNode != null && !value )
+					if ( visualState != null )
 					{
 						try
 						{
-							suppressEvents = true;
-							this.Accept( new RestoreVisualStateVisitor() );
+                            suppressEvents = true;
+                            visualState.ShowCheckBoxes = this.CheckBoxes;
+                            visualState.Restore(this);
 						}
 						finally
 						{
-							savedTopNode.EnsureVisible();
 							suppressEvents = false;
 						}
 					}
@@ -352,6 +355,8 @@ namespace NUnit.UiKit
 		private void OnTestUnloaded( object sender, TestEventArgs e)
 		{
 			ClosePropertiesDialog();
+		
+			new VisualState(this).Save(GetVisualStateFileName());
 
 			Clear();
 			contextNode = null;
@@ -677,8 +682,6 @@ namespace NUnit.UiKit
 					CheckedTestChanged(CheckedTests);
 
 				base.OnAfterCheck (e);
-
-				((TestSuiteTreeNode)e.Node).WasChecked = e.Node.Checked;
 			}
 		}
 
@@ -717,6 +720,8 @@ namespace NUnit.UiKit
 					EndUpdate();
 					contextNode = null;
 				}
+
+				RestoreVisualState();
 			}
 		}
 
@@ -765,19 +770,13 @@ namespace NUnit.UiKit
 		protected override void OnAfterCollapse(TreeViewEventArgs e)
 		{
 			if ( !suppressEvents )
-			{
 				base.OnAfterCollapse (e);
-				((TestSuiteTreeNode)e.Node).WasExpanded = false;
-			}
 		}
 
 		protected override void OnAfterExpand(TreeViewEventArgs e)
 		{
 			if ( !suppressEvents )
-			{
 				base.OnAfterExpand (e);
-				((TestSuiteTreeNode)e.Node).WasExpanded = true;
-			}
 		}
 
 		public void Accept(TestSuiteTreeNodeVisitor visitor) 
@@ -1201,11 +1200,51 @@ namespace NUnit.UiKit
 			SelectedNode.EnsureVisible();
 		}
 
+        /// <summary>
+        /// Try to set the TopNode of the tree. The TopNode setter
+        /// is only supported in .Net 2.0 and higher, so we must
+        /// use reflection. If it's not available we simply
+        /// make the node visible.
+        /// </summary>
+        /// <param name="node"></param>
+        public void TryToSetTopNode(TreeNode node)
+        {
+            MethodInfo setMethod = null;
+            PropertyInfo property = this.GetType().GetProperty("TopNode");
+            if (property != null)
+                setMethod = property.GetSetMethod();
+            if (setMethod != null)
+                setMethod.Invoke(this, new object[] { node });
+            else
+                node.EnsureVisible();
+        }
+
 		private TestSuiteTreeNode FindNode( ITest test )
 		{
 			return treeMap[test.TestName.UniqueName] as TestSuiteTreeNode;
 		}
 
+		private void RestoreVisualState()
+		{
+			string fileName = GetVisualStateFileName();
+			if ( File.Exists( fileName ) )
+			{
+                VisualState.LoadFrom(GetVisualStateFileName()).Restore(this);
+				this.Select();
+			}
+		}
+
+		private string GetVisualStateFileName()
+		{
+			if ( loader == null || loader.TestFileName == null )
+				return "visual.xml";
+
+			string name = loader.TestFileName;
+			if ( name.EndsWith( ".nunit" ) )
+				name = name.Substring( 0, name.Length - 6 );
+			
+			return name + ".visual.xml";
+		}
 		#endregion
 
 	}
@@ -1257,16 +1296,6 @@ namespace NUnit.UiKit
 				tests.Add(node.Test);
 				filter.Add(node.Test.TestName);
 			}
-		}
-	}
-
-	internal class RestoreVisualStateVisitor : TestSuiteTreeNodeVisitor
-	{
-		public override void Visit(TestSuiteTreeNode node)
-		{
-			if ( node.WasExpanded && !node.IsExpanded )
-				node.Expand();
-			node.Checked = node.WasChecked;
 		}
 	}
 

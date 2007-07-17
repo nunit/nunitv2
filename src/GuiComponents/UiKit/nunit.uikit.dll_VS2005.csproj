@@ -142,6 +142,7 @@
     <Compile Include="UserMessage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="VisualState.cs" />
     <Compile Include="WaitCursor.cs">
       <SubType>Code</SubType>
     </Compile>

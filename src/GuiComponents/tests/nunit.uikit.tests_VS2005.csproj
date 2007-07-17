@@ -81,6 +81,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TextBoxWriterTests.cs" />
+    <Compile Include="VisualStateTests.cs" />
     <None Include="nunit.uikit.tests.dll.config" />
   </ItemGroup>
   <ItemGroup>
