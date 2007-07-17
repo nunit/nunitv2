@@ -24,6 +24,7 @@ namespace NUnit.UiKit
 	{
 		private ISettings settings;
 		private TraceListener traceListener;
+		private bool updating = false;
 
 		private MenuItem tabsMenu;
 		private MenuItem errorsTabMenuItem;
@@ -137,8 +138,8 @@ namespace NUnit.UiKit
 			this.errorDisplay = new NUnit.UiKit.ErrorDisplay();
 			this.notRunTab = new System.Windows.Forms.TabPage();
 			this.notRunTree = new NUnit.UiKit.NotRunTree();
-			this.stdoutTab = new NUnit.UiKit.RichEditTabPage();
 			this.stderrTab = new NUnit.UiKit.RichEditTabPage();
+			this.stdoutTab = new NUnit.UiKit.RichEditTabPage();
 			this.traceTab = new NUnit.UiKit.RichEditTabPage();
 			this.internalTraceTab = new NUnit.UiKit.RichEditTabPage();
 			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
@@ -150,9 +151,9 @@ namespace NUnit.UiKit
 			// tabControl
 			// 
 			this.tabControl.Controls.Add(this.errorTab);
-			this.tabControl.Controls.Add(this.stdoutTab);
-			this.tabControl.Controls.Add(this.stderrTab);
 			this.tabControl.Controls.Add(this.notRunTab);
+			this.tabControl.Controls.Add(this.stderrTab);
+			this.tabControl.Controls.Add(this.stdoutTab);
 			this.tabControl.Controls.Add(this.traceTab);
 			this.tabControl.Controls.Add(this.internalTraceTab);
 			this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -163,6 +164,7 @@ namespace NUnit.UiKit
 			this.tabControl.SelectedIndex = 0;
 			this.tabControl.Size = new System.Drawing.Size(488, 280);
 			this.tabControl.TabIndex = 3;
+			this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
 			// 
 			// errorTab
 			// 
@@ -203,6 +205,16 @@ namespace NUnit.UiKit
 			this.notRunTree.Size = new System.Drawing.Size(480, 254);
 			this.notRunTree.TabIndex = 0;
 			// 
+			// stderrTab
+			// 
+			this.stderrTab.Font = new System.Drawing.Font("Courier New", 8F);
+			this.stderrTab.Location = new System.Drawing.Point(4, 22);
+			this.stderrTab.Name = "stderrTab";
+			this.stderrTab.Size = new System.Drawing.Size(480, 254);
+			this.stderrTab.TabIndex = 2;
+			this.stderrTab.Text = "Console.Error";
+			this.stderrTab.Visible = false;
+			// 
 			// stdoutTab
 			// 
 			this.stdoutTab.Font = new System.Drawing.Font("Courier New", 8F);
@@ -213,16 +225,6 @@ namespace NUnit.UiKit
 			this.stdoutTab.TabIndex = 3;
 			this.stdoutTab.Text = "Console.Out";
 			this.stdoutTab.Visible = false;
-			// 
-			// stderrTab
-			// 
-			this.stderrTab.Font = new System.Drawing.Font("Courier New", 8F);
-			this.stderrTab.Location = new System.Drawing.Point(4, 22);
-			this.stderrTab.Name = "stderrTab";
-			this.stderrTab.Size = new System.Drawing.Size(480, 254);
-			this.stderrTab.TabIndex = 2;
-			this.stderrTab.Text = "Console.Error";
-			this.stderrTab.Visible = false;
 			// 
 			// traceTab
 			// 
@@ -284,6 +286,7 @@ namespace NUnit.UiKit
 				this.settings = Services.UserSettings;
 
 				LoadSettingsAndUpdateTabPages();
+
 				UpdateFixedFont();
 				Subscribe( Services.TestLoader.Events );
 				Services.UserSettings.Changed += new SettingsEventHandler(UserSettings_Changed);
@@ -326,6 +329,7 @@ namespace NUnit.UiKit
 
 		private void UpdateTabPages()
 		{
+			updating = true;
 			tabControl.TabPages.Clear();
 
 			if ( errorsTabMenuItem.Checked )
@@ -340,11 +344,15 @@ namespace NUnit.UiKit
 				tabControl.TabPages.Add( traceTab );
 			if ( internalTraceTabMenuItem.Checked )
 				tabControl.TabPages.Add( internalTraceTab );
+
+			tabControl.SelectedIndex = settings.GetSetting( "Gui.ResultTabs.SelectedTab", 0 );
+
+			updating = false;
 		}
 
 		private void UserSettings_Changed( object sender, SettingsEventArgs e )
 		{
-			if( e.SettingName.StartsWith( "Gui.ResultTabs" ) )
+			if( e.SettingName.StartsWith( "Gui.ResultTabs.Display" )  )
 				LoadSettingsAndUpdateTabPages();
 			else if ( e.SettingName == "Gui.FixedFont" )
 				UpdateFixedFont();
@@ -353,37 +361,41 @@ namespace NUnit.UiKit
 		private void errorsTabMenuItem_Click(object sender, System.EventArgs e)
 		{
 			settings.SaveSetting( "Gui.ResultTabs.DisplayErrorsTab", errorsTabMenuItem.Checked = !errorsTabMenuItem.Checked );
-			UpdateTabPages();
 		}
 
 		private void notRunTabMenuItem_Click(object sender, System.EventArgs e)
 		{
 			settings.SaveSetting( "Gui.ResultTabs.DisplayNotRunTab", notRunTabMenuItem.Checked = !notRunTabMenuItem.Checked );
-			UpdateTabPages();
 		}
 
 		private void consoleOutMenuItem_Click(object sender, System.EventArgs e)
 		{
 			settings.SaveSetting( "Gui.ResultTabs.DisplayConsoleOutputTab", consoleOutMenuItem.Checked = !consoleOutMenuItem.Checked );
-			UpdateTabPages();
 		}
 
 		private void consoleErrorMenuItem_Click(object sender, System.EventArgs e)
 		{
 			settings.SaveSetting( "Gui.ResultTabs.DisplayConsoleErrorTab", consoleErrorMenuItem.Checked = !consoleErrorMenuItem.Checked );
-			UpdateTabPages();
 		}
 
 		private void traceTabMenuItem_Click(object sender, System.EventArgs e)
 		{
 			settings.SaveSetting( "Gui.ResultTabs.DisplayTraceTab", traceTabMenuItem.Checked = !traceTabMenuItem.Checked );
-			UpdateTabPages();
 		}
 
 		private void internalTraceTabMenuItem_Click(object sender, System.EventArgs e)
 		{
 			settings.SaveSetting( "Gui.ResultTabs.DisplayInternalTraceTab", internalTraceTabMenuItem.Checked = !internalTraceTabMenuItem.Checked );
-			UpdateTabPages();
+		}
+
+		private void tabControl_SelectedIndexChanged(object sender, System.EventArgs e)
+		{
+			if ( !updating )
+			{
+				int index = tabControl.SelectedIndex;
+				if ( index >=0 && index < tabControl.TabCount )
+					settings.SaveSetting( "Gui.ResultTabs.SelectedTab", index );
+			}
 		}
 
 		#region TestObserver Members
