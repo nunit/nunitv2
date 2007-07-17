@@ -332,7 +332,7 @@
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="2.0"/>
     <property name="runtime.config" value="net-2.0"/>
-    <property name="runtime.defines" value="NET,NET_2_1"/>
+    <property name="runtime.defines" value="NET,NET_2_0"/>
     <property name="build.mono" value="false"/>
     <property name="build.win32" value="true"/>
     <property name="build.gui" value="true"/>
