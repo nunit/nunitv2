@@ -86,7 +86,6 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem fileMenuSeparator2;
 		public System.Windows.Forms.MenuItem fileMenuSeparator4;
 		private System.Windows.Forms.MenuItem closeMenuItem;
-		private System.Windows.Forms.MenuItem reloadMenuItem;
 		public System.Windows.Forms.MenuItem exitMenuItem;
 
 		private System.Windows.Forms.MenuItem projectMenu;
@@ -135,6 +134,9 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem decreaseFixedFontMenuItem;
 		private System.Windows.Forms.MenuItem menuItem1;
 		private System.Windows.Forms.MenuItem restoreFixedFontMenuItem;
+		private System.Windows.Forms.MenuItem reloadTestsMenuItem;
+		private System.Windows.Forms.MenuItem reloadProjectMenuItem;
+		private System.Windows.Forms.MenuItem menuItem2;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -183,7 +185,8 @@ namespace NUnit.Gui
 			this.saveMenuItem = new System.Windows.Forms.MenuItem();
 			this.saveAsMenuItem = new System.Windows.Forms.MenuItem();
 			this.fileMenuSeparator2 = new System.Windows.Forms.MenuItem();
-			this.reloadMenuItem = new System.Windows.Forms.MenuItem();
+			this.reloadProjectMenuItem = new System.Windows.Forms.MenuItem();
+			this.reloadTestsMenuItem = new System.Windows.Forms.MenuItem();
 			this.recentProjectsMenu = new System.Windows.Forms.MenuItem();
 			this.fileMenuSeparator4 = new System.Windows.Forms.MenuItem();
 			this.exitMenuItem = new System.Windows.Forms.MenuItem();
@@ -198,6 +201,11 @@ namespace NUnit.Gui
 			this.fontMenuSeparator = new System.Windows.Forms.MenuItem();
 			this.fontChangeMenuItem = new System.Windows.Forms.MenuItem();
 			this.defaultFontMenuItem = new System.Windows.Forms.MenuItem();
+			this.fixedFontMenuItem = new System.Windows.Forms.MenuItem();
+			this.increaseFixedFontMenuItem = new System.Windows.Forms.MenuItem();
+			this.decreaseFixedFontMenuItem = new System.Windows.Forms.MenuItem();
+			this.menuItem1 = new System.Windows.Forms.MenuItem();
+			this.restoreFixedFontMenuItem = new System.Windows.Forms.MenuItem();
 			this.viewMenuSeparator3 = new System.Windows.Forms.MenuItem();
 			this.assemblyDetailsMenuItem = new System.Windows.Forms.MenuItem();
 			this.viewMenuSeparator4 = new System.Windows.Forms.MenuItem();
@@ -238,11 +246,7 @@ namespace NUnit.Gui
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.testTree = new NUnit.UiKit.TestTree();
 			this.leftPanel = new System.Windows.Forms.Panel();
-			this.fixedFontMenuItem = new System.Windows.Forms.MenuItem();
-			this.increaseFixedFontMenuItem = new System.Windows.Forms.MenuItem();
-			this.decreaseFixedFontMenuItem = new System.Windows.Forms.MenuItem();
-			this.menuItem1 = new System.Windows.Forms.MenuItem();
-			this.restoreFixedFontMenuItem = new System.Windows.Forms.MenuItem();
+			this.menuItem2 = new System.Windows.Forms.MenuItem();
 			this.rightPanel.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.leftPanel.SuspendLayout();
@@ -280,7 +284,9 @@ namespace NUnit.Gui
 																					 this.saveMenuItem,
 																					 this.saveAsMenuItem,
 																					 this.fileMenuSeparator2,
-																					 this.reloadMenuItem,
+																					 this.reloadProjectMenuItem,
+																					 this.reloadTestsMenuItem,
+																					 this.menuItem2,
 																					 this.recentProjectsMenu,
 																					 this.fileMenuSeparator4,
 																					 this.exitMenuItem});
@@ -330,26 +336,33 @@ namespace NUnit.Gui
 			this.fileMenuSeparator2.Index = 6;
 			this.fileMenuSeparator2.Text = "-";
 			// 
-			// reloadMenuItem
+			// reloadProjectMenuItem
 			// 
-			this.reloadMenuItem.Index = 7;
-			this.reloadMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlR;
-			this.reloadMenuItem.Text = "&Reload";
-			this.reloadMenuItem.Click += new System.EventHandler(this.reloadMenuItem_Click);
+			this.reloadProjectMenuItem.Index = 7;
+			this.reloadProjectMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlP;
+			this.reloadProjectMenuItem.Text = "Reload &Project";
+			this.reloadProjectMenuItem.Click += new System.EventHandler(this.reloadProjectMenuItem_Click);
+			// 
+			// reloadTestsMenuItem
+			// 
+			this.reloadTestsMenuItem.Index = 8;
+			this.reloadTestsMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlR;
+			this.reloadTestsMenuItem.Text = "&Reload Tests";
+			this.reloadTestsMenuItem.Click += new System.EventHandler(this.reloadTestsMenuItem_Click);
 			// 
 			// recentProjectsMenu
 			// 
-			this.recentProjectsMenu.Index = 8;
+			this.recentProjectsMenu.Index = 10;
 			this.recentProjectsMenu.Text = "Recent &Files";
 			// 
 			// fileMenuSeparator4
 			// 
-			this.fileMenuSeparator4.Index = 9;
+			this.fileMenuSeparator4.Index = 11;
 			this.fileMenuSeparator4.Text = "-";
 			// 
 			// exitMenuItem
 			// 
-			this.exitMenuItem.Index = 10;
+			this.exitMenuItem.Index = 12;
 			this.exitMenuItem.Text = "E&xit";
 			this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
 			// 
@@ -434,6 +447,39 @@ namespace NUnit.Gui
 			this.defaultFontMenuItem.Index = 4;
 			this.defaultFontMenuItem.Text = "&Restore";
 			this.defaultFontMenuItem.Click += new System.EventHandler(this.defaultFontMenuItem_Click);
+			// 
+			// fixedFontMenuItem
+			// 
+			this.fixedFontMenuItem.Index = 5;
+			this.fixedFontMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																							  this.increaseFixedFontMenuItem,
+																							  this.decreaseFixedFontMenuItem,
+																							  this.menuItem1,
+																							  this.restoreFixedFontMenuItem});
+			this.fixedFontMenuItem.Text = "Fi&xed Font";
+			// 
+			// increaseFixedFontMenuItem
+			// 
+			this.increaseFixedFontMenuItem.Index = 0;
+			this.increaseFixedFontMenuItem.Text = "&Increase";
+			this.increaseFixedFontMenuItem.Click += new System.EventHandler(this.increaseFixedFontMenuItem_Click);
+			// 
+			// decreaseFixedFontMenuItem
+			// 
+			this.decreaseFixedFontMenuItem.Index = 1;
+			this.decreaseFixedFontMenuItem.Text = "&Decrease";
+			this.decreaseFixedFontMenuItem.Click += new System.EventHandler(this.decreaseFixedFontMenuItem_Click);
+			// 
+			// menuItem1
+			// 
+			this.menuItem1.Index = 2;
+			this.menuItem1.Text = "-";
+			// 
+			// restoreFixedFontMenuItem
+			// 
+			this.restoreFixedFontMenuItem.Index = 3;
+			this.restoreFixedFontMenuItem.Text = "&Restore";
+			this.restoreFixedFontMenuItem.Click += new System.EventHandler(this.restoreFixedFontMenuItem_Click);
 			// 
 			// viewMenuSeparator3
 			// 
@@ -746,38 +792,10 @@ namespace NUnit.Gui
 			this.leftPanel.Size = new System.Drawing.Size(240, 545);
 			this.leftPanel.TabIndex = 4;
 			// 
-			// fixedFontMenuItem
+			// menuItem2
 			// 
-			this.fixedFontMenuItem.Index = 5;
-			this.fixedFontMenuItem.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-																							  this.increaseFixedFontMenuItem,
-																							  this.decreaseFixedFontMenuItem,
-																							  this.menuItem1,
-																							  this.restoreFixedFontMenuItem});
-			this.fixedFontMenuItem.Text = "Fi&xed Font";
-			// 
-			// increaseFixedFontMenuItem
-			// 
-			this.increaseFixedFontMenuItem.Index = 0;
-			this.increaseFixedFontMenuItem.Text = "&Increase";
-			this.increaseFixedFontMenuItem.Click += new System.EventHandler(this.increaseFixedFontMenuItem_Click);
-			// 
-			// decreaseFixedFontMenuItem
-			// 
-			this.decreaseFixedFontMenuItem.Index = 1;
-			this.decreaseFixedFontMenuItem.Text = "&Decrease";
-			this.decreaseFixedFontMenuItem.Click += new System.EventHandler(this.decreaseFixedFontMenuItem_Click);
-			// 
-			// menuItem1
-			// 
-			this.menuItem1.Index = 2;
-			this.menuItem1.Text = "-";
-			// 
-			// restoreFixedFontMenuItem
-			// 
-			this.restoreFixedFontMenuItem.Index = 3;
-			this.restoreFixedFontMenuItem.Text = "&Restore";
-			this.restoreFixedFontMenuItem.Click += new System.EventHandler(this.restoreFixedFontMenuItem_Click);
+			this.menuItem2.Index = 9;
+			this.menuItem2.Text = "-";
 			// 
 			// NUnitForm
 			// 
@@ -849,7 +867,7 @@ namespace NUnit.Gui
 			saveMenuItem.Enabled = IsProjectLoaded;
 			saveAsMenuItem.Enabled = IsProjectLoaded;
 
-			reloadMenuItem.Enabled = IsTestLoaded && !IsTestRunning;
+			reloadTestsMenuItem.Enabled = IsTestLoaded && !IsTestRunning;
 
 			recentProjectsMenu.Enabled = !IsTestRunning;
 
@@ -887,7 +905,12 @@ namespace NUnit.Gui
 			TestLoaderUI.SaveProjectAs( this );
 		}
 
-		private void reloadMenuItem_Click(object sender, System.EventArgs e)
+		private void reloadProjectMenuItem_Click(object sender, System.EventArgs e)
+		{
+			TestLoaderUI.OpenProject( this, TestProject.ProjectPath, TestProject.ActiveConfigName, null );
+		}
+
+		private void reloadTestsMenuItem_Click(object sender, System.EventArgs e)
 		{
 			TestLoader.ReloadTest();
 		}
