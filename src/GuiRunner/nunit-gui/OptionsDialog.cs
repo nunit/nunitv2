@@ -67,6 +67,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.RadioButton mergeErrors;
 		private System.Windows.Forms.RadioButton separateErrors;
 		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.CheckBox saveVisualStateCheckBox;
 
 		private ISettings settings;
 
@@ -136,10 +137,6 @@ namespace NUnit.Gui
 			this.singleDomainRadioButton = new System.Windows.Forms.RadioButton();
 			this.multiDomainRadioButton = new System.Windows.Forms.RadioButton();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
-			this.panel2 = new System.Windows.Forms.Panel();
-			this.separateTrace = new System.Windows.Forms.RadioButton();
-			this.traceOutputCheckBox = new System.Windows.Forms.CheckBox();
-			this.mergeTrace = new System.Windows.Forms.RadioButton();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.errorsTabCheckBox = new System.Windows.Forms.CheckBox();
 			this.failureToolTips = new System.Windows.Forms.CheckBox();
@@ -148,10 +145,15 @@ namespace NUnit.Gui
 			this.groupBox8 = new System.Windows.Forms.GroupBox();
 			this.consoleOutputCheckBox = new System.Windows.Forms.CheckBox();
 			this.labelTestOutputCheckBox = new System.Windows.Forms.CheckBox();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.consoleErrrorCheckBox = new System.Windows.Forms.CheckBox();
 			this.mergeErrors = new System.Windows.Forms.RadioButton();
 			this.separateErrors = new System.Windows.Forms.RadioButton();
-			this.panel1 = new System.Windows.Forms.Panel();
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.separateTrace = new System.Windows.Forms.RadioButton();
+			this.traceOutputCheckBox = new System.Windows.Forms.CheckBox();
+			this.mergeTrace = new System.Windows.Forms.RadioButton();
+			this.saveVisualStateCheckBox = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -163,10 +165,10 @@ namespace NUnit.Gui
 			this.groupBox7.SuspendLayout();
 			this.groupBox6.SuspendLayout();
 			this.tabPage3.SuspendLayout();
-			this.panel2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.groupBox8.SuspendLayout();
 			this.panel1.SuspendLayout();
+			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// okButton
@@ -209,7 +211,7 @@ namespace NUnit.Gui
 			// 
 			this.helpProvider1.SetHelpString(this.clearResultsCheckBox, "If checked, any prior results are cleared when reloading.");
 			this.clearResultsCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.clearResultsCheckBox.Location = new System.Drawing.Point(19, 65);
+			this.clearResultsCheckBox.Location = new System.Drawing.Point(19, 64);
 			this.clearResultsCheckBox.Name = "clearResultsCheckBox";
 			this.helpProvider1.SetShowHelp(this.clearResultsCheckBox, true);
 			this.clearResultsCheckBox.Size = new System.Drawing.Size(232, 24);
@@ -372,7 +374,7 @@ namespace NUnit.Gui
 			// groupBox9
 			// 
 			this.groupBox9.Controls.Add(this.shadowCopyCheckBox);
-			this.groupBox9.Location = new System.Drawing.Point(8, 296);
+			this.groupBox9.Location = new System.Drawing.Point(8, 320);
 			this.groupBox9.Name = "groupBox9";
 			this.groupBox9.Size = new System.Drawing.Size(280, 48);
 			this.groupBox9.TabIndex = 15;
@@ -392,7 +394,7 @@ namespace NUnit.Gui
 			this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox4.Controls.Add(this.visualStudioSupportCheckBox);
-			this.groupBox4.Location = new System.Drawing.Point(10, 240);
+			this.groupBox4.Location = new System.Drawing.Point(8, 264);
 			this.groupBox4.Name = "groupBox4";
 			this.helpProvider1.SetShowHelp(this.groupBox4, false);
 			this.groupBox4.Size = new System.Drawing.Size(283, 47);
@@ -419,10 +421,11 @@ namespace NUnit.Gui
 			this.groupBox5.Controls.Add(this.label1);
 			this.groupBox5.Controls.Add(this.initialDisplayComboBox);
 			this.groupBox5.Controls.Add(this.clearResultsCheckBox);
+			this.groupBox5.Controls.Add(this.saveVisualStateCheckBox);
 			this.groupBox5.Location = new System.Drawing.Point(10, 120);
 			this.groupBox5.Name = "groupBox5";
 			this.helpProvider1.SetShowHelp(this.groupBox5, false);
-			this.groupBox5.Size = new System.Drawing.Size(283, 102);
+			this.groupBox5.Size = new System.Drawing.Size(283, 136);
 			this.groupBox5.TabIndex = 1;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Tree View";
@@ -528,52 +531,6 @@ namespace NUnit.Gui
 			this.tabPage3.TabIndex = 2;
 			this.tabPage3.Text = "Test Output";
 			// 
-			// panel2
-			// 
-			this.panel2.Controls.Add(this.separateTrace);
-			this.panel2.Controls.Add(this.traceOutputCheckBox);
-			this.panel2.Controls.Add(this.mergeTrace);
-			this.panel2.Location = new System.Drawing.Point(8, 144);
-			this.panel2.Name = "panel2";
-			this.helpProvider1.SetShowHelp(this.panel2, false);
-			this.panel2.Size = new System.Drawing.Size(256, 80);
-			this.panel2.TabIndex = 3;
-			// 
-			// separateTrace
-			// 
-			this.separateTrace.Checked = true;
-			this.separateTrace.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.separateTrace.Location = new System.Drawing.Point(32, 32);
-			this.separateTrace.Name = "separateTrace";
-			this.helpProvider1.SetShowHelp(this.separateTrace, false);
-			this.separateTrace.Size = new System.Drawing.Size(224, 16);
-			this.separateTrace.TabIndex = 1;
-			this.separateTrace.TabStop = true;
-			this.separateTrace.Text = "In Separate Tab";
-			// 
-			// traceOutputCheckBox
-			// 
-			this.traceOutputCheckBox.Checked = true;
-			this.traceOutputCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.traceOutputCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.traceOutputCheckBox.Location = new System.Drawing.Point(8, 8);
-			this.traceOutputCheckBox.Name = "traceOutputCheckBox";
-			this.helpProvider1.SetShowHelp(this.traceOutputCheckBox, false);
-			this.traceOutputCheckBox.Size = new System.Drawing.Size(208, 16);
-			this.traceOutputCheckBox.TabIndex = 0;
-			this.traceOutputCheckBox.Text = "Display Trace Output";
-			this.traceOutputCheckBox.CheckedChanged += new System.EventHandler(this.traceOutputCheckBox_CheckedChanged);
-			// 
-			// mergeTrace
-			// 
-			this.mergeTrace.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.mergeTrace.Location = new System.Drawing.Point(32, 56);
-			this.mergeTrace.Name = "mergeTrace";
-			this.helpProvider1.SetShowHelp(this.mergeTrace, false);
-			this.mergeTrace.Size = new System.Drawing.Size(192, 16);
-			this.mergeTrace.TabIndex = 2;
-			this.mergeTrace.Text = "Merge with Console Output";
-			// 
 			// groupBox3
 			// 
 			this.groupBox3.Controls.Add(this.errorsTabCheckBox);
@@ -670,6 +627,17 @@ namespace NUnit.Gui
 			this.labelTestOutputCheckBox.TabIndex = 1;
 			this.labelTestOutputCheckBox.Text = "Label Test Cases";
 			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.consoleErrrorCheckBox);
+			this.panel1.Controls.Add(this.mergeErrors);
+			this.panel1.Controls.Add(this.separateErrors);
+			this.panel1.Location = new System.Drawing.Point(8, 64);
+			this.panel1.Name = "panel1";
+			this.helpProvider1.SetShowHelp(this.panel1, false);
+			this.panel1.Size = new System.Drawing.Size(256, 80);
+			this.panel1.TabIndex = 2;
+			// 
 			// consoleErrrorCheckBox
 			// 
 			this.consoleErrrorCheckBox.Checked = true;
@@ -705,16 +673,59 @@ namespace NUnit.Gui
 			this.separateErrors.TabStop = true;
 			this.separateErrors.Text = "In Separate Tab";
 			// 
-			// panel1
+			// panel2
 			// 
-			this.panel1.Controls.Add(this.consoleErrrorCheckBox);
-			this.panel1.Controls.Add(this.mergeErrors);
-			this.panel1.Controls.Add(this.separateErrors);
-			this.panel1.Location = new System.Drawing.Point(8, 64);
-			this.panel1.Name = "panel1";
-			this.helpProvider1.SetShowHelp(this.panel1, false);
-			this.panel1.Size = new System.Drawing.Size(256, 80);
-			this.panel1.TabIndex = 2;
+			this.panel2.Controls.Add(this.separateTrace);
+			this.panel2.Controls.Add(this.traceOutputCheckBox);
+			this.panel2.Controls.Add(this.mergeTrace);
+			this.panel2.Location = new System.Drawing.Point(8, 144);
+			this.panel2.Name = "panel2";
+			this.helpProvider1.SetShowHelp(this.panel2, false);
+			this.panel2.Size = new System.Drawing.Size(256, 80);
+			this.panel2.TabIndex = 3;
+			// 
+			// separateTrace
+			// 
+			this.separateTrace.Checked = true;
+			this.separateTrace.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.separateTrace.Location = new System.Drawing.Point(32, 32);
+			this.separateTrace.Name = "separateTrace";
+			this.helpProvider1.SetShowHelp(this.separateTrace, false);
+			this.separateTrace.Size = new System.Drawing.Size(224, 16);
+			this.separateTrace.TabIndex = 1;
+			this.separateTrace.TabStop = true;
+			this.separateTrace.Text = "In Separate Tab";
+			// 
+			// traceOutputCheckBox
+			// 
+			this.traceOutputCheckBox.Checked = true;
+			this.traceOutputCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.traceOutputCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.traceOutputCheckBox.Location = new System.Drawing.Point(8, 8);
+			this.traceOutputCheckBox.Name = "traceOutputCheckBox";
+			this.helpProvider1.SetShowHelp(this.traceOutputCheckBox, false);
+			this.traceOutputCheckBox.Size = new System.Drawing.Size(208, 16);
+			this.traceOutputCheckBox.TabIndex = 0;
+			this.traceOutputCheckBox.Text = "Display Trace Output";
+			this.traceOutputCheckBox.CheckedChanged += new System.EventHandler(this.traceOutputCheckBox_CheckedChanged);
+			// 
+			// mergeTrace
+			// 
+			this.mergeTrace.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.mergeTrace.Location = new System.Drawing.Point(32, 56);
+			this.mergeTrace.Name = "mergeTrace";
+			this.helpProvider1.SetShowHelp(this.mergeTrace, false);
+			this.mergeTrace.Size = new System.Drawing.Size(192, 16);
+			this.mergeTrace.TabIndex = 2;
+			this.mergeTrace.Text = "Merge with Console Output";
+			// 
+			// saveVisualStateCheckBox
+			// 
+			this.saveVisualStateCheckBox.Location = new System.Drawing.Point(16, 96);
+			this.saveVisualStateCheckBox.Name = "saveVisualStateCheckBox";
+			this.saveVisualStateCheckBox.Size = new System.Drawing.Size(248, 24);
+			this.saveVisualStateCheckBox.TabIndex = 11;
+			this.saveVisualStateCheckBox.Text = "Save Visual State of each project";
 			// 
 			// OptionsDialog
 			// 
@@ -746,10 +757,10 @@ namespace NUnit.Gui
 			this.groupBox7.ResumeLayout(false);
 			this.groupBox6.ResumeLayout(false);
 			this.tabPage3.ResumeLayout(false);
-			this.panel2.ResumeLayout(false);
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox8.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
+			this.panel2.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -773,6 +784,7 @@ namespace NUnit.Gui
 			rerunOnChangeCheckBox.Checked = settings.GetSetting( "Options.TestLoader.RerunOnChange", false );
 			reloadOnRunCheckBox.Checked = settings.GetSetting( "Options.TestLoader.ReloadOnRun", true );
 			clearResultsCheckBox.Checked = settings.GetSetting( "Options.TestLoader.ClearResultsOnReload", true );
+			saveVisualStateCheckBox.Checked = settings.GetSetting( "Gui.TestTree.SaveVisualState", true );
 
 			bool multiDomain = settings.GetSetting( "Options.TestLoader.MultiDomain", false );
 			multiDomainRadioButton.Checked = multiDomain;
@@ -818,6 +830,7 @@ namespace NUnit.Gui
 			settings.SaveSetting( "Options.TestLoader.RerunOnChange", loader.RerunOnChange = rerunOnChangeCheckBox.Checked );
 			settings.SaveSetting( "Options.TestLoader.ReloadOnRun", loader.ReloadOnRun = reloadOnRunCheckBox.Checked );
 			settings.SaveSetting( "Options.TestLoader.ClearResultsOnReload", clearResultsCheckBox.Checked );
+			settings.SaveSetting( "Gui.TestTree.SaveVisualState", saveVisualStateCheckBox.Checked );
 
 			settings.SaveSetting( "Options.TestLoader.MultiDomain", loader.MultiDomain = multiDomainRadioButton.Checked );
 			settings.SaveSetting( "Options.TestLoader.MergeAssemblies", loader.MergeAssemblies = mergeAssembliesCheckBox.Checked );

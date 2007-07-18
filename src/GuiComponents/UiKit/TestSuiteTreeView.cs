@@ -356,7 +356,8 @@ namespace NUnit.UiKit
 		{
 			ClosePropertiesDialog();
 		
-			new VisualState(this).Save(GetVisualStateFileName());
+			if ( Services.UserSettings.GetSetting( "Gui.TestTree.SaveVisualState", true ) && loader != null)
+				new VisualState(this).Save(VisualState.GetVisualStateFileName(loader.TestFileName));
 
 			Clear();
 			contextNode = null;
@@ -372,9 +373,6 @@ namespace NUnit.UiKit
 
 		private void OnRunFinished( object sender, TestEventArgs e )
 		{
-//			if ( e.Result != null )
-//				this[e.Result].Expand();
-
 			if ( runningTests != null )
 				foreach( ITest test in runningTests )
 					this[test].Expand();
@@ -721,7 +719,8 @@ namespace NUnit.UiKit
 					contextNode = null;
 				}
 
-				RestoreVisualState();
+				if ( Services.UserSettings.GetSetting( "Gui.TestTree.SaveVisualState", true ) && loader != null)
+					RestoreVisualState();
 			}
 		}
 
@@ -1226,24 +1225,15 @@ namespace NUnit.UiKit
 
 		private void RestoreVisualState()
 		{
-			string fileName = GetVisualStateFileName();
-			if ( File.Exists( fileName ) )
+			if ( loader != null )
 			{
-                VisualState.LoadFrom(GetVisualStateFileName()).Restore(this);
-				this.Select();
+				string fileName = VisualState.GetVisualStateFileName(loader.TestFileName);
+				if ( File.Exists( fileName ) )
+				{
+					VisualState.LoadFrom(fileName).Restore(this);
+					this.Select();
+				}
 			}
-		}
-
-		private string GetVisualStateFileName()
-		{
-			if ( loader == null || loader.TestFileName == null )
-				return "visual.xml";
-
-			string name = loader.TestFileName;
-			if ( name.EndsWith( ".nunit" ) )
-				name = name.Substring( 0, name.Length - 6 );
-			
-			return name + ".visual.xml";
 		}
 		#endregion
 

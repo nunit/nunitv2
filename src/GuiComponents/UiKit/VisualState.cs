@@ -6,11 +6,12 @@ using System.Xml.Serialization;
 namespace NUnit.UiKit
 {
 	/// <summary>
-	/// The VisualState struct holds the latest visual state for a project.
+	/// The VisualState class holds the latest visual state for a project.
 	/// </summary>
 	[Serializable]
 	public class VisualState
 	{
+		#region Fields
 		[XmlAttribute]
 		public bool ShowCheckBoxes;
 
@@ -20,7 +21,37 @@ namespace NUnit.UiKit
 
 		[XmlArrayItem("Node")]
 		public VisualTreeNode[] Nodes;
+		#endregion
 
+		#region Static Methods
+		public static string GetVisualStateFileName( string testFileName )
+		{
+			if ( testFileName == null )
+				return "visual.xml";
+
+			string baseName = testFileName;
+			if ( baseName.EndsWith( ".nunit" ) )
+				baseName = baseName.Substring( 0, baseName.Length - 6 );
+			
+			return baseName + ".visual.xml";
+		}
+
+		public static VisualState LoadFrom( string fileName )
+		{
+			using ( StreamReader reader = new StreamReader( fileName ) )
+			{
+				return LoadFrom( reader );
+			}
+		}
+
+		public static VisualState LoadFrom( TextReader reader )
+		{
+			XmlSerializer serializer = new XmlSerializer( typeof( VisualState) );
+			return (VisualState)serializer.Deserialize( reader );
+		}
+		#endregion
+
+		#region Constructors
 		public VisualState() { }
 
 		public VisualState( TestSuiteTreeView treeView )
@@ -30,7 +61,9 @@ namespace NUnit.UiKit
 			this.SelectedNode = ((TestSuiteTreeNode)treeView.SelectedNode).Test.TestName.UniqueName;
 			this.Nodes = new VisualTreeNode[] { new VisualTreeNode((TestSuiteTreeNode)treeView.Nodes[0]) };
 		}
+		#endregion
 
+		#region Instance Methods
         public void Restore(TestSuiteTreeView tree)
         {
             if (ShowCheckBoxes != tree.CheckBoxes)
@@ -56,20 +89,6 @@ namespace NUnit.UiKit
             tree.Select();
         }
 
-		public static VisualState LoadFrom( string fileName )
-		{
-			using ( StreamReader reader = new StreamReader( fileName ) )
-			{
-				return LoadFrom( reader );
-			}
-		}
-
-		public static VisualState LoadFrom( TextReader reader )
-		{
-			XmlSerializer serializer = new XmlSerializer( typeof( VisualState) );
-			return (VisualState)serializer.Deserialize( reader );
-		}
-
 		public void Save( string fileName )
 		{
 			using ( StreamWriter writer = new StreamWriter( fileName ) )
@@ -83,6 +102,7 @@ namespace NUnit.UiKit
 			XmlSerializer serializer = new XmlSerializer( GetType() );
 			serializer.Serialize( writer, this );
 		}
+		#endregion
 	}
 
 	[Serializable]
