@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using NUnit.Core;
+using NUnit.Core.Filters;
 
 namespace NUnit.UiKit
 {
@@ -18,6 +20,10 @@ namespace NUnit.UiKit
 		public string TopNode;
 
 		public string SelectedNode;
+
+		public string SelectedCategories;
+
+		public bool ExcludeCategories;
 
 		[XmlArrayItem("Node")]
 		public VisualTreeNode[] Nodes;
@@ -60,6 +66,17 @@ namespace NUnit.UiKit
 			this.TopNode = ((TestSuiteTreeNode)treeView.TopNode).Test.TestName.UniqueName;
 			this.SelectedNode = ((TestSuiteTreeNode)treeView.SelectedNode).Test.TestName.UniqueName;
 			this.Nodes = new VisualTreeNode[] { new VisualTreeNode((TestSuiteTreeNode)treeView.Nodes[0]) };
+			if ( !treeView.CategoryFilter.IsEmpty )
+			{
+				ITestFilter filter = treeView.CategoryFilter;
+				if ( filter is NotFilter )
+				{
+					filter = ((NotFilter)filter).BaseFilter;
+					this.ExcludeCategories = true;
+				}
+
+				this.SelectedCategories = filter.ToString();
+			}
 		}
 		#endregion
 
@@ -86,7 +103,16 @@ namespace NUnit.UiKit
                     tree.TryToSetTopNode(treeNode);
             }
 
-            tree.Select();
+
+			if (this.SelectedCategories != null)
+			{
+				TestFilter filter = new CategoryFilter( this.SelectedCategories.Split( new char[] { ',' } ) );
+				if ( this.ExcludeCategories )
+					filter = new NotFilter( filter );
+				tree.CategoryFilter = filter;
+			}
+			
+			tree.Select();
         }
 
 		public void Save( string fileName )

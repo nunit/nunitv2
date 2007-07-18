@@ -17,6 +17,8 @@ namespace NUnit.UiKit.Tests
 			state.ShowCheckBoxes = true;
 			state.TopNode = "ABC.Test.dll";
 			state.SelectedNode = "NUnit.Tests.MyFixture.MyTest";
+			state.SelectedCategories = "A,B,C";
+			state.ExcludeCategories = true;
 
 			StringWriter writer = new StringWriter();
 			state.Save( writer );
@@ -30,6 +32,8 @@ namespace NUnit.UiKit.Tests
 			Assert.AreEqual( state.ShowCheckBoxes, newState.ShowCheckBoxes, "ShowCheckBoxes" );
 			Assert.AreEqual( state.TopNode, newState.TopNode, "TopNode" );
 			Assert.AreEqual( state.SelectedNode, newState.SelectedNode, "SelectedNode" );
+			Assert.AreEqual( state.SelectedCategories, newState.SelectedCategories, "SelectedCategories" );
+			Assert.AreEqual( state.ExcludeCategories, newState.ExcludeCategories, "ExcludeCategories" );
 		}
 	}
 }

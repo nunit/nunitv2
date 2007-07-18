@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Text;
 using System.Collections;
 
 namespace NUnit.Core.Filters
@@ -74,5 +75,28 @@ namespace NUnit.Core.Filters
 
 			return false;
         }
+
+		/// <summary>
+		/// Return the string representation of a category filter
+		/// </summary>
+		/// <returns></returns>
+		public override string ToString()
+		{
+			StringBuilder sb = new StringBuilder();
+			for( int i = 0; i < categories.Count; i++ )
+			{
+				if ( i > 0 ) sb.Append( ',' );
+				sb.Append( categories[i] );
+			}
+			return sb.ToString();
+		}
+
+		/// <summary>
+		/// Gets the list of categories from this filter
+		/// </summary>
+		public IList Categories
+		{
+			get { return categories; }
+		}
 	}
 }

@@ -656,6 +656,28 @@ namespace NUnit.UiKit
 			availableList.SuspendLayout();
 			foreach (string category in availableCategories) 
 				availableList.Items.Add(category);
+
+			// tree may have restored visual state
+			if( !tests.CategoryFilter.IsEmpty )
+			{
+				ITestFilter filter = tests.CategoryFilter;
+				if ( filter is NUnit.Core.Filters.NotFilter )
+				{
+					filter = ((NUnit.Core.Filters.NotFilter)filter).BaseFilter;
+					this.excludeCheckbox.Checked = true;
+				}
+
+				foreach( string cat in ((NUnit.Core.Filters.CategoryFilter)filter).Categories )
+					if ( this.availableCategories.Contains( cat ) )
+					{
+						this.availableList.Items.Remove( cat );
+						this.selectedList.Items.Add( cat );
+						this.excludeCheckbox.Enabled = true;
+					}
+
+				UpdateCategoryFilter();
+			}
+
 			availableList.ResumeLayout();
 		}
 
