@@ -18,6 +18,24 @@
 
     <copy file="App.config"
       tofile="${current.build.dir}/${nunit.gui.name}.config"/>
+
+    <csc target="winexe" 
+        output="${current.build.dir}/${nunit.gui.name.x86}" 
+        win32icon="App.ico" debug="${build.debug}"
+        define="${build.defines}" platform="x86" 
+        if="${build.x86}">
+      <sources>
+        <include name="AssemblyInfo.cs"/>
+        <include name="Class1.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit-gui-runner.dll"/>
+      </references>
+    </csc>
+
+    <copy file="App.config" if="${build.x86}"
+      tofile="${current.build.dir}/${nunit.gui.name.x86}.config"/>
   </target>
 
   <target name="package">

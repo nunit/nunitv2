@@ -7,7 +7,9 @@
 
   <!-- NUnit executables and arguments -->
   <property name="nunit.gui.name" value="nunit.exe"/>
+  <property name="nunit.gui.name.x86" value="nunit-x86.exe"/>
   <property name="nunit.console.name" value="nunit-console.exe"/>
+  <property name="nunit.console.name.x86" value="nunit-console-x86.exe"/>
   <property name="nunit.project.name" value="NUnitTests.nunit"/>
   <property name="nunit.base.tests" value="nunit.framework.tests.dll nunit.core.tests.dll nunit.extensions.tests.dll nunit.util.tests.dll nunit.mocks.tests.dll nunit-console.tests.dll nunit.fixtures.tests.dll"/>
   <property name="nunit.gui.tests" value="nunit.uikit.tests.dll nunit-gui.tests.dll"/>
@@ -301,6 +303,7 @@
     <property name="build.mono" value="false"/>
     <property name="build.win32" value="true"/>
     <property name="build.gui" value="false"/>
+    <property name="build.x86" value="false"/>
     <property name="nant.settings.currentframework" 
       value="net-1.0"/>
     <property name="zip.runtime.suffix" value="-net-1.0"/>
@@ -319,6 +322,7 @@
     <property name="build.mono" value="false"/>
     <property name="build.win32" value="true"/>
     <property name="build.gui" value="true"/>
+    <property name="build.x86" value="false"/>
     <property name="nant.settings.currentframework" 
       value="net-1.1"/>
     <property name="zip.runtime.suffix" value="-net-1.1"/>
@@ -336,6 +340,7 @@
     <property name="build.mono" value="false"/>
     <property name="build.win32" value="true"/>
     <property name="build.gui" value="true"/>
+    <property name="build.x86" value="true"/>
     <property name="nant.settings.currentframework" 
       value="net-2.0"/>
     <property name="zip.runtime.suffix" value="-net-2.0"/>
@@ -353,6 +358,7 @@
     <property name="build.mono" value="true"/>
     <property name="build.win32" value="false"/>
     <property name="build.gui" value="true"/>
+    <property name="build.x86" value="false"/>
     <property name="nant.settings.currentframework" 
       value="mono-1.0"/>
     <property name="zip.runtime.suffix" value="-mono-1.0"/>
@@ -370,6 +376,7 @@
     <property name="build.mono" value="true"/>
     <property name="build.win32" value="false"/>
     <property name="build.gui" value="true"/>
+    <property name="build.x86" value="true"/>
     <property name="nant.settings.currentframework" 
       value="mono-2.0"/>
     <property name="zip.runtime.suffix" value="-mono-2.0"/>
