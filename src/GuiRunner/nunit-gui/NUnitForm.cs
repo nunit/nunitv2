@@ -1756,6 +1756,9 @@ the version under which NUnit is currently running, {0}.",
 			}
 
 			EnableRunCommand( true );
+
+			if ( e.Result.IsFailure )
+				this.Activate();
 		}
 
 		#endregion
