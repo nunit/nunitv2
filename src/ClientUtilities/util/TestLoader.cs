@@ -490,6 +490,8 @@ namespace NUnit.Util
 			switch ( e.type )
 			{
 				case ProjectChangeType.ActiveConfig:
+					if( IsTestLoaded )
+						UnloadTest();
 					if( TestProject.IsLoadable )
 						LoadTest();
 					break;
