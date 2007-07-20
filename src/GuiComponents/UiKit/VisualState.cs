@@ -33,13 +33,13 @@ namespace NUnit.UiKit
 		public static string GetVisualStateFileName( string testFileName )
 		{
 			if ( testFileName == null )
-				return "visual.xml";
+				return "VisualState.xml";
 
 			string baseName = testFileName;
 			if ( baseName.EndsWith( ".nunit" ) )
 				baseName = baseName.Substring( 0, baseName.Length - 6 );
 			
-			return baseName + ".visual.xml";
+			return baseName + ".VisualState.xml";
 		}
 
 		public static VisualState LoadFrom( string fileName )
