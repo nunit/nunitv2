@@ -139,6 +139,9 @@ namespace NUnit.Framework.Constraints
 			if (expected is Stream && actual is Stream)
 				return StreamsEqual((Stream)expected, (Stream)actual);
 
+			if ( compareWith != null )
+				return compareWith.Compare( expected, actual ) == 0;
+
 			if ( IsNumericType(expected) && IsNumericType(actual) )
 				return NumericsEqual( expected, actual, tolerance );
 

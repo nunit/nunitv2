@@ -198,6 +198,22 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AreEqual(set1,set2,new TestComparer());
 		}
 
+		[Test]
+		public void EnsureComparerIsUsed()
+		{
+			// Create two collections
+			int[] array1 = new int[2];
+			int[] array2 = new int[2];
+
+			array1[0] = 4;
+			array1[1] = 5;
+
+			array2[0] = 99;
+			array2[1] = -99;
+
+			CollectionAssert.AreEqual(array1, array2, new AlwaysEqualComparer());
+		}
+	
 		#endregion
 
 		#region AreEquivalent
@@ -635,6 +651,14 @@ namespace NUnit.Framework.Tests
 
 	}
 
+	public class AlwaysEqualComparer : IComparer
+	{
+		int IComparer.Compare(object x, object y)
+		{
+			// This comparer ALWAYS returns zero (equal)!
+			return 0;
+		}
+	}
 }
 
 
