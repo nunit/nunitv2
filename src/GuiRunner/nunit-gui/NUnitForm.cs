@@ -187,6 +187,7 @@ namespace NUnit.Gui
 			this.fileMenuSeparator2 = new System.Windows.Forms.MenuItem();
 			this.reloadProjectMenuItem = new System.Windows.Forms.MenuItem();
 			this.reloadTestsMenuItem = new System.Windows.Forms.MenuItem();
+			this.menuItem2 = new System.Windows.Forms.MenuItem();
 			this.recentProjectsMenu = new System.Windows.Forms.MenuItem();
 			this.fileMenuSeparator4 = new System.Windows.Forms.MenuItem();
 			this.exitMenuItem = new System.Windows.Forms.MenuItem();
@@ -246,7 +247,6 @@ namespace NUnit.Gui
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.testTree = new NUnit.UiKit.TestTree();
 			this.leftPanel = new System.Windows.Forms.Panel();
-			this.menuItem2 = new System.Windows.Forms.MenuItem();
 			this.rightPanel.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.leftPanel.SuspendLayout();
@@ -349,6 +349,11 @@ namespace NUnit.Gui
 			this.reloadTestsMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlR;
 			this.reloadTestsMenuItem.Text = "&Reload Tests";
 			this.reloadTestsMenuItem.Click += new System.EventHandler(this.reloadTestsMenuItem_Click);
+			// 
+			// menuItem2
+			// 
+			this.menuItem2.Index = 9;
+			this.menuItem2.Text = "-";
 			// 
 			// recentProjectsMenu
 			// 
@@ -791,11 +796,6 @@ namespace NUnit.Gui
 			this.leftPanel.Name = "leftPanel";
 			this.leftPanel.Size = new System.Drawing.Size(240, 545);
 			this.leftPanel.TabIndex = 4;
-			// 
-			// menuItem2
-			// 
-			this.menuItem2.Index = 9;
-			this.menuItem2.Text = "-";
 			// 
 			// NUnitForm
 			// 
