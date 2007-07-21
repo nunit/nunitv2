@@ -16,7 +16,7 @@ namespace NUnit.Fixtures.Tests
 	/// <summary>
 	/// Summary description for CompilationTests.
 	/// </summary>
-	[TestFixture]
+	[TestFixture,Platform(Exclude="Mono",Reason="Holds output file open")]
 	public class CompilationTests
 	{
 		private TestCompiler compiler;
