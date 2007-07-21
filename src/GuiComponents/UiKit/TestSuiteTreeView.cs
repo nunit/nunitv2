@@ -101,6 +101,8 @@ namespace NUnit.UiKit
 
 		private bool suppressEvents = false;
 
+		private bool fixtureLoaded = false;
+
 		#endregion
 
 		#region Construction and Initialization
@@ -485,6 +487,15 @@ namespace NUnit.UiKit
 			this.ContextMenu.MenuItems.Add( "Expand All", new EventHandler( expandAllMenuItem_Click ) );
 			this.ContextMenu.MenuItems.Add( "Collapse All", new EventHandler( collapseAllMenuItem_Click ) );
 			this.ContextMenu.MenuItems.Add( "-" );
+			
+			MenuItem loadFixtureMenuItem = new MenuItem( "Load Fixture", new EventHandler( loadFixtureMenuItem_Click ) );
+			loadFixtureMenuItem.Enabled = targetNode.Test.IsSuite;
+			this.ContextMenu.MenuItems.Add( loadFixtureMenuItem );
+
+			MenuItem clearFixtureMenuItem = new MenuItem( "Clear Fixture", new EventHandler( clearFixtureMenuItem_Click ) );
+			clearFixtureMenuItem.Enabled = fixtureLoaded;
+			this.ContextMenu.MenuItems.Add( clearFixtureMenuItem );
+			this.ContextMenu.MenuItems.Add( "-" );
 
 			MenuItem propertiesMenuItem = new MenuItem(
 				"&Properties", new EventHandler( propertiesMenuItem_Click ) );
@@ -569,6 +580,21 @@ namespace NUnit.UiKit
 				runCommandEnabled = false;
 				RunFailedTests();
 			}
+		}
+
+		private void loadFixtureMenuItem_Click( object sender, System.EventArgs e)
+		{
+			if ( contextNode != null )
+			{
+				loader.LoadTest( contextNode.Test.TestName.FullName );
+				fixtureLoaded = true;
+			}
+		}
+
+		private void clearFixtureMenuItem_Click( object sender, System.EventArgs e)
+		{
+			loader.LoadTest();
+			fixtureLoaded = false;
 		}
 
 		private void propertiesMenuItem_Click( object sender, System.EventArgs e)
