@@ -17,17 +17,17 @@ namespace NUnit.Framework
 	/// <see cref="Is"/>, from which it inherits much of its
 	/// behavior, in certain mock object frameworks.
 	/// </summary>
-	public class AssertionHelper : Is
+	public class AssertionHelper : ConstraintBuilder
 	{
 		#region Expect
 		/// <summary>
 		/// Apply a constraint to an actual value, succeeding if the constraint
 		/// is satisfied and throwing an assertion exception on failure. Works
-		/// identically to <see cref="NUnit.Framework.Assert.That(object, IConstraint)"/>
+		/// identically to <see cref="NUnit.Framework.Assert.That(object, Constraint)"/>
 		/// </summary>
-		/// <param name="constraint">An IConstraint to be applied</param>
+		/// <param name="constraint">A Constraint to be applied</param>
 		/// <param name="actual">The actual value to test</param>
-		static public void Expect( object actual, IConstraint constraint )
+		static public void Expect( object actual, Constraint constraint )
 		{
 			Assert.That( actual, constraint, null, null );
 		}
@@ -35,12 +35,12 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Apply a constraint to an actual value, succeeding if the constraint
 		/// is satisfied and throwing an assertion exception on failure. Works
-		/// identically to <see cref="NUnit.Framework.Assert.That(object, IConstraint, string)"/>
+		/// identically to <see cref="NUnit.Framework.Assert.That(object, Constraint, string)"/>
 		/// </summary>
-		/// <param name="constraint">An IConstraint to be applied</param>
+		/// <param name="constraint">A Constraint to be applied</param>
 		/// <param name="actual">The actual value to test</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Expect( object actual, IConstraint constraint, string message )
+		static public void Expect( object actual, Constraint constraint, string message )
 		{
 			Assert.That( actual, constraint, message, null );
 		}
@@ -48,13 +48,13 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Apply a constraint to an actual value, succeeding if the constraint
 		/// is satisfied and throwing an assertion exception on failure. Works
-		/// identically to <see cref="NUnit.Framework.Assert.That(object, IConstraint, string, object[])"/>
+		/// identically to <see cref="NUnit.Framework.Assert.That(object, Constraint, string, object[])"/>
 		/// </summary>
-		/// <param name="constraint">An IConstraint to be applied</param>
+		/// <param name="constraint">A Constraint to be applied</param>
 		/// <param name="actual">The actual value to test</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Expect( object actual, IConstraint constraint, string message, params object[] args )
+		static public void Expect( object actual, Constraint constraint, string message, params object[] args )
 		{
 			Assert.That( actual, constraint, message, args );
 		}
@@ -92,62 +92,6 @@ namespace NUnit.Framework
 		static public void Expect(bool condition)
 		{
 			Assert.That(condition, Is.True, null, null);
-		}
-		#endregion
-
-		#region ContainingConstraint
-        /// <summary>
-        /// Contains returns a ContainsConstraint
-        /// </summary>
-		public Constraint Contains(object expected)
-		{
-			return new ContainsConstraint( expected );
-		}
-		#endregion
-
-		#region String Constraints
-		/// <summary>
-		/// StartsWith is a synonym for Text.StartsWith
-		/// </summary>
-		public Constraint StartsWith(string expected)
-		{
-			return Text.StartsWith( expected );
-		}
-
-		/// <summary>
-		/// Ending is a synonym for Is.StringEnding
-		/// </summary>
-		public Constraint EndsWith(string expected)
-		{
-			return Text.EndsWith( expected );
-		}
-
-		/// <summary>
-		/// Matches is a synonym for Text.Matches
-		/// </summary>
-		public Constraint Matches(string pattern)
-		{
-			return Text.Matches(pattern);
-		}
-		#endregion
-
-		#region PropertyConstraint
-        /// <summary>
-        /// Property is a synonym for Has.Property
-        /// </summary>
-		public static Constraint Property( string name, object expected )
-		{
-			return new PropertyConstraint( name, expected );
-		}
-
-        /// <summary>
-        /// Length is a synonym for Has.Length
-        /// </summary>
-        /// <param name="length"></param>
-        /// <returns></returns>
-		public static Constraint Length( int length )
-		{
-			return Property( "Length", length );
 		}
 		#endregion
 	}

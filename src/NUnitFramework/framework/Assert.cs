@@ -7,6 +7,7 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
+using NUnit.Framework.Constraints;
 using NUnit.Framework.SyntaxHelpers;
 
 namespace NUnit.Framework
@@ -2160,9 +2161,9 @@ namespace NUnit.Framework
 		/// Apply a constraint to an actual value, succeeding if the constraint
 		/// is satisfied and throwing an assertion exception on failure.
 		/// </summary>
-		/// <param name="constraint">An IConstraint to be applied</param>
+		/// <param name="constraint">A Constraint to be applied</param>
 		/// <param name="actual">The actual value to test</param>
-		static public void That( object actual, IConstraint constraint )
+		static public void That( object actual, Constraint constraint )
 		{
 			Assert.That( actual, constraint, null, null );
 		}
@@ -2171,10 +2172,10 @@ namespace NUnit.Framework
 		/// Apply a constraint to an actual value, succeedingt if the constraint
 		/// is satisfied and throwing an assertion exception on failure.
 		/// </summary>
-		/// <param name="constraint">An IConstraint to be applied</param>
+		/// <param name="constraint">A Constraint to be applied</param>
 		/// <param name="actual">The actual value to test</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void That( object actual, IConstraint constraint, string message )
+		static public void That( object actual, Constraint constraint, string message )
 		{
 			Assert.That( actual, constraint, message, null );
 		}
@@ -2183,11 +2184,11 @@ namespace NUnit.Framework
 		/// Apply a constraint to an actual value, succeedingt if the constraint
 		/// is satisfied and throwing an assertion exception on failure.
 		/// </summary>
-		/// <param name="constraint">An IConstraint to be applied</param>
+		/// <param name="constraint">A Constraint to be applied</param>
 		/// <param name="actual">The actual value to test</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void That( object actual, IConstraint constraint, string message, params object[] args )
+		static public void That( object actual, Constraint constraint, string message, params object[] args )
 		{
 			Assert.IncrementAssertCount();
 			if ( !constraint.Matches( actual ) )

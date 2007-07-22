@@ -69,7 +69,7 @@ namespace NUnit.Framework.Tests
 		{
             expectedMessage =
                 "  Expected string length 4 but was 5. Strings differ at index 4." + System.Environment.NewLine
-                + TextMessageWriter.Pfx_Expected + "\"Name\"" + System.Environment.NewLine
+                + TextMessageWriter.Pfx_Expected + "\"Name\", ignoring case" + System.Environment.NewLine
                 + TextMessageWriter.Pfx_Actual   + "\"NAMES\"" + System.Environment.NewLine
                 + "  ---------------^" + System.Environment.NewLine;
             StringAssert.AreEqualIgnoringCase("Name", "NAMES");

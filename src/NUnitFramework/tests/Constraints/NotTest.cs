@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace NUnit.Framework.Constraints.Tests
 {
@@ -19,6 +20,24 @@ namespace NUnit.Framework.Constraints.Tests
             BadValues = new object [] { null };
             Description = "not null";
         }
+
+		[Test,ExpectedException(typeof(AssertionException),ExpectedMessage="ignoring case",MatchType=MessageMatch.Contains)]
+		public void NotHonorsIgnoreCaseUsingConstructors()
+		{
+			Assert.That( "abc", new NotConstraint( new EqualConstraint( "ABC" ).IgnoreCase ) );
+		}
+
+		[Test,ExpectedException(typeof(AssertionException),ExpectedMessage="ignoring case",MatchType=MessageMatch.Contains)]
+		public void NotHonorsIgnoreCaseUsingPrefixNotation()
+		{
+			Assert.That( "abc", Is.Not.EqualTo( "ABC" ).IgnoreCase );
+		}
+
+		[Test,ExpectedException(typeof(AssertionException),ExpectedMessage="+/-",MatchType=MessageMatch.Contains)]
+		public void NotHonorsTolerance()
+		{
+			Assert.That( 4.99d, Is.Not.EqualTo( 5.0d ).Within( .05d ) );
+		}
 
         [Test]
         public void CanUseNotOperator()

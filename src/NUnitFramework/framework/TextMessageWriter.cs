@@ -9,6 +9,7 @@ using System.IO;
 using System.Text;
 using System.Collections;
 using System.Globalization;
+using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework
 {
@@ -112,7 +113,7 @@ namespace NUnit.Framework
         /// WriteMessageTo and provides the generic two-line display. 
         /// </summary>
         /// <param name="constraint">The constraint that failed</param>
-        public override void DisplayDifferences(IConstraint constraint)
+        public override void DisplayDifferences(Constraint constraint)
         {
             WriteExpectedLine(constraint);
             WriteActualLine(constraint);
@@ -167,7 +168,13 @@ namespace NUnit.Framework
 			// The mismatch position may have changed due to clipping or white space conversion
 			mismatch = MsgUtils.FindMismatchPosition( expected, actual, 0, ignoreCase );
 
-            DisplayDifferences(expected, actual);
+			Write( Pfx_Expected );
+			WriteExpectedValue( expected );
+			if ( ignoreCase )
+				WriteModifier( "ignoring case" );
+			WriteLine();
+			WriteActualLine( actual );
+            //DisplayDifferences(expected, actual);
             if (mismatch >= 0)
                 WriteCaretLine(mismatch);
         }
@@ -392,7 +399,7 @@ namespace NUnit.Framework
         /// Write the generic 'Expected' line for a constraint
         /// </summary>
         /// <param name="constraint">The constraint that failed</param>
-        private void WriteExpectedLine(IConstraint constraint)
+        private void WriteExpectedLine(Constraint constraint)
         {
             Write(Pfx_Expected);
             constraint.WriteDescriptionTo(this);
@@ -429,7 +436,7 @@ namespace NUnit.Framework
 		/// Write the generic 'Actual' line for a constraint
 		/// </summary>
 		/// <param name="constraint">The constraint for which the actual value is to be written</param>
-		private void WriteActualLine(IConstraint constraint)
+		private void WriteActualLine(Constraint constraint)
 		{
 			Write(Pfx_Actual);
 			constraint.WriteActualValueTo(this);

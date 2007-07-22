@@ -7,6 +7,7 @@
 using System;
 using System.IO;
 using System.Collections;
+using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework
 {
@@ -20,7 +21,10 @@ namespace NUnit.Framework
     public abstract class MessageWriter : StringWriter
     {
 
-		public MessageWriter() : base( System.Globalization.CultureInfo.InvariantCulture ) { }
+		/// <summary>
+		/// Construct a MessageWriter given a culture
+		/// </summary>
+        public MessageWriter() : base( System.Globalization.CultureInfo.InvariantCulture ) { }
 
         /// <summary>
         /// Abstract method to get the max line length
@@ -54,7 +58,7 @@ namespace NUnit.Framework
         /// WriteMessageTo and provides the generic two-line display. 
         /// </summary>
         /// <param name="constraint">The constraint that failed</param>
-        public abstract void DisplayDifferences(IConstraint constraint);
+        public abstract void DisplayDifferences(Constraint constraint);
 
 		/// <summary>
 		/// Display Expected and Actual lines for given values. This

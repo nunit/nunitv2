@@ -15,7 +15,7 @@ namespace NUnit.Framework.Constraints
 	/// of IConstraint in NUnit. It provides the operator
 	/// overloads used to combine constraints.
 	/// </summary>
-    public abstract class Constraint : IConstraint
+    public abstract class Constraint
     {
         #region UnsetObject Class
         /// <summary>

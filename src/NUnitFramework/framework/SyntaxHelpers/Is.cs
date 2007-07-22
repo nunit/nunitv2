@@ -14,9 +14,31 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// The Is class is a helper class with properties and methods
 	/// that supply a number of constraints used in Asserts.
 	/// </summary>
-	public class Is : SyntaxHelper
+	public class Is
     {
-        #region Constraints Without Arguments
+		#region Prefix Operators
+		/// <summary>
+		/// Is.Not returns a ConstraintBuilder that negates
+		/// the constraint that follows it.
+		/// </summary>
+		public static ConstraintBuilder Not
+		{
+			get { return new ConstraintBuilder().Not; }
+		}
+
+		/// <summary>
+		/// Is.All returns a ConstraintBuilder, which will apply
+		/// the following constraint to all members of a collection,
+		/// succeeding if all of them succeed. This property is
+		/// a synonym for Has.AllItems.
+		/// </summary>
+		public static ConstraintBuilder All
+		{
+			get { return new ConstraintBuilder().All; }
+		}
+		#endregion
+
+		#region Constraints Without Arguments
 		/// <summary>
 		/// Is.Null returns a static constraint that tests for null
 		/// </summary>

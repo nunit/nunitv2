@@ -99,8 +99,8 @@ namespace NUnit.Framework.Constraints
 				writer.WriteExpectedValue(tolerance);
 			}
 
-//			if ( this.caseInsensitive )
-//				writer.WriteModifier("ignoring case");
+			if ( this.caseInsensitive )
+				writer.WriteModifier("ignoring case");
         }
 
         private void DisplayDifferences(MessageWriter writer, object expected, object actual, int depth)

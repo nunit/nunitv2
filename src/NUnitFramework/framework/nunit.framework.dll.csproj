@@ -300,7 +300,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Constraints\NotConstraint.cs"
+                    RelPath = "Constraints\PrefixConstraints.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -336,11 +336,6 @@
                 />
                 <File
                     RelPath = "SyntaxHelpers\List.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SyntaxHelpers\SyntaxHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

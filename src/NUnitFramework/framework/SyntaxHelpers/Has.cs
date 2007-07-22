@@ -12,14 +12,81 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// <summary>
 	/// Summary description for Has.
 	/// </summary>
-	public class Has : SyntaxHelper
+	public class Has
 	{
-        /// <summary>
-        /// Returns a new PropertyConstraint
+		#region Prefix Operators
+		/// <summary>
+		/// Has.No returns a ConstraintBuilder that negates
+		/// the constraint that follows it.
+		/// </summary>
+		public static ConstraintBuilder No
+		{
+			get { return new ConstraintBuilder().Not; }
+		}
+
+		/// <summary>
+		/// Has.AllItems returns a ConstraintBuilder, which will apply
+		/// the following constraint to all members of a collection,
+		/// succeeding if all of them succeed.
+		/// </summary>
+		public static ConstraintBuilder AllItems
+		{
+			get { return new ConstraintBuilder().All; }
+		}
+
+		/// <summary>
+		/// Has.Item returns a ConstraintBuilder, which will apply
+		/// the following constraint to all members of a collection,
+		/// succeeding if any of them succeed.
+		/// </summary>
+		public static ConstraintBuilder Item
+		{
+			get { return new ConstraintBuilder().Some; }
+		}
+
+		/// <summary>
+		/// Has.NoItem returns a ConstraintBuilder, which will apply
+		/// the following constraint to all members of a collection,
+		/// succeeding only if none of them succeed.
+		/// </summary>
+		public static ConstraintBuilder NoItem
+		{
+			get { return new ConstraintBuilder().None; }
+		}
+
+		/// <summary>
+		/// Returns a new ConstraintBuilder, which will apply the
+		/// following constraint to a named property of the object
+		/// being tested.
+		/// </summary>
+		/// <param name="name">The name of the property</param>
+		public static ConstraintBuilder Property( string name )
+		{
+			return new ConstraintBuilder().Property(name);
+		}
+
+		/// <summary>
+		/// Returns a new ConstraintBuilder, which will apply the
+		/// following constraint to a list of named property of the 
+		/// object being tested.
+		/// </summary>
+		/// <param name="name">The name of the property</param>
+		public static ConstraintBuilder Properties( string name )
+		{
+			return new ConstraintBuilder().Properties(name);
+		}
+		#endregion
+
+		#region Property Constraints
+		/// <summary>
+        /// Returns a new PropertyConstraint checking for the
+        /// existence of a particular property value.
         /// </summary>
+        /// <param name="name">The name of the property to look for</param>
+        /// <param name="expected">The expected value of the property</param>
 		public static Constraint Property( string name, object expected )
 		{
-			return new PropertyConstraint( name, expected );
+			return new PropertyConstraint( name, new EqualConstraint( expected ) );
 		}
 
         /// <summary>
@@ -29,7 +96,18 @@ namespace NUnit.Framework.SyntaxHelpers
         /// <returns></returns>
 		public static Constraint Length( int length )
 		{
-			return new PropertyConstraint( "Length", length );
+			return Property( "Length", length );
 		}
+
+		/// <summary>
+		/// Returns a new PropertyConstraint or the Count property
+		/// </summary>
+		/// <param name="count"></param>
+		/// <returns></returns>
+		public static Constraint Count( int count )
+		{
+			return Property( "Count", count );
+		}
+		#endregion
 	}
 }

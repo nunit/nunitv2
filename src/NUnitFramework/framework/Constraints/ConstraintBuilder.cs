@@ -22,10 +22,25 @@ namespace NUnit.Framework.Constraints
 		{
 			Not,
 			All,
-			Some
+			Some,
+			Prop,
+			Props
 		}
 
 		Stack ops = new Stack();
+
+		Stack opnds = new Stack();
+
+		/// <summary>
+		/// Implicitly convert ConstraintBuilder to an actual Constraint
+        /// at the point where the syntax demands it.
+		/// </summary>
+		/// <param name="builder"></param>
+		/// <returns></returns>
+        public static implicit operator Constraint( ConstraintBuilder builder )
+		{
+			return builder.Resolve();
+		}
 
         #region Constraints Without Arguments
         /// <summary>
@@ -201,7 +216,7 @@ namespace NUnit.Framework.Constraints
 		{
 			return Resolve( new ContainsConstraint(expected) );
 		}
-		#endregion
+        #endregion
 
 		#region String Constraints
 		/// <summary>
@@ -268,7 +283,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
 		public Constraint Property( string name, object expected )
 		{
-			return Resolve( new PropertyConstraint( name, expected ) );
+			return Resolve( new PropertyConstraint( name, new EqualConstraint( expected ) ) );
 		}
 
         /// <summary>
@@ -277,11 +292,22 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="length"></param>
         /// <returns></returns>
-		public Constraint Length( int length )
-		{
-			return Property( "Length", length );
-		}
-		#endregion
+        public Constraint Length(int length)
+        {
+            return Property("Length", length);
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// PropertyCOnstraint on Length as base
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public Constraint Count(int count)
+        {
+            return Property("Count", count);
+        }
+        #endregion
 
         #endregion
 
@@ -322,6 +348,9 @@ namespace NUnit.Framework.Constraints
 			}
 		}
 
+        /// <summary>
+        /// Modifies the constraint builder by pushing All and Not operators on the stack
+        /// </summary>
 		public ConstraintBuilder None
 		{
 			get
@@ -331,14 +360,40 @@ namespace NUnit.Framework.Constraints
 				return this;
 			}
 		}
-        #endregion
+
+        /// <summary>
+        /// Modifies the ConstraintBuilder by pushing a Prop operator on the
+        /// ops stack and the name of the property on the opnds stack.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public ConstraintBuilder Property(string name)
+		{
+			ops.Push( Op.Prop );
+			opnds.Push( name );
+			return this;
+		}
+
+        /// <summary>
+        /// Modifies the ConstraintBuilder by pushing a Props operator on the
+        /// ops stack and the name of the property on the opnds stack.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public ConstraintBuilder Properties(string name)
+		{
+			ops.Push( Op.Props );
+			opnds.Push( name );
+			return this;
+		}
+
+		#endregion
 
         #region Helper Methods
         /// <summary>
         /// Resolve a constraint that has been recognized by applying
         /// any pending operators and returning the resulting Constraint.
         /// </summary>
-        /// <param name="constraint">The root constraint</param>
         /// <returns>A constraint that incorporates all pending operators</returns>
         private Constraint Resolve(Constraint constraint)
         {
@@ -354,10 +409,21 @@ namespace NUnit.Framework.Constraints
 					case Op.Some:
 						constraint = new SomeItemsConstraint(constraint);
 						break;
+					case Op.Prop:
+						constraint = new PropertyConstraint( (string)opnds.Pop(), constraint );
+						break;
+					case Op.Props:
+						constraint = new PropertyListConstraint( (string)opnds.Pop(), constraint );
+						break;
                 }
 
             return constraint;
         }
+
+		private Constraint Resolve()
+		{
+			return Resolve(null);
+		}
         #endregion
     }
 }

@@ -102,7 +102,7 @@ namespace NUnit.Framework.Constraints.Tests
             Matcher = new EqualConstraint("Hello World!").IgnoreCase;
             GoodValues = new object[] { "hello world!", "Hello World!", "HELLO world!" };
             BadValues = new object[] { "goodbye", "Hello Friends!", string.Empty, null };
-            Description = "\"Hello World!\"";
+            Description = "\"Hello World!\", ignoring case";
         }
     }
 }
