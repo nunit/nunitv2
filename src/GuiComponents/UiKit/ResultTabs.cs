@@ -151,10 +151,10 @@ namespace NUnit.UiKit
 			// tabControl
 			// 
 			this.tabControl.Controls.Add(this.errorTab);
-			this.tabControl.Controls.Add(this.notRunTab);
 			this.tabControl.Controls.Add(this.stderrTab);
-			this.tabControl.Controls.Add(this.stdoutTab);
 			this.tabControl.Controls.Add(this.traceTab);
+			this.tabControl.Controls.Add(this.notRunTab);
+			this.tabControl.Controls.Add(this.stdoutTab);
 			this.tabControl.Controls.Add(this.internalTraceTab);
 			this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl.ForeColor = System.Drawing.Color.Red;
@@ -169,6 +169,7 @@ namespace NUnit.UiKit
 			// errorTab
 			// 
 			this.errorTab.Controls.Add(this.errorDisplay);
+			this.errorTab.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.errorTab.Location = new System.Drawing.Point(4, 22);
 			this.errorTab.Name = "errorTab";
 			this.errorTab.Size = new System.Drawing.Size(480, 254);
@@ -186,6 +187,7 @@ namespace NUnit.UiKit
 			// notRunTab
 			// 
 			this.notRunTab.Controls.Add(this.notRunTree);
+			this.notRunTab.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.notRunTab.Location = new System.Drawing.Point(4, 22);
 			this.notRunTab.Name = "notRunTab";
 			this.notRunTab.Size = new System.Drawing.Size(480, 254);
@@ -208,6 +210,7 @@ namespace NUnit.UiKit
 			// stderrTab
 			// 
 			this.stderrTab.Font = new System.Drawing.Font("Courier New", 8F);
+			this.stderrTab.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.stderrTab.Location = new System.Drawing.Point(4, 22);
 			this.stderrTab.Name = "stderrTab";
 			this.stderrTab.Size = new System.Drawing.Size(480, 254);
@@ -229,6 +232,7 @@ namespace NUnit.UiKit
 			// traceTab
 			// 
 			this.traceTab.Font = new System.Drawing.Font("Courier New", 8F);
+			this.traceTab.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.traceTab.Location = new System.Drawing.Point(4, 22);
 			this.traceTab.Name = "traceTab";
 			this.traceTab.Size = new System.Drawing.Size(480, 254);
@@ -239,6 +243,7 @@ namespace NUnit.UiKit
 			// internalTraceTab
 			// 
 			this.internalTraceTab.Font = new System.Drawing.Font("Courier New", 8F);
+			this.internalTraceTab.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.internalTraceTab.Location = new System.Drawing.Point(4, 22);
 			this.internalTraceTab.Name = "internalTraceTab";
 			this.internalTraceTab.Size = new System.Drawing.Size(480, 254);
