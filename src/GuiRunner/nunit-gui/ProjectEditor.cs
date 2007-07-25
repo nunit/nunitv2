@@ -809,7 +809,7 @@ namespace NUnit.Gui
 			{
 				try
 				{
-					File.Open( configFile, FileMode.Open );
+					File.Open( Path.Combine( selectedConfig.BasePath, configFile ), FileMode.Open );
 				}
 				catch( System.Exception exception )
 				{
