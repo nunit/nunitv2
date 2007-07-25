@@ -887,7 +887,7 @@ namespace NUnit.Gui
 
 		private void openMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.OpenProject( this, userSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false ) );
+			TestLoaderUI.OpenProject( this );
 		}
 
 		private void closeMenuItem_Click(object sender, System.EventArgs e)

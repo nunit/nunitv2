@@ -18,18 +18,26 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class TestLoaderUI
 	{
-		public static void OpenProject( Form owner, bool vsSupport )
+		private static bool VisualStudioSupport
+		{
+			get 
+			{ 
+				return Services.UserSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false ); 
+			}
+		}
+
+		public static void OpenProject( Form owner )
 		{
 			OpenFileDialog dlg = new OpenFileDialog();
 			System.ComponentModel.ISite site = owner == null ? null : owner.Site;
 			if ( site != null ) dlg.Site = site;
 			dlg.Title = "Open Project";
 			
-			if ( vsSupport )
+			if ( VisualStudioSupport )
 			{
                 dlg.Filter =
-                    "Projects & Assemblies(*.nunit,*.csproj,*.vbproj,*.vjsproj, *.vcproj,*.sln,*.dll,*.exe )|*.nunit;*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.sln;*.dll;*.exe|" +
-                    "All Project Types (*.nunit,*.csproj,*.vbproj,*.vjsproj,*.vcproj,*.sln)|*.nunit;*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.sln|" +
+					"Projects & Assemblies(*.nunit,*.csproj,*.vbproj,*.vjsproj, *.vcproj,*.sln,*.dll,*.exe )|*.nunit;*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.sln;*.dll;*.exe|" +
+					"All Project Types (*.nunit,*.csproj,*.vbproj,*.vjsproj,*.vcproj,*.sln)|*.nunit;*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.sln|" +
                     "Test Projects (*.nunit)|*.nunit|" +
                     "Solutions (*.sln)|*.sln|" +
                     "C# Projects (*.csproj)|*.csproj|" +
@@ -78,6 +86,86 @@ namespace NUnit.UiKit
 		public static void OpenProject( Form owner, string testFileName )
 		{
 			OpenProject( owner, testFileName, null, null );
+		}
+
+		public static void AddToProject( Form owner )
+		{
+			AddToProject( owner, null );
+		}
+
+		public static void AddToProject( Form owner, string configName )
+		{
+			TestLoader loader = Services.TestLoader;
+			ProjectConfig config = configName == null
+				? loader.TestProject.ActiveConfig
+				: loader.TestProject.Configs[configName];
+
+			OpenFileDialog dlg = new OpenFileDialog();
+			dlg.Title = "Add Assemblies To Project";
+			dlg.InitialDirectory = config.BasePath;
+
+			if ( VisualStudioSupport )
+				dlg.Filter =
+					"Projects & Assemblies(*.csproj,*.vbproj,*.vjsproj, *.vcproj,*.dll,*.exe )|*.csproj;*.vjsproj;*.vbproj;*.vcproj;*.dll;*.exe|" +
+					"Visual Studio Projects (*.csproj,*.vjsproj,*.vbproj,*.vcproj)|*.csproj;*.vjsproj;*.vbproj;*.vcproj|" +
+					"C# Projects (*.csproj)|*.csproj|" +
+					"J# Projects (*.vjsproj)|*.vjsproj|" +
+					"VB Projects (*.vbproj)|*.vbproj|" +
+					"C++ Projects (*.vcproj)|*.vcproj|" +
+					"Assemblies (*.dll,*.exe)|*.dll;*.exe";
+			else
+				dlg.Filter = "Assemblies (*.dll,*.exe)|*.dll;*.exe";
+
+			dlg.FilterIndex = 1;
+			dlg.FileName = "";
+
+			if ( dlg.ShowDialog( owner ) != DialogResult.OK )
+				return;
+			
+			if ( PathUtils.IsAssemblyFileType( dlg.FileName ) )
+				config.Assemblies.Add( dlg.FileName );
+			else if ( VSProject.IsProjectFile( dlg.FileName ) )
+			try
+			{
+				VSProject vsProject = new VSProject( dlg.FileName );
+				MessageBoxButtons buttons;
+				string msg;
+					
+				if ( configName != null && vsProject.Configs.Contains( configName ) )
+				{
+					msg = "The project being added may contain multiple configurations;\r\r" +
+						"Select\tYes to add all configurations found.\r" +
+						"\tNo to add only the " + configName + " configuration.\r" +
+						"\tCancel to exit without modifying the project.";
+					buttons = MessageBoxButtons.YesNoCancel;
+				}
+				else
+				{
+					msg = "The project being added may contain multiple configurations;\r\r" +
+						"Select\tOK to add all configurations found.\r" +
+						"\tCancel to exit without modifying the project.";
+					buttons = MessageBoxButtons.OKCancel;
+				}
+					
+				DialogResult result = UserMessage.Ask( msg, buttons );
+				if ( result == DialogResult.Yes || result == DialogResult.OK )
+				{
+					loader.TestProject.Add( vsProject );
+					if ( loader.IsTestLoaded )
+						loader.ReloadTest();
+					else
+						loader.LoadTest();
+				}
+				else if ( result == DialogResult.No )
+				{
+					foreach( string assembly in vsProject.Configs[configName].Assemblies )
+						config.Assemblies.Add( assembly );
+				}
+			}
+			catch( Exception ex )
+			{
+				UserMessage.DisplayFailure( ex.Message, "Invalid VS Project" );
+			}
 		}
 
 		public static void AddAssembly( Form owner )

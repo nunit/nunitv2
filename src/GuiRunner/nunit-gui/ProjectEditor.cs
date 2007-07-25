@@ -24,37 +24,38 @@ namespace NUnit.Gui
 		private NUnitProject project;
 		private ProjectConfig selectedConfig;
 		private string selectedAssembly;
-
-		private System.Windows.Forms.Button editConfigsButton;
-		private System.Windows.Forms.ComboBox configComboBox;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TabControl projectTabControl;
 		private System.Windows.Forms.ColumnHeader fileNameHeader;
 		private System.Windows.Forms.ColumnHeader fullPathHeader;
-		private System.Windows.Forms.TabPage generalTabPage;
-		private System.Windows.Forms.TabPage assemblyTabPage;
-		private System.Windows.Forms.Button addVSProjectButton;
 		private System.Windows.Forms.Button closeButton;
-		private System.Windows.Forms.Button editAssemblyButton;
-		private System.Windows.Forms.Button addAssemblyButton;
-		private System.Windows.Forms.Button deleteAssemblyButton;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox applicationBaseTextBox;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.TextBox configFileTextBox;
 		private System.Windows.Forms.HelpProvider helpProvider1;
 		private System.Windows.Forms.Label label5;
 		private CP.Windows.Forms.ExpandingLabel projectPathLabel;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.TextBox privateBinPathTextBox;
-		private System.Windows.Forms.Button browseBasePathButton;
-		private NUnit.UiKit.AssemblyListBox assemblyListBox;
-		private System.Windows.Forms.RadioButton noBinPathRadioButton;
-		private System.Windows.Forms.RadioButton manualBinPathRadioButton;
-		private System.Windows.Forms.RadioButton autoBinPathRadioButton;
-		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.TextBox projectBaseTextBox;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.TabControl projectTabControl;
+		private System.Windows.Forms.TabPage generalTabPage;
+		private System.Windows.Forms.RadioButton autoBinPathRadioButton;
+		private System.Windows.Forms.RadioButton manualBinPathRadioButton;
+		private System.Windows.Forms.RadioButton noBinPathRadioButton;
+		private System.Windows.Forms.TextBox privateBinPathTextBox;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.TextBox configFileTextBox;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.TextBox applicationBaseTextBox;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.TabPage assemblyTabPage;
+		private System.Windows.Forms.ListBox assemblyListBox;
+		private System.Windows.Forms.Button addAssemblyButton;
+		private System.Windows.Forms.Button editConfigsButton;
+		private System.Windows.Forms.ComboBox configComboBox;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Button configBaseBrowseButton;
+		private System.Windows.Forms.Button projectBaseBrowseButton;
+		private System.Windows.Forms.Button removeAssemblyButton;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.TextBox assemblyPathTextBox;
+		private System.Windows.Forms.Button assemblyPathBrowseButton;
 		private System.ComponentModel.IContainer components = null;
 
 		#endregion
@@ -99,28 +100,6 @@ namespace NUnit.Gui
 		private void InitializeComponent()
 		{
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(ProjectEditor));
-			this.editConfigsButton = new System.Windows.Forms.Button();
-			this.configComboBox = new System.Windows.Forms.ComboBox();
-			this.label1 = new System.Windows.Forms.Label();
-			this.projectTabControl = new System.Windows.Forms.TabControl();
-			this.generalTabPage = new System.Windows.Forms.TabPage();
-			this.label7 = new System.Windows.Forms.Label();
-			this.autoBinPathRadioButton = new System.Windows.Forms.RadioButton();
-			this.manualBinPathRadioButton = new System.Windows.Forms.RadioButton();
-			this.noBinPathRadioButton = new System.Windows.Forms.RadioButton();
-			this.browseBasePathButton = new System.Windows.Forms.Button();
-			this.privateBinPathTextBox = new System.Windows.Forms.TextBox();
-			this.label6 = new System.Windows.Forms.Label();
-			this.configFileTextBox = new System.Windows.Forms.TextBox();
-			this.label4 = new System.Windows.Forms.Label();
-			this.applicationBaseTextBox = new System.Windows.Forms.TextBox();
-			this.label3 = new System.Windows.Forms.Label();
-			this.assemblyTabPage = new System.Windows.Forms.TabPage();
-			this.assemblyListBox = new NUnit.UiKit.AssemblyListBox();
-			this.addVSProjectButton = new System.Windows.Forms.Button();
-			this.editAssemblyButton = new System.Windows.Forms.Button();
-			this.addAssemblyButton = new System.Windows.Forms.Button();
-			this.deleteAssemblyButton = new System.Windows.Forms.Button();
 			this.fileNameHeader = new System.Windows.Forms.ColumnHeader();
 			this.fullPathHeader = new System.Windows.Forms.ColumnHeader();
 			this.closeButton = new System.Windows.Forms.Button();
@@ -129,295 +108,35 @@ namespace NUnit.Gui
 			this.projectPathLabel = new CP.Windows.Forms.ExpandingLabel();
 			this.label8 = new System.Windows.Forms.Label();
 			this.projectBaseTextBox = new System.Windows.Forms.TextBox();
+			this.projectTabControl = new System.Windows.Forms.TabControl();
+			this.generalTabPage = new System.Windows.Forms.TabPage();
+			this.autoBinPathRadioButton = new System.Windows.Forms.RadioButton();
+			this.manualBinPathRadioButton = new System.Windows.Forms.RadioButton();
+			this.noBinPathRadioButton = new System.Windows.Forms.RadioButton();
+			this.configBaseBrowseButton = new System.Windows.Forms.Button();
+			this.privateBinPathTextBox = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
+			this.configFileTextBox = new System.Windows.Forms.TextBox();
+			this.label4 = new System.Windows.Forms.Label();
+			this.applicationBaseTextBox = new System.Windows.Forms.TextBox();
+			this.label3 = new System.Windows.Forms.Label();
+			this.assemblyTabPage = new System.Windows.Forms.TabPage();
+			this.assemblyPathTextBox = new System.Windows.Forms.TextBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.assemblyListBox = new System.Windows.Forms.ListBox();
+			this.addAssemblyButton = new System.Windows.Forms.Button();
+			this.removeAssemblyButton = new System.Windows.Forms.Button();
+			this.editConfigsButton = new System.Windows.Forms.Button();
+			this.configComboBox = new System.Windows.Forms.ComboBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.projectBaseBrowseButton = new System.Windows.Forms.Button();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.assemblyPathBrowseButton = new System.Windows.Forms.Button();
 			this.projectTabControl.SuspendLayout();
 			this.generalTabPage.SuspendLayout();
 			this.assemblyTabPage.SuspendLayout();
+			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// editConfigsButton
-			// 
-			this.editConfigsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.helpProvider1.SetHelpString(this.editConfigsButton, "Add, remove or rename configurations.");
-			this.editConfigsButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.editConfigsButton.Location = new System.Drawing.Point(424, 72);
-			this.editConfigsButton.Name = "editConfigsButton";
-			this.helpProvider1.SetShowHelp(this.editConfigsButton, true);
-			this.editConfigsButton.Size = new System.Drawing.Size(104, 23);
-			this.editConfigsButton.TabIndex = 4;
-			this.editConfigsButton.Text = "&Edit Configs...";
-			this.editConfigsButton.Click += new System.EventHandler(this.editConfigsButton_Click);
-			// 
-			// configComboBox
-			// 
-			this.configComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.helpProvider1.SetHelpString(this.configComboBox, "Select the configuration to edit");
-			this.configComboBox.ItemHeight = 16;
-			this.configComboBox.Location = new System.Drawing.Point(125, 72);
-			this.configComboBox.Name = "configComboBox";
-			this.helpProvider1.SetShowHelp(this.configComboBox, true);
-			this.configComboBox.Size = new System.Drawing.Size(288, 24);
-			this.configComboBox.TabIndex = 3;
-			this.configComboBox.SelectedIndexChanged += new System.EventHandler(this.configComboBox_SelectedIndexChanged);
-			// 
-			// label1
-			// 
-			this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label1.Location = new System.Drawing.Point(23, 72);
-			this.label1.Name = "label1";
-			this.helpProvider1.SetShowHelp(this.label1, false);
-			this.label1.Size = new System.Drawing.Size(102, 16);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "Configuration:";
-			// 
-			// projectTabControl
-			// 
-			this.projectTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-				| System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.projectTabControl.Controls.Add(this.generalTabPage);
-			this.projectTabControl.Controls.Add(this.assemblyTabPage);
-			this.projectTabControl.ItemSize = new System.Drawing.Size(49, 18);
-			this.projectTabControl.Location = new System.Drawing.Point(16, 112);
-			this.projectTabControl.Name = "projectTabControl";
-			this.projectTabControl.SelectedIndex = 0;
-			this.helpProvider1.SetShowHelp(this.projectTabControl, false);
-			this.projectTabControl.Size = new System.Drawing.Size(512, 257);
-			this.projectTabControl.TabIndex = 5;
-			// 
-			// generalTabPage
-			// 
-			this.generalTabPage.Controls.Add(this.label7);
-			this.generalTabPage.Controls.Add(this.autoBinPathRadioButton);
-			this.generalTabPage.Controls.Add(this.manualBinPathRadioButton);
-			this.generalTabPage.Controls.Add(this.noBinPathRadioButton);
-			this.generalTabPage.Controls.Add(this.browseBasePathButton);
-			this.generalTabPage.Controls.Add(this.privateBinPathTextBox);
-			this.generalTabPage.Controls.Add(this.label6);
-			this.generalTabPage.Controls.Add(this.configFileTextBox);
-			this.generalTabPage.Controls.Add(this.label4);
-			this.generalTabPage.Controls.Add(this.applicationBaseTextBox);
-			this.generalTabPage.Controls.Add(this.label3);
-			this.generalTabPage.Location = new System.Drawing.Point(4, 22);
-			this.generalTabPage.Name = "generalTabPage";
-			this.helpProvider1.SetShowHelp(this.generalTabPage, false);
-			this.generalTabPage.Size = new System.Drawing.Size(504, 231);
-			this.generalTabPage.TabIndex = 0;
-			this.generalTabPage.Text = "General";
-			// 
-			// label7
-			// 
-			this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label7.Location = new System.Drawing.Point(56, 160);
-			this.label7.Name = "label7";
-			this.helpProvider1.SetShowHelp(this.label7, false);
-			this.label7.Size = new System.Drawing.Size(40, 17);
-			this.label7.TabIndex = 11;
-			this.label7.Text = "Value:";
-			// 
-			// autoBinPathRadioButton
-			// 
-			this.autoBinPathRadioButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.autoBinPathRadioButton.Location = new System.Drawing.Point(32, 96);
-			this.autoBinPathRadioButton.Name = "autoBinPathRadioButton";
-			this.helpProvider1.SetShowHelp(this.autoBinPathRadioButton, false);
-			this.autoBinPathRadioButton.Size = new System.Drawing.Size(328, 24);
-			this.autoBinPathRadioButton.TabIndex = 10;
-			this.autoBinPathRadioButton.Text = "Generated automatically from assembly locations";
-			this.autoBinPathRadioButton.CheckedChanged += new System.EventHandler(this.autoBinPathRadioButton_CheckedChanged);
-			// 
-			// manualBinPathRadioButton
-			// 
-			this.manualBinPathRadioButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.manualBinPathRadioButton.Location = new System.Drawing.Point(32, 128);
-			this.manualBinPathRadioButton.Name = "manualBinPathRadioButton";
-			this.helpProvider1.SetShowHelp(this.manualBinPathRadioButton, false);
-			this.manualBinPathRadioButton.Size = new System.Drawing.Size(424, 24);
-			this.manualBinPathRadioButton.TabIndex = 9;
-			this.manualBinPathRadioButton.Text = "Specified manually";
-			this.manualBinPathRadioButton.CheckedChanged += new System.EventHandler(this.manualBinPathRadioButton_CheckedChanged);
-			// 
-			// noBinPathRadioButton
-			// 
-			this.noBinPathRadioButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.noBinPathRadioButton.Location = new System.Drawing.Point(32, 192);
-			this.noBinPathRadioButton.Name = "noBinPathRadioButton";
-			this.helpProvider1.SetShowHelp(this.noBinPathRadioButton, false);
-			this.noBinPathRadioButton.Size = new System.Drawing.Size(424, 24);
-			this.noBinPathRadioButton.TabIndex = 8;
-			this.noBinPathRadioButton.Text = "None - or specified in Configuration File";
-			this.noBinPathRadioButton.CheckedChanged += new System.EventHandler(this.noBinPathRadioButton_CheckedChanged);
-			// 
-			// browseBasePathButton
-			// 
-			this.browseBasePathButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.helpProvider1.SetHelpString(this.browseBasePathButton, "Browse to locate ApplicationBase directory.");
-			this.browseBasePathButton.Image = ((System.Drawing.Image)(resources.GetObject("browseBasePathButton.Image")));
-			this.browseBasePathButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.browseBasePathButton.Location = new System.Drawing.Point(387, 8);
-			this.browseBasePathButton.Name = "browseBasePathButton";
-			this.helpProvider1.SetShowHelp(this.browseBasePathButton, true);
-			this.browseBasePathButton.Size = new System.Drawing.Size(24, 24);
-			this.browseBasePathButton.TabIndex = 7;
-			this.browseBasePathButton.Click += new System.EventHandler(this.browseBasePathButton_Click);
-			// 
-			// privateBinPathTextBox
-			// 
-			this.privateBinPathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.helpProvider1.SetHelpString(this.privateBinPathTextBox, "Path searched when probing for private asemblies. Directories must be descendants" +
-				" of the ApplicationBase.");
-			this.privateBinPathTextBox.Location = new System.Drawing.Point(104, 160);
-			this.privateBinPathTextBox.Name = "privateBinPathTextBox";
-			this.helpProvider1.SetShowHelp(this.privateBinPathTextBox, true);
-			this.privateBinPathTextBox.Size = new System.Drawing.Size(300, 22);
-			this.privateBinPathTextBox.TabIndex = 5;
-			this.privateBinPathTextBox.Text = "";
-			this.privateBinPathTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.privateBinPathTextBox_Validating);
-			this.privateBinPathTextBox.Validated += new System.EventHandler(this.privateBinPathTextBox_Validated);
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label6.Location = new System.Drawing.Point(16, 72);
-			this.label6.Name = "label6";
-			this.helpProvider1.SetShowHelp(this.label6, false);
-			this.label6.Size = new System.Drawing.Size(97, 18);
-			this.label6.TabIndex = 4;
-			this.label6.Text = "PrivateBinPath:";
-			// 
-			// configFileTextBox
-			// 
-			this.configFileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.helpProvider1.SetHelpString(this.configFileTextBox, "Configuration file to use when loading assemblies if it exists. Defaults to <proj" +
-				"ectname>.config. Must be located in the ApplicationBase directory.");
-			this.configFileTextBox.Location = new System.Drawing.Point(192, 40);
-			this.configFileTextBox.Name = "configFileTextBox";
-			this.helpProvider1.SetShowHelp(this.configFileTextBox, true);
-			this.configFileTextBox.Size = new System.Drawing.Size(212, 22);
-			this.configFileTextBox.TabIndex = 3;
-			this.configFileTextBox.Text = "";
-			this.configFileTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.configFileTextBox_Validating);
-			this.configFileTextBox.Validated += new System.EventHandler(this.configFileTextBox_Validated);
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label4.Location = new System.Drawing.Point(16, 40);
-			this.label4.Name = "label4";
-			this.helpProvider1.SetShowHelp(this.label4, false);
-			this.label4.Size = new System.Drawing.Size(153, 18);
-			this.label4.TabIndex = 2;
-			this.label4.Text = "Configuration File Name:";
-			// 
-			// applicationBaseTextBox
-			// 
-			this.applicationBaseTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.helpProvider1.SetHelpString(this.applicationBaseTextBox, "The ApplicationBase for this configuration. May be absolute or relative to the pr" +
-				"oject base. Defaults to the project base if not set.");
-			this.applicationBaseTextBox.Location = new System.Drawing.Point(152, 8);
-			this.applicationBaseTextBox.Name = "applicationBaseTextBox";
-			this.helpProvider1.SetShowHelp(this.applicationBaseTextBox, true);
-			this.applicationBaseTextBox.Size = new System.Drawing.Size(228, 22);
-			this.applicationBaseTextBox.TabIndex = 1;
-			this.applicationBaseTextBox.Text = "";
-			this.applicationBaseTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.applicationBaseTextBox_Validating);
-			this.applicationBaseTextBox.Validated += new System.EventHandler(this.applicationBaseTextBox_Validated);
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label3.Location = new System.Drawing.Point(16, 8);
-			this.label3.Name = "label3";
-			this.helpProvider1.SetShowHelp(this.label3, false);
-			this.label3.Size = new System.Drawing.Size(105, 18);
-			this.label3.TabIndex = 0;
-			this.label3.Text = "ApplicationBase:";
-			// 
-			// assemblyTabPage
-			// 
-			this.assemblyTabPage.Controls.Add(this.assemblyListBox);
-			this.assemblyTabPage.Controls.Add(this.addVSProjectButton);
-			this.assemblyTabPage.Controls.Add(this.editAssemblyButton);
-			this.assemblyTabPage.Controls.Add(this.addAssemblyButton);
-			this.assemblyTabPage.Controls.Add(this.deleteAssemblyButton);
-			this.assemblyTabPage.Location = new System.Drawing.Point(4, 22);
-			this.assemblyTabPage.Name = "assemblyTabPage";
-			this.helpProvider1.SetShowHelp(this.assemblyTabPage, false);
-			this.assemblyTabPage.Size = new System.Drawing.Size(504, 231);
-			this.assemblyTabPage.TabIndex = 1;
-			this.assemblyTabPage.Text = "Assemblies";
-			// 
-			// assemblyListBox
-			// 
-			this.helpProvider1.SetHelpString(this.assemblyListBox, "Checked assemblies will have tests loaded in the UI. Tests (if any) in unchecked " +
-				"assemblies will not be loaded. All listed assemblies are watched for changes and" +
-				" used in determining the PrivateBinPath.");
-			this.assemblyListBox.ItemHeight = 16;
-			this.assemblyListBox.Location = new System.Drawing.Point(24, 16);
-			this.assemblyListBox.Name = "assemblyListBox";
-			this.helpProvider1.SetShowHelp(this.assemblyListBox, true);
-			this.assemblyListBox.Size = new System.Drawing.Size(328, 180);
-			this.assemblyListBox.TabIndex = 6;
-			this.assemblyListBox.SelectedIndexChanged += new System.EventHandler(this.assemblyListBox_SelectedIndexChanged);
-			// 
-			// addVSProjectButton
-			// 
-			this.addVSProjectButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.helpProvider1.SetHelpString(this.addVSProjectButton, "Add the output assembly from a VS project to this project. Assembly will be added" +
-				" to each configuration that exists in the VS project.");
-			this.addVSProjectButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.addVSProjectButton.Location = new System.Drawing.Point(369, 56);
-			this.addVSProjectButton.Name = "addVSProjectButton";
-			this.helpProvider1.SetShowHelp(this.addVSProjectButton, true);
-			this.addVSProjectButton.Size = new System.Drawing.Size(128, 23);
-			this.addVSProjectButton.TabIndex = 3;
-			this.addVSProjectButton.Text = "Add &VS Project...";
-			this.addVSProjectButton.Click += new System.EventHandler(this.addVSProjectButton_Click);
-			// 
-			// editAssemblyButton
-			// 
-			this.editAssemblyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.helpProvider1.SetHelpString(this.editAssemblyButton, "Modify the path to the selected assembly.");
-			this.editAssemblyButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.editAssemblyButton.Location = new System.Drawing.Point(369, 88);
-			this.editAssemblyButton.Name = "editAssemblyButton";
-			this.helpProvider1.SetShowHelp(this.editAssemblyButton, true);
-			this.editAssemblyButton.Size = new System.Drawing.Size(128, 23);
-			this.editAssemblyButton.TabIndex = 4;
-			this.editAssemblyButton.Text = "&Edit Path...";
-			this.editAssemblyButton.Click += new System.EventHandler(this.editAssemblyButton_Click);
-			// 
-			// addAssemblyButton
-			// 
-			this.addAssemblyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.helpProvider1.SetHelpString(this.addAssemblyButton, "Add an assembly to this configuration.");
-			this.addAssemblyButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.addAssemblyButton.Location = new System.Drawing.Point(369, 24);
-			this.addAssemblyButton.Name = "addAssemblyButton";
-			this.helpProvider1.SetShowHelp(this.addAssemblyButton, true);
-			this.addAssemblyButton.Size = new System.Drawing.Size(128, 23);
-			this.addAssemblyButton.TabIndex = 2;
-			this.addAssemblyButton.Text = "&Add Assembly...";
-			this.addAssemblyButton.Click += new System.EventHandler(this.addAssemblyButton_Click);
-			// 
-			// deleteAssemblyButton
-			// 
-			this.deleteAssemblyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.helpProvider1.SetHelpString(this.deleteAssemblyButton, "Remove the selected assembly from the configuration.");
-			this.deleteAssemblyButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.deleteAssemblyButton.Location = new System.Drawing.Point(369, 120);
-			this.deleteAssemblyButton.Name = "deleteAssemblyButton";
-			this.helpProvider1.SetShowHelp(this.deleteAssemblyButton, true);
-			this.deleteAssemblyButton.Size = new System.Drawing.Size(128, 23);
-			this.deleteAssemblyButton.TabIndex = 5;
-			this.deleteAssemblyButton.Text = "&Remove Assembly";
-			this.deleteAssemblyButton.Click += new System.EventHandler(this.deleteAssemblyButton_Click);
 			// 
 			// fileNameHeader
 			// 
@@ -434,7 +153,7 @@ namespace NUnit.Gui
 			this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.closeButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.closeButton.Location = new System.Drawing.Point(424, 383);
+			this.closeButton.Location = new System.Drawing.Point(408, 415);
 			this.closeButton.Name = "closeButton";
 			this.helpProvider1.SetShowHelp(this.closeButton, false);
 			this.closeButton.Size = new System.Drawing.Size(104, 23);
@@ -460,7 +179,7 @@ namespace NUnit.Gui
 			this.projectPathLabel.Location = new System.Drawing.Point(128, 8);
 			this.projectPathLabel.Name = "projectPathLabel";
 			this.helpProvider1.SetShowHelp(this.projectPathLabel, false);
-			this.projectPathLabel.Size = new System.Drawing.Size(392, 16);
+			this.projectPathLabel.Size = new System.Drawing.Size(394, 16);
 			this.projectPathLabel.TabIndex = 1;
 			// 
 			// label8
@@ -480,26 +199,328 @@ namespace NUnit.Gui
 			this.projectBaseTextBox.Location = new System.Drawing.Point(125, 37);
 			this.projectBaseTextBox.Name = "projectBaseTextBox";
 			this.helpProvider1.SetShowHelp(this.projectBaseTextBox, true);
-			this.projectBaseTextBox.Size = new System.Drawing.Size(393, 22);
+			this.projectBaseTextBox.Size = new System.Drawing.Size(339, 22);
 			this.projectBaseTextBox.TabIndex = 8;
 			this.projectBaseTextBox.Text = "";
 			this.projectBaseTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.projectBaseTextBox_Validating);
 			this.projectBaseTextBox.Validated += new System.EventHandler(this.projectBaseTextBox_Validated);
 			// 
+			// projectTabControl
+			// 
+			this.projectTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+				| System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.projectTabControl.Controls.Add(this.generalTabPage);
+			this.projectTabControl.Controls.Add(this.assemblyTabPage);
+			this.projectTabControl.ItemSize = new System.Drawing.Size(49, 18);
+			this.projectTabControl.Location = new System.Drawing.Point(8, 64);
+			this.projectTabControl.Name = "projectTabControl";
+			this.projectTabControl.SelectedIndex = 0;
+			this.helpProvider1.SetShowHelp(this.projectTabControl, false);
+			this.projectTabControl.Size = new System.Drawing.Size(488, 264);
+			this.projectTabControl.TabIndex = 9;
+			// 
+			// generalTabPage
+			// 
+			this.generalTabPage.Controls.Add(this.autoBinPathRadioButton);
+			this.generalTabPage.Controls.Add(this.manualBinPathRadioButton);
+			this.generalTabPage.Controls.Add(this.noBinPathRadioButton);
+			this.generalTabPage.Controls.Add(this.configBaseBrowseButton);
+			this.generalTabPage.Controls.Add(this.privateBinPathTextBox);
+			this.generalTabPage.Controls.Add(this.label6);
+			this.generalTabPage.Controls.Add(this.configFileTextBox);
+			this.generalTabPage.Controls.Add(this.label4);
+			this.generalTabPage.Controls.Add(this.applicationBaseTextBox);
+			this.generalTabPage.Controls.Add(this.label3);
+			this.generalTabPage.Location = new System.Drawing.Point(4, 22);
+			this.generalTabPage.Name = "generalTabPage";
+			this.helpProvider1.SetShowHelp(this.generalTabPage, false);
+			this.generalTabPage.Size = new System.Drawing.Size(480, 238);
+			this.generalTabPage.TabIndex = 0;
+			this.generalTabPage.Text = "General";
+			// 
+			// autoBinPathRadioButton
+			// 
+			this.autoBinPathRadioButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.autoBinPathRadioButton.Location = new System.Drawing.Point(32, 96);
+			this.autoBinPathRadioButton.Name = "autoBinPathRadioButton";
+			this.helpProvider1.SetShowHelp(this.autoBinPathRadioButton, false);
+			this.autoBinPathRadioButton.Size = new System.Drawing.Size(328, 24);
+			this.autoBinPathRadioButton.TabIndex = 10;
+			this.autoBinPathRadioButton.Text = "Use automatically generated path";
+			this.autoBinPathRadioButton.CheckedChanged += new System.EventHandler(this.autoBinPathRadioButton_CheckedChanged);
+			// 
+			// manualBinPathRadioButton
+			// 
+			this.manualBinPathRadioButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.manualBinPathRadioButton.Location = new System.Drawing.Point(32, 128);
+			this.manualBinPathRadioButton.Name = "manualBinPathRadioButton";
+			this.helpProvider1.SetShowHelp(this.manualBinPathRadioButton, false);
+			this.manualBinPathRadioButton.TabIndex = 9;
+			this.manualBinPathRadioButton.Text = "Use this path:";
+			this.manualBinPathRadioButton.CheckedChanged += new System.EventHandler(this.manualBinPathRadioButton_CheckedChanged);
+			// 
+			// noBinPathRadioButton
+			// 
+			this.noBinPathRadioButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.noBinPathRadioButton.Location = new System.Drawing.Point(32, 160);
+			this.noBinPathRadioButton.Name = "noBinPathRadioButton";
+			this.helpProvider1.SetShowHelp(this.noBinPathRadioButton, false);
+			this.noBinPathRadioButton.Size = new System.Drawing.Size(424, 24);
+			this.noBinPathRadioButton.TabIndex = 8;
+			this.noBinPathRadioButton.Text = "None - or specified in Configuration File";
+			this.noBinPathRadioButton.CheckedChanged += new System.EventHandler(this.noBinPathRadioButton_CheckedChanged);
+			// 
+			// configBaseBrowseButton
+			// 
+			this.configBaseBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.configBaseBrowseButton, "Browse to locate ApplicationBase directory.");
+			this.configBaseBrowseButton.Image = ((System.Drawing.Image)(resources.GetObject("configBaseBrowseButton.Image")));
+			this.configBaseBrowseButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.configBaseBrowseButton.Location = new System.Drawing.Point(448, 8);
+			this.configBaseBrowseButton.Name = "configBaseBrowseButton";
+			this.helpProvider1.SetShowHelp(this.configBaseBrowseButton, true);
+			this.configBaseBrowseButton.Size = new System.Drawing.Size(24, 24);
+			this.configBaseBrowseButton.TabIndex = 7;
+			this.configBaseBrowseButton.Click += new System.EventHandler(this.configBaseBrowseButton_Click);
+			// 
+			// privateBinPathTextBox
+			// 
+			this.privateBinPathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.privateBinPathTextBox, "Path searched when probing for private asemblies. Directories must be descendants" +
+				" of the ApplicationBase.");
+			this.privateBinPathTextBox.Location = new System.Drawing.Point(136, 128);
+			this.privateBinPathTextBox.Name = "privateBinPathTextBox";
+			this.helpProvider1.SetShowHelp(this.privateBinPathTextBox, true);
+			this.privateBinPathTextBox.Size = new System.Drawing.Size(336, 22);
+			this.privateBinPathTextBox.TabIndex = 5;
+			this.privateBinPathTextBox.Text = "";
+			this.privateBinPathTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.privateBinPathTextBox_Validating);
+			this.privateBinPathTextBox.Validated += new System.EventHandler(this.privateBinPathTextBox_Validated);
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.label6.Location = new System.Drawing.Point(16, 72);
+			this.label6.Name = "label6";
+			this.helpProvider1.SetShowHelp(this.label6, false);
+			this.label6.Size = new System.Drawing.Size(97, 18);
+			this.label6.TabIndex = 4;
+			this.label6.Text = "PrivateBinPath:";
+			// 
+			// configFileTextBox
+			// 
+			this.configFileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.configFileTextBox, "Configuration file to use when loading assemblies if it exists. Defaults to <proj" +
+				"ectname>.config. Must be located in the ApplicationBase directory.");
+			this.configFileTextBox.Location = new System.Drawing.Point(176, 40);
+			this.configFileTextBox.Name = "configFileTextBox";
+			this.helpProvider1.SetShowHelp(this.configFileTextBox, true);
+			this.configFileTextBox.Size = new System.Drawing.Size(296, 22);
+			this.configFileTextBox.TabIndex = 3;
+			this.configFileTextBox.Text = "";
+			this.configFileTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.configFileTextBox_Validating);
+			this.configFileTextBox.Validated += new System.EventHandler(this.configFileTextBox_Validated);
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.label4.Location = new System.Drawing.Point(16, 40);
+			this.label4.Name = "label4";
+			this.helpProvider1.SetShowHelp(this.label4, false);
+			this.label4.Size = new System.Drawing.Size(153, 18);
+			this.label4.TabIndex = 2;
+			this.label4.Text = "Configuration File Name:";
+			// 
+			// applicationBaseTextBox
+			// 
+			this.applicationBaseTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.applicationBaseTextBox, "The ApplicationBase for this configuration. May be absolute or relative to the pr" +
+				"oject base. Defaults to the project base if not set.");
+			this.applicationBaseTextBox.Location = new System.Drawing.Point(128, 8);
+			this.applicationBaseTextBox.Name = "applicationBaseTextBox";
+			this.helpProvider1.SetShowHelp(this.applicationBaseTextBox, true);
+			this.applicationBaseTextBox.Size = new System.Drawing.Size(304, 22);
+			this.applicationBaseTextBox.TabIndex = 1;
+			this.applicationBaseTextBox.Text = "";
+			this.applicationBaseTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.applicationBaseTextBox_Validating);
+			this.applicationBaseTextBox.Validated += new System.EventHandler(this.applicationBaseTextBox_Validated);
+			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.label3.Location = new System.Drawing.Point(16, 8);
+			this.label3.Name = "label3";
+			this.helpProvider1.SetShowHelp(this.label3, false);
+			this.label3.Size = new System.Drawing.Size(105, 18);
+			this.label3.TabIndex = 0;
+			this.label3.Text = "ApplicationBase:";
+			// 
+			// assemblyTabPage
+			// 
+			this.assemblyTabPage.Controls.Add(this.assemblyPathBrowseButton);
+			this.assemblyTabPage.Controls.Add(this.assemblyPathTextBox);
+			this.assemblyTabPage.Controls.Add(this.label2);
+			this.assemblyTabPage.Controls.Add(this.assemblyListBox);
+			this.assemblyTabPage.Controls.Add(this.addAssemblyButton);
+			this.assemblyTabPage.Controls.Add(this.removeAssemblyButton);
+			this.assemblyTabPage.Location = new System.Drawing.Point(4, 22);
+			this.assemblyTabPage.Name = "assemblyTabPage";
+			this.helpProvider1.SetShowHelp(this.assemblyTabPage, false);
+			this.assemblyTabPage.Size = new System.Drawing.Size(480, 238);
+			this.assemblyTabPage.TabIndex = 1;
+			this.assemblyTabPage.Text = "Assemblies";
+			this.assemblyTabPage.Visible = false;
+			// 
+			// assemblyPathTextBox
+			// 
+			this.assemblyPathTextBox.Location = new System.Drawing.Point(16, 168);
+			this.assemblyPathTextBox.Name = "assemblyPathTextBox";
+			this.assemblyPathTextBox.Size = new System.Drawing.Size(416, 22);
+			this.assemblyPathTextBox.TabIndex = 8;
+			this.assemblyPathTextBox.Text = "";
+			this.assemblyPathTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.assemblyPathTextBox_Validating);
+			this.assemblyPathTextBox.Validated += new System.EventHandler(this.assemblyPathTextBox_Validated);
+			// 
+			// label2
+			// 
+			this.label2.Location = new System.Drawing.Point(16, 144);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(128, 16);
+			this.label2.TabIndex = 7;
+			this.label2.Text = "Assembly Path:";
+			// 
+			// assemblyListBox
+			// 
+			this.helpProvider1.SetHelpString(this.assemblyListBox, "Checked assemblies will have tests loaded in the UI. Tests (if any) in unchecked " +
+				"assemblies will not be loaded. All listed assemblies are watched for changes and" +
+				" used in determining the PrivateBinPath.");
+			this.assemblyListBox.ItemHeight = 16;
+			this.assemblyListBox.Location = new System.Drawing.Point(16, 16);
+			this.assemblyListBox.Name = "assemblyListBox";
+			this.helpProvider1.SetShowHelp(this.assemblyListBox, true);
+			this.assemblyListBox.Size = new System.Drawing.Size(368, 116);
+			this.assemblyListBox.TabIndex = 6;
+			this.assemblyListBox.SelectedIndexChanged += new System.EventHandler(this.assemblyListBox_SelectedIndexChanged);
+			// 
+			// addAssemblyButton
+			// 
+			this.addAssemblyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.addAssemblyButton, "Add an assembly to this configuration.");
+			this.addAssemblyButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.addAssemblyButton.Location = new System.Drawing.Point(392, 24);
+			this.addAssemblyButton.Name = "addAssemblyButton";
+			this.helpProvider1.SetShowHelp(this.addAssemblyButton, true);
+			this.addAssemblyButton.Size = new System.Drawing.Size(80, 23);
+			this.addAssemblyButton.TabIndex = 2;
+			this.addAssemblyButton.Text = "&Add...";
+			this.addAssemblyButton.Click += new System.EventHandler(this.addAssemblyButton_Click);
+			// 
+			// removeAssemblyButton
+			// 
+			this.removeAssemblyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.removeAssemblyButton, "Remove the selected assembly from the configuration.");
+			this.removeAssemblyButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.removeAssemblyButton.Location = new System.Drawing.Point(392, 56);
+			this.removeAssemblyButton.Name = "removeAssemblyButton";
+			this.helpProvider1.SetShowHelp(this.removeAssemblyButton, true);
+			this.removeAssemblyButton.Size = new System.Drawing.Size(80, 23);
+			this.removeAssemblyButton.TabIndex = 5;
+			this.removeAssemblyButton.Text = "&Remove";
+			this.removeAssemblyButton.Click += new System.EventHandler(this.removeAssemblyButton_Click);
+			// 
+			// editConfigsButton
+			// 
+			this.editConfigsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.editConfigsButton, "Add, remove or rename configurations.");
+			this.editConfigsButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.editConfigsButton.Location = new System.Drawing.Point(385, 24);
+			this.editConfigsButton.Name = "editConfigsButton";
+			this.helpProvider1.SetShowHelp(this.editConfigsButton, true);
+			this.editConfigsButton.Size = new System.Drawing.Size(104, 23);
+			this.editConfigsButton.TabIndex = 8;
+			this.editConfigsButton.Text = "&Edit Configs...";
+			this.editConfigsButton.Click += new System.EventHandler(this.editConfigsButton_Click);
+			// 
+			// configComboBox
+			// 
+			this.configComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.configComboBox, "Select the configuration to edit");
+			this.configComboBox.ItemHeight = 16;
+			this.configComboBox.Location = new System.Drawing.Point(120, 24);
+			this.configComboBox.Name = "configComboBox";
+			this.helpProvider1.SetShowHelp(this.configComboBox, true);
+			this.configComboBox.Size = new System.Drawing.Size(256, 24);
+			this.configComboBox.TabIndex = 7;
+			this.configComboBox.SelectedIndexChanged += new System.EventHandler(this.configComboBox_SelectedIndexChanged);
+			// 
+			// label1
+			// 
+			this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.label1.Location = new System.Drawing.Point(16, 32);
+			this.label1.Name = "label1";
+			this.helpProvider1.SetShowHelp(this.label1, false);
+			this.label1.Size = new System.Drawing.Size(88, 16);
+			this.label1.TabIndex = 6;
+			this.label1.Text = "Configuration:";
+			// 
+			// projectBaseBrowseButton
+			// 
+			this.projectBaseBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.projectBaseBrowseButton, "Browse to locate ApplicationBase directory.");
+			this.projectBaseBrowseButton.Image = ((System.Drawing.Image)(resources.GetObject("projectBaseBrowseButton.Image")));
+			this.projectBaseBrowseButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.projectBaseBrowseButton.Location = new System.Drawing.Point(472, 40);
+			this.projectBaseBrowseButton.Name = "projectBaseBrowseButton";
+			this.helpProvider1.SetShowHelp(this.projectBaseBrowseButton, true);
+			this.projectBaseBrowseButton.Size = new System.Drawing.Size(24, 24);
+			this.projectBaseBrowseButton.TabIndex = 10;
+			this.projectBaseBrowseButton.Click += new System.EventHandler(this.projectBaseBrowseButton_Click);
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.BackColor = System.Drawing.SystemColors.Control;
+			this.groupBox1.Controls.Add(this.projectTabControl);
+			this.groupBox1.Controls.Add(this.editConfigsButton);
+			this.groupBox1.Controls.Add(this.configComboBox);
+			this.groupBox1.Controls.Add(this.label1);
+			this.groupBox1.Location = new System.Drawing.Point(16, 72);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(505, 336);
+			this.groupBox1.TabIndex = 9;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Text = "Configuration Properties";
+			// 
+			// assemblyPathBrowseButton
+			// 
+			this.assemblyPathBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.assemblyPathBrowseButton, "Browse to locate ApplicationBase directory.");
+			this.assemblyPathBrowseButton.Image = ((System.Drawing.Image)(resources.GetObject("assemblyPathBrowseButton.Image")));
+			this.assemblyPathBrowseButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.assemblyPathBrowseButton.Location = new System.Drawing.Point(448, 168);
+			this.assemblyPathBrowseButton.Name = "assemblyPathBrowseButton";
+			this.helpProvider1.SetShowHelp(this.assemblyPathBrowseButton, true);
+			this.assemblyPathBrowseButton.Size = new System.Drawing.Size(24, 24);
+			this.assemblyPathBrowseButton.TabIndex = 11;
+			this.assemblyPathBrowseButton.Click += new System.EventHandler(this.assemblyPathBrowseButton_Click);
+			// 
 			// ProjectEditor
 			// 
-			this.AcceptButton = this.closeButton;
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
-			this.CancelButton = this.closeButton;
-			this.ClientSize = new System.Drawing.Size(537, 410);
+			this.ClientSize = new System.Drawing.Size(537, 442);
+			this.Controls.Add(this.projectBaseBrowseButton);
+			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.projectBaseTextBox);
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.projectPathLabel);
 			this.Controls.Add(this.label5);
-			this.Controls.Add(this.projectTabControl);
-			this.Controls.Add(this.editConfigsButton);
-			this.Controls.Add(this.configComboBox);
-			this.Controls.Add(this.label1);
 			this.Controls.Add(this.closeButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.HelpButton = true;
@@ -517,6 +538,7 @@ namespace NUnit.Gui
 			this.projectTabControl.ResumeLayout(false);
 			this.generalTabPage.ResumeLayout(false);
 			this.assemblyTabPage.ResumeLayout(false);
+			this.groupBox1.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
@@ -560,7 +582,7 @@ namespace NUnit.Gui
 			else
 				configComboBox.SelectedIndex = selectedIndex;
 		
-			addAssemblyButton.Enabled = editAssemblyButton.Enabled = deleteAssemblyButton.Enabled = project.Configs.Count > 0;
+			addAssemblyButton.Enabled = removeAssemblyButton.Enabled = project.Configs.Count > 0;
 		}
 
 		private void configComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
@@ -601,8 +623,7 @@ namespace NUnit.Gui
 
 			foreach( string assembly in selectedConfig.Assemblies )
 			{
-				int index = assemblyListBox.Items.Add( 
-					assembly );
+				int index = assemblyListBox.Items.Add( Path.GetFileName( assembly ) );
 
 				if ( assembly == selectedAssembly )
 					selectedIndex = index;
@@ -619,25 +640,31 @@ namespace NUnit.Gui
 		{
 			if ( assemblyListBox.SelectedIndex == -1 )
 			{
-				selectedAssembly = null;
-
-				editAssemblyButton.Enabled = false;
-				deleteAssemblyButton.Enabled = false;
+				assemblyPathTextBox.Text = selectedAssembly = null;
+				removeAssemblyButton.Enabled = false;
 			}
 			else 
 			{
-				selectedAssembly = (string)assemblyListBox.SelectedItem;
-
-				editAssemblyButton.Enabled = true;
-				deleteAssemblyButton.Enabled = true;
+				assemblyPathTextBox.Text = selectedAssembly = //(string)assemblyListBox.SelectedItem;
+					project.ActiveConfig.Assemblies[assemblyListBox.SelectedIndex];
+				removeAssemblyButton.Enabled = true;
 			}
 		}
 
 		#endregion
 
-		#region Validation Events
+		#region Project Base Methods and Events
+		private void projectBaseBrowseButton_Click(object sender, System.EventArgs e)
+		{
+			FolderBrowser browser = new FolderBrowser( this );
+			browser.Caption = "Project Editor";
+			browser.Title = string.Format( "Select ApplicationBase for the project", selectedConfig.Name );
+			browser.InitialSelection = project.BasePath;
+			string projectBase = browser.BrowseForFolder();
+			if ( projectBase != null && projectBase != project.BasePath )
+				UpdateProjectBase( projectBase );
+		}
 
-		#region Project Base
 		private void projectBaseTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			if ( projectBaseTextBox.Text != string.Empty )
@@ -678,14 +705,30 @@ namespace NUnit.Gui
 
 		private void projectBaseTextBox_Validated(object sender, System.EventArgs e)
 		{
-			if ( projectBaseTextBox.Text == string.Empty )
-				projectBaseTextBox.Text = project.DefaultBasePath;
+			UpdateProjectBase( projectBaseTextBox.Text );
+		}
 
-			project.BasePath = projectBaseTextBox.Text;
+		private void UpdateProjectBase( string projectBase )
+		{
+			if ( projectBase == string.Empty )
+				projectBase = project.DefaultBasePath;
+
+			project.BasePath = projectBaseTextBox.Text = projectBase;
 		}
 		#endregion
 
-		#region Configuration ApplicationBase
+		#region Config Base Methods and Events
+		private void configBaseBrowseButton_Click(object sender, System.EventArgs e)
+		{
+			FolderBrowser browser = new FolderBrowser( this, project.BasePath );
+			browser.Caption = "Project Editor";
+			browser.Title = string.Format( "Select ApplicationBase for the {0} configuration", selectedConfig.Name );
+			browser.InitialSelection = selectedConfig.BasePath;
+			string appbase = browser.BrowseForFolder();
+			if ( appbase != null && appbase != selectedConfig.BasePath )
+				UpdateApplicationBase( appbase );
+		}
+
 		private void applicationBaseTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			if ( applicationBaseTextBox.Text != String.Empty )
@@ -758,7 +801,7 @@ namespace NUnit.Gui
 		}
 		#endregion
 
-		#region Config File
+		#region Config File Methods and Events
 		private void configFileTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			string configFile = configFileTextBox.Text;
@@ -793,7 +836,7 @@ namespace NUnit.Gui
 		}
 		#endregion
 
-		#region PrivateBinPath
+		#region PrivateBinPath Methods and Events
 		private void privateBinPathTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			string binPath = privateBinPathTextBox.Text;
@@ -825,6 +868,56 @@ namespace NUnit.Gui
 		}
 		#endregion
 
+		#region Assembly Path Methods and Events
+		private void assemblyPathBrowseButton_Click(object sender, System.EventArgs e)
+		{
+			OpenFileDialog dlg = new OpenFileDialog();
+			dlg.Title = "Select Assembly";
+			
+			dlg.Filter =
+				"Assemblies (*.dll,*.exe)|*.dll;*.exe|" +
+				"All Files (*.*)|*.*";
+
+			dlg.InitialDirectory = System.IO.Path.GetDirectoryName( assemblyPathTextBox.Text );
+			dlg.FilterIndex = 1;
+			dlg.FileName = "";
+
+			if ( dlg.ShowDialog( this ) == DialogResult.OK ) 
+			{
+				selectedConfig.Assemblies[assemblyListBox.SelectedIndex] = dlg.FileName;
+				assemblyListBox_Populate();
+			}
+		}
+
+		private void assemblyPathTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+			string path = assemblyPathTextBox.Text;
+
+			try
+			{
+				FileInfo info = new FileInfo( path );
+
+				if ( !info.Exists )
+				{
+					DialogResult answer = UserMessage.Ask( string.Format( 
+						"The path {0} does not exist. Do you want to use it anyway?", path ) );
+					if ( answer != DialogResult.Yes )
+						e.Cancel = true;
+				}
+			}
+			catch( System.Exception exception )
+			{
+				assemblyPathTextBox.SelectAll();
+				UserMessage.DisplayFailure( exception, "Invalid Entry" );
+				e.Cancel = true;
+			}		
+		}
+
+		private void assemblyPathTextBox_Validated(object sender, System.EventArgs e)
+		{
+			selectedConfig.Assemblies[assemblyListBox.SelectedIndex] = assemblyPathTextBox.Text;
+			assemblyListBox_Populate();
+		}
 		#endregion
 
 		#region Other UI Events
@@ -837,8 +930,6 @@ namespace NUnit.Gui
 			projectPathLabel.Text = project.ProjectPath;
 
 			projectBaseTextBox.Text = project.BasePath;
-
-			addVSProjectButton.Visible = this.VisualStudioSupport;
 
 			configComboBox_Populate();
 		}
@@ -855,31 +946,11 @@ namespace NUnit.Gui
 
 		private void addAssemblyButton_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.AddAssembly( this, selectedConfig.Name );
+			TestLoaderUI.AddToProject( this, selectedConfig.Name );
 			assemblyListBox_Populate();
 		}
 
-		private void addVSProjectButton_Click(object sender, System.EventArgs e)
-		{
-			TestLoaderUI.AddVSProject( this );
-			configComboBox_Populate();
-		}
-
-		private void editAssemblyButton_Click(object sender, System.EventArgs e)
-		{
-			using( AssemblyPathDialog dlg = new AssemblyPathDialog( 
-					   (string)selectedConfig.Assemblies[assemblyListBox.SelectedIndex] ) )
-			{
-				this.Site.Container.Add( dlg );
-				if ( dlg.ShowDialog() == DialogResult.OK )
-				{
-					selectedConfig.Assemblies[assemblyListBox.SelectedIndex] = dlg.Path;
-					assemblyListBox_Populate();
-				}
-			}
-		}
-
-		private void deleteAssemblyButton_Click(object sender, System.EventArgs e)
+		private void removeAssemblyButton_Click(object sender, System.EventArgs e)
 		{
 			if ( UserMessage.Ask( string.Format(
 				"Remove {0} from project?", selectedAssembly ) ) == DialogResult.Yes )
@@ -903,19 +974,6 @@ namespace NUnit.Gui
 		private void closeButton_Click(object sender, System.EventArgs e)
 		{
 			this.Close();		
-		}
-
-		#endregion
-
-		private void browseBasePathButton_Click(object sender, System.EventArgs e)
-		{
-			FolderBrowser browser = new FolderBrowser( this, project.BasePath );
-			browser.Caption = "Project Editor";
-			browser.Title = string.Format( "Select ApplicationBase for the {0} configuration", selectedConfig.Name );
-			browser.InitialSelection = selectedConfig.BasePath;
-			string appbase = browser.BrowseForFolder();
-			if ( appbase != null && appbase != selectedConfig.BasePath )
-				UpdateApplicationBase( appbase );
 		}
 
 		private void autoBinPathRadioButton_CheckedChanged(object sender, System.EventArgs e)
@@ -944,5 +1002,6 @@ namespace NUnit.Gui
 				privateBinPathTextBox.Enabled = false;
 			}
 		}
+		#endregion
 	}
 }

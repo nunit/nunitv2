@@ -16,6 +16,10 @@ namespace NUnit.TestUtilities
 	/// </summary>
 	public class FormTester : ControlTester
 	{
+		public FormTester() { }
+
+		public FormTester( Form form ) : base( form ) { }
+
 		public Form Form
 		{
 			get { return Control as Form; }
@@ -28,6 +32,13 @@ namespace NUnit.TestUtilities
 	/// </summary>
 	public class ControlTester
 	{
+		public ControlTester() { }
+
+		public ControlTester( Control control )
+		{
+			this.control = control;
+		}
+
 		// TODO: Rewrite using generics when we move to .NET 2.0
 
 		// The control we are testing
@@ -135,32 +146,32 @@ namespace NUnit.TestUtilities
 		/// Assert that a control with a given name exists on this control.
 		/// </summary>
 		/// <param name="name">The name of the control.</param>
-		public void AssertControlExists( string name )
+		public void AssertControlExists( string targetName )
 		{
-			AssertControlExists( name, null );
+			AssertControlExists( targetName, null );
 		}
 			
-		public void AssertControlExists( string name, Type type )
+		public void AssertControlExists( string expectedName, Type expectedType )
 		{
 			bool gotName = false;
 			System.Type gotType = null;
 			foreach( Control ctl in control.Controls ) 
 			{
-				if ( ctl.Name == name )
+				if ( ctl.Name == expectedName )
 				{
 					gotName = true;
-					if ( type == null )
+					if ( expectedType == null )
 						return;
 					gotType = ctl.GetType();
-					if ( type.IsAssignableFrom( gotType ) )
+					if ( expectedType.IsAssignableFrom( gotType ) )
 						return;
 				}
 			}
 
 			if ( gotName )
-				Assert.Fail( "Expected control {0} to be a {1} but was {2}", name, type.Name, gotType.Name );
+				Assert.Fail( "Expected control {0} to be a {1} but was {2}", expectedName, expectedType.Name, gotType.Name );
 			else
-				Assert.Fail( "Form {0} does not contain {1} control", control.Name, name );
+				Assert.Fail( "{0} does not contain {1} control", control.Name, expectedName );
 		}
 
 		public void AssertControlsAreStackedVertically( params string[] names )

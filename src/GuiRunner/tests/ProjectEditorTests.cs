@@ -15,7 +15,7 @@ namespace NUnit.Gui.Tests
 	/// <summary>
 	/// Summary description for ProjectEditorTests.
 	/// </summary>
-	[TestFixture]
+	[TestFixture,Platform(Exclude="Mono",Reason="Exception in ProjectEditor.InitializeComponent()")]
 	public class ProjectEditorTests : FormTester
 	{
 		private NUnitProject project;
@@ -44,10 +44,13 @@ namespace NUnit.Gui.Tests
 		{
 			AssertControlExists( "projectPathLabel" );
 			AssertControlExists( "projectBaseTextBox" );
-			AssertControlExists( "configComboBox" );
-			AssertControlExists( "editConfigsButton" );
-			AssertControlExists( "projectTabControl" );
+			AssertControlExists( "groupBox1" );
 			AssertControlExists( "closeButton" );
+
+			ControlTester tester = new ControlTester( Controls["groupBox1"] );
+			tester.AssertControlExists( "configComboBox" );
+			tester.AssertControlExists( "editConfigsButton" );
+			tester.AssertControlExists( "projectTabControl" );
 		}
 
 		[Test]

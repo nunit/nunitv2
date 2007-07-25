@@ -9,8 +9,6 @@
         <include name="AddConfigurationDialog.cs"/>
         <include name="AppContainer.cs"/>
         <include name="AssemblyInfo.cs"/>
-        <include name="AssemblyListBox.cs"/>
-        <include name="AssemblyPathDialog.cs"/>
         <include name="CommonAssemblyInfo.cs"/>
         <include name="ConfigurationEditor.cs"/>
         <include name="ErrorDisplay.cs"/>
@@ -44,8 +42,6 @@
       </nowarn>
       <resources prefix="NUnit.UiKit">
         <include name="AddConfigurationDialog.resx"/>
-        <include name="AssemblyListBox.resx"/>
-        <include name="AssemblyPathDialog.resx"/>
         <include name="ConfigurationEditor.resx"/>
         <include name="ErrorDisplay.resx"/>
         <include name="ExpandingLabel.resx"/>

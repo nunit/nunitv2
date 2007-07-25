@@ -72,12 +72,6 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AssemblyListBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="AssemblyPathDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="ConfigurationEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -150,12 +144,6 @@
       <DependentUpon>AddConfigurationDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="AssemblyListBox.resx">
-      <DependentUpon>AssemblyListBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AssemblyPathDialog.resx">
-      <DependentUpon>AssemblyPathDialog.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ConfigurationEditor.resx">
       <DependentUpon>ConfigurationEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -205,6 +193,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TestTree.resx">
       <DependentUpon>TestTree.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TipWindow.resx">
       <DependentUpon>TipWindow.cs</DependentUpon>

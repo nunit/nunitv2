@@ -124,26 +124,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AssemblyListBox.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "AssemblyListBox.resx"
-                    DependentUpon = "AssemblyListBox.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "AssemblyPathDialog.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "AssemblyPathDialog.resx"
-                    DependentUpon = "AssemblyPathDialog.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "CommonAssemblyInfo.cs"
                     Link = "..\..\CommonAssemblyInfo.cs"
                     SubType = "Code"
