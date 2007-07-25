@@ -490,16 +490,15 @@ namespace NUnit.Util
 			switch ( e.type )
 			{
 				case ProjectChangeType.ActiveConfig:
-					if( IsTestLoaded )
-						UnloadTest();
+				case ProjectChangeType.Other:
 					if( TestProject.IsLoadable )
-						LoadTest();
+						TryToLoadOrReloadTest();
 					break;
 
 				case ProjectChangeType.AddConfig:
 				case ProjectChangeType.UpdateConfig:
 					if ( e.configName == TestProject.ActiveConfigName && TestProject.IsLoadable )
-						LoadTest();
+						TryToLoadOrReloadTest();
 					break;
 
 				case ProjectChangeType.RemoveConfig:
@@ -510,6 +509,14 @@ namespace NUnit.Util
 				default:
 					break;
 			}
+		}
+
+		private void TryToLoadOrReloadTest()
+		{
+			if ( IsTestLoaded ) 
+				ReloadTest();
+			else 
+				LoadTest();
 		}
 
 		#endregion

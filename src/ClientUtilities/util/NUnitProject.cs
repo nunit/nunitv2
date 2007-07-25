@@ -343,6 +343,7 @@ namespace NUnit.Util
 				}
 
 				basePath = PathUtils.Canonicalize( basePath );
+				OnProjectChange( ProjectChangeType.Other, null );
 			}
 		}
 
