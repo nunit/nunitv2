@@ -261,11 +261,10 @@ Global
 		license.rtf = license.rtf
 		nunit.build = nunit.build
 		nunit.snk = nunit.snk
-		NUnitBinTests.config = NUnitBinTests.config
-		NUnitBinTests.nunit = NUnitBinTests.nunit
-		NUnitDevTests.config = NUnitDevTests.config
 		NUnitDevTests.nunit = NUnitDevTests.nunit
 		NUnitFitTests.html = NUnitFitTests.html
+		NUnitTests.config = NUnitTests.config
+		NUnitTests.nunit = NUnitTests.nunit
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

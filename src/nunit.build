@@ -183,18 +183,15 @@
       <buildfiles refid="project.buildfiles" />
     </nant>
 
-    <!-- Create NUnit and config files for running tests -->
-    <copy file="NUnitBinTests.nunit"
-      tofile="${current.build.dir}/NUnitTests.nunit"/>
-
-    <copy file="NUnitBinTests.config"
-      tofile="${current.build.dir}/NUnitTests.config"/>
-
-
-    <copy file="NUnitFitTests.html" todir="${current.build.dir}"/>
-
-    <!-- Copy clr.bat file for running under alternative frameworks -->
-    <copy file="clr.bat" todir="${current.build.dir}"/>
+    <!-- Copy files for running tests -->
+    <copy todir="${current.build.dir}">
+      <fileset>
+        <include name="NUnitTests.nunit" />
+        <include name="NUnitTests.config" />
+        <include name="NUnitFitTests.html" />
+        <include name="clr.bat" />
+      </fileset>
+    </copy>
 
   </target>
 
