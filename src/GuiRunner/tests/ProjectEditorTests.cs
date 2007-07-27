@@ -37,7 +37,8 @@ namespace NUnit.Gui.Tests
 		[TearDown]
 		public void Close()
 		{
-			editor.Close();
+            if ( editor != null )
+			    editor.Close();
 		}
 		[Test]
 		public void CheckControls()
