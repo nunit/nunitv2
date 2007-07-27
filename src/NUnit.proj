@@ -25,16 +25,16 @@
 	</Target>
 	
 	<Target Name="Test" DependsOnTargets="Build">
-		<Copy SourceFiles="NUnitBinTests.nunit;NUnitBinTests.config" DestinationFolder="$(OutputPath)" />
+		<Copy SourceFiles="NUnitTests.nunit;NUnitTests.config" DestinationFolder="$(OutputPath)" />
 
 		<Exec Command='set ComPlus_Version=v1.1.4322
-"$(NUnitConsole)" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
+"$(NUnitConsole)" "$(OutputPath)NUnitTests.nunit" "/config=$(OutputPath)NUnitTests.config"' />
 
 		<Exec Command='set ComPlus_Version=v1.0.3705
-"$(NUnitConsole)" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
+"$(NUnitConsole)" "$(OutputPath)NUnitTests.nunit" "/config=$(OutputPath)NUnitTests.config"' />
 
 		<Exec Command='set ComPlus_Version=v2.0.50727
-"$(NUnitConsole)" "$(OutputPath)NUnitBinTests.nunit" "/config=$(OutputPath)NUnitBinTests.config"' />
+"$(NUnitConsole)" "$(OutputPath)NUnitTests.nunit" "/config=$(OutputPath)NUnitTests.config"' />
 
 	</Target>
 </Project>
