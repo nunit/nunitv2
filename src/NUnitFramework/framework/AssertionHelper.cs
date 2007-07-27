@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Collections;
 using NUnit.Framework.SyntaxHelpers;
 using NUnit.Framework.Constraints;
 
@@ -92,6 +93,18 @@ namespace NUnit.Framework
 		static public void Expect(bool condition)
 		{
 			Assert.That(condition, Is.True, null, null);
+		}
+		#endregion
+
+		#region Map
+		/// <summary>
+		/// Returns a ListMapper based on a collection.
+		/// </summary>
+		/// <param name="original">The original collection</param>
+		/// <returns></returns>
+		public ListMapper Map( ICollection original )
+		{
+			return new ListMapper( original );
 		}
 		#endregion
 	}

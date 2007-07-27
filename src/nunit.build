@@ -240,11 +240,15 @@
 <!-- ***                 Targets for running tests                 *** -->
 <!-- ***************************************************************** -->
 
-  <target name="test" depends="build"
-    description="Run tests for a build using console runner">
+  <target name="test" depends="build,run-test"
+    description="Run tests for a build using console runner"/>
+
+  <target name="run-test"
+      description="Run tests without rebuilding first">
 
     <echo message="*"/>
-    <echo message="* Starting ${runtime.config} ${build.config} test run"/>
+    <echo message="* Testing ${runtime.config} ${build.config} build"/>
+    <echo message="*    Running under ${nant.settings.currentframework}"/>
     <echo message="*"/>
 
     <!-- We use exec rather than the nunit2 task because we are testing
@@ -259,7 +263,7 @@
       workingdir="${current.build.dir}" 
 	  program="${nunit.console.name}" 
       useruntimeengine="true"
-	  commandline="${nunit.test.assemblies} ${nunit.options}"/>
+	  commandline="${nunit.test.assemblies} ${nunit.options} /xml:TestResult-${nant.settings.currentframework}.xml"/>
 
   </target>
 
@@ -317,6 +321,19 @@
         <call target="test" />
       </if>
     </foreach>
+  </target>
+
+  <target name="test-each-runtime" depends="build"
+      description="Test the current build under each runtime it supports">
+    <foreach item="String" delim=","
+        property="framework" in="${test.platforms}">
+      <if test="${framework::exists( framework )}">
+        <property name="nant.settings.currentframework" value="${framework}" />
+        <call target="run-test" failonerror="false" />
+      </if>
+    </foreach>
+    <property name="nant.settings.currentframework" value="${runtime.config}" />
+    <echo message="Restored runtime to ${nant.settings.currentframework}" />
   </target>
 
   <target name="nunit2-test" depends="build"

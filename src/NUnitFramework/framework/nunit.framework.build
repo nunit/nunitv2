@@ -28,6 +28,7 @@
         <include name="SyntaxHelpers/Has.cs"/>
         <include name="SyntaxHelpers/Is.cs"/>
         <include name="SyntaxHelpers/List.cs"/>
+        <include name="SyntaxHelpers/ListMapper.cs"/>
         <include name="SyntaxHelpers/Text.cs"/>
         <include name="AbstractAsserter.cs"/>
         <include name="AssemblyInfo.cs"/>

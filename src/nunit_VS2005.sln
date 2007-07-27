@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual C# Express 2005
+# Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-utilities_VS2005", "tests\test-utilities\test-utilities_VS2005.csproj", "{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}"
 	ProjectSection(ProjectDependencies) = postProject
 		{83DD7E12-A705-4DBA-9D71-09C8973D9382} = {83DD7E12-A705-4DBA-9D71-09C8973D9382}
@@ -75,11 +75,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 		license.rtf = license.rtf
 		nunit.snk = nunit.snk
-		NUnitBinTests.config = NUnitBinTests.config
-		NUnitBinTests.nunit = NUnitBinTests.nunit
-		NUnitDevTests.config = NUnitDevTests.config
 		NUnitDevTests.nunit = NUnitDevTests.nunit
 		NUnitFitTests.html = NUnitFitTests.html
+		NUnitTests.config = NUnitTests.config
+		NUnitTests.nunit = NUnitTests.nunit
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.dll_VS2005", "NUnitCore\core\nunit.core.dll_VS2005.csproj", "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"

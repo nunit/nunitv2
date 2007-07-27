@@ -35,9 +35,21 @@ namespace NUnit.Framework.SyntaxHelpers
 		}
 
 		/// <summary>
+		/// Has.Some returns a ConstraintBuilder, which will apply
+		/// the following constraint to all members of a collection,
+		/// succeeding if any of them succeed. It is a synonym
+		/// for Has.Item.
+		/// </summary>
+		public static ConstraintBuilder Some
+		{
+			get { return new ConstraintBuilder().Some; }
+		}
+
+		/// <summary>
 		/// Has.Item returns a ConstraintBuilder, which will apply
 		/// the following constraint to all members of a collection,
-		/// succeeding if any of them succeed.
+		/// succeeding if any of them succeed. It is a synonym
+		/// for Has.Some.
 		/// </summary>
 		public static ConstraintBuilder Item
 		{
@@ -45,11 +57,11 @@ namespace NUnit.Framework.SyntaxHelpers
 		}
 
 		/// <summary>
-		/// Has.NoItem returns a ConstraintBuilder, which will apply
+		/// Has.None returns a ConstraintBuilder, which will apply
 		/// the following constraint to all members of a collection,
 		/// succeeding only if none of them succeed.
 		/// </summary>
-		public static ConstraintBuilder NoItem
+		public static ConstraintBuilder None
 		{
 			get { return new ConstraintBuilder().None; }
 		}
@@ -63,17 +75,6 @@ namespace NUnit.Framework.SyntaxHelpers
 		public static ConstraintBuilder Property( string name )
 		{
 			return new ConstraintBuilder().Property(name);
-		}
-
-		/// <summary>
-		/// Returns a new ConstraintBuilder, which will apply the
-		/// following constraint to a list of named property of the 
-		/// object being tested.
-		/// </summary>
-		/// <param name="name">The name of the property</param>
-		public static ConstraintBuilder Properties( string name )
-		{
-			return new ConstraintBuilder().Properties(name);
 		}
 		#endregion
 

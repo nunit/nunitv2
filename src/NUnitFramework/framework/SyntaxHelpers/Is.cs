@@ -15,7 +15,7 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// that supply a number of constraints used in Asserts.
 	/// </summary>
 	public class Is
-    {
+	{
 		#region Prefix Operators
 		/// <summary>
 		/// Is.Not returns a ConstraintBuilder that negates
@@ -200,4 +200,13 @@ namespace NUnit.Framework.SyntaxHelpers
 
         #endregion
     }
+
+
+	/// <summary>
+	/// The Iz class is a synonym for Is intended for use in VB,
+	/// which regards Is as a keyword.
+	/// </summary>
+	public class Iz : Is
+	{
+	}
 }

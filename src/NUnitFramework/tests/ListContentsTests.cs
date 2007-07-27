@@ -44,12 +44,9 @@ namespace NUnit.Framework.Tests
 			Assert.Contains( "def", new object[0] );
 		}
 
-		[Test,ExpectedException(typeof(AssertionException))]
-		public void NullArrayFails()
+		[Test,ExpectedException(typeof(ArgumentException))]
+		public void NullArrayIsError()
 		{
-			expectedMessage =
-				"  Expected: collection containing \"def\"" + Environment.NewLine + 
-				"  But was:  null" + Environment.NewLine;	
 			Assert.Contains( "def", null );
 		}
 

@@ -384,7 +384,6 @@ namespace NUnit.Framework
 		#endregion
 
 		#region Contains
-
 		/// <summary>
 		/// Asserts that collection contains actual as an item.
 		/// </summary>
@@ -415,7 +414,6 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void Contains (ICollection collection, Object actual, string message, params object[] args)
 		{
-			//Assert.DoAssert(new CollectionContains(collection, actual, message, args));
             Assert.That(collection, new CollectionContainsConstraint(actual), message, args);
 		}
 		#endregion
@@ -452,8 +450,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void DoesNotContain (ICollection collection, Object actual, string message, params object[] args)
 		{
-			//Assert.DoAssert(new CollectionNotContains(collection, actual, message, args));
-            Assert.That(collection, new NotConstraint(new CollectionContainsConstraint(actual)), message, args);
+            Assert.That(collection, new NotConstraint( new CollectionContainsConstraint( actual ) ), message, args);
 		}
 		#endregion
 

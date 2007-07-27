@@ -119,8 +119,8 @@ namespace NUnit.Framework.Constraints
 
 			PassModifiersToBase();
 
-			if ( actual == null || !(actual is ICollection) )
-				return false;
+			if ( !(actual is ICollection) )
+				throw new ArgumentException( "The actual value must be a collection", "actual" );
 
 			foreach(object item in (ICollection)actual)
 				if (!baseConstraint.Matches(item))
@@ -167,8 +167,8 @@ namespace NUnit.Framework.Constraints
 
 			PassModifiersToBase();
 
-			if ( actual == null || !(actual is ICollection) )
-				return false;
+			if ( !(actual is ICollection) )
+				throw new ArgumentException( "The actual value must be a collection", "actual" );
 
 			foreach(object item in (ICollection)actual)
 				if (baseConstraint.Matches(item))
@@ -184,6 +184,54 @@ namespace NUnit.Framework.Constraints
 		public override void WriteDescriptionTo(MessageWriter writer)
 		{
 			writer.WritePredicate("some item");
+			baseConstraint.WriteDescriptionTo(writer);
+		}
+	}
+	#endregion
+
+	#region NoItemConstraint
+	/// <summary>
+	/// SomeItemsConstraint applies another constraint to each
+	/// item in a collection, succeeding if any of them succeeds.
+	/// </summary>
+	public class NoItemConstraint : PrefixConstraint
+	{
+		/// <summary>
+		/// Construct a SomeItemsConstraint on top of an existing constraint
+		/// </summary>
+		/// <param name="itemConstraint"></param>
+		public NoItemConstraint(Constraint itemConstraint)
+			: base( itemConstraint ) { }
+
+		/// <summary>
+		/// Apply the item constraint to each item in the collection,
+		/// failing if any item fails.
+		/// </summary>
+		/// <param name="actual"></param>
+		/// <returns></returns>
+		public override bool Matches(object actual)
+		{
+			this.actual = actual;
+
+			PassModifiersToBase();
+
+			if ( !(actual is ICollection) )
+				throw new ArgumentException( "The actual value must be a collection", "actual" );
+
+			foreach(object item in (ICollection)actual)
+				if (baseConstraint.Matches(item))
+					return false;
+
+			return true;
+		}
+
+		/// <summary>
+		/// Write a description of this constraint to a MessageWriter
+		/// </summary>
+		/// <param name="writer"></param>
+		public override void WriteDescriptionTo(MessageWriter writer)
+		{
+			writer.WritePredicate("no item");
 			baseConstraint.WriteDescriptionTo(writer);
 		}
 	}

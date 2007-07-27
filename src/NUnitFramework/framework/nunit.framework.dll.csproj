@@ -340,6 +340,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "SyntaxHelpers\ListMapper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SyntaxHelpers\Text.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

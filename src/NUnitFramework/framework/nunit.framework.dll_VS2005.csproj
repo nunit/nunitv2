@@ -134,6 +134,7 @@
     <Compile Include="SyntaxHelpers\List.cs" />
     <Compile Include="SyntaxHelpers\Has.cs" />
     <Compile Include="SyntaxHelpers\Is.cs" />
+    <Compile Include="SyntaxHelpers\ListMapper.cs" />
     <Compile Include="SyntaxHelpers\Text.cs" />
     <Compile Include="TearDownAttribute.cs">
       <SubType>Code</SubType>

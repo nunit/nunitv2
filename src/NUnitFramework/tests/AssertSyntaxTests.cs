@@ -474,7 +474,8 @@ namespace NUnit.Framework.Tests
 
 			// Helper syntax
 			Assert.That(ints, Is.All.Not.Null);
-			Assert.That(ints, Has.NoItem.Null);
+			Assert.That(ints, Has.None.Null);
+			Assert.That(ints, Has.No.Item.Null);
 			Assert.That(ints, Is.All.InstanceOfType(typeof(int)));
 			Assert.That(ints, Has.AllItems.InstanceOfType(typeof(int)));
 			Assert.That(strings, Is.All.InstanceOfType(typeof(string)));
@@ -484,7 +485,8 @@ namespace NUnit.Framework.Tests
 			Assert.That(strings, Is.Not.Unique);
 			Assert.That(ints, Is.All.GreaterThan(0));
 			Assert.That(ints, Has.AllItems.GreaterThan(0));
-			Assert.That(ints, Has.NoItem.LessThanOrEqualTo(0));
+			Assert.That(ints, Has.None.LessThanOrEqualTo(0));
+			Assert.That(ints, Has.No.Item.LessThanOrEqualTo(0));
 			Assert.That(strings, Text.All.Contains( "a" ) );
 			Assert.That(strings, Has.AllItems.Contains( "a" ) );
 			Assert.That(strings, Has.Item.StartsWith( "ba" ) );
@@ -542,10 +544,14 @@ namespace NUnit.Framework.Tests
 			// Not available using the classic syntax
 
 			// Helper syntax
-			Assert.That(ints, Has.NoItem.Null);
-			Assert.That(ints, Has.NoItem.InstanceOfType(typeof(string)));
-			Assert.That(ints, Has.NoItem.GreaterThan(99));
-			Assert.That(strings, Has.NoItem.StartsWith( "qu" ) );
+			Assert.That(ints, Has.None.Null);
+			Assert.That(ints, Has.No.Item.Null);
+			Assert.That(ints, Has.None.InstanceOfType(typeof(string)));
+			Assert.That(ints, Has.No.Item.InstanceOfType(typeof(string)));
+			Assert.That(ints, Has.None.GreaterThan(99));
+			Assert.That(ints, Has.No.Item.GreaterThan(99));
+			Assert.That(strings, Has.None.StartsWith( "qu" ) );
+			Assert.That(strings, Has.No.Item.StartsWith( "qu" ) );
 		
 			// Inherited syntax
 			Expect(ints, None.Null);
@@ -568,28 +574,33 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.DoesNotContain(sarray, "x");
 
 			// Helper syntax
-			Assert.That(iarray, List.Contains(3));
+			Assert.That(iarray, Has.Some.EqualTo(3));
 			Assert.That(iarray, Has.Item.EqualTo(3));
-			Assert.That(sarray, List.Contains("b"));
+			Assert.That(sarray, Has.Some.EqualTo("b"));
 			Assert.That(sarray, Has.Item.EqualTo("b"));
-			Assert.That(sarray, List.DoesNotContain("x"));
-			Assert.That(sarray, Has.NoItem.EqualTo("x"));
+			Assert.That(sarray, Has.None.EqualTo("x"));
+			Assert.That(sarray, Has.No.Item.EqualTo("x"));
 			// Only available using new syntax
 			Assert.That(iarray, Has.AllItems.LessThan(10));
 			Assert.That(sarray, Has.AllItems.Length(1));
-			Assert.That(sarray, Has.NoItem.Property("Length").GreaterThan(3));
+			Assert.That(sarray, Has.None.Property("Length").GreaterThan(3));
+			Assert.That(sarray, Has.No.Item.Property("Length").GreaterThan(3));
 		
 			// Inherited syntax
 			Expect(iarray, Contains(3));
 			Expect(iarray, Some.EqualTo(3));
+			Expect(iarray, Item.EqualTo(3));
 			Expect(sarray, Contains("b"));
 			Expect(sarray, Some.EqualTo("b"));
+			Expect(sarray, Item.EqualTo("b"));
 			Expect(sarray, Not.Contains("x"));
 			Expect(sarray, None.EqualTo("x"));
+			Expect(sarray, No.Item.EqualTo("x"));
 			// Only available using new syntax
 			Expect(iarray, All.LessThan(10));
 			Expect(sarray, All.Length(1));
 			Expect(sarray, None.Property("Length").GreaterThan(3));
+			Expect(sarray, No.Item.Property("Length").GreaterThan(3));
 		}
 
 		[Test]
@@ -675,10 +686,10 @@ namespace NUnit.Framework.Tests
 			Assert.That( array2, Has.No.Length( 4 ) );
 			Assert.That( array2, Has.No.Property("Length").GreaterThan(3) );
 
-			Assert.That( array2, Has.Properties("Length").EqualTo( new int[] { 1, 2, 3 } ) );
-			Assert.That( array2, Has.Properties("Length").EquivalentTo( new int[] { 3, 2, 1 } ) );
-			Assert.That( array2, Has.Properties("Length").SubsetOf( new int[] { 1, 2, 3, 4, 5 } ) );
-			Assert.That( array2, Has.Properties("Length").Unique );
+			Assert.That( List.Map( array2 ).Property("Length"), Is.EqualTo( new int[] { 1, 2, 3 } ) );
+			Assert.That( List.Map( array2 ).Property("Length"), Is.EquivalentTo( new int[] { 3, 2, 1 } ) );
+			Assert.That( List.Map( array2 ).Property("Length"), Is.SubsetOf( new int[] { 1, 2, 3, 4, 5 } ) );
+			Assert.That( List.Map( array2 ).Property("Length"), Is.Unique );
 
 			Assert.That( list, Has.Count( 4 ) );
 			
@@ -707,10 +718,10 @@ namespace NUnit.Framework.Tests
 			Expect( array2, None.Length( 4 ) );
 			Expect( array2, None.Property("Length").GreaterThan(3));
 
-			Expect( array2, Properties("Length").EqualTo( new int[] { 1, 2, 3 } ) );
-			Expect( array2, Properties("Length").EquivalentTo( new int[] { 1, 3, 2 } ) );
-			Expect( array2, Properties("Length").SubsetOf( new int[] { 1, 2, 3, 4, 5 } ) );
-			Expect( array2, Properties("Length").Unique );
+			Expect( Map( array2 ).Property("Length"), EqualTo( new int[] { 1, 2, 3 } ) );
+			Expect( Map( array2 ).Property("Length"), EquivalentTo( new int[] { 3, 2, 1 } ) );
+			Expect( Map( array2 ).Property("Length"), SubsetOf( new int[] { 1, 2, 3, 4, 5 } ) );
+			Expect( Map( array2 ).Property("Length"), Unique );
 
 			Expect( list, Count( 4 ) );
 

@@ -17,27 +17,14 @@ namespace NUnit.Framework.SyntaxHelpers
 	public class List
 	{
 		/// <summary>
-		/// List.Contains returns a constraint that succeeds
-		/// if the actual value is a collection containing
-		/// the expected value.
+		/// List.Map returns a ListMapper, which can be used to map
+		/// the original collection to another collection.
 		/// </summary>
-		/// <param name="expected"></param>
+		/// <param name="actual"></param>
 		/// <returns></returns>
-		public static Constraint Contains( object expected )
+		public static ListMapper Map( ICollection actual )
 		{
-			return new CollectionContainsConstraint( expected );
-		}
-
-		/// <summary>
-		/// List.DoesNotContain returns a constraint that succeeds
-		/// if the actual value is a collection not containing
-		/// the expected value.
-		/// </summary>
-		/// <param name="expected"></param>
-		/// <returns></returns>
-		public static Constraint DoesNotContain( object expected )
-		{
-			return new NotConstraint( new CollectionContainsConstraint( expected ) );
+			return new ListMapper( actual );
 		}
 	}
 }

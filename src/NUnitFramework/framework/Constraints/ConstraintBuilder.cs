@@ -23,8 +23,8 @@ namespace NUnit.Framework.Constraints
 			Not,
 			All,
 			Some,
+			None,
 			Prop,
-			Props
 		}
 
 		Stack ops = new Stack();
@@ -312,19 +312,31 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Prefix Operators
-        /// <summary>
-        /// Modifies the ConstraintBuilder by pushing a Not operator on the stack.
-        /// </summary>
-        public ConstraintBuilder Not
-        {
-            get
-            {
-                ops.Push(Op.Not);
-                return this;
-            }
-        }
+		/// <summary>
+		/// Modifies the ConstraintBuilder by pushing a Not operator on the stack.
+		/// </summary>
+		public ConstraintBuilder Not
+		{
+			get
+			{
+				ops.Push(Op.Not);
+				return this;
+			}
+		}
 
-        /// <summary>
+		/// <summary>
+		/// Modifies the ConstraintBuilder by pushing a Not operator on the stack.
+		/// </summary>
+		public ConstraintBuilder No
+		{
+			get
+			{
+				ops.Push(Op.Not);
+				return this;
+			}
+		}
+
+		/// <summary>
         /// Modifies the ConstraintBuilder by pushing an All operator on the stack.
         /// </summary>
         public ConstraintBuilder All
@@ -348,15 +360,26 @@ namespace NUnit.Framework.Constraints
 			}
 		}
 
-        /// <summary>
+		/// <summary>
+		/// Modifies the ConstraintBuilder by pushing a Some operator on the stack.
+		/// </summary>
+		public ConstraintBuilder Item
+		{
+			get
+			{
+				ops.Push(Op.Some);
+				return this;
+			}
+		}
+
+		/// <summary>
         /// Modifies the constraint builder by pushing All and Not operators on the stack
         /// </summary>
 		public ConstraintBuilder None
 		{
 			get
 			{
-				ops.Push(Op.All);
-				ops.Push(Op.Not);
+				ops.Push(Op.None);
 				return this;
 			}
 		}
@@ -373,20 +396,6 @@ namespace NUnit.Framework.Constraints
 			opnds.Push( name );
 			return this;
 		}
-
-        /// <summary>
-        /// Modifies the ConstraintBuilder by pushing a Props operator on the
-        /// ops stack and the name of the property on the opnds stack.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public ConstraintBuilder Properties(string name)
-		{
-			ops.Push( Op.Props );
-			opnds.Push( name );
-			return this;
-		}
-
 		#endregion
 
         #region Helper Methods
@@ -409,11 +418,11 @@ namespace NUnit.Framework.Constraints
 					case Op.Some:
 						constraint = new SomeItemsConstraint(constraint);
 						break;
+					case Op.None:
+						constraint = new NoItemConstraint(constraint);
+						break;
 					case Op.Prop:
 						constraint = new PropertyConstraint( (string)opnds.Pop(), constraint );
-						break;
-					case Op.Props:
-						constraint = new PropertyListConstraint( (string)opnds.Pop(), constraint );
 						break;
                 }
 

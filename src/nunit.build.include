@@ -308,6 +308,7 @@
       value="net-1.0"/>
     <property name="zip.runtime.suffix" value="-net-1.0"/>
     <property name="msi.runtime.suffix" value="-net-1.0"/>
+    <property name="test.platforms" value="net-1.0,net-1.1,mono-1.0"/>
   </target>
 	
   <target name="set-net-1.1-runtime-config">
@@ -327,6 +328,7 @@
       value="net-1.1"/>
     <property name="zip.runtime.suffix" value="-net-1.1"/>
     <property name="msi.runtime.suffix" value="-net-1.1"/>
+    <property name="test.platforms" value="net-1.1,net-2.0,mono-1.0,mono-2.0"/>
   </target>
 	
   <target name="set-net-2.0-runtime-config">
@@ -345,6 +347,7 @@
       value="net-2.0"/>
     <property name="zip.runtime.suffix" value="-net-2.0"/>
     <property name="msi.runtime.suffix" value="-net-2.0"/>
+    <property name="test.platforms" value="net-2.0,mono-2.0"/>
   </target>
 	
   <target name="set-mono-1.0-runtime-config">
@@ -363,6 +366,7 @@
       value="mono-1.0"/>
     <property name="zip.runtime.suffix" value="-mono-1.0"/>
     <property name="msi.runtime.suffix" value="-mono-1.0"/>
+    <property name="test.platforms" value="mono-1.0,mono-2.0,net-1.1,net-2.0"/>
   </target>
 
   <target name="set-mono-2.0-runtime-config">
@@ -381,6 +385,7 @@
       value="mono-2.0"/>
     <property name="zip.runtime.suffix" value="-mono-2.0"/>
     <property name="msi.runtime.suffix" value="-mono-2.0"/>
+    <property name="test.platforms" value="mono-2.0,net-2.0"/>
   </target>
 
 <!-- ***************************************************************** -->

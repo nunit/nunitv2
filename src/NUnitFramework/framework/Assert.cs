@@ -2033,7 +2033,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments used in formatting the message</param>
 		static public void Contains( object expected, ICollection actual, string message, params object[] args )
 		{
-            Assert.That(actual, List.Contains(expected), message, args);
+            Assert.That(actual, new CollectionContainsConstraint(expected), message, args);
 		}
 
 		/// <summary>

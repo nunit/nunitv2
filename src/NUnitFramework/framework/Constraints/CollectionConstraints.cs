@@ -16,6 +16,29 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class CollectionConstraint : Constraint
     {
+		/// <summary>
+		/// Test whether the constraint is satisfied by a given value
+		/// </summary>
+		/// <param name="actual">The value to be tested</param>
+		/// <returns>True for success, false for failure</returns>
+		public override bool Matches(object actual)
+		{
+			this.actual = actual;
+
+			ICollection collection = actual as ICollection;
+			if ( collection == null )
+				throw new ArgumentException( "The actual value must be a collection", "actual" );
+		
+			return doMatch( collection );
+		}
+
+		/// <summary>
+		/// Protected method to be implemented by derived classes
+		/// </summary>
+		/// <param name="collecton"></param>
+		/// <returns></returns>
+		protected abstract bool doMatch(ICollection collecton);
+
         /// <summary>
         /// Determine whether an expected object is contained in a collection
         /// </summary>
@@ -61,17 +84,12 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual"></param>
         /// <returns></returns>
-        public override bool Matches(object actual)
+        protected override bool doMatch(ICollection actual)
         {
-            this.actual = actual;
-            ICollection collection = actual as ICollection;
-            if ( collection == null )
-                return false;
-
-            foreach (object loopObj in collection)
+			foreach (object loopObj in actual)
             {
                 bool foundOnce = false;
-                foreach (object innerObj in collection)
+                foreach (object innerObj in actual)
                 {
                     if ( Object.Equals(loopObj,innerObj))
                     {
@@ -120,10 +138,9 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual"></param>
         /// <returns></returns>
-        public override bool Matches(object actual)
+        protected override bool doMatch(ICollection actual)
         {
-			this.actual = actual;
-            return actual != null && IsItemInCollection(expected, (ICollection)actual);
+            return IsItemInCollection(expected, actual);
         }
 
         /// <summary>
@@ -138,7 +155,7 @@ namespace NUnit.Framework.Constraints
     }
     #endregion
 
-    #region CollecionEquivalentConstraint
+    #region CollectionEquivalentConstraint
     /// <summary>
     /// CollectionEquivalentCOnstraint is used to determine whether two
     /// collections are equivalent.
@@ -161,12 +178,10 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual"></param>
         /// <returns></returns>
-        public override bool Matches(object actual)
+        protected override bool doMatch(ICollection actual)
         {
-			this.actual = actual;
-            return actual is ICollection &&
-                IsSubsetOf((ICollection)actual, expected) &&
-                IsSubsetOf(expected, (ICollection)actual);
+			return IsSubsetOf(actual, expected) &&
+                IsSubsetOf(expected, actual);
         }
 
         /// <summary>
@@ -193,10 +208,10 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Construct a CollectionSubsetConstraint
         /// </summary>
-        /// <param name="superset">The collection that the actual value is expected to be a subset of</param>
-        public CollectionSubsetConstraint(ICollection superset)
+        /// <param name="expected">The collection that the actual value is expected to be a subset of</param>
+        public CollectionSubsetConstraint(ICollection expected)
         {
-            this.expected = superset;
+            this.expected = expected;
         }
 
         /// <summary>
@@ -205,10 +220,9 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual"></param>
         /// <returns></returns>
-        public override bool Matches(object actual)
+        protected override bool doMatch(ICollection actual)
         {
-            this.actual = actual;
-            return IsSubsetOf( (ICollection)actual, expected );
+			return IsSubsetOf( actual, expected );
         }
         
         /// <summary>
