@@ -10,18 +10,47 @@ using NUnit.Framework.Constraints;
 namespace NUnit.Framework.SyntaxHelpers
 {
 	/// <summary>
-	/// Summary description for Has.
+	/// Summary description for HasNoPrefixB.
 	/// </summary>
 	public class Has
 	{
+        /// <summary>
+        /// Nested class that allows us to restrict the number
+        /// of key words that may appear after Has.No.
+        /// </summary>
+		public class HasNoPrefixBuilder
+		{
+            /// <summary>
+            /// Return a ConstraintBuilder conditioned to apply
+            /// the following constraint to a property.
+            /// </summary>
+            /// <param name="name">The property name</param>
+            /// <returns>A ConstraintBuilder</returns>
+			public ConstraintBuilder Property(string name)
+			{
+				return new ConstraintBuilder().Not.Property(name);
+			}
+
+            /// <summary>
+            /// Return a Constraint that succeeds if the expected object is
+            /// not contained in a collection.
+            /// </summary>
+            /// <param name="expected">The expected object</param>
+            /// <returns>A Constraint</returns>
+            public Constraint Member(object expected)
+			{
+				return new NotConstraint( new CollectionContainsConstraint(expected) ) ;
+			}
+		}
+
 		#region Prefix Operators
 		/// <summary>
 		/// Has.No returns a ConstraintBuilder that negates
 		/// the constraint that follows it.
 		/// </summary>
-		public static ConstraintBuilder No
+		public static HasNoPrefixBuilder No
 		{
-			get { return new ConstraintBuilder().Not; }
+			get { return new HasNoPrefixBuilder(); }
 		}
 
 		/// <summary>
@@ -29,7 +58,7 @@ namespace NUnit.Framework.SyntaxHelpers
 		/// the following constraint to all members of a collection,
 		/// succeeding if all of them succeed.
 		/// </summary>
-		public static ConstraintBuilder AllItems
+		public static ConstraintBuilder All
 		{
 			get { return new ConstraintBuilder().All; }
 		}
@@ -41,17 +70,6 @@ namespace NUnit.Framework.SyntaxHelpers
 		/// for Has.Item.
 		/// </summary>
 		public static ConstraintBuilder Some
-		{
-			get { return new ConstraintBuilder().Some; }
-		}
-
-		/// <summary>
-		/// Has.Item returns a ConstraintBuilder, which will apply
-		/// the following constraint to all members of a collection,
-		/// succeeding if any of them succeed. It is a synonym
-		/// for Has.Some.
-		/// </summary>
-		public static ConstraintBuilder Item
 		{
 			get { return new ConstraintBuilder().Some; }
 		}
@@ -80,11 +98,11 @@ namespace NUnit.Framework.SyntaxHelpers
 
 		#region Property Constraints
 		/// <summary>
-        /// Returns a new PropertyConstraint checking for the
-        /// existence of a particular property value.
-        /// </summary>
-        /// <param name="name">The name of the property to look for</param>
-        /// <param name="expected">The expected value of the property</param>
+		/// Returns a new PropertyConstraint checking for the
+		/// existence of a particular property value.
+		/// </summary>
+		/// <param name="name">The name of the property to look for</param>
+		/// <param name="expected">The expected value of the property</param>
 		public static Constraint Property( string name, object expected )
 		{
 			return new PropertyConstraint( name, new EqualConstraint( expected ) );
@@ -108,6 +126,18 @@ namespace NUnit.Framework.SyntaxHelpers
 		public static Constraint Count( int count )
 		{
 			return Property( "Count", count );
+		}
+		#endregion
+
+		#region Member Constraint
+		/// <summary>
+		/// Returns a new CollectionContainsConstraint checking for the
+		/// presence of a particular object in the collection.
+		/// </summary>
+		/// <param name="expected">The expected object</param>
+		public static Constraint Member( object expected )
+		{
+			return new CollectionContainsConstraint( expected );
 		}
 		#endregion
 	}

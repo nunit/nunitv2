@@ -216,7 +216,17 @@ namespace NUnit.Framework.Constraints
 		{
 			return Resolve( new ContainsConstraint(expected) );
 		}
-        #endregion
+
+		/// <summary>
+		/// Resolves the chain of constraints using a 
+		/// CollectionContainsConstraint as base.
+        /// </summary>
+		/// <param name="expected">The expected object</param>
+		public Constraint Member( object expected )
+		{
+			return Resolve( new CollectionContainsConstraint( expected ) );
+		}
+		#endregion
 
 		#region String Constraints
 		/// <summary>
@@ -352,18 +362,6 @@ namespace NUnit.Framework.Constraints
 		/// Modifies the ConstraintBuilder by pushing a Some operator on the stack.
 		/// </summary>
 		public ConstraintBuilder Some
-		{
-			get
-			{
-				ops.Push(Op.Some);
-				return this;
-			}
-		}
-
-		/// <summary>
-		/// Modifies the ConstraintBuilder by pushing a Some operator on the stack.
-		/// </summary>
-		public ConstraintBuilder Item
 		{
 			get
 			{

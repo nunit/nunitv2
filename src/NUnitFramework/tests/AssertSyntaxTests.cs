@@ -475,24 +475,22 @@ namespace NUnit.Framework.Tests
 			// Helper syntax
 			Assert.That(ints, Is.All.Not.Null);
 			Assert.That(ints, Has.None.Null);
-			Assert.That(ints, Has.No.Item.Null);
 			Assert.That(ints, Is.All.InstanceOfType(typeof(int)));
-			Assert.That(ints, Has.AllItems.InstanceOfType(typeof(int)));
+			Assert.That(ints, Has.All.InstanceOfType(typeof(int)));
 			Assert.That(strings, Is.All.InstanceOfType(typeof(string)));
-			Assert.That(strings, Has.AllItems.InstanceOfType(typeof(string)));
+			Assert.That(strings, Has.All.InstanceOfType(typeof(string)));
 			Assert.That(ints, Is.Unique);
 			// Only available using new syntax
 			Assert.That(strings, Is.Not.Unique);
 			Assert.That(ints, Is.All.GreaterThan(0));
-			Assert.That(ints, Has.AllItems.GreaterThan(0));
+			Assert.That(ints, Has.All.GreaterThan(0));
 			Assert.That(ints, Has.None.LessThanOrEqualTo(0));
-			Assert.That(ints, Has.No.Item.LessThanOrEqualTo(0));
 			Assert.That(strings, Text.All.Contains( "a" ) );
-			Assert.That(strings, Has.AllItems.Contains( "a" ) );
-			Assert.That(strings, Has.Item.StartsWith( "ba" ) );
-			Assert.That( strings, Has.Item.Property( "Length", 3 ) );
-			Assert.That( strings, Has.Item.StartsWith( "BA" ).IgnoreCase );
-			Assert.That( doubles, Has.Item.EqualTo( 1.0 ).Within( .05 ) );
+			Assert.That(strings, Has.All.Contains( "a" ) );
+			Assert.That(strings, Has.Some.StartsWith( "ba" ) );
+			Assert.That( strings, Has.Some.Property( "Length", 3 ) );
+			Assert.That( strings, Has.Some.StartsWith( "BA" ).IgnoreCase );
+			Assert.That( doubles, Has.Some.EqualTo( 1.0 ).Within( .05 ) );
 		
 			// Inherited syntax
 			Expect(ints, All.Not.Null);
@@ -511,7 +509,7 @@ namespace NUnit.Framework.Tests
 		}
 
 		[Test]
-		public void ItemTests()
+		public void SomeItemTests()
 		{
 			object[] mixed = new object[] { 1, 2, "3", null, "four", 100 };
 			object[] strings = new object[] { "abc", "bad", "cab", "bad", "dad" };
@@ -519,12 +517,12 @@ namespace NUnit.Framework.Tests
 			// Not available using the classic syntax
 
 			// Helper syntax
-			Assert.That(mixed, Has.Item.Null);
-			Assert.That(mixed, Has.Item.InstanceOfType(typeof(int)));
-			Assert.That(mixed, Has.Item.InstanceOfType(typeof(string)));
-			Assert.That(mixed, Has.Item.GreaterThan(99));
-			Assert.That(strings, Has.Item.StartsWith( "ba" ) );
-			Assert.That(strings, Has.Item.Not.StartsWith( "ba" ) );
+			Assert.That(mixed, Has.Some.Null);
+			Assert.That(mixed, Has.Some.InstanceOfType(typeof(int)));
+			Assert.That(mixed, Has.Some.InstanceOfType(typeof(string)));
+			Assert.That(mixed, Has.Some.GreaterThan(99));
+			Assert.That(strings, Has.Some.StartsWith( "ba" ) );
+			Assert.That(strings, Has.Some.Not.StartsWith( "ba" ) );
 		
 			// Inherited syntax
 			Expect(mixed, Some.Null);
@@ -536,7 +534,7 @@ namespace NUnit.Framework.Tests
 		}
 
 		[Test]
-		public void NoItemsTests()
+		public void NoItemTests()
 		{
 			object[] ints = new object[] { 1, 2, 3, 4, 5 };
 			object[] strings = new object[] { "abc", "bad", "cab", "bad", "dad" };
@@ -545,13 +543,9 @@ namespace NUnit.Framework.Tests
 
 			// Helper syntax
 			Assert.That(ints, Has.None.Null);
-			Assert.That(ints, Has.No.Item.Null);
 			Assert.That(ints, Has.None.InstanceOfType(typeof(string)));
-			Assert.That(ints, Has.No.Item.InstanceOfType(typeof(string)));
 			Assert.That(ints, Has.None.GreaterThan(99));
-			Assert.That(ints, Has.No.Item.GreaterThan(99));
 			Assert.That(strings, Has.None.StartsWith( "qu" ) );
-			Assert.That(strings, Has.No.Item.StartsWith( "qu" ) );
 		
 			// Inherited syntax
 			Expect(ints, None.Null);
@@ -572,35 +566,44 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.Contains(iarray, 3);
 			CollectionAssert.Contains(sarray, "b");
 			CollectionAssert.DoesNotContain(sarray, "x");
+			// Showing that Contains uses object equality
+			CollectionAssert.DoesNotContain( iarray, 1.0d );
 
 			// Helper syntax
+			Assert.That(iarray, Has.Member(3));
+			Assert.That(sarray, Has.Member("b"));
+			Assert.That(sarray, Has.No.Member("x"));
+			// Showing that Contains uses object equality
+			Assert.That(iarray, Has.No.Member( 1.0d ));
+
+			// Only available using the new syntax
+			// Note that EqualTo and SameAs do NOT give
+			// identical results to Contains because 
+			// Contains uses Object.Equals()
 			Assert.That(iarray, Has.Some.EqualTo(3));
-			Assert.That(iarray, Has.Item.EqualTo(3));
+			Assert.That(iarray, Has.Member(3));
 			Assert.That(sarray, Has.Some.EqualTo("b"));
-			Assert.That(sarray, Has.Item.EqualTo("b"));
 			Assert.That(sarray, Has.None.EqualTo("x"));
-			Assert.That(sarray, Has.No.Item.EqualTo("x"));
-			// Only available using new syntax
-			Assert.That(iarray, Has.AllItems.LessThan(10));
-			Assert.That(sarray, Has.AllItems.Length(1));
+			Assert.That(iarray, Has.None.SameAs( 1.0d ));
+			Assert.That(iarray, Has.All.LessThan(10));
+			Assert.That(sarray, Has.All.Length(1));
 			Assert.That(sarray, Has.None.Property("Length").GreaterThan(3));
-			Assert.That(sarray, Has.No.Item.Property("Length").GreaterThan(3));
 		
 			// Inherited syntax
 			Expect(iarray, Contains(3));
-			Expect(iarray, Some.EqualTo(3));
-			Expect(iarray, Item.EqualTo(3));
 			Expect(sarray, Contains("b"));
-			Expect(sarray, Some.EqualTo("b"));
-			Expect(sarray, Item.EqualTo("b"));
 			Expect(sarray, Not.Contains("x"));
-			Expect(sarray, None.EqualTo("x"));
-			Expect(sarray, No.Item.EqualTo("x"));
+
 			// Only available using new syntax
+			// Note that EqualTo and SameAs do NOT give
+			// identical results to Contains because 
+			// Contains uses Object.Equals()
+			Expect(iarray, Some.EqualTo(3));
+			Expect(sarray, Some.EqualTo("b"));
+			Expect(sarray, None.EqualTo("x"));
 			Expect(iarray, All.LessThan(10));
 			Expect(sarray, All.Length(1));
 			Expect(sarray, None.Property("Length").GreaterThan(3));
-			Expect(sarray, No.Item.Property("Length").GreaterThan(3));
 		}
 
 		[Test]
@@ -672,18 +675,18 @@ namespace NUnit.Framework.Tests
 			Assert.That( array, Has.Length( 4 ) );
 			Assert.That( array, Has.Property( "Length" ).LessThan( 10 ) );
 
-			Assert.That( array, Has.AllItems.Property("Length", 3) );
-			Assert.That( array, Has.AllItems.Length( 3 ) );
+			Assert.That( array, Has.All.Property("Length", 3) );
+			Assert.That( array, Has.All.Length( 3 ) );
 			Assert.That( array, Is.All.Length( 3 ) );
-			Assert.That( array, Has.AllItems.Property("Length").EqualTo(3) );
+			Assert.That( array, Has.All.Property("Length").EqualTo(3) );
 			Assert.That( array, Is.All.Property("Length").EqualTo(3) );
 			
-			Assert.That( array2, Has.Item.Property("Length", 2) );
-			Assert.That( array2, Has.Item.Length(2) );
-			Assert.That( array2, Has.Item.Property("Length").GreaterThan(2) );
+			Assert.That( array2, Has.Some.Property("Length", 2) );
+			Assert.That( array2, Has.Some.Length(2) );
+			Assert.That( array2, Has.Some.Property("Length").GreaterThan(2) );
 
-			Assert.That( array2, Has.No.Property("Length", 4) );
-			Assert.That( array2, Has.No.Length( 4 ) );
+			Assert.That( array2, Is.Not.Property("Length", 4) );
+			Assert.That( array2, Is.Not.Length( 4 ) );
 			Assert.That( array2, Has.No.Property("Length").GreaterThan(3) );
 
 			Assert.That( List.Map( array2 ).Property("Length"), Is.EqualTo( new int[] { 1, 2, 3 } ) );
