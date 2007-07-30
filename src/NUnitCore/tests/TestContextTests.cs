@@ -39,7 +39,9 @@ namespace NUnit.Core.Tests
 			
 			using ( new TestContext() )
 			{
-				string otherDirectory = Environment.SystemDirectory;
+				string otherDirectory = System.IO.Path.GetTempPath();
+				if( otherDirectory[otherDirectory.Length-1] == System.IO.Path.DirectorySeparatorChar )
+					otherDirectory = otherDirectory.Substring(0, otherDirectory.Length-1);
 				TestContext.CurrentDirectory = otherDirectory;
 				Assert.AreEqual( otherDirectory, Environment.CurrentDirectory, "Directory was not set" );
 				Assert.AreEqual( otherDirectory, TestContext.CurrentDirectory, "Directory not in new context" );
