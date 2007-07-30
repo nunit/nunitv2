@@ -229,15 +229,13 @@ namespace NUnit.Util
 				foreach ( string assembly in this.Assemblies )
 					package.Assemblies.Add( assembly );
 
-			if ( this.BasePathSpecified || this.PrivateBinPathSpecified )
+			if ( this.BasePathSpecified || this.PrivateBinPathSpecified || this.ConfigurationFileSpecified )
 			{
 				package.BasePath = this.BasePath;
 				package.PrivateBinPath = this.PrivateBinPath;
+				package.ConfigurationFile = this.ConfigurationFile;
 			}
 
-			if ( this.ConfigurationFileSpecified )
-				package.ConfigurationFile = this.ConfigurationFile;
-			
 			package.AutoBinPath = this.BinPathType == BinPathType.Auto;
 
 			return package;
