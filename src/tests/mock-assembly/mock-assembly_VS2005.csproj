@@ -57,7 +57,6 @@
     <Compile Include="MockAssembly.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="mock-assembly.dll.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NUnitCore\core\nunit.core.dll_VS2005.csproj">
@@ -77,6 +76,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)mock-assembly.dll.config" "$(TargetDir)mock-assembly.dll.config"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

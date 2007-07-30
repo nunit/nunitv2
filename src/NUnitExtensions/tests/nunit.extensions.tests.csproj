@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit.extensions.tests.dll.config" "$(TargetDir)nunit.extensions.tests.dll.config"'
+                PostBuildEvent = ""
                 RootNamespace = "NUnit.Extensions.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -118,10 +118,6 @@
                     Link = "..\..\CommonAssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "nunit.extensions.tests.dll.config"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "RepeatedTestFixture.cs"

@@ -171,9 +171,6 @@
     <Compile Include="XmlResultVisitorTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="nunit.util.tests.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <EmbeddedResource Include="resources\cpp-default-library_VS2005.vcproj" />
     <EmbeddedResource Include="resources\ClassLibrary1.csproj" />
     <EmbeddedResource Include="resources\CPPLibrary.vcproj" />
@@ -197,6 +194,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)nunit.util.tests.dll.config" "$(TargetDir)nunit.util.tests.dll.config"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

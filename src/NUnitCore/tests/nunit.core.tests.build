@@ -82,9 +82,6 @@
         <include name="System.Data.dll"/>
       </references>
     </csc>
-
-    <copy file="nunit.core.tests.dll.config"
-      todir="${current.build.dir}"/>
   </target>
 
   <target name="package">

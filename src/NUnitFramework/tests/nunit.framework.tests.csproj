@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit.framework.tests.dll.config" "$(TargetDir)nunit.framework.tests.dll.config"'
+                PostBuildEvent = ""
                 RootNamespace = "NUnit.Framework.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -213,10 +213,6 @@
                     RelPath = "NotSameFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "nunit.framework.tests.dll.config"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "SameFixture.cs"

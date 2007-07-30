@@ -63,7 +63,6 @@
     <Compile Include="ConsoleRunnerTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="nunit-console.tests.dll.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ClientUtilities\util\nunit.util.dll_VS2005.csproj">
@@ -91,6 +90,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)nunit-console.tests.dll.config" "$(TargetDir)nunit-console.tests.dll.config"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

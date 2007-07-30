@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit.uikit.tests.dll.config" "$(TargetDir)nunit.uikit.tests.dll.config"'
+                PostBuildEvent = ""
                 RootNamespace = "NUnit.UiKit.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -148,10 +148,6 @@
                     RelPath = "LongRunningOperationDisplayTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "nunit.uikit.tests.dll.config"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "ProgressBarTests.cs"

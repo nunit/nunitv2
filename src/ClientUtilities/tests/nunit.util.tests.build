@@ -52,8 +52,6 @@
         <include name="notestfixtures-assembly.dll"/>
       </references>
     </csc>
-    <copy file="nunit.util.tests.dll.config"
-      todir="${current.build.dir}"/>
   </target>
 
   <target name="package">

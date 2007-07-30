@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "..\..\..\nunit-server-exe\bin\$(ConfigurationName)\nunit-server.exe" "$(TargetDir)"&#xd;&#xa;copy "$(ProjectDir)nunit-server.tests.dll.config" "$(TargetDir)nunit-server.tests.dll.config"'
+                PostBuildEvent = ""
                 RootNamespace = "NUnit.TestServer.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -118,10 +118,6 @@
                     Link = "..\..\CommonAssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "nunit-server.tests.dll.config"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "TestServerTests.cs"

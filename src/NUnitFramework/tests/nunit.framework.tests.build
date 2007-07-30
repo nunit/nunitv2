@@ -60,9 +60,6 @@
         <include name="System.Drawing.dll"/>
       </references>
     </csc>
-
-    <copy file="nunit.framework.tests.dll.config"
-      todir="${current.build.dir}"/>
   </target>
 
   <target name="package">

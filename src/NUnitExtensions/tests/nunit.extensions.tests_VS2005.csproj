@@ -84,13 +84,11 @@
       <Name>nunit.core.extensions.dll_VS2005</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="nunit.extensions.tests.dll.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)nunit.extensions.tests.dll.config" "$(TargetDir)nunit.extensions.tests.dll.config"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

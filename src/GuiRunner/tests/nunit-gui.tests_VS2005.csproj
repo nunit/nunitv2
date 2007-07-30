@@ -83,12 +83,12 @@
     <Compile Include="ProjectEditorTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="nunit-gui.tests.dll.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)nunit-gui.tests.dll.config" "$(TargetDir)nunit-gui.tests.dll.config"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

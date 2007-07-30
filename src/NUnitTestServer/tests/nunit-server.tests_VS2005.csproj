@@ -94,14 +94,11 @@
       <Name>nunit-server_VS2005</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="nunit-server.tests.dll.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)..\nunit-server-exe\obj\$(ConfigurationName)\nunit-server.exe" "$(TargetDir)"
-copy "$(ProjectDir)nunit-server.tests.dll.config" "$(TargetDir)nunit-server.tests.dll.config"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -60,7 +60,6 @@
     <Compile Include="MockTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="nunit.mocks.tests.dll.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll_VS2005.csproj">
@@ -76,6 +75,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)nunit.mocks.tests.dll.config" "$(TargetDir)nunit.mocks.tests.dll.config"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

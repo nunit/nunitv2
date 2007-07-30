@@ -122,7 +122,6 @@
       <Link>Results.xsx</Link>
       <DependentUpon>Results.xsd</DependentUpon>
     </None>
-    <None Include="nunit.framework.tests.dll.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="TestImage1.jpg" />
@@ -134,6 +133,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>copy "$(ProjectDir)nunit.framework.tests.dll.config" "$(TargetDir)nunit.framework.tests.dll.config"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

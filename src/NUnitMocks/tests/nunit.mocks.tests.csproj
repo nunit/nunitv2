@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit.mocks.tests.dll.config" "$(TargetDir)nunit.mocks.tests.dll.config"'
+                PostBuildEvent = ""
                 RootNamespace = "NUnit.Mocks.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -108,10 +108,6 @@
                     RelPath = "MockTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "nunit.mocks.tests.dll.config"
-                    BuildAction = "None"
                 />
             </Include>
         </Files>

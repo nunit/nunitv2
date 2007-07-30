@@ -50,7 +50,8 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void IsValidPeFile_Fails()
 		{
-			Assert.IsFalse( new AssemblyReader( "nunit.core.tests.dll.config" ).IsValidPeFile );
+			string configFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
+			Assert.IsFalse( new AssemblyReader( configFile ).IsValidPeFile );
 		}
 
 		[Test]

@@ -18,8 +18,6 @@
         <include name="nunit-test-server.dll"/>
       </references>
     </csc>
-    <copy file="nunit-server.tests.dll.config"
-      todir="${current.build.dir}"/>
   </target>
 
   <target name="package">

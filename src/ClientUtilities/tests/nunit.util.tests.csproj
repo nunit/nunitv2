@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit.util.tests.dll.config" "$(TargetDir)nunit.util.dll.tests.config"&#xd;&#xa;'
+                PostBuildEvent = ""
                 RootNamespace = "NUnit.Util.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -168,10 +168,6 @@
                     RelPath = "MockAssemblyWatcher.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "nunit.util.tests.dll.config"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "NUnitProjectLoad.cs"

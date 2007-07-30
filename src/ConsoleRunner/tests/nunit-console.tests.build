@@ -20,7 +20,6 @@
         <include name="test-assembly.dll"/>
       </references>
     </csc>
-    <copy file="nunit-console.tests.dll.config" todir="${current.build.dir}"/>
   </target>
 
   <target name="package">

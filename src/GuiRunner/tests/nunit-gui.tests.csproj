@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(ProjectDir)nunit-gui.tests.dll.config" "$(TargetDir)nunit-gui.tests.dll.config"'
+                PostBuildEvent = ""
                 RootNamespace = "NUnit.Gui.Tests"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -128,10 +128,6 @@
                     RelPath = "ExceptionDetailsFormTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "nunit-gui.tests.dll.config"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "ProjectEditorTests.cs"

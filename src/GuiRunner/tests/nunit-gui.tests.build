@@ -20,8 +20,6 @@
         <include name="test-utilities.dll"/>
       </references>
     </csc>
-    <copy file="nunit-gui.tests.dll.config"
-      todir="${current.build.dir}"/>
   </target>
 
   <target name="package">

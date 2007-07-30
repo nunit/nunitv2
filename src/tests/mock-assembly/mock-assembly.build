@@ -15,7 +15,6 @@
         <include name="nunit.core.dll"/>
       </references>
     </csc>
-    <copy file="mock-assembly.dll.config" todir="${current.build.dir}"/>
   </target>
 
   <target name="package">
