@@ -1612,6 +1612,7 @@ namespace NUnit.Gui
 		{
 			SetTitleBar( e.Name );
 			projectMenu.Visible = true;
+			runCount.Text = "";
 		}
 
 		private void OnTestProjectUnloading( object sender, TestEventArgs e )
@@ -1631,6 +1632,7 @@ namespace NUnit.Gui
 		{
 			SetTitleBar( null );
 			projectMenu.Visible = false;
+			runCount.Text = "";
 		}
 
 		private void OnTestLoadStarting( object sender, TestEventArgs e )
@@ -1742,6 +1744,7 @@ the version under which NUnit is currently running, {0}.",
 			suiteName.Text = e.Name;
 			EnableRunCommand( false );
 			EnableStopCommand( true );
+			runCount.Text = "";
 		}
 
 		private void OnRunFinished( object sender, TestEventArgs e )
@@ -1754,6 +1757,12 @@ the version under which NUnit is currently running, {0}.",
 				if ( ! ( e.Exception is System.Threading.ThreadAbortException ) )
 					UserMessage.DisplayFailure( e.Exception, "NUnit Test Run Failed" );
 			}
+
+			SummaryVisitor summary = new SummaryVisitor();
+			e.Result.Accept( summary );
+			this.runCount.Text = string.Format( 
+				"Test Cases: {0}   Tests Run: {1}   Failures: {2}   Ignored: {3}   Skipped: {4}   Run Time: {5}",
+				summary.ResultCount+summary.SkipCount, summary.ResultCount, summary.FailureCount, summary.IgnoreCount, summary.SkipCount, summary.Time );
 
 			EnableRunCommand( true );
 
