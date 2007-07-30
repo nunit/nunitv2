@@ -70,6 +70,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.CheckBox saveVisualStateCheckBox;
 
 		private ISettings settings;
+		private bool reloadProjectOnClose;
 
 		public OptionsDialog()
 		{
@@ -128,6 +129,7 @@ namespace NUnit.Gui
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
 			this.visualStudioSupportCheckBox = new System.Windows.Forms.CheckBox();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.saveVisualStateCheckBox = new System.Windows.Forms.CheckBox();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.groupBox7 = new System.Windows.Forms.GroupBox();
 			this.flatTestList = new System.Windows.Forms.RadioButton();
@@ -153,7 +155,6 @@ namespace NUnit.Gui
 			this.separateTrace = new System.Windows.Forms.RadioButton();
 			this.traceOutputCheckBox = new System.Windows.Forms.CheckBox();
 			this.mergeTrace = new System.Windows.Forms.RadioButton();
-			this.saveVisualStateCheckBox = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.tabControl1.SuspendLayout();
@@ -429,6 +430,14 @@ namespace NUnit.Gui
 			this.groupBox5.TabIndex = 1;
 			this.groupBox5.TabStop = false;
 			this.groupBox5.Text = "Tree View";
+			// 
+			// saveVisualStateCheckBox
+			// 
+			this.saveVisualStateCheckBox.Location = new System.Drawing.Point(16, 96);
+			this.saveVisualStateCheckBox.Name = "saveVisualStateCheckBox";
+			this.saveVisualStateCheckBox.Size = new System.Drawing.Size(248, 24);
+			this.saveVisualStateCheckBox.TabIndex = 11;
+			this.saveVisualStateCheckBox.Text = "Save Visual State of each project";
 			// 
 			// tabPage2
 			// 
@@ -719,14 +728,6 @@ namespace NUnit.Gui
 			this.mergeTrace.TabIndex = 2;
 			this.mergeTrace.Text = "Merge with Console Output";
 			// 
-			// saveVisualStateCheckBox
-			// 
-			this.saveVisualStateCheckBox.Location = new System.Drawing.Point(16, 96);
-			this.saveVisualStateCheckBox.Name = "saveVisualStateCheckBox";
-			this.saveVisualStateCheckBox.Size = new System.Drawing.Size(248, 24);
-			this.saveVisualStateCheckBox.TabIndex = 11;
-			this.saveVisualStateCheckBox.Text = "Save Visual State of each project";
-			// 
 			// OptionsDialog
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
@@ -744,7 +745,6 @@ namespace NUnit.Gui
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "NUnit Options";
-			this.Closing += new System.ComponentModel.CancelEventHandler(this.OptionsDialog_Closing);
 			this.Load += new System.EventHandler(this.OptionsDialog_Load);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
@@ -814,13 +814,15 @@ namespace NUnit.Gui
 
 		private void okButton_Click(object sender, System.EventArgs e)
 		{
-			if ( settings.GetSetting( "Options.TestLoader.ReloadOnChange", true ) != reloadOnChangeCheckBox.Checked )
+			if ( changesRequireReload() )
 			{
-				string msg = String.Format(
-					"Watching for file changes will be {0} the next time you load an assembly.",
-					reloadOnChangeCheckBox.Checked ? "enabled" : "disabled" );
-
-				UserMessage.DisplayInfo( msg, "NUnit Options" );
+				DialogResult answer = UserMessage.Ask( 
+					"Some changes will only take effect when you reload the test project. Do you want to reload now?",
+					"NUnit Options",
+					MessageBoxButtons.YesNo );
+				
+				if ( answer == DialogResult.Yes )
+					reloadProjectOnClose = true;
 			}
 
 			settings.SaveSetting( "Options.LoadLastProject", loadLastProjectCheckBox.Checked );
@@ -858,6 +860,16 @@ namespace NUnit.Gui
 			DialogResult = DialogResult.OK;
 
 			Close();
+		}
+
+		private bool changesRequireReload()
+		{
+			return 
+				settings.GetSetting( "Options.TestLoader.ReloadOnChange", true ) != reloadOnChangeCheckBox.Checked ||
+				settings.GetSetting( "Options.TestLoader.MultiDomain", false ) != multiDomainRadioButton.Checked ||
+				settings.GetSetting( "Options.TestLoader.MergeAssemblies", false ) != mergeAssembliesCheckBox.Checked ||
+				settings.GetSetting( "Options.TestLoader.AutoNamespaceSuites", true ) != autoNamespaceSuites.Checked ||
+				settings.GetSetting( "Options.TestLoader.ShadowCopyFiles", true ) != shadowCopyCheckBox.Checked;
 		}
 
 		private void recentFilesCountTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -903,11 +915,6 @@ namespace NUnit.Gui
 			Services.RecentFiles.MaxFiles = count;
 		}
 
-		private void OptionsDialog_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-			e.Cancel = false;
-		}
-
 		private void singleDomainRadioButton_CheckedChanged(object sender, System.EventArgs e)
 		{
 			mergeAssembliesCheckBox.Enabled = singleDomainRadioButton.Checked;
@@ -938,5 +945,17 @@ namespace NUnit.Gui
 		{
 			this.separateTrace.Enabled = this.mergeTrace.Enabled = this.traceOutputCheckBox.Checked;
 		}
+
+		protected override void OnHandleDestroyed(EventArgs e)
+		{
+			base.OnHandleDestroyed (e);
+
+			if ( reloadProjectOnClose )
+			{
+				NUnitProject testProject = Services.TestLoader.TestProject;
+				TestLoaderUI.OpenProject( this, testProject.ProjectPath, testProject.ActiveConfigName, null );
+			}
+		}
+
 	}
 }
