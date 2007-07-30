@@ -47,6 +47,7 @@ namespace NUnit.Util
 		}
 		#endregion
 
+		#region ConvertLegacySettings
 		void ConvertLegacySettings()
 		{
 			RegistryKey key = Registry.CurrentUser.OpenSubKey( NUnitRegistry.KEY );
@@ -134,5 +135,6 @@ namespace NUnit.Util
 				}
 			}
 		}
+		#endregion
 	}
 }
