@@ -57,8 +57,11 @@ namespace NUnit.Util
 
 		public void StopAllServices()
 		{
-			foreach( IService service in services )
-				service.UnloadService();
+			// Stop services in reverse of initialization order
+			// TODO: Deal with dependencies explicitly
+			int index = services.Count;
+			while( --index >= 0 )
+				((IService)services[index]).UnloadService();
 		}
 
 		private ServiceManager() { }
