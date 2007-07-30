@@ -59,9 +59,14 @@ namespace NUnit.UiKit
 				{
                     // Rather than show files that don't exist, we skip them. As
                     // new recent files are opened, they will be pushed down and
-                    // eventually fall off the list.
+                    // eventually fall off the list unless the file is re-created
+					// and subsequently opened.
                     if ( showMissingFiles || entry.Exists )
                     {
+						// NOTE: In the current version, all the files listed should
+						// have a compatible version, since we are using separate
+						// settings for V1 and V2. This code will be changed in
+						// a future release to allow running under other runtimes.
 						if ( showNonRunnableFiles || entry.IsCompatibleCLRVersion )
 						{
 							MenuItem item = new MenuItem(String.Format("{0} {1}", index++, entry.Path));

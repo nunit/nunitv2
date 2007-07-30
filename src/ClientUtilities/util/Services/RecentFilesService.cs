@@ -30,7 +30,6 @@ namespace NUnit.Util
 		public RecentFilesService( ISettings settings ) 
 		{
 			this.settings = settings;
-			LoadEntries();
 		}
 		#endregion
 
@@ -60,7 +59,7 @@ namespace NUnit.Util
 				if ( newSize > MaxSize ) newSize = MaxSize;
 
 				settings.SaveSetting( "RecentProjects.MaxFiles", newSize );
-				if ( newSize < oldSize ) SaveEntries();
+				if ( newSize < oldSize ) SaveEntriesToSettings( this. settings );
 			}
 		}
 		#endregion
@@ -70,16 +69,13 @@ namespace NUnit.Util
 		{
 			get
 			{
-				LoadEntries();
 				return fileEntries;
 			}
 		}
 		
 		public void Remove( string fileName )
 		{
-			LoadEntries();
 			fileEntries.Remove( fileName );
-			SaveEntries();
 		}
 
 		public void SetMostRecent( string fileName )
@@ -89,8 +85,6 @@ namespace NUnit.Util
 
 		public void SetMostRecent( RecentFileEntry entry )
 		{
-			LoadEntries();
-
 			int index = fileEntries.IndexOf(entry.Path);
 
 			if(index != -1)
@@ -99,41 +93,62 @@ namespace NUnit.Util
 			fileEntries.Insert( 0, entry );
 			if( fileEntries.Count > MaxFiles )
 				fileEntries.RemoveAt( MaxFiles );
-
-			SaveEntries();			
 		}
 		#endregion
 
 		#region Helper Methods for saving and restoring the settings
-		private void LoadEntries()
+		private void LoadEntriesFromSettings( ISettings settings )
 		{
 			fileEntries.Clear();
+
+			string prefix = Environment.Version.Major >= 2
+				? "RecentProjects.V2"
+				: "RecentProjects.V1";
+
 			for ( int index = 1; index <= MaxFiles; index++ )
 			{
-				string fileSpec = settings.GetSetting( ValueName( index ) ) as string;
-				if ( fileSpec != null )
-					fileEntries.Add( NUnit.Util.RecentFileEntry.Parse( fileSpec ) );
+				string fileSpec = settings.GetSetting( GetRecentFileKey( prefix, index ) ) as string;
+				if ( fileSpec != null )	fileEntries.Add( new RecentFileEntry( fileSpec ) );
 			}
+
+			// Try legacy entries if nothing was found
+			if ( fileEntries.Count == 0 )
+			{
+				for ( int index = 1; index <= MaxFiles; index++ )
+				{
+					string fileSpec = settings.GetSetting( GetRecentFileKey( "RecentProjects", index ) ) as string;
+					if ( fileSpec != null )
+					{
+						RecentFileEntry entry = RecentFileEntry.Parse( fileSpec );
+						if ( entry.CLRVersion.Major <= Environment.Version.Major )
+							fileEntries.Add( entry );
+					}
+				}
+			};
 		}
 
-		private void SaveEntries()
+		private void SaveEntriesToSettings( ISettings settings )
 		{
+			string prefix = Environment.Version.Major >= 2
+				? "RecentProjects.V2"
+				: "RecentProjects.V1";
+
 			while( fileEntries.Count > MaxFiles )
 				fileEntries.RemoveAt( fileEntries.Count - 1 );
 
 			for( int index = 0; index < MaxSize; index++ ) 
 			{
-				string valueName = ValueName( index + 1 );
+				string keyName = GetRecentFileKey( prefix, index + 1 );
 				if ( index < fileEntries.Count )
-					settings.SaveSetting( valueName, fileEntries[index].ToString() );
+					settings.SaveSetting( keyName, fileEntries[index].Path );
 				else
-					settings.RemoveSetting( valueName );
+					settings.RemoveSetting( keyName );
 			}
 		}
 
-		private string ValueName( int index )
+		private string GetRecentFileKey( string prefix, int index )
 		{
-			return string.Format( "RecentProjects.File{0}", index );
+			return string.Format( "{0}.File{1}", prefix, index );
 		}
 		#endregion
 
@@ -141,12 +156,12 @@ namespace NUnit.Util
 
 		public void UnloadService()
 		{
-			// TODO:  Add RecentFilesService.UnloadService implementation
+			SaveEntriesToSettings( this.settings );
 		}
 
 		public void InitializeService()
 		{
-			// TODO:  Add RecentFilesService.InitializeService implementation
+			LoadEntriesFromSettings( this.settings );
 		}
 
 		#endregion
