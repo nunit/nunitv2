@@ -197,26 +197,8 @@
 
   <target name="rebuild-all" depends="clean-all,build-all"/>
 
-  <target name="build-all" 
-      description="Build all runtime versions, debug and release">
-    <call target="set-debug-build-config"/>
-    <call target="build-all-runtimes"/>
-    <call target="set-release-build-config"/>
-    <call target="build-all-runtimes"/>
-  </target>
-
-  <target name="build-all-configs"
-      description="Build debug and release for selected runtime">
-    <call target="set-debug-build-config"/>
-    <call target="set-runtime-config"/>
-    <call target="build"/>
-    <call target="set-release-build-config"/>
-    <call target="set-runtime-config"/>
-    <call target="build"/>
-  </target>
-
-  <target name="build-all-runtimes"
-      description="Build for each available runtime">
+  <target name="build-all"
+      description="Build current config for all available runtime">
     <foreach item="String" delim="," 
         property="framework" in="${supported.frameworks}">
       <if test="${framework::sdk-exists( framework )}">
@@ -241,10 +223,10 @@
 <!-- ***************************************************************** -->
 
   <target name="test" depends="build,run-test"
-    description="Run tests for a build using console runner"/>
+    description="Build and run tests for selected config and runtime"/>
 
   <target name="run-test"
-      description="Run tests without rebuilding first">
+      description="Run tests for selected config and runtime (no rebuild)">
 
     <echo message="*"/>
     <echo message="* Testing ${runtime.config} ${build.config} build"/>
@@ -259,11 +241,13 @@
       value="${nunit.base.tests} ${nunit.gui.tests}" if="${build.gui}"/>
     <property name="nunit.test.assemblies" 
       value="${nunit.base.tests}" unless="${build.gui}"/>
+    <property name="result.file" 
+      value="TestResult-${nant.settings.currentframework}"/>
     <exec basedir="${current.build.dir}"
       workingdir="${current.build.dir}" 
 	  program="${nunit.console.name}" 
       useruntimeengine="true"
-	  commandline="${nunit.test.assemblies} ${nunit.options} /xml:TestResult-${nant.settings.currentframework}.xml"/>
+	  commandline="NUnitTests.nunit ${nunit.options} /xml:${result.file}.xml" />
 
   </target>
 
@@ -294,26 +278,8 @@
 
   </target>
 
-  <target name="test-all" 
-      description="Test all runtime versions, debug and release">
-    <call target="set-debug-build-config"/>
-    <call target="test-all-runtimes"/>
-    <call target="set-release-build-config"/>
-    <call target="test-all-runtimes"/>
-  </target>
-
-  <target name="test-all-configs"
-      description="Test debug and release for selected runtime">
-    <call target="set-debug-build-config"/>
-    <call target="set-runtime-config"/>
-    <call target="test"/>
-    <call target="set-release-build-config"/>
-    <call target="set-runtime-config"/>
-    <call target="test"/>
-  </target>
-
-  <target name="test-all-runtimes"
-      description="Test under each available runtime">
+  <target name="test-all"
+      description="Build and test all runtimes for current config">
     <foreach item="String" delim="," 
         property="framework" in="${supported.frameworks}">
       <if test="${framework::sdk-exists( framework )}">
@@ -324,7 +290,8 @@
   </target>
 
   <target name="test-each-runtime" depends="build"
-      description="Test the current build under each runtime it supports">
+      description="Run tests for the current build under each runtime">
+
     <foreach item="String" delim=","
         property="framework" in="${test.platforms}">
       <if test="${framework::exists( framework )}">
@@ -333,7 +300,27 @@
       </if>
     </foreach>
     <property name="nant.settings.currentframework" value="${runtime.config}" />
-    <echo message="Restored runtime to ${nant.settings.currentframework}" />
+
+    <echo message="*" />
+    <echo message="* Restored runtime to ${nant.settings.currentframework}" />
+    <echo message="*" />
+
+  </target>
+
+  <target name="test-all-under-each"
+      description="Build all runtimes and test the builds under each runtime.">
+
+    <call target="set-release-build-config"/>
+
+    <foreach item="String" delim="," 
+        property="framework" in="${supported.frameworks}">
+
+      <if test="${framework::sdk-exists( framework )}">
+        <call target="set-${framework}-runtime-config"/>
+        <call target="test-each-runtime" failonerror="false"/>
+      </if>
+
+    </foreach>
   </target>
 
   <target name="nunit2-test" depends="build"
