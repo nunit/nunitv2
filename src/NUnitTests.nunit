@@ -1,4 +1,5 @@
 <NUnitProject>
+  <Settings appbase="." />
   <Config name="Default" binpathtype="Auto">
     <assembly path="nunit.framework.tests.dll" />
     <assembly path="nunit.core.tests.dll" />
