@@ -11,8 +11,8 @@ using System.Collections;
 namespace NUnit.Framework.Constraints
 {
 	/// <summary>
-	/// The constraint class is the base of all implementations
-	/// of IConstraint in NUnit. It provides the operator
+	/// The Constraint class is the base of all built-in or
+	/// user-defined constraints in NUnit. It provides the operator
 	/// overloads used to combine constraints.
 	/// </summary>
     public abstract class Constraint
