@@ -160,11 +160,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "IConstraint.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "IExpectException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
