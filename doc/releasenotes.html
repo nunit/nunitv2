@@ -32,6 +32,179 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
+<h3>NUnit 2.4.2 - July ??, 2007</h3>
+
+<h4>General</h4>
+<ul>
+<li>The .Net 2.0 packages now include nunit-x86.exe and nunit-console-x86.exe,
+which may be used to test 32-bit code on 64-bit systems.
+</ul>
+
+<h4>Framework</h4>
+<ul>
+<li>Numeric comparison is now performed by converting the expected and actual
+values to the widest of the two types rather than by comparing the string
+representation of the two values. This eliminates certain problems with 
+decimals and floats and is more representative of how the comparison would
+be performed in most programming languages.
+
+<li>Two new attributes allow tailoring the tests for different cultures
+   <dl style="margin-left: 2em">
+      <dt>CultureAttribute
+	  <dd>Allows you to specify the cultures under which a test should be
+	  run or skipped. It works just like PlatformAttribute, supporting named
+	  parameters Include, Exclude and Reason. You can use local cultures ("en-GB")
+	  or neutral cultures ("en"). It may be used on tests, fixtures or assemblies.
+	  <dt>SetCultureAttribute
+	  <dd>Changes the culture for the duration of the test. As of this release,
+	  only a single culture may be specified, so you will need to create a separate
+	  test method for each culture under which you want ta test to be run.
+   </dl>
+   
+<li>Expected and actual value messages created by NUnit now use the InvariantCulture
+in formatting numeric values. DateTime values are formatted as "yyyy-MM-dd HH:mm:ss.fff".
+
+<li>A number of changes have been made to the constraint-based Assert syntax
+introduced in version 2.4:
+  <dl style="margin-left: 2em">
+    <dt>EqualTo(...).Within(...)
+    <dd>A tolerance may be specified 
+    for any numeric type and works as expected. The value specified as a tolerance
+    must be convertible to the type used in the comparison or an exception will
+    be thrown.
+
+    <dt>Collection Asserts 
+    <dd>Asserts that require a collection as the actual value now throw an exception
+    if the value is not a collection. In earlier releases, the test failed, which
+    caused false positives when it was modified by Not.
+	
+	<dt>Syntax Helpers
+	<dd>NUnit 2.4.1 provided four SyntaxHelpers: Is, List, Text and the 
+	undocumented Has helper. In 2.4.2, there are three helpers, with the List
+	class now being used for mapping collections as describe below.
+	
+	Rather than inheriting from a common base containing properties like Not and
+	All, each SyntaxHelper now implements only specific properties.
+	<ul>
+	<li><b>Is</b> defines the large majority of constraint tests. Since it is
+	a keyword in Visual Basic, the synonym <b>Iz</b> is provided for VB users.
+	Constraint operators <b>Is.All</b> and <b>Is.Not</b> are supported.
+	<li><b>Text</b> defines constraints that are specific to strings.
+	Constraint operator <b>Is.All</b> is supported as well.
+	<li><b>Has</b> is newly documented and extended in 2.4.2. It is used to make
+	tests on members of collections, elements of arrays, entries in dictionaries
+	and properties of objects. Operators <b>Has.No</b>, <b>Has.All</b>,
+	<b>Has.Some</b> and <b>Has.None</b> are supported.
+	<li><b>List.Contains()</b> has been replaced by <b>Has.Member()</b>.
+	</ul>
+
+	<dt>List.Map
+	<dd>Used to map a collection provided as an actual value to another collection
+	to which constraints are then applied. Currently supports creating a list
+	of the values of a given property. See the documentation for details.
+  </dl>
+  
+  <li>The <b>IConstraint</b> interface has been removed. Custom constraint
+  classes should inherit from the <b>Constraint</b> abstract class. 
+
+</ul>
+
+<h4>Core</h4>
+<ul>
+  <li>When tests in an NUnit project are run in multiple AppDomains, any non-default
+  values set for AppBase, PrivateBinPath and Configuration File are now honored for 
+  each separate assembly. If values are not provided, the default is to use the
+  location of each assembly together with any config file with the name of the
+  assembly plus the ".config" extension. When running in a single AppDomain, the
+  existing defaults are unchanged.
+  
+  <li>Any changes to the current directory or current culture made during a test 
+  are now restored at the end of the test. For example, if you set the culture
+  with code in your TestFixtureSetUp, that change will remain in place until
+  all tests are run and the TestFixtureTearDown completes. At that point, the
+  value will be restored to what it was before.
+</ul>
+
+<h4>Gui</h4>
+
+<ul>
+<li>The main window is activated whenever a test run has failures. This causes
+NUnit's taskbar button to be highlighted if the window is minimized or hidden.
+
+<li>The reload menu item is now called Reload Tests. It continues to work as 
+before, causing any changes in the assemblies to be merged into the tree. A new
+menu item, Reload Project, does a complete load by closing the project and 
+reopening it as if the user had done so through the Open menu item.
+
+<li>Separate recent file lists are maintained, one for running under .NET 2.0
+and one for earlier versions of the runtime. This useful for developers who work
+on multiple projects as well as those who maintain configurations for different
+runtimes in the same project file.
+
+<li>The tree context menu contains an entry to load the selected fixture alone.
+Developers working on large projects can reduce reloading time significantly
+by using this feature to load only a subset of the tests. A separate context
+menu item is used to reload the full project.
+
+<b>Note:</b> This feature is a quick and dirty solution to the problem 
+of reload time. It is limited to a single selected item because that's
+what the underlying test loader currently supports. Future releases will
+deal with this in an entirely different way.
+
+<li>The Gui can now save and restore the visual state of the tree when a 
+project is closed and restores it on open. The following items are saved:
+  <ul>
+  <li>Whether checkboxes are shown
+  <li>The topmost visible node
+  <li>The selected node
+  <li>Which nodes are expanded or collapsed
+  <li>Which nodes are checked
+  <li>Which categories are selected
+  </ul>
+This is controlled by a selection on the Options Dialog.
+  
+<b>Note:</b> TopNode is restored correctly under .NET 2.0. Under .NET 1.1
+the node is made visible but may not be at the top of the display.
+
+<li>A summary of the last test run is shown below the progress bar. This
+information remains displayed even when the information in the status
+bar changes.
+
+<li>The Gui now remembers the last result tab selected.
+
+<li>The Project Editor now displays a confirmation box when you attempt
+to delete an assembly from the project.
+
+<li>If you change settings in the Options Dialog, which require a reload
+in order to take effect, a message box gives you the opportunity to 
+reload the project immediately.
+
+<li>If you change the active configuration - as from Debug to Release - and
+the new config can not be loaded, the old configuration is unloaded. In prior
+releases, the old config remained loaded even though the new config was
+marked as active.
+
+<li>The "Reloading..." message is now displayed when automatic reloading
+takes place.
+</ul>
+
+<h4>Bug Fixes</h4>
+<ul>
+<li>A comparer passed to CollectionAssert.AreEqual is now used
+<li>An error message is now displayed if the test result file can not be written
+<li>AbstractTestCaseDecoration no longer duplicates the fixture name
+<li>Renamed and deleted tests are now correctly removed from the Gui display
+<li>The internally used create-msi target is no longer displayed by the project help for NUnit.build
+<li>TipWindow no longer gives an IndexOutOfRangeException in certain situations
+<li>Failures are now reported correctly when running multiple assemblies in separate AppDomains
+<li>Recent file names containing a comma no longer cause an exception
+<li>Is.EqualTo(x).Within(y) now works correctly for floats
+<li>TestFixtureTearDown was not being called on fixtures marked as Explicit
+<li>Exclude checkbox in Gui is now cleared when all categories are removed
+<li>Tab order in the properties dialog has been corrected
+<li>The install files are now included in the source package
+</ul>
+
 <h3>NUnit 2.4.1 - May 3, 2007</h3>
 
 <h4>General</h4>
@@ -727,7 +900,7 @@ Cumulative notes through NUnit 2.2.9 are available <a href="docs/2.2.10/releaseN
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.1</a></li>
+<li><a href="index.html">NUnit 2.4.2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="platformSupport.html">Platform&nbsp;Support</a></li>

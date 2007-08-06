@@ -32,9 +32,9 @@
 	is a screenshot of NUnit running the same mock-assembly.dll shown in the 
 	previous example.</p>
 
-<div class="screenshot">
+<div class="screenshot-left">
      <img src="img/gui-screenshot.jpg"></div>
-
+<p>
 <p>This version of NUnit uses symbols in the test tree, which allow those who 
    are unable to easily distinguish colors to determine the test status.
    Successful tests are colored green, with a check mark. Tests that are ignored 
@@ -56,12 +56,20 @@
    
 <div class="screenshot">
      <img src="img/miniGui.jpg"></div>
+
+<p>The .NET 2.0 version of nunit.exe is built using /platform:anycpu,
+which causes it to be jit-compiled to 32-bit code on a 32-bit system and 64-bit code 
+on a 64 bit system. This causes an exception when NUnit is used to test a 32-bit
+application on a 64-bit system. To avoid this problem, use nunit-x86.exe , 
+which is built using /platform:x86, when testing 32-bit code on a 
+64-bit system.
+
 </div>
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.1</a></li>
+<li><a href="index.html">NUnit 2.4.2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="platformSupport.html">Platform&nbsp;Support</a></li>

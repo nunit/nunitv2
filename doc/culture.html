@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - Setup</title>
+<title>NUnit - Culture</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -26,20 +26,105 @@
 
 <script language="JavaScript" src="docs/2.4/codeFuncs.js" ></script> <!-- Do it this way for IE -->
 
-<h3>SetUpAttribute (NUnit 2.0)</h3>
+<style><!--
+div.code { width: 34em }
+--></style>
 
-<p>This attribute is used inside a TestFixture to provide a common set of 
-	functions that are performed just before each test method is called.  
-    A TestFixture can have only one SetUp method. If more than one is defined 
-	the TestFixture will compile successfully, but its tests will not run.</p 
+<h3>CultureAttribute (NUnit 2.4.2)</h3> 
+<p>The Culture attribute is used to specify cultures for which a test or fixture
+	should be run. It does not affect the culture setting, but merely uses it to 
+	determine whether to run the test. If you wish to change the culture when
+	running a test, use the SetCulture attribute instead.</p>
+	
+<p>If the specified culture requirements for a test are not met it is skipped.
+   In the gui, the tree node for the test remains gray and the status bar color is 
+   not affected.</p>
 
-<h4>Example:</h4>
+<p>One use of the Culture attribute is to provide alternative tests under different
+cultures. You may specify either specific cultures, like "en-GB" or neutral
+cultures like "de".</p>
+
+<h4>Test Fixture Syntax</h4>
 
 <div class="code">
 
 <div class="langFilter">
 	<a href="javascript:Show('DD1')" onmouseover="Show('DD1')"><img src="img/langFilter.gif" width="14" height="14" alt="Language Filter"></a>
-	<div id="DD1" class="dropdown" style="display: none" onclick="Hide('DD1')">
+	<div id="DD1" class="dropdown" style="display: none;" onclick="Hide('DD1')">
+		<a href="javascript:ShowCS()">C#</a><br>
+		<a href="javascript:ShowVB()">VB</a><br>
+		<a href="javascript:ShowMC()">C++</a><br>
+		<a href="javascript:ShowJS()">J#</a><br>
+	</div>
+</div>
+
+<pre class="cs">namespace NUnit.Tests
+{
+  using System;
+  using NUnit.Framework;
+
+  [TestFixture]
+  [Culture(&quot;fr-FR&quot;)]
+  public class FrenchCultureTests
+  {
+    // ...
+  }
+}
+</pre>
+
+<pre class="vb">Imports System
+Imports Nunit.Framework
+
+Namespace Nunit.Tests
+
+  &lt;TestFixture(), Culture(&quot;fr-FR&quot;)&gt;
+  Public Class FrenchCultureTests
+    &#39; ...
+  End Class
+End Namespace
+</pre>
+
+<pre class="mc">#using &lt;Nunit.Framework.dll&gt;
+using namespace System;
+using namespace NUnit::Framework;
+
+namespace NUnitTests
+{
+  [TestFixture]
+  [Culture(&quot;fr-FR&quot;)]
+  public __gc class FrenchCultureTests
+  {
+    // ...
+  };
+}
+
+#include &quot;cppsample.h&quot;
+
+namespace NUnitTests {
+  // ...
+}
+</pre>
+
+<pre class="js">package NUnit.Tests;
+
+import System.*;
+import NUnit.Framework.TestFixture;
+
+
+/** @attribute NUnit.Framework.TestFixture() */
+/** @attribute NUnit.Framework.Culture(&quot;fr-FR&quot;) */
+public class FrenchCultureTests
+{
+  // ...
+}
+</pre>
+</div>
+<h4>Test Syntax</h4>
+<div class="code">
+	
+<div class="langFilter">
+	<a href="javascript:Show('DD2')" onmouseover="Show('DD2')"><img src="img/langFilter.gif" width="14" height="14" alt="Language Filter"></a>
+	<div id="DD2" class="dropdown" style="display: none;" onclick="Hide('DD2')">
 		<a href="javascript:ShowCS()">C#</a><br>
 		<a href="javascript:ShowVB()">VB</a><br>
 		<a href="javascript:ShowMC()">C++</a><br>
@@ -55,15 +140,10 @@
   [TestFixture]
   public class SuccessTests
   {
-    [SetUp] public void Init()
+    [Test]
+    [Culture(Exclude=&quot;en,de&quot;)]
+    public void SomeTest()
     { /* ... */ }
-
-    [TearDown] public void Dispose()
-    { /* ... */ }
-
-    [Test] public void Add()
-    { /* ... */ }
-  }
 }
 </pre>
 
@@ -72,17 +152,10 @@ Imports Nunit.Framework
 
 Namespace Nunit.Tests
 
-  &lt;TestFixture()&gt; Public Class SuccessTests
-    &lt;SetUp()&gt; Public Sub Init()
-    ' ...
-    End Sub
-
-    &lt;TearDown()&gt; Public Sub Dispose()
-    ' ...
-    End Sub
-
-    &lt;Test()&gt; Public Sub Add()
-    ' ...
+  &lt;TestFixture()&gt;
+  Public Class SuccessTests
+    &lt;Test(), Culture(Exclude=&quot;en,de&quot;)&gt; Public Sub SomeTest()
+      &#39; ...
     End Sub
   End Class
 End Namespace
@@ -97,14 +170,11 @@ namespace NUnitTests
   [TestFixture]
   public __gc class SuccessTests
   {
-    [SetUp] void Init();
-    [TearDown] void Dispose();
-
-    [Test] void Add();
+    [Test][Culture(Exclude=&quot;en,de&quot;)] void SomeTest();
   };
 }
 
-#include "cppsample.h"
+#include &quot;cppsample.h&quot;
 
 namespace NUnitTests {
   // ...
@@ -120,30 +190,15 @@ import NUnit.Framework.TestFixture;
 /** @attribute NUnit.Framework.TestFixture() */
 public class SuccessTests
 {
-  /** @attribute NUnit.Framework.SetUp() */
-  public void Init()
-  { /* ... */ }
-
-  /** @attribute NUnit.Framework.TearDown() */
-  public void Dispose()
-  { /* ... */ }
-
   /** @attribute NUnit.Framework.Test() */
-  public void Add()
+  /** @attribute NUnit.Framework.Culture(Exclude=en,de&quot;) */
+  public void SomeTest()
   { /* ... */ }
 }
 </pre>
 
 </div>
 
-<h4>SetUp Inheritance</h4>
-
-<p>The SetUp attribute is inherited from any base class. Therefore, if a base 
-	class has defined a SetUp method, that method will be called 
-	before each test method in the derived class. If you wish to add more 
-	SetUp functionality in a derived class you need to mark the method 
-	with the appropriate attribute and then call the base class method.</p>
-	
 </div>
 
 <!-- Submenu -->
@@ -160,7 +215,7 @@ public class SuccessTests
 <li><a href="attributes.html">Attributes</a></li>
 <ul>
 <li><a href="category.html">Category</a></li>
-<li><a href="culture.html">Culture</a></li>
+<li id="current"><a href="culture.html">Culture</a></li>
 <li><a href="description.html">Description</a></li>
 <li><a href="exception.html">Expected&nbsp;Exception</a></li>
 <li><a href="explicit.html">Explicit</a></li>
@@ -168,7 +223,7 @@ public class SuccessTests
 <li><a href="platform.html">Platform</a></li>
 <li><a href="property.html">Property</a></li>
 <li><a href="setCulture.html">SetCulture</a></li>
-<li id="current"><a href="setup.html">Setup</a></li>
+<li><a href="setup.html">Setup</a></li>
 <li><a href="setupFixture.html">SetUp&nbsp;Fixture</a></li>
 <li><a href="suite.html">Suite</a></li>
 <li><a href="teardown.html">Teardown</a></li>

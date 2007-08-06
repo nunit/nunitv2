@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - Assertions</title>
+<title>NUnit - ListMapper</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -24,37 +24,33 @@
 
 <div id="content">
 
-<h2>Assertions</h2>
+<h2>List Mapper (NUnit 2.4.2)</h2>
 
-<p>Assertions are central to unit testing in any of the xUnit frameworks, and NUnit 
-	is no exception. NUnit provides a rich set of assertions as static methods of 
-	the Assert class.</p>
+<p>Unlike Constraint classes, <b>ListMapper</b> is used to modify the actual
+value argument to Assert.That(). It transforms the actual value, which
+must be a collection, creating a new collection to be tested against the
+supplied constraint. Currently, ListMapper supports one transformation: creating
+a collection of property values.
 
-<p>If an assertion fails, the method call does not return and an error is reported. 
-	If a test contains multiple assertions, any that follow the one that failed 
-	will not be executed. For this reason, it's usually best to try for one 
-	assertion per test.</p>
+<p>Normally, ListMapper will be used through the <b>List.Map()</b> syntax helper
+or the inherited syntax equivalent, <b>Map()</b>. The following example
+shows three forms of the same assert:
 
-<p>Each method may be called without a message, with a simple text message or with 
-	a message and arguments. In the last case the message is formatted using the 
-	provided text and arguments.</p>
-	
-<h3>Two Models</h3>
+<div class="code"><pre>
+string[] strings = new string[] { "a", "ab", "abc" };
+int[] lengths = new int[] { 1, 2, 3 };
 
-<p>Before NUnit 2.4, a separate method of the Assert class was used for each
-   different assertion. We call this the 
-   <a href="classicModel.html">classic model</a>. It
-   continues to be supported in NUnit, since many people prefer it.</p>
+Assert.That(List.Map(strings).Property("Length"), 
+       Is.EqualTo(lengths));
+	   
+Assert.That(new ListMapper(strings).Property("Length"),
+       Is.EqualTo(lengths));
 
-<p>Beginning with NUnit 2.4, a new 
-   <a href="constraintModel.html">constraint-based model</a> is being 
-   introduced. This approach uses a single method of the Assert class
-   for all assertions, passing a <b>constraint</b> object that specifies the
-   test to be performed.
+// Assuming inheritance from AssertionHelper
+Expect(Map(strings).Property("Length"), EqualTo(lengths));
+</pre></div>
 
-<p>This constraint-based model is now used internally by NUnit
-   for all assertions. The methods of the classic approach have been 
-   re-implemented on top of this new model.
+
 </div>
 
 <!-- Submenu -->
@@ -67,10 +63,23 @@
 <li><a href="installation.html">Installation</a></li>
 <li><a href="features.html">Core&nbsp;Features</a></li>
 <ul>
-<li id="current"><a href="assertions.html">Assertions</a></li>
+<li><a href="assertions.html">Assertions</a></li>
 <ul>
 <li><a href="classicModel.html">Classic&nbsp;Model</a></li>
 <li><a href="constraintModel.html">Constraint&nbsp;Model</a></li>
+<ul>
+<li><a href="equalConstraint.html">Equal&nbsp;Constraint</a></li>
+<li><a href="sameasConstraint.html">SameAs&nbsp;Constraint</a></li>
+<li><a href="conditionConstraints.html">Condition&nbsp;Constraints</a></li>
+<li><a href="comparisonConstraints.html">Comparison&nbsp;Constrants</a></li>
+<li><a href="typeConstraints.html">Type&nbsp;Constraints</a></li>
+<li><a href="stringConstraints.html">String&nbsp;Constraints</a></li>
+<li><a href="collectionConstraints.html">Collection&nbsp;Constraints</a></li>
+<li><a href="propertyConstraint.html">Property&nbsp;Constraint</a></li>
+<li><a href="compoundConstraints.html">Compound&nbsp;Constraints</a></li>
+<li><a href="customConstraints.html">Custom&nbsp;Constraints</a></li>
+<li id="current"><a href="listMapper.html">List&nbsp;Mapper</a></li>
+</ul>
 </ul>
 <li><a href="attributes.html">Attributes</a></li>
 <li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
