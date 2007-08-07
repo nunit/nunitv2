@@ -175,7 +175,6 @@ namespace NUnit.Gui
 			// okButton
 			// 
 			this.okButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.okButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.okButton.Location = new System.Drawing.Point(77, 434);
 			this.okButton.Name = "okButton";
 			this.helpProvider1.SetShowHelp(this.okButton, false);
@@ -189,7 +188,6 @@ namespace NUnit.Gui
 			this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.cancelButton.CausesValidation = false;
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.cancelButton.Location = new System.Drawing.Point(173, 434);
 			this.cancelButton.Name = "cancelButton";
 			this.helpProvider1.SetShowHelp(this.cancelButton, false);
@@ -200,7 +198,6 @@ namespace NUnit.Gui
 			// loadLastProjectCheckBox
 			// 
 			this.helpProvider1.SetHelpString(this.loadLastProjectCheckBox, "If checked, most recent project is loaded at startup.");
-			this.loadLastProjectCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.loadLastProjectCheckBox.Location = new System.Drawing.Point(19, 65);
 			this.loadLastProjectCheckBox.Name = "loadLastProjectCheckBox";
 			this.helpProvider1.SetShowHelp(this.loadLastProjectCheckBox, true);
@@ -211,7 +208,6 @@ namespace NUnit.Gui
 			// clearResultsCheckBox
 			// 
 			this.helpProvider1.SetHelpString(this.clearResultsCheckBox, "If checked, any prior results are cleared when reloading.");
-			this.clearResultsCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.clearResultsCheckBox.Location = new System.Drawing.Point(19, 64);
 			this.clearResultsCheckBox.Name = "clearResultsCheckBox";
 			this.helpProvider1.SetShowHelp(this.clearResultsCheckBox, true);
@@ -223,7 +219,6 @@ namespace NUnit.Gui
 			// 
 			this.helpProvider1.SetHelpString(this.reloadOnChangeCheckBox, "If checked, the assembly is reloaded whenever it changes. Changes to this setting" +
 				" do not take effect until the next time an assembly is loaded.");
-			this.reloadOnChangeCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.reloadOnChangeCheckBox.Location = new System.Drawing.Point(19, 55);
 			this.reloadOnChangeCheckBox.Name = "reloadOnChangeCheckBox";
 			this.helpProvider1.SetShowHelp(this.reloadOnChangeCheckBox, true);
@@ -235,7 +230,6 @@ namespace NUnit.Gui
 			// label1
 			// 
 			this.helpProvider1.SetHelpString(this.label1, "");
-			this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label1.Location = new System.Drawing.Point(19, 28);
 			this.label1.Name = "label1";
 			this.helpProvider1.SetShowHelp(this.label1, true);
@@ -262,7 +256,6 @@ namespace NUnit.Gui
 			// reloadOnRunCheckBox
 			// 
 			this.helpProvider1.SetHelpString(this.reloadOnRunCheckBox, "If checked, the assembly is reloaded before each run.");
-			this.reloadOnRunCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.reloadOnRunCheckBox.Location = new System.Drawing.Point(19, 28);
 			this.reloadOnRunCheckBox.Name = "reloadOnRunCheckBox";
 			this.helpProvider1.SetShowHelp(this.reloadOnRunCheckBox, true);
@@ -272,7 +265,6 @@ namespace NUnit.Gui
 			// 
 			// label2
 			// 
-			this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label2.Location = new System.Drawing.Point(19, 28);
 			this.label2.Name = "label2";
 			this.helpProvider1.SetShowHelp(this.label2, false);
@@ -282,7 +274,6 @@ namespace NUnit.Gui
 			// 
 			// label3
 			// 
-			this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label3.Location = new System.Drawing.Point(144, 28);
 			this.label3.Name = "label3";
 			this.helpProvider1.SetShowHelp(this.label3, false);
@@ -335,7 +326,6 @@ namespace NUnit.Gui
 			// rerunOnChangeCheckBox
 			// 
 			this.rerunOnChangeCheckBox.Enabled = false;
-			this.rerunOnChangeCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.rerunOnChangeCheckBox.Location = new System.Drawing.Point(40, 80);
 			this.rerunOnChangeCheckBox.Name = "rerunOnChangeCheckBox";
 			this.helpProvider1.SetShowHelp(this.rerunOnChangeCheckBox, false);
@@ -407,7 +397,6 @@ namespace NUnit.Gui
 			// 
 			this.helpProvider1.SetHelpString(this.visualStudioSupportCheckBox, "If checked, Visual Studio projects and solutions may be opened or added to existi" +
 				"ng test projects.");
-			this.visualStudioSupportCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.visualStudioSupportCheckBox.Location = new System.Drawing.Point(19, 18);
 			this.visualStudioSupportCheckBox.Name = "visualStudioSupportCheckBox";
 			this.helpProvider1.SetShowHelp(this.visualStudioSupportCheckBox, true);
@@ -465,7 +454,6 @@ namespace NUnit.Gui
 			// 
 			// flatTestList
 			// 
-			this.flatTestList.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.flatTestList.Location = new System.Drawing.Point(24, 48);
 			this.flatTestList.Name = "flatTestList";
 			this.helpProvider1.SetShowHelp(this.flatTestList, false);
@@ -475,7 +463,6 @@ namespace NUnit.Gui
 			// 
 			// autoNamespaceSuites
 			// 
-			this.autoNamespaceSuites.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.autoNamespaceSuites.Location = new System.Drawing.Point(24, 16);
 			this.autoNamespaceSuites.Name = "autoNamespaceSuites";
 			this.helpProvider1.SetShowHelp(this.autoNamespaceSuites, false);
@@ -498,7 +485,6 @@ namespace NUnit.Gui
 			// 
 			// mergeAssembliesCheckBox
 			// 
-			this.mergeAssembliesCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.mergeAssembliesCheckBox.Location = new System.Drawing.Point(40, 72);
 			this.mergeAssembliesCheckBox.Name = "mergeAssembliesCheckBox";
 			this.helpProvider1.SetShowHelp(this.mergeAssembliesCheckBox, false);
@@ -509,7 +495,6 @@ namespace NUnit.Gui
 			// singleDomainRadioButton
 			// 
 			this.singleDomainRadioButton.Checked = true;
-			this.singleDomainRadioButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.singleDomainRadioButton.Location = new System.Drawing.Point(24, 48);
 			this.singleDomainRadioButton.Name = "singleDomainRadioButton";
 			this.helpProvider1.SetShowHelp(this.singleDomainRadioButton, false);
@@ -521,7 +506,6 @@ namespace NUnit.Gui
 			// 
 			// multiDomainRadioButton
 			// 
-			this.multiDomainRadioButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.multiDomainRadioButton.Location = new System.Drawing.Point(24, 24);
 			this.multiDomainRadioButton.Name = "multiDomainRadioButton";
 			this.helpProvider1.SetShowHelp(this.multiDomainRadioButton, false);
@@ -558,7 +542,6 @@ namespace NUnit.Gui
 			// 
 			this.errorsTabCheckBox.Checked = true;
 			this.errorsTabCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.errorsTabCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.errorsTabCheckBox.Location = new System.Drawing.Point(16, 16);
 			this.errorsTabCheckBox.Name = "errorsTabCheckBox";
 			this.helpProvider1.SetShowHelp(this.errorsTabCheckBox, false);
@@ -569,7 +552,6 @@ namespace NUnit.Gui
 			// 
 			// failureToolTips
 			// 
-			this.failureToolTips.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.failureToolTips.Location = new System.Drawing.Point(32, 40);
 			this.failureToolTips.Name = "failureToolTips";
 			this.helpProvider1.SetShowHelp(this.failureToolTips, false);
@@ -579,7 +561,6 @@ namespace NUnit.Gui
 			// 
 			// enableWordWrap
 			// 
-			this.enableWordWrap.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.enableWordWrap.Location = new System.Drawing.Point(32, 64);
 			this.enableWordWrap.Name = "enableWordWrap";
 			this.helpProvider1.SetShowHelp(this.enableWordWrap, false);
@@ -591,7 +572,6 @@ namespace NUnit.Gui
 			// 
 			this.notRunTabCheckBox.Checked = true;
 			this.notRunTabCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.notRunTabCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.notRunTabCheckBox.Location = new System.Drawing.Point(16, 96);
 			this.notRunTabCheckBox.Name = "notRunTabCheckBox";
 			this.helpProvider1.SetShowHelp(this.notRunTabCheckBox, false);
@@ -617,7 +597,6 @@ namespace NUnit.Gui
 			// 
 			this.consoleOutputCheckBox.Checked = true;
 			this.consoleOutputCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.consoleOutputCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.consoleOutputCheckBox.Location = new System.Drawing.Point(16, 18);
 			this.consoleOutputCheckBox.Name = "consoleOutputCheckBox";
 			this.helpProvider1.SetShowHelp(this.consoleOutputCheckBox, false);
@@ -628,7 +607,6 @@ namespace NUnit.Gui
 			// 
 			// labelTestOutputCheckBox
 			// 
-			this.labelTestOutputCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.labelTestOutputCheckBox.Location = new System.Drawing.Point(32, 40);
 			this.labelTestOutputCheckBox.Name = "labelTestOutputCheckBox";
 			this.helpProvider1.SetShowHelp(this.labelTestOutputCheckBox, false);
@@ -651,7 +629,6 @@ namespace NUnit.Gui
 			// 
 			this.consoleErrrorCheckBox.Checked = true;
 			this.consoleErrrorCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.consoleErrrorCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.consoleErrrorCheckBox.Location = new System.Drawing.Point(8, 8);
 			this.consoleErrrorCheckBox.Name = "consoleErrrorCheckBox";
 			this.helpProvider1.SetShowHelp(this.consoleErrrorCheckBox, false);
@@ -662,7 +639,6 @@ namespace NUnit.Gui
 			// 
 			// mergeErrors
 			// 
-			this.mergeErrors.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.mergeErrors.Location = new System.Drawing.Point(32, 56);
 			this.mergeErrors.Name = "mergeErrors";
 			this.helpProvider1.SetShowHelp(this.mergeErrors, false);
@@ -673,7 +649,6 @@ namespace NUnit.Gui
 			// separateErrors
 			// 
 			this.separateErrors.Checked = true;
-			this.separateErrors.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.separateErrors.Location = new System.Drawing.Point(32, 32);
 			this.separateErrors.Name = "separateErrors";
 			this.helpProvider1.SetShowHelp(this.separateErrors, false);
@@ -696,7 +671,6 @@ namespace NUnit.Gui
 			// separateTrace
 			// 
 			this.separateTrace.Checked = true;
-			this.separateTrace.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.separateTrace.Location = new System.Drawing.Point(32, 32);
 			this.separateTrace.Name = "separateTrace";
 			this.helpProvider1.SetShowHelp(this.separateTrace, false);
@@ -709,7 +683,6 @@ namespace NUnit.Gui
 			// 
 			this.traceOutputCheckBox.Checked = true;
 			this.traceOutputCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.traceOutputCheckBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.traceOutputCheckBox.Location = new System.Drawing.Point(8, 8);
 			this.traceOutputCheckBox.Name = "traceOutputCheckBox";
 			this.helpProvider1.SetShowHelp(this.traceOutputCheckBox, false);
@@ -720,7 +693,6 @@ namespace NUnit.Gui
 			// 
 			// mergeTrace
 			// 
-			this.mergeTrace.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.mergeTrace.Location = new System.Drawing.Point(32, 56);
 			this.mergeTrace.Name = "mergeTrace";
 			this.helpProvider1.SetShowHelp(this.mergeTrace, false);

@@ -96,7 +96,6 @@ namespace NUnit.UiKit
 			// 
 			// okButton
 			// 
-			this.okButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.okButton.Location = new System.Drawing.Point(56, 48);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(75, 24);
@@ -107,7 +106,6 @@ namespace NUnit.UiKit
 			// cancelButton
 			// 
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.cancelButton.Location = new System.Drawing.Point(160, 48);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.Size = new System.Drawing.Size(75, 24);
@@ -124,7 +122,6 @@ namespace NUnit.UiKit
 			this.Controls.Add(this.okButton);
 			this.Controls.Add(this.configurationNameTextBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.Name = "RenameConfigurationDialog";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

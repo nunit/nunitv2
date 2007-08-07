@@ -96,7 +96,6 @@ namespace NUnit.UiKit
 			// removeButton
 			// 
 			this.helpProvider1.SetHelpString(this.removeButton, "Removes the selected configuration");
-			this.removeButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.removeButton.Location = new System.Drawing.Point(192, 8);
 			this.removeButton.Name = "removeButton";
 			this.helpProvider1.SetShowHelp(this.removeButton, true);
@@ -108,7 +107,6 @@ namespace NUnit.UiKit
 			// renameButton
 			// 
 			this.helpProvider1.SetHelpString(this.renameButton, "Allows renaming the selected configuration");
-			this.renameButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.renameButton.Location = new System.Drawing.Point(192, 48);
 			this.renameButton.Name = "renameButton";
 			this.helpProvider1.SetShowHelp(this.renameButton, true);
@@ -121,7 +119,6 @@ namespace NUnit.UiKit
 			// 
 			this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.helpProvider1.SetHelpString(this.closeButton, "Closes this dialog");
-			this.closeButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.closeButton.Location = new System.Drawing.Point(192, 216);
 			this.closeButton.Name = "closeButton";
 			this.helpProvider1.SetShowHelp(this.closeButton, true);
@@ -133,7 +130,6 @@ namespace NUnit.UiKit
 			// addButton
 			// 
 			this.helpProvider1.SetHelpString(this.addButton, "Allows adding a new configuration");
-			this.addButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.addButton.Location = new System.Drawing.Point(192, 88);
 			this.addButton.Name = "addButton";
 			this.helpProvider1.SetShowHelp(this.addButton, true);
@@ -145,7 +141,6 @@ namespace NUnit.UiKit
 			// activeButton
 			// 
 			this.helpProvider1.SetHelpString(this.activeButton, "Makes the selected configuration active");
-			this.activeButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.activeButton.Location = new System.Drawing.Point(192, 128);
 			this.activeButton.Name = "activeButton";
 			this.helpProvider1.SetShowHelp(this.activeButton, true);
@@ -169,7 +164,6 @@ namespace NUnit.UiKit
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.HelpButton = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "ConfigurationEditor";

@@ -91,7 +91,6 @@ namespace NUnit.UiKit
 			// okButton
 			// 
 			this.okButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.okButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.okButton.Location = new System.Drawing.Point(50, 120);
 			this.okButton.Name = "okButton";
 			this.okButton.Size = new System.Drawing.Size(76, 23);
@@ -103,7 +102,6 @@ namespace NUnit.UiKit
 			// 
 			this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.cancelButton.Location = new System.Drawing.Point(155, 120);
 			this.cancelButton.Name = "cancelButton";
 			this.cancelButton.TabIndex = 2;
@@ -121,7 +119,6 @@ namespace NUnit.UiKit
 			// 
 			// label1
 			// 
-			this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label1.Location = new System.Drawing.Point(16, 8);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(248, 16);
@@ -130,7 +127,6 @@ namespace NUnit.UiKit
 			// 
 			// label2
 			// 
-			this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label2.Location = new System.Drawing.Point(16, 63);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(240, 17);
@@ -150,7 +146,6 @@ namespace NUnit.UiKit
 			this.Controls.Add(this.okButton);
 			this.Controls.Add(this.configurationNameTextBox);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-			this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.Name = "AddConfigurationDialog";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

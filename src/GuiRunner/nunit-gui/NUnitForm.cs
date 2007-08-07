@@ -255,7 +255,6 @@ namespace NUnit.Gui
 			// statusBar
 			// 
 			this.statusBar.DisplayTestProgress = true;
-			this.statusBar.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.statusBar.Location = new System.Drawing.Point(0, 545);
 			this.statusBar.Name = "statusBar";
 			this.statusBar.ShowPanels = true;
@@ -676,7 +675,6 @@ namespace NUnit.Gui
 			// 
 			// treeSplitter
 			// 
-			this.treeSplitter.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.treeSplitter.Location = new System.Drawing.Point(240, 0);
 			this.treeSplitter.MinSize = 240;
 			this.treeSplitter.Name = "treeSplitter";
@@ -713,7 +711,6 @@ namespace NUnit.Gui
 			this.runCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.runCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
-			this.runCount.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.runCount.Location = new System.Drawing.Point(8, 96);
 			this.runCount.Name = "runCount";
 			this.runCount.Size = new System.Drawing.Size(480, 16);
@@ -722,7 +719,6 @@ namespace NUnit.Gui
 			// 
 			// stopButton
 			// 
-			this.stopButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.stopButton.Location = new System.Drawing.Point(96, 18);
 			this.stopButton.Name = "stopButton";
 			this.stopButton.Size = new System.Drawing.Size(96, 38);
@@ -732,7 +728,6 @@ namespace NUnit.Gui
 			// 
 			// runButton
 			// 
-			this.runButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.runButton.Location = new System.Drawing.Point(8, 18);
 			this.runButton.Name = "runButton";
 			this.runButton.Size = new System.Drawing.Size(88, 38);
@@ -744,7 +739,6 @@ namespace NUnit.Gui
 			// 
 			this.suiteName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
-			this.suiteName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.suiteName.Location = new System.Drawing.Point(215, 23);
 			this.suiteName.Name = "suiteName";
 			this.suiteName.Size = new System.Drawing.Size(273, 29);

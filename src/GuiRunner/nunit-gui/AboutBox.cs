@@ -98,7 +98,6 @@ namespace NUnit.Gui
 			// OkButton
 			// 
 			this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.OkButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.OkButton.Location = new System.Drawing.Point(368, 304);
 			this.OkButton.Name = "OkButton";
 			this.OkButton.Size = new System.Drawing.Size(96, 29);
@@ -108,8 +107,7 @@ namespace NUnit.Gui
 			// 
 			// label1
 			// 
-			this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label1.Location = new System.Drawing.Point(31, 217);
+			this.label1.Location = new System.Drawing.Point(31, 232);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(102, 15);
 			this.label1.TabIndex = 1;
@@ -117,8 +115,7 @@ namespace NUnit.Gui
 			// 
 			// versionLabel
 			// 
-			this.versionLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.versionLabel.Location = new System.Drawing.Point(164, 217);
+			this.versionLabel.Location = new System.Drawing.Point(164, 232);
 			this.versionLabel.Name = "versionLabel";
 			this.versionLabel.Size = new System.Drawing.Size(156, 23);
 			this.versionLabel.TabIndex = 2;
@@ -126,8 +123,7 @@ namespace NUnit.Gui
 			// 
 			// label2
 			// 
-			this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label2.Location = new System.Drawing.Point(31, 108);
+			this.label2.Location = new System.Drawing.Point(31, 120);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(102, 29);
 			this.label2.TabIndex = 3;
@@ -135,8 +131,7 @@ namespace NUnit.Gui
 			// 
 			// label3
 			// 
-			this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label3.Location = new System.Drawing.Point(164, 108);
+			this.label3.Location = new System.Drawing.Point(164, 120);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(287, 60);
 			this.label3.TabIndex = 4;
@@ -145,11 +140,10 @@ namespace NUnit.Gui
 			// 
 			// linkLabel1
 			// 
-			this.linkLabel1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(0, 21);
-			this.linkLabel1.Location = new System.Drawing.Point(164, 78);
+			this.linkLabel1.Location = new System.Drawing.Point(164, 88);
 			this.linkLabel1.Name = "linkLabel1";
-			this.linkLabel1.Size = new System.Drawing.Size(266, 29);
+			this.linkLabel1.Size = new System.Drawing.Size(266, 16);
 			this.linkLabel1.TabIndex = 5;
 			this.linkLabel1.TabStop = true;
 			this.linkLabel1.Text = "http://www.nunit.org ";
@@ -157,17 +151,15 @@ namespace NUnit.Gui
 			// 
 			// label4
 			// 
-			this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label4.Location = new System.Drawing.Point(31, 78);
+			this.label4.Location = new System.Drawing.Point(31, 88);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(102, 29);
+			this.label4.Size = new System.Drawing.Size(102, 16);
 			this.label4.TabIndex = 6;
 			this.label4.Text = "Information:";
 			// 
 			// label5
 			// 
-			this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label5.Location = new System.Drawing.Point(31, 178);
+			this.label5.Location = new System.Drawing.Point(31, 192);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(102, 29);
 			this.label5.TabIndex = 7;
@@ -175,8 +167,7 @@ namespace NUnit.Gui
 			// 
 			// label6
 			// 
-			this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.label6.Location = new System.Drawing.Point(164, 178);
+			this.label6.Location = new System.Drawing.Point(164, 192);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(215, 29);
 			this.label6.TabIndex = 8;
@@ -184,7 +175,6 @@ namespace NUnit.Gui
 			// 
 			// label7
 			// 
-			this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label7.Location = new System.Drawing.Point(31, 20);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(102, 28);
@@ -193,7 +183,6 @@ namespace NUnit.Gui
 			// 
 			// copyright
 			// 
-			this.copyright.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.copyright.Location = new System.Drawing.Point(164, 20);
 			this.copyright.Name = "copyright";
 			this.copyright.Size = new System.Drawing.Size(297, 58);
@@ -202,8 +191,7 @@ namespace NUnit.Gui
 			// 
 			// clrTypeLabel
 			// 
-			this.clrTypeLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.clrTypeLabel.Location = new System.Drawing.Point(31, 248);
+			this.clrTypeLabel.Location = new System.Drawing.Point(31, 264);
 			this.clrTypeLabel.Name = "clrTypeLabel";
 			this.clrTypeLabel.Size = new System.Drawing.Size(102, 15);
 			this.clrTypeLabel.TabIndex = 11;
@@ -211,8 +199,7 @@ namespace NUnit.Gui
 			// 
 			// dotNetVersionLabel
 			// 
-			this.dotNetVersionLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.dotNetVersionLabel.Location = new System.Drawing.Point(164, 248);
+			this.dotNetVersionLabel.Location = new System.Drawing.Point(164, 264);
 			this.dotNetVersionLabel.Name = "dotNetVersionLabel";
 			this.dotNetVersionLabel.Size = new System.Drawing.Size(284, 23);
 			this.dotNetVersionLabel.TabIndex = 12;
@@ -239,7 +226,6 @@ namespace NUnit.Gui
 			this.Controls.Add(this.OkButton);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "AboutBox";

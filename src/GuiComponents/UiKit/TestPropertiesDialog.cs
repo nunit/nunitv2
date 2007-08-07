@@ -135,7 +135,6 @@ namespace NUnit.UiKit
 			// 
 			this.pinButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.pinButton.Appearance = System.Windows.Forms.Appearance.Button;
-			this.pinButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.pinButton.Location = new System.Drawing.Point(440, 8);
 			this.pinButton.Name = "pinButton";
 			this.pinButton.Size = new System.Drawing.Size(20, 20);
@@ -146,7 +145,6 @@ namespace NUnit.UiKit
 			// testResult
 			// 
 			this.testResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
-			this.testResult.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.testResult.Location = new System.Drawing.Point(16, 16);
 			this.testResult.Name = "testResult";
 			this.testResult.Size = new System.Drawing.Size(120, 16);
@@ -156,7 +154,6 @@ namespace NUnit.UiKit
 			// 
 			// testName
 			// 
-			this.testName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.testName.Location = new System.Drawing.Point(144, 16);
 			this.testName.Name = "testName";
 			this.testName.Size = new System.Drawing.Size(280, 16);
@@ -212,7 +209,6 @@ namespace NUnit.UiKit
 			// 
 			// label11
 			// 
-			this.label11.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label11.Location = new System.Drawing.Point(24, 312);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(80, 16);
@@ -225,7 +221,6 @@ namespace NUnit.UiKit
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.ignoreReason.CopySupported = true;
 			this.ignoreReason.Expansion = CP.Windows.Forms.TipWindow.ExpansionStyle.Vertical;
-			this.ignoreReason.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.ignoreReason.Location = new System.Drawing.Point(112, 248);
 			this.ignoreReason.Name = "ignoreReason";
 			this.ignoreReason.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -234,7 +229,6 @@ namespace NUnit.UiKit
 			// 
 			// label5
 			// 
-			this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label5.Location = new System.Drawing.Point(24, 248);
 			this.label5.Name = "label5";
 			this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -246,7 +240,6 @@ namespace NUnit.UiKit
 			// 
 			this.testType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
-			this.testType.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.testType.Location = new System.Drawing.Point(112, 32);
 			this.testType.Name = "testType";
 			this.testType.Size = new System.Drawing.Size(312, 16);
@@ -254,7 +247,6 @@ namespace NUnit.UiKit
 			// 
 			// label8
 			// 
-			this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label8.Location = new System.Drawing.Point(24, 32);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(80, 16);
@@ -263,7 +255,6 @@ namespace NUnit.UiKit
 			// 
 			// label7
 			// 
-			this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label7.Location = new System.Drawing.Point(24, 152);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(80, 16);
@@ -276,7 +267,6 @@ namespace NUnit.UiKit
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.description.CopySupported = true;
 			this.description.Expansion = CP.Windows.Forms.TipWindow.ExpansionStyle.Both;
-			this.description.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.description.Location = new System.Drawing.Point(112, 96);
 			this.description.Name = "description";
 			this.description.Size = new System.Drawing.Size(312, 48);
@@ -284,7 +274,6 @@ namespace NUnit.UiKit
 			// 
 			// label6
 			// 
-			this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label6.Location = new System.Drawing.Point(24, 96);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(80, 17);
@@ -293,7 +282,6 @@ namespace NUnit.UiKit
 			// 
 			// testCaseCount
 			// 
-			this.testCaseCount.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.testCaseCount.Location = new System.Drawing.Point(112, 216);
 			this.testCaseCount.Name = "testCaseCount";
 			this.testCaseCount.Size = new System.Drawing.Size(48, 15);
@@ -301,7 +289,6 @@ namespace NUnit.UiKit
 			// 
 			// label4
 			// 
-			this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label4.Location = new System.Drawing.Point(24, 216);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(80, 15);
@@ -310,7 +297,6 @@ namespace NUnit.UiKit
 			// 
 			// shouldRun
 			// 
-			this.shouldRun.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.shouldRun.Location = new System.Drawing.Point(304, 216);
 			this.shouldRun.Name = "shouldRun";
 			this.shouldRun.Size = new System.Drawing.Size(88, 15);
@@ -319,7 +305,6 @@ namespace NUnit.UiKit
 			// 
 			// label2
 			// 
-			this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label2.Location = new System.Drawing.Point(188, 216);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(84, 15);
@@ -331,7 +316,6 @@ namespace NUnit.UiKit
 			this.fullName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.fullName.CopySupported = true;
-			this.fullName.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.fullName.Location = new System.Drawing.Point(112, 63);
 			this.fullName.Name = "fullName";
 			this.fullName.Size = new System.Drawing.Size(312, 17);
@@ -339,7 +323,6 @@ namespace NUnit.UiKit
 			// 
 			// label1
 			// 
-			this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label1.Location = new System.Drawing.Point(24, 63);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(80, 17);
@@ -348,7 +331,6 @@ namespace NUnit.UiKit
 			// 
 			// label3
 			// 
-			this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label3.Location = new System.Drawing.Point(16, 392);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(64, 15);
@@ -363,7 +345,6 @@ namespace NUnit.UiKit
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.stackTrace.CopySupported = true;
 			this.stackTrace.Expansion = CP.Windows.Forms.TipWindow.ExpansionStyle.Both;
-			this.stackTrace.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.stackTrace.Location = new System.Drawing.Point(112, 128);
 			this.stackTrace.Name = "stackTrace";
 			this.stackTrace.Size = new System.Drawing.Size(312, 49);
@@ -389,7 +370,6 @@ namespace NUnit.UiKit
 			// 
 			// assertCount
 			// 
-			this.assertCount.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.assertCount.Location = new System.Drawing.Point(240, 32);
 			this.assertCount.Name = "assertCount";
 			this.assertCount.Size = new System.Drawing.Size(176, 16);
@@ -398,7 +378,6 @@ namespace NUnit.UiKit
 			// 
 			// label10
 			// 
-			this.label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label10.Location = new System.Drawing.Point(24, 63);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(80, 17);
@@ -407,7 +386,6 @@ namespace NUnit.UiKit
 			// 
 			// elapsedTime
 			// 
-			this.elapsedTime.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.elapsedTime.Location = new System.Drawing.Point(24, 32);
 			this.elapsedTime.Name = "elapsedTime";
 			this.elapsedTime.Size = new System.Drawing.Size(192, 16);
@@ -420,7 +398,6 @@ namespace NUnit.UiKit
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.message.CopySupported = true;
 			this.message.Expansion = CP.Windows.Forms.TipWindow.ExpansionStyle.Both;
-			this.message.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.message.Location = new System.Drawing.Point(112, 63);
 			this.message.Name = "message";
 			this.message.Size = new System.Drawing.Size(312, 49);
@@ -428,7 +405,6 @@ namespace NUnit.UiKit
 			// 
 			// label12
 			// 
-			this.label12.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label12.Location = new System.Drawing.Point(24, 128);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(80, 16);

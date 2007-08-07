@@ -152,7 +152,6 @@ namespace NUnit.Gui
 			// 
 			this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.closeButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.closeButton.Location = new System.Drawing.Point(408, 415);
 			this.closeButton.Name = "closeButton";
 			this.helpProvider1.SetShowHelp(this.closeButton, false);
@@ -163,7 +162,6 @@ namespace NUnit.Gui
 			// 
 			// label5
 			// 
-			this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label5.Location = new System.Drawing.Point(24, 8);
 			this.label5.Name = "label5";
 			this.helpProvider1.SetShowHelp(this.label5, false);
@@ -175,7 +173,6 @@ namespace NUnit.Gui
 			// 
 			this.projectPathLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
-			this.projectPathLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.projectPathLabel.Location = new System.Drawing.Point(128, 8);
 			this.projectPathLabel.Name = "projectPathLabel";
 			this.helpProvider1.SetShowHelp(this.projectPathLabel, false);
@@ -184,7 +181,6 @@ namespace NUnit.Gui
 			// 
 			// label8
 			// 
-			this.label8.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label8.Location = new System.Drawing.Point(24, 37);
 			this.label8.Name = "label8";
 			this.helpProvider1.SetShowHelp(this.label8, false);
@@ -241,7 +237,6 @@ namespace NUnit.Gui
 			// 
 			// autoBinPathRadioButton
 			// 
-			this.autoBinPathRadioButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.autoBinPathRadioButton.Location = new System.Drawing.Point(32, 96);
 			this.autoBinPathRadioButton.Name = "autoBinPathRadioButton";
 			this.helpProvider1.SetShowHelp(this.autoBinPathRadioButton, false);
@@ -252,7 +247,6 @@ namespace NUnit.Gui
 			// 
 			// manualBinPathRadioButton
 			// 
-			this.manualBinPathRadioButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.manualBinPathRadioButton.Location = new System.Drawing.Point(32, 128);
 			this.manualBinPathRadioButton.Name = "manualBinPathRadioButton";
 			this.helpProvider1.SetShowHelp(this.manualBinPathRadioButton, false);
@@ -262,7 +256,6 @@ namespace NUnit.Gui
 			// 
 			// noBinPathRadioButton
 			// 
-			this.noBinPathRadioButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.noBinPathRadioButton.Location = new System.Drawing.Point(32, 160);
 			this.noBinPathRadioButton.Name = "noBinPathRadioButton";
 			this.helpProvider1.SetShowHelp(this.noBinPathRadioButton, false);
@@ -276,7 +269,6 @@ namespace NUnit.Gui
 			this.configBaseBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.configBaseBrowseButton, "Browse to locate ApplicationBase directory.");
 			this.configBaseBrowseButton.Image = ((System.Drawing.Image)(resources.GetObject("configBaseBrowseButton.Image")));
-			this.configBaseBrowseButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.configBaseBrowseButton.Location = new System.Drawing.Point(448, 8);
 			this.configBaseBrowseButton.Name = "configBaseBrowseButton";
 			this.helpProvider1.SetShowHelp(this.configBaseBrowseButton, true);
@@ -302,7 +294,6 @@ namespace NUnit.Gui
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label6.Location = new System.Drawing.Point(16, 72);
 			this.label6.Name = "label6";
 			this.helpProvider1.SetShowHelp(this.label6, false);
@@ -328,7 +319,6 @@ namespace NUnit.Gui
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label4.Location = new System.Drawing.Point(16, 40);
 			this.label4.Name = "label4";
 			this.helpProvider1.SetShowHelp(this.label4, false);
@@ -354,7 +344,6 @@ namespace NUnit.Gui
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label3.Location = new System.Drawing.Point(16, 8);
 			this.label3.Name = "label3";
 			this.helpProvider1.SetShowHelp(this.label3, false);
@@ -413,7 +402,6 @@ namespace NUnit.Gui
 			// 
 			this.addAssemblyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.addAssemblyButton, "Add an assembly to this configuration.");
-			this.addAssemblyButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.addAssemblyButton.Location = new System.Drawing.Point(392, 24);
 			this.addAssemblyButton.Name = "addAssemblyButton";
 			this.helpProvider1.SetShowHelp(this.addAssemblyButton, true);
@@ -426,7 +414,6 @@ namespace NUnit.Gui
 			// 
 			this.removeAssemblyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.removeAssemblyButton, "Remove the selected assembly from the configuration.");
-			this.removeAssemblyButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.removeAssemblyButton.Location = new System.Drawing.Point(392, 56);
 			this.removeAssemblyButton.Name = "removeAssemblyButton";
 			this.helpProvider1.SetShowHelp(this.removeAssemblyButton, true);
@@ -439,7 +426,6 @@ namespace NUnit.Gui
 			// 
 			this.editConfigsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.editConfigsButton, "Add, remove or rename configurations.");
-			this.editConfigsButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.editConfigsButton.Location = new System.Drawing.Point(385, 24);
 			this.editConfigsButton.Name = "editConfigsButton";
 			this.helpProvider1.SetShowHelp(this.editConfigsButton, true);
@@ -463,7 +449,6 @@ namespace NUnit.Gui
 			// 
 			// label1
 			// 
-			this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.label1.Location = new System.Drawing.Point(16, 32);
 			this.label1.Name = "label1";
 			this.helpProvider1.SetShowHelp(this.label1, false);
@@ -476,7 +461,6 @@ namespace NUnit.Gui
 			this.projectBaseBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.projectBaseBrowseButton, "Browse to locate ApplicationBase directory.");
 			this.projectBaseBrowseButton.Image = ((System.Drawing.Image)(resources.GetObject("projectBaseBrowseButton.Image")));
-			this.projectBaseBrowseButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.projectBaseBrowseButton.Location = new System.Drawing.Point(472, 40);
 			this.projectBaseBrowseButton.Name = "projectBaseBrowseButton";
 			this.helpProvider1.SetShowHelp(this.projectBaseBrowseButton, true);
@@ -503,7 +487,6 @@ namespace NUnit.Gui
 			this.assemblyPathBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.assemblyPathBrowseButton, "Browse to locate ApplicationBase directory.");
 			this.assemblyPathBrowseButton.Image = ((System.Drawing.Image)(resources.GetObject("assemblyPathBrowseButton.Image")));
-			this.assemblyPathBrowseButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.assemblyPathBrowseButton.Location = new System.Drawing.Point(448, 168);
 			this.assemblyPathBrowseButton.Name = "assemblyPathBrowseButton";
 			this.helpProvider1.SetShowHelp(this.assemblyPathBrowseButton, true);

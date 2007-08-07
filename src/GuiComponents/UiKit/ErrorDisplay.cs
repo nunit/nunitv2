@@ -112,7 +112,6 @@ namespace NUnit.UiKit
 			// tabSplitter
 			// 
 			this.tabSplitter.Dock = System.Windows.Forms.DockStyle.Top;
-			this.tabSplitter.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.tabSplitter.Location = new System.Drawing.Point(0, 128);
 			this.tabSplitter.MinSize = 100;
 			this.tabSplitter.Name = "tabSplitter";

@@ -129,10 +129,6 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "App.ico"
-                    BuildAction = "Content"
-                />
-                <File
                     RelPath = "AppEntry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

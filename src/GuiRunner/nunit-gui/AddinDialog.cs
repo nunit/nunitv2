@@ -66,6 +66,7 @@ namespace NUnit.Gui
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(AddinDialog));
 			this.addinListView = new System.Windows.Forms.ListView();
 			this.addinNameColumn = new System.Windows.Forms.ColumnHeader();
 			this.extensionTypeColumn = new System.Windows.Forms.ColumnHeader();
@@ -146,6 +147,7 @@ namespace NUnit.Gui
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.descriptionTextBox);
 			this.Controls.Add(this.addinListView);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "AddinDialog";
 			this.Text = "Registered Addins";
 			this.Load += new System.EventHandler(this.AddinDialog_Load);
