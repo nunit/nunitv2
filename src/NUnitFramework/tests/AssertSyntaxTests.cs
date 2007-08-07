@@ -520,7 +520,6 @@ namespace NUnit.Framework.Tests
 			Assert.That(mixed, Has.Some.Null);
 			Assert.That(mixed, Has.Some.InstanceOfType(typeof(int)));
 			Assert.That(mixed, Has.Some.InstanceOfType(typeof(string)));
-			Assert.That(mixed, Has.Some.GreaterThan(99));
 			Assert.That(strings, Has.Some.StartsWith( "ba" ) );
 			Assert.That(strings, Has.Some.Not.StartsWith( "ba" ) );
 		
@@ -528,7 +527,6 @@ namespace NUnit.Framework.Tests
 			Expect(mixed, Some.Null);
 			Expect(mixed, Some.InstanceOfType(typeof(int)));
 			Expect(mixed, Some.InstanceOfType(typeof(string)));
-			Expect(mixed, Some.GreaterThan(99));
 			Expect(strings, Some.StartsWith( "ba" ) );
 			Expect(strings, Some.Not.StartsWith( "ba" ) );
 		}

@@ -72,7 +72,7 @@ namespace NUnit.Framework.Tests
 		public void EqualsNaNFails() 
 		{
 			expectedMessage =
-				"  Expected: 1.234d" + Environment.NewLine +
+				"  Expected: 1.234d +/- 0.0d" + Environment.NewLine +
 				"  But was:  NaN" + Environment.NewLine;
 			Assert.AreEqual(1.234, Double.NaN, 0.0);
 		}    

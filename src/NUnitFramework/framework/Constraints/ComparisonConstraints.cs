@@ -62,10 +62,7 @@ namespace NUnit.Framework.Constraints
         {
             this.actual = actual;
 
-            if ( actual == null || actual.GetType() != expected.GetType() )
-                return false;
-
-            int icomp = expected.CompareTo(actual); // Reverse of stated order
+			int icomp = Numerics.Compare( expected, actual );
             return icomp < 0 && gtOK || icomp == 0 && eqOK || icomp > 0 && ltOK;
         }
 

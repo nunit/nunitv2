@@ -52,6 +52,60 @@ namespace NUnit.Framework.Tests
 			Assert.Less(f1,f2, "{0}", "float");
 		}
 
+		[Test]
+		public void MixedTypes()
+		{	
+			Assert.Less( 5, 8L, "int to long");
+			Assert.Less( 5, 8.2f, "int to float" );
+			Assert.Less( 5, 8.2d, "int to double" );
+			Assert.Less( 5, 8U, "int to uint" );
+			Assert.Less( 5, 8UL, "int to ulong" );
+			Assert.Less( 5, 8M, "int to decimal" );
+
+			Assert.Less( 5L, 8, "long to int");
+			Assert.Less( 5L, 8.2f, "long to float" );
+			Assert.Less( 5L, 8.2d, "long to double" );
+			Assert.Less( 5L, 8U, "long to uint" );
+			Assert.Less( 5L, 8UL, "long to ulong" );
+			Assert.Less( 5L, 8M, "long to decimal" );
+
+			Assert.Less( 3.5f, 5, "float to int" );
+			Assert.Less( 3.5f, 8L, "float to long" );
+			Assert.Less( 3.5f, 8.2d, "float to double" );
+			Assert.Less( 3.5f, 8U, "float to uint" );
+			Assert.Less( 3.5f, 8UL, "float to ulong" );
+			Assert.Less( 3.5f, 8.2M, "float to decimal" );
+
+			Assert.Less( 3.5d, 5, "double to int" );
+			Assert.Less( 3.5d, 5L, "double to long" );
+			Assert.Less( 3.5d, 8.2f, "double to float" );
+			Assert.Less( 3.5d, 8U, "double to uint" );
+			Assert.Less( 3.5d, 8UL, "double to ulong" );
+			Assert.Less( 3.5d, 8.2M, "double to decimal" );
+			
+
+			Assert.Less( 5U, 8, "uint to int" );
+			Assert.Less( 5U, 8L, "uint to long" );
+			Assert.Less( 5U, 8.2f, "uint to float" );
+			Assert.Less( 5U, 8.2d, "uint to double" );
+			Assert.Less( 5U, 8UL, "uint to ulong" );
+			Assert.Less( 5U, 8M, "uint to decimal" );
+			
+			Assert.Less( 5ul, 8, "ulong to int" );
+			Assert.Less( 5UL, 8L, "ulong to long" );
+			Assert.Less( 5UL, 8.2f, "ulong to float" );
+			Assert.Less( 5UL, 8.2d, "ulong to double" );
+			Assert.Less( 5UL, 8U, "ulong to uint" );
+			Assert.Less( 5UL, 8M, "ulong to decimal" );
+			
+			Assert.Less( 5M, 8, "decimal to int" );
+			Assert.Less( 5M, 8L, "decimal to long" );
+			Assert.Less( 5M, 8.2f, "decimal to float" );
+			Assert.Less( 5M, 8.2d, "decimal to double" );
+			Assert.Less( 5M, 8U, "decimal to uint" );
+			Assert.Less( 5M, 8UL, "decimal to ulong" );
+		}
+
 		[Test, ExpectedException( typeof( AssertionException ))]
 		public void NotLessWhenEqual()
 		{

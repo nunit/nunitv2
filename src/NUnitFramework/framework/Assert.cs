@@ -771,7 +771,11 @@ namespace NUnit.Framework
 		static public void AreEqual(double expected, 
 			double actual, double delta, string message, params object[] args) 
 		{
-            Assert.That(actual, Is.EqualTo(expected).Within(delta), message, args);
+			Constraint constraint = new EqualConstraint( expected );
+			if ( double.IsNaN(expected) || double.IsInfinity(expected) )
+				Assert.That(actual, Is.EqualTo( expected ), message, args);
+			else
+				Assert.That(actual, Is.EqualTo(expected).Within(delta), message, args);
         }
 
 		/// <summary>
@@ -825,7 +829,10 @@ namespace NUnit.Framework
 		static public void AreEqual(float expected, 
 			float actual, float delta, string message, params object[] args) 
 		{
-            Assert.That(actual, Is.EqualTo(expected).Within(delta), message, args);
+			if (float.IsNaN(expected) || float.IsInfinity(expected))
+				Assert.That(actual, Is.EqualTo( expected), message, args );
+			else
+				Assert.That(actual, Is.EqualTo(expected).Within(delta), message, args);
 		}
 
 		/// <summary>

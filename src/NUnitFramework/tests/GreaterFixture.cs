@@ -40,6 +40,60 @@ namespace NUnit.Framework.Tests
 			Assert.Greater(f1,f2, "float");
 		}
 
+		[Test]
+		public void MixedTypes()
+		{	
+			Assert.Greater( 5, 3L, "int to long");
+			Assert.Greater( 5, 3.5f, "int to float" );
+			Assert.Greater( 5, 3.5d, "int to double" );
+			Assert.Greater( 5, 3U, "int to uint" );
+			Assert.Greater( 5, 3UL, "int to ulong" );
+			Assert.Greater( 5, 3M, "int to decimal" );
+
+			Assert.Greater( 5L, 3, "long to int");
+			Assert.Greater( 5L, 3.5f, "long to float" );
+			Assert.Greater( 5L, 3.5d, "long to double" );
+			Assert.Greater( 5L, 3U, "long to uint" );
+			Assert.Greater( 5L, 3UL, "long to ulong" );
+			Assert.Greater( 5L, 3M, "long to decimal" );
+
+			Assert.Greater( 8.2f, 5, "float to int" );
+			Assert.Greater( 8.2f, 8L, "float to long" );
+			Assert.Greater( 8.2f, 3.5d, "float to double" );
+			Assert.Greater( 8.2f, 8U, "float to uint" );
+			Assert.Greater( 8.2f, 8UL, "float to ulong" );
+			Assert.Greater( 8.2f, 3.5M, "float to decimal" );
+
+			Assert.Greater( 8.2d, 5, "double to int" );
+			Assert.Greater( 8.2d, 5L, "double to long" );
+			Assert.Greater( 8.2d, 3.5f, "double to float" );
+			Assert.Greater( 8.2d, 8U, "double to uint" );
+			Assert.Greater( 8.2d, 8UL, "double to ulong" );
+			Assert.Greater( 8.2d, 3.5M, "double to decimal" );
+			
+
+			Assert.Greater( 5U, 3, "uint to int" );
+			Assert.Greater( 5U, 3L, "uint to long" );
+			Assert.Greater( 5U, 3.5f, "uint to float" );
+			Assert.Greater( 5U, 3.5d, "uint to double" );
+			Assert.Greater( 5U, 3UL, "uint to ulong" );
+			Assert.Greater( 5U, 3M, "uint to decimal" );
+			
+			Assert.Greater( 5ul, 3, "ulong to int" );
+			Assert.Greater( 5UL, 3L, "ulong to long" );
+			Assert.Greater( 5UL, 3.5f, "ulong to float" );
+			Assert.Greater( 5UL, 3.5d, "ulong to double" );
+			Assert.Greater( 5UL, 3U, "ulong to uint" );
+			Assert.Greater( 5UL, 3M, "ulong to decimal" );
+			
+			Assert.Greater( 5M, 3, "decimal to int" );
+			Assert.Greater( 5M, 3L, "decimal to long" );
+			Assert.Greater( 5M, 3.5f, "decimal to float" );
+			Assert.Greater( 5M, 3.5d, "decimal to double" );
+			Assert.Greater( 5M, 3U, "decimal to uint" );
+			Assert.Greater( 5M, 3UL, "decimal to ulong" );
+		}
+
 		[Test, ExpectedException( typeof( AssertionException ))]
 		public void NotGreaterWhenEqual()
 		{

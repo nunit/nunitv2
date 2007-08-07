@@ -20,6 +20,7 @@
         <include name="Constraints/ContainsConstraint.cs"/>
         <include name="Constraints/EmptyConstraint.cs"/>
         <include name="Constraints/EqualConstraint.cs"/>
+        <include name="Constraints/Numerics.cs"/>
         <include name="Constraints/PrefixConstraints.cs"/>
         <include name="Constraints/PropertyConstraint.cs"/>
         <include name="Constraints/SameAsConstraint.cs"/>

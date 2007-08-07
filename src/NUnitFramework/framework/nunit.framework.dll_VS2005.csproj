@@ -90,6 +90,7 @@
     <Compile Include="Constraints\ContainsConstraint.cs" />
     <Compile Include="Constraints\EmptyConstraint.cs" />
     <Compile Include="Constraints\EqualConstraint.cs" />
+    <Compile Include="Constraints\Numerics.cs" />
     <Compile Include="Constraints\PrefixConstraints.cs" />
     <Compile Include="Constraints\PropertyConstraint.cs" />
     <Compile Include="Constraints\SameAsConstraint.cs" />
