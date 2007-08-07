@@ -5,6 +5,15 @@
 <!-- **********Set Properties used by Various targets **************** -->
 <!-- ***************************************************************** -->
 
+  <!-- OS Platform in Use -->
+  <property name="os.platform" value="other"/>
+  <if test="${platform::is-win32()}">
+    <property name="os.platform" value="win32"/>
+  </if>
+  <if test="${platform::is-unix()}">
+    <property name="os.platform" value="linux"/>
+  </if>
+
   <!-- NUnit executables and arguments -->
   <property name="nunit.gui.name" value="nunit.exe"/>
   <property name="nunit.gui.name.x86" value="nunit-x86.exe"/>
@@ -395,8 +404,10 @@
   <!-- Set up the build directory -->
   <target name="set-build-dir"
     depends="set-build-config,set-runtime-config">
+    <property name="os.platform.dir"
+      value="${path::combine(project.build.dir,os.platform)}"/>
     <property name="runtime.platform.dir"
-      value="${path::combine(project.build.dir,runtime.platform)}"/>
+      value="${path::combine(os.platform.dir,runtime.platform)}"/>
     <property name="runtime.version.dir"
       value="${path::combine(runtime.platform.dir,runtime.version)}"/>
     <property name="current.build.dir" 

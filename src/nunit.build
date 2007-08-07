@@ -58,7 +58,7 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit version for packaging -->
-  <property name="package.version" value="2.4.2"/>
+  <property name="package.version" value="2.4.3"/>
 
   <!-- Additional suffix used to distinguish files with the same version -->
   <property name="package.suffix" value=""/>
@@ -66,7 +66,7 @@
   <!-- Nominal version used for install directory and program
        files menu. Normally the same as the package version, 
        but may differ when we are in alpha or beta. -->
-  <property name="nominal.version" value="2.4.2" />
+  <property name="nominal.version" value="2.4.3" />
 
   <!-- Frameworks supported by this build script. The first
          installed framework found is the default for builds. 
@@ -176,7 +176,7 @@
     <echo message="*"/>
 
     <!-- Copy key file to base directory, so build can access it -->
-    <copy file="nunit.snk" todir="${project.base.dir}"/>
+    <copy file="nunit.snk" todir="${project.build.dir}"/>
 
     <!-- Build NUnit components and tests -->
     <nant target="build">
