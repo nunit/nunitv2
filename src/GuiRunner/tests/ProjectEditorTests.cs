@@ -15,7 +15,7 @@ namespace NUnit.Gui.Tests
 	/// <summary>
 	/// Summary description for ProjectEditorTests.
 	/// </summary>
-	[TestFixture,Platform(Exclude="Mono",Reason="Exception in ProjectEditor.InitializeComponent()")]
+	[TestFixture]
 	public class ProjectEditorTests : FormTester
 	{
 		private NUnitProject project;
