@@ -116,9 +116,7 @@ namespace NUnit.Util
 			foreach (string name in key.GetSubKeyNames())
 			{
 				ClearSubKey(key, name);
-				// TODO: Remove this test when Mono bug is fixed
-				if ( NUnit.Core.RuntimeFramework.CurrentFramework.Runtime == NUnit.Core.RuntimeType.Net ) 
-					key.DeleteSubKey( name );
+				key.DeleteSubKey( name );
 			}
 		}
 
