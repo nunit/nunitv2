@@ -13,7 +13,8 @@ using System.Timers;
 namespace NUnit.Util.Tests
 {
 	[TestFixture]
-	[Platform( Exclude = "Win95,Win98,WinMe,Mono" )]
+	[Platform( Exclude = "Win95,Win98,WinMe" )]
+	[Platform( Exclude = "Mono", Reason = "NYI on Mono under Windows" )]
 	public class FileWatcherTest
 	{
 		private AssemblyWatcher watcher;
