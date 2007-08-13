@@ -61,7 +61,6 @@ namespace NUnit.Gui
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(ExceptionDetailsForm));
 			this.okButton = new System.Windows.Forms.Button();
 			this.stackTrace = new System.Windows.Forms.RichTextBox();
 			this.message = new System.Windows.Forms.Label();
@@ -105,7 +104,6 @@ namespace NUnit.Gui
 			this.Controls.Add(this.stackTrace);
 			this.Controls.Add(this.message);
 			this.Controls.Add(this.okButton);
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "ExceptionDetailsForm";
 			this.Text = "Exception Details";
 			this.Resize += new System.EventHandler(this.ExceptionDetailsForm_Resize);
