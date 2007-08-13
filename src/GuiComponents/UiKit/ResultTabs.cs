@@ -37,10 +37,10 @@ namespace NUnit.UiKit
 
 		private System.Windows.Forms.TabPage errorTab;
 		private NUnit.UiKit.ErrorDisplay errorDisplay;
-		private NUnit.UiKit.RichEditTabPage stdoutTab;
-		private NUnit.UiKit.RichEditTabPage traceTab;
-		private NUnit.UiKit.RichEditTabPage internalTraceTab;
-		private NUnit.UiKit.RichEditTabPage stderrTab;
+		private NUnit.UiKit.TextDisplayTabPage stdoutTab;
+		private NUnit.UiKit.TextDisplayTabPage traceTab;
+		private NUnit.UiKit.TextDisplayTabPage internalTraceTab;
+		private NUnit.UiKit.TextDisplayTabPage stderrTab;
 		private System.Windows.Forms.TabPage notRunTab;
 		private NUnit.UiKit.NotRunTree notRunTree;
 		private System.Windows.Forms.TabControl tabControl;
@@ -107,8 +107,8 @@ namespace NUnit.UiKit
 			this.internalTraceTabMenuItem.Text = "&Internal Trace";
 			this.internalTraceTabMenuItem.Click += new System.EventHandler(this.internalTraceTabMenuItem_Click);
 
-			this.traceListener = new TextWriterTraceListener( this.internalTraceTab.Writer, "Internal" );
-			System.Diagnostics.Trace.Listeners.Add( this.traceListener );
+//			this.traceListener = new TextWriterTraceListener( this.internalTraceTab.Writer, "Internal" );
+//			System.Diagnostics.Trace.Listeners.Add( this.traceListener );
 		}
 
 		/// <summary> 
@@ -138,10 +138,10 @@ namespace NUnit.UiKit
 			this.errorDisplay = new NUnit.UiKit.ErrorDisplay();
 			this.notRunTab = new System.Windows.Forms.TabPage();
 			this.notRunTree = new NUnit.UiKit.NotRunTree();
-			this.stderrTab = new NUnit.UiKit.RichEditTabPage();
-			this.stdoutTab = new NUnit.UiKit.RichEditTabPage();
-			this.traceTab = new NUnit.UiKit.RichEditTabPage();
-			this.internalTraceTab = new NUnit.UiKit.RichEditTabPage();
+			this.stderrTab = new NUnit.UiKit.TextDisplayTabPage();
+			this.stdoutTab = new NUnit.UiKit.TextDisplayTabPage();
+			this.traceTab = new NUnit.UiKit.TextDisplayTabPage();
+			this.internalTraceTab = new NUnit.UiKit.TextDisplayTabPage();
 			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
 			this.tabControl.SuspendLayout();
 			this.errorTab.SuspendLayout();

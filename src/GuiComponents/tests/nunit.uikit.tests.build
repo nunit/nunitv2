@@ -14,7 +14,7 @@
         <include name="StatusBarTests.cs"/>
         <include name="TestSuiteTreeNodeTests.cs"/>
         <include name="TestSuiteTreeViewFixture.cs"/>
-        <include name="TextBoxWriterTests.cs"/>
+        <include name="TextDisplayWriterTests.cs"/>
         <include name="VisualStateTests.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>

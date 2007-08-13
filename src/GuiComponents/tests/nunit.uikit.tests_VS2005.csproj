@@ -80,7 +80,7 @@
     <Compile Include="TestSuiteTreeViewFixture.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TextBoxWriterTests.cs" />
+    <Compile Include="TextDisplayWriterTests.cs" />
     <Compile Include="VisualStateTests.cs" />
   </ItemGroup>
   <ItemGroup>

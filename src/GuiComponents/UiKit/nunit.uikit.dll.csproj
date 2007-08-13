@@ -255,13 +255,13 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "RichEditTabPage.cs"
+                    RelPath = "SimpleTextDisplay.cs"
                     SubType = "Component"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "RichEditTabPage.resx"
-                    DependentUpon = "RichEditTabPage.cs"
+                    RelPath = "SimpleTextDisplay.resx"
+                    DependentUpon = "SimpleTextDisplay.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -319,7 +319,17 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
-                    RelPath = "TextBoxWriter.cs"
+                    RelPath = "TextDisplay.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TextDisplayTabPage.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TextDisplayWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -359,7 +369,7 @@
                 />
                 <File
                     RelPath = "WritableTextDisplay.cs"
-                    SubType = "UserControl"
+                    SubType = "Component"
                     BuildAction = "Compile"
                 />
                 <File
