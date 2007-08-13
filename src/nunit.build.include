@@ -317,7 +317,9 @@
       value="net-1.0"/>
     <property name="zip.runtime.suffix" value="-net-1.0"/>
     <property name="msi.runtime.suffix" value="-net-1.0"/>
-    <property name="test.platforms" value="net-1.0,net-1.1,net-2.0,mono-1.0,mono-2.0"/>
+    <property name="supported.test.platforms" 
+      value="net-1.0,net-1.1,net-2.0,mono-1.0,mono-2.0"/>
+    <call target="set-test-platforms"/>
   </target>
 	
   <target name="set-net-1.1-runtime-config">
@@ -337,7 +339,9 @@
       value="net-1.1"/>
     <property name="zip.runtime.suffix" value="-net-1.1"/>
     <property name="msi.runtime.suffix" value="-net-1.1"/>
-    <property name="test.platforms" value="net-1.0,net-1.1,net-2.0,mono-1.0,mono-2.0"/>
+    <property name="supported.test.platforms"
+      value="net-1.0,net-1.1,net-2.0,mono-1.0,mono-2.0"/>
+    <call target="set-test-platforms"/>
   </target>
 	
   <target name="set-net-2.0-runtime-config">
@@ -356,7 +360,8 @@
       value="net-2.0"/>
     <property name="zip.runtime.suffix" value="-net-2.0"/>
     <property name="msi.runtime.suffix" value="-net-2.0"/>
-    <property name="test.platforms" value="net-2.0,mono-2.0"/>
+    <property name="supported.test.platforms" value="net-2.0,mono-2.0"/>
+    <call target="set-test-platforms"/>
   </target>
 	
   <target name="set-mono-1.0-runtime-config">
@@ -375,7 +380,9 @@
       value="mono-1.0"/>
     <property name="zip.runtime.suffix" value="-mono-1.0"/>
     <property name="msi.runtime.suffix" value="-mono-1.0"/>
-    <property name="test.platforms" value="mono-1.0,mono-2.0,net-1.0,net-1.1,net-2.0"/>
+    <property name="supported.test.platforms"
+      value="mono-1.0,mono-2.0,net-1.0,net-1.1,net-2.0"/>
+    <call target="set-test-platforms"/>
   </target>
 
   <target name="set-mono-2.0-runtime-config">
@@ -394,7 +401,26 @@
       value="mono-2.0"/>
     <property name="zip.runtime.suffix" value="-mono-2.0"/>
     <property name="msi.runtime.suffix" value="-mono-2.0"/>
-    <property name="test.platforms" value="mono-2.0,net-2.0"/>
+    <property name="supported.test.platforms" value="mono-2.0,net-2.0"/>
+    <call target="set-test-platforms"/>
+  </target>
+
+  <target name="set-test-platforms">
+
+    <property name="test.platforms" value=""/>
+
+    <foreach item="String" delim=","
+        property="framework" in="${supported.test.platforms}">
+
+      <if test="${framework::exists( framework )}">
+        <property name="test.platforms" value="${test.platforms},${framework}"
+          unless="${test.platforms==''}"/>
+        <property name="test.platforms" value="${framework}"
+          if="${test.platforms==''}"/>
+      </if>
+
+    </foreach>
+    
   </target>
 
 <!-- ***************************************************************** -->
@@ -609,6 +635,7 @@
 <!-- ***************************************************************** -->
 
   <target name="dump-settings" depends="set-build-dir,set-package-config">
+
     <echo>Project Directories</echo>
     <echo>  Base:      ${project.base.dir}</echo>
     <echo>   Doc:      ${project.doc.dir}</echo>
@@ -630,19 +657,23 @@
     <echo>    .Net:    ${default.net.runtime}</echo>
     <echo>    Mono:    ${default.mono.runtime}</echo>
     <echo></echo>
-    <echo>Current Configuration</echo>
+    <echo>Current Build Settings</echo>
     <echo>  Config:    ${build.config}</echo>
     <echo>  Runtime:   ${runtime.config}</echo>
+    <echo>  Build Dir: ${current.build.dir}</echo>
     <echo>  Defines:   ${build.defines}</echo>
+    <echo></echo>
+    <echo>Test Platforms for Current Build</echo>
+    <echo>  Supported: ${supported.test.platforms}</echo>
+    <echo>  Installed: ${test.platforms}</echo>
+    <echo></echo>
+    <echo>Packaging</echo>
+    <echo>  Name:      ${package.name}</echo>
     <echo>  Version:   ${package.version}</echo>
-    <echo>  Package:   ${package.name}</echo>
     <echo>  Zip file:  ${zip.file.name}</echo>
     <echo>  Msi file:  ${msi.file.name}</echo>
     <echo>  Source:    ${zipped.src.file.name}</echo>
-    <echo></echo>
-    <echo>Current Working Directories</echo>
-    <echo>  Build:     ${current.build.dir}</echo>
-    <echo>  Package:   ${package.working.dir}</echo>
+    <echo>  Work Dir:  ${package.working.dir}</echo>
     <echo>   Bin:      ${package.bin.dir}</echo>
     <echo>   Doc:      ${package.doc.dir}</echo>
     <echo>   Samples:  ${package.samples.dir}</echo>
