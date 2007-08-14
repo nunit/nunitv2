@@ -454,6 +454,8 @@
       value="${package.name}${msi.runtime.suffix}${msi.build.suffix}.msi"/>
     <property name="zipped.src.file.name"
       value="${package.name}-src.zip"/>
+    <property name="zipped.doc.file.name"
+      value="${package.name}-doc.zip"/>
     <property name="zipped.resource.file.name"
       value="${package.name}-resources.zip"/>
   </target>

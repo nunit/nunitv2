@@ -431,6 +431,8 @@
       
     <call target="package-src"/>
 
+    <call target="package-docs"/>
+
     <call target="set-release-build-config"/>
 
     <foreach item="String" delim="," 
@@ -480,6 +482,19 @@
         <include name="**"/>
       </fileset>
     </zip>
+  </target>
+
+  <target name="package-docs" depends="clean-package-dir">
+
+    <call target="copy-docs"/>
+
+    <!-- Create the zip file -->
+    <zip zipfile="${project.package.dir}/${zipped.doc.file.name}" ziplevel="9">
+      <fileset basedir="${package.working.dir}">
+        <include name="**"/>
+      </fileset>
+    </zip>
+    
   </target>
   
   <target name="package-resources" depends="clean-package-dir">
