@@ -47,8 +47,7 @@ namespace NUnit.Core
 
 		public AssemblyReader( Assembly assembly )
 		{
-			Uri uri = new Uri( assembly.GetName().CodeBase );
-			this.assemblyPath = uri.LocalPath;
+			this.assemblyPath = TestFixtureBuilder.GetAssemblyPath( assembly );
 			CalcHeaderOffsets();
 		}
 

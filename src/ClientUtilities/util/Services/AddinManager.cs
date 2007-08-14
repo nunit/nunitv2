@@ -31,7 +31,7 @@ namespace NUnit.Util
 		public void RegisterAddins()
 		{
 			//Figure out the directory from which NUnit is executing
-			string moduleName = new Uri(GetType().Assembly.CodeBase).LocalPath;
+			string moduleName = TestFixtureBuilder.GetAssemblyPath( GetType().Assembly );
 			//string moduleName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
 			string nunitDirPath = Path.GetDirectoryName( moduleName );
 			string coreExtensions = Path.Combine( nunitDirPath, "nunit.core.extensions.dll" );

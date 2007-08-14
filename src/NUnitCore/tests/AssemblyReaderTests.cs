@@ -38,7 +38,8 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void CreateFromAssembly()
 		{
-			StringAssert.AreEqualIgnoringCase( Path.GetFullPath("nunit.core.tests.dll"), rdr.AssemblyPath );
+			Assert.IsTrue( NUnit.Util.PathUtils.SamePath( Path.GetFullPath( "nunit.core.tests.dll" ), rdr.AssemblyPath ) );
+			//StringAssert.AreEqualIgnoringCase( Path.GetFullPath("nunit.core.tests.dll"), rdr.AssemblyPath );
 		}
 
 		[Test]

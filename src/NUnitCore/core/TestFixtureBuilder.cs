@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Reflection;
 
 namespace NUnit.Core
 {
@@ -45,6 +46,20 @@ namespace NUnit.Core
 			Test suite = BuildFrom( fixture.GetType() );
 			suite.Fixture = fixture;
 			return suite;
+		}
+
+		public static string GetAssemblyPath( Type fixtureType )
+		{
+			return GetAssemblyPath( fixtureType.Assembly );
+		}
+
+		public static string GetAssemblyPath( Assembly assembly )
+		{
+			Uri uri = new Uri( assembly.CodeBase );
+			string path = uri.LocalPath;
+			if ( uri.Fragment != null && uri.Fragment.StartsWith( "#" ) )
+				path += uri.Fragment;
+			return path;
 		}
 
 		/// <summary>
