@@ -77,11 +77,11 @@ namespace NUnit.Core.Builders
 			this.assembly = Load( assemblyName );
 			if ( assembly == null ) return null;
 
-			// If provided test name is actually a fixture,
-			// just build and return that!
+			// If provided test name is actually the name of
+			// a type, we handle it specially
 			Type testType = assembly.GetType(testName);
 			if( testType != null )
-				return BuildSingleFixture( testType );
+				return Build( assemblyName, testType, autoSuites );
 		
 			// Assume that testName is a namespace and get all fixtures in it
 			IList fixtures = GetFixtures( assembly, testName );
@@ -97,6 +97,19 @@ namespace NUnit.Core.Builders
 
 			IList fixtures = GetFixtures( assembly, null );
 			return BuildTestAssembly( assemblyName, fixtures, autoSuites );
+		}
+
+		private Test Build( string assemblyName, Type testType, bool autoSuites )
+		{
+			// TODO: This is the only situation in which we currently
+			// recognize and load legacy suites. We need to determine 
+			// whether to allow them in more places.
+			if ( legacySuiteBuilder.CanBuildFrom( testType ) )
+				return legacySuiteBuilder.BuildFrom( testType );
+			else if ( TestFixtureBuilder.CanBuildFrom( testType ) )
+				return BuildTestAssembly( assemblyName,
+					new Test[] { TestFixtureBuilder.BuildFrom( testType ) }, autoSuites );
+			return null;
 		}
 
 		private TestSuite BuildTestAssembly( string assemblyName, IList fixtures, bool autoSuites )
@@ -175,16 +188,7 @@ namespace NUnit.Core.Builders
 
 			return fixtures;
 		}
-
-		private Test BuildSingleFixture( Type testType )
-		{
-			// The only place we currently allow legacy suites
-			if ( legacySuiteBuilder.CanBuildFrom( testType ) )
-				return legacySuiteBuilder.BuildFrom( testType );
-
-			return TestFixtureBuilder.BuildFrom( testType );
-		}
-		
+	
 		private IList GetCandidateFixtureTypes( Assembly assembly, string ns )
 		{
 			IList types = assembly.GetTypes();

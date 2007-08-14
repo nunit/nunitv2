@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Collections;
 using NUnit.Core;
 
 namespace NUnit.Util
@@ -25,25 +26,48 @@ namespace NUnit.Util
 		{
 			this.projectName = package.FullName;
 			this.testName.FullName = this.testName.Name = projectName;
-			CreateRunners( package.Assemblies.Count );
+			runners = new ArrayList();
 
 			int nfound = 0;
 			int index = 0;
+
+			string targetAssemblyName = null;
+			if( package.TestName != null && package.Assemblies.Contains( package.TestName ) )
+			{
+				targetAssemblyName = package.TestName;
+				package.TestName = null;
+			}
+			
 			foreach( string assembly in package.Assemblies )
 			{
-				TestPackage p = new TestPackage( assembly );
-				p.AutoBinPath = package.AutoBinPath;
-				p.ConfigurationFile = package.ConfigurationFile;
-				p.BasePath = package.BasePath;
-				p.PrivateBinPath = package.PrivateBinPath;
-				p.TestName = package.TestName;
-				foreach( object key in package.Settings.Keys )
-					p.Settings[key] = package.Settings[key];
-				if ( runners[index++].Load( p ) )
-					nfound++;
+				if ( targetAssemblyName == null || targetAssemblyName == assembly )
+				{
+					TestDomain runner = new TestDomain( this.runnerID * 100 + index + 1 );
+
+					TestPackage p = new TestPackage( assembly );
+					p.AutoBinPath = package.AutoBinPath;
+					p.ConfigurationFile = package.ConfigurationFile;
+					p.BasePath = package.BasePath;
+					p.PrivateBinPath = package.PrivateBinPath;
+					p.TestName = package.TestName;
+					foreach( object key in package.Settings.Keys )
+						p.Settings[key] = package.Settings[key];
+
+					if ( package.TestName == null )
+					{
+						runners.Add( runner );
+						if ( runner.Load( p ) )
+							nfound++;
+					}
+					else if ( runner.Load( p ) )
+					{
+						runners.Add( runner );
+						nfound++;
+					}
+				}
 			}
 
-			if ( package.TestName == null )
+			if ( package.TestName == null && targetAssemblyName == null )
 				return nfound == package.Assemblies.Count;
 			else
 				return nfound > 0;
@@ -51,11 +75,11 @@ namespace NUnit.Util
 
 		private void CreateRunners( int count )
 		{
-			runners = new TestRunner[count];
+			runners = new ArrayList();
 			for( int index = 0; index < count; index++ )
 			{
 				TestDomain runner = new TestDomain( this.runnerID * 100 + index + 1 );
-				runners[index] = runner;
+				runners.Add( runner );
 			}
 		}
 		#endregion

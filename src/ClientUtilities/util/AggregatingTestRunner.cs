@@ -31,7 +31,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// The downstream TestRunners
 		/// </summary>
-		protected TestRunner[] runners;
+		protected ArrayList runners;
 
 		/// <summary>
 		/// The loaded test suite
@@ -161,9 +161,9 @@ namespace NUnit.Util
 			// Save active listener for derived classes
 			this.listener = listener;
 
-			ITest[] tests = new ITest[runners.Length];
-			for( int index = 0; index < runners.Length; index++ )
-				tests[index] = runners[index].Test;
+			ITest[] tests = new ITest[runners.Count];
+			for( int index = 0; index < runners.Count; index++ )
+				tests[index] = ((TestRunner)runners[index]).Test;
 
 			this.listener.RunStarted( this.Test.TestName.Name, this.CountTestCases( filter ) );
 

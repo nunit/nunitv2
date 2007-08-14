@@ -63,7 +63,13 @@ namespace NUnit.Core
 
 			if ( package.IsSingleAssembly )
 				return BuildSingleAssembly( package );
-
+			string targetAssemblyName = null;
+			if( package.TestName != null && package.Assemblies.Contains( package.TestName ) )
+			{
+				targetAssemblyName = package.TestName;
+				package.TestName = null;
+			}
+			
 			TestSuite rootSuite = new TestSuite( package.FullName );
 			NamespaceTreeBuilder namespaceTree = 
 				new NamespaceTreeBuilder( rootSuite );
@@ -71,27 +77,30 @@ namespace NUnit.Core
 			builders.Clear();
 			foreach(string assemblyName in package.Assemblies)
 			{
-				TestAssemblyBuilder builder = new TestAssemblyBuilder();
-				builders.Add( builder );
-
-				Test testAssembly =  builder.Build( assemblyName, package.TestName, autoNamespaceSuites && !mergeAssemblies );
-
-				if ( testAssembly != null )
+				if ( targetAssemblyName == null || targetAssemblyName == assemblyName )
 				{
-                    if (!mergeAssemblies)
-                    {
-                        rootSuite.Add(testAssembly);
-                    }
-                    else if (autoNamespaceSuites)
-                    {
-                        namespaceTree.Add(testAssembly.Tests);
-                        rootSuite = namespaceTree.RootSuite;
-                    }
-                    else
-                    {
-                        foreach (Test test in testAssembly.Tests)
-                            rootSuite.Add(test);
-                    }
+					TestAssemblyBuilder builder = new TestAssemblyBuilder();
+					builders.Add( builder );
+
+					Test testAssembly =  builder.Build( assemblyName, package.TestName, autoNamespaceSuites && !mergeAssemblies );
+
+					if ( testAssembly != null )
+					{
+						if (!mergeAssemblies)
+						{
+							rootSuite.Add(testAssembly);
+						}
+						else if (autoNamespaceSuites)
+						{
+							namespaceTree.Add(testAssembly.Tests);
+							rootSuite = namespaceTree.RootSuite;
+						}
+						else
+						{
+							foreach (Test test in testAssembly.Tests)
+								rootSuite.Add(test);
+						}
+					}
 				}
 			}
 

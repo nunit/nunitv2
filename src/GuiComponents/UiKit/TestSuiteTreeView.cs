@@ -489,7 +489,7 @@ namespace NUnit.UiKit
 			this.ContextMenu.MenuItems.Add( "-" );
 			
 			MenuItem loadFixtureMenuItem = new MenuItem( "Load Fixture", new EventHandler( loadFixtureMenuItem_Click ) );
-			loadFixtureMenuItem.Enabled = targetNode.Test.IsSuite;
+			loadFixtureMenuItem.Enabled = targetNode.Test.IsSuite && targetNode != Nodes[0];
 			this.ContextMenu.MenuItems.Add( loadFixtureMenuItem );
 
 			MenuItem clearFixtureMenuItem = new MenuItem( "Clear Fixture", new EventHandler( clearFixtureMenuItem_Click ) );
