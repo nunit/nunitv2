@@ -24,7 +24,6 @@ namespace NUnit.UiKit.Tests
 			state.Save( writer );
 
 			string output = writer.GetStringBuilder().ToString();
-			Console.WriteLine( output );
 
 			StringReader reader = new StringReader( output );
 			VisualState newState = VisualState.LoadFrom( reader );

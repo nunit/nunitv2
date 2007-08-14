@@ -139,7 +139,6 @@ namespace NUnit.UiKit.Tests
 			DateTime startTime = DateTime.Now;
 			AppendLines( 1000 );
 			DateTime endTime = DateTime.Now;
-			Console.WriteLine( "Appended 1000 lines in {0} seconds", ((double)(endTime-startTime).Ticks) / TimeSpan.TicksPerSecond );
 			Assert.AreEqual( 9*15 + 90*16 + 900*17 + 18, textDisplay.Text.Length );
 			Assert.AreEqual( getTextSize( textDisplay.Text ), textDisplay.AutoScrollMinSize );
 		}

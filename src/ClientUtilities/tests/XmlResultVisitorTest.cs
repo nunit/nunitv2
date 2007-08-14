@@ -36,7 +36,6 @@ namespace NUnit.Util.Tests
 			visitor.Write();
 
 			string resultXml = builder.ToString();
-			Console.WriteLine(resultXml);
 
 			resultDoc = new XmlDocument();
 			resultDoc.LoadXml(resultXml);
