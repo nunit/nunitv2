@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using namespace NUnit::Framework;
+using NUnit::Framework::SyntaxHelpers::Is;
 using NUnit::Framework::SyntaxHelpers::Text;
 using NUnit::Framework::SyntaxHelpers::List;
 using NUnit::Framework::SyntaxHelpers::Has;
@@ -409,7 +410,7 @@ namespace NUnitSamples
 			Assert::That(strings, Is::Not->Unique);
 			Assert::That(ints, Is::All->GreaterThan(0));
 			Assert::That(strings, Text::All->Contains( "a" ) );
-			Assert::That(strings, List::Some->StartsWith( "ba" ) );
+			Assert::That(strings, Has::Some->StartsWith( "ba" ) );
 		
 			// Inherited syntax
 			Expect(ints, All->Not->Null);
@@ -483,14 +484,16 @@ namespace NUnitSamples
 			CollectionAssert::DoesNotContain(sarray, "x");
 
 			// Helper syntax
-			Assert::That(iarray, List::Contains(3));
-			Assert::That(sarray, List::Contains("b"));
-			Assert::That(sarray, List::Not->Contains("x"));
+			Assert::That(iarray, Has::Member(3));
+			Assert::That(sarray, Has::Member("b"));
+			Assert::That(sarray, Has::No->Member("x")); // Yuck!
+			Assert::That(sarray, !Has::Member("x"));
 		
 			// Inherited syntax
 			Expect(iarray, Contains(3));
 			Expect(sarray, Contains("b"));
 			Expect(sarray, Not->Contains("x"));
+			Expect(sarray, !Contains("x"));
 		}
 
 		[Test]
