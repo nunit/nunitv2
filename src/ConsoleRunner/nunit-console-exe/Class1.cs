@@ -19,7 +19,7 @@ namespace NUnit.ConsoleRunner
 		[STAThread]
 		public static int Main(string[] args)
 		{
-			return ConsoleUi.Main( args );
+			return Runner.Main( args );
 		}
 	}
 }

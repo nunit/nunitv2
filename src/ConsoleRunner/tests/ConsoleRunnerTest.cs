@@ -175,7 +175,7 @@ namespace NUnit.ConsoleRunner.Tests
 
 		private int executeConsole( params string[] arguments )
 		{
-			return NUnit.ConsoleRunner.ConsoleUi.Main( arguments );
+			return NUnit.ConsoleRunner.Runner.Main( arguments );
 		}
 	}
 }

@@ -117,13 +117,21 @@ namespace NUnit.ConsoleRunner
 			}
 		}
 
-		public bool IsTestProject
-		{
-			get
-			{
-				return ParameterCount == 1 && NUnitProject.CanLoadAsProject( (string)Parameters[0] );
-			}
-		}
+        public bool IsTestProject
+        {
+            get
+            {
+                return ParameterCount == 1 && NUnitProject.CanLoadAsProject((string)Parameters[0]);
+            }
+        }
+
+        public bool IsNUnitProject
+        {
+            get
+            {
+                return ParameterCount == 1 && NUnitProject.IsProjectFile((string)Parameters[0]);
+            }
+        }
 
 		public bool IsFixture 
 		{

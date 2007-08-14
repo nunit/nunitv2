@@ -67,6 +67,8 @@
     <Compile Include="ConsoleUi.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EventCollector.cs" />
+    <Compile Include="Runner.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ClientUtilities\util\nunit.util.dll_VS2005.csproj">
