@@ -367,16 +367,6 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
-                <File
-                    RelPath = "WritableTextDisplay.cs"
-                    SubType = "Component"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "WritableTextDisplay.resx"
-                    DependentUpon = "WritableTextDisplay.cs"
-                    BuildAction = "EmbeddedResource"
-                />
             </Include>
         </Files>
     </CSHARP>
