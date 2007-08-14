@@ -32,7 +32,6 @@ namespace NUnit.TestUtilities
         /// <param name="evnt">The event to register.</param>
         public static void RegisterEvent(string evnt)
         {
-            System.Console.WriteLine(evnt);
             _events.Enqueue(evnt);
         }
 

@@ -100,10 +100,6 @@ namespace NUnit.Core.Tests
 			TestResult result = suite.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
 			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun - 2, summarizer.ResultCount );
-			Console.WriteLine( "{0} ignored, {1} explicit, {2} not run",
-				MockAssembly.Ignored, MockAssembly.Explicit, MockAssembly.NotRun );
-			Console.WriteLine( "{0} tests were run out of {1}", 
-				MockAssembly.Tests - MockAssembly.NotRun - 2, MockAssembly.Tests );
 		}
 
 		[Test]

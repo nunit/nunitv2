@@ -34,7 +34,6 @@ namespace NUnit.Core.Tests
 
 		public void Visit(TestSuiteResult suiteResult)
 		{
-			Console.WriteLine(suiteResult.Name);
 			if(suiteResult.Name.Equals(name))
 				Assert.AreEqual(description, suiteResult.Description);
 

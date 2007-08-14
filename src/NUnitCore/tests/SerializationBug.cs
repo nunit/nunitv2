@@ -30,7 +30,6 @@ namespace NUnit.Core.Tests
 
 			public void Serialize(string filename) 
 			{ 
-				Console.WriteLine("serialize : cd = {0}", Environment.CurrentDirectory);
 				StreamWriter stm = new StreamWriter(File.OpenWrite( filename )); 
 				BinaryFormatter bf=new BinaryFormatter(); 
 				bf.Serialize(stm.BaseStream,this); 
@@ -38,7 +37,6 @@ namespace NUnit.Core.Tests
 			} 
 			public static Perob Deserialize(string filename) 
 			{ 
-				Console.WriteLine("deserialize : cd = {0}", Environment.CurrentDirectory);
 				Perob rv; 
 				using (StreamReader stm = new StreamReader(File.OpenRead( filename ))) 
 				{
