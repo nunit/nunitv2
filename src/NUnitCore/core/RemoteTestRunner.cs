@@ -16,8 +16,6 @@ namespace NUnit.Core
 	/// </summary>
 	public class RemoteTestRunner : DelegatingTestRunner
 	{
-		private bool useThreadedRunner = true;
-
 		#region Constructor
 		public RemoteTestRunner() : base( 0 ) { }
 
@@ -51,22 +49,14 @@ namespace NUnit.Core
 
 		public override TestResult Run( EventListener listener, ITestFilter filter )
 		{
-			if ( useThreadedRunner )
-			{
-				QueuingEventListener queue = new QueuingEventListener();
+			QueuingEventListener queue = new QueuingEventListener();
 
-				DirectOutputToListener( queue );
+			DirectOutputToListener( queue );
 
-				using( EventPump pump = new EventPump( listener, queue.Events, true ) )
-				{
-					pump.Start();
-					return base.Run( queue, filter );
-				}
-			}
-			else
+			using( EventPump pump = new EventPump( listener, queue.Events, true ) )
 			{
-				DirectOutputToListener( listener );
-				return base.Run( listener, filter );
+				pump.Start();
+				return base.Run( queue, filter );
 			}
 		}
 
@@ -77,23 +67,15 @@ namespace NUnit.Core
 
 		public override void BeginRun( EventListener listener, ITestFilter filter )
 		{
-			if ( useThreadedRunner )
-			{
-				QueuingEventListener queue = new QueuingEventListener();
+			QueuingEventListener queue = new QueuingEventListener();
 
-				DirectOutputToListener( queue );
+			DirectOutputToListener( queue );
 
-				EventPump pump = new EventPump( listener, queue.Events, true);
-				pump.Start(); // Will run till RunFinished is received
-				// TODO: Make sure the thread is cleaned up if we abort the run
-			
-				base.BeginRun( queue, filter );
-			}
-			else
-			{
-				DirectOutputToListener( listener );
-				base.BeginRun( listener, filter );
-			}
+			EventPump pump = new EventPump( listener, queue.Events, true);
+			pump.Start(); // Will run till RunFinished is received
+			// TODO: Make sure the thread is cleaned up if we abort the run
+		
+			base.BeginRun( queue, filter );
 		}
 
 		private void DirectOutputToListener( EventListener queue )
@@ -101,7 +83,7 @@ namespace NUnit.Core
 			TestContext.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
 			TestContext.Error = new EventListenerTextWriter( queue, TestOutputType.Error );
 			TestContext.TraceWriter = new EventListenerTextWriter( queue, TestOutputType.Trace );
-			TestContext.Tracing = true;
+//			TestContext.Tracing = true;
 		}
 		#endregion
 	}
