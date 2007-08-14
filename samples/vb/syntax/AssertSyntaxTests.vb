@@ -195,15 +195,15 @@ Namespace NUnit.Samples
             Assert.That(phrase, Text.DoesNotContain("goodbye"))
             Assert.That(phrase, Text.Contains("WORLD").IgnoreCase)
             Assert.That(phrase, Text.DoesNotContain("BYE").IgnoreCase)
-            Assert.That(Array, Text.All.Contains("b"))
+            Assert.That(array, Text.All.Contains("b"))
 
             ' Inherited syntax
             Expect(phrase, Contains("World"))
             ' Only available using new syntax
-            Expect(phrase, Text.Not.Contains("goodbye"))
+            Expect(phrase, Text.DoesNotContain("goodbye"))
             Expect(phrase, Contains("WORLD").IgnoreCase)
-            Expect(phrase, Text.Not.Contains("BYE").IgnoreCase)
-            Expect(Array, All.Contains("b"))
+            Expect(phrase, Text.DoesNotContain("BYE").IgnoreCase)
+            Expect(array, All.Contains("b"))
         End Sub
 
         <Test()> _
@@ -225,9 +225,9 @@ Namespace NUnit.Samples
             ' Inherited syntax
             Expect(phrase, StartsWith("Hello"))
             ' Only available using new syntax
-            Expect(phrase, Text.Not.StartsWith("Hi!"))
+            Expect(phrase, Text.DoesNotStartWith("Hi!"))
             Expect(phrase, StartsWith("HeLLo").IgnoreCase)
-            Expect(phrase, Text.Not.StartsWith("HI").IgnoreCase)
+            Expect(phrase, Text.DoesNotStartWith("HI").IgnoreCase)
             Expect(greetings, All.StartsWith("h").IgnoreCase)
         End Sub
 
@@ -249,7 +249,7 @@ Namespace NUnit.Samples
             ' Inherited syntax
             Expect(phrase, EndsWith("!"))
             ' Only available using new syntax
-            Expect(phrase, Text.Not.EndsWith("?"))
+            Expect(phrase, Text.DoesNotEndWith("?"))
             Expect(phrase, EndsWith("WORLD!").IgnoreCase)
             Expect(greetings, All.EndsWith("!"))
         End Sub
@@ -301,7 +301,7 @@ Namespace NUnit.Samples
             Expect(phrase, Matches("all good men"))
             Expect(phrase, Matches("Now.*come"))
             ' Only available using new syntax
-            Expect(phrase, Text.Not.Matches("all.*men.*good"))
+            Expect(phrase, Text.DoesNotMatch("all.*men.*good"))
             Expect(phrase, Matches("ALL").IgnoreCase)
             Expect(quotes, All.Matches("never").IgnoreCase)
         End Sub
@@ -408,10 +408,10 @@ Namespace NUnit.Samples
             Assert.That(strings, Tis.All.InstanceOfType(GetType(String)))
             Assert.That(ints, Tis.Unique)
             ' Only available using new syntax
-            Assert.That(Strings, Tis.Not.Unique)
+            Assert.That(strings, Tis.Not.Unique)
             Assert.That(ints, Tis.All.GreaterThan(0))
-            Assert.That(Strings, Text.All.Contains("a"))
-            Assert.That(Strings, List.Some.StartsWith("ba"))
+            Assert.That(strings, Text.All.Contains("a"))
+            Assert.That(strings, Has.Some.StartsWith("ba"))
 
             ' Inherited syntax
             Expect(ints, All.Not.Null)
@@ -421,8 +421,8 @@ Namespace NUnit.Samples
             ' Only available using new syntax
             Expect(strings, Tis.Not.Unique)
             Expect(ints, All.GreaterThan(0))
-            Expect(Strings, All.Contains("a"))
-            Expect(Strings, Some.StartsWith("ba"))
+            Expect(strings, All.Contains("a"))
+            Expect(strings, Some.StartsWith("ba"))
         End Sub
 
         <Test()> _
@@ -462,13 +462,13 @@ Namespace NUnit.Samples
             Assert.That(ints, Has.None.Null)
             Assert.That(ints, Has.None.InstanceOfType(GetType(String)))
             Assert.That(ints, Has.None.GreaterThan(99))
-            Assert.That(Strings, Has.None.StartsWith("qu"))
+            Assert.That(strings, Has.None.StartsWith("qu"))
 
             ' Inherited syntax
             Expect(ints, None.Null)
             Expect(ints, None.InstanceOfType(GetType(String)))
             Expect(ints, None.GreaterThan(99))
-            Expect(Strings, None.StartsWith("qu"))
+            Expect(strings, None.StartsWith("qu"))
         End Sub
 
         <Test()> _
@@ -485,14 +485,14 @@ Namespace NUnit.Samples
             CollectionAssert.DoesNotContain(sarray, "x")
 
             ' Helper syntax
-            Assert.That(iarray, List.Contains(3))
-            Assert.That(sarray, List.Contains("b"))
-            Assert.That(sarray, List.Not.Contains("x"))
+            Assert.That(iarray, Has.Member(3))
+            Assert.That(sarray, Has.Member("b"))
+            Assert.That(sarray, Has.No.Member("x"))
 
             ' Inherited syntax
             Expect(iarray, Contains(3))
             Expect(sarray, Contains("b"))
-            Expect(sarray, List.Not.Contains("x"))
+            Expect(sarray, Has.No.Member("x"))
         End Sub
 
         <Test()> _
@@ -548,14 +548,14 @@ Namespace NUnit.Samples
             ' Helper syntax
             Assert.That("Hello", Has.Property("Length", 5))
             Assert.That("Hello", Has.Length(5))
-            Assert.That(Array, Has.All.Property("Length", 3))
-            Assert.That(Array, Has.All.Length(3))
+            Assert.That(array, Has.All.Property("Length", 3))
+            Assert.That(array, Has.All.Length(3))
 
             ' Inherited syntax
             Expect("Hello", Has.Property("Length", 5))
             Expect("Hello", Length(5))
-            Expect(Array, All.Property("Length", 3))
-            Expect(Array, All.Length(3))
+            Expect(array, All.Property("Length", 3))
+            Expect(array, All.Length(3))
         End Sub
 
         <Test()> _
