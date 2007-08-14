@@ -37,7 +37,6 @@
         <include name="UserMessage.cs"/>
         <include name="VisualState.cs"/>
         <include name="WaitCursor.cs"/>
-        <include name="WritableTextDisplay.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <nowarn>
@@ -60,7 +59,6 @@
         <include name="TestTree.resx"/>
         <include name="TipWindow.resx"/>
         <include name="UserMessage.resx"/>
-        <include name="WritableTextDisplay.resx"/>
         <include name="Ellipsis.gif"/>
         <include name="pinned.gif"/>
         <include name="unpinned.gif"/>
