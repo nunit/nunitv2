@@ -13,7 +13,7 @@ namespace NUnit.Core.Tests
 	/// <summary>
 	/// Summary description for StackOverflowTestFixture.
 	/// </summary>
-	[TestFixture, Platform(Exclude="Net-2.0",Reason="Cannot handle StackOverflowException in managed code")]
+	[TestFixture, Platform(Exclude="Net-2.0,linux",Reason="Cannot handle StackOverflowException in managed code")]
 	public class StackOverflowTestFixture
 	{
 		private void FunctionCallsSelf()
@@ -22,7 +22,7 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test, ExpectedException] // StackOverflowException in .NET, NullReferenceExcepton in Mono
-		[Platform(Exclude="Net-2.0",Reason="Cannot handle StackOverflowException in managed code")]
+		[Platform(Exclude="Net-2.0,linux",Reason="Cannot handle StackOverflowException in managed code")]
 		public void SimpleOverflow()
 		{
             FunctionCallsSelf();
