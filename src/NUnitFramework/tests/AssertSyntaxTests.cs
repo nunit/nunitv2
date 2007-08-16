@@ -608,24 +608,27 @@ namespace NUnit.Framework.Tests
 		public void CollectionEquivalenceTests()
 		{
 			int[] ints1to5 = new int[] { 1, 2, 3, 4, 5 };
+			int[] twothrees = new int[] { 1, 2, 3, 3, 4, 5 };
+			int[] twofours = new int[] { 1, 2, 3, 4, 4, 5 };
 
-			// Classic syntax
-			CollectionAssert.AreEquivalent(new int[] { 2, 1, 4, 3, 5 }, ints1to5);
+		    // Classic syntax
+		    CollectionAssert.AreEquivalent(new int[] { 2, 1, 4, 3, 5 }, ints1to5);
 			CollectionAssert.AreNotEquivalent(new int[] { 2, 2, 4, 3, 5 }, ints1to5);
 			CollectionAssert.AreNotEquivalent(new int[] { 2, 4, 3, 5 }, ints1to5);
-			CollectionAssert.AreEquivalent(new int[] { 2, 2, 1, 1, 4, 3, 5 }, ints1to5);
+			CollectionAssert.AreNotEquivalent(new int[] { 2, 2, 1, 1, 4, 3, 5 }, ints1to5);
+            CollectionAssert.AreNotEquivalent(twothrees, twofours); 
 		
 			// Helper syntax
 			Assert.That(new int[] { 2, 1, 4, 3, 5 }, Is.EquivalentTo(ints1to5));
 			Assert.That(new int[] { 2, 2, 4, 3, 5 }, Is.Not.EquivalentTo(ints1to5));
 			Assert.That(new int[] { 2, 4, 3, 5 }, Is.Not.EquivalentTo(ints1to5));
-			Assert.That(new int[] { 2, 2, 1, 1, 4, 3, 5 }, Is.EquivalentTo(ints1to5));
+			Assert.That(new int[] { 2, 2, 1, 1, 4, 3, 5 }, Is.Not.EquivalentTo(ints1to5));
 
 			// Inherited syntax
 			Expect(new int[] { 2, 1, 4, 3, 5 }, EquivalentTo(ints1to5));
 			Expect(new int[] { 2, 2, 4, 3, 5 }, Not.EquivalentTo(ints1to5));
 			Expect(new int[] { 2, 4, 3, 5 }, Not.EquivalentTo(ints1to5));
-			Expect(new int[] { 2, 2, 1, 1, 4, 3, 5 }, EquivalentTo(ints1to5));
+			Expect(new int[] { 2, 2, 1, 1, 4, 3, 5 }, Not.EquivalentTo(ints1to5));
 		}
 
 		[Test]
@@ -637,6 +640,7 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.IsSubsetOf(new int[] { 1, 3, 5 }, ints1to5);
 			CollectionAssert.IsSubsetOf(new int[] { 1, 2, 3, 4, 5 }, ints1to5);
 			CollectionAssert.IsNotSubsetOf(new int[] { 2, 4, 6 }, ints1to5);
+			CollectionAssert.IsNotSubsetOf(new int[] { 1, 2, 2, 2, 5 }, ints1to5);
 
 			// Helper syntax
 			Assert.That(new int[] { 1, 3, 5 }, Is.SubsetOf(ints1to5));

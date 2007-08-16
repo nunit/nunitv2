@@ -9,13 +9,25 @@ using System.Collections;
 
 namespace NUnit.Framework.Tests
 {
-	class CollectionAdapter : ICollection
+	/// <summary>
+	/// ICollectionAdapter is used in testing to wrap an array or
+	/// ArrayList, ensuring that only methods of the ICollection
+	/// interface are accessible.
+	/// </summary>
+	class ICollectionAdapter : ICollection
 	{
 		private readonly ICollection inner;
-		public CollectionAdapter(ICollection inner)
+
+		public ICollectionAdapter(ICollection inner)
 		{
 			this.inner = inner;
 		}
+
+		public ICollectionAdapter(params object[] inner)
+		{
+			this.inner = inner;
+		}
+
 		#region ICollection Members
 
 		public void CopyTo(Array array, int index)

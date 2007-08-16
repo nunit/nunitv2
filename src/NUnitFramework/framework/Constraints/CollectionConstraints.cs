@@ -17,6 +17,86 @@ namespace NUnit.Framework.Constraints
     public abstract class CollectionConstraint : Constraint
     {
 		/// <summary>
+		/// CollectionTally counts (tallies) the number of
+		/// occurences of each object in one or more enuerations.
+		/// </summary>
+		protected internal class CollectionTally
+		{
+			// Internal hash used to count occurences
+			private Hashtable hash = new Hashtable();
+
+			// We use this for any null entries found, since
+			// the key to a hash may not be null.
+			static object NULL = new object();
+
+			private int getTally(object obj)
+			{
+				if ( obj == null ) obj = NULL;
+				object val = hash[obj];
+				return val == null ? 0 : (int)val;
+			}
+
+			private void setTally(object obj, int tally)
+			{
+				if ( obj == null ) obj = NULL;
+				hash[obj] = tally;
+			}
+
+			/// <summary>
+			/// Construct a CollectionTally object from a collection
+			/// </summary>
+			/// <param name="collection"></param>
+			public CollectionTally( IEnumerable c )
+			{
+				foreach( object obj in c )
+					setTally( obj, getTally( obj ) + 1 );
+			}
+
+			/// <summary>
+			/// Remove the counts for a collection from the tally,
+			/// so long as their are sufficient items to remove.
+			/// The tallies are not permitted to become negative.
+			/// </summary>
+			/// <param name="c">The collection to remove</param>
+			/// <returns>True if there were enough items to remove, otherwise false</returns>
+			public bool CanRemove( IEnumerable c )
+			{
+				foreach( object obj in c )
+				{
+					int tally = getTally(obj);
+					if( tally > 0 )
+						setTally(obj, tally - 1 );
+					else
+						return false;
+				}
+
+				return true;
+			}
+
+			/// <summary>
+			/// Test whether all the counts are equal to a given value
+			/// </summary>
+			/// <param name="count">The value to be looked for</param>
+			/// <returns>True if all counts are equal to the value, otherwise false</returns>
+			public bool AllCountsEqualTo( int count )
+			{
+				foreach( DictionaryEntry entry in hash )
+					if ( (int)entry.Value != count )
+						return false;
+
+				return true;
+			}
+
+			/// <summary>
+			/// Get the count of the number of times an object is present in the tally
+			/// </summary>
+			public int this[object obj]
+			{
+				get	{ return getTally(obj); }
+			}
+		}
+
+		/// <summary>
 		/// Test whether the constraint is satisfied by a given value
 		/// </summary>
 		/// <param name="actual">The value to be tested</param>
@@ -38,36 +118,6 @@ namespace NUnit.Framework.Constraints
 		/// <param name="collecton"></param>
 		/// <returns></returns>
 		protected abstract bool doMatch(ICollection collecton);
-
-        /// <summary>
-        /// Determine whether an expected object is contained in a collection
-        /// </summary>
-        /// <param name="expected"></param>
-        /// <param name="collection"></param>
-        /// <returns></returns>
-        protected bool IsItemInCollection(object expected, ICollection collection)
-        {
-            foreach (object obj in collection)
-                if ( Object.Equals( obj, expected ) )
-                    return true;
-
-            return false;
-        }
-
-        /// <summary>
-        /// Determine whether one collection is a subset of another
-        /// </summary>
-        /// <param name="subset"></param>
-        /// <param name="superset"></param>
-        /// <returns></returns>
-        protected bool IsSubsetOf(ICollection subset, ICollection superset)
-        {
-            foreach (object obj in subset)
-                if (!IsItemInCollection(obj, superset))
-                    return false;
-
-            return true;
-        }
     }
     #endregion
 
@@ -86,22 +136,7 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         protected override bool doMatch(ICollection actual)
         {
-			foreach (object loopObj in actual)
-            {
-                bool foundOnce = false;
-                foreach (object innerObj in actual)
-                {
-                    if ( Object.Equals(loopObj,innerObj))
-                    {
-                        if (foundOnce)
-                            return false;
-                        else
-                            foundOnce = true;
-                    }
-                }
-            }
-
-            return true;
+			return new CollectionTally( actual ).AllCountsEqualTo( 1 );
         }
 
         /// <summary>
@@ -140,8 +175,12 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         protected override bool doMatch(ICollection actual)
         {
-            return IsItemInCollection(expected, actual);
-        }
+			foreach (object obj in actual)
+				if ( Object.Equals( obj, expected ) )
+					return true;
+
+			return false;
+		}
 
         /// <summary>
         /// Write a descripton of the constraint to a MessageWriter
@@ -162,13 +201,13 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class CollectionEquivalentConstraint : CollectionConstraint
     {
-        private ICollection expected;
+        private IEnumerable expected;
 
         /// <summary>
         /// Construct a CollectionEquivalentConstraint
         /// </summary>
         /// <param name="expected"></param>
-        public CollectionEquivalentConstraint(ICollection expected)
+        public CollectionEquivalentConstraint(IEnumerable expected)
         {
             this.expected = expected;
         }
@@ -180,8 +219,13 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         protected override bool doMatch(ICollection actual)
         {
-			return IsSubsetOf(actual, expected) &&
-                IsSubsetOf(expected, actual);
+			// This is just an optimization
+			if( expected is ICollection )
+				if( actual.Count != ((ICollection)expected).Count )
+					return false;
+
+			CollectionTally tally = new CollectionTally( expected );
+			return tally.CanRemove( actual ) && tally.AllCountsEqualTo( 0 );
         }
 
         /// <summary>
@@ -203,13 +247,13 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class CollectionSubsetConstraint : CollectionConstraint
     {
-        private ICollection expected;
+        private IEnumerable expected;
 
         /// <summary>
         /// Construct a CollectionSubsetConstraint
         /// </summary>
         /// <param name="expected">The collection that the actual value is expected to be a subset of</param>
-        public CollectionSubsetConstraint(ICollection expected)
+        public CollectionSubsetConstraint(IEnumerable expected)
         {
             this.expected = expected;
         }
@@ -222,11 +266,11 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         protected override bool doMatch(ICollection actual)
         {
-			return IsSubsetOf( actual, expected );
-        }
+			return new CollectionTally( expected ).CanRemove( actual );
+		}
         
         /// <summary>
-        /// Write a desicription of this constraint to a MessageWriter
+        /// Write a description of this constraint to a MessageWriter
         /// </summary>
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(MessageWriter writer)

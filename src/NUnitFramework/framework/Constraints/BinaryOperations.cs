@@ -26,8 +26,8 @@ namespace NUnit.Framework.Constraints
 		/// <summary>
 		/// Construct a BinaryOperation from two other constraints
 		/// </summary>
-		/// <param name="left"></param>
-		/// <param name="right"></param>
+		/// <param name="left">The first constraint</param>
+		/// <param name="right">The second constraint</param>
         public BinaryOperation(Constraint left, Constraint right)
         {
             this.left = left;

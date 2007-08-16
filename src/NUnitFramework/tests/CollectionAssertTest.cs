@@ -72,56 +72,37 @@ namespace NUnit.Framework.Tests
 		#region AllItemsAreUnique
 
 		[Test]
-		public void Unique_IList()
+		public void Unique_WithObjects()
 		{
-			ArrayList al = new ArrayList();
-			al.Add(new object());
-			al.Add(new object());
-			al.Add(new object());
-
-			CollectionAssert.AllItemsAreUnique(al);
-
-			al = new ArrayList();
-			al.Add("x");
-			al.Add("y");
-			al.Add("z");
-
-			CollectionAssert.AllItemsAreUnique(al);
+			CollectionAssert.AllItemsAreUnique(
+				new ICollectionAdapter( new object(), new object(), new object() ) );
 		}
 
 		[Test]
-		public void Unique_ICollection()
+		public void Unique_WithStrings()
 		{
-			CollectionAdapter ca = new CollectionAdapter( new string[] { "x", "y", "z" } );
-			CollectionAssert.AllItemsAreUnique(ca);
+			CollectionAssert.AllItemsAreUnique( new ICollectionAdapter( "x", "y", "z" ) );
 		}
 
 		[Test]
 		public void Unique_WithNull()
 		{
-			CollectionAdapter ca = new CollectionAdapter( new string[] { "x", "y", null, "z" } );
-			CollectionAssert.AllItemsAreUnique(ca);
+			CollectionAssert.AllItemsAreUnique(	new ICollectionAdapter( "x", "y", null, "z" ) );
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
 		public void UniqueFailure()
 		{
-			ArrayList al = new ArrayList();
-			al.Add("x");
-			al.Add("y");
-			al.Add("x");
-
 			expectedMessage =
                 "  Expected: all items unique" + Environment.NewLine +
                 "  But was:  < \"x\", \"y\", \"x\" >" + Environment.NewLine;
-			CollectionAssert.AllItemsAreUnique(al);
+			CollectionAssert.AllItemsAreUnique( new ICollectionAdapter( "x", "y", "x" ) );
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
 		public void UniqueFailure_WithTwoNulls()
 		{
-			CollectionAdapter ca = new CollectionAdapter( new string[] { "x", null, "y", null, "z" } );
-			CollectionAssert.AllItemsAreUnique(ca);
+			CollectionAssert.AllItemsAreUnique( new ICollectionAdapter( "x", null, "y", null, "z" ) );
 		}
 
 		#endregion
@@ -221,16 +202,8 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void Equivalent()
 		{
-			ArrayList set1 = new ArrayList();
-			ArrayList set2 = new ArrayList();
-			
-			set1.Add("x");
-			set1.Add("y");
-			set1.Add("z");
-
-			set2.Add("z");
-			set2.Add("y");
-			set2.Add("x");
+			ICollection set1 = new ICollectionAdapter( "x", "y", "z" );
+			ICollection set2 = new ICollectionAdapter( "z", "y", "x" );
 
 			CollectionAssert.AreEquivalent(set1,set2);
 		}
@@ -238,16 +211,8 @@ namespace NUnit.Framework.Tests
         [Test, ExpectedException(typeof(AssertionException))]
         public void EquivalentFailOne()
 		{
-			ArrayList set1 = new ArrayList();
-			ArrayList set2 = new ArrayList();
-			
-			set1.Add("x");
-			set1.Add("y");
-			set1.Add("z");
-
-			set2.Add("x");
-			set2.Add("y");
-			set2.Add("x");
+			ICollection set1 = new ICollectionAdapter( "x", "y", "z" );
+			ICollection set2 = new ICollectionAdapter( "x", "y", "x" );
 
 			expectedMessage =
                 "  Expected: equivalent to < \"x\", \"y\", \"z\" >" + Environment.NewLine +
@@ -258,17 +223,9 @@ namespace NUnit.Framework.Tests
         [Test, ExpectedException(typeof(AssertionException))]
         public void EquivalentFailTwo()
 		{
-			ArrayList set1 = new ArrayList();
-			ArrayList set2 = new ArrayList();
+			ICollection set1 = new ICollectionAdapter( "x", "y", "x" );
+			ICollection set2 = new ICollectionAdapter( "x", "y", "z" );
 			
-			set1.Add("x");
-			set1.Add("y");
-			set1.Add("x");
-
-			set2.Add("x");
-			set2.Add("y");
-			set2.Add("z");
-
 			expectedMessage =
                 "  Expected: equivalent to < \"x\", \"y\", \"x\" >" + Environment.NewLine +
                 "  But was:  < \"x\", \"y\", \"z\" >" + Environment.NewLine;
@@ -278,17 +235,9 @@ namespace NUnit.Framework.Tests
         [Test]
 		public void AreEquivalentHandlesNull()
 		{
-			ArrayList set1 = new ArrayList();
-			ArrayList set2 = new ArrayList();
+			ICollection set1 = new ICollectionAdapter( null, "x", null, "z" );
+			ICollection set2 = new ICollectionAdapter( "z", null, "x", null );
 			
-			set1.Add("x");
-			set1.Add(null);
-			set1.Add("z");
-
-			set2.Add("z");
-			set2.Add(null);
-			set2.Add("x");
-
 			CollectionAssert.AreEquivalent(set1,set2);
 		}
 		#endregion
@@ -420,7 +369,7 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void Contains_ICollection()
 		{
-			CollectionAdapter ca = new CollectionAdapter( new string[] { "x", "y", "z" } );
+			ICollectionAdapter ca = new ICollectionAdapter( new string[] { "x", "y", "z" } );
 
 			CollectionAssert.Contains(ca,"x");
 		}
@@ -442,7 +391,7 @@ namespace NUnit.Framework.Tests
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void ContainsFails_ICollection()
 		{
-			CollectionAdapter ca = new CollectionAdapter( new string[] { "x", "y", "z" } );
+			ICollectionAdapter ca = new ICollectionAdapter( new string[] { "x", "y", "z" } );
 
 			expectedMessage =
 				"  Expected: collection containing \"a\"" + Environment.NewLine +
@@ -464,7 +413,7 @@ namespace NUnit.Framework.Tests
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void ContainsFails_EmptyICollection()
 		{
-			CollectionAdapter ca = new CollectionAdapter( new object[0] );
+			ICollectionAdapter ca = new ICollectionAdapter( new object[0] );
 
 			expectedMessage =
 				"  Expected: collection containing \"x\"" + Environment.NewLine +
@@ -482,7 +431,7 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void ContainsNull_ICollection()
 		{
-			CollectionAdapter ca = new CollectionAdapter( new object[] { 1, 2, 3, null, 4, 5 } );
+			ICollectionAdapter ca = new ICollectionAdapter( new object[] { 1, 2, 3, null, 4, 5 } );
 			CollectionAssert.Contains( ca, null );
 		}
 		#endregion
