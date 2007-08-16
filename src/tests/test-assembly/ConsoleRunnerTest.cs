@@ -29,6 +29,14 @@ namespace NUnit.TestData.ConsoleRunnerTest
 		}
 	}
 
+	[TestFixture] 
+	public class MultiFailureTest
+	{
+		[Test] public void Fail1() { Assert.Fail(); }
+		[Test] public void Fail2() { Assert.Fail(); }
+		[Test] public void Fail3() { Assert.Fail(); }
+	}
+
 	[TestFixture]
 	public class Bug1073539Fixture
 	{

@@ -21,6 +21,13 @@ namespace NUnit.ConsoleRunner
 	/// </summary>
 	public class ConsoleUi
 	{
+		public static readonly int OK = 0;
+		public static readonly int INVALID_ARG = -1;
+		public static readonly int FILE_NOT_FOUND = -2;
+		public static readonly int FIXTURE_NOT_FOUND = -3;
+		public static readonly int TRANSFORM_ERROR = -4;
+		public static readonly int UNEXPECTED_ERROR = -100;
+
 		public ConsoleUi()
 		{
 		}
@@ -28,7 +35,7 @@ namespace NUnit.ConsoleRunner
 		public int Execute( ConsoleOptions options )
 		{
 			XmlTextReader transformReader = GetTransformReader(options);
-			if(transformReader == null) return 3;
+			if(transformReader == null) return FILE_NOT_FOUND;
 
 			TextWriter outWriter = Console.Out;
 			if ( options.isOut )
@@ -54,7 +61,7 @@ namespace NUnit.ConsoleRunner
 				{
 					testRunner.Unload();
 					Console.Error.WriteLine("Unable to locate fixture {0}", options.fixture);
-					return 2;
+					return FIXTURE_NOT_FOUND;
 				}
 
 				EventCollector collector = new EventCollector( options, outWriter, errorWriter );
@@ -120,7 +127,7 @@ namespace NUnit.ConsoleRunner
 					catch( Exception ex )
 					{
 						Console.WriteLine( "Error: {0}", ex.Message );
-						return 3;
+						return TRANSFORM_ERROR;
 					}
 				}
 
@@ -138,10 +145,13 @@ namespace NUnit.ConsoleRunner
 				if ( collector.HasExceptions )
 				{
 					collector.WriteExceptions();
-					return 2;
+					return UNEXPECTED_ERROR;
 				}
             
-				return result.IsFailure ? 1 : 0;
+				if ( !result.IsFailure ) return OK;
+
+				ResultSummarizer summ = new ResultSummarizer( result );
+				return summ.FailureCount;
 			}
 			finally
 			{

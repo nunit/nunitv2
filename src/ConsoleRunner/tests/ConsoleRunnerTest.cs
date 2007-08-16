@@ -51,7 +51,14 @@ namespace NUnit.ConsoleRunner.Tests
 		}
 
 		[Test]
-		public void SuccessFixture() 
+		public void MultiFailureFixture() 
+		{
+			int resultCode = runFixture( typeof ( MultiFailureTest ) ); 
+			Assert.AreEqual(3, resultCode);
+		}
+
+		[Test]
+		public void SuccessFixture()
 		{
 			int resultCode = runFixture( 
 				typeof(SuccessTest) );
@@ -77,14 +84,14 @@ namespace NUnit.ConsoleRunner.Tests
 		{
 			int resultCode = executeConsole( new string[] 
 				{ GetType().Module.Name, "-fixture:NUnit.Tests.BogusTest" } );
-			Assert.AreEqual(2, resultCode);
+			Assert.AreEqual(ConsoleUi.FIXTURE_NOT_FOUND, resultCode);
 		}
 
 		[Test]
 		public void InvalidAssembly()
 		{
 			int resultCode = executeConsole( new string[] { "badassembly.dll" } );
-			Assert.AreEqual(2, resultCode);
+			Assert.AreEqual(ConsoleUi.FILE_NOT_FOUND, resultCode);
 		}
 
 		[Test]

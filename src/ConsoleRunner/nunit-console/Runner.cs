@@ -22,21 +22,21 @@ namespace NUnit.ConsoleRunner
 			if(options.help)
 			{
 				options.Help();
-				return 0;
+				return ConsoleUi.OK;
 			}
 			
 			if(options.NoArgs) 
 			{
 				Console.Error.WriteLine("fatal error: no inputs specified");
 				options.Help();
-				return 0;
+				return ConsoleUi.OK;
 			}
 			
 			if(!options.Validate())
 			{
 				Console.Error.WriteLine("fatal error: invalid arguments");
 				options.Help();
-				return 2;
+				return ConsoleUi.INVALID_ARG;
 			}
 
 
@@ -59,17 +59,12 @@ namespace NUnit.ConsoleRunner
 			catch( FileNotFoundException ex )
 			{
 				Console.WriteLine( ex.Message );
-				return 2;
-			}
-			catch( BadImageFormatException ex )
-			{
-				Console.WriteLine( ex.Message );
-				return 2;
+				return ConsoleUi.FILE_NOT_FOUND;
 			}
 			catch( Exception ex )
 			{
 				Console.WriteLine( "Unhandled Exception:\n{0}", ex.ToString() );
-				return 2;
+				return ConsoleUi.UNEXPECTED_ERROR;
 			}
 			finally
 			{
