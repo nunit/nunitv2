@@ -115,11 +115,6 @@ namespace NUnit.Framework.Constraints
             this.compareWith = comparer;
             return this;
         }
-
-		internal virtual bool IsMappable
-		{
-			get { return false; }
-		}
 		#endregion
 
 		#region Public Methods
