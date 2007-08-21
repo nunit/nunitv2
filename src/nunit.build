@@ -62,7 +62,7 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit version for packaging -->
-  <property name="package.version" value="2.4.3"/>
+  <property name="package.version" value="2.4.4"/>
 
   <!-- Additional suffix used to distinguish files with the same version -->
   <property name="package.suffix" value=""/>
@@ -70,7 +70,7 @@
   <!-- Nominal version used for install directory and program
        files menu. Normally the same as the package version, 
        but may differ when we are in alpha or beta. -->
-  <property name="nominal.version" value="2.4.3" />
+  <property name="nominal.version" value="2.4.4" />
 
   <!-- Frameworks supported by this build script. The first
          installed framework found is the default for builds. 
@@ -81,7 +81,7 @@
 
   <!-- Framework versions for which packages are normally created -->
   <property name="standard.packages"
-    value="net-1.1,net-2.0,net-1.0,mono-1.0,mono-2.0" />
+    value="net-1.1,net-2.0" />
 
   <!-- Additional internal properties are set in the include file -->
   <include buildfile="nunit.build.include"/>

@@ -29,6 +29,12 @@
 				Advertise="no" WorkingDirectory="bin" />
 		  </File>
           <File Id="nunit.config" Name="NUNIT.CFG" LongName="nunit.exe.config" />
+
+<?if $(var.RuntimeVersion) = 2.0 ?>
+          <File Id="nunitx86.exe" Name="NUNITX86.EXE" LongName="nunit-x86.exe" />
+          <File Id="nunitx86.config" Name="NUNITX86.CFG" LongName="nunit-x86.exe.config" />
+<?endif?>
+
 		</Component>
         <Component Id="C__ClrBat" DiskId="1" Guid="EEA6FC05-A7D3-45d4-B7F1-71627BAFC6F6">
           <File Id="clr.bat" Name="clr.bat" KeyPath="yes" DiskId="1" />
