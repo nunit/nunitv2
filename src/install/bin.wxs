@@ -7,6 +7,12 @@
         <Component Id="C__NUnitBase" DiskId="1" Guid="15222234-C43E-4f31-B2C3-E83995627A68">
           <File Id="console.exe" Name="CONSOLE.EXE" LongName="nunit-console.exe" />
           <File Id="console.config" Name="CONSOLE.CFG" LongName="nunit-console.exe.config" />
+
+<?if $(var.RuntimeVersion) = 2.0 ?>
+          <File Id="consolex86.exe" Name="CONSOL86.EXE" LongName="nunit-console-x86.exe" />
+          <File Id="consolex86.config" Name="CONSOL86.CFG" LongName="nunit-console-x86.exe.config" />
+<?endif?>
+
           <File Id="console.dll" Name="CONSOLE.DLL" LongName="nunit-console-runner.dll" />
           <File Id="nunit.core" Name="CORE.DLL" LongName="nunit.core.dll" />
           <File Id="nunit.core.interfaces" Name="IFACES.DLL" LongName="nunit.core.interfaces.dll" />
