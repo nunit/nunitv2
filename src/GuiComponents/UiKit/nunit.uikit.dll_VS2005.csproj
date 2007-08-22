@@ -87,6 +87,7 @@
     <Compile Include="FolderBrowser.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GuiAttachedConsole.cs" />
     <Compile Include="GuiTestEventDispatcher.cs">
       <SubType>Code</SubType>
     </Compile>

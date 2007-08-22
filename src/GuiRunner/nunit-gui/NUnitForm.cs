@@ -35,6 +35,7 @@ namespace NUnit.Gui
 		private string displayFormat = "Full";
 
 		private LongRunningOperationDisplay longOpDisplay;
+		private GuiAttachedConsole attachedConsole;
 
 		private System.Drawing.Font fixedFont;
 
@@ -97,7 +98,6 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem toolsMenu;
 		private System.Windows.Forms.MenuItem optionsMenuItem;
 		private System.Windows.Forms.MenuItem saveXmlResultsMenuItem;
-		private System.Windows.Forms.MenuItem toolsMenuSeparator1;
 
 		public System.Windows.Forms.MenuItem helpMenuItem;
 		public System.Windows.Forms.MenuItem helpItem;
@@ -120,12 +120,10 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem runSelectedMenuItem;
 		private System.Windows.Forms.MenuItem runFailedMenuItem;
 		private System.Windows.Forms.MenuItem stopRunMenuItem;
-		private System.Windows.Forms.MenuItem assemblyDetailsMenuItem;
 		private System.Windows.Forms.MenuItem addinInfoMenuItem;
 		private System.Windows.Forms.MenuItem viewMenuSeparator1;
 		private System.Windows.Forms.MenuItem viewMenuSeparator2;
 		private System.Windows.Forms.MenuItem viewMenuSeparator3;
-		private System.Windows.Forms.MenuItem viewMenuSeparator4;
 		private System.Windows.Forms.MenuItem fontMenuSeparator;
 		private System.Windows.Forms.MenuItem testMenuSeparator;
 		private System.Windows.Forms.MenuItem guiFontMenuItem;
@@ -137,6 +135,8 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem reloadTestsMenuItem;
 		private System.Windows.Forms.MenuItem reloadProjectMenuItem;
 		private System.Windows.Forms.MenuItem menuItem2;
+		private System.Windows.Forms.MenuItem toolsMenuSeparator1;
+		private System.Windows.Forms.MenuItem assemblyDetailsMenuItem;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -208,8 +208,6 @@ namespace NUnit.Gui
 			this.menuItem1 = new System.Windows.Forms.MenuItem();
 			this.restoreFixedFontMenuItem = new System.Windows.Forms.MenuItem();
 			this.viewMenuSeparator3 = new System.Windows.Forms.MenuItem();
-			this.assemblyDetailsMenuItem = new System.Windows.Forms.MenuItem();
-			this.viewMenuSeparator4 = new System.Windows.Forms.MenuItem();
 			this.statusBarMenuItem = new System.Windows.Forms.MenuItem();
 			this.projectMenu = new System.Windows.Forms.MenuItem();
 			this.configMenuItem = new System.Windows.Forms.MenuItem();
@@ -225,6 +223,7 @@ namespace NUnit.Gui
 			this.testMenuSeparator = new System.Windows.Forms.MenuItem();
 			this.stopRunMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenu = new System.Windows.Forms.MenuItem();
+			this.assemblyDetailsMenuItem = new System.Windows.Forms.MenuItem();
 			this.saveXmlResultsMenuItem = new System.Windows.Forms.MenuItem();
 			this.exceptionDetailsMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenuSeparator1 = new System.Windows.Forms.MenuItem();
@@ -381,8 +380,6 @@ namespace NUnit.Gui
 																					 this.guiFontMenuItem,
 																					 this.fixedFontMenuItem,
 																					 this.viewMenuSeparator3,
-																					 this.assemblyDetailsMenuItem,
-																					 this.viewMenuSeparator4,
 																					 this.statusBarMenuItem});
 			this.viewMenu.Text = "&View";
 			this.viewMenu.Popup += new System.EventHandler(this.viewMenu_Popup);
@@ -490,21 +487,10 @@ namespace NUnit.Gui
 			this.viewMenuSeparator3.Index = 6;
 			this.viewMenuSeparator3.Text = "-";
 			// 
-			// assemblyDetailsMenuItem
-			// 
-			this.assemblyDetailsMenuItem.Index = 7;
-			this.assemblyDetailsMenuItem.Text = "&Assembly Details...";
-			this.assemblyDetailsMenuItem.Click += new System.EventHandler(this.assemblyDetailsMenuItem_Click);
-			// 
-			// viewMenuSeparator4
-			// 
-			this.viewMenuSeparator4.Index = 8;
-			this.viewMenuSeparator4.Text = "-";
-			// 
 			// statusBarMenuItem
 			// 
 			this.statusBarMenuItem.Checked = true;
-			this.statusBarMenuItem.Index = 9;
+			this.statusBarMenuItem.Index = 7;
 			this.statusBarMenuItem.Text = "&Status Bar";
 			this.statusBarMenuItem.Click += new System.EventHandler(this.statusBarMenuItem_Click);
 			// 
@@ -603,6 +589,7 @@ namespace NUnit.Gui
 			// 
 			this.toolsMenu.Index = 4;
 			this.toolsMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+																					  this.assemblyDetailsMenuItem,
 																					  this.saveXmlResultsMenuItem,
 																					  this.exceptionDetailsMenuItem,
 																					  this.toolsMenuSeparator1,
@@ -612,37 +599,43 @@ namespace NUnit.Gui
 			this.toolsMenu.Text = "T&ools";
 			this.toolsMenu.Popup += new System.EventHandler(this.toolsMenu_Popup);
 			// 
+			// assemblyDetailsMenuItem
+			// 
+			this.assemblyDetailsMenuItem.Index = 0;
+			this.assemblyDetailsMenuItem.Text = "&Assembly Details...";
+			this.assemblyDetailsMenuItem.Click += new System.EventHandler(this.assemblyDetailsMenuItem_Click);
+			// 
 			// saveXmlResultsMenuItem
 			// 
-			this.saveXmlResultsMenuItem.Index = 0;
+			this.saveXmlResultsMenuItem.Index = 1;
 			this.saveXmlResultsMenuItem.Text = "&Save Results as XML...";
 			this.saveXmlResultsMenuItem.Click += new System.EventHandler(this.saveXmlResultsMenuItem_Click);
 			// 
 			// exceptionDetailsMenuItem
 			// 
-			this.exceptionDetailsMenuItem.Index = 1;
+			this.exceptionDetailsMenuItem.Index = 2;
 			this.exceptionDetailsMenuItem.Text = "&Exception Details...";
 			this.exceptionDetailsMenuItem.Click += new System.EventHandler(this.exceptionDetailsMenuItem_Click);
 			// 
 			// toolsMenuSeparator1
 			// 
-			this.toolsMenuSeparator1.Index = 2;
+			this.toolsMenuSeparator1.Index = 3;
 			this.toolsMenuSeparator1.Text = "-";
 			// 
 			// optionsMenuItem
 			// 
-			this.optionsMenuItem.Index = 3;
+			this.optionsMenuItem.Index = 4;
 			this.optionsMenuItem.Text = "&Options...";
 			this.optionsMenuItem.Click += new System.EventHandler(this.optionsMenuItem_Click);
 			// 
 			// toolsMenuSeparator2
 			// 
-			this.toolsMenuSeparator2.Index = 4;
+			this.toolsMenuSeparator2.Index = 5;
 			this.toolsMenuSeparator2.Text = "-";
 			// 
 			// addinInfoMenuItem
 			// 
-			this.addinInfoMenuItem.Index = 5;
+			this.addinInfoMenuItem.Index = 6;
 			this.addinInfoMenuItem.Text = "Addins...";
 			this.addinInfoMenuItem.Click += new System.EventHandler(this.addinInfoMenuItem_Click);
 			// 

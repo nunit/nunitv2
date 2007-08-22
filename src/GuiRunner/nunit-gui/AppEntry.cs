@@ -8,7 +8,6 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -66,6 +65,10 @@ namespace NUnit.Gui
 					}
 				}
 
+				GuiAttachedConsole attachedConsole = null;
+				if ( parser.console )
+					attachedConsole = new GuiAttachedConsole();
+
 				// Add Standard Services to ServiceManager
 				ServiceManager.Services.AddService( new SettingsService() );
 				ServiceManager.Services.AddService( new DomainManager() );
@@ -92,6 +95,8 @@ namespace NUnit.Gui
 				finally
 				{
 					ServiceManager.Services.StopAllServices();
+					if ( attachedConsole != null )
+						attachedConsole.Close();
 				}
 			}
 			else

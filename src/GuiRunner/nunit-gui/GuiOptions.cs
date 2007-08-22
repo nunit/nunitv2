@@ -14,8 +14,14 @@ namespace NUnit.Gui
 	{
 		private bool isInvalid = false; 
 
-		[Option(Short="?", Description = "Display help")]
-		public bool help = false;
+		[Option(Description = "Fixture to test")]
+		public string fixture;
+
+		[Option(Description = "List of categories to include")]
+		public string include;
+
+		[Option(Description = "List of categories to exclude")]
+		public string exclude;
 
 		[Option(Description = "Project configuration to load")]
 		public string config;
@@ -26,23 +32,20 @@ namespace NUnit.Gui
 		[Option(Description = "Automatically run the loaded project")]
 		public bool run;
 
-		[Option(Description = "Fixture to test")]
-		public string fixture;
+		[Option(Description = "Create console display for viewing any unmanaged output")]
+		public bool console;
 
-		[Option(Description = "List of categories to include")]
-		public string include;
-
-		[Option(Description = "List of categories to exclude")]
-		public string exclude;
-
-		[Option(Description = ".NET Framework version to execute with (eg 'v1.0.3705')")]
-		public string framework;
+//		[Option(Description = ".NET Framework version to execute with (eg 'v1.0.3705')")]
+//		public string framework;
 
 		[Option(Description = "Language to use for the NUnit GUI")]
 		public string lang;
 
 		[Option(Description = "Erase any leftover cache files and exit")]
 		public bool cleanup;
+
+		[Option(Short="?", Description = "Display help")]
+		public bool help = false;
 
 		public GuiOptions(String[] args) : base(args) 
 		{}
