@@ -1,21 +1,41 @@
+// ****************************************************************
+// Copyright 2007, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org/?p=license&r=2.4
+// ****************************************************************
+
 using System;
 using NUnit.Framework;
 
 namespace NUnit.UiKit.Tests
 {
-	/// <summary>
-	/// Summary description for TextDisplayWriterTests.
-	/// </summary>
 	[TestFixture]
-	public class TextDisplayWriterTests
+	public class TextDisplayWriterTestsUsingSimpleTextDisplay : TextDisplayWriterTests
 	{
-		private TextDisplayWriter textDisplayWriter;
-		private SimpleTextDisplay textDisplay;
-		
+		protected override object createDisplayObject()
+		{
+			return new SimpleTextDisplay();
+		}
+	}
+
+	[TestFixture]
+	public class TextDisplayWriterTestsUsingTextBoxDisplay : TextDisplayWriterTests
+	{
+		protected override object createDisplayObject()
+		{
+			return new TextBoxDisplay();
+		}
+	}
+
+	public abstract class TextDisplayWriterTests
+	{
+		protected TextDisplay textDisplay;
+		protected TextDisplayWriter textDisplayWriter;
+
 		[SetUp]
 		public void Init()
 		{
-			textDisplay = new SimpleTextDisplay();
+			textDisplay = (TextDisplay)createDisplayObject();
 			textDisplayWriter = new TextDisplayWriter( textDisplay );
 		}
 
@@ -23,8 +43,12 @@ namespace NUnit.UiKit.Tests
 		public void CleanUp()
 		{
 			textDisplayWriter.Close();
-			textDisplay.Dispose();
+			IDisposable display = textDisplay as IDisposable;
+			if ( display != null )
+				display.Dispose();
 		}
+
+		protected abstract object createDisplayObject();
 
 		private void WriteTestLines( int count )
 		{
@@ -38,7 +62,7 @@ namespace NUnit.UiKit.Tests
 			WriteTestLines( 5 );
 			Assert.AreEqual(
 				"This is line 1\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\n",
-				textDisplay.Text );
+				textDisplay.Text.Replace("\r\n", "\n") );
 		}
 
 		[Test]
@@ -62,7 +86,7 @@ namespace NUnit.UiKit.Tests
 			Assert.AreEqual(
 				"This is line 1\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\n" +
 				"This line written in two parts\nThe final line\n",
-				textDisplay.Text );
+				textDisplay.Text.Replace("\r\n","\n" ) );
 		}
 	}
 }

@@ -319,6 +319,11 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "TextBoxDisplay.cs"
+                    SubType = "Component"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TextDisplay.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

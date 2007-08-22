@@ -53,7 +53,7 @@ namespace NUnit.UiKit
 		/// <param name="s">The string to write</param>
 		public override void WriteLine(string s)
 		{
-			Write( s + "\n" );
+			Write( s + Environment.NewLine );
 		}
 
 		/// <summary>

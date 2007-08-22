@@ -129,6 +129,9 @@
     <Compile Include="TestTree.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="TextBoxDisplay.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="TextDisplay.cs" />
     <Compile Include="TextDisplayTabPage.cs">
       <SubType>Component</SubType>

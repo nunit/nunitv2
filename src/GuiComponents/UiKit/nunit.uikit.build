@@ -29,6 +29,7 @@
         <include name="TestSuiteTreeNode.cs"/>
         <include name="TestSuiteTreeView.cs"/>
         <include name="TestTree.cs"/>
+        <include name="TextBoxDisplay.cs"/>
         <include name="TextDisplayTabPage.cs"/>
         <include name="TextDisplayWriter.cs"/>
         <include name="TextDisplay.cs"/>
