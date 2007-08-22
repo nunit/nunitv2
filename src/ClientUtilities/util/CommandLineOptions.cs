@@ -285,7 +285,7 @@ namespace Codeblast
 							else if (field.FieldType != typeof(bool)) valType = "=X";
 						}
 
-						helpText.AppendFormat("{0}{1,-20}{2}", optChar, field.Name+valType, att.Description);
+						helpText.AppendFormat("{0}{1,-20}\t{2}", optChar, field.Name+valType, att.Description);
 						if (att.Short != null) 
 							helpText.AppendFormat(" (Short format: {0}{1}{2})", optChar, att.Short, valType);
 						helpText.Append( Environment.NewLine );
