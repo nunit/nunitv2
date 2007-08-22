@@ -264,11 +264,18 @@ namespace NUnit.UiKit
 		{
 			get
 			{
-				CheckedTestFinder finder = new CheckedTestFinder( this );
-				ITest[] result = finder.GetCheckedTests( 
-					CheckedTestFinder.SelectionFlags.Top | CheckedTestFinder.SelectionFlags.Explicit );
-				if ( result.Length == 0 )
+				ITest[] result = null;
+
+				if ( this.CheckBoxes )
+				{
+					CheckedTestFinder finder = new CheckedTestFinder( this );
+					result = finder.GetCheckedTests( 
+						CheckedTestFinder.SelectionFlags.Top | CheckedTestFinder.SelectionFlags.Explicit );
+				}
+
+				if ( result == null || result.Length == 0 )
 					result = new ITest[] { this.SelectedTest };
+
 				return result;
 			}	
 		}
