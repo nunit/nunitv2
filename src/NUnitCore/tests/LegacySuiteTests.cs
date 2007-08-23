@@ -5,33 +5,95 @@
 // ****************************************************************
 
 using System;
+using System.Collections;
 using NUnit.Framework;
 using NUnit.Core;
+using NUnit.TestData;
 
 namespace NUnit.Core.Tests
 {
 	/// <summary>
 	/// Summary description for LegacySuiteTests.
 	/// </summary>
-//	[TestFixture]
+	[TestFixture]
 	public class LegacySuiteTests
 	{
-//		[Test]
+        static int setupCount = 0;
+        static int teardownCount = 0;
+
+        [Test]
+        public void SuiteReturningTestSuite()
+        {
+            TestSuite suite = new LegacySuite(typeof(NUnit.Core.Tests.AllTests));
+            Assert.AreEqual(RunState.Runnable, suite.RunState);
+            Assert.AreEqual(3, suite.Tests.Count);
+            Assert.AreEqual(10, suite.TestCount);
+        }
+
+        [Test]
+        public void SuiteReturningFixtures()
+        {
+            TestSuite suite = new LegacySuite(typeof(LegacySuiteReturningFixtures));
+            Assert.AreEqual(RunState.Runnable, suite.RunState);
+            Assert.AreEqual(3, suite.Tests.Count);
+            Assert.AreEqual(10, suite.TestCount);
+        }
+
+        private class LegacySuiteReturningFixtures
+        {
+            [Suite]
+            public static IEnumerable Suite
+            {
+                get
+                {
+                    ArrayList suite = new ArrayList();
+                    suite.Add(new OneTestCase());
+                    suite.Add(new AssemblyTests());
+                    suite.Add(new NoNamespaceTestFixture());
+                    return suite;
+                }
+            }
+        }
+
+        [Test]
+        public void SuiteReturningTypes()
+        {
+            TestSuite suite = new LegacySuite(typeof(LegacySuiteReturningTypes));
+            Assert.AreEqual(RunState.Runnable, suite.RunState);
+            Assert.AreEqual(3, suite.Tests.Count);
+            Assert.AreEqual(10, suite.TestCount);
+        }
+
+        private class LegacySuiteReturningTypes
+        {
+            [Suite]
+            public static IEnumerable Suite
+            {
+                get
+                {
+                    ArrayList suite = new ArrayList();
+                    suite.Add(typeof(OneTestCase));
+                    suite.Add(typeof(AssemblyTests));
+                    suite.Add(typeof(NoNamespaceTestFixture));
+                    return suite;
+                }
+            }
+        }
+
+        [Test]
 		public void SetUpAndTearDownAreCalled()
 		{
+            setupCount = teardownCount = 0;
 			TestSuite suite = new LegacySuite( typeof( LegacySuiteWithSetUpAndTearDown ) );
+            Assert.AreEqual(RunState.Runnable, suite.RunState);
 			suite.Run( NullListener.NULL );
-			LegacySuiteWithSetUpAndTearDown fixture = (LegacySuiteWithSetUpAndTearDown)suite.Fixture;
-			Assert.AreEqual( 1, fixture.setupCount );
-			Assert.AreEqual( 1, fixture.teardownCount );
+			Assert.AreEqual( 1, setupCount );
+			Assert.AreEqual( 1, teardownCount );
 		}
 
 		private class LegacySuiteWithSetUpAndTearDown
 		{
-			public int setupCount = 0;
-			public int teardownCount = 0;
-
-			[Suite]
+ 			[Suite]
 			public static TestSuite TheSuite
 			{
 				get { return new TestSuite( "EmptySuite" ); }
@@ -49,5 +111,21 @@ namespace NUnit.Core.Tests
 				teardownCount++;
 			}
 		}
+
+        [Test]
+        public void SuitePropertyWithInvalidType()
+        {
+            TestSuite suite = new LegacySuite(typeof(LegacySuiteWithInvalidPropertyType));
+            Assert.AreEqual(RunState.NotRunnable, suite.RunState);
+        }
+
+        private class LegacySuiteWithInvalidPropertyType
+        {
+            [Suite]
+            public static object TheSuite
+            {
+                get { return null; }
+            }
+        }
 	}
 }

@@ -44,7 +44,8 @@ namespace NUnit.Core
 		public static Test BuildFrom( object fixture )
 		{
 			Test suite = BuildFrom( fixture.GetType() );
-			suite.Fixture = fixture;
+			if( suite != null)
+				suite.Fixture = fixture;
 			return suite;
 		}
 

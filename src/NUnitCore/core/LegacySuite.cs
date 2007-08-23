@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Collections;
 using System.Reflection;
 
 namespace NUnit.Core
@@ -14,12 +15,6 @@ namespace NUnit.Core
 	/// </summary>
 	public class LegacySuite : TestSuite
 	{
-		#region Private Fields
-
-		private PropertyInfo suiteProperty;
-
-		#endregion
-
 		#region Static Methods
 
 		public static PropertyInfo GetSuiteProperty( Type testClass )
@@ -32,18 +27,6 @@ namespace NUnit.Core
 				NUnitFramework.SuiteAttribute,
 				BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly );
 
-			if ( property == null )
-				return null;
-
-			MethodInfo method = property.GetGetMethod(true);
-
-			if( method.ReturnType.FullName != "NUnit.Core.TestSuite" )
-				return null;
-				//throw new InvalidSuiteException("Invalid suite property method signature");
-			if( method.GetParameters().Length > 0 )
-				return null;
-				//throw new InvalidSuiteException("Invalid suite property method signature");
-
 			return property;
 		}
 
@@ -53,24 +36,48 @@ namespace NUnit.Core
 
 		public LegacySuite( Type fixtureType ) : base( fixtureType )
 		{
-			suiteProperty = GetSuiteProperty( fixtureType );
+            PropertyInfo suiteProperty = GetSuiteProperty( fixtureType );
 
-			this.fixtureSetUp = NUnitFramework.GetFixtureSetUpMethod( fixtureType );
-			this.fixtureTearDown = NUnitFramework.GetFixtureTearDownMethod( fixtureType );
-			
-			MethodInfo method = suiteProperty.GetGetMethod(true);
-			
-			if( method.ReturnType.FullName != "NUnit.Core.TestSuite" || method.GetParameters().Length > 0 )
-			{
-				this.RunState = RunState.NotRunnable;
-				this.IgnoreReason = "Invalid suite property method signature";
-			}
-			else
-			{
-				TestSuite suite = (TestSuite)suiteProperty.GetValue(null, new Object[0]);		
-				foreach( Test test in suite.Tests )
-					this.Add( test );
-			}
+            if (suiteProperty == null)
+                throw new ArgumentException( "Invalid argument to LegacySuite constructor", "fixtureType" );
+
+            this.fixtureSetUp = NUnitFramework.GetFixtureSetUpMethod(fixtureType);
+            this.fixtureTearDown = NUnitFramework.GetFixtureTearDownMethod(fixtureType);
+
+            MethodInfo method = suiteProperty.GetGetMethod(true);
+
+            if (method.GetParameters().Length == 0)
+            {
+                Type returnType = method.ReturnType;
+
+                if (returnType.FullName == "NUnit.Core.TestSuite")
+                {
+                    TestSuite suite = (TestSuite)suiteProperty.GetValue(null, new Object[0]);
+                    foreach (Test test in suite.Tests)
+                        this.Add(test);
+                }
+                else if (typeof(IEnumerable).IsAssignableFrom(returnType))
+                {
+                    foreach (object obj in (IEnumerable)suiteProperty.GetValue(null, new object[0]))
+                    {
+                        Type type = obj as Type;
+						if ( type != null && TestFixtureBuilder.CanBuildFrom(type) )
+							this.Add( TestFixtureBuilder.BuildFrom(type) );
+						else
+							this.Add(obj);
+                    }
+                }
+                else
+                {
+                    this.RunState = RunState.NotRunnable;
+                    this.IgnoreReason = "Suite property must return either TestSuite or IEnumerable";
+                }
+            }
+            else
+            {
+                this.RunState = RunState.NotRunnable;
+                this.IgnoreReason = "Suite property may not be indexed";
+            }
 		}
 
 		#endregion
