@@ -46,6 +46,7 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
@@ -147,6 +148,7 @@
     <Compile Include="RemoteTestResultTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServerUtilityTests.cs" />
     <Compile Include="SettingsGroupTests.cs">
       <SubType>Code</SubType>
     </Compile>

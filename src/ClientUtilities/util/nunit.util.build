@@ -31,6 +31,7 @@
         <include name="RecentFilesCollection.cs"/>
         <include name="RegistrySettingsStorage.cs"/>
         <include name="ResultSummarizer.cs"/>
+        <include name="ServerUtilities.cs"/>
         <include name="Services.cs"/>
         <include name="SettingsGroup.cs"/>
         <include name="SettingsStorage.cs"/>
@@ -65,6 +66,7 @@
         <include name="Transform.resx"/>
       </resources>
       <references basedir="${current.build.dir}">
+        <include name="System.Runtime.Remoting.dll"/>
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.framework.dll"/>

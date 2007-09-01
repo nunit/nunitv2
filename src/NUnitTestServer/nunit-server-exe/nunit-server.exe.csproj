@@ -94,6 +94,16 @@
                     Project = "{435428F8-5995-4CE4-8022-93D595A8CC0F}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "mock-assembly"
+                    Project = "{2E368281-3BA8-4050-B05E-0E0E43F8F446}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nonamespace-assembly"
+                    Project = "{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>

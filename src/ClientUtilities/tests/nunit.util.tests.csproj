@@ -129,6 +129,11 @@
                     AssemblyName = "System.Drawing"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
                 />
+                <Reference
+                    Name = "System.Runtime.Remoting"
+                    AssemblyName = "System.Runtime.Remoting"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Runtime.Remoting.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -231,6 +236,11 @@
                 />
                 <File
                     RelPath = "RemoteTestResultTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ServerUtilityTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

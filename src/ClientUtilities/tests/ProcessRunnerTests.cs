@@ -15,8 +15,7 @@ namespace NUnit.Util.Tests
 	/// <summary>
 	/// Summary description for ProcessRunnerTests.
 	/// </summary>
-	// TODO: Reinstate after release is complete
-	//[TestFixture, Explicit]
+	[TestFixture,Explicit]
 	public class ProcessRunnerTests : BasicRunnerTests
 	{
 		private ProcessRunner myRunner;
@@ -26,19 +25,6 @@ namespace NUnit.Util.Tests
 			myRunner = new ProcessRunner( runnerID );
 			myRunner.Start();
 			return myRunner;
-		}
-
-		[TearDown]
-		public void StopServer()
-		{
-			if ( myRunner != null )
-				myRunner.Stop();
-		}
-
-		[TestFixtureSetUp]
-		public void CheckServerAvailable()
-		{
-			Assert.IsTrue( File.Exists( "nunit-server.exe" ), "Can't find server" );
 		}
 
 		[Test]

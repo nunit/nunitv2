@@ -11,6 +11,7 @@ using System.Runtime.Remoting.Services;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using NUnit.Core;
+using NUnit.Util;
 
 namespace NUnit.TestServer
 {
@@ -30,7 +31,7 @@ namespace NUnit.TestServer
 		public TestServer( string uri, int runnerID ) : base( runnerID )
 		{
 			this.uri = uri;
-			this.TestRunner = new RemoteTestRunner();
+			this.TestRunner = new TestDomain(runnerID);
 		}
 
 		public string URI 
@@ -99,8 +100,8 @@ namespace NUnit.TestServer
 
 		public void DisconnectedObject(object obj)
 		{
-			if ( obj == this )
-				this.Stop();
+//			if ( obj == this )
+//				this.Stop();
 		}
 
 		public void UnmarshaledObject(object obj, ObjRef or)

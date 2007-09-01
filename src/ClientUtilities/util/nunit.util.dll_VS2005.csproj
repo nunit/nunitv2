@@ -119,6 +119,7 @@
     <Compile Include="ResultSummarizer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServerUtilities.cs" />
     <Compile Include="Services.cs" />
     <Compile Include="Services\AddinManager.cs" />
     <Compile Include="Services\AddinRegistry.cs" />
@@ -173,7 +174,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="XmlSettingsStorage.cs" />
-    <EmbeddedResource Include="Transform.resx" />
+    <EmbeddedResource Include="Transform.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NUnitCore\core\nunit.core.dll_VS2005.csproj">
