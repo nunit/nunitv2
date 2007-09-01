@@ -14,7 +14,11 @@ using NUnit.Tests.Assemblies;
 namespace NUnit.Core.Tests
 {
 	/// <summary>
-	/// Base class for tests of various kinds of runners
+	/// Base class for tests of various kinds of runners. The derived
+	/// class should use SetUp to create the runner and assign it to
+	/// the protected field runner and perform any cleanup in TearDown.
+	/// If creating the runner is resource intensive, it may be possible
+	/// to use TestFixtureSetUp and TestFixtureTearDown instead. 
 	/// </summary>
 	public abstract class BasicRunnerTests
 	{
@@ -22,15 +26,15 @@ namespace NUnit.Core.Tests
 		private static readonly string mockDll = "mock-assembly.dll";
 		private readonly string[] assemblies = new string[] { testsDll, mockDll };
 
-		private TestRunner runner;
+		protected TestRunner runner;
 
-		[SetUp]
+		[TestFixtureSetUp]
 		public void SetUpRunner()
 		{
 			runner = CreateRunner( 123 );
 		}
 
-        [TearDown]
+        [TestFixtureTearDown]
         public void TearDownRunner()
         {
             if (runner != null)
