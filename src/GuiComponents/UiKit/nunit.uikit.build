@@ -15,6 +15,7 @@
         <include name="ExpandingLabel.cs"/>
         <include name="ExpandingTextBox.cs"/>
         <include name="FolderBrowser.cs"/>
+        <include name="GuiAttachedConsole.cs"/>
         <include name="GuiTestEventDispatcher.cs"/>
         <include name="LongRunningOperationDisplay.cs"/>
         <include name="NotRunTree.cs"/>
