@@ -63,6 +63,23 @@ namespace NUnit.Framework.Constraints.Tests
             Assert.That(double.NaN, new EqualConstraint(double.NaN));
         }
 
+		[Test]
+		public void CanCompareDates()
+		{
+			DateTime expected = new DateTime( 2007, 4, 1 );
+			DateTime actual = new DateTime( 2007, 4, 1 );
+			Assert.That( actual, new EqualConstraint( expected ));
+		}
+
+		[Test]
+		public void CanCompareDatesWithinTolerance()
+		{
+			DateTime expected = new DateTime( 2007, 4, 1, 13, 0, 0 );
+			DateTime actual = new DateTime( 2007, 4, 1, 13, 1, 0 );
+			TimeSpan tolerance = TimeSpan.FromMinutes( 5.0 );
+			Assert.That( actual, new EqualConstraint( expected ).Within( tolerance ));
+		}
+
 //        [Test]
 //        public void NamedAndUnnamedColorsCompareAsEqual()
 //        {

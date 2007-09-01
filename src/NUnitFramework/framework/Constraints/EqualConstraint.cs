@@ -147,6 +147,11 @@ namespace NUnit.Framework.Constraints
                 return string.Compare((string)expected, (string)actual, caseInsensitive) == 0;
             }
 
+			if (expected is DateTime && actual is DateTime && tolerance is TimeSpan)
+			{
+				return ((DateTime)expected - (DateTime)actual).Duration() <= (TimeSpan)tolerance;
+			}
+
             return expected.Equals(actual);
         }
 
