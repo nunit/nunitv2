@@ -97,8 +97,8 @@ namespace NUnit.Core.Tests
 		{
 			TestPackage package = new TestPackage( testData );
 			package.TestName = "NUnit.TestData.SuiteBuilderTests.NonConformingSuite";
-			Test suite = builder.Build( package );;
-			Assert.IsNull(suite, "Suite property returns wrong type");
+			Test suite = builder.Build( package );
+			Assert.AreEqual(RunState.NotRunnable, suite.RunState);
 		}
 
 		[Test]
