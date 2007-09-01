@@ -424,5 +424,25 @@ namespace NUnit.Core
 			}
 		}
 		#endregion
+
+		#region BuildConfiguration
+		public static string BuildConfiguration
+		{
+			get
+			{
+#if DEBUG
+				if (Environment.Version.Major == 2)
+					return "Debug2005";
+				else
+					return "Debug";
+#else
+				if (Environment.Version.Major == 2)
+					return "Release2005";
+				else
+					return "Release";
+#endif
+			}
+		}
+		#endregion
 	}
 }
