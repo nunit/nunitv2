@@ -361,7 +361,7 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Invoke a parameterless method on an object.
+		/// Invoke a parameterless method returning void on an object.
 		/// </summary>
 		/// <param name="method">A MethodInfo for the method to be invoked</param>
 		/// <param name="fixture">The object on which to invoke the method</param>
@@ -371,7 +371,8 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// Invoke a parameterless method on an object.
+		/// Invoke a method returning void, converting any TargetInvocationException
+		/// to an NUnitException
 		/// </summary>
 		/// <param name="method">A MethodInfo for the method to be invoked</param>
 		/// <param name="fixture">The object on which to invoke the method</param>
