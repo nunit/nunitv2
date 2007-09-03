@@ -8,6 +8,7 @@ namespace NUnit.Core.Tests
 {
 	using System;
 	using System.Configuration;
+	using System.Diagnostics;
 	using System.IO;
 	using System.Reflection;
 	using System.Reflection.Emit;
@@ -31,6 +32,12 @@ namespace NUnit.Core.Tests
 		public void RunSetsCurrentDirectory()
 		{
 			Assert.IsTrue( File.Exists( thisDll ), "Run does not set current directory" );
+		}
+
+		[Test]
+		public void NUnitTraceIsEnabled()
+		{
+			Assert.IsNotNull( Trace.Listeners["NUnit"] );
 		}
 
 		[Test]

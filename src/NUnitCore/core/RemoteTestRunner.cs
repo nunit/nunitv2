@@ -83,7 +83,7 @@ namespace NUnit.Core
 			TestContext.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
 			TestContext.Error = new EventListenerTextWriter( queue, TestOutputType.Error );
 			TestContext.TraceWriter = new EventListenerTextWriter( queue, TestOutputType.Trace );
-//			TestContext.Tracing = true;
+			TestContext.Tracing = true;
 		}
 		#endregion
 	}
