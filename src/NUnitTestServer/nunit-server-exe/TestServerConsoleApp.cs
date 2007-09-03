@@ -4,8 +4,9 @@
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
 using System;
+using NUnit.Util;
 
-namespace NUnit.TestServer
+namespace NUnit.TestServerApp
 {
 	/// <summary>
 	/// Summary description for Class1.
@@ -19,11 +20,17 @@ namespace NUnit.TestServer
 		static void Main(string[] args)
 		{ 
 			Console.WriteLine( "Starting Server" );
+
 			string uri = "TestServer";
+			int port = 9000;
+
 			if ( args.Length > 0 )
 				uri = args[0];
 
-			TestServer server = new TestServer( uri );
+			if ( args.Length > 1 )
+				port = int.Parse( args[1] );
+
+			TestServer server = new TestServer( uri, 9000 );
 			server.Start();
 
 			Console.WriteLine( "Waiting for Stop" );

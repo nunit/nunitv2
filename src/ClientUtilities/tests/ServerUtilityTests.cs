@@ -5,8 +5,8 @@
 // ****************************************************************
 using System;
 using System.Collections;
-using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels.Tcp;
 using NUnit.Framework;
 
 namespace NUnit.Util.Tests
@@ -17,16 +17,38 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class ServerUtilityTests
 	{
-		private static readonly string channelName = "test";
+		TcpChannel channel1;
+		TcpChannel channel2;
+
+		[TearDown]
+		public void ReleaseChannels()
+		{
+			ServerUtilities.SafeReleaseChannel( channel1 );
+			ServerUtilities.SafeReleaseChannel( channel2 );
+		}
 
 		[Test]
-		public void GetTcpChannel()
+		public void CanGetTcpChannelOnSpecifiedPort()
 		{
-			Hashtable props = new Hashtable();
-			props.Add( "port", 0 );
-			props.Add( "name", channelName );
-			IChannel channel = ServerUtilities.GetTcpChannel( props );
-			Assert.AreEqual( channelName, channel.ChannelName );
+			channel1 = ServerUtilities.GetTcpChannel( "test", 1234 );
+			Assert.AreEqual( "test", channel1.ChannelName );
+			channel2 = ServerUtilities.GetTcpChannel( "test", 4321 );
+			Assert.AreEqual( "test", channel2.ChannelName );
+			Assert.AreEqual( channel1, channel2 );
+			Assert.AreSame( channel1, channel2 );
+			ChannelDataStore cds = (ChannelDataStore)channel1.ChannelData;
+			Assert.AreEqual( "tcp://127.0.0.1:1234", cds.ChannelUris[0] );
+		}
+
+		[Test]
+		public void CanGetTcpChannelOnUnpecifiedPort()
+		{
+			channel1 = ServerUtilities.GetTcpChannel( "test", 0 );
+			Assert.AreEqual( "test", channel1.ChannelName );
+			channel2 = ServerUtilities.GetTcpChannel( "test", 0 );
+			Assert.AreEqual( "test", channel2.ChannelName );
+			Assert.AreEqual( channel1, channel2 );
+			Assert.AreSame( channel1, channel2 );
 		}
 	}
 }

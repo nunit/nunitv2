@@ -216,16 +216,6 @@
   </target>
 
 <!-- ***************************************************************** -->
-<!-- ***   Test Server is experimental and not yet part of NUNit   *** -->
-<!-- ***************************************************************** -->
-
-  <target name="build-test-server" depends="make-build-dir">
-    <nant target="build">
-      <buildfiles refid="testserver.buildfiles" />
-    </nant>
-  </target>
-
-<!-- ***************************************************************** -->
 <!-- ***                 Targets for running tests                 *** -->
 <!-- ***************************************************************** -->
 

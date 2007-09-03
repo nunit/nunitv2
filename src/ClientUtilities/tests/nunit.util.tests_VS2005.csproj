@@ -155,6 +155,8 @@
     <Compile Include="SummaryResultFixture.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestAgentManagerTests.cs" />
+    <Compile Include="TestAgentTests.cs" />
     <Compile Include="TestDomainFixture.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -167,6 +169,7 @@
     <Compile Include="TestLoaderAssemblyTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestServerTests.cs" />
     <Compile Include="VSProjectTests.cs">
       <SubType>Code</SubType>
     </Compile>

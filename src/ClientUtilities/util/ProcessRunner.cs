@@ -6,7 +6,6 @@
 
 using System;
 using System.IO;
-using System.Collections;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Remoting;
@@ -25,6 +24,8 @@ namespace NUnit.Util
 	{
 		private Process process;
 
+		private TestServer server;
+
 		public ProcessRunner() : base( 0 ) { }
 
 		public ProcessRunner( int runnerID ) : base( runnerID ) { }
@@ -36,24 +37,10 @@ namespace NUnit.Util
 			this.process = Process.Start( startInfo );
 			System.Threading.Thread.Sleep( 1000 );
 
-			// TODO: Use settings
-			Hashtable props = new Hashtable();
-			props.Add( "port", 0 );
-			props.Add( "name", "TestServer" );
-			props.Add( "bindTo", "127.0.0.1" );
-			TcpChannel channel = ServerUtilities.GetTcpChannel( props );
+			TcpChannel channel = ServerUtilities.GetTcpChannel( "ProcessRunner", 0 );
 
-			try
-			{
-				ChannelServices.RegisterChannel( channel );
-			}
-			catch( RemotingException )
-			{
-				// Channel already registered
-			}
-
-			Object obj = Activator.GetObject( typeof( TestRunner ), "tcp://localhost:9000/TestServer" );
-			this.TestRunner = (TestRunner) obj;
+			this.server = (TestServer)Activator.GetObject( typeof( TestServer ), "tcp://localhost:9000/TestServer" );
+			this.TestRunner = server.TestRunner;
 		}
 
 		public void Stop()
@@ -75,7 +62,7 @@ namespace NUnit.Util
 			{
 				DirectoryInfo dir = new DirectoryInfo( Environment.CurrentDirectory );
 				if ( dir.Parent.Name == "bin" )
-					dir = dir.Parent.Parent.Parent;
+					dir = dir.Parent.Parent.Parent.Parent;
 				
 				string path = Path.Combine( dir.FullName, "NUnitTestServer" );
 				path = Path.Combine( path, "nunit-server-exe" );
@@ -89,19 +76,19 @@ namespace NUnit.Util
 			return serverPath;
 		}
 
-		public override bool Load(TestPackage package)
-		{
-			this.Start();
-
-			return base.Load (package);
-		}
-
-
-		public override void Unload()
-		{
-			base.Unload ();
-
-			this.Stop();
-		}
+//		public override bool Load(TestPackage package)
+//		{
+//			this.Start();
+//
+//			return base.Load (package);
+//		}
+//
+//
+//		public override void Unload()
+//		{
+//			base.Unload ();
+//
+//			this.Stop();
+//		}
 	}
 }

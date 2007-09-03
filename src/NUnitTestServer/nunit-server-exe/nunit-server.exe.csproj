@@ -80,11 +80,6 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "nunit-test-server"
-                    Project = "{BD9CA3B3-EDE9-4E47-A839-A74EFE3767BC}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "nunit.core.dll"
                     Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
@@ -95,13 +90,13 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "mock-assembly"
-                    Project = "{2E368281-3BA8-4050-B05E-0E0E43F8F446}"
+                    Name = "nunit.util.dll"
+                    Project = "{61CE9CE5-943E-44D4-A381-814DC1406767}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "nonamespace-assembly"
-                    Project = "{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}"
+                    Name = "nunit.core.tests"
+                    Project = "{DD758D21-E5D5-4D40-9450-5F65A32F359C}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>

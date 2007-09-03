@@ -12,12 +12,12 @@ using System.Runtime.Remoting.Channels.Tcp;
 using NUnit.Framework;
 using NUnit.Core;
 
-namespace NUnit.TestServer.Tests
+namespace NUnit.Util.Tests
 {
 	/// <summary>
 	/// Summary description for TestServerTests.
 	/// </summary>
-	[TestFixture, Explicit]
+	[TestFixture]
 	public class TestServerTests
 	{
 		private string serverPath = "nunit-server.exe";
@@ -50,7 +50,7 @@ namespace NUnit.TestServer.Tests
 		[Test]
 		public void CanConnect()
 		{
-			using( TestServer server = new TestServer( "TestServer" ) )
+			using( TestServer server = new TestServer( "TestServer", 9000 ) )
 			{
 				server.Start();
 				object obj = Activator.GetObject( typeof(TestRunner), "tcp://localhost:9000/TestServer" );

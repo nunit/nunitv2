@@ -205,11 +205,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ProxyTestRunner.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "RecentFileEntry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -231,6 +226,11 @@
                 />
                 <File
                     RelPath = "ResultSummarizer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ServerBase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -261,6 +261,11 @@
                 />
                 <File
                     RelPath = "SummaryVisitor.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestAgent.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -296,6 +301,11 @@
                 />
                 <File
                     RelPath = "TestResultItem.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestServer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -360,6 +370,11 @@
                 />
                 <File
                     RelPath = "Services\SettingsService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Services\TestAgentManager.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

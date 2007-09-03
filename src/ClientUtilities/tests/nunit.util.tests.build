@@ -28,10 +28,13 @@
         <include name="ServerUtilityTests.cs"/>
         <include name="SettingsGroupTests.cs"/>
         <include name="SummaryResultFixture.cs"/>
+        <include name="TestAgentManagerTests.cs"/>
+        <include name="TestAgentTests.cs"/>
         <include name="TestDomainFixture.cs"/>
         <include name="TestDomainTests_Multiple.cs"/>
         <include name="TestEventCatcher.cs"/>
         <include name="TestLoaderAssemblyTests.cs"/>
+        <include name="TestServerTests.cs"/>
         <include name="VSProjectTests.cs"/>
         <include name="XmlResultVisitorTest.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>

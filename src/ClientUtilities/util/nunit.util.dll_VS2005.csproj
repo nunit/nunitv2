@@ -107,7 +107,6 @@
     <Compile Include="ProjectFormatException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ProxyTestRunner.cs" />
     <Compile Include="RecentFileEntry.cs" />
     <Compile Include="RecentFiles.cs">
       <SubType>Code</SubType>
@@ -119,6 +118,7 @@
     <Compile Include="ResultSummarizer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServerBase.cs" />
     <Compile Include="ServerUtilities.cs" />
     <Compile Include="Services.cs" />
     <Compile Include="Services\AddinManager.cs" />
@@ -127,6 +127,7 @@
     <Compile Include="Services\RecentFilesService.cs" />
     <Compile Include="Services\ServiceManager.cs" />
     <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Services\TestAgentManager.cs" />
     <Compile Include="SettingsGroup.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -139,6 +140,7 @@
     <Compile Include="SummaryVisitor.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestAgent.cs" />
     <Compile Include="TestDomain.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -158,6 +160,7 @@
     <Compile Include="TestResultItem.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TestServer.cs" />
     <Compile Include="VSProject.cs">
       <SubType>Code</SubType>
     </Compile>

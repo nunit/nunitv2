@@ -7,7 +7,6 @@
     <assembly path="NUnitMocks\tests\bin\Debug\nunit.mocks.tests.dll" />
     <assembly path="NUnitExtensions\tests\bin\Debug\nunit.extensions.tests.dll" />
     <assembly path="ConsoleRunner\tests\bin\Debug\nunit-console.tests.dll" />
-    <assembly path="NUnitTestServer\tests\bin\Debug\nunit-server.tests.dll" />
     <assembly path="GuiComponents\tests\bin\Debug\nunit.uikit.tests.dll" />
     <assembly path="GuiRunner\tests\bin\Debug\nunit-gui.tests.dll" />
     <assembly path="NUnitFixtures\tests\bin\Debug\nunit.fixtures.tests.dll" />
@@ -19,7 +18,6 @@
     <assembly path="NUnitMocks\tests\bin\Debug2005\nunit.mocks.tests.dll" />
     <assembly path="NUnitExtensions\tests\bin\Debug2005\nunit.extensions.tests.dll" />
     <assembly path="ConsoleRunner\tests\bin\Debug2005\nunit-console.tests.dll" />
-    <assembly path="NUnitTestServer\tests\bin\Debug2005\nunit-server.tests.dll" />
     <assembly path="GuiComponents\tests\bin\Debug2005\nunit.uikit.tests.dll" />
     <assembly path="GuiRunner\tests\bin\Debug2005\nunit-gui.tests.dll" />
     <assembly path="NUnitFixtures\tests\bin\Debug2005\nunit.fixtures.tests.dll" />

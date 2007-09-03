@@ -255,6 +255,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestAgentManagerTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestAgentTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestDomainFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -271,6 +281,11 @@
                 />
                 <File
                     RelPath = "TestLoaderAssemblyTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestServerTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

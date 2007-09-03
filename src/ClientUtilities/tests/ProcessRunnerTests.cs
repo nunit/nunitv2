@@ -15,7 +15,7 @@ namespace NUnit.Util.Tests
 	/// <summary>
 	/// Summary description for ProcessRunnerTests.
 	/// </summary>
-	[TestFixture,Explicit]
+	[TestFixture]
 	public class ProcessRunnerTests : BasicRunnerTests
 	{
 		private ProcessRunner myRunner;
@@ -25,6 +25,16 @@ namespace NUnit.Util.Tests
 			myRunner = new ProcessRunner( runnerID );
 			myRunner.Start();
 			return myRunner;
+		}
+
+		[TestFixtureTearDown]
+		public void StopRuner()
+		{
+			if ( myRunner != null )
+			{
+				myRunner.Unload();
+				myRunner.Stop();
+			}
 		}
 
 		[Test]

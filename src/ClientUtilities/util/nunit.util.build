@@ -25,18 +25,19 @@
         <include name="ProjectConfig.cs"/>
         <include name="ProjectConfigCollection.cs"/>
         <include name="ProjectFormatException.cs"/>
-        <include name="ProxyTestRunner.cs"/>
         <include name="RecentFileEntry.cs"/>
         <include name="RecentFiles.cs"/>
         <include name="RecentFilesCollection.cs"/>
         <include name="RegistrySettingsStorage.cs"/>
         <include name="ResultSummarizer.cs"/>
+        <include name="ServerBase.cs"/>
         <include name="ServerUtilities.cs"/>
         <include name="Services.cs"/>
         <include name="SettingsGroup.cs"/>
         <include name="SettingsStorage.cs"/>
         <include name="StackTraceFilter.cs"/>
         <include name="SummaryVisitor.cs"/>
+        <include name="TestAgent.cs"/>
         <include name="TestDomain.cs"/>
         <include name="TestEventArgs.cs"/>
         <include name="TestEventDispatcher.cs"/>
@@ -44,6 +45,7 @@
         <include name="TestLoader.cs"/>
         <include name="TestObserver.cs"/>
         <include name="TestResultItem.cs"/>
+        <include name="TestServer.cs"/>
         <include name="VSProject.cs"/>
         <include name="VSProjectConfig.cs"/>
         <include name="VSProjectConfigCollection.cs"/>
@@ -56,6 +58,7 @@
         <include name="Services/RecentFilesService.cs"/>
         <include name="Services/ServiceManager.cs"/>
         <include name="Services/SettingsService.cs"/>
+        <include name="Services/TestAgentManager.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <nowarn>
