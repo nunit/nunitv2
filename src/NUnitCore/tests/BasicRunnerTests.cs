@@ -4,6 +4,7 @@
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
 using System;
+using System.IO;
 using System.Collections;
 
 using NUnit.Framework;
@@ -22,8 +23,8 @@ namespace NUnit.Core.Tests
 	/// </summary>
 	public abstract class BasicRunnerTests
 	{
-		private static readonly string testsDll = "nonamespace-assembly.dll";
-		private static readonly string mockDll = "mock-assembly.dll";
+		private static readonly string testsDll = Path.GetFullPath("nonamespace-assembly.dll");
+		private static readonly string mockDll = Path.GetFullPath("mock-assembly.dll");
 		private readonly string[] assemblies = new string[] { testsDll, mockDll };
 
 		protected TestRunner runner;
