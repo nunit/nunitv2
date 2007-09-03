@@ -786,7 +786,7 @@ namespace NUnit.Gui
 
 		private void okButton_Click(object sender, System.EventArgs e)
 		{
-			if ( changesRequireReload() )
+			if ( Services.TestLoader.IsTestLoaded && changesRequireReload() )
 			{
 				DialogResult answer = UserMessage.Ask( 
 					"Some changes will only take effect when you reload the test project. Do you want to reload now?",
