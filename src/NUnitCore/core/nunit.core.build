@@ -13,7 +13,6 @@
         <include name="AssemblyResolver.cs"/>
         <include name="CoreExtensions.cs"/>
         <include name="CultureDetector.cs"/>
-        <include name="DelegatingTestRunner.cs"/>
         <include name="DirectorySwapper.cs"/>
         <include name="EventListenerTextWriter.cs"/>
         <include name="EventPump.cs"/>
@@ -32,6 +31,7 @@
         <include name="NUnitTestFixture.cs"/>
         <include name="NUnitTestMethod.cs"/>
         <include name="PlatformHelper.cs"/>
+        <include name="ProxyTestRunner.cs"/>
         <include name="QueuingEventListener.cs"/>
         <include name="Reflect.cs"/>
         <include name="RemoteTestRunner.cs"/>

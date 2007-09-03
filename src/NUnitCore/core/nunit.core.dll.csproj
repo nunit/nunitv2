@@ -125,11 +125,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DelegatingTestRunner.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "DirectorySwapper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -216,6 +211,11 @@
                 />
                 <File
                     RelPath = "PlatformHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProxyTestRunner.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

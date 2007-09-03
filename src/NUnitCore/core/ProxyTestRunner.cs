@@ -22,7 +22,7 @@ namespace NUnit.Core
 	/// must explicitly implement TestRunner in order to 
 	/// redefine the selected methods.
 	/// </summary>
-	public abstract class DelegatingTestRunner : MarshalByRefObject, TestRunner
+	public abstract class ProxyTestRunner : MarshalByRefObject, TestRunner
 	{
 		#region Instance Variables
 
@@ -44,7 +44,7 @@ namespace NUnit.Core
 		#endregion
 
 		#region Construction
-		public DelegatingTestRunner(TestRunner testRunner)
+		public ProxyTestRunner(TestRunner testRunner)
 		{
 			this.testRunner = testRunner;
 			this.runnerID = testRunner.ID;
@@ -54,7 +54,7 @@ namespace NUnit.Core
 		/// Protected constructor for runners that delay creation
 		/// of their downstream runner.
 		/// </summary>
-		protected DelegatingTestRunner( int runnerID )
+		protected ProxyTestRunner( int runnerID )
 		{
 			this.runnerID = runnerID;
 		}

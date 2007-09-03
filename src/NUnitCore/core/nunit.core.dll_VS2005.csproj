@@ -67,7 +67,7 @@
     </Compile>
     <Compile Include="CoreExtensions.cs" />
     <Compile Include="CultureDetector.cs" />
-    <Compile Include="DelegatingTestRunner.cs" />
+    <Compile Include="ProxyTestRunner.cs" />
     <Compile Include="DirectorySwapper.cs" />
     <Compile Include="EventListenerTextWriter.cs">
       <SubType>Code</SubType>

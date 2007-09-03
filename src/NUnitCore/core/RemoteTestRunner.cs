@@ -14,7 +14,7 @@ namespace NUnit.Core
 	/// value by using a ThreadedTestRunner and for the events through use of
 	/// an EventPump.
 	/// </summary>
-	public class RemoteTestRunner : DelegatingTestRunner
+	public class RemoteTestRunner : ProxyTestRunner
 	{
 		#region Constructor
 		public RemoteTestRunner() : base( 0 ) { }
