@@ -160,6 +160,7 @@
 
     <!-- Test Server -->
     <include name="NUnitTestServer/nunit-server-exe/nunit-server.exe.build" />
+    <include name="NUnitTestServer/nunit-agent-exe/nunit-agent.exe.build" />
 
     <!-- Test Utilities and Dummy Projects -->
     <include name="tests/mock-assembly/mock-assembly.build" />

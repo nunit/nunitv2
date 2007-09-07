@@ -48,9 +48,11 @@ namespace NUnit.Util
 
 			try
 			{
-				this.domain = Services.DomainManager.CreateDomain( package );
+				if ( this.domain == null )
+					this.domain = Services.DomainManager.CreateDomain( package );
             
-				this.TestRunner = MakeRemoteTestRunner( domain );
+				if ( this.TestRunner == null )
+					this.TestRunner = MakeRemoteTestRunner( domain );
 
 				return TestRunner.Load( package );
 			}

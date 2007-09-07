@@ -29,6 +29,7 @@
         <include name="RecentFiles.cs"/>
         <include name="RecentFilesCollection.cs"/>
         <include name="RegistrySettingsStorage.cs"/>
+        <include name="RemoteTestAgent.cs"/>
         <include name="ResultSummarizer.cs"/>
         <include name="ServerBase.cs"/>
         <include name="ServerUtilities.cs"/>
@@ -58,7 +59,7 @@
         <include name="Services/RecentFilesService.cs"/>
         <include name="Services/ServiceManager.cs"/>
         <include name="Services/SettingsService.cs"/>
-        <include name="Services/TestAgentManager.cs"/>
+        <include name="Services/TestAgency.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <nowarn>

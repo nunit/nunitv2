@@ -25,12 +25,13 @@ namespace NUnit.Util
 		/// <param name="port"></param>
 		/// <param name="name"></param>
 		/// <returns></returns>
-		private static TcpChannel CreateTcpChannel( string name, int port )
+		private static TcpChannel CreateTcpChannel( string name, int port, int limit )
 		{
 			ListDictionary props = new ListDictionary();
 			props.Add( "port", port );
 			props.Add( "name", name );
 			props.Add( "bindTo", "127.0.0.1" );
+			props.Add( "clientConnectionLimit", limit );
 
 			BinaryServerFormatterSinkProvider serverProvider =
 				new BinaryServerFormatterSinkProvider();
@@ -50,6 +51,11 @@ namespace NUnit.Util
 			return new TcpChannel( props, clientProvider, serverProvider );
 		}
 
+		public static TcpChannel GetTcpChannel()
+		{
+			return GetTcpChannel( "", 0, 2 );
+		}
+
 		/// <summary>
 		/// Get a channel by name, casting it to a TcpChannel.
 		/// Otherwise, create, register and return a TcpChannel with
@@ -59,6 +65,20 @@ namespace NUnit.Util
 		/// <param name="port">The port to use if the channel must be created</param>
 		/// <returns>A TcpChannel or null</returns>
 		public static TcpChannel GetTcpChannel( string name, int port )
+		{
+			return GetTcpChannel( name, port, 2 );
+		}
+		
+		/// <summary>
+		/// Get a channel by name, casting it to a TcpChannel.
+		/// Otherwise, create, register and return a TcpChannel with
+		/// that name, on the port provided as the second argument.
+		/// </summary>
+		/// <param name="name">The channel name</param>
+		/// <param name="port">The port to use if the channel must be created</param>
+		/// <param name="limit">The client connection limit or negative for the default</param>
+		/// <returns>A TcpChannel or null</returns>
+		public static TcpChannel GetTcpChannel( string name, int port, int limit )
 		{
 			TcpChannel channel = ChannelServices.GetChannel( name ) as TcpChannel;
 
@@ -70,7 +90,7 @@ namespace NUnit.Util
 				while( --retries > 0 )
 					try
 					{
-						channel = CreateTcpChannel( name, port );
+						channel = CreateTcpChannel( name, port, limit );
 						ChannelServices.RegisterChannel( channel );
 						break;
 					}
@@ -95,5 +115,11 @@ namespace NUnit.Util
 					// Channel was not registered - ignore
 				}
 		}
+
+		public static string MakeUrl( string uri, int port )
+		{
+			return string.Format( "tcp://127.0.0.1:{0}/{1}", port, uri );
+		}
+
 	}
 }

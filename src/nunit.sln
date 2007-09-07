@@ -115,6 +115,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.fixtures.tests", "NUn
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-agent.exe", "NUnitTestServer\nunit-agent-exe\nunit-agent.exe.csproj", "{3E469CD9-FED2-4955-AE4C-669A74CA6767}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -237,6 +241,10 @@ Global
 		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Debug.Build.0 = Debug|.NET
 		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Release.ActiveCfg = Release|.NET
 		{55F2D231-743C-48DD-B79A-00E5A7236CBE}.Release.Build.0 = Release|.NET
+		{3E469CD9-FED2-4955-AE4C-669A74CA6767}.Debug.ActiveCfg = Debug|.NET
+		{3E469CD9-FED2-4955-AE4C-669A74CA6767}.Debug.Build.0 = Debug|.NET
+		{3E469CD9-FED2-4955-AE4C-669A74CA6767}.Release.ActiveCfg = Release|.NET
+		{3E469CD9-FED2-4955-AE4C-669A74CA6767}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		clr.bat = clr.bat

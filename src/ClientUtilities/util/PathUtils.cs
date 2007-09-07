@@ -156,6 +156,14 @@ namespace NUnit.Util
 			return	path2[length1-1] == DirectorySeparatorChar ||
 				path2[length1] == DirectorySeparatorChar;
 		}
+
+		public static string Combine( string path1, params string[] morePaths )
+		{
+			string result = path1;
+			foreach( string path in morePaths )
+				result = Path.Combine( result, path );
+			return result;
+		}
 		#endregion
 
 		#region Helper Methods

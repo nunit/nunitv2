@@ -149,13 +149,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ServerUtilityTests.cs" />
+    <Compile Include="ServiceManagerSetUpFixture.cs" />
     <Compile Include="SettingsGroupTests.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SummaryResultFixture.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestAgentManagerTests.cs" />
+    <Compile Include="TestAgencyTests.cs" />
     <Compile Include="TestAgentTests.cs" />
     <Compile Include="TestDomainFixture.cs">
       <SubType>Code</SubType>

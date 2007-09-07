@@ -53,7 +53,7 @@ namespace NUnit.Util.Tests
 			using( TestServer server = new TestServer( "TestServer", 9000 ) )
 			{
 				server.Start();
-				object obj = Activator.GetObject( typeof(TestRunner), "tcp://localhost:9000/TestServer" );
+				object obj = Activator.GetObject( typeof(TestRunner), ServerUtilities.MakeUrl("TestServer", 9000) );
 				Assert.IsNotNull( obj, "Unable to connect" );
 			}
 		}
@@ -66,13 +66,13 @@ namespace NUnit.Util.Tests
 			{
 				process = Process.Start( serverPath, "TestServer" );
 				System.Threading.Thread.Sleep( 1000 );
-				object obj = Activator.GetObject( typeof(TestRunner), "tcp://localhost:9000/TestServer" );
-				TestServer server = (TestServer)obj;
-				Assert.IsNotNull( obj, "Unable to connect" );
+				TestServer server = (TestServer)Activator.GetObject( typeof(TestRunner), "tcp://localhost:9000/TestServer" );
+				Assert.IsNotNull( server, "Unable to connect" );
+				server.Stop();
 			}
 			finally
 			{
-				if ( process != null )
+				if ( process != null && !process.HasExited )
 					process.Kill();
 			}
 		}

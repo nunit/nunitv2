@@ -76,6 +76,7 @@ namespace NUnit.Gui
 				ServiceManager.Services.AddService( new TestLoader( new GuiTestEventDispatcher() ) );
 				ServiceManager.Services.AddService( new AddinRegistry() );
 				ServiceManager.Services.AddService( new AddinManager() );
+				ServiceManager.Services.AddService( new TestAgency() );
 
 				// Initialize Services
 				ServiceManager.Services.InitializeServices();

@@ -225,6 +225,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "RemoteTestAgent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ResultSummarizer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -374,7 +379,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Services\TestAgentManager.cs"
+                    RelPath = "Services\TestAgency.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

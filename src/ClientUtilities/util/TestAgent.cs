@@ -1,50 +1,58 @@
 using System;
-using System.Collections;
-using System.Runtime.Remoting;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Tcp;
 
 namespace NUnit.Util
 {
 	/// <summary>
-	/// TestAgent represents a remote runner executing in another process
-	/// and communicating with NUnit by TCP.
+	/// TestAgent provides a local representation
+	/// for a RemoteTestAgent allowing the lifetime
+	/// of the remote object to be independent of
+	/// its own.
 	/// </summary>
-	public class TestAgent : MarshalByRefObject, IDisposable
+	public class TestAgent
 	{
-		int runnerID;
-		string managerUrl;
+		#region Fields
+		/// <summary>
+		/// Reference to the TestAgency that controls this agent
+		/// </summary>
+		private TestAgency agency;
 
-		public TestAgent( int runnerID) : this(runnerID, "tcp://localhost:9100/TestAgentManager") { }
+		/// <summary>
+		/// This agent's assigned id
+		/// </summary>
+		private int agentId;
 
-		public TestAgent( int runnerID, string managerUrl )
+		/// <summary>
+		/// Reference to the remote agent
+		/// </summary>
+		private RemoteTestAgent remoteAgent;
+		#endregion
+
+		#region Constructor
+		public TestAgent( TestAgency agency, int agentId, RemoteTestAgent remoteAgent )
 		{
-			this.runnerID = runnerID;
-			this.managerUrl = managerUrl;
+			this.agency = agency;
+			this.agentId = agentId;
+			this.remoteAgent = remoteAgent;
+		}
+		#endregion
+
+		#region Properties
+		public TestAgency Agency
+		{
+			get { return agency; }
 		}
 
-		public int ID
+		public int Id
 		{
-			get { return runnerID; }
+			get { return agentId; }
 		}
+		#endregion
 
-		public void Start()
+		#region Public Methods
+		public NUnit.Core.TestRunner CreateRunner(int runnerId)
 		{
-			//TcpChannel channel = new TcpChannel(0);
-			//ChannelServices.RegisterChannel( channel );
-
-			TestAgentManager manager = (TestAgentManager)Activator.GetObject( typeof( TestAgentManager ), managerUrl );
-			manager.Register( this, runnerID );
+			return remoteAgent.CreateRunner( runnerId );
 		}
-
-
-		#region IDisposable Members
-
-		public void Dispose()
-		{
-			// TODO:  Add TestAgent.Dispose implementation
-		}
-
 		#endregion
 	}
 }

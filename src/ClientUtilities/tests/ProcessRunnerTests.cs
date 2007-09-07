@@ -23,25 +23,14 @@ namespace NUnit.Util.Tests
 		protected override TestRunner CreateRunner( int runnerID )
 		{
 			myRunner = new ProcessRunner( runnerID );
-			myRunner.Start();
 			return myRunner;
 		}
 
 		[TestFixtureTearDown]
-		public void StopRuner()
+		public void DestroyRunner()
 		{
 			if ( myRunner != null )
-			{
-				myRunner.Unload();
-				myRunner.Stop();
-			}
-		}
-
-		[Test]
-		public void CreatedRunnerInSeparateProcess()
-		{
-			Assert.AreNotEqual( Process.GetCurrentProcess().Id, myRunner.Process.Id, 
-				"Runner is in same process" );
+				myRunner.Dispose();
 		}
 	}
 }

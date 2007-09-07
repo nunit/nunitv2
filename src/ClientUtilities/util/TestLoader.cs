@@ -642,15 +642,8 @@ namespace NUnit.Util
 				{
 					events.FireTestReloading( testFileName );
 
-					// Don't unload the old domain till after the event
-					// handlers get a chance to compare the trees.
-					TestRunner newRunner = CreateRunner( );
+					testRunner.Load( MakeTestPackage( loadedTestName ) );
 
-					newRunner.Load( MakeTestPackage( loadedTestName ) );
-
-					testRunner.Unload();
-
-					testRunner = newRunner;
 					loadedTest = testRunner.Test;
 					reloadPending = false;
 

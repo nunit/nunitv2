@@ -20,75 +20,39 @@ namespace NUnit.Util
 	/// <summary>
 	/// Summary description for ProcessRunner.
 	/// </summary>
-	public class ProcessRunner : ProxyTestRunner
+	public class ProcessRunner : ProxyTestRunner, IDisposable
 	{
-		private Process process;
+		private TestAgent agent;
 
-		private TestServer server;
-
+		#region Constructors
 		public ProcessRunner() : base( 0 ) { }
 
 		public ProcessRunner( int runnerID ) : base( runnerID ) { }
+		#endregion
 
-		public void Start()
+		public override bool Load(TestPackage package)
 		{
-			ProcessStartInfo startInfo = new ProcessStartInfo( GetServerPath(), "TestServer" );
-			startInfo.CreateNoWindow = true;
-			this.process = Process.Start( startInfo );
-			System.Threading.Thread.Sleep( 1000 );
+			if ( this.agent == null )
+				this.agent = Services.TestAgency.GetAgent( AgentType.ProcessAgent, 5000 );		
+	
+			if ( this.TestRunner == null )
+				this.TestRunner = agent.CreateRunner(this.runnerID);
 
-			TcpChannel channel = ServerUtilities.GetTcpChannel( "ProcessRunner", 0 );
-
-			this.server = (TestServer)Activator.GetObject( typeof( TestServer ), "tcp://localhost:9000/TestServer" );
-			this.TestRunner = server.TestRunner;
+			return base.Load (package);
 		}
 
-		public void Stop()
+		#region IDisposable Members
+		public void Dispose()
 		{
-			//RealProxy proxy = RemotingServices.GetRealProxy( this.testRunner );
-			process.Kill();
+			if ( TestRunner != null )
+				this.TestRunner.Unload();
+
+			if ( this.agent != null )
+				Services.TestAgency.ReleaseAgent(this.agent);
+
+			this.TestRunner = null;
+			this.agent = null;
 		}
-
-		public Process Process
-		{
-			get { return process; }
-		}
-
-		public static string GetServerPath()
-		{
-			string serverPath = "nunit-server.exe";
-			
-			if ( !File.Exists(serverPath) )
-			{
-				DirectoryInfo dir = new DirectoryInfo( Environment.CurrentDirectory );
-				if ( dir.Parent.Name == "bin" )
-					dir = dir.Parent.Parent.Parent.Parent;
-				
-				string path = Path.Combine( dir.FullName, "NUnitTestServer" );
-				path = Path.Combine( path, "nunit-server-exe" );
-				path = Path.Combine( path, "bin" );
-				path = Path.Combine( path, NUnitFramework.BuildConfiguration );
-				path = Path.Combine( path, "nunit-server.exe" );
-				if( File.Exists( path ) )
-					serverPath = path;
-			}
-
-			return serverPath;
-		}
-
-//		public override bool Load(TestPackage package)
-//		{
-//			this.Start();
-//
-//			return base.Load (package);
-//		}
-//
-//
-//		public override void Unload()
-//		{
-//			base.Unload ();
-//
-//			this.Stop();
-//		}
+		#endregion
 	}
 }

@@ -64,6 +64,11 @@ namespace NUnit.Util
 				((IService)services[index]).UnloadService();
 		}
 
+		public void ClearServices()
+		{
+			services.Clear();
+		}
+
 		private ServiceManager() { }
 	}
 }

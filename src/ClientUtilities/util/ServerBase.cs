@@ -11,37 +11,60 @@ namespace NUnit.Util
 	/// <summary>
 	/// Summary description for ServerBase.
 	/// </summary>
-	public class ServerBase : MarshalByRefObject, IDisposable
+	public abstract class ServerBase : MarshalByRefObject, IDisposable
 	{
-		private string uri;
-		private int port;
+		protected string uri;
+		protected int port;
 
 		private TcpChannel channel;
+		private bool isMarshalled;
 
 		private object theLock = new object();
 
-		public ServerBase(string uri, int port)
+		protected ServerBase()
+		{
+		}
+
+		/// <summary>
+		/// Constructor used to provide
+		/// </summary>
+		/// <param name="uri"></param>
+		/// <param name="port"></param>
+		protected ServerBase(string uri, int port)
 		{
 			this.uri = uri;
 			this.port = port;
 		}
-	
-		public void Start()
+
+		public virtual void Start()
 		{
-			lock( theLock )
-			{
-				this.channel = ServerUtilities.GetTcpChannel( uri + "Channel", port );
-				RemotingServices.Marshal( this, uri );
-			}
+			if ( uri != null && uri != string.Empty )
+				lock( theLock )
+				{
+					this.channel = ServerUtilities.GetTcpChannel( uri + "Channel", port, 100 );
+
+					RemotingServices.Marshal( this, uri );
+					this.isMarshalled = true;
+				}
 		}
 
-		public void Stop()
+		[System.Runtime.Remoting.Messaging.OneWay]
+		public virtual void Stop()
 		{
 			lock( theLock )
 			{
-				RemotingServices.Disconnect( this );		
+				if ( this.isMarshalled )
+				{
+					RemotingServices.Disconnect( this );
+					this.isMarshalled = false;
+				}
+
 				if ( this.channel != null )
+				{
 					ChannelServices.UnregisterChannel( this.channel );
+					this.channel = null;
+				}
+
 				Monitor.PulseAll( theLock );
 			}
 		}
@@ -58,7 +81,7 @@ namespace NUnit.Util
 
 		public void Dispose()
 		{
-			Stop();
+			this.Stop();
 		}
 
 		#endregion

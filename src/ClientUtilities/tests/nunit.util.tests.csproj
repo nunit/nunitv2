@@ -245,6 +245,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ServiceManagerSetUpFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SettingsGroupTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -255,7 +260,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestAgentManagerTests.cs"
+                    RelPath = "TestAgencyTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

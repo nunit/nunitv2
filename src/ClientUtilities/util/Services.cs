@@ -52,11 +52,6 @@ namespace NUnit.Util
 				if ( domainManager == null )
 					domainManager = (DomainManager)ServiceManager.Services.GetService( typeof( DomainManager ) );
 
-				// Temporary fix needed to run TestDomain tests in test AppDomain
-				// TODO: Figure out how to set up the test domain correctly
-				if ( domainManager == null )
-					domainManager = new DomainManager();
-
 				return domainManager;
 			}
 		}
@@ -73,8 +68,8 @@ namespace NUnit.Util
 
 				// Temporary fix needed to run TestDomain tests in test AppDomain
 				// TODO: Figure out how to set up the test domain correctly
-				if ( userSettings == null )
-					userSettings = new SettingsService();
+//				if ( userSettings == null )
+//					userSettings = new SettingsService();
 
 				return userSettings; 
 			}
@@ -106,6 +101,28 @@ namespace NUnit.Util
 					loader = (TestLoader)ServiceManager.Services.GetService( typeof( TestLoader ) );
 
 				return loader;
+			}
+		}
+		#endregion
+
+		#region TestAgency
+		private static TestAgency agency;
+		public static TestAgency TestAgency
+		{
+			get
+			{
+				if ( agency == null )
+					agency = (TestAgency)ServiceManager.Services.GetService( typeof( TestAgency ) );
+
+				// Temporary fix needed to run ProcessRunner tests in test AppDomain
+				// TODO: Figure out how to set up the test domain correctly
+//				if ( agency == null )
+//				{
+//					agency = new TestAgency();
+//					agency.Start();
+//				}
+
+				return agency;
 			}
 		}
 		#endregion

@@ -1,31 +1,24 @@
 using System;
+using System.Diagnostics;
 using NUnit.Framework;
 
 namespace NUnit.Util.Tests
 {
 	[TestFixture]
-	public class TestAgentTests
+	public class RemoteTestAgentTests
 	{
 		[Test]
-		public void CanCreateAgent()
+		public void AgentReturnsProcessId()
 		{
-			TestAgent agent = new TestAgent(123);
-			Assert.That(agent.ID == 123);
+			RemoteTestAgent agent = new RemoteTestAgent("dummy");
+			Assert.AreEqual( Process.GetCurrentProcess().Id, agent.ProcessId );
 		}
 
 		[Test]
-		public void AgentRegistersOnStart()
+		public void CanLocateAgentExecutable()
 		{
-			using( TestAgentManager registry = new TestAgentManager("TestAgentManagerForTesting", 9200))
-			{
-				registry.Start();
-				Assert.IsNull( registry.GetTestRunner(123) );
-
-				TestAgent agent = new TestAgent(123, "tcp://localhost:9200/TestAgentManagerForTesting");
-				agent.Start();
-
-				Assert.IsNotNull( registry.GetTestRunner(123) );
-			}
+			string path = TestAgency.TestAgentExePath;
+			Assert.That( System.IO.File.Exists( path ), "Cannot find " + path  );
 		}
 	}
 }
