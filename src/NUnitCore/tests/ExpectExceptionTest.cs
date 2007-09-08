@@ -112,7 +112,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: System.ArgumentException" + Environment.NewLine +
-				" but was: System.Exception",
+				" but was: System.Exception : Exception of type System.Exception was thrown.",
 				result.Message);
 		}
 
@@ -126,7 +126,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: System.Exception" + Environment.NewLine +
-				" but was: System.ArgumentException",
+				" but was: System.ArgumentException : Value does not fall within the expected range.",
 				result.Message);
 		}
 
@@ -140,7 +140,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: System.ArgumentException" + Environment.NewLine +
-				" but was: System.ArgumentOutOfRangeException", 
+				" but was: System.ArgumentOutOfRangeException : Specified argument was out of the range of valid values.", 
 				result.Message);
 		}
 
@@ -155,7 +155,7 @@ namespace NUnit.Core.Tests
 				"custom message" + Environment.NewLine +
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: System.ArgumentException" + Environment.NewLine +
-				" but was: System.ArgumentOutOfRangeException", 
+				" but was: System.ArgumentOutOfRangeException : Specified argument was out of the range of valid values.", 
 				result.Message);
 		}
 
@@ -169,7 +169,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: System.ArgumentException" + Environment.NewLine +
-				" but was: System.ArgumentOutOfRangeException", 
+				" but was: System.ArgumentOutOfRangeException : Specified argument was out of the range of valid values.", 
 				result.Message);
 		}
 
@@ -184,7 +184,7 @@ namespace NUnit.Core.Tests
 				"custom message" + Environment.NewLine +
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: System.ArgumentException" + Environment.NewLine +
-				" but was: System.ArgumentOutOfRangeException", 
+				" but was: System.ArgumentOutOfRangeException : Specified argument was out of the range of valid values.", 
 				result.Message);
 		}
 

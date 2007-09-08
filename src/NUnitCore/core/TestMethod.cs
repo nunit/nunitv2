@@ -358,7 +358,7 @@ namespace NUnit.Core
 			return CombineWithUserMessage(
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: " + expectedExceptionName + Environment.NewLine +
-				" but was: " + exception.GetType().FullName );
+				" but was: " + exception.GetType().FullName + " : " + exception.Message );
 		}
 
 		protected string WrongTextMessage(Exception exception)
