@@ -894,7 +894,10 @@ namespace NUnit.Gui
 
 		private void reloadProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.OpenProject( this, TestProject.ProjectPath, TestProject.ActiveConfigName, null );
+			if ( TestProject.IsAssemblyWrapper )
+				TestLoaderUI.OpenProject( this, TestProject.ProjectPath );
+			else
+				TestLoaderUI.OpenProject( this, TestProject.ProjectPath, TestProject.ActiveConfigName, null );
 		}
 
 		private void reloadTestsMenuItem_Click(object sender, System.EventArgs e)
