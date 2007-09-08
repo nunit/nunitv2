@@ -622,7 +622,22 @@ namespace NUnit.Util
 		/// </summary>
 		public void ReloadTest()
 		{
-			OnTestChanged( TestFileName );
+			try
+			{
+				events.FireTestReloading( TestFileName );
+
+				testRunner.Load( MakeTestPackage( loadedTestName ) );
+
+				loadedTest = testRunner.Test;
+				reloadPending = false;
+
+				events.FireTestReloaded( TestFileName, loadedTest );				
+			}
+			catch( Exception exception )
+			{
+				lastException = exception;
+				events.FireTestReloadFailed( TestFileName, exception );
+			}
 		}
 
 		/// <summary>
@@ -637,24 +652,7 @@ namespace NUnit.Util
 			if ( Running )
 				reloadPending = true;
 			else 
-			{
-				try
-				{
-					events.FireTestReloading( testFileName );
-
-					testRunner.Load( MakeTestPackage( loadedTestName ) );
-
-					loadedTest = testRunner.Test;
-					reloadPending = false;
-
-					events.FireTestReloaded( testFileName, loadedTest );				
-				}
-				catch( Exception exception )
-				{
-					lastException = exception;
-					events.FireTestReloadFailed( testFileName, exception );
-				}
-			}
+				ReloadTest();
 
 			if ( rerunOnChange && lastFilter != null )
 				testRunner.BeginRun( this, lastFilter );
