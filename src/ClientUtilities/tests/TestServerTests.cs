@@ -17,7 +17,7 @@ namespace NUnit.Util.Tests
 	/// <summary>
 	/// Summary description for TestServerTests.
 	/// </summary>
-	[TestFixture]
+	[TestFixture,Platform(Exclude="Mono")]
 	public class TestServerTests
 	{
 		private string serverPath = "nunit-server.exe";
