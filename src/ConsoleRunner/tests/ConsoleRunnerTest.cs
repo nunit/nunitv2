@@ -142,21 +142,21 @@ namespace NUnit.ConsoleRunner.Tests
 			StringAssert.Contains( "Failures: 0", output.ToString() );
 		}
 
-		[Test]
+		[Test,Platform(Exclude="Mono")]
 		public void CanRunWithoutTestDomain_NoThread()
 		{
 			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "-domain:None", "-nothread" ) );
 			StringAssert.Contains( "Failures: 0", output.ToString() );
 		}
 
-		[Test]
+		[Test,Platform(Exclude="Mono")]
 		public void CanRunWithSingleTestDomain_NoThread()
 		{
 			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "-domain:Single", "-nothread" ) );
 			StringAssert.Contains( "Failures: 0", output.ToString() );
 		}
 
-		[Test]
+		[Test,Platform(Exclude="Mono")]
 		public void CanRunWithMultipleTestDomains_NoThread()
 		{
 			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "nonamespace-assembly.dll", "-domain:Multiple", "-nothread" ) );
