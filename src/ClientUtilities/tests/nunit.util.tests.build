@@ -29,7 +29,7 @@
         <include name="ServiceManagerSetUpFixture.cs"/>
         <include name="SettingsGroupTests.cs"/>
         <include name="SummaryResultFixture.cs"/>
-        <include name="TestAgentManagerTests.cs"/>
+        <include name="TestAgencyTests.cs"/>
         <include name="TestAgentTests.cs"/>
         <include name="TestDomainFixture.cs"/>
         <include name="TestDomainTests_Multiple.cs"/>
@@ -44,6 +44,7 @@
         <include name="resources/*"/>
       </resources>
       <references basedir="${current.build.dir}">
+        <include name="System.Runtime.Remoting.dll"/>
         <include name="nunit.framework.dll"/>
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>
