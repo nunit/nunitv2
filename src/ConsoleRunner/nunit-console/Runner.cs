@@ -81,14 +81,19 @@ namespace NUnit.ConsoleRunner
 			Assembly executingAssembly = Assembly.GetExecutingAssembly();
 			System.Version version = executingAssembly.GetName().Version;
 
+			string productName = "NUnit";
+			string copyrightText = "Copyright (C) 2002-2007 Charlie Poole.\r\nCopyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.\r\nCopyright (C) 2000-2002 Philip Craig.\r\nAll Rights Reserved.";
+
 			object[] objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-			AssemblyProductAttribute productAttr = (AssemblyProductAttribute)objectAttrs[0];
+			if ( objectAttrs.Length > 0 )
+				productName = ((AssemblyProductAttribute)objectAttrs[0]).Product;
 
 			objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-			AssemblyCopyrightAttribute copyrightAttr = (AssemblyCopyrightAttribute)objectAttrs[0];
+			if ( objectAttrs.Length > 0 )
+				copyrightText = ((AssemblyCopyrightAttribute)objectAttrs[0]).Copyright;
 
-			Console.WriteLine(String.Format("{0} version {1}", productAttr.Product, version.ToString(3)));
-			Console.WriteLine(copyrightAttr.Copyright);
+			Console.WriteLine(String.Format("{0} version {1}", productName, version.ToString(3)));
+			Console.WriteLine(copyrightText);
 			Console.WriteLine();
 
 			Console.WriteLine( "Runtime Environment - " );
