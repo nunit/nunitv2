@@ -109,10 +109,10 @@ namespace NUnit.Core.Tests
 			Test test = TestBuilder.MakeTestCase( fixtureType, "BaseExceptionTest" );
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "BaseExceptionTest should have failed");
-			Assert.AreEqual(
+			StringAssert.StartsWith(
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: System.ArgumentException" + Environment.NewLine +
-				" but was: System.Exception : Exception of type System.Exception was thrown.",
+				" but was: System.Exception",
 				result.Message);
 		}
 
@@ -123,10 +123,10 @@ namespace NUnit.Core.Tests
 			Test test = TestBuilder.MakeTestCase( fixtureType, "DerivedExceptionTest" );
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "DerivedExceptionTest should have failed");
-			Assert.AreEqual(
+			StringAssert.StartsWith( 
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: System.Exception" + Environment.NewLine +
-				" but was: System.ArgumentException : Value does not fall within the expected range.",
+				" but was: System.ArgumentException",
 				result.Message);
 		}
 
@@ -137,10 +137,10 @@ namespace NUnit.Core.Tests
 			Test test = TestBuilder.MakeTestCase( fixtureType, "MismatchedExceptionType" );
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "MismatchedExceptionType should have failed");
-			Assert.AreEqual(
+			StringAssert.StartsWith(
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: System.ArgumentException" + Environment.NewLine +
-				" but was: System.ArgumentOutOfRangeException : Specified argument was out of the range of valid values.", 
+				" but was: System.ArgumentOutOfRangeException", 
 				result.Message);
 		}
 
@@ -151,11 +151,11 @@ namespace NUnit.Core.Tests
 			Test test = TestBuilder.MakeTestCase( fixtureType, "MismatchedExceptionTypeWithUserMessage" );
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "Test method should have failed");
-			Assert.AreEqual(
+			StringAssert.StartsWith(
 				"custom message" + Environment.NewLine +
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: System.ArgumentException" + Environment.NewLine +
-				" but was: System.ArgumentOutOfRangeException : Specified argument was out of the range of valid values.", 
+				" but was: System.ArgumentOutOfRangeException", 
 				result.Message);
 		}
 
@@ -166,10 +166,10 @@ namespace NUnit.Core.Tests
 			Test test = TestBuilder.MakeTestCase( fixtureType, "MismatchedExceptionName" );
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "MismatchedExceptionName should have failed");
-			Assert.AreEqual(
+			StringAssert.StartsWith(
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: System.ArgumentException" + Environment.NewLine +
-				" but was: System.ArgumentOutOfRangeException : Specified argument was out of the range of valid values.", 
+				" but was: System.ArgumentOutOfRangeException", 
 				result.Message);
 		}
 
@@ -180,11 +180,11 @@ namespace NUnit.Core.Tests
 			Test test = TestBuilder.MakeTestCase( fixtureType, "MismatchedExceptionNameWithUserMessage" );
 			TestResult result = test.Run(NullListener.NULL);
 			Assert.IsTrue(result.IsFailure, "Test method should have failed");
-			Assert.AreEqual(
+			StringAssert.StartsWith(
 				"custom message" + Environment.NewLine +
 				"An unexpected exception type was thrown" + Environment.NewLine +
 				"Expected: System.ArgumentException" + Environment.NewLine +
-				" but was: System.ArgumentOutOfRangeException : Specified argument was out of the range of valid values.", 
+				" but was: System.ArgumentOutOfRangeException", 
 				result.Message);
 		}
 
