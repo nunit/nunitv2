@@ -115,11 +115,7 @@ namespace NUnit.UiKit
 			this.ContextMenu.Popup += new System.EventHandler( ContextMenu_Popup );
 
 			// See if there are any overriding images in the directory;
-			Uri myUri = new Uri( System.Reflection.Assembly.GetExecutingAssembly().CodeBase );
-			string localPath = myUri.LocalPath;
-			if ( myUri.Fragment != null && myUri.Fragment.StartsWith( "#" ) )
-				localPath += myUri.Fragment;
-			string imageDir = Path.GetDirectoryName( myUri.LocalPath );
+			string imageDir = Path.GetDirectoryName( PathUtils.GetAssemblyPath( Assembly.GetExecutingAssembly() ) );
 			
 			string successFile = Path.Combine( imageDir, "Success.jpg" );
 			if ( File.Exists( successFile ) )

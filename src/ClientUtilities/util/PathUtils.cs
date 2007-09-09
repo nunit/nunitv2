@@ -7,6 +7,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Reflection;
 using System.Collections;
 using System.Runtime.InteropServices;
 
@@ -163,6 +164,24 @@ namespace NUnit.Util
 			foreach( string path in morePaths )
 				result = Path.Combine( result, path );
 			return result;
+		}
+
+		// TODO: This logic should be in shared source
+		public static string GetAssemblyPath( Assembly assembly )
+		{
+			string path = assembly.CodeBase;
+			
+			// If it wasn't loaded locally, use the Location
+			if ( !path.StartsWith( Uri.UriSchemeFile ) )
+				return assembly.Location;
+
+			// Skip over the file://
+			int start = Uri.UriSchemeFile.Length + Uri.SchemeDelimiter.Length;
+			
+			if ( path[start] == '/' && path[start+2] == ':' )
+				++start;
+
+			return path.Substring( start );
 		}
 		#endregion
 

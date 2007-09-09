@@ -54,13 +54,22 @@ namespace NUnit.Core
 			return GetAssemblyPath( fixtureType.Assembly );
 		}
 
+		// TODO: This logic should be in shared source
 		public static string GetAssemblyPath( Assembly assembly )
 		{
-			Uri uri = new Uri( assembly.CodeBase );
-			string path = uri.LocalPath;
-			if ( uri.Fragment != null && uri.Fragment.StartsWith( "#" ) )
-				path += uri.Fragment;
-			return path;
+			string path = assembly.CodeBase;
+			
+			// If it wasn't loaded locally, use the Location
+			if ( !path.StartsWith( Uri.UriSchemeFile ) )
+				return assembly.Location;
+
+			// Skip over the file://
+			int start = Uri.UriSchemeFile.Length + Uri.SchemeDelimiter.Length;
+			
+			if ( path[start] == '/' && path[start+2] == ':' )
+				++start;
+
+			return path.Substring( start );
 		}
 
 		/// <summary>
