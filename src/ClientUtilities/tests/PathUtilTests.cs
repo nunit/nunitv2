@@ -127,6 +127,13 @@ namespace NUnit.Util.Tests
 			Assert.SamePathOrUnder( @"C:\", @"c:\bin\debug" );
 
 		}
+
+		[Test]
+		public void PathFromUri()
+		{
+			Assert.AreEqual( @"C:\a\b\c\my.dll", PathUtils.GetAssemblyPathFromFileUri( @"file:///C:\a\b\c\my.dll" ) );
+			Assert.AreEqual( @"C:\a\b\c\my.dll", PathUtils.GetAssemblyPathFromFileUri( @"file://C:\a\b\c\my.dll" ) );
+		}
 	}
 
 	[TestFixture]
@@ -204,6 +211,13 @@ namespace NUnit.Util.Tests
 			Assert.NotSamePathOrUnder( "/folder1/folder2", "/folder1/./folder22/junk/../folder3" );
 			Assert.SamePathOrUnder( "/", "/" );
 			Assert.SamePathOrUnder( "/", "/bin/debug" );
+		}
+
+		[Test]
+		public void PathFromUri()
+		{
+			Assert.AreEqual( @"/a/b/c/my.dll", PathUtils.GetAssemblyPathFromFileUri( @"file:///a/b/c/my.dll" ) );
+			Assert.AreEqual( @"/a/b/c/my.dll", PathUtils.GetAssemblyPathFromFileUri( @"file://a/b/c/my.dll" ) );
 		}
 	}
 }

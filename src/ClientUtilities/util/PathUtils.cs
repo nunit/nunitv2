@@ -169,19 +169,33 @@ namespace NUnit.Util
 		// TODO: This logic should be in shared source
 		public static string GetAssemblyPath( Assembly assembly )
 		{
-			string path = assembly.CodeBase;
-			
+			string uri = assembly.CodeBase;
+
 			// If it wasn't loaded locally, use the Location
-			if ( !path.StartsWith( Uri.UriSchemeFile ) )
+			if ( !uri.StartsWith( Uri.UriSchemeFile ) )
 				return assembly.Location;
 
+			return GetAssemblyPathFromFileUri( uri );
+		}
+
+		// Separate method for testability
+		public static string GetAssemblyPathFromFileUri( string uri )
+		{
 			// Skip over the file://
 			int start = Uri.UriSchemeFile.Length + Uri.SchemeDelimiter.Length;
 			
-			if ( path[start] == '/' && path[start+2] == ':' )
-				++start;
+			if ( PathUtils.DirectorySeparatorChar == '\\' )
+			{
+				if ( uri[start] == '/' && uri[start+2] == ':' )
+					++start;
+			}
+			else
+			{
+				if ( uri[start] != '/' )
+					--start;
+			}
 
-			return path.Substring( start );
+			return uri.Substring( start );
 		}
 		#endregion
 
