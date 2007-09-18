@@ -20,6 +20,9 @@ namespace NUnit.Util
 
 		private static ServiceManager defaultServiceManager = new ServiceManager();
 
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		public static ServiceManager Services
 		{
 			get { return defaultServiceManager; }
@@ -28,6 +31,7 @@ namespace NUnit.Util
 		public void AddService( IService service )
 		{
 			services.Add( service );
+			log.DebugFormat( "Added {0} Service", service.GetType().Name );
 		}
 
 		public IService GetService( Type serviceType )
@@ -52,7 +56,10 @@ namespace NUnit.Util
 		public void InitializeServices()
 		{
 			foreach( IService service in services )
+			{
 				service.InitializeService();
+				log.DebugFormat( "Initialized {0}", service.GetType().Name );
+			}
 		}
 
 		public void StopAllServices()
