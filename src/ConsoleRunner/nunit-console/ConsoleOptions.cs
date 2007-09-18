@@ -38,9 +38,6 @@ namespace NUnit.ConsoleRunner
 		[Option(Short="out", Description = "File to receive test output")]
 		public string output;
 
-		[Option(Description = ".NET Framework version to execute with (eg 'v1.0.3705')")]
-		public string framework;
-
 		[Option(Description = "File to receive test error output")]
 		public string err;
 
@@ -97,8 +94,6 @@ namespace NUnit.ConsoleRunner
 		public bool Validate()
 		{
 			if(isInvalid) return false; 
-
-			if(HasInclude && HasExclude) return false;
 
 			if(NoArgs) return true; 
 
