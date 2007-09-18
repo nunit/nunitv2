@@ -42,6 +42,7 @@ namespace NUnit.UiKit
 			Panels.Add( timePanel );
 
 			statusPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring;
+			statusPanel.BorderStyle = StatusBarPanelBorderStyle.None;
 			statusPanel.Text = "Status";
 
 			// Temporarily remove AutoSize due to Mono 1.2 rc problems
