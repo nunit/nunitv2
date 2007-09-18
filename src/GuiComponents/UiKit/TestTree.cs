@@ -360,10 +360,12 @@ namespace NUnit.UiKit
 			// 
 			// tabs
 			// 
+			this.tabs.Alignment = System.Windows.Forms.TabAlignment.Left;
 			this.tabs.Controls.Add(this.testPage);
 			this.tabs.Controls.Add(this.categoryPage);
 			this.tabs.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabs.Location = new System.Drawing.Point(0, 0);
+			this.tabs.Multiline = true;
 			this.tabs.Name = "tabs";
 			this.tabs.SelectedIndex = 0;
 			this.tabs.Size = new System.Drawing.Size(248, 496);
@@ -372,9 +374,9 @@ namespace NUnit.UiKit
 			// testPage
 			// 
 			this.testPage.Controls.Add(this.testPanel);
-			this.testPage.Location = new System.Drawing.Point(4, 25);
+			this.testPage.Location = new System.Drawing.Point(25, 4);
 			this.testPage.Name = "testPage";
-			this.testPage.Size = new System.Drawing.Size(240, 467);
+			this.testPage.Size = new System.Drawing.Size(219, 488);
 			this.testPage.TabIndex = 0;
 			this.testPage.Text = "Tests";
 			// 
@@ -385,7 +387,7 @@ namespace NUnit.UiKit
 			this.testPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.testPanel.Location = new System.Drawing.Point(0, 0);
 			this.testPanel.Name = "testPanel";
-			this.testPanel.Size = new System.Drawing.Size(240, 467);
+			this.testPanel.Size = new System.Drawing.Size(219, 488);
 			this.testPanel.TabIndex = 0;
 			// 
 			// treePanel
@@ -394,7 +396,7 @@ namespace NUnit.UiKit
 			this.treePanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.treePanel.Location = new System.Drawing.Point(0, 0);
 			this.treePanel.Name = "treePanel";
-			this.treePanel.Size = new System.Drawing.Size(240, 427);
+			this.treePanel.Size = new System.Drawing.Size(219, 448);
 			this.treePanel.TabIndex = 0;
 			// 
 			// tests
@@ -404,7 +406,7 @@ namespace NUnit.UiKit
 			this.tests.HideSelection = false;
 			this.tests.Location = new System.Drawing.Point(0, 0);
 			this.tests.Name = "tests";
-			this.tests.Size = new System.Drawing.Size(240, 427);
+			this.tests.Size = new System.Drawing.Size(219, 448);
 			this.tests.TabIndex = 0;
 			// 
 			// buttonPanel
@@ -412,15 +414,15 @@ namespace NUnit.UiKit
 			this.buttonPanel.Controls.Add(this.checkFailedButton);
 			this.buttonPanel.Controls.Add(this.clearAllButton);
 			this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.buttonPanel.Location = new System.Drawing.Point(0, 427);
+			this.buttonPanel.Location = new System.Drawing.Point(0, 448);
 			this.buttonPanel.Name = "buttonPanel";
-			this.buttonPanel.Size = new System.Drawing.Size(240, 40);
+			this.buttonPanel.Size = new System.Drawing.Size(219, 40);
 			this.buttonPanel.TabIndex = 1;
 			// 
 			// checkFailedButton
 			// 
 			this.checkFailedButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.checkFailedButton.Location = new System.Drawing.Point(128, 8);
+			this.checkFailedButton.Location = new System.Drawing.Point(117, 8);
 			this.checkFailedButton.Name = "checkFailedButton";
 			this.checkFailedButton.Size = new System.Drawing.Size(96, 23);
 			this.checkFailedButton.TabIndex = 1;
@@ -430,7 +432,7 @@ namespace NUnit.UiKit
 			// clearAllButton
 			// 
 			this.clearAllButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.clearAllButton.Location = new System.Drawing.Point(24, 8);
+			this.clearAllButton.Location = new System.Drawing.Point(13, 8);
 			this.clearAllButton.Name = "clearAllButton";
 			this.clearAllButton.Size = new System.Drawing.Size(96, 23);
 			this.clearAllButton.TabIndex = 0;
@@ -440,9 +442,9 @@ namespace NUnit.UiKit
 			// categoryPage
 			// 
 			this.categoryPage.Controls.Add(this.categoryPanel);
-			this.categoryPage.Location = new System.Drawing.Point(4, 25);
+			this.categoryPage.Location = new System.Drawing.Point(25, 4);
 			this.categoryPage.Name = "categoryPage";
-			this.categoryPage.Size = new System.Drawing.Size(240, 467);
+			this.categoryPage.Size = new System.Drawing.Size(219, 488);
 			this.categoryPage.TabIndex = 1;
 			this.categoryPage.Text = "Categories";
 			// 
@@ -454,7 +456,7 @@ namespace NUnit.UiKit
 			this.categoryPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.categoryPanel.Location = new System.Drawing.Point(0, 0);
 			this.categoryPanel.Name = "categoryPanel";
-			this.categoryPanel.Size = new System.Drawing.Size(240, 467);
+			this.categoryPanel.Size = new System.Drawing.Size(219, 488);
 			this.categoryPanel.TabIndex = 0;
 			// 
 			// categoryButtonPanel
@@ -463,15 +465,15 @@ namespace NUnit.UiKit
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.categoryButtonPanel.Controls.Add(this.removeCategory);
 			this.categoryButtonPanel.Controls.Add(this.addCategory);
-			this.categoryButtonPanel.Location = new System.Drawing.Point(8, 256);
+			this.categoryButtonPanel.Location = new System.Drawing.Point(8, 280);
 			this.categoryButtonPanel.Name = "categoryButtonPanel";
-			this.categoryButtonPanel.Size = new System.Drawing.Size(224, 40);
+			this.categoryButtonPanel.Size = new System.Drawing.Size(203, 40);
 			this.categoryButtonPanel.TabIndex = 1;
 			// 
 			// removeCategory
 			// 
 			this.removeCategory.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.removeCategory.Location = new System.Drawing.Point(120, 8);
+			this.removeCategory.Location = new System.Drawing.Point(109, 8);
 			this.removeCategory.Name = "removeCategory";
 			this.removeCategory.TabIndex = 1;
 			this.removeCategory.Text = "Remove";
@@ -480,7 +482,7 @@ namespace NUnit.UiKit
 			// addCategory
 			// 
 			this.addCategory.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.addCategory.Location = new System.Drawing.Point(32, 8);
+			this.addCategory.Location = new System.Drawing.Point(21, 8);
 			this.addCategory.Name = "addCategory";
 			this.addCategory.TabIndex = 0;
 			this.addCategory.Text = "Add";
@@ -492,9 +494,9 @@ namespace NUnit.UiKit
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.selectedCategories.Controls.Add(this.selectedList);
 			this.selectedCategories.Controls.Add(this.excludeCheckbox);
-			this.selectedCategories.Location = new System.Drawing.Point(8, 304);
+			this.selectedCategories.Location = new System.Drawing.Point(8, 328);
 			this.selectedCategories.Name = "selectedCategories";
-			this.selectedCategories.Size = new System.Drawing.Size(224, 152);
+			this.selectedCategories.Size = new System.Drawing.Size(203, 144);
 			this.selectedCategories.TabIndex = 2;
 			this.selectedCategories.TabStop = false;
 			this.selectedCategories.Text = "Selected Categories";
@@ -504,10 +506,11 @@ namespace NUnit.UiKit
 			this.selectedList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 				| System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
+			this.selectedList.ItemHeight = 16;
 			this.selectedList.Location = new System.Drawing.Point(8, 16);
 			this.selectedList.Name = "selectedList";
 			this.selectedList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-			this.selectedList.Size = new System.Drawing.Size(208, 95);
+			this.selectedList.Size = new System.Drawing.Size(187, 84);
 			this.selectedList.TabIndex = 0;
 			this.selectedList.DoubleClick += new System.EventHandler(this.removeCategory_Click);
 			// 
@@ -515,9 +518,9 @@ namespace NUnit.UiKit
 			// 
 			this.excludeCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
-			this.excludeCheckbox.Location = new System.Drawing.Point(8, 128);
+			this.excludeCheckbox.Location = new System.Drawing.Point(8, 120);
 			this.excludeCheckbox.Name = "excludeCheckbox";
-			this.excludeCheckbox.Size = new System.Drawing.Size(200, 16);
+			this.excludeCheckbox.Size = new System.Drawing.Size(179, 16);
 			this.excludeCheckbox.TabIndex = 1;
 			this.excludeCheckbox.Text = "Exclude these categories";
 			this.excludeCheckbox.CheckedChanged += new System.EventHandler(this.excludeCheckbox_CheckedChanged);
@@ -528,9 +531,9 @@ namespace NUnit.UiKit
 				| System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.groupBox1.Controls.Add(this.availableList);
-			this.groupBox1.Location = new System.Drawing.Point(8, 16);
+			this.groupBox1.Location = new System.Drawing.Point(8, 0);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(224, 232);
+			this.groupBox1.Size = new System.Drawing.Size(203, 272);
 			this.groupBox1.TabIndex = 0;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Available Categories";
@@ -540,10 +543,11 @@ namespace NUnit.UiKit
 			this.availableList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 				| System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
+			this.availableList.ItemHeight = 16;
 			this.availableList.Location = new System.Drawing.Point(8, 24);
 			this.availableList.Name = "availableList";
 			this.availableList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-			this.availableList.Size = new System.Drawing.Size(208, 196);
+			this.availableList.Size = new System.Drawing.Size(187, 244);
 			this.availableList.TabIndex = 0;
 			this.availableList.DoubleClick += new System.EventHandler(this.addCategory_Click);
 			// 
