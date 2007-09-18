@@ -112,14 +112,9 @@ namespace NUnit.ConsoleRunner.Tests
 		{
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-include:Database;Slow" );
 			Assert.IsTrue( options.Validate() );
-			Assert.IsNotNull(options.include);
-			Assert.AreEqual(options.include, "Database;Slow");
+			Assert.AreEqual( "Database;Slow", options.include);
 			Assert.IsTrue(options.HasInclude);
-			string[] categories = options.IncludedCategories;
-			Assert.IsNotNull(categories);
-			Assert.AreEqual(2, categories.Length);
-			Assert.AreEqual("Database", categories[0]);
-			Assert.AreEqual("Slow", categories[1]);
+			Assert.AreEqual(new string[] {"Database","Slow"}, options.IncludedCategories);
 		}
 
 		[Test]
@@ -127,21 +122,22 @@ namespace NUnit.ConsoleRunner.Tests
 		{
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-exclude:Database;Slow" );
 			Assert.IsTrue( options.Validate() );
-			Assert.IsNotNull(options.exclude);
-			Assert.AreEqual(options.exclude, "Database;Slow");
+			Assert.AreEqual("Database;Slow",options.exclude);
 			Assert.IsTrue(options.HasExclude);
-			string[] categories = options.ExcludedCategories;
-			Assert.IsNotNull(categories);
-			Assert.AreEqual(2, categories.Length);
-			Assert.AreEqual("Database", categories[0]);
-			Assert.AreEqual("Slow", categories[1]);
+			Assert.AreEqual(new string[] {"Database","Slow"}, options.ExcludedCategories);
 		}
 
 		[Test]
-		public void IncludeAndExcludeAreInvalidTogether()
+		public void IncludeAndExcludeCategories()
 		{
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-include:Database;Slow", "-exclude:Fast" );
-			Assert.IsFalse( options.Validate() );
+			Assert.IsTrue( options.Validate() );
+			Assert.AreEqual("Database;Slow", options.include);
+			Assert.AreEqual("Fast", options.exclude);
+			Assert.IsTrue(options.HasInclude);
+			Assert.IsTrue(options.HasExclude);
+			Assert.AreEqual(new string[] {"Database", "Slow"}, options.IncludedCategories);
+			Assert.AreEqual(new string[] { "Fast" }, options.ExcludedCategories );
 		}
 
 		[Test]
