@@ -33,6 +33,7 @@ namespace NUnit.Core.Tests
 		public void SetUpRunner()
 		{
 			runner = CreateRunner( 123 );
+			Assert.IsNotNull( runner, "Derived test class failed to set runner" );
 		}
 
         [TestFixtureTearDown]
