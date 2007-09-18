@@ -95,6 +95,11 @@
                     Project = "{61CE9CE5-943E-44D4-A381-814DC1406767}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "log4net"
+                    AssemblyName = "log4net"
+                    HintPath = "..\..\..\lib\log4net.dll"
+                />
             </References>
         </Build>
         <Files>
