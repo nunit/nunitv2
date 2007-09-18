@@ -68,8 +68,8 @@ namespace NUnit.Util
 
 				// Temporary fix needed to run TestDomain tests in test AppDomain
 				// TODO: Figure out how to set up the test domain correctly
-//				if ( userSettings == null )
-//					userSettings = new SettingsService();
+				if ( userSettings == null )
+					userSettings = new SettingsService();
 
 				return userSettings; 
 			}
