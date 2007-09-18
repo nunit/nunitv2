@@ -17,7 +17,7 @@ namespace NUnit.Util.Tests
 	public class ServiceManagerSetUpFixture
 	{
 		[SetUp]
-		public void AddServices()
+		public void CreateServicesForTestDomain()
 		{
 			ServiceManager.Services.AddService( new SettingsService() );
 			ServiceManager.Services.AddService( new DomainManager() );
