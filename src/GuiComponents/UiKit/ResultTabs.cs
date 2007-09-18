@@ -32,6 +32,7 @@ namespace NUnit.UiKit
 		private MenuItem consoleOutMenuItem;
 		private MenuItem consoleErrorMenuItem;
 		private MenuItem traceTabMenuItem;
+		private MenuItem loggingTabMenuItem;
 		private MenuItem menuSeparator;
 		private MenuItem internalTraceTabMenuItem;
 
@@ -39,6 +40,7 @@ namespace NUnit.UiKit
 		private NUnit.UiKit.ErrorDisplay errorDisplay;
 		private NUnit.UiKit.TextDisplayTabPage stdoutTab;
 		private NUnit.UiKit.TextDisplayTabPage traceTab;
+		private NUnit.UiKit.TextDisplayTabPage loggingTab;
 		private NUnit.UiKit.TextDisplayTabPage internalTraceTab;
 		private NUnit.UiKit.TextDisplayTabPage stderrTab;
 		private System.Windows.Forms.TabPage notRunTab;
@@ -61,6 +63,7 @@ namespace NUnit.UiKit
 			this.consoleOutMenuItem = new System.Windows.Forms.MenuItem();
 			this.consoleErrorMenuItem = new System.Windows.Forms.MenuItem();
 			this.traceTabMenuItem = new System.Windows.Forms.MenuItem();
+			this.loggingTabMenuItem = new System.Windows.Forms.MenuItem();
 			this.menuSeparator = new System.Windows.Forms.MenuItem();
 			this.internalTraceTabMenuItem = new System.Windows.Forms.MenuItem();
 
@@ -74,6 +77,7 @@ namespace NUnit.UiKit
 					this.consoleOutMenuItem,
 					this.consoleErrorMenuItem,
 					this.traceTabMenuItem,
+					this.loggingTabMenuItem,
 					this.menuSeparator,
 					this.internalTraceTabMenuItem
 				} );
@@ -100,10 +104,14 @@ namespace NUnit.UiKit
 			this.traceTabMenuItem.Text = "&Trace Output";
 			this.traceTabMenuItem.Click += new System.EventHandler(this.traceTabMenuItem_Click);
 
-			this.menuSeparator.Index = 5;
+			this.loggingTabMenuItem.Index = 5;
+			this.loggingTabMenuItem.Text = "&Log Output";
+			this.loggingTabMenuItem.Click += new System.EventHandler(this.loggingTabMenuItem_Click);
+
+			this.menuSeparator.Index = 6;
 			this.menuSeparator.Text = "-";
 			
-			this.internalTraceTabMenuItem.Index = 6;
+			this.internalTraceTabMenuItem.Index = 7;
 			this.internalTraceTabMenuItem.Text = "&Internal Trace";
 			this.internalTraceTabMenuItem.Click += new System.EventHandler(this.internalTraceTabMenuItem_Click);
 
@@ -136,6 +144,8 @@ namespace NUnit.UiKit
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.errorTab = new System.Windows.Forms.TabPage();
 			this.errorDisplay = new NUnit.UiKit.ErrorDisplay();
+			this.stdoutTab = new NUnit.UiKit.TextDisplayTabPage();
+			this.loggingTab = new NUnit.UiKit.TextDisplayTabPage();
 			this.notRunTab = new System.Windows.Forms.TabPage();
 			this.notRunTree = new NUnit.UiKit.NotRunTree();
 			this.stderrTab = new NUnit.UiKit.TextDisplayTabPage();
@@ -150,10 +160,12 @@ namespace NUnit.UiKit
 			// 
 			// tabControl
 			// 
+			this.tabControl.Alignment = System.Windows.Forms.TabAlignment.Bottom;
 			this.tabControl.Controls.Add(this.errorTab);
 			this.tabControl.Controls.Add(this.stderrTab);
 			this.tabControl.Controls.Add(this.traceTab);
 			this.tabControl.Controls.Add(this.notRunTab);
+			this.tabControl.Controls.Add(this.loggingTab);
 			this.tabControl.Controls.Add(this.stdoutTab);
 			this.tabControl.Controls.Add(this.internalTraceTab);
 			this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -184,11 +196,40 @@ namespace NUnit.UiKit
 			this.errorDisplay.Size = new System.Drawing.Size(480, 254);
 			this.errorDisplay.TabIndex = 0;
 			// 
+			// stdoutTab
+			// 
+			this.stdoutTab.Font = new System.Drawing.Font("Courier New", 8F);
+			this.stdoutTab.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.stdoutTab.Location = new System.Drawing.Point(4, 4);
+			this.stdoutTab.Name = "stdoutTab";
+			this.stdoutTab.Size = new System.Drawing.Size(480, 254);
+			this.stdoutTab.TabIndex = 3;
+			this.stdoutTab.Text = "Console.Out";
+			this.stdoutTab.Visible = false;
+			// 
+			// loggingTab
+			// 
+			this.loggingTab.Location = new System.Drawing.Point(4, 4);
+			this.loggingTab.Name = "loggingTab";
+			this.loggingTab.Size = new System.Drawing.Size(480, 254);
+			this.loggingTab.TabIndex = 6;
+			this.loggingTab.Text = "Log Output";
+			// 
+			// traceTab
+			// 
+			this.traceTab.Font = new System.Drawing.Font("Courier New", 8F);
+			this.traceTab.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.traceTab.Location = new System.Drawing.Point(4, 4);
+			this.traceTab.Name = "traceTab";
+			this.traceTab.Size = new System.Drawing.Size(480, 254);
+			this.traceTab.TabIndex = 4;
+			this.traceTab.Text = "Trace Output";
+			this.traceTab.Visible = false;
+			// 
 			// notRunTab
 			// 
 			this.notRunTab.Controls.Add(this.notRunTree);
 			this.notRunTab.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.notRunTab.Location = new System.Drawing.Point(4, 22);
 			this.notRunTab.Name = "notRunTab";
 			this.notRunTab.Size = new System.Drawing.Size(480, 254);
 			this.notRunTab.TabIndex = 1;
@@ -310,6 +351,7 @@ namespace NUnit.UiKit
 			consoleOutMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayConsoleOutputTab", true );
 			consoleErrorMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayConsoleErrorTab", true );
 			traceTabMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayTraceTab", true );
+			loggingTabMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayTraceTab", true );
 			internalTraceTabMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayInternalTraceTab", true );
 
 			UpdateTabPages();
@@ -347,6 +389,8 @@ namespace NUnit.UiKit
 				tabControl.TabPages.Add( stderrTab );
 			if ( traceTabMenuItem.Checked )
 				tabControl.TabPages.Add( traceTab );
+			if ( loggingTabMenuItem.Checked )
+				tabControl.TabPages.Add( loggingTab );
 			if ( internalTraceTabMenuItem.Checked )
 				tabControl.TabPages.Add( internalTraceTab );
 
@@ -386,6 +430,11 @@ namespace NUnit.UiKit
 		private void traceTabMenuItem_Click(object sender, System.EventArgs e)
 		{
 			settings.SaveSetting( "Gui.ResultTabs.DisplayTraceTab", traceTabMenuItem.Checked = !traceTabMenuItem.Checked );
+		}
+
+		private void loggingTabMenuItem_Click(object sender, System.EventArgs e)
+		{
+			settings.SaveSetting( "Gui.ResultTabs.DisplayLoggingTab", loggingTabMenuItem.Checked = !loggingTabMenuItem.Checked );
 		}
 
 		private void internalTraceTabMenuItem_Click(object sender, System.EventArgs e)
@@ -450,22 +499,46 @@ namespace NUnit.UiKit
 			switch(output.Type)
 			{
 				case TestOutputType.Out:
-					this.stdoutTab.Writer.Write( output.Text );
+					this.stdoutTab.Writer.Write( output );
 					break;
 				case TestOutputType.Error:
 					if ( settings.GetSetting( "Gui.ResultTabs.MergeErrorOutput", false ) )
-						this.stdoutTab.Writer.Write( output.Text );
+						this.stdoutTab.Writer.Write( output );
 					else
-						this.stderrTab.Writer.Write( output.Text );
+						this.stderrTab.Writer.Write( output );
 					break;
 				case TestOutputType.Trace:
 					if ( settings.GetSetting( "Gui.ResultTabs.MergeTraceOutput", false ) )
-						this.stdoutTab.Writer.Write( output.Text );
+						this.stdoutTab.Writer.Write( output );
 					else
-						this.traceTab.Writer.Write( output.Text );
+						this.traceTab.Writer.Write( output );
+					break;
+				case TestOutputType.Log:
+					this.loggingTab.Writer.Write( output );
 					break;
 			}
 		}
 		#endregion
+
+		private void tabControl_DrawItem(object sender, System.Windows.Forms.DrawItemEventArgs e)
+		{
+			bool selected = e.Index == tabControl.SelectedIndex;
+
+			Font font = selected ? new Font( e.Font, FontStyle.Bold ) : e.Font;
+			Brush backBrush = new SolidBrush( selected ? SystemColors.Control : SystemColors.Window );
+			Brush foreBrush = new SolidBrush( SystemColors.ControlText );
+
+			e.Graphics.FillRectangle( backBrush, e.Bounds );
+			Rectangle r = e.Bounds;
+			r.Y += 3; r.Height -= 3;
+			StringFormat sf = new StringFormat();
+			sf.Alignment = StringAlignment.Center;
+			e.Graphics.DrawString( tabControl.TabPages[e.Index].Text, font, foreBrush, r, sf );
+
+			foreBrush.Dispose();
+			backBrush.Dispose();
+			if ( selected )
+				font.Dispose();
+		}
 	}
 }

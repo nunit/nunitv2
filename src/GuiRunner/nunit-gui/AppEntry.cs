@@ -16,6 +16,8 @@ using NUnit.Util;
 using NUnit.Core;
 using NUnit.Core.Extensibility;
 
+[assembly: log4net.Config.XmlConfigurator(Watch=true)]
+
 namespace NUnit.Gui
 {
 	/// <summary>
@@ -33,6 +35,15 @@ namespace NUnit.Gui
 				new NUnitForm.CommandLineOptions();
 
 			GuiOptions parser = new GuiOptions(args);
+
+			GuiAttachedConsole attachedConsole = null;
+			if ( parser.console )
+				attachedConsole = new GuiAttachedConsole();
+
+			log4net.ILog log = log4net.LogManager.GetLogger(
+				System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+			log.Info( "Starting NUnit GUI" );
+
 			if(parser.Validate() && !parser.help) 
 			{
 				if ( parser.cleanup )
@@ -65,10 +76,6 @@ namespace NUnit.Gui
 					}
 				}
 
-				GuiAttachedConsole attachedConsole = null;
-				if ( parser.console )
-					attachedConsole = new GuiAttachedConsole();
-
 				// Add Standard Services to ServiceManager
 				ServiceManager.Services.AddService( new SettingsService() );
 				ServiceManager.Services.AddService( new DomainManager() );
@@ -96,8 +103,6 @@ namespace NUnit.Gui
 				finally
 				{
 					ServiceManager.Services.StopAllServices();
-					if ( attachedConsole != null )
-						attachedConsole.Close();
 				}
 			}
 			else
@@ -107,6 +112,15 @@ namespace NUnit.Gui
 				return 2;
 			}	
 				
+			log.Info( "Exiting NUnit GUI" );
+
+			if ( attachedConsole != null )
+			{
+				Console.WriteLine( "Press Enter to exit" );
+				Console.ReadLine();
+				attachedConsole.Close();
+			}
+
 			return 0;
 		}
 	}

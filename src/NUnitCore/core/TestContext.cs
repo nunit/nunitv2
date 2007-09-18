@@ -70,6 +70,12 @@ namespace NUnit.Core
 			set { current.TraceWriter = value; }
 		}
 
+		public static TextWriter LogWriter
+		{
+			get { return current.LogWriter; }
+			set { current.LogWriter = value; }
+		}
+
 		/// <summary>
 		/// The current directory setting
 		/// </summary>
@@ -147,6 +153,11 @@ namespace NUnit.Core
 			private TextWriter traceWriter;
 
 			/// <summary>
+			/// Log4net Appender for Log output
+			/// </summary>
+			private log4net.Appender.TextWriterAppender log4netAppender;
+
+			/// <summary>
 			/// The current working directory
 			/// </summary>
 			private string currentDirectory;
@@ -168,6 +179,7 @@ namespace NUnit.Core
 				this.outWriter = Console.Out;
 				this.errorWriter = Console.Error;
 				this.traceWriter = null;
+				this.log4netAppender = null;
 
 				this.currentDirectory = Environment.CurrentDirectory;
 				this.currentCulture = CultureInfo.CurrentCulture;
@@ -180,6 +192,7 @@ namespace NUnit.Core
 				this.outWriter = other.outWriter;
 				this.errorWriter = other.errorWriter;
 				this.traceWriter = other.traceWriter;
+				this.log4netAppender = other.log4netAppender;
 
 				this.currentDirectory = Environment.CurrentDirectory;
 				this.currentCulture = CultureInfo.CurrentCulture;
@@ -192,7 +205,7 @@ namespace NUnit.Core
 			public void ReverseChanges()
 			{ 
 				if ( prior == null )
-				throw new InvalidOperationException( "TestContext: too many Restores" );
+					throw new InvalidOperationException( "TestContext: too many Restores" );
 
 				this.Tracing = prior.Tracing;
 				this.Out = prior.Out;
@@ -272,6 +285,24 @@ namespace NUnit.Core
 						if ( traceWriter != null && tracing )
 							StartTracing();
 					}
+				}
+			}
+
+			public TextWriter LogWriter
+			{
+				get { return log4netAppender == null ? null : log4netAppender.Writer; }
+				set 
+				{ 
+					if ( log4netAppender == null )
+					{
+						log4netAppender = new log4net.Appender.TextWriterAppender();
+						log4netAppender.Layout = new log4net.Layout.PatternLayout(
+							"%-6timestamp %-5level [%4thread] %logger{1}: %message%newline");
+						log4netAppender.Threshold = log4net.Core.Level.All;
+						log4net.Config.BasicConfigurator.Configure(log4netAppender);
+					}
+
+					log4netAppender.Writer = value; 
 				}
 			}
 

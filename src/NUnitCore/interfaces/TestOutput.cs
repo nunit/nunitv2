@@ -78,6 +78,11 @@ namespace NUnit.Core
 		/// <summary>
 		/// Send output to Trace
 		/// </summary>
-		Trace
+		Trace,
+
+		/// <summary>
+		/// Send output to Log
+		/// </summary>
+		Log
 	}
 }
