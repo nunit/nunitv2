@@ -412,6 +412,27 @@ namespace NUnit.Framework.Tests
 			Assert.That( 487ul, Is.EqualTo(500).Within(25),
 				"ulong actual, int expected, int tolerance" );
 		}
+
+        [Test]
+        public void EqualityTestsUsingDefaultFloatingPointTolerance()
+        {
+            GlobalSettings.DefaultFloatingPointTolerance = 0.05d;
+
+            try
+            {
+                Assert.AreEqual(5.0d, 4.99d);
+                Assert.AreEqual(5.0f, 4.99f);
+
+                // Helper syntax
+                Assert.That(4.99d, Is.EqualTo(5.0d));
+                Assert.That(4.0d, Is.Not.EqualTo(5.0d));
+                Assert.That(4.99f, Is.EqualTo(5.0f));
+            }
+            finally
+            {
+                GlobalSettings.DefaultFloatingPointTolerance = 0.0d;
+            }
+        }
 		#endregion
 
 		#region Comparison Tests

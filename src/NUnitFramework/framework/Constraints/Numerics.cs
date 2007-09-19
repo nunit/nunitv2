@@ -73,8 +73,13 @@ namespace NUnit.Framework.Constraints
 		#region Numeric Equality
 		public static bool AreEqual( object expected, object actual, object tolerance )
 		{
-			if ( IsFloatingPointNumeric(expected) || IsFloatingPointNumeric(actual) )
-				return AreEqual( Convert.ToDouble(expected), Convert.ToDouble(actual), Convert.ToDouble(tolerance) );
+            if (IsFloatingPointNumeric(expected) || IsFloatingPointNumeric(actual))
+            {
+                if ( tolerance == null && GlobalSettings.DefaultFloatingPointTolerance > 0.0d )
+                    return AreEqual(Convert.ToDouble(expected), Convert.ToDouble(actual), GlobalSettings.DefaultFloatingPointTolerance);
+                else
+                    return AreEqual(Convert.ToDouble(expected), Convert.ToDouble(actual), Convert.ToDouble(tolerance));
+            }
 
 			if ( expected is decimal || actual is decimal )
 				return AreEqual( Convert.ToDecimal(expected), Convert.ToDecimal(actual), Convert.ToDecimal(tolerance) );
