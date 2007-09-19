@@ -388,25 +388,25 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void DoubleNotEqualMessageDisplaysTolerance()
 		{
-			string message = "";
+            string message = "";
 
-			try
-			{
-				double d1 = 0.15;
-				double d2 = 0.12;
-				double tol = 0.005;
-				Assert.AreEqual( d1, d2, tol );
-			}
-			catch( AssertionException ex )
-			{
-				message = ex.Message;
-			}
+            try
+            {
+                double d1 = 0.15;
+                double d2 = 0.12;
+                double tol = 0.005;
+                Assert.AreEqual(d1, d2, tol);
+            }
+            catch (AssertionException ex)
+            {
+                message = ex.Message;
+            }
 
-			if ( message == "" )
-				Assert.Fail( "Should have thrown an AssertionException" );
+            if (message == "")
+                Assert.Fail("Should have thrown an AssertionException");
 
-			StringAssert.Contains( "+/- 0.005", message );
-		}
+            StringAssert.Contains("+/- 0.005", message);
+        }
 
 		[Test]
 		public void FloatNotEqualMessageDisplaysTolerance()
@@ -430,6 +430,60 @@ namespace NUnit.Framework.Tests
 
 			StringAssert.Contains( "+/- 0.001", message );
 		}
-	}
+
+        [Test]
+        public void DoubleNotEqualMessageDisplaysDefaultTolerance()
+        {
+            string message = "";
+            GlobalSettings.DefaultFloatingPointTolerance = 0.005d;
+
+            try
+            {
+                double d1 = 0.15;
+                double d2 = 0.12;
+                Assert.AreEqual(d1, d2);
+            }
+            catch (AssertionException ex)
+            {
+                message = ex.Message;
+            }
+            finally
+            {
+                GlobalSettings.DefaultFloatingPointTolerance = 0.0d;
+            }
+
+            if (message == "")
+                Assert.Fail("Should have thrown an AssertionException");
+
+            StringAssert.Contains("+/- 0.005", message);
+        }
+
+        [Test]
+        public void DoubleNotEqualWithNanDoesNotDisplayDefaultTolerance()
+        {
+            string message = "";
+            GlobalSettings.DefaultFloatingPointTolerance = 0.005d;
+
+            try
+            {
+                double d1 = double.NaN;
+                double d2 = 0.12;
+                Assert.AreEqual(d1, d2);
+            }
+            catch (AssertionException ex)
+            {
+                message = ex.Message;
+            }
+            finally
+            {
+                GlobalSettings.DefaultFloatingPointTolerance = 0.0d;
+            }
+
+            if (message == "")
+                Assert.Fail("Should have thrown an AssertionException");
+
+            Assert.That(message.IndexOf("+/-") == -1);
+        }
+    }
 }
 

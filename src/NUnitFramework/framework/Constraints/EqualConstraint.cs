@@ -137,10 +137,10 @@ namespace NUnit.Framework.Constraints
 			if ( compareWith != null )
 				return compareWith.Compare( expected, actual ) == 0;
 
-			if ( Numerics.IsNumericType(expected) && Numerics.IsNumericType(actual) )
-			{
-				return Numerics.AreEqual( expected, actual, tolerance );
-			}
+            if (Numerics.IsNumericType(expected) && Numerics.IsNumericType(actual))
+            {
+                return Numerics.AreEqual(expected, actual, ref tolerance);
+            }
 
             if (expected is string && actual is string)
             {

@@ -71,15 +71,10 @@ namespace NUnit.Framework.Constraints
 		#endregion
 
 		#region Numeric Equality
-		public static bool AreEqual( object expected, object actual, object tolerance )
+		public static bool AreEqual( object expected, object actual, ref object tolerance )
 		{
             if (IsFloatingPointNumeric(expected) || IsFloatingPointNumeric(actual))
-            {
-                if ( tolerance == null && GlobalSettings.DefaultFloatingPointTolerance > 0.0d )
-                    return AreEqual(Convert.ToDouble(expected), Convert.ToDouble(actual), GlobalSettings.DefaultFloatingPointTolerance);
-                else
-                    return AreEqual(Convert.ToDouble(expected), Convert.ToDouble(actual), Convert.ToDouble(tolerance));
-            }
+                return AreEqual(Convert.ToDouble(expected), Convert.ToDouble(actual), ref tolerance);
 
 			if ( expected is decimal || actual is decimal )
 				return AreEqual( Convert.ToDecimal(expected), Convert.ToDecimal(actual), Convert.ToDecimal(tolerance) );
@@ -96,19 +91,26 @@ namespace NUnit.Framework.Constraints
 			return AreEqual( Convert.ToInt32(expected), Convert.ToInt32(actual), Convert.ToInt32(tolerance) );
 		}
 
-		private static bool AreEqual( double expected, double actual, double tolerance )
+		private static bool AreEqual( double expected, double actual, ref object tolerance )
 		{
-			if (double.IsNaN(expected) && double.IsNaN(actual))
-				return true;
-			// handle infinity specially since subtracting two infinite values gives 
-			// NaN and the following test fails. mono also needs NaN to be handled
-			// specially although ms.net could use either method.
-			if (double.IsInfinity(expected) || double.IsNaN(expected) || double.IsNaN(actual))
-				return expected.Equals(actual);
+            if (double.IsNaN(expected) && double.IsNaN(actual))
+                return true;
+            // handle infinity specially since subtracting two infinite values gives 
+            // NaN and the following test fails. mono also needs NaN to be handled
+            // specially although ms.net could use either method.
+            if (double.IsInfinity(expected) || double.IsNaN(expected) || double.IsNaN(actual))
+                return expected.Equals(actual);
 
-			if ( tolerance > 0.0d )
-				return Math.Abs(expected - actual) <= tolerance;
-				
+            if (tolerance != null)
+                return Math.Abs(expected - actual) <= Convert.ToDouble(tolerance);
+
+            if (GlobalSettings.DefaultFloatingPointTolerance > 0.0d
+                && !double.IsNaN(expected) && !double.IsInfinity(expected))
+            {
+                tolerance = GlobalSettings.DefaultFloatingPointTolerance;
+                return Math.Abs(expected - actual) <= GlobalSettings.DefaultFloatingPointTolerance;
+            }
+
 			return expected.Equals( actual );
 		}
 
