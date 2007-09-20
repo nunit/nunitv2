@@ -182,6 +182,13 @@
     <!-- Copy key file to base directory, so build can access it -->
     <copy file="nunit.snk" todir="${project.build.dir}"/>
 
+    <!-- Copy external libraries -->
+    <copy todir="${current.build.dir}">
+      <fileset basedir="${project.base.dir}/lib">
+        <include name="log4net.dll"/>
+      </fileset>
+    </copy>
+
     <!-- Build NUnit components and tests -->
     <nant target="build">
       <buildfiles refid="project.buildfiles" />

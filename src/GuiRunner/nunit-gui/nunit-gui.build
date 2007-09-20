@@ -40,6 +40,7 @@
         <include name="nunit.uikit.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.framework.dll"/>
+        <include name="log4net.dll"/>
       </references>
     </csc>
   </target>
