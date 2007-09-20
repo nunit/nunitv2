@@ -101,7 +101,7 @@ namespace NUnit.Framework.Constraints
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.WritePredicate("String starting with");
-            writer.WriteExpectedValue( MsgUtils.ClipString(expected, writer.MaxLineLength - 40, 0) );
+            writer.WriteExpectedValue( MsgUtils.ClipString2(expected, writer.MaxLineLength - 40, 0) );
 			if ( this.caseInsensitive )
 				writer.WriteModifier( "ignoring case" );
 		}

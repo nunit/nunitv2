@@ -22,7 +22,7 @@ namespace NUnit.Framework
     public class TextMessageWriter : MessageWriter
     {
         #region Message Formats and Constants
-        private static readonly int MAX_LINE_LENGTH = 78;
+        private static readonly int DEFAULT_LINE_LENGTH = 78;
 
 		// Prefixes used in all failure messages. All must be the same
 		// length, which is held in the PrefixLength field. Should not
@@ -56,6 +56,9 @@ namespace NUnit.Framework
         private static readonly string Fmt_Default = "<{0}>";
         #endregion
 
+		private int maxLineLength = DEFAULT_LINE_LENGTH;
+		private bool truncateStrings;
+
         #region Constructors
 		/// <summary>
 		/// Construct a TextMessageWriter
@@ -81,7 +84,8 @@ namespace NUnit.Framework
         /// </summary>
         public override int MaxLineLength
         {
-            get { return MAX_LINE_LENGTH; }
+            get { return maxLineLength; }
+            set { maxLineLength = value; }
         }
         #endregion
 
@@ -155,18 +159,21 @@ namespace NUnit.Framework
         /// <param name="actual">The actual string value</param>
         /// <param name="mismatch">The point at which the strings don't match or -1</param>
         /// <param name="ignoreCase">If true, case is ignored in string comparisons</param>
-        public override void DisplayStringDifferences(string expected, string actual, int mismatch, bool ignoreCase)
+        public override void DisplayStringDifferences(string expected, string actual, int mismatch, bool ignoreCase, bool clipping)
         {
             // Maximum string we can display without truncating
-            int maxStringLength = MAX_LINE_LENGTH
+            int maxDisplayLength = MaxLineLength
                 - PrefixLength   // Allow for prefix
-                - 2;                    // 2 quotation marks
+                - 2;             // 2 quotation marks
 
-			expected = MsgUtils.ConvertWhitespace(MsgUtils.ClipString( expected, maxStringLength, mismatch ));
-			actual = MsgUtils.ConvertWhitespace(MsgUtils.ClipString( actual, maxStringLength, mismatch ));
+            if ( clipping )
+                MsgUtils.ClipExpectedAndActual(ref expected, ref actual, maxDisplayLength, mismatch);
 
-			// The mismatch position may have changed due to clipping or white space conversion
-			mismatch = MsgUtils.FindMismatchPosition( expected, actual, 0, ignoreCase );
+            expected = MsgUtils.ConvertWhitespace(expected);
+            actual = MsgUtils.ConvertWhitespace(actual);
+
+            // The mismatch position may have changed due to clipping or white space conversion
+            mismatch = MsgUtils.FindMismatchPosition(expected, actual, 0, ignoreCase);
 
 			Write( Pfx_Expected );
 			WriteExpectedValue( expected );
@@ -412,9 +419,7 @@ namespace NUnit.Framework
 		/// <param name="expected">The expected value</param>
 		private void WriteExpectedLine(object expected)
 		{
-			Write(Pfx_Expected);
-			WriteExpectedValue(expected);
-			WriteLine();
+            WriteExpectedLine(expected, null);
 		}
 
 		/// <summary>
@@ -427,8 +432,13 @@ namespace NUnit.Framework
 		{
 			Write(Pfx_Expected);
 			WriteExpectedValue(expected);
-			WriteConnector( "+/-" );
-			WriteExpectedValue(tolerance);
+
+            if (tolerance != null)
+            {
+                WriteConnector("+/-");
+                WriteExpectedValue(tolerance);
+            }
+
 			WriteLine();
 		}
 

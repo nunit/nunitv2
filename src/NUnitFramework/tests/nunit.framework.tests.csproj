@@ -195,11 +195,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "MessageWriterTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "MsgUtilTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -239,6 +234,11 @@
                 <File
                     RelPath = "TestText2.txt"
                     BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "TextMessageWriterTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "TypeAssertTest.cs"

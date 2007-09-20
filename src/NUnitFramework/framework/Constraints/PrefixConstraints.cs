@@ -37,6 +37,8 @@ namespace NUnit.Framework.Constraints
 		{
 			if ( this.caseInsensitive )
 				baseConstraint = baseConstraint.IgnoreCase;
+            if (!this.clipStrings)
+                baseConstraint = baseConstraint.NoClip;
 			if ( this.tolerance != null )
 				baseConstraint = baseConstraint.Within( tolerance );
 			if ( this.compareAsCollection )

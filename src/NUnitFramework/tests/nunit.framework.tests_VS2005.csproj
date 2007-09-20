@@ -101,7 +101,7 @@
     <Compile Include="LessFixture.cs" />
     <Compile Include="ListContentsTests.cs" />
     <Compile Include="MessageChecker.cs" />
-    <Compile Include="MessageWriterTests.cs" />
+    <Compile Include="TextMessageWriterTests.cs" />
     <Compile Include="MsgUtilTests.cs" />
     <Compile Include="NotEqualFixture.cs">
       <SubType>Code</SubType>

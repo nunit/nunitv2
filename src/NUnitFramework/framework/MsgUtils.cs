@@ -15,7 +15,7 @@ namespace NUnit.Framework
     /// </summary>
     public class MsgUtils
     {
-        private static readonly string ELLIPSIS = "...";
+        public static readonly string ELLIPSIS = "...";
 
         /// <summary>
         /// Returns the representation of a type as used in NUnitLite.
@@ -129,7 +129,7 @@ namespace NUnit.Framework
             if (mismatch >= clipLength)
             {
                 int clipStart = mismatch - clipLength / 2;
-                mismatch = mismatch - clipStart + ELLIPSIS.Length;
+                //mismatch = mismatch - clipStart + ELLIPSIS.Length;
 
                 // Clip the expected value at start and at end if needed
                 if (s.Length - clipStart > maxStringLength)
@@ -141,6 +141,51 @@ namespace NUnit.Framework
             else if( s.Length > maxStringLength )
                 return s.Substring(0, clipLength) + ELLIPSIS;
 			else return s;
+        }
+
+        public static string ClipString2(string s, int maxStringLength, int clipStart)
+        {
+            int clipLength = maxStringLength;
+            StringBuilder sb = new StringBuilder();
+
+            if (clipStart > 0)
+            {
+                clipLength -= ELLIPSIS.Length;
+                sb.Append( ELLIPSIS );
+            }
+
+            if (s.Length - clipStart > clipLength)
+            {
+                clipLength -= ELLIPSIS.Length;
+                sb.Append( s.Substring( clipStart, clipLength ));
+                sb.Append(ELLIPSIS);
+            }
+            else if (clipStart > 0)
+                sb.Append( s.Substring(clipStart));
+            else
+                sb.Append( s );
+ 
+            return sb.ToString();
+        }
+
+        public static void ClipExpectedAndActual(ref string expected, ref string actual, int maxDisplayLength, int mismatch)
+        {
+            // Case 1: Both strings fit on line
+            int maxStringLength = Math.Max(expected.Length, actual.Length);
+            if (maxStringLength <= maxDisplayLength)
+                return;
+
+            // Case 2: Assume that the tail of each string fits on line
+            int clipLength = maxDisplayLength - ELLIPSIS.Length;
+            int tailLength = clipLength - mismatch;
+            int clipStart = maxStringLength - clipLength;
+
+            // Case 3: If it doesn't, center the mismatch position
+            if ( clipStart > mismatch )
+                clipStart = Math.Max( 0, mismatch - clipLength / 2 );
+
+            expected = ClipString2(expected, maxDisplayLength, clipStart);
+            actual = ClipString2(actual, maxDisplayLength, clipStart);
         }
 
         /// <summary>

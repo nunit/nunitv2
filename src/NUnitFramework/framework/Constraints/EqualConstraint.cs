@@ -234,7 +234,7 @@ namespace NUnit.Framework.Constraints
 			else
 				writer.WriteMessageLine(StringsDiffer_2, expected.Length, actual.Length, mismatch);
 
-            writer.DisplayStringDifferences(expected, actual, mismatch, caseInsensitive);
+            writer.DisplayStringDifferences(expected, actual, mismatch, caseInsensitive, clipStrings);
         }
         #endregion
 

@@ -43,7 +43,12 @@ namespace NUnit.Framework.Constraints
 		/// If true, all string comparisons will ignore case
 		/// </summary>
 		protected bool caseInsensitive;
-		
+
+        /// <summary>
+        /// If true, strings in error messages will be clipped
+        /// </summary>
+        protected bool clipStrings = true;
+
 		/// <summary>
 		/// If true, arrays will be treated as collections, allowing
 		/// those of different dimensions to be compared
@@ -79,6 +84,15 @@ namespace NUnit.Framework.Constraints
 				return this;
 			}
 		}
+
+        public Constraint NoClip
+        {
+            get
+            {
+                clipStrings = false;
+                return this;
+            }
+        }
 
 		/// <summary>
 		/// Flag the constraint to compare arrays as collections
