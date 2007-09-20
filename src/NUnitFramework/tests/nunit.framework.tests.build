@@ -39,12 +39,12 @@
         <include name="LessFixture.cs"/>
         <include name="ListContentsTests.cs"/>
         <include name="MessageChecker.cs"/>
-        <include name="MessageWriterTests.cs"/>
         <include name="MsgUtilTests.cs"/>
         <include name="NotEqualFixture.cs"/>
         <include name="NotSameFixture.cs"/>
         <include name="SameFixture.cs"/>
         <include name="StringAssertTests.cs"/>
+        <include name="TextMessageWriterTests.cs"/>
         <include name="TypeAssertTest.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
