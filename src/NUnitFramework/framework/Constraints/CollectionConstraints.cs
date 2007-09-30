@@ -45,7 +45,7 @@ namespace NUnit.Framework.Constraints
 			/// <summary>
 			/// Construct a CollectionTally object from a collection
 			/// </summary>
-			/// <param name="collection"></param>
+			/// <param name="c"></param>
 			public CollectionTally( IEnumerable c )
 			{
 				foreach( object obj in c )
@@ -115,11 +115,35 @@ namespace NUnit.Framework.Constraints
 		/// <summary>
 		/// Protected method to be implemented by derived classes
 		/// </summary>
-		/// <param name="collecton"></param>
+		/// <param name="collection"></param>
 		/// <returns></returns>
-		protected abstract bool doMatch(ICollection collecton);
+		protected abstract bool doMatch(ICollection collection);
     }
     #endregion
+
+	#region EmptyCollectionConstraint
+	public class EmptyCollectionConstraint : CollectionConstraint
+	{
+		/// <summary>
+		/// Check that the collection is empty
+		/// </summary>
+		/// <param name="collection"></param>
+		/// <returns></returns>
+		protected override bool doMatch(ICollection collection)
+		{
+			return collection.Count == 0;
+		}
+	
+		/// <summary>
+		/// Write the constraint description to a MessageWriter
+		/// </summary>
+		/// <param name="writer"></param>
+		public override void WriteDescriptionTo(MessageWriter writer)
+		{
+			writer.Write( "<empty>" );
+		}
+	}
+	#endregion
 
 	#region UniqueItemsConstraint
     /// <summary>
@@ -129,8 +153,7 @@ namespace NUnit.Framework.Constraints
     public class UniqueItemsConstraint : CollectionConstraint
     {
         /// <summary>
-        /// Apply the item constraint to each item in the collection,
-        /// failing if any item fails.
+        /// Check that all items are unique.
         /// </summary>
         /// <param name="actual"></param>
         /// <returns></returns>

@@ -286,7 +286,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void IsEmpty( string aString, string message, params object[] args )
 		{
-            Assert.That(aString, Is.Empty, message, args);
+            Assert.That(aString, new EmptyStringConstraint(), message, args);
 		}
 
 		/// <summary>
@@ -316,7 +316,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void IsEmpty( ICollection collection, string message, params object[] args )
 		{
-            Assert.That(collection, Is.Empty, message, args);
+            Assert.That(collection, new EmptyCollectionConstraint(), message, args);
 		}
 
 		/// <summary>

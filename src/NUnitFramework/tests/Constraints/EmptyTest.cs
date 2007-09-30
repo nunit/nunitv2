@@ -19,5 +19,11 @@ namespace NUnit.Framework.Constraints.Tests
             BadValues = new object[] { "Hello", new object[] { 1, 2, 3 } };
             Description = "<empty>";
         }
+
+		[Test,ExpectedException(typeof(ArgumentException))]
+		public void NullGivesArgumentException()
+		{
+			Matcher.Matches(null);
+		}
     }
 }

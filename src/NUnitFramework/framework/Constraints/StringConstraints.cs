@@ -10,6 +10,27 @@ using System.Text.RegularExpressions;
 namespace NUnit.Framework.Constraints
 {
 	/// <summary>
+	/// EmptyStringConstraint tests whether a string is empty.
+	/// </summary>
+	public class EmptyStringConstraint : EmptyConstraint
+	{
+		public override bool Matches(object actual)
+		{
+			this.actual = actual;
+
+			if ( !(actual is string) )
+				return false;
+
+			return (string)actual == string.Empty;
+		}
+
+		public override void WriteDescriptionTo(MessageWriter writer)
+		{
+			writer.Write( "<empty>" );
+		}
+	}
+
+	/// <summary>
 	/// SubstringConstraint can test whether a string contains
 	/// the expected substring.
 	/// </summary>

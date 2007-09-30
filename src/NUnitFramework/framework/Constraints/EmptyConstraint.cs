@@ -16,7 +16,18 @@ namespace NUnit.Framework.Constraints
 	/// </summary>
 	public class EmptyConstraint : Constraint
 	{
-        /// <summary>
+		private Constraint RealConstraint
+		{
+			get 
+			{
+				if ( actual is string )
+					return new EmptyStringConstraint();
+				else
+					return new EmptyCollectionConstraint();
+			}
+		}
+		
+		/// <summary>
         /// Test whether the constraint is satisfied by a given value
         /// </summary>
         /// <param name="actual">The value to be tested</param>
@@ -25,8 +36,7 @@ namespace NUnit.Framework.Constraints
 		{
 			this.actual = actual;
 
-			return actual is string && (string)actual == string.Empty
-				|| actual is ICollection && ((ICollection)actual).Count == 0;
+			return this.RealConstraint.Matches( actual );
 		}
 
         /// <summary>
@@ -35,7 +45,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer">The writer on which the description is displayed</param>
 		public override void WriteDescriptionTo(MessageWriter writer)
 		{
-			writer.Write( "<empty>" );
+			this.RealConstraint.WriteDescriptionTo( writer );
 		}
 	}
 }
