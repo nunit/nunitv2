@@ -18,17 +18,22 @@ namespace NUnit.Util.Tests
 	[TestFixture,Platform(Exclude="Mono",Reason="Process Start not working correctly")]
 	public class ProcessRunnerTests : BasicRunnerTests
 	{
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		private ProcessRunner myRunner;
 
 		protected override TestRunner CreateRunner( int runnerID )
 		{
 			myRunner = new ProcessRunner( runnerID );
+			log.Debug( "Creating ProcessRunner" );
 			return myRunner;
 		}
 
 		[TestFixtureTearDown]
 		public void DestroyRunner()
 		{
+			log.Debug( "Destroying ProcessRunner" );
 			if ( myRunner != null )
 				myRunner.Dispose();
 		}

@@ -23,8 +23,12 @@
         <include name="RecentFileMenuHandler.cs"/>
         <include name="RenameConfigurationDialog.cs"/>
         <include name="ResultTabs.cs"/>
+        <include name="SettingsDialogBase.cs"/>
+        <include name="SimpleSettingsDialog.cs"/>
         <include name="SimpleTextDisplay.cs"/>
+        <include name="SettingsPage.cs"/>
         <include name="StatusBar.cs"/>
+        <include name="TabbedSettingsDialog.cs"/>
         <include name="TestLoaderUI.cs"/>
         <include name="TestPropertiesDialog.cs"/>
         <include name="TestSuiteTreeNode.cs"/>
@@ -32,10 +36,13 @@
         <include name="TestTree.cs"/>
         <include name="TextBoxDisplay.cs"/>
         <include name="TextDisplayTabPage.cs"/>
+        <include name="TextDisplayTabSettings.cs"/>       
         <include name="TextDisplayWriter.cs"/>
         <include name="TextDisplay.cs"/>
         <include name="TextDisplayWriter.cs"/>
+        <include name="TextOutputSettingsPage.cs"/>
         <include name="TipWindow.cs"/>
+        <include name="TreeBasedSettingsDialog.cs"/>
         <include name="UserMessage.cs"/>
         <include name="VisualState.cs"/>
         <include name="WaitCursor.cs"/>
@@ -59,6 +66,7 @@
         <include name="TestPropertiesDialog.resx"/>
         <include name="TestSuiteTreeView.resx"/>
         <include name="TestTree.resx"/>
+        <include name="TextOutputSettingsPage.resx"/>
         <include name="TipWindow.resx"/>
         <include name="UserMessage.resx"/>
         <include name="Ellipsis.gif"/>
@@ -72,6 +80,7 @@
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.util.dll"/>
+        <include name="log4net.dll"/>
       </references>
     </csc>
 

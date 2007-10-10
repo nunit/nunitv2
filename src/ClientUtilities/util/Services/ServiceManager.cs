@@ -31,34 +31,37 @@ namespace NUnit.Util
 		public void AddService( IService service )
 		{
 			services.Add( service );
-			log.DebugFormat( "Added {0} Service", service.GetType().Name );
+			log.Debug( "Added " + service.GetType().Name );
 		}
 
 		public IService GetService( Type serviceType )
 		{
 			IService theService = (IService)serviceIndex[serviceType];
-			if ( theService != null )
-				return theService;
-
-			foreach( IService service in services )
-			{
-				// TODO: Does this work on Mono?
-				if( serviceType.IsInstanceOfType( service ) )
+			if ( theService == null )
+				foreach( IService service in services )
 				{
-					serviceIndex[serviceType] = service;
-					return service;
+					// TODO: Does this work on Mono?
+					if( serviceType.IsInstanceOfType( service ) )
+					{
+						serviceIndex[serviceType] = service;
+						theService = service;
+						break;
+					}
 				}
-			}
 
-			return null;
+			if ( theService == null )
+				log.ErrorFormat( "Requested service {0} was not found" + serviceType.FullName );
+			else if ( log.IsInfoEnabled )
+				log.InfoFormat( "Request for service {0} satisfied by {1}", serviceType.Name, theService.GetType().Name );
+			return theService;
 		}
 
 		public void InitializeServices()
 		{
 			foreach( IService service in services )
 			{
+				log.Info( "Initializing " + service.GetType().Name );
 				service.InitializeService();
-				log.DebugFormat( "Initialized {0}", service.GetType().Name );
 			}
 		}
 

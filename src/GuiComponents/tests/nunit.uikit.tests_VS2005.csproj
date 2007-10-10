@@ -81,7 +81,6 @@
     <Compile Include="TestSuiteTreeViewFixture.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TextDisplayWriterTests.cs" />
     <Compile Include="VisualStateTests.cs" />
   </ItemGroup>
   <ItemGroup>

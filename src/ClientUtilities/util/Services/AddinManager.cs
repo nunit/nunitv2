@@ -16,6 +16,9 @@ namespace NUnit.Util
 {
 	public class AddinManager : IService
 	{
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		#region Instance Fields
 		IAddinRegistry addinRegistry;
 		#endregion
@@ -23,7 +26,6 @@ namespace NUnit.Util
 		#region Constructor
 		public AddinManager()
 		{
-			addinRegistry = Services.AddinRegistry;
 		}
 		#endregion
 
@@ -56,6 +58,7 @@ namespace NUnit.Util
 				assemblyName.Name = Path.GetFileNameWithoutExtension(path);
 				assemblyName.CodeBase = path;
 				Assembly assembly = Assembly.Load(assemblyName);
+				log.Debug( "Loaded " + Path.GetFileName(path) );
 
 				foreach ( Type type in assembly.GetExportedTypes() )
 				{
@@ -63,6 +66,7 @@ namespace NUnit.Util
 					{
 						Addin addin = new Addin( type );
 						addinRegistry.Register( addin );
+						log.Debug( "Registered addin: " + addin.Name );
 					}
 				}
 			}
@@ -70,8 +74,7 @@ namespace NUnit.Util
 			{
 				// NOTE: Since the gui isn't loaded at this point, 
 				// the trace output will only show up in Visual Studio
-				Trace.WriteLine( "Extension not loaded: " + path  );
-				Trace.WriteLine( ex.ToString() );
+				log.Error( "Failed to load" + path, ex  );
 			}
 		}
 		#endregion
@@ -80,6 +83,7 @@ namespace NUnit.Util
 
 		public void InitializeService()
 		{
+			addinRegistry = Services.AddinRegistry;
 			RegisterAddins();
 		}
 

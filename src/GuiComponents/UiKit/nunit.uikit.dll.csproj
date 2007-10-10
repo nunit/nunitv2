@@ -99,6 +99,11 @@
                     Project = "{435428F8-5995-4CE4-8022-93D595A8CC0F}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "log4net"
+                    AssemblyName = "log4net"
+                    HintPath = "..\..\..\lib\log4net.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -260,6 +265,36 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "SettingsDialogBase.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsDialogBase.resx"
+                    DependentUpon = "SettingsDialogBase.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPage.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPage.resx"
+                    DependentUpon = "SettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SimpleSettingsDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SimpleSettingsDialog.resx"
+                    DependentUpon = "SimpleSettingsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "SimpleTextDisplay.cs"
                     SubType = "Component"
                     BuildAction = "Compile"
@@ -282,6 +317,16 @@
                 <File
                     RelPath = "Success.jpg"
                     BuildAction = "Content"
+                />
+                <File
+                    RelPath = "TabbedSettingsDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TabbedSettingsDialog.resx"
+                    DependentUpon = "TabbedSettingsDialog.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "TestLoaderUI.cs"
@@ -339,9 +384,29 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TextDisplayTabPage.resx"
+                    DependentUpon = "TextDisplayTabPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "TextDisplayTabSettings.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TextDisplayWriter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TextOutputSettingsPage.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TextOutputSettingsPage.resx"
+                    DependentUpon = "TextOutputSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
                 />
                 <File
                     RelPath = "TipWindow.cs"
@@ -351,6 +416,16 @@
                 <File
                     RelPath = "TipWindow.resx"
                     DependentUpon = "TipWindow.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "TreeBasedSettingsDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TreeBasedSettingsDialog.resx"
+                    DependentUpon = "TreeBasedSettingsDialog.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
