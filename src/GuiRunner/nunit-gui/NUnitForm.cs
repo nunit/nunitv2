@@ -1181,12 +1181,7 @@ namespace NUnit.Gui
 
 		private void optionsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			using( OptionsDialog dialog = new OptionsDialog() )
-			{
-				this.Site.Container.Add( dialog );
-				dialog.Font = this.Font;
-				dialog.ShowDialog();
-			}
+			OptionsDialog.Display( this );
 		}
 
 		private void assemblyDetailsMenuItem_Click(object sender, System.EventArgs e)

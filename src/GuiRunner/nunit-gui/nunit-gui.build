@@ -17,7 +17,13 @@
         <include name="NUnitForm.cs"/>
         <include name="OptionsDialog.cs"/>
         <include name="ProjectEditor.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
+        <include name="SettingsPages/AssemblyReloadSettingsPage.cs"/>
+        <include name="SettingsPages/GuiSettingsPage.cs"/>
+        <include name="SettingsPages/TestLoaderSettingsPage.cs"/>
+        <include name="SettingsPages/TestResultSettingsPage.cs"/>
+        <include name="SettingsPages/TreeSettingsPage.cs"/>
+        <include name="SettingsPages/VisualStudioSettingsPage.cs"/>
+        <include name="../../CommonAssemblyInfo.cs"/>-->
       </sources>
       <nowarn>
         <warning number="618,1699" if="${runtime.version=='2.0'}"/>
@@ -31,7 +37,13 @@
         <include name="ProjectEditor.resx"/>
         <include name="App.ico"/>
         <include name="Logo.ico"/>
-      </resources>
+        <include name="SettingsPages/AssemblyReloadSettingsPage.resx"/>
+        <include name="SettingsPages/GuiSettingsPage.resx"/>
+        <include name="SettingsPages/TestLoaderSettingsPage.resx"/>
+        <include name="SettingsPages/TestResultSettingsPage.resx"/>
+        <include name="SettingsPages/TreeSettingsPage.resx"/>
+        <include name="SettingsPages/VisualStudioSettingsPage.resx"/>
+      </resources>-->
       <references basedir="${current.build.dir}">
         <include name="System.Windows.Forms.dll"/>
         <include name="System.Drawing.dll"/>

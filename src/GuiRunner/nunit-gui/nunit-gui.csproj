@@ -185,7 +185,7 @@
                 />
                 <File
                     RelPath = "OptionsDialog.cs"
-                    SubType = "Form"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
@@ -201,6 +201,96 @@
                 <File
                     RelPath = "ProjectEditor.resx"
                     DependentUpon = "ProjectEditor.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\AssemblyReloadSettingsPage.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\AssemblyReloadSettingsPage.resx"
+                    DependentUpon = "AssemblyReloadSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\GuiSettingsPage.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\GuiSettingsPage.resx"
+                    DependentUpon = "GuiSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\TestLoaderSettingsPage.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\TestLoaderSettingsPage.resx"
+                    DependentUpon = "TestLoaderSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\TestResultSettingsPage.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\TestResultSettingsPage.resx"
+                    DependentUpon = "TestResultSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\TreeSettingsPage.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\TreeSettingsPage.resx"
+                    DependentUpon = "TreeSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\VisualStudioSettingsPage.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\VisualStudioSettingsPage.resx"
+                    DependentUpon = "VisualStudioSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\OldTabPages\GeneralSettingsTab.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\OldTabPages\GeneralSettingsTab.resx"
+                    DependentUpon = "GeneralSettingsTab.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\OldTabPages\TestLoaderSettingsTab.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\OldTabPages\TestLoaderSettingsTab.resx"
+                    DependentUpon = "TestLoaderSettingsTab.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\OldTabPages\TestOutputSettingsTab.cs"
+                    SubType = "UserControl"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\OldTabPages\TestOutputSettingsTab.resx"
+                    DependentUpon = "TestOutputSettingsTab.cs"
                     BuildAction = "EmbeddedResource"
                 />
             </Include>
