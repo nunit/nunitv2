@@ -7,13 +7,15 @@
 using System;
 using System.IO;
 using System.Text;
+using NUnit.Core;
+using NUnit.Util;
 
 namespace NUnit.UiKit
 {
 	/// <summary>
 	/// Summary description for TextDisplayWriter.
 	/// </summary>
-	public class TextDisplayWriter : TextWriter
+	public class TextDisplayWriter : TextWriter, TestObserver
 	{
 		private TextDisplay textDisplay;
 
@@ -26,7 +28,7 @@ namespace NUnit.UiKit
 		{
 			textDisplay.Clear();
 		}
-	
+
 		#region TextWriter Overrides
 
 		/// <summary>
@@ -44,7 +46,7 @@ namespace NUnit.UiKit
 		/// <param name="s">The string to write</param>
 		public override void Write(String s)
 		{
-			textDisplay.AppendText( s );
+			textDisplay.Write( s );
 		}
 
 		/// <summary>
@@ -64,5 +66,18 @@ namespace NUnit.UiKit
 			get { return Encoding.Default; }
 		}
 		#endregion
+
+		#region TestObserver Members
+
+		public void Subscribe(ITestEvents events)
+		{
+			events.TestOutput += new TestEventHandler(OnTestOutput);
+		}
+
+		#endregion
+
+		private void OnTestOutput(object sender, TestEventArgs args)
+		{
+		}
 	}
 }

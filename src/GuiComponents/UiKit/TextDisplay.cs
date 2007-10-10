@@ -5,6 +5,8 @@
 // ****************************************************************
 
 using System;
+using NUnit.Util;
+using NUnit.Core;
 
 namespace NUnit.UiKit
 {
@@ -12,12 +14,12 @@ namespace NUnit.UiKit
 	/// The TextDisplay interface is implemented by object - generally
 	/// controls - that display text.
 	/// </summary>
-	public interface TextDisplay
+	public interface TextDisplay : TestObserver
 	{
 		/// <summary>
-		/// Gets and sets the text to be displayed
+		///  The output types handled by this display
 		/// </summary>
-		string Text { get; set; }
+		TextDisplayContent Content { get; set; }
 
 		/// <summary>
 		/// Clears the display
@@ -28,6 +30,19 @@ namespace NUnit.UiKit
 		/// Appends text to the display
 		/// </summary>
 		/// <param name="text">The text to append</param>
-		void AppendText( string text );
+		void Write( string text );
+
+		/// <summary>
+		/// Appends text to the display followed by a newline
+		/// </summary>
+		/// <param name="text">The text to append</param>
+		void WriteLine( string text );
+
+		void Write( NUnit.Core.TestOutput output );
+
+		/// <summary>
+		/// Gets the current text - used mainly for testing
+		/// </summary>
+		string GetText();
 	}
 }

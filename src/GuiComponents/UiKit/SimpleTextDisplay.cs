@@ -11,6 +11,8 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using NUnit.Core;
+using NUnit.Util;
 
 namespace NUnit.UiKit
 {
@@ -29,6 +31,8 @@ namespace NUnit.UiKit
 		private SizeF exactSize = SizeF.Empty;
 
 		private float fastPathHeightAdjust;
+
+		private TextDisplayContent content;
 
 		public SimpleTextDisplay()
 		{
@@ -99,17 +103,10 @@ namespace NUnit.UiKit
 
 	
 		#region TextDisplay Members
-		public override string Text
+		public TextDisplayContent Content
 		{
-			get
-			{
-				return builder.ToString();
-			}
-			set
-			{
-				builder.Length = 0;
-				AppendText( value );
-			}
+			get { return content; }
+			set { content = value; }
 		}
 
 		public void Clear()
@@ -119,7 +116,7 @@ namespace NUnit.UiKit
 			this.Invalidate();
 		}
 
-		public void AppendText( string text )
+		public void Write( string text )
 		{
 			int lengthSoFar = builder.Length;
 
@@ -148,6 +145,29 @@ namespace NUnit.UiKit
 			}
 		}
 
+		public void Write(TestOutput output)
+		{
+			Write(output.Text);
+		}
+
+		public void WriteLine( string text )
+		{
+			Write( text + Environment.NewLine );
+		}
+
+		public string GetText()
+		{
+			return this.builder.ToString();
+		}
+		#endregion
+
+		#region TestObserver Methods
+		public void Subscribe(ITestEvents events)
+		{
+		}
+		#endregion
+
+		#region Private Methods
 		private SizeF MeasureString(string text)
 		{
 			return Graphics.FromHwnd(this.Handle).MeasureString( text, this.Font );

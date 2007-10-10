@@ -7,9 +7,23 @@
 using System;
 using System.IO;
 using System.Windows.Forms;
+using NUnit.Core;
+using NUnit.Util;
 
 namespace NUnit.UiKit
 {
+	[Flags]
+	public enum TextDisplayContent
+	{
+		Empty = 0,
+		Out = 1,
+		Error = 2,
+		Trace = 4,
+		Log = 8,
+		Labels = 64,
+		LabelOnlyOnOutput = 128
+	}
+
 	/// <summary>
 	/// Summary description for TextDisplayTabPage.
 	/// </summary>
@@ -20,7 +34,8 @@ namespace NUnit.UiKit
 #else
 		private SimpleTextDisplay display;
 #endif
-		private TextDisplayWriter writer;
+
+		private string prefix;
 
 		public TextDisplayTabPage()
 		{
@@ -32,18 +47,35 @@ namespace NUnit.UiKit
 			this.display.Dock = DockStyle.Fill;
 
 			this.Controls.Add( display );
-
-			this.writer = new TextDisplayWriter( display );
 		}
 
-		public TextWriter Writer
+		public TextDisplayTabPage( TextDisplayTabSettings.TabInfo tabInfo ) : this()
 		{
-			get { return writer; }
+			this.prefix = tabInfo.Prefix;
+			this.Text = tabInfo.Title;
+			this.Display.Content = tabInfo.Content;
+			Services.UserSettings.Changed += new SettingsEventHandler(UserSettings_Changed);
 		}
 
-		public void Clear()
+		public TextDisplay Display
 		{
-			this.display.Clear();
+			get { return this.display; }
+		}
+
+		private void UserSettings_Changed(object sender, SettingsEventArgs args)
+		{
+			string settingName = args.SettingName;
+			if ( settingName.StartsWith( prefix ) )
+			switch(settingName.Substring(prefix.Length))
+			{
+				case "Title":
+					this.Text = Services.UserSettings.GetSetting( settingName, "Console.Out" );
+					break;
+				case "Content":
+					this.Display.Content = 
+						(TextDisplayContent)Services.UserSettings.GetSetting( settingName, TextDisplayContent.Out );
+					break;
+			}
 		}
 	}
 }

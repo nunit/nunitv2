@@ -5,6 +5,8 @@
 // ****************************************************************
 using System;
 using System.Windows.Forms;
+using NUnit.Core;
+using NUnit.Util;
 
 namespace NUnit.UiKit
 {
@@ -12,12 +14,14 @@ namespace NUnit.UiKit
 	/// TextBoxDisplay is an adapter that allows accessing a 
 	/// System.Windows.Forms.TextBox using the TextDisplay interface.
 	/// </summary>
-	public class TextBoxDisplay : System.Windows.Forms.RichTextBox, TextDisplay
+	public class TextBoxDisplay : System.Windows.Forms.RichTextBox, TextDisplay, TestObserver
 	{
 		private ContextMenu contextMenu = new ContextMenu();
 		private MenuItem copyMenuItem;
 		private MenuItem selectAllMenuItem;
 		private MenuItem wordWrapMenuItem;
+
+		private TextDisplayContent content;
 
 		public TextBoxDisplay()
 		{
@@ -53,5 +57,69 @@ namespace NUnit.UiKit
 			this.copyMenuItem.Enabled = this.SelectedText != "";
 			this.selectAllMenuItem.Enabled = this.TextLength > 0;
 		}
+
+		private string pendingTestCaseLabel = null;
+		private void OnTestOutput( object sender, TestEventArgs e )
+		{
+			if ( ((int)e.TestOutput.Type & (int)this.content) != 0 )
+			{
+				if ( pendingTestCaseLabel != null )
+				{
+					WriteLine( pendingTestCaseLabel );
+					pendingTestCaseLabel = null;
+				}
+
+				Write( e.TestOutput.Text );
+			}
+		}
+
+		private void OnTestStarting(object sender, TestEventArgs args)
+		{
+			if ( (this.content & TextDisplayContent.Labels) != 0 )
+			{
+				string label = string.Format( "***** {0}", args.TestName.FullName );
+
+				if ( (this.content & TextDisplayContent.LabelOnlyOnOutput) != 0 )
+					this.pendingTestCaseLabel = label;
+				else
+					WriteLine(label);
+			}
+		}
+
+		#region TextDisplay Members
+		public TextDisplayContent Content
+		{
+			get { return content; }
+			set { content = value; }
+		}
+
+		public void Write( string text )
+		{
+			this.AppendText( text );
+		}
+
+		public void Write( NUnit.Core.TestOutput output )
+		{
+			Write( output.Text );
+		}
+
+		public void WriteLine( string text )
+		{
+			Write( text + Environment.NewLine );
+		}
+
+		public string GetText()
+		{
+			return this.Text;
+		}
+		#endregion
+
+		#region TestObserver Members
+		public void Subscribe(ITestEvents events)
+		{
+			events.TestOutput += new TestEventHandler(OnTestOutput);
+			events.TestStarting += new TestEventHandler(OnTestStarting);
+		}
+		#endregion
 	}
 }

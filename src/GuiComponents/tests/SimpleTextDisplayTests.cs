@@ -18,6 +18,14 @@ namespace NUnit.UiKit.Tests
 	public class SimpleTextDisplayTests
 	{
 		SimpleTextDisplay textDisplay;
+		static readonly string NL = Environment.NewLine;
+		static readonly string myText = "Here is one line" + NL + "Here is another" + NL;
+		static readonly string fiveLines = 
+			"This is line 1" + NL + "This is line 2" + NL + "This is line 3" + NL + "This is line 4" + NL +"This is line 5" + NL;
+		static readonly string twoParts =
+			"This line written in two parts" + NL + "The final line" + NL;
+		static readonly string threeParts =
+			"This line written in three parts" + NL + "The final line" + NL;
 
 		[SetUp]
 		public void Init()
@@ -34,7 +42,7 @@ namespace NUnit.UiKit.Tests
 		private void AppendLines( int count )
 		{
 			for( int index = 1; index <= count; ++index )
-				textDisplay.AppendText( string.Format( "This is line {0}\n", index ) );
+				textDisplay.WriteLine( string.Format( "This is line {0}", index ) );
 		}
 
 		private Size getTextSize( string text )
@@ -45,12 +53,11 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void SetText_BeforeCreation()
 		{
-			string myText = "Here is one line\nHere is another\n";
-			textDisplay.Text = myText;
-			Assert.AreEqual( myText, textDisplay.Text );
+			textDisplay.Write( myText );
+			Assert.AreEqual( myText, textDisplay.GetText() );
 			Assert.AreEqual( Size.Empty, textDisplay.AutoScrollMinSize );
 			textDisplay.CreateControl();
-			Assert.AreEqual( myText, textDisplay.Text );
+			Assert.AreEqual( myText, textDisplay.GetText() );
 			Assert.AreEqual( getTextSize( myText ), textDisplay.AutoScrollMinSize );
 		}
 
@@ -58,30 +65,29 @@ namespace NUnit.UiKit.Tests
 		public void SetText_AfterCreation()
 		{
 			textDisplay.CreateControl();
-			string myText = "Here is one line\nHere is another\n";
-			textDisplay.Text = myText;
-			Assert.AreEqual( myText, textDisplay.Text );
+			textDisplay.Write( myText );
+			Assert.AreEqual( myText, textDisplay.GetText() );
 			Assert.AreEqual( getTextSize( myText ), textDisplay.AutoScrollMinSize );
 		}
 
 		[Test]
 		public void ClearText_BeforeCreation()
 		{
-			textDisplay.Text = "text that should be cleared";
+			textDisplay.Write( "text that should be cleared" );
 			textDisplay.Clear();
 
-			Assert.AreEqual( "", textDisplay.Text );
+			Assert.AreEqual( "", textDisplay.GetText() );
 			Assert.AreEqual( Size.Empty, textDisplay.AutoScrollMinSize );
 		}
 
 		[Test]
 		public void ClearText_AfterCreation()
 		{
-			textDisplay.Text = "text that should be cleared";
+			textDisplay.Write( "text that should be cleared" );
 			textDisplay.CreateControl();
 			textDisplay.Clear();
 
-			Assert.AreEqual( "", textDisplay.Text );
+			Assert.AreEqual( "", textDisplay.GetText() );
 			Assert.AreEqual( Size.Empty, textDisplay.AutoScrollMinSize );
 		}
 
@@ -89,14 +95,12 @@ namespace NUnit.UiKit.Tests
 		public void AppendText_BeforeCreation()
 		{
 			AppendLines( 5 );
-			textDisplay.AppendText( "This line written" );
-			textDisplay.AppendText( " in two parts\n" );
-			textDisplay.AppendText( "The final line\n" );
+			textDisplay.Write( "This line written" );
+			textDisplay.WriteLine( " in two parts" );
+			textDisplay.WriteLine( "The final line" );
 
-			string expected =
-				"This is line 1\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\n" +
-				"This line written in two parts\nThe final line\n";
-			Assert.AreEqual( expected, textDisplay.Text );
+			string expected = fiveLines + twoParts;
+			Assert.AreEqual( expected, textDisplay.GetText() );
 			Assert.AreEqual( Size.Empty, textDisplay.AutoScrollMinSize );
 		}
 
@@ -105,20 +109,18 @@ namespace NUnit.UiKit.Tests
 		{
 			textDisplay.CreateControl();
 			AppendLines( 5 );
-			Assert.AreEqual( getTextSize( textDisplay.Text ), textDisplay.AutoScrollMinSize );
-			textDisplay.AppendText( "This line written" );
-			Assert.AreEqual( getTextSize( textDisplay.Text ), textDisplay.AutoScrollMinSize );
-			textDisplay.AppendText( " in three" );
-			Assert.AreEqual( getTextSize( textDisplay.Text ), textDisplay.AutoScrollMinSize );
-			textDisplay.AppendText( " parts\n" );
-			Assert.AreEqual( getTextSize( textDisplay.Text ), textDisplay.AutoScrollMinSize );
-			textDisplay.AppendText( "The final line\n" );
-			Assert.AreEqual( getTextSize( textDisplay.Text ), textDisplay.AutoScrollMinSize );
+			Assert.AreEqual( getTextSize( textDisplay.GetText() ), textDisplay.AutoScrollMinSize );
+			textDisplay.Write( "This line written" );
+			Assert.AreEqual( getTextSize( textDisplay.GetText() ), textDisplay.AutoScrollMinSize );
+			textDisplay.Write( " in three" );
+			Assert.AreEqual( getTextSize( textDisplay.GetText() ), textDisplay.AutoScrollMinSize );
+			textDisplay.WriteLine( " parts" );
+			Assert.AreEqual( getTextSize( textDisplay.GetText() ), textDisplay.AutoScrollMinSize );
+			textDisplay.WriteLine( "The final line" );
+			Assert.AreEqual( getTextSize( textDisplay.GetText() ), textDisplay.AutoScrollMinSize );
 
-			string expected =
-				"This is line 1\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\n" +
-				"This line written in three parts\nThe final line\n";
-			Assert.AreEqual( expected, textDisplay.Text );
+			string expected = fiveLines + threeParts;
+			Assert.AreEqual( expected, textDisplay.GetText() );
 			Assert.AreEqual( getTextSize( expected ), textDisplay.AutoScrollMinSize );
 		}
 
@@ -126,15 +128,13 @@ namespace NUnit.UiKit.Tests
 		public void AppendText_BeforeAndAfterCreation()
 		{
 			AppendLines( 5 );
-			textDisplay.AppendText( "This line written" );
+			textDisplay.Write( "This line written" );
 			textDisplay.CreateControl();
-			textDisplay.AppendText( " in two parts\n" );
-			textDisplay.AppendText( "The final line\n" );
+			textDisplay.WriteLine( " in two parts" );
+			textDisplay.WriteLine( "The final line" );
 
-			string expected =
-				"This is line 1\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\n" +
-				"This line written in two parts\nThe final line\n";
-			Assert.AreEqual( expected, textDisplay.Text );
+			string expected = fiveLines + twoParts;
+			Assert.AreEqual( expected, textDisplay.GetText() );
 			Assert.AreEqual( getTextSize( expected ), textDisplay.AutoScrollMinSize );
 		}
 
@@ -145,8 +145,8 @@ namespace NUnit.UiKit.Tests
 			DateTime startTime = DateTime.Now;
 			AppendLines( 1000 );
 			DateTime endTime = DateTime.Now;
-			Assert.AreEqual( 9*15 + 90*16 + 900*17 + 18, textDisplay.Text.Length );
-			Assert.AreEqual( getTextSize( textDisplay.Text ), textDisplay.AutoScrollMinSize );
+			Assert.AreEqual( 9*14 + 90*15 + 900*16 + 17 + 1000*NL.Length, textDisplay.GetText().Length );
+			Assert.AreEqual( getTextSize( textDisplay.GetText() ), textDisplay.AutoScrollMinSize );
 		}
 	}
 }
