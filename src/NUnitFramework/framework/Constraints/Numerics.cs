@@ -71,6 +71,15 @@ namespace NUnit.Framework.Constraints
 		#endregion
 
 		#region Numeric Equality
+        /// <summary>
+        /// Test two numeric values for equality, performing the usual numeric 
+        /// conversions and using a provided or default tolerance. If the value 
+        /// referred to by tolerance is null, this method may set it to a default.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="tolerance">A reference to the numeric tolerance in effect</param>
+        /// <returns>True if the values are equal</returns>
 		public static bool AreEqual( object expected, object actual, ref object tolerance )
 		{
             if (IsFloatingPointNumeric(expected) || IsFloatingPointNumeric(actual))
@@ -162,6 +171,12 @@ namespace NUnit.Framework.Constraints
 		#endregion
 
 		#region Numeric Comparisons 
+        /// <summary>
+        /// Compare two numeric values, performing the usual numeric conversions.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <returns></returns>
 		public static int Compare( IComparable expected, object actual )
 		{
 			if ( expected == null )

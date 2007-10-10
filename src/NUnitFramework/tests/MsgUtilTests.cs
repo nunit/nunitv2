@@ -41,14 +41,14 @@ namespace NUnit.Framework.Tests
         [Test]
         public void TestClipString()
         {
-            Assert.AreEqual(s52, MsgUtils.ClipString2(s52, 52, 0));
+            Assert.AreEqual(s52, MsgUtils.ClipString(s52, 52, 0));
 
             Assert.AreEqual("abcdefghijklmnopqrstuvwxyz...",
-                MsgUtils.ClipString2(s52, 29, 0));
+                MsgUtils.ClipString(s52, 29, 0));
             Assert.AreEqual("...ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                MsgUtils.ClipString2(s52, 29, 26));
+                MsgUtils.ClipString(s52, 29, 26));
             Assert.AreEqual("...ABCDEFGHIJKLMNOPQRSTUV...",
-                MsgUtils.ClipString2(s52, 28, 26));
+                MsgUtils.ClipString(s52, 28, 26));
         }
 
         private static readonly string s52 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

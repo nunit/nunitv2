@@ -57,7 +57,6 @@ namespace NUnit.Framework
         #endregion
 
 		private int maxLineLength = DEFAULT_LINE_LENGTH;
-		private bool truncateStrings;
 
         #region Constructors
 		/// <summary>
@@ -159,6 +158,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual string value</param>
         /// <param name="mismatch">The point at which the strings don't match or -1</param>
         /// <param name="ignoreCase">If true, case is ignored in string comparisons</param>
+        /// <param name="clipping">If true, clip the strings to fit the max line length</param>
         public override void DisplayStringDifferences(string expected, string actual, int mismatch, bool ignoreCase, bool clipping)
         {
             // Maximum string we can display without truncating

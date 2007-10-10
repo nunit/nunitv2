@@ -15,6 +15,9 @@ namespace NUnit.Framework
     /// </summary>
     public class MsgUtils
     {
+        /// <summary>
+        /// Static string used when strings are clipped
+        /// </summary>
         public static readonly string ELLIPSIS = "...";
 
         /// <summary>
@@ -115,35 +118,14 @@ namespace NUnit.Framework
         }
 
         /// <summary>
-        /// Clip a string around a particular point, returning the clipped
+        /// Clip a string to a given length, starting at a particular offset, returning the clipped
         /// string with ellipses representing the removed parts
         /// </summary>
         /// <param name="s">The string to be clipped</param>
         /// <param name="maxStringLength">The maximum permitted length of the result string</param>
-        /// <param name="mismatch">The point around which clipping is to occur</param>
+        /// <param name="clipStart">The point at which to start clipping</param>
         /// <returns>The clipped string</returns>
-        public static string ClipString(string s, int maxStringLength, int mismatch)
-        {
-            int clipLength = maxStringLength - ELLIPSIS.Length;
-
-            if (mismatch >= clipLength)
-            {
-                int clipStart = mismatch - clipLength / 2;
-                //mismatch = mismatch - clipStart + ELLIPSIS.Length;
-
-                // Clip the expected value at start and at end if needed
-                if (s.Length - clipStart > maxStringLength)
-                    return ELLIPSIS + s.Substring(
-                        clipStart, clipLength - ELLIPSIS.Length) + ELLIPSIS;
-                else
-                    return ELLIPSIS + s.Substring(clipStart);
-            }
-            else if( s.Length > maxStringLength )
-                return s.Substring(0, clipLength) + ELLIPSIS;
-			else return s;
-        }
-
-        public static string ClipString2(string s, int maxStringLength, int clipStart)
+        public static string ClipString(string s, int maxStringLength, int clipStart)
         {
             int clipLength = maxStringLength;
             StringBuilder sb = new StringBuilder();
@@ -168,6 +150,14 @@ namespace NUnit.Framework
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Clip the expected and actual strings in a coordinated fashion, 
+        /// so that they may be displayed together.
+        /// </summary>
+        /// <param name="expected"></param>
+        /// <param name="actual"></param>
+        /// <param name="maxDisplayLength"></param>
+        /// <param name="mismatch"></param>
         public static void ClipExpectedAndActual(ref string expected, ref string actual, int maxDisplayLength, int mismatch)
         {
             // Case 1: Both strings fit on line
@@ -184,8 +174,8 @@ namespace NUnit.Framework
             if ( clipStart > mismatch )
                 clipStart = Math.Max( 0, mismatch - clipLength / 2 );
 
-            expected = ClipString2(expected, maxDisplayLength, clipStart);
-            actual = ClipString2(actual, maxDisplayLength, clipStart);
+            expected = ClipString(expected, maxDisplayLength, clipStart);
+            actual = ClipString(actual, maxDisplayLength, clipStart);
         }
 
         /// <summary>

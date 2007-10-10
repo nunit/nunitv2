@@ -122,7 +122,10 @@ namespace NUnit.Framework.Constraints
     #endregion
 
 	#region EmptyCollectionConstraint
-	public class EmptyCollectionConstraint : CollectionConstraint
+    /// <summary>
+    /// EmptyCollectionConstraint tests whether a colletion is empty. 
+    /// </summary>
+    public class EmptyCollectionConstraint : CollectionConstraint
 	{
 		/// <summary>
 		/// Check that the collection is empty

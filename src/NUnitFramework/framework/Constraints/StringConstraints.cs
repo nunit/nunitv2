@@ -14,7 +14,12 @@ namespace NUnit.Framework.Constraints
 	/// </summary>
 	public class EmptyStringConstraint : EmptyConstraint
 	{
-		public override bool Matches(object actual)
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given value
+        /// </summary>
+        /// <param name="actual">The value to be tested</param>
+        /// <returns>True for success, false for failure</returns>
+        public override bool Matches(object actual)
 		{
 			this.actual = actual;
 
@@ -24,7 +29,11 @@ namespace NUnit.Framework.Constraints
 			return (string)actual == string.Empty;
 		}
 
-		public override void WriteDescriptionTo(MessageWriter writer)
+        /// <summary>
+        /// Write the constraint description to a MessageWriter
+        /// </summary>
+        /// <param name="writer">The writer on which the description is displayed</param>
+        public override void WriteDescriptionTo(MessageWriter writer)
 		{
 			writer.Write( "<empty>" );
 		}
@@ -122,7 +131,7 @@ namespace NUnit.Framework.Constraints
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.WritePredicate("String starting with");
-            writer.WriteExpectedValue( MsgUtils.ClipString2(expected, writer.MaxLineLength - 40, 0) );
+            writer.WriteExpectedValue( MsgUtils.ClipString(expected, writer.MaxLineLength - 40, 0) );
 			if ( this.caseInsensitive )
 				writer.WriteModifier( "ignoring case" );
 		}

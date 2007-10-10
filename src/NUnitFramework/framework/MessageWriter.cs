@@ -88,6 +88,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual string value</param>
         /// <param name="mismatch">The point at which the strings don't match or -1</param>
         /// <param name="ignoreCase">If true, case is ignored in locating the point where the strings differ</param>
+        /// <param name="clipping">If true, the strings should be clipped to fit the line</param>
         public abstract void DisplayStringDifferences(string expected, string actual, int mismatch, bool ignoreCase, bool clipping);
 
         /// <summary>

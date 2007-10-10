@@ -14,7 +14,7 @@ namespace NUnit.Framework.Constraints
     /// which serve as prefix operators for constraints. With the addition
     /// of an operand stack, And and Or could be supported, but we have
     /// left them out in favor of a simpler, more type-safe implementation.
-    /// Use the & and | operator overloads to combine constraints.
+    /// Use the &amp; and | operator overloads to combine constraints.
     /// </summary>
     public class ConstraintBuilder
     {
