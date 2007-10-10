@@ -80,7 +80,7 @@ namespace NUnit.Framework
 
         #region Properties
         /// <summary>
-        /// Gets the maximum line length for this writer
+        /// Gets or sets the maximum line length for this writer
         /// </summary>
         public override int MaxLineLength
         {
