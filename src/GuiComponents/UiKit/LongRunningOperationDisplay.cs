@@ -69,10 +69,12 @@ namespace NUnit.UiKit
 			// 
 			// operation
 			// 
+			this.operation.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.operation.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.operation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-			this.operation.Location = new System.Drawing.Point(8, 8);
+			this.operation.Location = new System.Drawing.Point(0, 0);
 			this.operation.Name = "operation";
-			this.operation.Size = new System.Drawing.Size(304, 24);
+			this.operation.Size = new System.Drawing.Size(320, 40);
 			this.operation.TabIndex = 0;
 			this.operation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
@@ -91,31 +93,20 @@ namespace NUnit.UiKit
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.ResumeLayout(false);
-
 		}
 		#endregion
 
 		protected override void OnLoad(EventArgs e)
 		{
 			base.OnLoad (e);
-
+	
+			// Set this again, see Mono Bug #82769
+			this.ClientSize = new System.Drawing.Size(320, 40);
 			Point origin = this.Owner.Location;
 			origin.Offset( 
 				(this.Owner.Size.Width - this.Size.Width) / 2,
 				(this.Owner.Size.Height - this.Size.Height) / 2 );
 			this.Location = origin;
-		}
-
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			base.OnPaint (e);
-
-			Graphics g = e.Graphics;
-			Rectangle outlineRect = this.ClientRectangle;
-			outlineRect.Width -= 1;
-            outlineRect.Height -= 1;
-			g.DrawRectangle( Pens.Black, outlineRect );
-			g.DrawString( this.Text, Font, Brushes.Black, outlineRect );
 		}
 	}
 }
