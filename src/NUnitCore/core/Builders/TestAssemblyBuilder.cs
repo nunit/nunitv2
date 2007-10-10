@@ -17,6 +17,10 @@ namespace NUnit.Core.Builders
 	/// </summary>
 	public class TestAssemblyBuilder
 	{
+
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		#region Instance Fields
 		/// <summary>
 		/// The loaded assembly
@@ -170,6 +174,8 @@ namespace NUnit.Core.Builders
 				
                 if ( assembly != null )
                     CoreExtensions.Host.InstallAdhocExtensions( assembly );
+
+				log.DebugFormat( "Loaded assembly {0}", assembly.FullName );
 
 				return assembly;
 			}

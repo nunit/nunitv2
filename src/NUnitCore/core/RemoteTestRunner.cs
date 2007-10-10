@@ -3,6 +3,7 @@
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
+
 namespace NUnit.Core
 {
 	using System.Collections;
@@ -16,8 +17,11 @@ namespace NUnit.Core
 	/// </summary>
 	public class RemoteTestRunner : ProxyTestRunner
 	{
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		#region Constructor
-		public RemoteTestRunner() : base( 0 ) { }
+		public RemoteTestRunner() : this( 0 ) { }
 
 		public RemoteTestRunner( int runnerID ) : base( runnerID ) { }
 		#endregion
@@ -25,6 +29,8 @@ namespace NUnit.Core
 		#region Method Overrides
 		public override bool Load(TestPackage package)
 		{
+			log.Debug( "Loading test package " + package.Name );
+
 			// Initialize ExtensionHost if not already done
 			if ( !CoreExtensions.Host.Initialized )
 				CoreExtensions.Host.InitializeService();
@@ -49,6 +55,7 @@ namespace NUnit.Core
 
 		public override TestResult Run( EventListener listener, ITestFilter filter )
 		{
+			log.Debug( "Running test synchronously" );
 			QueuingEventListener queue = new QueuingEventListener();
 
 			DirectOutputToListener( queue );
@@ -67,6 +74,7 @@ namespace NUnit.Core
 
 		public override void BeginRun( EventListener listener, ITestFilter filter )
 		{
+			log.Debug( "Running test asynchronously" );
 			QueuingEventListener queue = new QueuingEventListener();
 
 			DirectOutputToListener( queue );

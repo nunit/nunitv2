@@ -153,7 +153,7 @@ namespace NUnit.Core
 			private TextWriter traceWriter;
 
 			/// <summary>
-			/// Log4net Appender for Log output
+			/// Log4net Appender for Log output from the tests
 			/// </summary>
 			private log4net.Appender.TextWriterAppender log4netAppender;
 
@@ -288,6 +288,17 @@ namespace NUnit.Core
 				}
 			}
 
+			/// <summary>
+			///  Gets or sets the Log writer, which is actually held by a log4net 
+			///  TextWriterAppender. When first set, the appender will be created
+			///  and will thereafter send any log events to the writer.
+			///  
+			///  In normal operation, LogWriter is set to an EventListenerTextWriter
+			///  connected to the EventQueue in the test domain. The events are
+			///  subsequently captured in the Gui an the output displayed in
+			///  the Log tab. The application under test does not need to define
+			///  any additional appenders.
+			/// </summary>
 			public TextWriter LogWriter
 			{
 				get { return log4netAppender == null ? null : log4netAppender.Writer; }
@@ -295,13 +306,17 @@ namespace NUnit.Core
 				{ 
 					if ( log4netAppender == null )
 					{
+						// Add process id to the global context for display in log entries
+						log4net.GlobalContext.Properties["PID"] = System.Diagnostics.Process.GetCurrentProcess().Id;
+						// Create and set up the appender
 						log4netAppender = new log4net.Appender.TextWriterAppender();
 						log4netAppender.Layout = new log4net.Layout.PatternLayout(
-							"%-6timestamp %-5level [%4thread] %logger{1}: %message%newline");
+							"%date{ABSOLUTE} %-5level [%4thread] %logger{1}: PID=%property{PID} %message%newline" );
 						log4netAppender.Threshold = log4net.Core.Level.All;
 						log4net.Config.BasicConfigurator.Configure(log4netAppender);
 					}
 
+					// Pass the TextWriter for the appender to use
 					log4netAppender.Writer = value; 
 				}
 			}
