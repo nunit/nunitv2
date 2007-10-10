@@ -1,0 +1,173 @@
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace NUnit.Gui.SettingsPages
+{
+	public class TestResultSettingsPage : NUnit.UiKit.SettingsPage
+	{
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.CheckBox errorsTabCheckBox;
+		private System.Windows.Forms.CheckBox failureToolTips;
+		private System.Windows.Forms.CheckBox enableWordWrap;
+		private System.Windows.Forms.CheckBox notRunTabCheckBox;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.Label label2;
+		private System.ComponentModel.IContainer components = null;
+
+		public TestResultSettingsPage(string key) : base(key)
+		{
+			// This call is required by the Windows Form Designer.
+			InitializeComponent();
+
+			// TODO: Add any initialization after the InitializeComponent call
+		}
+
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		protected override void Dispose( bool disposing )
+		{
+			if( disposing )
+			{
+				if (components != null) 
+				{
+					components.Dispose();
+				}
+			}
+			base.Dispose( disposing );
+		}
+
+		#region Designer generated code
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.label1 = new System.Windows.Forms.Label();
+			this.errorsTabCheckBox = new System.Windows.Forms.CheckBox();
+			this.failureToolTips = new System.Windows.Forms.CheckBox();
+			this.enableWordWrap = new System.Windows.Forms.CheckBox();
+			this.notRunTabCheckBox = new System.Windows.Forms.CheckBox();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.label2 = new System.Windows.Forms.Label();
+			this.SuspendLayout();
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox1.Location = new System.Drawing.Point(80, 0);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(376, 8);
+			this.groupBox1.TabIndex = 8;
+			this.groupBox1.TabStop = false;
+			// 
+			// label1
+			// 
+			this.label1.Location = new System.Drawing.Point(8, 0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(88, 16);
+			this.label1.TabIndex = 9;
+			this.label1.Text = "Errors Tab";
+			// 
+			// errorsTabCheckBox
+			// 
+			this.errorsTabCheckBox.Checked = true;
+			this.errorsTabCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.errorsTabCheckBox.Location = new System.Drawing.Point(32, 24);
+			this.errorsTabCheckBox.Name = "errorsTabCheckBox";
+			this.errorsTabCheckBox.Size = new System.Drawing.Size(304, 24);
+			this.errorsTabCheckBox.TabIndex = 10;
+			this.errorsTabCheckBox.Text = "Display Errors and Failures Tab";
+			// 
+			// failureToolTips
+			// 
+			this.failureToolTips.Location = new System.Drawing.Point(48, 56);
+			this.failureToolTips.Name = "failureToolTips";
+			this.failureToolTips.Size = new System.Drawing.Size(202, 19);
+			this.failureToolTips.TabIndex = 11;
+			this.failureToolTips.Text = "Enable Failure ToolTips";
+			// 
+			// enableWordWrap
+			// 
+			this.enableWordWrap.Location = new System.Drawing.Point(48, 88);
+			this.enableWordWrap.Name = "enableWordWrap";
+			this.enableWordWrap.Size = new System.Drawing.Size(248, 19);
+			this.enableWordWrap.TabIndex = 12;
+			this.enableWordWrap.Text = "Enable Word Wrap";
+			// 
+			// notRunTabCheckBox
+			// 
+			this.notRunTabCheckBox.Checked = true;
+			this.notRunTabCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.notRunTabCheckBox.Location = new System.Drawing.Point(32, 152);
+			this.notRunTabCheckBox.Name = "notRunTabCheckBox";
+			this.notRunTabCheckBox.Size = new System.Drawing.Size(264, 16);
+			this.notRunTabCheckBox.TabIndex = 13;
+			this.notRunTabCheckBox.Text = "Display Tests Not Run Tab";
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox2.Location = new System.Drawing.Point(88, 128);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(368, 8);
+			this.groupBox2.TabIndex = 14;
+			this.groupBox2.TabStop = false;
+			// 
+			// label2
+			// 
+			this.label2.Location = new System.Drawing.Point(8, 128);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(88, 16);
+			this.label2.TabIndex = 15;
+			this.label2.Text = "Not Run Tab";
+			// 
+			// TestResultSettings
+			// 
+			this.Controls.Add(this.groupBox2);
+			this.Controls.Add(this.label2);
+			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.errorsTabCheckBox);
+			this.Controls.Add(this.failureToolTips);
+			this.Controls.Add(this.enableWordWrap);
+			this.Controls.Add(this.notRunTabCheckBox);
+			this.Controls.Add(this.label1);
+			this.Name = "TestResultSettings";
+			this.ResumeLayout(false);
+
+		}
+		#endregion
+
+		public override void LoadSettings()
+		{
+			errorsTabCheckBox.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayErrorsTab", true );
+			failureToolTips.Checked = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
+			enableWordWrap.Checked = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
+
+			notRunTabCheckBox.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayNotRunTab", true );
+		}
+
+		public override void ApplySettings()
+		{
+			settings.SaveSetting( "Gui.ResultTabs.DisplayErrorsTab", errorsTabCheckBox.Checked );
+			settings.SaveSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", failureToolTips.Checked );
+			settings.SaveSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", enableWordWrap.Checked );
+
+			settings.SaveSetting( "Gui.ResultTabs.DisplayNotRunTab", notRunTabCheckBox.Checked );
+		}
+
+		private void errorsTabCheckBox_CheckedChanged(object sender, System.EventArgs e)
+		{
+			this.failureToolTips.Enabled = this.enableWordWrap.Enabled = this.errorsTabCheckBox.Checked;
+		}
+	}
+}
+
