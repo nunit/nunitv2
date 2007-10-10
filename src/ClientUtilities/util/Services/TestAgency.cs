@@ -45,6 +45,9 @@ namespace NUnit.Util
 	/// </summary>
 	public class TestAgency : ServerBase, IService
 	{
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		#region Private Fields
 		private AgentDataBase agentData = new AgentDataBase();
 
@@ -107,10 +110,8 @@ namespace NUnit.Util
 		public void Register( RemoteTestAgent agent, int pid )
 		{
 			AgentRecord r = agentData[pid];
-
 			if ( r == null )
 				throw new ArgumentException( "Specified process is not in the agency database", "pid" );
-
 			r.Agent = agent;
 		}
 
@@ -156,8 +157,13 @@ namespace NUnit.Util
 		public void ReleaseAgent( TestAgent agent )
 		{
 			AgentRecord r = agentData[agent.Id];
-			if ( r != null )
+			if ( r == null )
+				log.ErrorFormat( "Unable to release agent {0} - not in database", agent.Id );
+			else
+			{
 				r.Status = AgentStatus.Ready;
+				log.DebugFormat( "Releasing agent {0}", agent.Id );
+			}
 		}
 
 		public void DestroyAgent( TestAgent agent )
@@ -175,9 +181,22 @@ namespace NUnit.Util
 		#region Helper Methods
 		private int LaunchAgentProcess()
 		{
-			ProcessStartInfo startInfo = new ProcessStartInfo( TestAgentExePath, ServerUtilities.MakeUrl( this.uri, this.port ) );
-			startInfo.CreateNoWindow = true;
-			Process p = Process.Start( startInfo );
+			//ProcessStartInfo startInfo = new ProcessStartInfo( TestAgentExePath, ServerUtilities.MakeUrl( this.uri, this.port ) );
+			//startInfo.CreateNoWindow = true;
+			Process p = new Process();
+			if ( Type.GetType( "Mono.Runtime", false ) != null )
+			{
+				p.StartInfo.FileName = @"C:\Program Files\mono-1.2.5\bin\mono.exe";
+				p.StartInfo.Arguments = TestAgentExePath + " " + ServerUtilities.MakeUrl( this.uri, this.port );
+			}
+			else
+			{
+				p.StartInfo.FileName = TestAgentExePath;
+				p.StartInfo.Arguments = ServerUtilities.MakeUrl( this.uri, this.port );
+			}
+			//Process p = Process.Start( startInfo );
+			log.DebugFormat( "Launching {0}", p.StartInfo.FileName );
+			p.Start();
 			agentData.Add( new AgentRecord( p.Id, p, null, AgentStatus.Starting ) );
 			return p.Id;
 		}
@@ -187,6 +206,7 @@ namespace NUnit.Util
 			foreach( AgentRecord r in agentData )
 				if ( r.Status == AgentStatus.Ready )
 				{
+					log.DebugFormat( "Reusing agent {0}", r.Id );
 					r.Status = AgentStatus.Busy;
 					return r;
 				}
@@ -198,13 +218,17 @@ namespace NUnit.Util
 		{
 			int pid = LaunchAgentProcess();
 
+			log.DebugFormat( "Waiting for agent {0} to register", pid );
 			while( waitTime > 0 )
 			{
 				int pollTime = Math.Min( 200, waitTime );
 				Thread.Sleep( pollTime );
 				waitTime -= pollTime;
 				if ( agentData[pid].Agent != null )
+				{
+					log.DebugFormat( "Returning new agent record {0}", pid ); 
 					return agentData[pid];
+				}
 			}
 
 			return null;

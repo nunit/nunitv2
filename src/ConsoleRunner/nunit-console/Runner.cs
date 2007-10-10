@@ -4,6 +4,8 @@ using System.Reflection;
 using NUnit.Core;
 using NUnit.Util;
 
+[assembly: log4net.Config.XmlConfigurator(Watch=true)]
+
 namespace NUnit.ConsoleRunner
 {
 	/// <summary>
@@ -11,9 +13,15 @@ namespace NUnit.ConsoleRunner
 	/// </summary>
 	public class Runner
 	{
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		[STAThread]
 		public static int Main(string[] args)
 		{
+			log4net.GlobalContext.Properties["PID"] = System.Diagnostics.Process.GetCurrentProcess().Id;
+			log.Info( "NUnit-console.exe starting" );
+
 			ConsoleOptions options = new ConsoleOptions(args);
 			
 			if(!options.nologo)
@@ -47,6 +55,9 @@ namespace NUnit.ConsoleRunner
 			//ServiceManager.Services.AddService( new TestLoader() );
 			ServiceManager.Services.AddService( new AddinRegistry() );
 			ServiceManager.Services.AddService( new AddinManager() );
+			// TODO: Resolve conflict with gui testagency when running
+			// console tests under the gui.
+			//ServiceManager.Services.AddService( new TestAgency() );
 
 			// Initialize Services
 			ServiceManager.Services.InitializeServices();
@@ -73,7 +84,10 @@ namespace NUnit.ConsoleRunner
 					Console.Out.WriteLine("\nHit <enter> key to continue");
 					Console.ReadLine();
 				}
+
+				log.Info( "NUnit-console.exe terminating" );
 			}
+
 		}
 
 		private static void WriteCopyright()

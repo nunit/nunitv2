@@ -9,7 +9,7 @@ using NUnit.Core;
 namespace NUnit.Util
 {
 	/// <summary>
-	/// RemoteTestAgent represents a remote runner executing in another process
+	/// RemoteTestAgent represents a remote agent executing in another process
 	/// and communicating with NUnit by TCP. Although it is similar to a
 	/// TestServer, it does not publish a Uri at which clients may connect 
 	/// to it. Rather, it reports back to the sponsoring TestAgency upon 
@@ -38,6 +38,9 @@ namespace NUnit.Util
 		/// Lock used to avoid thread contention
 		/// </summary>
 		private object theLock = new object();
+
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 		#endregion
 
 		#region Constructor
@@ -73,15 +76,36 @@ namespace NUnit.Util
 		#region Public Methods
 		public void Start()
 		{
+			log.Info("Starting");
 			this.channel = ServerUtilities.GetTcpChannel();
+			log.Debug("Acquired Tcp Channel");
 
-			this.agency = (TestAgency)Activator.GetObject( typeof( TestAgency ), agencyUrl );
-			this.agency.Register( this, ProcessId );
+			try
+			{
+				this.agency = (TestAgency)Activator.GetObject( typeof( TestAgency ), agencyUrl );
+				log.DebugFormat("Connected to TestAgency at {0}", agencyUrl);
+			}
+			catch( Exception ex )
+			{
+				log.ErrorFormat( "Unable to connect to test agency at {0}", agencyUrl );
+				log.ErrorFormat( ex.Message );
+			}
+
+			try
+			{
+				this.agency.Register( this, ProcessId );
+				log.Debug( "Registered with TestAgency" );
+			}
+			catch( Exception ex )
+			{
+				log.Error( "Failed to register with TestAgency", ex );
+			}
 		}
 
 		[System.Runtime.Remoting.Messaging.OneWay]
 		public void Stop()
 		{
+			log.Info( "Stopping" );
 			lock( theLock )
 			{
 				if ( this.channel != null )
