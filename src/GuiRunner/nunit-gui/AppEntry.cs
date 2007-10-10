@@ -25,12 +25,18 @@ namespace NUnit.Gui
 	/// </summary>
 	public class AppEntry
 	{
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		public static int Main(string[] args) 
 		{
+			log4net.GlobalContext.Properties["PID"] = System.Diagnostics.Process.GetCurrentProcess().Id;
+			log.Info( "Starting NUnit GUI" );
+
 			NUnitForm.CommandLineOptions command =
 				new NUnitForm.CommandLineOptions();
 
@@ -39,10 +45,6 @@ namespace NUnit.Gui
 			GuiAttachedConsole attachedConsole = null;
 			if ( parser.console )
 				attachedConsole = new GuiAttachedConsole();
-
-			log4net.ILog log = log4net.LogManager.GetLogger(
-				System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-			log.Info( "Starting NUnit GUI" );
 
 			if(parser.Validate() && !parser.help) 
 			{
@@ -112,14 +114,14 @@ namespace NUnit.Gui
 				return 2;
 			}	
 				
-			log.Info( "Exiting NUnit GUI" );
-
 			if ( attachedConsole != null )
 			{
 				Console.WriteLine( "Press Enter to exit" );
 				Console.ReadLine();
 				attachedConsole.Close();
 			}
+
+			log.Info( "Exiting NUnit GUI" );
 
 			return 0;
 		}

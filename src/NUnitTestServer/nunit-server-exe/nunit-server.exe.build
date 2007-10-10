@@ -2,7 +2,7 @@
 <project name="NUnitServerExe" default="build" basedir=".">
 
   <target name="build">
-    <csc target="exe" 
+    <csc target="winexe" 
         output="${current.build.dir}/nunit-server.exe"
         debug="${build.debug}" define="${build.defines}">
       <sources>

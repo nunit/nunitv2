@@ -21,7 +21,7 @@ namespace NUnit.Agent
 		public static int Main(string[] args)
 		{
 			log4net.GlobalContext.Properties["PID"] = System.Diagnostics.Process.GetCurrentProcess().Id;
-			log.Info("Starting");
+			log.Info("NUnit-agent.exe starting");
 
 			// Add Standard Services to ServiceManager
 			ServiceManager.Services.AddService( new SettingsService() );
@@ -46,7 +46,7 @@ namespace NUnit.Agent
 				ServiceManager.Services.StopAllServices();
 			}
 
-			log.Info("Exiting");
+			log.Info("NUnit-agent.exe is terminating");
             //Console.WriteLine("Press Enter to Terminate");
             //Console.ReadLine();
 			return 0;

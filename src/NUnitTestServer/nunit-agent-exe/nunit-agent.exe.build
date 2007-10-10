@@ -2,7 +2,8 @@
 <project name="NUnitAgentExe" default="build" basedir=".">
 
   <target name="build">
-    <csc target="exe" 
+
+    <csc target="winexe" 
         output="${current.build.dir}/nunit-agent.exe"
         debug="${build.debug}" define="${build.defines}">
       <sources>
@@ -16,6 +17,10 @@
         <include name="log4net.dll"/>
       </references>
     </csc>
+
+    <copy file="App.config"
+      tofile="${current.build.dir}/nunit-agent.exe.config"/>
+
   </target>
 
   <target name="package">

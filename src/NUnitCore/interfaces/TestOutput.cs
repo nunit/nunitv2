@@ -62,27 +62,32 @@ namespace NUnit.Core
 
     /// <summary>
     /// Enum representing the output destination
+    /// It uses combinable flags so that a given
+    /// output control can accept multiple types
+    /// of output. Normally, each individual
+    /// output uses a single flag value.
     /// </summary>
+    [Flags]
 	public enum TestOutputType
 	{
         /// <summary>
         /// Send output to stdOut
         /// </summary>
-		Out, 
+		Out = 1, 
         
         /// <summary>
         /// Send output to stdErr
         /// </summary>
-        Error,
+        Error = 2,
 
 		/// <summary>
 		/// Send output to Trace
 		/// </summary>
-		Trace,
+		Trace = 4,
 
 		/// <summary>
 		/// Send output to Log
 		/// </summary>
-		Log
+		Log = 8
 	}
 }

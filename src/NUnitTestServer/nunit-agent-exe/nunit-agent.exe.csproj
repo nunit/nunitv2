@@ -15,9 +15,9 @@
                 DefaultHTMLPageLayout = "Grid"
                 DefaultTargetSchema = "IE50"
                 DelaySign = "false"
-                OutputType = "Exe"
+                OutputType = "WinExe"
                 PreBuildEvent = ""
-                PostBuildEvent = ""
+                PostBuildEvent = 'copy "$(SolutionDir)NUnit.log4net" "$(TargetDir)"'
                 RootNamespace = "NUnit.Agent"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
