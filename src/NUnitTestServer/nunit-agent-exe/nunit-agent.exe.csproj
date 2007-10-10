@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "WinExe"
                 PreBuildEvent = ""
-                PostBuildEvent = 'copy "$(SolutionDir)NUnit.log4net" "$(TargetDir)"'
+                PostBuildEvent = ""
                 RootNamespace = "NUnit.Agent"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
