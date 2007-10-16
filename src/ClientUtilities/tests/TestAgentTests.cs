@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace NUnit.Util.Tests
 {
-	[TestFixture]
+	// Exclude for release [TestFixture]
 	public class RemoteTestAgentTests
 	{
 		[Test]

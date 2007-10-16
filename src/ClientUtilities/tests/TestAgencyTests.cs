@@ -7,7 +7,7 @@ using System.Runtime.Remoting.Channels.Tcp;
 
 namespace NUnit.Util.Tests
 {
-	[TestFixture,Platform(Exclude="Mono")]
+	// Exclude for release [TestFixture,Platform(Exclude="Mono")]
 	public class TestAgencyTests
 	{
 		private TestAgency agency;

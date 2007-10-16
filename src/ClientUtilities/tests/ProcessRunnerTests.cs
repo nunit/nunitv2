@@ -15,7 +15,7 @@ namespace NUnit.Util.Tests
 	/// <summary>
 	/// Summary description for ProcessRunnerTests.
 	/// </summary>
-	[TestFixture,Platform(Exclude="Mono",Reason="Process Start not working correctly")]
+	// Exclude for release[TestFixture,Platform(Exclude="Mono",Reason="Process Start not working correctly")]
 	public class ProcessRunnerTests : BasicRunnerTests
 	{
 		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
