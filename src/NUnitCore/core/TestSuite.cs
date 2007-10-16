@@ -161,8 +161,14 @@ namespace NUnit.Core
 							MarkTestsFailed(Tests, suiteResult, listener, filter);
 						else
 						{
-							RunAllTests(suiteResult, listener, filter);
-							DoOneTimeTearDown(suiteResult);
+							try
+							{
+								RunAllTests(suiteResult, listener, filter);
+							}
+							finally
+							{
+								DoOneTimeTearDown(suiteResult);
+							}
 						}
 						break;
 
