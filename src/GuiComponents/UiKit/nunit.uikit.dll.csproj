@@ -119,6 +119,16 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "AddTabPageDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AddTabPageDialog.resx"
+                    DependentUpon = "AddTabPageDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "AppContainer.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -142,6 +152,16 @@
                 <File
                     RelPath = "ConfigurationEditor.resx"
                     DependentUpon = "ConfigurationEditor.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "EditTabPagesDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "EditTabPagesDialog.resx"
+                    DependentUpon = "EditTabPagesDialog.cs"
                     BuildAction = "EmbeddedResource"
                 />
                 <File

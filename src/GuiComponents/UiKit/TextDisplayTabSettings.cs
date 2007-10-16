@@ -5,8 +5,10 @@ namespace NUnit.UiKit
 {
 	public class TextDisplayTabSettings
 	{
-		private TabInfo[] tabInfo;
+		private TabInfoCollection tabInfo;
 		private NUnit.Util.ISettings settings;
+
+		public static readonly string Prefix = "Gui.TextOutput.";
 
 		public void LoadSettings()
 		{
@@ -17,102 +19,160 @@ namespace NUnit.UiKit
 		{
 			this.settings = settings;
 
-			ArrayList info = new ArrayList();
-			for( int i = 0; ; i++ )
-			{
-				string prefix = string.Format( "Gui.TextOutput.Tab{0}.",i );
-				string text = (string)settings.GetSetting(prefix + "Title");
-				if ( text == null )
-					break;
+			TabInfoCollection info = new TabInfoCollection();
+			string tabList = (string)settings.GetSetting( Prefix + "TabList" );
 
-				TextDisplayContent content =
-					(TextDisplayContent)settings.GetSetting(prefix + "Content", TextDisplayContent.Empty );
-				bool visible = settings.GetSetting( prefix + "Visible", true );
-				info.Add( new TabInfo( prefix, text, content, visible ));
+			if ( tabList != null ) 
+			{
+				string[] tabNames = tabList.Split( new char[] { ',' } );
+				foreach( string name in tabNames )
+				{
+					string prefix = Prefix + name;
+					string text = (string)settings.GetSetting(prefix + ".Title");
+					if ( text == null )
+						break;
+
+					TabInfo tab = new TabInfo( name, text );
+					tab.Content = (TextDisplayContent)settings.GetSetting(prefix + ".Content", TextDisplayContent.Empty );
+					tab.Enabled = settings.GetSetting( prefix + ".Enabled", true );
+					info.Add( tab );
+				}
 			}
 
 			if ( info.Count > 0 )		
-				tabInfo = (TabInfo[])info.ToArray(typeof(TabInfo));
+				tabInfo = info;
 			else 
 				LoadDefaults();
 		}
 
 		public void LoadDefaults()
 		{
-			tabInfo = new TabInfo[4];
+			tabInfo = new TabInfoCollection();
 
 			// Get any legacy settings
 			bool mergeErrorOutput = settings.GetSetting( "Gui.ResultTabs.MergeErrorOutput", false );
 			bool mergeTraceOutput = settings.GetSetting( "Gui.ResultTabs.MergeTraceOutput", false );
 
-			TextDisplayContent content = TextDisplayContent.Out;
+			TabInfo tab0 = tabInfo.AddNewTab( "Console.Out" );
+			tab0.Content = TextDisplayContent.Out;
 			if ( mergeErrorOutput )
-				content |= TextDisplayContent.Error;
+				tab0.Content |= TextDisplayContent.Error;
 			if ( mergeTraceOutput )
-				content |= TextDisplayContent.Trace;
+				tab0.Content |= TextDisplayContent.Trace;
 			if ( settings.GetSetting( "Gui.ResultTabs.DisplayTestLabels", false ) )
-				content |= TextDisplayContent.Labels;
-			bool visible = settings.GetSetting( "Gui.ResultTabs.DisplayConsoleOutputTab", true );
-			tabInfo[0] = new TabInfo( "Gui.TextOutput.Tab0.", "Console.Out", content, visible );
+				tab0.Content |= TextDisplayContent.Labels;
+			tab0.Enabled = settings.GetSetting( "Gui.ResultTabs.DisplayConsoleOutputTab", true );
 
-			content = mergeErrorOutput ? TextDisplayContent.Empty : TextDisplayContent.Error;
-			visible = settings.GetSetting( "Gui.ResultTabs.DisplayConsoleErrorTab", true );
-			tabInfo[1] = new TabInfo( "Gui.TextOutput.Tab1.", "Console.Error", content, visible );
+			TabInfo tab1 = tabInfo.AddNewTab( "Console.Error" );
+			tab1.Content = mergeErrorOutput ? TextDisplayContent.Empty : TextDisplayContent.Error;
+			tab1.Enabled = settings.GetSetting( "Gui.ResultTabs.DisplayConsoleErrorTab", true );
 
-			content = mergeTraceOutput ? TextDisplayContent.Empty : TextDisplayContent.Trace;
-			visible = settings.GetSetting( "Gui.ResultTabs.DisplayTraceTab", true );
-			tabInfo[2] = new TabInfo( "Gui.TextOutput.Tab2.", "Trace", content, visible );
+			TabInfo tab2 = tabInfo.AddNewTab( "Trace" );
+			tab2.Content = mergeTraceOutput ? TextDisplayContent.Empty : TextDisplayContent.Trace;
+			tab2.Enabled = settings.GetSetting( "Gui.ResultTabs.DisplayTraceTab", true );
 
-			visible = settings.GetSetting( "Gui.ResultTabs.DisplayLoggingTab", true );
-			tabInfo[3] = new TabInfo( "Gui.TextOutput.Tab3.", "Log", TextDisplayContent.Log, visible );
+			TabInfo tab3 = tabInfo.AddNewTab( "Log" );
+			tab3.Content = TextDisplayContent.Log;
+			tab3.Enabled = settings.GetSetting( "Gui.ResultTabs.DisplayLoggingTab", true );
 		}
 
 		public void ApplySettings()
 		{
-			int index = 0;
+			System.Text.StringBuilder tabNames = new System.Text.StringBuilder();
 			foreach( TabInfo tab in tabInfo )
 			{
-				string prefix = string.Format( "Gui.TextOutput.Tab{0}.", index++ );
-				settings.SaveSetting( prefix + "Title", tab.Title );
-				settings.SaveSetting( prefix + "Content", tab.Content );
-				settings.SaveSetting( prefix + "Visible", tab.Visible );
+				if ( tabNames.Length > 0 )
+					tabNames.Append(",");
+				tabNames.Append( tab.Name );
+
+				string prefix = Prefix + tab.Name;
+
+				settings.SaveSetting( prefix + ".Title", tab.Title );
+				settings.SaveSetting( prefix + ".Content", tab.Content );
+				settings.SaveSetting( prefix + ".Enabled", tab.Enabled );
 			}
 
-			// Remove any higher numbered tabs
-			for(;;)
+			string oldNames = settings.GetSetting( Prefix + "TabList", string.Empty );
+			settings.SaveSetting( Prefix + "TabList", tabNames.ToString() );
+
+			if (oldNames != string.Empty )
 			{
-				string prefix = string.Format( "Gui.TextOutput.Tab{0}.", index++ );
-				if ( settings.GetSetting( prefix + "Title" ) == null )
-					break;
-				settings.RemoveSetting( prefix + "Title" );
-				settings.RemoveSetting( prefix + "Content" );
-			    settings.RemoveSetting( prefix + "Visible" );
+				string[] oldTabs = oldNames.Split( new char[] { ',' } );
+				foreach( string tabName in oldTabs )
+					if ( tabInfo[tabName] == null )
+						settings.RemoveGroup( Prefix + tabName );
 			}
-
-			// Remove legacy settings if present
-			settings.RemoveSetting( "Gui.ResultTabs.MergeErrorOutput" );
-			settings.RemoveSetting( "Gui.ResultTabs.MergeTraceOutput" );
-			settings.RemoveSetting( "Gui.ResultTabs.DisplayTestLabels" );
 		}
 
-		public TabInfo[] Tabs
+		public TabInfoCollection Tabs
 		{
 			get { return tabInfo; }
 		}
 	
-		public struct TabInfo
+		public class TabInfo
 		{
-			public string Prefix;
+			public string Name;
 			public string Title;
-			public TextDisplayContent Content;
-			public bool Visible;
+			public TextDisplayContent Content = TextDisplayContent.Empty;
+			public bool Enabled = true;
 
-			public TabInfo( string prefix, string title, TextDisplayContent content, bool visible )
+			public TabInfo( string name, string title )
 			{
-				this.Prefix = prefix;
+				this.Name = name;
 				this.Title = title;
-				this.Content = content;
-				this.Visible = visible;
+			}
+		}
+
+		public class TabInfoCollection : CollectionBase
+		{
+			public void Add( TabInfo tabInfo )
+			{
+				InnerList.Add( tabInfo );
+			}
+
+			public TabInfo AddNewTab( string title )
+			{
+				TabInfo tabInfo = new TabInfo( GetNextName(), title );
+				InnerList.Add( tabInfo );
+				return tabInfo;
+			}
+
+			public void Insert( int index, TabInfo tabInfo )
+			{
+				InnerList.Insert(index, tabInfo);
+			}
+
+			private string GetNextName()
+			{
+				for( int i = 0;;i++ )
+				{
+					string name = string.Format( "Tab{0}", i );
+					if ( this[name] == null )
+						return name;
+				}
+			}
+
+			public TabInfo this[int index]
+			{
+				get { return (TabInfo)InnerList[index]; }
+				set { InnerList[index] = value; }
+			}
+
+			public TabInfo this[string name]
+			{
+				get
+				{
+					foreach ( TabInfo info in InnerList )
+						if ( info.Name == name )
+							return info;
+
+					return null;
+				}
+			}
+
+			public bool Contains( string name )
+			{
+				return this[name] != null;
 			}
 		}
 	}

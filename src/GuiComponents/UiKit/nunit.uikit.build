@@ -7,10 +7,12 @@
     debug="${build.debug}" define="${build.defines}">
       <sources>
         <include name="AddConfigurationDialog.cs"/>
+        <include name="AddTabPageDialog.cs"/>
         <include name="AppContainer.cs"/>
         <include name="AssemblyInfo.cs"/>
         <include name="CommonAssemblyInfo.cs"/>
         <include name="ConfigurationEditor.cs"/>
+        <include name="EditTabPagesDialog.cs"/>
         <include name="ErrorDisplay.cs"/>
         <include name="ExpandingLabel.cs"/>
         <include name="ExpandingTextBox.cs"/>

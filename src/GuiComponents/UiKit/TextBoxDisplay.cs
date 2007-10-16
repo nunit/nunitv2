@@ -61,7 +61,7 @@ namespace NUnit.UiKit
 		private string pendingTestCaseLabel = null;
 		private void OnTestOutput( object sender, TestEventArgs e )
 		{
-			if ( ((int)e.TestOutput.Type & (int)this.content) != 0 )
+			if ( WantOutputType( e.TestOutput.Type ) )
 			{
 				if ( pendingTestCaseLabel != null )
 				{
@@ -71,6 +71,28 @@ namespace NUnit.UiKit
 
 				Write( e.TestOutput.Text );
 			}
+		}
+
+		private bool WantOutputType( TestOutputType type )
+		{
+			TextDisplayContent mask = TextDisplayContent.Empty;
+			switch( type )
+			{
+				case TestOutputType.Out:
+					mask = TextDisplayContent.Out;
+					break;
+				case TestOutputType.Error:
+					mask = TextDisplayContent.Error;
+					break;
+				case TestOutputType.Trace:
+					mask = TextDisplayContent.Trace;
+					break;
+				case TestOutputType.Log:
+					mask = TextDisplayContent.Log;
+					break;
+			}
+
+			return ((int)mask & (int)this.content) != 0;
 		}
 
 		private void OnTestStarting(object sender, TestEventArgs args)

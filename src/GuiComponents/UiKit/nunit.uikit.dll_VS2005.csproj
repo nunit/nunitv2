@@ -70,6 +70,9 @@
     <Compile Include="AddConfigurationDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="AddTabPageDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AppContainer.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -77,6 +80,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ConfigurationEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditTabPagesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ErrorDisplay.cs">
@@ -175,8 +181,16 @@
       <DependentUpon>AddConfigurationDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddTabPageDialog.resx">
+      <DependentUpon>AddTabPageDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConfigurationEditor.resx">
       <DependentUpon>ConfigurationEditor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditTabPagesDialog.resx">
+      <DependentUpon>EditTabPagesDialog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Ellipsis.gif" />

@@ -24,14 +24,12 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.CheckBox testCaseLabels;
 		private System.Windows.Forms.CheckBox suppressLabelsIfNoOutput;
 		private System.ComponentModel.IContainer components = null;
-
-		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.CheckBox displayTab;
 
 		private TextDisplayTabSettings tabSettings = new TextDisplayTabSettings();
+		private System.Windows.Forms.CheckBox enabledCheckBox;
+		private int selectedTabIndex = -1;
 
 		public TextOutputSettingsPage(string key) : base(key)
 		{
@@ -76,24 +74,22 @@ namespace NUnit.UiKit
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.suppressLabelsIfNoOutput = new System.Windows.Forms.CheckBox();
-			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.label4 = new System.Windows.Forms.Label();
 			this.textBox1 = new System.Windows.Forms.TextBox();
-			this.displayTab = new System.Windows.Forms.CheckBox();
+			this.enabledCheckBox = new System.Windows.Forms.CheckBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(8, 0);
+			this.label1.Location = new System.Drawing.Point(8, 16);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(224, 16);
+			this.label1.Size = new System.Drawing.Size(72, 16);
 			this.label1.TabIndex = 11;
-			this.label1.Text = "Show Settings for";
+			this.label1.Text = "Select Tab:";
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(8, 120);
+			this.label2.Location = new System.Drawing.Point(8, 104);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(104, 16);
 			this.label2.TabIndex = 16;
@@ -101,7 +97,7 @@ namespace NUnit.UiKit
 			// 
 			// showStandardOutput
 			// 
-			this.showStandardOutput.Location = new System.Drawing.Point(40, 144);
+			this.showStandardOutput.Location = new System.Drawing.Point(40, 128);
 			this.showStandardOutput.Name = "showStandardOutput";
 			this.showStandardOutput.Size = new System.Drawing.Size(136, 24);
 			this.showStandardOutput.TabIndex = 17;
@@ -110,7 +106,7 @@ namespace NUnit.UiKit
 			// 
 			// showErrorOutput
 			// 
-			this.showErrorOutput.Location = new System.Drawing.Point(200, 144);
+			this.showErrorOutput.Location = new System.Drawing.Point(200, 128);
 			this.showErrorOutput.Name = "showErrorOutput";
 			this.showErrorOutput.Size = new System.Drawing.Size(128, 24);
 			this.showErrorOutput.TabIndex = 18;
@@ -119,7 +115,7 @@ namespace NUnit.UiKit
 			// 
 			// showTraceOutput
 			// 
-			this.showTraceOutput.Location = new System.Drawing.Point(40, 176);
+			this.showTraceOutput.Location = new System.Drawing.Point(40, 160);
 			this.showTraceOutput.Name = "showTraceOutput";
 			this.showTraceOutput.Size = new System.Drawing.Size(120, 24);
 			this.showTraceOutput.TabIndex = 19;
@@ -128,7 +124,7 @@ namespace NUnit.UiKit
 			// 
 			// showLogOutput
 			// 
-			this.showLogOutput.Location = new System.Drawing.Point(200, 176);
+			this.showLogOutput.Location = new System.Drawing.Point(200, 160);
 			this.showLogOutput.Name = "showLogOutput";
 			this.showLogOutput.Size = new System.Drawing.Size(120, 24);
 			this.showLogOutput.TabIndex = 20;
@@ -137,7 +133,7 @@ namespace NUnit.UiKit
 			// 
 			// testCaseLabels
 			// 
-			this.testCaseLabels.Location = new System.Drawing.Point(40, 240);
+			this.testCaseLabels.Location = new System.Drawing.Point(40, 224);
 			this.testCaseLabels.Name = "testCaseLabels";
 			this.testCaseLabels.Size = new System.Drawing.Size(184, 24);
 			this.testCaseLabels.TabIndex = 21;
@@ -146,15 +142,12 @@ namespace NUnit.UiKit
 			// 
 			// tabSelectComboBox
 			// 
+			this.tabSelectComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
 			this.tabSelectComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.tabSelectComboBox.Items.AddRange(new object[] {
-																   "Console.Out",
-																   "Console.Error",
-																   "Trace",
-																   "Log"});
-			this.tabSelectComboBox.Location = new System.Drawing.Point(8, 16);
+			this.tabSelectComboBox.Location = new System.Drawing.Point(88, 16);
 			this.tabSelectComboBox.Name = "tabSelectComboBox";
-			this.tabSelectComboBox.Size = new System.Drawing.Size(240, 24);
+			this.tabSelectComboBox.Size = new System.Drawing.Size(232, 24);
 			this.tabSelectComboBox.TabIndex = 22;
 			this.tabSelectComboBox.SelectedIndexChanged += new System.EventHandler(this.tabSelectComboBox_SelectedIndexChanged);
 			// 
@@ -162,7 +155,7 @@ namespace NUnit.UiKit
 			// 
 			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox2.Location = new System.Drawing.Point(56, 120);
+			this.groupBox2.Location = new System.Drawing.Point(56, 104);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(400, 8);
 			this.groupBox2.TabIndex = 24;
@@ -170,18 +163,19 @@ namespace NUnit.UiKit
 			// 
 			// useDefaultsButton
 			// 
-			this.useDefaultsButton.Location = new System.Drawing.Point(280, 16);
+			this.useDefaultsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.useDefaultsButton.Location = new System.Drawing.Point(328, 16);
 			this.useDefaultsButton.Name = "useDefaultsButton";
-			this.useDefaultsButton.Size = new System.Drawing.Size(160, 23);
+			this.useDefaultsButton.Size = new System.Drawing.Size(112, 23);
 			this.useDefaultsButton.TabIndex = 25;
-			this.useDefaultsButton.Text = "Restore Default Tabs";
+			this.useDefaultsButton.Text = "Restore Defaults";
 			this.useDefaultsButton.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// groupBox1
 			// 
 			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox1.Location = new System.Drawing.Point(80, 216);
+			this.groupBox1.Location = new System.Drawing.Point(80, 200);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(376, 8);
 			this.groupBox1.TabIndex = 27;
@@ -189,7 +183,7 @@ namespace NUnit.UiKit
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(8, 216);
+			this.label3.Location = new System.Drawing.Point(8, 200);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(104, 16);
 			this.label3.TabIndex = 26;
@@ -198,64 +192,47 @@ namespace NUnit.UiKit
 			// suppressLabelsIfNoOutput
 			// 
 			this.suppressLabelsIfNoOutput.Enabled = false;
-			this.suppressLabelsIfNoOutput.Location = new System.Drawing.Point(72, 264);
+			this.suppressLabelsIfNoOutput.Location = new System.Drawing.Point(72, 248);
 			this.suppressLabelsIfNoOutput.Name = "suppressLabelsIfNoOutput";
 			this.suppressLabelsIfNoOutput.Size = new System.Drawing.Size(296, 24);
 			this.suppressLabelsIfNoOutput.TabIndex = 0;
 			this.suppressLabelsIfNoOutput.Text = "Suppress label if no output is displayed";
 			this.suppressLabelsIfNoOutput.CheckedChanged += new System.EventHandler(this.suppressLabelsIfNoOutput_CheckedChanged);
 			// 
-			// groupBox3
-			// 
-			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox3.Location = new System.Drawing.Point(80, 56);
-			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(376, 8);
-			this.groupBox3.TabIndex = 29;
-			this.groupBox3.TabStop = false;
-			// 
-			// label4
-			// 
-			this.label4.Location = new System.Drawing.Point(8, 56);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(104, 16);
-			this.label4.TabIndex = 28;
-			this.label4.Text = "Output Tab";
-			// 
 			// textBox1
 			// 
-			this.textBox1.Location = new System.Drawing.Point(80, 80);
+			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.textBox1.Location = new System.Drawing.Point(88, 64);
 			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(112, 22);
+			this.textBox1.Size = new System.Drawing.Size(232, 22);
 			this.textBox1.TabIndex = 30;
 			this.textBox1.Text = "";
 			this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
 			// 
-			// displayTab
+			// enabledCheckBox
 			// 
-			this.displayTab.Location = new System.Drawing.Point(240, 80);
-			this.displayTab.Name = "displayTab";
-			this.displayTab.Size = new System.Drawing.Size(160, 24);
-			this.displayTab.TabIndex = 31;
-			this.displayTab.Text = "Display this tab";
-			this.displayTab.CheckedChanged += new System.EventHandler(this.displayTab_CheckedChanged);
+			this.enabledCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.enabledCheckBox.Location = new System.Drawing.Point(344, 64);
+			this.enabledCheckBox.Name = "enabledCheckBox";
+			this.enabledCheckBox.Size = new System.Drawing.Size(80, 24);
+			this.enabledCheckBox.TabIndex = 31;
+			this.enabledCheckBox.Text = "Enabled";
+			this.enabledCheckBox.CheckedChanged += new System.EventHandler(this.displayTab_CheckedChanged);
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(40, 80);
+			this.label5.Location = new System.Drawing.Point(8, 64);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(40, 23);
+			this.label5.Size = new System.Drawing.Size(64, 23);
 			this.label5.TabIndex = 32;
 			this.label5.Text = "Title:";
 			// 
 			// TextOutputSettingsPage
 			// 
 			this.Controls.Add(this.label5);
-			this.Controls.Add(this.displayTab);
+			this.Controls.Add(this.enabledCheckBox);
 			this.Controls.Add(this.textBox1);
-			this.Controls.Add(this.groupBox3);
-			this.Controls.Add(this.label4);
 			this.Controls.Add(this.suppressLabelsIfNoOutput);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label3);
@@ -278,9 +255,29 @@ namespace NUnit.UiKit
 		public override void LoadSettings()
 		{
 			tabSettings.LoadSettings(settings);
+			InitializeComboBox();
+		}
 
-			this.tabSelectComboBox.SelectedIndex = 0;
-			this.InitDisplay(tabSettings.Tabs[0]);
+		private void InitializeComboBox()
+		{
+			FillComboBox();
+
+			if ( this.tabSelectComboBox.Items.Count > 0 )
+			{
+				this.tabSelectComboBox.SelectedIndex = this.selectedTabIndex = 0;
+				this.InitDisplay(tabSettings.Tabs[0]);
+			}
+		}
+
+		private void FillComboBox()
+		{
+			tabSelectComboBox.Items.Clear();
+
+			foreach( TextDisplayTabSettings.TabInfo tabInfo in this.tabSettings.Tabs )
+				this.tabSelectComboBox.Items.Add( tabInfo.Title );
+
+			tabSelectComboBox.Items.Add( "<New...>" );
+			tabSelectComboBox.Items.Add( "<Edit...>" );
 		}
 
 		public override void ApplySettings()
@@ -291,7 +288,7 @@ namespace NUnit.UiKit
 		private void button1_Click(object sender, System.EventArgs e)
 		{
 			tabSettings.LoadDefaults();
-			InitDisplay( tabSettings.Tabs[0] );
+			InitializeComboBox();
 		}
 
 		private void InitDisplay(TextDisplayTabSettings.TabInfo tabInfo)
@@ -306,12 +303,53 @@ namespace NUnit.UiKit
 			testCaseLabels.Checked = (content & TextDisplayContent.Labels) != 0;
 			suppressLabelsIfNoOutput.Checked = (content & TextDisplayContent.LabelOnlyOnOutput) != 0;
 
-			displayTab.Checked = tabInfo.Visible;
+			enabledCheckBox.Checked = tabInfo.Enabled;
 		}
 
 		private void tabSelectComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
-			InitDisplay(tabSettings.Tabs[tabSelectComboBox.SelectedIndex]);
+			int index = tabSelectComboBox.SelectedIndex;
+			if ( index < tabSettings.Tabs.Count )
+			{
+				selectedTabIndex = index;
+				InitDisplay(tabSettings.Tabs[index]);
+			}
+			else // Not a tab, but a "menu" item
+			{
+				tabSelectComboBox.SelectedIndex = selectedTabIndex;
+
+				if ( index == tabSettings.Tabs.Count )
+					addNewTabPage();
+				else
+					editTabPages();
+			}
+		}
+
+		private void addNewTabPage()
+		{
+			using( AddTabPageDialog dlg = new AddTabPageDialog(tabSettings) )
+			{
+				this.ParentForm.Site.Container.Add( dlg );
+				if ( dlg.ShowDialog(this) == DialogResult.OK )
+				{
+					FillComboBox();
+					this.tabSelectComboBox.SelectedIndex = tabSettings.Tabs.Count - 1;
+				}
+			}
+		}
+
+		private void editTabPages()
+		{
+			using( EditTabPagesDialog dlg = new EditTabPagesDialog( tabSettings) )
+			{
+				this.ParentForm.Site.Container.Add( dlg );
+				dlg.ShowDialog(this);
+
+				FillComboBox();
+					
+				if ( tabSelectComboBox.Items.Count > 0 )
+					tabSelectComboBox.SelectedIndex = selectedTabIndex = 0;
+			}
 		}
 
 		private void testCaseLabels_CheckedChanged(object sender, System.EventArgs e)
@@ -361,7 +399,7 @@ namespace NUnit.UiKit
 
 		private void displayTab_CheckedChanged(object sender, System.EventArgs e)
 		{
-			tabSettings.Tabs[tabSelectComboBox.SelectedIndex].Visible = displayTab.Checked;
+			tabSettings.Tabs[tabSelectComboBox.SelectedIndex].Enabled = enabledCheckBox.Checked;
 		}
 	}
 }

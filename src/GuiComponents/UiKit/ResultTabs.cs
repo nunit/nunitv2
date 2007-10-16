@@ -86,7 +86,7 @@ namespace NUnit.UiKit
 			this.textOutputMenuItem.Click += new EventHandler(textOutputMenuItem_Click);
 
 			displayController = new TextDisplayController(tabControl);
-			displayController.CreatePages();
+//			displayController.CreatePages();
 		}
 
 		/// <summary> 
@@ -216,7 +216,7 @@ namespace NUnit.UiKit
 				TextDisplayTabSettings tabSettings = new TextDisplayTabSettings();
 				tabSettings.LoadSettings( settings );
 
-				LoadSettingsAndUpdateTabPages();
+				UpdateTabPages();
 
 				UpdateFixedFont();
 				Subscribe( Services.TestLoader.Events );
@@ -232,12 +232,26 @@ namespace NUnit.UiKit
 			base.OnLoad (e);
 		}
 
-		private void LoadSettingsAndUpdateTabPages()
+		private void UpdateTabPages()
 		{
 			errorsTabMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayErrorsTab", true );
 			notRunTabMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayNotRunTab", true );
 
-			UpdateTabPages();
+			log.Debug( "Updating tab pages" );
+			updating = true;
+			
+			tabControl.TabPages.Clear();
+
+			if ( errorsTabMenuItem.Checked )
+				tabControl.TabPages.Add( errorTab );
+			if ( notRunTabMenuItem.Checked )
+				tabControl.TabPages.Add( notRunTab );
+			
+			displayController.UpdatePages();
+
+			tabControl.SelectedIndex = settings.GetSetting( "Gui.ResultTabs.SelectedTab", 0 );
+
+			updating = false;
 		}
 
 		private void UpdateFixedFont()
@@ -255,30 +269,12 @@ namespace NUnit.UiKit
 			}
 		}
 
-		private void UpdateTabPages()
-		{
-			log.Debug( "Updating tab pages" );
-			updating = true;
-			
-			tabControl.TabPages.Clear();
-
-			if ( errorsTabMenuItem.Checked )
-				tabControl.TabPages.Add( errorTab );
-			if ( notRunTabMenuItem.Checked )
-				tabControl.TabPages.Add( notRunTab );
-			
-			displayController.AddPagesToTabControl(tabControl);
-
-			tabControl.SelectedIndex = settings.GetSetting( "Gui.ResultTabs.SelectedTab", 0 );
-
-			updating = false;
-		}
-
 		private void UserSettings_Changed( object sender, SettingsEventArgs e )
 		{
 			if( e.SettingName.StartsWith( "Gui.ResultTabs.Display" ) ||
-				e.SettingName.StartsWith( "Gui.TextOutput.Tab" ) && e.SettingName.EndsWith( ".Visible" ) )
-					LoadSettingsAndUpdateTabPages();
+				e.SettingName == "Gui.TextOutput.TabList" || 
+				e.SettingName.StartsWith( "Gui.TextOut" ) && e.SettingName.EndsWith( "Enabled" ) )
+					UpdateTabPages();
 			else if ( e.SettingName == "Gui.FixedFont" )
 				UpdateFixedFont();
 		}
@@ -367,15 +363,7 @@ namespace NUnit.UiKit
 			public TextDisplayController(TabControl tabControl)
 			{			
 				this.tabControl = tabControl;
-			}
-
-			public void CreatePages()
-			{
-				TextDisplayTabSettings tabSettings = new TextDisplayTabSettings();
-				tabSettings.LoadSettings();
-
-				foreach( TextDisplayTabSettings.TabInfo tabInfo in tabSettings.Tabs )
-					tabPages.Add( new TextDisplayTabPage(tabInfo) );
+				Services.UserSettings.Changed += new SettingsEventHandler(UserSettings_Changed);
 			}
 
 			public void Clear()
@@ -384,15 +372,62 @@ namespace NUnit.UiKit
 					page.Display.Clear();
 			}
 
-			public void AddPagesToTabControl( TabControl tabControl )
+			public void UpdatePages()
 			{
-				ISettings settings = Services.UserSettings;
-				int index = 0;
-				foreach( TextDisplayTabPage page in tabPages )
+				TextDisplayTabSettings tabSettings = new TextDisplayTabSettings();
+				tabSettings.LoadSettings();
+				ArrayList oldPages = tabPages;
+				tabPages = new ArrayList();
+
+				foreach( TextDisplayTabSettings.TabInfo tabInfo in tabSettings.Tabs )
 				{
-					string name = string.Format( "Gui.TextOutput.Tab{0}.Visible", index++ );
-					if ( settings.GetSetting( name, true ) )
-						tabControl.TabPages.Add( page );
+					if ( tabInfo.Enabled )
+					{
+						TextDisplayTabPage thePage = null;
+						foreach( TextDisplayTabPage page in oldPages )
+							if ( page.Name == tabInfo.Name )
+							{
+								thePage = page;
+								break;
+							}
+
+						if ( thePage == null )
+							thePage = new TextDisplayTabPage( tabInfo );
+
+						tabPages.Add( thePage );
+						tabControl.TabPages.Add( thePage );
+					}
+				}
+			}
+
+			private void UserSettings_Changed(object sender, SettingsEventArgs args)
+			{
+				string settingName = args.SettingName; 
+				string prefix = "Gui.TextOutput.";
+
+				if ( settingName.StartsWith( prefix ) )
+				{
+					string fieldName = settingName.Substring( prefix.Length );
+					int dot = fieldName.IndexOf('.');
+					if ( dot > 0 )
+					{
+						string tabName = fieldName.Substring( 0, dot );
+						string propName = fieldName.Substring( dot + 1 );
+						foreach( TextDisplayTabPage page in tabPages )
+							if ( page.Name == tabName )
+							{
+								switch(propName)
+								{
+									case "Title":
+										page.Text = (string)Services.UserSettings.GetSetting( settingName );
+										break;
+									case "Content":
+										page.Display.Content = 
+											(TextDisplayContent)Services.UserSettings.GetSetting( settingName );
+										break;
+								}
+							}
+					}
 				}
 			}
 

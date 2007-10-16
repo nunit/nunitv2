@@ -67,27 +67,26 @@ namespace NUnit.Core
     /// of output. Normally, each individual
     /// output uses a single flag value.
     /// </summary>
-    [Flags]
 	public enum TestOutputType
 	{
         /// <summary>
         /// Send output to stdOut
         /// </summary>
-		Out = 1, 
+		Out, 
         
         /// <summary>
         /// Send output to stdErr
         /// </summary>
-        Error = 2,
+        Error,
 
 		/// <summary>
 		/// Send output to Trace
 		/// </summary>
-		Trace = 4,
+		Trace,
 
 		/// <summary>
 		/// Send output to Log
 		/// </summary>
-		Log = 8
+		Log
 	}
 }

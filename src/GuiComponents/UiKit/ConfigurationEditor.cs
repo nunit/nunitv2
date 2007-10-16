@@ -155,6 +155,7 @@ namespace NUnit.UiKit
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.CancelButton = this.closeButton;
 			this.ClientSize = new System.Drawing.Size(297, 267);
+			this.ControlBox = false;
 			this.Controls.Add(this.activeButton);
 			this.Controls.Add(this.addButton);
 			this.Controls.Add(this.closeButton);
@@ -170,7 +171,7 @@ namespace NUnit.UiKit
 			this.helpProvider1.SetShowHelp(this, false);
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "ConfigurationEditor";
+			this.Text = "Configuration Editor";
 			this.Load += new System.EventHandler(this.ConfigurationEditor_Load);
 			this.ResumeLayout(false);
 
