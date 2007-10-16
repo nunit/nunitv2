@@ -22,6 +22,7 @@
           <File Id="nunit.util" Name="UTIL.DLL" LongName="nunit.util.dll" />
           <File Id="nunit.core.extensions" Name="CORE_EX.DLL" LongName="nunit.core.extensions.dll" />
           <File Id="nunit.framework.extensions" Name="FRAME_EX.DLL" LongName="nunit.framework.extensions.dll" />
+          <File Id="log4net.dll" Name="log4net.dll"/>
         </Component>
         
 		<!--<Component Id="NUnitServer" DiskId="1" Guid="Need Guid">
