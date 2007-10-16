@@ -84,6 +84,18 @@ namespace NUnit.Gui.SettingsPages
 
 		}
 		#endregion
+
+		public override void LoadSettings()
+		{
+			visualStudioSupportCheckBox.Checked = settings.GetSetting( "Options.TestLoader.VisualStudioSupport", false );
+		}
+
+		public override void ApplySettings()
+		{
+			settings.SaveSetting( "Options.TestLoader.VisualStudioSupport", visualStudioSupportCheckBox.Checked );
+		}
+
+
 	}
 }
 

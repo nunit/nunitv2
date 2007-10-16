@@ -3,6 +3,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using NUnit.Util;
 
 namespace NUnit.Gui.SettingsPages
 {
@@ -94,19 +95,44 @@ namespace NUnit.Gui.SettingsPages
 			this.reloadOnChangeCheckBox.Size = new System.Drawing.Size(245, 25);
 			this.reloadOnChangeCheckBox.TabIndex = 12;
 			this.reloadOnChangeCheckBox.Text = "Reload when test assembly changes";
+			this.reloadOnChangeCheckBox.CheckedChanged += new System.EventHandler(this.reloadOnChangeCheckBox_CheckedChanged);
 			// 
-			// AssemblyReloadSettings
+			// AssemblyReloadSettingsPage
 			// 
 			this.Controls.Add(this.rerunOnChangeCheckBox);
 			this.Controls.Add(this.reloadOnRunCheckBox);
 			this.Controls.Add(this.reloadOnChangeCheckBox);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.groupBox1);
-			this.Name = "AssemblyReloadSettings";
+			this.Name = "AssemblyReloadSettingsPage";
 			this.ResumeLayout(false);
 
 		}
 		#endregion
+
+		public override void LoadSettings()
+		{
+			reloadOnChangeCheckBox.Enabled = Environment.OSVersion.Platform == System.PlatformID.Win32NT;
+			reloadOnChangeCheckBox.Checked = settings.GetSetting( "Options.TestLoader.ReloadOnChange", true );
+			rerunOnChangeCheckBox.Checked = settings.GetSetting( "Options.TestLoader.RerunOnChange", false );
+			reloadOnRunCheckBox.Checked = settings.GetSetting( "Options.TestLoader.ReloadOnRun", true );
+		}
+
+		public override void ApplySettings()
+		{
+			TestLoader loader = Services.TestLoader;
+
+			settings.SaveSetting( "Options.TestLoader.ReloadOnChange", loader.ReloadOnChange = reloadOnChangeCheckBox.Checked );
+			settings.SaveSetting( "Options.TestLoader.RerunOnChange", loader.RerunOnChange = rerunOnChangeCheckBox.Checked );
+			settings.SaveSetting( "Options.TestLoader.ReloadOnRun", loader.ReloadOnRun = reloadOnRunCheckBox.Checked );
+		}
+
+
+
+		private void reloadOnChangeCheckBox_CheckedChanged(object sender, System.EventArgs e)
+		{
+			rerunOnChangeCheckBox.Enabled = reloadOnChangeCheckBox.Checked;
+		}
 	}
 }
 
