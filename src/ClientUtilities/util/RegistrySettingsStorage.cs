@@ -97,6 +97,11 @@ namespace NUnit.Util
 			}
 		}
 
+		public void RemoveGroup( string groupName )
+		{
+			storageKey.DeleteSubKeyTree( groupName );
+		}
+
 		/// <summary>
 		/// Save a setting in this storage
 		/// </summary>

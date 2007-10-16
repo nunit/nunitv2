@@ -95,10 +95,7 @@ namespace NUnit.Util
 			if ( result == null )
 				return defaultValue;
 
-			if ( result is int )
-				return (int)result;
-
-			return Int32.Parse( result.ToString() );
+			return ResultAsInt( result );
 		}
 
 		/// <summary>
@@ -115,9 +112,6 @@ namespace NUnit.Util
 			if ( result == null )
 				return defaultValue;
 
-			if ( result is bool )
-				return (bool)result;
-
 			// Handle legacy formats
 //			if ( result is int )
 //				return (int)result == 1;
@@ -128,7 +122,7 @@ namespace NUnit.Util
 //				if ( (string)result == "0" ) return false;
 //			}
 
-			return Boolean.Parse( result.ToString() );
+			return ResultAsBoolean( result );
 		}
 
 		/// <summary>
@@ -145,10 +139,7 @@ namespace NUnit.Util
 			if ( result == null )
 				return defaultValue;
 
-			if ( result is string )
-				return (string)result;
-
-			return result.ToString();
+			return ResultAsString( result );
 		}
 
 		/// <summary>
@@ -165,10 +156,7 @@ namespace NUnit.Util
 			if ( result == null )
 				return defaultValue;
 
-			if ( result is System.Enum )
-				return (System.Enum)result;
-
-			return (System.Enum)Enum.Parse( defaultValue.GetType(), result.ToString(), true );
+			return ResultAsEnum( result, defaultValue.GetType() );
 		}
 
 		/// <summary>
@@ -184,6 +172,15 @@ namespace NUnit.Util
 		}
 
 		/// <summary>
+		/// Remove a group of settings
+		/// </summary>
+		/// <param name="GroupName"></param>
+		public void RemoveGroup( string groupName )
+		{
+			storage.RemoveGroup( groupName );
+		}
+
+		/// <summary>
 		/// Save the value of one of the group's settings
 		/// </summary>
 		/// <param name="settingName">Name of the setting to save</param>
@@ -192,13 +189,51 @@ namespace NUnit.Util
 		{
 			object oldValue = storage.GetSetting( settingName );
 
-			if ( oldValue != settingValue )
+			// Avoid signaling "changes" when there is not really a change
+			if ( oldValue != null )
 			{
-				storage.SaveSetting( settingName, settingValue );
-
-				if ( Changed != null )
-					Changed( this, new SettingsEventArgs( settingName ) );
+				if( settingValue is string && ResultAsString(oldValue) == (string)settingValue ||
+					settingValue is int && ResultAsInt(oldValue) == (int)settingValue ||
+					settingValue is bool && ResultAsBoolean(oldValue) == (bool)settingValue ||
+					settingValue is Enum && ResultAsEnum(oldValue, settingValue.GetType()).Equals(settingValue) )
+						return;
 			}
+
+			storage.SaveSetting( settingName, settingValue );
+
+			if ( Changed != null )
+				Changed( this, new SettingsEventArgs( settingName ) );
+		}
+		#endregion
+
+		#region Conversion Helpers
+		private string ResultAsString( object result )
+		{
+			return result is string
+				? (string) result
+				: result.ToString();
+		}
+
+		private int ResultAsInt( object result )
+		{
+			return result is int
+				? (int) result
+				: Int32.Parse( result.ToString() );
+		}
+
+		private bool ResultAsBoolean( object result )
+		{
+			return result is bool
+				? (bool) result 
+				: Boolean.Parse( result.ToString() );
+		}
+
+		private System.Enum ResultAsEnum( object result, Type enumType )
+		{
+			if ( result is System.Enum )
+				return (System.Enum) result;
+				
+			return (System.Enum)System.Enum.Parse( enumType, result.ToString(), true );
 		}
 		#endregion
 

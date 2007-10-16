@@ -87,6 +87,12 @@ namespace NUnit.Util
 		void RemoveSetting( string settingName );
 
 		/// <summary>
+		/// Remove an entire group of settings from the storage
+		/// </summary>
+		/// <param name="groupName">Name of the group to remove</param>
+		void RemoveGroup( string groupName );
+
+		/// <summary>
 		/// Save a setting in the storage
 		/// </summary>
 		/// <param name="settingName">Name of the setting to save</param>

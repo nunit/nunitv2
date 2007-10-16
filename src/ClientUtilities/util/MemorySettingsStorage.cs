@@ -30,6 +30,22 @@ namespace NUnit.Util
 			settings.Remove( settingName );
 		}
 
+		public void RemoveGroup( string groupName )
+		{
+			ArrayList keysToRemove = new ArrayList();
+
+			string prefix = groupName;
+			if ( !prefix.EndsWith(".") )
+				prefix = prefix + ".";
+
+			foreach( string key in settings.Keys )
+				if ( key.StartsWith( prefix ) )
+					keysToRemove.Add( key );
+
+			foreach( string key in keysToRemove )
+				settings.Remove( key );
+		}
+
 		public void SaveSetting(string settingName, object settingValue)
 		{
 			settings[settingName] = settingValue;
