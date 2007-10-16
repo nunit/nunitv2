@@ -214,6 +214,7 @@ namespace NUnit.UiKit
 				this.ShowCheckBoxes = 
 					Services.UserSettings.GetSetting( "Options.ShowCheckBoxes", false );
 				Initialize( Services.TestLoader );
+				Services.UserSettings.Changed += new SettingsEventHandler(UserSettings_Changed);
 			}
 
 			base.OnLoad (e);
@@ -328,6 +329,7 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(TestTree));
 			this.tabs = new System.Windows.Forms.TabControl();
 			this.testPage = new System.Windows.Forms.TabPage();
 			this.testPanel = new System.Windows.Forms.Panel();
@@ -402,12 +404,14 @@ namespace NUnit.UiKit
 			// tests
 			// 
 			this.tests.AllowDrop = true;
+			this.tests.CategoryFilter = ((NUnit.Core.TestFilter)(resources.GetObject("tests.CategoryFilter")));
 			this.tests.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tests.HideSelection = false;
 			this.tests.Location = new System.Drawing.Point(0, 0);
 			this.tests.Name = "tests";
 			this.tests.Size = new System.Drawing.Size(219, 448);
 			this.tests.TabIndex = 0;
+			this.tests.CheckBoxesChanged += new System.EventHandler(this.tests_CheckBoxesChanged);
 			// 
 			// buttonPanel
 			// 
@@ -762,6 +766,17 @@ namespace NUnit.UiKit
 				catFilter = new NUnit.Core.Filters.NotFilter( catFilter );
 
 			tests.CategoryFilter = catFilter;
+		}
+
+		private void tests_CheckBoxesChanged(object sender, System.EventArgs e)
+		{
+			ShowCheckBoxes = tests.CheckBoxes;
+		}
+
+		private void UserSettings_Changed(object sender, SettingsEventArgs args)
+		{
+			if ( args.SettingName == "Options.ShowCheckBoxes" )
+				this.ShowCheckBoxes = Services.UserSettings.GetSetting( args.SettingName, false );
 		}
 	}
 

@@ -215,6 +215,9 @@ namespace NUnit.UiKit
 
 					base.CheckBoxes = value;
 
+					if ( CheckBoxesChanged != null )
+						CheckBoxesChanged(this, new EventArgs());
+
 					if ( visualState != null )
 					{
 						try
@@ -315,6 +318,7 @@ namespace NUnit.UiKit
 
 		public event SelectedTestChangedHandler SelectedTestChanged;
 		public event CheckedTestChangedHandler CheckedTestChanged;
+		public event EventHandler CheckBoxesChanged;
 
 		public TestSuiteTreeNode this[string uniqueName]
 		{
