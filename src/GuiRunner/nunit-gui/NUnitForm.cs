@@ -704,7 +704,6 @@ namespace NUnit.Gui
 			// 
 			this.runCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
-			this.runCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold);
 			this.runCount.Location = new System.Drawing.Point(8, 96);
 			this.runCount.Name = "runCount";
 			this.runCount.Size = new System.Drawing.Size(480, 16);
@@ -1048,6 +1047,9 @@ namespace NUnit.Gui
 		private void applyFont( Font font )
 		{
 			this.Font = font;
+			this.runCount.Font = font.FontFamily.IsStyleAvailable( FontStyle.Bold )
+				? new Font( font, FontStyle.Bold )
+				: font;
 			TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
 			userSettings.SaveSetting( 
 				displayFormat == "Mini" ? "Gui.MiniForm.Font" : "Gui.MainForm.Font", 
