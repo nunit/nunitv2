@@ -115,7 +115,12 @@ Assert.AreNotEqual( object expected, object actual, string message,
 
 <p>Values of type float and double are normally compared using an additional
 argument that indicates a tolerance within which they will be considered 
-as equal. Special values are handled so that the following Asserts succeed:</p>
+as equal. Beginning with NUnit 2.4.4, the value of
+<b>GlobalSettings.DefaultFloatingPointTolerance</b> is used if a third argument
+is not provided. In earlier versions, or if the default has not been set,
+values are tested for exact equality.
+
+<p>Special values are handled so that the following Asserts succeed:</p>
 
 <pre>        Assert.AreEqual( double.PositiveInfinity, double.PositiveInfinity );
         Assert.AreEqual( double.NegativeInfinity, double.NegativeInfinity );
@@ -140,10 +145,9 @@ as equal. Special values are handled so that the following Asserts succeed:</p>
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.2</a></li>
+<li><a href="index.html">NUnit 2.4.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
-<li><a href="platformSupport.html">Platform&nbsp;Support</a></li>
 <li><a href="installation.html">Installation</a></li>
 <li><a href="features.html">Core&nbsp;Features</a></li>
 <ul>

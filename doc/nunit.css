@@ -46,6 +46,8 @@ ul.across li { float: left; display: block; width: 9em }
 #content { margin: 3em 25% 0 0; padding: 0 5% 1em 5%; }
 #content.wide { margin: 3em 5% 0 5%; padding: 0 5% 1em 5%; }
 #content p { padding: 0; margin: 0 0 1em 0; max-width: 660px; }
+#content ul { max-width: 660px; }
+#content ol { max-width: 660px; }
 #content blockquote { max-width: 580px }
 #content div.screenshot { text-align: center; margin: 1em 0; }
 #content div.screenshot-right { text-align: center; float: right; margin: 0 0 0 1em; }

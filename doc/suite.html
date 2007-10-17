@@ -24,16 +24,25 @@
 
 <div id="content">
 
-<h3>SuiteAttribute (NUnit 2.0)</h3>
+<div style="float:right"><b>Update: August 22, 2007</b></div>
+<h3>SuiteAttribute (NUnit 2.0/2.4.4)</h3>
 	
-<p>The Suite Attribute is used to define subsets of suites based on user 
-	preference. The belief by the developers of this version is that the need for 
-	this will diminish because of the dynamic creation mechanism provided by the 
-	framework. However it is provided for backwards compatibility.</p>
-
-<p><b>Note: </b>There is no way to run user-defined suites in the forms interface.</p>
-
-<h4>Example:</h4>
+<p>The Suite Attribute is used to define subsets of test to be run from the
+	command-line, using the <b>/fixture</b> option. It was introduced in NUnit 
+	2.0 to replace the older approach of inheriting from the TestSuite class.</p>
+	
+<p>Originally, the NUnit developers believed that the need for the Suite
+    mechanism would diminish because of the dynamic creation of suites based
+	on namespaces. It was provided for backwards compatibility.</p>
+	
+<p>That has not proven to be true. Suites are still used today by many people,
+    so we are making an effort to revive them in terms of usability. 
+	
+<p>The Suite mechanism depends on a static property marked with the </b>SuiteAttribute</b>.
+	In the clasic implementation, supported by all releases since 2.0, that property
+	returns a TestSuite, populated with the tests that are to be executed.
+	
+<h4>Old Approach</h4>
 
 <div class="code">
 
@@ -41,6 +50,7 @@
 {
   using System;
   using NUnit.Framework;
+  using NUnit.Core;
 
   public class AllTests
   {
@@ -62,15 +72,113 @@
 
 </div>
 
+<p>This approach has a serious problem: it requires a reference to the nunit.core assembly,
+	which is not normally referenced by user tests. This means that the tests
+	cannot be ported across versions of NUnit without recompilation. In some cases,
+	introducing more than one version of the core assembly can prevent NUnit
+	from running correctly.
+	
+<p>Beginning with NUnit 2.4.4, a new approach is available. The property marked
+	with the <b>SuiteAttribute</b> may simply return a collection containing test 
+	fixture objects or Types.
+	If a Type is provided, NUnit creates an object of that type for use
+	as a fixture. Any other object is assumed to be a pre-created fixture object.
+	This allows objects with parameterized constructors or settable
+	properties to be used as fixtures.
+
+<p>Test suites created through use of the <b>SuiteAttribute</b> may contain <b>TestFixtureSetUp</b> and 
+	<b>TestFixtureTearDown</b> methods, to perform one-time setup and teardown
+	for the tests included in the suite.
+	
+<h4>New Approach - Fixture Objects</h4>
+
+<div class="code">
+
+<pre>namespace NUnit.Tests
+{
+  using System;
+  using NUnit.Framework;
+
+  private class AllTests
+  {
+    [Suite]
+    public static IEnumerable Suite
+    {
+      get
+      {
+        ArrayList suite = new ArrayList();
+        suite.Add(new OneTestCase());
+        suite.Add(new AssemblyTests());
+        suite.Add(new NoNamespaceTestFixture());
+        return suite;
+      }
+    }
+  }
+}
+</pre>
+
+</div>
+
+<h4>New Approach - Fixture Types</h4>
+
+<div class="code">
+
+<pre>namespace NUnit.Tests
+{
+  using System;
+  using NUnit.Framework;
+
+  private class AllTests
+  {
+    [Suite]
+    public static IEnumerable Suite
+    {
+      get
+      {
+        ArrayList suite = new ArrayList();
+        suite.Add(typeof(OneTestCase));
+        suite.Add(typeof(AssemblyTests));
+        suite.Add(typeof(NoNamespaceTestFixture));
+        return suite;
+      }
+    }
+  }
+}
+</pre>
+
+</div>
+
+<h4>Limitations</h4>
+
+NUnit support for user-defined Suites currently has two limitations:
+
+<ol>
+	<li>It is not possible to include individual test cases directly
+	in a Suite using the new approach. Anyone wanting to do so will 
+	need to use the old approach and create an object derive from
+	NUnit.Core.TestCase. This is not recommended, since it requires
+	a reference to the core assembly.
+	
+	<li>Suites are currently not displayed in the Gui or run automatically
+	by either runner when they are encountered. The historical purpose of 
+	the Suite mechanism was to provide a way of aggregating tests at the
+	top level of each run. Hence, they are only supported when used with 
+	the /fixture option on the console or gui command line.
+	top level of an application. Thus, they may only
+	outcome of the historical purpose of 
+</ol>
+
+Approaches to removing these limitations are being investigated as part
+of the planning for future NUnit releases.
+
 </div>
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.2</a></li>
+<li><a href="index.html">NUnit 2.4.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
-<li><a href="platformSupport.html">Platform&nbsp;Support</a></li>
 <li><a href="installation.html">Installation</a></li>
 <li><a href="features.html">Core&nbsp;Features</a></li>
 <ul>
