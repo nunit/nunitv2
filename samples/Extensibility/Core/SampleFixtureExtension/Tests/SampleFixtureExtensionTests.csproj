@@ -67,18 +67,16 @@
                 <Reference
                     Name = "System"
                     AssemblyName = "System"
-                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "nunit.framework"
+                    AssemblyName = "nunit.framework, Version=2.4.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
+                    HintPath = "..\..\..\..\..\src\NUnitFramework\framework\bin\Debug\nunit.framework.dll"
                 />
                 <Reference
                     Name = "SampleFixtureExtension"
                     Project = "{ED281A23-9579-4A70-B608-1B86DCDEB78C}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "nunit.framework"
-                    AssemblyName = "nunit.framework"
-                    HintPath = "C:\Program Files\NUnit 2.4.1\bin\nunit.framework.dll"
-                    AssemblyFolderKey = "hkcu\dn\nunit 2.4.1"
                 />
             </References>
         </Build>

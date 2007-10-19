@@ -66,7 +66,7 @@
     <xmlpoke 
       file="${package.samples.dir}/Extensibility/Core/MaxTimeDecorator/MaxTimeDecorator.csproj"
       xpath="/VisualStudioProject/CSHARP/Build/References/Reference[@Name='nunit.core.interfaces']/@HintPath"
-      value="..\..\..\..\bin\nunit.interfaces.dll" />
+      value="..\..\..\..\bin\nunit.core.interfaces.dll" />
 
     <xmlpoke 
       file="${package.samples.dir}/Extensibility/Core/MaxTimeDecorator/Tests/MaxTimeDecoratorTests.csproj"

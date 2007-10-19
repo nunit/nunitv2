@@ -67,7 +67,6 @@
                 <Reference
                     Name = "System"
                     AssemblyName = "System"
-                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
                 />
                 <Reference
                     Name = "SampleSuiteExtension"
@@ -76,9 +75,8 @@
                 />
                 <Reference
                     Name = "nunit.framework"
-                    AssemblyName = "nunit.framework"
-                    HintPath = "C:\Program Files\NUnit 2.4.1\bin\nunit.framework.dll"
-                    AssemblyFolderKey = "hkcu\dn\nunit 2.4.1"
+                    AssemblyName = "nunit.framework, Version=2.4.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
+                    HintPath = "..\..\..\..\..\src\NUnitFramework\framework\bin\Debug\nunit.framework.dll"
                 />
             </References>
         </Build>

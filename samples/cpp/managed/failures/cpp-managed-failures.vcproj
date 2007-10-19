@@ -17,7 +17,7 @@
 			ConfigurationType="2"
 			CharacterSet="2"
 			ManagedExtensions="TRUE"
-			ReferencesPath="&quot;C:\Program Files\NUnit 2.4.2\bin\&quot;">
+			ReferencesPath="&quot;D:\Dev\NUnit\nunit-2.4\src\NUnitFramework\framework\bin\Debug&quot;">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
@@ -106,7 +106,7 @@
 		<AssemblyReference
 			RelativePath="{ReferencesPath}\mscorlib.dll"/>
 		<AssemblyReference
-			RelativePath="C:\Program Files\NUnit 2.4.2\bin\nunit.framework.dll"/>
+			RelativePath="$(SolutionDir)..\..\..\src\NUnitFramework\framework\bin\Debug\nunit.framework.dll"/>
 		<AssemblyReference
 			RelativePath="{ReferencesPath}\System.dll"/>
 	</References>

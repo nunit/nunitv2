@@ -436,7 +436,6 @@ namespace NUnitSamples
 			Assert::That(mixed, Has::Some->Null);
 			Assert::That(mixed, Has::Some->InstanceOfType(int::typeid));
 			Assert::That(mixed, Has::Some->InstanceOfType(String::typeid));
-			Assert::That(mixed, Has::Some->GreaterThan(99));
 			Assert::That(strings, Has::Some->StartsWith( "ba" ) );
 			Assert::That(strings, Has::Some->Not->StartsWith( "ba" ) );
 		
@@ -444,7 +443,6 @@ namespace NUnitSamples
 			Expect(mixed, Some->Null);
 			Expect(mixed, Some->InstanceOfType(int::typeid));
 			Expect(mixed, Some->InstanceOfType(String::typeid));
-			Expect(mixed, Some->GreaterThan(99));
 			Expect(strings, Some->StartsWith( "ba" ) );
 			Expect(strings, Some->Not->StartsWith( "ba" ) );
 		}
@@ -505,19 +503,19 @@ namespace NUnitSamples
 			CollectionAssert::AreEquivalent(gcnew array<int> { 2, 1, 4, 3, 5 }, ints1to5);
 			CollectionAssert::AreNotEquivalent(gcnew array<int> { 2, 2, 4, 3, 5 }, ints1to5);
 			CollectionAssert::AreNotEquivalent(gcnew array<int> { 2, 4, 3, 5 }, ints1to5);
-			CollectionAssert::AreEquivalent(gcnew array<int> { 2, 2, 1, 1, 4, 3, 5 }, ints1to5);
+			CollectionAssert::AreNotEquivalent(gcnew array<int> { 2, 2, 1, 1, 4, 3, 5 }, ints1to5);
 		
 			// Helper syntax
 			Assert::That(gcnew array<int> { 2, 1, 4, 3, 5 }, Is::EquivalentTo(ints1to5));
 			Assert::That(gcnew array<int> { 2, 2, 4, 3, 5 }, Is::Not->EquivalentTo(ints1to5));
 			Assert::That(gcnew array<int> { 2, 4, 3, 5 }, Is::Not->EquivalentTo(ints1to5));
-			Assert::That(gcnew array<int> { 2, 2, 1, 1, 4, 3, 5 }, Is::EquivalentTo(ints1to5));
+			Assert::That(gcnew array<int> { 2, 2, 1, 1, 4, 3, 5 }, Is::Not->EquivalentTo(ints1to5));
 
 			// Inherited syntax
 			Expect(gcnew array<int> { 2, 1, 4, 3, 5 }, EquivalentTo(ints1to5));
 			Expect(gcnew array<int> { 2, 2, 4, 3, 5 }, Not->EquivalentTo(ints1to5));
 			Expect(gcnew array<int> { 2, 4, 3, 5 }, Not->EquivalentTo(ints1to5));
-			Expect(gcnew array<int> { 2, 2, 1, 1, 4, 3, 5 }, EquivalentTo(ints1to5));
+			Expect(gcnew array<int> { 2, 2, 1, 1, 4, 3, 5 }, Not->EquivalentTo(ints1to5));
 		}
 
 		[Test]
@@ -529,16 +527,19 @@ namespace NUnitSamples
 			CollectionAssert::IsSubsetOf(gcnew array<int> { 1, 3, 5 }, ints1to5);
 			CollectionAssert::IsSubsetOf(gcnew array<int> { 1, 2, 3, 4, 5 }, ints1to5);
 			CollectionAssert::IsNotSubsetOf(gcnew array<int> { 2, 4, 6 }, ints1to5);
+			CollectionAssert::IsNotSubsetOf(gcnew array<int> { 1, 2, 2, 2, 5 }, ints1to5);
 
 			// Helper syntax
 			Assert::That(gcnew array<int> { 1, 3, 5 }, Is::SubsetOf(ints1to5));
 			Assert::That(gcnew array<int> { 1, 2, 3, 4, 5 }, Is::SubsetOf(ints1to5));
 			Assert::That(gcnew array<int> { 2, 4, 6 }, Is::Not->SubsetOf(ints1to5));
+			Assert::That(gcnew array<int> { 1, 2, 2, 2, 5 }, Is::Not->SubsetOf(ints1to5));
 		
 			// Inherited syntax
 			Expect(gcnew array<int> { 1, 3, 5 }, SubsetOf(ints1to5));
 			Expect(gcnew array<int> { 1, 2, 3, 4, 5 }, SubsetOf(ints1to5));
 			Expect(gcnew array<int> { 2, 4, 6 }, Not->SubsetOf(ints1to5));
+			Expect(gcnew array<int> { 1, 2, 2, 2, 5 }, Not->SubsetOf(ints1to5));
 		}
 
 		[Test]

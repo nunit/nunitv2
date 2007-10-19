@@ -53,18 +53,15 @@
                 <Reference
                     Name = "vjslib"
                     AssemblyName = "vjslib"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft Visual JSharp .NET\Framework\v1.0.4205\vjslib.dll"
                 />
                 <Reference
                     Name = "System"
                     AssemblyName = "System"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
                 />
                 <Reference
                     Name = "nunit.framework"
-                    AssemblyName = "nunit.framework"
-                    HintPath = "C:\Program Files\NUnit 2.4\bin\nunit.framework.dll"
-                    AssemblyFolderKey = "hkcu\dn\nunit 2.4.0"
+                    AssemblyName = "nunit.framework, Version=2.4.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
+                    HintPath = "..\..\..\src\NUnitFramework\framework\bin\Debug\nunit.framework.dll"
                 />
             </References>
         </Build>

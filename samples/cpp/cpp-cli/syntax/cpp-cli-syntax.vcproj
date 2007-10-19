@@ -167,8 +167,8 @@
 			AssemblyName="System, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
 		/>
 		<AssemblyReference
-			RelativePath="c:\Program Files\NUnit 2.4.2\bin\nunit.framework.dll"
-			AssemblyName="nunit.framework, Version=2.4.2.0, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
+			RelativePath="c:\Program Files\NUnit 2.4.4\bin\nunit.framework.dll"
+			AssemblyName="nunit.framework, Version=2.4.4.0, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL"
 		/>
 	</References>
 	<Files>

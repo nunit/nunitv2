@@ -67,20 +67,17 @@
                 <Reference
                     Name = "System"
                     AssemblyName = "System"
-                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
-                />
-                <Reference
-                    Name = "nunit.core"
-                    AssemblyName = "nunit.core"
-                    HintPath = "C:\Program Files\NUnit 2.4.1\bin\nunit.core.dll"
-                    AssemblyFolderKey = "hkcu\dn\nunit 2.4.1"
-                    Private = "False"
                 />
                 <Reference
                     Name = "nunit.core.interfaces"
-                    AssemblyName = "nunit.core.interfaces"
-                    HintPath = "C:\Program Files\NUnit 2.4.1\bin\nunit.core.interfaces.dll"
-                    AssemblyFolderKey = "hkcu\dn\nunit 2.4.1"
+                    AssemblyName = "nunit.core.interfaces, Version=2.4.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
+                    HintPath = "..\..\..\..\src\NUnitCore\core\bin\Debug\nunit.core.interfaces.dll"
+                    Private = "False"
+                />
+                <Reference
+                    Name = "nunit.core"
+                    AssemblyName = "nunit.core, Version=2.4.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
+                    HintPath = "..\..\..\..\src\NUnitCore\core\bin\Debug\nunit.core.dll"
                     Private = "False"
                 />
             </References>
