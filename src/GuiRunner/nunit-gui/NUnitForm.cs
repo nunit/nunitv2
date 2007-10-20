@@ -998,7 +998,7 @@ namespace NUnit.Gui
 			if ( fontDescription != "" )
 			{
 				TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
-				this.Font = (Font)converter.ConvertFrom(fontDescription);
+				applyFont( (Font)converter.ConvertFrom(fontDescription) );
 			}
 		}
 
@@ -1030,7 +1030,7 @@ namespace NUnit.Gui
 			if ( fontDescription != "" )
 			{
 				TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
-				this.Font = (Font)converter.ConvertFrom(fontDescription);
+				applyFont( (Font)converter.ConvertFrom(fontDescription) );
 			}
 		}
 
