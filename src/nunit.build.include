@@ -608,10 +608,6 @@
       <buildfiles refid="project.buildfiles" />
     </nant>
 
-    <nant target="package" inheritrefs="true">
-      <buildfiles refid="testserver.buildfiles" />
-    </nant>
-
   </target>
 
   <target name="copy-tools">
