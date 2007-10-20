@@ -19,16 +19,24 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="method">MethodInfo for the particular method</param>
 		/// <returns>A test case or null</returns>
-		public static Test BuildFrom( MethodInfo method )
-		{
-			Test test = CoreExtensions.Host.TestBuilders.BuildFrom( method );
-
-			if ( test != null )
-				test = CoreExtensions.Host.TestDecorators.Decorate( test, method );
-
-			return test;
-		}
-
+//		public static Test BuildFrom( MethodInfo method )
+//		{
+//			Test test = CoreExtensions.Host.TestBuilders.BuildFrom( method );
+//
+//			if ( test != null )
+//				test = CoreExtensions.Host.TestDecorators.Decorate( test, method );
+//
+//			return test;
+//		}
+//
+//		public static Test Decorate( test, method )
+//		{
+//			if ( test != null )
+//				test = CoreExtensions.Host.TestDecorators.Decorate( test, method );
+//
+//			return test;
+//		}
+//
 		/// <summary>
 		/// Private constructor to prevent object creation
 		/// </summary>

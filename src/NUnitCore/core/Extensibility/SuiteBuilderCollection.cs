@@ -84,7 +84,7 @@ namespace NUnit.Core.Extensibility
 			ISuiteBuilder builder = extension as ISuiteBuilder;
 			if ( builder == null )
 				throw new ArgumentException( 
-					extension.GetType().FullName + " is not an ITestCaseBuilder", "exception" );
+					extension.GetType().FullName + " is not an ISuiteBuilder", "exception" );
 
 			builders.Insert( 0, builder );
 		}

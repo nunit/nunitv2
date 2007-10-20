@@ -15,6 +15,7 @@ namespace NUnit.Framework.Extensions
 	public sealed class MaxTimeAttribute : Attribute
 	{
 		private int maxTime;
+		private bool expectFailure;
 
 		public MaxTimeAttribute( int maxTime )
 		{
@@ -24,6 +25,16 @@ namespace NUnit.Framework.Extensions
 		public int MaxTime
 		{
 			get { return maxTime; }
+		}
+
+		/// <summary>
+		/// ExpectFailure is an optional attribute used for testing
+		/// cases where the timeout is actually expected.
+		/// </summary>
+		public bool ExpectFailure
+		{
+			get { return expectFailure; }
+			set { expectFailure = value; }
 		}
 	}
 }

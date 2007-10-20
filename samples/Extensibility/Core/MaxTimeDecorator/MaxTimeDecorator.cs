@@ -11,7 +11,11 @@ using NUnit.Core.Extensibility;
 namespace NUnit.Core.Extensions
 {
 	/// <summary>
-	/// Summary description for MaxTimeDecorator.
+	/// MaxTimeDecorator is a test decorator which permits specifying a maximum
+	/// time that the test should take. If it takes longer, the test fails.
+	/// 
+	/// The decorator works by replacing the original test with a special
+	/// test case that overrides the run method to measure the time taken.
 	/// </summary>
 	[NUnitAddin(Description="Fails a test if its elapsed time is longer than a given maximum")]
 	public class MaxTimeDecorator : IAddin, ITestDecorator
@@ -34,14 +38,15 @@ namespace NUnit.Core.Extensions
 
 		public Test Decorate(Test test, System.Reflection.MemberInfo member)
 		{
-			if ( test is TestCase )
+			if ( test is NUnitTestMethod )
 			{
 				Attribute attr = Reflect.GetAttribute( 
 					member, "NUnit.Framework.Extensions.MaxTimeAttribute", false );
 				if ( attr != null )
 				{
 					int maxTime = (int)Reflect.GetPropertyValue( attr, "MaxTime", BindingFlags.Public | BindingFlags.Instance );
-					test = new MaxTimeTestCase( (TestCase)test, maxTime );
+					bool expectFailure = (bool)Reflect.GetPropertyValue( attr, "ExpectFailure", BindingFlags.Public | BindingFlags.Instance );
+					test = new MaxTimeTestCase( (NUnitTestMethod)test, maxTime, expectFailure );
 				}
 			}
 

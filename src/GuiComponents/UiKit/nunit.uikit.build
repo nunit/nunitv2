@@ -55,7 +55,9 @@
       </nowarn>
       <resources prefix="NUnit.UiKit">
         <include name="AddConfigurationDialog.resx"/>
+        <include name="AddTabPageDialog.resx"/>
         <include name="ConfigurationEditor.resx"/>
+        <include name="EditTabPagesDialog.resx"/>
         <include name="ErrorDisplay.resx"/>
         <include name="ExpandingLabel.resx"/>
         <include name="ExpandingTextBox.resx"/>
@@ -63,14 +65,20 @@
         <include name="ProgressBar.resx"/>
         <include name="RenameConfigurationDialog.resx"/>
         <include name="ResultTabs.resx"/>
-        <include name="RichEditTabPage.resx"/>
+        <include name="SettingsDialogBase.resx"/>
+        <include name="SettingsPage.resx"/>
+        <include name="SimpleSettingsDialog.resx"/>
+        <include name="SimpleTextDisplay.resx"/>
         <include name="StatusBar.resx"/>
+        <include name="TabbedSettingsDialog.resx"/>
         <include name="TestPropertiesDialog.resx"/>
         <include name="TestSuiteTreeView.resx"/>
         <include name="TestTree.resx"/>
+        <include name="TextBoxDisplay.resx"/>
+        <include name="TextDisplayTabPage.resx"/>
         <include name="TextOutputSettingsPage.resx"/>
         <include name="TipWindow.resx"/>
-        <include name="UserMessage.resx"/>
+        <include name="TreeBasedSettingsDialog.resx"/>
         <include name="Ellipsis.gif"/>
         <include name="pinned.gif"/>
         <include name="unpinned.gif"/>

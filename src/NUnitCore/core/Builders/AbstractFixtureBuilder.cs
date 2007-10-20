@@ -23,6 +23,11 @@ namespace NUnit.Core.Builders
 		/// The TestSuite being constructed;
 		/// </summary>
 		protected TestSuite suite;
+
+		/// <summary>
+		/// The fixture builder's own test case builder collection 
+		/// </summary>
+		protected Extensibility.TestCaseBuilderCollection testCaseBuilders = new Extensibility.TestCaseBuilderCollection();
 		#endregion
 
 		#region Abstract Methods
@@ -64,7 +69,6 @@ namespace NUnit.Core.Builders
 
 			SetTestSuiteProperties(type, suite);
 
-			InstallTestCaseBuilders(type);
 			AddTestCases(type);
 
 			if ( this.suite.RunState != RunState.NotRunnable && this.suite.TestCount == 0)
@@ -94,17 +98,6 @@ namespace NUnit.Core.Builders
 				this.suite.IgnoreReason = reason;
 			}
 		}
-
-        /// <summary>
-        /// Method that may be overridden in order to install any
-        /// TestCaseBuilders that should only be available for
-        /// the type of fixture being built. The override may
-        /// use the Type argument to decide what to install.
-        /// </summary>
-        /// <param name="type"></param>
-        protected virtual void InstallTestCaseBuilders(Type type)
-        {
-        }
 
 		/// <summary>
 		/// Virtual method that returns true if the fixture type is valid
@@ -137,12 +130,9 @@ namespace NUnit.Core.Builders
 		/// <summary>
 		/// Method to add test cases to the newly constructed suite.
 		/// The default implementation looks at each candidate method
-		/// and tries to build a test case from it. This is sufficient
-		/// for any fixture that only requires the builtin types of
-		/// test cases. A derived builder that supports additional
-		/// types will generally override this method in order to
-		/// wrap it with code that installs its own test case 
-		/// builders or decorators and removes them afterward.
+		/// and tries to build a test case from it. It will only need
+		/// to be overridden if some other approach, such as reading a 
+		/// datafile is used to generate test cases.
 		/// </summary>
 		/// <param name="fixtureType"></param>
 		protected virtual void AddTestCases( Type fixtureType )
@@ -150,13 +140,42 @@ namespace NUnit.Core.Builders
 			IList methods = GetCandidateTestMethods( fixtureType );
 			foreach(MethodInfo method in methods)
 			{
-				Test test = TestCaseBuilder.BuildFrom( method );
+				Test test = BuildTestCase(method);
 
 				if(test != null)
 				{
 					this.suite.Add( test );
 				}
 			}
+		}
+
+		/// <summary>
+		/// Method to create a test case from a MethodInfo and add
+		/// it to the suite being built. It first checks to see if
+		/// any global TestCaseBuilder addin wants to build the
+		/// test case. If not, it uses the internal builder
+		/// collection maintained by this fixture builder. After
+		/// building the test case, it applies any decorators
+		/// that have been installed.
+		/// 
+		/// The default implementation has no test case builders.
+		/// Derived classes should add builders to the collection
+		/// in their constructor.
+		/// </summary>
+		/// <param name="method"></param>
+		/// <returns></returns>
+		protected virtual Test BuildTestCase( MethodInfo method )
+		{
+			// TODO: Review order of using builders
+			Test test = CoreExtensions.Host.TestBuilders.BuildFrom( method );
+
+			if ( test == null && this.testCaseBuilders.CanBuildFrom( method ) )
+				test = this.testCaseBuilders.BuildFrom( method );
+
+			if ( test != null )
+				test = CoreExtensions.Host.TestDecorators.Decorate( test, method );
+
+			return test;
 		}
 
 		/// <summary>

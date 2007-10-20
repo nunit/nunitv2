@@ -10,34 +10,46 @@ using System.Reflection;
 namespace NUnit.Core.Extensions
 {
 	/// <summary>
-	/// Summary description for MaxTimeTestCase.D:\Dev\NUnit\nunit-2.4\samples\Extensibility\Core\SampleFixtureExtension\Tests\SampleFixtureExtensionTests.cs
+	/// MaxTimeTestCase is a special form of test case that measures
+	/// the elapsed time to run a test, failing the test if it
+	/// exceeds a certain amount.
 	/// </summary>
-	public class MaxTimeTestCase : TestCase
+	public class MaxTimeTestCase : NUnitTestMethod
 	{
-		private TestCase testCase;
 		private int maxTime = 0;
+		bool expectFailure;
 
-		public MaxTimeTestCase( TestCase testCase, int maxTime )
-			: base( (TestName)testCase.TestName.Clone() )
+		public MaxTimeTestCase( NUnitTestMethod testCase, int maxTime, bool expectFailure )
+			: base( testCase.Method )
 		{
-			// We give it a different test id to avoid confusion
-			// when debugging - even though it's not strictly
-			// necessary in this case.
-			this.TestName.TestID = new TestID();
-			this.testCase = testCase;
 			this.maxTime = maxTime;
+			this.expectFailure = expectFailure;
+
+			// Copy all the attributes of the original test
+			this.Description = testCase.Description;
+			this.Fixture = testCase.Fixture;
+			this.Parent = testCase.Parent;
+			this.RunState = testCase.RunState;
+			this.IgnoreReason = testCase.IgnoreReason;
+			this.ExceptionExpected = testCase.ExceptionExpected;
+			this.ExpectedExceptionName = testCase.ExpectedExceptionName;
+			this.ExpectedExceptionType = testCase.ExpectedExceptionType;
+			this.ExpectedMessage = testCase.ExpectedMessage;
+			this.Properties = testCase.Properties;
+			this.Categories = testCase.Categories;
 		}
 
 		public override void Run(TestCaseResult result)
 		{
-			testCase.Run( result );
-			if ( result.IsSuccess )
+			base.Run( result );
+			if ( result.IsSuccess && !ExceptionExpected )
 			{
 				int elapsedTime = (int)(result.Time * 1000);
-				if ( elapsedTime > maxTime )
+				if ( elapsedTime > maxTime && !expectFailure)
 					result.Failure( string.Format( "Elapsed time of {0}ms exceeds maximum of {1}ms", elapsedTime, maxTime ), null );
+				else if ( elapsedTime <= maxTime && expectFailure )
+					result.Failure( "Expected a timeout failure, but none occured", null );
 			}
 		}
-
 	}
 }

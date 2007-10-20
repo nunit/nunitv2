@@ -58,6 +58,8 @@ namespace NUnit.Core.Extensions.Tests
 			TestResult result = RunTestOnFixture( fixture );
 
 			Assert.IsTrue(result.IsSuccess);
+			Assert.AreEqual(1, fixture.FixtureSetupCount);
+			Assert.AreEqual(1, fixture.FixtureTeardownCount);
 			Assert.AreEqual(3, fixture.SetupCount);
 			Assert.AreEqual(3, fixture.TeardownCount);
 			Assert.AreEqual(3, fixture.Count);

@@ -21,6 +21,9 @@ namespace NUnit.Core
 	/// </summary>
 	public class CoreExtensions : ExtensionHost, IService
 	{
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+		
 		#region Instance Fields
 		private IAddinRegistry addinRegistry;
 		private bool initialized;
@@ -29,6 +32,8 @@ namespace NUnit.Core
 		private TestCaseBuilderCollection testBuilders;
 		private TestDecoratorCollection testDecorators;
 		private EventListenerCollection listeners;
+
+		private log4net.Appender.ConsoleAppender appender;
 		#endregion
 
 		#region CoreExtensions Singleton
@@ -59,6 +64,20 @@ namespace NUnit.Core
 			this.extensions = new IExtensionPoint[]
 				{ suiteBuilders, testBuilders, testDecorators };
 			this.supportedTypes = ExtensionType.Core;
+
+			// TODO: This should be somewhere central
+			string logfile = Environment.GetFolderPath( Environment.SpecialFolder.ApplicationData );
+			logfile = Path.Combine( logfile, "NUnit" );
+			logfile = Path.Combine( logfile, "NUnitTest.log" );
+
+			appender = new log4net.Appender.ConsoleAppender();
+//			appender.File = logfile;
+//			appender.AppendToFile = true;
+//			appender.LockingModel = new log4net.Appender.FileAppender.MinimalLock();
+			appender.Layout = new log4net.Layout.PatternLayout(
+				"%date{ABSOLUTE} %-5level [%4thread] %logger{1}: PID=%property{PID} %message%newline" );
+			appender.Threshold = log4net.Core.Level.All;
+			log4net.Config.BasicConfigurator.Configure(appender);
 		}
 		#endregion
 
@@ -108,7 +127,7 @@ namespace NUnit.Core
 		#region Public Methods	
 		public void InstallBuiltins()
 		{
-			//Trace.WriteLine( "Installing Builtins" );
+			log.Info( "Installing Builtins" );
 
 			// Define NUnit Framework
 			FrameworkRegistry.Register( "NUnit", "nunit.framework" );
@@ -123,7 +142,7 @@ namespace NUnit.Core
 
 		public void InstallAddins()
 		{
-			//Trace.WriteLine( "Installing Addins" );
+			log.Info( "Installing Addins" );
 
 			if( AddinRegistry != null )
 			{
@@ -135,15 +154,22 @@ namespace NUnit.Core
 						{
 							Type type = Type.GetType(addin.TypeName);
 							if ( type == null )
+							{
 								AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Could not locate type" );
+								log.ErrorFormat( "Failed to load {0} - {1}", addin.Name, "Could not locate type" );
+							}
 							else if ( !InstallAddin( type ) )
+							{
 								AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Install returned false" );
+								log.ErrorFormat( "Failed to load {0} - {1}", addin.Name, "Install returned false" );
+							}
 							else
 								AddinRegistry.SetStatus( addin.Name, AddinStatus.Loaded, null );
 						}
 						catch( Exception ex )
 						{
 							AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, ex.Message );
+							log.ErrorFormat( "Exception loading {0} - {1}", addin.Name, ex.Message );
 						}
 					}
 				}

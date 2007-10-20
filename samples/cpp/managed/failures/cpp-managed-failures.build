@@ -35,12 +35,19 @@
   <target name="package">
     <copy todir="${package.samples.dir}/cpp/managed/failures">
       <fileset basedir=".">
-        <include name="cpp-managed-failures.vcproj" />
         <include name="cpp-managed-failures.build" />
         <include name="AssemblyInfo.cpp" />
         <include name="cppsample.cpp" />
         <include name="cppsample.h" />
       </fileset>
+    </copy>
+
+    <copy todir="${package.samples.dir}/cpp/managed/failures"
+        file="./cpp-managed-failures.vcproj">
+      <filterchain>
+        <replacestring from="$(SolutionDir)..\..\..\src\NUnitFramework\framework\bin\Debug\nunit.framework.dll"
+          to="..\..\..\..\bin\nunit.framework.dll"/>
+      </filterchain>
     </copy>
   </target>
 

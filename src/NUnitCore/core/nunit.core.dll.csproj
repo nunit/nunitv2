@@ -283,11 +283,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestCaseBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestCaseBuilderAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

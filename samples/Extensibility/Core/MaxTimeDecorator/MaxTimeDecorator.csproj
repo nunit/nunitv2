@@ -70,13 +70,13 @@
                 />
                 <Reference
                     Name = "nunit.core.interfaces"
-                    AssemblyName = "nunit.core.interfaces, Version=2.4.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
+                    AssemblyName = "nunit.core.interfaces"
                     HintPath = "..\..\..\..\src\NUnitCore\core\bin\Debug\nunit.core.interfaces.dll"
                     Private = "False"
                 />
                 <Reference
                     Name = "nunit.core"
-                    AssemblyName = "nunit.core, Version=2.4.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
+                    AssemblyName = "nunit.core"
                     HintPath = "..\..\..\..\src\NUnitCore\core\bin\Debug\nunit.core.dll"
                     Private = "False"
                 />
@@ -86,11 +86,6 @@
             <Include>
                 <File
                     RelPath = "AssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ExpectFailureAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

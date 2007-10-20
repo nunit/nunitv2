@@ -48,7 +48,6 @@
         <include name="MaxTimeDecorator.csproj" />
         <include name="MaxTimeDecorator.build" />
         <include name="AssemblyInfo.cs" />
-        <include name="ExpectFailureAttribute.cs" />
         <include name="MaxTimeAttribute.cs" />
         <include name="MaxTimeDecorator.cs" />
         <include name="MaxTimeTestCase.cs" />

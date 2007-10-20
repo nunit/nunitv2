@@ -32,7 +32,7 @@ namespace Tests
 			Assert.Fail("Intentional failure");
 		}
 
-		[Test,MaxTime(1),ExpectFailure,Description("This should fail due to time exceeded")]
+		[Test,MaxTime(1, ExpectFailure=true), Description("This should fail due to time exceeded")]
 		public void MaxTimeWasExceeded()
 		{
 			System.Threading.Thread.Sleep(100);

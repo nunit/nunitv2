@@ -21,6 +21,9 @@ namespace NUnit.Core.Extensibility
 	{
 		private ArrayList builders = new ArrayList();
 
+		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
+			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		#region Constructors
 		/// <summary>
 		/// Default Constructor
@@ -89,11 +92,13 @@ namespace NUnit.Core.Extensibility
 					extension.GetType().FullName + " is not an ITestCaseBuilder", "exception" );
 
 			builders.Insert( 0, builder );
+			log.DebugFormat( "Inserted TestCaseBuilder {0}: Count = {1}", extension.GetType().Name, builders.Count );
 		}
 
 		public void Remove( object extension )
 		{
 			builders.Remove( extension );
+			log.DebugFormat( "Removed TestCaseBuilder {0}: Count = {1}", extension.GetType().Name, builders.Count );
 		}
 		#endregion
 	}

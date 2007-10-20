@@ -13,9 +13,23 @@ namespace NUnit.TestData.RepeatedTestFixture
 	[TestFixture]
 	public class RepeatingTestsBase
 	{
+		private int fixtureSetupCount;
+		private int fixtureTeardownCount;
 		private int setupCount;
 		private int teardownCount;
 		protected int count;
+
+		[TestFixtureSetUp]
+		public void FixtureSetUp()
+		{
+			fixtureSetupCount++;
+		}
+
+		[TestFixtureTearDown]
+		public void FixtureTearDown()
+		{
+			fixtureTeardownCount++;
+		}
 
 		[SetUp]
 		public void SetUp()
@@ -29,6 +43,14 @@ namespace NUnit.TestData.RepeatedTestFixture
 			teardownCount++;
 		}
 
+		public int FixtureSetupCount
+		{
+			get { return fixtureSetupCount; }
+		}
+		public int FixtureTeardownCount
+		{
+			get { return fixtureTeardownCount; }
+		}
 		public int SetupCount
 		{
 			get { return setupCount; }

@@ -108,7 +108,9 @@ namespace NUnit.Core
 			set 
 			{ 
 				expectedExceptionType = value;
-				expectedExceptionName = expectedExceptionType.FullName;
+				expectedExceptionName = expectedExceptionType != null
+					? expectedExceptionType.FullName
+					: null;
 			}
 		}
 

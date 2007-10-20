@@ -16,6 +16,11 @@ namespace NUnit.Core.Builders
 	/// </summary>
 	public class NUnitTestFixtureBuilder : AbstractFixtureBuilder
 	{
+		public NUnitTestFixtureBuilder()
+		{
+			this.testCaseBuilders.Install( new NUnitTestCaseBuilder() );
+		}
+
 		#region AbstractFixtureBuilder Overrides
 		/// <summary>
 		/// Makes an NUnitTestFixture instance
@@ -39,18 +44,6 @@ namespace NUnit.Core.Builders
 
             NUnitFramework.ApplyCommonAttributes( type, suite );
 		}
-
-        /// <summary>
-        /// Method that may be overridden in order to install any
-        /// TestCaseBuilders that should only be available for
-        /// the type of fixture being built. We override it to
-        /// install NUnitTestCaseBuilder.
-        /// </summary>
-        /// <param name="type"></param>
-        protected override void InstallTestCaseBuilders(Type type)
-        {
-			CoreExtensions.Host.TestBuilders.Install( new NUnitTestCaseBuilder() );
-        }
 
         /// <summary>
         /// Checks to see if the fixture type has the test fixture
