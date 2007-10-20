@@ -61,6 +61,8 @@ namespace NUnit.Core
 			this.testDecorators = new TestDecoratorCollection();
 			this.listeners = new EventListenerCollection();
 
+			this.listeners.Install( new NullListener() );
+
 			this.extensions = new IExtensionPoint[]
 				{ suiteBuilders, testBuilders, testDecorators };
 			this.supportedTypes = ExtensionType.Core;
@@ -108,7 +110,7 @@ namespace NUnit.Core
 			get { return suiteBuilders; }
 		}
 
-		public TestCaseBuilderCollection TestBuilders
+		public ITestCaseBuilder TestBuilders
 		{
 			get { return testBuilders; }
 		}
@@ -116,6 +118,11 @@ namespace NUnit.Core
 		public ITestDecorator TestDecorators
 		{
 			get { return testDecorators; }
+		}
+
+		public EventListener Listeners
+		{
+			get { return listeners; }
 		}
 
 		public FrameworkRegistry TestFrameworks

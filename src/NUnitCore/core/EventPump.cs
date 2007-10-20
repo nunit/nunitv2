@@ -131,6 +131,7 @@ namespace NUnit.Core
 		private void PumpThreadProc()
 		{
 			pumping = true;
+			EventListener hostListeners = CoreExtensions.Host.Listeners;
 			Monitor.Enter( events );
             try
             {
@@ -140,6 +141,7 @@ namespace NUnit.Core
                     {
                         Event e = this.events.Dequeue();
                         e.Send(this.eventListener);
+						e.Send(hostListeners);
                         if (autostop && e is RunFinishedEvent)
                             stopping = true;
                     }
