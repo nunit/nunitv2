@@ -32,14 +32,18 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
-<h3>NUnit 2.4.4 - October 19, 2007</h3>
+<h3>NUnit 2.4.4 - October 20, 2007</h3>
 
 <h4>General</h4>
 
 <ul>
 <li>NUnit now uses log4net rather than Trace for its own internal logging. If
-enabled by the NUnit config file, log entries are saved in the file NUnit.log
+enabled by the NUnit config files, log entries are saved in the file NUnit.log
 located in the Application Data directory.
+<br><br>
+<b>Note:</b> Using the supplied config file, log4net currently fails to create 
+the log file when running under Mono on Windows platforms. As a workaround, you
+may edit the configs to use a hardcoded path in place of the $(APPDATA) macro.
 </ul>
 
 <h4>Framework</h4>
