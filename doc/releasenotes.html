@@ -32,7 +32,7 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
-<h3>NUnit 2.4.4 - TBA</h3>
+<h3>NUnit 2.4.4 - October 19, 2007</h3>
 
 <h4>General</h4>
 
@@ -85,6 +85,21 @@ Log, but the user may remove, create or combine tabs as desired.
 <li>A new command-line option <b>/console</b> causes a console to be 
 allocated. This should be used when testing applications that used unmanaged
 APIs to write to stdout, since NUnit is not able to capture that output.
+</ul>
+
+<h4>Extensibility</h4>
+
+<ul>
+
+<li>A new <b>ExtensionPoint</b> has been added. The <b>Listeners</b> extension
+point allows an addin to install an <b>EventListener</b> in the test domain,
+which is called as the tests are run. Note that the call is asynchronous and
+therefore may not be used to control the running of the tests, but only to
+report information or take other action based on the events.
+
+<li>The implementation of NUnitTestFixture has been modified so that
+it is now possible to write a TestCaseBuilder addin, which will replace
+or enhance the builtin creation of TestCases.
 
 </ul>
 

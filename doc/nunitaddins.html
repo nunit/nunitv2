@@ -154,6 +154,7 @@ are implemented in this release of NUnit:
 	<li><a href="#suiteBuilders">SuiteBuilders</a>
 	<li><a href="#testBuilders">TestCaseBuilders</a>
 	<li><a href="#testDecorators">TestDecorators</a>
+	<li><a href="#eventListeners">Listeners</a>
 </ul></p>
 
 <p>For examples of implementing each type of extension, see the Extensibility
@@ -177,6 +178,9 @@ code of NUnit itself, since NUnit uses the same mechanism internally.</p>
 	}
 </pre>
 
+<p>The BuildFrom method should return a test fixture completely populated
+with its contained test cases.
+
 <h4><a name="testBuilders">TestCaseBuilders</a></h4>
 <p>
 <p>Addins use the host to access this extension point by name:
@@ -194,6 +198,11 @@ code of NUnit itself, since NUnit uses the same mechanism internally.</p>
 	}
 </pre>
 
+<p>Note that this extension point will be called for methods in any type
+of fixture. If the addin is intended to only work on methods within
+a particular type of fixture, the CanBuildFrom method must check
+the fixture type.
+
 <h4><a name="testDecorators">TestDecorators</a></h4>
 <p>
 <p>Addins use the host to access this extension point by name:
@@ -209,6 +218,42 @@ code of NUnit itself, since NUnit uses the same mechanism internally.</p>
 		Test Decorate( Test test, MemberInfo member );
 	}
 </pre>
+
+<p>The Decorator may do several things, depending on what it needs
+to accomplish:
+<ol>
+  <li>Return test unmodified
+  <li>Modify properties of the test object and return it
+  <li>Replace test with another object, either discarding the
+  original or aggregating it in the new test.
+</ol>
+
+<h4><a name="eventListeners">EventListeners</a></h4>
+<p>
+<p>Addins use the host to access this extension point by name:
+
+<pre>
+	IExtensionPoint listeners = host.GetExtensionPoint( "EventListeners" );</pre>
+
+<p>The extension object passed to Install must implement the EventListener interface:
+
+<pre>
+	public interface EventListener
+	{
+		void RunStarted( string name, int testCount );
+		void RunFinished( TestResult result );
+		void RunFinished( Exception exception );
+		void TestStarted(TestName testName);
+		void TestFinished(TestCaseResult result);
+		void SuiteStarted(TestName testName);
+		void SuiteFinished(TestSuiteResult result);
+		void UnhandledException( Exception exception );
+		void TestOutput(TestOutput testOutput);
+	}
+</pre>
+
+<p>You must provide all the methods, but the body may be empty for any
+that you have no need of.
 
 <h3>Tips for Writing Extensions</h3>
 
