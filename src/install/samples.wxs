@@ -276,7 +276,6 @@
 		  <Directory Id="maxtimedecorator" Name="MAXTIME" LongName="MaxTimeDecorator">
 		    <Component Id="C__MaxTimeDecorator" DiskId="1" Guid="D291A2AB-CC2D-4f67-BE2E-30ACBF5EA18F">
 			  <File Id="MTD_AssemblyInfo.cs" Name="ASSEMBLY.CS" LongName="AssemblyInfo.cs" />
-			  <File Id="ExpectFailureAttribute.cs" Name="XPCTFAIL.CS" LongName="ExpectFailureAttribute.cs" />
 			  <File Id="MaxTimeAttribute.cs" Name="MTATTR.cs" LongName="MaxTimeAttribute.cs" />
 			  <File Id="MaxTimeDecorator.cs" Name="MTD.CS" LongName="MaxTimeDecorator.cs" />
 			  <File Id="MaxTimeTestCase.cs" Name="MTTC.CS" LongName="MaxTimeTestCase.cs" />
