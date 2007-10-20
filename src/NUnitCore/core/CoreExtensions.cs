@@ -68,18 +68,18 @@ namespace NUnit.Core
 			this.supportedTypes = ExtensionType.Core;
 
 			// TODO: This should be somewhere central
-			string logfile = Environment.GetFolderPath( Environment.SpecialFolder.ApplicationData );
-			logfile = Path.Combine( logfile, "NUnit" );
-			logfile = Path.Combine( logfile, "NUnitTest.log" );
-
-			appender = new log4net.Appender.ConsoleAppender();
-//			appender.File = logfile;
-//			appender.AppendToFile = true;
-//			appender.LockingModel = new log4net.Appender.FileAppender.MinimalLock();
-			appender.Layout = new log4net.Layout.PatternLayout(
-				"%date{ABSOLUTE} %-5level [%4thread] %logger{1}: PID=%property{PID} %message%newline" );
-			appender.Threshold = log4net.Core.Level.All;
-			log4net.Config.BasicConfigurator.Configure(appender);
+//			string logfile = Environment.GetFolderPath( Environment.SpecialFolder.ApplicationData );
+//			logfile = Path.Combine( logfile, "NUnit" );
+//			logfile = Path.Combine( logfile, "NUnitTest.log" );
+//
+//			appender = new log4net.Appender.ConsoleAppender();
+////			appender.File = logfile;
+////			appender.AppendToFile = true;
+////			appender.LockingModel = new log4net.Appender.FileAppender.MinimalLock();
+//			appender.Layout = new log4net.Layout.PatternLayout(
+//				"%date{ABSOLUTE} %-5level [%4thread] %logger{1}: PID=%property{PID} %message%newline" );
+//			appender.Threshold = log4net.Core.Level.All;
+//			log4net.Config.BasicConfigurator.Configure(appender);
 		}
 		#endregion
 
