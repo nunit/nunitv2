@@ -404,7 +404,6 @@ namespace NUnit.UiKit
 			// tests
 			// 
 			this.tests.AllowDrop = true;
-			this.tests.CategoryFilter = ((NUnit.Core.TestFilter)(resources.GetObject("tests.CategoryFilter")));
 			this.tests.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tests.HideSelection = false;
 			this.tests.Location = new System.Drawing.Point(0, 0);

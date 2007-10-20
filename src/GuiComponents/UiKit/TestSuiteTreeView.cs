@@ -273,7 +273,8 @@ namespace NUnit.UiKit
 				}
 
 				if ( result == null || result.Length == 0 )
-					result = new ITest[] { this.SelectedTest };
+					if ( this.SelectedTest != null )
+						result = new ITest[] { this.SelectedTest };
 
 				return result;
 			}	
