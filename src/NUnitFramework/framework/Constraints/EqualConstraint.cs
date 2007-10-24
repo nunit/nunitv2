@@ -304,7 +304,7 @@ namespace NUnit.Framework.Constraints
 
             string sActual = MsgUtils.GetTypeRepresentation(actual);
             if (!(actual is Array))
-                sActual += string.Format(" with {0} elements", expected.Count);
+                sActual += string.Format(" with {0} elements", actual.Count);
 
             if (sExpected == sActual)
                 writer.WriteMessageLine(indent, CollectionType_1, sExpected);
