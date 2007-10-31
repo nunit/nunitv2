@@ -11,6 +11,7 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace NUnit.Util
 {
@@ -31,19 +32,20 @@ namespace NUnit.Util
 			props.Add( "port", port );
 			props.Add( "name", name );
 			props.Add( "bindTo", "127.0.0.1" );
-			props.Add( "clientConnectionLimit", limit );
 
 			BinaryServerFormatterSinkProvider serverProvider =
 				new BinaryServerFormatterSinkProvider();
 
-			// NOTE: The TypeFilterLevel enum/propety doesn't exist in .NET 1.0.
+            // NOTE: TypeFilterLevel and "clientConnectionLimit" property don't exist in .NET 1.0.
 			Type typeFilterLevelType = typeof(object).Assembly.GetType("System.Runtime.Serialization.Formatters.TypeFilterLevel");
 			if (typeFilterLevelType != null)
 			{
 				PropertyInfo typeFilterLevelProperty = serverProvider.GetType().GetProperty("TypeFilterLevel");
 				object typeFilterLevel = Enum.Parse(typeFilterLevelType, "Full");
 				typeFilterLevelProperty.SetValue(serverProvider, typeFilterLevel, null);
-			}
+
+                props.Add("clientConnectionLimit", limit);
+            }
 
 			BinaryClientFormatterSinkProvider clientProvider =
 				new BinaryClientFormatterSinkProvider();
@@ -94,8 +96,9 @@ namespace NUnit.Util
 						ChannelServices.RegisterChannel( channel );
 						break;
 					}
-					catch( Exception )
+					catch( Exception e )
 					{
+                        Trace.WriteLine(e);
 						System.Threading.Thread.Sleep(300);
 					}
 			}
