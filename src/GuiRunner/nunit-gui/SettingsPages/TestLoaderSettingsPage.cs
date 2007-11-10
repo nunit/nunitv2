@@ -9,8 +9,6 @@ namespace NUnit.Gui.SettingsPages
 {
 	public class TestLoaderSettingsPage : NUnit.UiKit.SettingsPage
 	{
-		private System.Windows.Forms.RadioButton flatTestList;
-		private System.Windows.Forms.RadioButton autoNamespaceSuites;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
@@ -21,6 +19,8 @@ namespace NUnit.Gui.SettingsPages
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.GroupBox groupBox3;
 		private System.Windows.Forms.CheckBox shadowCopyCheckBox;
+		private System.Windows.Forms.RadioButton flatTestList;
+		private System.Windows.Forms.RadioButton autoNamespaceSuites;
 		private System.ComponentModel.IContainer components = null;
 
 		public TestLoaderSettingsPage(string key) : base(key)
@@ -53,8 +53,6 @@ namespace NUnit.Gui.SettingsPages
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.flatTestList = new System.Windows.Forms.RadioButton();
-			this.autoNamespaceSuites = new System.Windows.Forms.RadioButton();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
@@ -65,23 +63,9 @@ namespace NUnit.Gui.SettingsPages
 			this.label3 = new System.Windows.Forms.Label();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
 			this.shadowCopyCheckBox = new System.Windows.Forms.CheckBox();
+			this.flatTestList = new System.Windows.Forms.RadioButton();
+			this.autoNamespaceSuites = new System.Windows.Forms.RadioButton();
 			this.SuspendLayout();
-			// 
-			// flatTestList
-			// 
-			this.flatTestList.Location = new System.Drawing.Point(32, 56);
-			this.flatTestList.Name = "flatTestList";
-			this.flatTestList.Size = new System.Drawing.Size(216, 24);
-			this.flatTestList.TabIndex = 3;
-			this.flatTestList.Text = "Flat list of TestFixtures";
-			// 
-			// autoNamespaceSuites
-			// 
-			this.autoNamespaceSuites.Location = new System.Drawing.Point(32, 24);
-			this.autoNamespaceSuites.Name = "autoNamespaceSuites";
-			this.autoNamespaceSuites.Size = new System.Drawing.Size(224, 24);
-			this.autoNamespaceSuites.TabIndex = 2;
-			this.autoNamespaceSuites.Text = "Automatic Namespace suites";
 			// 
 			// groupBox1
 			// 
@@ -129,6 +113,7 @@ namespace NUnit.Gui.SettingsPages
 			// 
 			// singleDomainRadioButton
 			// 
+			this.singleDomainRadioButton.AutoCheck = false;
 			this.singleDomainRadioButton.Checked = true;
 			this.singleDomainRadioButton.Location = new System.Drawing.Point(32, 152);
 			this.singleDomainRadioButton.Name = "singleDomainRadioButton";
@@ -136,14 +121,17 @@ namespace NUnit.Gui.SettingsPages
 			this.singleDomainRadioButton.TabIndex = 9;
 			this.singleDomainRadioButton.TabStop = true;
 			this.singleDomainRadioButton.Text = "Load in a single AppDomain";
+			this.singleDomainRadioButton.Click += new System.EventHandler(this.toggleMultiDomain);
 			// 
 			// multiDomainRadioButton
 			// 
+			this.multiDomainRadioButton.AutoCheck = false;
 			this.multiDomainRadioButton.Location = new System.Drawing.Point(32, 120);
 			this.multiDomainRadioButton.Name = "multiDomainRadioButton";
 			this.multiDomainRadioButton.Size = new System.Drawing.Size(240, 24);
 			this.multiDomainRadioButton.TabIndex = 8;
 			this.multiDomainRadioButton.Text = "Load in separate AppDomains";
+			this.multiDomainRadioButton.Click += new System.EventHandler(this.toggleMultiDomain);
 			// 
 			// label3
 			// 
@@ -171,8 +159,32 @@ namespace NUnit.Gui.SettingsPages
 			this.shadowCopyCheckBox.TabIndex = 31;
 			this.shadowCopyCheckBox.Text = "Enable Shadow Copy";
 			// 
-			// TestLoaderSettings
+			// flatTestList
 			// 
+			this.flatTestList.AutoCheck = false;
+			this.flatTestList.Location = new System.Drawing.Point(32, 56);
+			this.flatTestList.Name = "flatTestList";
+			this.flatTestList.Size = new System.Drawing.Size(216, 24);
+			this.flatTestList.TabIndex = 33;
+			this.flatTestList.Text = "Flat list of TestFixtures";
+			this.flatTestList.Click += new System.EventHandler(this.toggleTestStructure);
+			// 
+			// autoNamespaceSuites
+			// 
+			this.autoNamespaceSuites.AutoCheck = false;
+			this.autoNamespaceSuites.Checked = true;
+			this.autoNamespaceSuites.Location = new System.Drawing.Point(32, 24);
+			this.autoNamespaceSuites.Name = "autoNamespaceSuites";
+			this.autoNamespaceSuites.Size = new System.Drawing.Size(224, 24);
+			this.autoNamespaceSuites.TabIndex = 32;
+			this.autoNamespaceSuites.TabStop = true;
+			this.autoNamespaceSuites.Text = "Automatic Namespace suites";
+			this.autoNamespaceSuites.Click += new System.EventHandler(this.toggleTestStructure);
+			// 
+			// TestLoaderSettingsPage
+			// 
+			this.Controls.Add(this.flatTestList);
+			this.Controls.Add(this.autoNamespaceSuites);
 			this.Controls.Add(this.shadowCopyCheckBox);
 			this.Controls.Add(this.groupBox3);
 			this.Controls.Add(this.label3);
@@ -183,9 +195,7 @@ namespace NUnit.Gui.SettingsPages
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.flatTestList);
-			this.Controls.Add(this.autoNamespaceSuites);
-			this.Name = "TestLoaderSettings";
+			this.Name = "TestLoaderSettingsPage";
 			this.Size = new System.Drawing.Size(456, 312);
 			this.ResumeLayout(false);
 
@@ -210,6 +220,19 @@ namespace NUnit.Gui.SettingsPages
 			settings.SaveSetting( "Options.TestLoader.MultiDomain", loader.MultiDomain = multiDomainRadioButton.Checked );
 			settings.SaveSetting( "Options.TestLoader.MergeAssemblies", loader.MergeAssemblies = mergeAssembliesCheckBox.Checked );
 			settings.SaveSetting( "Options.TestLoader.AutoNamespaceSuites", loader.AutoNamespaceSuites = autoNamespaceSuites.Checked );
+		}
+
+		private void toggleTestStructure(object sender, System.EventArgs e)
+		{
+			bool auto = autoNamespaceSuites.Checked = !autoNamespaceSuites.Checked;
+			flatTestList.Checked = !auto;
+		}
+
+		private void toggleMultiDomain(object sender, System.EventArgs e)
+		{
+			bool multiDomain = multiDomainRadioButton.Checked = ! multiDomainRadioButton.Checked;
+			singleDomainRadioButton.Checked = !multiDomain;
+			mergeAssembliesCheckBox.Enabled = !multiDomain;
 		}
 
 		public override bool HasChangesRequiringReload

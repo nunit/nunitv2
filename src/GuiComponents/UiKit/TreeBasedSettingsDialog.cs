@@ -134,6 +134,9 @@ namespace NUnit.UiKit
 			foreach( SettingsPage page in SettingsPages )
 				AddBranchToTree( treeView1.Nodes, page.Key );
 
+			if ( treeView1.VisibleCount >= treeView1.GetNodeCount( true ) )
+				treeView1.ExpandAll();
+
 			if ( treeView1.Nodes.Count > 0 )
 				SelectInitialPage(treeView1.Nodes);
 
