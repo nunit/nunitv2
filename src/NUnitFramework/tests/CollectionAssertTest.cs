@@ -144,7 +144,7 @@ namespace NUnit.Framework.Tests
                 "  Expected is <System.Collections.ArrayList> with 3 elements, actual is <System.Collections.ArrayList> with 4 elements" + Environment.NewLine +
                 "  Values differ at index [3]" + Environment.NewLine +
                 "  Extra:    < \"a\" >";
-            CollectionAssert.AreEqual(set1, set2, new TestComparer());
+			CollectionAssert.AreEqual(set1,set2,new TestComparer());
 		}
 
         [Test, ExpectedException(typeof(AssertionException))]
