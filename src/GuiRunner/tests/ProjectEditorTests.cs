@@ -54,8 +54,8 @@ namespace NUnit.Gui.Tests
 			tester.AssertControlExists( "projectTabControl" );
 		}
 
-		[Test]
-		public void InitialFieldValues()
+        [Test, Platform(Exclude="Net-1.0", Reason="Sporadic NullReferenceException in SafeNativeMethods.ShowWindow")]
+        public void InitialFieldValues()
 		{
 			editor.Show();
 			Assert.AreEqual( Path.GetFullPath( "temp.nunit" ), GetText( "projectPathLabel" ) );
