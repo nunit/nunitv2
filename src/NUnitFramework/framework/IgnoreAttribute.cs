@@ -14,7 +14,7 @@ namespace NUnit.Framework
 	/// tests are run.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Method|AttributeTargets.Class|AttributeTargets.Assembly, AllowMultiple=false)]
-	public sealed class IgnoreAttribute : Attribute
+	public class IgnoreAttribute : Attribute
 	{
 		private string reason;
 

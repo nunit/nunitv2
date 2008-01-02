@@ -7,7 +7,7 @@ namespace NUnit.Framework
 	/// test case or fixture.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=false)]
-	public sealed class DescriptionAttribute : Attribute
+	public class DescriptionAttribute : Attribute
 	{
 		string description;
 

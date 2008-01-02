@@ -26,7 +26,7 @@ namespace NUnit.Framework
 	/// </summary>
 	/// 
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple=false)]
-	public sealed class ExpectedExceptionAttribute : Attribute
+	public class ExpectedExceptionAttribute : Attribute
 	{
 		private Type expectedException;
 		private string expectedExceptionName;

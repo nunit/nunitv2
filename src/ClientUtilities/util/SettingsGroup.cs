@@ -95,7 +95,17 @@ namespace NUnit.Util
 			if ( result == null )
 				return defaultValue;
 
-			return ResultAsInt( result );
+			if ( result is int )
+				return (int) result;
+
+			try
+			{
+				return Int32.Parse( result.ToString() );
+			}
+			catch
+			{
+				return defaultValue;
+			}
 		}
 
 		/// <summary>
@@ -122,7 +132,17 @@ namespace NUnit.Util
 //				if ( (string)result == "0" ) return false;
 //			}
 
-			return ResultAsBoolean( result );
+			if ( result is bool )
+				return (bool) result ;
+			
+			try
+			{
+				return Boolean.Parse( result.ToString() );
+			}
+			catch
+			{
+				return defaultValue;
+			}
 		}
 
 		/// <summary>
@@ -139,7 +159,10 @@ namespace NUnit.Util
 			if ( result == null )
 				return defaultValue;
 
-			return ResultAsString( result );
+			if ( result is string )
+				return (string) result;
+			else
+				return result.ToString();
 		}
 
 		/// <summary>
@@ -156,7 +179,17 @@ namespace NUnit.Util
 			if ( result == null )
 				return defaultValue;
 
-			return ResultAsEnum( result, defaultValue.GetType() );
+			if ( result is System.Enum )
+				return (System.Enum) result;
+				
+			try
+			{
+				return (System.Enum)System.Enum.Parse( defaultValue.GetType(), result.ToString(), true );
+			}
+			catch
+			{
+				return defaultValue;
+			}
 		}
 
 		/// <summary>
@@ -192,48 +225,17 @@ namespace NUnit.Util
 			// Avoid signaling "changes" when there is not really a change
 			if ( oldValue != null )
 			{
-				if( settingValue is string && ResultAsString(oldValue) == (string)settingValue ||
-					settingValue is int && ResultAsInt(oldValue) == (int)settingValue ||
-					settingValue is bool && ResultAsBoolean(oldValue) == (bool)settingValue ||
-					settingValue is Enum && ResultAsEnum(oldValue, settingValue.GetType()).Equals(settingValue) )
-						return;
+				if( oldValue is string && settingValue is string && (string)oldValue == (string)settingValue ||
+					oldValue is int && settingValue is int && (int)oldValue == (int)settingValue ||
+					oldValue is bool && settingValue is bool && (bool)oldValue == (bool)settingValue ||
+					oldValue is Enum && settingValue is Enum && oldValue.Equals(settingValue) )
+					return;
 			}
 
 			storage.SaveSetting( settingName, settingValue );
 
 			if ( Changed != null )
 				Changed( this, new SettingsEventArgs( settingName ) );
-		}
-		#endregion
-
-		#region Conversion Helpers
-		private string ResultAsString( object result )
-		{
-			return result is string
-				? (string) result
-				: result.ToString();
-		}
-
-		private int ResultAsInt( object result )
-		{
-			return result is int
-				? (int) result
-				: Int32.Parse( result.ToString() );
-		}
-
-		private bool ResultAsBoolean( object result )
-		{
-			return result is bool
-				? (bool) result 
-				: Boolean.Parse( result.ToString() );
-		}
-
-		private System.Enum ResultAsEnum( object result, Type enumType )
-		{
-			if ( result is System.Enum )
-				return (System.Enum) result;
-				
-			return (System.Enum)System.Enum.Parse( enumType, result.ToString(), true );
 		}
 		#endregion
 

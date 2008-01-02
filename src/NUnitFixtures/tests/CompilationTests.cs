@@ -81,7 +81,7 @@ namespace My.Namespace
 			CompilerResults results = compiler.CompileCode( goodCode );
 			Assert.AreEqual( 0, results.NativeCompilerReturnValue );
 
-			TestRunner runner = new TestDomain();
+			TestRunner runner = new SimpleTestRunner();
 
 			try
 			{

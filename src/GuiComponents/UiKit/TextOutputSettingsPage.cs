@@ -29,6 +29,7 @@ namespace NUnit.UiKit
 
 		private TextDisplayTabSettings tabSettings = new TextDisplayTabSettings();
 		private System.Windows.Forms.CheckBox enabledCheckBox;
+		private System.Windows.Forms.HelpProvider helpProvider1;
 		private int selectedTabIndex = -1;
 
 		public TextOutputSettingsPage(string key) : base(key)
@@ -77,6 +78,7 @@ namespace NUnit.UiKit
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.enabledCheckBox = new System.Windows.Forms.CheckBox();
 			this.label5 = new System.Windows.Forms.Label();
+			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -97,8 +99,10 @@ namespace NUnit.UiKit
 			// 
 			// showStandardOutput
 			// 
+			this.helpProvider1.SetHelpString(this.showStandardOutput, "If checked, standard Console output is displayed on this Tab.");
 			this.showStandardOutput.Location = new System.Drawing.Point(40, 128);
 			this.showStandardOutput.Name = "showStandardOutput";
+			this.helpProvider1.SetShowHelp(this.showStandardOutput, true);
 			this.showStandardOutput.Size = new System.Drawing.Size(136, 24);
 			this.showStandardOutput.TabIndex = 17;
 			this.showStandardOutput.Text = "Standard Output";
@@ -106,8 +110,10 @@ namespace NUnit.UiKit
 			// 
 			// showErrorOutput
 			// 
+			this.helpProvider1.SetHelpString(this.showErrorOutput, "If checked, error output is displayed on this Tab.");
 			this.showErrorOutput.Location = new System.Drawing.Point(200, 128);
 			this.showErrorOutput.Name = "showErrorOutput";
+			this.helpProvider1.SetShowHelp(this.showErrorOutput, true);
 			this.showErrorOutput.Size = new System.Drawing.Size(128, 24);
 			this.showErrorOutput.TabIndex = 18;
 			this.showErrorOutput.Text = "Error Output";
@@ -115,8 +121,10 @@ namespace NUnit.UiKit
 			// 
 			// showTraceOutput
 			// 
+			this.helpProvider1.SetHelpString(this.showTraceOutput, "If checked, Trace output is displayed on this Tab.");
 			this.showTraceOutput.Location = new System.Drawing.Point(40, 160);
 			this.showTraceOutput.Name = "showTraceOutput";
+			this.helpProvider1.SetShowHelp(this.showTraceOutput, true);
 			this.showTraceOutput.Size = new System.Drawing.Size(120, 24);
 			this.showTraceOutput.TabIndex = 19;
 			this.showTraceOutput.Text = "Trace Output";
@@ -124,8 +132,10 @@ namespace NUnit.UiKit
 			// 
 			// showLogOutput
 			// 
+			this.helpProvider1.SetHelpString(this.showLogOutput, "If checked, log output is displayed on this Tab.");
 			this.showLogOutput.Location = new System.Drawing.Point(200, 160);
 			this.showLogOutput.Name = "showLogOutput";
+			this.helpProvider1.SetShowHelp(this.showLogOutput, true);
 			this.showLogOutput.Size = new System.Drawing.Size(120, 24);
 			this.showLogOutput.TabIndex = 20;
 			this.showLogOutput.Text = "Log Output";
@@ -133,8 +143,10 @@ namespace NUnit.UiKit
 			// 
 			// testCaseLabels
 			// 
+			this.helpProvider1.SetHelpString(this.testCaseLabels, "If checked, each test case is preceded by an identifying label.");
 			this.testCaseLabels.Location = new System.Drawing.Point(40, 224);
 			this.testCaseLabels.Name = "testCaseLabels";
+			this.helpProvider1.SetShowHelp(this.testCaseLabels, true);
 			this.testCaseLabels.Size = new System.Drawing.Size(184, 24);
 			this.testCaseLabels.TabIndex = 21;
 			this.testCaseLabels.Text = "Display TestCase Labels";
@@ -145,8 +157,11 @@ namespace NUnit.UiKit
 			this.tabSelectComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.tabSelectComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.helpProvider1.SetHelpString(this.tabSelectComboBox, "Allows the user to select an existing Tab, create a new Tab or edit the list of T" +
+				"abs.");
 			this.tabSelectComboBox.Location = new System.Drawing.Point(88, 16);
 			this.tabSelectComboBox.Name = "tabSelectComboBox";
+			this.helpProvider1.SetShowHelp(this.tabSelectComboBox, true);
 			this.tabSelectComboBox.Size = new System.Drawing.Size(232, 24);
 			this.tabSelectComboBox.TabIndex = 22;
 			this.tabSelectComboBox.SelectedIndexChanged += new System.EventHandler(this.tabSelectComboBox_SelectedIndexChanged);
@@ -164,8 +179,10 @@ namespace NUnit.UiKit
 			// useDefaultsButton
 			// 
 			this.useDefaultsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.useDefaultsButton, "Restores the list of Tabs and their content to the default values.");
 			this.useDefaultsButton.Location = new System.Drawing.Point(328, 16);
 			this.useDefaultsButton.Name = "useDefaultsButton";
+			this.helpProvider1.SetShowHelp(this.useDefaultsButton, true);
 			this.useDefaultsButton.Size = new System.Drawing.Size(112, 23);
 			this.useDefaultsButton.TabIndex = 25;
 			this.useDefaultsButton.Text = "Restore Defaults";
@@ -192,8 +209,10 @@ namespace NUnit.UiKit
 			// suppressLabelsIfNoOutput
 			// 
 			this.suppressLabelsIfNoOutput.Enabled = false;
+			this.helpProvider1.SetHelpString(this.suppressLabelsIfNoOutput, "If checked, the identifying lablel is only displayed if there is output.");
 			this.suppressLabelsIfNoOutput.Location = new System.Drawing.Point(72, 248);
 			this.suppressLabelsIfNoOutput.Name = "suppressLabelsIfNoOutput";
+			this.helpProvider1.SetShowHelp(this.suppressLabelsIfNoOutput, true);
 			this.suppressLabelsIfNoOutput.Size = new System.Drawing.Size(296, 24);
 			this.suppressLabelsIfNoOutput.TabIndex = 0;
 			this.suppressLabelsIfNoOutput.Text = "Suppress label if no output is displayed";
@@ -203,8 +222,10 @@ namespace NUnit.UiKit
 			// 
 			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.textBox1, "The title to be displayed on the selected Tab.");
 			this.textBox1.Location = new System.Drawing.Point(88, 64);
 			this.textBox1.Name = "textBox1";
+			this.helpProvider1.SetShowHelp(this.textBox1, true);
 			this.textBox1.Size = new System.Drawing.Size(232, 22);
 			this.textBox1.TabIndex = 30;
 			this.textBox1.Text = "";
@@ -213,8 +234,10 @@ namespace NUnit.UiKit
 			// enabledCheckBox
 			// 
 			this.enabledCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.enabledCheckBox, "If checked, the Tab is enabled. If not, it is hidden.");
 			this.enabledCheckBox.Location = new System.Drawing.Point(344, 64);
 			this.enabledCheckBox.Name = "enabledCheckBox";
+			this.helpProvider1.SetShowHelp(this.enabledCheckBox, true);
 			this.enabledCheckBox.Size = new System.Drawing.Size(80, 24);
 			this.enabledCheckBox.TabIndex = 31;
 			this.enabledCheckBox.Text = "Enabled";

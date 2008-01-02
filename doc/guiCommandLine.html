@@ -81,7 +81,7 @@ Multiple categories may be specified on either option, by using commas to
 separate them.
 <p><b>Note:</b> At this time, the /include and /exclude options may not be
 combined on the command line.</p>
-   
+<!--   
 <h4>Specifying the Version of the CLR</h4>
 
 <p>Most applications are written to run under a specific version of the CLR.
@@ -109,13 +109,20 @@ precedence over this option.</p>
 framework. The Mono framework provides other means to specify the version
 to be used when running a command and the NUnit Windows interface does
 not currently run under Mono.</p>
+-->
 
-<h4>Load and Run Tests</h4>
+<h4>Load and Run All Tests</h4>
 Normally, nunit only loads an assembly and then waits for the user to click 
 on the Run button. If you wish to have the tests run immediately, use the <b>/run</b>
 option:
 <pre class="programtext">        nunit nunit.tests.dll /run</pre>
 </p>
+<h4>Load and Run Selected Tests</h4>
+To load and immediately rerun the last selected tests, use the <b>/runselected</b>
+option:
+<pre class="programtext">        nunit nunit.tests.dll /runselected</pre>
+</p>
+<p><b>Note:</b> If no selection has been saved, this option works just like <b>/run</b>.
 <h4>Specifying which Configuration to Load</h4>
 <p>When loading a Visual Studio project or an NUnit project, the first 
 	configuration found will be loaded by default. Usually this is Debug. The 
@@ -139,7 +146,7 @@ option:
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.4</a></li>
+<li><a href="index.html">NUnit 2.4.6</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>

@@ -108,39 +108,6 @@ namespace NUnit.ConsoleRunner.Tests
 		}
 
 		[Test]
-		public void IncludeCategories() 
-		{
-			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-include:Database;Slow" );
-			Assert.IsTrue( options.Validate() );
-			Assert.AreEqual( "Database;Slow", options.include);
-			Assert.IsTrue(options.HasInclude);
-			Assert.AreEqual(new string[] {"Database","Slow"}, options.IncludedCategories);
-		}
-
-		[Test]
-		public void ExcludeCategories() 
-		{
-			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-exclude:Database;Slow" );
-			Assert.IsTrue( options.Validate() );
-			Assert.AreEqual("Database;Slow",options.exclude);
-			Assert.IsTrue(options.HasExclude);
-			Assert.AreEqual(new string[] {"Database","Slow"}, options.ExcludedCategories);
-		}
-
-		[Test]
-		public void IncludeAndExcludeCategories()
-		{
-			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-include:Database;Slow", "-exclude:Fast" );
-			Assert.IsTrue( options.Validate() );
-			Assert.AreEqual("Database;Slow", options.include);
-			Assert.AreEqual("Fast", options.exclude);
-			Assert.IsTrue(options.HasInclude);
-			Assert.IsTrue(options.HasExclude);
-			Assert.AreEqual(new string[] {"Database", "Slow"}, options.IncludedCategories);
-			Assert.AreEqual(new string[] { "Fast" }, options.ExcludedCategories );
-		}
-
-		[Test]
 		public void FixtureNamePlusAssemblyIsValid()
 		{
 			ConsoleOptions options = new ConsoleOptions( "-fixture:NUnit.Tests.AllTests", "nunit.tests.dll" );
@@ -184,8 +151,6 @@ namespace NUnit.ConsoleRunner.Tests
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml:results.xml" );
 			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", options.Parameters[0]);
-
-			Assert.IsTrue(options.IsXml, "XML file name should be set");
 			Assert.AreEqual("results.xml", options.xml);
 		}
 
@@ -195,8 +160,6 @@ namespace NUnit.ConsoleRunner.Tests
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml:C:/nunit/tests/bin/Debug/console-test.xml" );
 			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", options.Parameters[0]);
-
-			Assert.IsTrue(options.IsXml, "XML file name should be set");
 			Assert.AreEqual("C:/nunit/tests/bin/Debug/console-test.xml", options.xml);
 		}
 
@@ -206,8 +169,6 @@ namespace NUnit.ConsoleRunner.Tests
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml=C:/nunit/tests/bin/Debug/console-test.xml" );
 			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", options.Parameters[0]);
-
-			Assert.IsTrue(options.IsXml, "XML file name should be set");
 			Assert.AreEqual("C:/nunit/tests/bin/Debug/console-test.xml", options.xml);
 		}
 
@@ -217,8 +178,6 @@ namespace NUnit.ConsoleRunner.Tests
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-transform:Summary.xslt" );
 			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", options.Parameters[0]);
-
-			Assert.IsTrue(options.IsTransform, "transform file name should be set");
 			Assert.AreEqual("Summary.xslt", options.transform);
 		}
 
@@ -227,14 +186,14 @@ namespace NUnit.ConsoleRunner.Tests
 		public void FileNameWithoutXmlParameterIsInvalid()
 		{
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", ":result.xml" );
-			Assert.IsFalse(options.IsXml);
+			Assert.IsFalse(options.Validate());
 		}
 
 		[Test]
 		public void XmlParameterWithoutFileNameIsInvalid()
 		{
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml:" );
-			Assert.IsFalse(options.IsXml);			
+			Assert.IsFalse(options.Validate());			
 		}
 
 		[Test]

@@ -28,7 +28,7 @@ namespace NUnit.Util
 			Initialize(result);
 		}
 
-		public XmlResultVisitor( TextWriter writer, TestResult result )
+        public XmlResultVisitor( TextWriter writer, TestResult result )
 		{
 			this.memoryStream = new MemoryStream();
 			this.writer = writer;
@@ -129,7 +129,7 @@ namespace NUnit.Util
 			else
 			{
 				WriteCategories(caseResult);
-//				WriteProperties(caseResult);
+				WriteProperties(caseResult);
 				xmlWriter.WriteStartElement("reason");
 				xmlWriter.WriteStartElement("message");
 				xmlWriter.WriteCData(caseResult.Message);
@@ -221,7 +221,24 @@ namespace NUnit.Util
 			xmlWriter.WriteAttributeString("asserts", suiteResult.AssertCount.ToString() );
          
 			WriteCategories(suiteResult);
-//			WriteProperties(suiteResult);
+			WriteProperties(suiteResult);
+
+			if ( suiteResult.IsFailure && suiteResult.FailureSite == FailureSite.SetUp )
+			{
+				xmlWriter.WriteStartElement("failure");
+
+				xmlWriter.WriteStartElement("message");
+				xmlWriter.WriteCData( EncodeCData( suiteResult.Message ) );
+				xmlWriter.WriteEndElement();
+
+				xmlWriter.WriteStartElement("stack-trace");
+				if(suiteResult.StackTrace != null)
+					xmlWriter.WriteCData( EncodeCData( StackTraceFilter.Filter( suiteResult.StackTrace ) ) );
+				xmlWriter.WriteEndElement();
+
+				xmlWriter.WriteEndElement();
+			}
+
 			xmlWriter.WriteStartElement("results");                  
 			foreach (TestResult result in suiteResult.Results)
 			{

@@ -39,14 +39,14 @@ namespace NUnit.Util
 		public override string ToString()
 		{
 			if ( message.Length > 64000 )
-				return string.Format( "{0} : {1}", testName, message.Substring( 0, 64000 ) );
+				return string.Format( "{0}:{1}{2}", testName, Environment.NewLine, message.Substring( 0, 64000 ) );
 
 			return GetMessage();
 		}
 
 		public string GetMessage()
 		{
-			return String.Format("{0} : {1}", testName, message);
+			return String.Format("{0}:{1}{2}", testName, Environment.NewLine, message);
 		}
 
         public string GetToolTipMessage()   //NRG 05/28/03 - Substitute spaces for tab characters

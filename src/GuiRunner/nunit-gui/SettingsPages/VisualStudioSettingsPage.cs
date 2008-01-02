@@ -11,6 +11,7 @@ namespace NUnit.Gui.SettingsPages
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.CheckBox visualStudioSupportCheckBox;
+		private System.Windows.Forms.HelpProvider helpProvider1;
 		private System.ComponentModel.IContainer components = null;
 
 		public VisualStudioSettingsPage(string key) : base(key)
@@ -46,6 +47,7 @@ namespace NUnit.Gui.SettingsPages
 			this.label1 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.visualStudioSupportCheckBox = new System.Windows.Forms.CheckBox();
+			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -68,18 +70,21 @@ namespace NUnit.Gui.SettingsPages
 			// 
 			// visualStudioSupportCheckBox
 			// 
+			this.helpProvider1.SetHelpString(this.visualStudioSupportCheckBox, "If checked, Visual Studio projects and solutions may be opened or added to existi" +
+				"ng test projects.");
 			this.visualStudioSupportCheckBox.Location = new System.Drawing.Point(24, 24);
 			this.visualStudioSupportCheckBox.Name = "visualStudioSupportCheckBox";
+			this.helpProvider1.SetShowHelp(this.visualStudioSupportCheckBox, true);
 			this.visualStudioSupportCheckBox.Size = new System.Drawing.Size(224, 25);
 			this.visualStudioSupportCheckBox.TabIndex = 30;
 			this.visualStudioSupportCheckBox.Text = "Enable Visual Studio Support";
 			// 
-			// VisualStudioSettings
+			// VisualStudioSettingsPage
 			// 
 			this.Controls.Add(this.visualStudioSupportCheckBox);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label1);
-			this.Name = "VisualStudioSettings";
+			this.Name = "VisualStudioSettingsPage";
 			this.ResumeLayout(false);
 
 		}

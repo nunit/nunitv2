@@ -69,7 +69,7 @@ namespace NUnit.Framework
 	/// individual method as applying to a particular platform only.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=true)]
-	public sealed class PlatformAttribute : IncludeExcludeAttribute
+	public class PlatformAttribute : IncludeExcludeAttribute
 	{
 		/// <summary>
 		/// Constructor with no platforms specified, for use
@@ -89,7 +89,7 @@ namespace NUnit.Framework
 	/// individual method as applying to a particular Culture only.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=false)]
-	public sealed class CultureAttribute : IncludeExcludeAttribute
+	public class CultureAttribute : IncludeExcludeAttribute
 	{
 		/// <summary>
 		/// Constructor with no cultures specified, for use

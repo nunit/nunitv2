@@ -20,16 +20,19 @@
 <xsl:text>
 </xsl:text>
 
-<xsl:if test="//test-case[failure]"><xsl:text>Failures:
+<xsl:if test="//test-suite[failure]"><xsl:text>Test Fixture SetUp Failures:
 </xsl:text></xsl:if>
-<xsl:apply-templates select="//test-case[failure]"/>
+<xsl:apply-templates select="//test-suite[failure]|//test-suite[failure]"/>
+<xsl:if test="//test-case[failure]"><xsl:text>Test Case Failures:
+</xsl:text></xsl:if>
+<xsl:apply-templates select="//test-case[failure]|//test-suite[failure]"/>
 <xsl:if test="//test-case[@executed='False']"><xsl:text>Tests not run:
 </xsl:text></xsl:if>
 <xsl:apply-templates select="//test-case[@executed='False']"/>
 <xsl:text disable-output-escaping='yes'>&#xD;&#xA;</xsl:text>
 </xsl:template>
 
-<xsl:template match="test-case">
+<xsl:template match="test-case|test-suite">
 	<xsl:value-of select="position()"/><xsl:text>) </xsl:text>
 	<xsl:value-of select="@name"/>
 	<xsl:text> : </xsl:text>

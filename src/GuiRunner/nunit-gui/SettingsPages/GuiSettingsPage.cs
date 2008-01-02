@@ -20,6 +20,7 @@ namespace NUnit.Gui.SettingsPages
 		private System.Windows.Forms.CheckBox loadLastProjectCheckBox;
 		private System.Windows.Forms.RadioButton fullGuiRadioButton;
 		private System.Windows.Forms.RadioButton miniGuiRadioButton;
+		private System.Windows.Forms.HelpProvider helpProvider1;
 		private System.ComponentModel.IContainer components = null;
 
 		public GuiSettingsPage(string key) : base(key)
@@ -62,6 +63,7 @@ namespace NUnit.Gui.SettingsPages
 			this.loadLastProjectCheckBox = new System.Windows.Forms.CheckBox();
 			this.fullGuiRadioButton = new System.Windows.Forms.RadioButton();
 			this.miniGuiRadioButton = new System.Windows.Forms.RadioButton();
+			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -110,8 +112,10 @@ namespace NUnit.Gui.SettingsPages
 			// 
 			// recentFilesCountTextBox
 			// 
+			this.helpProvider1.SetHelpString(this.recentFilesCountTextBox, "The maximum number of files to display in the Recent Files list.");
 			this.recentFilesCountTextBox.Location = new System.Drawing.Point(96, 120);
 			this.recentFilesCountTextBox.Name = "recentFilesCountTextBox";
+			this.helpProvider1.SetShowHelp(this.recentFilesCountTextBox, true);
 			this.recentFilesCountTextBox.Size = new System.Drawing.Size(40, 22);
 			this.recentFilesCountTextBox.TabIndex = 29;
 			this.recentFilesCountTextBox.Text = "";
@@ -126,29 +130,36 @@ namespace NUnit.Gui.SettingsPages
 			// 
 			// loadLastProjectCheckBox
 			// 
+			this.helpProvider1.SetHelpString(this.loadLastProjectCheckBox, "If checked, most recent project is loaded at startup.");
 			this.loadLastProjectCheckBox.Location = new System.Drawing.Point(32, 152);
 			this.loadLastProjectCheckBox.Name = "loadLastProjectCheckBox";
+			this.helpProvider1.SetShowHelp(this.loadLastProjectCheckBox, true);
 			this.loadLastProjectCheckBox.Size = new System.Drawing.Size(250, 24);
 			this.loadLastProjectCheckBox.TabIndex = 31;
 			this.loadLastProjectCheckBox.Text = "Load most recent project at startup.";
 			// 
 			// fullGuiRadioButton
 			// 
+			this.helpProvider1.SetHelpString(this.fullGuiRadioButton, "If selected, the full Gui is displayed, including the progress bar and output tab" +
+				"s.");
 			this.fullGuiRadioButton.Location = new System.Drawing.Point(32, 24);
 			this.fullGuiRadioButton.Name = "fullGuiRadioButton";
+			this.helpProvider1.SetShowHelp(this.fullGuiRadioButton, true);
 			this.fullGuiRadioButton.Size = new System.Drawing.Size(328, 24);
 			this.fullGuiRadioButton.TabIndex = 32;
 			this.fullGuiRadioButton.Text = "Full Gui with progress bar and result tabs";
 			// 
 			// miniGuiRadioButton
 			// 
+			this.helpProvider1.SetHelpString(this.miniGuiRadioButton, "If selected, the mini-Gui, consisting of only the tree of tests, is displayed.");
 			this.miniGuiRadioButton.Location = new System.Drawing.Point(32, 56);
 			this.miniGuiRadioButton.Name = "miniGuiRadioButton";
+			this.helpProvider1.SetShowHelp(this.miniGuiRadioButton, true);
 			this.miniGuiRadioButton.Size = new System.Drawing.Size(320, 24);
 			this.miniGuiRadioButton.TabIndex = 33;
 			this.miniGuiRadioButton.Text = "Mini Gui showing tree only";
 			// 
-			// GuiSettings
+			// GuiSettingsPage
 			// 
 			this.Controls.Add(this.miniGuiRadioButton);
 			this.Controls.Add(this.fullGuiRadioButton);
@@ -160,7 +171,7 @@ namespace NUnit.Gui.SettingsPages
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label1);
-			this.Name = "GuiSettings";
+			this.Name = "GuiSettingsPage";
 			this.ResumeLayout(false);
 
 		}

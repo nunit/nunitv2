@@ -30,7 +30,7 @@ namespace NUnit.Framework
 	/// </example>
 	/// 
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple=false)]
-	public sealed class TestAttribute : Attribute
+	public class TestAttribute : Attribute
 	{
 		private string description;
 

@@ -35,24 +35,11 @@ namespace NUnit.Gui
 		private string displayFormat = "Full";
 
 		private LongRunningOperationDisplay longOpDisplay;
-		private GuiAttachedConsole attachedConsole;
 
 		private System.Drawing.Font fixedFont;
 
-		// Structure used for command line options
-		public struct CommandLineOptions
-		{
-			public string testFileName;
-			public string configName;
-			public string testName;
-			public string categories;
-			public bool exclude;
-			public bool noload;
-			public bool autorun;
-		}
-
 		// Our current run command line options
-		private CommandLineOptions commandLineOptions;
+		private GuiOptions guiOptions;
 
 		private System.ComponentModel.IContainer components;
 
@@ -143,11 +130,11 @@ namespace NUnit.Gui
 		
 		#region Construction and Disposal
 
-		public NUnitForm( CommandLineOptions commandLineOptions )
+		public NUnitForm( GuiOptions guiOptions )
 		{
 			InitializeComponent();
 
-			this.commandLineOptions = commandLineOptions;
+			this.guiOptions = guiOptions;
 			this.recentFilesService = Services.RecentFiles;
 			this.userSettings = Services.UserSettings;
 		}
@@ -843,7 +830,9 @@ namespace NUnit.Gui
 		}
 		#endregion
 
-		#region File Menu Handlers
+		#region Menu Handlers
+
+		#region File Menu
 
 		private void fileMenu_Popup(object sender, System.EventArgs e)
 		{
@@ -912,13 +901,17 @@ namespace NUnit.Gui
 
 		#endregion
 
-		#region View Menu Handlers
+		#region View Menu
+		private void viewMenu_Popup(object sender, System.EventArgs e)
+		{
+			assemblyDetailsMenuItem.Enabled = this.TestLoader.IsTestLoaded;
+		}
+
 		private void statusBarMenuItem_Click(object sender, System.EventArgs e)
 		{
 			statusBarMenuItem.Checked = !statusBarMenuItem.Checked;
 			statusBar.Visible = statusBarMenuItem.Checked;
 		}
-
 
 		private void fontChangeMenuItem_Click(object sender, System.EventArgs e)
 		{
@@ -950,25 +943,20 @@ namespace NUnit.Gui
 		private void fullGuiMenuItem_Click(object sender, System.EventArgs e)
 		{
 			if ( !fullGuiMenuItem.Checked )
-			{
-				fullGuiMenuItem.Checked = true;
-				miniGuiMenuItem.Checked = false;
 				displayFullGui();
-			}
 		}
 
 		private void miniGuiMenuItem_Click(object sender, System.EventArgs e)
 		{
 			if ( !miniGuiMenuItem.Checked )
-			{
-				miniGuiMenuItem.Checked = true;
-				fullGuiMenuItem.Checked = false;
 				displayMiniGui();
-			}
 		}
 
 		private void displayFullGui()
 		{
+			fullGuiMenuItem.Checked = true;
+			miniGuiMenuItem.Checked = false;
+
 			this.displayFormat = "Full";
 			userSettings.SaveSetting( "Gui.DisplayFormat", "Full" );
 
@@ -993,6 +981,10 @@ namespace NUnit.Gui
 			if ( height < 32 ) height = 32;
 			this.Size = new Size( width, height );
 
+			// Set to maximized if required
+			if ( userSettings.GetSetting( "Gui.MainForm.Maximized", false ) )
+				this.WindowState = FormWindowState.Maximized;
+
 			// Set the font to use
 			string fontDescription = userSettings.GetSetting( "Gui.MainForm.Font", "" );
 			if ( fontDescription != "" )
@@ -1004,9 +996,13 @@ namespace NUnit.Gui
 
 		private void displayMiniGui()
 		{
+			miniGuiMenuItem.Checked = true;
+			fullGuiMenuItem.Checked = false;
+			
 			this.displayFormat = "Mini";
 			userSettings.SaveSetting( "Gui.DisplayFormat", "Mini" );
 
+			this.Controls.Remove( statusBar );
 			this.Controls.Remove( rightPanel );
 			this.Controls.Remove( treeSplitter );
 			leftPanel.Dock = DockStyle.Fill;
@@ -1079,7 +1075,7 @@ namespace NUnit.Gui
 		}
 		#endregion
 
-		#region Project Menu Handlers
+		#region Project Menu
 
 		/// <summary>
 		/// When the project menu pops up, we populate the
@@ -1159,7 +1155,32 @@ namespace NUnit.Gui
 
 		#endregion
 
-		#region Tools Menu Handlers
+		#region Test Menu
+
+		private void runAllMenuItem_Click(object sender, System.EventArgs e)
+		{
+			this.testTree.RunAllTests();
+		}
+
+		private void runSelectedMenuItem_Click(object sender, System.EventArgs e)
+		{
+			this.testTree.RunSelectedTests();
+		
+		}
+
+		private void runFailedMenuItem_Click(object sender, System.EventArgs e)
+		{
+			this.testTree.RunFailedTests();
+		}
+
+		private void stopRunMenuItem_Click(object sender, System.EventArgs e)
+		{
+			CancelRun();
+		}
+
+		#endregion
+
+		#region Tools Menu
 
 		private void toolsMenu_Popup(object sender, System.EventArgs e)
 		{		
@@ -1225,7 +1246,7 @@ namespace NUnit.Gui
 
 		#endregion
 
-		#region Help Menu Handlers
+		#region Help Menu
 
 		private void helpMenuItem_Click(object sender, System.EventArgs e)
 		{
@@ -1270,6 +1291,8 @@ namespace NUnit.Gui
 
 		#endregion
 
+		#endregion
+
 		#region Form Level Events
 		/// <summary>
 		/// Get saved options when form loads
@@ -1299,45 +1322,55 @@ namespace NUnit.Gui
 
 				// Load test specified on command line or
 				// the most recent one if options call for it
-				if ( commandLineOptions.testFileName != null )
-					TestLoaderUI.OpenProject( this, commandLineOptions.testFileName, commandLineOptions.configName, commandLineOptions.testName );
-				else if( userSettings.GetSetting( "Options.LoadLastProject", true ) && !commandLineOptions.noload )
+				if ( guiOptions.ParameterCount != 0 )
+					TestLoaderUI.OpenProject( this, (string)guiOptions.Parameters[0], guiOptions.config, guiOptions.fixture );
+				else if( userSettings.GetSetting( "Options.LoadLastProject", true ) && !guiOptions.noload )
 				{
 					foreach( RecentFileEntry entry in recentFilesService.Entries )
 					{
 						if ( entry != null && entry.Exists && entry.IsCompatibleCLRVersion )
 						{
-							TestLoaderUI.OpenProject( this, entry.Path, commandLineOptions.configName, commandLineOptions.testName );
+							TestLoaderUI.OpenProject( this, entry.Path, guiOptions.config, guiOptions.fixture );
 							break;
 						}
 					}
 				}
 
-				if ( commandLineOptions.categories != null )
+				if ( guiOptions.include != null )
 				{
-					string[] categories = commandLineOptions.categories.Split( ',' );
+					string[] categories = guiOptions.include.Split( ',' );
 					if ( categories.Length > 0 )
-						this.testTree.SelectCategories( commandLineOptions.categories.Split( ',' ), commandLineOptions.exclude );
+						this.testTree.SelectCategories( categories, false );
+				}
+				else if ( guiOptions.exclude != null )
+				{
+					string[] categories = guiOptions.exclude.Split( ',' );
+					if ( categories.Length > 0 )
+						this.testTree.SelectCategories( categories, true );
 				}
 
 				// Run loaded test automatically if called for
-				if ( commandLineOptions.autorun && TestLoader.IsTestLoaded )
-				{
-					// TODO: Temporary fix to avoid problem when /run is used 
-					// with ReloadOnRun turned on. Refactor TestLoader so
-					// we can just do a run without reload.
-					bool reload = TestLoader.ReloadOnRun;
-				
-					try
+				if ( TestLoader.IsTestLoaded )
+					if ( guiOptions.run || guiOptions.runselected )
 					{
-						TestLoader.ReloadOnRun = false;
-						TestLoader.RunTests();
+						// TODO: Temporary fix to avoid problem when /run is used 
+						// with ReloadOnRun turned on. Refactor TestLoader so
+						// we can just do a run without reload.
+						bool reload = TestLoader.ReloadOnRun;
+					
+						try
+						{
+							TestLoader.ReloadOnRun = false;
+							if ( guiOptions.runselected )
+								testTree.RunSelectedTests();
+							else
+								TestLoader.RunTests();
+						}
+						finally
+						{
+							TestLoader.ReloadOnRun = reload;
+						}
 					}
-					finally
-					{
-						TestLoader.ReloadOnRun = reload;
-					}
-				}
 			}
 		}
 		
@@ -1345,51 +1378,13 @@ namespace NUnit.Gui
 		{
 			this.displayFormat = userSettings.GetSetting( "Gui.DisplayFormat", "Full" );
 
-			int x, y, width, height;
-			Point location;
-
 			switch( displayFormat )
 			{
-				case "Full":
-					x = userSettings.GetSetting( "Gui.MainForm.Left", 10 );
-					y = userSettings.GetSetting( "Gui.MainForm.Top", 10 );
-					location = new Point( x, y );
-
-					if ( !IsValidLocation( location ) )
-						location = new Point( 10, 10 );
-					this.Location = location;
-
-					width = userSettings.GetSetting( "Gui.MainForm.Width", this.Width );
-					height = userSettings.GetSetting( "Gui.MainForm.Height", this.Height );
-					this.Size = new Size( width, height );
-
-					if ( userSettings.GetSetting( "Gui.MainForm.Maximized", false ) )
-						this.WindowState = FormWindowState.Maximized;
-					
-					fullGuiMenuItem.Checked = true;
-					miniGuiMenuItem.Checked = false;
-
+				case "Full":				
 					displayFullGui();
-
 					break;
 				case "Mini":
-					x = userSettings.GetSetting( "Gui.MiniForm.Left", 10 );
-					y = userSettings.GetSetting( "Gui.MiniForm.Top", 10 );
-					location = new Point( x, y );
-
-					if ( !IsValidLocation( location ) )
-						location = new Point( 10, 10 );
-					this.Location = location;
-
-					width = userSettings.GetSetting( "Gui.MiniForm.Width", this.Width );
-					height = userSettings.GetSetting( "Gui.MiniForm.Height", this.Height );
-					this.Size = new Size( width, height );
-
-					fullGuiMenuItem.Checked = false;
-					miniGuiMenuItem.Checked = true;
-
 					displayMiniGui();
-
 					break;
 				default:
 					throw new ApplicationException( "Invalid Setting" );
@@ -1416,6 +1411,9 @@ namespace NUnit.Gui
 				TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
 				this.fixedFont = (Font)converter.ConvertFrom(fontDescription);
 			}
+
+			// Handle changes in form settings
+			userSettings.Changed += new SettingsEventHandler(userSettings_Changed);
 		}
 
 		private bool IsValidLocation( Point location )
@@ -1547,6 +1545,18 @@ namespace NUnit.Gui
 				e.Cancel = true;
 		}
 
+		private void userSettings_Changed(object sender, SettingsEventArgs args)
+		{
+			if ( args.SettingName == "Gui.DisplayFormat" )
+			{
+				string newFormat = userSettings.GetSetting( "Gui.DisplayFormat", this.displayFormat );
+				if ( newFormat != displayFormat )
+					if ( newFormat == "Full" )
+						displayFullGui();
+					else
+						displayMiniGui();
+			}
+		}
 		#endregion
 
 		#region Other UI Event Handlers
@@ -1773,25 +1783,6 @@ the version under which NUnit is currently running, {0}.",
 				: string.Format( "{0} - NUnit", Path.GetFileName( fileName ) );
 		}
 
-		#endregion	
-
-		private void runAllMenuItem_Click(object sender, System.EventArgs e)
-		{
-			this.testTree.RunAllTests();
-		}
-
-		private void runSelectedMenuItem_Click(object sender, System.EventArgs e)
-		{
-			this.testTree.RunSelectedTests();
-		
-		}
-
-		private void runFailedMenuItem_Click(object sender, System.EventArgs e)
-		{
-			this.testTree.RunFailedTests();
-		
-		}
-
 		private void EnableRunCommand( bool enable )
 		{
 			runButton.Enabled = enable;
@@ -1808,15 +1799,7 @@ the version under which NUnit is currently running, {0}.",
 			stopRunMenuItem.Enabled = enable;
 		}
 
-		private void stopRunMenuItem_Click(object sender, System.EventArgs e)
-		{
-			CancelRun();
-		}
-
-		private void viewMenu_Popup(object sender, System.EventArgs e)
-		{
-			assemblyDetailsMenuItem.Enabled = this.TestLoader.IsTestLoaded;
-		}
+		#endregion	
 	}
 }
 

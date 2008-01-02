@@ -40,7 +40,7 @@ namespace NUnit.Core
 		{
 			object[] attributes = member.GetCustomAttributes( inherit );
 			foreach( Attribute attribute in attributes )
-				if ( attribute.GetType().FullName == attrName )
+				if ( IsInstanceOfType( attrName, attribute ) )
 					return true;
 			return false;
 		}
@@ -57,7 +57,7 @@ namespace NUnit.Core
         {
             object[] attributes = member.GetCustomAttributes(inherit);
             foreach (Attribute attribute in attributes)
-                if (attribute.GetType().FullName == attrName)
+                if ( IsInstanceOfType( attrName, attribute ) )
                     return attribute;
             return null;
         }
@@ -74,7 +74,7 @@ namespace NUnit.Core
         {
             object[] attributes = assembly.GetCustomAttributes(inherit);
             foreach (Attribute attribute in attributes)
-                if (attribute.GetType().FullName == attrName)
+                if ( IsInstanceOfType(attrName, attribute) )
                     return attribute;
             return null;
         }
@@ -91,7 +91,7 @@ namespace NUnit.Core
 			object[] attributes = member.GetCustomAttributes( inherit );
 			ArrayList result = new ArrayList();
 			foreach( Attribute attribute in attributes )
-				if ( attribute.GetType().FullName == attrName )
+				if ( IsInstanceOfType( attrName, attribute ) )
 					result.Add( attribute );
 			return (System.Attribute[])result.ToArray( typeof( System.Attribute ) );
 		}
@@ -156,21 +156,24 @@ namespace NUnit.Core
 		/// <param name="type">The type to examine</param>
 		/// <param name="parentType">The FullName of the inherited type to look for</param>
 		/// <returns>True if the type inherits from the named type.</returns>
-		public static bool InheritsFrom( Type type, string parentType )
+		public static bool InheritsFrom( Type type, string typeName )
 		{
-			Type current = type;
-			while( current != typeof( object ) )
-				if( current.BaseType.FullName == parentType )
+			for( Type current = type; current != typeof( object ); current = current.BaseType )
+				if( current.FullName == typeName )
 					return true;
-				else
-					current = current.BaseType;
 
 			return false;
 		}
 
-		public static bool IsOrInheritsFrom( Type type, string parentType )
+		public static bool InheritsFrom( object obj, string typeName )
 		{
-			return type.FullName == parentType || InheritsFrom( type, parentType );
+			return InheritsFrom( obj.GetType(), typeName );
+		}
+
+		public static bool IsInstanceOfType( string typeName, Attribute attr )
+		{
+			Type type = attr.GetType();
+			return type.FullName == typeName || InheritsFrom( type, typeName );
 		}
 		#endregion
 

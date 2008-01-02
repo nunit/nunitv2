@@ -38,7 +38,8 @@ namespace NUnit.ConsoleRunner
 			if(transformReader == null) return FILE_NOT_FOUND;
 
 			TextWriter outWriter = Console.Out;
-			if ( options.isOut )
+			bool redirectOutput = options.output != null && options.output != string.Empty;
+			if ( redirectOutput )
 			{
 				StreamWriter outStreamWriter = new StreamWriter( options.output );
 				outStreamWriter.AutoFlush = true;
@@ -46,7 +47,8 @@ namespace NUnit.ConsoleRunner
 			}
 
 			TextWriter errorWriter = Console.Error;
-			if ( options.isErr )
+			bool redirectError = options.err != null && options.err != string.Empty;
+			if ( redirectError )
 			{
 				StreamWriter errorStreamWriter = new StreamWriter( options.err );
 				errorStreamWriter.AutoFlush = true;
@@ -66,22 +68,33 @@ namespace NUnit.ConsoleRunner
 
 				EventCollector collector = new EventCollector( options, outWriter, errorWriter );
 
-				TestFilter catFilter = TestFilter.Empty;
+				TestFilter testFilter = TestFilter.Empty;
+				if ( options.run != null && options.run != string.Empty )
+				{
+					Console.WriteLine( "Selected test: " + options.run );
+					testFilter = new SimpleNameFilter( options.run );
+				}
 
-				if (options.HasInclude)
+				if ( options.include != null && options.include != string.Empty )
 				{
 					Console.WriteLine( "Included categories: " + options.include );
-					catFilter = new CategoryFilter( options.IncludedCategories );
+					TestFilter includeFilter = new CategoryExpression( options.include ).Filter;
+					if ( testFilter.IsEmpty )
+						testFilter = includeFilter;
+					else
+						testFilter = new AndFilter( testFilter, includeFilter );
 				}
-			
-				if ( options.HasExclude )
+
+				if ( options.exclude != null && options.exclude != string.Empty )
 				{
 					Console.WriteLine( "Excluded categories: " + options.exclude );
-					TestFilter excludeFilter = new NotFilter( new CategoryFilter( options.ExcludedCategories ) );
-					if ( catFilter.IsEmpty )
-						catFilter = excludeFilter;
+					TestFilter excludeFilter = new NotFilter( new CategoryExpression( options.exclude ).Filter );
+					if ( testFilter.IsEmpty )
+						testFilter = excludeFilter;
+					else if ( testFilter is AndFilter )
+						((AndFilter)testFilter).Add( excludeFilter );
 					else
-						catFilter = new AndFilter( catFilter, excludeFilter );
+						testFilter = new AndFilter( testFilter, excludeFilter );
 				}
 
 				TestResult result = null;
@@ -91,16 +104,16 @@ namespace NUnit.ConsoleRunner
 
 				try
 				{
-					result = testRunner.Run( collector, catFilter );
+					result = testRunner.Run( collector, testFilter );
 				}
 				finally
 				{
 					outWriter.Flush();
 					errorWriter.Flush();
 
-					if ( options.isOut )
+					if ( redirectOutput )
 						outWriter.Close();
-					if ( options.isErr )
+					if ( redirectError )
 						errorWriter.Close();
 
 					Environment.CurrentDirectory = savedDirectory;
@@ -132,7 +145,8 @@ namespace NUnit.ConsoleRunner
 				}
 
 				// Write xml output here
-				string xmlResultFile = options.IsXml ? options.xml : "TestResult.xml";
+				string xmlResultFile = options.xml == null || options.xml == string.Empty
+					? "TestResult.xml" : options.xml;
 
 				using ( StreamWriter writer = new StreamWriter( xmlResultFile ) ) 
 				{
@@ -163,7 +177,7 @@ namespace NUnit.ConsoleRunner
 		private static XmlTextReader GetTransformReader(ConsoleOptions parser)
 		{
 			XmlTextReader reader = null;
-			if(!parser.IsTransform)
+			if(parser.transform == null || parser.transform == string.Empty)
 			{
 				Assembly assembly = Assembly.GetAssembly(typeof(XmlResultVisitor));
 				ResourceManager resourceManager = new ResourceManager("NUnit.Util.Transform",assembly);
@@ -201,8 +215,7 @@ namespace NUnit.ConsoleRunner
 					project.SetActiveConfig(configName);
 
 				package = project.ActiveConfig.MakeTestPackage();
-				if (options.IsFixture)
-					package.TestName = options.fixture;
+				package.TestName = options.fixture;
 
 				domainUsage = ConsoleOptions.DomainUsage.Single;
 			}
@@ -239,8 +252,7 @@ namespace NUnit.ConsoleRunner
 					break;
 			}
 
-			if ( options.IsFixture )
-				package.TestName = options.fixture;
+			package.TestName = options.fixture;
 			package.Settings["ShadowCopyFiles"] = !options.noshadow;
 			package.Settings["UseThreadedRunner"] = !options.nothread;
 			testRunner.Load( package );

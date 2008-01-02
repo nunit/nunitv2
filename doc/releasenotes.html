@@ -32,6 +32,91 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
+<h3>NUnit 2.4.6 - December 31, 2007</h3>
+
+<h4>Framework</h4>
+
+<ul>
+<li><b>CollectionAssert</b> has been modified to work with instances
+of <b>IEnumerable</b> even if they are not true collections.
+<li>All attributes are now unsealed and attributes that derive
+from them will now be recognized by NUnit. For example, if you
+derive SpecAttribute from TestAttribute, you may use [Spec] to
+designate test methods without writing an extension. Note that
+you will still need to create an extension if you want to
+introduce any new behavior.
+</ul>
+
+<h4>Console</h4>
+
+<ul>
+<li>The new <b>/run</b> commandline option may be used to execute any
+test method, class or namespace. Unlike the <b>/fixture</b> option,
+it does not restrict classes that are loaded into memory so
+it works properly with assemblies containing <b>SetUpFixture</b>.
+This option should generally be preferred to the <b>/fixture</b>
+option for new work.
+<li>The console runner now allows combining categories through
+use of boolean expressions. For example, <b>/include:Long+Data</b> 
+will run all tests that have both of the categories Long and Data
+applied to them.
+</ul>
+
+<h4>Gui</h4>
+
+<ul>
+<li>When a test run has errors, the first one is now automatically selected
+at the end of the run.
+<li>Error messages have been reformatted so that the user message or expected
+value display starts a new line.
+<li>Extra leadin spaces have been removed from the stack trace display.
+<li>A new command-line option <b>/runselected</b> causes the gui to run the last
+remembered test selection. If no selection information has been saved for
+the project, then all tests are run.
+</ul>
+
+<h4>Extensibility</h4>
+
+<ul>
+<li>The NUnit web site now includes a <a href="http://nunit.com/?p=extensions">directory</a> 
+of published extensions to NUnit. The initial release of the site includes
+only a few items but will continue to expand as we receive and review extensions
+from contributors.
+
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>NUnit-console now shows a stack trace when the TestFixtureSetUp fails or
+if the fixture constructor throws an exception.
+<li>The Enable Shadow Copy checkbox in the options dialog now functions
+correctly.
+<li>Automatic rerun no longer takes place when a run is already in progress.
+<li>Logging is commented out in the config file since the entries must
+be tailored for certain installations to avoid exceptions.
+<li>Non-assembly files in the addins directory no longer cause the
+loading of addins to fail.
+<li>The selection of Mini versus Full Gui displays in the options dialog
+now works correctly.
+<li>The status bar is no longer displayed for the Mini Gui.
+<li>Help text, which was formerly available in the options dialog,
+has now been restored.
+</ul>
+
+<h3>NUnit 2.4.5 - November 23, 2007</h3>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>The included log4net dll has been replaced with a version that works on all runtime platforms.
+<li>CollectionConstraint no longer confuses expected and actual counts
+<li>Radio buttons on the TestLoader settings page now work correctly
+<li>The MaxTimeTestDecorator sample has been fixed so that test attributes are recogized
+<li>Invalid data in the Settings file, no longer causes an exception
+<li>Documentation has been corrected in several places and missing files added
+</ul>
+
 <h3>NUnit 2.4.4 - October 20, 2007</h3>
 
 <h4>General</h4>
@@ -1045,7 +1130,7 @@ Cumulative notes through NUnit 2.2.9 are available <a href="docs/2.2.10/releaseN
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.4</a></li>
+<li><a href="index.html">NUnit 2.4.6</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>

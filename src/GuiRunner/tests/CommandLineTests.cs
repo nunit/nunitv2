@@ -38,7 +38,7 @@ namespace NUnit.Gui.Tests
 		{
 			string assemblyName = "nunit.tests.dll";
 			GuiOptions options = new GuiOptions(new string[]{ assemblyName });
-			Assert.AreEqual(assemblyName, options.Assembly);
+			Assert.AreEqual(assemblyName, options.Parameters[0]);
 		}
 
 		[Test]

@@ -119,7 +119,10 @@
 &lt;xsl:text&gt;
 &lt;/xsl:text&gt;
 
-&lt;xsl:if test="//test-case[failure]"&gt;&lt;xsl:text&gt;Failures:
+&lt;xsl:if test="//test-suite[failure]"&gt;&lt;xsl:text&gt;Test Fixture SetUp Failures:
+&lt;/xsl:text&gt;&lt;/xsl:if&gt;
+&lt;xsl:apply-templates select="//test-suite[failure]"/&gt;
+&lt;xsl:if test="//test-case[failure]"&gt;&lt;xsl:text&gt;Test Case Failures:
 &lt;/xsl:text&gt;&lt;/xsl:if&gt;
 &lt;xsl:apply-templates select="//test-case[failure]"/&gt;
 &lt;xsl:if test="//test-case[@executed='False']"&gt;&lt;xsl:text&gt;Tests not run:
@@ -128,7 +131,7 @@
 &lt;xsl:text disable-output-escaping='yes'&gt;&amp;#xD;&amp;#xA;&lt;/xsl:text&gt;
 &lt;/xsl:template&gt;
 
-&lt;xsl:template match="test-case"&gt;
+&lt;xsl:template match="test-case|test-suite"&gt;
 	&lt;xsl:value-of select="position()"/&gt;&lt;xsl:text&gt;) &lt;/xsl:text&gt;
 	&lt;xsl:value-of select="@name"/&gt;
 	&lt;xsl:text&gt; : &lt;/xsl:text&gt;

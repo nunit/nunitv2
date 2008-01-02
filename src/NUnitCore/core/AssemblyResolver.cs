@@ -94,15 +94,23 @@ namespace NUnit.Core
 
 			foreach( string dir in _dirs )
 			{
-				foreach( string file in Directory.GetFiles( dir ) )
+				foreach( string file in Directory.GetFiles( dir, "*.dll" ) )
 				{
 					string fullFile = Path.Combine( dir, file );
-					if ( AssemblyName.GetAssemblyName( fullFile ).FullName == fullName )
+					try
 					{
-						Trace.WriteLine( string.Format( "Added to Cache: {0}", fullFile ), 
-							"'AssemblyResolver'" );
-						AddFile( fullFile );
-						return _cache.Resolve( fullName );
+						if ( AssemblyName.GetAssemblyName( fullFile ).FullName == fullName )
+						{
+							Trace.WriteLine( string.Format( "Added to Cache: {0}", fullFile ), 
+								"'AssemblyResolver'" );
+							AddFile( fullFile );
+							return _cache.Resolve( fullName );
+						}
+					}
+					catch
+					{
+						// Keep going if there's a bad assembly
+						Trace.WriteLine( string.Format( "Bad assembly: {0}", fullFile  ), "AssemblyResolver");
 					}
 				}
 			}

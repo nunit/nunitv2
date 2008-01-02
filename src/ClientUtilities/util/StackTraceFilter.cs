@@ -26,7 +26,7 @@ namespace NUnit.Util
 				while ((line = sr.ReadLine()) != null) 
 				{
 					if (!FilterLine(line))
-						sw.WriteLine(line);
+						sw.WriteLine(line.Trim());
 				}
 			} 
 			catch (Exception) 

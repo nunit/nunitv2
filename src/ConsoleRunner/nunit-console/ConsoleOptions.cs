@@ -20,8 +20,11 @@ namespace NUnit.ConsoleRunner
 			Multiple
 		}
 
-		[Option(Description = "Fixture to test")]
+		[Option(Short="load", Description = "Test fixture to be loaded")]
 		public string fixture;
+
+		[Option(Description = "Name of the test to run")]
+		public string run;
 
 		[Option(Description = "Project configuration to load")]
 		public string config;
@@ -56,11 +59,7 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "AppDomain Usage for Tests")]
 		public DomainUsage domain;
 
-//		[Option(Description = "Disable use of a separate AppDomain for tests")]
-//		public bool nodomain;
-
 		[Option(Description = "Disable shadow copy when running in separate domain")]
-//		[Option(Description = "Disable shadow copy")]
 		public bool noshadow;
 
 		[Option (Description = "Disable use of a separate thread for tests")]
@@ -78,18 +77,9 @@ namespace NUnit.ConsoleRunner
 		[Option(Short="?", Description = "Display help")]
 		public bool help = false;
 
-		private bool isInvalid = false; 
-
-		//public ConsoleOptions(String[] args) : base(args) {}
-
 		public ConsoleOptions( params string[] args ) : base( args ) {}
 
 		public ConsoleOptions( bool allowForwardSlash, params string[] args ) : base( allowForwardSlash, args ) {}
-
-		protected override void InvalidOption(string name)
-		{
-			isInvalid = true;
-		}
 
 		public bool Validate()
 		{
@@ -97,20 +87,16 @@ namespace NUnit.ConsoleRunner
 
 			if(NoArgs) return true; 
 
-			if(IsFixture) return true; 
-
 			if(ParameterCount >= 1) return true; 
 
 			return false;
 		}
 
-		public bool IsAssembly 
+		protected override bool IsValidParameter(string parm)
 		{
-			get 
-			{
-				return ParameterCount >= 1 && !IsFixture;
-			}
+			return NUnitProject.CanLoadAsProject( parm ) || PathUtils.IsAssemblyFileType( parm );
 		}
+
 
         public bool IsTestProject
         {
@@ -119,93 +105,6 @@ namespace NUnit.ConsoleRunner
                 return ParameterCount == 1 && NUnitProject.CanLoadAsProject((string)Parameters[0]);
             }
         }
-
-        public bool IsNUnitProject
-        {
-            get
-            {
-                return ParameterCount == 1 && NUnitProject.IsProjectFile((string)Parameters[0]);
-            }
-        }
-
-		public bool IsFixture 
-		{
-			get 
-			{
-				return ParameterCount >= 1 && 
-					((fixture != null) && (fixture.Length > 0));
-			}
-		}
-
-		public bool IsXml 
-		{
-			get 
-			{
-				return (xml != null) && (xml.Length != 0);
-			}
-		}
-
-		public bool isOut
-		{
-			get 
-			{
-				return (output != null) && (output.Length != 0);
-			}
-		}
-
-		public bool isErr
-		{
-			get 
-			{
-				return (err != null) && (err.Length != 0);
-			}
-		}
-
-		public bool IsTransform 
-		{
-			get 
-			{
-				return (transform != null) && (transform.Length != 0);
-			}
-		}
-
-		public bool HasInclude 
-		{
-			get 
-			{
-				return include != null && include.Length != 0;
-			}
-		}
-
-		public bool HasExclude 
-		{
-			get 
-			{
-				return exclude != null && exclude.Length != 0;
-			}
-		}
-
-		public string[] IncludedCategories
-		{
-			get
-			{
-				if (HasInclude)
-					return include.Split( new char[] {';', ','});
-
-				return null;
-			}
-		}
-
-		public string[] ExcludedCategories
-		{
-			get
-			{
-				if (HasExclude)
-					return exclude.Split( new char[] {';', ','});
-
-				return null;
-			}
-		}
 
 		public override void Help()
 		{

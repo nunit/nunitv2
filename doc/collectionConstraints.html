@@ -36,8 +36,8 @@
 <tr><td>Has.None...</td><td>NoItemConstraint( Constraint )</td></td><td>applies a constraint to each item in a collection, succeeding only if all of them fail</td></tr>
 <tr><td>Is.Unique</td><td>UniqueItemsConstraint()</td></td><td>tests that a collection contains only unique items</td></tr>
 <tr><td>Has.Member( object )</td><td>CollectionContainsConstraint( object )</td></td><td>tests that a collection contains an object</td></tr>
-<tr><td>Is.EquivalentTo( ICollection )</td><td>CollectionEquivalentConstraint( ICollection )</td></td><td>tests that two collections are equivalent</td></tr>
-<tr><td>Is.SubsetOf( ICollection )</td><td>CollectionSubsetConstraint( ICollection )</td></td><td>tests that one collection is a subset of another</td></tr>
+<tr><td>Is.EquivalentTo( IEnumerable )</td><td>CollectionEquivalentConstraint( ICollection )</td></td><td>tests that two collections are equivalent</td></tr>
+<tr><td>Is.SubsetOf( IEnumerable )</td><td>CollectionSubsetConstraint( ICollection )</td></td><td>tests that one collection is a subset of another</td></tr>
 </table>
 
 <h4>Notes</h4>
@@ -50,6 +50,8 @@ for an object equal to an item the collection, use Has.Some.EqualTo().
 <li>Beginning with NUnit 2.4.2, use of a collection constraint with a non-collection
 argument causes an error rather than a test failure. This avoids false positives
 when the collection constraint is negated.
+<li>Beginning with NUnit 2.4.6, you may use any object implementing IEnumerable
+in place of a collection.
 </ol>
 
 <h4>Examples of Use</h4>
@@ -84,7 +86,7 @@ Expect( new int[] { 1, 3 }, SubsetOf( iarray ) );
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.4</a></li>
+<li><a href="index.html">NUnit 2.4.6</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>

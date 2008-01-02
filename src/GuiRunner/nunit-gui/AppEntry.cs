@@ -37,82 +37,60 @@ namespace NUnit.Gui
 			log4net.GlobalContext.Properties["PID"] = System.Diagnostics.Process.GetCurrentProcess().Id;
 			log.Info( "Starting NUnit GUI" );
 
-			NUnitForm.CommandLineOptions command =
-				new NUnitForm.CommandLineOptions();
-
-			GuiOptions parser = new GuiOptions(args);
+			GuiOptions guiOptions = new GuiOptions(args);
 
 			GuiAttachedConsole attachedConsole = null;
-			if ( parser.console )
+			if ( guiOptions.console )
 				attachedConsole = new GuiAttachedConsole();
 
-			if(parser.Validate() && !parser.help) 
+			if( !guiOptions.Validate() || guiOptions.help) 
 			{
-				if ( parser.cleanup )
-				{
-					DomainManager.DeleteShadowCopyPath();
-					return 0;
-				}
-
-				if(!parser.NoArgs)
-				{
-					if (parser.IsAssembly)
-						command.testFileName = parser.Assembly;
-					command.configName = parser.config;
-					command.testName = parser.fixture;
-					command.noload = parser.noload;
-					command.autorun = parser.run;
-					if (parser.lang != null)
-						Thread.CurrentThread.CurrentUICulture =
-							new CultureInfo( parser.lang );
-
-					if ( parser.HasInclude )
-					{
-						command.categories = parser.include;
-						command.exclude = false;
-					}
-					else if ( parser.HasExclude )
-					{
-						command.categories = parser.exclude;
-						command.exclude = true;
-					}
-				}
-
-				// Add Standard Services to ServiceManager
-				ServiceManager.Services.AddService( new SettingsService() );
-				ServiceManager.Services.AddService( new DomainManager() );
-				ServiceManager.Services.AddService( new RecentFilesService() );
-				ServiceManager.Services.AddService( new TestLoader( new GuiTestEventDispatcher() ) );
-				ServiceManager.Services.AddService( new AddinRegistry() );
-				ServiceManager.Services.AddService( new AddinManager() );
-				ServiceManager.Services.AddService( new TestAgency() );
-
-				// Initialize Services
-				ServiceManager.Services.InitializeServices();
-
-				// Create container in order to allow ambient properties
-				// to be shared across all top-level forms.
-				AppContainer c = new AppContainer();
-				AmbientProperties ambient = new AmbientProperties();
-				c.Services.AddService( typeof( AmbientProperties ), ambient );
-				NUnitForm form = new NUnitForm( command );
-				c.Add( form );
-
-				try
-				{
-					Application.Run( form );
-				}
-				finally
-				{
-					ServiceManager.Services.StopAllServices();
-				}
-			}
-			else
-			{
-				string message = parser.GetHelpText();
+				string message = guiOptions.GetHelpText();
 				UserMessage.DisplayFailure( message,"Help Syntax" );
 				return 2;
-			}	
+			}
+
+			if ( guiOptions.cleanup )
+			{
+				DomainManager.DeleteShadowCopyPath();
+				return 0;
+			}
+
+			if(!guiOptions.NoArgs)
+			{
+				if (guiOptions.lang != null)
+					Thread.CurrentThread.CurrentUICulture =
+						new CultureInfo( guiOptions.lang );
+			}
+
+			// Add Standard Services to ServiceManager
+			ServiceManager.Services.AddService( new SettingsService() );
+			ServiceManager.Services.AddService( new DomainManager() );
+			ServiceManager.Services.AddService( new RecentFilesService() );
+			ServiceManager.Services.AddService( new TestLoader( new GuiTestEventDispatcher() ) );
+			ServiceManager.Services.AddService( new AddinRegistry() );
+			ServiceManager.Services.AddService( new AddinManager() );
+			ServiceManager.Services.AddService( new TestAgency() );
+
+			// Initialize Services
+			ServiceManager.Services.InitializeServices();
+
+			// Create container in order to allow ambient properties
+			// to be shared across all top-level forms.
+			AppContainer c = new AppContainer();
+			AmbientProperties ambient = new AmbientProperties();
+			c.Services.AddService( typeof( AmbientProperties ), ambient );
+			NUnitForm form = new NUnitForm( guiOptions );
+			c.Add( form );
+
+			try
+			{
+				Application.Run( form );
+			}
+			finally
+			{
+				ServiceManager.Services.StopAllServices();
+			}
 				
 			if ( attachedConsole != null )
 			{

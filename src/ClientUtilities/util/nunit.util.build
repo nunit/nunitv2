@@ -10,6 +10,7 @@
         <include name="AssemblyInfo.cs"/>
         <include name="AssemblyList.cs"/>
         <include name="AssemblyWatcher.cs"/>
+        <include name="CategoryExpression.cs"/>
         <include name="CategoryManager.cs"/>
         <include name="CommandLineOptions.cs"/>
         <include name="ConsoleWriter.cs"/>

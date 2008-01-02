@@ -33,9 +33,9 @@ interacting with the Visual Studio extensibility model.</p>
 <h3>Running From Within Visual Studio</h3>
 
 <p>The most convenient way to do this is to set up a custom tool entry specifying the path to 
-NUnit-gui.exe as the command. For a C# project, you may wish to use $(TargetPath) for the arguments and
+nunit.exe as the command. For a C# project, you may wish to use $(TargetPath) for the arguments and
 $(TargetDir) for the initial directory. If you would like to debug your tests, use the Visual Studio
-Debug | Processes… menu item to attach to nunit-gui.exe after starting it and set breakpoints in
+Debug | Processes… menu item to attach to nunit.exe after starting it and set breakpoints in
 your test code as desired before running the tests.</p>
 
 <h3>Using Console Interface to Debug Applications</h3>
@@ -61,10 +61,10 @@ loaded with one exception. The default location for the config file is the direc
 project file and it’s default name is the same as the project file with an extension of .config.
 For example, the following command would load the tests in the nunit.tests assembly using the
 configuration file nunit.tests.dll.config located in the same directory as the dll.
-	<pre class="programtext">        nunit-gui.exe nunit.tests.dll</pre>
+	<pre class="programtext">        nunit.exe nunit.tests.dll</pre>
 On the other hand, the following command would load the tests using the configuration file
 nunit.tests.config located in the same directory as the csproj file.
-      <pre class="programtext">        nunit-gui.exe nunit.tests.csproj</pre>
+      <pre class="programtext">        nunit.exe nunit.tests.csproj</pre>
 The same consideration applies to running tests using the console runner.</p>
 
 <h3>Opening Visual Studio Solutions</h3>
@@ -92,7 +92,7 @@ specified in the VS project.</p>
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.4</a></li>
+<li><a href="index.html">NUnit 2.4.6</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>

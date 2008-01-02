@@ -46,6 +46,7 @@
         <include name="Filters/CategoryFilter.cs"/>
         <include name="Filters/NameFilter.cs"/>
         <include name="Filters/NotFilter.cs"/>
+        <include name="Filters/OrFilter.cs"/>
         <include name="Filters/SimpleNameFilter.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>

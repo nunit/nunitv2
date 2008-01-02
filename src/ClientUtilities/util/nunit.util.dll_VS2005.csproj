@@ -74,6 +74,7 @@
     <Compile Include="AssemblyWatcher.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CategoryExpression.cs" />
     <Compile Include="CategoryManager.cs" />
     <Compile Include="CommandLineOptions.cs">
       <SubType>Code</SubType>

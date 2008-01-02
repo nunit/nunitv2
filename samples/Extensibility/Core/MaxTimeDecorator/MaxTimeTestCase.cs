@@ -13,6 +13,27 @@ namespace NUnit.Core.Extensions
 	/// MaxTimeTestCase is a special form of test case that measures
 	/// the elapsed time to run a test, failing the test if it
 	/// exceeds a certain amount.
+	/// 
+	/// Implementation Notes
+	/// 
+	/// In implementing a Decorator, you need to honor any propeties
+	/// taht were set on the original test before you decorated it
+	/// and also be ready to deal correctly with any other decorators
+	/// that are applied before or after yours.
+	/// 
+	/// There are three basic approaches to doing this:
+	/// 
+	/// 1) Modify or set properties of the original test case 
+	///    and return it. This avoids all issues of ordering
+	///    but won't work if new properties are needed.
+	/// 2) Replace the test case with a new one implementing
+	///    additional properties. Copy all properties from
+	///    the original case. This is the approach used in
+	///    this example.
+	/// 3) Wrap the test case with a special test case that
+	///    delegates all properties and methods to the
+	///    origial test case. This is quite difficult to
+	///    get right, but is necessary in some cases.
 	/// </summary>
 	public class MaxTimeTestCase : NUnitTestMethod
 	{

@@ -35,7 +35,7 @@ namespace NUnit.Core.Filters
 		public CategoryFilter( string name )
 		{
 			categories = new ArrayList();
-			if ( name != null )
+			if ( name != null && name != string.Empty )
 				categories.Add( name );
 		}
 
@@ -75,7 +75,7 @@ namespace NUnit.Core.Filters
 
 			return false;
         }
-
+		
 		/// <summary>
 		/// Return the string representation of a category filter
 		/// </summary>

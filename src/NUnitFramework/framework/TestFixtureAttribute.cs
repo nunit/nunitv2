@@ -14,7 +14,7 @@ namespace NUnit.Framework
 	/// {}
 	/// </example>
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple=false, Inherited=true)]
-	public sealed class TestFixtureAttribute : Attribute
+	public class TestFixtureAttribute : Attribute
 	{
 		private string description;
 

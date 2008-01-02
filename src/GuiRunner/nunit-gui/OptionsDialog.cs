@@ -26,6 +26,7 @@ namespace NUnit.Gui
 				new TextOutputSettingsPage("Gui.Text Output"),
 				new TestLoaderSettingsPage("Test Loader.General"),
 				new AssemblyReloadSettingsPage("Test Loader.Assembly Reload"),
+				new AdvancedLoaderSettingsPage("Test Loader.Advanced"),
 				new VisualStudioSettingsPage("IDE Support.Visual Studio"));
 		}
 #else

@@ -32,83 +32,83 @@ when examining collections and their contents or for compariing two collections.
 in the same order. <b>AreEquivalent</b> tests whether the collections contain the same
 objects, without regard to order.</p>
 
-<div class="code" style="width: 36em">
-<pre>CollectionAssert.AllItemsAreInstancesOfType( Collection collection,
+<div class="code" style="width: 38em">
+<pre>CollectionAssert.AllItemsAreInstancesOfType( IEnumerable collection,
           Type expectedType );
-CollectionAssert.AllItemsAreInstancesOfType( Collection collection,
+CollectionAssert.AllItemsAreInstancesOfType( IEnumerable collection,
           Type expectedType, string message );
-CollectionAssert.AllItemsAreInstancesOfType( Collection collection,
+CollectionAssert.AllItemsAreInstancesOfType( IEnumerable collection,
           Type expectedType, string message, params object[] args );
 
-CollectionAssert.AllItemsAreNotNull( Collection collection );
-CollectionAssert.AllItemsAreNotNull( Collection collection,
+CollectionAssert.AllItemsAreNotNull( IEnumerable collection );
+CollectionAssert.AllItemsAreNotNull( IEnumerable collection,
           string message );
-CollectionAssert.AllItemsAreNotNull( Collection collection,
+CollectionAssert.AllItemsAreNotNull( IEnumerable collection,
           string message, params object[] args );
 
-CollectionAssert.AllItemsAreUnique( Collection collection );
-CollectionAssert.AllItemsAreUnique( Collection collection,
+CollectionAssert.AllItemsAreUnique( IEnumerable collection );
+CollectionAssert.AllItemsAreUnique( IEnumerable collection,
           string message );
-CollectionAssert.AllItemsAreUnique( Collection collection,
+CollectionAssert.AllItemsAreUnique( IEnumerable collection,
           string message, params object[] args );
 
-CollectionAssert.AreEqual( Collection expected, Collection actual );
-CollectionAssert.AreEqual( Collection expected, Collection actual,
+CollectionAssert.AreEqual( IEnumerable expected, IEnumerable actual );
+CollectionAssert.AreEqual( IEnumerable expected, IEnumerable actual,
           string message );
-CollectionAssert.AreEqual( Collection expected, Collection actual
+CollectionAssert.AreEqual( IEnumerable expected, IEnumerable actual
           string message, params object[] args );
 
-CollectionAssert.AreEquivalent( Collection expected, Collection actual);
-CollectionAssert.AreEquivalent( Collection expected, Collection actual,
+CollectionAssert.AreEquivalent( IEnumerable expected, IEnumerable actual);
+CollectionAssert.AreEquivalent( IEnumerable expected, IEnumerable actual,
           string message );
-CollectionAssert.AreEquivalent( Collection expected, Collection actual
+CollectionAssert.AreEquivalent( IEnumerable expected, IEnumerable actual
           string message, params object[] args );
 
-CollectionAssert.AreNotEqual( Collection expected, Collection actual );
-CollectionAssert.AreNotEqual( Collection expected, Collection actual,
+CollectionAssert.AreNotEqual( IEnumerable expected, IEnumerable actual );
+CollectionAssert.AreNotEqual( IEnumerable expected, IEnumerable actual,
           string message );
-CollectionAssert.AreNotEqual( Collection expected, Collection actual
+CollectionAssert.AreNotEqual( IEnumerableon expected, IEnumerable actual
           string message, params object[] args );
 
-CollectionAssert.AreNotEquivalent( Collection expected,
-          Collection actual );
-CollectionAssert.AreNotEquivalent( Collection expected,
-          Collection actual, string message );
-CollectionAssert.AreNotEquivalent( Collection expected,
-          Collection actual, string message, params object[] args );
+CollectionAssert.AreNotEquivalent( IEnumerable expected,
+          IEnumerable actual );
+CollectionAssert.AreNotEquivalent( IEnumerable expected,
+          IEnumerable actual, string message );
+CollectionAssert.AreNotEquivalent( IEnumerable expected,
+          IEnumerable actual, string message, params object[] args );
 
-CollectionAssert.Contains( Collection expected, object actual );
-CollectionAssert.Contains( Collection expected, object actual,
+CollectionAssert.Contains( IEnumerable expected, object actual );
+CollectionAssert.Contains( IEnumerable expected, object actual,
           string message );
-CollectionAssert.Contains( Collection expected, object actual
+CollectionAssert.Contains( IEnumerable expected, object actual
           string message, params object[] args );
 
-CollectionAssert.DoesNotContain( Collection expected, object actual );
-CollectionAssert.DoesNotContain( Collection expected, object actual,
+CollectionAssert.DoesNotContain( IEnumerable expected, object actual );
+CollectionAssert.DoesNotContain( IEnumerable expected, object actual,
           string message );
-CollectionAssert.DoesNotContain( Collection expected, object actual
+CollectionAssert.DoesNotContain( IEnumerable expected, object actual
           string message, params object[] args );
 
-CollectionAssert.IsSubsetOf( Collection subset, Collection superset );
-CollectionAssert.IsSubsetOf( Collection subset, Collection superset,
+CollectionAssert.IsSubsetOf( IEnumerable subset, IEnumerable superset );
+CollectionAssert.IsSubsetOf( IEnumerable subset, IEnumerable superset,
           string message );
-CollectionAssert.IsSubsetOf( Collection subset, Collection superset,
+CollectionAssert.IsSubsetOf( IEnumerable subset, IEnumerable superset,
           string message, params object[] args );
 
-CollectionAssert.IsNotSubsetOf( Collection subset, Collection superset);
-CollectionAssert.IsNotSubsetOf( Collection subset, Collection superset,
+CollectionAssert.IsNotSubsetOf( IEnumerable subset, IEnumerable superset);
+CollectionAssert.IsNotSubsetOf( IEnumerable subset, IEnumerable superset,
           string message );
-CollectionAssert.IsNotSubsetOf( Collection subset, Collection superset,
+CollectionAssert.IsNotSubsetOf( IEnumerable subset, IEnumerable superset,
           string message, params object[] args );
 
-CollectionAssert.IsEmpty( Collection collection );
-CollectionAssert.IsEmpty( Collection collection, string message );
-CollectionAssert.IsEmpty( Collection collection, string message,
+CollectionAssert.IsEmpty( IEnumerable collection );
+CollectionAssert.IsEmpty( IEnumerable collection, string message );
+CollectionAssert.IsEmpty( IEnumerable collection, string message,
           params object[] args );
 
-CollectionAssert.IsNotEmpty( Collection collection );
-CollectionAssert.IsNotEmpty( Collection collection, string message );
-CollectionAssert.IsNotEmpty( Collection collection, string message,
+CollectionAssert.IsNotEmpty( IEnumerable collection );
+CollectionAssert.IsNotEmpty( IEnumerable collection, string message );
+CollectionAssert.IsNotEmpty( IEnumerable collection, string message,
           params object[] args );</pre>
 </div>
 
@@ -117,7 +117,7 @@ CollectionAssert.IsNotEmpty( Collection collection, string message,
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.4</a></li>
+<li><a href="index.html">NUnit 2.4.6</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>

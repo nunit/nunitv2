@@ -73,7 +73,10 @@ namespace Codeblast
 	public abstract class CommandLineOptions
 	{
 		protected ArrayList parameters;
+		protected bool isInvalid = false; 
+
 		private int optionCount;
+		private ArrayList invalidArguments = new ArrayList();
 		private bool allowForwardSlash;
 
 		public CommandLineOptions( string[] args )
@@ -83,6 +86,11 @@ namespace Codeblast
 		{
 			this.allowForwardSlash = allowForwardSlash;
 			optionCount = Init( args );
+		}
+
+		public IList InvalidArguments
+		{
+			get { return invalidArguments; }
 		}
 
 		public bool NoArgs
@@ -115,9 +123,10 @@ namespace Codeblast
 				}
 				else
 				{
-					// It's a parameter:
 					if (parameters == null) parameters = new ArrayList();
 					parameters.Add(args[n]);
+					if ( !IsValidParameter(args[n]) )
+						InvalidOption( args[n] );
 				}
 				n++;
 			}
@@ -150,7 +159,16 @@ namespace Codeblast
 			return Char.IsLetterOrDigit(c) || c == '?';
 		}
 
-		protected abstract void InvalidOption(string name);
+		protected virtual void InvalidOption(string name)
+		{
+			invalidArguments.Add( name );
+			isInvalid = true;
+		}
+
+		protected virtual bool IsValidParameter(string param)
+		{
+			return true;
+		}
 
 		protected virtual bool MatchShortName(FieldInfo field, string name)
 		{

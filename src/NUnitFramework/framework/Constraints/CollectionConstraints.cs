@@ -16,6 +16,15 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class CollectionConstraint : Constraint
     {
+		protected static bool IsEmpty( IEnumerable enumerable )
+		{
+			ICollection collection = enumerable as ICollection;
+			if ( collection != null )
+				return collection.Count == 0;
+			else
+				return !enumerable.GetEnumerator().MoveNext();
+		}
+
 		/// <summary>
 		/// CollectionTally counts (tallies) the number of
 		/// occurences of each object in one or more enuerations.
@@ -105,11 +114,11 @@ namespace NUnit.Framework.Constraints
 		{
 			this.actual = actual;
 
-			ICollection collection = actual as ICollection;
-			if ( collection == null )
-				throw new ArgumentException( "The actual value must be a collection", "actual" );
+			IEnumerable enumerable = actual as IEnumerable;
+			if ( enumerable == null )
+				throw new ArgumentException( "The actual value must be an IEnumerable", "actual" );
 		
-			return doMatch( collection );
+			return doMatch( enumerable );
 		}
 
 		/// <summary>
@@ -117,7 +126,7 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		/// <param name="collection"></param>
 		/// <returns></returns>
-		protected abstract bool doMatch(ICollection collection);
+		protected abstract bool doMatch(IEnumerable collection);
     }
     #endregion
 
@@ -132,9 +141,9 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		/// <param name="collection"></param>
 		/// <returns></returns>
-		protected override bool doMatch(ICollection collection)
+		protected override bool doMatch(IEnumerable collection)
 		{
-			return collection.Count == 0;
+			return IsEmpty( collection );
 		}
 	
 		/// <summary>
@@ -160,7 +169,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual"></param>
         /// <returns></returns>
-        protected override bool doMatch(ICollection actual)
+        protected override bool doMatch(IEnumerable actual)
         {
 			return new CollectionTally( actual ).AllCountsEqualTo( 1 );
         }
@@ -199,7 +208,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual"></param>
         /// <returns></returns>
-        protected override bool doMatch(ICollection actual)
+        protected override bool doMatch(IEnumerable actual)
         {
 			foreach (object obj in actual)
 				if ( Object.Equals( obj, expected ) )
@@ -243,11 +252,11 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual"></param>
         /// <returns></returns>
-        protected override bool doMatch(ICollection actual)
+        protected override bool doMatch(IEnumerable actual)
         {
 			// This is just an optimization
-			if( expected is ICollection )
-				if( actual.Count != ((ICollection)expected).Count )
+			if( expected is ICollection && actual is ICollection )
+				if( ((ICollection)actual).Count != ((ICollection)expected).Count )
 					return false;
 
 			CollectionTally tally = new CollectionTally( expected );
@@ -290,7 +299,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual"></param>
         /// <returns></returns>
-        protected override bool doMatch(ICollection actual)
+        protected override bool doMatch(IEnumerable actual)
         {
 			return new CollectionTally( expected ).CanRemove( actual );
 		}

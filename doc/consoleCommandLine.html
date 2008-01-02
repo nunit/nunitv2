@@ -47,18 +47,32 @@ the tests contained in the nunit.tests.dll use the following command:
 <p>To run the same tests through an NUnit test project you have defined, use:
 	<pre class="programtext">        nunit-console nunit.tests.nunit</pre>
 </p>
-<h4>Specifying an Assembly and a Fixture</h4>
+<h4>Specifying an Assembly and a Test to be Run</h4>
+<p>You may specify a test to be run by proviig the full name of the test along
+with the containing assembly. For example to run NUnit.Tests.AssertionTests
+in the nunit.tests assembly use the following command:
+<pre class="programtext">        nunit-console /run:NUnit.Tests.AssertionTests nunit.tests.dll</pre>
+
+<p>The name of the test to be run may be that of a test case, test fixture or
+a namespace. Unlike the <b>/fixture</b> option, this option affects the running
+rather than the loading of the tests. Consequently it supports much broader use,
+including situations involving SetUpFixtures, which are not run if the class
+in question is not loaded. You should use <b>/run</b> in lieu of <b>/fixture</b>
+in most cases.
+
+<h4>Specifying an Assembly and a Fixture to be Loaded</h4>
 <p>When specifying a fixture, you must give the full name of the test fixture 
-	along with the containing assembly. For example, to run the 
+	along with the containing assembly. For example, to load the 
 	NUnit.Tests.AssertionTests in the nunit.tests.dll assembly use the following 
 	command:
 	<pre class="programtext">        nunit-console /fixture:NUnit.Tests.AssertionTests nunit.tests.dll</pre>
 </p>
 <p>The name specified after the <b>/fixture</b> option may be that of a TestFixture 
 	class, a legacy suite (using the Suite property ) or a namespace. If a 
-	namespace is given, then all fixtures under that namespace are run. This option 
-	may be used with Visual Studio or NUnit projects as well.</p>
-
+	namespace is given, then all fixtures under that namespace are loaded.</p>
+<p>This option is provided for backward compatibility. In most cases, you will
+be better served by using the <b>/run</b> option.
+	
 <h4>Specifying the Version of the CLR</h4>
 
 <p>Most applications are written to run under a specific version of the CLR.
@@ -100,9 +114,37 @@ to be used when running a command.</p>
 <p>
 Multiple categories may be specified on either option, by using commas to 
 separate them.
-<p><b>Note:</b> Beginning with NUnit 2.4, the /include and /exclude options may
+<p><b>Notes:</b> Beginning with NUnit 2.4, the /include and /exclude options may
    be combined on the command line. When both are used, all tests with the included 
    categories are run except for those with the excluded categories.</p>
+   
+<p>Beginning with NUnit 2.4.6, you may use a <b>Category Expression</b> with either
+of these options:
+<dl>
+	<dt>A|B|C
+	<dd>Selects tests having any of the categories A, B or C.
+	<dt>A,B,C
+	<dd>Selects tests having any of the categories A, B or C.
+	<dt>A+B+C
+	<dd>Selects only tests having all three of the categories assigned
+	<dt>A+B|C
+	<dd>Selects tests with both A and B OR with category C.
+	<dt>A+B-C
+	<dd>Selects tests with both A and B but not C.
+	<dt>-A
+	<dd>Selects tests not having category A assigned
+	<dt>A+(B|C)
+	<dd>Selects tests having both category A and either of B or C
+</dl>
+<p>The comma operator is equivalent to | but has a higher precendence. Order
+of evaluation is as follows:
+<ol>
+<li>Unary exclusion operator (-)
+<li>High-precendence union operator (,)
+<li>Intersection and set subtraction operators (+ and binary -)
+<li>Low-precedence union operator (|)
+</ol>
+
    
 <p>For a clear understanding of how category 
 	selection works, review the documentation for both the 
@@ -207,7 +249,7 @@ separate them.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.4</a></li>
+<li><a href="index.html">NUnit 2.4.6</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>

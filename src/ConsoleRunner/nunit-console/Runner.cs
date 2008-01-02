@@ -42,11 +42,11 @@ namespace NUnit.ConsoleRunner
 			
 			if(!options.Validate())
 			{
-				Console.Error.WriteLine("fatal error: invalid arguments");
+				foreach( string arg in options.InvalidArguments )
+					Console.Error.WriteLine("fatal error: invalid argument: {0}", arg );
 				options.Help();
 				return ConsoleUi.INVALID_ARG;
 			}
-
 
 			// Add Standard Services to ServiceManager
 			ServiceManager.Services.AddService( new SettingsService() );

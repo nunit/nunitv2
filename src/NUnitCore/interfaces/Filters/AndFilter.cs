@@ -32,6 +32,26 @@ namespace NUnit.Core.Filters
 		}
 
 		/// <summary>
+		/// Adds a filter to the list of filters
+		/// </summary>
+		/// <param name="filter">The filter to be added</param>
+		public void Add( ITestFilter filter )
+		{
+			this.filters.Add( filter );
+		}
+
+		/// <summary>
+		/// Return an array of the composing filters
+		/// </summary>
+		public ITestFilter[] Filters
+		{
+			get
+			{
+				return (ITestFilter[])filters.ToArray(typeof(ITestFilter));
+			}
+		}
+
+		/// <summary>
 		/// Checks whether the AndFilter is matched by a test
 		/// </summary>
 		/// <param name="test">The test to be matched</param>

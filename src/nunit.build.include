@@ -539,6 +539,8 @@
       <fileset basedir="${project.doc.dir}">
         <include name="*.html"/>
 	<include name="nunit.css"/>
+        <include name="codeFuncs.js"/>
+        <include name="favicon.ico"/>
 	<include name="files/*"/>
 	<include name="img/*"/>
         <exclude name="img/thumbs.db"/>

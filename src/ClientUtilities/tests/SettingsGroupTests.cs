@@ -90,11 +90,11 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual( "Fred", testGroup.GetSetting( "NAME", "Fred" ) );
 		}
 
-		[Test, ExpectedException( typeof( FormatException ) )]
+		[Test]
 		public void BadSetting()
 		{
 			testGroup.SaveSetting( "X", "1y25" );
-			testGroup.GetSetting( "X", 12 );
+			Assert.AreEqual( 12, testGroup.GetSetting( "X", 12 ) );
 		}
 	}
 }

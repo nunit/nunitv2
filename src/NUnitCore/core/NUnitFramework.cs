@@ -286,11 +286,11 @@ namespace NUnit.Core
 						}
 						break;
 					default:
-						if ( Reflect.IsOrInheritsFrom( attributeType, CategoryAttribute ) )
+						if ( Reflect.InheritsFrom( attributeType, CategoryAttribute ) )
 						{	
 							categories.Add( Reflect.GetPropertyValue( attribute, "Name" ) );
 						}
-						else if ( Reflect.IsOrInheritsFrom( attributeType, PropertyAttribute ) )
+						else if ( Reflect.InheritsFrom( attributeType, PropertyAttribute ) )
 						{
 							string name = (string)Reflect.GetPropertyValue( attribute, "Name" );
 							if ( name != null && name != string.Empty )

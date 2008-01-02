@@ -35,13 +35,6 @@ namespace NUnit.ConsoleRunner.Tests
 		}
 
 		[Test]
-		public void IsAssemblyTest()
-		{
-			Assert.IsTrue(assemblyOptions.IsAssembly && 
-				        !assemblyOptions.IsFixture);
-		}
-
-		[Test]
 		public void ParameterCount()
 		{
 			Assert.AreEqual(2, assemblyOptions.Parameters.Count);
@@ -59,13 +52,6 @@ namespace NUnit.ConsoleRunner.Tests
 		public void FixtureValidate()
 		{
 			Assert.IsTrue(fixtureOptions.Validate());
-		}
-
-		[Test]
-		public void IsFixture()
-		{
-			Assert.IsTrue(fixtureOptions.IsFixture && 
-				        !fixtureOptions.IsAssembly);
 		}
 
 		[Test]

@@ -204,8 +204,18 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "SettingsPages\AdvancedLoaderSettingsPage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\AdvancedLoaderSettingsPage.resx"
+                    DependentUpon = "AdvancedLoaderSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "SettingsPages\AssemblyReloadSettingsPage.cs"
-                    SubType = "UserControl"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
@@ -215,7 +225,7 @@
                 />
                 <File
                     RelPath = "SettingsPages\GuiSettingsPage.cs"
-                    SubType = "UserControl"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
@@ -225,7 +235,7 @@
                 />
                 <File
                     RelPath = "SettingsPages\TestLoaderSettingsPage.cs"
-                    SubType = "UserControl"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
@@ -235,7 +245,7 @@
                 />
                 <File
                     RelPath = "SettingsPages\TestResultSettingsPage.cs"
-                    SubType = "UserControl"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
@@ -245,7 +255,7 @@
                 />
                 <File
                     RelPath = "SettingsPages\TreeSettingsPage.cs"
-                    SubType = "UserControl"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
@@ -255,7 +265,7 @@
                 />
                 <File
                     RelPath = "SettingsPages\VisualStudioSettingsPage.cs"
-                    SubType = "UserControl"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
@@ -265,7 +275,7 @@
                 />
                 <File
                     RelPath = "SettingsPages\OldTabPages\GeneralSettingsTab.cs"
-                    SubType = "UserControl"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
@@ -275,7 +285,7 @@
                 />
                 <File
                     RelPath = "SettingsPages\OldTabPages\TestLoaderSettingsTab.cs"
-                    SubType = "UserControl"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
@@ -285,7 +295,7 @@
                 />
                 <File
                     RelPath = "SettingsPages\OldTabPages\TestOutputSettingsTab.cs"
-                    SubType = "UserControl"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File

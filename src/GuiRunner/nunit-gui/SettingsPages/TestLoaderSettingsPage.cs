@@ -16,11 +16,9 @@ namespace NUnit.Gui.SettingsPages
 		private System.Windows.Forms.CheckBox mergeAssembliesCheckBox;
 		private System.Windows.Forms.RadioButton singleDomainRadioButton;
 		private System.Windows.Forms.RadioButton multiDomainRadioButton;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.CheckBox shadowCopyCheckBox;
 		private System.Windows.Forms.RadioButton flatTestList;
 		private System.Windows.Forms.RadioButton autoNamespaceSuites;
+		private System.Windows.Forms.HelpProvider helpProvider1;
 		private System.ComponentModel.IContainer components = null;
 
 		public TestLoaderSettingsPage(string key) : base(key)
@@ -60,11 +58,9 @@ namespace NUnit.Gui.SettingsPages
 			this.mergeAssembliesCheckBox = new System.Windows.Forms.CheckBox();
 			this.singleDomainRadioButton = new System.Windows.Forms.RadioButton();
 			this.multiDomainRadioButton = new System.Windows.Forms.RadioButton();
-			this.label3 = new System.Windows.Forms.Label();
-			this.groupBox3 = new System.Windows.Forms.GroupBox();
-			this.shadowCopyCheckBox = new System.Windows.Forms.CheckBox();
 			this.flatTestList = new System.Windows.Forms.RadioButton();
 			this.autoNamespaceSuites = new System.Windows.Forms.RadioButton();
+			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
 			this.SuspendLayout();
 			// 
 			// groupBox1
@@ -105,8 +101,10 @@ namespace NUnit.Gui.SettingsPages
 			// 
 			// mergeAssembliesCheckBox
 			// 
+			this.helpProvider1.SetHelpString(this.mergeAssembliesCheckBox, "If checked, tests in each assembly will be merged into a single tree.");
 			this.mergeAssembliesCheckBox.Location = new System.Drawing.Point(48, 184);
 			this.mergeAssembliesCheckBox.Name = "mergeAssembliesCheckBox";
+			this.helpProvider1.SetShowHelp(this.mergeAssembliesCheckBox, true);
 			this.mergeAssembliesCheckBox.Size = new System.Drawing.Size(224, 24);
 			this.mergeAssembliesCheckBox.TabIndex = 10;
 			this.mergeAssembliesCheckBox.Text = "Merge tests across assemblies";
@@ -115,8 +113,10 @@ namespace NUnit.Gui.SettingsPages
 			// 
 			this.singleDomainRadioButton.AutoCheck = false;
 			this.singleDomainRadioButton.Checked = true;
+			this.helpProvider1.SetHelpString(this.singleDomainRadioButton, "If selected, all test assemblies will be loaded in the same AppDomain.");
 			this.singleDomainRadioButton.Location = new System.Drawing.Point(32, 152);
 			this.singleDomainRadioButton.Name = "singleDomainRadioButton";
+			this.helpProvider1.SetShowHelp(this.singleDomainRadioButton, true);
 			this.singleDomainRadioButton.Size = new System.Drawing.Size(240, 24);
 			this.singleDomainRadioButton.TabIndex = 9;
 			this.singleDomainRadioButton.TabStop = true;
@@ -126,44 +126,23 @@ namespace NUnit.Gui.SettingsPages
 			// multiDomainRadioButton
 			// 
 			this.multiDomainRadioButton.AutoCheck = false;
+			this.helpProvider1.SetHelpString(this.multiDomainRadioButton, "If selected, each test assembly will be loaded in a separate AppDomain.");
 			this.multiDomainRadioButton.Location = new System.Drawing.Point(32, 120);
 			this.multiDomainRadioButton.Name = "multiDomainRadioButton";
+			this.helpProvider1.SetShowHelp(this.multiDomainRadioButton, true);
 			this.multiDomainRadioButton.Size = new System.Drawing.Size(240, 24);
 			this.multiDomainRadioButton.TabIndex = 8;
 			this.multiDomainRadioButton.Text = "Load in separate AppDomains";
 			this.multiDomainRadioButton.Click += new System.EventHandler(this.toggleMultiDomain);
 			// 
-			// label3
-			// 
-			this.label3.Location = new System.Drawing.Point(16, 224);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(128, 16);
-			this.label3.TabIndex = 12;
-			this.label3.Text = "Shadow Copy";
-			// 
-			// groupBox3
-			// 
-			this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox3.Location = new System.Drawing.Point(104, 224);
-			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(352, 8);
-			this.groupBox3.TabIndex = 11;
-			this.groupBox3.TabStop = false;
-			// 
-			// shadowCopyCheckBox
-			// 
-			this.shadowCopyCheckBox.Location = new System.Drawing.Point(48, 248);
-			this.shadowCopyCheckBox.Name = "shadowCopyCheckBox";
-			this.shadowCopyCheckBox.Size = new System.Drawing.Size(240, 22);
-			this.shadowCopyCheckBox.TabIndex = 31;
-			this.shadowCopyCheckBox.Text = "Enable Shadow Copy";
-			// 
 			// flatTestList
 			// 
 			this.flatTestList.AutoCheck = false;
+			this.helpProvider1.SetHelpString(this.flatTestList, "If selected, the tree will consist of a flat list of fixtures, without any higher" +
+				"-level structure beyond the assemblies.");
 			this.flatTestList.Location = new System.Drawing.Point(32, 56);
 			this.flatTestList.Name = "flatTestList";
+			this.helpProvider1.SetShowHelp(this.flatTestList, true);
 			this.flatTestList.Size = new System.Drawing.Size(216, 24);
 			this.flatTestList.TabIndex = 33;
 			this.flatTestList.Text = "Flat list of TestFixtures";
@@ -173,8 +152,11 @@ namespace NUnit.Gui.SettingsPages
 			// 
 			this.autoNamespaceSuites.AutoCheck = false;
 			this.autoNamespaceSuites.Checked = true;
+			this.helpProvider1.SetHelpString(this.autoNamespaceSuites, "If selected, the tree will follow the namespace structure of the tests, with suit" +
+				"es automatically created at each level.");
 			this.autoNamespaceSuites.Location = new System.Drawing.Point(32, 24);
 			this.autoNamespaceSuites.Name = "autoNamespaceSuites";
+			this.helpProvider1.SetShowHelp(this.autoNamespaceSuites, true);
 			this.autoNamespaceSuites.Size = new System.Drawing.Size(224, 24);
 			this.autoNamespaceSuites.TabIndex = 32;
 			this.autoNamespaceSuites.TabStop = true;
@@ -185,9 +167,6 @@ namespace NUnit.Gui.SettingsPages
 			// 
 			this.Controls.Add(this.flatTestList);
 			this.Controls.Add(this.autoNamespaceSuites);
-			this.Controls.Add(this.shadowCopyCheckBox);
-			this.Controls.Add(this.groupBox3);
-			this.Controls.Add(this.label3);
 			this.Controls.Add(this.mergeAssembliesCheckBox);
 			this.Controls.Add(this.singleDomainRadioButton);
 			this.Controls.Add(this.multiDomainRadioButton);

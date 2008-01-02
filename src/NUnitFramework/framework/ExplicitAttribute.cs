@@ -15,7 +15,7 @@ namespace NUnit.Framework
 	/// run simply because an enclosing suite is run.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=false)]
-	public sealed class ExplicitAttribute : Attribute
+	public class ExplicitAttribute : Attribute
 	{
         private string reason;
 

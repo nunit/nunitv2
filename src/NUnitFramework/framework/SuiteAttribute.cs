@@ -13,6 +13,6 @@ namespace NUnit.Framework
 	/// that returns a list of tests.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Property, AllowMultiple=false)]
-	public sealed class SuiteAttribute : Attribute
+	public class SuiteAttribute : Attribute
 	{}
 }

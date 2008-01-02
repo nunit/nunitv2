@@ -12,8 +12,6 @@ namespace NUnit.Gui
 
 	public class GuiOptions : CommandLineOptions
 	{
-		private bool isInvalid = false; 
-
 		[Option(Description = "Fixture to test")]
 		public string fixture;
 
@@ -32,6 +30,9 @@ namespace NUnit.Gui
 		[Option(Description = "Automatically run the loaded project")]
 		public bool run;
 
+		[Option(Description = "Automatically run selected tests or all tests if none are selected")]
+		public bool runselected;
+
 		[Option(Description = "Create console display for viewing any unmanaged output")]
 		public bool console;
 
@@ -44,29 +45,9 @@ namespace NUnit.Gui
 		[Option(Short="?", Description = "Display help")]
 		public bool help = false;
 
-		public GuiOptions(String[] args) : base(args) 
-		{}
+		public GuiOptions(String[] args) : base(args) { }
 
-		protected override void InvalidOption(string name)
-		{ isInvalid = true; }
-
-		public string Assembly
-		{
-			get 
-			{
-				return (string)Parameters[0];
-			}
-		}
-
-		public bool IsAssembly
-		{
-			get 
-			{
-				return ParameterCount == 1;
-			}
-		}
-
-		public bool HasInclude 
+		private bool HasInclude 
 		{
 			get 
 			{
@@ -74,7 +55,7 @@ namespace NUnit.Gui
 			}
 		}
 
-		public bool HasExclude 
+		private bool HasExclude 
 		{
 			get 
 			{
@@ -93,13 +74,14 @@ namespace NUnit.Gui
 
 		public override string GetHelpText()
 		{
-			const string initialText =
-				"NUNIT-GUI [inputfile] [options]\r\rRuns a set of NUnit tests from the console. You may specify\ran assembly or a project file of type .nunit as input.\r\rOptions:\r";
-
-			const string finalText = 
-				"\rOptions that take values may use an equal sign, a colon\ror a space to separate the option from its value.";
-
-			return initialText + base.GetHelpText() + finalText;
+			return
+				"NUNIT-GUI [inputfile] [options]\r\r" +
+				"Runs a set of NUnit tests from the console. You may specify\r" +
+				"an assembly or a project file of type .nunit as input.\r\r" +
+				"Options:\r" +
+				base.GetHelpText() +
+				"\rOptions that take values may use an equal sign, a colon\r" +
+				"or a space to separate the option from its value.";
 		}
 
 	}

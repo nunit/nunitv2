@@ -30,10 +30,10 @@
 
 <table class="constraints">
 <tr><th>Syntax Helper</th><th>Constructor</th><th>Operation</th></tr>
-<tr><td>Is.Not...</td><td>NotConstraint( Constraint )</td></td><td>Negates or reverses the effect of a constraint</td></tr>
-<tr><td>Is.All...</td><td>AllItemsConstraint( Constraint )</td></td><td>Negates or reverses the effect of a constraint</td></tr>
-<tr><td>Constraint &amp; Constraint</td><td>AndConstraint( Constraint, Constraint )</td></td><td>Negates or reverses the effect of a constraint</td></tr>
-<tr><td>Constraint | Constraint</td><td>OrConstraint( Constraint, Constraint )</td></td><td>Negates or reverses the effect of a constraint</td></tr>
+<tr><td>Is.Not...</td><td>NotConstraint( Constraint )</td><td>Negates or reverses the effect of a constraint</td></tr>
+<tr><td>Is.All...</td><td>AllItemsConstraint( Constraint )</td><td>Tests that all members of a collection match the constraint</td></tr>
+<tr><td>Constraint &amp; Constraint</td><td>AndConstraint( Constraint, Constraint )</td><td>Tests that both of the constraints are met</td></tr>
+<tr><td>Constraint | Constraint</td><td>OrConstraint( Constraint, Constraint )</td><td>Tests that at least one of the constraints is met</td></tr>
 </table>
 
 <h4>Examples of Use</h4>
@@ -53,7 +53,7 @@ Expect( 2.3, GreaterThan( 2.0 ) & LessThan( 3.0 ) );
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.4</a></li>
+<li><a href="index.html">NUnit 2.4.6</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="installation.html">Installation</a></li>

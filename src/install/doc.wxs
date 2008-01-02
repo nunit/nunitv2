@@ -11,6 +11,9 @@
       
     <DirectoryRef Id="doc" FileSource="doc">
       <Component Id="C__doc" DiskId="1" Guid="6d9faf90-1ff2-11db-a98b-0800200c9a66">
+        <File Id="nunit.css" Name="nunit.css" />
+        <File Id="codeFuncs.js" Name="CODEFNCS.JS" LongName="codeFuncs.js" />
+        <File Id="favicon.ico" Name="favicon.ico" />
         <File Id="addinsDialog.html" Name="ADDINDLG.HTM" LongName="addinsDialog.html" />
         <File Id="assertions.html" Name="ASSERT_1.HTM" LongName="assertions.html" />
         <File Id="attributes.html" Name="ATTRIB_1.HTM" LongName="attributes.html" />
@@ -30,6 +33,7 @@ LongName="conditionConstraints.html" />
         <File Id="consoleCommandLine.html" Name="CONSOL_1.HTM" LongName="consoleCommandLine.html" />
         <File Id="constraintModel.html" Name="CON_MODL.HTM" LongName="constraintModel.html" />
         <File Id="contextMenu.html" Name="CONTEX_1.HTM" LongName="contextMenu.html" />
+        <File Id="culture.html" Name="CULTURE.HTM" LongName="culture.html" />
         <File Id="customAsserts.html" Name="CUSTOM_1.HTM" LongName="customAsserts.html" />
         <File Id="customConstraints.html" Name="CUSTOM_2.HTM"
 LongName="customConstraints.html" />
@@ -52,21 +56,23 @@ LongName="customConstraints.html" />
         </File>
         <File Id="installation.html" Name="INSTAL_1.HTM" LongName="installation.html" />
         <File Id="license.html" Name="LICENS_1.HTM" LongName="license.html" />
+        <File Id="listMapper.html" Name="LISTMAP.HTM" LongName="listMapper.html" />
         <File Id="mainMenu.html" Name="MAINME_1.HTM" LongName="mainMenu.html" />
         <File Id="multiAssembly.html" Name="MULTIA_1.HTM" LongName="multiAssembly.html" />
         <File Id="nunit_console.html" Name="NUNIT-_1.HTM" LongName="nunit-console.html" />
         <File Id="nunit_gui.html" Name="NUNIT-_2.HTM" LongName="nunit-gui.html" />
-        <File Id="nunit.css" Name="nunit.css" />
         <File Id="nunitAddins.html" Name="ADDINS.HTM" LongName="nunitAddins.html" />
         <File Id="optionsDialog.html" Name="OPTION_1.HTM" LongName="optionsDialog.html" />
         <File Id="platform.html" Name="PLATFO_1.HTM" LongName="platform.html" />
         <File Id="platformSupport.html" Name="PLATFO_2.HTM" LongName="platformSupport.html" />
         <File Id="projectEditor.html" Name="PROJEC_1.HTM" LongName="projectEditor.html" />
         <File Id="property.html" Name="PROPER_1.HTM" LongName="property.html" />
+        <File Id="propertyConstraint.html" Name="PROPER_2.HTM" LongName="propertyConstraint.html" />
         <File Id="quickstart.html" Name="QUICKS_1.HTM" LongName="quickStart.html" />
         <File Id="releaseNotes.html" Name="RELEAS_1.HTM" LongName="releaseNotes.html" />
         <File Id="sameasConstraint.html" Name="SAMEAS.HTM" LongName="sameasConstraint.html" />
         <File Id="samples.html" Name="SAMPLE_1.HTM" LongName="samples.html" />
+        <File Id="setCulture.html" Name="SETCULTR.HTM" LongName="setCulture.html" />
         <File Id="setup.html" Name="SETUP_1.HTM" LongName="setup.html" />
         <File Id="setupFixture.html" Name="SETUPF_1.HTM" LongName="setupFixture.html" />
         <File Id="stringAssert.html" Name="STRING_1.HTM" LongName="stringAssert.html" />

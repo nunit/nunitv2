@@ -651,11 +651,13 @@ namespace NUnit.Util
 		{
 			if ( Running )
 				reloadPending = true;
-			else 
+			else
+			{
 				ReloadTest();
 
-			if ( rerunOnChange && lastFilter != null )
-				testRunner.BeginRun( this, lastFilter );
+				if ( rerunOnChange && lastFilter != null )
+					testRunner.BeginRun( this, lastFilter );
+			}
 		}
 		#endregion
 

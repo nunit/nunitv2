@@ -14,6 +14,7 @@ namespace NUnit.Gui.SettingsPages
 		private System.Windows.Forms.CheckBox rerunOnChangeCheckBox;
 		private System.Windows.Forms.CheckBox reloadOnRunCheckBox;
 		private System.Windows.Forms.CheckBox reloadOnChangeCheckBox;
+		private System.Windows.Forms.HelpProvider helpProvider1;
 		private System.ComponentModel.IContainer components = null;
 
 		public AssemblyReloadSettingsPage(string key) : base(key)
@@ -51,6 +52,7 @@ namespace NUnit.Gui.SettingsPages
 			this.rerunOnChangeCheckBox = new System.Windows.Forms.CheckBox();
 			this.reloadOnRunCheckBox = new System.Windows.Forms.CheckBox();
 			this.reloadOnChangeCheckBox = new System.Windows.Forms.CheckBox();
+			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -74,24 +76,32 @@ namespace NUnit.Gui.SettingsPages
 			// rerunOnChangeCheckBox
 			// 
 			this.rerunOnChangeCheckBox.Enabled = false;
+			this.helpProvider1.SetHelpString(this.rerunOnChangeCheckBox, "If checked, the last tests run will be re-run automatically whenever the assembly" +
+				" changes.");
 			this.rerunOnChangeCheckBox.Location = new System.Drawing.Point(48, 88);
 			this.rerunOnChangeCheckBox.Name = "rerunOnChangeCheckBox";
+			this.helpProvider1.SetShowHelp(this.rerunOnChangeCheckBox, true);
 			this.rerunOnChangeCheckBox.Size = new System.Drawing.Size(200, 24);
 			this.rerunOnChangeCheckBox.TabIndex = 13;
 			this.rerunOnChangeCheckBox.Text = "Re-run last tests run";
 			// 
 			// reloadOnRunCheckBox
 			// 
+			this.helpProvider1.SetHelpString(this.reloadOnRunCheckBox, "If checked, the assembly is reloaded before each run");
 			this.reloadOnRunCheckBox.Location = new System.Drawing.Point(24, 24);
 			this.reloadOnRunCheckBox.Name = "reloadOnRunCheckBox";
+			this.helpProvider1.SetShowHelp(this.reloadOnRunCheckBox, true);
 			this.reloadOnRunCheckBox.Size = new System.Drawing.Size(237, 23);
 			this.reloadOnRunCheckBox.TabIndex = 11;
 			this.reloadOnRunCheckBox.Text = "Reload before each test run";
 			// 
 			// reloadOnChangeCheckBox
 			// 
+			this.helpProvider1.SetHelpString(this.reloadOnChangeCheckBox, "If checked, the assembly is reloaded whenever it changes. Changes to this setting" +
+				" do not take effect until the next time an assembly is loaded.");
 			this.reloadOnChangeCheckBox.Location = new System.Drawing.Point(24, 56);
 			this.reloadOnChangeCheckBox.Name = "reloadOnChangeCheckBox";
+			this.helpProvider1.SetShowHelp(this.reloadOnChangeCheckBox, true);
 			this.reloadOnChangeCheckBox.Size = new System.Drawing.Size(245, 25);
 			this.reloadOnChangeCheckBox.TabIndex = 12;
 			this.reloadOnChangeCheckBox.Text = "Reload when test assembly changes";
@@ -133,6 +143,12 @@ namespace NUnit.Gui.SettingsPages
 		{
 			rerunOnChangeCheckBox.Enabled = reloadOnChangeCheckBox.Checked;
 		}
+
+		protected override void OnHelpRequested(HelpEventArgs hevent)
+		{
+			System.Diagnostics.Process.Start( "http://nunit.com/?p=optionsDialog&r=2.4.5" );
+		}
+
 	}
 }
 

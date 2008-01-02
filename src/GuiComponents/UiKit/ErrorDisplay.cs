@@ -402,6 +402,7 @@ namespace NUnit.UiKit
 		{
 			detailList.BeginUpdate();
 			detailList.Items.Insert(detailList.Items.Count, item);
+			detailList.SelectedIndex = 0;
 			detailList.EndUpdate();
 		}
 		#endregion

@@ -22,39 +22,39 @@
 	<xs:element name="test-results" type="resultType" />
 	<xs:complexType name="categoriesType">
 		<xs:sequence>
-			<xs:element name="category" type="categoryType" maxOccurs="unbounded" minOccurs="1"/>
+			<xs:element name="category" type="categoryType" maxOccurs="unbounded" minOccurs="1" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="categoryType">
-		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="required" />
 	</xs:complexType>
 	<xs:complexType name="propertiesType">
 		<xs:sequence>
-			<xs:element name="property" type="propertyType" maxOccurs="unbounded" minOccurs="1"/>
+			<xs:element name="property" type="propertyType" maxOccurs="unbounded" minOccurs="1" />
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="propertyType">
-		<xs:attribute name="name" type="xs:string" use="required"/>
-		<xs:attribute name="value" type="xs:string" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="value" type="xs:string" use="required" />
 	</xs:complexType>
-    <xs:complexType name="environmentType">
-      <xs:attribute name="nunit-version" type="xs:string" use="required" />
-      <xs:attribute name="clr-version" type="xs:string" use="required" />
-      <xs:attribute name="os-version" type="xs:string" use="required" />
-      <xs:attribute name="platform" type="xs:string" use="required" />
-      <xs:attribute name="cwd" type="xs:string" use="required" />
-      <xs:attribute name="machine-name" type="xs:string" use="required" />
-      <xs:attribute name="user" type="xs:string" use="required" />
-      <xs:attribute name="user-domain" type="xs:string" use="required" />
-    </xs:complexType>
-    <xs:complexType name="culture-infoType" >
-      <xs:attribute name="current-culture" type="xs:string" use="required" />
-      <xs:attribute name="current-uiculture" type="xs:string" use="required" />
-    </xs:complexType>
+	<xs:complexType name="environmentType">
+		<xs:attribute name="nunit-version" type="xs:string" use="required" />
+		<xs:attribute name="clr-version" type="xs:string" use="required" />
+		<xs:attribute name="os-version" type="xs:string" use="required" />
+		<xs:attribute name="platform" type="xs:string" use="required" />
+		<xs:attribute name="cwd" type="xs:string" use="required" />
+		<xs:attribute name="machine-name" type="xs:string" use="required" />
+		<xs:attribute name="user" type="xs:string" use="required" />
+		<xs:attribute name="user-domain" type="xs:string" use="required" />
+	</xs:complexType>
+	<xs:complexType name="culture-infoType">
+		<xs:attribute name="current-culture" type="xs:string" use="required" />
+		<xs:attribute name="current-uiculture" type="xs:string" use="required" />
+	</xs:complexType>
 	<xs:complexType name="resultType">
 		<xs:sequence>
-            <xs:element name="environment" type="environmentType" />
-            <xs:element name="culture-info" type="culture-infoType" />
+			<xs:element name="environment" type="environmentType" />
+			<xs:element name="culture-info" type="culture-infoType" />
 			<xs:element name="test-suite" type="test-suiteType" />
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required" />
@@ -73,7 +73,6 @@
 				<xs:element name="reason" type="reasonType" minOccurs="0" />
 			</xs:choice>
 		</xs:sequence>
-			
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="description" type="xs:string" use="optional" />
 		<xs:attribute name="success" type="xs:string" use="optional" />
@@ -85,7 +84,11 @@
 		<xs:sequence>
 			<xs:element name="categories" type="categoriesType" minOccurs="0" maxOccurs="1" />
 			<xs:element name="properties" type="propertiesType" minOccurs="0" maxOccurs="1" />
-			<xs:element name="results" type="resultsType" />
+      <xs:choice>
+        <xs:element name="failure" type="failureType" minOccurs="0" />
+        <xs:element name="reason" type="reasonType" minOccurs="0" />
+      </xs:choice>
+      <xs:element name="results" type="resultsType" />
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="description" type="xs:string" use="optional" />
@@ -93,5 +96,4 @@
 		<xs:attribute name="time" type="xs:string" use="required" />
 		<xs:attribute name="asserts" type="xs:string" use="optional" />
 	</xs:complexType>
-
 </xs:schema>
