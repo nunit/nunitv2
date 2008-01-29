@@ -6,6 +6,7 @@
 
 using System;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
 namespace NUnit.Mocks
 {
@@ -32,13 +33,16 @@ namespace NUnit.Mocks
 		public object Call( object[] actualArgs )
 		{
 			if ( expectedArgs != null )
-//			if ( expectedArgs.Length != 0 )
 			{
-				//Assert.IsTrue( signature.IsCompatibleWith( actualArgs ) );
 				Assert.AreEqual( expectedArgs.Length, actualArgs.Length, "Invalid argument count in call to {0}", this.signature.methodName );
 
 				for( int i = 0; i < expectedArgs.Length; i++ )
-					Assert.AreEqual( expectedArgs[i], actualArgs[i] );
+				{
+					if ( expectedArgs[i] is Constraint )
+						Assert.That( actualArgs[i], (Constraint)expectedArgs[i] );
+					else
+						Assert.AreEqual( expectedArgs[i], actualArgs[i] );
+				}
 			}
 			
 			if ( exception != null )

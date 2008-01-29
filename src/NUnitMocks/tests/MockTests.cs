@@ -6,6 +6,7 @@
 
 using System;
 using NUnit.Framework;
+using NUnit.Framework.SyntaxHelpers;
 
 namespace NUnit.Mocks.Tests
 {
@@ -305,6 +306,20 @@ namespace NUnit.Mocks.Tests
 			Assert.AreEqual( "x", mock.Call( "MyMethod" ) );
 			Assert.AreEqual( "x", mock.Call( "MyMethod", 1, 2, 3 ) );
 			mock.Verify();
+		}
+
+		[Test]
+		public void ConstraintArgumentSucceeds()
+		{
+			mock.Expect( "MyMethod", Is.GreaterThan(10) );
+			mock.Call( "MyMethod", 42 );
+		}
+
+		[Test,ExpectedException(typeof(AssertionException))]
+		public void ConstraintArgumentThatFails()
+		{
+			mock.Expect( "MyMethod", Is.GreaterThan(10) );
+			mock.Call( "MyMethod", 8 );
 		}
 	}
 }

@@ -50,7 +50,7 @@ namespace NUnit.Util
 				}
 
 			if ( theService == null )
-				log.ErrorFormat( "Requested service {0} was not found" + serviceType.FullName );
+				log.ErrorFormat( "Requested service {0} was not found", serviceType.FullName );
 			else if ( log.IsInfoEnabled )
 				log.InfoFormat( "Request for service {0} satisfied by {1}", serviceType.Name, theService.GetType().Name );
 			return theService;
