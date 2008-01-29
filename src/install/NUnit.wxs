@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Product UpgradeCode="009074FF-2CEC-4b0c-9951-B07186F9ED3A" 
       Name="NUnit $(var.NominalVersion)" 
-      Id="34ECF45C-A24F-41e5-8064-538821E80645" 
+      Id="8433D598-929C-4792-823A-AC9932FE6AA2" 
       Version="$(var.ProductVersion)"
       Manufacturer="nunit.org" 
       Language="1033">

@@ -3,7 +3,7 @@
 
   <target name="build">
     <csc target="winexe" 
-        output="${current.build.dir}/${nunit.gui.name}" 
+        output="${current.build.dir}/nunit.exe" 
         win32icon="App.ico" debug="${build.debug}"
         define="${build.defines}">
       <sources>
@@ -17,10 +17,10 @@
     </csc>
 
     <copy file="App.config"
-      tofile="${current.build.dir}/${nunit.gui.name}.config"/>
+      tofile="${current.build.dir}/nunit.exe.config"/>
 
     <csc target="winexe" 
-        output="${current.build.dir}/${nunit.gui.name.x86}" 
+        output="${current.build.dir}/nunit-x86.exe" 
         win32icon="App.ico" debug="${build.debug}"
         define="${build.defines}" platform="x86" 
         if="${build.x86}">
@@ -35,7 +35,7 @@
     </csc>
 
     <copy file="App.config" if="${build.x86}"
-      tofile="${current.build.dir}/${nunit.gui.name.x86}.config"/>
+      tofile="${current.build.dir}/nunit-x86.exe.config"/>
   </target>
 
   <target name="package">

@@ -21,12 +21,12 @@
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.util.dll"/>
-        <include name="${fit.dir}/fit.dll"/>
+        <include name="${project.tools.dir}/fit/fit.dll"/>
       </references>
     </csc>
 
     <copy todir="${current.build.dir}">
-      <fileset basedir="${fit.dir}">
+      <fileset basedir="${project.tools.dir}/fit">
         <include name="fit.dll"/>
         <include name="runFile.exe"/>
         <include name="runFile.exe.config"/>
