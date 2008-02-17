@@ -104,9 +104,6 @@
     <Compile Include="NoTestFixturesException.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NotRunnableTestCase.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="NullListener.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -175,12 +172,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ThreadedTestRunner.cs" />
-    <Compile Include="Builders\AbstractFixtureBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\AbstractTestCaseBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Builders\LegacySuiteBuilder.cs">
       <SubType>Code</SubType>
     </Compile>

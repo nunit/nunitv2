@@ -14,50 +14,122 @@ namespace NUnit.Core.Builders
 	/// <summary>
 	/// Built-in SuiteBuilder for NUnit TestFixture
 	/// </summary>
-	public class NUnitTestFixtureBuilder : AbstractFixtureBuilder
+	public class NUnitTestFixtureBuilder : Extensibility.ISuiteBuilder
 	{
+		#region Instance Fields
+		/// <summary>
+		/// The TestSuite being constructed;
+		/// </summary>
+		private TestSuite suite;
+
+		/// <summary>
+		/// The fixture builder's own test case builder collection 
+		/// </summary>
+		private Extensibility.TestCaseBuilderCollection testCaseBuilders = new Extensibility.TestCaseBuilderCollection();
+		#endregion
+
 		public NUnitTestFixtureBuilder()
 		{
 			this.testCaseBuilders.Install( new NUnitTestCaseBuilder() );
 		}
 
-		#region AbstractFixtureBuilder Overrides
+		#region ISuiteBuilder Methods
 		/// <summary>
-		/// Makes an NUnitTestFixture instance
+		/// Checks to see if the fixture type has the test fixture
+		/// attribute type specified in the parameters.
 		/// </summary>
-		/// <param name="type">The type to be used</param>
-		/// <returns>An NUnitTestFixture as a TestSuite</returns>
-		protected override TestSuite MakeSuite( Type type )
+		/// <param name="type">The fixture type to check</param>
+		/// <returns>True if the fixture can be built, false if not</returns>
+		public bool CanBuildFrom(Type type)
 		{
-			return new NUnitTestFixture( type );
+			return Reflect.HasAttribute( type, NUnitFramework.TestFixtureAttribute, true );
 		}
 
 		/// <summary>
-		/// Method that sets properties of the test suite based on the
-		/// information in the provided Type.
+		/// Build a TestSuite from type provided.
 		/// </summary>
-		/// <param name="type">The type to examine</param>
-		/// <param name="suite">The test suite being constructed</param>
-		protected override void SetTestSuiteProperties( Type type, TestSuite suite )
+		/// <param name="type"></param>
+		/// <returns></returns>
+		public Test BuildFrom(Type type)
 		{
-			base.SetTestSuiteProperties( type, suite );
+			this.suite = new NUnitTestFixture(type);
 
-            NUnitFramework.ApplyCommonAttributes( type, suite );
+			string reason = null;
+			if (!IsValidFixtureType(type, ref reason) )
+			{
+				this.suite.RunState = RunState.NotRunnable;
+				this.suite.IgnoreReason = reason;
+			}
+
+			NUnitFramework.ApplyCommonAttributes( type, suite );
+
+			AddTestCases(type);
+
+			if ( this.suite.RunState != RunState.NotRunnable && this.suite.TestCount == 0)
+			{
+				this.suite.RunState = RunState.NotRunnable;
+				this.suite.IgnoreReason = suite.TestName.Name + " does not have any tests";
+			}
+
+			return this.suite;
+		}
+		#endregion
+
+		#region Helper Methods
+		/// <summary>
+		/// Method to add test cases to the newly constructed suite.
+		/// The default implementation looks at each candidate method
+		/// and tries to build a test case from it. It will only need
+		/// to be overridden if some other approach, such as reading a 
+		/// datafile is used to generate test cases.
+		/// </summary>
+		/// <param name="fixtureType"></param>
+		protected virtual void AddTestCases( Type fixtureType )
+		{
+			IList methods = fixtureType.GetMethods( 
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static );
+
+			foreach(MethodInfo method in methods)
+			{
+				Test test = BuildTestCase(method);
+
+				if(test != null)
+				{
+					this.suite.Add( test );
+				}
+			}
 		}
 
-        /// <summary>
-        /// Checks to see if the fixture type has the test fixture
-        /// attribute type specified in the parameters. Override
-        /// to allow additional types - based on name, for example.
-        /// </summary>
-        /// <param name="type">The fixture type to check</param>
-        /// <returns>True if the fixture can be built, false if not</returns>
-        public override bool CanBuildFrom(Type type)
-        {
-            return Reflect.HasAttribute( type, NUnitFramework.TestFixtureAttribute, true );
-        }
+		/// <summary>
+		/// Method to create a test case from a MethodInfo and add
+		/// it to the suite being built. It first checks to see if
+		/// any global TestCaseBuilder addin wants to build the
+		/// test case. If not, it uses the internal builder
+		/// collection maintained by this fixture builder. After
+		/// building the test case, it applies any decorators
+		/// that have been installed.
+		/// 
+		/// The default implementation has no test case builders.
+		/// Derived classes should add builders to the collection
+		/// in their constructor.
+		/// </summary>
+		/// <param name="method"></param>
+		/// <returns></returns>
+		private Test BuildTestCase( MethodInfo method )
+		{
+			// TODO: Review order of using builders
+			Test test = CoreExtensions.Host.TestBuilders.BuildFrom( method );
 
-        /// <summary>
+			if ( test == null && this.testCaseBuilders.CanBuildFrom( method ) )
+				test = this.testCaseBuilders.BuildFrom( method );
+
+			if ( test != null )
+				test = CoreExtensions.Host.TestDecorators.Decorate( test, method );
+
+			return test;
+		}
+
+		/// <summary>
         /// Check that the fixture is valid. In addition to the base class
         /// check for a valid constructor, this method ensures that there 
         /// is no more than one of each setup or teardown method and that
@@ -66,16 +138,25 @@ namespace NUnit.Core.Builders
         /// <param name="fixtureType">The type of the fixture to check</param>
         /// <param name="reason">A message indicating why the fixture is invalid</param>
         /// <returns>True if the fixture is valid, false if not</returns>
-        protected override bool IsValidFixtureType(Type fixtureType, ref string reason)
+        private bool IsValidFixtureType(Type fixtureType, ref string reason)
         {
-            if (!base.IsValidFixtureType(fixtureType, ref reason))
-                return false;
+			if (fixtureType.IsAbstract)
+			{
+				reason = string.Format("{0} is an abstract class", fixtureType.FullName);
+				return false;
+			}
 
-            if (!fixtureType.IsPublic && !fixtureType.IsNestedPublic)
-            {
-                reason = "Fixture class is not public";
-                return false;
-            }
+			if (Reflect.GetConstructor(fixtureType) == null)
+			{
+				reason = string.Format( "{0} does not have a valid constructor", fixtureType.FullName );
+				return false;
+			}
+
+            //if (!fixtureType.IsPublic && !fixtureType.IsNestedPublic)
+            //{
+            //    reason = "Fixture class is not public";
+            //    return false;
+            //}
 
             return CheckSetUpTearDownMethod(fixtureType, "SetUp", NUnitFramework.SetUpAttribute, ref reason)
                 && CheckSetUpTearDownMethod(fixtureType, "TearDown", NUnitFramework.TearDownAttribute, ref reason)

@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Globalization;
 using NUnit.Framework;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework.Syntax.CSharp;
 using NUnit.TestData.CultureAttributeTests;
 using NUnit.TestUtilities;
 

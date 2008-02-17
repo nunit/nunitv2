@@ -185,11 +185,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "NotRunnableTestCase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "NullListener.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -329,16 +324,6 @@
                 />
                 <File
                     RelPath = "ThreadedTestRunner.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Builders\AbstractFixtureBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Builders\AbstractTestCaseBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -67,12 +67,12 @@ namespace NUnit.Core.Tests
 			throw new ArgumentException("argument invalid exception");
 		}
 
-        [Test]
-        [ExpectedException("System.ArgumentException", "argument exception")]
-        public void TestSucceedsWithSpecifiedExceptionNameAndMessage_OldFormat()
-        {
-            throw new ArgumentException("argument exception");
-        }
+//        [Test]
+//        [ExpectedException("System.ArgumentException", "argument exception")]
+//        public void TestSucceedsWithSpecifiedExceptionNameAndMessage_OldFormat()
+//        {
+//            throw new ArgumentException("argument exception");
+//        }
 
         [Test]
         [ExpectedException("System.ArgumentException", ExpectedMessage = "argument exception")]

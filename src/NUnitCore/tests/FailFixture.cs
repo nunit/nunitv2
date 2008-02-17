@@ -5,7 +5,6 @@
 // ****************************************************************
 
 using System;
-using System.Reflection;
 using NUnit.Framework;
 using NUnit.TestUtilities;
 using NUnit.TestData.FailFixture;
@@ -21,17 +20,6 @@ namespace NUnit.Core.Tests
 			TestResult result = TestBuilder.RunTestCase( 
 				typeof(VerifyFailThrowsException), 
 				"CallAssertFail" );
-			Assert.IsTrue(result.IsFailure, "Should have failed");
-			Assert.AreEqual(
-				VerifyFailThrowsException.failureMessage, 
-				result.Message);
-		}
-		[Test]
-		public void VerifyAssertionFailWorks()
-		{
-			TestResult result = TestBuilder.RunTestCase( 
-				typeof(VerifyFailThrowsException), 
-				"CallAssertionFail" );
 			Assert.IsTrue(result.IsFailure, "Should have failed");
 			Assert.AreEqual(
 				VerifyFailThrowsException.failureMessage, 

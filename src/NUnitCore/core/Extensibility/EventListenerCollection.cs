@@ -14,7 +14,7 @@ namespace NUnit.Core.Extensibility
 	/// </summary>
 	public class EventListenerCollection : EventListener, IExtensionPoint
 	{
-		private ArrayList listeners = new ArrayList();
+		private readonly ArrayList listeners = new ArrayList();
 
 		#region EventListener Members
 		public void RunStarted(string name, int testCount)
@@ -90,12 +90,12 @@ namespace NUnit.Core.Extensibility
 			EventListener listener = extension as EventListener;
 			if ( listener == null )
 				throw new ArgumentException( 
-					extension.GetType().FullName + " is not an EventListener", "exception" );
+					extension.GetType().FullName + " is not an EventListener", "extension" );
 
 			listeners.Add( listener );
 		}
 
-		void NUnit.Core.Extensibility.IExtensionPoint.Remove(object extension)
+		void IExtensionPoint.Remove(object extension)
 		{
 			listeners.Remove( extension );
 		}

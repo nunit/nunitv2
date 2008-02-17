@@ -127,24 +127,6 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region Locate ExceptionHandler
-		public static MethodInfo GetDefaultExceptionHandler( Type fixtureType )
-		{
-			return Reflect.HasInterface( fixtureType, ExpectExceptionInterface )
-				? GetExceptionHandler( fixtureType, "HandleException" )
-				: null;
-		}
-
-		public static MethodInfo GetExceptionHandler( Type fixtureType, string name )
-		{
-			return Reflect.GetNamedMethod( 
-				fixtureType, 
-				name,
-				new string[] { "System.Exception" },
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static );
-		}
-		#endregion
-
 		#region Get Special Properties of Attributes
 
 		#region IgnoreReason
@@ -163,39 +145,6 @@ namespace NUnit.Core
 		public static string GetDescription(System.Attribute attribute)
 		{
 			return Reflect.GetPropertyValue( attribute, "Description" ) as string;
-		}
-		#endregion
-
-		#region ExpectedException Attrributes
-		public static string GetHandler(System.Attribute attribute)
-		{
-			return Reflect.GetPropertyValue( attribute, "Handler" ) as string;
-		}
-
-		public static Type GetExceptionType(System.Attribute attribute)
-		{
-			return Reflect.GetPropertyValue( attribute, "ExceptionType" ) as Type;
-		}
-
-		public static string GetExceptionName(System.Attribute attribute)
-		{
-			return Reflect.GetPropertyValue( attribute, "ExceptionName" ) as string;
-		}
-
-		public static string GetExpectedMessage(System.Attribute attribute)
-		{
-			return Reflect.GetPropertyValue( attribute, "ExpectedMessage" ) as string;
-		}
-
-		public static string GetMatchType(System.Attribute attribute)
-		{
-			object matchEnum = Reflect.GetPropertyValue( attribute, "MatchType" );
-			return matchEnum != null ? matchEnum.ToString() : null;
-		}
-
-		public static string GetUserMessage(System.Attribute attribute)
-		{
-			return Reflect.GetPropertyValue( attribute, "UserMessage" ) as string;
 		}
 		#endregion
 
@@ -306,47 +255,6 @@ namespace NUnit.Core
 			test.Categories = categories;
 			test.Properties = properties;
         }
-		#endregion
-
-		#region ApplyExpectedExceptionAttribute
-		// TODO: Handle this with a separate ExceptionProcessor object
-		public static void ApplyExpectedExceptionAttribute(MethodInfo method, TestMethod testMethod)
-		{
-			Attribute attribute = Reflect.GetAttribute(
-                method, NUnitFramework.ExpectedExceptionAttribute, false );
-
-			if (attribute != null)
-			{
-				testMethod.ExceptionExpected = true;
-
-				Type expectedExceptionType = GetExceptionType( attribute );
-				string expectedExceptionName = GetExceptionName( attribute );
-				if ( expectedExceptionType != null )
-					testMethod.ExpectedExceptionType = expectedExceptionType;
-				else if ( expectedExceptionName != null )
-					testMethod.ExpectedExceptionName = expectedExceptionName;
-				
-				testMethod.ExpectedMessage = GetExpectedMessage( attribute );
-				testMethod.MatchType = GetMatchType( attribute );
-				testMethod.UserMessage = GetUserMessage( attribute );
-
-				string handlerName = GetHandler( attribute );
-				if ( handlerName == null )
-					testMethod.ExceptionHandler = GetDefaultExceptionHandler( testMethod.FixtureType );
-				else
-				{
-					MethodInfo handler = GetExceptionHandler( testMethod.FixtureType, handlerName );
-					if ( handler != null )
-						testMethod.ExceptionHandler = handler;
-					else
-					{
-						testMethod.RunState = RunState.NotRunnable;
-						testMethod.IgnoreReason = string.Format( 
-							"The specified exception handler {0} was not found", handlerName );
-					}
-				}
-			}
-		}
 		#endregion
 
 		#region GetAssertCount
