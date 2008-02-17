@@ -10,15 +10,17 @@ using NUnit.Framework;
 namespace NUnit.TestData.TestFixtureExtension
 {
 	[TestFixture]
-	public abstract class BaseTestFixture : NUnit.Framework.TestCase
+	public abstract class BaseTestFixture
 	{
 		public bool baseSetup = false;
 		public bool baseTeardown = false;
 
-		protected override void SetUp()
+        [SetUp]
+		public void SetUp()
 		{ baseSetup = true; }
 
-		protected override void TearDown()
+        [TearDown]
+		public void TearDown()
 		{ baseTeardown = true; }
 	}
 
@@ -27,7 +29,7 @@ namespace NUnit.TestData.TestFixtureExtension
 		[Test]
 		public void Success()
 		{
-			Assert(true);
+			Assert.IsTrue(true);
 		}
 	}
 
@@ -42,7 +44,7 @@ namespace NUnit.TestData.TestFixtureExtension
 		[Test]
 		public void Success()
 		{
-			Assert(true);
+			Assert.IsTrue(true);
 		}
 	}
 }
