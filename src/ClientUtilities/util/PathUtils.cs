@@ -145,11 +145,9 @@ namespace NUnit.Util
 
 			// if lengths are the same, check for equality
 			if ( length1 == length2 )
-				//return path1.ToLower() == path2.ToLower();
 				return string.Compare( path1, path2, IsWindows() ) == 0;
 
 			// path 2 is longer than path 1: see if initial parts match
-			//if ( path1.ToLower() != path2.Substring( 0, length1 ).ToLower() )
 			if ( string.Compare( path1, path2.Substring( 0, length1 ), IsWindows() ) != 0 )
 				return false;
 			
