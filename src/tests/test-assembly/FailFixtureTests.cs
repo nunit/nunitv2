@@ -19,12 +19,6 @@ namespace NUnit.TestData.FailFixture
 		{
 			Assert.Fail(failureMessage);
 		}
-
-		[Test]
-		public void CallAssertionFail()
-		{
-			Assertion.Fail(failureMessage);
-		}
 	}
 
 	[TestFixture]
