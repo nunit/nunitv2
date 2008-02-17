@@ -1,0 +1,420 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "nunit.framework"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "NUnit.Framework"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = "bin\Debug\nunit.framework.xml"
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "true"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\Debug\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = "bin\Release\nunit.framework.xml"
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "AssemblyInfo.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Assert.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Assert.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AssertionException.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\AssertionException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AssertionHelper.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\AssertionHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CategoryAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\CategoryAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CollectionAssert.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\CollectionAssert.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CommonAssemblyInfo.cs"
+                    Link = "..\..\..\..\src\CommonAssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DescriptionAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\DescriptionAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExpectedExceptionAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\ExpectedExceptionAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExplicitAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\ExplicitAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FileAssert.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\FileAssert.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "GlobalSettings.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\GlobalSettings.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IExpectException.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\IExpectException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IgnoreAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\IgnoreAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IgnoreException.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\IgnoreException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IncludeExcludeAttributes.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\IncludeExcludeAttributes.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "PropertyAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\PropertyAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SetCultureAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\SetCultureAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SetUpAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\SetUpAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SetUpFixtureAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\SetUpFixtureAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "StringAssert.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\StringAssert.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SuiteAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\SuiteAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TearDownAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\TearDownAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\TestAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestFixtureAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\TestFixtureAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestFixtureSetUpAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\TestFixtureSetUpAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestFixtureTearDownAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\TestFixtureTearDownAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TextMessageWriter.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\TextMessageWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\BinaryOperations.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\BinaryOperations.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\CollectionConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\CollectionConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\ComparisonConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ComparisonConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\Constraint.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\Constraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\ConstraintBuilder.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\ContainsConstraint.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ContainsConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\EmptyConstraint.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\EmptyConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\EqualConstraint.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\EqualConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\MessageWriter.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\MessageWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\MsgUtils.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\MsgUtils.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\Numerics.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\Numerics.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\PathConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\PathConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\PrefixConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\PrefixConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\PropertyConstraint.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\PropertyConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\SameAsConstraint.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\SameAsConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\StringConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\StringConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\TypeConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\TypeConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\CSharp\Has.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Has.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\CSharp\Is.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Is.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\CSharp\List.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\List.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\CSharp\ListMapper.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\ListMapper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\CSharp\Text.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Text.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SyntaxHelpers\Has.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\Has.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SyntaxHelpers\Is.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\Is.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SyntaxHelpers\List.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\List.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SyntaxHelpers\ListMapper.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\ListMapper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SyntaxHelpers\Text.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\Text.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+

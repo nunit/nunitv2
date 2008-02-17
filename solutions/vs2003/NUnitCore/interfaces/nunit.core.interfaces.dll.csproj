@@ -1,0 +1,342 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{435428F8-5995-4CE4-8022-93D595A8CC0F}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "nunit.core.interfaces"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "NUnit.Core"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = "bin\Debug\nunit.core.interfaces.xml"
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\Debug\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = "bin\Release\nunit.core.interfaces.xml"
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "AssemblyInfo.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CommonAssemblyInfo.cs"
+                    Link = "..\..\..\..\src\CommonAssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "EventListener.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\EventListener.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IService.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\IService.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ITest.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\ITest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ITestFilter.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\ITestFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ResultState.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\ResultState.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ResultVisitor.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\ResultVisitor.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RunState.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\RunState.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RuntimeFramework.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\RuntimeFramework.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Test.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Test.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestAssemblyInfo.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestAssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestCaseResult.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestCaseResult.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestFilter.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestID.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestID.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestInfo.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestName.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestName.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestNode.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestNode.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestOutput.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestOutput.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestPackage.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestPackage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestResult.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestResult.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestRunner.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestRunner.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestSuiteResult.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestSuiteResult.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\Addin.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\Addin.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\AddinStatus.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\AddinStatus.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\ExtensionType.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\ExtensionType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\IAddin.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\IAddin.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\IAddinRegistry.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\IAddinRegistry.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\IExtensionHost.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\IExtensionHost.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\IExtensionPoint.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\IExtensionPoint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\IFrameworkRegistry.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\IFrameworkRegistry.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\ISuiteBuilder.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\ISuiteBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\ITestCaseBuilder.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\ITestCaseBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\ITestDecorator.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\ITestDecorator.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\NUnitAddinAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\NUnitAddinAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\TestFramework.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\TestFramework.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filters\AndFilter.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Filters\AndFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filters\CategoryFilter.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Filters\CategoryFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filters\NameFilter.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Filters\NameFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filters\NotFilter.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Filters\NotFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filters\OrFilter.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Filters\OrFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Filters\SimpleNameFilter.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Filters\SimpleNameFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+

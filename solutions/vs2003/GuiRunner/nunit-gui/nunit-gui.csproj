@@ -1,0 +1,347 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "nunit-gui-runner"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "NUnit.Gui"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE;NUNIT_LEAKAGE_TEST"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "true"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "false"
+                    OutputPath = "bin\Debug\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
+                    Optimize = "true"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
+                />
+                <Reference
+                    Name = "System.Windows.Forms"
+                    AssemblyName = "System.Windows.Forms"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Windows.Forms.dll"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "E:\WINNT\Microsoft.NET\Framework\v1.0.3705\System.Drawing.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "E:\WINNT\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "E:\WINNT\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
+                />
+                <Reference
+                    Name = "nunit.uikit.dll"
+                    Project = "{27531BBF-183D-4C3A-935B-D840B9F1A3A4}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.util.dll"
+                    Project = "{61CE9CE5-943E-44D4-A381-814DC1406767}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.core.interfaces.dll"
+                    Project = "{435428F8-5995-4CE4-8022-93D595A8CC0F}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "log4net"
+                    AssemblyName = "log4net"
+                    HintPath = "..\..\..\..\lib\log4net.dll"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "AboutBox.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\AboutBox.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AboutBox.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\AboutBox.resx"
+                    DependentUpon = "AboutBox.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "AddinDialog.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\AddinDialog.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AddinDialog.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\AddinDialog.resx"
+                    DependentUpon = "AddinDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "AppEntry.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\AppEntry.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AssemblyInfo.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\AssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CommonAssemblyInfo.cs"
+                    Link = "..\..\..\..\src\CommonAssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "DetailResults.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\DetailResults.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExceptionDetailsForm.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\ExceptionDetailsForm.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExceptionDetailsForm.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\ExceptionDetailsForm.resx"
+                    DependentUpon = "ExceptionDetailsForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "GuiOptions.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\GuiOptions.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Logo.ico"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\Logo.ico"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "NUnitForm.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\NUnitForm.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NUnitForm.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\NUnitForm.resx"
+                    DependentUpon = "NUnitForm.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "OptionsDialog.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\OptionsDialog.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OptionsDialog.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\OptionsDialog.resx"
+                    DependentUpon = "OptionsDialog.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "ProjectEditor.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\ProjectEditor.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProjectEditor.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\ProjectEditor.resx"
+                    DependentUpon = "ProjectEditor.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\AdvancedLoaderSettingsPage.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\AdvancedLoaderSettingsPage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\AdvancedLoaderSettingsPage.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\AdvancedLoaderSettingsPage.resx"
+                    DependentUpon = "AdvancedLoaderSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\AssemblyReloadSettingsPage.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\AssemblyReloadSettingsPage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\AssemblyReloadSettingsPage.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\AssemblyReloadSettingsPage.resx"
+                    DependentUpon = "AssemblyReloadSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\GuiSettingsPage.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\GuiSettingsPage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\GuiSettingsPage.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\GuiSettingsPage.resx"
+                    DependentUpon = "GuiSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\TestLoaderSettingsPage.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\TestLoaderSettingsPage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\TestLoaderSettingsPage.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\TestLoaderSettingsPage.resx"
+                    DependentUpon = "TestLoaderSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\TestResultSettingsPage.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\TestResultSettingsPage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\TestResultSettingsPage.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\TestResultSettingsPage.resx"
+                    DependentUpon = "TestResultSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\TreeSettingsPage.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\TreeSettingsPage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\TreeSettingsPage.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\TreeSettingsPage.resx"
+                    DependentUpon = "TreeSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\VisualStudioSettingsPage.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\VisualStudioSettingsPage.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\VisualStudioSettingsPage.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\VisualStudioSettingsPage.resx"
+                    DependentUpon = "VisualStudioSettingsPage.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\OldTabPages\GeneralSettingsTab.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\GeneralSettingsTab.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\OldTabPages\GeneralSettingsTab.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\GeneralSettingsTab.resx"
+                    DependentUpon = "GeneralSettingsTab.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\OldTabPages\TestLoaderSettingsTab.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestLoaderSettingsTab.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\OldTabPages\TestLoaderSettingsTab.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestLoaderSettingsTab.resx"
+                    DependentUpon = "TestLoaderSettingsTab.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "SettingsPages\OldTabPages\TestOutputSettingsTab.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestOutputSettingsTab.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SettingsPages\OldTabPages\TestOutputSettingsTab.resx"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestOutputSettingsTab.resx"
+                    DependentUpon = "TestOutputSettingsTab.cs"
+                    BuildAction = "EmbeddedResource"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+

@@ -1,0 +1,236 @@
+<VisualStudioProject>
+    <CSHARP
+        ProjectType = "Local"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}"
+    >
+        <Build>
+            <Settings
+                ApplicationIcon = ""
+                AssemblyKeyContainerName = ""
+                AssemblyName = "test-assembly"
+                AssemblyOriginatorKeyFile = ""
+                DefaultClientScript = "JScript"
+                DefaultHTMLPageLayout = "Grid"
+                DefaultTargetSchema = "IE50"
+                DelaySign = "false"
+                OutputType = "Library"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
+                RootNamespace = "NUnit.TestData"
+                RunPostBuildEvent = "OnBuildSuccess"
+                StartupObject = ""
+            >
+                <Config
+                    Name = "Debug"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "DEBUG;TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "true"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = "618,672"
+                    Optimize = "false"
+                    OutputPath = "bin\Debug\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+                <Config
+                    Name = "Release"
+                    AllowUnsafeBlocks = "false"
+                    BaseAddress = "285212672"
+                    CheckForOverflowUnderflow = "false"
+                    ConfigurationOverrideFile = ""
+                    DefineConstants = "TRACE"
+                    DocumentationFile = ""
+                    DebugSymbols = "false"
+                    FileAlignment = "4096"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = "618,672"
+                    Optimize = "true"
+                    OutputPath = "bin\Release\"
+                    RegisterForComInterop = "false"
+                    RemoveIntegerChecks = "false"
+                    TreatWarningsAsErrors = "false"
+                    WarningLevel = "4"
+                />
+            </Settings>
+            <References>
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
+                />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
+                <Reference
+                    Name = "System.XML"
+                    AssemblyName = "System.Xml"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+                <Reference
+                    Name = "nunit.framework.dll"
+                    Project = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.core.dll"
+                    Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.framework.extensions.dll"
+                    Project = "{486C498D-B9F8-477F-ACA7-CED9245BBFCF}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.core.interfaces.dll"
+                    Project = "{435428F8-5995-4CE4-8022-93D595A8CC0F}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+            </References>
+        </Build>
+        <Files>
+            <Include>
+                <File
+                    RelPath = "AttributeDescriptionTests.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\AttributeDescriptionTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "AttributeInheritance.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\AttributeInheritance.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CategoryAttributeTests.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\CategoryAttributeTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CommonAssemblyInfo.cs"
+                    Link = "..\..\..\..\src\CommonAssemblyInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ConsoleRunnerTest.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\ConsoleRunnerTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CultureAttributeTests.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\CultureAttributeTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ExpectExceptionTest.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\ExpectExceptionTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FailFixtureTests.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\FailFixtureTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "FixtureSetUpTearDownTests.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\FixtureSetUpTearDownTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IgnoreFixtureTests.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\IgnoreFixtureTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "PropertyAttributeTests.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\PropertyAttributeTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RepeatedTestFixtureTests.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\RepeatedTestFixtureTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SetupFixtureTests.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\SetupFixtureTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SetUpTest.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\SetUpTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "SuiteBuilderTests.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\SuiteBuilderTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestCaseTest.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\TestCaseTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestData.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\TestData.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestFixtureBuilderTests.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\TestFixtureBuilderTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestFixtureExtensionTests.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\TestFixtureExtensionTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestFixtureTests.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\TestFixtureTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "UnhandledExceptions.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\UnhandledExceptions.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+            </Include>
+        </Files>
+    </CSHARP>
+</VisualStudioProject>
+
