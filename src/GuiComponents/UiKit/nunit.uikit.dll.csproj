@@ -404,11 +404,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TextDisplayTabPage.resx"
-                    DependentUpon = "TextDisplayTabPage.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
                     RelPath = "TextDisplayTabSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
