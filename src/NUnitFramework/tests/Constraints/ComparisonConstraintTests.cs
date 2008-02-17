@@ -8,25 +8,25 @@ using System;
 
 namespace NUnit.Framework.Constraints.Tests
 {
-	public class ComparisonConstraintTestBase : ConstraintTestBase
-	{
-		[Test,ExpectedException(typeof(ArgumentException))]
-		public void NullGivesError()
-		{
-			Assert.That( null, Matcher );
-		}
+    public class ComparisonConstraintTestBase : ConstraintTestBase
+    {
+        [Test,ExpectedException(typeof(ArgumentException))]
+        public void NullGivesError()
+        {
+            Assert.That( null, Matcher );
+        }
 
-		[Test,ExpectedException]
-		public void BadTypeGivesError()
-		{
-			Assert.That( "big", Matcher );
-		}
-	}
+        [Test,ExpectedException]
+        public void BadTypeGivesError()
+        {
+            Assert.That( "big", Matcher );
+        }
+    }
 
     [TestFixture]
     public class GreaterThanTest : ComparisonConstraintTestBase
     {
-		[SetUp]
+        [SetUp]
         public void SetUp()
         {
             Matcher = new GreaterThanConstraint(5);
@@ -39,7 +39,7 @@ namespace NUnit.Framework.Constraints.Tests
     [TestFixture]
     public class GreaterThanOrEqualTest : ComparisonConstraintTestBase
     {
-		[SetUp]
+        [SetUp]
         public void SetUp()
         {
             Matcher = new GreaterThanOrEqualConstraint(5);
@@ -52,7 +52,7 @@ namespace NUnit.Framework.Constraints.Tests
     [TestFixture]
     public class LessThanTest : ComparisonConstraintTestBase
     {
-		[SetUp]
+        [SetUp]
         public void SetUp()
         {
             Matcher = new LessThanConstraint(5);
@@ -65,7 +65,7 @@ namespace NUnit.Framework.Constraints.Tests
     [TestFixture]
     public class LessThanOrEqualTest : ComparisonConstraintTestBase
     {
-		[SetUp]
+        [SetUp]
         public void SetUp()
         {
             Matcher = new LessThanOrEqualConstraint(5);

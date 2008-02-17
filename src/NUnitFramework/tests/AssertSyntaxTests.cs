@@ -7,7 +7,7 @@
 using System;
 using System.Collections;
 using NUnit.Framework.Constraints;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Framework.Tests
 {
@@ -672,6 +672,27 @@ namespace NUnit.Framework.Tests
 			Expect(new int[] { 1, 3, 5 }, SubsetOf(ints1to5));
 			Expect(new int[] { 1, 2, 3, 4, 5 }, SubsetOf(ints1to5));
 			Expect(new int[] { 2, 4, 6 }, Not.SubsetOf(ints1to5));
+		}
+		#endregion
+
+		#region PathConstraint Tests
+		[Test]
+		public void PathConstraintTests()
+		{
+			Assert.That( "/folder1/./junk/../folder2", 
+				Is.SamePathAs( "/Folder1/Folder2" ) );
+			Assert.That( "/folder1/./junk/../folder2/x", 
+				Is.Not.SamePathAs( "/Folder1/Folder2" ) );
+			
+			Assert.That( "/folder1/./junk/../folder2", 
+				Is.SubPathOf( "/Folder1/Folder2" ) );
+			Assert.That( "/folder1/junk/../folder2/./folder3",
+				Is.SubPathOf( "/Folder1/Folder2" ) );
+			Assert.That( "/folder1/junk/folder2/folder3",
+				Is.Not.SubPathOf( "/Folder1/Folder2" ) );
+
+			Assert.That( "/folder1/./junk/../folder2", 
+				Is.Not.SubPathOf( "/Folder1/Folder2", false ) );
 		}
 		#endregion
 

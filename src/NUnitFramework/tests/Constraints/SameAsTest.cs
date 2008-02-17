@@ -4,14 +4,12 @@
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
 
-using System;
-
 namespace NUnit.Framework.Constraints.Tests
 {
     [TestFixture]
     public class SameAsTest : ConstraintTestBase
     {
-		[SetUp]
+        [SetUp]
         public void SetUp()
         {
             object obj1 = new object();

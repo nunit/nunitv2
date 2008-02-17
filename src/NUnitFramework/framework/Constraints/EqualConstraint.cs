@@ -6,10 +6,7 @@
 
 using System;
 using System.IO;
-using System.Text;
-
 using System.Collections;
-using System.Reflection;
 
 namespace NUnit.Framework.Constraints
 {
@@ -21,7 +18,7 @@ namespace NUnit.Framework.Constraints
     {
         private static IDictionary constraintHelpers = new Hashtable();
 
-        private object expected;
+        private readonly object expected;
 
         private ArrayList failurePoints;
 
@@ -46,7 +43,7 @@ namespace NUnit.Framework.Constraints
 		
         #region Constructor
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:EqualConstraint"/> class.
+        /// Initializes a new instance of the <see cref="EqualConstraint"/> class.
         /// </summary>
         /// <param name="expected">The expected value.</param>
         public EqualConstraint(object expected)

@@ -6,7 +6,7 @@
 
 using System;
 using System.Collections;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework.Syntax.CSharp;
 using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework

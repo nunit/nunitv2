@@ -114,16 +114,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AssertExtensionTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "AssertionTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "AssertSyntaxTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -151,11 +141,6 @@
                 />
                 <File
                     RelPath = "EqualsFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "FailureMessageFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -191,11 +176,6 @@
                 />
                 <File
                     RelPath = "MessageChecker.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MsgUtilTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -276,12 +256,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\MsgUtilTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\NotTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Constraints\OrTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\PathConstraintTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

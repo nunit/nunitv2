@@ -4,33 +4,31 @@
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
 
-using System;
-
 namespace NUnit.Framework.Constraints.Tests
 {
     [TestFixture]
     public class ExactTypeTest : ConstraintTestBase
     {
-		[SetUp]
+        [SetUp]
         public void SetUp()
         {
             Matcher = new ExactTypeConstraint(typeof(D1));
             GoodValues = new object[] { new D1() };
             BadValues = new object[] { new B(), new D2() };
-            Description = "<NUnit.Framework.Constraints.Tests.D1>";
+            Description = string.Format("<{0}>", typeof(D1));
         }
     }
 
     [TestFixture]
     public class InstanceOfTypeTest : ConstraintTestBase
     {
-		[SetUp]
+        [SetUp]
         public void SetUp()
         {
             Matcher = new InstanceOfTypeConstraint(typeof(D1));
             GoodValues = new object[] { new D1(), new D2() };
             BadValues = new object[] { new B() };
-            Description = "instance of <NUnit.Framework.Constraints.Tests.D1>";
+            Description = string.Format("instance of <{0}>", typeof(D1));
         }
     }
 
@@ -43,11 +41,13 @@ namespace NUnit.Framework.Constraints.Tests
             Matcher = new AssignableFromConstraint(typeof(D1));
             GoodValues = new object[] { new D1(), new B() };
             BadValues = new object[] { new D2() };
-            Description = "Type assignable from <NUnit.Framework.Constraints.Tests.D1>";
+            Description = string.Format("Type assignable from <{0}>", typeof(D1));
         }
     }
 
     class B { }
+
     class D1 : B { }
+
     class D2 : D1 { }
 }

@@ -9,7 +9,7 @@ using System.IO;
 using System.Collections;
 using NUnit.Framework.Constraints;
 
-namespace NUnit.Framework
+namespace NUnit.Framework.Constraints
 {
 	/// <summary>
 	/// MessageWriter is the abstract base for classes that write

@@ -11,7 +11,7 @@ namespace NUnit.Framework.Constraints.Tests
     [TestFixture]
     public class EmptyTest : ConstraintTestBase
     {
-		[SetUp]
+        [SetUp]
         public void SetUp()
         {
             Matcher = new EmptyConstraint();
@@ -20,10 +20,10 @@ namespace NUnit.Framework.Constraints.Tests
             Description = "<empty>";
         }
 
-		[Test,ExpectedException(typeof(ArgumentException))]
-		public void NullGivesArgumentException()
-		{
-			Matcher.Matches(null);
-		}
+        [Test,ExpectedException(typeof(ArgumentException))]
+        public void NullGivesArgumentException()
+        {
+            Matcher.Matches(null);
+        }
     }
 }

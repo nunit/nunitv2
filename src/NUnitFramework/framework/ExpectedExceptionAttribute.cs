@@ -61,31 +61,31 @@ namespace NUnit.Framework
 			this.expectedExceptionName = exceptionName;
 		}
 
-		/// <summary>
-		/// Constructor for a given type of exception and expected message text
-		/// </summary>
-		/// <param name="exceptionType">The type of the expected exception</param>
-		/// <param name="expectedMessage">The expected message text</param>
-        [Obsolete("Use named parameter format 'ExpectedMessage=...'", false)]
-        public ExpectedExceptionAttribute(Type exceptionType, string expectedMessage)
-            : this(exceptionType)
-        {
-            this.expectedMessage = expectedMessage;
-            this.matchType = MessageMatch.Exact;
-        }
+//		/// <summary>
+//		/// Constructor for a given type of exception and expected message text
+//		/// </summary>
+//		/// <param name="exceptionType">The type of the expected exception</param>
+//		/// <param name="expectedMessage">The expected message text</param>
+//        [Obsolete("Use named parameter format 'ExpectedMessage=...'", false)]
+//        public ExpectedExceptionAttribute(Type exceptionType, string expectedMessage)
+//            : this(exceptionType)
+//        {
+//            this.expectedMessage = expectedMessage;
+//            this.matchType = MessageMatch.Exact;
+//        }
 
-		/// <summary>
-		/// Constructor for a given exception name and expected message text
-		/// </summary>
-		/// <param name="exceptionName">The full name of the expected exception</param>
-		/// <param name="expectedMessage">The expected messge text</param>
-        [Obsolete("Use named parameter format 'ExpectedMessage=...'", false)]
-        public ExpectedExceptionAttribute(string exceptionName, string expectedMessage)
-            : this(exceptionName)
-        {
-            this.expectedMessage = expectedMessage;
-            this.matchType = MessageMatch.Exact;
-        }
+//		/// <summary>
+//		/// Constructor for a given exception name and expected message text
+//		/// </summary>
+//		/// <param name="exceptionName">The full name of the expected exception</param>
+//		/// <param name="expectedMessage">The expected messge text</param>
+//        [Obsolete("Use named parameter format 'ExpectedMessage=...'", false)]
+//        public ExpectedExceptionAttribute(string exceptionName, string expectedMessage)
+//            : this(exceptionName)
+//        {
+//            this.expectedMessage = expectedMessage;
+//            this.matchType = MessageMatch.Exact;
+//        }
 
 		/// <summary>
 		/// Gets or sets the expected exception type

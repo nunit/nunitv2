@@ -84,11 +84,6 @@
         <Files>
             <Include>
                 <File
-                    RelPath = "AbstractAsserter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "AssemblyInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -99,17 +94,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Assertion.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "AssertionException.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "AssertionFailureMessage.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -155,7 +140,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "IAsserter.cs"
+                    RelPath = "GlobalSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -180,32 +165,12 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "MessageWriter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MsgUtils.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OldTestCase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "PropertyAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
                     RelPath = "SetCultureAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "GlobalSettings.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -300,7 +265,22 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\MessageWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\MsgUtils.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\Numerics.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\PathConstraints.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -326,6 +306,31 @@
                 />
                 <File
                     RelPath = "Constraints\TypeConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\CSharp\Has.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\CSharp\Is.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\CSharp\List.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\CSharp\ListMapper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\CSharp\Text.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

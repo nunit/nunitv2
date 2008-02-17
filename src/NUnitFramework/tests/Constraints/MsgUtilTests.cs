@@ -4,9 +4,7 @@
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
 
-using System;
-
-namespace NUnit.Framework.Tests
+namespace NUnit.Framework.Constraints.Tests
 {
 	/// <summary>
 	/// Summary description for MsgUtilTests.

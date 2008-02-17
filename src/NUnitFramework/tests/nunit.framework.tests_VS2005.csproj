@@ -67,12 +67,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ArrayNotEqualFixture.cs" />
-    <Compile Include="AssertExtensionTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="AssertionTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="CollectionAdapter.cs" />
     <Compile Include="CollectionAssertTest.cs" />
     <Compile Include="ConditionAssertTests.cs" />
@@ -82,16 +76,15 @@
     <Compile Include="Constraints\ConstraintTestBase.cs" />
     <Compile Include="Constraints\EmptyTest.cs" />
     <Compile Include="Constraints\EqualTest.cs" />
+    <Compile Include="Constraints\MsgUtilTests.cs" />
     <Compile Include="Constraints\NotTest.cs" />
     <Compile Include="Constraints\OrTest.cs" />
+    <Compile Include="Constraints\PathConstraintTests.cs" />
     <Compile Include="Constraints\SameAsTest.cs" />
     <Compile Include="Constraints\StringConstraintTests.cs" />
     <Compile Include="AssertSyntaxTests.cs" />
     <Compile Include="Constraints\TypeConstraintTests.cs" />
     <Compile Include="EqualsFixture.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FailureMessageFixture.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FileAssertTests.cs" />
@@ -101,8 +94,6 @@
     <Compile Include="LessFixture.cs" />
     <Compile Include="ListContentsTests.cs" />
     <Compile Include="MessageChecker.cs" />
-    <Compile Include="TextMessageWriterTests.cs" />
-    <Compile Include="MsgUtilTests.cs" />
     <Compile Include="NotEqualFixture.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -113,6 +104,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="StringAssertTests.cs" />
+    <Compile Include="TextMessageWriterTests.cs" />
     <Compile Include="TypeAssertTest.cs" />
     <None Include="..\..\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>

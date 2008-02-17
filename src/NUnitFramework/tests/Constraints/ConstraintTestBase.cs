@@ -4,9 +4,7 @@
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
 
-using System;
-
-namespace NUnit.Framework.Constraints.Tests
+namespace NUnit.Framework.Constraints
 {
     public abstract class ConstraintTestBase
     {
@@ -16,14 +14,14 @@ namespace NUnit.Framework.Constraints.Tests
         protected string Description;
 
         [Test]
-		public void SucceedsOnGoodValues()
+        public void SucceedsOnGoodValues()
         {
             foreach (object value in GoodValues)
                 Assert.That(value, Matcher, "Test should succeed with {0}", value);
         }
 
         [Test]
-		public void FailsOnBadValues()
+        public void FailsOnBadValues()
         {
             foreach (object value in BadValues)
             {
@@ -31,7 +29,7 @@ namespace NUnit.Framework.Constraints.Tests
             }
         }
 
-		[Test]
+        [Test]
         public void ProvidesProperDescription()
         {
             TextMessageWriter writer = new TextMessageWriter();
@@ -39,17 +37,17 @@ namespace NUnit.Framework.Constraints.Tests
             Assert.That(writer.ToString(), new EqualConstraint(Description), null);
         }
 
-		[Test]
+        [Test]
         public void ProvidesProperFailureMessage()
         {
-			object badValue = BadValues[0];
-			string badString = badValue == null ? "null" : badValue.ToString();
+            object badValue = BadValues[0];
+            string badString = badValue == null ? "null" : badValue.ToString();
 
-			TextMessageWriter writer = new TextMessageWriter();
+            TextMessageWriter writer = new TextMessageWriter();
             Matcher.Matches(badValue);
             Matcher.WriteMessageTo(writer);
             Assert.That(writer.ToString(), new SubstringConstraint(Description));
-			Assert.That(writer.ToString(), new SubstringConstraint(badString));
+            Assert.That(writer.ToString(), new SubstringConstraint(badString));
             Assert.That(writer.ToString(), new NotConstraint(new SubstringConstraint("<UNSET>")));
         }
     }

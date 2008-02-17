@@ -4,9 +4,8 @@
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
 
-using System;
-using System.IO;
 using System.Collections;
+using System.Collections.Specialized;
 
 namespace NUnit.Framework.Constraints
 {
@@ -40,6 +39,15 @@ namespace NUnit.Framework.Constraints
         protected static object UNSET = new UnsetObject();
 
 		/// <summary>
+		/// Dictionary containing property values set by individual constraints
+		/// and used by them in evaluating the match and/or reporting results.
+		/// 
+		/// The following properties are currently defined:
+		///   PathConstraint_IsWindows
+		/// </summary>
+		protected ListDictionary properties = new System.Collections.Specialized.ListDictionary();
+
+		/// <summary>
 		/// If true, all string comparisons will ignore case
 		/// </summary>
 		protected bool caseInsensitive;
@@ -65,6 +73,21 @@ namespace NUnit.Framework.Constraints
         /// IComparer object used in comparisons for some constraints.
         /// </summary>
         protected IComparer compareWith;
+
+		/// <summary>
+		/// True if paths are to be treated as Windows paths.
+		/// </summary>
+		protected bool treatAsWindows = System.IO.Path.DirectorySeparatorChar == '\\';
+
+		/// <summary>
+		/// The directory separator used in working with paths
+		/// </summary>
+		protected char directorySeparatorChar = System.IO.Path.DirectorySeparatorChar;
+		
+		/// <summary>
+		/// The alternate separator used in working with paths
+		/// </summary>
+		protected char altDirectorySeparatorChar = System.IO.Path.AltDirectorySeparatorChar;
 
 		/// <summary>
         /// The actual value being tested against a constraint
@@ -133,6 +156,28 @@ namespace NUnit.Framework.Constraints
             this.compareWith = comparer;
             return this;
         }
+
+		public Constraint AsWindows
+		{
+			get 
+			{ 
+				treatAsWindows = true;
+				directorySeparatorChar = '\\';
+				altDirectorySeparatorChar = '/';
+				return this; 
+			}
+		}
+
+		public Constraint AsLinux
+		{
+			get 
+			{
+				treatAsWindows = false; 
+				directorySeparatorChar = '/';
+				altDirectorySeparatorChar = '\\';
+				return this; 
+			}
+		}
 		#endregion
 
 		#region Public Methods

@@ -13,7 +13,7 @@ namespace NUnit.Framework.Constraints.Tests
     [TestFixture]
     public class EqualTest : ConstraintTestBase, IExpectException
     {
-		[SetUp]
+        [SetUp]
         public void SetUp()
         {
             Matcher = new EqualConstraint( 4 );
@@ -28,7 +28,7 @@ namespace NUnit.Framework.Constraints.Tests
             Assert.That( "abcdgfe", new EqualConstraint( "abcdefg" ) );
         }
 
-        static string testString = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        static readonly string testString = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         [Test, ExpectedException(typeof(AssertionException))]
         public void LongStringsAreTruncated()
@@ -63,22 +63,22 @@ namespace NUnit.Framework.Constraints.Tests
             Assert.That(double.NaN, new EqualConstraint(double.NaN));
         }
 
-		[Test]
-		public void CanCompareDates()
-		{
-			DateTime expected = new DateTime( 2007, 4, 1 );
-			DateTime actual = new DateTime( 2007, 4, 1 );
-			Assert.That( actual, new EqualConstraint( expected ));
-		}
+        [Test]
+        public void CanCompareDates()
+        {
+            DateTime expected = new DateTime( 2007, 4, 1 );
+            DateTime actual = new DateTime( 2007, 4, 1 );
+            Assert.That( actual, new EqualConstraint( expected ));
+        }
 
-		[Test]
-		public void CanCompareDatesWithinTolerance()
-		{
-			DateTime expected = new DateTime( 2007, 4, 1, 13, 0, 0 );
-			DateTime actual = new DateTime( 2007, 4, 1, 13, 1, 0 );
-			TimeSpan tolerance = TimeSpan.FromMinutes( 5.0 );
-			Assert.That( actual, new EqualConstraint( expected ).Within( tolerance ));
-		}
+        [Test]
+        public void CanCompareDatesWithinTolerance()
+        {
+            DateTime expected = new DateTime( 2007, 4, 1, 13, 0, 0 );
+            DateTime actual = new DateTime( 2007, 4, 1, 13, 1, 0 );
+            TimeSpan tolerance = TimeSpan.FromMinutes( 5.0 );
+            Assert.That( actual, new EqualConstraint( expected ).Within( tolerance ));
+        }
 
 //        [Test]
 //        public void NamedAndUnnamedColorsCompareAsEqual()
@@ -91,7 +91,7 @@ namespace NUnit.Framework.Constraints.Tests
         public void HandleException(Exception ex)
         {
             StringReader rdr = new StringReader(ex.Message);
-            string report = rdr.ReadLine();
+            /* skip */ rdr.ReadLine();
             string expected = rdr.ReadLine();
             if (expected != null && expected.Length > 11)
                 expected = expected.Substring(11);
@@ -110,7 +110,7 @@ namespace NUnit.Framework.Constraints.Tests
                 if (caret > minLength ||
                     expected.Substring(0, minMatch) != actual.Substring(0, minMatch) ||
                     expected[caret] == actual[caret])
-                Assert.Fail("Message Error: Caret does not point at first mismatch..." + Environment.NewLine + ex.Message);
+                    Assert.Fail("Message Error: Caret does not point at first mismatch..." + Environment.NewLine + ex.Message);
             }
 
             if (expected.Length > 68 || actual.Length > 68 || caret > 68)
@@ -134,7 +134,7 @@ namespace NUnit.Framework.Constraints.Tests
 
             public override void WriteDescriptionTo(MessageWriter writer)
             {
-                writer.WriteExpectedValue( "same color as " + expectedColor.ToString());
+                writer.WriteExpectedValue( "same color as " + expectedColor );
             }
         }
 

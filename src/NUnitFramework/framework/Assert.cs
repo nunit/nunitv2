@@ -8,7 +8,7 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using NUnit.Framework.Constraints;
-using NUnit.Framework.SyntaxHelpers;
+using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Framework
 {
@@ -2143,23 +2143,6 @@ namespace NUnit.Framework
 		#endregion
 
 		#region DoAssert
-
-		/// <summary>
-		/// NOTE: The use of asserters for extending NUnit has
-		/// now been replaced by the use of constraints. This
-		/// method is marked obsolete.
-		/// 
-		/// Test the condition asserted by an asserter and throw
-		/// an assertion exception using provided message on failure.
-		/// </summary>
-		/// <param name="asserter">An object that implements IAsserter</param>
-		[Obsolete("Use Constraints rather than Asserters for new work")]
-		static public void DoAssert( IAsserter asserter )
-		{
-			Assert.IncrementAssertCount();
-			if ( !asserter.Test() )
-				throw new AssertionException( asserter.Message );
-		}
 
 		#endregion
 

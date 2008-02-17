@@ -8,7 +8,7 @@ using System;
 using System.Text;
 using System.Collections;
 
-namespace NUnit.Framework
+namespace NUnit.Framework.Constraints
 {
     /// <summary>
     /// Static methods used in creating messages
