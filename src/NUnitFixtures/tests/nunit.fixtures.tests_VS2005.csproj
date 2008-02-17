@@ -119,7 +119,7 @@
       <Name>nunit.core.tests_VS2005</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll_VS2005.csproj">
-      <Name>nunit.framework.dll</Name>
+      <Name>nunit.framework.dll_VS2005</Name>
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
