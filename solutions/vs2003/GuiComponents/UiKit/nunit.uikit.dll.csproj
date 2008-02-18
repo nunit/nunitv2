@@ -102,7 +102,7 @@
                 <Reference
                     Name = "log4net"
                     AssemblyName = "log4net"
-                    HintPath = "..\..\..\lib\log4net.dll"
+                    HintPath = "..\..\..\..\lib\log4net.dll"
                 />
             </References>
         </Build>
@@ -217,6 +217,7 @@
                 />
                 <File
                     RelPath = "Failure.jpg"
+                    Link = "..\..\..\..\src\GuiComponents\UiKit\Failure.jpg"
                     BuildAction = "Content"
                 />
                 <File
@@ -227,6 +228,7 @@
                 />
                 <File
                     RelPath = "Gray.jpg"
+                    Link = "..\..\..\..\src\GuiComponents\UiKit\Gray.jpg"
                     BuildAction = "Content"
                 />
                 <File
@@ -243,6 +245,7 @@
                 />
                 <File
                     RelPath = "Ignored.jpg"
+                    Link = "..\..\..\..\src\GuiComponents\UiKit\Ignored.jpg"
                     BuildAction = "Content"
                 />
                 <File
@@ -378,6 +381,7 @@
                 />
                 <File
                     RelPath = "Success.jpg"
+                    Link = "..\..\..\..\src\GuiComponents\UiKit\Success.jpg"
                     BuildAction = "Content"
                 />
                 <File
