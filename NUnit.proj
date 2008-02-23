@@ -8,33 +8,33 @@
 	-->
 
 	<PropertyGroup>
-		<MSBuildExtensionsPath>$(MSBuildProjectDirectory)\..\tools\MSBuildExtensions</MSBuildExtensionsPath>
-		<OutputPath>$(MSBuildProjectDirectory)\..\build\net\1.0\Debug\</OutputPath>
+		<MSBuildExtensionsPath>$(MSBuildProjectDirectory)\tools\MSBuildExtensions</MSBuildExtensionsPath>
+		<OutputPath>$(MSBuildProjectDirectory)\build\net\1.0\Debug\</OutputPath>
 		<Properties_v1_0>OutputPath=$(OutputPath);NoWarn=;TargetFrameworkVersion=v1.0;MSBuildExtensionsPath=$(MSBuildExtensionsPath);CustomAfterMicrosoftCommonTargets=$(MSBuildExtensionsPath)\CrossCompile.CSharp.targets</Properties_v1_0>
 		<NUnitConsole>$(OutputPath)nunit-console.exe</NUnitConsole>
 	</PropertyGroup>
 	
 	<Target Name="Clean">
 		<RemoveDir Directories="$(OutputPath)" />
-		<MSBuild Projects="nunit_VS2005.sln" Targets="Clean" Properties="$(Properties_v1_0)" />
+		<MSBuild Projects="solutions\vs2005\nunit.sln" Targets="Clean" Properties="$(Properties_v1_0)" />
 		<Delete Files="TestResult.xml" />
 	</Target>
 	
 	<Target Name="Build">
-		<MSBuild Projects="nunit_VS2005.sln" Targets="Rebuild" Properties="$(Properties_v1_0)" />
+		<MSBuild Projects="solutions\vs2005\nunit.sln" Targets="Rebuild" Properties="$(Properties_v1_0)" />
 	</Target>
 	
 	<Target Name="Test" DependsOnTargets="Build">
 		<Copy SourceFiles="NUnitTests.nunit;NUnitTests.config" DestinationFolder="$(OutputPath)" />
 
 		<Exec Command='set ComPlus_Version=v1.1.4322
-"$(NUnitConsole)" "$(OutputPath)NUnitTests.nunit" "/config=$(OutputPath)NUnitTests.config"' />
+"$(NUnitConsole)" "$(OutputPath)NUnitTests.nunit"' />
 
 		<Exec Command='set ComPlus_Version=v1.0.3705
-"$(NUnitConsole)" "$(OutputPath)NUnitTests.nunit" "/config=$(OutputPath)NUnitTests.config"' />
+"$(NUnitConsole)" "$(OutputPath)NUnitTests.nunit"' />
 
 		<Exec Command='set ComPlus_Version=v2.0.50727
-"$(NUnitConsole)" "$(OutputPath)NUnitTests.nunit" "/config=$(OutputPath)NUnitTests.config"' />
+"$(NUnitConsole)" "$(OutputPath)NUnitTests.nunit"' />
 
 	</Target>
 </Project>

@@ -150,7 +150,7 @@
 
   <target name="clean-source-dirs">
     <delete>
-      <fileset>
+      <fileset basedir="${project.src.dir}">
         <include name="*/*/obj/**/*"/>
         <include name="*/*/bin/**/*"/>
       </fileset>
@@ -173,11 +173,11 @@
     <echo message="*"/>
 
     <!-- Copy key file to base directory, so build can access it -->
-    <copy file="nunit.snk" todir="${project.base.dir}"/>
+<!--    <copy file="${project.src.dir}/nunit.snk" todir="${project.base.dir}"/>-->
 
     <!-- Copy external libraries -->
     <copy todir="${current.build.dir}">
-      <fileset basedir="${project.base.dir}/lib">
+      <fileset basedir="${project.lib.dir}">
         <include name="log4net.dll"/>
       </fileset>
     </copy>
@@ -189,7 +189,7 @@
 
     <!-- Copy files for running tests -->
     <copy todir="${current.build.dir}">
-      <fileset>
+      <fileset basedir="${project.base.dir}">
         <include name="NUnitTests.nunit" />
         <include name="NUnitTests.config" />
         <include name="NUnitFitTests.html" />
@@ -535,7 +535,7 @@
     <call target="copy-src"/>
     <call target="copy-tools" />
 
-    <copy file="../license.txt" todir="${package.working.dir}" />
+    <copy file="license.txt" todir="${package.working.dir}" />
 
     <!-- Create the zip file -->
     <zip  ziplevel="9"
@@ -588,7 +588,7 @@
     </copy>
 
     <copy todir="${package.working.dir}">
-      <fileset basedir="../tools/localization">
+      <fileset basedir="${project.tools.dir}/localization">
         <include name="*.*"/>
       </fileset>
     </copy>
@@ -631,11 +631,13 @@
     <call target="copy-docs" />
     <call target="copy-samples" />
 
-    <copy file="../license.txt" todir="${package.working.dir}" />
-    <copy file="../tools/fit/license.txt"
+    <copy file="license.txt" todir="${package.working.dir}" />
+    <copy file="${project.tools.dir}/fit/license.txt"
           tofile="${package.working.dir}/fit-license.txt" />
-    <copy file="GuiRunner/nunit-gui/Logo.ico" todir="${package.working.dir}" />
-    <copy file="NUnitFitTests.html" todir="${package.bin.dir}" />
+    <copy file="${project.src.dir}/GuiRunner/nunit-gui/Logo.ico"
+          todir="${package.working.dir}" />
+    <copy file="NUnitFitTests.html"
+          todir="${package.bin.dir}" />
 
   </target>
 
@@ -695,31 +697,39 @@
     <delete dir="${package.src.dir}" />
     <mkdir dir="${package.src.dir}"/>
 
-    <!-- Copy top level src files -->
-    <copy todir="${package.src.dir}">
-      <fileset basedir=".">
+    <!-- Copy project top level files -->
+    <copy todir="${package.working.dir}">
+      <fileset basedir="${project.base.dir}">
+        <include name="clr.bat"/>
         <include name="license.rtf"/>
         <include name="nunit.build"/>
         <include name="nunit.build.include"/>
-        <include name="nunit.sln"/>
-        <include name="nunit_VS2005.sln"/>
         <include name="nunit.snk"/>
+        <include name="NUnitFitTests.html"/>
+        <include name="NUnitTests.config"/>
+        <include name="NUnitTests.nunit"/>
+      </fileset>
+    </copy>
+
+    <!-- Copy src dir files -->
+    <copy todir="${package.src.dir}">
+      <fileset basedir="${project.src.dir}">
+        <include name="CommonAssemblyInfo.cs"/>
         <include name="nunit20under21.config"/>
         <include name="nunit20under22.config"/>
         <include name="nunit21under22.config"/>
-        <include name="NUnitBinTests.config"/>
-        <include name="NUnitBinTests.nunit"/>
-        <include name="NUnitDevTests.config"/>
-        <include name="NUnitDevTests.nunit"/>
-        <include name="NUnitFitTests.html"/>
-        <include name="CommonAssemblyInfo.cs"/>
-        <include name="clr.bat"/>
-        <include name="install/bin.wxs" />
-        <include name="install/nunit-gui.wxs" />
-        <include name="install/doc.wxs" />
-        <include name="install/tests.wxs" />
-        <include name="install/samples.wxs" />
-        <include name="install/NUnit.wxs"/>
+      </fileset>
+    </copy>
+
+    <!-- Copy install directory files -->
+    <copy todir="${package.install.dir}">
+      <fileset basedir="${project.install.dir}">
+        <include name="bin.wxs" />
+        <include name="nunit-gui.wxs" />
+        <include name="doc.wxs" />
+        <include name="tests.wxs" />
+        <include name="samples.wxs" />
+        <include name="NUnit.wxs"/>
       </fileset>
     </copy>
 
@@ -727,6 +737,30 @@
     <nant target="package" inheritrefs="true">
       <buildfiles refid="project.buildfiles" />
     </nant>
+
+    <mkdir dir="${package.solutions.dir}" />
+
+    <!-- Copy VS2003 solution -->
+    <copy todir="${package.solutions.dir}/vs2003">
+      <fileset basedir="${project.solutions.dir}/vs2003">
+        <include name="nunit.sln"/>
+        <include name="NUnitTests.nunit"/>
+        <include name="NUnitTests.config"/>
+        <include name="nunit.snk"/>
+        <include name="**/*.csproj"/>
+      </fileset>
+    </copy>
+
+    <!-- Copy VS2005 solution -->
+    <copy todir="${package.solutions.dir}/vs2005">
+      <fileset basedir="${project.solutions.dir}/vs2005">
+        <include name="nunit.sln"/>
+        <include name="NUnitTests.nunit"/>
+        <include name="NUnitTests.config"/>
+        <include name="nunit.snk"/>
+        <include name="**/*.csproj"/>
+      </fileset>
+    </copy>
 
   </target>
 
@@ -759,7 +793,7 @@
 <!-- ***************************************************************** -->
 
   <!-- Buildfiles for all NUnit components - in build order -->
-  <fileset id="project.buildfiles">
+  <fileset id="project.buildfiles" basedir="${project.src.dir}">
 
     <!-- NUnit Base -->
     <include name="NUnitFramework/framework/nunit.framework.build" />
@@ -786,7 +820,6 @@
     <!-- Test Utilities and Dummy Projects -->
     <include name="tests/mock-assembly/mock-assembly.build" />
     <include name="tests/nonamespace-assembly/nonamespace-assembly.build" />
-    <include name="tests/notestfixtures-assembly/notestfixtures-assembly.build" />
     <include name="tests/test-assembly/test-assembly.build" />
     <include name="tests/test-utilities/test-utilities.build" />
     <include name="tests/timing-tests/timing-tests.build" />
@@ -811,7 +844,7 @@
   </fileset>
 
   <!-- BuildFiles for Samples -->
-  <fileset id="sample.buildfiles" basedir="../samples">
+  <fileset id="sample.buildfiles" basedir="${project.samples.dir}">
 
     <!-- CSharp Samples -->
     <include name="csharp/failures/cs-failures.build" />
