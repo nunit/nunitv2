@@ -19,6 +19,7 @@ namespace NUnit.Core.Tests
 	public class AssemblyTests 
 	{
 		private string thisDll;
+	    private readonly string noTestFixturesDll = "nunit.testutilities.dll";
 
 		[SetUp]
 		public void InitStrings()
@@ -45,8 +46,7 @@ namespace NUnit.Core.Tests
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			Test suite = builder.Build( new TestPackage( thisDll ) );
-			Assert.IsNotNull( suite );
-			//Assert.IsNotNull(testAssembly, "should be able to load assembly");
+            Assert.IsNotNull(suite, "Unable to load " + thisDll);
 			Assert.IsTrue( File.Exists( thisDll ), "Load does not set current Directory" );
 		}
 
@@ -61,11 +61,10 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void LoadAssemblyWithoutTestFixtures()
 		{
-			string fileName = "notestfixtures-assembly.dll";
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			Test suite = builder.Build( new TestPackage( fileName ) );
-			Assert.IsNotNull( suite,"Should not be null" );
-			Assert.AreEqual( RunState.NotRunnable, suite.RunState );
+			Test suite = builder.Build( new TestPackage( noTestFixturesDll ) );
+            Assert.IsNotNull(suite, "Unable to load " + noTestFixturesDll);
+            Assert.AreEqual(RunState.NotRunnable, suite.RunState);
 			Assert.AreEqual( suite.IgnoreReason, "Has no TestFixtures" );
 			Assert.AreEqual( 0, suite.Tests.Count );
 		}

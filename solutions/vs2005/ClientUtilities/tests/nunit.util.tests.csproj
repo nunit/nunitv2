@@ -123,11 +123,6 @@
       <Project>{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\..\tests\notestfixtures-assembly\notestfixtures-assembly.csproj">
-      <Name>notestfixtures-assembly</Name>
-      <Project>{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
     <ProjectReference Include="..\..\tests\test-utilities\test-utilities.csproj">
       <Name>test-utilities</Name>
       <Project>{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}</Project>

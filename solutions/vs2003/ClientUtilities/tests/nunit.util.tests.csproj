@@ -100,11 +100,6 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "notestfixtures-assembly"
-                    Project = "{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "nonamespace-assembly"
                     Project = "{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"

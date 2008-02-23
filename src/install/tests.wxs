@@ -18,7 +18,6 @@
 			
           <File Id="mockassembly" Name="MOCKASM.DLL" LongName="mock-assembly.dll" />
           <File Id="nonamespaceassembly" Name="NONAMESP.DLL" LongName="nonamespace-assembly.dll" />
-          <File Id="notestfixturesassembly" Name="NOTESTS.DLL" LongName="notestfixtures-assembly.dll" />
           
 		  <File Id="timingtests" Name="TIMING.DLL" LongName="timing-tests.dll" />
           

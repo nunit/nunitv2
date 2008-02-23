@@ -91,10 +91,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nonamespace-assembly", "tes
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "notestfixtures-assembly", "tests\notestfixtures-assembly\notestfixtures-assembly.csproj", "{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-utilities", "tests\test-utilities\test-utilities.csproj", "{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -217,10 +213,6 @@ Global
 		{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}.Debug.Build.0 = Debug|.NET
 		{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}.Release.ActiveCfg = Release|.NET
 		{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}.Release.Build.0 = Release|.NET
-		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Debug.ActiveCfg = Debug|.NET
-		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Debug.Build.0 = Debug|.NET
-		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Release.ActiveCfg = Release|.NET
-		{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}.Release.Build.0 = Release|.NET
 		{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}.Debug.ActiveCfg = Debug|.NET
 		{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}.Debug.Build.0 = Debug|.NET
 		{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}.Release.ActiveCfg = Release|.NET

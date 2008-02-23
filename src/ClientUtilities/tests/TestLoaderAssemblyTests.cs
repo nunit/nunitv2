@@ -139,9 +139,9 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void AssemblyWithNoTests()
 		{
-			LoadTest( "notestfixtures-assembly.dll" );
+			LoadTest( "nunit.testutilities.dll" );
 			Assert.IsTrue( loader.IsProjectLoaded, "Project not loaded" );
-			Assert.IsTrue( loader.IsTestLoaded, "Test should be loaded" );
+			Assert.IsTrue( loader.IsTestLoaded, "Test not loaded" );
 			Assert.AreEqual( 4, catcher.Events.Count );
 			Assert.AreEqual( TestAction.TestLoaded, ((TestEventArgs)catcher.Events[3]).Action );
 		}

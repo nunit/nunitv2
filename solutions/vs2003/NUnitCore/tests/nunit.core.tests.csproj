@@ -124,11 +124,6 @@
                     Project = "{435428F8-5995-4CE4-8022-93D595A8CC0F}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
-                <Reference
-                    Name = "notestfixtures-assembly"
-                    Project = "{8D330DE4-B980-4A57-9F07-E9F7A7A33F4F}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
             </References>
         </Build>
         <Files>
