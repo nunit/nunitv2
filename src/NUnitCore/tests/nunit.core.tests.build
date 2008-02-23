@@ -16,6 +16,7 @@
         <include name="AssemblyTests.cs"/>
         <include name="AssemblyVersionFixture.cs"/>
         <include name="AttributeDescriptionFixture.cs"/>
+        <include name="AttributeInheritance.cs"/>
         <include name="BasicRunnerTests.cs"/>
         <include name="CallContextTests.cs"/>
         <include name="CategoryAttributeTests.cs"/>
