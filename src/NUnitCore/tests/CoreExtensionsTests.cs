@@ -6,6 +6,7 @@
 using System;
 using NUnit.Framework;
 using NUnit.Core.Extensibility;
+using NUnit.Mocks;
 
 namespace NUnit.Core.Tests
 {
@@ -48,96 +49,74 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
+		public void HasEventListenerExtensionPoint()
+		{
+			IExtensionPoint ep = host.GetExtensionPoint( "EventListeners" );
+			Assert.IsNotNull( ep );
+			Assert.AreEqual( "EventListeners", ep.Name );
+			Assert.AreEqual( typeof( EventListenerCollection ), ep.GetType() );
+		}
+
+		[Test]
 		public void HasTestFrameworkRegistry()
 		{
             Assert.IsNotNull(host.FrameworkRegistry);
 		}
 
-//		[Test]
-//		public void CanAddDecorator()
-//		{
-//			host.Install( new Decorator() );
-//		}
-//
-//		[Test, Ignore("In Process")]
-//		public void ConstructorCopiesEntries()
-//		{
-//			AddinHost a = new AddinHost();
-//			Decorator decorator = new Decorator();
-//			SuiteBuilder suiteBuilder = new SuiteBuilder();
-//			TestCaseBuilder testCaseBuilder = new TestCaseBuilder();
-//
-//			a.Install( decorator );
-////			Assert.Contains( decorator, a.TestDecorators );
-//
-//			a.Install( suiteBuilder );
-////			Assert.Contains( suiteBuilder, a.SuiteBuilders );
-//
-//			a.Install( testCaseBuilder );
-////			Assert.Contains( testCaseBuilder, a.TestBuilders );
-//
-//			AddinHost b = new AddinHost(a);
-////			Assert.Contains( decorator, a.TestDecorators );
-////			Assert.Contains( suiteBuilder, a.SuiteBuilders );
-////			Assert.Contains( testCaseBuilder, a.TestBuilders );
-//		}
-
-		class Decorator : ITestDecorator
+		[Test]
+		public void CanAddDecorator()
 		{
-			#region ITestDecorator Members
+			DynamicMock mock = new DynamicMock( typeof(ITestDecorator) );
+			mock.Expect( "Decorate" );
+			
+			IExtensionPoint ep = host.GetExtensionPoint("TestDecorators");
+			ep.Install( mock.MockInstance );
+			host.TestDecorators.Decorate( null, null );
 
-//			public Test Decorate(Test test, Type fixtureType)
-//			{
-//				// TODO:  Add Decorator.Decorate implementation
-//				return null;
-//			}
-
-			public Test Decorate(Test test, System.Reflection.MemberInfo member)
-			{
-				// TODO:  Add Decorator.NUnit.Core.ITestDecorator.Decorate implementation
-				return null;
-			}
-
-			#endregion
+			mock.Verify();
 		}
 
-		class SuiteBuilder : ISuiteBuilder
+		[Test]
+		public void CanAddSuiteBuilder()
 		{
-			#region ISuiteBuilder Members
+			DynamicMock mock = new DynamicMock( typeof(ISuiteBuilder) );
+			mock.ExpectAndReturn( "CanBuildFrom", true, null );
+			mock.Expect( "BuildFrom" );
+			
+			IExtensionPoint ep = host.GetExtensionPoint("SuiteBuilders");
+			ep.Install( mock.MockInstance );
+			host.SuiteBuilders.BuildFrom( null );
 
-			public Test BuildFrom(Type type)
-			{
-				// TODO:  Add SuiteBuilder.BuildFrom implementation
-				return null;
-			}
-
-			public bool CanBuildFrom(Type type)
-			{
-				// TODO:  Add SuiteBuilder.CanBuildFrom implementation
-				return false;
-			}
-
-			#endregion
+			mock.Verify();
 		}
 
-		class TestCaseBuilder : ITestCaseBuilder
+		[Test]
+		public void CanAddTestCaseBuilder()
 		{
-			#region ITestCaseBuilder Members
+			DynamicMock mock = new DynamicMock( typeof(ITestCaseBuilder) );
+			mock.ExpectAndReturn( "CanBuildFrom", true, null );
+			mock.Expect( "BuildFrom" );
+			
+			IExtensionPoint ep = host.GetExtensionPoint("TestCaseBuilders");
+			ep.Install( mock.MockInstance );
+			host.TestBuilders.BuildFrom( null );
 
-			public Test BuildFrom(System.Reflection.MethodInfo method)
-			{
-				// TODO:  Add TestCaseBuilder.BuildFrom implementation
-				return null;
-			}
-
-			public bool CanBuildFrom(System.Reflection.MethodInfo method)
-			{
-				// TODO:  Add TestCaseBuilder.CanBuildFrom implementation
-				return false;
-			}
-
-			#endregion
+			mock.Verify();
 		}
 
+		[Test]
+		public void CanAddEventListener()
+		{
+			DynamicMock mock = new DynamicMock( typeof(EventListener) );
+			mock.Expect( "RunStarted" );
+			mock.Expect( "RunFinished" );
+
+			IExtensionPoint ep = host.GetExtensionPoint("EventListeners");
+			ep.Install( mock.MockInstance );
+			host.Listeners.RunStarted( "test", 0 );
+			host.Listeners.RunFinished( new TestSuiteResult(null, "test") );
+
+			mock.Verify();
+		}
 	}
 }

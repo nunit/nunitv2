@@ -14,17 +14,11 @@ namespace NUnit.Core.Extensibility
 	/// implements the ITestDecorator interface itself, passing calls 
 	/// on to the individual decorators.
 	/// </summary>
-	public class TestDecoratorCollection : ITestDecorator, IExtensionPoint
+	public class TestDecoratorCollection : ExtensionPoint, ITestDecorator
 	{
-		private ArrayList decorators = new ArrayList();
-
-		#region Constructors
-		public TestDecoratorCollection() { }
-
-		public TestDecoratorCollection( TestDecoratorCollection other )
-		{
-			decorators.AddRange( other.decorators );
-		}
+		#region Constructor
+		public TestDecoratorCollection(IExtensionHost host)
+			: base( "TestDecorators", host ) { }
 		#endregion
 
 		#region ITestDecorator Members
@@ -32,37 +26,17 @@ namespace NUnit.Core.Extensibility
 		{
 			Test decoratedTest = test;
 
-			foreach( ITestDecorator decorator in decorators )
+			foreach( ITestDecorator decorator in extensions )
 				decoratedTest = decorator.Decorate( decoratedTest, member );
 
 			return decoratedTest;
 		}
 		#endregion
 
-		#region IExtensionPoint Members
-		public string Name
+		#region ExtensionPoint Overrides
+		protected override bool ValidExtension(object extension)
 		{
-			get { return "TestDecorators"; }
-		}
-
-        public IExtensionHost Host
-        {
-            get { return CoreExtensions.Host; }
-        }
-
-		public void Install(object extension)
-		{
-			ITestDecorator decorator = extension as ITestDecorator;
-			if ( decorator == null )
-				throw new ArgumentException( 
-					extension.GetType().FullName + " is not an ITestDecorator", "exception" );
-
-			decorators.Add( extension );
-		}
-
-		public void Remove( object extension )
-		{
-			decorators.Remove( extension );
+			return extension is ITestDecorator; 
 		}
 		#endregion
 	}

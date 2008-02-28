@@ -58,12 +58,16 @@ namespace NUnit.Core
 		public static string GetAssemblyPath( Assembly assembly )
 		{
 			string path = assembly.CodeBase;
+			Uri uri = new Uri( path );
 			
 			// If it wasn't loaded locally, use the Location
-			if ( !path.StartsWith( Uri.UriSchemeFile ) )
+			if ( !uri.IsFile )
 				return assembly.Location;
 
-			// Skip over the file://
+			if ( uri.IsUnc )
+				return path.Substring( Uri.UriSchemeFile.Length+1 );
+
+
 			int start = Uri.UriSchemeFile.Length + Uri.SchemeDelimiter.Length;
 			
 			if ( path[start] == '/' && path[start+2] == ':' )

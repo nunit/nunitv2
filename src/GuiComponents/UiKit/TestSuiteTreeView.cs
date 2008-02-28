@@ -370,7 +370,15 @@ namespace NUnit.UiKit
 			ClosePropertiesDialog();
 		
 			if ( Services.UserSettings.GetSetting( "Gui.TestTree.SaveVisualState", true ) && loader != null)
-				new VisualState(this).Save(VisualState.GetVisualStateFileName(loader.TestFileName));
+				try
+				{
+					new VisualState(this).Save(VisualState.GetVisualStateFileName(loader.TestFileName));
+				}
+				catch(Exception ex)
+				{
+					Debug.WriteLine( "Unable to save visual state." );
+					Debug.WriteLine( ex );
+				}
 
 			Clear();
 			contextNode = null;

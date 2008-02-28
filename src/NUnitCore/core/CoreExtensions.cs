@@ -43,10 +43,7 @@ namespace NUnit.Core
 			get
 			{
 				if (host == null)
-				{
 					host = new CoreExtensions();
-//					host.InitializeService();
-				}
 
 				return host;
 			}
@@ -56,15 +53,13 @@ namespace NUnit.Core
 		#region Constructors
 		public CoreExtensions() 
 		{
-			this.suiteBuilders = new SuiteBuilderCollection();
-			this.testBuilders = new TestCaseBuilderCollection();
-			this.testDecorators = new TestDecoratorCollection();
-			this.listeners = new EventListenerCollection();
-
-			this.listeners.Install( new NullListener() );
+			this.suiteBuilders = new SuiteBuilderCollection(this);
+			this.testBuilders = new TestCaseBuilderCollection(this);
+			this.testDecorators = new TestDecoratorCollection(this);
+			this.listeners = new EventListenerCollection(this);
 
 			this.extensions = new IExtensionPoint[]
-				{ suiteBuilders, testBuilders, testDecorators };
+				{ suiteBuilders, testBuilders, testDecorators, listeners };
 			this.supportedTypes = ExtensionType.Core;
 
 			// TODO: This should be somewhere central
@@ -143,8 +138,8 @@ namespace NUnit.Core
 			// NUnitTestCaseBuilder is installed whenever
 			// an NUnitTestFixture is being populated and
 			// removed afterward.
-			Install( new Builders.NUnitTestFixtureBuilder() );
-			Install( new Builders.SetUpFixtureBuilder() );
+			suiteBuilders.Install( new Builders.NUnitTestFixtureBuilder() );
+			suiteBuilders.Install( new Builders.SetUpFixtureBuilder() );
 		}
 
 		public void InstallAddins()
@@ -201,28 +196,6 @@ namespace NUnit.Core
 			IAddin theAddin = (IAddin)obj;
 
 			return theAddin.Install(this);
-		}
-		#endregion
-
-		#region Type Safe Install Helpers
-		internal void Install( ISuiteBuilder builder )
-		{
-			suiteBuilders.Install( builder );
-		}
-
-		internal void Install( ITestCaseBuilder builder )
-		{
-			testBuilders.Install( builder );
-		}
-
-		internal void Install( ITestDecorator decorator )
-		{
-			testDecorators.Install( decorator );
-		}
-
-		internal void Install( EventListener listener )
-		{
-			listeners.Install( listener );
 		}
 		#endregion
 

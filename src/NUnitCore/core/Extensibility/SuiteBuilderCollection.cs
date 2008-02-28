@@ -17,24 +17,14 @@ namespace NUnit.Core.Extensibility
 	/// The builders are added to the collection by inserting them at
 	/// the start, as to take precedence over those added earlier. 
 	/// </summary>
-	public class SuiteBuilderCollection : ISuiteBuilder, IExtensionPoint
+	public class SuiteBuilderCollection : ExtensionPoint, ISuiteBuilder
 	{
-		private ArrayList builders = new ArrayList();
-
-		#region Constructors
+		#region Constructor
 		/// <summary>
 		/// Default constructor
 		/// </summary>
-		public SuiteBuilderCollection() { }
-
-		/// <summary>
-		/// Construct from another SuiteBuilderCollection, copying its contents.
-		/// </summary>
-		/// <param name="other">The SuiteBuilderCollection to copy</param>
-		public SuiteBuilderCollection( SuiteBuilderCollection other ) 
-		{
-			builders.AddRange( other.builders );
-		}
+		public SuiteBuilderCollection(IExtensionHost host)
+			: base("SuiteBuilders", host ) { }
 		#endregion
 
 		#region ISuiteBuilder Members
@@ -47,7 +37,7 @@ namespace NUnit.Core.Extensibility
 		/// <returns>True if the type can be used to build a TestSuite</returns>
 		public bool CanBuildFrom(Type type)
 		{
-			foreach( ISuiteBuilder builder in builders )
+			foreach( ISuiteBuilder builder in extensions )
 				if ( builder.CanBuildFrom( type ) )
 					return true;
 			return false;
@@ -60,7 +50,7 @@ namespace NUnit.Core.Extensibility
 		/// <returns>A TestSuite or null</returns>
 		public Test BuildFrom(Type type)
 		{
-			foreach( ISuiteBuilder builder in builders )
+			foreach( ISuiteBuilder builder in extensions )
 				if ( builder.CanBuildFrom( type ) )
 					return builder.BuildFrom( type );
 			return null;
@@ -68,30 +58,10 @@ namespace NUnit.Core.Extensibility
 
 		#endregion
 
-		#region IExtensionPoint Members
-		public string Name
+		#region ExtensionPoint Overrides
+		protected override bool ValidExtension(object extension)
 		{
-			get { return "SuiteBuilders"; }
-		}
-
-        public IExtensionHost Host
-        {
-            get { return CoreExtensions.Host; }
-        }
-
-		public void Install(object extension)
-		{
-			ISuiteBuilder builder = extension as ISuiteBuilder;
-			if ( builder == null )
-				throw new ArgumentException( 
-					extension.GetType().FullName + " is not an ISuiteBuilder", "exception" );
-
-			builders.Insert( 0, builder );
-		}
-
-		public void Remove( object extension )
-		{
-			builders.Remove( extension );
+			return extension is ISuiteBuilder; 
 		}
 		#endregion
 	}

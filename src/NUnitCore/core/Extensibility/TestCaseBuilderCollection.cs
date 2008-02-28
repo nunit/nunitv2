@@ -17,27 +17,11 @@ namespace NUnit.Core.Extensibility
 	/// The builders are added to the collection by inserting them at
 	/// the start, as to take precedence over those added earlier. 
 	/// </summary>
-	public class TestCaseBuilderCollection : ITestCaseBuilder, IExtensionPoint
+	public class TestCaseBuilderCollection : ExtensionPoint, ITestCaseBuilder
 	{
-		private ArrayList builders = new ArrayList();
-
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-		#region Constructors
-		/// <summary>
-		/// Default Constructor
-		/// </summary>
-		public TestCaseBuilderCollection() { }
-
-		/// <summary>
-		/// Construct from another TestCaseBuilderCollection, copying its contents.
-		/// </summary>
-		/// <param name="other">The TestCaseBuilderCollection to copy</param>
-		public TestCaseBuilderCollection( TestCaseBuilderCollection other )
-		{
-			builders.AddRange( other.builders );
-		}
+		#region Constructor
+		public TestCaseBuilderCollection(IExtensionHost host)
+			: base("TestCaseBuilders", host) { }
 		#endregion
 		
 		#region ITestCaseBuilder Members
@@ -50,7 +34,7 @@ namespace NUnit.Core.Extensibility
 		/// <returns>True if the type can be used to build a TestCase</returns>
 		public bool CanBuildFrom( MethodInfo method )
 		{
-			foreach( ITestCaseBuilder builder in builders )
+			foreach( ITestCaseBuilder builder in extensions )
 				if ( builder.CanBuildFrom( method ) )
 					return true;
 			return false;
@@ -63,7 +47,7 @@ namespace NUnit.Core.Extensibility
 		/// <returns>A TestCase or null</returns>
 		public Test BuildFrom( MethodInfo method )
 		{
-			foreach( ITestCaseBuilder builder in builders )
+			foreach( ITestCaseBuilder builder in extensions )
 			{
 				if ( builder.CanBuildFrom( method ) )
 					return builder.BuildFrom( method );
@@ -73,32 +57,10 @@ namespace NUnit.Core.Extensibility
 		}
 		#endregion
 
-		#region IExtensionPoint Members
-		public string Name
+		#region ExtensionPoint Overrides
+		protected override bool ValidExtension(object extension)
 		{
-			get { return "TestCaseBuilders"; }
-		}
-
-        public IExtensionHost Host
-        {
-            get { return CoreExtensions.Host; }
-        }
-
-		public void Install(object extension)
-		{
-			ITestCaseBuilder builder = extension as ITestCaseBuilder;
-			if ( builder == null )
-				throw new ArgumentException( 
-					extension.GetType().FullName + " is not an ITestCaseBuilder", "exception" );
-
-			builders.Insert( 0, builder );
-			log.DebugFormat( "Inserted TestCaseBuilder {0}: Count = {1}", extension.GetType().Name, builders.Count );
-		}
-
-		public void Remove( object extension )
-		{
-			builders.Remove( extension );
-			log.DebugFormat( "Removed TestCaseBuilder {0}: Count = {1}", extension.GetType().Name, builders.Count );
+			return extension is ITestCaseBuilder; 
 		}
 		#endregion
 	}

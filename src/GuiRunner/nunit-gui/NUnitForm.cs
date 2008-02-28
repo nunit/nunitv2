@@ -844,7 +844,8 @@ namespace NUnit.Gui
 			saveAsMenuItem.Enabled = IsProjectLoaded;
 
 			reloadTestsMenuItem.Enabled = IsTestLoaded && !IsTestRunning;
-
+			reloadProjectMenuItem.Enabled = IsProjectLoaded && !IsTestRunning;
+			
 			recentProjectsMenu.Enabled = !IsTestRunning;
 
 			if ( !IsTestRunning )

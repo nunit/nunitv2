@@ -18,6 +18,7 @@
         <include name="EventPump.cs"/>
         <include name="EventQueue.cs"/>
         <include name="ExtensionHost.cs"/>
+        <include name="ExtensionPoint.cs"/>
         <include name="IgnoreDecorator.cs"/>
         <include name="InvalidSuiteException.cs"/>
         <include name="InvalidTestFixtureException.cs"/>

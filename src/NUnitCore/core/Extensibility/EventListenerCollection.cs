@@ -12,94 +12,75 @@ namespace NUnit.Core.Extensibility
 	/// EventListenerCollection holds multiple event listeners
 	/// and relays all event calls to each of them.
 	/// </summary>
-	public class EventListenerCollection : EventListener, IExtensionPoint
+	public class EventListenerCollection : ExtensionPoint, EventListener
 	{
-		private readonly ArrayList listeners = new ArrayList();
+		#region Constructor
+		public EventListenerCollection( IExtensionHost host )
+			: base( "EventListeners", host ) { }
+		#endregion
 
 		#region EventListener Members
 		public void RunStarted(string name, int testCount)
 		{
-			foreach( EventListener listener in listeners )
+			foreach( EventListener listener in extensions )
 				listener.RunStarted( name, testCount );
 		}
 
 		public void RunFinished(TestResult result)
 		{
-			foreach( EventListener listener in listeners )
+			foreach( EventListener listener in extensions )
 				listener.RunFinished( result );
 		}
 
 		public void RunFinished(Exception exception)
 		{
-			foreach( EventListener listener in listeners )
+			foreach( EventListener listener in extensions )
 				listener.RunFinished( exception );
 		}
 
 		public void SuiteStarted(TestName testName)
 		{
-			foreach( EventListener listener in listeners )
+			foreach( EventListener listener in extensions )
 				listener.SuiteStarted( testName );
 		}
 
 		public void SuiteFinished(TestSuiteResult result)
 		{
-			foreach( EventListener listener in listeners )
+			foreach( EventListener listener in extensions )
 				listener.SuiteFinished( result );
 		}
 
 		public void TestStarted(TestName testName)
 		{
-			foreach( EventListener listener in listeners )
+			foreach( EventListener listener in extensions )
 				listener.TestStarted( testName );
 		}
 
 		public void TestFinished(TestCaseResult result)
 		{
-			foreach( EventListener listener in listeners )
+			foreach( EventListener listener in extensions )
 				listener.TestFinished( result );
 		}
 
 		public void UnhandledException(Exception exception)
 		{
-			foreach( EventListener listener in listeners )
+			foreach( EventListener listener in extensions )
 				listener.UnhandledException( exception );
 		}
 
 		public void TestOutput(TestOutput testOutput)
 		{
-			foreach( EventListener listener in listeners )
+			foreach( EventListener listener in extensions )
 				listener.TestOutput( testOutput );
 		}
 
 		#endregion
 
-		#region IExtensionPoint Members
-
-		public string Name
+		#region ExtensionPoint Overrides
+		protected override bool ValidExtension(object extension)
 		{
-			get { return "EventListeners"; }
+			return extension is EventListener; 
 		}
-
-		public IExtensionHost Host
-		{
-			get { return CoreExtensions.Host; }
-		}
-
-		public void Install(object extension)
-		{
-			EventListener listener = extension as EventListener;
-			if ( listener == null )
-				throw new ArgumentException( 
-					extension.GetType().FullName + " is not an EventListener", "extension" );
-
-			listeners.Add( listener );
-		}
-
-		void IExtensionPoint.Remove(object extension)
-		{
-			listeners.Remove( extension );
-		}
-
 		#endregion
 	}
 }

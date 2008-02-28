@@ -25,7 +25,7 @@ namespace NUnit.Core.Builders
 		/// <summary>
 		/// The fixture builder's own test case builder collection 
 		/// </summary>
-		private Extensibility.TestCaseBuilderCollection testCaseBuilders = new Extensibility.TestCaseBuilderCollection();
+		private Extensibility.TestCaseBuilderCollection testCaseBuilders = new Extensibility.TestCaseBuilderCollection( CoreExtensions.Host );
 		#endregion
 
 		public NUnitTestFixtureBuilder()

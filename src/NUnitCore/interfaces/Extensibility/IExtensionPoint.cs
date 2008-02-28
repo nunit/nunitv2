@@ -34,9 +34,8 @@ namespace NUnit.Core.Extensibility
 
 		/// <summary>
 		/// Removes an extension from this extension point. If the
-		/// extension object is not present or if it may not be
-		/// removed for some other reason, an exception is thrown.
-		/// </summary>
+		/// extension object is not present, the method returns
+		/// without error.
 		/// <param name="extension"></param>
 		void Remove( object extension );
 	}

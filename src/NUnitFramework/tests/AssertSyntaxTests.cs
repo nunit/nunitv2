@@ -724,10 +724,12 @@ namespace NUnit.Framework.Tests
 			Assert.That( array, Is.All.Length( 3 ) );
 			Assert.That( array, Has.All.Property("Length").EqualTo(3) );
 			Assert.That( array, Is.All.Property("Length").EqualTo(3) );
-			
+			Assert.That( array, Has.None.Property("Length").Not.EqualTo(3) );
+
 			Assert.That( array2, Has.Some.Property("Length", 2) );
 			Assert.That( array2, Has.Some.Length(2) );
 			Assert.That( array2, Has.Some.Property("Length").GreaterThan(2) );
+			Assert.That( array2, Has.No.Property("Length").GreaterThan(3) );
 
 			Assert.That( array2, Is.Not.Property("Length", 4) );
 			Assert.That( array2, Is.Not.Length( 4 ) );
@@ -773,6 +775,14 @@ namespace NUnit.Framework.Tests
 			Expect( list, Count( 4 ) );
 
 		}
+
+		[Test, ExpectedException( typeof(AssertionException) )]
+		public void PropertyTests_DoesNotExistFails()
+		{
+			object[] array = new object[] { 1, "two", 3, null };
+			Assert.That( array, Has.None.Property( "Length" ) );
+		}
+			
 		#endregion
 
 		#region Not Tests

@@ -12,17 +12,6 @@ using System.Text.RegularExpressions;
 namespace NUnit.Util
 {
 	/// <summary>
-	/// The ProjectType enumerator indicates the language of the project.
-	/// </summary>
-	public enum VSProjectType
-	{
-		CSharp,
-		JSharp,
-		VisualBasic,
-		CPlusPlus
-	}
-
-	/// <summary>
 	/// This class allows loading information about
 	/// configurations and assemblies in a Visual
 	/// Studio project file and inspecting them.
@@ -54,18 +43,6 @@ namespace NUnit.Util
 		/// Collection of configs for the project
 		/// </summary>
 		private VSProjectConfigCollection configs;
-
-		/// <summary>
-		/// The current project type
-		/// </summary>
-		private VSProjectType projectType;
-
-		/// <summary>
-		/// Indicates whether the project is managed code. This is
-		/// always true for C#, J# and VB projects but may vary in
-		/// the case of C++ projects.
-		/// </summary>
-		private bool isManaged;
 
 		#endregion
 
@@ -105,24 +82,6 @@ namespace NUnit.Util
 		public VSProjectConfigCollection Configs
 		{
 			get { return configs; }
-		}
-
-		/// <summary>
-		/// The current project type
-		/// </summary>
-		public VSProjectType ProjectType
-		{
-			get { return projectType; }
-		}
-
-		/// <summary>
-		/// Indicates whether the project is managed code. This is
-		/// always true for C#, J# and VB projects but may vary in
-		/// the case of C++ projects.
-		/// </summary>
-		public bool IsManaged
-		{
-			get { return isManaged; }
 		}
 
 		#endregion
@@ -175,11 +134,7 @@ namespace NUnit.Util
 				switch ( extension )
 				{
 					case ".vcproj":
-						this.projectType = VSProjectType.CPlusPlus;
-
 						XmlNode topNode = doc.SelectSingleNode( "/VisualStudioProject" );
-						XmlNode keyWordAttr = topNode.Attributes["Keyword"];
-						this.isManaged = keyWordAttr != null && keyWordAttr.Value == "ManagedCProj";
 
 						// TODO: This is all very hacked up... replace it.
 						foreach ( XmlNode configNode in doc.SelectNodes( "/VisualStudioProject/Configurations/Configuration" ) )
@@ -224,20 +179,8 @@ namespace NUnit.Util
 						break;
 
 					case ".csproj":
-						this.projectType = VSProjectType.CSharp;
-						this.isManaged = true;
-						LoadProject( projectDirectory, doc );
-						break;
-
 					case ".vbproj":
-						this.projectType = VSProjectType.VisualBasic;
-						this.isManaged = true;
-						LoadProject( projectDirectory, doc );
-						break;
-
 					case ".vjsproj":
-						this.projectType = VSProjectType.JSharp;
-						this.isManaged = true;
 						LoadProject( projectDirectory, doc );
 						break;
 
@@ -323,16 +266,19 @@ namespace NUnit.Util
 
 			foreach (XmlElement configNode in nodes)
 			{
+                if (configNode.Name != "PropertyGroup")
+                    continue;
+
 				XmlAttribute conditionAttribute = configNode.Attributes["Condition"];
 				if (conditionAttribute == null) continue;
 
 				string condition = conditionAttribute.Value;
-				string configurationPrefix = " '$(Configuration)|$(Platform)' == '";
-				string configurationPostfix = "|AnyCPU' ";
-				if (!condition.StartsWith(configurationPrefix) || !condition.EndsWith(configurationPostfix))
-					continue;
+				int start = condition.IndexOf( "==" );
+				if ( start < 0 ) continue;
 
-				string configurationName = condition.Substring(configurationPrefix.Length, condition.Length - configurationPrefix.Length - configurationPostfix.Length);
+				string configurationName = condition.Substring( start + 2 ).Trim(new char[] {' ', '\'' } );
+				if ( configurationName.EndsWith( "|AnyCPU" ) )
+					configurationName = configurationName.Substring( 0, configurationName.Length - 7 );
 
 				XmlElement outputPathElement = (XmlElement)configNode.SelectSingleNode("msbuild:OutputPath", namespaceManager);
 				string outputPath = outputPathElement.InnerText;

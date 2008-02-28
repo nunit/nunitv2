@@ -61,7 +61,8 @@ namespace NUnit.Framework.Constraints
 		public override void WriteDescriptionTo(MessageWriter writer)
 		{
 			writer.WritePredicate( "Property \"" + name + "\"" );
-			baseConstraint.WriteDescriptionTo( writer );
+			if ( baseConstraint != null )
+				baseConstraint.WriteDescriptionTo( writer );
 		}
 
 		/// <summary>
