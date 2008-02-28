@@ -378,6 +378,11 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "resources\csharp-sample_VS2005_noplatform.csproj"
+                    Link = "..\..\..\..\src\ClientUtilities\tests\resources\csharp-sample_VS2005_noplatform.csproj"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
                     RelPath = "resources\HebrewFileProblem.csproj"
                     Link = "..\..\..\..\src\ClientUtilities\tests\resources\HebrewFileProblem.csproj"
                     BuildAction = "EmbeddedResource"
@@ -395,6 +400,11 @@
                 <File
                     RelPath = "resources\MakeFileProject.vcproj"
                     Link = "..\..\..\..\src\ClientUtilities\tests\resources\MakeFileProject.vcproj"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "resources\MultiplePlatformProject.csproj"
+                    Link = "..\..\..\..\src\ClientUtilities\tests\resources\MultiplePlatformProject.csproj"
                     BuildAction = "EmbeddedResource"
                 />
                 <File
@@ -430,6 +440,11 @@
                 <File
                     RelPath = "resources\WebApplication1.sln"
                     Link = "..\..\..\..\src\ClientUtilities\tests\resources\WebApplication1.sln"
+                    BuildAction = "EmbeddedResource"
+                />
+                <File
+                    RelPath = "resources\XNAWindowsProject.csproj"
+                    Link = "..\..\..\..\src\ClientUtilities\tests\resources\XNAWindowsProject.csproj"
                     BuildAction = "EmbeddedResource"
                 />
             </Include>

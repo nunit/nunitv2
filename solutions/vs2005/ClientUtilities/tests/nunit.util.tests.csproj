@@ -326,6 +326,17 @@
       <Link>resources\WebApplication1.sln</Link>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\..\..\src\ClientUtilities\tests\resources\csharp-sample_VS2005_noplatform.csproj">
+      <Link>resources\csharp-sample_VS2005_noplatform.csproj</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\src\ClientUtilities\tests\resources\MultiplePlatformProject.csproj">
+      <Link>resources\MultiplePlatformProject.csproj</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\src\ClientUtilities\tests\resources\XNAWindowsProject.csproj">
+      <Link>resources\XNAWindowsProject.csproj</Link>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

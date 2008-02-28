@@ -182,6 +182,9 @@
       <Link>ExtensionHost.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\ExtensionPoint.cs">
+      <Link>ExtensionPoint.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\IgnoreDecorator.cs">
       <Link>IgnoreDecorator.cs</Link>
       <SubType>Code</SubType>

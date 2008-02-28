@@ -166,6 +166,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ExtensionPoint.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\ExtensionPoint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "IgnoreDecorator.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\IgnoreDecorator.cs"
                     SubType = "Code"
