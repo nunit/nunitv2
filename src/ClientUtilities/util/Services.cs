@@ -11,7 +11,9 @@ using NUnit.Core.Extensibility;
 namespace NUnit.Util
 {
 	/// <summary>
-	/// Summary description for Services
+	/// Services is a utility class, which is used to provide access
+	/// to services in a more simple way than is supported by te
+	/// ServiceManager class itself.
 	/// </summary>
 	public class Services
 	{
@@ -123,6 +125,21 @@ namespace NUnit.Util
 //				}
 
 				return agency;
+			}
+		}
+		#endregion
+
+		#region ProjectLoader
+		private static ProjectService projectService;
+		public static ProjectService ProjectService
+		{
+			get
+			{
+				if ( projectService == null )
+					projectService = (ProjectService)
+						ServiceManager.Services.GetService( typeof( ProjectService ) );
+
+				return projectService;
 			}
 		}
 		#endregion

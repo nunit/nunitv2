@@ -259,6 +259,9 @@
       <Link>TestServerTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\tests\VisualStudioConverterTests.cs">
+      <Link>VisualStudioConverterTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\tests\VSProjectTests.cs">
       <Link>VSProjectTests.cs</Link>
       <SubType>Code</SubType>

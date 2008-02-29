@@ -408,6 +408,24 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Extensibility\IProjectConverter.cs"
+                    Link = "..\..\..\..\src\ClientUtilities\util\Extensibility\IProjectConverter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\ProjectConverterCollection.cs"
+                    Link = "..\..\..\..\src\ClientUtilities\util\Extensibility\ProjectConverterCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ProjectConverters\VisualStudioConverter.cs"
+                    Link = "..\..\..\..\src\ClientUtilities\util\ProjectConverters\VisualStudioConverter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Services\AddinManager.cs"
                     Link = "..\..\..\..\src\ClientUtilities\util\Services\AddinManager.cs"
                     SubType = "Code"
@@ -420,8 +438,20 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Services\ClientExtensions.cs"
+                    Link = "..\..\..\..\src\ClientUtilities\util\Services\ClientExtensions.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Services\DomainManager.cs"
                     Link = "..\..\..\..\src\ClientUtilities\util\Services\DomainManager.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Services\ProjectService.cs"
+                    Link = "..\..\..\..\src\ClientUtilities\util\Services\ProjectService.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

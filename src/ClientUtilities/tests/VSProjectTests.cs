@@ -55,7 +55,7 @@ namespace NUnit.Util.Tests
 			Assert.IsFalse(VSProject.IsProjectFile( @"\MyProject\http://localhost/web.csproj") );
 		}
 
-		private void AssertCanLoadProject( string resourceName, params string[] configNames )
+		private void AssertCanLoadProject( string resourceName )
 		{
 			string fileName = Path.GetFileNameWithoutExtension( resourceName );
 			using( TempResourceFile file = new TempResourceFile( this.GetType(), resourceDir + "." + resourceName, resourceName ) )
@@ -64,87 +64,62 @@ namespace NUnit.Util.Tests
 				Assert.AreEqual( fileName, project.Name );
 				Assert.AreEqual( Path.GetFullPath( file.Path ), project.ProjectPath );
 				Assert.AreEqual( fileName.ToLower(), Path.GetFileNameWithoutExtension( project.Configs[0].Assemblies[0].ToString().ToLower() ) );
-				if ( configNames != null )
-				{
-					Assert.AreEqual( configNames.Length, project.Configs.Count );
-					for( int index = 0; index < configNames.Length; index++ )
-						Assert.AreEqual( configNames[index], project.Configs[index].Name );
-				}
 			}
 		}
 
 		[Test]
 		public void LoadCsharpProject()
 		{
-			AssertCanLoadProject( "csharp-sample.csproj", "Debug", "Release" );
+			AssertCanLoadProject( "csharp-sample.csproj" );
 		}
 
 		[Test]
 		public void LoadCsharpProjectVS2005()
 		{
-			AssertCanLoadProject( "csharp-sample_VS2005.csproj", "Debug", "Release" );
-		}
-
-        [Test]
-        public void LoadCsharpProjectVS2005WithoutPlatforms()
-        {
-            AssertCanLoadProject("csharp-sample_VS2005_noplatform.csproj", "Debug", "Release" );
-        }
-
-		[Test]
-		public void LoadCsharpProjectWithMultiplePlatforms()
-		{
-			AssertCanLoadProject( "MultiplePlatformProject.csproj", "Debug", "Release",
-				"Debug|x64", "Release|x64", "Debug|x86", "Release|x86" );
-		}
-
-		[Test]
-		public void LoadXNAWindowsProject()
-		{
-			AssertCanLoadProject("XNAWindowsProject.csproj", "Debug|x86", "Release|x86" );
+			AssertCanLoadProject( "csharp-sample_VS2005.csproj" );
 		}
 
 		[Test]
 		public void LoadVbProject()
 		{
-			AssertCanLoadProject( "vb-sample.vbproj", "Debug", "Release" );
+			AssertCanLoadProject( "vb-sample.vbproj" );
 		}
 
 
 		[Test]
 		public void LoadVbProjectVS2005()
 		{
-			AssertCanLoadProject( "vb-sample_VS2005.vbproj", "Debug", "Release" );
+			AssertCanLoadProject( "vb-sample_VS2005.vbproj" );
 		}
 
 		[Test]
 		public void LoadJsharpProject()
 		{
-			AssertCanLoadProject( "jsharp.vjsproj", "Debug", "Release" );
+			AssertCanLoadProject( "jsharp.vjsproj" );
 		}
 
 		[Test]
 		public void LoadJsharpProjectVS2005()
 		{
-			AssertCanLoadProject( "jsharp_VS2005.vjsproj", "Debug", "Release" );
+			AssertCanLoadProject( "jsharp_VS2005.vjsproj" );
 		}
 
 		[Test]
 		public void LoadCppProject()
 		{
-			AssertCanLoadProject( "cpp-sample.vcproj", "Debug|Win32", "Release|Win32" );
+			AssertCanLoadProject( "cpp-sample.vcproj" );
 		}
 
 		[Test]
 		public void LoadCppProjectVS2005()
 		{
-			AssertCanLoadProject( "cpp-sample_VS2005.vcproj", "Debug|Win32", "Release|Win32" );
+			AssertCanLoadProject( "cpp-sample_VS2005.vcproj" );
 		}
 
 		[Test]
 		public void LoadProjectWithHebrewFileIncluded()
 		{
-			AssertCanLoadProject( "HebrewFileProblem.csproj", "Debug", "Release" );
+			AssertCanLoadProject( "HebrewFileProblem.csproj" );
 		}
 
 		[Test]

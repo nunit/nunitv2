@@ -22,7 +22,7 @@ namespace NUnit.Util.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			project = NUnitProject.EmptyProject();
+			project = new ProjectService().EmptyProject();
 		}
 
 		[TearDown]

@@ -183,10 +183,11 @@ namespace NUnit.ConsoleRunner.Tests
 
 
 		[Test]
-		public void FileNameWithoutXmlParameterIsInvalid()
+		public void FileNameWithoutXmlParameterLooksLikeParameter()
 		{
-			ConsoleOptions options = new ConsoleOptions( "tests.dll", ":result.xml" );
-			Assert.IsFalse(options.Validate());
+			ConsoleOptions options = new ConsoleOptions( "tests.dll", "result.xml" );
+			Assert.IsTrue(options.Validate());
+			Assert.AreEqual(2, options.Parameters.Count);
 		}
 
 		[Test]

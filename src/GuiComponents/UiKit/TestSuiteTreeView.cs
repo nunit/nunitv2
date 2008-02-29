@@ -648,10 +648,10 @@ namespace NUnit.UiKit
 			if ( fileNames.Length == 1 )
 			{
 				string fileName = fileNames[0];
-				bool isProject = Services.UserSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false ) 
-					? NUnitProject.CanLoadAsProject( fileName )
-					: NUnitProject.IsProjectFile( fileName );
-
+				bool isProject = Services.ProjectService.IsNUnitProject( fileName );
+				if ( Services.UserSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false ) )
+					isProject |= Services.ProjectService.CanConvertFrom( fileName );
+				
 				return isProject || PathUtils.IsAssemblyFileType( fileName );
 			}
 

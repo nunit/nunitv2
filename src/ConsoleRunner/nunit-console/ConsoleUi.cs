@@ -209,7 +209,9 @@ namespace NUnit.ConsoleRunner
 
 			if (options.IsTestProject)
 			{
-				NUnitProject project = NUnitProject.LoadProject((string)options.Parameters[0]);
+				NUnitProject project = 
+					Services.ProjectService.LoadProject((string)options.Parameters[0]);
+
 				string configName = options.config;
 				if (configName != null)
 					project.SetActiveConfig(configName);

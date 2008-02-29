@@ -331,6 +331,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "VisualStudioConverterTests.cs"
+                    Link = "..\..\..\..\src\ClientUtilities\tests\VisualStudioConverterTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "VSProjectTests.cs"
                     Link = "..\..\..\..\src\ClientUtilities\tests\VSProjectTests.cs"
                     SubType = "Code"
@@ -380,7 +386,7 @@
                 <File
                     RelPath = "resources\csharp-sample_VS2005_noplatform.csproj"
                     Link = "..\..\..\..\src\ClientUtilities\tests\resources\csharp-sample_VS2005_noplatform.csproj"
-                    BuildAction = "EmbeddedResource"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "resources\HebrewFileProblem.csproj"
@@ -405,7 +411,7 @@
                 <File
                     RelPath = "resources\MultiplePlatformProject.csproj"
                     Link = "..\..\..\..\src\ClientUtilities\tests\resources\MultiplePlatformProject.csproj"
-                    BuildAction = "EmbeddedResource"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "resources\samples.sln"
@@ -445,7 +451,7 @@
                 <File
                     RelPath = "resources\XNAWindowsProject.csproj"
                     Link = "..\..\..\..\src\ClientUtilities\tests\resources\XNAWindowsProject.csproj"
-                    BuildAction = "EmbeddedResource"
+                    BuildAction = "Content"
                 />
             </Include>
         </Files>

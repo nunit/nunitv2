@@ -357,7 +357,7 @@ namespace NUnit.Util
 			{
 				events.FireProjectLoading( "New Project" );
 
-				OnProjectLoad( NUnitProject.NewProject() );
+				OnProjectLoad( Services.ProjectService.NewProject() );
 			}
 			catch( Exception exception )
 			{
@@ -399,7 +399,7 @@ namespace NUnit.Util
 			{
 				events.FireProjectLoading( filePath );
 
-				NUnitProject newProject = NUnitProject.LoadProject( filePath );
+				NUnitProject newProject = Services.ProjectService.LoadProject( filePath );
 				if ( configName != null ) 
 				{
 					newProject.SetActiveConfig( configName );
@@ -432,7 +432,7 @@ namespace NUnit.Util
 			{
 				events.FireProjectLoading( "New Project" );
 
-				NUnitProject newProject = NUnitProject.FromAssemblies( assemblies );
+				NUnitProject newProject = Services.ProjectService.WrapAssemblies( assemblies );
 
 				OnProjectLoad( newProject );
 			}

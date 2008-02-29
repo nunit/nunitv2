@@ -67,6 +67,7 @@ namespace NUnit.Gui
 			ServiceManager.Services.AddService( new SettingsService() );
 			ServiceManager.Services.AddService( new DomainManager() );
 			ServiceManager.Services.AddService( new RecentFilesService() );
+			ServiceManager.Services.AddService( new ProjectService() );
 			ServiceManager.Services.AddService( new TestLoader( new GuiTestEventDispatcher() ) );
 			ServiceManager.Services.AddService( new AddinRegistry() );
 			ServiceManager.Services.AddService( new AddinManager() );

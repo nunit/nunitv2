@@ -234,7 +234,7 @@ namespace NUnit.UiKit
 			TestLoader loader = Services.TestLoader;
 
 			if ( Path.IsPathRooted( loader.TestProject.ProjectPath ) &&
-				 NUnitProject.IsProjectFile( loader.TestProject.ProjectPath ) &&
+				 Services.ProjectService.IsNUnitProject( loader.TestProject.ProjectPath ) &&
 				 CanWriteProjectFile( loader.TestProject.ProjectPath ) )
 				loader.TestProject.Save();
 			else
@@ -248,7 +248,7 @@ namespace NUnit.UiKit
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.Title = "Save Test Project";
 			dlg.Filter = "NUnit Test Project (*.nunit)|*.nunit|All Files (*.*)|*.*";
-			string path = NUnitProject.ProjectPathFromFile( loader.TestProject.ProjectPath );
+			string path = ProjectService.ProjectPathFromFile( loader.TestProject.ProjectPath );
 			if ( CanWriteProjectFile( path ) )
 				dlg.FileName = path;
 			dlg.DefaultExt = "nunit";
@@ -273,7 +273,7 @@ namespace NUnit.UiKit
 			SaveFileDialog dlg = new SaveFileDialog();
 			dlg.Title = "New Test Project";
 			dlg.Filter = "NUnit Test Project (*.nunit)|*.nunit|All Files (*.*)|*.*";
-			dlg.FileName = NUnitProject.GenerateProjectName();
+			dlg.FileName = Services.ProjectService.GenerateProjectName();
 			dlg.DefaultExt = "nunit";
 			dlg.ValidateNames = true;
 			dlg.OverwritePrompt = true;

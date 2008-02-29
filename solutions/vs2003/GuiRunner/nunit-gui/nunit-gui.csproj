@@ -223,7 +223,7 @@
                 <File
                     RelPath = "SettingsPages\AdvancedLoaderSettingsPage.cs"
                     Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\AdvancedLoaderSettingsPage.cs"
-                    SubType = "Code"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -235,7 +235,7 @@
                 <File
                     RelPath = "SettingsPages\AssemblyReloadSettingsPage.cs"
                     Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\AssemblyReloadSettingsPage.cs"
-                    SubType = "Code"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -247,7 +247,7 @@
                 <File
                     RelPath = "SettingsPages\GuiSettingsPage.cs"
                     Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\GuiSettingsPage.cs"
-                    SubType = "Code"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -259,7 +259,7 @@
                 <File
                     RelPath = "SettingsPages\TestLoaderSettingsPage.cs"
                     Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\TestLoaderSettingsPage.cs"
-                    SubType = "Code"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -271,7 +271,7 @@
                 <File
                     RelPath = "SettingsPages\TestResultSettingsPage.cs"
                     Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\TestResultSettingsPage.cs"
-                    SubType = "Code"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -283,7 +283,7 @@
                 <File
                     RelPath = "SettingsPages\TreeSettingsPage.cs"
                     Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\TreeSettingsPage.cs"
-                    SubType = "Code"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -295,7 +295,7 @@
                 <File
                     RelPath = "SettingsPages\VisualStudioSettingsPage.cs"
                     Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\VisualStudioSettingsPage.cs"
-                    SubType = "Code"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -307,7 +307,7 @@
                 <File
                     RelPath = "SettingsPages\OldTabPages\GeneralSettingsTab.cs"
                     Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\GeneralSettingsTab.cs"
-                    SubType = "Code"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -319,7 +319,7 @@
                 <File
                     RelPath = "SettingsPages\OldTabPages\TestLoaderSettingsTab.cs"
                     Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestLoaderSettingsTab.cs"
-                    SubType = "Code"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File
@@ -331,7 +331,7 @@
                 <File
                     RelPath = "SettingsPages\OldTabPages\TestOutputSettingsTab.cs"
                     Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestOutputSettingsTab.cs"
-                    SubType = "Code"
+                    SubType = "UserControl"
                     BuildAction = "Compile"
                 />
                 <File

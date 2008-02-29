@@ -135,6 +135,12 @@
       <Link>ConsoleWriter.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\Extensibility\IProjectConverter.cs">
+      <Link>Extensibility\IProjectConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\Extensibility\ProjectConverterCollection.cs">
+      <Link>Extensibility\ProjectConverterCollection.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\util\ISettings.cs">
       <Link>ISettings.cs</Link>
       <SubType>Code</SubType>
@@ -178,6 +184,9 @@
     <Compile Include="..\..\..\..\src\ClientUtilities\util\ProjectConfigCollection.cs">
       <Link>ProjectConfigCollection.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\ProjectConverters\VisualStudioConverter.cs">
+      <Link>ProjectConverters\VisualStudioConverter.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\util\ProjectFormatException.cs">
       <Link>ProjectFormatException.cs</Link>
@@ -230,6 +239,9 @@
     <Compile Include="..\..\..\..\src\ClientUtilities\util\Services\DomainManager.cs">
       <Link>Services\DomainManager.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\Services\ProjectService.cs">
+      <Link>Services\ProjectService.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\util\Services\RecentFilesService.cs">
       <Link>Services\RecentFilesService.cs</Link>

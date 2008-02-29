@@ -92,17 +92,17 @@ namespace NUnit.ConsoleRunner
 			return false;
 		}
 
-		protected override bool IsValidParameter(string parm)
-		{
-			return NUnitProject.CanLoadAsProject( parm ) || PathUtils.IsAssemblyFileType( parm );
-		}
+//		protected override bool IsValidParameter(string parm)
+//		{
+//			return Services.ProjectLoadService.CanLoadProject( parm ) || PathUtils.IsAssemblyFileType( parm );
+//		}
 
 
         public bool IsTestProject
         {
             get
             {
-                return ParameterCount == 1 && NUnitProject.CanLoadAsProject((string)Parameters[0]);
+                return ParameterCount == 1 && Services.ProjectService.CanLoadProject((string)Parameters[0]);
             }
         }
 

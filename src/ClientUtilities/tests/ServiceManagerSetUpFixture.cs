@@ -21,6 +21,7 @@ namespace NUnit.Util.Tests
 		{
 			ServiceManager.Services.AddService( new SettingsService() );
 			ServiceManager.Services.AddService( new DomainManager() );
+			ServiceManager.Services.AddService( new ProjectService() );
 			ServiceManager.Services.AddService( new TestAgency( "TestDomain_TestAgency", 9200 ) );
 			Services.TestAgency.Start();
 		}

@@ -54,9 +54,13 @@
         <include name="XmlResultTransform.cs"/>
         <include name="XmlResultVisitor.cs"/>
         <include name="XmlSettingsStorage.cs"/>
+        <include name="Extensibility/IProjectConverter.cs"/>
+        <include name="Extensibility/ProjectConverterCollection.cs"/>
+        <include name="ProjectLoaders/VisualStudioConverter.cs"/>
         <include name="Services/AddinManager.cs"/>
         <include name="Services/AddinRegistry.cs"/>
         <include name="Services/DomainManager.cs"/>
+        <include name="Services/ProjectService.cs"/>
         <include name="Services/RecentFilesService.cs"/>
         <include name="Services/ServiceManager.cs"/>
         <include name="Services/SettingsService.cs"/>
