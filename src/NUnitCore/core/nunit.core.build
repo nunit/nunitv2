@@ -53,8 +53,6 @@
         <include name="TestSuite.cs"/>
         <include name="TestSuiteBuilder.cs"/>
         <include name="ThreadedTestRunner.cs"/>
-        <include name="Builders/AbstractFixtureBuilder.cs"/>
-        <include name="Builders/AbstractTestCaseBuilder.cs"/>
         <include name="Builders/LegacySuiteBuilder.cs"/>
         <include name="Builders/NUnitTestCaseBuilder.cs"/>
         <include name="Builders/NUnitTestFixtureBuilder.cs"/>
