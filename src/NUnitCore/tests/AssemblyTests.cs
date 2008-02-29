@@ -19,7 +19,7 @@ namespace NUnit.Core.Tests
 	public class AssemblyTests 
 	{
 		private string thisDll;
-	    private readonly string noTestFixturesDll = "nunit.testutilities.dll";
+	    private readonly string noTestFixturesDll = "test-utilities.dll";
 
 		[SetUp]
 		public void InitStrings()
