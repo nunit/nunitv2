@@ -1,14 +1,18 @@
 <?xml version="1.0"?>
 <project name="NUnitGuiExe" default="build" basedir=".">
 
+  <patternset id="source-files">
+        <include name="AssemblyInfo.cs"/>
+        <include name="Class1.cs"/>
+  </patternset>
+
   <target name="build">
     <csc target="winexe" 
         output="${current.build.dir}/nunit.exe" 
         win32icon="App.ico" debug="${build.debug}"
         define="${build.defines}">
       <sources>
-        <include name="AssemblyInfo.cs"/>
-        <include name="Class1.cs"/>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
@@ -25,8 +29,7 @@
         define="${build.defines}" platform="x86" 
         if="${build.x86}">
       <sources>
-        <include name="AssemblyInfo.cs"/>
-        <include name="Class1.cs"/>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
@@ -40,7 +43,12 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/GuiRunner/nunit-gui-exe">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="nunit-gui.exe.build"/>
+        <include name="App.ico"/>
+        <include name="App.config"/>
+      </fileset>
     </copy>
   </target>
 

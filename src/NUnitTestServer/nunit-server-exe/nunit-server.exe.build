@@ -19,7 +19,12 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/NUnitTestServer/nunit-server-exe">
-      <fileset refid="source-files" />
+      <fileset>
+        <include name="TestServerConsoleApp.cs"/>
+        <include name="App.ico"/>
+        <include name="App.config"/>
+        <include name="nunit-server.exe.build"/>
+      </fileset>
     </copy>
   </target>
 

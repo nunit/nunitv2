@@ -22,7 +22,10 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/NUnitExtensions/tests">
-      <fileset refid="source-files" />
+      <fileset>
+        <include name="RepeatedTestFixture.cs"/>
+        <include name="nunit.extensions.tests.build"/>
+      </fileset>
     </copy>
   </target>
 

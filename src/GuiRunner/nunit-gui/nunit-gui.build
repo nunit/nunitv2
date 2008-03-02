@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <project name="NUnitGuiRunner" default="build" basedir=".">
 
-  <target name="build">
-    <csc target="library" 
-       output="${current.build.dir}/nunit-gui-runner.dll" 
-       win32icon="Logo.ico" debug="${build.debug}"
-       define="${build.defines}">
-      <sources>
+  <patternset id="source-files">
         <include name="AboutBox.cs"/>
         <include name="AddinDialog.cs"/>
         <include name="AppEntry.cs"/>
@@ -24,12 +19,9 @@
         <include name="SettingsPages/TestResultSettingsPage.cs"/>
         <include name="SettingsPages/TreeSettingsPage.cs"/>
         <include name="SettingsPages/VisualStudioSettingsPage.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>-->
-      </sources>
-      <nowarn>
-        <warning number="618,1699" if="${runtime.version=='2.0'}"/>
-      </nowarn>
-      <resources>
+  </patternset>
+
+  <patternset id="resource-files">
         <include name="AboutBox.resx"/>
         <include name="AddinDialog.resx"/>
         <include name="ExceptionDetailsForm.resx"/>
@@ -38,13 +30,30 @@
         <include name="ProjectEditor.resx"/>
         <include name="App.ico"/>
         <include name="Logo.ico"/>
+        <include name="SettingsPages/AdvancedLoaderSettingsPage.resx"/>
         <include name="SettingsPages/AssemblyReloadSettingsPage.resx"/>
         <include name="SettingsPages/GuiSettingsPage.resx"/>
         <include name="SettingsPages/TestLoaderSettingsPage.resx"/>
         <include name="SettingsPages/TestResultSettingsPage.resx"/>
         <include name="SettingsPages/TreeSettingsPage.resx"/>
         <include name="SettingsPages/VisualStudioSettingsPage.resx"/>
-      </resources>-->
+  </patternset>
+
+  <target name="build">
+    <csc target="library" 
+       output="${current.build.dir}/nunit-gui-runner.dll" 
+       win32icon="Logo.ico" debug="${build.debug}"
+       define="${build.defines}">
+      <sources>
+        <patternset refid="source-files"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <nowarn>
+        <warning number="618,1699" if="${runtime.version=='2.0'}"/>
+      </nowarn>
+      <resources>
+        <patternset refid="resource-files"/>
+      </resources>
       <references basedir="${current.build.dir}">
         <include name="System.Windows.Forms.dll"/>
         <include name="System.Drawing.dll"/>
@@ -60,7 +69,11 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/GuiRunner/nunit-gui">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <patternset refid="resource-files"/>
+        <include name="nunit-gui.build"/>
+      </fileset>
     </copy>
   </target>
 

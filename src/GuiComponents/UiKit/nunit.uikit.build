@@ -1,11 +1,7 @@
 <?xml version="1.0"?>
 <project name="NUnitUiKit" default="build" basedir=".">
 
-  <target name="build">
-    <csc target="library" 
-    output="${current.build.dir}/nunit.uikit.dll"
-    debug="${build.debug}" define="${build.defines}">
-      <sources>
+  <patternset id="source-files">
         <include name="AddConfigurationDialog.cs"/>
         <include name="AddTabPageDialog.cs"/>
         <include name="AppContainer.cs"/>
@@ -48,12 +44,9 @@
         <include name="UserMessage.cs"/>
         <include name="VisualState.cs"/>
         <include name="WaitCursor.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <nowarn>
-        <warning number="1699" if="${runtime.version=='2.0'}"/>
-      </nowarn>
-      <resources prefix="NUnit.UiKit">
+  </patternset>
+
+  <patternset id="resource-files">
         <include name="AddConfigurationDialog.resx"/>
         <include name="AddTabPageDialog.resx"/>
         <include name="ConfigurationEditor.resx"/>
@@ -61,6 +54,7 @@
         <include name="ErrorDisplay.resx"/>
         <include name="ExpandingLabel.resx"/>
         <include name="ExpandingTextBox.resx"/>
+        <include name="LongRunningOperationDisplay.resx"/>
         <include name="NotRunTree.resx"/>
         <include name="ProgressBar.resx"/>
         <include name="RenameConfigurationDialog.resx"/>
@@ -79,9 +73,32 @@
         <include name="TextOutputSettingsPage.resx"/>
         <include name="TipWindow.resx"/>
         <include name="TreeBasedSettingsDialog.resx"/>
+        <include name="UserMessage.resx"/>
         <include name="Ellipsis.gif"/>
         <include name="pinned.gif"/>
         <include name="unpinned.gif"/>
+  </patternset>
+
+  <patternset id="content-files">
+    <include name="Success.jpg"/>
+    <include name="Failure.jpg"/>
+    <include name="Ignored.jpg"/>
+    <include name="Gray.jpg"/>
+  </patternset>
+
+  <target name="build">
+    <csc target="library" 
+    output="${current.build.dir}/nunit.uikit.dll"
+    debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <patternset refid="source-files"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <nowarn>
+        <warning number="1699" if="${runtime.version=='2.0'}"/>
+      </nowarn>
+      <resources prefix="NUnit.UiKit">
+        <patternset refid="resource-files"/>
       </resources>
       <references basedir="${current.build.dir}">
         <include name="System.Windows.Forms.dll"/>
@@ -96,16 +113,19 @@
 
     <copy todir="${current.build.dir}">
       <fileset>
-        <include name="Success.jpg"/>
-        <include name="Failure.jpg"/>
-        <include name="Ignored.jpg"/>
+        <patternset refid="content-files"/>
       </fileset>
     </copy>
   </target>
 
   <target name="package">
     <copy todir="${package.src.dir}/GuiComponents/UiKit">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <patternset refid="resource-files"/>
+        <patternset refid="content-files"/>
+        <include name="nunit.uikit.build"/>
+      </fileset>
     </copy>
   </target>
 

@@ -1,13 +1,17 @@
 <?xml version="1.0"?>
 <project name="NUnitFixtureTests" default="build" basedir=".">
 
+  <patternset id="source-files">
+        <include name="CompilationTests.cs"/>
+        <include name="TestTreeTests.cs"/>
+  </patternset>
+
   <target name="build">
     <csc target="library" 
         output="${current.build.dir}/nunit.fixtures.tests.dll"
         debug="${build.debug}" define="${build.defines}">
       <sources>
-        <include name="CompilationTests.cs"/>
-        <include name="TestTreeTests.cs"/>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
@@ -22,7 +26,10 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/NUnitFixtures/tests">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="nunit.fixtures.tests.build"/>
+      </fileset>
     </copy>
   </target>
 

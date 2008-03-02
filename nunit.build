@@ -2,20 +2,16 @@
 <project name="NUnit" default="help" basedir=".">
 
 <!-- ***************************************************************** -->
-<!-- This script has been tested using NAnt 0.85. At least             -->
-<!-- one of the supported runtimes and sdk must be installed. In       -->
-<!-- order to build the msi, WiX 2.0 and the WiX tasks for NAnt        -->
+<!-- This script has been tested requires NAnt 0.86 and has been       -->
+<!-- tested with the 0.86 beta 1 release.                              -->
+<!--                                                                   -->
+<!-- At least one of the supported runtimes and sdk must be installed. -->
+<!-- In order to build the msi, WiX 2.0 and the WiX tasks for NAnt     -->
 <!-- are required. To run the test coverage target, NCover is          -->
 <!-- required.                                                         -->
 <!--                                                                   -->
-<!-- Limitations:                                                      -->
-<!-- 1. Currently, the .NET 1.0 builds of the GUI runner cannot be     -->
-<!--    run successfully. The .NET 1.1 builds may be run under         -->
-<!--    .NET 1.0, however.                                             -->
-<!--                                                                   -->
-<!-- 2. Running the GUI under Mono is still experimental. We have      -->
-<!--    tested under Mono 1.2.2 and seen some stability issues.        -->
-<!--    Later releases of Mono may resolve these problems.             -->
+<!-- Currently, the .NET 1.0 builds of the GUI runner cannot be run    -->
+<!-- successfully. However, the .NET 1.1 builds may be run under 1.0.  -->
 <!-- ***************************************************************** -->
 
 <!-- ***************************************************************** -->
@@ -239,7 +235,7 @@
     <exec basedir="${current.build.dir}"
       workingdir="${current.build.dir}" 
 	  program="nunit-console.exe" 
-      useruntimeengine="true"
+      managed="strict"
 	  commandline="NUnitTests.nunit ${nunit.options} /xml:${result.file}.xml" />
 
   </target>
@@ -259,7 +255,7 @@
     <exec basedir="${ncover.dir}"
           workingdir="${current.build.dir}" 
 	  program="NCover.Console.exe" 
-      useruntimeengine="true"
+      managed="strict"
 	  commandline="nunit-console.exe NUnitTests.nunit ${nunit.options} ${ncover.options}"
 	if="${build.win32}" />
 
@@ -268,7 +264,7 @@
     <exec basedir="${ncover.dir}"
           workingdir="${current.build.dir}" 
 	  program="NCover.Console.exe" 
-          useruntimeengine="true"
+          managed="strict"
 	  commandline="nunit-console.exe NUnitTests.nunit ${nunit.options}"
 	unless="${build.win32}" />
 
@@ -363,7 +359,7 @@
     <exec basedir="${current.build.dir}" 
       workingdir="${current.build.dir}" 
       program="nunit.exe" 
-      useruntimeengine="true"
+      managed="strict"
       commandline="NUnitTests.nunit -run"/>
 
   </target>
@@ -378,7 +374,7 @@
     <exec basedir="${current.build.dir}" 
       workingdir="${current.build.dir}" 
       program="runfile.exe" 
-      useruntimeengine="true"
+      managed="strict"
       commandline="NUnitFitTests.html TestResults.html ." />
 
   </target>
@@ -534,6 +530,7 @@
     <call target="copy-samples"/>
     <call target="copy-src"/>
     <call target="copy-tools" />
+    <call target="copy-lib"/>
 
     <copy file="license.txt" todir="${package.working.dir}" />
 
@@ -777,6 +774,14 @@
       </fileset>
     </copy>
 
+  </target>
+
+  <target name="copy-lib">
+    <copy todir="${package.lib.dir}">
+      <fileset basedir="${project.lib.dir}">
+        <include name="log4net.dll"/>
+      </fileset>
+    </copy>
   </target>
 
 <!-- ***************************************************************** -->

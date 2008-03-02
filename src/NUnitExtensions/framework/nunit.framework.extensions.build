@@ -1,13 +1,17 @@
 <?xml version="1.0"?>
 <project name="NUnitFrameworkExtensions" default="build" basedir=".">
 
+  <patternset id="source-files">
+        <include name="AssemblyInfo.cs"/>
+        <include name="RepeatAttribute.cs"/>
+  </patternset>
+
   <target name="build">
     <csc target="library" 
         output="${current.build.dir}/nunit.framework.extensions.dll"
         debug="${build.debug}" define="${build.defines}">
       <sources>
-        <include name="AssemblyInfo.cs"/>
-        <include name="RepeatAttribute.cs"/>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <nowarn>
@@ -21,7 +25,10 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/NUnitExtensions/framework">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="nunit.framework.extensions.build"/>
+      </fileset>
     </copy>
   </target>
 

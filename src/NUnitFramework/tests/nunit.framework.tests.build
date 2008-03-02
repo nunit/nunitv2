@@ -1,15 +1,7 @@
 <?xml version="1.0"?>
 <project name="NUnitFrameworkTests" default="build" basedir=".">
 
-  <target name="build">
-    <csc target="library" 
-        output="${current.build.dir}/nunit.framework.tests.dll"
-        debug="${build.debug}" 
-        define="${build.defines}">
-      <nowarn>
-        <warning number="618,672"/>
-      </nowarn>
-      <sources>
+  <patternset id="source-files">
         <include name="Constraints/AndTest.cs"/>
         <include name="Constraints/CollectionConstraintTests.cs"/>
         <include name="Constraints/ComparisonConstraintTests.cs"/>
@@ -44,13 +36,29 @@
         <include name="StringAssertTests.cs"/>
         <include name="TextMessageWriterTests.cs"/>
         <include name="TypeAssertTest.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
-      </sources>
-      <resources prefix="NUnit.Framework.Tests">
+  </patternset>
+
+  <patternset id="resource-files">
         <include name="TestImage1.jpg"/>
         <include name="TestImage2.jpg"/>
         <include name="TestText1.txt"/>
         <include name="TestText2.txt"/>
+  </patternset>
+
+  <target name="build">
+    <csc target="library" 
+        output="${current.build.dir}/nunit.framework.tests.dll"
+        debug="${build.debug}" 
+        define="${build.defines}">
+      <nowarn>
+        <warning number="618,672"/>
+      </nowarn>
+      <sources>
+        <patternset refid="source-files"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
+      </sources>
+      <resources prefix="NUnit.Framework.Tests">
+        <patternset refid="resource-files"/>
       </resources>
       <references basedir="${current.build.dir}">
         <include name="nunit.framework.dll"/>
@@ -62,7 +70,11 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/NUnitFramework/tests">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <patternset refid="resource-files"/>
+        <include name="nunit.framework.tests.build"/>
+      </fileset>
     </copy>
   </target>
 

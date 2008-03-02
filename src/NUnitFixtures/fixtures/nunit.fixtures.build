@@ -1,17 +1,21 @@
 <?xml version="1.0"?>
 <project name="NUnitFixtures" default="build" basedir=".">
 
+  <patternset id="source-files">
+        <include name="AssemblyRunner.cs"/>
+        <include name="PlatformInfo.cs"/>
+        <include name="SnippetRunner.cs"/>
+        <include name="TestLoadFixture.cs"/>
+        <include name="TestCompiler.cs"/>
+        <include name="TestTree.cs"/>
+  </patternset>
+
   <target name="build">
     <csc target="library" 
         output="${current.build.dir}/nunit.fixtures.dll"
         debug="${build.debug}" define="${build.defines}">
       <sources >
-        <include name="AssemblyRunner.cs" asis="true"/>
-        <include name="PlatformInfo.cs" asis="true"/>
-        <include name="SnippetRunner.cs" asis="true"/>
-        <include name="TestLoadFixture.cs" asis="true"/>
-        <include name="TestCompiler.cs" asis="true"/>
-        <include name="TestTree.cs" asis="true"/>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <nowarn>
@@ -36,7 +40,10 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/NUnitFixtures/fixtures">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="nunit.fixtures.build"/>
+      </fileset>
     </copy>
   </target>
 

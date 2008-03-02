@@ -1,11 +1,7 @@
 <?xml version="1.0"?>
 <project name="NUnit.Util.Tests" default="build">
 
-  <target name="build">
-    <csc target="library" 
-       output="${current.build.dir}/nunit.util.tests.dll"
-       debug="${build.debug}" define="${build.defines}">
-      <sources>
+  <patternset id="source-files">
         <include name="AssemblyListTests.cs"/>
         <include name="CategoryParseTests.cs"/>
         <include name="CategoryManagerTest.cs"/>
@@ -37,12 +33,26 @@
         <include name="TestEventCatcher.cs"/>
         <include name="TestLoaderAssemblyTests.cs"/>
         <include name="TestServerTests.cs"/>
+        <include name="VisualStudioConverterTests.cs"/>
         <include name="VSProjectTests.cs"/>
         <include name="XmlResultVisitorTest.cs"/>
+  </patternset>
+
+  <patternset id="resource-files">
+    <include name="resources/*"/>
+  </patternset>
+
+  <target name="build">
+
+    <csc target="library" 
+       output="${current.build.dir}/nunit.util.tests.dll"
+       debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <resources prefix="NUnit.Util.Tests.resources">
-        <include name="resources/*"/>
+        <patternset refid="resource-files"/>
       </resources>
       <references basedir="${current.build.dir}">
         <include name="System.Runtime.Remoting.dll"/>
@@ -64,7 +74,11 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/ClientUtilities/tests">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <patternset refid="resource-files"/>
+        <include name="nunit.util.tests.build"/>
+      </fileset>
     </copy>
   </target>
 

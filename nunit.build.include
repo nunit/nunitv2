@@ -46,6 +46,8 @@
     value="${path::combine(package.working.dir,'tools')}"/>
   <property name="package.resource.dir"
     value="${path::combine(package.working.dir, 'resources')}"/>
+  <property name="package.lib.dir"
+    value="${path::combine(package.working.dir, 'lib')}"/>
   <property name="package.install.dir"
     value="${path::combine(package.src.dir, 'install')}"/>
 

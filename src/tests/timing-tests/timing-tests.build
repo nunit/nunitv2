@@ -1,13 +1,17 @@
 <?xml version="1.0"?>
 <project name="TimingTests" default="build" basedir=".">
 
+  <patternset id="source-files">
+        <include name="AssemblyInfo.cs"/>
+        <include name="ClientTimeoutFixture.cs"/>
+        <include name="ServerTimeoutFixture.cs"/>
+  </patternset>
+
   <target name="build">
     <csc target="library"
        output="${current.build.dir}/timing-tests.dll">
       <sources>
-        <include name="AssemblyInfo.cs"/>
-        <include name="ClientTimeoutFixture.cs"/>
-        <include name="ServerTimeoutFixture.cs"/>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
@@ -21,7 +25,10 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/tests/timing-tests">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="timing-tests.build"/>
+      </fileset>
     </copy>
   </target>
 

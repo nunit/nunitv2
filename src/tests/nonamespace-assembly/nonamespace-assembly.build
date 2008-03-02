@@ -17,7 +17,10 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/tests/nonamespace-assembly">
-      <fileset refid="source-files" />
+      <fileset>
+        <include name="NoNamespaceTestFixture.cs"/>
+        <include name="nonamespace-assembly.build"/>
+      </fileset>
     </copy>
   </target>
 

@@ -1,14 +1,18 @@
 <?xml version="1.0"?>
 <project name="NUnitGuiTests" default="build" basedir=".">
 
+  <patternset id="source-files">
+        <include name="CommandLineTests.cs"/>
+        <include name="ExceptionDetailsFormTests.cs"/>
+        <include name="ProjectEditorTests.cs"/>
+  </patternset>
+
   <target name="build">
     <csc target="library" 
         output="${current.build.dir}/nunit-gui.tests.dll" 
         debug="${build.debug}" define="${build.defines}">
       <sources>
-        <include name="CommandLineTests.cs"/>
-        <include name="ExceptionDetailsFormTests.cs"/>
-        <include name="ProjectEditorTests.cs"/>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
@@ -24,7 +28,10 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/GuiRunner/tests">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="nunit-gui.tests.build"/>
+      </fileset>
     </copy>
   </target>
 

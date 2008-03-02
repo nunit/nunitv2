@@ -1,17 +1,7 @@
 <?xml version="1.0"?>
 <project name="NUnitFramework" default="build" basedir=".">
 
-  <target name="build">
-    <csc target="library"
-        output="${current.build.dir}/nunit.framework.dll"
-        doc="${current.build.dir}/nunit.framework.xml"
-        debug="${build.debug}" 
-        define="${build.defines}">
-      <nowarn>
-        <warning number="618,672"/>
-        <warning number="1699" if="${runtime.version=='2.0'}"/>
-      </nowarn>
-      <sources basedir=".">
+  <patternset id="source-files">
         <include name="Constraints/BinaryOperations.cs"/>
         <include name="Constraints/CollectionConstraints.cs"/>
         <include name="Constraints/ComparisonConstraints.cs"/>
@@ -66,6 +56,20 @@
         <include name="TestFixtureSetUpAttribute.cs"/>
         <include name="TestFixtureTearDownAttribute.cs"/>
         <include name="TextMessageWriter.cs"/>
+  </patternset>
+
+  <target name="build">
+    <csc target="library"
+        output="${current.build.dir}/nunit.framework.dll"
+        doc="${current.build.dir}/nunit.framework.xml"
+        debug="${build.debug}" 
+        define="${build.defines}">
+      <nowarn>
+        <warning number="618,672"/>
+        <warning number="1699" if="${runtime.version=='2.0'}"/>
+      </nowarn>
+      <sources basedir=".">
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs" />
       </sources>
     </csc>
@@ -73,7 +77,10 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/NUnitFramework/framework">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="nunit.framework.build"/>
+      </fileset>
     </copy>
   </target>
 

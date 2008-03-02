@@ -1,14 +1,18 @@
 <?xml version="1.0"?>
 <project name="NUnitAgentExe" default="build" basedir=".">
 
+  <patternset id="source-files">
+    <include name="Program.cs"/>
+    <include name="AssemblyInfo.cs"/>
+  </patternset>
+
   <target name="build">
 
     <csc target="winexe" 
         output="${current.build.dir}/nunit-agent.exe"
         debug="${build.debug}" define="${build.defines}">
       <sources>
-        <include name="Program.cs"/>
-        <include name="AssemblyInfo.cs"/>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
@@ -25,7 +29,11 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/NUnitTestServer/nunit-agent-exe">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files" />
+        <include name="App.config"/>
+        <include name="nunit-agent.exe.build"/>
+      </fileset>
     </copy>
   </target>
 

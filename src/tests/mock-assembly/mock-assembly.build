@@ -19,7 +19,10 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/tests/mock-assembly">
-      <fileset refid="source-files" />
+      <fileset>
+        <include name="MockAssembly.cs"/>
+        <include name="mock-assembly.build"/>
+      </fileset>
     </copy>
   </target>
 

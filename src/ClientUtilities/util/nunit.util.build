@@ -1,11 +1,7 @@
 <?xml version="1.0"?>
 <project name="NUnitUtil" default="build" basedir=".">
 
-  <target name="build">
-    <csc target="library" 
-        output="${current.build.dir}/nunit.util.dll"
-        debug="${build.debug}" define="${build.defines}">
-      <sources>
+  <patternset id="source-files">
         <include name="AggregatingTestRunner.cs"/>
         <include name="AssemblyInfo.cs"/>
         <include name="AssemblyList.cs"/>
@@ -56,15 +52,28 @@
         <include name="XmlSettingsStorage.cs"/>
         <include name="Extensibility/IProjectConverter.cs"/>
         <include name="Extensibility/ProjectConverterCollection.cs"/>
-        <include name="ProjectLoaders/VisualStudioConverter.cs"/>
+        <include name="ProjectConverters/VisualStudioConverter.cs"/>
         <include name="Services/AddinManager.cs"/>
         <include name="Services/AddinRegistry.cs"/>
+        <include name="Services/ClientExtensions.cs"/>
         <include name="Services/DomainManager.cs"/>
         <include name="Services/ProjectService.cs"/>
         <include name="Services/RecentFilesService.cs"/>
         <include name="Services/ServiceManager.cs"/>
         <include name="Services/SettingsService.cs"/>
         <include name="Services/TestAgency.cs"/>
+  </patternset>
+
+  <patternset id="resource-files">
+    <include name="Transform.resx"/>
+  </patternset>
+
+  <target name="build">
+    <csc target="library" 
+        output="${current.build.dir}/nunit.util.dll"
+        debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <nowarn>
@@ -72,7 +81,7 @@
         <warning number="1699" if="${runtime.version=='2.0'}"/>
       </nowarn>
       <resources prefix="NUnit.Util">
-        <include name="Transform.resx"/>
+        <patternset refid="resource-files"/>
       </resources>
       <references basedir="${current.build.dir}">
         <include name="System.Runtime.Remoting.dll"/>
@@ -86,7 +95,11 @@
   
   <target name="package">
     <copy todir="${package.src.dir}/ClientUtilities/util">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <patternset refid="resource-files"/>
+        <include name="nunit.util.build"/>
+      </fileset>
     </copy>
   </target>
 

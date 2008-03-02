@@ -1,12 +1,7 @@
 <?xml version="1.0"?>
 <project name="NUnitCore" default="build" basedir=".">
 
-  <target name="build">
-    <csc target="library" 
-        output="${current.build.dir}/nunit.core.dll"
-        debug="${build.debug}" 
-        define="${build.defines}">
-      <sources>
+  <patternset id="source-files">
         <include name="AbstractTestCaseDecoration.cs"/>
         <include name="AssemblyInfo.cs"/>
         <include name="AssemblyReader.cs"/>
@@ -63,6 +58,15 @@
         <include name="Extensibility/SuiteBuilderCollection.cs"/>
         <include name="Extensibility/TestCaseBuilderCollection.cs"/>
         <include name="Extensibility/TestDecoratorCollection.cs"/>
+  </patternset>
+
+  <target name="build">
+    <csc target="library" 
+        output="${current.build.dir}/nunit.core.dll"
+        debug="${build.debug}" 
+        define="${build.defines}">
+      <sources>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <nowarn>
@@ -77,7 +81,12 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/NUnitCore/core">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="results.xsd"/> <!-- Need to check this -->
+        <include name="summary.xslt"/>    <!-- and this -->
+        <include name="nunit.core.build"/>
+      </fileset>
     </copy>
   </target>
 

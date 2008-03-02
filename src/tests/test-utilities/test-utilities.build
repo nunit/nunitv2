@@ -1,16 +1,20 @@
 <?xml version="1.0"?>
 <project name="TestUtilities" default="build" basedir=".">
 
-  <target name="build">
-    <csc target="library" 
-        output="${current.build.dir}/test-utilities.dll" 
-        debug="${build.debug}" define="${build.defines}">
-      <sources>
+  <patternset id="source-files">
         <include name="FormTester.cs"/>
         <include name="MockTestEventSource.cs"/>
         <include name="TempResourceFile.cs"/>
         <include name="TestBuilder.cs"/>
         <include name="TestFinder.cs"/>
+  </patternset>
+
+  <target name="build">
+    <csc target="library" 
+        output="${current.build.dir}/test-utilities.dll" 
+        debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
@@ -25,7 +29,10 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/tests/test-utilities">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="test-utilities.build"/>
+      </fileset>
     </copy>
   </target>
 

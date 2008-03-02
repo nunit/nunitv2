@@ -1,11 +1,7 @@
 <?xml version="1.0"?>
 <project name="NUnitMocks" default="build" basedir=".">
 
-  <target name="build">
-    <csc target="library" 
-        output="${current.build.dir}/nunit.mocks.dll"
-        debug="${build.debug}" define="${build.defines}">
-      <sources>
+  <patternset id="source-files">
         <include name="AssemblyInfo.cs"/>
         <include name="DynamicMock.cs"/>
         <include name="ICall.cs"/>
@@ -18,6 +14,14 @@
         <include name="MockCall.cs"/>
         <include name="MockInterfaceHandler.cs"/>
         <include name="MockMethod.cs"/>
+  </patternset>
+
+  <target name="build">
+    <csc target="library" 
+        output="${current.build.dir}/nunit.mocks.dll"
+        debug="${build.debug}" define="${build.defines}">
+      <sources>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <nowarn>
@@ -31,7 +35,10 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/NUnitMocks/mocks">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="nunit.mocks.build"/>
+      </fileset>
     </copy>
   </target>
 

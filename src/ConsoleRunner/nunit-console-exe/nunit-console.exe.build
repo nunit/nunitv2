@@ -1,14 +1,18 @@
 <?xml version="1.0"?>
 <project name="NUnit-Console" default="build">
 
+  <patternset id="source-files">
+        <include name="AssemblyInfo.cs"/>
+        <include name="Class1.cs"/>
+  </patternset>
+
   <target name="build">
     <csc target="exe" 
         output="${current.build.dir}/nunit-console.exe"
         debug="${build.debug}" define="${build.defines}">
       <sources>
-        <include name="AssemblyInfo.cs"/>
-        <include name="Class1.cs"/>
-	<include name="../../CommonAssemblyInfo.cs"/>
+        <patternset refid="source-files"/>
+	  <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.core.dll"/>
@@ -25,9 +29,8 @@
         debug="${build.debug}" define="${build.defines}"
         platform="x86" if="${build.x86}">
       <sources>
-        <include name="AssemblyInfo.cs"/>
-        <include name="Class1.cs"/>
-	<include name="../../CommonAssemblyInfo.cs"/>
+        <patternset refid="source-files"/>
+        <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.core.dll"/>
@@ -42,7 +45,12 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/ConsoleRunner/nunit-console-exe">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="App.config"/>
+        <include name="App.ico"/>
+        <include name="nunit-console.exe.build"/>
+      </fileset>
     </copy>
   </target>
 

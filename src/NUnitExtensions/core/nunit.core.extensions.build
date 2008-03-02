@@ -1,14 +1,18 @@
 <?xml version="1.0"?>
 <project name="NUnitCoreExtensions" default="build" basedir=".">
 
+  <patternset id="source-files">
+        <include name="AssemblyInfo.cs"/>
+        <include name="RepeatedTestCase.cs"/>
+        <include name="RepeatedTestDecorator.cs"/>
+  </patternset>
+
   <target name="build">
     <csc target="library" 
         output="${current.build.dir}/nunit.core.extensions.dll"
         debug="${build.debug}" define="${build.defines}">
       <sources>
-        <include name="AssemblyInfo.cs"/>
-        <include name="RepeatedTestCase.cs"/>
-        <include name="RepeatedTestDecorator.cs"/>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <nowarn>
@@ -23,7 +27,10 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/NUnitExtensions/core">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="nunit.core.extensions.build"/>
+      </fileset>
     </copy>
   </target>
 

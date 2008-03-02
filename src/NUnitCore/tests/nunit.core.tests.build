@@ -1,15 +1,7 @@
 <?xml version="1.0"?>
 <project name="NUnitCoreTests" default="build" basedir=".">
 
-  <target name="build">
-    <csc target="library" 
-       output="${current.build.dir}/nunit.core.tests.dll"
-       debug="${build.debug}" 
-       define="${build.defines}">
-      <nowarn>
-        <warning number="618,672"/>
-      </nowarn>
-      <sources>
+  <patternset id="source-files">
         <include name="AllTests.cs"/>
         <include name="AssemblyReaderTests.cs"/>
         <include name="AssemblyResolverTests.cs"/>
@@ -65,6 +57,18 @@
         <include name="ThreadedTestRunnerTests.cs"/>
         <include name="UnhandledExceptionTests.cs"/>
         <include name="XmlTest.cs"/>
+  </patternset>
+
+  <target name="build">
+    <csc target="library" 
+       output="${current.build.dir}/nunit.core.tests.dll"
+       debug="${build.debug}" 
+       define="${build.defines}">
+      <nowarn>
+        <warning number="618,672"/>
+      </nowarn>
+      <sources>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <resources prefix="NUnit.Core.Tests">
@@ -87,7 +91,10 @@
 
   <target name="package">
     <copy todir="${package.src.dir}/NUnitCore/tests">
-      <fileset refid="source-files" />
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="nunit.core.tests.build"/>
+      </fileset>
     </copy>
   </target>
 
