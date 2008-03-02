@@ -304,42 +304,6 @@
                     DependentUpon = "VisualStudioSettingsPage.cs"
                     BuildAction = "EmbeddedResource"
                 />
-                <File
-                    RelPath = "SettingsPages\OldTabPages\GeneralSettingsTab.cs"
-                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\GeneralSettingsTab.cs"
-                    SubType = "UserControl"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SettingsPages\OldTabPages\GeneralSettingsTab.resx"
-                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\GeneralSettingsTab.resx"
-                    DependentUpon = "GeneralSettingsTab.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "SettingsPages\OldTabPages\TestLoaderSettingsTab.cs"
-                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestLoaderSettingsTab.cs"
-                    SubType = "UserControl"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SettingsPages\OldTabPages\TestLoaderSettingsTab.resx"
-                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestLoaderSettingsTab.resx"
-                    DependentUpon = "TestLoaderSettingsTab.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "SettingsPages\OldTabPages\TestOutputSettingsTab.cs"
-                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestOutputSettingsTab.cs"
-                    SubType = "UserControl"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SettingsPages\OldTabPages\TestOutputSettingsTab.resx"
-                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestOutputSettingsTab.resx"
-                    DependentUpon = "TestOutputSettingsTab.cs"
-                    BuildAction = "EmbeddedResource"
-                />
             </Include>
         </Files>
     </CSHARP>

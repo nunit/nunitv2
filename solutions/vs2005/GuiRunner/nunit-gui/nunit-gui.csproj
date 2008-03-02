@@ -166,18 +166,6 @@
       <Link>SettingsPages\GuiSettingsPage.cs</Link>
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\GeneralSettingsTab.cs">
-      <Link>SettingsPages\OldTabPages\GeneralSettingsTab.cs</Link>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestLoaderSettingsTab.cs">
-      <Link>SettingsPages\OldTabPages\TestLoaderSettingsTab.cs</Link>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestOutputSettingsTab.cs">
-      <Link>SettingsPages\OldTabPages\TestOutputSettingsTab.cs</Link>
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\TestLoaderSettingsPage.cs">
       <Link>SettingsPages\TestLoaderSettingsPage.cs</Link>
       <SubType>UserControl</SubType>
@@ -237,21 +225,6 @@
     <EmbeddedResource Include="..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\GuiSettingsPage.resx">
       <Link>SettingsPages\GuiSettingsPage.resx</Link>
       <DependentUpon>GuiSettingsPage.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\GeneralSettingsTab.resx">
-      <Link>SettingsPages\OldTabPages\GeneralSettingsTab.resx</Link>
-      <DependentUpon>GeneralSettingsTab.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestLoaderSettingsTab.resx">
-      <Link>SettingsPages\OldTabPages\TestLoaderSettingsTab.resx</Link>
-      <DependentUpon>TestLoaderSettingsTab.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\OldTabPages\TestOutputSettingsTab.resx">
-      <Link>SettingsPages\OldTabPages\TestOutputSettingsTab.resx</Link>
-      <DependentUpon>TestOutputSettingsTab.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\TestLoaderSettingsPage.resx">
