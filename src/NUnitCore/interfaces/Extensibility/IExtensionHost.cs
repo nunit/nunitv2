@@ -23,14 +23,6 @@ namespace NUnit.Core.Extensibility
         }
 
 		/// <summary>
-		/// Get an interface to the framework registry
-		/// </summary>
-		IFrameworkRegistry FrameworkRegistry
-		{
-			get;
-		}
-		
-		/// <summary>
 		/// Return an extension point by name, if present
 		/// </summary>
 		/// <param name="name">The name of the extension point</param>

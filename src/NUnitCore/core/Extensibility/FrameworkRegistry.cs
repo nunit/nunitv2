@@ -9,8 +9,13 @@ using System.Collections;
 
 namespace NUnit.Core.Extensibility
 {
-    public class FrameworkRegistry : IFrameworkRegistry
+    public class FrameworkRegistry : ExtensionPoint, IFrameworkRegistry
     {
+		#region Constructor
+		public FrameworkRegistry( IExtensionHost host )
+			: base( "FrameworkRegistry", host ) { }
+		#endregion Constructor
+
         #region Instance Fields
         /// <summary>
         /// List of FrameworkInfo structs for supported frameworks
@@ -29,6 +34,14 @@ namespace NUnit.Core.Extensibility
         {
             testFrameworks[frameworkName] = new TestFramework(frameworkName, assemblyName);
         }
+		#endregion
+
+		#region ExtensionPoint overrides
+        protected override bool ValidExtension(object extension)
+		{
+			return extension is TestFramework;
+		}
+
 		#endregion
 
 		#region Other Methods

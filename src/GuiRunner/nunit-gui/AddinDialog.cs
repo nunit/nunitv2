@@ -25,7 +25,6 @@ namespace NUnit.Gui
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.ListView addinListView;
 		private System.Windows.Forms.ColumnHeader addinNameColumn;
-		private System.Windows.Forms.ColumnHeader extensionTypeColumn;
 		private System.Windows.Forms.ColumnHeader addinStatusColumn;
 		/// <summary>
 		/// Required designer variable.
@@ -69,7 +68,6 @@ namespace NUnit.Gui
 			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(AddinDialog));
 			this.addinListView = new System.Windows.Forms.ListView();
 			this.addinNameColumn = new System.Windows.Forms.ColumnHeader();
-			this.extensionTypeColumn = new System.Windows.Forms.ColumnHeader();
 			this.addinStatusColumn = new System.Windows.Forms.ColumnHeader();
 			this.descriptionTextBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
@@ -83,7 +81,6 @@ namespace NUnit.Gui
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.addinListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 																							this.addinNameColumn,
-																							this.extensionTypeColumn,
 																							this.addinStatusColumn});
 			this.addinListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.addinListView.Location = new System.Drawing.Point(8, 8);
@@ -98,17 +95,12 @@ namespace NUnit.Gui
 			// addinNameColumn
 			// 
 			this.addinNameColumn.Text = "Addin";
-			this.addinNameColumn.Width = 200;
-			// 
-			// extensionTypeColumn
-			// 
-			this.extensionTypeColumn.Text = "Type";
-			this.extensionTypeColumn.Width = 100;
+			this.addinNameColumn.Width = 352;
 			// 
 			// addinStatusColumn
 			// 
 			this.addinStatusColumn.Text = "Status";
-			this.addinStatusColumn.Width = 100;
+			this.addinStatusColumn.Width = 89;
 			// 
 			// descriptionTextBox
 			// 
@@ -163,7 +155,7 @@ namespace NUnit.Gui
 			foreach( Addin addin in addins )
 			{
 				ListViewItem item = new ListViewItem( 
-					new string[] { addin.Name, addin.ExtensionType.ToString(), addin.Status.ToString() } );
+					new string[] { addin.Name, addin.Status.ToString() } );
 				addinListView.Items.Add( item );
 			}
 

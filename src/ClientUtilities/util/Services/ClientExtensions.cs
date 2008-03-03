@@ -30,9 +30,6 @@ namespace NUnit.Util
 		#region Public Methods
 		public void InstallBuiltins()
 		{
-			// Define NUnit Framework
-			FrameworkRegistry.Register( "NUnit", "nunit.framework" );
-
 			// Install builtin SuiteBuilders - Note that the
 			// NUnitTestCaseBuilder is installed whenever
 			// an NUnitTestFixture is being populated and

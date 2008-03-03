@@ -32,6 +32,7 @@ namespace NUnit.Core
 		private TestCaseBuilderCollection testBuilders;
 		private TestDecoratorCollection testDecorators;
 		private EventListenerCollection listeners;
+		private FrameworkRegistry frameworks;
 
 		private log4net.Appender.ConsoleAppender appender;
 		#endregion
@@ -57,9 +58,10 @@ namespace NUnit.Core
 			this.testBuilders = new TestCaseBuilderCollection(this);
 			this.testDecorators = new TestDecoratorCollection(this);
 			this.listeners = new EventListenerCollection(this);
+			this.frameworks = new FrameworkRegistry(this);
 
 			this.extensions = new IExtensionPoint[]
-				{ suiteBuilders, testBuilders, testDecorators, listeners };
+				{ suiteBuilders, testBuilders, testDecorators, listeners, frameworks };
 			this.supportedTypes = ExtensionType.Core;
 
 			// TODO: This should be somewhere central
@@ -132,7 +134,7 @@ namespace NUnit.Core
 			log.Info( "Installing Builtins" );
 
 			// Define NUnit Framework
-			FrameworkRegistry.Register( "NUnit", "nunit.framework" );
+			frameworks.Register( "NUnit", "nunit.framework" );
 
 			// Install builtin SuiteBuilders - Note that the
 			// NUnitTestCaseBuilder is installed whenever
@@ -152,27 +154,27 @@ namespace NUnit.Core
 				{
 					if ( (this.ExtensionTypes & addin.ExtensionType) != 0 )
 					{
-						try
+					try
+					{
+						Type type = Type.GetType(addin.TypeName);
+						if ( type == null )
 						{
-							Type type = Type.GetType(addin.TypeName);
-							if ( type == null )
-							{
-								AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Could not locate type" );
-								log.ErrorFormat( "Failed to load {0} - {1}", addin.Name, "Could not locate type" );
-							}
-							else if ( !InstallAddin( type ) )
-							{
-								AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Install returned false" );
-								log.ErrorFormat( "Failed to load {0} - {1}", addin.Name, "Install returned false" );
-							}
-							else
-								AddinRegistry.SetStatus( addin.Name, AddinStatus.Loaded, null );
+							AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Could not locate type" );
+							log.ErrorFormat( "Failed to load {0} - {1}", addin.Name, "Could not locate type" );
 						}
-						catch( Exception ex )
+						else if ( !InstallAddin( type ) )
 						{
-							AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, ex.Message );
-							log.ErrorFormat( "Exception loading {0} - {1}", addin.Name, ex.Message );
+							AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Install returned false" );
+							log.ErrorFormat( "Failed to load {0} - {1}", addin.Name, "Install returned false" );
 						}
+						else
+							AddinRegistry.SetStatus( addin.Name, AddinStatus.Loaded, null );
+					}
+					catch( Exception ex )
+					{
+						AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, ex.Message );
+						log.ErrorFormat( "Exception loading {0} - {1}", addin.Name, ex.Message );
+					}
 					}
 				}
 			}

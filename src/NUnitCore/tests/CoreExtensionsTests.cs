@@ -60,7 +60,10 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void HasTestFrameworkRegistry()
 		{
-            Assert.IsNotNull(host.FrameworkRegistry);
+			IExtensionPoint ep = host.GetExtensionPoint( "FrameworkRegistry" );
+			Assert.IsNotNull( ep );
+			Assert.AreEqual( "FrameworkRegistry", ep.Name );
+			Assert.AreEqual( typeof( FrameworkRegistry ), ep.GetType() );
 		}
 
 		[Test]

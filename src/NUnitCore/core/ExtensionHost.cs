@@ -17,26 +17,16 @@ namespace NUnit.Core
 	/// </summary>
 	public abstract class ExtensionHost : IExtensionHost
 	{
-		protected FrameworkRegistry frameworks;
-
+		#region Protected Fields
 		protected IExtensionPoint[] extensions;
 
 		protected ExtensionType supportedTypes;
-
-		public ExtensionHost()
-		{
-			frameworks = new FrameworkRegistry();
-		}
+		#endregion
 
 		#region IExtensionHost Interface
 		public IExtensionPoint[] ExtensionPoints
 		{
 			get { return extensions; }
-		}
-
-		public IFrameworkRegistry FrameworkRegistry
-		{
-			get { return frameworks; }
 		}
 
 		public IExtensionPoint GetExtensionPoint( string name )
