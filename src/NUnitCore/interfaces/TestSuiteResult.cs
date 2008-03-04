@@ -21,12 +21,11 @@ namespace NUnit.Core
 		private ArrayList results = new ArrayList();
 		
 		/// <summary>
-		/// Construct a TestSuiteResult from a test and a name
+		/// Construct a TestSuiteResult from a test
 		/// </summary>
 		/// <param name="test"></param>
-		/// <param name="name"></param>
-		public TestSuiteResult(TestInfo test, string name) 
-			: base(test, name) { }
+		public TestSuiteResult(TestInfo test) 
+			: base(test, test.TestName.Name) { }
 
 		/// <summary>
 		/// Construct a TestSuite result from a string

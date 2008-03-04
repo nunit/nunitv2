@@ -48,8 +48,6 @@ namespace NUnit.Util
 		/// </summary>
 		protected EventListener listener;
 
-		protected string projectName;
-
 		protected TestName testName;
 
 		#endregion
@@ -170,7 +168,7 @@ namespace NUnit.Util
 			this.listener.SuiteStarted( this.Test.TestName );
 			long startTime = DateTime.Now.Ticks;
 
-			TestSuiteResult result = new TestSuiteResult( new TestInfo( testName, tests ), projectName );
+			TestSuiteResult result = new TestSuiteResult( new TestInfo( testName, tests ) );
 			result.RunState = RunState.Executed;
 			foreach( TestRunner runner in runners )
 				if ( filter.Pass( runner.Test ) )
@@ -215,7 +213,7 @@ namespace NUnit.Util
 
 		public virtual TestResult EndRun()
 		{
-			TestSuiteResult suiteResult = new TestSuiteResult( aggregateTest, Test.TestName.FullName );
+			TestSuiteResult suiteResult = new TestSuiteResult( Test as TestInfo );
 			foreach( TestRunner runner in runners )
 				suiteResult.Results.Add( runner.EndRun() );
 

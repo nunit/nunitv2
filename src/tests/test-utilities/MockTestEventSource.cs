@@ -43,7 +43,7 @@ namespace NUnit.TestUtilities
 			{
 				FireSuiteStarting( test.TestName );
 
-				TestSuiteResult result = new TestSuiteResult( test, test.TestName.Name );
+				TestSuiteResult result = new TestSuiteResult( test );
 
 				foreach( TestNode childTest in test.Tests )
 					result.AddResult( SimulateTest( childTest, ignore ) );

@@ -24,8 +24,7 @@ namespace NUnit.Util
 		#region Load Method Overrides
 		public override bool Load(TestPackage package)
 		{
-			this.projectName = package.FullName;
-			this.testName.FullName = this.testName.Name = projectName;
+			this.testName.FullName = this.testName.Name = package.FullName;
 			runners = new ArrayList();
 
 			int nfound = 0;

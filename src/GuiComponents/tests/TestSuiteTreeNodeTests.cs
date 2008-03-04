@@ -146,7 +146,7 @@ namespace NUnit.UiKit.Tests
 		{
 			TestCaseResult testCaseResult = new TestCaseResult( testCaseInfo );
 			testCaseResult.Success();
-			TestSuiteResult testSuiteResult = new TestSuiteResult( fixtureInfo, "MockTestFixture" );
+			TestSuiteResult testSuiteResult = new TestSuiteResult( fixtureInfo );
 			testSuiteResult.AddResult( testCaseResult );
 			testSuiteResult.RunState = RunState.Executed;
 

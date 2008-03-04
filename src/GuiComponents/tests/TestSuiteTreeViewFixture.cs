@@ -147,12 +147,12 @@ namespace NUnit.UiKit.Tests
 			treeView.Load( new TestNode( suite ) );
 			
 			TestSuite fixture = (TestSuite)findTest( "MockTestFixture", suite );		
-			TestSuiteResult result = new TestSuiteResult( new TestInfo( fixture ), "My test result" );
+			TestSuiteResult result = new TestSuiteResult( new TestInfo( fixture ) );
 			treeView.SetTestResult( result );
 
 			TestSuiteTreeNode fixtureNode = FixtureNode( treeView );
 			Assert.IsNotNull(fixtureNode.Result,  "Result not set" );
-			Assert.AreEqual( "My test result", fixtureNode.Result.Name );
+			Assert.AreEqual( fixture.TestName.Name, fixtureNode.Result.Name );
 			Assert.AreEqual( fixtureNode.Test.TestName.FullName, fixtureNode.Result.Test.TestName.FullName );
 		}
 

@@ -146,7 +146,7 @@ namespace NUnit.Core
 		{
 			using( new TestContext() )
 			{
-				TestSuiteResult suiteResult = new TestSuiteResult( new TestInfo(this), TestName.Name);
+				TestSuiteResult suiteResult = new TestSuiteResult( new TestInfo(this) );
 
 				listener.SuiteStarted( this.TestName );
 				long startTime = DateTime.Now.Ticks;
@@ -315,7 +315,7 @@ namespace NUnit.Core
             if (test is TestSuite)
             {
                 listener.SuiteStarted(test.TestName);
-                TestSuiteResult result = new TestSuiteResult( new TestInfo(test), test.TestName.FullName);
+                TestSuiteResult result = new TestSuiteResult( new TestInfo(test) );
 				result.NotRun( runState, ignoreReason, null );
                 MarkTestsNotRun(test.Tests, runState, ignoreReason, suiteResult, listener, filter);
                 suiteResult.AddResult(result);
@@ -345,7 +345,7 @@ namespace NUnit.Core
             if (test is TestSuite)
             {
                 listener.SuiteStarted(test.TestName);
-                TestSuiteResult result = new TestSuiteResult( new TestInfo(test), test.TestName.FullName);
+                TestSuiteResult result = new TestSuiteResult( new TestInfo(test) );
 				string msg = string.Format( "Parent SetUp failed in {0}", this.FixtureType.Name );
 				result.Failure(msg, null, FailureSite.Parent);
                 MarkTestsFailed(test.Tests, suiteResult, listener, filter);
