@@ -8,6 +8,8 @@ using System;
 using System.Collections;
 using NUnit.Framework;
 using NUnit.Core;
+using NUnit.Tests.Assemblies;
+using NUnit.TestUtilities;
 	
 namespace NUnit.Util.Tests
 {
@@ -17,88 +19,42 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class SummaryResultFixture
 	{
-		private TestCaseResult testCase;
-		private double time = 0.456;
+		private TestResult result;
 
-		private TestSuiteResult NotRunTestSuite()
+		[SetUp]
+		public void CreateResult()
 		{
-			TestSuiteResult result = new TestSuiteResult("RootSuite");
-			result.RunState = RunState.Executed;
-
-			TestCaseResult testCaseResult = new TestCaseResult("NonRunTestCase");
-			testCaseResult.Ignore("No Reason");
-			result.AddResult(testCaseResult);
-
-			return result;
+			Test testFixture = TestFixtureBuilder.BuildFrom( typeof( MockTestFixture ) );
+			result = testFixture.Run( NullListener.NULL );
 		}
 
 		[Test]
-		public void TestCountNotRunSuites()
+		public void SummaryMatchesResult()
 		{
-			ResultSummarizer summary = new ResultSummarizer(NotRunTestSuite());
-			Assert.AreEqual(1,summary.TestsNotRun);
+			ResultSummarizer summary = new ResultSummarizer( result );
 
-		}
-		private TestSuiteResult MockSuiteResult(string suiteName, bool failure)
-		{
-			TestSuiteResult result = new TestSuiteResult(suiteName);
-			result.Time = time;
-			result.RunState = RunState.Executed;
-
-			TestSuiteResult level1SuiteA = new TestSuiteResult("level 1 A");
-			result.AddResult(level1SuiteA);
-			level1SuiteA.RunState = RunState.Executed;
-
-			TestSuiteResult level1SuiteB = new TestSuiteResult("level 1 B");
-			result.AddResult(level1SuiteB);
-			level1SuiteB.RunState = RunState.Executed;
-
-			testCase = new TestCaseResult("a test case");
-			if(failure) testCase.Failure("argument exception",null);
-			else testCase.Success();
-			
-			level1SuiteA.AddResult(testCase);
-
-			testCase = new TestCaseResult("a successful test");
-			testCase.Success();
-			level1SuiteB.AddResult(testCase);
-
-			testCase = new TestCaseResult("a not run test");
-			testCase.Ignore("test not run");
-			level1SuiteB.AddResult(testCase);
-
-			return result;
+			Assert.AreEqual(result.Name, summary.Name);
+			Assert.AreEqual(result.Time, summary.Time);
+			Assert.IsTrue(summary.Success, "Success");
+			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.NotRun, summary.ResultCount, "ResultCount");
+			Assert.AreEqual(0, summary.FailureCount, "FailureCount");
+			Assert.AreEqual(MockTestFixture.Ignored, summary.TestsNotRun, "TestsNotRun");
 		}
 
 		[Test]
-		public void TotalCountSuccess()
+		public void SummaryMatchesResult_SimulatedFailure()
 		{
-			string suiteName = "Base";
-			ResultSummarizer summary = new ResultSummarizer(MockSuiteResult(suiteName, false));
+			TestResult caseResult = TestFinder.Find( "MockTest2", result );
+			caseResult.Failure( "Simulated Failure", null );
 
-			Assert.AreEqual(suiteName, summary.Name);
-			Assert.IsTrue(summary.Success);
-			Assert.AreEqual(2, summary.ResultCount);
-			Assert.AreEqual(0, summary.FailureCount);
-			Assert.AreEqual(1, summary.TestsNotRun);
-		}
+			ResultSummarizer summary = new ResultSummarizer( result );
 
-		[Test]
-		public void Failure()
-		{
-			ResultSummarizer summary = new ResultSummarizer(MockSuiteResult("Base", true));
-
-			Assert.IsFalse(summary.Success);
-			Assert.AreEqual(2, summary.ResultCount);
-			Assert.AreEqual(1, summary.FailureCount);
-			Assert.AreEqual(1, summary.TestsNotRun);
-		}
-
-		[Test]
-		public void TestTime()
-		{
-			ResultSummarizer summary = new ResultSummarizer(MockSuiteResult("Base", false));
-			Assert.AreEqual(time, summary.Time);
+			Assert.AreEqual(result.Name, summary.Name);
+			Assert.AreEqual(result.Time, summary.Time);
+			Assert.IsFalse(summary.Success, "Success");
+			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.NotRun, summary.ResultCount, "ResultCount");
+			Assert.AreEqual(1, summary.FailureCount, "FailureCount");
+			Assert.AreEqual(MockTestFixture.Ignored, summary.TestsNotRun, "TestsNotRun");
 		}
 	}
 }

@@ -37,11 +37,11 @@ namespace NUnit.Gui
 				testDetails.SelectedIndex = 0;
 		}
 
-		public void Visit(TestCaseResult result)
+		private void VisitResult(TestResult result)
 		{
 			if(result.Executed)
 			{
-				if(result.IsFailure)
+				if(result.IsFailure && !result.Test.IsSuite )
 				{
 					TestResultItem item = new TestResultItem(result);
 					//string resultString = String.Format("{0}:{1}", result.Name, result.Message);
@@ -56,10 +56,14 @@ namespace NUnit.Gui
 			}
 		}
 
+		public void Visit(TestCaseResult result)
+		{
+			VisitResult( result );
+		}
+
 		public void Visit(TestSuiteResult suiteResult)
 		{
-			if(!suiteResult.Executed)
-				notRunTree.Nodes.Add(MakeNotRunNode(suiteResult));
+			VisitResult( suiteResult );
 
 			foreach (TestResult result in suiteResult.Results)
 			{

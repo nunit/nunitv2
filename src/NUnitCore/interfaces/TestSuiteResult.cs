@@ -18,46 +18,12 @@ namespace NUnit.Core
 	[Serializable]
 	public class TestSuiteResult : TestResult
 	{
-		private ArrayList results = new ArrayList();
-		
 		/// <summary>
 		/// Construct a TestSuiteResult from a test
 		/// </summary>
 		/// <param name="test"></param>
 		public TestSuiteResult(TestInfo test) 
-			: base(test, test.TestName.Name) { }
-
-		/// <summary>
-		/// Construct a TestSuite result from a string
-		/// 
-		/// This overload is used for testing
-		/// </summary>
-		/// <param name="testSuiteString"></param>
-		public TestSuiteResult(string testSuiteString) 
-			: base(null, testSuiteString) { }
-
-		/// <summary>
-		/// Add a child result to a TestSuiteResult
-		/// </summary>
-		/// <param name="result">The child result to be added</param>
-		public void AddResult(TestResult result) 
-		{
-			results.Add(result);
-
-			if( this.ResultState == ResultState.Success &&
-				result.ResultState != ResultState.Success )
-			{
-				this.Failure( "Child test failed", null, FailureSite.Child );
-			}
-		}
-
-		/// <summary>
-		/// Gets a list of the child results of this TestSUiteResult
-		/// </summary>
-		public IList Results
-		{
-			get { return results; }
-		}
+			: base(test) { }
 
 		/// <summary>
 		/// Accepts a ResultVisitor

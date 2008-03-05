@@ -66,7 +66,7 @@ namespace NUnit.UiKit.Tests
 			TestCaseResult result = new TestCaseResult( testCaseInfo );
 
 			node.Result = result;
-			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", node.Result.Name );
+			Assert.AreEqual( "MockTest1", node.Result.Name );
 			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.SelectedImageIndex );
 			Assert.AreEqual( "Runnable", node.StatusText );
@@ -80,7 +80,7 @@ namespace NUnit.UiKit.Tests
 
 			result.Ignore( "reason" );
 			node.Result = result;
-			Assert.AreEqual( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", node.Result.Name );
+			Assert.AreEqual( "MockTest1", node.Result.Name );
 			Assert.AreEqual( TestSuiteTreeNode.IgnoredIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.IgnoredIndex, node.SelectedImageIndex );
 			Assert.AreEqual( "Ignored", node.StatusText );

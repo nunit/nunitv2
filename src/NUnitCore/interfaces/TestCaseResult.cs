@@ -20,14 +20,7 @@ namespace NUnit.Core
         /// </summary>
         /// <param name="testCase">The test case for which this is a result</param>
 		public TestCaseResult(TestInfo testCase)
-			: base(testCase, testCase.TestName.FullName) { }
-
-		/// <summary>
-		/// Construct a result from a string - used for tests
-		/// </summary>
-		/// <param name="testCaseString"></param>
-		public TestCaseResult(string testCaseString) 
-			: base(null, testCaseString) { }
+			: base(testCase) { }
 
         /// <summary>
         /// Accept a ResultVisitor

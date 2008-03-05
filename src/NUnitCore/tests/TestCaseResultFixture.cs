@@ -9,6 +9,7 @@ namespace NUnit.Core.Tests
 	using System;
 	using NUnit.Framework;	
 	using NUnit.Core;
+	using NUnit.TestUtilities;
 
 	/// <summary>
 	/// Summary description for TestResultTests.
@@ -21,8 +22,11 @@ namespace NUnit.Core.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			caseResult = new TestCaseResult("test case result");
+			Test testCase = TestBuilder.MakeTestCase( this, "DummyMethod" ); 
+			caseResult = new TestCaseResult( new TestInfo(testCase) );
 		}
+
+		public void DummyMethod() { }
 		
 		[Test]
 		public void TestCaseDefault()

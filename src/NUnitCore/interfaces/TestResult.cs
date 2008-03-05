@@ -8,6 +8,7 @@ namespace NUnit.Core
 {
 	using System;
 	using System.Text;
+	using System.Collections;
 
 	/// <summary>
 	/// The TestResult abstract class represents
@@ -40,11 +41,6 @@ namespace NUnit.Core
 		private double time = 0.0;
 
 		/// <summary>
-		/// The name of the test
-		/// </summary>
-		private string name;
-
-		/// <summary>
 		/// The test that this result pertains to
 		/// </summary>
 		private TestInfo test;
@@ -62,7 +58,12 @@ namespace NUnit.Core
 		/// <summary>
 		/// Message giving the reason for failure
 		/// </summary>
-		protected string messageString;
+		private string message;
+
+		/// <summary>
+		/// List of child results
+		/// </summary>
+		private IList results;
 
 		/// <summary>
 		/// Number of asserts executed by this test
@@ -73,23 +74,16 @@ namespace NUnit.Core
 
 		#region Protected Constructor
 		/// <summary>
-		/// Protected constructor constructs a test result given
-		/// a test and a name.
+		/// Protected constructor constructs a test result given a test
 		/// </summary>
 		/// <param name="test">The test to be used</param>
-		/// <param name="name">Name for this result</param>
-		protected TestResult(TestInfo test, string name)
+		protected TestResult(TestInfo test)
 		{
-			this.name = name;
 			this.test = test;
-            this.RunState = RunState.Runnable;
-            if (test != null)
-            {
-                this.description = test.Description;
-                this.runState = test.RunState;
-                this.messageString = test.IgnoreReason;
-            }
-        }
+			this.description = test.Description;
+			this.runState = test.RunState;
+			this.message = test.IgnoreReason;
+		}
 		#endregion
 
         #region Properties
@@ -135,7 +129,7 @@ namespace NUnit.Core
 		/// </summary>
         public virtual string Name
         {
-            get { return name; }
+            get { return test.TestName.Name; }
         }
 
 		/// <summary>
@@ -189,7 +183,7 @@ namespace NUnit.Core
 		/// </summary>
         public string Message
         {
-            get { return messageString; }
+            get { return message; }
         }
 
 		/// <summary>
@@ -218,7 +212,21 @@ namespace NUnit.Core
             set { assertCount = value; }
         }
 
-        #endregion
+		/// <summary>
+		/// Gets a list of the child results of this TestResult
+		/// </summary>
+		public IList Results
+		{
+			get 
+			{ 
+				if ( results == null )
+					results = new ArrayList();
+				
+				return results;
+			}
+		}
+
+		#endregion
 
         #region Public Methods
         /// <summary>
@@ -295,7 +303,7 @@ namespace NUnit.Core
 		public void NotRun(RunState runState, string reason, string stackTrace)
 		{
 			this.runState = runState;
-			this.messageString = reason;
+			this.message = reason;
 			this.stackTrace = stackTrace;
 		}
 
@@ -323,7 +331,7 @@ namespace NUnit.Core
 			this.runState = RunState.Executed;
 			this.resultState = ResultState.Failure;
             this.failureSite = failureSite;
-			this.messageString = message;
+			this.message = message;
 			this.stackTrace = stackTrace;
 		}
 
@@ -357,14 +365,29 @@ namespace NUnit.Core
                 message = "TearDown : " + message;
                 stackTrace = "--TearDown" + Environment.NewLine + stackTrace;
 
-                if (this.messageString != null)
-                    message = this.messageString + Environment.NewLine + message;
+                if (this.message != null)
+                    message = this.message + Environment.NewLine + message;
                 if (this.stackTrace != null)
                     stackTrace = this.stackTrace + Environment.NewLine + stackTrace;
             }
 
-            this.messageString = message;
+            this.message = message;
             this.stackTrace = stackTrace;
+		}
+
+		/// <summary>
+		/// Add a child result
+		/// </summary>
+		/// <param name="result">The child result to be added</param>
+		public void AddResult(TestResult result) 
+		{
+			this.Results.Add(result);
+
+			if( this.ResultState == ResultState.Success &&
+				result.ResultState != ResultState.Success )
+			{
+				this.Failure( "Child test failed", null, FailureSite.Child );
+			}
 		}
 		#endregion
 

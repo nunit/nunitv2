@@ -53,7 +53,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void HasSingleCategory()
 		{
-			XmlNodeList categories = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest2\"]/categories/category");
+			XmlNodeList categories = resultDoc.SelectNodes("//test-case[@name=\"MockTest2\"]/categories/category");
 			Assert.IsNotNull(categories);
 			Assert.AreEqual(1, categories.Count);
 			Assert.AreEqual("MockCategory", categories[0].Attributes["name"].Value);
@@ -62,7 +62,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void HasSingleProperty()
 		{
-			XmlNodeList properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest2\"]/properties/property");
+			XmlNodeList properties = resultDoc.SelectNodes("//test-case[@name=\"MockTest2\"]/properties/property");
 			Assert.IsNotNull(properties);
 			Assert.AreEqual(1, properties.Count);
 			Assert.AreEqual("Severity",properties[0].Attributes["name"].Value);
@@ -72,7 +72,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void HasMultipleCategories()
 		{
-			XmlNodeList categories = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest3\"]/categories/category");
+			XmlNodeList categories = resultDoc.SelectNodes("//test-case[@name=\"MockTest3\"]/categories/category");
 			Assert.IsNotNull(categories);
 			Assert.AreEqual(2, categories.Count);
 			ArrayList names = new ArrayList();
@@ -85,7 +85,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void HasMultipleProperties()
 		{
-			XmlNodeList properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.TestWithManyProperties\"]/properties/property");
+			XmlNodeList properties = resultDoc.SelectNodes("//test-case[@name=\"TestWithManyProperties\"]/properties/property");
 			Assert.IsNotNull(properties);
 			Assert.AreEqual(3, properties.Count);
 			Hashtable hash = new Hashtable();
