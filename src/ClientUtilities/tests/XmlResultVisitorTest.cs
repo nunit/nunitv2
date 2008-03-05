@@ -32,7 +32,7 @@ namespace NUnit.Util.Tests
 			StringBuilder builder = new StringBuilder();
 			StringWriter writer = new StringWriter(builder);
 			XmlResultVisitor visitor = new XmlResultVisitor(writer, result);
-			result.Accept(visitor);
+			visitor.ProcessResult(result);
 			visitor.Write();
 
 			string resultXml = builder.ToString();

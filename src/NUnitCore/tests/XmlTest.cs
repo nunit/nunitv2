@@ -104,7 +104,7 @@ namespace NUnit.Core.Tests
 			TestResult result = suite.Run(NullListener.NULL);
 
 			XmlResultVisitor visitor = new XmlResultVisitor(reportFileName, result);
-			result.Accept(visitor);
+			visitor.ProcessResult(result);
 			visitor.Write();
 
 			SchemaValidator validator = new SchemaValidator(reportFileName, schemaFile.Path);
@@ -120,7 +120,7 @@ namespace NUnit.Core.Tests
 			TestResult result = suite.Run(NullListener.NULL);
 	
 			XmlResultVisitor visitor = new XmlResultVisitor(writer, result);
-			result.Accept(visitor);
+			visitor.ProcessResult(result);
 			visitor.Write();
 		}
 

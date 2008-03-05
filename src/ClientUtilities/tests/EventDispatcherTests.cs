@@ -30,7 +30,7 @@ namespace NUnit.Util.Tests
 			dispatcher = new TestEventDispatcher();
 			catcher = new TestEventCatcher( dispatcher );
 			test = new TestInfo( new TestSuite( TESTNAME ) );
-			result = new TestSuiteResult( test );
+			result = new TestResult( test );
 			exception = new Exception( MESSAGE );
 		}
 

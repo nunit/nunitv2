@@ -144,7 +144,7 @@ namespace NUnit.Core
 		#endregion
 
 		#region Run Methods
-		public override void Run(TestCaseResult testResult)
+		public override void Run(TestResult testResult)
 		{ 
 			try
 			{
@@ -179,7 +179,7 @@ namespace NUnit.Core
 		/// TestFixtureSetUp and TestFixtureTearDown needed.
 		/// </summary>
 		/// <param name="testResult">The result in which to record success or failure</param>
-		public virtual void doRun( TestCaseResult testResult )
+		public virtual void doRun( TestResult testResult )
 		{
 			DateTime start = DateTime.Now;
 
@@ -210,7 +210,7 @@ namespace NUnit.Core
 
 		#region Invoke Methods by Reflection, Recording Errors
 
-		private void doTearDown( TestCaseResult testResult )
+		private void doTearDown( TestResult testResult )
 		{
 			try
 			{
@@ -226,7 +226,7 @@ namespace NUnit.Core
 			}
 		}
 
-		private void doTestCase( TestCaseResult testResult )
+		private void doTestCase( TestResult testResult )
 		{
 			try
 			{
@@ -245,7 +245,7 @@ namespace NUnit.Core
 			}
 		}
 
-		public virtual void RunTestMethod(TestCaseResult testResult)
+		public virtual void RunTestMethod(TestResult testResult)
 		{
 			Reflect.InvokeMethod( this.method, this.Fixture );
 		}
@@ -279,7 +279,7 @@ namespace NUnit.Core
 		#endregion
 
 		#region Exception Processing
-		protected internal virtual void ProcessNoException(TestCaseResult testResult)
+		protected internal virtual void ProcessNoException(TestResult testResult)
 		{
 			if ( ExceptionExpected )
 				testResult.Failure(NoExceptionMessage(), null);
@@ -287,7 +287,7 @@ namespace NUnit.Core
 				testResult.Success();
 		}
 		
-		protected internal virtual void ProcessException(Exception exception, TestCaseResult testResult)
+		protected internal virtual void ProcessException(Exception exception, TestResult testResult)
 		{
 			if (!ExceptionExpected)
 			{

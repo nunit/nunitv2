@@ -322,7 +322,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void AssertFailBeforeException() 
 		{ 
-			TestSuiteResult suiteResult = (TestSuiteResult)TestBuilder.RunTestFixture( typeof (TestAssertsBeforeThrowingException) );
+			TestResult suiteResult = TestBuilder.RunTestFixture( typeof (TestAssertsBeforeThrowingException) );
 			Assert.AreEqual( true, suiteResult.IsFailure );
 			TestResult result = (TestResult)suiteResult.Results[0];
 			Assert.AreEqual( "private message", result.Message );

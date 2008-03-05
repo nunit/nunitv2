@@ -19,13 +19,13 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class TestSuiteResultFixture
 	{
-		private TestSuiteResult result;
+		private TestResult result;
 
 		[SetUp]
 		public void CreateResult()
 		{
 			Test testFixture = TestFixtureBuilder.BuildFrom( typeof( MockTestFixture ) );
-			result = testFixture.Run( NullListener.NULL ) as TestSuiteResult;
+			result = testFixture.Run( NullListener.NULL );
 		}
 
 		//private TestCaseResult testCase;
@@ -51,7 +51,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void EmptySuite()
 		{
-			TestSuiteResult result = new TestSuiteResult( new TestInfo( new TestSuite( "empty suite") ) );
+			TestResult result = new TestResult( new TestInfo( new TestSuite( "empty suite") ) );
 			Assert.IsTrue(result.IsSuccess, "result should be success");
 		}
 

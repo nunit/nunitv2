@@ -48,7 +48,7 @@ namespace NUnit.Core.Tests
 				testCaseStart++;
 			}
 			
-			public void TestFinished(TestCaseResult result)
+			public void TestFinished(TestResult result)
 			{
 				testCaseFinished++;
 			}
@@ -58,7 +58,7 @@ namespace NUnit.Core.Tests
 				suiteStarted++;
 			}
 
-			public void SuiteFinished(TestSuiteResult result)
+			public void SuiteFinished(TestResult result)
 			{
 				suiteFinished++;
 			}

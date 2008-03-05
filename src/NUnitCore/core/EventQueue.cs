@@ -81,9 +81,9 @@ namespace NUnit.Core
 			
 	public class TestFinishedEvent : Event
 	{
-		TestCaseResult result;
+		TestResult result;
 
-		public TestFinishedEvent( TestCaseResult result )
+		public TestFinishedEvent( TestResult result )
 		{
 			this.result = result;
 		}
@@ -111,9 +111,9 @@ namespace NUnit.Core
 
 	public class SuiteFinishedEvent : Event
 	{
-		TestSuiteResult result;
+		TestResult result;
 
-		public SuiteFinishedEvent( TestSuiteResult result )
+		public SuiteFinishedEvent( TestResult result )
 		{
 			this.result = result;
 		}

@@ -17,7 +17,7 @@ namespace NUnit.Core
 	/// </summary>
 	/// 
 	[Serializable]
-	public abstract class TestResult
+	public class TestResult
 	{
 		#region Fields
 		/// <summary>
@@ -72,12 +72,12 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Protected Constructor
+		#region Constructor
 		/// <summary>
-		/// Protected constructor constructs a test result given a test
+		/// Construct a test result given a test
 		/// </summary>
 		/// <param name="test">The test to be used</param>
-		protected TestResult(TestInfo test)
+		public TestResult(TestInfo test)
 		{
 			this.test = test;
 			this.description = test.Description;
@@ -211,6 +211,14 @@ namespace NUnit.Core
             get { return assertCount; }
             set { assertCount = value; }
         }
+
+        /// <summary>
+        /// Return true if this result has any child results
+        /// </summary>
+	    public bool HasResults
+	    {
+            get { return results != null && results.Count > 0; }    
+	    }
 
 		/// <summary>
 		/// Gets a list of the child results of this TestResult
@@ -441,11 +449,5 @@ namespace NUnit.Core
 		}
 
 		#endregion
-
-		/// <summary>
-		/// Abstract method that accepts a ResultVisitor
-		/// </summary>
-		/// <param name="visitor">The visitor</param>
-		public abstract void Accept(ResultVisitor visitor);
 	}
 }

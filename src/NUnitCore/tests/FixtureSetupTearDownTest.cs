@@ -16,11 +16,11 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class FixtureSetupTearDownTest
 	{
-		private TestSuiteResult RunTestOnFixture( object fixture )
+		private TestResult RunTestOnFixture( object fixture )
 		{
 			TestSuite suite = TestBuilder.MakeFixture( fixture.GetType() );
 			suite.Fixture = fixture;
-			return (TestSuiteResult)suite.Run( NullListener.NULL );
+			return suite.Run( NullListener.NULL );
 		}
 
 		[Test]
@@ -70,7 +70,7 @@ namespace NUnit.Core.Tests
 		{
 			MisbehavingFixture fixture = new MisbehavingFixture();
 			fixture.blowUpInSetUp = true;
-			TestSuiteResult result = (TestSuiteResult)RunTestOnFixture( fixture );
+			TestResult result = RunTestOnFixture( fixture );
 
 			Assert.AreEqual( 1, fixture.setUpCount, "setUpCount" );
 			Assert.AreEqual( 0, fixture.tearDownCount, "tearDownCOunt" );
@@ -98,7 +98,7 @@ namespace NUnit.Core.Tests
 		{
 			MisbehavingFixture fixture = new MisbehavingFixture();
 			fixture.blowUpInSetUp = true;
-			TestSuiteResult result = RunTestOnFixture( fixture );
+			TestResult result = RunTestOnFixture( fixture );
 
 			// should have one suite and one fixture
 			ResultSummarizer summ = new ResultSummarizer(result);
@@ -125,7 +125,7 @@ namespace NUnit.Core.Tests
 		public void HandleIgnoreInFixtureSetup() 
 		{
 			IgnoreInFixtureSetUp fixture = new IgnoreInFixtureSetUp();
-			TestSuiteResult result = RunTestOnFixture( fixture );
+			TestResult result = RunTestOnFixture( fixture );
 
 			// should have one suite and one fixture
 			ResultSummarizer summ = new ResultSummarizer(result);
@@ -146,7 +146,7 @@ namespace NUnit.Core.Tests
 		{
 			MisbehavingFixture fixture = new MisbehavingFixture();
 			fixture.blowUpInTearDown = true;
-			TestSuiteResult result = RunTestOnFixture( fixture );
+			TestResult result = RunTestOnFixture( fixture );
 			Assert.AreEqual(1, result.Results.Count);
 			Assert.IsTrue(result.Executed, "Suite should have executed");
 			Assert.IsTrue(result.IsFailure, "Suite should have failed" );
@@ -168,7 +168,7 @@ namespace NUnit.Core.Tests
 		public void HandleExceptionInFixtureConstructor()
 		{
 			TestSuite suite = TestBuilder.MakeFixture( typeof( ExceptionInConstructor ) );
-			TestSuiteResult result = (TestSuiteResult)suite.Run( NullListener.NULL );
+			TestResult result = suite.Run( NullListener.NULL );
 
 			// should have one suite and one fixture
 			ResultSummarizer summ = new ResultSummarizer(result);
@@ -193,7 +193,7 @@ namespace NUnit.Core.Tests
 		{
 			MisbehavingFixture fixture = new MisbehavingFixture();
 			fixture.blowUpInTearDown = true;
-			TestSuiteResult result = RunTestOnFixture( fixture );
+			TestResult result = RunTestOnFixture( fixture );
 			Assert.AreEqual(1, result.Results.Count);
 
 			// should have one suite and one fixture

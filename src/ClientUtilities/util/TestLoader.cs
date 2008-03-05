@@ -290,7 +290,7 @@ namespace NUnit.Util
 		/// Trigger event when each test finishes
 		/// </summary>
 		/// <param name="result">Result of the case that finished</param>
-		void EventListener.TestFinished(TestCaseResult result)
+		void EventListener.TestFinished(TestResult result)
 		{
 			events.FireTestFinished( result );
 		}
@@ -308,7 +308,7 @@ namespace NUnit.Util
 		/// Trigger event when each suite finishes
 		/// </summary>
 		/// <param name="result">Result of the suite that finished</param>
-		void EventListener.SuiteFinished(TestSuiteResult result)
+		void EventListener.SuiteFinished(TestResult result)
 		{
 			events.FireSuiteFinished( result );
 		}
@@ -711,7 +711,7 @@ namespace NUnit.Util
 		{
 			XmlResultVisitor resultVisitor 
 				= new XmlResultVisitor( fileName, this.testResult );
-			this.testResult.Accept(resultVisitor);
+		    resultVisitor.ProcessResult(this.testResult);
 			resultVisitor.Write();
 		}
 

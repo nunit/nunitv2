@@ -146,7 +146,7 @@ namespace NUnit.Core
 		{
 			using( new TestContext() )
 			{
-				TestSuiteResult suiteResult = new TestSuiteResult( new TestInfo(this) );
+				TestResult suiteResult = new TestResult( new TestInfo(this) );
 
 				listener.SuiteStarted( this.TestName );
 				long startTime = DateTime.Now.Ticks;
@@ -272,7 +272,7 @@ namespace NUnit.Core
         }
         
         private void RunAllTests(
-			TestSuiteResult suiteResult, EventListener listener, ITestFilter filter )
+			TestResult suiteResult, EventListener listener, ITestFilter filter )
 		{
             foreach (Test test in ArrayList.Synchronized(Tests))
             {
@@ -300,7 +300,7 @@ namespace NUnit.Core
 		}
 
         private void MarkTestsNotRun(
-            IList tests, RunState runState, string ignoreReason, TestSuiteResult suiteResult, EventListener listener, ITestFilter filter)
+            IList tests, RunState runState, string ignoreReason, TestResult suiteResult, EventListener listener, ITestFilter filter)
         {
             foreach (Test test in ArrayList.Synchronized(tests))
             {
@@ -310,12 +310,12 @@ namespace NUnit.Core
         }
 
         private void MarkTestNotRun(
-            Test test, RunState runState, string ignoreReason, TestSuiteResult suiteResult, EventListener listener, ITestFilter filter)
+            Test test, RunState runState, string ignoreReason, TestResult suiteResult, EventListener listener, ITestFilter filter)
         {
             if (test is TestSuite)
             {
                 listener.SuiteStarted(test.TestName);
-                TestSuiteResult result = new TestSuiteResult( new TestInfo(test) );
+                TestResult result = new TestResult( new TestInfo(test) );
 				result.NotRun( runState, ignoreReason, null );
                 MarkTestsNotRun(test.Tests, runState, ignoreReason, suiteResult, listener, filter);
                 suiteResult.AddResult(result);
@@ -324,7 +324,7 @@ namespace NUnit.Core
             else
             {
                 listener.TestStarted(test.TestName);
-                TestCaseResult result = new TestCaseResult( new TestInfo(test) );
+                TestResult result = new TestResult( new TestInfo(test) );
                 result.NotRun( runState, ignoreReason, null );
                 suiteResult.AddResult(result);
                 listener.TestFinished(result);
@@ -332,7 +332,7 @@ namespace NUnit.Core
         }
 
         private void MarkTestsFailed(
-            IList tests, TestSuiteResult suiteResult, EventListener listener, ITestFilter filter)
+            IList tests, TestResult suiteResult, EventListener listener, ITestFilter filter)
         {
             foreach (Test test in ArrayList.Synchronized(tests))
                 if (filter.Pass(test))
@@ -340,12 +340,12 @@ namespace NUnit.Core
         }
 
         private void MarkTestFailed(
-            Test test, TestSuiteResult suiteResult, EventListener listener, ITestFilter filter)
+            Test test, TestResult suiteResult, EventListener listener, ITestFilter filter)
         {
             if (test is TestSuite)
             {
                 listener.SuiteStarted(test.TestName);
-                TestSuiteResult result = new TestSuiteResult( new TestInfo(test) );
+                TestResult result = new TestResult( new TestInfo(test) );
 				string msg = string.Format( "Parent SetUp failed in {0}", this.FixtureType.Name );
 				result.Failure(msg, null, FailureSite.Parent);
                 MarkTestsFailed(test.Tests, suiteResult, listener, filter);
@@ -355,7 +355,7 @@ namespace NUnit.Core
             else
             {
                 listener.TestStarted(test.TestName);
-                TestCaseResult result = new TestCaseResult( new TestInfo(test) );
+                TestResult result = new TestResult( new TestInfo(test) );
 				string msg = string.Format( "TestFixtureSetUp failed in {0}", this.FixtureType.Name );
 				result.Failure(msg, null, FailureSite.Parent);
 				suiteResult.AddResult(result);

@@ -15,36 +15,6 @@ namespace NUnit.Core.Tests
 {
 	// TODO: Review to see if we need these tests
 
-	internal class DescriptionVisitor : ResultVisitor
-	{
-		private string name; 
-		private string description;
-
-		public DescriptionVisitor(string name, string description)
-		{
-			this.name = name;
-			this.description = description;
-		}
-
-		public void Visit(TestCaseResult caseResult)
-		{
-			if(caseResult.Name.Equals(name))
-				Assert.AreEqual(description, caseResult.Description);
-		}
-
-		public void Visit(TestSuiteResult suiteResult)
-		{
-			if(suiteResult.Name.Equals(name))
-				Assert.AreEqual(description, suiteResult.Description);
-
-			foreach (TestResult result in suiteResult.Results)
-			{
-				result.Accept(this);
-			}
-		}
-	}
-
-
 	[TestFixture]
 	public class TestAttributeFixture
 	{
@@ -71,12 +41,11 @@ namespace NUnit.Core.Tests
             suite.Add(TestBuilder.MakeFixture(typeof(MockFixture)));
             TestResult result = suite.Run(NullListener.NULL);
 
-            DescriptionVisitor visitor = new DescriptionVisitor("NUnit.Tests.Attributes.MockFixture.Method", "Test Description");
-            result.Accept(visitor);
+            TestResult caseResult = TestFinder.Find("Method", result);
+            Assert.AreEqual("Test Description", caseResult.Description);
 
-            visitor =
-                new DescriptionVisitor("NUnit.Tests.Attributes.MockFixture.NoDescriptionMethod", null);
-            result.Accept(visitor);
+            caseResult = TestFinder.Find("NoDescriptionMethod", result);
+            Assert.IsNull(caseResult.Description);
         }
 
         [Test]
@@ -105,8 +74,8 @@ namespace NUnit.Core.Tests
 			suite.Add( TestBuilder.MakeFixture( typeof( MockFixture ) ) );
 			TestResult result = suite.Run(NullListener.NULL);
 
-			DescriptionVisitor visitor = new DescriptionVisitor("MockFixture", "Fixture Description");
-			result.Accept(visitor);
+		    TestResult fixtureResult = TestFinder.Find("MockFixture", result);
+            Assert.AreEqual("Fixture Description", fixtureResult.Description);
 		}
 
         [Test]
@@ -123,8 +92,8 @@ namespace NUnit.Core.Tests
             suite.Add(TestBuilder.MakeFixture(typeof(MockFixture)));
             TestResult result = suite.Run(NullListener.NULL);
 
-            DescriptionVisitor visitor = new DescriptionVisitor("NUnit.Tests.Attributes.MockFixture.SeparateDescriptionMethod", "Separate Description");
-            result.Accept(visitor);
+            TestResult caseResult = TestFinder.Find("SeparateDescriptionMethod", result);
+            Assert.AreEqual("Separate Description", caseResult.Description);
         }
 
     }

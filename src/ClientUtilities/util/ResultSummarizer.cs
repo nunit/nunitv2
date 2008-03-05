@@ -18,13 +18,13 @@ namespace NUnit.Util
 
 		public ResultSummarizer(TestResult result)
 		{
-			result.Accept(visitor);
+			visitor.ProcessResult(result);
 		}
 
 		public ResultSummarizer(TestResult[] results)
 		{
 			foreach( TestResult result in results )
-				result.Accept( visitor );
+				visitor.ProcessResult(result);
 		}
 
 		public string Name

@@ -266,7 +266,7 @@ namespace NUnit.ConsoleRunner
 		{
 			StringBuilder builder = new StringBuilder();
 			XmlResultVisitor resultVisitor = new XmlResultVisitor(new StringWriter( builder ), result);
-			result.Accept(resultVisitor);
+			resultVisitor.ProcessResult(result);
 			resultVisitor.Write();
 
 			return builder.ToString();

@@ -1011,10 +1011,9 @@ namespace NUnit.UiKit
 
 			nodes.Add( node );
 			
-			TestSuiteResult suiteResult = rootResult as TestSuiteResult;
-			if ( suiteResult != null )
+			if ( rootResult.HasResults )
 			{
-				foreach( TestResult result in suiteResult.Results )
+				foreach( TestResult result in rootResult.Results )
 					AddTreeNodes( node.Nodes, result, highlight );
 			}
 

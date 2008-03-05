@@ -34,9 +34,7 @@ namespace NUnit.Util.Tests
 			TestPackage package = new TestPackage( "mock-assembly.dll" );
 			Assert.IsTrue( domain.Load( package ) );
 			TestResult result = domain.Run( new NullListener() );
-			TestSuiteResult suite = result as TestSuiteResult;
-			Assert.IsNotNull(suite);
-			TestCaseResult caseResult = findCaseResult(suite);
+			TestResult caseResult = findCaseResult(result);
 			Assert.IsNotNull(caseResult);
 			TestResultItem item = new TestResultItem(caseResult);
 			string message = item.GetMessage();
@@ -52,17 +50,17 @@ namespace NUnit.Util.Tests
             domain.Unload();
         }
 
-		private TestCaseResult findCaseResult(TestSuiteResult suite) 
+		private TestResult findCaseResult(TestResult suite) 
 		{
 			foreach (TestResult r in suite.Results) 
 			{
-				if (r is TestCaseResult)
+				if (!r.Test.IsSuite)
 				{
-					return (TestCaseResult) r;
+					return r;
 				}
 				else 
 				{
-					TestCaseResult result = findCaseResult((TestSuiteResult)r);
+					TestResult result = findCaseResult(r);
 					if (result != null)
 						return result;
 				}

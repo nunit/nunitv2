@@ -63,7 +63,7 @@ namespace NUnit.UiKit.Tests
 		public void SetResult_Init()
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
-			TestCaseResult result = new TestCaseResult( testCaseInfo );
+			TestResult result = new TestResult( testCaseInfo );
 
 			node.Result = result;
 			Assert.AreEqual( "MockTest1", node.Result.Name );
@@ -76,7 +76,7 @@ namespace NUnit.UiKit.Tests
 		public void SetResult_Ignore()
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
-			TestCaseResult result = new TestCaseResult( testCaseInfo );
+			TestResult result = new TestResult( testCaseInfo );
 
 			result.Ignore( "reason" );
 			node.Result = result;
@@ -90,7 +90,7 @@ namespace NUnit.UiKit.Tests
 		public void SetResult_Success()
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
-			TestCaseResult result = new TestCaseResult( testCaseInfo );
+			TestResult result = new TestResult( testCaseInfo );
 
 			result.Success();
 			node.Result = result;
@@ -103,7 +103,7 @@ namespace NUnit.UiKit.Tests
 		public void SetResult_Failure()
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
-			TestCaseResult result = new TestCaseResult( testCaseInfo );
+			TestResult result = new TestResult( testCaseInfo );
 
 			result.Failure("message", "stacktrace");
 			node.Result = result;
@@ -116,7 +116,7 @@ namespace NUnit.UiKit.Tests
 		public void SetResult_Skipped()
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
-			TestCaseResult result = new TestCaseResult( testCaseInfo );
+			TestResult result = new TestResult( testCaseInfo );
 
 			result.RunState = RunState.Skipped;
 			node.Result = result;
@@ -128,7 +128,7 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void ClearResult()
 		{
-			TestCaseResult result = new TestCaseResult( testCaseInfo );
+			TestResult result = new TestResult( testCaseInfo );
 			result.Failure("message", "stacktrace");
 
 			TestSuiteTreeNode node = new TestSuiteTreeNode( result );
@@ -144,9 +144,9 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void ClearResults()
 		{
-			TestCaseResult testCaseResult = new TestCaseResult( testCaseInfo );
+			TestResult testCaseResult = new TestResult( testCaseInfo );
 			testCaseResult.Success();
-			TestSuiteResult testSuiteResult = new TestSuiteResult( fixtureInfo );
+			TestResult testSuiteResult = new TestResult( fixtureInfo );
 			testSuiteResult.AddResult( testCaseResult );
 			testSuiteResult.RunState = RunState.Executed;
 

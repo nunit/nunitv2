@@ -126,12 +126,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ResultVisitor.cs"
-                    Link = "..\..\..\..\src\NUnitCore\interfaces\ResultVisitor.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "RunState.cs"
                     Link = "..\..\..\..\src\NUnitCore\interfaces\RunState.cs"
                     SubType = "Code"
@@ -152,12 +146,6 @@
                 <File
                     RelPath = "TestAssemblyInfo.cs"
                     Link = "..\..\..\..\src\NUnitCore\interfaces\TestAssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestCaseResult.cs"
-                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestCaseResult.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -212,12 +200,6 @@
                 <File
                     RelPath = "TestRunner.cs"
                     Link = "..\..\..\..\src\NUnitCore\interfaces\TestRunner.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestSuiteResult.cs"
-                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestSuiteResult.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

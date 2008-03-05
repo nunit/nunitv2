@@ -24,14 +24,5 @@ namespace NUnit.Core
 		/// <param name="test"></param>
 		public TestSuiteResult(TestInfo test) 
 			: base(test) { }
-
-		/// <summary>
-		/// Accepts a ResultVisitor
-		/// </summary>
-		/// <param name="visitor">The visitor</param>
-		public override void Accept(ResultVisitor visitor) 
-		{
-			visitor.Visit(this);
-		}
 	}
 }

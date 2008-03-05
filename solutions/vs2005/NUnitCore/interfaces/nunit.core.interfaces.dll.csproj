@@ -187,10 +187,6 @@
       <Link>ResultState.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\interfaces\ResultVisitor.cs">
-      <Link>ResultVisitor.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\RunState.cs">
       <Link>RunState.cs</Link>
       <SubType>Code</SubType>
@@ -205,10 +201,6 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\TestAssemblyInfo.cs">
       <Link>TestAssemblyInfo.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\interfaces\TestCaseResult.cs">
-      <Link>TestCaseResult.cs</Link>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\TestFilter.cs">
@@ -245,10 +237,6 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\TestRunner.cs">
       <Link>TestRunner.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\interfaces\TestSuiteResult.cs">
-      <Link>TestSuiteResult.cs</Link>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

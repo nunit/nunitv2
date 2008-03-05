@@ -37,10 +37,9 @@ namespace NUnit.TestUtilities
 			if (result.Test.TestName.Name == name)
 				return result;
 
-			TestSuiteResult suiteResult = result as TestSuiteResult;
-			if ( suiteResult != null )
+			if ( result.HasResults )
 			{
-				foreach( TestResult r in suiteResult.Results ) 
+				foreach( TestResult r in result.Results ) 
 				{
 					TestResult myResult = Find( name, r );
 					if ( myResult != null )

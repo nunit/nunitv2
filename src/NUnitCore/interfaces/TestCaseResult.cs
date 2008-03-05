@@ -21,14 +21,5 @@ namespace NUnit.Core
         /// <param name="testCase">The test case for which this is a result</param>
 		public TestCaseResult(TestInfo testCase)
 			: base(testCase) { }
-
-        /// <summary>
-        /// Accept a ResultVisitor
-        /// </summary>
-        /// <param name="visitor">The visitor to accept</param>
-		public override void Accept(ResultVisitor visitor) 
-		{
-			visitor.Visit(this);
-		}
 	}
 }

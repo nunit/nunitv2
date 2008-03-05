@@ -23,7 +23,7 @@ namespace NUnit.Core.Extensions
 			this.count = count;
 		}
 
-		public override void Run(TestCaseResult result)
+		public override void Run(TestResult result)
 		{
 			// So testCase can get the fixture
 			testCase.Parent = this.Parent;

@@ -43,7 +43,7 @@ namespace NUnit.TestUtilities
 			{
 				FireSuiteStarting( test.TestName );
 
-				TestSuiteResult result = new TestSuiteResult( test );
+				TestResult result = new TestResult( test );
 
 				foreach( TestNode childTest in test.Tests )
 					result.AddResult( SimulateTest( childTest, ignore ) );
@@ -56,7 +56,7 @@ namespace NUnit.TestUtilities
 			{
 				FireTestStarting( test.TestName );
 				
-				TestCaseResult result = new TestCaseResult( test );
+				TestResult result = new TestResult( test );
 
 				result.RunState = ignore ? RunState.Ignored : RunState.Executed;
 				

@@ -117,7 +117,7 @@ namespace NUnit.Core.Tests
 			IExtensionPoint ep = host.GetExtensionPoint("EventListeners");
 			ep.Install( mock.MockInstance );
 			host.Listeners.RunStarted( "test", 0 );
-			host.Listeners.RunFinished( new TestSuiteResult( new TestInfo( new TestSuite( "test" ) ) ) );
+			host.Listeners.RunFinished( new TestResult( new TestInfo( new TestSuite( "test" ) ) ) );
 
 			mock.Verify();
 		}

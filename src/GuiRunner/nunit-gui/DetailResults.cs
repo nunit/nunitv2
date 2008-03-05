@@ -14,12 +14,12 @@ namespace NUnit.Gui
 	using NUnit.Util;
 
 	/// <summary>
-	/// Summary description for ResultVisitor.
+	/// Summary description for DetailResults
 	/// </summary>
-	public class DetailResults : ResultVisitor
+	public class DetailResults
 	{
-		private ListBox testDetails;
-		private TreeView notRunTree;
+		private readonly ListBox testDetails;
+		private readonly TreeView notRunTree;
 
 		public DetailResults(ListBox listBox, TreeView notRun)
 		{
@@ -30,14 +30,14 @@ namespace NUnit.Gui
 		public void DisplayResults( TestResult results )
 		{
 			notRunTree.BeginUpdate();
-			results.Accept(this);
+			ProcessResults( results );
 			notRunTree.EndUpdate();
 
 			if( testDetails.Items.Count > 0 )
 				testDetails.SelectedIndex = 0;
 		}
 
-		private void VisitResult(TestResult result)
+		private void ProcessResults(TestResult result)
 		{
 			if(result.Executed)
 			{
@@ -54,24 +54,14 @@ namespace NUnit.Gui
 			{
 				notRunTree.Nodes.Add(MakeNotRunNode(result));
 			}
-		}
 
-		public void Visit(TestCaseResult result)
-		{
-			VisitResult( result );
-		}
+            foreach (TestResult childResult in result.Results)
+            {
+                ProcessResults( childResult );
+            }
+        }
 
-		public void Visit(TestSuiteResult suiteResult)
-		{
-			VisitResult( suiteResult );
-
-			foreach (TestResult result in suiteResult.Results)
-			{
-				result.Accept(this);
-			}
-		}
-
-		private TreeNode MakeNotRunNode(TestResult result)
+		private static TreeNode MakeNotRunNode(TestResult result)
 		{
 			TreeNode node = new TreeNode(result.Name);
 

@@ -20,7 +20,6 @@
         <include name="LegacySuite.cs"/>
         <include name="NamespaceTreeBuilder.cs"/>
         <include name="NoTestFixturesException.cs"/>
-        <include name="NotRunnableTestCase.cs"/>
         <include name="NullListener.cs"/>
         <include name="NUnitException.cs"/>
         <include name="NUnitFramework.cs"/>

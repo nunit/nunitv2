@@ -16,7 +16,7 @@ namespace NUnit.Util
 	/// <summary>
 	/// Summary description for XmlResultVisitor.
 	/// </summary>
-	public class XmlResultVisitor : ResultVisitor
+	public class XmlResultVisitor
 	{
 		private XmlTextWriter xmlWriter;
 		private TextWriter writer;
@@ -87,58 +87,99 @@ namespace NUnit.Util
 			                               Environment.UserDomainName);
 			xmlWriter.WriteEndElement();
 		}
+        public void ProcessResult( TestResult result )
+        {
+            if ( result.Test.IsSuite )
+            {
+                xmlWriter.WriteStartElement("test-suite");
+                xmlWriter.WriteAttributeString("name", result.Name);
+                if (result.Description != null)
+                    xmlWriter.WriteAttributeString("description", result.Description);
 
-		public void Visit(TestCaseResult caseResult) 
-		{
-			xmlWriter.WriteStartElement("test-case");
-			xmlWriter.WriteAttributeString("name",caseResult.Name);
+                xmlWriter.WriteAttributeString("success", result.IsSuccess.ToString());
+                xmlWriter.WriteAttributeString("time", result.Time.ToString("#####0.000", NumberFormatInfo.InvariantInfo));
+                xmlWriter.WriteAttributeString("asserts", result.AssertCount.ToString());
 
-			if(caseResult.Description != null)
-				xmlWriter.WriteAttributeString("description", caseResult.Description);
+                WriteCategories(result);
+                WriteProperties(result);
 
-			xmlWriter.WriteAttributeString("executed", caseResult.Executed.ToString());
-			if(caseResult.Executed)
-			{
-				xmlWriter.WriteAttributeString("success", caseResult.IsSuccess.ToString() );
+                if (result.IsFailure && result.FailureSite == FailureSite.SetUp)
+                {
+                    xmlWriter.WriteStartElement("failure");
 
-				xmlWriter.WriteAttributeString("time", caseResult.Time.ToString("#####0.000", NumberFormatInfo.InvariantInfo));
+                    xmlWriter.WriteStartElement("message");
+                    xmlWriter.WriteCData(EncodeCData(result.Message));
+                    xmlWriter.WriteEndElement();
 
-				xmlWriter.WriteAttributeString("asserts", caseResult.AssertCount.ToString() );
-				WriteCategories(caseResult);
-				WriteProperties(caseResult);
-				if(caseResult.IsFailure)
-				{
-					if(caseResult.IsFailure)
-						xmlWriter.WriteStartElement("failure");
-					else
-						xmlWriter.WriteStartElement("error");
-				
-					xmlWriter.WriteStartElement("message");
-					xmlWriter.WriteCData( EncodeCData( caseResult.Message ) );
-					xmlWriter.WriteEndElement();
-				
-					xmlWriter.WriteStartElement("stack-trace");
-					if(caseResult.StackTrace != null)
-						xmlWriter.WriteCData( EncodeCData( StackTraceFilter.Filter( caseResult.StackTrace ) ) );
-					xmlWriter.WriteEndElement();
-				
-					xmlWriter.WriteEndElement();
-				}
-				
-			}
-			else
-			{
-				WriteCategories(caseResult);
-				WriteProperties(caseResult);
-				xmlWriter.WriteStartElement("reason");
-				xmlWriter.WriteStartElement("message");
-				xmlWriter.WriteCData(caseResult.Message);
-				xmlWriter.WriteEndElement();
-				xmlWriter.WriteEndElement();
-			}
-            
-			xmlWriter.WriteEndElement();
-		}
+                    xmlWriter.WriteStartElement("stack-trace");
+                    if (result.StackTrace != null)
+                        xmlWriter.WriteCData(EncodeCData(StackTraceFilter.Filter(result.StackTrace)));
+                    xmlWriter.WriteEndElement();
+
+                    xmlWriter.WriteEndElement();
+                }
+
+                xmlWriter.WriteStartElement("results");
+                foreach (TestResult childResult in result.Results)
+                {
+                    ProcessResult( childResult );
+                }
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteEndElement();
+            }
+            else
+            {
+                xmlWriter.WriteStartElement("test-case");
+                xmlWriter.WriteAttributeString("name", result.Name);
+
+                if (result.Description != null)
+                    xmlWriter.WriteAttributeString("description", result.Description);
+
+                xmlWriter.WriteAttributeString("executed", result.Executed.ToString());
+                if (result.Executed)
+                {
+                    xmlWriter.WriteAttributeString("success", result.IsSuccess.ToString());
+
+                    xmlWriter.WriteAttributeString("time", result.Time.ToString("#####0.000", NumberFormatInfo.InvariantInfo));
+
+                    xmlWriter.WriteAttributeString("asserts", result.AssertCount.ToString());
+                    WriteCategories(result);
+                    WriteProperties(result);
+                    if (result.IsFailure)
+                    {
+                        if (result.IsFailure)
+                            xmlWriter.WriteStartElement("failure");
+                        else
+                            xmlWriter.WriteStartElement("error");
+
+                        xmlWriter.WriteStartElement("message");
+                        xmlWriter.WriteCData(EncodeCData(result.Message));
+                        xmlWriter.WriteEndElement();
+
+                        xmlWriter.WriteStartElement("stack-trace");
+                        if (result.StackTrace != null)
+                            xmlWriter.WriteCData(EncodeCData(StackTraceFilter.Filter(result.StackTrace)));
+                        xmlWriter.WriteEndElement();
+
+                        xmlWriter.WriteEndElement();
+                    }
+
+                }
+                else
+                {
+                    WriteCategories(result);
+                    WriteProperties(result);
+                    xmlWriter.WriteStartElement("reason");
+                    xmlWriter.WriteStartElement("message");
+                    xmlWriter.WriteCData(result.Message);
+                    xmlWriter.WriteEndElement();
+                    xmlWriter.WriteEndElement();
+                }
+
+                xmlWriter.WriteEndElement();
+            }
+        }
 
 		/// <summary>
 		/// Makes string safe for xml parsing, replacing control chars with '?'
@@ -207,46 +248,6 @@ namespace NUnit.Util
 				}
 				xmlWriter.WriteEndElement();
 			}
-		}
-
-		public void Visit(TestSuiteResult suiteResult) 
-		{
-			xmlWriter.WriteStartElement("test-suite");
-			xmlWriter.WriteAttributeString("name",suiteResult.Name);
-			if(suiteResult.Description != null)
-				xmlWriter.WriteAttributeString("description", suiteResult.Description);
-
-			xmlWriter.WriteAttributeString("success", suiteResult.IsSuccess.ToString());
-			xmlWriter.WriteAttributeString("time", suiteResult.Time.ToString("#####0.000", NumberFormatInfo.InvariantInfo));
-			xmlWriter.WriteAttributeString("asserts", suiteResult.AssertCount.ToString() );
-         
-			WriteCategories(suiteResult);
-			WriteProperties(suiteResult);
-
-			if ( suiteResult.IsFailure && suiteResult.FailureSite == FailureSite.SetUp )
-			{
-				xmlWriter.WriteStartElement("failure");
-
-				xmlWriter.WriteStartElement("message");
-				xmlWriter.WriteCData( EncodeCData( suiteResult.Message ) );
-				xmlWriter.WriteEndElement();
-
-				xmlWriter.WriteStartElement("stack-trace");
-				if(suiteResult.StackTrace != null)
-					xmlWriter.WriteCData( EncodeCData( StackTraceFilter.Filter( suiteResult.StackTrace ) ) );
-				xmlWriter.WriteEndElement();
-
-				xmlWriter.WriteEndElement();
-			}
-
-			xmlWriter.WriteStartElement("results");                  
-			foreach (TestResult result in suiteResult.Results)
-			{
-				result.Accept(this);
-			}
-			xmlWriter.WriteEndElement();
-
-			xmlWriter.WriteEndElement();
 		}
 
 		public void Write()

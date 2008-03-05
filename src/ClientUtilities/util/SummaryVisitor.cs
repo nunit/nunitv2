@@ -6,7 +6,6 @@
 
 namespace NUnit.Util
 {
-	using System;
 	using NUnit.Core;
 
 	/// <summary>
@@ -18,7 +17,7 @@ namespace NUnit.Util
 	/// the Platform attribute do not. This anomaly will be
 	/// corrected in a later version.
 	/// </summary>
-	public class SummaryVisitor : ResultVisitor
+	public class SummaryVisitor
 	{
 		private int resultCount;
 		private int failureCount;
@@ -28,66 +27,56 @@ namespace NUnit.Util
 		
 		private double time;
 		private string name;
-		private bool initialized;
 
 		public SummaryVisitor()
 		{
 			resultCount = 0;
-			initialized = false;
 		}
 
-		public void Visit(TestCaseResult caseResult) 
-		{
-			SetNameandTime(caseResult.Name, caseResult.Time);
+        public void ProcessResult( TestResult result )
+        {
+            if (this.name == null )
+            {
+                this.name = result.Name;
+                this.time = result.Time;
+            }
 
-			switch( caseResult.RunState )
-			{
-				case RunState.Executed:
-					resultCount++;
-					if(caseResult.IsFailure)
-						failureCount++;
-					break;
-				case RunState.Ignored:
-					ignoreCount++;
-					break;
-				case RunState.Explicit:
-				case RunState.NotRunnable:
-				case RunState.Runnable:
-				case RunState.Skipped:
-				default:
-					skipCount++;
-					break;
-			}
-		}
+            if (result.Test.IsSuite)
+            {
+                if (!result.Executed)
+                    suitesNotRun++;
+            }
+            else
+            {
+                switch (result.RunState)
+                {
+                    case RunState.Executed:
+                        resultCount++;
+                        if (result.IsFailure)
+                            failureCount++;
+                        break;
+                    case RunState.Ignored:
+                        ignoreCount++;
+                        break;
+                    case RunState.Explicit:
+                    case RunState.NotRunnable:
+                    case RunState.Runnable:
+                    case RunState.Skipped:
+                    default:
+                        skipCount++;
+                        break;
+                }
+            }
 
-		public void Visit(TestSuiteResult suiteResult) 
-		{
-			SetNameandTime(suiteResult.Name, suiteResult.Time);
-
-			
-			
-			foreach (TestResult result in suiteResult.Results)
-			{
-				result.Accept(this);
-			}
-			
-			if(!suiteResult.Executed)
-				suitesNotRun++;
-		}
+            foreach (TestResult childResult in result.Results)
+            {
+                ProcessResult( childResult );
+            }
+        }
 
 		public double Time
 		{
 			get { return time; }
-		}
-
-		private void SetNameandTime(string name, double time)
-		{
-			if(!initialized)
-			{
-				this.time = time;
-				this.name = name;
-				initialized = true;
-			}
 		}
 
 		public bool Success

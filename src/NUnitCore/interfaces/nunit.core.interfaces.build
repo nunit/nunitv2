@@ -8,12 +8,10 @@
         <include name="ITest.cs"/>
         <include name="ITestFilter.cs"/>
         <include name="ResultState.cs"/>
-        <include name="ResultVisitor.cs"/>
         <include name="RunState.cs"/>
         <include name="RuntimeFramework.cs"/>
         <include name="Test.cs"/>
         <include name="TestAssemblyInfo.cs"/>
-        <include name="TestCaseResult.cs"/>
         <include name="TestFilter.cs"/>
         <include name="TestID.cs"/>
         <include name="TestInfo.cs"/>
@@ -23,7 +21,6 @@
         <include name="TestPackage.cs"/>
         <include name="TestResult.cs"/>
         <include name="TestRunner.cs"/>
-        <include name="TestSuiteResult.cs"/>
         <include name="Extensibility/Addin.cs"/>
         <include name="Extensibility/AddinStatus.cs"/>
         <include name="Extensibility/ExtensionType.cs"/>

@@ -27,7 +27,7 @@ namespace NUnit.Core
 		/// to count assertions.
 		/// </summary>
 		/// <param name="testResult"></param>
-		public override void Run(TestCaseResult testResult)
+		public override void Run(TestResult testResult)
 		{
 			base.Run(testResult);
 

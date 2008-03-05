@@ -17,13 +17,13 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class TestCaseResultFixture
 	{
-		private TestCaseResult caseResult;
+		private TestResult caseResult;
 
 		[SetUp]
 		public void SetUp()
 		{
 			Test testCase = TestBuilder.MakeTestCase( this, "DummyMethod" ); 
-			caseResult = new TestCaseResult( new TestInfo(testCase) );
+			caseResult = new TestResult( new TestInfo(testCase) );
 		}
 
 		public void DummyMethod() { }

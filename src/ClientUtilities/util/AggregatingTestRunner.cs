@@ -168,7 +168,7 @@ namespace NUnit.Util
 			this.listener.SuiteStarted( this.Test.TestName );
 			long startTime = DateTime.Now.Ticks;
 
-			TestSuiteResult result = new TestSuiteResult( new TestInfo( testName, tests ) );
+			TestResult result = new TestResult( new TestInfo( testName, tests ) );
 			result.RunState = RunState.Executed;
 			foreach( TestRunner runner in runners )
 				if ( filter.Pass( runner.Test ) )
@@ -213,7 +213,7 @@ namespace NUnit.Util
 
 		public virtual TestResult EndRun()
 		{
-			TestSuiteResult suiteResult = new TestSuiteResult( Test as TestInfo );
+			TestResult suiteResult = new TestResult( Test as TestInfo );
 			foreach( TestRunner runner in runners )
 				suiteResult.Results.Add( runner.EndRun() );
 
@@ -255,12 +255,12 @@ namespace NUnit.Util
 			// TODO: Issue combined RunFinished when all runs are done
 		}
 
-		public void SuiteFinished(TestSuiteResult result)
+		public void SuiteFinished(TestResult result)
 		{
 			this.listener.SuiteFinished( result );
 		}
 
-		public void TestFinished(TestCaseResult result)
+		public void TestFinished(TestResult result)
 		{
 			this.listener.TestFinished( result );
 		}

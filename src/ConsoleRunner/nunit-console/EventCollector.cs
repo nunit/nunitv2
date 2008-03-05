@@ -69,7 +69,7 @@ namespace NUnit.ConsoleRunner
 		{
 		}
 
-		public void TestFinished(TestCaseResult testResult)
+		public void TestFinished(TestResult testResult)
 		{
 			if(testResult.Executed)
 			{
@@ -135,7 +135,7 @@ namespace NUnit.ConsoleRunner
 			}
 		}
 
-		public void SuiteFinished(TestSuiteResult suiteResult) 
+		public void SuiteFinished(TestResult suiteResult) 
 		{
 			if ( --level == 0) 
 			{

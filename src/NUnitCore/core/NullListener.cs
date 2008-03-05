@@ -23,11 +23,11 @@ namespace NUnit.Core
 
 		public void TestStarted(TestName testName){}
 			
-		public void TestFinished(TestCaseResult result){}
+		public void TestFinished(TestResult result){}
 
 		public void SuiteStarted(TestName testName){}
 
-		public void SuiteFinished(TestSuiteResult result){}
+		public void SuiteFinished(TestResult result){}
 
 		public void UnhandledException( Exception exception ) {}
 

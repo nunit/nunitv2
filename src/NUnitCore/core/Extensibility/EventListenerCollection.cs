@@ -44,7 +44,7 @@ namespace NUnit.Core.Extensibility
 				listener.SuiteStarted( testName );
 		}
 
-		public void SuiteFinished(TestSuiteResult result)
+		public void SuiteFinished(TestResult result)
 		{
 			foreach( EventListener listener in extensions )
 				listener.SuiteFinished( result );
@@ -56,7 +56,7 @@ namespace NUnit.Core.Extensibility
 				listener.TestStarted( testName );
 		}
 
-		public void TestFinished(TestCaseResult result)
+		public void TestFinished(TestResult result)
 		{
 			foreach( EventListener listener in extensions )
 				listener.TestFinished( result );
