@@ -37,6 +37,7 @@ namespace NUnit.Core.Extensibility
 		/// extension object is not present, the method returns
 		/// without error.
 		/// <param name="extension"></param>
+		/// </summary>
 		void Remove( object extension );
 	}
 }
