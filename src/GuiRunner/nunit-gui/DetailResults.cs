@@ -55,10 +55,9 @@ namespace NUnit.Gui
 				notRunTree.Nodes.Add(MakeNotRunNode(result));
 			}
 
-            foreach (TestResult childResult in result.Results)
-            {
-                ProcessResults( childResult );
-            }
+			if ( result.HasResults )
+				foreach (TestResult childResult in result.Results)
+	                ProcessResults( childResult );
         }
 
 		private static TreeNode MakeNotRunNode(TestResult result)

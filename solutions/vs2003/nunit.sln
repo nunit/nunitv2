@@ -240,8 +240,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		nunit.snk = nunit.snk
-		NUnitDevTests.nunit = NUnitDevTests.nunit
 		NUnitTests.config = NUnitTests.config
+		NUnitTests.nunit = NUnitTests.nunit
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

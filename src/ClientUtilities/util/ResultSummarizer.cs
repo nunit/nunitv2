@@ -14,32 +14,81 @@ namespace NUnit.Util
 	/// </summary>
 	public class ResultSummarizer
 	{
-		private SummaryVisitor visitor = new SummaryVisitor();
+		private int resultCount = 0;
+		private int failureCount = 0;
+		private int skipCount = 0;
+		private int ignoreCount = 0;
+		private int suitesNotRun = 0;
+		
+		private double time = 0.0d;
+		private string name;
+
+		public ResultSummarizer() { }
 
 		public ResultSummarizer(TestResult result)
 		{
-			visitor.ProcessResult(result);
+			Summarize(result);
 		}
 
 		public ResultSummarizer(TestResult[] results)
 		{
 			foreach( TestResult result in results )
-				visitor.ProcessResult(result);
+				Summarize(result);
+		}
+
+		public void Summarize( TestResult result )
+		{
+			if (this.name == null )
+			{
+				this.name = result.Name;
+				this.time = result.Time;
+			}
+
+			if (result.Test.IsSuite)
+			{
+				if (!result.Executed)
+					suitesNotRun++;
+			}
+			else
+			{
+				switch (result.RunState)
+				{
+					case RunState.Executed:
+						resultCount++;
+						if (result.IsFailure)
+							failureCount++;
+						break;
+					case RunState.Ignored:
+						ignoreCount++;
+						break;
+					case RunState.Explicit:
+					case RunState.NotRunnable:
+					case RunState.Runnable:
+					case RunState.Skipped:
+					default:
+						skipCount++;
+						break;
+				}
+			}
+
+			if ( result.HasResults )
+				foreach (TestResult childResult in result.Results)
+					Summarize( childResult );
 		}
 
 		public string Name
 		{
-			get { return visitor.Name; }
+			get { return name; }
 		}
 
 		public bool Success
 		{
-			get { return visitor.Success; }
+			get { return failureCount == 0; }
 		}
 
 		public int ResultCount
 		{
-			get { return visitor.ResultCount; }
+			get { return resultCount; }
 		}
 
 //		public int Errors
@@ -49,32 +98,32 @@ namespace NUnit.Util
 
 		public int FailureCount 
 		{
-			get { return visitor.FailureCount; }
+			get { return failureCount; }
 		}
 
 		public int SkipCount
 		{
-			get { return visitor.SkipCount; }
+			get { return skipCount; }
 		}
 
 		public int IgnoreCount
 		{
-			get { return visitor.IgnoreCount; }
+			get { return ignoreCount; }
 		}
 
 		public double Time
 		{
-			get { return visitor.Time; }
+			get { return time; }
 		}
 
 		public int TestsNotRun
 		{
-			get { return visitor.TestsNotRun; }
+			get { return skipCount + ignoreCount; }
 		}
 
 		public int SuitesNotRun
 		{
-			get { return visitor.SuitesNotRun; }
+			get { return suitesNotRun; }
 		}
 	}
 }

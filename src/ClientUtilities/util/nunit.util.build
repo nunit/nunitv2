@@ -34,7 +34,6 @@
         <include name="SettingsGroup.cs"/>
         <include name="SettingsStorage.cs"/>
         <include name="StackTraceFilter.cs"/>
-        <include name="SummaryVisitor.cs"/>
         <include name="TestAgent.cs"/>
         <include name="TestDomain.cs"/>
         <include name="TestEventArgs.cs"/>

@@ -103,9 +103,7 @@ namespace NUnit.Core.Tests
 
 			TestResult result = suite.Run(NullListener.NULL);
 
-			XmlResultVisitor visitor = new XmlResultVisitor(reportFileName, result);
-			visitor.ProcessResult(result);
-			visitor.Write();
+			new XmlResultWriter(reportFileName).SaveTestResult(result);
 
 			SchemaValidator validator = new SchemaValidator(reportFileName, schemaFile.Path);
 			Assert.IsTrue(validator.Validate(), "validate failed");
@@ -119,9 +117,7 @@ namespace NUnit.Core.Tests
 
 			TestResult result = suite.Run(NullListener.NULL);
 	
-			XmlResultVisitor visitor = new XmlResultVisitor(writer, result);
-			visitor.ProcessResult(result);
-			visitor.Write();
+			new XmlResultWriter(writer).SaveTestResult(result);
 		}
 
 		private string tempFile;

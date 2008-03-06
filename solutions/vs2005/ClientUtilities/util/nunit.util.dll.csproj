@@ -271,10 +271,6 @@
       <Link>StackTraceFilter.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\ClientUtilities\util\SummaryVisitor.cs">
-      <Link>SummaryVisitor.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\util\TestAgent.cs">
       <Link>TestAgent.cs</Link>
       <SubType>Code</SubType>

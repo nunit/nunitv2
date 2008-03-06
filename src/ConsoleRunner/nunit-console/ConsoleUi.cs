@@ -179,7 +179,7 @@ namespace NUnit.ConsoleRunner
 			XmlTextReader reader = null;
 			if(parser.transform == null || parser.transform == string.Empty)
 			{
-				Assembly assembly = Assembly.GetAssembly(typeof(XmlResultVisitor));
+				Assembly assembly = Assembly.GetAssembly(typeof(XmlResultWriter));
 				ResourceManager resourceManager = new ResourceManager("NUnit.Util.Transform",assembly);
 				string xmlData = (string)resourceManager.GetObject("Summary.xslt");
 
@@ -265,9 +265,7 @@ namespace NUnit.ConsoleRunner
 		private static string CreateXmlOutput( TestResult result )
 		{
 			StringBuilder builder = new StringBuilder();
-			XmlResultVisitor resultVisitor = new XmlResultVisitor(new StringWriter( builder ), result);
-			resultVisitor.ProcessResult(result);
-			resultVisitor.Write();
+			new XmlResultWriter(new StringWriter( builder )).SaveTestResult(result);
 
 			return builder.ToString();
 		}

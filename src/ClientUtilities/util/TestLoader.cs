@@ -709,10 +709,7 @@ namespace NUnit.Util
 
 		public void SaveLastResult( string fileName )
 		{
-			XmlResultVisitor resultVisitor 
-				= new XmlResultVisitor( fileName, this.testResult );
-		    resultVisitor.ProcessResult(this.testResult);
-			resultVisitor.Write();
+			new XmlResultWriter( fileName ).SaveTestResult(this.testResult);
 		}
 
 		#region Helper Methods

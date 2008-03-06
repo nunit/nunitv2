@@ -307,12 +307,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "SummaryVisitor.cs"
-                    Link = "..\..\..\..\src\ClientUtilities\util\SummaryVisitor.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestAgent.cs"
                     Link = "..\..\..\..\src\ClientUtilities\util\TestAgent.cs"
                     SubType = "Code"

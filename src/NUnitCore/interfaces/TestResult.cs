@@ -11,7 +11,7 @@ namespace NUnit.Core
 	using System.Collections;
 
 	/// <summary>
-	/// The TestResult abstract class represents
+	/// The TestResult class represents
 	/// the result of a test and is used to
 	/// communicate results across AppDomains.
 	/// </summary>
@@ -51,11 +51,6 @@ namespace NUnit.Core
 		private string stackTrace;
 
 		/// <summary>
-		/// Description of this test
-		/// </summary>
-		private string description;
-
-		/// <summary>
 		/// Message giving the reason for failure
 		/// </summary>
 		private string message;
@@ -80,7 +75,6 @@ namespace NUnit.Core
 		public TestResult(TestInfo test)
 		{
 			this.test = test;
-			this.description = test.Description;
 			this.runState = test.RunState;
 			this.message = test.IgnoreReason;
 		}
@@ -127,10 +121,18 @@ namespace NUnit.Core
 		/// <summary>
 		/// Gets the name of the test result
 		/// </summary>
-        public virtual string Name
-        {
-            get { return test.TestName.Name; }
-        }
+		public virtual string Name
+		{
+			get { return test.TestName.Name; }
+		}
+
+		/// <summary>
+		/// Gets the full name of the test result
+		/// </summary>
+		public virtual string FullName
+		{
+			get { return test.TestName.FullName; }
+		}
 
 		/// <summary>
 		/// Gets the test associated with this result
@@ -162,10 +164,9 @@ namespace NUnit.Core
 		/// <summary>
 		/// Gets a description associated with the test
 		/// </summary>
-        public virtual string Description
+        public string Description
         {
-            get { return description; }
-            set { description = value; }
+            get { return test.Description; }
         }
 
 		/// <summary>
@@ -227,9 +228,7 @@ namespace NUnit.Core
 		{
 			get 
 			{ 
-				if ( results == null )
-					results = new ArrayList();
-				
+			
 				return results;
 			}
 		}
@@ -389,7 +388,10 @@ namespace NUnit.Core
 		/// <param name="result">The child result to be added</param>
 		public void AddResult(TestResult result) 
 		{
-			this.Results.Add(result);
+			if ( results == null )
+				results = new ArrayList();
+
+			this.results.Add(result);
 
 			if( this.ResultState == ResultState.Success &&
 				result.ResultState != ResultState.Success )

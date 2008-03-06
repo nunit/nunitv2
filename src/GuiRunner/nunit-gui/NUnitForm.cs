@@ -1757,8 +1757,7 @@ the version under which NUnit is currently running, {0}.",
 					UserMessage.DisplayFailure( e.Exception, "NUnit Test Run Failed" );
 			}
 
-			SummaryVisitor summary = new SummaryVisitor();
-			summary.ProcessResult(e.Result);
+			ResultSummarizer summary = new ResultSummarizer( e.Result );
 			this.runCount.Text = string.Format( 
 				"Test Cases: {0}   Tests Run: {1}   Failures: {2}   Ignored: {3}   Skipped: {4}   Run Time: {5}",
 				summary.ResultCount+summary.SkipCount, summary.ResultCount, summary.FailureCount, summary.IgnoreCount, summary.SkipCount, summary.Time );
