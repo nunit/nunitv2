@@ -16,7 +16,7 @@ namespace NUnit.Tests
 		/// </summary>
 		public class MockAssembly
 		{
-			public static int Fixtures = 5; 
+			public static int Fixtures = 6; 
 
 			public static int NamespaceSuites = 6; // assembly, NUnit, Tests, Assemblies, Singletons, TestAssembly
 
@@ -32,7 +32,8 @@ namespace NUnit.Tests
 						+ Singletons.OneTestCase.Tests 
 						+ TestAssembly.MockTestFixture.Tests 
 						+ IgnoredFixture.Tests
-						+ ExplicitFixture.Tests;
+						+ ExplicitFixture.Tests
+						+ BadFixture.Tests;
 				}
 			}
 
@@ -46,12 +47,20 @@ namespace NUnit.Tests
 				get { return MockTestFixture.Explicit + ExplicitFixture.Tests; }
 			}
 
+			public static int NotRunnable = MockTestFixture.NotRunnable + BadFixture.Tests;
+
 			public static int NotRun
 			{
-				get { return Ignored + Explicit; }
+				get { return Ignored + Explicit + NotRunnable; }
 			}
 
-			public static int Nodes
+		    public static int TestsRun = Tests - NotRun;
+
+            public static int Errors = MockTestFixture.Errors + BadFixture.Tests;
+
+            public static int Failures = 0;
+
+            public static int Nodes
 			{
 				get 
 				{ 
@@ -60,6 +69,7 @@ namespace NUnit.Tests
 						+ TestAssembly.MockTestFixture.Nodes 
 						+ IgnoredFixture.Nodes
 						+ ExplicitFixture.Nodes
+						+ BadFixture.Nodes
 						+ 6;  // assembly, NUnit, Tests, Assemblies, Singletons, TestAssembly 
 				}
 			}
@@ -86,12 +96,20 @@ namespace NUnit.Tests
 		[Category("FixtureCategory")]
 		public class MockTestFixture
 		{
-			public static readonly int Tests = 7;
-			public static readonly int Ignored = 2;
+			public static readonly int Tests = 8;
+
+			public static readonly int Ignored = 1;
 			public static readonly int Explicit = 1;
-			public static readonly int NotRun = Ignored + Explicit;
+			public static readonly int NotRunnable = 2;
+			public static readonly int NotRun = Ignored + Explicit + NotRunnable;
+		    public static readonly int TestsRun = Tests - NotRun;
+
+            public static readonly int Failures = 0;
+            public static readonly int Errors = 2;
+
 			public static readonly int Nodes = Tests + 1;
 			public static readonly int Categories = 5;
+		    public static readonly int MockCategoryTests = 2;
 
 			[Test(Description="Mock Test #1")]
 			public void MockTest1()
@@ -127,6 +145,11 @@ namespace NUnit.Tests
 			[Category( "Special" )]
 			public void ExplicitlyRunTest()
 			{}
+
+			[Test]
+			public void NotRunnableTest( int a, int b)
+			{
+			}
 		}
 	}
 
@@ -186,5 +209,17 @@ namespace NUnit.Tests
 
 		[Test]
 		public void Test2() { }
+	}
+
+	[TestFixture]
+	public class BadFixture
+	{
+		public static int Tests = 1;
+		public static int Nodes = Tests + 1;
+
+		public BadFixture(int val) { }
+
+		[Test]
+		public void SomeTest() { }
 	}
 }

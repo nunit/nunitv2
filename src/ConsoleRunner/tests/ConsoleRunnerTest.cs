@@ -11,6 +11,7 @@ using System.Collections;
 
 using NUnit.Framework;
 using NUnit.TestData.ConsoleRunnerTest;
+using NUnit.Tests.Assemblies;
 
 namespace NUnit.ConsoleRunner.Tests
 {
@@ -124,43 +125,49 @@ namespace NUnit.ConsoleRunner.Tests
 		[Test]
 		public void CanRunWithoutTestDomain()
 		{
-			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "-domain:None" ) );
-			StringAssert.Contains( "Failures: 0", output.ToString() );
+			Assert.AreEqual( MockAssembly.Failures, executeConsole( "mock-assembly.dll", "-domain:None" ) );
+			string failureMsg = string.Format( "Failures: {0}", MockAssembly.Failures );
+			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithSingleTestDomain()
 		{
-			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "-domain:Single" ) );
-			StringAssert.Contains( "Failures: 0", output.ToString() );
+			Assert.AreEqual( MockAssembly.Failures, executeConsole( "mock-assembly.dll", "-domain:Single" ) );
+			string failureMsg = string.Format( "Failures: {0}", MockAssembly.Failures );
+			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithMultipleTestDomains()
 		{
-			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "nonamespace-assembly.dll", "-domain:Multiple" ) );
-			StringAssert.Contains( "Failures: 0", output.ToString() );
+			Assert.AreEqual( MockAssembly.Failures, executeConsole( "mock-assembly.dll", "nonamespace-assembly.dll", "-domain:Multiple" ) );
+			string failureMsg = string.Format( "Failures: {0}", MockAssembly.Failures );
+			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test,Platform(Exclude="Mono")]
 		public void CanRunWithoutTestDomain_NoThread()
 		{
-			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "-domain:None", "-nothread" ) );
-			StringAssert.Contains( "Failures: 0", output.ToString() );
+			Assert.AreEqual( MockAssembly.Failures, executeConsole( "mock-assembly.dll", "-domain:None", "-nothread" ) );
+			string failureMsg = string.Format( "Failures: {0}", MockAssembly.Failures );
+			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test,Platform(Exclude="Mono")]
 		public void CanRunWithSingleTestDomain_NoThread()
 		{
-			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "-domain:Single", "-nothread" ) );
-			StringAssert.Contains( "Failures: 0", output.ToString() );
+			Assert.AreEqual( MockAssembly.Failures, executeConsole( "mock-assembly.dll", "-domain:Single", "-nothread" ) );
+			string failureMsg = string.Format( "Failures: {0}", MockAssembly.Failures );
+			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test,Platform(Exclude="Mono")]
 		public void CanRunWithMultipleTestDomains_NoThread()
 		{
-			Assert.AreEqual( 0, executeConsole( "mock-assembly.dll", "nonamespace-assembly.dll", "-domain:Multiple", "-nothread" ) );
-			StringAssert.Contains( "Failures: 0", output.ToString() );
+			Assert.AreEqual( MockAssembly.Failures, executeConsole( "mock-assembly.dll", "nonamespace-assembly.dll", "-domain:Multiple", "-nothread" ) );
+			string failureMsg = string.Format( "Failures: {0}", MockAssembly.Failures );
+			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		private int runFixture( Type type )

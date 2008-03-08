@@ -35,26 +35,14 @@ namespace NUnit.Util.Tests
 
 			Assert.AreEqual(result.Name, summary.Name);
 			Assert.AreEqual(result.Time, summary.Time);
-			Assert.IsTrue(summary.Success, "Success");
-			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.NotRun, summary.ResultCount, "ResultCount");
-			Assert.AreEqual(0, summary.FailureCount, "FailureCount");
-			Assert.AreEqual(MockTestFixture.Ignored, summary.TestsNotRun, "TestsNotRun");
-		}
-
-		[Test]
-		public void SummaryMatchesResult_SimulatedFailure()
-		{
-			TestResult caseResult = TestFinder.Find( "MockTest2", result );
-			caseResult.Failure( "Simulated Failure", null );
-
-			ResultSummarizer summary = new ResultSummarizer( result );
-
-			Assert.AreEqual(result.Name, summary.Name);
-			Assert.AreEqual(result.Time, summary.Time);
-			Assert.IsFalse(summary.Success, "Success");
-			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.NotRun, summary.ResultCount, "ResultCount");
-			Assert.AreEqual(1, summary.FailureCount, "FailureCount");
-			Assert.AreEqual(MockTestFixture.Ignored, summary.TestsNotRun, "TestsNotRun");
+			Assert.AreEqual(result.IsSuccess, summary.Success, "Success");
+        
+            Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.Explicit, summary.ResultCount );
+			Assert.AreEqual(MockTestFixture.TestsRun, summary.TestsRun, "TestsRun");
+			Assert.AreEqual(MockTestFixture.Failures, summary.Failures, "Failures");
+            Assert.AreEqual(MockTestFixture.Errors, summary.Errors, "Errors");
+			Assert.AreEqual(MockTestFixture.Ignored, summary.Ignored, "Ignored");
+            Assert.AreEqual(MockTestFixture.NotRunnable, summary.NotRunnable, "NotRunnable");
 		}
 	}
 }

@@ -161,6 +161,14 @@ namespace NUnit.Core
             get { return resultState == ResultState.Failure || resultState == ResultState.Error; }
         }
 
+	    /// <summary>
+	    /// Indicates whether the test had an error (as opposed to a failure)
+	    /// </summary>
+        public virtual bool IsError
+	    {
+            get { return resultState == ResultState.Error;  }   
+	    }
+
 		/// <summary>
 		/// Gets a description associated with the test
 		/// </summary>

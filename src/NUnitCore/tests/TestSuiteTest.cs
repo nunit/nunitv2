@@ -37,13 +37,16 @@ namespace NUnit.Core.Tests
 		{
 			TestResult result = mockTestFixture.Run( NullListener.NULL );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
-			Assert.AreEqual( MockTestFixture.Tests - MockTestFixture.NotRun, summarizer.ResultCount );
-			Assert.AreEqual( MockTestFixture.Ignored, summarizer.TestsNotRun );
+			Assert.AreEqual( MockTestFixture.TestsRun, summarizer.TestsRun, "TestsRun" );
+            Assert.AreEqual( MockTestFixture.NotRunnable, summarizer.NotRunnable, "NotRunnable");
+            Assert.AreEqual(MockTestFixture.Ignored, summarizer.Ignored, "Ignored");
+            Assert.AreEqual(MockTestFixture.Errors, summarizer.Errors, "Errors");
+            Assert.AreEqual(MockTestFixture.Failures, summarizer.Failures, "Failures");
 
 			result = TestFinder.Find( "ExplicitlyRunTest", result );
 			Assert.IsNull( result, "ExplicitlyRunTest should not be in results" );
 
-			// TODO: Decide if we want to include Explicitly run tests
+			// TODO: Decide if we want to include Explicit tests that are not run in results
 			//			Assert.IsNotNull( result, "Cannot find ExplicitlyRunTest result" );
 			//			Assert.IsFalse( result.Executed, "ExplicitlyRunTest should not be executed" );
 			//			Assert.AreEqual( "Explicit selection required", result.Message );
@@ -57,7 +60,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( RunState.Explicit, test.RunState );
 			TestResult result = test.Run( NullListener.NULL );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
-			Assert.AreEqual( 1, summarizer.ResultCount );
+			Assert.AreEqual( 1, summarizer.TestsRun );
 		}
 
 		[Test]
@@ -70,7 +73,7 @@ namespace NUnit.Core.Tests
 			NameFilter filter = new NameFilter( test.TestName );
 			TestResult result = mockTestFixture.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
-			Assert.AreEqual( 1, summarizer.ResultCount );
+			Assert.AreEqual( 1, summarizer.TestsRun );
 		}
 
 		[Test]
@@ -79,7 +82,7 @@ namespace NUnit.Core.Tests
 			CategoryFilter filter = new CategoryFilter( "Special" );
 			TestResult result = mockTestFixture.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
-			Assert.AreEqual( 1, summarizer.ResultCount );
+			Assert.AreEqual( 1, summarizer.TestsRun );
 		}
 
 		[Test]
@@ -88,7 +91,7 @@ namespace NUnit.Core.Tests
 			TestFilter filter = new NotFilter( new CategoryFilter( "MockCategory" ) );
 			TestResult result = mockTestFixture.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
-			Assert.AreEqual( 2, summarizer.ResultCount );
+			Assert.AreEqual( MockTestFixture.TestsRun - MockTestFixture.MockCategoryTests, summarizer.TestsRun );
 		}
 
 		[Test]
@@ -99,7 +102,7 @@ namespace NUnit.Core.Tests
 			TestSuite suite = builder.Build( "mock-assembly.dll", true );
 			TestResult result = suite.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
-			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun - 2, summarizer.ResultCount );
+			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun - 2, summarizer.TestsRun );
 		}
 
 		[Test]
@@ -134,9 +137,8 @@ namespace NUnit.Core.Tests
 			TestResult result = noTestSuite.Run(NullListener.NULL);
 
 			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assert.AreEqual(0, summarizer.ResultCount);
+			Assert.AreEqual(0, summarizer.TestsRun);
 			Assert.AreEqual(0, summarizer.TestsNotRun);
-			Assert.AreEqual(1, summarizer.SuitesNotRun);
 		}
 
 		[Test]
@@ -219,7 +221,7 @@ namespace NUnit.Core.Tests
 			RecordingListener listener = new RecordingListener();
 			testSuite.Run(listener, new NotFilter( filter ) );
 			CollectionAssert.AreEquivalent( 
-				new string[] { "MockTest1", "MockTest4", "MockTest5", "TestWithManyProperties" },
+				new string[] { "MockTest1", "MockTest4", "MockTest5", "TestWithManyProperties", "NotRunnableTest" },
 				listener.testStarted );
 		}
 

@@ -165,7 +165,7 @@ namespace NUnit.ConsoleRunner
 				if ( !result.IsFailure ) return OK;
 
 				ResultSummarizer summ = new ResultSummarizer( result );
-				return summ.FailureCount;
+				return summ.Failures;
 			}
 			finally
 			{

@@ -17,11 +17,13 @@ namespace NUnit.UiKit
 		private StatusBarPanel statusPanel = new StatusBarPanel();
 		private StatusBarPanel testCountPanel = new StatusBarPanel();
 		private StatusBarPanel testsRunPanel = new StatusBarPanel();
+		private StatusBarPanel errorsPanel = new StatusBarPanel();
 		private StatusBarPanel failuresPanel = new StatusBarPanel();
 		private StatusBarPanel timePanel = new StatusBarPanel();
 
 		private int testCount = 0;
 		private int testsRun = 0;
+		private int errors = 0;
 		private int failures = 0;
 		private int time = 0;
 
@@ -38,6 +40,7 @@ namespace NUnit.UiKit
 			Panels.Add( statusPanel );
 			Panels.Add( testCountPanel );
 			Panels.Add( testsRunPanel );
+			Panels.Add( errorsPanel );
 			Panels.Add( failuresPanel );
 			Panels.Add( timePanel );
 
@@ -52,6 +55,7 @@ namespace NUnit.UiKit
 			//testsRunPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
 			testsRunPanel.MinWidth = 120;
 			//failuresPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
+			errorsPanel.MinWidth = 104;
 			failuresPanel.MinWidth = 104;
 			//timePanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Contents;
 			timePanel.MinWidth = 120;
@@ -92,6 +96,7 @@ namespace NUnit.UiKit
 
 			this.testCount = testCount;
 			this.testsRun = 0;
+			this.errors = 0;
 			this.failures = 0;
 			this.time = 0;
 
@@ -102,6 +107,7 @@ namespace NUnit.UiKit
 		{
 			DisplayTestCount();
 			this.testsRunPanel.Text = "";
+			this.errorsPanel.Text = "";
 			this.failuresPanel.Text = "";
 			this.timePanel.Text = "";
 		}
@@ -114,6 +120,11 @@ namespace NUnit.UiKit
 		private void DisplayTestsRun()
 		{
 			this.testsRunPanel.Text = "Tests Run : " + testsRun.ToString();
+		}
+
+		private void DisplayErrors()
+		{
+			this.failuresPanel.Text = "Errors : " + errors.ToString();
 		}
 
 		private void DisplayFailures()
@@ -130,10 +141,9 @@ namespace NUnit.UiKit
 		{
 			ResultSummarizer summarizer = new ResultSummarizer(result);
 
-			int failureCount = summarizer.FailureCount;
-
-			failuresPanel.Text = "Failures : " + failureCount.ToString();
-			testsRunPanel.Text = "Tests Run : " + summarizer.ResultCount.ToString();
+			errorsPanel.Text = "Errors : " + summarizer.Errors.ToString();
+			failuresPanel.Text = "Failures : " + summarizer.Failures.ToString();
+			testsRunPanel.Text = "Tests Run : " + summarizer.TestsRun.ToString();
 			timePanel.Text = "Time : " + summarizer.Time.ToString();
 		}
 
@@ -156,6 +166,7 @@ namespace NUnit.UiKit
 		{
 			Initialize( e.TestCount, "Running :" + e.Name );
 			DisplayTestCount();
+			DisplayErrors();
 			DisplayFailures();
 			DisplayTime();
 		}
@@ -198,7 +209,12 @@ namespace NUnit.UiKit
 			{
 				++testsRun;
 				DisplayTestsRun();
-				if ( e.Result.IsFailure ) 
+				if ( e.Result.IsError )
+				{
+					++errors;
+					DisplayErrors();
+				}
+				else if ( e.Result.IsFailure ) 
 				{
 					++failures;
 					DisplayFailures();

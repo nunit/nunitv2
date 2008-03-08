@@ -172,16 +172,12 @@ namespace NUnit.Core
 						}
 						break;
 
-					case RunState.Skipped:
-						suiteResult.Skip(this.IgnoreReason);
-						MarkTestsNotRun(Tests, RunState.Skipped, IgnoreReason, suiteResult, listener, filter);
-						break;
-
 					default:
-					case RunState.Ignored:
-					case RunState.NotRunnable:
-						suiteResult.Ignore(this.IgnoreReason);
-						MarkTestsNotRun(Tests, RunState.Ignored, IgnoreReason, suiteResult, listener, filter);
+                    case RunState.Skipped:
+                    case RunState.NotRunnable:
+                    case RunState.Ignored:
+                        suiteResult.NotRun(this.RunState, this.IgnoreReason, null);
+						MarkTestsNotRun(Tests, this.RunState, this.IgnoreReason, suiteResult, listener, filter);
 						break;
 				}
 

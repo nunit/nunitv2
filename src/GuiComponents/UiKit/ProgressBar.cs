@@ -376,6 +376,9 @@ namespace NUnit.UiKit
 
 			switch (e.Result.RunState)
 			{
+                case RunState.NotRunnable:
+			        ForeColor = FailureColor;
+			        break;
 				case RunState.Executed:
 					if (e.Result.IsFailure)
 						ForeColor = FailureColor;

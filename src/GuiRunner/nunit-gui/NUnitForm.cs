@@ -1758,9 +1758,9 @@ the version under which NUnit is currently running, {0}.",
 			}
 
 			ResultSummarizer summary = new ResultSummarizer( e.Result );
-			this.runCount.Text = string.Format( 
-				"Test Cases: {0}   Tests Run: {1}   Failures: {2}   Ignored: {3}   Skipped: {4}   Run Time: {5}",
-				summary.ResultCount+summary.SkipCount, summary.ResultCount, summary.FailureCount, summary.IgnoreCount, summary.SkipCount, summary.Time );
+			this.runCount.Text = string.Format(
+                "Test Cases: {0}   Tests Run: {1}   Errors: {2}   Failures: {3}   Ignored: {4}   Skipped: {5}   Run Time: {6}",
+				summary.TestsRun+summary.TestsNotRun, summary.TestsRun, summary.Errors, summary.Failures, summary.Ignored, summary.Skipped, summary.Time );
 
 			EnableRunCommand( true );
 

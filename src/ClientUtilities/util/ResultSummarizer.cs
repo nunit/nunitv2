@@ -14,11 +14,13 @@ namespace NUnit.Util
 	/// </summary>
 	public class ResultSummarizer
 	{
-		private int resultCount = 0;
+	    private int resultCount = 0;
+		private int testsRun = 0;
 		private int failureCount = 0;
+	    private int errorCount = 0;
 		private int skipCount = 0;
 		private int ignoreCount = 0;
-		private int suitesNotRun = 0;
+	    private int notRunnable = 0;
 		
 		private double time = 0.0d;
 		private string name;
@@ -44,25 +46,25 @@ namespace NUnit.Util
 				this.time = result.Time;
 			}
 
-			if (result.Test.IsSuite)
+			if (!result.Test.IsSuite)
 			{
-				if (!result.Executed)
-					suitesNotRun++;
-			}
-			else
-			{
+			    resultCount++;
+
 				switch (result.RunState)
 				{
 					case RunState.Executed:
-						resultCount++;
+						testsRun++;
 						if (result.IsFailure)
 							failureCount++;
 						break;
-					case RunState.Ignored:
+                    case RunState.NotRunnable:
+				        notRunnable++;
+				        errorCount++;
+				        break;
+                    case RunState.Ignored:
 						ignoreCount++;
 						break;
 					case RunState.Explicit:
-					case RunState.NotRunnable:
 					case RunState.Runnable:
 					case RunState.Skipped:
 					default:
@@ -86,27 +88,61 @@ namespace NUnit.Util
 			get { return failureCount == 0; }
 		}
 
-		public int ResultCount
+        /// <summary>
+        /// Returns the number of test cases for which results
+        /// have been summarized. Any tests excluded by use of
+        /// Category or Explicit attributes are not counted.
+        /// </summary>
+	    public int ResultCount
+	    {
+            get { return resultCount;  }    
+	    }
+
+        /// <summary>
+        /// Returns the number of test cases actually run, which
+        /// is the same as ResultCount, less any Skipped, Ignored
+        /// or NonRunnable tests.
+        /// </summary>
+		public int TestsRun
 		{
-			get { return resultCount; }
+			get { return testsRun; }
 		}
 
-//		public int Errors
-//		{
-//			get { return visitor.Errors; }
-//		}
+        /// <summary>
+        /// Returns the number of test cases that had an error.
+        /// </summary>
+        public int Errors
+        {
+            get { return errorCount; }
+        }
 
-		public int FailureCount 
+        /// <summary>
+        /// Returns the number of test cases that failed.
+        /// </summary>
+		public int Failures 
 		{
 			get { return failureCount; }
 		}
 
-		public int SkipCount
+        /// <summary>
+        /// Returns the number of test cases that were not runnable
+        /// due to errors in the signature of the class or method.
+        /// Such tests are also counted as Errors.
+        /// </summary>
+	    public int NotRunnable
+	    {
+	        get { return notRunnable; }   
+	    }
+
+        /// <summary>
+        /// Returns the number of test cases that were skipped.
+        /// </summary>
+		public int Skipped
 		{
 			get { return skipCount; }
 		}
 
-		public int IgnoreCount
+		public int Ignored
 		{
 			get { return ignoreCount; }
 		}
@@ -118,12 +154,12 @@ namespace NUnit.Util
 
 		public int TestsNotRun
 		{
-			get { return skipCount + ignoreCount; }
+			get { return skipCount + ignoreCount + notRunnable; }
 		}
 
-		public int SuitesNotRun
-		{
-			get { return suitesNotRun; }
-		}
+	    public int ErrorsAndFailures
+	    {
+            get { return errorCount + failureCount; }   
+	    }
 	}
 }

@@ -10,6 +10,7 @@ using System.Reflection;
 using NUnit.Framework;
 using NUnit.Core;
 using NUnit.Tests.Assemblies;
+using NUnit.TestUtilities;
 
 namespace NUnit.Core.Tests
 {
@@ -42,37 +43,21 @@ namespace NUnit.Core.Tests
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			Test suite = builder.Build( new TestPackage( testsDll ) );
-			IList tests = suite.Tests;
-			Assert.AreEqual(1, tests.Count);
 
-			Assert.IsTrue(tests[0] is TestSuite, "TestSuite:NUnit - is not correct");
-			TestSuite testSuite = (TestSuite)tests[0];
-			Assert.AreEqual("NUnit", testSuite.TestName.Name);
+			suite = TestFinder.RequiredChildTest("NUnit", suite);
+			suite = TestFinder.RequiredChildTest("Tests", suite);
+			Assert.AreEqual(MockAssembly.Fixtures, suite.Tests.Count);
 
-			tests = testSuite.Tests;
-			Assert.IsTrue(tests[0] is TestSuite, "TestSuite:Tests - is invalid");
-			testSuite = (TestSuite)tests[0];
-			Assert.AreEqual(1, tests.Count);
-			Assert.AreEqual("Tests", testSuite.TestName.Name);
-
-			tests = testSuite.Tests;
-			// TODO: Get rid of constants in this test
-			Assert.AreEqual(MockAssembly.Fixtures, tests.Count);
-
-			Assert.IsTrue(tests[3] is TestSuite, "TestSuite:singletons - is invalid");
-			TestSuite singletonSuite = (TestSuite)tests[3];
-			Assert.AreEqual("Singletons", singletonSuite.TestName.Name);
+			Test singletonSuite = TestFinder.RequiredChildTest("Singletons", suite);
 			Assert.AreEqual(1, singletonSuite.Tests.Count);
 
-			Assert.IsTrue(tests[0] is TestSuite, "TestSuite:assemblies - is invalid");
-			TestSuite mockSuite = (TestSuite)tests[0];
-			Assert.AreEqual("Assemblies", mockSuite.TestName.Name);
+			Test mockSuite = TestFinder.RequiredChildTest("Assemblies", suite);
+			Assert.AreEqual(1, mockSuite.Tests.Count);
 
-			TestSuite mockFixtureSuite = (TestSuite)mockSuite.Tests[0];
+			Test mockFixtureSuite = TestFinder.RequiredChildTest("MockTestFixture", mockSuite);
 			Assert.AreEqual(MockTestFixture.Tests, mockFixtureSuite.Tests.Count);
-			
-			IList mockTests = mockFixtureSuite.Tests;
-			foreach(Test t in mockTests)
+
+			foreach(Test t in mockFixtureSuite.Tests)
 			{
 				Assert.IsTrue(t is NUnit.Core.TestCase, "should be a TestCase");
 			}

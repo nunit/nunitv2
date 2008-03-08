@@ -40,7 +40,7 @@ namespace NUnit.Core.Tests
 			
 			TestResult result = testCase.Run(NullListener.NULL);
 			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assert.AreEqual(0, summarizer.ResultCount);
+			Assert.AreEqual(0, summarizer.TestsRun);
 			Assert.AreEqual(1, summarizer.TestsNotRun);
 		}
 

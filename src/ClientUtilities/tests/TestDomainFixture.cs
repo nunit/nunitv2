@@ -65,12 +65,13 @@ namespace NUnit.Util.Tests
 		{
 			TestResult result = testDomain.Run( NullListener.NULL );
 			Assert.IsNotNull(result);
-			Assert.AreEqual(false, result.IsFailure, "Test run failed");
-			
-			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assert.AreEqual(MockAssembly.Tests - MockAssembly.NotRun, summarizer.ResultCount);
-			Assert.AreEqual(MockAssembly.Ignored, summarizer.TestsNotRun);
-		}
+
+            ResultSummarizer summarizer = new ResultSummarizer(result);
+            Assert.AreEqual(MockAssembly.TestsRun, summarizer.TestsRun, "TestsRun");
+            Assert.AreEqual(MockAssembly.Ignored, summarizer.Ignored, "Ignored");
+            Assert.AreEqual(MockAssembly.Errors, summarizer.Errors, "Errors");
+            Assert.AreEqual(MockAssembly.Failures, summarizer.Failures, "Failures");
+        }
 	}
 
 	[TestFixture]
@@ -149,12 +150,13 @@ namespace NUnit.Util.Tests
 			testDomain.Load( package );
 
 			TestResult result = testDomain.Run( NullListener.NULL );
-			Assert.AreEqual(true, result.IsSuccess);
-			
-			ResultSummarizer summarizer = new ResultSummarizer(result);
-			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.NotRun, summarizer.ResultCount);
-			Assert.AreEqual(MockTestFixture.Ignored, summarizer.TestsNotRun);
-		}
+
+            ResultSummarizer summarizer = new ResultSummarizer(result);
+            Assert.AreEqual(MockTestFixture.TestsRun, summarizer.TestsRun, "TestsRun");
+            Assert.AreEqual(MockTestFixture.Ignored, summarizer.Ignored, "Ignored");
+            Assert.AreEqual(MockTestFixture.Errors, summarizer.Errors, "Errors");
+            Assert.AreEqual(MockTestFixture.Failures, summarizer.Failures, "Failures");
+        }
 
 		[Test]
 		public void ConfigFileOverrideIsHonored()

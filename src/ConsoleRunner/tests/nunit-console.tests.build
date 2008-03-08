@@ -22,6 +22,7 @@
         <include name="nunit.util.dll"/>
         <include name="nunit-console-runner.dll"/>
         <include name="test-assembly.dll"/>
+        <include name="mock-assembly.dll"/>
       </references>
     </csc>
   </target>

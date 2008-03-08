@@ -130,7 +130,7 @@ namespace NUnit.Core.Tests
 			runner.Load( new TestPackage( mockDll ) );
 			TestResult result = runner.Run( NullListener.NULL );
 			ResultSummarizer summary = new ResultSummarizer(result);
-			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun, summary.ResultCount );
+			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun, summary.TestsRun );
 		}
 
 		[Test]
@@ -141,7 +141,7 @@ namespace NUnit.Core.Tests
 			TestResult result = runner.EndRun();
 			Assert.IsNotNull( result );
 			ResultSummarizer summary = new ResultSummarizer( result );
-			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun, summary.ResultCount );
+			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun, summary.TestsRun );
 		}
 
 		[Test]
@@ -152,7 +152,7 @@ namespace NUnit.Core.Tests
 			ResultSummarizer summary = new ResultSummarizer(result);
 			Assert.AreEqual( 
 				NoNamespaceTestFixture.Tests + MockAssembly.Tests - MockAssembly.NotRun, 
-				summary.ResultCount);
+				summary.TestsRun);
 		}
 
 		[Test]
@@ -165,7 +165,7 @@ namespace NUnit.Core.Tests
 			ResultSummarizer summary = new ResultSummarizer( result );
 			Assert.AreEqual( 
 				NoNamespaceTestFixture.Tests + MockAssembly.Tests - MockAssembly.NotRun, 
-				summary.ResultCount);
+				summary.TestsRun);
 		}
 
 		private TestPackage MakePackage( string name, IList assemblies, string testName )

@@ -78,7 +78,7 @@ namespace NUnit.Util.Tests
 			ResultSummarizer summary = new ResultSummarizer(result);
 			Assert.AreEqual(
 				NoNamespaceTestFixture.Tests + MockAssembly.Tests - MockAssembly.NotRun, 
-				summary.ResultCount);
+				summary.TestsRun);
 		}
 	}
 

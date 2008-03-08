@@ -47,8 +47,8 @@ namespace NUnit.Util
 			xmlWriter.WriteStartElement("test-results");
 
 			xmlWriter.WriteAttributeString("name", summaryResults.Name);
-			xmlWriter.WriteAttributeString("total", summaryResults.ResultCount.ToString());
-			xmlWriter.WriteAttributeString("failures", summaryResults.FailureCount.ToString());
+			xmlWriter.WriteAttributeString("total", summaryResults.TestsRun.ToString());
+			xmlWriter.WriteAttributeString("failures", summaryResults.Failures.ToString());
 			xmlWriter.WriteAttributeString("not-run", summaryResults.TestsNotRun.ToString());
 
 			DateTime now = DateTime.Now;

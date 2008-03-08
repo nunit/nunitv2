@@ -98,6 +98,10 @@
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\..\tests\mock-assembly\mock-assembly.csproj">
+      <Project>{2E368281-3BA8-4050-B05E-0E0E43F8F446}</Project>
+      <Name>mock-assembly</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\tests\test-assembly\test-assembly.csproj">
       <Name>test-assembly</Name>
       <Project>{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}</Project>

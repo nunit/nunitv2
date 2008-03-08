@@ -146,7 +146,7 @@ namespace NUnit.Core.Tests
         {
             TestResult result = runTests(null, new Filters.SimpleNameFilter("SomeTestFixture"));
             ResultSummarizer summ = new ResultSummarizer(result);
-            Assert.AreEqual(1, summ.ResultCount);
+            Assert.AreEqual(1, summ.TestsRun);
             Assert.IsTrue(result.IsSuccess);
             TestUtilities.SimpleEventRecorder.Verify("RootNamespaceSetup",
                                     "Test",

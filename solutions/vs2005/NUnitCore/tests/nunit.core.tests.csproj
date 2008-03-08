@@ -333,10 +333,6 @@
       <Link>TestRunnerThreadTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\tests\TestSuiteResultFixture.cs">
-      <Link>TestSuiteResultFixture.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\TestSuiteTest.cs">
       <Link>TestSuiteTest.cs</Link>
       <SubType>Code</SubType>

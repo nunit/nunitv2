@@ -52,7 +52,6 @@
         <include name="TestNameTests.cs"/>
         <include name="TestNodeTests.cs"/>
         <include name="TestRunnerThreadTests.cs"/>
-        <include name="TestSuiteResultFixture.cs"/>
         <include name="TestSuiteTest.cs"/>
         <include name="ThreadedTestRunnerTests.cs"/>
         <include name="UnhandledExceptionTests.cs"/>

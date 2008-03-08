@@ -77,9 +77,8 @@ namespace NUnit.Core.Tests
 
 			// should have one suite and one fixture
 			ResultSummarizer summ = new ResultSummarizer(result);
-			Assert.AreEqual(1, summ.ResultCount);
+			Assert.AreEqual(1, summ.TestsRun);
 			Assert.AreEqual(0, summ.TestsNotRun);
-			Assert.AreEqual(0, summ.SuitesNotRun);
 			
 			Assert.IsTrue(result.Executed, "Suite should have executed");
 			Assert.IsTrue(result.IsFailure, "Suite should have failed");
@@ -102,9 +101,8 @@ namespace NUnit.Core.Tests
 
 			// should have one suite and one fixture
 			ResultSummarizer summ = new ResultSummarizer(result);
-			Assert.AreEqual(1, summ.ResultCount);
+			Assert.AreEqual(1, summ.TestsRun);
 			Assert.AreEqual(0, summ.TestsNotRun);
-			Assert.AreEqual(0, summ.SuitesNotRun);
 			Assert.IsTrue(result.Executed, "Suite should have executed");
 
 			//fix the blow up in setup
@@ -116,9 +114,8 @@ namespace NUnit.Core.Tests
 
 			// should have one suite and one fixture
 			summ = new ResultSummarizer(result);
-			Assert.AreEqual(1, summ.ResultCount);
+			Assert.AreEqual(1, summ.TestsRun);
 			Assert.AreEqual(0, summ.TestsNotRun);
-			Assert.AreEqual(0, summ.SuitesNotRun);
 		}
 
 		[Test]
@@ -129,9 +126,8 @@ namespace NUnit.Core.Tests
 
 			// should have one suite and one fixture
 			ResultSummarizer summ = new ResultSummarizer(result);
-			Assert.AreEqual(0, summ.ResultCount);
+			Assert.AreEqual(0, summ.TestsRun);
 			Assert.AreEqual(1, summ.TestsNotRun);
-			Assert.AreEqual(1, summ.SuitesNotRun);
 			Assert.IsFalse(result.Executed, "Suite should not have executed");
 			Assert.AreEqual("TestFixtureSetUp called Ignore", result.Message);
 			Assert.IsNotNull(result.StackTrace, "StackTrace should not be null");
@@ -159,9 +155,8 @@ namespace NUnit.Core.Tests
 
 			// should have one suite and one fixture
 			ResultSummarizer summ = new ResultSummarizer(result);
-			Assert.AreEqual(1, summ.ResultCount);
+			Assert.AreEqual(1, summ.TestsRun);
 			Assert.AreEqual(0, summ.TestsNotRun);
-			Assert.AreEqual(0, summ.SuitesNotRun);
 		}
 
 		[Test]
@@ -172,9 +167,8 @@ namespace NUnit.Core.Tests
 
 			// should have one suite and one fixture
 			ResultSummarizer summ = new ResultSummarizer(result);
-			Assert.AreEqual(1, summ.ResultCount);
+			Assert.AreEqual(1, summ.TestsRun);
 			Assert.AreEqual(0, summ.TestsNotRun);
-			Assert.AreEqual(0, summ.SuitesNotRun);
 			
 			Assert.IsTrue(result.Executed, "Suite should have executed");
 			Assert.IsTrue(result.IsFailure, "Suite should have failed");
@@ -198,9 +192,8 @@ namespace NUnit.Core.Tests
 
 			// should have one suite and one fixture
 			ResultSummarizer summ = new ResultSummarizer(result);
-			Assert.AreEqual(1, summ.ResultCount);
+			Assert.AreEqual(1, summ.TestsRun);
 			Assert.AreEqual(0, summ.TestsNotRun);
-			Assert.AreEqual(0, summ.SuitesNotRun);
 
 			fixture.Reinitialize();
 			result = RunTestOnFixture( fixture );
@@ -209,9 +202,8 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( 1, fixture.tearDownCount, "tearDownCOunt" );
 
 			summ = new ResultSummarizer(result);
-			Assert.AreEqual(1, summ.ResultCount);
+			Assert.AreEqual(1, summ.TestsRun);
 			Assert.AreEqual(0, summ.TestsNotRun);
-			Assert.AreEqual(0, summ.SuitesNotRun);
 		}
 
 		[Test]

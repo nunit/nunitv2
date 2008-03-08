@@ -168,6 +168,8 @@ namespace NUnit.UiKit
 					return InitIndex;
 				case RunState.Skipped:
 					return SkippedIndex;
+                case RunState.NotRunnable:
+			        return FailureIndex;
 				case RunState.Ignored:
 				default:
 					return IgnoredIndex;

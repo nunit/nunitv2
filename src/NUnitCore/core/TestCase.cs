@@ -58,13 +58,11 @@ namespace NUnit.Core
 						Run(testResult);
 						break;
 					case RunState.Skipped:
-						testResult.Skip(IgnoreReason);
-						break;
-					default:
 					case RunState.NotRunnable:
 					case RunState.Ignored:
-						testResult.Ignore(IgnoreReason);
-						break;
+                    default:
+                        testResult.NotRun(this.RunState, IgnoreReason, null);
+                        break;
 				}
 
 				long stopTime = DateTime.Now.Ticks;
