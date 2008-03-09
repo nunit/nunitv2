@@ -75,28 +75,13 @@ namespace NUnit.Framework.Constraints
         protected IComparer compareWith;
 
 		/// <summary>
-		/// True if paths are to be treated as Windows paths.
-		/// </summary>
-		protected bool treatAsWindows = System.IO.Path.DirectorySeparatorChar == '\\';
-
-		/// <summary>
-		/// The directory separator used in working with paths
-		/// </summary>
-		protected char directorySeparatorChar = System.IO.Path.DirectorySeparatorChar;
-		
-		/// <summary>
-		/// The alternate separator used in working with paths
-		/// </summary>
-		protected char altDirectorySeparatorChar = System.IO.Path.AltDirectorySeparatorChar;
-
-		/// <summary>
         /// The actual value being tested against a constraint
         /// </summary>
         protected object actual = UNSET;
         #endregion
 
         #region Properties
-        /// <summary>
+		/// <summary>
 		/// Flag the constraint to ignore case and return self.
 		/// </summary>
 		public virtual Constraint IgnoreCase
@@ -108,7 +93,19 @@ namespace NUnit.Framework.Constraints
 			}
 		}
 
-        /// <summary>
+		/// <summary>
+		/// Flag the constraint to respect case and return self.
+		/// </summary>
+		public virtual Constraint RespectCase
+		{
+			get
+			{
+				caseInsensitive = false;
+				return this;
+			}
+		}
+
+		/// <summary>
         /// Flag the constraint to suppress string clipping 
         /// and return self.
         /// </summary>
@@ -156,28 +153,6 @@ namespace NUnit.Framework.Constraints
             this.compareWith = comparer;
             return this;
         }
-
-		public Constraint AsWindows
-		{
-			get 
-			{ 
-				treatAsWindows = true;
-				directorySeparatorChar = '\\';
-				altDirectorySeparatorChar = '/';
-				return this; 
-			}
-		}
-
-		public Constraint AsLinux
-		{
-			get 
-			{
-				treatAsWindows = false; 
-				directorySeparatorChar = '/';
-				altDirectorySeparatorChar = '\\';
-				return this; 
-			}
-		}
 		#endregion
 
 		#region Public Methods

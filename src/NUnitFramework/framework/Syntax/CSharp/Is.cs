@@ -199,19 +199,14 @@ namespace NUnit.Framework.Syntax.CSharp
         #endregion
 
 		#region Path Constraints
-		public static PathConstraint SamePathAs( string expected )
+		public static PathConstraint SamePath( string expected )
 		{
 			return new SamePathConstraint( expected );
 		}
 
-		public static PathConstraint SubPathOf( string expected )
+		public static PathConstraint SamePathOrUnder( string expected )
 		{
-			return new SubPathConstraint( expected );
-		}
-
-		public static PathConstraint SubPathOf( string expected, bool allowSamePath )
-		{
-			return new SubPathConstraint( expected, allowSamePath );
+			return new SamePathOrUnderConstraint( expected );
 		}
 		#endregion
 

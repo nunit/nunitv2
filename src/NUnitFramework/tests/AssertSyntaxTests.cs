@@ -680,19 +680,26 @@ namespace NUnit.Framework.Tests
 		public void PathConstraintTests()
 		{
 			Assert.That( "/folder1/./junk/../folder2", 
-				Is.SamePathAs( "/Folder1/Folder2" ) );
+				Is.SamePath( "/folder1/folder2" ) );
 			Assert.That( "/folder1/./junk/../folder2/x", 
-				Is.Not.SamePathAs( "/Folder1/Folder2" ) );
-			
-			Assert.That( "/folder1/./junk/../folder2", 
-				Is.SubPathOf( "/Folder1/Folder2" ) );
-			Assert.That( "/folder1/junk/../folder2/./folder3",
-				Is.SubPathOf( "/Folder1/Folder2" ) );
-			Assert.That( "/folder1/junk/folder2/folder3",
-				Is.Not.SubPathOf( "/Folder1/Folder2" ) );
+				Is.Not.SamePath( "/folder1/folder2" ) );
 
+			Assert.That( @"C:\folder1\folder2",
+				Is.SamePath( @"C:\Folder1\Folder2" ).IgnoreCase );
+			Assert.That( "/folder1/folder2",
+				Is.Not.SamePath( "/Folder1/Folder2" ).RespectCase );
+		
 			Assert.That( "/folder1/./junk/../folder2", 
-				Is.Not.SubPathOf( "/Folder1/Folder2", false ) );
+				Is.SamePathOrUnder( "/folder1/folder2" ) );
+			Assert.That( "/folder1/junk/../folder2/./folder3",
+				Is.SamePathOrUnder( "/folder1/folder2" ) );
+			Assert.That( "/folder1/junk/folder2/folder3",
+				Is.Not.SamePathOrUnder( "/folder1/folder2" ) );
+
+			Assert.That( @"C:\folder1\folder2\folder3",
+				Is.SamePathOrUnder( @"C:\Folder1\Folder2" ).IgnoreCase );
+			Assert.That( "/folder1/folder2/folder3",
+				Is.Not.SamePathOrUnder( "/Folder1/Folder2" ).RespectCase );
 		}
 		#endregion
 

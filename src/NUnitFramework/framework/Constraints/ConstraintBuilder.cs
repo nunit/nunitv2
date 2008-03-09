@@ -287,31 +287,22 @@ namespace NUnit.Framework.Constraints
         #endregion
 
 		#region Path Constraints
-        /// <summary>
-        /// Resolves the chain of constraints using a
-        /// SamePathConstraint as base.
-        /// </summary>
-        public Constraint SamePathAs(string expected)
+		/// <summary>
+		/// Resolves the chain of constraints using a
+		/// SamePathConstraint as base.
+		/// </summary>
+		public Constraint SamePath(string expected)
 		{
 			return Resolve( new SamePathConstraint( expected ) );
 		}
 
-        /// <summary>
-        /// Resolves the chain of constraints using a
-        /// SubPathConstraint as base.
-        /// </summary>
-        public Constraint SubPathOf(string expected)
+		/// <summary>
+		/// Resolves the chain of constraints using a
+		/// SamePathOrUnderConstraint as base.
+		/// </summary>
+		public Constraint SamePathOrUnder( string expected )
 		{
-			return Resolve( new SubPathConstraint( expected ) );
-		}
-
-        /// <summary>
-        /// Resolves the chain of constraints using a
-        /// SubPathConstraint as base.
-        /// </summary>
-        public Constraint SubPathOf(string expected, bool allowSamePath)
-		{
-			return Resolve( new SubPathConstraint( expected, allowSamePath ) );
+			return Resolve( new SamePathOrUnderConstraint( expected ) );
 		}
 		#endregion
 
