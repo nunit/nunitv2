@@ -83,8 +83,8 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(testSuite.CountTestCases(TestFilter.Empty), counter.testCaseStart);
 			Assert.AreEqual(testSuite.CountTestCases(TestFilter.Empty), counter.testCaseFinished);
 
-			Assert.AreEqual(MockAssembly.Suites - MockAssembly.ExplicitFixtures, counter.suiteStarted);
-			Assert.AreEqual(MockAssembly.Suites - MockAssembly.ExplicitFixtures, counter.suiteFinished);
+			Assert.AreEqual(MockAssembly.SuitesRun, counter.suiteStarted);
+			Assert.AreEqual(MockAssembly.SuitesRun, counter.suiteFinished);
 		}
 	}
 }

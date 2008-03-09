@@ -77,7 +77,7 @@ namespace NUnit.Util.Tests
 			TestResult result = domain.Run(NullListener.NULL);
 			ResultSummarizer summary = new ResultSummarizer(result);
 			Assert.AreEqual(
-				NoNamespaceTestFixture.Tests + MockAssembly.Tests - MockAssembly.NotRun, 
+				NoNamespaceTestFixture.Tests + MockAssembly.TestsRun, 
 				summary.TestsRun);
 		}
 	}

@@ -103,7 +103,7 @@ namespace NUnit.UiKit.Tests
 				PanelMessage( "Test Cases", MockAssembly.Tests ), 
 				statusBar.Panels[1].Text );
 			Assert.AreEqual( 
-				PanelMessage( "Tests Run", MockAssembly.Tests - MockAssembly.NotRun ),
+				PanelMessage( "Tests Run", MockAssembly.TestsRun ),
 				statusBar.Panels[2].Text );
 			Assert.AreEqual( 
 				PanelMessage( "Errors", MockAssembly.Errors ),

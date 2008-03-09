@@ -102,7 +102,7 @@ namespace NUnit.Core.Tests
 			TestSuite suite = builder.Build( "mock-assembly.dll", true );
 			TestResult result = suite.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
-			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun - 2, summarizer.TestsRun );
+			Assert.AreEqual( MockAssembly.TestsRun - 2, summarizer.TestsRun );
 		}
 
 		[Test]
@@ -168,7 +168,7 @@ namespace NUnit.Core.Tests
 			RecordingListener listener = new RecordingListener();
 			testSuite.Run(listener);
 
-			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.Explicit, listener.testStarted.Count);
+			Assert.AreEqual(MockTestFixture.ResultCount, listener.testStarted.Count);
 			Assert.AreEqual(2, listener.suiteStarted.Count);
 		}
 
@@ -192,7 +192,7 @@ namespace NUnit.Core.Tests
 
 			filter = new NameFilter(testSuite.TestName);
 
-			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.Explicit, testSuite.CountTestCases(filter));
+			Assert.AreEqual(MockTestFixture.ResultCount, testSuite.CountTestCases(filter));
 		}
 
 		[Test]
@@ -235,7 +235,7 @@ namespace NUnit.Core.Tests
 			filter.AddCategory("FixtureCategory");
 			RecordingListener listener = new RecordingListener();
 			testSuite.Run(listener, filter);
-			Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.Explicit, listener.testStarted.Count);
+			Assert.AreEqual(MockTestFixture.ResultCount, listener.testStarted.Count);
 		}
 
 		[Test]

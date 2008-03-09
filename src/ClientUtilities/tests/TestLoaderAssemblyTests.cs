@@ -179,8 +179,8 @@ namespace NUnit.Util.Tests
 						++nRun;
 				}
 			}
-			Assert.AreEqual( MockAssembly.Tests - MockAssembly.Explicit, nTests );
-			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun, nRun );
+			Assert.AreEqual( MockAssembly.ResultCount, nTests );
+			Assert.AreEqual( MockAssembly.TestsRun, nRun );
 		}
 	}
 }

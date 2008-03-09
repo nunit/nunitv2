@@ -51,7 +51,7 @@ namespace NUnit.UiKit.Tests
 			Assert.AreEqual( 0, progressBar.Minimum );
 			Assert.AreEqual( MockAssembly.Tests, progressBar.Maximum );
 			Assert.AreEqual( 1, progressBar.Step );
-			Assert.AreEqual( MockAssembly.Tests - MockAssembly.Explicit, progressBar.Value );
+			Assert.AreEqual( MockAssembly.ResultCount, progressBar.Value );
 			Assert.AreEqual( Color.Red, progressBar.ForeColor );
 		}
 

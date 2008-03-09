@@ -59,7 +59,7 @@ namespace NUnit.Tests.TimingTests
 //
 //			// Visit the results of the test after another delay
 //			ResultSummarizer summarizer = new ResultSummarizer(result);
-//			Assert.AreEqual(MockAssembly.Tests - MockAssembly.NotRun, summarizer.ResultCount);
+//			Assert.AreEqual(MockAssembly.TestsRun, summarizer.ResultCount);
 //			Assert.AreEqual(MockAssembly.NotRun, summarizer.TestsNotRun);
 //
 //			// Make sure we can still access the tests

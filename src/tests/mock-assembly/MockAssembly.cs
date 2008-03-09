@@ -17,67 +17,36 @@ namespace NUnit.Tests
 		public class MockAssembly
 		{
 			public static int Fixtures = 6; 
-
 			public static int NamespaceSuites = 6; // assembly, NUnit, Tests, Assemblies, Singletons, TestAssembly
-
 			public static int Suites = Fixtures + NamespaceSuites;
-
 			public static int ExplicitFixtures = 1;
+			public static int SuitesRun = Suites - ExplicitFixtures;
 
-			public static int Tests
-			{
-				get 
-				{ 
-					return MockTestFixture.Tests 
+			public static int Tests = MockTestFixture.Tests 
 						+ Singletons.OneTestCase.Tests 
 						+ TestAssembly.MockTestFixture.Tests 
 						+ IgnoredFixture.Tests
 						+ ExplicitFixture.Tests
 						+ BadFixture.Tests;
-				}
-			}
-
-			public static int Ignored
-			{
-				get { return MockTestFixture.Ignored + IgnoredFixture.Tests; }
-			}
-
-			public static int Explicit
-			{
-				get { return MockTestFixture.Explicit + ExplicitFixture.Tests; }
-			}
-
+			public static int Ignored = MockTestFixture.Ignored + IgnoredFixture.Tests;
+			public static int Explicit = MockTestFixture.Explicit + ExplicitFixture.Tests;
 			public static int NotRunnable = MockTestFixture.NotRunnable + BadFixture.Tests;
-
-			public static int NotRun
-			{
-				get { return Ignored + Explicit + NotRunnable; }
-			}
-
+			public static int NotRun = Ignored + Explicit + NotRunnable;
 		    public static int TestsRun = Tests - NotRun;
+			public static int ResultCount = Tests - Explicit;
 
             public static int Errors = MockTestFixture.Errors + BadFixture.Tests;
+            public static int Failures = MockTestFixture.Failures;
+			public static int ErrorsAndFailures = Errors + Failures;
 
-            public static int Failures = 0;
-
-            public static int Nodes
-			{
-				get 
-				{ 
-					return MockTestFixture.Nodes 
+            public static int Nodes = MockTestFixture.Nodes 
 						+ Singletons.OneTestCase.Nodes
 						+ TestAssembly.MockTestFixture.Nodes 
 						+ IgnoredFixture.Nodes
 						+ ExplicitFixture.Nodes
 						+ BadFixture.Nodes
 						+ 6;  // assembly, NUnit, Tests, Assemblies, Singletons, TestAssembly 
-				}
-			}
-
-			public static int Categories
-			{
-				get { return MockTestFixture.Categories; }
-			}
+			public static int Categories = MockTestFixture.Categories;
 		}
 
 		public class MockSuite
@@ -103,9 +72,11 @@ namespace NUnit.Tests
 			public static readonly int NotRunnable = 2;
 			public static readonly int NotRun = Ignored + Explicit + NotRunnable;
 		    public static readonly int TestsRun = Tests - NotRun;
+			public static readonly int ResultCount = Tests - Explicit;
 
             public static readonly int Failures = 0;
             public static readonly int Errors = 2;
+			public static readonly int ErrorsAndFailures = Errors + Failures;
 
 			public static readonly int Nodes = Tests + 1;
 			public static readonly int Categories = 5;

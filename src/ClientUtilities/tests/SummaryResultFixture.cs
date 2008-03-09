@@ -37,7 +37,7 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual(result.Time, summary.Time);
 			Assert.AreEqual(result.IsSuccess, summary.Success, "Success");
         
-            Assert.AreEqual(MockTestFixture.Tests - MockTestFixture.Explicit, summary.ResultCount );
+            Assert.AreEqual(MockTestFixture.ResultCount, summary.ResultCount );
 			Assert.AreEqual(MockTestFixture.TestsRun, summary.TestsRun, "TestsRun");
 			Assert.AreEqual(MockTestFixture.Failures, summary.Failures, "Failures");
             Assert.AreEqual(MockTestFixture.Errors, summary.Errors, "Errors");
