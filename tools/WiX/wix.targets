@@ -31,7 +31,9 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <OutputPath Condition=" '$(OutputPath)' == '' ">bin\$(Configuration)\</OutputPath>
-        <OutDir>$(OutputPath)</OutDir>                                                                    <!-- Example, bin\Debug\ -->
+        <OutDir Condition=" '$(OutDir)' == '' ">$(OutputPath)</OutDir>                                    <!-- Example, bin\Debug\ -->
+        <!-- Ensure OutDir has a trailing slash, so it can be concatenated -->
+        <OutDir Condition=" '$(OutDir)' != '' and !HasTrailingSlash('$(OutDir)') ">$(OutDir)\</OutDir>
         <TargetName Condition=" '$(TargetName)' == '' ">$(OutputName)</TargetName>                        <!-- Example, MySetup -->
         <TargetFileName Condition=" '$(TargetFileName)' == '' ">$(TargetName)$(TargetExt)</TargetFileName><!-- Example, MySetup.msi -->
         <TargetPath Condition=" '$(TargetPath)' == '' ">$(OutDir)$(TargetFileName)</TargetPath>           <!-- Example, bin\Debug\MySetup.msi -->
@@ -41,7 +43,9 @@
         <IntermediateOutputPath Condition=" '$(IntermediateOutputPath)' == '' ">$(BaseOutputPath)$(Configuration)\</IntermediateOutputPath><!-- Example, obj\Debug\ -->
         
         <!-- Specify the Candle .wixobj if it isn't defined. If there is not supposed to be object output (ie. Only linking), don't set the object output. -->
-        <CompileObjOutput Condition=" '$(CompileObjOutput)' == '' And '$(NoObjOutputDefault)' != 'true' ">$(IntermediateOutputPath)$(OutputName)$(IntermediateExt)</CompileObjOutput><!-- Example, obj\Debug\MySetup.wixobj -->
+        <CompileObjOutput Condition=" '$(CompileObjOutput)' == '' And '$(NoObjOutputDefault)' != 'true' ">
+          @(Compile->'$(IntermediateOutputPath)%(Filename)$(IntermediateExt)')
+        </CompileObjOutput>                                                                               <!-- Example, obj\Debug\MySetup.wixobj -->
     </PropertyGroup>
 
     <!-- Default Lib properties copied from the Compile properties. -->
@@ -79,8 +83,9 @@
     <Target
         Name="Compile"
         Inputs="@(Compile);$(MSBuildAllProjects)"
-        Outputs="$(CompileObjOutput)"
-        DependsOnTargets="$(CompileDependsOn)">
+        Outputs="$(IntermediateOutputPath)%(Compile.Filename)$(IntermediateExt)"
+        DependsOnTargets="$(CompileDependsOn)"
+        Condition=" '@(Compile)' != '' ">
 
         <Candle
             SourceFiles="@(Compile)"
@@ -137,6 +142,10 @@
         <!-- Don't depend on the Compile task because Link can be run from a different project than the compile. -->
         <LinkDependsOn>PrepareForBuild</LinkDependsOn>
     </PropertyGroup>
+    <ItemGroup>
+        <_LocalizationFile Include="$(LocalizedStringFile)" />
+        <_LocalizationFile Include="@(LocalizationFile)" />
+    </ItemGroup>
     <Target
         Name="Link"
         Inputs="$(CompileObjOutput);
@@ -153,7 +162,7 @@
             CabinetCache="$(CabinetCache)"
             Extensions="@(LinkExtension)" 
             BaseUncompressedImagesOutputPath="$(BaseUncompressedImagesOutputPath)"
-            LocalizedStringFile="$(LocalizedStringFile)" 
+            LocalizationFiles="@(_LocalizationFile)" 
             NoLogo="$(LinkerNoLogo)"
             LeaveTemporaryFiles="$(LeaveTemporaryFiles)" 
             ReuseCabinetCache="$(ReuseCabinetCache)" 
@@ -186,7 +195,7 @@
     </Target>
 
     <PropertyGroup>
-        <BuildDependsOn>PrepareForBuild;Compile;Link</BuildDependsOn>
+        <BuildDependsOn>PrepareForBuild;Compile;Link;Lib</BuildDependsOn>
     </PropertyGroup>
     <Target
         Name="Build"
