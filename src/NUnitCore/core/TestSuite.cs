@@ -244,26 +244,25 @@ namespace NUnit.Core
                 {
                     if (this.fixtureTearDown != null)
                         Reflect.InvokeMethod(fixtureTearDown, Fixture);
-                }
+
+					IDisposable disposable = Fixture as IDisposable;
+					if (disposable != null)
+						disposable.Dispose();
+				}
                 catch (Exception ex)
                 {
-                    // Error in TestFixtureTearDown causes the
-                    // suite to be marked as a failure, even if
-                    // all the contained tests passed.
-                    NUnitException nex = ex as NUnitException;
-                    if (nex != null)
-                        ex = nex.InnerException;
+					// Error in TestFixtureTearDown or Dispose causes the
+					// suite to be marked as a failure, even if
+					// all the contained tests passed.
+					NUnitException nex = ex as NUnitException;
+					if (nex != null)
+						ex = nex.InnerException;
 
 
-                    suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.TearDown);
-                }
-                finally
-                {
-                    IDisposable disposeable = Fixture as IDisposable;
-                    if (disposeable != null)
-                        disposeable.Dispose();
-                    this.Fixture = null;
-                }
+					suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.TearDown);
+				}
+
+                this.Fixture = null;
             }
         }
         

@@ -392,6 +392,13 @@ namespace NUnit.UiKit
 			}
 		}
 
+		private void OnSuiteFinished( object sender, TestEventArgs e )
+		{
+			TestResult result = e.Result;
+			if ( result.RunState == RunState.Executed && result.IsFailure && result.FailureSite == FailureSite.TearDown )
+				ForeColor = FailureColor;
+		}
+
 		private void OnTestException(object sender, TestEventArgs e)
 		{
 			ForeColor = FailureColor;
@@ -406,6 +413,7 @@ namespace NUnit.UiKit
 			events.TestUnloaded	+= new TestEventHandler( OnUnloadComplete );
 			events.RunStarting	+= new TestEventHandler( OnRunStarting );
 			events.TestFinished	+= new TestEventHandler( OnTestFinished );
+			events.SuiteFinished += new TestEventHandler( OnSuiteFinished );
 			events.TestException += new TestEventHandler(OnTestException);
 		}
 
