@@ -192,8 +192,7 @@ namespace NUnit.Core.Builders
 
             if (theMethod != null)
             {
-                if (theMethod.IsStatic ||
-                    theMethod.IsAbstract ||
+                if (theMethod.IsAbstract ||
                     !theMethod.IsPublic && !theMethod.IsFamily ||
                     theMethod.GetParameters().Length != 0 ||
                     !theMethod.ReturnType.Equals(typeof(void)))

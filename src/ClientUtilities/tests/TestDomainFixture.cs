@@ -20,7 +20,7 @@ namespace NUnit.Util.Tests
 		private static ITest loadedTest;
 
 		[TestFixtureSetUp]
-		public void MakeAppDomain()
+		public static void MakeAppDomain()
 		{
 			testDomain = new TestDomain();
 			testDomain.Load( new TestPackage( "mock-assembly.dll" ) );
@@ -28,7 +28,7 @@ namespace NUnit.Util.Tests
 		}
 
 		[TestFixtureTearDown]
-		public void UnloadTestDomain()
+		public static void UnloadTestDomain()
 		{
             if ( testDomain != null )
                 testDomain.Unload();

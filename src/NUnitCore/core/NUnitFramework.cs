@@ -115,14 +115,14 @@ namespace NUnit.Core
 		public static MethodInfo GetFixtureSetUpMethod(Type fixtureType)
 		{
 			return Reflect.GetMethodWithAttribute(fixtureType, FixtureSetUpAttribute,
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static,
 				true);
 		}
 
         public static MethodInfo GetFixtureTearDownMethod(Type fixtureType)
 		{
 			return Reflect.GetMethodWithAttribute(fixtureType, FixtureTearDownAttribute,
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static,
 				true);
 		}
 		#endregion

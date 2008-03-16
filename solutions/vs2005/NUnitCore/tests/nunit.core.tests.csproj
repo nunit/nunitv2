@@ -321,6 +321,9 @@
       <Link>TestInfoTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\TestMethodSignatureTests.cs">
+      <Link>TestMethodSignatureTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\TestNameTests.cs">
       <Link>TestNameTests.cs</Link>
       <SubType>Code</SubType>

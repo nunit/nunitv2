@@ -44,10 +44,21 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( "NUnit.TestData.TestFixtureTests.OuterClass+NestedTestFixture+DoublyNestedTestFixture", fixture.TestName.FullName );
 		}
 
+		private void AssertRunnable( Type type )
+		{
+			TestSuite suite = TestBuilder.MakeFixture( type );
+			Assert.AreEqual( RunState.Runnable, suite.RunState );
+			TestResult result = suite.Run( NullListener.NULL );
+			Assert.AreEqual( RunState.Executed, result.RunState );
+			Assert.AreEqual( ResultState.Success, result.ResultState );
+		}
+
 		private void AssertNotRunnable( Type type )
 		{
 			TestSuite suite = TestBuilder.MakeFixture( type );
 			Assert.AreEqual( RunState.NotRunnable, suite.RunState );
+			TestResult result = suite.Run( NullListener.NULL );
+			Assert.AreEqual( RunState.NotRunnable, result.RunState );
 		}
 
 		private void AssertNotRunnable( Type type, string reason )
@@ -55,6 +66,9 @@ namespace NUnit.Core.Tests
 			TestSuite suite = TestBuilder.MakeFixture( type );
 			Assert.AreEqual( RunState.NotRunnable, suite.RunState );
 			Assert.AreEqual( reason, suite.IgnoreReason );
+			TestResult result = suite.Run( NullListener.NULL );
+			Assert.AreEqual( RunState.NotRunnable, result.RunState );
+			Assert.AreEqual( reason, result.Message );
 		}
 
 		[Test]
@@ -89,46 +103,6 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( "testing ignore a suite", suite.IgnoreReason );
 		}
 
-//		[Test]
-//		public void IgnoreStaticTests()
-//		{
-//			InvalidSignatureTest("Static", "it must be an instance method" );
-//		}
-//
-//		[Test]
-//		public void IgnoreTestsThatReturnSomething()
-//		{
-//			InvalidSignatureTest("NotVoid", "it must return void");
-//		}
-//
-//		[Test]
-//		public void IgnoreTestsWithParameters()
-//		{
-//			InvalidSignatureTest("Parameters", "it must not have parameters");
-//		}
-//
-//		[Test]
-//		public void IgnoreProtectedTests()
-//		{
-//			InvalidSignatureTest("Protected", "it must be a public method");
-//		}
-//
-//		[Test]
-//		public void IgnorePrivateTests()
-//		{
-//			InvalidSignatureTest("Private", "it must be a public method");
-//		}
-//
-//		[Test]
-//		public void GoodSignature()
-//		{
-//			string methodName = "TestVoid";
-//			TestSuite fixture = LoadFixture("NUnit.Core.Tests.TestFixtureBuilderTests+SignatureTestFixture");
-//			NUnit.Core.TestCase foundTest = FindTestByName(fixture, methodName);
-//			Assert.IsNotNull(foundTest);
-//			Assert.AreEqual( RunState.Runnable, foundTest.RunState);
-//		}
-
 		[Test]
 		public void CannotRunAbstractFixture()
 		{
@@ -153,6 +127,7 @@ namespace NUnit.Core.Tests
 			AssertNotRunnable(typeof(MultipleFixtureTearDownAttributes));
 		}
 
+		#region SetUp Signature
 		[Test] 
 		public void CannotRunPrivateSetUp()
 		{
@@ -160,15 +135,15 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test] 
-		public void CannotRunProtectedSetUp()
+		public void CanRunProtectedSetUp()
 		{
-			AssertNotRunnable(typeof(ProtectedSetUp));
+			AssertRunnable(typeof(ProtectedSetUp));
 		}
 
 		[Test] 
-		public void CannotRunStaticSetUp()
+		public void CanRunStaticSetUp()
 		{
-			AssertNotRunnable(typeof(StaticSetUp));
+			AssertRunnable(typeof(StaticSetUp));
 		}
 
 		[Test]
@@ -182,7 +157,9 @@ namespace NUnit.Core.Tests
 		{
 			AssertNotRunnable(typeof(SetUpWithParameters));
 		}
+		#endregion
 
+		#region TearDown Signature
 		[Test] 
 		public void CannotRunPrivateTearDown()
 		{
@@ -190,15 +167,15 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test] 
-		public void CannotRunProtectedTearDown()
+		public void CanRunProtectedTearDown()
 		{
-			AssertNotRunnable(typeof(ProtectedTearDown));
+			AssertRunnable(typeof(ProtectedTearDown));
 		}
 
 		[Test] 
-		public void CannotRunStaticTearDown()
+		public void CanRunStaticTearDown()
 		{
-			AssertNotRunnable(typeof(StaticTearDown));
+			AssertRunnable(typeof(StaticTearDown));
 		}
 
 		[Test]
@@ -212,7 +189,9 @@ namespace NUnit.Core.Tests
 		{
 			AssertNotRunnable(typeof(TearDownWithParameters));
 		}
+		#endregion
 
+		#region TestFixtureSetUp Signature
 		[Test] 
 		public void CannotRunPrivateFixtureSetUp()
 		{
@@ -220,15 +199,15 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test] 
-		public void CannotRunProtectedFixtureSetUp()
+		public void CanRunProtectedFixtureSetUp()
 		{
-			AssertNotRunnable(typeof(ProtectedFixtureSetUp));
+			AssertRunnable(typeof(ProtectedFixtureSetUp));
 		}
 
 		[Test] 
-		public void CannotRunStaticFixtureSetUp()
+		public void CanRunStaticFixtureSetUp()
 		{
-			AssertNotRunnable(typeof(StaticFixtureSetUp));
+			AssertRunnable(typeof(StaticFixtureSetUp));
 		}
 
 		[Test]
@@ -242,7 +221,9 @@ namespace NUnit.Core.Tests
 		{
 			AssertNotRunnable(typeof(FixtureSetUpWithParameters));
 		}
+		#endregion
 
+		#region TestFixtureTearDown Signature
 		[Test] 
 		public void CannotRunPrivateFixtureTearDown()
 		{
@@ -250,15 +231,15 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test] 
-		public void CannotRunProtectedFixtureTearDown()
+		public void CanRunProtectedFixtureTearDown()
 		{
-			AssertNotRunnable(typeof(ProtectedFixtureTearDown));
+			AssertRunnable(typeof(ProtectedFixtureTearDown));
 		}
 
 		[Test] 
-		public void CannotRunStaticFixtureTearDown()
+		public void CanRunStaticFixtureTearDown()
 		{
-			AssertNotRunnable(typeof(StaticFixtureTearDown));
+			AssertRunnable(typeof(StaticFixtureTearDown));
 		}
 
 //		[TestFixture]
@@ -289,6 +270,6 @@ namespace NUnit.Core.Tests
 		{
 			AssertNotRunnable(typeof(FixtureTearDownWithParameters));
 		}
-
+		#endregion
 	}
 }

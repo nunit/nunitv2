@@ -148,141 +148,148 @@ namespace NUnit.TestData.TestFixtureTests
 		{}
 	}
 
+	// Base class used to ensure following classes
+	// all have at least one test
+	public class OneTestBase
+	{
+		[Test] public void OneTest() { }
+	}
+
 	[TestFixture]
-	public class PrivateSetUp
+	public class PrivateSetUp : OneTestBase
 	{
 		[SetUp]
 		private void Setup()	{}
 	}
 
 	[TestFixture]
-	public class ProtectedSetUp
+	public class ProtectedSetUp : OneTestBase
 	{
 		[SetUp]
 		protected void Setup()	{}
 	}
 
 	[TestFixture]
-	public class StaticSetUp
+	public class StaticSetUp : OneTestBase
 	{
 		[SetUp]
 		public static void Setup() {}
 	}
 
 	[TestFixture]
-	public class SetUpWithReturnValue
+	public class SetUpWithReturnValue : OneTestBase
 	{
 		[SetUp]
 		public int Setup() { return 0; }
 	}
 
 	[TestFixture]
-	public class SetUpWithParameters
+	public class SetUpWithParameters : OneTestBase
 	{
 		[SetUp]
 		public void Setup(int j) { }
 	}
 
 	[TestFixture]
-	public class PrivateTearDown
+	public class PrivateTearDown : OneTestBase
 	{
 		[TearDown]
 		private void Teardown()	{}
 	}
 
 	[TestFixture]
-	public class ProtectedTearDown
+	public class ProtectedTearDown : OneTestBase
 	{
 		[TearDown]
 		protected void Teardown()	{}
 	}
 
 	[TestFixture]
-	public class StaticTearDown
+	public class StaticTearDown : OneTestBase
 	{
 		[SetUp]
 		public static void TearDown() {}
 	}
 
 	[TestFixture]
-	public class TearDownWithReturnValue
+	public class TearDownWithReturnValue : OneTestBase
 	{
 		[TearDown]
 		public int Teardown() { return 0; }
 	}
 
 	[TestFixture]
-	public class TearDownWithParameters
+	public class TearDownWithParameters : OneTestBase
 	{
 		[TearDown]
 		public void Teardown(int j) { }
 	}
 
 	[TestFixture]
-	public class PrivateFixtureSetUp
+	public class PrivateFixtureSetUp : OneTestBase
 	{
 		[TestFixtureSetUp]
 		private void Setup()	{}
 	}
 
 	[TestFixture]
-	public class ProtectedFixtureSetUp
+	public class ProtectedFixtureSetUp : OneTestBase
 	{
 		[TestFixtureSetUp]
 		protected void Setup()	{}
 	}
 
 	[TestFixture]
-	public class StaticFixtureSetUp
+	public class StaticFixtureSetUp : OneTestBase
 	{
 		[TestFixtureSetUp]
 		public static void Setup() {}
 	}
 
 	[TestFixture]
-	public class FixtureSetUpWithReturnValue
+	public class FixtureSetUpWithReturnValue : OneTestBase
 	{
 		[TestFixtureSetUp]
 		public int Setup() { return 0; }
 	}
 
 	[TestFixture]
-	public class FixtureSetUpWithParameters
+	public class FixtureSetUpWithParameters : OneTestBase
 	{
 		[SetUp]
 		public void Setup(int j) { }
 	}
 
 	[TestFixture]
-	public class PrivateFixtureTearDown
+	public class PrivateFixtureTearDown : OneTestBase
 	{
 		[TestFixtureTearDown]
 		private void Teardown()	{}
 	}
 
 	[TestFixture]
-	public class ProtectedFixtureTearDown
+	public class ProtectedFixtureTearDown : OneTestBase
 	{
 		[TestFixtureTearDown]
 		protected void Teardown()	{}
 	}
 
 	[TestFixture]
-	public class StaticFixtureTearDown
+	public class StaticFixtureTearDown : OneTestBase
 	{
 		[TestFixtureTearDown]
 		public static void Teardown() {}
 	}
 
 	[TestFixture]
-	public class FixtureTearDownWithReturnValue
+	public class FixtureTearDownWithReturnValue : OneTestBase
 	{
 		[TestFixtureTearDown]
 		public int Teardown() { return 0; }
 	}
 
 	[TestFixture]
-	public class FixtureTearDownWithParameters
+	public class FixtureTearDownWithParameters : OneTestBase
 	{
 		[TestFixtureTearDown]
 		public void Teardown(int j) { }

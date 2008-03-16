@@ -224,6 +224,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestMethodSignatureFixture.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\TestMethodSignatureFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "UnhandledExceptions.cs"
                     Link = "..\..\..\..\src\tests\test-assembly\UnhandledExceptions.cs"
                     SubType = "Code"

@@ -183,6 +183,9 @@
       <Link>TestFixtureTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\tests\test-assembly\TestMethodSignatureFixture.cs">
+      <Link>TestMethodSignatureFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\tests\test-assembly\UnhandledExceptions.cs">
       <Link>UnhandledExceptions.cs</Link>
       <SubType>Code</SubType>

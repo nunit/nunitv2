@@ -154,7 +154,7 @@ namespace NUnit.Core
 				if (!testResult.IsFailure)
 				{
 					// Temporary... to allow for tests that directly execute a test case
-					if (Fixture == null)
+					if (Fixture == null && !method.IsStatic)
 						Fixture = Reflect.Construct(this.FixtureType);
 
                     if (this.Properties["_SETCULTURE"] != null)
@@ -186,7 +186,7 @@ namespace NUnit.Core
 			try 
 			{
 				if ( setUpMethod != null )
-					Reflect.InvokeMethod( setUpMethod, this.Fixture );
+					Reflect.InvokeMethod( setUpMethod, setUpMethod.IsStatic ? null : this.Fixture );
 
 				doTestCase( testResult );
 			}
@@ -247,7 +247,7 @@ namespace NUnit.Core
 
 		public virtual void RunTestMethod(TestResult testResult)
 		{
-			Reflect.InvokeMethod( this.method, this.Fixture );
+			Reflect.InvokeMethod( this.method, this.method.IsStatic ? null : this.Fixture );
 		}
 
 		#endregion

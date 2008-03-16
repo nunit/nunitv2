@@ -198,7 +198,8 @@ namespace NUnit.Core
             {
                 try
                 {
-                    if (Fixture == null) // In case TestFixture was created with fixture object
+					// In case TestFixture was created with fixture object
+					if (Fixture == null)
 						CreateUserFixture();
 
                     if (this.Properties["_SETCULTURE"] != null)
@@ -206,7 +207,7 @@ namespace NUnit.Core
                             new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
 
                     if (this.fixtureSetUp != null)
-                        Reflect.InvokeMethod(fixtureSetUp, Fixture);
+                        Reflect.InvokeMethod(fixtureSetUp, fixtureSetUp.IsStatic ? null : Fixture);
                 }
                 catch (Exception ex)
                 {
@@ -243,7 +244,7 @@ namespace NUnit.Core
                 try
                 {
                     if (this.fixtureTearDown != null)
-                        Reflect.InvokeMethod(fixtureTearDown, Fixture);
+                        Reflect.InvokeMethod(fixtureTearDown, fixtureTearDown.IsStatic ? null : Fixture);
 
 					IDisposable disposable = Fixture as IDisposable;
 					if (disposable != null)

@@ -54,14 +54,14 @@ namespace NUnit.Util.Tests
 	public class PathUtilTests_Windows : PathUtils
 	{
 		[TestFixtureSetUp]
-		public void SetUpUnixSeparators()
+		public static void SetUpUnixSeparators()
 		{
 			PathUtils.DirectorySeparatorChar = '\\';
 			PathUtils.AltDirectorySeparatorChar = '/';
 		}
 
 		[TestFixtureTearDown]
-		public void RestoreDefaultSeparators()
+		public static void RestoreDefaultSeparators()
 		{
 			PathUtils.DirectorySeparatorChar = System.IO.Path.DirectorySeparatorChar;
 			PathUtils.AltDirectorySeparatorChar = System.IO.Path.AltDirectorySeparatorChar;
@@ -140,14 +140,14 @@ namespace NUnit.Util.Tests
 	public class PathUtilTests_Unix : PathUtils
 	{
 		[TestFixtureSetUp]
-		public void SetUpUnixSeparators()
+		public static void SetUpUnixSeparators()
 		{
 			PathUtils.DirectorySeparatorChar = '/';
 			PathUtils.AltDirectorySeparatorChar = '\\';
 		}
 
 		[TestFixtureTearDown]
-		public void RestoreDefaultSeparators()
+		public static void RestoreDefaultSeparators()
 		{
 			PathUtils.DirectorySeparatorChar = System.IO.Path.DirectorySeparatorChar;
 			PathUtils.AltDirectorySeparatorChar = System.IO.Path.AltDirectorySeparatorChar;
