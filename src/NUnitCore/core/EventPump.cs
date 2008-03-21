@@ -9,8 +9,19 @@ namespace NUnit.Core
 	using System;
 	using System.Threading;
 
+    /// <summary>
+    /// The EventPumpState enum represents the state of an
+    /// EventPump.
+    /// </summary>
+    public enum EventPumpState
+    {
+        Stopped,
+        Pumping,
+        Stopping
+    }
+
 	/// <summary>
-	/// EventPump pulls events out of an EventQUeue and sends
+	/// EventPump pulls events out of an EventQueue and sends
 	/// them to a listener. It is used to send events back to
 	/// the client without using the CallContext of the test
 	/// runner thread.
@@ -34,14 +45,9 @@ namespace NUnit.Core
 		Thread pumpThread;
 
 		/// <summary>
-		/// Indicator that we are pumping events
+		/// The current state of the eventpump
 		/// </summary>
-		private bool pumping;
-		
-		/// <summary>
-		/// Indicator that we are stopping
-		/// </summary>
-		private bool stopping;
+		EventPumpState pumpState = EventPumpState.Stopped;
 
 		/// <summary>
 		/// If true, stop after sending RunFinished
@@ -66,19 +72,11 @@ namespace NUnit.Core
 
 		#region Properties
 		/// <summary>
-		/// Returns true if we are pumping events
+		/// The current state of the pump
 		/// </summary>
-		public bool Pumping
+		public EventPumpState PumpState
 		{
-			get { return pumping; }
-		}
-
-		/// <summary>
-		/// Returns true if a stop is in progress
-		/// </summary>
-		public bool Stopping
-		{
-			get { return stopping; }
+			get { return pumpState; }
 		}
 		#endregion
 
@@ -96,11 +94,12 @@ namespace NUnit.Core
 		/// </summary>
 		public void Start()
 		{
-			if ( !this.Pumping )  // Ignore if already started
+			if ( pumpState == EventPumpState.Stopped )  // Ignore if already started
 			{
 				this.pumpThread = new Thread( new ThreadStart( PumpThreadProc ) );
 				this.pumpThread.Name = "EventPumpThread";
-				this.pumpThread.Start();
+                pumpState = EventPumpState.Pumping;
+                this.pumpThread.Start();
 			}
 		}
 
@@ -109,11 +108,11 @@ namespace NUnit.Core
 		/// </summary>
 		public void Stop()
 		{
-			if ( this.Pumping && !this.Stopping ) // Ignore extra calls
+			if ( pumpState == EventPumpState.Pumping ) // Ignore extra calls
 			{
 				lock( events )
 				{
-					stopping = true;
+					pumpState = EventPumpState.Stopping;
 					Monitor.Pulse( events ); // In case thread is waiting
 				}
 				this.pumpThread.Join();
@@ -130,12 +129,11 @@ namespace NUnit.Core
 		/// </summary>
 		private void PumpThreadProc()
 		{
-			pumping = true;
 			EventListener hostListeners = CoreExtensions.Host.Listeners;
 			Monitor.Enter( events );
             try
             {
-                while (this.events.Count > 0 || !stopping)
+                while (this.events.Count > 0 || pumpState == EventPumpState.Pumping)
                 {
                     while (this.events.Count > 0)
                     {
@@ -143,11 +141,11 @@ namespace NUnit.Core
                         e.Send(this.eventListener);
 						e.Send(hostListeners);
                         if (autostop && e is RunFinishedEvent)
-                            stopping = true;
+                            pumpState = EventPumpState.Stopping;
                     }
                     // Will be pulsed if there are any events added
                     // or if it's time to stop the pump.
-                    if (!stopping)
+                    if ( pumpState != EventPumpState.Stopping )
                         Monitor.Wait(events);
                 }
             }
@@ -158,8 +156,7 @@ namespace NUnit.Core
 			finally
 			{
 				Monitor.Exit( events );
-				pumping = false;
-				stopping = false;
+                pumpState = EventPumpState.Stopped;
 				//pumpThread = null;
 			}
 		}
