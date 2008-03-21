@@ -10,7 +10,6 @@ namespace NUnit.Core
 	using System.IO;
 	using System.Reflection;
 	using System.Collections;
-	using System.Diagnostics;
 
 	/// <summary>
 	/// Class adapted from NUnitAddin for use in handling assemblies that are not
@@ -80,14 +79,14 @@ namespace NUnit.Core
 			int index = fullName.IndexOf(',');
 			if(index == -1)							// Only resolve using full name.
 			{
-				Trace.WriteLine( string.Format("Not a strong name: {0}", fullName ),
+				NTrace.Debug( string.Format("Not a strong name: {0}", fullName ),
 					"'AssemblyResolver'" );
 				return null;
 			}
 
 			if ( _cache.Contains( fullName ) )
 			{
-				Trace.WriteLine( string.Format( "Resolved from Cache: {0}", fullName ), 
+				NTrace.Info( string.Format( "Resolved from Cache: {0}", fullName ), 
 					"'AssemblyResolver'" );
 				return _cache.Resolve(fullName);
 			}
@@ -101,7 +100,7 @@ namespace NUnit.Core
 					{
 						if ( AssemblyName.GetAssemblyName( fullFile ).FullName == fullName )
 						{
-							Trace.WriteLine( string.Format( "Added to Cache: {0}", fullFile ), 
+							NTrace.Info( string.Format( "Added to Cache: {0}", fullFile ), 
 								"'AssemblyResolver'" );
 							AddFile( fullFile );
 							return _cache.Resolve( fullName );
@@ -110,12 +109,12 @@ namespace NUnit.Core
 					catch
 					{
 						// Keep going if there's a bad assembly
-						Trace.WriteLine( string.Format( "Bad assembly: {0}", fullFile  ), "AssemblyResolver");
+						NTrace.Debug( string.Format( "Bad assembly: {0}", fullFile  ), "AssemblyResolver");
 					}
 				}
 			}
 
-			Trace.WriteLine( string.Format( "Not in Cache: {0}", fullName), 
+			NTrace.Debug( string.Format( "Not in Cache: {0}", fullName), 
 				"'AssemblyResolver'");
 			return null;
 		}

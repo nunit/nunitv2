@@ -8,7 +8,6 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Reflection;
-using System.Diagnostics;
 using NUnit.Core.Extensibility;
 
 namespace NUnit.Core
@@ -21,9 +20,6 @@ namespace NUnit.Core
 	/// </summary>
 	public class CoreExtensions : ExtensionHost, IService
 	{
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-		
 		#region Instance Fields
 		private IAddinRegistry addinRegistry;
 		private bool initialized;
@@ -34,7 +30,7 @@ namespace NUnit.Core
 		private EventListenerCollection listeners;
 		private FrameworkRegistry frameworks;
 
-		private log4net.Appender.ConsoleAppender appender;
+//		private log4net.Appender.ConsoleAppender appender;
 		#endregion
 
 		#region CoreExtensions Singleton
@@ -131,7 +127,7 @@ namespace NUnit.Core
 		#region Public Methods	
 		public void InstallBuiltins()
 		{
-			log.Info( "Installing Builtins" );
+			NTrace.Info( "Installing Builtins" );
 
 			// Define NUnit Framework
 			frameworks.Register( "NUnit", "nunit.framework" );
@@ -146,7 +142,7 @@ namespace NUnit.Core
 
 		public void InstallAddins()
 		{
-			log.Info( "Installing Addins" );
+			NTrace.Info( "Installing Addins" );
 
 			if( AddinRegistry != null )
 			{
@@ -160,12 +156,12 @@ namespace NUnit.Core
 						if ( type == null )
 						{
 							AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Could not locate type" );
-							log.ErrorFormat( "Failed to load {0} - {1}", addin.Name, "Could not locate type" );
+							NTrace.Error( "Failed to load  " + addin.Name + " - Could not locate type" );
 						}
 						else if ( !InstallAddin( type ) )
 						{
 							AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Install returned false" );
-							log.ErrorFormat( "Failed to load {0} - {1}", addin.Name, "Install returned false" );
+							NTrace.Error( "Failed to load " +addin.Name + " - Install returned false" );
 						}
 						else
 							AddinRegistry.SetStatus( addin.Name, AddinStatus.Loaded, null );
@@ -173,7 +169,7 @@ namespace NUnit.Core
 					catch( Exception ex )
 					{
 						AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, ex.Message );
-						log.ErrorFormat( "Exception loading {0} - {1}", addin.Name, ex.Message );
+						NTrace.ErrorFormat( "Exception loading {0} - {1}", addin.Name, ex.Message );
 					}
 					}
 				}

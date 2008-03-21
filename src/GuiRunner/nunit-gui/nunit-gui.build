@@ -57,12 +57,12 @@
       <references basedir="${current.build.dir}">
         <include name="System.Windows.Forms.dll"/>
         <include name="System.Drawing.dll"/>
+        <include name="nunit.core.dll"/>
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.util.dll"/>
         <include name="nunit.uikit.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.framework.dll"/>
-        <include name="log4net.dll"/>
       </references>
     </csc>
   </target>

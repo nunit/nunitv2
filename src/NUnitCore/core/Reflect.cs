@@ -190,6 +190,16 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
+		/// Find the default constructor on a type
+		/// </summary>
+		/// <param name="fixtureType"></param>
+		/// <returns></returns>
+		public static ConstructorInfo GetConstructor( Type fixtureType, Type[] types )
+		{
+			return fixtureType.GetConstructor( types );
+		}
+
+		/// <summary>
 		/// Examine a fixture type and return a method having a particular attribute.
 		/// In the case of multiple methods, the first one found is returned.
 		/// </summary>
@@ -345,6 +355,20 @@ namespace NUnit.Core
 			return null;
 		}
 
+		/// <summary>
+		/// Set the value of a named property on an object
+		/// </summary>
+		/// <param name="obj">The object for which the property value is to be set</param>
+		/// <param name="name">The name of a non-indexed property of the object</param>
+		/// <param name="val">The value to which the property is to be set</param>
+		/// <param name="bindingFlags">BindingFlags for use in determining which properties are needed</param>param>
+		public static void SetPropertyValue( object obj, string name, object val, BindingFlags bindingFlags )
+		{
+			PropertyInfo property = GetNamedProperty( obj.GetType(), name, bindingFlags );
+			if ( property != null )
+				property.SetValue( obj, val, null );
+		}
+
 		#endregion
 
 		#region Invoke Methods
@@ -379,7 +403,7 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="method">A MethodInfo for the method to be invoked</param>
 		/// <param name="fixture">The object on which to invoke the method</param>
-		public static void InvokeMethod( MethodInfo method, object fixture, params object[] args ) 
+		public static void InvokeMethod( MethodInfo method, object fixture, params object[] args )
 		{
 			if(method != null)
 			{

@@ -146,6 +146,7 @@ namespace NUnit.Core
 
 				// Signal that we are done
 				listener.RunFinished( testResult );
+                
 
 				// Return result array
 				return testResult;

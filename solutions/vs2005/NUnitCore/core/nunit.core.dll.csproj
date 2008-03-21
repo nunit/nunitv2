@@ -201,6 +201,12 @@
       <Link>LegacySuite.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Log4NetCapture.cs">
+      <Link>Log4NetCapture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\LogCapture.cs">
+      <Link>LogCapture.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\NamespaceTreeBuilder.cs">
       <Link>NamespaceTreeBuilder.cs</Link>
       <SubType>Code</SubType>
@@ -208,6 +214,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\NoTestFixturesException.cs">
       <Link>NoTestFixturesException.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\NTrace.cs">
+      <Link>NTrace.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\NullListener.cs">
       <Link>NullListener.cs</Link>
@@ -308,6 +317,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\TestSuiteBuilder.cs">
       <Link>TestSuiteBuilder.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\TextCapture.cs">
+      <Link>TextCapture.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\ThreadedTestRunner.cs">
       <Link>ThreadedTestRunner.cs</Link>

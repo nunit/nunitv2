@@ -196,6 +196,18 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Log4NetCapture.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Log4NetCapture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "LogCapture.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\LogCapture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "NamespaceTreeBuilder.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\NamespaceTreeBuilder.cs"
                     SubType = "Code"
@@ -204,6 +216,12 @@
                 <File
                     RelPath = "NoTestFixturesException.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\NoTestFixturesException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NTrace.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\NTrace.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -370,6 +388,12 @@
                 <File
                     RelPath = "TestSuiteBuilder.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\TestSuiteBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TextCapture.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\TextCapture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

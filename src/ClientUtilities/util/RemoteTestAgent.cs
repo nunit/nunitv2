@@ -39,8 +39,6 @@ namespace NUnit.Util
 		/// </summary>
 		private object theLock = new object();
 
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 		#endregion
 
 		#region Constructor
@@ -76,36 +74,36 @@ namespace NUnit.Util
 		#region Public Methods
 		public void Start()
 		{
-			log.Info("Starting");
+			NTrace.Info("Starting");
 			this.channel = ServerUtilities.GetTcpChannel();
-			log.Debug("Acquired Tcp Channel");
+			NTrace.Debug("Acquired Tcp Channel");
 
 			try
 			{
 				this.agency = (TestAgency)Activator.GetObject( typeof( TestAgency ), agencyUrl );
-				log.DebugFormat("Connected to TestAgency at {0}", agencyUrl);
+				NTrace.DebugFormat("Connected to TestAgency at {0}", agencyUrl);
 			}
 			catch( Exception ex )
 			{
-				log.ErrorFormat( "Unable to connect to test agency at {0}", agencyUrl );
-				log.ErrorFormat( ex.Message );
+				NTrace.ErrorFormat( "Unable to connect to test agency at {0}", agencyUrl );
+				NTrace.Error( ex.Message );
 			}
 
 			try
 			{
 				this.agency.Register( this, ProcessId );
-				log.Debug( "Registered with TestAgency" );
+				NTrace.Debug( "Registered with TestAgency" );
 			}
 			catch( Exception ex )
 			{
-				log.Error( "Failed to register with TestAgency", ex );
+				NTrace.Error( "Failed to register with TestAgency", ex );
 			}
 		}
 
 		[System.Runtime.Remoting.Messaging.OneWay]
 		public void Stop()
 		{
-			log.Info( "Stopping" );
+			NTrace.Info( "Stopping" );
 			lock( theLock )
 			{
 				if ( this.channel != null )

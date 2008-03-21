@@ -17,10 +17,7 @@ namespace NUnit.Core
 	/// </summary>
 	public class RemoteTestRunner : ProxyTestRunner
 	{
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-		#region Constructor
+		#region Constructors
 		public RemoteTestRunner() : this( 0 ) { }
 
 		public RemoteTestRunner( int runnerID ) : base( runnerID ) { }
@@ -29,8 +26,6 @@ namespace NUnit.Core
 		#region Method Overrides
 		public override bool Load(TestPackage package)
 		{
-			log.Debug( "Loading test package " + package.Name );
-
 			// Initialize ExtensionHost if not already done
 			if ( !CoreExtensions.Host.Initialized )
 				CoreExtensions.Host.InitializeService();
@@ -55,10 +50,9 @@ namespace NUnit.Core
 
 		public override TestResult Run( EventListener listener, ITestFilter filter )
 		{
-			log.Debug( "Running test synchronously" );
-			QueuingEventListener queue = new QueuingEventListener();
+            QueuingEventListener queue = new QueuingEventListener();
 
-			DirectOutputToListener( queue );
+			StartTextCapture( queue );
 
 			using( EventPump pump = new EventPump( listener, queue.Events, true ) )
 			{
@@ -74,10 +68,10 @@ namespace NUnit.Core
 
 		public override void BeginRun( EventListener listener, ITestFilter filter )
 		{
-			log.Debug( "Running test asynchronously" );
+            NTrace.Debug("Running test asynchronously");
 			QueuingEventListener queue = new QueuingEventListener();
 
-			DirectOutputToListener( queue );
+			StartTextCapture( queue );
 
 			EventPump pump = new EventPump( listener, queue.Events, true);
 			pump.Start(); // Will run till RunFinished is received
@@ -86,7 +80,7 @@ namespace NUnit.Core
 			base.BeginRun( queue, filter );
 		}
 
-		private void DirectOutputToListener( EventListener queue )
+		private void StartTextCapture( EventListener queue )
 		{
 			TestContext.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
 			TestContext.Error = new EventListenerTextWriter( queue, TestOutputType.Error );

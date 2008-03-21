@@ -250,6 +250,7 @@ namespace NUnit.Util
 
 		void EventListener.RunStarted(string name, int testCount)
 		{
+            System.Diagnostics.Trace.WriteLine("Got RunStarted Event");
 			events.FireRunStarting( name, testCount );
 		}
 

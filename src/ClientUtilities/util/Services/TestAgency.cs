@@ -45,9 +45,6 @@ namespace NUnit.Util
 	/// </summary>
 	public class TestAgency : ServerBase, IService
 	{
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
 		#region Private Fields
 		private AgentDataBase agentData = new AgentDataBase();
 
@@ -158,11 +155,11 @@ namespace NUnit.Util
 		{
 			AgentRecord r = agentData[agent.Id];
 			if ( r == null )
-				log.ErrorFormat( "Unable to release agent {0} - not in database", agent.Id );
+				NTrace.Error( string.Format( "Unable to release agent {0} - not in database", agent.Id ) );
 			else
 			{
 				r.Status = AgentStatus.Ready;
-				log.DebugFormat( "Releasing agent {0}", agent.Id );
+				NTrace.Debug( "Releasing agent " + agent.Id.ToString() );
 			}
 		}
 
@@ -194,8 +191,8 @@ namespace NUnit.Util
 				p.StartInfo.FileName = TestAgentExePath;
 				p.StartInfo.Arguments = ServerUtilities.MakeUrl( this.uri, this.port );
 			}
-			//Process p = Process.Start( startInfo );
-			log.DebugFormat( "Launching {0}", p.StartInfo.FileName );
+			
+			//NTrace.Debug( "Launching {0}" p.StartInfo.FileName );
 			p.Start();
 			agentData.Add( new AgentRecord( p.Id, p, null, AgentStatus.Starting ) );
 			return p.Id;
@@ -206,7 +203,7 @@ namespace NUnit.Util
 			foreach( AgentRecord r in agentData )
 				if ( r.Status == AgentStatus.Ready )
 				{
-					log.DebugFormat( "Reusing agent {0}", r.Id );
+					NTrace.DebugFormat( "Reusing agent {0}", r.Id );
 					r.Status = AgentStatus.Busy;
 					return r;
 				}
@@ -218,7 +215,7 @@ namespace NUnit.Util
 		{
 			int pid = LaunchAgentProcess();
 
-			log.DebugFormat( "Waiting for agent {0} to register", pid );
+			NTrace.DebugFormat( "Waiting for agent {0} to register", pid );
 			while( waitTime > 0 )
 			{
 				int pollTime = Math.Min( 200, waitTime );
@@ -226,7 +223,7 @@ namespace NUnit.Util
 				waitTime -= pollTime;
 				if ( agentData[pid].Agent != null )
 				{
-					log.DebugFormat( "Returning new agent record {0}", pid ); 
+					NTrace.DebugFormat( "Returning new agent record {0}", pid ); 
 					return agentData[pid];
 				}
 			}

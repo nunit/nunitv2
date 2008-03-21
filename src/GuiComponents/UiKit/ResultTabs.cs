@@ -22,9 +22,6 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class ResultTabs : System.Windows.Forms.UserControl, TestObserver
 	{
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
 		private ISettings settings;
 		private bool updating = false;
 		private TextDisplayController displayController;
@@ -237,7 +234,7 @@ namespace NUnit.UiKit
 			errorsTabMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayErrorsTab", true );
 			notRunTabMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayNotRunTab", true );
 
-			log.Debug( "Updating tab pages" );
+			NTrace.Debug( "Updating tab pages" );
 			updating = true;
 			
 			tabControl.TabPages.Clear();

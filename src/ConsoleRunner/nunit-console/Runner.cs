@@ -4,7 +4,6 @@ using System.Reflection;
 using NUnit.Core;
 using NUnit.Util;
 
-[assembly: log4net.Config.XmlConfigurator(Watch=true)]
 
 namespace NUnit.ConsoleRunner
 {
@@ -13,14 +12,10 @@ namespace NUnit.ConsoleRunner
 	/// </summary>
 	public class Runner
 	{
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
 		[STAThread]
 		public static int Main(string[] args)
 		{
-			log4net.GlobalContext.Properties["PID"] = System.Diagnostics.Process.GetCurrentProcess().Id;
-			log.Info( "NUnit-console.exe starting" );
+			NTrace.Info( "NUnit-console.exe starting" );
 
 			ConsoleOptions options = new ConsoleOptions(args);
 			
@@ -86,7 +81,7 @@ namespace NUnit.ConsoleRunner
 					Console.ReadLine();
 				}
 
-				log.Info( "NUnit-console.exe terminating" );
+				NTrace.Info( "NUnit-console.exe terminating" );
 			}
 
 		}

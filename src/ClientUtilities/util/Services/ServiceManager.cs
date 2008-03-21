@@ -20,9 +20,6 @@ namespace NUnit.Util
 
 		private static ServiceManager defaultServiceManager = new ServiceManager();
 
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
 		public static ServiceManager Services
 		{
 			get { return defaultServiceManager; }
@@ -31,7 +28,7 @@ namespace NUnit.Util
 		public void AddService( IService service )
 		{
 			services.Add( service );
-			log.Debug( "Added " + service.GetType().Name );
+			NTrace.Debug( "Added " + service.GetType().Name );
 		}
 
 		public IService GetService( Type serviceType )
@@ -50,9 +47,10 @@ namespace NUnit.Util
 				}
 
 			if ( theService == null )
-				log.ErrorFormat( "Requested service {0} was not found", serviceType.FullName );
-			else if ( log.IsInfoEnabled )
-				log.InfoFormat( "Request for service {0} satisfied by {1}", serviceType.Name, theService.GetType().Name );
+				NTrace.Error( string.Format( "Requested service {0} was not found", serviceType.FullName ) );
+			else
+				NTrace.Info( string.Format( "Request for service {0} satisfied by {1}", serviceType.Name, theService.GetType().Name ) );
+			
 			return theService;
 		}
 
@@ -60,7 +58,7 @@ namespace NUnit.Util
 		{
 			foreach( IService service in services )
 			{
-				log.Info( "Initializing " + service.GetType().Name );
+				NTrace.Info( "Initializing " + service.GetType().Name );
 				service.InitializeService();
 			}
 		}

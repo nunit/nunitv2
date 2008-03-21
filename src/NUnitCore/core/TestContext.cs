@@ -146,7 +146,7 @@ namespace NUnit.Core
 			private bool tracing;
 
 			/// <summary>
-			/// Controls whether log events are captured
+			/// Indicates whether logging is enabled
 			/// </summary>
 			private bool logging;
 
@@ -165,15 +165,7 @@ namespace NUnit.Core
 			/// </summary>
 			private TextWriter traceWriter;
 
-			/// <summary>
-			/// Destination for Log output
-			/// </summary>
-			private TextWriter logWriter;
-
-			/// <summary>
-			/// Log4net Appender for Log output from the tests
-			/// </summary>
-			private log4net.Appender.TextWriterAppender log4netAppender;
+			private Log4NetCapture logCapture;
 
 			/// <summary>
 			/// The current working directory
@@ -194,11 +186,11 @@ namespace NUnit.Core
 			{
 				this.prior = null;
 				this.tracing = false;
+				this.logging = false;
 				this.outWriter = Console.Out;
 				this.errorWriter = Console.Error;
 				this.traceWriter = null;
-				this.logWriter = null;
-				this.log4netAppender = null;
+				this.logCapture = new Log4NetCapture();
 
 				this.currentDirectory = Environment.CurrentDirectory;
 				this.currentCulture = CultureInfo.CurrentCulture;
@@ -208,11 +200,11 @@ namespace NUnit.Core
 			{
 				this.prior = other;
 				this.tracing = other.tracing;
+				this.logging = other.logging;
 				this.outWriter = other.outWriter;
 				this.errorWriter = other.errorWriter;
 				this.traceWriter = other.traceWriter;
-				this.logWriter = other.logWriter;
-				this.log4netAppender = other.log4netAppender;
+				this.logCapture = other.logCapture;
 
 				this.currentDirectory = Environment.CurrentDirectory;
 				this.currentCulture = CultureInfo.CurrentCulture;
@@ -261,20 +253,8 @@ namespace NUnit.Core
 			/// </summary>
 			public bool Logging
 			{
-				get { return logging; }
-				set 
-				{
-					if ( logging != value )
-					{
-						if ( logWriter != null && logging )
-							StopLogging();
-
-						logging = value; 
-
-						if ( logWriter != null && logging )
-							StartLogging();
-					}
-				}
+				get { return logCapture.Enabled; }
+				set { logCapture.Enabled = value; }
 			}
 
 			/// <summary>
@@ -342,14 +322,8 @@ namespace NUnit.Core
 			/// </summary>
 			public TextWriter LogWriter
 			{
-				get { return logWriter; }
-				set 
-				{ 
-					logWriter = value;
-
-					if ( logWriter != null && logging )
-						StartLogging();
-				}
+				get { return logCapture.Writer; }
+				set { logCapture.Writer = value; }
 			}
 
 			private void StopTracing()
@@ -361,87 +335,6 @@ namespace NUnit.Core
 			private void StartTracing()
 			{
 				System.Diagnostics.Trace.Listeners.Add( new TextWriterTraceListener( traceWriter, "NUnit" ) );
-			}
-
-			private void StartLogging()
-			{
-				if ( log4netAppender == null )
-				{
-					// Add process id to the global context for display in log entries
-					log4net.GlobalContext.Properties["PID"] = System.Diagnostics.Process.GetCurrentProcess().Id;
-					// Create and set up the appender
-					log4netAppender = new log4net.Appender.TextWriterAppender();
-					log4netAppender.Layout = new log4net.Layout.PatternLayout(
-						"%date{ABSOLUTE} %-5level [%4thread] %logger{1}: PID=%property{PID} %message%newline" );
-				}
-
-				log4netAppender.Threshold = GetLoggingLevel();
-				log4net.Config.BasicConfigurator.Configure(log4netAppender);
-				log4netAppender.Writer = logWriter; 
-			}
-
-			private log4net.Core.Level GetLoggingLevel()
-			{
-				NameValueCollection settings = (NameValueCollection)
-					ConfigurationSettings.GetConfig( "NUnit/TestRunner" );
-
-				log4net.Core.Level defaultLevel = log4net.Core.Level.Error;
-
-				if ( settings == null )
-					return defaultLevel;
-
-				string logLevel = settings["DefaultLogThreshold"];
-				if ( logLevel == null )
-					return defaultLevel;
-
-				switch( logLevel.ToLower() )
-				{
-					case "alert":
-						return log4net.Core.Level.Alert;
-					case "all":
-						return log4net.Core.Level.All;
-					case "critical":
-						return log4net.Core.Level.Critical;
-					case "debug":
-						return log4net.Core.Level.Debug;
-					case "emergency":
-						return log4net.Core.Level.Emergency;
-					case "error":
-						return log4net.Core.Level.Error;
-					case "fatal":
-						return log4net.Core.Level.Fatal;
-					case "fine":
-						return log4net.Core.Level.Fine;
-					case "finer":
-						return log4net.Core.Level.Finer;
-					case "finest":
-						return log4net.Core.Level.Finest;
-					case "info":
-						return log4net.Core.Level.Info;
-					case "notice":
-						return log4net.Core.Level.Notice;
-					case "off":
-						return log4net.Core.Level.Off;
-					case "severe":
-						return log4net.Core.Level.Severe;
-					case "trace":
-						return log4net.Core.Level.Trace;
-					case "verbose":
-						return log4net.Core.Level.Verbose;
-					case "warn":
-						return log4net.Core.Level.Warn;
-					default:
-						return defaultLevel;
-				}
-			}
-
-			private void StopLogging()
-			{
-				if ( log4netAppender != null )
-				{
-					log4netAppender.Threshold = log4net.Core.Level.Off;
-					log4netAppender.Writer = null;
-				}
 			}
 
 			public string CurrentDirectory

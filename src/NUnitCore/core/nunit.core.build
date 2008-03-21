@@ -18,8 +18,11 @@
         <include name="InvalidSuiteException.cs"/>
         <include name="InvalidTestFixtureException.cs"/>
         <include name="LegacySuite.cs"/>
+        <include name="Log4NetCapture.cs"/>
+        <include name="LogCapture.cs"/>
         <include name="NamespaceTreeBuilder.cs"/>
         <include name="NoTestFixturesException.cs"/>
+        <include name="NTrace.cs"/>
         <include name="NullListener.cs"/>
         <include name="NUnitException.cs"/>
         <include name="NUnitFramework.cs"/>
@@ -46,6 +49,7 @@
         <include name="TestRunnerThread.cs"/>
         <include name="TestSuite.cs"/>
         <include name="TestSuiteBuilder.cs"/>
+        <include name="TextCapture.cs"/>
         <include name="ThreadedTestRunner.cs"/>
         <include name="Builders/LegacySuiteBuilder.cs"/>
         <include name="Builders/NUnitTestCaseBuilder.cs"/>
@@ -73,7 +77,6 @@
       </nowarn>
       <references basedir="${current.build.dir}">
         <include name="nunit.core.interfaces.dll"/>
-        <include name="log4net.dll"/>
       </references>
     </csc>
   </target>

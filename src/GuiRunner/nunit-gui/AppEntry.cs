@@ -16,8 +16,6 @@ using NUnit.Util;
 using NUnit.Core;
 using NUnit.Core.Extensibility;
 
-[assembly: log4net.Config.XmlConfigurator(Watch=true)]
-
 namespace NUnit.Gui
 {
 	/// <summary>
@@ -25,17 +23,13 @@ namespace NUnit.Gui
 	/// </summary>
 	public class AppEntry
 	{
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		public static int Main(string[] args) 
 		{
-			log4net.GlobalContext.Properties["PID"] = System.Diagnostics.Process.GetCurrentProcess().Id;
-			log.Info( "Starting NUnit GUI" );
+			NTrace.Info( "Starting NUnit GUI" );
 
 			GuiOptions guiOptions = new GuiOptions(args);
 
@@ -100,7 +94,7 @@ namespace NUnit.Gui
 				attachedConsole.Close();
 			}
 
-			log.Info( "Exiting NUnit GUI" );
+			NTrace.Info( "Exiting NUnit GUI" );
 
 			return 0;
 		}
