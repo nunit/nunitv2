@@ -109,7 +109,7 @@ namespace NUnit.Util
 
 			if ( !result.Executed )
 				WriteReasonElement( result );
-			else if ( result.IsErrorOrFailure )
+			else if ( !result.IsSuccess )
 				if ( !result.Test.IsSuite || result.FailureSite == FailureSite.SetUp ) 
 					WriteFailureElement( result );
 

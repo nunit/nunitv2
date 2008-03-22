@@ -166,14 +166,6 @@ namespace NUnit.Core
             get { return resultState == ResultState.Error;  }   
 	    }
 
-        /// <summary>
-        /// Indicates the test had an error or a failure
-        /// </summary>
-	    public virtual bool IsErrorOrFailure
-	    {
-            get { return IsError || IsFailure; }
-	    }
-
 		/// <summary>
 		/// Gets a description associated with the test
 		/// </summary>
