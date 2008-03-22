@@ -52,14 +52,21 @@ namespace NUnit.Util
 
 				switch (result.RunState)
 				{
-					case RunState.Executed:
-						testsRun++;
-						if (result.IsFailure)
-							failureCount++;
-						break;
+				    case RunState.Executed:
+				        testsRun++;
+				        switch (result.ResultState)
+				        {
+                            case ResultState.Failure:
+				                failureCount++;
+				                break;
+                            case ResultState.Error:
+				                errorCount++;
+				                break;
+				        }
+				        break;
                     case RunState.NotRunnable:
 				        notRunnable++;
-				        errorCount++;
+                        //errorCount++;
 				        break;
                     case RunState.Ignored:
 						ignoreCount++;

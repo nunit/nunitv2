@@ -35,7 +35,7 @@ namespace NUnit.Tests
 		    public static int TestsRun = Tests - NotRun;
 			public static int ResultCount = Tests - Explicit;
 
-            public static int Errors = MockTestFixture.Errors + BadFixture.Tests;
+            public static int Errors = MockTestFixture.Errors;
             public static int Failures = MockTestFixture.Failures;
 			public static int ErrorsAndFailures = Errors + Failures;
 
@@ -75,7 +75,7 @@ namespace NUnit.Tests
 			public static readonly int ResultCount = Tests - Explicit;
 
             public static readonly int Failures = 0;
-            public static readonly int Errors = 2;
+            public static readonly int Errors = 0;
 			public static readonly int ErrorsAndFailures = Errors + Failures;
 
 			public static readonly int Nodes = Tests + 1;
@@ -99,7 +99,7 @@ namespace NUnit.Tests
 			{}
 
 			[Test]
-			protected void MockTest5()
+			protected static void MockTest5()
 			{}
 
 			[Test, Property("TargetMethod", "SomeClassName"), Property("Size", 5), Property("TargetType", typeof( System.Threading.Thread ))]

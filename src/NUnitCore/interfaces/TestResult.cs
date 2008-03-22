@@ -147,9 +147,7 @@ namespace NUnit.Core
 		/// </summary>
         public virtual bool IsSuccess
         {
-            // TODO: Redefine this more precisely
-            get { return !IsFailure; }
-            //get { return resultState == ResultState.Success; }
+            get { return runState == RunState.Executed && resultState == ResultState.Success; }
         }
 
         /// <summary>
@@ -158,7 +156,8 @@ namespace NUnit.Core
 		// TODO: Distinguish errors from failures
         public virtual bool IsFailure
         {
-            get { return resultState == ResultState.Failure || resultState == ResultState.Error; }
+            get { return resultState == ResultState.Failure;  }
+            //get { return resultState == ResultState.Failure || resultState == ResultState.Error; }
         }
 
 	    /// <summary>

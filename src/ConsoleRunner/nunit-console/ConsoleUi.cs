@@ -124,7 +124,11 @@ namespace NUnit.ConsoleRunner
 				Console.WriteLine();
 
 				string xmlOutput = CreateXmlOutput( result );
-			
+				ResultSummarizer summary = new ResultSummarizer( result );
+
+                WriteSummaryReport( summary );
+                //WriteErrorsAndFailuresReport(result);
+                //WriteNotRunReport(result);
 				if (options.xmlConsole)
 				{
 					Console.WriteLine(xmlOutput);
@@ -162,10 +166,9 @@ namespace NUnit.ConsoleRunner
 					return UNEXPECTED_ERROR;
 				}
             
-				if ( !result.IsFailure ) return OK;
+				if ( result.IsSuccess ) return OK;
 
-				ResultSummarizer summ = new ResultSummarizer( result );
-				return summ.Failures;
+				return summary.ErrorsAndFailures;
 			}
 			finally
 			{
@@ -269,7 +272,59 @@ namespace NUnit.ConsoleRunner
 
 			return builder.ToString();
 		}
-		#endregion
+
+		private static void WriteSummaryReport( ResultSummarizer summary )
+		{
+			Console.WriteLine(
+				"Tests run: {0}, Errors: {1}, Failures: {2}, Ignored: {3}, Skipped: {4}, Time: {5}s",
+				summary.TestsRun, summary.Errors, summary.Failures, summary.Ignored, summary.Skipped, summary.Time );
+		}
+
+        private void WriteErrorsAndFailuresReport(TestResult result)
+        {
+            reportIndex = 0;
+            Console.WriteLine("Test Case Failures:");
+            WriteTestCaseFailures(result);
+            Console.WriteLine();
+        }
+
+        private void WriteTestCaseFailures(TestResult result)
+        {
+            if (result.HasResults)
+                foreach (TestResult childResult in result.Results)
+                    WriteTestCaseFailures(childResult);
+            else if (!result.IsSuccess)
+            {
+                Console.WriteLine("{0}) {1} : {2}",
+                                  ++reportIndex,
+                                  result.FullName,
+                                  result.Message);
+                Console.WriteLine(result.StackTrace);
+            }
+        }
+
+	    private void WriteNotRunReport(TestResult result)
+        {
+	        reportIndex = 0;
+            Console.WriteLine("Tests not run:");
+	        WriteNotRunResults(result);
+        }
+
+	    private int reportIndex = 0;
+        private void WriteNotRunResults(TestResult result)
+        {
+            if (result.HasResults)
+                foreach (TestResult childResult in result.Results)
+                    WriteNotRunResults(childResult);
+            else if (!result.Executed)
+                Console.WriteLine("{0}) {1} : {2}",
+                    ++reportIndex,
+                    result.FullName,
+                    result.Message);
+
+        }
+
+	    #endregion
 	}
 }
 

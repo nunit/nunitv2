@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+t<?xml version="1.0" encoding="UTF-8" ?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method='text'/>
 
@@ -9,15 +9,24 @@
 <xsl:template match="test-results">
 <xsl:text>Tests run: </xsl:text>
 <xsl:value-of select="@total"/>
+<xsl:text>, Errors: </xsl:text>
+<xsl:value-of select="@errors"/>
 <xsl:text>, Failures: </xsl:text>
 <xsl:value-of select="@failures"/>
-<xsl:text>, Not run: </xsl:text>
-<xsl:value-of select="@not-run"/>
 <xsl:text>, Time: </xsl:text>
 <xsl:value-of select="test-suite/@time"/>
 <xsl:text> seconds
 </xsl:text>
+<xsl:text>  Not run: </xsl:text>
+<xsl:value-of select="@not-run"/>
+<xsl:text>, Ignored: </xsl:text>
+<xsl:value-of select="@ignored"/>
+<xsl:text>, Skipped: </xsl:text>
+<xsl:value-of select="@skipped"/>
+<xsl:text>, Invalid: </xsl:text>
+<xsl:value-of select="@invalid"/>
 <xsl:text>
+
 </xsl:text>
 
 <xsl:if test="//test-suite[failure]"><xsl:text>Test Fixture SetUp Failures:

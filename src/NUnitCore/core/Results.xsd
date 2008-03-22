@@ -59,9 +59,13 @@
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="total" type="xs:decimal" use="required" />
-		<xs:attribute name="failures" type="xs:decimal" use="required" />
-		<xs:attribute name="not-run" type="xs:decimal" use="required" />
-		<xs:attribute name="date" type="xs:string" use="required" />
+    <xs:attribute name="errors" type="xs:decimal" use="required" />
+    <xs:attribute name="failures" type="xs:decimal" use="required" />
+    <xs:attribute name="not-run" type="xs:decimal" use="required" />
+    <xs:attribute name="ignored" type="xs:decimal" use="required" />
+    <xs:attribute name="skipped" type="xs:decimal" use="required" />
+    <xs:attribute name="invalid" type="xs:decimal" use="required" />
+    <xs:attribute name="date" type="xs:string" use="required" />
 		<xs:attribute name="time" type="xs:string" use="required" />
 	</xs:complexType>
 	<xs:complexType name="test-caseType">

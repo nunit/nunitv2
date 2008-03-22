@@ -48,8 +48,12 @@ namespace NUnit.Util
 
 			xmlWriter.WriteAttributeString("name", summaryResults.Name);
 			xmlWriter.WriteAttributeString("total", summaryResults.TestsRun.ToString());
-			xmlWriter.WriteAttributeString("failures", summaryResults.ErrorsAndFailures.ToString());
-			xmlWriter.WriteAttributeString("not-run", summaryResults.TestsNotRun.ToString());
+            xmlWriter.WriteAttributeString("errors", summaryResults.Errors.ToString());
+            xmlWriter.WriteAttributeString("failures", summaryResults.Failures.ToString());
+            xmlWriter.WriteAttributeString("not-run", summaryResults.TestsNotRun.ToString());
+            xmlWriter.WriteAttributeString("ignored", summaryResults.Ignored.ToString());
+            xmlWriter.WriteAttributeString("skipped", summaryResults.Skipped.ToString());
+            xmlWriter.WriteAttributeString("invalid", summaryResults.NotRunnable.ToString());
 
 			DateTime now = DateTime.Now;
 			xmlWriter.WriteAttributeString("date", XmlConvert.ToString( now, "yyyy-MM-dd" ) );
