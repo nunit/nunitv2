@@ -126,26 +126,17 @@ namespace NUnit.ConsoleRunner
 				string xmlOutput = CreateXmlOutput( result );
 				ResultSummarizer summary = new ResultSummarizer( result );
 
-                WriteSummaryReport( summary );
-                //WriteErrorsAndFailuresReport(result);
-                //WriteNotRunReport(result);
-				if (options.xmlConsole)
+                if (options.xmlConsole)
 				{
 					Console.WriteLine(xmlOutput);
 				}
 				else
 				{
-					try
-					{
-						//CreateSummaryDocument(xmlOutput, transformReader );
-						XmlResultTransform xform = new XmlResultTransform( transformReader );
-						xform.Transform( new StringReader( xmlOutput ), Console.Out );
-					}
-					catch( Exception ex )
-					{
-						Console.WriteLine( "Error: {0}", ex.Message );
-						return TRANSFORM_ERROR;
-					}
+                    WriteSummaryReport(summary);
+                    if (summary.ErrorsAndFailures > 0)
+                        WriteErrorsAndFailuresReport(result);
+                    if (summary.TestsNotRun > 0)
+                        WriteNotRunReport(result);
 				}
 
 				// Write xml output here
@@ -157,17 +148,12 @@ namespace NUnit.ConsoleRunner
 					writer.Write(xmlOutput);
 				}
 
-				//if ( testRunner != null )
-				//    testRunner.Unload();
-
 				if ( collector.HasExceptions )
 				{
 					collector.WriteExceptions();
 					return UNEXPECTED_ERROR;
 				}
             
-				if ( result.IsSuccess ) return OK;
-
 				return summary.ErrorsAndFailures;
 			}
 			finally
@@ -275,39 +261,48 @@ namespace NUnit.ConsoleRunner
 
 		private static void WriteSummaryReport( ResultSummarizer summary )
 		{
-			Console.WriteLine(
-				"Tests run: {0}, Errors: {1}, Failures: {2}, Ignored: {3}, Skipped: {4}, Time: {5}s",
-				summary.TestsRun, summary.Errors, summary.Failures, summary.Ignored, summary.Skipped, summary.Time );
-		}
+            Console.WriteLine(
+                "Tests run: {0}, Errors: {1}, Failures: {2}, Time: {3} seconds",
+                summary.TestsRun, summary.Errors, summary.Failures, summary.Time);
+            Console.WriteLine(
+                "  Not run: {0}, Invalid: {1}, Ignored: {2}, Skipped: {3}",
+                summary.TestsNotRun, summary.NotRunnable, summary.Ignored, summary.Skipped);
+            Console.WriteLine();
+        }
 
         private void WriteErrorsAndFailuresReport(TestResult result)
         {
             reportIndex = 0;
-            Console.WriteLine("Test Case Failures:");
-            WriteTestCaseFailures(result);
+            Console.WriteLine("Errors and Failures:");
+            WriteErrorsAndFailures(result);
             Console.WriteLine();
         }
 
-        private void WriteTestCaseFailures(TestResult result)
+        private void WriteErrorsAndFailures(TestResult result)
         {
-            if (result.HasResults)
-                foreach (TestResult childResult in result.Results)
-                    WriteTestCaseFailures(childResult);
-            else if (!result.IsSuccess)
+            if (result.Executed)
             {
-                Console.WriteLine("{0}) {1} : {2}",
-                                  ++reportIndex,
-                                  result.FullName,
-                                  result.Message);
-                Console.WriteLine(result.StackTrace);
+                if (result.HasResults)
+                {
+                    if (!result.IsSuccess && result.FailureSite == FailureSite.SetUp)
+                        WriteSingleResult(result);
+
+                    foreach (TestResult childResult in result.Results)
+                        WriteErrorsAndFailures(childResult);
+                }
+                else if (!result.IsSuccess)
+                {
+                    WriteSingleResult(result);
+                }
             }
         }
 
-	    private void WriteNotRunReport(TestResult result)
+        private void WriteNotRunReport(TestResult result)
         {
 	        reportIndex = 0;
-            Console.WriteLine("Tests not run:");
+            Console.WriteLine("Tests Not Run:");
 	        WriteNotRunResults(result);
+            Console.WriteLine();
         }
 
 	    private int reportIndex = 0;
@@ -317,13 +312,28 @@ namespace NUnit.ConsoleRunner
                 foreach (TestResult childResult in result.Results)
                     WriteNotRunResults(childResult);
             else if (!result.Executed)
-                Console.WriteLine("{0}) {1} : {2}",
-                    ++reportIndex,
-                    result.FullName,
-                    result.Message);
-
+                WriteSingleResult( result );
         }
 
+        private void WriteSingleResult( TestResult result )
+        {
+            string status = null;
+
+            if (!result.Executed)
+                status = result.RunState.ToString();
+            else if (!result.IsSuccess)
+                status = string.Format("{0} {1}", result.FailureSite, result.ResultState);
+
+            Console.WriteLine("{0}) {1} : {2}", ++reportIndex, status, result.FullName);
+
+            if ( result.Message != null && result.Message != string.Empty )
+                 Console.WriteLine("   {0}", result.Message);
+
+            if (result.StackTrace != null && result.StackTrace != string.Empty)
+                Console.WriteLine( result.IsFailure
+                    ? StackTraceFilter.Filter(result.StackTrace)
+                    : result.StackTrace + Environment.NewLine );
+        }
 	    #endregion
 	}
 }
