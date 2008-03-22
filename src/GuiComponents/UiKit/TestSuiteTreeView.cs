@@ -472,7 +472,7 @@ namespace NUnit.UiKit
 				this.ContextMenu.MenuItems.Add( runAllMenuItem );
 
 				MenuItem runFailedMenuItem = new MenuItem( "Run &Failed", new EventHandler( runFailedMenuItem_Click ) );
-				runFailedMenuItem.Enabled = runCommandEnabled && loader.TestResult != null && loader.TestResult.IsFailure;
+				runFailedMenuItem.Enabled = runCommandEnabled && loader.TestResult != null && loader.TestResult.IsErrorOrFailure;
 
 				this.ContextMenu.MenuItems.Add( runFailedMenuItem );
 
@@ -1297,7 +1297,7 @@ namespace NUnit.UiKit
 	{
 		public override void Visit(TestSuiteTreeNode node)
 		{
-			if (!node.Test.IsSuite && node.Result != null && node.Result.IsFailure)
+			if (!node.Test.IsSuite && node.Result != null && node.Result.IsErrorOrFailure)
 			{
 				node.Checked = true;
 				node.EnsureVisible();
@@ -1325,7 +1325,7 @@ namespace NUnit.UiKit
 
 		public override void Visit(TestSuiteTreeNode node)
 		{
-			if (!node.Test.IsSuite && node.Result != null && node.Result.IsFailure)
+			if (!node.Test.IsSuite && node.Result != null && node.Result.IsErrorOrFailure)
 			{
 				tests.Add(node.Test);
 				filter.Add(node.Test.TestName);

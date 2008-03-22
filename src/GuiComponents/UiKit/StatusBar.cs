@@ -214,7 +214,7 @@ namespace NUnit.UiKit
 					++errors;
 					DisplayErrors();
 				}
-				else if ( e.Result.IsFailure ) 
+				else if ( e.Result.IsErrorOrFailure ) 
 				{
 					++failures;
 					DisplayFailures();

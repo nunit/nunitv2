@@ -54,7 +54,7 @@ namespace NUnit.Core.Tests
 			Type fixtureType = typeof(VerifyTestResultRecordsInnerExceptions);
 			string expectedMessage ="System.Exception : Outer Exception" + Environment.NewLine + "  ----> System.Exception : Inner Exception";
 			NUnit.Core.TestResult result = TestBuilder.RunTestCase(fixtureType, "ThrowInnerException");
-			Assert.IsTrue(result.IsError, "Should have failed");
+			Assert.AreEqual(ResultState.Error, result.ResultState );
 			Assert.AreEqual(expectedMessage, result.Message);
 		}
 
@@ -62,7 +62,7 @@ namespace NUnit.Core.Tests
 		public void BadStackTraceIsHandled()
 		{
 			TestResult result = TestBuilder.RunTestCase( typeof( BadStackTraceFixture ), "TestFailure" );
-			Assert.AreEqual( true, result.IsError );
+			Assert.AreEqual( ResultState.Error, result.ResultState );
 			Assert.AreEqual( "NUnit.TestData.FailFixture.ExceptionWithBadStackTrace : thrown by me", result.Message );
 			Assert.AreEqual( "No stack trace available", result.StackTrace );
 		}
@@ -71,7 +71,7 @@ namespace NUnit.Core.Tests
 		public void CustomExceptionIsHandled()
 		{
 			TestResult result = TestBuilder.RunTestCase( typeof( CustomExceptionFixture ), "ThrowCustomException" );
-			Assert.AreEqual( true, result.IsError );
+			Assert.AreEqual( ResultState.Error, result.ResultState );
 			Assert.AreEqual( "NUnit.TestData.FailFixture.CustomExceptionFixture+CustomException : message", result.Message );
 		}
 	}

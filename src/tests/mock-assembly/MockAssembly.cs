@@ -65,7 +65,7 @@ namespace NUnit.Tests
 		[Category("FixtureCategory")]
 		public class MockTestFixture
 		{
-			public static readonly int Tests = 8;
+			public static readonly int Tests = 10;
 
 			public static readonly int Ignored = 1;
 			public static readonly int Explicit = 1;
@@ -74,8 +74,8 @@ namespace NUnit.Tests
 		    public static readonly int TestsRun = Tests - NotRun;
 			public static readonly int ResultCount = Tests - Explicit;
 
-            public static readonly int Failures = 0;
-            public static readonly int Errors = 0;
+            public static readonly int Failures = 1;
+            public static readonly int Errors = 1;
 			public static readonly int ErrorsAndFailures = Errors + Failures;
 
 			public static readonly int Nodes = Tests + 1;
@@ -102,7 +102,13 @@ namespace NUnit.Tests
 			protected static void MockTest5()
 			{}
 
-			[Test, Property("TargetMethod", "SomeClassName"), Property("Size", 5), Property("TargetType", typeof( System.Threading.Thread ))]
+            [Test]
+            public void FailingTest()
+            {
+                Assert.Fail("Intentional failure");
+            }
+
+		    [Test, Property("TargetMethod", "SomeClassName"), Property("Size", 5), Property("TargetType", typeof( System.Threading.Thread ))]
 			public void TestWithManyProperties()
 			{}
 
@@ -121,6 +127,17 @@ namespace NUnit.Tests
 			public void NotRunnableTest( int a, int b)
 			{
 			}
+
+            [Test]
+            public void TestWithException()
+            {
+                MethodThrowsException();
+            }
+
+            private void MethodThrowsException()
+            {
+                throw new ApplicationException("Intentional Exception");
+            }
 		}
 	}
 
@@ -173,7 +190,7 @@ namespace NUnit.Tests
 	public class ExplicitFixture
 	{
 		public static int Tests = 2;
-		public static int Nodes = Tests + 1;
+        public static int Nodes = Tests + 1;
 
 		[Test]
 		public void Test1() { }

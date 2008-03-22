@@ -161,10 +161,11 @@ namespace NUnit.Util.Tests
 				Thread.Sleep( 500 );
 			}
 			while( loader.Running );
-			
-			Assert.AreEqual( 54, catcher.Events.Count );
+
+		    int eventCount = 4 /* for loading */+ 2*(MockAssembly.Nodes - MockAssembly.Explicit);
+			Assert.AreEqual( eventCount, catcher.Events.Count );
 			Assert.AreEqual( TestAction.RunStarting, ((TestEventArgs)catcher.Events[4]).Action );
-			Assert.AreEqual( TestAction.RunFinished, ((TestEventArgs)catcher.Events[53]).Action );
+			Assert.AreEqual( TestAction.RunFinished, ((TestEventArgs)catcher.Events[eventCount-1]).Action );
 
 			int nTests = 0;
 			int nRun = 0;

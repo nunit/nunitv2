@@ -21,9 +21,9 @@ namespace NUnit.UiKit.Tests
 	{
 		private StatusBar statusBar;
 		private MockTestEventSource mockEvents;
-		private string testsDll = "mock-assembly.dll";
+		private static string testsDll = "mock-assembly.dll";
 		TestSuite suite;
-		int testCount;
+	    int testCount = 0;
 
 		[SetUp]
 		public void Setup()
@@ -95,6 +95,7 @@ namespace NUnit.UiKit.Tests
 			statusBar.Subscribe( mockEvents );
 
 			testCount = 0;
+            testCount = 0;
 			mockEvents.TestFinished += new TestEventHandler( OnTestFinished );
 
 			mockEvents.SimulateTestRun();
@@ -119,61 +120,20 @@ namespace NUnit.UiKit.Tests
 				PanelMessage( "Test Cases", MockAssembly.Tests ),
 				statusBar.Panels[1].Text );
 
-			// Note: Assumes delegates are called in order of adding
-			switch( ++testCount )
-			{
-				case 1:
-					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.MockTest1", e, 1 );
-					break;
-				case 2:
-					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.MockTest2", e, 2 );
-					break;
-				case 3:
-					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.MockTest3", e, 3 );
-					break;
-				case 4:
-					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.MockTest4", e, 3 );
-					break;
-				case 5:
-					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.MockTest5", e, 3 );
-					break;
-				case 6:
-					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.NotRunnableTest", e, 3 );
-					break;
-				case 7:
-					CheckTestDisplay( "NUnit.Tests.Assemblies.MockTestFixture.TestWithManyProperties", e, 4 );
-					break;
-				case 8:
-					CheckTestDisplay( "NUnit.Tests.BadFixture.SomeTest", e, 4 );
-					break;
-				case 9:
-					CheckTestDisplay( "NUnit.Tests.IgnoredFixture.Test1", e, 4 );
-					break;
-				case 10:
-					CheckTestDisplay( "NUnit.Tests.IgnoredFixture.Test2", e, 4 );
-					break;
-				case 11:
-					CheckTestDisplay( "NUnit.Tests.IgnoredFixture.Test3", e, 4 );
-					break;
-				case 12:
-					CheckTestDisplay( "NUnit.Tests.Singletons.OneTestCase.TestCase", e, 5 );
-					break;
-				case 13:			
-					CheckTestDisplay( "NUnit.Tests.TestAssembly.MockTestFixture.MyTest", e, 6 );
-					break;
-			}
-		}
+            StringAssert.EndsWith( e.Result.Test.TestName.Name, statusBar.Panels[0].Text );
+            
+		    string runPanel = statusBar.Panels[2].Text;
+		    int testsRun = 0;
+            if (runPanel != "")
+            {
+                StringAssert.StartsWith( "Tests Run : ", runPanel );
+                testsRun = int.Parse(runPanel.Substring(12));
+            }
 
-		private void CheckTestDisplay( string expected, TestEventArgs e, int testsRun )
-		{
-			Assert.AreEqual( expected, e.Result.Test.TestName.FullName );
-			int index = expected.LastIndexOf( '.' ) + 1;
-			StringAssert.EndsWith( expected.Substring( index ), statusBar.Panels[0].Text );
-			if ( testsRun > 0 )
-				Assert.AreEqual( PanelMessage( "Tests Run", testsRun ), statusBar.Panels[2].Text );
-			else
-				Assert.AreEqual( "", statusBar.Panels[2].Text );
-		}
+            Assert.GreaterOrEqual( testsRun, testCount);
+            Assert.LessOrEqual( testsRun, testCount + 1);
+		    testCount = testsRun;
+   		}
 
 		private static string PanelMessage( string text, int count )
 		{

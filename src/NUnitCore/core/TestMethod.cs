@@ -151,7 +151,7 @@ namespace NUnit.Core
 				if ( this.Parent != null)
 					Fixture = this.Parent.Fixture;
 
-				if (!testResult.IsFailure)
+				if (!testResult.IsErrorOrFailure)
 				{
 					// Temporary... to allow for tests that directly execute a test case
 					if (Fixture == null && !method.IsStatic)

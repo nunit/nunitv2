@@ -380,7 +380,7 @@ namespace NUnit.UiKit
 			        ForeColor = FailureColor;
 			        break;
 				case RunState.Executed:
-					if (e.Result.IsFailure)
+					if (e.Result.IsErrorOrFailure)
 						ForeColor = FailureColor;
 					break;
 				case RunState.Ignored:
@@ -395,7 +395,7 @@ namespace NUnit.UiKit
 		private void OnSuiteFinished( object sender, TestEventArgs e )
 		{
 			TestResult result = e.Result;
-			if ( result.RunState == RunState.Executed && result.IsFailure && result.FailureSite == FailureSite.TearDown )
+			if ( result.RunState == RunState.Executed && result.IsErrorOrFailure && result.FailureSite == FailureSite.TearDown )
 				ForeColor = FailureColor;
 		}
 

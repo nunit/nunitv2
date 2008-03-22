@@ -41,7 +41,7 @@ namespace NUnit.Gui
 		{
 			if(result.Executed)
 			{
-				if(result.IsFailure && !result.Test.IsSuite )
+				if(result.IsErrorOrFailure && !result.Test.IsSuite )
 				{
 					TestResultItem item = new TestResultItem(result);
 					//string resultString = String.Format("{0}:{1}", result.Name, result.Message);

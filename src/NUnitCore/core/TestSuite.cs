@@ -157,7 +157,7 @@ namespace NUnit.Core
 					case RunState.Explicit:
 						suiteResult.RunState = RunState.Executed;
 						DoOneTimeSetUp(suiteResult);
-						if ( suiteResult.IsFailure || suiteResult.IsError )
+						if ( suiteResult.IsErrorOrFailure )
 							MarkTestsFailed(Tests, suiteResult, listener, filter);
 						else
 						{

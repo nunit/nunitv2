@@ -12,6 +12,11 @@ namespace NUnit.Core
 	/// </summary>
 	public enum ResultState
 	{
+        ///// <summary>
+        ///// No result
+        ///// </summary>
+        //Unknown,
+
         /// <summary>
         /// The test succeeded
         /// </summary>

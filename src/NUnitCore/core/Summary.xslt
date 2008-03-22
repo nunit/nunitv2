@@ -19,12 +19,12 @@ t<?xml version="1.0" encoding="UTF-8" ?>
 </xsl:text>
 <xsl:text>  Not run: </xsl:text>
 <xsl:value-of select="@not-run"/>
+<xsl:text>, Invalid: </xsl:text>
+<xsl:value-of select="@invalid"/>
 <xsl:text>, Ignored: </xsl:text>
 <xsl:value-of select="@ignored"/>
 <xsl:text>, Skipped: </xsl:text>
 <xsl:value-of select="@skipped"/>
-<xsl:text>, Invalid: </xsl:text>
-<xsl:value-of select="@invalid"/>
 <xsl:text>
 
 </xsl:text>

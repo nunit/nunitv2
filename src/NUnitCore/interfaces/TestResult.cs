@@ -147,17 +147,15 @@ namespace NUnit.Core
 		/// </summary>
         public virtual bool IsSuccess
         {
-            get { return runState == RunState.Executed && resultState == ResultState.Success; }
+            get { return resultState == ResultState.Success; }
         }
 
         /// <summary>
         /// Indicates whether the test failed
         /// </summary>
-		// TODO: Distinguish errors from failures
         public virtual bool IsFailure
         {
             get { return resultState == ResultState.Failure;  }
-            //get { return resultState == ResultState.Failure || resultState == ResultState.Error; }
         }
 
 	    /// <summary>
@@ -166,6 +164,14 @@ namespace NUnit.Core
         public virtual bool IsError
 	    {
             get { return resultState == ResultState.Error;  }   
+	    }
+
+        /// <summary>
+        /// Indicates the test had an error or a failure
+        /// </summary>
+	    public virtual bool IsErrorOrFailure
+	    {
+            get { return IsError || IsFailure; }
 	    }
 
 		/// <summary>

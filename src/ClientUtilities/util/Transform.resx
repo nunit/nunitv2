@@ -139,12 +139,12 @@
 &lt;/xsl:text&gt;
 &lt;xsl:text&gt;  Not run: &lt;/xsl:text&gt;
 &lt;xsl:value-of select="@not-run"/&gt;
+&lt;xsl:text&gt;, Invalid: &lt;/xsl:text&gt;
+&lt;xsl:value-of select="@invalid"/&gt;
 &lt;xsl:text&gt;, Ignored: &lt;/xsl:text&gt;
 &lt;xsl:value-of select="@ignored"/&gt;
 &lt;xsl:text&gt;, Skipped: &lt;/xsl:text&gt;
 &lt;xsl:value-of select="@skipped"/&gt;
-&lt;xsl:text&gt;, Invalid: &lt;/xsl:text&gt;
-&lt;xsl:value-of select="@invalid"/&gt;
 &lt;xsl:text&gt;
 
 &lt;/xsl:text&gt;
