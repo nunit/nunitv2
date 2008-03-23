@@ -25,7 +25,6 @@ namespace NUnit.ConsoleRunner
 		public static readonly int INVALID_ARG = -1;
 		public static readonly int FILE_NOT_FOUND = -2;
 		public static readonly int FIXTURE_NOT_FOUND = -3;
-		public static readonly int TRANSFORM_ERROR = -4;
 		public static readonly int UNEXPECTED_ERROR = -100;
 
 		public ConsoleUi()
@@ -34,9 +33,6 @@ namespace NUnit.ConsoleRunner
 
 		public int Execute( ConsoleOptions options )
 		{
-			XmlTextReader transformReader = GetTransformReader(options);
-			if(transformReader == null) return FILE_NOT_FOUND;
-
 			TextWriter outWriter = Console.Out;
 			bool redirectOutput = options.output != null && options.output != string.Empty;
 			if ( redirectOutput )
@@ -163,34 +159,6 @@ namespace NUnit.ConsoleRunner
 		}
 
 		#region Helper Methods
-		private static XmlTextReader GetTransformReader(ConsoleOptions parser)
-		{
-			XmlTextReader reader = null;
-			if(parser.transform == null || parser.transform == string.Empty)
-			{
-				Assembly assembly = Assembly.GetAssembly(typeof(XmlResultWriter));
-				ResourceManager resourceManager = new ResourceManager("NUnit.Util.Transform",assembly);
-				string xmlData = (string)resourceManager.GetObject("Summary.xslt");
-
-				reader = new XmlTextReader(new StringReader(xmlData));
-			}
-			else
-			{
-				FileInfo xsltInfo = new FileInfo(parser.transform);
-				if(!xsltInfo.Exists)
-				{
-					Console.Error.WriteLine("Transform file: {0} does not exist", xsltInfo.FullName);
-					reader = null;
-				}
-				else
-				{
-					reader = new XmlTextReader(xsltInfo.FullName);
-				}
-			}
-
-			return reader;
-		}
-
 		private static TestRunner MakeRunnerFromCommandLine( ConsoleOptions options )
 		{
 			TestPackage package;

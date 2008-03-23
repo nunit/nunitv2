@@ -32,9 +32,6 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "Name of XML output file")]
 		public string xml;
 
-		[Option(Description = "Name of transform file")]
-		public string transform;
-
 		[Option(Description = "Display XML to the console")]
 		public bool xmlConsole;
 

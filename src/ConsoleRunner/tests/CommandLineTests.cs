@@ -91,7 +91,6 @@ namespace NUnit.ConsoleRunner.Tests
 			TestStringOption( "fixture" );
 			TestStringOption( "config" );
 			TestStringOption( "xml" );
-			TestStringOption( "transform" );
 			TestStringOption( "output" );
 			TestStringOption( "output", "out" );
 			TestStringOption( "err" );
@@ -171,16 +170,6 @@ namespace NUnit.ConsoleRunner.Tests
 			Assert.AreEqual("tests.dll", options.Parameters[0]);
 			Assert.AreEqual("C:/nunit/tests/bin/Debug/console-test.xml", options.xml);
 		}
-
-		[Test]
-		public void TransformParameter()
-		{
-			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-transform:Summary.xslt" );
-			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
-			Assert.AreEqual("tests.dll", options.Parameters[0]);
-			Assert.AreEqual("Summary.xslt", options.transform);
-		}
-
 
 		[Test]
 		public void FileNameWithoutXmlParameterLooksLikeParameter()
