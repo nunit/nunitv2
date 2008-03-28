@@ -74,6 +74,16 @@ namespace NUnit.Core
 		/// </summary>
 		internal string userMessage;
 
+        /// <summary>
+        /// Arguments to be used in invoking the method
+        /// </summary>
+	    internal object[] arguments;
+
+        /// <summary>
+        /// The expected result of the method return value
+        /// </summary>
+	    internal object expectedResult;
+
 		#endregion
 
 		#region Constructors
@@ -231,7 +241,8 @@ namespace NUnit.Core
 			try
 			{
 				RunTestMethod(testResult);
-				ProcessNoException(testResult);
+                if ( testResult.IsSuccess )
+				    ProcessNoException(testResult);
 			}
 			catch( Exception ex )
 			{
@@ -247,7 +258,13 @@ namespace NUnit.Core
 
 		public virtual void RunTestMethod(TestResult testResult)
 		{
-			Reflect.InvokeMethod( this.method, this.method.IsStatic ? null : this.Fixture );
+		    object fixture = this.method.IsStatic ? null : this.Fixture;
+			object result = Reflect.InvokeMethod( this.method, fixture, this.arguments );
+            if (this.expectedResult != null && !this.expectedResult.Equals(result))
+            {
+                testResult.Failure("  Expected: " + expectedResult.ToString() + Environment.NewLine +
+                                   "   But was: " + result.ToString(), null); 
+            }
 		}
 
 		#endregion

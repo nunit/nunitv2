@@ -5,18 +5,19 @@
 // ****************************************************************
 
 using System;
+using System.Text;
 using System.Reflection;
 using System.Collections;
-using System.Collections.Specialized;
 using System.Text.RegularExpressions;
-using System.Configuration;
-using System.Diagnostics;
+using NUnit.Core.Extensibility;
 
 namespace NUnit.Core.Builders
 {
 	public class NUnitTestCaseBuilder : Extensibility.ITestCaseBuilder
 	{
-		private bool allowOldStyleTests = NUnitFramework.AllowOldStyleTests;
+		private readonly bool allowOldStyleTests = NUnitFramework.AllowOldStyleTests;
+
+	    private IParameterProvider provider = CoreExtensions.Host.ParameterProviders;
 
         #region ITestCaseBuilder Methods
 		/// <summary>
@@ -36,10 +37,11 @@ namespace NUnit.Core.Builders
 		/// </summary>
 		/// <param name="method">A MethodInfo for the method being used as a test method</param>
 		/// <returns>True if the builder can create a test case from this method</returns>
-        public bool CanBuildFrom(MethodInfo method)
+        public bool CanBuildFrom(MethodInfo method, Test suite)
         {
-            if ( Reflect.HasAttribute( method, NUnitFramework.TestAttribute, false ) )
-                return true;
+            if( Reflect.HasAttribute( method, NUnitFramework.TestAttribute, false ) ||
+                Reflect.HasAttribute( method, NUnitFramework.TestCaseAttribute, false ) )
+                    return true;
 
             if (allowOldStyleTests)
             {
@@ -56,55 +58,219 @@ namespace NUnit.Core.Builders
         }
 
 		/// <summary>
-		/// Build a test case for the provided MethodInfo.
+		/// Build a Test from the provided MethodInfo. Depending on
+		/// whether the method takes arguments and on the availability
+		/// of test case data, this method may return a single test
+		/// or a group of tests contained in a ParameterizedMethodSuite.
 		/// </summary>
-		/// <param name="method">The method for which a test case is to be built</param>
-		/// <returns>A TestCase or null</returns>
-		public Test BuildFrom(System.Reflection.MethodInfo method)
+		/// <param name="method">The MethodInfo for which a test is to be built</param>
+		/// <param name="suite">The test fixture being populated, or null</param>
+		/// <returns>A Test representing one or more method invocations</returns>
+		public Test BuildFrom(System.Reflection.MethodInfo method, Test suite)
 		{
-			NUnitTestMethod testCase = new NUnitTestMethod( method );
-			
-			CheckTestCaseSignature( method, testCase );
-			if ( testCase.RunState == RunState.Runnable )
-			{
-				NUnitFramework.ApplyCommonAttributes( method, testCase );
-				ApplyExpectedExceptionAttribute( method, testCase );
-			}
+   
+            // If we need no parameters and none are provided, take a shortcut
+            if ( method.GetParameters().Length == 0 && !provider.HasParametersFor(method))
+                return BuildTestMethod(method);
 
-			return testCase;
-		}
+		    IList parmList = provider.GetParametersFor(method);
+
+            switch( parmList.Count )
+            {
+                case 0:     // Allow for provider returning none when called 
+                    return BuildTestMethod(method);
+
+                case 1:     // If there is only one, don't bother with a suite
+                    ParameterSet parms = parmList[0] as ParameterSet;
+                    return BuildTestMethod(method, parms);
+
+                default:    // Retuern a suite of tests using the parameters
+                    return BuildMultipleTestMethods(method, parmList);
+            }
+        }
 		#endregion
-		
-		#region Helper Methods
-		/// <summary>
-		/// Helper method that checks the signature of a potential test case to
-		/// determine if it is valid. Currently, NUnit test methods are required
-		/// to be public, non-abstract instance methods, taking no parameters and
-		/// returning void. Methods not meeting these criteria will be marked by
-		/// NUnit as non-runnable.
-		/// </summary>
-		/// <param name="method">The method to be checked</param>
-		/// <returns>True if the method signature is valid, false if not</returns>
-		private static void CheckTestCaseSignature( MethodInfo method, TestCase testCase )
+
+        #region Helper Methods
+        /// <summary>
+        /// Build a standalone non-parameterized NUnitTestMethod
+        /// </summary>
+        /// <param name="method">The MethodInfo for which a test is to be built</param>
+        /// <returns>A single NUnitTestMethod</returns>
+        private static NUnitTestMethod BuildTestMethod(MethodInfo method)
+        {
+            return BuildSingleTestMethod(method, null, null);
+        }
+
+        /// <summary>
+        /// Builds a standalone parameterized NUnitTestMethod for use in
+        /// situations where only one ParameterSet is provided.
+        /// </summary>
+        /// <param name="method">The MethodInfo for which a test is to be built</param>
+        /// <param name="parms">The ParameterSet to be used in building the test</param>
+        /// <returns>A single NUnitTestMethod</returns>
+        private static NUnitTestMethod BuildTestMethod(MethodInfo method, ParameterSet parms)
+        {
+            return BuildSingleTestMethod(method, parms, null);
+        }
+
+        /// <summary>
+        /// Builds a ParameterizedMethodSuite containing multiple invocations
+        /// of the same test method with dif
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="parmList"></param>
+        /// <returns></returns>
+        private static Test BuildMultipleTestMethods(MethodInfo method, IList parmList)
+        {
+            ParameterizedMethodSuite suite = new ParameterizedMethodSuite(method);
+            NUnitFramework.ApplyCommonAttributes(method, suite);
+
+            foreach (ParameterSet parms in parmList)
+            {
+                TestMethod test = BuildSingleTestMethod(method, parms, suite);
+
+                suite.Add(test);
+            }
+
+            return suite;
+        }
+
+        /// <summary>
+        /// Builds a single NUnitTestMethod, either as a child of the fixture 
+        /// or as one of a set of test cases under a ParameterizedTestMethodSuite.
+        /// </summary>
+        /// <param name="method">The MethodInfo from which to construct the TestMethod</param>
+        /// <param name="parms">The ParameterSet to be used, or null</param>
+        /// <param name="suite">The ParameterizedMethodSuite being constructed, or null</param>
+        /// <returns></returns>
+        private static NUnitTestMethod BuildSingleTestMethod(MethodInfo method, ParameterSet parms, TestSuite suite)
+        {
+            NUnitTestMethod testMethod = new NUnitTestMethod(method);
+
+            if (CheckTestMethodSignature(testMethod, parms))
+            {
+                NUnitFramework.ApplyCommonAttributes(method, testMethod);
+                ApplyExpectedExceptionAttribute(method, testMethod);
+            }
+
+            if (parms != null)
+            {
+                if (parms.TestName != null)
+                {
+                    testMethod.TestName.Name = parms.TestName;
+                    testMethod.TestName.FullName = method.DeclaringType.FullName + "." + parms.TestName;
+                }
+                else if (parms.Arguments != null && suite != null)
+                {
+                    string suffix = GetArgumentString(parms.Arguments);
+                    testMethod.TestName.Name += suffix;
+                    testMethod.TestName.FullName += suffix;
+                }
+
+                if (parms.ExpectedExceptionName != null)
+                {
+                    testMethod.ExceptionExpected = true;
+                    testMethod.ExpectedExceptionType = parms.ExpectedExceptionType;
+                    testMethod.ExpectedExceptionName = parms.ExpectedExceptionName;
+                }
+
+                if (parms.Description != null)
+                    testMethod.Description = parms.Description;
+            }
+
+            return testMethod;
+        }
+
+	    /// <summary>
+        /// Helper method that checks the signature of a TestMethod and
+        /// any supplied parameters to determine if the test is valid.
+        /// 
+        /// Currently, NUnitTestMethods are required to be public, 
+        /// non-abstract methods, either static or instance,
+        /// returning void. They may take arguments but the values must
+        /// be provided or the TestMethod is not considered runnable.
+        /// 
+        /// Methods not meeting these criteria will be marked as
+        /// non-runnable and the method will return false in that case.
+        /// </summary>
+        /// <param name="testMethod">The TestMethod to be checked. If it
+        /// is found to be non-runnable, it will be modified.</param>
+        /// <param name="parms">Parameters to be used for this test, or null</param>
+        /// <returns>True if the method signature is valid, false if not</returns>
+        private static bool CheckTestMethodSignature(TestMethod testMethod, ParameterSet parms)
 		{
-			string reason;
+            string problem = null;
+            MethodInfo method = testMethod.Method;
 
-			if (method.IsAbstract)
-				reason = "it must not be abstract";
-			else if (!method.IsPublic)
-				reason = "it must be a public method";
-			else if (method.GetParameters().Length != 0)
-				reason = "it must not have parameters";
-			else if (!method.ReturnType.Equals(typeof(void)))
-				reason = "it must return void";
-			else
-				return;
+	        object[] arglist = null;
+	        object result = null;
+	        bool exceptionExpected = false;
+	        int argsProvided = 0;
 
-			testCase.RunState = RunState.NotRunnable;
-			testCase.IgnoreReason = String.Format("Method {0}'s signature is not correct: {1}.", method.Name, reason);
+            if ( parms != null )
+            {
+                arglist = parms.Arguments;
+                if (arglist != null)
+                    argsProvided = arglist.Length;
+                result = parms.Result;
+                exceptionExpected = parms.ExpectedExceptionName != null;
+            }
+
+            int argsNeeded = method.GetParameters().Length;
+
+            testMethod.arguments = arglist;
+	        testMethod.expectedResult = result;
+
+            if (method.IsAbstract)
+                problem = "Method is abstract";
+            else if (!method.IsPublic)
+                problem = "Method is not public";
+            else if (!method.ReturnType.Equals(typeof(void)) && result == null && !exceptionExpected )
+                problem = "Method has non-void return value";
+            else if (argsProvided > 0 &&  argsNeeded == 0)
+                problem = "Arguments provided for method not taking any";
+            else if (argsProvided == 0 && argsNeeded > 0)
+                problem = "No arguments were provided";
+            else if (argsProvided != argsNeeded)
+                problem = "Wrong number of arguments provided";
+
+            // TODO: Check type compatibility and possibly convert here
+
+            if ( problem == null )
+                return true;
+				
+            testMethod.RunState = RunState.NotRunnable;
+            testMethod.IgnoreReason = problem;
+            return false;
+        }
+
+		private static bool CanConvertTypes( Type fromType, Type toType )
+		{
+			return fromType == toType;
 		}
 
-		private static void ApplyExpectedExceptionAttribute(MethodInfo method, TestMethod testMethod)
+        private static string GetArgumentString(object[] arglist)
+        {
+            StringBuilder sb = new StringBuilder("(");
+
+            if (arglist != null)
+                for (int i = 0; i < arglist.Length; i++)
+                {
+                    if (i > 0) sb.Append(",");
+
+                    object arg = arglist[i];
+                    if (arg == null)
+                        sb.Append("null");
+                    else
+                        sb.Append(arg.ToString());
+                }
+
+            sb.Append(")");
+
+            return sb.ToString();
+        }
+
+	    private static void ApplyExpectedExceptionAttribute(MethodInfo method, TestMethod testMethod)
 		{
 			Attribute attribute = Reflect.GetAttribute(
 				method, NUnitFramework.ExpectedExceptionAttribute, false );

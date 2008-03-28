@@ -273,6 +273,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ParameterizedTestCaseTests.cs"
+                    Link = "..\..\..\..\src\NUnitCore\tests\ParameterizedTestCaseTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "PlatformDetectionTests.cs"
                     Link = "..\..\..\..\src\NUnitCore\tests\PlatformDetectionTests.cs"
                     SubType = "Code"

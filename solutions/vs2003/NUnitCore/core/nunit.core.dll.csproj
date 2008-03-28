@@ -256,6 +256,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ParameterizedTestMethodSuite.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\ParameterizedTestMethodSuite.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "PlatformHelper.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\PlatformHelper.cs"
                     SubType = "Code"
@@ -434,6 +440,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Builders\TestCaseParameterProvider.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\TestCaseParameterProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Extensibility\EventListenerCollection.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\Extensibility\EventListenerCollection.cs"
                     SubType = "Code"
@@ -442,6 +454,12 @@
                 <File
                     RelPath = "Extensibility\FrameworkRegistry.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\Extensibility\FrameworkRegistry.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\ParameterProviders.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Extensibility\ParameterProviders.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

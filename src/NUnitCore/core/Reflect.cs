@@ -392,9 +392,9 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="method">A MethodInfo for the method to be invoked</param>
 		/// <param name="fixture">The object on which to invoke the method</param>
-		public static void InvokeMethod( MethodInfo method, object fixture ) 
+		public static object InvokeMethod( MethodInfo method, object fixture ) 
 		{
-			InvokeMethod( method, fixture, null );
+			return InvokeMethod( method, fixture, null );
 		}
 
 		/// <summary>
@@ -403,13 +403,13 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="method">A MethodInfo for the method to be invoked</param>
 		/// <param name="fixture">The object on which to invoke the method</param>
-		public static void InvokeMethod( MethodInfo method, object fixture, params object[] args )
+		public static object InvokeMethod( MethodInfo method, object fixture, params object[] args )
 		{
 			if(method != null)
 			{
 				try
 				{
-					method.Invoke( fixture, args );
+					return method.Invoke( fixture, args );
 				}
 				catch(TargetInvocationException e)
 				{
@@ -417,6 +417,8 @@ namespace NUnit.Core
 					throw new NUnitException("Rethrown",inner);
 				}
 			}
+
+		    return null;
 		}
 
 		#endregion

@@ -37,7 +37,7 @@ namespace NUnit.Core.Extensibility
 		/// <returns>True if the type can be used to build a TestSuite</returns>
 		public bool CanBuildFrom(Type type)
 		{
-			foreach( ISuiteBuilder builder in extensions )
+			foreach( ISuiteBuilder builder in Extensions )
 				if ( builder.CanBuildFrom( type ) )
 					return true;
 			return false;
@@ -50,7 +50,7 @@ namespace NUnit.Core.Extensibility
 		/// <returns>A TestSuite or null</returns>
 		public Test BuildFrom(Type type)
 		{
-			foreach( ISuiteBuilder builder in extensions )
+			foreach( ISuiteBuilder builder in Extensions )
 				if ( builder.CanBuildFrom( type ) )
 					return builder.BuildFrom( type );
 			return null;
@@ -59,7 +59,7 @@ namespace NUnit.Core.Extensibility
 		#endregion
 
 		#region ExtensionPoint Overrides
-		protected override bool ValidExtension(object extension)
+		protected override bool IsValidExtension(object extension)
 		{
 			return extension is ISuiteBuilder; 
 		}

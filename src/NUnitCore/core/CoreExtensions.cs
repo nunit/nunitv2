@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Reflection;
+using NUnit.Core.Builders;
 using NUnit.Core.Extensibility;
 
 namespace NUnit.Core
@@ -29,6 +30,7 @@ namespace NUnit.Core
 		private TestDecoratorCollection testDecorators;
 		private EventListenerCollection listeners;
 		private FrameworkRegistry frameworks;
+	    private ParameterProviders parameterProviders;
 
 //		private log4net.Appender.ConsoleAppender appender;
 		#endregion
@@ -55,9 +57,16 @@ namespace NUnit.Core
 			this.testDecorators = new TestDecoratorCollection(this);
 			this.listeners = new EventListenerCollection(this);
 			this.frameworks = new FrameworkRegistry(this);
+            this.parameterProviders = new ParameterProviders(this);
 
-			this.extensions = new IExtensionPoint[]
-				{ suiteBuilders, testBuilders, testDecorators, listeners, frameworks };
+		    this.extensions = new ArrayList();
+		    extensions.Add(suiteBuilders);
+		    extensions.Add(testBuilders);
+		    extensions.Add(testDecorators);
+		    extensions.Add(listeners);
+		    extensions.Add(frameworks);
+		    extensions.Add(parameterProviders);
+
 			this.supportedTypes = ExtensionType.Core;
 
 			// TODO: This should be somewhere central
@@ -76,7 +85,7 @@ namespace NUnit.Core
 		}
 		#endregion
 
-		#region Properties
+		#region Public Properties
 
 		public bool Initialized
 		{
@@ -97,32 +106,40 @@ namespace NUnit.Core
 			}
 			set { addinRegistry = value; }
 		}
+		#endregion
 
-		public ISuiteBuilder SuiteBuilders
+		#region Internal Properties
+		internal ISuiteBuilder SuiteBuilders
 		{
 			get { return suiteBuilders; }
 		}
 
-		public ITestCaseBuilder TestBuilders
+		internal ITestCaseBuilder TestBuilders
 		{
 			get { return testBuilders; }
 		}
 
-		public ITestDecorator TestDecorators
+		internal ITestDecorator TestDecorators
 		{
 			get { return testDecorators; }
 		}
 
-		public EventListener Listeners
+		internal EventListener Listeners
 		{
 			get { return listeners; }
 		}
 
-		public FrameworkRegistry TestFrameworks
+		internal FrameworkRegistry TestFrameworks
 		{
 			get { return frameworks; }
 		}
-		#endregion
+
+        internal ParameterProviders ParameterProviders
+	    {
+            get { return parameterProviders; }
+	    }
+
+	    #endregion
 
 		#region Public Methods	
 		public void InstallBuiltins()
@@ -132,12 +149,15 @@ namespace NUnit.Core
 			// Define NUnit Framework
 			frameworks.Register( "NUnit", "nunit.framework" );
 
-			// Install builtin SuiteBuilders - Note that the
-			// NUnitTestCaseBuilder is installed whenever
-			// an NUnitTestFixture is being populated and
-			// removed afterward.
-			suiteBuilders.Install( new Builders.NUnitTestFixtureBuilder() );
-			suiteBuilders.Install( new Builders.SetUpFixtureBuilder() );
+			// Install builtin SuiteBuilders
+			suiteBuilders.Install( new NUnitTestFixtureBuilder() );
+			suiteBuilders.Install( new SetUpFixtureBuilder() );
+
+            // Install builtin TestCaseBuilder
+            testBuilders.Install( new NUnitTestCaseBuilder() );
+
+            // Install builtin ParameterProvider
+            parameterProviders.Install(new TestCaseParameterProvider());
 		}
 
 		public void InstallAddins()

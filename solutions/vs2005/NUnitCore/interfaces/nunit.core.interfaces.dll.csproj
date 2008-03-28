@@ -127,6 +127,9 @@
       <Link>Extensibility\IFrameworkRegistry.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\interfaces\Extensibility\IParameterProvider.cs">
+      <Link>Extensibility\IParameterProvider.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\Extensibility\ISuiteBuilder.cs">
       <Link>Extensibility\ISuiteBuilder.cs</Link>
       <SubType>Code</SubType>
@@ -238,6 +241,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\TestRunner.cs">
       <Link>TestRunner.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\interfaces\Extensibility\ParameterSet.cs">
+      <Link>Extensibility\ParameterSet.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

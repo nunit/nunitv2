@@ -37,7 +37,7 @@ namespace NUnit.Core.Extensibility
 		#endregion
 
 		#region ExtensionPoint overrides
-        protected override bool ValidExtension(object extension)
+        protected override bool IsValidExtension(object extension)
 		{
 			return extension is TestFramework;
 		}

@@ -47,10 +47,15 @@ namespace NUnit.Util.Extensibility
 			// TODO:  Add ProjectConverterCollection.Remove implementation
 		}
 
-		public void Install(object extension)
-		{
-			// TODO:  Add ProjectConverterCollection.Install implementation
-		}
+        public void Install(object extension)
+        {
+            // TODO:  Add ProjectConverterCollection.Install implementation
+        }
+
+        public void Install(object extension, int priority)
+        {
+            // TODO:  Add ProjectConverterCollection.Install implementation
+        }
 
 		public IExtensionHost Host
 		{

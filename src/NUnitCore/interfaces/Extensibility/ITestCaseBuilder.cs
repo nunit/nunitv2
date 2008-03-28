@@ -16,24 +16,26 @@ namespace NUnit.Core.Extensibility
 	{
 		/// <summary>
 		/// Examine the method and determine if it is suitable for
-		/// this builder to use in building a TestCase.
+		/// this builder to use in building a TestCase to be
+		/// included in the suite being populated.
 		/// 
 		/// Note that returning false will cause the method to be ignored 
 		/// in loading the tests. If it is desired to load the method
 		/// but label it as non-runnable, ignored, etc., then this
 		/// method must return true.
-		/// 
-		/// Derived classes must override this method.
 		/// </summary>
 		/// <param name="method">The test method to examine</param>
+		/// <param name="suite">The suite being populated</param>
 		/// <returns>True is the builder can use this method</returns>
-		bool CanBuildFrom( MethodInfo method );
+		bool CanBuildFrom( MethodInfo method, Test suite );
 
 		/// <summary>
-		/// Build a TestCase from the provided MethodInfo.
+		/// Build a TestCase from the provided MethodInfo for
+		/// inclusion in the suite being constructed.
 		/// </summary>
 		/// <param name="method">The method to be used as a test case</param>
+		/// <param name="suite">The test suite being populated, or null</param>
 		/// <returns>A TestCase or null</returns>
-		Test BuildFrom( MethodInfo method );
+		Test BuildFrom( MethodInfo method, Test suite );
 	}
 }

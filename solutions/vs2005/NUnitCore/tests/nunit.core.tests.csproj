@@ -34,7 +34,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET_2_0</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -351,6 +351,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\tests\XmlTest.cs">
       <Link>XmlTest.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\ParameterizedTestCaseTests.cs">
+      <Link>ParameterizedTestCaseTests.cs</Link>
     </Compile>
     <EmbeddedResource Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>

@@ -32,10 +32,10 @@ namespace NUnit.Core.Extensibility
 		/// </summary>
 		/// <param name="method">The method to be used as a test case</param>
 		/// <returns>True if the type can be used to build a TestCase</returns>
-		public bool CanBuildFrom( MethodInfo method )
+		public bool CanBuildFrom( MethodInfo method, Test suite )
 		{
-			foreach( ITestCaseBuilder builder in extensions )
-				if ( builder.CanBuildFrom( method ) )
+			foreach( ITestCaseBuilder builder in Extensions )
+				if ( builder.CanBuildFrom( method, suite ) )
 					return true;
 			return false;
 		}
@@ -45,12 +45,12 @@ namespace NUnit.Core.Extensibility
 		/// </summary>
 		/// <param name="method">The method to be used</param>
 		/// <returns>A TestCase or null</returns>
-		public Test BuildFrom( MethodInfo method )
+		public Test BuildFrom( MethodInfo method, Test suite )
 		{
-			foreach( ITestCaseBuilder builder in extensions )
+			foreach( ITestCaseBuilder builder in Extensions )
 			{
-				if ( builder.CanBuildFrom( method ) )
-					return builder.BuildFrom( method );
+				if ( builder.CanBuildFrom( method, suite ) )
+					return builder.BuildFrom( method, suite );
 			}
 
 			return null;
@@ -58,7 +58,7 @@ namespace NUnit.Core.Extensibility
 		#endregion
 
 		#region ExtensionPoint Overrides
-		protected override bool ValidExtension(object extension)
+		protected override bool IsValidExtension(object extension)
 		{
 			return extension is ITestCaseBuilder; 
 		}

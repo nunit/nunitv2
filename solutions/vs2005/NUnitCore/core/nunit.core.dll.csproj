@@ -134,6 +134,9 @@
       <Link>Builders\TestAssemblyBuilder.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\TestCaseParameterProvider.cs">
+      <Link>Builders\TestCaseParameterProvider.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\CoreExtensions.cs">
       <Link>CoreExtensions.cs</Link>
       <SubType>Code</SubType>
@@ -165,6 +168,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\Extensibility\FrameworkRegistry.cs">
       <Link>Extensibility\FrameworkRegistry.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Extensibility\ParameterProviders.cs">
+      <Link>Extensibility\ParameterProviders.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\Extensibility\SuiteBuilderCollection.cs">
       <Link>Extensibility\SuiteBuilderCollection.cs</Link>
@@ -324,6 +330,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\ThreadedTestRunner.cs">
       <Link>ThreadedTestRunner.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\ParameterizedTestMethodSuite.cs">
+      <Link>ParameterizedTestMethodSuite.cs</Link>
     </Compile>
     <Content Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>

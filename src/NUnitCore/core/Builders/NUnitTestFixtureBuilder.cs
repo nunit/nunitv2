@@ -22,19 +22,14 @@ namespace NUnit.Core.Builders
 		/// </summary>
 		private TestSuite suite;
 
-		/// <summary>
-		/// The fixture builder's own test case builder collection 
-		/// </summary>
-		private Extensibility.TestCaseBuilderCollection testCaseBuilders = new Extensibility.TestCaseBuilderCollection( CoreExtensions.Host );
+	    private Extensibility.ITestCaseBuilder testBuilders = CoreExtensions.Host.TestBuilders;
+
+	    private Extensibility.ITestDecorator testDecorators = CoreExtensions.Host.TestDecorators;
+
 		#endregion
 
-		public NUnitTestFixtureBuilder()
-		{
-			this.testCaseBuilders.Install( new NUnitTestCaseBuilder() );
-		}
-
-		#region ISuiteBuilder Methods
-		/// <summary>
+        #region ISuiteBuilder Methods
+        /// <summary>
 		/// Checks to see if the fixture type has the test fixture
 		/// attribute type specified in the parameters.
 		/// </summary>
@@ -91,7 +86,7 @@ namespace NUnit.Core.Builders
 
 			foreach(MethodInfo method in methods)
 			{
-				Test test = BuildTestCase(method);
+				Test test = BuildTestCase(method, this.suite);
 
 				if(test != null)
 				{
@@ -115,16 +110,12 @@ namespace NUnit.Core.Builders
 		/// </summary>
 		/// <param name="method"></param>
 		/// <returns></returns>
-		private Test BuildTestCase( MethodInfo method )
+		private Test BuildTestCase( MethodInfo method, TestSuite suite )
 		{
-			// TODO: Review order of using builders
-			Test test = CoreExtensions.Host.TestBuilders.BuildFrom( method );
-
-			if ( test == null && this.testCaseBuilders.CanBuildFrom( method ) )
-				test = this.testCaseBuilders.BuildFrom( method );
+            Test test = testBuilders.BuildFrom( method, suite );
 
 			if ( test != null )
-				test = CoreExtensions.Host.TestDecorators.Decorate( test, method );
+				test = testDecorators.Decorate( test, method );
 
 			return test;
 		}
@@ -151,12 +142,6 @@ namespace NUnit.Core.Builders
 				reason = string.Format( "{0} does not have a valid constructor", fixtureType.FullName );
 				return false;
 			}
-
-            //if (!fixtureType.IsPublic && !fixtureType.IsNestedPublic)
-            //{
-            //    reason = "Fixture class is not public";
-            //    return false;
-            //}
 
             return CheckSetUpTearDownMethod(fixtureType, "SetUp", NUnitFramework.SetUpAttribute, ref reason)
                 && CheckSetUpTearDownMethod(fixtureType, "TearDown", NUnitFramework.TearDownAttribute, ref reason)

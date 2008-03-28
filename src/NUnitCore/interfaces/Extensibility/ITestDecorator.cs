@@ -8,6 +8,14 @@ using System.Reflection;
 
 namespace NUnit.Core.Extensibility
 {
+	public class DecoratorPriority
+	{
+	    public static readonly int Default = 0;
+		public static readonly int First = 1;
+		public static readonly int Normal = 5;
+	    public static readonly int Last = 9;
+	}
+
 	/// <summary>
 	/// The ITestDecorator interface is exposed by a class that knows how to
 	/// enhance the functionality of a test case or suite by decorating it.

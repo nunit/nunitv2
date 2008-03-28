@@ -7,6 +7,7 @@
 using System;
 using NUnit.Framework;
 using System.Reflection;
+using NUnit.Core.Extensibility;
 
 namespace NUnit.Core.Tests
 {
@@ -19,7 +20,8 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void NUnitFrameworkIsKnownAndReferenced()
 		{
-			foreach( AssemblyName assemblyName in CoreExtensions.Host.TestFrameworks.GetReferencedFrameworks( Assembly.GetExecutingAssembly() ) )
+			FrameworkRegistry frameworks = (FrameworkRegistry)CoreExtensions.Host.GetExtensionPoint("FrameworkRegistry");
+			foreach( AssemblyName assemblyName in frameworks.GetReferencedFrameworks( Assembly.GetExecutingAssembly() ) )
 				if ( assemblyName.Name == "nunit.framework" ) return;
 			Assert.Fail("Cannot find nunit.framework");
 		}

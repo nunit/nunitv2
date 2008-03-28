@@ -24,15 +24,27 @@ namespace NUnit.Core.Extensibility
         /// </summary>
         IExtensionHost Host { get; }
 
-		/// <summary>
-		/// Install an extension at this extension point. If the
-		/// extension object does not meet the requirements for
-		/// this extension point, an exception is thrown.
-		/// </summary>
-		/// <param name="extension">The extension to install</param>
-		void Install( object extension );
+        /// <summary>
+        /// Install an extension at this extension point. If the
+        /// extension object does not meet the requirements for
+        /// this extension point, an exception is thrown.
+        /// </summary>
+        /// <param name="extension">The extension to install</param>
+        void Install(object extension);
 
-		/// <summary>
+        /// <summary>
+        /// Install an extension at this extension point specifying
+        /// an integer priority value for the extension.If the
+        /// extension object does not meet the requirements for
+        /// this extension point, or if the extension point does
+        /// not support the requested priority level, an exception 
+        /// is thrown.
+        /// </summary>
+        /// <param name="extension">The extension to install</param>
+        /// <param name="priority">The priority level for this extension</param>
+        void Install(object extension, int priority);
+
+        /// <summary>
 		/// Removes an extension from this extension point. If the
 		/// extension object is not present, the method returns
 		/// without error.

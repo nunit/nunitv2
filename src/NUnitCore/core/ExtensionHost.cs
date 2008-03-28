@@ -4,6 +4,7 @@
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
 using System;
+using System.Collections;
 using NUnit.Core.Extensibility;
 
 namespace NUnit.Core
@@ -18,7 +19,8 @@ namespace NUnit.Core
 	public abstract class ExtensionHost : IExtensionHost
 	{
 		#region Protected Fields
-		protected IExtensionPoint[] extensions;
+
+	    protected ArrayList extensions;
 
 		protected ExtensionType supportedTypes;
 		#endregion
@@ -26,7 +28,7 @@ namespace NUnit.Core
 		#region IExtensionHost Interface
 		public IExtensionPoint[] ExtensionPoints
 		{
-			get { return extensions; }
+			get { return (IExtensionPoint[])extensions.ToArray(typeof(IExtensionPoint)); }
 		}
 
 		public IExtensionPoint GetExtensionPoint( string name )

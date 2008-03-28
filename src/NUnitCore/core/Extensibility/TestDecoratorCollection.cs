@@ -18,15 +18,16 @@ namespace NUnit.Core.Extensibility
 	{
 		#region Constructor
 		public TestDecoratorCollection(IExtensionHost host)
-			: base( "TestDecorators", host ) { }
+			: base( "TestDecorators", host, 10 ) { }
 		#endregion
 
 		#region ITestDecorator Members
+
 		public Test Decorate(Test test, MemberInfo member)
 		{
 			Test decoratedTest = test;
 
-			foreach( ITestDecorator decorator in extensions )
+			foreach( ITestDecorator decorator in Extensions )
 				decoratedTest = decorator.Decorate( decoratedTest, member );
 
 			return decoratedTest;
@@ -34,7 +35,7 @@ namespace NUnit.Core.Extensibility
 		#endregion
 
 		#region ExtensionPoint Overrides
-		protected override bool ValidExtension(object extension)
+		protected override bool IsValidExtension(object extension)
 		{
 			return extension is ITestDecorator; 
 		}

@@ -21,16 +21,6 @@ namespace NUnit.Core
 
 		#region ITestDecorator Members
 
-//		public Test Decorate(Test test, MethodInfo method)
-//		{
-//			return DecorateTest( test, method );
-//		}
-//
-//		public Test Decorate(Test test, Type fixtureType)
-//		{
-//			return DecorateTest( test, fixtureType );
-//		}
-
 		public Test Decorate( Test test, MemberInfo member )
 		{
 			Attribute ignoreAttribute = Reflect.GetAttribute( member, NUnitFramework.IgnoreAttribute, false );

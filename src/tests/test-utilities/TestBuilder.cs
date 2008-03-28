@@ -36,7 +36,7 @@ namespace NUnit.TestUtilities
 			return (NUnitTestMethod)testBuilder.BuildFrom( Reflect.GetNamedMethod( 
 				type,
 				methodName,
-				BindingFlags.Public | BindingFlags.Instance ) );
+				BindingFlags.Public | BindingFlags.Instance ), null );
 		}
 
 		public static NUnitTestMethod MakeTestCase( object fixture, string methodName )

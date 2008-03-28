@@ -23,7 +23,8 @@ namespace NUnit.Util
 		{
 			vsConverter = new VisualStudioConverter();
 
-			extensions = new IExtensionPoint[] { new ProjectConverterCollection() };
+			extensions = new ArrayList();
+			extensions.Add( new ProjectConverterCollection() );
 		}
 		#endregion
 
