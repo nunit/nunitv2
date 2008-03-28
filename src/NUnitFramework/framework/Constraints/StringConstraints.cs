@@ -12,7 +12,7 @@ namespace NUnit.Framework.Constraints
 	/// <summary>
 	/// EmptyStringConstraint tests whether a string is empty.
 	/// </summary>
-	public class EmptyStringConstraint : EmptyConstraint
+	public class EmptyStringConstraint : Constraint
 	{
         /// <summary>
         /// Test whether the constraint is satisfied by a given value
