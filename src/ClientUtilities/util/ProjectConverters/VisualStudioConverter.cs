@@ -9,7 +9,7 @@ namespace NUnit.Util.ProjectConverters
 	/// <summary>
 	/// Summary description for VSProjectLoader.
 	/// </summary>
-	public class VisualStudioConverter : IProjectConverter, IExtensionPoint
+	public class VisualStudioConverter : IProjectConverter
 	{
 		#region IProjectConverter Members
 
@@ -55,38 +55,6 @@ namespace NUnit.Util.ProjectConverters
 			project.IsDirty = false;
 
 			return project;
-		}
-
-		#endregion
-
-		#region IExtensionPoint Members
-
-		public void Remove(object extension)
-		{
-			// TODO:  Add VisualStudioConverter.Remove implementation
-		}
-
-		public void Install(object extension)
-		{
-			// TODO:  Add VisualStudioConverter.Install implementation
-		}
-
-		public IExtensionHost Host
-		{
-			get
-			{
-				// TODO:  Add VisualStudioConverter.Host getter implementation
-				return null;
-			}
-		}
-
-		public string Name
-		{
-			get
-			{
-				// TODO:  Add VisualStudioConverter.Name getter implementation
-				return null;
-			}
 		}
 
 		#endregion
