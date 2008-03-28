@@ -132,6 +132,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DirectoryAssert.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\DirectoryAssert.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ExpectedExceptionAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\ExpectedExceptionAttribute.cs"
                     SubType = "Code"
@@ -228,6 +234,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestCaseAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\TestCaseAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestFixtureAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\TestFixtureAttribute.cs"
                     SubType = "Code"
@@ -284,6 +296,12 @@
                 <File
                     RelPath = "Constraints\ContainsConstraint.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ContainsConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\DirectoryConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\DirectoryConstraints.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

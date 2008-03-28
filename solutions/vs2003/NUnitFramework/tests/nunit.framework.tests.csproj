@@ -147,6 +147,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DirectoryAssertTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\DirectoryAssertTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "EqualsFixture.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\EqualsFixture.cs"
                     SubType = "Code"

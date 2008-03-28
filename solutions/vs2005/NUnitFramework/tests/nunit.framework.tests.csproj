@@ -178,6 +178,9 @@
       <Link>Constraints\TypeConstraintTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\DirectoryAssertTests.cs">
+      <Link>DirectoryAssertTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\EqualsFixture.cs">
       <Link>EqualsFixture.cs</Link>
       <SubType>Code</SubType>

@@ -183,6 +183,9 @@
       <Link>DescriptionAttribute.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\DirectoryAssert.cs">
+      <Link>DirectoryAssert.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\ExpectedExceptionAttribute.cs">
       <Link>ExpectedExceptionAttribute.cs</Link>
       <SubType>Code</SubType>
@@ -302,6 +305,12 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\TextMessageWriter.cs">
       <Link>TextMessageWriter.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestCaseAttribute.cs">
+      <Link>TestCaseAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\DirectoryConstraints.cs">
+      <Link>Constraints\DirectoryConstraints.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

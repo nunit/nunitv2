@@ -135,6 +135,9 @@
       <Link>Constraints\ContainsConstraint.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\DirectoryConstraints.cs">
+      <Link>DirectoryConstraints.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\EmptyConstraint.cs">
       <Link>Constraints\EmptyConstraint.cs</Link>
       <SubType>Code</SubType>
@@ -182,6 +185,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\DescriptionAttribute.cs">
       <Link>DescriptionAttribute.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\DirectoryAssert.cs">
+      <Link>DirectoryAssert.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\ExpectedExceptionAttribute.cs">
       <Link>ExpectedExceptionAttribute.cs</Link>
