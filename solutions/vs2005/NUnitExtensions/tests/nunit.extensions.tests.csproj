@@ -103,6 +103,10 @@
       <Project>{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\..\tests\test-utilities\test-utilities.csproj">
+      <Project>{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}</Project>
+      <Name>test-utilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\core\nunit.core.extensions.dll.csproj">
       <Name>nunit.core.extensions.dll</Name>
       <Project>{98B10E98-003C-45A0-9587-119142E39986}</Project>
@@ -122,6 +126,9 @@
     <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RepeatedTestFixture.cs">
       <Link>RepeatedTestFixture.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\MaxTimeDecoratorTests.cs">
+      <Link>MaxTimeDecoratorTests.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

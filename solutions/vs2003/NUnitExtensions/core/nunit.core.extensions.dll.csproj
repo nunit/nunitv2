@@ -117,6 +117,18 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
+                <File
+                    RelPath = "MaxTimeDecorator\MaxTimeDecorator.cs"
+                    Link = "..\..\..\..\src\NUnitExtensions\core\MaxTimeDecorator\MaxTimeDecorator.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "MaxTimeDecorator\MaxTimeTestCase.cs"
+                    Link = "..\..\..\..\src\NUnitExtensions\core\MaxTimeDecorator\MaxTimeTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
             </Include>
         </Files>
     </CSHARP>

@@ -164,6 +164,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "MaxTimeFixture.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\MaxTimeFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "PropertyAttributeTests.cs"
                     Link = "..\..\..\..\src\tests\test-assembly\PropertyAttributeTests.cs"
                     SubType = "Code"

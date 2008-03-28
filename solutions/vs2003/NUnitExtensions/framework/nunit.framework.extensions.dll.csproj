@@ -101,6 +101,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "MaxTimeAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitExtensions\framework\MaxTimeAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "RepeatAttribute.cs"
                     Link = "..\..\..\..\src\NUnitExtensions\framework\RepeatAttribute.cs"
                     SubType = "Code"

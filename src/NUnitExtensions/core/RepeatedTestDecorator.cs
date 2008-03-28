@@ -24,7 +24,7 @@ namespace NUnit.Core.Extensions
 			if ( decorators == null )
 				return false;
 				
-			decorators.Install( this );
+			decorators.Install( this, DecoratorPriority.Normal );
 			return true;
 		}
 		#endregion
@@ -53,11 +53,6 @@ namespace NUnit.Core.Extensions
 
 			return new RepeatedTestCase( testCase, count );
 		}
-
-//		public Test Decorate( Test test, Type fixtureType )
-//		{
-//			return test;
-//		}
 		#endregion
 	}
 }
