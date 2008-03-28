@@ -131,8 +131,11 @@ namespace NUnit.Framework.Constraints
 			if (expected is Stream && actual is Stream)
 				return StreamsEqual((Stream)expected, (Stream)actual);
 
-			if ( compareWith != null )
+            if (compareWith != null)
 				return compareWith.Compare( expected, actual ) == 0;
+
+            if (expected is DirectoryInfo && actual is DirectoryInfo)
+                return DirectoriesEqual((DirectoryInfo)expected, (DirectoryInfo)actual);
 
             if (Numerics.IsNumericType(expected) && Numerics.IsNumericType(actual))
             {
@@ -141,7 +144,7 @@ namespace NUnit.Framework.Constraints
 
             if (expected is string && actual is string)
             {
-                return string.Compare((string)expected, (string)actual, caseInsensitive) == 0;
+				return StringsEqual( (string) expected, (string)actual );
             }
 
 			if (expected is DateTime && actual is DateTime && tolerance is TimeSpan)
@@ -219,7 +222,29 @@ namespace NUnit.Framework.Constraints
 
 			return true;
 		}
-		#endregion
+
+		private bool StringsEqual( string expected, string actual )
+		{
+			string s1 = caseInsensitive ? expected.ToLower() : expected;
+			string s2 = caseInsensitive ? actual.ToLower() : actual;
+
+			return s1.Equals( s2 );
+		}
+
+        /// <summary>
+        /// Method to compare two DirectoryInfo objects
+        /// </summary>
+        /// <param name="expected">first directory to compare</param>
+        /// <param name="actual">second directory to compare</param>
+        /// <returns>true if equivalent, false if not</returns>
+        private bool DirectoriesEqual(DirectoryInfo expected, DirectoryInfo actual)
+        {
+            return expected.Attributes == actual.Attributes
+                && expected.CreationTime == actual.CreationTime
+                && expected.FullName == actual.FullName
+                && expected.LastAccessTime == actual.LastAccessTime;
+        }
+        #endregion
 
         #region DisplayStringDifferences
         private void DisplayStringDifferences(MessageWriter writer, string expected, string actual)

@@ -89,5 +89,15 @@ namespace NUnit.Framework.Tests
                 TextMessageWriter.Pfx_Actual + "\"12ab456\"" + System.Environment.NewLine;
             StringAssert.IsMatch("a?b*c", "12ab456");
 		}
+
+		[Test]
+		public void DifferentEncodingsOfSameStringAreNotEqual()
+		{
+			string input = "Hello World";
+			byte[] data = System.Text.Encoding.Unicode.GetBytes( input );
+			string garbage = System.Text.Encoding.UTF8.GetString( data );
+
+			Assert.AreNotEqual( input, garbage );
+		}
 	}
 }
