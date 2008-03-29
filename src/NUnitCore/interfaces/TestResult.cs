@@ -69,7 +69,7 @@ namespace NUnit.Core
 
 		#region Constructor
 		/// <summary>
-		/// Construct a test result given a test
+		/// Construct a test result given a TestInfo
 		/// </summary>
 		/// <param name="test">The test to be used</param>
 		public TestResult(TestInfo test)
@@ -78,6 +78,12 @@ namespace NUnit.Core
 			this.runState = test.RunState;
 			this.message = test.IgnoreReason;
 		}
+
+        /// <summary>
+        /// Construct a TestResult given an ITest
+        /// </summary>
+        /// <param name="test"></param>
+        public TestResult(ITest test) : this( new TestInfo(test) ) { }
 		#endregion
 
         #region Properties
