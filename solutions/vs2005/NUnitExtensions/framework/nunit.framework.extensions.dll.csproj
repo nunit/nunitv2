@@ -105,6 +105,15 @@
     <Compile Include="..\..\..\..\src\NUnitExtensions\framework\MaxTimeAttribute.cs">
       <Link>MaxTimeAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\framework\RowTest\RowAttribute.cs">
+      <Link>RowTest\RowAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\framework\RowTest\RowTestAttribute.cs">
+      <Link>RowTest\RowTestAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\framework\RowTest\SpecialValue.cs">
+      <Link>RowTest\SpecialValue.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

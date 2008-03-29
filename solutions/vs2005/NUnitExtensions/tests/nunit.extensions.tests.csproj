@@ -34,7 +34,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;VS2005</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -98,6 +98,10 @@
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\..\NUnitMocks\mocks\nunit.mocks.csproj">
+      <Project>{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}</Project>
+      <Name>nunit.mocks</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\tests\test-assembly\test-assembly.csproj">
       <Name>test-assembly</Name>
       <Project>{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}</Project>
@@ -129,6 +133,36 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitExtensions\tests\MaxTimeDecoratorTests.cs">
       <Link>MaxTimeDecoratorTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\OrderedTest.cs">
+      <Link>RowTest\OrderedTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\RowTests.cs">
+      <Link>RowTest\RowTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\SetUpMethodsTestFixture.cs">
+      <Link>RowTest\SetUpMethodsTestFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\BaseTestFixture.cs">
+      <Link>RowTest\UnitTests\BaseTestFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestAddInTest.cs">
+      <Link>RowTest\UnitTests\RowTestAddInTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestCaseTest.cs">
+      <Link>RowTest\UnitTests\RowTestCaseTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestFrameworkTest.cs">
+      <Link>RowTest\UnitTests\RowTestFrameworkTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestNameBuilderTest.cs">
+      <Link>RowTest\UnitTests\RowTestNameBuilderTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestSuiteTest.cs">
+      <Link>RowTest\UnitTests\RowTestSuiteTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\TestClass.cs">
+      <Link>RowTest\UnitTests\TestClass.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

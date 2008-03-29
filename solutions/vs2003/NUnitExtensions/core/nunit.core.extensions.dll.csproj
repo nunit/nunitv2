@@ -129,6 +129,42 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
+                <File
+                    RelPath = "RowTest\RowTestAddIn.cs"
+                    Link = "..\..\..\..\src\NUnitExtensions\core\RowTest\RowTestAddIn.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RowTest\RowTestCase.cs"
+                    Link = "..\..\..\..\src\NUnitExtensions\core\RowTest\RowTestCase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RowTest\RowTestFactory.cs"
+                    Link = "..\..\..\..\src\NUnitExtensions\core\RowTest\RowTestFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RowTest\RowTestFramework.cs"
+                    Link = "..\..\..\..\src\NUnitExtensions\core\RowTest\RowTestFramework.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RowTest\RowTestNameBuilder.cs"
+                    Link = "..\..\..\..\src\NUnitExtensions\core\RowTest\RowTestNameBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RowTest\RowTestSuite.cs"
+                    Link = "..\..\..\..\src\NUnitExtensions\core\RowTest\RowTestSuite.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
             </Include>
         </Files>
     </CSHARP>
