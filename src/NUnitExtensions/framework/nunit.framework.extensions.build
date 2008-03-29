@@ -4,6 +4,9 @@
   <patternset id="source-files">
         <include name="AssemblyInfo.cs"/>
         <include name="RepeatAttribute.cs"/>
+	<include name="RowTest/RowAttribute.cs"/>
+	<include name="RowTest/RowTestAttribute.cs"/>
+	<include name="RowTest/SpecialValue.cs"/>
   </patternset>
 
   <target name="build">

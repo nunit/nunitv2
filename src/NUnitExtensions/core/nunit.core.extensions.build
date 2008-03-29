@@ -5,6 +5,7 @@
         <include name="AssemblyInfo.cs"/>
         <include name="RepeatedTestCase.cs"/>
         <include name="RepeatedTestDecorator.cs"/>
+	<include name="RowTest/*.cs"/>
   </patternset>
 
   <target name="build">

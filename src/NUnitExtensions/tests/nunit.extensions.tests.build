@@ -7,10 +7,14 @@
         debug="${build.debug}" define="${build.defines}">
       <sources>
         <include name="RepeatedTestFixture.cs"/>
+        <include name="RowTest/*.cs"/>
+        <include name="RowTest/UnitTests/*.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
+        <include name="nunit.mocks.dll"/>
         <include name="nunit.framework.dll"/>
+        <include name="nunit.framework.extensions.dll"/>
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.core.extensions.dll"/>

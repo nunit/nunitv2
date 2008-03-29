@@ -9,7 +9,7 @@ using System.Reflection;
 using NUnit.Framework;
 using NUnit.TestData.RepeatedTestFixture;
 
-namespace NUnit.Core.Extensions.Tests
+namespace NUnit.Core.Extensions
 {
 	[TestFixture]
 	public class RepeatedTestFixture
