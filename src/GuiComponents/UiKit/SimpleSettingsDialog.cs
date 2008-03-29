@@ -53,6 +53,7 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.SuspendLayout();
 			// 
@@ -66,6 +67,13 @@ namespace NUnit.UiKit
 			this.okButton.Location = new System.Drawing.Point(322, 392);
 			this.okButton.Name = "okButton";
 			// 
+			// panel1
+			// 
+			this.panel1.Location = new System.Drawing.Point(16, 16);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(456, 336);
+			this.panel1.TabIndex = 21;
+			// 
 			// groupBox1
 			// 
 			this.groupBox1.Location = new System.Drawing.Point(16, 360);
@@ -78,12 +86,14 @@ namespace NUnit.UiKit
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.ClientSize = new System.Drawing.Size(490, 426);
+			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.groupBox1);
 			this.Name = "SimpleSettingsDialog";
 			this.Load += new System.EventHandler(this.SimpleSettingsDialog_Load);
 			this.Controls.SetChildIndex(this.okButton, 0);
 			this.Controls.SetChildIndex(this.cancelButton, 0);
 			this.Controls.SetChildIndex(this.groupBox1, 0);
+			this.Controls.SetChildIndex(this.panel1, 0);
 			this.ResumeLayout(false);
 
 		}
