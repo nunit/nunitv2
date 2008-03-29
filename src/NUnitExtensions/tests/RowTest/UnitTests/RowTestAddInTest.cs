@@ -17,6 +17,8 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 	[TestFixture]
 	public class RowTestAddInTest : BaseTestFixture
 	{
+        private Test dummy = null; // OK unless builder starts using the suite argument
+
 #if NMOCK2
 		private NMock2.Mockery _mocks;
 		
@@ -98,7 +100,7 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 			RowTestAddIn addIn = new RowTestAddIn();
 			MethodInfo method = GetTestClassMethod("MethodWithoutRowTestAttribute");
 
-			bool canBuildFrom = addIn.CanBuildFrom(method);
+			bool canBuildFrom = addIn.CanBuildFrom(method, dummy);
 			
 			Assert.That(canBuildFrom, Is.False);
 		}
@@ -109,7 +111,7 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 			RowTestAddIn addIn = new RowTestAddIn();
 			MethodInfo method = GetTestClassMethod("MethodWithRowTestAttribute");
 
-			bool canBuildFrom = addIn.CanBuildFrom(method);
+            bool canBuildFrom = addIn.CanBuildFrom(method, dummy);
 			
 			Assert.That(canBuildFrom, Is.True);
 		}
@@ -119,8 +121,8 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 		{
 			RowTestAddIn addIn = new RowTestAddIn();
 			MethodInfo method = GetTestClassMethod("MethodWithRowTestAttribute");
-			
-			Test test = addIn.BuildFrom(method);
+
+            Test test = addIn.BuildFrom(method, dummy);
 			
 			Assert.That(test, Is.InstanceOfType(typeof(RowTestSuite)));
 			RowTestSuite suite = (RowTestSuite) test;
@@ -133,8 +135,8 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 		{
 			RowTestAddIn addIn = new RowTestAddIn();
 			MethodInfo method = GetRowTestMethodWith2Rows();
-			
-			Test test = addIn.BuildFrom(method);
+
+            Test test = addIn.BuildFrom(method, dummy);
 			
 			Assert.That(test, Is.InstanceOfType(typeof(RowTestSuite)));
 			RowTestSuite suite = (RowTestSuite) test;
@@ -155,8 +157,8 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 		{
 			RowTestAddIn addIn = new RowTestAddIn();
 			MethodInfo method = GetRowTestMethodWithTestName();
-			
-			Test test = addIn.BuildFrom(method);
+
+            Test test = addIn.BuildFrom(method, dummy);
 			
 			Assert.That(test, Is.InstanceOfType(typeof(RowTestSuite)));
 			RowTestSuite suite = (RowTestSuite) test;
@@ -174,8 +176,8 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 		{
 			RowTestAddIn addIn = new RowTestAddIn();
 			MethodInfo method = GetRowTestMethodWithExpectedException();
-			
-			Test test = addIn.BuildFrom(method);
+
+            Test test = addIn.BuildFrom(method, dummy);
 			
 			Assert.That(test, Is.InstanceOfType(typeof(RowTestSuite)));
 			RowTestSuite suite = (RowTestSuite) test;
@@ -194,8 +196,8 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 		{
 			RowTestAddIn addIn = new RowTestAddIn();
 			MethodInfo method = GetRowTestMethodWithExpectedExceptionAndExceptionMessage();
-			
-			Test test = addIn.BuildFrom(method);
+
+            Test test = addIn.BuildFrom(method, dummy);
 			
 			Assert.That(test, Is.InstanceOfType(typeof(RowTestSuite)));
 			RowTestSuite suite = (RowTestSuite) test;
@@ -216,8 +218,8 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 			RowTestAddIn addIn = new RowTestAddIn();
 			Type testClass = typeof(TestClass);
 			MethodInfo method = testClass.GetMethod(Method_RowTestMethodWith2Rows, BindingFlags.Public | BindingFlags.Instance);
-			
-			Test test = addIn.BuildFrom(method);
+
+            Test test = addIn.BuildFrom(method, dummy);
 			
 			Assert.That(test, Is.InstanceOfType(typeof(RowTestSuite)));
 			RowTestSuite suite = (RowTestSuite) test;
@@ -231,8 +233,8 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 		{
 			RowTestAddIn addin = new RowTestAddIn();
 			MethodInfo method = GetTestClassMethod("RowTestMethodWithCategory");
-			
-			Test test = addin.BuildFrom(method);
+
+            Test test = addin.BuildFrom(method, dummy);
 
 			Assert.That(test.Categories, Is.Not.Null);
 			Assert.That(test.Categories.Count, Is.EqualTo(1));
@@ -244,8 +246,8 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 		{
 			RowTestAddIn addIn = new RowTestAddIn();
 			MethodInfo method = GetTestClassMethod("RowTestMethodWithSpecialValue");
-			
-			Test test = addIn.BuildFrom(method);
+
+            Test test = addIn.BuildFrom(method, dummy);
 			
 			Assert.That(test, Is.InstanceOfType(typeof(RowTestSuite)));
 			RowTestSuite suite = (RowTestSuite) test;
@@ -264,8 +266,8 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 		{
 			RowTestAddIn addIn = new RowTestAddIn();
 			MethodInfo method = GetTestClassMethod("RowTestMethodWithNullArgument");
-			
-			Test test = addIn.BuildFrom(method);
+
+            Test test = addIn.BuildFrom(method, dummy);
 			
 			Assert.That(test, Is.InstanceOfType(typeof(RowTestSuite)));
 			RowTestSuite suite = (RowTestSuite) test;

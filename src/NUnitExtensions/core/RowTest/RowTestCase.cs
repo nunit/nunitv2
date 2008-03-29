@@ -28,7 +28,7 @@ namespace NUnit.Core.Extensions.RowTest
 			get { return _arguments; }
 		}
 		
-		public override void RunTestMethod(TestCaseResult testResult)
+		public override void RunTestMethod(TestResult testResult)
 		{
 			object[] arguments = _arguments != null ? _arguments : new object[] { null };			
 			Reflect.InvokeMethod(this.Method, this.Fixture, arguments);

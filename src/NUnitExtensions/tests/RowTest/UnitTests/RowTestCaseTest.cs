@@ -65,7 +65,7 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 			object[] arguments = new object[] { 42, 53 };
 			TestClass testFixture = new TestClass();
 			RowTestCase testCase = CreateRowTestCase(testFixture, Method_RowTestMethodWith2Rows, arguments);
-			TestCaseResult result = new TestCaseResult(testCase.TestName.Name);
+			TestResult result = new TestResult( testCase );
 			
 			testCase.RunTestMethod(result);
 			
@@ -81,7 +81,7 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 			object[] arguments = new object[] { 42, null };
 			TestClass testFixture = new TestClass();
 			RowTestCase testCase = CreateRowTestCase(testFixture, Method_RowTestMethodWithNormalAndNullArgument, arguments);
-			TestCaseResult result = new TestCaseResult(testCase.TestName.Name);
+			TestResult result = new TestResult(testCase);
 			
 			testCase.RunTestMethod(result);
 			
@@ -97,7 +97,7 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 			object[] arguments = new object[] { null };
 			TestClass testFixture = new TestClass();
 			RowTestCase testCase = CreateRowTestCase(testFixture, Method_RowTestMethodWithNullArgument, arguments);
-			TestCaseResult result = new TestCaseResult(testCase.TestName.Name);
+			TestResult result = new TestResult(testCase);
 			
 			testCase.RunTestMethod(result);
 			

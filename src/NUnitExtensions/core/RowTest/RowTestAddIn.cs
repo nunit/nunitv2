@@ -32,23 +32,23 @@ namespace NUnit.Core.Extensions.RowTest
 			return true;
 		}
 		
-		public bool CanBuildFrom(MethodInfo method)
+		public bool CanBuildFrom(MethodInfo method, Test suite)
 		{
 			return RowTestFramework.IsRowTest(method);
 		}
 		
-		public Test BuildFrom(MethodInfo method)
+		public Test BuildFrom(MethodInfo method, Test suite)
 		{
 			if (method == null)
 				throw new ArgumentNullException("method");
 			
-			RowTestSuite suite = _testFactory.CreateRowTestSuite(method);
+			RowTestSuite methods = _testFactory.CreateRowTestSuite(method);
 			Attribute[] rows = RowTestFramework.GetRowAttributes(method);
 
 			foreach (Attribute row in rows)
-				suite.Add(_testFactory.CreateRowTestCase(row, method));
+				methods.Add(_testFactory.CreateRowTestCase(row, method));
 			
-			return suite;
+			return methods;
 		}
 	}
 }
