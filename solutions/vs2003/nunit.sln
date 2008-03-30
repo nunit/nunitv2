@@ -115,6 +115,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-agent.exe", "NUnitTes
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adhoc-tests", "tests\adhoc-tests\adhoc-tests.csproj", "{F4DC2030-1448-4A40-AB7A-5980C2946DE9}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -237,6 +241,10 @@ Global
 		{3E469CD9-FED2-4955-AE4C-669A74CA6767}.Debug.Build.0 = Debug|.NET
 		{3E469CD9-FED2-4955-AE4C-669A74CA6767}.Release.ActiveCfg = Release|.NET
 		{3E469CD9-FED2-4955-AE4C-669A74CA6767}.Release.Build.0 = Release|.NET
+		{F4DC2030-1448-4A40-AB7A-5980C2946DE9}.Debug.ActiveCfg = Debug|.NET
+		{F4DC2030-1448-4A40-AB7A-5980C2946DE9}.Debug.Build.0 = Debug|.NET
+		{F4DC2030-1448-4A40-AB7A-5980C2946DE9}.Release.ActiveCfg = Release|.NET
+		{F4DC2030-1448-4A40-AB7A-5980C2946DE9}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		nunit.snk = nunit.snk
