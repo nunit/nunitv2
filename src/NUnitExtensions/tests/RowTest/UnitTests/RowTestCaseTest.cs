@@ -74,8 +74,8 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 			Assert.That(testFixture.Arguments[1], Is.EqualTo(arguments[1]));
 		}
 
-#if VS2005 && !FX1_1
-		[Test]
+#if NET_2_0
+        [Test]
 		public void RunTestMethod_WithNormalAndNullArguments()
 		{
 			object[] arguments = new object[] { 42, null };

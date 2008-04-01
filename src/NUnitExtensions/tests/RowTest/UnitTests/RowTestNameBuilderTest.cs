@@ -85,7 +85,7 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 			Assert.That(testName, Is.EqualTo(expectedTestName));
 		}
 		
-#if VS2005 && !FX_1
+#if NET_2_0
 		[Test]
 		public void TestName_SecondArgumentIsNull()
 		{
