@@ -96,6 +96,12 @@
 			  Vital="yes" KeyPath="yes" DiskId="1" />
       </Component>
 	  
+      <Component Id="C__ROWTEST_LICENSE" Guid="D394F6E1-C2D5-4d37-8E77-4941EDB3FC5D">
+        <File Id="rowtest_license" Name="ROWTSTLI.TXT" LongName="rowtest-license.txt"
+Source="rowtest-license.txt" 
+			  Vital="yes" KeyPath="yes" DiskId="1" />
+      </Component>
+	  
 	</DirectoryRef>
       
     <!-- Define the NUnit base feature it's contents and reference 
@@ -108,6 +114,7 @@
 		<ComponentRef Id="C__LICENSE" />
 		<ComponentRef Id="C__FIT_LICENSE" />
 		<ComponentRef Id="C__LOGO" />
+                <ComponentRef Id="C__ROWTEST_LICENSE"/>
 
 		<!-- Defined in bin.wxs -->
 		<ComponentRef Id="C__NUnitBase" />

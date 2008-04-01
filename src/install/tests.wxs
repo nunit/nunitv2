@@ -14,8 +14,8 @@
       
         <Component Id="base_tests" DiskId="1" Guid="85DD0370-9E05-4e9a-8AB4-02A6C24986AB">
           <File Id="testutilities" Name="TESTUTIL.DLL" LongName="test-utilities.dll" />
-		  <File Id="testassembly" Name="TESTDATA.DLL" LongName="test-assembly.dll" />
-			
+          <File Id="testassembly" Name="TESTDATA.DLL" LongName="test-assembly.dll" />		
+          <File Id="loadtestassembly" Name="LOADTEST.DLL" LongName="loadtest-assembly.dll" />		
           <File Id="mockassembly" Name="MOCKASM.DLL" LongName="mock-assembly.dll" />
           <File Id="nonamespaceassembly" Name="NONAMESP.DLL" LongName="nonamespace-assembly.dll" />
           

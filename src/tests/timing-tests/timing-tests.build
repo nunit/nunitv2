@@ -15,8 +15,10 @@
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
+        <include name="loadtest-assembly.dll"/>
         <include name="nunit.util.dll"/>
         <include name="nunit.core.dll"/>
+        <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.framework.dll"/>
         <include name="mock-assembly.dll"/>
       </references>

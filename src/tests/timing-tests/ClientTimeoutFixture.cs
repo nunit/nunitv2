@@ -14,7 +14,7 @@ namespace NUnit.Tests.TimingTests
 	/// <summary>
 	/// Summary description for ClientTimeoutFixture.
 	/// </summary>
-	[TestFixture]
+	[TestFixture,Explicit]
 	public class ClientTimeoutFixture
 	{
 		// Test using timeout greater than default of five minutes
@@ -23,23 +23,17 @@ namespace NUnit.Tests.TimingTests
 		/// <summary>
 		/// Test that listener is connected after
 		/// a long delay. When run from GUI, this
-		/// tests UIActions. When run from console
-		/// runner it tests ConsoleUI.
+		/// tests that TestLoader is connected. 
+		/// When run from console it tests ConsoleUI.
 		/// </summary>
 		[Test]
 		public void ListenerTimeoutTest()
 		{
-			// Time delay
-			Thread.Sleep( timeout );
-		}
+            Console.WriteLine( "Sleeping for {0} minutes", timeout.Minutes);
 
-		[Test]
-		public void WriterTimeoutTest()
-		{
-			// Time delay
 			Thread.Sleep( timeout );
 
-			Console.WriteLine( "Message from WriterTimeoutTest" );
+            Console.WriteLine("Waking");
 		}
 	}
 }
