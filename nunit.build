@@ -144,15 +144,6 @@
             if="${directory::exists( package.working.dir )}"/>
   </target>
 
-  <target name="clean-source-dirs">
-    <delete>
-      <fileset basedir="${project.src.dir}">
-        <include name="*/*/obj/**/*"/>
-        <include name="*/*/bin/**/*"/>
-      </fileset>
-    </delete>
-  </target>
-.
 <!-- ***************************************************************** -->
 <!-- ***              Targets that perform builds                  *** -->
 <!-- ***************************************************************** -->
