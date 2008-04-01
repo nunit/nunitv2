@@ -107,7 +107,7 @@ namespace NUnit.Gui
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(31, 232);
+			this.label1.Location = new System.Drawing.Point(31, 240);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(102, 15);
 			this.label1.TabIndex = 1;
@@ -115,7 +115,7 @@ namespace NUnit.Gui
 			// 
 			// versionLabel
 			// 
-			this.versionLabel.Location = new System.Drawing.Point(164, 232);
+			this.versionLabel.Location = new System.Drawing.Point(164, 240);
 			this.versionLabel.Name = "versionLabel";
 			this.versionLabel.Size = new System.Drawing.Size(156, 23);
 			this.versionLabel.TabIndex = 2;
@@ -123,7 +123,7 @@ namespace NUnit.Gui
 			// 
 			// label2
 			// 
-			this.label2.Location = new System.Drawing.Point(31, 120);
+			this.label2.Location = new System.Drawing.Point(31, 144);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(102, 29);
 			this.label2.TabIndex = 3;
@@ -131,9 +131,9 @@ namespace NUnit.Gui
 			// 
 			// label3
 			// 
-			this.label3.Location = new System.Drawing.Point(164, 120);
+			this.label3.Location = new System.Drawing.Point(164, 144);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(287, 60);
+			this.label3.Size = new System.Drawing.Size(287, 48);
 			this.label3.TabIndex = 4;
 			this.label3.Text = "James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip Craig, Ethan Smith," +
 				" Doug de la Torre, Charlie Poole";
@@ -141,7 +141,7 @@ namespace NUnit.Gui
 			// linkLabel1
 			// 
 			this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(0, 21);
-			this.linkLabel1.Location = new System.Drawing.Point(164, 88);
+			this.linkLabel1.Location = new System.Drawing.Point(164, 112);
 			this.linkLabel1.Name = "linkLabel1";
 			this.linkLabel1.Size = new System.Drawing.Size(266, 16);
 			this.linkLabel1.TabIndex = 5;
@@ -151,7 +151,7 @@ namespace NUnit.Gui
 			// 
 			// label4
 			// 
-			this.label4.Location = new System.Drawing.Point(31, 88);
+			this.label4.Location = new System.Drawing.Point(31, 112);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(102, 16);
 			this.label4.TabIndex = 6;
@@ -159,7 +159,7 @@ namespace NUnit.Gui
 			// 
 			// label5
 			// 
-			this.label5.Location = new System.Drawing.Point(31, 192);
+			this.label5.Location = new System.Drawing.Point(31, 200);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(102, 29);
 			this.label5.TabIndex = 7;
@@ -167,7 +167,7 @@ namespace NUnit.Gui
 			// 
 			// label6
 			// 
-			this.label6.Location = new System.Drawing.Point(164, 192);
+			this.label6.Location = new System.Drawing.Point(164, 200);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(215, 29);
 			this.label6.TabIndex = 8;
@@ -185,13 +185,13 @@ namespace NUnit.Gui
 			// 
 			this.copyright.Location = new System.Drawing.Point(164, 20);
 			this.copyright.Name = "copyright";
-			this.copyright.Size = new System.Drawing.Size(297, 58);
+			this.copyright.Size = new System.Drawing.Size(297, 84);
 			this.copyright.TabIndex = 10;
 			this.copyright.Text = "label8";
 			// 
 			// clrTypeLabel
 			// 
-			this.clrTypeLabel.Location = new System.Drawing.Point(31, 264);
+			this.clrTypeLabel.Location = new System.Drawing.Point(31, 272);
 			this.clrTypeLabel.Name = "clrTypeLabel";
 			this.clrTypeLabel.Size = new System.Drawing.Size(102, 15);
 			this.clrTypeLabel.TabIndex = 11;
@@ -199,7 +199,7 @@ namespace NUnit.Gui
 			// 
 			// dotNetVersionLabel
 			// 
-			this.dotNetVersionLabel.Location = new System.Drawing.Point(164, 264);
+			this.dotNetVersionLabel.Location = new System.Drawing.Point(164, 272);
 			this.dotNetVersionLabel.Name = "dotNetVersionLabel";
 			this.dotNetVersionLabel.Size = new System.Drawing.Size(284, 23);
 			this.dotNetVersionLabel.TabIndex = 12;
