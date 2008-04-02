@@ -164,6 +164,9 @@
     <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\TestClass.cs">
       <Link>RowTest\UnitTests\TestClass.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\XmlDiffFixture.cs">
+      <Link>XmlDiffFixture.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

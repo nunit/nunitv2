@@ -114,6 +114,26 @@
     <Compile Include="..\..\..\..\src\NUnitExtensions\framework\RowTest\SpecialValue.cs">
       <Link>RowTest\SpecialValue.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\framework\Xml\XmlConstraint.cs">
+      <Link>Xml\XmlConstraint.cs</Link>
+    </Compile>
+    <Compile Include="Xml\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\..\src\NUnitExtensions\framework\Xml\xmlDiff.xslt">
+      <Link>Xml\xmlDiff.xslt</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
