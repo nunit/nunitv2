@@ -12,8 +12,10 @@ namespace NUnit.Tests.TimingTests
         private TestLoader loader;
 
         [TestFixtureSetUp]
-        public void InstallDomainManager()
+        public void InstallServices()
         {
+            if (Services.ProjectService == null)
+                ServiceManager.Services.AddService(new ProjectService());
             if (Services.DomainManager == null)
                 ServiceManager.Services.AddService(new DomainManager());
         }

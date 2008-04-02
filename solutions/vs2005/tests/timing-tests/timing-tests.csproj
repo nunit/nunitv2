@@ -93,10 +93,18 @@
       <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\..\NUnitCore\interfaces\nunit.core.interfaces.dll.csproj">
+      <Project>{435428F8-5995-4CE4-8022-93D595A8CC0F}</Project>
+      <Name>nunit.core.interfaces.dll</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll.csproj">
       <Name>nunit.framework.dll</Name>
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\loadtest-assembly\loadtest-assembly.csproj">
+      <Project>{20ABDB3C-EA46-468A-A574-0552299A32DB}</Project>
+      <Name>loadtest-assembly</Name>
     </ProjectReference>
     <ProjectReference Include="..\mock-assembly\mock-assembly.csproj">
       <Name>mock-assembly</Name>
@@ -109,12 +117,11 @@
       <Link>CommonAssemblyInfo.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\tests\timing-tests\AssemblyLoadTests.cs">
+      <Link>AssemblyLoadTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\tests\timing-tests\ClientTimeoutFixture.cs">
       <Link>ClientTimeoutFixture.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\tests\timing-tests\ServerTimeoutFixture.cs">
-      <Link>ServerTimeoutFixture.cs</Link>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

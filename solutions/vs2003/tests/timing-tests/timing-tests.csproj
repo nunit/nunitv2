@@ -99,10 +99,21 @@
                     Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "nunit.core.interfaces.dll"
+                    Project = "{435428F8-5995-4CE4-8022-93D595A8CC0F}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
             </References>
         </Build>
         <Files>
             <Include>
+                <File
+                    RelPath = "AssemblyLoadTests.cs"
+                    Link = "..\..\..\..\src\tests\timing-tests\AssemblyLoadTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
                 <File
                     RelPath = "ClientTimeoutFixture.cs"
                     Link = "..\..\..\..\src\tests\timing-tests\ClientTimeoutFixture.cs"
@@ -112,12 +123,6 @@
                 <File
                     RelPath = "CommonAssemblyInfo.cs"
                     Link = "..\..\..\..\src\CommonAssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ServerTimeoutFixture.cs"
-                    Link = "..\..\..\..\src\tests\timing-tests\ServerTimeoutFixture.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

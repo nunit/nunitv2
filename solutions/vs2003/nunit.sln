@@ -119,6 +119,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adhoc-tests", "tests\adhoc-
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "loadtest-assembly", "tests\loadtest-assembly\loadtest-assembly.csproj", "{809BA5AA-6DFE-4CAF-98AC-B557E9B7686D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -245,6 +249,10 @@ Global
 		{F4DC2030-1448-4A40-AB7A-5980C2946DE9}.Debug.Build.0 = Debug|.NET
 		{F4DC2030-1448-4A40-AB7A-5980C2946DE9}.Release.ActiveCfg = Release|.NET
 		{F4DC2030-1448-4A40-AB7A-5980C2946DE9}.Release.Build.0 = Release|.NET
+		{809BA5AA-6DFE-4CAF-98AC-B557E9B7686D}.Debug.ActiveCfg = Debug|.NET
+		{809BA5AA-6DFE-4CAF-98AC-B557E9B7686D}.Debug.Build.0 = Debug|.NET
+		{809BA5AA-6DFE-4CAF-98AC-B557E9B7686D}.Release.ActiveCfg = Release|.NET
+		{809BA5AA-6DFE-4CAF-98AC-B557E9B7686D}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		nunit.snk = nunit.snk
