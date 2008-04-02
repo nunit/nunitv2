@@ -25,6 +25,7 @@
         <include name="MockTestRunner.cs"/>
         <include name="NameFilterTest.cs"/>
         <include name="NamespaceAssemblyTests.cs"/>
+        <include name="ParameterizedTestCaseTests.cs"/>
         <include name="PlatformDetectionTests.cs"/>
         <include name="PropertyAttributeTests.cs"/>
         <include name="ReflectTests.cs"/>
@@ -49,6 +50,7 @@
         <include name="TestFrameworkTests.cs"/>
         <include name="TestIDTests.cs"/>
         <include name="TestInfoTests.cs"/>
+        <include name="TestMethodSignatureTests.cs"/>
         <include name="TestNameTests.cs"/>
         <include name="TestNodeTests.cs"/>
         <include name="TestRunnerThreadTests.cs"/>

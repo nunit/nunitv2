@@ -28,6 +28,7 @@
         <include name="NUnitFramework.cs"/>
         <include name="NUnitTestFixture.cs"/>
         <include name="NUnitTestMethod.cs"/>
+        <include name="ParameterizedTestMethodSuite.cs"/>
         <include name="PlatformHelper.cs"/>
         <include name="ProxyTestRunner.cs"/>
         <include name="QueuingEventListener.cs"/>
@@ -56,9 +57,11 @@
         <include name="Builders/NUnitTestFixtureBuilder.cs"/>
         <include name="Builders/SetUpFixtureBuilder.cs"/>
         <include name="Builders/TestAssemblyBuilder.cs"/>
+        <include name="Builders/TestCaseParameterProvider.cs"/>
         <include name="Extensibility/EventListenerCollection.cs"/>
         <include name="Extensibility/FrameworkRegistry.cs"/>
         <include name="Extensibility/SuiteBuilderCollection.cs"/>
+        <include name="Extensibility/ParameterProviders.cs"/>
         <include name="Extensibility/TestCaseBuilderCollection.cs"/>
         <include name="Extensibility/TestDecoratorCollection.cs"/>
   </patternset>

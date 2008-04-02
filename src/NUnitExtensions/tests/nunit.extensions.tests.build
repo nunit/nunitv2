@@ -1,14 +1,19 @@
 <?xml version="1.0"?>
 <project name="NUnitExtensionsTests" default="build" basedir=".">
 
+  <patternset id="source-files">
+    <include name="MaxTimeDecoratorTests.cs"/>
+    <include name="RepeatedTestFixture.cs"/>
+    <include name="RowTest/*.cs"/>
+    <include name="RowTest/UnitTests/*.cs"/>
+  </patternset>
+
   <target name="build">
     <csc target="library" 
         output="${current.build.dir}/nunit.extensions.tests.dll"
         debug="${build.debug}" define="${build.defines}">
       <sources>
-        <include name="RepeatedTestFixture.cs"/>
-        <include name="RowTest/*.cs"/>
-        <include name="RowTest/UnitTests/*.cs"/>
+        <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
@@ -27,7 +32,7 @@
   <target name="package">
     <copy todir="${package.src.dir}/NUnitExtensions/tests">
       <fileset>
-        <include name="RepeatedTestFixture.cs"/>
+        <patternset refid="source-files"/>
         <include name="nunit.extensions.tests.build"/>
       </fileset>
     </copy>

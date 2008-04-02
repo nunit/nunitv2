@@ -2,10 +2,11 @@
 <project name="NUnitCoreExtensions" default="build" basedir=".">
 
   <patternset id="source-files">
-        <include name="AssemblyInfo.cs"/>
-        <include name="RepeatedTestCase.cs"/>
-        <include name="RepeatedTestDecorator.cs"/>
-	<include name="RowTest/*.cs"/>
+    <include name="AssemblyInfo.cs"/>
+    <include name="RepeatedTestCase.cs"/>
+    <include name="RepeatedTestDecorator.cs"/>
+    <include name="MaxTimeDecorator/*.cs"/>
+    <include name="RowTest/*.cs"/>
   </patternset>
 
   <target name="build">

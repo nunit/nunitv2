@@ -29,10 +29,12 @@
         <include name="Extensibility/IExtensionHost.cs"/>
         <include name="Extensibility/IExtensionPoint.cs"/>
         <include name="Extensibility/IFrameworkRegistry.cs"/>
+        <include name="Extensibility/IParameterProvider.cs"/>
         <include name="Extensibility/ISuiteBuilder.cs"/>
         <include name="Extensibility/ITestCaseBuilder.cs"/>
         <include name="Extensibility/ITestDecorator.cs"/>
         <include name="Extensibility/NUnitAddinAttribute.cs"/>
+        <include name="Extensibility/ParameterSet.cs"/>
         <include name="Extensibility/TestFramework.cs"/>
         <include name="Filters/AndFilter.cs"/>
         <include name="Filters/CategoryFilter.cs"/>

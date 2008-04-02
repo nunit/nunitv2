@@ -2,9 +2,8 @@
 <project name="TimingTests" default="build" basedir=".">
 
   <patternset id="source-files">
-        <include name="AssemblyInfo.cs"/>
+        <include name="AssemblyLoadTests.cs"/>
         <include name="ClientTimeoutFixture.cs"/>
-        <include name="ServerTimeoutFixture.cs"/>
   </patternset>
 
   <target name="build">

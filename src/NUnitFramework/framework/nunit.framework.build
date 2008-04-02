@@ -8,6 +8,7 @@
         <include name="Constraints/Constraint.cs"/>
         <include name="Constraints/ConstraintBuilder.cs"/>
         <include name="Constraints/ContainsConstraint.cs"/>
+        <include name="Constraints/DirectoryConstraints.cs"/>
         <include name="Constraints/EmptyConstraint.cs"/>
         <include name="Constraints/EqualConstraint.cs"/>
         <include name="Constraints/MessageWriter.cs"/>
@@ -36,6 +37,7 @@
         <include name="CategoryAttribute.cs"/>
         <include name="CollectionAssert.cs"/>
         <include name="DescriptionAttribute.cs"/>
+        <include name="DirectoryAssert.cs"/>
         <include name="ExpectedExceptionAttribute.cs"/>
         <include name="ExplicitAttribute.cs"/>
         <include name="FileAssert.cs"/>
@@ -52,6 +54,7 @@
         <include name="SuiteAttribute.cs"/>
         <include name="TearDownAttribute.cs"/>
         <include name="TestAttribute.cs"/>
+        <include name="TestCaseAttribute.cs"/>
         <include name="TestFixtureAttribute.cs"/>
         <include name="TestFixtureSetUpAttribute.cs"/>
         <include name="TestFixtureTearDownAttribute.cs"/>

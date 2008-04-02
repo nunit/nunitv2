@@ -2,26 +2,28 @@
 <project name="TestAssembly" default="build" basedir=".">
 
   <patternset id="source-files">
-        <include name="AttributeDescriptionTests.cs"/>
-        <include name="AttributeInheritance.cs"/>
-        <include name="CategoryAttributeTests.cs"/>
-        <include name="ConsoleRunnerTest.cs"/>
-        <include name="CultureAttributeTests.cs"/>
-        <include name="ExpectExceptionTest.cs"/>
-        <include name="FailFixtureTests.cs"/>
-        <include name="FixtureSetUpTearDownTests.cs"/>
-        <include name="IgnoreFixtureTests.cs"/>
-        <include name="PropertyAttributeTests.cs"/>
-        <include name="RepeatedTestFixtureTests.cs"/>
-        <include name="SetupFixtureTests.cs"/>
-        <include name="SetUpTest.cs"/>
-        <include name="SuiteBuilderTests.cs"/>
-        <include name="TestCaseTest.cs"/>
-        <include name="TestData.cs"/>
-        <include name="TestFixtureBuilderTests.cs"/>
-        <include name="TestFixtureExtensionTests.cs"/>
-        <include name="TestFixtureTests.cs"/>
-        <include name="UnhandledExceptions.cs"/>
+    <include name="AttributeDescriptionTests.cs"/>
+    <include name="AttributeInheritance.cs"/>
+    <include name="CategoryAttributeTests.cs"/>
+    <include name="ConsoleRunnerTest.cs"/>
+    <include name="CultureAttributeTests.cs"/>
+    <include name="ExpectExceptionTest.cs"/>
+    <include name="FailFixtureTests.cs"/>
+    <include name="FixtureSetUpTearDownTests.cs"/>
+    <include name="IgnoreFixtureTests.cs"/>
+    <include name="MaxTimeFixture.cs"/>
+    <include name="PropertyAttributeTests.cs"/>
+    <include name="RepeatedTestFixtureTests.cs"/>
+    <include name="SetupFixtureTests.cs"/>
+    <include name="SetUpTest.cs"/>
+    <include name="SuiteBuilderTests.cs"/>
+    <include name="TestCaseTest.cs"/>
+    <include name="TestData.cs"/>
+    <include name="TestFixtureBuilderTests.cs"/>
+    <include name="TestFixtureExtensionTests.cs"/>
+    <include name="TestFixtureTests.cs"/>
+    <include name="TestMethodSignatureFixture.cs"/>
+    <include name="UnhandledExceptions.cs"/>
   </patternset>
 
   <target name="build">
