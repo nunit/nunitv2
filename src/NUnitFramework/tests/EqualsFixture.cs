@@ -263,17 +263,17 @@ namespace NUnit.Framework.Tests
 			System.UInt64  ui20 = 35; 
 			System.Int16   i21  = 35; 
 			System.UInt16  i22  = 35;
-		
-			Assert.AreEqual( 35, b1 );
-			Assert.AreEqual( 35, sb2 );
-			Assert.AreEqual( 35, d4 );
-			Assert.AreEqual( 35, d5 );
-			Assert.AreEqual( 35, f6 );
-			Assert.AreEqual( 35, i7 );
-			Assert.AreEqual( 35, u8 );
-			Assert.AreEqual( 35, l9 );
-			Assert.AreEqual( 35, s10 );
-			Assert.AreEqual( 35, us11 );
+
+            Assert.AreEqual(35, b1);
+            Assert.AreEqual(35, sb2);
+            Assert.AreEqual(35, d4);
+            Assert.AreEqual(35, d5);
+            Assert.AreEqual(35, f6);
+            Assert.AreEqual(35, i7);
+            Assert.AreEqual(35, u8);
+            Assert.AreEqual(35, l9);
+            Assert.AreEqual(35, s10);
+            Assert.AreEqual(35, us11);
 		
 			Assert.AreEqual( 35, b12  );
 			Assert.AreEqual( 35, sb13 );
@@ -286,7 +286,31 @@ namespace NUnit.Framework.Tests
 			Assert.AreEqual( 35, ui20 );
 			Assert.AreEqual( 35, i21  );
 			Assert.AreEqual( 35, i22  );
-		}
+
+#if NET_2_0 || MONO_2_0
+            byte? b23 = 35;
+            sbyte? sb24 = 35;
+            decimal? d25 = 35;
+            double? d26 = 35;
+            float? f27 = 35;
+            int? i28 = 35;
+            uint? u29 = 35;
+            long? l30 = 35;
+            short? s31 = 35;
+            ushort? us32 = 35;
+
+            Assert.AreEqual(35, b23);
+            Assert.AreEqual(35, sb24);
+            Assert.AreEqual(35, d25);
+            Assert.AreEqual(35, d26);
+            Assert.AreEqual(35, f27);
+            Assert.AreEqual(35, i28);
+            Assert.AreEqual(35, u29);
+            Assert.AreEqual(35, l30);
+            Assert.AreEqual(35, s31);
+            Assert.AreEqual(35, us32);
+#endif
+        }
 
 		[Test]
 		public void EnumsEqual()
