@@ -9,6 +9,13 @@ namespace NUnit.Core.Extensibility
         public ParameterProviders(IExtensionHost host) : base( "ParameterProviders", host ) { }
 
         #region IParameterProvider Members
+
+        /// <summary>
+        /// Determine whether any ParameterSets
+        /// are available for a method.
+        /// </summary>
+        /// <param name="method">A MethodInfo representing the a parameterized test</param>
+        /// <returns>True if any are available, otherwise false.</returns>
         public bool HasParametersFor(MethodInfo method)
         {
             foreach (IParameterProvider provider in Extensions)
@@ -18,6 +25,12 @@ namespace NUnit.Core.Extensibility
             return false;
         }
 
+        /// <summary>
+        /// Return a list providing ParameterSets
+        /// for use in running a test.
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
         public IList GetParametersFor(MethodInfo method)
         {
             ArrayList paramList = new ArrayList();

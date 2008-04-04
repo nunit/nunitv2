@@ -52,6 +52,7 @@
         <include name="TestSuiteBuilder.cs"/>
         <include name="TextCapture.cs"/>
         <include name="ThreadedTestRunner.cs"/>
+        <include name="Builders/DataSourceProvider.cs"/>
         <include name="Builders/LegacySuiteBuilder.cs"/>
         <include name="Builders/NUnitTestCaseBuilder.cs"/>
         <include name="Builders/NUnitTestFixtureBuilder.cs"/>

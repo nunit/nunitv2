@@ -334,6 +334,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\ParameterizedTestMethodSuite.cs">
       <Link>ParameterizedTestMethodSuite.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\DataSourceProvider.cs">
+      <Link>Builders\DataSourceProvider.cs</Link>
+    </Compile>
     <Content Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>
       <SubType>Designer</SubType>

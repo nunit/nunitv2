@@ -40,7 +40,8 @@ namespace NUnit.Core.Builders
         public bool CanBuildFrom(MethodInfo method, Test suite)
         {
             if( Reflect.HasAttribute( method, NUnitFramework.TestAttribute, false ) ||
-                Reflect.HasAttribute( method, NUnitFramework.TestCaseAttribute, false ) )
+                Reflect.HasAttribute( method, NUnitFramework.TestCaseAttribute, false ) ||
+                Reflect.HasAttribute( method, NUnitFramework.DataSourceAttribute, false))
                     return true;
 
             if (allowOldStyleTests)
@@ -199,49 +200,87 @@ namespace NUnit.Core.Builders
         /// <returns>True if the method signature is valid, false if not</returns>
         private static bool CheckTestMethodSignature(TestMethod testMethod, ParameterSet parms)
 		{
-            string problem = null;
             MethodInfo method = testMethod.Method;
 
-	        object[] arglist = null;
-	        object result = null;
-	        bool exceptionExpected = false;
-	        int argsProvided = 0;
-
-            if ( parms != null )
+            if (method.IsAbstract)
             {
-                arglist = parms.Arguments;
-                if (arglist != null)
-                    argsProvided = arglist.Length;
-                result = parms.Result;
-                exceptionExpected = parms.ExpectedExceptionName != null;
+                testMethod.RunState = RunState.NotRunnable;
+                testMethod.IgnoreReason = "Method is abstract";
+                return false;
             }
 
+            if (!method.IsPublic)
+            {
+                testMethod.RunState = RunState.NotRunnable;
+                testMethod.IgnoreReason = "Method is not public";
+                return false;
+            }
+
+            if ( parms == null )
+            {
+                if (method.GetParameters().Length > 0)
+                {
+                    testMethod.RunState = RunState.NotRunnable;
+                    testMethod.IgnoreReason = "No arguments provided";
+                    return false;
+                }
+                else if (!method.ReturnType.Equals(typeof(void)))
+                {
+                    testMethod.RunState = RunState.NotRunnable;
+                    testMethod.IgnoreReason = "Method has non-void return value";
+                    return false;
+                }
+
+                return true;
+            }
+
+            testMethod.arguments = parms.Arguments;
+            testMethod.expectedResult = parms.Result;
+            testMethod.RunState = parms.RunState;
+            testMethod.IgnoreReason = parms.NotRunReason;
+
+            if( testMethod.RunState != RunState.Runnable)
+                return false;
+
+            object[] arglist = parms.Arguments;
+            int argsProvided = 0;
+
+            if (arglist != null)
+                argsProvided = arglist.Length;
             int argsNeeded = method.GetParameters().Length;
 
-            testMethod.arguments = arglist;
-	        testMethod.expectedResult = result;
 
-            if (method.IsAbstract)
-                problem = "Method is abstract";
-            else if (!method.IsPublic)
-                problem = "Method is not public";
-            else if (!method.ReturnType.Equals(typeof(void)) && result == null && !exceptionExpected )
-                problem = "Method has non-void return value";
-            else if (argsProvided > 0 &&  argsNeeded == 0)
-                problem = "Arguments provided for method not taking any";
-            else if (argsProvided == 0 && argsNeeded > 0)
-                problem = "No arguments were provided";
-            else if (argsProvided != argsNeeded)
-                problem = "Wrong number of arguments provided";
+            if (!method.ReturnType.Equals(typeof(void)) && parms.Result == null && parms.ExpectedExceptionName == null)
+            {
+                testMethod.RunState = RunState.NotRunnable;
+                testMethod.IgnoreReason = "Method has non-void return value";
+                return false;
+            }
 
-            // TODO: Check type compatibility and possibly convert here
+            if (argsProvided > 0 && argsNeeded == 0)
+            {
+                testMethod.RunState = RunState.NotRunnable;
+                testMethod.IgnoreReason = "Arguments provided for method not taking any";
+                return false;
+            }
 
-            if ( problem == null )
-                return true;
-				
-            testMethod.RunState = RunState.NotRunnable;
-            testMethod.IgnoreReason = problem;
-            return false;
+            if (argsProvided == 0 && argsNeeded > 0)
+            {
+                testMethod.RunState = RunState.NotRunnable;
+                testMethod.IgnoreReason = "No arguments were provided";
+                return false;
+            }
+
+            if (argsProvided != argsNeeded)
+            {
+                testMethod.RunState = RunState.NotRunnable;
+                testMethod.IgnoreReason = "Wrong number of arguments provided";
+                return false;
+            }
+
+	        // TODO: Check type compatibility and possibly convert here
+
+            return true;
         }
 
 		private static bool CanConvertTypes( Type fromType, Type toType )

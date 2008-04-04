@@ -114,13 +114,14 @@
     <Compile Include="..\..\..\..\src\NUnitExtensions\framework\RowTest\SpecialValue.cs">
       <Link>RowTest\SpecialValue.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\framework\Xml\XmlConstraint.cs">
-      <Link>Xml\XmlConstraint.cs</Link>
-    </Compile>
-    <Compile Include="Xml\Resources.Designer.cs">
+    <Compile Include="..\..\..\..\src\NUnitExtensions\framework\Xml\Resources.Designer.cs">
+      <Link>Xml\Resources.Designer.cs</Link>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitExtensions\framework\Xml\XmlConstraint.cs">
+      <Link>Xml\XmlConstraint.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -129,9 +130,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Xml\Resources.resx">
+    <EmbeddedResource Include="..\..\..\..\src\NUnitExtensions\framework\Xml\Resources.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
+      <Link>Xml\Resources.resx</Link>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

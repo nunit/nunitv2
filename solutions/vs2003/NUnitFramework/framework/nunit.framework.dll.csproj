@@ -126,6 +126,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DataSourceAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\DataSourceAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "DescriptionAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\DescriptionAttribute.cs"
                     SubType = "Code"
@@ -236,6 +242,12 @@
                 <File
                     RelPath = "TestCaseAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\TestCaseAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestCaseData.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\TestCaseData.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -74,7 +74,7 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 			Assert.That(testFixture.Arguments[1], Is.EqualTo(arguments[1]));
 		}
 
-#if NET_2_0
+#if NET_2_0 || MONO_2_0
         [Test]
 		public void RunTestMethod_WithNormalAndNullArguments()
 		{

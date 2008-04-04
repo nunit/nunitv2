@@ -11,7 +11,7 @@ namespace NUnit.Core.Extensibility
     public interface IParameterProvider
     {
         /// <summary>
-        /// Determine whether any ParameterSet
+        /// Determine whether any ParameterSets
         /// are available for a method.
         /// </summary>
         /// <param name="method">A MethodInfo representing the a parameterized test</param>

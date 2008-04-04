@@ -170,6 +170,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ParameterizedTestMethodFixture.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\ParameterizedTestMethodFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "PropertyAttributeTests.cs"
                     Link = "..\..\..\..\src\tests\test-assembly\PropertyAttributeTests.cs"
                     SubType = "Code"

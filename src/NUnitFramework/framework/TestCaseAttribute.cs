@@ -69,12 +69,20 @@ namespace NUnit.Framework
             get { return arguments; }
         }
 
+        /// <summary>
+        /// Gets or sets the expected result.
+        /// </summary>
+        /// <value>The result.</value>
         public object Result
         {
             get { return result; }
             set { result = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the expected exception.
+        /// </summary>
+        /// <value>The expected exception.</value>
         public Type ExpectedException
         {
             get { return expectedExceptionType;  }
@@ -85,6 +93,10 @@ namespace NUnit.Framework
             }
         }
 
+        /// <summary>
+        /// Gets or sets the name the expected exception.
+        /// </summary>
+        /// <value>The expected name of the exception.</value>
         public string ExpectedExceptionName
         {
             get { return expectedExceptionName; }
@@ -95,12 +107,20 @@ namespace NUnit.Framework
             }
         }
 
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>The description.</value>
         public string Description
         {
             get { return description; }
             set { description = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the name of the test.
+        /// </summary>
+        /// <value>The name of the test.</value>
         public string TestName
         {
             get { return testName; }

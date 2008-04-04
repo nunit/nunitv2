@@ -81,7 +81,7 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 			_arguments = new object[] { a };
 		}
 		
-#if NET_2_0
+#if NET_2_0 || MONO_2_0
 		[RowTest]
 		[Row(9, null)]
 		public void RowTestMethodWithNormalAndNullArgument(int a, object b)

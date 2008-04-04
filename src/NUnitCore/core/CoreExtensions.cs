@@ -32,7 +32,6 @@ namespace NUnit.Core
 		private FrameworkRegistry frameworks;
 	    private ParameterProviders parameterProviders;
 
-//		private log4net.Appender.ConsoleAppender appender;
 		#endregion
 
 		#region CoreExtensions Singleton
@@ -158,6 +157,7 @@ namespace NUnit.Core
 
             // Install builtin ParameterProvider
             parameterProviders.Install(new TestCaseParameterProvider());
+            parameterProviders.Install(new DataSourceProvider());
 		}
 
 		public void InstallAddins()

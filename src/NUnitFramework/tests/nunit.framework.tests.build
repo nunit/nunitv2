@@ -33,6 +33,7 @@
     <include name="MessageChecker.cs"/>
     <include name="NotEqualFixture.cs"/>
     <include name="NotSameFixture.cs"/>
+    <include name="NullableTypesTests.cs"/>
     <include name="SameFixture.cs"/>
     <include name="StringAssertTests.cs"/>
     <include name="TextMessageWriterTests.cs"/>

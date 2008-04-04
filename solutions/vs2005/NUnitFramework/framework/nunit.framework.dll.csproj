@@ -312,6 +312,12 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\DirectoryConstraints.cs">
       <Link>Constraints\DirectoryConstraints.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\DataSourceAttribute.cs">
+      <Link>DataSourceAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestCaseData.cs">
+      <Link>TestCaseData.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
