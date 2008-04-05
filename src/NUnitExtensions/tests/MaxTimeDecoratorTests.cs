@@ -22,6 +22,7 @@ namespace NUnit.Core.Extensions.Tests
 		{
 		}
 
+        // TODO: We need a way to simulate the clock reliably
         [Test]
         public void MaxTimeExceeded()
         {

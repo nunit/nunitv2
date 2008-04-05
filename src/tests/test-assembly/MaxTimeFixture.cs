@@ -9,7 +9,7 @@ namespace NUnit.TestData
         [Test, MaxTime(1)]
         public void MaxTimeExceeded()
         {
-            System.Threading.Thread.Sleep(10);
+            System.Threading.Thread.Sleep(1000);
         }
     }
 }
