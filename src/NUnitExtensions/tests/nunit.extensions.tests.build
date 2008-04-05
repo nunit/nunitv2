@@ -6,6 +6,7 @@
     <include name="RepeatedTestFixture.cs"/>
     <include name="RowTest/*.cs"/>
     <include name="RowTest/UnitTests/*.cs"/>
+    <include name="XmlDiffFixture.cs"/>
   </patternset>
 
   <target name="build">

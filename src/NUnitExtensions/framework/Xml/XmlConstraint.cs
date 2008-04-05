@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
@@ -45,7 +46,10 @@ namespace NUnit.Framework.Extensions.Xml
 
 		private static XslCompiledTransform CompileTransform()
 		{
-			XmlReader xmlReader = XmlReader.Create(new StringReader(Resources.XmlDiff));
+            Type type = typeof(XmlConstraint);
+		    Stream stream = type.Assembly.GetManifestResourceStream(type, "xmlDiff.xslt");
+		    XmlReader xmlReader = XmlReader.Create(stream);
+            //XmlReader xmlReader = XmlReader.Create(new StringReader(Resources.XmlDiff));
 			XslCompiledTransform transform = new XslCompiledTransform();
 			XsltSettings settings = new XsltSettings();
 			settings.EnableDocumentFunction = true;

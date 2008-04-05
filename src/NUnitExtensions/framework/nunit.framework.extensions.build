@@ -8,6 +8,7 @@
     <include name="RowTest/RowAttribute.cs"/>
     <include name="RowTest/RowTestAttribute.cs"/>
     <include name="RowTest/SpecialValue.cs"/>
+    <include name="Xml/XmlConstraint.cs"/>
   </patternset>
 
   <target name="build">
@@ -18,6 +19,9 @@
         <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
+      <resources  prefix="NUnit.Framework.Extensions.Xml">
+        <include name="XML/xmlDiff.xslt"/>
+      </resources>
       <nowarn>
         <warning number="1699" if="${runtime.version=='2.0'}"/>
       </nowarn>
@@ -31,6 +35,7 @@
     <copy todir="${package.src.dir}/NUnitExtensions/framework">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="XML/xmlDiff.xslt"/>
         <include name="nunit.framework.extensions.build"/>
       </fileset>
     </copy>
