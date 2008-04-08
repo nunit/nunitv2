@@ -18,6 +18,7 @@ namespace NUnit.Framework
         private object result;
         private Type expectedExceptionType;
         private string expectedExceptionName;
+        private string expectedExceptionMessage;
         private string description;
         private string testName;
 
@@ -28,7 +29,10 @@ namespace NUnit.Framework
         /// <param name="arguments"></param>
         public TestCaseAttribute(params object[] arguments)
         {
-            this.arguments = arguments;
+         	if (arguments == null)
+         		this.arguments = new object[] { null };
+         	else
+ 	        	this.arguments = arguments;
         }
 
         /// <summary>
@@ -106,6 +110,16 @@ namespace NUnit.Framework
                 expectedExceptionType = null;
             }
         }
+
+         /// <summary>
+         /// Gets or sets the expected message of the expected exception
+         /// </summary>
+         /// <value>The expected message of the exception.</value>
+         public string ExpectedExceptionMessage
+         {
+         	get { return expectedExceptionMessage; }
+         	set { expectedExceptionMessage = value; }
+         }
 
         /// <summary>
         /// Gets or sets the description.

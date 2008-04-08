@@ -123,6 +123,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssertThrowsTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\AssertThrowsTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "CollectionAdapter.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\CollectionAdapter.cs"
                     SubType = "Code"

@@ -3,7 +3,7 @@ using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Framework.Tests
 {
-#if NET_2_0 || MONO_2_0
+#if NET_2_0
     [TestFixture]
     public class NullableTypesTests
     {
@@ -73,7 +73,7 @@ namespace NUnit.Framework.Tests
         public void CanTestForNaN()
         {
             double? anNaN = Double.NaN;
-            Assert.IsNaN((double)anNaN); //TODO: Make this work without the explicit conversion
+            Assert.IsNaN(anNaN);
             Assert.That(anNaN, Is.NaN);
         }
 
@@ -107,9 +107,13 @@ namespace NUnit.Framework.Tests
         {
             double? five = 5.0;
 
-            // TODO: Make this work without the explicit conversion
-            Assert.AreEqual(5.0000001, (double)five, .0001); 
+            Assert.AreEqual(5.0000001, five, .0001); 
             Assert.That( five, Is.EqualTo(5.0000001).Within(.0001));
+
+            float? three = 3.0f;
+
+            Assert.AreEqual(3.00001f, three, .001);
+            Assert.That( three, Is.EqualTo(3.00001f).Within(.001));
         }
 
         private enum Colors

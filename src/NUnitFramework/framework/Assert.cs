@@ -12,7 +12,9 @@ using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Framework
 {
-	/// <summary>
+    public delegate void TestSnippet();
+
+    /// <summary>
 	/// The Assert class contains a collection of static methods that
 	/// implement the most common assertions used in NUnit.
 	/// </summary>
@@ -238,47 +240,89 @@ namespace NUnit.Framework
 
 		#region IsNaN
 
-		/// <summary>
-		/// Verifies that the double is passed is an <code>NaN</code> value.
-		/// If the object is not <code>NaN</code> then an <see cref="AssertionException"/>
-		/// is thrown.
-		/// </summary>
-		/// <param name="aDouble">The value that is to be tested</param>
-		/// <param name="message">The message to be displayed when the object is not null</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void IsNaN(double aDouble, string message, params object[] args) 
-		{
+        #region Double
+        /// <summary>
+        /// Verifies that the double is passed is an <code>NaN</code> value.
+        /// If the object is not <code>NaN</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="aDouble">The value that is to be tested</param>
+        /// <param name="message">The message to be displayed when the object is not null</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void IsNaN(double aDouble, string message, params object[] args)
+        {
             Assert.That(aDouble, Is.NaN, message, args);
-		}
+        }
 
-		/// <summary>
-		/// Verifies that the double is passed is an <code>NaN</code> value.
-		/// If the object is not <code>NaN</code> then an <see cref="AssertionException"/>
-		/// is thrown.
-		/// </summary>
-		/// <param name="aDouble">The object that is to be tested</param>
-		/// <param name="message">The message to be displayed when the object is not null</param>
-		static public void IsNaN(double aDouble, string message) 
-		{
-			Assert.IsNaN(aDouble, message, null);
-		}
-    
-		/// <summary>
-		/// Verifies that the double is passed is an <code>NaN</code> value.
-		/// If the object is not <code>NaN</code> then an <see cref="AssertionException"/>
-		/// is thrown.
-		/// </summary>
-		/// <param name="aDouble">The object that is to be tested</param>
-		static public void IsNaN(double aDouble) 
-		{
-			Assert.IsNaN(aDouble, string.Empty, null);
-		}
-    
-		#endregion
+        /// <summary>
+        /// Verifies that the double is passed is an <code>NaN</code> value.
+        /// If the object is not <code>NaN</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="aDouble">The object that is to be tested</param>
+        /// <param name="message">The message to be displayed when the object is not null</param>
+        static public void IsNaN(double aDouble, string message)
+        {
+            Assert.IsNaN(aDouble, message, null);
+        }
 
-		#region IsEmpty
+        /// <summary>
+        /// Verifies that the double is passed is an <code>NaN</code> value.
+        /// If the object is not <code>NaN</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="aDouble">The object that is to be tested</param>
+        static public void IsNaN(double aDouble)
+        {
+            Assert.IsNaN(aDouble, string.Empty, null);
+        }
+        #endregion
 
-		/// <summary>
+        #region Nullable<double>
+#if NET_2_0
+        /// <summary>
+        /// Verifies that the double is passed is an <code>NaN</code> value.
+        /// If the object is not <code>NaN</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="aDouble">The value that is to be tested</param>
+        /// <param name="message">The message to be displayed when the object is not null</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void IsNaN(double? aDouble, string message, params object[] args)
+        {
+            Assert.That(aDouble, Is.NaN, message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the double is passed is an <code>NaN</code> value.
+        /// If the object is not <code>NaN</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="aDouble">The object that is to be tested</param>
+        /// <param name="message">The message to be displayed when the object is not null</param>
+        static public void IsNaN(double? aDouble, string message)
+        {
+            Assert.IsNaN(aDouble, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the double is passed is an <code>NaN</code> value.
+        /// If the object is not <code>NaN</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="aDouble">The object that is to be tested</param>
+        static public void IsNaN(double? aDouble)
+        {
+            Assert.IsNaN(aDouble, string.Empty, null);
+        }
+#endif
+        #endregion
+
+        #endregion
+
+        #region IsEmpty
+
+        /// <summary>
 		/// Assert that a string is empty - that is equal to string.Empty
 		/// </summary>
 		/// <param name="aString">The string to be tested</param>
@@ -401,147 +445,285 @@ namespace NUnit.Framework
 		}
 		#endregion
 
-		#region IsAssignableFrom
-		/// <summary>
-		/// Asserts that an object may be assigned a  value of a given Type.
-		/// </summary>
-		/// <param name="expected">The expected Type.</param>
-		/// <param name="actual">The object under examination</param>
-		static public void IsAssignableFrom( System.Type expected, object actual )
-		{
-			IsAssignableFrom(expected, actual, "");
-		}
+        #region IsAssignableFrom
+        /// <summary>
+        /// Asserts that an object may be assigned a  value of a given Type.
+        /// </summary>
+        /// <param name="expected">The expected Type.</param>
+        /// <param name="actual">The object under examination</param>
+        static public void IsAssignableFrom(System.Type expected, object actual)
+        {
+            IsAssignableFrom(expected, actual, "");
+        }
 
-		/// <summary>
-		/// Asserts that an object may be assigned a  value of a given Type.
-		/// </summary>
-		/// <param name="expected">The expected Type.</param>
-		/// <param name="actual">The object under examination</param>
-		/// <param name="message">The messge to display in case of failure</param>
-		static public void IsAssignableFrom( System.Type expected, object actual, string message )
-		{
-			IsAssignableFrom(expected, actual, message, null);
-		}
-		
-		/// <summary>
-		/// Asserts that an object may be assigned a  value of a given Type.
-		/// </summary>
-		/// <param name="expected">The expected Type.</param>
-		/// <param name="actual">The object under examination</param>
-		/// <param name="message">The message to display in case of failure</param>
-		/// <param name="args">Array of objects to be used in formatting the message</param>
-		static public void IsAssignableFrom( System.Type expected, object actual, string message, params object[] args )
-		{
+        /// <summary>
+        /// Asserts that an object may be assigned a  value of a given Type.
+        /// </summary>
+        /// <param name="expected">The expected Type.</param>
+        /// <param name="actual">The object under examination</param>
+        /// <param name="message">The messge to display in case of failure</param>
+        static public void IsAssignableFrom(System.Type expected, object actual, string message)
+        {
+            IsAssignableFrom(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that an object may be assigned a  value of a given Type.
+        /// </summary>
+        /// <param name="expected">The expected Type.</param>
+        /// <param name="actual">The object under examination</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Array of objects to be used in formatting the message</param>
+        static public void IsAssignableFrom(System.Type expected, object actual, string message, params object[] args)
+        {
             Assert.That(actual, Is.AssignableFrom(expected), message, args);
-		}
-		#endregion
-		
-		#region IsNotAssignableFrom
-		/// <summary>
-		/// Asserts that an object may not be assigned a  value of a given Type.
-		/// </summary>
-		/// <param name="expected">The expected Type.</param>
-		/// <param name="actual">The object under examination</param>
-		static public void IsNotAssignableFrom( System.Type expected, object actual )
-		{
-			IsNotAssignableFrom(expected, actual, "");
-		}
-		
-		/// <summary>
-		/// Asserts that an object may not be assigned a  value of a given Type.
-		/// </summary>
-		/// <param name="expected">The expected Type.</param>
-		/// <param name="actual">The object under examination</param>
-		/// <param name="message">The messge to display in case of failure</param>
-		static public void IsNotAssignableFrom( System.Type expected, object actual, string message )
-		{
-			IsNotAssignableFrom(expected, actual, message, null);
-		}
-		
-		/// <summary>
-		/// Asserts that an object may not be assigned a  value of a given Type.
-		/// </summary>
-		/// <param name="expected">The expected Type.</param>
-		/// <param name="actual">The object under examination</param>
-		/// <param name="message">The message to display in case of failure</param>
-		/// <param name="args">Array of objects to be used in formatting the message</param>
-		static public void IsNotAssignableFrom( System.Type expected, object actual, string message, params object[] args )
-		{
+        }
+        #endregion
+
+        #region IsAssignableFrom<T>
+#if NET_2_0
+        /// <summary>
+        /// Asserts that an object may be assigned a  value of a given Type.
+        /// </summary>
+        /// <param name="actual">The object under examination</param>
+        static public void IsAssignableFrom<T>(object actual)
+        {
+            IsAssignableFrom<T>(actual, string.Empty, null);
+        }
+
+        /// <summary>
+        /// Asserts that an object may be assigned a  value of a given Type.
+        /// </summary>
+        /// <param name="actual">The object under examination</param>
+        /// <param name="message">The messge to display in case of failure</param>
+        static public void IsAssignableFrom<T>(object actual, string message)
+        {
+            IsAssignableFrom<T>(actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that an object may be assigned a  value of a given Type.
+        /// </summary>
+        /// <param name="actual">The object under examination</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Array of objects to be used in formatting the message</param>
+        static public void IsAssignableFrom<T>(object actual, string message, params object[] args)
+        {
+            Assert.That(actual, Is.AssignableFrom(typeof(T)), message, args);
+        }
+#endif
+        #endregion
+
+        #region IsNotAssignableFrom
+
+        /// <summary>
+        /// Asserts that an object may not be assigned a  value of a given Type.
+        /// </summary>
+        /// <param name="expected">The expected Type.</param>
+        /// <param name="actual">The object under examination</param>
+        static public void IsNotAssignableFrom(System.Type expected, object actual)
+        {
+            IsNotAssignableFrom(expected, actual, "");
+        }
+
+        /// <summary>
+        /// Asserts that an object may not be assigned a  value of a given Type.
+        /// </summary>
+        /// <param name="expected">The expected Type.</param>
+        /// <param name="actual">The object under examination</param>
+        /// <param name="message">The messge to display in case of failure</param>
+        static public void IsNotAssignableFrom(System.Type expected, object actual, string message)
+        {
+            IsNotAssignableFrom(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that an object may not be assigned a  value of a given Type.
+        /// </summary>
+        /// <param name="expected">The expected Type.</param>
+        /// <param name="actual">The object under examination</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Array of objects to be used in formatting the message</param>
+        static public void IsNotAssignableFrom(System.Type expected, object actual, string message, params object[] args)
+        {
             Assert.That(actual, Is.Not.AssignableFrom(expected), message, args);
-		}
-		#endregion
-		
-		#region IsInstanceOfType
-		/// <summary>
-		/// Asserts that an object is an instance of a given type.
-		/// </summary>
-		/// <param name="expected">The expected Type</param>
-		/// <param name="actual">The object being examined</param>
-		public static void IsInstanceOfType( System.Type expected, object actual )
-		{
-			IsInstanceOfType( expected, actual, string.Empty, null );
-		}
+        }
+        #endregion
 
-		/// <summary>
-		/// Asserts that an object is an instance of a given type.
-		/// </summary>
-		/// <param name="expected">The expected Type</param>
-		/// <param name="actual">The object being examined</param>
-		/// <param name="message">A message to display in case of failure</param>
-		public static void IsInstanceOfType( System.Type expected, object actual, string message )
-		{
-			IsInstanceOfType( expected, actual, message, null );
-		}
+        #region IsNotAssignableFrom<T>
+#if NET_2_0
+        /// <summary>
+        /// Asserts that an object may not be assigned a  value of a given Type.
+        /// </summary>
+        /// <param name="actual">The object under examination</param>
+        static public void IsNotAssignableFrom<T>(object actual)
+        {
+            IsNotAssignableFrom<T>(actual, string.Empty, null);
+        }
 
-		/// <summary>
-		/// Asserts that an object is an instance of a given type.
-		/// </summary>
-		/// <param name="expected">The expected Type</param>
-		/// <param name="actual">The object being examined</param>
-		/// <param name="message">A message to display in case of failure</param>
-		/// <param name="args">An array of objects to be used in formatting the message</param>
-		public static void IsInstanceOfType( System.Type expected, object actual, string message, params object[] args )
-		{
+        /// <summary>
+        /// Asserts that an object may not be assigned a  value of a given Type.
+        /// </summary>
+        /// <param name="actual">The object under examination</param>
+        /// <param name="message">The messge to display in case of failure</param>
+        static public void IsNotAssignableFrom<T>(object actual, string message)
+        {
+            IsNotAssignableFrom<T>(actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that an object may not be assigned a  value of a given Type.
+        /// </summary>
+        /// <param name="actual">The object under examination</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Array of objects to be used in formatting the message</param>
+        static public void IsNotAssignableFrom<T>(object actual, string message, params object[] args)
+        {
+            Assert.That(actual, Is.Not.AssignableFrom(typeof(T)), message, args);
+        }
+#endif
+        #endregion
+
+        #region IsInstanceOfType
+
+        /// <summary>
+        /// Asserts that an object is an instance of a given type.
+        /// </summary>
+        /// <param name="expected">The expected Type</param>
+        /// <param name="actual">The object being examined</param>
+        public static void IsInstanceOfType(System.Type expected, object actual)
+        {
+            IsInstanceOfType(expected, actual, string.Empty, null);
+        }
+
+        /// <summary>
+        /// Asserts that an object is an instance of a given type.
+        /// </summary>
+        /// <param name="expected">The expected Type</param>
+        /// <param name="actual">The object being examined</param>
+        /// <param name="message">A message to display in case of failure</param>
+        public static void IsInstanceOfType(System.Type expected, object actual, string message)
+        {
+            IsInstanceOfType(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that an object is an instance of a given type.
+        /// </summary>
+        /// <param name="expected">The expected Type</param>
+        /// <param name="actual">The object being examined</param>
+        /// <param name="message">A message to display in case of failure</param>
+        /// <param name="args">An array of objects to be used in formatting the message</param>
+        public static void IsInstanceOfType(System.Type expected, object actual, string message, params object[] args)
+        {
             Assert.That(actual, Is.InstanceOfType(expected), message, args);
-		}
-		#endregion
+        }
+        #endregion
 
-		#region IsNotInstanceOfType
-		/// <summary>
-		/// Asserts that an object is not an instance of a given type.
-		/// </summary>
-		/// <param name="expected">The expected Type</param>
-		/// <param name="actual">The object being examined</param>
-		public static void IsNotInstanceOfType( System.Type expected, object actual )
-		{
-			IsNotInstanceOfType( expected, actual, string.Empty, null );
-		}
+        #region IsInstanceOf<T>
+#if NET_2_0
+        /// <summary>
+        /// Asserts that an object is an instance of a given type.
+        /// </summary>
+        /// <param name="actual">The object being examined</param>
+        public static void IsInstanceOf<T>(object actual)
+        {
+            IsInstanceOf<T>(actual, string.Empty, null);
+        }
 
-		/// <summary>
-		/// Asserts that an object is not an instance of a given type.
-		/// </summary>
-		/// <param name="expected">The expected Type</param>
-		/// <param name="actual">The object being examined</param>
-		/// <param name="message">A message to display in case of failure</param>
-		public static void IsNotInstanceOfType( System.Type expected, object actual, string message )
-		{
-			IsNotInstanceOfType( expected, actual, message, null );
-		}
+        /// <summary>
+        /// Asserts that an object is an instance of a given type.
+        /// </summary>
+        /// <param name="actual">The object being examined</param>
+        /// <param name="message">A message to display in case of failure</param>
+        public static void IsInstanceOf<T>(object actual, string message)
+        {
+            IsInstanceOf<T>(actual, message, null);
+        }
 
-		/// <summary>
-		/// Asserts that an object is not an instance of a given type.
-		/// </summary>
-		/// <param name="expected">The expected Type</param>
-		/// <param name="actual">The object being examined</param>
-		/// <param name="message">A message to display in case of failure</param>
-		/// <param name="args">An array of objects to be used in formatting the message</param>
-		public static void IsNotInstanceOfType( System.Type expected, object actual, string message, params object[] args )
-		{
+        /// <summary>
+        /// Asserts that an object is an instance of a given type.
+        /// </summary>
+        /// <param name="actual">The object being examined</param>
+        /// <param name="message">A message to display in case of failure</param>
+        /// <param name="args">An array of objects to be used in formatting the message</param>
+        public static void IsInstanceOf<T>(object actual, string message, params object[] args)
+        {
+            Assert.That(actual, Is.InstanceOfType(typeof(T)), message, args);
+        }
+#endif
+        #endregion
+
+        #region IsNotInstanceOfType
+        /// <summary>
+        /// Asserts that an object is not an instance of a given type.
+        /// </summary>
+        /// <param name="expected">The expected Type</param>
+        /// <param name="actual">The object being examined</param>
+        public static void IsNotInstanceOfType(System.Type expected, object actual)
+        {
+            IsNotInstanceOfType(expected, actual, string.Empty, null);
+        }
+
+        /// <summary>
+        /// Asserts that an object is not an instance of a given type.
+        /// </summary>
+        /// <param name="expected">The expected Type</param>
+        /// <param name="actual">The object being examined</param>
+        /// <param name="message">A message to display in case of failure</param>
+        public static void IsNotInstanceOfType(System.Type expected, object actual, string message)
+        {
+            IsNotInstanceOfType(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that an object is not an instance of a given type.
+        /// </summary>
+        /// <param name="expected">The expected Type</param>
+        /// <param name="actual">The object being examined</param>
+        /// <param name="message">A message to display in case of failure</param>
+        /// <param name="args">An array of objects to be used in formatting the message</param>
+        public static void IsNotInstanceOfType(System.Type expected, object actual, string message, params object[] args)
+        {
             Assert.That(actual, Is.Not.InstanceOfType(expected), message, args);
-		}
-		#endregion
+        }
+        #endregion
 
-		#region AreEqual
+        #region IsNotInstanceOf<T>
+#if NET_2_0
+        /// <summary>
+        /// Asserts that an object is not an instance of a given type.
+        /// </summary>
+        /// <param name="actual">The object being examined</param>
+        public static void IsNotInstanceOf<T>(object actual)
+        {
+            IsNotInstanceOf<T>(actual, string.Empty, null);
+        }
+
+        /// <summary>
+        /// Asserts that an object is not an instance of a given type.
+        /// </summary>
+        /// <param name="actual">The object being examined</param>
+        /// <param name="message">A message to display in case of failure</param>
+        public static void IsNotInstanceOf<T>(object actual, string message)
+        {
+            IsNotInstanceOf<T>(actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that an object is not an instance of a given type.
+        /// </summary>
+        /// <param name="actual">The object being examined</param>
+        /// <param name="message">A message to display in case of failure</param>
+        /// <param name="args">An array of objects to be used in formatting the message</param>
+        public static void IsNotInstanceOf<T>(object actual, string message, params object[] args)
+        {
+            Assert.That(actual, Is.Not.InstanceOfType(typeof(T)), message, args);
+        }
+#endif
+        #endregion
+
+        #region AreEqual
 
         #region Ints
 
@@ -756,64 +938,123 @@ namespace NUnit.Framework
 
 		#region Doubles
 
-		/// <summary>
-		/// Verifies that two doubles are equal considering a delta. If the
-		/// expected value is infinity then the delta value is ignored. If 
-		/// they are not equals then an <see cref="AssertionException"/> is
-		/// thrown.
-		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		/// <param name="delta">The maximum acceptable difference between the
-		/// the expected and the actual</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void AreEqual(double expected, 
-			double actual, double delta, string message, params object[] args) 
-		{
-			Constraint constraint = new EqualConstraint( expected );
-			if ( double.IsNaN(expected) || double.IsInfinity(expected) )
-				Assert.That(actual, Is.EqualTo( expected ), message, args);
-			else
-				Assert.That(actual, Is.EqualTo(expected).Within(delta), message, args);
+        /// <summary>
+        /// Verifies that two doubles are equal considering a delta. If the
+        /// expected value is infinity then the delta value is ignored. If 
+        /// they are not equals then an <see cref="AssertionException"/> is
+        /// thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="delta">The maximum acceptable difference between the
+        /// the expected and the actual</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void AreEqual(double expected,
+            double actual, double delta, string message, params object[] args)
+        {
+            Constraint constraint = new EqualConstraint(expected);
+            if (double.IsNaN(expected) || double.IsInfinity(expected))
+                Assert.That(actual, Is.EqualTo(expected), message, args);
+            else
+                Assert.That(actual, Is.EqualTo(expected).Within(delta), message, args);
         }
 
-		/// <summary>
-		/// Verifies that two doubles are equal considering a delta. If the
-		/// expected value is infinity then the delta value is ignored. If 
-		/// they are not equals then an <see cref="AssertionException"/> is
-		/// thrown.
-		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		/// <param name="delta">The maximum acceptable difference between the
-		/// the expected and the actual</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void AreEqual(double expected, 
-			double actual, double delta, string message) 
-		{
-			Assert.AreEqual( expected, actual, delta, message, null );
-		}
+        /// <summary>
+        /// Verifies that two doubles are equal considering a delta. If the
+        /// expected value is infinity then the delta value is ignored. If 
+        /// they are not equals then an <see cref="AssertionException"/> is
+        /// thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="delta">The maximum acceptable difference between the
+        /// the expected and the actual</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void AreEqual(double expected,
+            double actual, double delta, string message)
+        {
+            Assert.AreEqual(expected, actual, delta, message, null);
+        }
 
-		/// <summary>
-		/// Verifies that two doubles are equal considering a delta. If the
-		/// expected value is infinity then the delta value is ignored. If 
-		/// they are not equals then an <see cref="AssertionException"/> is
-		/// thrown.
-		/// </summary>
-		/// <param name="expected">The expected value</param>
-		/// <param name="actual">The actual value</param>
-		/// <param name="delta">The maximum acceptable difference between the
-		/// the expected and the actual</param>
-		static public void AreEqual(double expected, double actual, double delta) 
-		{
-			Assert.AreEqual(expected, actual, delta, string.Empty, null);
-		}
+        /// <summary>
+        /// Verifies that two doubles are equal considering a delta. If the
+        /// expected value is infinity then the delta value is ignored. If 
+        /// they are not equals then an <see cref="AssertionException"/> is
+        /// thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="delta">The maximum acceptable difference between the
+        /// the expected and the actual</param>
+        static public void AreEqual(double expected, double actual, double delta)
+        {
+            Assert.AreEqual(expected, actual, delta, string.Empty, null);
+        }
 
-		#endregion
+#if NET_2_0
+        /// <summary>
+        /// Verifies that two doubles are equal considering a delta, where
+        /// the actual value is nullable. If the
+        /// expected value is infinity then the delta value is ignored. If 
+        /// they are not equals then an <see cref="AssertionException"/> is
+        /// thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="delta">The maximum acceptable difference between the
+        /// the expected and the actual</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void AreEqual(double expected,
+            double? actual, double delta, string message, params object[] args)
+        {
+            Constraint constraint = new EqualConstraint(expected);
+            if (double.IsNaN(expected) || double.IsInfinity(expected))
+                Assert.That(actual, Is.EqualTo(expected), message, args);
+            else
+                Assert.That(actual, Is.EqualTo(expected).Within(delta), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that two doubles are equal considering a delta, where
+        /// the actual value is nullable. If the
+        /// expected value is infinity then the delta value is ignored. If 
+        /// they are not equals then an <see cref="AssertionException"/> is
+        /// thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="delta">The maximum acceptable difference between the
+        /// the expected and the actual</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void AreEqual(double expected,
+            double? actual, double delta, string message)
+        {
+            Assert.AreEqual(expected, actual, delta, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that two doubles are equal considering a delta, where
+        /// the actual value is nullable. If the
+        /// expected value is infinity then the delta value is ignored. If 
+        /// they are not equals then an <see cref="AssertionException"/> is
+        /// thrown.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="delta">The maximum acceptable difference between the
+        /// the expected and the actual</param>
+        static public void AreEqual(double expected, double? actual, double delta)
+        {
+            Assert.AreEqual(expected, actual, delta, string.Empty, null);
+        }
+#endif
+
+        #endregion
 
 		#region Floats
-
+#if NEED_FLOAT
 		/// <summary>
 		/// Verifies that two floats are equal considering a delta. If the
 		/// expected value is infinity then the delta value is ignored. If 
@@ -865,7 +1106,7 @@ namespace NUnit.Framework
 		{
 			Assert.AreEqual(expected, actual, delta, string.Empty, null);
 		}
-
+#endif
 		#endregion
 
 		#region Objects
@@ -2142,10 +2383,6 @@ namespace NUnit.Framework
     
 		#endregion
 
-		#region DoAssert
-
-		#endregion
-
 		#region That
 		/// <summary>
 		/// Apply a constraint to an actual value, succeeding if the constraint
@@ -2184,9 +2421,9 @@ namespace NUnit.Framework
 			if ( !constraint.Matches( actual ) )
 			{
 				MessageWriter writer = new TextMessageWriter( message, args );
-				constraint.WriteMessageTo( writer );
-				throw new AssertionException( writer.ToString() );
-			}
+                constraint.WriteMessageTo(writer);
+                throw new AssertionException(writer.ToString());
+            }
 		}
 
         /// <summary>
@@ -2904,9 +3141,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="arg1">The first value, expected to be less</param>
 		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void LessOrEqual(IComparable arg1, IComparable arg2, string message, params object[] args)
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void LessOrEqual(IComparable arg1, IComparable arg2, string message, params object[] args)
 		{
             Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
         }
@@ -2939,5 +3176,89 @@ namespace NUnit.Framework
 		#endregion
 
         #endregion
-	}
+
+        #region Throws
+        /// <summary>
+        /// Verifies that a delegate throws a particular exception when called.
+        /// </summary>
+        /// <param name="expectedExceptionType">The exception Type expected</param>
+        /// <param name="snippet">A TestSnippet delegate</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static void Throws(Type expectedExceptionType, TestSnippet snippet, string message, params object[] args)
+        {
+            Type caughtExceptionType = null;
+
+			try
+			{
+				snippet();
+			}
+			catch(Exception ex)
+			{
+				caughtExceptionType = ex.GetType();
+			}
+
+			Assert.AreEqual(expectedExceptionType, caughtExceptionType, message, args);
+		}
+
+        /// <summary>
+        /// Verifies that a delegate throws a particular exception when called.
+        /// </summary>
+        /// <param name="expectedExceptionType">The exception Type expected</param>
+        /// <param name="snippet">A TestSnippet delegate</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        public static void Throws(Type expectedExceptionType, TestSnippet snippet, string message)
+        {
+            Throws( expectedExceptionType, snippet, message, null );
+        }
+
+        /// <summary>
+        /// Verifies that a delegate throws a particular exception when called.
+        /// </summary>
+        /// <param name="expectedExceptionType">The exception Type expected</param>
+        /// <param name="snippet">A TestSnippet delegate</param>
+        public static void Throws(Type expectedExceptionType, TestSnippet snippet)
+        {
+            Throws(expectedExceptionType, snippet, string.Empty, null);
+        }
+
+        #endregion
+
+        #region Throws<T>
+#if NET_2_0
+        /// <summary>
+        /// Verifies that a delegate throws a particular exception when called.
+        /// </summary>
+        /// <typeparam name="T">Type of the expected exception</typeparam>
+        /// <param name="snippet">A TestSnippet delegate</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static void Throws<T>(TestSnippet snippet, string message, params object[] args) where T : Exception
+        {
+            Throws(typeof(T), snippet, message, args);
+        }
+
+        /// <summary>
+        /// Verifies that a delegate throws a particular exception when called.
+        /// </summary>
+        /// <typeparam name="T">Type of the expected exception</typeparam>
+        /// <param name="snippet">A TestSnippet delegate</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        public static void Throws<T>(TestSnippet snippet, string message) where T : Exception
+        {
+            Throws<T>( snippet, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that a delegate throws a particular exception when called.
+        /// </summary>
+        /// <typeparam name="T">Type of the expected exception</typeparam>
+        /// <param name="snippet">A TestSnippet delegate</param>
+        public static void Throws<T>(TestSnippet snippet) where T : Exception
+        {
+            Throws<T>( snippet, string.Empty, null);
+        }
+#endif
+        #endregion
+    }
 }

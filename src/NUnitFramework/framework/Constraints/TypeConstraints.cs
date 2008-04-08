@@ -140,4 +140,38 @@ namespace NUnit.Framework.Constraints
             writer.WriteExpectedValue(expectedType);
         }
     }
+
+    public class ExpectedExceptionConstraint : TypeConstraint
+    {
+        private Type caughtException;
+
+        public ExpectedExceptionConstraint(Type expectedType ) : base(expectedType) { }
+
+        public override bool Matches(object actual)
+        {
+            this.actual = actual;
+            this.caughtException = null;
+
+            TestSnippet snippet = actual as TestSnippet;
+
+            if ( snippet == null )
+                throw new ArgumentException("Argument must be a TestSnippet delgate", "actual");
+
+            try
+            {
+                snippet();
+                return false;
+            }
+            catch (Exception ex)
+            {
+                caughtException = ex.GetType();
+                return caughtException.Equals(expectedType);
+            }
+        }
+
+        public override void WriteDescriptionTo(MessageWriter writer)
+        {
+            writer.WriteExpectedValue(expectedType);
+        }
+    }
 }

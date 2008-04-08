@@ -30,7 +30,13 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void IsInstanceOfType()
 		{
-			Assert.IsInstanceOfType(typeof(System.Exception), new ApplicationException() );
+            ApplicationException ex = new ApplicationException();
+
+			Assert.IsInstanceOfType(typeof(System.Exception), ex );
+            Expect( ex, InstanceOfType(typeof(Exception)));
+#if NET_2_0
+            Assert.IsInstanceOf<Exception>( ex );
+#endif
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
@@ -47,6 +53,9 @@ namespace NUnit.Framework.Tests
 		{
 			Assert.IsNotInstanceOfType(typeof(System.Int32), "abc123" );
 			Expect( "abc123", Not.InstanceOfType(typeof(System.Int32)) );
+#if NET_2_0
+			Assert.IsNotInstanceOf<System.Int32>("abc123");
+#endif
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
@@ -62,12 +71,12 @@ namespace NUnit.Framework.Tests
 		public void IsAssignableFrom()
 		{
 			int [] array10 = new int [10];
-			int [] array2 = new int[2];
 
-			Assert.IsAssignableFrom(array2.GetType(),array10);
-			Assert.IsAssignableFrom(array2.GetType(),array10,"Type Failure Message");
-			Assert.IsAssignableFrom(array2.GetType(),array10,"Type Failure Message",null);
-			Expect( array10, AssignableFrom( array2.GetType() ) );
+            Assert.IsAssignableFrom(typeof(int[]), array10);
+            Expect(array10, AssignableFrom(typeof(int[])));
+#if NET_2_0
+            Assert.IsAssignableFrom<int[]>(array10);
+#endif
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
@@ -86,12 +95,12 @@ namespace NUnit.Framework.Tests
 		public void IsNotAssignableFrom()
 		{
 			int [] array10 = new int [10];
-			int [,] array2 = new int[2,2];
 
-			Assert.IsNotAssignableFrom(array2.GetType(),array10);
-			Assert.IsNotAssignableFrom(array2.GetType(),array10,"Type Failure Message");
-			Assert.IsNotAssignableFrom(array2.GetType(),array10,"Type Failure Message",null);
-			Expect( array10, Not.AssignableFrom( array2.GetType() ) );
+			Assert.IsNotAssignableFrom( typeof(int[,] ),array10);
+			Expect( array10, Not.AssignableFrom( typeof(int[,] ) ) );
+#if NET_2_0
+			Assert.IsNotAssignableFrom<int[,]>(array10);
+#endif
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
