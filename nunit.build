@@ -626,6 +626,8 @@
           todir="${package.working.dir}" />
     <copy file="NUnitFitTests.html"
           todir="${package.bin.dir}" />
+    <copy file="${project.src.dir}/NUnitExtensions/docs/RowTest/License.txt" 
+          tofile="${package.working.dir}/rowtest-license.txt" />
 
   </target>
 
@@ -818,6 +820,7 @@
     <include name="tests/nonamespace-assembly/nonamespace-assembly.build" />
     <include name="tests/test-assembly/test-assembly.build" />
     <include name="tests/test-utilities/test-utilities.build" />
+    <include name="tests/loadtest-assembly/loadtest-assembly.build" />
     <include name="tests/timing-tests/timing-tests.build" />
 
     <!-- NUnit Base Tests -->
