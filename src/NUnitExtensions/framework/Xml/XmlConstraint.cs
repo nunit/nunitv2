@@ -11,6 +11,7 @@ using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework.Extensions.Xml
 {
+#if NET_2_0
 	/// <summary>
 	/// Compares XML against the expected XML that was passed to its constructor.
 	/// </summary>
@@ -152,4 +153,5 @@ namespace NUnit.Framework.Extensions.Xml
 			return XmlReader.Create(new StringReader(xml));
 		}
 	}
+#endif
 }

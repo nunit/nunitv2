@@ -85,7 +85,7 @@ namespace NUnit.Core.Extensions.RowTest.UnitTests
 			Assert.That(testName, Is.EqualTo(expectedTestName));
 		}
 		
-#if NET_2_0 || MONO_2_0
+#if NET_2_0
 		[Test]
 		public void TestName_SecondArgumentIsNull()
 		{

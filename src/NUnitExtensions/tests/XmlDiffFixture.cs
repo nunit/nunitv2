@@ -4,6 +4,7 @@ using NUnit.Framework.Extensions.Xml;
 
 namespace NUnit.Framework.Extensions.Xml.Tests
 {
+#if NET_2_0
 	[TestFixture]
 	public class XmlDiffFixture
 	{
@@ -115,4 +116,5 @@ namespace NUnit.Framework.Extensions.Xml.Tests
 			Assert.That(expected, new NotConstraint(xmlConstraint));
 		}
 	}
+#endif
 }
