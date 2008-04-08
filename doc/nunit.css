@@ -78,6 +78,11 @@ table.roadmap { margin: 1em 0; padding: 0; width: auto; border-collapse: collaps
 table.roadmap td, table.roadmap th { border: 1px solid black; padding: 10px; text-align: left }
 table.roadmap th { background: #eef; font-weight: bold; }
 
+table.extensions { margin: 1em 2%; border-collapse: collapse; width: 96%; }
+table.extensions td, table.extensions th { border: solid black 1px; padding: 6px }
+table.extensions th { background: #bbf; font-weight: bold; text-align: center }
+table.extensions td.label { font-weight: bold; text-align: left; width: 10em }
+
 table.quote { margin-left: 30px; margin-right: 30px; background: #FFFFFF; border: 3px black solid; 
 	font: 1.1em/1.5em "Times New Roman", Roman, serif; font-variant: small-caps; 
 	letter-spacing: .1em; padding: 0 }

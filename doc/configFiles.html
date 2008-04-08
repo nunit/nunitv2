@@ -64,29 +64,78 @@ configuration files for each of the assemblies are used.
 </blockquote>
 
 <p>Generally, you should be able to simply copy your application config file and rename it as
-described above. However, see the next section if you wish to run tests compiled for an earlier
-version of NUnit.</p>
+described above.</p>
+
+<p>It is also possible to effect the behavior of NUnit by adding special sections
+to the test config file. A config file using these sections might look like this:
+
+<div class="code" style="width: 36em">
+<pre>
+&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;sectionGroup name="NUnit"&gt;
+      &lt;section name="TestCaseBuilder"
+	    type="System.Configuration.NameValueSectionHandler"/&gt;
+      &lt;section name="TestRunner"
+	    type="System.Configuration.NameValueSectionHandler"/&gt;
+    &lt;/sectionGroup&gt;
+  &lt;/configSections&gt;
+	
+  &lt;NUnit&gt;
+    &lt;TestCaseBuilder&gt;
+      &lt;add key="OldStyleTestCases" value="false" /&gt;
+    &lt;/TestCaseBuilder&gt;
+    &lt;TestRunner&gt;
+      &lt;add key="ApartmentState" value="MTA" /&gt;
+      &lt;add key="ThreadPriority" value="Normal" /&gt;
+	  &lt;add key="DefaultLogThreshold" value="Error" /&gt;
+	&lt;/TestRunner&gt;
+  &lt;/NUnit&gt;
+	
+  ...
+	
+&lt;/configuration&gt; 
+</pre>
+</div>
+
+<p>The entries in the above file are all 
+set to default values. The meaning of each setting is as follows:
+
+<h4>OldStyleTestCases</h4>
+<p>If set to "true" NUnit will recognize methods beginning 
+"test..." as tests. The prefix is case insensitive.
+
+<h4>ApartmentState</h4>
+<p>Sets the apartment state for the thread used to run tests.
+
+<h4>ThreadPriority</h4>
+<p>Sets the thread priority for the test thread.
+
+<h4>DefaultLogThreshold</h4>
+<p>Sets the level for logging captured by NUnit. In the
+current version only log4net logging is captured, so the
+level must be one that is defined by log4net.
 
 </div>
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.6</a></li>
+<li><a href="index.html">NUnit 2.5</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
-<li><a href="installation.html">Installation</a></li>
-<li><a href="features.html">Core&nbsp;Features</a></li>
-<ul>
 <li><a href="assertions.html">Assertions</a></li>
 <li><a href="attributes.html">Attributes</a></li>
+<li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
+<li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
+<li><a href="features.html">Other&nbsp;Features</a></li>
+<ul>
 <li id="current"><a href="configFiles.html">Configuration&nbsp;Files</a></li>
 <li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
 <li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
 <li><a href="extensibility.html">Extensibility</a></li>
 </ul>
-<li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
-<li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>
 <li><a href="license.html">License</a></li>
@@ -98,7 +147,7 @@ version of NUnit.</p>
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2007 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

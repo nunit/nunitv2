@@ -160,6 +160,7 @@ of evaluation is as follows:
 <p>The following command redirects standard error output to the StdErr.txt file.
 	<pre class="programtext">        nunit-console nunit.tests.dll /err:StdErr.txt</pre>
 </p>
+
 <h4>Labeling Test Output</h4>
 <p>The output from each test normally follows right after that of the preceding 
 	test. You may use the <b>/labels</b> option to cause an identifying label to be 
@@ -170,18 +171,10 @@ of evaluation is as follows:
 	&quot;console-test.xml&quot; use the following command line option:
 	<pre class="programtext">        nunit-console /xml:console-test.xml nunit.tests.dll</pre>
 </p>
-<h4>Specifying the Transform file</h4>
-<p>The console interface uses XSLT to transform the test results from the XML file 
-	to what is printed to the screen when the program executes. The console 
-	interface has a default transformation that is part of the executable. To 
-	specify your own transformation named &quot;myTransform.xslt&quot; use the 
-	following command line option:
-	<pre class="programtext">        nunit-console /transform:myTransform.xslt nunit.tests.dll</pre>
-</p>
 <p><b>Note:</b> For additional information see the XML schema for the test results. 
 	This file is in the same directory as the executable and is called
 	<a href="files/Results.xsd">Results.xsd</a>. 
-	The default transform <a href="files/Summary.xslt">Summary.xslt</a>	is located in the core source directory.</p>
+
 <h4>Specifying which Configuration to run</h4>
 <p>When running tests from a Visual Studio or NUnit project, the first 
 	configuration found will be loaded by default. Usually this is Debug. The 
@@ -249,16 +242,17 @@ of evaluation is as follows:
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.6</a></li>
+<li><a href="index.html">NUnit 2.5</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
-<li><a href="installation.html">Installation</a></li>
-<li><a href="features.html">Core&nbsp;Features</a></li>
+<li><a href="assertions.html">Assertions</a></li>
+<li><a href="attributes.html">Attributes</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <ul>
 <li id="current"><a href="consoleCommandLine.html">Command-Line</a></li>
 </ul>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
+<li><a href="features.html">Other&nbsp;Features</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>
 <li><a href="license.html">License</a></li>
@@ -270,7 +264,7 @@ of evaluation is as follows:
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2007 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

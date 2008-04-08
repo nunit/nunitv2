@@ -32,6 +32,188 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
+<h3>NUnit 2.5 - Date TBD</h3>
+
+<h4>General</h4>
+
+<ul>
+<li>The Visual Studio solutions and projects are now in a directory tree that 
+	is parallel to the source tree. This eliminates problems where the VS2003 
+	and VS2005 builds were interfering with one another and makes room for 
+	adding VS2008.
+<li>NUnit is now built using NAnt 0.86 beta 1
+<li>The windows installer is now created using WiX 2.0.5085
+</ul>
+
+<h4>Framework</h4>
+
+<ul>
+<li>Two new attributes have been added to support passing arguments
+	to test methods:
+	<ul>
+	<li><b>TestCaseAttribute</b> allows the programmer to
+		specify the arguments and a number of optional parameters inline.
+	<li><b>DataSourceAttribute</b> identifies a static property that 
+		will provide the arguments and other parameters.
+	</ul>
+
+<li>Two new constraints have been added to permit testing of
+	application-created paths, without requiring that they exist in
+	the file system. The following syntax is supported:
+	<ul>
+	<li><b>Is.SamePath(string)</b>
+	<li><b>Is.SamePathOrUnder(string)</b>
+	</ul>
+	
+<li>The DirectoryAssert class has been added, providing the following Methods:
+	<ul>
+	<li><b>AreEqual(DirectoryInfo, DirectoryInfo)</b>
+	<li><b>AreEqual(string, string)</b>
+	<li><b>AreNotEqual(DirectoryInfo, DirectoryInfo)</b>
+	<li><b>AreNotEqual(string, string)</b>
+	<li><b>IsEmpty(DirectoryInfo, DirectoryInfo)</b>
+	<li><b>IsEmpty(string, string)</b>
+	<li><b>IsNotEmpty(DirectoryInfo, DirectoryInfo)</b>
+	<li><b>IsNotEmpty(string, string)</b>
+	<li><b>IsWithin(DirectoryInfo, DirectoryInfo)</b>
+	<li><b>IsWithin(string, string)</b>
+	<li><b>IsNotWithin(DirectoryInfo, DirectoryInfo)</b>
+	<li><b>IsNotWithin(string, string)</b>
+	</ul>
+	
+<li>The method <b>Assert.Throws(Type expectedException, TestSnippet code)</b> 
+	has been added to provide more control over tests of expected exceptions. 
+	<b>TestSnippet</b> is a delegate, which may of course be supplied 
+	anonymously under .NET 2.0.
+	
+<li>NUnit now includes added funtionality in the .NET 2.0 build of
+	the framework. The following additional features are supported:
+	<ul>
+	<li>All Asserts and Constraints work with nullable types. 
+	<li>Some Asserts allow an alternate generic syntax for convenience:
+		<ul>
+		<li><b>Assert.IsInstanceOf&lt;T&gt;(object actual);</b>
+		<li><b>Assert.IsNotInstanceOf&lt;T&gt;(object actual);</b>
+		<li><b>Assert.IsAssignableFrom&lt;T&gt;(object actual);</b>
+		<li><b>Assert.IsNotAssignableFrom&lt;T&gt;(object actual);</b>
+		<li><b>Assert.Throws&lt;T&gt(TypeSnippet code);</b>
+		</ul>
+	</ul>
+	
+<li>The following obsolete interfaces, classes and methods have been removed:
+<ul>
+	<li>The <b>IAsserter</b> interface
+	<li>The <b>AbstractAsserter</b> class
+	<li>The <b>Assertion</b> class
+	<li>The <b>AssertionFailureMessage</b> class
+	<li>The old <b>NUnit.Framework.TestCase</b> class used for inheriting test classes
+	<li>The <b>Assert.DoAssert()</b> method
+	<li>Two <b>ExpectedExceptionAttribute(Type, string)</b> constructor
+	<li>Two <b>ExpectedExceptionAttribute(string, string)</b> constructor
+</ul>
+
+<li>The syntactic constructs in the <b>SyntaxHelpers</b> namespace have been
+	moved to the <b>NUnit.Framework.Syntax.CSharp</b> namespace. The old
+	namespace may still be used for existing classes, but will not be 
+	supported after the 2.5 release.
+	
+</ul>
+
+<h4>Core</h4>
+
+<ul>
+<li>NUnit now allows use of static methods as tests and for SetUp, TearDown, 
+    TestFixtureSetUp and TestFixtureTearDown.
+<li>Failures and Errors are now distinquished internally and in summary reports.
+    Methods that are not run because they are invalid are also reported separately.
+</ul>
+
+<h4>Console</h4>
+
+<ul>
+<li>The summary report now displays Errors, Failures, Ignored and Skipped tests 
+	separately. More detailed information on non-runnable tests and setup failures
+	is provided.
+<li>The console summary report is no longer created using a stylesheet, which
+	renders the <b>/transform</b> option meaningless. The option has been removed.
+</ul>
+
+<h4>Gui</h4>
+
+<ul>
+<li>The Gui now displays errors and failures separately in the status bar and 
+	final test run display. Non-runnable tests are shown separately and are
+	displayed as red in the tree.
+</ul>
+
+<h4>Extensibility</h4>
+
+<ul>
+<li>A new extension point <b>ParameterProviders</b> allows addins to 
+	provide data for parameterized tests.
+	
+<li>The following extensions are included in the nunit.core.extensions
+	and nunit.framework.extensions assemblies:
+	<ul>
+	<li>The MaxTime extension, which was previously a sample.
+	<li>The RowTest extension, which remains an alternative to NUnit's
+		native TestCase syntax.
+	<li>The XmlConstraint extension, which allows comparing two xml files
+	</ul> 
+</ul>
+<h3>NUnit 2.4.7 - March 30, 2008</h3>
+
+<h4>General</h4>
+
+<ul>
+<li>NUnit no longer uses log4net for its internal logging,
+eliminating conflicts with tested applications that used
+an earlier version of log4net.
+</ul>
+
+<h4>Gui</h4>
+
+<ul>
+<li>The level of logging sent to the gui for display is
+now controlled by a setting in the config file for each
+test. If no setting is provided, the default value is Error. 
+See the NUnitTests.config file for an example of how to set this.
+</ul>
+
+<h4>Extensibility</h4>
+<ul>
+<li>NUnit now includes the <b>RowTest</b> extension, written by
+Andreas Schlapsi, in it's extension assemblies. This extension 
+allows you to write
+test methods that take arguments and to provide multiple sets 
+of argument values using the <b>RowAttribute</b>. To use <b>RowTest</b>,
+your test must reference the nunit.framework.extensions assembly.
+<br><br>
+<b>Note:</b> Merging extensions into NUnit's own extension assembly 
+is an experiment we are trying for this release. The approach may
+change in future releases.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>Fixed null reference exception in SimpleSettingsDialog
+<li>String equality comparisons now use Equals rather than
+String.Compare, which was causing some unexpected results.
+<li>Fixed a race condition in the EventPump
+<li>Exceptions in Dispose are now handled properly
+<li>Projects in directories for which the user does not
+have write access are closed correctly.
+<li>The Reload command is now disabled when no project
+is open, eliminating a crashing problem.
+<li>Visual Studio projects with platforms other than
+Any CPU may now be opened correctly.
+<li>Assemblies located on a UNC path now load correctly
+<li>The EventListeners extension point is correctly initialized
+<li>Has.None no longer causes a null reference exception
+<li>Use of log4net for internal logging has been eliminated
+due to performance and compatibility problems.
+</ul>
 <h3>NUnit 2.4.6 - December 31, 2007</h3>
 
 <h4>Framework</h4>
@@ -103,7 +285,6 @@ now works correctly.
 <li>Help text, which was formerly available in the options dialog,
 has now been restored.
 </ul>
-
 <h3>NUnit 2.4.5 - November 23, 2007</h3>
 
 <h4>Bug Fixes</h4>
@@ -116,7 +297,6 @@ has now been restored.
 <li>Invalid data in the Settings file, no longer causes an exception
 <li>Documentation has been corrected in several places and missing files added
 </ul>
-
 <h3>NUnit 2.4.4 - October 20, 2007</h3>
 
 <h4>General</h4>
@@ -213,7 +393,6 @@ correctly by the .NET 2.0 Windows installer package.
 <li>The Show Checkboxes entry on the tree context menu now works correctly.
 <li>All levels of teardown now run when an exception is thrown
 </ul>
-
 <h3>NUnit 2.4.3 - August 16, 2007</h3>
 
 <h4>General</h4>
@@ -261,7 +440,6 @@ had appeared to pass. In most cases, the passing tests were probably
 false positives.
 
 </ul>
-
 <h3>NUnit 2.4.2 - August 2, 2007</h3>
 
 <h4>General</h4>
@@ -375,7 +553,7 @@ runtimes in the same project file.
 Developers working on large projects can reduce reloading time significantly
 by using this feature to load only a subset of the tests. A separate context
 menu item is used to reload the full project.
-<br><br>
+
 <b>Note:</b> This feature is a quick and dirty solution to the problem 
 of reload time. It is limited to a single selected item because that's
 what the underlying test loader currently supports. Future releases will
@@ -392,7 +570,7 @@ project is closed and restores it on open. The following items are saved:
   <li>Which categories are selected
   </ul>
 This is controlled by a selection on the Options Dialog.
-<br><br>
+  
 <b>Note:</b> TopNode is restored correctly under .NET 2.0. Under .NET 1.1
 the node is made visible but may not be at the top of the display.
 
@@ -434,7 +612,6 @@ takes place.
 <li>Tab order in the properties dialog has been corrected
 <li>The install files are now included in the source package
 </ul>
-
 <h3>NUnit 2.4.1 - May 3, 2007</h3>
 
 <h4>General</h4>
@@ -521,7 +698,6 @@ enabled/disabled as needed whenever it is resized.
 <li>The MaxTimeDecorator example no longer shows the name of a test
 case repeated twice in the full name of the test.
 </ul>
-
 <h3>NUnit 2.4 Final Release (2.4.0.2) - March 16, 2007</h3>
 
 <h4>Gui</h4>
@@ -1122,7 +1298,7 @@ are used:
 
 <h3>Earlier Releases</h3>
 
-Cumulative notes through NUnit 2.2.9 are available <a href="docs/2.2.10/releaseNotes.html">here</a></h3>
+Cumulative notes through NUnit 2.2.10 are available <a href="docs/2.2.10/releaseNotes.html">here</a></h3>
 
 
 </div>
@@ -1130,13 +1306,14 @@ Cumulative notes through NUnit 2.2.9 are available <a href="docs/2.2.10/releaseN
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.6</a></li>
+<li><a href="index.html">NUnit 2.5</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
-<li><a href="installation.html">Installation</a></li>
-<li><a href="features.html">Core&nbsp;Features</a></li>
+<li><a href="assertions.html">Assertions</a></li>
+<li><a href="attributes.html">Attributes</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
+<li><a href="features.html">Other&nbsp;Features</a></li>
 <li id="current"><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>
 <li><a href="license.html">License</a></li>
@@ -1148,7 +1325,7 @@ Cumulative notes through NUnit 2.2.9 are available <a href="docs/2.2.10/releaseN
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2007 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

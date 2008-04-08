@@ -125,9 +125,25 @@ suppress output to a tab without actually removing its definition.
 
 <h3>Content</h3>
 
-<p>Check <b>Standard Output</b>, <b>Error Output</b>, <b>Trace Output</b>
-or <b>Log Output</b> in order to include each type of output on the selected
-output window.
+<p>The four check boxes enable or disable a particular type of output
+on the selected output window. For each type, the display captures
+output produced while your test is running - either by the test
+itself or by the program you are testing.
+
+<h4>Standard Output</h4>
+<p>Captures all output written to Console.Error.
+
+<h4>Error Output</h4>
+<p>Captures all output written to Console.Error.
+
+<h4>Trace Output</h4>
+<p>Captures all output written to Trace or Debug.
+
+<h4>Log Output</h4>
+<p>Captures output written to a log4net log. NUnit captures
+all output at the Error level or above unless another level
+is specified for the DefaultLogThreshold setting in the  
+configuration file for the test assembly or project.
 
 <h3>Test Labels</h3>
 
@@ -209,11 +225,11 @@ and solutions and add Visual Studio projects to existing test projects.</p>
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.6</a></li>
+<li><a href="index.html">NUnit 2.5</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
-<li><a href="installation.html">Installation</a></li>
-<li><a href="features.html">Core&nbsp;Features</a></li>
+<li><a href="assertions.html">Assertions</a></li>
+<li><a href="attributes.html">Attributes</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <ul>
@@ -226,6 +242,7 @@ and solutions and add Visual Studio projects to existing test projects.</p>
 <li><a href="configEditor.html">Configuration&nbsp;Editor</a></li>
 <li><a href="projectEditor.html">Project&nbsp;Editor</a></li>
 </ul>
+<li><a href="features.html">Other&nbsp;Features</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>
 <li><a href="license.html">License</a></li>
@@ -237,7 +254,7 @@ and solutions and add Visual Studio projects to existing test projects.</p>
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2007 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

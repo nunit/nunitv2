@@ -26,11 +26,14 @@
 
 <h2>CollectionAssert (NUnit 2.4)</h2>
 <p>The CollectionAssert class provides a number of methods that are useful 
-when examining collections and their contents or for compariing two collections.</p>
+when examining collections and their contents or for comparing two collections.</p>
 
 <p>The <b>AreEqual</b> overloads succeed if the two collections contain the same objects,
 in the same order. <b>AreEquivalent</b> tests whether the collections contain the same
 objects, without regard to order.</p>
+
+<p>Beginning with NUnit 2.4.6, these methods may be used on any object that
+implements IEnumerable. Prior to 2.4.6, only true collections were supported.
 
 <div class="code" style="width: 38em">
 <pre>CollectionAssert.AllItemsAreInstancesOfType( IEnumerable collection,
@@ -117,12 +120,9 @@ CollectionAssert.IsNotEmpty( IEnumerable collection, string message,
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.4.6</a></li>
+<li><a href="index.html">NUnit 2.5</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
-<li><a href="installation.html">Installation</a></li>
-<li><a href="features.html">Core&nbsp;Features</a></li>
-<ul>
 <li><a href="assertions.html">Assertions</a></li>
 <ul>
 <li><a href="classicModel.html">Classic&nbsp;Model</a></li>
@@ -132,21 +132,19 @@ CollectionAssert.IsNotEmpty( IEnumerable collection, string message,
 <li><a href="conditionAsserts.html">Condition&nbsp;Tests</a></li>
 <li><a href="comparisonAsserts.html">Comparison&nbsp;Asserts</a></li>
 <li><a href="typeAsserts.html">Type&nbsp;Asserts</a></li>
+<li><a href="assertThrows.html">Assert.Throws</a></li>
 <li><a href="utilityAsserts.html">Utility&nbsp;Methods</a></li>
 <li><a href="stringAssert.html">String&nbsp;Assert</a></li>
 <li id="current"><a href="collectionAssert.html">Collection&nbsp;Assert</a></li>
 <li><a href="fileAssert.html">File&nbsp;Assert</a></li>
+<li><a href="directoryAssert.html">Directory&nbsp;Assert</a></li>
 </ul>
 <li><a href="constraintModel.html">Constraint&nbsp;Model</a></li>
 </ul>
 <li><a href="attributes.html">Attributes</a></li>
-<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
-<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
-<li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
-<li><a href="extensibility.html">Extensibility</a></li>
-</ul>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
+<li><a href="features.html">Other&nbsp;Features</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>
 <li><a href="license.html">License</a></li>
@@ -158,7 +156,7 @@ CollectionAssert.IsNotEmpty( IEnumerable collection, string message,
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2007 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 
