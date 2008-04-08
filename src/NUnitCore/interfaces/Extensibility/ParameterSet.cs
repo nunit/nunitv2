@@ -16,6 +16,7 @@ namespace NUnit.Core.Extensibility
         private object[] arguments;
         private System.Type expectedExceptionType;
         private string expectedExceptionName;
+        private string expectedExceptionMessage;
         private object result;
         private string description;
         private string testName;
@@ -68,6 +69,16 @@ namespace NUnit.Core.Extensibility
             get { return expectedExceptionName; }
             set { expectedExceptionName = value; }
         }
+
+        /// <summary>
+        /// The Message of any exception that is expected
+        /// </summary>
+        public string ExpectedExceptionMessage
+        {
+        	get { return expectedExceptionMessage; }
+        	set { expectedExceptionMessage = value; }
+        }
+
         /// <summary>
         /// The expected result of the test, which
         /// must match the method return type.
@@ -144,6 +155,7 @@ namespace NUnit.Core.Extensibility
                     parms.ExpectedExceptionName = parms.ExpectedExceptionType.FullName;
                 else
                     parms.ExpectedExceptionName = GetParm(source, "ExpectedExceptionName") as string;
+                parms.ExpectedExceptionMessage = GetParm(source, "ExpectedExceptionMessage") as string;
                 parms.Result = GetParm(source, "Result");
                 parms.Description = GetParm(source, "Description") as string;
                 parms.TestName = GetParm(source, "TestName") as string;

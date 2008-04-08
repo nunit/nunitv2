@@ -41,6 +41,20 @@ namespace NUnit.Core.Tests
             return x + y;
         }
 
+
+        [TestCase(42, ExpectedException = typeof(System.Exception),
+                   ExpectedExceptionMessage = "Test Exception")]
+        public void ExceptionWithExceptionMessage(int a)
+        {
+        	throw new System.Exception("Test Exception");
+        }
+         
+        [TestCase(null)]
+        public void NullCanBeUsedAsFirstArgument(object a)
+        {
+        	Assert.IsNull(a);
+        }
+  
         [Test]
         public void ParameterizedTestCaseMayHaveDescription()
         {
@@ -121,15 +135,24 @@ namespace NUnit.Core.Tests
             {
                 get
                 {
+#if NET_2_0
+                    yield return new TestCaseData( 0, 0, 0)
+                        .WithName("ThisOneShouldThow")
+                        .WithDescription("Demonstrates use of ExpectedException")
+                        .Throws( typeof (System.DivideByZeroException) );
+                    yield return new object[] { 100, 20, 5 };
+                    yield return new object[] {100, 4, 25};
+#else
                     ArrayList list = new ArrayList();
                     list.Add(
                         new TestCaseData( 0, 0, 0)
-                            .With.Name("ThisOneShouldThow")
-                            .With.Description("Demonstrates use of ExpectedException")
+                            .WithName("ThisOneShouldThow")
+                            .WithDescription("Demonstrates use of ExpectedException")
                             .Throws( typeof (System.DivideByZeroException) ));
                     list.Add(new object[] { 100, 20, 5 });
                     list.Add(new object[] {100, 4, 25});
                     return list;
+#endif
                 }
             }
         }

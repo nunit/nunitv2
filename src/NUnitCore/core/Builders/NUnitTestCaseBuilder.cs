@@ -3,6 +3,7 @@
 // may obtain a copy of the license as well as information regarding
 // copyright ownership at http://nunit.org/?p=license&r=2.4.
 // ****************************************************************
+#define ALLOW_PROVIDERS_ON_ANY_METHOD
 
 using System;
 using System.Text;
@@ -17,7 +18,7 @@ namespace NUnit.Core.Builders
 	{
 		private readonly bool allowOldStyleTests = NUnitFramework.AllowOldStyleTests;
 
-	    private IParameterProvider provider = CoreExtensions.Host.ParameterProviders;
+	    private readonly IParameterProvider provider = CoreExtensions.Host.ParameterProviders;
 
         #region ITestCaseBuilder Methods
 		/// <summary>
@@ -36,12 +37,17 @@ namespace NUnit.Core.Builders
 		/// in BuildFrom rather than here.
 		/// </summary>
 		/// <param name="method">A MethodInfo for the method being used as a test method</param>
+		/// <param name="suite">The test suite being built, to which the new test would be added</param>
 		/// <returns>True if the builder can create a test case from this method</returns>
         public bool CanBuildFrom(MethodInfo method, Test suite)
         {
             if( Reflect.HasAttribute( method, NUnitFramework.TestAttribute, false ) ||
-                Reflect.HasAttribute( method, NUnitFramework.TestCaseAttribute, false ) ||
-                Reflect.HasAttribute( method, NUnitFramework.DataSourceAttribute, false))
+#if ALLOW_PROVIDERS_ON_ANY_METHOD
+                provider.HasParametersFor( method ) )
+#else
+                Reflect.HasAttribute(method, NUnitFramework.TestCaseAttribute, false) ||
+                Reflect.HasAttribute(method, NUnitFramework.DataSourceAttribute, false))
+#endif
                     return true;
 
             if (allowOldStyleTests)
@@ -173,6 +179,7 @@ namespace NUnit.Core.Builders
                     testMethod.ExceptionExpected = true;
                     testMethod.ExpectedExceptionType = parms.ExpectedExceptionType;
                     testMethod.ExpectedExceptionName = parms.ExpectedExceptionName;
+                    testMethod.ExpectedMessage = parms.ExpectedExceptionMessage;
                 }
 
                 if (parms.Description != null)
