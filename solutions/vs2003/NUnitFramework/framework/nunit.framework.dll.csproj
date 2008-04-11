@@ -222,6 +222,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "SuccessException.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\SuccessException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SuiteAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\SuiteAttribute.cs"
                     SubType = "Code"

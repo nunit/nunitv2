@@ -153,6 +153,9 @@
       <Link>AssemblyVersionFixture.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\AssertPassFixture.cs">
+      <Link>AssertPassFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\AttributeDescriptionFixture.cs">
       <Link>AttributeDescriptionFixture.cs</Link>
       <SubType>Code</SubType>

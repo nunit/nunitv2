@@ -44,15 +44,25 @@ namespace NUnit.Core
             return ex.GetType().FullName == NUnitFramework.AssertException;
 		}
 
-		/// <summary>
-		/// Determine if an exception is an NUnit IgnoreException
-		/// </summary>
-		/// <param name="ex">The exception to be examined</param>
-		/// <returns>True if it's an NUnit IgnoreException</returns>
-		protected override bool IsIgnoreException(Exception ex)
-		{
+        /// <summary>
+        /// Determine if an exception is an NUnit IgnoreException
+        /// </summary>
+        /// <param name="ex">The exception to be examined</param>
+        /// <returns>True if it's an NUnit IgnoreException</returns>
+        protected override bool IsIgnoreException(Exception ex)
+        {
             return ex.GetType().FullName == NUnitFramework.IgnoreException;
-		}
-		#endregion
+        }
+
+        /// <summary>
+        /// Determine if an exception is an NUnit SuccessException
+        /// </summary>
+        /// <param name="ex">The exception to be examined</param>
+        /// <returns>True if it's an NUnit IgnoreException</returns>
+        protected override bool IsSuccessException(Exception ex)
+        {
+            return ex.GetType().FullName == NUnitFramework.SuccessException;
+        }
+        #endregion
 	}
 }

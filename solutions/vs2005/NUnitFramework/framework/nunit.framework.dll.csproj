@@ -238,6 +238,9 @@
       <Link>StringAssert.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\SuccessException.cs">
+      <Link>SuccessException.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\SuiteAttribute.cs">
       <Link>SuiteAttribute.cs</Link>
       <SubType>Code</SubType>

@@ -159,6 +159,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssertPassFixture.cs"
+                    Link = "..\..\..\..\src\NUnitCore\tests\AssertPassFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AttributeDescriptionFixture.cs"
                     Link = "..\..\..\..\src\NUnitCore\tests\AttributeDescriptionFixture.cs"
                     SubType = "Code"

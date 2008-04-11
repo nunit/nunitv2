@@ -59,6 +59,7 @@ namespace NUnit.Core
         #region Other Framework Types
         public static readonly string AssertException = "NUnit.Framework.AssertionException";
         public static readonly string IgnoreException = "NUnit.Framework.IgnoreException";
+        public static readonly string SuccessException = "NUnit.Framework.SuccessException";
         public static readonly string AssertType = "NUnit.Framework.Assert";
 		public static readonly string ExpectExceptionInterface = "NUnit.Framework.IExpectException";
         #endregion

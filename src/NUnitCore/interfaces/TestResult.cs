@@ -227,14 +227,23 @@ namespace NUnit.Core
 
         #region Public Methods
         /// <summary>
-		/// Mark the test as succeeding
-		/// </summary>
-		public void Success() 
-		{ 
-			this.resultState = ResultState.Success; 
-		}
+        /// Mark the test as succeeding
+        /// </summary>
+        public void Success()
+        {
+            this.resultState = ResultState.Success;
+        }
 
-		/// <summary>
+        /// <summary>
+        /// Mark the test as succeeding and set a message
+        /// </summary>
+        public void Success( string message )
+        {
+            this.resultState = ResultState.Success;
+            this.message = message;
+        }
+
+        /// <summary>
 		/// Mark the test as ignored.
 		/// </summary>
 		/// <param name="reason">The reason the test was not run</param>

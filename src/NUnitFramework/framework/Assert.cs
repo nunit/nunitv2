@@ -2306,46 +2306,87 @@ namespace NUnit.Framework
 		}
 
 		#endregion
-		
-		#region Fail
 
-		/// <summary>
-		/// Throws an <see cref="AssertionException"/> with the message and arguments 
-		/// that are passed in. This is used by the other Assert functions. 
-		/// </summary>
-		/// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Fail(string message, params object[] args ) 
-		{
-			if (message == null) message = string.Empty;
-			else if ( args != null && args.Length > 0 )
-				message = string.Format( message, args );
+        #region Succeed
 
-			throw new AssertionException(message);
-		}
+        /// <summary>
+        /// Throws a <see cref="SucceedException"/> with the message and arguments 
+        /// that are passed in. This allows a test to be cut short, with a result
+        /// of success returned to NUnit.
+        /// </summary>
+        /// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void Pass(string message, params object[] args)
+        {
+            if (message == null) message = string.Empty;
+            else if (args != null && args.Length > 0)
+                message = string.Format(message, args);
 
-		/// <summary>
-		/// Throws an <see cref="AssertionException"/> with the message that is 
-		/// passed in. This is used by the other Assert functions. 
-		/// </summary>
-		/// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
-		static public void Fail(string message) 
-		{
-			Assert.Fail(message, null);
-		}
-    
-		/// <summary>
-		/// Throws an <see cref="AssertionException"/>. 
-		/// This is used by the other Assert functions. 
-		/// </summary>
-		static public void Fail() 
-		{
-			Assert.Fail(string.Empty, null);
-		}
+            throw new SuccessException(message);
+        }
 
-		#endregion 
+        /// <summary>
+        /// Throws a <see cref="SucceedException"/> with the message and arguments 
+        /// that are passed in. This allows a test to be cut short, with a result
+        /// of success returned to NUnit.
+        /// </summary>
+        /// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
+        static public void Pass(string message)
+        {
+            Assert.Pass(message, null);
+        }
 
-		#region Ignore
+        /// <summary>
+        /// Throws a <see cref="SucceedException"/> with the message and arguments 
+        /// that are passed in. This allows a test to be cut short, with a result
+        /// of success returned to NUnit.
+        /// </summary>
+        static public void Pass()
+        {
+            Assert.Pass(string.Empty, null);
+        }
+
+        #endregion
+
+        #region Fail
+
+        /// <summary>
+        /// Throws an <see cref="AssertionException"/> with the message and arguments 
+        /// that are passed in. This is used by the other Assert functions. 
+        /// </summary>
+        /// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void Fail(string message, params object[] args)
+        {
+            if (message == null) message = string.Empty;
+            else if (args != null && args.Length > 0)
+                message = string.Format(message, args);
+
+            throw new AssertionException(message);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="AssertionException"/> with the message that is 
+        /// passed in. This is used by the other Assert functions. 
+        /// </summary>
+        /// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
+        static public void Fail(string message)
+        {
+            Assert.Fail(message, null);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="AssertionException"/>. 
+        /// This is used by the other Assert functions. 
+        /// </summary>
+        static public void Fail()
+        {
+            Assert.Fail(string.Empty, null);
+        }
+
+        #endregion
+
+        #region Ignore
 
 		/// <summary>
 		/// Throws an <see cref="IgnoreException"/> with the message and arguments 

@@ -249,7 +249,9 @@ namespace NUnit.Core
 				if ( ex is NUnitException )
 					ex = ex.InnerException;
 
-				if ( IsIgnoreException( ex ) )
+                if ( IsSuccessException( ex ) )
+                    testResult.Success( ex.Message );
+				else if ( IsIgnoreException( ex ) )
 					testResult.Ignore( ex );
 				else
 					ProcessException(ex, testResult);
@@ -341,6 +343,8 @@ namespace NUnit.Core
 		protected abstract bool IsAssertException(Exception ex);
 
 		protected abstract bool IsIgnoreException(Exception ex);
+
+	    protected abstract bool IsSuccessException(Exception ex);
 		#endregion
 
 		#region Helper Methods
