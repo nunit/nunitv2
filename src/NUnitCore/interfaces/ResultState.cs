@@ -12,10 +12,25 @@ namespace NUnit.Core
 	/// </summary>
 	public enum ResultState
 	{
-        ///// <summary>
-        ///// No result
-        ///// </summary>
-        //Unknown,
+        /// <summary>
+        /// The result is inconclusive
+        /// </summary>
+        Inconclusive,
+
+        /// <summary>
+        /// The test was not runnable.
+        /// </summary>
+		NotRunnable, 
+
+        /// <summary>
+        /// The test has been skipped. 
+        /// </summary>
+		Skipped,
+
+        /// <summary>
+        /// The test has been ignored.
+        /// </summary>
+		Ignored,
 
         /// <summary>
         /// The test succeeded

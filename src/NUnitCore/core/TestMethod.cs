@@ -161,8 +161,8 @@ namespace NUnit.Core
 				if ( this.Parent != null)
 					Fixture = this.Parent.Fixture;
 
-				if ( testResult.IsSuccess )
-				{
+                //if ( testResult.IsSuccess )
+                //{
 					// Temporary... to allow for tests that directly execute a test case
 					if (Fixture == null && !method.IsStatic)
 						Fixture = Reflect.Construct(this.FixtureType);
@@ -172,7 +172,7 @@ namespace NUnit.Core
                             new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
                     
                     doRun(testResult);
-				}
+                //}
 			}
 			catch (Exception ex)
 			{
@@ -261,11 +261,11 @@ namespace NUnit.Core
 		    object fixture = this.method.IsStatic ? null : this.Fixture;
 			object result = Reflect.InvokeMethod( this.method, fixture, this.arguments );
             if (this.expectedResult != null && !this.expectedResult.Equals(result))
-            {
                 testResult.Failure("  Expected: " + expectedResult.ToString() + Environment.NewLine +
-                                   "   But was: " + result.ToString(), null); 
-            }
-		}
+                                   "   But was: " + result.ToString(), null);
+            else
+                testResult.Success();
+        }
 
 		#endregion
 

@@ -339,9 +339,9 @@ namespace NUnit.UiKit
 
 	public class TestProgressBar : ColorProgressBar, TestObserver
 	{
-		private static Color SuccessColor = Color.Lime;
-		private static Color FailureColor = Color.Red;
-		private static Color IgnoredColor = Color.Yellow;
+		private readonly static Color SuccessColor = Color.Lime;
+		private readonly static Color FailureColor = Color.Red;
+		private readonly static Color IgnoredColor = Color.Yellow;
 
 		public TestProgressBar()
 		{
@@ -374,28 +374,26 @@ namespace NUnit.UiKit
 		{
 			PerformStep();
 
-			switch (e.Result.RunState)
-			{
-                case RunState.NotRunnable:
-			        ForeColor = FailureColor;
-			        break;
-				case RunState.Executed:
-					if (!e.Result.IsSuccess)
-						ForeColor = FailureColor;
-					break;
-				case RunState.Ignored:
-					if (ForeColor == SuccessColor)
-						ForeColor = IgnoredColor;
-					break;
-				default:
-					break;
-			}
-		}
+            switch (e.Result.ResultState)
+            {
+                case ResultState.NotRunnable:
+                case ResultState.Failure:
+                case ResultState.Error:
+                    ForeColor = FailureColor;
+                    break;
+                case ResultState.Ignored:
+                    if (ForeColor == SuccessColor)
+                        ForeColor = IgnoredColor;
+                    break;
+                default:
+                    break;
+            }
+        }
 
 		private void OnSuiteFinished( object sender, TestEventArgs e )
 		{
 			TestResult result = e.Result;
-			if ( result.RunState == RunState.Executed && !result.IsSuccess && result.FailureSite == FailureSite.TearDown )
+			if ( (result.IsFailure || result.IsError) && result.FailureSite == FailureSite.TearDown )
 				ForeColor = FailureColor;
 		}
 

@@ -168,8 +168,7 @@ namespace NUnit.Util
 			this.listener.SuiteStarted( this.Test.TestName );
 			long startTime = DateTime.Now.Ticks;
 
-			TestResult result = new TestResult( new TestInfo( testName, tests ) );
-			result.RunState = RunState.Executed;
+		    TestResult result = new TestResult(new TestInfo(testName, tests));
 			foreach( TestRunner runner in runners )
 				if ( filter.Pass( runner.Test ) )
 					result.AddResult( runner.Run( this, filter ) );

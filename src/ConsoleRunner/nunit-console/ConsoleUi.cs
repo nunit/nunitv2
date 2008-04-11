@@ -252,13 +252,13 @@ namespace NUnit.ConsoleRunner
             {
                 if (result.HasResults)
                 {
-                    if (!result.IsSuccess && result.FailureSite == FailureSite.SetUp)
+                    if ( (result.IsFailure || result.IsError) && result.FailureSite == FailureSite.SetUp)
                         WriteSingleResult(result);
 
                     foreach (TestResult childResult in result.Results)
                         WriteErrorsAndFailures(childResult);
                 }
-                else if (!result.IsSuccess)
+                else if (result.IsFailure || result.IsError)
                 {
                     WriteSingleResult(result);
                 }
@@ -285,12 +285,9 @@ namespace NUnit.ConsoleRunner
 
         private void WriteSingleResult( TestResult result )
         {
-            string status = null;
-
-            if (!result.Executed)
-                status = result.RunState.ToString();
-            else if (!result.IsSuccess)
-                status = string.Format("{0} {1}", result.FailureSite, result.ResultState);
+            string status = result.IsFailure || result.IsError
+                ? string.Format("{0} {1}", result.FailureSite, result.ResultState)
+                : result.ResultState.ToString();
 
             Console.WriteLine("{0}) {1} : {2}", ++reportIndex, status, result.FullName);
 

@@ -105,9 +105,6 @@ namespace NUnit.UiKit
 				if ( result == null )
 					return test.RunState.ToString();
 
-				if ( !result.Executed )
-					return result.RunState.ToString();
-				
 				return result.ResultState.ToString();
 			}
 		}
@@ -162,36 +159,29 @@ namespace NUnit.UiKit
 			if ( this.result == null )
 				return InitIndex;
 			
-			switch( this.result.RunState )
+			switch( this.result.ResultState )
 			{
-				case RunState.Runnable:
-					return InitIndex;
-				case RunState.Skipped:
+				case ResultState.Skipped:
 					return SkippedIndex;
-                case RunState.NotRunnable:
+                case ResultState.NotRunnable:
+                case ResultState.Failure:
+                case ResultState.Error:
 			        return FailureIndex;
-				case RunState.Ignored:
-				default:
+				case ResultState.Ignored:
 					return IgnoredIndex;
-				case RunState.Executed:
-					switch( this.result.ResultState )
+				case ResultState.Success:
+					int index = SuccessIndex;
+					foreach( TestSuiteTreeNode node in this.Nodes )
 					{
-						case ResultState.Failure:
-						case ResultState.Error:
+						if ( node.ImageIndex == FailureIndex )
 							return FailureIndex;
-						default:
-						case ResultState.Success:
-							int index = SuccessIndex;
-							foreach( TestSuiteTreeNode node in this.Nodes )
-							{
-								if ( node.ImageIndex == FailureIndex )
-									return FailureIndex;
-								if ( node.ImageIndex == IgnoredIndex )
-									index = IgnoredIndex;
-							}
-							return index;
+						if ( node.ImageIndex == IgnoredIndex )
+							index = IgnoredIndex;
 					}
-			}
+					return index;
+                default:
+			        return InitIndex;
+            }
 		}
 
 		internal void Accept(TestSuiteTreeNodeVisitor visitor) 

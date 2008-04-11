@@ -371,14 +371,14 @@ namespace NUnit.UiKit
 		private void OnTestFinished(object sender, TestEventArgs args)
 		{
 			TestResult result = args.Result;
-			if( result.Executed && !result.IsSuccess && result.FailureSite != FailureSite.Parent )
+			if( (result.IsFailure || result.IsError) && result.FailureSite != FailureSite.Parent )
 				InsertTestResultItem( result );
 		}
 		
 		private void OnSuiteFinished(object sender, TestEventArgs args)
 		{
 			TestResult result = args.Result;
-			if( result.Executed && !result.IsSuccess && 
+			if( (result.IsFailure || result.IsError) && 
 				result.FailureSite != FailureSite.Child )
 				InsertTestResultItem( result );
 		}

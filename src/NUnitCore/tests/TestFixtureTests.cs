@@ -49,7 +49,6 @@ namespace NUnit.Core.Tests
 			TestSuite suite = TestBuilder.MakeFixture( type );
 			Assert.AreEqual( RunState.Runnable, suite.RunState );
 			TestResult result = suite.Run( NullListener.NULL );
-			Assert.AreEqual( RunState.Executed, result.RunState );
 			Assert.AreEqual( ResultState.Success, result.ResultState );
 		}
 
@@ -58,7 +57,7 @@ namespace NUnit.Core.Tests
 			TestSuite suite = TestBuilder.MakeFixture( type );
 			Assert.AreEqual( RunState.NotRunnable, suite.RunState );
 			TestResult result = suite.Run( NullListener.NULL );
-			Assert.AreEqual( RunState.NotRunnable, result.RunState );
+			Assert.AreEqual( ResultState.NotRunnable, result.ResultState );
 		}
 
 		private void AssertNotRunnable( Type type, string reason )
@@ -67,7 +66,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( RunState.NotRunnable, suite.RunState );
 			Assert.AreEqual( reason, suite.IgnoreReason );
 			TestResult result = suite.Run( NullListener.NULL );
-			Assert.AreEqual( RunState.NotRunnable, result.RunState );
+			Assert.AreEqual( ResultState.NotRunnable, result.ResultState );
 			Assert.AreEqual( reason, result.Message );
 		}
 

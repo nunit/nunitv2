@@ -50,35 +50,32 @@ namespace NUnit.Util
 			{
 			    resultCount++;
 
-				switch (result.RunState)
-				{
-				    case RunState.Executed:
-				        testsRun++;
-				        switch (result.ResultState)
-				        {
-                            case ResultState.Failure:
-				                failureCount++;
-				                break;
-                            case ResultState.Error:
-				                errorCount++;
-				                break;
-				        }
-				        break;
-                    case RunState.NotRunnable:
-				        notRunnable++;
+                switch (result.ResultState)
+                {
+                    case ResultState.Success:
+                        testsRun++;
+                        break;
+                    case ResultState.Failure:
+                        failureCount++;
+                        testsRun++;
+                        break;
+                    case ResultState.Error:
+                        errorCount++;
+                        testsRun++;
+                        break;
+                    case ResultState.NotRunnable:
+                        notRunnable++;
                         //errorCount++;
-				        break;
-                    case RunState.Ignored:
-						ignoreCount++;
-						break;
-					case RunState.Explicit:
-					case RunState.Runnable:
-					case RunState.Skipped:
-					default:
-						skipCount++;
-						break;
-				}
-			}
+                        break;
+                    case ResultState.Ignored:
+                        ignoreCount++;
+                        break;
+                    case ResultState.Skipped:
+                    default:
+                        skipCount++;
+                        break;
+                }
+            }
 
 			if ( result.HasResults )
 				foreach (TestResult childResult in result.Results)

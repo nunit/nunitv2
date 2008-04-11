@@ -21,11 +21,6 @@ namespace NUnit.Core
 	{
 		#region Fields
 		/// <summary>
-		/// Indicates whether the test was executed or not
-		/// </summary>
-		private RunState runState;
-
-		/// <summary>
 		/// Indicates the result of the test
 		/// </summary>
 		private ResultState resultState;
@@ -43,7 +38,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// The test that this result pertains to
 		/// </summary>
-		private TestInfo test;
+		private readonly TestInfo test;
 
 		/// <summary>
 		/// The stacktrace at the point of failure
@@ -75,7 +70,6 @@ namespace NUnit.Core
 		public TestResult(TestInfo test)
 		{
 			this.test = test;
-			this.runState = test.RunState;
 			this.message = test.IgnoreReason;
 		}
 
@@ -87,16 +81,6 @@ namespace NUnit.Core
 		#endregion
 
         #region Properties
-
-		/// <summary>
-		/// Gets the RunState of the result, which indicates
-		/// whether or not it has executed and why.
-		/// </summary>
-        public RunState RunState
-        {
-            get { return runState; }
-            set { runState = value; }
-        }
 
 		/// <summary>
 		/// Gets the ResultState of the test result, which 
@@ -121,7 +105,12 @@ namespace NUnit.Core
 		/// </summary>
         public bool Executed
         {
-            get { return runState == RunState.Executed; }
+            get
+            {
+                return resultState == ResultState.Success ||
+                       resultState == ResultState.Failure ||
+                       resultState == ResultState.Error;
+            }
         }
 
 		/// <summary>
@@ -204,14 +193,8 @@ namespace NUnit.Core
 		/// </summary>
         public virtual string StackTrace
         {
-            get
-            {
-                return stackTrace;
-            }
-            set
-            {
-                stackTrace = value;
-            }
+            get { return stackTrace; }
+            set { stackTrace = value; }
         }
 
 		/// <summary>
@@ -237,11 +220,7 @@ namespace NUnit.Core
 		/// </summary>
 		public IList Results
 		{
-			get 
-			{ 
-			
-				return results;
-			}
+			get { return results; }
 		}
 
 		#endregion
@@ -252,7 +231,6 @@ namespace NUnit.Core
 		/// </summary>
 		public void Success() 
 		{ 
-			this.runState = RunState.Executed;
 			this.resultState = ResultState.Success; 
 		}
 
@@ -281,7 +259,7 @@ namespace NUnit.Core
 		/// <param name="stackTrace">Stack trace giving the location of the command</param>
 		public void Ignore(string reason, string stackTrace)
 		{
-			NotRun( RunState.Ignored, reason, stackTrace );
+			NotRun( ResultState.Ignored, reason, stackTrace );
 		}
 
 		/// <summary>
@@ -309,18 +287,27 @@ namespace NUnit.Core
 		/// <param name="stackTrace">Stack trace giving the location of the command</param>
 		public void Skip(string reason, string stackTrace)
 		{
-			NotRun( RunState.Skipped, reason, stackTrace );
+			NotRun( ResultState.Skipped, reason, stackTrace );
 		}
 
-		/// <summary>
+        /// <summary>
+        /// Mark the test a not runnable
+        /// </summary>
+        /// <param name="reason">The reason the test is invalid</param>
+        public void Invalid( string reason )
+        {
+            NotRun( ResultState.NotRunnable, reason, null );
+        }
+
+	    /// <summary>
 		/// Mark the test as Not Run - either skipped or ignored
 		/// </summary>
-		/// <param name="runState">The RunState to use in the result</param>
+		/// <param name="resultState">The ResultState to use in the result</param>
 		/// <param name="reason">The reason the test was not run</param>
 		/// <param name="stackTrace">Stack trace giving the location of the command</param>
-		public void NotRun(RunState runState, string reason, string stackTrace)
+		public void NotRun(ResultState resultState, string reason, string stackTrace)
 		{
-			this.runState = runState;
+		    this.resultState = resultState;
 			this.message = reason;
 			this.stackTrace = stackTrace;
 		}
@@ -346,7 +333,6 @@ namespace NUnit.Core
 		/// <param name="failureSite">The site of the failure</param>
 		public void Failure(string message, string stackTrace, FailureSite failureSite )
 		{
-			this.runState = RunState.Executed;
 			this.resultState = ResultState.Failure;
             this.failureSite = failureSite;
 			this.message = message;
@@ -371,7 +357,6 @@ namespace NUnit.Core
 		/// <param name="failureSite">The site from which it was thrown</param>
 		public void Error( Exception exception, FailureSite failureSite )
 		{
-			this.runState = RunState.Executed;
 			this.resultState = ResultState.Error;
             this.failureSite = failureSite;
 
@@ -405,7 +390,7 @@ namespace NUnit.Core
 			this.results.Add(result);
 
 			if( this.ResultState == ResultState.Success &&
-				result.ResultState != ResultState.Success )
+				(result.ResultState == ResultState.Failure || result.ResultState == ResultState.Error) )
 			{
 				this.Failure( "Child test failed", null, FailureSite.Child );
 			}

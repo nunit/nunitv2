@@ -28,7 +28,6 @@ namespace NUnit.Core.Tests
 			Assert.That( test.RunState, Is.EqualTo( RunState.Runnable ) );
 			Assert.That( test.TestCount, Is.EqualTo( 1 ) );
 			TestResult result = test.Run( NullListener.NULL );
-			Assert.That( result.RunState, Is.EqualTo( RunState.Executed ) );
 			Assert.That( result.ResultState, Is.EqualTo( resultState ) );
 		}
 
@@ -38,7 +37,7 @@ namespace NUnit.Core.Tests
 			Assert.That( test.RunState, Is.EqualTo( RunState.NotRunnable ) );
 			Assert.That( test.TestCount, Is.EqualTo( 1 ) );
 			TestResult result = test.Run( NullListener.NULL );
-			Assert.That( result.RunState, Is.EqualTo( RunState.NotRunnable ) );
+			Assert.That( result.ResultState, Is.EqualTo( ResultState.NotRunnable ) );
 		}
 
 		[Test]

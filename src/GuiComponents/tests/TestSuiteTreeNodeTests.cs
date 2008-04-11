@@ -69,7 +69,7 @@ namespace NUnit.UiKit.Tests
 			Assert.AreEqual( "MockTest1", node.Result.Name );
 			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.SelectedImageIndex );
-			Assert.AreEqual( "Runnable", node.StatusText );
+			Assert.AreEqual( result.ResultState.ToString(), node.StatusText );
 		}
 
 		[Test]
@@ -118,7 +118,7 @@ namespace NUnit.UiKit.Tests
 			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
 			TestResult result = new TestResult( testCaseInfo );
 
-			result.RunState = RunState.Skipped;
+            result.Skip("");
 			node.Result = result;
 			Assert.AreEqual( TestSuiteTreeNode.SkippedIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.SkippedIndex, node.SelectedImageIndex );
@@ -148,7 +148,7 @@ namespace NUnit.UiKit.Tests
 			testCaseResult.Success();
 			TestResult testSuiteResult = new TestResult( fixtureInfo );
 			testSuiteResult.AddResult( testCaseResult );
-			testSuiteResult.RunState = RunState.Executed;
+            testSuiteResult.Success();
 
 			TestSuiteTreeNode node1 = new TestSuiteTreeNode( testSuiteResult );
 			TestSuiteTreeNode node2 = new TestSuiteTreeNode( testCaseResult );

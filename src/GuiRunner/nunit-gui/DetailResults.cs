@@ -39,20 +39,21 @@ namespace NUnit.Gui
 
 		private void ProcessResults(TestResult result)
 		{
-			if(result.Executed)
+			switch( result.ResultState )
 			{
-				if( !result.IsSuccess && !result.Test.IsSuite )
-				{
+                case ResultState.Failure:
+                case ResultState.Error:
 					TestResultItem item = new TestResultItem(result);
 					//string resultString = String.Format("{0}:{1}", result.Name, result.Message);
 					testDetails.BeginUpdate();
 					testDetails.Items.Insert(testDetails.Items.Count, item);
 					testDetails.EndUpdate();
-				}
-			}
-			else
-			{
-				notRunTree.Nodes.Add(MakeNotRunNode(result));
+			        break;
+                case ResultState.Skipped:
+                case ResultState.NotRunnable:
+                case ResultState.Ignored:
+    				notRunTree.Nodes.Add(MakeNotRunNode(result));
+			        break;
 			}
 
 			if ( result.HasResults )

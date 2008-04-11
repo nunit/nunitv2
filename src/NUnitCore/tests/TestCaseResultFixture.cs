@@ -31,7 +31,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void TestCaseDefault()
 		{
-			Assert.AreEqual( RunState.Runnable, caseResult.RunState );
+			Assert.AreEqual( ResultState.Inconclusive, caseResult.ResultState );
 		}
 
 		[Test]

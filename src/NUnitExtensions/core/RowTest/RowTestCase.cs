@@ -32,6 +32,7 @@ namespace NUnit.Core.Extensions.RowTest
 		{
 			object[] arguments = _arguments != null ? _arguments : new object[] { null };			
 			Reflect.InvokeMethod(this.Method, this.Fixture, arguments);
+		    testResult.Success(); // If no exception occured
 		}
 	}
 }

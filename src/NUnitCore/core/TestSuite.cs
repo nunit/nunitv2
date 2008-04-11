@@ -155,9 +155,9 @@ namespace NUnit.Core
 				{
 					case RunState.Runnable:
 					case RunState.Explicit:
-						suiteResult.RunState = RunState.Executed;
-						DoOneTimeSetUp(suiteResult);
-						if ( !suiteResult.IsSuccess )
+                        suiteResult.Success(); // Assume success
+                        DoOneTimeSetUp(suiteResult);
+						if ( suiteResult.IsFailure || suiteResult.IsError )
 							MarkTestsFailed(Tests, suiteResult, listener, filter);
 						else
 						{
@@ -174,11 +174,14 @@ namespace NUnit.Core
 
 					default:
                     case RunState.Skipped:
+				        SkipAllTests(suiteResult, listener, filter);
+                        break;
                     case RunState.NotRunnable:
+                        MarkAllTestsInvalid( suiteResult, listener, filter);
+                        break;
                     case RunState.Ignored:
-                        suiteResult.NotRun(this.RunState, this.IgnoreReason, null);
-						MarkTestsNotRun(Tests, this.RunState, this.IgnoreReason, suiteResult, listener, filter);
-						break;
+                        IgnoreAllTests(suiteResult, listener, filter);
+                        break;
 				}
 
 				long stopTime = DateTime.Now.Ticks;
@@ -266,7 +269,21 @@ namespace NUnit.Core
                 this.Fixture = null;
             }
         }
+
+        protected virtual bool IsAssertException(Exception ex)
+        {
+            return ex.GetType().FullName == NUnitFramework.AssertException;
+        }
+
+        protected virtual bool IsIgnoreException(Exception ex)
+        {
+            return ex.GetType().FullName == NUnitFramework.IgnoreException;
+        }
         
+        #endregion
+
+        #region Helper Methods
+
         private void RunAllTests(
 			TestResult suiteResult, EventListener listener, ITestFilter filter )
 		{
@@ -295,25 +312,43 @@ namespace NUnit.Core
             }
 		}
 
+        private void SkipAllTests(TestResult suiteResult, EventListener listener, ITestFilter filter)
+        {
+            suiteResult.Skip(this.IgnoreReason);
+            MarkTestsNotRun(this.Tests, ResultState.Skipped, this.IgnoreReason, suiteResult, listener, filter);
+        }
+
+        private void IgnoreAllTests(TestResult suiteResult, EventListener listener, ITestFilter filter)
+        {
+            suiteResult.Ignore(this.IgnoreReason);
+            MarkTestsNotRun(this.Tests, ResultState.Ignored, this.IgnoreReason, suiteResult, listener, filter);
+        }
+
+        private void MarkAllTestsInvalid(TestResult suiteResult, EventListener listener, ITestFilter filter)
+        {
+            suiteResult.Invalid(this.IgnoreReason);
+            MarkTestsNotRun(this.Tests, ResultState.NotRunnable, this.IgnoreReason, suiteResult, listener, filter);
+        }
+       
         private void MarkTestsNotRun(
-            IList tests, RunState runState, string ignoreReason, TestResult suiteResult, EventListener listener, ITestFilter filter)
+            IList tests, ResultState resultState, string ignoreReason, TestResult suiteResult, EventListener listener, ITestFilter filter)
         {
             foreach (Test test in ArrayList.Synchronized(tests))
             {
                 if (filter.Pass(test))
-                    MarkTestNotRun(test, runState, ignoreReason, suiteResult, listener, filter);
+                    MarkTestNotRun(test, resultState, ignoreReason, suiteResult, listener, filter);
             }
         }
 
         private void MarkTestNotRun(
-            Test test, RunState runState, string ignoreReason, TestResult suiteResult, EventListener listener, ITestFilter filter)
+            Test test, ResultState resultState, string ignoreReason, TestResult suiteResult, EventListener listener, ITestFilter filter)
         {
             if (test is TestSuite)
             {
                 listener.SuiteStarted(test.TestName);
                 TestResult result = new TestResult( new TestInfo(test) );
-				result.NotRun( runState, ignoreReason, null );
-                MarkTestsNotRun(test.Tests, runState, ignoreReason, suiteResult, listener, filter);
+				result.NotRun( resultState, ignoreReason, null );
+                MarkTestsNotRun(test.Tests, resultState, ignoreReason, suiteResult, listener, filter);
                 suiteResult.AddResult(result);
                 listener.SuiteFinished(result);
             }
@@ -321,7 +356,7 @@ namespace NUnit.Core
             {
                 listener.TestStarted(test.TestName);
                 TestResult result = new TestResult( new TestInfo(test) );
-                result.NotRun( runState, ignoreReason, null );
+                result.NotRun( resultState, ignoreReason, null );
                 suiteResult.AddResult(result);
                 listener.TestFinished(result);
             }
@@ -358,16 +393,6 @@ namespace NUnit.Core
                 listener.TestFinished(result);
             }
         }
-
-        protected virtual bool IsAssertException(Exception ex)
-		{
-            return ex.GetType().FullName == NUnitFramework.AssertException;
-		}
-
-		protected virtual bool IsIgnoreException(Exception ex)
-		{
-            return ex.GetType().FullName == NUnitFramework.IgnoreException;
-		}
-		#endregion
-	}
+        #endregion
+    }
 }

@@ -1764,7 +1764,7 @@ the version under which NUnit is currently running, {0}.",
 
 			EnableRunCommand( true );
 
-			if ( !e.Result.IsSuccess)
+			if ( e.Result.IsFailure || e.Result.IsError )
 				this.Activate();
 		}
 
@@ -1788,9 +1788,10 @@ the version under which NUnit is currently running, {0}.",
 			runButton.Enabled = enable;
 			runAllMenuItem.Enabled = enable;
 			runSelectedMenuItem.Enabled = enable;
-			runFailedMenuItem.Enabled = enable &&
-				this.TestLoader.TestResult != null &&
-				!this.TestLoader.TestResult.IsSuccess;
+		    runFailedMenuItem.Enabled = enable &&
+		                                this.TestLoader.TestResult != null &&
+		                                (this.TestLoader.TestResult.IsFailure ||
+		                                 this.TestLoader.TestResult.IsError);
 		}
 
 		private void EnableStopCommand( bool enable )

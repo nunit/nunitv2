@@ -31,7 +31,7 @@ namespace NUnit.Core.Extensions
 			for( int i = 0; i < count; i++ )
 			{
 				testCase.Run( result );
-				if ( !result.IsSuccess )
+				if ( result.IsFailure || result.IsError )
 					return;
 			}
 		}

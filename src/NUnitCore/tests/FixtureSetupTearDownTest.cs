@@ -80,7 +80,6 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(1, summ.TestsRun);
 			Assert.AreEqual(0, summ.TestsNotRun);
 			
-			Assert.AreEqual(RunState.Executed, result.RunState);
 			Assert.AreEqual(ResultState.Error, result.ResultState);
 			Assert.AreEqual("System.Exception : This was thrown from fixture setup", result.Message, "TestSuite Message");
 			Assert.IsNotNull(result.StackTrace, "TestSuite StackTrace should not be null");
@@ -170,7 +169,6 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(1, summ.TestsRun);
 			Assert.AreEqual(0, summ.TestsNotRun);
 			
-			Assert.AreEqual(RunState.Executed, result.RunState);
 			Assert.AreEqual(ResultState.Error, result.ResultState);
 			Assert.AreEqual("System.Exception : This was thrown in constructor", result.Message, "TestSuite Message");
 			Assert.IsNotNull(result.StackTrace, "TestSuite StackTrace should not be null");

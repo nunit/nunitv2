@@ -75,7 +75,7 @@ namespace NUnit.ConsoleRunner
 			{
 				testRunCount++;
 
-				if( !testResult.IsSuccess )
+				if( testResult.IsFailure || testResult.IsError )
 				{	
 					failureCount++;
 						

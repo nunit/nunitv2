@@ -58,10 +58,14 @@ namespace NUnit.Core
 						Run(testResult);
 						break;
 					case RunState.Skipped:
-					case RunState.NotRunnable:
-					case RunState.Ignored:
                     default:
-                        testResult.NotRun(this.RunState, IgnoreReason, null);
+                        testResult.Skip(IgnoreReason);
+				        break;
+					case RunState.NotRunnable:
+                        testResult.Invalid( IgnoreReason );
+				        break;
+					case RunState.Ignored:
+                        testResult.Ignore( IgnoreReason );
                         break;
 				}
 
