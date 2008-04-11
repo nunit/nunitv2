@@ -2,8 +2,6 @@ using System;
 using System.Runtime.Remoting.Services;
 using NUnit.Util;
 
-[assembly: log4net.Config.XmlConfigurator(Watch=true)]
-
 namespace NUnit.Agent
 {
 	/// <summary>
@@ -11,18 +9,12 @@ namespace NUnit.Agent
 	/// </summary>
 	public class NUnitTestAgent
 	{
-		private static readonly log4net.ILog log = log4net.LogManager.GetLogger(
-			System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		public static int Main(string[] args)
 		{
-			log4net.GlobalContext.Properties["PID"] = System.Diagnostics.Process.GetCurrentProcess().Id;
-			log.Info("NUnit-agent.exe starting");
-
 			// Add Standard Services to ServiceManager
 			ServiceManager.Services.AddService( new SettingsService() );
 			ServiceManager.Services.AddService( new DomainManager() );
@@ -46,7 +38,6 @@ namespace NUnit.Agent
 				ServiceManager.Services.StopAllServices();
 			}
 
-			log.Info("NUnit-agent.exe is terminating");
             //Console.WriteLine("Press Enter to Terminate");
             //Console.ReadLine();
 			return 0;
