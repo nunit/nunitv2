@@ -52,6 +52,7 @@
         <include name="SetUpAttribute.cs"/>
         <include name="SetUpFixtureAttribute.cs"/>
         <include name="StringAssert.cs"/>
+        <include name="SuccessException.cs"/>
         <include name="SuiteAttribute.cs"/>
         <include name="TearDownAttribute.cs"/>
         <include name="TestAttribute.cs"/>

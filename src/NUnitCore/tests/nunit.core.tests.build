@@ -7,6 +7,7 @@
         <include name="AssemblyResolverTests.cs"/>
         <include name="AssemblyTests.cs"/>
         <include name="AssemblyVersionFixture.cs"/>
+        <include name="AssertPassFixture"/>
         <include name="AttributeDescriptionFixture.cs"/>
         <include name="AttributeInheritance.cs"/>
         <include name="BasicRunnerTests.cs"/>
